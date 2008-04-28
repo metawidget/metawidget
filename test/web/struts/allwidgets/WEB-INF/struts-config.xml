@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+
+	<form-beans>
+	
+		<form-bean name="allWidgetsForm" type="org.metawidget.test.struts.allwidgets.form.AllWidgetsForm"/>
+		
+	</form-beans>
+	
+    <action-mappings>
+    
+        <action path="/save" name="allWidgetsForm" type="org.metawidget.test.struts.allwidgets.action.SaveAction" scope="request">
+        	<forward name="success" path="/saved.jsp"/>
+        </action>
+    
+    </action-mappings>
+	
+	<message-resources parameter="org.metawidget.test.shared.allwidgets.resource.Resources" null="false"/>
+	
+    <plug-in className="org.metawidget.test.struts.allwidgets.plugin.AllWidgetsPlugIn"/>
+
+</struts-config>

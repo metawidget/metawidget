@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<inspector-config xmlns="http://metawidget.org/inspector-config"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd">
+
+	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+		<inspectors>
+			<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
+				<file>org/metawidget/test/shared/allwidgets/model/metawidget-metadata.xml</file>
+			</xmlInspector>
+			<javaBeanInspector xmlns="java:org.metawidget.inspector.javabean"/>
+		</inspectors>
+	</compositeInspector>
+
+</inspector-config>

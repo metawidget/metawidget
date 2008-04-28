@@ -1,0 +1,2383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<book lang="en">
+	<title>Metawidget Reference Documentation</title>
+
+	<bookinfo>
+		<productname>Metawidget</productname>
+		<releaseinfo>V 0.44</releaseinfo>
+
+		<mediaobject>
+			<imageobject>
+				<imagedata fileref="images/logo.gif" />
+			</imageobject>
+		</mediaobject>
+	</bookinfo>
+
+	<toc />
+
+	<preface id="preface">
+		<title>Preface</title>
+
+		<para>
+			Metawidget is an object/user interface mapping tool for Java
+			environments. The term object/user interface mapping (OIM) refers to
+			the technique of inspecting objects, at runtime, and creating
+			User Interface (UI) components.
+		</para>
+
+		<para>
+			As much as possible, Metawidget does this without introducing
+			new technologies. As shown in <xref linkend="preface-diagram"/>,
+			Metawidget inspects an application's
+			<emphasis>existing</emphasis> back-end architecture (such as JavaBeans, annotations,
+			XML configuration files) and creates components native to its
+			<emphasis>existing</emphasis> front-end framework (such as Swing, Java Server Faces, Struts or Android).
+		</para>
+	
+		<figure id="preface-diagram">
+			<title>Metawidget inspects existing back-ends and creates components native to existing front-ends</title>			
+			<screenshot>
+				<graphic fileref="../shared/images/overview.png"/>
+			</screenshot>
+		</figure>				
+
+		<para>
+			Building great UIs is both art and science. Metawidget
+			does not attempt to address the <emphasis>art</emphasis>, it only automates the
+			<emphasis>science</emphasis>. That is to say, it does not overlap with those areas of
+			UI design involving creativity and subjectivity – its goal is
+			only to ease the creation of areas that are already rigidly
+			defined. Typically, this means those areas that display data and
+			those that collect data - these tend to be both commonplace and
+			consistent (indeed, consistency is a desirable trait) so there
+			is good opportunity for automation.
+		</para>
+		
+		<tip>
+			<title>Note</title>
+			This Reference Documentation is included in the distribution as a PDF, a single HTML page or as multiple
+			HTML pages, depending on your reading preference.
+		</tip>
+			
+	</preface>
+		
+	<chapter id="chapter-introduction">
+		<title>Introduction to Metawidget</title>
+		
+		<section id="section-introduction-preface">
+			<title>Preface</title>
+
+			<para>
+				This chapter is an introductory tutorial for new users of
+				Metawidget. Before you begin, you need to download at least the binary distribution, and
+				preferrably the source code distribution as well, from <uri>http://www.metawidget.org/download.html</uri>.
+			</para>
+			
+		</section>
+		
+		<section id="section-introduction-part1">
+			<title>Part 1 - The First Metawidget Application</title>
+
+			<section id="section-introduction-part1-preface">
+				<title>Preface</title>
+	
+				<para>
+					Part 1 starts with a simple Swing application and develops it in easy to understand steps.
+					Metawidget supports many UI frameworks, not just Swing, but we start with Swing because it
+					ships with Java SE and requires minimal setup.
+				</para>
+	
+				<para>
+					This tutorial should take around 20 minutes. We recommend you use your preferred Java
+					development environment. If you use an Integrated Development Environment (IDE), you will
+					need to start a new Java project and add <filename>metawidget.jar</filename> to it. Otherwise,
+					you just need to ensure <filename>metawidget.jar</filename> is on your classpath.					
+				</para>
+				
+			</section>
+			
+			<section id="section-introduction-part1-object">
+				<title>The Object</title>
+				
+				<para>
+					Metawidget is an object/user interface mapping tool (OIM), so first we need an object to map from – the <emphasis>O</emphasis> in OIM:
+				</para>
+	
+	<programlisting language="java">package com.myapp;
+	
+public class Person {
+	public String name;
+	public int age;
+	public boolean retired;
+}</programlisting>
+					
+				<para>		
+					Note this tutorial uses public member variables for brevity. The
+					recommended design is to use JavaBean property getter and setter methods.
+					Metawidget supports both approaches.
+				</para>
+				
+			</section>
+					
+			<section id="section-introduction-part1-interface">
+				<title>The Interface</title>
+				
+				<para>
+					Next we need a User Interface framework – the <emphasis>I</emphasis> in OIM:
+				</para>
+								
+	<programlisting language="java">package com.myapp;
+	
+import javax.swing.*;
+import org.metawidget.inspector.javabean.*;
+import org.metawidget.swing.*;
+
+public class Main {
+	public static void main( String[] args ) {
+		Person person = new Person();
+	
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new JavaBeanInspector() );
+		metawidget.setToInspect( person );
+	
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 220 );
+		frame.setVisible( true );
+	}
+}</programlisting>
+	
+				<para>		
+	 				Note many IDEs include visual UI builders
+					for dragging and dropping components. Metawidget integrates
+					with these tools, and Metawidget components can be dragged and
+					dropped like any other. As we shall see, however, Metawidget
+					components automatically fill themselves with child components at runtime,
+					saving significant development time.
+				</para>
+				
+			</section>
+	
+			<section id="section-introduction-part1-output">
+				<title>The Output</title>
+				
+				<para>
+					Run the code. You should see the screen in <xref linkend="section-introduction-part1-output-screenshot"/>.
+				</para>
+				
+				<figure id="section-introduction-part1-output-screenshot">
+					<title>SwingMetawidget rendering of Person class</title>			
+					<screenshot>
+						<graphic fileref="../shared/images/swing-tutorial1.jpg"/>
+					</screenshot>
+				</figure>				
+				
+				<para>
+					The <classname>SwingMetawidget</classname> has automatically populated itself with child components at
+					runtime. It has chosen <classname>JSpinner</classname>, <classname>JTextField</classname> and <classname>JCheckBox</classname>
+					components to suit the fields of the <classname>Person</classname> class. This is the First Goal Of Metawidget:
+				</para>
+				
+			    <important>
+			    	<title>First Goal Of Metawidget</title>
+					Metawidget creates UI components by inspecting existing back-end architectures   
+				</important>
+
+				<para>
+					By default, <classname>SwingMetawidget</classname> has laid out the components using <classname>java.awt.GridBagLayout</classname>.
+					Try resizing the window, and the components will resize with it. If you've ever tried using <classname>GridBagLayout</classname> yourself, either
+					through code or a visual UI builder, you'll know how fiddly it can be. Having Metawidget do it for you is a real time-saver.  
+				</para>
+				
+				<para>
+					Clearly this is not a complete UI. There are no Save or Cancel buttons, for example,
+					and the components appear uncomfortably tight to the left, top and right edges of the <classname>JFrame</classname>. This is
+					explained by the Second Goal Of Metawidget:
+				</para>
+				
+			    <important>
+			    	<title>Second Goal Of Metawidget</title>
+					Metawidget does not try to 'own' the entire UI - it focusses on
+					creating native subcomponents for slotting into existing UIs  
+			    </important>
+				
+				<para>
+					We'll see how Metawidget slots into existing UIs in Part 2.
+				</para>
+				
+			</section>
+				
+			<section id="section-introduction-part1-finetune">
+				<title>Fine-Tuning The Output</title>
+				
+				<para>
+					At the moment, the order of fields in our UI is alphabetical – it does not match
+					the order they are defined in the <classname>Person</classname> class. <classname>JavaBeanInspector</classname> sorts fields
+					alphabetically by default, because the Java Language Specification
+					does not retain field ordering information within class files.
+				</para>
+				
+				<para>
+					To describe a different ordering, Metawidget needs a way to capture additional information.
+					There are several ways Metawidget can do this, but the
+					simplest for now is to use the built-in Metawidget annotation <classname>@UiComesAfter</classname>.
+				</para>
+				
+				<tip>
+					<title>Note</title>
+					The following code uses annotations, so you'll need Java SE 5. Metawidget itself can run
+					on J2SE 1.4, but you'll need to capture the additional information from a different source (see <emphasis>Inspecting
+					Different Sources</emphasis> later in this tutorial)
+				</tip>
+								
+				<para>
+					Annotate the <classname>Person</classname> class as shown below (lines to add are shown in bold):
+				</para>
+				
+				<programlisting language="java">package com.myapp;
+
+<emphasis role="bold">import org.metawidget.inspector.annotation.*;</emphasis>
+
+public class Person {
+	public String name;
+	
+	<emphasis role="bold">@UiComesAfter( "name" )</emphasis>
+	public int age;
+	
+	<emphasis role="bold">@UiComesAfter( "age" )</emphasis>
+	public boolean retired;
+}</programlisting>
+	
+				<para>
+					Again, such annotations can (and should) be applied to getter methods, but for brevity here they
+					are applied directly to the member variable.
+				</para>
+				
+				<para>
+					To recognise the annotations, Metawidget needs to use a different Inspector. Metawidget
+					comes with multiple Inspectors, each targeting different sources of information. Change the Main class to use
+					<classname>MetawidgetAnnotationInspector</classname> (lines to change are shown in bold):
+				</para>
+				
+				<programlisting language="java">package com.myapp;
+
+import javax.swing.*;
+<emphasis role="bold">import org.metawidget.inspector.annotation.*;</emphasis>
+import org.metawidget.swing.*;
+
+public class Main {
+	public static void main( String[] args ) {
+		Person person = new Person();
+	
+		SwingMetawidget metawidget = new SwingMetawidget();
+		<emphasis role="bold">metawidget.setInspector( new MetawidgetAnnotationInspector() );</emphasis>
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 220 );
+		frame.setVisible( true );
+	}
+}</programlisting>
+	
+				<para>
+					Run the code. It does not yield the correct result – the fields appear in the correct order, as in
+					<xref linkend="section-introduction-part1-incorrect-screenshot"/>, but they	are all <classname>JTextFields</classname>. We
+					have lost our <classname>JSpinner</classname> and <classname>JCheckBox</classname>! What happened?
+				</para>
+				
+				<figure id="section-introduction-part1-incorrect-screenshot">
+					<title>SwingMetawidget incorrect rendering</title>			
+					<screenshot>
+						<graphic fileref="../shared/images/swing-tutorial2.jpg"/>
+					</screenshot>
+				</figure>				
+
+				<para>
+					Metawidget Inspectors are very targeted in what they inspect. Although
+					<classname>MetawidgetAnnotationInspector</classname> looks for Metawidget annotations (such as <classname>@UiComesAfter</classname>), it does <emphasis>not</emphasis>
+					look for JavaBean type information (like <classname>JavaBeanInspector</classname> did). Without type information, <classname>SwingMetawidget</classname>
+					is unable to accurately choose components.
+				</para>
+						
+			</section>
+			
+			<section id="section-introduction-part1-compositeinspector">
+				<title>Combining Multiple Inspection Results</title>
+				
+				<para>
+					What we need is to <emphasis>combine</emphasis> the results of
+					<classname>MetawidgetAnnotationInspector</classname> and <classname>JavaBeanInspector</classname> before
+					returning them to <classname>SwingMetawidget</classname>. We do this using <classname>CompositeInspector</classname>:
+				</para>
+	
+				<programlisting language="java">package com.myapp;
+				
+import javax.swing.*;
+<emphasis role="bold">import org.metawidget.inspector.annotation.*;
+import org.metawidget.inspector.javabean.*;
+import org.metawidget.inspector.composite.*;</emphasis>
+import org.metawidget.swing.*;
+
+public class Main {
+	public static void main( String[] args ) {
+		Person person = new Person();
+	
+		SwingMetawidget metawidget = new SwingMetawidget();
+		<emphasis role="bold">CompositeInspectorConfig config = new CompositeInspectorConfig();
+		config.setInspectors( 
+			new MetawidgetAnnotationInspector(),
+			new JavaBeanInspector() );
+		metawidget.setInspector( new CompositeInspector( config ) );</emphasis>
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 220 );
+		frame.setVisible( true );
+	}
+}</programlisting>
+
+				<para>
+					Run the code again. This time the fields should appear both in the correct order <emphasis>and</emphasis> with the
+					correct components.			
+				</para>
+				
+				<para>
+					From here, adding new fields is as simple as adding new member variables and annotating them:
+				</para>
+				
+				<programlisting language="java">package com.myapp;
+
+import org.metawidget.inspector.annotation.*;
+
+public class Person {
+	public String name;
+	
+	@UiComesAfter( "name" )
+	public int age;
+	
+	@UiComesAfter( "age" )
+	public boolean retired;
+
+	<emphasis role="bold">@UiComesAfter( "retired" )
+	@UiLarge
+	public String notes;
+
+	@UiComesAfter( "notes" )
+	@UiSection( "Work" )
+	public String employer;
+
+	@UiComesAfter( "employer" )
+	public String department;</emphasis>
+}</programlisting>
+
+				<para>
+					This code produces the screen in <xref linkend="section-introduction-part1-more-screenshot"/>.
+				</para>
+				
+				<figure id="section-introduction-part1-more-screenshot">
+					<title>Additional fields and a section heading</title>			
+					<screenshot>
+						<graphic fileref="../shared/images/swing-tutorial3.jpg"/>
+					</screenshot>
+				</figure>				
+				
+			</section>
+
+			<section id="section-introduction-part1-layout">
+				<title>Fine-Tuning The Layout</title>
+				
+				<para>
+					By default, <classname>SwingMetawidget</classname> lays out components using <classname>org.metawidget.swing.layout.TableGridBagLayout</classname>.
+					You can swap this for a different layout using <function>SwingMetawidget.setLayoutClass</function>, or you can fine-tune the existing
+					one using <function>SwingMetawidget.setParameter</function>:
+				</para>
+				
+				<programlisting language="java">package com.myapp;
+
+import javax.swing.*;
+import org.metawidget.inspector.*;
+import org.metawidget.inspector.annotation.*;
+import org.metawidget.inspector.javabean.*;
+import org.metawidget.inspector.composite.*;
+import org.metawidget.swing.*;
+
+public class Main {
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		CompositeInspectorConfig config = new CompositeInspectorConfig();
+		config.setInspectors(
+			new MetawidgetAnnotationInspector(),
+			new JavaBeanInspector() );
+		metawidget.setInspector( new CompositeInspector( config ) );
+		<emphasis role="bold">metawidget.setParameter( "numberOfColumns", 2 );</emphasis>
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 220 );
+		frame.setVisible( true );
+	}
+}</programlisting>
+
+				<para>
+					Run the code. The components are now arranged across two columns as in
+					<xref linkend="section-introduction-part1-columns-screenshot"/>. <classname>TableGridBagLayout</classname> is smart enough
+					to give large components like <parameter>Notes</parameter> the full width of the <classname>JFrame</classname>.
+				</para>
+				
+				<figure id="section-introduction-part1-columns-screenshot">
+					<title>A two-column layout</title>			
+					<screenshot>
+						<graphic fileref="../shared/images/swing-tutorial4.jpg"/>
+					</screenshot>
+				</figure>				
+				
+				<para>
+					Again, if you've ever used <classname>java.awt.GridBagLayout</classname> by hand, you'll appreciate how much easier Metawidget makes
+					this.
+				</para>
+			</section>
+				
+			<section id="section-introduction-part1-creation">
+				<title>Controlling Component Creation</title>
+				
+				<para>
+					Component creation can be fine-tuned by dropping child controls inside the <classname>SwingMetawidget</classname>. This approach works well
+					both within code and within visual UI builders.
+				</para>
+				
+				<para>
+					Modify the code to add a <classname>JComboBox</classname> to the Metawidget:
+				</para>
+								
+				<programlisting language="java">package com.myapp;
+
+import javax.swing.*;
+import org.metawidget.inspector.*;
+import org.metawidget.inspector.annotation.*;
+import org.metawidget.inspector.javabean.*;
+import org.metawidget.inspector.composite.*;
+import org.metawidget.swing.*;
+
+public class Main {
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		CompositeInspectorConfig config = new CompositeInspectorConfig();
+		config.setInspectors(
+			new MetawidgetAnnotationInspector(),
+			new JavaBeanInspector() );
+		metawidget.setInspector( new CompositeInspector( config ) );
+		metawidget.setParameter( "numberOfColumns", 2 );		
+		metawidget.setToInspect( person );
+		<emphasis role="bold">JComboBox combo = new JComboBox();
+		combo.setName( "retired" );
+		metawidget.add( combo );</emphasis>
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 220 );
+		frame.setVisible( true );
+	}
+}</programlisting>
+
+				<para>
+					Run the code. The <classname>JComboBox</classname> appears in place of the <parameter>retired</parameter> <classname>JCheckBox</classname>,
+					because it has the same name (eg. 'retired') as Metawidget would have given the <classname>JCheckbox</classname>.
+				</para>
+				
+				<figure id="section-introduction-part1-override-screenshot">
+					<title>The 'retired' field has been overriden</title>
+					<screenshot>
+						<graphic fileref="../shared/images/swing-tutorial5.jpg"/>
+					</screenshot>
+				</figure>				
+
+				<para>
+					To suppress a component's creation entirely, simply supplying an empty <classname>JPanel</classname> will not work as Metawidget
+					will still create an accompanying label in the left hand column. Instead, Metawidget includes special <classname>Stub</classname> components
+					for this purpose:
+				</para>
+				
+				<programlisting language="java">package com.myapp;
+
+import javax.swing.*;
+import org.metawidget.inspector.*;
+import org.metawidget.inspector.annotation.*;
+import org.metawidget.inspector.javabean.*;
+import org.metawidget.inspector.composite.*;
+import org.metawidget.swing.*;
+
+public class Main {
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		CompositeInspectorConfig config = new CompositeInspectorConfig();
+		config.setInspectors(
+			new MetawidgetAnnotationInspector(),
+			new JavaBeanInspector() );
+		metawidget.setInspector( new CompositeInspector( config ) );
+		metawidget.setParameter( "numberOfColumns", 2 );
+		metawidget.setToInspect( person );
+		<emphasis role="bold">Stub stub = new Stub();
+		stub.setName( "retired" );
+		metawidget.add( stub );</emphasis>
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 220 );
+		frame.setVisible( true );
+	}
+}</programlisting>
+
+				<para>
+					Run the code. The <parameter>retired</parameter> field and its label will not appear.
+				</para>
+				
+				<figure id="section-introduction-part1-suppress-screenshot">
+					<title>The 'retired' field has been suppressed</title>
+					<screenshot>
+						<graphic fileref="../shared/images/swing-tutorial6.jpg"/>
+					</screenshot>
+				</figure>				
+
+				<para>
+					Alternatively, you can use a <classname>@UiHidden</classname> annotation on the business class:
+				</para>
+								
+				<programlisting language="java">package com.myapp;
+
+import org.metawidget.inspector.annotation.*;
+
+public class Person {
+	public String name;
+	
+	@UiComesAfter( "name" )
+	public int age;
+	
+	@UiComesAfter( "age" )
+	<emphasis role="bold">@UiHidden</emphasis>
+	public boolean retired;
+
+	@UiComesAfter( "retired" )
+	@UiLarge
+	public String notes;
+
+	@UiComesAfter( "notes" )
+	@UiSection( "Work" )
+	public String employer;
+
+	@UiComesAfter( "employer" )
+	public String department;
+}</programlisting>
+
+			</section>
+			
+			<section id="section-introduction-part1-inspector-config">
+				<title>Configuring Inspectors Externally</title>
+
+				<para>
+					So far we have been instantiating our Inspectors in Java code. Whilst this approach is possible
+					for all Inspectors, many UI frameworks employ visual UI builders or intermediate languages (such as JSPs) that
+					make getting to the internal Java code cumbersome (eg. you have to derive custom components).
+				</para>
+				
+				<para>
+					As an alternative, Metawidget supports external XML configuration. Create a file called <filename>inspector-config.xml</filename>
+					in the same folder as your <classname>Main</classname> class:
+				</para>
+			
+				<programlisting language="xml">&lt;?xml version="1.0"?&gt;
+&lt;inspector-config xmlns="http://metawidget.org/inspector-config"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org/inspector-config
+		http://metawidget.org/inspector-config"&gt;
+
+	&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+		config="CompositeInspectorConfig"&gt;
+		&lt;inspectors&gt;
+			&lt;metawidgetAnnotationInspector
+				xmlns="java:org.metawidget.inspector.annotation" /&gt;
+			&lt;javaBeanInspector xmlns="java:org.metawidget.inspector.javabean"/&gt;
+		&lt;/inspectors&gt;
+	&lt;/compositeInspector&gt;
+
+&lt;/inspector-config&gt;</programlisting>			
+				
+				<para>
+					The <filename>inspector-config.xml</filename> file uses XML namespaces (the <parameter>xmlns</parameter> attribute)
+					to support XSD validation. The child elements refer either to
+					Inspectors (<parameter>&lt;compositeInspector&gt;</parameter>, <parameter>&lt;metawidgetAnnotationInspector&gt;</parameter> and
+					<parameter>&lt;javaBeanInspector&gt;</parameter>) or configuration settings (<parameter>&lt;inspectors&gt;</parameter>).
+					Configuration settings map to setters on the <classname>Config</classname> class (in this case,
+					<function>CompositeInspectorConfig.setInspectors</function>).
+				</para>
+				
+				<para>
+					To use <filename>inspector-config.xml</filename>, modify the code:
+				</para>
+					
+				<programlisting language="java">package com.myapp;
+
+<emphasis role="bold">import javax.swing.*;
+import org.metawidget.swing.*;</emphasis>
+
+public class Main {
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		<emphasis role="bold">metawidget.setInspectorConfig( "com/myapp/inspector-config.xml" );</emphasis>
+		metawidget.setParameter( "numberOfColumns", 2 );
+		metawidget.setToInspect( person );
+		Stub stub = new Stub();
+		stub.setName( "retired" );
+		metawidget.add( stub );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 220 );
+		frame.setVisible( true );
+	}
+}</programlisting>
+
+				<para>
+					Run the code. The output is the same as before, but this time we are configuring our Inspectors via XML.
+				</para>
+				
+				<para>
+					Visual UI builders can set the <parameter>inspectorConfig</parameter> property from the builder, with no coding required. Other
+					UI frameworks (eg. JSPs, Android) have similar 'code free' approaches (eg. setting an attribute on a JSP tag, setting an
+					attribute in an Android layout file).
+				</para>
+				
+			</section>
+			
+			<section id="section-introduction-part1-xmlinspector">
+				<title>Inspecting Different Sources</title>
+	
+				<para>
+					It could be argued UI-oriented annotations such as <classname>@UiComesAfter</classname> sit
+					uncomfortably on a business class from a 'separation of concerns' perspective. It has advantages
+					in that it keeps the metadata close to the data it refers to. It
+					is also sufficiently abstract that it does not tie the code to any particular UI framework.			
+				</para>
+				
+				<para>
+					However, for those needing a different approach Metawidget can use
+					different Inspectors to gather information from almost any source. One example is to
+					use <classname>XmlInspector</classname>.
+				</para>
+				
+				<para>
+					<classname>XmlInspector</classname> is a very simple Inspector: it takes as its input XML in the same format
+					that Inspectors usually output. Create a file called <filename>metawidget-metadata.xml</filename> in the same
+					folder as your <classname>Main</classname> class:
+				</para>
+	
+				<programlisting language="xml">&lt;?xml version="1.0"?&gt;
+&lt;inspection-result xmlns="http://metawidget.org/inspection-result"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org/inspection-result
+		http://metawidget.org/inspection-result-1.0.xsd "&gt;
+
+	&lt;entity type="com.myapp.Person"&gt;
+		&lt;property name="name" /&gt;
+		&lt;property name="age" /&gt;
+		&lt;property name="retired" /&gt;
+		&lt;property name="notes" large="true"/&gt;
+		&lt;property name="employer" section="Work"/&gt;
+		&lt;property name="department"/&gt;
+	&lt;/entity&gt;
+
+&lt;/inspection-result&gt;</programlisting>
+	
+				<para>
+					Note that <classname>XmlInspector</classname> does not need a <parameter>comes-after</parameter> attribute: XML nodes are
+					inherently ordered, and <classname>CompositeInspector</classname> combines inspection results so that later results
+					respect the ordering of earlier results. <classname>XmlInspector</classname> also does not need to specify a <parameter>type</parameter>
+					attribute: we will still be using <classname>JavaBeanInspector</classname> to look up the types.
+				</para>
+	
+				<para>
+					Update <filename>inspector-config.xml</filename>:
+				</para>
+	
+				<programlisting language="xml">&lt;?xml version="1.0"?&gt;
+&lt;inspector-config xmlns="http://metawidget.org/inspector-config"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org/inspector-config
+		http://metawidget.org/inspector-config"&gt;
+
+	&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+		config="CompositeInspectorConfig"&gt;
+		&lt;inspectors&gt;
+			<emphasis role="bold">&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml"
+				config="XmlInspectorConfig"&gt;
+				&lt;file&gt;com/myapp/metawidget-metadata.xml&lt;/file&gt;
+			&lt;/xmlInspector&gt;</emphasis>
+			&lt;javaBeanInspector xmlns="java:org.metawidget.inspector.javabean"/&gt;
+		&lt;/inspectors&gt;
+	&lt;/compositeInspector&gt;
+
+&lt;/inspector-config&gt;</programlisting>
+	
+				<para>
+					Remove all the annotations from the <classname>Person</classname> class and run the code again.
+					The ordering is still correct, and there is still a section heading, but this time it is being
+					dictated by <classname>XmlInspector</classname>.
+				</para>
+				
+				<para>
+					This idea of the same UI characteristics being derivable from different back-end sources
+					is fundamental to Metawidget. There is a lot of metadata already lurking in back-end
+					systems - it just needs extracting. For example, <classname>JpaInspector</classname> understands this...
+				</para>
+				
+				<programlisting language="java">public class Person {
+	@Column( nullable = false )
+	public String name;
+}</programlisting>
+	
+				<para>
+					...denotes <parameter>name</parameter> is a required field (could be rendered with a star after it in the UI). Equally,
+					<classname>JavaBeanInspector</classname> understands that...
+				</para>
+				
+				<programlisting language="java">public class Person {
+	private String name;
+	
+	public String getName()	{
+		return this.name;
+	}
+	
+	// No setter
+}</programlisting>
+	
+				<para>
+					...signifies <parameter>name</parameter> is a read-only field (could be rendered as a label in the UI).
+				</para>
+				
+				<para>
+					Metawidget comes with a range of Inspectors, and it is straightforward
+					to write your own to inspect anything from XML configuration files to database schemas
+					to annotations. The inspection process is loosely coupled from the
+					component creation process, so the same Inspector can supply information to multiple
+					UI frameworks.
+				</para>
+				
+			</section>
+			
+		</section>
+
+		<section id="section-introduction-part2">
+			<title>Part 2 - The Address Book Application</title>
+			
+			<section id="section-introduction-part2-preface">
+				<title>Preface</title>
+	
+				<para>
+					Part 2 explores a more substantial application, and shows how Metawidget can be used to map the <emphasis>same</emphasis> back-end
+					to <emphasis>multiple</emphasis> front-ends. We will develop an Address Book application with
+					desktop-based, Web-based and mobile-based UIs.
+				</para>
+				
+				<para>
+					This tutorial should take around 45 minutes. To save time, we use the pre-built example
+					applications located in the <filename>examples</filename> folder. These examples all share the business objects, business logic
+					and resources in <filename>src\java\org\metawidget\example\shared\addressbook</filename>.
+				</para>
+				
+				<tip>
+					<title>Note</title>
+					This tutorial uses Apache Tomcat 6, so you will need
+					Java SE 5. The requirements of Metawidget itself vary depending on which modules you
+					use, though the minimum is J2SE 1.4. 
+				</tip>				
+				
+			</section>			
+			
+			<section id="section-introduction-part2-desktop">
+				<title>Desktop Address Book</title>
+				
+				<para>
+					The Desktop Address Book is essentially a larger version of the Swing application developed in
+					Part 1 - it just has more business objects and more Swing components.
+				</para>
+				
+				<para>
+					The application is pre-built for you in <filename>examples\swing\addressbook-swing.jar</filename> or, if you've downloaded
+					the source code, you can build it yourself by typing:
+				</para>
+				
+				<programlisting language="shell">ant example-swing-addressbook</programlisting>
+				
+				<para>
+					This is a self-executing JAR. For convenience, it has <filename>MAINFEST.MF</filename> dependencies hard-wired into it to <filename>..\..\metawidget.jar</filename> and
+					<filename>beansbinding.jar</filename>, so it's best not to move it to a different folder (if you do, you'll need to
+					manually put <filename>metawidget.jar</filename> and <filename>beansbinding.jar</filename> on your classpath).
+				</para>
+				
+				<para> 
+					Run the code by navigating to the <filename>examples\swing</filename> folder and typing:
+				</para>				
+				
+				<programlisting language="shell">java -jar addressbook-swing.jar</programlisting>
+				
+				<para>
+					The opening screen displays a search filter (at the top) and lists
+					existing Address Book entries (at the bottom) as in <xref linkend="section-introduction-part2-desktop-opening-screenshot"/>.
+				</para>
+				
+				<figure id="section-introduction-part2-desktop-opening-screenshot">
+					<title>Desktop Address Book opening screen</title>
+					<screenshot>
+						<graphic fileref="../shared/images/desktop-addressbook1.jpg"/>
+					</screenshot>
+				</figure>				
+				
+				<para>
+					The three search filter fields (<parameter>Firstnames</parameter>, <parameter>Surname</parameter> and <parameter>Type</parameter>)
+					are created by <classname>SwingMetawidget</classname>
+					based on the <classname>ContactSearch</classname> business class. This includes populating the <parameter>Type</parameter> dropdown based
+					on the <classname>ContactType</classname>
+					enum. The <guibutton>Search</guibutton>, <guibutton>Add Personal Contact</guibutton> and <guibutton>Add Business Contact</guibutton> buttons are manually
+					specified in <classname>MainFrame</classname>, but are added as child components of the <classname>SwingMetawidget</classname> to take advantage
+					of automatic layout.
+				</para>
+				
+				<para>
+					Click <guibutton>Add Personal Contact</guibutton>. The screen displays a form for filling out Personal Contact information
+					as in <xref linkend="section-introduction-part2-desktop-add-screenshot"/>.
+				</para>
+				
+				<figure id="section-introduction-part2-desktop-add-screenshot">
+					<title>Desktop Address Book 'Add Personal Contact' screen</title>
+					<screenshot>
+						<graphic fileref="../shared/images/desktop-addressbook2.jpg"/>
+					</screenshot>
+				</figure>				
+
+				<para>
+					All the form fields are created by <classname>SwingMetawidget</classname> based on the <classname>PersonalContact</classname> business class.
+					This class is itself derived from the <classname>Contact</classname> business class. It includes some Metawidget annotations
+					for dropdown values and section headings.
+				</para>
+				
+				<para>
+					Note the code only has one <classname>JDialog</classname> class (<classname>ContactDialog</classname>), but is capable of supporting both
+					<classname>PersonalContact</classname> and <classname>BusinessContact</classname> UIs. The fields in the UI change depending on
+					the object passed to <classname>ContactDialog</classname> at runtime. This is the Third Goal Of Metawidget:
+				</para>
+				
+			    <important>
+			    	<title>Third Goal Of Metawidget</title>			    
+					Metawidget performs inspection <emphasis>at runtime</emphasis>, detecting types and subtypes dynamically				
+				</important>
+				
+				<para>
+					The <parameter>Address</parameter> field is created as a nested <classname>SwingMetawidget</classname>. This is the default behaviour when Metawidget
+					encounters datatypes it does not know how to represent with any other UI component. The <parameter>Communications</parameter> field
+					has been overriden with a manually specified <classname>JTable</classname>.
+				</para>
+				
+				<para>
+					In addition, <function>JTable.setCellEditor</function> uses <classname>SwingMetawidget</classname> to render single
+					<classname>JComponents</classname> as <classname>CellEditors</classname>. This includes automatically populating dropdown values.
+				</para>
+				
+				<section id="section-introduction-part2-desktop-readonly">
+					<title>Read-Only Mode</title>
+
+					<para>
+						The Desktop Address Book uses Metawidget's <function>setReadOnly(true)</function> method to display
+						read-only screens. Return to the main screen, and double-click on an existing contact (such as
+						Homer Simpson). The same <classname>ContactDialog</classname> is used, but this time
+						all the components are read-only labels as in <xref linkend="section-introduction-part2-desktop-readonly-screenshot"/>.
+					</para>
+					
+					<figure id="section-introduction-part2-desktop-readonly-screenshot">
+						<title>Desktop Address Book read-only mode</title>
+						<screenshot>
+							<graphic fileref="../shared/images/desktop-addressbook3.jpg"/>
+						</screenshot>
+					</figure>
+
+					<para>
+						Click <guibutton>Edit</guibutton>. The components are transformed into editable components by using
+						Metawidget's <function>setReadOnly(false)</function>, as in <xref linkend="section-introduction-part2-desktop-editable-screenshot"/>.
+					</para>
+					
+					<figure id="section-introduction-part2-desktop-editable-screenshot">
+						<title>Desktop Address Book edit mode</title>
+						<screenshot>
+							<graphic fileref="../shared/images/desktop-addressbook4.jpg"/>
+						</screenshot>
+					</figure>
+					
+				</section>
+				
+				<section id="section-introduction-part2-desktop-binding">
+					<title>Binding</title>
+
+					<para>
+						The data from the <classname>PersonalContact</classname> object is automatically inserted into the
+						<classname>JComponents</classname>. It is also automatically saved back when clicking <guibutton>Save</guibutton>.
+					</para>
+					
+					<para>					
+						Swing does not define a <classname>JComponent</classname> to <classname>Object</classname> mapping mechanism, so by default
+						<classname>SwingMetawidget</classname> only supplies
+						<function>setValue</function> and <function>getValue</function> methods for manually fetching values. This situation is no
+						worse than a normal Swing application, but Metawidget can do better.
+					</para>
+				
+					<para> 					
+						<classname>SwingMetawidget</classname> directly supports third-party binding alternatives such as Apache BeanUtils and
+						Beans Binding (JSR 295) via <function>SwingMetawidget.setBindingClass</function>. These
+						binding implementations automatically map <classname>Component</classname> values to <classname>Object</classname> values,
+						including performing the necessary conversions, further reducing the amount of boilerplate code required.
+					</para>
+					
+				</section>
+				
+				<section id="section-introduction-part2-desktop-i18n">
+					<title>Localization</title>
+
+					<para>
+						All text within the application has been localized to the <classname>org.metawidget.example.shared.addressbook.resource.Resources</classname>
+						resource bundle. Text created manually (such as the buttons) uses typical Swing localization code (eg. <function>bundle.getString</function>). Text created by
+						<classname>SwingMetawidget</classname> uses <function>SwingMetawidget.setBundle</function>, which internally defers to <function>bundle.getString</function>.
+					</para>
+					
+					<para>	
+						Localization is very easy with Metawidget. For field names, if no resource bundle is supplied, Metawidget uses a 'uncamel-cased' version of the name. If
+						a bundle <emphasis>is</emphasis> supplied, Metawidget uses the field name as the bundle key. For section labels, if a bundle is supplied,
+						Metawidget uses a 'camel-cased' version of the label as the key.
+					</para>
+					
+					<para>
+						This means developers can initially
+						build their UIs without worrying about resource bundles, then turn on localization support later.
+					</para>
+					
+				</section>
+				
+			</section>
+			
+			<section id="section-introduction-part2-web">
+				<title>Web Address Book</title>
+				
+				<para>
+					As there are a large number of Java Web application frameworks to choose from, this example comes written
+					in three of the most popular: JSF, Spring Web MVC and Struts. We recommend you follow along using the one
+					most relevant to you.
+				</para>
+				
+				<para>
+					Web-based applications are inherently more difficult to setup and run than desktop-based
+					applications because they require a container application. For
+					this tutorial, we will use Apache Tomcat 6 (Tomcat), as it is one of the easier containers
+					to get running. Tomcat can be downloaded from <uri>http://tomcat.apache.org</uri>.
+				</para>
+				
+				<para>
+					Take a fresh install of Tomcat. The Address Book WAR is pre-built for you in
+					either <filename>examples\faces\addressbook-faces.war</filename>, <filename>examples\spring\addressbook-spring.war</filename> or
+					<filename>examples\struts\addressbook-struts.war</filename>. If you've downloaded the source code, you can build it
+					yourself by typing:
+				</para>
+				
+				<programlisting language="shell">ant example-faces-addressbook</programlisting>
+
+				<para>
+					(replacing <parameter>faces</parameter> with <parameter>spring</parameter> or <parameter>struts</parameter> as appropriate).
+				</para>
+
+				<para>
+					Copy the WAR into Tomcat's <filename>webapps</filename> folder, start Tomcat, and open a Web browser
+					to <uri>http://localhost:8080/addressbook-faces</uri>. The home page displays
+					a search filter (at the top) and lists existing Address Book entries (at the bottom)
+					as in <xref linkend="section-introduction-part2-web-opening-screenshot"/>.
+				</para>
+				
+				<figure id="section-introduction-part2-web-opening-screenshot">
+					<title>Web Address Book opening screen</title>
+					<screenshot>
+						<graphic fileref="../shared/images/web-addressbook1.jpg"/>
+					</screenshot>
+				</figure>
+
+				<para>
+					As with the Desktop Address Book, the three search filter fields are created
+					by Metawidget (this time <classname>UIMetawidget</classname>, <classname>SpringMetawidgetTag</classname>
+					or <classname>StrutsMetawidgetTag</classname>) based on the <classname>ContactSearch</classname> business class:
+				</para>
+				
+				<programlisting language="jsp">&lt;m:metawidget value="#{contact.search}"&gt;
+	...
+&lt;/m:metawidget&gt;</programlisting>
+				
+				<para>
+ 					Again, this includes populating the <parameter>Type</parameter> dropdown and localizing the text. The <guibutton>Search</guibutton>,
+					<guibutton>Add Personal Contact</guibutton> and <guibutton>Add Business Contact</guibutton> buttons are manually specified
+					in the JSP page, but are added as child components of Metawidget to take advantage of automatic layout.
+				</para>
+								
+				<para>
+					The look of the Web page relies entirely on HTML and CSS technologies:
+				</para>
+				
+<programlisting language="jsp">&lt;m:metawidget value="#{contact.search}"&gt;
+	<emphasis role="bold">&lt;f:param name="tableStyleClass" value="table-form"/&gt;
+	&lt;f:param name="columnClasses"
+		value="table-label-column,table-component-column,required" /&gt;</emphasis>
+	...
+&lt;/m:metawidget&gt;</programlisting>
+				
+				<para>
+					Only the layout	of 'one column for the label, one column for the component' is dictated by Metawidget, and that is again
+					pluggable and configurable.
+				</para>
+				
+				<para>
+					Click <guibutton>Add Personal Contact</guibutton>. The page displays a form for filling out Personal Contact information
+					as in <xref linkend="section-introduction-part2-web-add-screenshot"/>.
+				</para>
+				
+				<figure id="section-introduction-part2-web-add-screenshot">
+					<title>Web Address Book 'Add Personal Contact' screen</title>
+					<screenshot>
+						<graphic fileref="../shared/images/web-addressbook2.jpg"/>
+					</screenshot>
+				</figure>
+
+				<para>
+					All the form fields are created by Metawidget based on the <classname>PersonalContact</classname> business class. The section headings
+					are the same, but have this time been rendered as HTML.
+				</para>
+				
+				<para>
+					The <parameter>Address</parameter> field is a nested Metawidget. The <parameter>Communications</parameter> field
+					has been overriden in the JSP page with a manually specified table. <classname>UIMetawidget</classname> understands a manually-specified component to
+					override an automatic one if it has the same <parameter>value</parameter> binding as the automatic
+					component would have (<classname>SpringMetawidget</classname> and <classname>StrutsMetawidget</classname> do
+					something similar):
+				</para>
+				
+				<programlisting language="jsp">&lt;m:metawidget value="#{contact.current}"&gt;
+	...		
+	&lt;h:dataTable value="#{contact.current.communications}"&gt;
+		...
+	&lt;/h:dataTable&gt;						
+	...							
+&lt;m:metawidget&gt;</programlisting>
+				
+				<para>
+					JSF has built-in support for executing actions on table rows. In order to use it, however, the <classname>Set</classname>
+					returned by <function>Contact.getCommunications</function> must be wrapped into a <classname>DataModel</classname>. This is handled by
+					<function>ContactController.getCurrentCommunications</function>, but this presents a problem: the mapping for the
+					<classname>HtmlDataTable</classname> must be <parameter>#{contact.currentCommunications}</parameter>, but the mapping required to override
+					<classname>UIMetawidget</classname>'s automatic component creation is <parameter>#{contact.current.communications}</parameter>.
+				</para>
+				
+				<para>
+					<classname>UIMetawidget</classname> supplies <classname>UIStub</classname> for these situations. Stubs have a binding, but do nothing with it
+					and render nothing. They can be used either to suppress component creation entirely (a stub
+					with an empty body) or to replace the automatic component creation with one or more other components
+					with different bindings:
+				</para>
+				
+				<programlisting language="jsp">&lt;m:metawidget value="#{contact.current}"&gt;
+	...		
+	&lt;m:stub value="#{contact.current.communications}"&gt;
+		&lt;h:dataTable value="#{contact.currentCommunications}"&gt;
+			...
+		&lt;/h:dataTable&gt;						
+	&lt;/m:stub&gt;						
+	...							
+&lt;m:metawidget&gt;</programlisting>
+
+				<para>
+					Spring and Struts, being based on JSP, lack some component-based features found in Swing and JSF. Specifically,
+					whilst it is possible for JSP tags to reference their <emphasis>parent</emphasis>
+					(using <function>TagSupport.findAncestorWithClass</function>), they have no way to interrogate
+					their <emphasis>children</emphasis>. Therefore, it is not possible to directly support arbitrary child tags
+					within <classname>SpringMetawidget</classname> and <classname>StrutsMetawidget</classname>.
+				</para>
+
+				<para>
+					Instead, we wrap the overriden <parameter>Communications</parameter> field in Metawidget's <classname>Stub</classname> tag. Metawidget
+					and its Stub tags have explicit	support for co-ordinating the overriding of component creation:
+				</para>
+				
+				<programlisting language="jsp">&lt;m:metawidget property="contactForm"&gt;
+	...		
+	&lt;m:stub property="communications"&gt;
+		&lt;table class="data-table"&gt;
+			...
+		&lt;/table&gt;
+	&lt;/m:stub&gt;						
+	...							
+&lt;m:metawidget&gt;</programlisting>
+
+				<section id="section-introduction-part2-web-mixing">
+					<title>Mixing Metawidgets</title>
+					
+					<para>
+						Within the <parameter>Communications</parameter> table, implementing <guibutton>Add Communication</guibutton> calls for a design decision.
+						Struts does not support multiple <classname>ActionForms</classname> per <classname>Action</classname>, so we are unable to combine
+						<classname>PersonalContactForm</classname> with a <classname>CommunicationForm</classname> (as we did in the JSF). Spring has a similar
+						limitation of not supporting multiple <parameter>commandNames</parameter> per form. Instead, we need to either:
+					</para>
+					
+					<itemizedlist>
+						<listitem>
+							<para>
+								add fields from <classname>Communication</classname> to <classname>PersonalContactForm</classname>, and ignore them when
+								saving the <classname>PersonalContact</classname>; or
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+						 		output plain HTML tags (eg. independent of Spring and Struts) and handle them manually
+						 	</para>
+						 </listitem>
+					</itemizedlist>
+					
+					<para>
+						Both approaches would be valid. For this tutorial, we choose the latter as it allows us to introduce <classname>HtmlMetawidget</classname>
+						(a Metawidget for plain HTML/JSP webapps that don't use Struts or Spring) and demonstrate <emphasis>mixing</emphasis> two Metawidgets on
+						the same page:
+					</para>
+	
+					<programlisting language="jsp"><emphasis role="bold">&lt;m:metawidget property="contactForm"&gt;</emphasis>
+	...
+	&lt;m:stub property="communications"&gt;
+		&lt;table class="data-table"&gt;
+		...
+		&lt;tr&gt;
+			&lt;jsp:useBean id="communication"
+			class="org.metawidget.example.shared.addressbook.model.Communication"/&gt;						
+			&lt;td&gt;<emphasis role="bold">&lt;mh:metawidget value="communication.type"
+				style="width: 100%" layoutClass=""/&gt;</emphasis>&lt;/td&gt;
+			&lt;td&gt;<emphasis role="bold">&lt;mh:metawidget value="communication.value"
+				style="width: 100%" layoutClass=""/&gt;</emphasis>&lt;/td&gt;
+		&lt;/tr&gt;
+		...
+		&lt;/table&gt;
+	&lt;/m:stub&gt;
+	...
+<emphasis role="bold">&lt;/m:metawidget&gt;</emphasis></programlisting>
+	
+					<para>
+						The two different tag prefixes <parameter>m:</parameter> and <parameter>mh:</parameter> denote different tag libraries. 
+						<classname>HtmlMetawidget</classname> is very similiar to <classname>StrutsMetawidget</classname>, but has to use
+						<parameter>jsp:useBean</parameter> to manually instantiate the bean (rather than letting Struts do it). 
+						The default layout has been changed using <parameter>layoutClass=""</parameter> from a <classname>TableLayout</classname> to
+						a plain layout (eg. one without a label column).
+					</para>
+					
+				</section>				
+				
+				<section id="section-introduction-part2-web-expression-lookup">
+					<title>Expression Based Lookups</title>
+					
+					<para>
+						In the Desktop Address Book, the <parameter>title</parameter> dropdown was populated by
+						a static <parameter>lookup</parameter> attribute in <filename>metawidget-metadata.xml</filename>. JSP and JSF-based technologies can do better, because they have a built-in
+						scope-based component model and Expression Language.
+					</para>
+					
+					<para>
+						<function>Contact.getTitle</function> is annotated
+						using <classname>@UiFacesLookup</classname> and <classname>@UiSpringLookup</classname> (and <function>ContactForm.getTitle</function>
+						is annotated using <classname>@UiStrutsLookup</classname>). These are used at runtime to create dynamic lookups.
+					</para>
+					
+					<para>
+						These annotations, unlike the ones we have used so far, <emphasis>are</emphasis> UI-framework specific so you may prefer
+						to declare them in <filename>metawidget-metadata.xml</filename>. Before doing so, however, you should understand we are still
+						not introducing runtime dependencies into our business classes: an important feature of annotations is they 'fall away gracefully'
+						if their implementing class is not found. Annotations never throw <classname>ClassDefNotFoundError</classname>.
+					</para>
+					
+				</section>
+
+				<section id="section-introduction-part2-web-richfaces">
+					<title>Alternate Component Libraries</title>
+					
+					<para>
+						This section only works on JSF.
+					</para>
+					
+					<para>
+						Go into Tomcat's <filename>webapps/addressbook-faces</filename> folder (the exploded WAR)
+						and edit <filename>contact.jsp</filename> to change <uri>http://metawidget.org/faces</uri> to <uri>http://metawidget.org/faces/richfaces</uri>
+						(shown in bold):
+					</para>
+					
+					<programlisting language="jsp">&lt;%@ page language="java" %&gt;
+...
+&lt;%@ taglib uri="http://metawidget.org/faces<emphasis role="bold">/richfaces</emphasis>" prefix="m"%&gt;
+...
+&lt;tags:page&gt;</programlisting>
+	
+					<para>
+						Now refresh the Web browser. Notice how the <parameter>Date of Birth</parameter> field for Personal Contacts becomes a RichFaces date picker
+						component, and the <parameter>Number of Staff</parameter> field for Business Contacts becomes a RichFaces slider component. This shows how easy
+						it is to leverage component libraries with Metawidget (this example cheats a bit, as we've pre-added the RichFaces JARs into
+						<filename>WEB-INF\lib</filename> and some lines into <filename>web.xml</filename>, but you get the idea).
+					</para>
+					
+				</section>
+
+			</section>
+
+			<section id="section-introduction-part2-mobile">
+				<title>Mobile Address Book</title>
+				
+				<para>
+					For the Mobile Address Book we use the Android platform. Android has uniquely strong support for reflection
+					and annotations, and guarantees the availability of key packages such as <classname>org.w3c.dom</classname>. This affords
+					Metawidget excellent runtime access to inspect the <emphasis>O</emphasis> in OIM.
+				</para>
+				
+				<para>
+					Like Web-based applications, Mobile applications require a container to run. Download version m5-rc15 of
+					the Android SDK from <uri>http://code.google.com/android/download.html</uri>.
+					Then, change to the installation directory (usually <filename>android-sdk_m5-rc15_windows</filename>) and run the emulator by
+					opening a command prompt and typing:
+				</para>
+				
+				<programlisting language="shell">tools\emulator</programlisting>
+				
+				<para>
+					The emulator may take a little while to start. Once finished, it will display the phone's desktop. The Address Book APK
+					is pre-built for you in <filename>examples\android\addressbook-android.apk</filename>. If you've downloaded the source code, you
+					can build it yourself by typing:
+				</para>
+				
+				<programlisting language="shell">ant example-android-addressbook</programlisting>
+
+				<para>
+					(ensuring your <filename>build.properties</filename> is setup correctly to point to the Android SDK).
+				</para>
+
+				<para>				
+					Next, open a <emphasis>second</emphasis> command prompt, change to the Android installation directory and type:
+				</para>
+				
+				<programlisting language="shell">tools\adb install &lt;metawidget folder&gt;\examples\android\addressbook-android.apk</programlisting>
+				
+				<para>
+					This deploys the APK into the emulator. To run it, use the arrow pad on the emulator to move to the <parameter>All</parameter>
+					button, then click the center of the arrow pad. Select the Address Book application and press the center of the arrow pad again.
+					The emulator displays a search filter (at the top) and lists existing Address Book entries (at the bottom)
+					as in <xref linkend="section-introduction-part2-mobile-opening-screenshot"/>.
+				</para>
+				
+				<figure id="section-introduction-part2-mobile-opening-screenshot">
+					<title>Mobile Address Book opening screen</title>
+					<screenshot>
+						<graphic fileref="../shared/images/mobile-addressbook1.jpg"/>
+					</screenshot>
+				</figure>
+
+				<para>
+					As with the Desktop and Web Address Books, the three search filter fields are created
+					by Metawidget (this time <classname>AndroidMetawidget</classname>) based on the <classname>ContactSearch</classname> business class.
+					Again, this includes populating the <parameter>Type</parameter> dropdown.
+				</para>
+
+				<para>
+					The look of the screen relies entirely on Android XML layout files, styles and themes. Only the 'one column for the label, one column
+					for the component' layout is dictated by Metawidget, and that is pluggable and configurable.
+				</para>
+
+				<para>
+					Choose <guibutton>Add Personal</guibutton> from the Android menu. The page displays a form for filling out Personal Contact information
+					as in <xref linkend="section-introduction-part2-mobile-add-screenshot"/>.
+				</para>
+				
+				<figure id="section-introduction-part2-mobile-add-screenshot">
+					<title>Mobile Address Book 'Add Personal Contact' screen</title>
+					<screenshot>
+						<graphic fileref="../shared/images/mobile-addressbook2.jpg"/>
+					</screenshot>
+				</figure>
+
+				<para>
+					UIs in Android are typically defined in XML layout files, though they can also be built programmatically.
+					<classname>AndroidMetawidget</classname> supports both approaches. For example, the Personal Contact screen is
+					defined in <filename>contact.xml</filename>, and contains a Metawidget defined in much the same way as in
+					JSP (including configuring section style and overriding component creation): 
+				</para>
+
+				<programlisting language="xml">&lt;view class="org.metawidget.android.widget.AndroidMetawidget" android:id="@+id/metawidget"
+	inspectorConfig="@raw/inspector_config"
+	paramSectionStyle="@style/section"&gt;
+	
+	&lt;view class="org.metawidget.android.widget.Stub" tag="communications"&gt;
+			
+		&lt;ListView android:id="@id+/communications" ... /&gt;
+	       			
+		&lt;Button android:id="@+id/buttonAddCommunication"
+			android:text="@string/addCommunication" ... /&gt;
+	
+	&lt;/view&gt;
+       
+&lt;/view&gt;</programlisting>
+				
+				<para>
+					Within <classname>CommunicationDialog</classname>, a Metawidget is defined programatically in much the same way as in
+					Swing:
+				</para>
+				
+				<programlisting language="java">mMetawidget = new AndroidMetawidget( activity );
+mMetawidget.setInspectorConfig( R.raw.inspector_config );				
+...
+mMetawidget.setToInspect( mCommunication );</programlisting>
+				
+				<para>
+					This produces the dialog box in <xref linkend="section-introduction-part2-mobile-dialog-screenshot"/>.
+				</para>
+				
+				<figure id="section-introduction-part2-mobile-dialog-screenshot">
+					<title>Mobile Address Book Communications Dialog</title>
+					<screenshot>
+						<graphic fileref="../shared/images/mobile-addressbook3.jpg"/>
+					</screenshot>
+				</figure>
+
+				<para>
+					At the time of writing Android is still under development, so <classname>AndroidMetawidget</classname> has some rough edges.
+					Specifically:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							it uses <parameter>tags</parameter> to identify views overrides, but at present Android cannot
+							set <parameter>tags</parameter> via XML (see <uri>http://code.google.com/p/android/issues/detail?id=30</uri>).
+							Therefore, either the tags must be set programmatically or
+							the XML must use the supplied <classname>Stub</classname> views. 
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+					 		though Android promises annotation support it is not yet functional (see <uri>http://code.google.com/p/android/issues/detail?id=29</uri>), so
+					 		applications have to fall back to using the (more verbose) <classname>XmlInspector</classname>.
+					 	</para>
+					 </listitem>
+				</itemizedlist>
+
+			</section>
+		</section>
+			
+		<section id="section-introduction-part2-conclusion">
+			<title>Conclusion</title>
+			
+			<para>
+				That concludes the introductory tutorial. In summary, we now:
+			</para>
+
+			<itemizedlist>
+				<listitem>
+					<para>
+						have an application whose UI is largely dictated by its business classes, not by hand-written UI code
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						significantly reduced the amount of UI code needed in our application
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						have an application that targets multiple plaforms. If we were to add a new field to one of the business classes
+						(say, <parameter>numberOfChildren</parameter> to <classname>PersonalContact</classname>), it would instantly appear
+						and be functional on every platform
+					</para>
+				</listitem>
+			</itemizedlist>
+			
+		</section>
+
+	</chapter>
+
+	<chapter id="chapter-architecture">
+		<title>Architecture</title>
+		
+		<section id="section-architecture-preface">
+			<title>Preface</title>
+
+			<para>
+				There is a large diversity of front-end and back-end technologies. Metawidget strives to unify this
+				diversity with two over-arching concepts: Metawidgets that create components for
+				specific front-end frameworks (<classname>SwingMetawidget</classname>, <classname>UIMetawidget</classname>, etc.) and Inspectors that
+				inspect specific back-end architectures (<classname>JavaBeanInspector</classname>, <classname>JpaInspector</classname>, etc.).
+			</para>
+			
+		</section>
+		
+		<section id="section-architecture-metawidgets">
+			<title>Metawidgets</title>
+
+			<section id="section-architecture-metawidgets-interface">
+				<title>Interface</title>
+				
+				<para>
+					Most UI frameworks require widgets inherit one of their base classes, such as <classname>javax.swing.JComponent</classname>
+					or <classname>javax.faces.UIComponent</classname>. As Java does not support multiple inheritance, this means there cannot be
+					a common 'Metawidget base class' per se.
+				</para>
+				
+				<para>
+					In addition, all Metawidgets support roughly the same functionality but different UI frameworks have different in-built capabilities.
+					For example, JSF has <function>UIComponent.setRenderer</function> for choosing different layouts
+					for the same component, whereas <classname>SwingMetawidget</classname> has to roll its own <function>setLayout</function> method.
+					This means there cannot be a common 'Metawidget interface' either.
+				</para>
+				
+				<para>
+					Therefore, Metawidgets are not required to extend any base class or implement any interface. However, they all follow roughly the
+					same design, with roughly the same method names:
+				</para>
+				
+				<orderedlist>
+					<listitem>
+						<para>
+							<function>setToInspect</function> is called to set the Object for inspection
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<function>buildWidgets</function> is called to begin the process. It first calls <function>Inspector.inspect</function> to return
+							a DOM of inspection results
+						</para>
+					</listitem>
+					<listitem>
+						<para>							
+							<function>buildWidgets</function> calls <function>buildWidget</function> to choose a suitable component for the
+							top-level element of the DOM (based on its <parameter>@type</parameter> attribute). If <function>buildWidget</function>
+							returns such a component, or <parameter>null</parameter>, skip to 6
+						</para>
+					</listitem>
+					<listitem>
+						<para>							
+							if <function>buildWidget</function> returns another Metawidget for the top-level element, ignore it (as that would lead
+							to infinite recursion), but treat it as a trigger to call <function>buildCompoundWidget</function>
+						</para>
+					</listitem>
+					<listitem>
+						<para>							
+							<function>buildCompoundWidget</function> iterates over each child of the top-level DOM element, calling <function>buildWidget</function> for
+							each. The returned component is added to the Metawidget. It is fine at this stage for <function>buildWidget</function> to return another
+							Metawidget, as this is how nested Metawidgets get created
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							component creation can be overriden if there are existing child components with suitably matching attributes
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							as a final step, the created components are passed to a layout and/or binding mechanism. Layout and binding can be configured by
+							arbitrary parameters passed through the Metawidget to the layout/binding. Layouts can further by adorned with facet components
+							passed through the Metawidget.    
+						</para>
+					</listitem>
+				</orderedlist>
+				
+			</section>
+			
+			<section id="section-architecture-metawidgets-look">
+				<title>Customizing Look and Feel</title>
+
+				<para>
+					As much as possible, Metawidgets defer to the existing Look and Feel technology of their target UI framework. For example,
+					<classname>HtmlMetawidget</classname> uses HTML/CSS, <classname>SwingMetawidget</classname> uses Swing Look-and-Feels,
+					and <classname>AndroidMetawidget</classname> uses Android styles and themes.
+				</para>
+				
+				<para>
+					The one area Metawidget <emphasis>does</emphasis> control is how the components it creates are laid out. Typically this is in
+					a tabular 'one column for the label, one column for the component' format, but this is pluggable.
+				</para>
+				
+				<para>
+					Metawidgets come with different <classname>Layout</classname> classes (<classname>LayoutRenderer</classname> classes
+					for JSF) that can arrange the components in different ways, and these are set on the Metawidget in a framework-specific
+					way. For example, JSF uses <parameter>&lt;m:metawidget rendererType=""&gt;</parameter> whereas <classname>SwingMetawidget</classname>
+					uses <function>setLayoutClass</function>. Where possible, the layout classes defer back to the capabilities
+					of the native framework. For example, Swing's <classname>GroupLayout</classname> or Android's <classname>TableLayout</classname>.
+				</para>
+				
+				<para>
+					Some layouts will add localized labels and section headings to the components, whereas other layouts may leave them unadorned. Different
+					Layouts may support different parameters (for example, a <classname>TableLayout</classname> may support <parameter>numberOfColumns</parameter>)
+					and these are passed from the Metawidget to the layout in a generic fashion. For example, JSF uses <parameter>&lt;f:param name="" value=""&gt;</parameter>
+					tags, whereas <classname>SwingMetawidget</classname> has a <function>setParameter(name, value)</function> method.
+				</para>
+				
+			</section>
+			
+			<section id="section-architecture-metawidgets-override">
+				<title>Overriding Component Creation</title>
+
+				<para>
+					Metawidget tries to automate much of the component creation, but provides many hooks to customize the process:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							<emphasis role="bold">stub</emphasis> child components can be used to suppress component creation entirely or to
+							replace automatic component creation with one or more other components with different bindings 
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<emphasis role="bold">layouts</emphasis> are pluggable 
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<emphasis role="bold">parameters</emphasis> set on a Metawidget pass through to the chosen
+							layout to configure settings such as <parameter>sectionStyle</parameter> and
+							<parameter>numberOfColumns</parameter>
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<emphasis role="bold">facet</emphasis> child components pass through to the chosen layout
+							as decorations (such as button bars)
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<emphasis role="bold">subclasses</emphasis> can override key methods such as <function>buildWidget</function>
+							to fine-tune component creation
+						</para>
+					</listitem>
+				</itemizedlist>
+				
+			</section>
+		</section>
+		
+		<section id="section-architecture-inspectors">
+			<title>Inspectors</title>
+
+			<section id="section-architecture-inspectors-interface">
+				<title>Interface</title>
+
+				<para>
+					All Inspectors must implement the <classname>Inspector</classname> interface. This is a simple
+					interface that defines only one method:
+				</para>
+				
+				<programlisting language="java">Document inspect( Object toInspect, String type, String... names );</programlisting>
+				
+			</section>
+			
+		</section>
+	</chapter>
+
+	<chapter id="chapter-metawidgets">
+		<title>Metawidgets</title>
+		
+		<section id="section-metawidgets-preface">
+			<title>Preface</title>
+
+			<para>
+				Metawidget ships with native components for different UI frameworks. Whilst all Metawidget components are
+				broadly similar, they are tailored to take advantage of their native environment. This chapter examines
+				each Metawidget component in detail.
+			</para>
+			
+		</section>
+
+		<section id="section-metawidgets-desktop">
+			<title>Desktop Metawidgets</title>
+
+			<section id="section-metawidgets-desktop-swing">
+				<title>SwingMetawidget</title>
+	
+				<section id="section-metawidgets-desktop-swing-binding">
+					<title>Binding</title>
+					
+					<para>
+						Swing does not include an automatic <classname>Component</classname> to <classname>Object</classname> binding mechanism, but Metawidget
+						supports third-party alternatives via <function>setBindingClass</function>.
+					</para>
+					
+					<section id="section-metawidgets-desktop-swing-binding-beansbinding">
+						<title>Beans Binding</title>
+						
+						<para>
+							<classname>org.metawidget.swing.binding.beansbinding.BeansBinding</classname> supports the various Beans Binding
+							update strategies by calling <function>metawidget.setParameter( UpdateStrategy.class, UpdateStrategy.READ_WRITE )</function>.
+							If set to <parameter>READ</parameter> or <parameter>READ_WRITE</parameter>, the object being inspected must
+							provide <classname>PropertyChangeSupport</classname>.
+						</para>
+					</section>
+				
+				</section>
+	
+				<section id="section-metawidgets-desktop-swing-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+	 					Since inception, Swing has had built-in, and extensive, Look and Feel support. Metawidget
+						does not overlap this. For layouts, Swing supports a multitude of <classname>LayoutManagers</classname>.
+						Metawidget leverages these, but automates them to construct UIs automatically.
+					</para>
+					
+				</section>
+				
+			</section>
+		</section>
+		
+		<section id="section-metawidgets-web">
+			<title>Web Metawidgets</title>
+		
+			<section id="section-metawidgets-web-hidden">
+				<title>Hidden Fields</title>
+				
+				<para>
+					Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
+					<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
+					kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However, Web
+					Metawidgets support that approach for those that need it through <function>setCreateHiddenFields( true )</function>.
+				</para>
+			</section>
+								
+			<section id="section-metawidgets-web-faces">
+				<title>UIMetawidget (JSF)</title>
+	
+				<section id="section-metawidgets-web-faces-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						One of JSF's most important Look and Feel technologies is CSS.
+						Metawidget supports several approaches to suit different needs.
+					</para>
+					
+					<para>
+						By convention, JSF's HTML components (<classname>HtmlInputText</classname>, <classname>HtmlSelectBooleanCheckbox</classname>, etc) define
+						<parameter>style</parameter> and <parameter>styleClass</parameter> attributes for applying CSS styles and classes to their output.
+						<classname>HtmlMetawidget</classname> follows this convention. When expanding to a single component (such as an
+						<classname>HtmlInputText</classname>) the CSS styles are applied to it. When expanding to multiple components,
+						<emphasis>all</emphasis> components have the same CSS styles applied to them.
+					</para>
+					
+					<para>
+						Another important JSF Look and Feel technology is Renderers. Whilst
+						often Renderers are discussed in the context of rendering the same component to different
+						platforms (eg. HTML or WML), they can equally be used to render the same component to the same
+						platform but in different layouts.
+					</para>
+					
+					<para>
+						<classname>HtmlTableLayoutRenderer</classname> further defines <parameter>tableStyle</parameter>, <parameter>tableStyleClass</parameter> and
+						<parameter>columnStyleClasses</parameter> parameters.
+						The latter is a comma separated list of CSS style classes to be applied to table columns. The first style
+						class is the label column, the second the component column, and the third the 'required' column.
+						Further style classes may be used for multi-column layouts. You can	get quite far using, for example:
+					</para>
+	
+					<programlisting language="css">.table-component-column input { width: 100%; }</programlisting>
+					
+					<para>
+						..this approach has the advantage of automatically applying to every component,
+						so overridden components do not have to explicitly set styleClass information.
+						However, not all Web browsers support fine-grained CSS selectors such as...
+					</para>
+					
+					<programlisting language="css">.table-component-column input[type="button"] { width: auto; }</programlisting>
+					
+					<para>
+						...in which case it may be better to switch to using <parameter>styleClass</parameter> on <classname>HtmlMetawidget</classname> itself.
+					</para>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-faces-validation">
+					<title>Validation</title>
+					
+					<para>
+						By default, <classname>UIMetawidget</classname> uses <classname>StandardValidator</classname>, which adds <parameter>required</parameter>,
+						<classname>RangeValidator</classname> and <classname>LengthValidator</classname> to all components.
+					</para>
+					
+					<para>
+						You can implement your own validators by extending <classname>org.metawidget.faces.component.validator.Validator</classname>, or
+						disable validation by setting <parameter>validatorClass=""</parameter>.
+					</para>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-faces-override">
+					<title>Overriding Component Creation</title>
+					
+					<para>
+						<classname>HtmlMetawidget</classname> supports child components. If
+						the child components have the same <parameter>value</parameter>
+						attribute binding as #TODO#
+					</para>
+					
+					<para>
+						Sometimes you may need to override a component with one that
+						uses a different <parameter>value</parameter> binding. Or, you may need to override a component but alter its
+						metadata (such as its <parameter>label</parameter>) #TODO#
+					</para>
+					
+					<para>
+	 					Finally, for advanced use cases, it is straightforward to subclass <classname>HtmlMetawidget</classname> and fine-tune component
+	 					creation and initialization. First, create a class that extends <classname>HtmlMetawidget</classname> and override its
+	 					<function>buildActiveWidget</function> method:
+					</para>
+					
+					<programlisting language="java">public class MyMetawidget extends HtmlMetawidget {
+	...
+	protected UIComponent buildActiveWidget( Map&lt;String, String&gt; attributes,
+		Application application ) {
+		String type = attributes.get( TYPE );
+		...
+		Class clazz = Class.forName( type );
+
+		if ( Date.class.isAssignableFrom( clazz ) )
+		{
+			DateControl control = (DateControl) application.createComponent(
+				"my.DateControl" );
+			control.setSomeParameters( ... );
+			return control;
+		}
+		...
+	}
+}</programlisting>
+	
+					<para>
+						Then update <filename>faces-config.xml</filename> to use this class for every Metawidget tag:
+					</para>
+					
+					<programlisting language="xml">&lt;component&gt;
+	&lt;component-type&gt;org.metawidget.HtmlMetawidget&lt;/component-type&gt;
+	&lt;component-class&gt;com.foo.MyMetawidget&lt;/component-class&gt;
+&lt;/component&gt;</programlisting>
+	
+					<para>
+						This will automatically update every screen across the entire application, which is a great way to easily update
+						an application to use a new component library, or to incorporate custom tags (such as Facelets tag files). See
+						<classname>RichFacesMetawidget</classname> for an example.
+					</para>
+					
+				</section>
+
+				<section id="section-metawidgets-web-faces-defaults">
+					<title>Setting Global Defaults</title>
+					
+					<para>
+						If you find yourself setting the same attributes and parameters on every Metawidget tag, consider subclassing
+						<classname>HtmlMetawidget</classname> and setting the defaults there:
+					</para>
+					
+					<programlisting language="java">public class MyDefaultedMetawidget extends HtmlMetawidget {
+	...
+	public MyDefaultedMetawidget() {
+		getAttributes().put( "styleClass", "myStyleClass" );
+		setValidatorClass( ... );
+	}
+
+	public void encodeBegin( FacesContext context )	{
+		if ( FacesUtils.findParameterWithName( this, "tableStyleClass" ) == null ) {
+			UIParameter parameter = new UIParameter();
+			parameter.setName( "tableStyleClass" );
+			parameter.setValue( "table-style" );
+			getChildren().add( parameter );
+		}
+		
+		super.encodeBegin( context );
+	}
+}</programlisting>
+					
+				</section>
+				
+			</section>
+			
+			<section id="section-metawidgets-web-struts">
+				<title>StrutsMetawidget</title>
+	
+				<section id="section-metawidgets-web-struts-look">
+					<title>Customizing Look and Feel</title>
+					
+					<para>
+						JSP-based technologies such as Struts lack some component-based features.
+						Specifically, whilst it is possible for JSP	tags to reference their <emphasis>parent</emphasis> (using <function>TagSupport.findAncestorWithClass</function>),
+						they have no way to enumerate their <emphasis>children</emphasis>. Therefore, it is not possible to
+						directly support arbitrary child tags within <classname>StrutsMetawidgetTag</classname>.
+					</para>
+					
+					<para>
+						As a next best thing, Metawidget ships with a wrapper tag for wrapping arbitrary tags. It also supports
+						wrapping arbitrary HTML.
+					</para>
+					
+					<para>
+						JSP-based technologies do not distinguish between what a component is versus how it is rendered. Instead, <classname>StrutsMetawidget</classname>
+						mimics this by providing loosely coupled <classname>Layout</classname> classes. Each layout can further be configured by using
+						specific <parameter>param</parameter> tags.
+					</para>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-struts-override">
+					<title>Overriding Component Creation</title>				
+				</section>
+				
+				<section id="section-metawidgets-web-struts-troubleshooting">
+					<title>Troubleshooting</title>				
+	
+					<section id="section-metawidgets-web-struts-troubleshooting-1">
+						<title>I get "Cannot find bean org.apache.struts.taglib.html.BEAN in any scope"</title>
+						
+						<para>
+							<classname>StrutsMetawidget</classname> creates native Struts components, such as <parameter>&lt;html:text&gt;</parameter>, but does
+							not create the surrounding Struts form. Make sure your Metawidget tag is enclosed in
+							a <parameter>&lt;html:form&gt;</parameter> tag and the Struts HTML taglib is included at the top of the page.
+						</para>
+					</section>
+				</section>
+			</section>
+			
+		</section>
+
+		<section id="section-metawidgets-implementing-your-own">
+			<title>Implementing Your Own Metawidget</title>
+
+			<para>
+				Metawidget creates components native to a particular UI framework. If your chosen UI
+				framework is not supported 'out of the box', you may need to implement your own. 
+			</para>
+			
+			<para>
+				Metawidgets are not required to extend any base class or implement
+				any interface. However, it is recommended developers familiarize themselves with existing
+				Metawidgets (such as <classname>UIMetawidget</classname>) to make their API similar. In particular,
+				it is recommended Metawidget APIs use the 'direction of inheritance' for 'overriding choice of component'
+				with other concerns (such as layout and binding) implemented orthogonally as
+				in <xref linkend="section-metawidgets-implementing-your-own-orthogonal-figure"/>.
+			</para>
+				
+			<figure id="section-metawidgets-implementing-your-own-orthogonal-figure">
+				<title>Recommended Metawidget API Design</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata fileref="../shared/images/metawidget-api.jpg" format="jpg"/>
+					</imageobject>
+				</mediaobject>
+			</figure>			
+			
+			<para>
+				Whilst there is no one Metawidget base class, a number of convenience classes are provided:
+			</para>
+					
+			<section id="section-metawidgets-implementing-your-own-mixin">
+				<title>MetawidgetMixin</title>
+				
+				<para>
+					Mixins are a frequently used workaround for multiple inheritance in Java. Classes extend the
+					mixin as an inner class and override its methods as needed.
+				</para>
+					
+				<para>
+					All the built-in Metawidgets use <classname>MetawidgetMixin</classname> to ease their implementation. The
+					mixin provides pre-built functionality such as deciding when to use single versus compound widgets, support
+					for overriding widgets, incorporating stubs, and changing between read-only and active modes.
+				</para>
+				
+			</section>
+
+			<section id="section-metawidgets-implementing-your-own-swing">
+				<title>Swing</title>
+				
+				<para>
+					For frameworks based on Swing, <classname>org.metawidget.swing.SwingMetawidget</classname> provides
+					many hooks to override component creation, most notably <function>SwingMetawidget.buildWidget</function>.
+				</para>
+				
+				<para>
+					Swing already defines a clean separation between components and layout managers.
+					<classname>org.metawidget.swing.layout.Layout</classname> and its subclasses automate the use
+					of existing Swing <classname>LayoutManagers</classname>.
+				</para>
+			</section>
+
+			<section id="section-metawidgets-implementing-your-own-jsp">
+				<title>Java Server Pages</title>
+				
+				<para>
+					For frameworks based on JSP, <classname>org.metawidget.jsp.tagext.MetawidgetTag</classname> and the more
+					commonly used <classname>org.metawidget.jsp.tagext.html.AbstractHtmlMetawidgetTag</classname> provide base
+					taglib functionality. See <classname>StrutsMetawidgetTag</classname> for example usage.
+				</para>
+				
+				<para>
+					<classname>MetawidgetTag</classname> also defines a clean separation between choosing components and laying them out.
+					<classname>org.metawidget.jsp.tagext.Layout</classname> and its subclasses can perform the layout for
+					<emphasis>all</emphasis> JSP-based frameworks.
+				</para>
+			</section>
+
+			<section id="section-metawidgets-implementing-your-own-faces">
+				<title>Java Server Faces</title>
+				
+				<para>
+					For frameworks based on JSF, <classname>org.metawidget.faces.component.UIMetawidget</classname>
+					provides base component functionality. See <classname>org.metawidget.faces.component.html.HtmlMetawidget</classname> for example usage.
+				</para>
+				
+				<para>
+					JSF already defines a clean separation between components and their renderers.
+					<classname>org.metawidget.faces.renderkit.LayoutRenderer</classname> and its subclasses leverage this to
+					support different layouts.
+				</para>
+			</section>
+			
+			<section id="section-metawidgets-implementing-your-own-android">
+				<title>Android</title>
+				
+				<para>
+					For frameworks based on Android, <classname>org.metawidget.android.widget.AndroidMetawidget</classname> provides
+					many hooks to override component creation, most notably <function>AndroidMetawidget.buildWidget</function>.
+				</para>
+				
+				<para>
+					Android already defines a separation between <classname>Views</classname> and <classname>ViewGroups</classname>.
+					<classname>org.metawidget.android.widget.layout.Layout</classname> and its subclasses automate the use
+					of existing Android <classname>ViewGroups</classname>.					
+				</para>
+				
+			</section>
+
+		</section>
+
+	</chapter>
+
+	<chapter id="chapter-inspectors">
+		<title>Inspectors</title>
+		
+		<section id="section-inspectors-preface">
+			<title>Preface</title>
+
+			<para>
+				Metawidget ships with inspectors to cover different aspects of back-end architecture. Whilst all inspectors
+				conform to a common interface, they have different ways of collecting their results. This chapter examines
+				each Inspector in detail.
+			</para>
+			
+		</section>
+
+		<section id="section-inspectors-javabean">
+			<title>JavaBean Inspectors</title>
+
+			<section id="section-inspectors-javabean-pojo">
+				<title>AbstractPojoInspector</title>
+				
+				<para>
+					<classname>AbstractPojoInspector</classname> underlies many of the Inspectors that inspect Java objects (as opposed to, say,
+					config files). Its notable features include:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							it inspects both getter/setter properties and public member variables
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							it automatically unwraps proxied classes, such as CGLIB and Javassist proxies (this can be configured via
+							<function>setProxyPattern</function>)
+						</para>
+					</listitem>
+				</itemizedlist>
+				
+			</section>
+			
+			<section id="section-inspectors-javabean-javabean">
+				<title>JavaBeanInspector</title>
+				
+				<para>
+					<classname>JavaBeanInspector</classname> extends <classname>AbstractPojoInspector</classname>, and so inherits its features. In addition, its own
+					notable features include:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							it inspects the declared type for both getters and public member variables. Provided the type
+							is not primitive or <parameter>final</parameter>, it further inspects the actual type of the object. If
+							it differs from the declared type (eg. it is a subclass), it returns the actual type together
+							with the declared type.
+						</para>
+					</listitem>
+				</itemizedlist>
+				
+			</section>
+			
+		</section>
+
+		<section id="section-inspectors-annotation">
+			<title>Annotation Inspectors</title>
+
+			<section id="section-inspectors-annotation-troubleshooting">
+				<title>Troubleshooting</title>				
+
+				<section id="section-inspectors-annotation-troubleshooting-1">
+					<title>I get "java.lang.TypeNotPresentException"</title>
+					
+					<para>
+						If you are using Sun's implementation of Java, Metawidget's annotation support requires
+						Java 5.0u6 or later, which includes a fix for this bug (Bug Parade ID: 6322301).
+					</para>
+				</section>
+
+				<section id="section-inspectors-annotation-troubleshooting-2">
+					<title>My inspector is not finding my annotations</title>
+					
+					<para>
+						Annotations are designed to 'silently fall away' in environments that do not
+						support them: they never throw <classname>ClassDefNotFoundError</classname>. For example,
+						if a JPA-annotated class is transferred to an application tier without <filename>ejb3-persistence.jar</filename>
+						(or equivalent) in its classpath, the JPA annotations will disappear.
+					</para>
+					
+					<para>
+						If this is the cause, either add the appropriate JAR to the tier, or consider implementing a remote Inspector (see later).
+					</para>
+
+					<para>
+						Note also that annotations are not implemented in the current build of the Android platform.
+					</para>
+				</section>
+			</section>
+			
+			<section id="section-inspectors-metawidget-annotation">
+				<title>MetawidgetAnnotationInspector</title>
+				
+				<para>
+					As much as possible, Metawidget tries to inspect metadata from existing sources, without
+					introducing new concepts. Where that is not sufficient, <classname>MetawidgetAnnotationInspector</classname> adds
+					a handful of annotations:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para><classname>@UiComesAfter</classname> - denotes the ordering of properties and fields in the UI</para>
+					</listitem>
+					<listitem>
+						<para><classname>@UiSection</classname> - denotes the start of a logical grouping in the UI</para>
+					</listitem>
+					<listitem>
+						<para><classname>@UiLabel</classname> - denotes the label to use in the UI. Can be a resource key if the UI is using resource bundles</para>
+					</listitem>
+					<listitem>
+						<para><classname>@UiLarge</classname> - denotes the field should be 'large' in the UI (eg. a multi-line textbox)</para>
+					</listitem>
+					<listitem>
+						<para><classname>@UiHidden</classname> - denotes a value should be hidden in the UI. The value may
+						still be rendered on the client, depending on the Metawidget (eg. for Web clients,
+						may use a HTML hidden field)</para>
+					</listitem>
+					<listitem>
+						<para><classname>@UiReadOnly</classname> - denotes a value should be read-only in the UI.</para>
+					</listitem>
+					<listitem>
+						<para><classname>@UiMasked</classname> - denotes a value should be masked in the UI (eg. a password field)</para>
+					</listitem>
+					<listitem>
+						<para><classname>@UiAttributes</classname> and <classname>@UiAttribute</classname> - a 'catch all' for denoting arbitrary UI metadata</para>
+					</listitem>
+				</itemizedlist>
+				
+			</section>
+			
+		</section>
+
+		<section id="section-inspectors-xml">
+			<title>XML Inspectors</title>
+			
+			<para>
+				Whilst we don't necessarily encourage the use of XML-based metadata, if you <emphasis>already</emphasis> have XML configuration
+				files in your architecture Metawidget will take advantage of them.
+			</para>
+			
+			<para>
+				Once nice feature of XML is that ordering of child elements (such as <parameter>&lt;property name=""&gt;</parameter>) is
+				explicit, so XML-based Inspectors make great 'first Inspectors' for use within <classname>CompositeInspector</classname> (eg. you
+				don't need to also use <classname>@UiComesAfter</classname>).
+			</para>
+			
+			<section id="section-inspectors-xml-xmlinspector">
+				<title>XmlInspector</title>
+				
+				<para>
+					<classname>XmlInspector</classname> inspects config files in <filename>inspection-result-1.0.xsd</filename> format. It can
+					be used when no other Inspector is available for the given attribute.
+				</para>
+				
+				<para>
+					Some attributes accept multiple values, such as <parameter>lookup</parameter>. These can be supplied as a comma-separated
+					string. The values will be trimmed for whitespace. If the values themselves contain commas, they can be escaped with the
+					<parameter>\</parameter> character.
+				</para>
+				
+			</section>
+		</section>
+
+		<section id="section-inspectors-implementing-your-own">
+			<title>Implementing Your Own Inspector</title>
+
+			<para>
+				Metawidget inspects a wide variety of back-end architectures. If your chosen back-end
+				architecture is not supported 'out of the box', you may need to implement your own Inspector. 
+			</para>
+			
+			<para>
+				All Inspectors must implement the <classname>org.metawidget.inspector.Inspector</classname> interface:
+			</para>
+			
+			<programlisting language="java">public interface Inspector {
+	Document inspect( Object toInspect, String type, String... names )
+		throws InspectionException;
+}</programlisting>
+			
+			<para>
+				The interface has only one method: <function>inspect</function>. Its parameters are:
+			</para>
+			
+			<itemizedlist>
+				<listitem>
+					<para>
+						an <classname>Object</classname> to inspect. This may be <parameter>null</parameter>, or can be ignored for Inspectors working off static metadata (such as config files)
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						a <parameter>type</parameter>. This must match the given <classname>Object</classname>, or some attribute in the inspected config file
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						a list of <parameter>names</parameter> to be traversed beneath the type
+					</para>
+				</listitem>
+			</itemizedlist>				
+
+			<para>
+				At a high level, the inspect parameters can be thought of as an XPath <filename>type/name/name</filename>
+				into the object graph of the given <classname>Object</classname> (Metawidget doesn't use <emphasis>actual</emphasis> XPaths, though, for reasons
+				discussed in the developer blogs).
+			</para>
+			
+			<para>
+				The returned DOM Document must conform to <filename>inspection-result-1.0.xsd</filename>. To assist
+				development, deploy your Inspector within <classname>CompositeInspector</classname> and use <function>CompositeInspectorConfig.setValidating(true)</function> to
+				automatically validate the returned DOM during testing.
+			</para>
+			
+			<para>
+				A number of convenience base classes are provided for different Inspectors: 
+			</para>
+			
+			<itemizedlist>
+				<listitem>
+					<para>
+						For returning a valid DOM, <classname>AbstractInspector</classname> assists
+						in configuring a DocumentFactory and Schema.
+					</para>
+					<para>
+						For inspecting POJOs, <classname>AbstractPojoInspector</classname> assists
+						in iterating over public member variables, getter methods and setter methods. See
+						<classname>JavaBeanInspector</classname> for example usage.
+					</para>				
+					<para>
+						For inspecting annotations, <classname>AbstractAnnotationInspector</classname> assists
+						in iterating over the annotations of public member variables, getter methods and setter methods.
+						See <classname>JpaInspector</classname> for example usage.
+					</para>
+					<para>
+						For inspecting XML files, <classname>AbstractXmlInspector</classname> assists
+						in opening and traversing through XML. See
+						<classname>StrutsInspector</classname> for example usage.
+					</para>
+				</listitem>
+			</itemizedlist>
+
+			<para>
+				When implementing your own Inspector, try to avoid technology-specific XML attribute names. For example, <classname>FacesInspector</classname>
+				has an annotation <classname>@UiFacesNumberConverter</classname>. This annotation certainly has technology-specific parts to it, as
+				it names a JSF <classname>Converter</classname> that only applies in JSF environments, so
+				it is reasonable to name the XML attribute <code>faces-converter-class</code>. However, <classname>NumberConverter</classname>s also
+				use other properties about the field, such as the maximum number of integer digits. Such properties are not JSF-specific (eg. we can
+				source the same property from Hibernate Validator's <classname>@Digits</classname> annotation), so are better named 'neutrally'
+				(eg. <classname>maximum-integer-digits</classname>). 
+			</para>
+			
+		</section>
+
+	</chapter>
+
+	<chapter id="chapter-remote">
+		<title>Remote Environments</title>
+		
+		<section id="section-remote-preface">
+			<title>Preface</title>
+			
+			<para>
+				Metawidget inspects back-end metadata and creates front-end UI components.
+			</para>
+			
+			<para>
+				If your application is split over multiple tiers, however, sometimes the back-end metadata is not accessible
+				from the front-end. For example, annotations (such as JPA ones) are designed to 'fall away' if the 
+				class is transferred to a tier without JPA JARs in its classpath. Equally, configuration files may not be accessible across tiers.
+			</para>
+			
+			<para>
+				Metawidget supports these situations. Because each remoting environment is different, however, you will
+				need to add a little code yourself. 
+			</para>
+			
+		</section>
+		
+		<section id="section-remote-running">
+			<title>Running Remote Inspection</title>
+			
+			<para>
+				Every Inspector returns a DOM, and DOMs are inherently serializable and safe to pass across tiers. Therefore,
+				to run inspection remotely:
+			</para>
+			
+			<itemizedlist>
+				<listitem>
+					<para>
+						create a back-end class suited to your environment, such as an EJB Session Bean. Have the back-end class instantiate
+						an Inspector - either programmatically:
+					</para>
+					
+					<programlisting language="java">XmlInspectorConfig config = new XmlInspectorConfig();
+config.setFile( "metawidget-backend-metadata.xml" );
+Inspector inspector = new XmlInspector( config );</programlisting>
+
+					<para>
+						Or by using an <filename>inspector-config.xml</filename> file and the <classname>ConfigReader</classname> helper class:
+					</para>
+					
+					<programlisting language="java">inspector = ConfigReader.read( "backend-inspector-config.xml" );</programlisting>
+				</listitem>
+				<listitem>
+					<para>
+						have the back-end class declare the <classname>Inspector</classname> interface. Implement the interface by
+						delegating to the inspector you just instantiated
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						depending on your environment, it may futher be necessary to create a front-end class (a proxy). Have it declare
+						the <classname>Inspector</classname> interface. Implement the interface by remoting to the back-end class and
+						returning the DOM
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						set the inspector on the Metawidget by using the <function>setInspector</function> method (rather than
+						the <function>setInspectorConfig</function> method) 
+					</para>
+				</listitem>
+			</itemizedlist>
+			
+			<tip>
+				All Inspectors are both thread-safe and immutable. Therefore you only need one Inspector for your
+				<emphasis>entire</emphasis> application. Some remoting architectures support 'singletons' or 'service beans' well suited
+				to this.  
+			</tip>
+						
+		</section>
+				
+		<section id="section-remote-meta">
+			<title>Combining Remote Inspections</title>
+			
+			<para>
+				If your architecture is strongly separated, some metadata may only be available in one tier (eg. JPA annotations
+				in the back-end) and some only available in another tier (eg. <filename>struts-config.xml</filename> in the
+				front-end).
+			</para>
+			
+			<para>
+				For this, <classname>CompositeInspector</classname> supplies an overloaded method outside the normal <classname>Inspector</classname>
+				interface. The overloaded <function>CompositeInspector.inspect</function> method takes an additional DOM
+				parameter, which it uses as a starting point for meta-inspection.
+			</para>
+			
+			<para>
+				Therefore, to combine metadata from different tiers:
+			</para>
+			
+			<itemizedlist>
+				<listitem>
+					<para>
+						create a front-end class that implements the <classname>Inspector</classname> interface
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						implement the interface by first remoting to the back-end class and returning the DOM, as before
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						next, delegate to a <classname>CompositeInspector</classname> to inspect the front-end, passing it the DOM from
+						the back-end as a starting point
+					</para>
+				</listitem>
+			</itemizedlist>			
+		</section>
+
+	</chapter>
+	
+	<chapter id="chapter-epilogue">
+		<title>Epilogue</title>
+		
+		<para>
+			That concludes the Metawidget Reference Documentation.
+		</para>
+		
+		<para>
+			For further documentation - including forums, bug reports, a Wiki community area
+			and information on how to contribute - please visit <uri>http://www.metawidget.org</uri>.			
+		</para>
+		
+		<para>
+			Thank you for using Metawidget!
+		</para>
+
+	</chapter>
+
+</book>

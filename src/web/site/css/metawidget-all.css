@@ -1,0 +1,122 @@
+body {
+	font-family: Arial, sans-serif;
+	font-size: 10pt;
+}
+
+h1,h2,h3 {
+	font-family: "Trebuchet MS", Arial, sans-serif;
+}
+
+h1 {
+	font-size: 34px;
+	font-weight: normal;	
+}
+
+h2 {
+	font-size: 26px;
+	font-weight: normal;
+}
+
+h3 {
+	font-weight: bold;
+}
+
+h3 a  {
+	color: black;
+}
+
+h4 {
+	font-size: 10pt;
+	font-weight: normal;
+	font-style: italic;
+}
+
+/*
+ * Content
+ */
+
+.data-table {
+	border: 1px solid black;
+	width: 80%;
+}
+
+.data-table thead tr th {
+	border-bottom: 1px solid #085AA4;
+	text-align: left;
+	padding: 2px;
+}
+
+.data-table tbody tr th {
+	vertical-align: top;
+	text-align: left;
+	white-space: nowrap;
+	padding: 2px;
+}
+
+.data-table tbody tr td {
+	text-align: left;
+	padding: 2px;
+}
+
+.data-table tbody tr .link {
+	text-align: center;
+	font-style: italic;
+	width: 75px;
+}
+
+#quick-start {
+	margin-left: 10px;
+	float: right;
+}
+
+#quick-start table {
+	width: 150px;
+	margin-bottom: 15px;
+}
+
+#quick-start h3 {
+	margin: 0;
+	text-align: center;
+}
+
+#quick-start td {
+	padding: 3px;
+}
+
+#supported-tech {
+	width: 500px;
+	border: 1px solid black;
+	margin-bottom: 40px;
+}
+
+#supported-tech thead th {
+	background-color: black;
+	color: white;
+}
+
+#supported-tech h3 {
+	margin: 0;
+	text-align: center;
+}
+
+#supported-tech tbody ul {
+	margin-top: 5px;
+	margin-bottom: 5px;
+}
+
+#supported-tech tbody ul ul {
+	margin-top: 0px;
+	margin-left: 15px;
+	margin-bottom: 0px;
+}
+
+#supported-tech tbody td {
+	font-size: 8pt;
+	vertical-align: top;
+	width: 50%;
+	text-align: left;
+}
+
+#supported-tech tbody tr td {
+	border: 1px solid black;
+}

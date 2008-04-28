@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<xs:schema targetNamespace="http://metawidget.org/inspector-config" xmlns="http://metawidget.org/inspector-config"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	
+	<!-- Root -->
+	
+	<xs:element name="inspector-config">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:any minOccurs="1" maxOccurs="1" processContents="lax"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

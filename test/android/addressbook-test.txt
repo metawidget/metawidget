@@ -1,0 +1,49 @@
+Testing The Old Fashioned Way :)
+--------------------------------
+
+This process needs to be upgraded once Android has unit testing support.
+
+For Android Address Book, test:
+
+test-search:
+
+1. Test title says 'Address Book (Metawidget Example)
+2. Test 6 contacts appear
+3. Test searching for surname 'Simpson'. Homer and Marjorie Simpson should appear
+4. Test searching by type 'Business'. Charles Montgomery Burns and Waylon Smithers should appear
+
+test-existing-personal:
+
+1. Click Mr Homer Simpson
+2. Check all values are populated as read-only
+3. Click Edit
+4. Check all values are populated as active controls. Check title has focus
+5. Change firstname to Homer Jay
+6. Choose Add Communication
+7. Add a Fax of (939) 555-0114. Check it appears
+8. Add an E-mail of homer@simpsons.com. Check it appears
+9. Delete the Telephone number
+10. Change Date of Birth to '33' and try to save. Check validation error
+11. Change Date of Birth to '5/12/57' and try to save
+12. Check front page shows Homer Jay Simpson
+13. Click Mrs Marjorie Simpson
+14. Click Edit
+15. Check Notes is populated
+
+test-new-business:
+
+1. Click Add Personal. Check title has focus
+2. Click Back
+3. Click Add Business. Check title has focus
+4. Try to save. Check title is required
+5. Add a title of Miss. Add a Company of Some Company. Try to save. Check firstnames is required
+6. Add a title of Business. Try to save. Check surname is required
+7. Add a surname of A Very Long Surname Exceeding 50 Characters In Length. Check cannot type that much
+8. Add a surname of Contact and Number Of Staff as 2. Check can only enter numbers in Number Of Staff
+9. Add a Communication of Mobile (0402) 456 123 
+10. Save
+11. Check Miss Business Contact appears in list above Charles Montgomery Burns
+12. Edit Miss Business Contact
+13. Check Number of Staff is populated
+14. Delete Miss Business Contact
+15. Check gone

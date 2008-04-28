@@ -1,0 +1,1401 @@
+<project name="metawidget" default="dist">
+
+	<!-- Properties -->
+		
+	<property file="build.properties"/>
+	<property name="metawidget.name" value="${ant.project.name}-${metawidget.version}"/>
+	<property name="build.metawidget.dir" value="${build.dir}/${metawidget.name}"/>
+	<property name="run.dir" value="${build.metawidget.dir}/run"/>	
+	
+	<!-- Clean -->
+
+	<target name="clean">		
+		<delete dir="${build.metawidget.dir}"/>
+	</target>
+	
+	<!-- Init -->
+
+	<target name="init">		
+		<mkdir dir="${build.metawidget.dir}"/>
+		<mkdir dir="${run.dir}"/>
+	</target>
+
+	<!-- Compile -->
+
+	<target name="compile-skip" depends="init" if="skip-compile">
+		
+		<echo message="Not re-compiling - already compiled"/>
+		
+	</target>
+
+	<target name="compile-ok" depends="init" unless="skip-compile">
+		
+		<mkdir dir="${build.metawidget.dir}/classes"/>
+		<mkdir dir="${build.metawidget.dir}/example-classes"/>
+		<mkdir dir="${build.metawidget.dir}/test-classes"/>
+		<mkdir dir="${build.metawidget.dir}/tutorial-classes"/>
+
+		<echo message="Note: Metawidget requires Java SE 6 to build, though only J2SE 1.4 to run"/>
+		<echo message="      This is because some optional features require Java SE 6"/>
+		<echo message="      (eg. annotations, javax.swing.GroupLayout)"/>
+		
+		<!-- Build J2SE 1.4 compatible files (the source is still Java 5, to take advantage -->
+		<!-- of cleaner source code, but we compile down to jsr14. We can do this using     -->
+		<!-- plain javac, without needing retroweaver or similar tools)                     -->
+
+		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/classes" debug="${build.debug}" optimize="on" source="1.5" target="jsr14">
+			<include name="**/*InspectionResultConstants.java"/>
+			<include name="org/metawidget/faces/**"/>
+			<include name="org/metawidget/impl/**"/>
+			<include name="org/metawidget/inspector/*.java"/>
+			<include name="org/metawidget/inspector/composite/**"/>
+			<include name="org/metawidget/inspector/hibernate/*.java"/>
+			<include name="org/metawidget/inspector/impl/**"/>
+			<include name="org/metawidget/inspector/javabean/**"/>
+			<include name="org/metawidget/inspector/struts/**"/>
+			<exclude name="org/metawidget/inspector/struts/StrutsAnnotationInspector.java"/>
+			<exclude name="org/metawidget/inspector/struts/UiStrutsLookup.java"/>
+			<include name="org/metawidget/inspector/xml/**"/>
+			<include name="org/metawidget/jsp/**"/>
+			<include name="org/metawidget/spring/**"/>
+			<include name="org/metawidget/struts/**"/>
+			<include name="org/metawidget/swing/**"/>
+			<include name="org/metawidget/util/**"/>
+			<include name="org/metawidget/*.java"/>
+			<classpath>
+				<fileset dir="lib"/>
+			</classpath>
+		</javac>
+
+		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="${build.debug}" optimize="on" source="1.5" target="jsr14">
+			<include name="org/metawidget/test/faces/allwidgets/**"/>
+			<include name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
+			<include name="org/metawidget/test/shared/allwidgets/**"/>
+			<include name="org/metawidget/test/spring/allwidgets/**"/>
+			<include name="org/metawidget/test/struts/allwidgets/**"/>
+			<include name="org/metawidget/test/swing/allwidgets/**"/>
+			<include name="org/metawidget/test/swing/SwingAllWidgetsTest.java"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement path="${build.metawidget.dir}/classes"/>
+			</classpath>
+		</javac>
+
+		<!-- Build Java SE 5+ files -->
+
+		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/classes" debug="${build.debug}" optimize="on" target="1.5">
+			<exclude name="**/*InspectionResultConstants.java"/>
+			<include name="org/metawidget/android/**"/>
+			<include name="org/metawidget/inspector/annotation/**"/>
+			<include name="org/metawidget/inspector/faces/**"/>
+			<include name="org/metawidget/inspector/hibernate/validator/**"/>
+			<include name="org/metawidget/inspector/java5/**"/>
+			<include name="org/metawidget/inspector/jpa/**"/>
+			<include name="org/metawidget/inspector/jsp/**"/>
+			<include name="org/metawidget/inspector/spring/**"/>
+			<include name="org/metawidget/inspector/struts/StrutsAnnotationInspector.java"/>
+			<include name="org/metawidget/inspector/struts/UiStrutsLookup.java"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement path="${build.metawidget.dir}/classes"/>
+			</classpath>
+		</javac>
+		
+		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/example-classes" debug="${build.debug}" optimize="on" target="1.5">
+			<include name="org/metawidget/example/android/**"/>
+			<include name="org/metawidget/example/swing/applet/**"/>
+			<include name="org/metawidget/example/**/addressbook/**"/>
+			<include name="org/metawidget/example/**/tutorial/**"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement path="${build.metawidget.dir}/classes"/>
+			</classpath>
+		</javac>
+
+		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/tutorial-classes" debug="${build.debug}" optimize="on" target="1.5">
+			<include name="org/metawidget/example/**/tutorial/**"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement path="${build.metawidget.dir}/classes"/>
+			</classpath>
+		</javac>
+
+		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="${build.debug}" optimize="on" target="1.5">
+			<exclude name="org/metawidget/test/faces/allwidgets/**"/>
+			<exclude name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
+			<exclude name="org/metawidget/test/shared/allwidgets/**"/>
+			<exclude name="org/metawidget/test/spring/allwidgets/**"/>
+			<exclude name="org/metawidget/test/struts/allwidgets/**"/>
+			<exclude name="org/metawidget/test/swing/allwidgets/**"/>
+			<exclude name="org/metawidget/test/swing/SwingAllWidgetsTest.java"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement path="${build.metawidget.dir}/classes"/>				
+				<pathelement path="${build.metawidget.dir}/example-classes"/>				
+			</classpath>
+		</javac>
+
+	</target>
+
+	<target name="compile" depends="compile-ok, compile-skip"/>
+	
+	<!-- Pack -->
+
+	<target name="pack" depends="compile">
+
+		<jar destfile="${build.metawidget.dir}/metawidget.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/**"/>
+				<exclude name="org/metawidget/example/**"/>
+				<exclude name="org/metawidget/test/**"/>
+			</fileset>
+			<fileset dir="src/java">
+				<exclude name="org/metawidget/example/**"/>
+				<include name="org/metawidget/swing/icon/**"/>
+				<include name="**/faces-config.xml"/>
+				<include name="**/*.xsd"/>
+				<include name="**/*.taglib.xml"/>
+				<include name="**/*.tld"/>
+			</fileset>
+		</jar>
+		
+	</target>
+
+	<target name="pack-as-frontend-backend" depends="compile">
+
+		<jar destfile="${build.metawidget.dir}/metawidget-backend.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/metawidget/inspector/**"/>
+				<exclude name="org/metawidget/inspector/*.class"/>
+			</fileset>
+		</jar>
+		
+		<jar destfile="${build.metawidget.dir}/metawidget-middle.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/metawidget/inspector/*.class"/>
+				<include name="org/metawidget/util/**"/>
+			</fileset>
+			<fileset dir="src/java">
+				<include name="**/*.xsd"/>				
+			</fileset>
+		</jar>
+
+		<jar destfile="${build.metawidget.dir}/metawidget-frontend.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/**"/>
+				<exclude name="org/metawidget/inspector/**"/>
+				<exclude name="org/metawidget/example/**"/>
+				<exclude name="org/metawidget/test/**"/>
+				<exclude name="org/metawidget/util/**"/>
+			</fileset>
+			<fileset dir="src/java">
+				<exclude name="org/metawidget/example/**"/>
+				<include name="org/metawidget/swing/icon/**"/>
+				<include name="**/faces-config.xml"/>
+				<include name="**/*.taglib.xml"/>
+				<include name="**/*.tld"/>
+			</fileset>
+		</jar>
+
+	</target>
+
+	<target name="pack-for-applet" depends="compile">
+
+		<jar destfile="${build.metawidget.dir}/metawidget-applet.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/metawidget/*.class"/>
+				<include name="org/metawidget/impl/**"/>
+				<include name="org/metawidget/swing/*.class"/>
+				<include name="org/metawidget/swing/binding/*.class"/>
+				<include name="org/metawidget/swing/binding/beansbinding/*.class"/>
+				<include name="org/metawidget/swing/layout/*.class"/>
+				<include name="org/metawidget/inspector/*.class"/>
+				<include name="org/metawidget/inspector/annotation/**"/>
+				<include name="org/metawidget/inspector/composite/**"/>
+				<include name="org/metawidget/inspector/impl/**"/>
+				<include name="org/metawidget/inspector/javabean/**"/>				
+				<include name="org/metawidget/inspector/java5/**"/>				
+				<include name="org/metawidget/inspector/xml/**"/>				
+				<include name="org/metawidget/util/**"/>
+			</fileset>
+			<fileset dir="src/java">			
+				<include name="**/*.xsd"/>
+			</fileset>
+		</jar>
+		
+		<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="lib/Pack200Task.jar"/>
+		<pack200 src="${build.metawidget.dir}/metawidget-applet.jar" destfile="${build.metawidget.dir}/metawidget-applet.jar.pack"/>
+		
+	</target>
+
+	<target name="flatten-libs" depends="pack">
+		
+		<copy todir="${build.metawidget.dir}/lib" flatten="true" includeemptydirs="false">
+			<fileset dir="lib"/>
+			<fileset dir="src/web/examples">
+				<include name="**/lib/**"/>
+			</fileset>
+			<fileset dir="test/web">
+				<include name="**/lib/**"/>
+			</fileset>
+		</copy>
+
+		<delete dir="${build.metawidget.dir}/lib/lib" quiet="true"/>
+				
+		<copy todir="${build.metawidget.dir}/lib" file="${build.metawidget.dir}/metawidget.jar"/>
+	</target>
+				
+	<!-- API Documentation -->
+	
+	<available property="ydoc-available" file="${ydoc.dir}/lib/ydoc.jar"/>
+	
+	<target name="javadoc-ydoc" depends="compile" if="ydoc-available">
+
+		<javadoc destdir="${build.metawidget.dir}/doc/api"
+			author="true" version="true" use="true"
+			protected="true"
+			windowtitle="Metawidget API Documentation"
+			packagenames="org.metawidget.*"
+			overview="src/doc/api/overview.html">
+			
+			<arg value="-notimestamp"/>
+
+			<packageset dir="src/java">
+				<exclude name="org/metawidget/example/**"/>
+			</packageset>
+
+			<classpath>
+				<fileset dir="lib">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+	
+			<doclet name="ydoc.doclets.YStandard"
+					path="${ydoc.dir}/lib/ydoc.jar:${ydoc.dir}/resources:${ydoc.dir}/lib/class2svg.jar:${build.metawidget.dir}/classes">
+					<param name="-umlautogen"/>
+					<param name="-umlstyle" value="theBlues"/>
+			</doclet>
+	
+		</javadoc>
+		
+	</target>
+	
+	<target name="javadoc-plain" depends="compile" unless="ydoc-available">
+		
+		<echo level="warning" message="YDoc not installed at 'ydoc.dir' in 'build.properties'. Building JavaDoc without YDoc"/>
+		
+		<javadoc destdir="${build.metawidget.dir}/doc/api"
+			author="true" version="true" use="true"
+			protected="true"
+			windowtitle="Metawidget API Documentation"
+			packagenames="org.metawidget.*"
+			overview="src/doc/api/overview.html">
+
+			<arg value="-notimestamp"/>
+
+			<packageset dir="src/java">
+				<exclude name="org/metawidget/example/**"/>
+			</packageset>
+
+			<classpath>
+				<fileset dir="lib">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+	
+		</javadoc>
+		
+	</target>
+
+	<target name="javadoc" depends="javadoc-plain, javadoc-ydoc" />
+
+	<target name="tlddoc">
+
+		<java jar="lib/tlddoc.jar" fork="true" failonerror="true">
+	        <arg line="-d ${build.metawidget.dir}/doc/taglib"/>
+	        <arg value="src/java/META-INF/*.tld"/>
+      	</java>
+		
+	</target>
+	
+	<!-- Reference Documentation -->
+	
+	<available property="docbook-available" file="${docbook.dir}/build-docbook.xml"/>
+
+	<target name="docbook-skip" unless="docbook-available">
+
+		<echo level="warning" message="DocBook not installed at 'docbook.dir' in 'build.properties'. Not building reference documentation"/>
+
+	</target>
+
+	<target name="docbook-ok" if="docbook-available">
+		
+		<!-- Copy shared CSS -->
+		
+		<copy todir="${build.metawidget.dir}/doc/reference/en/shared/css">
+			<fileset dir="src/doc/reference/css/html"/>
+		</copy>
+
+		<!-- Copy shared images -->
+		
+		<copy todir="${build.metawidget.dir}/doc/reference/en/shared">
+			<fileset dir="src/doc/reference/en">
+				<include name="images/**"/>
+			</fileset>
+		</copy>
+
+		<!-- DocBook EN -->
+
+		<ant antfile="${docbook.dir}/build-docbook.xml" target="all">
+			<property name="dbf.basedir" value="${docbook.dir}"/>
+			<property name="src.dir" value="src/doc/reference/en"/>
+			<property name="docbook.dir" value="."/>
+			<property name="docbook.file" value="metawidget"/>
+			<property name="images.src.dir" value="src/doc/reference/en/images"/>
+			<property name="css.src.dir" value="src/doc/reference/css"/>
+			<property name="styles.src.dir" value="src/doc/reference/styles"/>
+			<property name="target.dir" value="${build.metawidget.dir}/doc/reference/en"/>
+		</ant>
+		
+		<!-- Copy docbook images -->
+		
+		<copy todir="${build.metawidget.dir}/doc/reference/en/shared">
+			<fileset dir="${build.metawidget.dir}/doc/reference/en/html">
+				<include name="images/*.gif"/>
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="docbook" depends="docbook-ok, docbook-skip" />
+	
+	<!-- Unit Test -->
+	
+	<target name="test-unit" depends="examples-desktop">
+		
+		<!-- Note: run the unit tests against the actual metawiget.jar and   -->
+		<!--       addressbook-swing.jar, to make sure they packed correctly -->
+
+		<echo message="Note: network access is disabled for Unit Tests, to make sure Metawidget isn't trying external DTDs"/>
+
+		<junit showoutput="true" fork="true" dir="${run.dir}">
+			<jvmarg value="-Djava.util.logging.config.file=${basedir}/test/java/logging.properties"/>
+			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
+			<formatter type="brief" usefile="false"/>
+			<test name="org.metawidget.test.AllTests"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
+				<pathelement location="${build.metawidget.dir}/examples/swing/addressbook-swing.jar"/>
+				<pathelement path="${build.metawidget.dir}/tutorial-classes"/>
+				<pathelement path="${build.metawidget.dir}/test-classes"/>
+				<pathelement path="src/java"/>
+				<pathelement path="test/java"/>
+			</classpath>
+		</junit>
+
+		<!-- 1.4 Unit tests -->
+		
+		<available property="java4-exists" file="${java4.dir}/bin"/>
+		<fail message="JDK 1.4 not installed at 'java4.dir' (as indicated in build.properties)" unless="java4-exists"/>
+
+		<java classname="junit.textui.TestRunner" fork="true" jvm="${java4.dir}/bin/java" dir="${run.dir}">
+			<arg line="org.metawidget.test.swing.SwingAllWidgetsTest"/>
+			<classpath>
+				<fileset dir="lib">
+					<exclude name="android.jar"/>
+				</fileset>
+				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
+				<pathelement path="${build.metawidget.dir}/test-classes"/>
+				<pathelement path="test/java"/>
+			</classpath>
+		</java>
+
+	</target>
+
+	<target name="test-coverage" depends="clean">
+
+		<!-- Compile with debug on -->
+		
+		<property name="build.debug" value="on"/>		
+		<antcall target="compile"/>
+		<property name="skip-compile" value="true"/>
+
+		<!-- Instrument -->
+
+		<path id="emma.lib" >
+			<pathelement location="lib/emma.jar" />
+			<pathelement location="lib/emma_ant.jar" />
+		</path>
+		
+		<taskdef resource="emma_ant.properties" classpathref="emma.lib" />
+		
+		<emma>
+			<instr instrpath="${build.metawidget.dir}/classes" destdir="${build.metawidget.dir}/classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
+				<filter excludes="*Constants"/>
+			</instr>
+			<instr instrpath="${build.metawidget.dir}/example-classes" destdir="${build.metawidget.dir}/example-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite"/>
+		</emma>
+
+		<!-- Prep servers -->
+		
+		<available property="tomcat-exists" file="${tomcat.dir}/bin/bootstrap.jar"/>
+		<fail message="Apache Tomcat not installed at 'tomcat.dir' (as indicated in build.properties)" unless="tomcat-exists"/>
+		<copy todir="${tomcat.dir}/lib" file="lib/emma.jar"/>
+
+		<available property="tomcat4-exists" file="${tomcat4.dir}/bin/bootstrap.jar"/>
+		<fail message="Apache Tomcat 4 not installed at 'tomcat4.dir' (as indicated in build.properties)" unless="tomcat4-exists"/>
+		<copy todir="${tomcat4.dir}/shared/lib" file="lib/emma.jar"/>
+
+		<available property="jboss-exists" file="${jboss.dir}/bin/run.bat"/>
+		<fail message="JBoss not installed at 'jboss.dir' (as indicated in build.properties)" unless="jboss-exists"/>
+		<copy todir="${jboss.dir}/server/default/lib" file="lib/emma.jar"/>
+
+		<!-- Run tests as normal -->
+
+		<antcall target="test"/>
+
+		<!-- Report -->
+
+		<emma>
+			<report>
+				<sourcepath>
+					<dirset dir="src/java"/>
+					<dirset dir="test/java"/>
+		        </sourcepath>				
+				<fileset dir="${run.dir}"/>
+				<html outfile="${build.metawidget.dir}/doc/coverage/index.html" />
+			</report>
+		</emma>
+		
+	</target>
+
+	<!-- Manual test -->
+		
+	<target name="test-android-allwidgets" depends="pack">
+
+		<mkdir dir="${build.metawidget.dir}/test/android"/>
+		<mkdir dir="${build.metawidget.dir}/test/android/allwidgets/classes"/>
+			
+		<!-- Copy and DEX only the relevant classes -->
+		
+		<copy todir="${build.metawidget.dir}/test/android/allwidgets/dex-classes">
+			
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/metawidget/*.class"/>
+				<include name="org/metawidget/android/**"/>
+				<include name="org/metawidget/impl/**"/>
+				<include name="org/metawidget/inspector/*.class"/>
+				<include name="org/metawidget/inspector/composite/**"/>
+				<include name="org/metawidget/inspector/impl/**"/>
+				<include name="org/metawidget/inspector/javabean/**"/>
+				<include name="org/metawidget/inspector/java5/**"/>
+				<include name="org/metawidget/inspector/xml/**"/>
+				<include name="org/metawidget/util/**"/>
+			</fileset>			
+			<fileset dir="${build.metawidget.dir}/test-classes">
+				<include name="org/metawidget/test/android/allwidgets/**"/>
+				<include name="org/metawidget/test/shared/allwidgets/**/*.class"/>
+			</fileset>
+				
+		</copy>
+		
+		<property name="android.tools.dir" value="${android.dir}/tools" />
+		
+        <exec executable="${android.tools.dir}/dx.bat" failonerror="true">
+            <arg value="--dex" />
+            <arg value="--output=${build.metawidget.dir}/test/android/allwidgets/classes.dex" />
+            <arg value="--locals=full" />
+            <arg value="--positions=lines" />
+            <arg path="${build.metawidget.dir}/test/android/allwidgets/dex-classes" />
+        </exec>
+
+	    <!-- Put the project's resources into the output package file -->
+				
+        <exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="test/android/allwidgets">
+            <arg value="package" />
+            <arg value="-f" />
+            <arg value="-c" />
+            <arg value="-M" />
+            <arg value="AndroidManifest.xml" />
+            <arg value="-S" />
+            <arg value="res" />
+            <arg value="-I" />
+            <arg value="${android.dir}/android.jar" />
+            <arg value="${build.metawidget.dir}/test/android/allwidgets-android.apk" />
+        </exec>
+
+	    <!-- Put the project's .dex files into the output package file -->
+		
+        <zip destfile="${build.metawidget.dir}/test/android/allwidgets-android.tmp">
+            <zipfileset file="${build.metawidget.dir}/test/android/allwidgets/classes.dex" fullpath="classes.dex" />
+            <zipfileset src="${build.metawidget.dir}/test/android/allwidgets-android.apk" />
+        </zip>
+    	<move file="${build.metawidget.dir}/test/android/allwidgets-android.tmp" tofile="${build.metawidget.dir}/test/android/allwidgets-android.apk" />
+
+	</target>
+	
+	<!-- Web Test -->
+		
+	<target name="test-web-start-tomcat">
+
+		<available property="tomcat-exists" file="${tomcat.dir}/bin/bootstrap.jar"/>
+		<fail message="Apache Tomcat not installed at 'tomcat.dir' (as indicated in build.properties)" unless="tomcat-exists"/>
+
+		<echo message="Starting Tomcat (then waiting 10 seconds)..."/>
+		
+		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" spawn="true" dir="${run.dir}">
+			<jvmarg value="-Dcatalina.home=${tomcat.dir}"/>
+			<jvmarg value="-Duser.timezone=GMT"/>
+			<jvmarg value="-Duser.region=US"/>
+		</java>
+		
+		<sleep seconds="10"/>
+		
+	</target>
+	
+	<target name="test-web-stop-tomcat">
+		
+		<echo message="Stopping Tomcat (then waiting 10 seconds)..."/>
+
+		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" dir="${run.dir}">
+	        <jvmarg value="-Dcatalina.home=${tomcat.dir}"/>
+	        <arg line="stop"/>
+	    </java>
+		
+		<sleep seconds="10"/>
+
+	</target>
+	
+	<target name="test-struts-addressbook" depends="example-struts-addressbook">
+		
+		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/addressbook-struts"/>
+		<antcall target="test-web-start-tomcat"/>
+		<ant antfile="test/web/examples/struts/addressbook-test.xml"/>
+		<antcall target="test-web-stop-tomcat"/>
+		
+	</target>
+
+	<target name="test-spring-addressbook" depends="example-spring-addressbook">
+		
+		<copy file="${build.metawidget.dir}/examples/spring/addressbook-spring.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/addressbook-spring"/>
+		<antcall target="test-web-start-tomcat"/>
+		<ant antfile="test/web/examples/spring/addressbook-test.xml"/>
+		<antcall target="test-web-stop-tomcat"/>
+		
+	</target>
+
+	<target name="test-faces-addressbook" depends="example-faces-addressbook">
+		
+		<copy file="${build.metawidget.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/addressbook-faces"/>
+		<antcall target="test-web-start-tomcat"/>
+		<ant antfile="test/web/examples/faces/addressbook-test.xml"/>
+		<antcall target="test-web-stop-tomcat"/>
+		
+	</target>
+
+	<target name="test-faces-seam-booking" depends="example-faces-seam-booking">
+		
+		<ant dir="${build.metawidget.dir}/examples/faces/seam-booking"/>
+		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/jboss-seam-booking.ear" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
+		<antcall target="test-web-start-jboss"/>
+		<ant antfile="test/web/examples/faces/seam-booking-test.xml"/>
+		<antcall target="test-web-stop-jboss"/>
+		
+	</target>
+
+	<available property="webtest-available" file="${webtest.dir}/webtest.xml"/>
+
+	<target name="test-web-skip" unless="webtest-available">
+
+		<echo level="warning" message="WebTest not installed at 'webtest.dir' in 'build.properties'. Not running web tests"/>
+
+	</target>
+	
+	<target name="test-web-ok" if="webtest-available">
+		
+		<antcall target="test-faces-addressbook"/>
+		<property name="skip-compile" value="true"/>
+		
+		<antcall target="test-jsp-allwidgets"/>
+		<antcall target="test-spring-addressbook"/>
+		<antcall target="test-struts-addressbook"/>
+		
+	</target>
+
+	<target name="test-web" depends="test-web-ok, test-web-skip"/>
+
+	<!-- Web 1.4 Test -->
+
+	<target name="test-web-start-tomcat4">
+
+		<available property="tomcat4-exists" file="${tomcat4.dir}/bin/bootstrap.jar"/>
+		<fail message="Apache Tomcat 4 not installed at 'tomcat4.dir' (as indicated in build.properties)" unless="tomcat4-exists"/>
+		
+		<available property="java4-exists" file="${java4.dir}/bin"/>
+		<fail message="JDK 1.4 not installed at 'java4.dir' (as indicated in build.properties)" unless="java4-exists"/>		
+
+		<!-- Delete work, in case of J2SE 1.4/Java 5 class version mixup -->
+		
+		<delete includeemptydirs="true" failonerror="false" dir="${tomcat4.dir}/work"/>
+		
+		<echo message="Starting Tomcat 4 (then waiting 10 seconds)..."/>
+		<echo message="If Tomcat 4 fails to start, try moving 'conf/server-noexamples.xml.config' to 'conf/server.xml'"/>
+		
+        <exec executable="${tomcat4.dir}/bin/startup.bat" dir="${run.dir}" spawn="true">
+        	<env key="JAVA_HOME" value="${java4.dir}"/>
+        	<env key="CATALINA_HOME" value="${tomcat4.dir}"/>
+        	<env key="CATALINA_OPTS" value="-Duser.timezone=GMT -Duser.language=en -Duser.country=UK"/>
+		</exec>
+		
+		<sleep seconds="10"/>
+		
+	</target>
+	
+	<target name="test-web-stop-tomcat4">
+		
+		<echo message="Stopping Tomcat 4 (then waiting 10 seconds)..."/>
+
+		<java jar="${tomcat4.dir}/bin/bootstrap.jar" fork="true" dir="${run.dir}">
+	        <jvmarg value="-Dcatalina.home=${tomcat4.dir}"/>
+	        <arg line="stop"/>
+	    </java>
+		
+		<sleep seconds="10"/>
+
+	</target>
+
+	<!-- JBoss Test -->
+
+	<target name="test-web-start-jboss">
+
+		<available property="jboss-exists" file="${jboss.dir}/bin/run.bat"/>
+		<fail message="JBoss not installed at 'jboss.dir' (as indicated in build.properties)" unless="jboss-exists"/>
+		
+		<delete includeemptydirs="true" failonerror="false">
+			<fileset dir="${jboss.dir}/server/default/tmp">
+				<include name="**/*"/>
+			</fileset>
+			<fileset dir="${jboss.dir}/server/default/work">
+				<include name="**/*"/>
+			</fileset>			
+		</delete>
+		
+		<echo message="Starting JBoss (then waiting 60 seconds)..."/>
+
+		<!-- Unlike for Tomcat, don't also set time zone -->
+		<!-- here: seems to badly mess up Seam/Facelets  -->
+		
+        <exec executable="${jboss.dir}/bin/run.bat" dir="${run.dir}" spawn="true">
+	    	<env key="JAVA_OPTS" value="-Duser.language=en -Duser.country=UK"/>
+		</exec>
+		
+		<sleep seconds="60"/>
+		
+	</target>
+	
+	<target name="test-web-stop-jboss">
+		
+		<echo message="Stopping JBoss (then waiting 20 seconds)..."/>
+        <exec executable="${jboss.dir}/bin/shutdown.bat" dir="${run.dir}" spawn="true">
+        	<arg value="-S"/>
+		</exec>
+		<sleep seconds="20"/>
+
+	</target>
+
+	<available property="jboss-available" file="${jboss.dir}/bin/run.bat"/>
+
+	<target name="test-jboss-skip" unless="jboss-available">
+
+		<echo level="warning" message="JBoss not installed at 'jboss.dir' in 'build.properties'. Not running JBoss tests"/>
+
+	</target>
+	
+	<target name="test-jboss-ok" if="jboss-available">
+
+		<antcall target="test-faces-seam-booking"/>
+		
+	</target>
+
+	<target name="test-jboss" depends="test-jboss-ok, test-jboss-skip"/>
+
+	<target name="test-shared-allwidgets" depends="flatten-libs">
+
+		<copy todir="${build.metawidget.dir}/test-classes">
+			<fileset dir="test/java">
+				<include name="org/metawidget/test/shared/allwidgets/**/*.properties"/>
+				<include name="org/metawidget/test/shared/allwidgets/**/metawidget-metadata.xml"/>
+			</fileset>
+		</copy>
+
+	</target>
+		
+	<target name="test-faces-allwidgets" depends="test-shared-allwidgets">
+		
+		<mkdir dir="${build.metawidget.dir}/test/faces"/>
+
+		<war warfile="${build.metawidget.dir}/test/faces/allwidgets-faces.war" webxml="test/web/faces/allwidgets/WEB-INF/web.xml">
+			<fileset dir="test/web/faces/allwidgets">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<classes dir="${build.metawidget.dir}/test-classes">
+				<include name="org/metawidget/test/faces/allwidgets/**"/>
+				<include name="org/metawidget/test/shared/allwidgets/**"/>
+			</classes>
+			<lib dir="${build.metawidget.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-codec-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-el-*.jar"/>
+				<include name="commons-lang-*.jar"/>
+				<include name="jsp-2.0.jar"/>
+				<include name="jstl.jar"/>
+				<include name="metawidget.jar"/>
+				<include name="myfaces-*-1.1*.jar"/>
+				<include name="richfaces-*.jar"/>
+			</lib>
+		</war>
+		
+		<copy file="${build.metawidget.dir}/test/faces/allwidgets-faces.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat4.dir}/webapps/allwidgets-faces"/>
+		<antcall target="test-web-start-tomcat4"/>
+		<ant antfile="test/web/faces/allwidgets-test.xml"/>
+		<antcall target="test-web-stop-tomcat4"/>
+		
+	</target>
+
+	<target name="test-jsp-allwidgets" depends="test-shared-allwidgets">
+		
+		<mkdir dir="${build.metawidget.dir}/test/jsp"/>
+
+		<war warfile="${build.metawidget.dir}/test/jsp/allwidgets-jsp.war" webxml="test/web/jsp/allwidgets/WEB-INF/web.xml">
+			<fileset dir="test/web/jsp/allwidgets">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<classes dir="${build.metawidget.dir}/test-classes">
+				<include name="org/metawidget/test/jsp/allwidgets/**"/>
+				<include name="org/metawidget/test/shared/allwidgets/**"/>
+			</classes>
+			<lib dir="${build.metawidget.dir}/lib">
+				<include name="jstl.jar"/>
+				<include name="metawidget.jar"/>
+				<include name="standard.jar"/>
+			</lib>
+		</war>
+		
+		<!-- Use tomcat, not tomcat4, because we need JSP 2.0 to test EL -->
+
+		<copy file="${build.metawidget.dir}/test/jsp/allwidgets-jsp.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/allwidgets-jsp"/>
+		<antcall target="test-web-start-tomcat"/>
+		<ant antfile="test/web/jsp/allwidgets-test.xml"/>
+		<antcall target="test-web-stop-tomcat"/>
+		
+	</target>
+
+	<target name="test-spring-allwidgets" depends="test-shared-allwidgets">
+		
+		<mkdir dir="${build.metawidget.dir}/test/spring"/>
+
+		<war warfile="${build.metawidget.dir}/test/spring/allwidgets-spring.war" webxml="test/web/spring/allwidgets/WEB-INF/web.xml">
+			<fileset dir="test/web/spring/allwidgets">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<classes dir="${build.metawidget.dir}/test-classes">
+				<include name="org/metawidget/test/spring/allwidgets/**"/>
+				<include name="org/metawidget/test/shared/allwidgets/**"/>
+			</classes>
+			<lib dir="${build.metawidget.dir}/lib">
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="jstl.jar"/>
+				<include name="spring.jar"/>
+				<include name="spring-*.jar"/>
+				<include name="metawidget.jar"/>
+			</lib>
+		</war>
+
+		<copy file="${build.metawidget.dir}/test/spring/allwidgets-spring.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat4.dir}/webapps/allwidgets-spring"/>
+		<antcall target="test-web-start-tomcat4"/>
+		<ant antfile="test/web/spring/allwidgets-test.xml"/>
+		<antcall target="test-web-stop-tomcat4"/>
+		
+	</target>
+	
+	<target name="test-struts-allwidgets" depends="test-shared-allwidgets">
+		
+		<mkdir dir="${build.metawidget.dir}/test/struts"/>
+
+		<war warfile="${build.metawidget.dir}/test/struts/allwidgets-struts.war" webxml="test/web/struts/allwidgets/WEB-INF/web.xml">
+			<fileset dir="test/web/struts/allwidgets">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<classes dir="${build.metawidget.dir}/test-classes">
+				<include name="org/metawidget/test/struts/allwidgets/**"/>
+				<include name="org/metawidget/test/shared/allwidgets/**"/>
+			</classes>
+			<lib dir="${build.metawidget.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="jstl.jar"/>
+				<include name="struts.jar"/>
+				<include name="metawidget.jar"/>
+			</lib>
+		</war>
+
+		<copy file="${build.metawidget.dir}/test/struts/allwidgets-struts.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat4.dir}/webapps/allwidgets-struts"/>
+		<antcall target="test-web-start-tomcat4"/>
+		<ant antfile="test/web/struts/allwidgets-test.xml"/>
+		<antcall target="test-web-stop-tomcat4"/>
+		
+	</target>
+
+	<available property="tomcat4-available" file="${tomcat4.dir}/bin/bootstrap.jar"/>
+
+	<target name="test-web4-skip" unless="tomcat4-available">
+
+		<echo level="warning" message="Tomcat4 not installed at 'tomcat4.dir' in 'build.properties'. Not running J2SE 1.4 web tests"/>
+
+	</target>
+	
+	<target name="test-web4-ok" if="tomcat4-available">
+
+		<available property="webtest-available" file="${webtest.dir}/webtest.xml"/>
+		<fail message="WebTest not installed at 'webtest.dir' in 'build.properties'. Not running web tests" unless="webtest-available"/>
+		
+		<antcall target="test-faces-allwidgets"/>
+		<antcall target="test-spring-allwidgets"/>
+		<antcall target="test-struts-allwidgets"/>
+		
+	</target>
+
+	<target name="test-web4" depends="test-web4-ok, test-web4-skip"/>
+	
+	<target name="test" depends="test-web, test-web4, test-jboss, test-unit"/>
+	
+	<!-- Examples -->
+
+	<target name="example-swing-addressbook" depends="pack">
+		
+		<mkdir dir="${build.metawidget.dir}/examples/swing"/>
+
+		<jar jarfile="${build.metawidget.dir}/examples/swing/addressbook-swing.jar" manifest="src/java/org/metawidget/example/swing/addressbook/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/example-classes">
+				<include name="org/metawidget/example/swing/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**"/>
+			</fileset>
+			<fileset dir="src/java">
+				<include name="org/metawidget/example/shared/addressbook/media/*.jpg"/>
+				<include name="org/metawidget/example/shared/addressbook/media/*.gif"/>
+				<include name="org/metawidget/example/shared/addressbook/**/*.properties"/>
+				<include name="org/metawidget/example/swing/addressbook/*.xml"/>
+			</fileset>
+		</jar>		
+
+		<copy todir="${build.metawidget.dir}/examples/swing">
+			<fileset dir="src/java/org/metawidget/example/swing">
+				<include name="readme.txt"/>
+			</fileset>
+			<fileset dir="lib">
+				<include name="beansbinding*.jar"/>
+			</fileset>
+		</copy>
+		
+	</target>
+
+	<target name="example-swing-addressbook-applet" depends="pack-for-applet">
+		
+		<mkdir dir="${build.metawidget.dir}/examples/swing/applet"/>
+
+		<jar jarfile="${build.metawidget.dir}/examples/swing/applet/addressbook-swing-applet.jar">
+			<fileset dir="${build.metawidget.dir}/example-classes">
+				<include name="org/metawidget/example/swing/applet/**"/>
+				<include name="org/metawidget/example/swing/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**"/>
+			</fileset>
+			<fileset dir="src/java">
+				<include name="org/metawidget/example/shared/addressbook/media/*.jpg"/>
+				<include name="org/metawidget/example/shared/addressbook/media/*.gif"/>
+				<include name="org/metawidget/example/shared/addressbook/**/*.properties"/>
+				<include name="org/metawidget/example/swing/addressbook/*.xml"/>
+			</fileset>
+		</jar>		
+
+		<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="lib/Pack200Task.jar"/>
+		<pack200 src="${build.metawidget.dir}/examples/swing/applet/addressbook-swing-applet.jar" destfile="${build.metawidget.dir}/examples/swing/applet/addressbook-swing-applet.jar.pack"/>		
+		
+		<copy todir="${build.metawidget.dir}/examples/swing">
+			<fileset dir="src/java/org/metawidget/example/swing">
+				<include name="readme.txt"/>
+			</fileset>
+			<fileset dir="lib">
+				<include name="beansbinding*.jar"/>
+			</fileset>			
+		</copy>
+		
+		<copy todir="${build.metawidget.dir}/examples/swing/applet">
+			<fileset dir="${build.metawidget.dir}">
+				<include name="metawidget-applet.jar*"/>
+			</fileset>
+			<fileset dir="src/web/examples/swing/applet"/>
+		</copy>
+
+	</target>
+
+	<target name="examples-desktop" depends="example-swing-addressbook, example-swing-addressbook-applet"/>
+		
+	<target name="example-shared-addressbook" depends="flatten-libs">
+		
+		<copy todir="${build.metawidget.dir}/src/web/examples/shared/addressbook" failonerror="false" >
+			<fileset dir="src/web/examples/struts/addressbook">
+				<include name="css/**"/>
+				<include name="WEB-INF/tags/**"/>
+			</fileset>
+			<fileset dir="src/web/examples/shared/addressbook">
+				<include name="css/**"/>
+				<include name="WEB-INF/tags/**"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${build.metawidget.dir}/example-classes">
+			<fileset dir="src/java">
+				<include name="org/metawidget/example/shared/addressbook/**/*.properties"/>
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="example-faces-addressbook" depends="example-shared-addressbook">
+
+		<mkdir dir="${build.metawidget.dir}/examples/faces"/>
+
+		<war warfile="${build.metawidget.dir}/examples/faces/addressbook-faces.war" webxml="src/web/examples/faces/addressbook/WEB-INF/web.xml">
+			<fileset dir="src/web/examples/faces/addressbook">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="css/**"/>
+				<exclude name="WEB-INF/tags/**"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<fileset dir="${build.metawidget.dir}/src/web/examples/shared/addressbook">
+				<include name="css/**"/>
+				<include name="WEB-INF/tags/**"/>
+			</fileset>
+			<fileset dir="src/java/org/metawidget/example/shared/addressbook">
+				<include name="media/**"/>
+			</fileset>
+			<classes dir="${build.metawidget.dir}/example-classes">
+				<include name="org/metawidget/example/faces/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**"/>
+			</classes>
+			<lib dir="${build.metawidget.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-codec-*.jar"/>
+				<include name="commons-collections-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-discovery-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="ejb3-persistence.jar"/>
+				<include name="hibernate-validator*.jar"/>
+				<include name="jstl.jar"/>
+				<include name="metawidget.jar"/>
+				<include name="myfaces-*-1.2*.jar"/>
+				<include name="richfaces-*.jar"/>
+				<include name="standard.jar"/>
+			</lib>
+		</war>
+
+		<copy todir="${build.metawidget.dir}/examples/faces" file="src/web/examples/faces/readme.txt"/>
+
+	</target>
+	
+	<target name="example-faces-seam-booking" depends="pack-as-frontend-backend">
+		
+		<copy todir="${build.metawidget.dir}/examples/faces">
+			<fileset dir="src/web/examples/faces">
+				<include name="seam-booking/**"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${build.metawidget.dir}/examples/faces/seam-booking">
+			<fileset dir="${build.metawidget.dir}">
+				<include name="metawidget-*.jar"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${build.metawidget.dir}/examples/faces" file="src/web/examples/faces/readme.txt"/>
+
+	</target>
+
+	<target name="example-struts-addressbook" depends="example-shared-addressbook">
+
+		<mkdir dir="${build.metawidget.dir}/examples/struts"/>
+
+		<war warfile="${build.metawidget.dir}/examples/struts/addressbook-struts.war" webxml="src/web/examples/struts/addressbook/WEB-INF/web.xml">
+			<fileset dir="src/web/examples/struts/addressbook">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="css/**"/>
+				<exclude name="WEB-INF/tags/**"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<fileset dir="${build.metawidget.dir}/src/web/examples/shared/addressbook">
+				<include name="css/**"/>
+				<include name="WEB-INF/tags/**"/>
+			</fileset>
+			<fileset dir="src/java/org/metawidget/example/shared/addressbook">
+				<include name="media/**"/>
+			</fileset>
+			<classes dir="${build.metawidget.dir}/example-classes">
+				<include name="org/metawidget/example/struts/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**"/>
+			</classes>
+			<lib dir="${build.metawidget.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="jstl.jar"/>
+				<include name="struts.jar"/>
+				<include name="standard.jar"/>
+				<include name="metawidget.jar"/>
+			</lib>
+		</war>
+
+		<copy todir="${build.metawidget.dir}/examples/struts" file="src/web/examples/struts/readme.txt"/>
+
+	</target>
+
+	<target name="example-spring-addressbook" depends="example-shared-addressbook">
+
+		<mkdir dir="${build.metawidget.dir}/examples/spring"/>
+
+		<war warfile="${build.metawidget.dir}/examples/spring/addressbook-spring.war" webxml="src/web/examples/spring/addressbook/WEB-INF/web.xml">
+			<fileset dir="src/web/examples/spring/addressbook">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="css/**"/>
+				<exclude name="WEB-INF/tags/**"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<fileset dir="${build.metawidget.dir}/src/web/examples/shared/addressbook">
+				<include name="css/**"/>
+				<include name="WEB-INF/tags/**"/>
+			</fileset>
+			<fileset dir="src/java/org/metawidget/example/shared/addressbook">
+				<include name="media/**"/>
+			</fileset>
+			<classes dir="${build.metawidget.dir}/example-classes">
+				<include name="org/metawidget/example/spring/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**"/>
+			</classes>
+			<lib dir="${build.metawidget.dir}/lib">
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="ejb3-persistence.jar"/>
+				<include name="jstl.jar"/>
+				<include name="spring.jar"/>
+				<include name="spring-*.jar"/>
+				<include name="standard.jar"/>
+				<include name="metawidget.jar"/>
+			</lib>
+		</war>
+
+		<copy todir="${build.metawidget.dir}/examples/spring" file="src/web/examples/spring/readme.txt"/>
+		
+	</target>
+
+	<target name="examples-web" depends="example-faces-addressbook, example-faces-seam-booking, example-spring-addressbook, example-struts-addressbook"/>
+
+	<available property="android-available" file="${android.dir}/tools/dx.bat"/>
+	
+	<target name="example-android-skip" depends="pack" unless="android-available">
+		
+		<echo level="warning" message="Android not installed at 'android.dir' in 'build.properties'. Building examples without Android examples"/>
+		
+	</target>
+
+	<target name="example-android-addressbook" depends="pack" if="android-available">
+
+		<mkdir dir="${build.metawidget.dir}/examples/android"/>
+		<mkdir dir="${build.metawidget.dir}/examples/android/addressbook/dex-classes"/>
+			
+		<!-- Copy and DEX only the relevant classes -->
+		
+		<copy todir="${build.metawidget.dir}/examples/android/addressbook/dex-classes">
+			
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/metawidget/*.class"/>				
+				<include name="org/metawidget/example/android/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**/*.class"/>
+				<include name="org/metawidget/android/**"/>
+				<include name="org/metawidget/impl/**"/>
+				<include name="org/metawidget/inspector/*.class"/>
+				<include name="org/metawidget/inspector/composite/**"/>
+				<include name="org/metawidget/inspector/impl/**"/>
+				<include name="org/metawidget/inspector/javabean/**"/>
+				<include name="org/metawidget/inspector/java5/**"/>
+				<include name="org/metawidget/inspector/xml/**"/>
+				<include name="org/metawidget/util/**"/>
+			</fileset>
+			
+			<fileset dir="${build.metawidget.dir}/example-classes">
+				<include name="org/metawidget/example/android/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**/*.class"/>
+			</fileset>
+
+		</copy>
+		
+		<property name="android.tools.dir" value="${android.dir}/tools" />
+		
+        <exec executable="${android.tools.dir}/dx.bat" failonerror="true">
+            <arg value="--dex" />
+            <arg value="--output=${build.metawidget.dir}/examples/android/addressbook/classes.dex" />
+            <arg value="--locals=full" />
+            <arg value="--positions=lines" />
+            <arg path="${build.metawidget.dir}/examples/android/addressbook/dex-classes" />
+        </exec>
+
+	    <!-- Put the project's resources into the output package file -->
+				
+        <exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="src/android/examples/addressbook">
+            <arg value="package" />
+            <arg value="-f" />
+            <arg value="-c" />
+            <arg value="-M" />
+            <arg value="AndroidManifest.xml" />
+            <arg value="-S" />
+            <arg value="res" />
+            <arg value="-I" />
+            <arg value="${android.dir}/android.jar" />
+            <arg value="${build.metawidget.dir}/examples/android/addressbook-android.apk" />
+        </exec>
+
+	    <!-- Put the project's .dex files into the output package file -->
+		
+        <zip destfile="${build.metawidget.dir}/examples/android/addressbook-android.tmp">
+            <zipfileset file="${build.metawidget.dir}/examples/android/addressbook/classes.dex" fullpath="classes.dex" />
+            <zipfileset src="${build.metawidget.dir}/examples/android/addressbook-android.apk" />
+        </zip>
+    	<move file="${build.metawidget.dir}/examples/android/addressbook-android.tmp" tofile="${build.metawidget.dir}/examples/android/addressbook-android.apk" />
+
+		<copy todir="${build.metawidget.dir}/examples/android" file="src/java/org/metawidget/example/android/readme.txt"/>
+
+	</target>
+	
+	<target name="examples-mobile" depends="example-android-addressbook, example-android-skip" />
+	
+	<target name="examples" depends="examples-desktop, examples-web, examples-mobile"/>
+
+	<!-- http://www.metawidget.org -->
+
+	<target name="web-site">
+		
+		<!-- JSP version -->
+
+		<copy todir="${build.metawidget.dir}/lib" flatten="true" includeemptydirs="false">
+			<fileset dir="lib"/>
+			<fileset dir="src/web/examples">
+				<include name="**/lib/**"/>
+			</fileset>
+		</copy>
+
+		<delete dir="${tomcat.dir}/webapps"/>		
+
+		<copy todir="${tomcat.dir}/webapps/ROOT">
+			<fileset dir="src/web/site"/>
+		</copy>
+			
+		<copy todir="${tomcat.dir}/webapps/ROOT/WEB-INF/lib">
+			<fileset dir="${build.metawidget.dir}/lib">
+				<include name="jstl.jar"/>
+				<include name="standard.jar"/>
+			</fileset>
+		</copy>
+
+		<!-- Extract HTML -->
+
+		<available property="httrack-exists" file="${httrack.dir}/httrack.exe"/>
+		<fail message="HTTrack not installed at 'httrack.dir' (as indicated in build.properties)" unless="httrack-exists"/>
+
+		<antcall target="test-web-start-tomcat"/>
+		<sleep seconds="30"/>
+		<delete dir="${build.metawidget.dir}/website"/>
+		
+		<exec executable="${httrack.dir}/httrack.exe" failonerror="false" failifexecutionfails="false" >
+			<arg value="${webtest.url}"/>
+			<arg value="--path"/>
+			<arg value="${build.metawidget.dir}/website"/>
+			<arg value="--keep-links=4"/>
+			<arg value="--footer"/>
+			<arg value="&quot;&quot;"/>
+		</exec>
+
+		<antcall target="test-web-stop-tomcat"/>
+		<delete dir="${tomcat.dir}/webapps"/>		
+
+		<move todir="${tomcat.dir}/webapps/ROOT">
+			<fileset dir="${build.metawidget.dir}/website/localhost_8080"/>
+		</move>
+	
+		<!-- Doco -->
+
+		<antcall target="docbook"/>
+		<antcall target="javadoc"/>
+		<antcall target="tlddoc"/>
+
+		<copy todir="${tomcat.dir}/webapps/ROOT">			
+			<fileset dir="${build.metawidget.dir}">
+				<include name="doc/api/**"/>
+				<include name="doc/coverage/**"/>
+				<include name="doc/taglib/**"/>
+				<include name="doc/reference/**/html*/*.html"/>
+				<include name="doc/reference/**/pdf/*.pdf"/>
+				<include name="doc/**/shared/**"/>
+			</fileset>
+		</copy>
+
+		<!-- Try to have something at the XSD and TLD URIs -->
+		
+		<copy file="src/java/org/metawidget/inspector/inspector-config-1.0.xsd" tofile="${tomcat.dir}/webapps/ROOT/inspector-config/index.html"/>
+		<copy file="src/java/org/metawidget/inspector/inspector-config-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/inspector-config"/>
+		<copy file="src/java/org/metawidget/inspector/inspection-result-1.0.xsd" tofile="${tomcat.dir}/webapps/ROOT/inspection-result/index.html"/>
+		<copy file="src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/inspection-result"/>
+		<copy file="src/java/META-INF/metawidget-faces.tld" tofile="${tomcat.dir}/webapps/ROOT/faces/index.html"/>
+		<copy file="src/java/META-INF/metawidget-faces.tld" todir="${tomcat.dir}/webapps/ROOT/faces"/>
+		<copy file="src/java/META-INF/metawidget-richfaces.tld" tofile="${tomcat.dir}/webapps/ROOT/faces/richfaces/index.html"/>
+		<copy file="src/java/META-INF/metawidget-richfaces.tld" todir="${tomcat.dir}/webapps/ROOT/faces/richfaces"/>
+		<copy file="src/java/META-INF/metawidget-html.tld" tofile="${tomcat.dir}/webapps/ROOT/html/index.html"/>
+		<copy file="src/java/META-INF/metawidget-html.tld" todir="${tomcat.dir}/webapps/ROOT/html"/>
+		<copy file="src/java/META-INF/metawidget-spring.tld" tofile="${tomcat.dir}/webapps/ROOT/spring/index.html"/>
+		<copy file="src/java/META-INF/metawidget-spring.tld" todir="${tomcat.dir}/webapps/ROOT/spring"/>
+		<copy file="src/java/META-INF/metawidget-struts.tld" tofile="${tomcat.dir}/webapps/ROOT/struts/index.html"/>
+		<copy file="src/java/META-INF/metawidget-struts.tld" todir="${tomcat.dir}/webapps/ROOT/struts"/>
+
+		<!-- (SourceForge runs on UNIX, and we want to keep file sizes the same for easy diffs) -->
+
+		<fixcrlf srcdir="${tomcat.dir}/webapps/ROOT" eol="unix">
+			<include name="**/*.css"/>
+			<include name="**/*.html"/>
+			<include name="**/*.js"/>
+		</fixcrlf>
+			
+		<!-- Test HTML -->
+
+		<antcall target="test-web-start-tomcat"/>
+		<ant antfile="test/web/site/test.xml"/>
+		<antcall target="test-web-stop-tomcat"/>
+
+	</target>
+	
+	<!-- Dist -->
+
+	<target name="dist" depends="clean, pack, javadoc, tlddoc, docbook, examples">
+
+		<copy todir="${build.metawidget.dir}">
+			<fileset dir=".">
+				
+				<!-- Source -->
+				
+				<include name="src/**"/>
+				<include name="test/**"/>
+				<include name="build.xml"/>
+				<include name="build.properties"/>
+				<include name="documentation.html"/>
+				<include name="lgpl.txt"/>
+				<include name="readme.txt"/>
+				
+				<!-- Shared resources. This stops them being scattered and duplicated -->
+				<!-- all over the ZIP. However, scattering and duplicating is useful  -->
+				<!-- for some IDE deployers, such as MyEclipse                        -->
+				
+				<exclude name="src/web/examples/**/css/**"/>				
+				<exclude name="src/web/examples/**/media/**"/>				
+				<exclude name="src/web/examples/**/WEB-INF/tags/**"/>				
+				<exclude name="**/WEB-INF/classes/**"/>
+				<exclude name="**/WEB-INF/lib/**"/>
+				<exclude name="**/.p4ignore"/>
+				<include name="src/web/examples/shared/css/**"/>				
+				<include name="src/web/examples/shared/WEB-INF/tags/**"/>				
+				
+			</fileset>
+		</copy>
+	
+		<zip zipfile="${build.metawidget.dir}/${metawidget.name}.zip">
+			<fileset dir="${build.dir}">
+				
+				<include name="${metawidget.name}/documentation.html"/>				
+				<include name="${metawidget.name}/lgpl.txt"/>
+				<include name="${metawidget.name}/readme.txt"/>
+
+				<!-- Libs. This includes libs for examples, so that they are not scattered -->
+				<!-- and duplicated all over the ZIP. However, scattering and duplicating  -->
+				<!-- is useful for some IDE deployers, such as MyEclipse                   -->
+					
+				<include name="${metawidget.name}/lib/**"/>
+				<exclude name="${metawidget.name}/lib/metawidget.jar"/>
+
+				<!-- Source -->
+					
+				<include name="${metawidget.name}/src/**"/>
+				<include name="${metawidget.name}/test/**"/>
+				<include name="${metawidget.name}/build.xml"/>
+				<include name="${metawidget.name}/build.properties"/>
+			
+			</fileset>
+				
+		</zip>
+		
+		<move file="${build.metawidget.dir}/${metawidget.name}.zip" tofile="${build.metawidget.dir}/${metawidget.name}-src.zip"/>
+		
+		<zip zipfile="${build.metawidget.dir}/${metawidget.name}.zip">
+			<fileset dir="${build.dir}">
+				
+				<!-- Metawidget -->
+					
+				<include name="${metawidget.name}/metawidget.jar"/>
+				<include name="${metawidget.name}/documentation.html"/>				
+				<include name="${metawidget.name}/lgpl.txt"/>
+				<include name="${metawidget.name}/readme.txt"/>
+
+				<!-- Doc -->
+
+				<include name="${metawidget.name}/doc/api/**"/>
+				<include name="${metawidget.name}/doc/taglib/**"/>
+				<include name="${metawidget.name}/doc/reference/**/html*/*.html"/>
+				<include name="${metawidget.name}/doc/reference/**/pdf/*.pdf"/>
+				<include name="${metawidget.name}/doc/**/shared/**"/>
+				
+				<!-- Examples -->
+				
+				<include name="${metawidget.name}/examples/**"/>
+				<exclude name="${metawidget.name}/examples/android/addressbook/**"/>
+									
+			</fileset>
+				
+		</zip>
+
+	</target>
+
+</project>

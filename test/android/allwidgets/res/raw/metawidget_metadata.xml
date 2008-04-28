@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<inspection-result xmlns="http://metawidget.org/inspection-result"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/inspection-result/inspection-result-1.0.xsd">
+
+
+
+
+	<entity type="org.metawidget.test.shared.allwidgets.model.AllWidgets">
+		<property name="textbox" lookup="" masked="" large="" maximum-length="" required="true"/>
+		<property name="limitedTextbox" maximum-length="20"/>
+		<property name="textarea" large="true"/>
+		<property name="password" masked="true"/>
+		<property name="byte"/>
+		<property name="byteObject"/>
+		<property name="short"/>
+		<property name="shortObject"/>
+		<property name="int" minimum-value="" maximum-value=""/>
+		<property name="integerObject"/>
+		<property name="rangedInt" minimum-value="1" maximum-value="100"/>
+		<property name="rangedInteger" minimum-value="2" maximum-value="99"/>
+		<property name="long"/>
+		<property name="longObject" label=" "/>
+		<property name="float"/>
+		<property name="floatObject" label="nullInBundle"/>
+		<property name="double"/>
+		<property name="doubleObject" label=""/>
+		<property name="char"/>
+		<property name="boolean"/>
+		<property name="booleanObject"/>
+		<property name="dropdown" lookup="foo,dropdown,bar" lookup-labels=""/>
+		<property name="dropdownWithLabels" lookup="foo,dropdown,bar" lookup-labels="Foo,Dropdown,Bar"/>
+		<property name="nestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets"/>
+		<property name="readOnlyNestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets" read-only="true"/>
+		<property name="readOnlyNestedWidgetsDontExpand" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets" read-only="true" dont-expand="true"/>
+		<property name="date"/>
+		<property name="hidden" hidden="true"/>
+		<property name="readOnly" read-only="true"/>
+		<property name="mystery"/>
+		<property name="collection"/>		
+	</entity>
+
+</inspection-result>

@@ -1,0 +1,8 @@
+#top-tabs, #left-bar, #copyright, #quick-start {
+	display: none;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+}

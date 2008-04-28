@@ -1,0 +1,23 @@
+Testing The Old Fashioned Way :)
+--------------------------------
+
+This process needs to be upgraded once Android has unit testing support.
+
+For Android AllWidgets, test:
+
+* The layout is a LinearLayout (including the nested layout)
+* All values are populated
+* Textarea field is large
+* Password field is masked
+* Numeric fields do not accept alpha characters (incl primitive/object types. Note floats must accept alpha so that you can enter a dot)
+* There is no label for longObject
+* There is a label 'nullInBundle'
+* There is no label for doubleObject
+* All dropdowns have a blank choice available
+* The mystery field is a text box
+* The last field is a collections list
+
+Editing all values and choosing 'Save' (from the menu) reports the changed values as a read-only screen. Test:
+
+* All values appear
+* Password label appears but has a blank line for the value

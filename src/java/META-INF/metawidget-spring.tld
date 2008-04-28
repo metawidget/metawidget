@@ -1,0 +1,97 @@
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.1//EN" "http://java.sun.com/j2ee/dtds/web-jsptaglibrary_1_1.dtd">
+<taglib>
+	<tlibversion>1.2</tlibversion>
+	<jspversion>1.1</jspversion>
+	<shortname>msp</shortname>
+	<uri>http://metawidget.org/spring</uri>
+	<info>Spring Support</info>
+
+	<tag>
+		<name>metawidget</name>
+		<tagclass>org.metawidget.jsp.tagext.spring.SpringMetawidgetTag</tagclass>
+		<bodycontent>jsp</bodycontent>
+		<info>Metawidget for Spring environments</info>
+		<attribute>
+			<name>path</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>layoutClass</name>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
+			<name>bundle</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>style</name>			
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
+			<name>styleClass</name>			
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
+			<name>readOnly</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>createHiddenFields</name>			
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+	
+	<tag>
+		<name>param</name>
+		<tagclass>org.metawidget.jsp.tagext.ParamTag</tagclass>
+		<bodycontent>empty</bodycontent>
+		<info>Parameter for JSP environments</info>		
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
+			<name>value</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>facet</name>
+		<tagclass>org.metawidget.jsp.tagext.html.HtmlFacetTag</tagclass>
+		<bodycontent>jsp</bodycontent>
+		<info>Facet for JSP environments that output HTML</info>
+		<attribute>
+			<name>name</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
+			<name>style</name>			
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
+			<name>styleClass</name>			
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+	</tag>
+
+	<tag>
+		<name>stub</name>
+		<tagclass>org.metawidget.jsp.tagext.spring.SpringStubTag</tagclass>
+		<bodycontent>jsp</bodycontent>
+		<info>Stub for JSP environments that output HTML</info>
+		<attribute>
+			<name>path</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
+			<name>attributes</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+
+</taglib>

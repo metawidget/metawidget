@@ -1,0 +1,296 @@
+body {
+	margin: 0;
+	padding: 0;
+	background: white url(../media/top-bar.gif) repeat-x;
+	width: 100%;
+}
+
+h1,h2,h3 {
+	margin-top: 0;
+	padding: 0;
+}
+
+a {
+	color: #58afc0;
+}
+
+/*
+ * Logo
+ */
+#logo {
+	position: absolute;
+	top: 12px;
+	left: 15px;
+	width: 208px;
+	height: 208px;
+	background: url(../media/logo.jpg) no-repeat;
+}
+
+#logo h1 a {
+	padding-top: 130px;
+	padding-bottom: 35px;
+	text-align: center;
+	text-decoration: none;
+	color: #6ac6d5;
+	display: block;
+}
+
+/*
+ * Top tabs
+ */
+ 
+#top-tabs {
+	position: absolute;
+	right: 0px;
+	top: 12px;
+}
+
+#top-tabs ul {
+	height: 55px;
+	margin-top: 0px;
+	margin-left: 250px;
+	padding: 23px 0;
+	list-style: none;
+}
+
+#top-tabs li {
+	display: inline;
+}
+
+#top-tabs a {
+	display: block;
+	float: left;
+	width: 120px;
+	height: 43px;
+	padding-top: 28px;
+	background: url(../media/tab-inactive.gif) no-repeat;
+	text-align: center;
+	text-decoration: none;
+	font-size: 18px;
+}
+
+#top-tabs a:hover {
+	color: #204B5C;
+}
+
+#top-tabs .active a {
+	background-image: url(../media/tab-active.gif);
+	color: white;
+}
+
+#top-tabs .wide a {
+	width: 150px;
+	background: url(../media/tab-wide-inactive.gif) no-repeat;
+}
+
+#top-tabs .wide-active a {
+	background-image: url(../media/tab-wide-active.gif);
+	color: white;
+}
+
+/*
+ * Left bar
+ */
+#left-bar {
+	position: absolute;
+	top: 240px;
+	padding-bottom: 75px;
+	width: 218px;
+}
+
+/*
+ * Left menus
+ */
+ 
+.left-menu {
+	margin-left: 18px;
+	margin-bottom: 20px;
+}
+
+.left-menu h2 {
+	text-transform: lowercase;
+	height: 40px;
+	margin: 0 0 2px 0;
+	padding: 10px 0 0 50px;
+	color: white;
+}
+
+.left-menu ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+}
+
+.left-menu li {
+	padding: 10px;
+}
+
+.left-menu a {
+	text-decoration: none;
+	font-weight: bold;
+	color: #5bb7b8;
+}
+
+.left-menu a:hover {
+	color: #458d8f;
+}
+
+#left-menu1 h2 {
+	background: url(../media/left-menu1-header.jpg) no-repeat;
+}
+
+#left-menu1 ul {
+	background: #C5E8E8 url(../media/left-menu1-background.gif) no-repeat left bottom;
+}
+
+#left-menu1 li {
+	border-top: 1px dashed #56B5B6;
+}
+
+#left-menu1 a {
+	color: #5BB7B8;
+}
+
+#left-menu1 a:hover {
+	color: #458D8F;
+}
+
+#left-menu1 .active,#left-menu1 .active a {
+	background-color: #56B5B6;
+	color: white;
+}
+
+#left-menu2 h2 {
+	background: url(../media/left-menu2-header.jpg) no-repeat;
+}
+
+#left-menu2 ul {
+	background: #B9D7E8 url(../media/left-menu2-background.gif) no-repeat left bottom;
+}
+
+#left-menu2 li {
+	border-top: 1px dashed #3F95B8;
+}
+
+#left-menu2 a {
+	color: #3F95B8;
+}
+
+#left-menu2 a:hover {
+	color: #204B5C;
+}
+
+#left-menu2 .active,#left-menu2 .active a {
+	background-color: #204B5C;
+	color: white;
+}
+
+.badges {
+	margin-left: 18px;
+	margin-top: 40px;
+	text-align: center;
+}
+
+.badges a {
+	display: block;
+	margin-top: 10px;	
+	margin-bottom: 20px;
+}
+
+.badges span {	
+	font-size: 8pt;
+	color: #888888;	
+	text-align: center;
+	margin-bottom: 5px;
+}
+
+.badges span a {
+	display: inline;
+}
+
+/*
+ * Tooltip
+ */
+.tooltip {	
+	border: 1px solid #B2B2B2;
+	font-size: 8pt;
+	background: #EBFEFF url(../media/tooltip-background.gif) repeat-x left center;
+	filter: alpha( opacity = 85 ) progid:DXImageTransform.Microsoft.Shadow( color='#444444', Direction=135, Strength=3 );
+	margin: 5px;
+	padding: 5px;
+	width: 175px;
+	position: absolute;
+} 
+
+/*
+ * Content
+ */
+#content {
+	width: 100%;
+}
+ 
+#content-text {
+	margin-top: 110px;
+	margin-left: 240px;
+	margin-right: 10px;
+	padding-bottom: 75px;
+}
+
+.data-table {
+	border: 1px solid #56B5B6;
+}
+
+.data-table thead tr {
+	background-color: #56B5B6;
+	color: white;
+}
+
+.data-table thead tr th {
+	border-bottom: 1px solid #085AA4;
+}
+
+.data-table tbody tr {
+	background-color: #DDF2F2;
+}
+
+#quick-start table
+{
+	border: 1px solid #085AA4;
+	background-color: #D6E8F2;
+}
+
+#quick-start table thead th {
+	background-color: #6BA7C9;
+	color: white;
+}
+
+#quick-start table tbody tr td {
+	text-align: center;
+}
+
+#quick-start table tbody a {
+	color: #085AA4;
+}
+
+#supported-tech {
+	border: 1px solid #085AA4;
+}
+
+#supported-tech thead th {
+	background-color: #085AA4;
+	color: white;
+}
+
+#supported-tech tbody tr td {
+	background-color: #D6E8F2;
+	border: 1px solid #085AA4;
+}
+
+#supported-tech tbody h3 {
+	background-color: #6BA7C9;
+	color: #D6E8F2;
+}
+
+#supported-tech tbody a {
+	color: #085AA4;
+}

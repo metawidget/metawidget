@@ -1,0 +1,84 @@
+// Metawidget
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+package org.metawidget.jsp.tagext;
+
+import java.io.InputStream;
+import java.net.URL;
+
+import javax.servlet.ServletContext;
+
+import org.metawidget.inspector.ConfigReader;
+import org.metawidget.inspector.InspectorException;
+
+/**
+ * Specialized ConfigReader for Servlets/JSPs.
+ * <p>
+ * Resolves references by looking in <code>/WEB-INF/</code> first.
+ *
+ * @author Richard Kennard
+ */
+
+public class ServletConfigReader
+	extends ConfigReader
+{
+	//
+	//
+	// Private members
+	//
+	//
+
+	private ServletContext	mContext;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public ServletConfigReader( ServletContext context )
+	{
+		mContext = context;
+	}
+
+	//
+	//
+	// Protected methods
+	//
+	//
+
+	/**
+	 * Overriden to try <code>/WEB-INF/</code> first.
+	 */
+
+	@Override
+	public InputStream openResource( String resource )
+	{
+		try
+		{
+			URL url = mContext.getResource( "/WEB-INF/" + resource );
+
+			if ( url != null )
+				return url.openStream();
+		}
+		catch ( Exception e )
+		{
+			throw InspectorException.newException( e );
+		}
+
+		return super.openResource( resource );
+	}
+}

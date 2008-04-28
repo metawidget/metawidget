@@ -1,0 +1,67 @@
+// Metawidget
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+package org.metawidget.test.inspector;
+
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.metawidget.test.inspector.annotation.MetawidgetAnnotationInspectorTest;
+import org.metawidget.test.inspector.composite.CompositeInspectorTest;
+import org.metawidget.test.inspector.faces.FacesInspectorTest;
+import org.metawidget.test.inspector.hibernate.HibernateInspectorTest;
+import org.metawidget.test.inspector.hibernate.validator.HibernateValidatorInspectorTest;
+import org.metawidget.test.inspector.java5.Java5InspectorTest;
+import org.metawidget.test.inspector.javabean.JavaBeanInspectorTest;
+import org.metawidget.test.inspector.jpa.JpaInspectorTest;
+import org.metawidget.test.inspector.remote.RemoteInspectorTest;
+import org.metawidget.test.inspector.struts.StrutsInspectorTest;
+import org.metawidget.test.inspector.xml.XmlInspectorTest;
+
+/**
+ * @author Richard Kennard
+ */
+
+public class InspectorTests
+	extends TestCase
+{
+	//
+	//
+	// Public statics
+	//
+	//
+
+	public static Test suite()
+	{
+		TestSuite suite = new TestSuite( "Inspector Tests" );
+		suite.addTestSuite( ConfigReaderTest.class );
+		suite.addTestSuite( FacesInspectorTest.class );
+		suite.addTestSuite( HibernateInspectorTest.class );
+		suite.addTestSuite( HibernateValidatorInspectorTest.class );
+		suite.addTestSuite( Java5InspectorTest.class );
+		suite.addTestSuite( JavaBeanInspectorTest.class );
+		suite.addTestSuite( JpaInspectorTest.class );
+		suite.addTestSuite( CompositeInspectorTest.class );
+		suite.addTestSuite( MetawidgetAnnotationInspectorTest.class );
+		suite.addTestSuite( RemoteInspectorTest.class );
+		suite.addTestSuite( StrutsInspectorTest.class );
+		suite.addTestSuite( XmlInspectorTest.class );
+
+		return suite;
+	}
+
+}

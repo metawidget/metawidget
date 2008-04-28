@@ -1,0 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
+<hibernate-configuration>
+
+	<session-factory>
+	
+		<property name="connection.username">user</property>
+		<property name="connection.password">password</property>
+	
+		<mapping resource="org/metawidget/test/inspector/hibernate/test-mapping1.hbm.xml" />
+		<mapping resource="org/metawidget/test/inspector/hibernate/test-mapping2.hbm.xml" />
+		<mapping resource="org/metawidget/test/inspector/hibernate/test-mapping3.hbm.xml" />
+	
+	</session-factory>
+
+</hibernate-configuration>
