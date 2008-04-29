@@ -30,15 +30,17 @@ import org.w3c.dom.NodeList;
 /**
  * Base class functionality for Metawidgets.
  * <p>
- * Use of MetawidgetMixin when developing Metawidgets is entirely optional. However, it provides a
- * level of functionality and structure to the code which most Metawidgets will benefit from.
+ * Use of MetawidgetMixin when developing Metawidgets is entirely optional, and may not be possible
+ * on all platforms (eg. those that don't support <code>org.w3c.dom</code>). However, it
+ * provides a level of functionality and structure to the code which most Metawidgets will benefit
+ * from.
  * <p>
  * Specifically, the mixin provides support for:
  * <ul>
- *  <li>single/compound widgets</li>
- *  <li>widget overriding</li>
- *  <li>stubs/stub attributes</li>
- *  <li>read-only/active widgets</li>
+ * <li>single/compound widgets</li>
+ * <li>widget overriding</li>
+ * <li>stubs/stub attributes</li>
+ * <li>read-only/active widgets</li>
  * </ul>
  *
  * @author Richard Kennard
@@ -208,7 +210,8 @@ public abstract class MetawidgetMixin<W>
 	//
 
 	/**
-	 * @return false if the build should not proceed (for example if there was a previous validation error)
+	 * @return false if the build should not proceed (for example if there was a previous validation
+	 *         error)
 	 */
 
 	protected abstract void startBuild()
