@@ -16,6 +16,8 @@
 
 package org.metawidget.example.shared.addressbook.model;
 
+import java.io.Serializable;
+
 import org.metawidget.inspector.annotation.UiComesAfter;
 
 /**
@@ -23,6 +25,7 @@ import org.metawidget.inspector.annotation.UiComesAfter;
  */
 
 public class ContactSearch
+	implements Serializable
 {
 	//
 	//

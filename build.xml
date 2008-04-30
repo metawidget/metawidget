@@ -199,35 +199,6 @@
 
 	</target>
 
-	<target name="pack-for-applet" depends="compile">
-
-		<jar destfile="${build.metawidget.dir}/metawidget-applet.jar" manifest="src/java/META-INF/MANIFEST.MF">
-			<fileset dir="${build.metawidget.dir}/classes">
-				<include name="org/metawidget/*.class"/>
-				<include name="org/metawidget/impl/**"/>
-				<include name="org/metawidget/swing/*.class"/>
-				<include name="org/metawidget/swing/binding/*.class"/>
-				<include name="org/metawidget/swing/binding/beansbinding/*.class"/>
-				<include name="org/metawidget/swing/layout/*.class"/>
-				<include name="org/metawidget/inspector/*.class"/>
-				<include name="org/metawidget/inspector/annotation/**"/>
-				<include name="org/metawidget/inspector/composite/**"/>
-				<include name="org/metawidget/inspector/impl/**"/>
-				<include name="org/metawidget/inspector/javabean/**"/>				
-				<include name="org/metawidget/inspector/java5/**"/>				
-				<include name="org/metawidget/inspector/xml/**"/>				
-				<include name="org/metawidget/util/**"/>
-			</fileset>
-			<fileset dir="src/java">			
-				<include name="**/*.xsd"/>
-			</fileset>
-		</jar>
-		
-		<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="lib/Pack200Task.jar"/>
-		<pack200 src="${build.metawidget.dir}/metawidget-applet.jar" destfile="${build.metawidget.dir}/metawidget-applet.jar.pack"/>
-		
-	</target>
-
 	<target name="flatten-libs" depends="pack">
 		
 		<copy todir="${build.metawidget.dir}/lib" flatten="true" includeemptydirs="false">
@@ -922,11 +893,33 @@
 		
 	</target>
 
-	<target name="example-swing-addressbook-applet" depends="pack-for-applet">
+	<target name="example-swing-addressbook-applet" depends="compile">
 		
 		<mkdir dir="${build.metawidget.dir}/examples/swing/applet"/>
 
-		<jar jarfile="${build.metawidget.dir}/examples/swing/applet/addressbook-swing-applet.jar">
+		<jar destfile="${build.metawidget.dir}/examples/swing/applet/addressbook/metawidget-applet.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/metawidget/*.class"/>
+				<include name="org/metawidget/impl/**"/>
+				<include name="org/metawidget/swing/*.class"/>
+				<include name="org/metawidget/swing/binding/*.class"/>
+				<include name="org/metawidget/swing/binding/beansbinding/*.class"/>
+				<include name="org/metawidget/swing/layout/*.class"/>
+				<include name="org/metawidget/inspector/*.class"/>
+				<include name="org/metawidget/inspector/annotation/**"/>
+				<include name="org/metawidget/inspector/composite/**"/>
+				<include name="org/metawidget/inspector/impl/**"/>
+				<include name="org/metawidget/inspector/javabean/**"/>				
+				<include name="org/metawidget/inspector/java5/**"/>				
+				<include name="org/metawidget/inspector/xml/**"/>				
+				<include name="org/metawidget/util/**"/>
+			</fileset>
+			<fileset dir="src/java">			
+				<include name="**/*.xsd"/>
+			</fileset>
+		</jar>
+		
+		<jar jarfile="${build.metawidget.dir}/examples/swing/applet/addressbook/addressbook-swing-applet.jar">
 			<fileset dir="${build.metawidget.dir}/example-classes">
 				<include name="org/metawidget/example/swing/applet/**"/>
 				<include name="org/metawidget/example/swing/addressbook/**"/>
@@ -941,7 +934,8 @@
 		</jar>		
 
 		<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="lib/Pack200Task.jar"/>
-		<pack200 src="${build.metawidget.dir}/examples/swing/applet/addressbook-swing-applet.jar" destfile="${build.metawidget.dir}/examples/swing/applet/addressbook-swing-applet.jar.pack"/>		
+		<pack200 src="${build.metawidget.dir}/examples/swing/applet/addressbook/metawidget-applet.jar" destfile="${build.metawidget.dir}/examples/swing/applet/addressbook/metawidget-applet.jar.pack"/>		
+		<pack200 src="${build.metawidget.dir}/examples/swing/applet/addressbook/addressbook-swing-applet.jar" destfile="${build.metawidget.dir}/examples/swing/applet/addressbook/addressbook-swing-applet.jar.pack"/>		
 		
 		<copy todir="${build.metawidget.dir}/examples/swing">
 			<fileset dir="src/java/org/metawidget/example/swing">
@@ -950,13 +944,6 @@
 			<fileset dir="lib">
 				<include name="beansbinding*.jar"/>
 			</fileset>			
-		</copy>
-		
-		<copy todir="${build.metawidget.dir}/examples/swing/applet">
-			<fileset dir="${build.metawidget.dir}">
-				<include name="metawidget-applet.jar*"/>
-			</fileset>
-			<fileset dir="src/web/examples/swing/applet"/>
 		</copy>
 
 	</target>
@@ -1126,6 +1113,20 @@
 		
 	</target>
 
+	<target name="example-gwt-addressbook">
+		
+		<mkdir dir="${build.metawidget.dir}/to-war"/>
+		
+		<java dir="${build.metawidget.dir}" classname="com.google.gwt.dev.GWTCompiler"
+			classpath="src:${sample.build}/bin:${gwt.user.jar}:${gwt.dev.jar}" fork="yes" failonerror="true">
+			<jvmarg value="-Xmx256M"/>
+			<arg value="-out" />
+			<arg file="${build.metawidget.dir}/to-war" />
+			<arg value="org.metawidget.example.gwt.addressbook.AddressBook" />
+		</java>
+		
+	</target>
+	
 	<target name="examples-web" depends="example-faces-addressbook, example-faces-seam-booking, example-spring-addressbook, example-struts-addressbook"/>
 
 	<available property="android-available" file="${android.dir}/tools/dx.bat"/>

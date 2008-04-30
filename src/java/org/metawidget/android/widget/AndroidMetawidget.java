@@ -912,7 +912,13 @@ public class AndroidMetawidget
 		metawidget.setToInspect( mToInspect );
 	}
 
-	protected View findViewWithTag( String... tags )
+	//
+	//
+	// Private methods
+	//
+	//
+
+	private View findViewWithTag( String... tags )
 	{
 		if ( tags == null )
 			return null;

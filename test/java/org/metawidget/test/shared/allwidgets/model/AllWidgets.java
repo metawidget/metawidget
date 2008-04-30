@@ -32,6 +32,8 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
+// TODO: add a test for non-nullable lookups
+
 public class AllWidgets
 	implements Serializable
 {
