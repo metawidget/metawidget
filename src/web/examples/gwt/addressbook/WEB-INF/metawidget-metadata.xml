@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<inspection-result xmlns="http://metawidget.org/inspection-result"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/inspection-result/inspection-result-1.0.xsd">
+
+	<!-- Example of using XML. We could have used @UiLookup and @UiLarge annotations instead -->
+	
+	<entity type="org.metawidget.example.shared.addressbook.model.Contact">
+		<property name="title" lookup="Mr, Mrs, Miss, Dr, Cpt"/>
+		<property name="notes" large="true"/>
+	</entity>
+
+	<entity type="org.metawidget.example.shared.addressbook.model.PersonalContact"
+			extends="org.metawidget.example.shared.addressbook.model.Contact"/>
+
+	<entity type="org.metawidget.example.shared.addressbook.model.BusinessContact"
+			extends="org.metawidget.example.shared.addressbook.model.Contact"/>
+	
+	<entity type="org.metawidget.example.shared.addressbook.model.Communication">
+		<property name="type" lookup="Telephone, Mobile, Fax, E-mail" type="java.lang.String"/>
+	</entity>	
+
+</inspection-result>
