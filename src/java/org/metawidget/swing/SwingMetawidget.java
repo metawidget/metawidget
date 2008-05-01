@@ -80,8 +80,8 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-// SwingMetawidget extends JPanel for its double buffering support, as well as it
-// behaves a little better in applet viewers
+// SwingMetawidget extends JPanel (instead of just JComponent) as it
+// behaves better in Sun's AppletViewer
 
 public class SwingMetawidget
 	extends JPanel

@@ -4,20 +4,20 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
 
 	<display-name>
-		Address Book (Metawidget Struts Example)
+		Address Book (Metawidget GWT Example)
 	</display-name>
 
-	<!-- Struts -->
+	<!-- Metawidget -->
 
 	<servlet>
-		<servlet-name>action</servlet-name>
-		<servlet-class>org.apache.struts.action.ActionServlet</servlet-class>		
+		<servlet-name>metawidget-inspector</servlet-name>
+		<servlet-class>org.metawidget.gwt.server.InspectorServiceImpl</servlet-class>
 		<load-on-startup>1</load-on-startup> 
 	</servlet>
 
 	<servlet-mapping>
-		<servlet-name>action</servlet-name>
-		<url-pattern>*.do</url-pattern>
+		<servlet-name>metawidget-inspector</servlet-name>
+		<url-pattern>/metawidget-inspector</url-pattern>
 	</servlet-mapping>
 	
 </web-app>

@@ -1,8 +1,74 @@
-<%
-	String strURL = request.getContextPath() + "/indexFaces.jsf";
-	
-	if ( request.getQueryString() != null )
-		strURL += '?' + request.getQueryString();
+<%@ page language="java" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
+
+<%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
+<%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
+<%@ taglib uri="http://metawidget.org/faces" prefix="m"%>
+
+<f:loadBundle basename="org.metawidget.example.shared.addressbook.resource.Resources" var="bundle"/>
 		
-	response.sendRedirect( strURL );
-%>
+<f:view>
+
+	<tags:page>
+
+		<div id="page-image">
+			<img src="media/addressbook.gif">
+		</div>
+
+		<div id="content">
+
+			<h:form id="form">
+
+				<h:messages />
+
+				<m:metawidget value="#{contact.search}">
+					<f:param name="tableStyleClass" value="table-form"/>
+					<f:param name="columnClasses" value="table-label-column,table-component-column,required" />
+					<f:param name="buttonsStyleClass" value="buttons"/>
+
+					<f:facet name="buttons">
+						<h:panelGroup>
+							<h:commandButton value="#{bundle.search}" action="#{contact.runSearch}"/>
+							<h:commandButton value="#{bundle.addPersonal}" action="#{contact.addPersonal}"/>
+							<h:commandButton value="#{bundle.addBusiness}" action="#{contact.addBusiness}"/>
+						</h:panelGroup>
+					</f:facet>
+
+				</m:metawidget>
+
+			</h:form>
+
+			<h:dataTable value="#{contact.results}" var="_contact" styleClass="data-table" columnClasses="column-half, column-half, column-tiny" rowClasses="row-odd, row-even">
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Name"/>
+					</f:facet>
+					<h:outputLink value="contact.jsf">
+						<f:param name="contact.load" value="#{_contact.id}"/>
+						<h:outputText value="#{_contact.fullname}"/>
+					</h:outputLink>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="Contact"/>
+					</f:facet>
+					<h:outputText value="#{_contact.communications}"/>
+				</h:column>
+
+				<h:column>
+					<f:facet name="header">
+						<h:outputText value="&nbsp;" escape="false"/>
+					</f:facet>
+					<h:graphicImage value="media/personal-small.gif" rendered="#{_contact.class.simpleName == 'PersonalContact'}" alt="Personal Contact"/>
+					<h:graphicImage value="media/business-small.gif" rendered="#{_contact.class.simpleName == 'BusinessContact'}" alt="Business Contact"/>
+				</h:column>
+
+			</h:dataTable>
+
+		</div>
+
+	</tags:page>
+
+</f:view>

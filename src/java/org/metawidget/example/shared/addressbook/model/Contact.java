@@ -17,6 +17,7 @@
 package org.metawidget.example.shared.addressbook.model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -28,7 +29,6 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.faces.UiFacesLookup;
 import org.metawidget.inspector.spring.UiSpringLookup;
-import org.metawidget.util.CollectionUtils;
 
 /**
  * Models a Contact in the Address Book
@@ -210,7 +210,12 @@ public abstract class Contact
 			throw new RuntimeException( "Communication value is required" );
 
 		if ( mCommunications == null )
-			mCommunications = CollectionUtils.newHashSet();
+		{
+			// (don't use CollectionUtils.newHashSet() here, to avoid
+			//  dragging CollectionUtils in under GWT)
+
+			mCommunications = new HashSet<Communication>();
+		}
 
 		return mCommunications.add( communication );
 	}

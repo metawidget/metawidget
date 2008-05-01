@@ -1,0 +1,13 @@
+<module>
+
+	<!-- Core GWT -->
+	
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name='org.metawidget.gwt.GwtMetawidget' />
+	<inherits name='org.metawidget.example.shared.addressbook.AddressBookModel' />
+
+	<!-- Client -->
+	
+	<entry-point class='org.metawidget.example.gwt.addressbook.client.AddressBook' />
+
+</module>
