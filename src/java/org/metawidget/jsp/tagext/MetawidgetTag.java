@@ -37,9 +37,9 @@ import org.metawidget.jsp.tagext.StubTag.StubContent;
 import org.metawidget.jsp.tagext.html.HtmlTableLayout;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.PathUtils;
 import org.metawidget.util.StringUtils;
-import org.metawidget.util.XmlUtils;
-import org.metawidget.util.XmlUtils.TypeAndNames;
+import org.metawidget.util.PathUtils.TypeAndNames;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -420,7 +420,7 @@ public abstract class MetawidgetTag
 
 	protected Document inspect( Inspector inspector, String path )
 	{
-		TypeAndNames typeAndNames = XmlUtils.parsePath( path, '.' );
+		TypeAndNames typeAndNames = PathUtils.parsePath( path, '.' );
 		String type = typeAndNames.getType();
 
 		// Try to locate a runtime bean. This allows the Inspectors

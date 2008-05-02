@@ -17,30 +17,31 @@
 package org.metawidget.gwt.client.ui;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.util.StringUtils.*;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.metawidget.gwt.client.rpc.InspectorService;
 import org.metawidget.gwt.client.rpc.InspectorServiceAsync;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
@@ -122,13 +123,12 @@ public class GwtMetawidget
 	 * use binding instead.
 	 */
 
-	// TODO: RuntimeExceptions should be MetawidgetExceptions
 	public Object getValue( String... names )
 	{
 		Widget widget = findWidget( names );
 
 		if ( widget == null )
-			throw new RuntimeException( "No such widget" );
+			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, ',' ));
 
 		// TextBox
 
@@ -161,7 +161,7 @@ public class GwtMetawidget
 		Widget widget = findWidget( names );
 
 		if ( widget == null )
-			throw new RuntimeException( "No such widget" );
+			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, ',' ));
 
 		// TextBox
 
@@ -183,22 +183,22 @@ public class GwtMetawidget
 		InspectorServiceAsync service = (InspectorServiceAsync) GWT.create( InspectorService.class );
 		( (ServiceDefTarget) service ).setServiceEntryPoint( GWT.getModuleBaseURL() + "metawidget-inspector" );
 
-		TypeAndNames typeAndNames = parsePath( mPath, '/' );
+		Object[] typeAndNames = GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR );
 
 		try
 		{
-			service.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames(), new AsyncCallback<String>()
+			service.inspect( mToInspect, (String) typeAndNames[0], (String[]) typeAndNames[1], new AsyncCallback<String>()
 			{
 				public void onFailure( Throwable caught )
 				{
-					// Failed
+					Window.alert( caught.getMessage() );
 				}
 
-				public void onSuccess( String result )
+				public void onSuccess( String xml )
 				{
 					try
 					{
-						Document document = XMLParser.parse( result );
+						Document document = XMLParser.parse( xml );
 
 						if ( document != null )
 						{
@@ -207,14 +207,13 @@ public class GwtMetawidget
 							// Build simple widget (from the top-level element)
 
 							Element element = (Element) document.getDocumentElement().getFirstChild();
-							Map<String, String> attributes = getAttributesAsMap( element );
+							Map<String, String> attributes = GwtUtils.getAttributesAsMap( element );
 
 							// It is a little counter-intuitive that there can ever be an override
 							// of the top-level element. However, if we go down the path that builds
 							// a single widget (eg. doesn't invoke buildCompoundWidget), then our
 							// child is at the same top-level as us, and there are some scenarios
-							// (like
-							// Java Server Faces POST backs) where we need to re-identify that
+							// (like Java Server Faces POST backs) where we need to re-identify that
 
 							Widget widget = getOverridenWidget( attributes );
 
@@ -283,7 +282,7 @@ public class GwtMetawidget
 			if ( childName == null || "".equals( childName ) )
 				throw new RuntimeException( "Child element #" + loop + " of '" + element.getAttribute( "type" ) + "' has no @name" );
 
-			Map<String, String> attributes = getAttributesAsMap( child );
+			Map<String, String> attributes = GwtUtils.getAttributesAsMap( child );
 
 			Widget widget = getOverridenWidget( attributes );
 
@@ -327,7 +326,9 @@ public class GwtMetawidget
 		throws Exception
 	{
 		metawidget.setPath( mPath + '/' + attributes.get( NAME ) );
+		metawidget.setReadOnly( mReadOnly );
 		metawidget.setToInspect( mToInspect );
+
 		metawidget.buildWidgets();
 
 		return metawidget;
@@ -374,7 +375,56 @@ public class GwtMetawidget
 	protected Widget buildReadOnlyWidget( Map<String, String> attributes )
 		throws Exception
 	{
-		return new Label();
+		// Hidden
+
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+			return null;
+
+		// Masked (return a Panel, so that we DO still render a label)
+
+		if ( TRUE.equals( attributes.get( MASKED ) ) )
+			return new ScrollPanel();
+
+		String type = attributes.get( TYPE );
+
+		String lookup = attributes.get( LOOKUP );
+
+		if ( lookup != null && !"".equals( lookup ) )
+			return new Label();
+
+		// If no type, fail gracefully with a JTextField
+
+		if ( type == null || "".equals( type ) )
+			return new Label();
+
+		if ( GwtUtils.isPrimitive( type ) )
+			return new Label();
+
+		if ( String.class.getName().equals( type ) )
+			return new Label();
+
+		if ( Date.class.getName().equals( type ) )
+			return new Label();
+
+		if ( Boolean.class.getName().equals( type ) )
+			return new Label();
+
+		//if ( Number.class.isAssignableFrom( clazz ) )
+			//return new Label();
+
+		// Collections
+
+		//if ( Collection.class.isAssignableFrom( clazz ) )
+			//return new FlexTable();
+
+		// Not simple, but don't expand
+
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+			return new Label();
+
+		// Nested Metawidget
+
+		return createMetawidget();
 	}
 
 	protected Widget buildActiveWidget( Map<String, String> attributes )
@@ -392,6 +442,18 @@ public class GwtMetawidget
 		if ( type == null || "".equals( type ) )
 			return new TextBox();
 
+		if ( GwtUtils.isPrimitive( type ) )
+		{
+			// booleans
+
+			if ( "boolean".equals( type ) )
+				return new CheckBox();
+
+			// Everything else
+
+			return new TextBox();
+		}
+
 		// String Lookups
 
 		String lookup = attributes.get( LOOKUP );
@@ -401,7 +463,7 @@ public class GwtMetawidget
 			ListBox listBox = new ListBox();
 			listBox.setVisibleItemCount( 1 );
 
-			addListBoxItems( listBox, fromString( lookup, ',' ), fromString( attributes.get( LOOKUP_LABELS ), ',' ), attributes );
+			addListBoxItems( listBox, GwtUtils.fromString( lookup, ',' ), GwtUtils.fromString( attributes.get( LOOKUP_LABELS ), ',' ), attributes );
 			return listBox;
 		}
 
@@ -418,6 +480,40 @@ public class GwtMetawidget
 			return new TextBox();
 		}
 
+		// Dates
+
+		if ( Date.class.getName().equals( type ) )
+			return new TextBox();
+
+		// Booleans (are tri-state)
+
+		if ( Boolean.class.getName().equals( type ) )
+		{
+			ListBox listBox = new ListBox();
+			addListBoxItem( listBox, null, null );
+			addListBoxItem( listBox, "TRUE", "True" );
+			addListBoxItem( listBox, "FALSE", "False" );
+
+			return listBox;
+		}
+
+		// Numbers
+
+		//if ( Number.class.isAssignableFrom( type ) )
+			//return new TextBox();
+
+		// Collections
+
+		//if ( Collection.class.isAssignableFrom( type ) )
+			//return new FlexTable();
+
+		// Nested Metawidget
+
+		return createMetawidget();
+	}
+
+	protected GwtMetawidget createMetawidget()
+	{
 		return new GwtMetawidget();
 	}
 
@@ -445,8 +541,8 @@ public class GwtMetawidget
 
 		// Add an empty choice (if nullable)
 
-		// TODO:if ( ClassUtils.isPrimitive( attributes.get( TYPE ) ) )
-		addListBoxItem( listBox, "", null );
+		if ( !GwtUtils.isPrimitive( attributes.get( TYPE ) ) )
+			addListBoxItem( listBox, "", null );
 
 		// See if we're using labels
 
@@ -484,12 +580,6 @@ public class GwtMetawidget
 		listBox.addItem( value );
 	}
 
-	//
-	//
-	// Other bits
-	//
-	//
-
 	protected Widget findWidget( String... names )
 	{
 		if ( names == null )
@@ -518,115 +608,5 @@ public class GwtMetawidget
 		}
 
 		return null;
-	}
-
-	protected static Map<String, String> getAttributesAsMap( Element element )
-	{
-		NamedNodeMap nodes = element.getAttributes();
-
-		int length = nodes.getLength();
-
-		if ( length == 0 )
-			return Collections.emptyMap();
-
-		Map<String, String> attributes = new HashMap<String, String>( length );
-
-		for ( int loop = 0; loop < length; loop++ )
-		{
-			Node node = nodes.item( loop );
-			attributes.put( node.getNodeName(), node.getNodeValue() );
-		}
-
-		return attributes;
-	}
-
-	protected static String[] fromString( String collection, char separator )
-	{
-		if ( collection == null )
-			return new String[0];
-
-		return collection.split( String.valueOf( separator ) );
-	}
-
-	protected static TypeAndNames parsePath( String path, char separator )
-	{
-		int indexOfTypeEnd = path.indexOf( separator );
-
-		// Just type?
-
-		if ( indexOfTypeEnd == -1 )
-			return new TypeAndNames( path, null );
-
-		String type = path.substring( 0, indexOfTypeEnd );
-
-		// Parse names
-
-		int indexOfNameEnd = indexOfTypeEnd;
-
-		List<String> names = new ArrayList<String>();
-
-		while ( true )
-		{
-			int indexOfNameStart = indexOfNameEnd + 1;
-			indexOfNameEnd = path.indexOf( separator, indexOfNameStart );
-
-			if ( indexOfNameEnd == -1 )
-			{
-				names.add( path.substring( indexOfNameStart ) );
-				break;
-			}
-
-			names.add( path.substring( indexOfNameStart, indexOfNameEnd ) );
-		}
-
-		if ( names.isEmpty() )
-			return new TypeAndNames( type, null );
-
-		return new TypeAndNames( type, names.toArray( new String[names.size()] ) );
-	}
-
-	/**
-	 * Tuple for returning a <code>type</code> and an array of <code>names</code>.
-	 */
-
-	public static class TypeAndNames
-	{
-		//
-		//
-		// Private methods
-		//
-		//
-
-		private String		mType;
-
-		private String[]	mNames;
-
-		//
-		//
-		// Constructor
-		//
-		//
-
-		public TypeAndNames( String type, String[] names )
-		{
-			mType = type;
-			mNames = names;
-		}
-
-		//
-		//
-		// Public methods
-		//
-		//
-
-		public String getType()
-		{
-			return mType;
-		}
-
-		public String[] getNames()
-		{
-			return mNames;
-		}
 	}
 }

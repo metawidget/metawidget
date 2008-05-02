@@ -128,7 +128,7 @@ input, textarea, select
 
 .data-table th
 {
-	background: url( ../media/background-button.gif ) repeat-x center left;
+	background: white url( ../media/background-button.gif ) repeat-x center left;
 	height: 20px;
 	border-bottom: 1px solid #B3B3FF;
 }
@@ -160,7 +160,7 @@ input, textarea, select
 {
 	border: 1px solid #B3B3FF;
 	height: 32px;	
-	background: url( ../media/background-button.gif ) repeat-x center left;
+	background: white url( ../media/background-button.gif ) repeat-x center left;
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	font-weight: bold;
@@ -177,4 +177,27 @@ input, textarea, select
 	width: 50px;
 	padding-left: 5px;
 	padding-right: 5px;
+}
+
+.contact-dialog
+{
+	background: white url( ../media/background.jpg ) no-repeat;
+	filter: alpha( opacity = 95 ) progid:DXImageTransform.Microsoft.Shadow( color='#444444', Direction=135, Strength=5 );
+	border: 2px solid #888888;
+}
+
+.contact-dialog .Caption
+{
+	font-weight: bold;
+	background: white url( ../media/background-button.gif ) repeat-x center left;
+	border-bottom: 2px solid #888888;
+	padding: 5px;
+}
+
+.contact-dialog .page-image
+{
+	vertical-align:top;
+	padding-top: 15px;
+	padding-left: 20px;
+	padding-right: 20px;
 }

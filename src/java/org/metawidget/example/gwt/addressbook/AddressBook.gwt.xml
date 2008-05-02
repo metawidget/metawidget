@@ -8,6 +8,6 @@
 
 	<!-- Client -->
 	
-	<entry-point class='org.metawidget.example.gwt.addressbook.client.AddressBook' />
+	<entry-point class='org.metawidget.example.gwt.addressbook.client.ui.AddressBook' />
 
 </module>

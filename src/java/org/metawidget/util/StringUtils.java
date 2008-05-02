@@ -16,7 +16,6 @@
 
 package org.metawidget.util;
 
-
 /**
  * Utilities for working with Strings.
  *

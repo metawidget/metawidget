@@ -1151,6 +1151,7 @@
 				<include name="media/**"/>
 			</fileset>
 			<classes dir="${build.metawidget.dir}/example-classes">
+				<include name="org/metawidget/example/gwt/addressbook/client/rpc/ContactsService.class"/>
 				<include name="org/metawidget/example/gwt/addressbook/server/**"/>
 				<include name="org/metawidget/example/shared/addressbook/**"/>
 			</classes>

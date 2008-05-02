@@ -16,6 +16,8 @@
 		<div id="addPersonal"></div>
 		<div id="addBusiness"></div>
 		
+		<div id="contacts"></div>
+		
 	</div>
 		
 </tags:page>

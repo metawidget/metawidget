@@ -19,7 +19,6 @@ package org.metawidget.util;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -217,93 +216,6 @@ public class XmlUtils
 			}
 
 			return imported;
-		}
-	}
-
-	public static TypeAndNames parsePath( String path )
-	{
-		return parsePath( path, StringUtils.SEPARATOR_SLASH_CHAR );
-	}
-
-	public static TypeAndNames parsePath( String path, char separator )
-	{
-		int indexOfTypeEnd = path.indexOf( separator );
-
-		// Just type?
-
-		if ( indexOfTypeEnd == -1 )
-			return new TypeAndNames( path, null );
-
-		String type = path.substring( 0, indexOfTypeEnd );
-
-		// Parse names
-
-		int indexOfNameEnd = indexOfTypeEnd;
-
-		List<String> names = CollectionUtils.newArrayList();
-
-		while ( true )
-		{
-			int indexOfNameStart = indexOfNameEnd + 1;
-			indexOfNameEnd = path.indexOf( separator, indexOfNameStart );
-
-			if ( indexOfNameEnd == -1 )
-			{
-				names.add( path.substring( indexOfNameStart ) );
-				break;
-			}
-
-			names.add( path.substring( indexOfNameStart, indexOfNameEnd ) );
-		}
-
-		if ( names.isEmpty() )
-			return new TypeAndNames( type, null );
-
-		return new TypeAndNames( type, names.toArray( new String[names.size()] ) );
-	}
-
-	/**
-	 * Tuple for returning a <code>type</code> and an array of <code>names</code>.
-	 */
-
-	public static class TypeAndNames
-	{
-		//
-		//
-		// Private methods
-		//
-		//
-
-		private String		mType;
-
-		private String[]	mNames;
-
-		//
-		//
-		// Constructor
-		//
-		//
-
-		public TypeAndNames( String type, String[] names )
-		{
-			mType = type;
-			mNames = names;
-		}
-
-		//
-		//
-		// Public methods
-		//
-		//
-
-		public String getType()
-		{
-			return mType;
-		}
-
-		public String[] getNames()
-		{
-			return mNames;
 		}
 	}
 

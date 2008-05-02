@@ -155,7 +155,7 @@ public class MainFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				// Manual mapping. See ContactDialog for an example of using automatic Bindings
+				// Example of manual mapping. See ContactDialog for an example of using automatic Bindings
 
 				mContactSearch.setFirstnames( (String) metawidgetSearch.getValue( "firstnames" ) );
 				mContactSearch.setSurname( (String) metawidgetSearch.getValue( "surname" ) );

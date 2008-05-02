@@ -36,9 +36,9 @@ import org.metawidget.inspector.Inspector;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.PathUtils;
 import org.metawidget.util.StringUtils;
-import org.metawidget.util.XmlUtils;
-import org.metawidget.util.XmlUtils.TypeAndNames;
+import org.metawidget.util.PathUtils.TypeAndNames;
 import org.w3c.dom.Document;
 
 import android.content.Context;
@@ -886,7 +886,7 @@ public class AndroidMetawidget
 
 	protected Document inspect( Inspector inspector, String path )
 	{
-		TypeAndNames typeAndNames = XmlUtils.parsePath( path );
+		TypeAndNames typeAndNames = PathUtils.parsePath( path );
 		return inspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
 	}
 

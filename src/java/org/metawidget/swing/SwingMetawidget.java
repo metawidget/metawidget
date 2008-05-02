@@ -65,9 +65,9 @@ import org.metawidget.swing.layout.TableGridBagLayout;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.PathUtils;
 import org.metawidget.util.StringUtils;
-import org.metawidget.util.XmlUtils;
-import org.metawidget.util.XmlUtils.TypeAndNames;
+import org.metawidget.util.PathUtils.TypeAndNames;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -154,32 +154,6 @@ public class SwingMetawidget
 	private Map<String, Facet>					mFacets				= CollectionUtils.newHashMap();
 
 	private SwingMetawidgetMixin				mMixin				= new SwingMetawidgetMixin();
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public SwingMetawidget()
-	{
-		// Default constructor
-	}
-
-	public SwingMetawidget( SwingMetawidget metawidget )
-	{
-		// Do not copy mPath: could lead to infinite recursion
-
-		mToInspect = metawidget.mToInspect;
-		mInspector = metawidget.mInspector;
-		mInspectorConfig = metawidget.mInspectorConfig;
-		mLayoutClass = metawidget.mLayoutClass;
-		mBindingClass = metawidget.mBindingClass;
-		mBundle = metawidget.mBundle;
-
-		if ( metawidget.mParameters != null )
-			mParameters = CollectionUtils.newHashMap( metawidget.mParameters );
-	}
 
 	//
 	//
@@ -769,7 +743,7 @@ public class SwingMetawidget
 
 	protected void beforeBuildCompoundWidget()
 	{
-		mNamesPrefix = XmlUtils.parsePath( mPath ).getNames();
+		mNamesPrefix = PathUtils.parsePath( mPath ).getNames();
 	}
 
 	protected void addWidget( JComponent component, Map<String, String> attributes )
@@ -1147,7 +1121,7 @@ public class SwingMetawidget
 
 	protected Document inspect( Inspector inspector, String path )
 	{
-		TypeAndNames typeAndNames = XmlUtils.parsePath( path );
+		TypeAndNames typeAndNames = PathUtils.parsePath( path );
 		return inspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
 	}
 
@@ -1171,6 +1145,15 @@ public class SwingMetawidget
 	protected void initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
 	{
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_SLASH + attributes.get( NAME ) );
+		metawidget.setInspector( metawidget.mInspector );
+		metawidget.setInspectorConfig( metawidget.mInspectorConfig );
+		metawidget.setLayoutClass( metawidget.mLayoutClass );
+		metawidget.setBindingClass( metawidget.mBindingClass );
+		metawidget.setBundle( metawidget.mBundle );
+
+		if ( metawidget.mParameters != null )
+			metawidget.setParameters( CollectionUtils.newHashMap( metawidget.mParameters ));
+
 		metawidget.setToInspect( mToInspect );
 	}
 
