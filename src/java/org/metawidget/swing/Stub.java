@@ -26,8 +26,8 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Stub for Swing environments.
  * <p>
- * Stubs are used to 'stub out' what Metawidget would normally create - either to suppress component
- * creation entirely or to create child components with a different name. They differ from Facets in
+ * Stubs are used to 'stub out' what Metawidget would normally create - either to suppress widget
+ * creation entirely or to create child widgets with a different name. They differ from Facets in
  * that Facets are simply 'decorations' (such as button bars) to be recognized and arranged at the
  * discretion of the Layout.
  *

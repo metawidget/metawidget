@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Java Server Faces support: base components.
+ * Java Server Faces support: base widgets.
  */
 
 package org.metawidget.faces.component;

@@ -14,13 +14,13 @@
 		</center>
 
 		<p>
-			Metawidget takes your domain objects and automatically creates User Interface components for them, saving you handcoding your UIs and
+			Metawidget takes your domain objects and automatically creates User Interface widgets for them, saving you handcoding your UIs and
 			leaving you to concentrate on stitching together your application.
 		</p>
 
 		<p>
 			As much as possible, Metawidget does this without introducing new technologies. It inspects, at runtime, an application's <em>existing</em> back-end
-			architecture (such as JavaBeans, annotations, XML configuration files) and creates components native to its <em>existing</em> front-end framework
+			architecture (such as JavaBeans, annotations, XML configuration files) and creates widgets native to its <em>existing</em> front-end framework
 			(such as Swing, Java Server Faces, Struts or Android).
 		</p>
 
@@ -39,9 +39,9 @@
 			<area id="area-xml" shape="circle" coords="711,95,36" alt=""/>
 			<area id="area-annotation" shape="circle" coords="695,182,44" alt=""/>
 			<area id="area-create" shape="poly" coords="404,320,651,215,724,234,573,499,205,500,399,382" alt=""/>
-			<area id="area-web-component" shape="poly" coords="258,317,280,320,280,338,313,339,315,373,332,376,331,417,273,437,254,435,226,405,228,313" alt=""/>
-			<area id="area-desktop-component" shape="poly" coords="234,479,231,384,199,380,199,357,174,355,173,373,143,371,140,389,119,386,116,416,137,418,136,453,177,459,177,473,233,482" alt=""/>
-			<area id="area-mobile-component" shape="poly" coords="397,377,403,297,298,282,290,336,313,340,314,371" alt=""/>
+			<area id="area-web-widget" shape="poly" coords="258,317,280,320,280,338,313,339,315,373,332,376,331,417,273,437,254,435,226,405,228,313" alt=""/>
+			<area id="area-desktop-widget" shape="poly" coords="234,479,231,384,199,380,199,357,174,355,173,373,143,371,140,389,119,386,116,416,137,418,136,453,177,459,177,473,233,482" alt=""/>
+			<area id="area-mobile-widget" shape="poly" coords="397,377,403,297,298,282,290,336,313,340,314,371" alt=""/>
 			<area id="area-embed" shape="poly" coords="90,243,131,190,195,203,223,172,266,182,112,397,148,487,0,487,0,243" alt=""/>
 		</map>
 
@@ -60,7 +60,8 @@
 							<h3>1. Front-Ends</h3>
 							<ul>
 								<li>Android</li>
-								<li>Java Server Faces
+								<li>Google Web Toolkit (GWT)</li>
+								<li>Java Server Faces (JSF)
 									<ul>
 										<li>Facelets</li>
 										<li>RichFaces</li>
@@ -97,8 +98,8 @@
 		</p>
 
 		<ul>
-			<li>to create UI components by inspecting existing back-end architectures</li>
-			<li>not to try to 'own' the entire UI, but to focus on creating native subcomponents for slotting into existing UIs</li>
+			<li>to create UI widgets by inspecting existing back-end architectures</li>
+			<li>not to try to 'own' the entire UI, but to focus on creating native sub-widgets for slotting into existing UIs</li>
 			<li>to perform inspection <em>at runtime</em>, detecting types and subtypes dynamically</li>
 		</ul>
 
@@ -145,20 +146,20 @@
 
 	<div id="tooltip-create" class="tooltip">
 		<strong>Create:</strong> the inspection results are used to choose the best UI
-		subcomponents, depending on those available on the native platform
+		sub-widgets, depending on those available on the native platform
 	</div>
 
-	<div id="tooltip-web-component" class="tooltip">
+	<div id="tooltip-web-widget" class="tooltip">
 		<strong>Web:</strong> Metawidget creates native components/taglibs for each popular Web framework,
 		including attaching validators
 	</div>
 
-	<div id="tooltip-desktop-component" class="tooltip">
+	<div id="tooltip-desktop-widget" class="tooltip">
 		<strong>Desktop:</strong> Metawidget creates native Swing JComponents, optionally
 		bound with Beans Binding (JSR 295)
 	</div>
 
-	<div id="tooltip-mobile-component" class="tooltip">
+	<div id="tooltip-mobile-widget" class="tooltip">
 		<strong>Mobile:</strong> Metawidget creates native Android Views
 	</div>
 
@@ -175,9 +176,9 @@
 		new Tooltip( "area-annotation", "tooltip-annotation" );
 		new Tooltip( "area-xml", "tooltip-xml" );
 		new Tooltip( "area-create", "tooltip-create" );
-		new Tooltip( "area-web-component", "tooltip-web-component" );
-		new Tooltip( "area-desktop-component", "tooltip-desktop-component" );
-		new Tooltip( "area-mobile-component", "tooltip-mobile-component" );
+		new Tooltip( "area-web-widget", "tooltip-web-widget" );
+		new Tooltip( "area-desktop-widget", "tooltip-desktop-widget" );
+		new Tooltip( "area-mobile-widget", "tooltip-mobile-widget" );
 		new Tooltip( "area-embed", "tooltip-embed" );
 	</script>
 

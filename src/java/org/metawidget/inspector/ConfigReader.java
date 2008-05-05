@@ -135,6 +135,9 @@ public class ConfigReader
 
 	public Inspector read( String resource )
 	{
+		if ( resource == null )
+			throw InspectorException.newException( "No resource specified" );
+
 		return read( openResource( resource ) );
 	}
 
@@ -305,18 +308,14 @@ public class ConfigReader
 
 					String packagePrefix = uri.substring( JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT;
 					String toConstruct = packagePrefix + StringUtils.uppercaseFirstLetter( localName );
-					Class<?> classToConstruct;
+					Class<?> classToConstruct = ClassUtils.niceForName( toConstruct );
 
-					try
-					{
-						classToConstruct = Class.forName( toConstruct );
-					}
-					catch ( ClassNotFoundException e )
+					if ( classToConstruct == null )
 					{
 						if ( !mStackConstructing.isEmpty() && mStackConstructing.peek() instanceof Constructor )
-							throw InspectorException.newException( "No such class " + toConstruct + ". Did you forget a 'config' attribute?", e );
+							throw InspectorException.newException( "No such class " + toConstruct + ". Did you forget a 'config' attribute?" );
 
-						throw InspectorException.newException( e );
+						throw InspectorException.newException( "No such class" + toConstruct );
 					}
 
 					String configClass = attributes.getValue( "config" );

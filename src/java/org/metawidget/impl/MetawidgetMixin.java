@@ -31,9 +31,9 @@ import org.w3c.dom.NodeList;
  * Base class functionality for Metawidgets.
  * <p>
  * Use of MetawidgetMixin when developing Metawidgets is entirely optional, and may not be possible
- * on all platforms (eg. those that don't support <code>org.w3c.dom</code>). However, it
- * provides a level of functionality and structure to the code which most Metawidgets will benefit
- * from.
+ * on all platforms (eg. those that don't support <code>org.w3c.dom</code> or
+ * <code>Class.getDeclaringClass</code>). However, it provides a level of functionality and
+ * structure to the code which most Metawidgets will benefit from.
  * <p>
  * Specifically, the mixin provides support for:
  * <ul>
@@ -102,7 +102,7 @@ public abstract class MetawidgetMixin<W>
 
 				if ( widget != null )
 				{
-					// If the returned component is itself a Metawidget, it must have
+					// If the returned widget is itself a Metawidget, it must have
 					// the same path as us. In that case, DON'T use it, as that would
 					// be infinite recursion
 
@@ -121,7 +121,7 @@ public abstract class MetawidgetMixin<W>
 			}
 
 			// Even if no inspectors match, we still call endBuild(). This makes us
-			// behave better in visual builder tools when dropping child components in
+			// behave better in visual builder tools when dropping child widgets in
 
 			endBuild();
 		}

@@ -308,7 +308,7 @@ public abstract class MetawidgetTag
 		if ( mLayout == null && mLayoutClass != null && !"".equals( mLayoutClass ) )
 		{
 			@SuppressWarnings( "unchecked" )
-			Class<? extends Layout> layout = (Class<? extends Layout>) Class.forName( mLayoutClass );
+			Class<? extends Layout> layout = (Class<? extends Layout>) ClassUtils.niceForName( mLayoutClass );
 
 			Constructor<? extends Layout> constructor = layout.getConstructor( MetawidgetTag.class );
 			mLayout = constructor.newInstance( this );

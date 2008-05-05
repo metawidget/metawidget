@@ -19,13 +19,13 @@ package org.metawidget.inspector;
 /**
  * Common element and attribute names appearing in DOMs conforming to inspection-result-1.0.xsd.
  * <p>
- * Metawidget promotes a loose coupling between Inspectors and component creation. In particular, it
+ * Metawidget promotes a loose coupling between Inspectors and widget creation. In particular, it
  * discourages any single Inspector dictating an XML attribute name, as that Inspector then holds a
  * 'monopoly' on how that attribute gets initialised (eg. it should not matter whether a
  * <code>required</code> attribute came from a JPA annotation, a Hibernate mapping file or
  * Hibernate Validator).
  * <p>
- * Metawidget also promotes that, as both Inspectors and component creation evolve independently,
+ * Metawidget also promotes that, as both Inspectors and widget creation evolve independently,
  * the XML attributes recognized should evolve in an 'ad hoc' fashion: Metawidget places no
  * restrictions on what attribute names can be used.
  * <p>

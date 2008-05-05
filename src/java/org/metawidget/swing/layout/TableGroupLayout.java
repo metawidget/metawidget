@@ -37,8 +37,8 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.StringUtils;
 
 /**
- * Layout to arrange components in a table, with one column for labels and another for the
- * component, using <code>javax.swing.GroupLayout</code>.
+ * Layout to arrange widgets in a table, with one column for labels and another for the
+ * widget, using <code>javax.swing.GroupLayout</code>.
  *
  * @author Richard Kennard
  */

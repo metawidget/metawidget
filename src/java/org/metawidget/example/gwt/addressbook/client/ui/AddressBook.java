@@ -136,7 +136,8 @@ public class AddressBook
 		{
 			public void onClick( Widget sender )
 			{
-				new ContactDialog( mContactsService, new PersonalContact() ).show();
+				Contact contact = new PersonalContact();
+				new ContactDialog( mContactsService, contact ).show();
 			}
 		} );
 		RootPanel.get( "addPersonal" ).add( addPersonal );
@@ -146,7 +147,8 @@ public class AddressBook
 		{
 			public void onClick( Widget sender )
 			{
-				new ContactDialog( mContactsService, new BusinessContact() ).show();
+				Contact contact = new BusinessContact();
+				new ContactDialog( mContactsService, contact ).show();
 			}
 		} );
 		RootPanel.get( "addBusiness" ).add( addBusiness );

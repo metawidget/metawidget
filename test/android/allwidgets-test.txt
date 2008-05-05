@@ -13,7 +13,7 @@ For Android AllWidgets, test:
 * There is no label for longObject
 * There is a label 'nullInBundle'
 * There is no label for doubleObject
-* All dropdowns have a blank choice available
+* All dropdowns have a blank choice available, except notNullDropdown
 * The mystery field is a text box
 * The last field is a collections list
 

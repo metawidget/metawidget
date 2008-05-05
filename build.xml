@@ -898,7 +898,7 @@
 
 	<target name="example-swing-addressbook-applet" depends="compile">
 		
-		<mkdir dir="${build.metawidget.dir}/examples/swing/applet"/>
+		<mkdir dir="${build.metawidget.dir}/examples/swing/applet/addressbook"/>
 
 		<jar destfile="${build.metawidget.dir}/examples/swing/applet/addressbook/metawidget-applet.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">

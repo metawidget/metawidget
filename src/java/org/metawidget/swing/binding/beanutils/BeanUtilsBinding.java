@@ -20,6 +20,7 @@ import java.awt.Component;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.metawidget.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
@@ -77,7 +78,7 @@ public class BeanUtilsBinding
 			{
 				sourceValue = PropertyUtils.getProperty( getMetawidget().getToInspect(), sourceBinding );
 			}
-			catch( NoSuchMethodException e )
+			catch ( NoSuchMethodException e )
 			{
 				// Fail gracefully
 
@@ -117,6 +118,13 @@ public class BeanUtilsBinding
 		{
 			throw MetawidgetException.newException( e );
 		}
+	}
+
+	@Override
+	@SuppressWarnings( "unchecked" )
+	public <T> T convert( String value, Class<T> type )
+	{
+		return (T) ConvertUtils.convert( value, type );
 	}
 
 	//

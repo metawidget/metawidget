@@ -18,18 +18,21 @@ package org.metawidget.faces.component.validator;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.lang.reflect.*;
-import java.util.*;
+import java.lang.reflect.Method;
+import java.util.Map;
 
-import javax.faces.application.*;
-import javax.faces.component.*;
-import javax.faces.context.*;
-import javax.faces.validator.*;
+import javax.faces.application.Application;
+import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.DoubleRangeValidator;
+import javax.faces.validator.LengthValidator;
+import javax.faces.validator.LongRangeValidator;
 
-import org.metawidget.faces.component.*;
+import org.metawidget.faces.component.UIMetawidget;
 
 /**
- * Validator to add standard JSF validators to a component.
+ * Validator to add standard JSF validators to a widget.
  *
  * @author Richard Kennard
  */

@@ -32,8 +32,6 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
-// TODO: add a test for non-nullable lookups
-
 public class AllWidgets
 	implements Serializable
 {
@@ -109,6 +107,8 @@ public class AllWidgets
 	private String				mDropdown							= "dropdown";
 
 	private String				mDropdownWithLabels					= "dropdown";
+
+	private int					mNotNullDropdown;
 
 	private NestedWidgets		mNestedWidgets						= new NestedWidgets();
 
@@ -358,6 +358,16 @@ public class AllWidgets
 	public void setDropdownWithLabels( String dropdownWithLabels )
 	{
 		mDropdownWithLabels = dropdownWithLabels;
+	}
+
+	public int getNotNullDropdown()
+	{
+		return mNotNullDropdown;
+	}
+
+	public void setNotNullDropdown( int notNullDropdown )
+	{
+		mNotNullDropdown = notNullDropdown;
 	}
 
 	public NestedWidgets getNestedWidgets()

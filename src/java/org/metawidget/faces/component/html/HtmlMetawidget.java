@@ -34,6 +34,7 @@ import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
@@ -208,30 +209,18 @@ public class HtmlMetawidget
 		if ( type == null || "".equals( type ) )
 			return createReadOnlyComponent( attributes );
 
-		// Primitives
-
-		if ( ClassUtils.isPrimitive( type ) )
-			return createReadOnlyComponent( attributes );
-
-		Class<?> clazz = null;
-
-		try
-		{
-			clazz = Class.forName( type );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Might be a symbolic type (eg. @type="Login Screen")
-		}
+		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz != null )
 		{
-			// Built-in types
+			// Primitives
 
-			if ( Boolean.class.isAssignableFrom( clazz ) )
+			if ( clazz.isPrimitive() )
 				return createReadOnlyComponent( attributes );
 
-			if ( Number.class.isAssignableFrom( clazz ) )
+			// Object primitives
+
+			if ( ClassUtils.isObjectPrimitive( clazz ) )
 				return createReadOnlyComponent( attributes );
 
 			// Dates
@@ -271,7 +260,8 @@ public class HtmlMetawidget
 	protected UIComponent buildActiveWidget( Map<String, String> attributes )
 		throws Exception
 	{
-		Application application = getFacesContext().getApplication();
+		FacesContext context = getFacesContext();
+		Application application = context.getApplication();
 		String type = attributes.get( TYPE );
 
 		// Hidden
@@ -297,6 +287,13 @@ public class HtmlMetawidget
 
 		if ( componentName != null )
 			component = application.createComponent( componentName );
+
+		// If no type, fail gracefully with a javax.faces.HtmlInputText
+
+		if ( type == null || "".equals( type ) )
+			return application.createComponent( "javax.faces.HtmlInputText" );
+
+		Class<?> clazz = ClassUtils.niceForName( type );
 
 		// Faces Lookups
 
@@ -328,47 +325,51 @@ public class HtmlMetawidget
 					select.setSize( 1 );
 				}
 
-				addSelectItems( component, CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
+				List<?> values = CollectionUtils.fromString( lookup );
+
+				// Convert values if necessary
+
+				Converter converter = application.createConverter( clazz );
+
+				if ( converter != null )
+				{
+					int size = values.size();
+					List<Object> convertedValues = CollectionUtils.newArrayList( size );
+
+					for( int loop = 0; loop < size; loop++ )
+					{
+						Object convertedValue = converter.getAsObject( context, component, (String) values.get( loop ) );
+						convertedValues.add( convertedValue );
+					}
+
+					values = convertedValues;
+				}
+
+				addSelectItems( component, values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
 			}
 		}
 
 		if ( component != null )
 			return component;
 
-		// If no type, fail gracefully with a javax.faces.HtmlInputText
-
-		if ( type == null || "".equals( type ) )
-			return application.createComponent( "javax.faces.HtmlInputText" );
-
-		// Primitives
-
-		if ( "boolean".equals( type ) )
-			return application.createComponent( "javax.faces.SelectBoolean" );
-
-		if ( "char".equals( type ) )
-		{
-			component = application.createComponent( "javax.faces.HtmlInputText" );
-			( (HtmlInputText) component ).setMaxlength( 1 );
-
-			return component;
-		}
-
-		if ( ClassUtils.isPrimitive( type ) )
-			return application.createComponent( "javax.faces.HtmlInputText" );
-
-		Class<?> clazz = null;
-
-		try
-		{
-			clazz = Class.forName( type );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Might be a symbolic type (eg. @type="Login Form")
-		}
-
 		if ( clazz != null )
 		{
+			// Primitives
+
+			if ( boolean.class.equals( clazz ) )
+				return application.createComponent( "javax.faces.SelectBoolean" );
+
+			if ( char.class.equals( clazz ) )
+			{
+				component = application.createComponent( "javax.faces.HtmlInputText" );
+				( (HtmlInputText) component ).setMaxlength( 1 );
+
+				return component;
+			}
+
+			if ( clazz.isPrimitive() )
+				return application.createComponent( "javax.faces.HtmlInputText" );
+
 			// Dates
 
 			if ( Date.class.isAssignableFrom( clazz ) )

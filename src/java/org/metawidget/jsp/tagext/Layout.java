@@ -25,7 +25,7 @@ import java.util.Map;
  * and <code>StrutsMetawidgetTag</code>.
  * <p>
  * Whilst the Metawidgets themselves use JSP taglibs, by the time the result is passed to the Layout
- * we deal with simple Strings of HTML. This is because JSP does not define a robust component model
+ * we deal with simple Strings of HTML. This is because JSP does not define a robust widget model
  * (specifically, tags cannot iterate over their children). Interesting comparisons can be made
  * between this class and <code>javax.faces.render.Renderer</code>.
  * <p>

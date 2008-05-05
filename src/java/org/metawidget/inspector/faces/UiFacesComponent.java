@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates the field should be rendered using the given Faces component in the UI.
+ * Annotates the field should be rendered using the given Faces <code>UIComponent</code> in the UI.
  * <p>
  * Use of this annotation does not bind the business class to the UI quite as tightly
  * as it may appear, because JSF has a loosely coupled relationship between

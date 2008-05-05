@@ -89,6 +89,7 @@
 
 	allWidgets.setDropdown( request.getParameter( "allWidgets.dropdown" ) );
 	allWidgets.setDropdownWithLabels( request.getParameter( "allWidgets.dropdownWithLabels" ) );
+	allWidgets.setNotNullDropdown( Integer.parseInt( request.getParameter( "allWidgets.notNullDropdown" ) ));
 	allWidgets.getNestedWidgets().setNestedTextbox1( request.getParameter( "allWidgets.nestedWidgets.nestedTextbox1" ) );
 	allWidgets.getNestedWidgets().setNestedTextbox2( request.getParameter( "allWidgets.nestedWidgets.nestedTextbox2" ) );
 	allWidgets.getReadOnlyNestedWidgets().setNestedTextbox1( request.getParameter( "allWidgets.readOnlyNestedWidgets.nestedTextbox1" ) );

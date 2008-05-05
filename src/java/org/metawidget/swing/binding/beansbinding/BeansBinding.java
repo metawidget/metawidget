@@ -139,6 +139,20 @@ public class BeansBinding
 		}
 	}
 
+	// TODO: test this
+
+	@Override
+	@SuppressWarnings( "unchecked" )
+	public <T> T convert( String value, Class<T> type )
+	{
+		Converter<String, T> converter = (Converter<String, T>) CONVERTERS.get( new ConvertFromTo<String, T>( String.class, type ) );
+
+		if ( converter == null )
+			return (T) value;
+
+		return converter.convertForward( value );
+	}
+
 	@Override
 	public void unbind()
 	{

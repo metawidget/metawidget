@@ -22,7 +22,7 @@
 			Metawidget is an object/user interface mapping tool for Java
 			environments. The term object/user interface mapping (OIM) refers to
 			the technique of inspecting objects, at runtime, and creating
-			User Interface (UI) components.
+			User Interface (UI) widgets.
 		</para>
 
 		<para>
@@ -30,12 +30,12 @@
 			new technologies. As shown in <xref linkend="preface-diagram"/>,
 			Metawidget inspects an application's
 			<emphasis>existing</emphasis> back-end architecture (such as JavaBeans, annotations,
-			XML configuration files) and creates components native to its
+			XML configuration files) and creates widgets native to its
 			<emphasis>existing</emphasis> front-end framework (such as Swing, Java Server Faces, Struts or Android).
 		</para>
 	
 		<figure id="preface-diagram">
-			<title>Metawidget inspects existing back-ends and creates components native to existing front-ends</title>			
+			<title>Metawidget inspects existing back-ends and creates widgets native to existing front-ends</title>			
 			<screenshot>
 				<graphic fileref="../shared/images/overview.png"/>
 			</screenshot>
@@ -150,10 +150,10 @@ public class Main {
 	
 				<para>		
 	 				Note many IDEs include visual UI builders
-					for dragging and dropping components. Metawidget integrates
-					with these tools, and Metawidget components can be dragged and
+					for dragging and dropping widgets. Metawidget integrates
+					with these tools, and Metawidget widgets can be dragged and
 					dropped like any other. As we shall see, however, Metawidget
-					components automatically fill themselves with child components at runtime,
+					widgets automatically fill themselves with child widgets at runtime,
 					saving significant development time.
 				</para>
 				
@@ -174,32 +174,32 @@ public class Main {
 				</figure>				
 				
 				<para>
-					The <classname>SwingMetawidget</classname> has automatically populated itself with child components at
+					The <classname>SwingMetawidget</classname> has automatically populated itself with child widgets at
 					runtime. It has chosen <classname>JSpinner</classname>, <classname>JTextField</classname> and <classname>JCheckBox</classname>
-					components to suit the fields of the <classname>Person</classname> class. This is the First Goal Of Metawidget:
+					widgets to suit the fields of the <classname>Person</classname> class. This is the First Goal Of Metawidget:
 				</para>
 				
 			    <important>
 			    	<title>First Goal Of Metawidget</title>
-					Metawidget creates UI components by inspecting existing back-end architectures   
+					Metawidget creates UI widgets by inspecting existing back-end architectures   
 				</important>
 
 				<para>
-					By default, <classname>SwingMetawidget</classname> has laid out the components using <classname>java.awt.GridBagLayout</classname>.
-					Try resizing the window, and the components will resize with it. If you've ever tried using <classname>GridBagLayout</classname> yourself, either
+					By default, <classname>SwingMetawidget</classname> has laid out the <classname>JComponents</classname> using <classname>java.awt.GridBagLayout</classname>.
+					Try resizing the window, and the <classname>JComponents</classname> will resize with it. If you've ever tried using <classname>GridBagLayout</classname> yourself, either
 					through code or a visual UI builder, you'll know how fiddly it can be. Having Metawidget do it for you is a real time-saver.  
 				</para>
 				
 				<para>
 					Clearly this is not a complete UI. There are no Save or Cancel buttons, for example,
-					and the components appear uncomfortably tight to the left, top and right edges of the <classname>JFrame</classname>. This is
+					and the <classname>JComponents</classname> appear uncomfortably tight to the left, top and right edges of the <classname>JFrame</classname>. This is
 					explained by the Second Goal Of Metawidget:
 				</para>
 				
 			    <important>
 			    	<title>Second Goal Of Metawidget</title>
 					Metawidget does not try to 'own' the entire UI - it focusses on
-					creating native subcomponents for slotting into existing UIs  
+					creating native sub-widgets for slotting into existing UIs  
 			    </important>
 				
 				<para>
@@ -299,7 +299,7 @@ public class Main {
 					Metawidget Inspectors are very targeted in what they inspect. Although
 					<classname>MetawidgetAnnotationInspector</classname> looks for Metawidget annotations (such as <classname>@UiComesAfter</classname>), it does <emphasis>not</emphasis>
 					look for JavaBean type information (like <classname>JavaBeanInspector</classname> did). Without type information, <classname>SwingMetawidget</classname>
-					is unable to accurately choose components.
+					is unable to accurately choose <classname>JComponents</classname>.
 				</para>
 						
 			</section>
@@ -343,7 +343,7 @@ public class Main {
 
 				<para>
 					Run the code again. This time the fields should appear both in the correct order <emphasis>and</emphasis> with the
-					correct components.			
+					correct <classname>JComponents</classname>.			
 				</para>
 				
 				<para>
@@ -392,7 +392,7 @@ public class Person {
 				<title>Fine-Tuning The Layout</title>
 				
 				<para>
-					By default, <classname>SwingMetawidget</classname> lays out components using <classname>org.metawidget.swing.layout.TableGridBagLayout</classname>.
+					By default, <classname>SwingMetawidget</classname> lays out <classname>JComponents</classname> using <classname>org.metawidget.swing.layout.TableGridBagLayout</classname>.
 					You can swap this for a different layout using <function>SwingMetawidget.setLayoutClass</function>, or you can fine-tune the existing
 					one using <function>SwingMetawidget.setParameter</function>:
 				</para>
@@ -428,9 +428,9 @@ public class Main {
 }</programlisting>
 
 				<para>
-					Run the code. The components are now arranged across two columns as in
+					Run the code. The <classname>JComponents</classname> are now arranged across two columns as in
 					<xref linkend="section-introduction-part1-columns-screenshot"/>. <classname>TableGridBagLayout</classname> is smart enough
-					to give large components like <parameter>Notes</parameter> the full width of the <classname>JFrame</classname>.
+					to give large <classname>JComponents</classname> like <parameter>Notes</parameter> the full width of the <classname>JFrame</classname>.
 				</para>
 				
 				<figure id="section-introduction-part1-columns-screenshot">
@@ -447,10 +447,10 @@ public class Main {
 			</section>
 				
 			<section id="section-introduction-part1-creation">
-				<title>Controlling Component Creation</title>
+				<title>Controlling Widget Creation</title>
 				
 				<para>
-					Component creation can be fine-tuned by dropping child controls inside the <classname>SwingMetawidget</classname>. This approach works well
+					Widget creation can be fine-tuned by dropping child controls inside the <classname>SwingMetawidget</classname>. This approach works well
 					both within code and within visual UI builders.
 				</para>
 				
@@ -504,8 +504,8 @@ public class Main {
 				</figure>				
 
 				<para>
-					To suppress a component's creation entirely, simply supplying an empty <classname>JPanel</classname> will not work as Metawidget
-					will still create an accompanying label in the left hand column. Instead, Metawidget includes special <classname>Stub</classname> components
+					To suppress a widget's creation entirely, simply supplying an empty <classname>JPanel</classname> will not work as Metawidget
+					will still create an accompanying label in the left hand column. Instead, Metawidget includes special <classname>Stub</classname> widgets
 					for this purpose:
 				</para>
 				
@@ -591,7 +591,7 @@ public class Person {
 				<para>
 					So far we have been instantiating our Inspectors in Java code. Whilst this approach is possible
 					for all Inspectors, many UI frameworks employ visual UI builders or intermediate languages (such as JSPs) that
-					make getting to the internal Java code cumbersome (eg. you have to derive custom components).
+					make getting to the internal Java code cumbersome (eg. you have to derive custom widgets).
 				</para>
 				
 				<para>
@@ -775,7 +775,7 @@ public class Main {
 					Metawidget comes with a range of Inspectors, and it is straightforward
 					to write your own to inspect anything from XML configuration files to database schemas
 					to annotations. The inspection process is loosely coupled from the
-					component creation process, so the same Inspector can supply information to multiple
+					widget creation process, so the same Inspector can supply information to multiple
 					UI frameworks.
 				</para>
 				
@@ -815,7 +815,7 @@ public class Main {
 				
 				<para>
 					The Desktop Address Book is essentially a larger version of the Swing application developed in
-					Part 1 - it just has more business objects and more Swing components.
+					Part 1 - it just has more business objects and more Swing widgets.
 				</para>
 				
 				<para>
@@ -855,7 +855,7 @@ public class Main {
 					based on the <classname>ContactSearch</classname> business class. This includes populating the <parameter>Type</parameter> dropdown based
 					on the <classname>ContactType</classname>
 					enum. The <guibutton>Search</guibutton>, <guibutton>Add Personal Contact</guibutton> and <guibutton>Add Business Contact</guibutton> buttons are manually
-					specified in <classname>MainFrame</classname>, but are added as child components of the <classname>SwingMetawidget</classname> to take advantage
+					specified in <classname>MainFrame</classname>, but are added as child widgets of the <classname>SwingMetawidget</classname> to take advantage
 					of automatic layout.
 				</para>
 				
@@ -890,7 +890,7 @@ public class Main {
 				
 				<para>
 					The <parameter>Address</parameter> field is created as a nested <classname>SwingMetawidget</classname>. This is the default behaviour when Metawidget
-					encounters datatypes it does not know how to represent with any other UI component. The <parameter>Communications</parameter> field
+					encounters datatypes it does not know how to represent with any other UI widget. The <parameter>Communications</parameter> field
 					has been overriden with a manually specified <classname>JTable</classname>.
 				</para>
 				
@@ -906,7 +906,7 @@ public class Main {
 						The Desktop Address Book uses Metawidget's <function>setReadOnly(true)</function> method to display
 						read-only screens. Return to the main screen, and double-click on an existing contact (such as
 						Homer Simpson). The same <classname>ContactDialog</classname> is used, but this time
-						all the components are read-only labels as in <xref linkend="section-introduction-part2-desktop-readonly-screenshot"/>.
+						all the widgets are read-only labels as in <xref linkend="section-introduction-part2-desktop-readonly-screenshot"/>.
 					</para>
 					
 					<figure id="section-introduction-part2-desktop-readonly-screenshot">
@@ -917,7 +917,7 @@ public class Main {
 					</figure>
 
 					<para>
-						Click <guibutton>Edit</guibutton>. The components are transformed into editable components by using
+						Click <guibutton>Edit</guibutton>. The labels are transformed into editable widgets by using
 						Metawidget's <function>setReadOnly(false)</function>, as in <xref linkend="section-introduction-part2-desktop-editable-screenshot"/>.
 					</para>
 					
@@ -948,7 +948,7 @@ public class Main {
 					<para> 					
 						<classname>SwingMetawidget</classname> directly supports third-party binding alternatives such as Apache BeanUtils and
 						Beans Binding (JSR 295) via <function>SwingMetawidget.setBindingClass</function>. These
-						binding implementations automatically map <classname>Component</classname> values to <classname>Object</classname> values,
+						binding implementations automatically map <classname>JComponent</classname> values to <classname>Object</classname> values,
 						including performing the necessary conversions, further reducing the amount of boilerplate code required.
 					</para>
 					
@@ -1035,7 +1035,7 @@ public class Main {
 				<para>
  					Again, this includes populating the <parameter>Type</parameter> dropdown and localizing the text. The <guibutton>Search</guibutton>,
 					<guibutton>Add Personal Contact</guibutton> and <guibutton>Add Business Contact</guibutton> buttons are manually specified
-					in the JSP page, but are added as child components of Metawidget to take advantage of automatic layout.
+					in the JSP page, but are added as child widgets of Metawidget to take advantage of automatic layout.
 				</para>
 								
 				<para>
@@ -1050,7 +1050,7 @@ public class Main {
 &lt;/m:metawidget&gt;</programlisting>
 				
 				<para>
-					Only the layout	of 'one column for the label, one column for the component' is dictated by Metawidget, and that is again
+					Only the layout	of 'one column for the label, one column for the widget' is dictated by Metawidget, and that is again
 					pluggable and configurable.
 				</para>
 				
@@ -1073,9 +1073,9 @@ public class Main {
 				
 				<para>
 					The <parameter>Address</parameter> field is a nested Metawidget. The <parameter>Communications</parameter> field
-					has been overriden in the JSP page with a manually specified table. <classname>UIMetawidget</classname> understands a manually-specified component to
+					has been overriden in the JSP page with a manually specified table. <classname>UIMetawidget</classname> understands a manually-specified widget to
 					override an automatic one if it has the same <parameter>value</parameter> binding as the automatic
-					component would have (<classname>SpringMetawidget</classname> and <classname>StrutsMetawidget</classname> do
+					widget would have (<classname>SpringMetawidget</classname> and <classname>StrutsMetawidget</classname> do
 					something similar):
 				</para>
 				
@@ -1092,13 +1092,13 @@ public class Main {
 					returned by <function>Contact.getCommunications</function> must be wrapped into a <classname>DataModel</classname>. This is handled by
 					<function>ContactController.getCurrentCommunications</function>, but this presents a problem: the mapping for the
 					<classname>HtmlDataTable</classname> must be <parameter>#{contact.currentCommunications}</parameter>, but the mapping required to override
-					<classname>UIMetawidget</classname>'s automatic component creation is <parameter>#{contact.current.communications}</parameter>.
+					<classname>UIMetawidget</classname>'s automatic widget creation is <parameter>#{contact.current.communications}</parameter>.
 				</para>
 				
 				<para>
 					<classname>UIMetawidget</classname> supplies <classname>UIStub</classname> for these situations. Stubs have a binding, but do nothing with it
-					and render nothing. They can be used either to suppress component creation entirely (a stub
-					with an empty body) or to replace the automatic component creation with one or more other components
+					and render nothing. They can be used either to suppress widget creation entirely (a stub
+					with an empty body) or to replace the automatic widget creation with one or more other widgets
 					with different bindings:
 				</para>
 				
@@ -1122,7 +1122,7 @@ public class Main {
 
 				<para>
 					Instead, we wrap the overriden <parameter>Communications</parameter> field in Metawidget's <classname>Stub</classname> tag. Metawidget
-					and its Stub tags have explicit	support for co-ordinating the overriding of component creation:
+					and its Stub tags have explicit	support for co-ordinating the overriding of widget creation:
 				</para>
 				
 				<programlisting language="jsp">&lt;m:metawidget property="contactForm"&gt;
@@ -1219,7 +1219,7 @@ public class Main {
 				</section>
 
 				<section id="section-introduction-part2-web-richfaces">
-					<title>Alternate Component Libraries</title>
+					<title>Alternate Widget Libraries</title>
 					
 					<para>
 						This section only works on JSF.
@@ -1239,8 +1239,8 @@ public class Main {
 	
 					<para>
 						Now refresh the Web browser. Notice how the <parameter>Date of Birth</parameter> field for Personal Contacts becomes a RichFaces date picker
-						component, and the <parameter>Number of Staff</parameter> field for Business Contacts becomes a RichFaces slider component. This shows how easy
-						it is to leverage component libraries with Metawidget (this example cheats a bit, as we've pre-added the RichFaces JARs into
+						widget, and the <parameter>Number of Staff</parameter> field for Business Contacts becomes a RichFaces slider widget. This shows how easy
+						it is to leverage widget libraries with Metawidget (this example cheats a bit, as we've pre-added the RichFaces JARs into
 						<filename>WEB-INF\lib</filename> and some lines into <filename>web.xml</filename>, but you get the idea).
 					</para>
 					
@@ -1306,7 +1306,7 @@ public class Main {
 
 				<para>
 					The look of the screen relies entirely on Android XML layout files, styles and themes. Only the 'one column for the label, one column
-					for the component' layout is dictated by Metawidget, and that is pluggable and configurable.
+					for the widget' layout is dictated by Metawidget, and that is pluggable and configurable.
 				</para>
 
 				<para>
@@ -1325,7 +1325,7 @@ public class Main {
 					UIs in Android are typically defined in XML layout files, though they can also be built programmatically.
 					<classname>AndroidMetawidget</classname> supports both approaches. For example, the Personal Contact screen is
 					defined in <filename>contact.xml</filename>, and contains a Metawidget defined in much the same way as in
-					JSP (including configuring section style and overriding component creation): 
+					JSP (including configuring section style and overriding widget creation): 
 				</para>
 
 				<programlisting language="xml">&lt;view class="org.metawidget.android.widget.AndroidMetawidget" android:id="@+id/metawidget"
@@ -1523,7 +1523,7 @@ bin\run</programlisting>
 
 			<para>
 				There is a large diversity of front-end and back-end technologies. Metawidget strives to unify this
-				diversity with two over-arching concepts: Metawidgets that create components for
+				diversity with two over-arching concepts: Metawidgets that create widgets for
 				specific front-end frameworks (<classname>SwingMetawidget</classname>, <classname>UIMetawidget</classname>, etc.) and Inspectors that
 				inspect specific back-end architectures (<classname>JavaBeanInspector</classname>, <classname>JpaInspector</classname>, etc.).
 			</para>
@@ -1545,7 +1545,7 @@ bin\run</programlisting>
 				<para>
 					In addition, all Metawidgets support roughly the same functionality but different UI frameworks have different in-built capabilities.
 					For example, JSF has <function>UIComponent.setRenderer</function> for choosing different layouts
-					for the same component, whereas <classname>SwingMetawidget</classname> has to roll its own <function>setLayout</function> method.
+					for the same widget, whereas <classname>SwingMetawidget</classname> has to roll its own <function>setLayout</function> method.
 					This means there cannot be a common 'Metawidget interface' either.
 				</para>
 				
@@ -1568,9 +1568,9 @@ bin\run</programlisting>
 					</listitem>
 					<listitem>
 						<para>							
-							<function>buildWidgets</function> calls <function>buildWidget</function> to choose a suitable component for the
+							<function>buildWidgets</function> calls <function>buildWidget</function> to choose a suitable widget for the
 							top-level element of the DOM (based on its <parameter>@type</parameter> attribute). If <function>buildWidget</function>
-							returns such a component, or <parameter>null</parameter>, skip to 6
+							returns such a widget, or <parameter>null</parameter>, skip to 6
 						</para>
 					</listitem>
 					<listitem>
@@ -1582,19 +1582,19 @@ bin\run</programlisting>
 					<listitem>
 						<para>							
 							<function>buildCompoundWidget</function> iterates over each child of the top-level DOM element, calling <function>buildWidget</function> for
-							each. The returned component is added to the Metawidget. It is fine at this stage for <function>buildWidget</function> to return another
+							each. The returned widget is added to the Metawidget. It is fine at this stage for <function>buildWidget</function> to return another
 							Metawidget, as this is how nested Metawidgets get created
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							component creation can be overriden if there are existing child components with suitably matching attributes
+							widget creation can be overriden if there are existing child widgets with suitably matching attributes
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							as a final step, the created components are passed to a layout and/or binding mechanism. Layout and binding can be configured by
-							arbitrary parameters passed through the Metawidget to the layout/binding. Layouts can further by adorned with facet components
+							as a final step, the created widgets are passed to a layout and/or binding mechanism. Layout and binding can be configured by
+							arbitrary parameters passed through the Metawidget to the layout/binding. Layouts can further by adorned with facet widgets
 							passed through the Metawidget.    
 						</para>
 					</listitem>
@@ -1612,20 +1612,20 @@ bin\run</programlisting>
 				</para>
 				
 				<para>
-					The one area Metawidget <emphasis>does</emphasis> control is how the components it creates are laid out. Typically this is in
-					a tabular 'one column for the label, one column for the component' format, but this is pluggable.
+					The one area Metawidget <emphasis>does</emphasis> control is how the widgets it creates are laid out. Typically this is in
+					a tabular 'one column for the label, one column for the widget' format, but this is pluggable.
 				</para>
 				
 				<para>
 					Metawidgets come with different <classname>Layout</classname> classes (<classname>LayoutRenderer</classname> classes
-					for JSF) that can arrange the components in different ways, and these are set on the Metawidget in a framework-specific
+					for JSF) that can arrange the widgets in different ways, and these are set on the Metawidget in a framework-specific
 					way. For example, JSF uses <parameter>&lt;m:metawidget rendererType=""&gt;</parameter> whereas <classname>SwingMetawidget</classname>
 					uses <function>setLayoutClass</function>. Where possible, the layout classes defer back to the capabilities
 					of the native framework. For example, Swing's <classname>GroupLayout</classname> or Android's <classname>TableLayout</classname>.
 				</para>
 				
 				<para>
-					Some layouts will add localized labels and section headings to the components, whereas other layouts may leave them unadorned. Different
+					Some layouts will add localized labels and section headings to the widgets, whereas other layouts may leave them unadorned. Different
 					Layouts may support different parameters (for example, a <classname>TableLayout</classname> may support <parameter>numberOfColumns</parameter>)
 					and these are passed from the Metawidget to the layout in a generic fashion. For example, JSF uses <parameter>&lt;f:param name="" value=""&gt;</parameter>
 					tags, whereas <classname>SwingMetawidget</classname> has a <function>setParameter(name, value)</function> method.
@@ -1634,17 +1634,17 @@ bin\run</programlisting>
 			</section>
 			
 			<section id="section-architecture-metawidgets-override">
-				<title>Overriding Component Creation</title>
+				<title>Overriding Widget Creation</title>
 
 				<para>
-					Metawidget tries to automate much of the component creation, but provides many hooks to customize the process:
+					Metawidget tries to automate much of the widget creation, but provides many hooks to customize the process:
 				</para>
 				
 				<itemizedlist>
 					<listitem>
 						<para>
-							<emphasis role="bold">stub</emphasis> child components can be used to suppress component creation entirely or to
-							replace automatic component creation with one or more other components with different bindings 
+							<emphasis role="bold">stub</emphasis> child widgets can be used to suppress widget creation entirely or to
+							replace automatic widget creation with one or more other widgets with different bindings 
 						</para>
 					</listitem>
 					<listitem>
@@ -1661,14 +1661,14 @@ bin\run</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							<emphasis role="bold">facet</emphasis> child components pass through to the chosen layout
+							<emphasis role="bold">facet</emphasis> child widgets pass through to the chosen layout
 							as decorations (such as button bars)
 						</para>
 					</listitem>
 					<listitem>
 						<para>
 							<emphasis role="bold">subclasses</emphasis> can override key methods such as <function>buildWidget</function>
-							to fine-tune component creation
+							to fine-tune widget creation
 						</para>
 					</listitem>
 				</itemizedlist>
@@ -1701,9 +1701,9 @@ bin\run</programlisting>
 			<title>Preface</title>
 
 			<para>
-				Metawidget ships with native components for different UI frameworks. Whilst all Metawidget components are
+				Metawidget ships with native widgets for different UI frameworks. Whilst all Metawidget widgets are
 				broadly similar, they are tailored to take advantage of their native environment. This chapter examines
-				each Metawidget component in detail.
+				each Metawidget widget in detail.
 			</para>
 			
 		</section>
@@ -1718,7 +1718,7 @@ bin\run</programlisting>
 					<title>Binding</title>
 					
 					<para>
-						Swing does not include an automatic <classname>Component</classname> to <classname>Object</classname> binding mechanism, but Metawidget
+						Swing does not include an automatic <classname>JComponent</classname> to <classname>Object</classname> binding mechanism, but Metawidget
 						supports third-party alternatives via <function>setBindingClass</function>.
 					</para>
 					
@@ -1775,17 +1775,17 @@ bin\run</programlisting>
 					</para>
 					
 					<para>
-						By convention, JSF's HTML components (<classname>HtmlInputText</classname>, <classname>HtmlSelectBooleanCheckbox</classname>, etc) define
+						By convention, JSF's HTML widgets (<classname>HtmlInputText</classname>, <classname>HtmlSelectBooleanCheckbox</classname>, etc) define
 						<parameter>style</parameter> and <parameter>styleClass</parameter> attributes for applying CSS styles and classes to their output.
-						<classname>HtmlMetawidget</classname> follows this convention. When expanding to a single component (such as an
-						<classname>HtmlInputText</classname>) the CSS styles are applied to it. When expanding to multiple components,
-						<emphasis>all</emphasis> components have the same CSS styles applied to them.
+						<classname>HtmlMetawidget</classname> follows this convention. When expanding to a single widget (such as an
+						<classname>HtmlInputText</classname>) the CSS styles are applied to it. When expanding to multiple widgets,
+						<emphasis>all</emphasis> widgets have the same CSS styles applied to them.
 					</para>
 					
 					<para>
 						Another important JSF Look and Feel technology is Renderers. Whilst
-						often Renderers are discussed in the context of rendering the same component to different
-						platforms (eg. HTML or WML), they can equally be used to render the same component to the same
+						often Renderers are discussed in the context of rendering the same widget to different
+						platforms (eg. HTML or WML), they can equally be used to render the same widget to the same
 						platform but in different layouts.
 					</para>
 					
@@ -1793,15 +1793,15 @@ bin\run</programlisting>
 						<classname>HtmlTableLayoutRenderer</classname> further defines <parameter>tableStyle</parameter>, <parameter>tableStyleClass</parameter> and
 						<parameter>columnStyleClasses</parameter> parameters.
 						The latter is a comma separated list of CSS style classes to be applied to table columns. The first style
-						class is the label column, the second the component column, and the third the 'required' column.
+						class is the label column, the second the widget column, and the third the 'required' column.
 						Further style classes may be used for multi-column layouts. You can	get quite far using, for example:
 					</para>
 	
 					<programlisting language="css">.table-component-column input { width: 100%; }</programlisting>
 					
 					<para>
-						..this approach has the advantage of automatically applying to every component,
-						so overridden components do not have to explicitly set styleClass information.
+						..this approach has the advantage of automatically applying to every widget,
+						so overridden widgets do not have to explicitly set styleClass information.
 						However, not all Web browsers support fine-grained CSS selectors such as...
 					</para>
 					
@@ -1818,7 +1818,7 @@ bin\run</programlisting>
 					
 					<para>
 						By default, <classname>UIMetawidget</classname> uses <classname>StandardValidator</classname>, which adds <parameter>required</parameter>,
-						<classname>RangeValidator</classname> and <classname>LengthValidator</classname> to all components.
+						<classname>RangeValidator</classname> and <classname>LengthValidator</classname> to all widgets.
 					</para>
 					
 					<para>
@@ -1829,22 +1829,22 @@ bin\run</programlisting>
 				</section>
 				
 				<section id="section-metawidgets-web-faces-override">
-					<title>Overriding Component Creation</title>
+					<title>Overriding Widget Creation</title>
 					
 					<para>
-						<classname>HtmlMetawidget</classname> supports child components. If
-						the child components have the same <parameter>value</parameter>
+						<classname>HtmlMetawidget</classname> supports child widgets. If
+						the child widgets have the same <parameter>value</parameter>
 						attribute binding as #TODO#
 					</para>
 					
 					<para>
-						Sometimes you may need to override a component with one that
-						uses a different <parameter>value</parameter> binding. Or, you may need to override a component but alter its
+						Sometimes you may need to override a widget with one that
+						uses a different <parameter>value</parameter> binding. Or, you may need to override a widget but alter its
 						metadata (such as its <parameter>label</parameter>) #TODO#
 					</para>
 					
 					<para>
-	 					Finally, for advanced use cases, it is straightforward to subclass <classname>HtmlMetawidget</classname> and fine-tune component
+	 					Finally, for advanced use cases, it is straightforward to subclass <classname>HtmlMetawidget</classname> and fine-tune widget
 	 					creation and initialization. First, create a class that extends <classname>HtmlMetawidget</classname> and override its
 	 					<function>buildActiveWidget</function> method:
 					</para>
@@ -1855,7 +1855,7 @@ bin\run</programlisting>
 		Application application ) {
 		String type = attributes.get( TYPE );
 		...
-		Class clazz = Class.forName( type );
+		Class clazz = ClassUtils.niceForName( type );
 
 		if ( Date.class.isAssignableFrom( clazz ) )
 		{
@@ -1879,7 +1879,7 @@ bin\run</programlisting>
 	
 					<para>
 						This will automatically update every screen across the entire application, which is a great way to easily update
-						an application to use a new component library, or to incorporate custom tags (such as Facelets tag files). See
+						an application to use a new widget library, or to incorporate custom tags (such as Facelets tag files). See
 						<classname>RichFacesMetawidget</classname> for an example.
 					</para>
 					
@@ -1935,7 +1935,7 @@ bin\run</programlisting>
 					</para>
 					
 					<para>
-						JSP-based technologies do not distinguish between what a component is versus how it is rendered. Instead, <classname>StrutsMetawidget</classname>
+						JSP-based technologies do not distinguish between what a widget is versus how it is rendered. Instead, <classname>StrutsMetawidget</classname>
 						mimics this by providing loosely coupled <classname>Layout</classname> classes. Each layout can further be configured by using
 						specific <parameter>param</parameter> tags.
 					</para>
@@ -1943,7 +1943,7 @@ bin\run</programlisting>
 				</section>
 				
 				<section id="section-metawidgets-web-struts-override">
-					<title>Overriding Component Creation</title>				
+					<title>Overriding Widget Creation</title>				
 				</section>
 				
 				<section id="section-metawidgets-web-struts-troubleshooting">
@@ -1953,7 +1953,7 @@ bin\run</programlisting>
 						<title>I get "Cannot find bean org.apache.struts.taglib.html.BEAN in any scope"</title>
 						
 						<para>
-							<classname>StrutsMetawidget</classname> creates native Struts components, such as <parameter>&lt;html:text&gt;</parameter>, but does
+							<classname>StrutsMetawidget</classname> creates native Struts widgets, such as <parameter>&lt;html:text&gt;</parameter>, but does
 							not create the surrounding Struts form. Make sure your Metawidget tag is enclosed in
 							a <parameter>&lt;html:form&gt;</parameter> tag and the Struts HTML taglib is included at the top of the page.
 						</para>
@@ -1967,7 +1967,7 @@ bin\run</programlisting>
 			<title>Implementing Your Own Metawidget</title>
 
 			<para>
-				Metawidget creates components native to a particular UI framework. If your chosen UI
+				Metawidget creates widgets native to a particular UI framework. If your chosen UI
 				framework is not supported 'out of the box', you may need to implement your own. 
 			</para>
 			
@@ -1975,7 +1975,7 @@ bin\run</programlisting>
 				Metawidgets are not required to extend any base class or implement
 				any interface. However, it is recommended developers familiarize themselves with existing
 				Metawidgets (such as <classname>UIMetawidget</classname>) to make their API similar. In particular,
-				it is recommended Metawidget APIs use the 'direction of inheritance' for 'overriding choice of component'
+				it is recommended Metawidget APIs use the 'direction of inheritance' for 'overriding choice of widget'
 				with other concerns (such as layout and binding) implemented orthogonally as
 				in <xref linkend="section-metawidgets-implementing-your-own-orthogonal-figure"/>.
 			</para>
@@ -2014,11 +2014,11 @@ bin\run</programlisting>
 				
 				<para>
 					For frameworks based on Swing, <classname>org.metawidget.swing.SwingMetawidget</classname> provides
-					many hooks to override component creation, most notably <function>SwingMetawidget.buildWidget</function>.
+					many hooks to override widget creation, most notably <function>SwingMetawidget.buildWidget</function>.
 				</para>
 				
 				<para>
-					Swing already defines a clean separation between components and layout managers.
+					Swing already defines a clean separation between widgets and layout managers.
 					<classname>org.metawidget.swing.layout.Layout</classname> and its subclasses automate the use
 					of existing Swing <classname>LayoutManagers</classname>.
 				</para>
@@ -2034,7 +2034,7 @@ bin\run</programlisting>
 				</para>
 				
 				<para>
-					<classname>MetawidgetTag</classname> also defines a clean separation between choosing components and laying them out.
+					<classname>MetawidgetTag</classname> also defines a clean separation between choosing widgets and laying them out.
 					<classname>org.metawidget.jsp.tagext.Layout</classname> and its subclasses can perform the layout for
 					<emphasis>all</emphasis> JSP-based frameworks.
 				</para>
@@ -2045,11 +2045,11 @@ bin\run</programlisting>
 				
 				<para>
 					For frameworks based on JSF, <classname>org.metawidget.faces.component.UIMetawidget</classname>
-					provides base component functionality. See <classname>org.metawidget.faces.component.html.HtmlMetawidget</classname> for example usage.
+					provides base widget functionality. See <classname>org.metawidget.faces.component.html.HtmlMetawidget</classname> for example usage.
 				</para>
 				
 				<para>
-					JSF already defines a clean separation between components and their renderers.
+					JSF already defines a clean separation between widgets and their renderers.
 					<classname>org.metawidget.faces.renderkit.LayoutRenderer</classname> and its subclasses leverage this to
 					support different layouts.
 				</para>
@@ -2060,7 +2060,7 @@ bin\run</programlisting>
 				
 				<para>
 					For frameworks based on Android, <classname>org.metawidget.android.widget.AndroidMetawidget</classname> provides
-					many hooks to override component creation, most notably <function>AndroidMetawidget.buildWidget</function>.
+					many hooks to override widget creation, most notably <function>AndroidMetawidget.buildWidget</function>.
 				</para>
 				
 				<para>
@@ -2347,7 +2347,7 @@ bin\run</programlisting>
 			<title>Preface</title>
 			
 			<para>
-				Metawidget inspects back-end metadata and creates front-end UI components.
+				Metawidget inspects back-end metadata and creates front-end UI widgets.
 			</para>
 			
 			<para>

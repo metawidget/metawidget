@@ -29,8 +29,8 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.StringUtils;
 
 /**
- * Layout to arrange components in a table, with one column for labels and another for the
- * component.
+ * Layout to arrange widgets in a table, with one column for labels and another for the
+ * widget.
  *
  * @author Richard Kennard
  */

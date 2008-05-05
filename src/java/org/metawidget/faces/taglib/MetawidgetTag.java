@@ -25,7 +25,7 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.validator.StandardValidator;
 
 /**
- * Base JSP tag for UIMetawidget JSF components.
+ * Base JSP tag for UIMetawidget JSF widgets.
  *
  * @author Richard Kennard
  */

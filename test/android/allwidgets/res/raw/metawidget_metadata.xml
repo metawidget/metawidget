@@ -30,6 +30,7 @@
 		<property name="booleanObject"/>
 		<property name="dropdown" lookup="foo,dropdown,bar" lookup-labels=""/>
 		<property name="dropdownWithLabels" lookup="foo,dropdown,bar" lookup-labels="Foo,Dropdown,Bar"/>
+		<property name="notNullDropdown" lookup="-1,0,1"/>
 		<property name="nestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets"/>
 		<property name="readOnlyNestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets" read-only="true"/>
 		<property name="readOnlyNestedWidgetsDontExpand" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets" read-only="true" dont-expand="true"/>

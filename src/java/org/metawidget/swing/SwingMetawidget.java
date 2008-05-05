@@ -26,7 +26,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Stroke;
-import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -74,7 +73,7 @@ import org.w3c.dom.Element;
 /**
  * Metawidget for Swing environments.
  * <p>
- * Automatically creates native Swing JComponents, such as <code>JTextField</code> and
+ * Automatically creates native Swing <code>JComponents</code>, such as <code>JTextField</code> and
  * <code>JComboBox</code>, to suit the inspected fields.
  *
  * @author Richard Kennard
@@ -822,27 +821,17 @@ public class SwingMetawidget
 		if ( type == null || "".equals( type ) )
 			return new JLabel();
 
-		if ( ClassUtils.isPrimitive( type ) )
-			return new JLabel();
-
 		// Lookup the Class
-		//
-		// Don't use Class.forName( type ), in case metawidget.jar is in JRE/lib/ext. This
-		// is much less likely with Web-based or mobile-based applications
 
-		Class<?> clazz = null;
-
-		try
-		{
-			clazz = Thread.currentThread().getContextClassLoader().loadClass( type );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Might be a symbolic type (eg. @type="Login Form")
-		}
+		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz != null )
 		{
+			// Primitives
+
+			if ( clazz.isPrimitive() )
+				return new JLabel();
+
 			if ( String.class.equals( clazz ) )
 			{
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
@@ -904,108 +893,105 @@ public class SwingMetawidget
 		if ( type == null || "".equals( type ) )
 			return new JTextField();
 
-		if ( ClassUtils.isPrimitive( type ) )
+		// Lookup the Class
+
+		Class<?> clazz = ClassUtils.niceForName( type );
+
+		// Lookups
+
+		String lookup = attributes.get( LOOKUP );
+
+		if ( lookup != null && !"".equals( lookup ) )
 		{
-			// booleans
+			JComboBox comboBox = new JComboBox();
 
-			if ( "boolean".equals( type ) )
-				return new JCheckBox();
+			if ( clazz == null || !clazz.isPrimitive() )
+				comboBox.addItem( null );
 
-			// chars
+			List<String> values = CollectionUtils.fromString( lookup );
 
-			if ( "char".equals( type ) )
-				return new JTextField();
-
-			// Ranged
-
-			String minimumValue = attributes.get( MINIMUM_VALUE );
-			String maximumValue = attributes.get( MAXIMUM_VALUE );
-
-			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
+			for ( String value : values )
 			{
-				JSlider slider = new JSlider();
-				slider.setMinimum( Integer.parseInt( minimumValue ) );
-				slider.setMaximum( Integer.parseInt( maximumValue ) );
+				Object convertedValue = value;
 
-				return slider;
+				if ( mBinding != null )
+					convertedValue = mBinding.convert( value, clazz );
+
+				comboBox.addItem( convertedValue );
 			}
 
-			// Not-ranged
+			// May have alternate labels
 
-			JSpinner spinner = new JSpinner();
+			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
-			if ( "byte".equals( type ) )
-				setSpinnerModel( spinner, Byte.MIN_VALUE, Byte.MAX_VALUE );
-			else if ( "short".equals( type ) )
-				setSpinnerModel( spinner, Short.MIN_VALUE, Short.MAX_VALUE );
-			else if ( "int".equals( type ) )
-				setSpinnerModel( spinner, Integer.MIN_VALUE, Integer.MAX_VALUE );
-			else if ( "long".equals( type ) )
-				setSpinnerModel( spinner, Long.MIN_VALUE, Long.MAX_VALUE );
-			else if ( "float".equals( type ) )
-				setSpinnerModel( spinner, -Float.MAX_VALUE, Float.MAX_VALUE );
-			else if ( "double".equals( type ) )
-				setSpinnerModel( spinner, -Double.MAX_VALUE, Double.MAX_VALUE );
+			if ( lookupLabels != null && !"".equals( lookupLabels ) )
+			{
+				Map<Object, String> labelsMap = CollectionUtils.newHashMap();
+				List<String> labels = CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) );
 
-			return spinner;
-		}
+				if ( labels.size() != values.size() )
+					throw MetawidgetException.newException( "Labels list must be same size as values list" );
 
-		// Lookup the Class
-		//
-		// Don't use Class.forName( type ), in case metawidget.jar is in JRE/lib/ext. This
-		// is much less likely with Web-based or mobile-based applications
+				for ( int loop = 0, length = values.size(); loop < length; loop++ )
+				{
+					labelsMap.put( values.get( loop ), labels.get( loop ) );
+				}
 
-		Class<?> clazz = null;
+				comboBox.setEditor( new AlternateComboBoxEditor( labelsMap ) );
+				comboBox.setRenderer( new AlternateComboBoxRenderer( labelsMap ) );
+			}
 
-		try
-		{
-			clazz = Thread.currentThread().getContextClassLoader().loadClass( type );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Might be a symbolic type (eg. @type="Login Form")
+			return comboBox;
 		}
 
 		if ( clazz != null )
 		{
-			// String Lookups
+			// Primitives
 
-			String lookup = attributes.get( LOOKUP );
-
-			if ( lookup != null && !"".equals( lookup ) )
+			if ( clazz.isPrimitive() )
 			{
-				JComboBox comboBox = new JComboBox();
-				comboBox.addItem( null );
+				// booleans
 
-				List<String> values = CollectionUtils.fromString( lookup );
+				if ( "boolean".equals( type ) )
+					return new JCheckBox();
 
-				for ( String value : values )
+				// chars
+
+				if ( "char".equals( type ) )
+					return new JTextField();
+
+				// Ranged
+
+				String minimumValue = attributes.get( MINIMUM_VALUE );
+				String maximumValue = attributes.get( MAXIMUM_VALUE );
+
+				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
 				{
-					comboBox.addItem( value );
+					JSlider slider = new JSlider();
+					slider.setMinimum( Integer.parseInt( minimumValue ) );
+					slider.setMaximum( Integer.parseInt( maximumValue ) );
+
+					return slider;
 				}
 
-				// May have alternate labels
+				// Not-ranged
 
-				String lookupLabels = attributes.get( LOOKUP_LABELS );
+				JSpinner spinner = new JSpinner();
 
-				if ( lookupLabels != null && !"".equals( lookupLabels ) )
-				{
-					Map<Object, String> labelsMap = CollectionUtils.newHashMap();
-					List<String> labels = CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) );
+				if ( "byte".equals( type ) )
+					setSpinnerModel( spinner, Byte.MIN_VALUE, Byte.MAX_VALUE );
+				else if ( "short".equals( type ) )
+					setSpinnerModel( spinner, Short.MIN_VALUE, Short.MAX_VALUE );
+				else if ( "int".equals( type ) )
+					setSpinnerModel( spinner, Integer.MIN_VALUE, Integer.MAX_VALUE );
+				else if ( "long".equals( type ) )
+					setSpinnerModel( spinner, Long.MIN_VALUE, Long.MAX_VALUE );
+				else if ( "float".equals( type ) )
+					setSpinnerModel( spinner, -Float.MAX_VALUE, Float.MAX_VALUE );
+				else if ( "double".equals( type ) )
+					setSpinnerModel( spinner, -Double.MAX_VALUE, Double.MAX_VALUE );
 
-					if ( labels.size() != values.size() )
-						throw MetawidgetException.newException( "Labels list must be same size as values list" );
-
-					for ( int loop = 0, length = values.size(); loop < length; loop++ )
-					{
-						labelsMap.put( values.get( loop ), labels.get( loop ) );
-					}
-
-					comboBox.setEditor( new AlternateComboBoxEditor( labelsMap ) );
-					comboBox.setRenderer( new AlternateComboBoxRenderer( labelsMap ) );
-				}
-
-				return comboBox;
+				return spinner;
 			}
 
 			// Strings
@@ -1128,31 +1114,21 @@ public class SwingMetawidget
 	protected SwingMetawidget createMetawidget( Map<String, String> attributes )
 		throws Exception
 	{
-		try
-		{
-			Constructor<? extends SwingMetawidget> constructor = getClass().getConstructor( getClass() );
-			SwingMetawidget metawidget = constructor.newInstance( this );
-			metawidget.setOpaque( isOpaque() );
-
-			return metawidget;
-		}
-		catch ( Exception e )
-		{
-			throw MetawidgetException.newException( e );
-		}
+		return getClass().newInstance();
 	}
 
 	protected void initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
 	{
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_SLASH + attributes.get( NAME ) );
-		metawidget.setInspector( metawidget.mInspector );
-		metawidget.setInspectorConfig( metawidget.mInspectorConfig );
-		metawidget.setLayoutClass( metawidget.mLayoutClass );
-		metawidget.setBindingClass( metawidget.mBindingClass );
-		metawidget.setBundle( metawidget.mBundle );
+		metawidget.setInspector( mInspector );
+		metawidget.setInspectorConfig( mInspectorConfig );
+		metawidget.setLayoutClass( mLayoutClass );
+		metawidget.setBindingClass( mBindingClass );
+		metawidget.setBundle( mBundle );
+		metawidget.setOpaque( isOpaque() );
 
 		if ( metawidget.mParameters != null )
-			metawidget.setParameters( CollectionUtils.newHashMap( metawidget.mParameters ));
+			metawidget.setParameters( CollectionUtils.newHashMap( mParameters ));
 
 		metawidget.setToInspect( mToInspect );
 	}
@@ -1162,6 +1138,9 @@ public class SwingMetawidget
 	 * <p>
 	 * If the component is not known, returns <code>null</code>. Does not throw an Exception, as
 	 * we want to fail gracefully if, say, someone tries to bind to a JPanel.
+	 * <p>
+	 * Subclasses who introduce new component types (eg. JXDatePicker) should override this method
+	 * to return the value property for the new component (eg. getDate/setDate).
 	 */
 
 	protected String getValueProperty( Component component )

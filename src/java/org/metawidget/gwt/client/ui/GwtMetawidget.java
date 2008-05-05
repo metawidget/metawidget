@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.metawidget.gwt.client.rpc.InspectorService;
 import org.metawidget.gwt.client.rpc.InspectorServiceAsync;
+import org.metawidget.gwt.client.ui.binding.Binding;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -79,6 +80,8 @@ public class GwtMetawidget
 
 	private boolean				mReadOnly;
 
+	private Binding				mBinding;
+
 	private Map<String, Widget>	mChildren;
 
 	//
@@ -86,6 +89,11 @@ public class GwtMetawidget
 	// Public methods
 	//
 	//
+
+	public Serializable getToInspect()
+	{
+		return mToInspect;
+	}
 
 	/**
 	 * Sets the Object to inspect.
@@ -128,7 +136,7 @@ public class GwtMetawidget
 		Widget widget = findWidget( names );
 
 		if ( widget == null )
-			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, ',' ));
+			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, ',' ) );
 
 		// TextBox
 
@@ -161,7 +169,7 @@ public class GwtMetawidget
 		Widget widget = findWidget( names );
 
 		if ( widget == null )
-			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, ',' ));
+			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, ',' ) );
 
 		// TextBox
 
@@ -174,6 +182,22 @@ public class GwtMetawidget
 		// Unknown (subclasses should override this)
 
 		throw new RuntimeException( "Don't know how to setValue of a " + widget.getClass().getName() );
+	}
+
+	public void save()
+	{
+		if ( mBinding == null )
+			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
+
+		mBinding.save();
+
+		for ( Widget widget : mChildren.values() )
+		{
+			if ( widget instanceof GwtMetawidget )
+			{
+				( (GwtMetawidget) widget ).save();
+			}
+		}
 	}
 
 	public void buildWidgets()
@@ -209,20 +233,11 @@ public class GwtMetawidget
 							Element element = (Element) document.getDocumentElement().getFirstChild();
 							Map<String, String> attributes = GwtUtils.getAttributesAsMap( element );
 
-							// It is a little counter-intuitive that there can ever be an override
-							// of the top-level element. However, if we go down the path that builds
-							// a single widget (eg. doesn't invoke buildCompoundWidget), then our
-							// child is at the same top-level as us, and there are some scenarios
-							// (like Java Server Faces POST backs) where we need to re-identify that
-
-							Widget widget = getOverridenWidget( attributes );
-
-							if ( widget == null )
-								widget = buildWidget( attributes );
+							Widget widget = buildWidget( attributes );
 
 							if ( widget != null )
 							{
-								// If the returned component is itself a Metawidget, it must have
+								// If the returned widget is itself a Metawidget, it must have
 								// the same path as us. In that case, DON'T use it, as that would
 								// be infinite recursion
 
@@ -240,8 +255,7 @@ public class GwtMetawidget
 							}
 						}
 
-						// Even if no inspectors match, we still call endBuild(). This makes us
-						// behave better in visual builder tools when dropping child components in
+						// Even if no inspectors match, we still call endBuild()
 
 						endBuild();
 					}
@@ -409,13 +423,13 @@ public class GwtMetawidget
 		if ( Boolean.class.getName().equals( type ) )
 			return new Label();
 
-		//if ( Number.class.isAssignableFrom( clazz ) )
-			//return new Label();
+		// if ( Number.class.isAssignableFrom( clazz ) )
+		// return new Label();
 
 		// Collections
 
-		//if ( Collection.class.isAssignableFrom( clazz ) )
-			//return new FlexTable();
+		// if ( Collection.class.isAssignableFrom( clazz ) )
+		// return new FlexTable();
 
 		// Not simple, but don't expand
 
@@ -499,13 +513,13 @@ public class GwtMetawidget
 
 		// Numbers
 
-		//if ( Number.class.isAssignableFrom( type ) )
-			//return new TextBox();
+		// if ( Number.class.isAssignableFrom( type ) )
+		// return new TextBox();
 
 		// Collections
 
-		//if ( Collection.class.isAssignableFrom( type ) )
-			//return new FlexTable();
+		// if ( Collection.class.isAssignableFrom( type ) )
+		// return new FlexTable();
 
 		// Nested Metawidget
 
@@ -526,6 +540,11 @@ public class GwtMetawidget
 		add( widget );
 
 		mChildren.put( name, widget );
+
+		if ( mBinding != null )
+		{
+			mBinding.bind( name );
+		}
 	}
 
 	protected void endBuild()

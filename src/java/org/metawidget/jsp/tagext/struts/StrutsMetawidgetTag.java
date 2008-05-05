@@ -221,30 +221,18 @@ public class StrutsMetawidgetTag
 		if ( type == null || type.length() == 0 )
 			return writeReadOnlyTag( attributes );
 
-		// Primitives
-
-		if ( ClassUtils.isPrimitive( type ) )
-			return writeReadOnlyTag( attributes );
-
-		Class<?> clazz = null;
-
-		try
-		{
-			clazz = Class.forName( type );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Might be a symbolic type (eg. @type="Login Form")
-		}
+		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz != null )
 		{
-			// Built-in types
+			// Primitives
 
-			if ( Boolean.class.isAssignableFrom( clazz ) )
+			if ( clazz.isPrimitive() )
 				return writeReadOnlyTag( attributes );
 
-			if ( Number.class.isAssignableFrom( clazz ) )
+			// Object primitives
+
+			if ( ClassUtils.isObjectPrimitive( clazz ) )
 				return writeReadOnlyTag( attributes );
 
 			// Dates
@@ -327,29 +315,20 @@ public class StrutsMetawidgetTag
 		if ( type == null || "".equals( type ) )
 			return writeStrutsTag( TextTag.class, attributes );
 
-		// Primitives
-
-		if ( ClassUtils.isPrimitive( type ) )
-		{
-			if ( "boolean".equals( type ) )
-				return writeStrutsTag( CheckboxTag.class, attributes );
-
-			return writeStrutsTag( TextTag.class, attributes );
-		}
-
-		Class<?> clazz = null;
-
-		try
-		{
-			clazz = Class.forName( type );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Might be a symbolic type (eg. @type="Login Form")
-		}
+		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz != null )
 		{
+			// Primitives
+
+			if ( clazz.isPrimitive() )
+			{
+				if ( boolean.class.equals( clazz ) )
+					return writeStrutsTag( CheckboxTag.class, attributes );
+
+				return writeStrutsTag( TextTag.class, attributes );
+			}
+
 			// Never inspect ActionForm base properties
 
 			if ( ActionServletWrapper.class.isAssignableFrom( clazz ) )
@@ -493,7 +472,7 @@ public class StrutsMetawidgetTag
 		return JspUtils.writeTag( pageContext, tag, this, null );
 	}
 
-	private String writeSelectTag( final String name, final String property, Map<String, String> attributes )
+	private String writeSelectTag( final String name, final String property, final Map<String, String> attributes )
 		throws Exception
 	{
 		// Write the SELECT tag
@@ -512,9 +491,14 @@ public class StrutsMetawidgetTag
 
 				// Empty option
 
-				OptionTag tagOptionEmpty = new OptionTag();
-				tagOptionEmpty.setValue( "" );
-				bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
+				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
+
+				if ( clazz == null || !clazz.isPrimitive() )
+				{
+					OptionTag tagOptionEmpty = new OptionTag();
+					tagOptionEmpty.setValue( "" );
+					bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
+				}
 
 				// Options tag
 
@@ -527,7 +511,7 @@ public class StrutsMetawidgetTag
 		} );
 	}
 
-	private String writeSelectTag( final List<?> values, final List<String> labels, Map<String, String> attributes )
+	private String writeSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes )
 		throws Exception
 	{
 		// Write the SELECT tag
@@ -542,18 +526,23 @@ public class StrutsMetawidgetTag
 			public void prepareBody( PageContext delgateContext )
 				throws JspException, IOException
 			{
-				BodyContent bodyContentSelect = tagSelect.getBodyContent();
-
-				// Empty option
-
-				OptionTag tagOptionEmpty = new OptionTag();
-				tagOptionEmpty.setValue( "" );
-				bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
-
 				// See if we're using labels
 
 				if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
 					throw MetawidgetException.newException( "Labels list must be same size as values list" );
+
+				BodyContent bodyContentSelect = tagSelect.getBodyContent();
+
+				// Empty option
+
+				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
+
+				if ( clazz == null || !clazz.isPrimitive() )
+				{
+					OptionTag tagOptionEmpty = new OptionTag();
+					tagOptionEmpty.setValue( "" );
+					bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
+				}
 
 				// Add the options
 

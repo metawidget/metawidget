@@ -36,8 +36,8 @@ import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.StringUtils;
 
 /**
- * Layout to arrange components in HTML <code>DIV</code> tags, with one <code>DIV</code> per
- * label and per component, and a wrapper <code>DIV</code> around both.
+ * Layout to arrange widgets in HTML <code>DIV</code> tags, with one <code>DIV</code> per
+ * label and per widget, and a wrapper <code>DIV</code> around both.
  * <p>
  * This implementation recognizes the following <code>&lt;f:param&gt;</code> parameters:
  * <p>
@@ -45,10 +45,10 @@ import org.metawidget.util.StringUtils;
  * <li><code>outerStyle</code>
  * <li><code>labelStyle</code>
  * <li><code>componentStyle</code> - this is the style applied to the DIV <em>around</em> the
- * component, not to the component itself. The component itself can be styled using the
+ * widget, not to the widget itself. The widget itself can be styled using the
  * <code>style</code> attribute on the Metawidget tag
  * <li><code>divStyleClasses</code> - comma separated list of style classes to apply to the DIVs,
- * in order of outer, label, required, component, errors
+ * in order of outer, label, required, widget, errors
  * <li><code>buttonsStyle</code>
  * <li><code>buttonsStyleClass</code>
  * </ul>

@@ -32,8 +32,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 /**
- * Layout to arrange components in a table, with one column for labels and another for the
- * component.
+ * Layout to arrange widgets in a table, with one column for labels and another for the
+ * widget.
  *
  * @author Richard Kennard
  */
@@ -47,7 +47,7 @@ public class TableLayout
 	//
 	//
 
-	private final static int			LABEL_AND_COMPONENT	= 2;
+	private final static int			LABEL_AND_WIDGET	= 2;
 
 	//
 	//
@@ -183,7 +183,7 @@ public class TableLayout
 		TableRow.LayoutParams params = new TableRow.LayoutParams();
 
 		if ( labelText == null )
-			params.span = LABEL_AND_COMPONENT;
+			params.span = LABEL_AND_WIDGET;
 
 		tableRow.addView( viewToAdd, params );
 

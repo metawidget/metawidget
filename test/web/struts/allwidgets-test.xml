@@ -130,44 +130,52 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/th" text="Dropdown (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/td[1]/select"/>
 				<verifySelectField name="allWidgets.dropdown" text="dropdown"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[22]/td[1]/select/option)" text="4"/>
 				<setSelectField name="allWidgets.dropdown" text="foo"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/th" text="Dropdown with Labels (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/td[1]/select"/>
 				<verifySelectField name="allWidgets.dropdownWithLabels" text="Dropdown"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[23]/td[1]/select/option)" text="4"/>
 				<setSelectField name="allWidgets.dropdownWithLabels" text="Bar"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/th" text="Nested Widgets (i18n):"/>					
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/table/tbody/tr[1]/th" text="???en_UK.nestedTextbox1???:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/table/tbody/tr[1]/td[1]/input[@type='text']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/th" text="Not-null Dropdown (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/select"/>
+				<verifySelectField name="allWidgets.notNullDropdown" text="0"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[24]/td[1]/select/option)" text="3"/>
+				<setSelectField name="allWidgets.notNullDropdown" text="1"/>
+
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/th" text="Nested Widgets (i18n):"/>					
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[1]/th" text="???en_UK.nestedTextbox1???:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[1]/td[1]/input[@type='text']"/>
 				<verifyInputField name="allWidgets.nestedWidgets.nestedTextbox1" value="Nested Textbox 1"/>
 				<setInputField name="allWidgets.nestedWidgets.nestedTextbox1" value="Nested Textbox 1.1"/>			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/table/tbody/tr[2]/th" text="???en_UK.nestedTextbox2???:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/table/tbody/tr[2]/td[1]/input[@type='text']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/th" text="???en_UK.nestedTextbox2???:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/td[1]/input[@type='text']"/>
 				<verifyInputField name="allWidgets.nestedWidgets.nestedTextbox2" value="Nested Textbox 2"/>
 				<setInputField name="allWidgets.nestedWidgets.nestedTextbox2" value="Nested Textbox 2.2"/>
 	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/th" text="Read only Nested Widgets (i18n):"/>	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[1]/th" text="???en_UK.nestedTextbox1???:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[1]/td[1]" text="Nested Textbox 1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/th" text="Read only Nested Widgets (i18n):"/>	
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[1]/th" text="???en_UK.nestedTextbox1???:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[1]/td[1]" text="Nested Textbox 1"/>
 				<verifyInputField name="allWidgets.readOnlyNestedWidgets.nestedTextbox1" value="Nested Textbox 1"/>
 				<forceHiddenInputField name="allWidgets.readOnlyNestedWidgets.nestedTextbox1" value="Nested Textbox 1.11"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/th" text="???en_UK.nestedTextbox2???:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/td[1]" text="Nested Textbox 2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[2]/th" text="???en_UK.nestedTextbox2???:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[2]/td[1]" text="Nested Textbox 2"/>
 				<verifyInputField name="allWidgets.readOnlyNestedWidgets.nestedTextbox2" value="Nested Textbox 2"/>
 				<forceHiddenInputField name="allWidgets.readOnlyNestedWidgets.nestedTextbox2" value="Nested Textbox 2.22"/>
 			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/th" text="Read only Nested Widgets (don't expand) (i18n):"/>	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]" text="Nested Textbox 1, Nested Textbox 2"/>	
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/th" text="Read only Nested Widgets (don't expand) (i18n):"/>	
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]" text="Nested Textbox 1, Nested Textbox 2"/>	
 	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/th" text="Date (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/input[@type='text']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/th" text="Date (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/input[@type='text']"/>
 				<verifyInputField name="allWidgets.date" value="Wed Apr 09 01:00:00 GMT 1975"/>
 				<setInputField name="allWidgets.date" value="Thu Apr 10 01:00:00 GMT 1975"/>
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/th" text="Read only (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]" text="Read Only"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/th" text="Read only (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/td[1]" text="Read Only"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
 				<forceHiddenInputField name="allWidgets.readOnly" value="Read Only1"/>
 
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aButtonsStyle"/>
@@ -228,24 +236,26 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/td[1]" text="foo"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/th" text="Dropdown with Labels (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/td[1]" text="bar"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/th" text="Nested Widgets (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/table/tbody/tr[1]/th" text="???en_UK.nestedTextbox1???:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/table/tbody/tr[1]/td[1]" text="Nested Textbox 1.1"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/table/tbody/tr[2]/th" text="???en_UK.nestedTextbox2???:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/table/tbody/tr[2]/td[1]" text="Nested Textbox 2.2"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/th" text="Read only Nested Widgets (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/th" text="Not-null Dropdown (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]" text="1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/th" text="Nested Widgets (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[1]/th" text="???en_UK.nestedTextbox1???:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[1]/td[1]" text="Nested Textbox 1.11"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[1]/td[1]" text="Nested Textbox 1.1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/th" text="???en_UK.nestedTextbox2???:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/td[1]" text="Nested Textbox 2.22"/>	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/th" text="Read only Nested Widgets (don't expand) (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]" text="Nested Textbox 1, Nested Textbox 2"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/th" text="Date (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]" text="Thu Apr 10 01:00:00 GMT 1975"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/th" text="Read only (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]" text="Read Only1"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/th" text="Collection (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/td[1]" text="[element1, element2]"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/td[1]" text="Nested Textbox 2.2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/th" text="Read only Nested Widgets (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[1]/th" text="???en_UK.nestedTextbox1???:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[1]/td[1]" text="Nested Textbox 1.11"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[2]/th" text="???en_UK.nestedTextbox2???:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[2]/td[1]" text="Nested Textbox 2.22"/>	
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/th" text="Read only Nested Widgets (don't expand) (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]" text="Nested Textbox 1, Nested Textbox 2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/th" text="Date (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]" text="Thu Apr 10 01:00:00 GMT 1975"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/th" text="Read only (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/td[1]" text="Read Only1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/th" text="Collection (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]" text="[element1, element2]"/>
 				<verifyXPath xpath="/html/body/form/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/form/input[1]/@value" text="Hidden1"/>
 	

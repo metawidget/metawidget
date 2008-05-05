@@ -161,32 +161,6 @@ public final class ClassUtils
 	}
 
 	/**
-	 * Determine whether the given class name is a primitive type.
-	 * <p>
-	 * Primitive type names like "byte" cannot go via <code>Class.forName( className ).isPrimitive()</code>.
-	 */
-
-	public static boolean isPrimitive( String className )
-	{
-		if ( "byte".equals( className ) || "short".equals( className ) )
-			return true;
-
-		if ( "int".equals( className ) || "long".equals( className ) )
-			return true;
-
-		if ( "float".equals( className ) || "double".equals( className ) )
-			return true;
-
-		if ( "boolean".equals( className ) )
-			return true;
-
-		if ( "char".equals( className ) )
-			return true;
-
-		return false;
-	}
-
-	/**
 	 * Returns <code>true</code> if the given class is the Object-version of a primitive type (eg.
 	 * <code>Integer</code> for <code>int</code>).
 	 * <p>
@@ -200,6 +174,9 @@ public final class ClassUtils
 			return true;
 
 		if ( Boolean.class.isAssignableFrom( clazz ) )
+			return true;
+
+		if ( Character.class.isAssignableFrom( clazz ) )
 			return true;
 
 		return false;
@@ -249,6 +226,54 @@ public final class ClassUtils
 			return clazz;
 
 		return clazz.getSuperclass();
+	}
+
+	/**
+	 * Replacement for <code>Class.forName()</code> that:
+	 * <ul>
+	 *  <li>supports primitives (<code>int</code>, <code>long</code>, etc)</li>
+	 *  <li>returns <code>null</code> if there is no such class (eg. if the name
+	 *  is a symbolic type, such as 'Login Screen')</li>
+	 * </ul>
+	 */
+
+	public static Class<?> niceForName( String className )
+	{
+		try
+		{
+			// Use Thread.currentThread().getContextClassLoader(), in case metawidget.jar
+			// is in JRE/lib/ext
+
+			return Thread.currentThread().getContextClassLoader().loadClass( className );
+		}
+		catch ( ClassNotFoundException e )
+		{
+			if ( "byte".equals( className ))
+				return byte.class;
+
+			if ( "short".equals( className ) )
+				return short.class;
+
+			if ( "int".equals( className ))
+				return int.class;
+
+			if ( "long".equals( className ) )
+				return long.class;
+
+			if ( "float".equals( className ))
+				return float.class;
+
+			if ( "double".equals( className ))
+				return double.class;
+
+			if ( "boolean".equals( className ) )
+				return boolean.class;
+
+			if ( "char".equals( className ) )
+				return char.class;
+		}
+
+		return null;
 	}
 
 	//

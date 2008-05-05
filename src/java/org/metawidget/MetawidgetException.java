@@ -17,7 +17,7 @@
 package org.metawidget;
 
 /**
- * Any exception that occurs during Metawidget component creation.
+ * Any exception that occurs during Metawidget widget creation.
  *
  * @author Richard Kennard
  */

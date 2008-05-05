@@ -77,80 +77,71 @@ public class RichFacesMetawidget
 		if ( type == null )
 			return super.buildActiveWidget( attributes );
 
-		// Primitives
-
-		if ( ClassUtils.isPrimitive( type ))
-		{
-			// Not for RichFaces
-
-			if ( "boolean".equals( type ) || "char".equals( type ))
-				return super.buildActiveWidget( attributes );
-
-			// Ranged
-
-			String minimumValue = attributes.get( MINIMUM_VALUE );
-			String maximumValue = attributes.get( MAXIMUM_VALUE );
-
-			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ))
-			{
-				HtmlInputNumberSlider slider = (HtmlInputNumberSlider) application.createComponent( "org.richfaces.inputNumberSlider" );
-				slider.setMinValue( minimumValue );
-				slider.setMaxValue( maximumValue );
-
-				return slider;
-			}
-
-			// Not-ranged
-
-			HtmlInputNumberSpinner spinner = (HtmlInputNumberSpinner) application.createComponent( "org.richfaces.inputNumberSpinner" );
-
-			if ( "byte".equals( type ) )
-			{
-				spinner.setMinValue( String.valueOf( Byte.MIN_VALUE ));
-				spinner.setMaxValue( String.valueOf( Byte.MAX_VALUE ));
-			}
-			else if ( "short".equals( type ) )
-			{
-				spinner.setMinValue( String.valueOf( Short.MIN_VALUE ));
-				spinner.setMaxValue( String.valueOf( Short.MAX_VALUE ));
-			}
-			else if ( "int".equals( type ) )
-			{
-				spinner.setMinValue( String.valueOf( Integer.MIN_VALUE ));
-				spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ));
-			}
-			else if ( "long".equals( type ) )
-			{
-				spinner.setMinValue( String.valueOf( Long.MIN_VALUE ));
-				spinner.setMaxValue( String.valueOf( Long.MAX_VALUE ));
-			}
-			else if ( "float".equals( type ) )
-			{
-				spinner.setMinValue( String.valueOf( -Float.MAX_VALUE ));
-				spinner.setMaxValue( String.valueOf( Float.MAX_VALUE ));
-			}
-			else if ( "double".equals( type ) )
-			{
-				spinner.setMinValue( String.valueOf( -Double.MAX_VALUE ));
-				spinner.setMaxValue( String.valueOf( Double.MAX_VALUE ));
-			}
-
-			return spinner;
-		}
-
-		Class<?> clazz = null;
-
-		try
-		{
-			clazz = Class.forName( type );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Might be a symbolic type (eg. @type="Login Screen")
-		}
+		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz != null )
 		{
+			// Primitives
+
+			if ( clazz.isPrimitive() )
+			{
+				// Not for RichFaces
+
+				if ( boolean.class.equals( clazz ) || char.class.equals( clazz ))
+					return super.buildActiveWidget( attributes );
+
+				// Ranged
+
+				String minimumValue = attributes.get( MINIMUM_VALUE );
+				String maximumValue = attributes.get( MAXIMUM_VALUE );
+
+				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ))
+				{
+					HtmlInputNumberSlider slider = (HtmlInputNumberSlider) application.createComponent( "org.richfaces.inputNumberSlider" );
+					slider.setMinValue( minimumValue );
+					slider.setMaxValue( maximumValue );
+
+					return slider;
+				}
+
+				// Not-ranged
+
+				HtmlInputNumberSpinner spinner = (HtmlInputNumberSpinner) application.createComponent( "org.richfaces.inputNumberSpinner" );
+
+				if ( "byte".equals( type ) )
+				{
+					spinner.setMinValue( String.valueOf( Byte.MIN_VALUE ));
+					spinner.setMaxValue( String.valueOf( Byte.MAX_VALUE ));
+				}
+				else if ( "short".equals( type ) )
+				{
+					spinner.setMinValue( String.valueOf( Short.MIN_VALUE ));
+					spinner.setMaxValue( String.valueOf( Short.MAX_VALUE ));
+				}
+				else if ( "int".equals( type ) )
+				{
+					spinner.setMinValue( String.valueOf( Integer.MIN_VALUE ));
+					spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ));
+				}
+				else if ( "long".equals( type ) )
+				{
+					spinner.setMinValue( String.valueOf( Long.MIN_VALUE ));
+					spinner.setMaxValue( String.valueOf( Long.MAX_VALUE ));
+				}
+				else if ( "float".equals( type ) )
+				{
+					spinner.setMinValue( String.valueOf( -Float.MAX_VALUE ));
+					spinner.setMaxValue( String.valueOf( Float.MAX_VALUE ));
+				}
+				else if ( "double".equals( type ) )
+				{
+					spinner.setMinValue( String.valueOf( -Double.MAX_VALUE ));
+					spinner.setMaxValue( String.valueOf( Double.MAX_VALUE ));
+				}
+
+				return spinner;
+			}
+
 			// Dates
 			//
 			// Note: when http://jira.jboss.org/jira/browse/RF-2023 gets implemented, that
@@ -172,7 +163,7 @@ public class RichFacesMetawidget
 				return calendar;
 			}
 
-			// Built-in types
+			// Object primitives
 
 			if ( Number.class.isAssignableFrom( clazz ) )
 			{

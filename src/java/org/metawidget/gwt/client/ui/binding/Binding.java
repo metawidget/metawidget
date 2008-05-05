@@ -14,18 +14,12 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.binding;
+package org.metawidget.gwt.client.ui.binding;
 
-import java.awt.Component;
-
-import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.gwt.client.ui.GwtMetawidget;
 
 /**
  * Base class for automatic binding.
- * <p>
- * Swing does not define a <code>JComponent</code> to <code>Object</code> mapping mechanism like
- * other UI frameworks (eg. Java Server Faces). However, a couple of third party alternatives exist
- * and Metawidget supports these.
  * <p>
  * Implementations need not be Thread-safe.
  *
@@ -40,7 +34,7 @@ public abstract class Binding
 	//
 	//
 
-	private SwingMetawidget	mMetawidget;
+	private GwtMetawidget	mMetawidget;
 
 	//
 	//
@@ -48,7 +42,7 @@ public abstract class Binding
 	//
 	//
 
-	public Binding( SwingMetawidget metawidget )
+	public Binding( GwtMetawidget metawidget )
 	{
 		mMetawidget = metawidget;
 	}
@@ -59,20 +53,13 @@ public abstract class Binding
 	//
 	//
 
-	public abstract void bind( Component component, String componentValueProperty, String... names );
+	public abstract void bind( String... names );
 
 	/**
-	 * Save bound values from the Components back to the source Object.
+	 * Save bound values from the Widgets back to the source Object.
 	 */
 
 	public abstract void save();
-
-	/**
-	 * Convert the given String into the given type, if necessary. If no
-	 * conversion is required, return the original String.
-	 */
-
-	public abstract <T> T convert( String value, Class<T> type );
 
 	public void unbind()
 	{
@@ -85,7 +72,7 @@ public abstract class Binding
 	//
 	//
 
-	protected SwingMetawidget getMetawidget()
+	protected GwtMetawidget getMetawidget()
 	{
 		return mMetawidget;
 	}

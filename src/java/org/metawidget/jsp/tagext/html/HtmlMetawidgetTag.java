@@ -142,30 +142,18 @@ public class HtmlMetawidgetTag
 		if ( type == null || type.length() == 0 )
 			return writeReadOnlyTag( attributes );
 
-		// Primitives
-
-		if ( ClassUtils.isPrimitive( type ) )
-			return writeReadOnlyTag( attributes );
-
-		Class<?> clazz = null;
-
-		try
-		{
-			clazz = Class.forName( type );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Might be a symbolic type (eg. @type="Login Screen")
-		}
+		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz != null )
 		{
-			// Built-in types
+			// Primitives
 
-			if ( Boolean.class.isAssignableFrom( clazz ) )
+			if ( clazz.isPrimitive() )
 				return writeReadOnlyTag( attributes );
 
-			if ( Number.class.isAssignableFrom( clazz ) )
+			// Object primitives
+
+			if ( ClassUtils.isObjectPrimitive( clazz ) )
 				return writeReadOnlyTag( attributes );
 
 			// Dates
@@ -245,39 +233,30 @@ public class HtmlMetawidgetTag
 		if ( type == null || "".equals( type ) )
 			return writeTextTag( attributes );
 
-		// Primitives
-
-		if ( ClassUtils.isPrimitive( type ) )
-		{
-			if ( "boolean".equals( type ) )
-			{
-				// (use StringBuffer for J2SE 1.4 compatibility)
-
-				StringBuffer buffer = new StringBuffer();
-				buffer.append( "<input type=\"checkbox\"" );
-				buffer.append( writeAttributes( attributes ) );
-				buffer.append( writeCheckedAttribute( attributes ) );
-				buffer.append( ">" );
-
-				return buffer.toString();
-			}
-
-			return writeTextTag( attributes );
-		}
-
-		Class<?> clazz = null;
-
-		try
-		{
-			clazz = Class.forName( type );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Might be a symbolic type (eg. @type="Login Screen")
-		}
+		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz != null )
 		{
+			// Primitives
+
+			if ( clazz.isPrimitive() )
+			{
+				if ( boolean.class.equals( clazz ) )
+				{
+					// (use StringBuffer for J2SE 1.4 compatibility)
+
+					StringBuffer buffer = new StringBuffer();
+					buffer.append( "<input type=\"checkbox\"" );
+					buffer.append( writeAttributes( attributes ) );
+					buffer.append( writeCheckedAttribute( attributes ) );
+					buffer.append( ">" );
+
+					return buffer.toString();
+				}
+
+				return writeTextTag( attributes );
+			}
+
 			// String
 
 			if ( String.class.equals( clazz ) )
@@ -535,11 +514,14 @@ public class HtmlMetawidgetTag
 
 		// Empty option
 
-		buffer.append( "<option value=\"\"></option>" );
+		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
+
+		if ( clazz == null || !clazz.isPrimitive() )
+			buffer.append( "<option value=\"\"></option>" );
 
 		// Evaluate the expression
 
-		Object selected = evaluate( attributes );
+		String selected = StringUtils.quietValueOf( evaluate( attributes ));
 		Object lookup = evaluate( lookupExpression );
 
 		// Add the options
@@ -553,15 +535,17 @@ public class HtmlMetawidgetTag
 					if ( value == null )
 						continue;
 
+					String stringValue = StringUtils.quietValueOf( value );
+
 					buffer.append( "<option value=\"" );
-					buffer.append( String.valueOf( value ) );
+					buffer.append( stringValue );
 					buffer.append( "\"" );
 
-					if ( value.equals( selected ) )
+					if ( stringValue.equals( selected ) )
 						buffer.append( " selected" );
 
 					buffer.append( ">" );
-					buffer.append( String.valueOf( value ) );
+					buffer.append( stringValue );
 					buffer.append( "</option>" );
 				}
 			}
@@ -572,15 +556,17 @@ public class HtmlMetawidgetTag
 					if ( value == null )
 						continue;
 
+					String stringValue = StringUtils.quietValueOf( value );
+
 					buffer.append( "<option value=\"" );
-					buffer.append( String.valueOf( value ) );
+					buffer.append( stringValue );
 					buffer.append( "\"" );
 
-					if ( value.equals( selected ) )
+					if ( stringValue.equals( selected ) )
 						buffer.append( " selected" );
 
 					buffer.append( ">" );
-					buffer.append( String.valueOf( value ) );
+					buffer.append( stringValue );
 					buffer.append( "</option>" );
 				}
 			}
@@ -596,6 +582,11 @@ public class HtmlMetawidgetTag
 	private String writeSelectTag( final List<?> values, final List<String> labels, Map<String, String> attributes )
 		throws Exception
 	{
+		// See if we're using labels
+
+		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
+			throw MetawidgetException.newException( "Labels list must be same size as values list" );
+
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
 		StringBuffer buffer = new StringBuffer();
@@ -609,16 +600,14 @@ public class HtmlMetawidgetTag
 
 		// Empty option
 
-		buffer.append( "<option value=\"\"></option>" );
+		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-		// See if we're using labels
-
-		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
-			throw MetawidgetException.newException( "Labels list must be same size as values list" );
+		if ( clazz == null || !clazz.isPrimitive() )
+			buffer.append( "<option value=\"\"></option>" );
 
 		// Evaluate the expression
 
-		Object selected = evaluate( attributes );
+		String selected = StringUtils.quietValueOf( evaluate( attributes ));
 
 		// Add the options
 
@@ -629,17 +618,19 @@ public class HtmlMetawidgetTag
 			if ( value == null )
 				continue;
 
+			String stringValue = StringUtils.quietValueOf( value );
+
 			buffer.append( "<option value=\"" );
-			buffer.append( StringUtils.quietValueOf( value ) );
+			buffer.append( stringValue );
 			buffer.append( "\"" );
 
-			if ( value.equals( selected ) )
+			if ( stringValue.equals( selected ) )
 				buffer.append( " selected" );
 
 			buffer.append( ">" );
 
 			if ( labels == null || labels.isEmpty() )
-				buffer.append( StringUtils.quietValueOf( value ) );
+				buffer.append( stringValue );
 			else
 				buffer.append( labels.get( loop ) );
 

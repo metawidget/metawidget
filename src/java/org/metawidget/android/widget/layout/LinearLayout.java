@@ -29,8 +29,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * Layout to arrange components vertically, with one row for the label and
- * the next for the component.
+ * Layout to arrange widgets vertically, with one row for the label and
+ * the next for the widget.
  *
  * @author Richard Kennard
  */

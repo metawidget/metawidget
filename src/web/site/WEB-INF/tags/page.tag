@@ -9,7 +9,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 		<title><c:if test="${!empty title}">${title} - </c:if>${pageContext.session.servletContext.servletContextName}</title>
-		<meta name="description" content="Metawidget takes your domain objects and automatically creates, at runtime, native User Interface components for them - saving you handcoding your UIs" />
+		<meta name="description" content="Metawidget takes your domain objects and automatically creates, at runtime, native User Interface widgets for them - saving you handcoding your UIs" />
 		<meta name="keywords" content="<c:if test="${!empty title}">${title},</c:if>Domain objects,automatically create User Interface,Swing,Java Server Faces,JSF,Facelets,Spring,Spring Web MVC,Struts,Android,Hibernate" />
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />		
 		<link rel="stylesheet" type="text/css" href="${context}/css/metawidget-all.css" media="all" />		

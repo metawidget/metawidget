@@ -40,8 +40,8 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.StringUtils;
 
 /**
- * Layout to arrange components in a table, with one column for labels and another for the
- * component, using <code>javax.awt.GridBagLayout</code>.
+ * Layout to arrange widgets in a table, with one column for labels and another for the
+ * widget, using <code>javax.awt.GridBagLayout</code>.
  * <p>
  * This implementation recognizes the following parameters:
  * <p>

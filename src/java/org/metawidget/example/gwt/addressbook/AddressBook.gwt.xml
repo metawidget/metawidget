@@ -10,4 +10,10 @@
 	
 	<entry-point class='org.metawidget.example.gwt.addressbook.client.ui.AddressBook' />
 
+	<!-- Binding -->
+	
+  	<generate-with class="org.metawidget.gwt.binding.simple.SimpleBindingGenerator">
+		<when-type-assignable class="org.metawidget.example.shared.addressbook.model.Contact"/>
+	</generate-with>
+	
 </module>

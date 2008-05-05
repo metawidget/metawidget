@@ -64,8 +64,8 @@ import org.w3c.dom.Element;
  * Note: <code>UIMetawidget</code> only extends <code>UIComponentBase</code>. It is not:
  * <p>
  * <ul>
- * <li>a <code>UIInput</code>, though it may contain input components
- * <li>a <code>UIOutput</code>, though it may contain output components
+ * <li>a <code>UIInput</code>, though it may contain input widgets
+ * <li>a <code>UIOutput</code>, though it may contain output widgets
  * <li>a <code>ValueHolder</code>, as it does not use a <code>Converter</code>
  * </ul>
  *
@@ -493,7 +493,7 @@ public abstract class UIMetawidget
 			try
 			{
 				@SuppressWarnings( "unchecked" )
-				Constructor<? extends Validator> constructor = ( (Class<? extends Validator>) Class.forName( mValidatorClass ) ).getConstructor( UIMetawidget.class );
+				Constructor<? extends Validator> constructor = ( (Class<? extends Validator>) ClassUtils.niceForName( mValidatorClass ) ).getConstructor( UIMetawidget.class );
 				mValidator = constructor.newInstance( this );
 			}
 			catch ( Exception e )
@@ -797,7 +797,7 @@ public abstract class UIMetawidget
 			{
 				// Create from class
 
-				converter = (Converter) Class.forName( converterClass ).newInstance();
+				converter = (Converter) ClassUtils.niceForName( converterClass ).newInstance();
 			}
 
 			// Native support for DateTimeConverter
@@ -981,7 +981,9 @@ public abstract class UIMetawidget
 
 		// Add an empty choice (if a listbox, and if nullable)
 
-		if ( component instanceof HtmlSelectOneListbox && !( ClassUtils.isPrimitive( attributes.get( TYPE ) ) ) )
+		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
+
+		if ( component instanceof HtmlSelectOneListbox && ( clazz == null || !clazz.isPrimitive() ) )
 			addSelectItem( component, "", null );
 
 		// See if we're using labels
@@ -1040,7 +1042,9 @@ public abstract class UIMetawidget
 
 		// Add an empty choice (if a listbox, and if nullable)
 
-		if ( component instanceof HtmlSelectOneListbox && !( ClassUtils.isPrimitive( attributes.get( TYPE ) ) ) )
+		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
+
+		if ( component instanceof HtmlSelectOneListbox && ( clazz == null || !clazz.isPrimitive() ) )
 			addSelectItem( component, "", null );
 
 		UISelectItems selectItems = (UISelectItems) application.createComponent( "javax.faces.SelectItems" );

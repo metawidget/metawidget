@@ -179,14 +179,7 @@ public class AndroidMetawidget
 
 		if ( layoutClass != null && !"".equals( layoutClass ) )
 		{
-			try
-			{
-				mLayoutClass = (Class<? extends Layout>) Class.forName( layoutClass );
-			}
-			catch ( ClassNotFoundException e )
-			{
-				throw MetawidgetException.newException( e );
-			}
+			mLayoutClass = (Class<? extends Layout>) ClassUtils.niceForName( layoutClass );
 		}
 
 		// Support readOnly in the XML
@@ -618,24 +611,15 @@ public class AndroidMetawidget
 		if ( type == null || "".equals( type ) )
 			return new TextView( getContext() );
 
-		if ( ClassUtils.isPrimitive( type ) )
-			return new TextView( getContext() );
-
 		// Lookup the Class
 
-		Class<?> clazz = null;
-
-		try
-		{
-			clazz = Class.forName( type );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Might be a symbolic type (eg. @type="Login Screen")
-		}
+		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz != null )
 		{
+			if ( clazz.isPrimitive() )
+				return new TextView( getContext() );
+
 			if ( String.class.equals( clazz ) )
 				return new TextView( getContext() );
 
@@ -687,36 +671,27 @@ public class AndroidMetawidget
 		if ( type == null || "".equals( type ) )
 			return new EditText( getContext() );
 
-		if ( ClassUtils.isPrimitive( type ) )
-		{
-			// booleans
-
-			if ( "boolean".equals( type ) )
-				return new CheckBox( getContext() );
-
-			EditText editText = new EditText( getContext() );
-
-			// DigitsInputMethod is 0-9 and +
-
-			if ( "byte".equals( type ) || "short".equals( type ) || "int".equals( type ) || "long".equals( type ) )
-				editText.setInputMethod( new DigitsInputMethod() );
-
-			return editText;
-		}
-
-		Class<?> clazz = null;
-
-		try
-		{
-			clazz = Class.forName( type );
-		}
-		catch ( ClassNotFoundException e )
-		{
-			// Might be a symbolic type (eg. @type="Login Screen")
-		}
+		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz != null )
 		{
+			if ( clazz.isPrimitive() )
+			{
+				// booleans
+
+				if ( boolean.class.equals( clazz ) )
+					return new CheckBox( getContext() );
+
+				EditText editText = new EditText( getContext() );
+
+				// DigitsInputMethod is 0-9 and +
+
+				if ( byte.class.equals( clazz ) || short.class.equals( clazz ) || int.class.equals( clazz ) || long.class.equals( clazz ) )
+					editText.setInputMethod( new DigitsInputMethod() );
+
+				return editText;
+			}
+
 			// String Lookups
 
 			String lookup = attributes.get( LOOKUP );

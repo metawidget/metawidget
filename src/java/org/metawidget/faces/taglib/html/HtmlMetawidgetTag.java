@@ -24,7 +24,7 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.taglib.MetawidgetTag;
 
 /**
- * JSP tag for HtmlMetawidget JSF component.
+ * JSP tag for HtmlMetawidget JSF widgets.
  * <p>
  * Includes HTML-specific attributes, such as <code>style</code>
  * and <code>styleClass</code>.

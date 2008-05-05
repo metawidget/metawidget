@@ -31,8 +31,8 @@ import org.metawidget.util.CollectionUtils;
  * Stub for Java Server Faces environments.
  * <p>
  * A UIStub takes a <code>value</code> binding but does nothing with it. Stubs are used to 'stub
- * out' what Metawidget would normally create - either to suppress component creation entirely or to
- * create child components with a different name.
+ * out' what Metawidget would normally create - either to suppress widget creation entirely or to
+ * create child widgets with a different name.
  *
  * @author Richard Kennard
  */

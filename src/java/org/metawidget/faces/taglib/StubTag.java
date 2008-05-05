@@ -24,7 +24,7 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.faces.component.UIStub;
 
 /**
- * JSP tag for UIStub component.
+ * JSP tag for UIStub widget.
  * <p>
  * Note there are no equivalent <code>ParamTag</code> and <code>FacetTag</code>s,
  * as there are for other environments, because Java Server Faces itself already
