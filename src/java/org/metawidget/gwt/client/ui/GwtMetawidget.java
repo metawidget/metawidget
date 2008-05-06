@@ -79,8 +79,6 @@ public class GwtMetawidget
 
 	private Object				mToInspect;
 
-	private String				mPath;
-
 	private Layout				mLayout;
 
 	private boolean				mReadOnly;
@@ -90,6 +88,16 @@ public class GwtMetawidget
 	private Map<String, Widget>	mChildren;
 
 	private Map<String, Facet>	mFacets	= new HashMap<String, Facet>();
+
+	//
+	//
+	// Package-level members
+	//
+	//
+
+	String						mPath;
+
+	String[]					mNamesPrefix;
 
 	//
 	//
@@ -222,6 +230,28 @@ public class GwtMetawidget
 			return;
 		}
 
+		// ListBox
+
+		if ( widget instanceof ListBox )
+		{
+			ListBox listBox = (ListBox) widget;
+			String valueString;
+
+			if ( value == null )
+				valueString = "";
+			else
+				valueString = String.valueOf( value );
+
+			for( int loop = 0, length = listBox.getItemCount(); loop < length; loop++ )
+			{
+				if ( valueString.equals( listBox.getValue( loop )))
+				{
+					listBox.setSelectedIndex( loop );
+					break;
+				}
+			}
+		}
+
 		// Unknown (subclasses should override this)
 
 		// throw new RuntimeException( "Don't know how to setValue of a " +
@@ -324,6 +354,8 @@ public class GwtMetawidget
 
 								else
 								{
+									mNamesPrefix = (String[]) GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR )[1];
+
 									buildCompoundWidget( element );
 								}
 							}
@@ -409,6 +441,7 @@ public class GwtMetawidget
 	{
 		metawidget.setPath( mPath + '/' + attributes.get( NAME ) );
 		metawidget.setLayout( mLayout.newInstance( metawidget ) );
+		metawidget.setBinding( mBinding );
 		metawidget.setReadOnly( mReadOnly );
 		metawidget.setToInspect( mToInspect );
 
@@ -596,7 +629,10 @@ public class GwtMetawidget
 
 		if ( mBinding != null )
 		{
-			setValue( mBinding.getProperty( name ), name );
+			if ( mNamesPrefix == null )
+				setValue( mBinding.getProperty( name ), name );
+			else
+				setValue( mBinding.getProperty( GwtUtils.add( mNamesPrefix, name ) ), name );
 		}
 	}
 

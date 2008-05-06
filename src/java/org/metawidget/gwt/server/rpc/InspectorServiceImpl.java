@@ -80,7 +80,7 @@ public class InspectorServiceImpl
 			inspectorConfig = "inspector-config.xml";
 
 		// TODO: delete test GWT files
-		// mInspector = new ServletConfigReader( config.getServletContext() ).read( "org/metawidget/example/gwt/addressbook/server/inspector-config.xml" );
+		//mInspector = new ServletConfigReader( config.getServletContext() ).read( "org/metawidget/example/gwt/addressbook/server/inspector-config.xml" );
 
 		mInspector = new ServletConfigReader( config.getServletContext() ).read( inspectorConfig );
 		mTransformerFactory = TransformerFactory.newInstance();

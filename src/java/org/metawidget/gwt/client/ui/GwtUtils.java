@@ -155,6 +155,17 @@ public final class GwtUtils
 		return new Object[]{ type, names.toArray( new String[names.size()] ) };
 	}
 
+	@SuppressWarnings( "unchecked" )
+	public static String[] add( String[] array, String toAdd )
+	{
+		String[] newArray = new String[ array.length + 1 ];
+
+		System.arraycopy( array, 0, newArray, 0, array.length );
+		newArray[array.length] = toAdd;
+
+		return newArray;
+	}
+
 	//
 	//
 	// Private constructor

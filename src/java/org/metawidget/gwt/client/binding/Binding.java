@@ -35,5 +35,5 @@ public interface Binding
 	//
 	//
 
-	Object getProperty( String property );
+	Object getProperty( String... property );
 }
