@@ -70,9 +70,14 @@ public abstract class Binding
 	/**
 	 * Convert the given String into the given type, if necessary. If no
 	 * conversion is required, return the original String.
+	 * <p>
+	 * Used when adding lookup values to a <code>JComboBox</code>. The lookup
+	 * values as specified by <code>UiLookup</code> or <code>XmlInspector</code>
+	 * are always Strings, so may need converting to the same type as the
+	 * property.
 	 */
 
-	public abstract <T> T convert( String value, Class<T> type );
+	public abstract <T> T convertFromString( String value, Class<T> type );
 
 	public void unbind()
 	{

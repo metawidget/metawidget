@@ -20,7 +20,7 @@ import org.metawidget.inspector.impl.AbstractPojoInspectorConfig;
 
 /**
  * Configures a JavaBeanInspector prior to use. Once instantiated, Inspectors are immutable.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -33,7 +33,9 @@ public class JavaBeanInspectorConfig
 	//
 	//
 
-	private String[]	mExcludeProperties	= new String[] { "class", "propertyChangeListeners", "vetoableChangeListeners" };
+	private String[]	mExcludeProperties	= new String[] { "propertyChangeListeners", "vetoableChangeListeners" };
+
+	private Class<?>[]	mExcludeReturnTypes	= new Class<?>[] { Class.class };
 
 	private boolean		mSorted			= true;
 
@@ -47,12 +49,22 @@ public class JavaBeanInspectorConfig
 	{
 		mExcludeProperties = excludeProperties;
 	}
-	
+
 	public String[] getExcludeProperties()
 	{
 		return mExcludeProperties;
 	}
-	
+
+	public void setExcludeReturnTypes( Class<?>... excludeReturnTypes )
+	{
+		mExcludeReturnTypes = excludeReturnTypes;
+	}
+
+	public Class<?>[] getExcludeReturnTypes()
+	{
+		return mExcludeReturnTypes;
+	}
+
 	/**
 	 * Whether to sort the JavaBean properties alphabetically.
 	 * <p>

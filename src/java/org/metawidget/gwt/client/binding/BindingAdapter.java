@@ -14,19 +14,19 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.ui.binding;
-
-import org.metawidget.gwt.client.ui.GwtMetawidget;
+package org.metawidget.gwt.client.binding;
 
 /**
- * Base class for automatic binding.
+ * Base implementation of a Binding interface.
  * <p>
- * Implementations need not be Thread-safe.
+ * Clients can use <code>BindingAdapterGenerator</code> to automatically generate a BindingAdapter
+ * for each of their domain objects.
  *
  * @author Richard Kennard
  */
 
-public abstract class Binding
+public abstract class BindingAdapter<T>
+	implements Binding
 {
 	//
 	//
@@ -34,18 +34,7 @@ public abstract class Binding
 	//
 	//
 
-	private GwtMetawidget	mMetawidget;
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public Binding( GwtMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
+	private T	mAdaptee;
 
 	//
 	//
@@ -53,17 +42,9 @@ public abstract class Binding
 	//
 	//
 
-	public abstract void bind( String... names );
-
-	/**
-	 * Save bound values from the Widgets back to the source Object.
-	 */
-
-	public abstract void save();
-
-	public void unbind()
+	public void setAdaptee( T adaptee )
 	{
-		// Do nothing by default
+		mAdaptee = adaptee;
 	}
 
 	//
@@ -72,8 +53,13 @@ public abstract class Binding
 	//
 	//
 
-	protected GwtMetawidget getMetawidget()
+	protected T getAdaptee()
 	{
-		return mMetawidget;
+		// Sanity check
+
+		if ( mAdaptee == null )
+			throw new RuntimeException( "Adaptee is null. Did you call setAdaptee?" );
+
+		return mAdaptee;
 	}
 }

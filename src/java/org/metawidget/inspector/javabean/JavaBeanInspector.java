@@ -35,7 +35,7 @@ import org.w3c.dom.Element;
  * <p>
  * The properties are returned alphabetically as a default ordering. Most clients will want to
  * refine this by using, say, <code>UiComesAfter</code> and MetawidgetAnnotationInspector.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -48,9 +48,11 @@ public class JavaBeanInspector
 	//
 	//
 
-	private String[]														mExcludeProperties;
+	private String[]	mExcludeProperties;
 
-	private boolean															mSorted;
+	private Class<?>[]	mExcludeReturnTypes;
+
+	private boolean		mSorted;
 
 	//
 	//
@@ -72,7 +74,11 @@ public class JavaBeanInspector
 		String[] excludeProperties = config.getExcludeProperties();
 		mExcludeProperties = new String[excludeProperties.length];
 		System.arraycopy( excludeProperties, 0, mExcludeProperties, 0, excludeProperties.length );
-		
+
+		Class<?>[] excludeReturnTypes = config.getExcludeReturnTypes();
+		mExcludeReturnTypes = new Class<?>[excludeReturnTypes.length];
+		System.arraycopy( excludeReturnTypes, 0, mExcludeReturnTypes, 0, excludeReturnTypes.length );
+
 		mSorted = config.isSorted();
 	}
 
@@ -96,6 +102,13 @@ public class JavaBeanInspector
 			// Ignore JavaBean-convention properties
 
 			if ( ArrayUtils.contains( mExcludeProperties, name ) )
+				continue;
+
+			// Ignore some return types
+
+			Class<?> returnType = property.getPropertyClass();
+
+			if ( ArrayUtils.contains( mExcludeReturnTypes, returnType ) )
 				continue;
 
 			Map<String, String> attributes = inspect( property, toInspect );

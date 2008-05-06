@@ -7,6 +7,6 @@
 
 	<!-- Server -->
 	
-	<servlet path='/metawidget-inspector' class='org.metawidget.gwt.server.InspectorServiceImpl' />
+	<servlet path='/metawidget-inspector' class='org.metawidget.gwt.server.rpc.InspectorServiceImpl' />
 
 </module>

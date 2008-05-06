@@ -121,7 +121,7 @@ public class AddressBook
 
 				String type = (String) metawidget.getValue( "type" );
 
-				if ( type == null )
+				if ( type == null || "".equals( type ))
 					mContactSearch.setType( null );
 				else
 					mContactSearch.setType( ContactType.valueOf( type ) );

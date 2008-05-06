@@ -915,7 +915,7 @@ public class SwingMetawidget
 				Object convertedValue = value;
 
 				if ( mBinding != null )
-					convertedValue = mBinding.convert( value, clazz );
+					convertedValue = mBinding.convertFromString( value, clazz );
 
 				comboBox.addItem( convertedValue );
 			}

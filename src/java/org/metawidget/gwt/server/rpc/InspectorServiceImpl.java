@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.server;
+package org.metawidget.gwt.server.rpc;
 
 import java.io.ByteArrayOutputStream;
 import java.io.Serializable;
@@ -78,6 +78,9 @@ public class InspectorServiceImpl
 
 		if ( inspectorConfig == null )
 			inspectorConfig = "inspector-config.xml";
+
+		// TODO: delete test GWT files
+		// mInspector = new ServletConfigReader( config.getServletContext() ).read( "org/metawidget/example/gwt/addressbook/server/inspector-config.xml" );
 
 		mInspector = new ServletConfigReader( config.getServletContext() ).read( inspectorConfig );
 		mTransformerFactory = TransformerFactory.newInstance();

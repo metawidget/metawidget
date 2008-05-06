@@ -24,9 +24,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.metawidget.gwt.client.binding.Binding;
 import org.metawidget.gwt.client.rpc.InspectorService;
 import org.metawidget.gwt.client.rpc.InspectorServiceAsync;
-import org.metawidget.gwt.client.ui.binding.Binding;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -74,7 +74,7 @@ public class GwtMetawidget
 	//
 	//
 
-	private Serializable		mToInspect;
+	private Object				mToInspect;
 
 	private String				mPath;
 
@@ -90,7 +90,7 @@ public class GwtMetawidget
 	//
 	//
 
-	public Serializable getToInspect()
+	public Object getToInspect()
 	{
 		return mToInspect;
 	}
@@ -99,7 +99,7 @@ public class GwtMetawidget
 	 * Sets the Object to inspect.
 	 */
 
-	public void setToInspect( Serializable toInspect )
+	public void setToInspect( Object toInspect )
 	{
 		mToInspect = toInspect;
 
@@ -120,6 +120,27 @@ public class GwtMetawidget
 	public boolean isReadOnly()
 	{
 		return mReadOnly;
+	}
+
+	/**
+	 * Sets the binding interface for the domain object.
+	 * <p>
+	 * Generally, the object implementing the Binding interface will have been generated using
+	 * <code>BindingAdapterGenerator</code>.
+	 *
+	 * @param binding
+	 */
+
+	public void setBinding( Binding binding )
+	{
+		// In most cases, the object implementing the Binding interface will have been generated
+		// using BindingAdapterGenerator. It is also possible the domain object may choose to
+		// implement Binding directly. However, setBinding should always be separate from
+		// setToInspect - otherwise BindingAdapterGenerator would need to be a
+		// BindingDelegateGenerator and generating different classes (even subclasses) can
+		// affect the inspectors (eg. XmlInspector does not automatically know about subclasses)
+
+		mBinding = binding;
 	}
 
 	/**
@@ -171,33 +192,50 @@ public class GwtMetawidget
 		if ( widget == null )
 			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, ',' ) );
 
+		// Label
+
+		if ( widget instanceof Label )
+		{
+			if ( value != null )
+				( (Label) widget ).setText( String.valueOf( value ) );
+			return;
+		}
+
 		// TextBox
 
 		if ( widget instanceof TextBox )
 		{
-			( (TextBox) widget ).setText( (String) value );
+			if ( value != null )
+				( (TextBox) widget ).setText( String.valueOf( value ) );
 			return;
 		}
 
 		// Unknown (subclasses should override this)
 
-		throw new RuntimeException( "Don't know how to setValue of a " + widget.getClass().getName() );
+		// throw new RuntimeException( "Don't know how to setValue of a " +
+		// widget.getClass().getName() );
 	}
 
 	public void save()
 	{
-		if ( mBinding == null )
-			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
+		throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBinding" );
+	}
 
-		mBinding.save();
+	//
+	//
+	// Protected methods. This methods are all equivalent to
+	// those in MetawidgetMixin, but GwtMetawidget doesn't use MetawidgetMixin
+	// because a) that uses 'org.w3c.dom' and b) GwtMetawidget doesn't use
+	// any files from outside the 'org.metawidget.gwt.client' folder
+	//
+	//
 
-		for ( Widget widget : mChildren.values() )
-		{
-			if ( widget instanceof GwtMetawidget )
-			{
-				( (GwtMetawidget) widget ).save();
-			}
-		}
+	protected void startBuild()
+		throws Exception
+	{
+		clear();
+
+		mChildren = new HashMap<String, Widget>();
 	}
 
 	public void buildWidgets()
@@ -211,7 +249,7 @@ public class GwtMetawidget
 
 		try
 		{
-			service.inspect( mToInspect, (String) typeAndNames[0], (String[]) typeAndNames[1], new AsyncCallback<String>()
+			service.inspect( (Serializable) mToInspect, (String) typeAndNames[0], (String[]) typeAndNames[1], new AsyncCallback<String>()
 			{
 				public void onFailure( Throwable caught )
 				{
@@ -241,7 +279,7 @@ public class GwtMetawidget
 								// the same path as us. In that case, DON'T use it, as that would
 								// be infinite recursion
 
-								if ( !isMetawidget( widget ) )
+								if ( !( widget instanceof GwtMetawidget ) )
 								{
 									addWidget( widget, attributes );
 								}
@@ -272,12 +310,6 @@ public class GwtMetawidget
 		}
 	}
 
-	//
-	//
-	// Protected methods
-	//
-	//
-
 	protected void buildCompoundWidget( Element element )
 		throws Exception
 	{
@@ -307,7 +339,7 @@ public class GwtMetawidget
 				if ( widget == null )
 					continue;
 
-				if ( isMetawidget( widget ) )
+				if ( widget instanceof GwtMetawidget )
 					widget = initMetawidget( (GwtMetawidget) widget, attributes );
 			}
 			else if ( isStub( widget ) )
@@ -348,23 +380,10 @@ public class GwtMetawidget
 		return metawidget;
 	}
 
-	//
-	//
-	// Protected abstract methods
-	//
-	//
-
 	/**
 	 * @return false if the build should not proceed (for example if there was a previous validation
 	 *         error)
 	 */
-
-	protected void startBuild()
-		throws Exception
-	{
-		clear();
-		mChildren = new HashMap<String, Widget>();
-	}
 
 	protected Widget getOverridenWidget( Map<String, String> attributes )
 	{
@@ -379,11 +398,6 @@ public class GwtMetawidget
 	protected Map<String, String> getStubAttributes( Widget stub )
 	{
 		return null;
-	}
-
-	protected boolean isMetawidget( Widget widget )
-	{
-		return widget instanceof GwtMetawidget;
 	}
 
 	protected Widget buildReadOnlyWidget( Map<String, String> attributes )
@@ -426,9 +440,9 @@ public class GwtMetawidget
 		// if ( Number.class.isAssignableFrom( clazz ) )
 		// return new Label();
 
-		// Collections
+		// TODO: Collections
 
-		// if ( Collection.class.isAssignableFrom( clazz ) )
+		// if ( HashSet.class.getName().equals( type ) )
 		// return new FlexTable();
 
 		// Not simple, but don't expand
@@ -541,9 +555,11 @@ public class GwtMetawidget
 
 		mChildren.put( name, widget );
 
+		// Bind
+
 		if ( mBinding != null )
 		{
-			mBinding.bind( name );
+			setValue( mBinding.getProperty( name ), name );
 		}
 	}
 
@@ -553,12 +569,21 @@ public class GwtMetawidget
 		// Empty for now
 	}
 
+	//
+	//
+	// Other protected methods
+	//
+	//
+
 	protected void addListBoxItems( ListBox listBox, String[] values, String[] labels, Map<String, String> attributes )
 	{
 		if ( values == null )
 			return;
 
 		// Add an empty choice (if nullable)
+		//
+		// Note: GWT doesn't seem to be able to set null for the
+		// value. It always comes back as String "null"
 
 		if ( !GwtUtils.isPrimitive( attributes.get( TYPE ) ) )
 			addListBoxItem( listBox, "", null );
@@ -584,12 +609,6 @@ public class GwtMetawidget
 
 	protected void addListBoxItem( ListBox listBox, String value, String label )
 	{
-		if ( value == null )
-		{
-			listBox.addItem( "" );
-			return;
-		}
-
 		if ( label != null )
 		{
 			listBox.addItem( label, value );
@@ -620,7 +639,7 @@ public class GwtMetawidget
 			if ( loop == length - 1 )
 				return widget;
 
-			if ( !isMetawidget( widget ) )
+			if ( !( widget instanceof GwtMetawidget ) )
 				return null;
 
 			children = ( (GwtMetawidget) widget ).mChildren;

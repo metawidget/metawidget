@@ -14,22 +14,20 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.gwt.addressbook.client.rpc;
-
-import java.util.List;
-
-import org.metawidget.example.shared.addressbook.model.Contact;
-import org.metawidget.example.shared.addressbook.model.ContactSearch;
-
-import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.RemoteService;
+package org.metawidget.gwt.client.binding;
 
 /**
+ * GWT interface for binding to domain objects.
+ * <p>
+ * Because of its Java-to-JavaScript compiler, GWT places some limitations on dynamic reflection and
+ * instantiation of types. Therefore, GwtMetawidget requires clients to supply an explicit interface
+ * through which to execute binding calls. In most cases, clients can use <code>BindingAdapterGenerator</code>
+ * to automatically generate this as a secondary class.
+ *
  * @author Richard Kennard
  */
 
-public interface ContactsServiceAsync
-	extends RemoteService
+public interface Binding
 {
 	//
 	//
@@ -37,13 +35,5 @@ public interface ContactsServiceAsync
 	//
 	//
 
-	void getAllByExample( ContactSearch search, AsyncCallback<List<Contact>> callback );
-
-	void load( long id, AsyncCallback<Contact> callback );
-
-	void save( Contact contact, AsyncCallback<List<Contact>> callback );
-
-	void delete( Contact contact, AsyncCallback<Boolean> callback );
-
-	void delete( long id, AsyncCallback<Boolean> callback );
+	Object getProperty( String property );
 }

@@ -61,6 +61,13 @@ public class ConfigReaderTest
 		xml += "<facesInspector xmlns=\"java:org.metawidget.inspector.faces\"/>";
 		xml += "<hibernateValidatorInspector xmlns=\"java:org.metawidget.inspector.hibernate.validator\"/>";
 		xml += "<javaBeanInspector xmlns=\"java:org.metawidget.inspector.javabean\" config=\"JavaBeanInspectorConfig\">";
+		xml += "<excludeProperties>";
+		xml += "<string>propertyChangeListeners</string>";
+		xml += "<string>vetoableChangeListeners</string>";
+		xml += "</excludeProperties>";
+		xml += "<excludeReturnTypes>";
+		xml += "<class>java.lang.Class</class>";
+		xml += "</excludeReturnTypes>";
 		xml += "<sorted>true</sorted>";
 		xml += "<proxyPattern>ByCGLIB\\$\\$|_\\$\\$_javassist_</proxyPattern>";
 		xml += "</javaBeanInspector>";

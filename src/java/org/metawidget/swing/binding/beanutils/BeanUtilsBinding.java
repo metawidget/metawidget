@@ -122,7 +122,7 @@ public class BeanUtilsBinding
 
 	@Override
 	@SuppressWarnings( "unchecked" )
-	public <T> T convert( String value, Class<T> type )
+	public <T> T convertFromString( String value, Class<T> type )
 	{
 		return (T) ConvertUtils.convert( value, type );
 	}

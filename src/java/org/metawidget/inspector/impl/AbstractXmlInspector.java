@@ -177,7 +177,6 @@ public abstract class AbstractXmlInspector
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				transformer.transform( new DOMSource( mRoot ), new StreamResult( out ) );
 				LOG.trace( out.toString() );
-
 			}
 		}
 		catch( Exception e )

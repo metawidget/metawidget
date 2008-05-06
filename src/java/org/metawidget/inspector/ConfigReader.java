@@ -19,6 +19,7 @@ package org.metawidget.inspector;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.List;
@@ -138,7 +139,7 @@ public class ConfigReader
 		if ( resource == null )
 			throw InspectorException.newException( "No resource specified" );
 
-		return read( openResource( resource ) );
+		return read( openResource( resource ));
 	}
 
 	/**
@@ -147,6 +148,9 @@ public class ConfigReader
 
 	public Inspector read( InputStream stream )
 	{
+		if ( stream == null )
+			throw InspectorException.newException( "No input stream specified" );
+
 		try
 		{
 			ConfigHandler configHandler = new ConfigHandler();
@@ -200,6 +204,18 @@ public class ConfigReader
 	{
 		if ( String.class.isAssignableFrom( toReturn ) )
 			return (T) input;
+
+		if ( Class.class.isAssignableFrom( toReturn ) )
+		{
+			try
+			{
+				return (T) Class.forName( input );
+			}
+			catch( Exception e )
+			{
+				throw InspectorException.newException( e );
+			}
+		}
 
 		if ( Pattern.class.isAssignableFrom( toReturn ) )
 			return (T) Pattern.compile( input );
@@ -297,6 +313,15 @@ public class ConfigReader
 					if ( "string".equalsIgnoreCase( localName ) )
 					{
 						mStackConstructing.push( String.class );
+						startRecording();
+						return;
+					}
+
+					// Classes in Collections/Arrays
+
+					if ( "class".equalsIgnoreCase( localName ) )
+					{
+						mStackConstructing.push( Class.class );
 						startRecording();
 						return;
 					}
@@ -568,6 +593,11 @@ public class ConfigReader
 			}
 			catch ( Exception e )
 			{
+				// Prevent InvocationTargetException 'masking' the error
+
+				if ( e instanceof InvocationTargetException )
+					e = (Exception) ((InvocationTargetException) e).getTargetException();
+
 				LOG.error( "Unable to parse config", e );
 				throw new SAXException( e );
 			}

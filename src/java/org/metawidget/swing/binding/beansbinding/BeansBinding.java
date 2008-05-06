@@ -139,11 +139,9 @@ public class BeansBinding
 		}
 	}
 
-	// TODO: test this
-
 	@Override
 	@SuppressWarnings( "unchecked" )
-	public <T> T convert( String value, Class<T> type )
+	public <T> T convertFromString( String value, Class<T> type )
 	{
 		Converter<String, T> converter = (Converter<String, T>) CONVERTERS.get( new ConvertFromTo<String, T>( String.class, type ) );
 

@@ -18,6 +18,8 @@ package org.metawidget.util;
 
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
+import java.util.Collections;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 /**
@@ -199,7 +201,7 @@ public final class ClassUtils
 		{
 			return false;
 		}
-		catch( AccessControlException e )
+		catch ( AccessControlException e )
 		{
 			// Not accessible (eg. running in an applet)
 
@@ -231,49 +233,58 @@ public final class ClassUtils
 	/**
 	 * Replacement for <code>Class.forName()</code> that:
 	 * <ul>
-	 *  <li>supports primitives (<code>int</code>, <code>long</code>, etc)</li>
-	 *  <li>returns <code>null</code> if there is no such class (eg. if the name
-	 *  is a symbolic type, such as 'Login Screen')</li>
+	 * <li>supports primitives (<code>int</code>, <code>long</code>, etc)</li>
+	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic
+	 * type, such as 'Login Screen')</li>
 	 * </ul>
 	 */
 
 	public static Class<?> niceForName( String className )
 	{
+		Class<?> clazz;
+
 		try
 		{
 			// Use Thread.currentThread().getContextClassLoader(), in case metawidget.jar
-			// is in JRE/lib/ext
+			// is in JRE/lib/ext (which it might be for desktop apps)
 
-			return Thread.currentThread().getContextClassLoader().loadClass( className );
+			clazz = Thread.currentThread().getContextClassLoader().loadClass( className );
 		}
 		catch ( ClassNotFoundException e )
 		{
-			if ( "byte".equals( className ))
-				return byte.class;
-
-			if ( "short".equals( className ) )
-				return short.class;
-
-			if ( "int".equals( className ))
-				return int.class;
-
-			if ( "long".equals( className ) )
-				return long.class;
-
-			if ( "float".equals( className ))
-				return float.class;
-
-			if ( "double".equals( className ))
-				return double.class;
-
-			if ( "boolean".equals( className ) )
-				return boolean.class;
-
-			if ( "char".equals( className ) )
-				return char.class;
+			clazz = PRIMITIVE_CLASSNAMES.get( className );
 		}
 
-		return null;
+		return clazz;
+	}
+
+	//
+	//
+	// Private statics
+	//
+	//
+
+	/**
+	 * Map of primitive names (eg. <code>int</code>, <code>long</code> and their classes (eg.
+	 * <code>int.class</code>, <code>long.class</code>). Allows quicker lookups during
+	 * <code>niceForName</code>.
+	 */
+
+	private final static Map<String, Class<?>>	PRIMITIVE_CLASSNAMES;
+
+	static
+	{
+		Map<String, Class<?>> primitiveClassnames = CollectionUtils.newHashMap();
+		primitiveClassnames.put( "byte", byte.class );
+		primitiveClassnames.put( "short", short.class );
+		primitiveClassnames.put( "int", int.class );
+		primitiveClassnames.put( "long", long.class );
+		primitiveClassnames.put( "float", float.class );
+		primitiveClassnames.put( "double", double.class );
+		primitiveClassnames.put( "boolean", boolean.class );
+		primitiveClassnames.put( "char", char.class );
+
+		PRIMITIVE_CLASSNAMES = Collections.unmodifiableMap( primitiveClassnames );
 	}
 
 	//

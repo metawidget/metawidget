@@ -27,6 +27,7 @@ import javax.swing.JTable;
 
 import junit.framework.TestCase;
 
+import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.metawidget.inspector.javabean.JavaBeanInspector;
 import org.metawidget.swing.SwingMetawidget;
@@ -152,17 +153,28 @@ public class BeansBindingTest
 
 		ReadOnlyToStringConverter<Boolean> converter = new ReadOnlyToStringConverter<Boolean>();
 
-		assertTrue( "true".equals( converter.convertForward( Boolean.TRUE )));
+		assertTrue( "true".equals( converter.convertForward( Boolean.TRUE ) ) );
 
 		try
 		{
 			converter.convertReverse( "true" );
 			assertTrue( false );
 		}
-		catch( UnsupportedOperationException e )
+		catch ( UnsupportedOperationException e )
 		{
 			assertTrue( e.getMessage().indexOf( "cannot convertReverse" ) != -1 );
 		}
+	}
+
+	public static void testConvert()
+		throws Exception
+	{
+		// Model
+
+		BeansBinding binding = new BeansBinding( new SwingMetawidget() );
+		BeansBinding.registerConverter( String.class, int.class, new IntConverter() );
+
+		assertTrue( 1 == binding.convertFromString( "1", int.class ) );
 	}
 
 	//
@@ -243,6 +255,22 @@ public class BeansBindingTest
 		public void setList( List<String> list )
 		{
 			mList = list;
+		}
+	}
+
+	protected static class IntConverter
+		extends Converter<String, Integer>
+	{
+		@Override
+		public Integer convertForward( String value )
+		{
+			return Integer.valueOf( value );
+		}
+
+		@Override
+		public String convertReverse( Integer value )
+		{
+			return String.valueOf( value );
 		}
 	}
 }

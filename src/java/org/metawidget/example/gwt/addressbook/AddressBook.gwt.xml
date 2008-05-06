@@ -10,9 +10,13 @@
 	
 	<entry-point class='org.metawidget.example.gwt.addressbook.client.ui.AddressBook' />
 
+	<!-- Server -->
+	
+	<servlet path='/contacts' class='org.metawidget.example.gwt.addressbook.server.ContactsServiceImpl' />
+
 	<!-- Binding -->
 	
-  	<generate-with class="org.metawidget.gwt.binding.simple.SimpleBindingGenerator">
+  	<generate-with class="org.metawidget.gwt.server.binding.BindingAdapterGenerator">
 		<when-type-assignable class="org.metawidget.example.shared.addressbook.model.Contact"/>
 	</generate-with>
 	
