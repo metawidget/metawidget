@@ -84,12 +84,23 @@ public final class GwtUtils
 		return false;
 	}
 
-	public static String[] fromString( String collection, char separator )
+	/**
+	 * Splits and trims a list of Strings.
+	 */
+
+	public static List<String> fromString( String collection, char separator )
 	{
 		if ( collection == null )
-			return new String[0];
+			return Collections.emptyList();
 
-		return collection.split( String.valueOf( separator ) );
+		List<String> split = new ArrayList<String>();
+
+		for( String item : collection.split( String.valueOf( separator ) ))
+		{
+			split.add( item.trim() );
+		}
+
+		return split;
 	}
 
 	public static String toString( String[] collection, char separator )

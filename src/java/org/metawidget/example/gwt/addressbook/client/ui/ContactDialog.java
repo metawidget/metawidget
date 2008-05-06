@@ -21,14 +21,17 @@ import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.gwt.client.binding.BindingAdapter;
+import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
@@ -51,6 +54,7 @@ public class ContactDialog
 		setStyleName( "contact-dialog" );
 		setPopupPosition( 100, 50 );
 		Grid grid = new Grid( 1, 2 );
+		setWidget( grid );
 
 		// Left-hand image
 
@@ -101,56 +105,88 @@ public class ContactDialog
 
 		setText( builder.toString() );
 
-		metawidget.buildWidgets();
-
 		// Embedded buttons
 
-		Button edit = new Button( "Edit" );
-		edit.addClickListener( new ClickListener()
+		Facet buttonsFacet = new Facet();
+		buttonsFacet.setName( "buttons" );
+		metawidget.add( buttonsFacet );
+
+		HorizontalPanel panel = new HorizontalPanel();
+		buttonsFacet.add( panel );
+
+		final Button saveButton = new Button( "Save" );
+		saveButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
 			{
-				metawidget.setReadOnly( false );
-				metawidget.buildWidgets();
+				contactsService.save( contact, new AsyncCallback<Object>()
+				{
+					public void onFailure( Throwable caught )
+					{
+						Window.alert( caught.getMessage() );
+					}
+
+					public void onSuccess( Object result )
+					{
+						ContactDialog.this.hide();
+					}
+				} );
 			}
 		} );
-		// RootPanel.get( "edit" ).add( edit );
+		panel.add( saveButton );
 
-		Button save = new Button( "Save" );
-		save.addClickListener( new ClickListener()
-		{
-			public void onClick( Widget sender )
-			{
-				contactsService.save( contact, null );
-				ContactDialog.this.hide();
-			}
-		} );
-		// RootPanel.get( "save" ).add( save );
-
-		Button delete = new Button( "Delete" );
-		delete.addClickListener( new ClickListener()
+		final Button deleteButton = new Button( "Delete" );
+		deleteButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
 			{
 				if ( Window.confirm( "Sure you want to delete this contact?" ) )
 				{
-					contactsService.delete( contact, null );
-					ContactDialog.this.hide();
+					contactsService.delete( contact, new AsyncCallback<Boolean>()
+					{
+						public void onFailure( Throwable caught )
+						{
+							Window.alert( caught.getMessage() );
+						}
+
+						public void onSuccess( Boolean result )
+						{
+							ContactDialog.this.hide();
+						}
+					} );
 				}
 			}
 		} );
-		// RootPanel.get( "delete" ).add( delete );
+		panel.add( deleteButton );
 
-		Button cancel = new Button( "Cancel" );
-		cancel.addClickListener( new ClickListener()
+		saveButton.setVisible( !metawidget.isReadOnly() );
+		deleteButton.setVisible( !metawidget.isReadOnly() && contact.getId() != 0 );
+
+		final Button editButton = new Button( "Edit" );
+		editButton.addClickListener( new ClickListener()
+		{
+			public void onClick( Widget sender )
+			{
+				metawidget.setReadOnly( false );
+				editButton.setVisible( false );
+				saveButton.setVisible( true );
+				deleteButton.setVisible( true );
+				metawidget.buildWidgets();
+			}
+		} );
+		editButton.setVisible( metawidget.isReadOnly() );
+		panel.add( editButton );
+
+		Button cancelButton = new Button( "Cancel" );
+		cancelButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
 			{
 				ContactDialog.this.hide();
 			}
 		} );
-		// RootPanel.get( "cancel" ).add( cancel );
+		panel.add( cancelButton );
 
-		setWidget( grid );
+		metawidget.buildWidgets();
 	}
 }

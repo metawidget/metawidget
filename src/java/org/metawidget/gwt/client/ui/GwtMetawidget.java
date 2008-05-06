@@ -22,9 +22,12 @@ import static org.metawidget.util.StringUtils.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.gwt.client.binding.Binding;
+import org.metawidget.gwt.client.layout.FlexTableLayout;
+import org.metawidget.gwt.client.layout.Layout;
 import org.metawidget.gwt.client.rpc.InspectorService;
 import org.metawidget.gwt.client.rpc.InspectorServiceAsync;
 
@@ -37,9 +40,9 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
@@ -66,7 +69,7 @@ import com.google.gwt.xml.client.XMLParser;
  */
 
 public class GwtMetawidget
-	extends VerticalPanel
+	extends SimplePanel
 {
 	//
 	//
@@ -78,11 +81,15 @@ public class GwtMetawidget
 
 	private String				mPath;
 
+	private Layout				mLayout;
+
 	private boolean				mReadOnly;
 
 	private Binding				mBinding;
 
 	private Map<String, Widget>	mChildren;
+
+	private Map<String, Facet>	mFacets	= new HashMap<String, Facet>();
 
 	//
 	//
@@ -120,6 +127,11 @@ public class GwtMetawidget
 	public boolean isReadOnly()
 	{
 		return mReadOnly;
+	}
+
+	public void setLayout( Layout layout )
+	{
+		mLayout = layout;
 	}
 
 	/**
@@ -221,6 +233,23 @@ public class GwtMetawidget
 		throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBinding" );
 	}
 
+	@Override
+	public void add( Widget widget )
+	{
+		super.add( widget );
+
+		if ( widget instanceof Facet )
+		{
+			Facet facet = (Facet) widget;
+			mFacets.put( facet.getName(), facet );
+		}
+	}
+
+	public Facet getFacet( String name )
+	{
+		return mFacets.get( name );
+	}
+
 	//
 	//
 	// Protected methods. This methods are all equivalent to
@@ -236,6 +265,13 @@ public class GwtMetawidget
 		clear();
 
 		mChildren = new HashMap<String, Widget>();
+
+		// Start layout
+
+		if ( mLayout == null )
+			mLayout = new FlexTableLayout( this );
+
+		mLayout.layoutBegin();
 	}
 
 	public void buildWidgets()
@@ -372,6 +408,7 @@ public class GwtMetawidget
 		throws Exception
 	{
 		metawidget.setPath( mPath + '/' + attributes.get( NAME ) );
+		metawidget.setLayout( mLayout.newInstance( metawidget ) );
 		metawidget.setReadOnly( mReadOnly );
 		metawidget.setToInspect( mToInspect );
 
@@ -549,11 +586,11 @@ public class GwtMetawidget
 		throws Exception
 	{
 		String name = attributes.get( "name" );
-		Label label = new Label( name + ":" );
-		add( label );
-		add( widget );
-
 		mChildren.put( name, widget );
+
+		// Layout
+
+		mLayout.layoutChild( widget, attributes );
 
 		// Bind
 
@@ -566,7 +603,7 @@ public class GwtMetawidget
 	protected void endBuild()
 		throws Exception
 	{
-		// Empty for now
+		mLayout.layoutEnd();
 	}
 
 	//
@@ -575,7 +612,7 @@ public class GwtMetawidget
 	//
 	//
 
-	protected void addListBoxItems( ListBox listBox, String[] values, String[] labels, Map<String, String> attributes )
+	protected void addListBoxItems( ListBox listBox, List<String> values, List<String> labels, Map<String, String> attributes )
 	{
 		if ( values == null )
 			return;
@@ -590,18 +627,18 @@ public class GwtMetawidget
 
 		// See if we're using labels
 
-		if ( labels != null && labels.length != 0 && labels.length != values.length )
+		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
 			throw new RuntimeException( "Labels list must be same size as values list" );
 
 		// Add the select items
 
-		for ( int loop = 0, length = values.length; loop < length; loop++ )
+		for ( int loop = 0, length = values.size(); loop < length; loop++ )
 		{
-			String value = values[loop];
+			String value = values.get( loop );
 			String label = null;
 
-			if ( labels != null && labels.length != 0 )
-				label = labels[loop];
+			if ( labels != null && !labels.isEmpty() )
+				label = labels.get( loop );
 
 			addListBoxItem( listBox, value, label );
 		}

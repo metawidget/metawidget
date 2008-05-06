@@ -58,6 +58,7 @@ public class ContactsServiceImpl
 	}
 
 	public void save( Contact contact )
+		throws Exception
 	{
 		mContactsController.save( contact );
 	}

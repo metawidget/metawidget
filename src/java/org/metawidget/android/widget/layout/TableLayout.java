@@ -120,7 +120,7 @@ public class TableLayout
 		mLayout.setOrientation( LinearLayout.VERTICAL );
 		mLayout.setColumnStretchable( 1, true );
 
-		getMetawidget().addView( mLayout, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		metawidget.addView( mLayout, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 	}
 
 	@Override

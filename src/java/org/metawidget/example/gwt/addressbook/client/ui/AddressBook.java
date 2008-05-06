@@ -25,6 +25,7 @@ import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
+import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -35,6 +36,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
@@ -108,8 +110,15 @@ public class AddressBook
 
 		// Embedded buttons
 
-		Button search = new Button( "Search" );
-		search.addClickListener( new ClickListener()
+		Facet buttonsFacet = new Facet();
+		buttonsFacet.setName( "buttons" );
+		metawidget.add( buttonsFacet );
+
+		HorizontalPanel panel = new HorizontalPanel();
+		buttonsFacet.add( panel );
+
+		Button searchButton = new Button( "Search" );
+		searchButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
 			{
@@ -129,10 +138,10 @@ public class AddressBook
 				loadContacts();
 			}
 		} );
-		RootPanel.get( "search" ).add( search );
+		panel.add( searchButton );
 
-		Button addPersonal = new Button( "Add Personal" );
-		addPersonal.addClickListener( new ClickListener()
+		Button addPersonalButton = new Button( "Add Personal" );
+		addPersonalButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
 			{
@@ -140,10 +149,10 @@ public class AddressBook
 				new ContactDialog( mContactsService, contact ).show();
 			}
 		} );
-		RootPanel.get( "addPersonal" ).add( addPersonal );
+		panel.add( addPersonalButton );
 
-		Button addBusiness = new Button( "Add Business" );
-		addBusiness.addClickListener( new ClickListener()
+		Button addBusinessButton = new Button( "Add Business" );
+		addBusinessButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
 			{
@@ -151,7 +160,7 @@ public class AddressBook
 				new ContactDialog( mContactsService, contact ).show();
 			}
 		} );
-		RootPanel.get( "addBusiness" ).add( addBusiness );
+		panel.add( addBusinessButton );
 	}
 
 	//

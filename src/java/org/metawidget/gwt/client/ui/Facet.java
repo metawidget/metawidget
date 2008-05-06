@@ -14,36 +14,44 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.gwt.addressbook.client.rpc;
+package org.metawidget.gwt.client.ui;
 
-import java.util.List;
-
-import org.metawidget.example.shared.addressbook.model.Contact;
-import org.metawidget.example.shared.addressbook.model.ContactSearch;
-
-import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
+ * Facet for GWT environments.
+ * <p>
+ * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are
+ * 'decorations' (such as button bars) to be recognized and arranged at the discretion of the
+ * Layout.
+ *
  * @author Richard Kennard
  */
 
-public interface ContactsService
-	extends RemoteService
+public class Facet
+	extends SimplePanel
 {
 	//
 	//
-	// Methods
+	// Private members
 	//
 	//
 
-	List<Contact> getAllByExample( ContactSearch search );
+	private String	mName;
 
-	Contact load( long id );
+	//
+	//
+	// Public methods
+	//
+	//
 
-	void save( Contact contact )
-		throws Exception;
+	public String getName()
+	{
+		return mName;
+	}
 
-	boolean delete( Contact contact );
-
-	boolean delete( long id );
+	public void setName( String name )
+	{
+		mName = name;
+	}
 }

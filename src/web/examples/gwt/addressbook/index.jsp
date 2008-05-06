@@ -11,11 +11,7 @@
 
 	<div id="content">
 	
-		<div id="metawidget"></div>
-		<div id="search"></div>
-		<div id="addPersonal"></div>
-		<div id="addBusiness"></div>
-		
+		<div id="metawidget"></div>		
 		<div id="contacts"></div>
 		
 	</div>

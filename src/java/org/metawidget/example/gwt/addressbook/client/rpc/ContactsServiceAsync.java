@@ -41,7 +41,7 @@ public interface ContactsServiceAsync
 
 	void load( long id, AsyncCallback<Contact> callback );
 
-	void save( Contact contact, AsyncCallback<List<Contact>> callback );
+	void save( Contact contact, AsyncCallback<?> callback );
 
 	void delete( Contact contact, AsyncCallback<Boolean> callback );
 
