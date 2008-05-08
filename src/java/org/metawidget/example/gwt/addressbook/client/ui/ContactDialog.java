@@ -16,10 +16,16 @@
 
 package org.metawidget.example.gwt.addressbook.client.ui;
 
+import java.util.Date;
+
 import org.metawidget.example.gwt.addressbook.client.rpc.ContactsServiceAsync;
+import org.metawidget.example.gwt.addressbook.client.ui.converter.DateConverter;
+import org.metawidget.example.gwt.addressbook.client.ui.converter.EnumConverter;
 import org.metawidget.example.shared.addressbook.model.Contact;
+import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.gwt.client.binding.BindingAdapter;
+import org.metawidget.gwt.client.binding.simple.SimpleBinding;
+import org.metawidget.gwt.client.binding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 
@@ -72,10 +78,14 @@ public class ContactDialog
 
 		// Binding
 
+		metawidget.setBindingClass( SimpleBinding.class );
+
 		@SuppressWarnings( "unchecked" )
-		BindingAdapter<Contact> bindingAdapter = (BindingAdapter<Contact>) GWT.create( Contact.class );
-		bindingAdapter.setAdaptee( contact );
-		metawidget.setBinding( bindingAdapter );
+		SimpleBindingAdapter<Contact> contactAdapter = (SimpleBindingAdapter<Contact>) GWT.create( Contact.class );
+		SimpleBinding.registerAdapter( Contact.class, contactAdapter );
+		SimpleBinding.registerConverter( Date.class, new DateConverter() );
+		SimpleBinding.registerConverter( Gender.class, new EnumConverter<Gender>( Gender.class ) );
+
 
 		// Title
 

@@ -14,19 +14,18 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.binding;
+package org.metawidget.example.gwt.addressbook.client.ui.converter;
+
+import org.metawidget.gwt.client.binding.Converter;
+
+import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Base implementation of a Binding interface.
- * <p>
- * Clients can use <code>BindingAdapterGenerator</code> to automatically generate a BindingAdapter
- * for each of their domain objects.
- *
  * @author Richard Kennard
  */
 
-public abstract class BindingAdapter<T>
-	implements Binding
+public class EnumConverter<T extends Enum<T>>
+	extends Converter<T>
 {
 	//
 	//
@@ -34,7 +33,18 @@ public abstract class BindingAdapter<T>
 	//
 	//
 
-	private T	mAdaptee;
+	private Class<T>	mEnum;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public EnumConverter( Class<T> anEnum )
+	{
+		mEnum = anEnum;
+	}
 
 	//
 	//
@@ -42,24 +52,15 @@ public abstract class BindingAdapter<T>
 	//
 	//
 
-	public void setAdaptee( T adaptee )
+	@Override
+	public T convertFromWidget( Widget widget, String value )
 	{
-		mAdaptee = adaptee;
+		return Enum.valueOf( mEnum, value );
 	}
 
-	//
-	//
-	// Protected methods
-	//
-	//
-
-	protected T getAdaptee()
+	@Override
+	public Object convertForWidget( Widget widget, T value )
 	{
-		// Sanity check
-
-		if ( mAdaptee == null )
-			throw new RuntimeException( "Adaptee is null. Did you call setAdaptee?" );
-
-		return mAdaptee;
+		return value.name();
 	}
 }

@@ -9,4 +9,14 @@
 	
 	<servlet path='/metawidget-inspector' class='org.metawidget.gwt.server.rpc.InspectorServiceImpl' />
 
+	<!-- Binding and Layout -->
+	
+  	<generate-with class="org.metawidget.gwt.server.binding.BindingFactoryGenerator">
+		<when-type-assignable class="org.metawidget.gwt.client.binding.BindingFactory"/>
+	</generate-with>
+
+  	<generate-with class="org.metawidget.gwt.server.layout.LayoutFactoryGenerator">
+		<when-type-assignable class="org.metawidget.gwt.client.ui.layout.LayoutFactory"/>
+	</generate-with>
+
 </module>

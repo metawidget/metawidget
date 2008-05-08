@@ -14,11 +14,11 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.server.binding;
+package org.metawidget.gwt.server.binding.simple;
 
 import java.io.PrintWriter;
 
-import org.metawidget.gwt.client.binding.BindingAdapter;
+import org.metawidget.gwt.client.binding.simple.SimpleBindingAdapter;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.StringUtils;
 
@@ -60,9 +60,7 @@ import com.google.gwt.user.rebind.SourceWriter;
  * could quickly become very large, we impose the following restrictions:
  * <ul>
  * <li>only properties whose return type is in the same package, or a subpackage, of the parent
- * type are considered</li>
- * <li>only subtypes and base types in the same package, or a subpackage, of the parent type
- * are considered</li>
+ * type are traversed into</li>
  * </ul>
  * Clients needing to avoid such restrictions must write their own class that implements
  * <code>Binding</code>.
@@ -70,7 +68,12 @@ import com.google.gwt.user.rebind.SourceWriter;
  * @author Richard Kennard
  */
 
-public class BindingAdapterGenerator
+// Note: there is no equivalent BindingFactoryGenerator like there is a LayoutFactoryGenerator,
+// because whereas all Layouts extend a well defined base class and therefore discovering them a
+// well-constrained process, bindings are associated with domain objects so we need the user to
+// specify the base class in their own application.gwt.xml
+
+public class SimpleBindingAdapterGenerator
 	extends Generator
 {
 	//
@@ -82,11 +85,11 @@ public class BindingAdapterGenerator
 	/**
 	 * Prefix to use for all variable names.
 	 * <p>
-	 * We prefix variable names (eg. 'theContact') rather than lowercasing them
-	 * (eg. 'contact') to avoid keyword clashes (eg. 'class')
+	 * We prefix variable names (eg. 'theContact') rather than lowercasing them (eg. 'contact') to
+	 * avoid keyword clashes (eg. 'class')
 	 */
 
-	private final static String	VARIABLE_NAME_PREFIX = "the";
+	private final static String	VARIABLE_NAME_PREFIX	= "the";
 
 	//
 	//
@@ -126,17 +129,19 @@ public class BindingAdapterGenerator
 		// Start the BindingAdapter subclass
 
 		ClassSourceFileComposerFactory composer = new ClassSourceFileComposerFactory( packageName, bindingClassName );
-		composer.setSuperclass( BindingAdapter.class.getName() + "<" + sourceClassName + ">" );
+		composer.addImplementedInterface( SimpleBindingAdapter.class.getName() + "<" + classType.getQualifiedSourceName() + ">" );
 		SourceWriter sourceWriter = composer.createSourceWriter( context, printWriter );
 
 		if ( sourceWriter != null )
 		{
 			// Write the methods
 
+			String variableName = VARIABLE_NAME_PREFIX + sourceClassName;
+
 			sourceWriter.println();
 			sourceWriter.println( "// Public methods" );
 			sourceWriter.println();
-			sourceWriter.println( "public Object getProperty( String... property ) {" );
+			sourceWriter.println( "public Object getProperty( " + classType.getQualifiedSourceName() + " " + variableName + ", String... property ) {" );
 			sourceWriter.indent();
 
 			// Sanity check
@@ -147,9 +152,6 @@ public class BindingAdapterGenerator
 			sourceWriter.println( "if ( property == null || property.length == 0 ) throw new RuntimeException( \"No property specified\" );" );
 
 			// Write subtypes
-
-			String variableName = VARIABLE_NAME_PREFIX + sourceClassName;
-			sourceWriter.println( sourceClassName + " " + variableName + " = getAdaptee();" );
 
 			writeSubtypes( sourceWriter, classType, variableName, 0 );
 
@@ -178,16 +180,16 @@ public class BindingAdapterGenerator
 		{
 			// ...write its subclass-level properties...
 
-			writeProperties( sourceWriter, subtype, variableName, propertyIndex, true );
+			writeProperties( sourceWriter, subtype, variableName, propertyIndex, true, classType );
 		}
 
-		// ...and for the base class write every superclass within our package
+		// ...and for the base class write every superclass
 
 		JClassType typeTraversal = classType;
 
-		while ( typeTraversal.getPackage().getName().startsWith( classType.getPackage().getName() ) )
+		while ( typeTraversal != null )
 		{
-			writeProperties( sourceWriter, typeTraversal, variableName, propertyIndex, false );
+			writeProperties( sourceWriter, typeTraversal, variableName, propertyIndex, false, classType );
 
 			typeTraversal = typeTraversal.getSuperclass();
 		}
@@ -200,7 +202,7 @@ public class BindingAdapterGenerator
 		sourceWriter.println( "throw new RuntimeException( \"Unknown property '\" + property[" + propertyIndex + "] + \"'\" );" );
 	}
 
-	private void writeProperties( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, boolean writeInstanceOf )
+	private void writeProperties( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, boolean writeInstanceOf, JClassType parentType )
 	{
 		String currentVariableName = variableName;
 		boolean writtenAProperty = false;
@@ -266,7 +268,7 @@ public class BindingAdapterGenerator
 			{
 				JClassType nestedClassType = (JClassType) returnType;
 
-				if ( nestedClassType.getPackage().getName().startsWith( classType.getPackage().getName() ) )
+				if ( nestedClassType.getPackage().getName().startsWith( parentType.getPackage().getName() ) )
 				{
 					String nestedVariableName = VARIABLE_NAME_PREFIX + nestedClassType.getSimpleSourceName();
 					sourceWriter.println( nestedClassType.getParameterizedQualifiedSourceName() + " " + nestedVariableName + " = " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );

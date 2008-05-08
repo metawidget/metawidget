@@ -14,64 +14,23 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.binding;
+package org.metawidget.gwt.client.ui.layout;
 
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 
-import com.google.gwt.user.client.ui.Widget;
-
 /**
+ * GWT interface for dynamically instantiating Layouts.
+ *
  * @author Richard Kennard
  */
 
-public abstract class Binding
+public interface LayoutFactory
 {
 	//
 	//
-	// Private members
+	// Methods
 	//
 	//
 
-	private GwtMetawidget	mMetawidget;
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public Binding( GwtMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
-	//
-	//
-	// Public methods
-	//
-	//
-
-	public abstract <T> void bind( Widget widget, String... names );
-
-	/**
-	 * Save bound values from the Components back to the source Object.
-	 */
-
-	public abstract void save();
-
-	public void unbind()
-	{
-		// Do nothing by default
-	}
-
-	//
-	//
-	// Protected methods
-	//
-	//
-
-	protected GwtMetawidget getMetawidget()
-	{
-		return mMetawidget;
-	}
+	Layout newLayout( Class<? extends Layout> layoutClass, GwtMetawidget metawidget );
 }

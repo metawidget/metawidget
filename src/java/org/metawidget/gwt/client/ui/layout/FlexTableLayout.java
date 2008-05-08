@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.layout;
+package org.metawidget.gwt.client.ui.layout;
 
 import java.util.Map;
 
@@ -91,11 +91,5 @@ public class FlexTableLayout
 			mLayout.setWidget( row, 0, facet );
 			mLayout.getFlexCellFormatter().setColSpan( row, 0, 2 );
 		}
-	}
-
-	@Override
-	public Layout newInstance( GwtMetawidget metawidget )
-	{
-		return new FlexTableLayout( metawidget );
 	}
 }

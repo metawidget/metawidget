@@ -14,64 +14,19 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.binding;
-
-import org.metawidget.gwt.client.ui.GwtMetawidget;
-
-import com.google.gwt.user.client.ui.Widget;
+package org.metawidget.gwt.client.binding.simple;
 
 /**
  * @author Richard Kennard
  */
 
-public abstract class Binding
+public interface SimpleBindingAdapter<T>
 {
 	//
 	//
-	// Private members
+	// Methods
 	//
 	//
 
-	private GwtMetawidget	mMetawidget;
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public Binding( GwtMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
-	//
-	//
-	// Public methods
-	//
-	//
-
-	public abstract <T> void bind( Widget widget, String... names );
-
-	/**
-	 * Save bound values from the Components back to the source Object.
-	 */
-
-	public abstract void save();
-
-	public void unbind()
-	{
-		// Do nothing by default
-	}
-
-	//
-	//
-	// Protected methods
-	//
-	//
-
-	protected GwtMetawidget getMetawidget()
-	{
-		return mMetawidget;
-	}
+	Object getProperty( T object, String... property );
 }

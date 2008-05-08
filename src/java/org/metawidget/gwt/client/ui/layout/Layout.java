@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.layout;
+package org.metawidget.gwt.client.ui.layout;
 
 import java.util.Map;
 
@@ -71,16 +71,6 @@ public abstract class Layout
 	{
 		// Do nothing by default
 	}
-
-	/**
-	 * Returns a new instance of this layout, initialized to the given
-	 * Metawidget.
-	 * <p>
-	 * Because of GWT's restricted dynamic instantiation capabilities, we
-	 * must provide this explicitly.
-	 */
-
-	public abstract Layout newInstance( GwtMetawidget metawidget );
 
 	//
 	//

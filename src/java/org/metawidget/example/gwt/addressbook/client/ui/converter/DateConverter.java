@@ -14,17 +14,21 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.binding;
+package org.metawidget.example.gwt.addressbook.client.ui.converter;
 
-import org.metawidget.gwt.client.ui.GwtMetawidget;
+import java.util.Date;
 
+import org.metawidget.gwt.client.binding.Converter;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Richard Kennard
  */
 
-public abstract class Binding
+public class DateConverter
+	extends Converter<Date>
 {
 	//
 	//
@@ -32,7 +36,7 @@ public abstract class Binding
 	//
 	//
 
-	private GwtMetawidget	mMetawidget;
+	private DateTimeFormat	mFormat;
 
 	//
 	//
@@ -40,9 +44,9 @@ public abstract class Binding
 	//
 	//
 
-	public Binding( GwtMetawidget metawidget )
+	public DateConverter()
 	{
-		mMetawidget = metawidget;
+		mFormat = DateTimeFormat.getShortDateFormat();
 	}
 
 	//
@@ -51,27 +55,16 @@ public abstract class Binding
 	//
 	//
 
-	public abstract <T> void bind( Widget widget, String... names );
 
-	/**
-	 * Save bound values from the Components back to the source Object.
-	 */
-
-	public abstract void save();
-
-	public void unbind()
+	@Override
+	public Date convertFromWidget( Widget widget, String value )
 	{
-		// Do nothing by default
+		return mFormat.parse( value );
 	}
 
-	//
-	//
-	// Protected methods
-	//
-	//
-
-	protected GwtMetawidget getMetawidget()
+	@Override
+	public Object convertForWidget( Widget widget, Date value )
 	{
-		return mMetawidget;
+		return mFormat.format( value );
 	}
 }

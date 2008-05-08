@@ -19,7 +19,6 @@ package org.metawidget.swing;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -73,15 +72,14 @@ import org.w3c.dom.Element;
 /**
  * Metawidget for Swing environments.
  * <p>
- * Automatically creates native Swing <code>JComponents</code>, such as <code>JTextField</code> and
- * <code>JComboBox</code>, to suit the inspected fields.
+ * Automatically creates native Swing <code>JComponents</code>, such as <code>JTextField</code>
+ * and <code>JComboBox</code>, to suit the inspected fields.
  *
  * @author Richard Kennard
  */
 
 // SwingMetawidget extends JPanel (instead of just JComponent) as it
 // behaves better in Sun's AppletViewer
-
 public class SwingMetawidget
 	extends JPanel
 {
@@ -118,6 +116,8 @@ public class SwingMetawidget
 	private Layout								mLayout;
 
 	/**
+	 * The Binding class.
+	 * <p>
 	 * Binding class is <code>null</code> by default, to avoid default dependencies on third-party
 	 * JARs
 	 */
@@ -228,13 +228,9 @@ public class SwingMetawidget
 	{
 		mBindingClass = bindingClass;
 
-		if ( mBinding != null )
-		{
-			mBinding.unbind();
-			mBinding = null;
-		}
-
 		invalidateWidgets();
+
+		mBinding = null;
 	}
 
 	public void setBundle( ResourceBundle bundle )
@@ -716,28 +712,20 @@ public class SwingMetawidget
 		mExistingComponentsUnused = CollectionUtils.newArrayList( mExistingComponents );
 
 		// Start layout
+		//
+		// (we start a new layout each time, rather than complicating the Layouts with a
+		// layoutCleanup method)
 
 		if ( mLayoutClass != null )
 		{
 			mLayout = mLayoutClass.getConstructor( SwingMetawidget.class ).newInstance( this );
 			mLayout.layoutBegin();
 		}
-		else
-		{
-			mLayout = null;
-			setLayout( new BorderLayout() );
-		}
 
 		// Start binding
 
 		if ( mBindingClass != null )
-		{
 			mBinding = mBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
-		}
-		else
-		{
-			mBinding = null;
-		}
 	}
 
 	protected void beforeBuildCompoundWidget()
@@ -1128,7 +1116,7 @@ public class SwingMetawidget
 		metawidget.setOpaque( isOpaque() );
 
 		if ( metawidget.mParameters != null )
-			metawidget.setParameters( CollectionUtils.newHashMap( mParameters ));
+			metawidget.setParameters( CollectionUtils.newHashMap( mParameters ) );
 
 		metawidget.setToInspect( mToInspect );
 	}

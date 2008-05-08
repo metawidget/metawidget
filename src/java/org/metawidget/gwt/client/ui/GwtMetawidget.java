@@ -22,20 +22,24 @@ import static org.metawidget.util.StringUtils.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
 import org.metawidget.gwt.client.binding.Binding;
-import org.metawidget.gwt.client.layout.FlexTableLayout;
-import org.metawidget.gwt.client.layout.Layout;
+import org.metawidget.gwt.client.binding.BindingFactory;
 import org.metawidget.gwt.client.rpc.InspectorService;
 import org.metawidget.gwt.client.rpc.InspectorServiceAsync;
+import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
+import org.metawidget.gwt.client.ui.layout.Layout;
+import org.metawidget.gwt.client.ui.layout.LayoutFactory;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -77,17 +81,28 @@ public class GwtMetawidget
 	//
 	//
 
-	private Object				mToInspect;
+	private Object						mToInspect;
 
-	private Layout				mLayout;
+	private Class<? extends Layout>		mLayoutClass	= FlexTableLayout.class;
 
-	private boolean				mReadOnly;
+	private Layout						mLayout;
 
-	private Binding				mBinding;
+	/**
+	 * The Binding class.
+	 * <p>
+	 * Binding class is <code>null</code> by default, because setting up Binding is
+	 * non-trivial (eg. you have to generate some SimpleBindingAdapters)
+	 */
 
-	private Map<String, Widget>	mChildren;
+	private Class<? extends Binding>	mBindingClass;
 
-	private Map<String, Facet>	mFacets	= new HashMap<String, Facet>();
+	private Binding						mBinding;
+
+	private boolean						mReadOnly;
+
+	private Map<String, Widget>			mChildren;
+
+	private Map<String, Facet>			mFacets			= new HashMap<String, Facet>();
 
 	//
 	//
@@ -95,9 +110,9 @@ public class GwtMetawidget
 	//
 	//
 
-	String						mPath;
+	String								mPath;
 
-	String[]					mNamesPrefix;
+	String[]							mNamesPrefix;
 
 	//
 	//
@@ -137,30 +152,23 @@ public class GwtMetawidget
 		return mReadOnly;
 	}
 
-	public void setLayout( Layout layout )
+	public void setLayoutClass( Class<? extends Layout> layoutClass )
 	{
-		mLayout = layout;
+		mLayoutClass = layoutClass;
 	}
 
 	/**
-	 * Sets the binding interface for the domain object.
-	 * <p>
-	 * Generally, the object implementing the Binding interface will have been generated using
-	 * <code>BindingAdapterGenerator</code>.
-	 *
-	 * @param binding
+	 * @param bindingClass
+	 *            may be null
 	 */
 
-	public void setBinding( Binding binding )
+	public void setBindingClass( Class<? extends Binding> bindingClass )
 	{
-		// In most cases, the object implementing the Binding interface will have been generated
-		// using BindingAdapterGenerator. It is also possible the domain object may choose to
-		// implement Binding directly. However, setBinding should always be separate from
-		// setToInspect - otherwise BindingAdapterGenerator would need to be a
-		// BindingDelegateGenerator and generating different classes (even subclasses) can
-		// affect the inspectors (eg. XmlInspector does not automatically know about subclasses)
+		mBindingClass = bindingClass;
 
-		mBinding = binding;
+		invalidateWidgets();
+
+		mBinding = null;
 	}
 
 	/**
@@ -177,7 +185,7 @@ public class GwtMetawidget
 		Widget widget = findWidget( names );
 
 		if ( widget == null )
-			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, ',' ) );
+			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) );
 
 		// TextBox
 
@@ -212,12 +220,21 @@ public class GwtMetawidget
 		if ( widget == null )
 			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, ',' ) );
 
+		setValue( value, widget );
+	}
+
+	/**
+	 * Sets the given Widget to the specified value.
+	 */
+
+	public void setValue( Object value, Widget widget )
+	{
 		// Label
 
 		if ( widget instanceof Label )
 		{
 			if ( value != null )
-				( (Label) widget ).setText( String.valueOf( value ) );
+				( (Label) widget ).setText( String.valueOf( value ));
 			return;
 		}
 
@@ -226,7 +243,7 @@ public class GwtMetawidget
 		if ( widget instanceof TextBox )
 		{
 			if ( value != null )
-				( (TextBox) widget ).setText( String.valueOf( value ) );
+				( (TextBox) widget ).setText( String.valueOf( value ));
 			return;
 		}
 
@@ -242,9 +259,9 @@ public class GwtMetawidget
 			else
 				valueString = String.valueOf( value );
 
-			for( int loop = 0, length = listBox.getItemCount(); loop < length; loop++ )
+			for ( int loop = 0, length = listBox.getItemCount(); loop < length; loop++ )
 			{
-				if ( valueString.equals( listBox.getValue( loop )))
+				if ( valueString.equals( listBox.getValue( loop ) ) )
 				{
 					listBox.setSelectedIndex( loop );
 					break;
@@ -289,6 +306,12 @@ public class GwtMetawidget
 	//
 	//
 
+	protected void invalidateWidgets()
+	{
+		if ( mBinding != null )
+			mBinding.unbind();
+	}
+
 	protected void startBuild()
 		throws Exception
 	{
@@ -297,11 +320,17 @@ public class GwtMetawidget
 		mChildren = new HashMap<String, Widget>();
 
 		// Start layout
+		//
+		// (we start a new layout each time, rather than complicating the Layouts with a
+		// layoutCleanup method)
 
-		if ( mLayout == null )
-			mLayout = new FlexTableLayout( this );
-
+		mLayout = ( (LayoutFactory) GWT.create( LayoutFactory.class ) ).newLayout( mLayoutClass, this );
 		mLayout.layoutBegin();
+
+		// Start binding
+
+		if ( mBindingClass != null )
+			mBinding = ( (BindingFactory) GWT.create( BindingFactory.class ) ).newBinding( mBindingClass, this );
 	}
 
 	public void buildWidgets()
@@ -440,8 +469,8 @@ public class GwtMetawidget
 		throws Exception
 	{
 		metawidget.setPath( mPath + '/' + attributes.get( NAME ) );
-		metawidget.setLayout( mLayout.newInstance( metawidget ) );
-		metawidget.setBinding( mBinding );
+		metawidget.setLayoutClass( mLayoutClass );
+		metawidget.setBindingClass( mBindingClass );
 		metawidget.setReadOnly( mReadOnly );
 		metawidget.setToInspect( mToInspect );
 
@@ -512,8 +541,8 @@ public class GwtMetawidget
 
 		// TODO: Collections
 
-		// if ( HashSet.class.getName().equals( type ) )
-		// return new FlexTable();
+		if ( HashSet.class.getName().equals( type ) )
+			return new FlexTable();
 
 		// Not simple, but don't expand
 
@@ -602,8 +631,8 @@ public class GwtMetawidget
 
 		// Collections
 
-		// if ( Collection.class.isAssignableFrom( type ) )
-		// return new FlexTable();
+		if ( HashSet.class.getName().equals( type ) )
+			return new FlexTable();
 
 		// Nested Metawidget
 
@@ -630,9 +659,9 @@ public class GwtMetawidget
 		if ( mBinding != null )
 		{
 			if ( mNamesPrefix == null )
-				setValue( mBinding.getProperty( name ), name );
+				mBinding.bind( widget, name );
 			else
-				setValue( mBinding.getProperty( GwtUtils.add( mNamesPrefix, name ) ), name );
+				mBinding.bind( widget, GwtUtils.add( mNamesPrefix, name ) );
 		}
 	}
 
