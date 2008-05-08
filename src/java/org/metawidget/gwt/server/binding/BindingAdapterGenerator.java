@@ -55,13 +55,14 @@ import com.google.gwt.user.rebind.SourceWriter;
  * metawidget.setBinding( bindingAdapter );
  * </code>
  * <p>
- * This generator <em>statically</em> generates code for all levels of all possible property paths
- * (eg. <code>contact.address.street</code>). Because this could quickly become very large, we
- * impose the following restrictions:
+ * This generator <em>statically</em> generates code for all levels of all possible properties
+ * (eg. <code>contact.address.street</code>), including subtypes of properties. Because this
+ * could quickly become very large, we impose the following restrictions:
  * <ul>
  * <li>only properties whose return type is in the same package, or a subpackage, of the parent
- * type are recursed into</li>
- * <li>no consideration is given to potential subclasses of property return types</li>
+ * type are considered</li>
+ * <li>only subtypes and base types in the same package, or a subpackage, of the parent type
+ * are considered</li>
  * </ul>
  * Clients needing to avoid such restrictions must write their own class that implements
  * <code>Binding</code>.
@@ -72,6 +73,21 @@ import com.google.gwt.user.rebind.SourceWriter;
 public class BindingAdapterGenerator
 	extends Generator
 {
+	//
+	//
+	// Private statics
+	//
+	//
+
+	/**
+	 * Prefix to use for all variable names.
+	 * <p>
+	 * We prefix variable names (eg. 'theContact') rather than lowercasing them
+	 * (eg. 'contact') to avoid keyword clashes (eg. 'class')
+	 */
+
+	private final static String	VARIABLE_NAME_PREFIX = "the";
+
 	//
 	//
 	// Public methods
@@ -125,13 +141,17 @@ public class BindingAdapterGenerator
 
 			// Sanity check
 
+			sourceWriter.println();
+			sourceWriter.println( "// Sanity check" );
+			sourceWriter.println();
 			sourceWriter.println( "if ( property == null || property.length == 0 ) throw new RuntimeException( \"No property specified\" );" );
 
-			// Write properties
+			// Write subtypes
 
-			String variableName = StringUtils.lowercaseFirstLetter( sourceClassName );
+			String variableName = VARIABLE_NAME_PREFIX + sourceClassName;
 			sourceWriter.println( sourceClassName + " " + variableName + " = getAdaptee();" );
-			writeProperties( sourceWriter, classType, variableName, 0 );
+
+			writeSubtypes( sourceWriter, classType, variableName, 0 );
 
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
@@ -150,84 +170,24 @@ public class BindingAdapterGenerator
 	//
 	//
 
-	private void writeProperties( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex )
+	private void writeSubtypes( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex )
 	{
+		// For each subclass...
+
+		for ( JClassType subtype : classType.getSubtypes() )
+		{
+			// ...write its subclass-level properties...
+
+			writeProperties( sourceWriter, subtype, variableName, propertyIndex, true );
+		}
+
+		// ...and for the base class write every superclass within our package
+
 		JClassType typeTraversal = classType;
 
-		// For each superclass (not including java.lang.Object)...
-
-		while ( !Object.class.getName().equals( typeTraversal.getQualifiedSourceName() ) )
+		while ( typeTraversal.getPackage().getName().startsWith( classType.getPackage().getName() ) )
 		{
-			boolean writtenAProperty = false;
-
-			for ( JMethod method : typeTraversal.getMethods() )
-			{
-				// ...if the method is a public property...
-
-				if ( !method.isPublic() )
-					continue;
-
-				JType returnType = method.getReturnType();
-
-				if ( returnType == null )
-					continue;
-
-				String methodName = method.getName();
-				String propertyName;
-
-				if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
-				{
-					propertyName = StringUtils.lowercaseFirstLetter( methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() ) );
-				}
-				else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
-				{
-					propertyName = StringUtils.lowercaseFirstLetter( methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() ) );
-				}
-				else
-				{
-					continue;
-				}
-
-				if ( !writtenAProperty )
-				{
-					sourceWriter.println();
-					sourceWriter.println( "// " + typeTraversal.getSimpleSourceName() + " properties" );
-					sourceWriter.println();
-
-					writtenAProperty = true;
-				}
-
-				// ...call our adaptee...
-
-				sourceWriter.println( "if ( \"" + propertyName + "\".equals( property[" + propertyIndex + "] )) {" );
-				sourceWriter.indent();
-
-				int nextPropertyIndex = propertyIndex + 1;
-
-				if ( returnType instanceof JClassType )
-				{
-					JClassType nestedClassType = (JClassType) returnType;
-
-					if ( nestedClassType.getPackage().getName().startsWith( classType.getPackage().getName() ) )
-					{
-						String nestedVariableName = StringUtils.lowercaseFirstLetter( nestedClassType.getSimpleSourceName() );
-						sourceWriter.println( nestedClassType.getName() + " " + nestedVariableName + " = " + variableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );
-						sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return " + nestedVariableName + ";" );
-
-						// ...recursively if necessary...
-
-						writeProperties( sourceWriter, nestedClassType, nestedVariableName, propertyIndex + 1 );
-						sourceWriter.outdent();
-						sourceWriter.println( "}" );
-						continue;
-					}
-				}
-
-				sourceWriter.println( "if ( property.length > " + nextPropertyIndex + " ) throw new RuntimeException( \"Cannot reflect into property '\" + property[" + nextPropertyIndex + "] + \"'\" );" );
-				sourceWriter.println( "return " + variableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );
-				sourceWriter.outdent();
-				sourceWriter.println( "}" );
-			}
+			writeProperties( sourceWriter, typeTraversal, variableName, propertyIndex, false );
 
 			typeTraversal = typeTraversal.getSuperclass();
 		}
@@ -235,8 +195,103 @@ public class BindingAdapterGenerator
 		// ...or error for an unknown property
 
 		sourceWriter.println();
-		sourceWriter.println( "// Everything else" );
+		sourceWriter.println( "// Unknown" );
 		sourceWriter.println();
 		sourceWriter.println( "throw new RuntimeException( \"Unknown property '\" + property[" + propertyIndex + "] + \"'\" );" );
+	}
+
+	private void writeProperties( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, boolean writeInstanceOf )
+	{
+		String currentVariableName = variableName;
+		boolean writtenAProperty = false;
+
+		for ( JMethod method : classType.getMethods() )
+		{
+			// ...if the method is a public property...
+
+			if ( !method.isPublic() )
+				continue;
+
+			JType returnType = method.getReturnType();
+
+			if ( returnType == null )
+				continue;
+
+			String methodName = method.getName();
+			String propertyName;
+
+			if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
+			{
+				propertyName = StringUtils.lowercaseFirstLetter( methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() ) );
+			}
+			else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
+			{
+				propertyName = StringUtils.lowercaseFirstLetter( methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() ) );
+			}
+			else
+			{
+				continue;
+			}
+
+			// Open the block
+
+			if ( !writtenAProperty )
+			{
+				sourceWriter.println();
+				sourceWriter.println( "// " + classType.getSimpleSourceName() + " properties" );
+				sourceWriter.println();
+
+				if ( writeInstanceOf )
+				{
+					sourceWriter.println( "if ( " + currentVariableName + " instanceof " + classType.getName() + " ) {" );
+					sourceWriter.indent();
+					String superclassVariableName = currentVariableName;
+					currentVariableName = VARIABLE_NAME_PREFIX + classType.getSimpleSourceName();
+					sourceWriter.println( classType.getParameterizedQualifiedSourceName() + " " + currentVariableName + " = (" + classType.getParameterizedQualifiedSourceName() + ") " + superclassVariableName + ";" );
+				}
+
+				writtenAProperty = true;
+			}
+
+			// ...call our adaptee...
+
+			sourceWriter.println( "if ( \"" + propertyName + "\".equals( property[" + propertyIndex + "] )) {" );
+			sourceWriter.indent();
+
+			int nextPropertyIndex = propertyIndex + 1;
+
+			// ...recursively if necessary...
+
+			if ( returnType instanceof JClassType )
+			{
+				JClassType nestedClassType = (JClassType) returnType;
+
+				if ( nestedClassType.getPackage().getName().startsWith( classType.getPackage().getName() ) )
+				{
+					String nestedVariableName = VARIABLE_NAME_PREFIX + nestedClassType.getSimpleSourceName();
+					sourceWriter.println( nestedClassType.getParameterizedQualifiedSourceName() + " " + nestedVariableName + " = " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );
+					sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return " + nestedVariableName + ";" );
+					writeSubtypes( sourceWriter, nestedClassType, nestedVariableName, nextPropertyIndex );
+					sourceWriter.outdent();
+					sourceWriter.println( "}" );
+					continue;
+				}
+			}
+
+			// ...or non-recursively
+
+			sourceWriter.println( "if ( property.length > " + nextPropertyIndex + " ) throw new RuntimeException( \"Cannot traverse into property '" + propertyName + ".\" + property[" + nextPropertyIndex + "] + \"'\" );" );
+			sourceWriter.println( "return " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );
+			sourceWriter.outdent();
+			sourceWriter.println( "}" );
+		}
+
+		// Close the block
+
+		if ( writtenAProperty && writeInstanceOf )
+		{
+			sourceWriter.outdent();
+			sourceWriter.println( "}" );
+		}
 	}
 }

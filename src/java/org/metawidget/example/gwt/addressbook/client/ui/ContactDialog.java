@@ -17,7 +17,6 @@
 package org.metawidget.example.gwt.addressbook.client.ui;
 
 import org.metawidget.example.gwt.addressbook.client.rpc.ContactsServiceAsync;
-import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.gwt.client.binding.BindingAdapter;
@@ -71,6 +70,13 @@ public class ContactDialog
 		grid.setWidget( 0, 1, metawidget );
 		columnFormatter.setStyleName( 1, "content" );
 
+		// Binding
+
+		@SuppressWarnings( "unchecked" )
+		BindingAdapter<Contact> bindingAdapter = (BindingAdapter<Contact>) GWT.create( Contact.class );
+		bindingAdapter.setAdaptee( contact );
+		metawidget.setBinding( bindingAdapter );
+
 		// Title
 
 		StringBuilder builder = new StringBuilder( contact.getFullname() );
@@ -84,23 +90,11 @@ public class ContactDialog
 		{
 			builder.append( "personalContact" );
 			image.setUrl( "media/personal.gif" );
-
-			@SuppressWarnings( "unchecked" )
-			BindingAdapter<PersonalContact> bindingAdapter = (BindingAdapter<PersonalContact>) GWT.create( PersonalContact.class );
-			bindingAdapter.setAdaptee( (PersonalContact) contact );
-
-			metawidget.setBinding( bindingAdapter );
 		}
 		else
 		{
 			builder.append( "businessContact" );
 			image.setUrl( "media/business.gif" );
-
-			@SuppressWarnings( "unchecked" )
-			BindingAdapter<BusinessContact> bindingAdapter = (BindingAdapter<BusinessContact>) GWT.create( BusinessContact.class );
-			bindingAdapter.setAdaptee( (BusinessContact) contact );
-
-			metawidget.setBinding( bindingAdapter );
 		}
 
 		setText( builder.toString() );
