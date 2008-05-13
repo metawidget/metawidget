@@ -73,7 +73,13 @@ public class Stub
 	public Map<String, String> getAttributes()
 	{
 		if ( mAttributes == null )
-			return Collections.emptyMap();
+		{
+			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
+
+			@SuppressWarnings( { "cast", "unchecked" } )
+			Map<String, String> empty = (Map<String, String>) Collections.EMPTY_MAP;
+			return empty;
+		}
 
 		return mAttributes;
 	}

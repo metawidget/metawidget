@@ -57,14 +57,20 @@ public class DateConverter
 
 
 	@Override
-	public Date convertFromWidget( Widget widget, Object value )
+	public Date convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
+		if ( value == null || "".equals( value ))
+			return null;
+
 		return mFormat.parse( (String) value );
 	}
 
 	@Override
 	public Object convertForWidget( Widget widget, Date value )
 	{
+		if ( value == null )
+			return null;
+
 		return mFormat.format( value );
 	}
 }

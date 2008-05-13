@@ -49,6 +49,7 @@ import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.WidgetCollection;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
@@ -104,11 +105,9 @@ public class GwtMetawidget
 
 	private boolean							mReadOnly;
 
-	private Map<String, Widget>				mWidgets;
+	private Map<String, Widget>				mWidgetNames;
 
 	private Map<String, Stub>				mStubs			= new HashMap<String, Stub>();
-
-	// TODO: ComplexPanel has getChildren()
 
 	private Map<String, Facet>				mFacets			= new HashMap<String, Facet>();
 
@@ -188,7 +187,7 @@ public class GwtMetawidget
 		if ( names == null )
 			return null;
 
-		Map<String, Widget> children = mWidgets;
+		Map<String, Widget> children = mWidgetNames;
 
 		for ( int loop = 0, length = names.length; loop < length; loop++ )
 		{
@@ -196,7 +195,7 @@ public class GwtMetawidget
 				return null;
 
 			String name = names[loop];
-			Widget widget = mWidgets.get( name );
+			Widget widget = mWidgetNames.get( name );
 
 			if ( widget == null )
 				return null;
@@ -207,7 +206,7 @@ public class GwtMetawidget
 			if ( !( widget instanceof GwtMetawidget ) )
 				return null;
 
-			children = ( (GwtMetawidget) widget ).mWidgets;
+			children = ( (GwtMetawidget) widget ).mWidgetNames;
 		}
 
 		return null;
@@ -362,8 +361,12 @@ public class GwtMetawidget
 
 		mBinding.save();
 
-		for ( Widget widget : mWidgets.values() )
+		WidgetCollection widgets = getChildren();
+
+		for ( int loop = 0, length = widgets.size(); loop < length; loop++ )
 		{
+			Widget widget = widgets.get( loop );
+
 			if ( widget instanceof GwtMetawidget )
 			{
 				( (GwtMetawidget) widget ).save();
@@ -413,7 +416,7 @@ public class GwtMetawidget
 	{
 		clear();
 
-		mWidgets = new HashMap<String, Widget>();
+		mWidgetNames = new HashMap<String, Widget>();
 
 		// Start layout
 		//
@@ -758,7 +761,7 @@ public class GwtMetawidget
 		throws Exception
 	{
 		String name = attributes.get( "name" );
-		mWidgets.put( name, widget );
+		mWidgetNames.put( name, widget );
 
 		// Layout
 

@@ -1153,6 +1153,9 @@ public class SwingMetawidget
 		if ( component instanceof JCheckBox )
 			return "selected";
 
+		if ( component instanceof JTable )
+			return "model";
+
 		return null;
 	}
 

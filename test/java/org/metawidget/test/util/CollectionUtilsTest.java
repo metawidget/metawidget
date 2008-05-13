@@ -18,7 +18,6 @@ package org.metawidget.test.util;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -42,7 +41,7 @@ public class CollectionUtilsTest
 	public static void testCollectionUtils()
 		throws Exception
 	{
-		assertTrue( CollectionUtils.newArrayList( 2 ) instanceof ArrayList );
+		assertTrue( CollectionUtils.newArrayList( 2 ) != null );
 
 		List<String> list = CollectionUtils.newArrayList( "foo", "bar" );
 		assertTrue( list instanceof ArrayList );
@@ -50,7 +49,7 @@ public class CollectionUtilsTest
 		assertTrue( "bar".equals( list.get( 1 )));
 		assertTrue( "|foo|bar|".equals( CollectionUtils.toString( list, "|", true, true )));
 
-		assertTrue( CollectionUtils.newLinkedHashMap() instanceof LinkedHashMap );
+		assertTrue( CollectionUtils.newLinkedHashMap() != null );
 		assertTrue( CollectionUtils.sort( Collections.emptySet() ).isEmpty() );
 	}
 

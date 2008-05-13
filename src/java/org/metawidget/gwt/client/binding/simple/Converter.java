@@ -11,10 +11,12 @@ public abstract class Converter<T>
 	//
 
 	/**
-	 * Convert the given value (as returned by the given Widget) into its original form.
+	 * Convert the given value (as returned by the given Widget) into the given class
+	 *
+	 * @param intoClass	the class to convert into. Useful for handling subclasses (eg. see NumberConverter)
 	 */
 
-	public abstract T convertFromWidget( Widget widget, Object value );
+	public abstract T convertFromWidget( Widget widget, Object value, Class<?> intoClass );
 
 	/**
 	 * Convert the given value to a form that can be displayed by the given Widget.

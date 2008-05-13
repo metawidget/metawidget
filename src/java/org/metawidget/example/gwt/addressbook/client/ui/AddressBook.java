@@ -27,6 +27,7 @@ import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.ui.GwtUtils;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -80,22 +81,39 @@ public class AddressBook
 
 		mContacts = new FlexTable();
 		RootPanel.get( "contacts" ).add( mContacts );
-		loadContacts();
+		reloadContacts();
 
 		mContacts.addTableListener( new TableListener()
 		{
-			public void onCellClicked( SourcesTableEvents sender, int row, int cell )
+			public void onCellClicked( SourcesTableEvents sender, final int row, int cell )
 			{
-				mContactsService.load( 1, new AsyncCallback<Contact>()
+				// Re-fetch the contacts and map it to the row...
+
+				mContactsService.getAllByExample( mContactSearch, new AsyncCallback<List<Contact>>()
 				{
 					public void onFailure( Throwable caught )
 					{
 						Window.alert( caught.getMessage() );
 					}
 
-					public void onSuccess( Contact contact )
+					public void onSuccess( List<Contact> contacts )
 					{
-						new ContactDialog( mContactsService, contact ).show();
+						long contactId = contacts.get( row - 1 ).getId();
+
+						// ...then load that row
+
+						mContactsService.load( contactId, new AsyncCallback<Contact>()
+						{
+							public void onFailure( Throwable caught )
+							{
+								Window.alert( caught.getMessage() );
+							}
+
+							public void onSuccess( Contact contact )
+							{
+								new ContactDialog( AddressBook.this, mContactsService, contact ).show();
+							}
+						} );
 					}
 				} );
 			}
@@ -135,7 +153,7 @@ public class AddressBook
 				else
 					mContactSearch.setType( ContactType.valueOf( type ) );
 
-				loadContacts();
+				reloadContacts();
 			}
 		} );
 		panel.add( searchButton );
@@ -146,7 +164,7 @@ public class AddressBook
 			public void onClick( Widget sender )
 			{
 				Contact contact = new PersonalContact();
-				new ContactDialog( mContactsService, contact ).show();
+				new ContactDialog( AddressBook.this, mContactsService, contact ).show();
 			}
 		} );
 		panel.add( addPersonalButton );
@@ -157,20 +175,21 @@ public class AddressBook
 			public void onClick( Widget sender )
 			{
 				Contact contact = new BusinessContact();
-				new ContactDialog( mContactsService, contact ).show();
+				new ContactDialog( AddressBook.this, mContactsService, contact ).show();
 			}
 		} );
 		panel.add( addBusinessButton );
 	}
 
-	//
-	//
-	// Package-level methods
-	//
-	//
-
-	void loadContacts()
+	public void reloadContacts()
 	{
+		// Header
+
+		mContacts.setText( 0, 0, "Name" );
+		mContacts.setText( 0, 1, "Contact" );
+
+		// Contacts
+
 		mContactsService.getAllByExample( mContactSearch, new AsyncCallback<List<Contact>>()
 		{
 			public void onFailure( Throwable caught )
@@ -180,20 +199,23 @@ public class AddressBook
 
 			public void onSuccess( List<Contact> contacts )
 			{
+				int row = 1;
+
 				// Add the given contacts
 
-				int numberOfContacts = contacts.size();
-
-				for ( int loop = 0; loop < numberOfContacts; loop++ )
+				for ( Contact contact : contacts )
 				{
-					mContacts.setText( loop, 0, contacts.get( loop ).getFullname() );
+					mContacts.setText( row, 0, contact.getFullname() );
+					mContacts.setText( row, 1, GwtUtils.toString( contact.getCommunications(), ',' ));
+
+					row++;
 				}
 
-				// Remove any additional existing rows
+				// Cleanup any extra rows
 
-				while( mContacts.getRowCount() > numberOfContacts )
+				while( mContacts.getRowCount() > row )
 				{
-					mContacts.removeRow( numberOfContacts );
+					mContacts.removeRow( row );
 				}
 			}
 		} );

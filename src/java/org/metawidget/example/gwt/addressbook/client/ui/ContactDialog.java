@@ -16,11 +16,16 @@
 
 package org.metawidget.example.gwt.addressbook.client.ui;
 
+import static org.metawidget.util.StringUtils.*;
+
 import java.util.Date;
+import java.util.Set;
 
 import org.metawidget.example.gwt.addressbook.client.rpc.ContactsServiceAsync;
 import org.metawidget.example.gwt.addressbook.client.ui.converter.DateConverter;
 import org.metawidget.example.gwt.addressbook.client.ui.converter.EnumConverter;
+import org.metawidget.example.gwt.addressbook.client.ui.converter.NumberConverter;
+import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
@@ -56,7 +61,7 @@ public class ContactDialog
 	//
 	//
 
-	public ContactDialog( final ContactsServiceAsync contactsService, final Contact contact )
+	public ContactDialog( final AddressBook addressbook, final ContactsServiceAsync contactsService, final Contact contact )
 	{
 		setStyleName( "contact-dialog" );
 		setPopupPosition( 100, 50 );
@@ -87,6 +92,7 @@ public class ContactDialog
 		SimpleBinding.registerAdapter( Contact.class, contactAdapter );
 		SimpleBinding.registerConverter( Date.class, new DateConverter() );
 		SimpleBinding.registerConverter( Gender.class, new EnumConverter<Gender>( Gender.class ) );
+		SimpleBinding.registerConverter( Number.class, new NumberConverter() );
 
 		// Title
 
@@ -116,10 +122,52 @@ public class ContactDialog
 		stub.setName( "communications" );
 		metawidget.add( stub );
 
-		FlexTable communications = new FlexTable();
+		final FlexTable communications = new FlexTable();
 		stub.add( communications );
 
-		communications.setText( 0, 0, "Communications" );
+		// Header
+
+		communications.setText( 0, 0, "Type" );
+		communications.setText( 0, 1, "Value" );
+
+		// Footer
+
+		Communication communication = new Communication();
+
+		final GwtMetawidget typeMetawidget = new GwtMetawidget();
+		typeMetawidget.setPath( Communication.class.getName() + SEPARATOR_SLASH + "type" );
+		typeMetawidget.setToInspect( communication );
+		typeMetawidget.buildWidgets();
+		communications.setWidget( 1, 0, typeMetawidget );
+		typeMetawidget.setVisible( !metawidget.isReadOnly() );
+
+		final GwtMetawidget valueMetawidget = new GwtMetawidget();
+		valueMetawidget.setPath( Communication.class.getName() + SEPARATOR_SLASH + "value" );
+		valueMetawidget.setToInspect( communication );
+		valueMetawidget.buildWidgets();
+		communications.setWidget( 1, 1, valueMetawidget );
+		valueMetawidget.setVisible( !metawidget.isReadOnly() );
+
+		final Button addButton = new Button( "Add" );
+		addButton.addClickListener( new ClickListener()
+		{
+			public void onClick( Widget sender )
+			{
+				Communication communicationToAdd = new Communication();
+				communicationToAdd.setType( (String) typeMetawidget.getValue( "type" ));
+				communicationToAdd.setValue( (String) valueMetawidget.getValue( "value" ));
+
+				contact.addCommunication( communicationToAdd );
+				loadCommunications( communications, contact );
+
+				typeMetawidget.setValue( "", "type" );
+				valueMetawidget.setValue( "", "value" );
+			}
+		} );
+		communications.setWidget( 1, 2, addButton );
+		addButton.setVisible( !metawidget.isReadOnly() );
+
+		loadCommunications( communications, contact );
 
 		// Embedded buttons
 
@@ -147,6 +195,7 @@ public class ContactDialog
 					public void onSuccess( Object result )
 					{
 						ContactDialog.this.hide();
+						addressbook.reloadContacts();
 					}
 				} );
 			}
@@ -170,6 +219,7 @@ public class ContactDialog
 						public void onSuccess( Boolean result )
 						{
 							ContactDialog.this.hide();
+							addressbook.reloadContacts();
 						}
 					} );
 				}
@@ -189,6 +239,14 @@ public class ContactDialog
 				editButton.setVisible( false );
 				saveButton.setVisible( true );
 				deleteButton.setVisible( true );
+
+				for( int loop = 1, length = communications.getRowCount(); loop < length; loop++ )
+				{
+					communications.getWidget( loop, 2 ).setVisible( true );
+				}
+
+				typeMetawidget.setVisible( true );
+				valueMetawidget.setVisible( true );
 				metawidget.buildWidgets();
 			}
 		} );
@@ -206,5 +264,59 @@ public class ContactDialog
 		panel.add( cancelButton );
 
 		metawidget.buildWidgets();
+	}
+
+	//
+	//
+	// Package-level methods
+	//
+	//
+
+	void loadCommunications( final FlexTable table, final Contact contact )
+	{
+		Set<Communication> communications = contact.getCommunications();
+
+		// Communications
+
+		int row = 1;
+
+		if ( communications != null )
+		{
+			for( final Communication communication : communications )
+			{
+				// (push the footer down)
+
+				if ( table.getRowCount() - 1 <= row )
+					table.insertRow( row );
+
+				table.setText( row, 0, communication.getType() );
+				table.setText( row, 1, communication.getValue() );
+
+				final Button deleteButton = new Button( "Delete" );
+				deleteButton.addClickListener( new ClickListener()
+				{
+					public void onClick( Widget sender )
+					{
+						if ( Window.confirm( "Sure you want to delete this communication?" ) )
+						{
+							contact.removeCommunication( communication );
+							loadCommunications( table, contact );
+						}
+					}
+				} );
+				deleteButton.setVisible( false );
+
+				table.setWidget( row, 2, deleteButton );
+
+				row++;
+			}
+		}
+
+		// Cleanup any extra rows
+
+		while( table.getRowCount() - 1 > row )
+		{
+			table.removeRow( row );
+		}
 	}
 }

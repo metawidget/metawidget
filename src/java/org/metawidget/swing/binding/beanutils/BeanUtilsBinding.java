@@ -19,6 +19,8 @@ package org.metawidget.swing.binding.beanutils;
 import java.awt.Component;
 import java.util.Set;
 
+import javax.swing.JTable;
+
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
@@ -67,6 +69,11 @@ public class BeanUtilsBinding
 	public void bind( Component component, String componentProperty, String... names )
 	{
 		if ( componentProperty == null )
+			return;
+
+		// (JTable support not yet implemented in BeanUtilsBinding)
+
+		if ( component instanceof JTable )
 			return;
 
 		try

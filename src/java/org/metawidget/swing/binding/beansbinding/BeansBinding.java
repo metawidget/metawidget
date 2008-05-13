@@ -118,12 +118,7 @@ public class BeansBinding
 	@Override
 	public void bind( Component component, String componentProperty, String... names )
 	{
-		// TODO: what is this line for?
-
-		if ( componentProperty == null && !( component instanceof JTable ) )
-			return;
-
-		_bind( component, componentProperty, names );
+		typesafeBind( component, componentProperty, names );
 	}
 
 	@Override
@@ -172,8 +167,11 @@ public class BeansBinding
 	//
 
 	@SuppressWarnings( "unchecked" )
-	private <SS, SV, TS extends Component, TV> void _bind( TS component, String componentProperty, String... names )
+	private <SS, SV, TS extends Component, TV> void typesafeBind( TS component, String componentProperty, String... names )
 	{
+		if ( componentProperty == null )
+			return;
+
 		// Source property
 
 		SS source = (SS) getMetawidget().getToInspect();

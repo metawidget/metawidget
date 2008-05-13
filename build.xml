@@ -346,7 +346,7 @@
 	<!-- Unit Test -->
 	
 	<target name="test-unit" depends="examples-desktop">
-		
+
 		<!-- Note: run the unit tests against the actual metawiget.jar and   -->
 		<!--       addressbook-swing.jar, to make sure they packed correctly -->
 
@@ -361,13 +361,26 @@
 				<fileset dir="lib"/>
 				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement location="${build.metawidget.dir}/examples/swing/addressbook-swing.jar"/>
-				<pathelement path="${build.metawidget.dir}/tutorial-classes"/>
 				<pathelement path="${build.metawidget.dir}/test-classes"/>
+				<pathelement path="${build.metawidget.dir}/tutorial-classes"/>
 				<pathelement path="src/java"/>
 				<pathelement path="test/java"/>
 			</classpath>
 		</junit>
 
+		<!-- GWT tests -->
+		
+		<junit showoutput="true" fork="true" dir="${run.dir}">
+			<formatter type="brief" usefile="false"/>
+			<test name="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
+				<pathelement path="${build.metawidget.dir}/example-classes"/>
+				<pathelement path="${build.metawidget.dir}/test-classes"/>
+			</classpath>
+		</junit>
+		
 		<!-- 1.4 Unit tests -->
 		
 		<available property="java4-exists" file="${java4.dir}/bin"/>
@@ -471,7 +484,7 @@
 				<include name="org/metawidget/test/android/allwidgets/**"/>
 				<include name="org/metawidget/test/shared/allwidgets/**/*.class"/>
 			</fileset>
-				
+
 		</copy>
 		
 		<property name="android.tools.dir" value="${android.dir}/tools" />

@@ -18,35 +18,15 @@ package org.metawidget.example.gwt.addressbook.client.ui.converter;
 
 import org.metawidget.gwt.client.binding.simple.Converter;
 
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Richard Kennard
  */
 
-public class EnumConverter<T extends Enum<T>>
-	extends Converter<T>
+public class NumberConverter
+	extends Converter<Number>
 {
-	//
-	//
-	// Private members
-	//
-	//
-
-	private Class<T>	mEnum;
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public EnumConverter( Class<T> anEnum )
-	{
-		mEnum = anEnum;
-	}
-
 	//
 	//
 	// Public methods
@@ -54,23 +34,17 @@ public class EnumConverter<T extends Enum<T>>
 	//
 
 	@Override
-	public T convertFromWidget( Widget widget, Object value, Class<?> type )
+	public Number convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
 		if ( value == null || "".equals( value ))
 			return null;
 
-		return Enum.valueOf( mEnum, (String) value );
-	}
+		if ( Integer.class.equals( type ))
+			return Integer.valueOf( (String) value );
 
-	@Override
-	public Object convertForWidget( Widget widget, T value )
-	{
-		if ( value == null )
-			return null;
+		if ( int.class.equals( type ))
+			return Integer.valueOf( (String) value );
 
-		if ( widget instanceof Label )
-			return value.toString();
-
-		return value.name();
+		throw new RuntimeException( "Don't know how to convert a " + value.getClass() );
 	}
 }

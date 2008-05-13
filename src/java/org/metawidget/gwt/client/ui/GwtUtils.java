@@ -17,6 +17,7 @@
 package org.metawidget.gwt.client.ui;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +30,10 @@ import com.google.gwt.xml.client.Node;
 /**
  * Utilities for working with Google Web Toolkit.
  * <p>
- * These utility methods are copies of those defined in <code>org.metawidget.util</code>, but they
- * either are 'GWT flavoured' (eg. they use <code>com.google.gwt.xml</code> instead of <code>org.w3c.dom</code>)
- * or they are free encumberances (eg. <code>java.util.regex</code>) that GWT doesn't support.
+ * These utility methods are copies of those defined in <code>org.metawidget.util</code>, but
+ * they either are 'GWT flavoured' (eg. they use <code>com.google.gwt.xml</code> instead of
+ * <code>org.w3c.dom</code>) or they are free encumberances (eg. <code>java.util.regex</code>)
+ * that GWT doesn't support.
  *
  * @author Richard Kennard
  */
@@ -51,7 +53,11 @@ public final class GwtUtils
 		int length = nodes.getLength();
 
 		if ( length == 0 )
-			return Collections.emptyMap();
+		{
+			@SuppressWarnings( { "cast", "unchecked" })
+			Map<String, String> empty = (Map<String, String>) Collections.EMPTY_MAP;
+			return empty;
+		}
 
 		Map<String, String> attributes = new HashMap<String, String>( length );
 
@@ -91,11 +97,17 @@ public final class GwtUtils
 	public static List<String> fromString( String collection, char separator )
 	{
 		if ( collection == null )
-			return Collections.emptyList();
+		{
+			// (use Collections.EMPTY_LIST, not Collections.emptyList, so that we're 1.4 compatible)
+
+			@SuppressWarnings( { "cast", "unchecked" })
+			List<String> list = (List<String>) Collections.EMPTY_LIST;
+			return list;
+		}
 
 		List<String> split = new ArrayList<String>();
 
-		for( String item : collection.split( String.valueOf( separator ) ))
+		for ( String item : collection.split( String.valueOf( separator ) ) )
 		{
 			split.add( item.trim() );
 		}
@@ -107,7 +119,25 @@ public final class GwtUtils
 	{
 		StringBuilder builder = new StringBuilder();
 
-		for( String item : collection )
+		for ( String item : collection )
+		{
+			if ( builder.length() > 0 )
+				builder.append( separator );
+
+			builder.append( item );
+		}
+
+		return builder.toString();
+	}
+
+	public static String toString( Collection<?> collection, char separator )
+	{
+		if ( collection == null )
+			return "";
+
+		StringBuilder builder = new StringBuilder();
+
+		for ( Object item : collection )
 		{
 			if ( builder.length() > 0 )
 				builder.append( separator );
@@ -125,7 +155,7 @@ public final class GwtUtils
 		// Just type?
 
 		if ( indexOfTypeEnd == -1 )
-			return new String[]{ path, null };
+			return new String[] { path, null };
 
 		String type = path.substring( 0, indexOfTypeEnd );
 
@@ -150,15 +180,15 @@ public final class GwtUtils
 		}
 
 		if ( names.isEmpty() )
-			return new Object[]{ path, null };
+			return new Object[] { path, null };
 
-		return new Object[]{ type, names.toArray( new String[names.size()] ) };
+		return new Object[] { type, names.toArray( new String[names.size()] ) };
 	}
 
 	@SuppressWarnings( "unchecked" )
 	public static String[] add( String[] array, String toAdd )
 	{
-		String[] newArray = new String[ array.length + 1 ];
+		String[] newArray = new String[array.length + 1];
 
 		System.arraycopy( array, 0, newArray, 0, array.length );
 		newArray[array.length] = toAdd;

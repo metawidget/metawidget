@@ -117,17 +117,13 @@ public class SimpleBinding
 
 		// ...convert it (if necessary)...
 
-		Converter<?> converter = null;
+		Class<?> propertyType = adapter.getPropertyType( toInspect, names );
 
-		if ( value != null )
-		{
-			@SuppressWarnings( "unchecked" )
-			Converter<Object> useConverter = (Converter<Object>) getConverter( value.getClass() );
-			converter = useConverter;
+		@SuppressWarnings( "unchecked" )
+		Converter<Object> converter = (Converter<Object>) getConverter( propertyType );
 
-			if ( useConverter != null )
-				value = useConverter.convertForWidget( widget, value );
-		}
+		if ( converter != null )
+			value = converter.convertForWidget( widget, value );
 
 		// ...and set it
 
@@ -138,12 +134,10 @@ public class SimpleBinding
 			if ( mBindings == null )
 				mBindings = new HashSet<Object[]>();
 
-			mBindings.add( new Object[]{ widget, names, converter } );
+			mBindings.add( new Object[]{ widget, names, converter, propertyType } );
 		}
 		catch( Exception e )
 		{
-			// TODO: don't just ignore bad bindings
-
 			Window.alert( GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + ": " + e.getMessage() );
 		}
 	}
@@ -178,6 +172,7 @@ public class SimpleBinding
 			String[] names = (String[]) binding[1];
 			@SuppressWarnings( "unchecked" )
 			Converter<Object> converter = (Converter<Object>) binding[2];
+			Class<?> type = (Class<?>) binding[3];
 
 			// ...fetch the value...
 
@@ -186,7 +181,7 @@ public class SimpleBinding
 			// ...convert it (if necessary)...
 
 			if ( value != null && converter != null )
-				value = converter.convertFromWidget( widget, value );
+				value = converter.convertFromWidget( widget, value, type );
 
 			// ...and set it
 

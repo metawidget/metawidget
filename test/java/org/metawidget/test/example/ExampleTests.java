@@ -22,7 +22,6 @@ import junit.framework.TestSuite;
 
 import org.metawidget.test.example.swing.addressbook.SwingAddressBookTest;
 import org.metawidget.test.example.swing.tutorial.SwingTutorialTest;
-import org.metawidget.test.swing.SwingAllWidgetsTest;
 
 /**
  * @author Richard Kennard
@@ -41,8 +40,11 @@ public class ExampleTests
 	{
 		TestSuite suite = new TestSuite( "Example Tests" );
 		suite.addTestSuite( SwingAddressBookTest.class );
-		suite.addTestSuite( SwingAllWidgetsTest.class );
 		suite.addTestSuite( SwingTutorialTest.class );
+
+		// Note: GwtAddressBookTest is performed separately
+
+		// Note: SwingAllWidgetsTest.class is performed separately to test JDK 1.4 compatibiltiy
 
 		// Note: Web tests are performed by /test/web/examples/*/addressbook-test.xml
 
