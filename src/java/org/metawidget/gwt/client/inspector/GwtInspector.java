@@ -16,14 +16,13 @@
 
 package org.metawidget.gwt.client.inspector;
 
-import java.io.Serializable;
+import com.google.gwt.xml.client.Document;
 
 /**
  * Common interface implemented by all GWT Inspectors.
  * <p>
- * GWT-flavoured version of the <code>Inspector</code> interface, that returns a String rather
- * than a <code>org.w3c.dom.Document</code> (because
- * <code>com.google.gwt.xml.client.Document</code> is not Serializable).
+ * GWT-flavoured version of the <code>Inspector</code> interface that returns a
+ * <code>com.google.gwt.xml.client.Document</code> rather than a <code>org.w3c.dom.Document</code>.
  * <p>
  * Implementors must be threadsafe, and must appear to clients to be immutable. Internally, however,
  * they can have state (such as caches or configuration settings).
@@ -47,6 +46,6 @@ public interface GwtInspector
 	 * @return a DOM conforming to inspection-result-1.0.xsd
 	 */
 
-	String inspect( Serializable toInspect, String type, String[] names )
+	Document inspect( Object toInspect, String type, String... names )
 		throws Exception;
 }

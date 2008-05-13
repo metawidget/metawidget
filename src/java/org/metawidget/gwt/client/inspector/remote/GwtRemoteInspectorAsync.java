@@ -16,14 +16,25 @@
 
 package org.metawidget.gwt.client.inspector.remote;
 
-import org.metawidget.gwt.client.inspector.GwtInspectorAsync;
+import java.io.Serializable;
+
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
+ * GWT asynchronous AJAX interface to <code>GwtRemoteInspectorImpl</code> servlet.
+ * <p>
+ * Note: this interface is purely for the AJAX call. It is not related to <code>GwtInspectorAsync</code>.
+ *
  * @author Richard Kennard
  */
 
 public interface GwtRemoteInspectorAsync
-	extends GwtInspectorAsync
 {
-	// Just a GwtInspectorAsync
+	//
+	//
+	// Methods
+	//
+	//
+
+	void inspect( Serializable toInspect, String type, String[] names, AsyncCallback<String> callback );
 }

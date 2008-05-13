@@ -19,7 +19,6 @@ package org.metawidget.gwt.client.ui;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.util.StringUtils.*;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -54,7 +53,6 @@ import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
-import com.google.gwt.xml.client.XMLParser;
 
 /**
  * Metawidget for GWT environments.
@@ -446,16 +444,16 @@ public class GwtMetawidget
 
 		if ( mInspector instanceof GwtInspectorAsync )
 		{
-			((GwtInspectorAsync) mInspector).inspect( (Serializable) mToInspect, type, names, new AsyncCallback<String>()
+			((GwtInspectorAsync) mInspector).inspect( mToInspect, type, names, new AsyncCallback<Document>()
 			{
 				public void onFailure( Throwable caught )
 				{
 					Window.alert( caught.getMessage() );
 				}
 
-				public void onSuccess( String xml )
+				public void onSuccess( Document document )
 				{
-					buildWidgets( xml );
+					buildWidgets( document );
 				}
 			} );
 		}
@@ -466,8 +464,8 @@ public class GwtMetawidget
 		{
 			try
 			{
-				String xml = mInspector.inspect( (Serializable) mToInspect, type, names );
-				buildWidgets( xml );
+				Document document = mInspector.inspect( mToInspect, type, names );
+				buildWidgets( document );
 			}
 			catch( Exception e )
 			{
@@ -476,17 +474,16 @@ public class GwtMetawidget
 		}
 	}
 
-	public void buildWidgets( String xml )
+	public void buildWidgets( Document document )
 	{
 		try
 		{
-			if ( xml != null )
+			if ( document != null )
 			{
 				startBuild();
 
 				// Build simple widget (from the top-level element)
 
-				Document document = XMLParser.parse( xml );
 				Element element = (Element) document.getDocumentElement().getFirstChild();
 				Map<String, String> attributes = GwtUtils.getAttributesAsMap( element );
 

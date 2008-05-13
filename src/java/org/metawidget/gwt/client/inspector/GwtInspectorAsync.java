@@ -16,15 +16,29 @@
 
 package org.metawidget.gwt.client.inspector;
 
-import java.io.Serializable;
-
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.xml.client.Document;
 
 /**
+ * Common interface implemented by all GWT Inspectors that are asynchronous.
+ * <p>
+ * GWT uses asynchronous calls for implementing AJAX. Whereas GWT's async interfaces do not
+ * generally extend their non-async counterparts, <code>GwtInspectorAsync</code> <em>does</em>
+ * extend <code>GwtInspector</code>, even though typically implementors will implement the
+ * non-async method as an <code>UnsupportedOperationException</code>. This is so that,
+ * ultimately, ever inspector is a <code>GwtInspector</code>.
+ *
  * @author Richard Kennard
  */
 
 public interface GwtInspectorAsync
+	extends GwtInspector
 {
-	void inspect( Serializable toInspect, String type, String[] names, AsyncCallback<String> callback );
+	//
+	//
+	// Methods
+	//
+	//
+
+	void inspect( Object toInspect, String type, String[] names, AsyncCallback<Document> callback );
 }

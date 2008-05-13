@@ -16,16 +16,27 @@
 
 package org.metawidget.gwt.client.inspector.remote;
 
-import org.metawidget.gwt.client.inspector.GwtInspector;
+import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 
 /**
+ * GWT AJAX interface to <code>GwtRemoteInspectorImpl</code> servlet.
+ * <p>
+ * Note: this interface is purely for the AJAX call. It is not related to <code>GwtInspector</code>.
+ *
  * @author Richard Kennard
  */
 
 public interface GwtRemoteInspector
-	extends RemoteService, GwtInspector
+	extends RemoteService
 {
-	// Just a GwtInspector
+	//
+	//
+	// Methods
+	//
+	//
+
+	String inspect( Serializable toInspect, String type, String[] names )
+		throws Exception;
 }
