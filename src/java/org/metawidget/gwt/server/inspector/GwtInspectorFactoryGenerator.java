@@ -14,12 +14,12 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.server.layout;
+package org.metawidget.gwt.server.inspector;
 
 import java.io.PrintWriter;
 
-import org.metawidget.gwt.client.ui.layout.Layout;
-import org.metawidget.gwt.client.ui.layout.LayoutFactory;
+import org.metawidget.gwt.client.inspector.GwtInspector;
+import org.metawidget.gwt.client.inspector.GwtInspectorFactory;
 import org.metawidget.util.StringUtils;
 
 import com.google.gwt.core.ext.Generator;
@@ -32,12 +32,12 @@ import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
 /**
- * Generator for LayoutFactory.
+ * Generator for GwtInspectorFactory.
  *
  * @author Richard Kennard
  */
 
-public class LayoutFactoryGenerator
+public class GwtInspectorFactoryGenerator
 	extends Generator
 {
 	//
@@ -75,12 +75,11 @@ public class LayoutFactoryGenerator
 		if ( printWriter == null )
 			return qualifiedBindingClassName;
 
-		// Start the LayoutFactoryGenerator class
+		// Start the GwtInspectorFactoryGenerator class
 
 		ClassSourceFileComposerFactory composer = new ClassSourceFileComposerFactory( packageName, bindingClassName );
-		composer.addImplementedInterface( LayoutFactory.class.getName() );
-		composer.addImport( "org.metawidget.gwt.client.ui.GwtMetawidget" );
-		composer.addImport( Layout.class.getName() );
+		composer.addImplementedInterface( GwtInspectorFactory.class.getName() );
+		composer.addImport( GwtInspector.class.getName() );
 
 		SourceWriter sourceWriter = composer.createSourceWriter( context, printWriter );
 
@@ -91,18 +90,21 @@ public class LayoutFactoryGenerator
 			sourceWriter.println();
 			sourceWriter.println( "// Public methods" );
 			sourceWriter.println();
-			sourceWriter.println( "public Layout newLayout( Class<? extends Layout> layoutClass, GwtMetawidget metawidget ) {" );
+			sourceWriter.println( "public GwtInspector newInspector( Class<? extends GwtInspector> inspectorClass ) {" );
 			sourceWriter.indent();
 
-			// Write Layout subtypes
+			// Write GwtInspector types
 
 			try
 			{
-				JClassType layoutClass = typeOracle.getType( Layout.class.getName() );
+				JClassType inspectorClass = typeOracle.getType( GwtInspector.class.getName() );
 
-				for( JClassType subtype : layoutClass.getSubtypes() )
+				for( JClassType type : inspectorClass.getSubtypes() )
 				{
-					sourceWriter.println( "if ( " + subtype.getQualifiedSourceName() + ".class.equals( layoutClass )) return new " + subtype.getQualifiedSourceName() + "( metawidget );" );
+					if ( type.isClass() == null )
+						continue;
+
+					sourceWriter.println( "if ( " + type.getQualifiedSourceName() + ".class.equals( inspectorClass )) return new " + type.getQualifiedSourceName() + "();" );
 				}
 			}
 			catch( NotFoundException e )
@@ -110,12 +112,12 @@ public class LayoutFactoryGenerator
 				// Fail gracefully
 			}
 
-			sourceWriter.println( "throw new RuntimeException( \"Unknown layout \" + layoutClass );" );
+			sourceWriter.println( "throw new RuntimeException( \"Unknown GwtInspector \" + inspectorClass );" );
 
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
 
-			// End the LayoutFactoryGenerator class
+			// End the GwtInspectorFactoryGenerator class
 
 			sourceWriter.commit( logger );
 		}

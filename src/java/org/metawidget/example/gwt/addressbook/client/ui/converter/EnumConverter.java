@@ -16,8 +16,9 @@
 
 package org.metawidget.example.gwt.addressbook.client.ui.converter;
 
-import org.metawidget.gwt.client.binding.Converter;
+import org.metawidget.gwt.client.binding.simple.Converter;
 
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -53,14 +54,17 @@ public class EnumConverter<T extends Enum<T>>
 	//
 
 	@Override
-	public T convertFromWidget( Widget widget, String value )
+	public T convertFromWidget( Widget widget, Object value )
 	{
-		return Enum.valueOf( mEnum, value );
+		return Enum.valueOf( mEnum, (String) value );
 	}
 
 	@Override
 	public Object convertForWidget( Widget widget, T value )
 	{
+		if ( widget instanceof Label )
+			return value.toString();
+
 		return value.name();
 	}
 }

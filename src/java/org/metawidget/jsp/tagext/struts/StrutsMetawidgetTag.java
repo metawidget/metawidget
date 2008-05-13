@@ -18,7 +18,6 @@ package org.metawidget.jsp.tagext.struts;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.javabean.JavaBeanInspectionResultConstants.*;
-import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 import static org.metawidget.inspector.struts.StrutsInspectionResultConstants.*;
 
 import java.io.IOException;
@@ -214,6 +213,18 @@ public class StrutsMetawidgetTag
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
 			return "";
 
+		// Lookups
+
+		String lookup = attributes.get( LOOKUP );
+
+		if ( lookup != null && !"".equals( lookup ))
+			return writeReadOnlyTag( attributes );
+
+		String strutsLookupName = attributes.get( STRUTS_LOOKUP_NAME );
+
+		if ( strutsLookupName != null && !"".equals( strutsLookupName ))
+			return writeReadOnlyTag( attributes );
+
 		String type = attributes.get( TYPE );
 
 		// If no type, fail gracefully
@@ -250,18 +261,6 @@ public class StrutsMetawidgetTag
 			if ( Collection.class.isAssignableFrom( clazz ) )
 				return writeReadOnlyTag( attributes );
 		}
-
-		// Lookups
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ))
-			return writeReadOnlyTag( attributes );
-
-		String jspLookup = attributes.get( JSP_LOOKUP );
-
-		if ( jspLookup != null && !"".equals( jspLookup ))
-			return writeReadOnlyTag( attributes );
 
 		// Not simple, but don't expand
 

@@ -53,6 +53,8 @@ public class EnumConverter<T extends Enum<T>>
 	@Override
 	public Object convertForward( T anEnum )
 	{
+		// TODO: does this even get executed? Or do the lookups take over?
+
 		return anEnum.name();
 	}
 

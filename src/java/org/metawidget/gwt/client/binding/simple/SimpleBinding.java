@@ -16,13 +16,19 @@
 
 package org.metawidget.gwt.client.binding.simple;
 
+import static org.metawidget.util.StringUtils.*;
+
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.metawidget.gwt.client.binding.Binding;
-import org.metawidget.gwt.client.binding.Converter;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.ui.GwtUtils;
+import org.metawidget.gwt.client.ui.Stub;
 
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -64,6 +70,8 @@ public class SimpleBinding
 	//
 	//
 
+	private Set<Object[]>	mBindings;
+
 	//
 	//
 	// Constructor
@@ -84,6 +92,11 @@ public class SimpleBinding
 	@Override
 	public void bind( Widget widget, String... names )
 	{
+		// SimpleBinding doesn't bind to Stubs
+
+		if ( widget instanceof Stub )
+			return;
+
 		Object toInspect = getMetawidget().getToInspect();
 
 		if ( toInspect == null )
@@ -104,23 +117,81 @@ public class SimpleBinding
 
 		// ...convert it (if necessary)...
 
+		Converter<?> converter = null;
+
 		if ( value != null )
 		{
 			@SuppressWarnings( "unchecked" )
-			Converter<Object> converter = (Converter<Object>) getConverter( value.getClass() );
+			Converter<Object> useConverter = (Converter<Object>) getConverter( value.getClass() );
+			converter = useConverter;
 
-			if ( converter != null )
-				value = converter.convertForWidget( widget, value );
+			if ( useConverter != null )
+				value = useConverter.convertForWidget( widget, value );
 		}
 
 		// ...and set it
 
-		getMetawidget().setValue( value, widget );
+		try
+		{
+			getMetawidget().setValue( value, widget );
+
+			if ( mBindings == null )
+				mBindings = new HashSet<Object[]>();
+
+			mBindings.add( new Object[]{ widget, names, converter } );
+		}
+		catch( Exception e )
+		{
+			// TODO: don't just ignore bad bindings
+
+			Window.alert( GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + ": " + e.getMessage() );
+		}
 	}
 
 	@Override
 	public void save()
 	{
+		if ( mBindings == null )
+			return;
+
+		Object toInspect = getMetawidget().getToInspect();
+
+		if ( toInspect == null )
+			return;
+
+		// From the adapter...
+
+		Class<?> classToBindTo = toInspect.getClass();
+		@SuppressWarnings( "unchecked" )
+		SimpleBindingAdapter<Object> adapter = (SimpleBindingAdapter<Object>) getAdapter( classToBindTo );
+
+		if ( adapter == null )
+			throw new RuntimeException( "Don't know how to save to a " + classToBindTo );
+
+		GwtMetawidget metawidget = getMetawidget();
+
+		// ...for each bound property...
+
+		for ( Object[] binding : mBindings )
+		{
+			Widget widget = (Widget) binding[0];
+			String[] names = (String[]) binding[1];
+			@SuppressWarnings( "unchecked" )
+			Converter<Object> converter = (Converter<Object>) binding[2];
+
+			// ...fetch the value...
+
+			Object value = metawidget.getValue( widget );
+
+			// ...convert it (if necessary)...
+
+			if ( value != null && converter != null )
+				value = converter.convertFromWidget( widget, value );
+
+			// ...and set it
+
+			adapter.setProperty( toInspect, value, names );
+		}
 	}
 
 	//

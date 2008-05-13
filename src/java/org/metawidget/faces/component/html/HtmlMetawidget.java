@@ -151,7 +151,6 @@ public class HtmlMetawidget
 		throws Exception
 	{
 		Application application = getFacesContext().getApplication();
-		String type = attributes.get( TYPE );
 
 		// Hidden
 
@@ -203,6 +202,8 @@ public class HtmlMetawidget
 
 		if ( facesLookup != null && !"".equals( facesLookup ) )
 			return createReadOnlyComponent( attributes );
+
+		String type = attributes.get( TYPE );
 
 		// If no type, fail gracefully with a javax.faces.Output
 

@@ -135,6 +135,18 @@ public class HtmlMetawidgetTag
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
 			return "";
 
+		// Lookups
+
+		String lookup = attributes.get( LOOKUP );
+
+		if ( lookup != null && !"".equals( lookup ))
+			return writeReadOnlyTag( attributes );
+
+		String jspLookup = attributes.get( JSP_LOOKUP );
+
+		if ( jspLookup != null && !"".equals( jspLookup ))
+			return writeReadOnlyTag( attributes );
+
 		String type = attributes.get( TYPE );
 
 		// If no type, fail gracefully
@@ -171,18 +183,6 @@ public class HtmlMetawidgetTag
 			if ( Collection.class.isAssignableFrom( clazz ) )
 				return writeReadOnlyTag( attributes );
 		}
-
-		// Lookups
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ))
-			return writeReadOnlyTag( attributes );
-
-		String jspLookup = attributes.get( JSP_LOOKUP );
-
-		if ( jspLookup != null && !"".equals( jspLookup ))
-			return writeReadOnlyTag( attributes );
 
 		// Not simple, but don't expand
 

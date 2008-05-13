@@ -118,6 +118,8 @@ public class BeansBinding
 	@Override
 	public void bind( Component component, String componentProperty, String... names )
 	{
+		// TODO: what is this line for?
+
 		if ( componentProperty == null && !( component instanceof JTable ) )
 			return;
 

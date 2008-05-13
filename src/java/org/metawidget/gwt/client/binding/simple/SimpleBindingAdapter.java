@@ -29,4 +29,6 @@ public interface SimpleBindingAdapter<T>
 	//
 
 	Object getProperty( T object, String... property );
+
+	void setProperty( T object, Object value, String... property );
 }

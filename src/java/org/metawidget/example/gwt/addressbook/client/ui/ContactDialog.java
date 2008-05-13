@@ -28,6 +28,7 @@ import org.metawidget.gwt.client.binding.simple.SimpleBinding;
 import org.metawidget.gwt.client.binding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.ui.Stub;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -35,6 +36,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -86,7 +88,6 @@ public class ContactDialog
 		SimpleBinding.registerConverter( Date.class, new DateConverter() );
 		SimpleBinding.registerConverter( Gender.class, new EnumConverter<Gender>( Gender.class ) );
 
-
 		// Title
 
 		StringBuilder builder = new StringBuilder( contact.getFullname() );
@@ -109,6 +110,17 @@ public class ContactDialog
 
 		setText( builder.toString() );
 
+		// Communications
+
+		Stub stub = new Stub();
+		stub.setName( "communications" );
+		metawidget.add( stub );
+
+		FlexTable communications = new FlexTable();
+		stub.add( communications );
+
+		communications.setText( 0, 0, "Communications" );
+
 		// Embedded buttons
 
 		Facet buttonsFacet = new Facet();
@@ -123,6 +135,8 @@ public class ContactDialog
 		{
 			public void onClick( Widget sender )
 			{
+				metawidget.save();
+
 				contactsService.save( contact, new AsyncCallback<Object>()
 				{
 					public void onFailure( Throwable caught )

@@ -27,6 +27,7 @@ import com.google.gwt.core.ext.GeneratorContext;
 import com.google.gwt.core.ext.TreeLogger;
 import com.google.gwt.core.ext.typeinfo.JClassType;
 import com.google.gwt.core.ext.typeinfo.JMethod;
+import com.google.gwt.core.ext.typeinfo.JPrimitiveType;
 import com.google.gwt.core.ext.typeinfo.JType;
 import com.google.gwt.core.ext.typeinfo.NotFoundException;
 import com.google.gwt.core.ext.typeinfo.TypeOracle;
@@ -93,6 +94,14 @@ public class SimpleBindingAdapterGenerator
 
 	//
 	//
+	// Private members
+	//
+	//
+
+	private TypeOracle	mTypeOracle;
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -102,12 +111,12 @@ public class SimpleBindingAdapterGenerator
 	{
 		// Lookup the type
 
-		TypeOracle typeOracle = context.getTypeOracle();
+		mTypeOracle = context.getTypeOracle();
 		JClassType classType;
 
 		try
 		{
-			classType = typeOracle.getType( typeName );
+			classType = mTypeOracle.getType( typeName );
 		}
 		catch ( NotFoundException e )
 		{
@@ -134,7 +143,7 @@ public class SimpleBindingAdapterGenerator
 
 		if ( sourceWriter != null )
 		{
-			// Write the methods
+			// getProperty method
 
 			String variableName = VARIABLE_NAME_PREFIX + sourceClassName;
 
@@ -153,7 +162,27 @@ public class SimpleBindingAdapterGenerator
 
 			// Write subtypes
 
-			writeSubtypes( sourceWriter, classType, variableName, 0 );
+			writeSubtypes( sourceWriter, classType, variableName, 0, false );
+
+			sourceWriter.outdent();
+			sourceWriter.println( "}" );
+
+			// setProperty method
+
+			sourceWriter.println();
+			sourceWriter.println( "public void setProperty( " + classType.getQualifiedSourceName() + " " + variableName + ", Object value, String... property ) {" );
+			sourceWriter.indent();
+
+			// Sanity check
+
+			sourceWriter.println();
+			sourceWriter.println( "// Sanity check" );
+			sourceWriter.println();
+			sourceWriter.println( "if ( property == null || property.length == 0 ) throw new RuntimeException( \"No property specified\" );" );
+
+			// Write subtypes
+
+			writeSubtypes( sourceWriter, classType, variableName, 0, true );
 
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
@@ -172,7 +201,7 @@ public class SimpleBindingAdapterGenerator
 	//
 	//
 
-	private void writeSubtypes( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex )
+	private void writeSubtypes( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, boolean setValue )
 	{
 		// For each subclass...
 
@@ -180,7 +209,7 @@ public class SimpleBindingAdapterGenerator
 		{
 			// ...write its subclass-level properties...
 
-			writeProperties( sourceWriter, subtype, variableName, propertyIndex, true, classType );
+			writeProperties( sourceWriter, subtype, variableName, propertyIndex, true, classType, setValue );
 		}
 
 		// ...and for the base class write every superclass
@@ -189,7 +218,7 @@ public class SimpleBindingAdapterGenerator
 
 		while ( typeTraversal != null )
 		{
-			writeProperties( sourceWriter, typeTraversal, variableName, propertyIndex, false, classType );
+			writeProperties( sourceWriter, typeTraversal, variableName, propertyIndex, false, classType, setValue );
 
 			typeTraversal = typeTraversal.getSuperclass();
 		}
@@ -202,7 +231,7 @@ public class SimpleBindingAdapterGenerator
 		sourceWriter.println( "throw new RuntimeException( \"Unknown property '\" + property[" + propertyIndex + "] + \"'\" );" );
 	}
 
-	private void writeProperties( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, boolean writeInstanceOf, JClassType parentType )
+	private void writeProperties( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, boolean writeInstanceOf, JClassType parentType, boolean setValue )
 	{
 		String currentVariableName = variableName;
 		boolean writtenAProperty = false;
@@ -224,16 +253,18 @@ public class SimpleBindingAdapterGenerator
 
 			if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
 			{
-				propertyName = StringUtils.lowercaseFirstLetter( methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() ) );
+				propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
 			}
 			else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
 			{
-				propertyName = StringUtils.lowercaseFirstLetter( methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() ) );
+				propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
 			}
 			else
 			{
 				continue;
 			}
+
+			String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
 
 			// Open the block
 
@@ -257,23 +288,41 @@ public class SimpleBindingAdapterGenerator
 
 			// ...call our adaptee...
 
-			sourceWriter.println( "if ( \"" + propertyName + "\".equals( property[" + propertyIndex + "] )) {" );
+			sourceWriter.println( "if ( \"" + lowercasedPropertyName + "\".equals( property[" + propertyIndex + "] )) {" );
 			sourceWriter.indent();
 
 			int nextPropertyIndex = propertyIndex + 1;
 
 			// ...recursively if necessary...
 
-			if ( returnType instanceof JClassType )
-			{
-				JClassType nestedClassType = (JClassType) returnType;
+			JClassType nestedClassType = returnType.isClass();
 
+			if ( nestedClassType != null )
+			{
 				if ( nestedClassType.getPackage().getName().startsWith( parentType.getPackage().getName() ) )
 				{
 					String nestedVariableName = VARIABLE_NAME_PREFIX + nestedClassType.getSimpleSourceName();
 					sourceWriter.println( nestedClassType.getParameterizedQualifiedSourceName() + " " + nestedVariableName + " = " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );
-					sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return " + nestedVariableName + ";" );
-					writeSubtypes( sourceWriter, nestedClassType, nestedVariableName, nextPropertyIndex );
+
+					if ( setValue )
+					{
+						try
+						{
+							String setterMethodName = "set" + propertyName;
+							classType.getMethod( setterMethodName, new JType[]{ returnType } );
+							sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) { " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + setterMethodName + "( (" + getWrapperType( returnType ).getParameterizedQualifiedSourceName() + ") value ); return; }" );
+						}
+						catch( NotFoundException e )
+						{
+							sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) throw new RuntimeException( \"No setter for property '" + lowercasedPropertyName + "'\" );" );
+						}
+					}
+					else
+					{
+						sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return " + nestedVariableName + ";" );
+					}
+
+					writeSubtypes( sourceWriter, nestedClassType, nestedVariableName, nextPropertyIndex, setValue );
 					sourceWriter.outdent();
 					sourceWriter.println( "}" );
 					continue;
@@ -282,8 +331,27 @@ public class SimpleBindingAdapterGenerator
 
 			// ...or non-recursively
 
-			sourceWriter.println( "if ( property.length > " + nextPropertyIndex + " ) throw new RuntimeException( \"Cannot traverse into property '" + propertyName + ".\" + property[" + nextPropertyIndex + "] + \"'\" );" );
-			sourceWriter.println( "return " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );
+			sourceWriter.println( "if ( property.length > " + nextPropertyIndex + " ) throw new RuntimeException( \"Cannot traverse into property '" + lowercasedPropertyName + ".\" + property[" + nextPropertyIndex + "] + \"'\" );" );
+
+			if ( setValue )
+			{
+				try
+				{
+					String setterMethodName = "set" + propertyName;
+					classType.getMethod( setterMethodName, new JType[]{ returnType } );
+					sourceWriter.println( currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + setterMethodName + "( (" + getWrapperType( returnType ).getParameterizedQualifiedSourceName() + ") value );" );
+					sourceWriter.println( "return;" );
+				}
+				catch( NotFoundException e )
+				{
+					sourceWriter.println( "throw new RuntimeException( \"No setter for property '" + lowercasedPropertyName + "'\" );" );
+				}
+			}
+			else
+			{
+				sourceWriter.println( "return " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );
+			}
+
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
 		}
@@ -295,5 +363,39 @@ public class SimpleBindingAdapterGenerator
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
 		}
+	}
+
+	private JType getWrapperType( JType classType )
+	{
+		JPrimitiveType primitiveType = classType.isPrimitive();
+
+		if ( primitiveType == null )
+			return classType;
+
+		if ( primitiveType.equals( JPrimitiveType.BOOLEAN ))
+			return mTypeOracle.findType( Boolean.class.getName() );
+
+		if ( primitiveType.equals( JPrimitiveType.BYTE ))
+			return mTypeOracle.findType( Byte.class.getName() );
+
+		if ( primitiveType.equals( JPrimitiveType.CHAR ))
+			return mTypeOracle.findType( Character.class.getName() );
+
+		if ( primitiveType.equals( JPrimitiveType.DOUBLE ))
+			return mTypeOracle.findType( Double.class.getName() );
+
+		if ( primitiveType.equals( JPrimitiveType.FLOAT ))
+			return mTypeOracle.findType( Float.class.getName() );
+
+		if ( primitiveType.equals( JPrimitiveType.INT ))
+			return mTypeOracle.findType( Integer.class.getName() );
+
+		if ( primitiveType.equals( JPrimitiveType.LONG ))
+			return mTypeOracle.findType( Long.class.getName() );
+
+		if ( primitiveType.equals( JPrimitiveType.SHORT ))
+			return mTypeOracle.findType( Short.class.getName() );
+
+		throw new RuntimeException( "No wrapper for " + primitiveType );
 	}
 }

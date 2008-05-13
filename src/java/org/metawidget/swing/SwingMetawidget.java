@@ -797,12 +797,14 @@ public class SwingMetawidget
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
 			return new JPanel();
 
-		String type = attributes.get( TYPE );
+		// Lookups
 
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
 			return new JLabel();
+
+		String type = attributes.get( TYPE );
 
 		// If no type, fail gracefully with a JTextField
 

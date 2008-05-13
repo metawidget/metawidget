@@ -604,9 +604,9 @@ public class AndroidMetawidget
 		if ( lookup != null && !"".equals( lookup ) )
 			return new TextView( getContext() );
 
-		// If no type, fail gracefully with a JTextField
-
 		String type = attributes.get( TYPE );
+
+		// If no type, fail gracefully with a JTextField
 
 		if ( type == null || "".equals( type ) )
 			return new TextView( getContext() );

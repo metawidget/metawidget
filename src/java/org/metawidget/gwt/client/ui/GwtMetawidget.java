@@ -26,10 +26,13 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import org.metawidget.MetawidgetException;
 import org.metawidget.gwt.client.binding.Binding;
 import org.metawidget.gwt.client.binding.BindingFactory;
-import org.metawidget.gwt.client.rpc.InspectorService;
-import org.metawidget.gwt.client.rpc.InspectorServiceAsync;
+import org.metawidget.gwt.client.inspector.GwtInspector;
+import org.metawidget.gwt.client.inspector.GwtInspectorAsync;
+import org.metawidget.gwt.client.inspector.GwtInspectorFactory;
+import org.metawidget.gwt.client.inspector.remote.GwtRemoteInspectorProxy;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.ui.layout.LayoutFactory;
@@ -37,14 +40,13 @@ import org.metawidget.gwt.client.ui.layout.LayoutFactory;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.ScrollPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -73,7 +75,7 @@ import com.google.gwt.xml.client.XMLParser;
  */
 
 public class GwtMetawidget
-	extends SimplePanel
+	extends FlowPanel
 {
 	//
 	//
@@ -81,28 +83,36 @@ public class GwtMetawidget
 	//
 	//
 
-	private Object						mToInspect;
+	private Object							mToInspect;
 
-	private Class<? extends Layout>		mLayoutClass	= FlexTableLayout.class;
+	private Class<? extends Layout>			mLayoutClass	= FlexTableLayout.class;
 
-	private Layout						mLayout;
+	private Layout							mLayout;
+
+	private Class<? extends GwtInspector>	mInspectorClass = GwtRemoteInspectorProxy.class;
+
+	private GwtInspector					mInspector;
 
 	/**
 	 * The Binding class.
 	 * <p>
-	 * Binding class is <code>null</code> by default, because setting up Binding is
-	 * non-trivial (eg. you have to generate some SimpleBindingAdapters)
+	 * Binding class is <code>null</code> by default, because setting up Binding is non-trivial
+	 * (eg. you have to generate some SimpleBindingAdapters)
 	 */
 
-	private Class<? extends Binding>	mBindingClass;
+	private Class<? extends Binding>		mBindingClass;
 
-	private Binding						mBinding;
+	private Binding							mBinding;
 
-	private boolean						mReadOnly;
+	private boolean							mReadOnly;
 
-	private Map<String, Widget>			mChildren;
+	private Map<String, Widget>				mWidgets;
 
-	private Map<String, Facet>			mFacets			= new HashMap<String, Facet>();
+	private Map<String, Stub>				mStubs			= new HashMap<String, Stub>();
+
+	// TODO: ComplexPanel has getChildren()
+
+	private Map<String, Facet>				mFacets			= new HashMap<String, Facet>();
 
 	//
 	//
@@ -110,9 +120,9 @@ public class GwtMetawidget
 	//
 	//
 
-	String								mPath;
+	String									mPath;
 
-	String[]							mNamesPrefix;
+	String[]								mNamesPrefix;
 
 	//
 	//
@@ -172,6 +182,40 @@ public class GwtMetawidget
 	}
 
 	/**
+	 * Finds the widget with the given name.
+	 */
+
+	public Widget findWidget( String... names )
+	{
+		if ( names == null )
+			return null;
+
+		Map<String, Widget> children = mWidgets;
+
+		for ( int loop = 0, length = names.length; loop < length; loop++ )
+		{
+			if ( children == null )
+				return null;
+
+			String name = names[loop];
+			Widget widget = mWidgets.get( name );
+
+			if ( widget == null )
+				return null;
+
+			if ( loop == length - 1 )
+				return widget;
+
+			if ( !( widget instanceof GwtMetawidget ) )
+				return null;
+
+			children = ( (GwtMetawidget) widget ).mWidgets;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Gets the value from the Widget with the given name.
 	 * <p>
 	 * The value is returned as it is stored in the Widget (eg. String for TextBox) so may need some
@@ -187,10 +231,24 @@ public class GwtMetawidget
 		if ( widget == null )
 			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) );
 
+		return getValue( widget );
+	}
+
+	/**
+	 * Gets the value from the given Widget.
+	 */
+
+	public Object getValue( Widget widget )
+	{
 		// TextBox
 
 		if ( widget instanceof TextBox )
 			return ( (TextBox) widget ).getText();
+
+		// TextArea
+
+		if ( widget instanceof TextArea )
+			return ( (TextArea) widget ).getText();
 
 		// ListBox
 
@@ -234,7 +292,7 @@ public class GwtMetawidget
 		if ( widget instanceof Label )
 		{
 			if ( value != null )
-				( (Label) widget ).setText( String.valueOf( value ));
+				( (Label) widget ).setText( String.valueOf( value ) );
 			return;
 		}
 
@@ -243,7 +301,16 @@ public class GwtMetawidget
 		if ( widget instanceof TextBox )
 		{
 			if ( value != null )
-				( (TextBox) widget ).setText( String.valueOf( value ));
+				( (TextBox) widget ).setText( String.valueOf( value ) );
+			return;
+		}
+
+		// TextArea
+
+		if ( widget instanceof TextArea )
+		{
+			if ( value != null )
+				( (TextArea) widget ).setText( String.valueOf( value ) );
 			return;
 		}
 
@@ -264,20 +331,46 @@ public class GwtMetawidget
 				if ( valueString.equals( listBox.getValue( loop ) ) )
 				{
 					listBox.setSelectedIndex( loop );
-					break;
+					return;
 				}
 			}
+
+			throw new RuntimeException( "'" + value + "' is not a valid value for the ListBox" );
 		}
 
 		// Unknown (subclasses should override this)
 
-		// throw new RuntimeException( "Don't know how to setValue of a " +
-		// widget.getClass().getName() );
+		throw new RuntimeException( "Don't know how to setValue of a " + widget.getClass().getName() );
 	}
 
+	/**
+	 * Saves the values from the binding back to the object being inspected.
+	 *
+	 * @throws MetawidgetException
+	 *             if no binding configured
+	 */
+
+	// Note: this method avoids having to expose a getBinding() method, which is handy
+	// because we can worry about nested Metawidgets here, not in the Binding class
 	public void save()
 	{
-		throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBinding" );
+		// buildWidgets may be necessary here if we have nested Metawidgets
+		// and have only ever called getValue (eg. never been visible)
+
+		buildWidgets();
+
+		if ( mBinding == null )
+			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
+
+		mBinding.save();
+
+		for ( Widget widget : mWidgets.values() )
+		{
+			if ( widget instanceof GwtMetawidget )
+			{
+				( (GwtMetawidget) widget ).save();
+			}
+		}
 	}
 
 	@Override
@@ -289,6 +382,11 @@ public class GwtMetawidget
 		{
 			Facet facet = (Facet) widget;
 			mFacets.put( facet.getName(), facet );
+		}
+		else if ( widget instanceof Stub )
+		{
+			Stub stub = (Stub) widget;
+			mStubs.put( stub.getName(), stub );
 		}
 	}
 
@@ -317,7 +415,7 @@ public class GwtMetawidget
 	{
 		clear();
 
-		mChildren = new HashMap<String, Widget>();
+		mWidgets = new HashMap<String, Widget>();
 
 		// Start layout
 		//
@@ -337,14 +435,18 @@ public class GwtMetawidget
 	{
 		// Inspect
 
-		InspectorServiceAsync service = (InspectorServiceAsync) GWT.create( InspectorService.class );
-		( (ServiceDefTarget) service ).setServiceEntryPoint( GWT.getModuleBaseURL() + "metawidget-inspector" );
+		if ( mInspector == null )
+			mInspector = ((GwtInspectorFactory) GWT.create( GwtInspectorFactory.class )).newInspector( mInspectorClass );
 
 		Object[] typeAndNames = GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR );
+		String type = (String) typeAndNames[0];
+		String[] names = (String[]) typeAndNames[1];
 
-		try
+		// Special support for GwtInspectorAsync
+
+		if ( mInspector instanceof GwtInspectorAsync )
 		{
-			service.inspect( (Serializable) mToInspect, (String) typeAndNames[0], (String[]) typeAndNames[1], new AsyncCallback<String>()
+			((GwtInspectorAsync) mInspector).inspect( (Serializable) mToInspect, type, names, new AsyncCallback<String>()
 			{
 				public void onFailure( Throwable caught )
 				{
@@ -353,53 +455,68 @@ public class GwtMetawidget
 
 				public void onSuccess( String xml )
 				{
-					try
-					{
-						Document document = XMLParser.parse( xml );
-
-						if ( document != null )
-						{
-							startBuild();
-
-							// Build simple widget (from the top-level element)
-
-							Element element = (Element) document.getDocumentElement().getFirstChild();
-							Map<String, String> attributes = GwtUtils.getAttributesAsMap( element );
-
-							Widget widget = buildWidget( attributes );
-
-							if ( widget != null )
-							{
-								// If the returned widget is itself a Metawidget, it must have
-								// the same path as us. In that case, DON'T use it, as that would
-								// be infinite recursion
-
-								if ( !( widget instanceof GwtMetawidget ) )
-								{
-									addWidget( widget, attributes );
-								}
-
-								// Failing that, build a compound widget (from our child elements)
-
-								else
-								{
-									mNamesPrefix = (String[]) GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR )[1];
-
-									buildCompoundWidget( element );
-								}
-							}
-						}
-
-						// Even if no inspectors match, we still call endBuild()
-
-						endBuild();
-					}
-					catch ( Exception e )
-					{
-						throw new RuntimeException( e );
-					}
+					buildWidgets( xml );
 				}
 			} );
+		}
+
+		// Regular GwtInspectors
+
+		else
+		{
+			try
+			{
+				String xml = mInspector.inspect( (Serializable) mToInspect, type, names );
+				buildWidgets( xml );
+			}
+			catch( Exception e )
+			{
+				Window.alert( e.getMessage() );
+			}
+		}
+	}
+
+	public void buildWidgets( String xml )
+	{
+		try
+		{
+			if ( xml != null )
+			{
+				startBuild();
+
+				// Build simple widget (from the top-level element)
+
+				Document document = XMLParser.parse( xml );
+				Element element = (Element) document.getDocumentElement().getFirstChild();
+				Map<String, String> attributes = GwtUtils.getAttributesAsMap( element );
+
+				Widget widget = buildWidget( attributes );
+
+				if ( widget != null )
+				{
+					// If the returned widget is itself a Metawidget, it must have
+					// the same path as us. In that case, DON'T use it, as that would
+					// be infinite recursion
+
+					if ( !( widget instanceof GwtMetawidget ) )
+					{
+						addWidget( widget, attributes );
+					}
+
+					// Failing that, build a compound widget (from our child elements)
+
+					else
+					{
+						mNamesPrefix = (String[]) GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR )[1];
+
+						buildCompoundWidget( element );
+					}
+				}
+			}
+
+			// Even if no inspectors match, we still call endBuild()
+
+			endBuild();
 		}
 		catch ( Exception e )
 		{
@@ -439,7 +556,7 @@ public class GwtMetawidget
 				if ( widget instanceof GwtMetawidget )
 					widget = initMetawidget( (GwtMetawidget) widget, attributes );
 			}
-			else if ( isStub( widget ) )
+			else
 			{
 				attributes.putAll( getStubAttributes( widget ) );
 			}
@@ -479,24 +596,16 @@ public class GwtMetawidget
 		return metawidget;
 	}
 
-	/**
-	 * @return false if the build should not proceed (for example if there was a previous validation
-	 *         error)
-	 */
-
 	protected Widget getOverridenWidget( Map<String, String> attributes )
 	{
-		return null;
-	}
+		String name = attributes.get( NAME );
 
-	protected boolean isStub( Widget widget )
-	{
-		return false;
+		return mStubs.get( name );
 	}
 
 	protected Map<String, String> getStubAttributes( Widget stub )
 	{
-		return null;
+		return ( (Stub) stub ).getAttributes();
 	}
 
 	protected Widget buildReadOnlyWidget( Map<String, String> attributes )
@@ -639,6 +748,10 @@ public class GwtMetawidget
 		return createMetawidget();
 	}
 
+	/**
+	 * Subclasses should override to instantiate their own flavour of GwtMetawidget.
+	 */
+
 	protected GwtMetawidget createMetawidget()
 	{
 		return new GwtMetawidget();
@@ -648,7 +761,7 @@ public class GwtMetawidget
 		throws Exception
 	{
 		String name = attributes.get( "name" );
-		mChildren.put( name, widget );
+		mWidgets.put( name, widget );
 
 		// Layout
 
@@ -656,7 +769,7 @@ public class GwtMetawidget
 
 		// Bind
 
-		if ( mBinding != null )
+		if ( mBinding != null && !( widget instanceof GwtMetawidget ) )
 		{
 			if ( mNamesPrefix == null )
 				mBinding.bind( widget, name );
@@ -718,35 +831,5 @@ public class GwtMetawidget
 		}
 
 		listBox.addItem( value );
-	}
-
-	protected Widget findWidget( String... names )
-	{
-		if ( names == null )
-			return null;
-
-		Map<String, Widget> children = mChildren;
-
-		for ( int loop = 0, length = names.length; loop < length; loop++ )
-		{
-			if ( children == null )
-				return null;
-
-			String name = names[loop];
-			Widget widget = mChildren.get( name );
-
-			if ( widget == null )
-				return null;
-
-			if ( loop == length - 1 )
-				return widget;
-
-			if ( !( widget instanceof GwtMetawidget ) )
-				return null;
-
-			children = ( (GwtMetawidget) widget ).mChildren;
-		}
-
-		return null;
 	}
 }

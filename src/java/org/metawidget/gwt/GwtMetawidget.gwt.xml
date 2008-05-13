@@ -5,15 +5,21 @@
 	<inherits name='com.google.gwt.user.User' />
 	<inherits name='com.google.gwt.xml.XML' />
 
-	<!-- Server -->
+	<!-- Inspectors -->
 	
-	<servlet path='/metawidget-inspector' class='org.metawidget.gwt.server.rpc.InspectorServiceImpl' />
+  	<generate-with class="org.metawidget.gwt.server.inspector.GwtInspectorFactoryGenerator">
+		<when-type-assignable class="org.metawidget.gwt.client.inspector.GwtInspectorFactory"/>
+	</generate-with>
 
-	<!-- Binding and Layout -->
+	<servlet path='/metawidget-inspector' class='org.metawidget.gwt.server.inspector.remote.GwtRemoteInspectorImpl' />
+
+	<!-- Binding -->
 	
   	<generate-with class="org.metawidget.gwt.server.binding.BindingFactoryGenerator">
 		<when-type-assignable class="org.metawidget.gwt.client.binding.BindingFactory"/>
 	</generate-with>
+
+	<!-- Layout -->
 
   	<generate-with class="org.metawidget.gwt.server.layout.LayoutFactoryGenerator">
 		<when-type-assignable class="org.metawidget.gwt.client.ui.layout.LayoutFactory"/>

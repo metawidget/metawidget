@@ -1,4 +1,4 @@
-package org.metawidget.gwt.client.binding;
+package org.metawidget.gwt.client.binding.simple;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -14,7 +14,7 @@ public abstract class Converter<T>
 	 * Convert the given value (as returned by the given Widget) into its original form.
 	 */
 
-	public abstract T convertFromWidget( Widget widget, String value );
+	public abstract T convertFromWidget( Widget widget, Object value );
 
 	/**
 	 * Convert the given value to a form that can be displayed by the given Widget.

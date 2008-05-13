@@ -14,57 +14,16 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.gwt.addressbook.client.ui.converter;
+package org.metawidget.gwt.client.inspector.remote;
 
-import java.util.Date;
-
-import org.metawidget.gwt.client.binding.simple.Converter;
-
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.Widget;
+import org.metawidget.gwt.client.inspector.GwtInspectorAsync;
 
 /**
  * @author Richard Kennard
  */
 
-public class DateConverter
-	extends Converter<Date>
+public interface GwtRemoteInspectorAsync
+	extends GwtInspectorAsync
 {
-	//
-	//
-	// Private members
-	//
-	//
-
-	private DateTimeFormat	mFormat;
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public DateConverter()
-	{
-		mFormat = DateTimeFormat.getShortDateFormat();
-	}
-
-	//
-	//
-	// Public methods
-	//
-	//
-
-
-	@Override
-	public Date convertFromWidget( Widget widget, Object value )
-	{
-		return mFormat.parse( (String) value );
-	}
-
-	@Override
-	public Object convertForWidget( Widget widget, Date value )
-	{
-		return mFormat.format( value );
-	}
+	// Just a GwtInspectorAsync
 }
