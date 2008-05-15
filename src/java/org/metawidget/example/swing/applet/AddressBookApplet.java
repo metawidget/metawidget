@@ -42,6 +42,7 @@ import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.example.swing.addressbook.ContactDialog;
+import org.metawidget.example.swing.addressbook.ContactsControllerProvider;
 import org.metawidget.example.swing.addressbook.ListTableModel;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
@@ -53,6 +54,7 @@ import org.metawidget.util.CollectionUtils;
 
 public class AddressBookApplet
 	extends Applet
+	implements ContactsControllerProvider
 {
 	//
 	//
@@ -85,6 +87,11 @@ public class AddressBookApplet
 		setLayout( new BorderLayout() );
 		add( createSearchSection(), BorderLayout.NORTH );
 		add( createResultsSection(), BorderLayout.CENTER );
+	}
+
+	public ContactsController getContactsController()
+	{
+		return mContactsController;
 	}
 
 	//
@@ -143,7 +150,7 @@ public class AddressBookApplet
 				if ( !( owner instanceof Frame ))
 					owner = null;
 
-				new ContactDialog( (Frame) owner, mContactsController, new PersonalContact() ).setVisible( true );
+				new ContactDialog( AddressBookApplet.this, new PersonalContact() ).setVisible( true );
 				mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
 			}
 		} ) );
@@ -157,7 +164,7 @@ public class AddressBookApplet
 				if ( !( owner instanceof Frame ))
 					owner = null;
 
-				new ContactDialog( (Frame) owner, mContactsController, new BusinessContact() ).setVisible( true );
+				new ContactDialog( AddressBookApplet.this, new BusinessContact() ).setVisible( true );
 				mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
 			}
 		} ) );
@@ -227,7 +234,7 @@ public class AddressBookApplet
 				if ( !( owner instanceof Frame ))
 					owner = null;
 
-				new ContactDialog( (Frame) owner, mContactsController, contact ).setVisible( true );
+				new ContactDialog( AddressBookApplet.this, contact ).setVisible( true );
 				mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
 			}
 		} );

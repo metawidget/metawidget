@@ -128,7 +128,7 @@ public class AddressBook
 
 							public void onSuccess( Contact contact )
 							{
-								new ContactDialog( AddressBook.this, mContactsService, contact ).show();
+								new ContactDialog( AddressBook.this, contact ).show();
 							}
 						} );
 					}
@@ -180,7 +180,7 @@ public class AddressBook
 			public void onClick( Widget sender )
 			{
 				Contact contact = new PersonalContact();
-				new ContactDialog( AddressBook.this, mContactsService, contact ).show();
+				new ContactDialog( AddressBook.this, contact ).show();
 			}
 		} );
 		panel.add( addPersonalButton );
@@ -191,7 +191,7 @@ public class AddressBook
 			public void onClick( Widget sender )
 			{
 				Contact contact = new BusinessContact();
-				new ContactDialog( AddressBook.this, mContactsService, contact ).show();
+				new ContactDialog( AddressBook.this, contact ).show();
 			}
 		} );
 		panel.add( addBusinessButton );
@@ -208,6 +208,11 @@ public class AddressBook
 			mPanel.add( metawidget );
 			mPanel.add( mContacts );
 		}
+	}
+
+	public ContactsServiceAsync getContactsService()
+	{
+		return mContactsService;
 	}
 
 	public void reloadContacts()

@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JRootPane;
@@ -64,7 +65,7 @@ public class SwingAddressBookTest
 	//
 	//
 
-	public static void testAddressBook()
+	public void testAddressBook()
 		throws Exception
 	{
 		// Set Locale because we will be checking date formatting
@@ -73,12 +74,12 @@ public class SwingAddressBookTest
 
 		// Start app
 
-		ContactsController contactsController = new ContactsController();
-		MainFrame frame = new MainFrame( contactsController );
+		MainFrame mainFrame = new MainFrame();
+		ContactsController contactsController = mainFrame.getContactsController();
 
 		// Check searching
 
-		SwingMetawidget metawidgetSearch = (SwingMetawidget) ( (Container) ( (Container) frame.getContentPane().getComponent( 0 ) ).getComponent( 1 ) ).getComponent( 0 );
+		SwingMetawidget metawidgetSearch = (SwingMetawidget) ( (Container) ( (Container) mainFrame.getContentPane().getComponent( 0 ) ).getComponent( 1 ) ).getComponent( 0 );
 
 		metawidgetSearch.setValue( "Simpson", "surname" );
 		metawidgetSearch.setValue( ContactType.PERSONAL, "type" );
@@ -104,13 +105,13 @@ public class SwingAddressBookTest
 		assertTrue( "742 Evergreen Terrace".equals( contact.getAddress().getStreet() ) );
 		assertTrue( contact.getCommunications().size() == 1 );
 
-		ContactDialog dialog = new ContactDialog( frame, contactsController, contact );
+		ContactDialog dialog = new ContactDialog( mainFrame, contact );
 
 		// Check loading
 
 		SwingMetawidget metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
-		metawidgetContact.setToInspect( contact );
 		assertTrue( "Homer".equals( metawidgetContact.getValue( "firstnames" ) ) );
+		assertTrue( SwingUtils.findComponentNamed( metawidgetContact, "firstnames" ) instanceof JLabel );
 		assertTrue( "12/05/56".equals( metawidgetContact.getValue( "dateOfBirth" ) ) );
 
 		try
@@ -136,6 +137,7 @@ public class SwingAddressBookTest
 
 		// Check editing
 
+		assertTrue( metawidgetContact.getComponentCount() == 19 );
 		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
 		JButton buttonEdit = (JButton) panelButtons.getComponent( 2 );
 		assertTrue( "Edit".equals( buttonEdit.getText() ) );
@@ -179,10 +181,11 @@ public class SwingAddressBookTest
 		try
 		{
 			metawidgetContact.save();
+			assertTrue( false );
 		}
 		catch ( Exception e )
 		{
-			assertTrue( "".equals( e.getMessage() ) );
+			assertTrue( "Unparseable date: \"foo\"".equals( e.getCause().getCause().getMessage() ) );
 		}
 
 		metawidgetContact.setValue( "12/05/57", "dateOfBirth" );

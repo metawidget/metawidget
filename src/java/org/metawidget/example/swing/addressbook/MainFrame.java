@@ -53,6 +53,7 @@ import org.metawidget.util.CollectionUtils;
 
 public class MainFrame
 	extends JFrame
+	implements ContactsControllerProvider
 {
 	//
 	//
@@ -63,6 +64,19 @@ public class MainFrame
 	private final static long	serialVersionUID	= -50915934635254102L;
 
 	private final static int	COMPONENT_SPACING	= 5;
+
+	//
+	//
+	// Public statics
+	//
+	//
+
+	public static void main( String[] args )
+	{
+		MainFrame frame = new MainFrame();
+		frame.pack();
+		frame.setVisible( true );
+	}
 
 	//
 	//
@@ -82,7 +96,7 @@ public class MainFrame
 	//
 	//
 
-	public MainFrame( ContactsController contactsController )
+	public MainFrame()
 	{
 		super( "Address Book (Metawidget Swing Example)" );
 
@@ -92,19 +106,19 @@ public class MainFrame
 		// Background
 
 		ImagePanel panelBackground = new ImagePanel();
-		panelBackground.setImage( Main.class.getResource( "/org/metawidget/example/shared/addressbook/media/background.jpg" ) );
+		panelBackground.setImage( getClass().getResource( "/org/metawidget/example/shared/addressbook/media/background.jpg" ) );
 		panelBackground.setLayout( new BorderLayout() );
 		add( panelBackground );
 
 		// Table model
 
 		mContactSearch = new ContactSearch();
-		mModel = new ListTableModel<Contact>( Contact.class, contactsController.getAllByExample( mContactSearch ), "Fullname", "Communications", "Class" );
-		mContactsController = contactsController;
+		mContactsController = new ContactsController();
+		mModel = new ListTableModel<Contact>( Contact.class, mContactsController.getAllByExample( mContactSearch ), "Fullname", "Communications", "Class" );
 
 		// Left-hand image
 
-		ImageIcon imageAddressBook = new ImageIcon( Main.class.getResource( "/org/metawidget/example/shared/addressbook/media/addressbook.gif" ) );
+		ImageIcon imageAddressBook = new ImageIcon( getClass().getResource( "/org/metawidget/example/shared/addressbook/media/addressbook.gif" ) );
 		JLabel label = new JLabel( imageAddressBook );
 		label.setVerticalAlignment( SwingConstants.TOP );
 		label.setBorder( BorderFactory.createEmptyBorder( COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING * 2 ) );
@@ -122,6 +136,11 @@ public class MainFrame
 
 		panelRight.add( createSearchSection(), BorderLayout.NORTH );
 		panelRight.add( createResultsSection(), BorderLayout.CENTER );
+	}
+
+	public ContactsController getContactsController()
+	{
+		return mContactsController;
 	}
 
 	//
@@ -178,7 +197,7 @@ public class MainFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				new ContactDialog( MainFrame.this, mContactsController, new PersonalContact() ).setVisible( true );
+				new ContactDialog( MainFrame.this, new PersonalContact() ).setVisible( true );
 				mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
 			}
 		} ) );
@@ -187,7 +206,7 @@ public class MainFrame
 		{
 			public void actionPerformed( ActionEvent e )
 			{
-				new ContactDialog( MainFrame.this,  mContactsController, new BusinessContact() ).setVisible( true );
+				new ContactDialog( MainFrame.this, new BusinessContact() ).setVisible( true );
 				mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
 			}
 		} ) );
@@ -200,8 +219,8 @@ public class MainFrame
 		final JTable table = new JTable( mModel );
 		table.setAutoCreateColumnsFromModel( true );
 
-		final ImageIcon iconPersonal = new ImageIcon( Main.class.getResource( "/org/metawidget/example/shared/addressbook/media/personal-small.gif" ) );
-		final ImageIcon iconBusiness = new ImageIcon( Main.class.getResource( "/org/metawidget/example/shared/addressbook/media/business-small.gif" ) );
+		final ImageIcon iconPersonal = new ImageIcon( getClass().getResource( "/org/metawidget/example/shared/addressbook/media/personal-small.gif" ) );
+		final ImageIcon iconBusiness = new ImageIcon( getClass().getResource( "/org/metawidget/example/shared/addressbook/media/business-small.gif" ) );
 
 		table.setDefaultRenderer( Set.class, new DefaultTableCellRenderer()
 		{
@@ -252,7 +271,7 @@ public class MainFrame
 
 				// ...and display it
 
-				new ContactDialog( MainFrame.this, mContactsController, contact ).setVisible( true );
+				new ContactDialog( MainFrame.this, contact ).setVisible( true );
 				mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
 			}
 		} );

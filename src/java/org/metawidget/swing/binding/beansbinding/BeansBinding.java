@@ -33,6 +33,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.PropertyHelper;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.jdesktop.beansbinding.Binding.SyncFailure;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 import org.metawidget.MetawidgetException;
@@ -132,7 +133,10 @@ public class BeansBinding
 			if ( !binding.getSourceProperty().isWriteable( binding.getSourceObject() ) )
 				continue;
 
-			binding.save();
+			SyncFailure failure = binding.save();
+
+			if ( failure != null )
+				throw new RuntimeException( failure.getConversionException() );
 		}
 	}
 

@@ -42,7 +42,6 @@ import javax.swing.JTable;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableCellEditor;
 
-import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.Gender;
@@ -78,16 +77,16 @@ public class ContactDialog
 	//
 	//
 
-	public ContactDialog( Frame owner, final ContactsController contactsController, final Contact contact )
+	public ContactDialog( final ContactsControllerProvider provider, final Contact contact )
 	{
-		super( owner, true );
+		super( (Frame) provider, true );
 		setSize( new Dimension( 800, 600 ) );
 		getContentPane().setBackground( Color.white );
 
 		// Background
 
 		ImagePanel panelBackground = new ImagePanel();
-		panelBackground.setImage( Main.class.getResource( "/org/metawidget/example/shared/addressbook/media/background.jpg" ) );
+		panelBackground.setImage( getClass().getResource( "/org/metawidget/example/shared/addressbook/media/background.jpg" ) );
 		panelBackground.setLayout( new BorderLayout() );
 		add( panelBackground );
 
@@ -114,12 +113,12 @@ public class ContactDialog
 		if ( contact instanceof PersonalContact )
 		{
 			builder.append( bundle.getString( "personalContact" ) );
-			imageLabel.setIcon( new ImageIcon( Main.class.getResource( "/org/metawidget/example/shared/addressbook/media/personal.gif" ) ) );
+			imageLabel.setIcon( new ImageIcon( getClass().getResource( "/org/metawidget/example/shared/addressbook/media/personal.gif" ) ) );
 		}
 		else
 		{
 			builder.append( bundle.getString( "businessContact" ) );
-			imageLabel.setIcon( new ImageIcon( Main.class.getResource( "/org/metawidget/example/shared/addressbook/media/business.gif" ) ) );
+			imageLabel.setIcon( new ImageIcon( getClass().getResource( "/org/metawidget/example/shared/addressbook/media/business.gif" ) ) );
 		}
 
 		setTitle( builder.toString() );
@@ -198,7 +197,7 @@ public class ContactDialog
 				{
 					metawidget.save();
 					contact.setCommunications( CollectionUtils.newHashSet( communicationsModel.exportList() ) );
-					contactsController.save( contact );
+					provider.getContactsController().save( contact );
 				}
 				catch ( Exception e )
 				{
@@ -221,7 +220,7 @@ public class ContactDialog
 
 				ContactDialog.this.setVisible( false );
 
-				contactsController.delete( contact );
+				provider.getContactsController().delete( contact );
 			}
 		} );
 

@@ -247,6 +247,11 @@ public class GwtMetawidget
 
 	public Object getValue( Widget widget )
 	{
+		// Label
+
+		if ( widget instanceof Label )
+			return ( (Label) widget ).getText();
+
 		// TextBox
 
 		if ( widget instanceof TextBox )

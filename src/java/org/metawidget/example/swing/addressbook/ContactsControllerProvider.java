@@ -22,24 +22,13 @@ import org.metawidget.example.shared.addressbook.controller.ContactsController;
  * @author Richard Kennard
  */
 
-public class Main
+public interface ContactsControllerProvider
 {
 	//
 	//
-	// Public methods
+	// Methods
 	//
 	//
 
-	public static void main( String[] args )
-	{
-		// Model
-
-		final ContactsController contacts = new ContactsController();
-
-		// View
-
-		MainFrame frame = new MainFrame( contacts );
-		frame.pack();
-		frame.setVisible( true );
-	}
+	ContactsController getContactsController();
 }

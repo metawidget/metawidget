@@ -21,7 +21,6 @@ import static org.metawidget.util.StringUtils.*;
 import java.util.Date;
 import java.util.Set;
 
-import org.metawidget.example.gwt.addressbook.client.rpc.ContactsServiceAsync;
 import org.metawidget.example.gwt.addressbook.client.ui.converter.DateConverter;
 import org.metawidget.example.gwt.addressbook.client.ui.converter.EnumConverter;
 import org.metawidget.example.gwt.addressbook.client.ui.converter.NumberConverter;
@@ -61,7 +60,7 @@ public class ContactDialog
 	//
 	//
 
-	public ContactDialog( final AddressBook addressbook, final ContactsServiceAsync contactsService, final Contact contact )
+	public ContactDialog( final AddressBook addressBook, final Contact contact )
 	{
 		setStyleName( "contact-dialog" );
 		setPopupPosition( 100, 50 );
@@ -185,7 +184,7 @@ public class ContactDialog
 			{
 				metawidget.save();
 
-				contactsService.save( contact, new AsyncCallback<Object>()
+				addressBook.getContactsService().save( contact, new AsyncCallback<Object>()
 				{
 					public void onFailure( Throwable caught )
 					{
@@ -195,7 +194,7 @@ public class ContactDialog
 					public void onSuccess( Object result )
 					{
 						ContactDialog.this.hide();
-						addressbook.reloadContacts();
+						addressBook.reloadContacts();
 					}
 				} );
 			}
@@ -209,7 +208,7 @@ public class ContactDialog
 			{
 				if ( Window.confirm( "Sure you want to delete this contact?" ) )
 				{
-					contactsService.delete( contact, new AsyncCallback<Boolean>()
+					addressBook.getContactsService().delete( contact, new AsyncCallback<Boolean>()
 					{
 						public void onFailure( Throwable caught )
 						{
@@ -219,7 +218,7 @@ public class ContactDialog
 						public void onSuccess( Boolean result )
 						{
 							ContactDialog.this.hide();
-							addressbook.reloadContacts();
+							addressBook.reloadContacts();
 						}
 					} );
 				}
