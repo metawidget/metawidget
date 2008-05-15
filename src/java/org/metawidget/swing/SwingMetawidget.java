@@ -227,10 +227,7 @@ public class SwingMetawidget
 	public void setBindingClass( Class<? extends Binding> bindingClass )
 	{
 		mBindingClass = bindingClass;
-
 		invalidateWidgets();
-
-		mBinding = null;
 	}
 
 	public void setBundle( ResourceBundle bundle )
@@ -658,7 +655,10 @@ public class SwingMetawidget
 		mNamesPrefix = null;
 
 		if ( mBinding != null )
+		{
 			mBinding.unbind();
+			mBinding = null;
+		}
 
 		// Note: call invalidate() here, not validate(), else components
 		// will disappear during addImpl() when in visual GUI builder tools

@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
@@ -56,11 +57,29 @@ public class AddressBook
 	//
 	//
 
+	Panel					mPanel;
+
 	ContactSearch			mContactSearch;
 
 	FlexTable				mContacts;
 
 	ContactsServiceAsync	mContactsService;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public AddressBook()
+	{
+		this( RootPanel.get() );
+	}
+
+	public AddressBook( Panel panel )
+	{
+		mPanel = panel;
+	}
 
 	//
 	//
@@ -80,9 +99,7 @@ public class AddressBook
 		// Results table
 
 		mContacts = new FlexTable();
-		RootPanel.get( "contacts" ).add( mContacts );
 		reloadContacts();
-
 		mContacts.addTableListener( new TableListener()
 		{
 			public void onCellClicked( SourcesTableEvents sender, final int row, int cell )
@@ -124,7 +141,6 @@ public class AddressBook
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setToInspect( mContactSearch );
 		metawidget.buildWidgets();
-		RootPanel.get( "metawidget" ).add( metawidget );
 
 		// Embedded buttons
 
@@ -148,7 +164,7 @@ public class AddressBook
 
 				String type = (String) metawidget.getValue( "type" );
 
-				if ( type == null || "".equals( type ))
+				if ( type == null || "".equals( type ) )
 					mContactSearch.setType( null );
 				else
 					mContactSearch.setType( ContactType.valueOf( type ) );
@@ -179,6 +195,19 @@ public class AddressBook
 			}
 		} );
 		panel.add( addBusinessButton );
+
+		// Add to either RootPanel or the given Panel (for unit tests)
+
+		if ( mPanel instanceof RootPanel )
+		{
+			RootPanel.get( "metawidget" ).add( metawidget );
+			RootPanel.get( "contacts" ).add( mContacts );
+		}
+		else
+		{
+			mPanel.add( metawidget );
+			mPanel.add( mContacts );
+		}
 	}
 
 	public void reloadContacts()
@@ -206,14 +235,14 @@ public class AddressBook
 				for ( Contact contact : contacts )
 				{
 					mContacts.setText( row, 0, contact.getFullname() );
-					mContacts.setText( row, 1, GwtUtils.toString( contact.getCommunications(), ',' ));
+					mContacts.setText( row, 1, GwtUtils.toString( contact.getCommunications(), ',' ) );
 
 					row++;
 				}
 
 				// Cleanup any extra rows
 
-				while( mContacts.getRowCount() > row )
+				while ( mContacts.getRowCount() > row )
 				{
 					mContacts.removeRow( row );
 				}

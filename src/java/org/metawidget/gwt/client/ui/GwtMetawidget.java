@@ -88,7 +88,7 @@ public class GwtMetawidget
 
 	private Layout							mLayout;
 
-	private Class<? extends GwtInspector>	mInspectorClass = GwtRemoteInspectorProxy.class;
+	private Class<? extends GwtInspector>	mInspectorClass	= GwtRemoteInspectorProxy.class;
 
 	private GwtInspector					mInspector;
 
@@ -102,6 +102,8 @@ public class GwtMetawidget
 	private Class<? extends Binding>		mBindingClass;
 
 	private Binding							mBinding;
+
+	private boolean							mNeedToBuildWidgets;
 
 	private boolean							mReadOnly;
 
@@ -142,26 +144,26 @@ public class GwtMetawidget
 
 		if ( toInspect != null && ( mPath == null || mPath.indexOf( '/' ) == -1 ) )
 			mPath = toInspect.getClass().getName();
+
+		invalidateWidgets();
 	}
 
 	public void setPath( String path )
 	{
 		mPath = path;
+		invalidateWidgets();
 	}
 
-	public void setReadOnly( boolean readOnly )
+	public void setInspectorClass( Class<? extends GwtInspector> inspectorClass )
 	{
-		mReadOnly = readOnly;
-	}
-
-	public boolean isReadOnly()
-	{
-		return mReadOnly;
+		mInspectorClass = inspectorClass;
+		invalidateWidgets();
 	}
 
 	public void setLayoutClass( Class<? extends Layout> layoutClass )
 	{
 		mLayoutClass = layoutClass;
+		invalidateWidgets();
 	}
 
 	/**
@@ -172,10 +174,18 @@ public class GwtMetawidget
 	public void setBindingClass( Class<? extends Binding> bindingClass )
 	{
 		mBindingClass = bindingClass;
-
 		invalidateWidgets();
+	}
 
-		mBinding = null;
+	public void setReadOnly( boolean readOnly )
+	{
+		mReadOnly = readOnly;
+		invalidateWidgets();
+	}
+
+	public boolean isReadOnly()
+	{
+		return mReadOnly;
 	}
 
 	/**
@@ -270,10 +280,11 @@ public class GwtMetawidget
 
 	public void setValue( Object value, String... names )
 	{
+		buildWidgets();
 		Widget widget = findWidget( names );
 
 		if ( widget == null )
-			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, ',' ) );
+			throw new RuntimeException( "No such widget '" + GwtUtils.toString( names, ',' ) );
 
 		setValue( value, widget );
 	}
@@ -396,48 +407,38 @@ public class GwtMetawidget
 		return mFacets.get( name );
 	}
 
-	//
-	//
-	// Protected methods. This methods are all equivalent to
-	// those in MetawidgetMixin, but GwtMetawidget doesn't use MetawidgetMixin
-	// because a) that uses 'org.w3c.dom' and b) GwtMetawidget doesn't use
-	// any files from outside the 'org.metawidget.gwt.client' folder
-	//
-	//
-
 	protected void invalidateWidgets()
 	{
-		if ( mBinding != null )
-			mBinding.unbind();
-	}
+		if ( mNeedToBuildWidgets )
+			return;
 
-	protected void startBuild()
-		throws Exception
-	{
 		clear();
 
 		mWidgetNames = new HashMap<String, Widget>();
+		mNamesPrefix = null;
 
-		// Start layout
-		//
-		// (we start a new layout each time, rather than complicating the Layouts with a
-		// layoutCleanup method)
+		if ( mBinding != null )
+		{
+			mBinding.unbind();
+			mBinding = null;
+		}
 
-		mLayout = ( (LayoutFactory) GWT.create( LayoutFactory.class ) ).newLayout( mLayoutClass, this );
-		mLayout.layoutBegin();
-
-		// Start binding
-
-		if ( mBindingClass != null )
-			mBinding = ( (BindingFactory) GWT.create( BindingFactory.class ) ).newBinding( mBindingClass, this );
+		mNeedToBuildWidgets = true;
 	}
 
 	public void buildWidgets()
 	{
+		// No need to build?
+
+		if ( !mNeedToBuildWidgets )
+			return;
+
+		mNeedToBuildWidgets = false;
+
 		// Inspect
 
 		if ( mInspector == null )
-			mInspector = ((GwtInspectorFactory) GWT.create( GwtInspectorFactory.class )).newInspector( mInspectorClass );
+			mInspector = ( (GwtInspectorFactory) GWT.create( GwtInspectorFactory.class ) ).newInspector( mInspectorClass );
 
 		Object[] typeAndNames = GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR );
 		String type = (String) typeAndNames[0];
@@ -447,7 +448,7 @@ public class GwtMetawidget
 
 		if ( mInspector instanceof GwtInspectorAsync )
 		{
-			((GwtInspectorAsync) mInspector).inspect( mToInspect, type, names, new AsyncCallback<Document>()
+			( (GwtInspectorAsync) mInspector ).inspect( mToInspect, type, names, new AsyncCallback<Document>()
 			{
 				public void onFailure( Throwable caught )
 				{
@@ -470,12 +471,21 @@ public class GwtMetawidget
 				Document document = mInspector.inspect( mToInspect, type, names );
 				buildWidgets( document );
 			}
-			catch( Exception e )
+			catch ( Exception e )
 			{
 				Window.alert( e.getMessage() );
 			}
 		}
 	}
+
+	//
+	//
+	// Protected methods. This methods are all equivalent to
+	// those in MetawidgetMixin, but GwtMetawidget doesn't use MetawidgetMixin
+	// because a) that uses 'org.w3c.dom' and b) GwtMetawidget doesn't use
+	// any files from outside the 'org.metawidget.gwt.client' folder
+	//
+	//
 
 	public void buildWidgets( Document document )
 	{
@@ -522,6 +532,23 @@ public class GwtMetawidget
 		{
 			throw new RuntimeException( e );
 		}
+	}
+
+	protected void startBuild()
+		throws Exception
+	{
+		// Start layout
+		//
+		// (we start a new layout each time, rather than complicating the Layouts with a
+		// layoutCleanup method)
+
+		mLayout = ( (LayoutFactory) GWT.create( LayoutFactory.class ) ).newLayout( mLayoutClass, this );
+		mLayout.layoutBegin();
+
+		// Start binding
+
+		if ( mBindingClass != null )
+			mBinding = ( (BindingFactory) GWT.create( BindingFactory.class ) ).newBinding( mBindingClass, this );
 	}
 
 	protected void buildCompoundWidget( Element element )
