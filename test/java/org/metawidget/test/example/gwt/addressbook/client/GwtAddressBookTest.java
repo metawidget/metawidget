@@ -4,7 +4,6 @@ import org.metawidget.example.gwt.addressbook.client.rpc.ContactsServiceAsync;
 import org.metawidget.example.gwt.addressbook.client.ui.AddressBook;
 import org.metawidget.example.gwt.addressbook.client.ui.ContactDialog;
 import org.metawidget.example.shared.addressbook.model.Contact;
-import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
@@ -16,15 +15,26 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
 
-@SuppressWarnings( "synthetic-access" )
 public class GwtAddressBookTest
 	extends GWTTestCase
 {
+	//
+	//
+	// Private statics
+	//
+	//
+
+	private final static int	TIMER_SCHEDULE_DELAY	= 1000;
+
+	private final static int	TEST_FINISH_DELAY		= 50 * TIMER_SCHEDULE_DELAY;
+
 	//
 	//
 	// Public methods
@@ -65,15 +75,7 @@ public class GwtAddressBookTest
 				assertTrue( flexTable.getRowCount() == 4 );
 				Button buttonSearch = (Button) ( (HorizontalPanel) ( (Facet) flexTable.getWidget( 3, 0 ) ).getWidget() ).getWidget( 0 );
 				assertTrue( "Search".equals( buttonSearch.getText() ) );
-
-				// Manually fire 'buttonSearch.onClick'
-
-				final ContactSearch contactSearch = (ContactSearch) metawidgetSearch.getToInspect();
-				contactSearch.setFirstnames( (String) metawidgetSearch.getValue( "firstnames" ) );
-				contactSearch.setSurname( (String) metawidgetSearch.getValue( "surname" ) );
-				contactSearch.setType( ContactType.valueOf( (String) metawidgetSearch.getValue( "type" ) ) );
-
-				addressBook.reloadContacts();
+				fireClickListeners( buttonSearch );
 
 				Timer timerResults = new Timer()
 				{
@@ -95,7 +97,7 @@ public class GwtAddressBookTest
 
 							public void onSuccess( final Contact personalContact )
 							{
-								ContactDialog dialog = new ContactDialog( addressBook, personalContact );
+								final ContactDialog dialog = new ContactDialog( addressBook, personalContact );
 								final GwtMetawidget contactMetawidget = (GwtMetawidget) ( (Grid) dialog.getWidget() ).getWidget( 0, 1 );
 
 								Timer timerPersonalContact = new Timer()
@@ -124,11 +126,7 @@ public class GwtAddressBookTest
 										assertTrue( ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getRowCount() == 9 );
 										Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 8, 0 ) ).getWidget() ).getWidget( 2 );
 										assertTrue( "Edit".equals( editButton.getText() ) );
-
-										// Manually fire 'editButton.onClick'
-
-										contactMetawidget.setReadOnly( false );
-										contactMetawidget.buildWidgets();
+										fireClickListeners( editButton );
 
 										Timer timerEditPersonalContact = new Timer()
 										{
@@ -156,33 +154,27 @@ public class GwtAddressBookTest
 												}
 
 												contactMetawidget.setValue( "12/05/57", "dateOfBirth" );
+
+												// Check deleting a Communication
+
+												final FlexTable communications = (FlexTable) ((Stub) contactMetawidget.findWidget( "communications" )).getWidget();
+												fireClickListeners( (Button) communications.getWidget( 1, 2 ));
+												assertTrue( communications.getRowCount() == 2 );
+
+												// Save again
+
 												Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 8, 0 ) ).getWidget() ).getWidget( 0 );
 												assertTrue( "Save".equals( saveButton.getText() ) );
-
-												// Save
-
-												contactMetawidget.save();
-
-												contactsService.save( personalContact, new AsyncCallback<Object>()
-												{
-													public void onFailure( Throwable caught )
-													{
-														throw new RuntimeException( caught );
-													}
-
-													public void onSuccess( Object result )
-													{
-														finishTest();
-													}
-												} );
+												fireClickListeners( saveButton );
+												finish();
 											}
 										};
 
-										timerEditPersonalContact.schedule( 1000 );
+										timerEditPersonalContact.schedule( TIMER_SCHEDULE_DELAY );
 									}
 								};
 
-								timerPersonalContact.schedule( 1000 );
+								timerPersonalContact.schedule( TIMER_SCHEDULE_DELAY );
 							}
 						} );
 					}
@@ -191,17 +183,17 @@ public class GwtAddressBookTest
 				// Fetch the results after giving /contacts time to finish
 
 				assertTrue( contacts.getRowCount() == 7 );
-				timerResults.schedule( 1000 );
+				timerResults.schedule( TIMER_SCHEDULE_DELAY );
 			}
 		};
 
 		// Run the search after giving /metawidget-inspector time to finish
 
-		timerSearch.schedule( 1000 );
+		timerSearch.schedule( TIMER_SCHEDULE_DELAY );
 
 		// Test runs asynchronously
 
-		delayTestFinish( 50000 );
+		delayTestFinish( TEST_FINISH_DELAY );
 	}
 
 	public void testBusinessContact()
@@ -209,9 +201,11 @@ public class GwtAddressBookTest
 	{
 		// Start app
 
-		FlowPanel panel = new FlowPanel();
+		final FlowPanel panel = new FlowPanel();
 		final AddressBook addressBook = new AddressBook( panel );
 		addressBook.onModuleLoad();
+
+		final FlexTable contacts = (FlexTable) panel.getWidget( 1 );
 
 		// Open dialog for Business Contact
 
@@ -224,9 +218,9 @@ public class GwtAddressBookTest
 				throw new RuntimeException( caught );
 			}
 
-			public void onSuccess( final Contact personalContact )
+			public void onSuccess( final Contact businessContact )
 			{
-				ContactDialog dialog = new ContactDialog( addressBook, personalContact );
+				final ContactDialog dialog = new ContactDialog( addressBook, businessContact );
 				final GwtMetawidget contactMetawidget = (GwtMetawidget) ( (Grid) dialog.getWidget() ).getWidget( 0, 1 );
 
 				Timer timerBusinessContact = new Timer()
@@ -237,51 +231,113 @@ public class GwtAddressBookTest
 						assertTrue( "Charles Montgomery".equals( contactMetawidget.getValue( "firstnames" ) ) );
 						assertTrue( "0".equals( contactMetawidget.getValue( "numberOfStaff" ) ) );
 
-						// Manually fire 'editButton.onClick'
-
-						contactMetawidget.setReadOnly( false );
-						contactMetawidget.buildWidgets();
+						Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 9, 0 ) ).getWidget() ).getWidget( 2 );
+						assertTrue( "Edit".equals( editButton.getText() ) );
+						fireClickListeners( editButton );
 
 						Timer timerEditBusinessContact = new Timer()
 						{
 							@Override
 							public void run()
 							{
-								// Check saving
-
 								contactMetawidget.setValue( 2, "numberOfStaff" );
 								contactMetawidget.setValue( "A Company", "company" );
 
-								assertTrue( ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getRowCount() == 10 );
-								contactMetawidget.save();
+								// Check adding a Communication
 
-								// Check deleting
+								final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.findWidget( "communications" ) ).getWidget();
+								assertTrue( communications.getRowCount() == 2 );
+								assertTrue( ( (GwtMetawidget) communications.getWidget( 1, 0 ) ).findWidget( "type" ) instanceof ListBox );
+								GwtMetawidget typeMetawidget = (GwtMetawidget) communications.getWidget( 1, 0 );
+								typeMetawidget.setValue( "Mobile", "type" );
+								GwtMetawidget valueMetawidget = (GwtMetawidget) communications.getWidget( 1, 1 );
+								valueMetawidget.setValue( "(0402) 123 456", "value" );
+								fireClickListeners( (Button) communications.getWidget( 1, 2 ) );
+								assertTrue( communications.getRowCount() == 3 );
 
-								contactsService.delete( (Contact) contactMetawidget.getToInspect(), new AsyncCallback<Boolean>()
+								Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 9, 0 ) ).getWidget() ).getWidget( 0 );
+								assertTrue( "Save".equals( saveButton.getText() ) );
+								fireClickListeners( saveButton );
+
+								Timer timerReloadContacts = new Timer()
 								{
-									public void onFailure( Throwable caught )
+									@Override
+									public void run()
 									{
-										throw new RuntimeException( caught );
-									}
+										assertTrue( "Mobile: (0402) 123 456".equals( contacts.getText( 1, 1 )));
 
-									public void onSuccess( Boolean result )
-									{
-										finishTest();
+										final ContactDialog dialogDelete = new ContactDialog( addressBook, businessContact );
+										final GwtMetawidget deleteContactMetawidget = (GwtMetawidget) ( (Grid) dialogDelete.getWidget() ).getWidget( 0, 1 );
+
+										Timer timerBusinessContactDelete = new Timer()
+										{
+											@Override
+											public void run()
+											{
+												Button deleteButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) deleteContactMetawidget.getWidget( 0 ) ).getWidget( 9, 0 ) ).getWidget() ).getWidget( 1 );
+												assertTrue( "Delete".equals( deleteButton.getText() ) );
+												fireClickListeners( deleteButton );
+
+												// Check deleting
+
+												Timer timerReloadContactsAgain = new Timer()
+												{
+													@Override
+													public void run()
+													{
+														assertTrue( contacts.getRowCount() == 6 );
+														finish();
+													}
+												};
+
+												timerReloadContactsAgain.schedule( TIMER_SCHEDULE_DELAY );
+											}
+										};
+
+										timerBusinessContactDelete.schedule( TIMER_SCHEDULE_DELAY );
 									}
-								} );
+								};
+
+								timerReloadContacts.schedule( TIMER_SCHEDULE_DELAY );
 							}
 						};
 
-						timerEditBusinessContact.schedule( 1000 );
+						timerEditBusinessContact.schedule( TIMER_SCHEDULE_DELAY );
 					}
 				};
 
-				timerBusinessContact.schedule( 1000 );
+				timerBusinessContact.schedule( TIMER_SCHEDULE_DELAY );
 			}
 		} );
 
 		// Test runs asynchronously
 
-		delayTestFinish( 50000 );
+		delayTestFinish( TEST_FINISH_DELAY );
 	}
+
+	//
+	//
+	// Protected methods
+	//
+	//
+
+	/**
+	 * Wrapped to avoid 'synthetic access' warning
+	 */
+
+	void finish()
+	{
+		super.finishTest();
+	}
+
+	//
+	//
+	// Native methods
+	//
+	//
+
+	native void fireClickListeners( FocusWidget focusWidget )
+	/*-{
+		focusWidget.@com.google.gwt.user.client.ui.FocusWidget::fireClickListeners()();
+	}-*/;
 }

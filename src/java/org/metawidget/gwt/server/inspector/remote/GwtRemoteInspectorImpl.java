@@ -89,16 +89,23 @@ public class GwtRemoteInspectorImpl
 	public String inspect( Serializable toInspect, String type, String[] names )
 		throws Exception
 	{
-		// Inspect the object...
+		try
+		{
+			// Inspect the object...
 
-		Document document = mInspector.inspect( toInspect, type, names );
+			Document document = mInspector.inspect( toInspect, type, names );
 
-		// ...and return the DOM as a String
+			// ...and return the DOM as a String
 
-		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		Transformer transformer = mTransformerFactory.newTransformer();
-		transformer.transform( new DOMSource( document ), new StreamResult( out ) );
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			Transformer transformer = mTransformerFactory.newTransformer();
+			transformer.transform( new DOMSource( document ), new StreamResult( out ) );
 
-		return out.toString();
+			return out.toString();
+		}
+		catch( Exception e )
+		{
+			throw new Exception( e.getMessage() );
+		}
 	}
 }

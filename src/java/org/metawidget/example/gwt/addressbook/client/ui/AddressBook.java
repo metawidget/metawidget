@@ -210,6 +210,11 @@ public class AddressBook
 		}
 	}
 
+	public Panel getPanel()
+	{
+		return mPanel;
+	}
+
 	public ContactsServiceAsync getContactsService()
 	{
 		return mContactsService;

@@ -44,6 +44,7 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
 
@@ -157,7 +158,7 @@ public class ContactDialog
 				communicationToAdd.setValue( (String) valueMetawidget.getValue( "value" ));
 
 				contact.addCommunication( communicationToAdd );
-				loadCommunications( communications, contact );
+				reloadCommunications( addressBook, communications, contact );
 
 				typeMetawidget.setValue( "", "type" );
 				valueMetawidget.setValue( "", "value" );
@@ -166,7 +167,7 @@ public class ContactDialog
 		communications.setWidget( 1, 2, addButton );
 		addButton.setVisible( !metawidget.isReadOnly() );
 
-		loadCommunications( communications, contact );
+		reloadCommunications( addressBook, communications, contact );
 
 		// Embedded buttons
 
@@ -206,22 +207,25 @@ public class ContactDialog
 		{
 			public void onClick( Widget sender )
 			{
-				if ( Window.confirm( "Sure you want to delete this contact?" ) )
+				if ( addressBook.getPanel() instanceof RootPanel )
 				{
-					addressBook.getContactsService().delete( contact, new AsyncCallback<Boolean>()
-					{
-						public void onFailure( Throwable caught )
-						{
-							Window.alert( caught.getMessage() );
-						}
-
-						public void onSuccess( Boolean result )
-						{
-							ContactDialog.this.hide();
-							addressBook.reloadContacts();
-						}
-					} );
+					if ( !Window.confirm( "Sure you want to delete this contact?" ) )
+						return;
 				}
+
+				addressBook.getContactsService().delete( contact, new AsyncCallback<Boolean>()
+				{
+					public void onFailure( Throwable caught )
+					{
+						Window.alert( caught.getMessage() );
+					}
+
+					public void onSuccess( Boolean result )
+					{
+						ContactDialog.this.hide();
+						addressBook.reloadContacts();
+					}
+				} );
 			}
 		} );
 		panel.add( deleteButton );
@@ -271,7 +275,7 @@ public class ContactDialog
 	//
 	//
 
-	void loadCommunications( final FlexTable table, final Contact contact )
+	void reloadCommunications( final AddressBook addressBook, final FlexTable table, final Contact contact )
 	{
 		Set<Communication> communications = contact.getCommunications();
 
@@ -296,11 +300,14 @@ public class ContactDialog
 				{
 					public void onClick( Widget sender )
 					{
-						if ( Window.confirm( "Sure you want to delete this communication?" ) )
+						if ( addressBook.getPanel() instanceof RootPanel )
 						{
-							contact.removeCommunication( communication );
-							loadCommunications( table, contact );
+							if ( !Window.confirm( "Sure you want to delete this communication?" ) )
+								return;
 						}
+
+						contact.removeCommunication( communication );
+						reloadCommunications( addressBook, table, contact );
 					}
 				} );
 				deleteButton.setVisible( false );
