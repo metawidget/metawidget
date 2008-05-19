@@ -17,12 +17,10 @@
 package org.metawidget.test.shared.allwidgets.model;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
-import org.metawidget.util.CollectionUtils;
 
 /**
  * Models an entity that showcases all available widgets.
@@ -116,13 +114,18 @@ public class AllWidgets
 
 	private NestedWidgets		mReadOnlyNestedWidgetsDontExpand	= new NestedWidgets();
 
-	private Date				mDate								= new GregorianCalendar( 1975, Calendar.APRIL, 9, 1, 0, 0 ).getTime();
+	/**
+	 * Use a deprecated API to avoid a dependency on java.util.Calendar, which GWT doesn't currently support.
+	 */
+
+	@SuppressWarnings( "deprecation" )
+	private Date				mDate								= new Date( 1975, 3, 9, 1, 0, 0 );
 
 	private String				mHidden								= "Hidden";
 
 	private String				mReadOnly							= "Read Only";
 
-	private Collection<String>	mCollection							= CollectionUtils.unmodifiableList( "element1", "element2" );
+	private Collection<String>	mCollection							= new ArrayList<String>( Arrays.asList( "element1", "element2" ) );
 
 	//
 	//

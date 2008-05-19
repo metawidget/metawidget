@@ -14,22 +14,32 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.shared.allwidgets.model;
+package org.metawidget.test.gwt.allwidgets.client.converter;
+
+import org.metawidget.gwt.client.binding.simple.Converter;
+
+import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Models a proxied entity.
- *
  * @author Richard Kennard
  */
 
-public class AllWidgets_$$_javassist_1
-	extends AllWidgets
+public class CharacterConverter
+	extends Converter<Character>
 {
 	//
 	//
-	// Private statics
+	// Public methods
 	//
 	//
 
-	private final static long	serialVersionUID	= 2905633368701428102L;
+
+	@Override
+	public Character convertFromWidget( Widget widget, Object value, Class<?> type )
+	{
+		if ( value == null || "".equals( value ))
+			return null;
+
+		return ((String) value).charAt( 0 );
+	}
 }

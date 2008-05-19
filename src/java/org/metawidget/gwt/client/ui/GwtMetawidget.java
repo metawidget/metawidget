@@ -21,7 +21,6 @@ import static org.metawidget.util.StringUtils.*;
 
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -262,6 +261,11 @@ public class GwtMetawidget
 		if ( widget instanceof TextArea )
 			return ( (TextArea) widget ).getText();
 
+		// CheckBox
+
+		if ( widget instanceof CheckBox )
+			return ((CheckBox) widget).isChecked();
+
 		// ListBox
 
 		if ( widget instanceof ListBox )
@@ -324,6 +328,14 @@ public class GwtMetawidget
 		{
 			if ( value != null )
 				( (TextArea) widget ).setText( String.valueOf( value ) );
+			return;
+		}
+
+		// CheckBox
+
+		if ( widget instanceof CheckBox )
+		{
+			((CheckBox) widget).setChecked( (Boolean) value );
 			return;
 		}
 
@@ -665,7 +677,7 @@ public class GwtMetawidget
 		if ( type == null || "".equals( type ) )
 			return new Label();
 
-		if ( GwtUtils.isPrimitive( type ) )
+		if ( GwtUtils.isPrimitive( type ) || GwtUtils.isPrimitiveWrapper( type ))
 			return new Label();
 
 		if ( String.class.getName().equals( type ) )
@@ -674,15 +686,9 @@ public class GwtMetawidget
 		if ( Date.class.getName().equals( type ) )
 			return new Label();
 
-		if ( Boolean.class.getName().equals( type ) )
-			return new Label();
+		// Collections
 
-		// if ( Number.class.isAssignableFrom( clazz ) )
-		// return new Label();
-
-		// TODO: Collections
-
-		if ( HashSet.class.getName().equals( type ) )
+		if ( GwtUtils.isCollection( type ) )
 			return new FlexTable();
 
 		// Not simple, but don't expand
@@ -753,26 +759,28 @@ public class GwtMetawidget
 		if ( Date.class.getName().equals( type ) )
 			return new TextBox();
 
-		// Booleans (are tri-state)
-
-		if ( Boolean.class.getName().equals( type ) )
+		if ( GwtUtils.isPrimitiveWrapper( type ) )
 		{
-			ListBox listBox = new ListBox();
-			addListBoxItem( listBox, null, null );
-			addListBoxItem( listBox, "TRUE", "True" );
-			addListBoxItem( listBox, "FALSE", "False" );
+			// Booleans (are tri-state)
 
-			return listBox;
+			if ( Boolean.class.getName().equals( type ) )
+			{
+				ListBox listBox = new ListBox();
+				addListBoxItem( listBox, null, null );
+				addListBoxItem( listBox, "true", "True" );
+				addListBoxItem( listBox, "false", "False" );
+
+				return listBox;
+			}
+
+			// Numbers
+
+			return new TextBox();
 		}
-
-		// Numbers
-
-		// if ( Number.class.isAssignableFrom( type ) )
-		// return new TextBox();
 
 		// Collections
 
-		if ( HashSet.class.getName().equals( type ) )
+		if ( GwtUtils.isCollection( type ) )
 			return new FlexTable();
 
 		// Nested Metawidget

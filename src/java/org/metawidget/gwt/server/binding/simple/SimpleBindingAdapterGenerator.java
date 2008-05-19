@@ -95,7 +95,9 @@ public class SimpleBindingAdapterGenerator
 
 	private final static int	WRITE_TYPE_GETTER		= 1;
 
-	private final static int	WRITE_SETTER			= 2;
+	private final static int	WRITE_IS_READ_ONLY		= 2;
+
+	private final static int	WRITE_SETTER			= 3;
 
 	//
 	//
@@ -188,6 +190,26 @@ public class SimpleBindingAdapterGenerator
 			// Write subtypes
 
 			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_TYPE_GETTER );
+
+			sourceWriter.outdent();
+			sourceWriter.println( "}" );
+
+			// isPropertyReadOnly method
+
+			sourceWriter.println();
+			sourceWriter.println( "public boolean isPropertyReadOnly( " + classType.getQualifiedSourceName() + " " + variableName + ", String... property ) {" );
+			sourceWriter.indent();
+
+			// Sanity check
+
+			sourceWriter.println();
+			sourceWriter.println( "// Sanity check" );
+			sourceWriter.println();
+			sourceWriter.println( "if ( property == null || property.length == 0 ) throw new RuntimeException( \"No property specified\" );" );
+
+			// Write subtypes
+
+			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_IS_READ_ONLY );
 
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
@@ -328,8 +350,9 @@ public class SimpleBindingAdapterGenerator
 				{
 					String nestedVariableName = VARIABLE_NAME_PREFIX + nestedClassType.getSimpleSourceName();
 					sourceWriter.println( nestedClassType.getParameterizedQualifiedSourceName() + " " + nestedVariableName + " = " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );
+					String setterMethodName = "set" + propertyName;
 
-					switch( writeType )
+					switch ( writeType )
 					{
 						case WRITE_GETTER:
 							sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return " + nestedVariableName + ";" );
@@ -339,10 +362,21 @@ public class SimpleBindingAdapterGenerator
 							sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return " + getWrapperType( returnType ).getQualifiedSourceName() + ".class;" );
 							break;
 
+						case WRITE_IS_READ_ONLY:
+							try
+							{
+								classType.getMethod( setterMethodName, new JType[] { returnType } );
+								sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return false;" );
+							}
+							catch ( NotFoundException e )
+							{
+								sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return true;" );
+							}
+							break;
+
 						case WRITE_SETTER:
 							try
 							{
-								String setterMethodName = "set" + propertyName;
 								classType.getMethod( setterMethodName, new JType[] { returnType } );
 								sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) { " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + setterMethodName + "( (" + getWrapperType( returnType ).getParameterizedQualifiedSourceName() + ") value ); return; }" );
 							}
@@ -363,8 +397,9 @@ public class SimpleBindingAdapterGenerator
 			// ...or non-recursively
 
 			sourceWriter.println( "if ( property.length > " + nextPropertyIndex + " ) throw new RuntimeException( \"Cannot traverse into property '" + lowercasedPropertyName + ".\" + property[" + nextPropertyIndex + "] + \"'\" );" );
+			String setterMethodName = "set" + propertyName;
 
-			switch( writeType )
+			switch ( writeType )
 			{
 				case WRITE_GETTER:
 					sourceWriter.println( "return " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );
@@ -374,10 +409,21 @@ public class SimpleBindingAdapterGenerator
 					sourceWriter.println( "return " + getWrapperType( returnType ).getQualifiedSourceName() + ".class;" );
 					break;
 
+				case WRITE_IS_READ_ONLY:
+					try
+					{
+						classType.getMethod( setterMethodName, new JType[] { returnType } );
+						sourceWriter.println( "return false;" );
+					}
+					catch ( NotFoundException e )
+					{
+						sourceWriter.println( "return true;" );
+					}
+					break;
+
 				case WRITE_SETTER:
 					try
 					{
-						String setterMethodName = "set" + propertyName;
 						classType.getMethod( setterMethodName, new JType[] { returnType } );
 						sourceWriter.println( currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + setterMethodName + "( (" + getWrapperType( returnType ).getParameterizedQualifiedSourceName() + ") value );" );
 						sourceWriter.println( "return;" );

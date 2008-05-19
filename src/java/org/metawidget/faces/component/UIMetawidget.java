@@ -417,7 +417,7 @@ public abstract class UIMetawidget
 		{
 			Object toInspect = valueBinding.getValue( context );
 
-			if ( toInspect != null && !ClassUtils.isObjectPrimitive( toInspect.getClass() ) )
+			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) )
 				return inspect( inspector, toInspect );
 		}
 

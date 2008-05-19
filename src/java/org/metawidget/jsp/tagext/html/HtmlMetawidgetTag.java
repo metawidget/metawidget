@@ -165,7 +165,7 @@ public class HtmlMetawidgetTag
 
 			// Object primitives
 
-			if ( ClassUtils.isObjectPrimitive( clazz ) )
+			if ( ClassUtils.isPrimitiveWrapper( clazz ) )
 				return writeReadOnlyTag( attributes );
 
 			// Dates

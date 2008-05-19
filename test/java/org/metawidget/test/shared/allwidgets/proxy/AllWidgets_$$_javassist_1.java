@@ -14,15 +14,19 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.shared.allwidgets.model;
+package org.metawidget.test.shared.allwidgets.proxy;
+
+import org.metawidget.test.shared.allwidgets.model.AllWidgets;
 
 /**
  * Models a proxied entity.
+ * <p>
+ * As used by Struts' AllWidgetsForm.
  *
  * @author Richard Kennard
  */
 
-public class AllWidgets$$EnhancerByCGLIB$$1234
+public class AllWidgets_$$_javassist_1
 	extends AllWidgets
 {
 	//
@@ -31,5 +35,5 @@ public class AllWidgets$$EnhancerByCGLIB$$1234
 	//
 	//
 
-	private final static long	serialVersionUID	= -1909121870929363737L;
+	private final static long	serialVersionUID	= 2905633368701428102L;
 }

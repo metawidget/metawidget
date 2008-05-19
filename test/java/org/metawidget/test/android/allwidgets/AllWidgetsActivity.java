@@ -21,7 +21,7 @@ import java.text.ParseException;
 
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
-import org.metawidget.test.shared.allwidgets.model.AllWidgets_$$_javassist_1;
+import org.metawidget.test.shared.allwidgets.proxy.AllWidgets_$$_javassist_1;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.StringUtils;
 

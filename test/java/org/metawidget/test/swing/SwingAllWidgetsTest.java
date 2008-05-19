@@ -43,7 +43,7 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.beanutils.BeanUtilsBinding;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
-import org.metawidget.test.shared.allwidgets.model.AllWidgets$$EnhancerByCGLIB$$1234;
+import org.metawidget.test.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
 import org.metawidget.test.swing.allwidgets.converter.DateConverter;
 
 /**

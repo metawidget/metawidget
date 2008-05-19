@@ -14,43 +14,45 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.struts.allwidgets.form;
+package org.metawidget.test.gwt.allwidgets.client.converter;
 
-import org.apache.struts.action.ActionForm;
-import org.metawidget.test.shared.allwidgets.model.AllWidgets;
-import org.metawidget.test.shared.allwidgets.proxy.AllWidgets_$$_javassist_1;
+import org.metawidget.gwt.client.binding.simple.Converter;
+
+import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Richard Kennard
  */
 
-public class AllWidgetsForm
-	extends ActionForm
+public class BooleanConverter
+	extends Converter<Boolean>
 {
-	//
-	//
-	// Private statics
-	//
-	//
-
-	private final static long	serialVersionUID	= -873390607322732628L;
-
-	//
-	//
-	// Private members
-	//
-	//
-
-	private AllWidgets			mAllWidgets			= new AllWidgets_$$_javassist_1();
-
 	//
 	//
 	// Public methods
 	//
 	//
 
-	public AllWidgets getAllWidgets()
+
+	@Override
+	public Boolean convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
-		return mAllWidgets;
+		if ( widget instanceof CheckBox )
+			return (Boolean) value;
+
+		if ( value == null || "".equals( value ))
+			return null;
+
+		return Boolean.valueOf( (String) value );
+	}
+
+	@Override
+	public Object convertForWidget( Widget widget, Boolean value )
+	{
+		if ( widget instanceof CheckBox )
+			return value;
+
+		return super.convertForWidget( widget, value );
 	}
 }

@@ -36,9 +36,9 @@ public class ClassUtilsTest
 	public static void testObjectPrimitive()
 		throws Exception
 	{
-		assertTrue( ClassUtils.isObjectPrimitive( Long.class ) );
-		assertTrue( ClassUtils.isObjectPrimitive( Boolean.class ) );
-		assertTrue( !ClassUtils.isObjectPrimitive( String.class ) );
+		assertTrue( ClassUtils.isPrimitiveWrapper( Long.class ) );
+		assertTrue( ClassUtils.isPrimitiveWrapper( Boolean.class ) );
+		assertTrue( !ClassUtils.isPrimitiveWrapper( String.class ) );
 	}
 
 	public static void testProperties()

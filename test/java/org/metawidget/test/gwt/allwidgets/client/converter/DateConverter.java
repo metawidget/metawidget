@@ -14,34 +14,40 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.struts.allwidgets.form;
+package org.metawidget.test.gwt.allwidgets.client.converter;
 
-import org.apache.struts.action.ActionForm;
-import org.metawidget.test.shared.allwidgets.model.AllWidgets;
-import org.metawidget.test.shared.allwidgets.proxy.AllWidgets_$$_javassist_1;
+import java.util.Date;
+
+import org.metawidget.gwt.client.binding.simple.Converter;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Richard Kennard
  */
 
-public class AllWidgetsForm
-	extends ActionForm
+public class DateConverter
+	extends Converter<Date>
 {
-	//
-	//
-	// Private statics
-	//
-	//
-
-	private final static long	serialVersionUID	= -873390607322732628L;
-
 	//
 	//
 	// Private members
 	//
 	//
 
-	private AllWidgets			mAllWidgets			= new AllWidgets_$$_javassist_1();
+	private DateTimeFormat	mFormat;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public DateConverter()
+	{
+		mFormat = DateTimeFormat.getShortDateFormat();
+	}
 
 	//
 	//
@@ -49,8 +55,22 @@ public class AllWidgetsForm
 	//
 	//
 
-	public AllWidgets getAllWidgets()
+
+	@Override
+	public Date convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
-		return mAllWidgets;
+		if ( value == null || "".equals( value ))
+			return null;
+
+		return mFormat.parse( (String) value );
+	}
+
+	@Override
+	public Object convertForWidget( Widget widget, Date value )
+	{
+		if ( value == null )
+			return null;
+
+		return mFormat.format( value );
 	}
 }

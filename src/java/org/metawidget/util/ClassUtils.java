@@ -163,14 +163,14 @@ public final class ClassUtils
 	}
 
 	/**
-	 * Returns <code>true</code> if the given class is the Object-version of a primitive type (eg.
+	 * Returns <code>true</code> if the given class is the Object-wrapper of a primitive type (eg.
 	 * <code>Integer</code> for <code>int</code>).
 	 * <p>
 	 * We want to be able to distinguish these, because we can't usefully drill into them and may do
 	 * better to 'inspect from parent' (see <code>UIMetawidget</code>).
 	 */
 
-	public static boolean isObjectPrimitive( Class<?> clazz )
+	public static boolean isPrimitiveWrapper( Class<?> clazz )
 	{
 		if ( Number.class.isAssignableFrom( clazz ) )
 			return true;

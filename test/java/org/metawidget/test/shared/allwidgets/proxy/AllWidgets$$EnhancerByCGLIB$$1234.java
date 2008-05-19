@@ -14,18 +14,20 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.struts.allwidgets.form;
+package org.metawidget.test.shared.allwidgets.proxy;
 
-import org.apache.struts.action.ActionForm;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
-import org.metawidget.test.shared.allwidgets.proxy.AllWidgets_$$_javassist_1;
 
 /**
+ * Models a proxied entity.
+ * <p>
+ * As used by SwingAllWidgetsTest.
+ *
  * @author Richard Kennard
  */
 
-public class AllWidgetsForm
-	extends ActionForm
+public class AllWidgets$$EnhancerByCGLIB$$1234
+	extends AllWidgets
 {
 	//
 	//
@@ -33,24 +35,5 @@ public class AllWidgetsForm
 	//
 	//
 
-	private final static long	serialVersionUID	= -873390607322732628L;
-
-	//
-	//
-	// Private members
-	//
-	//
-
-	private AllWidgets			mAllWidgets			= new AllWidgets_$$_javassist_1();
-
-	//
-	//
-	// Public methods
-	//
-	//
-
-	public AllWidgets getAllWidgets()
-	{
-		return mAllWidgets;
-	}
+	private final static long	serialVersionUID	= -1909121870929363737L;
 }

@@ -1,0 +1,19 @@
+<module>
+
+	<!-- Core GWT -->
+	
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name='org.metawidget.gwt.GwtMetawidget' />
+	<inherits name='org.metawidget.test.shared.allwidgets.AllWidgetsModel' />
+
+	<!-- Client -->
+	
+	<entry-point class='org.metawidget.test.gwt.allwidgets.client.ui.AllWidgets' />
+
+	<!-- Binding -->
+	
+  	<generate-with class="org.metawidget.gwt.server.binding.simple.SimpleBindingAdapterGenerator">
+		<when-type-assignable class="org.metawidget.test.shared.allwidgets.model.AllWidgets"/>
+	</generate-with>
+	
+</module>

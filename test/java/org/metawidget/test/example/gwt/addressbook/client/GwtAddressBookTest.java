@@ -1,7 +1,7 @@
 package org.metawidget.test.example.gwt.addressbook.client;
 
 import org.metawidget.example.gwt.addressbook.client.rpc.ContactsServiceAsync;
-import org.metawidget.example.gwt.addressbook.client.ui.AddressBook;
+import org.metawidget.example.gwt.addressbook.client.ui.AddressBookModule;
 import org.metawidget.example.gwt.addressbook.client.ui.ContactDialog;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactType;
@@ -53,8 +53,8 @@ public class GwtAddressBookTest
 		// Start app
 
 		FlowPanel panel = new FlowPanel();
-		final AddressBook addressBook = new AddressBook( panel );
-		addressBook.onModuleLoad();
+		final AddressBookModule addressBookModule = new AddressBookModule( panel );
+		addressBookModule.onModuleLoad();
 
 		// Check searching
 
@@ -86,7 +86,7 @@ public class GwtAddressBookTest
 
 						// Open dialog for Personal Contact
 
-						final ContactsServiceAsync contactsService = addressBook.getContactsService();
+						final ContactsServiceAsync contactsService = addressBookModule.getContactsService();
 
 						contactsService.load( 1, new AsyncCallback<Contact>()
 						{
@@ -97,7 +97,7 @@ public class GwtAddressBookTest
 
 							public void onSuccess( final Contact personalContact )
 							{
-								final ContactDialog dialog = new ContactDialog( addressBook, personalContact );
+								final ContactDialog dialog = new ContactDialog( addressBookModule, personalContact );
 								final GwtMetawidget contactMetawidget = (GwtMetawidget) ( (Grid) dialog.getWidget() ).getWidget( 0, 1 );
 
 								Timer timerPersonalContact = new Timer()
@@ -202,14 +202,14 @@ public class GwtAddressBookTest
 		// Start app
 
 		final FlowPanel panel = new FlowPanel();
-		final AddressBook addressBook = new AddressBook( panel );
-		addressBook.onModuleLoad();
+		final AddressBookModule addressBookModule = new AddressBookModule( panel );
+		addressBookModule.onModuleLoad();
 
 		final FlexTable contacts = (FlexTable) panel.getWidget( 1 );
 
 		// Open dialog for Business Contact
 
-		final ContactsServiceAsync contactsService = addressBook.getContactsService();
+		final ContactsServiceAsync contactsService = addressBookModule.getContactsService();
 
 		contactsService.load( 6, new AsyncCallback<Contact>()
 		{
@@ -220,7 +220,7 @@ public class GwtAddressBookTest
 
 			public void onSuccess( final Contact businessContact )
 			{
-				final ContactDialog dialog = new ContactDialog( addressBook, businessContact );
+				final ContactDialog dialog = new ContactDialog( addressBookModule, businessContact );
 				final GwtMetawidget contactMetawidget = (GwtMetawidget) ( (Grid) dialog.getWidget() ).getWidget( 0, 1 );
 
 				Timer timerBusinessContact = new Timer()
@@ -266,7 +266,7 @@ public class GwtAddressBookTest
 									{
 										assertTrue( "Mobile: (0402) 123 456".equals( contacts.getText( 1, 1 )));
 
-										final ContactDialog dialogDelete = new ContactDialog( addressBook, businessContact );
+										final ContactDialog dialogDelete = new ContactDialog( addressBookModule, businessContact );
 										final GwtMetawidget deleteContactMetawidget = (GwtMetawidget) ( (Grid) dialogDelete.getWidget() ).getWidget( 0, 1 );
 
 										Timer timerBusinessContactDelete = new Timer()

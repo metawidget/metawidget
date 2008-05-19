@@ -48,7 +48,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Richard Kennard
  */
 
-public class AddressBook
+public class AddressBookModule
 	implements EntryPoint
 {
 	//
@@ -71,12 +71,12 @@ public class AddressBook
 	//
 	//
 
-	public AddressBook()
+	public AddressBookModule()
 	{
 		this( RootPanel.get() );
 	}
 
-	public AddressBook( Panel panel )
+	public AddressBookModule( Panel panel )
 	{
 		mPanel = panel;
 	}
@@ -128,7 +128,7 @@ public class AddressBook
 
 							public void onSuccess( Contact contact )
 							{
-								new ContactDialog( AddressBook.this, contact ).show();
+								new ContactDialog( AddressBookModule.this, contact ).show();
 							}
 						} );
 					}
@@ -140,7 +140,6 @@ public class AddressBook
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setToInspect( mContactSearch );
-		metawidget.buildWidgets();
 
 		// Embedded buttons
 
@@ -180,7 +179,7 @@ public class AddressBook
 			public void onClick( Widget sender )
 			{
 				Contact contact = new PersonalContact();
-				new ContactDialog( AddressBook.this, contact ).show();
+				new ContactDialog( AddressBookModule.this, contact ).show();
 			}
 		} );
 		panel.add( addPersonalButton );
@@ -191,10 +190,12 @@ public class AddressBook
 			public void onClick( Widget sender )
 			{
 				Contact contact = new BusinessContact();
-				new ContactDialog( AddressBook.this, contact ).show();
+				new ContactDialog( AddressBookModule.this, contact ).show();
 			}
 		} );
 		panel.add( addBusinessButton );
+
+		metawidget.buildWidgets();
 
 		// Add to either RootPanel or the given Panel (for unit tests)
 

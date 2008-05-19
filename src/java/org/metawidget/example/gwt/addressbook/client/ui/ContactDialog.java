@@ -61,7 +61,7 @@ public class ContactDialog
 	//
 	//
 
-	public ContactDialog( final AddressBook addressBook, final Contact contact )
+	public ContactDialog( final AddressBookModule addressBookModule, final Contact contact )
 	{
 		setStyleName( "contact-dialog" );
 		setPopupPosition( 100, 50 );
@@ -158,7 +158,7 @@ public class ContactDialog
 				communicationToAdd.setValue( (String) valueMetawidget.getValue( "value" ));
 
 				contact.addCommunication( communicationToAdd );
-				reloadCommunications( addressBook, communications, contact );
+				reloadCommunications( addressBookModule, communications, contact );
 
 				typeMetawidget.setValue( "", "type" );
 				valueMetawidget.setValue( "", "value" );
@@ -167,7 +167,7 @@ public class ContactDialog
 		communications.setWidget( 1, 2, addButton );
 		addButton.setVisible( !metawidget.isReadOnly() );
 
-		reloadCommunications( addressBook, communications, contact );
+		reloadCommunications( addressBookModule, communications, contact );
 
 		// Embedded buttons
 
@@ -185,7 +185,7 @@ public class ContactDialog
 			{
 				metawidget.save();
 
-				addressBook.getContactsService().save( contact, new AsyncCallback<Object>()
+				addressBookModule.getContactsService().save( contact, new AsyncCallback<Object>()
 				{
 					public void onFailure( Throwable caught )
 					{
@@ -195,7 +195,7 @@ public class ContactDialog
 					public void onSuccess( Object result )
 					{
 						ContactDialog.this.hide();
-						addressBook.reloadContacts();
+						addressBookModule.reloadContacts();
 					}
 				} );
 			}
@@ -207,13 +207,13 @@ public class ContactDialog
 		{
 			public void onClick( Widget sender )
 			{
-				if ( addressBook.getPanel() instanceof RootPanel )
+				if ( addressBookModule.getPanel() instanceof RootPanel )
 				{
 					if ( !Window.confirm( "Sure you want to delete this contact?" ) )
 						return;
 				}
 
-				addressBook.getContactsService().delete( contact, new AsyncCallback<Boolean>()
+				addressBookModule.getContactsService().delete( contact, new AsyncCallback<Boolean>()
 				{
 					public void onFailure( Throwable caught )
 					{
@@ -223,7 +223,7 @@ public class ContactDialog
 					public void onSuccess( Boolean result )
 					{
 						ContactDialog.this.hide();
-						addressBook.reloadContacts();
+						addressBookModule.reloadContacts();
 					}
 				} );
 			}
@@ -275,7 +275,7 @@ public class ContactDialog
 	//
 	//
 
-	void reloadCommunications( final AddressBook addressBook, final FlexTable table, final Contact contact )
+	void reloadCommunications( final AddressBookModule addressBook, final FlexTable table, final Contact contact )
 	{
 		Set<Communication> communications = contact.getCommunications();
 

@@ -20,8 +20,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NamedNodeMap;
@@ -90,13 +92,59 @@ public final class GwtUtils
 		return false;
 	}
 
+	public static boolean isPrimitiveWrapper( String className )
+	{
+		if ( Byte.class.getName().equals( className ) || Short.class.getName().equals( className ) )
+			return true;
+
+		if ( Integer.class.getName().equals( className ) || Long.class.getName().equals( className ) )
+			return true;
+
+		if ( Float.class.getName().equals( className ) || Double.class.getName().equals( className ) )
+			return true;
+
+		if ( Boolean.class.getName().equals( className ) )
+			return true;
+
+		if ( Character.class.getName().equals( className ) )
+			return true;
+
+		return false;
+	}
+
+	public static boolean isCollection( String className )
+	{
+		if ( Collection.class.getName().equals( className ))
+			return true;
+
+		if ( List.class.getName().equals( className ))
+			return true;
+
+		if ( ArrayList.class.getName().equals( className ))
+			return true;
+
+		if ( Set.class.getName().equals( className ))
+			return true;
+
+		if ( HashSet.class.getName().equals( className ))
+			return true;
+
+		if ( Map.class.getName().equals( className ))
+			return true;
+
+		if ( HashMap.class.getName().equals( className ))
+			return true;
+
+		return false;
+	}
+
 	/**
 	 * Splits and trims a list of Strings.
 	 */
 
 	public static List<String> fromString( String collection, char separator )
 	{
-		if ( collection == null )
+		if ( collection == null || "".equals( collection ))
 		{
 			// (use Collections.EMPTY_LIST, not Collections.emptyList, so that we're 1.4 compatible)
 

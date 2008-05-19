@@ -221,7 +221,7 @@ public class HtmlMetawidget
 
 			// Object primitives
 
-			if ( ClassUtils.isObjectPrimitive( clazz ) )
+			if ( ClassUtils.isPrimitiveWrapper( clazz ) )
 				return createReadOnlyComponent( attributes );
 
 			// Dates

@@ -131,6 +131,9 @@ public class SimpleBinding
 		{
 			getMetawidget().setValue( value, widget );
 
+			if ( adapter.isPropertyReadOnly( toInspect, names ))
+				return;
+
 			if ( mBindings == null )
 				mBindings = new HashSet<Object[]>();
 
