@@ -53,7 +53,12 @@ public class EnumConverter<T extends Enum<T>>
 	@Override
 	public Object convertForward( T anEnum )
 	{
-		// TODO: does this even get executed? Or do the lookups take over?
+		// The enum will have been converted to its '.name' by Java5Inspector when
+		// it creates lookup values and labels. This means we must also convert the
+		// enum to its '.name' during binding.
+		//
+		// The alternative to this is to have the Metawidgets deal with enums directly, but
+		// that is less desirable because it ties the Metawidgets to a Java 5 platform
 
 		return anEnum.name();
 	}
