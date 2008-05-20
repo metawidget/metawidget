@@ -29,6 +29,7 @@ import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -92,9 +93,9 @@ public class SimpleBinding
 	@Override
 	public void bind( Widget widget, String... names )
 	{
-		// SimpleBinding doesn't bind to Stubs
+		// SimpleBinding doesn't bind to Stubs or FlexTables
 
-		if ( widget instanceof Stub )
+		if ( widget instanceof Stub || widget instanceof FlexTable )
 			return;
 
 		Object toInspect = getMetawidget().getToInspect();

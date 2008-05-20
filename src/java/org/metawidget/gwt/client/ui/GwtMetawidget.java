@@ -44,7 +44,6 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.ScrollPanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
@@ -663,7 +662,7 @@ public class GwtMetawidget
 		// Masked (return a Panel, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
-			return new ScrollPanel();
+			return new Stub();
 
 		String type = attributes.get( TYPE );
 
@@ -723,6 +722,16 @@ public class GwtMetawidget
 			if ( "boolean".equals( type ) )
 				return new CheckBox();
 
+			// chars
+
+			if ( "char".equals( type ) )
+			{
+				TextBox textbox = new TextBox();
+				textbox.setMaxLength( 1 );
+
+				return textbox;
+			}
+
 			// Everything else
 
 			return new TextBox();
@@ -751,7 +760,14 @@ public class GwtMetawidget
 			if ( TRUE.equals( attributes.get( LARGE ) ) )
 				return new TextArea();
 
-			return new TextBox();
+			TextBox textBox = new TextBox();
+
+			String maximumLength = attributes.get( MAXIMUM_LENGTH );
+
+			if ( maximumLength != null && !"".equals( maximumLength ))
+				textBox.setMaxLength( Integer.parseInt( maximumLength ));
+
+			return textBox;
 		}
 
 		// Dates
@@ -771,6 +787,16 @@ public class GwtMetawidget
 				addListBoxItem( listBox, "false", "False" );
 
 				return listBox;
+			}
+
+			// Characters
+
+			if ( Character.class.getName().equals( type ) )
+			{
+				TextBox textbox = new TextBox();
+				textbox.setMaxLength( 1 );
+
+				return textbox;
 			}
 
 			// Numbers
