@@ -8,7 +8,7 @@
 
 	<!-- Client -->
 	
-	<entry-point class='org.metawidget.example.gwt.addressbook.client.ui.AddressBook' />
+	<entry-point class='org.metawidget.example.gwt.addressbook.client.ui.AddressBookModule' />
 
 	<!-- Server -->
 	

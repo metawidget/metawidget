@@ -686,7 +686,7 @@ public class SwingMetawidget
 		super.addImpl( component, constraints, index );
 	}
 
-	public void buildWidgets()
+	protected void buildWidgets()
 	{
 		// No need to build?
 
@@ -698,7 +698,11 @@ public class SwingMetawidget
 
 		try
 		{
-			mMixin.buildWidgets();
+			mMixin.buildWidgets( inspect() );
+		}
+		catch ( Exception e )
+		{
+			throw MetawidgetException.newException( e );
 		}
 		finally
 		{
@@ -784,7 +788,7 @@ public class SwingMetawidget
 		return component;
 	}
 
-	public JComponent buildReadOnlyWidget( Map<String, String> attributes )
+	protected JComponent buildReadOnlyWidget( Map<String, String> attributes )
 		throws Exception
 	{
 		// Hidden
@@ -868,7 +872,7 @@ public class SwingMetawidget
 		return createMetawidget( attributes );
 	}
 
-	public JComponent buildActiveWidget( Map<String, String> attributes )
+	protected JComponent buildActiveWidget( Map<String, String> attributes )
 		throws Exception
 	{
 		// Hidden
@@ -1216,7 +1220,7 @@ public class SwingMetawidget
 	{
 		//
 		//
-		// Public methods
+		// Protected methods
 		//
 		//
 
@@ -1225,12 +1229,6 @@ public class SwingMetawidget
 			throws Exception
 		{
 			SwingMetawidget.this.startBuild();
-		}
-
-		@Override
-		protected Document inspect()
-		{
-			return SwingMetawidget.this.inspect();
 		}
 
 		@Override
@@ -1258,12 +1256,9 @@ public class SwingMetawidget
 		}
 
 		@Override
-		protected void buildCompoundWidget( Element element )
-			throws Exception
+		protected void beforeBuildCompoundWidget( Element element )
 		{
 			SwingMetawidget.this.beforeBuildCompoundWidget();
-
-			super.buildCompoundWidget( element );
 		}
 
 		@Override

@@ -2,7 +2,6 @@
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="path" scope="request" value="${pageContext.request.servletPath}"/>
-<c:set var="context" scope="request" value="${pageContext.request.contextPath}"/>
 		
 		<div id="logo">
 			<h1><a href="${context}/index.html">Metawidget</a></h1>

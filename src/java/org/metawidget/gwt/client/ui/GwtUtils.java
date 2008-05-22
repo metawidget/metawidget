@@ -25,10 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.NamedNodeMap;
-import com.google.gwt.xml.client.Node;
-
 /**
  * Utilities for working with Google Web Toolkit.
  * <p>
@@ -47,30 +43,6 @@ public final class GwtUtils
 	// Public statics
 	//
 	//
-
-	public static Map<String, String> getAttributesAsMap( Element element )
-	{
-		NamedNodeMap nodes = element.getAttributes();
-
-		int length = nodes.getLength();
-
-		if ( length == 0 )
-		{
-			@SuppressWarnings( { "cast", "unchecked" })
-			Map<String, String> empty = (Map<String, String>) Collections.EMPTY_MAP;
-			return empty;
-		}
-
-		Map<String, String> attributes = new HashMap<String, String>( length );
-
-		for ( int loop = 0; loop < length; loop++ )
-		{
-			Node node = nodes.item( loop );
-			attributes.put( node.getNodeName(), node.getNodeValue() );
-		}
-
-		return attributes;
-	}
 
 	public static boolean isPrimitive( String className )
 	{

@@ -19,12 +19,12 @@ package org.metawidget.gwt.client.ui;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.util.StringUtils.*;
 
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.gwt.client.binding.Binding;
 import org.metawidget.gwt.client.binding.BindingFactory;
 import org.metawidget.gwt.client.inspector.GwtInspector;
@@ -34,6 +34,7 @@ import org.metawidget.gwt.client.inspector.remote.GwtRemoteInspectorProxy;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.ui.layout.LayoutFactory;
+import org.metawidget.impl.base.BaseMetawidgetMixin;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
@@ -50,8 +51,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.WidgetCollection;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
-import com.google.gwt.xml.client.NodeList;
 
 /**
  * Metawidget for GWT environments.
@@ -103,8 +104,6 @@ public class GwtMetawidget
 
 	private boolean							mNeedToBuildWidgets;
 
-	private boolean							mReadOnly;
-
 	private Map<String, Widget>				mWidgetNames;
 
 	private Map<String, Stub>				mStubs			= new HashMap<String, Stub>();
@@ -120,6 +119,8 @@ public class GwtMetawidget
 	String									mPath;
 
 	String[]								mNamesPrefix;
+
+	GwtMetawidgetMixin						mMixin			= new GwtMetawidgetMixin();
 
 	//
 	//
@@ -177,13 +178,13 @@ public class GwtMetawidget
 
 	public void setReadOnly( boolean readOnly )
 	{
-		mReadOnly = readOnly;
+		mMixin.setReadOnly( readOnly );
 		invalidateWidgets();
 	}
 
 	public boolean isReadOnly()
 	{
-		return mReadOnly;
+		return mMixin.isReadOnly();
 	}
 
 	/**
@@ -263,7 +264,7 @@ public class GwtMetawidget
 		// CheckBox
 
 		if ( widget instanceof CheckBox )
-			return ((CheckBox) widget).isChecked();
+			return ( (CheckBox) widget ).isChecked();
 
 		// ListBox
 
@@ -334,7 +335,7 @@ public class GwtMetawidget
 
 		if ( widget instanceof CheckBox )
 		{
-			((CheckBox) widget).setChecked( (Boolean) value );
+			( (CheckBox) widget ).setChecked( (Boolean) value );
 			return;
 		}
 
@@ -369,9 +370,6 @@ public class GwtMetawidget
 
 	/**
 	 * Saves the values from the binding back to the object being inspected.
-	 *
-	 * @throws MetawidgetException
-	 *             if no binding configured
 	 */
 
 	// Note: this method avoids having to expose a getBinding() method, which is handy
@@ -442,113 +440,11 @@ public class GwtMetawidget
 		mNeedToBuildWidgets = true;
 	}
 
-	public void buildWidgets()
-	{
-		// No need to build?
-
-		if ( !mNeedToBuildWidgets )
-			return;
-
-		mNeedToBuildWidgets = false;
-
-		// Inspect
-
-		if ( mInspector == null )
-			mInspector = ( (GwtInspectorFactory) GWT.create( GwtInspectorFactory.class ) ).newInspector( mInspectorClass );
-
-		Object[] typeAndNames = GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR );
-		String type = (String) typeAndNames[0];
-		String[] names = (String[]) typeAndNames[1];
-
-		// Special support for GwtInspectorAsync
-
-		if ( mInspector instanceof GwtInspectorAsync )
-		{
-			( (GwtInspectorAsync) mInspector ).inspect( mToInspect, type, names, new AsyncCallback<Document>()
-			{
-				public void onFailure( Throwable caught )
-				{
-					Window.alert( caught.getMessage() );
-				}
-
-				public void onSuccess( Document document )
-				{
-					buildWidgets( document );
-				}
-			} );
-		}
-
-		// Regular GwtInspectors
-
-		else
-		{
-			try
-			{
-				Document document = mInspector.inspect( mToInspect, type, names );
-				buildWidgets( document );
-			}
-			catch ( Exception e )
-			{
-				Window.alert( e.getMessage() );
-			}
-		}
-	}
-
 	//
 	//
-	// Protected methods. This methods are all equivalent to
-	// those in MetawidgetMixin, but GwtMetawidget doesn't use MetawidgetMixin
-	// because a) that uses 'org.w3c.dom' and b) GwtMetawidget doesn't use
-	// any files from outside the 'org.metawidget.gwt.client' folder
+	// Protected methods
 	//
 	//
-
-	public void buildWidgets( Document document )
-	{
-		try
-		{
-			if ( document != null )
-			{
-				startBuild();
-
-				// Build simple widget (from the top-level element)
-
-				Element element = (Element) document.getDocumentElement().getFirstChild();
-				Map<String, String> attributes = GwtUtils.getAttributesAsMap( element );
-
-				Widget widget = buildWidget( attributes );
-
-				if ( widget != null )
-				{
-					// If the returned widget is itself a Metawidget, it must have
-					// the same path as us. In that case, DON'T use it, as that would
-					// be infinite recursion
-
-					if ( !( widget instanceof GwtMetawidget ) )
-					{
-						addWidget( widget, attributes );
-					}
-
-					// Failing that, build a compound widget (from our child elements)
-
-					else
-					{
-						mNamesPrefix = (String[]) GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR )[1];
-
-						buildCompoundWidget( element );
-					}
-				}
-			}
-
-			// Even if no inspectors match, we still call endBuild()
-
-			endBuild();
-		}
-		catch ( Exception e )
-		{
-			throw new RuntimeException( e );
-		}
-	}
 
 	protected void startBuild()
 		throws Exception
@@ -567,78 +463,6 @@ public class GwtMetawidget
 			mBinding = ( (BindingFactory) GWT.create( BindingFactory.class ) ).newBinding( mBindingClass, this );
 	}
 
-	protected void buildCompoundWidget( Element element )
-		throws Exception
-	{
-		NodeList children = element.getChildNodes();
-
-		for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
-		{
-			Node node = children.item( loop );
-
-			if ( !( node instanceof Element ) )
-				continue;
-
-			Element child = (Element) node;
-			String childName = child.getAttribute( "name" );
-
-			if ( childName == null || "".equals( childName ) )
-				throw new RuntimeException( "Child element #" + loop + " of '" + element.getAttribute( "type" ) + "' has no @name" );
-
-			Map<String, String> attributes = GwtUtils.getAttributesAsMap( child );
-
-			Widget widget = getOverridenWidget( attributes );
-
-			if ( widget == null )
-			{
-				widget = buildWidget( attributes );
-
-				if ( widget == null )
-					continue;
-
-				if ( widget instanceof GwtMetawidget )
-					widget = initMetawidget( (GwtMetawidget) widget, attributes );
-			}
-			else
-			{
-				attributes.putAll( getStubAttributes( widget ) );
-			}
-
-			addWidget( widget, attributes );
-		}
-	}
-
-	protected boolean isReadOnly( Map<String, String> attributes )
-	{
-		if ( "true".equals( attributes.get( "read-only" ) ) )
-			return true;
-
-		return mReadOnly;
-	}
-
-	protected Widget buildWidget( Map<String, String> attributes )
-		throws Exception
-	{
-		if ( isReadOnly( attributes ) )
-			return buildReadOnlyWidget( attributes );
-
-		return buildActiveWidget( attributes );
-	}
-
-	protected Widget initMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
-		throws Exception
-	{
-		metawidget.setPath( mPath + '/' + attributes.get( NAME ) );
-		metawidget.setLayoutClass( mLayoutClass );
-		metawidget.setBindingClass( mBindingClass );
-		metawidget.setReadOnly( mReadOnly );
-		metawidget.setToInspect( mToInspect );
-
-		metawidget.buildWidgets();
-
-		return metawidget;
-	}
-
 	protected Widget getOverridenWidget( Map<String, String> attributes )
 	{
 		String name = attributes.get( NAME );
@@ -646,9 +470,9 @@ public class GwtMetawidget
 		return mStubs.get( name );
 	}
 
-	protected Map<String, String> getStubAttributes( Widget stub )
+	protected void beforeBuildCompoundWidget()
 	{
-		return ( (Stub) stub ).getAttributes();
+		mNamesPrefix = (String[]) GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR )[1];
 	}
 
 	protected Widget buildReadOnlyWidget( Map<String, String> attributes )
@@ -676,7 +500,7 @@ public class GwtMetawidget
 		if ( type == null || "".equals( type ) )
 			return new Label();
 
-		if ( GwtUtils.isPrimitive( type ) || GwtUtils.isPrimitiveWrapper( type ))
+		if ( GwtUtils.isPrimitive( type ) || GwtUtils.isPrimitiveWrapper( type ) )
 			return new Label();
 
 		if ( String.class.getName().equals( type ) )
@@ -764,8 +588,8 @@ public class GwtMetawidget
 
 			String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
-			if ( maximumLength != null && !"".equals( maximumLength ))
-				textBox.setMaxLength( Integer.parseInt( maximumLength ));
+			if ( maximumLength != null && !"".equals( maximumLength ) )
+				textBox.setMaxLength( Integer.parseInt( maximumLength ) );
 
 			return textBox;
 		}
@@ -814,15 +638,6 @@ public class GwtMetawidget
 		return createMetawidget();
 	}
 
-	/**
-	 * Subclasses should override to instantiate their own flavour of GwtMetawidget.
-	 */
-
-	protected GwtMetawidget createMetawidget()
-	{
-		return new GwtMetawidget();
-	}
-
 	protected void addWidget( Widget widget, Map<String, String> attributes )
 		throws Exception
 	{
@@ -844,6 +659,85 @@ public class GwtMetawidget
 		}
 	}
 
+	public void buildWidgets()
+	{
+		// No need to build?
+
+		if ( !mNeedToBuildWidgets )
+			return;
+
+		mNeedToBuildWidgets = false;
+
+		// Inspect
+
+		if ( mInspector == null )
+			mInspector = ( (GwtInspectorFactory) GWT.create( GwtInspectorFactory.class ) ).newInspector( mInspectorClass );
+
+		Object[] typeAndNames = GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR );
+		String type = (String) typeAndNames[0];
+		String[] names = (String[]) typeAndNames[1];
+
+		// Special support for GwtInspectorAsync
+
+		if ( mInspector instanceof GwtInspectorAsync )
+		{
+			( (GwtInspectorAsync) mInspector ).inspect( mToInspect, type, names, new AsyncCallback<Document>()
+			{
+				public void onFailure( Throwable caught )
+				{
+					Window.alert( caught.getMessage() );
+				}
+
+				public void onSuccess( Document document )
+				{
+					try
+					{
+						mMixin.buildWidgets( document );
+					}
+					catch ( Exception e )
+					{
+						throw new RuntimeException( e );
+					}
+				}
+			} );
+		}
+
+		// Regular GwtInspectors
+
+		else
+		{
+			try
+			{
+				Document document = mInspector.inspect( mToInspect, type, names );
+				mMixin.buildWidgets( document );
+			}
+			catch ( Exception e )
+			{
+				Window.alert( e.getMessage() );
+			}
+		}
+	}
+
+	/**
+	 * Subclasses should override to instantiate their own flavour of GwtMetawidget.
+	 */
+
+	protected GwtMetawidget createMetawidget()
+	{
+		return new GwtMetawidget();
+	}
+
+	protected Widget initMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
+		throws Exception
+	{
+		metawidget.setPath( mPath + '/' + attributes.get( NAME ) );
+		metawidget.setLayoutClass( mLayoutClass );
+		metawidget.setBindingClass( mBindingClass );
+		metawidget.setToInspect( mToInspect );
+
+		return metawidget;
+	}
+
 	protected void endBuild()
 		throws Exception
 	{
@@ -852,11 +746,156 @@ public class GwtMetawidget
 
 	//
 	//
-	// Other protected methods
+	// Inner class
 	//
 	//
 
-	protected void addListBoxItems( ListBox listBox, List<String> values, List<String> labels, Map<String, String> attributes )
+	protected class GwtMetawidgetMixin
+		extends BaseMetawidgetMixin<Widget, Document, Element, Node>
+	{
+		//
+		//
+		// Protected methods
+		//
+		//
+
+		@Override
+		protected void startBuild()
+			throws Exception
+		{
+			GwtMetawidget.this.startBuild();
+		}
+
+		@Override
+		protected Widget initMetawidget( Widget widget, Map<String, String> attributes )
+			throws Exception
+		{
+			GwtMetawidget metawidget = (GwtMetawidget) widget;
+			GwtMetawidget.this.initMetawidget( metawidget, attributes );
+			metawidget.setReadOnly( isReadOnly( attributes ) );
+
+			// TODO: remove this
+
+			metawidget.buildWidgets();
+
+			return metawidget;
+		}
+
+		@Override
+		protected Widget getOverridenWidget( Map<String, String> attributes )
+		{
+			return GwtMetawidget.this.getOverridenWidget( attributes );
+		}
+
+		@Override
+		protected Map<String, String> getStubAttributes( Widget stub )
+		{
+			return ( (Stub) stub ).getAttributes();
+		}
+
+		@Override
+		protected void beforeBuildCompoundWidget( Element element )
+		{
+			GwtMetawidget.this.beforeBuildCompoundWidget();
+		}
+
+		@Override
+		protected Widget buildReadOnlyWidget( Map<String, String> attributes )
+			throws Exception
+		{
+			return GwtMetawidget.this.buildReadOnlyWidget( attributes );
+		}
+
+		@Override
+		protected Widget buildActiveWidget( Map<String, String> attributes )
+			throws Exception
+		{
+			return GwtMetawidget.this.buildActiveWidget( attributes );
+		}
+
+		@Override
+		protected void addWidget( Widget widget, Map<String, String> attributes )
+			throws Exception
+		{
+			GwtMetawidget.this.addWidget( widget, attributes );
+		}
+
+		@Override
+		protected boolean isMetawidget( Widget widget )
+		{
+			return ( widget instanceof GwtMetawidget );
+		}
+
+		@Override
+		protected boolean isStub( Widget widget )
+		{
+			return ( widget instanceof Stub );
+		}
+
+		@Override
+		protected void endBuild()
+			throws Exception
+		{
+			GwtMetawidget.this.endBuild();
+		}
+
+		@Override
+		protected Element getFirstElement( Document document )
+		{
+			return (Element) document.getDocumentElement().getFirstChild();
+		}
+
+		@Override
+		protected int getChildCount( Element element )
+		{
+			return element.getChildNodes().getLength();
+		}
+
+		@Override
+		protected Node getChildAt( Element element, int index )
+		{
+			return element.getChildNodes().item( index );
+		}
+
+		@Override
+		protected boolean isElement( Node node )
+		{
+			return ( node instanceof Element );
+		}
+
+		@Override
+		protected Map<String, String> getAttributesAsMap( Element element )
+		{
+			NamedNodeMap nodes = element.getAttributes();
+
+			int length = nodes.getLength();
+
+			if ( length == 0 )
+			{
+				@SuppressWarnings( { "cast", "unchecked" } )
+				Map<String, String> empty = (Map<String, String>) Collections.EMPTY_MAP;
+				return empty;
+			}
+
+			Map<String, String> attributes = new HashMap<String, String>( length );
+
+			for ( int loop = 0; loop < length; loop++ )
+			{
+				Node node = nodes.item( loop );
+				attributes.put( node.getNodeName(), node.getNodeValue() );
+			}
+
+			return attributes;
+		}
+	}
+
+	//
+	//
+	// Private methods
+	//
+	//
+
+	private void addListBoxItems( ListBox listBox, List<String> values, List<String> labels, Map<String, String> attributes )
 	{
 		if ( values == null )
 			return;
@@ -888,7 +927,7 @@ public class GwtMetawidget
 		}
 	}
 
-	protected void addListBoxItem( ListBox listBox, String value, String label )
+	private void addListBoxItem( ListBox listBox, String value, String label )
 	{
 		if ( label != null )
 		{

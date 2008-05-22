@@ -272,7 +272,14 @@ public abstract class MetawidgetTag
 	@Override
 	public int doEndTag()
 	{
-		mMixin.buildWidgets();
+		try
+		{
+			mMixin.buildWidgets( inspect() );
+		}
+		catch( Exception e )
+		{
+			throw MetawidgetException.newException( e );
+		}
 
 		// In the case of, say, clicking 'Edit' in the Address Book sample application, the
 		// container will not call release(). However we must use a new Layout, else
@@ -465,12 +472,6 @@ public abstract class MetawidgetTag
 		}
 
 		@Override
-		protected Document inspect()
-		{
-			return MetawidgetTag.this.inspect();
-		}
-
-		@Override
 		protected void addWidget( Object widget, Map<String, String> attributes )
 			throws Exception
 		{
@@ -505,12 +506,9 @@ public abstract class MetawidgetTag
 		}
 
 		@Override
-		protected void buildCompoundWidget( Element element )
-			throws Exception
+		protected void beforeBuildCompoundWidget( Element element )
 		{
 			MetawidgetTag.this.beforeBuildCompoundWidget();
-
-			super.buildCompoundWidget( element );
 		}
 
 		@Override

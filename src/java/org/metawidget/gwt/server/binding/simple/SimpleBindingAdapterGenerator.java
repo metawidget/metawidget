@@ -275,7 +275,7 @@ public class SimpleBindingAdapterGenerator
 		sourceWriter.println();
 		sourceWriter.println( "// Unknown" );
 		sourceWriter.println();
-		sourceWriter.println( "throw new RuntimeException( \"Unknown property '\" + property[" + propertyIndex + "] + \"'\" );" );
+		sourceWriter.println( "throw new RuntimeException( \"Unknown property '\" + property[" + propertyIndex + "] + \"' of " + classType.getParameterizedQualifiedSourceName() + "\" );" );
 	}
 
 	private void writeProperties( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, boolean writeInstanceOf, JClassType parentType, int writeType )

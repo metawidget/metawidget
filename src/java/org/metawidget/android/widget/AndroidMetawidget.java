@@ -509,7 +509,15 @@ public class AndroidMetawidget
 			return;
 
 		mNeedToBuildWidgets = false;
-		mMixin.buildWidgets();
+
+		try
+		{
+			mMixin.buildWidgets( inspect() );
+		}
+		catch( Exception e )
+		{
+			throw MetawidgetException.newException( e );
+		}
 	}
 
 	protected void startBuild()
@@ -962,12 +970,6 @@ public class AndroidMetawidget
 			throws Exception
 		{
 			AndroidMetawidget.this.startBuild();
-		}
-
-		@Override
-		protected Document inspect()
-		{
-			return AndroidMetawidget.this.inspect();
 		}
 
 		@Override

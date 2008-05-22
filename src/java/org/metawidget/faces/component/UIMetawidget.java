@@ -317,7 +317,14 @@ public abstract class UIMetawidget
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		mMixin.buildWidgets();
+		try
+		{
+			mMixin.buildWidgets( inspect() );
+		}
+		catch ( Exception e )
+		{
+			throw MetawidgetException.newException( e );
+		}
 
 		// Delegate to our subclass, which in turn
 		// will delegate to our renderer
@@ -1071,12 +1078,6 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected Document inspect()
-		{
-			return UIMetawidget.this.inspect();
-		}
-
-		@Override
 		protected boolean isReadOnly( Map<String, String> attributes )
 		{
 			if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
@@ -1093,12 +1094,9 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected void buildCompoundWidget( Element element )
-			throws Exception
+		protected void beforeBuildCompoundWidget( Element element )
 		{
 			UIMetawidget.this.beforeBuildCompoundWidget( element );
-
-			super.buildCompoundWidget( element );
 		}
 
 		@Override
