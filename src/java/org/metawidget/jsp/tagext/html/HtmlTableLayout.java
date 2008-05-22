@@ -26,7 +26,7 @@ import org.metawidget.jsp.tagext.Layout;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets in a table, with one column for labels and another for the

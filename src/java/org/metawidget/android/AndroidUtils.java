@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.metawidget.MetawidgetException;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 import android.content.Context;
 import android.view.View;

@@ -37,7 +37,7 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets in a table, with one column for labels and another for the

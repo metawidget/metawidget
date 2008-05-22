@@ -20,7 +20,7 @@ import java.io.PrintWriter;
 
 import org.metawidget.gwt.client.inspector.GwtInspector;
 import org.metawidget.gwt.client.inspector.GwtInspectorFactory;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.core.ext.Generator;
 import com.google.gwt.core.ext.GeneratorContext;

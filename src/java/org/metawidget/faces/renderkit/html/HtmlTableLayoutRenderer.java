@@ -35,7 +35,7 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange components in a table, with one column for labels and another for the

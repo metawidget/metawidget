@@ -17,7 +17,7 @@
 package org.metawidget.swing.binding.beansbinding;
 
 import org.jdesktop.beansbinding.Converter;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Convenience Converter to call <code>toString</code> during <code>convertForward</code>. This allows

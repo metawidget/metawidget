@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.util;
+package org.metawidget.util.simple;
 
 /**
  * Utilities for working with Strings.
@@ -88,7 +88,7 @@ public final class StringUtils
 				buffer.append( Character.toUpperCase( c ) );
 				first = false;
 			}
-			else if ( Character.isUpperCase( c ) && ( !Character.isUpperCase( lastChar ) || ( loop < chars.length - 1 && !Character.isWhitespace( chars[loop + 1] ) && !Character.isUpperCase( chars[loop + 1] ) ) ) )
+			else if ( Character.isUpperCase( c ) && ( !Character.isUpperCase( lastChar ) || ( loop < chars.length - 1 && chars[loop + 1] != ' ' && !Character.isUpperCase( chars[loop + 1] ) ) ) )
 			{
 				if ( Character.isLetter( lastChar ) )
 					buffer.append( ' ' );
@@ -98,7 +98,7 @@ public final class StringUtils
 				else
 					buffer.append( c );
 			}
-			else if ( Character.isDigit( c ) && Character.isLetter( lastChar ) && !Character.isWhitespace( lastChar ) )
+			else if ( Character.isDigit( c ) && Character.isLetter( lastChar ) && lastChar != ' ' )
 			{
 				buffer.append( ' ' );
 				buffer.append( c );

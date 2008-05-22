@@ -18,7 +18,7 @@ package org.metawidget.test.util;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard

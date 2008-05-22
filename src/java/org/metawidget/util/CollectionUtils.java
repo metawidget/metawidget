@@ -32,6 +32,8 @@ import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.metawidget.util.simple.StringUtils;
+
 /**
  * Utilities for working with Java Collections.
  *

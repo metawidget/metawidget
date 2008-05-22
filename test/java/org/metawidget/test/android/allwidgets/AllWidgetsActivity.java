@@ -23,7 +23,7 @@ import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
 import org.metawidget.test.shared.allwidgets.proxy.AllWidgets_$$_javassist_1;
 import org.metawidget.util.LogUtils;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;

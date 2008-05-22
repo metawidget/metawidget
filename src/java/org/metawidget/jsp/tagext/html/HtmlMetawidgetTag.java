@@ -28,7 +28,7 @@ import java.util.Map;
 import org.metawidget.MetawidgetException;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Metawidget for 'plain' JSP environment (eg. just a servlet-based backend, no Struts/Spring etc)

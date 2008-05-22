@@ -22,6 +22,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.regex.Pattern;
 
+import org.metawidget.util.simple.StringUtils;
+
 /**
  * Utilities for working with Classes.
  *

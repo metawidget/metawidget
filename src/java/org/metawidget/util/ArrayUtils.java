@@ -20,6 +20,8 @@ import java.lang.reflect.Array;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.metawidget.util.simple.StringUtils;
+
 /**
  * Utilities for working with Arrays.
  *

@@ -29,7 +29,7 @@ import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 import android.app.Activity;
 import android.app.AlertDialog;

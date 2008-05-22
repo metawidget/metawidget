@@ -16,7 +16,7 @@
 
 package org.metawidget.example.gwt.addressbook.client.ui;
 
-import static org.metawidget.util.StringUtils.*;
+import static org.metawidget.util.simple.StringUtils.*;
 
 import java.util.Date;
 import java.util.Set;

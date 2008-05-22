@@ -27,7 +27,7 @@ import java.util.Map;
 import org.metawidget.inspector.impl.AbstractPojoInspector;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Inspector to look for Java 5 language features, such as enums and generics.

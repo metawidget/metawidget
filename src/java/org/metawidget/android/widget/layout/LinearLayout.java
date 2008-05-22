@@ -21,7 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Map;
 
 import org.metawidget.android.widget.AndroidMetawidget;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
 import android.view.ViewGroup;

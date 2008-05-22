@@ -37,7 +37,7 @@ import org.metawidget.jsp.JspUtils.BodyPreparer;
 import org.metawidget.jsp.tagext.html.AbstractHtmlMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.web.servlet.support.RequestContext;
 import org.springframework.web.servlet.support.RequestContextUtils;

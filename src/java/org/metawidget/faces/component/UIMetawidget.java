@@ -53,8 +53,8 @@ import org.metawidget.inspector.Inspector;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.StringUtils;
 import org.metawidget.util.XmlUtils;
+import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 

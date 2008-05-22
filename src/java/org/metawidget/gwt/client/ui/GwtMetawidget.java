@@ -17,7 +17,7 @@
 package org.metawidget.gwt.client.ui;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.util.StringUtils.*;
+import static org.metawidget.util.simple.StringUtils.*;
 
 import java.util.Collections;
 import java.util.Date;

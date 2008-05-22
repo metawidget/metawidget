@@ -38,9 +38,9 @@ import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtils;
-import org.metawidget.util.StringUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
+import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 

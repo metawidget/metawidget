@@ -29,7 +29,7 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.Binding;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Automatic binding implementation based on BeansUtils.

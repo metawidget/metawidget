@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 import android.content.Context;
 import android.util.AttributeSet;

@@ -16,7 +16,7 @@
 
 package org.metawidget.gwt.client.binding.simple;
 
-import static org.metawidget.util.StringUtils.*;
+import static org.metawidget.util.simple.StringUtils.*;
 
 import java.util.HashMap;
 import java.util.HashSet;

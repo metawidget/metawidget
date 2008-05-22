@@ -18,6 +18,8 @@ package org.metawidget.util;
 
 import java.util.List;
 
+import org.metawidget.util.simple.StringUtils;
+
 /**
  * Utilities for working with <code>type/name/name</code>-formatted Strings
  *

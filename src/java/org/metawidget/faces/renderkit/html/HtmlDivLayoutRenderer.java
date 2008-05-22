@@ -33,7 +33,7 @@ import javax.faces.context.ResponseWriter;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
-import org.metawidget.util.StringUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets in HTML <code>DIV</code> tags, with one <code>DIV</code> per
