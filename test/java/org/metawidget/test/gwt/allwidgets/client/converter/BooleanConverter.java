@@ -39,7 +39,14 @@ public class BooleanConverter
 	public Boolean convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
 		if ( widget instanceof CheckBox )
+		{
+			// TODO: why is this a String?
+
+			if ( value instanceof String )
+				return Boolean.valueOf( (String) value );
+
 			return (Boolean) value;
+		}
 
 		if ( value == null || "".equals( value ))
 			return null;

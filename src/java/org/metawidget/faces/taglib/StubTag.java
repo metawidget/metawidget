@@ -93,7 +93,7 @@ public class StubTag
 		if ( mValue != null )
 		{
 			if ( !isValueReference( mValue ) )
-				throw MetawidgetException.newException( "Value must be an EL expression" );
+				throw MetawidgetException.newException( "Value '" + mValue + "' must be an EL expression" );
 
 			componentStub.setValueBinding( "value", application.createValueBinding( mValue ) );
 		}

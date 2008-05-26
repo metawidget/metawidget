@@ -23,9 +23,7 @@ public class GwtAllWidgetsTest
 	//
 	//
 
-	private final static int	TIMER_SCHEDULE_DELAY	= 2000;
-
-	private final static int	TEST_FINISH_DELAY		= 50 * TIMER_SCHEDULE_DELAY;
+	private final static int	TEST_FINISH_DELAY		= 50 * 5000;
 
 	//
 	//
@@ -48,14 +46,15 @@ public class GwtAllWidgetsTest
 		final AllWidgetsModule allWidgetsModule = new AllWidgetsModule( panel );
 		allWidgetsModule.onModuleLoad();
 
-		Timer timerLoad = new Timer()
+		final GwtMetawidget metawidget = (GwtMetawidget) panel.getWidget( 0 );
+
+		executeAfterBuildWidgets( metawidget, new Timer()
 		{
 			@Override
 			public void run()
 			{
 				// Test fields
 
-				final GwtMetawidget metawidget = (GwtMetawidget) panel.getWidget( 0 );
 				FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
 
 				// Check what created, and edit it
@@ -255,30 +254,27 @@ public class GwtAllWidgetsTest
 				assertTrue( "Save".equals( saveButton.getText() ) );
 				fireClickListeners( saveButton );
 
-				Timer timerSave = new Timer()
+				executeAfterBuildWidgets( metawidget, new Timer()
 				{
 					@Override
 					public void run()
 					{
 						FlexTable readOnlyFlexTable = (FlexTable) metawidget.getWidget( 0 );
 
+						// TODO: sometimes picks up wrong inspector-config.xml?
+
 						assertTrue( "Textbox:".equals( readOnlyFlexTable.getText( 0, 0 )));
 						assertTrue( "Textbox1".equals( readOnlyFlexTable.getText( 0, 1 )));
 
 						finish();
 					}
-				};
-
-				timerSave.schedule( TIMER_SCHEDULE_DELAY );
+				} );
 			}
-		};
-
-		timerLoad.schedule( TIMER_SCHEDULE_DELAY );
+		} );
 
 		// Test runs asynchronously
 
 		delayTestFinish( TEST_FINISH_DELAY );
-
 	}
 
 	//
@@ -305,5 +301,11 @@ public class GwtAllWidgetsTest
 	native void fireClickListeners( FocusWidget focusWidget )
 	/*-{
 		focusWidget.@com.google.gwt.user.client.ui.FocusWidget::fireClickListeners()();
+	}-*/;
+
+	native void executeAfterBuildWidgets( GwtMetawidget metawidget, Timer timer )
+	/*-{
+		metawidget.@org.metawidget.gwt.client.ui.GwtMetawidget::mExecuteAfterBuildWidgets = timer;
+		metawidget.@org.metawidget.gwt.client.ui.GwtMetawidget::buildWidgets()();
 	}-*/;
 }

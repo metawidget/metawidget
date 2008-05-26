@@ -25,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.google.gwt.user.client.Window;
+
 /**
  * Utilities for working with Google Web Toolkit.
  * <p>
@@ -137,6 +139,9 @@ public final class GwtUtils
 
 	public static String toString( String[] collection, char separator )
 	{
+		if ( collection == null )
+			return "";
+
 		StringBuilder builder = new StringBuilder();
 
 		for ( String item : collection )
@@ -214,6 +219,19 @@ public final class GwtUtils
 		newArray[array.length] = toAdd;
 
 		return newArray;
+	}
+
+	public static void alert( Throwable caught )
+	{
+		StringBuilder builder = new StringBuilder( caught.getMessage() );
+
+		for ( Object item : caught.getStackTrace() )
+		{
+			builder.append( "\n\t" );
+			builder.append( item );
+		}
+
+		Window.alert( builder.toString() );
 	}
 
 	//

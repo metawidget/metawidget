@@ -37,11 +37,12 @@ import org.metawidget.gwt.client.ui.layout.LayoutFactory;
 import org.metawidget.impl.base.BaseMetawidgetMixin;
 
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -77,17 +78,29 @@ public class GwtMetawidget
 {
 	//
 	//
+	// Private statics
+	//
+	//
+
+	private final static int				BUILDING_COMPLETE		= 0;
+
+	private final static int				BUILDING_IN_PROGRESS	= 1;
+
+	private final static int				BUILDING_NEEDED			= 2;
+
+	//
+	//
 	// Private members
 	//
 	//
 
 	private Object							mToInspect;
 
-	private Class<? extends Layout>			mLayoutClass	= FlexTableLayout.class;
+	private Class<? extends Layout>			mLayoutClass			= FlexTableLayout.class;
 
 	private Layout							mLayout;
 
-	private Class<? extends GwtInspector>	mInspectorClass	= GwtRemoteInspectorProxy.class;
+	private Class<? extends GwtInspector>	mInspectorClass			= GwtRemoteInspectorProxy.class;
 
 	private GwtInspector					mInspector;
 
@@ -102,13 +115,11 @@ public class GwtMetawidget
 
 	private Binding							mBinding;
 
-	private boolean							mNeedToBuildWidgets;
-
 	private Map<String, Widget>				mWidgetNames;
 
-	private Map<String, Stub>				mStubs			= new HashMap<String, Stub>();
+	private Map<String, Stub>				mStubs					= new HashMap<String, Stub>();
 
-	private Map<String, Facet>				mFacets			= new HashMap<String, Facet>();
+	private Map<String, Facet>				mFacets					= new HashMap<String, Facet>();
 
 	//
 	//
@@ -120,7 +131,15 @@ public class GwtMetawidget
 
 	String[]								mNamesPrefix;
 
-	GwtMetawidgetMixin						mMixin			= new GwtMetawidgetMixin();
+	int										mNeedToBuildWidgets;
+
+	/**
+	 * For unit tests.
+	 */
+
+	Timer									mExecuteAfterBuildWidgets;
+
+	GwtMetawidgetMixin						mMixin					= new GwtMetawidgetMixin();
 
 	//
 	//
@@ -196,6 +215,9 @@ public class GwtMetawidget
 		if ( names == null )
 			return null;
 
+		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
+			throw new RuntimeException( "Widgets need building first" );
+
 		Map<String, Widget> children = mWidgetNames;
 
 		for ( int loop = 0, length = names.length; loop < length; loop++ )
@@ -246,20 +268,10 @@ public class GwtMetawidget
 
 	public Object getValue( Widget widget )
 	{
-		// Label
+		// HasText
 
-		if ( widget instanceof Label )
-			return ( (Label) widget ).getText();
-
-		// TextBox
-
-		if ( widget instanceof TextBox )
-			return ( (TextBox) widget ).getText();
-
-		// TextArea
-
-		if ( widget instanceof TextArea )
-			return ( (TextArea) widget ).getText();
+		if ( widget instanceof HasText )
+			return ( (HasText) widget ).getText();
 
 		// CheckBox
 
@@ -289,11 +301,10 @@ public class GwtMetawidget
 
 	public void setValue( Object value, String... names )
 	{
-		buildWidgets();
 		Widget widget = findWidget( names );
 
 		if ( widget == null )
-			throw new RuntimeException( "No such widget '" + GwtUtils.toString( names, ',' ) );
+			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) );
 
 		setValue( value, widget );
 	}
@@ -304,30 +315,12 @@ public class GwtMetawidget
 
 	public void setValue( Object value, Widget widget )
 	{
-		// Label
+		// HasText
 
-		if ( widget instanceof Label )
+		if ( widget instanceof HasText )
 		{
 			if ( value != null )
-				( (Label) widget ).setText( String.valueOf( value ) );
-			return;
-		}
-
-		// TextBox
-
-		if ( widget instanceof TextBox )
-		{
-			if ( value != null )
-				( (TextBox) widget ).setText( String.valueOf( value ) );
-			return;
-		}
-
-		// TextArea
-
-		if ( widget instanceof TextArea )
-		{
-			if ( value != null )
-				( (TextArea) widget ).setText( String.valueOf( value ) );
+				( (HasText) widget ).setText( String.valueOf( value ) );
 			return;
 		}
 
@@ -376,13 +369,11 @@ public class GwtMetawidget
 	// because we can worry about nested Metawidgets here, not in the Binding class
 	public void save()
 	{
-		// buildWidgets may be necessary here if we have nested Metawidgets
-		// and have only ever called getValue (eg. never been visible)
-
-		buildWidgets();
-
 		if ( mBinding == null )
 			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
+
+		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
+			throw new RuntimeException( "Widgets need building first" );
 
 		mBinding.save();
 
@@ -408,11 +399,13 @@ public class GwtMetawidget
 		{
 			Facet facet = (Facet) widget;
 			mFacets.put( facet.getName(), facet );
+			invalidateWidgets();
 		}
 		else if ( widget instanceof Stub )
 		{
 			Stub stub = (Stub) widget;
 			mStubs.put( stub.getName(), stub );
+			invalidateWidgets();
 		}
 	}
 
@@ -421,9 +414,15 @@ public class GwtMetawidget
 		return mFacets.get( name );
 	}
 
+	//
+	//
+	// Protected methods
+	//
+	//
+
 	protected void invalidateWidgets()
 	{
-		if ( mNeedToBuildWidgets )
+		if ( mNeedToBuildWidgets == BUILDING_NEEDED )
 			return;
 
 		clear();
@@ -437,14 +436,123 @@ public class GwtMetawidget
 			mBinding = null;
 		}
 
-		mNeedToBuildWidgets = true;
+		mNeedToBuildWidgets = BUILDING_NEEDED;
 	}
 
-	//
-	//
-	// Protected methods
-	//
-	//
+	/**
+	 * Builds the widgets.
+	 * <p>
+	 * Unlike <code>buildWidgets</code> in other Metawidget implementations, this method may be
+	 * asynchronous. If the <code>GwtMetawidget</code> is using an <code>GwtInspectorAsync</code>
+	 * Inspector (which it does by default), clients should not expect the widgets to be built by
+	 * the time this method returns.
+	 *
+	 * @param afterBuild
+	 *            code to execute after a successful build, used by unit tests. Passed as a
+	 *            <code>Timer</code> - <code>Runnable</code> would be more appropriate if GWT
+	 *            supported it
+	 */
+
+	// TODO: doco why public
+	public void buildWidgets()
+	{
+		// No need to build?
+
+		if ( mNeedToBuildWidgets != BUILDING_NEEDED )
+		{
+			// For unit tests: if buildWidgets is already underway, rely on
+			// mExecuteAfterBuildWidgets being injected into it. This is preferrable to running
+			// buildWidgets() twice without calling invalidateWidgets()
+
+			if ( mNeedToBuildWidgets == BUILDING_COMPLETE && mExecuteAfterBuildWidgets != null )
+			{
+				Timer executeAfterBuildWidgets = mExecuteAfterBuildWidgets;
+				mExecuteAfterBuildWidgets = null;
+
+				executeAfterBuildWidgets.run();
+			}
+
+			return;
+		}
+
+		mNeedToBuildWidgets = BUILDING_IN_PROGRESS;
+
+		if ( mToInspect != null && mPath != null )
+		{
+			// Inspect
+
+			if ( mInspector == null )
+				mInspector = ( (GwtInspectorFactory) GWT.create( GwtInspectorFactory.class ) ).newInspector( mInspectorClass );
+
+			Object[] typeAndNames = GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR );
+			String type = (String) typeAndNames[0];
+			String[] names = (String[]) typeAndNames[1];
+
+			// Special support for GwtInspectorAsync
+
+			if ( mInspector instanceof GwtInspectorAsync )
+			{
+				( (GwtInspectorAsync) mInspector ).inspect( mToInspect, type, names, new AsyncCallback<Document>()
+				{
+					public void onFailure( Throwable caught )
+					{
+						GwtUtils.alert( caught );
+
+						mNeedToBuildWidgets = BUILDING_COMPLETE;
+					}
+
+					public void onSuccess( Document document )
+					{
+						try
+						{
+							mMixin.buildWidgets( document );
+						}
+						catch ( Exception e )
+						{
+							throw new RuntimeException( e );
+						}
+
+						mNeedToBuildWidgets = BUILDING_COMPLETE;
+
+						// For unit tests
+
+						if ( mExecuteAfterBuildWidgets != null )
+						{
+							Timer executeAfterBuildWidgets = mExecuteAfterBuildWidgets;
+							mExecuteAfterBuildWidgets = null;
+
+							executeAfterBuildWidgets.run();
+						}
+					}
+				} );
+			}
+
+			// Regular GwtInspectors
+
+			else
+			{
+				try
+				{
+					Document document = mInspector.inspect( mToInspect, type, names );
+					mMixin.buildWidgets( document );
+				}
+				catch ( Exception e )
+				{
+					GwtUtils.alert( e );
+				}
+
+				mNeedToBuildWidgets = BUILDING_COMPLETE;
+
+				// For unit tests
+
+				if ( mExecuteAfterBuildWidgets != null )
+				{
+					mExecuteAfterBuildWidgets.run();
+					mExecuteAfterBuildWidgets = null;
+				}
+			}
+		}
+	}
 
 	protected void startBuild()
 		throws Exception
@@ -659,65 +767,6 @@ public class GwtMetawidget
 		}
 	}
 
-	public void buildWidgets()
-	{
-		// No need to build?
-
-		if ( !mNeedToBuildWidgets )
-			return;
-
-		mNeedToBuildWidgets = false;
-
-		// Inspect
-
-		if ( mInspector == null )
-			mInspector = ( (GwtInspectorFactory) GWT.create( GwtInspectorFactory.class ) ).newInspector( mInspectorClass );
-
-		Object[] typeAndNames = GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR );
-		String type = (String) typeAndNames[0];
-		String[] names = (String[]) typeAndNames[1];
-
-		// Special support for GwtInspectorAsync
-
-		if ( mInspector instanceof GwtInspectorAsync )
-		{
-			( (GwtInspectorAsync) mInspector ).inspect( mToInspect, type, names, new AsyncCallback<Document>()
-			{
-				public void onFailure( Throwable caught )
-				{
-					Window.alert( caught.getMessage() );
-				}
-
-				public void onSuccess( Document document )
-				{
-					try
-					{
-						mMixin.buildWidgets( document );
-					}
-					catch ( Exception e )
-					{
-						throw new RuntimeException( e );
-					}
-				}
-			} );
-		}
-
-		// Regular GwtInspectors
-
-		else
-		{
-			try
-			{
-				Document document = mInspector.inspect( mToInspect, type, names );
-				mMixin.buildWidgets( document );
-			}
-			catch ( Exception e )
-			{
-				Window.alert( e.getMessage() );
-			}
-		}
-	}
-
 	/**
 	 * Subclasses should override to instantiate their own flavour of GwtMetawidget.
 	 */
@@ -734,6 +783,8 @@ public class GwtMetawidget
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBindingClass( mBindingClass );
 		metawidget.setToInspect( mToInspect );
+
+		metawidget.buildWidgets();
 
 		return metawidget;
 	}
@@ -773,10 +824,6 @@ public class GwtMetawidget
 			GwtMetawidget metawidget = (GwtMetawidget) widget;
 			GwtMetawidget.this.initMetawidget( metawidget, attributes );
 			metawidget.setReadOnly( isReadOnly( attributes ) );
-
-			// TODO: remove this
-
-			metawidget.buildWidgets();
 
 			return metawidget;
 		}

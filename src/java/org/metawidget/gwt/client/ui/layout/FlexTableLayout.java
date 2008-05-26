@@ -74,6 +74,7 @@ public class FlexTableLayout
 
 		String name = StringUtils.uncamelCase( attributes.get( "name" ));
 		Label label = new Label( name + ":" );
+
 		mLayout.setWidget( row, 0, label );
 
 		// Widget

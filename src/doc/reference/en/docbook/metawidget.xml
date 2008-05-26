@@ -2410,7 +2410,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			</itemizedlist>
 			
 			<para>
-				An example of this technique can be seen in <classname>GwtMetawidget</classname> and <classname>InspectorServiceImpl</classname>.
+				An example of this technique can be seen in <classname>GwtRemoteInspectorProxy</classname> and <classname>GwtRemoteInspectorImpl</classname>.
 			</para>
 			
 			<tip>
