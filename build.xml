@@ -352,7 +352,7 @@
 
 		<echo message="Note: network access is disabled for Unit Tests, to make sure Metawidget isn't trying external DTDs"/>
 
-		<junit showoutput="true" fork="true" dir="${run.dir}">
+		<junit showoutput="true" fork="true" dir="${run.dir}" haltonerror="true">
 			<jvmarg value="-Djava.util.logging.config.file=${basedir}/test/java/logging.properties"/>
 			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
 			<formatter type="brief" usefile="false"/>
@@ -370,7 +370,8 @@
 
 		<!-- GWT tests -->
 		
-		<junit showoutput="true" fork="true" dir="${run.dir}">
+		<junit showoutput="true" fork="true" dir="${run.dir}" haltonerror="true">
+			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest"/>
 			<classpath>
@@ -378,9 +379,27 @@
 				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement path="${build.metawidget.dir}/example-classes"/>
 				<pathelement path="${build.metawidget.dir}/test-classes"/>
+				<pathelement path="src/java"/>
+				<pathelement path="test/java"/>
+				<pathelement path="src/web/examples/gwt/addressbook/WEB-INF"/>
 			</classpath>
 		</junit>
 		
+		<junit showoutput="true" fork="true" dir="${run.dir}" haltonerror="true">
+			<jvmarg value="-Xmx256M"/>
+			<formatter type="brief" usefile="false"/>
+			<test name="org.metawidget.test.gwt.allwidgets.client.GwtAllWidgetsTest"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
+				<pathelement path="${build.metawidget.dir}/example-classes"/>
+				<pathelement path="${build.metawidget.dir}/test-classes"/>
+				<pathelement path="src/java"/>
+				<pathelement path="test/java"/>
+				<pathelement path="test/java/org/metawidget/test/gwt/allwidgets"/>
+			</classpath>
+		</junit>
+
 		<!-- 1.4 Unit tests -->
 		
 		<available property="java4-exists" file="${java4.dir}/bin"/>
