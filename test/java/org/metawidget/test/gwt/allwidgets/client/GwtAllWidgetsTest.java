@@ -127,7 +127,7 @@ public class GwtAllWidgetsTest
 				assertTrue( "42".equals( metawidget.getValue( "long" ) ) );
 				((TextBox) flexTable.getWidget( 12, 1 )).setText( "43" );
 
-				assertTrue( "Long object:".equals( flexTable.getText( 13, 0 ) ));
+				assertTrue( "".equals( flexTable.getText( 13, 0 ) ));
 				assertTrue( flexTable.getWidget( 13, 1 ) instanceof TextBox );
 				assertTrue( "43".equals( metawidget.getValue( "longObject" ) ) );
 				((TextBox) flexTable.getWidget( 13, 1 )).setText( "44" );
@@ -137,7 +137,7 @@ public class GwtAllWidgetsTest
 				assertTrue( "4.2".equals( metawidget.getValue( "float" ) ) );
 				((TextBox) flexTable.getWidget( 14, 1 )).setText( "5.3" );
 
-				assertTrue( "Float object:".equals( flexTable.getText( 15, 0 ) ));
+				assertTrue( "nullInBundle:".equals( flexTable.getText( 15, 0 ) ));
 				assertTrue( flexTable.getWidget( 15, 1 ) instanceof TextBox );
 				assertTrue( "4.3".equals( metawidget.getValue( "floatObject" ) ) );
 				((TextBox) flexTable.getWidget( 15, 1 )).setText( "5.4" );
@@ -147,7 +147,7 @@ public class GwtAllWidgetsTest
 				assertTrue( "42.2".equals( metawidget.getValue( "double" ) ) );
 				((TextBox) flexTable.getWidget( 16, 1 )).setText( "53.3" );
 
-				assertTrue( "Double object:".equals( flexTable.getText( 17, 0 ) ));
+				assertTrue( "".equals( flexTable.getText( 17, 0 ) ));
 				assertTrue( flexTable.getWidget( 17, 1 ) instanceof TextBox );
 				assertTrue( "43.3".equals( metawidget.getValue( "doubleObject" ) ) );
 				((TextBox) flexTable.getWidget( 17, 1 )).setText( "54.4" );
@@ -260,8 +260,6 @@ public class GwtAllWidgetsTest
 					public void run()
 					{
 						FlexTable readOnlyFlexTable = (FlexTable) metawidget.getWidget( 0 );
-
-						// TODO: sometimes picks up wrong inspector-config.xml?
 
 						assertTrue( "Textbox:".equals( readOnlyFlexTable.getText( 0, 0 )));
 						assertTrue( "Textbox1".equals( readOnlyFlexTable.getText( 0, 1 )));

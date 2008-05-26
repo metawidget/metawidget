@@ -117,13 +117,13 @@ public class AllWidgetsModule
 				metawidget.save();
 
 				metawidget.setReadOnly( true );
-				metawidget.buildWidgets();
+				//metawidget.buildWidgets();
 			}
 		} );
 
 		buttonsFacet.add( saveButton );
 
-		metawidget.buildWidgets();
+		//metawidget.buildWidgets();
 
 		// Add to either RootPanel or the given Panel (for unit tests)
 

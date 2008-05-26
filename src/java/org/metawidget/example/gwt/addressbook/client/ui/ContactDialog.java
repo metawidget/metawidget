@@ -137,14 +137,12 @@ public class ContactDialog
 		final GwtMetawidget typeMetawidget = new GwtMetawidget();
 		typeMetawidget.setPath( Communication.class.getName() + SEPARATOR_SLASH + "type" );
 		typeMetawidget.setToInspect( communication );
-		typeMetawidget.buildWidgets();
 		communications.setWidget( 1, 0, typeMetawidget );
 		typeMetawidget.setVisible( !metawidget.isReadOnly() );
 
 		final GwtMetawidget valueMetawidget = new GwtMetawidget();
 		valueMetawidget.setPath( Communication.class.getName() + SEPARATOR_SLASH + "value" );
 		valueMetawidget.setToInspect( communication );
-		valueMetawidget.buildWidgets();
 		communications.setWidget( 1, 1, valueMetawidget );
 		valueMetawidget.setVisible( !metawidget.isReadOnly() );
 
@@ -250,7 +248,6 @@ public class ContactDialog
 
 				typeMetawidget.setVisible( true );
 				valueMetawidget.setVisible( true );
-				metawidget.buildWidgets();
 			}
 		} );
 		editButton.setVisible( metawidget.isReadOnly() );
@@ -265,8 +262,6 @@ public class ContactDialog
 			}
 		} );
 		panel.add( cancelButton );
-
-		metawidget.buildWidgets();
 	}
 
 	//

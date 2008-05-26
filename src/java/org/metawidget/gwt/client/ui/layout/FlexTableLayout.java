@@ -20,7 +20,6 @@ import java.util.Map;
 
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
-import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -72,10 +71,13 @@ public class FlexTableLayout
 
 		// Label
 
-		String name = StringUtils.uncamelCase( attributes.get( "name" ));
-		Label label = new Label( name + ":" );
+		String labelText = getMetawidget().getLabelString( attributes );
 
-		mLayout.setWidget( row, 0, label );
+		if ( labelText != null && !"".equals( labelText ) )
+		{
+			Label label = new Label( labelText + ":" );
+			mLayout.setWidget( row, 0, label );
+		}
 
 		// Widget
 

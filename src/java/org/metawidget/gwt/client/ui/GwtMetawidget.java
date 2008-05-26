@@ -35,6 +35,7 @@ import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.ui.layout.LayoutFactory;
 import org.metawidget.impl.base.BaseMetawidgetMixin;
+import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Timer;
@@ -88,6 +89,18 @@ public class GwtMetawidget
 
 	private final static int				BUILDING_NEEDED			= 2;
 
+	/**
+	 * Delay before rebuilding widgets (in milliseconds).
+	 * <p>
+	 * GWT does not define a good 'paint' method to override, so we must call
+	 * <code>buildWidgets</code> after every <code>invalidateWidgets</code>. Many methods (eg.
+	 * most setters) trigger <code>invalidateWidgets</code>, however, so we impose a short delay
+	 * to try and 'batch' multiple <code>buildWidgets</code> requests (and their associated AJAX
+	 * calls) into one.
+	 */
+
+	private final static int				BUILD_DELAY				= 50;
+
 	//
 	//
 	// Private members
@@ -120,6 +133,8 @@ public class GwtMetawidget
 	private Map<String, Stub>				mStubs					= new HashMap<String, Stub>();
 
 	private Map<String, Facet>				mFacets					= new HashMap<String, Facet>();
+
+	private Timer							mBuildWidgets;
 
 	//
 	//
@@ -193,6 +208,60 @@ public class GwtMetawidget
 	{
 		mBindingClass = bindingClass;
 		invalidateWidgets();
+	}
+
+	public String getLabelString( Map<String, String> attributes )
+	{
+		if ( attributes == null )
+			return "";
+
+		// Explicit label
+
+		String label = attributes.get( LABEL );
+
+		if ( label != null )
+		{
+			// (may be forced blank)
+
+			if ( "".equals( label ) )
+				return null;
+
+			// (localize if possible)
+
+			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
+
+			if ( localized != null )
+				return localized.trim();
+
+			return label.trim();
+		}
+
+		// Default name
+
+		String name = attributes.get( NAME );
+
+		if ( name != null )
+		{
+			// (localize if possible)
+
+			String localized = getLocalizedKey( name );
+
+			if ( localized != null )
+				return localized;
+
+			return StringUtils.uncamelCase( name );
+		}
+
+		return "";
+	}
+
+	/**
+	 * @return null if no bundle, ???key??? if bundle is missing a key
+	 */
+
+	public String getLocalizedKey( String key )
+	{
+		return null;
 	}
 
 	public void setReadOnly( boolean readOnly )
@@ -420,23 +489,54 @@ public class GwtMetawidget
 	//
 	//
 
+	/**
+	 * Invalidates the widgets.
+	 * <p>
+	 * If the widgets are already invalidated, but rebuilding is not yet
+	 * in progress, cancels the pending rebuild and resets the timer. This
+	 * tries to 'batch' multiple invalidate requests into one.
+	 */
+
 	protected void invalidateWidgets()
 	{
+		// If widgets are already invalidated...
+
 		if ( mNeedToBuildWidgets == BUILDING_NEEDED )
-			return;
-
-		clear();
-
-		mWidgetNames = new HashMap<String, Widget>();
-		mNamesPrefix = null;
-
-		if ( mBinding != null )
 		{
-			mBinding.unbind();
-			mBinding = null;
+			// ...cancel the pending rebuild...
+
+			mBuildWidgets.cancel();
+		}
+		else
+		{
+			// ...otherwise, clear the widgets
+
+			clear();
+
+			mWidgetNames = new HashMap<String, Widget>();
+			mNamesPrefix = null;
+
+			if ( mBinding != null )
+			{
+				mBinding.unbind();
+				mBinding = null;
+			}
+
+			mNeedToBuildWidgets = BUILDING_NEEDED;
 		}
 
-		mNeedToBuildWidgets = BUILDING_NEEDED;
+		// Schedule a new build
+
+		mBuildWidgets = new Timer()
+		{
+			@Override
+			public void run()
+			{
+				buildWidgets();
+			}
+		};
+
+		mBuildWidgets.schedule( BUILD_DELAY );
 	}
 
 	/**
@@ -453,8 +553,7 @@ public class GwtMetawidget
 	 *            supported it
 	 */
 
-	// TODO: doco why public
-	public void buildWidgets()
+	protected void buildWidgets()
 	{
 		// No need to build?
 
@@ -783,8 +882,6 @@ public class GwtMetawidget
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBindingClass( mBindingClass );
 		metawidget.setToInspect( mToInspect );
-
-		metawidget.buildWidgets();
 
 		return metawidget;
 	}

@@ -195,8 +195,6 @@ public class AddressBookModule
 		} );
 		panel.add( addBusinessButton );
 
-		metawidget.buildWidgets();
-
 		// Add to either RootPanel or the given Panel (for unit tests)
 
 		if ( mPanel instanceof RootPanel )
