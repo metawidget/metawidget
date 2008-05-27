@@ -43,8 +43,6 @@
 		<!-- of cleaner source code, but we compile down to jsr14. We can do this using     -->
 		<!-- plain javac, without needing retroweaver or similar tools)                     -->
 
-		<property name="build.debug" value="on"/>		
-		
 		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/classes" debug="${build.debug}" optimize="on" source="1.5" target="jsr14">
 			<include name="**/*InspectionResultConstants.java"/>
 			<include name="org/metawidget/faces/**"/>
@@ -149,8 +147,14 @@
 		<jar destfile="${build.metawidget.dir}/metawidget.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/**"/>
+				<exclude name="org/metawidget/gwt/client/**"/>
+				<exclude name="org/metawidget/gwt/server/**"/>
 				<exclude name="org/metawidget/example/**"/>
 				<exclude name="org/metawidget/test/**"/>
+			</fileset>
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/metawidget/gwt/client/inspector/remote/GwtRemoteInspector.class"/>
+				<include name="org/metawidget/gwt/server/inspector/remote/GwtRemoteInspectorImpl.class"/>
 			</fileset>
 			<fileset dir="src/java">
 				<exclude name="org/metawidget/example/**"/>
@@ -377,6 +381,7 @@
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
+				<pathelement location="${build.metawidget.dir}/classes"/>
 				<pathelement path="${build.metawidget.dir}/example-classes"/>
 				<pathelement path="${build.metawidget.dir}/test-classes"/>
 				<pathelement path="src/java"/>
@@ -392,6 +397,7 @@
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
+				<pathelement location="${build.metawidget.dir}/classes"/>
 				<pathelement path="${build.metawidget.dir}/example-classes"/>
 				<pathelement path="${build.metawidget.dir}/test-classes"/>
 				<pathelement path="src/java"/>
@@ -1189,6 +1195,8 @@
 			</classes>
 			<lib dir="${build.metawidget.dir}/lib">
 				<include name="gwt-servlet.jar"/>
+				<include name="jstl.jar"/>
+				<include name="standard.jar"/>
 				<include name="metawidget.jar"/>
 			</lib>
 		</war>
