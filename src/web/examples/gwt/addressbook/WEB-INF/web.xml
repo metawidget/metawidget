@@ -11,7 +11,7 @@
 
 	<servlet>
 		<servlet-name>contacts</servlet-name>
-		<servlet-class>org.metawidget.example.gwt.addressbook.server.ContactsServiceImpl</servlet-class>
+		<servlet-class>org.metawidget.example.gwt.addressbook.server.rpc.ContactsServiceImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

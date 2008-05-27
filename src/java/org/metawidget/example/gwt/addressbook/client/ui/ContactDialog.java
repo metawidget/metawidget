@@ -79,6 +79,7 @@ public class ContactDialog
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setReadOnly( contact.getId() != 0 );
+		metawidget.setDictionaryName( "bundle" );
 		metawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, metawidget );
 		columnFormatter.setStyleName( 1, "content" );

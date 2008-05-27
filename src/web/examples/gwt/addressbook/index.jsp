@@ -1,9 +1,14 @@
 <%@ page language="java" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://metawidget.org/example/gwt/addressbook" prefix="a" %>
 
 <tags:page>
 
 	<script language='javascript' src='org.metawidget.example.gwt.addressbook.AddressBook.nocache.js'></script>
+	
+	<fmt:setBundle basename="org.metawidget.example.shared.addressbook.resource.Resources" var="localizationContext"/>	
+	<a:bundle2Variable bundle="${localizationContext.resourceBundle}"/>
 	
 	<div id="page-image">
 		<img src="media/addressbook.gif">

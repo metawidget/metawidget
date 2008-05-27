@@ -139,6 +139,7 @@ public class AddressBookModule
 		// Metawidget
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
+		metawidget.setDictionaryName( "bundle" );
 		metawidget.setToInspect( mContactSearch );
 
 		// Embedded buttons

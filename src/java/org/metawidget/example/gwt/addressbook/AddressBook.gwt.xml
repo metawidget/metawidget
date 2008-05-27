@@ -12,7 +12,7 @@
 
 	<!-- Server -->
 	
-	<servlet path='/contacts' class='org.metawidget.example.gwt.addressbook.server.ContactsServiceImpl' />
+	<servlet path='/contacts' class='org.metawidget.example.gwt.addressbook.server.rpc.ContactsServiceImpl' />
 
 	<!-- Binding -->
 	

@@ -24,6 +24,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.MissingResourceException;
 
 import org.metawidget.gwt.client.binding.Binding;
 import org.metawidget.gwt.client.binding.BindingFactory;
@@ -38,6 +39,7 @@ import org.metawidget.impl.base.BaseMetawidgetMixin;
 import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
@@ -128,6 +130,10 @@ public class GwtMetawidget
 
 	private Binding							mBinding;
 
+	private String							mDictionaryName;
+
+	private Dictionary						mDictionary;
+
 	private Map<String, Widget>				mWidgetNames;
 
 	private Map<String, Stub>				mStubs					= new HashMap<String, Stub>();
@@ -210,6 +216,19 @@ public class GwtMetawidget
 		invalidateWidgets();
 	}
 
+	/**
+	 * Set the Dictionary name for localization.
+	 * <p>
+	 * The Dictionary name must be a JavaScript variable declared in the host HTML page.
+	 */
+
+	public void setDictionaryName( String dictionaryName )
+	{
+		mDictionaryName = dictionaryName;
+		mDictionary = null;
+		invalidateWidgets();
+	}
+
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
@@ -261,7 +280,20 @@ public class GwtMetawidget
 
 	public String getLocalizedKey( String key )
 	{
-		return null;
+		if ( mDictionaryName == null )
+			return null;
+
+		try
+		{
+			if ( mDictionary == null )
+				mDictionary = Dictionary.getDictionary( mDictionaryName );
+
+			return mDictionary.get( key );
+		}
+		catch ( MissingResourceException e )
+		{
+			return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
+		}
 	}
 
 	public void setReadOnly( boolean readOnly )
@@ -492,9 +524,9 @@ public class GwtMetawidget
 	/**
 	 * Invalidates the widgets.
 	 * <p>
-	 * If the widgets are already invalidated, but rebuilding is not yet
-	 * in progress, cancels the pending rebuild and resets the timer. This
-	 * tries to 'batch' multiple invalidate requests into one.
+	 * If the widgets are already invalidated, but rebuilding is not yet in progress, cancels the
+	 * pending rebuild and resets the timer. This tries to 'batch' multiple invalidate requests into
+	 * one.
 	 */
 
 	protected void invalidateWidgets()
@@ -881,6 +913,7 @@ public class GwtMetawidget
 		metawidget.setPath( mPath + '/' + attributes.get( NAME ) );
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBindingClass( mBindingClass );
+		metawidget.setDictionaryName( mDictionaryName );
 		metawidget.setToInspect( mToInspect );
 
 		return metawidget;

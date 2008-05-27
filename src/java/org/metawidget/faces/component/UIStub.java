@@ -90,6 +90,8 @@ public class UIStub
 
 		// Parse attributes
 
+		// TODO: test 'attributes="required:"'
+
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		for ( String nameAndValue : CollectionUtils.fromString( stubAttributes, ';' ) )
