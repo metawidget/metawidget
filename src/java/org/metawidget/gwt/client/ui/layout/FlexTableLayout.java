@@ -24,6 +24,7 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 /**
  * @author Richard Kennard
@@ -38,7 +39,11 @@ public class FlexTableLayout
 	//
 	//
 
-	private FlexTable	mLayout;
+	private FlexTable			mLayout;
+
+	private FlexCellFormatter	mFormatter;
+
+	private String[]			mColumnStyleNames;
 
 	//
 	//
@@ -49,6 +54,15 @@ public class FlexTableLayout
 	public FlexTableLayout( GwtMetawidget metawidget )
 	{
 		super( metawidget );
+
+		// Parse column style names
+		//
+		// (note: ColumnFormatter uses COL elements, so is not suitable for this)
+
+		String columnStyleNames = (String) metawidget.getParameter( "columnStyleNames" );
+
+		if ( columnStyleNames != null )
+			mColumnStyleNames = columnStyleNames.split( "," );
 	}
 
 	//
@@ -61,6 +75,13 @@ public class FlexTableLayout
 	public void layoutBegin()
 	{
 		mLayout = new FlexTable();
+		mFormatter = mLayout.getFlexCellFormatter();
+
+		String styleName = (String) getMetawidget().getParameter( "tableStyleName" );
+
+		if ( styleName != null )
+			mLayout.setStyleName( styleName );
+
 		getMetawidget().add( mLayout );
 	}
 
@@ -76,10 +97,21 @@ public class FlexTableLayout
 		if ( labelText != null && !"".equals( labelText ) )
 		{
 			Label label = new Label( labelText + ":" );
+
+			String styleName = getStyleName( 0 );
+
+			if ( styleName != null )
+				mFormatter.setStyleName( row, 0, styleName );
+
 			mLayout.setWidget( row, 0, label );
 		}
 
 		// Widget
+
+		String styleName = getStyleName( 1 );
+
+		if ( styleName != null )
+			mFormatter.setStyleName( row, 1, styleName );
 
 		mLayout.setWidget( row, 1, widget );
 	}
@@ -92,8 +124,30 @@ public class FlexTableLayout
 		if ( facet != null )
 		{
 			int row = mLayout.getRowCount();
+			mFormatter.setColSpan( row, 0, 2 );
+
+			// TODO: buttonsStyleName doesn't work in ContactDialog?
+
+			//String styleName = (String) getMetawidget().getParameter( "buttonsStyleName" );
+
+			//if ( styleName != null )
+				//mFormatter.setStyleName( row, 0, styleName );
+
 			mLayout.setWidget( row, 0, facet );
-			mLayout.getFlexCellFormatter().setColSpan( row, 0, 2 );
 		}
+	}
+
+	//
+	//
+	// Private methods
+	//
+	//
+
+	protected String getStyleName( int styleName )
+	{
+		if ( mColumnStyleNames == null || mColumnStyleNames.length <= styleName )
+			return null;
+
+		return mColumnStyleNames[styleName];
 	}
 }

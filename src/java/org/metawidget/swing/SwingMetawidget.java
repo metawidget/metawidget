@@ -1121,7 +1121,7 @@ public class SwingMetawidget
 		metawidget.setBundle( mBundle );
 		metawidget.setOpaque( isOpaque() );
 
-		if ( metawidget.mParameters != null )
+		if ( mParameters != null )
 			metawidget.setParameters( CollectionUtils.newHashMap( mParameters ) );
 
 		metawidget.setToInspect( mToInspect );

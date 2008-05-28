@@ -85,6 +85,7 @@ h1, .section-heading
 	text-align: left;
 	vertical-align: top;
 	white-space: nowrap;
+	font-weight: bold;
 }
 
 .table-component-column
@@ -156,7 +157,7 @@ input, textarea, select
 	white-space: nowrap;
 }
 
-.buttons input
+.buttons input, .buttons button
 {
 	border: 1px solid #B3B3FF;
 	height: 32px;	
@@ -166,7 +167,7 @@ input, textarea, select
 	font-weight: bold;
 }
 
-.table-buttons input
+.table-buttons input, .table-buttons button
 {
 	border: 1px solid #B3B3FF;
 	height: 21px;	
@@ -184,6 +185,7 @@ input, textarea, select
 	background: white url( ../media/background.jpg ) no-repeat;
 	filter: alpha( opacity = 95 ) progid:DXImageTransform.Microsoft.Shadow( color='#444444', Direction=135, Strength=5 );
 	border: 2px solid #888888;
+	width: 600px;
 }
 
 .contact-dialog .Caption
@@ -200,4 +202,5 @@ input, textarea, select
 	padding-top: 15px;
 	padding-left: 20px;
 	padding-right: 20px;
+	width: 1%;
 }

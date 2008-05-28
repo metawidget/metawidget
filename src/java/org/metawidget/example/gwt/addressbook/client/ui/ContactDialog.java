@@ -33,8 +33,10 @@ import org.metawidget.gwt.client.binding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.gwt.client.ui.layout.FlowLayout;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
@@ -46,6 +48,7 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
 
 /**
@@ -66,13 +69,14 @@ public class ContactDialog
 		setStyleName( "contact-dialog" );
 		setPopupPosition( 100, 50 );
 		Grid grid = new Grid( 1, 2 );
+		grid.setWidth( "100%" );
 		setWidget( grid );
 
 		// Left-hand image
 
-		ColumnFormatter columnFormatter = grid.getColumnFormatter();
+		ColumnFormatter gridFormatter = grid.getColumnFormatter();
 		Image image = new Image();
-		columnFormatter.setStyleName( 0, "page-image" );
+		gridFormatter.setStyleName( 0, "page-image" );
 		grid.setWidget( 0, 0, image );
 
 		// Metawidget
@@ -80,9 +84,12 @@ public class ContactDialog
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setReadOnly( contact.getId() != 0 );
 		metawidget.setDictionaryName( "bundle" );
+		metawidget.setParameter( "tableStyleName", "table-form" );
+		metawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
+		metawidget.setParameter( "buttonsStyleName", "buttons" );
 		metawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, metawidget );
-		columnFormatter.setStyleName( 1, "content" );
+		gridFormatter.setStyleName( 1, "content" );
 
 		// Binding
 
@@ -104,14 +111,16 @@ public class ContactDialog
 
 		// Personal/business icon
 
+		Dictionary dictionary = Dictionary.getDictionary( "bundle" );
+
 		if ( contact instanceof PersonalContact )
 		{
-			builder.append( "personalContact" );
+			builder.append( dictionary.get( "personalContact" ));
 			image.setUrl( "media/personal.gif" );
 		}
 		else
 		{
-			builder.append( "businessContact" );
+			builder.append( dictionary.get( "businessContact" ));
 			image.setUrl( "media/business.gif" );
 		}
 
@@ -124,6 +133,7 @@ public class ContactDialog
 		metawidget.add( stub );
 
 		final FlexTable communications = new FlexTable();
+		communications.setStyleName( "data-table" );
 		stub.add( communications );
 
 		// Header
@@ -131,23 +141,32 @@ public class ContactDialog
 		communications.setText( 0, 0, "Type" );
 		communications.setText( 0, 1, "Value" );
 
+		ColumnFormatter columnFormatter = communications.getColumnFormatter();
+		columnFormatter.setStyleName( 0, "column-half" );
+		columnFormatter.setStyleName( 1, "column-half" );
+		columnFormatter.setStyleName( 2, "column-tiny" );
+
+		final CellFormatter cellFormatter = communications.getCellFormatter();
+
 		// Footer
 
 		Communication communication = new Communication();
 
 		final GwtMetawidget typeMetawidget = new GwtMetawidget();
 		typeMetawidget.setPath( Communication.class.getName() + SEPARATOR_SLASH + "type" );
+		typeMetawidget.setLayoutClass( FlowLayout.class );
 		typeMetawidget.setToInspect( communication );
 		communications.setWidget( 1, 0, typeMetawidget );
 		typeMetawidget.setVisible( !metawidget.isReadOnly() );
 
 		final GwtMetawidget valueMetawidget = new GwtMetawidget();
 		valueMetawidget.setPath( Communication.class.getName() + SEPARATOR_SLASH + "value" );
+		valueMetawidget.setLayoutClass( FlowLayout.class );
 		valueMetawidget.setToInspect( communication );
 		communications.setWidget( 1, 1, valueMetawidget );
 		valueMetawidget.setVisible( !metawidget.isReadOnly() );
 
-		final Button addButton = new Button( "Add" );
+		final Button addButton = new Button( dictionary.get( "add" ));
 		addButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
@@ -157,16 +176,17 @@ public class ContactDialog
 				communicationToAdd.setValue( (String) valueMetawidget.getValue( "value" ));
 
 				contact.addCommunication( communicationToAdd );
-				reloadCommunications( addressBookModule, communications, contact );
+				reloadCommunications( addressBookModule, communications, cellFormatter, contact );
 
 				typeMetawidget.setValue( "", "type" );
 				valueMetawidget.setValue( "", "value" );
 			}
 		} );
 		communications.setWidget( 1, 2, addButton );
+		cellFormatter.setStyleName( 1, 2, "table-buttons" );
 		addButton.setVisible( !metawidget.isReadOnly() );
 
-		reloadCommunications( addressBookModule, communications, contact );
+		reloadCommunications( addressBookModule, communications, cellFormatter, contact );
 
 		// Embedded buttons
 
@@ -177,7 +197,7 @@ public class ContactDialog
 		HorizontalPanel panel = new HorizontalPanel();
 		buttonsFacet.add( panel );
 
-		final Button saveButton = new Button( "Save" );
+		final Button saveButton = new Button( dictionary.get( "save" ));
 		saveButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
@@ -201,7 +221,7 @@ public class ContactDialog
 		} );
 		panel.add( saveButton );
 
-		final Button deleteButton = new Button( "Delete" );
+		final Button deleteButton = new Button( dictionary.get( "delete" ));
 		deleteButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
@@ -232,7 +252,7 @@ public class ContactDialog
 		saveButton.setVisible( !metawidget.isReadOnly() );
 		deleteButton.setVisible( !metawidget.isReadOnly() && contact.getId() != 0 );
 
-		final Button editButton = new Button( "Edit" );
+		final Button editButton = new Button( dictionary.get( "edit" ));
 		editButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
@@ -254,7 +274,7 @@ public class ContactDialog
 		editButton.setVisible( metawidget.isReadOnly() );
 		panel.add( editButton );
 
-		Button cancelButton = new Button( "Cancel" );
+		Button cancelButton = new Button( dictionary.get( "cancel" ) );
 		cancelButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
@@ -271,7 +291,7 @@ public class ContactDialog
 	//
 	//
 
-	void reloadCommunications( final AddressBookModule addressBook, final FlexTable table, final Contact contact )
+	void reloadCommunications( final AddressBookModule addressBook, final FlexTable table, final CellFormatter cellFormatter, final Contact contact )
 	{
 		Set<Communication> communications = contact.getCommunications();
 
@@ -303,12 +323,13 @@ public class ContactDialog
 						}
 
 						contact.removeCommunication( communication );
-						reloadCommunications( addressBook, table, contact );
+						reloadCommunications( addressBook, table, cellFormatter, contact );
 					}
 				} );
 				deleteButton.setVisible( false );
 
 				table.setWidget( row, 2, deleteButton );
+				cellFormatter.setStyleName( 1, 2, "table-buttons" );
 
 				row++;
 			}

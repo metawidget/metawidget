@@ -90,7 +90,7 @@ public class UIStub
 
 		// Parse attributes
 
-		// TODO: test 'attributes="required:"'
+		// TODO: 'attributes="required:"' is okay, but should throw a big error
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 

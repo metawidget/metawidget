@@ -31,6 +31,7 @@ import org.metawidget.gwt.client.ui.GwtUtils;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
@@ -43,6 +44,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
 
 /**
  * @author Richard Kennard
@@ -99,6 +101,12 @@ public class AddressBookModule
 		// Results table
 
 		mContacts = new FlexTable();
+		mContacts.setStyleName( "data-table" );
+
+		ColumnFormatter formatter = mContacts.getColumnFormatter();
+		formatter.setStyleName( 0, "column-half" );
+		formatter.setStyleName( 1, "column-half" );
+
 		reloadContacts();
 		mContacts.addTableListener( new TableListener()
 		{
@@ -140,6 +148,9 @@ public class AddressBookModule
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setDictionaryName( "bundle" );
+		metawidget.setParameter( "tableStyleName", "table-form" );
+		metawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
+		metawidget.setParameter( "buttonsStyleName", "buttons" );
 		metawidget.setToInspect( mContactSearch );
 
 		// Embedded buttons
@@ -151,7 +162,9 @@ public class AddressBookModule
 		HorizontalPanel panel = new HorizontalPanel();
 		buttonsFacet.add( panel );
 
-		Button searchButton = new Button( "Search" );
+		Dictionary dictionary = Dictionary.getDictionary( "bundle" );
+
+		Button searchButton = new Button( dictionary.get( "search" ));
 		searchButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
@@ -174,7 +187,7 @@ public class AddressBookModule
 		} );
 		panel.add( searchButton );
 
-		Button addPersonalButton = new Button( "Add Personal" );
+		Button addPersonalButton = new Button( dictionary.get( "addPersonal" ));
 		addPersonalButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
@@ -185,7 +198,7 @@ public class AddressBookModule
 		} );
 		panel.add( addPersonalButton );
 
-		Button addBusinessButton = new Button( "Add Business" );
+		Button addBusinessButton = new Button( dictionary.get( "addBusiness" ));
 		addBusinessButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )

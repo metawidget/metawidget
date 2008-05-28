@@ -134,6 +134,12 @@ public class GwtMetawidget
 
 	private Dictionary						mDictionary;
 
+	private Map<String, Object>				mParameters;
+
+	/**
+	 * Names of child widgets (GWT doesn't have a 'name' property of its own)
+	 */
+
 	private Map<String, Widget>				mWidgetNames;
 
 	private Map<String, Stub>				mStubs					= new HashMap<String, Stub>();
@@ -226,6 +232,34 @@ public class GwtMetawidget
 	{
 		mDictionaryName = dictionaryName;
 		mDictionary = null;
+		invalidateWidgets();
+	}
+
+	/**
+	 * Gets the parameter value. Used by the chosen <code>Layout</code> or <code>Binding</code>
+	 * implementation.
+	 */
+
+	public Object getParameter( String name )
+	{
+		if ( mParameters == null )
+			return null;
+
+		return mParameters.get( name );
+	}
+
+	/**
+	 * Sets the parameter value. Parameters are passed to the chosen <code>Layout</code> or
+	 * <code>Binding</code> implementation.
+	 */
+
+	public void setParameter( String name, Object value )
+	{
+		if ( mParameters == null )
+			mParameters = new HashMap<String, Object>();
+
+		mParameters.put( name, value );
+
 		invalidateWidgets();
 	}
 
@@ -494,8 +528,6 @@ public class GwtMetawidget
 	@Override
 	public void add( Widget widget )
 	{
-		super.add( widget );
-
 		if ( widget instanceof Facet )
 		{
 			Facet facet = (Facet) widget;
@@ -507,6 +539,10 @@ public class GwtMetawidget
 			Stub stub = (Stub) widget;
 			mStubs.put( stub.getName(), stub );
 			invalidateWidgets();
+		}
+		else
+		{
+			super.add( widget );
 		}
 	}
 
@@ -640,7 +676,7 @@ public class GwtMetawidget
 						}
 						catch ( Exception e )
 						{
-							throw new RuntimeException( e );
+							GwtUtils.alert( e );
 						}
 
 						mNeedToBuildWidgets = BUILDING_COMPLETE;
@@ -877,6 +913,18 @@ public class GwtMetawidget
 		return createMetawidget();
 	}
 
+	protected Widget afterBuildWidget( Widget widget, Map<String, String> attributes )
+	{
+		// CSS
+
+		//String styleName = getStyleName();
+
+		//if ( styleName != null )
+			//widget.setStyleName( styleName );
+
+		return widget;
+	}
+
 	protected void addWidget( Widget widget, Map<String, String> attributes )
 		throws Exception
 	{
@@ -914,6 +962,10 @@ public class GwtMetawidget
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBindingClass( mBindingClass );
 		metawidget.setDictionaryName( mDictionaryName );
+
+		if ( mParameters != null )
+			metawidget.mParameters = new HashMap<String, Object>( mParameters );
+
 		metawidget.setToInspect( mToInspect );
 
 		return metawidget;
@@ -974,6 +1026,15 @@ public class GwtMetawidget
 		protected void beforeBuildCompoundWidget( Element element )
 		{
 			GwtMetawidget.this.beforeBuildCompoundWidget();
+		}
+
+		@Override
+		protected Widget buildWidget( Map<String, String> attributes )
+			throws Exception
+		{
+			Widget widget = super.buildWidget( attributes );
+
+			return GwtMetawidget.this.afterBuildWidget( widget, attributes );
 		}
 
 		@Override
