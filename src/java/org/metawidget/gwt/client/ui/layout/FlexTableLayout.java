@@ -126,12 +126,10 @@ public class FlexTableLayout
 			int row = mLayout.getRowCount();
 			mFormatter.setColSpan( row, 0, 2 );
 
-			// TODO: buttonsStyleName doesn't work in ContactDialog?
+			String styleName = (String) getMetawidget().getParameter( "buttonsStyleName" );
 
-			//String styleName = (String) getMetawidget().getParameter( "buttonsStyleName" );
-
-			//if ( styleName != null )
-				//mFormatter.setStyleName( row, 0, styleName );
+			if ( styleName != null )
+				mFormatter.setStyleName( row, 0, styleName );
 
 			mLayout.setWidget( row, 0, facet );
 		}

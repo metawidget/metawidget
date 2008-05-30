@@ -22,11 +22,13 @@ import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
  * @author Richard Kennard
  */
 
+@RemoteServiceRelativePath( "contacts" )
 public interface ContactsService
 	extends RemoteService
 {

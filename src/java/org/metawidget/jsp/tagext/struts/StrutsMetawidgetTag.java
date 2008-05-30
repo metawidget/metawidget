@@ -54,9 +54,9 @@ import org.metawidget.jsp.JspUtils.BodyPreparer;
 import org.metawidget.jsp.tagext.html.AbstractHtmlMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.PathUtils;
-import org.metawidget.util.PathUtils.TypeAndNames;
+import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.w3c.dom.Document;
 
 /**
@@ -217,12 +217,12 @@ public class StrutsMetawidgetTag
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ))
+		if ( lookup != null && !"".equals( lookup ) )
 			return writeReadOnlyTag( attributes );
 
 		String strutsLookupName = attributes.get( STRUTS_LOOKUP_NAME );
 
-		if ( strutsLookupName != null && !"".equals( strutsLookupName ))
+		if ( strutsLookupName != null && !"".equals( strutsLookupName ) )
 			return writeReadOnlyTag( attributes );
 
 		String type = attributes.get( TYPE );
@@ -405,6 +405,13 @@ public class StrutsMetawidgetTag
 		return JspUtils.writeTag( pageContext, tag, this, null );
 	}
 
+	/**
+	 * Initialize the Struts Tag with various attributes, CSS settings etc.
+	 * <p>
+	 * In other Metawidgets, this step is done after the widget has been built. However, because JSP
+	 * lacks a 'true' component model (eg. buildActiveWidget returns a String) we must do it here.
+	 */
+
 	private void initStrutsTag( Tag tag, Map<String, String> attributes )
 		throws Exception
 	{
@@ -455,7 +462,7 @@ public class StrutsMetawidgetTag
 		}
 	}
 
-	private String writeReadOnlyTag( Map<String, String> attributes)
+	private String writeReadOnlyTag( Map<String, String> attributes )
 		throws Exception
 	{
 		HiddenTag tag = HiddenTag.class.newInstance();
@@ -465,7 +472,7 @@ public class StrutsMetawidgetTag
 		// Note: according to STR-1305 we'll get a proper html:label tag
 		// with Struts 1.4.0, so we can use it instead of .setDisabled( true )
 
-		if ( !mCreateHiddenFields || TRUE.equals( attributes.get( NO_SETTER )))
+		if ( !mCreateHiddenFields || TRUE.equals( attributes.get( NO_SETTER ) ) )
 			tag.setDisabled( true );
 
 		return JspUtils.writeTag( pageContext, tag, this, null );

@@ -19,11 +19,7 @@ package org.metawidget.gwt.client.ui;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import com.google.gwt.user.client.Window;
 
@@ -46,6 +42,13 @@ public final class GwtUtils
 	//
 	//
 
+	/**
+	 * GWT-ified <code>Class.isPrimitive</code>.
+	 * <p>
+	 * This version takes a String argument, because we won't have been able to
+	 * use Class.forName to create a Class.
+	 */
+
 	public static boolean isPrimitive( String className )
 	{
 		if ( "byte".equals( className ) || "short".equals( className ) )
@@ -65,6 +68,12 @@ public final class GwtUtils
 
 		return false;
 	}
+
+	/**
+	 * GWT-ified <code>ClassUtils.isPrimitiveWrapper</code>.
+	 * <p>
+	 * This version takes a String argument, not a Class argument.
+	 */
 
 	public static boolean isPrimitiveWrapper( String className )
 	{
@@ -86,34 +95,10 @@ public final class GwtUtils
 		return false;
 	}
 
-	public static boolean isCollection( String className )
-	{
-		if ( Collection.class.getName().equals( className ))
-			return true;
-
-		if ( List.class.getName().equals( className ))
-			return true;
-
-		if ( ArrayList.class.getName().equals( className ))
-			return true;
-
-		if ( Set.class.getName().equals( className ))
-			return true;
-
-		if ( HashSet.class.getName().equals( className ))
-			return true;
-
-		if ( Map.class.getName().equals( className ))
-			return true;
-
-		if ( HashMap.class.getName().equals( className ))
-			return true;
-
-		return false;
-	}
-
 	/**
-	 * Splits and trims a list of Strings.
+	 * GWT-ified <code>CollectionUtils.fromString</code>.
+	 * <p>
+	 * This version does not use regular expressions.
 	 */
 
 	public static List<String> fromString( String collection, char separator )
@@ -137,6 +122,12 @@ public final class GwtUtils
 		return split;
 	}
 
+	/**
+	 * GWT-ified <code>CollectionUtils.toString</code>.
+	 * <p>
+	 * This version does not use regular expressions.
+	 */
+
 	public static String toString( String[] collection, char separator )
 	{
 		if ( collection == null )
@@ -154,6 +145,12 @@ public final class GwtUtils
 
 		return builder.toString();
 	}
+
+	/**
+	 * GWT-ified <code>CollectionUtils.toString</code>.
+	 * <p>
+	 * This version does not use regular expressions.
+	 */
 
 	public static String toString( Collection<?> collection, char separator )
 	{
@@ -173,57 +170,15 @@ public final class GwtUtils
 		return builder.toString();
 	}
 
-	public static Object[] parsePath( String path, char separator )
-	{
-		int indexOfTypeEnd = path.indexOf( separator );
-
-		// Just type?
-
-		if ( indexOfTypeEnd == -1 )
-			return new String[] { path, null };
-
-		String type = path.substring( 0, indexOfTypeEnd );
-
-		// Parse names
-
-		int indexOfNameEnd = indexOfTypeEnd;
-
-		List<String> names = new ArrayList<String>();
-
-		while ( true )
-		{
-			int indexOfNameStart = indexOfNameEnd + 1;
-			indexOfNameEnd = path.indexOf( separator, indexOfNameStart );
-
-			if ( indexOfNameEnd == -1 )
-			{
-				names.add( path.substring( indexOfNameStart ) );
-				break;
-			}
-
-			names.add( path.substring( indexOfNameStart, indexOfNameEnd ) );
-		}
-
-		if ( names.isEmpty() )
-			return new Object[] { path, null };
-
-		return new Object[] { type, names.toArray( new String[names.size()] ) };
-	}
-
-	@SuppressWarnings( "unchecked" )
-	public static String[] add( String[] array, String toAdd )
-	{
-		String[] newArray = new String[array.length + 1];
-
-		System.arraycopy( array, 0, newArray, 0, array.length );
-		newArray[array.length] = toAdd;
-
-		return newArray;
-	}
-
 	public static void alert( Throwable caught )
 	{
-		StringBuilder builder = new StringBuilder( caught.getMessage() );
+		StringBuilder builder = new StringBuilder( caught.getClass().getName() );
+
+		if ( caught.getMessage() != null )
+		{
+			builder.append( ": " );
+			builder.append( caught.getMessage() );
+		}
 
 		for ( Object item : caught.getStackTrace() )
 		{

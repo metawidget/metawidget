@@ -367,6 +367,13 @@ public class SpringMetawidgetTag
 		return JspUtils.writeTag( pageContext, tag, this, null );
 	}
 
+	/**
+	 * Initialize the Struts Tag with various attributes, CSS settings etc.
+	 * <p>
+	 * In other Metawidgets, this step is done after the widget has been built. However, because JSP
+	 * lacks a 'true' component model (eg. buildActiveWidget returns a String) we must do it here.
+	 */
+
 	private void initSpringTag( Tag tag, Map<String, String> attributes )
 		throws Exception
 	{

@@ -22,7 +22,6 @@ import org.metawidget.gwt.client.inspector.GwtInspectorAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.XMLParser;
 
@@ -56,7 +55,6 @@ public class GwtRemoteInspectorProxy
 	public GwtRemoteInspectorProxy()
 	{
 		mInspector = (GwtRemoteInspectorAsync) GWT.create( GwtRemoteInspector.class );
-		( (ServiceDefTarget) mInspector ).setServiceEntryPoint( GWT.getModuleBaseURL() + "metawidget-inspector" );
 	}
 
 	//

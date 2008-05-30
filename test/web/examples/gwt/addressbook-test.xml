@@ -1,0 +1,23 @@
+<project name="gwt-addressbook-test" default="test-all">
+
+	<property file="../../../../build.properties" />
+	<import file="${webtest.dir}/lib/taskdef.xml" />
+
+	<!-- WebTest is not up to testing GWT yet. This just tests Bundle2VariableTag -->
+	
+	<target name="test-all">
+		<webtest name="test-all">
+			<config resultpath="${build.metawidget.dir}">
+				<header name="User-Agent" value="Mozilla/4.0"/>
+			</config>
+			<steps>
+				<enableJavaScript enable="false"/>
+				<invoke url="${webtest.url}/addressbook-gwt" />
+				<verifyTitle text="Address Book (Metawidget GWT Example)" />
+				
+				<verifyContent referenceFile="verifyContent/expectedIndex.html" />
+			</steps>
+		</webtest>
+	</target>
+
+</project>

@@ -19,6 +19,7 @@ package org.metawidget.gwt.client.inspector.remote;
 import java.io.Serializable;
 
 import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
  * GWT AJAX interface to <code>GwtRemoteInspectorImpl</code> servlet.
@@ -28,6 +29,7 @@ import com.google.gwt.user.client.rpc.RemoteService;
  * @author Richard Kennard
  */
 
+@RemoteServiceRelativePath( "metawidget-inspector" )
 public interface GwtRemoteInspector
 	extends RemoteService
 {

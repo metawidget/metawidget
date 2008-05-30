@@ -74,9 +74,9 @@ public class ContactDialog
 
 		// Left-hand image
 
-		ColumnFormatter gridFormatter = grid.getColumnFormatter();
+		CellFormatter gridFormatter = grid.getCellFormatter();
 		Image image = new Image();
-		gridFormatter.setStyleName( 0, "page-image" );
+		gridFormatter.setStyleName( 0, 0, "page-image" );
 		grid.setWidget( 0, 0, image );
 
 		// Metawidget
@@ -89,7 +89,7 @@ public class ContactDialog
 		metawidget.setParameter( "buttonsStyleName", "buttons" );
 		metawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, metawidget );
-		gridFormatter.setStyleName( 1, "content" );
+		gridFormatter.setStyleName( 0, 1, "content" );
 
 		// Binding
 

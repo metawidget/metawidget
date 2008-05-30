@@ -461,6 +461,13 @@ public class HtmlMetawidgetTag
 		}
 	}
 
+	/**
+	 * Initialize the HTML tag with various attributes, CSS settings etc.
+	 * <p>
+	 * In other Metawidgets, this step is done after the widget has been built. However, because JSP
+	 * lacks a 'true' component model (eg. buildActiveWidget returns a String) we must do it here.
+	 */
+
 	private String writeAttributes( Map<String, String> attributes )
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)

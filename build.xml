@@ -579,26 +579,6 @@
 
 	</target>
 	
-	<target name="test-struts-addressbook" depends="example-struts-addressbook">
-		
-		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/addressbook-struts"/>
-		<antcall target="test-web-start-tomcat"/>
-		<ant antfile="test/web/examples/struts/addressbook-test.xml"/>
-		<antcall target="test-web-stop-tomcat"/>
-		
-	</target>
-
-	<target name="test-spring-addressbook" depends="example-spring-addressbook">
-		
-		<copy file="${build.metawidget.dir}/examples/spring/addressbook-spring.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
-		<delete dir="${tomcat.dir}/webapps/addressbook-spring"/>
-		<antcall target="test-web-start-tomcat"/>
-		<ant antfile="test/web/examples/spring/addressbook-test.xml"/>
-		<antcall target="test-web-stop-tomcat"/>
-		
-	</target>
-
 	<target name="test-faces-addressbook" depends="example-faces-addressbook">
 		
 		<copy file="${build.metawidget.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
@@ -619,6 +599,36 @@
 		
 	</target>
 
+	<target name="test-gwt-addressbook" depends="example-gwt-addressbook">
+		
+		<copy file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/addressbook-gwt"/>
+		<antcall target="test-web-start-tomcat"/>
+		<ant antfile="test/web/examples/gwt/addressbook-test.xml"/>
+		<antcall target="test-web-stop-tomcat"/>
+		
+	</target>
+
+	<target name="test-struts-addressbook" depends="example-struts-addressbook">
+		
+		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/addressbook-struts"/>
+		<antcall target="test-web-start-tomcat"/>
+		<ant antfile="test/web/examples/struts/addressbook-test.xml"/>
+		<antcall target="test-web-stop-tomcat"/>
+		
+	</target>
+
+	<target name="test-spring-addressbook" depends="example-spring-addressbook">
+		
+		<copy file="${build.metawidget.dir}/examples/spring/addressbook-spring.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/addressbook-spring"/>
+		<antcall target="test-web-start-tomcat"/>
+		<ant antfile="test/web/examples/spring/addressbook-test.xml"/>
+		<antcall target="test-web-stop-tomcat"/>
+		
+	</target>
+
 	<available property="webtest-available" file="${webtest.dir}/webtest.xml"/>
 
 	<target name="test-web-skip" unless="webtest-available">
@@ -632,6 +642,7 @@
 		<antcall target="test-faces-addressbook"/>
 		<property name="skip-compile" value="true"/>
 		
+		<antcall target="test-gwt-addressbook"/>
 		<antcall target="test-jsp-allwidgets"/>
 		<antcall target="test-spring-addressbook"/>
 		<antcall target="test-struts-addressbook"/>

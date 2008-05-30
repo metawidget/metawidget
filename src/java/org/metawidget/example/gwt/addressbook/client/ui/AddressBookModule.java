@@ -34,7 +34,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -94,8 +93,6 @@ public class AddressBookModule
 		// Model
 
 		mContactsService = (ContactsServiceAsync) GWT.create( ContactsService.class );
-		( (ServiceDefTarget) mContactsService ).setServiceEntryPoint( GWT.getModuleBaseURL() + "contacts" );
-
 		mContactSearch = new ContactSearch();
 
 		// Results table

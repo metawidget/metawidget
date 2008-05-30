@@ -153,7 +153,6 @@ input, textarea, select
 .buttons
 {
 	padding-top: 10px;
-	padding-left: 25%;
 	white-space: nowrap;
 }
 
@@ -185,6 +184,10 @@ input, textarea, select
 	background: white url( ../media/background.jpg ) no-repeat;
 	filter: alpha( opacity = 95 ) progid:DXImageTransform.Microsoft.Shadow( color='#444444', Direction=135, Strength=5 );
 	border: 2px solid #888888;
+}
+
+.contact-dialog .dialogContent
+{
 	width: 600px;
 }
 
@@ -198,9 +201,8 @@ input, textarea, select
 
 .contact-dialog .page-image
 {
-	vertical-align:top;
+	vertical-align: top;
 	padding-top: 15px;
 	padding-left: 20px;
 	padding-right: 20px;
-	width: 1%;
 }

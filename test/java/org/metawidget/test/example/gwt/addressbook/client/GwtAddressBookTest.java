@@ -76,6 +76,7 @@ public class GwtAddressBookTest
 	{
 		// Start app
 
+		prepareBundle();
 		FlowPanel panel = new FlowPanel();
 		final AddressBookModule addressBookModule = new AddressBookModule( panel );
 		addressBookModule.onModuleLoad();
@@ -131,6 +132,8 @@ public class GwtAddressBookTest
 									{
 										assertTrue( contactMetawidget.findWidget( "firstnames" ) instanceof Label );
 										assertTrue( "Homer".equals( contactMetawidget.getValue( "firstnames" ) ) );
+
+										// TODO: check 'dateOfBirth' says 'Date of Birth'
 										assertTrue( "5/12/56".equals( contactMetawidget.getValue( "dateOfBirth" ) ) );
 
 										try
@@ -371,10 +374,42 @@ public class GwtAddressBookTest
 		focusWidget.@com.google.gwt.user.client.ui.FocusWidget::fireClickListeners()();
 	}-*/;
 
-	//metawidget.@org.metawidget.gwt.client.ui.GwtMetawidget::_buildWidgets(Lcom/google/gwt/user/client/Timer;)(timer);
 	native void executeAfterBuildWidgets( GwtMetawidget metawidget, Timer timer )
 	/*-{
 		metawidget.@org.metawidget.gwt.client.ui.GwtMetawidget::mExecuteAfterBuildWidgets = timer;
 		metawidget.@org.metawidget.gwt.client.ui.GwtMetawidget::buildWidgets()();
+	}-*/;
+
+	private native void prepareBundle()
+	/*-{
+		$wnd[ "bundle" ] = {
+			"dateOfBirth": "Date of Birth",
+			"other": "Other",
+			"save": "Save",
+			"communications": "Communications",
+			"street": "Street",
+			"state": "State",
+			"surname": "Surname",
+			"cancel": "Cancel",
+			"type": "Type",
+			"add": "Add",
+			"businessContact": "Business Contact",
+			"firstnames": "Firstnames",
+			"city": "City",
+			"title": "Title",
+			"search": "Search",
+			"numberOfStaff": "Number of Staff",
+			"delete": "Delete",
+			"gender": "Gender",
+			"contactDetails": "Contact Details",
+			"addPersonal": "Add Personal Contact",
+			"addBusiness": "Add Business Contact",
+			"edit": "Edit",
+			"postcode": "Postcode",
+			"address": "Address",
+			"personalContact": "Personal Contact",
+			"company": "Company",
+			"notes": "Notes"
+		};
 	}-*/;
 }

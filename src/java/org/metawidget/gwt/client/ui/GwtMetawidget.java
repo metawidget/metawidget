@@ -19,12 +19,15 @@ package org.metawidget.gwt.client.ui;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.util.simple.StringUtils.*;
 
-import java.util.Collections;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
+import java.util.Set;
 
 import org.metawidget.gwt.client.binding.Binding;
 import org.metawidget.gwt.client.binding.BindingFactory;
@@ -35,8 +38,9 @@ import org.metawidget.gwt.client.inspector.remote.GwtRemoteInspectorProxy;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.ui.layout.LayoutFactory;
-import org.metawidget.impl.base.BaseMetawidgetMixin;
+import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.util.simple.PathUtils.TypeAndNames;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
@@ -55,8 +59,6 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.WidgetCollection;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
-import com.google.gwt.xml.client.NamedNodeMap;
-import com.google.gwt.xml.client.Node;
 
 /**
  * Metawidget for GWT environments.
@@ -166,7 +168,7 @@ public class GwtMetawidget
 
 	Timer									mExecuteAfterBuildWidgets;
 
-	GwtMetawidgetMixin						mMixin					= new GwtMetawidgetMixin();
+	GwtMetawidgetMixinImpl					mMixin					= new GwtMetawidgetMixinImpl();
 
 	//
 	//
@@ -651,15 +653,13 @@ public class GwtMetawidget
 			if ( mInspector == null )
 				mInspector = ( (GwtInspectorFactory) GWT.create( GwtInspectorFactory.class ) ).newInspector( mInspectorClass );
 
-			Object[] typeAndNames = GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR );
-			String type = (String) typeAndNames[0];
-			String[] names = (String[]) typeAndNames[1];
+			final TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
 
 			// Special support for GwtInspectorAsync
 
 			if ( mInspector instanceof GwtInspectorAsync )
 			{
-				( (GwtInspectorAsync) mInspector ).inspect( mToInspect, type, names, new AsyncCallback<Document>()
+				( (GwtInspectorAsync) mInspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames(), new AsyncCallback<Document>()
 				{
 					public void onFailure( Throwable caught )
 					{
@@ -700,7 +700,7 @@ public class GwtMetawidget
 			{
 				try
 				{
-					Document document = mInspector.inspect( mToInspect, type, names );
+					Document document = mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
 					mMixin.buildWidgets( document );
 				}
 				catch ( Exception e )
@@ -747,7 +747,7 @@ public class GwtMetawidget
 
 	protected void beforeBuildCompoundWidget()
 	{
-		mNamesPrefix = (String[]) GwtUtils.parsePath( mPath, SEPARATOR_SLASH_CHAR )[1];
+		mNamesPrefix = PathUtils.parsePath( mPath ).getNames();
 	}
 
 	protected Widget buildReadOnlyWidget( Map<String, String> attributes )
@@ -786,7 +786,7 @@ public class GwtMetawidget
 
 		// Collections
 
-		if ( GwtUtils.isCollection( type ) )
+		if ( isCollection( type ) )
 			return new FlexTable();
 
 		// Not simple, but don't expand
@@ -905,7 +905,7 @@ public class GwtMetawidget
 
 		// Collections
 
-		if ( GwtUtils.isCollection( type ) )
+		if ( isCollection( type ) )
 			return new FlexTable();
 
 		// Nested Metawidget
@@ -915,12 +915,15 @@ public class GwtMetawidget
 
 	protected Widget afterBuildWidget( Widget widget, Map<String, String> attributes )
 	{
+		if ( widget == null )
+			return null;
+
 		// CSS
 
-		//String styleName = getStyleName();
+		String styleName = getStyleName();
 
-		//if ( styleName != null )
-			//widget.setStyleName( styleName );
+		if ( styleName != null )
+			widget.setStyleName( styleName );
 
 		return widget;
 	}
@@ -940,9 +943,18 @@ public class GwtMetawidget
 		if ( mBinding != null && !( widget instanceof GwtMetawidget ) )
 		{
 			if ( mNamesPrefix == null )
+			{
 				mBinding.bind( widget, name );
+			}
 			else
-				mBinding.bind( widget, GwtUtils.add( mNamesPrefix, name ) );
+			{
+				String[] names = new String[mNamesPrefix.length + 1];
+
+				System.arraycopy( mNamesPrefix, 0, names, 0, mNamesPrefix.length );
+				names[mNamesPrefix.length] = name;
+
+				mBinding.bind( widget, names );
+			}
 		}
 	}
 
@@ -977,14 +989,42 @@ public class GwtMetawidget
 		mLayout.layoutEnd();
 	}
 
+	/**
+	 * Whether the given class name is a Collection. This is a crude, GWT-equivalent of...
+	 * <p>
+	 * <code>
+	 *    Collection.class.isAssignableFrom( ... );
+	 * </code>
+	 * <p>
+	 * ...subclasses may need to override this method if they introduce
+	 * a new Collection subtype.
+	 */
+
+	protected  boolean isCollection( String className )
+	{
+		if ( Collection.class.getName().equals( className ))
+			return true;
+
+		if ( List.class.getName().equals( className ) || ArrayList.class.getName().equals( className ))
+			return true;
+
+		if ( Set.class.getName().equals( className ) || HashSet.class.getName().equals( className ))
+			return true;
+
+		if ( Map.class.getName().equals( className ) || HashMap.class.getName().equals( className ))
+			return true;
+
+		return false;
+	}
+
 	//
 	//
 	// Inner class
 	//
 	//
 
-	protected class GwtMetawidgetMixin
-		extends BaseMetawidgetMixin<Widget, Document, Element, Node>
+	protected class GwtMetawidgetMixinImpl
+		extends GwtMetawidgetMixin<Widget>
 	{
 		//
 		//
@@ -1075,55 +1115,6 @@ public class GwtMetawidget
 			throws Exception
 		{
 			GwtMetawidget.this.endBuild();
-		}
-
-		@Override
-		protected Element getFirstElement( Document document )
-		{
-			return (Element) document.getDocumentElement().getFirstChild();
-		}
-
-		@Override
-		protected int getChildCount( Element element )
-		{
-			return element.getChildNodes().getLength();
-		}
-
-		@Override
-		protected Node getChildAt( Element element, int index )
-		{
-			return element.getChildNodes().item( index );
-		}
-
-		@Override
-		protected boolean isElement( Node node )
-		{
-			return ( node instanceof Element );
-		}
-
-		@Override
-		protected Map<String, String> getAttributesAsMap( Element element )
-		{
-			NamedNodeMap nodes = element.getAttributes();
-
-			int length = nodes.getLength();
-
-			if ( length == 0 )
-			{
-				@SuppressWarnings( { "cast", "unchecked" } )
-				Map<String, String> empty = (Map<String, String>) Collections.EMPTY_MAP;
-				return empty;
-			}
-
-			Map<String, String> attributes = new HashMap<String, String>( length );
-
-			for ( int loop = 0; loop < length; loop++ )
-			{
-				Node node = nodes.item( loop );
-				attributes.put( node.getNodeName(), node.getNodeValue() );
-			}
-
-			return attributes;
 		}
 	}
 
