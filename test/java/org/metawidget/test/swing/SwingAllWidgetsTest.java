@@ -353,6 +353,7 @@ public class SwingAllWidgetsTest
 		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 54 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 55 ) instanceof JLabel );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 55 ) ).gridx );
+		assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
 		assertTrue( "Mystery:".equals( ( (JLabel) metawidget.getComponent( 56 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 57 ) instanceof JTextField );
@@ -363,7 +364,7 @@ public class SwingAllWidgetsTest
 		assertTrue( metawidget.getComponent( 59 ) instanceof JScrollPane );
 		assertTrue( ((JScrollPane) metawidget.getComponent( 59 )).getViewport().getView() instanceof JTable );
 
-		assertTrue( metawidget.getComponentCount() == 60 );
+		assertTrue( 60 == metawidget.getComponentCount() );
 
 		// Check painting
 
@@ -451,7 +452,7 @@ public class SwingAllWidgetsTest
 		assertTrue( "Read only nested widgets dont expand:".equals( ( (JLabel) metawidget.getComponent( 50 ) ).getText() ) );
 		assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ((JLabel) metawidget.getComponent( 51 )).getText() ));
 		assertTrue( "Date:".equals( ( (JLabel) metawidget.getComponent( 52 ) ).getText() ) );
-		assertTrue( String.valueOf( now ).equals( ( (JLabel) metawidget.getComponent( 53 ) ).getText() ) );
+		assertTrue( now.equals( ( (JLabel) metawidget.getComponent( 53 ) ).getText() ) );
 		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 54 ) ).getText() ) );
 		assertTrue( "Read Only".equals( ( (JLabel) metawidget.getComponent( 55 ) ).getText() ) );
 		assertTrue( "Mystery:".equals( ( (JLabel) metawidget.getComponent( 56 ) ).getText() ) );

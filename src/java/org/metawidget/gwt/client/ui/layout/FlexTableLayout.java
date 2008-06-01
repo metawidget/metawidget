@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.ui.Stub;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -88,6 +89,11 @@ public class FlexTableLayout
 	@Override
 	public void layoutChild( Widget widget, Map<String, String> attributes )
 	{
+		// Do not render empty stubs
+
+		if ( widget instanceof Stub && ( (Stub) widget ).getWidget() == null )
+			return;
+
 		int row = mLayout.getRowCount();
 
 		// Label
@@ -108,12 +114,17 @@ public class FlexTableLayout
 
 		// Widget
 
+		int widgetColumn = ( labelText == null ? 0 : 1 );
+
 		String styleName = getStyleName( 1 );
 
 		if ( styleName != null )
-			mFormatter.setStyleName( row, 1, styleName );
+			mFormatter.setStyleName( row, widgetColumn, styleName );
 
-		mLayout.setWidget( row, 1, widget );
+		mLayout.setWidget( row, widgetColumn, widget );
+
+		if ( widgetColumn == 0 )
+			mFormatter.setColSpan( row, 0, 2 );
 	}
 
 	@Override

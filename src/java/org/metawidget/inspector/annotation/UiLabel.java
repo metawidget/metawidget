@@ -24,13 +24,16 @@ import java.lang.annotation.Target;
 /**
  * Annotates the field should have the given label in the UI.
  * <p>
- * The 'camel-cased' version of the label will first be looked up in any relevant UI
- * <code>ResourceBundle</code>. If no match is found, the label will be output 'as is'.
+ * If no UI <code>ResourceBundle</code> is in use, the label will be output 'as is'. If a resource
+ * bundle <em>has</em> been specified, the 'camel-cased' version of the label will be looked up in
+ * the bundle. This means developers can initially build their UIs without worrying about resource
+ * bundles, then turn on localization support later.
  * <p>
  * To remove the label entirely (including its column) specify an empty String. To render a blank
- * label (preserving its column) specify a value that gets looked up in a ResourceBundle, and have
- * the ResourceBundle return an empty String.
- * 
+ * label (preserving its column) specify a value that gets looked up in a
+ * <code>ResourceBundle</code>, and have the <code>ResourceBundle</code> return an empty
+ * String.
+ *
  * @author Richard Kennard
  */
 
@@ -38,5 +41,5 @@ import java.lang.annotation.Target;
 @Target( { ElementType.FIELD, ElementType.METHOD } )
 public @interface UiLabel
 {
-	String value( );
+	String value();
 }

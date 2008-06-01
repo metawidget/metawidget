@@ -48,15 +48,14 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.user.client.ui.WidgetCollection;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 
@@ -79,7 +78,7 @@ import com.google.gwt.xml.client.Element;
  */
 
 public class GwtMetawidget
-	extends FlowPanel
+	extends SimplePanel
 {
 	//
 	//
@@ -265,6 +264,8 @@ public class GwtMetawidget
 		invalidateWidgets();
 	}
 
+	// TODO: section headings
+
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
@@ -363,7 +364,7 @@ public class GwtMetawidget
 				return null;
 
 			String name = names[loop];
-			Widget widget = mWidgetNames.get( name );
+			Widget widget = children.get( name );
 
 			if ( widget == null )
 				return null;
@@ -405,15 +406,16 @@ public class GwtMetawidget
 
 	public Object getValue( Widget widget )
 	{
+		// CheckBox (must come before HasText, because CheckBox extends
+		// ButtonBase which implements HasHTML which extends HasText)
+
+		if ( widget instanceof CheckBox )
+			return ( (CheckBox) widget ).isChecked();
+
 		// HasText
 
 		if ( widget instanceof HasText )
 			return ( (HasText) widget ).getText();
-
-		// CheckBox
-
-		if ( widget instanceof CheckBox )
-			return ( (CheckBox) widget ).isChecked();
 
 		// ListBox
 
@@ -481,17 +483,14 @@ public class GwtMetawidget
 			else
 				valueString = String.valueOf( value );
 
-			for ( int loop = 0, length = listBox.getItemCount(); loop < length; loop++ )
-			{
-				if ( valueString.equals( listBox.getValue( loop ) ) )
-				{
-					listBox.setSelectedIndex( loop );
-					return;
-				}
-			}
-
-			throw new RuntimeException( "'" + value + "' is not a valid value for the ListBox" );
+			GwtUtils.setListBoxSelectedItem( listBox, valueString );
+			return;
 		}
+
+		// Panel (fail gracefully for MASKED fields)
+
+		if ( widget instanceof SimplePanel )
+			return;
 
 		// Unknown (subclasses should override this)
 
@@ -506,20 +505,16 @@ public class GwtMetawidget
 	// because we can worry about nested Metawidgets here, not in the Binding class
 	public void save()
 	{
-		if ( mBinding == null )
-			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
-
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
 			throw new RuntimeException( "Widgets need building first" );
 
+		if ( mBinding == null )
+			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
+
 		mBinding.save();
 
-		WidgetCollection widgets = getChildren();
-
-		for ( int loop = 0, length = widgets.size(); loop < length; loop++ )
+		for ( Widget widget : mWidgetNames.values() )
 		{
-			Widget widget = widgets.get( loop );
-
 			if ( widget instanceof GwtMetawidget )
 			{
 				( (GwtMetawidget) widget ).save();
@@ -761,7 +756,7 @@ public class GwtMetawidget
 		// Masked (return a Panel, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
-			return new Stub();
+			return new SimplePanel();
 
 		String type = attributes.get( TYPE );
 
@@ -814,6 +809,19 @@ public class GwtMetawidget
 		if ( type == null || "".equals( type ) )
 			return new TextBox();
 
+		// Lookups
+
+		String lookup = attributes.get( LOOKUP );
+
+		if ( lookup != null && !"".equals( lookup ) )
+		{
+			ListBox listBox = new ListBox();
+			listBox.setVisibleItemCount( 1 );
+
+			addListBoxItems( listBox, GwtUtils.fromString( lookup, ',' ), GwtUtils.fromString( attributes.get( LOOKUP_LABELS ), ',' ), attributes );
+			return listBox;
+		}
+
 		if ( GwtUtils.isPrimitive( type ) )
 		{
 			// booleans
@@ -834,19 +842,6 @@ public class GwtMetawidget
 			// Everything else
 
 			return new TextBox();
-		}
-
-		// String Lookups
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) )
-		{
-			ListBox listBox = new ListBox();
-			listBox.setVisibleItemCount( 1 );
-
-			addListBoxItems( listBox, GwtUtils.fromString( lookup, ',' ), GwtUtils.fromString( attributes.get( LOOKUP_LABELS ), ',' ), attributes );
-			return listBox;
 		}
 
 		// Strings
@@ -996,22 +991,21 @@ public class GwtMetawidget
 	 *    Collection.class.isAssignableFrom( ... );
 	 * </code>
 	 * <p>
-	 * ...subclasses may need to override this method if they introduce
-	 * a new Collection subtype.
+	 * ...subclasses may need to override this method if they introduce a new Collection subtype.
 	 */
 
-	protected  boolean isCollection( String className )
+	protected boolean isCollection( String className )
 	{
-		if ( Collection.class.getName().equals( className ))
+		if ( Collection.class.getName().equals( className ) )
 			return true;
 
-		if ( List.class.getName().equals( className ) || ArrayList.class.getName().equals( className ))
+		if ( List.class.getName().equals( className ) || ArrayList.class.getName().equals( className ) )
 			return true;
 
-		if ( Set.class.getName().equals( className ) || HashSet.class.getName().equals( className ))
+		if ( Set.class.getName().equals( className ) || HashSet.class.getName().equals( className ) )
 			return true;
 
-		if ( Map.class.getName().equals( className ) || HashMap.class.getName().equals( className ))
+		if ( Map.class.getName().equals( className ) || HashMap.class.getName().equals( className ) )
 			return true;
 
 		return false;

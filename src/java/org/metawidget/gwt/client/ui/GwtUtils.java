@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.List;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.ListBox;
 
 /**
  * Utilities for working with Google Web Toolkit.
@@ -45,8 +46,8 @@ public final class GwtUtils
 	/**
 	 * GWT-ified <code>Class.isPrimitive</code>.
 	 * <p>
-	 * This version takes a String argument, because we won't have been able to
-	 * use Class.forName to create a Class.
+	 * This version takes a String argument, because we won't have been able to use Class.forName to
+	 * create a Class.
 	 */
 
 	public static boolean isPrimitive( String className )
@@ -103,11 +104,11 @@ public final class GwtUtils
 
 	public static List<String> fromString( String collection, char separator )
 	{
-		if ( collection == null || "".equals( collection ))
+		if ( collection == null || "".equals( collection ) )
 		{
 			// (use Collections.EMPTY_LIST, not Collections.emptyList, so that we're 1.4 compatible)
 
-			@SuppressWarnings( { "cast", "unchecked" })
+			@SuppressWarnings( { "cast", "unchecked" } )
 			List<String> list = (List<String>) Collections.EMPTY_LIST;
 			return list;
 		}
@@ -168,6 +169,20 @@ public final class GwtUtils
 		}
 
 		return builder.toString();
+	}
+
+	public static void setListBoxSelectedItem( ListBox listBox, String value )
+	{
+		for ( int loop = 0, length = listBox.getItemCount(); loop < length; loop++ )
+		{
+			if ( value.equals( listBox.getValue( loop ) ) )
+			{
+				listBox.setSelectedIndex( loop );
+				return;
+			}
+		}
+
+		throw new RuntimeException( "'" + value + "' is not a valid value for the ListBox" );
 	}
 
 	public static void alert( Throwable caught )

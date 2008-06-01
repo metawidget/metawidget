@@ -423,7 +423,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[1]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsNestedWidgetsNestedTextbox1" value="Nested Textbox 1"/>
 				<setInputField name="form:allWidgetsNestedWidgetsNestedTextbox1" value="Nested Textbox 1.1"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/th" text="???nestedTextbox2???:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/th" text="Nested Textbox 2 (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsNestedWidgetsNestedTextbox2" value="Nested Textbox 2"/>
 				<setInputField name="form:allWidgetsNestedWidgetsNestedTextbox2" value="Nested Textbox 2.2"/>
@@ -433,7 +433,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[1]/td[1]" text="Nested Textbox 1"/>
 				<verifyInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox1" value="Nested Textbox 1"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox1" value="Nested Textbox 1.11"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[2]/th" text="???nestedTextbox2???:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[2]/th" text="Nested Textbox 2 (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[2]/td[1]" text="Nested Textbox 2"/>
 				<verifyInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox2" value="Nested Textbox 2"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox2" value="Nested Textbox 2.22"/>

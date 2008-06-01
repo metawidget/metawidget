@@ -4,6 +4,7 @@
 	<import file="${webtest.dir}/lib/taskdef.xml" />
 
 	<!-- WebTest is not up to testing GWT yet. This just tests Bundle2VariableTag -->
+	<!-- We do the rest of our unit testing in GwtAddressBookTest.java            -->
 	
 	<target name="test-all">
 		<webtest name="test-all">

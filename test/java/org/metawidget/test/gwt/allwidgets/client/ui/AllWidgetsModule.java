@@ -115,15 +115,12 @@ public class AllWidgetsModule
 			public void onClick( Widget sender )
 			{
 				metawidget.save();
-
 				metawidget.setReadOnly( true );
-				//metawidget.buildWidgets();
+				metawidget.setDictionaryName( "bundle" );
 			}
 		} );
 
 		buttonsFacet.add( saveButton );
-
-		//metawidget.buildWidgets();
 
 		// Add to either RootPanel or the given Panel (for unit tests)
 
