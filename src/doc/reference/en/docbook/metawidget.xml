@@ -1443,8 +1443,8 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 				</para>
 				
 				<para>
-					The example is located in <filename>examples/faces/seam-booking</filename>. It is
-					not pre-built. To build it, change to the <filename>examples/faces/seam-booking</filename> folder and type:
+					The example is located in <filename>examples/faces/seam/booking</filename>. It is
+					not pre-built. To build it, change to the <filename>examples/faces/seam/booking</filename> folder and type:
 				</para>
 				
 				<programlisting language="shell">ant</programlisting>
@@ -1464,7 +1464,7 @@ bin\run</programlisting>
 				</para>
 				
 				<para>
-					<filename>examples/faces/seam-booking</filename> contains those files that have been updated. Most of the
+					<filename>examples/faces/seam/booking</filename> contains those files that have been updated. Most of the
 					UI code in <filename>view/book.xhtml</filename>, <filename>view/confirm.xhtml</filename> and
 					<filename>view/hotelview.xhtml</filename> has been replaced with a single Metawidget tag. Some annotations
 					have been added to <filename>src/Hotel.java</filename> and <filename>src/Booking.java</filename>, though
@@ -1479,6 +1479,12 @@ bin\run</programlisting>
 					to be deployed in both. This approach ensures a clean separation between frontend and backend code, and is important for avoiding
 					WAR/EJB classloading problems.
 				</para>
+				
+			</section>
+
+			<section id="section-introduction-part3-groovy">
+				<title>Seam Groovy Example</title>
+	
 				
 			</section>
 

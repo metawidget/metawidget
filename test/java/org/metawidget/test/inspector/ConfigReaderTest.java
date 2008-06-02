@@ -60,11 +60,11 @@ public class ConfigReaderTest
 		xml += "<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\"/>";
 		xml += "<facesInspector xmlns=\"java:org.metawidget.inspector.faces\"/>";
 		xml += "<hibernateValidatorInspector xmlns=\"java:org.metawidget.inspector.hibernate.validator\"/>";
-		xml += "<propertyInspector xmlns=\"java:org.metawidget.inspector.property\" config=\"JavaBeanPropertyConfig\">";
-		xml += "<propertyStyle>org.metawidget.inspector.impl.propertystyle.JavaBeanPropertyStyle</propertyStyle>";
+		xml += "<propertyInspector xmlns=\"java:org.metawidget.inspector.property\" config=\"PropertyInspectorConfig\">";
+		xml += "<propertyStyle>org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle</propertyStyle>";
 		xml += "<sorted>true</sorted>";
 		xml += "<proxyPattern>ByCGLIB\\$\\$|_\\$\\$_javassist_</proxyPattern>";
-		xml += "</javaBeanInspector>";
+		xml += "</propertyInspector>";
 		xml += "<jpaInspector xmlns=\"java:org.metawidget.inspector.jpa\"/>";
 		xml += "<jspAnnotationInspector xmlns=\"java:org.metawidget.inspector.jsp\"/>";
 		xml += "<springAnnotationInspector xmlns=\"java:org.metawidget.inspector.spring\"/>";

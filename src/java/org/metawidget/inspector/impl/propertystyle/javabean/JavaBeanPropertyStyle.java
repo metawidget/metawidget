@@ -34,6 +34,10 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
+ * PropertyStyle for JavaBean-style properties.
+ * <p>
+ * This PropertyStyle recognizes both getters and setters and public member fields.
+ *
  * @author Richard Kennard
  */
 
@@ -105,7 +109,7 @@ public class JavaBeanPropertyStyle
 
 				for ( Field field : clazz.getFields() )
 				{
-					// Ignore static public fields (like Groovy's __timestamp)
+					// Ignore static public fields
 
 					if ( Modifier.isStatic( field.getModifiers() ) )
 						continue;
@@ -273,11 +277,6 @@ public class JavaBeanPropertyStyle
 		//
 		//
 
-		public Field getField()
-		{
-			return mField;
-		}
-
 		public boolean isReadable()
 		{
 			return true;
@@ -305,17 +304,7 @@ public class JavaBeanPropertyStyle
 			return mField.getAnnotation( annotation );
 		}
 
-		public Annotation[] getAnnotations()
-		{
-			return mField.getAnnotations();
-		}
-
-		public Annotation[] getDeclaredAnnotations()
-		{
-			return mField.getDeclaredAnnotations();
-		}
-
-		public Type getPropertyGenericType()
+		public Type getGenericType()
 		{
 			return mField.getGenericType();
 		}
@@ -357,16 +346,6 @@ public class JavaBeanPropertyStyle
 		// Public methods
 		//
 		//
-
-		public Method getReadMethod()
-		{
-			return mReadMethod;
-		}
-
-		public Method getWriteMethod()
-		{
-			return mWriteMethod;
-		}
 
 		public boolean isReadable()
 		{
@@ -411,43 +390,7 @@ public class JavaBeanPropertyStyle
 			return null;
 		}
 
-		public Annotation[] getAnnotations()
-		{
-			if ( mReadMethod == null )
-			{
-				if ( mWriteMethod == null )
-					return null;
-
-				return mWriteMethod.getAnnotations();
-			}
-
-			Annotation[] annotationsRead = mReadMethod.getAnnotations();
-
-			if ( mWriteMethod == null )
-				return annotationsRead;
-
-			return ArrayUtils.add( annotationsRead, mWriteMethod.getAnnotations() );
-		}
-
-		public Annotation[] getDeclaredAnnotations()
-		{
-			if ( mReadMethod == null )
-			{
-				if ( mWriteMethod == null )
-					return null;
-
-				return mWriteMethod.getDeclaredAnnotations();
-			}
-
-			Annotation[] annotationsRead = mReadMethod.getDeclaredAnnotations();
-
-			if ( mWriteMethod == null )
-				return annotationsRead;
-
-			return ArrayUtils.add( annotationsRead, mWriteMethod.getDeclaredAnnotations() );
-		}
-
-		public Type getPropertyGenericType()
+		public Type getGenericType()
 		{
 			if ( mReadMethod != null )
 				return mReadMethod.getGenericReturnType();

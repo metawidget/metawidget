@@ -14,36 +14,20 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle;
+package org.metawidget.groovytest.inspector.groovyproperty.propertystyle;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
+import javax.persistence.Column;
 
 /**
  * @author Richard Kennard
  */
 
-public interface Property
+class GroovyFoo
 {
-	//
-	//
-	// Methods
-	//
-	//
+	@Column( nullable = false )
+	String		foo
 
-	String getName();
+	List<Date>	bar
 
-	Class<?> getType();
-
-	boolean isReadable();
-
-	Object read( Object obj );
-
-	boolean isWritable();
-
-	<T extends Annotation> T getAnnotation( Class<T> annotation );
-
-	boolean isAnnotationPresent( Class<? extends Annotation> annotation );
-
-	Type getGenericType();
+	boolean 	baz
 }

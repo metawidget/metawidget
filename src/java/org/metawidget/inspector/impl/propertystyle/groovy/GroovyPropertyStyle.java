@@ -18,6 +18,7 @@ package org.metawidget.inspector.impl.propertystyle.groovy;
 
 import groovy.lang.GroovySystem;
 import groovy.lang.MetaBeanProperty;
+import groovy.lang.MetaClass;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
@@ -28,15 +29,55 @@ import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyImpl;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
 
 /**
+ * PropertyStyle for Groovy-style properties.
+ * <p>
+ * Groovy-style properties can <em>almost</em> be handled using <code>JavaBeanPropertyStyle</code>,
+ * because the Groovy compiler automatically generates JavaBean-style getters and setters.
+ * Unfortunately, it does not also copy any annotations defined on the property to the generated
+ * getter and setters. This <code>PropertyStyle</code> is designed to access those annotations.
+ *
  * @author Richard Kennard
  */
 
 public class GroovyPropertyStyle
 	implements PropertyStyle
 {
+	//
+	//
+	// Private statics
+	//
+	//
+
+	private final static Class<?>[]	DEFAULT_EXCLUDE_TYPES	= new Class<?>[] { Class.class, MetaClass.class };
+
+	//
+	//
+	// Private members
+	//
+	//
+
+	private Class<?>[]				mExcludeTypes;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public GroovyPropertyStyle()
+	{
+		this( DEFAULT_EXCLUDE_TYPES );
+	}
+
+	public GroovyPropertyStyle( Class<?>[] excludeTypes )
+	{
+		mExcludeTypes = excludeTypes;
+	}
+
 	//
 	//
 	// Public methods
@@ -50,8 +91,13 @@ public class GroovyPropertyStyle
 		@SuppressWarnings( "unchecked" )
 		List<MetaBeanProperty> properties = GroovySystem.getMetaClassRegistry().getMetaClass( clazz ).getProperties();
 
-		for( MetaBeanProperty property : properties )
+		for ( MetaBeanProperty property : properties )
 		{
+			// Ignore certain types
+
+			if ( ArrayUtils.contains( mExcludeTypes, property.getType() ) )
+				continue;
+
 			propertiesToReturn.put( property.getName(), new GroovyProperty( property ) );
 		}
 
@@ -77,7 +123,7 @@ public class GroovyPropertyStyle
 		//
 		//
 
-		private MetaBeanProperty mProperty;
+		private MetaBeanProperty	mProperty;
 
 		//
 		//
@@ -122,12 +168,12 @@ public class GroovyPropertyStyle
 
 		public <T extends Annotation> T getAnnotation( Class<T> annotation )
 		{
-			return null;
+			return mProperty.getField().field.getAnnotation( annotation );
 		}
 
-		public Type getPropertyGenericType()
+		public Type getGenericType()
 		{
-			return null;
+			return mProperty.getField().field.getGenericType();
 		}
 	}
 }

@@ -33,6 +33,7 @@
 		<mkdir dir="${build.metawidget.dir}/classes"/>
 		<mkdir dir="${build.metawidget.dir}/example-classes"/>
 		<mkdir dir="${build.metawidget.dir}/test-classes"/>
+		<mkdir dir="${build.metawidget.dir}/groovy-test-classes"/>
 		<mkdir dir="${build.metawidget.dir}/tutorial-classes"/>
 
 		<echo message="Note: Metawidget requires Java SE 6 to build, though only J2SE 1.4 to run"/>
@@ -52,7 +53,7 @@
 			<include name="org/metawidget/inspector/composite/**"/>
 			<include name="org/metawidget/inspector/hibernate/*.java"/>
 			<include name="org/metawidget/inspector/impl/**"/>
-			<include name="org/metawidget/inspector/javabean/**"/>
+			<include name="org/metawidget/inspector/property/**"/>
 			<include name="org/metawidget/inspector/struts/**"/>
 			<exclude name="org/metawidget/inspector/struts/StrutsAnnotationInspector.java"/>
 			<exclude name="org/metawidget/inspector/struts/UiStrutsLookup.java"/>
@@ -121,6 +122,18 @@
 			</classpath>
 		</javac>
 
+		<!-- Build Groovy files -->
+
+		<java classname="org.codehaus.groovy.ant.Groovyc" fork="yes" failonerror="true">
+			<classpath>
+				<fileset dir="lib"/>
+			</classpath>
+	      	<arg value="${build.metawidget.dir}/groovy-test-classes"/>
+		    <arg value="test/groovy"/>
+		</java>		
+
+		<!-- Build test files -->
+
 		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="${build.debug}" optimize="on" target="1.5">
 			<exclude name="org/metawidget/test/faces/allwidgets/**"/>
 			<exclude name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
@@ -133,9 +146,10 @@
 				<fileset dir="lib"/>
 				<pathelement path="${build.metawidget.dir}/classes"/>				
 				<pathelement path="${build.metawidget.dir}/example-classes"/>				
+				<pathelement path="${build.metawidget.dir}/groovy-test-classes"/>				
 			</classpath>
 		</javac>
-
+		
 	</target>
 
 	<target name="compile" depends="compile-ok, compile-skip"/>
@@ -594,8 +608,24 @@
 
 	<target name="test-faces-seam-booking" depends="example-faces-seam-booking">
 		
-		<ant dir="${build.metawidget.dir}/examples/faces/seam-booking"/>
+		<ant dir="${build.metawidget.dir}/examples/faces/seam/booking"/>
 		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/jboss-seam-booking.ear" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
+		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/jboss-seam-booking-ds.xml" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
+		<antcall target="test-web-start-jboss"/>
+		<ant antfile="test/web/examples/faces/seam-booking-test.xml"/>
+		<antcall target="test-web-stop-jboss"/>
+		
+	</target>
+
+	<target name="test-faces-seam-groovybooking" depends="example-faces-seam-groovybooking">
+		
+		<ant dir="${build.metawidget.dir}/examples/faces/seam/groovybooking"/>
+		<copy todir="${jboss.dir}/server/default/deploy" overwrite="true">
+			<fileset dir="/Applications/jboss-4.2.2.GA/server/default/deploy">
+				<include name="jboss-seam-groovy.war/**"/>
+			</fileset>
+		</copy>
+		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/groovybooking-dev-ds.xml" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
 		<antcall target="test-web-start-jboss"/>
 		<ant antfile="test/web/examples/faces/seam-booking-test.xml"/>
 		<antcall target="test-web-stop-jboss"/>
@@ -1086,11 +1116,29 @@
 		
 		<copy todir="${build.metawidget.dir}/examples/faces">
 			<fileset dir="src/web/examples/faces">
-				<include name="seam-booking/**"/>
+				<include name="seam/booking/**"/>
 			</fileset>
 		</copy>
 
-		<copy todir="${build.metawidget.dir}/examples/faces/seam-booking">
+		<copy todir="${build.metawidget.dir}/examples/faces/seam/booking">
+			<fileset dir="${build.metawidget.dir}">
+				<include name="metawidget-*.jar"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${build.metawidget.dir}/examples/faces" file="src/web/examples/faces/readme.txt"/>
+
+	</target>
+
+	<target name="example-faces-seam-groovybooking" depends="pack-as-frontend-backend">
+		
+		<copy todir="${build.metawidget.dir}/examples/faces">
+			<fileset dir="src/web/examples/faces">
+				<include name="seam/groovybooking/**"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${build.metawidget.dir}/examples/faces/seam/groovybooking">
 			<fileset dir="${build.metawidget.dir}">
 				<include name="metawidget-*.jar"/>
 			</fileset>

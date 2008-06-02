@@ -14,36 +14,18 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle;
+package org.metawidget.inspector.faces;
 
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
+import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
 
 /**
+ * Configures a FacesInspector prior to use. Once instantiated, Inspectors are immutable.
+ *
  * @author Richard Kennard
  */
 
-public interface Property
+public class FacesInspectorConfig
+	extends AbstractPropertyInspectorConfig
 {
-	//
-	//
-	// Methods
-	//
-	//
-
-	String getName();
-
-	Class<?> getType();
-
-	boolean isReadable();
-
-	Object read( Object obj );
-
-	boolean isWritable();
-
-	<T extends Annotation> T getAnnotation( Class<T> annotation );
-
-	boolean isAnnotationPresent( Class<? extends Annotation> annotation );
-
-	Type getGenericType();
+	// Just an AbstractPropertyInspectorConfig
 }

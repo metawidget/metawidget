@@ -115,7 +115,7 @@ public class Java5Inspector
 
 		// Generics
 
-		Type type = property.getPropertyGenericType();
+		Type type = property.getGenericType();
 
 		if ( type instanceof ParameterizedType )
 		{

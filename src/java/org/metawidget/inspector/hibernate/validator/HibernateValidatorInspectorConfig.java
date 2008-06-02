@@ -14,17 +14,18 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.inspector.property.propertystyle.groovy
+package org.metawidget.inspector.hibernate.validator;
+
+import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
 
 /**
+ * Configures a HibernateValidatorInspector prior to use. Once instantiated, Inspectors are immutable.
+ *
  * @author Richard Kennard
  */
 
-class Foo
+public class HibernateValidatorInspectorConfig
+	extends AbstractPropertyInspectorConfig
 {
-	String	foo
-	
-	int		bar
-	
-	boolean baz
+	// Just an AbstractPropertyInspectorConfig
 }

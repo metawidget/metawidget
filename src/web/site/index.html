@@ -35,7 +35,7 @@
 			<area id="area-web" shape="poly" coords="117,172,117,100,207,109,207,188" alt=""/>
 			<area id="area-mobile" shape="poly" coords="225,168,225,82,266,85,266,175" alt=""/>
 			<area id="area-inspect" shape="poly" coords="217,74,273,80,273,175,645,56,678,1,217,0" alt=""/>
-			<area id="area-javabean" shape="poly" coords="665,67,655,41,683,0,720,20,690,64" alt=""/>
+			<area id="area-property" shape="poly" coords="665,67,655,41,683,0,720,20,690,64" alt=""/>
 			<area id="area-xml" shape="circle" coords="711,95,36" alt=""/>
 			<area id="area-annotation" shape="circle" coords="695,182,44" alt=""/>
 			<area id="area-create" shape="poly" coords="404,320,651,215,724,234,573,499,205,500,399,382" alt=""/>
@@ -81,6 +81,7 @@
 							<h3>2. Back-Ends</h3>
 							<ul>
 								<li>Annotations</li>
+								<li>Groovy</li>
 								<li>Hibernate</li>
 								<li>Hibernate Validator</li>
 								<li>JavaBeans</li>
@@ -130,8 +131,8 @@
 		a common inspection process to inspect the existing back-end architecture
 	</div>
 
-	<div id="tooltip-javabean" class="tooltip">
-		<strong>JavaBeans:</strong> Metawidget inspects runtime JavaBean properties and types
+	<div id="tooltip-property" class="tooltip">
+		<strong>Properties:</strong> Metawidget inspects runtime properties from JavaBeans or GroovyBeans
 	</div>
 
 	<div id="tooltip-annotation" class="tooltip">
@@ -172,7 +173,7 @@
 		new Tooltip( "area-desktop", "tooltip-desktop" );
 		new Tooltip( "area-mobile", "tooltip-mobile" );
 		new Tooltip( "area-inspect", "tooltip-inspect" );
-		new Tooltip( "area-javabean", "tooltip-javabean" );
+		new Tooltip( "area-property", "tooltip-property" );
 		new Tooltip( "area-annotation", "tooltip-annotation" );
 		new Tooltip( "area-xml", "tooltip-xml" );
 		new Tooltip( "area-create", "tooltip-create" );
