@@ -245,7 +245,7 @@ public abstract class UIMetawidget
 			String localized = getLocalizedKey( context, name );
 
 			if ( localized != null )
-				return localized;
+				return localized.trim();
 
 			return StringUtils.uncamelCase( name );
 		}

@@ -119,7 +119,7 @@ public class AllWidgets
 	 */
 
 	@SuppressWarnings( "deprecation" )
-	private Date				mDate								= new Date( 1975, 3, 9, 1, 0, 0 );
+	private Date				mDate								= new Date( 75, 3, 9, 1, 0, 0 );
 
 	private String				mHidden								= "Hidden";
 

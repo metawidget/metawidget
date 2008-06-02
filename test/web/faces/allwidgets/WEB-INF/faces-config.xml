@@ -30,7 +30,7 @@
 
 	<managed-bean>
 		<managed-bean-name>allWidgets</managed-bean-name>
-		<managed-bean-class>org.metawidget.test.shared.allwidgets.model.AllWidgets_$$_javassist_1</managed-bean-class>
+		<managed-bean-class>org.metawidget.test.shared.allwidgets.proxy.AllWidgets_$$_javassist_1</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 

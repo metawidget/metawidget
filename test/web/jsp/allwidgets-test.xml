@@ -241,12 +241,12 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[24]/th" text="Nested Widgets (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[24]/td[1]/table/tbody/tr[1]/th" text="???nestedTextbox1???:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[24]/td[1]/table/tbody/tr[1]/td[1]" text="Nested Textbox 1.1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[24]/td[1]/table/tbody/tr[2]/th" text="???nestedTextbox2???:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[24]/td[1]/table/tbody/tr[2]/th" text="Nested Textbox 2 (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[24]/td[1]/table/tbody/tr[2]/td[1]" text="Nested Textbox 2.2"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[25]/th" text="Read only Nested Widgets (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[25]/td[1]/table/tbody/tr[1]/th" text="???nestedTextbox1???:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[25]/td[1]/table/tbody/tr[1]/td[1]" text="Nested Textbox 1.11"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/th" text="???nestedTextbox2???:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/th" text="Nested Textbox 2 (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[25]/td[1]/table/tbody/tr[2]/td[1]" text="Nested Textbox 2.22"/>	
 				<verifyXPath xpath="/html/body/table/tbody/tr[26]/th" text="Read only Nested Widgets (don't expand) (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[26]/td[1]" text="Nested Textbox 1, Nested Textbox 2"/>

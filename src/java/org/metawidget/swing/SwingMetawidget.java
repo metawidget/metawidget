@@ -273,7 +273,7 @@ public class SwingMetawidget
 			String localized = getLocalizedKey( name );
 
 			if ( localized != null )
-				return localized;
+				return localized.trim();
 
 			return StringUtils.uncamelCase( name );
 		}

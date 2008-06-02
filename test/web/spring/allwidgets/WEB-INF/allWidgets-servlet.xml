@@ -13,7 +13,7 @@
 
 	<bean id="allWidgetsController" class="org.metawidget.test.spring.allwidgets.controller.AllWidgetsController">
 		<property name="commandName"><value>allWidgetsCommand</value></property>
-		<property name="commandClass"><value>org.metawidget.test.shared.allwidgets.model.proxy.AllWidgets$$EnhancerByCGLIB$$1234</value></property>
+		<property name="commandClass"><value>org.metawidget.test.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234</value></property>
 		<property name="formView"><value>index</value></property>
 		<property name="successView"><value>saved</value></property>		
 	</bean>

@@ -187,7 +187,7 @@ public abstract class MetawidgetTag
 			String localized = getLocalizedKey( name );
 
 			if ( localized != null )
-				return localized;
+				return localized.trim();
 
 			return StringUtils.uncamelCase( name );
 		}

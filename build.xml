@@ -444,7 +444,7 @@
 		
 		<emma>
 			<instr instrpath="${build.metawidget.dir}/classes" destdir="${build.metawidget.dir}/classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="*Constants"/>
+				<filter excludes="*Constants, org.metawidget.gwt.client.*"/>				
 			</instr>
 			<instr instrpath="${build.metawidget.dir}/example-classes" destdir="${build.metawidget.dir}/example-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite"/>
 		</emma>
@@ -475,7 +475,10 @@
 					<dirset dir="src/java"/>
 					<dirset dir="test/java"/>
 		        </sourcepath>				
-				<fileset dir="${run.dir}"/>
+				<fileset dir="${run.dir}">
+					<include name="*.ec"/>
+					<include name="*.emma"/>
+				</fileset>
 				<html outfile="${build.metawidget.dir}/doc/coverage/index.html" />
 			</report>
 		</emma>
