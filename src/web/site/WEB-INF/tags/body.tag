@@ -53,6 +53,9 @@
 					<a href="http://code.google.com/android" target="_blank">
 						<img src="${context}/media/logo-android.gif" alt="Android" style="border: 0px" />
 					</a>
+					<a href="http://groovy.codehaus.org" target="_blank">
+						<img src="${context}/media/logo-groovy.gif" alt="Groovy" style="border: 0px" />
+					</a>
 					<a href="http://www.hibernate.org" target="_blank">
 						<img src="${context}/media/logo-hibernate.gif" alt="Hibernate" style="border: 0px" />
 					</a>
