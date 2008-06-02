@@ -18,7 +18,7 @@ package org.metawidget.faces.component.html;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
-import static org.metawidget.inspector.javabean.JavaBeanInspectionResultConstants.*;
+import static org.metawidget.inspector.property.PropertyInspectionResultConstants.*;
 
 import java.util.Collection;
 import java.util.Date;

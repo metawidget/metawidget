@@ -13,7 +13,7 @@
 					<string>org/metawidget/test/shared/allwidgets/model/metawidget-metadata.xml</string>
 				</files>
 			</xmlInspector>
-			<javaBeanInspector xmlns="java:org.metawidget.inspector.javabean"/>
+			<propertyInspector xmlns="java:org.metawidget.inspector.property"/>
 		</inspectors>
 	</compositeInspector>
 

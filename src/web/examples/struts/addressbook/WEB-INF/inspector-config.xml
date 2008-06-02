@@ -8,14 +8,9 @@
 			<strutsInspector xmlns="java:org.metawidget.inspector.struts"/>
 			<xmlInspector xmlns="java:org.metawidget.inspector.xml"/>
 			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
-			<javaBeanInspector xmlns="java:org.metawidget.inspector.javabean" config="JavaBeanInspectorConfig">
-				<excludeProperties>
-					<string>class</string>
-					<string>servlet</string>
-					<string>servletWrapper</string>
-					<string>multipartRequestHandler</string>
-				</excludeProperties>
-			</javaBeanInspector>
+			<propertyInspector xmlns="java:org.metawidget.inspector.property" config="PropertyInspectorConfig">
+				<propertyStyle>org.metawidget.inspector.impl.propertystyle.StrutsActionFormPropertyStyle</propertyStyle>
+			</propertyInspector>
 			<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 			<jspAnnotationInspector xmlns="java:org.metawidget.inspector.jsp"/>
 			<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/>

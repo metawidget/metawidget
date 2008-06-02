@@ -17,7 +17,7 @@
 package org.metawidget.jsp.tagext.spring;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.javabean.JavaBeanInspectionResultConstants.*;
+import static org.metawidget.inspector.property.PropertyInspectionResultConstants.*;
 import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
 
 import java.io.IOException;

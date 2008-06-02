@@ -14,10 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.inspector.javabean;
+package org.metawidget.test.inspector.property;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.javabean.JavaBeanInspectionResultConstants.*;
+import static org.metawidget.inspector.property.PropertyInspectionResultConstants.*;
 
 import java.beans.PropertyChangeListener;
 import java.beans.VetoableChangeListener;
@@ -29,8 +29,8 @@ import org.metawidget.example.shared.addressbook.model.Address;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.Inspector;
-import org.metawidget.inspector.javabean.JavaBeanInspector;
-import org.metawidget.inspector.javabean.JavaBeanInspectorConfig;
+import org.metawidget.inspector.property.PropertyInspector;
+import org.metawidget.inspector.property.PropertyInspectorConfig;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -39,7 +39,7 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public class JavaBeanInspectorTest
+public class PropertyInspectorTest
 	extends TestCase
 {
 	//
@@ -59,7 +59,7 @@ public class JavaBeanInspectorTest
 	@Override
 	public void setUp()
 	{
-		mInspector = new JavaBeanInspector();
+		mInspector = new PropertyInspector();
 	}
 
 	public void testInspection()
@@ -121,9 +121,9 @@ public class JavaBeanInspectorTest
 
 	public void testTraverseViaParent()
 	{
-		JavaBeanInspectorConfig config = new JavaBeanInspectorConfig();
+		PropertyInspectorConfig config = new PropertyInspectorConfig();
 		config.setSorted( false );
-		JavaBeanInspector inspector = new JavaBeanInspector( config );
+		PropertyInspector inspector = new PropertyInspector( config );
 
 		DeclaredTypeTester tester = new DeclaredTypeTester();
 		tester.value = new PersonalContact();
@@ -199,7 +199,7 @@ public class JavaBeanInspectorTest
 	 * JUnit 3.7 constructor.
 	 */
 
-	public JavaBeanInspectorTest( String name )
+	public PropertyInspectorTest( String name )
 	{
 		super( name );
 	}

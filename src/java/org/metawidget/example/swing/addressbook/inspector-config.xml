@@ -9,7 +9,7 @@
 			<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
 				<file>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</file>
 			</xmlInspector>
-			<javaBeanInspector xmlns="java:org.metawidget.inspector.javabean"/>
+			<propertyInspector xmlns="java:org.metawidget.inspector.property"/>
 			<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 		</inspectors>
 	</compositeInspector>

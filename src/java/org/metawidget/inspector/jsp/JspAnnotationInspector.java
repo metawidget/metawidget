@@ -16,11 +16,12 @@
 
 package org.metawidget.inspector.jsp;
 
-import static org.metawidget.inspector.jsp.JspInspectionResultConstants.JSP_LOOKUP;
+import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 
 import java.util.Map;
 
-import org.metawidget.inspector.impl.AbstractPojoInspector;
+import org.metawidget.inspector.impl.AbstractPropertyInspector;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -30,7 +31,7 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class JspAnnotationInspector
-	extends AbstractPojoInspector
+	extends AbstractPropertyInspector
 {
 	//
 	//

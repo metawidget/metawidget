@@ -26,8 +26,8 @@ import org.metawidget.test.inspector.faces.FacesInspectorTest;
 import org.metawidget.test.inspector.hibernate.HibernateInspectorTest;
 import org.metawidget.test.inspector.hibernate.validator.HibernateValidatorInspectorTest;
 import org.metawidget.test.inspector.java5.Java5InspectorTest;
-import org.metawidget.test.inspector.javabean.JavaBeanInspectorTest;
 import org.metawidget.test.inspector.jpa.JpaInspectorTest;
+import org.metawidget.test.inspector.property.PropertyInspectorTest;
 import org.metawidget.test.inspector.remote.RemoteInspectorTest;
 import org.metawidget.test.inspector.struts.StrutsInspectorTest;
 import org.metawidget.test.inspector.xml.XmlInspectorTest;
@@ -53,7 +53,7 @@ public class InspectorTests
 		suite.addTestSuite( HibernateInspectorTest.class );
 		suite.addTestSuite( HibernateValidatorInspectorTest.class );
 		suite.addTestSuite( Java5InspectorTest.class );
-		suite.addTestSuite( JavaBeanInspectorTest.class );
+		suite.addTestSuite( PropertyInspectorTest.class );
 		suite.addTestSuite( JpaInspectorTest.class );
 		suite.addTestSuite( CompositeInspectorTest.class );
 		suite.addTestSuite( MetawidgetAnnotationInspectorTest.class );

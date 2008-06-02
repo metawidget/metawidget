@@ -18,6 +18,9 @@ package org.metawidget.inspector.impl;
 
 import java.util.regex.Pattern;
 
+import org.metawidget.inspector.InspectorException;
+import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.util.ClassUtils;
 
 /**
@@ -28,7 +31,7 @@ import org.metawidget.util.ClassUtils;
  * @author Richard Kennard
  */
 
-public class AbstractPojoInspectorConfig
+public class AbstractPropertyInspectorConfig
 {
 	//
 	//
@@ -36,8 +39,10 @@ public class AbstractPojoInspectorConfig
 	//
 	//
 
-	private Pattern	mProxyPattern	= ClassUtils.DEFAULT_PROXY_PATTERN;
-	
+	private Pattern							mProxyPattern	= ClassUtils.DEFAULT_PROXY_PATTERN;
+
+	private Class<? extends PropertyStyle>	mPropertyStyle	= JavaBeanPropertyStyle.class;
+
 	//
 	//
 	// Public methods
@@ -60,5 +65,34 @@ public class AbstractPojoInspectorConfig
 	Pattern getProxyPattern()
 	{
 		return mProxyPattern;
+	}
+
+	/**
+	 * Sets the style used to recognize properties. Defaults to <code>JavaBeanPropertyStyle</code>.
+	 */
+
+	public void setPropertyStyle( Class<? extends PropertyStyle> propertyStyleClass )
+	{
+		mPropertyStyle = propertyStyleClass;
+	}
+
+	/**
+	 * Gets the style used to instantiate properties.
+	 * <p>
+	 * We have the <code>AbstractPropertyInspectorConfig</code> instantiate the PropertyStyle,
+	 * rather than the <code>AbstractPropertyInspector</code>, to provide a 'hook' for
+	 * configurable PropertyStyles.
+	 */
+
+	PropertyStyle getPropertyStyle()
+	{
+		try
+		{
+			return mPropertyStyle.newInstance();
+		}
+		catch ( Exception e )
+		{
+			throw InspectorException.newException( e );
+		}
 	}
 }

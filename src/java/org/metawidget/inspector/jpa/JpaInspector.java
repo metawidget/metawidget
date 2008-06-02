@@ -24,7 +24,8 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 
-import org.metawidget.inspector.impl.AbstractPojoInspector;
+import org.metawidget.inspector.impl.AbstractPropertyInspector;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -34,7 +35,7 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class JpaInspector
-	extends AbstractPojoInspector
+	extends AbstractPropertyInspector
 {
 	//
 	//

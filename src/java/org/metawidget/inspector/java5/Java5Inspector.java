@@ -24,7 +24,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.inspector.impl.AbstractPojoInspector;
+import org.metawidget.inspector.impl.AbstractPropertyInspector;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -36,7 +37,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class Java5Inspector
-	extends AbstractPojoInspector
+	extends AbstractPropertyInspector
 {
 	//
 	//
@@ -60,7 +61,7 @@ public class Java5Inspector
 	public Java5Inspector( Java5InspectorConfig config )
 	{
 		// Defensive copy
-	
+
 		String[] excludeProperties = config.getExcludeProperties();
 		mExcludeProperties = new String[excludeProperties.length];
 		System.arraycopy( excludeProperties, 0, mExcludeProperties, 0, excludeProperties.length );
@@ -85,7 +86,7 @@ public class Java5Inspector
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		Class<?> propertyClass = property.getPropertyClass();
+		Class<?> propertyClass = property.getType();
 
 		if ( propertyClass.isEnum() )
 		{

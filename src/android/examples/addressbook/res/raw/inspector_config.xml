@@ -8,9 +8,9 @@
 			<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
 				<file>@org.metawidget.example.android.addressbook:raw/metawidget_metadata</file>
 			</xmlInspector>
-			<javaBeanInspector xmlns="java:org.metawidget.inspector.javabean" config="JavaBeanInspectorConfig">
+			<propertyInspector xmlns="java:org.metawidget.inspector.property" config="PropertyInspectorConfig">
 				<sorted>false</sorted>
-			</javaBeanInspector>			
+			</propertyInspector>			
 			<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 		</inspectors>
 	</compositeInspector>

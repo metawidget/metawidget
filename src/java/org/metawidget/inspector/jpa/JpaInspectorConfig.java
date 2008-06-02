@@ -16,7 +16,7 @@
 
 package org.metawidget.inspector.jpa;
 
-import org.metawidget.inspector.impl.AbstractPojoInspectorConfig;
+import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
 
 /**
  * Configures a JpaInspector prior to use. Once instantiated, Inspectors are immutable.
@@ -25,7 +25,7 @@ import org.metawidget.inspector.impl.AbstractPojoInspectorConfig;
  */
 
 public class JpaInspectorConfig
-	extends AbstractPojoInspectorConfig
+	extends AbstractPropertyInspectorConfig
 {
 	//
 	//

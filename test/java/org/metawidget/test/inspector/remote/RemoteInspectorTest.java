@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
-import org.metawidget.inspector.javabean.JavaBeanInspector;
+import org.metawidget.inspector.property.PropertyInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.inspector.xml.XmlInspectorConfig;
 import org.w3c.dom.Document;
@@ -78,7 +78,7 @@ public class RemoteInspectorTest
 		// Inspect front-end
 
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
-		config.setInspectors( new JavaBeanInspector() );
+		config.setInspectors( new PropertyInspector() );
 
 		CompositeInspector inspectorMeta = new CompositeInspector( config );
 

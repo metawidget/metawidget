@@ -26,7 +26,8 @@ import org.hibernate.validator.Max;
 import org.hibernate.validator.Min;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
-import org.metawidget.inspector.impl.AbstractPojoInspector;
+import org.metawidget.inspector.impl.AbstractPropertyInspector;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -36,7 +37,7 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class HibernateValidatorInspector
-	extends AbstractPojoInspector
+	extends AbstractPropertyInspector
 {
 	//
 	//

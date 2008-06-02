@@ -17,7 +17,7 @@
 package org.metawidget.jsp.tagext.struts;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.javabean.JavaBeanInspectionResultConstants.*;
+import static org.metawidget.inspector.property.PropertyInspectionResultConstants.*;
 import static org.metawidget.inspector.struts.StrutsInspectionResultConstants.*;
 
 import java.io.IOException;

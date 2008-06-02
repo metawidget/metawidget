@@ -22,7 +22,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.metawidget.inspector.InspectorException;
-import org.metawidget.inspector.impl.AbstractPojoInspector;
+import org.metawidget.inspector.impl.AbstractPropertyInspector;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
@@ -41,7 +42,7 @@ import org.w3c.dom.Element;
  */
 
 public class MetawidgetAnnotationInspector
-	extends AbstractPojoInspector
+	extends AbstractPropertyInspector
 {
 	//
 	//

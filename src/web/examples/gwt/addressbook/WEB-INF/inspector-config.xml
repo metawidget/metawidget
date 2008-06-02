@@ -7,7 +7,7 @@
 		<inspectors>
 			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 			<xmlInspector xmlns="java:org.metawidget.inspector.xml"/>
-			<javaBeanInspector xmlns="java:org.metawidget.inspector.javabean"/>
+			<propertyInspector xmlns="java:org.metawidget.inspector.property"/>
 			<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 		</inspectors>
 	</compositeInspector>

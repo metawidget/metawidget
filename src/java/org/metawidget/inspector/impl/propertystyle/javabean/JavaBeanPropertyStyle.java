@@ -14,9 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl;
-
-import static org.metawidget.inspector.InspectionResultConstants.*;
+package org.metawidget.inspector.impl.propertystyle.javabean;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -25,28 +23,22 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import org.metawidget.inspector.InspectorException;
+import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.inspector.impl.propertystyle.PropertyImpl;
+import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
- * Convenience implementation for Inspectors that inspect POJOs.
- * <p>
- * Handles iterating over a POJO for JavaBean-convention properties and public member fields. Also
- * handles unwrapping a POJO wrapped by a proxy library (such as CGLIB or Javassist).
- *
  * @author Richard Kennard
  */
 
-public abstract class AbstractPojoInspector
-	extends AbstractInspector
+public class JavaBeanPropertyStyle
+	implements PropertyStyle
 {
 	//
 	//
@@ -54,36 +46,43 @@ public abstract class AbstractPojoInspector
 	//
 	//
 
-	private final static Map<Class<?>, Map<String, Property>>	PROPERTIES_CACHE	= CollectionUtils.newWeakHashMap();
+	private final static Map<Class<?>, Map<String, Property>>	PROPERTIES_CACHE		= CollectionUtils.newWeakHashMap();
 
 	//
 	//
-	// Protected members
+	// Protected statics
 	//
 	//
 
-	protected Pattern											mPatternProxy;
+	protected final static String[]								DEFAULT_EXCLUDE_NAMES	= new String[] { "propertyChangeListeners", "vetoableChangeListeners" };
+
+	protected final static Class<?>[]							DEFAULT_EXCLUDE_TYPES	= new Class<?>[] { Class.class };
 
 	//
 	//
-	// Constructors
+	// Private members
 	//
 	//
 
-	/**
-	 * Default constructor. It is intended many AbstractPojoInspector subclasses be functional
-	 * without explicit configuration, and this saves subclasses having to define explicit
-	 * constructors.
-	 */
+	private String[]											mExcludeNames;
 
-	protected AbstractPojoInspector()
+	private Class<?>[]											mExcludeTypes;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public JavaBeanPropertyStyle()
 	{
-		this( new AbstractPojoInspectorConfig() );
+		this( DEFAULT_EXCLUDE_NAMES, DEFAULT_EXCLUDE_TYPES );
 	}
 
-	protected AbstractPojoInspector( AbstractPojoInspectorConfig config )
+	public JavaBeanPropertyStyle( String[] excludeNames, Class<?>[] excludeTypes )
 	{
-		mPatternProxy = config.getProxyPattern();
+		mExcludeNames = excludeNames;
+		mExcludeTypes = excludeTypes;
 	}
 
 	//
@@ -92,146 +91,8 @@ public abstract class AbstractPojoInspector
 	//
 	//
 
-	public Document inspect( Object toInspect, String type, String... names )
-		throws InspectorException
+	public Map<String, Property> getProperties( Class<?> clazz )
 	{
-		try
-		{
-			Object childToInspect = null;
-			String strChildName = null;
-			Map<String, String> mapParentAttributes = null;
-			Class<?> clazz = null;
-
-			// If the path has a parent...
-
-			if ( names != null && names.length > 0 )
-			{
-				// ...inspect its property for useful annotations...
-
-				Object objParentToInspect = traverse( toInspect, type, true, names );
-
-				if ( objParentToInspect == null )
-					return null;
-
-				Class<?> classParent = ClassUtils.getUnproxiedClass( objParentToInspect.getClass(), mPatternProxy );
-				strChildName = names[names.length - 1];
-
-				Property propertyInParent = getProperties( classParent ).get( strChildName );
-
-				if ( propertyInParent == null )
-					return null;
-
-				clazz = propertyInParent.getPropertyClass();
-
-				if ( propertyInParent.isReadable() )
-				{
-					childToInspect = propertyInParent.read( objParentToInspect );
-
-					mapParentAttributes = inspect( propertyInParent, toInspect );
-
-					if ( !Modifier.isFinal( clazz.getModifiers() ) && childToInspect != null )
-						clazz = ClassUtils.getUnproxiedClass( childToInspect.getClass(), mPatternProxy );
-				}
-			}
-
-			// ...otherwise, just start at the end point
-
-			if ( clazz == null )
-			{
-				childToInspect = traverse( toInspect, type, false, names );
-
-				if ( childToInspect == null )
-					return null;
-
-				clazz = ClassUtils.getUnproxiedClass( childToInspect.getClass(), mPatternProxy );
-			}
-
-			Document document = newDocumentBuilder().newDocument();
-			Element elementEntity = document.createElementNS( NAMESPACE, ENTITY );
-
-			// Inspect child properties
-
-			if ( childToInspect != null )
-				inspect( clazz, childToInspect, elementEntity );
-
-			// Nothing of consequence to return?
-
-			if ( !elementEntity.hasChildNodes() && ( mapParentAttributes == null || mapParentAttributes.isEmpty() ) )
-				return null;
-
-			// Start a new DOM Document
-
-			Element elementRoot = document.createElementNS( NAMESPACE, ROOT );
-			document.appendChild( elementRoot );
-			elementRoot.appendChild( elementEntity );
-			elementEntity.setAttribute( TYPE, clazz.getName() );
-
-			// Add any parent attributes
-
-			if ( mapParentAttributes != null )
-			{
-				XmlUtils.setMapAsAttributes( elementEntity, mapParentAttributes );
-				elementEntity.setAttribute( NAME, strChildName );
-			}
-
-			// Return the document
-
-			return document;
-		}
-		catch ( Exception e )
-		{
-			throw InspectorException.newException( e );
-		}
-	}
-
-	//
-	//
-	// Protected methods
-	//
-	//
-
-	protected void inspect( Class<?> clazz, Object toInspect, Element toAddTo )
-		throws Exception
-	{
-		Document document = toAddTo.getOwnerDocument();
-
-		for ( Property property : getProperties( clazz ).values() )
-		{
-			Map<String, String> attributes = inspect( property, toInspect );
-
-			if ( attributes == null || attributes.isEmpty() )
-				continue;
-
-			Element element = document.createElementNS( NAMESPACE, PROPERTY );
-			element.setAttribute( NAME, property.getName() );
-
-			XmlUtils.setMapAsAttributes( element, attributes );
-
-			toAddTo.appendChild( element );
-		}
-	}
-
-	/**
-	 * Inspect the given property and return a Map of attributes.
-	 * <p>
-	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
-	 * Those subclasses wanting more control over these features should override methods higher in
-	 * the call stack instead.
-	 */
-
-	protected abstract Map<String, String> inspect( Property property, Object toInspect )
-		throws Exception;
-
-	protected Map<String, Property> getProperties( Class<?> clazz )
-		throws InspectorException
-	{
-		// Sanity check
-
-		String className = clazz.getName();
-
-		if ( mPatternProxy.matcher( className ).find() )
-			throw InspectorException.newException( className + " is proxied" );
-
 		synchronized ( PROPERTIES_CACHE )
 		{
 			Map<String, Property> properties = PROPERTIES_CACHE.get( clazz );
@@ -267,6 +128,11 @@ public abstract class AbstractPojoInspector
 					if ( void.class.equals( toReturn ) )
 						continue;
 
+					// Ignore certain types
+
+					if ( ArrayUtils.contains( mExcludeTypes, toReturn ) )
+						continue;
+
 					String methodName = methodRead.getName();
 					String propertyName = null;
 
@@ -278,6 +144,11 @@ public abstract class AbstractPojoInspector
 						continue;
 
 					if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
+						continue;
+
+					// Ignore certain names
+
+					if ( ArrayUtils.contains( mExcludeNames, propertyName ) )
 						continue;
 
 					// Already found (via its field/getter)?
@@ -294,7 +165,7 @@ public abstract class AbstractPojoInspector
 						// Beware covariant return types: always prefer the
 						// subclass
 
-						if ( toReturn.isAssignableFrom( propertyExisting.getPropertyClass() ) )
+						if ( toReturn.isAssignableFrom( propertyExisting.getType() ) )
 							continue;
 					}
 
@@ -323,6 +194,13 @@ public abstract class AbstractPojoInspector
 					if ( parameters.length != 1 )
 						continue;
 
+					Class<?> toSet = parameters[0];
+
+					// Ignore certain types
+
+					if ( ArrayUtils.contains( mExcludeTypes, toSet ) )
+						continue;
+
 					String methodName = methodWrite.getName();
 
 					if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
@@ -333,6 +211,11 @@ public abstract class AbstractPojoInspector
 					if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
 						continue;
 
+					// Ignore certain names
+
+					if ( ArrayUtils.contains( mExcludeNames, propertyName ) )
+						continue;
+
 					// Already found (via its field/getter)?
 
 					String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
@@ -340,7 +223,7 @@ public abstract class AbstractPojoInspector
 					if ( properties.containsKey( lowercasedPropertyName ) )
 						continue;
 
-					properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, parameters[0], null, methodWrite ) );
+					properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toSet, null, methodWrite ) );
 				}
 
 				PROPERTIES_CACHE.put( clazz, Collections.unmodifiableMap( properties ) );
@@ -352,135 +235,16 @@ public abstract class AbstractPojoInspector
 
 	//
 	//
-	// Private methods
-	//
-	//
-
-	private Object traverse( Object toTraverse, String type, boolean onlyToParent, String... names )
-		throws InspectorException
-	{
-		// Validate type
-
-		if ( toTraverse == null )
-			return null;
-
-		if ( !ClassUtils.getUnproxiedClass( toTraverse.getClass(), mPatternProxy ).getName().equals( type ) )
-			return null;
-
-		if ( names == null )
-			return toTraverse;
-
-		int length = names.length;
-
-		if ( length == 0 )
-			return toTraverse;
-
-		// Traverse names
-
-		if ( onlyToParent )
-			length--;
-
-		Object traverse = toTraverse;
-
-		for ( int loop = 0; loop < length; loop++ )
-		{
-			Property property = getProperties( ClassUtils.getUnproxiedClass( traverse.getClass(), mPatternProxy ) ).get( names[loop] );
-
-			if ( !property.isReadable() )
-				return null;
-
-			traverse = property.read( traverse );
-
-			if ( traverse == null )
-				return null;
-		}
-
-		return traverse;
-	}
-
-	//
-	//
 	// Inner classes
 	//
 	//
-
-	/**
-	 * Unifies JavaBean-convention-based and field-based properties, so that subclasses can treat
-	 * them as one and the same.
-	 * <p>
-	 * Note: this class has the same methods as <code>java.lang.reflect.AnnotatedElement</code>,
-	 * but stops short of <code>implements AnnotatedElement</code> in order to maintain J2SE 1.4
-	 * compatibility.
-	 */
-
-	protected abstract static class Property
-	{
-		//
-		//
-		// Private methods
-		//
-		//
-
-		private String		mName;
-
-		private Class<?>	mClass;
-
-		//
-		//
-		// Constructor
-		//
-		//
-
-		public Property( String name, Class<?> clazz )
-		{
-			mName = name;
-			mClass = clazz;
-		}
-
-		//
-		//
-		// Public methods
-		//
-		//
-
-		public String getName()
-		{
-			return mName;
-		}
-
-		public Class<?> getPropertyClass()
-		{
-			return mClass;
-		}
-
-		public abstract boolean isReadable();
-
-		public abstract Object read( Object obj );
-
-		public abstract boolean isWritable();
-
-		public abstract <T extends Annotation> T getAnnotation( Class<T> annotation );
-
-		public boolean isAnnotationPresent( Class<? extends Annotation> annotation )
-		{
-			return ( getAnnotation( annotation ) != null );
-		}
-
-		public abstract Type getPropertyGenericType();
-
-		@Override
-		public String toString()
-		{
-			return mName;
-		}
-	}
 
 	/**
 	 * Public member field-based property.
 	 */
 
 	private static class FieldProperty
-		extends Property
+		extends PropertyImpl
 	{
 		//
 		//
@@ -514,13 +278,11 @@ public abstract class AbstractPojoInspector
 			return mField;
 		}
 
-		@Override
 		public boolean isReadable()
 		{
 			return true;
 		}
 
-		@Override
 		public Object read( Object obj )
 		{
 			try
@@ -533,13 +295,11 @@ public abstract class AbstractPojoInspector
 			}
 		}
 
-		@Override
 		public boolean isWritable()
 		{
 			return true;
 		}
 
-		@Override
 		public <T extends Annotation> T getAnnotation( Class<T> annotation )
 		{
 			return mField.getAnnotation( annotation );
@@ -555,7 +315,6 @@ public abstract class AbstractPojoInspector
 			return mField.getDeclaredAnnotations();
 		}
 
-		@Override
 		public Type getPropertyGenericType()
 		{
 			return mField.getGenericType();
@@ -567,7 +326,7 @@ public abstract class AbstractPojoInspector
 	 */
 
 	private static class JavaBeanProperty
-		extends Property
+		extends PropertyImpl
 	{
 		//
 		//
@@ -609,13 +368,11 @@ public abstract class AbstractPojoInspector
 			return mWriteMethod;
 		}
 
-		@Override
 		public boolean isReadable()
 		{
 			return ( mReadMethod != null );
 		}
 
-		@Override
 		public Object read( Object obj )
 		{
 			try
@@ -628,13 +385,11 @@ public abstract class AbstractPojoInspector
 			}
 		}
 
-		@Override
 		public boolean isWritable()
 		{
 			return ( mWriteMethod != null );
 		}
 
-		@Override
 		public <T extends Annotation> T getAnnotation( Class<T> annotationClass )
 		{
 			if ( mReadMethod != null )
@@ -692,7 +447,6 @@ public abstract class AbstractPojoInspector
 			return ArrayUtils.add( annotationsRead, mWriteMethod.getDeclaredAnnotations() );
 		}
 
-		@Override
 		public Type getPropertyGenericType()
 		{
 			if ( mReadMethod != null )

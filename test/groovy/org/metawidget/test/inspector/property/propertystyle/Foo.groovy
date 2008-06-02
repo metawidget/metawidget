@@ -14,37 +14,17 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.swing.tutorial;
-
-import javax.swing.JFrame;
-
-import org.metawidget.inspector.property.PropertyInspector;
-import org.metawidget.swing.SwingMetawidget;
+package org.metawidget.test.inspector.property.propertystyle.groovy
 
 /**
  * @author Richard Kennard
  */
 
-public class Main
+class Foo
 {
-	public static void main( String[] args )
-	{
-		// Data model
-
-		Person person = new Person();
-
-		// Metawidget
-
-		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new PropertyInspector() );
-		metawidget.setToInspect( person );
-
-		// JFrame
-
-		JFrame frame = new JFrame( "Metawidget Tutorial" );
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 210 );
-		frame.setVisible( true );
-	}
+	String	foo
+	
+	int		bar
+	
+	boolean baz
 }

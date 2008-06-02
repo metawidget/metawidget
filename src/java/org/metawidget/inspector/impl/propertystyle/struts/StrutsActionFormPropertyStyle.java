@@ -14,37 +14,33 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.swing.tutorial;
+package org.metawidget.inspector.impl.propertystyle.struts;
 
-import javax.swing.JFrame;
-
-import org.metawidget.inspector.property.PropertyInspector;
-import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 
 /**
  * @author Richard Kennard
  */
 
-public class Main
+public class StrutsActionFormPropertyStyle
+	extends JavaBeanPropertyStyle
 {
-	public static void main( String[] args )
+	//
+	//
+	// Private statics
+	//
+	//
+
+	private final static String[]								EXCLUDE_NAMES	= new String[] { "servlet", "servletWrapper", "multipartRequestHandler" };
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public StrutsActionFormPropertyStyle()
 	{
-		// Data model
-
-		Person person = new Person();
-
-		// Metawidget
-
-		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new PropertyInspector() );
-		metawidget.setToInspect( person );
-
-		// JFrame
-
-		JFrame frame = new JFrame( "Metawidget Tutorial" );
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 210 );
-		frame.setVisible( true );
+		super( EXCLUDE_NAMES, DEFAULT_EXCLUDE_TYPES );
 	}
 }

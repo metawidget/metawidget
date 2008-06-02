@@ -17,8 +17,8 @@
 package org.metawidget.jsp.tagext.html;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.javabean.JavaBeanInspectionResultConstants.*;
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
+import static org.metawidget.inspector.property.PropertyInspectionResultConstants.*;
 
 import java.util.Collection;
 import java.util.Date;

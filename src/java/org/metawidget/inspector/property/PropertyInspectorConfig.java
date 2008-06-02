@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.java5;
+package org.metawidget.inspector.property;
 
 import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
 
@@ -24,7 +24,7 @@ import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
  * @author Richard Kennard
  */
 
-public class Java5InspectorConfig
+public class PropertyInspectorConfig
 	extends AbstractPropertyInspectorConfig
 {
 	//
@@ -33,7 +33,7 @@ public class Java5InspectorConfig
 	//
 	//
 
-	private String[]	mExcludeProperties	= new String[] { "class" };
+	private boolean		mSorted			= true;
 
 	//
 	//
@@ -41,13 +41,21 @@ public class Java5InspectorConfig
 	//
 	//
 
-	public void setExcludeProperties( String... excludeProperties )
+	/**
+	 * Whether to sort the JavaBean properties alphabetically.
+	 * <p>
+	 * The Java Language Specification does not retain field ordering information within class
+	 * files, so JavaBeanInspector sorts them alphabetically for consistency - both during unit
+	 * tests and for identifying CompositeInspector-merging related problems.
+	 */
+
+	public void setSorted( boolean sorted )
 	{
-		mExcludeProperties = excludeProperties;
+		mSorted = sorted;
 	}
 
-	public String[] getExcludeProperties()
+	boolean isSorted()
 	{
-		return mExcludeProperties;
+		return mSorted;
 	}
 }

@@ -14,37 +14,36 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.swing.tutorial;
+package org.metawidget.inspector.impl.propertystyle;
 
-import javax.swing.JFrame;
-
-import org.metawidget.inspector.property.PropertyInspector;
-import org.metawidget.swing.SwingMetawidget;
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Type;
 
 /**
  * @author Richard Kennard
  */
 
-public class Main
+public interface Property
 {
-	public static void main( String[] args )
-	{
-		// Data model
+	//
+	//
+	// Methods
+	//
+	//
 
-		Person person = new Person();
+	String getName();
 
-		// Metawidget
+	Class<?> getType();
 
-		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new PropertyInspector() );
-		metawidget.setToInspect( person );
+	boolean isReadable();
 
-		// JFrame
+	Object read( Object obj );
 
-		JFrame frame = new JFrame( "Metawidget Tutorial" );
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 210 );
-		frame.setVisible( true );
-	}
+	boolean isWritable();
+
+	<T extends Annotation> T getAnnotation( Class<T> annotation );
+
+	boolean isAnnotationPresent( Class<? extends Annotation> annotation );
+
+	Type getPropertyGenericType();
 }
