@@ -380,6 +380,7 @@
 				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement location="${build.metawidget.dir}/examples/swing/addressbook-swing.jar"/>
 				<pathelement path="${build.metawidget.dir}/test-classes"/>
+				<pathelement path="${build.metawidget.dir}/groovy-test-classes"/>
 				<pathelement path="${build.metawidget.dir}/tutorial-classes"/>
 				<pathelement path="src/java"/>
 				<pathelement path="test/java"/>
@@ -601,7 +602,16 @@
 		<copy file="${build.metawidget.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/addressbook-faces"/>
 		<antcall target="test-web-start-tomcat"/>
-		<ant antfile="test/web/examples/faces/addressbook-test.xml"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+		
 		<antcall target="test-web-stop-tomcat"/>
 		
 	</target>
@@ -612,7 +622,16 @@
 		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/jboss-seam-booking.ear" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
 		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/jboss-seam-booking-ds.xml" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
 		<antcall target="test-web-start-jboss"/>
-		<ant antfile="test/web/examples/faces/seam-booking-test.xml"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file seam-booking-test.xml"/>
+		</java>
+
 		<antcall target="test-web-stop-jboss"/>
 		
 	</target>
@@ -627,7 +646,16 @@
 		</copy>
 		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/groovybooking-dev-ds.xml" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
 		<antcall target="test-web-start-jboss"/>
-		<ant antfile="test/web/examples/faces/seam-booking-test.xml"/>
+		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file seam-groovybooking-test.xml"/>
+		</java>
+
 		<antcall target="test-web-stop-jboss"/>
 		
 	</target>
@@ -638,8 +666,6 @@
 		<delete dir="${tomcat.dir}/webapps/addressbook-gwt"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<!-- Forking Ant was more reliable here, when running WebTest with GWT -->
-		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/gwt">
 			<classpath>
 				<fileset dir="${ant.home}">
@@ -658,7 +684,16 @@
 		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/addressbook-struts"/>
 		<antcall target="test-web-start-tomcat"/>
-		<ant antfile="test/web/examples/struts/addressbook-test.xml"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/struts">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
 		<antcall target="test-web-stop-tomcat"/>
 		
 	</target>
@@ -668,7 +703,16 @@
 		<copy file="${build.metawidget.dir}/examples/spring/addressbook-spring.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/addressbook-spring"/>
 		<antcall target="test-web-start-tomcat"/>
-		<ant antfile="test/web/examples/spring/addressbook-test.xml"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/spring">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
 		<antcall target="test-web-stop-tomcat"/>
 		
 	</target>
@@ -785,6 +829,7 @@
 	<target name="test-jboss-ok" if="jboss-available">
 
 		<antcall target="test-faces-seam-booking"/>
+		<antcall target="test-faces-seam-groovybooking"/>
 		
 	</target>
 
@@ -833,7 +878,16 @@
 		<copy file="${build.metawidget.dir}/test/faces/allwidgets-faces.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat4.dir}/webapps/allwidgets-faces"/>
 		<antcall target="test-web-start-tomcat4"/>
-		<ant antfile="test/web/faces/allwidgets-test.xml"/>
+		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file allwidgets-test.xml"/>
+		</java>
+		
 		<antcall target="test-web-stop-tomcat4"/>
 		
 	</target>
@@ -865,7 +919,16 @@
 		<copy file="${build.metawidget.dir}/test/jsp/allwidgets-jsp.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/allwidgets-jsp"/>
 		<antcall target="test-web-start-tomcat"/>
-		<ant antfile="test/web/jsp/allwidgets-test.xml"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/jsp">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file allwidgets-test.xml"/>
+		</java>
+
 		<antcall target="test-web-stop-tomcat"/>
 		
 	</target>
@@ -898,7 +961,16 @@
 		<copy file="${build.metawidget.dir}/test/spring/allwidgets-spring.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat4.dir}/webapps/allwidgets-spring"/>
 		<antcall target="test-web-start-tomcat4"/>
-		<ant antfile="test/web/spring/allwidgets-test.xml"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/spring">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file allwidgets-test.xml"/>
+		</java>
+
 		<antcall target="test-web-stop-tomcat4"/>
 		
 	</target>
@@ -931,7 +1003,16 @@
 		<copy file="${build.metawidget.dir}/test/struts/allwidgets-struts.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat4.dir}/webapps/allwidgets-struts"/>
 		<antcall target="test-web-start-tomcat4"/>
-		<ant antfile="test/web/struts/allwidgets-test.xml"/>
+		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/struts">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file allwidgets-test.xml"/>
+		</java>
+			
 		<antcall target="test-web-stop-tomcat4"/>
 		
 	</target>

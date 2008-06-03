@@ -14,41 +14,46 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.groovytest.inspector.groovyproperty.propertystyle;
+package org.metawidget.test.inspector.property.propertystyle.struts;
 
-import javax.persistence.*;
-import org.hibernate.validator.*;
+import java.util.Map;
+
+import junit.framework.TestCase;
+
+import org.apache.struts.action.ActionForm;
+import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle;
 
 /**
  * @author Richard Kennard
  */
 
-class GroovyFoo
+public class StrutsActionFormPropertyStyleTest
+	extends TestCase
 {
-	@Column( nullable = false )
-	String		foo
+	//
+	//
+	// Public methods
+	//
+	//
 
-	List<Date>	bar
-
-	boolean 	baz
-	
-	@NotNull
-	public String getMethodFoo()
+	public void testStruts()
 	{
-		return null;
+		StrutsActionFormPropertyStyle propertyStyle = new StrutsActionFormPropertyStyle();
+		Map<String, Property> properties = propertyStyle.getProperties( FooForm.class );
+
+		assertTrue( properties.size() == 0 );
 	}
 
-	@Length( min = 5 )
-	public void setMethodBar( String methodBar )
+	//
+	//
+	// Inner class
+	//
+	//
+
+	private static class FooForm
+		extends ActionForm
 	{
-	}
-	
-	public List<String> getMethodBaz()
-	{
-		return null;
-	}
-	
-	public void setMethodAbc( List<Boolean> methodAbc )
-	{
+		// Empty for now
 	}
 }

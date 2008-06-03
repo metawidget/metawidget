@@ -103,6 +103,7 @@ class Booking implements Serializable
    }
 
    @Transient
+   @UiHidden
    String getDescription()
    {
       DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM)

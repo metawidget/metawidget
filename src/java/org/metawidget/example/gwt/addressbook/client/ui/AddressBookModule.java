@@ -98,6 +98,8 @@ public class AddressBookModule
 
 		// Results table
 
+		// TODO: header style
+
 		mContacts = new FlexTable();
 		mContacts.setStyleName( "data-table" );
 

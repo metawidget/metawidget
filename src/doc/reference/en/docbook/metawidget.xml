@@ -1459,9 +1459,16 @@ bin\run</programlisting>
 
 				<para>
 					Open a Web browser to <url>http://localhost:8080/seam-booking</url>. The updated Metawidget
-					Seam Booking example looks very similar to the original, but uses significantly less
-					boilerplate code.
+					Seam Booking example looks very similar to the original, as in <xref linkend="section-introduction-part3-seam-screenshot"/>,
+					but uses significantly less boilerplate code.
 				</para>
+				
+				<figure id="section-introduction-part3-seam-screenshot">
+					<title>Seam Booking with Metawidget</title>
+					<screenshot>
+						<graphic fileref="../shared/images/web-seam-booking.jpg"/>
+					</screenshot>
+				</figure>
 				
 				<para>
 					<filename>examples/faces/seam/booking</filename> contains those files that have been updated. Most of the

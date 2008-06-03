@@ -109,8 +109,8 @@ public class GwtAddressBookTest
 					{
 						assertTrue( contacts.getRowCount() == 3 );
 						assertTrue( "Mr Homer Simpson".equals( contacts.getText( 1, 0 )));
-						assertTrue( "Telephone: ".equals( contacts.getText( 1, 0 )));
-						assertTrue( "media/personal-small.gif".equals( ((Image) contacts.getWidget( 1, 2 )).getUrl() ));
+						assertTrue( "Telephone: (939) 555-0113".equals( contacts.getText( 1, 1 )));
+						assertTrue( ((Image) contacts.getWidget( 1, 2 )).getUrl().endsWith( "media/personal-small.gif" ));
 
 						// Open dialog for Personal Contact
 
@@ -158,8 +158,8 @@ public class GwtAddressBookTest
 
 										// Check editing
 
-										assertTrue( ( (FlexTable) contactMetawidget.getWidget() ).getRowCount() == 9 );
-										Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget() ).getWidget( 8, 0 ) ).getWidget() ).getWidget( 2 );
+										assertTrue( ( (FlexTable) contactMetawidget.getWidget() ).getRowCount() == 11 );
+										Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget() ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 2 );
 										assertTrue( "Edit".equals( editButton.getText() ) );
 										fireClickListeners( editButton );
 
@@ -208,7 +208,7 @@ public class GwtAddressBookTest
 													@Override
 													public void run()
 													{
-														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget() ).getWidget( 8, 0 ) ).getWidget() ).getWidget( 0 );
+														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget() ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 0 );
 														assertTrue( "Save".equals( saveButton.getText() ) );
 														fireClickListeners( saveButton );
 
@@ -299,7 +299,7 @@ public class GwtAddressBookTest
 						assertTrue( "Charles Montgomery".equals( contactMetawidget.getValue( "firstnames" ) ) );
 						assertTrue( "0".equals( contactMetawidget.getValue( "numberOfStaff" ) ) );
 
-						Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget() ).getWidget( 9, 0 ) ).getWidget() ).getWidget( 2 );
+						Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget() ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 2 );
 						assertTrue( "Edit".equals( editButton.getText() ) );
 						fireClickListeners( editButton );
 
@@ -343,7 +343,7 @@ public class GwtAddressBookTest
 													@Override
 													public void run()
 													{
-														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget() ).getWidget( 9, 0 ) ).getWidget() ).getWidget( 0 );
+														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget() ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 0 );
 														assertTrue( "Save".equals( saveButton.getText() ) );
 														fireClickListeners( saveButton );
 
@@ -354,7 +354,7 @@ public class GwtAddressBookTest
 															{
 																assertTrue( "Mr Charles Montgomery Burns".equals( contacts.getText( 1, 0 ) ) );
 																assertTrue( "Mobile: (0402) 123 456".equals( contacts.getText( 1, 1 ) ) );
-																assertTrue( "media/business-small.gif".equals( ((Image) contacts.getWidget( 1, 2 )).getUrl() ));
+																assertTrue( ((Image) contacts.getWidget( 1, 2 )).getUrl().endsWith( "media/business-small.gif" ) );
 
 																final ContactDialog dialogDelete = new ContactDialog( addressBookModule, businessContact );
 																final GwtMetawidget deleteContactMetawidget = (GwtMetawidget) ( (Grid) dialogDelete.getWidget() ).getWidget( 0, 1 );
@@ -364,7 +364,7 @@ public class GwtAddressBookTest
 																	@Override
 																	public void run()
 																	{
-																		Button deleteButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) deleteContactMetawidget.getWidget() ).getWidget( 9, 0 ) ).getWidget() ).getWidget( 1 );
+																		Button deleteButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) deleteContactMetawidget.getWidget() ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 1 );
 																		assertTrue( "Delete".equals( deleteButton.getText() ) );
 																		fireClickListeners( deleteButton );
 

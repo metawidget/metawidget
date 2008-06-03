@@ -74,6 +74,8 @@ public class MetawidgetAnnotationInspector
 		Document document = toAddTo.getOwnerDocument();
 		Map<String, ElementWithComesAfter> elementsWithComesAfter = CollectionUtils.newHashMap();
 
+		// TODO: in Struts, this returns multipartRequestHandler
+
 		// For each property...
 
 		Map<String, Property> properties = getProperties( clazz );

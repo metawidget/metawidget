@@ -85,6 +85,8 @@ public class JavaBeanPropertyStyle
 
 	public JavaBeanPropertyStyle( String[] excludeNames, Class<?>[] excludeTypes )
 	{
+		// TODO: defensive copy?
+
 		mExcludeNames = excludeNames;
 		mExcludeTypes = excludeTypes;
 	}

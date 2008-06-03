@@ -24,6 +24,8 @@ import javax.persistence.Column;
 
 import junit.framework.TestCase;
 
+import org.hibernate.validator.Length;
+import org.hibernate.validator.NotNull;
 import org.metawidget.groovytest.inspector.groovyproperty.propertystyle.GroovyFoo;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle;
@@ -46,11 +48,13 @@ public class GroovyPropertyStyleTest
 		GroovyPropertyStyle propertyStyle = new GroovyPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( GroovyFoo.class );
 
-		assertTrue( properties.size() == 3 );
+		assertTrue( properties.size() == 7 );
 
-		Column column = properties.get( "foo" ).getAnnotation( Column.class );
-		assertTrue( !column.nullable() );
-
+		assertTrue( !properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
 		assertTrue( Date.class.equals( ((ParameterizedType) properties.get( "bar" ).getGenericType()).getActualTypeArguments()[0] ));
+		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ));
+		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
+		assertTrue( String.class.equals( ((ParameterizedType) properties.get( "methodBaz" ).getGenericType()).getActualTypeArguments()[0] ) );
+		assertTrue( Boolean.class.equals( ((ParameterizedType) properties.get( "methodAbc" ).getGenericType()).getActualTypeArguments()[0] ) );
 	}
 }

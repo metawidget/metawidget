@@ -42,12 +42,12 @@
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[4]/div[1]" text="State:"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[4]/div[2]/span/@id" text="hotelState"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[4]/div[2]/span" text="GA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[1]" text="Country:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span/@id" text="hotelCountry"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span" text="USA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[1]" text="Zip:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span/@id" text="hotelZip"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span" text="30305"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[1]" text="Zip:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span/@id" text="hotelZip"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span" text="30305"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[1]" text="Country:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span/@id" text="hotelCountry"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span" text="USA"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[1]" text="Nightly rate:"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[2]/span/@id" text="hotelPrice"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[2]/span" text="$120.00"/>
@@ -66,12 +66,12 @@
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[1]" text="State:"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span/@id" text="hotelState"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span" text="GA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[1]" text="Country:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span/@id" text="hotelCountry"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span" text="USA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[1]" text="Zip:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[2]/span/@id" text="hotelZip"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[2]/span" text="30305"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[1]" text="Zip:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span/@id" text="hotelZip"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span" text="30305"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[1]" text="Country:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[2]/span/@id" text="hotelCountry"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[2]/span" text="USA"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[8]/div[1]" text="Nightly rate:"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[8]/div[2]/span/@id" text="hotelPrice"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[8]/div[2]/span" text="$120.00"/>				
@@ -116,12 +116,12 @@
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[4]/div[1]" text="State:"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[4]/div[2]/span/@id" text="hotelState"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[4]/div[2]/span" text="GA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[1]" text="Country:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span/@id" text="hotelCountry"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span" text="USA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[1]" text="Zip:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span/@id" text="hotelZip"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span" text="30305"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[1]" text="Zip:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span/@id" text="hotelZip"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span" text="30305"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[1]" text="Country:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span/@id" text="hotelCountry"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span" text="USA"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[1]" text="Nightly rate:"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[2]/span/@id" text="hotelPrice"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[2]/span" text="$120.00"/>

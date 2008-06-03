@@ -94,7 +94,7 @@ public class Hotel implements Serializable
    }
 
    @Length(min=2, max=40) @NotNull
-   @UiComesAfter("state")
+   @UiComesAfter("zip")
    public String getCountry()
    {
       return country;

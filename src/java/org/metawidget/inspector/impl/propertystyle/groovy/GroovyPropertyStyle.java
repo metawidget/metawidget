@@ -19,8 +19,11 @@ package org.metawidget.inspector.impl.propertystyle.groovy;
 import groovy.lang.GroovySystem;
 import groovy.lang.MetaBeanProperty;
 import groovy.lang.MetaClass;
+import groovy.lang.MetaMethod;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -76,6 +79,8 @@ public class GroovyPropertyStyle
 
 	public GroovyPropertyStyle( Class<?>[] excludeTypes )
 	{
+		// TODO: defensive copy?
+
 		mExcludeTypes = excludeTypes;
 	}
 
@@ -99,7 +104,7 @@ public class GroovyPropertyStyle
 			if ( ArrayUtils.contains( mExcludeTypes, property.getType() ) )
 				continue;
 
-			propertiesToReturn.put( property.getName(), new GroovyProperty( property ) );
+			propertiesToReturn.put( property.getName(), new GroovyProperty( property, clazz ) );
 		}
 
 		return propertiesToReturn;
@@ -126,17 +131,45 @@ public class GroovyPropertyStyle
 
 		private MetaBeanProperty	mProperty;
 
+		private Field				mField;
+
+		private Method				mGetterMethod;
+
+		private Method				mSetterMethod;
+
 		//
 		//
 		// Constructor
 		//
 		//
 
-		public GroovyProperty( MetaBeanProperty property )
+		public GroovyProperty( MetaBeanProperty property, Class<?> javaClass )
 		{
 			super( property.getName(), property.getType() );
 
 			mProperty = property;
+
+			try
+			{
+				CachedField field = mProperty.getField();
+
+				if ( field != null )
+					mField = field.field;
+
+				MetaMethod getterMethod = mProperty.getGetter();
+
+				if ( getterMethod != null )
+					mGetterMethod = javaClass.getMethod( getterMethod.getName() );
+
+				MetaMethod setterMethod = mProperty.getSetter();
+
+				if ( setterMethod != null )
+					mSetterMethod = javaClass.getMethod( setterMethod.getName(), setterMethod.getNativeParameterTypes() );
+			}
+			catch( Exception e )
+			{
+				throw InspectorException.newException( e );
+			}
 		}
 
 		//
@@ -169,22 +202,28 @@ public class GroovyPropertyStyle
 
 		public <T extends Annotation> T getAnnotation( Class<T> annotation )
 		{
-			CachedField field = mProperty.getField();
+			if ( mField != null)
+				return mField.getAnnotation( annotation );
 
-			if ( field != null )
-				return field.field.getAnnotation( annotation );
+			if ( mGetterMethod != null)
+				return mGetterMethod.getAnnotation( annotation );
 
-			// TODO: fetch annotations from method
+			if ( mSetterMethod != null)
+				return mSetterMethod.getAnnotation( annotation );
 
 			return null;
 		}
 
 		public Type getGenericType()
 		{
-			CachedField field = mProperty.getField();
+			if ( mField != null)
+				return mField.getGenericType();
 
-			if ( field != null )
-				return field.field.getGenericType();
+			if ( mGetterMethod != null)
+				return mGetterMethod.getGenericReturnType();
+
+			if ( mSetterMethod != null)
+				return mSetterMethod.getGenericParameterTypes()[0];
 
 			return null;
 		}

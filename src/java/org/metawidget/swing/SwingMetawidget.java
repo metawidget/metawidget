@@ -1311,7 +1311,7 @@ public class SwingMetawidget
 	 * Label whose values use a lookup
 	 */
 
-	private static class LookupLabel
+	public static class LookupLabel
 		extends JLabel
 	{
 		//
