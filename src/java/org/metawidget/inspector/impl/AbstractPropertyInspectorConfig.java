@@ -18,7 +18,6 @@ package org.metawidget.inspector.impl;
 
 import java.util.regex.Pattern;
 
-import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.util.ClassUtils;
@@ -79,20 +78,12 @@ public class AbstractPropertyInspectorConfig
 	/**
 	 * Gets the style used to instantiate properties.
 	 * <p>
-	 * We have the <code>AbstractPropertyInspectorConfig</code> instantiate the PropertyStyle,
-	 * rather than the <code>AbstractPropertyInspector</code>, to provide a 'hook' for
-	 * configurable PropertyStyles.
+	 * The style is specified as a class, not an object, because <code>PropertyStyles</code>
+	 * should be immutable.
 	 */
 
-	PropertyStyle getPropertyStyle()
+	Class<? extends PropertyStyle> getPropertyStyle()
 	{
-		try
-		{
-			return mPropertyStyle.newInstance();
-		}
-		catch ( Exception e )
-		{
-			throw InspectorException.newException( e );
-		}
+		return mPropertyStyle;
 	}
 }

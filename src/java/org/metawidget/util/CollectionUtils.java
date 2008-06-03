@@ -28,7 +28,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Stack;
 import java.util.TreeMap;
-import java.util.WeakHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -136,15 +135,6 @@ public final class CollectionUtils
 	public static final <K, V> HashMap<K, V> newHashMap( int size )
 	{
 		return new HashMap<K, V>( size );
-	}
-
-	/**
-	 * Type-safe initializer.
-	 */
-
-	public static final <K, V> WeakHashMap<K, V> newWeakHashMap()
-	{
-		return new WeakHashMap<K, V>();
 	}
 
 	/**

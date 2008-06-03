@@ -33,20 +33,13 @@ public class StrutsActionFormPropertyStyle
 {
 	//
 	//
-	// Private statics
+	// Protected methods
 	//
 	//
 
-	private final static String[]	EXCLUDE_NAMES	= new String[] { "servlet", "servletWrapper", "multipartRequestHandler" };
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public StrutsActionFormPropertyStyle()
+	@Override
+	protected String[] getExcludeNames()
 	{
-		super( EXCLUDE_NAMES, DEFAULT_EXCLUDE_TYPES );
+		return new String[] { "servlet", "servletWrapper", "multipartRequestHandler" };
 	}
 }

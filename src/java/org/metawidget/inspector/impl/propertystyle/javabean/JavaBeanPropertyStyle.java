@@ -23,6 +23,7 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.AbstractProperty;
@@ -50,17 +51,15 @@ public class JavaBeanPropertyStyle
 	//
 	//
 
-	private final static Map<Class<?>, Map<String, Property>>	PROPERTIES_CACHE		= CollectionUtils.newWeakHashMap();
+	/**
+	 * Cache of property lookups.
+	 * <p>
+	 * Property lookups are potentially expensive, so we cache them. It is important to cache them
+	 * <em>per JavaBeanPropertyStyle-subclass</em>, as different subclasses may use different
+	 * excludes.
+	 */
 
-	//
-	//
-	// Protected statics
-	//
-	//
-
-	protected final static String[]								DEFAULT_EXCLUDE_NAMES	= new String[] { "propertyChangeListeners", "vetoableChangeListeners" };
-
-	protected final static Class<?>[]							DEFAULT_EXCLUDE_TYPES	= new Class<?>[] { Class.class };
+	private final static Map<Class<? extends PropertyStyle>, Map<Class<?>, Map<String, Property>>>	PROPERTIES_CACHE	= CollectionUtils.newHashMap();
 
 	//
 	//
@@ -68,9 +67,9 @@ public class JavaBeanPropertyStyle
 	//
 	//
 
-	private String[]											mExcludeNames;
+	private String[]	mExcludeNames;
 
-	private Class<?>[]											mExcludeTypes;
+	private Class<?>[]	mExcludeTypes;
 
 	//
 	//
@@ -80,15 +79,10 @@ public class JavaBeanPropertyStyle
 
 	public JavaBeanPropertyStyle()
 	{
-		this( DEFAULT_EXCLUDE_NAMES, DEFAULT_EXCLUDE_TYPES );
-	}
+		PROPERTIES_CACHE.put( getClass(), new WeakHashMap<Class<?>, Map<String, Property>>() );
 
-	public JavaBeanPropertyStyle( String[] excludeNames, Class<?>[] excludeTypes )
-	{
-		// TODO: defensive copy?
-
-		mExcludeNames = excludeNames;
-		mExcludeTypes = excludeTypes;
+		mExcludeNames = getExcludeNames();
+		mExcludeTypes = getExcludeTypes();
 	}
 
 	//
@@ -99,9 +93,11 @@ public class JavaBeanPropertyStyle
 
 	public Map<String, Property> getProperties( Class<?> clazz )
 	{
-		synchronized ( PROPERTIES_CACHE )
+		Map<Class<?>, Map<String, Property>> propertiesCache = PROPERTIES_CACHE.get( getClass() );
+
+		synchronized ( propertiesCache )
 		{
-			Map<String, Property> properties = PROPERTIES_CACHE.get( clazz );
+			Map<String, Property> properties = propertiesCache.get( clazz );
 
 			if ( properties == null )
 			{
@@ -232,11 +228,27 @@ public class JavaBeanPropertyStyle
 					properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toSet, null, methodWrite ) );
 				}
 
-				PROPERTIES_CACHE.put( clazz, Collections.unmodifiableMap( properties ) );
+				propertiesCache.put( clazz, Collections.unmodifiableMap( properties ) );
 			}
 
 			return properties;
 		}
+	}
+
+	//
+	//
+	// Protected methods
+	//
+	//
+
+	protected String[] getExcludeNames()
+	{
+		return new String[] { "propertyChangeListeners", "vetoableChangeListeners" };
+	}
+
+	protected Class<?>[] getExcludeTypes()
+	{
+		return new Class<?>[] { Class.class };
 	}
 
 	//

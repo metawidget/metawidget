@@ -5,10 +5,8 @@
 
 	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 		<inspectors>
-			<!-- 
 			<strutsInspector xmlns="java:org.metawidget.inspector.struts"/>
 			<xmlInspector xmlns="java:org.metawidget.inspector.xml"/>
-			 -->
 			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 			<propertyInspector xmlns="java:org.metawidget.inspector.property" config="PropertyInspectorConfig">
 				<propertyStyle>org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle</propertyStyle>

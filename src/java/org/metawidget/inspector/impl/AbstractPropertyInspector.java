@@ -75,7 +75,7 @@ public abstract class AbstractPropertyInspector
 	{
 		try
 		{
-			mPropertyStyle = config.getPropertyStyle();
+			mPropertyStyle = config.getPropertyStyle().newInstance();
 			mPatternProxy = config.getProxyPattern();
 		}
 		catch ( Exception e )
