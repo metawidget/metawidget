@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspector.impl.AbstractPropertyInspector;
+import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -41,30 +41,18 @@ public class Java5Inspector
 {
 	//
 	//
-	// Private members
-	//
-	//
-
-	private String[]														mExcludeProperties;
-
-	//
-	//
 	// Constructor
 	//
 	//
 
 	public Java5Inspector()
 	{
-		this( new Java5InspectorConfig() );
+		super( new AbstractPropertyInspectorConfig() );
 	}
 
-	public Java5Inspector( Java5InspectorConfig config )
+	public Java5Inspector( AbstractPropertyInspectorConfig config )
 	{
-		// Defensive copy
-
-		String[] excludeProperties = config.getExcludeProperties();
-		mExcludeProperties = new String[excludeProperties.length];
-		System.arraycopy( excludeProperties, 0, mExcludeProperties, 0, excludeProperties.length );
+		super( config );
 	}
 
 	//
@@ -77,11 +65,6 @@ public class Java5Inspector
 	protected Map<String, String> inspect( Property property, Object toInspect )
 		throws Exception
 	{
-		// Ignore some type methods, even though they are parameterized
-
-		if ( ArrayUtils.contains( mExcludeProperties, property.getName() ) )
-			return null;
-
 		// Enums
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();

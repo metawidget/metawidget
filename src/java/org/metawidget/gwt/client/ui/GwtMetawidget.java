@@ -264,8 +264,6 @@ public class GwtMetawidget
 		invalidateWidgets();
 	}
 
-	// TODO: section headings
-
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )

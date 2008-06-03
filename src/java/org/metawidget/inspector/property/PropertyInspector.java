@@ -31,7 +31,10 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Inspector to look for properties defined by the JavaBean convention.
+ * Inspector to look for names and types of properties.
+ * <p>
+ * If the actual type of the property's object is a subtype of the declared type, both
+ * the actual and the declared type are returned.
  * <p>
  * The properties are returned alphabetically as a default ordering. Most clients will want to
  * refine this by using, say, <code>UiComesAfter</code> and MetawidgetAnnotationInspector.

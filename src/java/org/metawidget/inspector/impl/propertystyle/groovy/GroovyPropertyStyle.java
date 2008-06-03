@@ -27,7 +27,7 @@ import java.util.Map;
 
 import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.inspector.impl.propertystyle.PropertyImpl;
+import org.metawidget.inspector.impl.propertystyle.AbstractProperty;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
@@ -115,7 +115,7 @@ public class GroovyPropertyStyle
 	 */
 
 	private static class GroovyProperty
-		extends PropertyImpl
+		extends AbstractProperty
 	{
 		//
 		//

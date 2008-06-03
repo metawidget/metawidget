@@ -25,6 +25,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -300,7 +301,12 @@ public class SwingAllWidgetsTest
 		assertTrue( "Dropdown with labels:".equals( ( (JLabel) metawidget.getComponent( 42 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 43 ) instanceof JComboBox );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 43 ) ).gridx );
-		assertTrue( 4 == ( (JComboBox) metawidget.getComponent( 43 ) ).getItemCount() );
+
+		JComboBox combo = (JComboBox) metawidget.getComponent( 43 );
+		assertTrue( 4 == combo.getItemCount() );
+		assertTrue( "Foo".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "foo", 1, false, false )).getText() ));
+		assertTrue( "Dropdown".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "dropdown", 1, false, false )).getText() ));
+		assertTrue( "Bar".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "bar", 1, false, false )).getText() ));
 		assertTrue( "dropdown".equals( metawidget.getValue( "dropdownWithLabels" ) ) );
 		( (JComboBox) metawidget.getComponent( 43 ) ).setSelectedItem( "bar" );
 
@@ -436,7 +442,7 @@ public class SwingAllWidgetsTest
 		assertTrue( "Dropdown:".equals( ( (JLabel) metawidget.getComponent( 40 ) ).getText() ) );
 		assertTrue( "foo".equals( ( (JLabel) metawidget.getComponent( 41 ) ).getText() ) );
 		assertTrue( "Dropdown with labels:".equals( ( (JLabel) metawidget.getComponent( 42 ) ).getText() ) );
-		assertTrue( "bar".equals( ( (JLabel) metawidget.getComponent( 43 ) ).getText() ) );
+		assertTrue( "Bar".equals( ( (JLabel) metawidget.getComponent( 43 ) ).getText() ) );
 		assertTrue( "Not null dropdown:".equals( ( (JLabel) metawidget.getComponent( 44 ) ).getText() ) );
 		assertTrue( "1".equals( ( (JLabel) metawidget.getComponent( 45 ) ).getText() ) );
 		assertTrue( "Nested widgets:".equals( ( (JLabel) metawidget.getComponent( 46 ) ).getText() ) );

@@ -16,11 +16,14 @@
 
 package org.metawidget.gwt.client.ui.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -46,6 +49,10 @@ public class FlexTableLayout
 
 	private String[]			mColumnStyleNames;
 
+	private String				mSectionStyleName;
+
+	private String				mCurrentSection;
+
 	//
 	//
 	// Constructor
@@ -64,6 +71,10 @@ public class FlexTableLayout
 
 		if ( columnStyleNames != null )
 			mColumnStyleNames = columnStyleNames.split( "," );
+
+		// Section style name
+
+		mSectionStyleName = (String) metawidget.getParameter( "sectionStyleName" );
 	}
 
 	//
@@ -93,6 +104,16 @@ public class FlexTableLayout
 
 		if ( widget instanceof Stub && ( (Stub) widget ).getWidget() == null )
 			return;
+
+		// Section headings
+
+		String section = attributes.get( SECTION );
+
+		if ( section != null && !section.equals( mCurrentSection ) )
+		{
+			mCurrentSection = section;
+			layoutSection( section );
+		}
 
 		int row = mLayout.getRowCount();
 
@@ -148,9 +169,35 @@ public class FlexTableLayout
 
 	//
 	//
-	// Private methods
+	// Protected methods
 	//
 	//
+
+	protected void layoutSection( String section )
+	{
+		// No section?
+
+		if ( "".equals( section ) )
+			return;
+
+		int row = mLayout.getRowCount();
+
+		// Section name (possibly localized)
+
+		String localizedSection = getMetawidget().getLocalizedKey( StringUtils.camelCase( section ) );
+
+		if ( localizedSection != null )
+			mLayout.setText( row, 0, localizedSection );
+		else
+			mLayout.setText( row, 0, section );
+
+		// Span and style
+
+		mFormatter.setColSpan( row, 0, 2 );
+
+		if ( mSectionStyleName != null )
+			mFormatter.setStyleName( row, 0, mSectionStyleName );
+	}
 
 	protected String getStyleName( int styleName )
 	{

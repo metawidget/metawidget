@@ -86,6 +86,7 @@ public class ContactDialog
 		metawidget.setDictionaryName( "bundle" );
 		metawidget.setParameter( "tableStyleName", "table-form" );
 		metawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
+		metawidget.setParameter( "sectionStyleName", "section-heading" );
 		metawidget.setParameter( "buttonsStyleName", "buttons" );
 		metawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, metawidget );

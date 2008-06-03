@@ -34,6 +34,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextBox;
@@ -107,6 +108,9 @@ public class GwtAddressBookTest
 					public void run()
 					{
 						assertTrue( contacts.getRowCount() == 3 );
+						assertTrue( "Mr Homer Simpson".equals( contacts.getText( 1, 0 )));
+						assertTrue( "Telephone: ".equals( contacts.getText( 1, 0 )));
+						assertTrue( "media/personal-small.gif".equals( ((Image) contacts.getWidget( 1, 2 )).getUrl() ));
 
 						// Open dialog for Personal Contact
 
@@ -135,6 +139,10 @@ public class GwtAddressBookTest
 										FlexTable contactFlexTable = (FlexTable) contactMetawidget.getWidget();
 										assertTrue( "Date of Birth:".equals( contactFlexTable.getText( 3, 0 ) ) );
 										assertTrue( "5/12/56".equals( contactMetawidget.getValue( "dateOfBirth" ) ) );
+										assertTrue( "Contact Details".equals( contactFlexTable.getText( 5, 0 ) ) );
+										assertTrue( 2 == contactFlexTable.getFlexCellFormatter().getColSpan( 5, 0 ));
+										assertTrue( "section-heading".equals( contactFlexTable.getFlexCellFormatter().getStyleName( 5, 0 )));
+										assertTrue( "Address:".equals( contactFlexTable.getText( 6, 0 ) ) );
 
 										try
 										{
@@ -203,8 +211,6 @@ public class GwtAddressBookTest
 														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget() ).getWidget( 8, 0 ) ).getWidget() ).getWidget( 0 );
 														assertTrue( "Save".equals( saveButton.getText() ) );
 														fireClickListeners( saveButton );
-
-														// TODO: icons on right of contact list
 
 														Timer timerReloadContacts = new Timer()
 														{
@@ -346,7 +352,9 @@ public class GwtAddressBookTest
 															@Override
 															public void run()
 															{
+																assertTrue( "Mr Charles Montgomery Burns".equals( contacts.getText( 1, 0 ) ) );
 																assertTrue( "Mobile: (0402) 123 456".equals( contacts.getText( 1, 1 ) ) );
+																assertTrue( "media/business-small.gif".equals( ((Image) contacts.getWidget( 1, 2 )).getUrl() ));
 
 																final ContactDialog dialogDelete = new ContactDialog( addressBookModule, businessContact );
 																final GwtMetawidget deleteContactMetawidget = (GwtMetawidget) ( (Grid) dialogDelete.getWidget() ).getWidget( 0, 1 );

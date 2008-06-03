@@ -208,7 +208,14 @@ public class GwtAllWidgetsTest
 
 				assertTrue( "Dropdown with labels:".equals( flexTable.getText( 22, 0 ) ) );
 				assertTrue( flexTable.getWidget( 22, 1 ) instanceof ListBox );
-				assertTrue( 4 == ( (ListBox) flexTable.getWidget( 22, 1 ) ).getItemCount() );
+				ListBox listbox = (ListBox) flexTable.getWidget( 22, 1 );
+				assertTrue( 4 == listbox.getItemCount() );
+				assertTrue( "foo".equals( listbox.getValue( 1 )));
+				assertTrue( "Foo".equals( listbox.getItemText( 1 )));
+				assertTrue( "dropdown".equals( listbox.getValue( 2 )));
+				assertTrue( "Dropdown".equals( listbox.getItemText( 2 )));
+				assertTrue( "bar".equals( listbox.getValue( 3 )));
+				assertTrue( "Bar".equals( listbox.getItemText( 3 )));
 				assertTrue( "dropdown".equals( metawidget.getValue( "dropdownWithLabels" ) ) );
 				GwtUtils.setListBoxSelectedItem( ( (ListBox) flexTable.getWidget( 22, 1 ) ), "bar" );
 
@@ -347,9 +354,6 @@ public class GwtAllWidgetsTest
 										assertTrue( "false".equals( ( (Label) readOnlyFlexTable.getWidget( 20, 1 ) ).getText() ) );
 										assertTrue( "Dropdown (i18n):".equals( readOnlyFlexTable.getText( 21, 0 ) ) );
 										assertTrue( "foo".equals( ( (Label) readOnlyFlexTable.getWidget( 21, 1 ) ).getText() ) );
-
-										// TODO: test the actual select labels? Swing too?
-
 										assertTrue( "Dropdown with Labels (i18n):".equals( readOnlyFlexTable.getText( 22, 0 ) ) );
 										assertTrue( "bar".equals( ( (Label) readOnlyFlexTable.getWidget( 22, 1 ) ).getText() ) );
 										assertTrue( "Not-null Dropdown (i18n):".equals( readOnlyFlexTable.getText( 23, 0 ) ) );

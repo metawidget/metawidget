@@ -21,9 +21,9 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
 /**
  * PropertyStyle for Struts ActionForm-style properties.
  * <p>
- * ActionForm properties essentially follow JavaBean-convention, but the extra methods
- * <code>getServlet</code>, <code>getServletWrapper</code> and
- * <code>getMultipartRequestHandler</code> should not be considered part of the business class.
+ * ActionForm properties essentially follow JavaBean-convention, but should not include the extra
+ * methods <code>ActionForm.getServlet</code>, <code>ActionForm.getServletWrapper</code> and
+ * <code>ActionForm.getMultipartRequestHandler</code>.
  *
  * @author Richard Kennard
  */

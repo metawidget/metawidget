@@ -51,9 +51,8 @@ import org.w3c.dom.NodeList;
 /**
  * Convenience implementation for Inspectors that inspect XML files.
  * <p>
- * Handles taking a 'flat' XML file (eg. only one <code>&lt;entity&gt;</code>
- * node deep) and traversing nested paths, such as <code>foo/bar</code>,
- * from...
+ * Handles taking a 'flat' XML file (eg. only one <code>&lt;entity&gt;</code> node deep) and
+ * traversing nested paths, such as <code>foo/bar</code>, from...
  * <p>
  * <code>
  * &lt;entity type="foo"&gt;<br/>
@@ -112,9 +111,9 @@ public abstract class AbstractXmlInspector
 	//
 
 	/**
-	 * Note: unlike AbstractPojoInspector, there is no default constructor as
-	 * AbstractXmlInspector subclasses are not expected to be functional without
-	 * a config.
+	 * Config-based constructor.
+	 * <p>
+	 * All AbstractXmlInspector inspectors must be configurable, to allow specifying an XML file.
 	 */
 
 	protected AbstractXmlInspector( AbstractXmlInspectorConfig config, ResourceResolver resolver )
@@ -142,8 +141,8 @@ public abstract class AbstractXmlInspector
 				{
 					String schemaFile = config.getSchema();
 
-					if ( schemaFile != null && !"".equals( schemaFile ))
-						schema = factorySchema.newSchema( new StreamSource( resolver.openResource( schemaFile ) ));
+					if ( schemaFile != null && !"".equals( schemaFile ) )
+						schema = factorySchema.newSchema( new StreamSource( resolver.openResource( schemaFile ) ) );
 				}
 
 				if ( schema != null )
@@ -179,7 +178,7 @@ public abstract class AbstractXmlInspector
 				LOG.trace( out.toString() );
 			}
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			throw InspectorException.newException( e );
 		}
@@ -262,7 +261,7 @@ public abstract class AbstractXmlInspector
 
 			return document;
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			throw InspectorException.newException( e );
 		}
@@ -372,7 +371,7 @@ public abstract class AbstractXmlInspector
 		{
 			Node node = children.item( loop );
 
-			if ( ! ( node instanceof Element ) )
+			if ( !( node instanceof Element ) )
 				continue;
 
 			// ...inspect its attributes...
@@ -431,11 +430,11 @@ public abstract class AbstractXmlInspector
 				if ( extendsAttribute == null )
 					return null;
 
-				while( true )
+				while ( true )
 				{
 					String childExtends = entityElement.getAttribute( extendsAttribute );
 
-					if ( childExtends == null || "".equals( childExtends ))
+					if ( childExtends == null || "".equals( childExtends ) )
 						return null;
 
 					entityElement = traverse( childExtends, false );

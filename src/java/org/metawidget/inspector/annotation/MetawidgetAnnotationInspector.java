@@ -23,6 +23,7 @@ import java.util.Map;
 
 import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.impl.AbstractPropertyInspector;
+import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
@@ -44,6 +45,22 @@ import org.w3c.dom.Element;
 public class MetawidgetAnnotationInspector
 	extends AbstractPropertyInspector
 {
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public MetawidgetAnnotationInspector()
+	{
+		this( new AbstractPropertyInspectorConfig() );
+	}
+
+	public MetawidgetAnnotationInspector( AbstractPropertyInspectorConfig config )
+	{
+		super( config );
+	}
+
 	//
 	//
 	// Protected methods

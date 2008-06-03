@@ -21,6 +21,7 @@ import static org.metawidget.inspector.struts.StrutsInspectionResultConstants.*;
 import java.util.Map;
 
 import org.metawidget.inspector.impl.AbstractPropertyInspector;
+import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
@@ -33,6 +34,22 @@ import org.metawidget.util.CollectionUtils;
 public class StrutsAnnotationInspector
 	extends AbstractPropertyInspector
 {
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public StrutsAnnotationInspector()
+	{
+		super( new AbstractPropertyInspectorConfig() );
+	}
+
+	public StrutsAnnotationInspector( AbstractPropertyInspectorConfig config )
+	{
+		super( config );
+	}
+
 	//
 	//
 	// Protected methods

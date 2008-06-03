@@ -33,8 +33,8 @@ import org.w3c.dom.Element;
 /**
  * Convenience implementation for Inspectors that inspect properties.
  * <p>
- * Handles iterating over a class for properties conforming to a given convention. Also handles
- * unwrapping a POJO wrapped by a proxy library (such as CGLIB or Javassist).
+ * Handles iterating over a class for properties, and supporting pluggable properties conventions.
+ * Also handles unwrapping a POJO wrapped by a proxy library (such as CGLIB or Javassist).
  *
  * @author Richard Kennard
  */
@@ -65,15 +65,11 @@ public abstract class AbstractPropertyInspector
 	//
 
 	/**
-	 * Default constructor. It is intended many AbstractPropertyInspector subclasses be functional
-	 * without explicit configuration, and this saves subclasses having to define explicit
-	 * constructors.
+	 * Config-based constructor.
+	 * <p>
+	 * All AbstractPropertyInspector inspectors must be configurable, to allow configuring property
+	 * styles and proxy patterns.
 	 */
-
-	protected AbstractPropertyInspector()
-	{
-		this( new AbstractPropertyInspectorConfig() );
-	}
 
 	protected AbstractPropertyInspector( AbstractPropertyInspectorConfig config )
 	{

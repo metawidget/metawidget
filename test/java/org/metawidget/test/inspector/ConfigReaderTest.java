@@ -67,7 +67,7 @@ public class ConfigReaderTest
 		xml += "</propertyInspector>";
 		xml += "<jpaInspector xmlns=\"java:org.metawidget.inspector.jpa\"/>";
 		xml += "<jspAnnotationInspector xmlns=\"java:org.metawidget.inspector.jsp\"/>";
-		xml += "<springAnnotationInspector xmlns=\"java:org.metawidget.inspector.spring\"/>";
+		xml += "<springAnnotationInspector xmlns=\"java:org.metawidget.inspector.spring\" config=\"org.metawidget.inspector.impl.AbstractPropertyInspectorConfig\"/>";
 		xml += "<strutsInspector xmlns=\"java:org.metawidget.inspector.struts\" config=\"StrutsInspectorConfig\">";
 		xml += "<files>";
 		xml += "<string>org/metawidget/test/inspector/struts/test-struts-config1.xml</string>";

@@ -27,6 +27,7 @@ import org.hibernate.validator.Min;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 import org.metawidget.inspector.impl.AbstractPropertyInspector;
+import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
@@ -39,6 +40,22 @@ import org.metawidget.util.CollectionUtils;
 public class HibernateValidatorInspector
 	extends AbstractPropertyInspector
 {
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public HibernateValidatorInspector()
+	{
+		this( new AbstractPropertyInspectorConfig() );
+	}
+
+	public HibernateValidatorInspector( AbstractPropertyInspectorConfig config )
+	{
+		super( config );
+	}
+
 	//
 	//
 	// Protected methods

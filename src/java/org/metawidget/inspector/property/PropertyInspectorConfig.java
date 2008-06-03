@@ -19,7 +19,7 @@ package org.metawidget.inspector.property;
 import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
 
 /**
- * Configures a JavaBeanInspector prior to use. Once instantiated, Inspectors are immutable.
+ * Configures a PropertyInspector prior to use. Once instantiated, Inspectors are immutable.
  *
  * @author Richard Kennard
  */
@@ -42,10 +42,10 @@ public class PropertyInspectorConfig
 	//
 
 	/**
-	 * Whether to sort the JavaBean properties alphabetically.
+	 * Whether to sort the properties alphabetically.
 	 * <p>
 	 * The Java Language Specification does not retain field ordering information within class
-	 * files, so JavaBeanInspector sorts them alphabetically for consistency - both during unit
+	 * files, so PropertyInspector sorts them alphabetically for consistency - both during unit
 	 * tests and for identifying CompositeInspector-merging related problems.
 	 */
 

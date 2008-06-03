@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
@@ -256,6 +257,15 @@ public class AddressBookModule
 				{
 					mContacts.setText( row, 0, contact.getFullname() );
 					mContacts.setText( row, 1, GwtUtils.toString( contact.getCommunications(), ',' ) );
+
+					Image image = new Image();
+
+					if ( contact instanceof BusinessContact )
+						image.setUrl( "media/business-small.gif" );
+					else
+						image.setUrl( "media/personal-small.gif" );
+
+					mContacts.setWidget( row, 2, image );
 
 					row++;
 				}

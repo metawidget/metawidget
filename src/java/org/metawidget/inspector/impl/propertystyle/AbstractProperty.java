@@ -19,19 +19,14 @@ package org.metawidget.inspector.impl.propertystyle;
 import java.lang.annotation.Annotation;
 
 /**
+ * Convenience implementation for Properties.
+ * <p>
+ * Handles construction, and returning names and types.
+ *
  * @author Richard Kennard
  */
 
-/**
- * Unifies JavaBean-convention-based and field-based properties, so that subclasses can treat
- * them as one and the same.
- * <p>
- * Note: this class has the same methods as <code>java.lang.reflect.AnnotatedElement</code>,
- * but stops short of <code>implements AnnotatedElement</code> in order to maintain J2SE 1.4
- * compatibility.
- */
-
-public abstract class PropertyImpl
+public abstract class AbstractProperty
 	implements Property
 {
 	//
@@ -50,7 +45,7 @@ public abstract class PropertyImpl
 	//
 	//
 
-	public PropertyImpl( String name, Class<?> type )
+	public AbstractProperty( String name, Class<?> type )
 	{
 		mName = name;
 		mType = type;

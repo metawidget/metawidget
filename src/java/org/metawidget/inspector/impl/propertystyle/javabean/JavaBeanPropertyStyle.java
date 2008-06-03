@@ -25,8 +25,8 @@ import java.util.Collections;
 import java.util.Map;
 
 import org.metawidget.inspector.InspectorException;
+import org.metawidget.inspector.impl.propertystyle.AbstractProperty;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.inspector.impl.propertystyle.PropertyImpl;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
@@ -152,12 +152,12 @@ public class JavaBeanPropertyStyle
 
 					// Ignore certain names
 
-					if ( ArrayUtils.contains( mExcludeNames, propertyName ) )
+					String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
+
+					if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
 						continue;
 
-					// Already found (via its field/getter)?
-
-					String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
+					// Already found (via its field)?
 
 					Property propertyExisting = properties.get( lowercasedPropertyName );
 
@@ -217,12 +217,12 @@ public class JavaBeanPropertyStyle
 
 					// Ignore certain names
 
-					if ( ArrayUtils.contains( mExcludeNames, propertyName ) )
+					String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
+
+					if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
 						continue;
 
 					// Already found (via its field/getter)?
-
-					String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
 
 					if ( properties.containsKey( lowercasedPropertyName ) )
 						continue;
@@ -248,7 +248,7 @@ public class JavaBeanPropertyStyle
 	 */
 
 	private static class FieldProperty
-		extends PropertyImpl
+		extends AbstractProperty
 	{
 		//
 		//
@@ -315,7 +315,7 @@ public class JavaBeanPropertyStyle
 	 */
 
 	private static class JavaBeanProperty
-		extends PropertyImpl
+		extends AbstractProperty
 	{
 		//
 		//

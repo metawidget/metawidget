@@ -806,7 +806,16 @@ public class SwingMetawidget
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
+		{
+			// May have alternate labels
+
+			String lookupLabels = attributes.get( LOOKUP_LABELS );
+
+			if ( lookupLabels != null && !"".equals( lookupLabels ) )
+				return new LookupLabel( getLabelsMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels )));
+
 			return new JLabel();
+		}
 
 		String type = attributes.get( TYPE );
 
@@ -920,19 +929,10 @@ public class SwingMetawidget
 
 			if ( lookupLabels != null && !"".equals( lookupLabels ) )
 			{
-				Map<Object, String> labelsMap = CollectionUtils.newHashMap();
-				List<String> labels = CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) );
+				Map<String, String> labelsMap = getLabelsMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ));
 
-				if ( labels.size() != values.size() )
-					throw MetawidgetException.newException( "Labels list must be same size as values list" );
-
-				for ( int loop = 0, length = values.size(); loop < length; loop++ )
-				{
-					labelsMap.put( values.get( loop ), labels.get( loop ) );
-				}
-
-				comboBox.setEditor( new AlternateComboBoxEditor( labelsMap ) );
-				comboBox.setRenderer( new AlternateComboBoxRenderer( labelsMap ) );
+				comboBox.setEditor( new LookupComboBoxEditor( labelsMap ) );
+				comboBox.setRenderer( new LookupComboBoxRenderer( labelsMap ) );
 			}
 
 			return comboBox;
@@ -1209,6 +1209,21 @@ public class SwingMetawidget
 		( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setColumns( 0 );
 	}
 
+	private Map<String, String> getLabelsMap( List<String> values, List<String> labels )
+	{
+		Map<String, String> labelsMap = CollectionUtils.newHashMap();
+
+		if ( labels.size() != values.size() )
+			throw MetawidgetException.newException( "Labels list must be same size as values list" );
+
+		for ( int loop = 0, length = values.size(); loop < length; loop++ )
+		{
+			labelsMap.put( values.get( loop ), labels.get( loop ) );
+		}
+
+		return labelsMap;
+	}
+
 	//
 	//
 	// Inner class
@@ -1293,11 +1308,57 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Editor for values whose <code>toString</code> is not the same as the desired label.
-	 * <p>
+	 * Label whose values use a lookup
 	 */
 
-	private static class AlternateComboBoxEditor
+	private static class LookupLabel
+		extends JLabel
+	{
+		//
+		//
+		// Private members
+		//
+		//
+
+		private Map<String, String>	mLookup;
+
+		//
+		//
+		// Constructor
+		//
+		//
+
+		public LookupLabel( Map<String, String> lookup )
+		{
+			if ( lookup == null )
+				throw new NullPointerException( "lookup" );
+
+			mLookup = lookup;
+		}
+
+		//
+		//
+		// Public methods
+		//
+		//
+
+		@Override
+		public void setText( String text )
+		{
+			String lookup = null;
+
+			if ( text != null && mLookup != null )
+				lookup = mLookup.get( text );
+
+			super.setText( lookup );
+		}
+	}
+
+	/**
+	 * Editor for ComboBox whose values use a lookup.
+	 */
+
+	private static class LookupComboBoxEditor
 		extends BasicComboBoxEditor
 	{
 		//
@@ -1306,7 +1367,7 @@ public class SwingMetawidget
 		//
 		//
 
-		private Map<Object, String>	mLabels;
+		private Map<String, String>	mLookups;
 
 		//
 		//
@@ -1314,12 +1375,12 @@ public class SwingMetawidget
 		//
 		//
 
-		public AlternateComboBoxEditor( Map<Object, String> labels )
+		public LookupComboBoxEditor( Map<String, String> lookups )
 		{
-			if ( labels == null )
-				throw new NullPointerException( "labels" );
+			if ( lookups == null )
+				throw new NullPointerException( "lookups" );
 
-			mLabels = labels;
+			mLookups = lookups;
 		}
 
 		//
@@ -1331,15 +1392,15 @@ public class SwingMetawidget
 		@Override
 		public void setItem( Object item )
 		{
-			super.setItem( mLabels.get( item ) );
+			super.setItem( mLookups.get( item ) );
 		}
 	}
 
 	/**
-	 * Renderer for values whose <code>toString</code> is not the same as the desired label.
+	 * Renderer for ComboBox whose values use a lookup.
 	 */
 
-	private static class AlternateComboBoxRenderer
+	private static class LookupComboBoxRenderer
 		extends BasicComboBoxRenderer
 	{
 		//
@@ -1356,7 +1417,7 @@ public class SwingMetawidget
 		//
 		//
 
-		private Map<Object, String>	mLabels;
+		private Map<String, String>	mLookups;
 
 		//
 		//
@@ -1364,12 +1425,12 @@ public class SwingMetawidget
 		//
 		//
 
-		public AlternateComboBoxRenderer( Map<Object, String> labels )
+		public LookupComboBoxRenderer( Map<String, String> lookups )
 		{
-			if ( labels == null )
-				throw new NullPointerException( "labels" );
+			if ( lookups == null )
+				throw new NullPointerException( "lookups" );
 
-			mLabels = labels;
+			mLookups = lookups;
 		}
 
 		//
@@ -1383,10 +1444,10 @@ public class SwingMetawidget
 		{
 			Component component = super.getListCellRendererComponent( list, value, index, selected, hasFocus );
 
-			String label = mLabels.get( value );
+			String lookup = mLookups.get( value );
 
-			if ( label != null )
-				( (JLabel) component ).setText( label );
+			if ( lookup != null )
+				( (JLabel) component ).setText( lookup );
 
 			return component;
 		}

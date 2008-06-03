@@ -377,7 +377,12 @@ public class ConfigReader
 
 					else
 					{
-						Class<?> config = Class.forName( packagePrefix + configClass );
+						Class<?> config;
+
+						if ( configClass.indexOf( '.' ) == -1 )
+							config = Class.forName( packagePrefix + configClass );
+						else
+							config = Class.forName( configClass );
 
 						try
 						{

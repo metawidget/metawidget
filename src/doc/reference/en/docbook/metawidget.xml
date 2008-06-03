@@ -1483,9 +1483,43 @@ bin\run</programlisting>
 			</section>
 
 			<section id="section-introduction-part3-groovy">
-				<title>Seam Groovy Example</title>
-	
+				<title>Seam Groovy Booking Example</title>
+
+				<para>
+					The Seam Groovy Booking Example demonstrates updating an existing Seam application to reduce
+					boilerplate code. The example is a more advanced version of the previous section, so you
+					should work through that first.
+				</para>
+
+				<para>
+					The example is located in <filename>examples/faces/seam/groovybooking</filename>. It is
+					not pre-built. To build it, change to the <filename>examples/faces/seam/groovybooking</filename> folder and type:
+				</para>
 				
+				<programlisting language="shell">ant</programlisting>
+
+				<para>
+					To run it, type:
+				</para>
+
+				<programlisting language="shell">cd \jboss-4.2.2.GA
+copy \Applications\jboss-4.2.2.GA\server\default\deploy server\default\deploy
+bin\run</programlisting>
+
+				<para>
+					Open a Web browser to <url>http://localhost:8080/seam-groovy-booking</url>. As with the previous
+					section, the updated Metawidget Seam Groovy Booking example looks very similar to the original, but
+					uses significantly less	boilerplate code. The difference this time is we are using Groovy to define
+					our business classes. The most significant impact this has is in <code>inspector-config.xml</code>,
+					where the Inspectors have been configured to use a Groovy property style instead of a JavaBean
+					property style. 
+				</para>
+				
+				<para>
+					Metawidget supports pluggable 'property styles', for supporting JavaBean, GroovyBean and potentially
+					Java SE 7 property styles.
+				</para>
+
 			</section>
 
 		</section>
