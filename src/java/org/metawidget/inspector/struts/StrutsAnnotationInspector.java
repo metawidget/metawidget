@@ -42,7 +42,7 @@ public class StrutsAnnotationInspector
 
 	public StrutsAnnotationInspector()
 	{
-		super( new AbstractPropertyInspectorConfig() );
+		this( new AbstractPropertyInspectorConfig() );
 	}
 
 	public StrutsAnnotationInspector( AbstractPropertyInspectorConfig config )

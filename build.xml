@@ -459,7 +459,7 @@
 		
 		<emma>
 			<instr instrpath="${build.metawidget.dir}/classes" destdir="${build.metawidget.dir}/classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="*Constants, org.metawidget.gwt.client.*"/>				
+				<filter excludes="*Constants, org.metawidget.android.*, org.metawidget.example.android.*, org.metawidget.gwt.client.*, org.metawidget.example.gwt.addressbook.client.*"/>				
 			</instr>
 			<instr instrpath="${build.metawidget.dir}/example-classes" destdir="${build.metawidget.dir}/example-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite"/>
 		</emma>

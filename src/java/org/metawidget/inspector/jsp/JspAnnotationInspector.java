@@ -42,7 +42,7 @@ public class JspAnnotationInspector
 
 	public JspAnnotationInspector()
 	{
-		super( new AbstractPropertyInspectorConfig() );
+		this( new AbstractPropertyInspectorConfig() );
 	}
 
 	public JspAnnotationInspector( AbstractPropertyInspectorConfig config )

@@ -40,7 +40,7 @@ public class SpringAnnotationInspector
 
 	public SpringAnnotationInspector()
 	{
-		super( new AbstractPropertyInspectorConfig() );
+		this( new AbstractPropertyInspectorConfig() );
 	}
 
 	public SpringAnnotationInspector( AbstractPropertyInspectorConfig config )

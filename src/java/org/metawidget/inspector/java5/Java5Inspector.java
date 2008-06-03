@@ -47,7 +47,7 @@ public class Java5Inspector
 
 	public Java5Inspector()
 	{
-		super( new AbstractPropertyInspectorConfig() );
+		this( new AbstractPropertyInspectorConfig() );
 	}
 
 	public Java5Inspector( AbstractPropertyInspectorConfig config )
