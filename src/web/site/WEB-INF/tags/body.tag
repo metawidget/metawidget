@@ -10,7 +10,7 @@
 		<div id="top-tabs">
 			<ul>
 				<li <c:if test="${path == '/index.html'}">class="active"</c:if>><a href="${context}/index.html">Home</a></li>
-				<li class="wide<c:if test="${path == '/download.html'}"> wide-active</c:if>"><a href="${context}/download.html">Download v0.44</a></li>
+				<li class="wide<c:if test="${path == '/download.html'}"> wide-active</c:if>"><a href="${context}/download.html">Download v0.5</a></li>
 				<li <c:if test="${path == '/support.html'}">class="active"</c:if>><a href="${context}/support.html">Support</a></li>
 				<li <c:if test="${path == '/wiki.html'}">class="active"</c:if>><a href="${context}/wiki.html">Wiki</a></li>
 			</ul>

@@ -1,3 +1,3 @@
 Implementation-Title: Metawidget
-Implementation-Version: 0.44
+Implementation-Version: 0.5
 Implementation-Vendor: metawidget.org
