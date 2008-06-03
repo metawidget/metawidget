@@ -1437,7 +1437,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 	
 				<para>
 					The Seam Booking Example demonstrates updating an existing Seam application to reduce
-					boilerplate code. The example requires you to have previously downloaded Seam 2.0.1.GA
+					boilerplate code. The example requires you to have previously downloaded Seam 2.0.2.SP1
 					and JBoss 4.2.2.GA, and you should be familiar with the existing Seam
 					Booking application.
 				</para>

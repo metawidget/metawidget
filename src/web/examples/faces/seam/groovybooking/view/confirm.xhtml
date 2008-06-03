@@ -9,52 +9,39 @@
 
 <!-- content -->
 <ui:define name="content">
-
 <div class="section">
 	<h1>Confirm Hotel Booking</h1>
 </div>
-
 <div class="section">
+	<h:form id="confirm">
+	<fieldset>
 
-	<ui:include src="hotelview.xhtml"/>
+		<m:metawidget value="#{hotel}" rendererType="div" readOnly="#{true}">
+			<f:param name="divStyleClasses" value="entry,label,required,output"/>
+		</m:metawidget>
 
-	<m:metawidget value="#{booking}" rendererType="div" readOnly="#{true}">
-		<f:param name="divStyleClasses" value="entry,label,required,input"/>
-		<h:outputText value="#{booking.total}"/>
-		<m:stub value="#{booking.creditCardExpiryMonth}"/>
-		<m:stub value="#{booking.creditCardExpiryYear}"/>
-	</m:metawidget>
-			
-	<div class="buttonBox">
-		<h:form id="confirm">
-			<h:commandButton id="confirm" value="Confirm" action="#{hotelBooking.confirm}"/>
-			&#160;
-    		<s:button id="revise" value="Revise" view="/book.xhtml"/>
-    		&#160;
-    		<h:commandButton id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
-		</h:form>
-	</div>
+		<m:metawidget value="#{booking}" rendererType="div" readOnly="#{true}">
+			<f:param name="divStyleClasses" value="entry,label,required,output"/>
+			<h:outputText value="#{booking.total}"/>
+			<m:stub value="#{booking.creditCardExpiryMonth}"/>
+			<m:stub value="#{booking.creditCardExpiryYear}"/>
+		</m:metawidget>
 
+		<div class="entry">
+			<div class="label">&#160;</div>
+			<div class="input">
+				<h:commandButton id="confirm" value="Confirm" action="#{hotelBooking.confirm}"/>&#160;
+    			<s:button id="revise" value="Revise" view="/book.xhtml"/>&#160;
+    			<h:commandButton id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
+			</div>
+		</div>
+	</fieldset>
+	</h:form>
 </div>
-
 </ui:define>
 
 <!-- sidebar -->
 <ui:define name="sidebar">
-<h1>Back button navigation</h1>
-<p>
-   When you click "Confirm", the new booking is written to the database, the 
-   conversation ends, and state associated with the conversation is automatically 
-   destroyed by Seam. After you confirm your booking, try hitting the back button
-   on your web browser and clicking "Confirm" again. Seam makes it easy implement
-   applications that behave elegantly in response to the back, forward and refresh
-   buttons.
-</p>
-<p>
-   <a href="#" onclick="window.open('exp/confirmExp.html','exp','width=752,height=500,scrollbars=yes');">
-      What happens when the conversation ends?
-   </a>
-</p>
 </ui:define>
 
 </ui:composition>

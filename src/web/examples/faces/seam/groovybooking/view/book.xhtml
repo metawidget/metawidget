@@ -15,27 +15,41 @@
 	<h1>Book Hotel</h1>
 </div>
 <div class="section">
-	<div class="entry errors">
-		<h:messages globalOnly="true"/>
-	</div>
-
-	<ui:include src="hotelview.xhtml"/>
-	
-	<div style="clear:both"/>
-
 	<h:form id="booking">
 	<fieldset>
 	
-		<m:metawidget value="#{booking}" rendererType="div">
-			<f:param name="divStyleClasses" value="entry,label,required,input,error errors"/>
+		<m:metawidget value="#{hotel}" rendererType="div" readOnly="#{true}">
+			<f:param name="divStyleClasses" value="entry,label,required,output"/>
 		</m:metawidget>
 		
-		<div class="buttonBox">
-			<h:commandButton id="proceed" value="Proceed" action="#{hotelBooking.setBookingDetails}"/>
-			&#160;
-			<s:button id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
+		<s:validateAll>
+    
+            <f:facet name="aroundInvalidField">
+                <s:span styleClass="errors"/>
+            </f:facet>
+            <f:facet name="afterInvalidField">
+                <s:div styleClass="errors">
+               	    <s:message/>
+               	</s:div>
+            </f:facet>
+		    
+			<m:metawidget value="#{booking}" rendererType="div">
+				<f:param name="divStyleClasses" value="entry,label,required,input,error errors"/>
+			</m:metawidget>
+			
+		</s:validateAll>
+		
+		<div class="entry errors">
+			<h:messages globalOnly="true"/>
 		</div>
 		
+		<div class="entry">
+			<div class="label">&#160;</div>
+			<div class="input">
+				<h:commandButton id="proceed" value="Proceed" action="#{hotelBooking.setBookingDetails}"/>&#160;
+				<s:button id="cancel" value="Cancel" action="#{hotelBooking.cancel}"/>
+			</div>
+		</div>		
 	</fieldset>
 	</h:form>
 </div>
@@ -43,19 +57,6 @@
 
 <!-- sidebar -->
 <ui:define name="sidebar">
-
-<h1>Workspace management</h1>
-<p>
-   As you can see, Seam makes it easy to work in multiple windows or multiple browser 
-   tabs. But you can even switch between multiple tasks inside a single browser tab!
-   The "Workspaces" section showcases this advanced feature.
-</p>
-<p>
-   <a href="#" onclick="window.open('exp/workspaceExp.html','exp','width=752,height=500,scrollbars=yes');">
-	  How does the workspace list work?
-   </a>
-</p>
-
 </ui:define>
 
 </ui:composition>

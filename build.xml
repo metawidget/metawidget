@@ -1130,7 +1130,7 @@
 
 	</target>
 
-	<target name="example-faces-seam-groovybooking" depends="pack-as-frontend-backend">
+	<target name="example-faces-seam-groovybooking" depends="pack">
 		
 		<copy todir="${build.metawidget.dir}/examples/faces">
 			<fileset dir="src/web/examples/faces">
@@ -1139,8 +1139,8 @@
 		</copy>
 
 		<copy todir="${build.metawidget.dir}/examples/faces/seam/groovybooking">
-			<fileset dir="${build.metawidget.dir}">
-				<include name="metawidget-*.jar"/>
+			<fileset dir="lib">
+				<include name="groovy-all*.jar"/>
 			</fileset>
 		</copy>
 

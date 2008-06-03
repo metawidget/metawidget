@@ -25,9 +25,10 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
+import org.codehaus.groovy.reflection.CachedField;
 import org.metawidget.inspector.InspectorException;
-import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.AbstractProperty;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
@@ -168,12 +169,24 @@ public class GroovyPropertyStyle
 
 		public <T extends Annotation> T getAnnotation( Class<T> annotation )
 		{
-			return mProperty.getField().field.getAnnotation( annotation );
+			CachedField field = mProperty.getField();
+
+			if ( field != null )
+				return field.field.getAnnotation( annotation );
+
+			// TODO: fetch annotations from method
+
+			return null;
 		}
 
 		public Type getGenericType()
 		{
-			return mProperty.getField().field.getGenericType();
+			CachedField field = mProperty.getField();
+
+			if ( field != null )
+				return field.field.getGenericType();
+
+			return null;
 		}
 	}
 }

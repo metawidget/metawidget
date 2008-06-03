@@ -40,6 +40,7 @@ class Hotel implements Serializable
    String zip
 
    @Length(min=2, max=40) @NotNull
+   @UiComesAfter( [ "zip" ] )
    String country
 
    @Column(precision=6, scale=2)
