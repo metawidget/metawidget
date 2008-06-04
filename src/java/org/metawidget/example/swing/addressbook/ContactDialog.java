@@ -20,7 +20,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -79,14 +78,13 @@ public class ContactDialog
 
 	public ContactDialog( final ContactsControllerProvider provider, final Contact contact )
 	{
-		super( (Frame) provider, true );
 		setSize( new Dimension( 800, 600 ) );
 		getContentPane().setBackground( Color.white );
 
 		// Background
 
 		ImagePanel panelBackground = new ImagePanel();
-		panelBackground.setImage( getClass().getResource( "/org/metawidget/example/shared/addressbook/media/background.jpg" ) );
+		panelBackground.setImage( Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/background.jpg" ) );
 		panelBackground.setLayout( new BorderLayout() );
 		add( panelBackground );
 
@@ -113,12 +111,12 @@ public class ContactDialog
 		if ( contact instanceof PersonalContact )
 		{
 			builder.append( bundle.getString( "personalContact" ) );
-			imageLabel.setIcon( new ImageIcon( getClass().getResource( "/org/metawidget/example/shared/addressbook/media/personal.gif" ) ) );
+			imageLabel.setIcon( new ImageIcon( Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/personal.gif" ) ) );
 		}
 		else
 		{
 			builder.append( bundle.getString( "businessContact" ) );
-			imageLabel.setIcon( new ImageIcon( getClass().getResource( "/org/metawidget/example/shared/addressbook/media/business.gif" ) ) );
+			imageLabel.setIcon( new ImageIcon( Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/business.gif" ) ) );
 		}
 
 		setTitle( builder.toString() );

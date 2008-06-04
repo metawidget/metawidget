@@ -44,6 +44,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SourcesTableEvents;
 import com.google.gwt.user.client.ui.TableListener;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
 
 /**
@@ -97,8 +98,6 @@ public class AddressBookModule
 		mContactSearch = new ContactSearch();
 
 		// Results table
-
-		// TODO: header style
 
 		mContacts = new FlexTable();
 		mContacts.setStyleName( "data-table" );
@@ -237,8 +236,13 @@ public class AddressBookModule
 	{
 		// Header
 
+		CellFormatter cellFormatter = mContacts.getCellFormatter();
 		mContacts.setText( 0, 0, "Name" );
+		cellFormatter.setStyleName( 0, 0, "header" );
 		mContacts.setText( 0, 1, "Contact" );
+		cellFormatter.setStyleName( 0, 1, "header" );
+		mContacts.setHTML( 0, 1, "&nbsp;" );
+		cellFormatter.setStyleName( 0, 2, "header" );
 
 		// Contacts
 

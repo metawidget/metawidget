@@ -108,6 +108,12 @@ public class GwtAddressBookTest
 					public void run()
 					{
 						assertTrue( contacts.getRowCount() == 3 );
+						assertTrue( "Name".equals( contacts.getText( 0, 0 )));
+						assertTrue( "header".equals( contacts.getCellFormatter().getStyleName( 0, 0 )));
+						assertTrue( "Contact".equals( contacts.getText( 0, 1 )));
+						assertTrue( "header".equals( contacts.getCellFormatter().getStyleName( 0, 1 )));
+						assertTrue( "&nbsp;".equals( contacts.getHTML( 0, 2 )));
+						assertTrue( "header".equals( contacts.getCellFormatter().getStyleName( 0, 2 )));
 						assertTrue( "Mr Homer Simpson".equals( contacts.getText( 1, 0 )));
 						assertTrue( "Telephone: (939) 555-0113".equals( contacts.getText( 1, 1 )));
 						assertTrue( ((Image) contacts.getWidget( 1, 2 )).getUrl().endsWith( "media/personal-small.gif" ));

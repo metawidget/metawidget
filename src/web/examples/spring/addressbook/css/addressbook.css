@@ -127,7 +127,7 @@ input, textarea, select
 	margin-top: 10px;
 }
 
-.data-table th
+.data-table th, .data-table .header
 {
 	background: white url( ../media/background-button.gif ) repeat-x center left;
 	height: 20px;

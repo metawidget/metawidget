@@ -1085,8 +1085,10 @@
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
 				<include name="org/metawidget/inspector/composite/**"/>
-				<include name="org/metawidget/inspector/impl/**"/>
-				<include name="org/metawidget/inspector/javabean/**"/>				
+				<include name="org/metawidget/inspector/impl/*.class"/>
+				<include name="org/metawidget/inspector/impl/propertystyle/*.class"/>
+				<include name="org/metawidget/inspector/impl/propertystyle/javabean/*.class"/>
+				<include name="org/metawidget/inspector/property/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>				
 				<include name="org/metawidget/inspector/xml/**"/>				
 				<include name="org/metawidget/util/**"/>
@@ -1117,6 +1119,9 @@
 		<copy todir="${build.metawidget.dir}/examples/swing">
 			<fileset dir="src/java/org/metawidget/example/swing">
 				<include name="readme.txt"/>
+			</fileset>
+			<fileset dir="src/web/examples/swing">
+				<include name="applet/addressbook/**"/>
 			</fileset>
 			<fileset dir="lib">
 				<include name="beansbinding*.jar"/>

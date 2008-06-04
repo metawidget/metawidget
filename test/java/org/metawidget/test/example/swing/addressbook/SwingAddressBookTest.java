@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -44,10 +45,10 @@ import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
+import org.metawidget.example.swing.addressbook.AddressBook;
 import org.metawidget.example.swing.addressbook.ContactDialog;
 import org.metawidget.example.swing.addressbook.ImagePanel;
 import org.metawidget.example.swing.addressbook.ListTableModel;
-import org.metawidget.example.swing.addressbook.MainFrame;
 import org.metawidget.example.swing.addressbook.converter.DateConverter;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingUtils;
@@ -74,12 +75,13 @@ public class SwingAddressBookTest
 
 		// Start app
 
-		MainFrame mainFrame = new MainFrame();
-		ContactsController contactsController = mainFrame.getContactsController();
+		JFrame frame = new JFrame();
+		AddressBook addressBook = new AddressBook( frame );
+		ContactsController contactsController = addressBook.getContactsController();
 
 		// Check searching
 
-		SwingMetawidget metawidgetSearch = (SwingMetawidget) ( (Container) ( (Container) mainFrame.getContentPane().getComponent( 0 ) ).getComponent( 1 ) ).getComponent( 0 );
+		SwingMetawidget metawidgetSearch = (SwingMetawidget) ( (Container) frame.getContentPane().getComponent( 1 ) ).getComponent( 0 );
 
 		metawidgetSearch.setValue( "Simpson", "surname" );
 		metawidgetSearch.setValue( ContactType.PERSONAL, "type" );
@@ -105,7 +107,7 @@ public class SwingAddressBookTest
 		assertTrue( "742 Evergreen Terrace".equals( contact.getAddress().getStreet() ) );
 		assertTrue( contact.getCommunications().size() == 1 );
 
-		ContactDialog dialog = new ContactDialog( mainFrame, contact );
+		ContactDialog dialog = new ContactDialog( addressBook, contact );
 
 		// Check loading
 

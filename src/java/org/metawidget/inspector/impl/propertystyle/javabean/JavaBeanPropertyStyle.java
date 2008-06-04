@@ -399,9 +399,13 @@ public class JavaBeanPropertyStyle
 
 				if ( annotation != null )
 					return annotation;
-			}
 
-			return null;
+				return null;
+			}
+			else if ( mReadMethod != null )
+				return null;
+
+			throw InspectorException.newException( "Don't know how to getAnnotation from " + getName() );
 		}
 
 		public Type getGenericType()
@@ -412,7 +416,7 @@ public class JavaBeanPropertyStyle
 			if ( mWriteMethod != null )
 				return mWriteMethod.getGenericParameterTypes()[0];
 
-			return null;
+			throw InspectorException.newException( "Don't know how to getGenericType from " + getName() );
 		}
 	}
 }

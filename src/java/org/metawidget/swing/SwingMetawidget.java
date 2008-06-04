@@ -78,10 +78,8 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-// SwingMetawidget extends JPanel (instead of just JComponent) as it
-// behaves better in Sun's AppletViewer
 public class SwingMetawidget
-	extends JPanel
+	extends JComponent
 {
 	//
 	//

@@ -40,6 +40,13 @@ public interface Property
 
 	boolean isReadable();
 
+	/**
+	 * Read the given property for the given object.
+	 * <p>
+	 * Used by PropertyInspector to determine subtypes, and by AbstractPropertyInspector to traverse
+	 * the objects graph.
+	 */
+
 	Object read( Object obj );
 
 	boolean isWritable();

@@ -60,32 +60,6 @@ public class GroovyPropertyStyle
 
 	//
 	//
-	// Private members
-	//
-	//
-
-	private Class<?>[]				mExcludeTypes;
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public GroovyPropertyStyle()
-	{
-		this( DEFAULT_EXCLUDE_TYPES );
-	}
-
-	public GroovyPropertyStyle( Class<?>[] excludeTypes )
-	{
-		// TODO: defensive copy?
-
-		mExcludeTypes = excludeTypes;
-	}
-
-	//
-	//
 	// Public methods
 	//
 	//
@@ -101,7 +75,7 @@ public class GroovyPropertyStyle
 		{
 			// Ignore certain types
 
-			if ( ArrayUtils.contains( mExcludeTypes, property.getType() ) )
+			if ( ArrayUtils.contains( DEFAULT_EXCLUDE_TYPES, property.getType() ) )
 				continue;
 
 			propertiesToReturn.put( property.getName(), new GroovyProperty( property, clazz ) );
@@ -211,7 +185,7 @@ public class GroovyPropertyStyle
 			if ( mSetterMethod != null)
 				return mSetterMethod.getAnnotation( annotation );
 
-			return null;
+			throw InspectorException.newException( "Don't know how to getAnnotation from " + getName() );
 		}
 
 		public Type getGenericType()
@@ -225,7 +199,7 @@ public class GroovyPropertyStyle
 			if ( mSetterMethod != null)
 				return mSetterMethod.getGenericParameterTypes()[0];
 
-			return null;
+			throw InspectorException.newException( "Don't know how to getGenericType from " + getName() );
 		}
 	}
 }
