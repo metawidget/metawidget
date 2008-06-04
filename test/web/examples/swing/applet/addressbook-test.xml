@@ -1,0 +1,23 @@
+<project name="struts-addressbook-test" default="test-all">
+
+	<property file="../../../../../build.properties" />
+	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
+	
+	<import file="${webtest.dir}/lib/taskdef.xml" />
+
+	<!-- Test Applet Loads (more thorough testing is done by SwingAddressBookTest -->
+				
+	<target name="test-all">
+		<webtest name="test-loads">
+			<config resultpath="${build.metawidget.dir}">
+				<header name="User-Agent" value="Mozilla/4.0"/>
+			</config>
+			<steps>
+				<invoke url="file://c:${build.metawidget.dir}/examples/swing/applet/addressbook/index.html" />
+				<verifyTitle text="Address Book (Metawidget Swing Applet Example)" />
+				
+				<appletRunner scenario="org.metawidget.test.example.swing.addressbook.AppletAddressBookScenario" xpath="/html/body/center/applet"/>
+			</steps>
+		</webtest>
+	</target>
+</project>

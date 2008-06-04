@@ -564,7 +564,7 @@
     	<move file="${build.metawidget.dir}/test/android/allwidgets-android.tmp" tofile="${build.metawidget.dir}/test/android/allwidgets-android.apk" />
 
 	</target>
-	
+
 	<!-- Web Test -->
 		
 	<target name="test-web-start-tomcat">
@@ -717,6 +717,19 @@
 		
 	</target>
 
+	<target name="test-swing-addressbook-applet" depends="example-swing-addressbook-applet">
+		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/swing/applet">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+		
+	</target>
+
 	<available property="webtest-available" file="${webtest.dir}/webtest.xml"/>
 
 	<target name="test-web-skip" unless="webtest-available">
@@ -734,6 +747,7 @@
 		<antcall target="test-jsp-allwidgets"/>
 		<antcall target="test-spring-addressbook"/>
 		<antcall target="test-struts-addressbook"/>
+		<antcall target="test-swing-addressbook-applet"/>					
 		
 	</target>
 

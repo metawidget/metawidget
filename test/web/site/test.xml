@@ -1,6 +1,8 @@
 <project name="struts-addressbook-test" default="test-site">
 
 	<property file="../../../build.properties" />
+	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
+
 	<import file="${webtest.dir}/lib/taskdef.xml" />
 
 	<target name="test-site">
