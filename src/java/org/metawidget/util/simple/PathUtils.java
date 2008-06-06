@@ -35,7 +35,7 @@ public class PathUtils
 
 	public static TypeAndNames parsePath( String path )
 	{
-		return parsePath( path, StringUtils.SEPARATOR_SLASH_CHAR );
+		return parsePath( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
 	}
 
 	public static TypeAndNames parsePath( String path, char separator )

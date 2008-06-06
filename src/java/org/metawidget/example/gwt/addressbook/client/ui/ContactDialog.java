@@ -154,14 +154,14 @@ public class ContactDialog
 		Communication communication = new Communication();
 
 		final GwtMetawidget typeMetawidget = new GwtMetawidget();
-		typeMetawidget.setPath( Communication.class.getName() + SEPARATOR_SLASH + "type" );
+		typeMetawidget.setPath( Communication.class.getName() + SEPARATOR_FORWARD_SLASH + "type" );
 		typeMetawidget.setLayoutClass( FlowLayout.class );
 		typeMetawidget.setToInspect( communication );
 		communications.setWidget( 1, 0, typeMetawidget );
 		typeMetawidget.setVisible( !metawidget.isReadOnly() );
 
 		final GwtMetawidget valueMetawidget = new GwtMetawidget();
-		valueMetawidget.setPath( Communication.class.getName() + SEPARATOR_SLASH + "value" );
+		valueMetawidget.setPath( Communication.class.getName() + SEPARATOR_FORWARD_SLASH + "value" );
 		valueMetawidget.setLayoutClass( FlowLayout.class );
 		valueMetawidget.setToInspect( communication );
 		communications.setWidget( 1, 1, valueMetawidget );

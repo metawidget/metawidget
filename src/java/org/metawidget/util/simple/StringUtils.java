@@ -32,9 +32,9 @@ public final class StringUtils
 
 	public final static String	SEPARATOR_COMMA					= ",";
 
-	public final static String	SEPARATOR_SLASH					= "/";
+	public final static String	SEPARATOR_FORWARD_SLASH			= "/";
 
-	public final static char	SEPARATOR_SLASH_CHAR			= '/';
+	public final static char	SEPARATOR_FORWARD_SLASH_CHAR	= '/';
 
 	public final static String	SEPARATOR_DOT					= ".";
 

@@ -188,7 +188,7 @@ public class CompositeInspector
 				{
 					ByteArrayOutputStream out = new ByteArrayOutputStream();
 					( (Transformer) transformer ).transform( new DOMSource( documentInspector ), new StreamResult( out ) );
-					LOG.trace( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_SLASH, true, false ) + "\r\n" + inspector.getClass() + "\r\n" + out.toString() );
+					LOG.trace( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + inspector.getClass() + "\r\n" + out.toString() );
 				}
 
 				// ...validate the result...
@@ -212,7 +212,7 @@ public class CompositeInspector
 
 			if ( documentMaster == null || !documentMaster.hasChildNodes() )
 			{
-				LOG.warn( "No inspectors matched " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_SLASH, true, false ) );
+				LOG.warn( "No inspectors matched " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 				return null;
 			}
 
@@ -222,7 +222,7 @@ public class CompositeInspector
 			{
 				ByteArrayOutputStream out = new ByteArrayOutputStream();
 				( (Transformer) transformer ).transform( new DOMSource( documentMaster ), new StreamResult( out ) );
-				LOG.debug( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_SLASH, true, false ) + "\r\n" + out.toString() );
+				LOG.debug( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + out.toString() );
 			}
 
 			return documentMaster;
