@@ -30,7 +30,7 @@ import java.util.Map;
 
 import org.codehaus.groovy.reflection.CachedField;
 import org.metawidget.inspector.InspectorException;
-import org.metawidget.inspector.impl.propertystyle.AbstractProperty;
+import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ArrayUtils;
@@ -64,9 +64,17 @@ public class GroovyPropertyStyle
 	//
 	//
 
+	/**
+	 * Returns properties sorted by name.
+	 */
+
 	public Map<String, Property> getProperties( Class<?> clazz )
 	{
-		Map<String, Property> propertiesToReturn = CollectionUtils.newHashMap();
+		// TreeMap so that returns alphabetically sorted properties
+
+		Map<String, Property> propertiesToReturn = CollectionUtils.newTreeMap();
+
+		// Iterate over all Groovy properties
 
 		@SuppressWarnings( "unchecked" )
 		List<MetaBeanProperty> properties = GroovySystem.getMetaClassRegistry().getMetaClass( clazz ).getProperties();
@@ -95,7 +103,7 @@ public class GroovyPropertyStyle
 	 */
 
 	private static class GroovyProperty
-		extends AbstractProperty
+		extends BaseProperty
 	{
 		//
 		//

@@ -16,7 +16,7 @@
 
 package org.metawidget.inspector.xml;
 
-import org.metawidget.inspector.impl.AbstractXmlInspectorConfig;
+import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
  * Configures an XmlInspector prior to use. Once instantiated, Inspectors are immutable.
@@ -25,7 +25,7 @@ import org.metawidget.inspector.impl.AbstractXmlInspectorConfig;
  */
 
 public class XmlInspectorConfig
-	extends AbstractXmlInspectorConfig
+	extends BaseXmlInspectorConfig
 {
 	//
 	//

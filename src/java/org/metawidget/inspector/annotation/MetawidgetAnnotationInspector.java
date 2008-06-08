@@ -22,8 +22,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.metawidget.inspector.InspectorException;
-import org.metawidget.inspector.impl.AbstractPropertyInspector;
-import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
+import org.metawidget.inspector.impl.BasePropertyInspector;
+import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
@@ -43,7 +43,7 @@ import org.w3c.dom.Element;
  */
 
 public class MetawidgetAnnotationInspector
-	extends AbstractPropertyInspector
+	extends BasePropertyInspector
 {
 	//
 	//
@@ -53,10 +53,10 @@ public class MetawidgetAnnotationInspector
 
 	public MetawidgetAnnotationInspector()
 	{
-		this( new AbstractPropertyInspectorConfig() );
+		this( new BasePropertyInspectorConfig() );
 	}
 
-	public MetawidgetAnnotationInspector( AbstractPropertyInspectorConfig config )
+	public MetawidgetAnnotationInspector( BasePropertyInspectorConfig config )
 	{
 		super( config );
 	}

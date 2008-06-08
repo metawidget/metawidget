@@ -18,7 +18,7 @@ package org.metawidget.example.swing.tutorial;
 
 import javax.swing.JFrame;
 
-import org.metawidget.inspector.property.PropertyInspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
@@ -36,7 +36,7 @@ public class Main
 		// Metawidget
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new PropertyInspector() );
+		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( person );
 
 		// JFrame

@@ -27,7 +27,7 @@ import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.Inspector;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
-import org.metawidget.inspector.property.PropertyInspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.inspector.xml.XmlInspectorConfig;
 import org.metawidget.util.ClassUtils;
@@ -72,7 +72,7 @@ public class CompositeInspectorTest
 		XmlInspector inspectorXml = new XmlInspector( configXml );
 
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
-		config.setInspectors( inspectorXml, new PropertyInspector() );
+		config.setInspectors( inspectorXml, new PropertyTypeInspector() );
 		config.setValidating( true );
 
 		CompositeInspector inspector = new CompositeInspector( config );
@@ -115,7 +115,7 @@ public class CompositeInspectorTest
 	public void testDefensiveCopy()
 		throws Exception
 	{
-		PropertyInspector inspector = new PropertyInspector();
+		PropertyTypeInspector inspector = new PropertyTypeInspector();
 		Inspector[] inspectors = new Inspector[]{ inspector };
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( inspectors );

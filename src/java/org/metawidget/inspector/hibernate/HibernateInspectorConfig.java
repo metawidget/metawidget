@@ -16,7 +16,7 @@
 
 package org.metawidget.inspector.hibernate;
 
-import org.metawidget.inspector.impl.AbstractXmlInspectorConfig;
+import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
  * Configures a HibernateInspector prior to use. Once instantiated,
@@ -26,7 +26,7 @@ import org.metawidget.inspector.impl.AbstractXmlInspectorConfig;
  */
 
 public class HibernateInspectorConfig
-	extends AbstractXmlInspectorConfig
+	extends BaseXmlInspectorConfig
 {
 	//
 	//

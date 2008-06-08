@@ -26,7 +26,7 @@ import java.util.Map;
 import java.util.WeakHashMap;
 
 import org.metawidget.inspector.InspectorException;
-import org.metawidget.inspector.impl.propertystyle.AbstractProperty;
+import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ArrayUtils;
@@ -91,6 +91,10 @@ public class JavaBeanPropertyStyle
 	//
 	//
 
+	/**
+	 * Returns properties sorted by name.
+	 */
+
 	public Map<String, Property> getProperties( Class<?> clazz )
 	{
 		Map<Class<?>, Map<String, Property>> propertiesCache = PROPERTIES_CACHE.get( getClass() );
@@ -101,7 +105,9 @@ public class JavaBeanPropertyStyle
 
 			if ( properties == null )
 			{
-				properties = CollectionUtils.newHashMap();
+				// TreeMap so that returns alphabetically sorted properties
+
+				properties = CollectionUtils.newTreeMap();
 
 				// Public fields
 
@@ -262,7 +268,7 @@ public class JavaBeanPropertyStyle
 	 */
 
 	private static class FieldProperty
-		extends AbstractProperty
+		extends BaseProperty
 	{
 		//
 		//
@@ -329,7 +335,7 @@ public class JavaBeanPropertyStyle
 	 */
 
 	private static class JavaBeanProperty
-		extends AbstractProperty
+		extends BaseProperty
 	{
 		//
 		//

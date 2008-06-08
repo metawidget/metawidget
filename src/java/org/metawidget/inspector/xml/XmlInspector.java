@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.ResourceResolver;
-import org.metawidget.inspector.impl.AbstractXmlInspector;
+import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Element;
 
@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
  */
 
 public class XmlInspector
-	extends AbstractXmlInspector
+	extends BaseXmlInspector
 {
 	//
 	//

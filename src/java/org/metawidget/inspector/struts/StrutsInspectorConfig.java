@@ -16,7 +16,7 @@
 
 package org.metawidget.inspector.struts;
 
-import org.metawidget.inspector.impl.AbstractXmlInspectorConfig;
+import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
  * Configures a StrutsInspector prior to use. Once instantiated, Inspectors are immutable.
@@ -25,7 +25,7 @@ import org.metawidget.inspector.impl.AbstractXmlInspectorConfig;
  */
 
 public class StrutsInspectorConfig
-	extends AbstractXmlInspectorConfig
+	extends BaseXmlInspectorConfig
 {
 	//
 	//

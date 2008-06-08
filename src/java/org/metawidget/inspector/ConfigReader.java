@@ -232,7 +232,7 @@ public class ConfigReader
 
 		// InputStreams
 		//
-		// Note: this means we can set, say, AbstractXmlInspector's <inputStream>
+		// Note: this means we can set, say, BaseXmlInspector's <inputStream>
 		// directly in the inspector-config.xml, rather than using <file>. This makes
 		// it tempting to do away with <file> altogether, but we keep it because it
 		// has an important role in 'lazy' evaluation. For example, HibernateInspectorConfig
@@ -340,7 +340,7 @@ public class ConfigReader
 						if ( !mStackConstructing.isEmpty() && mStackConstructing.peek() instanceof Constructor )
 							throw InspectorException.newException( "No such class " + toConstruct + ". Did you forget a 'config' attribute?" );
 
-						throw InspectorException.newException( "No such class" + toConstruct );
+						throw InspectorException.newException( "No such class " + toConstruct );
 					}
 
 					String configClass = attributes.getValue( "config" );

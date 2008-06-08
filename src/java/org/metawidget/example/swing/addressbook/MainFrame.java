@@ -26,6 +26,7 @@ import javax.swing.JFrame;
  */
 
 public class MainFrame
+	extends JFrame
 {
 	//
 	//
@@ -35,24 +36,32 @@ public class MainFrame
 
 	public static void main( String[] args )
 	{
-		JFrame frame = new JFrame( "Address Book (Metawidget Swing Example)" );
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().setBackground( Color.white );
+		MainFrame frame = new MainFrame();
+		frame.pack();
+		frame.setVisible( true );
+	}
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public MainFrame()
+	{
+		super( "Address Book (Metawidget Swing Example)" );
+		setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		getContentPane().setBackground( Color.white );
 
 		// Background
 
 		ImagePanel backgroundPanel = new ImagePanel();
 		backgroundPanel.setImage( ClassLoader.getSystemResource( "org/metawidget/example/shared/addressbook/media/background.jpg" ) );
 		backgroundPanel.setLayout( new BorderLayout() );
-		frame.add( backgroundPanel );
+		add( backgroundPanel );
 
 		// Create AddressBook
 
 		new AddressBook( backgroundPanel );
-
-		// Show
-
-		frame.pack();
-		frame.setVisible( true );
 	}
 }

@@ -25,7 +25,7 @@ import javax.xml.parsers.DocumentBuilder;
 
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.ResourceResolver;
-import org.metawidget.inspector.impl.AbstractXmlInspector;
+import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
  */
 
 public class StrutsInspector
-	extends AbstractXmlInspector
+	extends BaseXmlInspector
 {
 	//
 	//

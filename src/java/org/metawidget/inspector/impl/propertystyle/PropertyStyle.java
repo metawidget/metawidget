@@ -38,7 +38,11 @@ public interface PropertyStyle
 	/**
 	 * Gets the Properties for the given Class.
 	 * <p>
-	 * Never returns null.
+	 * Properties must be returned using a consistent ordering, so that both unit tests and
+	 * <code>CompositeInspector</code> merging is consistent. If the underlying platform does not
+	 * define an ordering, one must be imposed (eg. sorted alphabetically by name).
+	 *
+	 * @return the properties for the given Class. Never null.
 	 */
 
 	Map<String, Property> getProperties( Class<?> clazz );

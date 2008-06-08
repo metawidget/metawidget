@@ -53,7 +53,7 @@
 			<include name="org/metawidget/inspector/composite/**"/>
 			<include name="org/metawidget/inspector/hibernate/*.java"/>
 			<include name="org/metawidget/inspector/impl/**"/>
-			<include name="org/metawidget/inspector/property/**"/>
+			<include name="org/metawidget/inspector/propertytype/**"/>
 			<include name="org/metawidget/inspector/struts/**"/>
 			<exclude name="org/metawidget/inspector/struts/StrutsAnnotationInspector.java"/>
 			<exclude name="org/metawidget/inspector/struts/UiStrutsLookup.java"/>
@@ -572,7 +572,7 @@
 		<available property="tomcat-exists" file="${tomcat.dir}/bin/bootstrap.jar"/>
 		<fail message="Apache Tomcat not installed at 'tomcat.dir' (as indicated in build.properties)" unless="tomcat-exists"/>
 
-		<echo message="Starting Tomcat (then waiting 10 seconds)..."/>
+		<echo message="Starting ${tomcat.dir} (then waiting 10 seconds)..."/>
 		
 		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" spawn="true" dir="${run.dir}">
 			<jvmarg value="-Dcatalina.home=${tomcat.dir}"/>
@@ -767,7 +767,7 @@
 		
 		<delete includeemptydirs="true" failonerror="false" dir="${tomcat4.dir}/work"/>
 		
-		<echo message="Starting Tomcat 4 (then waiting 10 seconds)..."/>
+		<echo message="Starting ${tomcat4.dir} (then waiting 10 seconds)..."/>
 		<echo message="If Tomcat 4 fails to start, try moving 'conf/server-noexamples.xml.config' to 'conf/server.xml'"/>
 		
         <exec executable="${tomcat4.dir}/bin/startup.bat" dir="${run.dir}" spawn="true">
@@ -809,7 +809,7 @@
 			</fileset>			
 		</delete>
 		
-		<echo message="Starting JBoss (then waiting 60 seconds)..."/>
+		<echo message="Starting ${jboss.dir} (then waiting 60 seconds)..."/>
 
 		<!-- Unlike for Tomcat, don't also set time zone -->
 		<!-- here: seems to badly mess up Seam/Facelets  -->
@@ -1102,7 +1102,7 @@
 				<include name="org/metawidget/inspector/impl/*.class"/>
 				<include name="org/metawidget/inspector/impl/propertystyle/*.class"/>
 				<include name="org/metawidget/inspector/impl/propertystyle/javabean/*.class"/>
-				<include name="org/metawidget/inspector/property/**"/>
+				<include name="org/metawidget/inspector/propertytype/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>				
 				<include name="org/metawidget/inspector/xml/**"/>				
 				<include name="org/metawidget/util/**"/>

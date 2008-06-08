@@ -129,7 +129,7 @@ public class Person {
 	<programlisting language="java">package com.myapp;
 	
 import javax.swing.*;
-import org.metawidget.inspector.javabean.*;
+import org.metawidget.inspector.propertytype.*;
 import org.metawidget.swing.*;
 
 public class Main {
@@ -137,7 +137,7 @@ public class Main {
 		Person person = new Person();
 	
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new JavaBeanInspector() );
+		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( person );
 	
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
@@ -213,8 +213,8 @@ public class Main {
 				
 				<para>
 					At the moment, the order of fields in our UI is alphabetical – it does not match
-					the order they are defined in the <classname>Person</classname> class. <classname>JavaBeanInspector</classname> sorts fields
-					alphabetically by default, because the Java Language Specification
+					the order they are defined in the <classname>Person</classname> class. <classname>PropertyTypeInspector</classname> sorts fields
+					alphabetically, because the Java Language Specification
 					does not retain field ordering information within class files.
 				</para>
 				
@@ -298,7 +298,7 @@ public class Main {
 				<para>
 					Metawidget Inspectors are very targeted in what they inspect. Although
 					<classname>MetawidgetAnnotationInspector</classname> looks for Metawidget annotations (such as <classname>@UiComesAfter</classname>), it does <emphasis>not</emphasis>
-					look for JavaBean type information (like <classname>JavaBeanInspector</classname> did). Without type information, <classname>SwingMetawidget</classname>
+					look for property type information (like <classname>PropertyTypeInspector</classname> did). Without type information, <classname>SwingMetawidget</classname>
 					is unable to accurately choose <classname>JComponents</classname>.
 				</para>
 						
@@ -309,7 +309,7 @@ public class Main {
 				
 				<para>
 					What we need is to <emphasis>combine</emphasis> the results of
-					<classname>MetawidgetAnnotationInspector</classname> and <classname>JavaBeanInspector</classname> before
+					<classname>MetawidgetAnnotationInspector</classname> and <classname>PropertyTypeInspector</classname> before
 					returning them to <classname>SwingMetawidget</classname>. We do this using <classname>CompositeInspector</classname>:
 				</para>
 	
@@ -317,7 +317,7 @@ public class Main {
 				
 import javax.swing.*;
 <emphasis role="bold">import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.javabean.*;
+import org.metawidget.inspector.propertytype.*;
 import org.metawidget.inspector.composite.*;</emphasis>
 import org.metawidget.swing.*;
 
@@ -329,7 +329,7 @@ public class Main {
 		<emphasis role="bold">CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( 
 			new MetawidgetAnnotationInspector(),
-			new JavaBeanInspector() );
+			new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );</emphasis>
 		metawidget.setToInspect( person );
 
@@ -402,7 +402,7 @@ public class Person {
 import javax.swing.*;
 import org.metawidget.inspector.*;
 import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.javabean.*;
+import org.metawidget.inspector.propertytype.*;
 import org.metawidget.inspector.composite.*;
 import org.metawidget.swing.*;
 
@@ -414,7 +414,7 @@ public class Main {
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors(
 			new MetawidgetAnnotationInspector(),
-			new JavaBeanInspector() );
+			new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
 		<emphasis role="bold">metawidget.setParameter( "numberOfColumns", 2 );</emphasis>
 		metawidget.setToInspect( person );
@@ -463,7 +463,7 @@ public class Main {
 import javax.swing.*;
 import org.metawidget.inspector.*;
 import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.javabean.*;
+import org.metawidget.inspector.propertytype.*;
 import org.metawidget.inspector.composite.*;
 import org.metawidget.swing.*;
 
@@ -475,7 +475,7 @@ public class Main {
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors(
 			new MetawidgetAnnotationInspector(),
-			new JavaBeanInspector() );
+			new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 2 );		
 		metawidget.setToInspect( person );
@@ -514,7 +514,7 @@ public class Main {
 import javax.swing.*;
 import org.metawidget.inspector.*;
 import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.javabean.*;
+import org.metawidget.inspector.propertytype.*;
 import org.metawidget.inspector.composite.*;
 import org.metawidget.swing.*;
 
@@ -526,7 +526,7 @@ public class Main {
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors(
 			new MetawidgetAnnotationInspector(),
-			new JavaBeanInspector() );
+			new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( person );
@@ -610,7 +610,7 @@ public class Person {
 		&lt;inspectors&gt;
 			&lt;metawidgetAnnotationInspector
 				xmlns="java:org.metawidget.inspector.annotation" /&gt;
-			&lt;javaBeanInspector xmlns="java:org.metawidget.inspector.javabean"/&gt;
+			&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;
 
@@ -620,7 +620,7 @@ public class Person {
 					The <filename>inspector-config.xml</filename> file uses XML namespaces (the <parameter>xmlns</parameter> attribute)
 					to support XSD validation. The child elements refer either to
 					Inspectors (<parameter>&lt;compositeInspector&gt;</parameter>, <parameter>&lt;metawidgetAnnotationInspector&gt;</parameter> and
-					<parameter>&lt;javaBeanInspector&gt;</parameter>) or configuration settings (<parameter>&lt;inspectors&gt;</parameter>).
+					<parameter>&lt;propertyTypeInspector&gt;</parameter>) or configuration settings (<parameter>&lt;inspectors&gt;</parameter>).
 					Configuration settings map to setters on the <classname>Config</classname> class (in this case,
 					<function>CompositeInspectorConfig.setInspectors</function>).
 				</para>
@@ -709,7 +709,7 @@ public class Main {
 					Note that <classname>XmlInspector</classname> does not need a <parameter>comes-after</parameter> attribute: XML nodes are
 					inherently ordered, and <classname>CompositeInspector</classname> combines inspection results so that later results
 					respect the ordering of earlier results. <classname>XmlInspector</classname> also does not need to specify a <parameter>type</parameter>
-					attribute: we will still be using <classname>JavaBeanInspector</classname> to look up the types.
+					attribute: we will still be using <classname>PropertTypeInspector</classname> to look up the types.
 				</para>
 	
 				<para>
@@ -729,7 +729,7 @@ public class Main {
 				config="XmlInspectorConfig"&gt;
 				&lt;file&gt;com/myapp/metawidget-metadata.xml&lt;/file&gt;
 			&lt;/xmlInspector&gt;</emphasis>
-			&lt;javaBeanInspector xmlns="java:org.metawidget.inspector.javabean"/&gt;
+			&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;
 
@@ -754,7 +754,7 @@ public class Main {
 	
 				<para>
 					...denotes <parameter>name</parameter> is a required field (could be rendered with a star after it in the UI). Equally,
-					<classname>JavaBeanInspector</classname> understands that...
+					<classname>PropertyTypeInspector</classname> understands that...
 				</para>
 				
 				<programlisting language="java">public class Person {
@@ -1572,7 +1572,7 @@ bin\run</programlisting>
 				There is a large diversity of front-end and back-end technologies. Metawidget strives to unify this
 				diversity with two over-arching concepts: Metawidgets that create widgets for
 				specific front-end frameworks (<classname>SwingMetawidget</classname>, <classname>UIMetawidget</classname>, etc.) and Inspectors that
-				inspect specific back-end architectures (<classname>JavaBeanInspector</classname>, <classname>JpaInspector</classname>, etc.).
+				inspect specific back-end architectures (<classname>PropertyTypeInspector</classname>, <classname>JpaInspector</classname>, etc.).
 			</para>
 			
 		</section>
@@ -2076,7 +2076,7 @@ bin\run</programlisting>
 				
 				<para>
 					For frameworks based on JSP, <classname>org.metawidget.jsp.tagext.MetawidgetTag</classname> and the more
-					commonly used <classname>org.metawidget.jsp.tagext.html.AbstractHtmlMetawidgetTag</classname> provide base
+					commonly used <classname>org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag</classname> provide base
 					taglib functionality. See <classname>StrutsMetawidgetTag</classname> for example usage.
 				</para>
 				
@@ -2136,21 +2136,22 @@ bin\run</programlisting>
 			
 		</section>
 
-		<section id="section-inspectors-javabean">
+		<section id="section-inspectors-property">
 			<title>JavaBean Inspectors</title>
 
-			<section id="section-inspectors-javabean-pojo">
-				<title>AbstractPojoInspector</title>
+			<section id="section-inspectors-property-pojo">
+				<title>BasePropertyInspector</title>
 				
 				<para>
-					<classname>AbstractPojoInspector</classname> underlies many of the Inspectors that inspect Java objects (as opposed to, say,
+					<classname>BasePropertyInspector</classname> underlies many of the Inspectors that inspect objects (as opposed to, say,
 					config files). Its notable features include:
 				</para>
 				
 				<itemizedlist>
 					<listitem>
 						<para>
-							it inspects both getter/setter properties and public member variables
+							it supports pluggable property styles, including JavaBean-convention getter/setter properties, public member variables
+							and GroovyBean properties
 						</para>
 					</listitem>
 					<listitem>
@@ -2163,18 +2164,18 @@ bin\run</programlisting>
 				
 			</section>
 			
-			<section id="section-inspectors-javabean-javabean">
-				<title>JavaBeanInspector</title>
+			<section id="section-inspectors-property-type">
+				<title>PropertyTypeInspector</title>
 				
 				<para>
-					<classname>JavaBeanInspector</classname> extends <classname>AbstractPojoInspector</classname>, and so inherits its features. In addition, its own
+					<classname>PropertyTypeInspector</classname> extends <classname>BasePropertyInspector</classname>, and so inherits its features. In addition, its own
 					notable features include:
 				</para>
 				
 				<itemizedlist>
 					<listitem>
 						<para>
-							it inspects the declared type for both getters and public member variables. Provided the type
+							it inspects the declared type for properties. Provided the type
 							is not primitive or <parameter>final</parameter>, it further inspects the actual type of the object. If
 							it differs from the declared type (eg. it is a subclass), it returns the actual type together
 							with the declared type.
@@ -2356,9 +2357,9 @@ bin\run</programlisting>
 						in configuring a DocumentFactory and Schema.
 					</para>
 					<para>
-						For inspecting POJOs, <classname>AbstractPojoInspector</classname> assists
-						in iterating over public member variables, getter methods and setter methods. See
-						<classname>JavaBeanInspector</classname> for example usage.
+						For inspecting properties, <classname>BasePropertyInspector</classname> assists
+						in iterating over public member variables, getter/setter methods and GroovyBean properties. See
+						<classname>PropertyTypeInspector</classname> for example usage.
 					</para>				
 					<para>
 						For inspecting annotations, <classname>AbstractAnnotationInspector</classname> assists

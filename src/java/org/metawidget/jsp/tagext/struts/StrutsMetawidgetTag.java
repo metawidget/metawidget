@@ -17,7 +17,7 @@
 package org.metawidget.jsp.tagext.struts;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.property.PropertyInspectionResultConstants.*;
+import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 import static org.metawidget.inspector.struts.StrutsInspectionResultConstants.*;
 
 import java.io.IOException;
@@ -51,7 +51,7 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.Inspector;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
-import org.metawidget.jsp.tagext.html.AbstractHtmlMetawidgetTag;
+import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
@@ -69,7 +69,7 @@ import org.w3c.dom.Document;
  */
 
 public class StrutsMetawidgetTag
-	extends AbstractHtmlMetawidgetTag
+	extends BaseHtmlMetawidgetTag
 {
 	//
 	//

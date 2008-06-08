@@ -17,7 +17,7 @@
 package org.metawidget.jsp.tagext.spring;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.property.PropertyInspectionResultConstants.*;
+import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
 
 import java.io.IOException;
@@ -34,7 +34,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.metawidget.MetawidgetException;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
-import org.metawidget.jsp.tagext.html.AbstractHtmlMetawidgetTag;
+import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -63,7 +63,7 @@ import org.springframework.web.servlet.tags.form.TextareaTag;
  */
 
 public class SpringMetawidgetTag
-	extends AbstractHtmlMetawidgetTag
+	extends BaseHtmlMetawidgetTag
 {
 	//
 	//

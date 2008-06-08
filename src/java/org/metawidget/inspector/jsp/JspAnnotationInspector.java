@@ -20,8 +20,8 @@ import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 
 import java.util.Map;
 
-import org.metawidget.inspector.impl.AbstractPropertyInspector;
-import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
+import org.metawidget.inspector.impl.BasePropertyInspector;
+import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
@@ -32,7 +32,7 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class JspAnnotationInspector
-	extends AbstractPropertyInspector
+	extends BasePropertyInspector
 {
 	//
 	//
@@ -42,10 +42,10 @@ public class JspAnnotationInspector
 
 	public JspAnnotationInspector()
 	{
-		this( new AbstractPropertyInspectorConfig() );
+		this( new BasePropertyInspectorConfig() );
 	}
 
-	public JspAnnotationInspector( AbstractPropertyInspectorConfig config )
+	public JspAnnotationInspector( BasePropertyInspectorConfig config )
 	{
 		super( config );
 	}

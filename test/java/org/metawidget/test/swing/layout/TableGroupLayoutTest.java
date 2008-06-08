@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.inspector.property.PropertyInspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.TableGroupLayout;
@@ -51,7 +51,7 @@ public class TableGroupLayoutTest
 		// Start app
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new PropertyInspector() );
+		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setLayoutClass( TableGroupLayout.class );
 		metawidget.setToInspect( new Person() );
 

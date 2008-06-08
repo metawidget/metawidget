@@ -8,7 +8,7 @@
 			<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
 				<file>org/metawidget/test/shared/allwidgets/model/metawidget-metadata.xml</file>
 			</xmlInspector>
-			<propertyInspector xmlns="java:org.metawidget.inspector.property"/>
+			<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 		</inspectors>
 	</compositeInspector>
 

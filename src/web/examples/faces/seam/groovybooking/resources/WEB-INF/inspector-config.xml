@@ -5,19 +5,19 @@
 
 	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 		<inspectors>
-			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.AbstractPropertyInspectorConfig">
+			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BasePropertyInspectorConfig">
 				<propertyStyle>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</propertyStyle>			
 			</metawidgetAnnotationInspector>
-			<propertyInspector xmlns="java:org.metawidget.inspector.property" config="PropertyInspectorConfig">
+			<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BasePropertyInspectorConfig">
 				<propertyStyle>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</propertyStyle>
-			</propertyInspector>
-			<facesInspector xmlns="java:org.metawidget.inspector.faces" config="org.metawidget.inspector.impl.AbstractPropertyInspectorConfig">
+			</propertyTypeInspector>
+			<facesInspector xmlns="java:org.metawidget.inspector.faces" config="org.metawidget.inspector.impl.BasePropertyInspectorConfig">
 				<propertyStyle>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</propertyStyle>
 			</facesInspector>
 			<jpaInspector xmlns="java:org.metawidget.inspector.jpa" config="JpaInspectorConfig">
 				<propertyStyle>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</propertyStyle>
 			</jpaInspector>
-			<hibernateValidatorInspector xmlns="java:org.metawidget.inspector.hibernate.validator" config="org.metawidget.inspector.impl.AbstractPropertyInspectorConfig">
+			<hibernateValidatorInspector xmlns="java:org.metawidget.inspector.hibernate.validator" config="org.metawidget.inspector.impl.BasePropertyInspectorConfig">
 				<propertyStyle>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</propertyStyle>
 			</hibernateValidatorInspector>
 		</inspectors>

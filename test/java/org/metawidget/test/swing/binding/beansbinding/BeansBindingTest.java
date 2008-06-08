@@ -29,7 +29,7 @@ import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import org.metawidget.inspector.property.PropertyInspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.beansbinding.BeansBinding;
 import org.metawidget.swing.binding.beansbinding.ReadOnlyToStringConverter;
@@ -60,7 +60,7 @@ public class BeansBindingTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setBindingClass( BeansBinding.class );
-		metawidget.setInspector( new PropertyInspector() );
+		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( foo );
 
 		// Test UpdateStrategy.READ_ONCE
@@ -108,7 +108,7 @@ public class BeansBindingTest
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setBindingClass( BeansBinding.class );
 		metawidget.setParameter( UpdateStrategy.class, UpdateStrategy.READ_WRITE );
-		metawidget.setInspector( new PropertyInspector() );
+		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setLayoutClass( null );
 		metawidget.setToInspect( foo );
 		metawidget.setPath( Foo.class.getName() + "/bar" );
@@ -130,7 +130,7 @@ public class BeansBindingTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setBindingClass( BeansBinding.class );
-		metawidget.setInspector( new PropertyInspector() );
+		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( foo );
 
 		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );

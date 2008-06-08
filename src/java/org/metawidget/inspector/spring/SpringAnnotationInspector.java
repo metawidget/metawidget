@@ -18,8 +18,8 @@ package org.metawidget.inspector.spring;
 
 import java.util.Map;
 
-import org.metawidget.inspector.impl.AbstractPropertyInspector;
-import org.metawidget.inspector.impl.AbstractPropertyInspectorConfig;
+import org.metawidget.inspector.impl.BasePropertyInspector;
+import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
@@ -30,7 +30,7 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class SpringAnnotationInspector
-	extends AbstractPropertyInspector
+	extends BasePropertyInspector
 {
 	//
 	//
@@ -40,10 +40,10 @@ public class SpringAnnotationInspector
 
 	public SpringAnnotationInspector()
 	{
-		this( new AbstractPropertyInspectorConfig() );
+		this( new BasePropertyInspectorConfig() );
 	}
 
-	public SpringAnnotationInspector( AbstractPropertyInspectorConfig config )
+	public SpringAnnotationInspector( BasePropertyInspectorConfig config )
 	{
 		super( config );
 	}

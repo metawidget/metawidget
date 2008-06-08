@@ -18,7 +18,7 @@ package org.metawidget.jsp.tagext.html;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
-import static org.metawidget.inspector.property.PropertyInspectionResultConstants.*;
+import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
 import java.util.Collection;
 import java.util.Date;
@@ -43,7 +43,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HtmlMetawidgetTag
-	extends AbstractHtmlMetawidgetTag
+	extends BaseHtmlMetawidgetTag
 {
 	//
 	//

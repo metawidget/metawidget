@@ -39,7 +39,7 @@ import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
-import org.metawidget.inspector.property.PropertyInspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.TableGridBagLayout;
@@ -64,7 +64,7 @@ public class TableGridBagLayoutTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
-		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyInspector() );
+		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 0 );
 		metawidget.setParameter( "sectionStyle", TableGridBagLayout.SECTION_AS_TAB );

@@ -27,7 +27,7 @@ import javax.xml.parsers.DocumentBuilder;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.ResourceResolver;
-import org.metawidget.inspector.impl.AbstractXmlInspector;
+import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -43,7 +43,7 @@ import org.w3c.dom.NodeList;
  */
 
 public class HibernateInspector
-	extends AbstractXmlInspector
+	extends BaseXmlInspector
 {
 	//
 	//

@@ -241,7 +241,7 @@ public class AddressBookModule
 		cellFormatter.setStyleName( 0, 0, "header" );
 		mContacts.setText( 0, 1, "Contact" );
 		cellFormatter.setStyleName( 0, 1, "header" );
-		mContacts.setHTML( 0, 1, "&nbsp;" );
+		mContacts.setHTML( 0, 2, "&nbsp;" );
 		cellFormatter.setStyleName( 0, 2, "header" );
 
 		// Contacts
