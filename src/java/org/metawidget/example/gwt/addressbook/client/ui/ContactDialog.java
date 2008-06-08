@@ -49,7 +49,6 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
-import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
 
 /**
  * @author Richard Kennard
@@ -139,18 +138,16 @@ public class ContactDialog
 
 		// Header
 
-		communications.setText( 0, 0, "Type" );
-		communications.setText( 0, 1, "Value" );
-
-		// TODO: header styles
-		// TODO: communications.setText( 0, 2, "&nbsp;" );
-
-		ColumnFormatter columnFormatter = communications.getColumnFormatter();
-		columnFormatter.setStyleName( 0, "column-half" );
-		columnFormatter.setStyleName( 1, "column-half" );
-		columnFormatter.setStyleName( 2, "column-tiny" );
-
 		final CellFormatter cellFormatter = communications.getCellFormatter();
+		communications.setText( 0, 0, "Type" );
+		cellFormatter.setStyleName( 0, 0, "header" );
+		cellFormatter.addStyleName( 0, 0, "column-half" );
+		communications.setText( 0, 1, "Value" );
+		cellFormatter.setStyleName( 0, 1, "header" );
+		cellFormatter.addStyleName( 0, 1, "column-half" );
+		communications.setHTML( 0, 2, "&nbsp;" );
+		cellFormatter.setStyleName( 0, 1, "header" );
+		cellFormatter.addStyleName( 0, 1, "column-tiny" );
 
 		// Footer
 
