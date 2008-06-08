@@ -90,8 +90,6 @@ public class UIStub
 
 		// Parse attributes
 
-		// TODO: 'attributes="required:"' is okay, but should throw a big error
-
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		for ( String nameAndValue : CollectionUtils.fromString( stubAttributes, ';' ) )

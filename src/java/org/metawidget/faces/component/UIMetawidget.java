@@ -323,7 +323,10 @@ public abstract class UIMetawidget
 		}
 		catch ( Exception e )
 		{
-			throw MetawidgetException.newException( e );
+			// At this top level, it is more 'proper' to throw an IOException than
+			// a MetawidgetException, and it gets handled better by layers above
+
+			throw new IOException( e.getMessage() );
 		}
 
 		// Delegate to our subclass, which in turn

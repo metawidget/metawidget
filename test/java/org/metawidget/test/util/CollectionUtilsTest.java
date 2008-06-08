@@ -51,6 +51,10 @@ public class CollectionUtilsTest
 
 		assertTrue( CollectionUtils.newLinkedHashMap() != null );
 		assertTrue( CollectionUtils.sort( Collections.emptySet() ).isEmpty() );
+
+		assertTrue( CollectionUtils.newArrayList( "foo", "bar" ).equals( CollectionUtils.fromString( "foo, bar" ) ));
+		assertTrue( CollectionUtils.newArrayList( "foo", "bar" ).equals( CollectionUtils.fromString( "foo, bar," ) ));
+		assertTrue( CollectionUtils.newArrayList( "foo", "bar", "baz" ).equals( CollectionUtils.fromString( "foo, bar,  baz" ) ));
 	}
 
 	//
