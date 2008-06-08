@@ -119,14 +119,9 @@ public abstract class ContactForm
 
 	/**
 	 * Get the Person's title.
-	 * <p>
-	 * Demonstrates using an annotation to override the choice of UI control. This approach has the
-	 * advantage of storing rarely-changed values close to where they are used. It has the
-	 * disadvantage of hard-coding UI-specific values into the source (see other Metawidget
-	 * approaches).
 	 */
 
-	@UiComesAfter( { "dateOfBirth", "surname", "company" } )
+	@UiComesAfter( { "dateOfBirthAsString", "surname", "company" } )
 	public Gender getGender()
 	{
 		return mGender;

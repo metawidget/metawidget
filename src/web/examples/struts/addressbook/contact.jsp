@@ -55,7 +55,11 @@
 								<tr>
 									<td class="column-half">${_communication.type}</td>
 									<td class="column-half">${_communication.value}</td>
-									<td class="column-tiny, table-buttons"><input type="submit" name="deleteCommunication" value="Delete" onClick="document.getElementById( 'deleteCommunicationId' ).value = ${_communication.id}"/></td>
+									<td class="column-tiny, table-buttons">
+										<c:if test="${!contactForm.readOnly}">
+											<input type="submit" name="deleteCommunication" value="Delete" onClick="document.getElementById( 'deleteCommunicationId' ).value = ${_communication.id}"/>
+										</c:if>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>

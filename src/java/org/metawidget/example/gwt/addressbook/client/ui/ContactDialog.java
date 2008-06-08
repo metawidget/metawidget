@@ -142,6 +142,9 @@ public class ContactDialog
 		communications.setText( 0, 0, "Type" );
 		communications.setText( 0, 1, "Value" );
 
+		// TODO: header styles
+		// TODO: communications.setText( 0, 2, "&nbsp;" );
+
 		ColumnFormatter columnFormatter = communications.getColumnFormatter();
 		columnFormatter.setStyleName( 0, "column-half" );
 		columnFormatter.setStyleName( 1, "column-half" );

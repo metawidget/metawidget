@@ -19,7 +19,7 @@
 					<f:param name="buttonsStyle" value="aButtonsStyle"/>
 					<f:param name="buttonsStyleClass" value="aButtonsStyleClass"/>
 					
-					<m:stub value="#{allWidgets.mystery}" attributes="rendered:"/>
+					<m:stub value="#{allWidgets.mystery}"/>
 
 					<f:facet name="buttons">
 						<h:commandButton value="Save" action="#{allWidgetsBean.save}"/>

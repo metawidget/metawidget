@@ -73,6 +73,9 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[3]/td[1]" text="Anytown"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[4]/th" text="Postcode:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[4]/td[1]" text="90701"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[1]" text="Telephone"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]" text=""/>
 	
 				<clickButton label="Edit"/>
 				<verifySelectField name="title" value="Mr"/>
@@ -84,7 +87,8 @@
 				<verifyInputField name="address.city" value="Springfield"/>
 				<verifySelectField name="address.state" value="Anytown"/>
 				<verifyInputField name="address.postcode" value="90701"/>
-				<verifyText text="(939) 555-0113"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]/input/@value" text="Delete"/>
 				<setInputField name="firstnames" value="Homer Jay"/>
 				
 				<setSelectField name="communication.type" value="Fax"/>

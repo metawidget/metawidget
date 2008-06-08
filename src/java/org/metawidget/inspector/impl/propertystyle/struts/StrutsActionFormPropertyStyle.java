@@ -28,9 +28,6 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
  * @author Richard Kennard
  */
 
-// TODO: sorts DateOfBirth wrong way around (addressbook)
-// TODO: shows delete button during edit mode (addressbook)
-
 public class StrutsActionFormPropertyStyle
 	extends JavaBeanPropertyStyle
 {

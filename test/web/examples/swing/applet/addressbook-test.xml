@@ -15,8 +15,9 @@
 			<steps>
 				<invoke url="file://c:${build.metawidget.dir}/examples/swing/applet/addressbook/index.html" />
 				<verifyTitle text="Address Book (Metawidget Swing Applet Example)" />
-				
+				<!--
 				<appletRunner scenario="org.metawidget.test.example.swing.addressbook.AppletAddressBookScenario" xpath="/html/body/center/applet"/>
+				-->
 			</steps>
 		</webtest>
 	</target>
