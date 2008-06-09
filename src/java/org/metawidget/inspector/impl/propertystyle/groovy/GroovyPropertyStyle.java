@@ -74,7 +74,10 @@ public class GroovyPropertyStyle
 
 		Map<String, Property> propertiesToReturn = CollectionUtils.newTreeMap();
 
-		// Iterate over all Groovy properties
+		// Iterate over all Groovy properties.
+		//
+		// Note: we do not cache this like we do JavaBean properties, because presumably
+		// these can change dynamically?
 
 		@SuppressWarnings( "unchecked" )
 		List<MetaBeanProperty> properties = GroovySystem.getMetaClassRegistry().getMetaClass( clazz ).getProperties();
@@ -148,7 +151,7 @@ public class GroovyPropertyStyle
 				if ( setterMethod != null )
 					mSetterMethod = javaClass.getMethod( setterMethod.getName(), setterMethod.getNativeParameterTypes() );
 			}
-			catch( Exception e )
+			catch ( Exception e )
 			{
 				throw InspectorException.newException( e );
 			}
@@ -184,13 +187,13 @@ public class GroovyPropertyStyle
 
 		public <T extends Annotation> T getAnnotation( Class<T> annotation )
 		{
-			if ( mField != null)
+			if ( mField != null )
 				return mField.getAnnotation( annotation );
 
-			if ( mGetterMethod != null)
+			if ( mGetterMethod != null )
 				return mGetterMethod.getAnnotation( annotation );
 
-			if ( mSetterMethod != null)
+			if ( mSetterMethod != null )
 				return mSetterMethod.getAnnotation( annotation );
 
 			throw InspectorException.newException( "Don't know how to getAnnotation from " + getName() );
@@ -198,13 +201,13 @@ public class GroovyPropertyStyle
 
 		public Type getGenericType()
 		{
-			if ( mField != null)
+			if ( mField != null )
 				return mField.getGenericType();
 
-			if ( mGetterMethod != null)
+			if ( mGetterMethod != null )
 				return mGetterMethod.getGenericReturnType();
 
-			if ( mSetterMethod != null)
+			if ( mSetterMethod != null )
 				return mSetterMethod.getGenericParameterTypes()[0];
 
 			throw InspectorException.newException( "Don't know how to getGenericType from " + getName() );

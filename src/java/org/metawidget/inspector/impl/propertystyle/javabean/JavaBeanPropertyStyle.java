@@ -23,7 +23,6 @@ import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
@@ -47,29 +46,23 @@ public class JavaBeanPropertyStyle
 {
 	//
 	//
-	// Private statics
+	// Private members
 	//
 	//
 
 	/**
 	 * Cache of property lookups.
 	 * <p>
-	 * Property lookups are potentially expensive, so we cache them. It is important to cache them
-	 * <em>per JavaBeanPropertyStyle-subclass</em>, as different subclasses may use different
-	 * excludes.
+	 * Property lookups are potentially expensive, so we cache them. The cache itself is a member
+	 * variable, not a static, because we rely on <code>BasePropertyInspector</code> to only
+	 * create one instance of <code>JavaBeanPropertyStyle</code> for all <code>Inspectors</code>.
 	 */
 
-	private final static Map<Class<? extends PropertyStyle>, Map<Class<?>, Map<String, Property>>>	PROPERTIES_CACHE	= CollectionUtils.newHashMap();
+	private Map<Class<?>, Map<String, Property>>	mPropertiesCache	= CollectionUtils.newHashMap();
 
-	//
-	//
-	// Private members
-	//
-	//
+	private String[]								mExcludeNames;
 
-	private String[]	mExcludeNames;
-
-	private Class<?>[]	mExcludeTypes;
+	private Class<?>[]								mExcludeTypes;
 
 	//
 	//
@@ -79,8 +72,6 @@ public class JavaBeanPropertyStyle
 
 	public JavaBeanPropertyStyle()
 	{
-		PROPERTIES_CACHE.put( getClass(), new WeakHashMap<Class<?>, Map<String, Property>>() );
-
 		mExcludeNames = getExcludeNames();
 		mExcludeTypes = getExcludeTypes();
 	}
@@ -97,11 +88,9 @@ public class JavaBeanPropertyStyle
 
 	public Map<String, Property> getProperties( Class<?> clazz )
 	{
-		Map<Class<?>, Map<String, Property>> propertiesCache = PROPERTIES_CACHE.get( getClass() );
-
-		synchronized ( propertiesCache )
+		synchronized ( mPropertiesCache )
 		{
-			Map<String, Property> properties = propertiesCache.get( clazz );
+			Map<String, Property> properties = mPropertiesCache.get( clazz );
 
 			if ( properties == null )
 			{
@@ -234,7 +223,7 @@ public class JavaBeanPropertyStyle
 					properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toSet, null, methodWrite ) );
 				}
 
-				propertiesCache.put( clazz, Collections.unmodifiableMap( properties ) );
+				mPropertiesCache.put( clazz, Collections.unmodifiableMap( properties ) );
 			}
 
 			return properties;

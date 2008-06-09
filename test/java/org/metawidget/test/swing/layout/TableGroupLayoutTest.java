@@ -41,11 +41,11 @@ public class TableGroupLayoutTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
-	public static void testLayout()
+	public void testLayout()
 		throws Exception
 	{
 		// Start app

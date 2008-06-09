@@ -33,12 +33,12 @@ public class CollectionUtilsTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
 	@SuppressWarnings( "cast" )
-	public static void testCollectionUtils()
+	public void testCollectionUtils()
 		throws Exception
 	{
 		assertTrue( CollectionUtils.newArrayList( 2 ) != null );

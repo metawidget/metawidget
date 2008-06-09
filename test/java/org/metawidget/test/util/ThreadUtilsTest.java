@@ -30,11 +30,11 @@ public class ThreadUtilsTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
-	public static void testReentrant()
+	public void testReentrant()
 		throws Exception
 	{
 		ReentrantThreadLocal<Integer> reentrant = new ThreadUtils.ReentrantThreadLocal<Integer>();

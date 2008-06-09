@@ -20,8 +20,8 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 
 /**
- * Abstraction layer over getter/setter-based, field-based, or Groovy-based properties, so that
- * subclasses can treat them all the same.
+ * Interface over getter/setter-based, field-based, or Groovy-based properties, so that
+ * <code>Inspectors</code> can treat them all the same.
  *
  * @author Richard Kennard
  */

@@ -39,7 +39,7 @@ public class Java5InspectorTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 

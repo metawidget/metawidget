@@ -44,11 +44,11 @@ public class BeansBindingTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
-	public static void testBinding()
+	public void testBinding()
 		throws Exception
 	{
 		// Model
@@ -95,7 +95,7 @@ public class BeansBindingTest
 		metawidget.setBindingClass( null );
 	}
 
-	public static void testSingleComponentBinding()
+	public void testSingleComponentBinding()
 		throws Exception
 	{
 		// Model
@@ -119,7 +119,7 @@ public class BeansBindingTest
 		assertTrue( 43 == foo.getBar() );
 	}
 
-	public static void testDefaultTableBinding()
+	public void testDefaultTableBinding()
 		throws Exception
 	{
 		// Model
@@ -146,7 +146,7 @@ public class BeansBindingTest
 		assertTrue( table.getModel().getRowCount() == 2 );
 	}
 
-	public static void testReadOnlyToStringConverter()
+	public void testReadOnlyToStringConverter()
 		throws Exception
 	{
 		// Model
@@ -166,7 +166,7 @@ public class BeansBindingTest
 		}
 	}
 
-	public static void testConvert()
+	public void testConvert()
 		throws Exception
 	{
 		// Model

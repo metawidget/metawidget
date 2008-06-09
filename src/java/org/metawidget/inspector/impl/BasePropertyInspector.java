@@ -26,6 +26,7 @@ import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -44,11 +45,19 @@ public abstract class BasePropertyInspector
 {
 	//
 	//
+	// Private statics
+	//
+	//
+
+	private final static Map<Class<? extends PropertyStyle>, PropertyStyle>	PROPERTY_STYLE_CACHE	= CollectionUtils.newHashMap();
+
+	//
+	//
 	// Private members
 	//
 	//
 
-	private PropertyStyle	mPropertyStyle;
+	private PropertyStyle													mPropertyStyle;
 
 	//
 	//
@@ -56,7 +65,7 @@ public abstract class BasePropertyInspector
 	//
 	//
 
-	protected Pattern		mPatternProxy;
+	protected Pattern														mPatternProxy;
 
 	//
 	//
@@ -67,15 +76,24 @@ public abstract class BasePropertyInspector
 	/**
 	 * Config-based constructor.
 	 * <p>
-	 * All BasePropertyInspector-derived inspectors must be configurable, to allow configuring property
-	 * styles and proxy patterns.
+	 * All BasePropertyInspector-derived inspectors must be configurable, to allow configuring
+	 * property styles and proxy patterns.
 	 */
 
 	protected BasePropertyInspector( BasePropertyInspectorConfig config )
 	{
 		try
 		{
-			mPropertyStyle = config.getPropertyStyle().newInstance();
+			Class<? extends PropertyStyle> propertyStyle = config.getPropertyStyle();
+
+			mPropertyStyle = PROPERTY_STYLE_CACHE.get( propertyStyle );
+
+			if ( mPropertyStyle == null )
+			{
+				mPropertyStyle = propertyStyle.newInstance();
+				PROPERTY_STYLE_CACHE.put( propertyStyle, mPropertyStyle );
+			}
+
 			mPatternProxy = config.getProxyPattern();
 		}
 		catch ( Exception e )

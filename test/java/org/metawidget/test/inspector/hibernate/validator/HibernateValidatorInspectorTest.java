@@ -39,7 +39,7 @@ public class HibernateValidatorInspectorTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 

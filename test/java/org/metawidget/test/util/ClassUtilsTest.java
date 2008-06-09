@@ -29,11 +29,11 @@ public class ClassUtilsTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
-	public static void testObjectPrimitive()
+	public void testObjectPrimitive()
 		throws Exception
 	{
 		assertTrue( ClassUtils.isPrimitiveWrapper( Long.class ) );
@@ -41,7 +41,7 @@ public class ClassUtilsTest
 		assertTrue( !ClassUtils.isPrimitiveWrapper( String.class ) );
 	}
 
-	public static void testProperties()
+	public void testProperties()
 		throws Exception
 	{
 		Foo foo = new Foo();

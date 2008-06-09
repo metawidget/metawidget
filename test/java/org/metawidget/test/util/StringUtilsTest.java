@@ -29,11 +29,11 @@ public class StringUtilsTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
-	public static void testStringUtils()
+	public void testStringUtils()
 		throws Exception
 	{
 		assertTrue( false == StringUtils.isFirstLetterUppercase( "" ));

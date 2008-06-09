@@ -56,11 +56,11 @@ public class SwingAllWidgetsTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
-	public static void testAllWidgets()
+	public void testAllWidgets()
 		throws Exception
 	{
 		// Model

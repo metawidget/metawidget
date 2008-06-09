@@ -33,7 +33,7 @@ public class StrutsInspectorTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 

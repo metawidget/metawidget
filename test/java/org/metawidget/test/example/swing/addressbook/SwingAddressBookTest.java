@@ -62,7 +62,7 @@ public class SwingAddressBookTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 

@@ -37,7 +37,7 @@ public class SwingMetawidgetTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
@@ -58,7 +58,7 @@ public class SwingMetawidgetTest
 
 		Field validField = Component.class.getDeclaredField( "valid" );
 		validField.setAccessible( true );
-		
+
 		validField.setBoolean( metawidget, true );
 		metawidget.paint( new JFrame().getGraphics() );
 		assertTrue( validField.getBoolean( metawidget ));

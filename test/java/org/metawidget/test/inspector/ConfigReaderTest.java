@@ -45,7 +45,7 @@ public class ConfigReaderTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 

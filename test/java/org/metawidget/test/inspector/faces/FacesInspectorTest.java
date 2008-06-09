@@ -45,7 +45,7 @@ public class FacesInspectorTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 

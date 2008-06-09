@@ -45,7 +45,7 @@ public class MetawidgetAnnotationInspectorTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 

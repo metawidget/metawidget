@@ -51,7 +51,7 @@ public class PropertyTypeInspectorTest
 
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 

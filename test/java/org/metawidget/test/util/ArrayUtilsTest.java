@@ -31,11 +31,11 @@ public class ArrayUtilsTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
-	public static void testArrayUtils()
+	public void testArrayUtils()
 		throws Exception
 	{
 		String[] compareTo = new String[]{ "foo", "bar", "baz" };

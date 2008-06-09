@@ -39,11 +39,11 @@ public class FacesMetawidgetTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
-	public static void testMetawidget()
+	public void testMetawidget()
 		throws Exception
 	{
 		UIMetawidget metawidget = new HtmlMetawidget();
@@ -60,7 +60,7 @@ public class FacesMetawidgetTest
 		}
 	}
 
-	public static void testStub()
+	public void testStub()
 		throws Exception
 	{
 		UIStub stub = new UIStub();

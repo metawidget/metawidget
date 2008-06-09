@@ -43,7 +43,7 @@ public class RemoteInspectorTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 

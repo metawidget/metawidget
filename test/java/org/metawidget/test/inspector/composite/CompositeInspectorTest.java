@@ -43,7 +43,7 @@ public class CompositeInspectorTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 

@@ -41,11 +41,11 @@ public class SwingTutorialTest
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
-	public static void testTutorial()
+	public void testTutorial()
 		throws Exception
 	{
 		// Start app
