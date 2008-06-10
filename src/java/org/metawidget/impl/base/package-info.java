@@ -15,9 +15,12 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Java Server Faces support.
+ * Base Metawidget functionality: simple classes.
+ * <p>
+ * By 'simple' we mean without many dependencies, and simple enough to be compiled into JavaScript
+ * if we need to (eg. for GWT).
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.faces;
+package org.metawidget.impl.base;

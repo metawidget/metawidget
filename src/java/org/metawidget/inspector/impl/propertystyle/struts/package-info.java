@@ -1,5 +1,5 @@
 /**
- * Inspectors Property Styles: Struts ActionForm support.
+ * Inspectors: Struts property style.
  *
  * @author Richard Kennard
  */

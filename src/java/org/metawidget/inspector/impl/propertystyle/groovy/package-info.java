@@ -1,5 +1,5 @@
 /**
- * Inspectors Property Styles: Groovy support.
+ * Inspectors: Groovy property style.
  *
  * @author Richard Kennard
  */

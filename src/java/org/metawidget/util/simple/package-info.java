@@ -1,5 +1,5 @@
 /**
- * Simple Utility classes.
+ * Simple utility classes.
  * <p>
  * By 'simple' we mean without many dependencies, and simple enough to be compiled into JavaScript
  * if we need to (eg. for GWT).

@@ -1,5 +1,5 @@
 /**
- * Inspectors Property Styles: JavaBean convention support.
+ * Inspectors: JavaBean property style.
  *
  * @author Richard Kennard
  */

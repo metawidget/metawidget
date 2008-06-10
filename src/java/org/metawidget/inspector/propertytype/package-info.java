@@ -1,5 +1,5 @@
 /**
- * Inspectors: Property type support.
+ * Inspectors: property type support.
  *
  * @author Richard Kennard
  */
