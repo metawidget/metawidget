@@ -43,6 +43,14 @@ public class MainFrame
 
 	//
 	//
+	// Private members
+	//
+	//
+
+	private AddressBook	mAddressBook;
+
+	//
+	//
 	// Constructor
 	//
 	//
@@ -62,6 +70,23 @@ public class MainFrame
 
 		// Create AddressBook
 
-		new AddressBook( backgroundPanel );
+		mAddressBook = new AddressBook( backgroundPanel );
+	}
+
+	//
+	//
+	// Public methods
+	//
+	//
+
+	/**
+	 * Gets the AddressBook.
+	 * <p>
+	 * Used by Unit Tests.
+	 */
+
+	public AddressBook getAddressBook()
+	{
+		return mAddressBook;
 	}
 }

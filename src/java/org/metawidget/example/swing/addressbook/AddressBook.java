@@ -21,6 +21,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
 
@@ -94,8 +95,19 @@ public class AddressBook
 
 		// Left-hand image
 
-		ImageIcon imageAddressBook = new ImageIcon( Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/addressbook.gif" ) );
-		JLabel label = new JLabel( imageAddressBook );
+		JLabel label;
+		URL url = Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/addressbook.gif" );
+
+		if ( url != null )
+		{
+			ImageIcon imageAddressBook = new ImageIcon( url );
+			label = new JLabel( imageAddressBook );
+		}
+		else
+		{
+			label = new JLabel();
+		}
+
 		label.setVerticalAlignment( SwingConstants.TOP );
 		label.setBorder( BorderFactory.createEmptyBorder( COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING * 2 ) );
 		container.add( label, BorderLayout.WEST );
@@ -197,9 +209,6 @@ public class AddressBook
 		final JTable table = new JTable( mModel );
 		table.setAutoCreateColumnsFromModel( true );
 
-		final ImageIcon iconPersonal = new ImageIcon( Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/personal-small.gif" ) );
-		final ImageIcon iconBusiness = new ImageIcon( Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/business-small.gif" ) );
-
 		table.setDefaultRenderer( Set.class, new DefaultTableCellRenderer()
 		{
 			@Override
@@ -209,21 +218,30 @@ public class AddressBook
 			}
 		} );
 
-		table.setDefaultRenderer( Class.class, new DefaultTableCellRenderer()
-		{
-			{
-				setHorizontalAlignment( SwingConstants.CENTER );
-			}
+		URL personalIconUrl = Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/personal-small.gif" );
+		URL businessIconUrl = Thread.currentThread().getContextClassLoader().getResource( "org/metawidget/example/shared/addressbook/media/business-small.gif" );
 
-			@Override
-			public void setValue( Object value )
+		if ( personalIconUrl != null && businessIconUrl != null )
+		{
+			final ImageIcon iconPersonal = new ImageIcon( personalIconUrl );
+			final ImageIcon iconBusiness = new ImageIcon( businessIconUrl );
+
+			table.setDefaultRenderer( Class.class, new DefaultTableCellRenderer()
 			{
-				if ( PersonalContact.class.equals( value ) )
-					setIcon( iconPersonal );
-				else
-					setIcon( iconBusiness );
-			}
-		} );
+				{
+					setHorizontalAlignment( SwingConstants.CENTER );
+				}
+
+				@Override
+				public void setValue( Object value )
+				{
+					if ( PersonalContact.class.equals( value ) )
+						setIcon( iconPersonal );
+					else
+						setIcon( iconBusiness );
+				}
+			} );
+		}
 
 		table.setRowHeight( 35 );
 		table.setShowVerticalLines( false );

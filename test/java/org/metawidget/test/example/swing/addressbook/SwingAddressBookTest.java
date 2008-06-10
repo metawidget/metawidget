@@ -24,7 +24,6 @@ import java.util.Locale;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
@@ -49,6 +48,7 @@ import org.metawidget.example.swing.addressbook.AddressBook;
 import org.metawidget.example.swing.addressbook.ContactDialog;
 import org.metawidget.example.swing.addressbook.ImagePanel;
 import org.metawidget.example.swing.addressbook.ListTableModel;
+import org.metawidget.example.swing.addressbook.MainFrame;
 import org.metawidget.example.swing.addressbook.converter.DateConverter;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingUtils;
@@ -75,13 +75,14 @@ public class SwingAddressBookTest
 
 		// Start app
 
-		JFrame frame = new JFrame();
-		AddressBook addressBook = new AddressBook( frame );
-		ContactsController contactsController = addressBook.getContactsController();
+		MainFrame frame = new MainFrame();
+		AddressBook addressBook = frame.getAddressBook();
+		JPanel panelRight = (JPanel) ((ImagePanel) frame.getContentPane().getComponent( 0 )).getComponent( 1 );
+		assertTrue( ((JTable) ((JScrollPane) panelRight.getComponent( 1 )).getViewport().getView()).getRowCount() == 6 );
 
 		// Check searching
 
-		SwingMetawidget metawidgetSearch = (SwingMetawidget) ( (Container) frame.getContentPane().getComponent( 1 ) ).getComponent( 0 );
+		SwingMetawidget metawidgetSearch = (SwingMetawidget) panelRight.getComponent( 0 );
 
 		metawidgetSearch.setValue( "Simpson", "surname" );
 		metawidgetSearch.setValue( ContactType.PERSONAL, "type" );
@@ -92,6 +93,7 @@ public class SwingAddressBookTest
 		assertTrue( "Search".equals( buttonSearch.getText() ) );
 
 		buttonSearch.getAction().actionPerformed( null );
+		ContactsController contactsController = addressBook.getContactsController();
 		assertTrue( contactsController.getAllByExample( (ContactSearch) metawidgetSearch.getToInspect() ).size() == 2 );
 
 		// Open dialog for Personal Contact

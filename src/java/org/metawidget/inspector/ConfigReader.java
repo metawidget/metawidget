@@ -175,6 +175,8 @@ public class ConfigReader
 
 	public InputStream openResource( String resource )
 	{
+		// Thread's ClassLoader
+
 		ClassLoader loaderContext = Thread.currentThread().getContextClassLoader();
 
 		if ( loaderContext != null )
@@ -184,6 +186,8 @@ public class ConfigReader
 			if ( stream != null )
 				return stream;
 		}
+
+		// ConfigReader's ClassLoader
 
 		InputStream stream = ConfigReader.class.getResourceAsStream( resource );
 

@@ -721,13 +721,13 @@
 
 	<target name="test-swing-addressbook-applet" depends="example-swing-addressbook-applet">
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/swing/applet">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${run.dir}">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
-			<arg line="-file addressbook-test.xml"/>
+			<arg line="-file '${basedir}/test/web/examples/swing/applet/addressbook-test.xml'"/>
 		</java>
 		
 	</target>
