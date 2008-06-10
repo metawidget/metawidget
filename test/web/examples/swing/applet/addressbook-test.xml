@@ -1,23 +1,33 @@
-<project name="struts-addressbook-test" default="test-all">
+<project name="swing-applet-addressbook-test" default="test-all">
 
 	<property file="../../../../../build.properties" />
 	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
+
+	<path id="webtest.path.id">
+		<pathelement location="${webtest.dir}/lib"/>
+		<fileset dir="${webtest.dir}/lib" includes="*.jar"/>
+		<fileset dir="${webtest.dir}/lib" includes="optional/*.jar"/>
+		<fileset dir="${webtest.dir}/lib" includes="plugins/**/*.jar"/>
+		<fileset dir="${webtest.dir}/lib" includes="runtime/*.jar"/>
+		<fileset dir="${build.metawidget.dir}/examples/swing/applet/addressbook" includes="*.jar"/>
+		<fileset dir="../../../../../lib" includes="emma.jar"/>
+	</path>
 	
-	<import file="${webtest.dir}/lib/taskdef.xml" />
+    <taskdef resource="webtest.taskdef" loaderref="webtest.loader" classpathref="webtest.path.id"/>
 
 	<!-- Test Applet Loads (more thorough testing is done by SwingAddressBookTest -->
 				
 	<target name="test-all">
 		<webtest name="test-loads">
-			<config resultpath="${build.metawidget.dir}">
-				<header name="User-Agent" value="Mozilla/4.0"/>
-			</config>
+			<config resultpath="${build.metawidget.dir}"/>
 			<steps>
 				<invoke url="file://c:${build.metawidget.dir}/examples/swing/applet/addressbook/index.html" />
 				<verifyTitle text="Address Book (Metawidget Swing Applet Example)" />
-				<!--
-				<appletRunner scenario="org.metawidget.test.example.swing.addressbook.AppletAddressBookScenario" xpath="/html/body/center/applet"/>
-				-->
+				<groovy>
+					def applet = new org.metawidget.example.swing.applet.AddressBookApplet();
+					step.setWebtestProperty( 'contacts', applet.getComponent( 1 ).getComponent( 1 ).getViewport().getView().getRowCount() + ' contacts' );
+				</groovy>
+				<verifyProperty name="contacts" text="6 contacts"/>
 			</steps>
 		</webtest>
 	</target>
