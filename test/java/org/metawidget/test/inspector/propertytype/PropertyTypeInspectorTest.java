@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 import org.metawidget.example.shared.addressbook.model.Address;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.inspector.Inspector;
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -64,7 +64,7 @@ public class PropertyTypeInspectorTest
 	public void testInspection()
 	{
 		PersonalContact personalContact = new PersonalContact();
-		Document document = mInspector.inspect( personalContact, PersonalContact.class.getName() );
+		Document document = XmlUtils.documentFromString( mInspector.inspect( personalContact, PersonalContact.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
@@ -92,7 +92,7 @@ public class PropertyTypeInspectorTest
 		DeclaredTypeTester tester = new DeclaredTypeTester();
 		tester.value = personalContact;
 
-		document = mInspector.inspect( tester, DeclaredTypeTester.class.getName() );
+		document = XmlUtils.documentFromString( mInspector.inspect( tester, DeclaredTypeTester.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
@@ -124,7 +124,7 @@ public class PropertyTypeInspectorTest
 
 		DeclaredTypeTester tester = new DeclaredTypeTester();
 		tester.value = new PersonalContact();
-		Document document = inspector.inspect( tester, DeclaredTypeTester.class.getName(), "value" );
+		Document document = XmlUtils.documentFromString( inspector.inspect( tester, DeclaredTypeTester.class.getName(), "value" ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
@@ -142,7 +142,7 @@ public class PropertyTypeInspectorTest
 	{
 		// Superclass
 
-		Document document = mInspector.inspect( new SuperFoo(), SuperFoo.class.getName() );
+		Document document = XmlUtils.documentFromString( mInspector.inspect( new SuperFoo(), SuperFoo.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
@@ -157,7 +157,7 @@ public class PropertyTypeInspectorTest
 
 		// Subclass
 
-		document = mInspector.inspect( new SubFoo(), SubFoo.class.getName() );
+		document = XmlUtils.documentFromString( mInspector.inspect( new SubFoo(), SubFoo.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 

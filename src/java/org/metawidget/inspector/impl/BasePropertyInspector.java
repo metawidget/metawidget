@@ -22,7 +22,8 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.metawidget.inspector.InspectorException;
+import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ClassUtils;
@@ -41,7 +42,7 @@ import org.w3c.dom.Element;
  */
 
 public abstract class BasePropertyInspector
-	extends BaseInspector
+	implements Inspector
 {
 	//
 	//
@@ -108,7 +109,7 @@ public abstract class BasePropertyInspector
 	//
 	//
 
-	public Document inspect( Object toInspect, String type, String... names )
+	public String inspect( Object toInspect, String type, String... names )
 		throws InspectorException
 	{
 		try
@@ -162,7 +163,7 @@ public abstract class BasePropertyInspector
 				clazz = ClassUtils.getUnproxiedClass( childToInspect.getClass(), mPatternProxy );
 			}
 
-			Document document = newDocumentBuilder().newDocument();
+			Document document = XmlUtils.newDocumentBuilder().newDocument();
 			Element elementEntity = document.createElementNS( NAMESPACE, ENTITY );
 
 			// Inspect child properties
@@ -192,7 +193,7 @@ public abstract class BasePropertyInspector
 
 			// Return the document
 
-			return document;
+			return XmlUtils.documentToString( document );
 		}
 		catch ( Exception e )
 		{

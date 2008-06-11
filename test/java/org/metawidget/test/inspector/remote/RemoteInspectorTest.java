@@ -31,6 +31,7 @@ import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.inspector.xml.XmlInspectorConfig;
+import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -63,7 +64,7 @@ public class RemoteInspectorTest
 		configXml.setInputStream( new ByteArrayInputStream( toInspect.getBytes() ) );
 
 		XmlInspector inspectorXml = new XmlInspector( configXml );
-		Document document = inspectorXml.inspect( null, Communication.class.getName() );
+		Document document = XmlUtils.documentFromString( inspectorXml.inspect( null, Communication.class.getName() ));
 
 		// Pass to front end
 
@@ -84,7 +85,7 @@ public class RemoteInspectorTest
 
 		// Inspect
 
-		document = inspectorMeta.inspect( document, new Communication(), Communication.class.getName() );
+		document = XmlUtils.documentFromString( inspectorMeta.inspect( document, new Communication(), Communication.class.getName() ));
 
 		// Test
 

@@ -24,13 +24,14 @@ import java.lang.reflect.Field;
 import junit.framework.TestCase;
 
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.inspector.Inspector;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.inspector.xml.XmlInspectorConfig;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -80,7 +81,8 @@ public class CompositeInspectorTest
 		// Inspect
 
 		PersonalContact toInspect = new PersonalContact$EnhancerByCGLIB$$1234();
-		Document document = inspector.inspect( toInspect, ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName() );
+		xml = inspector.inspect( toInspect, ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName() );
+		Document document = XmlUtils.documentFromString( xml );
 
 		// Test
 

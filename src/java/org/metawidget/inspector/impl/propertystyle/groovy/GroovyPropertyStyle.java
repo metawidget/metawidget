@@ -29,7 +29,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.codehaus.groovy.reflection.CachedField;
-import org.metawidget.inspector.InspectorException;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;

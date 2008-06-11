@@ -14,9 +14,8 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector;
+package org.metawidget.inspector.iface;
 
-import org.w3c.dom.Document;
 
 /**
  * Common interface implemented by all Inspectors.
@@ -30,18 +29,22 @@ import org.w3c.dom.Document;
 public interface Inspector
 {
 	/**
-	 * Inspect the given Object according to the given path, and return the result as a
-	 * DOM conforming to inspection-result-1.0.xsd.
+	 * Inspect the given Object according to the given path, and return the result as a String
+	 * conforming to inspection-result-1.0.xsd.
 	 * <p>
+	 * Note: the method returns a String, rather than a DOM, to support the use of hetergenous
+	 * technologies between the Inspectors and the Metawidgets. For example, GwtMetawidget is
+	 * written in JavaScript but its Inspectors are written in Java.
+	 *
 	 * @param toInspect
 	 *            runtime object to inspect. May be null
 	 * @param type
 	 *            match type attribute in inspection-result.xml
 	 * @param names
 	 *            match name attributes under type
-	 * @return a DOM conforming to inspection-result-1.0.xsd
+	 * @return XML conforming to inspection-result-1.0.xsd
 	 */
 
-	Document inspect( Object toInspect, String type, String... names )
+	String inspect( Object toInspect, String type, String... names )
 		throws InspectorException;
 }

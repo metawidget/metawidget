@@ -1,0 +1,36 @@
+<module>
+
+	<!-- Core GWT -->
+	
+	<inherits name='com.google.gwt.user.User' />
+	<inherits name='com.google.gwt.xml.XML' />
+
+	<!-- Source paths -->
+	
+	<source path="gwt/client"/>
+	<source path="impl/base"/>
+	<source path="inspector/gwt/remote/client"/>
+	<source path="inspector/iface"/>
+	<source path="util/simple"/>
+	
+	<!-- Inspectors -->
+	
+  	<generate-with class="org.metawidget.gwt.generator.inspector.GwtInspectorFactoryGenerator">
+		<when-type-assignable class="org.metawidget.gwt.client.inspector.GwtInspectorFactory"/>
+	</generate-with>
+
+	<servlet path='/metawidget-inspector' class='org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl' />
+
+	<!-- Binding -->
+	
+  	<generate-with class="org.metawidget.gwt.generator.binding.BindingFactoryGenerator">
+		<when-type-assignable class="org.metawidget.gwt.client.binding.BindingFactory"/>
+	</generate-with>
+
+	<!-- Layout -->
+
+  	<generate-with class="org.metawidget.gwt.generator.layout.LayoutFactoryGenerator">
+		<when-type-assignable class="org.metawidget.gwt.client.ui.layout.LayoutFactory"/>
+	</generate-with>
+
+</module>

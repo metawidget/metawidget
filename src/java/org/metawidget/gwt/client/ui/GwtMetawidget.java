@@ -31,13 +31,12 @@ import java.util.Set;
 
 import org.metawidget.gwt.client.binding.Binding;
 import org.metawidget.gwt.client.binding.BindingFactory;
-import org.metawidget.gwt.client.inspector.GwtInspector;
-import org.metawidget.gwt.client.inspector.GwtInspectorAsync;
 import org.metawidget.gwt.client.inspector.GwtInspectorFactory;
-import org.metawidget.gwt.client.inspector.remote.GwtRemoteInspectorProxy;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.ui.layout.LayoutFactory;
+import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
@@ -56,7 +55,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 
 /**
@@ -86,11 +84,11 @@ public class GwtMetawidget
 	//
 	//
 
-	private final static int				BUILDING_COMPLETE		= 0;
+	private final static int			BUILDING_COMPLETE		= 0;
 
-	private final static int				BUILDING_IN_PROGRESS	= 1;
+	private final static int			BUILDING_IN_PROGRESS	= 1;
 
-	private final static int				BUILDING_NEEDED			= 2;
+	private final static int			BUILDING_NEEDED			= 2;
 
 	/**
 	 * Delay before rebuilding widgets (in milliseconds).
@@ -102,7 +100,7 @@ public class GwtMetawidget
 	 * calls) into one.
 	 */
 
-	private final static int				BUILD_DELAY				= 50;
+	private final static int			BUILD_DELAY				= 50;
 
 	//
 	//
@@ -110,15 +108,15 @@ public class GwtMetawidget
 	//
 	//
 
-	private Object							mToInspect;
+	private Object						mToInspect;
 
-	private Class<? extends Layout>			mLayoutClass			= FlexTableLayout.class;
+	private Class<? extends Layout>		mLayoutClass			= FlexTableLayout.class;
 
-	private Layout							mLayout;
+	private Layout						mLayout;
 
-	private Class<? extends GwtInspector>	mInspectorClass			= GwtRemoteInspectorProxy.class;
+	private Class<? extends Inspector>	mInspectorClass			= GwtRemoteInspectorProxy.class;
 
-	private GwtInspector					mInspector;
+	private Inspector					mInspector;
 
 	/**
 	 * The Binding class.
@@ -127,27 +125,27 @@ public class GwtMetawidget
 	 * (eg. you have to generate some SimpleBindingAdapters)
 	 */
 
-	private Class<? extends Binding>		mBindingClass;
+	private Class<? extends Binding>	mBindingClass;
 
-	private Binding							mBinding;
+	private Binding						mBinding;
 
-	private String							mDictionaryName;
+	private String						mDictionaryName;
 
-	private Dictionary						mDictionary;
+	private Dictionary					mDictionary;
 
-	private Map<String, Object>				mParameters;
+	private Map<String, Object>			mParameters;
 
 	/**
 	 * Names of child widgets (GWT doesn't have a 'name' property of its own)
 	 */
 
-	private Map<String, Widget>				mWidgetNames;
+	private Map<String, Widget>			mWidgetNames;
 
-	private Map<String, Stub>				mStubs					= new HashMap<String, Stub>();
+	private Map<String, Stub>			mStubs					= new HashMap<String, Stub>();
 
-	private Map<String, Facet>				mFacets					= new HashMap<String, Facet>();
+	private Map<String, Facet>			mFacets					= new HashMap<String, Facet>();
 
-	private Timer							mBuildWidgets;
+	private Timer						mBuildWidgets;
 
 	//
 	//
@@ -155,19 +153,19 @@ public class GwtMetawidget
 	//
 	//
 
-	String									mPath;
+	String								mPath;
 
-	String[]								mNamesPrefix;
+	String[]							mNamesPrefix;
 
-	int										mNeedToBuildWidgets;
+	int									mNeedToBuildWidgets;
 
 	/**
 	 * For unit tests.
 	 */
 
-	Timer									mExecuteAfterBuildWidgets;
+	Timer								mExecuteAfterBuildWidgets;
 
-	GwtMetawidgetMixinImpl					mMixin					= new GwtMetawidgetMixinImpl();
+	GwtMetawidgetMixinImpl				mMixin					= new GwtMetawidgetMixinImpl();
 
 	//
 	//
@@ -200,7 +198,7 @@ public class GwtMetawidget
 		invalidateWidgets();
 	}
 
-	public void setInspectorClass( Class<? extends GwtInspector> inspectorClass )
+	public void setInspectorClass( Class<? extends Inspector> inspectorClass )
 	{
 		mInspectorClass = inspectorClass;
 		invalidateWidgets();
@@ -648,11 +646,11 @@ public class GwtMetawidget
 
 			final TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
 
-			// Special support for GwtInspectorAsync
+			// Special support for GwtRemoteInspectorProxy
 
-			if ( mInspector instanceof GwtInspectorAsync )
+			if ( mInspector instanceof GwtRemoteInspectorProxy )
 			{
-				( (GwtInspectorAsync) mInspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames(), new AsyncCallback<Document>()
+				( (GwtRemoteInspectorProxy) mInspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames(), new AsyncCallback<String>()
 				{
 					public void onFailure( Throwable caught )
 					{
@@ -661,11 +659,11 @@ public class GwtMetawidget
 						mNeedToBuildWidgets = BUILDING_COMPLETE;
 					}
 
-					public void onSuccess( Document document )
+					public void onSuccess( String xml )
 					{
 						try
 						{
-							mMixin.buildWidgets( document );
+							mMixin.buildWidgets( xml );
 						}
 						catch ( Exception e )
 						{
@@ -693,8 +691,8 @@ public class GwtMetawidget
 			{
 				try
 				{
-					Document document = mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
-					mMixin.buildWidgets( document );
+					String xml = mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
+					mMixin.buildWidgets( xml );
 				}
 				catch ( Exception e )
 				{

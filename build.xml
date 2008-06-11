@@ -51,7 +51,9 @@
 			<include name="org/metawidget/impl/**"/>
 			<include name="org/metawidget/inspector/*.java"/>
 			<include name="org/metawidget/inspector/composite/**"/>
+			<include name="org/metawidget/inspector/gwt/**"/>
 			<include name="org/metawidget/inspector/hibernate/*.java"/>
+			<include name="org/metawidget/inspector/iface/**"/>
 			<include name="org/metawidget/inspector/impl/**"/>
 			<include name="org/metawidget/inspector/propertytype/**"/>
 			<include name="org/metawidget/inspector/struts/**"/>
@@ -187,6 +189,7 @@
 		<jar destfile="${build.metawidget.dir}/metawidget-backend.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/metawidget/inspector/**"/>
+				<exclude name="org/metawidget/inspector/iface/**"/>
 				<exclude name="org/metawidget/inspector/*.class"/>
 			</fileset>
 		</jar>
@@ -194,6 +197,7 @@
 		<jar destfile="${build.metawidget.dir}/metawidget-middle.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/metawidget/inspector/*.class"/>
+				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/util/**"/>
 			</fileset>
 			<fileset dir="src/java">
@@ -459,7 +463,7 @@
 		
 		<emma>
 			<instr instrpath="${build.metawidget.dir}/classes" destdir="${build.metawidget.dir}/classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="*Constants, org.metawidget.android.*, org.metawidget.example.android.*, org.metawidget.gwt.client.*"/>				
+				<filter excludes="*Constants, org.metawidget.android.*, org.metawidget.example.android.*, org.metawidget.gwt.client.*, org.metawidget.inspector.gwt.remote.client.*"/>				
 			</instr>
 			<instr instrpath="${build.metawidget.dir}/example-classes" destdir="${build.metawidget.dir}/example-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.gwt.addressbook.client.*"/>				
@@ -1101,6 +1105,7 @@
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
 				<include name="org/metawidget/inspector/composite/**"/>
+				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/inspector/impl/*.class"/>
 				<include name="org/metawidget/inspector/impl/propertystyle/*.class"/>
 				<include name="org/metawidget/inspector/impl/propertystyle/javabean/*.class"/>
@@ -1344,7 +1349,7 @@
 			<jvmarg value="-Xmx256M"/>
 			<arg value="-out" />
 			<arg file="${build.metawidget.dir}/gwt-classes" />
-			<arg value="org.metawidget.example.gwt.addressbook.AddressBook" />
+			<arg value="org.metawidget.example.GwtAddressBook" />
 		</java>
 		
 		<!-- Create the WAR -->
@@ -1352,7 +1357,7 @@
 		<mkdir dir="${build.metawidget.dir}/examples/gwt"/>
 
 		<war file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" webxml="src/web/examples/gwt/addressbook/WEB-INF/web.xml">
-			<fileset dir="${build.metawidget.dir}/gwt-classes/org.metawidget.example.gwt.addressbook.AddressBook"/>
+			<fileset dir="${build.metawidget.dir}/gwt-classes/org.metawidget.example.GwtAddressBook"/>
 			<fileset dir="src/web/examples/gwt/addressbook">
 				<exclude name="**/lib/**"/>
 			</fileset>

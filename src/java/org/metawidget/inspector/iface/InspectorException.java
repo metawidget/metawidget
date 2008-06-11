@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector;
+package org.metawidget.inspector.iface;
 
 /**
  * Any exception that occurs during inspection.
@@ -64,18 +64,6 @@ public class InspectorException
 		return new InspectorException( message );
 	}
 
-	/**
-	 * Static constructor.
-	 * <p>
-	 * Using static constructor methods prevents unnecessarily nesting InspectorExceptions within
-	 * InspectorExceptions.
-	 */
-
-	public static InspectorException newException( String message, Exception exception )
-	{
-		return new InspectorException( message, exception );
-	}
-
 	//
 	//
 	// Constructor
@@ -90,10 +78,5 @@ public class InspectorException
 	private InspectorException( Exception exception )
 	{
 		super( exception );
-	}
-
-	private InspectorException( String message, Exception exception )
-	{
-		super( message, exception );
 	}
 }

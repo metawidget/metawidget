@@ -18,23 +18,18 @@ package org.metawidget.inspector.composite;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 import javax.xml.XMLConstants;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.Inspector;
-import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.ResourceResolver;
+import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtils;
@@ -70,11 +65,9 @@ public class CompositeInspector
 	//
 	//
 
-	private static Object		TRANSFORMER_FACTORY_DEBUG;
+	private static Object						SCHEMA_METADATA;
 
-	private static Object		SCHEMA_METADATA;
-
-	private final static Log	LOG	= LogUtils.getLog( CompositeInspector.class );
+	private final static Log					LOG							= LogUtils.getLog( CompositeInspector.class );
 
 	//
 	//
@@ -82,9 +75,9 @@ public class CompositeInspector
 	//
 	//
 
-	private Inspector[]			mInspectors;
+	private Inspector[]							mInspectors;
 
-	private boolean				mValidating;
+	private boolean								mValidating;
 
 	//
 	//
@@ -125,7 +118,7 @@ public class CompositeInspector
 				{
 					SCHEMA_METADATA = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI ).newSchema( new StreamSource( in ) );
 				}
-				catch( SAXException e )
+				catch ( SAXException e )
 				{
 					throw InspectorException.newException( e );
 				}
@@ -139,93 +132,74 @@ public class CompositeInspector
 	//
 	//
 
-	public Document inspect( Object toInspect, String type, String... names )
+	public String inspect( Object toInspect, String type, String... names )
 		throws InspectorException
 	{
 		return inspect( null, toInspect, type, names );
 	}
 
-	public Document inspect( Document master, Object toInspect, String type, String... names )
+	public String inspect( Document master, Object toInspect, String type, String... names )
 		throws InspectorException
 	{
-		try
+		try
 		{
-			Object transformer = null;
-
-			// (for debugging)
-
-			if ( LOG.isDebugEnabled() )
-			{
-				// (Android doesn't support java.xml.transform)
-
-				if ( TRANSFORMER_FACTORY_DEBUG == null && ClassUtils.classExists( "javax.xml.transform.TransformerFactory" ) )
-					TRANSFORMER_FACTORY_DEBUG = TransformerFactory.newInstance();
-
-				if ( TRANSFORMER_FACTORY_DEBUG != null )
-				{
-					Transformer newTransformer = ( (TransformerFactory) TRANSFORMER_FACTORY_DEBUG ).newTransformer();
-					newTransformer.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION, "yes" );
-					newTransformer.setOutputProperty( OutputKeys.INDENT, "yes" );
-
-					transformer = newTransformer;
-				}
-			}
-
 			// Run each Inspector...
 
-			Document documentMaster = master;
+			Document masterDocument = master;
 
 			for ( Inspector inspector : mInspectors )
 			{
-				Document documentInspector = inspector.inspect( toInspect, type, names );
+				String inspectionXml = inspector.inspect( toInspect, type, names );
 
-				if ( documentInspector == null )
+				if ( inspectionXml == null )
 					continue;
 
-				// ...(for tracing)...
+				// ...parse the result...
 
-				if ( transformer != null && LOG.isTraceEnabled() )
+				Document inspectionDocument = XmlUtils.documentFromString( inspectionXml );
+
+				// ...(trace)...
+
+				if ( LOG.isTraceEnabled() )
 				{
-					ByteArrayOutputStream out = new ByteArrayOutputStream();
-					( (Transformer) transformer ).transform( new DOMSource( documentInspector ), new StreamResult( out ) );
-					LOG.trace( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + inspector.getClass() + "\r\n" + out.toString() );
+					String formattedXml = XmlUtils.nodeToString( inspectionDocument.getFirstChild(), 0 );
+					LOG.trace( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + inspector.getClass() + "\r\n" + formattedXml );
 				}
 
-				// ...validate the result...
+				// ...validate it...
 
 				if ( mValidating && SCHEMA_METADATA != null )
-					( (Schema) SCHEMA_METADATA ).newValidator().validate( new DOMSource( documentInspector ) );
+					( (Schema) SCHEMA_METADATA ).newValidator().validate( new DOMSource( inspectionDocument ) );
 
 				// ...and combine them
 
-				if ( !documentInspector.hasChildNodes() )
+				if ( !inspectionDocument.hasChildNodes() )
 					continue;
 
-				if ( documentMaster == null || !documentMaster.hasChildNodes() )
+				if ( masterDocument == null || !masterDocument.hasChildNodes() )
 				{
-					documentMaster = documentInspector;
+					masterDocument = inspectionDocument;
 					continue;
 				}
 
-				XmlUtils.combineElements( documentMaster.getDocumentElement(), documentInspector.getDocumentElement(), TYPE, NAME );
+				XmlUtils.combineElements( masterDocument.getDocumentElement(), inspectionDocument.getDocumentElement(), TYPE, NAME );
 			}
 
-			if ( documentMaster == null || !documentMaster.hasChildNodes() )
+			if ( masterDocument == null || !masterDocument.hasChildNodes() )
 			{
 				LOG.warn( "No inspectors matched " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 				return null;
 			}
 
-			// (for debugging)
+			// (debug)
 
-			if ( transformer != null )
+			if ( LOG.isDebugEnabled() )
 			{
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				( (Transformer) transformer ).transform( new DOMSource( documentMaster ), new StreamResult( out ) );
-				LOG.debug( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + out.toString() );
+				String formattedXml = XmlUtils.nodeToString( masterDocument.getFirstChild(), 0 );
+				LOG.debug( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + formattedXml );
 			}
 
-			return documentMaster;
+			return XmlUtils.documentToString( masterDocument );
 		}
 		catch ( Exception e )
 		{

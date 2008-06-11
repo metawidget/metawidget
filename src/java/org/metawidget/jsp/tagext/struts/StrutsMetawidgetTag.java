@@ -48,7 +48,7 @@ import org.apache.struts.taglib.html.TextareaTag;
 import org.apache.struts.upload.MultipartRequestHandler;
 import org.apache.struts.util.MessageResources;
 import org.metawidget.MetawidgetException;
-import org.metawidget.inspector.Inspector;
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
@@ -57,7 +57,6 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
-import org.w3c.dom.Document;
 
 /**
  * Metawidget for Struts environments.
@@ -167,7 +166,7 @@ public class StrutsMetawidgetTag
 	//
 
 	@Override
-	protected Document inspect( Inspector inspector, String value )
+	protected String inspect( Inspector inspector, String value )
 	{
 		TypeAndNames typeAndNames = PathUtils.parsePath( value, '.' );
 		String type = typeAndNames.getType();

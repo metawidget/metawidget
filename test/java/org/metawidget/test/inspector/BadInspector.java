@@ -18,9 +18,8 @@ package org.metawidget.test.inspector;
 
 import java.util.List;
 
-import org.metawidget.inspector.Inspector;
-import org.metawidget.inspector.InspectorException;
-import org.w3c.dom.Document;
+import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.iface.InspectorException;
 
 /**
  * @author Richard Kennard
@@ -57,17 +56,17 @@ public class BadInspector
 	//
 	//
 
-	public Document inspect( Object toInspect, String type, String... names )
+	public String inspect( Object toInspect, String type, String... names )
 		throws InspectorException
 	{
 		return null;
 	}
-	
+
 	public List<String> getList()
 	{
 		return mList;
 	}
-	
+
 	public int getInt()
 	{
 		return mInt;

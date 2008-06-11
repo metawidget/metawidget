@@ -22,9 +22,10 @@ import java.io.ByteArrayInputStream;
 
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.InspectorException;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.inspector.xml.XmlInspectorConfig;
+import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -77,7 +78,7 @@ public class XmlInspectorTest
 
 	public void testInspection()
 	{
-		Document document = mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo" );
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo" ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
@@ -118,7 +119,7 @@ public class XmlInspectorTest
 
 	public void testTraverseViaParent()
 	{
-		Document document = mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "bar" );
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "bar" ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 

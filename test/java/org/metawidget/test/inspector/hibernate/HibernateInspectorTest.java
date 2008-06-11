@@ -22,10 +22,11 @@ import java.io.ByteArrayInputStream;
 
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.Inspector;
-import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.hibernate.HibernateInspector;
 import org.metawidget.inspector.hibernate.HibernateInspectorConfig;
+import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -85,7 +86,7 @@ public class HibernateInspectorTest
 
 	public void testProperties()
 	{
-		Document document = mInspector.inspect( null, "org.metawidget.test.inspector.hibernate.SubFoo" );
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.hibernate.SubFoo" ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 
@@ -143,7 +144,7 @@ public class HibernateInspectorTest
 		config.setHideIds( false );
 		mInspector = new HibernateInspector( config );
 
-		Document document = mInspector.inspect( null, "org.metawidget.test.inspector.hibernate.SubFoo" );
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.hibernate.SubFoo" ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 
@@ -161,7 +162,7 @@ public class HibernateInspectorTest
 
 	public void testTraverseParent()
 	{
-		Document document = mInspector.inspect( null, "org.metawidget.test.inspector.hibernate.SubFoo", "bar" );
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.hibernate.SubFoo", "bar" ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 

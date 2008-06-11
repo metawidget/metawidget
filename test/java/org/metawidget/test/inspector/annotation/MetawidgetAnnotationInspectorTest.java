@@ -20,7 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
 import org.metawidget.example.shared.addressbook.model.Address;
-import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiAttributes;
@@ -33,6 +32,8 @@ import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiMasked;
 import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -52,7 +53,7 @@ public class MetawidgetAnnotationInspectorTest
 	public void testInspection()
 	{
 		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
-		Document document = inspector.inspect( new Address(), Address.class.getName() );
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Address(), Address.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
@@ -80,7 +81,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		// Made-up Entity
 
-		document = inspector.inspect( new Foo(), Foo.class.getName() );
+		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ));
@@ -101,7 +102,7 @@ public class MetawidgetAnnotationInspectorTest
 	public void testLookup()
 	{
 		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
-		Document document = inspector.inspect( new Foo(), Foo.class.getName() );
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 

@@ -30,7 +30,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.impl.MetawidgetMixin;
-import org.metawidget.inspector.Inspector;
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.jsp.tagext.StubTag.StubContent;
@@ -40,7 +40,6 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -388,7 +387,7 @@ public abstract class MetawidgetTag
 		}
 	}
 
-	protected Document inspect()
+	protected String inspect()
 	{
 		Inspector inspector;
 
@@ -425,7 +424,7 @@ public abstract class MetawidgetTag
 		return inspect( inspector, mPath );
 	}
 
-	protected Document inspect( Inspector inspector, String path )
+	protected String inspect( Inspector inspector, String path )
 	{
 		TypeAndNames typeAndNames = PathUtils.parsePath( path, '.' );
 		String type = typeAndNames.getType();

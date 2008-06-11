@@ -39,7 +39,7 @@ import java.util.Map;
  * @author Richard Kennard
  */
 
-public abstract class BaseMetawidgetMixin<W, D, E, N>
+public abstract class BaseMetawidgetMixin<W, E>
 {
 	//
 	//
@@ -65,16 +65,23 @@ public abstract class BaseMetawidgetMixin<W, D, E, N>
 		return mReadOnly;
 	}
 
-	public void buildWidgets( D document )
+	/**
+	 * Build widgets from the given XML inspection result.
+	 * <p>
+	 * Note: the <code>BaseMetawidgetMixin</code> expects the XML to be passed in internally,
+	 * rather than fetching it itself, because some XML inspections may be asynchronous.
+	 */
+
+	public void buildWidgets( String xml )
 		throws Exception
 	{
 		startBuild();
 
-		if ( document != null )
+		if ( xml != null )
 		{
 			// Build simple widget (from the top-level element)
 
-			E element = getFirstElement( document );
+			E element = getFirstElement( xml );
 			Map<String, String> attributes = getAttributesAsMap( element );
 
 			// It is a little counter-intuitive that there can ever be an override
@@ -131,13 +138,11 @@ public abstract class BaseMetawidgetMixin<W, D, E, N>
 	{
 		for ( int loop = 0, length = getChildCount( element ); loop < length; loop++ )
 		{
-			N node = getChildAt( element, loop );
+			E child = getChildAt( element, loop );
 
-			if ( !isElement( node ) )
+			if ( child == null )
 				continue;
 
-			@SuppressWarnings( "unchecked" )
-			E child = (E) node;
 			Map<String, String> attributes = getAttributesAsMap( child );
 
 			String childName = attributes.get( NAME );
@@ -197,13 +202,15 @@ public abstract class BaseMetawidgetMixin<W, D, E, N>
 	//
 	//
 
-	protected abstract E getFirstElement( D document );
+	protected abstract E getFirstElement( String xml );
 
 	protected abstract int getChildCount( E element );
 
-	protected abstract N getChildAt( E element, int index );
+	/**
+	 * @return the child at the given index. If the given child is not an Element, return null.
+	 */
 
-	protected abstract boolean isElement( N node );
+	protected abstract E getChildAt( E element, int index );
 
 	protected abstract Map<String, String> getAttributesAsMap( E element );
 

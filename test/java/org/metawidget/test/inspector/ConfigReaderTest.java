@@ -22,12 +22,12 @@ import java.lang.reflect.Field;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.Inspector;
-import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.faces.FacesInspector;
 import org.metawidget.inspector.hibernate.validator.HibernateValidatorInspector;
+import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.jpa.JpaInspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;

@@ -5,7 +5,7 @@
 
 <tags:page>
 
-	<script type="text/javascript" src="org.metawidget.example.gwt.addressbook.AddressBook.nocache.js"></script>
+	<script type="text/javascript" src="org.metawidget.example.GwtAddressBook.nocache.js"></script>
 	
 	<fmt:setBundle basename="org.metawidget.example.shared.addressbook.resource.Resources" var="localizationContext"/>	
 	<a:bundle2Variable bundle="${localizationContext.resourceBundle}"/>

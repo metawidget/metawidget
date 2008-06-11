@@ -3,11 +3,12 @@
 	<!-- Core GWT -->
 	
 	<inherits name='com.google.gwt.user.User' />
-	<inherits name='org.metawidget.gwt.GwtMetawidget' />
-	<inherits name='org.metawidget.example.shared.addressbook.AddressBookModel' />
+	<inherits name='org.metawidget.GwtMetawidget' />
 
 	<!-- Client -->
 	
+	<source path="gwt/addressbook/client"/>
+	<source path="shared/addressbook/model"/>
 	<entry-point class='org.metawidget.example.gwt.addressbook.client.ui.AddressBookModule' />
 
 	<!-- Server -->
@@ -16,7 +17,7 @@
 
 	<!-- Binding -->
 	
-  	<generate-with class="org.metawidget.gwt.server.binding.simple.SimpleBindingAdapterGenerator">
+  	<generate-with class="org.metawidget.gwt.generator.binding.simple.SimpleBindingAdapterGenerator">
 		<when-type-assignable class="org.metawidget.example.shared.addressbook.model.Contact"/>
 	</generate-with>
 	

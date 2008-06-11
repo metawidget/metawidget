@@ -146,8 +146,8 @@ public class ContactDialog
 		cellFormatter.setStyleName( 0, 1, "header" );
 		cellFormatter.addStyleName( 0, 1, "column-half" );
 		communications.setHTML( 0, 2, "&nbsp;" );
-		cellFormatter.setStyleName( 0, 1, "header" );
-		cellFormatter.addStyleName( 0, 1, "column-tiny" );
+		cellFormatter.setStyleName( 0, 2, "header" );
+		cellFormatter.addStyleName( 0, 2, "column-tiny" );
 
 		// Footer
 

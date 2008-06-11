@@ -23,7 +23,7 @@
 
 	<servlet>
 		<servlet-name>metawidget-inspector</servlet-name>
-		<servlet-class>org.metawidget.gwt.server.inspector.remote.GwtRemoteInspectorImpl</servlet-class>
+		<servlet-class>org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl</servlet-class>
 	</servlet>
 
 	<servlet-mapping>

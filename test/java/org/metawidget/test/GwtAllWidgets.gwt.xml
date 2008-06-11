@@ -3,16 +3,17 @@
 	<!-- Core GWT -->
 	
 	<inherits name='com.google.gwt.user.User' />
-	<inherits name='org.metawidget.gwt.GwtMetawidget' />
-	<inherits name='org.metawidget.test.shared.allwidgets.AllWidgetsModel' />
+	<inherits name='org.metawidget.GwtMetawidget' />
 
 	<!-- Client -->
 	
+	<source path="gwt/allwidgets/client"/>
+	<source path="shared/allwidgets/model"/>	
 	<entry-point class='org.metawidget.test.gwt.allwidgets.client.ui.AllWidgets' />
 
 	<!-- Binding -->
 	
-  	<generate-with class="org.metawidget.gwt.server.binding.simple.SimpleBindingAdapterGenerator">
+  	<generate-with class="org.metawidget.gwt.generator.binding.simple.SimpleBindingAdapterGenerator">
 		<when-type-assignable class="org.metawidget.test.shared.allwidgets.model.AllWidgets"/>
 	</generate-with>
 	

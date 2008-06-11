@@ -49,7 +49,7 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.validator.StandardValidator;
 import org.metawidget.faces.component.validator.Validator;
 import org.metawidget.impl.MetawidgetMixin;
-import org.metawidget.inspector.Inspector;
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -373,12 +373,12 @@ public abstract class UIMetawidget
 	 * components
 	 */
 
-	protected Document inspect()
+	protected String inspect()
 	{
 		return inspect( getValueBinding( "value" ), mInspectFromParent );
 	}
 
-	protected Document inspect( ValueBinding valueBinding, boolean inspectFromParent )
+	protected String inspect( ValueBinding valueBinding, boolean inspectFromParent )
 	{
 		Inspector inspector;
 
@@ -414,7 +414,7 @@ public abstract class UIMetawidget
 		return inspect( inspector, valueBinding, inspectFromParent );
 	}
 
-	protected Document inspect( Inspector inspector, ValueBinding valueBinding, boolean inspectFromParent )
+	protected String inspect( Inspector inspector, ValueBinding valueBinding, boolean inspectFromParent )
 	{
 		if ( valueBinding == null )
 			return null;
@@ -450,7 +450,7 @@ public abstract class UIMetawidget
 		return null;
 	}
 
-	protected Document inspect( Inspector inspector, Object toInspect, String... names )
+	protected String inspect( Inspector inspector, Object toInspect, String... names )
 	{
 		Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
 		return inspector.inspect( toInspect, classToInspect.getName(), names );
@@ -574,10 +574,13 @@ public abstract class UIMetawidget
 
 			if ( binding != null )
 			{
-				Document document = inspect( binding, true );
+				String xml = inspect( binding, true );
 
-				if ( document != null )
+				if ( xml != null )
+				{
+					Document document = XmlUtils.documentFromString( xml );
 					childAttributes.putAll( XmlUtils.getAttributesAsMap( (Element) document.getDocumentElement().getFirstChild() ) );
+				}
 			}
 
 			// Stubs

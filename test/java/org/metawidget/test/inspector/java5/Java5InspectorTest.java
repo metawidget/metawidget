@@ -47,7 +47,7 @@ public class Java5InspectorTest
 	{
 		Java5Inspector inspector = new Java5Inspector();
 
-		Document document = inspector.inspect( new Bar(), Bar.class.getName() );
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Bar(), Bar.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 

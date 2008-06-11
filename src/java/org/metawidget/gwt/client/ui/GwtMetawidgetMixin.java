@@ -26,6 +26,7 @@ import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.XMLParser;
 
 /**
  * Base class functionality for Metawidgets on platforms that support <code>com.google.gwt.xml.client</code>.
@@ -34,7 +35,7 @@ import com.google.gwt.xml.client.Node;
  */
 
 public abstract class GwtMetawidgetMixin<W>
-	extends BaseMetawidgetMixin<W, Document, Element, Node>
+	extends BaseMetawidgetMixin<W, Element>
 {
 	//
 	//
@@ -43,8 +44,9 @@ public abstract class GwtMetawidgetMixin<W>
 	//
 
 	@Override
-	protected Element getFirstElement( Document document )
+	protected Element getFirstElement( String xml )
 	{
+		Document document = XMLParser.parse( xml );
 		return (Element) document.getDocumentElement().getFirstChild();
 	}
 
@@ -55,15 +57,14 @@ public abstract class GwtMetawidgetMixin<W>
 	}
 
 	@Override
-	protected Node getChildAt( Element element, int index )
+	protected Element getChildAt( Element element, int index )
 	{
-		return element.getChildNodes().item( index );
-	}
+		Node node = element.getChildNodes().item( index );
 
-	@Override
-	protected boolean isElement( Node node )
-	{
-		return ( node instanceof Element );
+		if ( node instanceof Element )
+			return (Element) node;
+
+		return null;
 	}
 
 	@Override

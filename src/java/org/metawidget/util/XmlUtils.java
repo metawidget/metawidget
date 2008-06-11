@@ -17,12 +17,18 @@
 package org.metawidget.util;
 
 import java.io.ByteArrayInputStream;
+import java.io.StringReader;
 import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
-import org.metawidget.inspector.InspectorException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.metawidget.inspector.iface.InspectorException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -219,11 +225,84 @@ public class XmlUtils
 		}
 	}
 
-	//
-	//
-	// Private statics
-	//
-	//
+	/**
+	 * Convert the given Document to an XML String.
+	 * <p>
+	 * This method is a simplified version of...
+	 * <p>
+	 * <code>
+	 * 	ByteArrayOutputStream out = new ByteArrayOutputStream();
+	 * 	javax.xml.Transformer transformer = TransformerFactory.newInstance().newTransformer();
+	 * 	transformer.transform( new DOMSource( node ), new StreamResult( out ));
+	 * 	return out.toString();
+	 * </code>
+	 * <p>
+	 * ...but not all platforms (eg. Android) support <code>javax.xml.Transformer</code>.
+	 */
+
+	public static String documentToString( Document document )
+	{
+		// Nothing to do?
+
+		if ( document == null )
+			return "";
+
+		return nodeToString( document.getFirstChild(), -1 );
+	}
+
+	public static Document documentFromString( String xml )
+	{
+		if ( xml == null )
+			return null;
+
+		try
+		{
+			return newDocumentBuilder().parse( new InputSource( new StringReader( xml ) ) );
+		}
+		catch ( Exception e )
+		{
+			throw InspectorException.newException( e );
+		}
+	}
+
+	/**
+	 * Creates a new DocumentBuilder using a shared, namespace-aware, comment-ignoring,
+	 * whitespace-ignoring DocumentBuilderFactory.
+	 */
+
+	public static DocumentBuilder newDocumentBuilder()
+		throws ParserConfigurationException
+	{
+		return DOCUMENT_BUILDER_FACTORY.newDocumentBuilder();
+	}
+
+	/**
+	 * EntityResolver that does a 'no-op' and does not actually resolve entities. Useful to prevent
+	 * <code>DocumentBuilder</code> making URL connections.
+	 */
+
+	public static class NopEntityResolver
+		implements EntityResolver
+	{
+		//
+		//
+		// Private statics
+		//
+		//
+
+		private final static byte[]	BYTES	= "<?xml version='1.0' encoding='UTF-8'?>".getBytes();
+
+		//
+		//
+		// Public methods
+		//
+		//
+
+		public InputSource resolveEntity( String publicId, String systemId )
+		{
+			return new InputSource( new ByteArrayInputStream( BYTES ) );
+		}
+	}
 
 	/**
 	 * Combine the attributes and child elements of the second element into the first element.
@@ -273,7 +352,7 @@ public class XmlUtils
 			Element childToAdd = (Element) nodeChildToAdd;
 			String childToAddName = childToAdd.getAttribute( topLevelAttributeToCombineOn );
 
-			if ( childToAddName == null || "".equals( childToAddName ))
+			if ( childToAddName == null || "".equals( childToAddName ) )
 				throw InspectorException.newException( "Child node #" + addLoop + " has no @" + topLevelAttributeToCombineOn );
 
 			if ( !childNamesAdded.add( childToAddName ) )
@@ -320,6 +399,123 @@ public class XmlUtils
 	}
 
 	/**
+	 * Convert the given Node to an XML String.
+	 *
+	 * @param indent
+	 *            how much to indent the output. -1 for no indent.
+	 */
+
+	public static String nodeToString( Node node, int indent )
+	{
+		// Ignore non-Elements
+
+		if ( !( node instanceof Element ) )
+			return "";
+
+		// (use StringBuffer for J2SE 1.4 compatibility)
+
+		StringBuffer buffer = new StringBuffer();
+
+		// Indent
+
+		for ( int loop = 0; loop < indent; loop++ )
+		{
+			buffer.append( "\t" );
+		}
+
+		// Open tag
+
+		String name = escapeForXml( node.getNodeName() );
+		buffer.append( "<" );
+		buffer.append( name );
+
+		// Changing namespace
+
+		String namespace = node.getNamespaceURI();
+		Node parentNode = node.getParentNode();
+
+		if ( namespace != null && ( parentNode == null || !namespace.equals( parentNode.getNamespaceURI() ) ) )
+		{
+			buffer.append( " xmlns=\"" );
+			buffer.append( namespace );
+			buffer.append( "\"" );
+		}
+
+		// Attributes
+
+		NamedNodeMap nodeMap = node.getAttributes();
+
+		if ( nodeMap != null )
+		{
+			for ( int loop = 0, length = nodeMap.getLength(); loop < length; loop++ )
+			{
+				Node attr = nodeMap.item( loop );
+				String attrName = attr.getNodeName();
+
+				if ( "xmlns".equals( attrName ) )
+					continue;
+
+				buffer.append( " " );
+				buffer.append( escapeForXml( attrName ) );
+				buffer.append( "=\"" );
+				buffer.append( escapeForXml( attr.getNodeValue() ) );
+				buffer.append( "\"" );
+			}
+		}
+
+		// Children (if any)
+
+		NodeList children = node.getChildNodes();
+		int length = children.getLength();
+
+		if ( length == 0 )
+		{
+			buffer.append( "/>" );
+		}
+		else
+		{
+			buffer.append( ">" );
+
+			int nextIndent = indent;
+
+			if ( indent != -1 )
+			{
+				buffer.append( "\n" );
+				nextIndent++;
+			}
+
+			for ( int loop = 0; loop < length; loop++ )
+			{
+				buffer.append( nodeToString( children.item( loop ), nextIndent ) );
+			}
+
+			// Indent
+
+			for ( int loop = 0; loop < indent; loop++ )
+			{
+				buffer.append( "\t" );
+			}
+
+			// Close tag
+
+			buffer.append( "</" );
+			buffer.append( name );
+			buffer.append( ">" );
+		}
+
+		if ( indent != -1 )
+			buffer.append( "\n" );
+
+		return buffer.toString();
+	}
+
+	//
+	//
+	// Private statics
+	//
+	//
+
+	/**
 	 * Hack to workaround bug in Android m5-rc15.
 	 */
 
@@ -363,33 +559,45 @@ public class XmlUtils
 		}
 	}
 
-	/**
-	 * EntityResolver that does a 'no-op' and does not actually resolve entities. Useful to prevent
-	 * <code>DocumentBuilder</code> making URL connections.
-	 */
-
-	public static class NopEntityResolver
-		implements EntityResolver
+	private static String escapeForXml( String in )
 	{
-		//
-		//
-		// Private statics
-		//
-		//
+		if ( in == null )
+			return "";
 
-		private final static byte[]	BYTES	= "<?xml version='1.0' encoding='UTF-8'?>".getBytes();
+		String out = in;
 
-		//
-		//
-		// Public methods
-		//
-		//
+		out = PATTERN_AMP.matcher( out ).replaceAll( "&amp;" );
+		out = PATTERN_LT.matcher( out ).replaceAll( "&lt;" );
+		out = PATTERN_GT.matcher( out ).replaceAll( "&gt;" );
+		out = PATTERN_QUOT.matcher( out ).replaceAll( "&quot;" );
 
-		public InputSource resolveEntity( String publicId, String systemId )
-		{
-			return new InputSource( new ByteArrayInputStream( BYTES ) );
-		}
+		return out;
 	}
+
+	//
+	//
+	// Private statics
+	//
+	//
+
+	private final static DocumentBuilderFactory	DOCUMENT_BUILDER_FACTORY;
+
+	static
+	{
+		DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
+		DOCUMENT_BUILDER_FACTORY.setCoalescing( true );
+		DOCUMENT_BUILDER_FACTORY.setNamespaceAware( true );
+		DOCUMENT_BUILDER_FACTORY.setIgnoringComments( true );
+		DOCUMENT_BUILDER_FACTORY.setIgnoringElementContentWhitespace( true );
+	}
+
+	private final static Pattern				PATTERN_AMP		= Pattern.compile( "&", Pattern.LITERAL );
+
+	private final static Pattern				PATTERN_LT		= Pattern.compile( "<", Pattern.LITERAL );
+
+	private final static Pattern				PATTERN_GT		= Pattern.compile( ">", Pattern.LITERAL );
+
+	private final static Pattern				PATTERN_QUOT	= Pattern.compile( "\"", Pattern.LITERAL );
 
 	//
 	//

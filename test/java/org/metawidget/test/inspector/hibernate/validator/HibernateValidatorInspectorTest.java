@@ -46,7 +46,7 @@ public class HibernateValidatorInspectorTest
 	public void testInspection()
 	{
 		HibernateValidatorInspector inspector = new HibernateValidatorInspector();
-		Document document = inspector.inspect( new Foo(), Foo.class.getName() );
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 

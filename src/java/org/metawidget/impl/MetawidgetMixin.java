@@ -31,7 +31,7 @@ import org.w3c.dom.Node;
  */
 
 public abstract class MetawidgetMixin<W>
-	extends BaseMetawidgetMixin<W, Document, Element, Node>
+	extends BaseMetawidgetMixin<W, Element>
 {
 	//
 	//
@@ -40,8 +40,9 @@ public abstract class MetawidgetMixin<W>
 	//
 
 	@Override
-	protected Element getFirstElement( Document document )
+	protected Element getFirstElement( String xml )
 	{
+		Document document = XmlUtils.documentFromString( xml );
 		return (Element) document.getDocumentElement().getFirstChild();
 	}
 
@@ -52,15 +53,14 @@ public abstract class MetawidgetMixin<W>
 	}
 
 	@Override
-	protected Node getChildAt( Element element, int index )
+	protected Element getChildAt( Element element, int index )
 	{
-		return element.getChildNodes().item( index );
-	}
+		Node node = element.getChildNodes().item( index );
 
-	@Override
-	protected boolean isElement( Node node )
-	{
-		return ( node instanceof Element );
+		if ( node instanceof Element )
+			return (Element) node;
+
+		return null;
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.struts.StrutsInspector;
 import org.metawidget.inspector.struts.StrutsInspectorConfig;
+import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -43,7 +44,7 @@ public class StrutsInspectorTest
 		config.setFiles( "org/metawidget/test/inspector/struts/test-struts-config1.xml", "org/metawidget/test/inspector/struts/test-struts-config2.xml" );
 		StrutsInspector inspector = new StrutsInspector( config );
 
-		Document document = inspector.inspect( null, "testForm1" );
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 

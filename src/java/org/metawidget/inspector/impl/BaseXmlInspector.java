@@ -18,24 +18,19 @@ package org.metawidget.inspector.impl;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.metawidget.inspector.InspectorException;
 import org.metawidget.inspector.ResourceResolver;
+import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtils;
@@ -76,7 +71,7 @@ import org.w3c.dom.NodeList;
  */
 
 public abstract class BaseXmlInspector
-	extends BaseInspector
+	implements Inspector
 {
 	//
 	//
@@ -85,16 +80,6 @@ public abstract class BaseXmlInspector
 	//
 
 	private final static Log					LOG	= LogUtils.getLog( BaseXmlInspector.class );
-
-	private final static DocumentBuilderFactory	SHARED_DOCUMENT_BUILDER_FACTORY;
-
-	static
-	{
-		SHARED_DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
-		SHARED_DOCUMENT_BUILDER_FACTORY.setNamespaceAware( true );
-		SHARED_DOCUMENT_BUILDER_FACTORY.setIgnoringComments( true );
-		SHARED_DOCUMENT_BUILDER_FACTORY.setIgnoringElementContentWhitespace( true );
-	}
 
 	//
 	//
@@ -120,7 +105,7 @@ public abstract class BaseXmlInspector
 	{
 		try
 		{
-			DocumentBuilderFactory factory = SHARED_DOCUMENT_BUILDER_FACTORY;
+			DocumentBuilder builder = null;
 
 			// Look up the schema
 			//
@@ -147,18 +132,21 @@ public abstract class BaseXmlInspector
 
 				if ( schema != null )
 				{
-					factory = DocumentBuilderFactory.newInstance();
+					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 					factory.setNamespaceAware( true );
 					factory.setIgnoringComments( true );
 					factory.setIgnoringElementContentWhitespace( true );
 
 					factory.setSchema( (Schema) schema );
+					builder = factory.newDocumentBuilder();
 				}
 			}
 
+			if ( builder == null )
+				builder = XmlUtils.newDocumentBuilder();
+
 			// Look up the XML file
 
-			DocumentBuilder builder = factory.newDocumentBuilder();
 			builder.setEntityResolver( new NopEntityResolver() );
 			mRoot = getDocumentElement( builder, resolver, config );
 
@@ -168,15 +156,7 @@ public abstract class BaseXmlInspector
 			// Debug
 
 			if ( LOG.isTraceEnabled() )
-			{
-				Transformer transformer = TransformerFactory.newInstance().newTransformer();
-				transformer.setOutputProperty( OutputKeys.OMIT_XML_DECLARATION, "yes" );
-				transformer.setOutputProperty( OutputKeys.INDENT, "yes" );
-
-				ByteArrayOutputStream out = new ByteArrayOutputStream();
-				transformer.transform( new DOMSource( mRoot ), new StreamResult( out ) );
-				LOG.trace( out.toString() );
-			}
+				LOG.trace( XmlUtils.nodeToString( mRoot, 0 ));
 		}
 		catch ( Exception e )
 		{
@@ -190,7 +170,7 @@ public abstract class BaseXmlInspector
 	//
 	//
 
-	public Document inspect( Object toInspect, String type, String... names )
+	public String inspect( Object toInspect, String type, String... names )
 		throws InspectorException
 	{
 		try
@@ -225,7 +205,7 @@ public abstract class BaseXmlInspector
 					return null;
 			}
 
-			Document document = newDocumentBuilder().newDocument();
+			Document document = XmlUtils.newDocumentBuilder().newDocument();
 			Element entity = document.createElementNS( NAMESPACE, ENTITY );
 
 			// Inspect properties
@@ -259,7 +239,7 @@ public abstract class BaseXmlInspector
 
 			// Return the document
 
-			return document;
+			return XmlUtils.documentToString( document );
 		}
 		catch ( Exception e )
 		{

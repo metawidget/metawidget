@@ -22,7 +22,7 @@ import java.net.URL;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.InspectorException;
+import org.metawidget.inspector.iface.InspectorException;
 
 /**
  * Specialized ConfigReader for Java Server Faces.

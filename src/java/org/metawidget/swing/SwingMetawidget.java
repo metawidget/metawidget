@@ -56,7 +56,7 @@ import javax.swing.text.JTextComponent;
 import org.metawidget.MetawidgetException;
 import org.metawidget.impl.MetawidgetMixin;
 import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.Inspector;
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.swing.binding.Binding;
 import org.metawidget.swing.layout.Layout;
 import org.metawidget.swing.layout.TableGridBagLayout;
@@ -66,7 +66,6 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -1070,7 +1069,7 @@ public class SwingMetawidget
 		validate();
 	}
 
-	protected Document inspect()
+	protected String inspect()
 	{
 		if ( mPath == null )
 			return null;
@@ -1094,13 +1093,8 @@ public class SwingMetawidget
 
 		// Use the inspector to inspect the path
 
-		return inspect( mInspector, mPath );
-	}
-
-	protected Document inspect( Inspector inspector, String path )
-	{
-		TypeAndNames typeAndNames = PathUtils.parsePath( path );
-		return inspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
+		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+		return mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
 	}
 
 	protected SwingMetawidget createMetawidget( Map<String, String> attributes )

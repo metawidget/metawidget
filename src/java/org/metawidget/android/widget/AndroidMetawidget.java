@@ -32,14 +32,13 @@ import org.metawidget.android.AndroidUtils.ResourcelessArrayAdapter;
 import org.metawidget.android.widget.layout.Layout;
 import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.impl.MetawidgetMixin;
-import org.metawidget.inspector.Inspector;
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
-import org.w3c.dom.Document;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -826,7 +825,7 @@ public class AndroidMetawidget
 		Log.d( "AndroidMetawidget", "Creation complete" );
 	}
 
-	protected Document inspect()
+	protected String inspect()
 	{
 		Log.d( "AndroidMetawidget", "Starting inspection: " + mPath );
 
@@ -867,7 +866,7 @@ public class AndroidMetawidget
 		}
 	}
 
-	protected Document inspect( Inspector inspector, String path )
+	protected String inspect( Inspector inspector, String path )
 	{
 		TypeAndNames typeAndNames = PathUtils.parsePath( path );
 		return inspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );

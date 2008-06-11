@@ -16,6 +16,8 @@
 
 package org.metawidget.gwt.client.inspector;
 
+import org.metawidget.inspector.iface.Inspector;
+
 /**
  * GWT interface for dynamically instantiating Inspectors.
  *
@@ -30,5 +32,5 @@ public interface GwtInspectorFactory
 	//
 	//
 
-	GwtInspector newInspector( Class<? extends GwtInspector> inspectorClass );
+	Inspector newInspector( Class<? extends Inspector> inspectorClass );
 }

@@ -19,12 +19,17 @@
 				
 	<target name="test-all">
 		<webtest name="test-loads">
-			<config resultpath="${build.metawidget.dir}"/>
+			<config resultpath="${build.metawidget.dir}" />
 			<steps>
 				<invoke url="file://c:${build.metawidget.dir}/examples/swing/applet/addressbook/index.html" />
 				<verifyTitle text="Address Book (Metawidget Swing Applet Example)" />
+
+				<!-- Test contacts row count. It would be nice one day to also test the Metawidget -->
+				<!-- generated the JTextFields and JComboBox, but that alludes us for now because  -->
+				<!-- of classpath issues when trying to load inspector-config.xml                  -->
+				
 				<groovy>
-					def applet = new org.metawidget.example.swing.applet.AddressBookApplet();
+					def applet = new org.metawidget.example.swing.applet.AddressBookApplet();					
 					step.setWebtestProperty( 'contacts', applet.getComponent( 1 ).getComponent( 1 ).getViewport().getView().getRowCount() + ' contacts' );
 				</groovy>
 				<verifyProperty name="contacts" text="6 contacts"/>

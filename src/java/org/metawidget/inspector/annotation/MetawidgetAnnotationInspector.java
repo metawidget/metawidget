@@ -21,7 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.metawidget.inspector.InspectorException;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BasePropertyInspector;
 import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;

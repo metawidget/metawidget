@@ -24,7 +24,7 @@ import java.util.Map;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 
-import org.metawidget.inspector.InspectorException;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BasePropertyInspector;
 import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;

@@ -46,7 +46,7 @@ public class JpaInspectorTest
 	public void testInspection()
 	{
 		JpaInspector inspector = new JpaInspector();
-		Document document = inspector.inspect( new Foo(), Foo.class.getName() );
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 
@@ -86,7 +86,7 @@ public class JpaInspectorTest
 		JpaInspectorConfig config = new JpaInspectorConfig();
 		config.setHideIds( false );
 		JpaInspector inspector = new JpaInspector( config );
-		Document document = inspector.inspect( new Foo(), Foo.class.getName() );
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 		Element entity = (Element) document.getFirstChild().getFirstChild();
@@ -98,7 +98,7 @@ public class JpaInspectorTest
 		config = new JpaInspectorConfig();
 		config.setHideIds( true );
 		inspector = new JpaInspector( config );
-		document = inspector.inspect( new Foo(), Foo.class.getName() );
+		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 		entity = (Element) document.getFirstChild().getFirstChild();

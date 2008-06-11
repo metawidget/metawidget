@@ -16,7 +16,7 @@
 
 package org.metawidget.inspector.composite;
 
-import org.metawidget.inspector.Inspector;
+import org.metawidget.inspector.iface.Inspector;
 
 /**
  * Configures a CompositeInspector prior to use. Once instantiated, Inspectors are immutable.
