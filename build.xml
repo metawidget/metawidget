@@ -276,12 +276,12 @@
 			author="true" version="true" use="true"
 			protected="true"
 			windowtitle="Metawidget API Documentation"
-			packagenames="org.metawidget.*"
 			overview="src/doc/api/overview.html">
 			
 			<arg value="-notimestamp"/>
 
 			<packageset dir="src/java">
+				<include name="org/metawidget/**"/>
 				<exclude name="org/metawidget/example/**"/>
 			</packageset>
 
@@ -309,12 +309,12 @@
 			author="true" version="true" use="true"
 			protected="true"
 			windowtitle="Metawidget API Documentation"
-			packagenames="org.metawidget.*"
 			overview="src/doc/api/overview.html">
 
 			<arg value="-notimestamp"/>
 
 			<packageset dir="src/java">
+				<include name="org/metawidget/**"/>
 				<exclude name="org/metawidget/example/**"/>
 			</packageset>
 

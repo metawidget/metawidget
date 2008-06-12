@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Utilities for working with <code>type/name/name</code>-formatted Strings
+ * Utilities for working with <code>type/name</code>-formatted Strings
  *
  * @author Richard Kennard
  */

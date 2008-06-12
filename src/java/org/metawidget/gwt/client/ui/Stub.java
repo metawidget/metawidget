@@ -20,6 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -35,6 +36,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class Stub
 	extends SimplePanel
+	implements HasName
 {
 	//
 	//

@@ -1,5 +1,5 @@
 /**
- * The root Metawidget package.
+ * Root Metawidget package.
  *
  * @author Richard Kennard
  */

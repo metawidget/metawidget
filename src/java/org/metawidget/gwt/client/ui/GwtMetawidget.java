@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -46,7 +47,9 @@ import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -76,7 +79,7 @@ import com.google.gwt.xml.client.Element;
  */
 
 public class GwtMetawidget
-	extends SimplePanel
+	extends ComplexPanel
 {
 	//
 	//
@@ -134,14 +137,6 @@ public class GwtMetawidget
 	private Dictionary					mDictionary;
 
 	private Map<String, Object>			mParameters;
-
-	/**
-	 * Names of child widgets (GWT doesn't have a 'name' property of its own)
-	 */
-
-	private Map<String, Widget>			mWidgetNames;
-
-	private Map<String, Stub>			mStubs					= new HashMap<String, Stub>();
 
 	private Map<String, Facet>			mFacets					= new HashMap<String, Facet>();
 
@@ -352,26 +347,31 @@ public class GwtMetawidget
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
 			throw new RuntimeException( "Widgets need building first" );
 
-		Map<String, Widget> children = mWidgetNames;
+		ComplexPanel complexPanel = this;
 
-		for ( int loop = 0, length = names.length; loop < length; loop++ )
+		outerLoop: for ( int loop = 0, length = names.length; loop < length; loop++ )
 		{
-			if ( children == null )
-				return null;
-
 			String name = names[loop];
-			Widget widget = children.get( name );
+			
+			for( Iterator<Widget> i = complexPanel.iterator(); i.hasNext(); )
+			{
+				Widget widget = i.next();
+				
+				if ( !( widget instanceof HasName ))
+					continue;
+				
+				if ( name.equals( ((HasName) widget).getName() ))
+				{
+					if ( loop == length - 1 )
+						return widget;
 
-			if ( widget == null )
-				return null;
+					if ( !( widget instanceof ComplexPanel ) )
+						return null;
 
-			if ( loop == length - 1 )
-				return widget;
-
-			if ( !( widget instanceof GwtMetawidget ) )
-				return null;
-
-			children = ( (GwtMetawidget) widget ).mWidgetNames;
+					complexPanel = (ComplexPanel) widget;
+					continue outerLoop;
+				}
+			}
 		}
 
 		return null;
@@ -509,7 +509,7 @@ public class GwtMetawidget
 
 		mBinding.save();
 
-		for ( Widget widget : mWidgetNames.values() )
+		for ( Widget widget : getChildren() )
 		{
 			if ( widget instanceof GwtMetawidget )
 			{
@@ -521,22 +521,15 @@ public class GwtMetawidget
 	@Override
 	public void add( Widget widget )
 	{
+		super.add( widget );
+
 		if ( widget instanceof Facet )
 		{
 			Facet facet = (Facet) widget;
 			mFacets.put( facet.getName(), facet );
-			invalidateWidgets();
 		}
-		else if ( widget instanceof Stub )
-		{
-			Stub stub = (Stub) widget;
-			mStubs.put( stub.getName(), stub );
-			invalidateWidgets();
-		}
-		else
-		{
-			super.add( widget );
-		}
+
+		invalidateWidgets();
 	}
 
 	public Facet getFacet( String name )
@@ -574,7 +567,6 @@ public class GwtMetawidget
 
 			clear();
 
-			mWidgetNames = new HashMap<String, Widget>();
 			mNamesPrefix = null;
 
 			if ( mBinding != null )
@@ -733,7 +725,7 @@ public class GwtMetawidget
 	{
 		String name = attributes.get( NAME );
 
-		return mStubs.get( name );
+		return findWidget( name );
 	}
 
 	protected void beforeBuildCompoundWidget()
@@ -761,7 +753,7 @@ public class GwtMetawidget
 		if ( lookup != null && !"".equals( lookup ) )
 			return new Label();
 
-		// If no type, fail gracefully with a JTextField
+		// If no type, fail gracefully with a Label
 
 		if ( type == null || "".equals( type ) )
 			return new Label();
@@ -923,7 +915,6 @@ public class GwtMetawidget
 		throws Exception
 	{
 		String name = attributes.get( "name" );
-		mWidgetNames.put( name, widget );
 
 		// Layout
 

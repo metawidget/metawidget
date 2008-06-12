@@ -86,7 +86,7 @@ public class GwtAllWidgetsTest
 			{
 				// Test fields
 
-				final FlexTable flexTable = (FlexTable) metawidget.getWidget();
+				final FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
 
 				// Check what created, and edit it
 
@@ -235,7 +235,7 @@ public class GwtAllWidgetsTest
 					@Override
 					public void run()
 					{
-						FlexTable flexTableNested = (FlexTable) metawidgetNested.getWidget();
+						FlexTable flexTableNested = (FlexTable) metawidgetNested.getWidget( 0 );
 						assertTrue( "Nested textbox 1:".equals( flexTableNested.getText( 0, 0 ) ) );
 						assertTrue( flexTableNested.getWidget( 0, 1 ) instanceof TextBox );
 						assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) ) );
@@ -256,7 +256,7 @@ public class GwtAllWidgetsTest
 							@Override
 							public void run()
 							{
-								final FlexTable flexTableReadOnlyNested = (FlexTable) metawidgetReadOnlyNested.getWidget();
+								final FlexTable flexTableReadOnlyNested = (FlexTable) metawidgetReadOnlyNested.getWidget( 0 );
 								assertTrue( "Nested textbox 1:".equals( flexTableReadOnlyNested.getText( 0, 0 ) ) );
 								assertTrue( flexTableReadOnlyNested.getWidget( 0, 1 ) instanceof Label );
 								assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox1" ) ) );
@@ -308,7 +308,7 @@ public class GwtAllWidgetsTest
 									@Override
 									public void run()
 									{
-										final FlexTable readOnlyFlexTable = (FlexTable) metawidget.getWidget();
+										final FlexTable readOnlyFlexTable = (FlexTable) metawidget.getWidget( 0 );
 
 										assertTrue( "Textbox (i18n):".equals( readOnlyFlexTable.getText( 0, 0 ) ) );
 										assertTrue( "Textbox1".equals( ( (Label) readOnlyFlexTable.getWidget( 0, 1 ) ).getText() ) );
@@ -367,7 +367,7 @@ public class GwtAllWidgetsTest
 											@Override
 											public void run()
 											{
-												FlexTable readOnlyFlexTableNested = (FlexTable) readOnlyMetawidgetNested.getWidget();
+												FlexTable readOnlyFlexTableNested = (FlexTable) readOnlyMetawidgetNested.getWidget( 0 );
 												assertTrue( "???nestedTextbox1???:".equals( readOnlyFlexTableNested.getText( 0, 0 ) ) );
 												assertTrue( "Nested Textbox 1.1".equals( ((Label) readOnlyFlexTableNested.getWidget( 0, 1 ) ).getText() ));
 												assertTrue( "Nested Textbox 2 (i18n):".equals( readOnlyFlexTableNested.getText( 1, 0 ) ) );
@@ -380,7 +380,7 @@ public class GwtAllWidgetsTest
 													@Override
 													public void run()
 													{
-														FlexTable readOnlyFlexTableNested2 = (FlexTable) readOnlyMetawidgetNested2.getWidget();
+														FlexTable readOnlyFlexTableNested2 = (FlexTable) readOnlyMetawidgetNested2.getWidget( 0 );
 														assertTrue( "???nestedTextbox1???:".equals( readOnlyFlexTableNested2.getText( 0, 0 ) ) );
 														assertTrue( "Nested Textbox 1".equals( ( (Label) readOnlyFlexTableNested2.getWidget( 0, 1 ) ).getText() ) );
 														assertTrue( "Nested Textbox 2 (i18n):".equals( readOnlyFlexTableNested2.getText( 1, 0 ) ) );

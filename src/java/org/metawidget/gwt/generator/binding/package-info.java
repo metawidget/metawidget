@@ -1,5 +1,5 @@
 /**
- * GWT support: pluggable binding.
+ * GWT support: pluggable bindings.
  *
  * @author Richard Kennard
  */

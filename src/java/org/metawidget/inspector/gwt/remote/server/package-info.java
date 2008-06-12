@@ -1,5 +1,5 @@
 /**
- * GWT support: pluggable AJAX-based inspection.
+ * Inspectors: GWT asynchronous AJAX support.
  *
  * @author Richard Kennard
  */
