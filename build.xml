@@ -392,7 +392,7 @@
 	
 	<!-- Unit Test -->
 	
-	<target name="test-unit" depends="examples-desktop">
+	<target name="test-unit" depends="examples-desktop, examples-web">
 
 		<!-- Note: run the unit tests against the actual metawiget.jar and   -->
 		<!--       addressbook-swing.jar, to make sure they packed correctly -->
@@ -418,18 +418,13 @@
 		
 		<!-- GWT tests -->
 		
-		<mkdir dir="${build.metawidget.dir}/gwt-example-src"/>
-		
 		<copy todir="${build.metawidget.dir}/gwt-example-src">
-			<fileset dir="src/java">
-				<include name="org/metawidget/example/*.gwt.xml"/>
-				<include name="org/metawidget/example/gwt/addressbook/client/**"/>
-				<include name="org/metawidget/example/shared/addressbook/model/**"/>
-			</fileset>
 			<fileset dir="test/java">
+				<include name="org/metawidget/test/*.gwt.xml"/>
+				<include name="org/metawidget/test/gwt/allwidgets/*.gwt.xml"/>
+				<include name="org/metawidget/test/gwt/allwidgets/**/*.java"/>
 				<include name="org/metawidget/test/example/gwt/addressbook/**"/>
-				<include name="org/metawidget/test/gwt/allwidgets/**"/>
-				<include name="org/metawidget/test/shared/allwidgets/model/**"/>
+				<include name="org/metawidget/test/shared/allwidgets/model/*.java"/>
 			</fileset>			
 		</copy>
 		
@@ -437,20 +432,14 @@
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest"/>
-			<classpath>
-				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
-				<dirset dir="${build.metawidget.dir}/example-classes">
-					<include name="org/metawidget/example/shared/addressbook/model/**"/>
-					<include name="org/metawidget/example/gwt/addressbook/server/rpc/**"/>
-				</dirset>
-				<dirset dir="${build.metawidget.dir}/test-classes"/>
-				<pathelement path="src/java/example/shared/addressbook"/>
+			<classpath>				
 				<pathelement path="src/web/examples/gwt/addressbook/WEB-INF"/>
+				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
+				<dirset dir="${build.metawidget.dir}/example-classes"/>
+				<dirset dir="${build.metawidget.dir}/test-classes"/>
 				<fileset dir="lib"/>
-				<fileset dir="${build.metawidget.dir}">
-					<include name="metawidget.jar"/>
-					<include name="metawidget-gwt-client.jar"/>
-				</fileset>
+				<pathelement path="${build.metawidget.dir}/metawidget.jar"/>
+				<pathelement path="${build.metawidget.dir}/examples/gwt/metawidget-gwt-client.jar"/>
 			</classpath>
 		</junit>
 		
@@ -459,13 +448,13 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.gwt.allwidgets.client.GwtAllWidgetsTest"/>
 			<classpath>
+				<pathelement path="test/java/org/metawidget/test/gwt/allwidgets"/>
+				<pathelement path="test/java"/>
 				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
 				<dirset dir="${build.metawidget.dir}/test-classes"/>
 				<fileset dir="lib"/>
-				<fileset dir="${build.metawidget.dir}">
-					<include name="metawidget.jar"/>
-					<include name="metawidget-gwt-client.jar"/>
-				</fileset>
+				<pathelement path="${build.metawidget.dir}/metawidget.jar"/>
+				<pathelement path="${build.metawidget.dir}/examples/gwt/metawidget-gwt-client.jar"/>
 			</classpath>
 		</junit>
 
@@ -1395,12 +1384,17 @@
 			</fileset>			
 		</copy>
 		
+		<mkdir dir="${build.metawidget.dir}/examples/gwt"/>
+		<copy todir="${build.metawidget.dir}/examples/gwt" file="${build.metawidget.dir}/metawidget-gwt-client.jar"/>
+		
 		<java dir="${build.metawidget.dir}" classname="com.google.gwt.dev.GWTCompiler" fork="yes" failonerror="true">
 			<classpath>
 				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
 				<fileset dir="lib"/>
 				<fileset dir="${build.metawidget.dir}">
 					<include name="metawidget.jar"/>
+				</fileset>
+				<fileset dir="${build.metawidget.dir}/examples/gwt">
 					<include name="metawidget-gwt-client.jar"/>
 				</fileset>
 			</classpath>
@@ -1412,8 +1406,6 @@
 		
 		<!-- Create the WAR -->
 			
-		<mkdir dir="${build.metawidget.dir}/examples/gwt"/>
-
 		<war file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" webxml="src/web/examples/gwt/addressbook/WEB-INF/web.xml">
 			<fileset dir="${build.metawidget.dir}/gwt-classes/org.metawidget.example.GwtAddressBook"/>
 			<fileset dir="src/web/examples/gwt/addressbook">
@@ -1441,7 +1433,7 @@
 		
 	</target>
 	
-	<target name="examples-web" depends="example-faces-addressbook, example-faces-seam-booking, example-spring-addressbook, example-struts-addressbook"/>
+	<target name="examples-web" depends="example-gwt-addressbook, example-faces-addressbook, example-faces-seam-booking, example-spring-addressbook, example-struts-addressbook"/>
 
 	<available property="android-available" file="${android.dir}/tools/dx.bat"/>
 	
@@ -1620,7 +1612,16 @@
 		<!-- Test HTML -->
 
 		<antcall target="test-web-start-tomcat"/>
-		<ant antfile="test/web/site/test.xml"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/site">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file test.xml"/>
+		</java>
+		
 		<antcall target="test-web-stop-tomcat"/>
 
 	</target>

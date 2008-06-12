@@ -176,7 +176,16 @@ public class ContactDialog
 				communicationToAdd.setType( (String) typeMetawidget.getValue( "type" ));
 				communicationToAdd.setValue( (String) valueMetawidget.getValue( "value" ));
 
-				contact.addCommunication( communicationToAdd );
+				try
+				{
+					contact.addCommunication( communicationToAdd );
+				}
+				catch( Exception e )
+				{
+					Window.alert( e.getMessage() );
+					return;
+				}
+
 				reloadCommunications( addressBookModule, communications, cellFormatter, contact );
 
 				typeMetawidget.setValue( "", "type" );

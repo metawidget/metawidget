@@ -2058,35 +2058,30 @@ bin\run</programlisting>
 				
 			</section>
 
-			<section id="section-metawidgets-implementing-your-own-swing">
-				<title>Swing</title>
+			<section id="section-metawidgets-implementing-your-own-android">
+				<title>Android</title>
 				
 				<para>
-					For frameworks based on Swing, <classname>org.metawidget.swing.SwingMetawidget</classname> provides
-					many hooks to override widget creation, most notably <function>SwingMetawidget.buildWidget</function>.
+					For frameworks based on Android, <classname>org.metawidget.android.widget.AndroidMetawidget</classname> provides
+					many hooks to override widget creation, most notably <function>AndroidMetawidget.buildActiveWidget</function>.
 				</para>
 				
 				<para>
-					Swing already defines a clean separation between widgets and layout managers.
-					<classname>org.metawidget.swing.layout.Layout</classname> and its subclasses automate the use
-					of existing Swing <classname>LayoutManagers</classname>.
+					Android already defines a separation between <classname>Views</classname> and <classname>ViewGroups</classname>.
+					<classname>org.metawidget.android.widget.layout.Layout</classname> and its subclasses automate the use
+					of existing Android <classname>ViewGroups</classname>.					
 				</para>
+				
 			</section>
 
-			<section id="section-metawidgets-implementing-your-own-jsp">
-				<title>Java Server Pages</title>
+			<section id="section-metawidgets-implementing-your-own-android">
+				<title>GWT</title>
 				
 				<para>
-					For frameworks based on JSP, <classname>org.metawidget.jsp.tagext.MetawidgetTag</classname> and the more
-					commonly used <classname>org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag</classname> provide base
-					taglib functionality. See <classname>StrutsMetawidgetTag</classname> for example usage.
+					For frameworks based on GWT, <classname>org.metawidget.gwt.client.ui.GwtMetawidget</classname> provides
+					many hooks to override widget creation, most notably <function>GwtMetawidget.buildActiveWidget</function>.
 				</para>
 				
-				<para>
-					<classname>MetawidgetTag</classname> also defines a clean separation between choosing widgets and laying them out.
-					<classname>org.metawidget.jsp.tagext.Layout</classname> and its subclasses can perform the layout for
-					<emphasis>all</emphasis> JSP-based frameworks.
-				</para>
 			</section>
 
 			<section id="section-metawidgets-implementing-your-own-faces">
@@ -2104,20 +2099,35 @@ bin\run</programlisting>
 				</para>
 			</section>
 			
-			<section id="section-metawidgets-implementing-your-own-android">
-				<title>Android</title>
+			<section id="section-metawidgets-implementing-your-own-jsp">
+				<title>Java Server Pages</title>
 				
 				<para>
-					For frameworks based on Android, <classname>org.metawidget.android.widget.AndroidMetawidget</classname> provides
-					many hooks to override widget creation, most notably <function>AndroidMetawidget.buildWidget</function>.
+					For frameworks based on JSP, <classname>org.metawidget.jsp.tagext.MetawidgetTag</classname> and the more
+					commonly used <classname>org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag</classname> provide base
+					taglib functionality. See <classname>StrutsMetawidgetTag</classname> for example usage.
 				</para>
 				
 				<para>
-					Android already defines a separation between <classname>Views</classname> and <classname>ViewGroups</classname>.
-					<classname>org.metawidget.android.widget.layout.Layout</classname> and its subclasses automate the use
-					of existing Android <classname>ViewGroups</classname>.					
+					<classname>MetawidgetTag</classname> also defines a clean separation between choosing widgets and laying them out.
+					<classname>org.metawidget.jsp.tagext.Layout</classname> and its subclasses can perform the layout for
+					<emphasis>all</emphasis> JSP-based frameworks.
+				</para>
+			</section>
+
+			<section id="section-metawidgets-implementing-your-own-swing">
+				<title>Swing</title>
+				
+				<para>
+					For frameworks based on Swing, <classname>org.metawidget.swing.SwingMetawidget</classname> provides
+					many hooks to override widget creation, most notably <function>SwingMetawidget.buildActiveWidget</function>.
 				</para>
 				
+				<para>
+					Swing already defines a clean separation between widgets and layout managers.
+					<classname>org.metawidget.swing.layout.Layout</classname> and its subclasses automate the use
+					of existing Swing <classname>LayoutManagers</classname>.
+				</para>
 			</section>
 
 		</section>

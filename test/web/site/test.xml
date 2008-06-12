@@ -6,17 +6,12 @@
 	<import file="${webtest.dir}/lib/taskdef.xml" />
 
 	<target name="test-site">
-		<!--
-		
-		No test: WebTest keeps hanging on 'invoke url="${webtest.url}"' for some reason?
-
 		<webtest name="test-site">
 			<config resultpath="${build.metawidget.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}"/>
 			</steps>
 		</webtest>
-		-->
 	</target>
 
 </project>
