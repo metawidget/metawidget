@@ -14,18 +14,18 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.impl;
+package org.metawidget.mixin.w3c;
 
 import java.util.Map;
 
-import org.metawidget.impl.base.BaseMetawidgetMixin;
+import org.metawidget.mixin.base.BaseMetawidgetMixin;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
 /**
- * Base class functionality for Metawidgets on platforms that support <code>org.w3c.dom</code>.
+ * Mixin for platforms that support <code>org.w3c.dom</code>.
  *
  * @author Richard Kennard
  */

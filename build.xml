@@ -48,7 +48,6 @@
 			<include name="**/*InspectionResultConstants.java"/>
 			<include name="org/metawidget/faces/**"/>
 			<include name="org/metawidget/gwt/**"/>
-			<include name="org/metawidget/impl/**"/>
 			<include name="org/metawidget/inspector/*.java"/>
 			<include name="org/metawidget/inspector/composite/**"/>
 			<include name="org/metawidget/inspector/gwt/**"/>
@@ -61,6 +60,7 @@
 			<exclude name="org/metawidget/inspector/struts/UiStrutsLookup.java"/>
 			<include name="org/metawidget/inspector/xml/**"/>
 			<include name="org/metawidget/jsp/**"/>
+			<include name="org/metawidget/mixin/**"/>
 			<include name="org/metawidget/spring/**"/>
 			<include name="org/metawidget/struts/**"/>
 			<include name="org/metawidget/swing/**"/>
@@ -179,6 +179,31 @@
 				<include name="**/*.xsd"/>
 				<include name="**/*.taglib.xml"/>
 				<include name="**/*.tld"/>
+			</fileset>
+		</jar>
+		
+	</target>
+
+	<target name="pack-gwt-client">
+
+		<jar destfile="${build.metawidget.dir}/metawidget-gwt-client.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="src/java">
+				<include name="org/metawidget/gwt/**"/>
+				<include name="org/metawidget/inspector/iface/**"/>
+				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
+				<include name="org/metawidget/mixin/base/**"/>
+				<include name="org/metawidget/mixin/gwt/**"/>
+				<include name="org/metawidget/util/simple/**"/>
+				<include name="org/metawidget/GwtMetawidget.gwt.xml"/>
+				<exclude name="**/package-info.java"/>
+			</fileset>
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/metawidget/gwt/**"/>
+				<include name="org/metawidget/inspector/iface/**"/>
+				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
+				<include name="org/metawidget/mixin/base/**"/>
+				<include name="org/metawidget/mixin/gwt/**"/>
+				<include name="org/metawidget/util/simple/**"/>
 			</fileset>
 		</jar>
 		
@@ -390,22 +415,42 @@
 				<pathelement path="test/java"/>
 			</classpath>
 		</junit>
-
+		
 		<!-- GWT tests -->
+		
+		<mkdir dir="${build.metawidget.dir}/gwt-example-src"/>
+		
+		<copy todir="${build.metawidget.dir}/gwt-example-src">
+			<fileset dir="src/java">
+				<include name="org/metawidget/example/*.gwt.xml"/>
+				<include name="org/metawidget/example/gwt/addressbook/client/**"/>
+				<include name="org/metawidget/example/shared/addressbook/model/**"/>
+			</fileset>
+			<fileset dir="test/java">
+				<include name="org/metawidget/test/example/gwt/addressbook/**"/>
+				<include name="org/metawidget/test/gwt/allwidgets/**"/>
+				<include name="org/metawidget/test/shared/allwidgets/model/**"/>
+			</fileset>			
+		</copy>
 		
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest"/>
 			<classpath>
-				<fileset dir="lib"/>
-				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
-				<pathelement location="${build.metawidget.dir}/classes"/>
-				<pathelement path="${build.metawidget.dir}/example-classes"/>
-				<pathelement path="${build.metawidget.dir}/test-classes"/>
-				<pathelement path="src/java"/>
-				<pathelement path="test/java"/>
+				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
+				<dirset dir="${build.metawidget.dir}/example-classes">
+					<include name="org/metawidget/example/shared/addressbook/model/**"/>
+					<include name="org/metawidget/example/gwt/addressbook/server/rpc/**"/>
+				</dirset>
+				<dirset dir="${build.metawidget.dir}/test-classes"/>
+				<pathelement path="src/java/example/shared/addressbook"/>
 				<pathelement path="src/web/examples/gwt/addressbook/WEB-INF"/>
+				<fileset dir="lib"/>
+				<fileset dir="${build.metawidget.dir}">
+					<include name="metawidget.jar"/>
+					<include name="metawidget-gwt-client.jar"/>
+				</fileset>
 			</classpath>
 		</junit>
 		
@@ -414,14 +459,13 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.gwt.allwidgets.client.GwtAllWidgetsTest"/>
 			<classpath>
+				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
+				<dirset dir="${build.metawidget.dir}/test-classes"/>
 				<fileset dir="lib"/>
-				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
-				<pathelement location="${build.metawidget.dir}/classes"/>
-				<pathelement path="${build.metawidget.dir}/example-classes"/>
-				<pathelement path="${build.metawidget.dir}/test-classes"/>
-				<pathelement path="src/java"/>
-				<pathelement path="test/java"/>
-				<pathelement path="test/java/org/metawidget/test/gwt/allwidgets"/>
+				<fileset dir="${build.metawidget.dir}">
+					<include name="metawidget.jar"/>
+					<include name="metawidget-gwt-client.jar"/>
+				</fileset>
 			</classpath>
 		</junit>
 
@@ -520,13 +564,14 @@
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/metawidget/*.class"/>
 				<include name="org/metawidget/android/**"/>
-				<include name="org/metawidget/impl/**"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/composite/**"/>
 				<include name="org/metawidget/inspector/impl/**"/>
 				<include name="org/metawidget/inspector/javabean/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>
 				<include name="org/metawidget/inspector/xml/**"/>
+				<include name="org/metawidget/mixin/base/**"/>
+				<include name="org/metawidget/mixin/gwt/**"/>
 				<include name="org/metawidget/util/**"/>
 			</fileset>			
 			<fileset dir="${build.metawidget.dir}/test-classes">
@@ -1097,7 +1142,6 @@
 		<jar destfile="${build.metawidget.dir}/examples/swing/applet/addressbook/metawidget-applet.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/metawidget/*.class"/>
-				<include name="org/metawidget/impl/**"/>
 				<include name="org/metawidget/swing/*.class"/>
 				<include name="org/metawidget/swing/binding/*.class"/>
 				<include name="org/metawidget/swing/binding/beansbinding/*.class"/>
@@ -1112,6 +1156,8 @@
 				<include name="org/metawidget/inspector/propertytype/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>				
 				<include name="org/metawidget/inspector/xml/**"/>				
+				<include name="org/metawidget/mixin/base/**"/>
+				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
 			</fileset>
 			<fileset dir="src/java">			
@@ -1334,17 +1380,29 @@
 		
 	</target>
 
-	<target name="example-gwt-addressbook" depends="example-shared-addressbook">
+	<target name="example-gwt-addressbook" depends="example-shared-addressbook, pack-gwt-client">
 		
 		<!-- GWT compiler -->
 
 		<mkdir dir="${build.metawidget.dir}/gwt-classes"/>
+		<mkdir dir="${build.metawidget.dir}/gwt-example-src"/>
+
+		<copy todir="${build.metawidget.dir}/gwt-example-src">
+			<fileset dir="src/java">
+				<include name="org/metawidget/example/*.gwt.xml"/>
+				<include name="org/metawidget/example/gwt/addressbook/client/**"/>
+				<include name="org/metawidget/example/shared/addressbook/model/**"/>
+			</fileset>			
+		</copy>
 		
 		<java dir="${build.metawidget.dir}" classname="com.google.gwt.dev.GWTCompiler" fork="yes" failonerror="true">
 			<classpath>
-				<dirset dir="src/java"/>
-				<fileset dir="lib"/>				
-				<dirset dir="${build.metawidget.dir}/classes"/>
+				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
+				<fileset dir="lib"/>
+				<fileset dir="${build.metawidget.dir}">
+					<include name="metawidget.jar"/>
+					<include name="metawidget-gwt-client.jar"/>
+				</fileset>
 			</classpath>
 			<jvmarg value="-Xmx256M"/>
 			<arg value="-out" />
@@ -1407,13 +1465,14 @@
 				<include name="org/metawidget/example/android/addressbook/**"/>
 				<include name="org/metawidget/example/shared/addressbook/**/*.class"/>
 				<include name="org/metawidget/android/**"/>
-				<include name="org/metawidget/impl/**"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/composite/**"/>
 				<include name="org/metawidget/inspector/impl/**"/>
 				<include name="org/metawidget/inspector/javabean/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>
 				<include name="org/metawidget/inspector/xml/**"/>
+				<include name="org/metawidget/mixin/base/**"/>
+				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
 			</fileset>
 			

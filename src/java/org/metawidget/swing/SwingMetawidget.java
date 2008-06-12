@@ -54,9 +54,9 @@ import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.text.JTextComponent;
 
 import org.metawidget.MetawidgetException;
-import org.metawidget.impl.MetawidgetMixin;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.binding.Binding;
 import org.metawidget.swing.layout.Layout;
 import org.metawidget.swing.layout.TableGridBagLayout;

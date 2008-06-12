@@ -14,16 +14,16 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.impl.base;
+package org.metawidget.mixin.base;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
 /**
- * Base class functionality for MetawidgetMixins.
+ * Mixin to help build Metawidgets.
  * <p>
- * Use of MetawidgetMixins when developing Metawidgets is entirely optional. However, it provides a
+ * Use of MetawidgetMixin when developing Metawidgets is entirely optional. However, it provides a
  * level of functionality and structure to the code which most Metawidgets will benefit from.
  * <p>
  * Specifically, the mixin provides support for:
@@ -34,7 +34,8 @@ import java.util.Map;
  * <li>read-only/active widgets</li>
  * </ul>
  * This base class abstracts the Metawidget lifecycle without enforcing which XML libraries to use.
- * Most subclasses will choose <code>MetawidgetMixin</code>, which uses <code>org.w3c.dom</code>.
+ * Most subclasses will choose <code>org.metawidget.mixin.w3c.MetawidgetMixin</code>, which uses
+ * <code>org.w3c.dom</code>.
  *
  * @author Richard Kennard
  */

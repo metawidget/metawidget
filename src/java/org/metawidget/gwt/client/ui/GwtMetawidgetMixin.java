@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.metawidget.impl.base.BaseMetawidgetMixin;
+import org.metawidget.mixin.base.BaseMetawidgetMixin;
 
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
@@ -29,7 +29,7 @@ import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.XMLParser;
 
 /**
- * Base class functionality for Metawidgets on platforms that support <code>com.google.gwt.xml.client</code>.
+ * Mixin for platforms that use <code>com.google.gwt.xml.client</code>.
  *
  * @author Richard Kennard
  */

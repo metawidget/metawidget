@@ -29,12 +29,12 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.metawidget.MetawidgetException;
-import org.metawidget.impl.MetawidgetMixin;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.jsp.tagext.StubTag.StubContent;
 import org.metawidget.jsp.tagext.html.HtmlTableLayout;
+import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;

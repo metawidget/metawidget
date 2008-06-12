@@ -20,4 +20,4 @@
  * @author Richard Kennard
  */
 
-package org.metawidget.impl;
+package org.metawidget.mixin.w3c;

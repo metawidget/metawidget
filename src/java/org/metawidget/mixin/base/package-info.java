@@ -15,12 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Base Metawidget functionality: simple classes.
- * <p>
- * By 'simple' we mean without many dependencies, and simple enough to be compiled into JavaScript
- * if we need to (eg. for GWT).
+ * Base Metawidget functionality
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.impl.base;
+package org.metawidget.mixin.base;
