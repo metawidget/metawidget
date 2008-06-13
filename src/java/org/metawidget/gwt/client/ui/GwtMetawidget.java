@@ -24,7 +24,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -47,8 +46,8 @@ import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
@@ -79,7 +78,7 @@ import com.google.gwt.xml.client.Element;
  */
 
 public class GwtMetawidget
-	extends ComplexPanel
+	extends FlowPanel
 {
 	//
 	//
@@ -140,6 +139,21 @@ public class GwtMetawidget
 
 	private Map<String, Facet>			mFacets					= new HashMap<String, Facet>();
 
+	private Set<Widget>					mExistingWidgets		= new HashSet<Widget>();
+
+	private Set<Widget>					mExistingWidgetsUnused	= new HashSet<Widget>();
+
+	/**
+	 * Map of widgets added to this Metawidget.
+	 * <p>
+	 * Searching for Widgets by traversing children is complicated in GWT, because not all Widgets
+	 * that contain child Widgets extend a common base class. For example, both ComplexPanel and
+	 * FlexTable can contain child Widgets but have very different APIs. It is easier to keep a
+	 * separate Map of the widgets we have encountered.
+	 */
+
+	private Map<String, Widget>			mAddedWidgets			= new HashMap<String, Widget>();
+
 	private Timer						mBuildWidgets;
 
 	//
@@ -153,6 +167,8 @@ public class GwtMetawidget
 	String[]							mNamesPrefix;
 
 	int									mNeedToBuildWidgets;
+
+	boolean								mIgnoreAddRemove;
 
 	/**
 	 * For unit tests.
@@ -345,33 +361,28 @@ public class GwtMetawidget
 			return null;
 
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
-			throw new RuntimeException( "Widgets need building first" );
+			throw new RuntimeException( "Widgets need building before calling findWidget( " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + ")" );
 
-		ComplexPanel complexPanel = this;
+		Map<String, Widget> children = mAddedWidgets;
 
-		outerLoop: for ( int loop = 0, length = names.length; loop < length; loop++ )
+		for ( int loop = 0, length = names.length; loop < length; loop++ )
 		{
+			if ( children == null )
+				return null;
+
 			String name = names[loop];
-			
-			for( Iterator<Widget> i = complexPanel.iterator(); i.hasNext(); )
-			{
-				Widget widget = i.next();
-				
-				if ( !( widget instanceof HasName ))
-					continue;
-				
-				if ( name.equals( ((HasName) widget).getName() ))
-				{
-					if ( loop == length - 1 )
-						return widget;
+			Widget widget = children.get( name );
 
-					if ( !( widget instanceof ComplexPanel ) )
-						return null;
+			if ( widget == null )
+				return null;
 
-					complexPanel = (ComplexPanel) widget;
-					continue outerLoop;
-				}
-			}
+			if ( loop == length - 1 )
+				return widget;
+
+			if ( !( widget instanceof GwtMetawidget ) )
+				return null;
+
+			children = ( (GwtMetawidget) widget ).mAddedWidgets;
 		}
 
 		return null;
@@ -502,14 +513,14 @@ public class GwtMetawidget
 	public void save()
 	{
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
-			throw new RuntimeException( "Widgets need building first" );
+			throw new RuntimeException( "Widgets need building before calling save()" );
 
 		if ( mBinding == null )
 			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
 
 		mBinding.save();
 
-		for ( Widget widget : getChildren() )
+		for ( Widget widget : mAddedWidgets.values() )
 		{
 			if ( widget instanceof GwtMetawidget )
 			{
@@ -518,23 +529,122 @@ public class GwtMetawidget
 		}
 	}
 
-	@Override
-	public void add( Widget widget )
-	{
-		super.add( widget );
-
-		if ( widget instanceof Facet )
-		{
-			Facet facet = (Facet) widget;
-			mFacets.put( facet.getName(), facet );
-		}
-
-		invalidateWidgets();
-	}
-
 	public Facet getFacet( String name )
 	{
 		return mFacets.get( name );
+	}
+
+	@Override
+	public void add( Widget widget )
+	{
+		if ( !mIgnoreAddRemove )
+		{
+			invalidateWidgets();
+
+			if ( widget instanceof Facet )
+			{
+				Facet facet = (Facet) widget;
+				mFacets.put( facet.getName(), facet );
+			}
+			else
+			{
+				mExistingWidgets.add( widget );
+			}
+
+			// Because of the lag between invalidateWidgets() and buildWidgets(), and
+			// because some CSS styles aren't applied until buildWidgets(), we
+			// see a visual 'glitch' when adding new widgets (like buttons). To stop
+			// this, we don't call super.add directly when !mIgnoreAddRemove
+
+			return;
+		}
+
+		super.add( widget );
+	}
+
+	@Override
+	public void insert( Widget widget, int beforeIndex )
+	{
+		if ( !mIgnoreAddRemove )
+		{
+			invalidateWidgets();
+
+			if ( widget instanceof Facet )
+			{
+				Facet facet = (Facet) widget;
+				mFacets.put( facet.getName(), facet );
+			}
+			else
+			{
+				mExistingWidgets.add( widget );
+			}
+
+			// Because of the lag between invalidateWidgets() and buildWidgets(), and
+			// because some CSS styles aren't applied until buildWidgets(), we
+			// see a visual 'glitch' when inserting new widgets (like buttons). To stop
+			// this, we don't call super.insert directly when !mIgnoreAddRemove
+
+			return;
+		}
+
+		super.insert( widget, beforeIndex );
+	}
+
+	@Override
+	public boolean remove( int index )
+	{
+		if ( !mIgnoreAddRemove )
+		{
+			invalidateWidgets();
+
+			Widget widget = getChildren().get( index );
+
+			if ( widget instanceof Facet )
+			{
+				mFacets.remove( ( (Facet) widget ).getName() );
+			}
+			else
+			{
+				mExistingWidgets.remove( widget );
+			}
+		}
+
+		return super.remove( index );
+	}
+
+	@Override
+	public boolean remove( Widget widget )
+	{
+		if ( !mIgnoreAddRemove )
+		{
+			invalidateWidgets();
+
+			if ( widget instanceof Facet )
+			{
+				mFacets.remove( ( (Facet) widget ).getName() );
+			}
+			else
+			{
+				mExistingWidgets.remove( widget );
+			}
+		}
+
+		return super.remove( widget );
+	}
+
+	@Override
+	public void clear()
+	{
+		super.clear();
+
+		if ( !mIgnoreAddRemove )
+		{
+			invalidateWidgets();
+
+			mFacets.clear();
+			mExistingWidgets.clear();
+			mAddedWidgets.clear();
+		}
 	}
 
 	//
@@ -563,9 +673,11 @@ public class GwtMetawidget
 		}
 		else
 		{
+			mNeedToBuildWidgets = BUILDING_NEEDED;
+
 			// ...otherwise, clear the widgets
 
-			clear();
+			super.clear();
 
 			mNamesPrefix = null;
 
@@ -574,8 +686,6 @@ public class GwtMetawidget
 				mBinding.unbind();
 				mBinding = null;
 			}
-
-			mNeedToBuildWidgets = BUILDING_NEEDED;
 		}
 
 		// Schedule a new build
@@ -655,11 +765,16 @@ public class GwtMetawidget
 					{
 						try
 						{
+							mIgnoreAddRemove = true;
 							mMixin.buildWidgets( xml );
 						}
 						catch ( Exception e )
 						{
 							GwtUtils.alert( e );
+						}
+						finally
+						{
+							mIgnoreAddRemove = false;
 						}
 
 						mNeedToBuildWidgets = BUILDING_COMPLETE;
@@ -683,12 +798,18 @@ public class GwtMetawidget
 			{
 				try
 				{
+					mIgnoreAddRemove = true;
+
 					String xml = mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
 					mMixin.buildWidgets( xml );
 				}
 				catch ( Exception e )
 				{
 					GwtUtils.alert( e );
+				}
+				finally
+				{
+					mIgnoreAddRemove = false;
 				}
 
 				mNeedToBuildWidgets = BUILDING_COMPLETE;
@@ -707,6 +828,8 @@ public class GwtMetawidget
 	protected void startBuild()
 		throws Exception
 	{
+		mExistingWidgetsUnused = new HashSet<Widget>( mExistingWidgets );
+
 		// Start layout
 		//
 		// (we start a new layout each time, rather than complicating the Layouts with a
@@ -725,7 +848,27 @@ public class GwtMetawidget
 	{
 		String name = attributes.get( NAME );
 
-		return findWidget( name );
+		if ( name == null )
+			return null;
+
+		Widget widget = null;
+
+		for ( Widget widgetExisting : mExistingWidgetsUnused )
+		{
+			if ( !( widgetExisting instanceof HasName ) )
+				continue;
+
+			if ( name.equals( ( (HasName) widgetExisting ).getName() ) )
+			{
+				widget = widgetExisting;
+				break;
+			}
+		}
+
+		if ( widget != null )
+			mExistingWidgetsUnused.remove( widget );
+
+		return widget;
 	}
 
 	protected void beforeBuildCompoundWidget()
@@ -915,6 +1058,7 @@ public class GwtMetawidget
 		throws Exception
 	{
 		String name = attributes.get( "name" );
+		mAddedWidgets.put( name, widget );
 
 		// Layout
 
@@ -968,6 +1112,23 @@ public class GwtMetawidget
 	protected void endBuild()
 		throws Exception
 	{
+		if ( mExistingWidgetsUnused != null )
+		{
+			for ( Widget widgetExisting : mExistingWidgetsUnused )
+			{
+				Map<String, String> miscAttributes = new HashMap<String, String>();
+
+				// Manually created components default to no section
+
+				miscAttributes.put( SECTION, "" );
+
+				if ( widgetExisting instanceof Stub )
+					miscAttributes.putAll( ( (Stub) widgetExisting ).getAttributes() );
+
+				mLayout.layoutChild( widgetExisting, miscAttributes );
+			}
+		}
+
 		mLayout.layoutEnd();
 	}
 

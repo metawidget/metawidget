@@ -601,6 +601,8 @@ public class SwingMetawidget
 
 		if ( !mIgnoreAddRemove )
 		{
+			invalidateWidgets();
+
 			mFacets.clear();
 			mExistingComponents.clear();
 		}
@@ -764,15 +766,16 @@ public class SwingMetawidget
 
 	protected JComponent getOverridenWidget( Map<String, String> attributes )
 	{
-		JComponent component = null;
-		String childName = attributes.get( NAME );
+		String name = attributes.get( NAME );
 
-		if ( childName == null )
+		if ( name == null )
 			return null;
+
+		JComponent component = null;
 
 		for ( Component componentExisting : mExistingComponentsUnused )
 		{
-			if ( childName.equals( componentExisting.getName() ) )
+			if ( name.equals( componentExisting.getName() ) )
 			{
 				component = (JComponent) componentExisting;
 				break;

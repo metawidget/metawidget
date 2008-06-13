@@ -1,4 +1,4 @@
-<project name="struts-addressbook-test" default="test-site">
+<project name="site-test" default="test-site">
 
 	<property file="../../../build.properties" />
 	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
@@ -10,6 +10,7 @@
 			<config resultpath="${build.metawidget.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}"/>
+				<verifyLinks onsiteonly="true" ignoreforeignjserrors="true"/>
 			</steps>
 		</webtest>
 	</target>

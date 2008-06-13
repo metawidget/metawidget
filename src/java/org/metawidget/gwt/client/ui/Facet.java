@@ -16,6 +16,7 @@
 
 package org.metawidget.gwt.client.ui;
 
+import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
@@ -30,6 +31,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 
 public class Facet
 	extends SimplePanel
+	implements HasName
 {
 	//
 	//

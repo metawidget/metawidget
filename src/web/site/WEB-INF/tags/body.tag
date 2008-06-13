@@ -53,6 +53,9 @@
 					<a href="http://code.google.com/android" target="_blank">
 						<img src="${context}/media/logo-android.gif" alt="Android" style="border: 0px" />
 					</a>
+					<a href="http://code.google.com/webtoolkit" target="_blank">
+						<img src="${context}/media/logo-gwt.gif" alt="Google Web Toolkit" style="border: 0px" />
+					</a>
 					<a href="http://groovy.codehaus.org" target="_blank">
 						<img src="${context}/media/logo-groovy.gif" alt="Groovy" style="border: 0px" />
 					</a>

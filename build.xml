@@ -1609,7 +1609,7 @@
 			<include name="**/*.js"/>
 		</fixcrlf>
 			
-		<!-- Test HTML -->
+		<!-- Test HTML links
 
 		<antcall target="test-web-start-tomcat"/>
 
@@ -1622,7 +1622,7 @@
 			<arg line="-file test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/>
+		<antcall target="test-web-stop-tomcat"/> -->
 
 	</target>
 	
