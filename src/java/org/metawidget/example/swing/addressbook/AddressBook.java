@@ -17,6 +17,7 @@
 package org.metawidget.example.swing.addressbook;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -118,6 +119,8 @@ public class AddressBook
 
 		if ( container instanceof ImagePanel )
 			panelRight.setOpaque( false );
+		else
+			panelRight.setBackground( Color.white );
 
 		panelRight.setLayout( new BorderLayout() );
 		panelRight.setBorder( BorderFactory.createEmptyBorder( COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING ) );
