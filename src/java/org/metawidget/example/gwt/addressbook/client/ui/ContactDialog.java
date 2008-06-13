@@ -186,6 +186,10 @@ public class ContactDialog
 					return;
 				}
 
+				// TODO: after add, no delete buttons?
+				// TODO: applet has grey background on panel?
+				// TODO: no inspectors matched PaymentMethod$/PaymentFrequency$
+
 				reloadCommunications( addressBookModule, communications, cellFormatter, contact );
 
 				typeMetawidget.setValue( "", "type" );

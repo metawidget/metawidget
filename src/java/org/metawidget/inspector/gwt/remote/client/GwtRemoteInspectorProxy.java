@@ -18,6 +18,8 @@ package org.metawidget.inspector.gwt.remote.client;
 
 import java.io.Serializable;
 
+import org.metawidget.inspector.gwt.remote.iface.GwtRemoteInspector;
+import org.metawidget.inspector.gwt.remote.iface.GwtRemoteInspectorAsync;
 import org.metawidget.inspector.iface.Inspector;
 
 import com.google.gwt.core.client.GWT;

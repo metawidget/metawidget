@@ -30,6 +30,7 @@ import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.UIOutput;
+import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlSelectOneListbox;
@@ -280,21 +281,13 @@ public class HtmlMetawidget
 			}
 		}
 
-		UIComponent component = null;
-
 		// Overriden component
 
+		UIComponent component = null;
 		String componentName = attributes.get( FACES_COMPONENT );
 
 		if ( componentName != null )
 			component = application.createComponent( componentName );
-
-		// If no type, fail gracefully with a javax.faces.HtmlInputText
-
-		if ( type == null || "".equals( type ) )
-			return application.createComponent( "javax.faces.HtmlInputText" );
-
-		Class<?> clazz = ClassUtils.niceForName( type );
 
 		// Faces Lookups
 
@@ -310,34 +303,62 @@ public class HtmlMetawidget
 			}
 
 			addSelectItems( component, facesLookup, attributes );
+			return component;
 		}
-		else
+
+		// If no type, fail gracefully with a javax.faces.HtmlInputText
+		//
+		// Note: we don't do this if there is a FACES_LOOKUP, because a FACES_LOOKUP
+		// can get away with not specifying a type
+
+		if ( type == null || "".equals( type ) )
+			return application.createComponent( "javax.faces.HtmlInputText" );
+
+		Class<?> clazz = ClassUtils.niceForName( type );
+
+		// String Lookups
+
+		String lookup = attributes.get( LOOKUP );
+
+		if ( lookup != null && !"".equals( lookup ) )
 		{
-			// String Lookups
-
-			String lookup = attributes.get( LOOKUP );
-
-			if ( lookup != null && !"".equals( lookup ) )
+			if ( component == null )
 			{
-				if ( component == null )
+				component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
+				HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
+				select.setSize( 1 );
+			}
+
+			List<?> values = CollectionUtils.fromString( lookup );
+
+			// Convert values of SelectItems (eg. from Strings to ints)...
+
+			if ( component instanceof ValueHolder )
+			{
+				ValueHolder valueHolder = (ValueHolder) component;
+
+				// ...using either the specified converter...
+
+				Converter converter = setConverter( component, attributes );
+
+				// ...or an application-wide converter...
+
+				if ( converter == null )
 				{
-					component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
-					HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
-					select.setSize( 1 );
+					converter = application.createConverter( clazz );
+
+					if ( converter != null )
+						valueHolder.setConverter( converter );
 				}
 
-				List<?> values = CollectionUtils.fromString( lookup );
-
-				// Convert values if necessary
-
-				Converter converter = application.createConverter( clazz );
+				// ...if any
 
 				if ( converter != null )
 				{
 					int size = values.size();
 					List<Object> convertedValues = CollectionUtils.newArrayList( size );
 
-					for( int loop = 0; loop < size; loop++ )
+					for ( int loop = 0; loop < size; loop++ )
 					{
 						Object convertedValue = converter.getAsObject( context, component, (String) values.get( loop ) );
 						convertedValues.add( convertedValue );
@@ -345,92 +366,91 @@ public class HtmlMetawidget
 
 					values = convertedValues;
 				}
-
-				addSelectItems( component, values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
 			}
+
+			addSelectItems( component, values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
 		}
+
+		// Already specified an overriden component?
 
 		if ( component != null )
 			return component;
 
-		if ( clazz != null )
+		// Primitives
+
+		if ( boolean.class.equals( clazz ) )
+			return application.createComponent( "javax.faces.SelectBoolean" );
+
+		if ( char.class.equals( clazz ) )
 		{
-			// Primitives
+			component = application.createComponent( "javax.faces.HtmlInputText" );
+			( (HtmlInputText) component ).setMaxlength( 1 );
 
-			if ( boolean.class.equals( clazz ) )
-				return application.createComponent( "javax.faces.SelectBoolean" );
+			return component;
+		}
 
-			if ( char.class.equals( clazz ) )
+		if ( clazz.isPrimitive() )
+			return application.createComponent( "javax.faces.HtmlInputText" );
+
+		// Dates
+
+		if ( Date.class.isAssignableFrom( clazz ) )
+			return application.createComponent( "javax.faces.HtmlInputText" );
+
+		// Numbers
+
+		if ( Number.class.isAssignableFrom( clazz ) )
+			return application.createComponent( "javax.faces.HtmlInputText" );
+
+		// Booleans (are tri-state)
+
+		if ( Boolean.class.isAssignableFrom( clazz ) )
+		{
+			component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
+
+			HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
+			select.setSize( 1 );
+
+			addSelectItem( component, "", null );
+			addSelectItem( component, Boolean.TRUE, "Yes" );
+			addSelectItem( component, Boolean.FALSE, "No" );
+
+			return component;
+		}
+
+		// Strings
+
+		if ( String.class.equals( clazz ) )
+		{
+			if ( TRUE.equals( attributes.get( MASKED ) ) )
 			{
-				component = application.createComponent( "javax.faces.HtmlInputText" );
-				( (HtmlInputText) component ).setMaxlength( 1 );
-
-				return component;
-			}
-
-			if ( clazz.isPrimitive() )
-				return application.createComponent( "javax.faces.HtmlInputText" );
-
-			// Dates
-
-			if ( Date.class.isAssignableFrom( clazz ) )
-				return application.createComponent( "javax.faces.HtmlInputText" );
-
-			// Numbers
-
-			if ( Number.class.isAssignableFrom( clazz ) )
-				return application.createComponent( "javax.faces.HtmlInputText" );
-
-			// Booleans (are tri-state)
-
-			if ( Boolean.class.isAssignableFrom( clazz ) )
-			{
-				component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
-
-				HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
-				select.setSize( 1 );
-
-				addSelectItem( component, "", null );
-				addSelectItem( component, Boolean.TRUE, "Yes" );
-				addSelectItem( component, Boolean.FALSE, "No" );
-
-				return component;
-			}
-
-			// Strings
-
-			if ( String.class.equals( clazz ) )
-			{
-				if ( TRUE.equals( attributes.get( MASKED ) ) )
-				{
-					component = application.createComponent( "javax.faces.HtmlInputSecret" );
-
-					String maximumLength = attributes.get( MAXIMUM_LENGTH );
-
-					if ( maximumLength != null && !"".equals( maximumLength ) )
-						( (HtmlInputSecret) component ).setMaxlength( Integer.parseInt( maximumLength ) );
-
-					return component;
-				}
-
-				if ( TRUE.equals( attributes.get( "large" ) ) )
-					return application.createComponent( "javax.faces.HtmlInputTextarea" );
-
-				component = application.createComponent( "javax.faces.HtmlInputText" );
+				component = application.createComponent( "javax.faces.HtmlInputSecret" );
 
 				String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
 				if ( maximumLength != null && !"".equals( maximumLength ) )
-					( (HtmlInputText) component ).setMaxlength( Integer.parseInt( maximumLength ) );
+					( (HtmlInputSecret) component ).setMaxlength( Integer.parseInt( maximumLength ) );
 
 				return component;
 			}
 
-			// Collections
+			if ( TRUE.equals( attributes.get( "large" ) ) )
+				return application.createComponent( "javax.faces.HtmlInputTextarea" );
 
-			if ( Collection.class.isAssignableFrom( clazz ) )
-				return createCollectionComponent( clazz, attributes );
+			component = application.createComponent( "javax.faces.HtmlInputText" );
+
+			String maximumLength = attributes.get( MAXIMUM_LENGTH );
+
+			if ( maximumLength != null && !"".equals( maximumLength ) )
+				( (HtmlInputText) component ).setMaxlength( Integer.parseInt( maximumLength ) );
+
+			return component;
 		}
+
+		// Collections
+
+		if ( Collection.class.isAssignableFrom( clazz ) )
+			return createCollectionComponent( clazz, attributes );
 
 		// Not simple, but don't expand
 

@@ -53,6 +53,7 @@ import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
@@ -323,8 +324,13 @@ public abstract class UIMetawidget
 		}
 		catch ( Exception e )
 		{
+			// IOException does not take a Throwable 'cause' argument until 1.6, so
+			// as we need to stay 1.4 compatible we output the trace here
+
+			LogUtils.getLog( getClass() ).error( "Unable to encodeBegin", e );
+
 			// At this top level, it is more 'proper' to throw an IOException than
-			// a MetawidgetException, and it gets handled better by layers above
+			// a MetawidgetException, as that is what the layers above are expecting
 
 			throw new IOException( e.getMessage() );
 		}
@@ -755,9 +761,11 @@ public abstract class UIMetawidget
 
 	/**
 	 * Attach converters for renderer.
+	 *
+	 * @return the attached converter
 	 */
 
-	protected void setConverter( UIComponent component, Map<String, String> attributes )
+	protected Converter setConverter( UIComponent component, Map<String, String> attributes )
 	{
 		// Ignore if no converter
 
@@ -765,7 +773,7 @@ public abstract class UIMetawidget
 		String converterClass = attributes.get( FACES_CONVERTER_CLASS );
 
 		if ( converterId == null && converterClass == null )
-			return;
+			return null;
 
 		// Recurse into stubs
 
@@ -779,13 +787,13 @@ public abstract class UIMetawidget
 				setConverter( componentChild, attributes );
 			}
 
-			return;
+			return null;
 		}
 
 		// Ignore components that cannot have Converters
 
 		if ( !( component instanceof ValueHolder ) )
-			return;
+			return null;
 
 		// Apply the converter
 
@@ -798,7 +806,7 @@ public abstract class UIMetawidget
 			Converter converter = valueHolder.getConverter();
 
 			if ( converter != null )
-				return;
+				return converter;
 
 			// Create from id
 
@@ -879,6 +887,7 @@ public abstract class UIMetawidget
 			}
 
 			valueHolder.setConverter( converter );
+			return converter;
 		}
 		catch ( Exception e )
 		{
@@ -1055,10 +1064,22 @@ public abstract class UIMetawidget
 
 		// Add an empty choice (if a listbox, and if nullable)
 
-		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
+		if ( component instanceof HtmlSelectOneListbox )
+		{
+			String type = attributes.get( TYPE );
 
-		if ( component instanceof HtmlSelectOneListbox && ( clazz == null || !clazz.isPrimitive() ) )
-			addSelectItem( component, "", null );
+			if ( type != null )
+			{
+				Class<?> clazz = ClassUtils.niceForName( type );
+
+				if ( clazz == null || !clazz.isPrimitive() )
+					addSelectItem( component, "", null );
+			}
+			else
+			{
+				addSelectItem( component, "", null );
+			}
+		}
 
 		UISelectItems selectItems = (UISelectItems) application.createComponent( "javax.faces.SelectItems" );
 		selectItems.setId( viewRoot.createUniqueId() );

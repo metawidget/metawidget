@@ -228,6 +228,12 @@ public class GwtAddressBookTest
 													@Override
 													public void run()
 													{
+														assertTrue( "742 Evergreen Terrace".equals( contactMetawidget.getValue( "address", "street" )));
+														assertTrue( "Anytown".equals( contactMetawidget.getValue( "address", "state" )));
+
+														contactMetawidget.setValue( "743 Evergreen Terrace", "address", "street" );
+														((ListBox) contactMetawidget.findWidget( "address", "state" )).setSelectedIndex( 3 );
+
 														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 0 );
 														assertTrue( "Save".equals( saveButton.getText() ) );
 														fireClickListeners( saveButton );
@@ -252,6 +258,10 @@ public class GwtAddressBookTest
 																		assertTrue( "Mr Homer Sapien".equals( contacts.getText( 1, 0 ) ) );
 																		assertTrue( "".equals( contacts.getText( 1, 1 ) ) );
 
+																		// Check address change
+
+																		assertTrue( "743 Evergreen Terrace".equals( personalContact.getAddress().getStreet() ));
+																		assertTrue( "Lostville".equals( personalContact.getAddress().getState() ));
 																		finish();
 																	}
 																};

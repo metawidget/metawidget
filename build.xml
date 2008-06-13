@@ -48,7 +48,6 @@
 			<include name="**/*InspectionResultConstants.java"/>
 			<include name="org/metawidget/faces/**"/>
 			<include name="org/metawidget/gwt/**"/>
-			<include name="org/metawidget/inspector/*.java"/>
 			<include name="org/metawidget/inspector/composite/**"/>
 			<include name="org/metawidget/inspector/gwt/**"/>
 			<include name="org/metawidget/inspector/hibernate/*.java"/>
@@ -163,14 +162,10 @@
 		<jar destfile="${build.metawidget.dir}/metawidget.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/**"/>
-				<exclude name="org/metawidget/gwt/client/**"/>
-				<exclude name="org/metawidget/gwt/server/**"/>
+				<exclude name="org/metawidget/gwt/**"/>
 				<exclude name="org/metawidget/example/**"/>
+				<exclude name="org/metawidget/inspector/gwt/remote/client/**"/>
 				<exclude name="org/metawidget/test/**"/>
-			</fileset>
-			<fileset dir="${build.metawidget.dir}/classes">
-				<include name="org/metawidget/gwt/client/inspector/remote/GwtRemoteInspector.class"/>
-				<include name="org/metawidget/gwt/server/inspector/remote/GwtRemoteInspectorImpl.class"/>
 			</fileset>
 			<fileset dir="src/java">
 				<exclude name="org/metawidget/example/**"/>
@@ -190,6 +185,7 @@
 			<fileset dir="src/java">
 				<include name="org/metawidget/gwt/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
+				<include name="org/metawidget/inspector/gwt/remote/iface/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/gwt/**"/>
@@ -200,6 +196,7 @@
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/metawidget/gwt/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
+				<include name="org/metawidget/inspector/gwt/remote/iface/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/gwt/**"/>
@@ -215,13 +212,11 @@
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/metawidget/inspector/**"/>
 				<exclude name="org/metawidget/inspector/iface/**"/>
-				<exclude name="org/metawidget/inspector/*.class"/>
 			</fileset>
 		</jar>
 		
 		<jar destfile="${build.metawidget.dir}/metawidget-middle.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">
-				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/util/**"/>
 			</fileset>
@@ -553,8 +548,8 @@
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/metawidget/*.class"/>
 				<include name="org/metawidget/android/**"/>
-				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/composite/**"/>
+				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/inspector/impl/**"/>
 				<include name="org/metawidget/inspector/javabean/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>
@@ -1135,7 +1130,6 @@
 				<include name="org/metawidget/swing/binding/*.class"/>
 				<include name="org/metawidget/swing/binding/beansbinding/*.class"/>
 				<include name="org/metawidget/swing/layout/*.class"/>
-				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
 				<include name="org/metawidget/inspector/composite/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
@@ -1433,7 +1427,7 @@
 		
 	</target>
 	
-	<target name="examples-web" depends="example-gwt-addressbook, example-faces-addressbook, example-faces-seam-booking, example-spring-addressbook, example-struts-addressbook"/>
+	<target name="examples-web" depends="example-gwt-addressbook, example-faces-addressbook, example-faces-seam-booking, example-faces-seam-groovybooking, example-spring-addressbook, example-struts-addressbook"/>
 
 	<available property="android-available" file="${android.dir}/tools/dx.bat"/>
 	
@@ -1457,8 +1451,8 @@
 				<include name="org/metawidget/example/android/addressbook/**"/>
 				<include name="org/metawidget/example/shared/addressbook/**/*.class"/>
 				<include name="org/metawidget/android/**"/>
-				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/composite/**"/>
+				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/inspector/impl/**"/>
 				<include name="org/metawidget/inspector/javabean/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>

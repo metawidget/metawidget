@@ -2213,7 +2213,7 @@ bin\run</programlisting>
 				<itemizedlist>
 					<listitem>
 						<para>
-							it inspects the declared type for properties. Provided the type
+							it inspects the declared type of properties. Provided the type
 							is not primitive or <parameter>final</parameter>, it further inspects the actual type of the object. If
 							it differs from the declared type (eg. it is a subclass), it returns the actual type together
 							with the declared type.
@@ -2439,7 +2439,7 @@ bin\run</programlisting>
 			<para>
 				If your application is split over multiple tiers, however, sometimes the back-end metadata is not accessible
 				from the front-end. For example, annotations (such as JPA ones) are designed to 'fall away' if the 
-				class is transferred to a tier without JPA JARs in its classpath. Equally, configuration files may not be accessible across tiers.
+				class is transferred to a tier without JPA in its classpath. Equally, configuration files may not be accessible across tiers.
 			</para>
 			
 			<para>

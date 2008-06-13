@@ -8,6 +8,7 @@
 	<!-- Source paths -->
 	
 	<source path="gwt/client"/>
+	<source path="inspector/gwt/remote/iface"/>
 	<source path="inspector/gwt/remote/client"/>
 	<source path="inspector/iface"/>
 	<source path="mixin/base"/>

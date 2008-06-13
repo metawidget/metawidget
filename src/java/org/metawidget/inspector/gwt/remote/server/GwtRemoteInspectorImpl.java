@@ -21,7 +21,7 @@ import java.io.Serializable;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
-import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspector;
+import org.metawidget.inspector.gwt.remote.iface.GwtRemoteInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.jsp.tagext.ServletConfigReader;
 

@@ -14,21 +14,24 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.gwt.remote.client;
+package org.metawidget.inspector.gwt.remote.iface;
 
 import java.io.Serializable;
 
-import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.RemoteService;
+import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
- * GWT asynchronous AJAX interface to <code>GwtRemoteInspectorImpl</code> servlet.
+ * GWT AJAX interface to <code>GwtRemoteInspectorImpl</code> servlet.
  * <p>
- * Note: this interface is purely for the AJAX call. It is not related to <code>GwtInspectorAsync</code>.
+ * Note: this interface is purely for the AJAX call. It is not related to <code>Inspector</code>.
  *
  * @author Richard Kennard
  */
 
-public interface GwtRemoteInspectorAsync
+@RemoteServiceRelativePath( "metawidget-inspector" )
+public interface GwtRemoteInspector
+	extends RemoteService
 {
 	//
 	//
@@ -36,5 +39,6 @@ public interface GwtRemoteInspectorAsync
 	//
 	//
 
-	void inspect( Serializable toInspect, String type, String[] names, AsyncCallback<String> callback );
+	String inspect( Serializable toInspect, String type, String[] names )
+		throws Exception;
 }
