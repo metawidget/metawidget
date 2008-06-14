@@ -78,6 +78,7 @@ public class SwingAddressBookTest
 		MainFrame frame = new MainFrame();
 		AddressBook addressBook = frame.getAddressBook();
 		JPanel panelRight = (JPanel) ((ImagePanel) frame.getContentPane().getComponent( 0 )).getComponent( 1 );
+		assertTrue( !panelRight.isOpaque() );
 		assertTrue( ((JTable) ((JScrollPane) panelRight.getComponent( 1 )).getViewport().getView()).getRowCount() == 6 );
 
 		// Check searching
