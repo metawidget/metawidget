@@ -48,6 +48,7 @@
 			<include name="**/*InspectionResultConstants.java"/>
 			<include name="org/metawidget/faces/**"/>
 			<include name="org/metawidget/gwt/**"/>
+			<include name="org/metawidget/inspector/*.java"/>
 			<include name="org/metawidget/inspector/composite/**"/>
 			<include name="org/metawidget/inspector/gwt/**"/>
 			<include name="org/metawidget/inspector/hibernate/*.java"/>
@@ -548,14 +549,15 @@
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/metawidget/*.class"/>
 				<include name="org/metawidget/android/**"/>
+				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/composite/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/inspector/impl/**"/>
-				<include name="org/metawidget/inspector/javabean/**"/>
+				<include name="org/metawidget/inspector/propertytype/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>
 				<include name="org/metawidget/inspector/xml/**"/>
 				<include name="org/metawidget/mixin/base/**"/>
-				<include name="org/metawidget/mixin/gwt/**"/>
+				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
 			</fileset>			
 			<fileset dir="${build.metawidget.dir}/test-classes">
@@ -1256,11 +1258,9 @@
 			</fileset>
 		</copy>
 
-		<copy todir="${build.metawidget.dir}/examples/faces/seam/booking">
-			<fileset dir="${build.metawidget.dir}">
-				<include name="metawidget-*.jar"/>
-			</fileset>
-		</copy>
+		<copy todir="${build.metawidget.dir}/examples/faces/seam/booking" file="${build.metawidget.dir}/metawidget-frontend.jar"/>
+		<copy todir="${build.metawidget.dir}/examples/faces/seam/booking" file="${build.metawidget.dir}/metawidget-middle.jar"/>
+		<copy todir="${build.metawidget.dir}/examples/faces/seam/booking" file="${build.metawidget.dir}/metawidget-backend.jar"/>
 
 		<copy todir="${build.metawidget.dir}/examples/faces" file="src/web/examples/faces/readme.txt"/>
 
@@ -1427,6 +1427,8 @@
 			</lib>
 		</war>
 		
+		<copy todir="${build.metawidget.dir}/examples/gwt" file="src/java/org/metawidget/example/gwt/readme.txt"/>
+
 	</target>
 	
 	<target name="examples-web" depends="example-gwt-addressbook, example-faces-addressbook, example-faces-seam-booking, example-faces-seam-groovybooking, example-spring-addressbook, example-struts-addressbook"/>
@@ -1453,10 +1455,11 @@
 				<include name="org/metawidget/example/android/addressbook/**"/>
 				<include name="org/metawidget/example/shared/addressbook/**/*.class"/>
 				<include name="org/metawidget/android/**"/>
+				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/composite/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/inspector/impl/**"/>
-				<include name="org/metawidget/inspector/javabean/**"/>
+				<include name="org/metawidget/inspector/propertytype/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>
 				<include name="org/metawidget/inspector/xml/**"/>
 				<include name="org/metawidget/mixin/base/**"/>

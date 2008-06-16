@@ -585,7 +585,7 @@ public abstract class UIMetawidget
 				if ( xml != null )
 				{
 					Document document = XmlUtils.documentFromString( xml );
-					childAttributes.putAll( XmlUtils.getAttributesAsMap( (Element) document.getDocumentElement().getFirstChild() ) );
+					childAttributes.putAll( XmlUtils.getAttributesAsMap( document.getDocumentElement().getFirstChild() ) );
 				}
 			}
 

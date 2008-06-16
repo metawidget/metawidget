@@ -53,17 +53,17 @@ public class XmlUtils
 	//
 
 	/**
-	 * Gets the DOM attributes of the given Element as a Map.
+	 * Gets the DOM attributes of the given Node as a Map.
 	 */
 
-	public static Map<String, String> getAttributesAsMap( Element element )
+	public static Map<String, String> getAttributesAsMap( Node node )
 	{
-		NamedNodeMap nodes = element.getAttributes();
+		NamedNodeMap nodes = node.getAttributes();
 
 		// Running on Android m5-rc15?
 
 		if ( nodes == null )
-			return getAttributesAsMapAndroidHack( element );
+			return getAttributesAsMapAndroidHack( node );
 
 		// Running on something compliant :)
 
@@ -83,8 +83,8 @@ public class XmlUtils
 
 		for ( int loop = 0; loop < length; loop++ )
 		{
-			Node node = nodes.item( loop );
-			attributes.put( node.getNodeName(), node.getNodeValue() );
+			Node attributeNode = nodes.item( loop );
+			attributes.put( attributeNode.getNodeName(), attributeNode.getNodeValue() );
 		}
 
 		return attributes;
@@ -353,7 +353,7 @@ public class XmlUtils
 			String childToAddName = childToAdd.getAttribute( topLevelAttributeToCombineOn );
 
 			if ( childToAddName == null || "".equals( childToAddName ) )
-				throw InspectorException.newException( "Child node #" + addLoop + " has no @" + topLevelAttributeToCombineOn );
+				throw InspectorException.newException( "Child node #" + addLoop + " (" + childToAdd.getNodeName() + ") has no @" + topLevelAttributeToCombineOn );
 
 			if ( !childNamesAdded.add( childToAddName ) )
 				throw InspectorException.newException( "Element has more than one child with @" + topLevelAttributeToCombineOn + " '" + childToAddName + "'" );
@@ -375,7 +375,10 @@ public class XmlUtils
 
 				// ...and combine them
 
-				nodeLastMasterCombinePoint = masterChild;
+				if ( masterLoop == masterLength - 1 )
+					nodeLastMasterCombinePoint = null;
+				else
+					nodeLastMasterCombinePoint = masterChild;
 
 				combineElements( masterChild, childToAdd, childAttributeToCombineOn, childAttributeToCombineOn );
 				continue outerLoop;
@@ -441,26 +444,20 @@ public class XmlUtils
 			buffer.append( "\"" );
 		}
 
-		// Attributes
+		// Attributes (go via getAttributesAsMap to benefit from getAttributesAsMapHack)
 
-		NamedNodeMap nodeMap = node.getAttributes();
-
-		if ( nodeMap != null )
+		for ( Map.Entry<String, String> attribute : getAttributesAsMap( node ).entrySet() )
 		{
-			for ( int loop = 0, length = nodeMap.getLength(); loop < length; loop++ )
-			{
-				Node attr = nodeMap.item( loop );
-				String attrName = attr.getNodeName();
+			String attributeName = attribute.getKey();
 
-				if ( "xmlns".equals( attrName ) )
-					continue;
+			//if ( "xmlns".equals( attrName ) )
+				//continue;
 
-				buffer.append( " " );
-				buffer.append( escapeForXml( attrName ) );
-				buffer.append( "=\"" );
-				buffer.append( escapeForXml( attr.getNodeValue() ) );
-				buffer.append( "\"" );
-			}
+			buffer.append( " " );
+			buffer.append( escapeForXml( attributeName ) );
+			buffer.append( "=\"" );
+			buffer.append( escapeForXml( attribute.getValue() ) );
+			buffer.append( "\"" );
 		}
 
 		// Children (if any)
@@ -519,15 +516,15 @@ public class XmlUtils
 	 * Hack to workaround bug in Android m5-rc15.
 	 */
 
-	private static Map<String, String> getAttributesAsMapAndroidHack( Element element )
+	private static Map<String, String> getAttributesAsMapAndroidHack( Node node )
 	{
 		try
 		{
-			Field field = element.getClass().getDeclaredField( "attributes" );
+			Field field = node.getClass().getDeclaredField( "attributes" );
 			field.setAccessible( true );
 
 			@SuppressWarnings( "unchecked" )
-			Map<String, Attr> map = (Map<String, Attr>) field.get( element );
+			Map<String, Attr> map = (Map<String, Attr>) field.get( node );
 
 			if ( map == null )
 			{

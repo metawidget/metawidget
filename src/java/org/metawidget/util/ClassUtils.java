@@ -243,21 +243,24 @@ public final class ClassUtils
 
 	public static Class<?> niceForName( String className )
 	{
-		Class<?> clazz;
-
 		try
 		{
 			// Use Thread.currentThread().getContextClassLoader(), in case metawidget.jar
 			// is in JRE/lib/ext (which it might be for desktop apps)
 
-			clazz = Thread.currentThread().getContextClassLoader().loadClass( className );
+			ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
+
+			if ( contextClassLoader != null )
+				return contextClassLoader.loadClass( className );
+
+			// Use Class.forName() if there is no contextClassLoader (eg. Android)
+
+			return Class.forName( className );
 		}
 		catch ( ClassNotFoundException e )
 		{
-			clazz = PRIMITIVE_CLASSNAMES.get( className );
+			return PRIMITIVE_CLASSNAMES.get( className );
 		}
-
-		return clazz;
 	}
 
 	//
