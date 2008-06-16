@@ -24,7 +24,7 @@ import org.metawidget.inspector.iface.Inspector;
  * @author Richard Kennard
  */
 
-public interface GwtInspectorFactory
+public interface InspectorFactory
 {
 	//
 	//

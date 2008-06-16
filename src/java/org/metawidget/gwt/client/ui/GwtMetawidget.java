@@ -31,7 +31,7 @@ import java.util.Set;
 
 import org.metawidget.gwt.client.binding.Binding;
 import org.metawidget.gwt.client.binding.BindingFactory;
-import org.metawidget.gwt.client.inspector.GwtInspectorFactory;
+import org.metawidget.gwt.client.inspector.InspectorFactory;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.ui.layout.LayoutFactory;
@@ -744,7 +744,7 @@ public class GwtMetawidget
 			// Inspect
 
 			if ( mInspector == null )
-				mInspector = ( (GwtInspectorFactory) GWT.create( GwtInspectorFactory.class ) ).newInspector( mInspectorClass );
+				mInspector = ( (InspectorFactory) GWT.create( InspectorFactory.class ) ).newInspector( mInspectorClass );
 
 			final TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
 

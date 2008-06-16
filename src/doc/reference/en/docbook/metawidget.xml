@@ -1136,9 +1136,8 @@ public class Main {
 &lt;m:metawidget&gt;</programlisting>
 
 				<para>
-					<classname>GwtMetawidget</classname> also uses stubs because, whilst GWT widgets can interrogate their children, there
-					is no base-class equivalent of a <parameter>value</parameter> or <parameter>name</parameter> property (there is an
-					interface <classname>HasName</classname>, but not all widgets support it).
+					<classname>GwtMetawidget</classname> uses stubs around GWT widgets like <classname>FlexTable</classname>, but can use
+					the overriding widget directly if it supports the <classname>HasName</classname> interface (eg. TextBox, CheckBox, etc).
 				</para>
 
 				<section id="section-introduction-part2-web-mixing">
@@ -1838,6 +1837,131 @@ bin\run</programlisting>
 				</para>
 			</section>
 								
+			<section id="section-metawidgets-web-gwt">
+				<title>GwtMetawidget</title>
+	
+				<para>
+					<classname>GwtMetawidget</classname> is a client-side, JavaScript widget for GWT. Despite the limitations of the
+					JavaScript environment, it supports reflection, annotations, pluggable layouts and data binding.
+				</para>
+				
+				<section id="section-metawidgets-web-gwt-reflection">
+					<title>Reflection and Annotations</title>
+					
+					<para>
+						<classname>GwtMetawidget</classname> leverages Metawidget's separate <classname>Inspector</classname>/renderer
+						architecture and AJAX to perform server-side inspection as in <xref linkend="section-metawidgets-web-gwt-inspection"/>. This
+						allows <classname>GwtMetawidget</classname> to reflect properties and inspect annotations of business
+						objects, even though JavaScript	supports neither.
+					</para>
+					
+					<figure id="section-metawidgets-web-gwt-inspection">
+						<title>GwtMetawidget uses AJAX to perform server-side inspection</title>			
+						<mediaobject>
+							<imageobject>
+								<imagedata fileref="../shared/images/metawidget-gwt-inspection.jpg"/>
+							</imageobject>
+						</mediaobject>
+					</figure>
+					
+					<para>
+						The process is:
+					</para>
+
+					<itemizedlist>
+						<listitem>
+							<para>
+								instantiate the business object on the client-side as normal (ie. as JavaScript)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								give the business object to <classname>GwtMetawidget</classname> (a client-side, JavaScript GWT Widget)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<classname>GwtMetawidget</classname> uses AJAX to pass the business object to the server
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								the server, using Java, runs all the <classname>Inspector</classname>s (including reflection and annotations)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								the server returns the inspection results as an XML document
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								<classname>GwtMetawidget</classname> uses JavaScript to render the HTML widgets
+							</para>
+						</listitem>
+					</itemizedlist>
+
+				</section>
+				
+				<section id="section-metawidgets-web-gwt-pluggability">
+					<title>Pluggability</title>
+					
+					<para>
+						Like other Metawidgets, <classname>GwtMetawidget</classname> supports pluggable inspectors, layout managers and binding
+						implementations. However, the other Metawidgets do this using <function>Class.newInstance</function>, which
+						JavaScript does not support.						
+					</para>
+					
+					<para>
+						Instead, <classname>GwtMetawidget</classname> supplies GWT <classname>Generators</classname> in the form of
+						<classname>InspectorFactoryGenerator</classname>, <classname>LayoutFactoryGenerator</classname> and
+						<classname>BindingFactoryGenerator</classname>. At compile-time, each generator scans all the classes included in the
+						application and statically generates code to instantiate them. This is transparent to the application code,
+						which can simply do:
+					</para>
+					
+					<programlisting language="java">metawidget.setLayoutClass( TableLayout.class )</programlisting>
+					
+				</section>
+				
+				<section id="section-metawidgets-web-gwt-binding">
+					<title>Two-way Binding</title>
+					
+					<para>
+						Like most other Metawidgets, <classname>GwtMetawidget</classname> supports two-way data binding. Data binding
+						generally requires reflection, and GWT recommends	using <classname>Generators</classname> to achieve this. As of GWT
+						1.5, however, much of the burden of implementation rests on the developer.
+					</para>
+					
+					<para>
+						<classname>GwtMetawidget</classname> automates this burden by supplying a <classname>SimpleBinding</classname>
+						implementation. This implementation is pluggable, so may be swapped out as and when later releases of GWT
+						more fully support data binding.
+					</para>
+					
+					<para>
+						<classname>SimpleBinding</classname> expects every domain object to be wrapped with a <classname>SimpleBindingAdapter</classname>.
+						The supplied <classname>SimpleBindingAdapterGenerator</classname> automates this process. To configure it, add the following
+						to your <filename>application-name.gwt.xml</filename> file...
+					</para>
+					
+					<programlisting language="xml">&lt;generate-with
+	class="org.metawidget.gwt.generator.binding.simple.SimpleBindingAdapterGenerator"&gt;
+	&lt;when-type-assignable class="org.metawidget.example.shared.addressbook.model.Contact"/&gt;
+&lt;/generate-with&gt;</programlisting>
+
+					<para>
+						...and in your application code...
+					</para>
+					
+					<programlisting language="java">metawidget.setBindingClass(SimpleBinding.class);
+SimpleBindingAdapter&lt;Contact&gt; adp = (SimpleBindingAdapter&lt;Contact&gt;) GWT.create(Contact.class);
+SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>					
+					
+				</section>
+				
+			</section>
+
 			<section id="section-metawidgets-web-faces">
 				<title>UIMetawidget (JSF)</title>
 	
@@ -2175,9 +2299,9 @@ bin\run</programlisting>
 		</section>
 
 		<section id="section-inspectors-property">
-			<title>JavaBean Inspectors</title>
+			<title>Property Inspectors</title>
 
-			<section id="section-inspectors-property-pojo">
+			<section id="section-inspectors-property-base">
 				<title>BasePropertyInspector</title>
 				
 				<para>
@@ -2188,18 +2312,43 @@ bin\run</programlisting>
 				<itemizedlist>
 					<listitem>
 						<para>
-							it supports pluggable property styles, including JavaBean-convention getter/setter properties, public member variables
-							and GroovyBean properties
+							it automatically unwraps proxied classes, such as CGLIB and Javassist proxies (this can be configured via
+							<function>setProxyPattern</function>).
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							it automatically unwraps proxied classes, such as CGLIB and Javassist proxies (this can be configured via
-							<function>setProxyPattern</function>)
+							it supports pluggable property styles (see below).
 						</para>
 					</listitem>
 				</itemizedlist>
 				
+				<section id="section-inspectors-property-base-javabean">
+					<title>JavaBeanPropertyStyle</title>
+				
+					<para>
+						The <classname>JavaBeanPropertyStyle</classname> is the default property style used by all <classname>BasePropertyInspector</classname>
+						subclasses (which includes all annotation inspectors).
+					</para>
+					
+					<para>
+						This property style recognizes JavaBean-convention <function>getXXX</function>, <function>setXXX</function> and <function>isXXX</function>
+						methods, as well as public member variables. In addition, it maintains a cache of reflected classes for performance reasons. 
+					</para>
+					
+				</section>
+				
+				<section id="section-inspectors-property-base-groovy">
+					<title>GroovyPropertyStyle</title>
+				
+					<para>
+						The <classname>GroovyPropertyStyle</classname> is a pluggable, alternative property style which recognizes GroovyBean properties.
+						GroovyBean properties differ from JavaBean-convention properties in that their annotations are not visible on the
+						generated getter/setter methods.
+					</para>
+
+				</section>
+
 			</section>
 			
 			<section id="section-inspectors-property-type">

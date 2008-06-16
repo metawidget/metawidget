@@ -18,7 +18,7 @@ package org.metawidget.gwt.generator.inspector;
 
 import java.io.PrintWriter;
 
-import org.metawidget.gwt.client.inspector.GwtInspectorFactory;
+import org.metawidget.gwt.client.inspector.InspectorFactory;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.util.simple.StringUtils;
 
@@ -32,12 +32,12 @@ import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
 /**
- * Generator for GwtInspectorFactory.
+ * Generator for InspectorFactory.
  *
  * @author Richard Kennard
  */
 
-public class GwtInspectorFactoryGenerator
+public class InspectorFactoryGenerator
 	extends Generator
 {
 	//
@@ -75,10 +75,10 @@ public class GwtInspectorFactoryGenerator
 		if ( printWriter == null )
 			return qualifiedBindingClassName;
 
-		// Start the GwtInspectorFactoryGenerator class
+		// Start the InspectorFactoryGenerator class
 
 		ClassSourceFileComposerFactory composer = new ClassSourceFileComposerFactory( packageName, bindingClassName );
-		composer.addImplementedInterface( GwtInspectorFactory.class.getName() );
+		composer.addImplementedInterface( InspectorFactory.class.getName() );
 		composer.addImport( Inspector.class.getName() );
 
 		SourceWriter sourceWriter = composer.createSourceWriter( context, printWriter );
@@ -117,7 +117,7 @@ public class GwtInspectorFactoryGenerator
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
 
-			// End the GwtInspectorFactoryGenerator class
+			// End the InspectorFactoryGenerator class
 
 			sourceWriter.commit( logger );
 		}

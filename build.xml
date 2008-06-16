@@ -1274,6 +1274,8 @@
 			</fileset>
 		</copy>
 
+		<!-- Groovy example uses metawidget.jar, not metawidget-*.jar -->
+		
 		<copy todir="${build.metawidget.dir}/examples/faces/seam/groovybooking">
 			<fileset dir="lib">
 				<include name="groovy-all*.jar"/>

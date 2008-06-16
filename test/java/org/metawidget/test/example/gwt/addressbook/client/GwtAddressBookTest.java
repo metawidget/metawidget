@@ -173,6 +173,7 @@ public class GwtAddressBookTest
 										final Button deleteCommunication = (Button) communications.getWidget( 1, 2 );
 										assertTrue( !deleteCommunication.isVisible() );
 										assertTrue( "Delete".equals( deleteCommunication.getText() ));
+										assertTrue( "table-buttons".equals( communications.getCellFormatter().getStyleName( 1, 2 )));
 										assertTrue( 3 == communications.getCellCount( 1 ));
 
 										// Check editing
@@ -363,8 +364,18 @@ public class GwtAddressBookTest
 											public void run()
 											{
 												valueMetawidget.setValue( "(0402) 123 456", "value" );
-												fireClickListeners( (Button) communications.getWidget( 1, 2 ) );
+												Button addButton = (Button) communications.getWidget( 1, 2 );
+												assertTrue( "Add".equals( addButton.getText() ));
+												assertTrue( addButton.isVisible() );
+												fireClickListeners( addButton );
 												assertTrue( communications.getRowCount() == 3 );
+												assertTrue( "Mobile".equals( communications.getText( 1, 0 )));
+												assertTrue( "(0402) 123 456".equals( communications.getText( 1, 1 )));
+												Button communicationsDeleteButton = (Button) communications.getWidget( 1, 2 );
+												assertTrue( "Delete".equals( communicationsDeleteButton.getText() ));
+												assertTrue( communicationsDeleteButton.isVisible() );
+												assertTrue( "table-buttons".equals( communications.getCellFormatter().getStyleName( 1, 2 )));
+												assertTrue( addButton.isVisible() );
 
 												GwtMetawidget addressMetawidget = (GwtMetawidget) contactMetawidget.findWidget( "address" );
 

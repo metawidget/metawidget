@@ -158,14 +158,14 @@ public class ContactDialog
 		typeMetawidget.setLayoutClass( FlowLayout.class );
 		typeMetawidget.setToInspect( communication );
 		communications.setWidget( 1, 0, typeMetawidget );
-		typeMetawidget.setVisible( !metawidget.isReadOnly() );
+		typeMetawidget.setVisible( false );
 
 		final GwtMetawidget valueMetawidget = new GwtMetawidget();
 		valueMetawidget.setPath( Communication.class.getName() + SEPARATOR_FORWARD_SLASH + "value" );
 		valueMetawidget.setLayoutClass( FlowLayout.class );
 		valueMetawidget.setToInspect( communication );
 		communications.setWidget( 1, 1, valueMetawidget );
-		valueMetawidget.setVisible( !metawidget.isReadOnly() );
+		valueMetawidget.setVisible( false );
 
 		final Button addButton = new Button( dictionary.get( "add" ));
 		addButton.addClickListener( new ClickListener()
@@ -186,10 +186,9 @@ public class ContactDialog
 					return;
 				}
 
-				// TODO: after add, no delete buttons?
-				// TODO: no inspectors matched PaymentMethod$/PaymentFrequency$
+				// TODO: Test Android
 
-				reloadCommunications( addressBookModule, communications, cellFormatter, contact );
+				reloadCommunications( addressBookModule, communications, cellFormatter, contact, true );
 
 				typeMetawidget.setValue( "", "type" );
 				valueMetawidget.setValue( "", "value" );
@@ -197,9 +196,9 @@ public class ContactDialog
 		} );
 		communications.setWidget( 1, 2, addButton );
 		cellFormatter.setStyleName( 1, 2, "table-buttons" );
-		addButton.setVisible( !metawidget.isReadOnly() );
+		addButton.setVisible( false );
 
-		reloadCommunications( addressBookModule, communications, cellFormatter, contact );
+		reloadCommunications( addressBookModule, communications, cellFormatter, contact, false );
 
 		// Embedded buttons
 
@@ -262,8 +261,8 @@ public class ContactDialog
 		} );
 		panel.add( deleteButton );
 
-		saveButton.setVisible( !metawidget.isReadOnly() );
-		deleteButton.setVisible( !metawidget.isReadOnly() && contact.getId() != 0 );
+		saveButton.setVisible( false );
+		deleteButton.setVisible( false );
 
 		final Button editButton = new Button( dictionary.get( "edit" ));
 		editButton.addClickListener( new ClickListener()
@@ -284,7 +283,7 @@ public class ContactDialog
 				valueMetawidget.setVisible( true );
 			}
 		} );
-		editButton.setVisible( metawidget.isReadOnly() );
+		editButton.setVisible( true );
 		panel.add( editButton );
 
 		Button cancelButton = new Button( dictionary.get( "cancel" ) );
@@ -304,7 +303,7 @@ public class ContactDialog
 	//
 	//
 
-	void reloadCommunications( final AddressBookModule addressBook, final FlexTable table, final CellFormatter cellFormatter, final Contact contact )
+	void reloadCommunications( final AddressBookModule addressBook, final FlexTable table, final CellFormatter cellFormatter, final Contact contact, final boolean visible )
 	{
 		Set<Communication> communications = contact.getCommunications();
 
@@ -336,13 +335,14 @@ public class ContactDialog
 						}
 
 						contact.removeCommunication( communication );
-						reloadCommunications( addressBook, table, cellFormatter, contact );
+						reloadCommunications( addressBook, table, cellFormatter, contact, visible );
 					}
 				} );
-				deleteButton.setVisible( false );
+
+				deleteButton.setVisible( visible );
 
 				table.setWidget( row, 2, deleteButton );
-				cellFormatter.setStyleName( 1, 2, "table-buttons" );
+				cellFormatter.setStyleName( row, 2, "table-buttons" );
 
 				row++;
 			}
