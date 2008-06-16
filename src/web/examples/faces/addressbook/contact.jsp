@@ -64,7 +64,7 @@
 							<f:facet name="header">
 								<h:outputText value="&nbsp;" escape="false"/>
 							</f:facet>							
-							<h:commandButton id="deleteCommunication" value="#{bundle.delete}" action="#{contact.deleteCommunication}" onclick="if ( !confirm( 'Are you sure?' )) return false" immediate="true" rendered="#{!contact.readOnly}"/>
+							<h:commandButton id="deleteCommunication" value="#{bundle.delete}" action="#{contact.deleteCommunication}" onclick="if ( !confirm( 'Are you sure you want to delete this communication?' )) return false" immediate="true" rendered="#{!contact.readOnly}"/>
 							<f:facet name="footer">
 								<h:commandButton value="#{bundle.add}" action="#{contact.addCommunication}" rendered="#{!contact.readOnly}"/>
 							</f:facet>

@@ -54,7 +54,7 @@
 									<td class="column-half">${_communication.value}</td>
 									<td class="column-tiny, table-buttons">
 										<c:if test="${!readOnly}">
-											<input type="submit" name="deleteCommunication" value="Delete" onClick="document.getElementById( 'deleteCommunicationId' ).value = '${_communication.id}'"/>
+											<input type="submit" name="deleteCommunication" value="Delete" onClick="if ( !confirm( 'Are you sure you want to delete this communication?' )) return false; document.getElementById( 'deleteCommunicationId' ).value = '${_communication.id}'"/>
 										</c:if>
 									</td>
 								</tr>

@@ -709,11 +709,6 @@ public class GwtMetawidget
 	 * asynchronous. If the <code>GwtMetawidget</code> is using an <code>GwtInspectorAsync</code>
 	 * Inspector (which it does by default), clients should not expect the widgets to be built by
 	 * the time this method returns.
-	 *
-	 * @param afterBuild
-	 *            code to execute after a successful build, used by unit tests. Passed as a
-	 *            <code>Timer</code> - <code>Runnable</code> would be more appropriate if GWT
-	 *            supported it
 	 */
 
 	protected void buildWidgets()
