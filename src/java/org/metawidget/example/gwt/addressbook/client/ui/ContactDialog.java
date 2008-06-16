@@ -158,14 +158,14 @@ public class ContactDialog
 		typeMetawidget.setLayoutClass( FlowLayout.class );
 		typeMetawidget.setToInspect( communication );
 		communications.setWidget( 1, 0, typeMetawidget );
-		typeMetawidget.setVisible( false );
+		typeMetawidget.setVisible( !metawidget.isReadOnly() );
 
 		final GwtMetawidget valueMetawidget = new GwtMetawidget();
 		valueMetawidget.setPath( Communication.class.getName() + SEPARATOR_FORWARD_SLASH + "value" );
 		valueMetawidget.setLayoutClass( FlowLayout.class );
 		valueMetawidget.setToInspect( communication );
 		communications.setWidget( 1, 1, valueMetawidget );
-		valueMetawidget.setVisible( false );
+		valueMetawidget.setVisible( !metawidget.isReadOnly() );
 
 		final Button addButton = new Button( dictionary.get( "add" ));
 		addButton.addClickListener( new ClickListener()
@@ -194,7 +194,7 @@ public class ContactDialog
 		} );
 		communications.setWidget( 1, 2, addButton );
 		cellFormatter.setStyleName( 1, 2, "table-buttons" );
-		addButton.setVisible( false );
+		addButton.setVisible( !metawidget.isReadOnly() );
 
 		reloadCommunications( addressBookModule, communications, cellFormatter, contact, false );
 
@@ -259,7 +259,7 @@ public class ContactDialog
 		} );
 		panel.add( deleteButton );
 
-		saveButton.setVisible( false );
+		saveButton.setVisible( !metawidget.isReadOnly() );
 		deleteButton.setVisible( false );
 
 		final Button editButton = new Button( dictionary.get( "edit" ));
@@ -281,7 +281,7 @@ public class ContactDialog
 				valueMetawidget.setVisible( true );
 			}
 		} );
-		editButton.setVisible( true );
+		editButton.setVisible( metawidget.isReadOnly() );
 		panel.add( editButton );
 
 		Button cancelButton = new Button( dictionary.get( "cancel" ) );

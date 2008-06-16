@@ -16,6 +16,7 @@
 
 package org.metawidget.test.example.swing.addressbook;
 
+import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -79,7 +80,8 @@ public class SwingAddressBookTest
 		AddressBook addressBook = frame.getAddressBook();
 		JPanel panelRight = (JPanel) ((ImagePanel) frame.getContentPane().getComponent( 0 )).getComponent( 1 );
 		assertTrue( !panelRight.isOpaque() );
-		assertTrue( ((JTable) ((JScrollPane) panelRight.getComponent( 1 )).getViewport().getView()).getRowCount() == 6 );
+		JTable contactsTable = ((JTable) ((JScrollPane) panelRight.getComponent( 1 )).getViewport().getView());
+		assertTrue( contactsTable.getRowCount() == 6 );
 
 		// Check searching
 
@@ -162,6 +164,7 @@ public class SwingAddressBookTest
 		TableCellEditor editor = communications.getDefaultEditor( Object.class );
 
 		SwingMetawidget metawidgetCommunications = (SwingMetawidget) editor.getTableCellEditorComponent( communications, model.getValueAt( 0, 0 ), true, 0, 0 );
+		assertTrue( BorderLayout.class.equals( metawidgetCommunications.getLayout().getClass() ));
 		JComboBox combo = (JComboBox) metawidgetCommunications.getComponent( 0 );
 		assertTrue( "Telephone".equals( combo.getSelectedItem() ) );
 
@@ -219,14 +222,24 @@ public class SwingAddressBookTest
 		contact.removeCommunication( communicationModel.getValueAt( 1 ) );
 		assertTrue( contact.getCommunications().size() == 1 );
 
+		// Search everything
+
+		metawidgetSearch.setValue( null, "surname" );
+		metawidgetSearch.setValue( null, "type" );
+		buttonSearch.getAction().actionPerformed( null );
+		assertTrue( contactsTable.getRowCount() == 6 );
+
 		// Open dialog for Business Contact
 
 		contact = contactsController.load( 6 );
 		assertTrue( "Mr Charles Montgomery Burns".equals( contact.getFullname() ) );
+		dialog = new ContactDialog( addressBook, contact );
+		metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 
-		// Check re-loading
-
-		metawidgetContact.setToInspect( contact );
+		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
+		buttonEdit = (JButton) panelButtons.getComponent( 2 );
+		assertTrue( "Edit".equals( buttonEdit.getText() ) );
+		buttonEdit.getAction().actionPerformed( null );
 		assertTrue( "Charles Montgomery".equals( metawidgetContact.getValue( "firstnames" ) ) );
 		assertTrue( 0 == (Integer) metawidgetContact.getValue( "numberOfStaff" ) );
 
@@ -236,6 +249,7 @@ public class SwingAddressBookTest
 		metawidgetContact.setValue( "A Company", "company" );
 
 		assertTrue( metawidgetContact.getComponentCount() == 21 );
+		buttonSave = (JButton) panelButtons.getComponent( 0 );
 		buttonSave.getAction().actionPerformed( null );
 
 		assertTrue( 2 == ( (BusinessContact) contact ).getNumberOfStaff() );
@@ -249,6 +263,27 @@ public class SwingAddressBookTest
 		assertTrue( contactsController.getAllByExample( null ).size() == 6 );
 		buttonDelete.getAction().actionPerformed( null );
 		assertTrue( contactsController.getAllByExample( null ).size() == 5 );
+		assertTrue( contactsTable.getRowCount() == 5 );
+
+		// Open dialog for new Personal Contact
+
+		dialog = new ContactDialog( addressBook, new PersonalContact() );
+		metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
+
+		// Check saving doesn't error on null date
+
+		metawidgetContact.save();
+
+		// Check adding
+
+		metawidgetContact.setValue( "Miss", "title" );
+		metawidgetContact.setValue( "Business", "firstnames" );
+		metawidgetContact.setValue( "Contact", "surname" );
+
+		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
+		buttonSave = (JButton) panelButtons.getComponent( 0 );
+		buttonSave.getAction().actionPerformed( null );
+		assertTrue( contactsTable.getRowCount() == 6 );
 	}
 
 	//

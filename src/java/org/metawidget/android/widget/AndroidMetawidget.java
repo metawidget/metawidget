@@ -682,23 +682,6 @@ public class AndroidMetawidget
 
 		if ( clazz != null )
 		{
-			if ( clazz.isPrimitive() )
-			{
-				// booleans
-
-				if ( boolean.class.equals( clazz ) )
-					return new CheckBox( getContext() );
-
-				EditText editText = new EditText( getContext() );
-
-				// DigitsInputMethod is 0-9 and +
-
-				if ( byte.class.equals( clazz ) || short.class.equals( clazz ) || int.class.equals( clazz ) || long.class.equals( clazz ) )
-					editText.setInputMethod( new DigitsInputMethod() );
-
-				return editText;
-			}
-
 			// String Lookups
 
 			String lookup = attributes.get( LOOKUP );
@@ -709,7 +692,7 @@ public class AndroidMetawidget
 
 				// (CollectionUtils.fromString returns unmodifiable EMPTY_LIST if empty)
 
-				if ( !lookupList.isEmpty() )
+				if ( !clazz.isPrimitive() && !lookupList.isEmpty() )
 					lookupList.add( 0, null );
 
 				List<String> lookupLabelsList = null;
@@ -729,6 +712,23 @@ public class AndroidMetawidget
 				spinner.setAdapter( new ResourcelessArrayAdapter<String>( getContext(), lookupList, lookupLabelsList ) );
 
 				return spinner;
+			}
+
+			if ( clazz.isPrimitive() )
+			{
+				// booleans
+
+				if ( boolean.class.equals( clazz ) )
+					return new CheckBox( getContext() );
+
+				EditText editText = new EditText( getContext() );
+
+				// DigitsInputMethod is 0-9 and +
+
+				if ( byte.class.equals( clazz ) || short.class.equals( clazz ) || int.class.equals( clazz ) || long.class.equals( clazz ) )
+					editText.setInputMethod( new DigitsInputMethod() );
+
+				return editText;
 			}
 
 			// Strings

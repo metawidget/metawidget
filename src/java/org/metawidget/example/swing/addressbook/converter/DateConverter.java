@@ -51,6 +51,9 @@ public class DateConverter
 	@Override
 	public String convertForward( Date date )
 	{
+		if ( date == null )
+			return "";
+
 		synchronized ( FORMAT )
 		{
 			return FORMAT.format( date );
@@ -60,6 +63,9 @@ public class DateConverter
 	@Override
 	public Date convertReverse( String date )
 	{
+		if ( date == null || "".equals( date ))
+			return null;
+
 		try
 		{
 			synchronized ( FORMAT )

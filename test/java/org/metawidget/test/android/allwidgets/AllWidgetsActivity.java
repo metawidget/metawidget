@@ -159,6 +159,7 @@ public class AllWidgetsActivity
 		metawidget.setValue( mAllWidgets.getBooleanObject(), "booleanObject" );
 		metawidget.setValue( mAllWidgets.getDropdown(), "dropdown" );
 		metawidget.setValue( mAllWidgets.getDropdownWithLabels(), "dropdownWithLabels" );
+		metawidget.setValue( mAllWidgets.getNotNullDropdown(), "notNullDropdown" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgets().getNestedTextbox1() ), "nestedWidgets", "nestedTextbox1" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgets().getNestedTextbox2() ), "nestedWidgets", "nestedTextbox2" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getReadOnlyNestedWidgets().getNestedTextbox1() ), "readOnlyNestedWidgets", "nestedTextbox1" );
@@ -251,6 +252,7 @@ public class AllWidgetsActivity
 		mAllWidgets.setBooleanObject( (Boolean) metawidget.getValue( "booleanObject" ) );
 		mAllWidgets.setDropdown( (String) metawidget.getValue( "dropdown" ) );
 		mAllWidgets.setDropdownWithLabels( (String) metawidget.getValue( "dropdownWithLabels" ) );
+		mAllWidgets.setNotNullDropdown( Integer.parseInt( (String) metawidget.getValue( "notNullDropdown" ) ));
 		mAllWidgets.getNestedWidgets().setNestedTextbox1( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) );
 		mAllWidgets.getNestedWidgets().setNestedTextbox2( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) );
 

@@ -204,6 +204,7 @@ public class ContactDialog
 				}
 
 				ContactDialog.this.setVisible( false );
+				provider.fireRefresh();
 			}
 		} );
 
@@ -217,14 +218,14 @@ public class ContactDialog
 					return;
 
 				ContactDialog.this.setVisible( false );
-
 				provider.getContactsController().delete( contact );
+				provider.fireRefresh();
 			}
 		} );
 
 		saveButton.setVisible( !metawidget.isReadOnly() );
 		facetButtons.add( saveButton );
-		deleteButton.setVisible( !metawidget.isReadOnly() && contact.getId() != 0 );
+		deleteButton.setVisible( !metawidget.isReadOnly() );
 		facetButtons.add( deleteButton );
 
 		final JButton editButton = new JButton( new AbstractAction( bundle.getString( "edit" ) )
@@ -279,6 +280,7 @@ public class ContactDialog
 		// Private members
 		//
 		//
+
 		private SwingMetawidget		mEditor;
 
 		private String				mColumnName;
@@ -314,8 +316,6 @@ public class ContactDialog
 
 			if ( communication == null )
 				communication = new Communication();
-
-			// TODO: don't work?
 
 			mEditor.setToInspect( communication );
 			mColumnName = StringUtils.lowercaseFirstLetter( table.getModel().getColumnName( column ) );

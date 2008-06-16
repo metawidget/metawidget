@@ -126,7 +126,16 @@ public class ContactController
 		else if ( request.getParameter( "deleteCommunication" ) != null )
 		{
 			String id = request.getParameter( "deleteCommunicationId" );
-			contact.removeCommunication( Long.parseLong( id ) );
+
+			try
+			{
+				contact.removeCommunication( Long.parseLong( id ) );
+			}
+			catch( Exception e )
+			{
+				errors.reject( null, e.getMessage() );
+				return;
+			}
 		}
 
 		// Save

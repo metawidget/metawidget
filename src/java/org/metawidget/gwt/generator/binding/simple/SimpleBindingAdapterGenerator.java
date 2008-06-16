@@ -35,12 +35,12 @@ import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
 /**
- * Generator for BindingAdapters.
+ * Generator for <code>SimpleBindingAdapters</code>.
  * <p>
- * GwtMetawidget requires clients to supply an explicit interface through which to execute binding
- * calls. In most cases, clients can use <code>BindingAdapterGenerator</code> to automatically
- * generate this as a secondary class. First, they modify their <code>.gwt.xml</code> file to
- * include...
+ * <code>SimpleBinding</code> requires clients to supply an explicit
+ * <code>SimpleBindingAdapter</code> interface through which to execute binding calls. In most
+ * cases, clients can use <code>SimpleBindingAdapterGenerator</code> to automatically generate
+ * this as a secondary class. First, they modify their <code>.gwt.xml</code> file to include...
  * <p>
  * <code>
  * &lt;generate-with class="org.metawidget.gwt.generator.binding.simple.BindingAdapterGenerator"&gt;
@@ -58,13 +58,14 @@ import com.google.gwt.user.rebind.SourceWriter;
  * <p>
  * This generator <em>statically</em> generates code for all levels of all possible properties
  * (eg. <code>contact.address.street</code>), including subtypes of properties. Because this
- * could quickly become very large, we impose the following restrictions:
+ * could quickly become very large, we impose the following restriction:
  * <ul>
  * <li>only properties whose return type is in the same package, or a subpackage, of the parent
  * type are traversed into</li>
  * </ul>
  * Clients needing to avoid such restrictions must write their own class that implements
- * <code>Binding</code>.
+ * <code>SimpleBindingAdapter</code> or, more drastically, their own binding implementation that
+ * implements <code>Binding</code>.
  *
  * @author Richard Kennard
  */

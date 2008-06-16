@@ -1523,13 +1523,13 @@ bin\run</programlisting>
 				</para>
 
 				<programlisting language="shell">cd \jboss-4.2.2.GA
-copy \Applications\jboss-4.2.2.GA\server\default\deploy server\default\deploy
+xcopy /s \Applications\jboss-4.2.2.GA\server\default\deploy server\default\deploy
 bin\run</programlisting>
 
 				<para>
-					Open a Web browser to <uri>http://localhost:8080/seam-groovy-booking</uri>. As with the previous
+					Open a Web browser to <uri>http://localhost:8080/jboss-seam-groovy</uri>. As with the previous
 					section, the updated Metawidget Seam Groovy Booking example looks very similar to the original, but
-					uses significantly less	boilerplate code. The difference this time is we are using Groovy to define
+					uses significantly less	boilerplate code. Also, this time we are using Groovy to define
 					our business classes. The biggest impact this has is in <code>inspector-config.xml</code>,
 					where the Inspectors have been configured to use a Groovy property style instead of a JavaBean
 					property style.

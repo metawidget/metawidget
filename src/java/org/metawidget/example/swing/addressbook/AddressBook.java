@@ -137,6 +137,12 @@ public class AddressBook
 		return mContactsController;
 	}
 
+	@Override
+	public void fireRefresh()
+	{
+		mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
+	}
+
 	//
 	//
 	// Private methods
@@ -180,7 +186,7 @@ public class AddressBook
 				else
 					mContactSearch.setType( ContactType.valueOf( type ) );
 
-				mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
+				fireRefresh();
 			}
 		} );
 
@@ -191,7 +197,6 @@ public class AddressBook
 			public void actionPerformed( ActionEvent e )
 			{
 				new ContactDialog( AddressBook.this, new PersonalContact() ).setVisible( true );
-				mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
 			}
 		} ) );
 
@@ -200,7 +205,6 @@ public class AddressBook
 			public void actionPerformed( ActionEvent e )
 			{
 				new ContactDialog( AddressBook.this, new BusinessContact() ).setVisible( true );
-				mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
 			}
 		} ) );
 
@@ -271,7 +275,6 @@ public class AddressBook
 				// ...and display it
 
 				new ContactDialog( AddressBook.this, contact ).setVisible( true );
-				mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
 			}
 		} );
 

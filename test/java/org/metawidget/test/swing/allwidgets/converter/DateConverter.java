@@ -64,6 +64,9 @@ public class DateConverter
 
 		if ( clazz.equals( String.class ))
 		{
+			if ( value == null )
+				return "";
+
 			synchronized ( mFormat )
 			{
 				return mFormat.format( (Date) value );
@@ -74,6 +77,9 @@ public class DateConverter
 
 		if ( clazz.equals( Date.class ))
 		{
+			if ( value == null || "".equals( value ))
+				return null;
+
 			synchronized ( mFormat )
 			{
 				try

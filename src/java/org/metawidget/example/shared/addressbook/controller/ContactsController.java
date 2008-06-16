@@ -197,7 +197,7 @@ public class ContactsController
 		else
 		{
 			if ( mAll.get( id ) == null )
-				throw new RuntimeException( "Person #" + id + " not found" );
+				throw new RuntimeException( "Contact #" + id + " not found" );
 		}
 
 		mAll.put( id, contact );

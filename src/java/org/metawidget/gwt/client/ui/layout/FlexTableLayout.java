@@ -31,6 +31,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 /**
+ * Layout to arrange widgets in a <code>FlexTable</code>, with one column for labels and another for the widget.
+ *
  * @author Richard Kennard
  */
 

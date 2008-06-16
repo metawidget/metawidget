@@ -38,7 +38,7 @@
 				<m:param name="sectionStyleClass" value="section-heading"/>
 
 				<m:stub path="communications">
-					<input type="hidden" name="deleteCommunicationId" />
+					<input type="hidden" name="deleteCommunicationId" id="deleteCommunicationId"/>
 					<table class="data-table">
 						<thead>
 							<tr>
@@ -54,7 +54,7 @@
 									<td class="column-half">${_communication.value}</td>
 									<td class="column-tiny, table-buttons">
 										<c:if test="${!readOnly}">
-											<input type="submit" name="deleteCommunication" value="Delete" onClick="document.getElementById( 'deleteCommunicationId' ).value = ${_communication.id}"/>
+											<input type="submit" name="deleteCommunication" value="Delete" onClick="document.getElementById( 'deleteCommunicationId' ).value = '${_communication.id}'"/>
 										</c:if>
 									</td>
 								</tr>

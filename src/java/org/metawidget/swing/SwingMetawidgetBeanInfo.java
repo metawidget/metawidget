@@ -41,7 +41,7 @@ public class SwingMetawidgetBeanInfo
 	{
 		BeanDescriptor descriptor = new BeanDescriptor( SwingMetawidget.class );
 		descriptor.setDisplayName( "Metawidget" );
-		descriptor.setShortDescription( "org.metawidget.swing.SwingMetawidget\r\nSee http://www.metawidget.org" );
+		descriptor.setShortDescription( "org.metawidget.swing.SwingMetawidget - http://metawidget.org" );
 
 		return descriptor;
 	}

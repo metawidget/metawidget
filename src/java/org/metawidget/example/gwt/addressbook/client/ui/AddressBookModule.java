@@ -191,8 +191,7 @@ public class AddressBookModule
 		{
 			public void onClick( Widget sender )
 			{
-				Contact contact = new PersonalContact();
-				new ContactDialog( AddressBookModule.this, contact ).show();
+				new ContactDialog( AddressBookModule.this, new PersonalContact() ).show();
 			}
 		} );
 		panel.add( addPersonalButton );
@@ -202,8 +201,7 @@ public class AddressBookModule
 		{
 			public void onClick( Widget sender )
 			{
-				Contact contact = new BusinessContact();
-				new ContactDialog( AddressBookModule.this, contact ).show();
+				new ContactDialog( AddressBookModule.this, new BusinessContact() ).show();
 			}
 		} );
 		panel.add( addBusinessButton );

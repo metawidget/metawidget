@@ -23,6 +23,8 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * Layout to simply output components one after another, with no labels and no structure.
+ *
  * @author Richard Kennard
  */
 

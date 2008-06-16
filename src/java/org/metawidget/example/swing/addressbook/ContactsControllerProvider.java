@@ -31,4 +31,6 @@ public interface ContactsControllerProvider
 	//
 
 	ContactsController getContactsController();
+
+	void fireRefresh();
 }

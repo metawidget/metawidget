@@ -1132,6 +1132,7 @@
 				<include name="org/metawidget/swing/binding/*.class"/>
 				<include name="org/metawidget/swing/binding/beansbinding/*.class"/>
 				<include name="org/metawidget/swing/layout/*.class"/>
+				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
 				<include name="org/metawidget/inspector/composite/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
@@ -1168,17 +1169,14 @@
 		<pack200 src="${build.metawidget.dir}/examples/swing/applet/addressbook/metawidget-applet.jar" destfile="${build.metawidget.dir}/examples/swing/applet/addressbook/metawidget-applet.jar.pack"/>		
 		<pack200 src="${build.metawidget.dir}/examples/swing/applet/addressbook/addressbook-swing-applet.jar" destfile="${build.metawidget.dir}/examples/swing/applet/addressbook/addressbook-swing-applet.jar.pack"/>		
 		
-		<copy todir="${build.metawidget.dir}/examples/swing">
-			<fileset dir="src/java/org/metawidget/example/swing">
-				<include name="readme.txt"/>
-			</fileset>
-			<fileset dir="src/web/examples/swing">
-				<include name="applet/addressbook/**"/>
-			</fileset>
+		<copy todir="${build.metawidget.dir}/examples/swing/applet/addressbook">
+			<fileset dir="src/web/examples/swing/applet/addressbook"/>
 			<fileset dir="lib">
 				<include name="beansbinding*.jar"/>
 			</fileset>			
 		</copy>
+
+		<copy todir="${build.metawidget.dir}/examples/swing" file="src/java/org/metawidget/example/swing/readme.txt"/>
 
 	</target>
 

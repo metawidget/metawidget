@@ -179,8 +179,9 @@ public class GwtAddressBookTest
 										// Check editing
 
 										assertTrue( ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getRowCount() == 11 );
-										Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 2 );
+										final Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 2 );
 										assertTrue( "Edit".equals( editButton.getText() ) );
+										assertTrue( editButton.isVisible() );
 										fireClickListeners( editButton );
 
 										executeAfterBuildWidgets( contactMetawidget, new Timer()
@@ -188,6 +189,7 @@ public class GwtAddressBookTest
 											@Override
 											public void run()
 											{
+												assertTrue( !editButton.isVisible() );
 												assertTrue( contactMetawidget.findWidget( "title" ) instanceof ListBox );
 												assertTrue( ( (ListBox) contactMetawidget.findWidget( "title" ) ).getItemCount() == 6 );
 
@@ -237,6 +239,7 @@ public class GwtAddressBookTest
 
 														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 0 );
 														assertTrue( "Save".equals( saveButton.getText() ) );
+														assertTrue( saveButton.isVisible() );
 														fireClickListeners( saveButton );
 
 														Timer timerReloadContacts = new Timer()
@@ -332,6 +335,7 @@ public class GwtAddressBookTest
 
 						Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 2 );
 						assertTrue( "Edit".equals( editButton.getText() ) );
+						assertTrue( editButton.isVisible() );
 						fireClickListeners( editButton );
 
 						executeAfterBuildWidgets( contactMetawidget, new Timer()
@@ -386,6 +390,7 @@ public class GwtAddressBookTest
 													{
 														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 0 );
 														assertTrue( "Save".equals( saveButton.getText() ) );
+														assertTrue( saveButton.isVisible() );
 														fireClickListeners( saveButton );
 
 														Timer timerReloadContacts = new Timer()
@@ -407,6 +412,10 @@ public class GwtAddressBookTest
 																	{
 																		Button deleteButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) deleteContactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 1 );
 																		assertTrue( "Delete".equals( deleteButton.getText() ) );
+
+																		// (click the button even though technically it's not visible)
+
+																		assertTrue( !deleteButton.isVisible() );
 																		fireClickListeners( deleteButton );
 
 																		// Check deleting

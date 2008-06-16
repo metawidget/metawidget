@@ -19,6 +19,7 @@ package org.metawidget.swing;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -697,7 +698,13 @@ public class SwingMetawidget
 
 		try
 		{
-			mMixin.buildWidgets( inspect() );
+			String xml = inspect();
+
+			// Don't buildWidgets if null, in order to protect
+			// our 'dotted rectangle in IDE tools' effect
+
+			if ( xml != null )
+				mMixin.buildWidgets( xml );
 		}
 		catch ( Exception e )
 		{
@@ -723,6 +730,10 @@ public class SwingMetawidget
 		{
 			mLayout = mLayoutClass.getConstructor( SwingMetawidget.class ).newInstance( this );
 			mLayout.layoutBegin();
+		}
+		else
+		{
+			setLayout( new BorderLayout() );
 		}
 
 		// Start binding
