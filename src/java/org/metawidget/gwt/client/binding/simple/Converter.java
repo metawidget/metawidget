@@ -19,6 +19,8 @@ package org.metawidget.gwt.client.binding.simple;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * Interface for <code>SimpleBinding</code> Converters.
+ *
  * @author Richard Kennard
  */
 

@@ -33,6 +33,8 @@ import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * Simple, Generator-based two-way binding implementation.
+ *
  * @author Richard Kennard
  */
 

@@ -17,6 +17,12 @@
 package org.metawidget.gwt.client.binding.simple;
 
 /**
+ * Adapter around business objects to support <code>SimpleBinding</code>.
+ * <p>
+ * All business objects used by <code>SimpleBinding</code> must be wrapped by a
+ * <code>SimpleBindingAdapter</code>. The supplied <code>SimpleBindingAdapterGenerator</code>
+ * automates the creation of adapters.
+ *
  * @author Richard Kennard
  */
 

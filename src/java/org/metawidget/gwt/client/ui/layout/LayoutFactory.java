@@ -19,7 +19,7 @@ package org.metawidget.gwt.client.ui.layout;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 
 /**
- * GWT interface for dynamically instantiating Layouts.
+ * Interface for instantiating pluggable Layouts.
  *
  * @author Richard Kennard
  */

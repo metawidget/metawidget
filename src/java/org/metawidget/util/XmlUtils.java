@@ -450,8 +450,10 @@ public class XmlUtils
 		{
 			String attributeName = attribute.getKey();
 
-			//if ( "xmlns".equals( attrName ) )
-				//continue;
+			// (I'm a bit surprised xmlns is an attribute - is that a bug?)
+
+			if ( "xmlns".equals( attributeName ) )
+				continue;
 
 			buffer.append( " " );
 			buffer.append( escapeForXml( attributeName ) );

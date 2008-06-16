@@ -21,6 +21,8 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * Interface for pluggable Binding implementations.
+ *
  * @author Richard Kennard
  */
 

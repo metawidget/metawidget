@@ -186,8 +186,6 @@ public class ContactDialog
 					return;
 				}
 
-				// TODO: Test Android
-
 				reloadCommunications( addressBookModule, communications, cellFormatter, contact, true );
 
 				typeMetawidget.setValue( "", "type" );

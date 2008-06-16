@@ -19,7 +19,7 @@ package org.metawidget.gwt.client.inspector;
 import org.metawidget.inspector.iface.Inspector;
 
 /**
- * GWT interface for dynamically instantiating Inspectors.
+ * Interface for instantiating pluggable Inspectors.
  *
  * @author Richard Kennard
  */
