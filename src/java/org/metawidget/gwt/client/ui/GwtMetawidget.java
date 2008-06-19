@@ -86,11 +86,11 @@ public class GwtMetawidget
 	//
 	//
 
-	private final static int			BUILDING_COMPLETE		= 0;
+	private final static int										BUILDING_COMPLETE		= 0;
 
-	private final static int			BUILDING_IN_PROGRESS	= 1;
+	private final static int										BUILDING_IN_PROGRESS	= 1;
 
-	private final static int			BUILDING_NEEDED			= 2;
+	private final static int										BUILDING_NEEDED			= 2;
 
 	/**
 	 * Delay before rebuilding widgets (in milliseconds).
@@ -102,7 +102,16 @@ public class GwtMetawidget
 	 * calls) into one.
 	 */
 
-	private final static int			BUILD_DELAY				= 50;
+	private final static int										BUILD_DELAY				= 50;
+
+	/**
+	 * Static cache of Inspectors.
+	 * <p>
+	 * Note this needn't be <code>synchronized</code> like the SwingMetawidget one, because
+	 * JavaScript is not multi-threaded.
+	 */
+
+	private final static Map<Class<? extends Inspector>, Inspector>	INSPECTORS				= new HashMap<Class<? extends Inspector>, Inspector>();
 
 	//
 	//
@@ -110,15 +119,15 @@ public class GwtMetawidget
 	//
 	//
 
-	private Object						mToInspect;
+	private Object													mToInspect;
 
-	private Class<? extends Layout>		mLayoutClass			= FlexTableLayout.class;
+	private Class<? extends Layout>									mLayoutClass			= FlexTableLayout.class;
 
-	private Layout						mLayout;
+	private Layout													mLayout;
 
-	private Class<? extends Inspector>	mInspectorClass			= GwtRemoteInspectorProxy.class;
+	private Class<? extends Inspector>								mInspectorClass			= GwtRemoteInspectorProxy.class;
 
-	private Inspector					mInspector;
+	private Inspector												mInspector;
 
 	/**
 	 * The Binding class.
@@ -127,21 +136,21 @@ public class GwtMetawidget
 	 * (eg. you have to generate some SimpleBindingAdapters)
 	 */
 
-	private Class<? extends Binding>	mBindingClass;
+	private Class<? extends Binding>								mBindingClass;
 
-	private Binding						mBinding;
+	private Binding													mBinding;
 
-	private String						mDictionaryName;
+	private String													mDictionaryName;
 
-	private Dictionary					mDictionary;
+	private Dictionary												mDictionary;
 
-	private Map<String, Object>			mParameters;
+	private Map<String, Object>										mParameters;
 
-	private Map<String, Facet>			mFacets					= new HashMap<String, Facet>();
+	private Map<String, Facet>										mFacets					= new HashMap<String, Facet>();
 
-	private Set<Widget>					mExistingWidgets		= new HashSet<Widget>();
+	private Set<Widget>												mExistingWidgets		= new HashSet<Widget>();
 
-	private Set<Widget>					mExistingWidgetsUnused	= new HashSet<Widget>();
+	private Set<Widget>												mExistingWidgetsUnused	= new HashSet<Widget>();
 
 	/**
 	 * Map of widgets added to this Metawidget.
@@ -152,9 +161,9 @@ public class GwtMetawidget
 	 * separate Map of the widgets we have encountered.
 	 */
 
-	private Map<String, Widget>			mAddedWidgets			= new HashMap<String, Widget>();
+	private Map<String, Widget>										mAddedWidgets			= new HashMap<String, Widget>();
 
-	private Timer						mBuildWidgets;
+	private Timer													mBuildWidgets;
 
 	//
 	//
@@ -162,21 +171,21 @@ public class GwtMetawidget
 	//
 	//
 
-	String								mPath;
+	String															mPath;
 
-	String[]							mNamesPrefix;
+	String[]														mNamesPrefix;
 
-	int									mNeedToBuildWidgets;
+	int																mNeedToBuildWidgets;
 
-	boolean								mIgnoreAddRemove;
+	boolean															mIgnoreAddRemove;
 
 	/**
 	 * For unit tests.
 	 */
 
-	Timer								mExecuteAfterBuildWidgets;
+	Timer															mExecuteAfterBuildWidgets;
 
-	GwtMetawidgetMixinImpl				mMixin					= new GwtMetawidgetMixinImpl();
+	GwtMetawidgetMixinImpl											mMixin					= new GwtMetawidgetMixinImpl();
 
 	//
 	//
@@ -736,10 +745,22 @@ public class GwtMetawidget
 
 		if ( mToInspect != null && mPath != null )
 		{
-			// Inspect
+			// If this Inspector has been set externally, use it...
 
 			if ( mInspector == null )
-				mInspector = ( (InspectorFactory) GWT.create( InspectorFactory.class ) ).newInspector( mInspectorClass );
+			{
+				// ...otherwise, if this InspectorConfig has already been created, use it...
+
+				mInspector = INSPECTORS.get( mInspectorClass );
+
+				// ...otherwise, initialize the Inspector
+
+				if ( mInspector == null )
+				{
+					mInspector = ( (InspectorFactory) GWT.create( InspectorFactory.class ) ).newInspector( mInspectorClass );
+					INSPECTORS.put( mInspectorClass, mInspector );
+				}
+			}
 
 			final TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
 
@@ -1091,6 +1112,7 @@ public class GwtMetawidget
 	protected Widget initMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
 		throws Exception
 	{
+		metawidget.setInspectorClass( mInspectorClass );
 		metawidget.setPath( mPath + '/' + attributes.get( NAME ) );
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBindingClass( mBindingClass );

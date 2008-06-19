@@ -24,6 +24,7 @@ import java.util.Set;
 import org.metawidget.example.gwt.addressbook.client.ui.converter.DateConverter;
 import org.metawidget.example.gwt.addressbook.client.ui.converter.EnumConverter;
 import org.metawidget.example.gwt.addressbook.client.ui.converter.NumberConverter;
+import org.metawidget.example.gwt.addressbook.inspector.remote.client.ContactInspectorProxy;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.Gender;
@@ -81,6 +82,7 @@ public class ContactDialog
 		// Metawidget
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
+		metawidget.setInspectorClass( ContactInspectorProxy.class );
 		metawidget.setReadOnly( contact.getId() != 0 );
 		metawidget.setDictionaryName( "bundle" );
 		metawidget.setParameter( "tableStyleName", "table-form" );

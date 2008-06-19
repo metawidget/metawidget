@@ -53,13 +53,21 @@ public abstract class Binding
 	//
 	//
 
+	/**
+	 * Bind the given Widget to the given 'path of names' within the source Object.
+	 */
+
 	public abstract <T> void bind( Widget widget, String... names );
 
 	/**
-	 * Save bound values from the Components back to the source Object.
+	 * Save bound values from the Widgets back to the source Object.
 	 */
 
 	public abstract void save();
+
+	/**
+	 * Unbind and release all resources.
+	 */
 
 	public void unbind()
 	{

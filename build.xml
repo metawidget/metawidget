@@ -1374,6 +1374,7 @@
 			<fileset dir="src/java">
 				<include name="org/metawidget/example/*.gwt.xml"/>
 				<include name="org/metawidget/example/gwt/addressbook/client/**"/>
+				<include name="org/metawidget/example/gwt/addressbook/inspector/remote/client/**"/>
 				<include name="org/metawidget/example/shared/addressbook/model/**"/>
 			</fileset>			
 		</copy>
