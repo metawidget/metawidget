@@ -58,8 +58,8 @@ public class ContactInspectorProxy
 
 		// Send blank versions of toInspect
 		//
-		// Note: this code would need to be more complicated if sub-properties of
-		//
+		// Note: we could maybe do this generically (in GwtRemoteInspectorProxy) if we
+		// could hook into com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter?
 
 		if ( toInspect instanceof PersonalContact )
 			superToInspect = new PersonalContact();
