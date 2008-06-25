@@ -31,6 +31,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * Leveraging Metawidget's separated inspection architecture, GwtRemoteInspectorProxy uses AJAX to
  * pass objects to the server where the full power of Java introspection and reflection can be used
  * to inspect them. This includes inspecting their annotations.
+ * <p>
+ * Note it is not possible to generically optimize this call to, say, only pass the class name rather
+ * than the entire object. This is because some <code>Inspectors</code> inspect the <em>value</em>
+ * of the properties (eg. <code>UiLookup.onlyIfNull</code>). On a case-by-case basis, however, such
+ * optimization is possible - see <code>ContactInspectorProxy</code> in the examples.
  *
  * @author Richard Kennard
  */

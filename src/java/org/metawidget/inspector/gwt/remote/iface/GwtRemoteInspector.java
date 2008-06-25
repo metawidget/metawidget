@@ -24,7 +24,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 /**
  * GWT AJAX interface to <code>GwtRemoteInspectorImpl</code> servlet.
  * <p>
- * Note: this interface is purely for the AJAX call. It is not related to <code>Inspector</code>.
+ * Note: this interface is purely for the AJAX call. It is not closely related to <code>Inspector</code>.
  *
  * @author Richard Kennard
  */

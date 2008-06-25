@@ -27,10 +27,11 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * <p>
  * Metawidget's separated Inspector architecture presents a number of opportunities for
  * optimization, depending on the requirements of the application. For AJAX-based applications,
- * where network traffic is critical, ContactInspectorProxy is an example of optimizing traffic by
- * reducing the amount of unnecessary data transmitted.
- * <p>
- * Note it is still perfectly possible to just use <code>GwtRemoteInspectorProxy</code> instead.
+ * where network traffic is critical, <code>ContactInspectorProxy</code> is an example of
+ * optimizing traffic by reducing the amount of unnecessary data transmitted. This optimization
+ * relies on the fact the Address Book does not use any inspections that need the Object's
+ * <em>value</em> (as opposed to just its Class). This would not be the case had the Address Book
+ * used, for example, <code>UiLookup.onlyIfNull</code>.
  *
  * @author Richard Kennard
  */
@@ -58,8 +59,7 @@ public class ContactInspectorProxy
 
 		// Send blank versions of toInspect
 		//
-		// Note: we could maybe do this generically (in GwtRemoteInspectorProxy) if we
-		// could hook into com.google.gwt.user.client.rpc.impl.ClientSerializationStreamWriter?
+		// Note: this only works because we are not using, say, UiLookup.onlyIfNull
 
 		if ( toInspect instanceof PersonalContact )
 			superToInspect = new PersonalContact();
