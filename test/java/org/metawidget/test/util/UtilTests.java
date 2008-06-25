@@ -39,6 +39,7 @@ public class UtilTests
 		suite.addTestSuite( ArrayUtilsTest.class );
 		suite.addTestSuite( ClassUtilsTest.class );
 		suite.addTestSuite( CollectionUtilsTest.class );
+		suite.addTestSuite( JspUtilsTest.class );
 		suite.addTestSuite( StringUtilsTest.class );
 		suite.addTestSuite( ThreadUtilsTest.class );
 
