@@ -178,7 +178,7 @@ public final class CollectionUtils
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public static <T> List<T> sort( Collection<T> collection )
+	public static <T extends Comparable> List<T> sort( Collection<T> collection )
 	{
 		if ( collection == null )
 			return null;
@@ -224,12 +224,21 @@ public final class CollectionUtils
 			return "";
 
 		// If Collection is a Set, sort it for consistency in unit tests. Never
-		// sort the original Collection, as users wouldn't expect toString() to do that
+		// sort the original Collection, as users wouldn't expect toString() to do that!
 
 		Collection<T> sortedCollection = collection;
 
 		if ( sortedCollection instanceof Set )
-			sortedCollection = sort( sortedCollection );
+		{
+			if ( !sortedCollection.isEmpty() && sortedCollection.iterator().next() instanceof Comparable )
+			{
+				@SuppressWarnings("unchecked")
+				Collection<Comparable> comparableCollection = (Collection<Comparable>) sortedCollection;
+				@SuppressWarnings("unchecked")
+				Collection<T> comparedCollection = (Collection<T>) sort( comparableCollection );
+				sortedCollection = comparedCollection;
+			}
+		}
 
 		// Output as a String
 

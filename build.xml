@@ -40,8 +40,6 @@
 		<echo message="      This is because some optional features require Java SE 6"/>
 		<echo message="      (eg. annotations, javax.swing.GroupLayout)"/>
 
-		<property name="build.debug" value="on"/>
-		
 		<!-- Build J2SE 1.4 compatible files (the source is still Java 5, to take advantage -->
 		<!-- of cleaner source code, but we compile down to jsr14. We can do this using     -->
 		<!-- plain javac, without needing retroweaver or similar tools)                     -->
@@ -138,10 +136,18 @@
 
 		<!-- Build test files -->
 
+		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="off" target="1.5">
+			<include name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement path="${build.metawidget.dir}/classes"/>				
+			</classpath>
+		</javac>
+		
 		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="on" target="1.5">
 			<exclude name="org/metawidget/test/faces/allwidgets/**"/>
 			<exclude name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
-			<exclude name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleNoDebugTest.java"/>
+			<exclude name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
 			<exclude name="org/metawidget/test/shared/allwidgets/**"/>
 			<exclude name="org/metawidget/test/spring/allwidgets/**"/>
 			<exclude name="org/metawidget/test/struts/allwidgets/**"/>
@@ -153,10 +159,6 @@
 				<pathelement path="${build.metawidget.dir}/example-classes"/>				
 				<pathelement path="${build.metawidget.dir}/groovy-test-classes"/>				
 			</classpath>
-		</javac>
-		
-		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="off" target="1.5">
-			<include name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
 		</javac>
 		
 	</target>
@@ -502,7 +504,7 @@
 				<filter excludes="*Constants, org.metawidget.android.*, org.metawidget.example.android.*, org.metawidget.gwt.client.*, org.metawidget.inspector.gwt.remote.client.*"/>				
 			</instr>
 			<instr instrpath="${build.metawidget.dir}/example-classes" destdir="${build.metawidget.dir}/example-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.gwt.addressbook.client.*"/>				
+				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.gwt.addressbook.client.*, org.metawidget.example.gwt.addressbook.inspector.remote.client.*"/>				
 			</instr>
 		</emma>
 

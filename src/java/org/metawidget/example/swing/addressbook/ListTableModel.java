@@ -25,10 +25,15 @@ import javax.swing.table.AbstractTableModel;
 import org.metawidget.util.CollectionUtils;
 
 /**
+ * TableModel for Lists of Objects.
+ * <p>
+ * As well as wrapping Lists of Objects, <code>ListTableModel</code> supports dynamically adding a
+ * blank row to the model to accomodate entering new Objects.
+ *
  * @author Richard Kennard
  */
 
-public class ListTableModel<T>
+public class ListTableModel<T extends Comparable<T>>
 	extends AbstractTableModel
 {
 	//
@@ -125,6 +130,9 @@ public class ListTableModel<T>
 	@Override
 	public String getColumnName( int columnIndex )
 	{
+		if ( columnIndex >= getColumnCount() )
+			return null;
+
 		return mColumns[columnIndex];
 	}
 
@@ -147,6 +155,9 @@ public class ListTableModel<T>
 	public Class<?> getColumnClass( int columnIndex )
 	{
 		String column = getColumnName( columnIndex );
+
+		if ( column == null )
+			return null;
 
 		try
 		{

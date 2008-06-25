@@ -21,6 +21,7 @@ import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 
 import javax.swing.JButton;
@@ -53,6 +54,7 @@ import org.metawidget.example.swing.addressbook.MainFrame;
 import org.metawidget.example.swing.addressbook.converter.DateConverter;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingUtils;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
@@ -78,9 +80,9 @@ public class SwingAddressBookTest
 
 		MainFrame frame = new MainFrame();
 		AddressBook addressBook = frame.getAddressBook();
-		JPanel panelRight = (JPanel) ((ImagePanel) frame.getContentPane().getComponent( 0 )).getComponent( 1 );
+		JPanel panelRight = (JPanel) ( (ImagePanel) frame.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 		assertTrue( !panelRight.isOpaque() );
-		JTable contactsTable = ((JTable) ((JScrollPane) panelRight.getComponent( 1 )).getViewport().getView());
+		JTable contactsTable = ( (JTable) ( (JScrollPane) panelRight.getComponent( 1 ) ).getViewport().getView() );
 		assertTrue( contactsTable.getRowCount() == 6 );
 
 		// Check searching
@@ -140,7 +142,7 @@ public class SwingAddressBookTest
 		// Check painting (in that it at least doesn't NullPointer)
 
 		Graphics graphics = new BufferedImage( 100, 100, BufferedImage.TYPE_INT_ARGB ).getGraphics();
-		( (ImagePanel) ((JPanel) ((JLayeredPane) ((JRootPane) dialog.getComponent( 0 )).getComponent( 1 )).getComponent( 0 )).getComponent( 0 ) ).paint( graphics );
+		( (ImagePanel) ( (JPanel) ( (JLayeredPane) ( (JRootPane) dialog.getComponent( 0 ) ).getComponent( 1 ) ).getComponent( 0 ) ).getComponent( 0 ) ).paint( graphics );
 
 		// Check editing
 
@@ -164,7 +166,7 @@ public class SwingAddressBookTest
 		TableCellEditor editor = communications.getDefaultEditor( Object.class );
 
 		SwingMetawidget metawidgetCommunications = (SwingMetawidget) editor.getTableCellEditorComponent( communications, model.getValueAt( 0, 0 ), true, 0, 0 );
-		assertTrue( BorderLayout.class.equals( metawidgetCommunications.getLayout().getClass() ));
+		assertTrue( BorderLayout.class.equals( metawidgetCommunications.getLayout().getClass() ) );
 		JComboBox combo = (JComboBox) metawidgetCommunications.getComponent( 0 );
 		assertTrue( "Telephone".equals( combo.getSelectedItem() ) );
 
@@ -284,6 +286,108 @@ public class SwingAddressBookTest
 		buttonSave = (JButton) panelButtons.getComponent( 0 );
 		buttonSave.getAction().actionPerformed( null );
 		assertTrue( contactsTable.getRowCount() == 6 );
+	}
+
+	public void testListTableModel()
+		throws Exception
+	{
+		// Test nulls
+
+		ListTableModel<Foo> model = new ListTableModel<Foo>( Foo.class, null );
+		assertTrue( 0 == model.getColumnCount() );
+		assertTrue( 0 == model.getRowCount() );
+		assertTrue( null == model.getColumnClass( 0 ) );
+		assertTrue( null == model.getValueAt( 0 ) );
+
+		// Test normal list
+
+		List<Foo> fooList = CollectionUtils.newArrayList();
+		Foo foo = new Foo();
+		fooList.add( foo );
+		model = new ListTableModel<Foo>( Foo.class, fooList, "Foo", "Bar" );
+		assertTrue( String.class.equals( model.getColumnClass( 0 ) ) );
+		assertTrue( Boolean.class.equals( model.getColumnClass( 1 ) ) );
+		assertTrue( !model.isCellEditable( 0, 0 ) );
+		model.setAllRowsEditable( true );
+		assertTrue( model.isCellEditable( 0, 0 ) );
+
+		// Getters
+
+		assertTrue( null == model.getValueAt( 1 ) );
+		assertTrue( foo.equals( model.getValueAt( 0 ) ) );
+		assertTrue( "myFoo".equals( model.getValueAt( 0, 0 ) ) );
+		assertTrue( Boolean.TRUE.equals( model.getValueAt( 0, 1 ) ) );
+		assertTrue( null == model.getValueAt( 0, 2 ) );
+
+		// Setters
+
+		model.setValueAt( "myFoo1", 0, 0 );
+		model.setValueAt( Boolean.FALSE, 0, 1 );
+		model.setValueAt( new Object(), 0, 2 );
+		model.setValueAt( "myFoo2", 1, 0 );
+		assertTrue( "myFoo1".equals( model.getValueAt( 0, 0 ) ) );
+		assertTrue( Boolean.FALSE.equals( model.getValueAt( 0, 1 ) ) );
+		assertTrue( null == model.getValueAt( 0, 2 ) );
+		assertTrue( null == model.getValueAt( 1, 0 ) );
+
+		// Extra blank row
+
+		model.setExtraBlankRow( true );
+		model.setValueAt( "myFoo2", 1, 0 );
+		assertTrue( "myFoo2".equals( model.getValueAt( 1, 0 ) ) );
+		assertTrue( 3 == model.getRowCount() );
+	}
+
+	//
+	//
+	// Inner class
+	//
+	//
+
+	public static class Foo
+		implements Comparable<Foo>
+	{
+		//
+		//
+		// Private members
+		//
+		//
+
+		private String	mFoo	= "myFoo";
+
+		private Boolean	mBar	= Boolean.TRUE;
+
+		//
+		//
+		// Public methods
+		//
+		//
+
+		public String getFoo()
+		{
+			return mFoo;
+		}
+
+		public void setFoo( String foo )
+		{
+			mFoo = foo;
+		}
+
+		public Boolean getBar()
+		{
+			return mBar;
+		}
+
+		public void setBar( Boolean bar )
+		{
+			mBar = bar;
+		}
+
+		@Override
+		public int compareTo( Foo that )
+		{
+			return hashCode() - that.hashCode();
+		}
 	}
 
 	//
