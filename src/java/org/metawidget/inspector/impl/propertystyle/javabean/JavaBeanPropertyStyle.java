@@ -56,6 +56,9 @@ public class JavaBeanPropertyStyle
 	 * Property lookups are potentially expensive, so we cache them. The cache itself is a member
 	 * variable, not a static, because we rely on <code>BasePropertyInspector</code> to only
 	 * create one instance of <code>JavaBeanPropertyStyle</code> for all <code>Inspectors</code>.
+	 * <p>
+	 * This also stops problems with subclasses of <code>JavaBeanPropertyStyle</code> sharing the
+	 * same static cache.
 	 */
 
 	private Map<Class<?>, Map<String, Property>>	mPropertiesCache	= CollectionUtils.newHashMap();
@@ -94,135 +97,7 @@ public class JavaBeanPropertyStyle
 
 			if ( properties == null )
 			{
-				// TreeMap so that returns alphabetically sorted properties
-
-				properties = CollectionUtils.newTreeMap();
-
-				// Public fields
-
-				for ( Field field : clazz.getFields() )
-				{
-					// Ignore static public fields
-
-					if ( Modifier.isStatic( field.getModifiers() ) )
-						continue;
-
-					String propertyName = field.getName();
-					properties.put( propertyName, new FieldProperty( propertyName, field ) );
-				}
-
-				// Getter methods
-
-				for ( Method methodRead : clazz.getMethods() )
-				{
-					Class<?>[] parameters = methodRead.getParameterTypes();
-
-					if ( parameters.length != 0 )
-						continue;
-
-					Class<?> toReturn = methodRead.getReturnType();
-
-					if ( void.class.equals( toReturn ) )
-						continue;
-
-					// Ignore certain types
-
-					if ( ArrayUtils.contains( mExcludeTypes, toReturn ) )
-						continue;
-
-					String methodName = methodRead.getName();
-					String propertyName = null;
-
-					if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
-						propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
-					else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
-						propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
-					else
-						continue;
-
-					if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
-						continue;
-
-					// Ignore certain names
-
-					String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
-
-					if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
-						continue;
-
-					// Already found (via its field)?
-
-					Property propertyExisting = properties.get( lowercasedPropertyName );
-
-					if ( propertyExisting != null )
-					{
-						if ( !( propertyExisting instanceof JavaBeanProperty ) )
-							continue;
-
-						// Beware covariant return types: always prefer the
-						// subclass
-
-						if ( toReturn.isAssignableFrom( propertyExisting.getType() ) )
-							continue;
-					}
-
-					// Try to find a matching setter
-
-					Method methodWrite = null;
-
-					try
-					{
-						methodWrite = clazz.getMethod( ClassUtils.JAVABEAN_SET_PREFIX + propertyName, toReturn );
-					}
-					catch ( NoSuchMethodException e )
-					{
-						// May not be one
-					}
-
-					properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toReturn, methodRead, methodWrite ) );
-				}
-
-				// Setter methods (for those without getters)
-
-				for ( Method methodWrite : clazz.getMethods() )
-				{
-					Class<?>[] parameters = methodWrite.getParameterTypes();
-
-					if ( parameters.length != 1 )
-						continue;
-
-					Class<?> toSet = parameters[0];
-
-					// Ignore certain types
-
-					if ( ArrayUtils.contains( mExcludeTypes, toSet ) )
-						continue;
-
-					String methodName = methodWrite.getName();
-
-					if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
-						continue;
-
-					String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
-
-					if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
-						continue;
-
-					// Ignore certain names
-
-					String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
-
-					if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
-						continue;
-
-					// Already found (via its field/getter)?
-
-					if ( properties.containsKey( lowercasedPropertyName ) )
-						continue;
-
-					properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toSet, null, methodWrite ) );
-				}
-
+				properties = inspectProperties( clazz );
 				mPropertiesCache.put( clazz, Collections.unmodifiableMap( properties ) );
 			}
 
@@ -246,6 +121,144 @@ public class JavaBeanPropertyStyle
 		return new Class<?>[] { Class.class };
 	}
 
+	/**
+	 * @return the properties of the given class. Never null.
+	 */
+
+	protected Map<String, Property> inspectProperties( Class<?> clazz )
+	{
+		// TreeMap so that returns alphabetically sorted properties
+
+		Map<String, Property> properties = CollectionUtils.newTreeMap();
+
+		// Public fields
+
+		for ( Field field : clazz.getFields() )
+		{
+			// Ignore static public fields
+
+			if ( Modifier.isStatic( field.getModifiers() ) )
+				continue;
+
+			String propertyName = field.getName();
+			properties.put( propertyName, new FieldProperty( propertyName, field ) );
+		}
+
+		// Getter methods
+
+		for ( Method methodRead : clazz.getMethods() )
+		{
+			Class<?>[] parameters = methodRead.getParameterTypes();
+
+			if ( parameters.length != 0 )
+				continue;
+
+			Class<?> toReturn = methodRead.getReturnType();
+
+			if ( void.class.equals( toReturn ) )
+				continue;
+
+			// Ignore certain types
+
+			if ( ArrayUtils.contains( mExcludeTypes, toReturn ) )
+				continue;
+
+			String methodName = methodRead.getName();
+			String propertyName = null;
+
+			if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
+				propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
+			else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
+				propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
+			else
+				continue;
+
+			if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
+				continue;
+
+			// Ignore certain names
+
+			String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
+
+			if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
+				continue;
+
+			// Already found (via its field)?
+
+			Property propertyExisting = properties.get( lowercasedPropertyName );
+
+			if ( propertyExisting != null )
+			{
+				if ( !( propertyExisting instanceof JavaBeanProperty ) )
+					continue;
+
+				// Beware covariant return types: always prefer the
+				// subclass
+
+				if ( toReturn.isAssignableFrom( propertyExisting.getType() ) )
+					continue;
+			}
+
+			// Try to find a matching setter
+
+			Method methodWrite = null;
+
+			try
+			{
+				methodWrite = clazz.getMethod( ClassUtils.JAVABEAN_SET_PREFIX + propertyName, toReturn );
+			}
+			catch ( NoSuchMethodException e )
+			{
+				// May not be one
+			}
+
+			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toReturn, methodRead, methodWrite ) );
+		}
+
+		// Setter methods (for those without getters)
+
+		for ( Method methodWrite : clazz.getMethods() )
+		{
+			Class<?>[] parameters = methodWrite.getParameterTypes();
+
+			if ( parameters.length != 1 )
+				continue;
+
+			Class<?> toSet = parameters[0];
+
+			// Ignore certain types
+
+			if ( ArrayUtils.contains( mExcludeTypes, toSet ) )
+				continue;
+
+			String methodName = methodWrite.getName();
+
+			if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
+				continue;
+
+			String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
+
+			if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
+				continue;
+
+			// Ignore certain names
+
+			String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
+
+			if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
+				continue;
+
+			// Already found (via its field/getter)?
+
+			if ( properties.containsKey( lowercasedPropertyName ) )
+				continue;
+
+			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toSet, null, methodWrite ) );
+		}
+
+		return properties;
+	}
+
 	//
 	//
 	// Inner classes
@@ -256,7 +269,7 @@ public class JavaBeanPropertyStyle
 	 * Public member field-based property.
 	 */
 
-	private static class FieldProperty
+	protected static class FieldProperty
 		extends BaseProperty
 	{
 		//
@@ -278,6 +291,9 @@ public class JavaBeanPropertyStyle
 			super( name, field.getType() );
 
 			mField = field;
+
+			if ( mField == null )
+				throw new NullPointerException( "field" );
 		}
 
 		//
@@ -317,13 +333,22 @@ public class JavaBeanPropertyStyle
 		{
 			return mField.getGenericType();
 		}
+
+		/**
+		 * Exposed for JavassistPropertyStyle.
+		 */
+
+		public Field getField()
+		{
+			return mField;
+		}
 	}
 
 	/**
 	 * JavaBean-convention-based property.
 	 */
 
-	private static class JavaBeanProperty
+	protected static class JavaBeanProperty
 		extends BaseProperty
 	{
 		//
@@ -348,6 +373,11 @@ public class JavaBeanPropertyStyle
 
 			mReadMethod = readMethod;
 			mWriteMethod = writeMethod;
+
+			// Must have either a getter or a setter (or both)
+
+			if ( mReadMethod == null && mWriteMethod == null )
+				throw InspectorException.newException( "JavaBeanProperty '" + name + "' has no getter and no setter" );
 		}
 
 		//
@@ -397,10 +427,8 @@ public class JavaBeanPropertyStyle
 
 				return null;
 			}
-			else if ( mReadMethod != null )
-				return null;
 
-			throw InspectorException.newException( "Don't know how to getAnnotation from " + getName() );
+			return null;
 		}
 
 		public Type getGenericType()
@@ -408,10 +436,25 @@ public class JavaBeanPropertyStyle
 			if ( mReadMethod != null )
 				return mReadMethod.getGenericReturnType();
 
-			if ( mWriteMethod != null )
-				return mWriteMethod.getGenericParameterTypes()[0];
+			return mWriteMethod.getGenericParameterTypes()[0];
+		}
 
-			throw InspectorException.newException( "Don't know how to getGenericType from " + getName() );
+		/**
+		 * Exposed for JavassistPropertyStyle.
+		 */
+
+		public Method getReadMethod()
+		{
+			return mReadMethod;
+		}
+
+		/**
+		 * Exposed for JavassistPropertyStyle.
+		 */
+
+		public Method getWriteMethod()
+		{
+			return mWriteMethod;
 		}
 	}
 }

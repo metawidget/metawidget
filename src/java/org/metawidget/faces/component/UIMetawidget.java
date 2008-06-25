@@ -479,10 +479,13 @@ public abstract class UIMetawidget
 		{
 			UIComponent componentChild = i.next();
 
-			if ( componentChild.getAttributes().containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) )
+			@SuppressWarnings( "unchecked" )
+			Map<String, Object> attributes = componentChild.getAttributes();
+
+			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) )
 			{
 				// Do not recreate the components in the event of a validation error,
-				// as that will clear any erroneous values
+				// as that will clear any values in the components (eg. the erroneous values)
 
 				if ( getFacesContext().getMaximumSeverity() == null )
 				{
@@ -493,11 +496,10 @@ public abstract class UIMetawidget
 
 			// If we did not create the component, or if we created it but this is a POSTback, at
 			// least remove its metadata. This is important as otherwise ad-hoc components (eg.
-			// those
-			// not directly descended from our value binding) are not removed/re-added (and
+			// those not directly descended from our value binding) are not removed/re-added (and
 			// therefore re-ordered) upon POSTback
 
-			componentChild.getAttributes().remove( COMPONENT_ATTRIBUTE_METADATA );
+			attributes.remove( COMPONENT_ATTRIBUTE_METADATA );
 		}
 
 		mClientIds = null;
@@ -572,7 +574,8 @@ public abstract class UIMetawidget
 
 			// Manually created components default to no section
 
-			childAttributes.put( SECTION, "" );
+			if ( miscAttributes.get( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) == null )
+				childAttributes.put( SECTION, "" );
 
 			// Inspect metadata
 

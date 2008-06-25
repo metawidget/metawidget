@@ -27,6 +27,8 @@ import org.metawidget.test.inspector.hibernate.HibernateInspectorTest;
 import org.metawidget.test.inspector.hibernate.validator.HibernateValidatorInspectorTest;
 import org.metawidget.test.inspector.impl.propertystyle.groovy.GroovyPropertyStyleTest;
 import org.metawidget.test.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleTest;
+import org.metawidget.test.inspector.impl.propertystyle.javassist.JavassistPropertyStyleDebugOffTest;
+import org.metawidget.test.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest;
 import org.metawidget.test.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyleTest;
 import org.metawidget.test.inspector.java5.Java5InspectorTest;
 import org.metawidget.test.inspector.jpa.JpaInspectorTest;
@@ -59,6 +61,8 @@ public class InspectorTests
 		suite.addTestSuite( PropertyTypeInspectorTest.class );
 		suite.addTestSuite( GroovyPropertyStyleTest.class );
 		suite.addTestSuite( JavaBeanPropertyStyleTest.class );
+		suite.addTestSuite( JavassistPropertyStyleTest.class );
+		suite.addTestSuite( JavassistPropertyStyleDebugOffTest.class );
 		suite.addTestSuite( StrutsActionFormPropertyStyleTest.class );
 		suite.addTestSuite( JpaInspectorTest.class );
 		suite.addTestSuite( CompositeInspectorTest.class );

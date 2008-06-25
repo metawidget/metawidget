@@ -610,7 +610,8 @@ public class Person {
 		&lt;inspectors&gt;
 			&lt;metawidgetAnnotationInspector
 				xmlns="java:org.metawidget.inspector.annotation" /&gt;
-			&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+			&lt;propertyTypeInspector
+				xmlns="java:org.metawidget.inspector.propertytype"/&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;
 
@@ -729,7 +730,8 @@ public class Main {
 				config="XmlInspectorConfig"&gt;
 				&lt;file&gt;com/myapp/metawidget-metadata.xml&lt;/file&gt;
 			&lt;/xmlInspector&gt;</emphasis>
-			&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+			&lt;propertyTypeInspector
+				xmlns="java:org.metawidget.inspector.propertytype"/&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;
 
@@ -1007,6 +1009,14 @@ public class Main {
 				<para>
 					(replacing <parameter>faces</parameter> with <parameter>gwt</parameter>, <parameter>spring</parameter> or <parameter>struts</parameter> as appropriate).
 				</para>
+
+				<tip>
+					<title>Tip</title>
+					For most web environments, deploying Metawidget is as simple as putting <filename>metawidget.jar</filename> in
+					<filename>WEB-INF/lib</filename>. For GWT, you'll need to additionally include <filename>metawidget.jar</filename>
+					<emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt-client.jar</filename> in the <parameter>CLASSPATH</parameter>
+					during your <parameter>GWTCompiler</parameter> step.
+				</tip>				
 
 				<para>
 					Copy the WAR into Tomcat's <filename>webapps</filename> folder, start Tomcat, and open a Web browser
@@ -1549,7 +1559,7 @@ bin\run</programlisting>
 &lt;/propertyTypeInspector&gt;</programlisting>
 
 			</section>
-
+			
 		</section>
 
 		<section id="section-introduction-part4-conclusion">
@@ -1942,7 +1952,7 @@ bin\run</programlisting>
 					<para>
 						<classname>SimpleBinding</classname> expects every domain object to be wrapped with a <classname>SimpleBindingAdapter</classname>.
 						The supplied <classname>SimpleBindingAdapterGenerator</classname> automates this process. To configure it, add the following
-						to your <filename>application-name.gwt.xml</filename> file...
+						to the <filename>application-name.gwt.xml</filename> file...
 					</para>
 					
 					<programlisting language="xml">&lt;generate-with
@@ -1951,12 +1961,69 @@ bin\run</programlisting>
 &lt;/generate-with&gt;</programlisting>
 
 					<para>
-						...and in your application code...
+						...and in the application code...
 					</para>
 					
 					<programlisting language="java">metawidget.setBindingClass(SimpleBinding.class);
 SimpleBindingAdapter&lt;Contact&gt; adp = (SimpleBindingAdapter&lt;Contact&gt;) GWT.create(Contact.class);
 SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>					
+					
+				</section>
+				
+				<section id="section-metawidgets-web-gwt-deployment">
+					<title>Deployment</title>
+					
+					<para>
+						There are four steps to deploying Metawidget within a GWT application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Update the application's <filename>.gwt.xml</filename> module to include Metawidet:
+							</para>
+							<programlisting language="xml">&lt;module&gt;								
+	&lt;inherits name='org.metawidget.GwtMetawidget' /&gt;
+	...
+&lt;/module&gt;</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								Include both <filename>metawidget.jar</filename> <emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt-client.jar</filename>
+								in the <parameter>CLASSPATH</parameter> during the <classname>GWTCompiler</classname> phase.
+							</para>
+						</listitem>
+						<listitem>						
+							<para>
+								Add <filename>metawidget.jar</filename> into <filename>WEB-INF/lib</filename>.
+							</para>
+						</listitem>
+						<listitem>						
+							<para>
+								Update the application's <filename>web.xml</filename> to include <classname>GwtRemoteInspectorImpl</classname>:
+							</para>							
+							<programlisting language="xml">&lt;web-app&gt;
+	...
+	&lt;servlet&gt;
+		&lt;servlet-name&gt;metawidget-inspector&lt;/servlet-name&gt;
+		&lt;servlet-class&gt;
+			org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl
+		&lt;/servlet-class&gt;
+	&lt;/servlet&gt;
+
+	&lt;servlet-mapping&gt;
+		&lt;servlet-name&gt;metawidget-inspector&lt;/servlet-name&gt;
+		&lt;url-pattern&gt;/metawidget-inspector&lt;/url-pattern&gt;
+	&lt;/servlet-mapping&gt;
+&lt;/web-app&gt;</programlisting>
+						</listitem>
+					</orderedlist>
+					
+					<para>
+						A working example of all four steps can be found in <filename>addressbook-gwt.war</filename> included in the binary
+						distribution. You may also find the <filename>example-gwt-addressbook</filename> Ant task in the source
+						distribution's <filename>build.xml</filename> useful.
+					</para>
 					
 				</section>
 				
@@ -2347,6 +2414,64 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						generated getter/setter methods.
 					</para>
 
+				</section>
+				
+				<section id="section-inspectors-property-base-javassist">
+					<title>JavassistPropertyStyle</title>
+						
+					<para>
+						The <classname>JavassistPropertyStyle</classname> is a pluggable, alternative property style which extends
+						<classname>JavaBeanPropertyStyle</classname> and makes use of <classname>Javassist</classname> for those environments
+						that have it available.
+					</para>
+					
+					<para>
+						<classname>Javassist</classname> is used to expose the debug line numbering information embedded in JVM bytecode
+						to sort getters/setters according to their original declaration order in the source code. This saves business objects
+						having to use <classname>@UiComesAfter</classname> (or an XML file, or some other method) to impose an ordering.
+					</para>
+					
+					<para>
+						However, a danger of this approach is that if the business objects are ever recompiled <emphasis>without</emphasis> debug
+						line numbering information (eg. when moving from development to production) the UI fields will lose their
+						ordering. Such a subtle bug may not be picked up, so as a safeguard <classname>JavassistPropertyStyle</classname>
+						'fails hard' with an <classname>InspectorException</classname> if line numbers are not available.
+					</para>
+					
+					<para>
+						<classname>JavassistPropertyStyle</classname> uses the following sorting algorithm:
+					</para>
+					
+					<itemizedlist>
+						<listitem>
+							<para>
+								superclass public fields come first, sorted by name.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								superclass methods come next, sorted by getter line number (or, if no getter, setter line number).
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								public fields come next, sorted by name.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								methods come last, sorted by getter line number (or, if no getter, setter line number).
+							</para>
+						</listitem>
+					</itemizedlist>
+					
+					<para>
+						Note this algorithm is less flexible than <classname>@UiComesAfter</classname>, which can arbitrarily
+						interleave superclass and subclass properties. However, it is possible to use both
+						<classname>UiComesAfter</classname> and <classname>JavassistPropertyStyle</classname> together to get the best of
+						both worlds.						
+					</para>
+						
 				</section>
 
 			</section>

@@ -114,7 +114,7 @@ public class HtmlLayoutRenderer
 	{
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
 		message.setParent( component );
-		message.setId( "not-used" );
+		message.setId( context.getViewRoot().createUniqueId() );
 		message.setFor( childComponent.getId() );
 
 		// Parse styles

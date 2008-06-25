@@ -40,6 +40,8 @@
 		<echo message="      This is because some optional features require Java SE 6"/>
 		<echo message="      (eg. annotations, javax.swing.GroupLayout)"/>
 
+		<property name="build.debug" value="on"/>
+		
 		<!-- Build J2SE 1.4 compatible files (the source is still Java 5, to take advantage -->
 		<!-- of cleaner source code, but we compile down to jsr14. We can do this using     -->
 		<!-- plain javac, without needing retroweaver or similar tools)                     -->
@@ -136,9 +138,10 @@
 
 		<!-- Build test files -->
 
-		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="${build.debug}" optimize="on" target="1.5">
+		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="on" target="1.5">
 			<exclude name="org/metawidget/test/faces/allwidgets/**"/>
 			<exclude name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
+			<exclude name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleNoDebugTest.java"/>
 			<exclude name="org/metawidget/test/shared/allwidgets/**"/>
 			<exclude name="org/metawidget/test/spring/allwidgets/**"/>
 			<exclude name="org/metawidget/test/struts/allwidgets/**"/>
@@ -150,6 +153,10 @@
 				<pathelement path="${build.metawidget.dir}/example-classes"/>				
 				<pathelement path="${build.metawidget.dir}/groovy-test-classes"/>				
 			</classpath>
+		</javac>
+		
+		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="off" target="1.5">
+			<include name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
 		</javac>
 		
 	</target>
