@@ -28,8 +28,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  * @author Richard Kennard
  */
 
-// TODO: do the inspection 'on the way through'?
-
 @RemoteServiceRelativePath( "contacts" )
 public interface ContactsService
 	extends RemoteService
