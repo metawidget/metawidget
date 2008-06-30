@@ -30,6 +30,14 @@ public class MainFrame
 {
 	//
 	//
+	// Private statics
+	//
+	//
+
+	private static final long	serialVersionUID	= 8237029790012008665L;
+
+	//
+	//
 	// Public statics
 	//
 	//

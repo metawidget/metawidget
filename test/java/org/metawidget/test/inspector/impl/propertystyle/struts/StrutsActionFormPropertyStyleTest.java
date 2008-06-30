@@ -54,6 +54,12 @@ public class StrutsActionFormPropertyStyleTest
 	private static class FooForm
 		extends ActionForm
 	{
-		// Empty for now
+		//
+		//
+		// Private statics
+		//
+		//
+
+		private static final long	serialVersionUID	= 1234979606050156787L;
 	}
 }

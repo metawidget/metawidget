@@ -46,6 +46,14 @@ public class GwtRemoteInspectorImpl
 {
 	//
 	//
+	// Private statics
+	//
+	//
+
+	private static final long	serialVersionUID	= -7037413818513317265L;
+
+	//
+	//
 	// Private members
 	//
 	//
@@ -81,7 +89,7 @@ public class GwtRemoteInspectorImpl
 		{
 			return mInspector.inspect( toInspect, type, names );
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			throw new Exception( e.getMessage() );
 		}

@@ -823,7 +823,7 @@ public class SwingMetawidget
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels != null && !"".equals( lookupLabels ) )
-				return new LookupLabel( getLabelsMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels )));
+				return new LookupLabel( getLabelsMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
 
 			return new JLabel();
 		}
@@ -940,7 +940,7 @@ public class SwingMetawidget
 
 			if ( lookupLabels != null && !"".equals( lookupLabels ) )
 			{
-				Map<String, String> labelsMap = getLabelsMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ));
+				Map<String, String> labelsMap = getLabelsMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
 
 				comboBox.setEditor( new LookupComboBoxEditor( labelsMap ) );
 				comboBox.setRenderer( new LookupComboBoxRenderer( labelsMap ) );
@@ -1320,6 +1320,14 @@ public class SwingMetawidget
 	public static class LookupLabel
 		extends JLabel
 	{
+		//
+		//
+		// Private statics
+		//
+		//
+
+		private static final long	serialVersionUID	= -7037413818513317265L;
+
 		//
 		//
 		// Private members

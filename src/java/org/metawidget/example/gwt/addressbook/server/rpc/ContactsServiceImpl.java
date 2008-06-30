@@ -35,11 +35,19 @@ public class ContactsServiceImpl
 {
 	//
 	//
+	// Private statics
+	//
+	//
+
+	private static final long	serialVersionUID	= 4260373927173571355L;
+
+	//
+	//
 	// Private members
 	//
 	//
 
-	private ContactsController	mContactsController = new ContactsController();
+	private ContactsController	mContactsController	= new ContactsController();
 
 	//
 	//

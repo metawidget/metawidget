@@ -30,6 +30,14 @@ public class AddressBookApplet
 {
 	//
 	//
+	// Private statics
+	//
+	//
+
+	private static final long	serialVersionUID	= 8950797850231890512L;
+
+	//
+	//
 	// Constructor
 	//
 	//
