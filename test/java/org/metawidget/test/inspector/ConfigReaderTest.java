@@ -269,6 +269,51 @@ public class ConfigReaderTest
 		}
 	}
 
+	public void testMissingResource()
+	{
+		ConfigReader reader = new ConfigReader();
+
+		try
+		{
+			reader.read( (String) null );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "No resource specified".equals( e.getMessage() ));
+		}
+
+		try
+		{
+			reader.read( "" );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "No resource specified".equals( e.getMessage() ));
+		}
+
+		try
+		{
+			reader.read( " " );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "No resource specified".equals( e.getMessage() ));
+		}
+
+		try
+		{
+			reader.read( " foo" );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "Unable to locate  foo".equals( e.getMessage() ));
+		}
+	}
+
 	//
 	//
 	// Constructor

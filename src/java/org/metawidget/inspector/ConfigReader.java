@@ -138,9 +138,6 @@ public class ConfigReader
 
 	public Inspector read( String resource )
 	{
-		if ( resource == null )
-			throw InspectorException.newException( "No resource specified" );
-
 		return read( openResource( resource ));
 	}
 
@@ -177,6 +174,9 @@ public class ConfigReader
 
 	public InputStream openResource( String resource )
 	{
+		if ( resource == null || "".equals( resource.trim() ))
+			throw InspectorException.newException( "No resource specified" );
+
 		// Thread's ClassLoader
 
 		ClassLoader loaderContext = Thread.currentThread().getContextClassLoader();
@@ -609,7 +609,6 @@ public class ConfigReader
 				if ( e instanceof InvocationTargetException )
 					e = (Exception) ((InvocationTargetException) e).getTargetException();
 
-				LOG.error( "Unable to parse config", e );
 				throw new SAXException( e );
 			}
 		}
