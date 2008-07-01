@@ -858,7 +858,7 @@ public class AndroidMetawidget
 	protected AndroidMetawidget createMetawidget( Map<String, String> attributes )
 		throws Exception
 	{
-		Constructor<? extends AndroidMetawidget> constructor = getClass().getConstructor( Context.class, getClass() );
+		Constructor<? extends AndroidMetawidget> constructor = getClass().getConstructor( Context.class );
 		return constructor.newInstance( getContext() );
 	}
 
