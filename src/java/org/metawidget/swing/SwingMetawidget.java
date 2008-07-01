@@ -938,7 +938,7 @@ public class SwingMetawidget
 
 		// Nested Metawidget
 
-		return createMetawidget( attributes );
+		return getClass().newInstance();
 	}
 
 	protected JComponent buildActiveWidget( Map<String, String> attributes )
@@ -1099,7 +1099,7 @@ public class SwingMetawidget
 
 		// Nested Metawidget
 
-		return createMetawidget( attributes );
+		return getClass().newInstance();
 	}
 
 	protected void endBuild()
@@ -1158,12 +1158,6 @@ public class SwingMetawidget
 
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
 		return mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
-	}
-
-	protected SwingMetawidget createMetawidget( Map<String, String> attributes )
-		throws Exception
-	{
-		return getClass().newInstance();
 	}
 
 	protected void initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )

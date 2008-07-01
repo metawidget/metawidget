@@ -65,22 +65,6 @@ public class HtmlMetawidgetTag
 
 	//
 	//
-	// Constructor
-	//
-	//
-
-	public HtmlMetawidgetTag()
-	{
-		// Default constructor
-	}
-
-	public HtmlMetawidgetTag( HtmlMetawidgetTag tag )
-	{
-		super( tag );
-	}
-
-	//
-	//
 	// Public methods
 	//
 	//

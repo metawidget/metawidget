@@ -90,22 +90,6 @@ public class StrutsMetawidgetTag
 
 	//
 	//
-	// Constructor
-	//
-	//
-
-	public StrutsMetawidgetTag()
-	{
-		// Default constructor
-	}
-
-	public StrutsMetawidgetTag( StrutsMetawidgetTag tag )
-	{
-		super( tag );
-	}
-
-	//
-	//
 	// Public methods
 	//
 	//

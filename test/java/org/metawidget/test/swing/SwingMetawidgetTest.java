@@ -49,7 +49,11 @@ public class SwingMetawidgetTest
 		BeanInfo info = Introspector.getBeanInfo( SwingMetawidget.class );
 
 		assertTrue( "Metawidget".equals( info.getBeanDescriptor().getDisplayName() ));
+		assertTrue( info.getIcon( BeanInfo.ICON_MONO_16x16 ) != null );
+		assertTrue( info.getIcon( BeanInfo.ICON_COLOR_16x16 ) != null );
 		assertTrue( info.getIcon( BeanInfo.ICON_MONO_32x32 ) != null );
+		assertTrue( info.getIcon( BeanInfo.ICON_COLOR_32x32 ) != null );
+		assertTrue( info.getIcon( 5 ) == null );
 	}
 
 	public void testInvalidation()

@@ -16,6 +16,8 @@
 
 package org.metawidget.jsp.tagext.html;
 
+import java.util.Map;
+
 import org.metawidget.jsp.tagext.MetawidgetTag;
 
 /**
@@ -38,26 +40,6 @@ public abstract class BaseHtmlMetawidgetTag
 	protected String	mStyleClass;
 
 	protected boolean	mCreateHiddenFields;
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public BaseHtmlMetawidgetTag()
-	{
-		// Default constructor
-	}
-
-	public BaseHtmlMetawidgetTag( BaseHtmlMetawidgetTag tag )
-	{
-		super( tag );
-
-		mStyle = tag.mStyle;
-		mStyleClass = tag.mStyleClass;
-		mCreateHiddenFields = tag.mCreateHiddenFields;
-	}
 
 	//
 	//
@@ -96,5 +78,23 @@ public abstract class BaseHtmlMetawidgetTag
 		mStyle = null;
 		mStyleClass = null;
 		mCreateHiddenFields = false;
+	}
+
+	//
+	//
+	// Protected methods
+	//
+	//
+
+	@Override
+	protected void initMetawidget( MetawidgetTag metawidget, Map<String, String> attributes )
+	{
+		super.initMetawidget( metawidget, attributes );
+
+		BaseHtmlMetawidgetTag tag = (BaseHtmlMetawidgetTag) metawidget;
+
+		tag.setStyle( mStyle );
+		tag.setStyleClass( mStyleClass );
+		tag.setCreateHiddenFields( mCreateHiddenFields );
 	}
 }

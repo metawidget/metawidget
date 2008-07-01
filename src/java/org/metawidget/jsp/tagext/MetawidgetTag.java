@@ -97,7 +97,7 @@ public abstract class MetawidgetTag
 
 	private ResourceBundle				mBundle;
 
-	private Map<String, String>			mParams;
+	private Map<String, String>			mParameters;
 
 	private Map<String, FacetContent>	mFacets;
 
@@ -107,32 +107,14 @@ public abstract class MetawidgetTag
 
 	//
 	//
-	// Constuctor
-	//
-	//
-
-	public MetawidgetTag()
-	{
-		// Default constructor
-	}
-
-	public MetawidgetTag( MetawidgetTag tag )
-	{
-		// Do not copy mPath: could lead to infinite recursion
-
-		mInspectorConfig = tag.mInspectorConfig;
-		mLayoutClass = tag.mLayoutClass;
-		mBundle = tag.mBundle;
-
-		if ( tag.mParams != null )
-			mParams = CollectionUtils.newHashMap( tag.mParams );
-	}
-
-	//
-	//
 	// Public methods
 	//
 	//
+
+	public void setInspectorConfig( String inspectorConfig )
+	{
+		mInspectorConfig = inspectorConfig;
+	}
 
 	public void setLayoutClass( String layoutClass )
 	{
@@ -220,18 +202,18 @@ public abstract class MetawidgetTag
 
 	public void setParam( String name, String value )
 	{
-		if ( mParams == null )
-			mParams = CollectionUtils.newHashMap();
+		if ( mParameters == null )
+			mParameters = CollectionUtils.newHashMap();
 
-		mParams.put( name, value );
+		mParameters.put( name, value );
 	}
 
 	public String getParam( String name )
 	{
-		if ( mParams == null )
+		if ( mParameters == null )
 			return null;
 
-		return mParams.get( name );
+		return mParameters.get( name );
 	}
 
 	public FacetContent getFacet( String name )
@@ -298,7 +280,7 @@ public abstract class MetawidgetTag
 		mInspectorConfig = null;
 		mLayoutClass = null;
 		mBundle = null;
-		mParams = null;
+		mParameters = null;
 		mStubs = null;
 	}
 
@@ -362,29 +344,16 @@ public abstract class MetawidgetTag
 		}
 	}
 
-	/**
-	 * Creates a nested Metawidget.
-	 * <p>
-	 * Because creating a Metawidget directly in <code>buildWidget</code> would lead to infinite
-	 * recursion during <code>buildWidgets</code> (as opposed to during
-	 * <code>buildCompoundWidget</code>), we add this deferred step.
-	 */
-
-	protected MetawidgetTag createMetawidget( String path, String childName )
+	protected void initMetawidget( MetawidgetTag metawidget, Map<String, String> attributes )
 	{
-		try
-		{
-			Constructor<? extends MetawidgetTag> constructor = getClass().getConstructor( getClass() );
-			MetawidgetTag tag = constructor.newInstance( this );
+		metawidget.mPath = mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 
-			tag.mPath = path;
+		metawidget.setInspectorConfig( mInspectorConfig );
+		metawidget.setLayoutClass( mLayoutClass );
+		metawidget.setBundle( mBundle );
 
-			return tag;
-		}
-		catch ( Exception e )
-		{
-			throw MetawidgetException.newException( e );
-		}
+		if ( mParameters != null )
+			metawidget.mParameters = CollectionUtils.newHashMap( mParameters );
 	}
 
 	protected String inspect()
@@ -529,8 +498,8 @@ public abstract class MetawidgetTag
 		protected Object initMetawidget( Object widget, Map<String, String> attributes )
 			throws Exception
 		{
-			String name = attributes.get( NAME );
-			MetawidgetTag metawidget = createMetawidget( mPath + '.' + name, name );
+			MetawidgetTag metawidget = MetawidgetTag.this.getClass().newInstance();
+			MetawidgetTag.this.initMetawidget( metawidget, attributes );
 			metawidget.setReadOnly( isReadOnly( attributes ) );
 
 			return JspUtils.writeTag( pageContext, metawidget, MetawidgetTag.this, null );

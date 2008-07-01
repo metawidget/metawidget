@@ -85,22 +85,6 @@ public class SpringMetawidgetTag
 
 	//
 	//
-	// Constructor
-	//
-	//
-
-	public SpringMetawidgetTag()
-	{
-		// Default constructor
-	}
-
-	public SpringMetawidgetTag( SpringMetawidgetTag tag )
-	{
-		super( tag );
-	}
-
-	//
-	//
 	// Public methods
 	//
 	//

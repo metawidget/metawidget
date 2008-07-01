@@ -16,6 +16,10 @@
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
+			<name>inspectorConfig</name>
+			<rtexprvalue>true</rtexprvalue>			
+		</attribute>
+		<attribute>
 			<name>layoutClass</name>
 			<rtexprvalue>true</rtexprvalue>			
 		</attribute>

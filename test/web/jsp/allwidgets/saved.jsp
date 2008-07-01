@@ -115,7 +115,7 @@
 
 		<fmt:setBundle basename="org.metawidget.test.shared.allwidgets.resource.Resources" var="bundle"/>
 		
-		<m:metawidget value="allWidgets" bundle="${bundle.resourceBundle}" createHiddenFields="true" readOnly="true">				
+		<m:metawidget value="allWidgets" bundle="${bundle.resourceBundle}" createHiddenFields="true" readOnly="true" inspectorConfig="config/inspector-config.xml">				
 			<m:stub value="longObject"/>				
 		</m:metawidget>
 		
