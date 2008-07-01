@@ -53,7 +53,6 @@ import org.metawidget.example.swing.addressbook.ListTableModel;
 import org.metawidget.example.swing.addressbook.MainFrame;
 import org.metawidget.example.swing.addressbook.converter.DateConverter;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.SwingUtils;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -120,7 +119,7 @@ public class SwingAddressBookTest
 
 		SwingMetawidget metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 		assertTrue( "Homer".equals( metawidgetContact.getValue( "firstnames" ) ) );
-		assertTrue( SwingUtils.findComponentNamed( metawidgetContact, "firstnames" ) instanceof JLabel );
+		assertTrue( metawidgetContact.getComponent( "firstnames" ) instanceof JLabel );
 		assertTrue( "12/05/56".equals( metawidgetContact.getValue( "dateOfBirth" ) ) );
 
 		try
@@ -133,7 +132,7 @@ public class SwingAddressBookTest
 			// Should throw MetawidgetException
 		}
 
-		JScrollPane scrollPane = (JScrollPane) SwingUtils.findComponentNamed( metawidgetContact, "communications" );
+		JScrollPane scrollPane = (JScrollPane) metawidgetContact.getComponent( "communications" );
 		JTable communications = (JTable) scrollPane.getViewport().getView();
 		TableModel model = communications.getModel();
 

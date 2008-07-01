@@ -87,9 +87,7 @@ public class BeanUtilsBinding
 			}
 			catch ( NoSuchMethodException e )
 			{
-				// Fail gracefully
-
-				return;
+				throw MetawidgetException.newException( "Property '" + sourceBinding + "' has no getter" );
 			}
 
 			BeanUtils.setProperty( component, componentProperty, sourceValue );

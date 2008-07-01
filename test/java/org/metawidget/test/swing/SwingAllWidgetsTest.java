@@ -41,6 +41,7 @@ import junit.framework.TestCase;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.Converter;
 import org.metawidget.MetawidgetException;
+import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.beanutils.BeanUtilsBinding;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
@@ -80,6 +81,10 @@ public class SwingAllWidgetsTest
 		metawidget.setBindingClass( BeanUtilsBinding.class );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( allWidgets );
+
+		Stub stub = new Stub();
+		stub.setName( "mystery" );
+		metawidget.add( stub );
 
 		// Test missing components
 
@@ -361,16 +366,11 @@ public class SwingAllWidgetsTest
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 55 ) ).gridx );
 		assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
-		assertTrue( "Mystery:".equals( ( (JLabel) metawidget.getComponent( 56 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 57 ) instanceof JTextField );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 57 ) ).gridx );
-		( (JTextField) metawidget.getComponent( 57 ) ).setText( "mystery" );
+		assertTrue( "Collection:".equals( ( (JLabel) metawidget.getComponent( 56 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 57 ) instanceof JScrollPane );
+		assertTrue( ((JScrollPane) metawidget.getComponent( 57 )).getViewport().getView() instanceof JTable );
 
-		assertTrue( "Collection:".equals( ( (JLabel) metawidget.getComponent( 58 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 59 ) instanceof JScrollPane );
-		assertTrue( ((JScrollPane) metawidget.getComponent( 59 )).getViewport().getView() instanceof JTable );
-
-		assertTrue( 60 == metawidget.getComponentCount() );
+		assertTrue( 58 == metawidget.getComponentCount() );
 
 		// Check painting
 
@@ -461,13 +461,11 @@ public class SwingAllWidgetsTest
 		assertTrue( now.equals( ( (JLabel) metawidget.getComponent( 53 ) ).getText() ) );
 		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 54 ) ).getText() ) );
 		assertTrue( "Read Only".equals( ( (JLabel) metawidget.getComponent( 55 ) ).getText() ) );
-		assertTrue( "Mystery:".equals( ( (JLabel) metawidget.getComponent( 56 ) ).getText() ) );
-		assertTrue( "".equals( ( (JLabel) metawidget.getComponent( 57 ) ).getText() ) );
-		assertTrue( "Collection:".equals( ( (JLabel) metawidget.getComponent( 58 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 59 ) instanceof JScrollPane );
-		assertTrue( ((JScrollPane) metawidget.getComponent( 59 )).getViewport().getView() instanceof JTable );
+		assertTrue( "Collection:".equals( ( (JLabel) metawidget.getComponent( 56 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 57 ) instanceof JScrollPane );
+		assertTrue( ((JScrollPane) metawidget.getComponent( 57 )).getViewport().getView() instanceof JTable );
 
-		assertTrue( metawidget.getComponentCount() == 60 );
+		assertTrue( metawidget.getComponentCount() == 58 );
 
 		// Test unbind
 

@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.lang.reflect.Modifier;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.metawidget.inspector.iface.Inspector;
@@ -116,7 +117,7 @@ public abstract class BasePropertyInspector
 		{
 			Object childToInspect = null;
 			String strChildName = null;
-			Map<String, String> mapParentAttributes = null;
+			Map<String, String> parentAttributes = null;
 			Class<?> clazz = null;
 
 			// If the path has a parent...
@@ -125,12 +126,12 @@ public abstract class BasePropertyInspector
 			{
 				// ...inspect its property for useful annotations...
 
-				Object objParentToInspect = traverse( toInspect, type, true, names );
+				Object parentToInspect = traverse( toInspect, type, true, names );
 
-				if ( objParentToInspect == null )
+				if ( parentToInspect == null )
 					return null;
 
-				Class<?> classParent = ClassUtils.getUnproxiedClass( objParentToInspect.getClass(), mPatternProxy );
+				Class<?> classParent = ClassUtils.getUnproxiedClass( parentToInspect.getClass(), mPatternProxy );
 				strChildName = names[names.length - 1];
 
 				Property propertyInParent = mPropertyStyle.getProperties( classParent ).get( strChildName );
@@ -142,9 +143,8 @@ public abstract class BasePropertyInspector
 
 				if ( propertyInParent.isReadable() )
 				{
-					childToInspect = propertyInParent.read( objParentToInspect );
-
-					mapParentAttributes = inspect( propertyInParent, toInspect );
+					childToInspect = propertyInParent.read( parentToInspect );
+					parentAttributes = inspect( propertyInParent, toInspect );
 
 					if ( !Modifier.isFinal( clazz.getModifiers() ) && childToInspect != null )
 						clazz = ClassUtils.getUnproxiedClass( childToInspect.getClass(), mPatternProxy );
@@ -173,7 +173,7 @@ public abstract class BasePropertyInspector
 
 			// Nothing of consequence to return?
 
-			if ( !elementEntity.hasChildNodes() && ( mapParentAttributes == null || mapParentAttributes.isEmpty() ) )
+			if ( !elementEntity.hasChildNodes() && ( parentAttributes == null || parentAttributes.isEmpty() ) )
 				return null;
 
 			// Start a new DOM Document
@@ -185,9 +185,9 @@ public abstract class BasePropertyInspector
 
 			// Add any parent attributes
 
-			if ( mapParentAttributes != null )
+			if ( parentAttributes != null )
 			{
-				XmlUtils.setMapAsAttributes( elementEntity, mapParentAttributes );
+				XmlUtils.setMapAsAttributes( elementEntity, parentAttributes );
 				elementEntity.setAttribute( NAME, strChildName );
 			}
 
@@ -269,25 +269,33 @@ public abstract class BasePropertyInspector
 		if ( length == 0 )
 			return toTraverse;
 
-		// Traverse names
-
-		if ( onlyToParent )
-			length--;
-
 		Object traverse = toTraverse;
+		Object parentTraverse = null;
 
-		for ( int loop = 0; loop < length; loop++ )
+		Set<Object> traversed = CollectionUtils.newHashSet();
+		traversed.add( traverse );
+
+		for ( String name : names )
 		{
-			Property property = mPropertyStyle.getProperties( ClassUtils.getUnproxiedClass( traverse.getClass(), mPatternProxy ) ).get( names[loop] );
+			Property property = mPropertyStyle.getProperties( ClassUtils.getUnproxiedClass( traverse.getClass(), mPatternProxy ) ).get( name );
 
 			if ( !property.isReadable() )
 				return null;
 
+			parentTraverse = traverse;
 			traverse = property.read( traverse );
 
 			if ( traverse == null )
+				break;
+
+			// Nip infinite recursion in the bud quietly
+
+			if ( !traversed.add( traverse ))
 				return null;
 		}
+
+		if ( onlyToParent )
+			return parentTraverse;
 
 		return traverse;
 	}

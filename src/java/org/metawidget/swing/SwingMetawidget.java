@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.awt.BasicStroke;
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -392,8 +393,7 @@ public class SwingMetawidget
 	// because we can worry about nested Metawidgets here, not in the Binding class
 	public void save()
 	{
-		// buildWidgets may be necessary here if we have nested Metawidgets
-		// and have only ever called getComponent (eg. never been visible)
+		// buildWidgets() so that mBinding is initialized
 
 		buildWidgets();
 
@@ -495,8 +495,7 @@ public class SwingMetawidget
 
 	public Object getValue( String... names )
 	{
-		buildWidgets();
-		Component component = SwingUtils.findComponentNamed( this, names );
+		Component component = getComponent(  names );
 
 		if ( component == null )
 			throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
@@ -524,8 +523,7 @@ public class SwingMetawidget
 
 	public void setValue( Object value, String... names )
 	{
-		buildWidgets();
-		Component component = SwingUtils.findComponentNamed( this, names );
+		Component component = getComponent( names );
 
 		if ( component == null )
 			throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
@@ -541,6 +539,57 @@ public class SwingMetawidget
 			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
 
 		ClassUtils.setProperty( component, componentProperty, value );
+	}
+
+	/**
+	 * Finds the Component with the given name.
+	 */
+
+	public Component getComponent( String... names )
+	{
+		if ( names == null || names.length == 0 )
+			return null;
+
+		Component topComponent = this;
+
+		for ( int loop = 0, length = names.length; loop < length; loop++ )
+		{
+			String name = names[loop];
+
+			// May need building 'just in time' if we are calling getComponent
+			// immediately after a 'setToInspect'. See
+			// SwingMetawidgetTest.testNestedWithManualInspector
+
+			if ( topComponent instanceof SwingMetawidget )
+				( (SwingMetawidget) topComponent ).buildWidgets();
+
+			// Try to find a component...
+
+			Component[] children = ( (Container) topComponent ).getComponents();
+			topComponent = null;
+
+			for ( Component childComponent : children )
+			{
+				// ...with the name we're interested in
+
+				if ( name.equals( childComponent.getName() ) )
+				{
+					topComponent = childComponent;
+					break;
+				}
+			}
+
+			if ( loop == length - 1 )
+				return topComponent;
+
+			if ( topComponent == null )
+				throw MetawidgetException.newException( "No such component '" + name + "' of '" + ArrayUtils.toString( names, "', '" ) + "'" );
+
+			if ( !( topComponent instanceof Container ) )
+				throw MetawidgetException.newException( "'" + name + "' is not a Container" );
+		}
+
+		return topComponent;
 	}
 
 	public Facet getFacet( String name )
@@ -1120,8 +1169,12 @@ public class SwingMetawidget
 	protected void initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
 	{
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH + attributes.get( NAME ) );
-		metawidget.setInspector( mInspector );
-		metawidget.setInspectorConfig( mInspectorConfig );
+
+		if ( mInspectorConfig != null )
+			metawidget.setInspectorConfig( mInspectorConfig );
+		else
+			metawidget.setInspector( mInspector );
+
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBindingClass( mBindingClass );
 		metawidget.setBundle( mBundle );

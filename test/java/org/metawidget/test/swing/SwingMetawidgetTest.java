@@ -26,7 +26,9 @@ import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.binding.beanutils.BeanUtilsBinding;
 
 /**
  * @author Richard Kennard
@@ -80,6 +82,66 @@ public class SwingMetawidgetTest
 		validField.setBoolean( metawidget, true );
 		metawidget.removeAll();
 		assertFalse( validField.getBoolean( metawidget ));
+	}
+
+	public void testNestedWithManualInspector()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+		metawidget.setBindingClass( BeanUtilsBinding.class );
+		metawidget.setToInspect( new Foo() );
+
+		assertTrue( "Baz".equals( metawidget.getValue( "bar", "baz" )));
+	}
+
+	public void testRecursion()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+		RecursiveFoo foo = new RecursiveFoo();
+		foo.foo = foo;
+		metawidget.setToInspect( foo );
+
+		assertTrue( null == ((SwingMetawidget) metawidget.getComponent( "foo" )).getComponent( "foo" ));
+	}
+
+	//
+	//
+	// Inner class
+	//
+	//
+
+	public static class Foo
+	{
+		//
+		//
+		// Public methods
+		//
+		//
+
+		public Bar getBar()
+		{
+			return new Bar();
+		}
+	}
+
+	public static class Bar
+	{
+		//
+		//
+		// Public methods
+		//
+		//
+
+		public String getBaz()
+		{
+			return "Baz";
+		}
+	}
+
+	public static class RecursiveFoo
+	{
+		public RecursiveFoo foo;
 	}
 	//
 	//

@@ -185,6 +185,59 @@ public class PropertyTypeInspectorTest
 		assertTrue( property.getNextSibling() == null );
 	}
 
+	public void testRecursion()
+	{
+		RecursiveFoo recursiveFoo = new RecursiveFoo();
+		recursiveFoo.foo = recursiveFoo;
+
+		// Top level
+
+		Document document = XmlUtils.documentFromString( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName() ));
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ));
+		assertTrue( RecursiveFoo.class.getName().equals( entity.getAttribute( TYPE ) ));
+
+		Element property = (Element) entity.getFirstChild();
+		assertTrue( PROPERTY.equals( property.getNodeName() ));
+		assertTrue( "foo".equals( property.getAttribute( NAME ) ));
+		assertTrue( RecursiveFoo.class.getName().equals( property.getAttribute( TYPE ) ));
+		assertTrue( Object.class.getName().equals( property.getAttribute( DECLARED_CLASS ) ));
+		assertTrue( 3 == property.getAttributes().getLength() );
+		assertTrue( property.getNextSibling() == null );
+
+		// Second level (should block)
+
+		assertTrue( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo" ) == null );
+
+		// Start over
+
+		RecursiveFoo recursiveFoo2 = new RecursiveFoo();
+		recursiveFoo.foo = recursiveFoo2;
+		recursiveFoo2.foo = recursiveFoo;
+
+		// Second level
+
+		document = XmlUtils.documentFromString( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo" ));
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ));
+		assertTrue( RecursiveFoo.class.getName().equals( entity.getAttribute( TYPE ) ));
+
+		property = (Element) entity.getFirstChild();
+		assertTrue( PROPERTY.equals( property.getNodeName() ));
+		assertTrue( "foo".equals( property.getAttribute( NAME ) ));
+		assertTrue( RecursiveFoo.class.getName().equals( property.getAttribute( TYPE ) ));
+		assertTrue( 3 == property.getAttributes().getLength() );
+		assertTrue( Object.class.getName().equals( property.getAttribute( DECLARED_CLASS ) ));
+		assertTrue( property.getNextSibling() == null );
+
+		// Third level (should block)
+
+		assertTrue( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo", "foo" ) == null );
+	}
 
 	//
 	//
@@ -255,5 +308,10 @@ public class PropertyTypeInspectorTest
 	    {
 	    	// Do nothing
 	    }
+	}
+
+	public static class RecursiveFoo
+	{
+		public Object foo;
 	}
 }

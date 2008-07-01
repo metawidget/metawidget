@@ -71,7 +71,7 @@
 			</classpath>
 		</javac>
 
-		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="${build.debug}" optimize="on" source="1.5" target="jsr14">
+		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
 			<include name="org/metawidget/test/faces/allwidgets/**"/>
 			<include name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
 			<include name="org/metawidget/test/shared/allwidgets/**"/>
@@ -116,7 +116,7 @@
 			</classpath>
 		</javac>
 
-		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/tutorial-classes" debug="${build.debug}" optimize="on" target="1.5">
+		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/tutorial-classes" debug="on" optimize="on" target="1.5">
 			<include name="org/metawidget/example/**/tutorial/**"/>
 			<classpath>
 				<fileset dir="lib"/>
@@ -167,9 +167,28 @@
 	
 	<!-- Pack -->
 
-	<target name="pack" depends="compile">
+	<target name="pack">
 
-		<jar destfile="${build.metawidget.dir}/metawidget.jar" manifest="src/java/META-INF/MANIFEST.MF">
+		<antcall target="pack-internal"/>
+		<move file="${build.metawidget.dir}/pack/metawidget.jar" tofile="${build.metawidget.dir}/metawidget.jar" />
+		
+	</target>
+
+	<target name="pack-debug">
+
+		<property name="build.debug" value="on"/>		
+		<antcall target="pack-internal"/>
+
+		<mkdir dir="${build.metawidget.dir}/debug"/>		
+		<move file="${build.metawidget.dir}/pack/metawidget.jar" tofile="${build.metawidget.dir}/debug/metawidget-debug-version.jar" />
+		<copy file="src/debug/readme.txt" tofile="${build.metawidget.dir}/debug/readme.txt"/>
+		
+	</target>
+
+	<target name="pack-internal" depends="compile">
+		
+		<mkdir dir="${build.metawidget.dir}/pack"/>		
+		<jar destfile="${build.metawidget.dir}/pack/metawidget.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/**"/>
 				<exclude name="org/metawidget/gwt/**"/>
@@ -1693,6 +1712,15 @@
 		
 		<move file="${build.metawidget.dir}/${metawidget.name}.zip" tofile="${build.metawidget.dir}/${metawidget.name}-src.zip"/>
 		
+		<delete>
+			<fileset dir="${build.metawidget.dir}">
+				<include name="classes/**"/>
+				<include name="example-classes/**"/>			
+			</fileset>
+		</delete>
+			
+		<antcall target="pack-debug"/>
+
 		<zip zipfile="${build.metawidget.dir}/${metawidget.name}.zip">
 			<fileset dir="${build.dir}">
 				
@@ -1705,6 +1733,7 @@
 
 				<!-- Doc -->
 
+				<include name="${metawidget.name}/debug/**"/>
 				<include name="${metawidget.name}/doc/api/**"/>
 				<include name="${metawidget.name}/doc/taglib/**"/>
 				<include name="${metawidget.name}/doc/reference/**/html*/*.html"/>

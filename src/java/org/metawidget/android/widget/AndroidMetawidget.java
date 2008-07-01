@@ -127,7 +127,6 @@ public class AndroidMetawidget
 	public AndroidMetawidget( Context context )
 	{
 		super( context );
-
 		setOrientation( LinearLayout.VERTICAL );
 	}
 
@@ -189,22 +188,6 @@ public class AndroidMetawidget
 		{
 			mMixin.setReadOnly( Boolean.parseBoolean( readOnly ) );
 		}
-	}
-
-	public AndroidMetawidget( Context context, AndroidMetawidget metawidget )
-	{
-		super( context );
-		setOrientation( LinearLayout.VERTICAL );
-
-		// Do not copy mPath: could lead to infinite recursion
-
-		mToInspect = metawidget.mToInspect;
-		mInspector = metawidget.mInspector;
-		mInspectorConfig = metawidget.mInspectorConfig;
-		mLayoutClass = metawidget.mLayoutClass;
-
-		if ( metawidget.mParameters != null )
-			mParameters = CollectionUtils.newHashMap( metawidget.mParameters );
 	}
 
 	//
@@ -875,22 +858,24 @@ public class AndroidMetawidget
 	protected AndroidMetawidget createMetawidget( Map<String, String> attributes )
 		throws Exception
 	{
-		try
-		{
-			Constructor<? extends AndroidMetawidget> constructor = getClass().getConstructor( Context.class, getClass() );
-			AndroidMetawidget metawidget = constructor.newInstance( getContext(), this );
-
-			return metawidget;
-		}
-		catch ( Exception e )
-		{
-			throw MetawidgetException.newException( e );
-		}
+		Constructor<? extends AndroidMetawidget> constructor = getClass().getConstructor( Context.class, getClass() );
+		return constructor.newInstance( getContext() );
 	}
 
 	protected void initMetawidget( AndroidMetawidget metawidget, Map<String, String> attributes )
 	{
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH + attributes.get( NAME ) );
+
+		if ( mInspectorConfig != 0 )
+			metawidget.setInspectorConfig( mInspectorConfig );
+		else
+			metawidget.setInspector( mInspector );
+
+		metawidget.setLayoutClass( mLayoutClass );
+
+		if ( mParameters != null )
+			metawidget.mParameters = CollectionUtils.newHashMap( mParameters );
+
 		metawidget.setToInspect( mToInspect );
 	}
 

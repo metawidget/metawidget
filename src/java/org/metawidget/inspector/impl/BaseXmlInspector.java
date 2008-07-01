@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.Set;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -33,6 +34,7 @@ import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
@@ -224,18 +226,9 @@ public abstract class BaseXmlInspector
 			// Add any parent attributes
 
 			if ( parentAttributes == null )
-			{
 				entity.setAttribute( TYPE, type );
-			}
 			else
-			{
 				XmlUtils.setMapAsAttributes( entity, parentAttributes );
-
-				String parentType = parentAttributes.get( TYPE );
-
-				if ( parentType == null || "".equals( parentType ) )
-					throw InspectorException.newException( "Path " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) + " has no @type" );
-			}
 
 			// Return the document
 
@@ -336,10 +329,8 @@ public abstract class BaseXmlInspector
 
 		if ( extendsAttribute != null )
 		{
-			String extendsClass = toInspect.getAttribute( extendsAttribute );
-
-			if ( extendsClass != null )
-				inspect( traverse( extendsClass, false ), toAddTo );
+			if ( toInspect.hasAttribute( extendsAttribute ))
+				inspect( traverse( toInspect.getAttribute( extendsAttribute ), false ), toAddTo );
 		}
 
 		// Next, for each child...
@@ -381,7 +372,8 @@ public abstract class BaseXmlInspector
 	{
 		// Validate type
 
-		Element entityElement = XmlUtils.getChildWithAttributeValue( mRoot, getTopLevelTypeAttribute(), type );
+		String topLevelTypeAttribute = getTopLevelTypeAttribute();
+		Element entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, type );
 
 		if ( entityElement == null )
 			return null;
@@ -397,51 +389,60 @@ public abstract class BaseXmlInspector
 		// Traverse names
 
 		String extendsAttribute = getExtendsAttribute();
+		String nameAttribute = getNameAttribute();
+		String typeAttribute = getTypeAttribute();
+		Element parentElement = null;
+		Set<Element> traversed = CollectionUtils.newHashSet();
 
-		for ( int loop = 0; loop < length; loop++ )
+		for ( String name : names )
 		{
-			String name = names[loop];
-			Element property = XmlUtils.getChildWithAttributeValue( entityElement, getNameAttribute(), name );
+			Element property = XmlUtils.getChildWithAttributeValue( entityElement, nameAttribute, name );
 
 			if ( property == null )
 			{
-				// Property may be defined in an 'extends'
+				// XML structure may not support 'extends'
 
 				if ( extendsAttribute == null )
 					return null;
 
+				// Property may be defined in an 'extends'
+
 				while ( true )
 				{
-					String childExtends = entityElement.getAttribute( extendsAttribute );
-
-					if ( childExtends == null || "".equals( childExtends ) )
+					if ( !entityElement.hasAttribute( extendsAttribute ))
 						return null;
 
-					entityElement = traverse( childExtends, false );
+					String childExtends = entityElement.getAttribute( extendsAttribute );
+					entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, childExtends );
 
 					if ( entityElement == null )
 						return null;
 
-					property = XmlUtils.getChildWithAttributeValue( entityElement, getNameAttribute(), name );
+					property = XmlUtils.getChildWithAttributeValue( entityElement, nameAttribute, name );
 
 					if ( property != null )
 						break;
 				}
 			}
 
-			if ( onlyToParent && loop >= ( length - 1 ) )
-				return entityElement;
+			if ( !property.hasAttribute( typeAttribute ))
+				throw InspectorException.newException( "Property " + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT ) + " has no @" + typeAttribute );
 
-			String propertyType = property.getAttribute( getTypeAttribute() );
-
-			if ( propertyType == null )
-				throw InspectorException.newException( "Property '" + name + "' has no @" + getTypeAttribute() );
-
-			entityElement = traverse( propertyType, false );
+			String propertyType = property.getAttribute( typeAttribute );
+			parentElement = entityElement;
+			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, propertyType );
 
 			if ( entityElement == null )
 				break;
+
+			// Nip infinite recursion in the bud quietly
+
+			if ( !traversed.add( entityElement ))
+				return null;
 		}
+
+		if ( onlyToParent )
+			return parentElement;
 
 		return entityElement;
 	}

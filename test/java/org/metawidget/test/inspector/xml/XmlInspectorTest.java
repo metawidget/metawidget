@@ -68,6 +68,9 @@ public class XmlInspectorTest
 		xml += "</entity>";
 		xml += "<entity type=\"Bar\">";
 		xml += "<property name=\"baz\"/>";
+		xml += "</entity>";
+		xml += "<entity type=\"RecursiveFoo\">";
+		xml += "<property name=\"foo\" type=\"RecursiveFoo\"/>";
 		xml += "</entity></inspection-result>";
 
 		XmlInspectorConfig config = new XmlInspectorConfig();
@@ -144,8 +147,31 @@ public class XmlInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( ".bar.baz has no @type" ));
+			assertTrue( e.getMessage().endsWith( "Property bar.baz has no @type" ));
 		}
+	}
+
+	public void testRecursion()
+	{
+		// Top level
+
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "RecursiveFoo" ));
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ));
+		assertTrue( "RecursiveFoo".equals( entity.getAttribute( TYPE ) ));
+
+		Element property = (Element) entity.getFirstChild();
+		assertTrue( PROPERTY.equals( property.getNodeName() ));
+		assertTrue( "foo".equals( property.getAttribute( NAME ) ));
+		assertTrue( "RecursiveFoo".equals( property.getAttribute( TYPE ) ));
+		assertTrue( 2 == property.getAttributes().getLength() );
+		assertTrue( property.getNextSibling() == null );
+
+		// Second level (should block)
+
+		assertTrue( mInspector.inspect( null, "RecursiveFoo", "foo", "foo" ) == null );
 	}
 
 	//
