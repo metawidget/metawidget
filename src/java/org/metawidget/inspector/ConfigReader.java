@@ -337,7 +337,7 @@ public class ConfigReader
 					if ( !uri.startsWith( JAVA_NAMESPACE_PREFIX ) )
 						throw new SAXException( "Namespace must begin with " + JAVA_NAMESPACE_PREFIX );
 
-					String packagePrefix = uri.substring( JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT;
+					String packagePrefix = uri.substring( JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
 					String toConstruct = packagePrefix + StringUtils.uppercaseFirstLetter( localName );
 					Class<?> classToConstruct = ClassUtils.niceForName( toConstruct );
 

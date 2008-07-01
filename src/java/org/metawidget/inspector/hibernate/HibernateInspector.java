@@ -118,7 +118,7 @@ public class HibernateInspector
 	/**
 	 * Hibernate supports <code>extends</code> via its <code>&lt;subclass&gt;</code> element.
 	 */
-	
+
 	@Override
 	protected String getExtendsAttribute()
 	{
@@ -229,15 +229,15 @@ public class HibernateInspector
 
 				String name = element.getAttribute( topLevelAttribute );
 
-				if ( name != null && !"".equals( name ) && name.indexOf( StringUtils.SEPARATOR_DOT ) == -1 )
-					element.setAttribute( topLevelAttribute, pkg + StringUtils.SEPARATOR_DOT + name );
+				if ( name != null && !"".equals( name ) && name.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
+					element.setAttribute( topLevelAttribute, pkg + StringUtils.SEPARATOR_DOT_CHAR + name );
 
 				// 'extends' attribute of 'subclass' element
 
 				String extendsClass = element.getAttribute( extendsAttribute );
 
-				if ( extendsClass != null && !"".equals( extendsClass ) && extendsClass.indexOf( StringUtils.SEPARATOR_DOT ) == -1 )
-					element.setAttribute( extendsAttribute, pkg + StringUtils.SEPARATOR_DOT + extendsClass );
+				if ( extendsClass != null && !"".equals( extendsClass ) && extendsClass.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
+					element.setAttribute( extendsAttribute, pkg + StringUtils.SEPARATOR_DOT_CHAR + extendsClass );
 
 				// 'class' attributes of children
 
@@ -273,7 +273,7 @@ public class HibernateInspector
 		// Class, on the other hand, IS a reliable indicator of POJO type
 
 		String typeAttribute = getTypeAttribute();
-		
+
 		if ( toInspect.hasAttribute( typeAttribute ))
 			attributes.put( TYPE, toInspect.getAttribute( typeAttribute ));
 
@@ -320,7 +320,7 @@ public class HibernateInspector
 		NodeList children = element.getChildNodes();
 
 		String typeAttribute = getTypeAttribute();
-		
+
 		for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
 		{
 			Node node = children.item( loop );
@@ -334,8 +334,8 @@ public class HibernateInspector
 
 			String clazz = child.getAttribute( typeAttribute );
 
-			if ( clazz != null && !"".equals( clazz ) && clazz.indexOf( StringUtils.SEPARATOR_DOT ) == -1 )
-				child.setAttribute( typeAttribute, pkg + StringUtils.SEPARATOR_DOT + clazz );
+			if ( clazz != null && !"".equals( clazz ) && clazz.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
+				child.setAttribute( typeAttribute, pkg + StringUtils.SEPARATOR_DOT_CHAR + clazz );
 
 			// ...and recurse children
 

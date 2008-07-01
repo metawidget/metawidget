@@ -103,11 +103,11 @@ public class StrutsMetawidgetTag
 
 		if ( property != null )
 		{
-			int lastIndexOf = property.lastIndexOf( StringUtils.SEPARATOR_DOT );
+			int lastIndexOf = property.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 			if ( lastIndexOf != -1 )
 			{
-				int firstIndexOf = property.indexOf( StringUtils.SEPARATOR_DOT );
+				int firstIndexOf = property.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 				if ( firstIndexOf != lastIndexOf )
 					mPropertyPrefix = property.substring( firstIndexOf + 1, lastIndexOf + 1 );
@@ -367,10 +367,10 @@ public class StrutsMetawidgetTag
 		// Take the whole path minus the first value (if any), as we assume that will
 		// be supplied by the form
 
-		int firstIndexOf = mPath.indexOf( StringUtils.SEPARATOR_DOT );
+		int firstIndexOf = mPath.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( firstIndexOf != -1 )
-			mPropertyPrefix = mPath.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT;
+			mPropertyPrefix = mPath.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR;
 	}
 
 	//

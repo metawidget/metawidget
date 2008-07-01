@@ -54,7 +54,7 @@ import org.metawidget.util.CollectionUtils;
  * <li>public fields come next, sorted by name</li>
  * <li>methods come last, sorted by getter line number (or, if no getter, setter line number)</li>
  * </ul>
- * Note this algorithm is less flexible than the <code>UiComesAfter</code> annotation, which can arbitrarily
+ * Note this algorithm is less flexible than the <code>UiComesAfter</code> annotation, which can
  * interleave superclass and subclass properties. However, it is possible to use both
  * <code>UiComesAfter</code> and <code>JavassistPropertyStyle</code> together to get the best of
  * both worlds.

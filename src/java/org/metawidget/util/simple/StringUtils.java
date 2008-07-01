@@ -30,15 +30,22 @@ public final class StringUtils
 	//
 	//
 
-	public final static String	SEPARATOR_COMMA					= ",";
-
-	public final static String	SEPARATOR_FORWARD_SLASH			= "/";
+	/**
+	 * Forward slash character.
+	 * <p>
+	 * For environments that use the fully qualified class name (eg. SwingMetawidget) as part of the
+	 * path, we must use '/' not '.' as the separator.
+	 */
 
 	public final static char	SEPARATOR_FORWARD_SLASH_CHAR	= '/';
 
-	public final static String	SEPARATOR_DOT					= ".";
+	public final static String	SEPARATOR_FORWARD_SLASH			= String.valueOf( SEPARATOR_FORWARD_SLASH_CHAR );
 
 	public final static char	SEPARATOR_DOT_CHAR				= '.';
+
+	public final static String	SEPARATOR_DOT					= String.valueOf( SEPARATOR_DOT_CHAR );
+
+	public final static String	SEPARATOR_COMMA					= ",";
 
 	public final static String	RESOURCE_KEY_NOT_FOUND_PREFIX	= "???";
 

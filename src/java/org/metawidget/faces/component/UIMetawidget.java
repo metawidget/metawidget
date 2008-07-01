@@ -441,7 +441,7 @@ public abstract class UIMetawidget
 		// as there may be useful metadata there (such as 'name' and 'type')
 
 		String binding = FacesUtils.unwrap( valueBinding.getExpressionString() );
-		int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT );
+		int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( lastIndexOf != -1 )
 		{
@@ -603,7 +603,7 @@ public abstract class UIMetawidget
 
 	protected void beforeBuildCompoundWidget( Element element )
 	{
-		mBindingPrefix = FacesUtils.unwrap( getValueBinding( "value" ).getExpressionString() ) + StringUtils.SEPARATOR_DOT;
+		mBindingPrefix = FacesUtils.unwrap( getValueBinding( "value" ).getExpressionString() ) + StringUtils.SEPARATOR_DOT_CHAR;
 	}
 
 	protected void initMetawidget( UIMetawidget metawidget, Map<String, String> attributes )

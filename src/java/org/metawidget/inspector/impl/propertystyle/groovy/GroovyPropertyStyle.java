@@ -33,7 +33,6 @@ import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -52,11 +51,22 @@ public class GroovyPropertyStyle
 {
 	//
 	//
-	// Private statics
+	// Private members
 	//
 	//
 
-	private final static Class<?>[]	DEFAULT_EXCLUDE_TYPES	= new Class<?>[] { Class.class, MetaClass.class };
+	private Class<?>[]				mExcludeTypes;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public GroovyPropertyStyle()
+	{
+		mExcludeTypes = getExcludeTypes();
+	}
 
 	//
 	//
@@ -82,17 +92,44 @@ public class GroovyPropertyStyle
 		@SuppressWarnings( "unchecked" )
 		List<MetaBeanProperty> properties = GroovySystem.getMetaClassRegistry().getMetaClass( clazz ).getProperties();
 
-		for ( MetaBeanProperty property : properties )
+		property: for ( MetaBeanProperty property : properties )
 		{
+			Class<?> type = property.getType();
+
 			// Ignore certain types
 
-			if ( ArrayUtils.contains( DEFAULT_EXCLUDE_TYPES, property.getType() ) )
-				continue;
+			for( Class<?> excludeType : mExcludeTypes )
+			{
+				if ( excludeType.isAssignableFrom( type ))
+					continue property;
+			}
 
 			propertiesToReturn.put( property.getName(), new GroovyProperty( property, clazz ) );
 		}
 
 		return propertiesToReturn;
+	}
+
+	//
+	//
+	// Protected methods
+	//
+	//
+
+	/**
+	 * Array of property return types to exclude when searching for properties. Subtypes of the
+	 * specified exclude types are also excluded.
+	 * <p>
+	 * This can be useful when the convention or base class define properties that are
+	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * <p>
+	 * By default, filters out any types that return <code>java.lang.Class</code> and
+	 * <code>groovy.lang.MetaClass</code>.
+	 */
+
+	protected Class<?>[] getExcludeTypes()
+	{
+		return new Class<?>[] { Class.class, MetaClass.class };
 	}
 
 	//

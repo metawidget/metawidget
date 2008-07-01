@@ -169,7 +169,7 @@ public class SwingMetawidget
 
 		// If no path, or path points to an old class, override it
 
-		if ( toInspect != null && ( mPath == null || mPath.indexOf( StringUtils.SEPARATOR_FORWARD_SLASH ) == -1 ) )
+		if ( toInspect != null && ( mPath == null || mPath.indexOf( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ) == -1 ) )
 			mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
 
 		invalidateWidgets();
@@ -1166,7 +1166,7 @@ public class SwingMetawidget
 
 	protected void initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
 	{
-		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH + attributes.get( NAME ) );
+		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 
 		if ( mInspectorConfig != null )
 			metawidget.setInspectorConfig( mInspectorConfig );

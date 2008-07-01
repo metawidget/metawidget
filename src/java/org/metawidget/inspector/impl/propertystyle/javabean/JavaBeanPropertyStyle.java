@@ -111,10 +111,29 @@ public class JavaBeanPropertyStyle
 	//
 	//
 
+	/**
+	 * Array of property names to exclude when searching for properties.
+	 * <p>
+	 * This can be useful when the convention or base class define properties that are
+	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * <p>
+	 * By default, filters out the properties 'propertyChangeListeners' and 'vetoableChangeListeners'.
+	 */
+
 	protected String[] getExcludeNames()
 	{
 		return new String[] { "propertyChangeListeners", "vetoableChangeListeners" };
 	}
+
+	/**
+	 * Array of property return types to exclude when searching for properties. Subtypes
+	 * of the specified exclude types are also excluded.
+	 * <p>
+	 * This can be useful when the convention or base class define properties that are
+	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * <p>
+	 * By default, filters out any types that return <code>java.lang.Class</code>.
+	 */
 
 	protected Class<?>[] getExcludeTypes()
 	{
@@ -133,12 +152,22 @@ public class JavaBeanPropertyStyle
 
 		// Public fields
 
-		for ( Field field : clazz.getFields() )
+		field: for ( Field field : clazz.getFields() )
 		{
 			// Ignore static public fields
 
 			if ( Modifier.isStatic( field.getModifiers() ) )
 				continue;
+
+			// Ignore certain types
+
+			Class<?> type = field.getType();
+
+			for( Class<?> excludeType : mExcludeTypes )
+			{
+				if ( excludeType.isAssignableFrom( type ))
+					continue field;
+			}
 
 			String propertyName = field.getName();
 			properties.put( propertyName, new FieldProperty( propertyName, field ) );
@@ -146,7 +175,7 @@ public class JavaBeanPropertyStyle
 
 		// Getter methods
 
-		for ( Method methodRead : clazz.getMethods() )
+		getter: for ( Method methodRead : clazz.getMethods() )
 		{
 			Class<?>[] parameters = methodRead.getParameterTypes();
 
@@ -160,8 +189,11 @@ public class JavaBeanPropertyStyle
 
 			// Ignore certain types
 
-			if ( ArrayUtils.contains( mExcludeTypes, toReturn ) )
-				continue;
+			for( Class<?> excludeType : mExcludeTypes )
+			{
+				if ( excludeType.isAssignableFrom( toReturn ))
+					continue getter;
+			}
 
 			String methodName = methodRead.getName();
 			String propertyName = null;
@@ -217,7 +249,7 @@ public class JavaBeanPropertyStyle
 
 		// Setter methods (for those without getters)
 
-		for ( Method methodWrite : clazz.getMethods() )
+		setter: for ( Method methodWrite : clazz.getMethods() )
 		{
 			Class<?>[] parameters = methodWrite.getParameterTypes();
 
@@ -228,8 +260,11 @@ public class JavaBeanPropertyStyle
 
 			// Ignore certain types
 
-			if ( ArrayUtils.contains( mExcludeTypes, toSet ) )
-				continue;
+			for( Class<?> excludeType : mExcludeTypes )
+			{
+				if ( excludeType.isAssignableFrom( toSet ))
+					continue setter;
+			}
 
 			String methodName = methodWrite.getName();
 

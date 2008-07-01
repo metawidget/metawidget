@@ -98,11 +98,11 @@ public class SpringMetawidgetTag
 
 		if ( path != null )
 		{
-			int lastIndexOf = path.lastIndexOf( StringUtils.SEPARATOR_DOT );
+			int lastIndexOf = path.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 			if ( lastIndexOf != -1 )
 			{
-				int firstIndexOf = path.indexOf( StringUtils.SEPARATOR_DOT );
+				int firstIndexOf = path.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 				if ( firstIndexOf != lastIndexOf )
 					mPathPrefix = path.substring( firstIndexOf + 1, lastIndexOf + 1 );
@@ -330,10 +330,10 @@ public class SpringMetawidgetTag
 		// Take the whole path minus the first value (if any), as we assume that will
 		// be supplied by the form
 
-		int firstIndexOf = mPath.indexOf( StringUtils.SEPARATOR_DOT );
+		int firstIndexOf = mPath.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( firstIndexOf != -1 )
-			mPathPrefix = mPath.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT;
+			mPathPrefix = mPath.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR;
 	}
 
 	//
@@ -410,7 +410,7 @@ public class SpringMetawidgetTag
 		// Use the Spring binder to render the read-only value
 
 		RequestContext requestContext = (RequestContext) pageContext.getAttribute( RequestContextAwareTag.REQUEST_CONTEXT_PAGE_ATTRIBUTE );
-		String path = mPath + StringUtils.SEPARATOR_DOT + attributes.get( NAME );
+		String path = mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 		String value = requestContext.getBindStatus( path ).getDisplayValue();
 
 		// Support lookup labels

@@ -319,7 +319,7 @@ public class ContactDialog
 
 			mEditor.setToInspect( communication );
 			mColumnName = StringUtils.lowercaseFirstLetter( table.getModel().getColumnName( column ) );
-			mEditor.setPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH + mColumnName );
+			mEditor.setPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + mColumnName );
 			mEditor.setValue( value, mColumnName );
 
 			// Metawidget just creates regular components, so we can modify them if we need. Here,

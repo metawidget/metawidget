@@ -2390,6 +2390,40 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					</listitem>
 				</itemizedlist>
 				
+				<section id="section-inspectors-property-base-propertystyle">
+					<title>PropertyStyle</title>
+					
+					<para>
+						The <classname>PropertyStyle</classname> interface allows pluggable, fine-grained control over what is considered a 'property'					
+					</para>
+					
+					<para>
+						Different environments may have different approaches to defining what constitutes a property. For
+						example, JavaBean-properties are convention-based, whereas Groovy has explicit property support.
+ 						Equally, some environments may have framework-specific, base class properties that should be filtered out
+ 						and excluded from the list of 'real' business model properties.					
+					</para>
+					
+					<para>
+						The default property style is <classname>JavaBeanPropertyStyle</classname>. To change it within <filename>inspector-config.xml</filename>:
+					</para>
+					
+					<programlisting language="xml">&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
+	config="org.metawidget.inspector.impl.BasePropertyInspectorConfig"&gt;
+	&lt;propertyStyle&gt;
+	org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle
+	&lt;/propertyStyle&gt;
+&lt;/propertyTypeInspector&gt;</programlisting>
+					
+					<para>
+						To change it programmatically:
+					</para>
+					
+					<programlisting language="java">BasePropertyInspectorConfig config = new BasePropertyInspectorConfig();
+config.setPropertyStyle( StrutsActionFormPropertyStyle.class );
+metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
+				</section>
+
 				<section id="section-inspectors-property-base-javabean">
 					<title>JavaBeanPropertyStyle</title>
 				
@@ -2400,17 +2434,32 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					
 					<para>
 						This property style recognizes JavaBean-convention <function>getXXX</function>, <function>setXXX</function> and <function>isXXX</function>
-						methods, as well as public member variables. In addition, it maintains a cache of reflected classes for performance reasons. 
+						methods, as well as public member variables. In addition, it maintains a cache of reflected classes for performance. 
 					</para>
 					
 				</section>
 				
+				<section id="section-inspectors-property-base-struts">
+					<title>StrutsActionFormPropertyStyle</title>
+				
+					<para>
+						The <classname>StrutsActionFormPropertyStyle</classname> provides special handling for Struts <classname>ActionForms</classname>.
+					</para>
+					
+					<para>
+						<classname>ActionForm</classname> properties essentially follow JavaBean-convention (this class extends <classname>JavaBeanPropertyStyle</classname>),
+						but should not include the base class methods <function>ActionForm.getServlet</function>, <function>ActionForm.getServletWrapper</function> and
+ 						<function>ActionForm.getMultipartRequestHandler</function>.
+					</para>
+					
+				</section>
+
 				<section id="section-inspectors-property-base-groovy">
 					<title>GroovyPropertyStyle</title>
 				
 					<para>
-						The <classname>GroovyPropertyStyle</classname> is a pluggable, alternative property style which recognizes GroovyBean properties.
-						GroovyBean properties differ from JavaBean-convention properties in that their annotations are not visible on the
+						The <classname>GroovyPropertyStyle</classname> recognizes GroovyBean properties.
+						GroovyBean properties differ from JavaBean-convention properties in that their annotations are not attached to the
 						generated getter/setter methods.
 					</para>
 
@@ -2420,13 +2469,13 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					<title>JavassistPropertyStyle</title>
 						
 					<para>
-						The <classname>JavassistPropertyStyle</classname> is a pluggable, alternative property style which extends
-						<classname>JavaBeanPropertyStyle</classname> and makes use of <classname>Javassist</classname> for those environments
+						The <classname>JavassistPropertyStyle</classname> extends
+						<classname>JavaBeanPropertyStyle</classname> and makes use of Javassist for those environments
 						that have it available.
 					</para>
 					
 					<para>
-						<classname>Javassist</classname> is used to expose the debug line numbering information embedded in JVM bytecode
+						Javassist is used to inspect the debug line numbering information embedded in JVM bytecode
 						to sort getters/setters according to their original declaration order in the source code. This saves business objects
 						having to use <classname>@UiComesAfter</classname> (or an XML file, or some other method) to impose an ordering.
 					</para>
@@ -2466,9 +2515,9 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					</itemizedlist>
 					
 					<para>
-						Note this algorithm is less flexible than <classname>@UiComesAfter</classname>, which can arbitrarily
+						Note this algorithm is less flexible than <classname>@UiComesAfter</classname>, which can
 						interleave superclass and subclass properties. However, it is possible to use both
-						<classname>UiComesAfter</classname> and <classname>JavassistPropertyStyle</classname> together to get the best of
+						<classname>@UiComesAfter</classname> and <classname>JavassistPropertyStyle</classname> together to get the best of
 						both worlds.						
 					</para>
 						
@@ -2529,7 +2578,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					</para>
 
 					<para>
-						Note also that annotations are not implemented in the current build of the Android platform.
+						Note also that annotations are not implemented in the current build (m5-rc15) of the Android platform.
 					</para>
 				</section>
 			</section>
@@ -2620,7 +2669,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 			</para>
 			
 			<programlisting language="java">public interface Inspector {
-	Document inspect( Object toInspect, String type, String... names )
+	String inspect( Object toInspect, String type, String... names )
 		throws InspectionException;
 }</programlisting>
 			
@@ -2653,7 +2702,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 			</para>
 			
 			<para>
-				The returned DOM Document must conform to <filename>inspection-result-1.0.xsd</filename>. To assist
+				The returned String must be an XML document conforming to <filename>inspection-result-1.0.xsd</filename>. To assist
 				development, deploy your Inspector within <classname>CompositeInspector</classname> and use <function>CompositeInspectorConfig.setValidating(true)</function> to
 				automatically validate the returned DOM during testing.
 			</para>
@@ -2665,21 +2714,12 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 			<itemizedlist>
 				<listitem>
 					<para>
-						For returning a valid DOM, <classname>AbstractInspector</classname> assists
-						in configuring a DocumentFactory and Schema.
-					</para>
-					<para>
-						For inspecting properties, <classname>BasePropertyInspector</classname> assists
+						For inspecting annotations and properties, <classname>BasePropertyInspector</classname> assists
 						in iterating over public member variables, getter/setter methods and GroovyBean properties. See
-						<classname>PropertyTypeInspector</classname> for example usage.
+						<classname>PropertyTypeInspector</classname> or <classname>JpaInspector</classname> for example usage.
 					</para>				
 					<para>
-						For inspecting annotations, <classname>AbstractAnnotationInspector</classname> assists
-						in iterating over the annotations of public member variables, getter methods and setter methods.
-						See <classname>JpaInspector</classname> for example usage.
-					</para>
-					<para>
-						For inspecting XML files, <classname>AbstractXmlInspector</classname> assists
+						For inspecting XML files, <classname>BaseXmlInspector</classname> assists
 						in opening and traversing through XML. See
 						<classname>StrutsInspector</classname> for example usage.
 					</para>

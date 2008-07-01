@@ -77,7 +77,7 @@ public class HtmlMetawidgetTag
 
 		if ( value != null )
 		{
-			int lastIndexOf = value.lastIndexOf( StringUtils.SEPARATOR_DOT );
+			int lastIndexOf = value.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 			if ( lastIndexOf != -1 )
 				mNamePrefix = value.substring( 0, lastIndexOf + 1 );
@@ -301,7 +301,7 @@ public class HtmlMetawidgetTag
 	{
 		// Take the whole path as the name prefix, so that names are unique
 
-		mNamePrefix = mPath + StringUtils.SEPARATOR_DOT;
+		mNamePrefix = mPath + StringUtils.SEPARATOR_DOT_CHAR;
 	}
 
 	//
