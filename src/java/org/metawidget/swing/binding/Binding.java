@@ -21,7 +21,7 @@ import java.awt.Component;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
- * Base class for automatic binding.
+ * Base class for automatic, two-way binding.
  * <p>
  * Swing does not define a <code>JComponent</code> to <code>Object</code> mapping mechanism like
  * other UI frameworks (eg. Java Server Faces). However, a couple of third party alternatives exist

@@ -219,6 +219,10 @@ public class SwingMetawidget
 	}
 
 	/**
+	 * Sets the Binding implementation to use for automatic, two-way Component-to-Object data
+	 * binding. Current implementations include <code>BeansBinding</code> and
+	 * <code>BeanUtilsBinding</code>.
+	 *
 	 * @param bindingClass
 	 *            may be null
 	 */
@@ -495,7 +499,7 @@ public class SwingMetawidget
 
 	public Object getValue( String... names )
 	{
-		Component component = getComponent(  names );
+		Component component = getComponent( names );
 
 		if ( component == null )
 			throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
