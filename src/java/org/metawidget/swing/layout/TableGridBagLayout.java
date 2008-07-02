@@ -231,6 +231,12 @@ public class TableGridBagLayout
 		if ( labelText != null && !"".equals( labelText ) )
 		{
 			JLabel label = new JLabel();
+
+			// Required
+
+			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
+				labelText += "*";
+
 			label.setText( labelText + ":" );
 
 			GridBagConstraints constraintsLabel = new GridBagConstraints();

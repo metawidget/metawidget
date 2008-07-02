@@ -25,7 +25,9 @@ import javax.swing.JTextField;
 import junit.framework.TestCase;
 
 import org.metawidget.example.swing.tutorial.Person;
+import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
@@ -94,6 +96,15 @@ public class TableGroupLayoutTest
 		assertTrue( metawidget.getComponent( 9 ) instanceof JSeparator );
 		assertTrue( "Employer:".equals( ( (JLabel) metawidget.getComponent( 10 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 11 ) instanceof JTextField );
+
+		// Check required fields
+
+		metawidget.setToInspect( new Foo() );
+		assertTrue( "Bar*:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( "Baz:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+
+		metawidget.setReadOnly( true );
+		assertTrue( "Bar:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 	}
 
 	//
@@ -133,5 +144,15 @@ public class TableGroupLayoutTest
 		@UiSection( "Work" )
 		@UiComesAfter( "hobbies" )
 		public String	employer;
+	}
+
+	static class Foo
+	{
+		@UiAttribute( name = "required", value = "true" )
+		public String bar;
+
+		@UiAttribute( name = "required", value = "true" )
+		@UiReadOnly
+		public String baz;
 	}
 }

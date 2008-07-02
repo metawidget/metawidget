@@ -32,10 +32,12 @@ import junit.framework.TestCase;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
+import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiLookup;
+import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
@@ -85,7 +87,7 @@ public class TableGridBagLayoutTest
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridx );
-		assertTrue( "Def:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertTrue( "Def*:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 3 ) ).gridx );
 		assertTrue( "Ghi:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
@@ -105,7 +107,7 @@ public class TableGridBagLayoutTest
 		JPanel panelTab = (JPanel) tabbedPane.getComponent( 0 );
 		assertTrue( "tab1".equals( panelTab.getName() ));
 		assertTrue( "Tab 1_jkl:".equals( ( (JLabel) panelTab.getComponent( 0 ) ).getText() ) );
-		assertTrue( panelTab.getComponent( 1 ) instanceof JTextField );
+		assertTrue( panelTab.getComponent( 1 ) instanceof JLabel );
 		assertTrue( 1 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 1 ) ).gridx );
 		assertTrue( "Tab 1_mno:".equals( ( (JLabel) panelTab.getComponent( 2 ) ).getText() ) );
 		assertTrue( panelTab.getComponent( 3 ) instanceof JComboBox );
@@ -171,7 +173,7 @@ public class TableGridBagLayoutTest
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridx );
-		assertTrue( "Def:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertTrue( "Def*:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 3 ) instanceof Stub );
 		assertTrue( ( (Stub) metawidget.getComponent( 3 ) ).getComponent( 0 ) instanceof JSpinner );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 3 ) ).gridx );
@@ -185,6 +187,11 @@ public class TableGridBagLayoutTest
 		assertTrue( arbitraryStubWithAttributes.equals( metawidget.getComponent( 8 )));
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 8 ) ).gridx );
 		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 8 ) ).gridwidth );
+
+		// Read-only on required labels
+
+		metawidget.setReadOnly( true );
+		assertTrue( "Def:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 	}
 
 	//
@@ -213,6 +220,7 @@ public class TableGridBagLayoutTest
 		public String	abc;
 
 		@UiComesAfter( "abc" )
+		@UiAttribute( name = "required", value = "true" )
 		public int		def;
 
 		@UiComesAfter( "def" )
@@ -220,6 +228,8 @@ public class TableGridBagLayoutTest
 
 		@UiSection( "tab1")
 		@UiComesAfter( "ghi" )
+		@UiAttribute( name = "required", value = "true" )
+		@UiReadOnly
 		public String	tab1_jkl;
 
 		@UiComesAfter( "tab1_jkl" )

@@ -140,8 +140,15 @@ public class TableGroupLayout
 
 			String labelText = getMetawidget().getLabelString( attributes );
 
-			if ( labelText != null && !"".equals( labelText ) )
+			// Required
+
+			if ( labelText != null && !"".equals( labelText ))
+			{
+				if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
+					labelText += "*";
+
 				label.setText( labelText + ":" );
+			}
 		}
 
 		// Add components
