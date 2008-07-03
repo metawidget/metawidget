@@ -784,7 +784,7 @@ public class AndroidMetawidget
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new TextView( getContext() );
+			return new EditText( getContext() );
 
 		// Nested Metawidget
 

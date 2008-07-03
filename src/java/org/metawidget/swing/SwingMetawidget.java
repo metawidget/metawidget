@@ -88,11 +88,11 @@ public class SwingMetawidget
 	//
 	//
 
-	private final static long					serialVersionUID	= 5614421785160728346L;
+	private final static long					serialVersionUID		= 5614421785160728346L;
 
-	private final static Map<String, Inspector>	INSPECTORS			= Collections.synchronizedMap( new HashMap<String, Inspector>() );
+	private final static Map<String, Inspector>	INSPECTORS				= Collections.synchronizedMap( new HashMap<String, Inspector>() );
 
-	private final static Stroke					STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
+	private final static Stroke					STROKE_DOTTED			= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
 	//
@@ -106,11 +106,11 @@ public class SwingMetawidget
 
 	private String[]							mNamesPrefix;
 
-	private String								mInspectorConfig	= "inspector-config.xml";
+	private String								mInspectorConfig		= "inspector-config.xml";
 
 	private Inspector							mInspector;
 
-	private Class<? extends Layout>				mLayoutClass		= TableGridBagLayout.class;
+	private Class<? extends Layout>				mLayoutClass			= TableGridBagLayout.class;
 
 	private Layout								mLayout;
 
@@ -139,7 +139,7 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<Component>						mExistingComponents	= CollectionUtils.newArrayList();
+	private List<Component>						mExistingComponents		= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -149,9 +149,11 @@ public class SwingMetawidget
 
 	private List<Component>						mExistingComponentsUnused;
 
-	private Map<String, Facet>					mFacets				= CollectionUtils.newHashMap();
+	private Map<String, Facet>					mFacets					= CollectionUtils.newHashMap();
 
-	private SwingMetawidgetMixin				mMixin				= new SwingMetawidgetMixin();
+	private SwingMetawidgetMixin				mMixin					= new SwingMetawidgetMixin();
+
+	private int									mMaximumInspectionDepth	= 10;
 
 	//
 	//
@@ -379,6 +381,32 @@ public class SwingMetawidget
 	public void setReadOnly( boolean readOnly )
 	{
 		mMixin.setReadOnly( readOnly );
+		invalidateWidgets();
+	}
+
+	public int getMaximumInspectionDepth()
+	{
+		return mMaximumInspectionDepth;
+	}
+
+	/**
+	 * Sets the maximum depth of inspection.
+	 * <p>
+	 * Metawidget renders most non-primitve types by using nested Metawidgets. This value limits the
+	 * number of nestings.
+	 * <p>
+	 * This can be useful in detecing cyclic references. Although <code>BasePropertyInspector</code>-derived
+	 * Inspectors are capable of detecting cyclic references, other Inspectors may not be. For
+	 * example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
+	 * types, not actual objects.
+	 *
+	 * @param maximumDepth
+	 *            0 for top-level only, 1 for 1 level deep etc.
+	 */
+
+	public void setMaximumInspectionDepth( int maximumInspectionDepth )
+	{
+		mMaximumInspectionDepth = maximumInspectionDepth;
 		invalidateWidgets();
 	}
 
@@ -1099,6 +1127,11 @@ public class SwingMetawidget
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
 				return new JScrollPane( new JTable() );
+
+			// Not simple, but don't expand
+
+			if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+				return new JTextField();
 		}
 
 		// Nested Metawidget
@@ -1164,8 +1197,24 @@ public class SwingMetawidget
 		return mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
 	}
 
-	protected void initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
+	protected SwingMetawidget initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
 	{
+		String[] names = PathUtils.parsePath( mPath ).getNames();
+
+		// Limit inspection depth
+
+		if ( names == null )
+		{
+			if ( mMaximumInspectionDepth == 0 )
+				return null;
+		}
+		else if ( names.length > mMaximumInspectionDepth )
+			return null;
+
+		metawidget.setMaximumInspectionDepth( mMaximumInspectionDepth );
+
+		// Copy values to child Metawidget
+
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 
 		if ( mInspectorConfig != null )
@@ -1182,6 +1231,8 @@ public class SwingMetawidget
 			metawidget.setParameters( CollectionUtils.newHashMap( mParameters ) );
 
 		metawidget.setToInspect( mToInspect );
+
+		return metawidget;
 	}
 
 	/**
@@ -1351,10 +1402,9 @@ public class SwingMetawidget
 		public JComponent initMetawidget( JComponent widget, Map<String, String> attributes )
 		{
 			SwingMetawidget metawidget = (SwingMetawidget) widget;
-			SwingMetawidget.this.initMetawidget( metawidget, attributes );
 			metawidget.setReadOnly( isReadOnly( attributes ) );
 
-			return metawidget;
+			return SwingMetawidget.this.initMetawidget( metawidget, attributes );
 		}
 
 		@Override

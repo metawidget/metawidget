@@ -20,7 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.InputStream;
 import java.util.Map;
-import java.util.Set;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
@@ -34,7 +33,6 @@ import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
@@ -77,19 +75,13 @@ public abstract class BaseXmlInspector
 {
 	//
 	//
-	// Private statics
-	//
-	//
-
-	private final static Log					LOG	= LogUtils.getLog( BaseXmlInspector.class );
-
-	//
-	//
 	// Protected members
 	//
 	//
 
-	protected Element							mRoot;
+	protected Log		mLog	= LogUtils.getLog( getClass() );
+
+	protected Element	mRoot;
 
 	//
 	//
@@ -157,8 +149,8 @@ public abstract class BaseXmlInspector
 
 			// Debug
 
-			if ( LOG.isTraceEnabled() )
-				LOG.trace( XmlUtils.nodeToString( mRoot, 0 ));
+			if ( mLog.isTraceEnabled() )
+				mLog.trace( XmlUtils.nodeToString( mRoot, 0 ) );
 		}
 		catch ( Exception e )
 		{
@@ -188,12 +180,12 @@ public abstract class BaseXmlInspector
 				// ...inspect its property for useful attributes...
 
 				Element parent = traverse( type, true, names );
-
-				if ( parent == null )
-					return null;
-
 				childName = names[names.length - 1];
 				Element parentProperty = XmlUtils.getChildWithAttributeValue( parent, getNameAttribute(), childName );
+
+				if ( parentProperty == null )
+					return null;
+
 				parentAttributes = inspect( parentProperty );
 				elementToInspect = traverse( parentProperty.getAttribute( getTypeAttribute() ), false );
 			}
@@ -329,7 +321,7 @@ public abstract class BaseXmlInspector
 
 		if ( extendsAttribute != null )
 		{
-			if ( toInspect.hasAttribute( extendsAttribute ))
+			if ( toInspect.hasAttribute( extendsAttribute ) )
 				inspect( traverse( toInspect.getAttribute( extendsAttribute ), false ), toAddTo );
 		}
 
@@ -391,11 +383,10 @@ public abstract class BaseXmlInspector
 		String extendsAttribute = getExtendsAttribute();
 		String nameAttribute = getNameAttribute();
 		String typeAttribute = getTypeAttribute();
-		Element parentElement = null;
-		Set<Element> traversed = CollectionUtils.newHashSet();
 
-		for ( String name : names )
+		for ( int loop = 0; loop < length; loop++ )
 		{
+			String name = names[loop];
 			Element property = XmlUtils.getChildWithAttributeValue( entityElement, nameAttribute, name );
 
 			if ( property == null )
@@ -409,7 +400,7 @@ public abstract class BaseXmlInspector
 
 				while ( true )
 				{
-					if ( !entityElement.hasAttribute( extendsAttribute ))
+					if ( !entityElement.hasAttribute( extendsAttribute ) )
 						return null;
 
 					String childExtends = entityElement.getAttribute( extendsAttribute );
@@ -425,24 +416,18 @@ public abstract class BaseXmlInspector
 				}
 			}
 
-			if ( !property.hasAttribute( typeAttribute ))
-				throw InspectorException.newException( "Property " + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT ) + " has no @" + typeAttribute );
+			if ( onlyToParent && loop >= ( length - 1 ) )
+				return entityElement;
+
+			if ( !property.hasAttribute( typeAttribute ) )
+				throw InspectorException.newException( "Property " + name + " of " + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT ) + " has no @" + typeAttribute );
 
 			String propertyType = property.getAttribute( typeAttribute );
-			parentElement = entityElement;
 			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, propertyType );
 
 			if ( entityElement == null )
 				break;
-
-			// Nip infinite recursion in the bud quietly
-
-			if ( !traversed.add( entityElement ))
-				return null;
 		}
-
-		if ( onlyToParent )
-			return parentElement;
 
 		return entityElement;
 	}

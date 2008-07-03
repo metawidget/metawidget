@@ -100,6 +100,16 @@ public class SimpleBindingAdapterGenerator
 
 	private final static int	WRITE_SETTER			= 3;
 
+	/**
+	 * Maximum depth of recursion to avoid infinite recursion.
+	 * <p>
+	 * It is not possible to detect infinite recursion (caused by cyclic references) in advance
+	 * because SimpleBindingAdapterGenerator operates at compile-time, where the values of
+	 * objects are not known.
+	 */
+
+	private final static int	MAXIMUM_DEPTH			= 10;
+
 	//
 	//
 	// Private members
@@ -170,7 +180,7 @@ public class SimpleBindingAdapterGenerator
 
 			// Write subtypes
 
-			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_GETTER );
+			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_GETTER, 0 );
 
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
@@ -190,7 +200,7 @@ public class SimpleBindingAdapterGenerator
 
 			// Write subtypes
 
-			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_TYPE_GETTER );
+			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_TYPE_GETTER, 0 );
 
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
@@ -210,7 +220,7 @@ public class SimpleBindingAdapterGenerator
 
 			// Write subtypes
 
-			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_IS_READ_ONLY );
+			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_IS_READ_ONLY, 0 );
 
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
@@ -230,7 +240,7 @@ public class SimpleBindingAdapterGenerator
 
 			// Write subtypes
 
-			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_SETTER );
+			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_SETTER, 0 );
 
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
@@ -249,15 +259,20 @@ public class SimpleBindingAdapterGenerator
 	//
 	//
 
-	private void writeSubtypes( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, int writeType )
+	private void writeSubtypes( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, int writeType, int depth )
 	{
+		// Avoid going too deep
+
+		if ( depth > MAXIMUM_DEPTH )
+			return;
+
 		// For each subclass...
 
 		for ( JClassType subtype : classType.getSubtypes() )
 		{
 			// ...write its subclass-level properties...
 
-			writeProperties( sourceWriter, subtype, variableName, propertyIndex, true, classType, writeType );
+			writeProperties( sourceWriter, subtype, variableName, propertyIndex, true, classType, writeType, depth );
 		}
 
 		// ...and for the base class write every superclass
@@ -266,7 +281,7 @@ public class SimpleBindingAdapterGenerator
 
 		while ( typeTraversal != null )
 		{
-			writeProperties( sourceWriter, typeTraversal, variableName, propertyIndex, false, classType, writeType );
+			writeProperties( sourceWriter, typeTraversal, variableName, propertyIndex, false, classType, writeType, depth );
 
 			typeTraversal = typeTraversal.getSuperclass();
 		}
@@ -279,7 +294,7 @@ public class SimpleBindingAdapterGenerator
 		sourceWriter.println( "throw new RuntimeException( \"Unknown property '\" + property[" + propertyIndex + "] + \"' of " + classType.getParameterizedQualifiedSourceName() + "\" );" );
 	}
 
-	private void writeProperties( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, boolean writeInstanceOf, JClassType parentType, int writeType )
+	private void writeProperties( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, boolean writeInstanceOf, JClassType parentType, int writeType, int depth )
 	{
 		String currentVariableName = variableName;
 		boolean writtenAProperty = false;
@@ -349,7 +364,11 @@ public class SimpleBindingAdapterGenerator
 			{
 				if ( nestedClassType.getPackage().getName().startsWith( parentType.getPackage().getName() ) )
 				{
-					String nestedVariableName = VARIABLE_NAME_PREFIX + nestedClassType.getSimpleSourceName();
+					String nestedVariableName = VARIABLE_NAME_PREFIX + propertyName;
+
+					if ( depth > 0 )
+						nestedVariableName += ( depth + 1 );
+
 					sourceWriter.println( nestedClassType.getParameterizedQualifiedSourceName() + " " + nestedVariableName + " = " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "();" );
 					String setterMethodName = "set" + propertyName;
 
@@ -388,7 +407,7 @@ public class SimpleBindingAdapterGenerator
 							break;
 					}
 
-					writeSubtypes( sourceWriter, nestedClassType, nestedVariableName, nextPropertyIndex, writeType );
+					writeSubtypes( sourceWriter, nestedClassType, nestedVariableName, nextPropertyIndex, writeType, depth + 1 );
 					sourceWriter.outdent();
 					sourceWriter.println( "}" );
 					continue;

@@ -67,6 +67,9 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
  * @author Richard Kennard
  */
 
+// TODO: test 'not simple, but don't expand' in allwidgets
+// TODO: test 'owner' isn't visible anywhere
+
 public class StrutsMetawidgetTag
 	extends BaseHtmlMetawidgetTag
 {
@@ -354,6 +357,11 @@ public class StrutsMetawidgetTag
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
 				return writeReadOnlyTag( attributes );
+
+			// Not simple, but don't expand
+
+			if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+				return writeStrutsTag( TextTag.class, attributes );
 		}
 
 		// Nested Metawidget

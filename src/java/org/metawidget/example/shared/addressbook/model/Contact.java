@@ -58,7 +58,7 @@ public abstract class Contact
 
 	private Gender				mGender;
 
-	private Address				mAddress	= new Address();
+	private Address				mAddress;
 
 	private Set<Communication>	mCommunications;
 
@@ -72,7 +72,7 @@ public abstract class Contact
 
 	public Contact()
 	{
-		// Default constructor
+		this( null, null, null );
 	}
 
 	public Contact( String title, String firstnames, String surname )
@@ -80,6 +80,8 @@ public abstract class Contact
 		mTitle = title;
 		mFirstnames = firstnames;
 		mSurname = surname;
+		mAddress = new Address();
+		mAddress.setOwner( this );
 	}
 
 	//

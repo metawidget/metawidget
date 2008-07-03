@@ -27,9 +27,13 @@ import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
+import org.metawidget.util.LogUtils.Log;
+import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -66,6 +70,8 @@ public abstract class BasePropertyInspector
 	// Protected members
 	//
 	//
+
+	protected Log															mLog					= LogUtils.getLog( getClass() );
 
 	protected Pattern														mPatternProxy;
 
@@ -288,10 +294,15 @@ public abstract class BasePropertyInspector
 			if ( traverse == null )
 				break;
 
-			// Nip infinite recursion in the bud quietly
+			// Unlike BaseXmlInspector (which can never be certain it has detected a
+			// cyclic reference because it only looks at types, not objects), BasePropertyInspector
+			// can detect cycles and nip them in the bud
 
-			if ( !traversed.add( traverse ))
+			if ( !traversed.add( traverse ) )
+			{
+				LogUtils.getLog( getClass() ).warn( getClass().getSimpleName() + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating " + name + " as @UiHidden");
 				return null;
+			}
 		}
 
 		if ( onlyToParent )

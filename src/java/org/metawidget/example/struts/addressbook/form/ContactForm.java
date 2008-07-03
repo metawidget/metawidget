@@ -52,7 +52,7 @@ public abstract class ContactForm
 
 	private Gender				mGender;
 
-	private Address				mAddress	= new Address();
+	private Address				mAddress;
 
 	private Set<Communication>	mCommunications;
 

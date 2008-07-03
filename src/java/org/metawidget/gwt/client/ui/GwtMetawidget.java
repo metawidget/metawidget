@@ -1050,6 +1050,11 @@ public class GwtMetawidget
 		if ( isCollection( type ) )
 			return new FlexTable();
 
+		// Not simple, but don't expand
+
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+			return new TextBox();
+
 		// Nested Metawidget
 
 		return createMetawidget();

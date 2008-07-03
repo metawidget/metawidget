@@ -56,7 +56,7 @@ public class XmlInspectorTest
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\">";
 		xml += "<entity type=\"org.metawidget.test.inspector.xml.SuperSuperFoo\">";
-		xml += "<property name=\"bar\" type=\"Bar\"/>";
+		xml += "<property name=\"bar\" type=\"Bar\" required=\"true\"/>";
 		xml += "<property name=\"a\"/>";
 		xml += "<property name=\"d\"/>";
 		xml += "</entity>";
@@ -130,6 +130,7 @@ public class XmlInspectorTest
 		assertTrue( ENTITY.equals( entity.getNodeName() ));
 		assertTrue( "Bar".equals( entity.getAttribute( TYPE ) ));
 		assertTrue( "bar".equals( entity.getAttribute( NAME ) ));
+		assertTrue( "true".equals( entity.getAttribute( REQUIRED ) ));
 
 		// Properties
 
@@ -142,36 +143,13 @@ public class XmlInspectorTest
 	{
 		try
 		{
-			mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "bar", "baz" );
+			mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "bar", "baz", "abc" );
 			assertTrue( false );
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Property bar.baz has no @type" ));
+			assertTrue( e.getMessage().endsWith( "Property baz of bar.baz.abc has no @type" ));
 		}
-	}
-
-	public void testRecursion()
-	{
-		// Top level
-
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "RecursiveFoo" ));
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
-
-		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( "RecursiveFoo".equals( entity.getAttribute( TYPE ) ));
-
-		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "foo".equals( property.getAttribute( NAME ) ));
-		assertTrue( "RecursiveFoo".equals( property.getAttribute( TYPE ) ));
-		assertTrue( 2 == property.getAttributes().getLength() );
-		assertTrue( property.getNextSibling() == null );
-
-		// Second level (should block)
-
-		assertTrue( mInspector.inspect( null, "RecursiveFoo", "foo", "foo" ) == null );
 	}
 
 	//

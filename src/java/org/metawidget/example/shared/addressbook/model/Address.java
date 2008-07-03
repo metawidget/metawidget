@@ -19,6 +19,7 @@ package org.metawidget.example.shared.addressbook.model;
 import java.io.Serializable;
 
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLookup;
 
 /**
@@ -46,6 +47,8 @@ public class Address
 	//
 	//
 
+	private Contact				mOwner;
+
 	private String				mStreet;
 
 	private String				mCity;
@@ -60,6 +63,18 @@ public class Address
 	//
 	//
 
+	@UiHidden
+	public Contact getOwner()
+	{
+		return mOwner;
+	}
+
+	public void setOwner( Contact owner )
+	{
+		mOwner = owner;
+	}
+
+	@UiComesAfter( "owner" )
 	public String getStreet()
 	{
 		return mStreet;

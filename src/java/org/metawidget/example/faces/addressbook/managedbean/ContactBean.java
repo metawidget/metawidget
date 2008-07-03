@@ -26,7 +26,6 @@ import javax.faces.el.VariableResolver;
 import javax.faces.model.ListDataModel;
 
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
-import org.metawidget.example.shared.addressbook.model.Address;
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
@@ -162,20 +161,14 @@ public class ContactBean
 
 	public String addPersonal()
 	{
-		PersonalContact contact = new PersonalContact();
-		contact.setAddress( new Address() );
-
-		setCurrent( contact );
+		setCurrent( new PersonalContact() );
 
 		return "addPersonal";
 	}
 
 	public String addBusiness()
 	{
-		BusinessContact contact = new BusinessContact();
-		contact.setAddress( new Address() );
-
-		setCurrent( contact );
+		setCurrent( new BusinessContact() );
 
 		return "addBusiness";
 	}

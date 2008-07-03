@@ -22,6 +22,7 @@ import java.beans.Introspector;
 import java.lang.reflect.Field;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import junit.framework.TestCase;
@@ -107,6 +108,29 @@ public class SwingMetawidgetTest
 		metawidget.setToInspect( foo );
 
 		assertTrue( null == ((SwingMetawidget) metawidget.getComponent( "foo" )).getComponent( "foo" ));
+	}
+
+	public void testMaximumInspectionDepth()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+		metawidget.setToInspect( new Foo() );
+		metawidget.setMaximumInspectionDepth( 0 );
+		assertTrue( metawidget.getComponent( "bar" ) == null );
+
+		metawidget.setMaximumInspectionDepth( 1 );
+		assertTrue( metawidget.getComponent( "bar", "baz" ) instanceof JLabel );
+		assertTrue( 1 == metawidget.getMaximumInspectionDepth() );
+
+		RecursiveFoo foo1 = new RecursiveFoo();
+		RecursiveFoo foo2 = new RecursiveFoo();
+		RecursiveFoo foo3 = new RecursiveFoo();
+		foo1.foo = foo2;
+		foo2.foo = foo3;
+
+		metawidget.setToInspect( foo1 );
+		assertTrue( metawidget.getComponent( "foo", "foo" ) instanceof SwingMetawidget );
+		assertTrue( metawidget.getComponent( "foo", "foo", "foo" ) == null );
 	}
 
 	//

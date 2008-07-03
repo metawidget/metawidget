@@ -68,6 +68,11 @@ public class MetawidgetAnnotationInspectorTest
 
 		Element property = (Element) entity.getFirstChild();
 		assertTrue( PROPERTY.equals( property.getNodeName() ));
+		assertTrue( "owner".equals( property.getAttribute( NAME ) ));
+		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ));
+
+		property = (Element) property.getNextSibling();
+		assertTrue( PROPERTY.equals( property.getNodeName() ));
 		assertTrue( "street".equals( property.getAttribute( NAME ) ));
 
 		property = (Element) property.getNextSibling();

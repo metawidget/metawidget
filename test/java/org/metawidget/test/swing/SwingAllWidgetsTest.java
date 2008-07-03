@@ -150,7 +150,7 @@ public class SwingAllWidgetsTest
 
 		// Check what created, and edit it
 
-		assertTrue( "Textbox:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( "Textbox*:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( "Textbox".equals( metawidget.getValue( "textbox" ) ) );
 		( (JTextField) metawidget.getComponent( 1 ) ).setText( "Textbox1" );

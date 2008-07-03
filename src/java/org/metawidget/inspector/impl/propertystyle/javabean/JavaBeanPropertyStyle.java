@@ -65,7 +65,7 @@ public class JavaBeanPropertyStyle
 
 	private String[]								mExcludeNames;
 
-	private Class<?>[]								mExcludeTypes;
+	private Class<?>[]								mExcludeReturnTypes;
 
 	//
 	//
@@ -76,7 +76,7 @@ public class JavaBeanPropertyStyle
 	public JavaBeanPropertyStyle()
 	{
 		mExcludeNames = getExcludeNames();
-		mExcludeTypes = getExcludeTypes();
+		mExcludeReturnTypes = getExcludeReturnTypes();
 	}
 
 	//
@@ -117,7 +117,8 @@ public class JavaBeanPropertyStyle
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, filters out the properties 'propertyChangeListeners' and 'vetoableChangeListeners'.
+	 * By default, filters out the properties 'propertyChangeListeners' and
+	 * 'vetoableChangeListeners'.
 	 */
 
 	protected String[] getExcludeNames()
@@ -126,8 +127,8 @@ public class JavaBeanPropertyStyle
 	}
 
 	/**
-	 * Array of property return types to exclude when searching for properties. Subtypes
-	 * of the specified exclude types are also excluded.
+	 * Array of property return types to exclude when searching for properties. Subtypes of the
+	 * specified exclude types are also excluded.
 	 * <p>
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
@@ -135,7 +136,7 @@ public class JavaBeanPropertyStyle
 	 * By default, filters out any types that return <code>java.lang.Class</code>.
 	 */
 
-	protected Class<?>[] getExcludeTypes()
+	protected Class<?>[] getExcludeReturnTypes()
 	{
 		return new Class<?>[] { Class.class };
 	}
@@ -163,9 +164,9 @@ public class JavaBeanPropertyStyle
 
 			Class<?> type = field.getType();
 
-			for( Class<?> excludeType : mExcludeTypes )
+			for ( Class<?> excludeType : mExcludeReturnTypes )
 			{
-				if ( excludeType.isAssignableFrom( type ))
+				if ( excludeType.isAssignableFrom( type ) )
 					continue field;
 			}
 
@@ -189,9 +190,9 @@ public class JavaBeanPropertyStyle
 
 			// Ignore certain types
 
-			for( Class<?> excludeType : mExcludeTypes )
+			for ( Class<?> excludeType : mExcludeReturnTypes )
 			{
-				if ( excludeType.isAssignableFrom( toReturn ))
+				if ( excludeType.isAssignableFrom( toReturn ) )
 					continue getter;
 			}
 
@@ -260,9 +261,9 @@ public class JavaBeanPropertyStyle
 
 			// Ignore certain types
 
-			for( Class<?> excludeType : mExcludeTypes )
+			for ( Class<?> excludeType : mExcludeReturnTypes )
 			{
-				if ( excludeType.isAssignableFrom( toSet ))
+				if ( excludeType.isAssignableFrom( toSet ) )
 					continue setter;
 			}
 

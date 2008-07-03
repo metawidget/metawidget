@@ -161,7 +161,14 @@ public abstract class BaseMetawidgetMixin<W, E>
 					continue;
 
 				if ( isMetawidget( widget ) )
+				{
 					widget = initMetawidget( widget, attributes );
+
+					// May have been suppressed (eg. SwingMetawidget.setMaximumInspectionDepth)
+
+					if ( widget == null )
+						continue;
+				}
 			}
 			else if ( isStub( widget ) )
 			{
