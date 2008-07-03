@@ -427,6 +427,9 @@ public abstract class BaseXmlInspector
 
 			if ( entityElement == null )
 				break;
+
+			// Unlike BasePropertyInspector, we cannot test for cyclic references because
+			// we're only looking at types, not objects
 		}
 
 		return entityElement;
