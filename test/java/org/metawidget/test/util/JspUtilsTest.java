@@ -17,9 +17,18 @@
 package org.metawidget.test.util;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
+import javax.servlet.Servlet;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.el.ExpressionEvaluator;
+import javax.servlet.jsp.el.VariableResolver;
 import javax.servlet.jsp.tagext.Tag;
 
 import junit.framework.TestCase;
@@ -44,6 +53,14 @@ public class JspUtilsTest
 
 	//
 	//
+	// Package-level members
+	//
+	//
+
+	int					mPageContextHits;
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -51,6 +68,180 @@ public class JspUtilsTest
 	public void testJspUtils()
 		throws Exception
 	{
+		PageContext pageContext = new PageContext()
+		{
+			@Override
+			public void forward( String relativeUrlPath )
+			{
+				mPageContextHits++;
+			}
+
+			@Override
+			public Exception getException()
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public Object getPage()
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public ServletRequest getRequest()
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public ServletResponse getResponse()
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public ServletConfig getServletConfig()
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public ServletContext getServletContext()
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public HttpSession getSession()
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public void handlePageException( Exception exception )
+			{
+				mPageContextHits++;
+			}
+
+			@Override
+			public void handlePageException( Throwable throwable )
+			{
+				mPageContextHits++;
+			}
+
+			@Override
+			public void include( String relativeUrlPath )
+			{
+				mPageContextHits++;
+			}
+
+			@Override
+			public void include( String relativeUrlPath, boolean flush )
+			{
+				mPageContextHits++;
+			}
+
+			@Override
+			public void initialize( Servlet servlet, ServletRequest request, ServletResponse response, String errorPageUrl, boolean needsSession, int bufferSize, boolean autoFlush )
+			{
+				mPageContextHits++;
+			}
+
+			@Override
+			public void release()
+			{
+				mPageContextHits++;
+			}
+
+			@Override
+			public Object findAttribute( String name )
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public Object getAttribute( String name )
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public Object getAttribute( String name, int scope )
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public Enumeration<?> getAttributeNamesInScope( int scope )
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public int getAttributesScope( String name )
+			{
+				mPageContextHits++;
+				return 0;
+			}
+
+			@Override
+			public ExpressionEvaluator getExpressionEvaluator()
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public JspWriter getOut()
+			{
+				assertTrue( false );
+				return null;
+			}
+
+			@Override
+			public VariableResolver getVariableResolver()
+			{
+				mPageContextHits++;
+				return null;
+			}
+
+			@Override
+			public void removeAttribute( String name )
+			{
+				mPageContextHits++;
+			}
+
+			@Override
+			public void removeAttribute( String name, int scope )
+			{
+				mPageContextHits++;
+			}
+
+			@Override
+			public void setAttribute( String name, Object value )
+			{
+				mPageContextHits++;
+			}
+
+			@Override
+			public void setAttribute( String name, Object value, int scope )
+			{
+				mPageContextHits++;
+			}
+		};
+
 		Tag testTag = new Tag()
 		{
 			@Override
@@ -91,7 +282,7 @@ public class JspUtilsTest
 
 		};
 
-		JspUtils.writeTag( null, testTag, null, new BodyPreparer()
+		JspUtils.writeTag( pageContext, testTag, null, new BodyPreparer()
 		{
 			@Override
 			public void prepareBody( PageContext delegateContext )
@@ -124,6 +315,44 @@ public class JspUtilsTest
 				writer.println( "END" );
 				writer.flush();
 				writer.close();
+
+				// Hit
+
+				try
+				{
+					delegateContext.forward( null );
+					delegateContext.getException();
+					delegateContext.getPage();
+					delegateContext.getRequest();
+					delegateContext.getResponse();
+					delegateContext.getServletConfig();
+					delegateContext.getServletContext();
+					delegateContext.getSession();
+					delegateContext.handlePageException( (Exception) null );
+					delegateContext.handlePageException( (Throwable) null );
+					delegateContext.include( null );
+					delegateContext.include( null, false );
+					delegateContext.initialize( null, null, null, null, false, 0, false );
+					delegateContext.release();
+					delegateContext.findAttribute( null );
+					delegateContext.getAttribute( null );
+					delegateContext.getAttribute( null, 0 );
+					delegateContext.getAttributeNamesInScope( 0 );
+					delegateContext.getAttributesScope( null );
+					delegateContext.getExpressionEvaluator();
+					delegateContext.getOut();
+					delegateContext.getVariableResolver();
+					delegateContext.removeAttribute( null );
+					delegateContext.removeAttribute( null, 0 );
+					delegateContext.setAttribute( null, null );
+					delegateContext.setAttribute( null, null, 0 );
+				}
+				catch( Exception e )
+				{
+					throw new IOException( e.getMessage() );
+				}
+
+				assertTrue( mPageContextHits == 25 );
 
 				// Verify
 

@@ -54,6 +54,7 @@ import org.metawidget.util.simple.StringUtils;
  * <code>org.jdesktop.beansbinding.AutoBinding.UpdateStrategy</code>. Defaults to
  * <code>READ_ONCE</code>. If set to <code>READ</code> or <code>READ_WRITE</code>, the
  * object being inspected must provide <code>PropertyChangeSupport</code>. If set to
+ * <code>READ</code>, there is no need to call <code>SwingMetawidget.rebind</code>. If set to
  * <code>READ_WRITE</code>, there is no need to call <code>SwingMetawidget.save</code>.
  * </ul>
  *
@@ -120,6 +121,23 @@ public class BeansBinding
 	public void bind( Component component, String componentProperty, String... names )
 	{
 		typesafeBind( component, componentProperty, names );
+	}
+
+	@Override
+	public void rebind( Object toRebind )
+	{
+		if ( mBindings == null )
+			return;
+
+		for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : mBindings )
+		{
+			if ( !binding.getSourceProperty().isWriteable( binding.getSourceObject() ) )
+				continue;
+
+			binding.unbind();
+			binding.setSourceObject( toRebind );
+			binding.bind();
+		}
 	}
 
 	@Override

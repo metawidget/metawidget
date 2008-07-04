@@ -55,7 +55,6 @@ import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -625,15 +624,7 @@ public class AndroidMetawidget
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-			{
-				ListView listView = new ListView( getContext() );
-				listView.setEnabled( false );
-
-				// Must set an ArrayAdpater or Android will not scroll the screen correctly
-
-				listView.setAdapter( new ResourcelessArrayAdapter<Object>( getContext(), Collections.emptySet() ) );
-				return listView;
-			}
+				return null;
 		}
 
 		// Not simple, but don't expand
@@ -771,14 +762,7 @@ public class AndroidMetawidget
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-			{
-				ListView listView = new ListView( getContext() );
-
-				// Must set an ArrayAdpater or Android will not scroll the screen correctly
-
-				listView.setAdapter( new ResourcelessArrayAdapter<Object>( getContext(), Collections.emptySet() ) );
-				return listView;
-			}
+				return null;
 		}
 
 		// Not simple, but don't expand

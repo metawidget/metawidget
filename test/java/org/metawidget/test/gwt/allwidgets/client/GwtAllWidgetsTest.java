@@ -278,10 +278,7 @@ public class GwtAllWidgetsTest
 								assertTrue( flexTable.getWidget( 28, 1 ) instanceof Label );
 								assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
-								assertTrue( "Collection:".equals( flexTable.getText( 29, 0 ) ) );
-								assertTrue( flexTable.getWidget( 29, 1 ) instanceof FlexTable );
-
-								assertTrue( 31 == flexTable.getRowCount() );
+								assertTrue( 30 == flexTable.getRowCount() );
 
 								// Check IllegalArgumentException
 
@@ -395,10 +392,7 @@ public class GwtAllWidgetsTest
 														assertTrue( "Read only (i18n):".equals( readOnlyFlexTable.getText( 28, 0 ) ) );
 														assertTrue( "Read Only".equals( ( (Label) readOnlyFlexTable.getWidget( 28, 1 ) ).getText() ) );
 
-														assertTrue( "Collection (i18n):".equals( readOnlyFlexTable.getText( 29, 0 ) ) );
-														assertTrue( readOnlyFlexTable.getWidget( 29, 1 ) instanceof FlexTable );
-
-														assertTrue( 31 == flexTable.getRowCount() );
+														assertTrue( 30 == flexTable.getRowCount() );
 														finish();
 													}
 												} );

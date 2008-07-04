@@ -178,10 +178,6 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/td[1]/input[@type='text']"/>
 				<setInputField name="allWidgets.mystery" value="Goes nowhere"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/th" text="Collection (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]" text="[element1, element2]"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]/input[@type='hidden']/@value" text="[element1, element2]"/>
-
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aButtonsStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aButtonsStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@colspan" text="3"/>
@@ -258,8 +254,6 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[28]/td[1]" text="Read Only1"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[29]/th" text="???mystery???:"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[29]/td[1]" text=""/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[30]/th" text="Collection (i18n):"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[30]/td[1]" text="[element1, element2]"/>
 				<verifyXPath xpath="/html/body/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/input[1]/@value" text="Hidden1"/>
 				

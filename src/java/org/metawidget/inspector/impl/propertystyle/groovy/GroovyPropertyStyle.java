@@ -65,7 +65,7 @@ public class GroovyPropertyStyle
 
 	public GroovyPropertyStyle()
 	{
-		mExcludeTypes = getExcludeTypes();
+		mExcludeTypes = getExcludeReturnTypes();
 	}
 
 	//
@@ -127,7 +127,7 @@ public class GroovyPropertyStyle
 	 * <code>groovy.lang.MetaClass</code>.
 	 */
 
-	protected Class<?>[] getExcludeTypes()
+	protected Class<?>[] getExcludeReturnTypes()
 	{
 		return new Class<?>[] { Class.class, MetaClass.class };
 	}

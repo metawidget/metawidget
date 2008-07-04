@@ -256,8 +256,6 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]" text="Thu Apr 10 01:00:00 GMT 1975"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/th" text="Read only (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/td[1]" text="Read Only1"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/th" text="Collection (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]" text="[element1, element2]"/>
 				<verifyXPath xpath="/html/body/form/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/form/input[1]/@value" text="Hidden1"/>
 	

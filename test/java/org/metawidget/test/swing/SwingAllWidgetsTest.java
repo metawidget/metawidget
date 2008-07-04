@@ -31,7 +31,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -366,11 +365,7 @@ public class SwingAllWidgetsTest
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 55 ) ).gridx );
 		assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
-		assertTrue( "Collection:".equals( ( (JLabel) metawidget.getComponent( 56 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 57 ) instanceof JScrollPane );
-		assertTrue( ((JScrollPane) metawidget.getComponent( 57 )).getViewport().getView() instanceof JTable );
-
-		assertTrue( 58 == metawidget.getComponentCount() );
+		assertTrue( 56 == metawidget.getComponentCount() );
 
 		// Check painting
 
@@ -461,11 +456,8 @@ public class SwingAllWidgetsTest
 		assertTrue( now.equals( ( (JLabel) metawidget.getComponent( 53 ) ).getText() ) );
 		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 54 ) ).getText() ) );
 		assertTrue( "Read Only".equals( ( (JLabel) metawidget.getComponent( 55 ) ).getText() ) );
-		assertTrue( "Collection:".equals( ( (JLabel) metawidget.getComponent( 56 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 57 ) instanceof JScrollPane );
-		assertTrue( ((JScrollPane) metawidget.getComponent( 57 )).getViewport().getView() instanceof JTable );
 
-		assertTrue( metawidget.getComponentCount() == 58 );
+		assertTrue( metawidget.getComponentCount() == 56 );
 
 		// Test unbind
 

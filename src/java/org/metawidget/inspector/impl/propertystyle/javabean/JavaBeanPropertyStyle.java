@@ -67,6 +67,8 @@ public class JavaBeanPropertyStyle
 
 	private Class<?>[]								mExcludeReturnTypes;
 
+	private Class<?>[]								mExcludeBaseTypes;
+
 	//
 	//
 	// Constructor
@@ -77,6 +79,7 @@ public class JavaBeanPropertyStyle
 	{
 		mExcludeNames = getExcludeNames();
 		mExcludeReturnTypes = getExcludeReturnTypes();
+		mExcludeBaseTypes = getExcludeBaseTypes();
 	}
 
 	//
@@ -142,6 +145,20 @@ public class JavaBeanPropertyStyle
 	}
 
 	/**
+	 * Array of base types to exclude when searching up the model inheritance chain.
+	 * <p>
+	 * This can be useful when the convention or base class define properties that are
+	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * <p>
+	 * By default, does not filter out any base types.
+	 */
+
+	protected Class<?>[] getExcludeBaseTypes()
+	{
+		return null;
+	}
+
+	/**
 	 * @return the properties of the given class. Never null.
 	 */
 
@@ -151,145 +168,189 @@ public class JavaBeanPropertyStyle
 
 		Map<String, Property> properties = CollectionUtils.newTreeMap();
 
-		// Public fields
+		Class<?> traverseClass = clazz;
 
-		field: for ( Field field : clazz.getFields() )
+		while( traverseClass != null )
 		{
-			// Ignore static public fields
+			// Exclude certain base types
 
-			if ( Modifier.isStatic( field.getModifiers() ) )
-				continue;
+			if ( ArrayUtils.contains( mExcludeBaseTypes, traverseClass ))
+				break;
 
-			// Ignore certain types
+			// Public fields
 
-			Class<?> type = field.getType();
-
-			for ( Class<?> excludeType : mExcludeReturnTypes )
+			field: for ( Field field : traverseClass.getDeclaredFields() )
 			{
-				if ( excludeType.isAssignableFrom( type ) )
-					continue field;
-			}
+				// Exclude static public fields
 
-			String propertyName = field.getName();
-			properties.put( propertyName, new FieldProperty( propertyName, field ) );
-		}
+				int modifiers = field.getModifiers();
 
-		// Getter methods
-
-		getter: for ( Method methodRead : clazz.getMethods() )
-		{
-			Class<?>[] parameters = methodRead.getParameterTypes();
-
-			if ( parameters.length != 0 )
-				continue;
-
-			Class<?> toReturn = methodRead.getReturnType();
-
-			if ( void.class.equals( toReturn ) )
-				continue;
-
-			// Ignore certain types
-
-			for ( Class<?> excludeType : mExcludeReturnTypes )
-			{
-				if ( excludeType.isAssignableFrom( toReturn ) )
-					continue getter;
-			}
-
-			String methodName = methodRead.getName();
-			String propertyName = null;
-
-			if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
-				propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
-			else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
-				propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
-			else
-				continue;
-
-			if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
-				continue;
-
-			// Ignore certain names
-
-			String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
-
-			if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
-				continue;
-
-			// Already found (via its field)?
-
-			Property propertyExisting = properties.get( lowercasedPropertyName );
-
-			if ( propertyExisting != null )
-			{
-				if ( !( propertyExisting instanceof JavaBeanProperty ) )
+				if ( Modifier.isStatic( modifiers ) )
 					continue;
 
-				// Beware covariant return types: always prefer the
-				// subclass
+				// Exclude non-public fields
 
-				if ( toReturn.isAssignableFrom( propertyExisting.getType() ) )
+				if ( !Modifier.isPublic( modifiers ))
 					continue;
+
+				// Exclude certain return types
+
+				Class<?> type = field.getType();
+
+				if ( mExcludeReturnTypes != null )
+				{
+					for ( Class<?> excludeType : mExcludeReturnTypes )
+					{
+						if ( excludeType.isAssignableFrom( type ) )
+							continue field;
+					}
+				}
+
+				String propertyName = field.getName();
+				properties.put( propertyName, new FieldProperty( propertyName, field ) );
 			}
 
-			// Try to find a matching setter
+			// Getter methods
 
-			Method methodWrite = null;
-
-			try
+			getter: for ( Method methodRead : traverseClass.getDeclaredMethods() )
 			{
-				methodWrite = clazz.getMethod( ClassUtils.JAVABEAN_SET_PREFIX + propertyName, toReturn );
+				// Exclude non-public fields
+
+				int modifiers = methodRead.getModifiers();
+
+				if ( !Modifier.isPublic( modifiers ))
+					continue;
+
+				Class<?>[] parameters = methodRead.getParameterTypes();
+
+				if ( parameters.length != 0 )
+					continue;
+
+				Class<?> toReturn = methodRead.getReturnType();
+
+				if ( void.class.equals( toReturn ) )
+					continue;
+
+				// Exclude certain return types
+
+				if ( mExcludeReturnTypes != null )
+				{
+					for ( Class<?> excludeType : mExcludeReturnTypes )
+					{
+						if ( excludeType.isAssignableFrom( toReturn ) )
+							continue getter;
+					}
+				}
+
+				String methodName = methodRead.getName();
+				String propertyName = null;
+
+				if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
+					propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
+				else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
+					propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
+				else
+					continue;
+
+				if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
+					continue;
+
+				// Exclude certain names
+
+				String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
+
+				if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
+					continue;
+
+				// Already found (via its field)?
+
+				Property propertyExisting = properties.get( lowercasedPropertyName );
+
+				if ( propertyExisting != null )
+				{
+					if ( !( propertyExisting instanceof JavaBeanProperty ) )
+						continue;
+
+					// Beware covariant return types: always prefer the
+					// subclass
+
+					if ( toReturn.isAssignableFrom( propertyExisting.getType() ) )
+						continue;
+				}
+
+				// Try to find a matching setter
+
+				Method methodWrite = null;
+
+				try
+				{
+					methodWrite = traverseClass.getMethod( ClassUtils.JAVABEAN_SET_PREFIX + propertyName, toReturn );
+				}
+				catch ( NoSuchMethodException e )
+				{
+					// May not be one
+				}
+
+				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toReturn, methodRead, methodWrite ) );
 			}
-			catch ( NoSuchMethodException e )
+
+			// Setter methods (for those without getters)
+
+			setter: for ( Method methodWrite : traverseClass.getDeclaredMethods() )
 			{
-				// May not be one
+				// Exclude non-public fields
+
+				int modifiers = methodWrite.getModifiers();
+
+				if ( !Modifier.isPublic( modifiers ))
+					continue;
+
+				Class<?>[] parameters = methodWrite.getParameterTypes();
+
+				if ( parameters.length != 1 )
+					continue;
+
+				Class<?> toSet = parameters[0];
+
+				// Exclude certain return types
+
+				if ( mExcludeReturnTypes != null )
+				{
+					for ( Class<?> excludeType : mExcludeReturnTypes )
+					{
+						if ( excludeType.isAssignableFrom( toSet ) )
+							continue setter;
+					}
+				}
+
+				String methodName = methodWrite.getName();
+
+				if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
+					continue;
+
+				String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
+
+				if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
+					continue;
+
+				// Exclude certain names
+
+				String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
+
+				if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
+					continue;
+
+				// Already found (via its field/getter)?
+
+				if ( properties.containsKey( lowercasedPropertyName ) )
+					continue;
+
+				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toSet, null, methodWrite ) );
 			}
 
-			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toReturn, methodRead, methodWrite ) );
-		}
+			// Work up the inheritance chain
 
-		// Setter methods (for those without getters)
-
-		setter: for ( Method methodWrite : clazz.getMethods() )
-		{
-			Class<?>[] parameters = methodWrite.getParameterTypes();
-
-			if ( parameters.length != 1 )
-				continue;
-
-			Class<?> toSet = parameters[0];
-
-			// Ignore certain types
-
-			for ( Class<?> excludeType : mExcludeReturnTypes )
-			{
-				if ( excludeType.isAssignableFrom( toSet ) )
-					continue setter;
-			}
-
-			String methodName = methodWrite.getName();
-
-			if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
-				continue;
-
-			String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
-
-			if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
-				continue;
-
-			// Ignore certain names
-
-			String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
-
-			if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
-				continue;
-
-			// Already found (via its field/getter)?
-
-			if ( properties.containsKey( lowercasedPropertyName ) )
-				continue;
-
-			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toSet, null, methodWrite ) );
+			traverseClass = traverseClass.getSuperclass();
 		}
 
 		return properties;

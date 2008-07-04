@@ -21,7 +21,6 @@ import java.beans.PropertyChangeSupport;
 import java.util.List;
 
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 
@@ -133,8 +132,12 @@ public class BeansBindingTest
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( foo );
 
+		JTable table = new JTable();
+		table.setName( "list" );
+		metawidget.add( table );
+
 		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
-		JTable table = (JTable) ( (JScrollPane) metawidget.getComponent( 5 ) ).getViewport().getView();
+		table = (JTable) metawidget.getComponent( 5 );
 		assertTrue( table.getModel().getRowCount() == 2 );
 
 		// Inspect read-only
@@ -142,7 +145,7 @@ public class BeansBindingTest
 		metawidget.setReadOnly( true );
 
 		assertTrue( metawidget.getComponent( 1 ) instanceof JLabel );
-		table = (JTable) ( (JScrollPane) metawidget.getComponent( 5 ) ).getViewport().getView();
+		table = (JTable) metawidget.getComponent( 5 );
 		assertTrue( table.getModel().getRowCount() == 2 );
 	}
 

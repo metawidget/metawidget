@@ -26,10 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.Application;
-import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
-import javax.faces.component.UIData;
-import javax.faces.component.UIOutput;
 import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
@@ -514,49 +511,14 @@ public class HtmlMetawidget
 
 	protected UIComponent createCollectionComponent( Class<?> collectionClass, Map<String, String> attributes )
 	{
-		UIComponent collectionComponent;
 		FacesContext context = getFacesContext();
 		Application application = context.getApplication();
 
-		if ( List.class.isAssignableFrom( collectionClass ) )
-		{
-			UIOutput componentColumnText = (UIOutput) application.createComponent( "javax.faces.Output" );
-			componentColumnText.setId( context.getViewRoot().createUniqueId() );
-			componentColumnText.setValueBinding( "value", application.createValueBinding( "#{_var}" ) );
-
-			UIColumn componentColumn = (UIColumn) application.createComponent( "javax.faces.Column" );
-			componentColumn.setId( context.getViewRoot().createUniqueId() );
-			@SuppressWarnings( "unchecked" )
-			List<UIComponent> columnChildren = componentColumn.getChildren();
-			columnChildren.add( componentColumnText );
-
-			collectionComponent = application.createComponent( "javax.faces.Data" );
-			( (UIData) collectionComponent ).setVar( "_var" );
-			@SuppressWarnings( "unchecked" )
-			List<UIComponent> dataChildren = collectionComponent.getChildren();
-			dataChildren.add( componentColumn );
-		}
-		else
-		{
-			// Other collections (JSF's built-in UIData only supports Lists)
-
-			collectionComponent = application.createComponent( "javax.faces.Output" );
-		}
-
-		// If using hidden fields, create a hidden field too
-
 		if ( !mCreateHiddenFields || TRUE.equals( attributes.get( NO_SETTER ) ) )
-			return collectionComponent;
+			return null;
 
-		UIComponent componentStub = application.createComponent( "org.metawidget.Stub" );
+		// If using hidden fields, create a hidden field to POST back the Collection
 
-		@SuppressWarnings( "unchecked" )
-		List<UIComponent> children = componentStub.getChildren();
-
-		children.add( collectionComponent );
-		children.add( application.createComponent( "javax.faces.HtmlInputHidden" ) );
-
-		return componentStub;
-
+		return application.createComponent( "javax.faces.HtmlInputHidden" );
 	}
 }

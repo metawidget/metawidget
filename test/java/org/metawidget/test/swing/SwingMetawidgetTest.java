@@ -29,7 +29,10 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.binding.Binding;
+import org.metawidget.swing.binding.beansbinding.BeansBinding;
 import org.metawidget.swing.binding.beanutils.BeanUtilsBinding;
+import org.metawidget.test.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
 
 /**
  * @author Richard Kennard
@@ -49,7 +52,7 @@ public class SwingMetawidgetTest
 	{
 		BeanInfo info = Introspector.getBeanInfo( SwingMetawidget.class );
 
-		assertTrue( "Metawidget".equals( info.getBeanDescriptor().getDisplayName() ));
+		assertTrue( "Metawidget".equals( info.getBeanDescriptor().getDisplayName() ) );
 		assertTrue( info.getIcon( BeanInfo.ICON_MONO_16x16 ) != null );
 		assertTrue( info.getIcon( BeanInfo.ICON_COLOR_16x16 ) != null );
 		assertTrue( info.getIcon( BeanInfo.ICON_MONO_32x32 ) != null );
@@ -68,25 +71,25 @@ public class SwingMetawidgetTest
 
 		validField.setBoolean( metawidget, true );
 		metawidget.paint( new JFrame().getGraphics() );
-		assertTrue( validField.getBoolean( metawidget ));
+		assertTrue( validField.getBoolean( metawidget ) );
 		metawidget.add( component );
-		assertFalse( validField.getBoolean( metawidget ));
+		assertFalse( validField.getBoolean( metawidget ) );
 
 		validField.setBoolean( metawidget, true );
 		metawidget.remove( component );
-		assertFalse( validField.getBoolean( metawidget ));
+		assertFalse( validField.getBoolean( metawidget ) );
 
 		validField.setBoolean( metawidget, true );
 		metawidget.add( component, 0 );
-		assertFalse( validField.getBoolean( metawidget ));
+		assertFalse( validField.getBoolean( metawidget ) );
 
 		validField.setBoolean( metawidget, true );
 		metawidget.remove( 0 );
-		assertFalse( validField.getBoolean( metawidget ));
+		assertFalse( validField.getBoolean( metawidget ) );
 
 		validField.setBoolean( metawidget, true );
 		metawidget.removeAll();
-		assertFalse( validField.getBoolean( metawidget ));
+		assertFalse( validField.getBoolean( metawidget ) );
 	}
 
 	public void testNestedWithManualInspector()
@@ -96,7 +99,7 @@ public class SwingMetawidgetTest
 		metawidget.setBindingClass( BeanUtilsBinding.class );
 		metawidget.setToInspect( new Foo() );
 
-		assertTrue( "Baz".equals( metawidget.getValue( "bar", "baz" )));
+		assertTrue( "Baz".equals( metawidget.getValue( "bar", "baz" ) ) );
 	}
 
 	public void testRecursion()
@@ -107,7 +110,7 @@ public class SwingMetawidgetTest
 		foo.foo = foo;
 		metawidget.setToInspect( foo );
 
-		assertTrue( null == ((SwingMetawidget) metawidget.getComponent( "foo" )).getComponent( "foo" ));
+		assertTrue( null == ( (SwingMetawidget) metawidget.getComponent( "foo" ) ).getComponent( "foo" ) );
 	}
 
 	public void testMaximumInspectionDepth()
@@ -122,15 +125,67 @@ public class SwingMetawidgetTest
 		assertTrue( metawidget.getComponent( "bar", "baz" ) instanceof JLabel );
 		assertTrue( 1 == metawidget.getMaximumInspectionDepth() );
 
-		RecursiveFoo foo1 = new RecursiveFoo();
-		RecursiveFoo foo2 = new RecursiveFoo();
-		RecursiveFoo foo3 = new RecursiveFoo();
-		foo1.foo = foo2;
-		foo2.foo = foo3;
+		Foo foo1 = new Foo();
+		Foo foo2 = new Foo();
+		Foo foo3 = new Foo();
+		foo1.setFoo( foo2 );
+		foo2.setFoo( foo3 );
 
 		metawidget.setToInspect( foo1 );
 		assertTrue( metawidget.getComponent( "foo", "foo" ) instanceof SwingMetawidget );
 		assertTrue( metawidget.getComponent( "foo", "foo", "foo" ) == null );
+	}
+
+	public void testRebind()
+	{
+		_testRebind( BeansBinding.class );
+		_testRebind( BeanUtilsBinding.class );
+	}
+
+	public void _testRebind( Class<? extends Binding> bindingClass )
+	{
+		// Bind
+
+		Foo foo1 = new Foo();
+		foo1.setName( "Charlotte" );
+		Foo nestedFoo1 = new Foo();
+		foo1.setFoo( nestedFoo1 );
+		nestedFoo1.setName( "Philippa" );
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
+		metawidget.setBindingClass( bindingClass );
+		metawidget.setToInspect( foo1 );
+
+		JTextField textField = (JTextField) metawidget.getComponent( "name" );
+		JTextField nestedTextField = (JTextField) metawidget.getComponent( "foo", "name" );
+		assertTrue( "Charlotte".equals( textField.getText() ) );
+		assertTrue( "Philippa".equals( nestedTextField.getText() ) );
+
+		// Rebind
+
+		Foo foo2 = new Foo();
+		foo2.setName( "Julianne" );
+		Foo nestedFoo2 = new Foo();
+		foo2.setFoo( nestedFoo2 );
+		nestedFoo2.setName( "Richard" );
+
+		metawidget.rebind( foo2 );
+		assertTrue( "Julianne".equals( textField.getText() ) );
+		assertTrue( "Richard".equals( nestedTextField.getText() ) );
+
+		// Check same component
+
+		assertTrue( textField == metawidget.getComponent( "name" ) );
+		assertTrue( nestedTextField == metawidget.getComponent( "foo", "name" ) );
+
+		// Check different component
+
+		metawidget.setToInspect( foo2 );
+		assertTrue( textField != metawidget.getComponent( "name" ) );
+		assertTrue( nestedTextField != metawidget.getComponent( "foo", "name" ) );
+		assertTrue( "Julianne".equals( ( (JTextField) metawidget.getComponent( "name" ) ).getText() ) );
+		assertTrue( "Richard".equals( ( (JTextField) metawidget.getComponent( "foo", "name" ) ).getText() ) );
 	}
 
 	//
@@ -143,34 +198,41 @@ public class SwingMetawidgetTest
 	{
 		//
 		//
+		// Private members
+		//
+		//
+
+		private String	mName;
+
+		private Foo		mFoo;
+
+		//
+		//
 		// Public methods
 		//
 		//
 
-		public Bar getBar()
+		public String getName()
 		{
-			return new Bar();
+			return mName;
+		}
+
+		public void setName( String name )
+		{
+			mName = name;
+		}
+
+		public Foo getFoo()
+		{
+			return mFoo;
+		}
+
+		public void setFoo( Foo foo )
+		{
+			mFoo = foo;
 		}
 	}
 
-	public static class Bar
-	{
-		//
-		//
-		// Public methods
-		//
-		//
-
-		public String getBaz()
-		{
-			return "Baz";
-		}
-	}
-
-	public static class RecursiveFoo
-	{
-		public RecursiveFoo foo;
-	}
 	//
 	//
 	// Constructor

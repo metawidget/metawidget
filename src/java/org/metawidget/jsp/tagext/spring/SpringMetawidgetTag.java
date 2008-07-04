@@ -211,7 +211,7 @@ public class SpringMetawidgetTag
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return writeReadOnlyTag( attributes );
+				return null;
 		}
 
 		// Not simple, but don't expand
@@ -311,7 +311,7 @@ public class SpringMetawidgetTag
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return writeReadOnlyTag( attributes );
+				return null;
 
 			// Not simple, but don't expand
 

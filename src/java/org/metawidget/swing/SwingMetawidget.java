@@ -65,6 +65,7 @@ import org.metawidget.swing.layout.TableGridBagLayout;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.LogUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
@@ -413,6 +414,43 @@ public class SwingMetawidget
 	//
 	// The following methods all kick off buildWidgets() if necessary
 	//
+
+	/**
+	 * Rebinds the values in the UI to the given Object.
+	 * <p>
+	 * <code>rebind</code> can be thought of as a lightweight version of <code>setToInspect</code>.
+	 * Unlike <code>setToInspect</code>, <code>rebind</code> does <em>not</em> reinspect the
+	 * Object or recreate any <code>JComponents</code>. Rather, <code>rebind</code> applies
+	 * only at the binding level, and updates the binding with values from the given Object.
+	 * <p>
+	 * This is more performant, and allows the Metawidget to be created 'in advance' and reused many
+	 * times with different Objects, but it is the caller's responsibility that the Object passed to
+	 * <code>rebind</code> is of the same type as the one previously passed to
+	 * <code>setToInspect</code>.
+	 * <p>
+	 * For client's not using a Binding implementation, there is no need to call <code>rebind</code>.
+	 * They can simply use <code>setValue</code> to update existing values in the UI.
+	 */
+
+	public void rebind( Object toRebind )
+	{
+		// buildWidgets() so that mBinding is initialized
+
+		buildWidgets();
+
+		if ( mBinding == null )
+			throw MetawidgetException.newException( "No binding configured. Use SwingMetawidget.setBindingClass" );
+
+		mBinding.rebind( toRebind );
+
+		for ( Component component : getComponents() )
+		{
+			if ( component instanceof SwingMetawidget )
+			{
+				( (SwingMetawidget) component ).rebind( toRebind );
+			}
+		}
+	}
 
 	/**
 	 * Saves the values from the binding back to the object being inspected.
@@ -960,7 +998,7 @@ public class SwingMetawidget
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new JScrollPane( new JTable() );
+				return null;
 
 			// Not simple, but don't expand
 
@@ -1126,7 +1164,7 @@ public class SwingMetawidget
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new JScrollPane( new JTable() );
+				return null;
 
 			// Not simple, but don't expand
 
@@ -1199,17 +1237,17 @@ public class SwingMetawidget
 
 	protected SwingMetawidget initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
 	{
-		String[] names = PathUtils.parsePath( mPath ).getNames();
+		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+		String type = typeAndNames.getType();
+		String[] names = typeAndNames.getNames();
 
 		// Limit inspection depth
 
-		if ( names == null )
+		if ( ( names == null && mMaximumInspectionDepth == 0 ) || ( names != null && names.length > mMaximumInspectionDepth ) )
 		{
-			if ( mMaximumInspectionDepth == 0 )
-				return null;
-		}
-		else if ( names.length > mMaximumInspectionDepth )
+			LogUtils.getLog( getClass() ).warn( "Not continuing past maximum inspection depth of " + mMaximumInspectionDepth + ", for " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 			return null;
+		}
 
 		metawidget.setMaximumInspectionDepth( mMaximumInspectionDepth );
 
@@ -1271,7 +1309,7 @@ public class SwingMetawidget
 		return null;
 	}
 
-	protected void bind( JComponent component, String... names )
+	protected void bind( Component component, String... names )
 	{
 		Component actualComponent = component;
 

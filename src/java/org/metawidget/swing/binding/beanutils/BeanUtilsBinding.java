@@ -104,6 +104,12 @@ public class BeanUtilsBinding
 	}
 
 	@Override
+	public void rebind( Object toRebind )
+	{
+		// TODO: nop
+	}
+
+	@Override
 	public void save()
 	{
 		if ( mBindings == null )

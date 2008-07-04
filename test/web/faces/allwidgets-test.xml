@@ -180,12 +180,6 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnly" value="Read Only1"/>
 	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/th" text="Collection:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]/table/@style" text="aStyle"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]/table/@class" text="aStyleClass"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]/table/tbody/tr[1]/td" text="element1"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]/table/tbody/tr[2]/td" text="element2"/>
-
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aButtonsStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aButtonsStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@colspan" text="3"/>
@@ -267,9 +261,6 @@
 				<verifyXPath xpath="/html/body/div[28]/div[2]" text="Thu Apr 10 01:00:00 GMT 1975"/>
 				<verifyXPath xpath="/html/body/div[29]/div[1]" text="Read only:"/>
 				<verifyXPath xpath="/html/body/div[29]/div[2]" text="Read Only1"/>
-				<verifyXPath xpath="/html/body/div[30]/div[1]" text="Collection:"/>
-				<verifyXPath xpath="/html/body/div[30]/div[2]/table/tbody/tr[1]/td" text="element1"/>
-				<verifyXPath xpath="/html/body/div[30]/div[2]/table/tbody/tr[2]/td" text="element2"/>
 				<verifyXPath xpath="/html/body/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/input[1]/@value" text="Hidden1"/>
 				
@@ -453,12 +444,6 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnly" value="Read Only1"/>
 	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/th" text="Collection (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]/table/@style" text="aStyle"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]/table/@class" text="aStyleClass"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]/table/tbody/tr[1]/td" text="element1"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]/table/tbody/tr[2]/td" text="element2"/>
-	
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aButtonsStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aButtonsStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@colspan" text="3"/>
@@ -540,9 +525,6 @@
 				<verifyXPath xpath="/html/body/div[28]/div[2]" text="Thu Apr 10 00:00:00 GMT 1975"/>
 				<verifyXPath xpath="/html/body/div[29]/div[1]" text="Read only:"/>
 				<verifyXPath xpath="/html/body/div[29]/div[2]" text="Read Only1"/>
-				<verifyXPath xpath="/html/body/div[30]/div[1]" text="Collection:"/>
-				<verifyXPath xpath="/html/body/div[30]/div[2]/table/tbody/tr[1]/td" text="element1"/>
-				<verifyXPath xpath="/html/body/div[30]/div[2]/table/tbody/tr[2]/td" text="element2"/>
 	
 				<verifyXPath xpath="/html/body/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/input[1]/@value" text="Hidden1"/>

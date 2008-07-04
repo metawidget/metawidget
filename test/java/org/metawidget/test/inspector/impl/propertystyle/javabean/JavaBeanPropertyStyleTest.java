@@ -72,6 +72,16 @@ public class JavaBeanPropertyStyleTest
 		{
 			// Should fail
 		}
+
+		// Test excludeBaseTypes
+
+		assertTrue( "baz".equals( properties.get( "baz" ).getName() ));
+
+		propertyStyle = new FooPropertyStyle();
+		properties = propertyStyle.getProperties( Foo.class );
+		assertTrue( properties.size() == 6 );
+
+		assertTrue( properties.get( "baz" ) == null );
 	}
 
 	//
@@ -81,13 +91,12 @@ public class JavaBeanPropertyStyleTest
 	//
 
 	class Foo
+		extends SuperFoo
 	{
 		@Column( nullable = false )
 		public String		foo;
 
 		public List<Date>	bar;
-
-		public boolean		baz;
 
 		@NotNull
 		public String getMethodFoo()
@@ -109,6 +118,21 @@ public class JavaBeanPropertyStyleTest
 		public void setMethodAbc( List<Boolean> methodAbc )
 		{
 			// Do nothing
+		}
+	}
+
+	class SuperFoo
+	{
+		public boolean	baz;
+	}
+
+	class FooPropertyStyle
+		extends JavaBeanPropertyStyle
+	{
+		@Override
+		protected Class<?>[] getExcludeBaseTypes()
+		{
+			return new Class<?>[]{ SuperFoo.class };
 		}
 	}
 }

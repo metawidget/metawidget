@@ -16,14 +16,15 @@
 
 package org.metawidget.inspector.impl.propertystyle.struts;
 
+import org.apache.struts.action.ActionForm;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 
 /**
  * PropertyStyle for Struts ActionForm-style properties.
  * <p>
  * ActionForm properties essentially follow JavaBean-convention, but should not include the extra
- * methods <code>ActionForm.getServlet</code>, <code>ActionForm.getServletWrapper</code> and
- * <code>ActionForm.getMultipartRequestHandler</code>.
+ * methods defined in the <code>ActionForm</code> class itself, such as <code>getServlet</code>,
+ * <code>getServletWrapper</code> and <code>getMultipartRequestHandler</code>.
  *
  * @author Richard Kennard
  */
@@ -38,8 +39,8 @@ public class StrutsActionFormPropertyStyle
 	//
 
 	@Override
-	protected String[] getExcludeNames()
+	protected Class<?>[] getExcludeBaseTypes()
 	{
-		return new String[] { "servlet", "servletWrapper", "multipartRequestHandler" };
+		return new Class<?>[] { ActionForm.class };
 	}
 }

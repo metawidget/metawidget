@@ -46,7 +46,6 @@ import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
@@ -929,7 +928,7 @@ public class GwtMetawidget
 		// Collections
 
 		if ( isCollection( type ) )
-			return new FlexTable();
+			return null;
 
 		// Not simple, but don't expand
 
@@ -1048,7 +1047,7 @@ public class GwtMetawidget
 		// Collections
 
 		if ( isCollection( type ) )
-			return new FlexTable();
+			return null;
 
 		// Not simple, but don't expand
 
