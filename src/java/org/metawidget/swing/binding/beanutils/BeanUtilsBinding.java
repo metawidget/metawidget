@@ -104,9 +104,36 @@ public class BeanUtilsBinding
 	}
 
 	@Override
-	public void rebind( Object toRebind )
+	public void rebind()
 	{
-		// TODO: nop
+		if ( mBindings == null )
+			return;
+
+		try
+		{
+			Object sourceObject = getMetawidget().getToInspect();
+
+			for ( SavedBinding binding : mBindings )
+			{
+				Object sourceValue;
+				String sourceBinding = binding.getSourceBinding();
+
+				try
+				{
+					sourceValue = PropertyUtils.getProperty( sourceObject, sourceBinding );
+				}
+				catch ( NoSuchMethodException e )
+				{
+					throw MetawidgetException.newException( "Property '" + sourceBinding + "' has no getter" );
+				}
+
+				BeanUtils.setProperty( binding.getComponent(), binding.getComponentProperty(), sourceValue );
+			}
+		}
+		catch ( Exception e )
+		{
+			throw MetawidgetException.newException( e );
+		}
 	}
 
 	@Override

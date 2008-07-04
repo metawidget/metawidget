@@ -124,19 +124,23 @@ public class BeansBinding
 	}
 
 	@Override
-	public void rebind( Object toRebind )
+	public void rebind()
 	{
 		if ( mBindings == null )
 			return;
 
+		Object sourceObject = getMetawidget().getToInspect();
+
 		for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : mBindings )
 		{
-			if ( !binding.getSourceProperty().isWriteable( binding.getSourceObject() ) )
-				continue;
-
 			binding.unbind();
-			binding.setSourceObject( toRebind );
+			binding.setSourceObject( sourceObject );
 			binding.bind();
+
+			SyncFailure failure = binding.refresh();
+
+			if ( failure != null )
+				throw new RuntimeException( failure.getType().toString() );
 		}
 	}
 

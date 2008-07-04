@@ -22,7 +22,7 @@ import java.beans.Introspector;
 import java.lang.reflect.Field;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import junit.framework.TestCase;
@@ -97,9 +97,13 @@ public class SwingMetawidgetTest
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setBindingClass( BeanUtilsBinding.class );
-		metawidget.setToInspect( new Foo() );
+		Foo foo1 = new Foo();
+		Foo foo2 = new Foo();
+		foo1.setFoo( foo2 );
+		foo2.setName( "Bar" );
+		metawidget.setToInspect( foo1 );
 
-		assertTrue( "Baz".equals( metawidget.getValue( "bar", "baz" ) ) );
+		assertTrue( "Bar".equals( metawidget.getValue( "foo", "name" ) ) );
 	}
 
 	public void testRecursion()
@@ -115,34 +119,51 @@ public class SwingMetawidgetTest
 
 	public void testMaximumInspectionDepth()
 	{
-		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setToInspect( new Foo() );
-		metawidget.setMaximumInspectionDepth( 0 );
-		assertTrue( metawidget.getComponent( "bar" ) == null );
-
-		metawidget.setMaximumInspectionDepth( 1 );
-		assertTrue( metawidget.getComponent( "bar", "baz" ) instanceof JLabel );
-		assertTrue( 1 == metawidget.getMaximumInspectionDepth() );
-
 		Foo foo1 = new Foo();
 		Foo foo2 = new Foo();
 		Foo foo3 = new Foo();
 		foo1.setFoo( foo2 );
 		foo2.setFoo( foo3 );
+		foo2.setName( "Bar" );
+		foo3.setFoo( new Foo() );
 
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( foo1 );
+		metawidget.setMaximumInspectionDepth( 0 );
+		assertTrue( metawidget.getComponent( "foo" ) == null );
+
+		metawidget.setMaximumInspectionDepth( 1 );
+		assertTrue( 1 == metawidget.getMaximumInspectionDepth() );
+		assertTrue( metawidget.getComponent( "foo" ) instanceof SwingMetawidget );
+		assertTrue( metawidget.getComponent( "foo", "name" ) instanceof JTextField );
+		assertTrue( metawidget.getComponent( "foo", "foo" ) == null );
+
+		metawidget.setMaximumInspectionDepth( 2 );
 		assertTrue( metawidget.getComponent( "foo", "foo" ) instanceof SwingMetawidget );
 		assertTrue( metawidget.getComponent( "foo", "foo", "foo" ) == null );
+
+		metawidget.setMaximumInspectionDepth( 3 );
+		assertTrue( metawidget.getComponent( "foo", "foo", "foo" ) instanceof SwingMetawidget );
+		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo" ) == null );
+
+		metawidget.setMaximumInspectionDepth( 4 );
+
+		// Goes: root (foo1) -> foo (foo2) -> foo (foo3) -> foo (new Foo) -> foo == null
+		//
+		// ...but because we know the type of the child property, we end up putting an empty Metawidget
+
+		assertTrue( 1 == ((SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" )).getComponentCount() );
+		assertTrue( 0 == ((JPanel) ((SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" )).getComponent( 0 )).getComponentCount() );
 	}
 
 	public void testRebind()
 	{
-		_testRebind( BeansBinding.class );
-		_testRebind( BeanUtilsBinding.class );
+		_testRebind( BeansBinding.class, org.jdesktop.beansbinding.Binding.SyncFailureType.SOURCE_UNREADABLE.toString() );
+		_testRebind( BeanUtilsBinding.class, "Property 'name' has no getter" );
 	}
 
-	public void _testRebind( Class<? extends Binding> bindingClass )
+	public void _testRebind( Class<? extends Binding> bindingClass, String errorMessage )
 	{
 		// Bind
 
@@ -186,6 +207,18 @@ public class SwingMetawidgetTest
 		assertTrue( nestedTextField != metawidget.getComponent( "foo", "name" ) );
 		assertTrue( "Julianne".equals( ( (JTextField) metawidget.getComponent( "name" ) ).getText() ) );
 		assertTrue( "Richard".equals( ( (JTextField) metawidget.getComponent( "foo", "name" ) ).getText() ) );
+
+		// Check error
+
+		try
+		{
+			metawidget.rebind( new Object() );
+			assertTrue( false );
+		}
+		catch ( Exception e )
+		{
+			assertTrue( errorMessage.equals( e.getMessage() ) );
+		}
 	}
 
 	//

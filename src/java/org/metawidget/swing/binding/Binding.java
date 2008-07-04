@@ -62,6 +62,12 @@ public abstract class Binding
 	public abstract void bind( Component component, String componentValueProperty, String... names );
 
 	/**
+	 * Update bound values in the Components from the source Object.
+	 */
+
+	public abstract void rebind();
+
+	/**
 	 * Save bound values from the Components back to the source Object.
 	 */
 

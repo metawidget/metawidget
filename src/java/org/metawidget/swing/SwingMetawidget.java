@@ -441,7 +441,8 @@ public class SwingMetawidget
 		if ( mBinding == null )
 			throw MetawidgetException.newException( "No binding configured. Use SwingMetawidget.setBindingClass" );
 
-		mBinding.rebind( toRebind );
+		mToInspect = toRebind;
+		mBinding.rebind();
 
 		for ( Component component : getComponents() )
 		{
@@ -1243,7 +1244,7 @@ public class SwingMetawidget
 
 		// Limit inspection depth
 
-		if ( ( names == null && mMaximumInspectionDepth == 0 ) || ( names != null && names.length > mMaximumInspectionDepth ) )
+		if ( ( names == null && mMaximumInspectionDepth == 0 ) || ( names != null && names.length >= mMaximumInspectionDepth ) )
 		{
 			LogUtils.getLog( getClass() ).warn( "Not continuing past maximum inspection depth of " + mMaximumInspectionDepth + ", for " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 			return null;
