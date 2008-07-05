@@ -454,7 +454,7 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Saves the values from the binding back to the object being inspected.
+	 * Saves the values from the binding back to the Object being inspected.
 	 *
 	 * @throws MetawidgetException
 	 *             if no binding configured

@@ -56,7 +56,7 @@ public class AddressBookModule
 {
 	//
 	//
-	// Private members
+	// Package-level members
 	//
 	//
 
@@ -67,6 +67,10 @@ public class AddressBookModule
 	FlexTable				mContacts;
 
 	ContactsServiceAsync	mContactsService;
+
+	ContactDialog			mPersonalContactDialog;
+
+	ContactDialog			mBusinessContactDialog;
 
 	//
 	//
@@ -135,7 +139,7 @@ public class AddressBookModule
 
 							public void onSuccess( Contact contact )
 							{
-								new ContactDialog( AddressBookModule.this, contact ).show();
+								showContactDialog( contact );
 							}
 						} );
 					}
@@ -191,7 +195,7 @@ public class AddressBookModule
 		{
 			public void onClick( Widget sender )
 			{
-				new ContactDialog( AddressBookModule.this, new PersonalContact() ).show();
+				showContactDialog( new PersonalContact() );
 			}
 		} );
 		panel.add( addPersonalButton );
@@ -201,7 +205,7 @@ public class AddressBookModule
 		{
 			public void onClick( Widget sender )
 			{
-				new ContactDialog( AddressBookModule.this, new BusinessContact() ).show();
+				showContactDialog( new BusinessContact() );
 			}
 		} );
 		panel.add( addBusinessButton );
@@ -282,5 +286,33 @@ public class AddressBookModule
 				}
 			}
 		} );
+	}
+
+	//
+	//
+	// Package-level methods
+	//
+	//
+
+	void showContactDialog( Contact contact )
+	{
+		if ( contact instanceof BusinessContact )
+		{
+			if ( mBusinessContactDialog == null )
+				mBusinessContactDialog = new ContactDialog( AddressBookModule.this, contact );
+			else
+				mBusinessContactDialog.rebind( contact );
+
+			mBusinessContactDialog.show();
+			return;
+		}
+
+		if ( mPersonalContactDialog == null )
+			mPersonalContactDialog = new ContactDialog( AddressBookModule.this, contact );
+		else
+			mPersonalContactDialog.rebind( contact );
+
+		mPersonalContactDialog.show();
+		return;
 	}
 }

@@ -149,6 +149,51 @@ public class SimpleBinding
 	}
 
 	@Override
+	public void rebind()
+	{
+		if ( mBindings == null )
+			return;
+
+		GwtMetawidget metawidget = getMetawidget();
+		Object toInspect = metawidget.getToInspect();
+
+		if ( toInspect == null )
+			return;
+
+		// From the adapter...
+
+		Class<?> classToBindTo = toInspect.getClass();
+		@SuppressWarnings( "unchecked" )
+		SimpleBindingAdapter<Object> adapter = (SimpleBindingAdapter<Object>) getAdapter( classToBindTo );
+
+		if ( adapter == null )
+			throw new RuntimeException( "Don't know how to rebind to a " + classToBindTo );
+
+		// ...for each bound property...
+
+		for ( Object[] binding : mBindings )
+		{
+			Widget widget = (Widget) binding[0];
+			String[] names = (String[]) binding[1];
+			@SuppressWarnings( "unchecked" )
+			Converter<Object> converter = (Converter<Object>) binding[2];
+
+			// ...fetch the value...
+
+			Object value = adapter.getProperty( toInspect, names );
+
+			// ...convert it (if necessary)...
+
+			if ( converter != null )
+				value = converter.convertForWidget( widget, value );
+
+			// ...and set it
+
+			metawidget.setValue( value, widget );
+		}
+	}
+
+	@Override
 	public void save()
 	{
 		if ( mBindings == null )

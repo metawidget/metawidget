@@ -60,6 +60,12 @@ public abstract class Binding
 	public abstract <T> void bind( Widget widget, String... names );
 
 	/**
+	 * Update bound values in the Widgets from the source Object.
+	 */
+
+	public abstract void rebind();
+
+	/**
 	 * Save bound values from the Widgets back to the source Object.
 	 */
 

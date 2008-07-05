@@ -369,7 +369,7 @@ public class GwtMetawidget
 			return null;
 
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
-			throw new RuntimeException( "Widgets need building before calling findWidget( " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + ")" );
+			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling findWidget( " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + ")" );
 
 		Map<String, Widget> children = mAddedWidgets;
 
@@ -473,8 +473,7 @@ public class GwtMetawidget
 
 		if ( widget instanceof HasText )
 		{
-			if ( value != null )
-				( (HasText) widget ).setText( String.valueOf( value ) );
+			( (HasText) widget ).setText( StringUtils.quietValueOf( value ) );
 			return;
 		}
 
@@ -490,15 +489,7 @@ public class GwtMetawidget
 
 		if ( widget instanceof ListBox )
 		{
-			ListBox listBox = (ListBox) widget;
-			String valueString;
-
-			if ( value == null )
-				valueString = "";
-			else
-				valueString = String.valueOf( value );
-
-			GwtUtils.setListBoxSelectedItem( listBox, valueString );
+			GwtUtils.setListBoxSelectedItem( (ListBox) widget, StringUtils.quietValueOf( value ) );
 			return;
 		}
 
@@ -513,7 +504,44 @@ public class GwtMetawidget
 	}
 
 	/**
-	 * Saves the values from the binding back to the object being inspected.
+	 * Rebinds the values in the UI to the given Object.
+	 * <p>
+	 * <code>rebind</code> can be thought of as a lightweight version of <code>setToInspect</code>.
+	 * Unlike <code>setToInspect</code>, <code>rebind</code> does <em>not</em> reinspect the
+	 * Object or recreate any <code>Widgets</code>. Rather, <code>rebind</code> applies
+	 * only at the binding level, and updates the binding with values from the given Object.
+	 * <p>
+	 * This is more performant, and allows the Metawidget to be created 'in advance' and reused many
+	 * times with different Objects, but it is the caller's responsibility that the Object passed to
+	 * <code>rebind</code> is of the same type as the one previously passed to
+	 * <code>setToInspect</code>.
+	 * <p>
+	 * For client's not using a Binding implementation, there is no need to call <code>rebind</code>.
+	 * They can simply use <code>setValue</code> to update existing values in the UI.
+	 */
+
+	public void rebind( Object toRebind )
+	{
+		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
+			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling rebind()" );
+
+		if ( mBinding == null )
+			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
+
+		mToInspect = toRebind;
+		mBinding.rebind();
+
+		for ( Widget widget : mAddedWidgets.values() )
+		{
+			if ( widget instanceof GwtMetawidget )
+			{
+				( (GwtMetawidget) widget ).rebind( toRebind );
+			}
+		}
+	}
+
+	/**
+	 * Saves the values from the binding back to the Object being inspected.
 	 */
 
 	// Note: this method avoids having to expose a getBinding() method, which is handy
@@ -521,7 +549,7 @@ public class GwtMetawidget
 	public void save()
 	{
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
-			throw new RuntimeException( "Widgets need building before calling save()" );
+			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling save()" );
 
 		if ( mBinding == null )
 			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
