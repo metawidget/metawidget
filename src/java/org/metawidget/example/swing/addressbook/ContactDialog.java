@@ -54,6 +54,12 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
+ * Dialog box for Address Book Contacts.
+ * <p>
+ * Note: for brevity, this example is not optimized to use <code>SwingMetawidget.rebind</code> (see
+ * 'rebinding' in the Reference Documentation). For an example using rebinding, see
+ * <code>org.metawidget.example.gwt.addressbook.client.ui.ContactDialog</code>.
+ *
  * @author Richard Kennard
  */
 

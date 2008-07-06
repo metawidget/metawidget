@@ -19,23 +19,16 @@ package org.metawidget.swing.binding.beansbinding;
 import java.awt.Component;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JLabel;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.Converter;
-import org.jdesktop.beansbinding.PropertyHelper;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.Binding.SyncFailure;
-import org.jdesktop.swingbinding.JTableBinding;
-import org.jdesktop.swingbinding.SwingBindings;
 import org.metawidget.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.Binding;
@@ -208,31 +201,9 @@ public class BeansBinding
 
 		// Create binding
 
-		org.jdesktop.beansbinding.Binding<SS, SV, TS, TV> binding;
-
-		if ( component instanceof JTable )
-		{
-			// Do not bind to a JTable if it already has a model
-
-			JTable table = (JTable) component;
-			TableModel model = table.getModel();
-
-			if ( !model.getClass().equals( DefaultTableModel.class ) || ( (DefaultTableModel) model ).getColumnCount() != 0 )
-				return;
-
-			// Display a very simple JTable by default
-
-			JTableBinding tableBinding = SwingBindings.createJTableBinding( mUpdateStrategy, source, (BeanProperty<SS, List<Object>>) propertySource, table );
-			tableBinding.addColumnBinding( new ToStringProperty<SS>() ).setColumnName( "" );
-			binding = tableBinding;
-			target = (Class<TV>) List.class;
-		}
-		else
-		{
-			BeanProperty<TS, TV> propertyTarget = BeanProperty.create( componentProperty );
-			binding = Bindings.createAutoBinding( mUpdateStrategy, source, propertySource, component, propertyTarget );
-			target = (Class<TV>) propertyTarget.getWriteType( component );
-		}
+		BeanProperty<TS, TV> propertyTarget = BeanProperty.create( componentProperty );
+		org.jdesktop.beansbinding.Binding<SS, SV, TS, TV> binding = Bindings.createAutoBinding( mUpdateStrategy, source, propertySource, component, propertyTarget );
+		target = (Class<TV>) propertyTarget.getWriteType( component );
 
 		// Add a converter
 
@@ -279,9 +250,6 @@ public class BeansBinding
 		}
 		catch ( ClassCastException e )
 		{
-			if ( component instanceof JTable )
-				throw MetawidgetException.newException( "When binding " + ArrayUtils.toString( names ) + " to " + component.getClass() + "'s java.util.List (have you used BeansBinding.registerConverter?)", e );
-
 			throw MetawidgetException.newException( "When binding " + ArrayUtils.toString( names ) + " to " + component.getClass() + "." + componentProperty + " (have you used BeansBinding.registerConverter?)", e );
 		}
 
@@ -367,49 +335,6 @@ public class BeansBinding
 				hashCode ^= mTarget.hashCode();
 
 			return hashCode;
-		}
-	}
-
-	/**
-	 * BeansBinding Property that gets its value from the object's <code>toString</code>, as
-	 * opposed to a JavaBean property (like <code>BeanProperty</code>) or an expression (like
-	 * <code>ELProperty</code>).
-	 * <p>
-	 * Used for displaying an object's <code>toString</code> in a <code>JTableBinding</code>'s
-	 * column binding.
-	 */
-
-	static class ToStringProperty<S>
-		extends PropertyHelper<S, String>
-	{
-		@Override
-		public String getValue( S source )
-		{
-			return source.toString();
-		}
-
-		@Override
-		public Class<String> getWriteType( S source )
-		{
-			return null;
-		}
-
-		@Override
-		public boolean isReadable( S source )
-		{
-			return true;
-		}
-
-		@Override
-		public boolean isWriteable( S source )
-		{
-			return false;
-		}
-
-		@Override
-		public void setValue( S source, String value )
-		{
-			// Not writable
 		}
 	}
 }

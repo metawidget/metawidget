@@ -51,11 +51,16 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 /**
+ * Dialog box for Address Book Contacts.
+ * <p>
+ * Note: for performance, this example is optimized to use <code>GwtMetawidget.rebind</code> (see
+ * 'rebinding' in the Reference Documentation). This results in slightly more complex code. For a
+ * more straightforward example, see
+ * <code>org.metawidget.example.swing.addressbook.ContactDialog</code>.
+ *
  * @author Richard Kennard
  */
 
-// TODO: do a Swing version of this
-// TODO: smarter inspectionDepth
 public class ContactDialog
 	extends DialogBox
 {

@@ -46,7 +46,6 @@ import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
@@ -89,11 +88,13 @@ public class SwingMetawidget
 	//
 	//
 
-	private final static long					serialVersionUID		= 5614421785160728346L;
+	private final static long					serialVersionUID					= 5614421785160728346L;
 
-	private final static Map<String, Inspector>	INSPECTORS				= Collections.synchronizedMap( new HashMap<String, Inspector>() );
+	private final static Map<String, Inspector>	INSPECTORS							= Collections.synchronizedMap( new HashMap<String, Inspector>() );
 
-	private final static Stroke					STROKE_DOTTED			= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
+	private final static Stroke					STROKE_DOTTED						= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
+
+	private final static int					DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
 
 	//
 	//
@@ -107,11 +108,11 @@ public class SwingMetawidget
 
 	private String[]							mNamesPrefix;
 
-	private String								mInspectorConfig		= "inspector-config.xml";
+	private String								mInspectorConfig					= "inspector-config.xml";
 
 	private Inspector							mInspector;
 
-	private Class<? extends Layout>				mLayoutClass			= TableGridBagLayout.class;
+	private Class<? extends Layout>				mLayoutClass						= TableGridBagLayout.class;
 
 	private Layout								mLayout;
 
@@ -140,7 +141,7 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<Component>						mExistingComponents		= CollectionUtils.newArrayList();
+	private List<Component>						mExistingComponents					= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -150,11 +151,11 @@ public class SwingMetawidget
 
 	private List<Component>						mExistingComponentsUnused;
 
-	private Map<String, Facet>					mFacets					= CollectionUtils.newHashMap();
+	private Map<String, Facet>					mFacets								= CollectionUtils.newHashMap();
 
-	private SwingMetawidgetMixin				mMixin					= new SwingMetawidgetMixin();
+	private SwingMetawidgetMixin				mMixin								= new SwingMetawidgetMixin();
 
-	private int									mMaximumInspectionDepth	= 10;
+	private int									mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
 	//
 	//
@@ -1238,23 +1239,21 @@ public class SwingMetawidget
 
 	protected SwingMetawidget initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
 	{
-		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-		String type = typeAndNames.getType();
-		String[] names = typeAndNames.getNames();
+		String newPath = mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 
 		// Limit inspection depth
 
-		if ( ( names == null && mMaximumInspectionDepth == 0 ) || ( names != null && names.length >= mMaximumInspectionDepth ) )
+		if ( mMaximumInspectionDepth == 0 )
 		{
-			LogUtils.getLog( getClass() ).warn( "Not continuing past maximum inspection depth of " + mMaximumInspectionDepth + ", for " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+			LogUtils.getLog( getClass() ).warn( "Maximum inspection depth exceeded for " + newPath );
 			return null;
 		}
 
-		metawidget.setMaximumInspectionDepth( mMaximumInspectionDepth );
+		metawidget.setMaximumInspectionDepth( mMaximumInspectionDepth - 1 );
 
 		// Copy values to child Metawidget
 
-		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+		metawidget.setPath( newPath );
 
 		if ( mInspectorConfig != null )
 			metawidget.setInspectorConfig( mInspectorConfig );
@@ -1303,9 +1302,6 @@ public class SwingMetawidget
 
 		if ( component instanceof JCheckBox )
 			return "selected";
-
-		if ( component instanceof JTable )
-			return "model";
 
 		return null;
 	}

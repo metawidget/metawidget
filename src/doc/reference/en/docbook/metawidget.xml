@@ -2862,6 +2862,68 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 
 	</chapter>
 	
+	<chapter id="chapter-performance">
+		<title>Performance</title>
+		
+		<section id="section-performance-preface">
+			<title>Preface</title>
+			
+			<para>
+				Performance is very important to Metawidget. Whilst generating a UI dynamically, as opposed to hard coding it
+				statically, is always likely to involve a performance tradeoff, Metawidget supports a number of techniques
+				to help minimize this.
+			</para>
+			
+		</section>
+		
+		<section id="section-performance-jar">
+			<title>JAR Size</title>
+
+			<para>
+				Not only does Metawidget have no mandatory third-party JAR dependencies, it is also highly modular. This
+				allows the <filename>metawidget.jar</filename> to be repackaged to save JAR size for different environments.
+			</para>
+			
+			<para>		
+				For example, the <filename>example-swing-addressbook-applet</filename> Ant task	builds
+				<filename>examples\swing\applet\addressbook\metawidget-applet.jar</filename>. This JAR includes only the
+				<classname>SwingMetawidget</classname> and those <classname>Inspectors</classname> necessary for the Address Book
+				example application. After further compression using <filename>pack200</filename>, it comes to less than 40KB.
+			</para>
+			
+		</section>
+
+		<section id="section-performance-rebind">
+			<title>Rebinding</title>
+			
+			<para>
+				For those Metawidgets that do not support automatic binding, the general approach is to call <function>setToInspect</function>
+				and then <function>setValue</function> to populate the generated widgets with values. This technique has an implicit side
+				effect, in that the values can also be <emphasis>re</emphasis>populated as many times as required, with new source objects, without re-calling
+				<function>setToInspect</function>. This allows the Metawidget to be generated one and reused many times, mitigating the
+				performance cost of generation. 
+			</para>
+			
+			<para>
+				For those Metawidgets using automatic binding, however, <function>setValue</function> is not used. Therefore the worst
+				case requires re-calling <code>setToInspect</code> (and re-running generation) for every new source object. 
+			</para>
+			
+			<para>
+				To mitigate this problem Metawidget supports a second, lightweight version of <function>setToInspect</function> called <function>rebind</function>.
+				This function is only relevant when using automatic binding. Using <function>rebind</function>, a Metawidget can update the values in
+				its generated widgets <emphasis>without</emphasis> re-running generation. This allows the Metawidget to be generated once and reused
+				many times. 
+			</para>
+			
+			<para>
+				The downside of <function>rebind</function> is that if the rebound source object does not have exactly the same set of fields
+				as the original object, the call will fail. Therefore it becomes the responsibility of the caller to ensure consistency.
+			</para>
+			
+		</section>
+	</chapter>
+	
 	<chapter id="chapter-epilogue">
 		<title>Epilogue</title>
 		

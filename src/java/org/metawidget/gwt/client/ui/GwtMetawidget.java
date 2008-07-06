@@ -85,11 +85,11 @@ public class GwtMetawidget
 	//
 	//
 
-	private final static int										BUILDING_COMPLETE		= 0;
+	private final static int										BUILDING_COMPLETE					= 0;
 
-	private final static int										BUILDING_IN_PROGRESS	= 1;
+	private final static int										BUILDING_IN_PROGRESS				= 1;
 
-	private final static int										BUILDING_NEEDED			= 2;
+	private final static int										BUILDING_NEEDED						= 2;
 
 	/**
 	 * Delay before rebuilding widgets (in milliseconds).
@@ -101,7 +101,7 @@ public class GwtMetawidget
 	 * calls) into one.
 	 */
 
-	private final static int										BUILD_DELAY				= 50;
+	private final static int										BUILD_DELAY							= 50;
 
 	/**
 	 * Static cache of Inspectors.
@@ -110,7 +110,9 @@ public class GwtMetawidget
 	 * JavaScript is not multi-threaded.
 	 */
 
-	private final static Map<Class<? extends Inspector>, Inspector>	INSPECTORS				= new HashMap<Class<? extends Inspector>, Inspector>();
+	private final static Map<Class<? extends Inspector>, Inspector>	INSPECTORS							= new HashMap<Class<? extends Inspector>, Inspector>();
+
+	private final static int										DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
 
 	//
 	//
@@ -120,11 +122,11 @@ public class GwtMetawidget
 
 	private Object													mToInspect;
 
-	private Class<? extends Layout>									mLayoutClass			= FlexTableLayout.class;
+	private Class<? extends Layout>									mLayoutClass						= FlexTableLayout.class;
 
 	private Layout													mLayout;
 
-	private Class<? extends Inspector>								mInspectorClass			= GwtRemoteInspectorProxy.class;
+	private Class<? extends Inspector>								mInspectorClass						= GwtRemoteInspectorProxy.class;
 
 	private Inspector												mInspector;
 
@@ -145,11 +147,11 @@ public class GwtMetawidget
 
 	private Map<String, Object>										mParameters;
 
-	private Map<String, Facet>										mFacets					= new HashMap<String, Facet>();
+	private Map<String, Facet>										mFacets								= new HashMap<String, Facet>();
 
-	private Set<Widget>												mExistingWidgets		= new HashSet<Widget>();
+	private Set<Widget>												mExistingWidgets					= new HashSet<Widget>();
 
-	private Set<Widget>												mExistingWidgetsUnused	= new HashSet<Widget>();
+	private Set<Widget>												mExistingWidgetsUnused				= new HashSet<Widget>();
 
 	/**
 	 * Map of widgets added to this Metawidget.
@@ -160,9 +162,11 @@ public class GwtMetawidget
 	 * separate Map of the widgets we have encountered.
 	 */
 
-	private Map<String, Widget>										mAddedWidgets			= new HashMap<String, Widget>();
+	private Map<String, Widget>										mAddedWidgets						= new HashMap<String, Widget>();
 
 	private Timer													mBuildWidgets;
+
+	private int														mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
 	//
 	//
@@ -184,7 +188,7 @@ public class GwtMetawidget
 
 	Timer															mExecuteAfterBuildWidgets;
 
-	GwtMetawidgetMixinImpl											mMixin					= new GwtMetawidgetMixinImpl();
+	GwtMetawidgetMixinImpl											mMixin								= new GwtMetawidgetMixinImpl();
 
 	//
 	//
@@ -359,6 +363,32 @@ public class GwtMetawidget
 		return mMixin.isReadOnly();
 	}
 
+	public int getMaximumInspectionDepth()
+	{
+		return mMaximumInspectionDepth;
+	}
+
+	/**
+	 * Sets the maximum depth of inspection.
+	 * <p>
+	 * Metawidget renders most non-primitve types by using nested Metawidgets. This value limits the
+	 * number of nestings.
+	 * <p>
+	 * This can be useful in detecing cyclic references. Although <code>BasePropertyInspector</code>-derived
+	 * Inspectors are capable of detecting cyclic references, other Inspectors may not be. For
+	 * example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
+	 * types, not actual objects.
+	 *
+	 * @param maximumDepth
+	 *            0 for top-level only, 1 for 1 level deep etc.
+	 */
+
+	public void setMaximumInspectionDepth( int maximumInspectionDepth )
+	{
+		mMaximumInspectionDepth = maximumInspectionDepth;
+		invalidateWidgets();
+	}
+
 	/**
 	 * Finds the widget with the given name.
 	 */
@@ -508,8 +538,8 @@ public class GwtMetawidget
 	 * <p>
 	 * <code>rebind</code> can be thought of as a lightweight version of <code>setToInspect</code>.
 	 * Unlike <code>setToInspect</code>, <code>rebind</code> does <em>not</em> reinspect the
-	 * Object or recreate any <code>Widgets</code>. Rather, <code>rebind</code> applies
-	 * only at the binding level, and updates the binding with values from the given Object.
+	 * Object or recreate any <code>Widgets</code>. Rather, <code>rebind</code> applies only at
+	 * the binding level, and updates the binding with values from the given Object.
 	 * <p>
 	 * This is more performant, and allows the Metawidget to be created 'in advance' and reused many
 	 * times with different Objects, but it is the caller's responsibility that the Object passed to
@@ -1144,8 +1174,21 @@ public class GwtMetawidget
 	protected Widget initMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
 		throws Exception
 	{
+		String newPath = mPath + SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
+
+		// Limit inspection depth
+
+		// TODO: test GWT mMaximumInspectionDepth
+
+		if ( mMaximumInspectionDepth == 0 )
+			return null;
+
+		metawidget.setMaximumInspectionDepth( mMaximumInspectionDepth - 1 );
+
+		// Copy values to child Metawidget
+
 		metawidget.setInspectorClass( mInspectorClass );
-		metawidget.setPath( mPath + '/' + attributes.get( NAME ) );
+		metawidget.setPath( newPath );
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBindingClass( mBindingClass );
 		metawidget.setDictionaryName( mDictionaryName );
