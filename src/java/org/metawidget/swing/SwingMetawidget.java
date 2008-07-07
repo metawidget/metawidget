@@ -133,6 +133,8 @@ public class SwingMetawidget
 
 	private boolean								mNeedToBuildWidgets;
 
+	private String								mLastInspection;
+
 	private boolean								mIgnoreAddRemove;
 
 	/**
@@ -176,7 +178,7 @@ public class SwingMetawidget
 		if ( toInspect != null && ( mPath == null || mPath.indexOf( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ) == -1 ) )
 			mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
 
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	/**
@@ -193,21 +195,21 @@ public class SwingMetawidget
 	public void setPath( String path )
 	{
 		mPath = path;
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setInspectorConfig( String inspectorConfig )
 	{
 		mInspectorConfig = inspectorConfig;
 		mInspector = null;
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setInspector( Inspector inspector )
 	{
 		mInspector = inspector;
 		mInspectorConfig = null;
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	/**
@@ -765,6 +767,21 @@ public class SwingMetawidget
 		}
 	}
 
+	/**
+	 * Invalidates the current inspection result (if any) <em>and</em> invalidates
+	 * the widgets.
+	 */
+
+	protected void invalidateInspection()
+	{
+		mLastInspection = null;
+		invalidateWidgets();
+	}
+
+	/**
+	 * Invalidates the widgets.
+	 */
+
 	protected void invalidateWidgets()
 	{
 		if ( mNeedToBuildWidgets )
@@ -819,13 +836,14 @@ public class SwingMetawidget
 
 		try
 		{
-			String xml = inspect();
+			if ( mLastInspection == null )
+				mLastInspection = inspect();
 
 			// Don't buildWidgets if null, in order to protect
 			// our 'dotted rectangle in IDE tools' effect
 
-			if ( xml != null )
-				mMixin.buildWidgets( xml );
+			if ( mLastInspection != null )
+				mMixin.buildWidgets( mLastInspection );
 		}
 		catch ( Exception e )
 		{

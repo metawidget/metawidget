@@ -180,6 +180,8 @@ public class GwtMetawidget
 
 	int																mNeedToBuildWidgets;
 
+	String															mLastInspection;
+
 	boolean															mIgnoreAddRemove;
 
 	/**
@@ -212,19 +214,19 @@ public class GwtMetawidget
 		if ( toInspect != null && ( mPath == null || mPath.indexOf( '/' ) == -1 ) )
 			mPath = toInspect.getClass().getName();
 
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setPath( String path )
 	{
 		mPath = path;
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setInspectorClass( Class<? extends Inspector> inspectorClass )
 	{
 		mInspectorClass = inspectorClass;
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setLayoutClass( Class<? extends Layout> layoutClass )
@@ -720,6 +722,17 @@ public class GwtMetawidget
 	//
 
 	/**
+	 * Invalidates the current inspection result (if any) <em>and</em> invalidates
+	 * the widgets.
+	 */
+
+	protected void invalidateInspection()
+	{
+		mLastInspection = null;
+		invalidateWidgets();
+	}
+
+	/**
 	 * Invalidates the widgets.
 	 * <p>
 	 * If the widgets are already invalidated, but rebuilding is not yet in progress, cancels the
@@ -802,98 +815,104 @@ public class GwtMetawidget
 
 		if ( mToInspect != null && mPath != null )
 		{
-			// If this Inspector has been set externally, use it...
-
-			if ( mInspector == null )
+			if ( mLastInspection == null )
 			{
-				// ...otherwise, if this InspectorConfig has already been created, use it...
-
-				mInspector = INSPECTORS.get( mInspectorClass );
-
-				// ...otherwise, initialize the Inspector
+				// If this Inspector has been set externally, use it...
 
 				if ( mInspector == null )
 				{
-					mInspector = ( (InspectorFactory) GWT.create( InspectorFactory.class ) ).newInspector( mInspectorClass );
-					INSPECTORS.put( mInspectorClass, mInspector );
+					// ...otherwise, if this InspectorConfig has already been created, use it...
+
+					mInspector = INSPECTORS.get( mInspectorClass );
+
+					// ...otherwise, initialize the Inspector
+
+					if ( mInspector == null )
+					{
+						mInspector = ( (InspectorFactory) GWT.create( InspectorFactory.class ) ).newInspector( mInspectorClass );
+						INSPECTORS.put( mInspectorClass, mInspector );
+					}
 				}
-			}
 
-			final TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+				// Special support for GwtRemoteInspectorProxy
 
-			// Special support for GwtRemoteInspectorProxy
-
-			if ( mInspector instanceof GwtRemoteInspectorProxy )
-			{
-				( (GwtRemoteInspectorProxy) mInspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames(), new AsyncCallback<String>()
+				if ( mInspector instanceof GwtRemoteInspectorProxy )
 				{
-					public void onFailure( Throwable caught )
+					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+					( (GwtRemoteInspectorProxy) mInspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames(), new AsyncCallback<String>()
 					{
-						GwtUtils.alert( caught );
+						public void onFailure( Throwable caught )
+						{
+							GwtUtils.alert( caught );
 
-						mNeedToBuildWidgets = BUILDING_COMPLETE;
-					}
-
-					public void onSuccess( String xml )
-					{
-						try
-						{
-							mIgnoreAddRemove = true;
-							mMixin.buildWidgets( xml );
-						}
-						catch ( Exception e )
-						{
-							GwtUtils.alert( e );
-						}
-						finally
-						{
-							mIgnoreAddRemove = false;
+							mNeedToBuildWidgets = BUILDING_COMPLETE;
 						}
 
-						mNeedToBuildWidgets = BUILDING_COMPLETE;
-
-						// For unit tests
-
-						if ( mExecuteAfterBuildWidgets != null )
+						public void onSuccess( String xml )
 						{
-							Timer executeAfterBuildWidgets = mExecuteAfterBuildWidgets;
-							mExecuteAfterBuildWidgets = null;
+							try
+							{
+								mIgnoreAddRemove = true;
+								mMixin.buildWidgets( xml );
+							}
+							catch ( Exception e )
+							{
+								GwtUtils.alert( e );
+							}
+							finally
+							{
+								mIgnoreAddRemove = false;
+							}
 
-							executeAfterBuildWidgets.run();
+							mNeedToBuildWidgets = BUILDING_COMPLETE;
+
+							// For unit tests
+
+							if ( mExecuteAfterBuildWidgets != null )
+							{
+								Timer executeAfterBuildWidgets = mExecuteAfterBuildWidgets;
+								mExecuteAfterBuildWidgets = null;
+
+								executeAfterBuildWidgets.run();
+							}
 						}
-					}
-				} );
+					} );
+
+					return;
+				}
 			}
 
 			// Regular GwtInspectors
 
-			else
+			try
 			{
-				try
-				{
-					mIgnoreAddRemove = true;
+				mIgnoreAddRemove = true;
 
-					String xml = mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
-					mMixin.buildWidgets( xml );
-				}
-				catch ( Exception e )
+				if ( mLastInspection == null )
 				{
-					GwtUtils.alert( e );
-				}
-				finally
-				{
-					mIgnoreAddRemove = false;
+					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+					mLastInspection = mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
 				}
 
-				mNeedToBuildWidgets = BUILDING_COMPLETE;
+				mMixin.buildWidgets( mLastInspection );
+			}
+			catch ( Exception e )
+			{
+				GwtUtils.alert( e );
+			}
+			finally
+			{
+				mIgnoreAddRemove = false;
+			}
 
-				// For unit tests
+			mNeedToBuildWidgets = BUILDING_COMPLETE;
 
-				if ( mExecuteAfterBuildWidgets != null )
-				{
-					mExecuteAfterBuildWidgets.run();
-					mExecuteAfterBuildWidgets = null;
-				}
+			// For unit tests
+
+			if ( mExecuteAfterBuildWidgets != null )
+			{
+				mExecuteAfterBuildWidgets.run();
+				mExecuteAfterBuildWidgets = null;
 			}
 		}
 	}

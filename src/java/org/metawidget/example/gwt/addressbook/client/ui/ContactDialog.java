@@ -72,13 +72,15 @@ public class ContactDialog
 
 	AddressBookModule	mAddressBookModule;
 
-	GwtMetawidget		mActiveMetawidget;
+	GwtMetawidget		mMetawidget;
 
-	FlexTable			mActiveCommunications;
+	FlexTable			mCommunications;
 
-	GwtMetawidget		mReadOnlyMetawidget;
+	Button				mEditButton;
 
-	FlexTable			mReadOnlyCommunications;
+	Button				mSaveButton;
+
+	Button				mDeleteButton;
 
 	//
 	//
@@ -137,11 +139,173 @@ public class ContactDialog
 		SimpleBinding.registerConverter( Gender.class, new EnumConverter<Gender>( Gender.class ) );
 		SimpleBinding.registerConverter( Number.class, new NumberConverter() );
 
-		//
-		// Display either read-only or active Metawidget
-		//
+		// Metawidget
 
-		rebind( contact );
+		mMetawidget = new GwtMetawidget();
+		mMetawidget.setReadOnly( contact.getId() != 0 );
+		mMetawidget.setDictionaryName( "bundle" );
+		mMetawidget.setParameter( "tableStyleName", "table-form" );
+		mMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
+		mMetawidget.setParameter( "sectionStyleName", "section-heading" );
+		mMetawidget.setParameter( "buttonsStyleName", "buttons" );
+		mMetawidget.setBindingClass( SimpleBinding.class );
+		mMetawidget.setToInspect( contact );
+		grid.setWidget( 0, 1, mMetawidget );
+
+		// Communications
+
+		Stub communicationsStub = new Stub();
+		communicationsStub.setName( "communications" );
+		mMetawidget.add( communicationsStub );
+
+		mCommunications = new FlexTable();
+		mCommunications.setStyleName( "data-table" );
+		communicationsStub.add( mCommunications );
+
+		// Header
+
+		final CellFormatter cellFormatter = mCommunications.getCellFormatter();
+		mCommunications.setText( 0, 0, "Type" );
+		cellFormatter.setStyleName( 0, 0, "header" );
+		cellFormatter.addStyleName( 0, 0, "column-half" );
+		mCommunications.setText( 0, 1, "Value" );
+		cellFormatter.setStyleName( 0, 1, "header" );
+		cellFormatter.addStyleName( 0, 1, "column-half" );
+		mCommunications.setHTML( 0, 2, "&nbsp;" );
+		cellFormatter.setStyleName( 0, 2, "header" );
+		cellFormatter.addStyleName( 0, 2, "column-tiny" );
+
+		// Footer
+
+		Communication communication = new Communication();
+
+		final GwtMetawidget typeMetawidget = new GwtMetawidget();
+		typeMetawidget.setPath( Communication.class.getName() + SEPARATOR_FORWARD_SLASH_CHAR + "type" );
+		typeMetawidget.setLayoutClass( FlowLayout.class );
+		typeMetawidget.setToInspect( communication );
+		mCommunications.setWidget( 1, 0, typeMetawidget );
+
+		final GwtMetawidget valueMetawidget = new GwtMetawidget();
+		valueMetawidget.setPath( Communication.class.getName() + SEPARATOR_FORWARD_SLASH_CHAR + "value" );
+		valueMetawidget.setLayoutClass( FlowLayout.class );
+		valueMetawidget.setToInspect( communication );
+		mCommunications.setWidget( 1, 1, valueMetawidget );
+
+		Button addButton = new Button( dictionary.get( "add" ) );
+		addButton.addClickListener( new ClickListener()
+		{
+			public void onClick( Widget sender )
+			{
+				Communication communicationToAdd = new Communication();
+				communicationToAdd.setType( (String) typeMetawidget.getValue( "type" ) );
+				communicationToAdd.setValue( (String) valueMetawidget.getValue( "value" ) );
+
+				Contact currentContact = (Contact) mMetawidget.getToInspect();
+
+				try
+				{
+					currentContact.addCommunication( communicationToAdd );
+				}
+				catch ( Exception e )
+				{
+					Window.alert( e.getMessage() );
+					return;
+				}
+
+				loadCommunications( mCommunications, currentContact, false );
+
+				typeMetawidget.setValue( "", "type" );
+				valueMetawidget.setValue( "", "value" );
+			}
+		} );
+		mCommunications.setWidget( 1, 2, addButton );
+		cellFormatter.setStyleName( 1, 2, "table-buttons" );
+		loadCommunications( mCommunications, contact, false );
+
+		// Embedded buttons
+
+		Facet buttonsFacet = new Facet();
+		buttonsFacet.setName( "buttons" );
+		mMetawidget.add( buttonsFacet );
+		HorizontalPanel panel = new HorizontalPanel();
+		buttonsFacet.add( panel );
+
+		mSaveButton = new Button( dictionary.get( "save" ) );
+		mSaveButton.addClickListener( new ClickListener()
+		{
+			public void onClick( Widget sender )
+			{
+				mMetawidget.save();
+
+				mAddressBookModule.getContactsService().save( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Object>()
+				{
+					public void onFailure( Throwable caught )
+					{
+						Window.alert( caught.getMessage() );
+					}
+
+					public void onSuccess( Object result )
+					{
+						ContactDialog.this.hide();
+						mAddressBookModule.reloadContacts();
+					}
+				} );
+			}
+		} );
+		panel.add( mSaveButton );
+
+		mDeleteButton = new Button( dictionary.get( "delete" ) );
+		mDeleteButton.addClickListener( new ClickListener()
+		{
+			public void onClick( Widget sender )
+			{
+				if ( mAddressBookModule.getPanel() instanceof RootPanel )
+				{
+					if ( !Window.confirm( "Sure you want to delete this contact?" ) )
+						return;
+				}
+
+				mAddressBookModule.getContactsService().delete( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Boolean>()
+				{
+					public void onFailure( Throwable caught )
+					{
+						Window.alert( caught.getMessage() );
+					}
+
+					public void onSuccess( Boolean result )
+					{
+						ContactDialog.this.hide();
+						mAddressBookModule.reloadContacts();
+					}
+				} );
+			}
+		} );
+		panel.add( mDeleteButton );
+
+		mEditButton = new Button( dictionary.get( "edit" ) );
+		mEditButton.addClickListener( new ClickListener()
+		{
+			public void onClick( Widget sender )
+			{
+				mMetawidget.setReadOnly( false );
+				updateVisibileButtons();
+			}
+		} );
+		panel.add( mEditButton );
+
+		Button cancelButton = new Button( dictionary.get( "cancel" ) );
+		cancelButton.addClickListener( new ClickListener()
+		{
+			public void onClick( Widget sender )
+			{
+				ContactDialog.this.hide();
+			}
+		} );
+		panel.add( cancelButton );
+
+		// Display
+
+		updateVisibileButtons();
 	}
 
 	//
@@ -152,7 +316,11 @@ public class ContactDialog
 
 	public void rebind( Contact contact )
 	{
-		display( contact, ( contact.getId() != 0 ) );
+		mMetawidget.rebind( contact );
+		loadCommunications( mCommunications, contact, false );
+
+		mMetawidget.setReadOnly( contact.getId() != 0 );
+		updateVisibileButtons();
 	}
 
 	//
@@ -161,250 +329,14 @@ public class ContactDialog
 	//
 	//
 
-	void display( Contact contact, boolean readOnly )
+	void updateVisibileButtons()
 	{
-		Grid grid = (Grid) getWidget();
+		boolean readOnly = mMetawidget.isReadOnly();
 
-		if ( readOnly )
-		{
-			//
-			// Read-only Metawidget
-			//
-
-			if ( mReadOnlyMetawidget == null )
-			{
-				mReadOnlyMetawidget = new GwtMetawidget();
-				mReadOnlyMetawidget.setReadOnly( true );
-				mReadOnlyMetawidget.setDictionaryName( "bundle" );
-				mReadOnlyMetawidget.setParameter( "tableStyleName", "table-form" );
-				mReadOnlyMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
-				mReadOnlyMetawidget.setParameter( "sectionStyleName", "section-heading" );
-				mReadOnlyMetawidget.setParameter( "buttonsStyleName", "buttons" );
-				mReadOnlyMetawidget.setBindingClass( SimpleBinding.class );
-				mReadOnlyMetawidget.setToInspect( contact );
-
-				// Communications
-
-				Stub communicationsStub = new Stub();
-				communicationsStub.setName( "communications" );
-				mReadOnlyMetawidget.add( communicationsStub );
-
-				mReadOnlyCommunications = new FlexTable();
-				mReadOnlyCommunications.setStyleName( "data-table" );
-				communicationsStub.add( mReadOnlyCommunications );
-
-				// Header
-
-				CellFormatter readOnlyCellFormatter = mReadOnlyCommunications.getCellFormatter();
-				mReadOnlyCommunications.setText( 0, 0, "Type" );
-				readOnlyCellFormatter.setStyleName( 0, 0, "header" );
-				readOnlyCellFormatter.addStyleName( 0, 0, "column-half" );
-				mReadOnlyCommunications.setText( 0, 1, "Value" );
-				readOnlyCellFormatter.setStyleName( 0, 1, "header" );
-				readOnlyCellFormatter.addStyleName( 0, 1, "column-half" );
-
-				// Embedded buttons
-
-				Facet buttonsFacet = new Facet();
-				buttonsFacet.setName( "buttons" );
-				mReadOnlyMetawidget.add( buttonsFacet );
-				HorizontalPanel panel = new HorizontalPanel();
-				buttonsFacet.add( panel );
-
-				Dictionary dictionary = Dictionary.getDictionary( "bundle" );
-				final Button editButton = new Button( dictionary.get( "edit" ) );
-				editButton.addClickListener( new ClickListener()
-				{
-					public void onClick( Widget sender )
-					{
-						display( (Contact) mReadOnlyMetawidget.getToInspect(), false );
-					}
-				} );
-				panel.add( editButton );
-
-				Button cancelButton = new Button( dictionary.get( "cancel" ) );
-				cancelButton.addClickListener( new ClickListener()
-				{
-					public void onClick( Widget sender )
-					{
-						ContactDialog.this.hide();
-					}
-				} );
-				panel.add( cancelButton );
-			}
-			else
-			{
-				mReadOnlyMetawidget.rebind( contact );
-			}
-
-			loadCommunications( mReadOnlyCommunications, contact, true );
-			grid.setWidget( 0, 1, mReadOnlyMetawidget );
-		}
-		else
-		{
-			if ( mActiveCommunications == null )
-			{
-				//
-				// Active Metawidget
-				//
-
-				mActiveMetawidget = new GwtMetawidget();
-				mActiveMetawidget.setDictionaryName( "bundle" );
-				mActiveMetawidget.setParameter( "tableStyleName", "table-form" );
-				mActiveMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
-				mActiveMetawidget.setParameter( "sectionStyleName", "section-heading" );
-				mActiveMetawidget.setParameter( "buttonsStyleName", "buttons" );
-				mActiveMetawidget.setBindingClass( SimpleBinding.class );
-				mActiveMetawidget.setToInspect( contact );
-
-				// Communications
-
-				Stub communicationsStub = new Stub();
-				communicationsStub.setName( "communications" );
-				mActiveMetawidget.add( communicationsStub );
-
-				mActiveCommunications = new FlexTable();
-				mActiveCommunications.setStyleName( "data-table" );
-				communicationsStub.add( mActiveCommunications );
-
-				// Header
-
-				final CellFormatter cellFormatter = mActiveCommunications.getCellFormatter();
-				mActiveCommunications.setText( 0, 0, "Type" );
-				cellFormatter.setStyleName( 0, 0, "header" );
-				cellFormatter.addStyleName( 0, 0, "column-half" );
-				mActiveCommunications.setText( 0, 1, "Value" );
-				cellFormatter.setStyleName( 0, 1, "header" );
-				cellFormatter.addStyleName( 0, 1, "column-half" );
-				mActiveCommunications.setHTML( 0, 2, "&nbsp;" );
-				cellFormatter.setStyleName( 0, 2, "header" );
-				cellFormatter.addStyleName( 0, 2, "column-tiny" );
-
-				// Footer
-
-				Communication communication = new Communication();
-
-				final GwtMetawidget typeMetawidget = new GwtMetawidget();
-				typeMetawidget.setPath( Communication.class.getName() + SEPARATOR_FORWARD_SLASH_CHAR + "type" );
-				typeMetawidget.setLayoutClass( FlowLayout.class );
-				typeMetawidget.setToInspect( communication );
-				mActiveCommunications.setWidget( 1, 0, typeMetawidget );
-
-				final GwtMetawidget valueMetawidget = new GwtMetawidget();
-				valueMetawidget.setPath( Communication.class.getName() + SEPARATOR_FORWARD_SLASH_CHAR + "value" );
-				valueMetawidget.setLayoutClass( FlowLayout.class );
-				valueMetawidget.setToInspect( communication );
-				mActiveCommunications.setWidget( 1, 1, valueMetawidget );
-
-				Dictionary dictionary = Dictionary.getDictionary( "bundle" );
-				Button addButton = new Button( dictionary.get( "add" ) );
-				addButton.addClickListener( new ClickListener()
-				{
-					public void onClick( Widget sender )
-					{
-						Communication communicationToAdd = new Communication();
-						communicationToAdd.setType( (String) typeMetawidget.getValue( "type" ) );
-						communicationToAdd.setValue( (String) valueMetawidget.getValue( "value" ) );
-
-						Contact currentContact = (Contact) mActiveMetawidget.getToInspect();
-
-						try
-						{
-							currentContact.addCommunication( communicationToAdd );
-						}
-						catch ( Exception e )
-						{
-							Window.alert( e.getMessage() );
-							return;
-						}
-
-						loadCommunications( mActiveCommunications, currentContact, false );
-
-						typeMetawidget.setValue( "", "type" );
-						valueMetawidget.setValue( "", "value" );
-					}
-				} );
-				mActiveCommunications.setWidget( 1, 2, addButton );
-				cellFormatter.setStyleName( 1, 2, "table-buttons" );
-
-				// Embedded buttons
-
-				Facet buttonsFacet = new Facet();
-				buttonsFacet.setName( "buttons" );
-				mActiveMetawidget.add( buttonsFacet );
-				HorizontalPanel panel = new HorizontalPanel();
-				buttonsFacet.add( panel );
-
-				Button saveButton = new Button( dictionary.get( "save" ) );
-				saveButton.addClickListener( new ClickListener()
-				{
-					public void onClick( Widget sender )
-					{
-						mActiveMetawidget.save();
-
-						mAddressBookModule.getContactsService().save( (Contact) mActiveMetawidget.getToInspect(), new AsyncCallback<Object>()
-						{
-							public void onFailure( Throwable caught )
-							{
-								Window.alert( caught.getMessage() );
-							}
-
-							public void onSuccess( Object result )
-							{
-								ContactDialog.this.hide();
-								mAddressBookModule.reloadContacts();
-							}
-						} );
-					}
-				} );
-				panel.add( saveButton );
-
-				final Button deleteButton = new Button( dictionary.get( "delete" ) );
-				deleteButton.addClickListener( new ClickListener()
-				{
-					public void onClick( Widget sender )
-					{
-						if ( mAddressBookModule.getPanel() instanceof RootPanel )
-						{
-							if ( !Window.confirm( "Sure you want to delete this contact?" ) )
-								return;
-						}
-
-						mAddressBookModule.getContactsService().delete( (Contact) mActiveMetawidget.getToInspect(), new AsyncCallback<Boolean>()
-						{
-							public void onFailure( Throwable caught )
-							{
-								Window.alert( caught.getMessage() );
-							}
-
-							public void onSuccess( Boolean result )
-							{
-								ContactDialog.this.hide();
-								mAddressBookModule.reloadContacts();
-							}
-						} );
-					}
-				} );
-				panel.add( deleteButton );
-
-				Button cancelButton = new Button( dictionary.get( "cancel" ) );
-				cancelButton.addClickListener( new ClickListener()
-				{
-					public void onClick( Widget sender )
-					{
-						ContactDialog.this.hide();
-					}
-				} );
-				panel.add( cancelButton );
-			}
-			else
-			{
-				mActiveMetawidget.rebind( contact );
-			}
-
-			loadCommunications( mActiveCommunications, contact, false );
-			grid.setWidget( 0, 1, mActiveMetawidget );
-		}
+		mEditButton.setVisible( readOnly );
+		mSaveButton.setVisible( !readOnly );
+		mDeleteButton.setVisible( !readOnly );
+		mCommunications.getRowFormatter().setVisible( mCommunications.getRowCount() - 1, !readOnly );
 	}
 
 	void loadCommunications( final FlexTable table, final Contact contact, final boolean readOnly )

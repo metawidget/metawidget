@@ -17,6 +17,7 @@
 package org.metawidget.android.widget;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.util.simple.StringUtils.*;
 
 import java.lang.reflect.Constructor;
 import java.util.Collection;
@@ -81,11 +82,13 @@ public class AndroidMetawidget
 	//
 	//
 
-	private final static List<Boolean>				LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( null, Boolean.TRUE, Boolean.FALSE );
+	private final static List<Boolean>				LIST_BOOLEAN_VALUES					= CollectionUtils.unmodifiableList( null, Boolean.TRUE, Boolean.FALSE );
 
-	private final static Map<Integer, Inspector>	INSPECTORS			= Collections.synchronizedMap( new HashMap<Integer, Inspector>() );
+	private final static Map<Integer, Inspector>	INSPECTORS							= Collections.synchronizedMap( new HashMap<Integer, Inspector>() );
 
-	private final static String						PARAM_PREFIX		= "param";
+	private final static String						PARAM_PREFIX						= "param";
+
+	private final static int						DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
 
 	//
 	//
@@ -101,7 +104,7 @@ public class AndroidMetawidget
 
 	private Inspector								mInspector;
 
-	private Class<? extends Layout>					mLayoutClass		= TableLayout.class;
+	private Class<? extends Layout>					mLayoutClass						= TableLayout.class;
 
 	private Layout									mLayout;
 
@@ -109,13 +112,17 @@ public class AndroidMetawidget
 
 	private boolean									mNeedToBuildWidgets;
 
+	String											mLastInspection;
+
 	private Set<View>								mExistingViews;
 
 	private Set<View>								mExistingViewsUnused;
 
 	private Map<String, Facet>						mFacets;
 
-	private AndroidMetawidgetMixin					mMixin				= new AndroidMetawidgetMixin();
+	private int										mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
+
+	private AndroidMetawidgetMixin					mMixin								= new AndroidMetawidgetMixin();
 
 	//
 	//
@@ -195,12 +202,6 @@ public class AndroidMetawidget
 	//
 	//
 
-	public void setPath( String path )
-	{
-		mPath = path;
-		invalidateWidgets();
-	}
-
 	public void setToInspect( Object toInspect )
 	{
 		mToInspect = toInspect;
@@ -210,7 +211,13 @@ public class AndroidMetawidget
 		if ( toInspect != null && ( mPath == null || mPath.indexOf( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ) == -1 ) )
 			mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
 
-		invalidateWidgets();
+		invalidateInspection();
+	}
+
+	public void setPath( String path )
+	{
+		mPath = path;
+		invalidateInspection();
 	}
 
 	/**
@@ -223,14 +230,14 @@ public class AndroidMetawidget
 	{
 		mInspectorConfig = inspectorConfig;
 		mInspector = null;
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	public void setInspector( Inspector inspector )
 	{
 		mInspector = inspector;
 		mInspectorConfig = 0;
-		invalidateWidgets();
+		invalidateInspection();
 	}
 
 	/**
@@ -329,6 +336,32 @@ public class AndroidMetawidget
 	public void setReadOnly( boolean readOnly )
 	{
 		mMixin.setReadOnly( readOnly );
+		invalidateWidgets();
+	}
+
+	public int getMaximumInspectionDepth()
+	{
+		return mMaximumInspectionDepth;
+	}
+
+	/**
+	 * Sets the maximum depth of inspection.
+	 * <p>
+	 * Metawidget renders most non-primitve types by using nested Metawidgets. This value limits the
+	 * number of nestings.
+	 * <p>
+	 * This can be useful in detecing cyclic references. Although <code>BasePropertyInspector</code>-derived
+	 * Inspectors are capable of detecting cyclic references, other Inspectors may not be. For
+	 * example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
+	 * types, not actual objects.
+	 *
+	 * @param maximumDepth
+	 *            0 for top-level only, 1 for 1 level deep etc.
+	 */
+
+	public void setMaximumInspectionDepth( int maximumInspectionDepth )
+	{
+		mMaximumInspectionDepth = maximumInspectionDepth;
 		invalidateWidgets();
 	}
 
@@ -472,6 +505,20 @@ public class AndroidMetawidget
 		return super.findViewWithTagTraversal( tag );
 	}
 
+	/**
+	 * Invalidates the current inspection result (if any) <em>and</em> invalidates the widgets.
+	 */
+
+	protected void invalidateInspection()
+	{
+		mLastInspection = null;
+		invalidateWidgets();
+	}
+
+	/**
+	 * Invalidates the widgets.
+	 */
+
 	protected void invalidateWidgets()
 	{
 		if ( mNeedToBuildWidgets )
@@ -493,9 +540,12 @@ public class AndroidMetawidget
 
 		try
 		{
-			mMixin.buildWidgets( inspect() );
+			if ( mLastInspection == null )
+				mLastInspection = inspect();
+
+			mMixin.buildWidgets( mLastInspection );
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			throw MetawidgetException.newException( e );
 		}
@@ -719,8 +769,8 @@ public class AndroidMetawidget
 
 				String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
-				if ( maximumLength != null && !"".equals( maximumLength ))
-					editText.setFilters( new InputFilter[]{ new InputFilter.LengthFilter( Integer.parseInt( maximumLength )) });
+				if ( maximumLength != null && !"".equals( maximumLength ) )
+					editText.setFilters( new InputFilter[] { new InputFilter.LengthFilter( Integer.parseInt( maximumLength ) ) } );
 
 				return editText;
 			}
@@ -789,12 +839,12 @@ public class AndroidMetawidget
 			mLayout.layoutEnd();
 		}
 
-		Log.d( "AndroidMetawidget", "Creation complete" );
+		Log.d( getClass().getSimpleName(), "Creation complete" );
 	}
 
 	protected String inspect()
 	{
-		Log.d( "AndroidMetawidget", "Starting inspection: " + mPath );
+		Log.d( getClass().getSimpleName(), "Starting inspection: " + mPath );
 
 		try
 		{
@@ -829,7 +879,7 @@ public class AndroidMetawidget
 		}
 		finally
 		{
-			Log.d( "AndroidMetawidget", "Inspection complete. Starting creation" );
+			Log.d( getClass().getSimpleName(), "Inspection complete. Starting creation" );
 		}
 	}
 
@@ -846,8 +896,22 @@ public class AndroidMetawidget
 		return constructor.newInstance( getContext() );
 	}
 
-	protected void initMetawidget( AndroidMetawidget metawidget, Map<String, String> attributes )
+	protected AndroidMetawidget initMetawidget( AndroidMetawidget metawidget, Map<String, String> attributes )
 	{
+		String newPath = mPath + SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
+
+		// Limit inspection depth
+
+		if ( mMaximumInspectionDepth == 0 )
+		{
+			Log.w( getClass().getSimpleName(), "Maximum inspection depth exceeded for " + newPath );
+			return null;
+		}
+
+		metawidget.setMaximumInspectionDepth( mMaximumInspectionDepth - 1 );
+
+		// Copy values to child Metawidget
+
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 
 		if ( mInspectorConfig != 0 )
@@ -861,6 +925,8 @@ public class AndroidMetawidget
 			metawidget.mParameters = CollectionUtils.newHashMap( mParameters );
 
 		metawidget.setToInspect( mToInspect );
+
+		return metawidget;
 	}
 
 	//
@@ -899,7 +965,7 @@ public class AndroidMetawidget
 		{
 			view = getChildAt( loop );
 
-			if ( !( view instanceof ViewGroup ))
+			if ( !( view instanceof ViewGroup ) )
 				continue;
 
 			for ( int tagsLoop = 0, tagsLength = tags.length; tagsLoop < tagsLength; tagsLoop++ )
@@ -991,11 +1057,9 @@ public class AndroidMetawidget
 		public View initMetawidget( View widget, Map<String, String> attributes )
 		{
 			AndroidMetawidget metawidget = (AndroidMetawidget) widget;
-			AndroidMetawidget.this.initMetawidget( metawidget, attributes );
 			metawidget.setReadOnly( isReadOnly( attributes ) );
-			metawidget.buildWidgets();
 
-			return metawidget;
+			return AndroidMetawidget.this.initMetawidget( metawidget, attributes );
 		}
 
 		@Override

@@ -22,7 +22,6 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JSpinner;
-import javax.swing.JTable;
 
 import junit.framework.TestCase;
 
@@ -116,37 +115,6 @@ public class BeansBindingTest
 		assertTrue( 42 == (Integer) spinner.getValue() );
 		spinner.setValue( 43 );
 		assertTrue( 43 == foo.getBar() );
-	}
-
-	public void testDefaultTableBinding()
-		throws Exception
-	{
-		// Model
-
-		Foo foo = new Foo();
-
-		// Inspect active
-
-		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setBindingClass( BeansBinding.class );
-		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setToInspect( foo );
-
-		JTable table = new JTable();
-		table.setName( "list" );
-		metawidget.add( table );
-
-		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
-		table = (JTable) metawidget.getComponent( 5 );
-		assertTrue( table.getModel().getRowCount() == 2 );
-
-		// Inspect read-only
-
-		metawidget.setReadOnly( true );
-
-		assertTrue( metawidget.getComponent( 1 ) instanceof JLabel );
-		table = (JTable) metawidget.getComponent( 5 );
-		assertTrue( table.getModel().getRowCount() == 2 );
 	}
 
 	public void testReadOnlyToStringConverter()
