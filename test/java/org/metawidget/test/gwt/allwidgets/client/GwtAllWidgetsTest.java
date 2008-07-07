@@ -393,7 +393,23 @@ public class GwtAllWidgetsTest
 														assertTrue( "Read Only".equals( ( (Label) readOnlyFlexTable.getWidget( 28, 1 ) ).getText() ) );
 
 														assertTrue( 30 == flexTable.getRowCount() );
-														finish();
+
+														// Test maximum inspection depth
+
+														metawidget.setMaximumInspectionDepth( 0 );
+
+														executeAfterBuildWidgets( metawidget, new Timer()
+														{
+															@Override
+															public void run()
+															{
+																assertTrue( null == metawidget.findWidget( "nestedWidgets" ));
+																assertTrue( null == metawidget.findWidget( "readOnlyNestedWidgets" ));
+																assertTrue( metawidget.findWidget( "readOnlyNestedWidgetsDontExpand" ) instanceof Label );
+
+																finish();
+															}
+														} );
 													}
 												} );
 											}

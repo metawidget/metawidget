@@ -106,6 +106,10 @@ public class ContactDialog
 		grid.setWidget( 0, 0, image );
 		gridFormatter.setStyleName( 0, 1, "content" );
 
+		// Bundle
+
+		Dictionary dictionary = Dictionary.getDictionary( "bundle" );
+
 		// Title
 
 		StringBuilder builder = new StringBuilder( contact.getFullname() );
@@ -114,8 +118,6 @@ public class ContactDialog
 			builder.append( " - " );
 
 		// Personal/business icon
-
-		Dictionary dictionary = Dictionary.getDictionary( "bundle" );
 
 		if ( contact instanceof PersonalContact )
 		{
@@ -130,7 +132,7 @@ public class ContactDialog
 
 		setText( builder.toString() );
 
-		// Binding
+		// SimpleBinding
 
 		@SuppressWarnings( "unchecked" )
 		SimpleBindingAdapter<Contact> contactAdapter = (SimpleBindingAdapter<Contact>) GWT.create( Contact.class );
@@ -152,7 +154,7 @@ public class ContactDialog
 		mMetawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, mMetawidget );
 
-		// Communications
+		// Communications override
 
 		Stub communicationsStub = new Stub();
 		communicationsStub.setName( "communications" );
@@ -212,7 +214,7 @@ public class ContactDialog
 					return;
 				}
 
-				loadCommunications( mCommunications, currentContact, false );
+				loadCommunications();
 
 				typeMetawidget.setValue( "", "type" );
 				valueMetawidget.setValue( "", "value" );
@@ -220,7 +222,6 @@ public class ContactDialog
 		} );
 		mCommunications.setWidget( 1, 2, addButton );
 		cellFormatter.setStyleName( 1, 2, "table-buttons" );
-		loadCommunications( mCommunications, contact, false );
 
 		// Embedded buttons
 
@@ -288,7 +289,7 @@ public class ContactDialog
 			public void onClick( Widget sender )
 			{
 				mMetawidget.setReadOnly( false );
-				updateVisibileButtons();
+				setButtonVisibility();
 			}
 		} );
 		panel.add( mEditButton );
@@ -305,7 +306,7 @@ public class ContactDialog
 
 		// Display
 
-		updateVisibileButtons();
+		setButtonVisibility();
 	}
 
 	//
@@ -317,10 +318,9 @@ public class ContactDialog
 	public void rebind( Contact contact )
 	{
 		mMetawidget.rebind( contact );
-		loadCommunications( mCommunications, contact, false );
-
 		mMetawidget.setReadOnly( contact.getId() != 0 );
-		updateVisibileButtons();
+
+		setButtonVisibility();
 	}
 
 	//
@@ -329,9 +329,10 @@ public class ContactDialog
 	//
 	//
 
-	void updateVisibileButtons()
+	void setButtonVisibility()
 	{
 		boolean readOnly = mMetawidget.isReadOnly();
+		loadCommunications();
 
 		mEditButton.setVisible( readOnly );
 		mSaveButton.setVisible( !readOnly );
@@ -339,10 +340,12 @@ public class ContactDialog
 		mCommunications.getRowFormatter().setVisible( mCommunications.getRowCount() - 1, !readOnly );
 	}
 
-	void loadCommunications( final FlexTable table, final Contact contact, final boolean readOnly )
+	void loadCommunications()
 	{
-		CellFormatter cellFormatter = table.getCellFormatter();
+		CellFormatter cellFormatter = mCommunications.getCellFormatter();
+		final Contact contact = (Contact) mMetawidget.getToInspect();
 		Set<Communication> communications = contact.getCommunications();
+		final boolean readOnly = mMetawidget.isReadOnly();
 		final boolean confirm = ( mAddressBookModule.getPanel() instanceof RootPanel );
 
 		// Communications
@@ -355,13 +358,18 @@ public class ContactDialog
 			{
 				// (push the footer down)
 
-				if ( !readOnly && table.getRowCount() - 1 <= row )
-					table.insertRow( row );
+				if ( mCommunications.getRowCount() - 1 <= row )
+					mCommunications.insertRow( row );
 
-				table.setText( row, 0, communication.getType() );
-				table.setText( row, 1, communication.getValue() );
+				mCommunications.setText( row, 0, communication.getType() );
+				mCommunications.setText( row, 1, communication.getValue() );
 
-				if ( !readOnly )
+				if ( readOnly )
+				{
+					if ( mCommunications.getCellCount( row ) == 3 )
+						mCommunications.removeCell( row, 2 );
+				}
+				else
 				{
 					final Button deleteButton = new Button( "Delete" );
 					deleteButton.addClickListener( new ClickListener()
@@ -375,11 +383,11 @@ public class ContactDialog
 							}
 
 							contact.removeCommunication( communication );
-							loadCommunications( table, contact, false );
+							loadCommunications();
 						}
 					} );
 
-					table.setWidget( row, 2, deleteButton );
+					mCommunications.setWidget( row, 2, deleteButton );
 					cellFormatter.setStyleName( row, 2, "table-buttons" );
 				}
 
@@ -389,9 +397,9 @@ public class ContactDialog
 
 		// Cleanup any extra rows
 
-		while ( table.getRowCount() - 1 > row )
+		while ( mCommunications.getRowCount() - 1 > row )
 		{
-			table.removeRow( row );
+			mCommunications.removeRow( row );
 		}
 	}
 }

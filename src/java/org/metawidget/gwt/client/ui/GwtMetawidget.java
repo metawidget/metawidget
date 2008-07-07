@@ -711,7 +711,6 @@ public class GwtMetawidget
 
 			mFacets.clear();
 			mExistingWidgets.clear();
-			mAddedWidgets.clear();
 		}
 	}
 
@@ -757,6 +756,7 @@ public class GwtMetawidget
 			// ...otherwise, clear the widgets
 
 			super.clear();
+			mAddedWidgets.clear();
 
 			mNamesPrefix = null;
 
@@ -1297,10 +1297,9 @@ public class GwtMetawidget
 			throws Exception
 		{
 			GwtMetawidget metawidget = (GwtMetawidget) widget;
-			GwtMetawidget.this.initMetawidget( metawidget, attributes );
 			metawidget.setReadOnly( isReadOnly( attributes ) );
 
-			return metawidget;
+			return GwtMetawidget.this.initMetawidget( metawidget, attributes );
 		}
 
 		@Override

@@ -458,6 +458,7 @@
 			<test name="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest"/>
 			<classpath>				
 				<pathelement path="src/web/examples/gwt/addressbook/WEB-INF"/>
+				<pathelement path="src/web/examples/gwt/addressbook/WEB-INF/config"/>
 				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
 				<dirset dir="${build.metawidget.dir}/example-classes"/>
 				<dirset dir="${build.metawidget.dir}/test-classes"/>

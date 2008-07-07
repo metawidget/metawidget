@@ -170,11 +170,7 @@ public class GwtAddressBookTest
 										assertTrue( 3 == communications.getCellCount( 0 ));
 										assertTrue( "Telephone".equals( communications.getText( 1, 0 )));
 										assertTrue( "(939) 555-0113".equals( communications.getText( 1, 1 )));
-										final Button deleteCommunication = (Button) communications.getWidget( 1, 2 );
-										assertTrue( !deleteCommunication.isVisible() );
-										assertTrue( "Delete".equals( deleteCommunication.getText() ));
-										assertTrue( "table-buttons".equals( communications.getCellFormatter().getStyleName( 1, 2 )));
-										assertTrue( 3 == communications.getCellCount( 1 ));
+										assertTrue( 2 == communications.getCellCount( 1 ));
 
 										// Check editing
 
@@ -196,7 +192,10 @@ public class GwtAddressBookTest
 												assertTrue( contactMetawidget.findWidget( "firstnames" ) instanceof TextBox );
 												assertTrue( "Homer".equals( contactMetawidget.getValue( "firstnames" ) ) );
 												assertTrue( "5/12/56".equals( contactMetawidget.getValue( "dateOfBirth" ) ) );
+												final Button deleteCommunication = (Button) communications.getWidget( 1, 2 );
 												assertTrue( deleteCommunication.isVisible() );
+												assertTrue( "Delete".equals( deleteCommunication.getText() ));
+												assertTrue( "table-buttons".equals( communications.getCellFormatter().getStyleName( 1, 2 )));
 
 												contactMetawidget.setValue( "Sapien", "surname" );
 
