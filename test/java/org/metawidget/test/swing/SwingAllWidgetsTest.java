@@ -44,8 +44,10 @@ import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.beanutils.BeanUtilsBinding;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
+import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.test.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
 import org.metawidget.test.swing.allwidgets.converter.DateConverter;
+import org.metawidget.test.swing.allwidgets.converter.NestedWidgetsConverter;
 
 /**
  * @author Richard Kennard
@@ -72,6 +74,7 @@ public class SwingAllWidgetsTest
 		TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
 		Converter converterDate = new DateConverter( "E MMM dd HH:mm:ss z yyyy" );
 		ConvertUtils.register( converterDate, Date.class );
+		ConvertUtils.register( new NestedWidgetsConverter(), NestedWidgets.class );
 
 		// Start app
 
@@ -351,21 +354,25 @@ public class SwingAllWidgetsTest
 		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 3 ) ).gridx );
 		assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox2" ) ) );
 
-		assertTrue( "Read only nested widgets dont expand:".equals( ( (JLabel) metawidget.getComponent( 50 ) ).getText() ) );
-		assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ((JLabel) metawidget.getComponent( 51 )).getText() ));
+		assertTrue( "Nested widgets dont expand:".equals( ( (JLabel) metawidget.getComponent( 50 ) ).getText() ) );
+		assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ((JTextField) metawidget.getComponent( 51 )).getText() ));
+		( (JTextField) metawidget.getComponent( 51 ) ).setText( "Nested Textbox 1.01, Nested Textbox 2.02" );
 
-		assertTrue( "Date:".equals( ( (JLabel) metawidget.getComponent( 52 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 53 ) instanceof JTextField );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 53 ) ).gridx );
-		assertTrue( converterDate.convert( String.class, allWidgets.getDate() ).equals( metawidget.getValue( "date" ) ) );
-		( (JTextField) metawidget.getComponent( 53 ) ).setText( "bad date" );
+		assertTrue( "Read only nested widgets dont expand:".equals( ( (JLabel) metawidget.getComponent( 52 ) ).getText() ) );
+		assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ((JLabel) metawidget.getComponent( 53 )).getText() ));
 
-		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 54 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 55 ) instanceof JLabel );
+		assertTrue( "Date:".equals( ( (JLabel) metawidget.getComponent( 54 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 55 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 55 ) ).gridx );
+		assertTrue( converterDate.convert( String.class, allWidgets.getDate() ).equals( metawidget.getValue( "date" ) ) );
+		( (JTextField) metawidget.getComponent( 55 ) ).setText( "bad date" );
+
+		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 56 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 57 ) instanceof JLabel );
+		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 57 ) ).gridx );
 		assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
-		assertTrue( 56 == metawidget.getComponentCount() );
+		assertTrue( 58 == metawidget.getComponentCount() );
 
 		// Check painting
 
@@ -387,7 +394,7 @@ public class SwingAllWidgetsTest
 		// Check saving
 
 		String now = (String) converterDate.convert( String.class, new GregorianCalendar().getTime() );
-		( (JTextField) metawidget.getComponent( 53 ) ).setText( now );
+		( (JTextField) metawidget.getComponent( 55 ) ).setText( now );
 		metawidget.save();
 
 		// Check read-only
@@ -450,14 +457,16 @@ public class SwingAllWidgetsTest
 		assertTrue( "Nested Textbox 1".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 1 )).getText() ) );
 		assertTrue( "Nested textbox 2:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 2 )).getText() ) );
 		assertTrue( "Nested Textbox 2".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 3 )).getText() ) );
-		assertTrue( "Read only nested widgets dont expand:".equals( ( (JLabel) metawidget.getComponent( 50 ) ).getText() ) );
-		assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ((JLabel) metawidget.getComponent( 51 )).getText() ));
-		assertTrue( "Date:".equals( ( (JLabel) metawidget.getComponent( 52 ) ).getText() ) );
-		assertTrue( now.equals( ( (JLabel) metawidget.getComponent( 53 ) ).getText() ) );
-		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 54 ) ).getText() ) );
-		assertTrue( "Read Only".equals( ( (JLabel) metawidget.getComponent( 55 ) ).getText() ) );
+		assertTrue( "Nested widgets dont expand:".equals( ( (JLabel) metawidget.getComponent( 50 ) ).getText() ) );
+		assertTrue( "Nested Textbox 1.01, Nested Textbox 2.02".equals( ((JLabel) metawidget.getComponent( 51 )).getText() ));
+		assertTrue( "Read only nested widgets dont expand:".equals( ( (JLabel) metawidget.getComponent( 52 ) ).getText() ) );
+		assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ((JLabel) metawidget.getComponent( 53 )).getText() ));
+		assertTrue( "Date:".equals( ( (JLabel) metawidget.getComponent( 54 ) ).getText() ) );
+		assertTrue( now.equals( ( (JLabel) metawidget.getComponent( 55 ) ).getText() ) );
+		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 56 ) ).getText() ) );
+		assertTrue( "Read Only".equals( ( (JLabel) metawidget.getComponent( 57 ) ).getText() ) );
 
-		assertTrue( metawidget.getComponentCount() == 56 );
+		assertTrue( metawidget.getComponentCount() == 58 );
 
 		// Test unbind
 

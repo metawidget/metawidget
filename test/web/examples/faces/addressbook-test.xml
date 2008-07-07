@@ -77,6 +77,9 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[1]" text="Telephone"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCurrentCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]" text=""/>
+				<not>
+					<verifyText text="owner"/>
+				</not>
 			
 				<clickButton label="Edit"/>
 				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>

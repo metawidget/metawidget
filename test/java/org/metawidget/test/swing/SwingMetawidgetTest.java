@@ -22,8 +22,10 @@ import java.beans.Introspector;
 import java.lang.reflect.Field;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import junit.framework.TestCase;
 
@@ -203,8 +205,10 @@ public class SwingMetawidgetTest
 		// Check different component
 
 		metawidget.setToInspect( foo2 );
+		metawidget.setParameter( "labelAlignment", SwingConstants.RIGHT );
 		assertTrue( textField != metawidget.getComponent( "name" ) );
 		assertTrue( nestedTextField != metawidget.getComponent( "foo", "name" ) );
+		assertTrue( SwingConstants.RIGHT == ( (JLabel) metawidget.getComponent( 0 )).getHorizontalAlignment() );
 		assertTrue( "Julianne".equals( ( (JTextField) metawidget.getComponent( "name" ) ).getText() ) );
 		assertTrue( "Richard".equals( ( (JTextField) metawidget.getComponent( "foo", "name" ) ).getText() ) );
 

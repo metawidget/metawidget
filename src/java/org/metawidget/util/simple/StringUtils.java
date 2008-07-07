@@ -45,7 +45,9 @@ public final class StringUtils
 
 	public final static String	SEPARATOR_DOT					= String.valueOf( SEPARATOR_DOT_CHAR );
 
-	public final static String	SEPARATOR_COMMA					= ",";
+	public final static char	SEPARATOR_COMMA_CHAR			= ',';
+
+	public final static String	SEPARATOR_COMMA					= String.valueOf( SEPARATOR_COMMA_CHAR );
 
 	public final static String	RESOURCE_KEY_NOT_FOUND_PREFIX	= "???";
 

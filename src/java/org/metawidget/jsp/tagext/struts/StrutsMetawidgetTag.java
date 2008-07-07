@@ -68,7 +68,6 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
  */
 
 // TODO: test 'not simple, but don't expand' in allwidgets
-// TODO: test 'owner' isn't visible anywhere
 
 public class StrutsMetawidgetTag
 	extends BaseHtmlMetawidgetTag

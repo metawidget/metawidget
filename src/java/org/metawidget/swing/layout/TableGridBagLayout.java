@@ -40,20 +40,23 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Layout to arrange widgets in a table, with one column for labels and another for the
- * widget, using <code>javax.awt.GridBagLayout</code>.
+ * Layout to arrange widgets in a table, with one column for labels and another for the widget,
+ * using <code>javax.awt.GridBagLayout</code>.
  * <p>
  * This implementation recognizes the following parameters:
  * <p>
  * <ul>
  * <li><code>numberOfColumns</code>
- * <li><code>sectionStyle</code> - either <code>SECTION_AS_HEADING</code> (the default) or <code>SECTION_AS_TAB</code> (render
- * sections as tabs in a <code>JTabbedPane</code>)
+ * <li><code>labelAlignment</code> - one of <code>SwingConstants.LEFT</code>, <code>SwingConstants.CENTER</code>, <code>SwingConstants.RIGHT</code>,
+ * <code>SwingConstants.LEADING</code> or <code>SwingConstants.TRAILING</code>
+ * <li><code>sectionStyle</code> - either <code>SECTION_AS_HEADING</code> (the default) or
+ * <code>SECTION_AS_TAB</code> (render sections as tabs in a <code>JTabbedPane</code>)
  * </ul>
  *
  * @author Richard Kennard
  */
 
+// TODO: right align labels
 public class TableGridBagLayout
 	extends Layout
 {
@@ -105,6 +108,8 @@ public class TableGridBagLayout
 
 	private String				mCurrentSection;
 
+	private int					mLabelAlignment;
+
 	private int					mSectionStyle;
 
 	private int					mNumberOfColumns;
@@ -131,7 +136,7 @@ public class TableGridBagLayout
 	 * GroupLayout) do not have this problem.
 	 */
 
-	private boolean				mNeedParentSpacerRow				= true;
+	private boolean				mNeedParentSpacerRow			= true;
 
 	private boolean				mNeedPanelSpacerRow;
 
@@ -160,6 +165,13 @@ public class TableGridBagLayout
 			if ( mNumberOfColumns < 1 )
 				throw MetawidgetException.newException( "numberOfColumns must be >= 1" );
 		}
+
+		Object labelAlignment = metawidget.getParameter( "labelAlignment" );
+
+		if ( labelAlignment == null )
+			mLabelAlignment = SwingConstants.LEFT;
+		else
+			mLabelAlignment = (Integer) labelAlignment;
 
 		Object sectionStyle = metawidget.getParameter( "sectionStyle" );
 
@@ -190,35 +202,9 @@ public class TableGridBagLayout
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
 			return;
 
-		String labelText = null;
-		boolean largeComponent = false;
-
-		if ( attributes != null )
-		{
-			// Section headings
-
-			String section = attributes.get( SECTION );
-
-			if ( section != null && !section.equals( mCurrentSection ) )
-			{
-				mCurrentSection = section;
-				layoutSection( section );
-			}
-
-			// Labels
-
-			labelText = getMetawidget().getLabelString( attributes );
-
-			// Large components
-
-			if ( TRUE.equals( attributes.get( LARGE ) ) )
-				largeComponent = true;
-		}
-
 		// Special support for large components
 
-		if ( component instanceof JScrollPane || component instanceof SwingMetawidget )
-			largeComponent = true;
+		boolean largeComponent = ( component instanceof JScrollPane || component instanceof SwingMetawidget || ( attributes != null && TRUE.equals( attributes.get( LARGE ))));
 
 		if ( largeComponent && mCurrentColumn > 0 )
 		{
@@ -226,52 +212,13 @@ public class TableGridBagLayout
 			mCurrentRow++;
 		}
 
-		// Add label
+		// Layout a label...
 
-		if ( labelText != null && !"".equals( labelText ) )
-		{
-			JLabel label = new JLabel();
+		// TODO: make this cleaner
 
-			// Required
+		String labelText = layoutBeforeChild( component, attributes );
 
-			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
-				labelText += "*";
-
-			label.setText( labelText + ":" );
-
-			GridBagConstraints constraintsLabel = new GridBagConstraints();
-			constraintsLabel.fill = GridBagConstraints.BOTH;
-			constraintsLabel.anchor = GridBagConstraints.NORTHWEST;
-			constraintsLabel.gridx = mCurrentColumn * 2;
-			constraintsLabel.gridy = mCurrentRow;
-			constraintsLabel.weightx = 0.1f / mNumberOfColumns;
-
-			if ( mCurrentColumn == 0 )
-			{
-				if ( mCurrentRow == 0 )
-					constraintsLabel.insets = INSETS_TOP_LEFT_COLUMN_LABEL;
-				else
-					constraintsLabel.insets = INSETS_LEFT_COLUMN_LABEL;
-			}
-			else
-			{
-				if ( mCurrentRow == 0 )
-					constraintsLabel.insets = INSETS_TOP_LABEL;
-				else
-					constraintsLabel.insets = INSETS_LABEL;
-			}
-
-			label.setVerticalAlignment( SwingConstants.TOP );
-
-			// Add to either current panel or direct to the Metawidget
-
-			if ( mPanelCurrent == null )
-				getMetawidget().add( label, constraintsLabel );
-			else
-				mPanelCurrent.add( label, constraintsLabel );
-		}
-
-		// Add component
+		// ...and layout the component
 
 		GridBagConstraints constraintsComponent = new GridBagConstraints();
 		constraintsComponent.fill = GridBagConstraints.BOTH;
@@ -397,6 +344,76 @@ public class TableGridBagLayout
 		getMetawidget().add( component, constraints );
 	}
 
+	protected String layoutBeforeChild( Component component, Map<String, String> attributes )
+	{
+		String labelText = null;
+
+		if ( attributes != null )
+		{
+			// Section headings
+
+			String section = attributes.get( SECTION );
+
+			if ( section != null && !section.equals( mCurrentSection ) )
+			{
+				mCurrentSection = section;
+				layoutSection( section );
+			}
+
+			// Labels
+
+			labelText = getMetawidget().getLabelString( attributes );
+		}
+
+		// Add label
+
+		if ( labelText != null && !"".equals( labelText ) )
+		{
+			JLabel label = new JLabel();
+			label.setHorizontalAlignment( mLabelAlignment );
+
+			// Required
+
+			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
+				labelText += "*";
+
+			label.setText( labelText + ":" );
+
+			GridBagConstraints constraintsLabel = new GridBagConstraints();
+			constraintsLabel.fill = GridBagConstraints.BOTH;
+			constraintsLabel.anchor = GridBagConstraints.NORTHWEST;
+			constraintsLabel.gridx = mCurrentColumn * 2;
+			constraintsLabel.gridy = mCurrentRow;
+			constraintsLabel.weightx = 0.1f / mNumberOfColumns;
+
+			if ( mCurrentColumn == 0 )
+			{
+				if ( mCurrentRow == 0 )
+					constraintsLabel.insets = INSETS_TOP_LEFT_COLUMN_LABEL;
+				else
+					constraintsLabel.insets = INSETS_LEFT_COLUMN_LABEL;
+			}
+			else
+			{
+				if ( mCurrentRow == 0 )
+					constraintsLabel.insets = INSETS_TOP_LABEL;
+				else
+					constraintsLabel.insets = INSETS_LABEL;
+			}
+
+			label.setVerticalAlignment( SwingConstants.TOP );
+
+			// Add to either current panel or direct to the Metawidget
+
+			if ( mPanelCurrent == null )
+				getMetawidget().add( label, constraintsLabel );
+			else
+				mPanelCurrent.add( label, constraintsLabel );
+		}
+
+		return labelText;
+	}
+
 	protected void layoutSection( String section )
 	{
 		if ( "".equals( section ) )
@@ -422,7 +439,7 @@ public class TableGridBagLayout
 
 		// Insert the section
 
-		switch( mSectionStyle )
+		switch ( mSectionStyle )
 		{
 			case SECTION_AS_TAB:
 

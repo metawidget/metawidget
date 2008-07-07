@@ -1197,8 +1197,6 @@ public class GwtMetawidget
 
 		// Limit inspection depth
 
-		// TODO: test GWT mMaximumInspectionDepth
-
 		if ( mMaximumInspectionDepth == 0 )
 			return null;
 

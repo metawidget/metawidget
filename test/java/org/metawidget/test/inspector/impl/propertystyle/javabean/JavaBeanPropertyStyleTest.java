@@ -130,9 +130,12 @@ public class JavaBeanPropertyStyleTest
 		extends JavaBeanPropertyStyle
 	{
 		@Override
-		protected Class<?>[] getExcludeBaseTypes()
+		protected boolean isExcludedBaseType( Class<?> clazz )
 		{
-			return new Class<?>[]{ SuperFoo.class };
+			if ( SuperFoo.class.equals( clazz ))
+				return true;
+
+			return super.isExcludedBaseType( clazz );
 		}
 	}
 }

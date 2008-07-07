@@ -112,10 +112,13 @@ public class AllWidgets
 
 	private NestedWidgets		mReadOnlyNestedWidgets				= new NestedWidgets();
 
+	private NestedWidgets		mNestedWidgetsDontExpand			= new NestedWidgets();
+
 	private NestedWidgets		mReadOnlyNestedWidgetsDontExpand	= new NestedWidgets();
 
 	/**
-	 * Use a deprecated API to avoid a dependency on java.util.Calendar, which GWT doesn't currently support.
+	 * Use a deprecated API to avoid a dependency on java.util.Calendar, which GWT doesn't currently
+	 * support.
 	 */
 
 	@SuppressWarnings( "deprecation" )
@@ -391,6 +394,16 @@ public class AllWidgets
 	public void setReadOnlyNestedWidgets( NestedWidgets readOnlyNestedWidgets )
 	{
 		mReadOnlyNestedWidgets = readOnlyNestedWidgets;
+	}
+
+	public NestedWidgets getNestedWidgetsDontExpand()
+	{
+		return mNestedWidgetsDontExpand;
+	}
+
+	public void setNestedWidgetsDontExpand( NestedWidgets nestedWidgetsDontExpand )
+	{
+		mNestedWidgetsDontExpand = nestedWidgetsDontExpand;
 	}
 
 	public NestedWidgets getReadOnlyNestedWidgetsDontExpand()

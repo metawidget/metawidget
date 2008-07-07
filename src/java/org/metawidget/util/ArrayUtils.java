@@ -56,7 +56,7 @@ public final class ArrayUtils
 		// Workaround for bug in J2SE 1.4 - dots don't get escaped properly, even
 		// when using Pattern.LITERAL
 
-		if ( separatorEscaped.equals( "." ))
+		if ( separatorEscaped.equals( "." ) )
 			separatorEscaped = "\\.";
 
 		Pattern patternSeparator = Pattern.compile( separatorEscaped, Pattern.LITERAL );
@@ -95,10 +95,14 @@ public final class ArrayUtils
 		return fromString( array, ',' );
 	}
 
+	/**
+	 * @return the parsed array. Never null
+	 */
+
 	public static String[] fromString( String array, char separator )
 	{
 		if ( array == null )
-			return null;
+			return EMPTY_STRING_ARRAY;
 
 		List<String> list = CollectionUtils.fromString( array, separator );
 
@@ -164,6 +168,14 @@ public final class ArrayUtils
 
 		return -1;
 	}
+
+	//
+	//
+	// Private statics
+	//
+	//
+
+	private final static String[]	EMPTY_STRING_ARRAY	= new String[0];
 
 	//
 	//

@@ -41,7 +41,7 @@ public class ArrayUtilsTest
 		String[] compareTo = new String[]{ "foo", "bar", "baz" };
 
 		assertTrue( Arrays.equals( compareTo, ArrayUtils.fromString( "foo,bar,baz" )));
-		assertTrue( null == ArrayUtils.fromString( null ));
+		assertTrue( 0 == ArrayUtils.fromString( null ).length );
 
 		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( new String[]{ "foo", "bar" }, "baz" )));
 		assertTrue( Arrays.equals( compareTo, ArrayUtils.add( (String[]) null, compareTo )));

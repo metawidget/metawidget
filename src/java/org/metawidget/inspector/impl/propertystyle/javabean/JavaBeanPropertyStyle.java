@@ -28,7 +28,6 @@ import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -63,25 +62,6 @@ public class JavaBeanPropertyStyle
 
 	private Map<Class<?>, Map<String, Property>>	mPropertiesCache	= CollectionUtils.newHashMap();
 
-	private String[]								mExcludeNames;
-
-	private Class<?>[]								mExcludeReturnTypes;
-
-	private Class<?>[]								mExcludeBaseTypes;
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public JavaBeanPropertyStyle()
-	{
-		mExcludeNames = getExcludeNames();
-		mExcludeReturnTypes = getExcludeReturnTypes();
-		mExcludeBaseTypes = getExcludeBaseTypes();
-	}
-
 	//
 	//
 	// Public methods
@@ -115,47 +95,89 @@ public class JavaBeanPropertyStyle
 	//
 
 	/**
-	 * Array of property names to exclude when searching for properties.
+	 * Whether to exclude the given property, of the given type, in the given class, when searching
+	 * for properties.
+	 * <p>
+	 * This can be useful when the convention or base class define properties that are
+	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * <p>
+	 * By default, calls <code>isExcludedBaseType</code>, <code>isExcludedReturnType</code> and
+	 * <code>isExcludedName</code> and returns true if any of them return true. Returns false
+	 * otherwise.
+	 *
+	 * @return true if the property should be excluded, false otherwise
+	 */
+
+	protected boolean isExcluded( Class<?> clazz, String propertyName, Class<?> propertyType )
+	{
+		if ( isExcludedBaseType( clazz ) )
+			return true;
+
+		if ( isExcludedReturnType( propertyType ) )
+			return true;
+
+		if ( isExcludedName( propertyName ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Whether to exclude the given property name when searching for properties.
 	 * <p>
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
 	 * By default, filters out the properties 'propertyChangeListeners' and
 	 * 'vetoableChangeListeners'.
+	 *
+	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected String[] getExcludeNames()
+	protected boolean isExcludedName( String name )
 	{
-		return new String[] { "propertyChangeListeners", "vetoableChangeListeners" };
+		if ( "propertyChangeListeners".equals( name ) )
+			return true;
+
+		if ( "vetoableChangeListeners".equals( name ) )
+			return true;
+
+		return false;
 	}
 
 	/**
-	 * Array of property return types to exclude when searching for properties. Subtypes of the
-	 * specified exclude types are also excluded.
+	 * Whether to exclude the given property return type when searching for properties.
 	 * <p>
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
 	 * By default, filters out any types that return <code>java.lang.Class</code>.
+	 *
+	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected Class<?>[] getExcludeReturnTypes()
+	protected boolean isExcludedReturnType( Class<?> clazz )
 	{
-		return new Class<?>[] { Class.class };
+		if ( Class.class.equals( clazz ) )
+			return true;
+
+		return false;
 	}
 
 	/**
-	 * Array of base types to exclude when searching up the model inheritance chain.
+	 * Whether to exclude the given base type when searching up the model inheritance chain.
 	 * <p>
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, does not filter out any base types.
+	 * By default, does not exclude any base types.
+	 *
+	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected Class<?>[] getExcludeBaseTypes()
+	protected boolean isExcludedBaseType( Class<?> clazz )
 	{
-		return null;
+		return false;
 	}
 
 	/**
@@ -170,16 +192,13 @@ public class JavaBeanPropertyStyle
 
 		Class<?> traverseClass = clazz;
 
-		while( traverseClass != null )
+		while ( traverseClass != null )
 		{
-			// Exclude certain base types
-
-			if ( ArrayUtils.contains( mExcludeBaseTypes, traverseClass ))
-				break;
-
+			//
 			// Public fields
+			//
 
-			field: for ( Field field : traverseClass.getDeclaredFields() )
+			for ( Field field : traverseClass.getDeclaredFields() )
 			{
 				// Exclude static public fields
 
@@ -190,57 +209,48 @@ public class JavaBeanPropertyStyle
 
 				// Exclude non-public fields
 
-				if ( !Modifier.isPublic( modifiers ))
+				if ( !Modifier.isPublic( modifiers ) )
 					continue;
 
-				// Exclude certain return types
+				// Get name and type
 
+				String fieldName = field.getName();
 				Class<?> type = field.getType();
 
-				if ( mExcludeReturnTypes != null )
-				{
-					for ( Class<?> excludeType : mExcludeReturnTypes )
-					{
-						if ( excludeType.isAssignableFrom( type ) )
-							continue field;
-					}
-				}
+				// Exclude based on other criteria
 
-				String propertyName = field.getName();
-				properties.put( propertyName, new FieldProperty( propertyName, field ) );
+				if ( isExcluded( traverseClass, fieldName, type ) )
+					continue;
+
+				properties.put( fieldName, new FieldProperty( fieldName, field ) );
 			}
 
+			//
 			// Getter methods
+			//
 
-			getter: for ( Method methodRead : traverseClass.getDeclaredMethods() )
+			for ( Method methodRead : traverseClass.getDeclaredMethods() )
 			{
 				// Exclude non-public fields
 
 				int modifiers = methodRead.getModifiers();
 
-				if ( !Modifier.isPublic( modifiers ))
+				if ( !Modifier.isPublic( modifiers ) )
 					continue;
+
+				// Get type
 
 				Class<?>[] parameters = methodRead.getParameterTypes();
 
 				if ( parameters.length != 0 )
 					continue;
 
-				Class<?> toReturn = methodRead.getReturnType();
+				Class<?> type = methodRead.getReturnType();
 
-				if ( void.class.equals( toReturn ) )
+				if ( void.class.equals( type ) )
 					continue;
 
-				// Exclude certain return types
-
-				if ( mExcludeReturnTypes != null )
-				{
-					for ( Class<?> excludeType : mExcludeReturnTypes )
-					{
-						if ( excludeType.isAssignableFrom( toReturn ) )
-							continue getter;
-					}
-				}
+				// Get name
 
 				String methodName = methodRead.getName();
 				String propertyName = null;
@@ -255,11 +265,11 @@ public class JavaBeanPropertyStyle
 				if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
 					continue;
 
-				// Exclude certain names
-
 				String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
 
-				if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
+				// Exclude based on other criteria
+
+				if ( isExcluded( traverseClass, lowercasedPropertyName, type ) )
 					continue;
 
 				// Already found (via its field)?
@@ -274,7 +284,7 @@ public class JavaBeanPropertyStyle
 					// Beware covariant return types: always prefer the
 					// subclass
 
-					if ( toReturn.isAssignableFrom( propertyExisting.getType() ) )
+					if ( type.isAssignableFrom( propertyExisting.getType() ) )
 						continue;
 				}
 
@@ -284,44 +294,39 @@ public class JavaBeanPropertyStyle
 
 				try
 				{
-					methodWrite = traverseClass.getMethod( ClassUtils.JAVABEAN_SET_PREFIX + propertyName, toReturn );
+					methodWrite = traverseClass.getMethod( ClassUtils.JAVABEAN_SET_PREFIX + propertyName, type );
 				}
 				catch ( NoSuchMethodException e )
 				{
 					// May not be one
 				}
 
-				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toReturn, methodRead, methodWrite ) );
+				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, methodRead, methodWrite ) );
 			}
 
+			//
 			// Setter methods (for those without getters)
+			//
 
-			setter: for ( Method methodWrite : traverseClass.getDeclaredMethods() )
+			for ( Method methodWrite : traverseClass.getDeclaredMethods() )
 			{
 				// Exclude non-public fields
 
 				int modifiers = methodWrite.getModifiers();
 
-				if ( !Modifier.isPublic( modifiers ))
+				if ( !Modifier.isPublic( modifiers ) )
 					continue;
+
+				// Get type
 
 				Class<?>[] parameters = methodWrite.getParameterTypes();
 
 				if ( parameters.length != 1 )
 					continue;
 
-				Class<?> toSet = parameters[0];
+				Class<?> type = parameters[0];
 
-				// Exclude certain return types
-
-				if ( mExcludeReturnTypes != null )
-				{
-					for ( Class<?> excludeType : mExcludeReturnTypes )
-					{
-						if ( excludeType.isAssignableFrom( toSet ) )
-							continue setter;
-					}
-				}
+				// Get name
 
 				String methodName = methodWrite.getName();
 
@@ -333,11 +338,11 @@ public class JavaBeanPropertyStyle
 				if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
 					continue;
 
-				// Exclude certain names
-
 				String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
 
-				if ( ArrayUtils.contains( mExcludeNames, lowercasedPropertyName ) )
+				// Exclude based on other criteria
+
+				if ( isExcluded( traverseClass, lowercasedPropertyName, type ) )
 					continue;
 
 				// Already found (via its field/getter)?
@@ -345,7 +350,7 @@ public class JavaBeanPropertyStyle
 				if ( properties.containsKey( lowercasedPropertyName ) )
 					continue;
 
-				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, toSet, null, methodWrite ) );
+				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, null, methodWrite ) );
 			}
 
 			// Work up the inheritance chain

@@ -39,8 +39,11 @@ public class StrutsActionFormPropertyStyle
 	//
 
 	@Override
-	protected Class<?>[] getExcludeBaseTypes()
+	protected boolean isExcludedBaseType( Class<?> clazz )
 	{
-		return new Class<?>[] { ActionForm.class };
+		if ( ActionForm.class.equals( clazz ))
+			return true;
+
+		return super.isExcludedBaseType( clazz );
 	}
 }
