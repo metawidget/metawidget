@@ -26,6 +26,11 @@
 		<converter-class>org.metawidget.test.faces.allwidgets.converter.CollectionConverter</converter-class>
 	</converter>
 
+	<converter>
+		<converter-for-class>org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets</converter-for-class>
+		<converter-class>org.metawidget.test.faces.allwidgets.converter.NestedWidgetsConverter</converter-class>
+	</converter>
+
 	<!-- Request-Level Managed Beans -->
 
 	<managed-bean>

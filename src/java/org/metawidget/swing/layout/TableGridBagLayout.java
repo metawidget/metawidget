@@ -56,7 +56,6 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-// TODO: right align labels
 public class TableGridBagLayout
 	extends Layout
 {
@@ -214,9 +213,12 @@ public class TableGridBagLayout
 
 		// Layout a label...
 
-		// TODO: make this cleaner
+		String labelText = null;
 
-		String labelText = layoutBeforeChild( component, attributes );
+		if ( attributes != null )
+			labelText = getMetawidget().getLabelString( attributes );
+
+		layoutBeforeChild( component, labelText, attributes );
 
 		// ...and layout the component
 
@@ -344,10 +346,8 @@ public class TableGridBagLayout
 		getMetawidget().add( component, constraints );
 	}
 
-	protected String layoutBeforeChild( Component component, Map<String, String> attributes )
+	protected String layoutBeforeChild( Component component, String labelText, Map<String, String> attributes )
 	{
-		String labelText = null;
-
 		if ( attributes != null )
 		{
 			// Section headings
@@ -359,10 +359,6 @@ public class TableGridBagLayout
 				mCurrentSection = section;
 				layoutSection( section );
 			}
-
-			// Labels
-
-			labelText = getMetawidget().getLabelString( attributes );
 		}
 
 		// Add label
@@ -375,9 +371,9 @@ public class TableGridBagLayout
 			// Required
 
 			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
-				labelText += "*";
-
-			label.setText( labelText + ":" );
+				label.setText( labelText + "*:" );
+			else
+				label.setText( labelText + ":" );
 
 			GridBagConstraints constraintsLabel = new GridBagConstraints();
 			constraintsLabel.fill = GridBagConstraints.BOTH;

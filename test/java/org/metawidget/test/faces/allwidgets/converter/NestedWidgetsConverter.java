@@ -14,38 +14,47 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.spring.allwidgets.controller;
+package org.metawidget.test.faces.allwidgets.converter;
 
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
 
 import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.test.spring.allwidgets.editor.DateEditor;
-import org.metawidget.test.spring.allwidgets.editor.NestedWidgetsEditor;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
  */
 
-public class AllWidgetsController
-	extends SimpleFormController
+public class NestedWidgetsConverter
+	implements Converter
 {
 	//
 	//
-	// Protected methods
+	// Public methods
 	//
 	//
 
-	@Override
-	protected void initBinder( HttpServletRequest request, ServletRequestDataBinder binder )
-		throws Exception
+	public Object getAsObject( FacesContext context, UIComponent component, String value )
 	{
-		super.initBinder( request, binder );
+		String[] values = ArrayUtils.fromString( value );
 
-		binder.registerCustomEditor( Date.class, new DateEditor() );
-		binder.registerCustomEditor( NestedWidgets.class, new NestedWidgetsEditor() );
+		if ( values.length == 0 )
+			return null;
+
+		NestedWidgets nestedWidgets = new NestedWidgets();
+		nestedWidgets.setNestedTextbox1( values[0] );
+
+		if ( values.length > 1 )
+			nestedWidgets.setNestedTextbox2( values[1] );
+
+		return nestedWidgets;
+	}
+
+	public String getAsString( FacesContext context, UIComponent component, Object value )
+	{
+		return StringUtils.quietValueOf( value );
 	}
 }

@@ -14,38 +14,51 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.spring.allwidgets.controller;
+package org.metawidget.test.spring.allwidgets.editor;
 
-import java.util.Date;
-
-import javax.servlet.http.HttpServletRequest;
+import java.beans.PropertyEditorSupport;
 
 import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.test.spring.allwidgets.editor.DateEditor;
-import org.metawidget.test.spring.allwidgets.editor.NestedWidgetsEditor;
-import org.springframework.web.bind.ServletRequestDataBinder;
-import org.springframework.web.servlet.mvc.SimpleFormController;
+import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
  */
 
-public class AllWidgetsController
-	extends SimpleFormController
+public class NestedWidgetsEditor
+	extends PropertyEditorSupport
 {
 	//
 	//
-	// Protected methods
+	// Public methods
 	//
 	//
 
 	@Override
-	protected void initBinder( HttpServletRequest request, ServletRequestDataBinder binder )
-		throws Exception
+	public String getAsText()
 	{
-		super.initBinder( request, binder );
+		return StringUtils.quietValueOf( getValue() );
+	}
 
-		binder.registerCustomEditor( Date.class, new DateEditor() );
-		binder.registerCustomEditor( NestedWidgets.class, new NestedWidgetsEditor() );
+	@Override
+	public void setAsText( String text )
+		throws IllegalArgumentException
+	{
+		String[] values = ArrayUtils.fromString( text );
+
+		if ( values.length == 0 )
+		{
+			setValue( null );
+			return;
+		}
+
+		NestedWidgets nestedWidgets = new NestedWidgets();
+		nestedWidgets.setNestedTextbox1( values[0] );
+
+		if ( values.length > 1 )
+			nestedWidgets.setNestedTextbox2( values[1] );
+
+		setValue( nestedWidgets );
 	}
 }
