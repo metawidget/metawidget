@@ -572,11 +572,6 @@ public abstract class UIMetawidget
 			Map<String, String> childAttributes = CollectionUtils.newHashMap();
 			miscAttributes.put( COMPONENT_ATTRIBUTE_METADATA, childAttributes );
 
-			// Manually created components default to no section
-
-			if ( miscAttributes.get( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) == null )
-				childAttributes.put( SECTION, "" );
-
 			// Inspect metadata
 
 			ValueBinding binding = component.getValueBinding( "value" );
@@ -590,6 +585,13 @@ public abstract class UIMetawidget
 					Document document = XmlUtils.documentFromString( xml );
 					childAttributes.putAll( XmlUtils.getAttributesAsMap( document.getDocumentElement().getFirstChild() ) );
 				}
+			}
+			else
+			{
+				// Manually created components with no found metadata default to no section
+
+				if ( miscAttributes.get( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) == null )
+					childAttributes.put( SECTION, "" );
 			}
 
 			// Stubs

@@ -1012,9 +1012,9 @@ public class Main {
 
 				<tip>
 					<title>Tip</title>
-					For most web environments, deploying Metawidget is as simple as putting <filename>metawidget.jar</filename> in
-					<filename>WEB-INF/lib</filename>. For GWT, you'll need to additionally include <filename>metawidget.jar</filename>
-					<emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt-client.jar</filename> in the <parameter>CLASSPATH</parameter>
+					For most web environments, deploying Metawidget is as simple as adding <filename>metawidget.jar</filename> to
+					<filename>WEB-INF/lib</filename>. For GWT, you'll also need to include <filename>metawidget.jar</filename>
+					and <filename>examples/gwt/metawidget-gwt-client.jar</filename> in the <parameter>CLASSPATH</parameter>
 					during your <parameter>GWTCompiler</parameter> step.
 				</tip>				
 
@@ -1878,7 +1878,7 @@ bin\run</programlisting>
 						The process is:
 					</para>
 
-					<itemizedlist>
+					<orderedlist>
 						<listitem>
 							<para>
 								instantiate the business object on the client-side as normal (ie. as JavaScript)
@@ -1909,7 +1909,12 @@ bin\run</programlisting>
 								<classname>GwtMetawidget</classname> uses JavaScript to render the HTML widgets
 							</para>
 						</listitem>
-					</itemizedlist>
+					</orderedlist>
+					
+					<para>
+						Note that steps 3 and 5 (the AJAX call to and from the server) are the most costly in terms of performance. Techniques
+						to improve GWT performance are discussed in <xref linkend="section-performance-rebind"/>. 
+					</para>
 
 				</section>
 				
@@ -2886,8 +2891,8 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			<title>JAR Size</title>
 
 			<para>
-				Metawidget have no mandatory third-party JAR dependencies, and it is also highly modular. This
-				allows the standard <filename>metawidget.jar</filename> to be repackaged to save JAR size for different environments.
+				Metawidget have no mandatory third-party JAR dependencies, and is also highly modular. This
+				allows the standard <filename>metawidget.jar</filename> to be repackaged for different environments to save JAR size.
 			</para>
 			
 			<para>		
@@ -2924,7 +2929,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			
 			<para>
 				The downside of <function>rebind</function> is that the rebound source object must have exactly the same set of field names
-				as the original object, else the call will fail. It becomes the responsibility of the caller to ensure consistency.
+				as the original object, else the call will fail. It becomes the responsibility of the caller to ensure this consistency.
 			</para>
 			
 		</section>

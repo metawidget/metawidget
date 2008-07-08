@@ -550,6 +550,11 @@ public class GwtMetawidget
 	 * <p>
 	 * For client's not using a Binding implementation, there is no need to call <code>rebind</code>.
 	 * They can simply use <code>setValue</code> to update existing values in the UI.
+	 * <p>
+	 * In many ways, <code>rebind</code> can be thought of as the opposite of <code>save</code>.
+	 *
+	 * @throws RuntimeException
+	 *             if no binding configured
 	 */
 
 	public void rebind( Object toRebind )
@@ -574,10 +579,11 @@ public class GwtMetawidget
 
 	/**
 	 * Saves the values from the binding back to the Object being inspected.
+	 *
+	 * @throws RuntimeException
+	 *             if no binding configured
 	 */
 
-	// Note: this method avoids having to expose a getBinding() method, which is handy
-	// because we can worry about nested Metawidgets here, not in the Binding class
 	public void save()
 	{
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
@@ -587,6 +593,9 @@ public class GwtMetawidget
 			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
 
 		mBinding.save();
+
+		// Having a save() method avoids having to expose a getBinding() method, which is handy
+		// because we can worry about nested Metawidgets here, not in the Binding class
 
 		for ( Widget widget : mAddedWidgets.values() )
 		{

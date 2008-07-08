@@ -116,6 +116,9 @@
 			</classpath>
 		</javac>
 
+		<!-- Build tutorial files (which are neither 'src/test' files, nor should -->
+		<!-- end up as examples in the finished distribution                      -->
+		
 		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/tutorial-classes" debug="on" optimize="on" target="1.5">
 			<include name="org/metawidget/example/**/tutorial/**"/>
 			<classpath>

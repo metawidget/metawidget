@@ -68,9 +68,6 @@ public class XmlInspectorTest
 		xml += "</entity>";
 		xml += "<entity type=\"Bar\">";
 		xml += "<property name=\"baz\"/>";
-		xml += "</entity>";
-		xml += "<entity type=\"RecursiveFoo\">";
-		xml += "<property name=\"foo\" type=\"RecursiveFoo\"/>";
 		xml += "</entity></inspection-result>";
 
 		XmlInspectorConfig config = new XmlInspectorConfig();
@@ -141,6 +138,8 @@ public class XmlInspectorTest
 
 	public void testMissingType()
 	{
+		assertTrue( null == mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "bar", "baz" ));
+
 		try
 		{
 			mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "bar", "baz", "abc" );

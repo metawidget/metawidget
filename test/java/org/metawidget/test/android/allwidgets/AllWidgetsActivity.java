@@ -21,7 +21,9 @@ import java.text.ParseException;
 
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
+import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.test.shared.allwidgets.proxy.AllWidgets_$$_javassist_1;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -104,7 +106,7 @@ public class AllWidgetsActivity
 
 					// New, read-only View will be a lot shorter
 
-					((ScrollView) metawidget.getParent()).fullScroll( View.FOCUS_UP );
+					( (ScrollView) metawidget.getParent() ).fullScroll( View.FOCUS_UP );
 				}
 				catch ( Exception e )
 				{
@@ -112,7 +114,7 @@ public class AllWidgetsActivity
 
 					String message = e.getMessage();
 
-					if ( message == null || "".equals( message ))
+					if ( message == null || "".equals( message ) )
 						message = e.getClass().getSimpleName();
 
 					new AlertDialog.Builder( getCurrentFocus().getContext() ).setTitle( "Save error" ).setMessage( "Unable to save:\n" + message ).setPositiveButton( "OK", null ).show();
@@ -164,10 +166,10 @@ public class AllWidgetsActivity
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgets().getNestedTextbox2() ), "nestedWidgets", "nestedTextbox2" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getReadOnlyNestedWidgets().getNestedTextbox1() ), "readOnlyNestedWidgets", "nestedTextbox1" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getReadOnlyNestedWidgets().getNestedTextbox2() ), "readOnlyNestedWidgets", "nestedTextbox2" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgetsDontExpand() ), "nestedWidgetsDontExpand" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getReadOnlyNestedWidgetsDontExpand() ), "readOnlyNestedWidgetsDontExpand" );
 		metawidget.setValue( mFormat.format( mAllWidgets.getDate() ), "date" );
 		metawidget.setValue( mAllWidgets.getReadOnly(), "readOnly" );
-		metawidget.setValue( mAllWidgets.getCollection(), "collection" );
 	}
 
 	/**
@@ -252,9 +254,23 @@ public class AllWidgetsActivity
 		mAllWidgets.setBooleanObject( (Boolean) metawidget.getValue( "booleanObject" ) );
 		mAllWidgets.setDropdown( (String) metawidget.getValue( "dropdown" ) );
 		mAllWidgets.setDropdownWithLabels( (String) metawidget.getValue( "dropdownWithLabels" ) );
-		mAllWidgets.setNotNullDropdown( Integer.parseInt( (String) metawidget.getValue( "notNullDropdown" ) ));
+		mAllWidgets.setNotNullDropdown( Integer.parseInt( (String) metawidget.getValue( "notNullDropdown" ) ) );
 		mAllWidgets.getNestedWidgets().setNestedTextbox1( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) );
 		mAllWidgets.getNestedWidgets().setNestedTextbox2( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) );
+
+		String nestedWidgetsDontExpandString = (String) metawidget.getValue( "nestedWidgetsDontExpand" );
+		String[] values = ArrayUtils.fromString( nestedWidgetsDontExpandString );
+
+		if ( values.length != 0 )
+		{
+			NestedWidgets nestedWidgetsDontExpand = new NestedWidgets();
+			nestedWidgetsDontExpand.setNestedTextbox1( values[0] );
+
+			if ( values.length > 1 )
+				nestedWidgetsDontExpand.setNestedTextbox2( values[1] );
+
+			mAllWidgets.setNestedWidgetsDontExpand( nestedWidgetsDontExpand );
+		}
 
 		String date = (String) metawidget.getValue( "date" );
 

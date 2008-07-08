@@ -170,7 +170,6 @@ public abstract class BaseXmlInspector
 		try
 		{
 			Element elementToInspect = null;
-			String childName = null;
 			Map<String, String> parentAttributes = null;
 
 			// If the path has a parent...
@@ -179,15 +178,19 @@ public abstract class BaseXmlInspector
 			{
 				// ...inspect its property for useful attributes...
 
-				Element parent = traverse( type, true, names );
-				childName = names[names.length - 1];
-				Element parentProperty = XmlUtils.getChildWithAttributeValue( parent, getNameAttribute(), childName );
+				Element propertyInParent = traverse( type, true, names );
 
-				if ( parentProperty == null )
+				if ( propertyInParent == null )
 					return null;
 
-				parentAttributes = inspect( parentProperty );
-				elementToInspect = traverse( parentProperty.getAttribute( getTypeAttribute() ), false );
+				parentAttributes = inspect( propertyInParent );
+
+				String typeAttribute = getTypeAttribute();
+
+				if ( !propertyInParent.hasAttribute( typeAttribute ))
+					return null;
+
+				elementToInspect = traverse( propertyInParent.getAttribute( typeAttribute ), false );
 			}
 			else
 			{
@@ -417,7 +420,7 @@ public abstract class BaseXmlInspector
 			}
 
 			if ( onlyToParent && loop >= ( length - 1 ) )
-				return entityElement;
+				return property;
 
 			if ( !property.hasAttribute( typeAttribute ) )
 				throw InspectorException.newException( "Property " + name + " of " + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT ) + " has no @" + typeAttribute );

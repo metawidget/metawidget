@@ -15,7 +15,6 @@ For Android AllWidgets, test:
 * There is no label for doubleObject
 * All dropdowns have a blank choice available, except notNullDropdown
 * The mystery field is a text box
-* The last field is a collections list
 
 Editing all values and choosing 'Save' (from the menu) reports the changed values as a read-only screen. Test:
 

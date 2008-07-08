@@ -52,7 +52,8 @@ public class SwingTutorialTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setToInspect( new Person() );
+		Person person = new Person();
+		metawidget.setToInspect( person );
 
 		// Check what created
 
@@ -68,12 +69,15 @@ public class SwingTutorialTest
 		Stub stub = new Stub();
 		stub.setName( "age" );
 		metawidget.add( stub );
-		metawidget.setToInspect( new Person() );
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JCheckBox );
+
+		// Check toString so that we can get code coverage on the Person class
+
+		assertTrue( person.toString() == null );
 
 		// Check end of tutorial
 

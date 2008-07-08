@@ -433,6 +433,11 @@ public class SwingMetawidget
 	 * <p>
 	 * For client's not using a Binding implementation, there is no need to call <code>rebind</code>.
 	 * They can simply use <code>setValue</code> to update existing values in the UI.
+	 * <p>
+	 * In many ways, <code>rebind</code> can be thought of as the opposite of <code>save</code>.
+	 *
+	 * @throws MetawidgetException
+	 *             if no binding configured
 	 */
 
 	public void rebind( Object toRebind )
@@ -463,8 +468,6 @@ public class SwingMetawidget
 	 *             if no binding configured
 	 */
 
-	// Note: this method avoids having to expose a getBinding() method, which is handy
-	// because we can worry about nested Metawidgets here, not in the Binding class
 	public void save()
 	{
 		// buildWidgets() so that mBinding is initialized
@@ -475,6 +478,9 @@ public class SwingMetawidget
 			throw MetawidgetException.newException( "No binding configured. Use SwingMetawidget.setBindingClass" );
 
 		mBinding.save();
+
+		// Having a save() method avoids having to expose a getBinding() method, which is handy
+		// because we can worry about nested Metawidgets here, not in the Binding class
 
 		for ( Component component : getComponents() )
 		{
@@ -768,8 +774,7 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Invalidates the current inspection result (if any) <em>and</em> invalidates
-	 * the widgets.
+	 * Invalidates the current inspection result (if any) <em>and</em> invalidates the widgets.
 	 */
 
 	protected void invalidateInspection()
