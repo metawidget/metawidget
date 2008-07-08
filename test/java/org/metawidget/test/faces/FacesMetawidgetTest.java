@@ -21,6 +21,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.metawidget.faces.FacesUtils.ReentrantThreadLocal;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
@@ -100,6 +101,29 @@ public class FacesMetawidgetTest
 		stub.setStubAttributes( "rendered: false;" );
 		attributes.put( "rendered", "false" );
 		assertTrue( attributes.equals( stub.getStubAttributes() ) );
+	}
+
+	public void testReentrant()
+		throws Exception
+	{
+		ReentrantThreadLocal<Integer> reentrant = new ReentrantThreadLocal<Integer>();
+
+		assertTrue( reentrant.get() == null );
+
+		reentrant.push();
+		assertTrue( reentrant.get() == null );
+		reentrant.set( Integer.valueOf( 42 ) );
+
+		reentrant.push();
+		assertTrue( reentrant.get() == null );
+		reentrant.set( Integer.valueOf( 43 ) );
+		assertTrue( Integer.valueOf( 43 ).equals( reentrant.get() ) );
+		reentrant.pop();
+
+		assertTrue( Integer.valueOf( 42 ).equals( reentrant.get() ) );
+		reentrant.pop();
+
+		assertTrue( reentrant.get() == null );
 	}
 
 	//

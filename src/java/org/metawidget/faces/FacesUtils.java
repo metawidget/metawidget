@@ -18,6 +18,7 @@ package org.metawidget.faces;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -71,7 +72,8 @@ public final class FacesUtils
 	}
 
 	/**
-	 * Finds the child component of the given component that is both rendered and has the given value binding.
+	 * Finds the child component of the given component that is both rendered and has the given
+	 * value binding.
 	 * <p>
 	 * Note: this method does <em>not</em> recurse into sub-children.
 	 */
@@ -115,14 +117,14 @@ public final class FacesUtils
 
 		for ( UIComponent child : children )
 		{
-			if ( !( child instanceof UIParameter ))
+			if ( !( child instanceof UIParameter ) )
 				continue;
 
 			// ...with the name we're interested in
 
 			UIParameter parameter = (UIParameter) child;
 
-			if ( name.equals( parameter.getName() ))
+			if ( name.equals( parameter.getName() ) )
 				return parameter;
 		}
 
@@ -180,7 +182,7 @@ public final class FacesUtils
 
 		for ( UIComponent component : fromChildren )
 		{
-			if ( !( component instanceof UIParameter ))
+			if ( !( component instanceof UIParameter ) )
 				continue;
 
 			// ...that is not excluded...
@@ -189,7 +191,7 @@ public final class FacesUtils
 
 			String name = parameter.getName();
 
-			if ( ArrayUtils.contains( exclude, name ))
+			if ( ArrayUtils.contains( exclude, name ) )
 				continue;
 
 			// ...create a copy
@@ -201,6 +203,85 @@ public final class FacesUtils
 			parameterCopy.setValue( parameter.getValue() );
 
 			toChildren.add( parameterCopy );
+		}
+	}
+
+	//
+	//
+	// Inner class
+	//
+	//
+
+	/**
+	 * Variant of ThreadLocal that maintains a Stack for supporting re-entrant code.
+	 * <p>
+	 * Useful for giving JSF Renderers, which are stateless by design, an ability to have state.
+	 *
+	 * @author Richard Kennard
+	 */
+
+	public static class ReentrantThreadLocal<T>
+	{
+		//
+		//
+		// Private members
+		//
+		//
+
+		private ThreadLocal<Stack<T>>	mLocal	= new ThreadLocal<Stack<T>>()
+												{
+													@Override
+													protected Stack<T> initialValue()
+													{
+														return new Stack<T>();
+													}
+												};
+
+		//
+		//
+		// Public methods
+		//
+		//
+
+		public void push()
+		{
+			mLocal.get().push( initialValue() );
+		}
+
+		public T get()
+		{
+			Stack<T> stack = mLocal.get();
+
+			if ( stack.isEmpty() )
+				stack.push( initialValue() );
+
+			return stack.peek();
+		}
+
+		public void set( T t )
+		{
+			Stack<T> stack = mLocal.get();
+
+			if ( !stack.isEmpty() )
+				stack.pop();
+
+			stack.push( t );
+		}
+
+		public void pop()
+		{
+			mLocal.get().pop();
+		}
+
+		//
+		//
+		// Protected methods
+		//
+		//
+
+		protected T initialValue()
+		{
+			return null;
 		}
 	}
 
@@ -221,12 +302,6 @@ public final class FacesUtils
 			render( context, componentChild );
 		}
 	}
-
-	//
-	//
-	// Private statics
-	//
-	//
 
 	private final static Pattern	PATTERN_BINDING	= Pattern.compile( "(#\\{)?([^}]*)(\\})?" );
 

@@ -67,8 +67,6 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
  * @author Richard Kennard
  */
 
-// TODO: test 'not simple, but don't expand' in allwidgets
-
 public class StrutsMetawidgetTag
 	extends BaseHtmlMetawidgetTag
 {

@@ -14,24 +14,19 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.struts.allwidgets.plugin;
+package org.metawidget.test.struts.allwidgets.converter;
 
-import java.util.Date;
-
-import org.apache.commons.beanutils.ConvertUtils;
-import org.apache.commons.beanutils.converters.DateConverter;
-import org.apache.struts.action.ActionServlet;
-import org.apache.struts.action.PlugIn;
-import org.apache.struts.config.ModuleConfig;
+import org.apache.commons.beanutils.Converter;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.test.struts.allwidgets.converter.NestedWidgetsConverter;
+import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * @author Richard Kennard
  */
 
-public class AllWidgetsPlugIn
-	implements PlugIn
+public class NestedWidgetsConverter
+	implements Converter
 {
 	//
 	//
@@ -39,17 +34,23 @@ public class AllWidgetsPlugIn
 	//
 	//
 
-	public void init( ActionServlet servlet, ModuleConfig config )
+	@SuppressWarnings( "unchecked" )
+	public Object convert( Class clazz, Object value )
 	{
-		DateConverter converterDate = new DateConverter();
-		converterDate.setPattern( "E MMM dd HH:mm:ss z yyyy" );
-		ConvertUtils.register( converterDate, Date.class );
+		if ( String.class.equals( clazz ))
+			return StringUtils.quietValueOf( value );
 
-		ConvertUtils.register( new NestedWidgetsConverter(), NestedWidgets.class );
-	}
+		String[] values = ArrayUtils.fromString( (String) value );
 
-	public void destroy()
-	{
-		// Do nothing
+		if ( values.length == 0 )
+			return null;
+
+		NestedWidgets nestedWidgets = new NestedWidgets();
+		nestedWidgets.setNestedTextbox1( values[0] );
+
+		if ( values.length > 1 )
+			nestedWidgets.setNestedTextbox2( values[1] );
+
+		return nestedWidgets;
 	}
 }

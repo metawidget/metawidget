@@ -94,6 +94,19 @@
 	allWidgets.getNestedWidgets().setNestedTextbox2( request.getParameter( "allWidgets.nestedWidgets.nestedTextbox2" ) );
 	allWidgets.getReadOnlyNestedWidgets().setNestedTextbox1( request.getParameter( "allWidgets.readOnlyNestedWidgets.nestedTextbox1" ) );
 	allWidgets.getReadOnlyNestedWidgets().setNestedTextbox2( request.getParameter( "allWidgets.readOnlyNestedWidgets.nestedTextbox2" ) );
+	
+	String[] values = org.metawidget.util.ArrayUtils.fromString( request.getParameter( "allWidgets.nestedWidgetsDontExpand" ) );
+
+	if ( values.length != 0 )
+	{
+		org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets nestedWidgetsDontExpand = new org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets();
+		nestedWidgetsDontExpand.setNestedTextbox1( values[0] );
+	
+		if ( values.length > 1 )
+			nestedWidgetsDontExpand.setNestedTextbox2( values[1] );	
+		
+		allWidgets.setNestedWidgetsDontExpand( nestedWidgetsDontExpand );
+	}
 
 	String date = request.getParameter( "allWidgets.date" );
 

@@ -91,6 +91,9 @@ public class GwtRemoteInspectorImpl
 		}
 		catch ( Exception e )
 		{
+			// Most Exception subtypes cannot be sent across the wire, so just
+			// send a vanilla Exception
+
 			throw new Exception( e.getMessage() );
 		}
 	}
