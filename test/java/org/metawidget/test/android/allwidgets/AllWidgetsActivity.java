@@ -38,8 +38,6 @@ import android.widget.ScrollView;
  * @author Richard Kennard
  */
 
-// TODO: further nested
-
 public class AllWidgetsActivity
 	extends Activity
 {
@@ -164,6 +162,8 @@ public class AllWidgetsActivity
 		metawidget.setValue( mAllWidgets.getDropdown(), "dropdown" );
 		metawidget.setValue( mAllWidgets.getDropdownWithLabels(), "dropdownWithLabels" );
 		metawidget.setValue( mAllWidgets.getNotNullDropdown(), "notNullDropdown" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgets().getFurtherNestedWidgets().getNestedTextbox1() ), "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" );
+		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgets().getFurtherNestedWidgets().getNestedTextbox2() ), "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgets().getNestedTextbox1() ), "nestedWidgets", "nestedTextbox1" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgets().getNestedTextbox2() ), "nestedWidgets", "nestedTextbox2" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getReadOnlyNestedWidgets().getNestedTextbox1() ), "readOnlyNestedWidgets", "nestedTextbox1" );
@@ -257,6 +257,10 @@ public class AllWidgetsActivity
 		mAllWidgets.setDropdown( (String) metawidget.getValue( "dropdown" ) );
 		mAllWidgets.setDropdownWithLabels( (String) metawidget.getValue( "dropdownWithLabels" ) );
 		mAllWidgets.setNotNullDropdown( Integer.parseInt( (String) metawidget.getValue( "notNullDropdown" ) ) );
+		mAllWidgets.getNestedWidgets().getFurtherNestedWidgets().setNestedTextbox1( (String) metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" ) );
+		mAllWidgets.getNestedWidgets().getFurtherNestedWidgets().setNestedTextbox2( (String) metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) );
+		mAllWidgets.getNestedWidgets().setNestedTextbox1( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) );
+		mAllWidgets.getNestedWidgets().setNestedTextbox2( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) );
 		mAllWidgets.getNestedWidgets().setNestedTextbox1( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) );
 		mAllWidgets.getNestedWidgets().setNestedTextbox2( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) );
 
