@@ -37,9 +37,9 @@ import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.PathUtils;
+import org.metawidget.util.PathUtils;
+import org.metawidget.util.PathUtils.TypeAndNames;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.util.simple.PathUtils.TypeAndNames;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -335,6 +335,9 @@ public class AndroidMetawidget
 
 	public void setReadOnly( boolean readOnly )
 	{
+		if ( mMixin.isReadOnly() == readOnly )
+			return;
+
 		mMixin.setReadOnly( readOnly );
 		invalidateWidgets();
 	}

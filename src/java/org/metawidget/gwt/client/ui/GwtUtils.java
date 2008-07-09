@@ -124,6 +124,22 @@ public final class GwtUtils
 	}
 
 	/**
+	 * GWT-ified <code>ArrayUtils.fromString</code>.
+	 * <p>
+	 * This version uses <code>GwtUtils.fromString</code>.
+	 */
+
+	public static String[] fromStringToArray( String array, char separator )
+	{
+		if ( array == null )
+			return EMPTY_STRING_ARRAY;
+
+		List<String> list = GwtUtils.fromString( array, separator );
+
+		return list.toArray( new String[list.size()] );
+	}
+
+	/**
 	 * GWT-ified <code>CollectionUtils.toString</code>.
 	 * <p>
 	 * This version does not use regular expressions.
@@ -203,6 +219,14 @@ public final class GwtUtils
 
 		Window.alert( builder.toString() );
 	}
+
+	//
+	//
+	// Private statics
+	//
+	//
+
+	private final static String[]	EMPTY_STRING_ARRAY	= new String[0];
 
 	//
 	//

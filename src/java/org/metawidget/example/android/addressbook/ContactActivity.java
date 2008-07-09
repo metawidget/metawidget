@@ -43,6 +43,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
+ * Activity for Address Book Contacts.
+ * <p>
+ * Note: for brevity, this example is not optimized to reuse the Metawidget. For an example showing
+ * reuse, see <code>org.metawidget.example.gwt.addressbook.client.ui.ContactDialog</code>.
+ *
  * @author Richard Kennard
  */
 
@@ -124,9 +129,9 @@ public class ContactActivity
 		// Set title
 
 		if ( mContact instanceof PersonalContact )
-			builderTitle.append( getString( R.string.personalContact ));
+			builderTitle.append( getString( R.string.personalContact ) );
 		else
-			builderTitle.append(  getString( R.string.businessContact ));
+			builderTitle.append( getString( R.string.businessContact ) );
 
 		setTitle( builderTitle );
 
@@ -192,15 +197,15 @@ public class ContactActivity
 
 		if ( metawidget.isReadOnly() )
 		{
-			menu.add( 0, EDIT, getString( R.string.edit ));
+			menu.add( 0, EDIT, getString( R.string.edit ) );
 		}
 		else
 		{
-			menu.add( 0, ADD_COMMUNICATION, getString( R.string.addCommunication ));
-			menu.add( 0, SAVE, getString( R.string.save ));
+			menu.add( 0, ADD_COMMUNICATION, getString( R.string.addCommunication ) );
+			menu.add( 0, SAVE, getString( R.string.save ) );
 
 			if ( mContact.getId() != -1 )
-				menu.add( 0, DELETE, getString( R.string.delete ));
+				menu.add( 0, DELETE, getString( R.string.delete ) );
 		}
 
 		return true;

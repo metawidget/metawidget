@@ -138,14 +138,14 @@ public class CompositeInspector
 		return inspect( null, toInspect, type, names );
 	}
 
-	public String inspect( Document master, Object toInspect, String type, String... names )
+	public String inspect( String master, Object toInspect, String type, String... names )
 		throws InspectorException
 	{
 		try
 		{
 			// Run each Inspector...
 
-			Document masterDocument = master;
+			Document masterDocument = XmlUtils.documentFromString( master );
 
 			for ( Inspector inspector : mInspectors )
 			{

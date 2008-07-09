@@ -14,10 +14,9 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.util.simple;
+package org.metawidget.util;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for working with <code>type/name</code>-formatted Strings
@@ -47,32 +46,12 @@ public class PathUtils
 		if ( indexOfTypeEnd == -1 )
 			return new TypeAndNames( path, null );
 
-		String type = path.substring( 0, indexOfTypeEnd );
-
 		// Parse names
 
-		int indexOfNameEnd = indexOfTypeEnd;
+		String type = path.substring( 0, indexOfTypeEnd );
+		String[] names = ArrayUtils.fromString( path.substring( indexOfTypeEnd ), separator );
 
-		List<String> names = new ArrayList<String>();
-
-		while ( true )
-		{
-			int indexOfNameStart = indexOfNameEnd + 1;
-			indexOfNameEnd = path.indexOf( separator, indexOfNameStart );
-
-			if ( indexOfNameEnd == -1 )
-			{
-				names.add( path.substring( indexOfNameStart ) );
-				break;
-			}
-
-			names.add( path.substring( indexOfNameStart, indexOfNameEnd ) );
-		}
-
-		if ( names.isEmpty() )
-			return new TypeAndNames( type, null );
-
-		return new TypeAndNames( type, names.toArray( new String[names.size()] ) );
+		return new TypeAndNames( type, names );
 	}
 
 	/**

@@ -66,6 +66,15 @@ public class AddressBookModule
 
 	FlexTable				mContacts;
 
+	/**
+	 * List of Contacts in the FlexTable.
+	 * <p>
+	 * We maintain this list separately, as the FlexTable doesn't contain
+	 * the <code>id</code>s we need for loading.
+	 */
+
+	List<Contact>			mContactsList;
+
 	ContactsServiceAsync	mContactsService;
 
 	ContactDialog			mPersonalContactDialog;
@@ -115,33 +124,20 @@ public class AddressBookModule
 		{
 			public void onCellClicked( SourcesTableEvents sender, final int row, int cell )
 			{
-				// Re-fetch the contacts and map it to the row...
+				// Load the id at the clicked row
 
-				mContactsService.getAllByExample( mContactSearch, new AsyncCallback<List<Contact>>()
+				long contactId = mContactsList.get( row - 1 ).getId();
+
+				mContactsService.load( contactId, new AsyncCallback<Contact>()
 				{
 					public void onFailure( Throwable caught )
 					{
 						Window.alert( caught.getMessage() );
 					}
 
-					public void onSuccess( List<Contact> contacts )
+					public void onSuccess( Contact contact )
 					{
-						long contactId = contacts.get( row - 1 ).getId();
-
-						// ...then load that row
-
-						mContactsService.load( contactId, new AsyncCallback<Contact>()
-						{
-							public void onFailure( Throwable caught )
-							{
-								Window.alert( caught.getMessage() );
-							}
-
-							public void onSuccess( Contact contact )
-							{
-								showContactDialog( contact );
-							}
-						} );
+						showContactDialog( contact );
 					}
 				} );
 			}
@@ -257,6 +253,7 @@ public class AddressBookModule
 
 			public void onSuccess( List<Contact> contacts )
 			{
+				mContactsList = contacts;
 				int row = 1;
 
 				// Add the given contacts

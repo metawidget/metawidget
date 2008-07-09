@@ -23,6 +23,10 @@ import java.lang.annotation.Target;
 
 /**
  * Annotates the field comes after the other given field(s) in the UI.
+ * <p>
+ * Controlling field ordering by annotating fields is an alternative to using
+ * one of the XML-based <code>Inspectors</code> (XML nodes are inherently
+ * ordered), or using <code>JavassistPropertyStyle</code>.
  *
  * @author Richard Kennard
  */

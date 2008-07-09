@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/inspection-result/inspection-result-1.0.xsd">
 
-
-
+	<!-- Some blank lines so that everything lines up when visually -->
+	<!-- toggling between this and metawidget-metadata.xml          -->
 
 	<entity type="org.metawidget.test.shared.allwidgets.model.AllWidgets">
 		<property name="textbox" lookup="" masked="" large="" maximum-length="" required="true"/>
@@ -32,7 +32,7 @@
 		<property name="dropdownWithLabels" lookup="foo,dropdown,bar" lookup-labels="Foo,Dropdown,Bar"/>
 		<property name="notNullDropdown" lookup="-1,0,1"/>
 		<property name="nestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets"/>
-		<property name="readOnlyNestedWidgets" read-only="true"/>
+		<property name="readOnlyNestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets" read-only="true"/>
 		<property name="nestedWidgetsDontExpand" dont-expand="true"/>
 		<property name="readOnlyNestedWidgetsDontExpand" read-only="true" dont-expand="true"/>
 		<property name="date"/>

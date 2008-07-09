@@ -27,10 +27,4 @@ public class Person
 	public int		age;
 
 	public boolean	retired;
-
-	@Override
-	public String toString()
-	{
-		return name;
-	}
 }

@@ -33,8 +33,8 @@
 		<property name="notNullDropdown" lookup="-1,0,1"/>
 		<property name="nestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets"/>
 		<property name="readOnlyNestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets" read-only="true"/>
-		<property name="nestedWidgetsDontExpand" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets" dont-expand="true"/>
-		<property name="readOnlyNestedWidgetsDontExpand" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets" read-only="true" dont-expand="true"/>
+		<property name="nestedWidgetsDontExpand" dont-expand="true"/>
+		<property name="readOnlyNestedWidgetsDontExpand" read-only="true" dont-expand="true"/>
 		<property name="date"/>
 		<property name="hidden" hidden="true"/>
 		<property name="readOnly" read-only="true"/>

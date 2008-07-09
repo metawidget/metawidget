@@ -16,8 +16,6 @@
 
 package org.metawidget.example.gwt.addressbook.client.ui;
 
-import static org.metawidget.util.simple.StringUtils.*;
-
 import java.util.Date;
 import java.util.Set;
 
@@ -73,6 +71,14 @@ public class ContactDialog
 	AddressBookModule	mAddressBookModule;
 
 	GwtMetawidget		mMetawidget;
+
+	/**
+	 * Manually-created nested Metawidet. This is an optimization. By creating it manually, rather
+	 * than having Metawidget automatically create it, we avoid Metawidget destroying it and
+	 * recreating it (and hence re-running a setToInspect) upon a rebind
+	 */
+
+	GwtMetawidget		mAddressMetawidget;
 
 	FlexTable			mCommunications;
 
@@ -154,6 +160,21 @@ public class ContactDialog
 		mMetawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, mMetawidget );
 
+		// Address override
+
+		mAddressMetawidget = new GwtMetawidget();
+		mAddressMetawidget.setName( "address" );
+		mMetawidget.add( mAddressMetawidget );
+
+		mAddressMetawidget.setReadOnly( contact.getId() != 0 );
+		mAddressMetawidget.setDictionaryName( "bundle" );
+		mAddressMetawidget.setParameter( "tableStyleName", "table-form" );
+		mAddressMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
+		mAddressMetawidget.setParameter( "sectionStyleName", "section-heading" );
+		mAddressMetawidget.setParameter( "buttonsStyleName", "buttons" );
+		mAddressMetawidget.setBindingClass( SimpleBinding.class );
+		mAddressMetawidget.setToInspect( contact );
+
 		// Communications override
 
 		Stub communicationsStub = new Stub();
@@ -182,15 +203,15 @@ public class ContactDialog
 		Communication communication = new Communication();
 
 		final GwtMetawidget typeMetawidget = new GwtMetawidget();
-		typeMetawidget.setPath( Communication.class.getName() + SEPARATOR_FORWARD_SLASH_CHAR + "type" );
 		typeMetawidget.setLayoutClass( FlowLayout.class );
 		typeMetawidget.setToInspect( communication );
+		typeMetawidget.setName( "type" );
 		mCommunications.setWidget( 1, 0, typeMetawidget );
 
 		final GwtMetawidget valueMetawidget = new GwtMetawidget();
-		valueMetawidget.setPath( Communication.class.getName() + SEPARATOR_FORWARD_SLASH_CHAR + "value" );
 		valueMetawidget.setLayoutClass( FlowLayout.class );
 		valueMetawidget.setToInspect( communication );
+		valueMetawidget.setName( "value" );
 		mCommunications.setWidget( 1, 1, valueMetawidget );
 
 		Button addButton = new Button( dictionary.get( "add" ) );
@@ -289,7 +310,7 @@ public class ContactDialog
 			public void onClick( Widget sender )
 			{
 				mMetawidget.setReadOnly( false );
-				setButtonVisibility();
+				setVisibility();
 			}
 		} );
 		panel.add( mEditButton );
@@ -306,7 +327,7 @@ public class ContactDialog
 
 		// Display
 
-		setButtonVisibility();
+		setVisibility();
 	}
 
 	//
@@ -320,7 +341,7 @@ public class ContactDialog
 		mMetawidget.rebind( contact );
 		mMetawidget.setReadOnly( contact.getId() != 0 );
 
-		setButtonVisibility();
+		setVisibility();
 	}
 
 	//
@@ -329,7 +350,7 @@ public class ContactDialog
 	//
 	//
 
-	void setButtonVisibility()
+	void setVisibility()
 	{
 		boolean readOnly = mMetawidget.isReadOnly();
 		loadCommunications();
@@ -337,6 +358,7 @@ public class ContactDialog
 		mEditButton.setVisible( readOnly );
 		mSaveButton.setVisible( !readOnly );
 		mDeleteButton.setVisible( !readOnly );
+		mAddressMetawidget.setReadOnly( readOnly );
 		mCommunications.getRowFormatter().setVisible( mCommunications.getRowCount() - 1, !readOnly );
 	}
 

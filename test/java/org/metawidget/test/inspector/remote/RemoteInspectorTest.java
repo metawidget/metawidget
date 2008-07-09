@@ -19,9 +19,6 @@ package org.metawidget.test.inspector.remote;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import junit.framework.TestCase;
 
@@ -64,17 +61,7 @@ public class RemoteInspectorTest
 		configXml.setInputStream( new ByteArrayInputStream( toInspect.getBytes() ) );
 
 		XmlInspector inspectorXml = new XmlInspector( configXml );
-		Document document = XmlUtils.documentFromString( inspectorXml.inspect( null, Communication.class.getName() ));
-
-		// Pass to front end
-
-		ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-		ObjectOutputStream out = new ObjectOutputStream( bytes );
-		out.writeObject( document );
-		out.close();
-
-		ObjectInputStream in = new ObjectInputStream( new ByteArrayInputStream( bytes.toByteArray() ));
-		document = (Document) in.readObject();
+		String backEnd = inspectorXml.inspect( null, Communication.class.getName() );
 
 		// Inspect front-end
 
@@ -85,7 +72,7 @@ public class RemoteInspectorTest
 
 		// Inspect
 
-		document = XmlUtils.documentFromString( inspectorMeta.inspect( document, new Communication(), Communication.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspectorMeta.inspect( backEnd, new Communication(), Communication.class.getName() ));
 
 		// Test
 

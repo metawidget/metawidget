@@ -179,7 +179,7 @@ public class GwtAllWidgetsTest
 				( (TextBox) flexTable.getWidget( 16, 1 ) ).setText( "53.3" );
 
 				assertTrue( flexTable.getWidget( 17, 0 ) instanceof TextBox );
-				assertTrue( 2 == flexTable.getFlexCellFormatter().getColSpan( 17, 0 ));
+				assertTrue( 2 == flexTable.getFlexCellFormatter().getColSpan( 17, 0 ) );
 				assertTrue( "43.3".equals( metawidget.getValue( "doubleObject" ) ) );
 				( (TextBox) flexTable.getWidget( 17, 0 ) ).setText( "54.4" );
 
@@ -210,12 +210,12 @@ public class GwtAllWidgetsTest
 				assertTrue( flexTable.getWidget( 22, 1 ) instanceof ListBox );
 				ListBox listbox = (ListBox) flexTable.getWidget( 22, 1 );
 				assertTrue( 4 == listbox.getItemCount() );
-				assertTrue( "foo".equals( listbox.getValue( 1 )));
-				assertTrue( "Foo".equals( listbox.getItemText( 1 )));
-				assertTrue( "dropdown".equals( listbox.getValue( 2 )));
-				assertTrue( "Dropdown".equals( listbox.getItemText( 2 )));
-				assertTrue( "bar".equals( listbox.getValue( 3 )));
-				assertTrue( "Bar".equals( listbox.getItemText( 3 )));
+				assertTrue( "foo".equals( listbox.getValue( 1 ) ) );
+				assertTrue( "Foo".equals( listbox.getItemText( 1 ) ) );
+				assertTrue( "dropdown".equals( listbox.getValue( 2 ) ) );
+				assertTrue( "Dropdown".equals( listbox.getItemText( 2 ) ) );
+				assertTrue( "bar".equals( listbox.getValue( 3 ) ) );
+				assertTrue( "Bar".equals( listbox.getItemText( 3 ) ) );
 				assertTrue( "dropdown".equals( metawidget.getValue( "dropdownWithLabels" ) ) );
 				GwtUtils.setListBoxSelectedItem( ( (ListBox) flexTable.getWidget( 22, 1 ) ), "bar" );
 
@@ -235,187 +235,255 @@ public class GwtAllWidgetsTest
 					@Override
 					public void run()
 					{
-						FlexTable flexTableNested = (FlexTable) metawidgetNested.getWidget( 0 );
-						assertTrue( "Nested textbox 1:".equals( flexTableNested.getText( 0, 0 ) ) );
-						assertTrue( flexTableNested.getWidget( 0, 1 ) instanceof TextBox );
-						assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) ) );
-						( (TextBox) flexTableNested.getWidget( 0, 1 ) ).setText( "Nested Textbox 1.1" );
+						final FlexTable flexTableNested = (FlexTable) metawidgetNested.getWidget( 0 );
 
-						assertTrue( "Nested textbox 2:".equals( flexTableNested.getText( 1, 0 ) ) );
-						assertTrue( flexTableNested.getWidget( 1, 1 ) instanceof TextBox );
-						assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) ) );
-						( (TextBox) flexTableNested.getWidget( 1, 1 ) ).setText( "Nested Textbox 2.2" );
+						assertTrue( "Further nested widgets:".equals( flexTableNested.getText( 0, 0 ) ) );
+						final GwtMetawidget metawidgetFurtherNested = (GwtMetawidget) metawidgetNested.findWidget( "furtherNestedWidgets" );
 
-						assertTrue( "Read only nested widgets:".equals( flexTable.getText( 25, 0 ) ) );
-						assertTrue( flexTable.getWidget( 25, 1 ) instanceof GwtMetawidget );
-
-						final GwtMetawidget metawidgetReadOnlyNested = (GwtMetawidget) metawidget.findWidget( "readOnlyNestedWidgets" );
-
-						executeAfterBuildWidgets( metawidgetReadOnlyNested, new Timer()
+						executeAfterBuildWidgets( metawidgetFurtherNested, new Timer()
 						{
 							@Override
 							public void run()
 							{
-								final FlexTable flexTableReadOnlyNested = (FlexTable) metawidgetReadOnlyNested.getWidget( 0 );
-								assertTrue( "Nested textbox 1:".equals( flexTableReadOnlyNested.getText( 0, 0 ) ) );
-								assertTrue( flexTableReadOnlyNested.getWidget( 0, 1 ) instanceof Label );
-								assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox1" ) ) );
+								final FlexTable flexTableFurtherNested = (FlexTable) metawidgetFurtherNested.getWidget( 0 );
 
-								assertTrue( "Nested textbox 2:".equals( flexTableReadOnlyNested.getText( 1, 0 ) ) );
-								assertTrue( flexTableReadOnlyNested.getWidget( 1, 1 ) instanceof Label );
-								assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox2" ) ) );
+								assertTrue( "Further nested widgets:".equals( flexTableFurtherNested.getText( 0, 0 ) ) );
+								final GwtMetawidget metawidgetFurtherFurtherNested = (GwtMetawidget) metawidgetFurtherNested.findWidget( "furtherNestedWidgets" );
 
-								assertTrue( "Nested widgets dont expand:".equals( flexTable.getText( 26, 0 ) ) );
-								assertTrue( flexTable.getWidget( 26, 1 ) instanceof TextBox );
-								assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (TextBox) flexTable.getWidget( 26, 1 ) ).getText() ) );
-								( (TextBox) flexTable.getWidget( 26, 1 ) ).setText( "Nested Textbox 1.01, Nested Textbox 2.02" );
-
-								assertTrue( "Read only nested widgets dont expand:".equals( flexTable.getText( 27, 0 ) ) );
-								assertTrue( flexTable.getWidget( 27, 1 ) instanceof Label );
-								assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (Label) flexTable.getWidget( 27, 1 ) ).getText() ) );
-
-								assertTrue( "Date:".equals( flexTable.getText( 28, 0 ) ) );
-								assertTrue( flexTable.getWidget( 28, 1 ) instanceof TextBox );
-								assertTrue( new DateConverter().convertForWidget( null, ( (AllWidgets) metawidget.getToInspect() ).getDate() ).equals( metawidget.getValue( "date" ) ) );
-								( (TextBox) flexTable.getWidget( 28, 1 ) ).setText( "bad date" );
-
-								assertTrue( "Read only:".equals( flexTable.getText( 29, 0 ) ) );
-								assertTrue( flexTable.getWidget( 29, 1 ) instanceof Label );
-								assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
-
-								assertTrue( 31 == flexTable.getRowCount() );
-
-								// Check IllegalArgumentException
-
-								Button saveButton = (Button) ( (Facet) flexTable.getWidget( flexTable.getRowCount() - 1, 0 ) ).getWidget();
-								assertTrue( "Save".equals( saveButton.getText() ) );
-
-								try
-								{
-									fireClickListeners( saveButton );
-								}
-								catch ( IllegalArgumentException e )
-								{
-									assertTrue( "bad date".equals( e.getMessage() ) );
-								}
-
-								// Check saving
-
-								final String now = (String) new DateConverter().convertForWidget( null, new Date() );
-								( (TextBox) flexTable.getWidget( 28, 1 ) ).setText( now );
-								fireClickListeners( saveButton );
-
-								executeAfterBuildWidgets( metawidget, new Timer()
+								executeAfterBuildWidgets( metawidgetFurtherFurtherNested, new Timer()
 								{
 									@Override
 									public void run()
 									{
-										final FlexTable readOnlyFlexTable = (FlexTable) metawidget.getWidget( 0 );
+										final FlexTable flexTableFurtherFurtherNested = (FlexTable) metawidgetFurtherFurtherNested.getWidget( 0 );
+										assertTrue( 0 == flexTableFurtherFurtherNested.getRowCount() );
 
-										assertTrue( "Textbox (i18n):".equals( readOnlyFlexTable.getText( 0, 0 ) ) );
-										assertTrue( "Textbox1".equals( ( (Label) readOnlyFlexTable.getWidget( 0, 1 ) ).getText() ) );
-										assertTrue( "Limited textbox (i18n):".equals( readOnlyFlexTable.getText( 1, 0 ) ) );
-										assertTrue( "Limited Textbox1".equals( ( (Label) readOnlyFlexTable.getWidget( 1, 1 ) ).getText() ) );
-										assertTrue( "Textarea (i18n):".equals( readOnlyFlexTable.getText( 2, 0 ) ) );
-										assertTrue( "Textarea1".equals( ( (Label) readOnlyFlexTable.getWidget( 2, 1 ) ).getText() ) );
-										assertTrue( "Password (i18n):".equals( readOnlyFlexTable.getText( 3, 0 ) ) );
-										assertTrue( readOnlyFlexTable.getWidget( 3, 1 ) instanceof SimplePanel );
-										assertTrue( "Byte (i18n):".equals( readOnlyFlexTable.getText( 4, 0 ) ) );
-										assertTrue( "126".equals( ( (Label) readOnlyFlexTable.getWidget( 4, 1 ) ).getText() ) );
-										assertTrue( "Byte object (i18n):".equals( readOnlyFlexTable.getText( 5, 0 ) ) );
-										assertTrue( "-127".equals( ( (Label) readOnlyFlexTable.getWidget( 5, 1 ) ).getText() ) );
-										assertTrue( "Short (i18n):".equals( readOnlyFlexTable.getText( 6, 0 ) ) );
-										assertTrue( "32766".equals( ( (Label) readOnlyFlexTable.getWidget( 6, 1 ) ).getText() ) );
-										assertTrue( "Short object (i18n):".equals( readOnlyFlexTable.getText( 7, 0 ) ) );
-										assertTrue( "-32767".equals( ( (Label) readOnlyFlexTable.getWidget( 7, 1 ) ).getText() ) );
-										assertTrue( "Int (i18n):".equals( readOnlyFlexTable.getText( 8, 0 ) ) );
-										assertTrue( "2147483646".equals( ( (Label) readOnlyFlexTable.getWidget( 8, 1 ) ).getText() ) );
-										assertTrue( "Integer object (i18n):".equals( readOnlyFlexTable.getText( 9, 0 ) ) );
-										assertTrue( "-2147483647".equals( ( (Label) readOnlyFlexTable.getWidget( 9, 1 ) ).getText() ) );
-										assertTrue( "Ranged int (i18n):".equals( readOnlyFlexTable.getText( 10, 0 ) ) );
-										assertTrue( "33".equals( ( (Label) readOnlyFlexTable.getWidget( 10, 1 ) ).getText() ) );
-										assertTrue( "Ranged integer (i18n):".equals( readOnlyFlexTable.getText( 11, 0 ) ) );
-										assertTrue( "34".equals( ( (Label) readOnlyFlexTable.getWidget( 11, 1 ) ).getText() ) );
-										assertTrue( "Long (i18n):".equals( readOnlyFlexTable.getText( 12, 0 ) ) );
-										assertTrue( "43".equals( ( (Label) readOnlyFlexTable.getWidget( 12, 1 ) ).getText() ) );
-										assertTrue( "??????:".equals( readOnlyFlexTable.getText( 13, 0 ) ) );
-										assertTrue( "44".equals( ((Label) readOnlyFlexTable.getWidget( 13, 1 ) ).getText() ));
-										assertTrue( "Float (i18n):".equals( readOnlyFlexTable.getText( 14, 0 ) ) );
-										assertTrue( "5.3".equals( ( (Label) readOnlyFlexTable.getWidget( 14, 1 ) ).getText() ) );
-										assertTrue( "".equals( readOnlyFlexTable.getText( 15, 0 ) ) );
-										assertTrue( "5.4".equals( ( (Label) readOnlyFlexTable.getWidget( 15, 1 ) ).getText() ) );
-										assertTrue( "Double (i18n):".equals( readOnlyFlexTable.getText( 16, 0 ) ) );
-										assertTrue( "53.3".equals( ( (Label) readOnlyFlexTable.getWidget( 16, 1 ) ).getText() ) );
-										assertTrue( "54.4".equals( ((Label) readOnlyFlexTable.getWidget( 17, 0 ) ).getText() ));
-										assertTrue( 2 == readOnlyFlexTable.getFlexCellFormatter().getColSpan( 17, 0 ));
-										assertTrue( "Char (i18n):".equals( readOnlyFlexTable.getText( 18, 0 ) ) );
-										assertTrue( "Z".equals( ( (Label) readOnlyFlexTable.getWidget( 18, 1 ) ).getText() ) );
-										assertTrue( "Boolean (i18n):".equals( readOnlyFlexTable.getText( 19, 0 ) ) );
-										assertTrue( "true".equals( ( (Label) readOnlyFlexTable.getWidget( 19, 1 ) ).getText() ) );
-										assertTrue( "Boolean object (i18n):".equals( readOnlyFlexTable.getText( 20, 0 ) ) );
-										assertTrue( "false".equals( ( (Label) readOnlyFlexTable.getWidget( 20, 1 ) ).getText() ) );
-										assertTrue( "Dropdown (i18n):".equals( readOnlyFlexTable.getText( 21, 0 ) ) );
-										assertTrue( "foo".equals( ( (Label) readOnlyFlexTable.getWidget( 21, 1 ) ).getText() ) );
-										assertTrue( "Dropdown with Labels (i18n):".equals( readOnlyFlexTable.getText( 22, 0 ) ) );
-										assertTrue( "bar".equals( ( (Label) readOnlyFlexTable.getWidget( 22, 1 ) ).getText() ) );
-										assertTrue( "Not-null Dropdown (i18n):".equals( readOnlyFlexTable.getText( 23, 0 ) ) );
-										assertTrue( "1".equals( ( (Label) readOnlyFlexTable.getWidget( 23, 1 ) ).getText() ) );
-										assertTrue( "Nested Widgets (i18n):".equals( readOnlyFlexTable.getText( 24, 0 ) ) );
+										assertTrue( "Nested textbox 1:".equals( flexTableFurtherNested.getText( 1, 0 ) ) );
+										assertTrue( flexTableFurtherNested.getWidget( 1, 1 ) instanceof TextBox );
+										assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" ) ) );
+										( (TextBox) flexTableFurtherNested.getWidget( 1, 1 ) ).setText( "Nested Textbox 1.1 (further)" );
 
-										final GwtMetawidget readOnlyMetawidgetNested = (GwtMetawidget) readOnlyFlexTable.getWidget( 24, 1 );
+										assertTrue( "Nested textbox 2:".equals( flexTableFurtherNested.getText( 2, 0 ) ) );
+										assertTrue( flexTableFurtherNested.getWidget( 2, 1 ) instanceof TextBox );
+										assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) ) );
+										( (TextBox) flexTableFurtherNested.getWidget( 2, 1 ) ).setText( "Nested Textbox 2.2 (further)" );
 
-										executeAfterBuildWidgets( readOnlyMetawidgetNested, new Timer()
+										assertTrue( "Nested textbox 1:".equals( flexTableNested.getText( 1, 0 ) ) );
+										assertTrue( flexTableNested.getWidget( 1, 1 ) instanceof TextBox );
+										assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) ) );
+										( (TextBox) flexTableNested.getWidget( 1, 1 ) ).setText( "Nested Textbox 1.1" );
+
+										assertTrue( "Nested textbox 2:".equals( flexTableNested.getText( 2, 0 ) ) );
+										assertTrue( flexTableNested.getWidget( 2, 1 ) instanceof TextBox );
+										assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) ) );
+										( (TextBox) flexTableNested.getWidget( 2, 1 ) ).setText( "Nested Textbox 2.2" );
+
+										assertTrue( "Read only nested widgets:".equals( flexTable.getText( 25, 0 ) ) );
+										assertTrue( flexTable.getWidget( 25, 1 ) instanceof GwtMetawidget );
+
+										final GwtMetawidget metawidgetReadOnlyNested = (GwtMetawidget) metawidget.findWidget( "readOnlyNestedWidgets" );
+
+										executeAfterBuildWidgets( metawidgetReadOnlyNested, new Timer()
 										{
 											@Override
 											public void run()
 											{
-												FlexTable readOnlyFlexTableNested = (FlexTable) readOnlyMetawidgetNested.getWidget( 0 );
-												assertTrue( "???nestedTextbox1???:".equals( readOnlyFlexTableNested.getText( 0, 0 ) ) );
-												assertTrue( "Nested Textbox 1.1".equals( ((Label) readOnlyFlexTableNested.getWidget( 0, 1 ) ).getText() ));
-												assertTrue( "Nested Textbox 2 (i18n):".equals( readOnlyFlexTableNested.getText( 1, 0 ) ) );
-												assertTrue( "Nested Textbox 2.2".equals( ((Label) readOnlyFlexTableNested.getWidget( 1, 1 ) ).getText() ));
+												final FlexTable flexTableReadOnlyNested = (FlexTable) metawidgetReadOnlyNested.getWidget( 0 );
 
-												final GwtMetawidget readOnlyMetawidgetNested2 = (GwtMetawidget) readOnlyFlexTable.getWidget( 25, 1 );
+												assertTrue( "Further nested widgets:".equals( flexTableReadOnlyNested.getText( 0, 0 ) ) );
+												final GwtMetawidget metawidgetReadOnlyFurtherNested = (GwtMetawidget) metawidgetReadOnlyNested.findWidget( "furtherNestedWidgets" );
 
-												executeAfterBuildWidgets( readOnlyMetawidgetNested2, new Timer()
+												executeAfterBuildWidgets( metawidgetReadOnlyFurtherNested, new Timer()
 												{
 													@Override
 													public void run()
 													{
-														FlexTable readOnlyFlexTableNested2 = (FlexTable) readOnlyMetawidgetNested2.getWidget( 0 );
-														assertTrue( "???nestedTextbox1???:".equals( readOnlyFlexTableNested2.getText( 0, 0 ) ) );
-														assertTrue( "Nested Textbox 1".equals( ( (Label) readOnlyFlexTableNested2.getWidget( 0, 1 ) ).getText() ) );
-														assertTrue( "Nested Textbox 2 (i18n):".equals( readOnlyFlexTableNested2.getText( 1, 0 ) ) );
-														assertTrue( "Nested Textbox 2".equals( ( (Label) readOnlyFlexTableNested2.getWidget( 1, 1 ) ).getText() ) );
+														final FlexTable flexTableReadOnlyFurtherNested = (FlexTable) metawidgetReadOnlyFurtherNested.getWidget( 0 );
+														assertTrue( 0 == flexTableReadOnlyFurtherNested.getRowCount() );
 
-														assertTrue( "Nested Widgets (don't expand) (i18n):".equals( readOnlyFlexTable.getText( 26, 0 ) ) );
-														assertTrue( "Nested Textbox 1.01, Nested Textbox 2.02".equals( ( (Label) readOnlyFlexTable.getWidget( 26, 1 ) ).getText() ) );
+														assertTrue( "Nested textbox 1:".equals( flexTableReadOnlyNested.getText( 1, 0 ) ) );
+														assertTrue( flexTableReadOnlyNested.getWidget( 1, 1 ) instanceof Label );
+														assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox1" ) ) );
 
-														assertTrue( "Read only Nested Widgets (don't expand) (i18n):".equals( readOnlyFlexTable.getText( 27, 0 ) ) );
-														assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (Label) readOnlyFlexTable.getWidget( 27, 1 ) ).getText() ) );
+														assertTrue( "Nested textbox 2:".equals( flexTableReadOnlyNested.getText( 2, 0 ) ) );
+														assertTrue( flexTableReadOnlyNested.getWidget( 2, 1 ) instanceof Label );
+														assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox2" ) ) );
 
-														assertTrue( "Date (i18n):".equals( readOnlyFlexTable.getText( 28, 0 ) ) );
-														assertTrue( now.equals( ( (Label) readOnlyFlexTable.getWidget( 28, 1 ) ).getText() ) );
+														assertTrue( "Nested widgets dont expand:".equals( flexTable.getText( 26, 0 ) ) );
+														assertTrue( flexTable.getWidget( 26, 1 ) instanceof TextBox );
+														assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (TextBox) flexTable.getWidget( 26, 1 ) ).getText() ) );
+														( (TextBox) flexTable.getWidget( 26, 1 ) ).setText( "Nested Textbox 1.01, Nested Textbox 2.02" );
 
-														assertTrue( "Read only (i18n):".equals( readOnlyFlexTable.getText( 29, 0 ) ) );
-														assertTrue( "Read Only".equals( ( (Label) readOnlyFlexTable.getWidget( 29, 1 ) ).getText() ) );
+														assertTrue( "Read only nested widgets dont expand:".equals( flexTable.getText( 27, 0 ) ) );
+														assertTrue( flexTable.getWidget( 27, 1 ) instanceof Label );
+														assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (Label) flexTable.getWidget( 27, 1 ) ).getText() ) );
+
+														assertTrue( "Date:".equals( flexTable.getText( 28, 0 ) ) );
+														assertTrue( flexTable.getWidget( 28, 1 ) instanceof TextBox );
+														assertTrue( new DateConverter().convertForWidget( null, ( (AllWidgets) metawidget.getToInspect() ).getDate() ).equals( metawidget.getValue( "date" ) ) );
+														( (TextBox) flexTable.getWidget( 28, 1 ) ).setText( "bad date" );
+
+														assertTrue( "Read only:".equals( flexTable.getText( 29, 0 ) ) );
+														assertTrue( flexTable.getWidget( 29, 1 ) instanceof Label );
+														assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
 														assertTrue( 31 == flexTable.getRowCount() );
 
-														// Test maximum inspection depth
+														// Check IllegalArgumentException
 
-														metawidget.setMaximumInspectionDepth( 0 );
+														Button saveButton = (Button) ( (Facet) flexTable.getWidget( flexTable.getRowCount() - 1, 0 ) ).getWidget();
+														assertTrue( "Save".equals( saveButton.getText() ) );
+
+														try
+														{
+															fireClickListeners( saveButton );
+														}
+														catch ( IllegalArgumentException e )
+														{
+															assertTrue( "bad date".equals( e.getMessage() ) );
+														}
+
+														// Check saving
+
+														final String now = (String) new DateConverter().convertForWidget( null, new Date() );
+														( (TextBox) flexTable.getWidget( 28, 1 ) ).setText( now );
+														fireClickListeners( saveButton );
 
 														executeAfterBuildWidgets( metawidget, new Timer()
 														{
 															@Override
 															public void run()
 															{
-																assertTrue( null == metawidget.findWidget( "nestedWidgets" ));
-																assertTrue( null == metawidget.findWidget( "readOnlyNestedWidgets" ));
-																assertTrue( metawidget.findWidget( "readOnlyNestedWidgetsDontExpand" ) instanceof Label );
+																final FlexTable readOnlyFlexTable = (FlexTable) metawidget.getWidget( 0 );
 
-																finish();
+																assertTrue( "Textbox (i18n):".equals( readOnlyFlexTable.getText( 0, 0 ) ) );
+																assertTrue( "Textbox1".equals( ( (Label) readOnlyFlexTable.getWidget( 0, 1 ) ).getText() ) );
+																assertTrue( "Limited textbox (i18n):".equals( readOnlyFlexTable.getText( 1, 0 ) ) );
+																assertTrue( "Limited Textbox1".equals( ( (Label) readOnlyFlexTable.getWidget( 1, 1 ) ).getText() ) );
+																assertTrue( "Textarea (i18n):".equals( readOnlyFlexTable.getText( 2, 0 ) ) );
+																assertTrue( "Textarea1".equals( ( (Label) readOnlyFlexTable.getWidget( 2, 1 ) ).getText() ) );
+																assertTrue( "Password (i18n):".equals( readOnlyFlexTable.getText( 3, 0 ) ) );
+																assertTrue( readOnlyFlexTable.getWidget( 3, 1 ) instanceof SimplePanel );
+																assertTrue( "Byte (i18n):".equals( readOnlyFlexTable.getText( 4, 0 ) ) );
+																assertTrue( "126".equals( ( (Label) readOnlyFlexTable.getWidget( 4, 1 ) ).getText() ) );
+																assertTrue( "Byte object (i18n):".equals( readOnlyFlexTable.getText( 5, 0 ) ) );
+																assertTrue( "-127".equals( ( (Label) readOnlyFlexTable.getWidget( 5, 1 ) ).getText() ) );
+																assertTrue( "Short (i18n):".equals( readOnlyFlexTable.getText( 6, 0 ) ) );
+																assertTrue( "32766".equals( ( (Label) readOnlyFlexTable.getWidget( 6, 1 ) ).getText() ) );
+																assertTrue( "Short object (i18n):".equals( readOnlyFlexTable.getText( 7, 0 ) ) );
+																assertTrue( "-32767".equals( ( (Label) readOnlyFlexTable.getWidget( 7, 1 ) ).getText() ) );
+																assertTrue( "Int (i18n):".equals( readOnlyFlexTable.getText( 8, 0 ) ) );
+																assertTrue( "2147483646".equals( ( (Label) readOnlyFlexTable.getWidget( 8, 1 ) ).getText() ) );
+																assertTrue( "Integer object (i18n):".equals( readOnlyFlexTable.getText( 9, 0 ) ) );
+																assertTrue( "-2147483647".equals( ( (Label) readOnlyFlexTable.getWidget( 9, 1 ) ).getText() ) );
+																assertTrue( "Ranged int (i18n):".equals( readOnlyFlexTable.getText( 10, 0 ) ) );
+																assertTrue( "33".equals( ( (Label) readOnlyFlexTable.getWidget( 10, 1 ) ).getText() ) );
+																assertTrue( "Ranged integer (i18n):".equals( readOnlyFlexTable.getText( 11, 0 ) ) );
+																assertTrue( "34".equals( ( (Label) readOnlyFlexTable.getWidget( 11, 1 ) ).getText() ) );
+																assertTrue( "Long (i18n):".equals( readOnlyFlexTable.getText( 12, 0 ) ) );
+																assertTrue( "43".equals( ( (Label) readOnlyFlexTable.getWidget( 12, 1 ) ).getText() ) );
+																assertTrue( "??????:".equals( readOnlyFlexTable.getText( 13, 0 ) ) );
+																assertTrue( "44".equals( ( (Label) readOnlyFlexTable.getWidget( 13, 1 ) ).getText() ) );
+																assertTrue( "Float (i18n):".equals( readOnlyFlexTable.getText( 14, 0 ) ) );
+																assertTrue( "5.3".equals( ( (Label) readOnlyFlexTable.getWidget( 14, 1 ) ).getText() ) );
+																assertTrue( "".equals( readOnlyFlexTable.getText( 15, 0 ) ) );
+																assertTrue( "5.4".equals( ( (Label) readOnlyFlexTable.getWidget( 15, 1 ) ).getText() ) );
+																assertTrue( "Double (i18n):".equals( readOnlyFlexTable.getText( 16, 0 ) ) );
+																assertTrue( "53.3".equals( ( (Label) readOnlyFlexTable.getWidget( 16, 1 ) ).getText() ) );
+																assertTrue( "54.4".equals( ( (Label) readOnlyFlexTable.getWidget( 17, 0 ) ).getText() ) );
+																assertTrue( 2 == readOnlyFlexTable.getFlexCellFormatter().getColSpan( 17, 0 ) );
+																assertTrue( "Char (i18n):".equals( readOnlyFlexTable.getText( 18, 0 ) ) );
+																assertTrue( "Z".equals( ( (Label) readOnlyFlexTable.getWidget( 18, 1 ) ).getText() ) );
+																assertTrue( "Boolean (i18n):".equals( readOnlyFlexTable.getText( 19, 0 ) ) );
+																assertTrue( "true".equals( ( (Label) readOnlyFlexTable.getWidget( 19, 1 ) ).getText() ) );
+																assertTrue( "Boolean object (i18n):".equals( readOnlyFlexTable.getText( 20, 0 ) ) );
+																assertTrue( "false".equals( ( (Label) readOnlyFlexTable.getWidget( 20, 1 ) ).getText() ) );
+																assertTrue( "Dropdown (i18n):".equals( readOnlyFlexTable.getText( 21, 0 ) ) );
+																assertTrue( "foo".equals( ( (Label) readOnlyFlexTable.getWidget( 21, 1 ) ).getText() ) );
+																assertTrue( "Dropdown with Labels (i18n):".equals( readOnlyFlexTable.getText( 22, 0 ) ) );
+																assertTrue( "bar".equals( ( (Label) readOnlyFlexTable.getWidget( 22, 1 ) ).getText() ) );
+																assertTrue( "Not-null Dropdown (i18n):".equals( readOnlyFlexTable.getText( 23, 0 ) ) );
+																assertTrue( "1".equals( ( (Label) readOnlyFlexTable.getWidget( 23, 1 ) ).getText() ) );
+																assertTrue( "Nested Widgets (i18n):".equals( readOnlyFlexTable.getText( 24, 0 ) ) );
+
+																final GwtMetawidget readOnlyMetawidgetNested = (GwtMetawidget) readOnlyFlexTable.getWidget( 24, 1 );
+
+																executeAfterBuildWidgets( readOnlyMetawidgetNested, new Timer()
+																{
+																	@Override
+																	public void run()
+																	{
+																		final FlexTable readOnlyFlexTableNested = (FlexTable) readOnlyMetawidgetNested.getWidget( 0 );
+
+																		assertTrue( "Further Nested Widgets (i18n):".equals( readOnlyFlexTableNested.getText( 0, 0 ) ) );
+																		final GwtMetawidget readOnlyMetawidgetFurtherNested = (GwtMetawidget) readOnlyFlexTableNested.getWidget( 0, 1 );
+
+																		executeAfterBuildWidgets( readOnlyMetawidgetFurtherNested, new Timer()
+																		{
+																			@Override
+																			public void run()
+																			{
+																				final FlexTable readOnlyFlexTableFurtherNested = (FlexTable) readOnlyMetawidgetFurtherNested.getWidget( 0 );
+																				assertTrue( "Nested Textbox 1.1 (further)".equals( ( (Label) readOnlyFlexTableFurtherNested.getWidget( 1, 1 ) ).getText() ) );
+																				assertTrue( "Nested Textbox 2.2 (further)".equals( ( (Label) readOnlyFlexTableFurtherNested.getWidget( 2, 1 ) ).getText() ) );
+
+																				assertTrue( "???nestedTextbox1???:".equals( readOnlyFlexTableNested.getText( 1, 0 ) ) );
+																				assertTrue( "Nested Textbox 1.1".equals( ( (Label) readOnlyFlexTableNested.getWidget( 1, 1 ) ).getText() ) );
+																				assertTrue( "Nested Textbox 2 (i18n):".equals( readOnlyFlexTableNested.getText( 2, 0 ) ) );
+																				assertTrue( "Nested Textbox 2.2".equals( ( (Label) readOnlyFlexTableNested.getWidget( 2, 1 ) ).getText() ) );
+
+																				final GwtMetawidget readOnlyMetawidgetNested2 = (GwtMetawidget) readOnlyFlexTable.getWidget( 25, 1 );
+
+																				executeAfterBuildWidgets( readOnlyMetawidgetNested2, new Timer()
+																				{
+																					@Override
+																					public void run()
+																					{
+																						FlexTable readOnlyFlexTableNested2 = (FlexTable) readOnlyMetawidgetNested2.getWidget( 0 );
+																						assertTrue( "???nestedTextbox1???:".equals( readOnlyFlexTableNested2.getText( 1, 0 ) ) );
+																						assertTrue( "Nested Textbox 1".equals( ( (Label) readOnlyFlexTableNested2.getWidget( 1, 1 ) ).getText() ) );
+																						assertTrue( "Nested Textbox 2 (i18n):".equals( readOnlyFlexTableNested2.getText( 2, 0 ) ) );
+																						assertTrue( "Nested Textbox 2".equals( ( (Label) readOnlyFlexTableNested2.getWidget( 2, 1 ) ).getText() ) );
+
+																						assertTrue( "Nested Widgets (don't expand) (i18n):".equals( readOnlyFlexTable.getText( 26, 0 ) ) );
+																						assertTrue( "Nested Textbox 1.01, Nested Textbox 2.02".equals( ( (Label) readOnlyFlexTable.getWidget( 26, 1 ) ).getText() ) );
+
+																						assertTrue( "Read only Nested Widgets (don't expand) (i18n):".equals( readOnlyFlexTable.getText( 27, 0 ) ) );
+																						assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (Label) readOnlyFlexTable.getWidget( 27, 1 ) ).getText() ) );
+
+																						assertTrue( "Date (i18n):".equals( readOnlyFlexTable.getText( 28, 0 ) ) );
+																						assertTrue( now.equals( ( (Label) readOnlyFlexTable.getWidget( 28, 1 ) ).getText() ) );
+
+																						assertTrue( "Read only (i18n):".equals( readOnlyFlexTable.getText( 29, 0 ) ) );
+																						assertTrue( "Read Only".equals( ( (Label) readOnlyFlexTable.getWidget( 29, 1 ) ).getText() ) );
+
+																						assertTrue( 31 == flexTable.getRowCount() );
+
+																						// Test
+																						// maximum
+																						// inspection
+																						// depth
+
+																						metawidget.setMaximumInspectionDepth( 0 );
+
+																						executeAfterBuildWidgets( metawidget, new Timer()
+																						{
+																							@Override
+																							public void run()
+																							{
+																								assertTrue( null == metawidget.findWidget( "nestedWidgets" ) );
+																								assertTrue( null == metawidget.findWidget( "readOnlyNestedWidgets" ) );
+																								assertTrue( metawidget.findWidget( "readOnlyNestedWidgetsDontExpand" ) instanceof Label );
+
+																								finish();
+																							}
+																						} );
+																					}
+																				} );
+																			}
+																		} );
+																	}
+																} );
 															}
 														} );
 													}
@@ -495,6 +563,7 @@ public class GwtAllWidgetsTest
 			"dropdownWithLabels": "Dropdown with Labels (i18n)",
 			"notNullDropdown": "Not-null Dropdown (i18n)",
 			"nestedWidgets": "Nested Widgets (i18n)",
+			"furtherNestedWidgets": "Further Nested Widgets (i18n)",
 			"nestedTextbox2": "Nested Textbox 2 (i18n)",
 			"readOnlyNestedWidgets": "Read only Nested Widgets (i18n)",
 			"nestedWidgetsDontExpand": "Nested Widgets (don't expand) (i18n)",

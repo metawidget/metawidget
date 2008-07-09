@@ -227,8 +227,8 @@ public class Main {
 				<tip>
 					<title>Note</title>
 					The following code uses annotations, so you'll need Java SE 5. Metawidget itself can run
-					on J2SE 1.4, but you'll need to capture the additional information from a different source (see <emphasis>Inspecting
-					Different Sources</emphasis> later in this tutorial)
+					on J2SE 1.4, but you'll need to capture the additional information from a different source
+					(see <xref linkend="section-introduction-part1-xmlinspector"/>)
 				</tip>
 								
 				<para>
@@ -2396,7 +2396,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							it supports pluggable property styles (see below).
+							it supports pluggable property styles (see <xref linkend="section-inspectors-property-base-propertystyle"/>).
 						</para>
 					</listitem>
 				</itemizedlist>
@@ -2585,7 +2585,8 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					</para>
 					
 					<para>
-						If this is the cause, either add the appropriate JAR to the tier, or consider implementing a remote Inspector (see later).
+						If this is the cause, either add the appropriate JAR to the tier, or consider implementing a remote Inspector
+						(see <xref linkend="section-howto-order"/>).
 					</para>
 
 					<para>
@@ -2751,35 +2752,74 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 
 	</chapter>
 
-	<chapter id="chapter-remote">
-		<title>Remote Environments</title>
+	<chapter id="chapter-howto">
+		<title>How To's</title>
 		
-		<section id="section-remote-preface">
+		<section id="section-howto-preface">
 			<title>Preface</title>
 			
 			<para>
-				Metawidget inspects back-end metadata and creates front-end UI widgets.
-			</para>
-			
-			<para>
-				If your application is split over multiple tiers, however, sometimes the back-end metadata is not accessible
-				from the front-end. For example, annotations (such as JPA ones) are designed to 'fall away' if the 
-				class is transferred to a tier without JPA in its classpath. Equally, configuration files may not be accessible across tiers.
-			</para>
-			
-			<para>
-				Metawidget supports these situations. Because each remoting environment is different, however, you will
-				need to add a little code yourself. 
+				This section contains 'How To's' (or 'Recipes') for various scenarios you may encounter when using Metawidget.
 			</para>
 			
 		</section>
 		
-		<section id="section-remote-running">
-			<title>Running Remote Inspection</title>
+		<section id="section-howto-order">
+			<title>Order Fields</title>
 			
 			<para>
-				Every Inspector returns a DOM, and DOMs are inherently serializable and safe to pass across tiers. Therefore,
-				to run inspection remotely:
+				Metawidget supports several ways to control the order of fields in the UI, depending on your architecture and your
+				preference:
+			</para>
+			
+			<itemizedlist>
+				<listitem>
+					<para>
+						Annotate the fields with <classname>@UiComesAfter</classname> and use <classname>MetawidgetAnnotationInspector</classname>
+						as the first inspector in your <classname>CompositeInspector</classname> chain.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Use one of the XML-based inspectors (such as <classname>XmlInspector</classname> or <classname>HibernateInspector</classname>)
+						as the first inspector in your <classname>CompositeInspector</classname> chain. XML nodes are inherently ordered.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Compile your business model with debug information turned on, and use <classname>JavassistPropertyStyle</classname>. This
+						approach uses Javassist to extract line numbering information, and order the fields in source file order.
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Write your own <classname>Inspector</classname>. 
+					</para>
+				</listitem>
+				<listitem>
+					<para>
+						Write your own <classname>PropertyStyle</classname>. For example, <classname>JavassistPropertyStyle</classname> extends
+						<classname>JavaBeanPropertyStyle</classname> and reorders the fields using debug information.
+					</para>
+				</listitem>
+			</itemizedlist>
+			
+		</section>
+
+		<section id="section-howto-remote">
+			<title>Remote Inspection</title>
+			
+			<para>
+				Metawidget inspects back-end metadata and creates front-end UI widgets. If your application is split over multiple
+				tiers, however, sometimes the back-end metadata is not accessible from the front-end. For example, annotations
+				(such as JPA ones) are designed to 'fall away' if the class is transferred to a tier without JPA in its classpath.
+				Equally, configuration files may not be accessible across tiers.
+			</para>
+			
+			<para>
+				Metawidget supports these situations. Because each remoting environment is different, however, you will
+				need to add a little code yourself. Every Inspector returns an XML string, which are inherently serializable and safe
+				to pass across tiers. Therefore, to run inspection remotely:
 			</para>
 			
 			<itemizedlist>
@@ -2802,20 +2842,20 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				<listitem>
 					<para>
 						have the back-end class declare the <classname>Inspector</classname> interface. Implement the interface by
-						delegating to the inspector you just instantiated
+						delegating to the inspector you just instantiated.
 					</para>
 				</listitem>
 				<listitem>
 					<para>
 						depending on your environment, it may futher be necessary to create a front-end class (a proxy). Have it declare
 						the <classname>Inspector</classname> interface. Implement the interface by remoting to the back-end class and
-						returning the DOM
+						returning the XML string.
 					</para>
 				</listitem>
 				<listitem>
 					<para>
 						set the inspector on the Metawidget by using the <function>setInspector</function> method (rather than
-						the <function>setInspectorConfig</function> method) 
+						the <function>setInspectorConfig</function> method).
 					</para>
 				</listitem>
 			</itemizedlist>
@@ -2832,8 +2872,8 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 						
 		</section>
 				
-		<section id="section-remote-meta">
-			<title>Combining Remote Inspections</title>
+		<section id="section-howto-combine-remote">
+			<title>Combine Remote Inspections</title>
 			
 			<para>
 				If your architecture is strongly separated, some metadata may only be available in one tier (eg. JPA annotations
@@ -2843,7 +2883,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			
 			<para>
 				For this, <classname>CompositeInspector</classname> supplies an overloaded method outside the normal <classname>Inspector</classname>
-				interface. The overloaded <function>CompositeInspector.inspect</function> method takes an additional DOM
+				interface. The overloaded <function>CompositeInspector.inspect</function> method takes an additional XML string
 				parameter, which it uses as a starting point for meta-inspection.
 			</para>
 			
@@ -2859,13 +2899,13 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				</listitem>
 				<listitem>
 					<para>
-						implement the interface by first remoting to the back-end class and returning the DOM, as before
+						implement the interface by first remoting to the back-end class and returning the XML string, as before
 					</para>
 				</listitem>
 				<listitem>
 					<para>
-						next, delegate to a <classname>CompositeInspector</classname> to inspect the front-end, passing it the DOM from
-						the back-end as a starting point
+						next, delegate to a <classname>CompositeInspector</classname> to inspect the front-end, passing it the XML
+						string from the back-end as a starting point
 					</para>
 				</listitem>
 			</itemizedlist>			
@@ -2930,6 +2970,10 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			<para>
 				The downside of <function>rebind</function> is that the rebound source object must have exactly the same set of field names
 				as the original object, else the call will fail. It becomes the responsibility of the caller to ensure this consistency.
+			</para>
+			
+			<para>
+				For an example of rebinding, see the GWT Address Book sample application.
 			</para>
 			
 		</section>

@@ -328,30 +328,51 @@ public class SwingAllWidgetsTest
 		assertTrue( metawidget.getComponent( 47 ) instanceof SwingMetawidget );
 
 		SwingMetawidget metawidgetNested = (SwingMetawidget) metawidget.getComponent( 47 );
-		assertTrue( "Nested textbox 1:".equals( ( (JLabel) metawidgetNested.getComponent( 0 ) ).getText() ) );
-		assertTrue( metawidgetNested.getComponent( 1 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 1 ) ).gridx );
-		assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) ) );
-		( (JTextField) metawidgetNested.getComponent( 1 ) ).setText( "Nested Textbox 1.1" );
 
-		assertTrue( "Nested textbox 2:".equals( ( (JLabel) metawidgetNested.getComponent( 2 ) ).getText() ) );
+		assertTrue( "Further nested widgets:".equals( ( (JLabel) metawidgetNested.getComponent( 0 ) ).getText() ) );
+		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 1 ) ).gridx );
+
+		SwingMetawidget metawidgetFurtherNested = (SwingMetawidget) metawidgetNested.getComponent( 1 );
+		assertTrue( "Further nested widgets:".equals( ( (JLabel) metawidgetFurtherNested.getComponent( 0 ) ).getText() ) );
+		assertTrue( metawidgetFurtherNested.getComponent( 1 ) instanceof SwingMetawidget );
+		assertTrue( ((JPanel) ((SwingMetawidget) metawidgetFurtherNested.getComponent( 1 )).getComponent( 0 )).getComponentCount() == 0 );
+
+		assertTrue( "Nested textbox 1:".equals( ( (JLabel) metawidgetFurtherNested.getComponent( 2 ) ).getText() ) );
+		assertTrue( metawidgetFurtherNested.getComponent( 3 ) instanceof JTextField );
+		assertTrue( 1 == ( (GridBagLayout) metawidgetFurtherNested.getLayout() ).getConstraints( metawidgetFurtherNested.getComponent( 3 ) ).gridx );
+		assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" ) ) );
+		( (JTextField) metawidgetFurtherNested.getComponent( 3 ) ).setText( "Nested Textbox 1.1 (further)" );
+
+		assertTrue( "Nested textbox 2:".equals( ( (JLabel) metawidgetFurtherNested.getComponent( 4 ) ).getText() ) );
+		assertTrue( metawidgetFurtherNested.getComponent( 5 ) instanceof JTextField );
+		assertTrue( 1 == ( (GridBagLayout) metawidgetFurtherNested.getLayout() ).getConstraints( metawidgetFurtherNested.getComponent( 5 ) ).gridx );
+		assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) ) );
+		( (JTextField) metawidgetFurtherNested.getComponent( 5 ) ).setText( "Nested Textbox 2.2 (further)" );
+
+		assertTrue( "Nested textbox 1:".equals( ( (JLabel) metawidgetNested.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidgetNested.getComponent( 3 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 3 ) ).gridx );
+		assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) ) );
+		( (JTextField) metawidgetNested.getComponent( 3 ) ).setText( "Nested Textbox 1.1" );
+
+		assertTrue( "Nested textbox 2:".equals( ( (JLabel) metawidgetNested.getComponent( 4 ) ).getText() ) );
+		assertTrue( metawidgetNested.getComponent( 5 ) instanceof JTextField );
+		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 5 ) ).gridx );
 		assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) ) );
-		( (JTextField) metawidgetNested.getComponent( 3 ) ).setText( "Nested Textbox 2.2" );
+		( (JTextField) metawidgetNested.getComponent( 5 ) ).setText( "Nested Textbox 2.2" );
 
 		assertTrue( "Read only nested widgets:".equals( ( (JLabel) metawidget.getComponent( 48 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 49 ) instanceof SwingMetawidget );
 
 		metawidgetNested = (SwingMetawidget) metawidget.getComponent( 49 );
-		assertTrue( "Nested textbox 1:".equals( ( (JLabel) metawidgetNested.getComponent( 0 ) ).getText() ) );
-		assertTrue( metawidgetNested.getComponent( 1 ) instanceof JLabel );
-		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 1 ) ).gridx );
-		assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox1" ) ) );
-
-		assertTrue( "Nested textbox 2:".equals( ( (JLabel) metawidgetNested.getComponent( 2 ) ).getText() ) );
+		assertTrue( "Nested textbox 1:".equals( ( (JLabel) metawidgetNested.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidgetNested.getComponent( 3 ) instanceof JLabel );
 		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 3 ) ).gridx );
+		assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox1" ) ) );
+
+		assertTrue( "Nested textbox 2:".equals( ( (JLabel) metawidgetNested.getComponent( 4 ) ).getText() ) );
+		assertTrue( metawidgetNested.getComponent( 5 ) instanceof JLabel );
+		assertTrue( 1 == ( (GridBagLayout) metawidgetNested.getLayout() ).getConstraints( metawidgetNested.getComponent( 5 ) ).gridx );
 		assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox2" ) ) );
 
 		assertTrue( "Nested widgets dont expand:".equals( ( (JLabel) metawidget.getComponent( 50 ) ).getText() ) );
@@ -448,15 +469,22 @@ public class SwingAllWidgetsTest
 		assertTrue( "Not null dropdown:".equals( ( (JLabel) metawidget.getComponent( 44 ) ).getText() ) );
 		assertTrue( "1".equals( ( (JLabel) metawidget.getComponent( 45 ) ).getText() ) );
 		assertTrue( "Nested widgets:".equals( ( (JLabel) metawidget.getComponent( 46 ) ).getText() ) );
-		assertTrue( "Nested textbox 1:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 0 )).getText() ) );
-		assertTrue( "Nested Textbox 1.1".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 1 )).getText() ) );
-		assertTrue( "Nested textbox 2:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 2 )).getText() ) );
-		assertTrue( "Nested Textbox 2.2".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 3 )).getText() ) );
+		assertTrue( "Further nested widgets:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 0 )).getText() ) );
+		assertTrue( "Further nested widgets:".equals( ( (JLabel) ( (SwingMetawidget) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 1 )).getComponent( 0 ) ).getText() ));
+		assertTrue( "Nested textbox 1:".equals( ( (JLabel) ( (SwingMetawidget) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 1 )).getComponent( 2 ) ).getText() ));
+		assertTrue( "Nested Textbox 1.1 (further)".equals( ( (JLabel) ( (SwingMetawidget) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 1 )).getComponent( 3 ) ).getText() ));
+		assertTrue( "Nested textbox 2:".equals( ( (JLabel) ( (SwingMetawidget) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 1 )).getComponent( 4 ) ).getText() ));
+		assertTrue( "Nested Textbox 2.2 (further)".equals( ( (JLabel) ( (SwingMetawidget) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 1 )).getComponent( 5 ) ).getText() ));
+		assertTrue( "Nested textbox 1:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 2 )).getText() ) );
+		assertTrue( "Nested Textbox 1.1".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 3 )).getText() ) );
+		assertTrue( "Nested textbox 2:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 4 )).getText() ) );
+		assertTrue( "Nested Textbox 2.2".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 47 )).getComponent( 5 )).getText() ) );
 		assertTrue( "Read only nested widgets:".equals( ( (JLabel) metawidget.getComponent( 48 ) ).getText() ) );
-		assertTrue( "Nested textbox 1:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 0 )).getText() ) );
-		assertTrue( "Nested Textbox 1".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 1 )).getText() ) );
-		assertTrue( "Nested textbox 2:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 2 )).getText() ) );
-		assertTrue( "Nested Textbox 2".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 3 )).getText() ) );
+		assertTrue( "Further nested widgets:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 0 )).getText() ) );
+		assertTrue( "Nested textbox 1:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 2 )).getText() ) );
+		assertTrue( "Nested Textbox 1".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 3 )).getText() ) );
+		assertTrue( "Nested textbox 2:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 4 )).getText() ) );
+		assertTrue( "Nested Textbox 2".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 5 )).getText() ) );
 		assertTrue( "Nested widgets dont expand:".equals( ( (JLabel) metawidget.getComponent( 50 ) ).getText() ) );
 		assertTrue( "Nested Textbox 1.01, Nested Textbox 2.02".equals( ((JLabel) metawidget.getComponent( 51 )).getText() ));
 		assertTrue( "Read only nested widgets dont expand:".equals( ( (JLabel) metawidget.getComponent( 52 ) ).getText() ) );

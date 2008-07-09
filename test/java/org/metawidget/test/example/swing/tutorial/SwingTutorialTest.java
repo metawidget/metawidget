@@ -75,10 +75,6 @@ public class SwingTutorialTest
 		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JCheckBox );
 
-		// Check toString so that we can get code coverage on the Person class
-
-		assertTrue( person.toString() == null );
-
 		// Check end of tutorial
 
 		metawidget.setInspectorConfig( "org/metawidget/example/swing/tutorial/inspector-config.xml" );

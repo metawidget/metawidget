@@ -37,9 +37,9 @@ import org.metawidget.jsp.tagext.html.HtmlTableLayout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.PathUtils;
+import org.metawidget.util.PathUtils;
+import org.metawidget.util.PathUtils.TypeAndNames;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.w3c.dom.Element;
 
 /**

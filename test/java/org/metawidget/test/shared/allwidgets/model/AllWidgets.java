@@ -132,6 +132,19 @@ public class AllWidgets
 
 	//
 	//
+	// Constructor
+	//
+	//
+
+	public AllWidgets()
+	{
+		// Test two levels of nesting
+
+		mNestedWidgets.setFurtherNestedWidgets( new NestedWidgets() );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -478,6 +491,8 @@ public class AllWidgets
 
 		private String				mNestedTextbox2		= "Nested Textbox 2";
 
+		private NestedWidgets		mFurtherNestedWidgets;
+
 		//
 		//
 		// Public methods
@@ -502,6 +517,16 @@ public class AllWidgets
 		public void setNestedTextbox2( String nestedTextbox2 )
 		{
 			mNestedTextbox2 = nestedTextbox2;
+		}
+
+		public NestedWidgets getFurtherNestedWidgets()
+		{
+			return mFurtherNestedWidgets;
+		}
+
+		public void setFurtherNestedWidgets( NestedWidgets furtherNestedWidgets )
+		{
+			mFurtherNestedWidgets = furtherNestedWidgets;
 		}
 
 		@Override

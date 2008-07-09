@@ -37,9 +37,7 @@ import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.ui.layout.LayoutFactory;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.util.simple.PathUtils.TypeAndNames;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
@@ -78,6 +76,7 @@ import com.google.gwt.xml.client.Element;
 
 public class GwtMetawidget
 	extends FlowPanel
+	implements HasName
 {
 	//
 	//
@@ -174,7 +173,9 @@ public class GwtMetawidget
 	//
 	//
 
-	String															mPath;
+	String															mType;
+
+	String															mName;
 
 	String[]														mNamesPrefix;
 
@@ -211,16 +212,21 @@ public class GwtMetawidget
 	{
 		mToInspect = toInspect;
 
-		if ( toInspect != null && ( mPath == null || mPath.indexOf( '/' ) == -1 ) )
-			mPath = toInspect.getClass().getName();
+		if ( toInspect != null && mType == null )
+			mType = toInspect.getClass().getName();
 
 		invalidateInspection();
 	}
 
-	public void setPath( String path )
+	public void setName( String name )
 	{
-		mPath = path;
+		mName = name;
 		invalidateInspection();
+	}
+
+	public String getName()
+	{
+		return mName;
 	}
 
 	public void setInspectorClass( Class<? extends Inspector> inspectorClass )
@@ -356,6 +362,9 @@ public class GwtMetawidget
 
 	public void setReadOnly( boolean readOnly )
 	{
+		if ( mMixin.isReadOnly() == readOnly )
+			return;
+
 		mMixin.setReadOnly( readOnly );
 		invalidateWidgets();
 	}
@@ -730,8 +739,7 @@ public class GwtMetawidget
 	//
 
 	/**
-	 * Invalidates the current inspection result (if any) <em>and</em> invalidates
-	 * the widgets.
+	 * Invalidates the current inspection result (if any) <em>and</em> invalidates the widgets.
 	 */
 
 	protected void invalidateInspection()
@@ -822,7 +830,7 @@ public class GwtMetawidget
 
 		mNeedToBuildWidgets = BUILDING_IN_PROGRESS;
 
-		if ( mToInspect != null && mPath != null )
+		if ( mToInspect != null )
 		{
 			if ( mLastInspection == null )
 			{
@@ -847,8 +855,8 @@ public class GwtMetawidget
 
 				if ( mInspector instanceof GwtRemoteInspectorProxy )
 				{
-					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-					( (GwtRemoteInspectorProxy) mInspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames(), new AsyncCallback<String>()
+					String[] names = GwtUtils.fromStringToArray( mName, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
+					( (GwtRemoteInspectorProxy) mInspector ).inspect( mToInspect, mType, names, new AsyncCallback<String>()
 					{
 						public void onFailure( Throwable caught )
 						{
@@ -859,10 +867,12 @@ public class GwtMetawidget
 
 						public void onSuccess( String xml )
 						{
+							mLastInspection = xml;
+
 							try
 							{
 								mIgnoreAddRemove = true;
-								mMixin.buildWidgets( xml );
+								mMixin.buildWidgets( mLastInspection );
 							}
 							catch ( Exception e )
 							{
@@ -899,8 +909,8 @@ public class GwtMetawidget
 
 				if ( mLastInspection == null )
 				{
-					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-					mLastInspection = mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
+					String[] names = GwtUtils.fromStringToArray( mName, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
+					mLastInspection = mInspector.inspect( mToInspect, mType, names );
 				}
 
 				mMixin.buildWidgets( mLastInspection );
@@ -974,7 +984,7 @@ public class GwtMetawidget
 
 	protected void beforeBuildCompoundWidget()
 	{
-		mNamesPrefix = PathUtils.parsePath( mPath ).getNames();
+		mNamesPrefix = GwtUtils.fromStringToArray( mName, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
 	}
 
 	protected Widget buildReadOnlyWidget( Map<String, String> attributes )
@@ -1050,7 +1060,7 @@ public class GwtMetawidget
 			ListBox listBox = new ListBox();
 			listBox.setVisibleItemCount( 1 );
 
-			addListBoxItems( listBox, GwtUtils.fromString( lookup, ',' ), GwtUtils.fromString( attributes.get( LOOKUP_LABELS ), ',' ), attributes );
+			addListBoxItems( listBox, GwtUtils.fromString( lookup, StringUtils.SEPARATOR_COMMA_CHAR ), GwtUtils.fromString( attributes.get( LOOKUP_LABELS ), StringUtils.SEPARATOR_COMMA_CHAR ), attributes );
 			return listBox;
 		}
 
@@ -1202,8 +1212,6 @@ public class GwtMetawidget
 	protected Widget initMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
 		throws Exception
 	{
-		String newPath = mPath + SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
-
 		// Limit inspection depth
 
 		if ( mMaximumInspectionDepth == 0 )
@@ -1214,7 +1222,12 @@ public class GwtMetawidget
 		// Copy values to child Metawidget
 
 		metawidget.setInspectorClass( mInspectorClass );
-		metawidget.setPath( newPath );
+
+		if ( mName == null )
+			metawidget.setName( attributes.get( NAME ) );
+		else
+			metawidget.setName( mName + SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBindingClass( mBindingClass );
 		metawidget.setDictionaryName( mDictionaryName );
