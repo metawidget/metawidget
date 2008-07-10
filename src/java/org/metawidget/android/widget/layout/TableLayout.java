@@ -129,7 +129,7 @@ public class TableLayout
 		AndroidMetawidget metawidget = getMetawidget();
 		TableRow tableRow = new TableRow( metawidget.getContext() );
 
-		String labelText = null;
+		String label = null;
 
 		// Section headings
 
@@ -145,14 +145,14 @@ public class TableLayout
 
 			// Labels
 
-			labelText = getMetawidget().getLabelString( attributes );
+			label = getMetawidget().getLabelString( attributes );
 
-			if ( labelText != null )
+			if ( label != null )
 			{
 				TextView textView = new TextView( metawidget.getContext() );
 
-				if ( !"".equals( labelText ))
-					textView.setText( labelText + ": " );
+				if ( !"".equals( label ))
+					textView.setText( label + ": " );
 
 				applyStyle( textView, mLabelStyle );
 
@@ -182,7 +182,7 @@ public class TableLayout
 
 		TableRow.LayoutParams params = new TableRow.LayoutParams();
 
-		if ( labelText == null )
+		if ( label == null )
 			params.span = LABEL_AND_WIDGET;
 
 		tableRow.addView( viewToAdd, params );
