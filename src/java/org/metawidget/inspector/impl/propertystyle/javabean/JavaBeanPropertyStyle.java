@@ -195,12 +195,12 @@ public class JavaBeanPropertyStyle
 		while ( traverseClass != null )
 		{
 			//
-			// Public fields
+			// Fields
 			//
 
 			for ( Field field : traverseClass.getDeclaredFields() )
 			{
-				// Exclude static public fields
+				// Exclude static fields
 
 				int modifiers = field.getModifiers();
 
@@ -226,12 +226,12 @@ public class JavaBeanPropertyStyle
 			}
 
 			//
-			// Getter methods
+			// Getter Methods
 			//
 
 			for ( Method methodRead : traverseClass.getDeclaredMethods() )
 			{
-				// Exclude non-public fields
+				// Exclude non-public methods
 
 				int modifiers = methodRead.getModifiers();
 
@@ -272,40 +272,41 @@ public class JavaBeanPropertyStyle
 				if ( isExcluded( traverseClass, lowercasedPropertyName, type ) )
 					continue;
 
-				// Already found (via its field)?
+				// Already found via its field?
 
-				Property propertyExisting = properties.get( lowercasedPropertyName );
+				Property existingProperty = properties.get( lowercasedPropertyName );
 
-				if ( propertyExisting != null )
+				if ( existingProperty instanceof FieldProperty )
+					continue;
+
+				// Already found via its getter/setter?
+
+				if ( existingProperty instanceof JavaBeanProperty )
 				{
-					if ( !( propertyExisting instanceof JavaBeanProperty ) )
-						continue;
+					JavaBeanProperty existingJavaBeanProperty = (JavaBeanProperty) existingProperty;
 
-					// Beware covariant return types: always prefer the
-					// subclass
+					// Already a better (eg. subclass) getter?
 
-					if ( type.isAssignableFrom( propertyExisting.getType() ) )
-						continue;
+					if ( existingJavaBeanProperty.getReadMethod() != null )
+					{
+						// Beware covariant return types: always prefer the
+						// subclass
+
+						if ( type.isAssignableFrom( existingJavaBeanProperty.getType() ) )
+							continue;
+					}
+
+					// Already found via its setter?
+
+					properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, methodRead, existingJavaBeanProperty.getWriteMethod() ) );
+					continue;
 				}
 
-				// Try to find a matching setter
-
-				Method methodWrite = null;
-
-				try
-				{
-					methodWrite = traverseClass.getMethod( ClassUtils.JAVABEAN_SET_PREFIX + propertyName, type );
-				}
-				catch ( NoSuchMethodException e )
-				{
-					// May not be one
-				}
-
-				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, methodRead, methodWrite ) );
+				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, methodRead, null ) );
 			}
 
 			//
-			// Setter methods (for those without getters)
+			// Setter methods
 			//
 
 			for ( Method methodWrite : traverseClass.getDeclaredMethods() )
@@ -345,10 +346,29 @@ public class JavaBeanPropertyStyle
 				if ( isExcluded( traverseClass, lowercasedPropertyName, type ) )
 					continue;
 
-				// Already found (via its field/getter)?
+				// Already found via its field?
 
-				if ( properties.containsKey( lowercasedPropertyName ) )
+				Property existingProperty = properties.get( lowercasedPropertyName );
+
+				if ( existingProperty instanceof FieldProperty )
 					continue;
+
+				// Already found via its getter/setter?
+
+				if ( existingProperty instanceof JavaBeanProperty )
+				{
+					JavaBeanProperty existingJavaBeanProperty = (JavaBeanProperty) existingProperty;
+
+					// Already a better (eg. subclass) setter?
+
+					if ( existingJavaBeanProperty.getWriteMethod() != null )
+						continue;
+
+					// Already found via its getter?
+
+					properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, existingJavaBeanProperty.getReadMethod(), methodWrite ) );
+					continue;
+				}
 
 				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, null, methodWrite ) );
 			}
