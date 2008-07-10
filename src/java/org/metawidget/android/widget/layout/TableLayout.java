@@ -113,19 +113,10 @@ public class TableLayout
 	//
 
 	@Override
-	public void layoutBegin()
-	{
-		AndroidMetawidget metawidget = getMetawidget();
-		mLayout = new android.widget.TableLayout( metawidget.getContext() );
-		mLayout.setOrientation( LinearLayout.VERTICAL );
-		mLayout.setColumnStretchable( 1, true );
-
-		metawidget.addView( mLayout, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
-	}
-
-	@Override
 	public void layoutChild( View view, Map<String, String> attributes )
 	{
+		initLayout();
+
 		AndroidMetawidget metawidget = getMetawidget();
 		TableRow tableRow = new TableRow( metawidget.getContext() );
 
@@ -199,8 +190,14 @@ public class TableLayout
 
 		if ( viewButtons != null )
 		{
+			initLayout();
 			mLayout.addView( viewButtons, new android.widget.TableLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 		}
+
+		// If the Layout was never used, just put an empty space
+
+		if ( mLayout == null )
+			getMetawidget().addView( new TextView( getMetawidget().getContext() ), new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 	}
 
 	//
@@ -244,4 +241,29 @@ public class TableLayout
 		getMetawidget().addView( mLayout, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 	}
 
+	//
+	//
+	// Private methods
+	//
+	//
+
+	/**
+	 * Initialize the TableLayout.
+	 * <p>
+	 * We don't initialize the TableLayout unless we find we have something
+	 * to put into it, because Android doesn't like empty TableLayouts.
+	 */
+
+	private void initLayout()
+	{
+		if ( mLayout != null )
+			return;
+
+		AndroidMetawidget metawidget = getMetawidget();
+		mLayout = new android.widget.TableLayout( metawidget.getContext() );
+		mLayout.setOrientation( LinearLayout.VERTICAL );
+		mLayout.setColumnStretchable( 1, true );
+
+		metawidget.addView( mLayout, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+	}
 }

@@ -36,6 +36,7 @@
 	</entity>
 	
 	<entity type="org.metawidget.example.shared.addressbook.model.Address">
+		<property name="owner" hidden="true"/>
 		<property name="street"/>
 		<property name="city"/>		
 		<property name="state" lookup="Anytown, Cyberton, Lostville, Whereverton"/>		
