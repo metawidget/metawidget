@@ -111,8 +111,6 @@ public class GwtMetawidget
 
 	private final static Map<Class<? extends Inspector>, Inspector>	INSPECTORS							= new HashMap<Class<? extends Inspector>, Inspector>();
 
-	private final static int										DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
-
 	//
 	//
 	// Private members
@@ -164,8 +162,6 @@ public class GwtMetawidget
 	private Map<String, Widget>										mAddedWidgets						= new HashMap<String, Widget>();
 
 	private Timer													mBuildWidgets;
-
-	private int														mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
 	//
 	//
@@ -376,27 +372,12 @@ public class GwtMetawidget
 
 	public int getMaximumInspectionDepth()
 	{
-		return mMaximumInspectionDepth;
+		return mMixin.getMaximumInspectionDepth();
 	}
-
-	/**
-	 * Sets the maximum depth of inspection.
-	 * <p>
-	 * Metawidget renders most non-primitve types by using nested Metawidgets. This value limits the
-	 * number of nestings.
-	 * <p>
-	 * This can be useful in detecing cyclic references. Although <code>BasePropertyInspector</code>-derived
-	 * Inspectors are capable of detecting cyclic references, other Inspectors may not be. For
-	 * example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
-	 * types, not actual objects.
-	 *
-	 * @param maximumDepth
-	 *            0 for top-level only, 1 for 1 level deep etc.
-	 */
 
 	public void setMaximumInspectionDepth( int maximumInspectionDepth )
 	{
-		mMaximumInspectionDepth = maximumInspectionDepth;
+		mMixin.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
 
@@ -1212,15 +1193,6 @@ public class GwtMetawidget
 	protected Widget initMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
 		throws Exception
 	{
-		// Limit inspection depth
-
-		if ( mMaximumInspectionDepth == 0 )
-			return null;
-
-		metawidget.setMaximumInspectionDepth( mMaximumInspectionDepth - 1 );
-
-		// Copy values to child Metawidget
-
 		metawidget.setInspectorClass( mInspectorClass );
 
 		if ( mName == null )
@@ -1318,6 +1290,7 @@ public class GwtMetawidget
 		{
 			GwtMetawidget metawidget = (GwtMetawidget) widget;
 			metawidget.setReadOnly( isReadOnly( attributes ) );
+			metawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 
 			return GwtMetawidget.this.initMetawidget( metawidget, attributes );
 		}

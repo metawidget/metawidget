@@ -17,7 +17,6 @@
 package org.metawidget.android.widget;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.util.simple.StringUtils.*;
 
 import java.lang.reflect.Constructor;
 import java.util.Collection;
@@ -88,8 +87,6 @@ public class AndroidMetawidget
 
 	private final static String						PARAM_PREFIX						= "param";
 
-	private final static int						DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
-
 	//
 	//
 	// Private members
@@ -119,8 +116,6 @@ public class AndroidMetawidget
 	private Set<View>								mExistingViewsUnused;
 
 	private Map<String, Facet>						mFacets;
-
-	private int										mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
 	private AndroidMetawidgetMixin					mMixin								= new AndroidMetawidgetMixin();
 
@@ -344,27 +339,12 @@ public class AndroidMetawidget
 
 	public int getMaximumInspectionDepth()
 	{
-		return mMaximumInspectionDepth;
+		return mMixin.getMaximumInspectionDepth();
 	}
-
-	/**
-	 * Sets the maximum depth of inspection.
-	 * <p>
-	 * Metawidget renders most non-primitve types by using nested Metawidgets. This value limits the
-	 * number of nestings.
-	 * <p>
-	 * This can be useful in detecing cyclic references. Although <code>BasePropertyInspector</code>-derived
-	 * Inspectors are capable of detecting cyclic references, other Inspectors may not be. For
-	 * example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
-	 * types, not actual objects.
-	 *
-	 * @param maximumDepth
-	 *            0 for top-level only, 1 for 1 level deep etc.
-	 */
 
 	public void setMaximumInspectionDepth( int maximumInspectionDepth )
 	{
-		mMaximumInspectionDepth = maximumInspectionDepth;
+		mMixin.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
 
@@ -901,20 +881,6 @@ public class AndroidMetawidget
 
 	protected AndroidMetawidget initMetawidget( AndroidMetawidget metawidget, Map<String, String> attributes )
 	{
-		String newPath = mPath + SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
-
-		// Limit inspection depth
-
-		if ( mMaximumInspectionDepth == 0 )
-		{
-			Log.w( getClass().getSimpleName(), "Maximum inspection depth exceeded for " + newPath );
-			return null;
-		}
-
-		metawidget.setMaximumInspectionDepth( mMaximumInspectionDepth - 1 );
-
-		// Copy values to child Metawidget
-
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 
 		if ( mInspectorConfig != 0 )
@@ -1061,6 +1027,7 @@ public class AndroidMetawidget
 		{
 			AndroidMetawidget metawidget = (AndroidMetawidget) widget;
 			metawidget.setReadOnly( isReadOnly( attributes ) );
+			metawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 
 			return AndroidMetawidget.this.initMetawidget( metawidget, attributes );
 		}

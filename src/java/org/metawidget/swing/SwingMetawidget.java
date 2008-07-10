@@ -64,7 +64,6 @@ import org.metawidget.swing.layout.TableGridBagLayout;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.LogUtils;
 import org.metawidget.util.PathUtils;
 import org.metawidget.util.PathUtils.TypeAndNames;
 import org.metawidget.util.simple.StringUtils;
@@ -93,8 +92,6 @@ public class SwingMetawidget
 	private final static Map<String, Inspector>	INSPECTORS							= Collections.synchronizedMap( new HashMap<String, Inspector>() );
 
 	private final static Stroke					STROKE_DOTTED						= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
-
-	private final static int					DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
 
 	//
 	//
@@ -156,8 +153,6 @@ public class SwingMetawidget
 	private Map<String, Facet>					mFacets								= CollectionUtils.newHashMap();
 
 	private SwingMetawidgetMixin				mMixin								= new SwingMetawidgetMixin();
-
-	private int									mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
 	//
 	//
@@ -393,27 +388,12 @@ public class SwingMetawidget
 
 	public int getMaximumInspectionDepth()
 	{
-		return mMaximumInspectionDepth;
+		return mMixin.getMaximumInspectionDepth();
 	}
-
-	/**
-	 * Sets the maximum depth of inspection.
-	 * <p>
-	 * Metawidget renders most non-primitve types by using nested Metawidgets. This value limits the
-	 * number of nestings.
-	 * <p>
-	 * This can be useful in detecing cyclic references. Although <code>BasePropertyInspector</code>-derived
-	 * Inspectors are capable of detecting cyclic references, other Inspectors may not be. For
-	 * example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
-	 * types, not actual objects.
-	 *
-	 * @param maximumDepth
-	 *            0 for top-level only, 1 for 1 level deep etc.
-	 */
 
 	public void setMaximumInspectionDepth( int maximumInspectionDepth )
 	{
-		mMaximumInspectionDepth = maximumInspectionDepth;
+		mMixin.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
 
@@ -1265,21 +1245,7 @@ public class SwingMetawidget
 
 	protected SwingMetawidget initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
 	{
-		String newPath = mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
-
-		// Limit inspection depth
-
-		if ( mMaximumInspectionDepth == 0 )
-		{
-			LogUtils.getLog( getClass() ).warn( "Maximum inspection depth exceeded for " + newPath );
-			return null;
-		}
-
-		metawidget.setMaximumInspectionDepth( mMaximumInspectionDepth - 1 );
-
-		// Copy values to child Metawidget
-
-		metawidget.setPath( newPath );
+		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 
 		if ( mInspectorConfig != null )
 			metawidget.setInspectorConfig( mInspectorConfig );
@@ -1464,6 +1430,7 @@ public class SwingMetawidget
 		{
 			SwingMetawidget metawidget = (SwingMetawidget) widget;
 			metawidget.setReadOnly( isReadOnly( attributes ) );
+			metawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 
 			return SwingMetawidget.this.initMetawidget( metawidget, attributes );
 		}

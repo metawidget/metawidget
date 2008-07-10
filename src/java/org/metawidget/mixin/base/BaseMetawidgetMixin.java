@@ -32,6 +32,7 @@ import java.util.Map;
  * <li>widget overriding</li>
  * <li>stubs/stub attributes</li>
  * <li>read-only/active widgets</li>
+ * <li>maximum inspection depth</li>
  * </ul>
  * This base class abstracts the Metawidget lifecycle without enforcing which XML libraries to use.
  * Most subclasses will choose <code>org.metawidget.mixin.w3c.MetawidgetMixin</code>, which uses
@@ -44,11 +45,21 @@ public abstract class BaseMetawidgetMixin<W, E>
 {
 	//
 	//
+	// Private statics
+	//
+	//
+
+	private final static int	DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
+
+	//
+	//
 	// Private members
 	//
 	//
 
-	private boolean	mReadOnly;
+	private boolean				mReadOnly;
+
+	private int					mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
 	//
 	//
@@ -64,6 +75,31 @@ public abstract class BaseMetawidgetMixin<W, E>
 	public boolean isReadOnly()
 	{
 		return mReadOnly;
+	}
+
+	public int getMaximumInspectionDepth()
+	{
+		return mMaximumInspectionDepth;
+	}
+
+	/**
+	 * Sets the maximum depth of inspection.
+	 * <p>
+	 * Metawidget renders most non-primitve types by using nested Metawidgets. This value limits the
+	 * number of nestings.
+	 * <p>
+	 * This can be useful in detecing cyclic references. Although <code>BasePropertyInspector</code>-derived
+	 * Inspectors are capable of detecting cyclic references, other Inspectors may not be. For
+	 * example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
+	 * types, not actual objects.
+	 *
+	 * @param maximumDepth
+	 *            0 for top-level only, 1 for 1 level deep etc.
+	 */
+
+	public void setMaximumInspectionDepth( int maximumInspectionDepth )
+	{
+		mMaximumInspectionDepth = maximumInspectionDepth;
 	}
 
 	/**
@@ -149,7 +185,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 			String childName = attributes.get( NAME );
 
 			if ( childName == null || "".equals( childName ) )
-				throw new Exception( "Child element #" + loop + " of '" + attributes.get( TYPE ) + "' has no @name" );
+				throw new Exception( "Child element #" + loop + " of '" + attributes.get( TYPE ) + "' has no @" + NAME );
 
 			W widget = getOverridenWidget( attributes );
 
@@ -162,12 +198,10 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 				if ( isMetawidget( widget ) )
 				{
-					widget = initMetawidget( widget, attributes );
-
-					// May have been suppressed (eg. SwingMetawidget.setMaximumInspectionDepth)
-
-					if ( widget == null )
+					if ( mMaximumInspectionDepth <= 0 )
 						continue;
+
+					widget = initMetawidget( widget, attributes );
 				}
 			}
 			else if ( isStub( widget ) )
@@ -194,14 +228,6 @@ public abstract class BaseMetawidgetMixin<W, E>
 			return buildReadOnlyWidget( attributes );
 
 		return buildActiveWidget( attributes );
-	}
-
-	protected W initMetawidget( W widget, Map<String, String> attributes )
-		throws Exception
-	{
-		// Not all Metawidgets use deferred initialization
-
-		return widget;
 	}
 
 	//
@@ -237,6 +263,9 @@ public abstract class BaseMetawidgetMixin<W, E>
 		throws Exception;
 
 	protected abstract W buildActiveWidget( Map<String, String> attributes )
+		throws Exception;
+
+	protected abstract W initMetawidget( W widget, Map<String, String> attributes )
 		throws Exception;
 
 	protected abstract void addWidget( W widget, Map<String, String> attributes )
