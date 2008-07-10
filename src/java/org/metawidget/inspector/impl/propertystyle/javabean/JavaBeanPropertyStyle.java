@@ -190,192 +190,155 @@ public class JavaBeanPropertyStyle
 
 		Map<String, Property> properties = CollectionUtils.newTreeMap();
 
-		Class<?> traverseClass = clazz;
+		//
+		// Public fields
+		//
+		// Note: we must use clazz.getFields(), not clazz.getDeclaredFields(), in order
+		// to avoid Applet SecurityExceptions
+		//
 
-		while ( traverseClass != null )
+		for ( Field field : clazz.getFields() )
 		{
-			//
-			// Fields
-			//
+			// Exclude static fields
 
-			for ( Field field : traverseClass.getDeclaredFields() )
+			int modifiers = field.getModifiers();
+
+			if ( Modifier.isStatic( modifiers ) )
+				continue;
+
+			// Get name and type
+
+			String fieldName = field.getName();
+			Class<?> type = field.getType();
+
+			// Exclude based on other criteria
+
+			if ( isExcluded( field.getDeclaringClass(), fieldName, type ) )
+				continue;
+
+			properties.put( fieldName, new FieldProperty( fieldName, field ) );
+		}
+
+		//
+		// Public getter methods
+		//
+		// Note: we must use clazz.getMethods(), not clazz.getDeclaredMethods(), in order
+		// to avoid Applet SecurityExceptions
+		//
+
+		for ( Method methodRead : clazz.getMethods() )
+		{
+			// Get type
+
+			Class<?>[] parameters = methodRead.getParameterTypes();
+
+			if ( parameters.length != 0 )
+				continue;
+
+			Class<?> type = methodRead.getReturnType();
+
+			if ( void.class.equals( type ) )
+				continue;
+
+			// Get name
+
+			String methodName = methodRead.getName();
+			String propertyName = null;
+
+			if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
+				propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
+			else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
+				propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
+			else
+				continue;
+
+			if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
+				continue;
+
+			String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
+
+			// Exclude based on other criteria
+
+			if ( isExcluded( methodRead.getDeclaringClass(), lowercasedPropertyName, type ) )
+				continue;
+
+			// Already found via its field?
+
+			Property existingProperty = properties.get( lowercasedPropertyName );
+
+			if ( existingProperty instanceof FieldProperty )
+				continue;
+
+			// Already found via another getter?
+
+			if ( existingProperty instanceof JavaBeanProperty )
 			{
-				// Exclude static fields
+				JavaBeanProperty existingJavaBeanProperty = (JavaBeanProperty) existingProperty;
 
-				int modifiers = field.getModifiers();
+				// Beware covariant return types: always prefer the
+				// subclass
 
-				if ( Modifier.isStatic( modifiers ) )
+				if ( type.isAssignableFrom( existingJavaBeanProperty.getType() ) )
 					continue;
-
-				// Exclude non-public fields
-
-				if ( !Modifier.isPublic( modifiers ) )
-					continue;
-
-				// Get name and type
-
-				String fieldName = field.getName();
-				Class<?> type = field.getType();
-
-				// Exclude based on other criteria
-
-				if ( isExcluded( traverseClass, fieldName, type ) )
-					continue;
-
-				properties.put( fieldName, new FieldProperty( fieldName, field ) );
 			}
 
-			//
-			// Getter Methods
-			//
+			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, methodRead, null ) );
+		}
 
-			for ( Method methodRead : traverseClass.getDeclaredMethods() )
+		//
+		// Public setter methods
+		//
+		// Note: we must use clazz.getMethods(), not clazz.getDeclaredMethods(), in order
+		// to avoid Applet SecurityExceptions
+		//
+
+		for ( Method methodWrite : clazz.getMethods() )
+		{
+			// Get type
+
+			Class<?>[] parameters = methodWrite.getParameterTypes();
+
+			if ( parameters.length != 1 )
+				continue;
+
+			Class<?> type = parameters[0];
+
+			// Get name
+
+			String methodName = methodWrite.getName();
+
+			if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
+				continue;
+
+			String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
+
+			if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
+				continue;
+
+			String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
+
+			// Exclude based on other criteria
+
+			if ( isExcluded( methodWrite.getDeclaringClass(), lowercasedPropertyName, type ) )
+				continue;
+
+			// Already found via its field?
+
+			Property existingProperty = properties.get( lowercasedPropertyName );
+
+			if ( existingProperty instanceof FieldProperty )
+				continue;
+
+			// Already found via its getter?
+
+			if ( existingProperty instanceof JavaBeanProperty )
 			{
-				// Exclude non-public methods
-
-				int modifiers = methodRead.getModifiers();
-
-				if ( !Modifier.isPublic( modifiers ) )
-					continue;
-
-				// Get type
-
-				Class<?>[] parameters = methodRead.getParameterTypes();
-
-				if ( parameters.length != 0 )
-					continue;
-
-				Class<?> type = methodRead.getReturnType();
-
-				if ( void.class.equals( type ) )
-					continue;
-
-				// Get name
-
-				String methodName = methodRead.getName();
-				String propertyName = null;
-
-				if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
-					propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
-				else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
-					propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
-				else
-					continue;
-
-				if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
-					continue;
-
-				String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
-
-				// Exclude based on other criteria
-
-				if ( isExcluded( traverseClass, lowercasedPropertyName, type ) )
-					continue;
-
-				// Already found via its field?
-
-				Property existingProperty = properties.get( lowercasedPropertyName );
-
-				if ( existingProperty instanceof FieldProperty )
-					continue;
-
-				// Already found via its getter/setter?
-
-				if ( existingProperty instanceof JavaBeanProperty )
-				{
-					JavaBeanProperty existingJavaBeanProperty = (JavaBeanProperty) existingProperty;
-
-					// Already a better (eg. subclass) getter?
-
-					if ( existingJavaBeanProperty.getReadMethod() != null )
-					{
-						// Beware covariant return types: always prefer the
-						// subclass
-
-						if ( type.isAssignableFrom( existingJavaBeanProperty.getType() ) )
-							continue;
-					}
-
-					// Already found via its setter?
-
-					properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, methodRead, existingJavaBeanProperty.getWriteMethod() ) );
-					continue;
-				}
-
-				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, methodRead, null ) );
+				JavaBeanProperty existingJavaBeanProperty = (JavaBeanProperty) existingProperty;
+				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, existingJavaBeanProperty.getReadMethod(), methodWrite ) );
+				continue;
 			}
 
-			//
-			// Setter methods
-			//
-
-			for ( Method methodWrite : traverseClass.getDeclaredMethods() )
-			{
-				// Exclude non-public fields
-
-				int modifiers = methodWrite.getModifiers();
-
-				if ( !Modifier.isPublic( modifiers ) )
-					continue;
-
-				// Get type
-
-				Class<?>[] parameters = methodWrite.getParameterTypes();
-
-				if ( parameters.length != 1 )
-					continue;
-
-				Class<?> type = parameters[0];
-
-				// Get name
-
-				String methodName = methodWrite.getName();
-
-				if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
-					continue;
-
-				String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
-
-				if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
-					continue;
-
-				String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
-
-				// Exclude based on other criteria
-
-				if ( isExcluded( traverseClass, lowercasedPropertyName, type ) )
-					continue;
-
-				// Already found via its field?
-
-				Property existingProperty = properties.get( lowercasedPropertyName );
-
-				if ( existingProperty instanceof FieldProperty )
-					continue;
-
-				// Already found via its getter/setter?
-
-				if ( existingProperty instanceof JavaBeanProperty )
-				{
-					JavaBeanProperty existingJavaBeanProperty = (JavaBeanProperty) existingProperty;
-
-					// Already a better (eg. subclass) setter?
-
-					if ( existingJavaBeanProperty.getWriteMethod() != null )
-						continue;
-
-					// Already found via its getter?
-
-					properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, existingJavaBeanProperty.getReadMethod(), methodWrite ) );
-					continue;
-				}
-
-				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, null, methodWrite ) );
-			}
-
-			// Work up the inheritance chain
-
-			traverseClass = traverseClass.getSuperclass();
+			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, null, methodWrite ) );
 		}
 
 		return properties;

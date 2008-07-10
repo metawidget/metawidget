@@ -38,7 +38,7 @@ test-new-business:
 4. Try to save. Check title is required
 5. Add a title of Miss. Add a Company of Some Company. Try to save. Check firstnames is required
 6. Add a firstname of Business. Try to save. Check surname is required
-7. Add a surname of A Very Long Surname Exceeding 50 Characters In Length. Check cannot type the 'gth'
+7. Add a surname of A Very Long Surname Exceeding 50 Characters In Length. Check cannot type the 'gth' (by saving and coming back)
 8. Add a surname of Contact and Number Of Staff as 2. Check can only enter numbers in Number Of Staff
 9. Add a Communication of Mobile (0402) 456 123 
 10. Save

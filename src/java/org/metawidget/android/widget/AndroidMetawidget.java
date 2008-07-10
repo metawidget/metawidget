@@ -524,7 +524,14 @@ public class AndroidMetawidget
 		try
 		{
 			if ( mLastInspection == null )
+			{
 				mLastInspection = inspect();
+				Log.d( getClass().getSimpleName(), "Inspection returned " + mLastInspection );
+			}
+			else
+			{
+				Log.d( getClass().getSimpleName(), "Reusing previous inspection " + mLastInspection );
+			}
 
 			mMixin.buildWidgets( mLastInspection );
 		}
@@ -537,6 +544,8 @@ public class AndroidMetawidget
 	protected void startBuild()
 		throws Exception
 	{
+		Log.d( getClass().getSimpleName(), "Starting build" );
+
 		if ( mExistingViews == null )
 		{
 			mExistingViews = CollectionUtils.newHashSet();
@@ -822,48 +831,41 @@ public class AndroidMetawidget
 			mLayout.layoutEnd();
 		}
 
-		Log.d( getClass().getSimpleName(), "Creation complete" );
+		Log.d( getClass().getSimpleName(), "Build complete" );
 	}
 
 	protected String inspect()
 	{
-		Log.d( getClass().getSimpleName(), "Starting inspection: " + mPath );
+		Log.d( getClass().getSimpleName(), "Starting inspection of " + mPath );
 
-		try
+		if ( mPath == null )
+			return null;
+
+		// If this Inspector has been set externally, use it...
+
+		Inspector inspector = mInspector;
+
+		if ( inspector == null )
 		{
-			if ( mPath == null )
-				return null;
+			if ( mInspectorConfig == 0 )
+				throw MetawidgetException.newException( "No inspector or inspectorConfig specified" );
 
-			// If this Inspector has been set externally, use it...
+			// ...otherwise, if this InspectorConfig has already been read, use it...
 
-			Inspector inspector = mInspector;
+			inspector = INSPECTORS.get( mInspectorConfig );
+
+			// ...otherwise, initialize the Inspector
 
 			if ( inspector == null )
 			{
-				if ( mInspectorConfig == 0 )
-					throw MetawidgetException.newException( "No inspector or inspectorConfig specified" );
-
-				// ...otherwise, if this InspectorConfig has already been read, use it...
-
-				inspector = INSPECTORS.get( mInspectorConfig );
-
-				// ...otherwise, initialize the Inspector
-
-				if ( inspector == null )
-				{
-					inspector = new AndroidConfigReader( getContext() ).read( getContext().getResources().openRawResource( mInspectorConfig ) );
-					INSPECTORS.put( mInspectorConfig, inspector );
-				}
+				inspector = new AndroidConfigReader( getContext() ).read( getContext().getResources().openRawResource( mInspectorConfig ) );
+				INSPECTORS.put( mInspectorConfig, inspector );
 			}
-
-			// Use the inspector to inspect the path
-
-			return inspect( inspector, mPath );
 		}
-		finally
-		{
-			Log.d( getClass().getSimpleName(), "Inspection complete. Starting creation" );
-		}
+
+		// Use the inspector to inspect the path
+
+		return inspect( inspector, mPath );
 	}
 
 	protected String inspect( Inspector inspector, String path )
@@ -909,46 +911,82 @@ public class AndroidMetawidget
 		if ( tags == null )
 			return null;
 
-		buildWidgets();
-
-		// Search the root, as LinearLayout uses our ViewGroup directly
-		// (eg. it doesn't further embed its own layout manager)
-
-		View view = this;
+		ViewGroup viewgroup = this;
 
 		for ( int tagsLoop = 0, tagsLength = tags.length; tagsLoop < tagsLength; tagsLoop++ )
 		{
 			Object tag = tags[tagsLoop];
-			view = view.findViewWithTag( tag );
 
-			if ( view == null )
-				break;
+			// buildWidgets just-in-time
+
+			if ( mMixin.isMetawidget( viewgroup ) )
+				( (AndroidMetawidget) viewgroup ).buildWidgets();
+
+			// Use our own findViewWithTag, not View.findViewWithTag!
+
+			View match = findViewWithTag( viewgroup, tag );
+
+			// Not found
+
+			if ( match == null )
+				return null;
+
+			// Found
 
 			if ( tagsLoop == tagsLength - 1 )
-				return view;
+				return match;
+
+			// Keep traversing
+
+			if ( !( match instanceof ViewGroup ) )
+				return null;
+
+			viewgroup = (ViewGroup) match;
 		}
 
-		// Search any child layouts
+		// Not found
 
-		for ( int loop = 0, length = getChildCount(); loop < length; loop++ )
+		return null;
+	}
+
+	/**
+	 * Version of <code>View.findViewWithTag</code> that only traverses child Views if they don't
+	 * define a tag of their own.
+	 * <p>
+	 * This stops us incorrectly finding arbitrary bits of tag in arbitrary bits of the heirarchy.
+	 */
+
+	private View findViewWithTag( ViewGroup viewgroup, Object tag )
+	{
+		for ( int childLoop = 0, childLength = viewgroup.getChildCount(); childLoop < childLength; childLoop++ )
 		{
-			view = getChildAt( loop );
+			View child = viewgroup.getChildAt( childLoop );
+			Object childTag = child.getTag();
 
-			if ( !( view instanceof ViewGroup ) )
+			// Only recurse if child does not define a tag (eg. something like
+			// an embedded Layout or a TableRow)
+
+			if ( childTag == null && child instanceof ViewGroup )
+			{
+				View view = findViewWithTag( (ViewGroup) child, tag );
+
+				if ( view != null )
+					return view;
+
+				continue;
+			}
+
+			// Keep looking
+
+			if ( !tag.equals( child.getTag() ) )
 				continue;
 
-			for ( int tagsLoop = 0, tagsLength = tags.length; tagsLoop < tagsLength; tagsLoop++ )
-			{
-				Object tag = tags[tagsLoop];
-				view = view.findViewWithTag( tag );
+			// Found
 
-				if ( view == null )
-					break;
-
-				if ( tagsLoop == tagsLength - 1 )
-					return view;
-			}
+			return child;
 		}
+
+		// Not found
 
 		return null;
 	}
@@ -1027,7 +1065,6 @@ public class AndroidMetawidget
 		{
 			AndroidMetawidget metawidget = (AndroidMetawidget) widget;
 			metawidget.setReadOnly( isReadOnly( attributes ) );
-			metawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 
 			return AndroidMetawidget.this.initMetawidget( metawidget, attributes );
 		}
