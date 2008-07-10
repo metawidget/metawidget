@@ -5,8 +5,8 @@ This process needs to be upgraded once Android has unit testing support.
 
 For Android AllWidgets, test:
 
-* The layout is a LinearLayout (including the nested layout)
-* All values are populated
+* The layout is a LinearLayout (including the nested layouts)
+* All values are populated (including 'Nested Textbox 1' 3 times)
 * Textarea field is large
 * Password field is masked
 * Numeric fields do not accept alpha characters (incl primitive/object types. Note floats must accept alpha so that you can enter a dot)
@@ -15,8 +15,9 @@ For Android AllWidgets, test:
 * There is no label for doubleObject
 * All dropdowns have a blank choice available, except notNullDropdown
 * The mystery field is a text box
+* 'Futher nested widgets' appears 3 times
 
 Editing all values and choosing 'Save' (from the menu) reports the changed values as a read-only screen. Test:
 
-* All values appear
+* All values appear (except mystery value)
 * Password label appears but has a blank line for the value

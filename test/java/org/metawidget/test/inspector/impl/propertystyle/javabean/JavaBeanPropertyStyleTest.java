@@ -48,7 +48,7 @@ public class JavaBeanPropertyStyleTest
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
 
-		assertTrue( properties.size() == 7 );
+		assertTrue( properties.size() == 10 );
 
 		assertTrue( "foo".equals( properties.get( "foo" ).toString() ) );
 		assertTrue( !properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
@@ -62,6 +62,11 @@ public class JavaBeanPropertyStyleTest
 		assertTrue( Boolean.class.equals( ( (ParameterizedType) properties.get( "methodAbc" ).getGenericType() ).getActualTypeArguments()[0] ) );
 		assertTrue( !properties.get( "methodAbc" ).isReadable() );
 		assertTrue( properties.get( "methodAbc" ).isWritable() );
+		assertTrue( properties.get( "methodGetterInSuper" ).isReadable() );
+		assertTrue( properties.get( "methodGetterInSuper" ).isWritable() );
+		assertTrue( properties.get( "methodSetterInSuper" ).isReadable() );
+		assertTrue( properties.get( "methodSetterInSuper" ).isWritable() );
+		assertTrue( String.class.equals( properties.get( "methodCovariant" ).getType() ));
 
 		try
 		{
@@ -79,9 +84,14 @@ public class JavaBeanPropertyStyleTest
 
 		propertyStyle = new FooPropertyStyle();
 		properties = propertyStyle.getProperties( Foo.class );
-		assertTrue( properties.size() == 6 );
+		assertTrue( properties.size() == 9 );
 
 		assertTrue( properties.get( "baz" ) == null );
+		assertTrue( !properties.get( "methodGetterInSuper" ).isReadable() );
+		assertTrue( properties.get( "methodGetterInSuper" ).isWritable() );
+		assertTrue( properties.get( "methodSetterInSuper" ).isReadable() );
+		assertTrue( !properties.get( "methodSetterInSuper" ).isWritable() );
+		assertTrue( String.class.equals( properties.get( "methodCovariant" ).getType() ));
 	}
 
 	//
@@ -97,6 +107,18 @@ public class JavaBeanPropertyStyleTest
 		public String		foo;
 
 		public List<Date>	bar;
+
+		public String getFoo()
+		{
+			// Test already found via its field
+
+			return null;
+		}
+
+		public void setFoo( String aFoo )
+		{
+			// Test already found via its field
+		}
 
 		@NotNull
 		public String getMethodFoo()
@@ -119,11 +141,58 @@ public class JavaBeanPropertyStyleTest
 		{
 			// Do nothing
 		}
+
+		@Override
+		public void setMethodGetterInSuper( String methodGetterInSuper )
+		{
+			// Do nothing
+		}
+
+		public String getMethodSetterInSuper()
+		{
+			return null;
+		}
+
+		@Override
+		public String getMethodCovariant()
+		{
+			return null;
+		}
+
+		public String getterIgnoreBecauseLowercase()
+		{
+			return null;
+		}
+
+		public void setterIgnoreBecauseLowercase( String ignore )
+		{
+			// Do nothing
+		}
 	}
 
 	class SuperFoo
 	{
 		public boolean	baz;
+
+		public String getMethodGetterInSuper()
+		{
+			return null;
+		}
+
+		public void setMethodGetterInSuper( String methodSetterInSuper )
+		{
+			// Do nothing
+		}
+
+		public void setMethodSetterInSuper( String methodSetterInSuper )
+		{
+			// Do nothing
+		}
+
+		public Object getMethodCovariant()
+		{
+			return null;
+		}
 	}
 
 	class FooPropertyStyle
