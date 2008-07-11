@@ -236,6 +236,12 @@ a {
 	padding-bottom: 75px;
 }
 
+#floater {
+	float: right;
+	margin-left: 5px;
+	margin-bottom: 5px;
+}
+
 .data-table {
 	border: 1px solid #56B5B6;
 }

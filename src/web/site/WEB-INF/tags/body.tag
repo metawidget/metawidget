@@ -1,4 +1,5 @@
 <%@ tag language="java" %>
+<%@ attribute name="floater" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="path" scope="request" value="${pageContext.request.servletPath}"/>
@@ -19,6 +20,8 @@
 		<div id="content">
 		
 			<div id="content-text">
+				<c:if test="${!empty floater}"><img id="floater" src="${context}/media/${floater}" alt=""/></c:if>
+
 				<jsp:doBody />
 			</div>
 		

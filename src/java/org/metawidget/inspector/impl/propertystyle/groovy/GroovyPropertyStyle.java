@@ -51,25 +51,6 @@ public class GroovyPropertyStyle
 {
 	//
 	//
-	// Private members
-	//
-	//
-
-	private Class<?>[]				mExcludeTypes;
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public GroovyPropertyStyle()
-	{
-		mExcludeTypes = getExcludeReturnTypes();
-	}
-
-	//
-	//
 	// Public methods
 	//
 	//
@@ -92,19 +73,17 @@ public class GroovyPropertyStyle
 		@SuppressWarnings( "unchecked" )
 		List<MetaBeanProperty> properties = GroovySystem.getMetaClassRegistry().getMetaClass( clazz ).getProperties();
 
-		property: for ( MetaBeanProperty property : properties )
+		for ( MetaBeanProperty property : properties )
 		{
+			String name = property.getName();
 			Class<?> type = property.getType();
 
-			// Ignore certain types
+			// Exclude based on criteria
 
-			for( Class<?> excludeType : mExcludeTypes )
-			{
-				if ( excludeType.isAssignableFrom( type ))
-					continue property;
-			}
+			if ( isExcluded( name, type ))
+				continue;
 
-			propertiesToReturn.put( property.getName(), new GroovyProperty( property, clazz ) );
+			propertiesToReturn.put( name, new GroovyProperty( property, clazz ) );
 		}
 
 		return propertiesToReturn;
@@ -117,19 +96,66 @@ public class GroovyPropertyStyle
 	//
 
 	/**
-	 * Array of property return types to exclude when searching for properties. Subtypes of the
-	 * specified exclude types are also excluded.
+	 * Whether to exclude the given property, of the given type, in the given class, when searching
+	 * for properties.
 	 * <p>
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, filters out any types that return <code>java.lang.Class</code> and
-	 * <code>groovy.lang.MetaClass</code>.
+	 * By default, calls <code>isExcludedReturnType</code> and <code>isExcludedName</code> and
+	 * returns true if any of them return true. Returns false otherwise.
+	 *
+	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected Class<?>[] getExcludeReturnTypes()
+	protected boolean isExcluded( String propertyName, Class<?> propertyType )
 	{
-		return new Class<?>[] { Class.class, MetaClass.class };
+		if ( isExcludedReturnType( propertyType ) )
+			return true;
+
+		if ( isExcludedName( propertyName ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Whether to exclude the given property name when searching for properties.
+	 * <p>
+	 * This can be useful when the convention or base class define properties that are
+	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * <p>
+	 * By default, does not exclude any names.
+	 *
+	 * @return true if the property should be excluded, false otherwise
+	 */
+
+	protected boolean isExcludedName( String name )
+	{
+		return false;
+	}
+
+	/**
+	 * Whether to exclude the given property return type when searching for properties.
+	 * <p>
+	 * This can be useful when the convention or base class define properties that are
+	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * <p>
+	 * By default, excludes types that return <code>java.lang.Class</code> or
+	 * <code>groovy.lang.MetaClass</code>.
+	 *
+	 * @return true if the property should be excluded, false otherwise
+	 */
+
+	protected boolean isExcludedReturnType( Class<?> clazz )
+	{
+		if ( Class.class.equals( clazz ) )
+			return true;
+
+		if ( MetaClass.class.equals( clazz ) )
+			return true;
+
+		return false;
 	}
 
 	//
