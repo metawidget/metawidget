@@ -151,6 +151,13 @@ public class XmlInspectorTest
 		}
 	}
 
+	public void testBadName()
+	{
+		assertTrue( mInspector.inspect( null, "no-such-type" ) == null );
+		assertTrue( mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "no-such-name" ) == null );
+		assertTrue( mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "no-such-parent-name", "foo" ) == null );
+	}
+
 	//
 	//
 	// Constructor

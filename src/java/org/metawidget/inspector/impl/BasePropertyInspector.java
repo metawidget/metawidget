@@ -285,7 +285,7 @@ public abstract class BasePropertyInspector
 		{
 			Property property = mPropertyStyle.getProperties( ClassUtils.getUnproxiedClass( traverse.getClass(), mPatternProxy ) ).get( name );
 
-			if ( !property.isReadable() )
+			if ( property == null || !property.isReadable() )
 				return null;
 
 			parentTraverse = traverse;

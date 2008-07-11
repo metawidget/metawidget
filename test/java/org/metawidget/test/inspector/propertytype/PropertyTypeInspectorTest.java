@@ -239,6 +239,13 @@ public class PropertyTypeInspectorTest
 		assertTrue( mInspector.inspect( recursiveFoo, RecursiveFoo.class.getName(), "foo", "foo" ) == null );
 	}
 
+	public void testBadName()
+	{
+		assertTrue( mInspector.inspect( new SubFoo(), "no-such-type" ) == null );
+		assertTrue( mInspector.inspect( new SubFoo(), SubFoo.class.getName(), "no-such-name" ) == null );
+		assertTrue( mInspector.inspect( new SubFoo(), SubFoo.class.getName(), "no-such-parent-name", "foo" ) == null );
+	}
+
 	//
 	//
 	// Constructor

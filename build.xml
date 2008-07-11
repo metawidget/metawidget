@@ -188,6 +188,27 @@
 		
 	</target>
 
+	<target name="pack-as-frontend-backend">
+
+		<antcall target="pack-as-frontend-backend-internal"/>
+		<move file="${build.metawidget.dir}/pack/metawidget-frontend.jar" tofile="${build.metawidget.dir}/metawidget-frontend.jar" />
+		<move file="${build.metawidget.dir}/pack/metawidget-middle.jar" tofile="${build.metawidget.dir}/metawidget-middle.jar" />
+		<move file="${build.metawidget.dir}/pack/metawidget-backend.jar" tofile="${build.metawidget.dir}/metawidget-backend.jar" />
+
+	</target>
+	
+	<target name="pack-as-frontend-backend-debug">
+
+		<property name="build.debug" value="on"/>
+		<antcall target="pack-as-frontend-backend-internal"/>
+
+		<mkdir dir="${build.metawidget.dir}/debug"/>		
+		<move file="${build.metawidget.dir}/pack/metawidget-frontend.jar" tofile="${build.metawidget.dir}/debug/metawidget-frontend-debug-version.jar" />
+		<move file="${build.metawidget.dir}/pack/metawidget-middle.jar" tofile="${build.metawidget.dir}/debug/metawidget-middle-debug-version.jar" />
+		<move file="${build.metawidget.dir}/pack/metawidget-backend.jar" tofile="${build.metawidget.dir}/debug/metawidget-backend-debug-version.jar" />
+		
+	</target>
+
 	<target name="pack-internal" depends="compile">
 		
 		<mkdir dir="${build.metawidget.dir}/pack"/>		
@@ -209,6 +230,45 @@
 			</fileset>
 		</jar>
 		
+	</target>
+
+	<target name="pack-as-frontend-backend-internal" depends="compile">
+
+		<mkdir dir="${build.metawidget.dir}/pack"/>		
+		<jar destfile="${build.metawidget.dir}/pack/metawidget-backend.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/metawidget/inspector/**"/>
+				<exclude name="org/metawidget/inspector/iface/**"/>
+			</fileset>
+		</jar>
+		
+		<jar destfile="${build.metawidget.dir}/pack/metawidget-middle.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/metawidget/inspector/iface/**"/>
+				<include name="org/metawidget/util/**"/>
+			</fileset>
+			<fileset dir="src/java">
+				<include name="**/*.xsd"/>				
+			</fileset>
+		</jar>
+
+		<jar destfile="${build.metawidget.dir}/pack/metawidget-frontend.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/**"/>
+				<exclude name="org/metawidget/inspector/**"/>
+				<exclude name="org/metawidget/example/**"/>
+				<exclude name="org/metawidget/test/**"/>
+				<exclude name="org/metawidget/util/**"/>
+			</fileset>
+			<fileset dir="src/java">
+				<exclude name="org/metawidget/example/**"/>
+				<include name="org/metawidget/swing/icon/**"/>
+				<include name="**/faces-config.xml"/>
+				<include name="**/*.taglib.xml"/>
+				<include name="**/*.tld"/>
+			</fileset>
+		</jar>
+
 	</target>
 
 	<target name="pack-gwt-client">
@@ -236,44 +296,6 @@
 			</fileset>
 		</jar>
 		
-	</target>
-
-	<target name="pack-as-frontend-backend" depends="compile">
-
-		<jar destfile="${build.metawidget.dir}/metawidget-backend.jar" manifest="src/java/META-INF/MANIFEST.MF">
-			<fileset dir="${build.metawidget.dir}/classes">
-				<include name="org/metawidget/inspector/**"/>
-				<exclude name="org/metawidget/inspector/iface/**"/>
-			</fileset>
-		</jar>
-		
-		<jar destfile="${build.metawidget.dir}/metawidget-middle.jar" manifest="src/java/META-INF/MANIFEST.MF">
-			<fileset dir="${build.metawidget.dir}/classes">
-				<include name="org/metawidget/inspector/iface/**"/>
-				<include name="org/metawidget/util/**"/>
-			</fileset>
-			<fileset dir="src/java">
-				<include name="**/*.xsd"/>				
-			</fileset>
-		</jar>
-
-		<jar destfile="${build.metawidget.dir}/metawidget-frontend.jar" manifest="src/java/META-INF/MANIFEST.MF">
-			<fileset dir="${build.metawidget.dir}/classes">
-				<include name="org/**"/>
-				<exclude name="org/metawidget/inspector/**"/>
-				<exclude name="org/metawidget/example/**"/>
-				<exclude name="org/metawidget/test/**"/>
-				<exclude name="org/metawidget/util/**"/>
-			</fileset>
-			<fileset dir="src/java">
-				<exclude name="org/metawidget/example/**"/>
-				<include name="org/metawidget/swing/icon/**"/>
-				<include name="**/faces-config.xml"/>
-				<include name="**/*.taglib.xml"/>
-				<include name="**/*.tld"/>
-			</fileset>
-		</jar>
-
 	</target>
 
 	<target name="flatten-libs" depends="pack">
