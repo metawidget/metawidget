@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Richard Kennard
  */
 
-// TODO: move this into GWT core
+// TODO: move this into GWT core?
 
 public class NumberConverter
 	extends Converter<Number>
