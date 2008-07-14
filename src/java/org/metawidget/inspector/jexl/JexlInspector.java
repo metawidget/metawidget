@@ -31,10 +31,17 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Inspects annotations defined by Metawidget's JEXL support (declared in this same package).
+ * <p>
+ * Many Web environments, such as Java Server Faces and Java Server Pages, supply their own
+ * Expression Language (EL) - but many desktop and mobile environments do not. JEXL is a
+ * lightweight, standalone Expression Language for use in Java applications. Using JEXL, non-Web
+ * environments can 'wire together' properties using ELs in much the same way as Web environments
+ * can use, say, <code>UiFacesAttribute</code>.
  *
  * @author Richard Kennard
  */
 
+// TODO: XML version
 public class JexlInspector
 	extends BasePropertyInspector
 {
@@ -72,8 +79,8 @@ public class JexlInspector
 		// Prepare JEXL
 
 		JexlContext context = JexlHelper.createContext();
-		@SuppressWarnings("unchecked")
-		Map<String,Object> contextMap = context.getVars();
+		@SuppressWarnings( "unchecked" )
+		Map<String, Object> contextMap = context.getVars();
 		contextMap.put( StringUtils.lowercaseFirstLetter( toInspect.getClass().getSimpleName() ), toInspect );
 
 		// UiJexlAttribute
@@ -107,14 +114,14 @@ public class JexlInspector
 
 		String condition = jexlAttribute.condition();
 
-		if ( !"".equals( condition ))
+		if ( !"".equals( condition ) )
 		{
-			if ( !FacesUtils.isValueReference( condition ))
+			if ( !FacesUtils.isValueReference( condition ) )
 				throw MetawidgetException.newException( "Condition '" + condition + "' is not of the form ${...}" );
 
-			Object conditionResult = ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( condition )).evaluate( context );
+			Object conditionResult = ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( condition ) ).evaluate( context );
 
-			if ( !Boolean.TRUE.equals( conditionResult ))
+			if ( !Boolean.TRUE.equals( conditionResult ) )
 				return;
 		}
 
@@ -123,10 +130,10 @@ public class JexlInspector
 		String value = jexlAttribute.value();
 
 		if ( JexlUtils.isValueReference( value ) )
-			value = StringUtils.quietValueOf( ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( value )).evaluate( context ));
+			value = StringUtils.quietValueOf( ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( value ) ).evaluate( context ) );
 
 		// Set the value
 
-		attributes.put( jexlAttribute.name(), StringUtils.quietValueOf( value ));
+		attributes.put( jexlAttribute.name(), StringUtils.quietValueOf( value ) );
 	}
 }

@@ -633,7 +633,7 @@ public abstract class UIMetawidget
 		{
 			metawidget.setReadOnly( true );
 		}
-		else //TODO:if ( !metawidget.isReadOnly() )
+		else
 		{
 			ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
 

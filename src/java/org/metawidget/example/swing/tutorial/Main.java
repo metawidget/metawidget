@@ -16,10 +16,6 @@
 
 package org.metawidget.example.swing.tutorial;
 
-import java.awt.event.ActionEvent;
-
-import javax.swing.AbstractAction;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -35,34 +31,13 @@ public class Main
 	{
 		// Data model
 
-		final Foo foo = new Foo();
+		Person person = new Person();
 
 		// Metawidget
 
-		final SwingMetawidget metawidget = new SwingMetawidget();
+		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setToInspect( foo );
-
-		if ( foo.bar == null )
-		{
-			final JButton button = new JButton();
-			button.setAction( new AbstractAction( "init" ) {
-
-				@Override
-				public void actionPerformed( ActionEvent e )
-				{
-					foo.bar = new Bar();
-					metawidget.remove( button );
-
-					// TODO: why need to repaint?
-
-					metawidget.repaint();
-				}
-
-			} );
-			button.setName( "bar" );
-			metawidget.add( button );
-		}
+		metawidget.setToInspect( person );
 
 		// JFrame
 
@@ -71,17 +46,5 @@ public class Main
 		frame.getContentPane().add( metawidget );
 		frame.setSize( 400, 210 );
 		frame.setVisible( true );
-	}
-
-	public static class Foo
-	{
-		public String name;
-
-		public Bar bar;
-	}
-
-	public static class Bar
-	{
-		public String baz;
 	}
 }

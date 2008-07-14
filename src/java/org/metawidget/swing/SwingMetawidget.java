@@ -809,10 +809,12 @@ public class SwingMetawidget
 			mBinding = null;
 		}
 
-		// Note: call invalidate() here, not validate(), else components
-		// will disappear during addImpl() when in visual GUI builder tools
+		// Call repaint here, for scenarios like doing a 'remove' of
+		// a button that masks a Metawidget
 
-		invalidate();
+		// TODO: test such a scenario
+
+		repaint();
 	}
 
 	@Override
