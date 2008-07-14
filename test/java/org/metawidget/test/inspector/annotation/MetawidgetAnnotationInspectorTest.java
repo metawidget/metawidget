@@ -92,8 +92,7 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( ENTITY.equals( entity.getNodeName() ));
 		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ));
 
-		property = (Element) entity.getFirstChild();
-		property = (Element) property.getNextSibling().getNextSibling();
+		property = (Element) entity.getFirstChild().getNextSibling();
 		assertTrue( "string1".equals( property.getAttribute( NAME ) ));
 		assertTrue( "bar".equals( property.getAttribute( LABEL ) ));
 		assertTrue( "bar1".equals( property.getAttribute( "foo1" ) ));
@@ -124,10 +123,6 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( PROPERTY.equals( property.getNodeName() ));
 		assertTrue( "object1".equals( property.getAttribute( NAME ) ));
 		assertTrue( "foo\\,,bar".equals( property.getAttribute( LOOKUP ) ));
-
-		property = (Element) property.getNextSibling();
-		assertTrue( "object2".equals( property.getAttribute( NAME ) ));
-		assertTrue( !property.hasAttribute( LOOKUP ) );
 
 		property = (Element) property.getNextSibling();
 		assertTrue( "string1".equals( property.getAttribute( NAME ) ));
@@ -179,12 +174,8 @@ public class MetawidgetAnnotationInspectorTest
 
 	public static class Foo
 	{
-		@UiLookup( value = { "foo,", "bar" }, onlyIfNull = true )
+		@UiLookup( value = { "foo,", "bar" } )
 		public Object	object1;
-
-		@UiLookup( value = { "foo,", "bar" }, onlyIfNull = true )
-		@UiComesAfter( "object1" )
-		public Object	object2 = new Object();
 
 		@UiLabel( "bar" )
 		@UiAttributes( { @UiAttribute( name = "foo1", value = "bar1" ), @UiAttribute( name="foo2", value="bar2" ) })
@@ -193,7 +184,7 @@ public class MetawidgetAnnotationInspectorTest
 		@UiDontExpand
 		@UiSection( "Foo" )
 		@UiMasked
-		@UiComesAfter( "object2" )
+		@UiComesAfter( "object1" )
 		@UiLarge
 		public String	string1;
 	}

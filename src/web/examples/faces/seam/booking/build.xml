@@ -32,7 +32,6 @@
 
     	<copy todir="${seam.dir}/examples/metawidget-booking/exploded-archives/jboss-seam-booking.ear/lib">
     		<fileset dir=".">
-    			<include name="metawidget-middle.jar"/>
     			<include name="metawidget-backend.jar"/>
     		</fileset>
     		

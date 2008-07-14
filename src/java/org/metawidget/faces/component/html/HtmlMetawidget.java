@@ -34,10 +34,8 @@ import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 
@@ -154,15 +152,10 @@ public class HtmlMetawidget
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			String notHiddenInRole = attributes.get( FACES_NOT_HIDDEN_IN_ROLE );
+			if ( !mCreateHiddenFields || TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return null;
 
-			if ( notHiddenInRole == null || !FacesUtils.isInRole( ArrayUtils.fromString( notHiddenInRole ) ) )
-			{
-				if ( !mCreateHiddenFields || TRUE.equals( attributes.get( NO_SETTER ) ) )
-					return null;
-
-				return application.createComponent( "javax.faces.HtmlInputHidden" );
-			}
+			return application.createComponent( "javax.faces.HtmlInputHidden" );
 		}
 
 		// Masked (return a couple of nested Stubs, so that we DO still render a label)
@@ -267,15 +260,10 @@ public class HtmlMetawidget
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			String notHiddenInRole = attributes.get( FACES_NOT_HIDDEN_IN_ROLE );
+			if ( !mCreateHiddenFields || TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return null;
 
-			if ( notHiddenInRole == null || !FacesUtils.isInRole( ArrayUtils.fromString( notHiddenInRole ) ) )
-			{
-				if ( !mCreateHiddenFields || TRUE.equals( attributes.get( NO_SETTER ) ) )
-					return null;
-
-				return application.createComponent( "javax.faces.HtmlInputHidden" );
-			}
+			return application.createComponent( "javax.faces.HtmlInputHidden" );
 		}
 
 		// Overriden component

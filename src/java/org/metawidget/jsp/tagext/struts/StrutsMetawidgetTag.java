@@ -57,6 +57,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.PathUtils;
 import org.metawidget.util.PathUtils.TypeAndNames;
 import org.metawidget.util.simple.StringUtils;
+import org.w3c.dom.Element;
 
 /**
  * Metawidget for Struts environments.
@@ -367,7 +368,7 @@ public class StrutsMetawidgetTag
 	}
 
 	@Override
-	protected void beforeBuildCompoundWidget()
+	protected void beforeBuildCompoundWidget( Element element )
 	{
 		// Take the whole path minus the first value (if any), as we assume that will
 		// be supplied by the form

@@ -87,11 +87,11 @@ public class SwingMetawidget
 	//
 	//
 
-	private final static long					serialVersionUID					= 5614421785160728346L;
+	private final static long					serialVersionUID	= 5614421785160728346L;
 
-	private final static Map<String, Inspector>	INSPECTORS							= Collections.synchronizedMap( new HashMap<String, Inspector>() );
+	private final static Map<String, Inspector>	INSPECTORS			= Collections.synchronizedMap( new HashMap<String, Inspector>() );
 
-	private final static Stroke					STROKE_DOTTED						= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
+	private final static Stroke					STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
 	//
@@ -105,11 +105,11 @@ public class SwingMetawidget
 
 	private String[]							mNamesPrefix;
 
-	private String								mInspectorConfig					= "inspector-config.xml";
+	private String								mInspectorConfig	= "inspector-config.xml";
 
 	private Inspector							mInspector;
 
-	private Class<? extends Layout>				mLayoutClass						= TableGridBagLayout.class;
+	private Class<? extends Layout>				mLayoutClass		= TableGridBagLayout.class;
 
 	private Layout								mLayout;
 
@@ -140,7 +140,7 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<Component>						mExistingComponents					= CollectionUtils.newArrayList();
+	private List<Component>						mExistingComponents	= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -150,9 +150,20 @@ public class SwingMetawidget
 
 	private List<Component>						mExistingComponentsUnused;
 
-	private Map<String, Facet>					mFacets								= CollectionUtils.newHashMap();
+	private Map<String, Facet>					mFacets				= CollectionUtils.newHashMap();
 
-	private SwingMetawidgetMixin				mMixin								= new SwingMetawidgetMixin();
+	private MetawidgetMixin<JComponent>			mMetawidgetMixin;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public SwingMetawidget()
+	{
+		mMetawidgetMixin = newMetawidgetMixin();
+	}
 
 	//
 	//
@@ -374,26 +385,26 @@ public class SwingMetawidget
 
 	public boolean isReadOnly()
 	{
-		return mMixin.isReadOnly();
+		return mMetawidgetMixin.isReadOnly();
 	}
 
 	public void setReadOnly( boolean readOnly )
 	{
-		if ( mMixin.isReadOnly() == readOnly )
+		if ( mMetawidgetMixin.isReadOnly() == readOnly )
 			return;
 
-		mMixin.setReadOnly( readOnly );
+		mMetawidgetMixin.setReadOnly( readOnly );
 		invalidateWidgets();
 	}
 
 	public int getMaximumInspectionDepth()
 	{
-		return mMixin.getMaximumInspectionDepth();
+		return mMetawidgetMixin.getMaximumInspectionDepth();
 	}
 
 	public void setMaximumInspectionDepth( int maximumInspectionDepth )
 	{
-		mMixin.setMaximumInspectionDepth( maximumInspectionDepth );
+		mMetawidgetMixin.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
 
@@ -727,6 +738,18 @@ public class SwingMetawidget
 	//
 	//
 
+	/**
+	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * <p>
+	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
+	 * instantiate their version.
+	 */
+
+	protected MetawidgetMixin<JComponent> newMetawidgetMixin()
+	{
+		return new SwingMetawidgetMixin();
+	}
+
 	@Override
 	protected void paintComponent( Graphics graphics )
 	{
@@ -831,7 +854,7 @@ public class SwingMetawidget
 			// our 'dotted rectangle in IDE tools' effect
 
 			if ( mLastInspection != null )
-				mMixin.buildWidgets( mLastInspection );
+				mMetawidgetMixin.buildWidgets( mLastInspection );
 		}
 		catch ( Exception e )
 		{
@@ -869,7 +892,7 @@ public class SwingMetawidget
 			mBinding = mBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
 	}
 
-	protected void beforeBuildCompoundWidget()
+	protected void beforeBuildCompoundWidget( Element element )
 	{
 		mNamesPrefix = PathUtils.parsePath( mPath ).getNames();
 	}
@@ -1406,9 +1429,11 @@ public class SwingMetawidget
 		}
 
 		@Override
-		protected void beforeBuildCompoundWidget( Element element )
+		protected void buildCompoundWidget( Element element )
+			throws Exception
 		{
-			SwingMetawidget.this.beforeBuildCompoundWidget();
+			SwingMetawidget.this.beforeBuildCompoundWidget( element );
+			super.buildCompoundWidget( element );
 		}
 
 		@Override

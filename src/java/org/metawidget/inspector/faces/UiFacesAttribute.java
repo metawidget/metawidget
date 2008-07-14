@@ -22,19 +22,38 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates the value in the field should belong to the set returned by the given
- * EL expression.
+ * Annotates an arbitrary attribute for the UI, based on a Java Server Faces EL expression.
+ * <p>
+ * Unlike <code>UiFacesLookup</code>, which fits into a well-defined place within the JSF
+ * framework (eg. <code>f:selectItems</code>), the <code>UiFacesAttribute</code> expression is
+ * evaluated by the <code>Inspector</code>, not by the <code>Metawidget</code>. This means the
+ * <code>Inspector</code> must be able access to <code>FacesContext</code>. In practice this
+ * usually happens automatically, but in some cases it may be necessary to 'combine remote
+ * inspections' (see the Reference Documentation).
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesLookup
+public @interface UiFacesAttribute
 {
+	String name();
+
 	/**
-	 * An EL expression for the lookup, of the form <code>#{...}</code>.
+	 * Value to set the attribute to.
+	 * <p>
+	 * Can be a String or an EL expression (in which case it must be of the form <code>#{...}</code>)
 	 */
 
-	String value( );
+	String value();
+
+	/**
+	 * Optional EL condition with which to restrict the setting of the attribute, unless the condition
+	 * evaluates to true.
+	 * <p>
+	 * Must be of the form <code>#{...}</code>.
+	 */
+
+	String condition() default "";
 }

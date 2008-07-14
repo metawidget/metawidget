@@ -147,7 +147,6 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 				else
 				{
-					beforeBuildCompoundWidget( element );
 					buildCompoundWidget( element );
 				}
 			}
@@ -164,11 +163,6 @@ public abstract class BaseMetawidgetMixin<W, E>
 	// Protected methods
 	//
 	//
-
-	protected void beforeBuildCompoundWidget( E element )
-	{
-		// Do nothing by default
-	}
 
 	protected void buildCompoundWidget( E element )
 		throws Exception

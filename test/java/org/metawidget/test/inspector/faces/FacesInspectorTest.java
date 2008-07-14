@@ -24,13 +24,12 @@ import javax.faces.convert.NumberConverter;
 
 import junit.framework.TestCase;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.faces.FacesInspector;
 import org.metawidget.inspector.faces.UiFacesComponent;
 import org.metawidget.inspector.faces.UiFacesConverter;
 import org.metawidget.inspector.faces.UiFacesDateTimeConverter;
 import org.metawidget.inspector.faces.UiFacesLookup;
-import org.metawidget.inspector.faces.UiFacesNotHiddenInRole;
-import org.metawidget.inspector.faces.UiFacesNotReadOnlyInRole;
 import org.metawidget.inspector.faces.UiFacesNumberConverter;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -67,15 +66,12 @@ public class FacesInspectorTest
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object1" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "foo.bar".equals( property.getAttribute( FACES_LOOKUP ) ) );
+		assertTrue( "#{foo.bar}".equals( property.getAttribute( FACES_LOOKUP ) ) );
 		assertTrue( "foo.component".equals( property.getAttribute( FACES_COMPONENT ) ) );
 		assertTrue( "foo.converter".equals( property.getAttribute( FACES_CONVERTER_ID ) ) );
-		assertTrue( "baz2".equals( property.getAttribute( FACES_NOT_READ_ONLY_IN_ROLE ) ) );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "baz1".equals( property.getAttribute( FACES_NOT_HIDDEN_IN_ROLE ) ) );
-		assertTrue( !property.hasAttribute( FACES_LOOKUP ) );
 		assertTrue( DateTimeConverter.class.getName().equals( property.getAttribute( FACES_CONVERTER_CLASS ) ) );
 		assertTrue( "full".equals( property.getAttribute( DATE_STYLE ) ) );
 		assertTrue( "medium".equals( property.getAttribute( TIME_STYLE ) ) );
@@ -101,6 +97,24 @@ public class FacesInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 3 );
 	}
 
+	public void testUtils()
+	{
+		assertTrue( FacesUtils.isValueReference( "#{foo.bar}" ));
+		assertTrue( !FacesUtils.isValueReference( "foo.bar" ));
+		assertTrue( !FacesUtils.isValueReference( "#{foo.bar" ));
+		assertTrue( !FacesUtils.isValueReference( "foo.bar}" ));
+
+		assertTrue( "foo.bar".equals( FacesUtils.unwrapValueReference( "foo.bar" )));
+		assertTrue( "#{foo.bar".equals( FacesUtils.unwrapValueReference( "#{foo.bar" )));
+		assertTrue( "foo.bar".equals( FacesUtils.unwrapValueReference( "#{foo.bar}" )));
+		assertTrue( "foo.bar".equals( FacesUtils.unwrapValueReference( "foo.bar" )));
+		assertTrue( "#{foo.bar".equals( FacesUtils.unwrapValueReference( "#{foo.bar" )));
+
+		assertTrue( "#{foo.bar}".equals( FacesUtils.wrapValueReference( "foo.bar" )));
+		assertTrue( "#{foo.bar}".equals( FacesUtils.wrapValueReference( "#{foo.bar}" )));
+		assertTrue( "#{#{foo.bar}".equals( FacesUtils.wrapValueReference( "#{foo.bar" )));
+	}
+
 	//
 	//
 	// Constructor
@@ -124,16 +138,13 @@ public class FacesInspectorTest
 
 	public static class Foo
 	{
-		@UiFacesLookup( "foo.bar" )
+		@UiFacesLookup( "#{foo.bar}" )
 		@UiFacesComponent( "foo.component" )
 		@UiFacesConverter( "foo.converter" )
-		@UiFacesNotReadOnlyInRole( "baz2" )
-		public Object	object1	= null;
+		public Object	object1;
 
-		@UiFacesLookup( value = "foo.bar", onlyIfNull = true )
-		@UiFacesNotHiddenInRole( "baz1" )
 		@UiFacesDateTimeConverter( dateStyle = "full", timeStyle = "medium", locale = "UK", pattern = "yyyy", timeZone = "GMT", type = "date" )
-		public Object	object2	= new Object();
+		public Object	object2;
 
 		@UiFacesNumberConverter( currencyCode = "AUD", currencySymbol = "$", groupingUsed = true, locale = "AU", maxFractionDigits = 2, minFractionDigits = 1, maxIntegerDigits = 100, minIntegerDigits = 3, pattern = "#0.00", type = "currency" )
 		public Object	object3;

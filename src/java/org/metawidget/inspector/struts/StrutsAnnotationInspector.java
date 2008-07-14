@@ -68,11 +68,8 @@ public class StrutsAnnotationInspector
 
 		if ( expressionLookup != null )
 		{
-			if ( !expressionLookup.onlyIfNull() || property.read( toInspect ) == null )
-			{
-				attributes.put( STRUTS_LOOKUP_NAME, expressionLookup.name() );
-				attributes.put( STRUTS_LOOKUP_PROPERTY, expressionLookup.property() );
-			}
+			attributes.put( STRUTS_LOOKUP_NAME, expressionLookup.name() );
+			attributes.put( STRUTS_LOOKUP_PROPERTY, expressionLookup.property() );
 		}
 
 		return attributes;

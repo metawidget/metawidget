@@ -22,16 +22,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates the field should not be hidden in the UI if the logged-in user is in the given Role.
- * <p>
- * This annotation should be used in conjunction with <code>UiHidden</code>.
+ * Annotates arbitrary attributes for the UI, based on Java Server Faces EL expressions.
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesNotHiddenInRole
+public @interface UiFacesAttributes
 {
-	String[] value( );
+	UiFacesAttribute[] value();
 }

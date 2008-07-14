@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.faces;
+package org.metawidget.inspector.jexl;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -22,16 +22,31 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates the field should not be read-only in the UI if the logged-in user is in the given Role.
- * <p>
- * This annotation should be used in conjunction with <code>UiReadOnly</code>.
+ * Annotates an arbitrary attribute for the UI, based on a JEXL expression.
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiFacesNotReadOnlyInRole
+public @interface UiJexlAttribute
 {
-	String[] value( );
+	String name();
+
+	/**
+	 * Value to set the attribute to.
+	 * <p>
+	 * Can be a String or an JEXL expression (in which case it must be of the form <code>${...}</code>)
+	 */
+
+	String value();
+
+	/**
+	 * Optional JEXL condition with which to restrict the setting of the attribute, unless the condition
+	 * evaluates to true.
+	 * <p>
+	 * Must be of the form <code>${...}</code>.
+	 */
+
+	String condition() default "";
 }

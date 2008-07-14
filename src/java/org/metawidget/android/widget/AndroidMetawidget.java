@@ -81,11 +81,11 @@ public class AndroidMetawidget
 	//
 	//
 
-	private final static List<Boolean>				LIST_BOOLEAN_VALUES					= CollectionUtils.unmodifiableList( null, Boolean.TRUE, Boolean.FALSE );
+	private final static List<Boolean>				LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( null, Boolean.TRUE, Boolean.FALSE );
 
-	private final static Map<Integer, Inspector>	INSPECTORS							= Collections.synchronizedMap( new HashMap<Integer, Inspector>() );
+	private final static Map<Integer, Inspector>	INSPECTORS			= Collections.synchronizedMap( new HashMap<Integer, Inspector>() );
 
-	private final static String						PARAM_PREFIX						= "param";
+	private final static String						PARAM_PREFIX		= "param";
 
 	//
 	//
@@ -101,7 +101,7 @@ public class AndroidMetawidget
 
 	private Inspector								mInspector;
 
-	private Class<? extends Layout>					mLayoutClass						= TableLayout.class;
+	private Class<? extends Layout>					mLayoutClass		= TableLayout.class;
 
 	private Layout									mLayout;
 
@@ -117,7 +117,7 @@ public class AndroidMetawidget
 
 	private Map<String, Facet>						mFacets;
 
-	private AndroidMetawidgetMixin					mMixin								= new AndroidMetawidgetMixin();
+	private AndroidMetawidgetMixin					mMetawidgetMixin;
 
 	//
 	//
@@ -128,6 +128,8 @@ public class AndroidMetawidget
 	public AndroidMetawidget( Context context )
 	{
 		super( context );
+		mMetawidgetMixin = newMetawidgetMixin();
+
 		setOrientation( LinearLayout.VERTICAL );
 	}
 
@@ -135,6 +137,8 @@ public class AndroidMetawidget
 	public AndroidMetawidget( Context context, AttributeSet attributes, Map inflateParams )
 	{
 		super( context, attributes, inflateParams );
+		mMetawidgetMixin = newMetawidgetMixin();
+
 		setOrientation( LinearLayout.VERTICAL );
 
 		// For each attribute...
@@ -187,7 +191,7 @@ public class AndroidMetawidget
 
 		if ( readOnly != null && !"".equals( readOnly ) )
 		{
-			mMixin.setReadOnly( Boolean.parseBoolean( readOnly ) );
+			mMetawidgetMixin.setReadOnly( Boolean.parseBoolean( readOnly ) );
 		}
 	}
 
@@ -325,26 +329,26 @@ public class AndroidMetawidget
 
 	public boolean isReadOnly()
 	{
-		return mMixin.isReadOnly();
+		return mMetawidgetMixin.isReadOnly();
 	}
 
 	public void setReadOnly( boolean readOnly )
 	{
-		if ( mMixin.isReadOnly() == readOnly )
+		if ( mMetawidgetMixin.isReadOnly() == readOnly )
 			return;
 
-		mMixin.setReadOnly( readOnly );
+		mMetawidgetMixin.setReadOnly( readOnly );
 		invalidateWidgets();
 	}
 
 	public int getMaximumInspectionDepth()
 	{
-		return mMixin.getMaximumInspectionDepth();
+		return mMetawidgetMixin.getMaximumInspectionDepth();
 	}
 
 	public void setMaximumInspectionDepth( int maximumInspectionDepth )
 	{
-		mMixin.setMaximumInspectionDepth( maximumInspectionDepth );
+		mMetawidgetMixin.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
 
@@ -467,6 +471,18 @@ public class AndroidMetawidget
 	//
 	//
 
+	/**
+	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * <p>
+	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
+	 * instantiate their version.
+	 */
+
+	protected AndroidMetawidgetMixin newMetawidgetMixin()
+	{
+		return new AndroidMetawidgetMixin();
+	}
+
 	@Override
 	protected void onDraw( Canvas canvas )
 	{
@@ -533,7 +549,7 @@ public class AndroidMetawidget
 				Log.d( getClass().getSimpleName(), "Reusing previous inspection " + mLastInspection );
 			}
 
-			mMixin.buildWidgets( mLastInspection );
+			mMetawidgetMixin.buildWidgets( mLastInspection );
 		}
 		catch ( Exception e )
 		{
@@ -919,7 +935,7 @@ public class AndroidMetawidget
 
 			// buildWidgets just-in-time
 
-			if ( mMixin.isMetawidget( viewgroup ) )
+			if ( mMetawidgetMixin.isMetawidget( viewgroup ) )
 				( (AndroidMetawidget) viewgroup ).buildWidgets();
 
 			// Use our own findViewWithTag, not View.findViewWithTag!

@@ -205,6 +205,13 @@ public class ConfigReader
 	//
 	//
 
+	/**
+	 * Convert the given String to an Object of the given Class.
+	 * <p>
+	 * Subclasses can override this method to hook in custom resource
+	 * resolution.
+	 */
+
 	@SuppressWarnings( "unchecked" )
 	protected <T> T convertFromString( String input, Class<T> toReturn )
 	{

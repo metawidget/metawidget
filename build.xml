@@ -94,6 +94,7 @@
 			<include name="org/metawidget/inspector/faces/**"/>
 			<include name="org/metawidget/inspector/hibernate/validator/**"/>
 			<include name="org/metawidget/inspector/java5/**"/>
+			<include name="org/metawidget/inspector/jexl/**"/>
 			<include name="org/metawidget/inspector/jpa/**"/>
 			<include name="org/metawidget/inspector/jsp/**"/>
 			<include name="org/metawidget/inspector/spring/**"/>
@@ -192,7 +193,6 @@
 
 		<antcall target="pack-as-frontend-backend-internal"/>
 		<move file="${build.metawidget.dir}/pack/metawidget-frontend.jar" tofile="${build.metawidget.dir}/metawidget-frontend.jar" />
-		<move file="${build.metawidget.dir}/pack/metawidget-middle.jar" tofile="${build.metawidget.dir}/metawidget-middle.jar" />
 		<move file="${build.metawidget.dir}/pack/metawidget-backend.jar" tofile="${build.metawidget.dir}/metawidget-backend.jar" />
 
 	</target>
@@ -204,7 +204,6 @@
 
 		<mkdir dir="${build.metawidget.dir}/debug"/>		
 		<move file="${build.metawidget.dir}/pack/metawidget-frontend.jar" tofile="${build.metawidget.dir}/debug/metawidget-frontend-debug-version.jar" />
-		<move file="${build.metawidget.dir}/pack/metawidget-middle.jar" tofile="${build.metawidget.dir}/debug/metawidget-middle-debug-version.jar" />
 		<move file="${build.metawidget.dir}/pack/metawidget-backend.jar" tofile="${build.metawidget.dir}/debug/metawidget-backend-debug-version.jar" />
 		
 	</target>
@@ -237,25 +236,17 @@
 		<mkdir dir="${build.metawidget.dir}/pack"/>		
 		<jar destfile="${build.metawidget.dir}/pack/metawidget-backend.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">
-				<include name="org/metawidget/inspector/**"/>
-				<exclude name="org/metawidget/inspector/iface/**"/>
+				<include name="org/metawidget/inspector/**/Ui*.class"/>
+				<include name="org/metawidget/inspector/**/*Constants.class"/>
+				<include name="org/metawidget/util/**"/>
 			</fileset>
 		</jar>
 		
-		<jar destfile="${build.metawidget.dir}/pack/metawidget-middle.jar" manifest="src/java/META-INF/MANIFEST.MF">
-			<fileset dir="${build.metawidget.dir}/classes">
-				<include name="org/metawidget/inspector/iface/**"/>
-				<include name="org/metawidget/util/**"/>
-			</fileset>
-			<fileset dir="src/java">
-				<include name="**/*.xsd"/>				
-			</fileset>
-		</jar>
-
 		<jar destfile="${build.metawidget.dir}/pack/metawidget-frontend.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/**"/>
-				<exclude name="org/metawidget/inspector/**"/>
+				<exclude name="org/metawidget/inspector/**/Ui*.class"/>
+				<exclude name="org/metawidget/inspector/**/*Constants.class"/>
 				<exclude name="org/metawidget/example/**"/>
 				<exclude name="org/metawidget/test/**"/>
 				<exclude name="org/metawidget/util/**"/>
@@ -266,6 +257,9 @@
 				<include name="**/faces-config.xml"/>
 				<include name="**/*.taglib.xml"/>
 				<include name="**/*.tld"/>
+			</fileset>
+			<fileset dir="src/java">
+				<include name="**/*.xsd"/>				
 			</fileset>
 		</jar>
 
@@ -1312,7 +1306,6 @@
 		</copy>
 
 		<copy todir="${build.metawidget.dir}/examples/faces/seam/booking" file="${build.metawidget.dir}/metawidget-frontend.jar"/>
-		<copy todir="${build.metawidget.dir}/examples/faces/seam/booking" file="${build.metawidget.dir}/metawidget-middle.jar"/>
 		<copy todir="${build.metawidget.dir}/examples/faces/seam/booking" file="${build.metawidget.dir}/metawidget-backend.jar"/>
 
 		<copy todir="${build.metawidget.dir}/examples/faces" file="src/web/examples/faces/readme.txt"/>

@@ -41,10 +41,6 @@ public final class FacesInspectionResultConstants
 
 	public final static String	FACES_CONVERTER_ID				= "faces-converter-id";
 
-	public final static String	FACES_NOT_HIDDEN_IN_ROLE		= "faces-not-hidden-in-role";
-
-	public final static String	FACES_NOT_READ_ONLY_IN_ROLE		= "faces-not-read-only-in-role";
-
 	/**
 	 * ISO 4217 currency code to be applied when formatting currencies.
 	 */

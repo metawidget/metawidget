@@ -84,11 +84,11 @@ public class GwtMetawidget
 	//
 	//
 
-	private final static int										BUILDING_COMPLETE					= 0;
+	private final static int										BUILDING_COMPLETE		= 0;
 
-	private final static int										BUILDING_IN_PROGRESS				= 1;
+	private final static int										BUILDING_IN_PROGRESS	= 1;
 
-	private final static int										BUILDING_NEEDED						= 2;
+	private final static int										BUILDING_NEEDED			= 2;
 
 	/**
 	 * Delay before rebuilding widgets (in milliseconds).
@@ -100,7 +100,7 @@ public class GwtMetawidget
 	 * calls) into one.
 	 */
 
-	private final static int										BUILD_DELAY							= 50;
+	private final static int										BUILD_DELAY				= 50;
 
 	/**
 	 * Static cache of Inspectors.
@@ -109,7 +109,7 @@ public class GwtMetawidget
 	 * JavaScript is not multi-threaded.
 	 */
 
-	private final static Map<Class<? extends Inspector>, Inspector>	INSPECTORS							= new HashMap<Class<? extends Inspector>, Inspector>();
+	private final static Map<Class<? extends Inspector>, Inspector>	INSPECTORS				= new HashMap<Class<? extends Inspector>, Inspector>();
 
 	//
 	//
@@ -119,11 +119,11 @@ public class GwtMetawidget
 
 	private Object													mToInspect;
 
-	private Class<? extends Layout>									mLayoutClass						= FlexTableLayout.class;
+	private Class<? extends Layout>									mLayoutClass			= FlexTableLayout.class;
 
 	private Layout													mLayout;
 
-	private Class<? extends Inspector>								mInspectorClass						= GwtRemoteInspectorProxy.class;
+	private Class<? extends Inspector>								mInspectorClass			= GwtRemoteInspectorProxy.class;
 
 	private Inspector												mInspector;
 
@@ -144,11 +144,11 @@ public class GwtMetawidget
 
 	private Map<String, Object>										mParameters;
 
-	private Map<String, Facet>										mFacets								= new HashMap<String, Facet>();
+	private Map<String, Facet>										mFacets					= new HashMap<String, Facet>();
 
-	private Set<Widget>												mExistingWidgets					= new HashSet<Widget>();
+	private Set<Widget>												mExistingWidgets		= new HashSet<Widget>();
 
-	private Set<Widget>												mExistingWidgetsUnused				= new HashSet<Widget>();
+	private Set<Widget>												mExistingWidgetsUnused	= new HashSet<Widget>();
 
 	/**
 	 * Map of widgets added to this Metawidget.
@@ -159,7 +159,7 @@ public class GwtMetawidget
 	 * separate Map of the widgets we have encountered.
 	 */
 
-	private Map<String, Widget>										mAddedWidgets						= new HashMap<String, Widget>();
+	private Map<String, Widget>										mAddedWidgets			= new HashMap<String, Widget>();
 
 	private Timer													mBuildWidgets;
 
@@ -187,7 +187,18 @@ public class GwtMetawidget
 
 	Timer															mExecuteAfterBuildWidgets;
 
-	GwtMetawidgetMixinImpl											mMixin								= new GwtMetawidgetMixinImpl();
+	GwtMetawidgetMixin<Widget>										mMetawidgetMixin;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public GwtMetawidget()
+	{
+		mMetawidgetMixin = newMetawidgetMixin();
+	}
 
 	//
 	//
@@ -358,26 +369,26 @@ public class GwtMetawidget
 
 	public void setReadOnly( boolean readOnly )
 	{
-		if ( mMixin.isReadOnly() == readOnly )
+		if ( mMetawidgetMixin.isReadOnly() == readOnly )
 			return;
 
-		mMixin.setReadOnly( readOnly );
+		mMetawidgetMixin.setReadOnly( readOnly );
 		invalidateWidgets();
 	}
 
 	public boolean isReadOnly()
 	{
-		return mMixin.isReadOnly();
+		return mMetawidgetMixin.isReadOnly();
 	}
 
 	public int getMaximumInspectionDepth()
 	{
-		return mMixin.getMaximumInspectionDepth();
+		return mMetawidgetMixin.getMaximumInspectionDepth();
 	}
 
 	public void setMaximumInspectionDepth( int maximumInspectionDepth )
 	{
-		mMixin.setMaximumInspectionDepth( maximumInspectionDepth );
+		mMetawidgetMixin.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
 
@@ -720,6 +731,18 @@ public class GwtMetawidget
 	//
 
 	/**
+	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * <p>
+	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
+	 * instantiate their version.
+	 */
+
+	protected GwtMetawidgetMixin<Widget> newMetawidgetMixin()
+	{
+		return new GwtMetawidgetMixinImpl();
+	}
+
+	/**
 	 * Invalidates the current inspection result (if any) <em>and</em> invalidates the widgets.
 	 */
 
@@ -853,7 +876,7 @@ public class GwtMetawidget
 							try
 							{
 								mIgnoreAddRemove = true;
-								mMixin.buildWidgets( mLastInspection );
+								mMetawidgetMixin.buildWidgets( mLastInspection );
 							}
 							catch ( Exception e )
 							{
@@ -894,7 +917,7 @@ public class GwtMetawidget
 					mLastInspection = mInspector.inspect( mToInspect, mType, names );
 				}
 
-				mMixin.buildWidgets( mLastInspection );
+				mMetawidgetMixin.buildWidgets( mLastInspection );
 			}
 			catch ( Exception e )
 			{
@@ -963,7 +986,7 @@ public class GwtMetawidget
 		return widget;
 	}
 
-	protected void beforeBuildCompoundWidget()
+	protected void beforeBuildCompoundWidget( Element element )
 	{
 		mNamesPrefix = GwtUtils.fromStringToArray( mName, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
 	}
@@ -1308,9 +1331,11 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected void beforeBuildCompoundWidget( Element element )
+		protected void buildCompoundWidget( Element element )
+			throws Exception
 		{
-			GwtMetawidget.this.beforeBuildCompoundWidget();
+			GwtMetawidget.this.beforeBuildCompoundWidget( element );
+			super.buildCompoundWidget( element );
 		}
 
 		@Override

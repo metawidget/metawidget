@@ -38,10 +38,4 @@ import java.lang.annotation.Target;
 public @interface UiSpringLookup
 {
 	String value( );
-
-	/**
-	 * Only bind this value to a lookup if the value is currently <code>null</code>.
-	 */
-
-	boolean onlyIfNull( ) default false;
 }

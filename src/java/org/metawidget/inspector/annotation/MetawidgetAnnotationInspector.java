@@ -207,16 +207,13 @@ public class MetawidgetAnnotationInspector
 
 		if ( lookup != null )
 		{
-			if ( !lookup.onlyIfNull() || property.read( toInspect ) == null )
-			{
-				attributes.put( LOOKUP, ArrayUtils.toString( lookup.value() ) );
+			attributes.put( LOOKUP, ArrayUtils.toString( lookup.value() ) );
 
-				// (note: values().length == labels().length() is not validated
-				// here, as XmlInspector could bypass it anyway)
+			// (note: values().length == labels().length() is not validated
+			// here, as XmlInspector could bypass it anyway)
 
-				if ( lookup.labels().length > 0 )
-					attributes.put( LOOKUP_LABELS, ArrayUtils.toString( lookup.labels() ) );
-			}
+			if ( lookup.labels().length > 0 )
+				attributes.put( LOOKUP_LABELS, ArrayUtils.toString( lookup.labels() ) );
 		}
 
 		// UiMasked

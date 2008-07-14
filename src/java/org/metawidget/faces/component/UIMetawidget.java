@@ -50,7 +50,6 @@ import org.metawidget.faces.component.validator.StandardValidator;
 import org.metawidget.faces.component.validator.Validator;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
@@ -126,7 +125,7 @@ public abstract class UIMetawidget
 
 	private String				mBindingPrefix;
 
-	private UIMetawidgetMixin	mMixin										= new UIMetawidgetMixin();
+	private UIMetawidgetMixin	mMetawidgetMixin;
 
 	//
 	//
@@ -136,6 +135,8 @@ public abstract class UIMetawidget
 
 	public UIMetawidget()
 	{
+		mMetawidgetMixin = newMetawidgetMixin();
+
 		// Default renderer
 
 		setRendererType( "table" );
@@ -320,7 +321,7 @@ public abstract class UIMetawidget
 	{
 		try
 		{
-			mMixin.buildWidgets( inspect() );
+			mMetawidgetMixin.buildWidgets( inspect() );
 		}
 		catch ( Exception e )
 		{
@@ -371,6 +372,18 @@ public abstract class UIMetawidget
 	// Protected methods
 	//
 	//
+
+	/**
+	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * <p>
+	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
+	 * instantiate their version.
+	 */
+
+	protected UIMetawidgetMixin newMetawidgetMixin()
+	{
+		return new UIMetawidgetMixin();
+	}
 
 	/**
 	 * Inspect the value binding.
@@ -440,13 +453,13 @@ public abstract class UIMetawidget
 		// In the event the direct object is 'null' or a primitive, traverse from the parent
 		// as there may be useful metadata there (such as 'name' and 'type')
 
-		String binding = FacesUtils.unwrap( valueBinding.getExpressionString() );
+		String binding = FacesUtils.unwrapValueReference( valueBinding.getExpressionString() );
 		int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( lastIndexOf != -1 )
 		{
 			Application application = context.getApplication();
-			ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrap( binding.substring( 0, lastIndexOf ) ) );
+			ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapValueReference( binding.substring( 0, lastIndexOf ) ) );
 			Object toInspect = bindingParent.getValue( context );
 
 			if ( toInspect != null )
@@ -534,7 +547,7 @@ public abstract class UIMetawidget
 		else
 		{
 			if ( mBindingPrefix != null )
-				valueBindingChild = application.createValueBinding( FacesUtils.wrap( mBindingPrefix + attributes.get( NAME ) ) );
+				valueBindingChild = application.createValueBinding( FacesUtils.wrapValueReference( mBindingPrefix + attributes.get( NAME ) ) );
 			else
 				valueBindingChild = getValueBinding( "value" );
 		}
@@ -596,8 +609,8 @@ public abstract class UIMetawidget
 
 			// Stubs
 
-			if ( mMixin.isStub( component ) )
-				childAttributes.putAll( mMixin.getStubAttributes( component ) );
+			if ( mMetawidgetMixin.isStub( component ) )
+				childAttributes.putAll( mMetawidgetMixin.getStubAttributes( component ) );
 
 			addWidget( component );
 		}
@@ -605,7 +618,7 @@ public abstract class UIMetawidget
 
 	protected void beforeBuildCompoundWidget( Element element )
 	{
-		mBindingPrefix = FacesUtils.unwrap( getValueBinding( "value" ).getExpressionString() ) + StringUtils.SEPARATOR_DOT_CHAR;
+		mBindingPrefix = FacesUtils.unwrapValueReference( getValueBinding( "value" ).getExpressionString() ) + StringUtils.SEPARATOR_DOT_CHAR;
 	}
 
 	protected void initMetawidget( UIMetawidget metawidget, Map<String, String> attributes )
@@ -614,17 +627,13 @@ public abstract class UIMetawidget
 		// Read-only
 		//
 		// Note: this isn't just the read-only setting of the parent Metawidget, it must also
-		// take into account any property-level attributes (including FACES_NOT_READ_ONLY_IN_ROLE)
+		// take into account any property-level attributes
 
 		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
 		{
-			String notReadOnlyInRole = attributes.get( FACES_NOT_READ_ONLY_IN_ROLE );
-
-			if ( notReadOnlyInRole == null || !FacesUtils.isInRole( ArrayUtils.fromString( notReadOnlyInRole ) ) )
-				metawidget.setReadOnly( true );
+			metawidget.setReadOnly( true );
 		}
-
-		if ( !metawidget.isReadOnly() )
+		else //TODO:if ( !metawidget.isReadOnly() )
 		{
 			ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
 
@@ -672,7 +681,7 @@ public abstract class UIMetawidget
 		Map<String, Object> attributes = component.getAttributes();
 		attributes.put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
 
-		String idealId = StringUtils.camelCase( FacesUtils.unwrap( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
+		String idealId = StringUtils.camelCase( FacesUtils.unwrapValueReference( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
 		String actualId = idealId;
 
 		// Avoid duplicates
@@ -943,7 +952,7 @@ public abstract class UIMetawidget
 
 					if ( name != null && !"".equals( name ) )
 					{
-						valueBinding = FacesUtils.wrap( mBindingPrefix + name );
+						valueBinding = FacesUtils.wrapValueReference( mBindingPrefix + name );
 						binding = context.getApplication().createValueBinding( valueBinding );
 					}
 				}
@@ -1090,7 +1099,10 @@ public abstract class UIMetawidget
 		selectItems.setId( viewRoot.createUniqueId() );
 		children.add( selectItems );
 
-		selectItems.setValueBinding( "value", application.createValueBinding( FacesUtils.wrap( binding ) ) );
+		if ( !FacesUtils.isValueReference( binding ))
+			throw MetawidgetException.newException( "Lookup '" + binding + "' is not of the form #{...}" );
+
+		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
 	}
 
 	protected class UIMetawidgetMixin
@@ -1113,12 +1125,7 @@ public abstract class UIMetawidget
 		protected boolean isReadOnly( Map<String, String> attributes )
 		{
 			if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
-			{
-				String notReadOnlyInRole = attributes.get( FACES_NOT_READ_ONLY_IN_ROLE );
-
-				if ( notReadOnlyInRole == null || !FacesUtils.isInRole( ArrayUtils.fromString( notReadOnlyInRole ) ) )
-					return true;
-			}
+				return true;
 
 			// Read-only value-binding
 
@@ -1126,9 +1133,11 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected void beforeBuildCompoundWidget( Element element )
+		protected void buildCompoundWidget( Element element )
+			throws Exception
 		{
 			UIMetawidget.this.beforeBuildCompoundWidget( element );
+			super.buildCompoundWidget( element );
 		}
 
 		@Override

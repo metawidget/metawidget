@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.struts;
+package org.metawidget.inspector.jexl;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -22,17 +22,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates the value returned by the field should belong to the set returned by the
- * named JSP bean and property (as used by Struts' <code>html:options</code>).
+ * Annotates arbitrary attributes for the UI, based on JEXL expressions.
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiStrutsLookup
+public @interface UiJexlAttributes
 {
-	String name( );
-
-	String property( );
+	UiJexlAttribute[] value();
 }

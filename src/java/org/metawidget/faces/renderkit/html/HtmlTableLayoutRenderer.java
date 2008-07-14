@@ -578,7 +578,7 @@ public class HtmlTableLayoutRenderer
 		if ( binding == null )
 			return null;
 
-		return StringUtils.camelCase( FacesUtils.unwrap( binding.getExpressionString() ), StringUtils.SEPARATOR_DOT_CHAR );
+		return StringUtils.camelCase( FacesUtils.unwrapValueReference( binding.getExpressionString() ), StringUtils.SEPARATOR_DOT_CHAR );
 	}
 
 	protected void writeStyleClass( ResponseWriter writer, int styleClass )

@@ -26,7 +26,6 @@ import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.component.UIViewRoot;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
@@ -46,19 +45,23 @@ public final class FacesUtils
 	//
 	//
 
+	public static boolean isValueReference( String binding )
+	{
+		return PATTERN_BINDING.matcher( binding ).matches();
+	}
 	/**
 	 * @return the original String, not wrapped in #{...}. If the original String was not wrapped,
 	 *         returns the original String
 	 */
 
-	public static String unwrap( String binding )
+	public static String unwrapValueReference( String binding )
 	{
 		Matcher matcher = PATTERN_BINDING.matcher( binding );
 
 		if ( !matcher.matches() )
 			return binding;
 
-		return matcher.group( 2 );
+		return matcher.group( 3 );
 	}
 
 	/**
@@ -66,9 +69,12 @@ public final class FacesUtils
 	 *         returns the original String
 	 */
 
-	public static String wrap( String binding )
+	public static String wrapValueReference( String binding )
 	{
-		return "#{" + unwrap( binding ) + "}";
+		if ( isValueReference( binding ))
+			return binding;
+
+		return BINDING_START + unwrapValueReference( binding ) + BINDING_END;
 	}
 
 	/**
@@ -129,19 +135,6 @@ public final class FacesUtils
 		}
 
 		return null;
-	}
-
-	public static boolean isInRole( String... roles )
-	{
-		ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-
-		for ( String role : roles )
-		{
-			if ( externalContext.isUserInRole( role ) )
-				return true;
-		}
-
-		return false;
 	}
 
 	public static void render( FacesContext context, UIComponent component )
@@ -303,7 +296,11 @@ public final class FacesUtils
 		}
 	}
 
-	private final static Pattern	PATTERN_BINDING	= Pattern.compile( "(#\\{)?([^}]*)(\\})?" );
+	private final static Pattern	PATTERN_BINDING	= Pattern.compile( "((#|\\$)\\{)([^}]*)(\\})" );
+
+	private final static String		BINDING_START	= "#{";
+
+	private final static String		BINDING_END		= "}";
 
 	//
 	//

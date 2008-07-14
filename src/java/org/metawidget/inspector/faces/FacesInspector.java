@@ -21,15 +21,19 @@ import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.Map;
 
+import javax.faces.application.Application;
+import javax.faces.context.FacesContext;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 
+import org.metawidget.MetawidgetException;
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BasePropertyInspector;
 import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
  * Inspects annotations defined by Metawidget's Java Server Faces support (declared in this same package).
@@ -73,12 +77,7 @@ public class FacesInspector
 		UiFacesLookup expressionLookup = property.getAnnotation( UiFacesLookup.class );
 
 		if ( expressionLookup != null )
-		{
-			if ( !expressionLookup.onlyIfNull() || property.read( toInspect ) == null )
-			{
-				attributes.put( FACES_LOOKUP, expressionLookup.value() );
-			}
-		}
+			attributes.put( FACES_LOOKUP, expressionLookup.value() );
 
 		// Component
 
@@ -165,20 +164,67 @@ public class FacesInspector
 				attributes.put( DATETIME_TYPE, dateTimeConverter.type() );
 		}
 
-		// NotHiddenInRole
+		// Attributes
 
-		UiFacesNotHiddenInRole notHiddenInRole = property.getAnnotation( UiFacesNotHiddenInRole.class );
+		UiFacesAttribute facesAttribute = property.getAnnotation( UiFacesAttribute.class );
+		UiFacesAttributes facesAttributes = property.getAnnotation( UiFacesAttributes.class );
 
-		if ( notHiddenInRole != null )
-			attributes.put( FACES_NOT_HIDDEN_IN_ROLE, ArrayUtils.toString( notHiddenInRole.value() ) );
+		if ( facesAttribute != null || facesAttributes != null )
+		{
+			FacesContext context = FacesContext.getCurrentInstance();
 
-		// NotReadOnlyInRole
+			if ( context == null )
+				throw InspectorException.newException( "FacesContext not available to FacesInspector" );
 
-		UiFacesNotReadOnlyInRole notReadOnlyInRole = property.getAnnotation( UiFacesNotReadOnlyInRole.class );
+			Application application = context.getApplication();
 
-		if ( notReadOnlyInRole != null )
-			attributes.put( FACES_NOT_READ_ONLY_IN_ROLE, ArrayUtils.toString( notReadOnlyInRole.value() ) );
+			// UiFacesAttribute
+
+			if ( facesAttribute != null )
+			{
+				putFacesAttribute( context, application, attributes, facesAttribute );
+			}
+
+			// UiFacesAttributes
+
+			if ( facesAttributes != null )
+			{
+				for ( UiFacesAttribute nestedFacesAttribute : facesAttributes.value() )
+				{
+					putFacesAttribute( context, application, attributes, nestedFacesAttribute );
+				}
+			}
+		}
 
 		return attributes;
+	}
+
+	protected void putFacesAttribute( FacesContext context, Application application, Map<String, String> attributes, UiFacesAttribute facesAttribute )
+	{
+		// Optional condition
+
+		String condition = facesAttribute.condition();
+
+		if ( !"".equals( condition ))
+		{
+			if ( !FacesUtils.isValueReference( condition ))
+				throw MetawidgetException.newException( "Condition '" + condition + "' is not of the form #{...}" );
+
+			Object conditionResult = application.createValueBinding( condition ).getValue( context );
+
+			if ( !Boolean.TRUE.equals( conditionResult ))
+				return;
+		}
+
+		// Optionally expression-based
+
+		String value = facesAttribute.value();
+
+		if ( FacesUtils.isValueReference( value ) )
+			value = StringUtils.quietValueOf( application.createValueBinding( value ).getValue( context ));
+
+		// Set the value
+
+		attributes.put( facesAttribute.name(), StringUtils.quietValueOf( value ));
 	}
 }

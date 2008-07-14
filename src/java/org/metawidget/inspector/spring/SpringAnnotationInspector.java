@@ -65,12 +65,7 @@ public class SpringAnnotationInspector
 		UiSpringLookup springLookup = property.getAnnotation( UiSpringLookup.class );
 
 		if ( springLookup != null )
-		{
-			if ( !springLookup.onlyIfNull() || property.read( toInspect ) == null )
-			{
-				attributes.put( "spring-lookup", springLookup.value() );
-			}
-		}
+			attributes.put( "spring-lookup", springLookup.value() );
 
 		return attributes;
 	}

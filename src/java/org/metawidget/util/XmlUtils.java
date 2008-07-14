@@ -28,7 +28,6 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.metawidget.inspector.iface.InspectorException;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -259,9 +258,9 @@ public class XmlUtils
 		{
 			return newDocumentBuilder().parse( new InputSource( new StringReader( xml ) ) );
 		}
-		catch ( Exception e )
+		catch( Exception e )
 		{
-			throw InspectorException.newException( e );
+			throw new RuntimeException( e );
 		}
 	}
 
@@ -353,10 +352,10 @@ public class XmlUtils
 			String childToAddName = childToAdd.getAttribute( topLevelAttributeToCombineOn );
 
 			if ( childToAddName == null || "".equals( childToAddName ) )
-				throw InspectorException.newException( "Child node #" + addLoop + " (" + childToAdd.getNodeName() + ") has no @" + topLevelAttributeToCombineOn );
+				throw new RuntimeException( "Child node #" + addLoop + " (" + childToAdd.getNodeName() + ") has no @" + topLevelAttributeToCombineOn );
 
 			if ( !childNamesAdded.add( childToAddName ) )
-				throw InspectorException.newException( "Element has more than one child with @" + topLevelAttributeToCombineOn + " '" + childToAddName + "'" );
+				throw new RuntimeException( "Element has more than one child with @" + topLevelAttributeToCombineOn + " '" + childToAddName + "'" );
 
 			// ...find one with the same @name in the 'master'...
 

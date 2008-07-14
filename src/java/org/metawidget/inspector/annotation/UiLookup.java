@@ -34,10 +34,4 @@ public @interface UiLookup
 	String[] value( );
 
 	String[] labels( ) default {};
-
-	/**
-	 * Only bind this value to a lookup if the value is currently <code>null</code>.
-	 */
-
-	boolean onlyIfNull( ) default false;
 }

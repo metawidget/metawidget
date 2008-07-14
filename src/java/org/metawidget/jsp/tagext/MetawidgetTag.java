@@ -103,7 +103,18 @@ public abstract class MetawidgetTag
 
 	private Map<String, StubContent>	mStubs;
 
-	private JspMetawidgetMixin			mMixin					= new JspMetawidgetMixin();
+	private MetawidgetMixin<Object>		mMetawidgetMixin;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public MetawidgetTag()
+	{
+		mMetawidgetMixin = newMetawidgetMixin();
+	}
 
 	//
 	//
@@ -242,12 +253,12 @@ public abstract class MetawidgetTag
 
 	public boolean isReadOnly()
 	{
-		return mMixin.isReadOnly();
+		return mMetawidgetMixin.isReadOnly();
 	}
 
 	public void setReadOnly( boolean readOnly )
 	{
-		mMixin.setReadOnly( readOnly );
+		mMetawidgetMixin.setReadOnly( readOnly );
 	}
 
 	@Override
@@ -255,9 +266,9 @@ public abstract class MetawidgetTag
 	{
 		try
 		{
-			mMixin.buildWidgets( inspect() );
+			mMetawidgetMixin.buildWidgets( inspect() );
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			throw MetawidgetException.newException( e );
 		}
@@ -290,6 +301,18 @@ public abstract class MetawidgetTag
 	//
 	//
 
+	/**
+	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * <p>
+	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
+	 * instantiate their version.
+	 */
+
+	protected MetawidgetMixin<Object> newMetawidgetMixin()
+	{
+		return new JspMetawidgetMixin();
+	}
+
 	protected void startBuild()
 		throws Exception
 	{
@@ -321,7 +344,7 @@ public abstract class MetawidgetTag
 		}
 	}
 
-	protected abstract void beforeBuildCompoundWidget();
+	protected abstract void beforeBuildCompoundWidget( Element element );
 
 	protected abstract String buildReadOnlyWidget( Map<String, String> attributes )
 		throws Exception;
@@ -474,9 +497,11 @@ public abstract class MetawidgetTag
 		}
 
 		@Override
-		protected void beforeBuildCompoundWidget( Element element )
+		protected void buildCompoundWidget( Element element )
+			throws Exception
 		{
-			MetawidgetTag.this.beforeBuildCompoundWidget();
+			MetawidgetTag.this.beforeBuildCompoundWidget( element );
+			super.buildCompoundWidget( element );
 		}
 
 		@Override

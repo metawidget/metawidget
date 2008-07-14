@@ -29,6 +29,7 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.w3c.dom.Element;
 
 /**
  * Metawidget for 'plain' JSP environment (eg. just a servlet-based backend, no Struts/Spring etc)
@@ -297,7 +298,7 @@ public class HtmlMetawidgetTag
 	}
 
 	@Override
-	protected void beforeBuildCompoundWidget()
+	protected void beforeBuildCompoundWidget( Element element )
 	{
 		// Take the whole path as the name prefix, so that names are unique
 

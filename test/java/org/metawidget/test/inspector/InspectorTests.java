@@ -31,6 +31,7 @@ import org.metawidget.test.inspector.impl.propertystyle.javassist.JavassistPrope
 import org.metawidget.test.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest;
 import org.metawidget.test.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyleTest;
 import org.metawidget.test.inspector.java5.Java5InspectorTest;
+import org.metawidget.test.inspector.jexl.JexlInspectorTest;
 import org.metawidget.test.inspector.jpa.JpaInspectorTest;
 import org.metawidget.test.inspector.propertytype.PropertyTypeInspectorTest;
 import org.metawidget.test.inspector.remote.RemoteInspectorTest;
@@ -55,20 +56,21 @@ public class InspectorTests
 		TestSuite suite = new TestSuite( "Inspector Tests" );
 		suite.addTestSuite( ConfigReaderTest.class );
 		suite.addTestSuite( FacesInspectorTest.class );
+		suite.addTestSuite( GroovyPropertyStyleTest.class );
 		suite.addTestSuite( HibernateInspectorTest.class );
 		suite.addTestSuite( HibernateValidatorInspectorTest.class );
 		suite.addTestSuite( Java5InspectorTest.class );
-		suite.addTestSuite( PropertyTypeInspectorTest.class );
-		suite.addTestSuite( GroovyPropertyStyleTest.class );
 		suite.addTestSuite( JavaBeanPropertyStyleTest.class );
 		suite.addTestSuite( JavassistPropertyStyleTest.class );
 		suite.addTestSuite( JavassistPropertyStyleDebugOffTest.class );
-		suite.addTestSuite( StrutsActionFormPropertyStyleTest.class );
+		suite.addTestSuite( JexlInspectorTest.class );
 		suite.addTestSuite( JpaInspectorTest.class );
 		suite.addTestSuite( CompositeInspectorTest.class );
 		suite.addTestSuite( MetawidgetAnnotationInspectorTest.class );
+		suite.addTestSuite( PropertyTypeInspectorTest.class );
 		suite.addTestSuite( RemoteInspectorTest.class );
 		suite.addTestSuite( StrutsInspectorTest.class );
+		suite.addTestSuite( StrutsActionFormPropertyStyleTest.class );
 		suite.addTestSuite( XmlInspectorTest.class );
 
 		return suite;

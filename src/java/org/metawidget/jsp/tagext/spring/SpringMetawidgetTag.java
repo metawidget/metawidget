@@ -52,6 +52,7 @@ import org.springframework.web.servlet.tags.form.OptionsTag;
 import org.springframework.web.servlet.tags.form.PasswordInputTag;
 import org.springframework.web.servlet.tags.form.SelectTag;
 import org.springframework.web.servlet.tags.form.TextareaTag;
+import org.w3c.dom.Element;
 
 /**
  * Metawidget for Spring environments.
@@ -325,7 +326,7 @@ public class SpringMetawidgetTag
 	}
 
 	@Override
-	protected void beforeBuildCompoundWidget()
+	protected void beforeBuildCompoundWidget( Element element )
 	{
 		// Take the whole path minus the first value (if any), as we assume that will
 		// be supplied by the form
