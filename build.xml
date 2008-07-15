@@ -238,28 +238,23 @@
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/metawidget/inspector/**/Ui*.class"/>
 				<include name="org/metawidget/inspector/**/*Constants.class"/>
-				<include name="org/metawidget/util/**"/>
 			</fileset>
 		</jar>
 		
 		<jar destfile="${build.metawidget.dir}/pack/metawidget-frontend.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/**"/>
+				<exclude name="org/metawidget/gwt/**"/>
+				<exclude name="org/metawidget/inspector/gwt/remote/client/**"/>
 				<exclude name="org/metawidget/inspector/**/Ui*.class"/>
 				<exclude name="org/metawidget/inspector/**/*Constants.class"/>
 				<exclude name="org/metawidget/example/**"/>
 				<exclude name="org/metawidget/test/**"/>
-				<exclude name="org/metawidget/util/**"/>
 			</fileset>
 			<fileset dir="src/java">
-				<exclude name="org/metawidget/example/**"/>
+				<include name="META-INF/*"/>
 				<include name="org/metawidget/swing/icon/**"/>
-				<include name="**/faces-config.xml"/>
-				<include name="**/*.taglib.xml"/>
-				<include name="**/*.tld"/>
-			</fileset>
-			<fileset dir="src/java">
-				<include name="**/*.xsd"/>				
+				<include name="org/metawidget/inspector/*.xsd"/>				
 			</fileset>
 		</jar>
 

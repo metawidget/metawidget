@@ -1502,8 +1502,7 @@ bin\run</programlisting>
 				</para>
 				
 				<para>
-					The example further demonstrates packaging Metawidget for multi-tier environments. Metawidget is
-					highly modular. The <filename>pack-as-frontend-backend</filename>
+					The example further demonstrates packaging Metawidget for multi-tier environments. The <filename>pack-as-frontend-backend</filename>
 					Ant task in Metawidget's <filename>build.xml</filename> creates two JAR files: <filename>metawidget-frontend.jar</filename> for
 					deployment in the WAR, and <filename>metawidget-backend.jar</filename> for deployment in the EJB layer. This ensures a clean
 					separation between frontend and backend code, and is important for avoiding	WAR/EJB classloading problems.
