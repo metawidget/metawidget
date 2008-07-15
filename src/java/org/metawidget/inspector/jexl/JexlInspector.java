@@ -82,13 +82,16 @@ public class JexlInspector
 		Map<String, Object> contextMap = context.getVars();
 		contextMap.put( StringUtils.lowercaseFirstLetter( toInspect.getClass().getSimpleName() ), toInspect );
 
+		// Note: this is all annotation based. We could imagine an XML version, but we'd have
+		// to figure out a nice format for 'name="value" with condition'
+
 		// UiJexlAttribute
 
-		UiJexlAttribute JexlAttribute = property.getAnnotation( UiJexlAttribute.class );
+		UiJexlAttribute jexlAttribute = property.getAnnotation( UiJexlAttribute.class );
 
-		if ( JexlAttribute != null )
+		if ( jexlAttribute != null )
 		{
-			putJexlAttribute( context, attributes, JexlAttribute );
+			putJexlAttribute( context, attributes, jexlAttribute );
 		}
 
 		// UiJexlAttributes

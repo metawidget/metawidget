@@ -441,8 +441,9 @@ public abstract class UIMetawidget
 		// Inspect the object directly
 
 		FacesContext context = getFacesContext();
+		String valueBindingString = valueBinding.getExpressionString();
 
-		if ( !inspectFromParent )
+		if ( !inspectFromParent || !FacesUtils.isValueReference( valueBindingString ))
 		{
 			Object toInspect = valueBinding.getValue( context );
 
@@ -453,18 +454,15 @@ public abstract class UIMetawidget
 		// In the event the direct object is 'null' or a primitive, traverse from the parent
 		// as there may be useful metadata there (such as 'name' and 'type')
 
-		String binding = FacesUtils.unwrapValueReference( valueBinding.getExpressionString() );
+		String binding = FacesUtils.unwrapValueReference( valueBindingString );
 		int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-		if ( lastIndexOf != -1 )
-		{
-			Application application = context.getApplication();
-			ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapValueReference( binding.substring( 0, lastIndexOf ) ) );
-			Object toInspect = bindingParent.getValue( context );
+		Application application = context.getApplication();
+		ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapValueReference( binding.substring( 0, lastIndexOf ) ) );
+		Object toInspect = bindingParent.getValue( context );
 
-			if ( toInspect != null )
-				return inspect( inspector, toInspect, binding.substring( lastIndexOf + 1 ) );
-		}
+		if ( toInspect != null )
+			return inspect( inspector, toInspect, binding.substring( lastIndexOf + 1 ) );
 
 		return null;
 	}
