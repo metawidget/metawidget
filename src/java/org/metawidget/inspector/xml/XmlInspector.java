@@ -25,10 +25,11 @@ import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Element;
 
 /**
- * Inspector to return values from <code>inspection-result-1.0.xsd</code>-compliant
- * files (such as <code>metawidget-metadata.xml</code>).
+ * Inspects <code>inspection-result-1.0.xsd</code>-compliant files (such as
+ * <code>metawidget-metadata.xml</code>).
  * <p>
- * XmlInspector is a very simple Inspector: it takes as its input XML in the same format that Inspectors usually output.
+ * XmlInspector is a very simple Inspector: it takes as its input XML in the same format that
+ * Inspectors usually output.
  *
  * @author Richard Kennard
  */

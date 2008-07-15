@@ -14,36 +14,31 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.util;
+package org.metawidget.inspector.jexl;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 
 /**
+ * Configures an JexlXmlInspector prior to use. Once instantiated, Inspectors are immutable.
+ * <p>
+ * By default, looks for a file called <code>metawidget-metadata.xml</code>. This is the same
+ * default used by <code>XmlInspector</code>, so that <code>JexlInspector</code> can be used
+ * as a drop-in replacement for <code>XmlInspector</code>.
+ *
  * @author Richard Kennard
  */
 
-public class UtilTests
-	extends TestCase
+public class JexlXmlInspectorConfig
+	extends BaseXmlInspectorConfig
 {
 	//
 	//
-	// Public statics
+	// Constructor
 	//
 	//
 
-	public static Test suite()
+	public JexlXmlInspectorConfig()
 	{
-		TestSuite suite = new TestSuite( "Util Tests" );
-		suite.addTestSuite( ArrayUtilsTest.class );
-		suite.addTestSuite( ClassUtilsTest.class );
-		suite.addTestSuite( CollectionUtilsTest.class );
-		suite.addTestSuite( JspUtilsTest.class );
-		suite.addTestSuite( LogUtilsTest.class );
-		suite.addTestSuite( StringUtilsTest.class );
-		suite.addTestSuite( ThreadUtilsTest.class );
-
-		return suite;
+		setFile( "metawidget-metadata.xml" );
 	}
 }

@@ -33,10 +33,10 @@ import org.metawidget.util.simple.StringUtils;
  * Inspects annotations defined by Metawidget's JEXL support (declared in this same package).
  * <p>
  * Many Web environments, such as Java Server Faces and Java Server Pages, supply their own
- * Expression Language (EL) - but many desktop and mobile environments do not. JEXL is a
+ * Expression Language (EL) - but most desktop and mobile environments do not. JEXL is a
  * lightweight, standalone Expression Language for use in Java applications. Using JEXL, non-Web
  * environments can 'wire together' properties using ELs in much the same way as Web environments
- * can use, say, <code>UiFacesAttribute</code>.
+ * that use, say, <code>UiFacesAttribute</code>.
  *
  * @author Richard Kennard
  */
@@ -70,17 +70,8 @@ public class JexlInspector
 	protected Map<String, String> inspect( Property property, Object toInspect )
 		throws Exception
 	{
-		if ( toInspect == null )
-			return null;
-
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-
-		// Prepare JEXL
-
-		JexlContext context = JexlHelper.createContext();
-		@SuppressWarnings( "unchecked" )
-		Map<String, Object> contextMap = context.getVars();
-		contextMap.put( StringUtils.lowercaseFirstLetter( toInspect.getClass().getSimpleName() ), toInspect );
+		JexlContext context = null;
 
 		// Note: this is all annotation based. We could imagine an XML version, but we'd have
 		// to figure out a nice format for 'name="value" with condition'
@@ -91,6 +82,7 @@ public class JexlInspector
 
 		if ( jexlAttribute != null )
 		{
+			context = createContext( toInspect );
 			putJexlAttribute( context, attributes, jexlAttribute );
 		}
 
@@ -100,6 +92,9 @@ public class JexlInspector
 
 		if ( JexlAttributes != null )
 		{
+			if ( context == null )
+				context = createContext( toInspect );
+
 			for ( UiJexlAttribute nestedJexlAttribute : JexlAttributes.value() )
 			{
 				putJexlAttribute( context, attributes, nestedJexlAttribute );
@@ -137,5 +132,25 @@ public class JexlInspector
 		// Set the value
 
 		attributes.put( jexlAttribute.name(), StringUtils.quietValueOf( value ) );
+	}
+
+	/**
+	 * Prepare the JexlContext.
+	 * <p>
+	 * Subclasses can override this method to control what is available in the context.
+	 */
+
+	protected JexlContext createContext( Object toInspect )
+	{
+		JexlContext context = JexlHelper.createContext();
+		@SuppressWarnings( "unchecked" )
+		Map<String, Object> contextMap = context.getVars();
+
+		// Put the toInspect in under its simple Class name
+
+		if ( toInspect != null )
+			contextMap.put( StringUtils.lowercaseFirstLetter( toInspect.getClass().getSimpleName() ), toInspect );
+
+		return context;
 	}
 }

@@ -55,13 +55,13 @@ public class XmlInspectorTest
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\">";
-		xml += "<entity type=\"org.metawidget.test.inspector.xml.SuperSuperFoo\">";
+		xml += "<entity type=\"org.metawidget.test.inspector.xml.XmlInspectorTest$SuperSuperFoo\">";
 		xml += "<property name=\"bar\" type=\"Bar\" required=\"true\"/>";
 		xml += "<property name=\"a\"/>";
 		xml += "<property name=\"d\"/>";
 		xml += "</entity>";
-		xml += "<entity type=\"org.metawidget.test.inspector.xml.SuperFoo\" extends=\"org.metawidget.test.inspector.xml.SuperSuperFoo\"/>";
-		xml += "<entity type=\"org.metawidget.test.inspector.xml.SubFoo\" extends=\"org.metawidget.test.inspector.xml.SuperFoo\">";
+		xml += "<entity type=\"org.metawidget.test.inspector.xml.XmlInspectorTest$SuperFoo\" extends=\"org.metawidget.test.inspector.xml.XmlInspectorTest$SuperSuperFoo\"/>";
+		xml += "<entity type=\"org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo\" extends=\"org.metawidget.test.inspector.xml.XmlInspectorTest$SuperFoo\">";
 		xml += "<property name=\"a\" hidden=\"true\" label=\" \"/>";
 		xml += "<property name=\"b\" label=\"\"/>";
 		xml += "<property name=\"c\" lookup=\"Telephone, Mobile, Fax, E-mail\"/>";
@@ -78,7 +78,7 @@ public class XmlInspectorTest
 
 	public void testInspection()
 	{
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo" ));
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo" ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
@@ -86,7 +86,7 @@ public class XmlInspectorTest
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( "org.metawidget.test.inspector.xml.SubFoo".equals( entity.getAttribute( TYPE ) ));
+		assertTrue( "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo".equals( entity.getAttribute( TYPE ) ));
 		assertTrue( !entity.hasAttribute( NAME ) );
 
 		// Properties
@@ -119,7 +119,7 @@ public class XmlInspectorTest
 
 	public void testTraverseViaParent()
 	{
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "bar" ));
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "bar" ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
@@ -138,11 +138,11 @@ public class XmlInspectorTest
 
 	public void testMissingType()
 	{
-		assertTrue( null == mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "bar", "baz" ));
+		assertTrue( null == mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz" ));
 
 		try
 		{
-			mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "bar", "baz", "abc" );
+			mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz", "abc" );
 			assertTrue( false );
 		}
 		catch( InspectorException e )
@@ -154,8 +154,8 @@ public class XmlInspectorTest
 	public void testBadName()
 	{
 		assertTrue( mInspector.inspect( null, "no-such-type" ) == null );
-		assertTrue( mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "no-such-name" ) == null );
-		assertTrue( mInspector.inspect( null, "org.metawidget.test.inspector.xml.SubFoo", "no-such-parent-name", "foo" ) == null );
+		assertTrue( mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "no-such-name" ) == null );
+		assertTrue( mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "no-such-parent-name", "foo" ) == null );
 	}
 
 	//

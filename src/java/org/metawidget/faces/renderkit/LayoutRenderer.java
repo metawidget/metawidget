@@ -27,8 +27,8 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.render.Renderer;
 
 import org.metawidget.faces.FacesUtils;
-import org.metawidget.faces.FacesUtils.ReentrantThreadLocal;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.ThreadUtils.ReentrantThreadLocal;
 
 /**
  * Base class for all JSF layout renderers.

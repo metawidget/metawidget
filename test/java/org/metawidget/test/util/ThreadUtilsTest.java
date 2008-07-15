@@ -16,34 +16,59 @@
 
 package org.metawidget.test.util;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
+
+import org.metawidget.util.ThreadUtils;
+import org.metawidget.util.ThreadUtils.ReentrantThreadLocal;
 
 /**
  * @author Richard Kennard
  */
 
-public class UtilTests
+public class ThreadUtilsTest
 	extends TestCase
 {
 	//
 	//
-	// Public statics
+	// Public methods
 	//
 	//
 
-	public static Test suite()
+	public void testThreadUtils()
+		throws Exception
 	{
-		TestSuite suite = new TestSuite( "Util Tests" );
-		suite.addTestSuite( ArrayUtilsTest.class );
-		suite.addTestSuite( ClassUtilsTest.class );
-		suite.addTestSuite( CollectionUtilsTest.class );
-		suite.addTestSuite( JspUtilsTest.class );
-		suite.addTestSuite( LogUtilsTest.class );
-		suite.addTestSuite( StringUtilsTest.class );
-		suite.addTestSuite( ThreadUtilsTest.class );
+		ReentrantThreadLocal<Integer> reentrant = ThreadUtils.newReentrantThreadLocal();
 
-		return suite;
+		assertTrue( reentrant.get() == null );
+
+		reentrant.push();
+		assertTrue( reentrant.get() == null );
+		reentrant.set( Integer.valueOf( 42 ) );
+
+		reentrant.push();
+		assertTrue( reentrant.get() == null );
+		reentrant.set( Integer.valueOf( 43 ) );
+		assertTrue( Integer.valueOf( 43 ).equals( reentrant.get() ) );
+		reentrant.pop();
+
+		assertTrue( Integer.valueOf( 42 ).equals( reentrant.get() ) );
+		reentrant.pop();
+
+		assertTrue( reentrant.get() == null );
+	}
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public ThreadUtilsTest( String name )
+	{
+		super( name );
 	}
 }

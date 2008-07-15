@@ -18,7 +18,6 @@ package org.metawidget.faces;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -196,85 +195,6 @@ public final class FacesUtils
 			parameterCopy.setValue( parameter.getValue() );
 
 			toChildren.add( parameterCopy );
-		}
-	}
-
-	//
-	//
-	// Inner class
-	//
-	//
-
-	/**
-	 * Variant of ThreadLocal that maintains a Stack for supporting re-entrant code.
-	 * <p>
-	 * Useful for giving JSF Renderers, which are stateless by design, an ability to have state.
-	 *
-	 * @author Richard Kennard
-	 */
-
-	public static class ReentrantThreadLocal<T>
-	{
-		//
-		//
-		// Private members
-		//
-		//
-
-		private ThreadLocal<Stack<T>>	mLocal	= new ThreadLocal<Stack<T>>()
-												{
-													@Override
-													protected Stack<T> initialValue()
-													{
-														return new Stack<T>();
-													}
-												};
-
-		//
-		//
-		// Public methods
-		//
-		//
-
-		public void push()
-		{
-			mLocal.get().push( initialValue() );
-		}
-
-		public T get()
-		{
-			Stack<T> stack = mLocal.get();
-
-			if ( stack.isEmpty() )
-				stack.push( initialValue() );
-
-			return stack.peek();
-		}
-
-		public void set( T t )
-		{
-			Stack<T> stack = mLocal.get();
-
-			if ( !stack.isEmpty() )
-				stack.pop();
-
-			stack.push( t );
-		}
-
-		public void pop()
-		{
-			mLocal.get().pop();
-		}
-
-		//
-		//
-		// Protected methods
-		//
-		//
-
-		protected T initialValue()
-		{
-			return null;
 		}
 	}
 
