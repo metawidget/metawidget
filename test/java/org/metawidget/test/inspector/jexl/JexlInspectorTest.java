@@ -49,7 +49,7 @@ public class JexlInspectorTest
 	public void testAnnotations()
 	{
 		JexlInspector inspector = new JexlInspector();
-		assertTrue( null == inspector.inspect( null, Foo.class.getName() ));
+		assertTrue( null == inspector.inspect( (Object) null, Foo.class.getName() ));
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
