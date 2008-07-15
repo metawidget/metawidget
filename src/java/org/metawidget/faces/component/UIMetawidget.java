@@ -1170,7 +1170,6 @@ public abstract class UIMetawidget
 			throws Exception
 		{
 			UIComponent component = super.buildWidget( attributes );
-
 			return UIMetawidget.this.afterBuildWidget( component, attributes );
 		}
 

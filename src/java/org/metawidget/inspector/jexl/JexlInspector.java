@@ -41,7 +41,6 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-// TODO: XML version
 public class JexlInspector
 	extends BasePropertyInspector
 {
