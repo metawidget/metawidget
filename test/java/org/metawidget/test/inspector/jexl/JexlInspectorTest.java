@@ -19,6 +19,7 @@ package org.metawidget.test.inspector.jexl;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.jexl.JexlInspector;
 import org.metawidget.inspector.jexl.JexlUtils;
 import org.metawidget.inspector.jexl.UiJexlAttribute;
@@ -43,6 +44,8 @@ public class JexlInspectorTest
 	public void testInspection()
 	{
 		JexlInspector inspector = new JexlInspector();
+		assertTrue( null == inspector.inspect( null, Foo.class.getName() ));
+
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
@@ -69,6 +72,15 @@ public class JexlInspectorTest
 		assertTrue( 2 == property.getAttributes().getLength() );
 
 		assertTrue( entity.getChildNodes().getLength() == 2 );
+
+		try
+		{
+			inspector.inspect( new BadFoo(), BadFoo.class.getName() );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "Condition 'bad-condition' is not of the form ${...}".equals( e.getMessage() ));
+		}
 	}
 
 	public void testUtils()
@@ -131,5 +143,11 @@ public class JexlInspectorTest
 		{
 			return true;
 		}
+	}
+
+	public static class BadFoo
+	{
+		@UiJexlAttribute( name = "foo", value = "bar", condition = "bad-condition" )
+		public String bad;
 	}
 }

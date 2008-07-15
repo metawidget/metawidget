@@ -21,8 +21,8 @@ import java.util.Map;
 import org.apache.commons.jexl.ExpressionFactory;
 import org.apache.commons.jexl.JexlContext;
 import org.apache.commons.jexl.JexlHelper;
-import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BasePropertyInspector;
 import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
@@ -119,7 +119,7 @@ public class JexlInspector
 		if ( !"".equals( condition ) )
 		{
 			if ( !FacesUtils.isValueReference( condition ) )
-				throw MetawidgetException.newException( "Condition '" + condition + "' is not of the form ${...}" );
+				throw InspectorException.newException( "Condition '" + condition + "' is not of the form ${...}" );
 
 			Object conditionResult = ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( condition ) ).evaluate( context );
 
