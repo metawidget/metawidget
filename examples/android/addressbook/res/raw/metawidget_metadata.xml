@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<inspection-result xmlns="http://metawidget.org/inspection-result"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd ">
+
+	<entity type="org.metawidget.example.shared.addressbook.model.ContactSearch">
+		<property name="firstnames"/>
+		<property name="surname"/>
+		<property name="type"/>
+	</entity>
+
+	<entity type="org.metawidget.example.shared.addressbook.model.Contact">
+		<property name="id" hidden="true"/>
+		<property name="fullname" hidden="true"/>
+		<property name="title" lookup="Mr, Mrs, Miss, Dr, Cpt"/>
+		<property name="firstnames"/>
+		<property name="surname" maximum-length="50"/>
+		<property name="gender"/>
+		<property name="address" section="Contact Details" label="" type="org.metawidget.example.shared.addressbook.model.Address"/>
+		<property name="communications" label=""/>
+		<property name="notes" large="true" section="Other"/>
+	</entity>
+
+	<entity type="org.metawidget.example.shared.addressbook.model.PersonalContact"
+			extends="org.metawidget.example.shared.addressbook.model.Contact">
+		<property name="gender"/>
+		<property name="dateOfBirth"/>
+	</entity>
+
+	<entity type="org.metawidget.example.shared.addressbook.model.BusinessContact"
+			extends="org.metawidget.example.shared.addressbook.model.Contact">
+		<property name="gender"/>
+		<property name="company"/>
+		<property name="communications"/>
+		<property name="numberOfStaff" section="Other"/>
+	</entity>
+	
+	<entity type="org.metawidget.example.shared.addressbook.model.Address">
+		<property name="owner" hidden="true"/>
+		<property name="street"/>
+		<property name="city"/>		
+		<property name="state" lookup="Anytown, Cyberton, Lostville, Whereverton"/>		
+		<property name="postcode"/>		
+	</entity>
+	
+	<entity type="org.metawidget.example.shared.addressbook.model.Communication">
+		<property name="id" hidden="true"/>
+		<property name="type" lookup="Telephone, Mobile, Fax, E-mail"/>
+	</entity>	
+
+</inspection-result>
