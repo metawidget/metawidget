@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<inspection-result xmlns="http://metawidget.org/inspection-result"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/inspection-result/inspection-result-1.0.xsd">
+
+	<entity type="org.metawidget.example.swing.tutorial.Person">
+		<property name="name"/>
+		<property name="age"/>
+		<property name="retired"/>
+	</entity>
+
+</inspection-result>
