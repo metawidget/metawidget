@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts-config PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 1.1//EN" "http://jakarta.apache.org/struts/dtds/struts-config_1_1.dtd">
+<struts-config>
+
+	<form-beans>
+	
+		<form-bean name="contactSearchForm" type="org.apache.struts.action.DynaActionForm">
+	         <form-property name="firstnames" type="java.lang.String"/>
+	         <form-property name="surname" type="java.lang.String"/>
+	         <form-property name="type" type="org.metawidget.example.shared.addressbook.model.ContactType"/>
+		</form-bean>
+
+		<form-bean name="contactForm" type="org.metawidget.example.struts.addressbook.form.ContactForm"/>
+		
+	</form-beans>
+	
+    <action-mappings>
+    
+        <action path="/search" name="contactSearchForm" type="org.metawidget.example.struts.addressbook.action.SearchAction" scope="request">
+        	<forward name="results" path="/index.jsp"/>
+        	<forward name="contact" path="/contact.jsp"/>
+        </action>
+
+        <action path="/load" type="org.metawidget.example.struts.addressbook.action.LoadAction" scope="session">
+        	<forward name="contact" path="/contact.jsp"/>
+        </action>
+
+        <action path="/save" name="contactForm" type="org.metawidget.example.struts.addressbook.action.SaveAction" input="/contact.jsp" scope="session">
+        	<forward name="home" path="/index.jsp" redirect="true"/>
+        	<forward name="contact" path="/contact.jsp"/>
+        </action>
+        
+    </action-mappings>
+    
+	<message-resources parameter="org.metawidget.example.shared.addressbook.resource.Resources" null="false"/>
+    
+    <plug-in className="org.metawidget.example.struts.addressbook.plugin.AddressBookPlugIn"/>
+	
+</struts-config>

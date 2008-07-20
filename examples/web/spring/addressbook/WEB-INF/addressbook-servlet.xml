@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<bean id="simpleUrlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+		<property name="mappings">
+			<props>
+				<prop key="/index.html">contactSearchController</prop>
+				<prop key="/contact.html">contactController</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="contactSearchController" class="org.metawidget.example.spring.addressbook.controller.ContactSearchController">
+		<property name="commandName"><value>contactSearchCommand</value></property>
+		<property name="commandClass"><value>org.metawidget.example.shared.addressbook.model.ContactSearch</value></property>
+		<property name="formView"><value>index</value></property>
+	</bean>
+
+	<bean id="contactController" class="org.metawidget.example.spring.addressbook.controller.ContactController">
+		<property name="commandName"><value>contactCommand</value></property>
+		<property name="sessionForm"><value>true</value></property>
+		<property name="formView"><value>contact</value></property>
+		<property name="successView"><value>index</value></property>
+	</bean>
+	
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename"><value>org.metawidget.example.shared.addressbook.resource.Resources</value></property>
+    </bean>
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+  		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+  		<property name="exposeContextBeansAsAttributes" value="true"/>
+    	<property name="prefix" value="/WEB-INF/jsp/" />
+    	<property name="suffix" value=".jsp"/>
+  	</bean>    
+
+</beans>
+
+
