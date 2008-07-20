@@ -29,7 +29,7 @@
 		
 		<init-param>
 			<param-name>inspector-config</param-name>
-			<param-value>config/inspector-config.xml</param-value>
+			<param-value>inspector-config.xml</param-value>
 		</init-param>
 	</servlet>
 

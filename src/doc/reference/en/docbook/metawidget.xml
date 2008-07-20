@@ -1455,6 +1455,100 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 	
 			</section>
 			
+			<section id="section-introduction-part3-gwt-hosted">
+				<title>GWT Hosted Example</title>
+	
+				<para>
+					The <filename>examples\gwt\addressbook-gwt.war</filename> discussed in Part 2 of this tutorial demonstrates GWT
+					running in <emphasis>GWT Web mode</emphasis>. Developers may prefer to run the example in <emphasis>GWT hosted mode</emphasis>
+					instead. To do that:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							Create a new GWT project using the usual method (described in the GWT Getting Started guide)... 
+						</para>
+						<programlisting language="shell">projectCreator -eclipse AddressBook</programlisting>
+						<para>
+							...and then... 
+						</para>						
+						<programlisting language="shell">applicationCreator
+	-eclipse AddressBook org.metawidget.example.gwt.addressbook.client.AddressBook</programlisting>
+					</listitem>
+					<listitem>
+						<para>
+							Within the folder structure <filename>applicationCreator</filename> creates, delete the contents of the
+							<filename>src/org/metawidget/example</filename> folder
+						</para>
+					</listitem>   
+					<listitem>
+						<para>
+							From the Metawidget source distribution, copy over <filename>examples/java/org/metawidget/example/gwt</filename>,
+							<filename>examples/java/org/metawidget/example/shared</filename> and
+							<filename>examples/java/org/metawidget/example/GwtAddressBook.gwt.xml</filename> into the
+							<filename>applicationCreator</filename>-created <filename>src/org/metawidget/example</filename> 
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							From the Metawidget source distribution, copy over <filename>examples/web/gwt/addressbook/WEB-INF/inspector-config.xml</filename>
+							and <filename>examples/web/gwt/addressbook/WEB-INF/metawidget-metadata.xml</filename> into the
+							root of the <filename>applicationCreator</filename>-created <filename>src</filename> folder
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							Create a <filename>lib</filename> folder in the root of the project that <filename>projectCreator</filename> created
+						</para>
+					</listitem>   
+					<listitem>
+						<para>
+							From the Metawidget source distribution, copy <filename>lib/ejb3-persistence.jar</filename>, <filename>lib/hibernate-validator.jar</filename>
+							and <filename>lib/javax.servlet.jsp.jar</filename> into the new <filename>lib</filename> folder
+						</para>
+					</listitem>   
+					<listitem>
+						<para>
+							From the Metawidget binary distribution, copy <filename>metawidget.jar</filename> and <filename>examples/gwt/metawidget-gwt-client.jar</filename>
+							into the new <filename>lib</filename> folder
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							Modify the <filename>AddressBook.launch</filename> file in the <filename>applicationCreator</filename>-created folder. Change...
+						</para>
+						<programlisting language="shell">...
+&lt;stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS"
+	value="-out www org.metawidget.example.<emphasis role="bold">gwt.addressbook.AddressBook</emphasis>/AddressBook.html"/&gt;					
+...</programlisting>
+						<para>
+							...to...
+						</para>
+						<programlisting language="shell">...
+&lt;stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS"
+	value="-out www org.metawidget.example.<emphasis role="bold">GwtAddressBook</emphasis>/AddressBook.html"/&gt;					
+...</programlisting>
+					</listitem>   
+					<listitem>
+						<para>
+							In Eclipse, use the File -> Import menu and choose "Existing Projects into Workspace" (as described in the GWT Getting
+							Started Guide). Select the <filename>projectCreator</filename>-created project
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							In Eclipse, modify the Build Path of the new project to add all the JARs in the <filename>lib</filename> folder
+						</para>
+					</listitem>
+				</itemizedlist>					
+				
+				<para>
+					You should now be able to run the GWT Address Book sample application in hosted mode.
+				</para>
+				
+			</section>
+
 			<section id="section-introduction-part3-seam">
 				<title>Seam Booking Example</title>
 	
