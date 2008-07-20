@@ -301,6 +301,9 @@ public abstract class BaseXmlInspector
 	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, String[] files )
 		throws Exception
 	{
+		if ( files.length == 0 )
+			throw InspectorException.newException( "No files found" );
+
 		InputStream[] fileList = new InputStream[files.length];
 
 		for ( int loop = 0, length = files.length; loop < length; loop++ )
@@ -438,20 +441,36 @@ public abstract class BaseXmlInspector
 		return entityElement;
 	}
 
+	/**
+	 * That attribute on top-level elements that uniquely identifies them.
+	 */
+
 	protected String getTopLevelTypeAttribute()
 	{
 		return TYPE;
 	}
+
+	/**
+	 * The attribute on child elements that uniquely identifies them.
+	 */
 
 	protected String getNameAttribute()
 	{
 		return NAME;
 	}
 
+	/**
+	 * The attribute on child elements that identifies another top-level element.
+	 */
+
 	protected String getTypeAttribute()
 	{
 		return TYPE;
 	}
+
+	/**
+	 * The attribute on top-level elements that identifies a superclass relationship (if any).
+	 */
 
 	protected String getExtendsAttribute()
 	{

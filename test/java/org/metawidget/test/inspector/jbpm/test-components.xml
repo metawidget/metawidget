@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components xmlns="http://jboss.com/products/seam/components" xmlns:bpm="http://jboss.com/products/seam/bpm">
+
+	<bpm:jbpm>
+		<bpm:process-definitions>
+			<value>no-such-file.jpdl.xml</value>
+		</bpm:process-definitions>
+		<bpm:pageflow-definitions>
+			<value>org/metawidget/test/inspector/jbpm/test-checkout.jpdl.xml</value>
+			<value>org/metawidget/test/inspector/jbpm/test-newuser.jpdl.xml</value>
+		</bpm:pageflow-definitions>
+	</bpm:jbpm>
+
+</components>

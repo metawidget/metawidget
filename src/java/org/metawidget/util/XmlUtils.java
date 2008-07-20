@@ -104,6 +104,10 @@ public class XmlUtils
 		}
 	}
 
+	/**
+	 * Looks up a child with the given (local) name.
+	 */
+
 	public static Element getChildNamed( Element element, String name )
 	{
 		if ( element == null )
@@ -120,7 +124,7 @@ public class XmlUtils
 
 			Element child = (Element) node;
 
-			if ( name.equals( child.getNodeName() ) )
+			if ( name.equals( child.getLocalName() ) )
 				return child;
 		}
 
