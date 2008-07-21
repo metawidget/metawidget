@@ -4,7 +4,7 @@
 
 	<bookinfo>
 		<productname>Metawidget</productname>
-		<releaseinfo>V 0.55</releaseinfo>
+		<releaseinfo>V 0.6</releaseinfo>
 
 		<mediaobject>
 			<imageobject>
@@ -1456,7 +1456,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 			</section>
 			
 			<section id="section-introduction-part3-gwt-hosted">
-				<title>GWT Hosted Example</title>
+				<title>GWT Hosted Mode Example</title>
 	
 				<para>
 					The <filename>examples\gwt\addressbook-gwt.war</filename> discussed in Part 2 of this tutorial demonstrates GWT

@@ -16,6 +16,10 @@
 	
 	<public path="gwt/addressbook/public"/>
 
+	<!-- Server -->
+	
+	<servlet path='/contacts' class='org.metawidget.example.gwt.addressbook.server.rpc.ContactsServiceImpl' />
+
 	<!-- Binding -->
 	
   	<generate-with class="org.metawidget.gwt.generator.binding.simple.SimpleBindingAdapterGenerator">
