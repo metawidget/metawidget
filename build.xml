@@ -1675,10 +1675,10 @@
 
 	<target name="dist" depends="clean, pack, javadoc, tlddoc, docbook, examples">
 
+		<!-- Source -->
+		
 		<copy todir="${build.metawidget.dir}">
 			<fileset dir=".">
-				
-				<!-- Source -->
 				
 				<include name="src/**"/>
 				<include name="test/**"/>
@@ -1688,23 +1688,42 @@
 				<include name="lgpl.txt"/>
 				<include name="readme.txt"/>
 				
-				<!-- Shared resources. This stops them being scattered and duplicated -->
-				<!-- all over the ZIP. However, scattering and duplicating is useful  -->
-				<!-- for some IDE deployers, such as MyEclipse                        -->
+				<!-- Shared test resources. This stops them being scattered and duplicated -->
+				<!-- all over the ZIP. However, scattering and duplicating is useful for   -->
+				<!-- some IDE deployers, such as MyEclipse                                 -->
+
+				<exclude name="**/WEB-INF/classes/**"/>
+				<exclude name="**/WEB-INF/lib/**"/>
+				<exclude name="**/.p4ignore"/>
+			</fileset>
+		</copy>
+	
+		<mkdir dir="${build.metawidget.dir}/examples-src/${metawidget.name}"/>
+
+		<copy todir="${build.metawidget.dir}/examples-src/${metawidget.name}">
+			<fileset dir=".">
+				<include name="examples/**"/>
+
+				<!-- Shared example resources. This stops them being scattered and duplicated -->
+				<!-- all over the ZIP. However, scattering and duplicating is useful for some -->
+				<!-- IDE deployers, such as MyEclipse                                         -->
 				
 				<exclude name="examples/web/**/css/**"/>				
 				<exclude name="examples/web/**/media/**"/>				
 				<exclude name="examples/web/**/WEB-INF/tags/**"/>				
+				<include name="examples/web/shared/css/**"/>				
+				<include name="examples/web/shared/WEB-INF/tags/**"/>				
 				<exclude name="**/WEB-INF/classes/**"/>
 				<exclude name="**/WEB-INF/lib/**"/>
 				<exclude name="**/.p4ignore"/>
-				<include name="examples/web/shared/css/**"/>				
-				<include name="examples/web/shared/WEB-INF/tags/**"/>				
 				
 			</fileset>
 		</copy>
-	
+
 		<zip zipfile="${build.metawidget.dir}/${metawidget.name}.zip">
+			<fileset dir="${build.metawidget.dir}/examples-src">
+				<include name="${metawidget.name}/examples/**"/>
+			</fileset>
 			<fileset dir="${build.dir}">
 				
 				<include name="${metawidget.name}/documentation.html"/>				
@@ -1725,19 +1744,19 @@
 				<include name="${metawidget.name}/build.xml"/>
 				<include name="${metawidget.name}/build.properties"/>
 			
-			</fileset>
-				
+			</fileset>				
 		</zip>
 		
 		<move file="${build.metawidget.dir}/${metawidget.name}.zip" tofile="${build.metawidget.dir}/${metawidget.name}-src.zip"/>
 		
+		<!-- Binaries -->
+			
 		<delete>
 			<fileset dir="${build.metawidget.dir}">
 				<include name="classes/**"/>
-				<include name="example-classes/**"/>			
 			</fileset>
 		</delete>
-			
+
 		<antcall target="pack-debug"/>
 
 		<zip zipfile="${build.metawidget.dir}/${metawidget.name}.zip">
