@@ -54,6 +54,7 @@
 			<include name="org/metawidget/inspector/hibernate/*.java"/>
 			<include name="org/metawidget/inspector/iface/**"/>
 			<include name="org/metawidget/inspector/impl/**"/>
+			<include name="org/metawidget/inspector/jbpm/**"/>
 			<include name="org/metawidget/inspector/propertytype/**"/>
 			<include name="org/metawidget/inspector/struts/**"/>
 			<exclude name="org/metawidget/inspector/struts/StrutsAnnotationInspector.java"/>
