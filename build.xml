@@ -34,6 +34,7 @@
 		<mkdir dir="${build.metawidget.dir}/example-classes"/>
 		<mkdir dir="${build.metawidget.dir}/test-classes"/>
 		<mkdir dir="${build.metawidget.dir}/groovy-test-classes"/>
+		<mkdir dir="${build.metawidget.dir}/tutorial-classes"/>
 
 		<echo message="Note: Metawidget requires Java SE 6 to build, though only J2SE 1.4 to run"/>
 		<echo message="      This is because some optional features require Java SE 6"/>
@@ -53,7 +54,6 @@
 			<include name="org/metawidget/inspector/hibernate/*.java"/>
 			<include name="org/metawidget/inspector/iface/**"/>
 			<include name="org/metawidget/inspector/impl/**"/>
-			<include name="org/metawidget/inspector/jbpm/**"/>
 			<include name="org/metawidget/inspector/propertytype/**"/>
 			<include name="org/metawidget/inspector/struts/**"/>
 			<exclude name="org/metawidget/inspector/struts/StrutsAnnotationInspector.java"/>
@@ -107,17 +107,21 @@
 		</javac>
 		
 		<javac sourcepath="" srcdir="examples/java" destdir="${build.metawidget.dir}/example-classes" debug="${build.debug}" optimize="on" target="1.5">
-			<exclude name="org/metawidget/example/swing/tutorial/Person.java"/>
+			<include name="org/metawidget/example/android/**"/>
+			<include name="org/metawidget/example/swing/applet/**"/>
+			<include name="org/metawidget/example/**/addressbook/**"/>
+			<include name="org/metawidget/example/**/tutorial/**"/>
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement path="${build.metawidget.dir}/classes"/>
 			</classpath>
 		</javac>
 
-		<!-- When running unit tests, we want to isolate the tutorial code away from the other examples -->
+		<!-- Build tutorial files (which are neither 'src/test' files, nor should -->
+		<!-- end up as examples in the finished distribution                      -->
 		
-		<javac sourcepath="" srcdir="examples/java" destdir="${build.metawidget.dir}/test-classes" debug="on" optimize="on" target="1.5">
-			<include name="org/metawidget/example/swing/tutorial/Person.java"/>
+		<javac sourcepath="" srcdir="examples/java" destdir="${build.metawidget.dir}/tutorial-classes" debug="on" optimize="on" target="1.5">
+			<include name="org/metawidget/example/**/tutorial/**"/>
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement path="${build.metawidget.dir}/classes"/>
@@ -157,7 +161,6 @@
 				<fileset dir="lib"/>
 				<pathelement path="${build.metawidget.dir}/classes"/>				
 				<pathelement path="${build.metawidget.dir}/example-classes"/>				
-				<pathelement path="${build.metawidget.dir}/example-classes"/>
 				<pathelement path="${build.metawidget.dir}/groovy-test-classes"/>				
 			</classpath>
 		</javac>
@@ -212,10 +215,12 @@
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/**"/>
 				<exclude name="org/metawidget/gwt/**"/>
+				<exclude name="org/metawidget/example/**"/>
 				<exclude name="org/metawidget/inspector/gwt/remote/client/**"/>
 				<exclude name="org/metawidget/test/**"/>
 			</fileset>
 			<fileset dir="src/java">
+				<exclude name="org/metawidget/example/**"/>
 				<include name="org/metawidget/swing/icon/**"/>
 				<include name="**/faces-config.xml"/>
 				<include name="**/*.xsd"/>
@@ -243,6 +248,7 @@
 				<exclude name="org/metawidget/inspector/gwt/remote/client/**"/>
 				<exclude name="org/metawidget/inspector/**/Ui*.class"/>
 				<exclude name="org/metawidget/inspector/**/*Constants.class"/>
+				<exclude name="org/metawidget/example/**"/>
 				<exclude name="org/metawidget/test/**"/>
 			</fileset>
 			<fileset dir="src/java">
@@ -312,7 +318,10 @@
 			
 			<arg value="-notimestamp"/>
 
-			<packageset dir="src/java"/>
+			<packageset dir="src/java">
+				<include name="org/metawidget/**"/>
+				<exclude name="org/metawidget/example/**"/>
+			</packageset>
 
 			<classpath>
 				<fileset dir="lib">
@@ -342,7 +351,10 @@
 
 			<arg value="-notimestamp"/>
 
-			<packageset dir="src/java"/>
+			<packageset dir="src/java">
+				<include name="org/metawidget/**"/>
+				<exclude name="org/metawidget/example/**"/>
+			</packageset>
 
 			<classpath>
 				<fileset dir="lib">
@@ -436,6 +448,7 @@
 				<pathelement location="${build.metawidget.dir}/examples/swing/addressbook-swing.jar"/>
 				<pathelement path="${build.metawidget.dir}/test-classes"/>
 				<pathelement path="${build.metawidget.dir}/groovy-test-classes"/>
+				<pathelement path="${build.metawidget.dir}/tutorial-classes"/>
 				<pathelement path="examples/java"/>
 				<pathelement path="test/java"/>
 			</classpath>
@@ -444,6 +457,9 @@
 		<!-- GWT tests -->
 		
 		<copy todir="${build.metawidget.dir}/gwt-example-src">
+			<fileset dir="examples/java">
+				<include name="org/metawidget/example/gwt/addressbook/public/**"/>
+			</fileset>			
 			<fileset dir="test/java">
 				<include name="org/metawidget/test/*.gwt.xml"/>
 				<include name="org/metawidget/test/gwt/allwidgets/*.gwt.xml"/>
@@ -527,6 +543,7 @@
 			<instr instrpath="${build.metawidget.dir}/example-classes" destdir="${build.metawidget.dir}/example-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.gwt.addressbook.client.*, org.metawidget.example.gwt.addressbook.inspector.remote.client.*"/>				
 			</instr>
+			<instr instrpath="${build.metawidget.dir}/tutorial-classes" destdir="${build.metawidget.dir}/tutorial-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite"/>
 		</emma>
 
 		<!-- Prep servers -->
@@ -1141,7 +1158,7 @@
 		</jar>		
 
 		<copy todir="${build.metawidget.dir}/examples/swing">
-			<fileset dir="src/java/org/metawidget/example/swing">
+			<fileset dir="examples/java/org/metawidget/example/swing">
 				<include name="readme.txt"/>
 			</fileset>
 			<fileset dir="lib">
@@ -1250,7 +1267,7 @@
 				<include name="css/**"/>
 				<include name="WEB-INF/tags/**"/>
 			</fileset>
-			<fileset dir="src/java/org/metawidget/example/shared/addressbook">
+			<fileset dir="examples/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
 			</fileset>
 			<classes dir="${build.metawidget.dir}/example-classes">
@@ -1330,7 +1347,7 @@
 				<include name="css/**"/>
 				<include name="WEB-INF/tags/**"/>
 			</fileset>
-			<fileset dir="src/java/org/metawidget/example/shared/addressbook">
+			<fileset dir="examples/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
 			</fileset>
 			<classes dir="${build.metawidget.dir}/example-classes">
@@ -1369,7 +1386,7 @@
 				<include name="css/**"/>
 				<include name="WEB-INF/tags/**"/>
 			</fileset>
-			<fileset dir="src/java/org/metawidget/example/shared/addressbook">
+			<fileset dir="examples/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
 			</fileset>
 			<classes dir="${build.metawidget.dir}/example-classes">
@@ -1439,7 +1456,7 @@
 				<include name="css/**"/>
 				<include name="WEB-INF/tags/**"/>
 			</fileset>
-			<fileset dir="src/java/org/metawidget/example/shared/addressbook">
+			<fileset dir="examples/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
 			</fileset>
 			<classes dir="${build.metawidget.dir}/example-classes">
@@ -1551,7 +1568,7 @@
 
 		<copy todir="${build.metawidget.dir}/lib" flatten="true" includeemptydirs="false">
 			<fileset dir="lib"/>
-			<fileset dir="src/web/examples">
+			<fileset dir="examples/web">
 				<include name="**/lib/**"/>
 			</fileset>
 		</copy>

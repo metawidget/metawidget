@@ -18,7 +18,7 @@
 				<invoke url="${webtest.url}/addressbook-gwt" />
 				<verifyTitle text="Address Book (Metawidget GWT Example)" />
 				
-				<verifyContent referenceFile="../../../../examples/java/org/metawidget/example/gwt/addressbook/public/index.html" />
+				<verifyContent referenceFile="../../../../examples/java/org/metawidget/example/gwt/addressbook/public/AddressBook.html" />
 			</steps>
 		</webtest>
 	</target>
