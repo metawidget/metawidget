@@ -18,7 +18,6 @@ package org.metawidget.inspector.impl.propertystyle.groovy;
 
 import groovy.lang.GroovySystem;
 import groovy.lang.MetaBeanProperty;
-import groovy.lang.MetaClass;
 import groovy.lang.MetaMethod;
 
 import java.lang.annotation.Annotation;
@@ -125,13 +124,19 @@ public class GroovyPropertyStyle
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, does not exclude any names.
+	 * By default, excludes 'class' (as in 'getClass') and 'metaClass' (as in 'getMetaClass')
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
 	protected boolean isExcludedName( String name )
 	{
+		if ( "class".equals( name ) )
+			return true;
+
+		if ( "metaClass".equals( name ) )
+			return true;
+
 		return false;
 	}
 
@@ -141,20 +146,13 @@ public class GroovyPropertyStyle
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, excludes types that return <code>java.lang.Class</code> or
-	 * <code>groovy.lang.MetaClass</code>.
+	 * By default, does not exclude any return types.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
 	protected boolean isExcludedReturnType( Class<?> clazz )
 	{
-		if ( Class.class.equals( clazz ) )
-			return true;
-
-		if ( MetaClass.class.equals( clazz ) )
-			return true;
-
 		return false;
 	}
 
