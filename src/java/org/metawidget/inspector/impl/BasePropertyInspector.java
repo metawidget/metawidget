@@ -73,6 +73,20 @@ public abstract class BasePropertyInspector
 
 	protected Log															mLog					= LogUtils.getLog( getClass() );
 
+	/**
+	 * Pattern to use to detect (and unwrap) proxied classes (such as CGLIB and Javassist).
+	 * <p>
+	 * The proxy pattern is defined in <code>BasePropertyInspector</code>, rather than in
+	 * <code>PropertyStyle</code> for the following reasons:
+	 * <ul>
+	 * <li><code>inspect</code> needs to match <code>type</code> to <code>toInspect</code>,
+	 * which may involve unwrapping
+	 * <li>Different PropertyStyles (eg. JavaBean, GroovyBean) would need to re-implement
+	 * proxy-support
+	 * <li>Having the pattern here makes it configurable
+	 * </ul>
+	 */
+
 	protected Pattern														mPatternProxy;
 
 	//
@@ -300,7 +314,7 @@ public abstract class BasePropertyInspector
 
 			if ( !traversed.add( traverse ) )
 			{
-				LogUtils.getLog( getClass() ).warn( getClass().getSimpleName() + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating " + name + " as @UiHidden");
+				LogUtils.getLog( getClass() ).warn( getClass().getSimpleName() + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating " + name + " as @UiHidden" );
 				return null;
 			}
 		}
