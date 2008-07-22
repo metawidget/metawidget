@@ -14,6 +14,9 @@
 				<td><a href="${context}/doc/faq/core.html">Core FAQ</a></td>
 			</tr>
 			<tr>
+				<td><a href="${context}/doc/faq/comparison.html">Comparison FAQ</a></td>
+			</tr>
+			<tr>
 				<td><a href="${context}/doc/faq/licensing.html">Licensing FAQ</a></td>
 			</tr>
 		</tbody>

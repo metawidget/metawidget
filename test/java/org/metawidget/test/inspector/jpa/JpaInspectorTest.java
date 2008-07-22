@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 
 import junit.framework.TestCase;
 
@@ -78,7 +79,8 @@ public class JpaInspectorTest
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( TRUE.equals( property.getAttribute( LARGE ) ) );
-		assertTrue( property.getAttributes().getLength() == 2 );
+		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
+		assertTrue( property.getAttributes().getLength() == 3 );
 	}
 
 	public void testHideIds()
@@ -142,6 +144,7 @@ public class JpaInspectorTest
 		public String	bar1;
 
 		@Lob
+		@ManyToOne( optional = false )
 		public String	baz;
 	}
 }

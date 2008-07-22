@@ -128,16 +128,13 @@ public class JavaBeanPropertyStyle
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, excludes 'class' (as in 'getClass'), 'propertyChangeListeners' and 'vetoableChangeListeners'.
+	 * By default, excludes 'propertyChangeListeners' and 'vetoableChangeListeners'.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
 	protected boolean isExcludedName( String name )
 	{
-		if ( "class".equals( name ) )
-			return true;
-
 		if ( "propertyChangeListeners".equals( name ) )
 			return true;
 
@@ -169,13 +166,18 @@ public class JavaBeanPropertyStyle
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, does not exclude any base types.
+	 * By default, excludes any base types from the <code>java.*</code> package.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
 	protected boolean isExcludedBaseType( Class<?> clazz )
 	{
+		String pkg = clazz.getPackage().getName();
+
+		if ( pkg.startsWith( "java." ))
+			return true;
+
 		return false;
 	}
 

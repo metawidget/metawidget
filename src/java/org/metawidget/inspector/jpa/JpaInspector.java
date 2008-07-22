@@ -23,6 +23,7 @@ import java.util.Map;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 
 import org.metawidget.inspector.impl.BasePropertyInspector;
 import org.metawidget.inspector.impl.propertystyle.Property;
@@ -93,6 +94,14 @@ public class JpaInspector
 
 			if ( column.length() > 0 )
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( column.length() ) );
+		}
+
+		ManyToOne manyToOne = property.getAnnotation( ManyToOne.class );
+
+		if ( manyToOne != null )
+		{
+			if ( !manyToOne.optional() )
+				attributes.put( REQUIRED, TRUE );
 		}
 
 		// Hidden
