@@ -64,6 +64,27 @@ h4 {
 	width: 75px;
 }
 
+#comparison-table {
+	width: 100%;
+}
+
+#comparison-table thead td {
+	text-align: center;
+	font-weight: bold;
+	border-bottom: 1px solid #085AA4;
+	padding: 2px;
+}
+
+#comparison-table tbody th {
+	vertical-align: middle;
+}
+
+#comparison-table tbody td {
+	width: 30%;
+	text-align: center;
+	font-size: 8pt;
+}
+
 #quick-start {
 	margin-left: 10px;
 	float: right;
