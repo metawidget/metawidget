@@ -136,7 +136,7 @@ public abstract class BasePropertyInspector
 		try
 		{
 			Object childToInspect = null;
-			String strChildName = null;
+			String childName = null;
 			Map<String, String> parentAttributes = null;
 			Class<?> clazz = null;
 
@@ -152,9 +152,9 @@ public abstract class BasePropertyInspector
 					return null;
 
 				Class<?> classParent = ClassUtils.getUnproxiedClass( parentToInspect.getClass(), mPatternProxy );
-				strChildName = names[names.length - 1];
+				childName = names[names.length - 1];
 
-				Property propertyInParent = mPropertyStyle.getProperties( classParent ).get( strChildName );
+				Property propertyInParent = mPropertyStyle.getProperties( classParent ).get( childName );
 
 				if ( propertyInParent == null )
 					return null;
@@ -193,7 +193,7 @@ public abstract class BasePropertyInspector
 
 			// Nothing of consequence to return?
 
-			if ( !elementEntity.hasChildNodes() && ( parentAttributes == null || parentAttributes.isEmpty() ) )
+			if ( isInspectionEmpty( elementEntity, parentAttributes ) )
 				return null;
 
 			// Start a new DOM Document
@@ -201,6 +201,10 @@ public abstract class BasePropertyInspector
 			Element elementRoot = document.createElementNS( NAMESPACE, ROOT );
 			document.appendChild( elementRoot );
 			elementRoot.appendChild( elementEntity );
+
+			// Every Inspector needs to attach a type to the root entity, so
+			// that CompositeInspector can merge it
+
 			elementEntity.setAttribute( TYPE, clazz.getName() );
 
 			// Add any parent attributes
@@ -208,7 +212,7 @@ public abstract class BasePropertyInspector
 			if ( parentAttributes != null )
 			{
 				XmlUtils.setMapAsAttributes( elementEntity, parentAttributes );
-				elementEntity.setAttribute( NAME, strChildName );
+				elementEntity.setAttribute( NAME, childName );
 			}
 
 			// Return the document
@@ -262,6 +266,26 @@ public abstract class BasePropertyInspector
 	protected Map<String, Property> getProperties( Class<?> clazz )
 	{
 		return mPropertyStyle.getProperties( clazz );
+	}
+
+	/**
+	 * Returns true if the inspection returned nothing of consequence. This is an optimization that
+	 * allows our <code>Inspector</code> to return <code>null</code> overall, rather than
+	 * creating and serializing an XML document, which <code>CompositeInspector</code> then
+	 * deserializes and merges, all for no meaningful content.
+	 *
+	 * @return true if the inspection is 'empty'
+	 */
+
+	protected boolean isInspectionEmpty( Element elementEntity, Map<String, String> parentAttributes )
+	{
+		if ( elementEntity.hasChildNodes() )
+			return false;
+
+		if ( parentAttributes != null && !parentAttributes.isEmpty() )
+			return false;
+
+		return true;
 	}
 
 	//

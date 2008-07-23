@@ -59,7 +59,7 @@ import org.metawidget.util.CollectionUtils;
  * <code>UiComesAfter</code> and <code>JavassistPropertyStyle</code> together to get the best of
  * both worlds.
  *
- * @author Richard Kennard
+ * @author Richard Kennard, inspired by Tapestry 5's BeanEditForm
  */
 
 public class JavassistPropertyStyle

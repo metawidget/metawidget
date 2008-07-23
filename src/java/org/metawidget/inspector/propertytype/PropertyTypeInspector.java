@@ -27,6 +27,7 @@ import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.w3c.dom.Element;
 
 /**
  * Inspector to look for types of properties.
@@ -124,5 +125,18 @@ public class PropertyTypeInspector
 			attributes.put( NO_GETTER, TRUE );
 
 		return attributes;
+	}
+
+	/**
+	 * Overriden to return <code>false<code>.
+	 * <p>
+	 * <code>PropertyTypeInspector</code> always returns an XML document, even if
+	 * just to convey the <code>type</code> attribute of the top-level <code>entity</code> element.
+	 */
+
+	@Override
+	protected boolean isInspectionEmpty( Element elementEntity, Map<String, String> parentAttributes )
+	{
+		return false;
 	}
 }

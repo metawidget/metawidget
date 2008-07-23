@@ -118,6 +118,23 @@ public class PropertyTypeInspectorTest
 		assertTrue( Contact.class.getName().equals( property.getAttribute( DECLARED_CLASS ) ));
 	}
 
+	public void testInspectString()
+	{
+		String xml = mInspector.inspect( "foo", String.class.getName() );
+		Document document = XmlUtils.documentFromString( xml );
+
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+
+		// Entity only
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ));
+		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ));
+
+		assertTrue( 1 == entity.getAttributes().getLength() );
+		assertTrue( 0 == entity.getChildNodes().getLength() );
+	}
+
 	public void testTraverseViaParent()
 	{
 		PropertyTypeInspector inspector = new PropertyTypeInspector();

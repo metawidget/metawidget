@@ -151,6 +151,15 @@ public class MetawidgetAnnotationInspectorTest
 		}
 	}
 
+	public void testInspectString()
+	{
+		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
+
+		// Should 'short circuit' and return null, as an optimization for CompositeInspector
+
+		assertTrue( null == inspector.inspect( "foo", String.class.getName() ));
+	}
+
 	//
 	//
 	// Constructor

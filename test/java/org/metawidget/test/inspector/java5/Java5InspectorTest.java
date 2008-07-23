@@ -76,6 +76,15 @@ public class Java5InspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 2 );
 	}
 
+	public void testInspectString()
+	{
+		Java5Inspector inspector = new Java5Inspector();
+
+		// Should 'short circuit' and return null, as an optimization for CompositeInspector
+
+		assertTrue( null == inspector.inspect( "foo", String.class.getName() ));
+	}
+
 	//
 	//
 	// Constructor
