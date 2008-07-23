@@ -1428,10 +1428,10 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 			</section>
 			
 			<section id="section-introduction-part3-applet">
-				<title>Swing Address Book Applet Example</title>
+				<title>Swing Applet Address Book Example</title>
 	
 				<para>
-					The Swing Address Book Applet Example demonstrates using Metawidget in applets. The example is pre-built for you in
+					The Swing Applet Address Book Example demonstrates using Metawidget in applets. The example is pre-built for you in
 					<filename>examples\swing\applet\addressbook</filename>. If you've downloaded the source code, you can build it
 					yourself by typing:
 				</para>
@@ -1456,12 +1456,23 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 			</section>
 			
 			<section id="section-introduction-part3-gwt-hosted">
-				<title>GWT Hosted Mode Example</title>
+				<title>GWT Hosted Mode Address Book Example</title>
 	
 				<para>
 					The <filename>examples\gwt\addressbook-gwt.war</filename> discussed in Part 2 of this tutorial demonstrates GWT
-					running in <emphasis>GWT Web mode</emphasis>. Developers may prefer to run the example in <emphasis>GWT hosted mode</emphasis>
-					instead. To do that:
+					running in <emphasis>GWT Web mode</emphasis>. Developers may prefer instead to run the example in <emphasis>GWT hosted mode</emphasis>
+					as in <xref linkend="section-introduction-part3-gwt-hosted-screenshot"/>.
+				</para>
+
+				<figure id="section-introduction-part3-gwt-hosted-screenshot">
+					<title>Address Book Example running in GWT Hosted Mode</title>
+					<screenshot>
+						<graphic fileref="../shared/images/web-gwt-hosted.jpg"/>
+					</screenshot>
+				</figure>
+
+				<para>
+					To set up a hosted mode project:
 				</para>
 				
 				<itemizedlist>
@@ -1484,34 +1495,35 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 					</listitem>   
 					<listitem>
 						<para>
-							From the Metawidget source distribution, copy over <filename>examples/java/org/metawidget/example/gwt</filename>,
-							<filename>examples/java/org/metawidget/example/shared</filename> and
-							<filename>examples/java/org/metawidget/example/GwtAddressBook.gwt.xml</filename> into the
+							From the Metawidget source distribution, copy from the <filename>examples/java/org/metawidget/example</filename>
+							folder the <filename>gwt</filename> and <filename>shared</filename> folders, and the
+							<filename>GwtAddressBook.gwt.xml</filename> file, into the
 							<filename>applicationCreator</filename>-created <filename>src/org/metawidget/example</filename> 
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							From the Metawidget source distribution, copy over <filename>examples/web/gwt/addressbook/WEB-INF/inspector-config.xml</filename>
-							and <filename>examples/web/gwt/addressbook/WEB-INF/metawidget-metadata.xml</filename> into the
+							From the Metawidget source distribution, copy from the <filename>examples/web/gwt/addressbook/WEB-INF</filename>
+							folder the <filename>inspector-config.xml</filename> and <filename>metawidget-metadata.xml</filename> files into the
 							root of the <filename>applicationCreator</filename>-created <filename>src</filename> folder
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							Create a <filename>lib</filename> folder in the root of the project that <filename>projectCreator</filename> created
+							Create a <filename>lib</filename> folder in the root of the project that <filename>applicationCreator</filename> created
 						</para>
 					</listitem>   
 					<listitem>
 						<para>
-							From the Metawidget source distribution, copy <filename>lib/ejb3-persistence.jar</filename>, <filename>lib/hibernate-validator.jar</filename>
-							and <filename>lib/javax.servlet.jsp.jar</filename> into the new <filename>lib</filename> folder
+							From the Metawidget source distribution, copy from the <filename>lib</filename> folder the <filename>ejb3-persistence.jar</filename>,
+							<filename>hibernate-validator.jar</filename> and <filename>javax.servlet.jsp.jar</filename> files into the
+							<filename>applicationCreator</filename> <filename>lib</filename> folder
 						</para>
 					</listitem>   
 					<listitem>
 						<para>
 							From the Metawidget binary distribution, copy <filename>metawidget.jar</filename> and <filename>examples/gwt/metawidget-gwt-client.jar</filename>
-							into the new <filename>lib</filename> folder
+							<filename>applicationCreator</filename> <filename>lib</filename> folder
 						</para>
 					</listitem>
 					<listitem>
@@ -1538,7 +1550,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							In Eclipse, modify the Build Path of the new project to add all the JARs in the <filename>lib</filename> folder
+							In Eclipse, edit the Build Path of the new project and add all the JARs from its <filename>lib</filename> folder
 						</para>
 					</listitem>
 				</itemizedlist>					

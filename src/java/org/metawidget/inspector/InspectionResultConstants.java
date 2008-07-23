@@ -35,8 +35,6 @@ package org.metawidget.inspector;
  * @author Richard Kennard
  */
 
-// TODO: GWT hosted mode screenshot
-
 public final class InspectionResultConstants
 {
 	//
