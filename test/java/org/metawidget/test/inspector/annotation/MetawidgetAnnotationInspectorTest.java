@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.example.shared.addressbook.model.Address;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
+import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiAttributes;
 import org.metawidget.inspector.annotation.UiComesAfter;
@@ -86,13 +87,15 @@ public class MetawidgetAnnotationInspectorTest
 
 		// Made-up Entity
 
-		document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
+		String xml = inspector.inspect( new Foo(), Foo.class.getName() );
+		document = XmlUtils.documentFromString( xml );
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ));
 		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ));
 
 		property = (Element) entity.getFirstChild().getNextSibling();
+		assertTrue( PROPERTY.equals( property.getNodeName() ));
 		assertTrue( "string1".equals( property.getAttribute( NAME ) ));
 		assertTrue( "bar".equals( property.getAttribute( LABEL ) ));
 		assertTrue( "bar1".equals( property.getAttribute( "foo1" ) ));
@@ -101,6 +104,12 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ));
 		assertTrue( "Foo".equals( property.getAttribute( SECTION ) ));
 		assertTrue( TRUE.equals( property.getAttribute( MASKED ) ));
+
+		Element action = (Element) property.getNextSibling();
+		assertTrue( ACTION.equals( action.getNodeName() ));
+		assertTrue( "doNothing".equals( action.getAttribute( NAME ) ));
+
+		assertTrue( null == action.getNextSibling() );
 	}
 
 	public void testLookup()
@@ -196,6 +205,12 @@ public class MetawidgetAnnotationInspectorTest
 		@UiComesAfter( "object1" )
 		@UiLarge
 		public String	string1;
+
+		@UiAction
+		public void doNothing()
+		{
+			// Do nothing
+		}
 	}
 
 	public static class InfiniteFoo

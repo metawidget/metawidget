@@ -164,7 +164,7 @@ public abstract class BasePropertyInspector
 				if ( propertyInParent.isReadable() )
 				{
 					childToInspect = propertyInParent.read( parentToInspect );
-					parentAttributes = inspect( propertyInParent, toInspect );
+					parentAttributes = inspectProperty( propertyInParent, toInspect );
 
 					if ( !Modifier.isFinal( clazz.getModifiers() ) && childToInspect != null )
 						clazz = ClassUtils.getUnproxiedClass( childToInspect.getClass(), mPatternProxy );
@@ -238,7 +238,7 @@ public abstract class BasePropertyInspector
 
 		for ( Property property : getProperties( clazz ).values() )
 		{
-			Map<String, String> attributes = inspect( property, toInspect );
+			Map<String, String> attributes = inspectProperty( property, toInspect );
 
 			if ( attributes == null || attributes.isEmpty() )
 				continue;
@@ -260,7 +260,7 @@ public abstract class BasePropertyInspector
 	 * the call stack instead.
 	 */
 
-	protected abstract Map<String, String> inspect( Property property, Object toInspect )
+	protected abstract Map<String, String> inspectProperty( Property property, Object toInspect )
 		throws Exception;
 
 	protected Map<String, Property> getProperties( Class<?> clazz )

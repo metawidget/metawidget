@@ -67,7 +67,7 @@ public class FacesInspector
 	//
 
 	@Override
-	protected Map<String, String> inspect( Property property, Object toInspect )
+	protected Map<String, String> inspectProperty( Property property, Object toInspect )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();

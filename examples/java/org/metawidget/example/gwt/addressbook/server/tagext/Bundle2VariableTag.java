@@ -29,7 +29,8 @@ import javax.servlet.jsp.tagext.TagSupport;
  * <p>
  * This allows us to reuse our
  * <code>org.metawidget.example.shared.addressbook.resource.Resources</code> within the GWT
- * <code>Dictionary</code> mechanism by using <code>GwtMetawidget.setDictionaryName</code>.
+ * <code>Dictionary</code> mechanism by using <code>GwtMetawidget.setDictionaryName</code>, thus
+ * reducing unnecessary duplication.
  *
  * @author Richard Kennard
  */

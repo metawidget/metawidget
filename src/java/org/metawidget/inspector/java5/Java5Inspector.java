@@ -62,7 +62,7 @@ public class Java5Inspector
 	//
 
 	@Override
-	protected Map<String, String> inspect( Property property, Object toInspect )
+	protected Map<String, String> inspectProperty( Property property, Object toInspect )
 		throws Exception
 	{
 		// Enums
