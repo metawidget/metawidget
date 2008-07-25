@@ -160,6 +160,31 @@ public class MetawidgetAnnotationInspectorTest
 		}
 	}
 
+	public void testBadAction()
+	{
+		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
+
+		try
+		{
+			inspector.inspect( new BadAction1(), BadAction1.class.getName() );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "@UiAction public boolean org.metawidget.test.inspector.annotation.MetawidgetAnnotationInspectorTest$BadAction1.doNothing() must return a type of void".equals( e.getMessage() ));
+		}
+
+		try
+		{
+			inspector.inspect( new BadAction2(), BadAction2.class.getName() );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "@UiAction public void org.metawidget.test.inspector.annotation.MetawidgetAnnotationInspectorTest$BadAction2.doNothing(java.lang.String) must not take any parameters".equals( e.getMessage() ));
+		}
+	}
+
 	public void testInspectString()
 	{
 		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
@@ -220,5 +245,23 @@ public class MetawidgetAnnotationInspectorTest
 
 		@UiComesAfter( "object1" )
 		public Object object2;
+	}
+
+	public static class BadAction1
+	{
+		@UiAction
+		public boolean doNothing()
+		{
+			return false;
+		}
+	}
+
+	public static class BadAction2
+	{
+		@UiAction
+		public void doNothing( String foo )
+		{
+			// Do nothing
+		}
 	}
 }

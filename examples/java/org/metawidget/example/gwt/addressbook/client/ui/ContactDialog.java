@@ -21,7 +21,6 @@ import java.util.Set;
 
 import org.metawidget.example.gwt.addressbook.client.ui.converter.DateConverter;
 import org.metawidget.example.gwt.addressbook.client.ui.converter.EnumConverter;
-import org.metawidget.example.gwt.addressbook.client.ui.converter.NumberConverter;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.Gender;
@@ -145,7 +144,6 @@ public class ContactDialog
 		SimpleBinding.registerAdapter( Contact.class, contactAdapter );
 		SimpleBinding.registerConverter( Date.class, new DateConverter() );
 		SimpleBinding.registerConverter( Gender.class, new EnumConverter<Gender>( Gender.class ) );
-		SimpleBinding.registerConverter( Number.class, new NumberConverter() );
 
 		// Metawidget
 

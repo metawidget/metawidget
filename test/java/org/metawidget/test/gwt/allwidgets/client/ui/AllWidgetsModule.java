@@ -23,11 +23,8 @@ import org.metawidget.gwt.client.binding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
-import org.metawidget.test.gwt.allwidgets.client.converter.BooleanConverter;
-import org.metawidget.test.gwt.allwidgets.client.converter.CharacterConverter;
 import org.metawidget.test.gwt.allwidgets.client.converter.DateConverter;
 import org.metawidget.test.gwt.allwidgets.client.converter.NestedWidgetsConverter;
-import org.metawidget.test.gwt.allwidgets.client.converter.NumberConverter;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
 
@@ -94,11 +91,8 @@ public class AllWidgetsModule
 		@SuppressWarnings( "unchecked" )
 		SimpleBindingAdapter<AllWidgets> allWidgetsAdapter = (SimpleBindingAdapter<AllWidgets>) GWT.create( AllWidgets.class );
 		SimpleBinding.registerAdapter( AllWidgets.class, allWidgetsAdapter );
-		SimpleBinding.registerConverter( Boolean.class, new BooleanConverter() );
-		SimpleBinding.registerConverter( Character.class, new CharacterConverter() );
 		SimpleBinding.registerConverter( Date.class, new DateConverter() );
 		SimpleBinding.registerConverter( NestedWidgets.class, new NestedWidgetsConverter() );
-		SimpleBinding.registerConverter( Number.class, new NumberConverter() );
 
 		// Stubs
 

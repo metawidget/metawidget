@@ -206,7 +206,15 @@ public class MetawidgetAnnotationInspector
 			if ( action == null )
 				continue;
 
-			// ...add it
+			// ...validate it...
+
+			if ( !void.class.equals( method.getReturnType() ))
+				throw InspectorException.newException( "@UiAction " + method + " must return a type of void" );
+
+			if ( method.getParameterTypes().length > 0 )
+				throw InspectorException.newException( "@UiAction " + method + " must not take any parameters" );
+
+			// ...and add it
 
 			Element element = document.createElementNS( NAMESPACE, ACTION );
 			element.setAttribute( NAME, method.getName() );

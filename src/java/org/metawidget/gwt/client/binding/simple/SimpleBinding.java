@@ -51,16 +51,53 @@ public class SimpleBinding
 
 	private final static Map<Class<?>, Converter<?>>			CONVERTERS	= new HashMap<Class<?>, Converter<?>>();
 
+	static
+	{
+		// Register default converter
+
+		Converter<?> simpleConverter = new SimpleConverter();
+
+		@SuppressWarnings( "unchecked" )
+		Converter<Boolean> booleanConverter = (Converter<Boolean>) simpleConverter;
+		SimpleBinding.registerConverter( Boolean.class, booleanConverter );
+
+		@SuppressWarnings( "unchecked" )
+		Converter<Character> characterConverter = (Converter<Character>) simpleConverter;
+		SimpleBinding.registerConverter( Character.class, characterConverter );
+
+		@SuppressWarnings( "unchecked" )
+		Converter<Number> numberConverter = (Converter<Number>) simpleConverter;
+		SimpleBinding.registerConverter( Number.class, numberConverter );
+	}
+
 	//
 	//
 	// Public statics
 	//
 	//
 
+	/**
+	 * Registers the given SimpleBindingAdapter for the given Class.
+	 * <p>
+	 * Adapters also apply to subclasses of the given Class. So for example registering an Adapter
+	 * for <code>Contact.class</code> will match <code>PersonalContact.class</code>,
+	 * <code>BusinessContact.class</code> etc., unless a more subclass-specific Adapter is also
+	 * registered
+	 */
+
 	public static <T> void registerAdapter( Class<T> forClass, SimpleBindingAdapter<T> adapter )
 	{
 		ADAPTERS.put( forClass, adapter );
 	}
+
+	/**
+	 * Registers the given Converter for the given Class.
+	 * <p>
+	 * Converters also apply to subclasses of the given Class. So for example registering a
+	 * Converter for <code>Number.class</code> will match <code>Integer.class</code>,
+	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also
+	 * registered.
+	 */
 
 	public static <T> void registerConverter( Class<T> forClass, Converter<T> converter )
 	{
@@ -134,15 +171,15 @@ public class SimpleBinding
 		{
 			getMetawidget().setValue( value, widget );
 
-			if ( adapter.isPropertyReadOnly( toInspect, names ))
+			if ( adapter.isPropertyReadOnly( toInspect, names ) )
 				return;
 
 			if ( mBindings == null )
 				mBindings = new HashSet<Object[]>();
 
-			mBindings.add( new Object[]{ widget, names, converter, propertyType } );
+			mBindings.add( new Object[] { widget, names, converter, propertyType } );
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			Window.alert( GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + ": " + e.getMessage() );
 		}
@@ -246,6 +283,15 @@ public class SimpleBinding
 	//
 	//
 
+	/**
+	 * Gets the Adapter for the given class (if any).
+	 * <p>
+	 * Includes traversing superclasses of the given Class for a suitable Converter, so for example
+	 * registering an Adapter for <code>Contact.class</code> will match
+	 * <code>PersonalContact.class</code>, <code>BusinessContact.class</code> etc., unless a
+	 * more subclass-specific Adapter is also registered.
+	 */
+
 	private SimpleBindingAdapter<?> getAdapter( Class<?> classToBindTo )
 	{
 		Class<?> classTraversal = classToBindTo;
@@ -262,6 +308,15 @@ public class SimpleBinding
 
 		return null;
 	}
+
+	/**
+	 * Gets the Converter for the given Class (if any).
+	 * <p>
+	 * Includes traversing superclasses of the given Class for a suitable Converter, so for example
+	 * registering a Converter for <code>Number.class</code> will match <code>Integer.class</code>,
+	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also
+	 * registered.
+	 */
 
 	private Converter<?> getConverter( Class<?> classToConvert )
 	{
