@@ -1,0 +1,55 @@
+// Metawidget
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+package org.metawidget.inspector.impl.actionstyle;
+
+import java.util.Map;
+
+/**
+ * Abstraction layer for retrieving actions from Classes.
+ * <p>
+ * Different environments have different approaches to defining what constitutes an 'action'. For
+ * example, Metawidget supplies a <code>UiAction</code> annotation and the Spring AppFramework supplies
+ * an <code>Action</code> annotation.
+ * <p>
+ * <code>ActionStyles</code> must be immutable, thread-safe <em>and</em> non-configurable, so
+ * that a single instance can be safely shared amongst all <code>Inspectors</code>. This is enforced by
+ * <code>BasePropertyInspector</code> only calling a no-args constructor on its given
+ * <code>ActionStyle</code> class.
+ *
+ * @author Richard Kennard
+ */
+
+public interface ActionStyle
+{
+	//
+	//
+	// Methods
+	//
+	//
+
+	/**
+	 * Gets the Actions for the given Class.
+	 * <p>
+	 * Actions must be returned using a consistent ordering, so that both unit tests and
+	 * <code>CompositeInspector</code> merging is consistent. If the underlying platform does not
+	 * define an ordering, one must be imposed (eg. sorted alphabetically by name).
+	 *
+	 * @return the actions for the given Class. Never null.
+	 */
+
+	Map<String, Action> getActions( Class<?> clazz );
+}
