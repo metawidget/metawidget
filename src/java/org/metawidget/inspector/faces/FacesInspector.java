@@ -206,7 +206,7 @@ public class FacesInspector
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		// Attributes
+		// UiFacesAttributes/UiFacesAttribute
 
 		UiFacesAttribute facesAttribute = property.getAnnotation( UiFacesAttribute.class );
 		UiFacesAttributes facesAttributes = property.getAnnotation( UiFacesAttributes.class );

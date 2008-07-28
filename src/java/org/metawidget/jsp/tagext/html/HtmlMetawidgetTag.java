@@ -17,7 +17,6 @@
 package org.metawidget.jsp.tagext.html;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
 import java.util.Collection;
@@ -127,11 +126,6 @@ public class HtmlMetawidgetTag
 		if ( lookup != null && !"".equals( lookup ))
 			return writeReadOnlyTag( attributes );
 
-		String jspLookup = attributes.get( JSP_LOOKUP );
-
-		if ( jspLookup != null && !"".equals( jspLookup ))
-			return writeReadOnlyTag( attributes );
-
 		String type = attributes.get( TYPE );
 
 		// If no type, fail gracefully
@@ -191,15 +185,6 @@ public class HtmlMetawidgetTag
 				return null;
 
 			return writeHiddenTag( attributes );
-		}
-
-		// Jsp Lookups
-
-		String jspLookup = attributes.get( JSP_LOOKUP );
-
-		if ( jspLookup != null && !"".equals( jspLookup ) )
-		{
-			return writeSelectTag( jspLookup, attributes );
 		}
 
 		// String Lookups
@@ -486,87 +471,6 @@ public class HtmlMetawidgetTag
 			buffer.append( mStyleClass );
 			buffer.append( "\"" );
 		}
-
-		return buffer.toString();
-	}
-
-	private String writeSelectTag( String lookupExpression, Map<String, String> attributes )
-		throws Exception
-	{
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
-		// Start the SELECT tag
-
-		buffer.append( "<select" );
-		buffer.append( writeAttributes( attributes ) );
-
-		buffer.append( ">" );
-
-		// Empty option
-
-		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
-
-		if ( clazz == null || !clazz.isPrimitive() )
-			buffer.append( "<option value=\"\"></option>" );
-
-		// Evaluate the expression
-
-		String selected = StringUtils.quietValueOf( evaluate( attributes ));
-		Object lookup = evaluate( lookupExpression );
-
-		// Add the options
-
-		if ( lookup != null )
-		{
-			if ( lookup instanceof Collection )
-			{
-				for ( Object value : (Collection<?>) lookup )
-				{
-					if ( value == null )
-						continue;
-
-					String stringValue = StringUtils.quietValueOf( value );
-
-					buffer.append( "<option value=\"" );
-					buffer.append( stringValue );
-					buffer.append( "\"" );
-
-					if ( stringValue.equals( selected ) )
-						buffer.append( " selected" );
-
-					buffer.append( ">" );
-					buffer.append( stringValue );
-					buffer.append( "</option>" );
-				}
-			}
-			else if ( lookup instanceof Object[] )
-			{
-				for ( Object value : (Object[]) lookup )
-				{
-					if ( value == null )
-						continue;
-
-					String stringValue = StringUtils.quietValueOf( value );
-
-					buffer.append( "<option value=\"" );
-					buffer.append( stringValue );
-					buffer.append( "\"" );
-
-					if ( stringValue.equals( selected ) )
-						buffer.append( " selected" );
-
-					buffer.append( ">" );
-					buffer.append( stringValue );
-					buffer.append( "</option>" );
-				}
-			}
-		}
-
-		// End the SELECT tag
-
-		buffer.append( "</select>" );
 
 		return buffer.toString();
 	}

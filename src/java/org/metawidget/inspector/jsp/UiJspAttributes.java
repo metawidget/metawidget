@@ -16,30 +16,20 @@
 
 package org.metawidget.inspector.jsp;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
- * JSP-specific element and attribute names appearing in DOMs conforming to inspection-result-1.0.xsd.
+ * Annotates arbitrary attributes for the UI, based on Java Server Faces EL expressions.
  *
  * @author Richard Kennard
  */
 
-public final class JspInspectionResultConstants
+@Retention( RetentionPolicy.RUNTIME )
+@Target( { ElementType.FIELD, ElementType.METHOD } )
+public @interface UiJspAttributes
 {
-	//
-	//
-	// Public statics
-	//
-	//
-
-	public final static String	JSP_LOOKUP				= "jsp-lookup";
-
-	//
-	//
-	// Private constructor
-	//
-	//
-
-	private JspInspectionResultConstants()
-	{
-		// Can never be called
-	}
+	UiJspAttribute[] value();
 }

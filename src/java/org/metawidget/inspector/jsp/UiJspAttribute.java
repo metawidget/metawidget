@@ -22,15 +22,35 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates the value returned by the field should belong to the set returned by the given EL
- * expression.
+ * Annotates an arbitrary attribute for the UI, based on a Java Server Pages EL expression.
+ * <p>
+ * When using this annotation, <code>JspAnnotationInspector</code> must be able access to
+ * JSP 2.0 <code>FacesContext</code>. In practice this usually happens automatically, but in some cases
+ * it may be necessary to 'combine remote inspections' (see the Reference Documentation).
  *
  * @author Richard Kennard
  */
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.FIELD, ElementType.METHOD } )
-public @interface UiJspLookup
+public @interface UiJspAttribute
 {
-	String value( );
+	String name();
+
+	/**
+	 * Value to set the attribute to.
+	 * <p>
+	 * Can be a String or an EL expression (in which case it must be of the form <code>#{...}</code>)
+	 */
+
+	String value();
+
+	/**
+	 * Optional EL condition with which to restrict the setting of the attribute, unless the
+	 * condition evaluates to true.
+	 * <p>
+	 * Must be of the form <code>#{...}</code>.
+	 */
+
+	String condition() default "";
 }

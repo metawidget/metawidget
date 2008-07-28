@@ -21,7 +21,7 @@ import java.io.Serializable;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.faces.UiFacesLookup;
-import org.metawidget.inspector.jsp.UiJspLookup;
+import org.metawidget.inspector.jsp.UiJspAttribute;
 
 /**
  * Models a Communication of a Contact.
@@ -89,7 +89,7 @@ public class Communication
 	}
 
 	@UiFacesLookup( "#{communications.allAsSelectItems}" )
-	@UiJspLookup( "${communications.all}" )
+	@UiJspAttribute( name = "lookup", value = "${communications.all}" )
 	public String getType()
 	{
 		return mType;

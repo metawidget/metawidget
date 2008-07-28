@@ -30,6 +30,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.jsp.tagext.StubTag.StubContent;
@@ -428,6 +429,12 @@ public abstract class MetawidgetTag
 
 		if ( obj != null )
 			type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
+
+		// Inject the PageContext (in case it is used)
+
+		JspAnnotationInspector.setThreadLocalPageContext( pageContext );
+
+		// Do the Inspection
 
 		return inspector.inspect( obj, type, typeAndNames.getNames() );
 	}

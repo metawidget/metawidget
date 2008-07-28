@@ -48,6 +48,7 @@ public final class FacesUtils
 	{
 		return PATTERN_BINDING.matcher( binding ).matches();
 	}
+
 	/**
 	 * @return the original String, not wrapped in #{...}. If the original String was not wrapped,
 	 *         returns the original String

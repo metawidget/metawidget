@@ -23,6 +23,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.Writer;
 import java.util.Enumeration;
+import java.util.regex.Pattern;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
@@ -54,6 +55,11 @@ public final class JspUtils
 	// Public statics
 	//
 	//
+
+	public static boolean isExpression( String binding )
+	{
+		return PATTERN_BINDING.matcher( binding ).matches();
+	}
 
 	/**
 	 * Writes the given Tag to a String (<em>not</em> its usual pageContext.getOut).
@@ -556,6 +562,14 @@ public final class JspUtils
 			writer.write( getString() );
 		}
 	}
+
+	//
+	//
+	// Private statics
+	//
+	//
+
+	private final static Pattern	PATTERN_BINDING	= Pattern.compile( "(\\$\\{)([^}]*)(\\})" );
 
 	//
 	//
