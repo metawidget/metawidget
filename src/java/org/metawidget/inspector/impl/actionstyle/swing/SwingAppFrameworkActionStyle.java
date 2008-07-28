@@ -14,24 +14,23 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.actionstyle.metawidget;
+package org.metawidget.inspector.impl.actionstyle.swing;
 
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.MethodActionStyle;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * ActionStyle for Metawidget-style actions.
+ * ActionStyle for Swing AppFramework-style actions.
  *
  * @author Richard Kennard
  */
 
-public class MetawidgetActionStyle
+public class SwingAppFrameworkActionStyle
 	extends MethodActionStyle
 {
 	//
@@ -55,7 +54,7 @@ public class MetawidgetActionStyle
 
 		for( Method method : clazz.getMethods() )
 		{
-			UiAction action = method.getAnnotation( UiAction.class );
+			org.jdesktop.application.Action action = method.getAnnotation( org.jdesktop.application.Action.class );
 
 			if ( action == null )
 				continue;

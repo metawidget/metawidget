@@ -31,6 +31,7 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -163,6 +164,47 @@ public class FacesInspector
 			if ( !"".equals( dateTimeConverter.type() ))
 				attributes.put( DATETIME_TYPE, dateTimeConverter.type() );
 		}
+
+		// Attributes
+
+		UiFacesAttribute facesAttribute = property.getAnnotation( UiFacesAttribute.class );
+		UiFacesAttributes facesAttributes = property.getAnnotation( UiFacesAttributes.class );
+
+		if ( facesAttribute != null || facesAttributes != null )
+		{
+			FacesContext context = FacesContext.getCurrentInstance();
+
+			if ( context == null )
+				throw InspectorException.newException( "FacesContext not available to FacesInspector" );
+
+			Application application = context.getApplication();
+
+			// UiFacesAttribute
+
+			if ( facesAttribute != null )
+			{
+				putFacesAttribute( context, application, attributes, facesAttribute );
+			}
+
+			// UiFacesAttributes
+
+			if ( facesAttributes != null )
+			{
+				for ( UiFacesAttribute nestedFacesAttribute : facesAttributes.value() )
+				{
+					putFacesAttribute( context, application, attributes, nestedFacesAttribute );
+				}
+			}
+		}
+
+		return attributes;
+	}
+
+	@Override
+	protected Map<String, String> inspectAction( Action property, Object toInspect )
+		throws Exception
+	{
+		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Attributes
 

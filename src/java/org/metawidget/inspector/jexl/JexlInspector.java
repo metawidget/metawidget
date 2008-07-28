@@ -25,6 +25,7 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -89,6 +90,44 @@ public class JexlInspector
 		// UiJexlAttributes
 
 		UiJexlAttributes JexlAttributes = property.getAnnotation( UiJexlAttributes.class );
+
+		if ( JexlAttributes != null )
+		{
+			if ( context == null )
+				context = createContext( toInspect );
+
+			for ( UiJexlAttribute nestedJexlAttribute : JexlAttributes.value() )
+			{
+				putJexlAttribute( context, attributes, nestedJexlAttribute );
+			}
+		}
+
+		return attributes;
+	}
+
+	@Override
+	protected Map<String, String> inspectAction( Action action, Object toInspect )
+		throws Exception
+	{
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		JexlContext context = null;
+
+		// Note: this is all annotation based. We could imagine an XML version, but we'd have
+		// to figure out a nice format for 'name="value" with condition'
+
+		// UiJexlAttribute
+
+		UiJexlAttribute jexlAttribute = action.getAnnotation( UiJexlAttribute.class );
+
+		if ( jexlAttribute != null )
+		{
+			context = createContext( toInspect );
+			putJexlAttribute( context, attributes, jexlAttribute );
+		}
+
+		// UiJexlAttributes
+
+		UiJexlAttributes JexlAttributes = action.getAnnotation( UiJexlAttributes.class );
 
 		if ( JexlAttributes != null )
 		{

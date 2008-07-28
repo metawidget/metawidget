@@ -43,7 +43,7 @@ public class JavaBeanPropertyStyleTest
 	//
 	//
 
-	public void testJavaBean()
+	public void testJavaBeanPropertyStyle()
 	{
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
