@@ -1478,57 +1478,51 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 				<itemizedlist>
 					<listitem>
 						<para>
-							Create a new GWT project using the usual method (described in the GWT Getting Started guide)... 
+							Create a new GWT project using the usual method (described in the GWT Getting Started guide). First
+							create a folder called, say, <filename>HostedAddressBook</filename>. Within that folder, run...
 						</para>
-						<programlisting language="shell">projectCreator -eclipse AddressBook</programlisting>
+						<programlisting language="shell">projectCreator -eclipse HostedAddressBook</programlisting>
 						<para>
 							...and then... 
 						</para>						
 						<programlisting language="shell">applicationCreator
-	-eclipse AddressBook org.metawidget.example.gwt.addressbook.client.AddressBook</programlisting>
+	-eclipse HostedAddressBook org.metawidget.example.gwt.addressbook.client.AddressBook</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							Within the folder structure <filename>applicationCreator</filename> creates, delete the contents of the
-							<filename>src/org/metawidget/example</filename> folder
+							Delete the contents of <filename>HostedAddressBook/src/org/metawidget/example</filename>.
 						</para>
 					</listitem>   
 					<listitem>
 						<para>
 							From the Metawidget source distribution, copy from the <filename>examples/java/org/metawidget/example</filename>
 							folder the <filename>gwt</filename> and <filename>shared</filename> folders, and the
-							<filename>GwtAddressBook.gwt.xml</filename> file, into the
-							<filename>applicationCreator</filename>-created <filename>src/org/metawidget/example</filename> 
+							<filename>GwtAddressBook.gwt.xml</filename> file, into <filename>HostedAddressBook/src/org/metawidget/example</filename> 
 						</para>
 					</listitem>
 					<listitem>
 						<para>
 							From the Metawidget source distribution, copy from the <filename>examples/web/gwt/addressbook/WEB-INF</filename>
-							folder the <filename>inspector-config.xml</filename> and <filename>metawidget-metadata.xml</filename> files into the
-							root of the <filename>applicationCreator</filename>-created <filename>src</filename> folder
+							folder the <filename>inspector-config.xml</filename> and <filename>metawidget-metadata.xml</filename> files into
+							<filename>HostedAddressBook/src</filename>
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							Create a <filename>lib</filename> folder in the root of the project that <filename>applicationCreator</filename> created
-						</para>
-					</listitem>   
-					<listitem>
-						<para>
 							From the Metawidget source distribution, copy from the <filename>lib</filename> folder the <filename>ejb3-persistence.jar</filename>,
-							<filename>hibernate-validator.jar</filename> and <filename>javax.servlet.jsp.jar</filename> files into the
-							<filename>applicationCreator</filename> <filename>lib</filename> folder
+							<filename>hibernate-validator.jar</filename> and <filename>javax.servlet.jsp.jar</filename> files into a new folder
+							called <filename>HostedAddressBook/lib</filename>
 						</para>
 					</listitem>   
 					<listitem>
 						<para>
 							From the Metawidget binary distribution, copy <filename>metawidget.jar</filename> and <filename>examples/gwt/metawidget-gwt-client.jar</filename>
-							<filename>applicationCreator</filename> <filename>lib</filename> folder
+							into <filename>HostedAddressBook/lib</filename>
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							Modify the <filename>AddressBook.launch</filename> file in the <filename>applicationCreator</filename>-created folder. Change...
+							Modify <filename>HostedAddressBook/AddressBook.launch</filename>. Change...
 						</para>
 						<programlisting language="shell">...
 &lt;stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS"
@@ -1545,12 +1539,12 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 					<listitem>
 						<para>
 							In Eclipse, use the File -> Import menu and choose "Existing Projects into Workspace" (as described in the GWT Getting
-							Started Guide). Select the <filename>projectCreator</filename>-created project
+							Started Guide). Select <filename>HostedAddressBook</filename>
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							In Eclipse, edit the Build Path of the new project and add all the JARs from its <filename>lib</filename> folder
+							In Eclipse, edit the Build Path of the new project and add all 5 JARs from <filename>HostedAddressBook/lib</filename>
 						</para>
 					</listitem>
 				</itemizedlist>					
