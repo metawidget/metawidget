@@ -23,8 +23,8 @@ import org.apache.commons.jexl.JexlContext;
 import org.apache.commons.jexl.JexlHelper;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.BasePropertyInspector;
-import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
+import org.metawidget.inspector.impl.BaseObjectInspector;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -42,7 +42,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class JexlInspector
-	extends BasePropertyInspector
+	extends BaseObjectInspector
 {
 	//
 	//
@@ -52,10 +52,10 @@ public class JexlInspector
 
 	public JexlInspector()
 	{
-		this( new BasePropertyInspectorConfig() );
+		this( new BaseObjectInspectorConfig() );
 	}
 
-	public JexlInspector( BasePropertyInspectorConfig config )
+	public JexlInspector( BaseObjectInspectorConfig config )
 	{
 		super( config );
 	}

@@ -27,7 +27,7 @@ import java.util.Map;
  * <p>
  * <code>ActionStyles</code> must be immutable, thread-safe <em>and</em> non-configurable, so
  * that a single instance can be safely shared amongst all <code>Inspectors</code>. This is enforced by
- * <code>BasePropertyInspector</code> only calling a no-args constructor on its given
+ * <code>BaseObjectInspector</code> only calling a no-args constructor on its given
  * <code>ActionStyle</code> class.
  *
  * @author Richard Kennard

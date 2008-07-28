@@ -23,8 +23,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.BasePropertyInspector;
-import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
+import org.metawidget.inspector.impl.BaseObjectInspector;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
@@ -46,7 +47,7 @@ import org.w3c.dom.Element;
 // TODO: @UiOrder( "1.1.1" )
 
 public class MetawidgetAnnotationInspector
-	extends BasePropertyInspector
+	extends BaseObjectInspector
 {
 	//
 	//
@@ -56,10 +57,10 @@ public class MetawidgetAnnotationInspector
 
 	public MetawidgetAnnotationInspector()
 	{
-		this( new BasePropertyInspectorConfig() );
+		this( new BaseObjectInspectorConfig() );
 	}
 
-	public MetawidgetAnnotationInspector( BasePropertyInspectorConfig config )
+	public MetawidgetAnnotationInspector( BaseObjectInspectorConfig config )
 	{
 		super( config );
 	}
@@ -105,14 +106,48 @@ public class MetawidgetAnnotationInspector
 			if ( attributes == null || attributes.isEmpty() )
 				continue;
 
-			// ...create an element...
+			// ...and add it
 
 			Element element = document.createElementNS( NAMESPACE, PROPERTY );
 			element.setAttribute( NAME, name );
-
 			XmlUtils.setMapAsAttributes( element, attributes );
 
+			toAddTo.appendChild( element );
+		}
+
+		// For each action...
+
+		Map<String, Action> actions = getActions( clazz );
+
+		for( Action action : actions.values() )
+		{
+			// ...inspect its attributes...
+
+			Map<String, String> attributes = inspectAction( action, toInspect );
+
+			// ...(defer the UiComesAfter ones)...
+
+			String name = action.getName();
+			UiComesAfter uiComesAfter = action.getAnnotation( UiComesAfter.class );
+
+			if ( uiComesAfter != null )
+			{
+				Element element = document.createElementNS( NAMESPACE, ACTION );
+				element.setAttribute( NAME, name );
+
+				XmlUtils.setMapAsAttributes( element, attributes );
+				elementsWithComesAfter.put( name, new ElementWithComesAfter( element, uiComesAfter.value() ) );
+				continue;
+			}
+
+			if ( attributes == null || attributes.isEmpty() )
+				continue;
+
 			// ...and add it
+
+			Element element = document.createElementNS( NAMESPACE, ACTION );
+			element.setAttribute( NAME, name );
+			XmlUtils.setMapAsAttributes( element, attributes );
 
 			toAddTo.appendChild( element );
 		}
@@ -170,8 +205,8 @@ public class MetawidgetAnnotationInspector
 							if ( elementsWithComesAfter.keySet().contains( comesAfter ) )
 								continue outer;
 
-							// ...(if it has 'Comes Afters' not already in the list, add them
-							// just-in-time)...
+							// ...(if it has 'Comes Afters' not already in the list, because they don't
+							// have any annotations we're interested in, add them just-in-time)...
 
 							Element existing = XmlUtils.getChildWithAttributeValue( toAddTo, NAME, comesAfter );
 
@@ -183,6 +218,16 @@ public class MetawidgetAnnotationInspector
 									element.setAttribute( NAME, comesAfter );
 
 									toAddTo.appendChild( element );
+									continue;
+								}
+
+								if ( actions.containsKey( comesAfter ) )
+								{
+									Element element = document.createElementNS( NAMESPACE, ACTION );
+									element.setAttribute( NAME, comesAfter );
+
+									toAddTo.appendChild( element );
+									continue;
 								}
 							}
 						}
@@ -195,31 +240,6 @@ public class MetawidgetAnnotationInspector
 					i.remove();
 				}
 			}
-		}
-
-		// For each action...
-
-		for( Method method : clazz.getMethods() )
-		{
-			UiAction action = method.getAnnotation( UiAction.class );
-
-			if ( action == null )
-				continue;
-
-			// ...validate it...
-
-			if ( !void.class.equals( method.getReturnType() ))
-				throw InspectorException.newException( "@UiAction " + method + " must return a type of void" );
-
-			if ( method.getParameterTypes().length > 0 )
-				throw InspectorException.newException( "@UiAction " + method + " must not take any parameters" );
-
-			// ...and add it
-
-			Element element = document.createElementNS( NAMESPACE, ACTION );
-			element.setAttribute( NAME, method.getName() );
-
-			toAddTo.appendChild( element );
 		}
 	}
 
@@ -299,6 +319,42 @@ public class MetawidgetAnnotationInspector
 		// UiAttributes
 
 		UiAttributes uiAttributes = property.getAnnotation( UiAttributes.class );
+
+		if ( uiAttributes != null )
+		{
+			for ( UiAttribute nestedAttribute : uiAttributes.value() )
+			{
+				attributes.put( nestedAttribute.name(), nestedAttribute.value() );
+			}
+		}
+
+		return attributes;
+	}
+
+	protected Map<String, String> inspectAction( Method method, Object toInspect )
+		throws Exception
+	{
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+
+		// UiLabel
+
+		UiLabel label = method.getAnnotation( UiLabel.class );
+
+		if ( label != null )
+			attributes.put( LABEL, label.value() );
+
+		// UiAttribute
+
+		UiAttribute attribute = method.getAnnotation( UiAttribute.class );
+
+		if ( attribute != null )
+		{
+			attributes.put( attribute.name(), attribute.value() );
+		}
+
+		// UiAttributes
+
+		UiAttributes uiAttributes = method.getAnnotation( UiAttributes.class );
 
 		if ( uiAttributes != null )
 		{

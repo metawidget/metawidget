@@ -232,6 +232,7 @@ public class MetawidgetAnnotationInspectorTest
 		public String	string1;
 
 		@UiAction
+		@UiComesAfter( "string1" )
 		public void doNothing()
 		{
 			// Do nothing

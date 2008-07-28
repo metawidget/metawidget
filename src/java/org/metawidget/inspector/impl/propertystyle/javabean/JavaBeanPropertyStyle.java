@@ -53,8 +53,8 @@ public class JavaBeanPropertyStyle
 	 * Cache of property lookups.
 	 * <p>
 	 * Property lookups are potentially expensive, so we cache them. The cache itself is a member
-	 * variable, not a static, because we rely on <code>BasePropertyInspector</code> to only
-	 * create one instance of <code>JavaBeanPropertyStyle</code> for all <code>Inspectors</code>.
+	 * variable, not a static, because we rely on <code>BaseObjectInspector</code> to only
+	 * create one instance of <code>PropertyStyle</code> for all <code>Inspectors</code>.
 	 * <p>
 	 * This also stops problems with subclasses of <code>JavaBeanPropertyStyle</code> sharing the
 	 * same static cache.

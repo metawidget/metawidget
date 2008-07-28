@@ -1650,7 +1650,7 @@ bin\run</programlisting>
 					per <classname>Inspector</classname>, as in <filename>examples/faces/seam/groovybooking/resources/WEB-INF/inspector-config.xml</filename>:
 				</para>
 
-				<programlisting language="xml">&lt;propertyTypeInspector config="org.metawidget.inspector.impl.BasePropertyInspectorConfig"&gt;
+				<programlisting language="xml">&lt;propertyTypeInspector config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 	&lt;propertyStyle&gt;
 		org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle
 	&lt;/propertyStyle&gt;
@@ -2478,10 +2478,10 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 			<title>Property Inspectors</title>
 
 			<section id="section-inspectors-property-base">
-				<title>BasePropertyInspector</title>
+				<title>BaseObjectInspector</title>
 				
 				<para>
-					<classname>BasePropertyInspector</classname> underlies many of the Inspectors that inspect objects (as opposed to, say,
+					<classname>BaseObjectInspector</classname> underlies many of the Inspectors that inspect objects (as opposed to, say,
 					config files). Its notable features include:
 				</para>
 				
@@ -2518,7 +2518,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					</para>
 					
 					<programlisting language="xml">&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
-	config="org.metawidget.inspector.impl.BasePropertyInspectorConfig"&gt;
+	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 	&lt;propertyStyle&gt;
 	org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle
 	&lt;/propertyStyle&gt;
@@ -2528,7 +2528,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						To change it programmatically:
 					</para>
 					
-					<programlisting language="java">BasePropertyInspectorConfig config = new BasePropertyInspectorConfig();
+					<programlisting language="java">BaseObjectInspectorConfig config = new BaseObjectInspectorConfig();
 config.setPropertyStyle( StrutsActionFormPropertyStyle.class );
 metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 				</section>
@@ -2537,7 +2537,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					<title>JavaBeanPropertyStyle</title>
 				
 					<para>
-						The <classname>JavaBeanPropertyStyle</classname> is the default property style used by all <classname>BasePropertyInspector</classname>
+						The <classname>JavaBeanPropertyStyle</classname> is the default property style used by all <classname>BaseObjectInspector</classname>
 						subclasses (which includes all annotation inspectors).
 					</para>
 					
@@ -2638,7 +2638,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 				<title>PropertyTypeInspector</title>
 				
 				<para>
-					<classname>PropertyTypeInspector</classname> extends <classname>BasePropertyInspector</classname>, and so inherits its features. In addition, its own
+					<classname>PropertyTypeInspector</classname> extends <classname>BaseObjectInspector</classname>, and so inherits its features. In addition, its own
 					notable features include:
 				</para>
 				
@@ -2824,7 +2824,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 			<itemizedlist>
 				<listitem>
 					<para>
-						For inspecting annotations and properties, <classname>BasePropertyInspector</classname> assists
+						For inspecting annotations and properties, <classname>BaseObjectInspector</classname> assists
 						in iterating over public member variables, getter/setter methods and GroovyBean properties. See
 						<classname>PropertyTypeInspector</classname> or <classname>JpaInspector</classname> for example usage.
 					</para>				

@@ -25,6 +25,8 @@ import java.util.regex.Pattern;
 
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.actionstyle.Action;
+import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.ArrayUtils;
@@ -38,15 +40,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Convenience implementation for Inspectors that inspect properties.
+ * Convenience implementation for Inspectors that inspect Objects.
  * <p>
- * Handles iterating over a class for properties, and supporting pluggable properties conventions.
- * Also handles unwrapping a POJO wrapped by a proxy library (such as CGLIB or Javassist).
+ * Handles iterating over an Object for properties and actions, and supporting pluggable property
+ * and action conventions. Also handles unwrapping an Object wrapped by a proxy library (such as
+ * CGLIB or Javassist).
  *
  * @author Richard Kennard
  */
 
-public abstract class BasePropertyInspector
+public abstract class BaseObjectInspector
 	implements Inspector
 {
 	//
@@ -57,6 +60,8 @@ public abstract class BasePropertyInspector
 
 	private final static Map<Class<? extends PropertyStyle>, PropertyStyle>	PROPERTY_STYLE_CACHE	= CollectionUtils.newHashMap();
 
+	private final static Map<Class<? extends ActionStyle>, ActionStyle>		ACTION_STYLE_CACHE		= CollectionUtils.newHashMap();
+
 	//
 	//
 	// Private members
@@ -64,6 +69,8 @@ public abstract class BasePropertyInspector
 	//
 
 	private PropertyStyle													mPropertyStyle;
+
+	private ActionStyle														mActionStyle;
 
 	//
 	//
@@ -76,7 +83,7 @@ public abstract class BasePropertyInspector
 	/**
 	 * Pattern to use to detect (and unwrap) proxied classes (such as CGLIB and Javassist).
 	 * <p>
-	 * The proxy pattern is defined in <code>BasePropertyInspector</code>, rather than in
+	 * The proxy pattern is defined in <code>BaseObjectInspector</code>, rather than in
 	 * <code>PropertyStyle</code> for the following reasons:
 	 * <ul>
 	 * <li><code>inspect</code> needs to match <code>type</code> to <code>toInspect</code>,
@@ -98,16 +105,17 @@ public abstract class BasePropertyInspector
 	/**
 	 * Config-based constructor.
 	 * <p>
-	 * All BasePropertyInspector-derived inspectors must be configurable, to allow configuring
+	 * All BaseObjectInspector-derived inspectors must be configurable, to allow configuring
 	 * property styles and proxy patterns.
 	 */
 
-	protected BasePropertyInspector( BasePropertyInspectorConfig config )
+	protected BaseObjectInspector( BaseObjectInspectorConfig config )
 	{
 		try
 		{
-			Class<? extends PropertyStyle> propertyStyle = config.getPropertyStyle();
+			// Property
 
+			Class<? extends PropertyStyle> propertyStyle = config.getPropertyStyle();
 			mPropertyStyle = PROPERTY_STYLE_CACHE.get( propertyStyle );
 
 			if ( mPropertyStyle == null )
@@ -115,6 +123,19 @@ public abstract class BasePropertyInspector
 				mPropertyStyle = propertyStyle.newInstance();
 				PROPERTY_STYLE_CACHE.put( propertyStyle, mPropertyStyle );
 			}
+
+			// Action
+
+			Class<? extends ActionStyle> actionStyle = config.getActionStyle();
+			mActionStyle = ACTION_STYLE_CACHE.get( actionStyle );
+
+			if ( mActionStyle == null )
+			{
+				mActionStyle = actionStyle.newInstance();
+				ACTION_STYLE_CACHE.put( actionStyle, mActionStyle );
+			}
+
+			// Proxy
 
 			mPatternProxy = config.getProxyPattern();
 		}
@@ -236,6 +257,8 @@ public abstract class BasePropertyInspector
 	{
 		Document document = toAddTo.getOwnerDocument();
 
+		// Inspect properties
+
 		for ( Property property : getProperties( clazz ).values() )
 		{
 			Map<String, String> attributes = inspectProperty( property, toInspect );
@@ -245,6 +268,23 @@ public abstract class BasePropertyInspector
 
 			Element element = document.createElementNS( NAMESPACE, PROPERTY );
 			element.setAttribute( NAME, property.getName() );
+
+			XmlUtils.setMapAsAttributes( element, attributes );
+
+			toAddTo.appendChild( element );
+		}
+
+		// Inspect actions
+
+		for ( Action action : getActions( clazz ).values() )
+		{
+			Map<String, String> attributes = inspectAction( action, toInspect );
+
+			if ( attributes == null || attributes.isEmpty() )
+				continue;
+
+			Element element = document.createElementNS( NAMESPACE, ACTION );
+			element.setAttribute( NAME, action.getName() );
 
 			XmlUtils.setMapAsAttributes( element, attributes );
 
@@ -266,6 +306,19 @@ public abstract class BasePropertyInspector
 	protected Map<String, Property> getProperties( Class<?> clazz )
 	{
 		return mPropertyStyle.getProperties( clazz );
+	}
+
+	protected Map<String, String> inspectAction( Action action, Object toInspect )
+		throws Exception
+	{
+		// Do nothing by default
+
+		return null;
+	}
+
+	protected Map<String, Action> getActions( Class<?> clazz )
+	{
+		return mActionStyle.getActions( clazz );
 	}
 
 	/**
@@ -333,7 +386,7 @@ public abstract class BasePropertyInspector
 				break;
 
 			// Unlike BaseXmlInspector (which can never be certain it has detected a
-			// cyclic reference because it only looks at types, not objects), BasePropertyInspector
+			// cyclic reference because it only looks at types, not objects), BaseObjectInspector
 			// can detect cycles and nip them in the bud
 
 			if ( !traversed.add( traverse ) )

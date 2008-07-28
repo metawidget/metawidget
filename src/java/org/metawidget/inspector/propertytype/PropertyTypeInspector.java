@@ -22,8 +22,8 @@ import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResult
 import java.lang.reflect.Modifier;
 import java.util.Map;
 
-import org.metawidget.inspector.impl.BasePropertyInspector;
-import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
+import org.metawidget.inspector.impl.BaseObjectInspector;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -44,7 +44,7 @@ import org.w3c.dom.Element;
  */
 
 public class PropertyTypeInspector
-	extends BasePropertyInspector
+	extends BaseObjectInspector
 {
 	//
 	//
@@ -54,10 +54,10 @@ public class PropertyTypeInspector
 
 	public PropertyTypeInspector()
 	{
-		this( new BasePropertyInspectorConfig() );
+		this( new BaseObjectInspectorConfig() );
 	}
 
-	public PropertyTypeInspector( BasePropertyInspectorConfig config )
+	public PropertyTypeInspector( BaseObjectInspectorConfig config )
 	{
 		super( config );
 	}

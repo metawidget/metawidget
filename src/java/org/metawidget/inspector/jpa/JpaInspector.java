@@ -25,7 +25,7 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 
-import org.metawidget.inspector.impl.BasePropertyInspector;
+import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
@@ -36,7 +36,7 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class JpaInspector
-	extends BasePropertyInspector
+	extends BaseObjectInspector
 {
 	//
 	//

@@ -88,7 +88,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 	 * Metawidget renders most non-primitve types by using nested Metawidgets. This value limits the
 	 * number of nestings.
 	 * <p>
-	 * This can be useful in detecing cyclic references. Although <code>BasePropertyInspector</code>-derived
+	 * This can be useful in detecing cyclic references. Although <code>BaseObjectInspector</code>-derived
 	 * Inspectors are capable of detecting cyclic references, other Inspectors may not be. For
 	 * example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
 	 * types, not actual objects.

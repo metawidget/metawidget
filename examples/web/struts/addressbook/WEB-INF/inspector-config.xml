@@ -8,7 +8,7 @@
 			<strutsInspector xmlns="java:org.metawidget.inspector.struts"/>
 			<xmlInspector xmlns="java:org.metawidget.inspector.xml"/>
 			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
-			<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BasePropertyInspectorConfig">
+			<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 				<propertyStyle>org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle</propertyStyle>
 			</propertyTypeInspector>
 			<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>

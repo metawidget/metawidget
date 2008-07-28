@@ -18,22 +18,24 @@ package org.metawidget.inspector.impl;
 
 import java.util.regex.Pattern;
 
+import org.metawidget.inspector.impl.actionstyle.ActionStyle;
+import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.util.ClassUtils;
 
 /**
- * Base class for BasePropertyInspector configurations.
+ * Base class for BaseObjectInspector configurations.
  * <p>
  * Handles configuring the pattern to recognize proxied classes, as well as the convention to use to
  * recognize properties.
  * <p>
- * Note that whilst <code>BasePropertyInspector</code> is an abstract class,
- * <code>BasePropertyInspectorConfig</code> is concrete and instantiable. This is so that
- * subclasses of <code>BasePropertyInspector</code> that don't require additional
+ * Note that whilst <code>BaseObjectInspector</code> is an abstract class,
+ * <code>BaseObjectInspectorConfig</code> is concrete and instantiable. This is so that
+ * subclasses of <code>BaseObjectInspector</code> that don't require additional
  * configuration (eg. most of them) don't need to further define a <code>Config</code> class,
- * whilst still allowing their proxy/property patterns to be configured in the (rare) cases they
- * need to. Incidentally, this is why we call this call <code>BasePropertyInspectorConfig</code>
+ * whilst still allowing their proxy/property/action patterns to be configured in the (rare) cases they
+ * need to. Incidentally, this is why we call this class <code>BaseObjectInspectorConfig</code>
  * as opposed to <code>AbstractPropertyInspectorConfig</code>, because a non-abstract class
  * called <code>AbstractXXX</code> was deemed confusing! All our other base classes are called
  * <code>BaseXXX</code> for consistency.
@@ -41,7 +43,7 @@ import org.metawidget.util.ClassUtils;
  * @author Richard Kennard
  */
 
-public class BasePropertyInspectorConfig
+public class BaseObjectInspectorConfig
 {
 	//
 	//
@@ -52,6 +54,8 @@ public class BasePropertyInspectorConfig
 	private Pattern							mProxyPattern	= ClassUtils.DEFAULT_PROXY_PATTERN;
 
 	private Class<? extends PropertyStyle>	mPropertyStyle	= JavaBeanPropertyStyle.class;
+
+	private Class<? extends ActionStyle>	mActionStyle	= MetawidgetActionStyle.class;
 
 	//
 	//
@@ -81,13 +85,13 @@ public class BasePropertyInspectorConfig
 	 * Sets the style used to recognize properties. Defaults to <code>JavaBeanPropertyStyle</code>.
 	 */
 
-	public void setPropertyStyle( Class<? extends PropertyStyle> propertyStyleClass )
+	public void setPropertyStyle( Class<? extends PropertyStyle> propertyStyle )
 	{
-		mPropertyStyle = propertyStyleClass;
+		mPropertyStyle = propertyStyle;
 	}
 
 	/**
-	 * Gets the style used to instantiate properties.
+	 * Gets the style used to recognize properties.
 	 * <p>
 	 * The style is specified as a class, not an object, because <code>PropertyStyles</code>
 	 * should be immutable.
@@ -96,5 +100,26 @@ public class BasePropertyInspectorConfig
 	Class<? extends PropertyStyle> getPropertyStyle()
 	{
 		return mPropertyStyle;
+	}
+
+	/**
+	 * Sets the style used to recognize actions. Defaults to <code>MetawidgetActionStyle</code>.
+	 */
+
+	public void setActionStyle( Class<? extends ActionStyle> actionStyle )
+	{
+		mActionStyle = actionStyle;
+	}
+
+	/**
+	 * Gets the style used to recognize actions.
+	 * <p>
+	 * The style is specified as a class, not an object, because <code>ActionStyles</code>
+	 * should be immutable.
+	 */
+
+	Class<? extends ActionStyle> getActionStyle()
+	{
+		return mActionStyle;
 	}
 }

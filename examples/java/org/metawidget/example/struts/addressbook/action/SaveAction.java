@@ -39,6 +39,8 @@ import org.metawidget.example.struts.addressbook.form.PersonalContactForm;
  * @author Richard Kennard
  */
 
+// TODO: Pure JSP version of Address Book
+
 public class SaveAction
 	extends Action
 {
@@ -58,7 +60,7 @@ public class SaveAction
 			return mapping.findForward( "home" );
 
 		// Support editing
-		
+
 		ContactForm formContact = (ContactForm) form;
 
 		if ( request.getParameter( "edit" ) != null )
@@ -66,7 +68,7 @@ public class SaveAction
 			formContact.setReadOnly( false );
 			return mapping.findForward( "contact" );
 		}
-		
+
 		// Look up the ContactsController...
 
 		ServletContext context = request.getSession().getServletContext();
@@ -125,7 +127,7 @@ public class SaveAction
 				addErrors( request, errors );
 
 				return mapping.findForward( "contact" );
-			}				
+			}
 		}
 
 		// Delete Communication (if any)

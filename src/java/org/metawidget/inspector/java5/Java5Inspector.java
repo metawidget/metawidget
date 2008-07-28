@@ -24,8 +24,8 @@ import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
 
-import org.metawidget.inspector.impl.BasePropertyInspector;
-import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
+import org.metawidget.inspector.impl.BaseObjectInspector;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -37,7 +37,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class Java5Inspector
-	extends BasePropertyInspector
+	extends BaseObjectInspector
 {
 	//
 	//
@@ -47,10 +47,10 @@ public class Java5Inspector
 
 	public Java5Inspector()
 	{
-		this( new BasePropertyInspectorConfig() );
+		this( new BaseObjectInspectorConfig() );
 	}
 
-	public Java5Inspector( BasePropertyInspectorConfig config )
+	public Java5Inspector( BaseObjectInspectorConfig config )
 	{
 		super( config );
 	}

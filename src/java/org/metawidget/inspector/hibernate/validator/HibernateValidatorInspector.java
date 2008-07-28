@@ -26,8 +26,8 @@ import org.hibernate.validator.Max;
 import org.hibernate.validator.Min;
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
-import org.metawidget.inspector.impl.BasePropertyInspector;
-import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
+import org.metawidget.inspector.impl.BaseObjectInspector;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
@@ -38,7 +38,7 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class HibernateValidatorInspector
-	extends BasePropertyInspector
+	extends BaseObjectInspector
 {
 	//
 	//
@@ -48,10 +48,10 @@ public class HibernateValidatorInspector
 
 	public HibernateValidatorInspector()
 	{
-		this( new BasePropertyInspectorConfig() );
+		this( new BaseObjectInspectorConfig() );
 	}
 
-	public HibernateValidatorInspector( BasePropertyInspectorConfig config )
+	public HibernateValidatorInspector( BaseObjectInspectorConfig config )
 	{
 		super( config );
 	}

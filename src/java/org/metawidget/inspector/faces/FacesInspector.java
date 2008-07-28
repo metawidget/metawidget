@@ -29,8 +29,8 @@ import javax.faces.convert.NumberConverter;
 import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.BasePropertyInspector;
-import org.metawidget.inspector.impl.BasePropertyInspectorConfig;
+import org.metawidget.inspector.impl.BaseObjectInspector;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -42,7 +42,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class FacesInspector
-	extends BasePropertyInspector
+	extends BaseObjectInspector
 {
 	//
 	//
@@ -52,10 +52,10 @@ public class FacesInspector
 
 	public FacesInspector()
 	{
-		this( new BasePropertyInspectorConfig() );
+		this( new BaseObjectInspectorConfig() );
 	}
 
-	public FacesInspector( BasePropertyInspectorConfig config )
+	public FacesInspector( BaseObjectInspectorConfig config )
 	{
 		super( config );
 	}

@@ -19,22 +19,54 @@ package org.metawidget.inspector.impl.actionstyle;
 import java.lang.annotation.Annotation;
 
 /**
- * Interface over actions, in case we want to support non-method based actions in the future.
+ * Convenience implementation for Actions.
+ * <p>
+ * Handles construction, and returning names.
  *
  * @author Richard Kennard
  */
 
-public interface Action
+public abstract class BaseAction
+	implements Action
 {
 	//
 	//
-	// Methods
+	// Private methods
 	//
 	//
 
-	String getName();
+	private String		mName;
 
-	<T extends Annotation> T getAnnotation( Class<T> annotation );
+	//
+	//
+	// Constructor
+	//
+	//
 
-	boolean isAnnotationPresent( Class<? extends Annotation> annotation );
+	public BaseAction( String name )
+	{
+		mName = name;
+	}
+
+	//
+	//
+	// Public methods
+	//
+	//
+
+	public String getName()
+	{
+		return mName;
+	}
+
+	public boolean isAnnotationPresent( Class<? extends Annotation> annotation )
+	{
+		return ( getAnnotation( annotation ) != null );
+	}
+
+	@Override
+	public String toString()
+	{
+		return mName;
+	}
 }
