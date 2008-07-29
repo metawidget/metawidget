@@ -5,10 +5,14 @@
 
 	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 		<inspectors>
-			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
+			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+				<actionStyle>org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle</actionStyle>				
+			</metawidgetAnnotationInspector>			
 			<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 			<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
-			<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
+			<facesInspector xmlns="java:org.metawidget.inspector.faces" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+				<actionStyle>org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle</actionStyle>				
+			</facesInspector>
 			<jpaInspector xmlns="java:org.metawidget.inspector.jpa"/>
 			<hibernateValidatorInspector xmlns="java:org.metawidget.inspector.hibernate.validator"/>
 		</inspectors>

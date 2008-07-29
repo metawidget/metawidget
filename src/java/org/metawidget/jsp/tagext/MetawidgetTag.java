@@ -30,7 +30,9 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.jsp.JspUtils;
+import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.jsp.tagext.StubTag.StubContent;
 import org.metawidget.jsp.tagext.html.HtmlTableLayout;
@@ -433,11 +435,15 @@ public abstract class MetawidgetTag
 
 		try
 		{
-			//TODO:JspAnnotationInspector.setThreadLocalPageContext( pageContext );
+			JspAnnotationInspector.setThreadLocalPageContext( pageContext );
 		}
 		catch( NoClassDefFoundError e )
 		{
-			// Fail gracefully
+			// Fail gracefully (if running without JspAnnotationInspector installed)
+		}
+		catch( UnsupportedClassVersionError e )
+		{
+			// Fail gracefully (if running without annotations)
 		}
 
 		// Do the Inspection

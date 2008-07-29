@@ -74,12 +74,7 @@
 				</m:stub>
 
 				<f:facet name="buttons">
-					<h:panelGroup>
-						<h:commandButton value="#{bundle.edit}" action="#{contact.edit}" rendered="#{contact.readOnly}"/>
-						<h:commandButton value="#{bundle.save}" action="#{contact.save}" rendered="#{!contact.readOnly}"/>
-						<h:commandButton value="#{bundle.delete}" action="#{contact.delete}" onclick="if ( !confirm( 'Sure you want to delete this contact?' )) return false" rendered="#{!contact.readOnly}"/>
-						<h:commandButton value="#{bundle.cancel}" action="#{contact.cancel}" immediate="true" />
-					</h:panelGroup>
+					<m:metawidget value="#{contact}" rendererType="simple"/>
 				</f:facet>
 
 			</m:metawidget>

@@ -31,6 +31,7 @@ import java.util.Set;
 import java.util.TimeZone;
 
 import javax.faces.application.Application;
+import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UISelectItem;
@@ -42,6 +43,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
+import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
 import org.metawidget.MetawidgetException;
@@ -738,14 +740,14 @@ public abstract class UIMetawidget
 	 * <em>all</em> its children. This allows us to built compound components.
 	 */
 
-	protected void attachValueBinding( UIComponent component, ValueBinding valueBinding, Map<String, String> attributes )
+	protected void attachValueBinding( UIComponent widget, ValueBinding valueBinding, Map<String, String> attributes )
 	{
 		// Support stubs
 
-		if ( component instanceof UIStub )
+		if ( widget instanceof UIStub )
 		{
 			@SuppressWarnings( "unchecked" )
-			List<UIComponent> children = component.getChildren();
+			List<UIComponent> children = widget.getChildren();
 
 			for ( UIComponent componentChild : children )
 			{
@@ -757,17 +759,17 @@ public abstract class UIMetawidget
 
 		// Set binding
 
-		component.setValueBinding( "value", valueBinding );
+		widget.setValueBinding( "value", valueBinding );
 	}
 
 	/**
 	 * Attach metadata for renderer. We do this even for manually created components.
 	 */
 
-	protected void putMetadata( UIComponent component, Map<String, String> attributes )
+	protected void putMetadata( UIComponent widget, Map<String, String> attributes )
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<String, Object> componentAttributes = component.getAttributes();
+		Map<String, Object> componentAttributes = widget.getAttributes();
 		componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
 	}
 
@@ -917,65 +919,126 @@ public abstract class UIMetawidget
 		throws Exception
 	{
 		FacesContext context = getFacesContext();
+		Application application = context.getApplication();
 
-		// Does widget need a value binding?
+		// Does widget need an action binding?
 
-		ValueBinding binding = widget.getValueBinding( "value" );
-
-		if ( binding == null )
+		if ( widget instanceof ActionSource )
 		{
-			// If there is a faces-binding, use it...
+			ActionSource actionSource = (ActionSource) widget;
+			MethodBinding binding = actionSource.getAction();
 
-			String valueBinding = attributes.get( FACES_BINDING );
-
-			if ( valueBinding != null )
+			if ( binding == null )
 			{
-				binding = context.getApplication().createValueBinding( valueBinding );
-			}
-			else
-			{
-				// ...if there is no binding prefix yet, we must be at
-				// the top level...
+				// If there is a faces-binding, use it...
 
-				if ( mBindingPrefix == null )
+				String methodBinding = attributes.get( FACES_BINDING );
+
+				if ( methodBinding != null )
 				{
-					binding = getValueBinding( "value" );
+					binding = application.createMethodBinding( methodBinding, null );
 				}
-
-				// ...if there is a prefix and a name, try and construct the binding
-
 				else
 				{
-					String name = attributes.get( NAME );
+					// ...if there is no binding prefix yet, we must be at
+					// the top level...
 
-					if ( name != null && !"".equals( name ) )
+					if ( mBindingPrefix == null )
 					{
-						valueBinding = FacesUtils.wrapValueReference( mBindingPrefix + name );
-						binding = context.getApplication().createValueBinding( valueBinding );
+						methodBinding = FacesUtils.unwrapValueReference( getValueBinding( "value" ).getExpressionString() );
+						binding = application.createMethodBinding( methodBinding, null );
+					}
+
+					// ...if there is a prefix and a name, try and construct the binding
+
+					else
+					{
+						String name = attributes.get( NAME );
+
+						if ( name != null && !"".equals( name ) )
+						{
+							methodBinding = FacesUtils.wrapValueReference( mBindingPrefix + name );
+							binding = application.createMethodBinding( methodBinding, null );
+						}
 					}
 				}
-			}
 
-			if ( binding != null )
-			{
-				attachValueBinding( widget, binding, attributes );
+				if ( binding != null )
+				{
+					actionSource.setAction( binding );
 
-				// Does widget need an id?
-				//
-				// Note: it is very dangerous to reassign an id if the widget already has one,
-				// as it will create duplicates in the child component list
+					// Does widget need an id?
+					//
+					// Note: it is very dangerous to reassign an id if the widget already has one,
+					// as it will create duplicates in the child component list
 
-				if ( widget.getId() == null )
-					setUniqueId( context, widget, binding.getExpressionString() );
+					if ( widget.getId() == null )
+						setUniqueId( context, widget, binding.getExpressionString() );
+				}
 			}
 		}
 
+		// Does widget need a value binding?
+
+		else
+		{
+			ValueBinding binding = widget.getValueBinding( "value" );
+
+			if ( binding == null )
+			{
+				// If there is a faces-binding, use it...
+
+				String valueBinding = attributes.get( FACES_BINDING );
+
+				if ( valueBinding != null )
+				{
+					binding = application.createValueBinding( valueBinding );
+				}
+				else
+				{
+					// ...if there is no binding prefix yet, we must be at
+					// the top level...
+
+					if ( mBindingPrefix == null )
+					{
+						binding = getValueBinding( "value" );
+					}
+
+					// ...if there is a prefix and a name, try and construct the binding
+
+					else
+					{
+						String name = attributes.get( NAME );
+
+						if ( name != null && !"".equals( name ) )
+						{
+							valueBinding = FacesUtils.wrapValueReference( mBindingPrefix + name );
+							binding = application.createValueBinding( valueBinding );
+						}
+					}
+				}
+
+				if ( binding != null )
+				{
+					attachValueBinding( widget, binding, attributes );
+
+					// Does widget need an id?
+					//
+					// Note: it is very dangerous to reassign an id if the widget already has one,
+					// as it will create duplicates in the child component list
+
+					if ( widget.getId() == null )
+						setUniqueId( context, widget, binding.getExpressionString() );
+				}
+			}
+
+			setConverter( widget, attributes );
+
+			if ( mValidator != null )
+				mValidator.addValidators( context, widget, attributes );
+		}
+
 		putMetadata( widget, attributes );
-		setConverter( widget, attributes );
-
-		if ( mValidator != null )
-			mValidator.addValidators( context, widget, attributes );
-
 		addWidget( widget );
 	}
 

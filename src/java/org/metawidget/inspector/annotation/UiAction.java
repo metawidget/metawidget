@@ -24,8 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Identifies a method as being an executable action.
  * <p>
- * The method must not take any parameters in its signature, and it must
- * return <code>void</code>.
+ * The method must not take any parameters in its signature.
  *
  * @author Richard Kennard
  */

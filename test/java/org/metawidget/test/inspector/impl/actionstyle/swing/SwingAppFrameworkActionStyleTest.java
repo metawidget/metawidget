@@ -27,7 +27,7 @@ import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionSt
  * @author Richard Kennard
  */
 
-public class SwingActionStyleTest
+public class SwingAppFrameworkActionStyleTest
 	extends TestCase
 {
 	//

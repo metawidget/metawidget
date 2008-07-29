@@ -185,17 +185,7 @@ public class MetawidgetAnnotationInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "@UiAction public boolean org.metawidget.test.inspector.annotation.MetawidgetAnnotationInspectorTest$BadAction1.doNothing() must return a type of void".equals( e.getMessage() ));
-		}
-
-		try
-		{
-			mInspector.inspect( new BadAction2(), BadAction2.class.getName() );
-			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
-			assertTrue( "@UiAction public void org.metawidget.test.inspector.annotation.MetawidgetAnnotationInspectorTest$BadAction2.doNothing(java.lang.String) must not take any parameters".equals( e.getMessage() ));
+			assertTrue( "@UiAction public void org.metawidget.test.inspector.annotation.MetawidgetAnnotationInspectorTest$BadAction1.doNothing(java.lang.String) must not take any parameters".equals( e.getMessage() ));
 		}
 	}
 
@@ -261,15 +251,6 @@ public class MetawidgetAnnotationInspectorTest
 	}
 
 	public static class BadAction1
-	{
-		@UiAction
-		public boolean doNothing()
-		{
-			return false;
-		}
-	}
-
-	public static class BadAction2
 	{
 		@UiAction
 		public void doNothing( String foo )

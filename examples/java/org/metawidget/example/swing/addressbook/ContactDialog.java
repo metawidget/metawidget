@@ -16,6 +16,8 @@
 
 package org.metawidget.example.swing.addressbook;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -75,9 +77,9 @@ public class ContactDialog
 	//
 	//
 
-	private final static long		serialVersionUID	= 1907130713267121112L;
+	private final static long			serialVersionUID	= 1907130713267121112L;
 
-	private final static int		COMPONENT_SPACING	= 5;
+	private final static int			COMPONENT_SPACING	= 5;
 
 	//
 	//
@@ -85,13 +87,21 @@ public class ContactDialog
 	//
 	//
 
-	SwingMetawidget					mContactMetawidget;
+	ListTableModel<Communication>		mCommunicationsModel;
 
-	SwingMetawidget					mButtonsMetawidget;
+	//
+	//
+	// Private members
+	//
+	//
 
-	ListTableModel<Communication>	mCommunicationsModel;
+	private ContactsControllerProvider	mProvider;
 
-	ContactsControllerProvider		mProvider;
+	private SwingMetawidget				mContactMetawidget;
+
+	private SwingMetawidget				mButtonsMetawidget;
+
+	private boolean						mShowConfirmDialog = true;
 
 	//
 	//
@@ -231,8 +241,18 @@ public class ContactDialog
 		return mContactMetawidget.isReadOnly();
 	}
 
+	/**
+	 * For unit tests
+	 */
+
+	@UiHidden
+	public void setShowConfirmDialog( boolean showConfirmDialog )
+	{
+		mShowConfirmDialog = showConfirmDialog;
+	}
+
 	@UiAction
-	@UiJexlAttribute( name = "hidden", value = "${!contactDialog.readOnly}" )
+	@UiJexlAttribute( name = HIDDEN, value = "${!contactDialog.readOnly}" )
 	public void edit()
 	{
 		mContactMetawidget.setReadOnly( false );
@@ -243,7 +263,7 @@ public class ContactDialog
 	}
 
 	@UiAction
-	@UiJexlAttribute( name = "hidden", value = "${contactDialog.readOnly}" )
+	@UiJexlAttribute( name = HIDDEN, value = "${contactDialog.readOnly}" )
 	public void save()
 	{
 		try
@@ -265,12 +285,13 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( "save" )
-	@UiJexlAttribute( name = "hidden", value = "${contactDialog.readOnly}" )
+	@UiJexlAttribute( name = HIDDEN, value = "${contactDialog.readOnly}" )
 	public void delete()
 	{
 		Contact contact = (Contact) mContactMetawidget.getToInspect();
 
-		// TODO: if ( JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this contact?" ) != JOptionPane.OK_OPTION ) return;
+		if ( !mShowConfirmDialog && JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this contact?" ) != JOptionPane.OK_OPTION )
+			return;
 
 		ContactDialog.this.setVisible( false );
 		mProvider.getContactsController().delete( contact );
@@ -278,7 +299,7 @@ public class ContactDialog
 	}
 
 	@UiAction
-	@UiComesAfter( "delete" )
+	@UiComesAfter( { "edit", "delete" } )
 	public void cancel()
 	{
 		setVisible( false );

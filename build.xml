@@ -40,6 +40,8 @@
 		<echo message="      This is because some optional features require Java SE 6"/>
 		<echo message="      (eg. annotations, javax.swing.GroupLayout)"/>
 
+		<property name="build.debug" value="on"/>
+		
 		<!-- Build J2SE 1.4 compatible files (the source is still Java 5, to take advantage -->
 		<!-- of cleaner source code, but we compile down to jsr14. We can do this using     -->
 		<!-- plain javac, without needing retroweaver or similar tools)                     -->
@@ -62,10 +64,8 @@
 			<exclude name="org/metawidget/inspector/struts/StrutsAnnotationInspector.java"/>
 			<exclude name="org/metawidget/inspector/struts/UiStrutsLookup.java"/>
 			<include name="org/metawidget/inspector/xml/**"/>
-			<include name="org/metawidget/jsp/**"/>
+			<include name="org/metawidget/jsp/*.java"/>
 			<include name="org/metawidget/mixin/**"/>
-			<include name="org/metawidget/spring/**"/>
-			<include name="org/metawidget/struts/**"/>
 			<include name="org/metawidget/swing/**"/>
 			<include name="org/metawidget/util/**"/>
 			<include name="org/metawidget/*.java"/>
@@ -100,8 +100,8 @@
 			<include name="org/metawidget/inspector/impl/actionstyle/swing/**"/>
 			<include name="org/metawidget/inspector/java5/**"/>
 			<include name="org/metawidget/inspector/jexl/**"/>
-			<include name="org/metawidget/inspector/jpa/**"/>
 			<include name="org/metawidget/inspector/jsp/**"/>
+			<include name="org/metawidget/inspector/jpa/**"/>
 			<include name="org/metawidget/inspector/spring/**"/>
 			<include name="org/metawidget/inspector/struts/StrutsAnnotationInspector.java"/>
 			<include name="org/metawidget/inspector/struts/UiStrutsLookup.java"/>
@@ -110,6 +110,21 @@
 				<pathelement path="${build.metawidget.dir}/classes"/>
 			</classpath>
 		</javac>
+		
+		<!-- Special case for org.metawidget.jsp.tagext.MetawidgetTag, because of an -->
+		<!-- unfortunate compile-time dependency on JspAnnotationInspector           -->
+		
+		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/classes" debug="${build.debug}" optimize="on" source="1.5" target="jsr14">
+			<include name="org/metawidget/jsp/tagext/**"/>
+			<include name="org/metawidget/spring/**"/>
+			<include name="org/metawidget/struts/**"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement path="${build.metawidget.dir}/classes"/>
+			</classpath>
+		</javac>
+
+		<!-- Build example files -->
 		
 		<javac sourcepath="" srcdir="examples/java" destdir="${build.metawidget.dir}/example-classes" debug="${build.debug}" optimize="on" target="1.5">
 			<include name="org/metawidget/example/android/**"/>

@@ -114,6 +114,7 @@ public class SwingAddressBookTest
 		assertTrue( contact.getCommunications().size() == 1 );
 
 		ContactDialog dialog = new ContactDialog( addressBook, contact );
+		dialog.setShowConfirmDialog( false );
 
 		// Check loading
 

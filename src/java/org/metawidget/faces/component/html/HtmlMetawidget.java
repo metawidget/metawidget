@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.Application;
+import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlInputSecret;
@@ -273,6 +274,19 @@ public class HtmlMetawidget
 
 		if ( componentName != null )
 			component = application.createComponent( componentName );
+
+		// Action
+		// TODO: these double up
+
+		if ( ACTION.equals( elementName ))
+		{
+			if ( component == null )
+				component = application.createComponent( "javax.faces.HtmlCommandButton" );
+
+			((UICommand) component).setValue( getLabelString( context, attributes ) );
+
+			return component;
+		}
 
 		// Faces Lookups
 

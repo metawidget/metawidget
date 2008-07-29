@@ -37,69 +37,70 @@ public class SimpleConverter
 	@Override
 	public Object convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
-		// Primitives
-
-		if ( byte.class.equals( type ) )
-			return Byte.parseByte( (String) value );
-
-		if ( short.class.equals( type ) )
-			return Short.parseShort( (String) value );
-
-		if ( int.class.equals( type ) )
-			return Integer.parseInt( (String) value );
-
-		if ( long.class.equals( type ) )
-			return Long.parseLong( (String) value );
-
-		if ( float.class.equals( type ) )
-			return Float.parseFloat( (String) value );
-
-		if ( double.class.equals( type ) )
-			return Double.parseDouble( (String) value );
-
-		if ( boolean.class.equals( type ) )
+		if ( value instanceof String )
 		{
-			if ( widget instanceof CheckBox )
-				return value;
+			String stringValue = (String) value;
 
-			return Boolean.parseBoolean( (String) value );
+			// Primitives
+
+			if ( byte.class.equals( type ) )
+				return Byte.parseByte( stringValue );
+
+			if ( short.class.equals( type ) )
+				return Short.parseShort( stringValue );
+
+			if ( int.class.equals( type ) )
+				return Integer.parseInt( stringValue );
+
+			if ( long.class.equals( type ) )
+				return Long.parseLong( stringValue );
+
+			if ( float.class.equals( type ) )
+				return Float.parseFloat( stringValue );
+
+			if ( double.class.equals( type ) )
+				return Double.parseDouble( stringValue );
+
+			if ( boolean.class.equals( type ) )
+				return Boolean.parseBoolean( stringValue );
+
+			if ( char.class.equals( type ) )
+				return ( stringValue ).charAt( 0 );
+
+			// Primitive wrappers
+
+			if ( Byte.class.equals( type ) )
+				return Byte.valueOf( stringValue );
+
+			if ( Short.class.equals( type ) )
+				return Short.valueOf( stringValue );
+
+			if ( Integer.class.equals( type ) )
+				return Integer.valueOf( stringValue );
+
+			if ( Long.class.equals( type ) )
+				return Long.valueOf( stringValue );
+
+			if ( Float.class.equals( type ) )
+				return Float.valueOf( stringValue );
+
+			if ( Double.class.equals( type ) )
+				return Double.valueOf( stringValue );
+
+			if ( Boolean.class.equals( type ) )
+				return Boolean.valueOf( stringValue );
+
+			if ( Character.class.equals( type ) )
+				return Character.valueOf( stringValue.charAt( 0 ) );
+
+			// Unknown
+
+			throw new RuntimeException( "Don't know how to convert a String to a " + type );
 		}
 
-		if ( char.class.equals( type ) )
-			return ( (String) value ).charAt( 0 );
+		// Not a String conversion
 
-		// Primitive wrappers
-
-		if ( value == null || "".equals( value ) )
-			return null;
-
-		if ( Byte.class.equals( type ) )
-			return Byte.valueOf( (String) value );
-
-		if ( Short.class.equals( type ) )
-			return Short.valueOf( (String) value );
-
-		if ( Integer.class.equals( type ) )
-			return Integer.valueOf( (String) value );
-
-		if ( Long.class.equals( type ) )
-			return Long.valueOf( (String) value );
-
-		if ( Float.class.equals( type ) )
-			return Float.valueOf( (String) value );
-
-		if ( Double.class.equals( type ) )
-			return Double.valueOf( (String) value );
-
-		if ( Boolean.class.equals( type ) )
-			return Boolean.valueOf( (String) value );
-
-		if ( Character.class.equals( type ) )
-			return Character.valueOf( ( (String) value ).charAt( 0 ) );
-
-		// Unknown
-
-		throw new RuntimeException( "Don't know how to convert a " + value.getClass() );
+		return value;
 	}
 
 	@Override

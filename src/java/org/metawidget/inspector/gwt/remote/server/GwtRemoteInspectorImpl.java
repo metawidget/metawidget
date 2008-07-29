@@ -23,7 +23,7 @@ import javax.servlet.ServletException;
 
 import org.metawidget.inspector.gwt.remote.iface.GwtRemoteInspector;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.jsp.tagext.ServletConfigReader;
+import org.metawidget.jsp.ServletConfigReader;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 

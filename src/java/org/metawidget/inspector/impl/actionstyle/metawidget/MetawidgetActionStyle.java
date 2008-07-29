@@ -62,11 +62,10 @@ public class MetawidgetActionStyle
 
 			// ...validate it...
 
-			if ( !void.class.equals( method.getReturnType() ))
-				throw InspectorException.newException( "@UiAction " + method + " must return a type of void" );
-
 			if ( method.getParameterTypes().length > 0 )
 				throw InspectorException.newException( "@UiAction " + method + " must not take any parameters" );
+
+			// ...and add it
 
 			String methodName = method.getName();
 			actions.put( methodName, new MethodAction( methodName, method ) );

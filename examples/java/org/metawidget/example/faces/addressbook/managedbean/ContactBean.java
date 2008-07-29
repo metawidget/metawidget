@@ -16,6 +16,8 @@
 
 package org.metawidget.example.faces.addressbook.managedbean;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -31,6 +33,10 @@ import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
+import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiHidden;
+import org.metawidget.inspector.faces.UiFacesAttribute;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -70,6 +76,7 @@ public class ContactBean
 	//
 	//
 
+	@UiHidden
 	public boolean isReadOnly()
 	{
 		return mReadOnly;
@@ -80,6 +87,7 @@ public class ContactBean
 		mReadOnly = readOnly;
 	}
 
+	@UiHidden
 	public Contact getCurrent()
 	{
 		return mContactCurrent;
@@ -93,6 +101,7 @@ public class ContactBean
 		setReadOnly( mContactCurrent == null || mContactCurrent.getId() != 0 );
 	}
 
+	@UiHidden
 	public ListDataModel getCurrentCommunications()
 	{
 		if ( mModelCommunications == null )
@@ -126,6 +135,7 @@ public class ContactBean
 		return mModelCommunications;
 	}
 
+	@UiHidden
 	public ContactSearch getSearch()
 	{
 		return mContactSearch;
@@ -141,6 +151,7 @@ public class ContactBean
 		// Just refresh the screen
 	}
 
+	@UiHidden
 	public List<Contact> getResults()
 	{
 		return getContactsController().getAllByExample( getSearch() );
@@ -154,6 +165,8 @@ public class ContactBean
 			setCurrent( contact );
 	}
 
+	@UiAction
+	@UiFacesAttribute( name = HIDDEN, value = "#{!contact.readOnly}" )
 	public void edit()
 	{
 		mReadOnly = false;
@@ -173,6 +186,8 @@ public class ContactBean
 		return "addBusiness";
 	}
 
+	@UiAction
+	@UiFacesAttribute( name = HIDDEN, value = "#{contact.readOnly}" )
 	public String save()
 		throws Exception
 	{
@@ -180,7 +195,7 @@ public class ContactBean
 		{
 			getContactsController().save( mContactCurrent );
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			FacesContext.getCurrentInstance().addMessage( null, new FacesMessage( e.getMessage() ) );
 			return null;
@@ -189,6 +204,9 @@ public class ContactBean
 		return "index";
 	}
 
+	@UiAction
+	@UiFacesAttribute( name = HIDDEN, value = "#{contact.readOnly}" )
+	@UiComesAfter( "save" )
 	public String delete()
 		throws Exception
 	{
@@ -197,6 +215,8 @@ public class ContactBean
 		return "index";
 	}
 
+	@UiAction
+	@UiComesAfter( { "edit", "delete" } )
 	public String cancel()
 		throws Exception
 	{
@@ -211,7 +231,7 @@ public class ContactBean
 		{
 			getCurrent().addCommunication( bean.getCurrent() );
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			FacesContext.getCurrentInstance().addMessage( null, new FacesMessage( e.getMessage() ) );
 			return;

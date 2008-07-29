@@ -25,6 +25,8 @@ import org.metawidget.test.inspector.composite.CompositeInspectorTest;
 import org.metawidget.test.inspector.faces.FacesInspectorTest;
 import org.metawidget.test.inspector.hibernate.HibernateInspectorTest;
 import org.metawidget.test.inspector.hibernate.validator.HibernateValidatorInspectorTest;
+import org.metawidget.test.inspector.impl.actionstyle.metawidget.MetawidgetActionStyleTest;
+import org.metawidget.test.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest;
 import org.metawidget.test.inspector.impl.propertystyle.groovy.GroovyPropertyStyleTest;
 import org.metawidget.test.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyleTest;
 import org.metawidget.test.inspector.impl.propertystyle.javassist.JavassistPropertyStyleDebugOffTest;
@@ -67,10 +69,12 @@ public class InspectorTests
 		suite.addTestSuite( JpaInspectorTest.class );
 		suite.addTestSuite( CompositeInspectorTest.class );
 		suite.addTestSuite( MetawidgetAnnotationInspectorTest.class );
+		suite.addTestSuite( MetawidgetActionStyleTest.class );
 		suite.addTestSuite( PropertyTypeInspectorTest.class );
 		suite.addTestSuite( RemoteInspectorTest.class );
 		suite.addTestSuite( StrutsInspectorTest.class );
 		suite.addTestSuite( StrutsActionFormPropertyStyleTest.class );
+		suite.addTestSuite( SwingAppFrameworkActionStyleTest.class );
 		suite.addTestSuite( XmlInspectorTest.class );
 
 		return suite;
