@@ -19,7 +19,6 @@ package org.metawidget.inspector.impl;
 import java.util.regex.Pattern;
 
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
-import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.util.ClassUtils;
@@ -55,7 +54,7 @@ public class BaseObjectInspectorConfig
 
 	private Class<? extends PropertyStyle>	mPropertyStyle	= JavaBeanPropertyStyle.class;
 
-	private Class<? extends ActionStyle>	mActionStyle	= MetawidgetActionStyle.class;
+	private Class<? extends ActionStyle>	mActionStyle;
 
 	//
 	//

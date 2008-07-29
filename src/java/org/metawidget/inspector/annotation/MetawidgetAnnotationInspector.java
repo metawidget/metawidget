@@ -18,7 +18,6 @@ package org.metawidget.inspector.annotation;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -331,21 +330,39 @@ public class MetawidgetAnnotationInspector
 		return attributes;
 	}
 
-	protected Map<String, String> inspectAction( Method method, Object toInspect )
+	@Override
+	protected Map<String, String> inspectAction( Action action, Object toInspect )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
+		// UiAction (this is kind of a dummy match)
+
+		if ( action.isAnnotationPresent( UiAction.class ) )
+			attributes.put( NAME, action.getName() );
+
+		// UiHidden
+
+		if ( action.isAnnotationPresent( UiHidden.class ) )
+			attributes.put( HIDDEN, TRUE );
+
+		// UiReadOnly
+
+		UiReadOnly readOnly = action.getAnnotation( UiReadOnly.class );
+
+		if ( readOnly != null )
+			attributes.put( READ_ONLY, TRUE );
+
 		// UiLabel
 
-		UiLabel label = method.getAnnotation( UiLabel.class );
+		UiLabel label = action.getAnnotation( UiLabel.class );
 
 		if ( label != null )
 			attributes.put( LABEL, label.value() );
 
 		// UiAttribute
 
-		UiAttribute attribute = method.getAnnotation( UiAttribute.class );
+		UiAttribute attribute = action.getAnnotation( UiAttribute.class );
 
 		if ( attribute != null )
 		{
@@ -354,7 +371,7 @@ public class MetawidgetAnnotationInspector
 
 		// UiAttributes
 
-		UiAttributes uiAttributes = method.getAnnotation( UiAttributes.class );
+		UiAttributes uiAttributes = action.getAnnotation( UiAttributes.class );
 
 		if ( uiAttributes != null )
 		{

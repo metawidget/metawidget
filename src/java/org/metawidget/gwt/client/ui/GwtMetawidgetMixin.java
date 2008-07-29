@@ -68,6 +68,12 @@ public abstract class GwtMetawidgetMixin<W>
 	}
 
 	@Override
+	protected String getElementName( Element element )
+	{
+		return element.getNodeName();
+	}
+
+	@Override
 	protected Map<String, String> getAttributesAsMap( Element element )
 	{
 		NamedNodeMap nodes = element.getAttributes();

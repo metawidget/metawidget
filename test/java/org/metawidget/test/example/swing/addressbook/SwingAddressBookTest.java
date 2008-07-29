@@ -16,7 +16,6 @@
 
 package org.metawidget.test.example.swing.addressbook;
 
-import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -24,6 +23,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -147,7 +147,7 @@ public class SwingAddressBookTest
 
 		assertTrue( metawidgetContact.getComponentCount() == 19 );
 		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		JButton buttonEdit = (JButton) panelButtons.getComponent( 2 );
+		JButton buttonEdit = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		assertTrue( "Edit".equals( buttonEdit.getText() ) );
 		buttonEdit.getAction().actionPerformed( null );
 
@@ -165,7 +165,7 @@ public class SwingAddressBookTest
 		TableCellEditor editor = communications.getDefaultEditor( Object.class );
 
 		SwingMetawidget metawidgetCommunications = (SwingMetawidget) editor.getTableCellEditorComponent( communications, model.getValueAt( 0, 0 ), true, 0, 0 );
-		assertTrue( BorderLayout.class.equals( metawidgetCommunications.getLayout().getClass() ) );
+		assertTrue( BoxLayout.class.equals( metawidgetCommunications.getLayout().getClass() ) );
 		JComboBox combo = (JComboBox) metawidgetCommunications.getComponent( 0 );
 		assertTrue( "Telephone".equals( combo.getSelectedItem() ) );
 
@@ -199,7 +199,7 @@ public class SwingAddressBookTest
 
 		metawidgetContact.setValue( "12/05/57", "dateOfBirth" );
 		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		JButton buttonSave = (JButton) panelButtons.getComponent( 0 );
+		JButton buttonSave = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		assertTrue( "Save".equals( buttonSave.getText() ) );
 		buttonSave.getAction().actionPerformed( null );
 
@@ -238,7 +238,7 @@ public class SwingAddressBookTest
 		metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 
 		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		buttonEdit = (JButton) panelButtons.getComponent( 2 );
+		buttonEdit = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		assertTrue( "Edit".equals( buttonEdit.getText() ) );
 		buttonEdit.getAction().actionPerformed( null );
 		assertTrue( "Charles Montgomery".equals( metawidgetContact.getValue( "firstnames" ) ) );
@@ -250,7 +250,7 @@ public class SwingAddressBookTest
 		metawidgetContact.setValue( "A Company", "company" );
 
 		assertTrue( metawidgetContact.getComponentCount() == 21 );
-		buttonSave = (JButton) panelButtons.getComponent( 0 );
+		buttonSave = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		buttonSave.getAction().actionPerformed( null );
 
 		assertTrue( 2 == ( (BusinessContact) contact ).getNumberOfStaff() );
@@ -258,7 +258,7 @@ public class SwingAddressBookTest
 
 		// Check deleting
 
-		JButton buttonDelete = (JButton) panelButtons.getComponent( 1 );
+		JButton buttonDelete = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 1 );
 		assertTrue( "Delete".equals( buttonDelete.getText() ) );
 
 		assertTrue( contactsController.getAllByExample( null ).size() == 6 );
@@ -282,7 +282,7 @@ public class SwingAddressBookTest
 		metawidgetContact.setValue( "Contact", "surname" );
 
 		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
-		buttonSave = (JButton) panelButtons.getComponent( 0 );
+		buttonSave = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		buttonSave.getAction().actionPerformed( null );
 		assertTrue( contactsTable.getRowCount() == 6 );
 	}

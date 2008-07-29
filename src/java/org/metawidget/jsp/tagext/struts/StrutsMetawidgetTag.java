@@ -179,7 +179,7 @@ public class StrutsMetawidgetTag
 	}
 
 	@Override
-	protected String buildReadOnlyWidget( Map<String, String> attributes )
+	protected String buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		// Hidden
@@ -257,7 +257,7 @@ public class StrutsMetawidgetTag
 	}
 
 	@Override
-	protected String buildActiveWidget( Map<String, String> attributes )
+	protected String buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		// Hidden

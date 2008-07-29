@@ -39,6 +39,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.PathUtils;
 import org.metawidget.util.PathUtils.TypeAndNames;
 import org.metawidget.util.simple.StringUtils;
+import org.w3c.dom.Element;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -625,7 +626,7 @@ public class AndroidMetawidget
 		return view;
 	}
 
-	protected View buildReadOnlyWidget( Map<String, String> attributes )
+	protected View buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		// Hidden
@@ -695,7 +696,7 @@ public class AndroidMetawidget
 		return createMetawidget( attributes );
 	}
 
-	protected View buildActiveWidget( Map<String, String> attributes )
+	protected View buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		// Hidden
@@ -1018,9 +1019,15 @@ public class AndroidMetawidget
 	{
 		//
 		//
-		// Public methods
+		// Protected methods
 		//
 		//
+
+		@Override
+		protected String getElementName( Element element )
+		{
+			return element.getNodeName();
+		}
 
 		@Override
 		protected void startBuild()
@@ -1063,17 +1070,17 @@ public class AndroidMetawidget
 		}
 
 		@Override
-		protected View buildReadOnlyWidget( Map<String, String> attributes )
+		protected View buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			return AndroidMetawidget.this.buildReadOnlyWidget( attributes );
+			return AndroidMetawidget.this.buildReadOnlyWidget( elementName, attributes );
 		}
 
 		@Override
-		protected View buildActiveWidget( Map<String, String> attributes )
+		protected View buildActiveWidget( String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			return AndroidMetawidget.this.buildActiveWidget( attributes );
+			return AndroidMetawidget.this.buildActiveWidget( elementName, attributes );
 		}
 
 		@Override

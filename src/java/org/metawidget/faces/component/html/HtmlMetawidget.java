@@ -143,7 +143,7 @@ public class HtmlMetawidget
 	 */
 
 	@Override
-	protected UIComponent buildReadOnlyWidget( Map<String, String> attributes )
+	protected UIComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		Application application = getFacesContext().getApplication();
@@ -249,7 +249,7 @@ public class HtmlMetawidget
 	 */
 
 	@Override
-	protected UIComponent buildActiveWidget( Map<String, String> attributes )
+	protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		FacesContext context = getFacesContext();

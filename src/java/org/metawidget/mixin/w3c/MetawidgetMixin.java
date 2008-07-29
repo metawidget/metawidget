@@ -64,6 +64,12 @@ public abstract class MetawidgetMixin<W>
 	}
 
 	@Override
+	protected String getElementName( Element element )
+	{
+		return element.getNodeName();
+	}
+
+	@Override
 	protected Map<String, String> getAttributesAsMap( Element element )
 	{
 		return XmlUtils.getAttributesAsMap( element );

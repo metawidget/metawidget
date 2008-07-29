@@ -907,10 +907,10 @@ public abstract class UIMetawidget
 		}
 	}
 
-	protected abstract UIComponent buildReadOnlyWidget( Map<String, String> attributes )
+	protected abstract UIComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 		throws Exception;
 
-	protected abstract UIComponent buildActiveWidget( Map<String, String> attributes )
+	protected abstract UIComponent buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception;
 
 	protected void addWidget( UIComponent widget, Map<String, String> attributes )
@@ -1164,25 +1164,25 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected UIComponent buildWidget( Map<String, String> attributes )
+		protected UIComponent buildWidget( String type, Map<String, String> attributes )
 			throws Exception
 		{
-			UIComponent component = super.buildWidget( attributes );
+			UIComponent component = super.buildWidget( type, attributes );
 			return UIMetawidget.this.afterBuildWidget( component, attributes );
 		}
 
 		@Override
-		protected UIComponent buildReadOnlyWidget( Map<String, String> attributes )
+		protected UIComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			return UIMetawidget.this.buildReadOnlyWidget( attributes );
+			return UIMetawidget.this.buildReadOnlyWidget( elementName, attributes );
 		}
 
 		@Override
-		protected UIComponent buildActiveWidget( Map<String, String> attributes )
+		protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			return UIMetawidget.this.buildActiveWidget( attributes );
+			return UIMetawidget.this.buildActiveWidget( elementName, attributes );
 		}
 
 		@Override

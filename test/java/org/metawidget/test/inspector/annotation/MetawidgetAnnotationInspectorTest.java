@@ -34,6 +34,8 @@ import org.metawidget.inspector.annotation.UiMasked;
 import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -47,14 +49,29 @@ public class MetawidgetAnnotationInspectorTest
 {
 	//
 	//
+	// Private members
+	//
+	//
+
+	private MetawidgetAnnotationInspector mInspector;
+
+	//
+	//
 	// Public methods
 	//
 	//
 
+	@Override
+	public void setUp()
+	{
+		BaseObjectInspectorConfig config = new BaseObjectInspectorConfig();
+		config.setActionStyle( MetawidgetActionStyle.class );
+		mInspector = new MetawidgetAnnotationInspector( config );
+	}
+
 	public void testInspection()
 	{
-		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Address(), Address.class.getName() ));
+		Document document = XmlUtils.documentFromString( mInspector.inspect( new Address(), Address.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
@@ -87,7 +104,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		// Made-up Entity
 
-		String xml = inspector.inspect( new Foo(), Foo.class.getName() );
+		String xml = mInspector.inspect( new Foo(), Foo.class.getName() );
 		document = XmlUtils.documentFromString( xml );
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 		entity = (Element) document.getFirstChild().getFirstChild();
@@ -150,8 +167,7 @@ public class MetawidgetAnnotationInspectorTest
 	{
 		try
 		{
-			MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
-			inspector.inspect( new InfiniteFoo(), InfiniteFoo.class.getName() );
+			mInspector.inspect( new InfiniteFoo(), InfiniteFoo.class.getName() );
 			assertTrue( false );
 		}
 		catch( InspectorException e )
@@ -162,11 +178,9 @@ public class MetawidgetAnnotationInspectorTest
 
 	public void testBadAction()
 	{
-		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
-
 		try
 		{
-			inspector.inspect( new BadAction1(), BadAction1.class.getName() );
+			mInspector.inspect( new BadAction1(), BadAction1.class.getName() );
 			assertTrue( false );
 		}
 		catch( InspectorException e )
@@ -176,7 +190,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		try
 		{
-			inspector.inspect( new BadAction2(), BadAction2.class.getName() );
+			mInspector.inspect( new BadAction2(), BadAction2.class.getName() );
 			assertTrue( false );
 		}
 		catch( InspectorException e )
@@ -187,11 +201,9 @@ public class MetawidgetAnnotationInspectorTest
 
 	public void testInspectString()
 	{
-		MetawidgetAnnotationInspector inspector = new MetawidgetAnnotationInspector();
-
 		// Should 'short circuit' and return null, as an optimization for CompositeInspector
 
-		assertTrue( null == inspector.inspect( "foo", String.class.getName() ));
+		assertTrue( null == mInspector.inspect( "foo", String.class.getName() ));
 	}
 
 	//

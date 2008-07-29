@@ -5,7 +5,12 @@
 
 	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 		<inspectors>
-			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
+			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+				<actionStyle>org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle</actionStyle>				
+			</metawidgetAnnotationInspector>
+			<jexlInspector xmlns="java:org.metawidget.inspector.jexl" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+				<actionStyle>org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle</actionStyle>				
+			</jexlInspector>
 			<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
 				<file>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</file>
 			</xmlInspector>

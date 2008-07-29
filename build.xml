@@ -53,7 +53,9 @@
 			<include name="org/metawidget/inspector/gwt/**"/>
 			<include name="org/metawidget/inspector/hibernate/*.java"/>
 			<include name="org/metawidget/inspector/iface/**"/>
-			<include name="org/metawidget/inspector/impl/**"/>
+			<include name="org/metawidget/inspector/impl/*.java"/>
+			<include name="org/metawidget/inspector/impl/actionstyle/*.java"/>
+			<include name="org/metawidget/inspector/impl/propertystyle/**"/>
 			<include name="org/metawidget/inspector/jbpm/**"/>
 			<include name="org/metawidget/inspector/propertytype/**"/>
 			<include name="org/metawidget/inspector/struts/**"/>
@@ -94,6 +96,8 @@
 			<include name="org/metawidget/inspector/annotation/**"/>
 			<include name="org/metawidget/inspector/faces/**"/>
 			<include name="org/metawidget/inspector/hibernate/validator/**"/>
+			<include name="org/metawidget/inspector/impl/actionstyle/metawidget/**"/>
+			<include name="org/metawidget/inspector/impl/actionstyle/swing/**"/>
 			<include name="org/metawidget/inspector/java5/**"/>
 			<include name="org/metawidget/inspector/jexl/**"/>
 			<include name="org/metawidget/inspector/jpa/**"/>

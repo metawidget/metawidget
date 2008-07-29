@@ -991,7 +991,7 @@ public class GwtMetawidget
 		mNamesPrefix = GwtUtils.fromStringToArray( mName, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
 	}
 
-	protected Widget buildReadOnlyWidget( Map<String, String> attributes )
+	protected Widget buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		// Hidden
@@ -1040,7 +1040,7 @@ public class GwtMetawidget
 		return createMetawidget();
 	}
 
-	protected Widget buildActiveWidget( Map<String, String> attributes )
+	protected Widget buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		// Hidden
@@ -1339,26 +1339,26 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected Widget buildWidget( Map<String, String> attributes )
+		protected Widget buildWidget( String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			Widget widget = super.buildWidget( attributes );
+			Widget widget = super.buildWidget( elementName, attributes );
 
 			return GwtMetawidget.this.afterBuildWidget( widget, attributes );
 		}
 
 		@Override
-		protected Widget buildReadOnlyWidget( Map<String, String> attributes )
+		protected Widget buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			return GwtMetawidget.this.buildReadOnlyWidget( attributes );
+			return GwtMetawidget.this.buildReadOnlyWidget( elementName, attributes );
 		}
 
 		@Override
-		protected Widget buildActiveWidget( Map<String, String> attributes )
+		protected Widget buildActiveWidget( String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			return GwtMetawidget.this.buildActiveWidget( attributes );
+			return GwtMetawidget.this.buildActiveWidget( elementName, attributes );
 		}
 
 		@Override

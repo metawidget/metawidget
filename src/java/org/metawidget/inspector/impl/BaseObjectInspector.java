@@ -19,6 +19,7 @@ package org.metawidget.inspector.impl;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.lang.reflect.Modifier;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -116,23 +117,31 @@ public abstract class BaseObjectInspector
 			// Property
 
 			Class<? extends PropertyStyle> propertyStyle = config.getPropertyStyle();
-			mPropertyStyle = PROPERTY_STYLE_CACHE.get( propertyStyle );
 
-			if ( mPropertyStyle == null )
+			if ( propertyStyle != null )
 			{
-				mPropertyStyle = propertyStyle.newInstance();
-				PROPERTY_STYLE_CACHE.put( propertyStyle, mPropertyStyle );
+				mPropertyStyle = PROPERTY_STYLE_CACHE.get( propertyStyle );
+
+				if ( mPropertyStyle == null )
+				{
+					mPropertyStyle = propertyStyle.newInstance();
+					PROPERTY_STYLE_CACHE.put( propertyStyle, mPropertyStyle );
+				}
 			}
 
 			// Action
 
 			Class<? extends ActionStyle> actionStyle = config.getActionStyle();
-			mActionStyle = ACTION_STYLE_CACHE.get( actionStyle );
 
-			if ( mActionStyle == null )
+			if ( actionStyle != null )
 			{
-				mActionStyle = actionStyle.newInstance();
-				ACTION_STYLE_CACHE.put( actionStyle, mActionStyle );
+				mActionStyle = ACTION_STYLE_CACHE.get( actionStyle );
+
+				if ( mActionStyle == null )
+				{
+					mActionStyle = actionStyle.newInstance();
+					ACTION_STYLE_CACHE.put( actionStyle, mActionStyle );
+				}
 			}
 
 			// Proxy
@@ -305,6 +314,15 @@ public abstract class BaseObjectInspector
 
 	protected Map<String, Property> getProperties( Class<?> clazz )
 	{
+		if ( mPropertyStyle == null )
+		{
+			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
+
+			@SuppressWarnings( "unchecked" )
+			Map<String, Property> map = Collections.EMPTY_MAP;
+			return map;
+		}
+
 		return mPropertyStyle.getProperties( clazz );
 	}
 
@@ -318,6 +336,15 @@ public abstract class BaseObjectInspector
 
 	protected Map<String, Action> getActions( Class<?> clazz )
 	{
+		if ( mActionStyle == null )
+		{
+			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
+
+			@SuppressWarnings( "unchecked" )
+			Map<String, Action> map = Collections.EMPTY_MAP;
+			return map;
+		}
+
 		return mActionStyle.getActions( clazz );
 	}
 

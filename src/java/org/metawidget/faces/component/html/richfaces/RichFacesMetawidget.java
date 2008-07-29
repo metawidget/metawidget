@@ -60,22 +60,22 @@ public class RichFacesMetawidget
 	 */
 
 	@Override
-	protected UIComponent buildActiveWidget( Map<String, String> attributes )
+	protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		// Not for RichFaces
 
 		if ( TRUE.equals( attributes.get( HIDDEN )) )
-			return super.buildActiveWidget( attributes );
+			return super.buildActiveWidget( elementName, attributes );
 
 		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ))
-			return super.buildActiveWidget( attributes );
+			return super.buildActiveWidget( elementName, attributes );
 
 		Application application = FacesContext.getCurrentInstance().getApplication();
 		String type = attributes.get( TYPE );
 
 		if ( type == null )
-			return super.buildActiveWidget( attributes );
+			return super.buildActiveWidget( elementName, attributes );
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
@@ -88,7 +88,7 @@ public class RichFacesMetawidget
 				// Not for RichFaces
 
 				if ( boolean.class.equals( clazz ) || char.class.equals( clazz ))
-					return super.buildActiveWidget( attributes );
+					return super.buildActiveWidget( elementName, attributes );
 
 				// Ranged
 
@@ -222,6 +222,6 @@ public class RichFacesMetawidget
 
 		// Not for RichFaces
 
-		return super.buildActiveWidget( attributes );
+		return super.buildActiveWidget( elementName, attributes );
 	}
 }

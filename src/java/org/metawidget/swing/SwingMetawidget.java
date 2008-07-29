@@ -19,7 +19,6 @@ package org.metawidget.swing;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.awt.BasicStroke;
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
@@ -27,6 +26,8 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Stroke;
+import java.awt.event.ActionEvent;
+import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -36,6 +37,9 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import javax.swing.AbstractAction;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
@@ -885,7 +889,10 @@ public class SwingMetawidget
 		}
 		else
 		{
-			setLayout( new BorderLayout() );
+			// Default to BoxLayout, which is like FlowLayout except it fills width. This
+			// is useful for JTable CellEditors
+
+			setLayout( new BoxLayout( this, BoxLayout.LINE_AXIS ) );
 		}
 
 		// Start binding
@@ -951,7 +958,7 @@ public class SwingMetawidget
 		return component;
 	}
 
-	protected JComponent buildReadOnlyWidget( Map<String, String> attributes )
+	protected JComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		// Hidden
@@ -1044,13 +1051,41 @@ public class SwingMetawidget
 		return getClass().newInstance();
 	}
 
-	protected JComponent buildActiveWidget( Map<String, String> attributes )
+	protected JComponent buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 			return null;
+
+		// Action
+
+		if ( ACTION.equals( elementName ))
+		{
+			final Object toInspect = getToInspect();
+
+			if ( toInspect == null )
+				return null;
+
+			final Method actionMethod = toInspect.getClass().getMethod( attributes.get( NAME ), (Class[]) null );
+
+			return new JButton( new AbstractAction( getLabelString( attributes ))
+			{
+				@Override
+				public void actionPerformed( ActionEvent e )
+				{
+					try
+					{
+						actionMethod.invoke( toInspect, (Object[]) null );
+					}
+					catch( Exception ex )
+					{
+						throw new RuntimeException( ex );
+					}
+				}
+			} );
+		}
 
 		String type = attributes.get( TYPE );
 
@@ -1439,17 +1474,17 @@ public class SwingMetawidget
 		}
 
 		@Override
-		protected JComponent buildReadOnlyWidget( Map<String, String> attributes )
+		protected JComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			return SwingMetawidget.this.buildReadOnlyWidget( attributes );
+			return SwingMetawidget.this.buildReadOnlyWidget( elementName, attributes );
 		}
 
 		@Override
-		protected JComponent buildActiveWidget( Map<String, String> attributes )
+		protected JComponent buildActiveWidget( String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			return SwingMetawidget.this.buildActiveWidget( attributes );
+			return SwingMetawidget.this.buildActiveWidget( elementName, attributes );
 		}
 
 		@Override

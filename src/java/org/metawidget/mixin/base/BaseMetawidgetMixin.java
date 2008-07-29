@@ -130,7 +130,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 			W widget = getOverridenWidget( attributes );
 
 			if ( widget == null )
-				widget = buildWidget( attributes );
+				widget = buildWidget( getElementName( element ), attributes );
 
 			if ( widget != null )
 			{
@@ -185,7 +185,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 			if ( widget == null )
 			{
-				widget = buildWidget( attributes );
+				widget = buildWidget( getElementName( child ), attributes );
 
 				if ( widget == null )
 					continue;
@@ -215,13 +215,13 @@ public abstract class BaseMetawidgetMixin<W, E>
 		return mReadOnly;
 	}
 
-	protected W buildWidget( Map<String, String> attributes )
+	protected W buildWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		if ( isReadOnly( attributes ) )
-			return buildReadOnlyWidget( attributes );
+			return buildReadOnlyWidget( elementName, attributes );
 
-		return buildActiveWidget( attributes );
+		return buildActiveWidget( elementName, attributes );
 	}
 
 	//
@@ -240,6 +240,8 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 	protected abstract E getChildAt( E element, int index );
 
+	protected abstract String getElementName( E element );
+
 	protected abstract Map<String, String> getAttributesAsMap( E element );
 
 	protected abstract void startBuild()
@@ -253,10 +255,10 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 	protected abstract boolean isMetawidget( W widget );
 
-	protected abstract W buildReadOnlyWidget( Map<String, String> attributes )
+	protected abstract W buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 		throws Exception;
 
-	protected abstract W buildActiveWidget( Map<String, String> attributes )
+	protected abstract W buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception;
 
 	protected abstract W initMetawidget( W widget, Map<String, String> attributes )

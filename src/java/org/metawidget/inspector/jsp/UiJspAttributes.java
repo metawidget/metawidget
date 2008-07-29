@@ -22,7 +22,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates arbitrary attributes for the UI, based on Java Server Faces EL expressions.
+ * Annotates arbitrary attributes for the UI, based on Java Server Pages EL expressions.
+ * <p>
+ * This annotation can only be used with JSP 2.0. When using this annotation, the
+ * <code>PageContext</code> must be injected before each inspection using
+ * <code>JspAnnotationInspector.setThreadLocalPageContext</code>.
+ * <code>org.metawidget.jsp.tagext.MetawidgetTag</code> does this automatically.
  *
  * @author Richard Kennard
  */

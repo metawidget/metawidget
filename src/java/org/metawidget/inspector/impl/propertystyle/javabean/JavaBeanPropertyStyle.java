@@ -53,8 +53,8 @@ public class JavaBeanPropertyStyle
 	 * Cache of property lookups.
 	 * <p>
 	 * Property lookups are potentially expensive, so we cache them. The cache itself is a member
-	 * variable, not a static, because we rely on <code>BaseObjectInspector</code> to only
-	 * create one instance of <code>PropertyStyle</code> for all <code>Inspectors</code>.
+	 * variable, not a static, because we rely on <code>BaseObjectInspector</code> to only create
+	 * one instance of <code>PropertyStyle</code> for all <code>Inspectors</code>.
 	 * <p>
 	 * This also stops problems with subclasses of <code>JavaBeanPropertyStyle</code> sharing the
 	 * same static cache.
@@ -166,7 +166,8 @@ public class JavaBeanPropertyStyle
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, excludes any base types from the <code>java.*</code> package.
+	 * By default, excludes any base types from the <code>java.*</code> or <code>javax.*</code>
+	 * packages.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
@@ -175,7 +176,7 @@ public class JavaBeanPropertyStyle
 	{
 		String pkg = clazz.getPackage().getName();
 
-		if ( pkg.startsWith( "java." ))
+		if ( pkg.startsWith( "java." ) || pkg.startsWith( "javax." ) )
 			return true;
 
 		return false;

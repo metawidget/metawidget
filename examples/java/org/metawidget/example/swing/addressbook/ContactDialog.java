@@ -30,7 +30,6 @@ import javax.swing.AbstractAction;
 import javax.swing.AbstractCellEditor;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -47,6 +46,10 @@ import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.example.swing.addressbook.converter.DateConverter;
 import org.metawidget.example.swing.addressbook.converter.EnumConverter;
+import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiHidden;
+import org.metawidget.inspector.jexl.UiJexlAttribute;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.beansbinding.BeansBinding;
@@ -56,8 +59,8 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Dialog box for Address Book Contacts.
  * <p>
- * Note: for brevity, this example is not optimized to use <code>SwingMetawidget.rebind</code> (see
- * 'rebinding' in the Reference Documentation). For an example using rebinding, see
+ * Note: for brevity, this example is not optimized to use <code>SwingMetawidget.rebind</code>
+ * (see 'rebinding' in the Reference Documentation). For an example using rebinding, see
  * <code>org.metawidget.example.gwt.addressbook.client.ui.ContactDialog</code>.
  *
  * @author Richard Kennard
@@ -78,12 +81,28 @@ public class ContactDialog
 
 	//
 	//
+	// Package-level members
+	//
+	//
+
+	SwingMetawidget					mContactMetawidget;
+
+	SwingMetawidget					mButtonsMetawidget;
+
+	ListTableModel<Communication>	mCommunicationsModel;
+
+	ContactsControllerProvider		mProvider;
+
+	//
+	//
 	// Constructor
 	//
 	//
 
-	public ContactDialog( final ContactsControllerProvider provider, final Contact contact )
+	public ContactDialog( ContactsControllerProvider provider, final Contact contact )
 	{
+		mProvider = provider;
+
 		setSize( new Dimension( 800, 600 ) );
 		getContentPane().setBackground( Color.white );
 
@@ -134,20 +153,20 @@ public class ContactDialog
 
 		// Metawidget
 
-		final SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setBorder( BorderFactory.createEmptyBorder( COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING ) );
-		metawidget.setOpaque( false );
-		metawidget.setBundle( ResourceBundle.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" ) );
-		metawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
-		metawidget.setBindingClass( BeansBinding.class );
-		metawidget.setToInspect( contact );
-		metawidget.setReadOnly( contact.getId() != 0 );
-		panelBackground.add( metawidget, BorderLayout.CENTER );
+		mContactMetawidget = new SwingMetawidget();
+		mContactMetawidget.setBorder( BorderFactory.createEmptyBorder( COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING ) );
+		mContactMetawidget.setOpaque( false );
+		mContactMetawidget.setBundle( ResourceBundle.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" ) );
+		mContactMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
+		mContactMetawidget.setBindingClass( BeansBinding.class );
+		mContactMetawidget.setToInspect( contact );
+		mContactMetawidget.setReadOnly( contact.getId() != 0 );
+		panelBackground.add( mContactMetawidget, BorderLayout.CENTER );
 
 		// Communications override
 
-		final ListTableModel<Communication> communicationsModel = new ListTableModel<Communication>( Communication.class, contact.getCommunications(), "Type", "Value" );
-		final JTable tableCommunications = new JTable( communicationsModel );
+		mCommunicationsModel = new ListTableModel<Communication>( Communication.class, contact.getCommunications(), "Type", "Value" );
+		final JTable tableCommunications = new JTable( mCommunicationsModel );
 		tableCommunications.putClientProperty( "terminateEditOnFocusLost", Boolean.TRUE );
 		tableCommunications.setDefaultEditor( Object.class, new CommunicationEditor() );
 
@@ -163,10 +182,10 @@ public class ContactDialog
 				if ( JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) != JOptionPane.OK_OPTION )
 					return;
 
-				Communication communication = communicationsModel.getValueAt( tableCommunications.rowAtPoint( menuPopup.getLocation() ) );
+				Communication communication = mCommunicationsModel.getValueAt( tableCommunications.rowAtPoint( menuPopup.getLocation() ) );
 
 				contact.removeCommunication( communication );
-				communicationsModel.importCollection( contact.getCommunications() );
+				mCommunicationsModel.importCollection( contact.getCommunications() );
 			}
 		} );
 		tableCommunications.add( menuPopup );
@@ -184,83 +203,85 @@ public class ContactDialog
 			}
 		} );
 
-		metawidget.add( scrollPane );
+		mContactMetawidget.add( scrollPane );
 
 		// Embedded buttons
 
 		Facet facetButtons = new Facet();
 		facetButtons.setName( "buttons" );
 		facetButtons.setOpaque( false );
-		metawidget.add( facetButtons );
+		mContactMetawidget.add( facetButtons );
 
-		final JButton saveButton = new JButton( new AbstractAction( bundle.getString( "save" ) )
+		mButtonsMetawidget = new SwingMetawidget();
+		mButtonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
+		mButtonsMetawidget.setLayoutClass( null );
+		mButtonsMetawidget.setToInspect( this );
+		facetButtons.add( mButtonsMetawidget );
+	}
+
+	//
+	//
+	// Public methods
+	//
+	//
+
+	@UiHidden
+	public boolean isReadOnly()
+	{
+		return mContactMetawidget.isReadOnly();
+	}
+
+	@UiAction
+	@UiJexlAttribute( name = "hidden", value = "${!contactDialog.readOnly}" )
+	public void edit()
+	{
+		mContactMetawidget.setReadOnly( false );
+
+		mCommunicationsModel.setAllRowsEditable( true );
+		mCommunicationsModel.setExtraBlankRow( true );
+		mButtonsMetawidget.setToInspect( mButtonsMetawidget.getToInspect() );
+	}
+
+	@UiAction
+	@UiJexlAttribute( name = "hidden", value = "${contactDialog.readOnly}" )
+	public void save()
+	{
+		try
 		{
-			public void actionPerformed( ActionEvent event )
-			{
-				try
-				{
-					metawidget.save();
-					contact.setCommunications( CollectionUtils.newHashSet( communicationsModel.exportList() ) );
-					provider.getContactsController().save( contact );
-				}
-				catch ( Exception e )
-				{
-					JOptionPane.showMessageDialog( ContactDialog.this, e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE );
-					return;
-				}
-
-				ContactDialog.this.setVisible( false );
-				provider.fireRefresh();
-			}
-		} );
-
-		final JButton deleteButton = new JButton( new AbstractAction( bundle.getString( "delete" ) )
+			mContactMetawidget.save();
+			Contact contact = (Contact) mContactMetawidget.getToInspect();
+			contact.setCommunications( CollectionUtils.newHashSet( mCommunicationsModel.exportList() ) );
+			mProvider.getContactsController().save( contact );
+		}
+		catch ( Exception e )
 		{
-			public void actionPerformed( ActionEvent event )
-			{
-				// (if event is null, assume this was called manually, like through a unit test)
+			JOptionPane.showMessageDialog( ContactDialog.this, e.getMessage(), "Save Error", JOptionPane.ERROR_MESSAGE );
+			return;
+		}
 
-				if ( event != null && JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this contact?" ) != JOptionPane.OK_OPTION )
-					return;
+		ContactDialog.this.setVisible( false );
+		mProvider.fireRefresh();
+	}
 
-				ContactDialog.this.setVisible( false );
-				provider.getContactsController().delete( contact );
-				provider.fireRefresh();
-			}
-		} );
+	@UiAction
+	@UiComesAfter( "save" )
+	@UiJexlAttribute( name = "hidden", value = "${contactDialog.readOnly}" )
+	public void delete()
+	{
+		Contact contact = (Contact) mContactMetawidget.getToInspect();
 
-		saveButton.setVisible( !metawidget.isReadOnly() );
-		facetButtons.add( saveButton );
-		deleteButton.setVisible( !metawidget.isReadOnly() );
-		facetButtons.add( deleteButton );
+		// TODO: if ( JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this contact?" ) != JOptionPane.OK_OPTION ) return;
 
-		final JButton editButton = new JButton( new AbstractAction( bundle.getString( "edit" ) )
-		{
-			public void actionPerformed( ActionEvent event )
-			{
-				metawidget.setReadOnly( false );
+		ContactDialog.this.setVisible( false );
+		mProvider.getContactsController().delete( contact );
+		mProvider.fireRefresh();
+	}
 
-				if ( event != null )
-					( (JButton) event.getSource() ).setVisible( false );
-
-				saveButton.setVisible( true );
-				deleteButton.setVisible( true );
-				communicationsModel.setAllRowsEditable( true );
-				communicationsModel.setExtraBlankRow( true );
-				ContactDialog.this.repaint();
-			}
-		} );
-
-		editButton.setVisible( metawidget.isReadOnly() );
-		facetButtons.add( editButton );
-
-		facetButtons.add( new JButton( new AbstractAction( bundle.getString( "cancel" ) )
-		{
-			public void actionPerformed( ActionEvent event )
-			{
-				ContactDialog.this.setVisible( false );
-			}
-		} ) );
+	@UiAction
+	@UiComesAfter( "delete" )
+	public void cancel()
+	{
+		setVisible( false );
 	}
 
 	//

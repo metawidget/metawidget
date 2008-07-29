@@ -24,9 +24,10 @@ import java.lang.annotation.Target;
 /**
  * Annotates an arbitrary attribute for the UI, based on a Java Server Pages EL expression.
  * <p>
- * When using this annotation, <code>JspAnnotationInspector</code> must be able access to
- * JSP 2.0 <code>FacesContext</code>. In practice this usually happens automatically, but in some cases
- * it may be necessary to 'combine remote inspections' (see the Reference Documentation).
+ * This annotation can only be used with JSP 2.0. When using this annotation, the
+ * <code>PageContext</code> must be injected before each inspection using
+ * <code>JspAnnotationInspector.setThreadLocalPageContext</code>.
+ * <code>org.metawidget.jsp.tagext.MetawidgetTag</code> does this automatically.
  *
  * @author Richard Kennard
  */

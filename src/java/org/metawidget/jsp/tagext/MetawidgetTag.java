@@ -30,7 +30,6 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.jsp.tagext.StubTag.StubContent;
@@ -347,10 +346,10 @@ public abstract class MetawidgetTag
 
 	protected abstract void beforeBuildCompoundWidget( Element element );
 
-	protected abstract String buildReadOnlyWidget( Map<String, String> attributes )
+	protected abstract String buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 		throws Exception;
 
-	protected abstract String buildActiveWidget( Map<String, String> attributes )
+	protected abstract String buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception;
 
 	protected void addWidget( String widget, Map<String, String> attributes )
@@ -432,7 +431,14 @@ public abstract class MetawidgetTag
 
 		// Inject the PageContext (in case it is used)
 
-		JspAnnotationInspector.setThreadLocalPageContext( pageContext );
+		try
+		{
+			//TODO:JspAnnotationInspector.setThreadLocalPageContext( pageContext );
+		}
+		catch( NoClassDefFoundError e )
+		{
+			// Fail gracefully
+		}
 
 		// Do the Inspection
 
@@ -512,17 +518,17 @@ public abstract class MetawidgetTag
 		}
 
 		@Override
-		protected String buildReadOnlyWidget( Map<String, String> attributes )
+		protected String buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			return MetawidgetTag.this.buildReadOnlyWidget( attributes );
+			return MetawidgetTag.this.buildReadOnlyWidget( elementName, attributes );
 		}
 
 		@Override
-		protected String buildActiveWidget( Map<String, String> attributes )
+		protected String buildActiveWidget( String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			return MetawidgetTag.this.buildActiveWidget( attributes );
+			return MetawidgetTag.this.buildActiveWidget( elementName, attributes );
 		}
 
 		@SuppressWarnings( "synthetic-access" )

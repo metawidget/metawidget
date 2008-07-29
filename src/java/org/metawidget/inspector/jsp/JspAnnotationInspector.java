@@ -27,6 +27,7 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.util.ArrayUtils;
@@ -106,6 +107,58 @@ public class JspAnnotationInspector
 
 		UiJspAttribute jspAttribute = property.getAnnotation( UiJspAttribute.class );
 		UiJspAttributes jspAttributes = property.getAnnotation( UiJspAttributes.class );
+
+		if ( jspAttribute != null || jspAttributes != null )
+		{
+			PageContext pageContext = LOCAL_PAGE_CONTEXT.get();
+
+			if ( pageContext == null )
+				throw InspectorException.newException( "ThreadLocalPageContext not set" );
+
+			ExpressionEvaluator expressionEvaluator;
+
+			try
+			{
+				expressionEvaluator = pageContext.getExpressionEvaluator();
+			}
+			catch ( Throwable t )
+			{
+				throw InspectorException.newException( "ExpressionEvaluator requires JSP 2.0" );
+			}
+
+			VariableResolver variableResolver = pageContext.getVariableResolver();
+
+			// UiJspAttribute
+
+			if ( jspAttribute != null )
+			{
+				putJspAttribute( expressionEvaluator, variableResolver, attributes, jspAttribute );
+			}
+
+			// UiJspAttributes
+
+			if ( jspAttributes != null )
+			{
+				for ( UiJspAttribute nestedJspAttribute : jspAttributes.value() )
+				{
+					putJspAttribute( expressionEvaluator, variableResolver, attributes, nestedJspAttribute );
+				}
+			}
+		}
+
+		return attributes;
+	}
+
+	@Override
+	protected Map<String, String> inspectAction( Action action, Object toInspect )
+		throws Exception
+	{
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+
+		// UiJspAttributes/UiJspAttribute
+
+		UiJspAttribute jspAttribute = action.getAnnotation( UiJspAttribute.class );
+		UiJspAttributes jspAttributes = action.getAnnotation( UiJspAttributes.class );
 
 		if ( jspAttribute != null || jspAttributes != null )
 		{
