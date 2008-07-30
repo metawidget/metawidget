@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates an arbitrary attribute for the UI, based on a JEXL expression.
+ * Annotates an arbitrary Metawidget attribute, based on a JEXL expression.
  *
  * @author Richard Kennard
  */

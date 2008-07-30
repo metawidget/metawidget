@@ -44,6 +44,7 @@ import org.w3c.dom.Element;
  */
 
 // TODO: @UiOrder( "1.1.1" )
+// TODO: neater way of having action there by default
 
 public class MetawidgetAnnotationInspector
 	extends BaseObjectInspector

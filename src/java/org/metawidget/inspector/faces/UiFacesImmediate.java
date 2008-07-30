@@ -14,25 +14,22 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.faces.allwidgets.managedbean;
+package org.metawidget.inspector.faces;
 
-import org.metawidget.inspector.annotation.UiAction;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
+ * Annotates the UIComponent should be 'immediate', as defined by <code>ActionSource</code> and <code>EditableValueHolder</code>.
+ *
  * @author Richard Kennard
  */
 
-public class AllWidgetsBean
+@Retention( RetentionPolicy.RUNTIME )
+@Target( { ElementType.FIELD, ElementType.METHOD } )
+public @interface UiFacesImmediate
 {
-	//
-	//
-	// Public methods
-	//
-	//
-
-	@UiAction
-	public String save()
-	{
-		return "saved";
-	}
+	boolean value() default true;
 }

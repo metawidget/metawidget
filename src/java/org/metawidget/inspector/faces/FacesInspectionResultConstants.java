@@ -41,6 +41,8 @@ public final class FacesInspectionResultConstants
 
 	public final static String	FACES_CONVERTER_ID				= "faces-converter-id";
 
+	public final static String	FACES_IMMEDIATE					= "faces-immediate";
+
 	/**
 	 * ISO 4217 currency code to be applied when formatting currencies.
 	 */

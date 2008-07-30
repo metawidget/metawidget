@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates an arbitrary attribute for the UI.
+ * Annotates an arbitrary Metawidget attribute.
  * <p>
  * This annotation can be used when no other Inspector is available for the
  * given attribute, and as an alternative to using XmlInspector.

@@ -87,6 +87,13 @@ public class FacesInspector
 		if ( component != null )
 			attributes.put( FACES_COMPONENT, component.value() );
 
+		// Immediate
+
+		UiFacesImmediate immediate = property.getAnnotation( UiFacesImmediate.class );
+
+		if ( immediate != null )
+			attributes.put( FACES_IMMEDIATE, Boolean.toString( immediate.value() ));
+
 		// Converters
 
 		UiFacesConverter converter = property.getAnnotation( UiFacesConverter.class );
@@ -205,6 +212,13 @@ public class FacesInspector
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
+
+		// Immediate
+
+		UiFacesImmediate immediate = property.getAnnotation( UiFacesImmediate.class );
+
+		if ( immediate != null )
+			attributes.put( FACES_IMMEDIATE, Boolean.toString( immediate.value() ));
 
 		// UiFacesAttributes/UiFacesAttribute
 

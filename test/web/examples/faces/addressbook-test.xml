@@ -14,9 +14,9 @@
 				<invoke url="${webtest.url}/addressbook-faces" />
 				<verifyTitle text="Address Book (Metawidget Java Server Faces Example)" />
 				
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@id='table-contactSearch']"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactSearchFirstnames-row']"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactSearchFirstnames-cell']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@id='table-contactSearchCurrent']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactSearchCurrentFirstnames-row']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactSearchCurrentFirstnames-cell']"/>
 				
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@class='table-form']"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Firstnames:"/>
@@ -30,12 +30,12 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[4]/td[1]/a" text="Mrs Maude Flanders"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[5]/td[1]/a" text="Mr Nedward Flanders"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[6]/td[1]/a" text="Mr Waylon Smithers"/>
-				<setInputField name="form:contactSearchSurname" value="Simpson"/>
+				<setInputField name="form:contactSearchCurrentSurname" value="Simpson"/>
 				<clickButton label="Search"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a" text="Mr Homer Simpson"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mrs Marjorie Simpson"/>
-				<setInputField name="form:contactSearchSurname" value=""/>
-				<setSelectField name="form:contactSearchType" value="BUSINESS"/>
+				<setInputField name="form:contactSearchCurrentSurname" value=""/>
+				<setSelectField name="form:contactSearchCurrentType" value="BUSINESS"/>
 				<clickButton label="Search"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a" text="Mr Charles Montgomery Burns"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mr Waylon Smithers"/>

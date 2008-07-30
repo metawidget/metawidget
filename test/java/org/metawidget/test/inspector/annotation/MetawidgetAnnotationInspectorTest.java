@@ -196,6 +196,19 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( null == mInspector.inspect( "foo", String.class.getName() ));
 	}
 
+	public void testComesAfterItself()
+	{
+		try
+		{
+			mInspector.inspect( new ComesAfterItself(), ComesAfterItself.class.getName() );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "'foo' is annotated to @UiComesAfter itself".equals( e.getMessage() ));
+		}
+	}
+
 	//
 	//
 	// Constructor
@@ -257,5 +270,11 @@ public class MetawidgetAnnotationInspectorTest
 		{
 			// Do nothing
 		}
+	}
+
+	public static class ComesAfterItself
+	{
+		@UiComesAfter( "foo" )
+		public String foo;
 	}
 }

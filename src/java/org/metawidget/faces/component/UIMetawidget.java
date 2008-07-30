@@ -32,6 +32,7 @@ import java.util.TimeZone;
 
 import javax.faces.application.Application;
 import javax.faces.component.ActionSource;
+import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UISelectItem;
@@ -587,6 +588,25 @@ public abstract class UIMetawidget
 	protected UIComponent afterBuildWidget( UIComponent component, Map<String, String> attributes )
 		throws Exception
 	{
+		if ( component == null )
+			return null;
+
+		// Immediate
+
+		String immediateString = attributes.get( FACES_IMMEDIATE );
+
+		if ( immediateString != null )
+		{
+			boolean immediate = Boolean.parseBoolean( immediateString );
+
+			if ( component instanceof ActionSource )
+				((ActionSource) component).setImmediate( immediate );
+			else if ( component instanceof EditableValueHolder )
+				((EditableValueHolder) component).setImmediate( immediate );
+			else
+				throw new Exception( "'Immediate' cannot be applied to " + component.getClass() );
+		}
+
 		return component;
 	}
 

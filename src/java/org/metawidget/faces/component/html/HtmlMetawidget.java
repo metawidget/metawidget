@@ -108,12 +108,12 @@ public class HtmlMetawidget
 	protected UIComponent afterBuildWidget( UIComponent component, Map<String, String> attributes )
 		throws Exception
 	{
-		if ( component == null )
-			return component;
-
 		// Apply CSS attributes
 
-		UIComponent componentToStyle = component;
+		UIComponent componentToStyle = super.afterBuildWidget( component, attributes );
+
+		if ( componentToStyle == null )
+			return componentToStyle;
 
 		if ( component instanceof UIStub )
 			componentToStyle = (UIComponent) component.getChildren().get( 0 );
@@ -276,7 +276,6 @@ public class HtmlMetawidget
 			component = application.createComponent( componentName );
 
 		// Action
-		// TODO: 'cancel' must be 'immediate'?
 
 		if ( ACTION.equals( elementName ))
 		{

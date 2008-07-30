@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates an arbitrary attribute for the UI, based on a Java Server Faces EL expression.
+ * Annotates an arbitrary Metawidget attribute, based on a Java Server Faces EL expression.
  * <p>
  * Unlike <code>UiFacesLookup</code>, which fits into a well-defined place within the JSF
  * framework (eg. <code>f:selectItems</code>), the <code>UiFacesAttribute</code> expression is

@@ -21,24 +21,20 @@
 
 				<h:messages />
 
-				<m:metawidget value="#{contact.search}">
+				<m:metawidget value="#{contactSearch.current}">
 					<f:param name="tableStyleClass" value="table-form"/>
 					<f:param name="columnClasses" value="table-label-column,table-component-column,required" />
 					<f:param name="buttonsStyleClass" value="buttons"/>
 
 					<f:facet name="buttons">
-						<h:panelGroup>
-							<h:commandButton value="#{bundle.search}" action="#{contact.runSearch}"/>
-							<h:commandButton value="#{bundle.addPersonal}" action="#{contact.addPersonal}"/>
-							<h:commandButton value="#{bundle.addBusiness}" action="#{contact.addBusiness}"/>
-						</h:panelGroup>
+						<m:metawidget value="#{contactSearch}" rendererType="simple"/>
 					</f:facet>
 
 				</m:metawidget>
 
 			</h:form>
 
-			<h:dataTable value="#{contact.results}" var="_contact" styleClass="data-table" columnClasses="column-half, column-half, column-tiny" rowClasses="row-odd, row-even">
+			<h:dataTable value="#{contactSearch.results}" var="_contact" styleClass="data-table" columnClasses="column-half, column-half, column-tiny" rowClasses="row-odd, row-even">
 
 				<h:column>
 					<f:facet name="header">

@@ -25,7 +25,7 @@ import javax.faces.event.PhaseEvent;
 import javax.faces.event.PhaseId;
 
 import org.metawidget.example.faces.addressbook.managedbean.ContactBean;
-import org.metawidget.example.shared.addressbook.controller.ContactsController;
+import org.metawidget.example.faces.addressbook.managedbean.ContactsBean;
 import org.metawidget.example.shared.addressbook.model.Contact;
 
 /**
@@ -70,11 +70,11 @@ public class LoadContactListener
 		{
 			VariableResolver resolver = context.getApplication().getVariableResolver();
 
-			ContactsController controller = (ContactsController) resolver.resolveVariable( context, "contacts" );
-			Contact contact = controller.load( Long.valueOf( id[0] ) );
+			ContactsBean contactsBean = (ContactsBean) resolver.resolveVariable( context, "contacts" );
+			Contact contact = contactsBean.load( Long.valueOf( id[0] ) );
 
-			ContactBean bean = (ContactBean) resolver.resolveVariable( context, "contact" );
-			bean.setCurrent( contact );
+			ContactBean contactBean = (ContactBean) resolver.resolveVariable( context, "contact" );
+			contactBean.setCurrent( contact );
 		}
 	}
 

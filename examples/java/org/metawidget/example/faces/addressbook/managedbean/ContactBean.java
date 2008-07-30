@@ -27,16 +27,13 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.VariableResolver;
 import javax.faces.model.ListDataModel;
 
-import org.metawidget.example.shared.addressbook.controller.ContactsController;
-import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
-import org.metawidget.example.shared.addressbook.model.ContactSearch;
-import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.faces.UiFacesAttribute;
+import org.metawidget.inspector.faces.UiFacesImmediate;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -53,22 +50,9 @@ public class ContactBean
 
 	private boolean			mReadOnly;
 
-	private Contact			mContactCurrent;
-
-	private ContactSearch	mContactSearch;
+	private Contact			mCurrent;
 
 	private ListDataModel	mModelCommunications;
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	public ContactBean()
-	{
-		mContactSearch = new ContactSearch();
-	}
 
 	//
 	//
@@ -90,15 +74,15 @@ public class ContactBean
 	@UiHidden
 	public Contact getCurrent()
 	{
-		return mContactCurrent;
+		return mCurrent;
 	}
 
-	public void setCurrent( Contact contactCurrent )
+	public void setCurrent( Contact current )
 	{
-		mContactCurrent = contactCurrent;
+		mCurrent = current;
 		mModelCommunications = null;
 
-		setReadOnly( mContactCurrent == null || mContactCurrent.getId() != 0 );
+		setReadOnly( mCurrent == null || mCurrent.getId() != 0 );
 	}
 
 	@UiHidden
@@ -135,55 +119,11 @@ public class ContactBean
 		return mModelCommunications;
 	}
 
-	@UiHidden
-	public ContactSearch getSearch()
-	{
-		return mContactSearch;
-	}
-
-	public void setSearch( ContactSearch search )
-	{
-		mContactSearch = search;
-	}
-
-	public void runSearch()
-	{
-		// Just refresh the screen
-	}
-
-	@UiHidden
-	public List<Contact> getResults()
-	{
-		return getContactsController().getAllByExample( getSearch() );
-	}
-
-	public void load( long id )
-	{
-		Contact contact = getContactsController().load( id );
-
-		if ( contact != null )
-			setCurrent( contact );
-	}
-
 	@UiAction
 	@UiFacesAttribute( name = HIDDEN, value = "#{!contact.readOnly}" )
 	public void edit()
 	{
 		mReadOnly = false;
-	}
-
-	public String addPersonal()
-	{
-		setCurrent( new PersonalContact() );
-
-		return "addPersonal";
-	}
-
-	public String addBusiness()
-	{
-		setCurrent( new BusinessContact() );
-
-		return "addBusiness";
 	}
 
 	@UiAction
@@ -193,7 +133,7 @@ public class ContactBean
 	{
 		try
 		{
-			getContactsController().save( mContactCurrent );
+			getContactsBean().save( mCurrent );
 		}
 		catch ( Exception e )
 		{
@@ -210,13 +150,14 @@ public class ContactBean
 	public String delete()
 		throws Exception
 	{
-		getContactsController().delete( getCurrent().getId() );
+		getContactsBean().delete( getCurrent().getId() );
 
 		return "index";
 	}
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
+	@UiFacesImmediate
 	public String cancel()
 		throws Exception
 	{
@@ -225,7 +166,7 @@ public class ContactBean
 
 	public void addCommunication()
 	{
-		CommunicationBean bean = getCommunicationManagedBean();
+		CommunicationBean bean = getCommunicationBean();
 
 		try
 		{
@@ -255,15 +196,15 @@ public class ContactBean
 	//
 	//
 
-	private ContactsController getContactsController()
+	private ContactsBean getContactsBean()
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
 		VariableResolver variableResolver = context.getApplication().getVariableResolver();
 
-		return (ContactsController) variableResolver.resolveVariable( context, "contacts" );
+		return (ContactsBean) variableResolver.resolveVariable( context, "contacts" );
 	}
 
-	private CommunicationBean getCommunicationManagedBean()
+	private CommunicationBean getCommunicationBean()
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
 		VariableResolver variableResolver = context.getApplication().getVariableResolver();

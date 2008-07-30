@@ -75,6 +75,12 @@
 		<managed-bean-scope>session</managed-bean-scope>
 	</managed-bean>
 
+	<managed-bean>
+		<managed-bean-name>contactSearch</managed-bean-name>
+		<managed-bean-class>org.metawidget.example.faces.addressbook.managedbean.ContactSearchBean</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
 	<!-- Application-Level Managed Beans -->
 
 	<managed-bean>
