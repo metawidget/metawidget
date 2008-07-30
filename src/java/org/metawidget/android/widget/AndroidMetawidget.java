@@ -603,7 +603,7 @@ public class AndroidMetawidget
 			mLayout.layoutChild( view, attributes );
 	}
 
-	protected View getOverridenWidget( Map<String, String> attributes )
+	protected View getOverridenWidget( String elementName, Map<String, String> attributes )
 	{
 		View view = null;
 		String childName = attributes.get( NAME );
@@ -1043,9 +1043,9 @@ public class AndroidMetawidget
 		}
 
 		@Override
-		protected View getOverridenWidget( Map<String, String> attributes )
+		protected View getOverridenWidget( String elementName, Map<String, String> attributes )
 		{
-			return AndroidMetawidget.this.getOverridenWidget( attributes );
+			return AndroidMetawidget.this.getOverridenWidget( elementName, attributes );
 		}
 
 		@Override

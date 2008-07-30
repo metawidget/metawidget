@@ -276,7 +276,7 @@ public class HtmlMetawidget
 			component = application.createComponent( componentName );
 
 		// Action
-		// TODO: these double up
+		// TODO: 'cancel' must be 'immediate'?
 
 		if ( ACTION.equals( elementName ))
 		{

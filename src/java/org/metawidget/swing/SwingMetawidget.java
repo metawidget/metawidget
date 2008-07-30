@@ -934,7 +934,7 @@ public class SwingMetawidget
 		}
 	}
 
-	protected JComponent getOverridenWidget( Map<String, String> attributes )
+	protected JComponent getOverridenWidget( String elementName, Map<String, String> attributes )
 	{
 		String name = attributes.get( NAME );
 
@@ -1448,9 +1448,9 @@ public class SwingMetawidget
 		}
 
 		@Override
-		protected JComponent getOverridenWidget( Map<String, String> attributes )
+		protected JComponent getOverridenWidget( String elementName, Map<String, String> attributes )
 		{
-			return SwingMetawidget.this.getOverridenWidget( attributes );
+			return SwingMetawidget.this.getOverridenWidget( elementName, attributes );
 		}
 
 		@Override

@@ -959,7 +959,7 @@ public class GwtMetawidget
 			mBinding = ( (BindingFactory) GWT.create( BindingFactory.class ) ).newBinding( mBindingClass, this );
 	}
 
-	protected Widget getOverridenWidget( Map<String, String> attributes )
+	protected Widget getOverridenWidget( String elementName, Map<String, String> attributes )
 	{
 		String name = attributes.get( NAME );
 
@@ -1319,9 +1319,9 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected Widget getOverridenWidget( Map<String, String> attributes )
+		protected Widget getOverridenWidget( String elementName, Map<String, String> attributes )
 		{
-			return GwtMetawidget.this.getOverridenWidget( attributes );
+			return GwtMetawidget.this.getOverridenWidget( elementName, attributes );
 		}
 
 		@Override

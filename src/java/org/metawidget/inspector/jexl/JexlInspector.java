@@ -38,6 +38,11 @@ import org.metawidget.util.simple.StringUtils;
  * lightweight, standalone Expression Language for use in Java applications. Using JEXL, non-Web
  * environments can 'wire together' properties using ELs in much the same way as Web environments
  * that use, say, <code>UiFacesAttribute</code>.
+ * <p>
+ * A significant difference of <code>JexlInspector</code> compared to other ELs is that the JEXL
+ * EL is relative to the object being inspected, not to some global EL context. So expressions
+ * use <code>this</code>, as in <code>${this.retired}</code>. Use of a <code>this</code> keyword,
+ * as opposed to the class name, keeps JEXL EL expressions working even for subclasses.
  *
  * @author Richard Kennard
  */
@@ -185,10 +190,10 @@ public class JexlInspector
 		@SuppressWarnings( "unchecked" )
 		Map<String, Object> contextMap = context.getVars();
 
-		// Put the toInspect in under its simple Class name
+		// Put the toInspect in under 'this'
 
 		if ( toInspect != null )
-			contextMap.put( StringUtils.lowercaseFirstLetter( toInspect.getClass().getSimpleName() ), toInspect );
+			contextMap.put( "this", toInspect );
 
 		return context;
 	}

@@ -127,10 +127,11 @@ public abstract class BaseMetawidgetMixin<W, E>
 			// child is at the same top-level as us, and there are some scenarios (like
 			// Java Server Faces POST backs) where we need to re-identify that
 
-			W widget = getOverridenWidget( attributes );
+			String elementName = getElementName( element );
+			W widget = getOverridenWidget( elementName, attributes );
 
 			if ( widget == null )
-				widget = buildWidget( getElementName( element ), attributes );
+				widget = buildWidget( elementName, attributes );
 
 			if ( widget != null )
 			{
@@ -181,11 +182,12 @@ public abstract class BaseMetawidgetMixin<W, E>
 			if ( childName == null || "".equals( childName ) )
 				throw new Exception( "Child element #" + loop + " of '" + attributes.get( TYPE ) + "' has no @" + NAME );
 
-			W widget = getOverridenWidget( attributes );
+			String elementName = getElementName( child );
+			W widget = getOverridenWidget( elementName, attributes );
 
 			if ( widget == null )
 			{
-				widget = buildWidget( getElementName( child ), attributes );
+				widget = buildWidget( elementName, attributes );
 
 				if ( widget == null )
 					continue;
@@ -247,7 +249,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 	protected abstract void startBuild()
 		throws Exception;
 
-	protected abstract W getOverridenWidget( Map<String, String> attributes );
+	protected abstract W getOverridenWidget( String elementName, Map<String, String> attributes );
 
 	protected abstract boolean isStub( W widget );
 

@@ -175,13 +175,13 @@ public class JexlInspectorTest
 	public static class Foo
 	{
 		@UiJexlAttributes( {
-			@UiJexlAttribute( name = "value-is-el", value="${foo.baz}" ),
+			@UiJexlAttribute( name = "value-is-el", value="${this.baz}" ),
 			@UiJexlAttribute( name = "value-is-text", value="text" ),
-			@UiJexlAttribute( name = "condition-is-false", value="was set", condition="${!foo.conditionResult}" )
+			@UiJexlAttribute( name = "condition-is-false", value="was set", condition="${!this.conditionResult}" )
 		} )
 		public String bar1;
 
-		@UiJexlAttribute( name = "condition-is-true", value="was set", condition="${foo.conditionResult}" )
+		@UiJexlAttribute( name = "condition-is-true", value="was set", condition="${this.conditionResult}" )
 		public String bar2;
 
 		public String getBaz()

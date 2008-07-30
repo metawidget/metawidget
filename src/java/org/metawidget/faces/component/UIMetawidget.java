@@ -534,22 +534,51 @@ public abstract class UIMetawidget
 		}
 	}
 
-	protected UIComponent getOverridenWidget( Map<String, String> attributes )
+	protected UIComponent getOverridenWidget( String elementName, Map<String, String> attributes )
 	{
-		ValueBinding valueBindingChild;
 		Application application = getFacesContext().getApplication();
-		String valueBinding = attributes.get( FACES_BINDING );
+		String binding = attributes.get( FACES_BINDING );
 
-		if ( valueBinding != null )
+		// Actions
+
+		if ( ACTION.equals( elementName ))
 		{
-			valueBindingChild = application.createValueBinding( valueBinding );
+			MethodBinding methodBindingChild;
+
+			if ( binding != null )
+			{
+				methodBindingChild = application.createMethodBinding( binding, null );
+			}
+			else
+			{
+				if ( mBindingPrefix == null )
+				{
+					binding = FacesUtils.unwrapValueReference( getValueBinding( "value" ).getExpressionString() );
+					methodBindingChild = application.createMethodBinding( binding, null );
+				}
+				else
+				{
+					methodBindingChild = application.createMethodBinding( FacesUtils.wrapValueReference( mBindingPrefix + attributes.get( NAME ) ), null );
+				}
+			}
+
+			return FacesUtils.findRenderedComponentWithMethodBinding( UIMetawidget.this, methodBindingChild );
+		}
+
+		// Properties
+
+		ValueBinding valueBindingChild;
+
+		if ( binding != null )
+		{
+			valueBindingChild = application.createValueBinding( binding );
 		}
 		else
 		{
-			if ( mBindingPrefix != null )
-				valueBindingChild = application.createValueBinding( FacesUtils.wrapValueReference( mBindingPrefix + attributes.get( NAME ) ) );
-			else
+			if ( mBindingPrefix == null )
 				valueBindingChild = getValueBinding( "value" );
+			else
+				valueBindingChild = application.createValueBinding( FacesUtils.wrapValueReference( mBindingPrefix + attributes.get( NAME ) ) );
 		}
 
 		return FacesUtils.findRenderedComponentWithValueBinding( UIMetawidget.this, valueBindingChild );
@@ -1209,9 +1238,9 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected UIComponent getOverridenWidget( Map<String, String> attributes )
+		protected UIComponent getOverridenWidget( String elementName, Map<String, String> attributes )
 		{
-			return UIMetawidget.this.getOverridenWidget( attributes );
+			return UIMetawidget.this.getOverridenWidget( elementName, attributes );
 		}
 
 		@Override

@@ -492,7 +492,7 @@ public abstract class MetawidgetTag
 		}
 
 		@Override
-		protected StubContent getOverridenWidget( Map<String, String> attributes )
+		protected StubContent getOverridenWidget( String elementName, Map<String, String> attributes )
 		{
 			return MetawidgetTag.this.getStub( attributes.get( NAME ) );
 		}

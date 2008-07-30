@@ -252,7 +252,7 @@ public class ContactDialog
 	}
 
 	@UiAction
-	@UiJexlAttribute( name = HIDDEN, value = "${!contactDialog.readOnly}" )
+	@UiJexlAttribute( name = HIDDEN, value = "${!this.readOnly}" )
 	public void edit()
 	{
 		mContactMetawidget.setReadOnly( false );
@@ -263,7 +263,7 @@ public class ContactDialog
 	}
 
 	@UiAction
-	@UiJexlAttribute( name = HIDDEN, value = "${contactDialog.readOnly}" )
+	@UiJexlAttribute( name = HIDDEN, value = "${this.readOnly}" )
 	public void save()
 	{
 		try
@@ -285,7 +285,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( "save" )
-	@UiJexlAttribute( name = HIDDEN, value = "${contactDialog.readOnly}" )
+	@UiJexlAttribute( name = HIDDEN, value = "${this.readOnly}" )
 	public void delete()
 	{
 		Contact contact = (Contact) mContactMetawidget.getToInspect();

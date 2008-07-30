@@ -22,10 +22,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.faces.application.Application;
+import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
 import org.metawidget.util.ArrayUtils;
@@ -105,6 +107,46 @@ public final class FacesUtils
 			// (note: ValueBinding.equals() does not compare expression strings)
 
 			if ( expressionString.equals( valueBinding.getExpressionString() ) )
+			{
+				if ( child.isRendered() )
+					return child;
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Finds the child component of the given component that is both rendered and has the given
+	 * method binding.
+	 * <p>
+	 * Note: this method does <em>not</em> recurse into sub-children.
+	 */
+
+	public static UIComponent findRenderedComponentWithMethodBinding( UIComponent component, MethodBinding binding )
+	{
+		String expressionString = binding.getExpressionString();
+
+		// Try to find a child...
+
+		@SuppressWarnings( "unchecked" )
+		List<UIComponent> children = component.getChildren();
+
+		for ( UIComponent child : children )
+		{
+			if ( !( child instanceof ActionSource ))
+				continue;
+
+			// ...with the binding we're interested in
+
+			MethodBinding methodBinding = ((ActionSource) child).getAction();
+
+			if ( methodBinding == null )
+				continue;
+
+			// (note: MethodBinding.equals() does not compare expression strings)
+
+			if ( expressionString.equals( methodBinding.getExpressionString() ) )
 			{
 				if ( child.isRendered() )
 					return child;
