@@ -34,8 +34,6 @@ import org.metawidget.inspector.annotation.UiMasked;
 import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
-import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -64,9 +62,7 @@ public class MetawidgetAnnotationInspectorTest
 	@Override
 	public void setUp()
 	{
-		BaseObjectInspectorConfig config = new BaseObjectInspectorConfig();
-		config.setActionStyle( MetawidgetActionStyle.class );
-		mInspector = new MetawidgetAnnotationInspector( config );
+		mInspector = new MetawidgetAnnotationInspector();
 	}
 
 	public void testInspection()

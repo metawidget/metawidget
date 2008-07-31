@@ -45,7 +45,7 @@ public abstract class MethodActionStyle
 	 * variable, not a static, because we rely on <code>BaseObjectInspector</code> to only
 	 * create one instance of <code>ActionStyle</code> for all <code>Inspectors</code>.
 	 * <p>
-	 * This also stops problems with subclasses of <code>MetawidgetActionStyle</code> sharing the
+	 * This also stops problems with subclasses of <code>MethodActionStyle</code> sharing the
 	 * same static cache.
 	 */
 

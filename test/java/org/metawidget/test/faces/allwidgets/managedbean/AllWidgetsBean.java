@@ -16,7 +16,6 @@
 
 package org.metawidget.test.faces.allwidgets.managedbean;
 
-import org.metawidget.inspector.annotation.UiAction;
 
 /**
  * @author Richard Kennard
@@ -30,7 +29,6 @@ public class AllWidgetsBean
 	//
 	//
 
-	@UiAction
 	public String save()
 	{
 		return "saved";

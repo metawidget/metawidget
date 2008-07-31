@@ -19,6 +19,7 @@ package org.metawidget.inspector.impl;
 import java.util.regex.Pattern;
 
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
+import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.util.ClassUtils;
@@ -30,13 +31,13 @@ import org.metawidget.util.ClassUtils;
  * recognize properties.
  * <p>
  * Note that whilst <code>BaseObjectInspector</code> is an abstract class,
- * <code>BaseObjectInspectorConfig</code> is concrete and instantiable. This is so that
- * subclasses of <code>BaseObjectInspector</code> that don't require additional
- * configuration (eg. most of them) don't need to further define a <code>Config</code> class,
- * whilst still allowing their proxy/property/action patterns to be configured in the (rare) cases they
- * need to. Incidentally, this is why we call this class <code>BaseObjectInspectorConfig</code>
- * as opposed to <code>AbstractPropertyInspectorConfig</code>, because a non-abstract class
- * called <code>AbstractXXX</code> was deemed confusing! All our other base classes are called
+ * <code>BaseObjectInspectorConfig</code> is concrete and instantiable. This is so that subclasses
+ * of <code>BaseObjectInspector</code> that don't require additional configuration (eg. most of
+ * them) don't need to further define a <code>Config</code> class, whilst still allowing their
+ * proxy/property/action patterns to be configured in the (rare) cases they need to. Incidentally,
+ * this is why we call this class <code>BaseObjectInspectorConfig</code> as opposed to
+ * <code>AbstractPropertyInspectorConfig</code>, because a non-abstract class called
+ * <code>AbstractXXX</code> was deemed confusing! All our other base classes are called
  * <code>BaseXXX</code> for consistency.
  *
  * @author Richard Kennard
@@ -52,9 +53,36 @@ public class BaseObjectInspectorConfig
 
 	private Pattern							mProxyPattern	= ClassUtils.DEFAULT_PROXY_PATTERN;
 
-	private Class<? extends PropertyStyle>	mPropertyStyle	= JavaBeanPropertyStyle.class;
+	private Class<? extends PropertyStyle>	mPropertyStyle;
 
 	private Class<? extends ActionStyle>	mActionStyle;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public BaseObjectInspectorConfig()
+	{
+		try
+		{
+			mPropertyStyle = JavaBeanPropertyStyle.class;
+		}
+		catch ( Throwable t )
+		{
+			// Fail gracefully if shipping with some other style
+		}
+
+		try
+		{
+			mActionStyle = MetawidgetActionStyle.class;
+		}
+		catch ( Throwable t )
+		{
+			// Fail gracefully if shipping with some other style, or running on JDK 1.4
+		}
+	}
 
 	//
 	//
@@ -113,8 +141,8 @@ public class BaseObjectInspectorConfig
 	/**
 	 * Gets the style used to recognize actions.
 	 * <p>
-	 * The style is specified as a class, not an object, because <code>ActionStyles</code>
-	 * should be immutable.
+	 * The style is specified as a class, not an object, because <code>ActionStyles</code> should
+	 * be immutable.
 	 */
 
 	Class<? extends ActionStyle> getActionStyle()

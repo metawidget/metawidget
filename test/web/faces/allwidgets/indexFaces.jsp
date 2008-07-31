@@ -22,7 +22,7 @@
 					<m:stub value="#{allWidgets.mystery}" attributes="required: false"/>
 
 					<f:facet name="buttons">
-						<m:metawidget value="#{allWidgetsBean}" inspectorConfig="config/inspector-config.xml" rendererType="simple"/>
+						<h:commandButton value="Save" action="#{allWidgetsBean.save}"/>
 					</f:facet>					
 				</m:metawidget>
 

@@ -30,6 +30,8 @@
 
 	<target name="compile-ok" depends="init" unless="skip-compile">
 		
+		<mkdir dir="${build.metawidget.dir}/java5-classes"/>
+		<mkdir dir="${build.metawidget.dir}/java4-classes"/>
 		<mkdir dir="${build.metawidget.dir}/classes"/>
 		<mkdir dir="${build.metawidget.dir}/example-classes"/>
 		<mkdir dir="${build.metawidget.dir}/test-classes"/>
@@ -40,13 +42,19 @@
 		<echo message="      This is because some optional features require Java SE 6"/>
 		<echo message="      (eg. annotations, javax.swing.GroupLayout)"/>
 
-		<property name="build.debug" value="on"/>
-		
-		<!-- Build J2SE 1.4 compatible files (the source is still Java 5, to take advantage -->
-		<!-- of cleaner source code, but we compile down to jsr14. We can do this using     -->
-		<!-- plain javac, without needing retroweaver or similar tools)                     -->
+		<!-- As a first step, build everything as Java SE 5 -->
+				
+		<javac srcdir="src/java" destdir="${build.metawidget.dir}/java5-classes" debug="${build.debug}" optimize="on" target="1.5">
+			<classpath>
+				<fileset dir="lib"/>
+			</classpath>
+		</javac>
 
-		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/classes" debug="${build.debug}" optimize="on" source="1.5" target="jsr14">
+		<!-- Now downgrade some files to J2SE 1.4 (the source is still Java 5, to take advantage -->
+		<!-- of cleaner source code, but we compile down to jsr14. We can do this using plain    -->
+		<!-- javac, without needing retroweaver or similar tools)                                -->
+
+		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/java4-classes" debug="${build.debug}" optimize="on" source="1.5" target="jsr14">
 			<include name="**/*InspectionResultConstants.java"/>
 			<include name="org/metawidget/faces/**"/>
 			<include name="org/metawidget/gwt/**"/>
@@ -64,16 +72,31 @@
 			<exclude name="org/metawidget/inspector/struts/StrutsAnnotationInspector.java"/>
 			<exclude name="org/metawidget/inspector/struts/UiStrutsLookup.java"/>
 			<include name="org/metawidget/inspector/xml/**"/>
-			<include name="org/metawidget/jsp/*.java"/>
+			<include name="org/metawidget/jsp/**"/>
 			<include name="org/metawidget/mixin/**"/>
+			<include name="org/metawidget/spring/**"/>
+			<include name="org/metawidget/struts/**"/>
 			<include name="org/metawidget/swing/**"/>
 			<include name="org/metawidget/util/**"/>
 			<include name="org/metawidget/*.java"/>
 			<classpath>
 				<fileset dir="lib"/>
+				<pathelement path="${build.metawidget.dir}/java5-classes"/>
 			</classpath>
 		</javac>
+		
+		<!-- Mix the Java SE 5 and J2SE 1.4 files together -->
+		
+		<copy todir="${build.metawidget.dir}/classes">
+			<fileset dir="${build.metawidget.dir}/java5-classes"/>
+		</copy>
 
+		<copy todir="${build.metawidget.dir}/classes" overwrite="true">
+			<fileset dir="${build.metawidget.dir}/java4-classes"/>
+		</copy>
+
+		<!-- Build test files -->
+		
 		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
 			<include name="org/metawidget/test/faces/allwidgets/**"/>
 			<include name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
@@ -82,42 +105,6 @@
 			<include name="org/metawidget/test/struts/allwidgets/**"/>
 			<include name="org/metawidget/test/swing/allwidgets/**"/>
 			<include name="org/metawidget/test/swing/SwingAllWidgetsTest.java"/>
-			<classpath>
-				<fileset dir="lib"/>
-				<pathelement path="${build.metawidget.dir}/classes"/>
-			</classpath>
-		</javac>
-
-		<!-- Build Java SE 5+ files -->
-
-		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/classes" debug="${build.debug}" optimize="on" target="1.5">
-			<exclude name="**/*InspectionResultConstants.java"/>
-			<include name="org/metawidget/android/**"/>
-			<include name="org/metawidget/inspector/annotation/**"/>
-			<include name="org/metawidget/inspector/faces/**"/>
-			<include name="org/metawidget/inspector/hibernate/validator/**"/>
-			<include name="org/metawidget/inspector/impl/actionstyle/metawidget/**"/>
-			<include name="org/metawidget/inspector/impl/actionstyle/swing/**"/>
-			<include name="org/metawidget/inspector/java5/**"/>
-			<include name="org/metawidget/inspector/jexl/**"/>
-			<include name="org/metawidget/inspector/jsp/**"/>
-			<include name="org/metawidget/inspector/jpa/**"/>
-			<include name="org/metawidget/inspector/spring/**"/>
-			<include name="org/metawidget/inspector/struts/StrutsAnnotationInspector.java"/>
-			<include name="org/metawidget/inspector/struts/UiStrutsLookup.java"/>
-			<classpath>
-				<fileset dir="lib"/>
-				<pathelement path="${build.metawidget.dir}/classes"/>
-			</classpath>
-		</javac>
-		
-		<!-- Special case for org.metawidget.jsp.tagext.MetawidgetTag, because of an -->
-		<!-- unfortunate compile-time dependency on JspAnnotationInspector           -->
-		
-		<javac sourcepath="" srcdir="src/java" destdir="${build.metawidget.dir}/classes" debug="${build.debug}" optimize="on" source="1.5" target="jsr14">
-			<include name="org/metawidget/jsp/tagext/**"/>
-			<include name="org/metawidget/spring/**"/>
-			<include name="org/metawidget/struts/**"/>
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement path="${build.metawidget.dir}/classes"/>
@@ -589,6 +576,7 @@
 		<emma>
 			<report>
 				<sourcepath>
+					<dirset dir="examples/java"/>
 					<dirset dir="src/java"/>
 					<dirset dir="test/java"/>
 		        </sourcepath>				

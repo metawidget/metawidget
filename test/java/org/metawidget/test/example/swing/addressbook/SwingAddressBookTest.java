@@ -93,7 +93,7 @@ public class SwingAddressBookTest
 
 		assertTrue( metawidgetSearch.getComponentCount() == 7 );
 		JPanel panelButtons = (JPanel) metawidgetSearch.getComponent( metawidgetSearch.getComponentCount() - 1 );
-		JButton buttonSearch = (JButton) panelButtons.getComponent( 0 );
+		JButton buttonSearch = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		assertTrue( "Search".equals( buttonSearch.getText() ) );
 
 		buttonSearch.getAction().actionPerformed( null );

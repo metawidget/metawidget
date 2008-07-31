@@ -19,17 +19,14 @@ package org.metawidget.example.swing.addressbook;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.Set;
 
-import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -44,6 +41,9 @@ import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
+import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
@@ -61,21 +61,21 @@ public class AddressBook
 	//
 	//
 
-	private final static int	COMPONENT_SPACING	= 5;
+	private final static int		COMPONENT_SPACING	= 5;
 
 	//
 	//
-	// Package-level members
+	// Private members
 	//
 	//
 
-	Container					mContainer;
+	private ContactSearch			mContactSearch;
 
-	ContactSearch				mContactSearch;
+	private SwingMetawidget			mSearchMetawidget;
 
-	ListTableModel<Contact>		mModel;
+	private ListTableModel<Contact>	mModel;
 
-	ContactsController			mContactsController;
+	private ContactsController		mContactsController;
 
 	//
 	//
@@ -85,7 +85,6 @@ public class AddressBook
 
 	public AddressBook( Container container )
 	{
-		mContainer = container;
 		container.setLayout( new BorderLayout() );
 
 		// Table model
@@ -132,6 +131,13 @@ public class AddressBook
 		panelRight.add( createResultsSection(), BorderLayout.CENTER );
 	}
 
+	//
+	//
+	// Public methods
+	//
+	//
+
+	@UiHidden
 	public ContactsController getContactsController()
 	{
 		return mContactsController;
@@ -141,6 +147,38 @@ public class AddressBook
 	public void fireRefresh()
 	{
 		mModel.importCollection( mContactsController.getAllByExample( mContactSearch ) );
+	}
+
+	@UiAction
+	public void search()
+	{
+		// Example of manual mapping. See ContactDialog for an example of using automatic Bindings
+
+		mContactSearch.setFirstnames( (String) mSearchMetawidget.getValue( "firstnames" ) );
+		mContactSearch.setSurname( (String) mSearchMetawidget.getValue( "surname" ) );
+
+		String type = (String) mSearchMetawidget.getValue( "type" );
+
+		if ( type == null )
+			mContactSearch.setType( null );
+		else
+			mContactSearch.setType( ContactType.valueOf( type ) );
+
+		fireRefresh();
+	}
+
+	@UiAction
+	@UiComesAfter( "search" )
+	public void addPersonal()
+	{
+		new ContactDialog( AddressBook.this, new PersonalContact() ).setVisible( true );
+	}
+
+	@UiAction
+	@UiComesAfter( "addPersonal" )
+	public void addBusiness()
+	{
+		new ContactDialog( AddressBook.this, new BusinessContact() ).setVisible( true );
 	}
 
 	//
@@ -157,58 +195,27 @@ public class AddressBook
 
 		// Metawidget
 
-		final SwingMetawidget metawidgetSearch = new SwingMetawidget();
-		metawidgetSearch.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
-		metawidgetSearch.setBundle( bundle );
-		metawidgetSearch.setToInspect( mContactSearch );
-		metawidgetSearch.setOpaque( false );
+		mSearchMetawidget = new SwingMetawidget();
+		mSearchMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
+		mSearchMetawidget.setBundle( bundle );
+		mSearchMetawidget.setToInspect( mContactSearch );
+		mSearchMetawidget.setOpaque( false );
 
 		// Embedded buttons
 
 		Facet facetButtons = new Facet();
 		facetButtons.setName( "buttons" );
 		facetButtons.setOpaque( false );
-		metawidgetSearch.add( facetButtons );
+		mSearchMetawidget.add( facetButtons );
 
-		JButton buttonSearch = new JButton( new AbstractAction( bundle.getString( "search" ) )
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				// Example of manual mapping. See ContactDialog for an example of using automatic Bindings
+		SwingMetawidget buttonsMetawidget = new SwingMetawidget();
+		buttonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
+		buttonsMetawidget.setBundle( bundle );
+		buttonsMetawidget.setToInspect( this );
+		buttonsMetawidget.setLayoutClass( null );
+		facetButtons.add( buttonsMetawidget );
 
-				mContactSearch.setFirstnames( (String) metawidgetSearch.getValue( "firstnames" ) );
-				mContactSearch.setSurname( (String) metawidgetSearch.getValue( "surname" ) );
-
-				String type = (String) metawidgetSearch.getValue( "type" );
-
-				if ( type == null )
-					mContactSearch.setType( null );
-				else
-					mContactSearch.setType( ContactType.valueOf( type ) );
-
-				fireRefresh();
-			}
-		} );
-
-		facetButtons.add( buttonSearch );
-
-		facetButtons.add( new JButton( new AbstractAction( bundle.getString( "addPersonal" ) )
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				new ContactDialog( AddressBook.this, new PersonalContact() ).setVisible( true );
-			}
-		} ) );
-
-		facetButtons.add( new JButton( new AbstractAction( bundle.getString( "addBusiness" ) )
-		{
-			public void actionPerformed( ActionEvent e )
-			{
-				new ContactDialog( AddressBook.this, new BusinessContact() ).setVisible( true );
-			}
-		} ) );
-
-		return metawidgetSearch;
+		return mSearchMetawidget;
 	}
 
 	private JComponent createResultsSection()
