@@ -333,34 +333,44 @@ public abstract class BaseXmlInspector
 
 		// Next, for each child...
 
-		Element element = document.createElementNS( NAMESPACE, PROPERTY );
+		Element element = document.createElementNS( NAMESPACE, ENTITY );
 		NodeList children = toInspect.getChildNodes();
 
 		for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
 		{
-			Node node = children.item( loop );
+			Node child = children.item( loop );
 
-			if ( !( node instanceof Element ) )
+			if ( !( child instanceof Element ) )
 				continue;
 
 			// ...inspect its attributes...
 
-			Map<String, String> attributes = inspect( (Element) node );
+			Element inspected = inspect( document, (Element) child );
 
-			if ( attributes == null || attributes.isEmpty() )
+			if ( inspected == null )
 				continue;
 
-			// ...create an element...
-
-			Element child = document.createElementNS( NAMESPACE, PROPERTY );
-			element.appendChild( child );
-
-			XmlUtils.setMapAsAttributes( child, attributes );
+			element.appendChild( inspected );
 		}
 
 		// ...and combine them all
 
 		XmlUtils.combineElements( toAddTo, element, getNameAttribute(), getNameAttribute() );
+	}
+
+	protected Element inspect( Document toAddTo, Element toInspect )
+	{
+		Map<String, String> attributes = inspect( toInspect );
+
+		if ( attributes == null || attributes.isEmpty() )
+			return null;
+
+		// ...create an element...
+
+		Element child = toAddTo.createElementNS( NAMESPACE, PROPERTY );
+		XmlUtils.setMapAsAttributes( child, attributes );
+
+		return child;
 	}
 
 	protected abstract Map<String, String> inspect( Element toInspect );

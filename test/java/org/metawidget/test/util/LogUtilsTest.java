@@ -40,6 +40,9 @@ public class LogUtilsTest
 		// At the very least, test that calling the logging methods doesn't throw an Exception
 
 		Log log = LogUtils.getLog( LogUtilsTest.class );
+
+		// Note: this test will fail if trace is not enabled (eg. when running inside Eclipse)
+
 		assertTrue( log.isTraceEnabled() );
 		log.trace( "trace" );
 		log.trace( "trace", new Throwable() );

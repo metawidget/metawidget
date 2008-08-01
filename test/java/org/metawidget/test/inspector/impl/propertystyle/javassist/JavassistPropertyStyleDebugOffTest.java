@@ -43,6 +43,7 @@ public class JavassistPropertyStyleDebugOffTest
 			propertyStyle.getProperties( Foo.class );
 
 			// Note: this test will fail unless the code has been compiled with debug off
+			// (eg. when running inside Eclipse)
 
 			assertTrue( false );
 		}

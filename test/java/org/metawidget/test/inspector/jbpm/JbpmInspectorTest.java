@@ -104,7 +104,6 @@ public class JbpmInspectorTest
 		Element property = (Element) entity.getFirstChild();
 		assertTrue( ACTION.equals( property.getNodeName() ) );
 		assertTrue( "next".equals( property.getAttribute( NAME ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ) );
 
 		assertTrue( property.getNextSibling() == null );
 	}
