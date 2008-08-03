@@ -167,6 +167,11 @@ public abstract class BaseXmlInspector
 	public String inspect( Object toInspect, String type, String... names )
 		throws InspectorException
 	{
+		// If no type, return nothing
+
+		if ( type == null )
+			return null;
+
 		try
 		{
 			Element elementToInspect = null;

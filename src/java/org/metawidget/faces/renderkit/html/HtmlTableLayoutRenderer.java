@@ -47,8 +47,11 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>tableStyle</code>
  * <li><code>tableStyleClass</code>
  * <li><code>columns<code> - number of columns. Each label/component pair is considered one column
- * <li><code>columnClasses</code> - comma delimited string of CSS style classes to apply to for
- * table columns
+ * <li><code>columnClasses</code> - comma delimited string of CSS style classes to apply to
+ * table columns in order of: label, component, required
+ * <li><code>labelStyle</code>
+ * <li><code>componentStyle</code>
+ * <li><code>requiredStyle</code>
  * <li><code>sectionStyle</code>
  * <li><code>sectionStyleClass</code>
  * <li><code>buttonsStyle</code>
@@ -84,6 +87,12 @@ public class HtmlTableLayoutRenderer
 	private final static String	KEY_NUMBER_OF_COLUMNS				= "columns";
 
 	private final static String	KEY_CURRENT_SECTION					= "currentSection";
+
+	private final static String	KEY_LABEL_STYLE						= "labelStyle";
+
+	private final static String	KEY_COMPONENT_STYLE					= "componentStyle";
+
+	private final static String	KEY_REQUIRED_STYLE					= "requiredStyle";
 
 	private final static String	KEY_SECTION_STYLE					= "sectionStyle";
 
@@ -130,6 +139,23 @@ public class HtmlTableLayoutRenderer
 		writeStyleAndClass( component, writer, "table" );
 		writer.write( ">" );
 		writer.write( "<tbody>" );
+
+		// Determine label, component, required styles
+
+		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( component, KEY_LABEL_STYLE );
+
+		if ( parameterLabelStyle != null )
+			putState( KEY_LABEL_STYLE, parameterLabelStyle.getValue() );
+
+		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( component, KEY_COMPONENT_STYLE );
+
+		if ( parameterComponentStyle != null )
+			putState( KEY_COMPONENT_STYLE, parameterComponentStyle.getValue() );
+
+		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( component, KEY_REQUIRED_STYLE );
+
+		if ( parameterRequiredStyle != null )
+			putState( KEY_REQUIRED_STYLE, parameterRequiredStyle.getValue() );
 
 		// Determine section styles
 
@@ -389,6 +415,17 @@ public class HtmlTableLayoutRenderer
 			writer.write( "\"" );
 		}
 
+		// CSS
+
+		String componentStyle = (String) getState( KEY_COMPONENT_STYLE );
+
+		if ( componentStyle != null )
+		{
+			writer.write( " style=\"" );
+			writer.write( componentStyle );
+			writer.write( "\"" );
+		}
+
 		writeStyleClass( writer, 1 );
 
 		int colspan = 1;
@@ -444,6 +481,17 @@ public class HtmlTableLayoutRenderer
 			writer.write( TABLE_PREFIX );
 			writer.write( id );
 			writer.write( LABEL_CELL_SUFFIX );
+			writer.write( "\"" );
+		}
+
+		// CSS
+
+		String labelStyle = (String) getState( KEY_LABEL_STYLE );
+
+		if ( labelStyle != null )
+		{
+			writer.write( " style=\"" );
+			writer.write( labelStyle );
 			writer.write( "\"" );
 		}
 
@@ -539,6 +587,18 @@ public class HtmlTableLayoutRenderer
 		else
 		{
 			writer.write( "<td" );
+
+			// CSS
+
+			String requiredStyle = (String) getState( KEY_REQUIRED_STYLE );
+
+			if ( requiredStyle != null )
+			{
+				writer.write( " style=\"" );
+				writer.write( requiredStyle );
+				writer.write( "\"" );
+			}
+
 			writeStyleClass( writer, 2 );
 			writer.write( ">" );
 

@@ -314,141 +314,146 @@ public class HtmlMetawidget
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
-		// String Lookups
+		// clazz may be null, if type is symbolic (eg. type="Login Screen")
 
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) )
+		if ( clazz != null )
 		{
-			if ( component == null )
+			// String Lookups
+
+			String lookup = attributes.get( LOOKUP );
+
+			if ( lookup != null && !"".equals( lookup ) )
 			{
-				component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
-				HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
-				select.setSize( 1 );
-			}
-
-			List<?> values = CollectionUtils.fromString( lookup );
-
-			// Convert values of SelectItems (eg. from Strings to ints)...
-
-			if ( component instanceof ValueHolder )
-			{
-				ValueHolder valueHolder = (ValueHolder) component;
-
-				// ...using either the specified converter...
-
-				Converter converter = setConverter( component, attributes );
-
-				// ...or an application-wide converter...
-
-				if ( converter == null )
+				if ( component == null )
 				{
-					converter = application.createConverter( clazz );
-
-					if ( converter != null )
-						valueHolder.setConverter( converter );
+					component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
+					HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
+					select.setSize( 1 );
 				}
 
-				// ...if any
+				List<?> values = CollectionUtils.fromString( lookup );
 
-				if ( converter != null )
+				// Convert values of SelectItems (eg. from Strings to ints)...
+
+				if ( component instanceof ValueHolder )
 				{
-					int size = values.size();
-					List<Object> convertedValues = CollectionUtils.newArrayList( size );
+					ValueHolder valueHolder = (ValueHolder) component;
 
-					for ( int loop = 0; loop < size; loop++ )
+					// ...using either the specified converter...
+
+					Converter converter = setConverter( component, attributes );
+
+					// ...or an application-wide converter...
+
+					if ( converter == null )
 					{
-						Object convertedValue = converter.getAsObject( context, component, (String) values.get( loop ) );
-						convertedValues.add( convertedValue );
+						converter = application.createConverter( clazz );
+
+						if ( converter != null )
+							valueHolder.setConverter( converter );
 					}
 
-					values = convertedValues;
+					// ...if any
+
+					if ( converter != null )
+					{
+						int size = values.size();
+						List<Object> convertedValues = CollectionUtils.newArrayList( size );
+
+						for ( int loop = 0; loop < size; loop++ )
+						{
+							Object convertedValue = converter.getAsObject( context, component, (String) values.get( loop ) );
+							convertedValues.add( convertedValue );
+						}
+
+						values = convertedValues;
+					}
 				}
+
+				addSelectItems( component, values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
 			}
 
-			addSelectItems( component, values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
-		}
+			// Already specified an overriden component?
 
-		// Already specified an overriden component?
+			if ( component != null )
+				return component;
 
-		if ( component != null )
-			return component;
+			// Primitives
 
-		// Primitives
+			if ( boolean.class.equals( clazz ) )
+				return application.createComponent( "javax.faces.SelectBoolean" );
 
-		if ( boolean.class.equals( clazz ) )
-			return application.createComponent( "javax.faces.SelectBoolean" );
-
-		if ( char.class.equals( clazz ) )
-		{
-			component = application.createComponent( "javax.faces.HtmlInputText" );
-			( (HtmlInputText) component ).setMaxlength( 1 );
-
-			return component;
-		}
-
-		if ( clazz.isPrimitive() )
-			return application.createComponent( "javax.faces.HtmlInputText" );
-
-		// Dates
-
-		if ( Date.class.isAssignableFrom( clazz ) )
-			return application.createComponent( "javax.faces.HtmlInputText" );
-
-		// Numbers
-
-		if ( Number.class.isAssignableFrom( clazz ) )
-			return application.createComponent( "javax.faces.HtmlInputText" );
-
-		// Booleans (are tri-state)
-
-		if ( Boolean.class.isAssignableFrom( clazz ) )
-		{
-			component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
-
-			HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
-			select.setSize( 1 );
-
-			addSelectItem( component, "", null );
-			addSelectItem( component, Boolean.TRUE, "Yes" );
-			addSelectItem( component, Boolean.FALSE, "No" );
-
-			return component;
-		}
-
-		// Strings
-
-		if ( String.class.equals( clazz ) )
-		{
-			if ( TRUE.equals( attributes.get( MASKED ) ) )
+			if ( char.class.equals( clazz ) )
 			{
-				component = application.createComponent( "javax.faces.HtmlInputSecret" );
-
-				String maximumLength = attributes.get( MAXIMUM_LENGTH );
-
-				if ( maximumLength != null && !"".equals( maximumLength ) )
-					( (HtmlInputSecret) component ).setMaxlength( Integer.parseInt( maximumLength ) );
+				component = application.createComponent( "javax.faces.HtmlInputText" );
+				( (HtmlInputText) component ).setMaxlength( 1 );
 
 				return component;
 			}
 
-			if ( TRUE.equals( attributes.get( "large" ) ) )
-				return application.createComponent( "javax.faces.HtmlInputTextarea" );
+			if ( clazz.isPrimitive() )
+				return application.createComponent( "javax.faces.HtmlInputText" );
 
-			component = application.createComponent( "javax.faces.HtmlInputText" );
+			// Dates
 
-			String maximumLength = attributes.get( MAXIMUM_LENGTH );
+			if ( Date.class.isAssignableFrom( clazz ) )
+				return application.createComponent( "javax.faces.HtmlInputText" );
 
-			if ( maximumLength != null && !"".equals( maximumLength ) )
-				( (HtmlInputText) component ).setMaxlength( Integer.parseInt( maximumLength ) );
+			// Numbers
 
-			return component;
+			if ( Number.class.isAssignableFrom( clazz ) )
+				return application.createComponent( "javax.faces.HtmlInputText" );
+
+			// Booleans (are tri-state)
+
+			if ( Boolean.class.isAssignableFrom( clazz ) )
+			{
+				component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
+
+				HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
+				select.setSize( 1 );
+
+				addSelectItem( component, "", null );
+				addSelectItem( component, Boolean.TRUE, "Yes" );
+				addSelectItem( component, Boolean.FALSE, "No" );
+
+				return component;
+			}
+
+			// Strings
+
+			if ( String.class.equals( clazz ) )
+			{
+				if ( TRUE.equals( attributes.get( MASKED ) ) )
+				{
+					component = application.createComponent( "javax.faces.HtmlInputSecret" );
+
+					String maximumLength = attributes.get( MAXIMUM_LENGTH );
+
+					if ( maximumLength != null && !"".equals( maximumLength ) )
+						( (HtmlInputSecret) component ).setMaxlength( Integer.parseInt( maximumLength ) );
+
+					return component;
+				}
+
+				if ( TRUE.equals( attributes.get( "large" ) ) )
+					return application.createComponent( "javax.faces.HtmlInputTextarea" );
+
+				component = application.createComponent( "javax.faces.HtmlInputText" );
+
+				String maximumLength = attributes.get( MAXIMUM_LENGTH );
+
+				if ( maximumLength != null && !"".equals( maximumLength ) )
+					( (HtmlInputText) component ).setMaxlength( Integer.parseInt( maximumLength ) );
+
+				return component;
+			}
+
+			// Collections
+
+			if ( Collection.class.isAssignableFrom( clazz ) )
+				return createCollectionComponent( clazz, attributes );
 		}
-
-		// Collections
-
-		if ( Collection.class.isAssignableFrom( clazz ) )
-			return createCollectionComponent( clazz, attributes );
 
 		// Not simple, but don't expand
 

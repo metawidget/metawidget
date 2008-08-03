@@ -74,7 +74,10 @@ public class HtmlLayoutRenderer
 
 		// No need for inline messages?
 
-		if ( !( childComponent instanceof UIInput ) || childComponent instanceof HtmlInputHidden )
+		if ( childComponent instanceof HtmlInputHidden )
+			return;
+
+		if ( !( childComponent instanceof UIInput || childComponent instanceof UIMetawidget ))
 			return;
 
 		@SuppressWarnings( "unchecked" )

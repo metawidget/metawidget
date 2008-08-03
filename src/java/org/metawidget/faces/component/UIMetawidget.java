@@ -114,6 +114,8 @@ public abstract class UIMetawidget
 	//
 	//
 
+	private Object				mValue;
+
 	private String				mInspectorConfig							= "inspector-config.xml";
 
 	private boolean				mInspectFromParent;
@@ -155,6 +157,24 @@ public abstract class UIMetawidget
 	public String getFamily()
 	{
 		return "org.metawidget";
+	}
+
+	public void setValue( Object value )
+	{
+		mValue = value;
+	}
+
+	public Object getValue()
+	{
+		if ( mValue != null )
+			return mValue;
+
+		ValueBinding valueBinding = getValueBinding( "value" );
+
+		if ( valueBinding == null )
+			return null;
+
+		return valueBinding.getValue( getFacesContext() );
 	}
 
 	public boolean isReadOnly()
@@ -324,7 +344,17 @@ public abstract class UIMetawidget
 	{
 		try
 		{
-			mMetawidgetMixin.buildWidgets( inspect() );
+			// Inspect from the value binding...
+
+			ValueBinding valueBinding = getValueBinding( "value" );
+
+			if ( valueBinding != null )
+				mMetawidgetMixin.buildWidgets( inspect( getInspector(), valueBinding, mInspectFromParent ) );
+
+			// ...or from a raw value (for jBPM)
+
+			else
+				mMetawidgetMixin.buildWidgets( getInspector().inspect( null, (String) mValue ) );
 		}
 		catch ( Exception e )
 		{
@@ -348,12 +378,13 @@ public abstract class UIMetawidget
 	@Override
 	public Object saveState( FacesContext context )
 	{
-		Object values[] = new Object[5];
+		Object values[] = new Object[6];
 		values[0] = super.saveState( context );
-		values[1] = mReadOnly;
-		values[2] = mInspectorConfig;
-		values[3] = mValidatorClass;
-		values[4] = mInspectFromParent;
+		values[1] = mValue;
+		values[2] = mReadOnly;
+		values[3] = mInspectorConfig;
+		values[4] = mValidatorClass;
+		values[5] = mInspectFromParent;
 
 		return values;
 	}
@@ -364,10 +395,11 @@ public abstract class UIMetawidget
 		Object values[] = (Object[]) state;
 		super.restoreState( context, values[0] );
 
-		mReadOnly = (Boolean) values[1];
-		mInspectorConfig = (String) values[2];
-		mValidatorClass = (String) values[3];
-		mInspectFromParent = (Boolean) values[4];
+		mValue = values[1];
+		mReadOnly = (Boolean) values[2];
+		mInspectorConfig = (String) values[3];
+		mValidatorClass = (String) values[4];
+		mInspectFromParent = (Boolean) values[5];
 	}
 
 	//
@@ -395,12 +427,47 @@ public abstract class UIMetawidget
 	 * components
 	 */
 
-	protected String inspect()
+	protected String inspect( Inspector inspector, ValueBinding valueBinding, boolean inspectFromParent )
 	{
-		return inspect( getValueBinding( "value" ), mInspectFromParent );
+		if ( valueBinding == null )
+			return null;
+
+		// Inspect the object directly
+
+		FacesContext context = getFacesContext();
+		String valueBindingString = valueBinding.getExpressionString();
+
+		if ( !inspectFromParent || !FacesUtils.isValueReference( valueBindingString ) )
+		{
+			Object toInspect = valueBinding.getValue( context );
+
+			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) )
+			{
+				Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
+				return inspector.inspect( toInspect, classToInspect.getName() );
+			}
+		}
+
+		// In the event the direct object is 'null' or a primitive, traverse from the parent
+		// as there may be useful metadata there (such as 'name' and 'type')
+
+		String binding = FacesUtils.unwrapValueReference( valueBindingString );
+		int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
+
+		Application application = context.getApplication();
+		ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapValueReference( binding.substring( 0, lastIndexOf ) ) );
+		Object toInspect = bindingParent.getValue( context );
+
+		if ( toInspect != null )
+		{
+			Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
+			return inspector.inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
+		}
+
+		return null;
 	}
 
-	protected String inspect( ValueBinding valueBinding, boolean inspectFromParent )
+	protected Inspector getInspector()
 	{
 		Inspector inspector;
 
@@ -431,49 +498,7 @@ public abstract class UIMetawidget
 			inspectors.put( mInspectorConfig, inspector );
 		}
 
-		// Use the inspector to inspect the binding
-
-		return inspect( inspector, valueBinding, inspectFromParent );
-	}
-
-	protected String inspect( Inspector inspector, ValueBinding valueBinding, boolean inspectFromParent )
-	{
-		if ( valueBinding == null )
-			return null;
-
-		// Inspect the object directly
-
-		FacesContext context = getFacesContext();
-		String valueBindingString = valueBinding.getExpressionString();
-
-		if ( !inspectFromParent || !FacesUtils.isValueReference( valueBindingString ))
-		{
-			Object toInspect = valueBinding.getValue( context );
-
-			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) )
-				return inspect( inspector, toInspect );
-		}
-
-		// In the event the direct object is 'null' or a primitive, traverse from the parent
-		// as there may be useful metadata there (such as 'name' and 'type')
-
-		String binding = FacesUtils.unwrapValueReference( valueBindingString );
-		int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
-
-		Application application = context.getApplication();
-		ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapValueReference( binding.substring( 0, lastIndexOf ) ) );
-		Object toInspect = bindingParent.getValue( context );
-
-		if ( toInspect != null )
-			return inspect( inspector, toInspect, binding.substring( lastIndexOf + 1 ) );
-
-		return null;
-	}
-
-	protected String inspect( Inspector inspector, Object toInspect, String... names )
-	{
-		Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-		return inspector.inspect( toInspect, classToInspect.getName(), names );
+		return inspector;
 	}
 
 	/**
@@ -542,7 +567,7 @@ public abstract class UIMetawidget
 
 		// Actions
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 		{
 			MethodBinding methodBindingChild;
 
@@ -554,8 +579,20 @@ public abstract class UIMetawidget
 			{
 				if ( mBindingPrefix == null )
 				{
-					binding = FacesUtils.unwrapValueReference( getValueBinding( "value" ).getExpressionString() );
-					methodBindingChild = application.createMethodBinding( binding, null );
+					ValueBinding valueBinding = getValueBinding( "value" );
+
+					if ( valueBinding != null )
+					{
+						binding = FacesUtils.unwrapValueReference( valueBinding.getExpressionString() );
+						methodBindingChild = application.createMethodBinding( binding, null );
+					}
+
+					// Not using a valueBinding? Using a raw value (eg. for jBPM)?
+
+					else
+					{
+						methodBindingChild = application.createMethodBinding( attributes.get( NAME ), null );
+					}
 				}
 				else
 				{
@@ -577,9 +614,18 @@ public abstract class UIMetawidget
 		else
 		{
 			if ( mBindingPrefix == null )
+			{
 				valueBindingChild = getValueBinding( "value" );
+
+				// Metawidget has no valueBinding? Not overridable, then
+
+				if ( valueBindingChild == null )
+					return null;
+			}
 			else
+			{
 				valueBindingChild = application.createValueBinding( FacesUtils.wrapValueReference( mBindingPrefix + attributes.get( NAME ) ) );
+			}
 		}
 
 		return FacesUtils.findRenderedComponentWithValueBinding( UIMetawidget.this, valueBindingChild );
@@ -600,9 +646,9 @@ public abstract class UIMetawidget
 			boolean immediate = Boolean.parseBoolean( immediateString );
 
 			if ( component instanceof ActionSource )
-				((ActionSource) component).setImmediate( immediate );
+				( (ActionSource) component ).setImmediate( immediate );
 			else if ( component instanceof EditableValueHolder )
-				((EditableValueHolder) component).setImmediate( immediate );
+				( (EditableValueHolder) component ).setImmediate( immediate );
 			else
 				throw new Exception( "'Immediate' cannot be applied to " + component.getClass() );
 		}
@@ -617,6 +663,8 @@ public abstract class UIMetawidget
 		List<UIComponent> children = getChildren();
 
 		// Inspect any remaining components, and sort them to the bottom
+
+		Inspector inspector = getInspector();
 
 		for ( int loop = 0, index = 0, length = children.size(); loop < length; loop++ )
 		{
@@ -640,7 +688,7 @@ public abstract class UIMetawidget
 
 			if ( binding != null )
 			{
-				String xml = inspect( binding, true );
+				String xml = inspect( inspector, binding, true );
 
 				if ( xml != null )
 				{
@@ -667,7 +715,14 @@ public abstract class UIMetawidget
 
 	protected void beforeBuildCompoundWidget( Element element )
 	{
-		mBindingPrefix = FacesUtils.unwrapValueReference( getValueBinding( "value" ).getExpressionString() ) + StringUtils.SEPARATOR_DOT_CHAR;
+		ValueBinding valueBinding = getValueBinding( "value" );
+
+		// Not using a valueBinding? Using a raw value (eg. for jBPM)?
+
+		if ( valueBinding == null )
+			return;
+
+		mBindingPrefix = FacesUtils.unwrapValueReference( valueBinding.getExpressionString() ) + StringUtils.SEPARATOR_DOT_CHAR;
 	}
 
 	protected void initMetawidget( UIMetawidget metawidget, Map<String, String> attributes )
@@ -994,8 +1049,22 @@ public abstract class UIMetawidget
 
 					if ( mBindingPrefix == null )
 					{
-						methodBinding = FacesUtils.unwrapValueReference( getValueBinding( "value" ).getExpressionString() );
-						binding = application.createMethodBinding( methodBinding, null );
+						ValueBinding valueBinding = getValueBinding( "value" );
+
+						// ...or just invoke the expression
+
+						if ( valueBinding != null )
+						{
+							methodBinding = FacesUtils.unwrapValueReference( valueBinding.getExpressionString() );
+							binding = application.createMethodBinding( methodBinding, null );
+						}
+
+						// ...or just the raw value (for jBPM)
+
+						else
+						{
+							binding = application.createMethodBinding( attributes.get( NAME ), null );
+						}
 					}
 
 					// ...if there is a prefix and a name, try and construct the binding
@@ -1167,7 +1236,14 @@ public abstract class UIMetawidget
 			selectItem.setItemValue( value );
 
 		if ( label != null )
-			selectItem.setItemLabel( label );
+		{
+			// Label may be a value reference (eg. into a bundle)
+
+			if ( FacesUtils.isValueReference( label ))
+				selectItem.setValueBinding( "itemLabel", application.createValueBinding( label ));
+			else
+				selectItem.setItemLabel( label );
+		}
 
 		@SuppressWarnings( "unchecked" )
 		List<UIComponent> children = component.getChildren();
@@ -1209,7 +1285,7 @@ public abstract class UIMetawidget
 		selectItems.setId( viewRoot.createUniqueId() );
 		children.add( selectItems );
 
-		if ( !FacesUtils.isValueReference( binding ))
+		if ( !FacesUtils.isValueReference( binding ) )
 			throw MetawidgetException.newException( "Lookup '" + binding + "' is not of the form #{...}" );
 
 		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );

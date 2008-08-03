@@ -5,11 +5,6 @@
 		<transition to="account" />
 	</start-state>
 
-	<page name="account" view-id="/newuser/account.xhtml">
-		<redirect />
-		<transition name="next" to="checkPassword" />
-	</page>
-
 	<decision name="checkPassword" expression="#{editCustomer.validNamePassword}">
 		<transition name="true" to="contact" />
 	</decision>
@@ -18,14 +13,6 @@
 		<redirect />
 		<transition name="prev" to="account" />
 		<transition name="next" to="card" />
-	</page>
-
-	<page name="card" view-id="/newuser/card.xhtml" no-conversation-view-id="/newuser/account.xhtml">
-		<redirect />
-		<transition name="prev" to="contact" />
-		<transition name="next" to="complete">
-			<action expression="#{editCustomer.saveUser}" />
-		</transition>
 	</page>
 
 	<page name="complete" view-id="/newuser/complete.xhtml" no-conversation-view-id="/newuser/account.xhtml">

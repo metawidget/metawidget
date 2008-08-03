@@ -34,7 +34,7 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
-public class FacesMetawidgetTest
+public class UIMetawidgetTest
 	extends TestCase
 {
 	//
@@ -112,7 +112,7 @@ public class FacesMetawidgetTest
 	 * JUnit 3.7 constructor.
 	 */
 
-	public FacesMetawidgetTest( String name )
+	public UIMetawidgetTest( String name )
 	{
 		super( name );
 	}

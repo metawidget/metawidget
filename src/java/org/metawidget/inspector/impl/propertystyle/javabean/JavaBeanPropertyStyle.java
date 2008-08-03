@@ -174,9 +174,14 @@ public class JavaBeanPropertyStyle
 
 	protected boolean isExcludedBaseType( Class<?> clazz )
 	{
-		String pkg = clazz.getPackage().getName();
+		Package pkg = clazz.getPackage();
 
-		if ( pkg.startsWith( "java." ) || pkg.startsWith( "javax." ) )
+		if ( pkg == null )
+			return false;
+
+		String pkgName = pkg.getName();
+
+		if ( pkgName.startsWith( "java." ) || pkgName.startsWith( "javax." ) )
 			return true;
 
 		return false;

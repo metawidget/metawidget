@@ -6,7 +6,7 @@
 	<tag>
 		<tag-name>metawidget</tag-name>
 		<component>
-			<component-type>org.metawidget.FacesMetawidget</component-type>
+			<component-type>org.metawidget.HtmlMetawidget</component-type>
 		</component>
 	</tag>
 

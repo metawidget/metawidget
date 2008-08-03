@@ -42,6 +42,8 @@
 		<echo message="      This is because some optional features require Java SE 6"/>
 		<echo message="      (eg. annotations, javax.swing.GroupLayout)"/>
 
+		<property name="build.debug" value="on"/>
+		
 		<!-- As a first step, build everything as Java SE 5 -->
 				
 		<javac srcdir="src/java" destdir="${build.metawidget.dir}/java5-classes" debug="${build.debug}" optimize="on" target="1.5">
@@ -728,6 +730,25 @@
 		
 	</target>
 
+	<target name="test-faces-seam-dvdstore" depends="example-faces-seam-dvdstore">
+		
+		<ant dir="${build.metawidget.dir}/examples/faces/seam/dvdstore"/>
+		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/jboss-seam-dvd.ear" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
+		<antcall target="test-web-start-jboss"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file seam-dvdstore-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-jboss"/>
+		
+	</target>
+
 	<target name="test-faces-seam-groovybooking" depends="example-faces-seam-groovybooking">
 		
 		<ant dir="${build.metawidget.dir}/examples/faces/seam/groovybooking"/>
@@ -935,6 +956,7 @@
 	<target name="test-jboss-ok" if="jboss-available">
 
 		<antcall target="test-faces-seam-booking"/>
+		<antcall target="test-faces-seam-dvdstore"/>
 		<antcall target="test-faces-seam-groovybooking"/>
 		
 	</target>
@@ -1318,6 +1340,21 @@
 
 	</target>
 
+	<target name="example-faces-seam-dvdstore" depends="pack-as-frontend-backend">
+		
+		<copy todir="${build.metawidget.dir}/examples/faces">
+			<fileset dir="examples/web/faces">
+				<include name="seam/dvdstore/**"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${build.metawidget.dir}/examples/faces/seam/dvdstore" file="${build.metawidget.dir}/metawidget-frontend.jar"/>
+		<copy todir="${build.metawidget.dir}/examples/faces/seam/dvdstore" file="${build.metawidget.dir}/metawidget-backend.jar"/>
+
+		<copy todir="${build.metawidget.dir}/examples/faces" file="examples/web/faces/readme.txt"/>
+
+	</target>
+
 	<target name="example-faces-seam-groovybooking" depends="pack">
 		
 		<copy todir="${build.metawidget.dir}/examples/faces">
@@ -1484,7 +1521,7 @@
 
 	</target>
 	
-	<target name="examples-web" depends="example-gwt-addressbook, example-faces-addressbook, example-faces-seam-booking, example-faces-seam-groovybooking, example-spring-addressbook, example-struts-addressbook"/>
+	<target name="examples-web" depends="example-gwt-addressbook, example-faces-addressbook, example-faces-seam-booking, example-faces-seam-dvdstore, example-faces-seam-groovybooking, example-spring-addressbook, example-struts-addressbook"/>
 
 	<available property="android-available" file="${android.dir}/tools/dx.bat"/>
 	

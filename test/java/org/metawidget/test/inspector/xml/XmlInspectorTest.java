@@ -151,6 +151,11 @@ public class XmlInspectorTest
 		}
 	}
 
+	public void testNullType()
+	{
+		assertTrue( null == mInspector.inspect( null, null ));
+	}
+
 	public void testBadName()
 	{
 		assertTrue( mInspector.inspect( null, "no-such-type" ) == null );

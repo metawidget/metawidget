@@ -30,6 +30,7 @@ import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
+import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -188,6 +189,9 @@ public class JbpmInspector
 	{
 		Element root = document.getDocumentElement();
 
+		String pagePrefix = root.getAttribute( "name" ) + StringUtils.SEPARATOR_DOT_CHAR;
+		String topLevelTypeAttribute = getTopLevelTypeAttribute();
+
 		// For each 'page' node...
 
 		NodeList rootChildren = root.getChildNodes();
@@ -204,6 +208,12 @@ public class JbpmInspector
 			}
 
 			loopPages++;
+
+			// ...prefix the page name...
+
+			Element pageElement = (Element) pageNode;
+			String pageName = pageElement.getAttribute( topLevelTypeAttribute );
+			pageElement.setAttribute( topLevelTypeAttribute, pagePrefix + pageName );
 
 			// ...and for each 'transition' node
 

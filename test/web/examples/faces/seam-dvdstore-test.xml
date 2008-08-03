@@ -1,0 +1,30 @@
+<project name="faces-seam-dvdstore-test" default="test-all">
+
+	<property file="../../../../build.properties" />
+	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
+
+	<import file="${webtest.dir}/lib/taskdef.xml" />
+
+	<!-- Test Search Screen -->
+				
+	<target name="test-all">
+		<webtest name="test-all">
+			<config resultpath="${build.metawidget.dir}">
+				<header name="User-Agent" value="Mozilla/4.0"/>
+				<option name="ThrowExceptionOnScriptError" value="false"/>
+			</config>
+			<steps>
+				<invoke url="${webtest.url}/seam-dvd/home" />
+				<verifyTitle text="JBoss DVD Store" />
+				<clickLink label="Create Account"/>
+
+				<setInputField name="create:customerUserName" value="NewUser"/>
+				<setInputField name="create:customerPassword" value="New Password"/>
+				<setInputField name="create:passwordVerify" value="New Password"/>
+				<clickButton label="Next"/>
+				
+			</steps>
+		</webtest>
+	</target>
+
+</project>

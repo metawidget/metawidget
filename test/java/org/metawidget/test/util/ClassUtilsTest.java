@@ -71,6 +71,12 @@ public class ClassUtilsTest
 		}
 	}
 
+	public void testUnproxy()
+	{
+		assertTrue( Foo.class.equals( ClassUtils.getUnproxiedClass( ProxiedFoo_$$_javassist_1.class )));
+		assertTrue( CannotUnproxyFoo_$$_javassist_1.class.equals( ClassUtils.getUnproxiedClass( CannotUnproxyFoo_$$_javassist_1.class )));
+	}
+
 	//
 	//
 	// Inner class
@@ -113,6 +119,17 @@ public class ClassUtilsTest
 		implements Bar
 	{
 		// Just an empty class
+	}
+
+	static class ProxiedFoo_$$_javassist_1
+		extends Foo
+	{
+		// Should unproxy
+	}
+
+	static class CannotUnproxyFoo_$$_javassist_1
+	{
+		// Should not unproxy, because extends java.lang.Object directly
 	}
 
 	//

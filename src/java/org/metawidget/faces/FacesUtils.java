@@ -86,9 +86,12 @@ public final class FacesUtils
 	 * Note: this method does <em>not</em> recurse into sub-children.
 	 */
 
-	public static UIComponent findRenderedComponentWithValueBinding( UIComponent component, ValueBinding binding )
+	public static UIComponent findRenderedComponentWithValueBinding( UIComponent component, ValueBinding valueBinding )
 	{
-		String expressionString = binding.getExpressionString();
+		if ( valueBinding == null )
+			throw new NullPointerException( "valueBinding" );
+
+		String expressionString = valueBinding.getExpressionString();
 
 		// Try to find a child...
 
@@ -99,14 +102,14 @@ public final class FacesUtils
 		{
 			// ...with the binding we're interested in
 
-			ValueBinding valueBinding = child.getValueBinding( "value" );
+			ValueBinding childValueBinding = child.getValueBinding( "value" );
 
-			if ( valueBinding == null )
+			if ( childValueBinding == null )
 				continue;
 
 			// (note: ValueBinding.equals() does not compare expression strings)
 
-			if ( expressionString.equals( valueBinding.getExpressionString() ) )
+			if ( expressionString.equals( childValueBinding.getExpressionString() ) )
 			{
 				if ( child.isRendered() )
 					return child;
@@ -123,9 +126,12 @@ public final class FacesUtils
 	 * Note: this method does <em>not</em> recurse into sub-children.
 	 */
 
-	public static UIComponent findRenderedComponentWithMethodBinding( UIComponent component, MethodBinding binding )
+	public static UIComponent findRenderedComponentWithMethodBinding( UIComponent component, MethodBinding methodBinding )
 	{
-		String expressionString = binding.getExpressionString();
+		if ( methodBinding == null )
+			throw new NullPointerException( "methodBinding" );
+
+		String expressionString = methodBinding.getExpressionString();
 
 		// Try to find a child...
 
@@ -139,14 +145,14 @@ public final class FacesUtils
 
 			// ...with the binding we're interested in
 
-			MethodBinding methodBinding = ((ActionSource) child).getAction();
+			MethodBinding childMethodBinding = ((ActionSource) child).getAction();
 
-			if ( methodBinding == null )
+			if ( childMethodBinding == null )
 				continue;
 
 			// (note: MethodBinding.equals() does not compare expression strings)
 
-			if ( expressionString.equals( methodBinding.getExpressionString() ) )
+			if ( expressionString.equals( childMethodBinding.getExpressionString() ) )
 			{
 				if ( child.isRendered() )
 					return child;

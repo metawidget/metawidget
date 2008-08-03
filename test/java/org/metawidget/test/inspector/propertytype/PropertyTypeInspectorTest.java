@@ -263,6 +263,11 @@ public class PropertyTypeInspectorTest
 		assertTrue( mInspector.inspect( new SubFoo(), SubFoo.class.getName(), "no-such-parent-name", "foo" ) == null );
 	}
 
+	public void testNullType()
+	{
+		assertTrue( null == mInspector.inspect( null, null ));
+	}
+
 	//
 	//
 	// Constructor

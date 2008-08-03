@@ -163,6 +163,11 @@ public abstract class BaseObjectInspector
 	public String inspect( Object toInspect, String type, String... names )
 		throws InspectorException
 	{
+		// If no type, return nothing
+
+		if ( type == null )
+			return null;
+
 		try
 		{
 			Object childToInspect = null;
@@ -382,7 +387,11 @@ public abstract class BaseObjectInspector
 		if ( toTraverse == null )
 			return null;
 
-		if ( !ClassUtils.getUnproxiedClass( toTraverse.getClass(), mPatternProxy ).getName().equals( type ) )
+		Class<?> clazz = toTraverse.getClass();
+
+		// (check both class and unproxiedClass, because unproxying might not be possible)
+
+		if ( !clazz.getName().equals( type ) && !ClassUtils.getUnproxiedClass( clazz, mPatternProxy ).getName().equals( type ) )
 			return null;
 
 		if ( names == null )

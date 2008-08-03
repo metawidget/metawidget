@@ -69,6 +69,9 @@ public class HibernateValidatorInspector
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Digits
+		//
+		// Note: not all versions of Hibernate Validator support @Digits, but we couldn't
+		// find a way to catch the ClassNotFoundException gracefully
 
 		Digits digits = property.getAnnotation( Digits.class );
 

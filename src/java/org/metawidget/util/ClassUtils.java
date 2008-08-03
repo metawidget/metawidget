@@ -222,6 +222,15 @@ public final class ClassUtils
 
 	/**
 	 * Return the unproxied version of a class proxied by, say, CGLIB or Javassist.
+	 * <p>
+	 * Unproxying a class back to its original type is desirable so that
+	 * <code>BaseObjectInspector</code>-based and <code>BaseXmlInspector</code>-based
+	 * inspectors can merge to a common type.
+	 * <p>
+	 * However, unproxying may not always be possible. If the proxied class is not an extension of
+	 * some base class but simply a <code>java.lang.Object</code> that implements one or more
+	 * interfaces, we cannot know which interface is the 'right' one to return. In that class,
+	 * <code>getUnproxiedClass</code> just returns the original (proxied) class.
 	 */
 
 	public static Class<?> getUnproxiedClass( Class<?> clazz, Pattern proxyPattern )
@@ -229,7 +238,16 @@ public final class ClassUtils
 		if ( proxyPattern == null || !proxyPattern.matcher( clazz.getName() ).find() )
 			return clazz;
 
-		return clazz.getSuperclass();
+		Class<?> superclass = clazz.getSuperclass();
+
+		// If the proxied class is not an extension of some base class but simply a java.lang.Object
+		// that implements one or more interfaces, we cannot know which interface is the 'right' one
+		// to return. In that class, just return the original (proxied) class
+
+		if ( Object.class.equals( superclass ) )
+			return clazz;
+
+		return superclass;
 	}
 
 	/**

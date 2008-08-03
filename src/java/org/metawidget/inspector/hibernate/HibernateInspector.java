@@ -208,10 +208,12 @@ public class HibernateInspector
 	protected void preprocessDocument( Document document )
 	{
 		Element root = document.getDocumentElement();
-		String pkg = root.getAttribute( "package" );
+		String packagePrefix = root.getAttribute( "package" );
 
-		if ( pkg != null && !"".equals( pkg ) )
+		if ( packagePrefix != null && !"".equals( packagePrefix ) )
 		{
+			packagePrefix += StringUtils.SEPARATOR_DOT_CHAR;
+
 			NodeList children = root.getChildNodes();
 			String topLevelAttribute = getTopLevelTypeAttribute();
 			String extendsAttribute = getExtendsAttribute();
@@ -230,18 +232,18 @@ public class HibernateInspector
 				String name = element.getAttribute( topLevelAttribute );
 
 				if ( name != null && !"".equals( name ) && name.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
-					element.setAttribute( topLevelAttribute, pkg + StringUtils.SEPARATOR_DOT_CHAR + name );
+					element.setAttribute( topLevelAttribute, packagePrefix + name );
 
 				// 'extends' attribute of 'subclass' element
 
 				String extendsClass = element.getAttribute( extendsAttribute );
 
 				if ( extendsClass != null && !"".equals( extendsClass ) && extendsClass.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
-					element.setAttribute( extendsAttribute, pkg + StringUtils.SEPARATOR_DOT_CHAR + extendsClass );
+					element.setAttribute( extendsAttribute, packagePrefix + extendsClass );
 
 				// 'class' attributes of children
 
-				prependPackageToClassAttribute( element, pkg );
+				prependPackageToClassAttribute( element, packagePrefix );
 			}
 		}
 	}
@@ -313,7 +315,7 @@ public class HibernateInspector
 	//
 	//
 
-	private void prependPackageToClassAttribute( Element element, String pkg )
+	private void prependPackageToClassAttribute( Element element, String packagePrefix )
 	{
 		// For each child...
 
@@ -335,11 +337,11 @@ public class HibernateInspector
 			String clazz = child.getAttribute( typeAttribute );
 
 			if ( clazz != null && !"".equals( clazz ) && clazz.indexOf( StringUtils.SEPARATOR_DOT_CHAR ) == -1 )
-				child.setAttribute( typeAttribute, pkg + StringUtils.SEPARATOR_DOT_CHAR + clazz );
+				child.setAttribute( typeAttribute, packagePrefix + clazz );
 
 			// ...and recurse children
 
-			prependPackageToClassAttribute( child, pkg );
+			prependPackageToClassAttribute( child, packagePrefix );
 		}
 	}
 }

@@ -86,8 +86,7 @@ public class JbpmInspectorTest
 
 	public void testProperties()
 	{
-		String xml = mInspector.inspect( null, "account" );
-		System.out.println( xml );
+		String xml = mInspector.inspect( null, "newuser.contact" );
 		Document document = XmlUtils.documentFromString( xml );
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
@@ -97,11 +96,15 @@ public class JbpmInspectorTest
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( !entity.hasAttribute( NAME ) );
-		assertTrue( "account".equals( entity.getAttribute( TYPE ) ));
+		assertTrue( "newuser.contact".equals( entity.getAttribute( TYPE ) ));
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
+		assertTrue( ACTION.equals( property.getNodeName() ) );
+		assertTrue( "prev".equals( property.getAttribute( NAME ) ) );
+
+		property = (Element) property.getNextSibling();
 		assertTrue( ACTION.equals( property.getNodeName() ) );
 		assertTrue( "next".equals( property.getAttribute( NAME ) ) );
 
