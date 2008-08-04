@@ -101,7 +101,7 @@ public class ContactDialog
 
 	private SwingMetawidget				mButtonsMetawidget;
 
-	private boolean						mShowConfirmDialog = true;
+	private boolean						mShowConfirmDialog	= true;
 
 	//
 	//
@@ -241,6 +241,12 @@ public class ContactDialog
 		return mContactMetawidget.isReadOnly();
 	}
 
+	@UiHidden
+	public boolean isNewContact()
+	{
+		return (((Contact) mContactMetawidget.getToInspect()).getId() == 0 );
+	}
+
 	/**
 	 * For unit tests
 	 */
@@ -285,7 +291,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( "save" )
-	@UiJexlAttribute( name = HIDDEN, value = "${this.readOnly}" )
+	@UiJexlAttribute( name = HIDDEN, value = "${this.readOnly || this.newContact}" )
 	public void delete()
 	{
 		Contact contact = (Contact) mContactMetawidget.getToInspect();
@@ -300,6 +306,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
+	@UiJexlAttribute( name = "label", value = "Back", condition = "${this.readOnly}" )
 	public void cancel()
 	{
 		setVisible( false );

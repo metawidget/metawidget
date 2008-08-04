@@ -44,6 +44,9 @@ import org.w3c.dom.Element;
  */
 
 // TODO: @UiOrder( "1.1.1" )
+// TODO: e-mail not validating?
+// TODO: signup error messages not appearing?
+// TODO: full test script
 
 public class MetawidgetAnnotationInspector
 	extends BaseObjectInspector

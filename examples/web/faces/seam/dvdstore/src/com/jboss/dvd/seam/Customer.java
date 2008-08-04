@@ -99,11 +99,6 @@ public class Customer
         this.zip = zip;
     }
 
-    // TODO: e-mail not validating?
-    // TODO: signup error messages not appearing?
-    // TODO: full test script
-    // TODO: prepend pageflow name
-    
     @Column(name="EMAIL",length=50)
     @Email
     @UiComesAfter("zip")

@@ -171,6 +171,8 @@
 				<invoke url="${webtest.url}/addressbook-faces" />
 				<clickButton label="Add Personal Contact"/>
 				<verifyInputField name="form:contactCurrentDateOfBirth" value=""/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td/input[1]/@value" text="Save"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td/input[2]/@value" text="Cancel"/>
 				<clickButton label="Cancel"/>
 				
 				<clickButton label="Add Business Contact"/>
@@ -220,6 +222,9 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='required']" text=""/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='required']" text=""/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='required']" text=""/>
+	
+				<clickButton label="Back"/>
+				<clickLink label="Miss Business Contact"/>
 				<clickButton label="Edit"/>
 				
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='required']" text="*"/>

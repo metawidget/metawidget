@@ -239,6 +239,8 @@ public class SwingAddressBookTest
 		metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 
 		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
+		JButton buttonBack = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 1 );
+		assertTrue( "Back".equals( buttonBack.getText() ) );
 		buttonEdit = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		assertTrue( "Edit".equals( buttonEdit.getText() ) );
 		buttonEdit.getAction().actionPerformed( null );
@@ -261,6 +263,8 @@ public class SwingAddressBookTest
 
 		JButton buttonDelete = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 1 );
 		assertTrue( "Delete".equals( buttonDelete.getText() ) );
+		JButton buttonCancel = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 2 );
+		assertTrue( "Cancel".equals( buttonCancel.getText() ) );
 
 		assertTrue( contactsController.getAllByExample( null ).size() == 6 );
 		buttonDelete.getAction().actionPerformed( null );
@@ -271,6 +275,9 @@ public class SwingAddressBookTest
 
 		dialog = new ContactDialog( addressBook, new PersonalContact() );
 		metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
+		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
+		buttonCancel = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 1 );
+		assertTrue( "Cancel".equals( buttonCancel.getText() ) );
 
 		// Check saving doesn't error on null date
 
@@ -282,8 +289,8 @@ public class SwingAddressBookTest
 		metawidgetContact.setValue( "Business", "firstnames" );
 		metawidgetContact.setValue( "Contact", "surname" );
 
-		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
 		buttonSave = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
+		assertTrue( "Save".equals( buttonSave.getText() ) );
 		buttonSave.getAction().actionPerformed( null );
 		assertTrue( contactsTable.getRowCount() == 6 );
 	}

@@ -145,7 +145,7 @@ public class ContactBean
 	}
 
 	@UiAction
-	@UiFacesAttribute( name = HIDDEN, value = "#{contact.readOnly}" )
+	@UiFacesAttribute( name = HIDDEN, value = "#{contact.readOnly || contact.current.id == 0}" )
 	@UiComesAfter( "save" )
 	public String delete()
 		throws Exception
@@ -158,6 +158,7 @@ public class ContactBean
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
 	@UiFacesImmediate
+	@UiFacesAttribute( name = "label", value = "Back", condition = "#{contact.readOnly}" )
 	public String cancel()
 		throws Exception
 	{

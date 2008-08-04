@@ -154,6 +154,7 @@ input, textarea, select
 {
 	padding-top: 10px;
 	white-space: nowrap;
+	text-align: center;
 }
 
 .buttons input, .buttons button
@@ -164,6 +165,7 @@ input, textarea, select
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	font-weight: bold;
+	margin-right: 5px;
 }
 
 .table-buttons input, .table-buttons button
