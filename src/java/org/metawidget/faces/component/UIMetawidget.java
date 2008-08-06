@@ -349,12 +349,23 @@ public abstract class UIMetawidget
 			ValueBinding valueBinding = getValueBinding( "value" );
 
 			if ( valueBinding != null )
+			{
 				mMetawidgetMixin.buildWidgets( inspect( getInspector(), valueBinding, mInspectFromParent ) );
+			}
 
-			// ...or from a raw value (for jBPM)
+			// ...or from a raw value (for jBPM)...
+
+			else if ( mValue != null )
+			{
+				mMetawidgetMixin.buildWidgets( getInspector().inspect( null, (String) mValue ) );
+			}
+
+			// ...or run without inspection (eg. using the Metawidget purely for layout)
 
 			else
-				mMetawidgetMixin.buildWidgets( getInspector().inspect( null, (String) mValue ) );
+			{
+				mMetawidgetMixin.buildWidgets( null );
+			}
 		}
 		catch ( Exception e )
 		{

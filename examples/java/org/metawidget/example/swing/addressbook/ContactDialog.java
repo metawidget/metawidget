@@ -224,6 +224,7 @@ public class ContactDialog
 
 		mButtonsMetawidget = new SwingMetawidget();
 		mButtonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
+		mButtonsMetawidget.setBundle( ResourceBundle.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" ) );
 		mButtonsMetawidget.setLayoutClass( null );
 		mButtonsMetawidget.setToInspect( this );
 		facetButtons.add( mButtonsMetawidget );

@@ -42,8 +42,6 @@
 		<echo message="      This is because some optional features require Java SE 6"/>
 		<echo message="      (eg. annotations, javax.swing.GroupLayout)"/>
 
-		<property name="build.debug" value="on"/>
-		
 		<!-- As a first step, build everything as Java SE 5 -->
 				
 		<javac srcdir="src/java" destdir="${build.metawidget.dir}/java5-classes" debug="${build.debug}" optimize="on" target="1.5">

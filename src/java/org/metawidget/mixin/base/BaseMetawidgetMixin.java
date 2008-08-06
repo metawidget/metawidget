@@ -153,8 +153,10 @@ public abstract class BaseMetawidgetMixin<W, E>
 			}
 		}
 
-		// Even if no inspectors match, we still call endBuild(). This makes us
-		// behave better in visual builder tools when dropping child widgets in
+		// Even if no inspectors match, we still call endBuild() because:
+		//
+		// 1. it makes us behave better in visual builder tools when dropping child widgets in
+		// 2. you can use a Metawidget purely for layout, with no inspection
 
 		endBuild();
 	}

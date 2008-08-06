@@ -108,12 +108,12 @@ public class HtmlTableLayout
 
 		// Number of columns
 
-		String columns = metawidget.getParam( "columns" );
+		String numberOfColumns = metawidget.getParam( "numberOfColumns" );
 
-		if ( columns == null )
+		if ( numberOfColumns == null )
 			mNumberOfColumns = 1;
 		else
-			mNumberOfColumns = Integer.parseInt( columns );
+			mNumberOfColumns = Integer.parseInt( numberOfColumns );
 	}
 
 	//

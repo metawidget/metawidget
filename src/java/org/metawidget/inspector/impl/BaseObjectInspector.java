@@ -383,23 +383,25 @@ public abstract class BaseObjectInspector
 		throws InspectorException
 	{
 		// Validate type
+		//
+		// We validate the specified 'type' against toTraverse. If they are assignable, we
+		// use the specified 'type'. We do it this way round for proxies, because if we
+		// do toTraverse.getClass() and get a proxied class, all the annotations are missing
 
 		if ( toTraverse == null )
 			return null;
 
-		Class<?> clazz = toTraverse.getClass();
+		Class<?> clazz = ClassUtils.niceForName( type );
 
-		// (check both class and unproxiedClass, because unproxying might not be possible)
-
-		if ( !clazz.getName().equals( type ) && !ClassUtils.getUnproxiedClass( clazz, mPatternProxy ).getName().equals( type ) )
+		if ( clazz == null )
 			return null;
 
-		if ( names == null )
-			return toTraverse;
+		if ( !clazz.isAssignableFrom( toTraverse.getClass() ) )
+			return null;
 
-		int length = names.length;
+		// Traverse through names
 
-		if ( length == 0 )
+		if ( names == null || names.length == 0 )
 			return toTraverse;
 
 		Object traverse = toTraverse;

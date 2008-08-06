@@ -1,17 +1,14 @@
 <%@ page language="java" %>
 
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
-<%@ taglib uri="/WEB-INF/struts-bean.tld" prefix="bean" %>
-<%@ taglib uri="/WEB-INF/struts-html.tld" prefix="html" %>
-<%@ taglib uri="http://metawidget.org/html" prefix="mh"%>
-<%@ taglib uri="http://metawidget.org/struts" prefix="m"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://metawidget.org/example/struts/addressbook" prefix="a"%>
+<%@ taglib uri="http://metawidget.org/html" prefix="m"%>
+<%@ taglib uri="http://metawidget.org/example/jsp/addressbook" prefix="a"%>
 
 <tags:page>
 
 	<c:choose>
-		<c:when test="${contactForm.class.simpleName == 'PersonalContactForm'}">
+		<c:when test="${contact.class.simpleName == 'Personalcontact'}">
 			<div id="page-image">
 				<img src="media/personal.gif">
 			</div>
@@ -29,13 +26,7 @@
 
 		<html:form action="/save">
 
-			<c:if test="${!empty requestScope['org.apache.struts.action.ERROR']}">
-				<span class="errors">
-					<html:errors />
-				</span>
-			</c:if>
-		
-			<m:metawidget property="contactForm" readOnly="${contactForm.readOnly}">
+			<m:metawidget property="contact" readOnly="${contact.readOnly}">
 				<m:param name="tableStyleClass" value="table-form"/>
 				<m:param name="columnStyleClasses" value="table-label-column,table-component-column,required"/>
 				<m:param name="sectionStyleClass" value="section-heading"/>
@@ -51,19 +42,19 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${a:sort(contactForm.communications)}" var="_communication">
+							<c:forEach items="${a:sort(contact.communications)}" var="_communication">
 								<tr>
 									<td class="column-half">${_communication.type}</td>
 									<td class="column-half">${_communication.value}</td>
 									<td class="column-tiny, table-buttons">
-										<c:if test="${!contactForm.readOnly}">
+										<c:if test="${!contact.readOnly}">
 											<input type="submit" name="deleteCommunication" value="Delete" onClick="if ( !confirm( 'Are you sure you want to delete this communication?' )) return false; document.getElementById( 'deleteCommunicationId' ).value = '${_communication.id}'"/>
 										</c:if>
 									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
-						<c:if test="${!contactForm.readOnly}">
+						<c:if test="${!contact.readOnly}">
 							<tfoot>
 								<tr>
 									<jsp:useBean id="communication" class="org.metawidget.example.shared.addressbook.model.Communication"/>						
@@ -78,7 +69,7 @@
 
 				<m:facet name="buttons" styleClass="buttons">
 					<c:choose>
-						<c:when test="${contactForm.readOnly}">
+						<c:when test="${contact.readOnly}">
 							<html:submit property="edit">
 								<bean:message key="edit"/>
  							</html:submit>
