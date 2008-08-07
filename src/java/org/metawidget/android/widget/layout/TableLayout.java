@@ -78,8 +78,6 @@ public class TableLayout
 
 		// Number of columns
 
-		// TODO: test 'numberOfColumns' in HTML Metawidget
-
 		Object numberOfColumns = metawidget.getParameter( "numberOfColumns" );
 
 		if ( numberOfColumns != null )

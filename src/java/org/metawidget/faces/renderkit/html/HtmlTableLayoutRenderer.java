@@ -353,7 +353,7 @@ public class HtmlTableLayoutRenderer
 
 			// Large components get a whole row
 
-			if ( TRUE.equals( attributes.get( "large" ) ) )
+			if ( TRUE.equals( attributes.get( "large" ) ) && currentColumn != 1 )
 			{
 				writer.write( "</tr>" );
 				currentColumn = 1;
@@ -431,7 +431,7 @@ public class HtmlTableLayoutRenderer
 		int colspan = 1;
 
 		if ( !labelWritten )
-			colspan++;
+			colspan = 2;
 
 		// Embedded Metawidgets span the component and the required column
 

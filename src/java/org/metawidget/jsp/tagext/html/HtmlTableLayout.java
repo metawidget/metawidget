@@ -29,10 +29,8 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Layout to arrange widgets in a table, with one column for labels and another for the
- * widget.
- *
- * This implementation recognizes the following <code>&lt;m:param&gt;</code> parameters:
+ * Layout to arrange widgets in a table, with one column for labels and another for the widget. This
+ * implementation recognizes the following <code>&lt;m:param&gt;</code> parameters:
  * <p>
  * <ul>
  * <li><code>tableStyle</code>
@@ -43,8 +41,8 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>sectionStyleClass</code>
  * </ul>
  * <p>
- * Styles and style classes can be applied to any facets (such as the 'buttons' facet) by
- * specifying them on the <code>&lt;m:facet&gt;</code> tag.
+ * Styles and style classes can be applied to any facets (such as the 'buttons' facet) by specifying
+ * them on the <code>&lt;m:facet&gt;</code> tag.
  *
  * @author Richard Kennard
  */
@@ -295,20 +293,32 @@ public class HtmlTableLayout
 
 		// Section headings
 
-		String section = attributes.get( SECTION );
+		// (layoutBeforeChild may get called even if layoutBegin crashed. Try
+		// to fail gracefully)
 
-		if ( section != null && !section.equals( mCurrentSection ) )
+		String id = null;
+
+		if ( attributes != null )
 		{
-			mCurrentSection = section;
-			buffer.append( layoutSection( section ) );
+			String section = attributes.get( SECTION );
+
+			if ( section != null && !section.equals( mCurrentSection ) )
+			{
+				mCurrentSection = section;
+				buffer.append( layoutSection( section ) );
+			}
+
+			id = attributes.get( NAME );
+
+			if ( id != null )
+				id = StringUtils.uppercaseFirstLetter( StringUtils.camelCase( id ) );
+
+			if ( TRUE.equals( attributes.get( LARGE ) ) && mCurrentColumn != 1 )
+			{
+				buffer.append( "</tr>" );
+				mCurrentColumn = 1;
+			}
 		}
-
-		// Start a new row
-
-		String id = attributes.get( "name" );
-
-		if ( id != null )
-			id = StringUtils.uppercaseFirstLetter( StringUtils.camelCase( id ));
 
 		// Start a new row, if necessary
 
@@ -371,8 +381,29 @@ public class HtmlTableLayout
 
 		buffer.append( getStyleClass( 1 ) );
 
-		if ( "".equals( labelColumn ))
-			buffer.append( " colspan=\"2\"" );
+		int colspan = 1;
+
+		if ( "".equals( labelColumn ) )
+			colspan = 2;
+
+		// Large components span all columns
+		//
+		// Note: we cannot span all columns for Metawidgets, as we do in HtmlTableLayoutRenderer,
+		// because JSP lacks a true component model such that we can ask which sort of component we
+		// are rendering
+
+		if ( mNumberOfColumns > 1 && attributes != null && TRUE.equals( attributes.get( "large" ) ) )
+		{
+			colspan = ( ( mNumberOfColumns - 1 ) * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1;
+			mCurrentColumn = mNumberOfColumns;
+		}
+
+		if ( colspan > 1 )
+		{
+			buffer.append( " colspan=\"" );
+			buffer.append( colspan );
+			buffer.append( "\"" );
+		}
 
 		buffer.append( ">" );
 
@@ -427,7 +458,7 @@ public class HtmlTableLayout
 		buffer.append( getStyleClass( 0 ) );
 		buffer.append( ">" );
 
-		if ( !"".equals( label ))
+		if ( !"".equals( label ) )
 		{
 			buffer.append( label );
 			buffer.append( ":" );
@@ -488,7 +519,7 @@ public class HtmlTableLayout
 		if ( attributes == null )
 			return "";
 
-		if ( !TRUE.equals( attributes.get( REQUIRED ) ) || TRUE.equals( attributes.get( READ_ONLY )) || getMetawidgetTag().isReadOnly() )
+		if ( !TRUE.equals( attributes.get( REQUIRED ) ) || TRUE.equals( attributes.get( READ_ONLY ) ) || getMetawidgetTag().isReadOnly() )
 			return "";
 
 		return "*";
