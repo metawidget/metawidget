@@ -813,10 +813,8 @@ public class SwingMetawidget
 			mBinding = null;
 		}
 
-		// Call repaint here, for scenarios like doing a 'remove' of
-		// a button that masks a Metawidget
-
-		// TODO: test such a scenario
+		// Call repaint here, rather than just 'invalidate', for scenarios like doing
+		// a 'remove' of a button that masks a Metawidget
 
 		repaint();
 	}
@@ -1061,7 +1059,7 @@ public class SwingMetawidget
 
 		// Action
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 		{
 			final Object toInspect = getToInspect();
 
@@ -1070,7 +1068,7 @@ public class SwingMetawidget
 
 			final Method actionMethod = toInspect.getClass().getMethod( attributes.get( NAME ), (Class[]) null );
 
-			return new JButton( new AbstractAction( getLabelString( attributes ))
+			return new JButton( new AbstractAction( getLabelString( attributes ) )
 			{
 				@Override
 				public void actionPerformed( ActionEvent e )
@@ -1079,7 +1077,7 @@ public class SwingMetawidget
 					{
 						actionMethod.invoke( toInspect, (Object[]) null );
 					}
-					catch( Exception ex )
+					catch ( Exception ex )
 					{
 						throw new RuntimeException( ex );
 					}

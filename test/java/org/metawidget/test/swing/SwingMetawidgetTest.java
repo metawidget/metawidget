@@ -16,12 +16,9 @@
 
 package org.metawidget.test.swing;
 
-import java.awt.Component;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
-import java.lang.reflect.Field;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -62,36 +59,45 @@ public class SwingMetawidgetTest
 		assertTrue( info.getIcon( 5 ) == null );
 	}
 
-	public void testInvalidation()
-		throws Exception
+	public void testRepainting()
 	{
+		final StringBuilder builder = new StringBuilder();
+
+		SwingMetawidget metawidget = new SwingMetawidget()
+		{
+			@Override
+			public void repaint()
+			{
+				builder.append( "repaint\n" );
+				super.repaint();
+			}
+		};
+
+		// Should see 'repaint' because of the add
+
 		JTextField component = new JTextField();
-		SwingMetawidget metawidget = new SwingMetawidget();
-
-		Field validField = Component.class.getDeclaredField( "valid" );
-		validField.setAccessible( true );
-
-		validField.setBoolean( metawidget, true );
-		metawidget.paint( new JFrame().getGraphics() );
-		assertTrue( validField.getBoolean( metawidget ) );
 		metawidget.add( component );
-		assertFalse( validField.getBoolean( metawidget ) );
+		assertTrue( "repaint\n".equals( builder.toString() ));
 
-		validField.setBoolean( metawidget, true );
+		// Should see another 'repaint' because of remove called .getComponent, which built the widgets
+
 		metawidget.remove( component );
-		assertFalse( validField.getBoolean( metawidget ) );
+		assertTrue( "repaint\nrepaint\n".equals( builder.toString() ));
 
-		validField.setBoolean( metawidget, true );
-		metawidget.add( component, 0 );
-		assertFalse( validField.getBoolean( metawidget ) );
+		// Should not see another repaint, because widgets already need repainting
 
-		validField.setBoolean( metawidget, true );
+		metawidget.add( component );
+		assertTrue( "repaint\nrepaint\n".equals( builder.toString() ));
+
+		// Should see another repaint, because .remove will build the widgets
+
 		metawidget.remove( 0 );
-		assertFalse( validField.getBoolean( metawidget ) );
+		assertTrue( "repaint\nrepaint\nrepaint\n".equals( builder.toString() ));
 
-		validField.setBoolean( metawidget, true );
+		// Should not see another repaint, because widgets already need repainting
+
 		metawidget.removeAll();
-		assertFalse( validField.getBoolean( metawidget ) );
+		assertTrue( "repaint\nrepaint\nrepaint\n".equals( builder.toString() ));
 	}
 
 	public void testNestedWithManualInspector()

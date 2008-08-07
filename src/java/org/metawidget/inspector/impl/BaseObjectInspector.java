@@ -237,7 +237,7 @@ public abstract class BaseObjectInspector
 			document.appendChild( elementRoot );
 			elementRoot.appendChild( elementEntity );
 
-			// Every Inspector needs to attach a type to the root entity, so
+			// Every Inspector needs to attach a type to the entity, so
 			// that CompositeInspector can merge it
 
 			elementEntity.setAttribute( TYPE, clazz.getName() );
@@ -383,10 +383,6 @@ public abstract class BaseObjectInspector
 		throws InspectorException
 	{
 		// Validate type
-		//
-		// We validate the specified 'type' against toTraverse. If they are assignable, we
-		// use the specified 'type'. We do it this way round for proxies, because if we
-		// do toTraverse.getClass() and get a proxied class, all the annotations are missing
 
 		if ( toTraverse == null )
 			return null;

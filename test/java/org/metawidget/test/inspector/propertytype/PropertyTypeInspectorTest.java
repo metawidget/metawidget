@@ -141,7 +141,8 @@ public class PropertyTypeInspectorTest
 
 		DeclaredTypeTester tester = new DeclaredTypeTester();
 		tester.value = new PersonalContact();
-		Document document = XmlUtils.documentFromString( inspector.inspect( tester, DeclaredTypeTester.class.getName(), "value" ));
+		String xml = inspector.inspect( tester, DeclaredTypeTester.class.getName(), "value" );
+		Document document = XmlUtils.documentFromString( xml );
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
