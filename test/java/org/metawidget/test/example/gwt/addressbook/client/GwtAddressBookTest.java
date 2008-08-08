@@ -175,6 +175,11 @@ public class GwtAddressBookTest
 										// Check editing
 
 										assertTrue( ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getRowCount() == 11 );
+
+										Button backButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 3 );
+										assertTrue( "Back".equals( backButton.getText() ) );
+										assertTrue( backButton.isVisible() );
+
 										final Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 2 );
 										assertTrue( "Edit".equals( editButton.getText() ) );
 										assertTrue( editButton.isVisible() );
@@ -235,6 +240,10 @@ public class GwtAddressBookTest
 
 														contactMetawidget.setValue( "743 Evergreen Terrace", "address", "street" );
 														((ListBox) contactMetawidget.findWidget( "address", "state" )).setSelectedIndex( 3 );
+
+														Button cancelButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 3 );
+														assertTrue( "Cancel".equals( cancelButton.getText() ) );
+														assertTrue( cancelButton.isVisible() );
 
 														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 0 );
 														assertTrue( "Save".equals( saveButton.getText() ) );
@@ -511,6 +520,7 @@ public class GwtAddressBookTest
 			"addPersonal": "Add Personal Contact",
 			"addBusiness": "Add Business Contact",
 			"edit": "Edit",
+			"back": "Back",
 			"postcode": "Postcode",
 			"address": "Address",
 			"personalContact": "Personal Contact",

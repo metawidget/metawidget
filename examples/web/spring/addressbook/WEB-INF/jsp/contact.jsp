@@ -77,13 +77,14 @@
 					<c:choose>
 						<c:when test="${readOnly}">
 							<input type="submit" name="edit" value="<spring:message code="edit"/>"/>
+							<input type="submit" name="cancel" value="<spring:message code="back"/>"/>
 						</c:when>
 						<c:otherwise>
 							<input type="submit" name="save" value="<spring:message code="save"/>"/>
 							<input type="submit" name="delete" value="<spring:message code="delete"/>" onclick="if ( !confirm( 'Sure you want to delete this contact?' )) return false"/>
+							<input type="submit" name="cancel" value="<spring:message code="cancel"/>"/>
 						</c:otherwise>
 					</c:choose>
-					<input type="submit" name="cancel" value="<spring:message code="cancel"/>"/>
 				</m:facet>
 
 			</m:metawidget>

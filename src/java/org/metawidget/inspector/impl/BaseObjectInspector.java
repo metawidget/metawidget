@@ -18,11 +18,9 @@ package org.metawidget.inspector.impl;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
@@ -81,22 +79,6 @@ public abstract class BaseObjectInspector
 
 	protected Log															mLog					= LogUtils.getLog( getClass() );
 
-	/**
-	 * Pattern to use to detect (and unwrap) proxied classes (such as CGLIB and Javassist).
-	 * <p>
-	 * The proxy pattern is defined in <code>BaseObjectInspector</code>, rather than in
-	 * <code>PropertyStyle</code> for the following reasons:
-	 * <ul>
-	 * <li><code>inspect</code> needs to match <code>type</code> to <code>toInspect</code>,
-	 * which may involve unwrapping
-	 * <li>Different PropertyStyles (eg. JavaBean, GroovyBean) would need to re-implement
-	 * proxy-support
-	 * <li>Having the pattern here makes it configurable
-	 * </ul>
-	 */
-
-	protected Pattern														mPatternProxy;
-
 	//
 	//
 	// Constructors
@@ -143,10 +125,6 @@ public abstract class BaseObjectInspector
 					ACTION_STYLE_CACHE.put( actionStyle, mActionStyle );
 				}
 			}
-
-			// Proxy
-
-			mPatternProxy = config.getProxyPattern();
 		}
 		catch ( Exception e )
 		{
@@ -172,8 +150,8 @@ public abstract class BaseObjectInspector
 		{
 			Object childToInspect = null;
 			String childName = null;
+			String childType;
 			Map<String, String> parentAttributes = null;
-			Class<?> clazz = null;
 
 			// If the path has a parent...
 
@@ -186,36 +164,31 @@ public abstract class BaseObjectInspector
 				if ( parentToInspect == null )
 					return null;
 
-				Class<?> classParent = ClassUtils.getUnproxiedClass( parentToInspect.getClass(), mPatternProxy );
 				childName = names[names.length - 1];
-
-				Property propertyInParent = mPropertyStyle.getProperties( classParent ).get( childName );
+				Property propertyInParent = mPropertyStyle.getProperties( parentToInspect.getClass() ).get( childName );
 
 				if ( propertyInParent == null )
 					return null;
 
-				clazz = propertyInParent.getType();
+				childType = propertyInParent.getType().getName();
 
 				if ( propertyInParent.isReadable() )
 				{
 					childToInspect = propertyInParent.read( parentToInspect );
 					parentAttributes = inspectProperty( propertyInParent, toInspect );
-
-					if ( !Modifier.isFinal( clazz.getModifiers() ) && childToInspect != null )
-						clazz = ClassUtils.getUnproxiedClass( childToInspect.getClass(), mPatternProxy );
 				}
 			}
 
 			// ...otherwise, just start at the end point
 
-			if ( clazz == null )
+			else
 			{
-				childToInspect = traverse( toInspect, type, false, names );
+				childToInspect = traverse( toInspect, type, false );
 
 				if ( childToInspect == null )
 					return null;
 
-				clazz = ClassUtils.getUnproxiedClass( childToInspect.getClass(), mPatternProxy );
+				childType = type;
 			}
 
 			Document document = XmlUtils.newDocumentBuilder().newDocument();
@@ -224,7 +197,7 @@ public abstract class BaseObjectInspector
 			// Inspect child properties
 
 			if ( childToInspect != null )
-				inspect( clazz, childToInspect, elementEntity );
+				inspect( childToInspect, elementEntity );
 
 			// Nothing of consequence to return?
 
@@ -237,11 +210,6 @@ public abstract class BaseObjectInspector
 			document.appendChild( elementRoot );
 			elementRoot.appendChild( elementEntity );
 
-			// Every Inspector needs to attach a type to the entity, so
-			// that CompositeInspector can merge it
-
-			elementEntity.setAttribute( TYPE, clazz.getName() );
-
 			// Add any parent attributes
 
 			if ( parentAttributes != null )
@@ -249,6 +217,13 @@ public abstract class BaseObjectInspector
 				XmlUtils.setMapAsAttributes( elementEntity, parentAttributes );
 				elementEntity.setAttribute( NAME, childName );
 			}
+
+			// Every Inspector needs to attach a type to the entity, so that CompositeInspector can
+			// merge it. The type should be the *declared* type, not the *actual* type, as otherwise
+			// subtypes (and proxied types) will stop XML and Object-based Inspectors merging back
+			// together properly
+
+			elementEntity.setAttribute( TYPE, childType );
 
 			// Return the document
 
@@ -266,10 +241,16 @@ public abstract class BaseObjectInspector
 	//
 	//
 
-	protected void inspect( Class<?> clazz, Object toInspect, Element toAddTo )
+	/**
+	 * @param toInspect
+	 *            the obejct to inspect. Never null
+	 */
+
+	protected void inspect( Object toInspect, Element toAddTo )
 		throws Exception
 	{
 		Document document = toAddTo.getOwnerDocument();
+		Class<?> clazz = toInspect.getClass();
 
 		// Inspect properties
 
@@ -408,7 +389,7 @@ public abstract class BaseObjectInspector
 
 		for ( String name : names )
 		{
-			Property property = mPropertyStyle.getProperties( ClassUtils.getUnproxiedClass( traverse.getClass(), mPatternProxy ) ).get( name );
+			Property property = mPropertyStyle.getProperties( traverse.getClass() ).get( name );
 
 			if ( property == null || !property.isReadable() )
 				return null;

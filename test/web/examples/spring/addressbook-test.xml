@@ -180,7 +180,10 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[2]" text="E-mail: miss@business.contact.com, Mobile: (0402) 456 123"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mr Charles Montgomery Burns"/>
 				<clickLink label="Miss Business Contact"/>
+				<clickButton label="Back"/>
+				<clickLink label="Miss Business Contact"/>
 				<clickButton label="Edit"/>
+				
 				<verifyInputField name="company" value="Some Company"/>
 				<verifyInputField name="numberOfStaff" value="2"/>
 			

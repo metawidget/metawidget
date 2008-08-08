@@ -114,8 +114,8 @@ public class PropertyTypeInspectorTest
 		property = (Element) property.getNextSibling();
 		assertTrue( PROPERTY.equals( property.getNodeName() ));
 		assertTrue( "value".equals( property.getAttribute( NAME ) ));
-		assertTrue( PersonalContact.class.getName().equals( property.getAttribute( TYPE ) ));
-		assertTrue( Contact.class.getName().equals( property.getAttribute( DECLARED_CLASS ) ));
+		assertTrue( PersonalContact.class.getName().equals( property.getAttribute( ACTUAL_CLASS ) ));
+		assertTrue( Contact.class.getName().equals( property.getAttribute( TYPE ) ));
 	}
 
 	public void testInspectString()
@@ -148,8 +148,8 @@ public class PropertyTypeInspectorTest
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( PersonalContact.class.getName().equals( entity.getAttribute( TYPE ) ));
-		assertTrue( Contact.class.getName().equals( entity.getAttribute( DECLARED_CLASS ) ));
+		assertTrue( PersonalContact.class.getName().equals( entity.getAttribute( ACTUAL_CLASS ) ));
+		assertTrue( Contact.class.getName().equals( entity.getAttribute( TYPE ) ));
 		assertTrue( "value".equals( entity.getAttribute( NAME ) ));
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "address" );
@@ -220,8 +220,8 @@ public class PropertyTypeInspectorTest
 		Element property = (Element) entity.getFirstChild();
 		assertTrue( PROPERTY.equals( property.getNodeName() ));
 		assertTrue( "foo".equals( property.getAttribute( NAME ) ));
-		assertTrue( RecursiveFoo.class.getName().equals( property.getAttribute( TYPE ) ));
-		assertTrue( Object.class.getName().equals( property.getAttribute( DECLARED_CLASS ) ));
+		assertTrue( RecursiveFoo.class.getName().equals( property.getAttribute( ACTUAL_CLASS ) ));
+		assertTrue( Object.class.getName().equals( property.getAttribute( TYPE ) ));
 		assertTrue( 3 == property.getAttributes().getLength() );
 		assertTrue( property.getNextSibling() == null );
 
@@ -242,14 +242,14 @@ public class PropertyTypeInspectorTest
 
 		entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( RecursiveFoo.class.getName().equals( entity.getAttribute( TYPE ) ));
+		assertTrue( Object.class.getName().equals( entity.getAttribute( TYPE ) ));
 
 		property = (Element) entity.getFirstChild();
 		assertTrue( PROPERTY.equals( property.getNodeName() ));
 		assertTrue( "foo".equals( property.getAttribute( NAME ) ));
-		assertTrue( RecursiveFoo.class.getName().equals( property.getAttribute( TYPE ) ));
 		assertTrue( 3 == property.getAttributes().getLength() );
-		assertTrue( Object.class.getName().equals( property.getAttribute( DECLARED_CLASS ) ));
+		assertTrue( RecursiveFoo.class.getName().equals( property.getAttribute( ACTUAL_CLASS ) ));
+		assertTrue( Object.class.getName().equals( property.getAttribute( TYPE ) ));
 		assertTrue( property.getNextSibling() == null );
 
 		// Third level (should block)

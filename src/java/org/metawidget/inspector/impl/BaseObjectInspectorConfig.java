@@ -16,13 +16,10 @@
 
 package org.metawidget.inspector.impl;
 
-import java.util.regex.Pattern;
-
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
-import org.metawidget.util.ClassUtils;
 
 /**
  * Base class for BaseObjectInspector configurations.
@@ -50,8 +47,6 @@ public class BaseObjectInspectorConfig
 	// Private members
 	//
 	//
-
-	private Pattern							mProxyPattern	= ClassUtils.DEFAULT_PROXY_PATTERN;
 
 	private Class<? extends PropertyStyle>	mPropertyStyle;
 
@@ -89,24 +84,6 @@ public class BaseObjectInspectorConfig
 	// Public methods
 	//
 	//
-
-	/**
-	 * Sets the pattern used to recognize proxied classes.
-	 * <p>
-	 * Proxy detection is done by regular expression String-matching on the classname. This avoids
-	 * classpath dependencies on proxy libraries. The default proxy pattern recognizes CGLIB and
-	 * Javassist proxies by matching <code>ByCGLIB\$\$|_\$\$_javassist_</code>.
-	 */
-
-	public void setProxyPattern( Pattern proxyPattern )
-	{
-		mProxyPattern = proxyPattern;
-	}
-
-	Pattern getProxyPattern()
-	{
-		return mProxyPattern;
-	}
 
 	/**
 	 * Sets the style used to recognize properties. Defaults to <code>JavaBeanPropertyStyle</code>.

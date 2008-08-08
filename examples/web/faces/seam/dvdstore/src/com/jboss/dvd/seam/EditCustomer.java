@@ -10,6 +10,9 @@ import java.util.Map;
 
 import javax.ejb.Local;
 
+import org.hibernate.validator.*;
+import org.metawidget.inspector.annotation.*;
+
 @Local
 public interface EditCustomer
 {
@@ -20,6 +23,7 @@ public interface EditCustomer
     public void   setPasswordVerify(String password);
     
     @UiMasked
+    @NotNull
     public String getPasswordVerify();
 
     public boolean isValidNamePassword();

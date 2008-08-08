@@ -20,7 +20,7 @@
 
 				<setInputField name="create:customerUserName" value="NewUser"/>
 				<setInputField name="create:customerPassword" value="New Password"/>
-				<setInputField name="create:passwordVerify" value="New Password"/>
+				<setInputField name="create:editCustomerPasswordVerify" value="New Password"/>
 				<clickButton label="Next"/>
 				
 			</steps>

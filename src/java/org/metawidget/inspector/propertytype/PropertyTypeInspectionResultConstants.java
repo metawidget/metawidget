@@ -44,13 +44,17 @@ public final class PropertyTypeInspectionResultConstants
 	public final static String	NO_GETTER		= "no-getter";
 
 	/**
-	 * Declared class attribute.
+	 * Actual class of the property's value.
 	 * <p>
-	 * The fully-qualified class name declared by the property. This attribute will only appear if
-	 * the declared class differs from the value's actual class (eg. the object is a subclass)
+	 * This attribute will only appear if the actual class differs from the declared class (eg. is a
+	 * subclass).
+	 * <p>
+	 * Note we don't do this the other way around (eg. return the actual class as TYPE and have a,
+	 * say, DECLARED_CLASS attribute) because the type must be consistent between Object and
+	 * XML-based inspectors. In particular, we don't want to use a proxied class as the 'type'.
 	 */
 
-	public final static String	DECLARED_CLASS	= "declared-class";
+	public final static String	ACTUAL_CLASS	= "actual-class";
 
 	//
 	//

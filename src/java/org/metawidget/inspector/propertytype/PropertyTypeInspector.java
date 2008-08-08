@@ -25,7 +25,6 @@ import java.util.Map;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.w3c.dom.Element;
 
@@ -77,10 +76,9 @@ public class PropertyTypeInspector
 		// ...type...
 
 		Class<?> propertyClass = property.getType();
+		attributes.put( TYPE, propertyClass.getName() );
 
 		// ...(may be polymorphic)...
-
-		Class<?> actualClass = null;
 
 		if ( !Modifier.isFinal( propertyClass.getModifiers() ) )
 		{
@@ -90,8 +88,13 @@ public class PropertyTypeInspector
 				{
 					Object actual = property.read( toInspect );
 
+					// Note: we don't do this the other way around (eg. return the actual class as
+					// TYPE and have a, say, DECLARED_CLASS attribute) because the type must be
+					// consistent between Object and XML-based inspectors. In particular, we don't
+					// want to use a proxied class as the 'type'
+
 					if ( actual != null )
-						actualClass = ClassUtils.getUnproxiedClass( actual.getClass(), mPatternProxy );
+						attributes.put( ACTUAL_CLASS, actual.getClass().getName() );
 				}
 				catch ( Throwable t )
 				{
@@ -101,16 +104,6 @@ public class PropertyTypeInspector
 					// DataModel.getRowData) - in which case fall back to property
 				}
 			}
-		}
-
-		if ( actualClass != null && !propertyClass.equals( actualClass ) )
-		{
-			attributes.put( DECLARED_CLASS, propertyClass.getName() );
-			attributes.put( TYPE, actualClass.getName() );
-		}
-		else
-		{
-			attributes.put( TYPE, propertyClass.getName() );
 		}
 
 		// ...(no-setter/no-getter)...

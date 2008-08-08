@@ -80,7 +80,49 @@ public class JavaBeanPropertyStyle
 
 			if ( properties == null )
 			{
-				properties = inspectProperties( clazz );
+				// If the class is not a proxy...
+
+				if ( !isProxy( clazz ) )
+				{
+					// ...inspect it normally
+
+					properties = inspectProperties( clazz );
+				}
+				else
+				{
+					// ...otherwise, if the superclass is not just java.lang.Object...
+
+					Class<?> superclass = clazz.getSuperclass();
+
+					if ( !superclass.equals( Object.class ) )
+					{
+						// ...inspect the superclass
+
+						properties = mPropertiesCache.get( superclass );
+
+						if ( properties == null )
+							properties = inspectProperties( superclass );
+					}
+					else
+					{
+						// ...otherwise, inspect each interface and merge
+
+						properties = CollectionUtils.newHashMap();
+
+						for ( Class<?> iface : clazz.getInterfaces() )
+						{
+							Map<String, Property> interfaceProperties = mPropertiesCache.get( iface );
+
+							if ( interfaceProperties == null )
+								interfaceProperties = inspectProperties( iface );
+
+							properties.putAll( interfaceProperties );
+						}
+					}
+				}
+
+				// Cache the result
+
 				mPropertiesCache.put( clazz, Collections.unmodifiableMap( properties ) );
 			}
 
@@ -182,6 +224,31 @@ public class JavaBeanPropertyStyle
 		String pkgName = pkg.getName();
 
 		if ( pkgName.startsWith( "java." ) || pkgName.startsWith( "javax." ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Returns true if the given class is a 'proxy' of its original self.
+	 * <p>
+	 * Proxied classes generally don't carry annotations, so it is important to traverse away from
+	 * the proxied class back to the original class before inspection.
+	 * <p>
+	 * By default, returns true for classes with <code>_$$_javassist_</code> or
+	 * <code>ByCGLIB$$</code> in their name.
+	 */
+
+	protected boolean isProxy( Class<?> clazz )
+	{
+		// (don't use .getSimpleName or .contains, for J2SE 1.4 compatibility)
+
+		String name = clazz.getName();
+
+		if ( name.indexOf( "_$$_javassist_" ) != -1 )
+			return true;
+
+		if ( name.indexOf( "ByCGLIB$$" ) != -1 )
 			return true;
 
 		return false;

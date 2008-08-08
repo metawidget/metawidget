@@ -74,11 +74,12 @@ public class MetawidgetAnnotationInspector
 	//
 
 	@Override
-	protected void inspect( Class<?> clazz, Object toInspect, Element toAddTo )
+	protected void inspect( Object toInspect, Element toAddTo )
 		throws Exception
 	{
 		Document document = toAddTo.getOwnerDocument();
 		Map<String, ElementWithComesAfter> elementsWithComesAfter = CollectionUtils.newHashMap();
+		Class<?> clazz = toInspect.getClass();
 
 		// For each property...
 

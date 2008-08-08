@@ -87,6 +87,8 @@ public class ContactDialog
 
 	Button				mDeleteButton;
 
+	Button				mCancelButton;
+
 	//
 	//
 	// Constructor
@@ -313,15 +315,15 @@ public class ContactDialog
 		} );
 		panel.add( mEditButton );
 
-		Button cancelButton = new Button( dictionary.get( "cancel" ) );
-		cancelButton.addClickListener( new ClickListener()
+		mCancelButton = new Button();
+		mCancelButton.addClickListener( new ClickListener()
 		{
 			public void onClick( Widget sender )
 			{
 				ContactDialog.this.hide();
 			}
 		} );
-		panel.add( cancelButton );
+		panel.add( mCancelButton );
 
 		// Display
 
@@ -352,6 +354,13 @@ public class ContactDialog
 	{
 		boolean readOnly = mMetawidget.isReadOnly();
 		loadCommunications();
+
+		Dictionary dictionary = Dictionary.getDictionary( "bundle" );
+
+		if ( readOnly )
+			mCancelButton.setText( dictionary.get( "back" ));
+		else
+			mCancelButton.setText( dictionary.get( "cancel" ));
 
 		mEditButton.setVisible( readOnly );
 		mSaveButton.setVisible( !readOnly );
