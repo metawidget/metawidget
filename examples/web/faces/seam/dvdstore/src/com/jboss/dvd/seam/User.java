@@ -55,14 +55,14 @@ public abstract class User
         this.password = password;
     }
 
-    @Column(name="FIRSTNAME",length=50)
+    @Column(name="FIRSTNAME",length=50,nullable=false)
     public String getFirstName() {
         return firstName;
     }
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
-    @Column(name="LASTNAME",length=50)
+    @Column(name="LASTNAME",length=50,nullable=false)
     @UiComesAfter("firstName")
     public String getLastName() {
         return lastName;

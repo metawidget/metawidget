@@ -38,13 +38,11 @@ public final class ClassUtils
 	//
 	//
 
-	public final static String	JAVABEAN_SET_PREFIX		= "set";
+	public final static String	JAVABEAN_SET_PREFIX	= "set";
 
-	public final static String	JAVABEAN_GET_PREFIX		= "get";
+	public final static String	JAVABEAN_GET_PREFIX	= "get";
 
-	public final static String	JAVABEAN_IS_PREFIX		= "is";
-
-	public final static Pattern	DEFAULT_PROXY_PATTERN	= Pattern.compile( "ByCGLIB\\$\\$|_\\$\\$_javassist_" );
+	public final static String	JAVABEAN_IS_PREFIX	= "is";
 
 	/**
 	 * Lookup JavaBean-convention getter without using <code>java.beans</code>, as that package
@@ -217,7 +215,7 @@ public final class ClassUtils
 
 	public static Class<?> getUnproxiedClass( Class<?> clazz )
 	{
-		return getUnproxiedClass( clazz, DEFAULT_PROXY_PATTERN );
+		return getUnproxiedClass( clazz, PROXY_PATTERN );
 	}
 
 	/**
@@ -286,6 +284,8 @@ public final class ClassUtils
 	// Private statics
 	//
 	//
+
+	private final static Pattern				PROXY_PATTERN	= Pattern.compile( "ByCGLIB\\$\\$|_\\$\\$_javassist_" );
 
 	/**
 	 * Map of primitive names (eg. <code>int</code>, <code>long</code> and their classes (eg.

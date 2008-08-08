@@ -99,7 +99,7 @@ public class Customer
         this.zip = zip;
     }
 
-    @Column(name="EMAIL",length=50)
+    @Column(name="EMAIL",length=50,nullable=false)
     @Email
     @UiComesAfter("zip")
     public String getEmail() {

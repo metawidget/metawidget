@@ -77,7 +77,18 @@ public class HtmlLayoutRenderer
 		if ( childComponent instanceof HtmlInputHidden )
 			return;
 
-		if ( !( childComponent instanceof UIInput || childComponent instanceof UIMetawidget ))
+		String messageFor = childComponent.getId();
+
+		if ( childComponent instanceof UIMetawidget )
+		{
+			if ( childComponent.getChildCount() != 1 )
+				return;
+
+			// (drill into single component UIMetawidgets)
+
+			messageFor = ((UIComponent) childComponent.getChildren().get( 0 )).getId();
+		}
+		else if ( !( childComponent instanceof UIInput ))
 			return;
 
 		@SuppressWarnings( "unchecked" )
@@ -110,15 +121,15 @@ public class HtmlLayoutRenderer
 
 		// Render inline message
 
-		FacesUtils.render( context, createMessage( context, component, childComponent ) );
+		FacesUtils.render( context, createMessage( context, component, messageFor ) );
 	}
 
-	protected HtmlMessage createMessage( FacesContext context, UIComponent component, UIComponent childComponent )
+	protected HtmlMessage createMessage( FacesContext context, UIComponent component, String messageFor )
 	{
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
 		message.setParent( component );
 		message.setId( context.getViewRoot().createUniqueId() );
-		message.setFor( childComponent.getId() );
+		message.setFor( messageFor );
 
 		// Parse styles
 

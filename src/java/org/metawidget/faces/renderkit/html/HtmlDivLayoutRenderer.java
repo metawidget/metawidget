@@ -192,9 +192,9 @@ public class HtmlDivLayoutRenderer
 	}
 
 	@Override
-	protected HtmlMessage createMessage( FacesContext context, UIComponent component, UIComponent childComponent )
+	protected HtmlMessage createMessage( FacesContext context, UIComponent component, String messageFor )
 	{
-		HtmlMessage message = super.createMessage( context, component, childComponent );
+		HtmlMessage message = super.createMessage( context, component, messageFor );
 
 		// Apply alternate style class (if any)
 

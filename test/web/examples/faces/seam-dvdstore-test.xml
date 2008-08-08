@@ -1,27 +1,57 @@
 <project name="faces-seam-dvdstore-test" default="test-all">
 
 	<property file="../../../../build.properties" />
-	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
+	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}" />
 
 	<import file="${webtest.dir}/lib/taskdef.xml" />
 
 	<!-- Test Search Screen -->
-				
+
 	<target name="test-all">
 		<webtest name="test-all">
 			<config resultpath="${build.metawidget.dir}">
-				<header name="User-Agent" value="Mozilla/4.0"/>
-				<option name="ThrowExceptionOnScriptError" value="false"/>
+				<header name="User-Agent" value="Mozilla/4.0" />
+				<option name="ThrowExceptionOnScriptError" value="false" />
 			</config>
 			<steps>
 				<invoke url="${webtest.url}/seam-dvd/home" />
 				<verifyTitle text="JBoss DVD Store" />
-				<clickLink label="Create Account"/>
+				<clickLink label="Create Account" />
 
-				<setInputField name="create:customerUserName" value="NewUser"/>
-				<setInputField name="create:customerPassword" value="New Password"/>
-				<setInputField name="create:editCustomerPasswordVerify" value="New Password"/>
-				<clickButton label="Next"/>
+				<clickButton label="Next" />
+				<verifyText text="User name: Validation Error: Value is required." />
+				<verifyText text="Password: Validation Error: Value is required." />
+				<verifyText text="Password verify: Validation Error: Value is required." />
+				<setInputField name="create:customerUserName" value="NewUser" />
+				<setInputField name="create:customerPassword" value="New Password" />
+				<setInputField name="create:editCustomerPasswordVerify" value="New Password" />
+				<clickButton label="Next" />
+
+				<verifyText text="First name: Validation Error: Value is required." />
+				<verifyText text="Last name: Validation Error: Value is required." />
+				<verifyText text="Address 1: Validation Error: Value is required." />
+				<verifyText text="Address 2: Validation Error: Value is required." />
+				<verifyText text="City: Validation Error: Value is required." />
+				<verifyText text="State: Validation Error: Value is required." />
+				<verifyText text="Zip: Validation Error: Value is required." />
+				<verifyText text="Email: Validation Error: Value is required." />
+				<clickButton label="Next" />
+
+				<setInputField name="create:customerFirstName" value="New" />
+				<setInputField name="create:customerLastName" value="User" />
+				<setInputField name="create:customerAddress1" value="Apt 2" />
+				<setInputField name="create:customerAddress2" value="11/36-66 User Av" />
+				<setInputField name="create:customerCity" value="Userton" />
+				<setInputField name="create:customerState" value="U" />
+				<setInputField name="create:customerState" value="1" />
+				<setInputField name="create:customerState" value="user@user.com" />
+				<clickButton label="Next" />
+				
+				<verifyText text="State: Validation Error: Value is less than allowable minimum of '2'." />
+				<verifyText text="Zip: Validation Error: Value is less than allowable minimum of '5'." />
+				<setInputField name="create:customerState" value="UR" />
+				<setInputField name="create:customerState" value="12345" />
+				<clickButton label="Next" />
 				
 			</steps>
 		</webtest>
