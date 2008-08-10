@@ -338,6 +338,8 @@ public abstract class UIMetawidget
 		return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 	}
 
+	// TODO: if only one component, no need for rendererType?
+
 	@Override
 	public void encodeBegin( FacesContext context )
 		throws IOException

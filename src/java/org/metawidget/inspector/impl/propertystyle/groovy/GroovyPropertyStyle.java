@@ -30,8 +30,8 @@ import java.util.Map;
 import org.codehaus.groovy.reflection.CachedField;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
+import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -46,11 +46,11 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class GroovyPropertyStyle
-	implements PropertyStyle
+	extends BasePropertyStyle
 {
 	//
 	//
-	// Public methods
+	// Protected methods
 	//
 	//
 
@@ -58,7 +58,8 @@ public class GroovyPropertyStyle
 	 * Returns properties sorted by name.
 	 */
 
-	public Map<String, Property> getProperties( Class<?> clazz )
+	@Override
+	protected Map<String, Property> inspectProperties( Class<?> clazz )
 	{
 		// TreeMap so that returns alphabetically sorted properties
 
@@ -79,43 +80,13 @@ public class GroovyPropertyStyle
 
 			// Exclude based on criteria
 
-			if ( isExcluded( name, type ))
+			if ( isExcluded( clazz, name, type ))
 				continue;
 
 			propertiesToReturn.put( name, new GroovyProperty( property, clazz ) );
 		}
 
 		return propertiesToReturn;
-	}
-
-	//
-	//
-	// Protected methods
-	//
-	//
-
-	/**
-	 * Whether to exclude the given property, of the given type, in the given class, when searching
-	 * for properties.
-	 * <p>
-	 * This can be useful when the convention or base class define properties that are
-	 * framework-specific, and should be filtered out from 'real' business model properties.
-	 * <p>
-	 * By default, calls <code>isExcludedReturnType</code> and <code>isExcludedName</code> and
-	 * returns true if any of them return true. Returns false otherwise.
-	 *
-	 * @return true if the property should be excluded, false otherwise
-	 */
-
-	protected boolean isExcluded( String propertyName, Class<?> propertyType )
-	{
-		if ( isExcludedReturnType( propertyType ) )
-			return true;
-
-		if ( isExcludedName( propertyName ) )
-			return true;
-
-		return false;
 	}
 
 	/**
@@ -129,6 +100,7 @@ public class GroovyPropertyStyle
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
+	@Override
 	protected boolean isExcludedName( String name )
 	{
 		if ( "class".equals( name ) )
@@ -137,23 +109,7 @@ public class GroovyPropertyStyle
 		if ( "metaClass".equals( name ) )
 			return true;
 
-		return false;
-	}
-
-	/**
-	 * Whether to exclude the given property return type when searching for properties.
-	 * <p>
-	 * This can be useful when the convention or base class define properties that are
-	 * framework-specific, and should be filtered out from 'real' business model properties.
-	 * <p>
-	 * By default, does not exclude any return types.
-	 *
-	 * @return true if the property should be excluded, false otherwise
-	 */
-
-	protected boolean isExcludedReturnType( Class<?> clazz )
-	{
-		return false;
+		return super.isExcludedName( name );
 	}
 
 	//
