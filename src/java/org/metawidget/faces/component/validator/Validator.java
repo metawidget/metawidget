@@ -16,12 +16,12 @@
 
 package org.metawidget.faces.component.validator;
 
-import java.util.*;
+import java.util.Map;
 
-import javax.faces.component.*;
-import javax.faces.context.*;
+import javax.faces.component.EditableValueHolder;
+import javax.faces.context.FacesContext;
 
-import org.metawidget.faces.component.*;
+import org.metawidget.faces.component.UIMetawidget;
 
 /**
  * Base class for all JSF validators.
@@ -58,7 +58,7 @@ public abstract class Validator
 	//
 	//
 
-	public abstract void addValidators( FacesContext context, UIComponent component, Map<String, String> attributes );
+	public abstract void addValidators( FacesContext context, EditableValueHolder editableValueHolder, Map<String, String> attributes );
 
 	//
 	//
@@ -69,5 +69,28 @@ public abstract class Validator
 	protected UIMetawidget getMetawidget()
 	{
 		return mMetawidget;
+	}
+
+	/**
+	 * Gets the EditableValueHolder's existing Validator of the given type (if any).
+	 * <p>
+	 * Subclasses should generally check whether the component is already using the
+	 * validator before attempting to add their own.
+	 */
+
+	protected javax.faces.validator.Validator getExistingValidator( EditableValueHolder editableValueHolder, Class<? extends javax.faces.validator.Validator> validatorClass )
+	{
+		javax.faces.validator.Validator[] validators = editableValueHolder.getValidators();
+
+		if ( validators != null )
+		{
+			for( javax.faces.validator.Validator validator : validators )
+			{
+				if ( validatorClass.isAssignableFrom( validator.getClass() ))
+					return validator;
+			}
+		}
+
+		return null;
 	}
 }

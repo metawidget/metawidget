@@ -44,13 +44,14 @@
 				<setInputField name="create:customerCity" value="Userton" />
 				<setInputField name="create:customerState" value="U" />
 				<setInputField name="create:customerState" value="1" />
-				<setInputField name="create:customerState" value="user@user.com" />
+				<setInputField name="create:customerState" value="user" />
 				<clickButton label="Next" />
 				
 				<verifyText text="State: Validation Error: Value is less than allowable minimum of '2'." />
 				<verifyText text="Zip: Validation Error: Value is less than allowable minimum of '5'." />
 				<setInputField name="create:customerState" value="UR" />
 				<setInputField name="create:customerState" value="12345" />
+				<setInputField name="create:customerState" value="user@user.com" />
 				<clickButton label="Next" />
 				
 			</steps>

@@ -1163,8 +1163,8 @@ public abstract class UIMetawidget
 
 			setConverter( widget, attributes );
 
-			if ( mValidator != null )
-				mValidator.addValidators( context, widget, attributes );
+			if ( mValidator != null && widget instanceof EditableValueHolder )
+				mValidator.addValidators( context, (EditableValueHolder) widget, attributes );
 		}
 
 		putMetadata( widget, attributes );

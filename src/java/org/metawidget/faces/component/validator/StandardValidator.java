@@ -22,8 +22,7 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.faces.application.Application;
-import javax.faces.component.UIComponent;
-import javax.faces.component.UIInput;
+import javax.faces.component.EditableValueHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.validator.DoubleRangeValidator;
 import javax.faces.validator.LengthValidator;
@@ -58,19 +57,14 @@ public class StandardValidator
 	//
 
 	@Override
-	public void addValidators( FacesContext context, UIComponent component, Map<String, String> attributes )
+	public void addValidators( FacesContext context, EditableValueHolder editableValueHolder, Map<String, String> attributes )
 	{
-		if ( !( component instanceof UIInput ) )
-			return;
-
-		UIInput componentInput = (UIInput) component;
-
 		// JSF 1.2 support
 
 		try
 		{
-			Method method = componentInput.getClass().getMethod( "setLabel", String.class );
-			method.invoke( componentInput, getMetawidget().getLabelString( context, attributes ) );
+			Method method = editableValueHolder.getClass().getMethod( "setLabel", String.class );
+			method.invoke( editableValueHolder, getMetawidget().getLabelString( context, attributes ) );
 		}
 		catch( Exception e )
 		{
@@ -80,7 +74,7 @@ public class StandardValidator
 		// Required
 
 		if ( TRUE.equals( attributes.get( REQUIRED ) ) )
-			componentInput.setRequired( true );
+			editableValueHolder.setRequired( true );
 
 		Application application = context.getApplication();
 
@@ -95,25 +89,31 @@ public class StandardValidator
 
 			if ( "double".equals( type ) || Double.class.getName().equals( type ) )
 			{
-				DoubleRangeValidator validator = (DoubleRangeValidator) application.createValidator( "javax.faces.DoubleRange" );
-				componentInput.addValidator( validator );
+				if ( getExistingValidator( editableValueHolder, DoubleRangeValidator.class ) == null )
+				{
+					DoubleRangeValidator validator = (DoubleRangeValidator) application.createValidator( "javax.faces.DoubleRange" );
+					editableValueHolder.addValidator( validator );
 
-				if ( minimumValue != null && !"".equals( minimumValue ))
-					validator.setMinimum( Double.parseDouble( minimumValue ) );
+					if ( minimumValue != null && !"".equals( minimumValue ))
+						validator.setMinimum( Double.parseDouble( minimumValue ) );
 
-				if ( maximumValue != null && !"".equals( maximumValue ))
-					validator.setMaximum( Double.parseDouble( maximumValue ) );
+					if ( maximumValue != null && !"".equals( maximumValue ))
+						validator.setMaximum( Double.parseDouble( maximumValue ) );
+				}
 			}
 			else
 			{
-				LongRangeValidator validator = (LongRangeValidator) application.createValidator( "javax.faces.LongRange" );
-				componentInput.addValidator( validator );
+				if ( getExistingValidator( editableValueHolder, LongRangeValidator.class ) == null )
+				{
+					LongRangeValidator validator = (LongRangeValidator) application.createValidator( "javax.faces.LongRange" );
+					editableValueHolder.addValidator( validator );
 
-				if ( minimumValue != null && !"".equals( minimumValue ))
-					validator.setMinimum( Long.parseLong( minimumValue ) );
+					if ( minimumValue != null && !"".equals( minimumValue ))
+						validator.setMinimum( Long.parseLong( minimumValue ) );
 
-				if ( maximumValue != null && !"".equals( maximumValue ))
-					validator.setMaximum( Long.parseLong( maximumValue ) );
+					if ( maximumValue != null && !"".equals( maximumValue ))
+						validator.setMaximum( Long.parseLong( maximumValue ) );
+				}
 			}
 		}
 
@@ -124,15 +124,18 @@ public class StandardValidator
 
 		if ( minimumLength != null || maximumLength != null )
 		{
-			LengthValidator validator = (LengthValidator) application.createValidator( "javax.faces.Length" );
+			if ( getExistingValidator( editableValueHolder, LengthValidator.class ) == null )
+			{
+				LengthValidator validator = (LengthValidator) application.createValidator( "javax.faces.Length" );
 
-			if ( minimumLength != null && !"".equals( minimumLength ))
-				validator.setMinimum( Integer.parseInt( minimumLength ) );
+				if ( minimumLength != null && !"".equals( minimumLength ))
+					validator.setMinimum( Integer.parseInt( minimumLength ) );
 
-			if ( maximumLength != null && !"".equals( maximumLength ))
-				validator.setMaximum( Integer.parseInt( maximumLength ) );
+				if ( maximumLength != null && !"".equals( maximumLength ))
+					validator.setMaximum( Integer.parseInt( maximumLength ) );
 
-			componentInput.addValidator( validator );
+				editableValueHolder.addValidator( validator );
+			}
 		}
 	}
 }

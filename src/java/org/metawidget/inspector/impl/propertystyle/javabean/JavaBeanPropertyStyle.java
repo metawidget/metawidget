@@ -76,7 +76,7 @@ public class JavaBeanPropertyStyle
 	{
 		synchronized ( mPropertiesCache )
 		{
-			Map<String, Property> properties = mPropertiesCache.get( clazz );
+			Map<String, Property> properties = getCachedProperties( clazz );
 
 			if ( properties == null )
 			{
@@ -98,32 +98,28 @@ public class JavaBeanPropertyStyle
 					{
 						// ...inspect the superclass
 
-						properties = mPropertiesCache.get( superclass );
+						properties = getCachedProperties( superclass );
 
 						if ( properties == null )
+						{
 							properties = inspectProperties( superclass );
+							cacheProperties( superclass, properties );
+						}
 					}
 					else
 					{
 						// ...otherwise, inspect each interface and merge
 
-						properties = CollectionUtils.newHashMap();
+						// TODO: Android Action
+						// TODO: Groovy version of this
 
-						for ( Class<?> iface : clazz.getInterfaces() )
-						{
-							Map<String, Property> interfaceProperties = mPropertiesCache.get( iface );
-
-							if ( interfaceProperties == null )
-								interfaceProperties = inspectProperties( iface );
-
-							properties.putAll( interfaceProperties );
-						}
+						properties = inspectProperties( clazz.getInterfaces() );
 					}
 				}
 
 				// Cache the result
 
-				mPropertiesCache.put( clazz, Collections.unmodifiableMap( properties ) );
+				cacheProperties( clazz, properties );
 			}
 
 			return properties;
@@ -252,6 +248,33 @@ public class JavaBeanPropertyStyle
 			return true;
 
 		return false;
+	}
+
+	/**
+	 * Inspect the given Classes and merge their results.
+	 * <p>
+	 * This version of <code>inspectProperties</code> is used when inspecting
+	 * the interfaces of a proxied class.
+	 */
+
+	protected Map<String, Property> inspectProperties( Class<?>[] classes )
+	{
+		Map<String, Property> propertiesToReturn = CollectionUtils.newTreeMap();
+
+		for ( Class<?> clazz : classes )
+		{
+			Map<String, Property> properties = getCachedProperties( clazz );
+
+			if ( properties == null )
+			{
+				properties = inspectProperties( clazz );
+				cacheProperties( clazz, properties );
+			}
+
+			propertiesToReturn.putAll( properties );
+		}
+
+		return propertiesToReturn;
 	}
 
 	/**
@@ -416,6 +439,16 @@ public class JavaBeanPropertyStyle
 		}
 
 		return properties;
+	}
+
+	protected Map<String, Property> getCachedProperties( Class<?> clazz )
+	{
+		return mPropertiesCache.get( clazz );
+	}
+
+	protected void cacheProperties( Class<?> clazz, Map<String, Property> properties )
+	{
+		mPropertiesCache.put( clazz, Collections.unmodifiableMap( properties ));
 	}
 
 	//

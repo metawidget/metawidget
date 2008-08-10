@@ -71,6 +71,34 @@ public class JavassistPropertyStyle
 	//
 	//
 
+	/**
+	 * Inspect the given Classes and merge their results.
+	 * <p>
+	 * This version of <code>inspectProperties</code> is used when inspecting the interfaces of a
+	 * proxied class. Overriden to use a <code>LinkedHashMap</code> to combine the properties.
+	 */
+
+	@Override
+	protected Map<String, Property> inspectProperties( Class<?>[] classes )
+	{
+		Map<String, Property> propertiesToReturn = CollectionUtils.newLinkedHashMap();
+
+		for ( Class<?> clazz : classes )
+		{
+			Map<String, Property> properties = getCachedProperties( clazz );
+
+			if ( properties == null )
+			{
+				properties = inspectProperties( clazz );
+				cacheProperties( clazz, properties );
+			}
+
+			propertiesToReturn.putAll( properties );
+		}
+
+		return propertiesToReturn;
+	}
+
 	@Override
 	protected Map<String, Property> inspectProperties( Class<?> clazz )
 	{
@@ -117,7 +145,7 @@ public class JavassistPropertyStyle
 					MethodInfo methodInfo = ctMethod.getMethodInfo();
 					int lineNumber = methodInfo.getLineNumber( 0 );
 
-					if ( lineNumber == -1 )
+					if ( lineNumber == -1 && !ctClass.isInterface() )
 						throw InspectorException.newException( "Line number information for " + clazz + " not available. Did you compile without debug info?" );
 
 					lineNumberedProperties.put( new ClassAndLineNumberAndName( method.getDeclaringClass(), lineNumber, propertyName ), property );

@@ -20,6 +20,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.persistence.Column;
 
@@ -27,6 +28,7 @@ import junit.framework.TestCase;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
+import org.metawidget.inspector.annotation.UiMasked;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 
@@ -48,6 +50,7 @@ public class JavaBeanPropertyStyleTest
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
 
+		assertTrue( properties instanceof TreeMap );
 		assertTrue( properties.size() == 10 );
 
 		assertTrue( "foo".equals( properties.get( "foo" ).toString() ) );
@@ -92,6 +95,27 @@ public class JavaBeanPropertyStyleTest
 		assertTrue( properties.get( "methodSetterInSuper" ).isReadable() );
 		assertTrue( !properties.get( "methodSetterInSuper" ).isWritable() );
 		assertTrue( String.class.equals( properties.get( "methodCovariant" ).getType() ));
+	}
+
+	public void testInterfaceBasedPropertyStyle()
+	{
+		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		Map<String, Property> properties = propertyStyle.getProperties( Proxied_$$_javassist_.class );
+
+		assertTrue( properties instanceof TreeMap );
+		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ));
+
+		properties = propertyStyle.getProperties( new InterfaceFoo()
+		{
+			@Override
+			public Object getInterfaceBar()
+			{
+				return null;
+			}
+		}.getClass() );
+
+		assertTrue( properties instanceof TreeMap );
+		assertTrue( !properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ));
 	}
 
 	//
@@ -206,5 +230,21 @@ public class JavaBeanPropertyStyleTest
 
 			return super.isExcludedBaseType( clazz );
 		}
+	}
+
+	class Proxied_$$_javassist_
+		implements InterfaceFoo
+	{
+		@Override
+		public Object getInterfaceBar()
+		{
+			return null;
+		}
+	}
+
+	interface InterfaceFoo
+	{
+		@UiMasked
+		Object getInterfaceBar();
 	}
 }
