@@ -1473,7 +1473,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 
 				<para>
 					There are two ways to set up a hosted mode project. For Windows developers, there is an automated Ant build
-					included in the source distribution. 
+					included in the source distribution. To run it, type: 
 				</para>
 				
 				<programlisting language="shell">cd examples\web\gwt
@@ -1482,7 +1482,7 @@ ant</programlisting>
 				<para>
 					You will need to either configure a <parameter>GWT_HOME</parameter> environment variable or
 					pass a <parameter>-Dgwt.home</parameter> argument to Ant. The build will create an Eclipse
-					project which can be imported in Eclipse by using the File -> Import menu and choosing
+					project which can be imported by using Eclipse's File -> Import menu and choosing
 					"Existing Projects into Workspace" (as described in the GWT Getting	Started Guide).
 				</para>
 				
