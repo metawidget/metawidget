@@ -106,7 +106,7 @@ public class HtmlMetawidgetTag
 		// CSS
 
 		@SuppressWarnings( "unchecked" )
-		Map<String, String> attributes = component.getAttributes();
+		Map<String, Object> attributes = component.getAttributes();
 
 		if ( mStyle != null )
 			attributes.put( "style", mStyle );

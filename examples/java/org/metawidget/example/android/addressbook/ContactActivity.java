@@ -51,7 +51,7 @@ import android.widget.TextView;
  * @author Richard Kennard
  */
 
-// TODO: Actions added as menu items
+// LOW: Actions added as menu items
 
 public class ContactActivity
 	extends Activity

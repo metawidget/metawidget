@@ -43,8 +43,7 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-// TODO: @UiOrder( "1.1.1" )
-// TODO: e-mail not validating? N:\jboss-seam-2.0.2.SP1\ ui\src\main\java\org\jboss\seam\ ui\renderkit\ValidateAllRendererBase.java
+// LOW: @UiOrder( "1.1.1" )
 // TODO: full test script
 
 public class MetawidgetAnnotationInspector

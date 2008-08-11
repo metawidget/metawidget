@@ -338,8 +338,6 @@ public abstract class UIMetawidget
 		return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 	}
 
-	// TODO: if only one component, no need for rendererType?
-
 	@Override
 	public void encodeBegin( FacesContext context )
 		throws IOException
@@ -487,8 +485,9 @@ public abstract class UIMetawidget
 		// If this InspectorConfig has already been read...
 
 		@SuppressWarnings( "unchecked" )
-		Map<String, Map<String, Inspector>> application = getFacesContext().getExternalContext().getApplicationMap();
-		Map<String, Inspector> inspectors = application.get( APPLICATION_ATTRIBUTE_INSPECTORS );
+		Map<String, Object> application = getFacesContext().getExternalContext().getApplicationMap();
+		@SuppressWarnings( "unchecked" )
+		Map<String, Inspector> inspectors = (Map<String, Inspector>) application.get( APPLICATION_ATTRIBUTE_INSPECTORS );
 
 		// ...use it...
 
@@ -1121,11 +1120,7 @@ public abstract class UIMetawidget
 
 				String valueBinding = attributes.get( FACES_BINDING );
 
-				if ( valueBinding != null )
-				{
-					binding = application.createValueBinding( valueBinding );
-				}
-				else
+				if ( valueBinding == null )
 				{
 					// ...if there is no binding prefix yet, we must be at
 					// the top level...
@@ -1133,6 +1128,9 @@ public abstract class UIMetawidget
 					if ( mBindingPrefix == null )
 					{
 						binding = getValueBinding( "value" );
+
+						if ( binding != null )
+							valueBinding = binding.getExpressionString();
 					}
 
 					// ...if there is a prefix and a name, try and construct the binding
@@ -1144,14 +1142,21 @@ public abstract class UIMetawidget
 						if ( name != null && !"".equals( name ) )
 						{
 							valueBinding = FacesUtils.wrapValueReference( mBindingPrefix + name );
-							binding = application.createValueBinding( valueBinding );
 						}
 					}
 				}
 
-				if ( binding != null )
+				if ( valueBinding != null )
 				{
-					attachValueBinding( widget, binding, attributes );
+					// Note: until JBSEAM-3252 gets fixed, we would need to do...
+					//
+					// ValueExpression v = app.getExpressionFactory().createValueExpression(
+					// context.getELContext(), valueBinding, Object.class );
+					// attachValueExpression( widget, valueExpression, attributes );
+					//
+					// ...here, but then we're not JSF 1.1 compatible :(
+
+					attachValueBinding( widget, application.createValueBinding( valueBinding ), attributes );
 
 					// Does widget need an id?
 					//
@@ -1159,7 +1164,7 @@ public abstract class UIMetawidget
 					// as it will create duplicates in the child component list
 
 					if ( widget.getId() == null )
-						setUniqueId( context, widget, binding.getExpressionString() );
+						setUniqueId( context, widget, valueBinding );
 				}
 			}
 
@@ -1252,8 +1257,8 @@ public abstract class UIMetawidget
 		{
 			// Label may be a value reference (eg. into a bundle)
 
-			if ( FacesUtils.isValueReference( label ))
-				selectItem.setValueBinding( "itemLabel", application.createValueBinding( label ));
+			if ( FacesUtils.isValueReference( label ) )
+				selectItem.setValueBinding( "itemLabel", application.createValueBinding( label ) );
 			else
 				selectItem.setItemLabel( label );
 		}

@@ -45,7 +45,7 @@ public abstract class BasePropertyStyle
 	 * variable, not a static, because we rely on <code>BaseObjectInspector</code> to only create
 	 * one instance of <code>PropertyStyle</code> for all <code>Inspectors</code>.
 	 * <p>
-	 * This also stops problems with subclasses of <code>JavaBeanPropertyStyle</code> sharing the
+	 * This also stops problems with subclasses of <code>BasePropertyStyle</code> sharing the
 	 * same static cache.
 	 */
 

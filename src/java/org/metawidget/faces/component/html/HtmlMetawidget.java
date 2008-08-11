@@ -118,17 +118,16 @@ public class HtmlMetawidget
 		if ( component instanceof UIStub )
 			componentToStyle = (UIComponent) component.getChildren().get( 0 );
 
-		@SuppressWarnings( "unchecked" )
-		Map<String, String> componentAttributes = componentToStyle.getAttributes();
-
-		@SuppressWarnings( "unchecked" )
-		Map<String, String> thisAttributes = getAttributes();
-		String style = thisAttributes.get( "style" );
+		@SuppressWarnings("unchecked")
+		Map<String, Object> componentAttributes = componentToStyle.getAttributes();
+		@SuppressWarnings("unchecked")
+		Map<String, Object> thisAttributes = getAttributes();
+		String style = (String) thisAttributes.get( "style" );
 
 		if ( style != null && !componentAttributes.containsKey( "style" ) )
 			componentAttributes.put( "style", style );
 
-		String styleClass = thisAttributes.get( "styleClass" );
+		String styleClass = (String) thisAttributes.get( "styleClass" );
 
 		if ( styleClass != null && !componentAttributes.containsKey( "styleClass" ) )
 			componentAttributes.put( "styleClass", styleClass );

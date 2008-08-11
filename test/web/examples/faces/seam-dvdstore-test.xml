@@ -22,9 +22,12 @@
 				<verifyText text="User name: Validation Error: Value is required." />
 				<verifyText text="Password: Validation Error: Value is required." />
 				<verifyText text="Password verify: Validation Error: Value is required." />
-				<setInputField name="create:customerUserName" value="NewUser" />
-				<setInputField name="create:customerPassword" value="New Password" />
-				<setInputField name="create:editCustomerPasswordVerify" value="New Password" />
+				<setInputField name="newuser:customerUserName" value="NewUser" />
+				<setInputField name="newuser:customerPassword" value="New Password" />
+				<setInputField name="newuser:editCustomerPasswordVerify" value="New Password" />
+				<clickButton label="Next" />
+
+				<setInputField name="newuser:customerEmail" value="user" />
 				<clickButton label="Next" />
 
 				<verifyText text="First name: Validation Error: Value is required." />
@@ -34,24 +37,24 @@
 				<verifyText text="City: Validation Error: Value is required." />
 				<verifyText text="State: Validation Error: Value is required." />
 				<verifyText text="Zip: Validation Error: Value is required." />
-				<verifyText text="Email: Validation Error: Value is required." />
+				<!-- Can't do this until JBSEAM-3251 and JBSEAM-3252 are fixed: verifyText text="not a well-formed email address" -->				
 				<clickButton label="Next" />
 
-				<setInputField name="create:customerFirstName" value="New" />
-				<setInputField name="create:customerLastName" value="User" />
-				<setInputField name="create:customerAddress1" value="Apt 2" />
-				<setInputField name="create:customerAddress2" value="11/36-66 User Av" />
-				<setInputField name="create:customerCity" value="Userton" />
-				<setInputField name="create:customerState" value="U" />
-				<setInputField name="create:customerState" value="1" />
-				<setInputField name="create:customerState" value="user" />
+				<setInputField name="newuser:customerFirstName" value="New" />
+				<setInputField name="newuser:customerLastName" value="User" />
+				<setInputField name="newuser:customerAddress1" value="Apt 2" />
+				<setInputField name="newuser:customerAddress2" value="11/36-66 User Av" />
+				<setInputField name="newuser:customerCity" value="Userton" />
+				<setInputField name="newuser:customerState" value="U" />
+				<setInputField name="newuser:customerZip" value="1" />
+				<setInputField name="newuser:customerEmail" value="user@user.com" />
 				<clickButton label="Next" />
 				
-				<verifyText text="State: Validation Error: Value is less than allowable minimum of '2'." />
-				<verifyText text="Zip: Validation Error: Value is less than allowable minimum of '5'." />
-				<setInputField name="create:customerState" value="UR" />
-				<setInputField name="create:customerState" value="12345" />
-				<setInputField name="create:customerState" value="user@user.com" />
+				<verifyText text="State: Validation Error: Value is less than allowable minimum of '2'" />
+				<verifyText text="Zip: Validation Error: Value is less than allowable minimum of '5'" />
+				
+				<setInputField name="newuser:customerState" value="UR" />
+				<setInputField name="newuser:customerState" value="12345" />
 				<clickButton label="Next" />
 				
 			</steps>
