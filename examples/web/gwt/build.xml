@@ -1,0 +1,68 @@
+<project name="metawidget-gwt-addressbook" default="create-hosted">
+
+	<property file="../../../build.properties" />
+	<property environment="env" />
+	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
+	<property name="addressbook.gwt.hosted.dir" value="/gwt-addressbook-hosted" />
+
+	<!-- Check for GWT_HOME -->
+
+	<condition property="gwt.home" value="${env.GWT_HOME}">
+		<isset property="env.GWT_HOME" />
+	</condition>
+
+	<target name="check">
+		<fail message="Cannot find GWT_HOME. Please define the GWT_HOME environment variable or use: ant -Dgwt.home=&lt;gwt home dir> &lt;target>" unless="gwt.home" />
+		<echo message="Building using gwt.home = ${gwt.home}" />
+		<echo message="Writing output to addressbook.gwt.hosted.dir = ${addressbook.gwt.hosted.dir}" />
+	</target>
+
+	<!-- Clean -->
+		
+	<target name="clean">
+		<delete dir="${addressbook.gwt.hosted.dir}" />
+	</target>
+
+	<!-- Create Hosted -->
+	
+	<target name="create-hosted" depends="clean, check">
+
+		<ant antfile="../../../build.xml" target="clean" inheritAll="no"/>
+		<ant antfile="../../../build.xml" target="pack" inheritAll="no"/>
+		<ant antfile="../../../build.xml" target="pack-gwt-client" inheritAll="no"/>
+		
+		<exec executable="${gwt.home}/projectCreator.cmd" failonerror="true">
+			<arg line="-eclipse AddressBook -out ${addressbook.gwt.hosted.dir}" />
+		</exec>
+
+		<exec executable="${gwt.home}/applicationCreator.cmd" failonerror="true">
+			<arg line="-eclipse AddressBook org.metawidget.example.gwt.addressbook.client.AddressBook -out ${addressbook.gwt.hosted.dir}" />
+		</exec>
+
+		<delete dir="${addressbook.gwt.hosted.dir}/src/org/metawidget/example"/>
+		
+		<copy todir="${addressbook.gwt.hosted.dir}/src/org/metawidget/example">
+			<fileset dir="../../java/org/metawidget/example" includes="gwt/**,shared/**,GwtAddressBook.gwt.xml" />
+		</copy>
+
+		<copy todir="${addressbook.gwt.hosted.dir}/src">
+			<fileset dir="addressbook/WEB-INF" includes="inspector-config.xml, metawidget-metadata.xml" />
+		</copy>
+
+		<mkdir dir="${addressbook.gwt.hosted.dir}/lib" />
+		<copy todir="${addressbook.gwt.hosted.dir}/lib">
+			<fileset dir="../../../lib" includes="ejb3-persistence.jar,hibernate-validator.jar,javax.servlet.jsp.jar">
+			</fileset>
+			<fileset dir="${build.metawidget.dir}" includes="metawidget.jar, metawidget-gwt-client.jar" />
+		</copy>
+
+		<replace file="${addressbook.gwt.hosted.dir}/Addressbook.launch" token="org.metawidget.example.gwt.addressbook.AddressBook" value="org.metawidget.example.GwtAddressBook" />
+		<replace file="${addressbook.gwt.hosted.dir}/.classpath" token="&lt;/classpath>" value='&lt;classpathentry kind="lib" path="lib/metawidget.jar"/>
+			&lt;classpathentry kind="lib" path="lib/metawidget-gwt-client.jar"/>
+			&lt;classpathentry kind="lib" path="lib/ejb3-persistence.jar"/>
+			&lt;classpathentry kind="lib" path="lib/hibernate-validator.jar"/>
+			&lt;classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
+			&lt;/classpath>' />
+	</target>
+
+</project>
