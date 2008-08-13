@@ -37,7 +37,7 @@
 				<verifyText text="City: Validation Error: Value is required." />
 				<verifyText text="State: Validation Error: Value is required." />
 				<verifyText text="Zip: Validation Error: Value is required." />
-				<!-- Can't do this until JBSEAM-3251 and JBSEAM-3252 are fixed: verifyText text="not a well-formed email address" -->				
+				<!-- Can't do this until JBSEAM-3251 is fixed: verifyText text="not a well-formed email address" -->				
 				<clickButton label="Next" />
 
 				<setInputField name="newuser:customerFirstName" value="New" />

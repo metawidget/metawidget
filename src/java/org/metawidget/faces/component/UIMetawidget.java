@@ -75,6 +75,8 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
+// TODO: JSF 1.2 version
+
 public abstract class UIMetawidget
 	extends UIComponentBase
 {
