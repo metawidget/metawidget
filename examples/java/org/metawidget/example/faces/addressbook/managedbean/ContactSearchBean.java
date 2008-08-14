@@ -33,6 +33,7 @@ import org.metawidget.inspector.annotation.UiHidden;
  * @author Richard Kennard
  */
 
+@SuppressWarnings( "deprecation" )
 public class ContactSearchBean
 {
 	//

@@ -86,7 +86,7 @@ public class HtmlLayoutRenderer
 
 			// (drill into single component UIMetawidgets)
 
-			messageFor = ((UIComponent) childComponent.getChildren().get( 0 )).getId();
+			messageFor = childComponent.getChildren().get( 0 ).getId();
 		}
 		else if ( !( childComponent instanceof UIInput ))
 			return;

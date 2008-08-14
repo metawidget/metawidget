@@ -34,6 +34,7 @@ import org.metawidget.example.shared.addressbook.model.Contact;
  * @author Richard Kennard
  */
 
+@SuppressWarnings( "deprecation" )
 public class LoadContactListener
 	implements javax.faces.event.PhaseListener
 {

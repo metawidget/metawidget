@@ -30,6 +30,7 @@ import org.metawidget.faces.component.validator.StandardValidator;
  * @author Richard Kennard
  */
 
+@SuppressWarnings( "deprecation" )
 public abstract class MetawidgetTag
 	extends UIComponentTag
 {
@@ -51,7 +52,7 @@ public abstract class MetawidgetTag
 
 	private String	mBundle;
 
-	private String	mValidatorClass = StandardValidator.class.getName();
+	private String	mValidatorClass	= StandardValidator.class.getName();
 
 	//
 	//

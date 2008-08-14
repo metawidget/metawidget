@@ -203,7 +203,7 @@ public class Main {
 			    </important>
 				
 				<para>
-					We'll see how Metawidget slots into existing UIs in Part 2.
+					We'll see how Metawidget slots into existing UIs later.
 				</para>
 				
 			</section>
@@ -1794,7 +1794,7 @@ bin\run</programlisting>
 				<para>
 					For those looking to write their own Metawidget (say, for a currently unsupported platform) there is a
 					<classname>MetawidgetMixin</classname> class that implements the above steps 2-6 for you, see <xref linkend="section-metawidgets-implementing-your-own-mixin"/>.
-					All of the existing Metawidgets are implemented using this class.
+					All of the supplied Metawidgets are implemented using this class.
 				</para>
 				
 			</section>

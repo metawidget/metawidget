@@ -76,7 +76,7 @@ import org.w3c.dom.Element;
  */
 
 // TODO: JSF 1.2 version
-
+@SuppressWarnings( "deprecation" )
 public abstract class UIMetawidget
 	extends UIComponentBase
 {

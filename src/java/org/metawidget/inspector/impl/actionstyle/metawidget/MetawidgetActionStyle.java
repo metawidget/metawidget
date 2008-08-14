@@ -31,6 +31,8 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
+// TODO: update doco for actions in Address Book example
+
 public class MetawidgetActionStyle
 	extends MethodActionStyle
 {

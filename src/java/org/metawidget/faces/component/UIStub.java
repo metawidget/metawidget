@@ -37,6 +37,7 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
+@SuppressWarnings( "deprecation" )
 public class UIStub
 	extends UIComponentBase
 {

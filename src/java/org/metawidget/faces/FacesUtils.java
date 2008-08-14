@@ -38,6 +38,7 @@ import org.metawidget.util.ArrayUtils;
  * @author Richard Kennard
  */
 
+@SuppressWarnings( "deprecation" )
 public final class FacesUtils
 {
 	//

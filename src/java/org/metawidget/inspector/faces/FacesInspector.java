@@ -42,6 +42,7 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
+@SuppressWarnings( "deprecation" )
 public class FacesInspector
 	extends BaseObjectInspector
 {
