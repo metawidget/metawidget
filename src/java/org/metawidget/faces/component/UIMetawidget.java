@@ -881,6 +881,32 @@ public abstract class UIMetawidget
 	}
 
 	/**
+	 * JSF 1.2 version of attachValueBinding.
+	 */
+
+	protected void attachValueExpression( UIComponent widget, Object valueExpression, Map<String, String> attributes )
+	{
+		// Support stubs
+
+		if ( widget instanceof UIStub )
+		{
+			@SuppressWarnings( "unchecked" )
+			List<UIComponent> children = widget.getChildren();
+
+			for ( UIComponent componentChild : children )
+			{
+				attachValueExpression( componentChild, valueExpression, attributes );
+			}
+
+			return;
+		}
+
+		// Set binding
+
+		widget.setValueExpression( "value", (javax.el.ValueExpression) valueExpression );
+	}
+
+	/**
 	 * Attach metadata for renderer. We do this even for manually created components.
 	 */
 
@@ -1150,15 +1176,25 @@ public abstract class UIMetawidget
 
 				if ( valueBinding != null )
 				{
-					// Note: until JBSEAM-3252 gets fixed, we would need to do...
-					//
-					// ValueExpression v = app.getExpressionFactory().createValueExpression(
-					// context.getELContext(), valueBinding, Object.class );
-					// attachValueExpression( widget, valueExpression, attributes );
-					//
-					// ...here, but then we're not JSF 1.1 compatible :(
+					try
+					{
+						// JSF 1.2 mode: some components (such as
+						// org.jboss.seam.core.Validators.validate()) expect ValueExpressions and do
+						// not work with ValueBindings (see JBSEAM-3252)
+						//
+						// Note: we wrap the ValueExpression as an Object[] to stop link-time
+						// dependencies on javax.el.ValueExpression, so that we still work with
+						// JSF 1.1
 
-					attachValueBinding( widget, application.createValueBinding( valueBinding ), attributes );
+						Object[] valueExpression = new Object[] { application.getExpressionFactory().createValueExpression( context.getELContext(), valueBinding, Object.class ) };
+						attachValueExpression( widget, valueExpression[0], attributes );
+					}
+					catch ( NoSuchMethodError e )
+					{
+						// JSF 1.1 mode
+
+						attachValueBinding( widget, application.createValueBinding( valueBinding ), attributes );
+					}
 
 					// Does widget need an id?
 					//

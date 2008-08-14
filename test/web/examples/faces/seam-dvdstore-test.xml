@@ -37,7 +37,7 @@
 				<verifyText text="City: Validation Error: Value is required." />
 				<verifyText text="State: Validation Error: Value is required." />
 				<verifyText text="Zip: Validation Error: Value is required." />
-				<!-- Can't do this until JBSEAM-3251 is fixed: verifyText text="not a well-formed email address" -->				
+				<!-- Can't do this here until JBSEAM-3251 is fixed: verifyText text="not a well-formed email address" -->				
 				<clickButton label="Next" />
 
 				<setInputField name="newuser:customerFirstName" value="New" />
@@ -47,14 +47,15 @@
 				<setInputField name="newuser:customerCity" value="Userton" />
 				<setInputField name="newuser:customerState" value="U" />
 				<setInputField name="newuser:customerZip" value="1" />
-				<setInputField name="newuser:customerEmail" value="user@user.com" />
+				<verifyText text="not a well-formed email address"/>				
 				<clickButton label="Next" />
 				
-				<verifyText text="State: Validation Error: Value is less than allowable minimum of '2'" />
-				<verifyText text="Zip: Validation Error: Value is less than allowable minimum of '5'" />
+				<verifyText text="length must be between 2 and 2" />
+				<verifyText text="length must be between 5 and 10" />
 				
 				<setInputField name="newuser:customerState" value="UR" />
 				<setInputField name="newuser:customerState" value="12345" />
+				<setInputField name="newuser:customerEmail" value="user@user.com" />
 				<clickButton label="Next" />
 				
 			</steps>
