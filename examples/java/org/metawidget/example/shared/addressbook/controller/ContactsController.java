@@ -180,7 +180,7 @@ public class ContactsController
 			throw new RuntimeException( "Title is required" );
 
 		if ( contact.getFirstnames() == null || "".equals( contact.getFirstnames() ))
-			throw new RuntimeException( "Firstname is required" );
+			throw new RuntimeException( "Firstnames is required" );
 
 		if ( contact.getSurname() == null || "".equals( contact.getSurname() ))
 			throw new RuntimeException( "Surname is required" );

@@ -29,9 +29,9 @@
 		<property name="boolean"/>
 		<property name="booleanObject"/>
 		<property name="dropdown" lookup="foo1,dropdown1,bar1" lookup-labels=""/>
-		<property name="dropdownWithLabels" lookup="foo2,dropdown2,bar2" lookup-labels="Foo #2,Dropdown #2,Bar #2"/>
+		<property name="dropdownWithLabels" lookup="foo2,dropdown2,bar2,baz2" lookup-labels="Foo #2,Dropdown #2,Bar #2,Baz #2"/>
 		<property name="notNullDropdown" lookup="-1,0,1"/>
-		<property name="notNullObjectDropdown" lookup="foo3,dropdown3,bar3" required="true"/>
+		<property name="notNullObjectDropdown" lookup="foo3,dropdown3,bar3,baz3,abc3,def3" required="true"/>
 		<property name="nestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets"/>
 		<property name="readOnlyNestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets" read-only="true"/>
 		<property name="nestedWidgetsDontExpand" dont-expand="true"/>

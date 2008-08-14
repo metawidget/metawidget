@@ -135,13 +135,13 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/th" text="Dropdown:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/td[1]/select"/>
 				<verifySelectField name="dropdown" text="dropdown1"/>
-				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[23]/td[1]/select/option)" text="4"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[22]/td[1]/select/option)" text="4"/>
 				<setSelectField name="dropdown" text="foo1"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/th" text="Dropdown with labels:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/td[1]/select"/>
 				<verifySelectField name="dropdownWithLabels" text="Dropdown #2"/>
-				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[23]/td[1]/select/option)" text="4"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[23]/td[1]/select/option)" text="5"/>
 				<setSelectField name="dropdownWithLabels" text="Bar #2"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/th" text="Not null dropdown:"/>
@@ -153,7 +153,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/th" text="Not null object dropdown:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/select"/>
 				<verifySelectField name="notNullObjectDropdown" text="dropdown3"/>
-				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[25]/td[1]/select/option)" text="3"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[25]/td[1]/select/option)" text="6"/>
 				<setSelectField name="notNullObjectDropdown" text="foo3"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/th" text="Nested widgets:"/>					

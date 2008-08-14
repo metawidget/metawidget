@@ -310,10 +310,11 @@ public class SwingAllWidgetsTest
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 43 ) ).gridx );
 
 		JComboBox combo = (JComboBox) metawidget.getComponent( 43 );
-		assertTrue( 4 == combo.getItemCount() );
+		assertTrue( 5 == combo.getItemCount() );
 		assertTrue( "Foo #2".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "foo2", 1, false, false )).getText() ));
 		assertTrue( "Dropdown #2".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "dropdown2", 1, false, false )).getText() ));
 		assertTrue( "Bar #2".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "bar2", 1, false, false )).getText() ));
+		assertTrue( "Baz #2".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "baz2", 1, false, false )).getText() ));
 		assertTrue( "dropdown2".equals( metawidget.getValue( "dropdownWithLabels" ) ) );
 		( (JComboBox) metawidget.getComponent( 43 ) ).setSelectedItem( "bar2" );
 
@@ -327,7 +328,7 @@ public class SwingAllWidgetsTest
 		assertTrue( "Not null object dropdown*:".equals( ( (JLabel) metawidget.getComponent( 46 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 47 ) instanceof JComboBox );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 47 ) ).gridx );
-		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 47 ) ).getItemCount() );
+		assertTrue( 6 == ( (JComboBox) metawidget.getComponent( 47 ) ).getItemCount() );
 		assertTrue( "dropdown3".equals( metawidget.getValue( "notNullObjectDropdown" ) ));
 		( (JComboBox) metawidget.getComponent( 47 ) ).setSelectedIndex( 0 );
 

@@ -209,13 +209,15 @@ public class GwtAllWidgetsTest
 				assertTrue( "Dropdown with labels:".equals( flexTable.getText( 22, 0 ) ) );
 				assertTrue( flexTable.getWidget( 22, 1 ) instanceof ListBox );
 				ListBox listbox = (ListBox) flexTable.getWidget( 22, 1 );
-				assertTrue( 4 == listbox.getItemCount() );
+				assertTrue( 5 == listbox.getItemCount() );
 				assertTrue( "foo2".equals( listbox.getValue( 1 ) ) );
 				assertTrue( "Foo #2".equals( listbox.getItemText( 1 ) ) );
 				assertTrue( "dropdown2".equals( listbox.getValue( 2 ) ) );
 				assertTrue( "Dropdown #2".equals( listbox.getItemText( 2 ) ) );
 				assertTrue( "bar2".equals( listbox.getValue( 3 ) ) );
 				assertTrue( "Bar #2".equals( listbox.getItemText( 3 ) ) );
+				assertTrue( "baz2".equals( listbox.getValue( 4 ) ) );
+				assertTrue( "Baz #2".equals( listbox.getItemText( 4 ) ) );
 				assertTrue( "dropdown2".equals( metawidget.getValue( "dropdownWithLabels" ) ) );
 				GwtUtils.setListBoxSelectedItem( ( (ListBox) flexTable.getWidget( 22, 1 ) ), "bar2" );
 
@@ -227,7 +229,7 @@ public class GwtAllWidgetsTest
 
 				assertTrue( "Not null object dropdown:".equals( flexTable.getText( 24, 0 ) ) );
 				assertTrue( flexTable.getWidget( 24, 1 ) instanceof ListBox );
-				assertTrue( 3 == ( (ListBox) flexTable.getWidget( 24, 1 ) ).getItemCount() );
+				assertTrue( 6 == ( (ListBox) flexTable.getWidget( 24, 1 ) ).getItemCount() );
 				assertTrue( "dropdown3".equals( metawidget.getValue( "notNullObjectDropdown" ) ) );
 				((ListBox) flexTable.getWidget( 24, 1 ) ).setSelectedIndex( 0 );
 

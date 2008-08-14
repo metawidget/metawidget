@@ -74,8 +74,7 @@ import org.w3c.dom.Element;
  *
  * @author Richard Kennard
  */
-
-// TODO: JSF 1.2 version
+//TODO: test addressbook defaults to 'Mr'
 @SuppressWarnings( "deprecation" )
 public abstract class UIMetawidget
 	extends UIComponentBase
