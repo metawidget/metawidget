@@ -302,8 +302,8 @@ public class SwingAllWidgetsTest
 		assertTrue( metawidget.getComponent( 41 ) instanceof JComboBox );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 41 ) ).gridx );
 		assertTrue( 4 == ( (JComboBox) metawidget.getComponent( 41 ) ).getItemCount() );
-		assertTrue( "dropdown".equals( metawidget.getValue( "dropdown" ) ) );
-		( (JComboBox) metawidget.getComponent( 41 ) ).setSelectedItem( "foo" );
+		assertTrue( "dropdown1".equals( metawidget.getValue( "dropdown" ) ) );
+		( (JComboBox) metawidget.getComponent( 41 ) ).setSelectedItem( "foo1" );
 
 		assertTrue( "Dropdown with labels:".equals( ( (JLabel) metawidget.getComponent( 42 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 43 ) instanceof JComboBox );
@@ -311,11 +311,11 @@ public class SwingAllWidgetsTest
 
 		JComboBox combo = (JComboBox) metawidget.getComponent( 43 );
 		assertTrue( 4 == combo.getItemCount() );
-		assertTrue( "Foo".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "foo", 1, false, false )).getText() ));
-		assertTrue( "Dropdown".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "dropdown", 1, false, false )).getText() ));
-		assertTrue( "Bar".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "bar", 1, false, false )).getText() ));
-		assertTrue( "dropdown".equals( metawidget.getValue( "dropdownWithLabels" ) ) );
-		( (JComboBox) metawidget.getComponent( 43 ) ).setSelectedItem( "bar" );
+		assertTrue( "Foo #2".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "foo2", 1, false, false )).getText() ));
+		assertTrue( "Dropdown #2".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "dropdown2", 1, false, false )).getText() ));
+		assertTrue( "Bar #2".equals( ((JLabel) combo.getRenderer().getListCellRendererComponent( new JList(), "bar2", 1, false, false )).getText() ));
+		assertTrue( "dropdown2".equals( metawidget.getValue( "dropdownWithLabels" ) ) );
+		( (JComboBox) metawidget.getComponent( 43 ) ).setSelectedItem( "bar2" );
 
 		assertTrue( "Not null dropdown:".equals( ( (JLabel) metawidget.getComponent( 44 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 45 ) instanceof JComboBox );
@@ -328,7 +328,7 @@ public class SwingAllWidgetsTest
 		assertTrue( metawidget.getComponent( 47 ) instanceof JComboBox );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 47 ) ).gridx );
 		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 47 ) ).getItemCount() );
-		assertTrue( "dropdown".equals( metawidget.getValue( "notNullObjectDropdown" ) ));
+		assertTrue( "dropdown3".equals( metawidget.getValue( "notNullObjectDropdown" ) ));
 		( (JComboBox) metawidget.getComponent( 47 ) ).setSelectedIndex( 0 );
 
 		assertTrue( "Nested widgets:".equals( ( (JLabel) metawidget.getComponent( 48 ) ).getText() ) );
@@ -470,13 +470,13 @@ public class SwingAllWidgetsTest
 		assertTrue( "Boolean object:".equals( ( (JLabel) metawidget.getComponent( 38 ) ).getText() ) );
 		assertTrue( "false".equals( ( (JLabel) metawidget.getComponent( 39 ) ).getText() ) );
 		assertTrue( "Dropdown:".equals( ( (JLabel) metawidget.getComponent( 40 ) ).getText() ) );
-		assertTrue( "foo".equals( ( (JLabel) metawidget.getComponent( 41 ) ).getText() ) );
+		assertTrue( "foo1".equals( ( (JLabel) metawidget.getComponent( 41 ) ).getText() ) );
 		assertTrue( "Dropdown with labels:".equals( ( (JLabel) metawidget.getComponent( 42 ) ).getText() ) );
-		assertTrue( "Bar".equals( ( (JLabel) metawidget.getComponent( 43 ) ).getText() ) );
+		assertTrue( "Bar #2".equals( ( (JLabel) metawidget.getComponent( 43 ) ).getText() ) );
 		assertTrue( "Not null dropdown:".equals( ( (JLabel) metawidget.getComponent( 44 ) ).getText() ) );
 		assertTrue( "1".equals( ( (JLabel) metawidget.getComponent( 45 ) ).getText() ) );
 		assertTrue( "Not null object dropdown:".equals( ( (JLabel) metawidget.getComponent( 46 ) ).getText() ) );
-		assertTrue( "foo".equals( ( (JLabel) metawidget.getComponent( 47 ) ).getText() ) );
+		assertTrue( "foo3".equals( ( (JLabel) metawidget.getComponent( 47 ) ).getText() ) );
 		assertTrue( "Nested widgets:".equals( ( (JLabel) metawidget.getComponent( 48 ) ).getText() ) );
 		assertTrue( "Further nested widgets:".equals( ( (JLabel) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 0 )).getText() ) );
 		assertTrue( "Further nested widgets:".equals( ( (JLabel) ( (SwingMetawidget) ((SwingMetawidget) metawidget.getComponent( 49 )).getComponent( 1 )).getComponent( 0 ) ).getText() ));

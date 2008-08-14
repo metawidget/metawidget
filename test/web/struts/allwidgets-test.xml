@@ -131,15 +131,15 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/th" text="Dropdown (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/td[1]/select"/>
-				<verifySelectField name="allWidgets.dropdown" text="dropdown"/>
+				<verifySelectField name="allWidgets.dropdown" text="dropdown1"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[22]/td[1]/select/option)" text="4"/>
-				<setSelectField name="allWidgets.dropdown" text="foo"/>
+				<setSelectField name="allWidgets.dropdown" text="foo1"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/th" text="Dropdown with Labels (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/td[1]/select"/>
-				<verifySelectField name="allWidgets.dropdownWithLabels" text="Dropdown"/>
+				<verifySelectField name="allWidgets.dropdownWithLabels" text="Dropdown #2"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[23]/td[1]/select/option)" text="4"/>
-				<setSelectField name="allWidgets.dropdownWithLabels" text="Bar"/>
+				<setSelectField name="allWidgets.dropdownWithLabels" text="Bar #2"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/th" text="Not-null Dropdown (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/select"/>
@@ -149,9 +149,9 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/th" text="Not-null Object Dropdown (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]/select"/>
-				<verifySelectField name="allWidgets.notNullObjectDropdown" text="dropdown"/>
+				<verifySelectField name="allWidgets.notNullObjectDropdown" text="dropdown3"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[25]/td[1]/select/option)" text="3"/>
-				<setSelectField name="allWidgets.notNullObjectDropdown" text="foo"/>
+				<setSelectField name="allWidgets.notNullObjectDropdown" text="foo3"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/th" text="Nested Widgets (i18n):"/>					
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[1]/th" text="Further Nested Widgets (i18n):"/>
@@ -261,13 +261,13 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/th" text="Boolean object (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/td[1]" text="false"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/th" text="Dropdown (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/td[1]" text="foo"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/td[1]" text="foo1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/th" text="Dropdown with Labels (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/td[1]" text="bar"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/td[1]" text="bar2"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/th" text="Not-null Dropdown (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/th" text="Not-null Object Dropdown (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]" text="foo"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[25]/td[1]" text="foo3"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/th" text="Nested Widgets (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[1]/th" text="Further Nested Widgets (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[26]/td[1]/table/tbody/tr[1]/td/table/tbody/tr[2]/th" text="???en_UK.nestedTextbox1???:"/>

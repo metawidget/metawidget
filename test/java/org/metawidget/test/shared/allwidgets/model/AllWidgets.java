@@ -102,13 +102,13 @@ public class AllWidgets
 
 	private Boolean				mBooleanObject						= Boolean.TRUE;
 
-	private String				mDropdown							= "dropdown";
+	private String				mDropdown							= "dropdown1";
 
-	private String				mDropdownWithLabels					= "dropdown";
+	private String				mDropdownWithLabels					= "dropdown2";
 
 	private int					mNotNullDropdown;
 
-	private String				mNotNullObjectDropdown				= "dropdown";
+	private String				mNotNullObjectDropdown				= "dropdown3";
 
 	private NestedWidgets		mNestedWidgets						= new NestedWidgets();
 

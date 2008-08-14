@@ -1404,7 +1404,7 @@ public class GwtMetawidget
 		// Note: GWT doesn't seem to be able to set null for the
 		// value. It always comes back as String "null"
 
-		if ( !GwtUtils.isPrimitive( attributes.get( TYPE ) ) )
+		if ( !GwtUtils.isPrimitive( attributes.get( TYPE ) ) && !TRUE.equals( attributes.get( REQUIRED ) ))
 			addListBoxItem( listBox, "", null );
 
 		// See if we're using labels

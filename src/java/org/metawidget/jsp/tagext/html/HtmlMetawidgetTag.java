@@ -498,7 +498,7 @@ public class HtmlMetawidgetTag
 
 		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-		if ( clazz == null || !clazz.isPrimitive() )
+		if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
 			buffer.append( "<option value=\"\"></option>" );
 
 		// Evaluate the expression
