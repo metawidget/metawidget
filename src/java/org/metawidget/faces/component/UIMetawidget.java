@@ -1254,7 +1254,7 @@ public abstract class UIMetawidget
 
 		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-		if ( component instanceof HtmlSelectOneListbox && ( clazz == null || !clazz.isPrimitive() ) )
+		if ( component instanceof HtmlSelectOneListbox && ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED )))))
 			addSelectItem( component, "", null );
 
 		// See if we're using labels
@@ -1328,7 +1328,7 @@ public abstract class UIMetawidget
 			{
 				Class<?> clazz = ClassUtils.niceForName( type );
 
-				if ( clazz == null || !clazz.isPrimitive() )
+				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
 					addSelectItem( component, "", null );
 			}
 			else

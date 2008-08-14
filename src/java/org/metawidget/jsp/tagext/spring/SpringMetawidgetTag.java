@@ -442,7 +442,7 @@ public class SpringMetawidgetTag
 		return buffer.toString();
 	}
 
-	private String writeSelectTag( final String expression, Map<String, String> attributes )
+	private String writeSelectTag( final String expression, final Map<String, String> attributes )
 		throws Exception
 	{
 		// Write the SELECT tag
@@ -459,9 +459,16 @@ public class SpringMetawidgetTag
 			{
 				// Empty option
 
-				OptionTag tagOptionEmpty = new OptionTag();
-				tagOptionEmpty.setValue( "" );
-				delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
+				// Empty option
+
+				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
+
+				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
+				{
+					OptionTag tagOptionEmpty = new OptionTag();
+					tagOptionEmpty.setValue( "" );
+					delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
+				}
 
 				// Options tag
 
@@ -497,7 +504,7 @@ public class SpringMetawidgetTag
 
 				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-				if ( clazz == null || !clazz.isPrimitive() )
+				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );

@@ -1104,7 +1104,7 @@ public class SwingMetawidget
 		{
 			JComboBox comboBox = new JComboBox();
 
-			if ( clazz == null || !clazz.isPrimitive() )
+			if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
 				comboBox.addItem( null );
 
 			List<String> values = CollectionUtils.fromString( lookup );

@@ -108,6 +108,8 @@ public class AllWidgets
 
 	private int					mNotNullDropdown;
 
+	private String				mNotNullObjectDropdown				= "dropdown";
+
 	private NestedWidgets		mNestedWidgets						= new NestedWidgets();
 
 	private NestedWidgets		mReadOnlyNestedWidgets				= new NestedWidgets();
@@ -387,6 +389,16 @@ public class AllWidgets
 	public void setNotNullDropdown( int notNullDropdown )
 	{
 		mNotNullDropdown = notNullDropdown;
+	}
+
+	public String getNotNullObjectDropdown()
+	{
+		return mNotNullObjectDropdown;
+	}
+
+	public void setNotNullObjectDropdown( String notNullObjectDropdown )
+	{
+		mNotNullObjectDropdown = notNullObjectDropdown;
 	}
 
 	public NestedWidgets getNestedWidgets()

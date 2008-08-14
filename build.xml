@@ -117,7 +117,6 @@
 			<include name="org/metawidget/example/android/**"/>
 			<include name="org/metawidget/example/swing/applet/**"/>
 			<include name="org/metawidget/example/**/addressbook/**"/>
-			<include name="org/metawidget/example/**/tutorial/**"/>
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement path="${build.metawidget.dir}/classes"/>
@@ -168,6 +167,7 @@
 				<fileset dir="lib"/>
 				<pathelement path="${build.metawidget.dir}/classes"/>				
 				<pathelement path="${build.metawidget.dir}/example-classes"/>				
+				<pathelement path="${build.metawidget.dir}/tutorial-classes"/>				
 				<pathelement path="${build.metawidget.dir}/groovy-test-classes"/>				
 			</classpath>
 		</javac>
@@ -551,7 +551,7 @@
 				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.gwt.addressbook.client.*, org.metawidget.example.gwt.addressbook.inspector.remote.client.*"/>				
 			</instr>
 			<instr instrpath="${build.metawidget.dir}/tutorial-classes" destdir="${build.metawidget.dir}/tutorial-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="org.metawidget.example.swing.tutorial.Main"/>				
+				<filter excludes="org.metawidget.example.swing.tutorial.Main*"/>
 			</instr>
 		</emma>
 

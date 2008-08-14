@@ -488,7 +488,7 @@ public class StrutsMetawidgetTag
 
 				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-				if ( clazz == null || !clazz.isPrimitive() )
+				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );
@@ -532,7 +532,7 @@ public class StrutsMetawidgetTag
 
 				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-				if ( clazz == null || !clazz.isPrimitive() )
+				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );
