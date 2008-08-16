@@ -285,6 +285,7 @@ public class SwingAddressBookTest
 
 		// Check adding
 
+		assertTrue( "Mr".equals( ((JComboBox) metawidgetContact.getComponent( "title" )).getItemAt( 0 )));
 		metawidgetContact.setValue( "Miss", "title" );
 		metawidgetContact.setValue( "Business", "firstnames" );
 		metawidgetContact.setValue( "Contact", "surname" );

@@ -158,6 +158,7 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/span[@class='errors']" text="Firstnames is required"/>
 				<verifyInputField name="communication.value" value=""/>
 				<verifyText text="miss@business.contact.com"/>	
+				<verifySelectField name="title" value="Mr"/>
 				<setSelectField name="title" value="Miss"/>
 				<setInputField name="firstnames" value="Business"/>
 				<setInputField name="company" value="Some Company"/>

@@ -262,6 +262,10 @@ public abstract class BaseMetawidgetMixin<W, E>
 	protected abstract W buildReadOnlyWidget( String elementName, Map<String, String> attributes )
 		throws Exception;
 
+	/**
+	 * Build 'active' (as opposed to read-only) widgets.
+	 */
+
 	protected abstract W buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception;
 

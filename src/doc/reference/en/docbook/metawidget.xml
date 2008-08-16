@@ -856,9 +856,8 @@ public class Main {
 					are created by <classname>SwingMetawidget</classname>
 					based on the <classname>ContactSearch</classname> business class. This includes populating the <parameter>Type</parameter> dropdown based
 					on the <classname>ContactType</classname>
-					enum. The <guibutton>Search</guibutton>, <guibutton>Add Personal Contact</guibutton> and <guibutton>Add Business Contact</guibutton> buttons are manually
-					specified in <classname>MainFrame</classname>, but are added as child widgets of the <classname>SwingMetawidget</classname> to take advantage
-					of automatic layout.
+					enum. The <guibutton>Search</guibutton>, <guibutton>Add Personal Contact</guibutton> and <guibutton>Add Business Contact</guibutton> buttons
+					are created by <classname>SwingMetawidget</classname> based on annotated methods in the <classname>ContactDialog</classname> class.
 				</para>
 				
 				<para>
@@ -1044,8 +1043,9 @@ public class Main {
 				
 				<para>
  					Again, this includes populating the <parameter>Type</parameter> dropdown and localizing the text. The <guibutton>Search</guibutton>,
-					<guibutton>Add Personal Contact</guibutton> and <guibutton>Add Business Contact</guibutton> buttons are manually specified
-					in the JSP page, but are added as child widgets of Metawidget to take advantage of automatic layout.
+					<guibutton>Add Personal Contact</guibutton> and <guibutton>Add Business Contact</guibutton> buttons are either manually specified
+					in the JSP page (for GWT, Spring and Struts) or created by <classname>UIMetawidget</classname> based on annotated methods
+					in the <classname>ContactBean</classname> (for JSF).
 				</para>
 								
 				<para>

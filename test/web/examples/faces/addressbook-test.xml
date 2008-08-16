@@ -188,6 +188,7 @@
 				<clickButton label="Add"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-component-column']/span[@class='inline-error']" text="Firstnames is required"/>
 	
+				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>				
 				<setSelectField name="form:contactCurrentTitle" value="Miss"/>
 				<setInputField name="form:contactCurrentFirstnames" value="Business"/>
 				<setInputField name="form:contactCurrentCompany" value="Some Company"/>

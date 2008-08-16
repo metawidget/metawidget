@@ -44,6 +44,8 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  * @author Richard Kennard
  */
 
+// TODO: test adding
+
 public class GwtAddressBookTest
 	extends GWTTestCase
 {

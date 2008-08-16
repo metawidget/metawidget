@@ -551,7 +551,7 @@
 				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.gwt.addressbook.client.*, org.metawidget.example.gwt.addressbook.inspector.remote.client.*"/>				
 			</instr>
 			<instr instrpath="${build.metawidget.dir}/tutorial-classes" destdir="${build.metawidget.dir}/tutorial-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="org.metawidget.example.swing.tutorial.Main*"/>
+				<filter excludes="org.metawidget.example.swing.tutorial.Main.class"/>
 			</instr>
 		</emma>
 
