@@ -26,9 +26,13 @@
 	<h:form id="booking">
 	<fieldset>
 	
-		<m:metawidget value="#{booking}" rendererType="div">
-			<f:param name="divStyleClasses" value="entry,label,required,input,error errors"/>
-		</m:metawidget>
+		<s:validateAll>
+	
+			<m:metawidget value="#{booking}" rendererType="div" validatorClass="org.metawidget.faces.component.validator.RequiredValidator">
+				<f:param name="divStyleClasses" value="entry,label,required,input,error errors"/>
+			</m:metawidget>
+			
+		</s:validateAll>			
 		
 		<div class="buttonBox">
 			<h:commandButton id="proceed" value="Proceed" action="#{hotelBooking.setBookingDetails}"/>

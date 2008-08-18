@@ -54,7 +54,7 @@ class Booking implements Serializable
    String creditCard
 
    @NotNull(message="Credit card name is required")
-   @Length(min=3, max=70, message="Credit card name is required")
+   @Length(min=3, max=70)
    @UiComesAfter( [ "creditCard" ] )
    String creditCardName
 

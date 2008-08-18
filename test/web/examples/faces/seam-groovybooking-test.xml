@@ -97,11 +97,11 @@
 				<setInputField name="booking:bookingCreditCardName" value="RK"/>
 				<clickButton label="Proceed"/>
 				
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[12]/div[2]/span[@class='error errors']" text="Credit card #: Validation Error: Value is less than allowable minimum of '16'"/>				
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[12]/div[2]/span[@class='error errors']" text="Credit card number must 16 digits long"/>				
 				<setInputField name="booking:bookingCreditCard" value="1234123412341234"/>
 				<clickButton label="Proceed"/>
 
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[13]/div[2]/span[@class='error errors']" text="Credit card name: Validation Error: Value is less than allowable minimum of '3'"/>				
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[13]/div[2]/span[@class='error errors']" text="length must be between 3 and 70"/>				
 				<setInputField name="booking:bookingCreditCardName" value="Richard Kennard"/>
 				<clickButton label="Proceed"/>
 				
