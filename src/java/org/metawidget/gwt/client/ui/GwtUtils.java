@@ -198,7 +198,7 @@ public final class GwtUtils
 			}
 		}
 
-		throw new RuntimeException( "'" + value + "' is not a valid value for the ListBox" );
+		// Fail quietly
 	}
 
 	public static void alert( Throwable caught )

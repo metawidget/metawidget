@@ -393,16 +393,16 @@ public class GwtMetawidget
 	}
 
 	/**
-	 * Finds the widget with the given name.
+	 * Gets the widget with the given name.
 	 */
 
-	public Widget findWidget( String... names )
+	public Widget getWidget( String... names )
 	{
 		if ( names == null )
 			return null;
 
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
-			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling findWidget( " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + ")" );
+			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling getWidget( " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + ")" );
 
 		Map<String, Widget> children = mAddedWidgets;
 
@@ -440,7 +440,7 @@ public class GwtMetawidget
 
 	public Object getValue( String... names )
 	{
-		Widget widget = findWidget( names );
+		Widget widget = getWidget( names );
 
 		if ( widget == null )
 			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) );
@@ -488,7 +488,7 @@ public class GwtMetawidget
 
 	public void setValue( Object value, String... names )
 	{
-		Widget widget = findWidget( names );
+		Widget widget = getWidget( names );
 
 		if ( widget == null )
 			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) );

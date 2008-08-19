@@ -236,7 +236,7 @@ public class GwtAllWidgetsTest
 				assertTrue( "Nested widgets:".equals( flexTable.getText( 25, 0 ) ) );
 				assertTrue( flexTable.getWidget( 25, 1 ) instanceof GwtMetawidget );
 
-				final GwtMetawidget metawidgetNested = (GwtMetawidget) metawidget.findWidget( "nestedWidgets" );
+				final GwtMetawidget metawidgetNested = (GwtMetawidget) metawidget.getWidget( "nestedWidgets" );
 
 				executeAfterBuildWidgets( metawidgetNested, new Timer()
 				{
@@ -246,7 +246,7 @@ public class GwtAllWidgetsTest
 						final FlexTable flexTableNested = (FlexTable) metawidgetNested.getWidget( 0 );
 
 						assertTrue( "Further nested widgets:".equals( flexTableNested.getText( 0, 0 ) ) );
-						final GwtMetawidget metawidgetFurtherNested = (GwtMetawidget) metawidgetNested.findWidget( "furtherNestedWidgets" );
+						final GwtMetawidget metawidgetFurtherNested = (GwtMetawidget) metawidgetNested.getWidget( "furtherNestedWidgets" );
 
 						executeAfterBuildWidgets( metawidgetFurtherNested, new Timer()
 						{
@@ -256,7 +256,7 @@ public class GwtAllWidgetsTest
 								final FlexTable flexTableFurtherNested = (FlexTable) metawidgetFurtherNested.getWidget( 0 );
 
 								assertTrue( "Further nested widgets:".equals( flexTableFurtherNested.getText( 0, 0 ) ) );
-								final GwtMetawidget metawidgetFurtherFurtherNested = (GwtMetawidget) metawidgetFurtherNested.findWidget( "furtherNestedWidgets" );
+								final GwtMetawidget metawidgetFurtherFurtherNested = (GwtMetawidget) metawidgetFurtherNested.getWidget( "furtherNestedWidgets" );
 
 								executeAfterBuildWidgets( metawidgetFurtherFurtherNested, new Timer()
 								{
@@ -289,7 +289,7 @@ public class GwtAllWidgetsTest
 										assertTrue( "Read only nested widgets:".equals( flexTable.getText( 26, 0 ) ) );
 										assertTrue( flexTable.getWidget( 26, 1 ) instanceof GwtMetawidget );
 
-										final GwtMetawidget metawidgetReadOnlyNested = (GwtMetawidget) metawidget.findWidget( "readOnlyNestedWidgets" );
+										final GwtMetawidget metawidgetReadOnlyNested = (GwtMetawidget) metawidget.getWidget( "readOnlyNestedWidgets" );
 
 										executeAfterBuildWidgets( metawidgetReadOnlyNested, new Timer()
 										{
@@ -299,7 +299,7 @@ public class GwtAllWidgetsTest
 												final FlexTable flexTableReadOnlyNested = (FlexTable) metawidgetReadOnlyNested.getWidget( 0 );
 
 												assertTrue( "Further nested widgets:".equals( flexTableReadOnlyNested.getText( 0, 0 ) ) );
-												final GwtMetawidget metawidgetReadOnlyFurtherNested = (GwtMetawidget) metawidgetReadOnlyNested.findWidget( "furtherNestedWidgets" );
+												final GwtMetawidget metawidgetReadOnlyFurtherNested = (GwtMetawidget) metawidgetReadOnlyNested.getWidget( "furtherNestedWidgets" );
 
 												executeAfterBuildWidgets( metawidgetReadOnlyFurtherNested, new Timer()
 												{
@@ -481,9 +481,9 @@ public class GwtAllWidgetsTest
 																							@Override
 																							public void run()
 																							{
-																								assertTrue( null == metawidget.findWidget( "nestedWidgets" ) );
-																								assertTrue( null == metawidget.findWidget( "readOnlyNestedWidgets" ) );
-																								assertTrue( metawidget.findWidget( "readOnlyNestedWidgetsDontExpand" ) instanceof Label );
+																								assertTrue( null == metawidget.getWidget( "nestedWidgets" ) );
+																								assertTrue( null == metawidget.getWidget( "readOnlyNestedWidgets" ) );
+																								assertTrue( metawidget.getWidget( "readOnlyNestedWidgetsDontExpand" ) instanceof Label );
 
 																								finish();
 																							}

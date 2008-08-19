@@ -57,7 +57,9 @@ public class ContactsController
 
 	private Map<Long, Contact>		mAll;
 
-	private long					mNextId	= 1;
+	private long					mNextContactId;
+
+	private long					mNextCommunicationId;
 
 	//
 	//
@@ -134,10 +136,10 @@ public class ContactsController
 		{
 			if ( search != null )
 			{
-				if ( !safeContains( contact.getFirstnames(), search.getFirstnames() ) )
+				if ( !caseInsensitiveContains( contact.getFirstnames(), search.getFirstnames() ) )
 					continue;
 
-				if ( !safeContains( contact.getSurname(), search.getSurname() ) )
+				if ( !caseInsensitiveContains( contact.getSurname(), search.getSurname() ) )
 					continue;
 
 				if ( search.getType() != null )
@@ -191,7 +193,7 @@ public class ContactsController
 
 		if ( id == 0 )
 		{
-			id = incrementNextId();
+			id = incrementNextContactId();
 			contact.setId( id );
 		}
 		else
@@ -233,7 +235,7 @@ public class ContactsController
 
 			for ( Communication communication : toSave )
 			{
-				communication.setId( incrementNextId() );
+				communication.setId( incrementNextCommunicationId() );
 				communications.add( communication );
 			}
 		}
@@ -258,12 +260,21 @@ public class ContactsController
 	//
 	//
 
-	private synchronized long incrementNextId()
+	private synchronized long incrementNextContactId()
 	{
-		return mNextId++;
+		mNextContactId++;
+
+		return mNextContactId;
 	}
 
-	private boolean safeContains( String container, String contains )
+	private synchronized long incrementNextCommunicationId()
+	{
+		mNextCommunicationId++;
+
+		return mNextCommunicationId;
+	}
+
+	private boolean caseInsensitiveContains( String container, String contains )
 	{
 		if ( contains == null || contains.length() == 0 )
 			return true;
