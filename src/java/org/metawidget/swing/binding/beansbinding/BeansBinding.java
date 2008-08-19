@@ -33,6 +33,7 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.Binding;
 import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -64,6 +65,18 @@ public class BeansBinding
 	//
 
 	private final static Map<ConvertFromTo<?, ?>, Converter<?, ?>>	CONVERTERS	= Collections.synchronizedMap( new HashMap<ConvertFromTo<?, ?>, Converter<?, ?>>() );
+
+	static
+	{
+		// Register default converters
+
+		registerConverter( Byte.class, String.class, new NumberConverter<Byte>( Byte.class ) );
+		registerConverter( Short.class, String.class, new NumberConverter<Short>( Short.class ) );
+		registerConverter( Integer.class, String.class, new NumberConverter<Integer>( Integer.class ) );
+		registerConverter( Long.class, String.class, new NumberConverter<Long>( Long.class ) );
+		registerConverter( Float.class, String.class, new NumberConverter<Float>( Float.class ) );
+		registerConverter( Double.class, String.class, new NumberConverter<Double>( Double.class ) );
+	}
 
 	//
 	//
@@ -133,10 +146,11 @@ public class BeansBinding
 			SyncFailure failure = binding.refresh();
 
 			if ( failure != null )
-				throw new RuntimeException( failure.getType().toString() );
+				throw MetawidgetException.newException( failure.getType().toString() );
 		}
 	}
 
+	@SuppressWarnings( "unchecked" )
 	@Override
 	public void save()
 	{
@@ -145,13 +159,27 @@ public class BeansBinding
 
 		for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : mBindings )
 		{
-			if ( !binding.getSourceProperty().isWriteable( binding.getSourceObject() ) )
+			Object sourceObject = binding.getSourceObject();
+			@SuppressWarnings( "unchecked" )
+			BeanProperty<Object, Object> sourceProperty = (BeanProperty<Object, Object>) binding.getSourceProperty();
+
+			if ( !sourceProperty.isWriteable( sourceObject ) )
 				continue;
 
-			SyncFailure failure = binding.save();
+			if ( binding.getConverter() instanceof ReadOnlyToStringConverter )
+				continue;
 
-			if ( failure != null )
-				throw new RuntimeException( failure.getConversionException() );
+			try
+			{
+				SyncFailure failure = binding.save();
+
+				if ( failure != null )
+					throw MetawidgetException.newException( failure.getConversionException() );
+			}
+			catch ( ClassCastException e )
+			{
+				throw MetawidgetException.newException( "When saving from " + binding.getTargetObject().getClass().getName() + " to " + sourceProperty + " (have you used BeansBinding.registerConverter?)", e );
+			}
 		}
 	}
 
@@ -159,12 +187,23 @@ public class BeansBinding
 	@SuppressWarnings( "unchecked" )
 	public <T> T convertFromString( String value, Class<T> type )
 	{
-		Converter<String, T> converter = (Converter<String, T>) CONVERTERS.get( new ConvertFromTo<String, T>( String.class, type ) );
+		// Try converters one way round...
 
-		if ( converter == null )
-			return (T) value;
+		Converter<String, T> converterFromString = getConverter( String.class, type );
 
-		return converter.convertForward( value );
+		if ( converterFromString != null )
+			return converterFromString.convertForward( value );
+
+		// ...and the other...
+
+		Converter<T, String> converterToString = getConverter( type, String.class );
+
+		if ( converterToString != null )
+			return converterToString.convertReverse( value );
+
+		// ...or don't convert
+
+		return (T) value;
 	}
 
 	@Override
@@ -212,7 +251,7 @@ public class BeansBinding
 		if ( propertySource.isWriteable( source ) )
 		{
 			Class<SV> sourceClass = (Class<SV>) propertySource.getWriteType( source );
-			converter = (Converter<SV, TV>) CONVERTERS.get( new ConvertFromTo<SV, TV>( sourceClass, target ) );
+			converter = getConverter( sourceClass, target );
 		}
 		else if ( propertySource.isReadable( source ) )
 		{
@@ -224,7 +263,7 @@ public class BeansBinding
 			if ( value != null )
 			{
 				Class<SV> sourceClass = (Class<SV>) value.getClass();
-				converter = (Converter<SV, TV>) CONVERTERS.get( new ConvertFromTo<SV, TV>( sourceClass, target ) );
+				converter = getConverter( sourceClass, target );
 			}
 		}
 		else
@@ -254,6 +293,40 @@ public class BeansBinding
 		}
 
 		mBindings.add( (org.jdesktop.beansbinding.Binding<Object, SV, TS, TV>) binding );
+	}
+
+	/**
+	 * Gets the Converter for the given Class (if any).
+	 * <p>
+	 * Includes traversing superclasses of the given Class for a suitable Converter, so for example
+	 * registering a Converter for <code>Number.class</code> will match <code>Integer.class</code>,
+	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also
+	 * registered.
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	private <SV, TV> Converter<SV, TV> getConverter( Class<SV> sourceClass, Class<TV> targetClass )
+	{
+		Class<SV> sourceClassTraversal = sourceClass;
+		Class<TV> targetClassTraversal = targetClass;
+
+		if ( sourceClassTraversal.isPrimitive() )
+			sourceClassTraversal = (Class<SV>) ClassUtils.getWrapperClass( sourceClassTraversal );
+
+		if ( targetClassTraversal.isPrimitive() )
+			targetClassTraversal = (Class<TV>) ClassUtils.getWrapperClass( targetClassTraversal );
+
+		while ( sourceClassTraversal != null )
+		{
+			Converter<SV, TV> converter = (Converter<SV, TV>) CONVERTERS.get( new ConvertFromTo<SV, TV>( sourceClassTraversal, targetClassTraversal ) );
+
+			if ( converter != null )
+				return converter;
+
+			sourceClassTraversal = (Class<SV>) sourceClassTraversal.getSuperclass();
+		}
+
+		return null;
 	}
 
 	//

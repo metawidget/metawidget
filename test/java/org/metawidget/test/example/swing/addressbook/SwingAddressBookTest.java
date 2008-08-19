@@ -233,7 +233,7 @@ public class SwingAddressBookTest
 
 		// Open dialog for Business Contact
 
-		contact = contactsController.load( 6 );
+		contact = contactsController.load( 5 );
 		assertTrue( "Mr Charles Montgomery Burns".equals( contact.getFullname() ) );
 		dialog = new ContactDialog( addressBook, contact );
 		metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );

@@ -41,6 +41,8 @@ public class SwingMetawidgetTests
 	{
 		TestSuite suite = new TestSuite( "SwingMetawidget Tests" );
 		suite.addTestSuite( BeansBindingTest.class );
+		// Not: suite.addTestSuite( SwingAllWidgetsTest.class ) - run separately as JDK 1.4
+		suite.addTestSuite( SwingAllWidgetsBeansBindingTest.class );
 		suite.addTestSuite( SwingMetawidgetTest.class );
 		suite.addTestSuite( TableGridBagLayoutTest.class );
 		suite.addTestSuite( TableGroupLayoutTest.class );

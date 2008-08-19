@@ -62,9 +62,11 @@ public class BeansBindingTest
 		metawidget.setToInspect( foo );
 
 		// Test UpdateStrategy.READ_ONCE
+		//
+		// Also test correct mapping of Long in JSpinner
 
 		JSpinner spinner = (JSpinner) metawidget.getComponent( 1 );
-		assertTrue( 42 == (Integer) spinner.getValue() );
+		assertTrue( 42 == (Long) spinner.getValue() );
 		JLabel label = (JLabel) metawidget.getComponent( 3 );
 		assertTrue( "4".equals( label.getText() ) );
 
@@ -74,8 +76,8 @@ public class BeansBindingTest
 
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		foo.setBar( 43 );
-		assertTrue( 43 == (Integer) spinner.getValue() );
-		spinner.setValue( 44 );
+		assertTrue( 43 == (Long) spinner.getValue() );
+		spinner.setValue( 44l );
 		assertTrue( 43 == foo.getBar() );
 		metawidget.save();
 		assertTrue( 44 == foo.getBar() );
@@ -85,7 +87,7 @@ public class BeansBindingTest
 		metawidget.setParameter( UpdateStrategy.class, UpdateStrategy.READ_WRITE );
 
 		spinner = (JSpinner) metawidget.getComponent( 1 );
-		spinner.setValue( 45 );
+		spinner.setValue( spinner.getModel().getNextValue() );
 		assertTrue( 45 == foo.getBar() );
 
 		// Test unbind
@@ -112,8 +114,8 @@ public class BeansBindingTest
 		metawidget.setPath( Foo.class.getName() + "/bar" );
 
 		JSpinner spinner = (JSpinner) metawidget.getComponent( 0 );
-		assertTrue( 42 == (Integer) spinner.getValue() );
-		spinner.setValue( 43 );
+		assertTrue( 42 == (Long) spinner.getValue() );
+		spinner.setValue( 43l );
 		assertTrue( 43 == foo.getBar() );
 	}
 
@@ -179,7 +181,7 @@ public class BeansBindingTest
 
 		private final PropertyChangeSupport	mPropertyChangeSupport	= new PropertyChangeSupport( this );
 
-		private int							mBar;
+		private long						mBar;
 
 		private int							mBaz					= 4;
 
@@ -191,14 +193,14 @@ public class BeansBindingTest
 		//
 		//
 
-		public int getBar()
+		public long getBar()
 		{
 			return mBar;
 		}
 
-		public void setBar( int bar )
+		public void setBar( long bar )
 		{
-			int oldBar = mBar;
+			long oldBar = mBar;
 			mBar = bar;
 			mPropertyChangeSupport.firePropertyChange( "bar", oldBar, mBar );
 		}

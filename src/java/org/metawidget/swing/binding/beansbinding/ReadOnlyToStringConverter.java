@@ -48,6 +48,9 @@ public class ReadOnlyToStringConverter<SV>
 	@Override
 	public SV convertReverse( String value )
 	{
-		throw new UnsupportedOperationException( "ReadOnlyConverter cannot convertReverse. Use BeansBinding.registerConverter to register a custom Converter" );
+		if ( value == null )
+			return null;
+
+		throw new UnsupportedOperationException( "ReadOnlyConverter cannot convertReverse( " + value.getClass().getName() + " ). Use BeansBinding.registerConverter to register a custom Converter" );
 	}
 }

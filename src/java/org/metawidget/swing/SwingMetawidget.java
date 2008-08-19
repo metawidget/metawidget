@@ -1104,7 +1104,7 @@ public class SwingMetawidget
 		{
 			JComboBox comboBox = new JComboBox();
 
-			if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
+			if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 				comboBox.addItem( null );
 
 			List<String> values = CollectionUtils.fromString( lookup );
@@ -1168,18 +1168,20 @@ public class SwingMetawidget
 
 				JSpinner spinner = new JSpinner();
 
+				// (use 'new', not '.valueOf', for JDK 1.4 compatibility)
+
 				if ( "byte".equals( type ) )
-					setSpinnerModel( spinner, Byte.MIN_VALUE, Byte.MAX_VALUE );
+					setSpinnerModel( spinner, new Byte( (byte) 0 ), new Byte( Byte.MIN_VALUE ), new Byte( Byte.MAX_VALUE ) );
 				else if ( "short".equals( type ) )
-					setSpinnerModel( spinner, Short.MIN_VALUE, Short.MAX_VALUE );
+					setSpinnerModel( spinner, new Short( (short) 0 ), new Short( Short.MIN_VALUE ), new Short( Short.MAX_VALUE ) );
 				else if ( "int".equals( type ) )
-					setSpinnerModel( spinner, Integer.MIN_VALUE, Integer.MAX_VALUE );
+					setSpinnerModel( spinner, new Integer( 0 ), new Integer( Integer.MIN_VALUE ), new Integer( Integer.MAX_VALUE ) );
 				else if ( "long".equals( type ) )
-					setSpinnerModel( spinner, Long.MIN_VALUE, Long.MAX_VALUE );
+					setSpinnerModel( spinner, new Long( 0l ), new Long( Long.MIN_VALUE ), new Long( Long.MAX_VALUE ) );
 				else if ( "float".equals( type ) )
-					setSpinnerModel( spinner, -Float.MAX_VALUE, Float.MAX_VALUE );
+					setSpinnerModel( spinner, new Float( 0f ), new Float( -Float.MAX_VALUE ), new Float( Float.MAX_VALUE ) );
 				else if ( "double".equals( type ) )
-					setSpinnerModel( spinner, -Double.MAX_VALUE, Double.MAX_VALUE );
+					setSpinnerModel( spinner, new Double( 0f ), new Double( -Double.MAX_VALUE ), new Double( Double.MAX_VALUE ) );
 
 				return spinner;
 			}
@@ -1380,25 +1382,14 @@ public class SwingMetawidget
 	 * By default, a JSpinner calls <code>setColumns</code> upon <code>setModel</code>. For
 	 * numbers like <code>Integer.MAX_VALUE</code> and <code>Double.MAX_VALUE</code>, this can
 	 * be very large and mess up the layout. Here, we reset <code>setColumns</code> to 0.
-	 */
-
-	private void setSpinnerModel( JSpinner spinner, int minimum, int maximum )
-	{
-		spinner.setModel( new SpinnerNumberModel( 0, minimum, maximum, 1 ) );
-		( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setColumns( 0 );
-	}
-
-	/**
-	 * Sets the JSpinner model.
 	 * <p>
-	 * By default, a JSpinner calls <code>setColumns</code> upon <code>setModel</code>. For
-	 * numbers like <code>Integer.MAX_VALUE</code> and <code>Double.MAX_VALUE</code>, this can
-	 * be very large and mess up the layout. Here, we reset <code>setColumns</code> to 0.
+	 * Note it is very important we set the initial value of the <code>JSpinner</code> to the same
+	 * type as the property it maps to (eg. float or double, int or long).
 	 */
 
-	private void setSpinnerModel( JSpinner spinner, double minimum, double maximum )
+	private void setSpinnerModel( JSpinner spinner, Number value, Comparable<? extends Number> minimum, Comparable<? extends Number> maximum )
 	{
-		spinner.setModel( new SpinnerNumberModel( 0, minimum, maximum, 1 ) );
+		spinner.setModel( new SpinnerNumberModel( value, minimum, maximum, 1 ) );
 		( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setColumns( 0 );
 	}
 

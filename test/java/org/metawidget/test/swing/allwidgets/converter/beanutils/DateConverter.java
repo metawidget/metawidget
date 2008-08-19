@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.swing.allwidgets.converter;
+package org.metawidget.test.swing.allwidgets.converter.beanutils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -88,7 +88,7 @@ public class DateConverter
 				}
 				catch( ParseException e )
 				{
-					throw MetawidgetException.newException( MetawidgetException.newException( "Could not parse '" + value + "'", e ));
+					throw MetawidgetException.newException( "Could not parse '" + value + "'", e );
 				}
 			}
 		}

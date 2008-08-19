@@ -144,7 +144,7 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[1]/span[@id='form:contactCurrentDateOfBirthPopup']"/>
 				<verifyInputField name="form:contactCurrentDateOfBirthInputDate" value="May 12, 1957"/>
 
-				<invoke url="${webtest.url}/addressbook-faces/contact-richfaces.jsf?contact.load=6" />
+				<invoke url="${webtest.url}/addressbook-faces/contact-richfaces.jsf?contact.load=5" />
 
 				<clickButton label="Edit"/>
 				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
@@ -154,7 +154,7 @@
 				<setInputField name="form:contactCurrentNumberOfStaff" value="2"/>
 				<clickButton label="Save"/>
 	
-				<invoke url="${webtest.url}/addressbook-faces/contact-richfaces.jsf?contact.load=6" />
+				<invoke url="${webtest.url}/addressbook-faces/contact-richfaces.jsf?contact.load=5" />
 	
 				<clickButton label="Edit"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[10]/td[1]/table[@class='dr-insldr rich-slider ']"/>

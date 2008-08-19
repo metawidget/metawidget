@@ -14,9 +14,9 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.swing.allwidgets.converter;
+package org.metawidget.test.swing.allwidgets.converter.beansbinding;
 
-import org.apache.commons.beanutils.Converter;
+import org.jdesktop.beansbinding.Converter;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -26,7 +26,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class NestedWidgetsConverter
-	implements Converter
+	extends Converter<NestedWidgets, String>
 {
 	//
 	//
@@ -34,32 +34,26 @@ public class NestedWidgetsConverter
 	//
 	//
 
-	@SuppressWarnings( "unchecked" )
-	public Object convert( Class clazz, Object value )
+	@Override
+	public String convertForward( NestedWidgets value )
 	{
-		// To String
+		return StringUtils.quietValueOf( value );
+	}
 
-		if ( clazz.equals( String.class ))
-			return StringUtils.quietValueOf( value );
+	@Override
+	public NestedWidgets convertReverse( String value )
+	{
+		String[] values = ArrayUtils.fromString( value );
 
-		// To NestedWidgets
+		if ( values.length == 0 )
+			return null;
 
-		if ( clazz.equals( NestedWidgets.class ))
-		{
-			String[] values = ArrayUtils.fromString( (String) value );
+		NestedWidgets nestedWidgets = new NestedWidgets();
+		nestedWidgets.setNestedTextbox1( values[0] );
 
-			if ( values.length == 0 )
-				return null;
+		if ( values.length > 1 )
+			nestedWidgets.setNestedTextbox2( values[1] );
 
-			NestedWidgets nestedWidgets = new NestedWidgets();
-			nestedWidgets.setNestedTextbox1( values[0] );
-
-			if ( values.length > 1 )
-				nestedWidgets.setNestedTextbox2( values[1] );
-
-			return nestedWidgets;
-		}
-
-		throw new UnsupportedOperationException( "Don't know how to convert '" + value + "' to a " + clazz );
+		return nestedWidgets;
 	}
 }

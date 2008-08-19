@@ -53,21 +53,21 @@ public class SimpleBinding
 
 	static
 	{
-		// Register default converter
+		// Register default converters
 
 		Converter<?> simpleConverter = new SimpleConverter();
 
 		@SuppressWarnings( "unchecked" )
 		Converter<Boolean> booleanConverter = (Converter<Boolean>) simpleConverter;
-		SimpleBinding.registerConverter( Boolean.class, booleanConverter );
+		registerConverter( Boolean.class, booleanConverter );
 
 		@SuppressWarnings( "unchecked" )
 		Converter<Character> characterConverter = (Converter<Character>) simpleConverter;
-		SimpleBinding.registerConverter( Character.class, characterConverter );
+		registerConverter( Character.class, characterConverter );
 
 		@SuppressWarnings( "unchecked" )
 		Converter<Number> numberConverter = (Converter<Number>) simpleConverter;
-		SimpleBinding.registerConverter( Number.class, numberConverter );
+		registerConverter( Number.class, numberConverter );
 	}
 
 	//
