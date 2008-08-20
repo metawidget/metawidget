@@ -89,6 +89,11 @@ public class BeansBinding
 		CONVERTERS.put( new ConvertFromTo<S, T>( source, target ), converter );
 	}
 
+	public static <S, T> void unregisterConverter( Class<S> source, Class<T> target )
+	{
+		CONVERTERS.remove( new ConvertFromTo<S, T>( source, target ));
+	}
+
 	//
 	//
 	// Private members
@@ -310,7 +315,7 @@ public class BeansBinding
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	private <SV, TV> Converter<SV, TV> getConverter( Class<SV> sourceClass, Class<TV> targetClass )
+	private static <SV, TV> Converter<SV, TV> getConverter( Class<SV> sourceClass, Class<TV> targetClass )
 	{
 		Class<SV> sourceClassTraversal = sourceClass;
 		Class<TV> targetClassTraversal = targetClass;

@@ -195,7 +195,8 @@ public class SwingAllWidgetsTest
 		assertTrue( Byte.MIN_VALUE == (Byte) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 9 ) ).getModel() ).getMinimum() );
 		assertTrue( Byte.MAX_VALUE == (Byte) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 9 ) ).getModel() ).getMaximum() );
 		assertTrue( 0 == ( (JSpinner.DefaultEditor) ( (JSpinner) metawidget.getComponent( 9 ) ).getEditor() ).getTextField().getColumns() );
-		( (JSpinner) metawidget.getComponent( 9 ) ).setValue( (byte) ( Byte.MAX_VALUE - 1 ) );
+		JSpinner spinner = (JSpinner) metawidget.getComponent( 9 );
+		spinner.setValue( spinner.getModel().getPreviousValue() );
 
 		assertTrue( "Byte object:".equals( ( (JLabel) metawidget.getComponent( 10 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 11 ) instanceof JTextField );
@@ -209,8 +210,9 @@ public class SwingAllWidgetsTest
 		assertTrue( Short.MAX_VALUE == (Short) metawidget.getValue( "short" ) );
 		assertTrue( Short.MIN_VALUE == (Short) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 13 ) ).getModel() ).getMinimum() );
 		assertTrue( Short.MAX_VALUE == (Short) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 13 ) ).getModel() ).getMaximum() );
-		assertTrue( 0 == ( (JSpinner.DefaultEditor) ( (JSpinner) metawidget.getComponent( 13 ) ).getEditor() ).getTextField().getColumns() );
-		( (JSpinner) metawidget.getComponent( 13 ) ).setValue( (short) ( Short.MAX_VALUE - 1 ) );
+		spinner = (JSpinner) metawidget.getComponent( 13 );
+		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
+		spinner.setValue( spinner.getModel().getPreviousValue() );
 
 		assertTrue( "Short object:".equals( ( (JLabel) metawidget.getComponent( 14 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 15 ) instanceof JTextField );
@@ -224,8 +226,9 @@ public class SwingAllWidgetsTest
 		assertTrue( Integer.MAX_VALUE == (Integer) metawidget.getValue( "int" ) );
 		assertTrue( Integer.MIN_VALUE == (Integer) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 17 ) ).getModel() ).getMinimum() );
 		assertTrue( Integer.MAX_VALUE == (Integer) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 17 ) ).getModel() ).getMaximum() );
-		assertTrue( 0 == ( (JSpinner.DefaultEditor) ( (JSpinner) metawidget.getComponent( 17 ) ).getEditor() ).getTextField().getColumns() );
-		( (JSpinner) metawidget.getComponent( 17 ) ).setValue( Integer.MAX_VALUE - 1 );
+		spinner = (JSpinner) metawidget.getComponent( 17 );
+		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
+		spinner.setValue( spinner.getModel().getPreviousValue() );
 
 		assertTrue( "Integer object:".equals( ( (JLabel) metawidget.getComponent( 18 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 19 ) instanceof JTextField );
@@ -253,8 +256,9 @@ public class SwingAllWidgetsTest
 		assertTrue( 42 == (Long) metawidget.getValue( "long" ) );
 		assertTrue( Long.MIN_VALUE == (Long) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 25 ) ).getModel() ).getMinimum() );
 		assertTrue( Long.MAX_VALUE == (Long) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 25 ) ).getModel() ).getMaximum() );
-		assertTrue( 0 == ( (JSpinner.DefaultEditor) ( (JSpinner) metawidget.getComponent( 25 ) ).getEditor() ).getTextField().getColumns() );
-		( (JSpinner) metawidget.getComponent( 25 ) ).setValue( 43l );
+		spinner = (JSpinner) metawidget.getComponent( 25 );
+		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
+		spinner.setValue( spinner.getModel().getNextValue() );
 
 		assertTrue( metawidget.getComponent( 26 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 26 ) ).gridx );
@@ -267,8 +271,9 @@ public class SwingAllWidgetsTest
 		assertTrue( 4.2f == (Float) metawidget.getValue( "float" ) );
 		assertTrue( -Float.MAX_VALUE == (Float) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 28 ) ).getModel() ).getMinimum() );
 		assertTrue( Float.MAX_VALUE == (Float) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 28 ) ).getModel() ).getMaximum() );
-		assertTrue( 0 == ( (JSpinner.DefaultEditor) ( (JSpinner) metawidget.getComponent( 28 ) ).getEditor() ).getTextField().getColumns() );
-		( (JSpinner) metawidget.getComponent( 28 ) ).setValue( 5.3f );
+		spinner = (JSpinner) metawidget.getComponent( 28 );
+		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
+		spinner.setValue( spinner.getModel().getNextValue() );
 
 		assertTrue( "nullInBundle:".equals( ( (JLabel) metawidget.getComponent( 29 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 30 ) instanceof JTextField );
@@ -282,8 +287,9 @@ public class SwingAllWidgetsTest
 		assertTrue( 42.2d == (Double) metawidget.getValue( "double" ) );
 		assertTrue( -Double.MAX_VALUE == (Double) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 32 ) ).getModel() ).getMinimum() );
 		assertTrue( Double.MAX_VALUE == (Double) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 32 ) ).getModel() ).getMaximum() );
-		assertTrue( 0 == ( (JSpinner.DefaultEditor) ( (JSpinner) metawidget.getComponent( 32 ) ).getEditor() ).getTextField().getColumns() );
-		( (JSpinner) metawidget.getComponent( 32 ) ).setValue( 53.3d );
+		spinner = (JSpinner) metawidget.getComponent( 32 );
+		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
+		spinner.setValue( spinner.getModel().getNextValue() );
 
 		assertTrue( metawidget.getComponent( 33 ) instanceof JTextField );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 33 ) ).gridx );
@@ -470,11 +476,11 @@ public class SwingAllWidgetsTest
 		assertTrue( "43".equals( ( (JLabel) metawidget.getComponent( 25 ) ).getText() ) );
 		assertTrue( "44".equals( ( (JLabel) metawidget.getComponent( 26 ) ).getText() ) );
 		assertTrue( "Float:".equals( ( (JLabel) metawidget.getComponent( 27 ) ).getText() ) );
-		assertTrue( "5.3".equals( ( (JLabel) metawidget.getComponent( 28 ) ).getText() ) );
+		assertTrue( ( (JLabel) metawidget.getComponent( 28 ) ).getText().startsWith( "4.3" ) || ( (JLabel) metawidget.getComponent( 28 ) ).getText().startsWith( "4.299" ) );
 		assertTrue( "nullInBundle:".equals( ( (JLabel) metawidget.getComponent( 29 ) ).getText() ) );
 		assertTrue( "5.4".equals( ( (JLabel) metawidget.getComponent( 30 ) ).getText() ) );
 		assertTrue( "Double:".equals( ( (JLabel) metawidget.getComponent( 31 ) ).getText() ) );
-		assertTrue( "53.3".equals( ( (JLabel) metawidget.getComponent( 32 ) ).getText() ) );
+		assertTrue( ( (JLabel) metawidget.getComponent( 32 ) ).getText().startsWith( "42.3" ) || ( (JLabel) metawidget.getComponent( 32 ) ).getText().startsWith( "42.299" ) );
 		assertTrue( "54.4".equals( ( (JLabel) metawidget.getComponent( 33 ) ).getText() ) );
 		assertTrue( "Char:".equals( ( (JLabel) metawidget.getComponent( 34 ) ).getText() ) );
 		assertTrue( "Z".equals( ( (JLabel) metawidget.getComponent( 35 ) ).getText() ) );

@@ -173,15 +173,12 @@ public class BeansBindingTest
 		assertTrue( "convertedForward".equals( builder.toString() ) );
 	}
 
-	public void testUnknownType()
+	public void testNoGetterSetterType()
 		throws Exception
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setBindingClass( BeansBinding.class );
 		metawidget.setInspector( new PropertyTypeInspector() );
-
-		// Loading
-
 		metawidget.setToInspect( new NoGetSetFoo() );
 
 		try
@@ -189,23 +186,52 @@ public class BeansBindingTest
 			metawidget.getComponent( 0 );
 			assertTrue( false );
 		}
-		catch( MetawidgetException e )
+		catch ( MetawidgetException e )
 		{
-			assertTrue( "Property 'bar' has no getter and no setter".equals( e.getMessage() ));
+			assertTrue( "Property 'bar' has no getter and no setter".equals( e.getMessage() ) );
 		}
+	}
+
+	public void testUnknownType()
+		throws Exception
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setBindingClass( BeansBinding.class );
+		metawidget.setInspector( new PropertyTypeInspector() );
+
+		// Clear out any DateConverters registered by previous unit tests
+
+		BeansBinding.unregisterConverter( Date.class, String.class );
 
 		// Saving
 
-		metawidget.setToInspect( new CantSaveFoo() );
+		CantLoadSaveFoo cantLoadSaveFoo = new CantLoadSaveFoo();
+		metawidget.setToInspect( cantLoadSaveFoo );
 
 		try
 		{
+			metawidget.setValue( "1/1/2001", "bar" );
 			metawidget.save();
 			assertTrue( false );
 		}
-		catch( MetawidgetException e )
+		catch ( MetawidgetException e )
 		{
-			assertTrue( "When saving from javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBinding.registerConverter?)".equals( e.getMessage() ));
+			assertTrue( "When saving from javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBinding.registerConverter?)".equals( e.getMessage() ) );
+		}
+
+		// Loading
+
+		cantLoadSaveFoo.setBar( new Date() );
+		metawidget.setToInspect( cantLoadSaveFoo );
+
+		try
+		{
+			metawidget.getComponent( 0 );
+			assertTrue( false );
+		}
+		catch ( MetawidgetException e )
+		{
+			assertTrue( "When binding bar to class javax.swing.JTextField.text (have you used BeansBinding.registerConverter?)".equals( e.getMessage() ) );
 		}
 	}
 
@@ -290,8 +316,10 @@ public class BeansBindingTest
 		}
 	}
 
-	protected static class CantSaveFoo
+	protected static class CantLoadSaveFoo
 	{
+		private Date	mBar;
+
 		//
 		//
 		// Public methods
@@ -300,12 +328,12 @@ public class BeansBindingTest
 
 		public Date getBar()
 		{
-			return null;
+			return mBar;
 		}
 
 		public void setBar( Date bar )
 		{
-			// Do nothing
+			mBar = bar;
 		}
 	}
 
@@ -317,6 +345,6 @@ public class BeansBindingTest
 		//
 		//
 
-		public float bar;
+		public float	bar;
 	}
 }

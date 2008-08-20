@@ -1171,17 +1171,17 @@ public class SwingMetawidget
 				// (use 'new', not '.valueOf', for JDK 1.4 compatibility)
 
 				if ( "byte".equals( type ) )
-					setSpinnerModel( spinner, new Byte( (byte) 0 ), new Byte( Byte.MIN_VALUE ), new Byte( Byte.MAX_VALUE ) );
+					setSpinnerModel( spinner, new Byte( (byte) 0 ), new Byte( Byte.MIN_VALUE ), new Byte( Byte.MAX_VALUE ), new Byte( (byte) 1 ) );
 				else if ( "short".equals( type ) )
-					setSpinnerModel( spinner, new Short( (short) 0 ), new Short( Short.MIN_VALUE ), new Short( Short.MAX_VALUE ) );
+					setSpinnerModel( spinner, new Short( (short) 0 ), new Short( Short.MIN_VALUE ), new Short( Short.MAX_VALUE ), new Short( (short) 1 ) );
 				else if ( "int".equals( type ) )
-					setSpinnerModel( spinner, new Integer( 0 ), new Integer( Integer.MIN_VALUE ), new Integer( Integer.MAX_VALUE ) );
+					setSpinnerModel( spinner, new Integer( 0 ), new Integer( Integer.MIN_VALUE ), new Integer( Integer.MAX_VALUE ), new Integer( 1 ) );
 				else if ( "long".equals( type ) )
-					setSpinnerModel( spinner, new Long( 0l ), new Long( Long.MIN_VALUE ), new Long( Long.MAX_VALUE ) );
+					setSpinnerModel( spinner, new Long( 0l ), new Long( Long.MIN_VALUE ), new Long( Long.MAX_VALUE ), new Long( 1l ) );
 				else if ( "float".equals( type ) )
-					setSpinnerModel( spinner, new Float( 0f ), new Float( -Float.MAX_VALUE ), new Float( Float.MAX_VALUE ) );
+					setSpinnerModel( spinner, new Float( 0f ), new Float( -Float.MAX_VALUE ), new Float( Float.MAX_VALUE ), new Float( 0.1f ) );
 				else if ( "double".equals( type ) )
-					setSpinnerModel( spinner, new Double( 0f ), new Double( -Double.MAX_VALUE ), new Double( Double.MAX_VALUE ) );
+					setSpinnerModel( spinner, new Double( 0f ), new Double( -Double.MAX_VALUE ), new Double( Double.MAX_VALUE ), new Double( 0.1f ) );
 
 				return spinner;
 			}
@@ -1387,9 +1387,9 @@ public class SwingMetawidget
 	 * type as the property it maps to (eg. float or double, int or long).
 	 */
 
-	private void setSpinnerModel( JSpinner spinner, Number value, Comparable<? extends Number> minimum, Comparable<? extends Number> maximum )
+	private void setSpinnerModel( JSpinner spinner, Number value, Comparable<? extends Number> minimum, Comparable<? extends Number> maximum, Number stepSize )
 	{
-		spinner.setModel( new SpinnerNumberModel( value, minimum, maximum, 1 ) );
+		spinner.setModel( new SpinnerNumberModel( value, minimum, maximum, stepSize ) );
 		( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setColumns( 0 );
 	}
 

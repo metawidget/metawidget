@@ -45,20 +45,6 @@ public class SwingAllWidgetsBeansBindingTest
 
 		BeansBinding.registerConverter( Date.class, String.class, new org.metawidget.test.swing.allwidgets.converter.beansbinding.DateConverter( DATE_FORMAT ) );
 		BeansBinding.registerConverter( NestedWidgets.class, String.class, new org.metawidget.test.swing.allwidgets.converter.beansbinding.NestedWidgetsConverter() );
-		BeansBinding.registerConverter( Number.class, String.class, new org.jdesktop.beansbinding.Converter<Number, String>()
-		{
-			@Override
-			public String convertForward( Number arg0 )
-			{
-				return String.valueOf( arg0 );
-			}
-
-			@Override
-			public Number convertReverse( String arg0 )
-			{
-				return Double.valueOf( arg0 );
-			}
-		} );
 		runTest( BeansBinding.class );
 	}
 
