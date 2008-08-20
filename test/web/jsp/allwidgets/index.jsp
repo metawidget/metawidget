@@ -10,7 +10,7 @@
 			<jsp:useBean id="allWidgets" class="org.metawidget.test.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234"/>
 			<fmt:setBundle basename="org.metawidget.test.shared.allwidgets.resource.Resources" var="bundle"/>
 			
-			<m:metawidget value="allWidgets" bundle="${bundle.resourceBundle}" style="aStyle" styleClass="aStyleClass" createHiddenFields="true" inspectorConfig="config/inspector-config.xml">
+			<m:metawidget value="allWidgets" bundle="${bundle}" style="aStyle" styleClass="aStyleClass" createHiddenFields="true" inspectorConfig="config/inspector-config.xml">
 				<m:param name="tableStyle" value="aTableStyle"/>
 				<m:param name="tableStyleClass" value="aTableStyleClass"/>
 				<m:param name="columnStyleClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>

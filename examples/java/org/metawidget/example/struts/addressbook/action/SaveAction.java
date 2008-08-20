@@ -39,8 +39,6 @@ import org.metawidget.example.struts.addressbook.form.PersonalContactForm;
  * @author Richard Kennard
  */
 
-// TODO: Pure JSP version of Address Book
-
 public class SaveAction
 	extends Action
 {

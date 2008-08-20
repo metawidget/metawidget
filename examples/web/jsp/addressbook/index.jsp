@@ -1,19 +1,19 @@
 <%@ page language="java" %>
-<%@ page import="org.metawidget.example.shared.addressbook.model.*, org.metawidget.example.shared.addressbook.controller.*" %>
+<%@ page import="java.util.*, org.metawidget.example.shared.addressbook.model.*, org.metawidget.example.shared.addressbook.controller.*" %>
 
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> 
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %> 
 <%@ taglib uri="http://metawidget.org/html" prefix="m"%>
 <%@ taglib uri="http://metawidget.org/example/jsp/addressbook" prefix="a"%>
 
-<%
-	ContactSearch contactSearch = (ContactSearch) pageContext.findAttribute( "contactSearch" );
-	
-	pageContext.setAttribute( "contactResults", ((ContactsController) pageContext.findAttribute( "contacts" )).getAllByExample( contactSearch ));
-%>
-
 <tags:page>
-	
+
+	<jsp:useBean id="contactsController" class="org.metawidget.example.shared.addressbook.controller.ContactsController" scope="application"/>
+	<jsp:useBean id="contactSearch" class="org.metawidget.example.shared.addressbook.model.ContactSearch"/>
+
+	<fmt:setBundle var="bundle" basename="org.metawidget.example.shared.addressbook.resource.Resources"/>
+
 	<div id="page-image">
 		<img src="media/addressbook.gif">
 	</div>
@@ -22,14 +22,14 @@
 		
 		<html:form action="/search">
 
-			<m:metawidget property="contactSearch">
+			<m:metawidget value="contactSearch" bundle="${bundle}">
 				<m:param name="tableStyleClass" value="table-form"/>
 				<m:param name="columnStyleClasses" value="table-label-column,table-component-column,required"/>
 
 				<m:facet name="buttons" styleClass="buttons">
-					<input type="submit" name="search" value=""/>
-					<input type="submit" name="addPersonal" value=""/>
-					<input type="submit" name="addBusiness" value=""/>
+					<input type="submit" name="search" value="<fmt:message key="search" bundle="${bundle}"/>"/>
+					<input type="submit" name="addPersonal" value="<fmt:message key="addPersonal" bundle="${bundle}"/>"/>
+					<input type="submit" name="addBusiness" value="<fmt:message key="addBusiness" bundle="${bundle}"/>"/>
 				</m:facet>
 			</m:metawidget>
 
@@ -44,7 +44,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${contactResults}" var="_contact">
+			
+				<c:forEach items="<%= contactsController.getAllByExample( contactSearch ) %>" var="_contact">
 					<tr>
 						<td class="column-half">
 							<a href="load.do?id=${_contact.id}">

@@ -135,15 +135,6 @@ public abstract class MetawidgetTag
 		mLayout = null;
 	}
 
-	/**
-	 * Sets the ResourceBundle used to localize labels.
-	 */
-
-	public void setBundle( ResourceBundle bundle )
-	{
-		mBundle = bundle;
-	}
-
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
@@ -302,6 +293,19 @@ public abstract class MetawidgetTag
 	// Protected methods
 	//
 	//
+
+	/**
+	 * Sets the ResourceBundle used to localize labels.
+	 * <p>
+	 * This will need to be exposed in framework-specific ways. For example, JSTL can use
+	 * <code>LocalizationContext</code>s, though these are not necessarily available to
+	 * a Struts app.
+	 */
+
+	protected void setBundle( ResourceBundle bundle )
+	{
+		mBundle = bundle;
+	}
 
 	/**
 	 * Instantiate the MetawidgetMixin used by this Metawidget.

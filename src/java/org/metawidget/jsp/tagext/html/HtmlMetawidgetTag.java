@@ -24,6 +24,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.jsp.jstl.fmt.LocalizationContext;
+
 import org.metawidget.MetawidgetException;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -69,6 +71,13 @@ public class HtmlMetawidgetTag
 	//
 	//
 
+	/**
+	 * Sets the path of the object to inspect.
+	 * <p>
+	 * The value is set as a path (eg. <code>customerSearch</code>) rather than the object itself
+	 * (eg. <code>${customerSearch}</code>) so that we can 'inspect from parent' if needed.
+	 */
+
 	public void setValue( String value )
 	{
 		mPath = value;
@@ -82,6 +91,15 @@ public class HtmlMetawidgetTag
 			if ( lastIndexOf != -1 )
 				mNamePrefix = value.substring( 0, lastIndexOf + 1 );
 		}
+	}
+
+	/**
+	 * Sets the LocalizationContext used to localize labels.
+	 */
+
+	public void setBundle( LocalizationContext bundle )
+	{
+		super.setBundle( bundle.getResourceBundle() );
 	}
 
 	@Override
@@ -123,7 +141,7 @@ public class HtmlMetawidgetTag
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ))
+		if ( lookup != null && !"".equals( lookup ) )
 			return writeReadOnlyTag( attributes );
 
 		String type = attributes.get( TYPE );
@@ -305,14 +323,14 @@ public class HtmlMetawidgetTag
 		String value = StringUtils.quietValueOf( evaluate( attributes ) );
 		buffer.append( value );
 
-		if ( mCreateHiddenFields && !TRUE.equals( attributes.get( NO_SETTER )))
+		if ( mCreateHiddenFields && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 		{
-			buffer.append( writeHiddenTag( attributes ));
+			buffer.append( writeHiddenTag( attributes ) );
 
 			// If value is empty, output an &nbsp; to stop this field being treated
 			// as 'just a hidden field'
 
-			if ( "".equals( value ))
+			if ( "".equals( value ) )
 				buffer.append( "&nbsp;" );
 		}
 
@@ -498,12 +516,12 @@ public class HtmlMetawidgetTag
 
 		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-		if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
+		if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 			buffer.append( "<option value=\"\"></option>" );
 
 		// Evaluate the expression
 
-		String selected = StringUtils.quietValueOf( evaluate( attributes ));
+		String selected = StringUtils.quietValueOf( evaluate( attributes ) );
 
 		// Add the options
 

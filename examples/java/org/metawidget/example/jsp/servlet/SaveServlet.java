@@ -33,6 +33,8 @@ import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 
+// TODO: Pure JSP version of Address Book
+
 public class SaveServlet
 	extends HttpServlet
 {

@@ -24,10 +24,6 @@
 			<rtexprvalue>true</rtexprvalue>			
 		</attribute>
 		<attribute>
-			<name>bundle</name>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-		<attribute>
 			<name>style</name>			
 			<rtexprvalue>true</rtexprvalue>			
 		</attribute>

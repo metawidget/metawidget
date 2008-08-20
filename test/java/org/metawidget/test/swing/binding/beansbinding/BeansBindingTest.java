@@ -18,6 +18,7 @@ package org.metawidget.test.swing.binding.beansbinding;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -27,6 +28,7 @@ import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.beansbinding.BeansBinding;
@@ -142,12 +144,69 @@ public class BeansBindingTest
 	public void testConvert()
 		throws Exception
 	{
-		// Model
+		// convertReverse with built in Converter
 
 		BeansBinding binding = new BeansBinding( new SwingMetawidget() );
-		BeansBinding.registerConverter( String.class, int.class, new IntConverter() );
+		assertTrue( 1 == binding.convertFromString( "1", int.class ) );
+
+		// convertForward with given Converter
+
+		final StringBuilder builder = new StringBuilder();
+
+		BeansBinding.registerConverter( String.class, Integer.class, new Converter<String, Integer>()
+		{
+			@Override
+			public Integer convertForward( String value )
+			{
+				builder.append( "convertedForward" );
+				return Integer.valueOf( value );
+			}
+
+			@Override
+			public String convertReverse( Integer value )
+			{
+				return String.valueOf( value );
+			}
+		} );
 
 		assertTrue( 1 == binding.convertFromString( "1", int.class ) );
+		assertTrue( "convertedForward".equals( builder.toString() ) );
+	}
+
+	public void testUnknownType()
+		throws Exception
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setBindingClass( BeansBinding.class );
+		metawidget.setInspector( new PropertyTypeInspector() );
+
+		// Loading
+
+		metawidget.setToInspect( new NoGetSetFoo() );
+
+		try
+		{
+			metawidget.getComponent( 0 );
+			assertTrue( false );
+		}
+		catch( MetawidgetException e )
+		{
+			assertTrue( "Property 'bar' has no getter and no setter".equals( e.getMessage() ));
+		}
+
+		// Saving
+
+		metawidget.setToInspect( new CantSaveFoo() );
+
+		try
+		{
+			metawidget.save();
+			assertTrue( false );
+		}
+		catch( MetawidgetException e )
+		{
+			assertTrue( "When saving from javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBinding.registerConverter?)".equals( e.getMessage() ));
+		}
 	}
 
 	//
@@ -231,19 +290,33 @@ public class BeansBindingTest
 		}
 	}
 
-	protected static class IntConverter
-		extends Converter<String, Integer>
+	protected static class CantSaveFoo
 	{
-		@Override
-		public Integer convertForward( String value )
+		//
+		//
+		// Public methods
+		//
+		//
+
+		public Date getBar()
 		{
-			return Integer.valueOf( value );
+			return null;
 		}
 
-		@Override
-		public String convertReverse( Integer value )
+		public void setBar( Date bar )
 		{
-			return String.valueOf( value );
+			// Do nothing
 		}
+	}
+
+	protected static class NoGetSetFoo
+	{
+		//
+		//
+		// Public methods
+		//
+		//
+
+		public float bar;
 	}
 }
