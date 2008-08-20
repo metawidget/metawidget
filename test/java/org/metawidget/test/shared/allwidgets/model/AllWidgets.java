@@ -106,7 +106,7 @@ public class AllWidgets
 
 	private String				mDropdownWithLabels					= "dropdown2";
 
-	private int					mNotNullDropdown;
+	private byte				mNotNullDropdown;
 
 	private String				mNotNullObjectDropdown				= "dropdown3";
 
@@ -381,12 +381,12 @@ public class AllWidgets
 		mDropdownWithLabels = dropdownWithLabels;
 	}
 
-	public int getNotNullDropdown()
+	public byte getNotNullDropdown()
 	{
 		return mNotNullDropdown;
 	}
 
-	public void setNotNullDropdown( int notNullDropdown )
+	public void setNotNullDropdown( byte notNullDropdown )
 	{
 		mNotNullDropdown = notNullDropdown;
 	}

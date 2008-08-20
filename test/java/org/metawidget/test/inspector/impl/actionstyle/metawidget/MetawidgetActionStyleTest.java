@@ -21,6 +21,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 
@@ -43,9 +44,19 @@ public class MetawidgetActionStyleTest
 		Map<String, Action> actions = actionStyle.getActions( Foo.class );
 
 		assertTrue( actions.size() == 1 );
-
 		assertTrue( "bar".equals( actions.get( "bar" ).toString() ) );
+
+		try
+		{
+			actionStyle.getActions( BadFoo.class );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "@UiAction public abstract void org.metawidget.test.inspector.impl.actionstyle.metawidget.MetawidgetActionStyleTest$BadFoo.bar(java.lang.String) must not take any parameters".equals( e.getMessage() ));
+		}
 	}
+
 
 	//
 	//
@@ -57,5 +68,11 @@ public class MetawidgetActionStyleTest
 	{
 		@UiAction
 		public abstract void bar();
+	}
+
+	abstract class BadFoo
+	{
+		@UiAction
+		public abstract void bar( String baz );
 	}
 }

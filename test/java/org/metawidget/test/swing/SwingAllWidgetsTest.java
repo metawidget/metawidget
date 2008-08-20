@@ -332,8 +332,8 @@ public class SwingAllWidgetsTest
 		assertTrue( metawidget.getComponent( 45 ) instanceof JComboBox );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 45 ) ).gridx );
 		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 45 ) ).getItemCount() );
-		assertTrue( 0 == (Integer) metawidget.getValue( "notNullDropdown" ) );
-		( (JComboBox) metawidget.getComponent( 45 ) ).setSelectedItem( 1 );
+		assertTrue( 0 == (Byte) metawidget.getValue( "notNullDropdown" ) );
+		( (JComboBox) metawidget.getComponent( 45 ) ).setSelectedItem( (byte) 1 );
 
 		assertTrue( "Not null object dropdown*:".equals( ( (JLabel) metawidget.getComponent( 46 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 47 ) instanceof JComboBox );

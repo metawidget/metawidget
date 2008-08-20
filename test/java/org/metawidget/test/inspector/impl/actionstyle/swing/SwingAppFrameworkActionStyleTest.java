@@ -20,6 +20,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle;
 
@@ -42,8 +43,17 @@ public class SwingAppFrameworkActionStyleTest
 		Map<String, Action> actions = actionStyle.getActions( Foo.class );
 
 		assertTrue( actions.size() == 1 );
-
 		assertTrue( "bar".equals( actions.get( "bar" ).toString() ) );
+
+		try
+		{
+			actionStyle.getActions( BadFoo.class );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "@Action public abstract void org.metawidget.test.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo.bar(java.lang.String) must not take any parameters".equals( e.getMessage() ));
+		}
 	}
 
 	//
@@ -56,5 +66,11 @@ public class SwingAppFrameworkActionStyleTest
 	{
 		@org.jdesktop.application.Action
 		public abstract void bar();
+	}
+
+	abstract class BadFoo
+	{
+		@org.jdesktop.application.Action
+		public abstract void bar( String baz );
 	}
 }

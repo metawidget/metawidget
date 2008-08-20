@@ -256,7 +256,7 @@ public class AllWidgetsActivity
 		mAllWidgets.setBooleanObject( (Boolean) metawidget.getValue( "booleanObject" ) );
 		mAllWidgets.setDropdown( (String) metawidget.getValue( "dropdown" ) );
 		mAllWidgets.setDropdownWithLabels( (String) metawidget.getValue( "dropdownWithLabels" ) );
-		mAllWidgets.setNotNullDropdown( Integer.parseInt( (String) metawidget.getValue( "notNullDropdown" ) ) );
+		mAllWidgets.setNotNullDropdown( Byte.parseByte( (String) metawidget.getValue( "notNullDropdown" ) ) );
 		mAllWidgets.getNestedWidgets().getFurtherNestedWidgets().setNestedTextbox1( (String) metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" ) );
 		mAllWidgets.getNestedWidgets().getFurtherNestedWidgets().setNestedTextbox2( (String) metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) );
 		mAllWidgets.getNestedWidgets().setNestedTextbox1( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) );
