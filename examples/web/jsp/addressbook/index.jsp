@@ -7,10 +7,27 @@
 <%@ taglib uri="http://metawidget.org/html" prefix="m"%>
 <%@ taglib uri="http://metawidget.org/example/jsp/addressbook" prefix="a"%>
 
-<tags:page>
+<%
+	ContactsController contactsController = new ContactsController();
+	pageContext.setAttribute( "contactsController", contactsController );
 
-	<jsp:useBean id="contactsController" class="org.metawidget.example.shared.addressbook.controller.ContactsController" scope="application"/>
-	<jsp:useBean id="contactSearch" class="org.metawidget.example.shared.addressbook.model.ContactSearch"/>
+	ContactSearch contactSearch = new ContactSearch();
+	pageContext.setAttribute( "contactSearch", contactSearch );
+
+	// Manual mapping (this is what Web frameworks typically do for you)
+
+	contactSearch.setFirstnames( request.getParameter( "contactSearch.firstnames" ));
+	contactSearch.setSurname( request.getParameter( "contactSearch.surname" ));
+	
+	String contactType = request.getParameter( "contactSearch.type" );
+	
+	if ( contactType != null && !"".equals( contactType ))
+		contactSearch.setType( ContactType.valueOf( request.getParameter( "contactSearch.type" )));
+	
+	pageContext.setAttribute( "contacts", contactsController.getAllByExample( contactSearch ));
+%>
+	
+<tags:page>
 
 	<fmt:setBundle var="bundle" basename="org.metawidget.example.shared.addressbook.resource.Resources"/>
 
@@ -20,7 +37,7 @@
 
 	<div id="content">
 		
-		<html:form action="/search">
+		<form action="index.jsp" method="POST">
 
 			<m:metawidget value="contactSearch" bundle="${bundle}">
 				<m:param name="tableStyleClass" value="table-form"/>
@@ -33,7 +50,7 @@
 				</m:facet>
 			</m:metawidget>
 
-		</html:form>
+		</form>
 
 		<table class="data-table">
 			<thead>
@@ -45,7 +62,7 @@
 			</thead>
 			<tbody>
 			
-				<c:forEach items="<%= contactsController.getAllByExample( contactSearch ) %>" var="_contact">
+				<c:forEach items="${contacts}" var="_contact">
 					<tr>
 						<td class="column-half">
 							<a href="load.do?id=${_contact.id}">

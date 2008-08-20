@@ -398,7 +398,7 @@ public class HtmlMetawidgetTag
 	{
 		Object result = evaluate( attributes );
 
-		if ( result == null )
+		if ( result == null || "".equals( result ))
 			return "";
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -520,6 +520,7 @@ public class HtmlMetawidgetTag
 			buffer.append( "<option value=\"\"></option>" );
 
 		// Evaluate the expression
+		// TODO: add converters here?
 
 		String selected = StringUtils.quietValueOf( evaluate( attributes ) );
 
