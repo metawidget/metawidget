@@ -44,7 +44,6 @@ import org.w3c.dom.Element;
  */
 
 // LOW: @UiOrder( "1.1.1" )
-// TODO: full test script
 
 public class MetawidgetAnnotationInspector
 	extends BaseObjectInspector

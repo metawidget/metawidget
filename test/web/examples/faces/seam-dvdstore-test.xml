@@ -17,17 +17,19 @@
 				<invoke url="${webtest.url}/seam-dvd/home" />
 				<verifyTitle text="JBoss DVD Store" />
 				<clickLink label="Create Account" />
-
 				<clickButton label="Next" />
+					
 				<verifyText text="User name: Validation Error: Value is required." />
 				<verifyText text="Password: Validation Error: Value is required." />
 				<verifyText text="Password verify: Validation Error: Value is required." />
 				<setInputField name="newuser:customerUserName" value="NewUser" />
+				<setInputField name="newuser:customerPassword" value="New" />
+				<clickButton label="Next" />
+				
+				<verifyText text="Password: Validation Error: Value is less than allowable minimum of '6'" />
 				<setInputField name="newuser:customerPassword" value="New Password" />
 				<setInputField name="newuser:editCustomerPasswordVerify" value="New Password" />
 				<clickButton label="Next" />
-
-				<setInputField name="newuser:customerEmail" value="user" />
 				<clickButton label="Next" />
 
 				<verifyText text="First name: Validation Error: Value is required." />
@@ -37,9 +39,7 @@
 				<verifyText text="City: Validation Error: Value is required." />
 				<verifyText text="State: Validation Error: Value is required." />
 				<verifyText text="Zip: Validation Error: Value is required." />
-				<!-- Can't do this here until JBSEAM-3251 is fixed: verifyText text="not a well-formed email address" -->				
-				<clickButton label="Next" />
-
+				<verifyText text="Email: Validation Error: Value is required." />				
 				<setInputField name="newuser:customerFirstName" value="New" />
 				<setInputField name="newuser:customerLastName" value="User" />
 				<setInputField name="newuser:customerAddress1" value="Apt 2" />
@@ -47,16 +47,38 @@
 				<setInputField name="newuser:customerCity" value="Userton" />
 				<setInputField name="newuser:customerState" value="U" />
 				<setInputField name="newuser:customerZip" value="1" />
+				<setInputField name="newuser:customerEmail" value="user" />
+				<clickButton label="Next" />
+
+				<verifyText text="length must be between 2 and 2" />
+				<verifyText text="length must be between 5 and 10" />				
 				<verifyText text="not a well-formed email address"/>				
 				<clickButton label="Next" />
 				
-				<verifyText text="length must be between 2 and 2" />
-				<verifyText text="length must be between 5 and 10" />
-				
 				<setInputField name="newuser:customerState" value="UR" />
-				<setInputField name="newuser:customerState" value="12345" />
+				<setInputField name="newuser:customerZip" value="12345" />
 				<setInputField name="newuser:customerEmail" value="user@user.com" />
 				<clickButton label="Next" />
+								
+				<verifySelectField name="newuser:customerCreditCardType" value="1"/>
+				<setSelectField name="newuser:customerCreditCardType" value="2"/>				
+				<clickButton label="Next" />
+				<clickLink label="start shopping" />
+				
+				<clickLink label="Pulp Fiction" />
+				<clickButton xpath="//input[@value='Add to Cart']" />
+				<clickButton label="Checkout" />
+				<clickButton label="Purchase" />
+				<clickButton label="Cancel" />
+				
+				<clickLink label="The Terminal" />
+				<clickButton xpath="//input[@value='Add to Cart']" />
+				<clickButton label="Checkout" />
+				<clickButton label="Purchase" />
+				<clickButton label="Purchase" />
+				<verifyText text="Thank you for ordering."/>
+				<verifyText text="$16.23"/>
+				<verifyText text="Visa"/>
 				
 			</steps>
 		</webtest>
