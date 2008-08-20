@@ -22,6 +22,7 @@ import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.faces.UiFacesLookup;
 import org.metawidget.inspector.jsp.UiJspAttribute;
+import org.metawidget.inspector.jsp.UiJspAttributes;
 
 /**
  * Models a Communication of a Contact.
@@ -89,7 +90,7 @@ public class Communication
 	}
 
 	@UiFacesLookup( "#{communications.allAsSelectItems}" )
-	@UiJspAttribute( name = "lookup", value = "${communications.all}" )
+	@UiJspAttributes( @UiJspAttribute( name = "lookup", value = "${communications.all}" ))
 	public String getType()
 	{
 		return mType;

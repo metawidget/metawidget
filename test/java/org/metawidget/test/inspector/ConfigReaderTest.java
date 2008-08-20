@@ -62,6 +62,7 @@ public class ConfigReaderTest
 		xml += "<hibernateValidatorInspector xmlns=\"java:org.metawidget.inspector.hibernate.validator\"/>";
 		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
 		xml += "<propertyStyle>org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle</propertyStyle>";
+		xml += "<actionStyle>org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle</actionStyle>";
 		xml += "</propertyTypeInspector>";
 		xml += "<jpaInspector xmlns=\"java:org.metawidget.inspector.jpa\"/>";
 		xml += "<jspAnnotationInspector xmlns=\"java:org.metawidget.inspector.jsp\"/>";

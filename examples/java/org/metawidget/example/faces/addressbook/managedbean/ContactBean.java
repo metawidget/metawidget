@@ -17,6 +17,7 @@
 package org.metawidget.example.faces.addressbook.managedbean;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +34,7 @@ import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.faces.UiFacesAttribute;
-import org.metawidget.inspector.faces.UiFacesImmediate;
+import org.metawidget.inspector.faces.UiFacesAttributes;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -158,8 +159,7 @@ public class ContactBean
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiFacesImmediate
-	@UiFacesAttribute( name = "label", value = "Back", condition = "#{contact.readOnly}" )
+	@UiFacesAttributes( { @UiFacesAttribute( name = LABEL, value = "Back", condition = "#{contact.readOnly}" ), @UiFacesAttribute( name = FACES_IMMEDIATE, value = "true" ) } )
 	public String cancel()
 		throws Exception
 	{
