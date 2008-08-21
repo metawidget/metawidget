@@ -122,10 +122,9 @@ public class CarApplication
 		facet.add( mButtonsMetawidget );
 		mMetawidget.add( facet );
 
-		mMetawidget.setMinimumSize( new Dimension( 400, 200 ) );
-
 		// Show
 
+		mMetawidget.setPreferredSize( new Dimension( 400, 150 ) );
 		show( mMetawidget );
 	}
 }
