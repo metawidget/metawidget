@@ -18,7 +18,6 @@ package org.metawidget.inspector.impl.actionstyle;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.Collections;
 import java.util.Map;
 
 import org.metawidget.util.CollectionUtils;
@@ -30,53 +29,8 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public abstract class MethodActionStyle
-	implements ActionStyle
+	extends BaseActionStyle
 {
-	//
-	//
-	// Private members
-	//
-	//
-
-	/**
-	 * Cache of action lookups.
-	 * <p>
-	 * Action lookups are potentially expensive, so we cache them. The cache itself is a member
-	 * variable, not a static, because we rely on <code>BaseObjectInspector</code> to only
-	 * create one instance of <code>ActionStyle</code> for all <code>Inspectors</code>.
-	 * <p>
-	 * This also stops problems with subclasses of <code>MethodActionStyle</code> sharing the
-	 * same static cache.
-	 */
-
-	private Map<Class<?>, Map<String, Action>>	mActionCache	= CollectionUtils.newHashMap();
-
-	//
-	//
-	// Public methods
-	//
-	//
-
-	/**
-	 * Returns actions sorted by name.
-	 */
-
-	public Map<String, Action> getActions( Class<?> clazz )
-	{
-		synchronized ( mActionCache )
-		{
-			Map<String, Action> actions = mActionCache.get( clazz );
-
-			if ( actions == null )
-			{
-				actions = inspectActions( clazz );
-				mActionCache.put( clazz, Collections.unmodifiableMap( actions ) );
-			}
-
-			return actions;
-		}
-	}
-
 	//
 	//
 	// Protected methods
@@ -87,7 +41,53 @@ public abstract class MethodActionStyle
 	 * @return the actions of the given class. Never null.
 	 */
 
-	protected abstract Map<String, Action> inspectActions( Class<?> clazz );
+	@Override
+	protected Map<String, Action> inspectActions( Class<?> clazz )
+	{
+		// TreeMap so that returns alphabetically sorted actions
+
+		Map<String, Action> actions = CollectionUtils.newTreeMap();
+
+		// For each action...
+
+		for( Method method : clazz.getMethods() )
+		{
+			// ...that is a match...
+
+			if ( !matchAction( method ))
+				continue;
+
+			// ...that is not excluded...
+
+			if ( isExcluded( method ))
+				continue;
+
+			// ...add it
+
+			String methodName = method.getName();
+			actions.put( methodName, new MethodAction( methodName, method ) );
+		}
+
+		return actions;
+	}
+
+	/**
+	 * Whether to exclude the given action when searching for actions.
+	 * <p>
+	 * This can be useful when the convention or base class define actions that are
+	 * framework-specific, and should be filtered out from 'real' business model actions.
+	 * <p>
+	 * By default, does not exclude any actions.
+	 *
+	 * @return true if the property should be excluded, false otherwise
+	 */
+
+	protected boolean isExcluded( Method method )
+	{
+		return false;
+	}
+
+	protected abstract boolean matchAction( Method method );
 
 	//
 	//

@@ -14,40 +14,39 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.actionstyle.metawidget;
+package org.metawidget.inspector.swing;
 
-import java.lang.reflect.Method;
-
-import org.metawidget.inspector.annotation.UiAction;
-import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.actionstyle.MethodActionStyle;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle;
 
 /**
- * ActionStyle for Metawidget-style actions.
+ * Configures a SwingAppFrameworkInspector prior to use. Once instantiated, Inspectors are
+ * immutable.
+ * <p>
+ * <code>SwingAppFrameworkInspector</code> differs from most Inspectors in that it defaults to
+ * using <code>SwingAppFrameworkActionStyle</code> instead of <code>MetawidgetActionStyle</code>.
  *
  * @author Richard Kennard
  */
 
-public class MetawidgetActionStyle
-	extends MethodActionStyle
+public class SwingAppFrameworkInspectorConfig
+	extends BaseObjectInspectorConfig
 {
 	//
 	//
-	// Protected methods
+	// Constructor
 	//
 	//
 
-	@Override
-	protected boolean matchAction( Method method )
+	public SwingAppFrameworkInspectorConfig()
 	{
-		UiAction action = method.getAnnotation( UiAction.class );
-
-		if ( action == null )
-			return false;
-
-		if ( method.getParameterTypes().length > 0 )
-			throw InspectorException.newException( "@UiAction " + method + " must not take any parameters" );
-
-		return true;
+		try
+		{
+			setActionStyle( SwingAppFrameworkActionStyle.class );
+		}
+		catch ( Throwable t )
+		{
+			// Fail gracefully if shipping with some other style
+		}
 	}
 }

@@ -14,40 +14,69 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.actionstyle.metawidget;
-
-import java.lang.reflect.Method;
-
-import org.metawidget.inspector.annotation.UiAction;
-import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.actionstyle.MethodActionStyle;
+package org.metawidget.example.swing.appframework;
 
 /**
- * ActionStyle for Metawidget-style actions.
- *
  * @author Richard Kennard
  */
 
-public class MetawidgetActionStyle
-	extends MethodActionStyle
+public class Owner
 {
 	//
 	//
-	// Protected methods
+	// Private members
 	//
 	//
+
+	private String	mFirstname;
+
+	private String	mSurname;
+
+	//
+	//
+	// Public methods
+	//
+	//
+
+	public String getFirstname()
+	{
+		return mFirstname;
+	}
+
+	public void setFirstname( String firstname )
+	{
+		mFirstname = firstname;
+	}
+
+	public String getSurname()
+	{
+		return mSurname;
+	}
+
+	public void setSurname( String surname )
+	{
+		mSurname = surname;
+	}
 
 	@Override
-	protected boolean matchAction( Method method )
+	public String toString()
 	{
-		UiAction action = method.getAnnotation( UiAction.class );
+		StringBuilder builder = new StringBuilder();
 
-		if ( action == null )
-			return false;
+		if ( mFirstname != null )
+			builder.append( mFirstname );
 
-		if ( method.getParameterTypes().length > 0 )
-			throw InspectorException.newException( "@UiAction " + method + " must not take any parameters" );
+		if ( mSurname != null )
+		{
+			if ( builder.length() > 0 )
+				builder.append( " " );
 
-		return true;
+			builder.append( mSurname );
+		}
+
+		if ( builder.length() == 0 )
+			builder.append( "(no name specified)" );
+
+		return builder.toString();
 	}
 }

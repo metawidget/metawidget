@@ -17,12 +17,9 @@
 package org.metawidget.inspector.impl.actionstyle.swing;
 
 import java.lang.reflect.Method;
-import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.MethodActionStyle;
-import org.metawidget.util.CollectionUtils;
 
 /**
  * ActionStyle for Swing AppFramework-style actions.
@@ -39,35 +36,22 @@ public class SwingAppFrameworkActionStyle
 	//
 	//
 
-	/**
-	 * @return the actions of the given class. Never null.
-	 */
-
 	@Override
-	protected Map<String, Action> inspectActions( Class<?> clazz )
+	protected boolean matchAction( Method method )
 	{
-		// TreeMap so that returns alphabetically sorted actions
+		// Exclude Swing AppFramework actions
 
-		Map<String, Action> actions = CollectionUtils.newTreeMap();
+		if ( method.getDeclaringClass().getPackage().getName().startsWith( "org.jdesktop" ))
+			return false;
 
-		// For each action...
+		org.jdesktop.application.Action action = method.getAnnotation( org.jdesktop.application.Action.class );
 
-		for( Method method : clazz.getMethods() )
-		{
-			org.jdesktop.application.Action action = method.getAnnotation( org.jdesktop.application.Action.class );
+		if ( action == null )
+			return false;
 
-			if ( action == null )
-				continue;
+		if ( method.getParameterTypes().length > 0 )
+			throw InspectorException.newException( "@Action " + method + " must not take any parameters" );
 
-			// ...validate it...
-
-			if ( method.getParameterTypes().length > 0 )
-				throw InspectorException.newException( "@Action " + method + " must not take any parameters" );
-
-			String methodName = method.getName();
-			actions.put( methodName, new MethodAction( methodName, method ) );
-		}
-
-		return actions;
+		return true;
 	}
 }

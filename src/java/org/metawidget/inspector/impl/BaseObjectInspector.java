@@ -312,11 +312,21 @@ public abstract class BaseObjectInspector
 		return mPropertyStyle.getProperties( clazz );
 	}
 
+	/**
+	 * Inspect the given property and return a Map of attributes.
+	 * <p>
+	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
+	 * Those subclasses wanting more control over these features should override methods higher in
+	 * the call stack instead.
+	 * <p>
+	 * Note: unlike <code>inspectProperty</code>, this method has a default implementation that
+	 * returns <code>null</code>. This is because most Inspectors will not implement
+	 * <code>inspectAction</code>.
+	 */
+
 	protected Map<String, String> inspectAction( Action action, Object toInspect )
 		throws Exception
 	{
-		// Do nothing by default
-
 		return null;
 	}
 

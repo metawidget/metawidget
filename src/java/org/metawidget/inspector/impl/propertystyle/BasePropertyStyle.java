@@ -22,7 +22,7 @@ import java.util.Map;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * Convenience implementation for PropertieStyles.
+ * Convenience implementation for PropertyStyles.
  * <p>
  * Handles caching, excluding names and types, and unwrapping proxies.
  *
@@ -45,8 +45,8 @@ public abstract class BasePropertyStyle
 	 * variable, not a static, because we rely on <code>BaseObjectInspector</code> to only create
 	 * one instance of <code>PropertyStyle</code> for all <code>Inspectors</code>.
 	 * <p>
-	 * This also stops problems with subclasses of <code>BasePropertyStyle</code> sharing the
-	 * same static cache.
+	 * This also stops problems with subclasses of <code>BasePropertyStyle</code> sharing the same
+	 * static cache.
 	 */
 
 	private Map<Class<?>, Map<String, Property>>	mPropertiesCache	= CollectionUtils.newHashMap();
@@ -121,9 +121,8 @@ public abstract class BasePropertyStyle
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, calls <code>isExcludedBaseType</code>, <code>isExcludedReturnType</code> and
-	 * <code>isExcludedName</code> and returns true if any of them return true. Returns false
-	 * otherwise.
+	 * By default, calls <code>isExcludedReturnType</code> and <code>isExcludedName</code> and
+	 * returns true if either of them return true. Returns false otherwise.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
@@ -145,7 +144,7 @@ public abstract class BasePropertyStyle
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, does not exclude any names
+	 * By default, does not exclude any names.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
@@ -199,8 +198,8 @@ public abstract class BasePropertyStyle
 	/**
 	 * Inspect the given Classes and merge their results.
 	 * <p>
-	 * This version of <code>inspectProperties</code> is used when inspecting
-	 * the interfaces of a proxied class.
+	 * This version of <code>inspectProperties</code> is used when inspecting the interfaces of a
+	 * proxied class.
 	 */
 
 	protected Map<String, Property> inspectProperties( Class<?>[] classes )
@@ -236,6 +235,6 @@ public abstract class BasePropertyStyle
 
 	protected void cacheProperties( Class<?> clazz, Map<String, Property> properties )
 	{
-		mPropertiesCache.put( clazz, Collections.unmodifiableMap( properties ));
+		mPropertiesCache.put( clazz, Collections.unmodifiableMap( properties ) );
 	}
 }
