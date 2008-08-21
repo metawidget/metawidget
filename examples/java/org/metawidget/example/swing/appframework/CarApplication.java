@@ -27,7 +27,6 @@ import javax.swing.JOptionPane;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
-import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.jexl.UiJexlAttribute;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
@@ -61,7 +60,7 @@ public class CarApplication
 
 	private SwingMetawidget	mButtonsMetawidget;
 
-	Car						mCar		= new Car();
+	Car						mCar;
 
 	//
 	//
@@ -76,7 +75,6 @@ public class CarApplication
 
 	@Action( name = "add" )
 	@UiJexlAttribute( name = HIDDEN, value = "${this.car.owner != null}" )
-	@UiComesAfter( "type" )
 	public void addOwner()
 	{
 		mCar.setOwner( new Owner() );
@@ -88,7 +86,7 @@ public class CarApplication
 	public void save()
 	{
 		mMetawidget.save();
-		JOptionPane.showMessageDialog( getMainFrame(), mCar );
+		JOptionPane.showMessageDialog( getMainFrame(), "Saved " + mCar );
 	}
 
 	//
@@ -100,6 +98,11 @@ public class CarApplication
 	@Override
 	protected void startup()
 	{
+		// Model
+
+		mCar = new Car();
+		mCar.setMake( "Ford" );
+
 		// Metawidget
 
 		mMetawidget = new SwingMetawidget();
