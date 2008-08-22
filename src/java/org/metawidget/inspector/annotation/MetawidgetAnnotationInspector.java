@@ -43,8 +43,6 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-// LOW: @UiOrder( "1.1.1" )
-
 public class MetawidgetAnnotationInspector
 	extends BaseObjectInspector
 {

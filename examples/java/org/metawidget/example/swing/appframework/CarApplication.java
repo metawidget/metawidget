@@ -16,12 +16,15 @@
 
 package org.metawidget.example.swing.appframework;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import org.jdesktop.application.Action;
@@ -35,6 +38,7 @@ import org.metawidget.swing.binding.beansbinding.BeansBinding;
  * @author Richard Kennard
  */
 
+// TODO: Test CarApplication
 public class CarApplication
 	extends SingleFrameApplication
 {
@@ -86,20 +90,34 @@ public class CarApplication
 		mCar = new Car();
 		mCar.setMake( "Ford" );
 
+		// Description
+
+		JFrame frame = getMainFrame();
+		frame.setLayout( new BorderLayout() );
+
+		ResourceBundle bundle = ResourceBundle.getBundle( "org.metawidget.example.swing.appframework.resources.CarApplication" );
+		JLabel label = new JLabel();
+		label.setBorder( BorderFactory.createEmptyBorder( 5, 5, 10, 5 ) );
+		label.setText( "<html>" + bundle.getString( "Application.description" ) + ":</html>" );
+		label.setPreferredSize( new Dimension( 400, 50 ) );
+		frame.add( label, BorderLayout.NORTH );
+
 		// Metawidget
 
 		mMetawidget = new SwingMetawidget();
 		mMetawidget.setInspectorConfig( "org/metawidget/example/swing/appframework/inspector-config.xml" );
-		mMetawidget.setBundle( ResourceBundle.getBundle( "org.metawidget.example.swing.appframework.resources.CarApplication" ) );
+		mMetawidget.setBundle( bundle );
 		mMetawidget.setToInspect( mCar );
 		mMetawidget.setBindingClass( BeansBinding.class );
 		mMetawidget.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
+		mMetawidget.setPreferredSize( new Dimension( 400, 150 ) );
+		frame.add( mMetawidget, BorderLayout.CENTER );
 
 		// Actions
 
 		SwingMetawidget buttonsMetawidget = new SwingMetawidget();
 		buttonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/appframework/action-inspector-config.xml" );
-		buttonsMetawidget.setBundle( ResourceBundle.getBundle( "org.metawidget.example.swing.appframework.resources.CarApplication" ) );
+		buttonsMetawidget.setBundle( bundle );
 		buttonsMetawidget.setToInspect( this );
 		buttonsMetawidget.setLayoutClass( null );
 
@@ -121,7 +139,6 @@ public class CarApplication
 
 		// Show
 
-		mMetawidget.setPreferredSize( new Dimension( 400, 150 ) );
-		show( mMetawidget );
+		show( frame );
 	}
 }
