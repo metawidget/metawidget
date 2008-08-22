@@ -372,7 +372,7 @@ public abstract class BaseXmlInspector
 
 		// ...create an element...
 
-		Element child = toAddTo.createElementNS( NAMESPACE, PROPERTY );
+		Element child = toAddTo.createElementNS( NAMESPACE, toInspect.getNodeName() );
 		XmlUtils.setMapAsAttributes( child, attributes );
 
 		return child;

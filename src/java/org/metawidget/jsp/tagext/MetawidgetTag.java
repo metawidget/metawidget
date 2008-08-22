@@ -358,7 +358,7 @@ public abstract class MetawidgetTag
 	protected abstract String buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception;
 
-	protected void addWidget( String widget, Map<String, String> attributes )
+	protected void addWidget( String widget, String elementName, Map<String, String> attributes )
 		throws IOException
 	{
 		JspWriter writer = pageContext.getOut();
@@ -486,13 +486,13 @@ public abstract class MetawidgetTag
 		}
 
 		@Override
-		protected void addWidget( Object widget, Map<String, String> attributes )
+		protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
 			throws Exception
 		{
 			if ( widget instanceof StubContent )
-				MetawidgetTag.this.addWidget( ( (StubContent) widget ).getContent(), attributes );
+				MetawidgetTag.this.addWidget( ( (StubContent) widget ).getContent(), elementName, attributes );
 			else
-				MetawidgetTag.this.addWidget( (String) widget, attributes );
+				MetawidgetTag.this.addWidget( (String) widget, elementName, attributes );
 		}
 
 		@Override

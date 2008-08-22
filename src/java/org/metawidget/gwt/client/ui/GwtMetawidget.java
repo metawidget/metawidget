@@ -1174,7 +1174,7 @@ public class GwtMetawidget
 		return widget;
 	}
 
-	protected void addWidget( Widget widget, Map<String, String> attributes )
+	protected void addWidget( Widget widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		String name = attributes.get( "name" );
@@ -1362,10 +1362,10 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected void addWidget( Widget widget, Map<String, String> attributes )
+		protected void addWidget( Widget widget, String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			GwtMetawidget.this.addWidget( widget, attributes );
+			GwtMetawidget.this.addWidget( widget, elementName, attributes );
 		}
 
 		@Override

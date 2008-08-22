@@ -904,7 +904,8 @@ public class SwingMetawidget
 		mNamesPrefix = PathUtils.parsePath( mPath ).getNames();
 	}
 
-	protected void addWidget( JComponent component, Map<String, String> attributes )
+	protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
+		throws Exception
 	{
 		remove( component );
 
@@ -923,12 +924,76 @@ public class SwingMetawidget
 			mLayout.layoutChild( component, attributes );
 		}
 
-		if ( mBinding != null )
+		// Bind properties
+
+		if ( PROPERTY.equals( elementName ) )
 		{
-			if ( mNamesPrefix == null )
-				bind( component, childName );
-			else
-				bind( component, ArrayUtils.add( mNamesPrefix, childName ) );
+			if ( mBinding != null )
+			{
+				if ( mNamesPrefix == null )
+					bind( component, childName );
+				else
+					bind( component, ArrayUtils.add( mNamesPrefix, childName ) );
+			}
+		}
+
+		// Bind actions
+
+		else if ( ACTION.equals( elementName ) && component instanceof JButton )
+		{
+			final Object toInspect = getToInspect();
+
+			if ( toInspect != null )
+			{
+				JButton button = (JButton) component;
+				String text = button.getText();
+				final String name = attributes.get( NAME );
+
+				try
+				{
+					// Parameterless
+
+					final Method parameterlessActionMethod = toInspect.getClass().getMethod( name, (Class[]) null );
+
+					button.setAction( new AbstractAction( text )
+					{
+						@Override
+						public void actionPerformed( ActionEvent e )
+						{
+							try
+							{
+								parameterlessActionMethod.invoke( toInspect, (Object[]) null );
+							}
+							catch ( Exception ex )
+							{
+								throw new RuntimeException( ex );
+							}
+						}
+					} );
+				}
+				catch( NoSuchMethodException e )
+				{
+					// ActionEvent-parameter based
+
+					final Method parameterizedActionMethod = toInspect.getClass().getMethod( name, ActionEvent.class );
+
+					button.setAction( new AbstractAction( text )
+					{
+						@Override
+						public void actionPerformed( ActionEvent event )
+						{
+							try
+							{
+								parameterizedActionMethod.invoke( toInspect, new ActionEvent( toInspect, 0, name ) );
+							}
+							catch ( Exception ex )
+							{
+								throw new RuntimeException( ex );
+							}
+						}
+					} );
+				}
+			}
 		}
 	}
 
@@ -962,6 +1027,11 @@ public class SwingMetawidget
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+			return null;
+
+		// Action
+
+		if ( ACTION.equals( elementName ) )
 			return null;
 
 		// Masked (return a JPanel, so that we DO still render a label)
@@ -1060,60 +1130,7 @@ public class SwingMetawidget
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-		{
-			final Object toInspect = getToInspect();
-
-			if ( toInspect == null )
-				return null;
-
-			final String name = attributes.get( NAME );
-			String labelString = getLabelString( attributes );
-
-			try
-			{
-				// Parameterless
-
-				final Method parameterlessActionMethod = toInspect.getClass().getMethod( name, (Class[]) null );
-
-				return new JButton( new AbstractAction( labelString )
-				{
-					@Override
-					public void actionPerformed( ActionEvent e )
-					{
-						try
-						{
-							parameterlessActionMethod.invoke( toInspect, (Object[]) null );
-						}
-						catch ( Exception ex )
-						{
-							throw new RuntimeException( ex );
-						}
-					}
-				} );
-			}
-			catch( NoSuchMethodException e )
-			{
-				// ActionEvent-parameter based
-
-				final Method parameterizedActionMethod = toInspect.getClass().getMethod( name, ActionEvent.class );
-
-				return new JButton( new AbstractAction( labelString )
-				{
-					@Override
-					public void actionPerformed( ActionEvent event )
-					{
-						try
-						{
-							parameterizedActionMethod.invoke( toInspect, new ActionEvent( toInspect, 0, name ) );
-						}
-						catch ( Exception ex )
-						{
-							throw new RuntimeException( ex );
-						}
-					}
-				} );
-			}
-		}
+			return new JButton( getLabelString( attributes ));
 
 		String type = attributes.get( TYPE );
 
@@ -1461,9 +1478,10 @@ public class SwingMetawidget
 		}
 
 		@Override
-		protected void addWidget( JComponent component, Map<String, String> attributes )
+		protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
+			throws Exception
 		{
-			SwingMetawidget.this.addWidget( component, attributes );
+			SwingMetawidget.this.addWidget( component, elementName, attributes );
 		}
 
 		@Override

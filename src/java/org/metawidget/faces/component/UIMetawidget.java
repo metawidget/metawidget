@@ -1058,7 +1058,7 @@ public abstract class UIMetawidget
 	protected abstract UIComponent buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception;
 
-	protected void addWidget( UIComponent widget, Map<String, String> attributes )
+	protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		FacesContext context = getFacesContext();
@@ -1382,10 +1382,10 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected void addWidget( UIComponent widget, Map<String, String> attributes )
+		protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			UIMetawidget.this.addWidget( widget, attributes );
+			UIMetawidget.this.addWidget( widget, elementName, attributes );
 		}
 
 		@Override

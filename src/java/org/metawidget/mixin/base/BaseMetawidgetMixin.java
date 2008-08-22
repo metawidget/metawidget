@@ -141,7 +141,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 				if ( !isMetawidget( widget ) )
 				{
-					addWidget( widget, attributes );
+					addWidget( widget, elementName, attributes );
 				}
 
 				// Failing that, build a compound widget (from our child elements)
@@ -207,7 +207,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 				attributes.putAll( getStubAttributes( widget ) );
 			}
 
-			addWidget( widget, attributes );
+			addWidget( widget, elementName, attributes );
 		}
 	}
 
@@ -272,7 +272,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 	protected abstract W initMetawidget( W widget, Map<String, String> attributes )
 		throws Exception;
 
-	protected abstract void addWidget( W widget, Map<String, String> attributes )
+	protected abstract void addWidget( W widget, String elementName, Map<String, String> attributes )
 		throws Exception;
 
 	protected abstract void endBuild()

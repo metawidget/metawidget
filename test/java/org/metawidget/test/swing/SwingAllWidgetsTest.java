@@ -16,6 +16,7 @@
 
 package org.metawidget.test.swing;
 
+import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -23,6 +24,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -419,7 +421,12 @@ public class SwingAllWidgetsTest
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 59 ) ).gridx );
 		assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
-		assertTrue( 60 == metawidget.getComponentCount() );
+		assertTrue( metawidget.getComponent( 60 ) instanceof JButton );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 60 ) ).gridx );
+		assertTrue( GridBagConstraints.NONE == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 60 ) ).fill );
+		assertTrue( "Do action".equals( ((JButton) metawidget.getComponent( 60 )).getText() ) );
+
+		assertTrue( 61 == metawidget.getComponentCount() );
 
 		// Check painting
 
