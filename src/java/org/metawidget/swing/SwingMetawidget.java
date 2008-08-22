@@ -1066,23 +1066,53 @@ public class SwingMetawidget
 			if ( toInspect == null )
 				return null;
 
-			final Method actionMethod = toInspect.getClass().getMethod( attributes.get( NAME ), (Class[]) null );
+			final String name = attributes.get( NAME );
+			String labelString = getLabelString( attributes );
 
-			return new JButton( new AbstractAction( getLabelString( attributes ) )
+			try
 			{
-				@Override
-				public void actionPerformed( ActionEvent e )
+				// Parameterless
+
+				final Method parameterlessActionMethod = toInspect.getClass().getMethod( name, (Class[]) null );
+
+				return new JButton( new AbstractAction( labelString )
 				{
-					try
+					@Override
+					public void actionPerformed( ActionEvent e )
 					{
-						actionMethod.invoke( toInspect, (Object[]) null );
+						try
+						{
+							parameterlessActionMethod.invoke( toInspect, (Object[]) null );
+						}
+						catch ( Exception ex )
+						{
+							throw new RuntimeException( ex );
+						}
 					}
-					catch ( Exception ex )
+				} );
+			}
+			catch( NoSuchMethodException e )
+			{
+				// ActionEvent-parameter based
+
+				final Method parameterizedActionMethod = toInspect.getClass().getMethod( name, ActionEvent.class );
+
+				return new JButton( new AbstractAction( labelString )
+				{
+					@Override
+					public void actionPerformed( ActionEvent event )
 					{
-						throw new RuntimeException( ex );
+						try
+						{
+							parameterizedActionMethod.invoke( toInspect, new ActionEvent( toInspect, 0, name ) );
+						}
+						catch ( Exception ex )
+						{
+							throw new RuntimeException( ex );
+						}
 					}
-				}
-			} );
+				} );
+			}
 		}
 
 		String type = attributes.get( TYPE );

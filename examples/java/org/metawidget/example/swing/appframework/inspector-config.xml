@@ -5,9 +5,14 @@
 
 	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 		<inspectors>
-			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"/>
+			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+				<actionStyle>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</actionStyle>
+			</metawidgetAnnotationInspector>
 			<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
-			<jexlInspector xmlns="java:org.metawidget.inspector.jexl"/>
+			<swingAppFrameworkInspector xmlns="java:org.metawidget.inspector.swing"/>			
+			<jexlInspector xmlns="java:org.metawidget.inspector.jexl" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+				<actionStyle>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</actionStyle>
+			</jexlInspector>
 		</inspectors>
 	</compositeInspector>
 

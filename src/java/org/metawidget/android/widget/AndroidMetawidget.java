@@ -73,6 +73,9 @@ import android.widget.TextView;
  * @author Richard Kennard
  */
 
+// TODO: annotations now working?
+// TODO: tags set through XML?
+
 public class AndroidMetawidget
 	extends LinearLayout
 {

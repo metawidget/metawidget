@@ -25,6 +25,7 @@ import java.awt.Insets;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -223,7 +224,10 @@ public class TableGridBagLayout
 		// ...and layout the component
 
 		GridBagConstraints constraintsComponent = new GridBagConstraints();
-		constraintsComponent.fill = GridBagConstraints.BOTH;
+
+		if ( !( component instanceof JButton ))
+			constraintsComponent.fill = GridBagConstraints.BOTH;
+
 		constraintsComponent.anchor = GridBagConstraints.WEST;
 
 		if ( labelText != null )
@@ -363,7 +367,7 @@ public class TableGridBagLayout
 
 		// Add label
 
-		if ( labelText != null && !"".equals( labelText ) )
+		if ( labelText != null && !"".equals( labelText ) && !( component instanceof JButton ))
 		{
 			JLabel label = new JLabel();
 			label.setHorizontalAlignment( mLabelAlignment );

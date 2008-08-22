@@ -16,6 +16,7 @@
 
 package org.metawidget.inspector.impl.actionstyle.swing;
 
+import java.awt.event.ActionEvent;
 import java.lang.reflect.Method;
 
 import org.metawidget.inspector.iface.InspectorException;
@@ -49,8 +50,13 @@ public class SwingAppFrameworkActionStyle
 		if ( action == null )
 			return false;
 
-		if ( method.getParameterTypes().length > 0 )
-			throw InspectorException.newException( "@Action " + method + " must not take any parameters" );
+		Class<?>[] parameterTypes = method.getParameterTypes();
+
+		if ( parameterTypes.length > 1 )
+			throw InspectorException.newException( "@Action " + method + " must not have more than one parameter" );
+
+		if ( parameterTypes.length == 1 && !parameterTypes[0].equals( ActionEvent.class ))
+			throw InspectorException.newException( "@Action " + method + " parameter must be a " + ActionEvent.class.getName() );
 
 		return true;
 	}

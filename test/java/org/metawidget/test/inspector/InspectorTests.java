@@ -38,6 +38,7 @@ import org.metawidget.test.inspector.jpa.JpaInspectorTest;
 import org.metawidget.test.inspector.propertytype.PropertyTypeInspectorTest;
 import org.metawidget.test.inspector.remote.RemoteInspectorTest;
 import org.metawidget.test.inspector.struts.StrutsInspectorTest;
+import org.metawidget.test.inspector.swing.SwingAppFrameworkInspectorTest;
 import org.metawidget.test.inspector.xml.XmlInspectorTest;
 
 /**
@@ -74,6 +75,7 @@ public class InspectorTests
 		suite.addTestSuite( RemoteInspectorTest.class );
 		suite.addTestSuite( StrutsInspectorTest.class );
 		suite.addTestSuite( StrutsActionFormPropertyStyleTest.class );
+		suite.addTestSuite( SwingAppFrameworkInspectorTest.class );
 		suite.addTestSuite( SwingAppFrameworkActionStyleTest.class );
 		suite.addTestSuite( XmlInspectorTest.class );
 

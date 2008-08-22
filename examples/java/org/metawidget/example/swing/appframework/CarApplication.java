@@ -16,9 +16,9 @@
 
 package org.metawidget.example.swing.appframework;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 
 import javax.swing.BorderFactory;
@@ -27,7 +27,6 @@ import javax.swing.JOptionPane;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
-import org.metawidget.inspector.jexl.UiJexlAttribute;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.beansbinding.BeansBinding;
@@ -56,11 +55,9 @@ public class CarApplication
 	//
 	//
 
-	private SwingMetawidget	mMetawidget;
+	SwingMetawidget	mMetawidget;
 
-	private SwingMetawidget	mButtonsMetawidget;
-
-	Car						mCar;
+	Car				mCar;
 
 	//
 	//
@@ -68,22 +65,8 @@ public class CarApplication
 	//
 	//
 
-	public Car getCar()
-	{
-		return mCar;
-	}
-
-	@Action( name = "add" )
-	@UiJexlAttribute( name = HIDDEN, value = "${this.car.owner != null}" )
-	public void addOwner()
-	{
-		mCar.setOwner( new Owner() );
-		mMetawidget.setToInspect( mCar );
-		mButtonsMetawidget.setToInspect( this );
-	}
-
 	@Action
-	public void save()
+	public void save( ActionEvent event )
 	{
 		mMetawidget.save();
 		JOptionPane.showMessageDialog( getMainFrame(), "Saved " + mCar );
@@ -114,16 +97,27 @@ public class CarApplication
 
 		// Actions
 
-		mButtonsMetawidget = new SwingMetawidget();
-		mButtonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/appframework/action-inspector-config.xml" );
-		mButtonsMetawidget.setBundle( ResourceBundle.getBundle( "org.metawidget.example.swing.appframework.resources.CarApplication" ) );
-		mButtonsMetawidget.setToInspect( this );
-		mButtonsMetawidget.setLayoutClass( null );
+		SwingMetawidget buttonsMetawidget = new SwingMetawidget();
+		buttonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/appframework/action-inspector-config.xml" );
+		buttonsMetawidget.setBundle( ResourceBundle.getBundle( "org.metawidget.example.swing.appframework.resources.CarApplication" ) );
+		buttonsMetawidget.setToInspect( this );
+		buttonsMetawidget.setLayoutClass( null );
 
 		Facet facet = new Facet();
 		facet.setName( "buttons" );
-		facet.add( mButtonsMetawidget );
+		facet.add( buttonsMetawidget );
 		mMetawidget.add( facet );
+
+		// Trigger rebuild UI after click 'addOwner'
+
+		mCar.addActionListener( new ActionListener()
+		{
+			@Override
+			public void actionPerformed( ActionEvent event )
+			{
+				mMetawidget.setToInspect( mCar );
+			}
+		} );
 
 		// Show
 

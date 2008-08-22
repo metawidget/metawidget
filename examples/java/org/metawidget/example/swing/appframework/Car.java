@@ -18,6 +18,12 @@ package org.metawidget.example.swing.appframework;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jdesktop.application.Action;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.jexl.UiJexlAttribute;
@@ -39,6 +45,8 @@ public class Car
 	private String					mType;
 
 	private Owner					mOwner;
+
+	private List<ActionListener>	mActionListeners	= new ArrayList<ActionListener>();
 
 	//
 	//
@@ -80,6 +88,24 @@ public class Car
 		mOwner = owner;
 	}
 
+	@Action( name = "add" )
+	@UiJexlAttribute( name = HIDDEN, value = "${this.owner != null}" )
+	public void addOwner()
+	{
+		mOwner = new Owner();
+		fireActionEvent( "addOwner" );
+	}
+
+	public void addActionListener( ActionListener listener )
+	{
+		mActionListeners.add( listener );
+	}
+
+	public void removeActionListener( ActionListener listener )
+	{
+		mActionListeners.remove( listener );
+	}
+
 	@Override
 	public String toString()
 	{
@@ -110,5 +136,21 @@ public class Car
 			builder.append( "(no car specified)" );
 
 		return builder.toString();
+	}
+
+	//
+	//
+	// Protected methods
+	//
+	//
+
+	protected void fireActionEvent( String command )
+	{
+		ActionEvent event = new ActionEvent( this, 0, command );
+
+		for ( ActionListener actionListener : mActionListeners )
+		{
+			actionListener.actionPerformed( event );
+		}
 	}
 }

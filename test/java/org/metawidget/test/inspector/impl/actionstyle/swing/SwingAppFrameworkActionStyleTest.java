@@ -16,6 +16,7 @@
 
 package org.metawidget.test.inspector.impl.actionstyle.swing;
 
+import java.awt.event.ActionEvent;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -42,8 +43,9 @@ public class SwingAppFrameworkActionStyleTest
 		SwingAppFrameworkActionStyle actionStyle = new SwingAppFrameworkActionStyle();
 		Map<String, Action> actions = actionStyle.getActions( Foo.class );
 
-		assertTrue( actions.size() == 1 );
+		assertTrue( actions.size() == 2 );
 		assertTrue( "bar".equals( actions.get( "bar" ).toString() ) );
+		assertTrue( "baz".equals( actions.get( "baz" ).toString() ) );
 
 		try
 		{
@@ -52,7 +54,17 @@ public class SwingAppFrameworkActionStyleTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "@Action public abstract void org.metawidget.test.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo.bar(java.lang.String) must not take any parameters".equals( e.getMessage() ));
+			assertTrue( "@Action public abstract void org.metawidget.test.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo.bar(java.lang.String,java.lang.String) must not have more than one parameter".equals( e.getMessage() ));
+		}
+
+		try
+		{
+			actionStyle.getActions( BadFoo2.class );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "@Action public abstract void org.metawidget.test.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo2.bar(java.lang.String) parameter must be a java.awt.event.ActionEvent".equals( e.getMessage() ));
 		}
 	}
 
@@ -66,9 +78,18 @@ public class SwingAppFrameworkActionStyleTest
 	{
 		@org.jdesktop.application.Action
 		public abstract void bar();
+
+		@org.jdesktop.application.Action
+		public abstract void baz( ActionEvent event );
 	}
 
 	abstract class BadFoo
+	{
+		@org.jdesktop.application.Action
+		public abstract void bar( String baz, String bar );
+	}
+
+	abstract class BadFoo2
 	{
 		@org.jdesktop.application.Action
 		public abstract void bar( String baz );
