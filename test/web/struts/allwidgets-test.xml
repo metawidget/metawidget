@@ -206,6 +206,8 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
 				<forceHiddenInputField name="allWidgets.readOnly" value="Read Only1"/>
 
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="31"/>
+
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aButtonsStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aButtonsStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@colspan" text="3"/>
@@ -293,6 +295,8 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td[1]" text="Read Only1"/>
 				<verifyXPath xpath="/html/body/form/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/form/input[1]/@value" text="Hidden1"/>
+				
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="31"/>				
 	
 			</steps>
 		</webtest>

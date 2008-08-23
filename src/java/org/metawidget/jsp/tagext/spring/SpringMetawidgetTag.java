@@ -161,6 +161,11 @@ public class SpringMetawidgetTag
 			return writeSpringTag( HiddenInputTag.class, attributes );
 		}
 
+		// Action
+
+		if ( ACTION.equals( elementName ))
+			return null;
+
 		// Masked (return an empty String, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
@@ -241,6 +246,11 @@ public class SpringMetawidgetTag
 
 			return writeSpringTag( HiddenInputTag.class, attributes );
 		}
+
+		// Action
+
+		if ( ACTION.equals( elementName ))
+			return null;
 
 		// Spring Lookups
 

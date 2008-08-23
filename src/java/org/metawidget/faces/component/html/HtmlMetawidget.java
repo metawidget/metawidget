@@ -170,6 +170,11 @@ public class HtmlMetawidget
 			return component;
 		}
 
+		// Action
+
+		if ( ACTION.equals( elementName ))
+			return null;
+
 		// Lookups
 
 		String lookup = attributes.get( LOOKUP );

@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.metawidget.test.example.swing.addressbook.SwingAddressBookTest;
+import org.metawidget.test.example.swing.appframework.SwingAppFrameworkTest;
 import org.metawidget.test.example.swing.tutorial.SwingTutorialTest;
 
 /**
@@ -40,6 +41,7 @@ public class ExampleTests
 	{
 		TestSuite suite = new TestSuite( "Example Tests" );
 		suite.addTestSuite( SwingAddressBookTest.class );
+		suite.addTestSuite( SwingAppFrameworkTest.class );
 		suite.addTestSuite( SwingTutorialTest.class );
 
 		// Note: GwtAddressBookTest is performed separately

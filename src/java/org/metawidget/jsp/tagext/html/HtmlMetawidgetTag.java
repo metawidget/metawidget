@@ -132,6 +132,11 @@ public class HtmlMetawidgetTag
 			return writeHiddenTag( attributes );
 		}
 
+		// Action
+
+		if ( ACTION.equals( elementName ))
+			return null;
+
 		// Masked (return an empty String, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
@@ -204,6 +209,11 @@ public class HtmlMetawidgetTag
 
 			return writeHiddenTag( attributes );
 		}
+
+		// Action
+
+		if ( ACTION.equals( elementName ))
+			return null;
 
 		// String Lookups
 

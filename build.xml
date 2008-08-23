@@ -454,6 +454,7 @@
 				<fileset dir="lib"/>
 				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement location="${build.metawidget.dir}/examples/swing/addressbook-swing.jar"/>
+				<pathelement location="${build.metawidget.dir}/examples/swing/appframework-swing.jar"/>
 				<pathelement path="${build.metawidget.dir}/test-classes"/>
 				<pathelement path="${build.metawidget.dir}/groovy-test-classes"/>
 				<pathelement path="${build.metawidget.dir}/tutorial-classes"/>

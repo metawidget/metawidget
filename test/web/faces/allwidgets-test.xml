@@ -206,6 +206,11 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnly" value="Read Only1"/>
 	
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/th" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]/input[@type='submit']/@value" text="Do action"/>
+
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="32"/>
+
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aButtonsStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aButtonsStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@colspan" text="3"/>
@@ -301,6 +306,8 @@
 				<verifyXPath xpath="/html/body/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/input[1]/@value" text="Hidden1"/>
 				
+				<verifyXPath xpath="count(/html/body/div)" text="31"/>
+
 			</steps>
 		</webtest>
 
@@ -507,6 +514,11 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnly" value="Read Only1"/>
 	
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/th" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]/input[@type='submit']/@value" text="???doAction???"/>
+
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="32"/>
+
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aButtonsStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aButtonsStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@colspan" text="3"/>
@@ -599,9 +611,10 @@
 				<verifyXPath xpath="/html/body/div[30]/div[2]" text="Thu Apr 10 00:00:00 GMT 1975"/>
 				<verifyXPath xpath="/html/body/div[31]/div[1]" text="Read only:"/>
 				<verifyXPath xpath="/html/body/div[31]/div[2]" text="Read Only1"/>
-	
 				<verifyXPath xpath="/html/body/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/input[1]/@value" text="Hidden1"/>
+				
+				<verifyXPath xpath="count(/html/body/div)" text="31"/>
 				
 			</steps>
 		</webtest>

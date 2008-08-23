@@ -38,7 +38,6 @@ import org.metawidget.swing.binding.beansbinding.BeansBinding;
  * @author Richard Kennard
  */
 
-// TODO: Test CarApplication
 public class CarApplication
 	extends SingleFrameApplication
 {
@@ -84,6 +83,18 @@ public class CarApplication
 
 	@Override
 	protected void startup()
+	{
+		startupWithoutShow();
+		show( getMainFrame() );
+	}
+
+	/**
+	 * Prepare the Application.
+	 * <p>
+	 * Separated out from <code>startup</code> to allow easy unit testing.
+	 */
+
+	protected void startupWithoutShow()
 	{
 		// Model
 
@@ -136,9 +147,5 @@ public class CarApplication
 				mMetawidget.setToInspect( mCar );
 			}
 		} );
-
-		// Show
-
-		show( frame );
 	}
 }

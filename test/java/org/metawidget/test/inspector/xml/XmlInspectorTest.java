@@ -168,7 +168,7 @@ public class XmlInspectorTest
 
 	public void testNullType()
 	{
-		assertTrue( null == mInspector.inspect( null, null ));
+		assertTrue( null == mInspector.inspect( null, (String) null ));
 	}
 
 	public void testBadName()

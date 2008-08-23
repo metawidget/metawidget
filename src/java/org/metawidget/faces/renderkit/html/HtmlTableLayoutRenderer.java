@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIOutput;
 import javax.faces.component.UIParameter;
@@ -499,7 +500,7 @@ public class HtmlTableLayoutRenderer
 		writeStyleClass( writer, 0 );
 		writer.write( ">" );
 
-		if ( !"".equals( label.trim() ) )
+		if ( !"".equals( label.trim() ) && !( componentNeedingLabel instanceof UICommand ))
 		{
 			HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
 			componentLabel.setValue( label + ':' );

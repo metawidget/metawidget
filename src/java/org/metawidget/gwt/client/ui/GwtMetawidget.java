@@ -999,6 +999,11 @@ public class GwtMetawidget
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 			return null;
 
+		// Action
+
+		if ( ACTION.equals( elementName ))
+			return null;
+
 		// Masked (return a Panel, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
@@ -1046,6 +1051,11 @@ public class GwtMetawidget
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+			return null;
+
+		// Action
+
+		if ( ACTION.equals( elementName ))
 			return null;
 
 		String type = attributes.get( TYPE );
