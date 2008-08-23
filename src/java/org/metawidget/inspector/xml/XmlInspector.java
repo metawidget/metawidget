@@ -16,6 +16,8 @@
 
 package org.metawidget.inspector.xml;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import org.metawidget.inspector.ConfigReader;
@@ -76,8 +78,20 @@ public class XmlInspector
 	}
 
 	@Override
-	protected Map<String, String> inspect( Element toInspect )
+	protected Map<String, String> inspectProperty( Element toInspect )
 	{
-		return XmlUtils.getAttributesAsMap( toInspect );
+		if ( PROPERTY.equals( toInspect.getNodeName() ))
+			return XmlUtils.getAttributesAsMap( toInspect );
+
+		return null;
+	}
+
+	@Override
+	protected Map<String, String> inspectAction( Element toInspect )
+	{
+		if ( ACTION.equals( toInspect.getNodeName() ))
+			return XmlUtils.getAttributesAsMap( toInspect );
+
+		return null;
 	}
 }

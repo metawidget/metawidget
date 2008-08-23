@@ -39,6 +39,21 @@ public class UIMetawidgetTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public UIMetawidgetTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -100,20 +115,5 @@ public class UIMetawidgetTest
 		stub.setStubAttributes( "rendered: false;" );
 		attributes.put( "rendered", "false" );
 		assertTrue( attributes.equals( stub.getStubAttributes() ) );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public UIMetawidgetTest( String name )
-	{
-		super( name );
 	}
 }

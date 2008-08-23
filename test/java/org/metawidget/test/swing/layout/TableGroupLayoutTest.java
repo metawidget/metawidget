@@ -43,6 +43,21 @@ public class TableGroupLayoutTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public TableGroupLayoutTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -105,21 +120,6 @@ public class TableGroupLayoutTest
 
 		metawidget.setReadOnly( true );
 		assertTrue( "Bar:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public TableGroupLayoutTest( String name )
-	{
-		super( name );
 	}
 
 	//

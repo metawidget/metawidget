@@ -31,6 +31,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ScrollView;
 
@@ -84,14 +85,14 @@ public class AllWidgetsActivity
 	{
 		super.onCreateOptionsMenu( menu );
 
-		menu.add( 0, 0, "Save" );
+		menu.add( "Save" );
 		return true;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected( Menu.Item item )
+	public boolean onOptionsItemSelected( MenuItem item )
 	{
-		switch ( item.getId() )
+		switch ( item.getItemId() )
 		{
 			case 0:
 				try

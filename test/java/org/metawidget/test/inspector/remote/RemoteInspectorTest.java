@@ -41,6 +41,21 @@ public class RemoteInspectorTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public RemoteInspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -102,20 +117,5 @@ public class RemoteInspectorTest
 		assertTrue( PROPERTY.equals( property.getNodeName() ));
 		assertTrue( "value".equals( property.getAttribute( NAME ) ));
 		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ));
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public RemoteInspectorTest( String name )
-	{
-		super( name );
 	}
 }

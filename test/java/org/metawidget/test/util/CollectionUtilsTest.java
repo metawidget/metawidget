@@ -34,6 +34,21 @@ public class CollectionUtilsTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public CollectionUtilsTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -58,20 +73,5 @@ public class CollectionUtilsTest
 		assertTrue( CollectionUtils.newArrayList( "foo", "bar" ).equals( CollectionUtils.fromString( "foo, bar" ) ));
 		assertTrue( CollectionUtils.newArrayList( "foo", "bar" ).equals( CollectionUtils.fromString( "foo, bar," ) ));
 		assertTrue( CollectionUtils.newArrayList( "foo", "bar", "baz" ).equals( CollectionUtils.fromString( "foo, bar,  baz" ) ));
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public CollectionUtilsTest( String name )
-	{
-		super( name );
 	}
 }

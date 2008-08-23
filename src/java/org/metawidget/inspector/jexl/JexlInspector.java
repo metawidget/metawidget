@@ -28,6 +28,7 @@ import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.ThreadUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -40,9 +41,9 @@ import org.metawidget.util.simple.StringUtils;
  * that use, say, <code>UiFacesAttribute</code>.
  * <p>
  * A significant difference of <code>JexlInspector</code> compared to other ELs is that the JEXL
- * EL is relative to the object being inspected, not to some global EL context. So expressions
- * use <code>this</code>, as in <code>${this.retired}</code>. Use of a <code>this</code> keyword,
- * as opposed to the class name, keeps JEXL EL expressions working even for subclasses.
+ * EL is relative to the object being inspected, not to some global EL context. So expressions use
+ * <code>this</code>, as in <code>${this.retired}</code>. Use of a <code>this</code>
+ * keyword, as opposed to the class name, keeps JEXL EL expressions working even for subclasses.
  *
  * @author Richard Kennard
  */
@@ -50,6 +51,14 @@ import org.metawidget.util.simple.StringUtils;
 public class JexlInspector
 	extends BaseObjectInspector
 {
+	//
+	//
+	// Private members
+	//
+	//
+
+	private final static ThreadLocal<JexlContext>	LOCAL_CONTEXT	= ThreadUtils.newThreadLocal();
+
 	//
 	//
 	// Constructor
@@ -68,6 +77,21 @@ public class JexlInspector
 
 	//
 	//
+	// Public methods
+	//
+	//
+
+	@Override
+	public String inspect( Object toInspect, String type, String... names )
+		throws InspectorException
+	{
+		LOCAL_CONTEXT.remove();
+
+		return super.inspect( toInspect, type, names );
+	}
+
+	//
+	//
 	// Protected methods
 	//
 	//
@@ -77,10 +101,6 @@ public class JexlInspector
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		JexlContext context = null;
-
-		// Note: this is all annotation based. We could imagine an XML version, but we'd have
-		// to figure out a nice format for 'name="value" with condition'
 
 		// UiJexlAttribute
 
@@ -88,8 +108,7 @@ public class JexlInspector
 
 		if ( jexlAttribute != null )
 		{
-			context = createContext( toInspect );
-			putJexlAttribute( context, attributes, jexlAttribute );
+			putJexlAttribute( toInspect, jexlAttribute, attributes );
 		}
 
 		// UiJexlAttributes
@@ -98,12 +117,9 @@ public class JexlInspector
 
 		if ( JexlAttributes != null )
 		{
-			if ( context == null )
-				context = createContext( toInspect );
-
 			for ( UiJexlAttribute nestedJexlAttribute : JexlAttributes.value() )
 			{
-				putJexlAttribute( context, attributes, nestedJexlAttribute );
+				putJexlAttribute( toInspect, nestedJexlAttribute, attributes );
 			}
 		}
 
@@ -115,10 +131,6 @@ public class JexlInspector
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		JexlContext context = null;
-
-		// Note: this is all annotation based. We could imagine an XML version, but we'd have
-		// to figure out a nice format for 'name="value" with condition'
 
 		// UiJexlAttribute
 
@@ -126,8 +138,7 @@ public class JexlInspector
 
 		if ( jexlAttribute != null )
 		{
-			context = createContext( toInspect );
-			putJexlAttribute( context, attributes, jexlAttribute );
+			putJexlAttribute( toInspect, jexlAttribute, attributes );
 		}
 
 		// UiJexlAttributes
@@ -136,19 +147,16 @@ public class JexlInspector
 
 		if ( JexlAttributes != null )
 		{
-			if ( context == null )
-				context = createContext( toInspect );
-
 			for ( UiJexlAttribute nestedJexlAttribute : JexlAttributes.value() )
 			{
-				putJexlAttribute( context, attributes, nestedJexlAttribute );
+				putJexlAttribute( toInspect, nestedJexlAttribute, attributes );
 			}
 		}
 
 		return attributes;
 	}
 
-	protected void putJexlAttribute( JexlContext context, Map<String, String> attributes, UiJexlAttribute jexlAttribute )
+	protected void putJexlAttribute( Object toInspect, UiJexlAttribute jexlAttribute, Map<String, String> attributes )
 		throws Exception
 	{
 		// Optional condition
@@ -160,7 +168,7 @@ public class JexlInspector
 			if ( !FacesUtils.isValueReference( condition ) )
 				throw InspectorException.newException( "Condition '" + condition + "' is not of the form ${...}" );
 
-			Object conditionResult = ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( condition ) ).evaluate( context );
+			Object conditionResult = ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( condition ) ).evaluate( getContext( toInspect ) );
 
 			if ( !Boolean.TRUE.equals( conditionResult ) )
 				return;
@@ -171,11 +179,28 @@ public class JexlInspector
 		String value = jexlAttribute.value();
 
 		if ( JexlUtils.isValueReference( value ) )
-			value = StringUtils.quietValueOf( ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( value ) ).evaluate( context ) );
+			value = StringUtils.quietValueOf( ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( value ) ).evaluate( getContext( toInspect ) ) );
 
 		// Set the value
 
 		attributes.put( jexlAttribute.name(), StringUtils.quietValueOf( value ) );
+	}
+
+	/**
+	 * Get the JexlContext. Creates one if necessary.
+	 */
+
+	protected JexlContext getContext( Object toInspect )
+	{
+		JexlContext context = LOCAL_CONTEXT.get();
+
+		if ( context == null )
+		{
+			context = createContext( toInspect );
+			LOCAL_CONTEXT.set( context );
+		}
+
+		return context;
 	}
 
 	/**

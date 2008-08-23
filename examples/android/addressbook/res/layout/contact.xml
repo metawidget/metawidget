@@ -13,6 +13,7 @@
         android:paddingLeft="5px">
 
 		<ListView android:id="@+id/communications"
+			android:tag="communications"
 			android:paddingTop="10px"
       		android:layout_width="325px"
       		android:layout_height="75px"/>

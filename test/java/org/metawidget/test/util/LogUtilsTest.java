@@ -30,6 +30,21 @@ public class LogUtilsTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public LogUtilsTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -58,20 +73,5 @@ public class LogUtilsTest
 		assertTrue( log.isErrorEnabled() );
 		log.error( "error" );
 		log.error( "error", new Throwable() );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public LogUtilsTest( String name )
-	{
-		super( name );
 	}
 }

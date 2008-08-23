@@ -40,6 +40,21 @@ public class JpaInspectorTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public JpaInspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -109,21 +124,6 @@ public class JpaInspectorTest
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public JpaInspectorTest( String name )
-	{
-		super( name );
 	}
 
 	//

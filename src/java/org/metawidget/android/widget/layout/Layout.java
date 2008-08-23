@@ -20,8 +20,8 @@ import java.util.Map;
 
 import org.metawidget.android.widget.AndroidMetawidget;
 
-import android.content.Resources;
-import android.graphics.ColorStateList;
+import android.content.res.ColorStateList;
+import android.content.res.TypedArray;
 import android.view.View;
 import android.widget.TextView;
 
@@ -107,7 +107,7 @@ public abstract class Layout
 
 		// Construct StyledAttributes
 
-		Resources.StyledAttributes attributes = getMetawidget().getContext().obtainStyledAttributes( style, android.R.styleable.View );
+		TypedArray attributes = getMetawidget().getContext().obtainStyledAttributes( style, android.R.styleable.View );
 
 		// Padding
 

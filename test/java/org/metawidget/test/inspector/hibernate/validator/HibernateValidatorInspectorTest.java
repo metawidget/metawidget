@@ -39,6 +39,21 @@ public class HibernateValidatorInspectorTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public HibernateValidatorInspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -75,21 +90,6 @@ public class HibernateValidatorInspectorTest
 		assertTrue( "99".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
 		assertTrue( "2".equals( property.getAttribute( MINIMUM_LENGTH ) ) );
 		assertTrue( "25".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public HibernateValidatorInspectorTest( String name )
-	{
-		super( name );
 	}
 
 	//

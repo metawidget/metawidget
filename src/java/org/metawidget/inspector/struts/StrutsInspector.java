@@ -103,7 +103,7 @@ public class StrutsInspector
 	}
 
 	@Override
-	protected Map<String, String> inspect( Element toInspect )
+	protected Map<String, String> inspectProperty( Element toInspect )
 	{
 		if ( !"form-property".equals( toInspect.getNodeName() ) )
 			return null;

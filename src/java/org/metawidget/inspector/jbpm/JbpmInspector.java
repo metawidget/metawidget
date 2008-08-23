@@ -235,28 +235,14 @@ public class JbpmInspector
 		}
 	}
 
-	/**
-	 * Overriden to return 'action' nodes.
-	 */
-
 	@Override
-	protected Element inspect( Document toAddTo, Element toInspect )
+	protected Map<String, String> inspectProperty( Element toInspect )
 	{
-		Map<String, String> attributes = inspect( toInspect );
-
-		if ( attributes == null || attributes.isEmpty() )
-			return null;
-
-		// ...create an element...
-
-		Element child = toAddTo.createElementNS( NAMESPACE, ACTION );
-		XmlUtils.setMapAsAttributes( child, attributes );
-
-		return child;
+		return null;
 	}
 
 	@Override
-	protected Map<String, String> inspect( Element toInspect )
+	protected Map<String, String> inspectAction( Element toInspect )
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 

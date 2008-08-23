@@ -61,6 +61,21 @@ public class JspUtilsTest
 
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public JspUtilsTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -370,20 +385,5 @@ public class JspUtilsTest
 				assertTrue( verify.equals( writer.toString() ) );
 			}
 		} );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public JspUtilsTest( String name )
-	{
-		super( name );
 	}
 }

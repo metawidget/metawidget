@@ -476,6 +476,11 @@ public class AllWidgets
 		mCollection = collection;
 	}
 
+	public void doAction()
+	{
+		// Do nothing
+	}
+
 	//
 	//
 	// Inner class

@@ -60,6 +60,29 @@ public class SwingAllWidgetsTest
 {
 	//
 	//
+	// Protected statics
+	//
+	//
+
+	protected final static String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public SwingAllWidgetsTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -534,28 +557,5 @@ public class SwingAllWidgetsTest
 		// Test unbind
 
 		metawidget.setBindingClass( null );
-	}
-
-	//
-	//
-	// Protected statics
-	//
-	//
-
-	protected final static String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingAllWidgetsTest( String name )
-	{
-		super( name );
 	}
 }

@@ -376,6 +376,12 @@ public class XmlUtils
 				if ( !childToAddName.equals( masterChildName ) )
 					continue;
 
+				String nodeNameInMaster = masterChild.getNodeName();
+				String nodeNameInAdd = childToAdd.getNodeName();
+
+				if ( !nodeNameInMaster.equals( nodeNameInAdd ))
+					throw new RuntimeException( "Matching elements named '" + masterChildName + "', but existing one is a '" + nodeNameInMaster + "' whilst new one is a '" + nodeNameInAdd + "'" );
+
 				// ...and combine them
 
 				if ( masterLoop == masterLength - 1 )

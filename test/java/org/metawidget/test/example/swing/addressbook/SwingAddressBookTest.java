@@ -64,6 +64,21 @@ public class SwingAddressBookTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public SwingAddressBookTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -396,20 +411,5 @@ public class SwingAddressBookTest
 		{
 			return hashCode() - that.hashCode();
 		}
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingAddressBookTest( String name )
-	{
-		super( name );
 	}
 }

@@ -44,6 +44,21 @@ public class BeansBindingTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public BeansBindingTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -116,9 +131,9 @@ public class BeansBindingTest
 		metawidget.setPath( Foo.class.getName() + "/bar" );
 
 		JSpinner spinner = (JSpinner) metawidget.getComponent( 0 );
-		assertTrue( 42 == (Long) spinner.getValue() );
+		assertTrue( 42l == (Long) spinner.getValue() );
 		spinner.setValue( 43l );
-		assertTrue( 43 == foo.getBar() );
+		assertTrue( 43l == foo.getBar() );
 	}
 
 	public void testReadOnlyToStringConverter()
@@ -233,21 +248,6 @@ public class BeansBindingTest
 		{
 			assertTrue( "When binding bar to class javax.swing.JTextField.text (have you used BeansBinding.registerConverter?)".equals( e.getMessage() ) );
 		}
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public BeansBindingTest( String name )
-	{
-		super( name );
 	}
 
 	//

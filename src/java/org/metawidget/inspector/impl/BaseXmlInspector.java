@@ -188,7 +188,7 @@ public abstract class BaseXmlInspector
 				if ( propertyInParent == null )
 					return null;
 
-				parentAttributes = inspect( propertyInParent );
+				parentAttributes = inspectProperty( propertyInParent );
 
 				String typeAttribute = getTypeAttribute();
 
@@ -358,27 +358,64 @@ public abstract class BaseXmlInspector
 			element.appendChild( inspected );
 		}
 
-		// ...and combine them all
+		// ...and combine them all. Note the element may already exist from the superclass,
+		// and its attributes will get overriden by the subclass
 
 		XmlUtils.combineElements( toAddTo, element, getNameAttribute(), getNameAttribute() );
 	}
 
 	protected Element inspect( Document toAddTo, Element toInspect )
 	{
-		Map<String, String> attributes = inspect( toInspect );
+		// Properties
 
-		if ( attributes == null || attributes.isEmpty() )
-			return null;
+		Map<String, String> propertyAttributes = inspectProperty( toInspect );
 
-		// ...create an element...
+		if ( propertyAttributes != null && !propertyAttributes.isEmpty() )
+		{
+			Element child = toAddTo.createElementNS( NAMESPACE, PROPERTY );
+			XmlUtils.setMapAsAttributes( child, propertyAttributes );
 
-		Element child = toAddTo.createElementNS( NAMESPACE, toInspect.getNodeName() );
-		XmlUtils.setMapAsAttributes( child, attributes );
+			return child;
+		}
 
-		return child;
+		// Actions
+
+		Map<String, String> actionAttributes = inspectAction( toInspect );
+
+		if ( actionAttributes != null && !actionAttributes.isEmpty() )
+		{
+			// Sanity check
+
+			if ( propertyAttributes != null )
+				throw InspectorException.newException( "Ambigious match: " + toInspect.getNodeName() + " matches as both a property and an action" );
+
+			Element child = toAddTo.createElementNS( NAMESPACE, ACTION );
+			XmlUtils.setMapAsAttributes( child, actionAttributes );
+
+			return child;
+		}
+
+		return null;
 	}
 
-	protected abstract Map<String, String> inspect( Element toInspect );
+	/**
+	 * Inspect the given Element and return a Map of attributes if it is a property.
+	 */
+
+	protected abstract Map<String, String> inspectProperty( Element toInspect );
+
+	/**
+	 * Inspect the given Element and return a Map of attributes if it is an action.
+	 * <p>
+	 * Note: unlike <code>inspectProperty</code>, this method has a default implementation that
+	 * returns <code>null</code>. This is because most Inspectors will not implement
+	 * <code>inspectAction</code>.
+	 */
+
+	protected Map<String, String> inspectAction( Element toInspect )
+	{
+		return null;
+	}
 
 	protected Element traverse( String type, boolean onlyToParent, String... names )
 		throws InspectorException
@@ -457,7 +494,7 @@ public abstract class BaseXmlInspector
 	}
 
 	/**
-	 * That attribute on top-level elements that uniquely identifies them.
+	 * The attribute on top-level elements that uniquely identifies them.
 	 */
 
 	protected String getTopLevelTypeAttribute()

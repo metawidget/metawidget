@@ -42,6 +42,21 @@ public class SwingMetawidgetTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public SwingMetawidgetTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -274,20 +289,5 @@ public class SwingMetawidgetTest
 		{
 			mFoo = foo;
 		}
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingMetawidgetTest( String name )
-	{
-		super( name );
 	}
 }

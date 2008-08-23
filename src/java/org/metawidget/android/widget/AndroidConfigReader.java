@@ -22,7 +22,7 @@ import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.InspectorException;
 
 import android.content.Context;
-import android.content.Resources;
+import android.content.res.Resources;
 
 /**
  * Specialized ConfigReader for Android.

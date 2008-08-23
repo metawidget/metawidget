@@ -72,9 +72,9 @@ public class Stub
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public Stub( Context context, AttributeSet attributes, Map inflateParams )
+	public Stub( Context context, AttributeSet attributes )
 	{
-		super( context, attributes, inflateParams );
+		super( context, attributes );
 
 		setTag( attributes.getAttributeValue( null, "tag" ) );
 

@@ -39,6 +39,21 @@ public class Java5InspectorTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public Java5InspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -83,21 +98,6 @@ public class Java5InspectorTest
 		// Should 'short circuit' and return null, as an optimization for CompositeInspector
 
 		assertTrue( null == inspector.inspect( "foo", String.class.getName() ));
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public Java5InspectorTest( String name )
-	{
-		super( name );
 	}
 
 	//

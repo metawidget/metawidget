@@ -47,6 +47,21 @@ public class HibernateInspectorTest
 
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public HibernateInspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -186,20 +201,5 @@ public class HibernateInspectorTest
 		assertTrue( "baz".equals( property.getAttribute( NAME ) ) );
 		assertTrue( TRUE.equals( property.getAttribute( LARGE ) ) );
 		assertTrue( "15".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public HibernateInspectorTest( String name )
-	{
-		super( name );
 	}
 }

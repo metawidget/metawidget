@@ -313,7 +313,7 @@ public abstract class BaseObjectInspector
 	}
 
 	/**
-	 * Inspect the given property and return a Map of attributes.
+	 * Inspect the given action and return a Map of attributes.
 	 * <p>
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in

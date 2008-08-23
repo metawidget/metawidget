@@ -34,6 +34,21 @@ public class SwingAppFrameworkInspectorTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public SwingAppFrameworkInspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -63,21 +78,6 @@ public class SwingAppFrameworkInspectorTest
 		assertTrue( action.getAttributes().getLength() == 2 );
 
 		assertTrue( entity.getChildNodes().getLength() == 1 );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingAppFrameworkInspectorTest( String name )
-	{
-		super( name );
 	}
 
 	//

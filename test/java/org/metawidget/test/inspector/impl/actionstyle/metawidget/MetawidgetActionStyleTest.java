@@ -17,6 +17,7 @@
 package org.metawidget.test.inspector.impl.actionstyle.metawidget;
 
 import java.util.Map;
+import java.util.TreeMap;
 
 import junit.framework.TestCase;
 
@@ -57,6 +58,30 @@ public class MetawidgetActionStyleTest
 		}
 	}
 
+	public void testInterfaceBasedActionStyle()
+	{
+		MetawidgetActionStyle actionStyle = new MetawidgetActionStyle();
+		Map<String, Action> actions = actionStyle.getActions( Proxied_$$_javassist_.class );
+
+		assertTrue( actions instanceof TreeMap );
+		assertTrue( actions.get( "bar1" ).isAnnotationPresent( UiAction.class ));
+		assertTrue( actions.get( "baz" ).isAnnotationPresent( UiAction.class ));
+		assertTrue( actions.size() == 2 );
+
+		actions = actionStyle.getActions( new InterfaceBar()
+		{
+			@Override
+			public void baz()
+			{
+				// Do nothing
+			}
+
+		}.getClass() );
+
+		assertTrue( actions instanceof TreeMap );
+		assertTrue( actions.isEmpty() );
+
+	}
 
 	//
 	//
@@ -74,5 +99,25 @@ public class MetawidgetActionStyleTest
 	{
 		@UiAction
 		public abstract void bar( String baz );
+	}
+
+	abstract class Proxied_$$_javassist_
+		implements InterfaceFoo, InterfaceBar
+	{
+		// Abstract
+	}
+
+	interface InterfaceFoo
+	{
+		@UiAction
+		void bar1();
+
+		void bar2();
+	}
+
+	interface InterfaceBar
+	{
+		@UiAction
+		void baz();
 	}
 }

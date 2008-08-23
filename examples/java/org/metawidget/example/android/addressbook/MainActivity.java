@@ -26,6 +26,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -37,18 +38,6 @@ import android.widget.ListView;
 public class MainActivity
 	extends Activity
 {
-	//
-	//
-	// Private statics
-	//
-	//
-
-	private final static int	SEARCH			= 0;
-
-	private final static int	ADD_PERSONAL	= 1;
-
-	private final static int	ADD_BUSINESS	= 2;
-
 	//
 	//
 	// Protected members
@@ -98,7 +87,7 @@ public class MainActivity
 
 				intent.putExtra( "contactId", contact.getId() );
 
-				startSubActivity( intent, 0 );
+				startActivity( intent );
 			}
 		} );
 		contacts.setAdapter( new ResourcelessArrayAdapter<Contact>( this, application.getContactsController().getAllByExample( mContactSearch ), null ) );
@@ -109,23 +98,23 @@ public class MainActivity
 	{
 		super.onCreateOptionsMenu( menu );
 
-		menu.add( 0, SEARCH, getString( R.string.search ) );
-		menu.add( 0, ADD_PERSONAL, getString( R.string.addPersonal ) );
-		menu.add( 0, ADD_BUSINESS, getString( R.string.addBusiness ) );
+		menu.add( R.string.search );
+		menu.add( R.string.addPersonal );
+		menu.add( R.string.addBusiness );
 
 		return true;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected( Menu.Item item )
+	public boolean onOptionsItemSelected( MenuItem item )
 	{
 		AddressBookApplication application = (AddressBookApplication) getApplication();
 		ListView contacts = (ListView) findViewById( R.id.contacts );
 		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
-		switch ( item.getId() )
+		switch ( item.getItemId() )
 		{
-			case SEARCH:
+			case 0:
 			{
 				// Manual mapping
 
@@ -143,23 +132,23 @@ public class MainActivity
 				break;
 			}
 
-			case ADD_PERSONAL:
+			case 1:
 			{
 				Intent intent = new Intent();
 				intent.setClass( MainActivity.this, ContactActivity.class );
 				intent.putExtra( "contactType", "personal" );
 
-				startSubActivity( intent, 0 );
+				startActivity( intent );
 				break;
 			}
 
-			case ADD_BUSINESS:
+			case 2:
 			{
 				Intent intent = new Intent();
 				intent.setClass( MainActivity.this, ContactActivity.class );
 				intent.putExtra( "contactType", "business" );
 
-				startSubActivity( intent, 0 );
+				startActivity( intent );
 				break;
 			}
 		}
@@ -174,9 +163,9 @@ public class MainActivity
 	//
 
 	@Override
-	protected void onActivityResult( int requestCode, int resultCode, String data, Bundle bundle )
+	protected void onActivityResult( int requestCode, int resultCode, Intent data )
 	{
-		super.onActivityResult( requestCode, resultCode, data, bundle );
+		super.onActivityResult( requestCode, resultCode, data );
 
 		ListView contacts = (ListView) findViewById( R.id.contacts );
 		AddressBookApplication application = (AddressBookApplication) getApplication();

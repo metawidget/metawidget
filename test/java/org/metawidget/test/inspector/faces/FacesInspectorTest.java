@@ -44,6 +44,21 @@ public class FacesInspectorTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public FacesInspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -113,21 +128,6 @@ public class FacesInspectorTest
 		assertTrue( "#{foo.bar}".equals( FacesUtils.wrapValueReference( "foo.bar" )));
 		assertTrue( "#{foo.bar}".equals( FacesUtils.wrapValueReference( "#{foo.bar}" )));
 		assertTrue( "#{#{foo.bar}".equals( FacesUtils.wrapValueReference( "#{foo.bar" )));
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public FacesInspectorTest( String name )
-	{
-		super( name );
 	}
 
 	//

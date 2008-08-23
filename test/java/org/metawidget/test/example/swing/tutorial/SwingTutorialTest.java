@@ -41,6 +41,21 @@ public class SwingTutorialTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public SwingTutorialTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -97,21 +112,6 @@ public class SwingTutorialTest
 
 		assertTrue( "Employer:".equals( ( (JLabel) metawidget.getComponent( 9 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 10 ) instanceof JTextField );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingTutorialTest( String name )
-	{
-		super( name );
 	}
 
 	//

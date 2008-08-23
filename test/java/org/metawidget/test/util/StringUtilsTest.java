@@ -29,21 +29,6 @@ public class StringUtilsTest
 {
 	//
 	//
-	// Public methods
-	//
-	//
-
-	public void testStringUtils()
-		throws Exception
-	{
-		assertTrue( false == StringUtils.isFirstLetterUppercase( "" ));
-		assertTrue( null == StringUtils.uncamelCase( null ));
-		assertTrue( "Camel cased".equals( StringUtils.uncamelCase( "camelCased" )));
-		assertTrue( "Camel CASED".equals( StringUtils.uncamelCase( "camelCASED" )));
-	}
-
-	//
-	//
 	// Constructor
 	//
 	//
@@ -55,5 +40,20 @@ public class StringUtilsTest
 	public StringUtilsTest( String name )
 	{
 		super( name );
+	}
+
+	//
+	//
+	// Public methods
+	//
+	//
+
+	public void testStringUtils()
+		throws Exception
+	{
+		assertTrue( false == StringUtils.isFirstLetterUppercase( "" ));
+		assertTrue( null == StringUtils.uncamelCase( null ));
+		assertTrue( "Camel cased".equals( StringUtils.uncamelCase( "camelCased" )));
+		assertTrue( "Camel CASED".equals( StringUtils.uncamelCase( "camelCASED" )));
 	}
 }

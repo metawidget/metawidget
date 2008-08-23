@@ -47,6 +47,21 @@ public class JbpmInspectorTest
 
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public JbpmInspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -109,20 +124,5 @@ public class JbpmInspectorTest
 		assertTrue( "next".equals( property.getAttribute( NAME ) ) );
 
 		assertTrue( property.getNextSibling() == null );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public JbpmInspectorTest( String name )
-	{
-		super( name );
 	}
 }

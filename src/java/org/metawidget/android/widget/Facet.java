@@ -16,8 +16,6 @@
 
 package org.metawidget.android.widget;
 
-import java.util.Map;
-
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -59,9 +57,9 @@ public class Facet
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public Facet( Context context, AttributeSet attributes, Map inflateParams )
+	public Facet( Context context, AttributeSet attributes )
 	{
-		super( context, attributes, inflateParams );
+		super( context, attributes );
 
 		mName = attributes.getAttributeValue( null, "name" );
 	}

@@ -51,6 +51,21 @@ public class PropertyTypeInspectorTest
 
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public PropertyTypeInspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -267,21 +282,6 @@ public class PropertyTypeInspectorTest
 	public void testNullType()
 	{
 		assertTrue( null == mInspector.inspect( null, null ));
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public PropertyTypeInspectorTest( String name )
-	{
-		super( name );
 	}
 
 	//

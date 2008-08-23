@@ -55,6 +55,21 @@ public class TableGridBagLayoutTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public TableGridBagLayoutTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -192,21 +207,6 @@ public class TableGridBagLayoutTest
 
 		metawidget.setReadOnly( true );
 		assertTrue( "Def:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public TableGridBagLayoutTest( String name )
-	{
-		super( name );
 	}
 
 	//

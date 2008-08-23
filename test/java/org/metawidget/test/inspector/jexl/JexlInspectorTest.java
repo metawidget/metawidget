@@ -17,16 +17,11 @@
 package org.metawidget.test.inspector.jexl;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-
-import java.io.ByteArrayInputStream;
-
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.jexl.JexlInspector;
 import org.metawidget.inspector.jexl.JexlUtils;
-import org.metawidget.inspector.jexl.JexlXmlInspector;
-import org.metawidget.inspector.jexl.JexlXmlInspectorConfig;
 import org.metawidget.inspector.jexl.UiJexlAttribute;
 import org.metawidget.inspector.jexl.UiJexlAttributes;
 import org.metawidget.util.XmlUtils;
@@ -40,6 +35,21 @@ import org.w3c.dom.Element;
 public class JexlInspectorTest
 	extends TestCase
 {
+	//
+	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public JexlInspectorTest( String name )
+	{
+		super( name );
+	}
+
 	//
 	//
 	// Public methods
@@ -88,51 +98,6 @@ public class JexlInspectorTest
 		}
 	}
 
-	public void testXml()
-	{
-		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\">";
-		xml += "<entity type=\"org.metawidget.test.inspector.jexl.JexlInspectorTest$Foo\">";
-		xml += "<property name=\"bar1\" value-is-el=\"${foo.baz}\" value-is-text=\"text\"/>";
-		xml += "</entity></inspection-result>";
-
-		JexlXmlInspectorConfig config = new JexlXmlInspectorConfig();
-		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
-		config.setSchema( "" );
-		JexlXmlInspector inspector = new JexlXmlInspector( config );
-
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
-
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
-
-		// Entity
-
-		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( Foo.class.getName().equals( entity.getAttribute( TYPE ) ) );
-		assertTrue( !entity.hasAttribute( NAME ) );
-
-		// Properties
-
-		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
-		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "from-baz".equals( property.getAttribute( "value-is-el" ) ) );
-		assertTrue( "text".equals( property.getAttribute( "value-is-text" ) ) );
-		assertTrue( 3 == property.getAttributes().getLength() );
-
-		assertTrue( entity.getChildNodes().getLength() == 1 );
-
-		// Test null
-
-		document = XmlUtils.documentFromString( inspector.inspect( null, Foo.class.getName() ));
-		entity = (Element) document.getFirstChild().getFirstChild();
-		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar1" );
-		assertTrue( "".equals( property.getAttribute( "value-is-el" ) ) );
-		assertTrue( 3 == property.getAttributes().getLength() );
-
-		assertTrue( entity.getChildNodes().getLength() == 1 );
-	}
-
 	public void testUtils()
 	{
 		assertTrue( JexlUtils.isValueReference( "${foo.bar}" ));
@@ -149,21 +114,6 @@ public class JexlInspectorTest
 		assertTrue( "${foo.bar}".equals( JexlUtils.wrapValueReference( "foo.bar" )));
 		assertTrue( "${foo.bar}".equals( JexlUtils.wrapValueReference( "${foo.bar}" )));
 		assertTrue( "${${foo.bar}".equals( JexlUtils.wrapValueReference( "${foo.bar" )));
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public JexlInspectorTest( String name )
-	{
-		super( name );
 	}
 
 	//

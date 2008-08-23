@@ -44,6 +44,21 @@ public class CompositeInspectorTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public CompositeInspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -151,20 +166,5 @@ public class CompositeInspectorTest
 		//
 
 		private final static long	serialVersionUID	= 7424334035351559444L;
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public CompositeInspectorTest( String name )
-	{
-		super( name );
 	}
 }

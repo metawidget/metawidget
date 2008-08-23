@@ -249,7 +249,7 @@ public class HibernateInspector
 	}
 
 	@Override
-	protected Map<String, String> inspect( Element toInspect )
+	protected Map<String, String> inspectProperty( Element toInspect )
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 

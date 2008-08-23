@@ -45,6 +45,21 @@ public class ConfigReaderTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public ConfigReaderTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -312,20 +327,5 @@ public class ConfigReaderTest
 		{
 			assertTrue( "Unable to locate  foo".equals( e.getMessage() ));
 		}
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public ConfigReaderTest( String name )
-	{
-		super( name );
 	}
 }

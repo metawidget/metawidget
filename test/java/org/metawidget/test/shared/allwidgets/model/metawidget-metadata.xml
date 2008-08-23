@@ -41,6 +41,7 @@
 		<property name="readOnly" read-only="true"/>
 		<property name="mystery"/>
 		<property name="collection"/>
+		<action name="doAction"/>
 	</entity>	
 	
 </inspection-result>

@@ -1064,7 +1064,7 @@ public abstract class UIMetawidget
 		FacesContext context = getFacesContext();
 		Application application = context.getApplication();
 
-		// Does widget need an action binding?
+		// Bind actions
 
 		if ( widget instanceof ActionSource )
 		{
@@ -1135,7 +1135,7 @@ public abstract class UIMetawidget
 			}
 		}
 
-		// Does widget need a value binding?
+		// Bind properties
 
 		else
 		{
@@ -1210,6 +1210,8 @@ public abstract class UIMetawidget
 			if ( mValidator != null && widget instanceof EditableValueHolder )
 				mValidator.addValidators( context, (EditableValueHolder) widget, attributes );
 		}
+
+		// Add to layout
 
 		putMetadata( widget, attributes );
 		addWidget( widget );

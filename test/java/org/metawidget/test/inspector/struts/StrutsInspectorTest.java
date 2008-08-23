@@ -34,6 +34,21 @@ public class StrutsInspectorTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public StrutsInspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -80,20 +95,5 @@ public class StrutsInspectorTest
 		assertTrue( "abc".equals( property.getAttribute( NAME ) ) );
 		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public StrutsInspectorTest( String name )
-	{
-		super( name );
 	}
 }

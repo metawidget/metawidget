@@ -29,6 +29,21 @@ public class ClassUtilsTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public ClassUtilsTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -130,20 +145,5 @@ public class ClassUtilsTest
 	static class CannotUnproxyFoo_$$_javassist_1
 	{
 		// Should not unproxy, because extends java.lang.Object directly
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public ClassUtilsTest( String name )
-	{
-		super( name );
 	}
 }

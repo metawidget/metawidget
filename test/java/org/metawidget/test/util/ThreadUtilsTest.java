@@ -30,6 +30,21 @@ public class ThreadUtilsTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public ThreadUtilsTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -55,20 +70,5 @@ public class ThreadUtilsTest
 		reentrant.pop();
 
 		assertTrue( reentrant.get() == null );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public ThreadUtilsTest( String name )
-	{
-		super( name );
 	}
 }

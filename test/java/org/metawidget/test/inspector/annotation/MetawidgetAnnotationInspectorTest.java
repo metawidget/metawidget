@@ -55,6 +55,21 @@ public class MetawidgetAnnotationInspectorTest
 
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public MetawidgetAnnotationInspectorTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -203,21 +218,6 @@ public class MetawidgetAnnotationInspectorTest
 		{
 			assertTrue( "'foo' is annotated to @UiComesAfter itself".equals( e.getMessage() ));
 		}
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public MetawidgetAnnotationInspectorTest( String name )
-	{
-		super( name );
 	}
 
 	//

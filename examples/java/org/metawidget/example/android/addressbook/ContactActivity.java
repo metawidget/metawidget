@@ -37,6 +37,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -50,8 +51,6 @@ import android.widget.TextView;
  *
  * @author Richard Kennard
  */
-
-// LOW: Actions added as menu items
 
 public class ContactActivity
 	extends Activity
@@ -68,14 +67,6 @@ public class ContactActivity
 	{
 		FORMAT.setLenient( false );
 	}
-
-	private final static int		EDIT				= 0;
-
-	private final static int		SAVE				= 1;
-
-	private final static int		DELETE				= 2;
-
-	private final static int		ADD_COMMUNICATION	= 3;
 
 	//
 	//
@@ -140,7 +131,6 @@ public class ContactActivity
 		// Communications
 
 		final ListView communicationsView = (ListView) findViewById( R.id.communications );
-		communicationsView.setTag( "communications" );
 		Set<Communication> communications = mContact.getCommunications();
 
 		// If no communications, go with an emptySet. This is because we still need a ArrayAdpater
@@ -199,29 +189,29 @@ public class ContactActivity
 
 		if ( metawidget.isReadOnly() )
 		{
-			menu.add( 0, EDIT, getString( R.string.edit ) );
+			menu.add( R.string.edit );
 		}
 		else
 		{
-			menu.add( 0, ADD_COMMUNICATION, getString( R.string.addCommunication ) );
-			menu.add( 0, SAVE, getString( R.string.save ) );
+			menu.add( R.string.addCommunication );
+			menu.add( R.string.save );
 
 			if ( mContact.getId() != -1 )
-				menu.add( 0, DELETE, getString( R.string.delete ) );
+				menu.add( R.string.delete );
 		}
 
 		return true;
 	}
 
 	@Override
-	public boolean onOptionsItemSelected( Menu.Item item )
+	public boolean onOptionsItemSelected( MenuItem item )
 	{
 		final AddressBookApplication application = (AddressBookApplication) getApplication();
 		final AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
-		switch ( item.getId() )
+		switch ( item.getItemId() )
 		{
-			case EDIT:
+			case 0:
 				metawidget.setReadOnly( false );
 				refresh();
 				View view = metawidget.findViewWithTag( "title" );
@@ -230,7 +220,7 @@ public class ContactActivity
 				view.requestFocus();
 				break;
 
-			case SAVE:
+			case 1:
 				if ( !save() )
 					return false;
 
@@ -245,7 +235,7 @@ public class ContactActivity
 				}
 				break;
 
-			case DELETE:
+			case 2:
 				ConfirmDialog.show( ContactActivity.this, getString( R.string.deleteContact ), getString( R.string.confirmDeleteContact ), new DialogInterface.OnClickListener()
 				{
 					public void onClick( DialogInterface dialog, int button )
@@ -259,7 +249,7 @@ public class ContactActivity
 				} );
 				break;
 
-			case ADD_COMMUNICATION:
+			case 3:
 				CommunicationDialog.show( ContactActivity.this, mContact, null, new DialogInterface.OnClickListener()
 				{
 					public void onClick( DialogInterface dialog, int button )

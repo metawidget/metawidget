@@ -907,39 +907,11 @@ public class SwingMetawidget
 	protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		remove( component );
-
 		String childName = attributes.get( NAME );
-		component.setName( childName );
-
-		if ( mLayout == null )
-		{
-			add( component );
-		}
-		else
-		{
-			if ( component instanceof Stub )
-				attributes.putAll( ( (Stub) component ).getAttributes() );
-
-			mLayout.layoutChild( component, attributes );
-		}
-
-		// Bind properties
-
-		if ( PROPERTY.equals( elementName ) )
-		{
-			if ( mBinding != null )
-			{
-				if ( mNamesPrefix == null )
-					bind( component, childName );
-				else
-					bind( component, ArrayUtils.add( mNamesPrefix, childName ) );
-			}
-		}
 
 		// Bind actions
 
-		else if ( ACTION.equals( elementName ) && component instanceof JButton )
+		if ( ACTION.equals( elementName ) && component instanceof JButton )
 		{
 			final Object toInspect = getToInspect();
 
@@ -995,6 +967,37 @@ public class SwingMetawidget
 				}
 			}
 		}
+
+		// Bind properties
+
+		else
+		{
+			if ( mBinding != null )
+			{
+				if ( mNamesPrefix == null )
+					bind( component, childName );
+				else
+					bind( component, ArrayUtils.add( mNamesPrefix, childName ) );
+			}
+		}
+
+		// Add to layout
+
+		remove( component );
+		component.setName( childName );
+
+		if ( mLayout == null )
+		{
+			add( component );
+		}
+		else
+		{
+			if ( component instanceof Stub )
+				attributes.putAll( ( (Stub) component ).getAttributes() );
+
+			mLayout.layoutChild( component, attributes );
+		}
+
 	}
 
 	protected JComponent getOverridenWidget( String elementName, Map<String, String> attributes )

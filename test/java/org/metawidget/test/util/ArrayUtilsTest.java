@@ -31,6 +31,21 @@ public class ArrayUtilsTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public ArrayUtilsTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -56,20 +71,5 @@ public class ArrayUtilsTest
 		assertTrue( ArrayUtils.indexOf( new String[]{ "foo", null }, null ) == 1 );
 
 		assertTrue( "|foo|bar|baz|".equals( ArrayUtils.toString( compareTo, "|", true, true )));
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public ArrayUtilsTest( String name )
-	{
-		super( name );
 	}
 }

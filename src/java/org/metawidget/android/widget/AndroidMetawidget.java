@@ -44,8 +44,7 @@ import org.w3c.dom.Element;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.text.InputFilter;
-import android.text.method.DateInputMethod;
-import android.text.method.DigitsInputMethod;
+import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -54,6 +53,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -73,8 +73,7 @@ import android.widget.TextView;
  * @author Richard Kennard
  */
 
-// TODO: annotations now working?
-// TODO: tags set through XML?
+// TODO: upgrade Android
 
 public class AndroidMetawidget
 	extends LinearLayout
@@ -138,9 +137,9 @@ public class AndroidMetawidget
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public AndroidMetawidget( Context context, AttributeSet attributes, Map inflateParams )
+	public AndroidMetawidget( Context context, AttributeSet attributes )
 	{
-		super( context, attributes, inflateParams );
+		super( context, attributes );
 		mMetawidgetMixin = newMetawidgetMixin();
 
 		setOrientation( LinearLayout.VERTICAL );
@@ -597,7 +596,7 @@ public class AndroidMetawidget
 		mLayout.layoutBegin();
 	}
 
-	protected void addWidget( View view, Map<String, String> attributes )
+	protected void addWidget( View view, String elementName, Map<String, String> attributes )
 	{
 		String childName = attributes.get( NAME );
 		view.setTag( childName );
@@ -762,7 +761,7 @@ public class AndroidMetawidget
 				// DigitsInputMethod is 0-9 and +
 
 				if ( byte.class.equals( clazz ) || short.class.equals( clazz ) || int.class.equals( clazz ) || long.class.equals( clazz ) )
-					editText.setInputMethod( new DigitsInputMethod() );
+					editText.setKeyListener( new DigitsKeyListener() );
 
 				return editText;
 			}
@@ -790,12 +789,7 @@ public class AndroidMetawidget
 			// Dates
 
 			if ( Date.class.equals( clazz ) )
-			{
-				EditText editText = new EditText( getContext() );
-				editText.setInputMethod( new DateInputMethod() );
-
-				return editText;
-			}
+				return new DatePicker( getContext() );
 
 			// Booleans (are tri-state)
 
@@ -816,7 +810,7 @@ public class AndroidMetawidget
 				// DigitsInputMethod is 0-9 and +
 
 				if ( Byte.class.isAssignableFrom( clazz ) || Short.class.isAssignableFrom( clazz ) || Integer.class.isAssignableFrom( clazz ) || Long.class.isAssignableFrom( clazz ) )
-					editText.setInputMethod( new DigitsInputMethod() );
+					editText.setKeyListener( new DigitsKeyListener() );
 
 				return editText;
 			}
@@ -1040,9 +1034,9 @@ public class AndroidMetawidget
 		}
 
 		@Override
-		protected void addWidget( View view, Map<String, String> attributes )
+		protected void addWidget( View view, String elementName, Map<String, String> attributes )
 		{
-			AndroidMetawidget.this.addWidget( view, attributes );
+			AndroidMetawidget.this.addWidget( view, elementName, attributes );
 		}
 
 		@Override

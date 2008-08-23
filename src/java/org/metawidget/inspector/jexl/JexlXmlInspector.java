@@ -16,6 +16,8 @@
 
 package org.metawidget.inspector.jexl;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import org.apache.commons.jexl.ExpressionFactory;
@@ -40,9 +42,10 @@ import org.w3c.dom.Element;
  * environments can 'wire together' properties using ELs in much the same way as Web environments
  * can.
  * <p>
- * <code>JexlXmlInspector</code> inspects <code>inspection-result-1.0.xsd</code>-compliant files (such as
- * <code>metawidget-metadata.xml</code>), in the same way as <code>XmlInspector</code>. Any attributes
- * conforming to the <code>${...}</code> convention are passed to JEXL.
+ * <code>JexlXmlInspector</code> inspects <code>inspection-result-1.0.xsd</code>-compliant
+ * files (such as <code>metawidget-metadata.xml</code>), in the same way as
+ * <code>XmlInspector</code>. Any attributes conforming to the <code>${...}</code> convention
+ * are passed to JEXL.
  *
  * @author Richard Kennard
  */
@@ -56,7 +59,9 @@ public class JexlXmlInspector
 	//
 	//
 
-	private final static ThreadLocal<Object>	LOCAL_TOINSPECT = ThreadUtils.newThreadLocal();
+	private final static ThreadLocal<Object>		LOCAL_TOINSPECT	= ThreadUtils.newThreadLocal();
+
+	private final static ThreadLocal<JexlContext>	LOCAL_CONTEXT	= ThreadUtils.newThreadLocal();
 
 	//
 	//
@@ -95,6 +100,7 @@ public class JexlXmlInspector
 		throws InspectorException
 	{
 		LOCAL_TOINSPECT.set( toInspect );
+		LOCAL_CONTEXT.remove();
 
 		return super.inspect( toInspect, type, names );
 	}
@@ -112,45 +118,38 @@ public class JexlXmlInspector
 	}
 
 	@Override
-	protected Map<String, String> inspect( Element toInspect )
+	protected Map<String, String> inspectProperty( Element toInspect )
 	{
-		Map<String, String> attributes = XmlUtils.getAttributesAsMap( toInspect );
-		JexlContext context = null;
+		if ( PROPERTY.equals( toInspect.getNodeName() ) )
+			return inspect( toInspect );
 
-		// For each attribute value...
+		return null;
+	}
 
-		for( Map.Entry<String, String> entry : CollectionUtils.newArrayList( attributes.entrySet() ))
+	@Override
+	protected Map<String, String> inspectAction( Element toInspect )
+	{
+		if ( ACTION.equals( toInspect.getNodeName() ) )
+			return inspect( toInspect );
+
+		return null;
+	}
+
+	/**
+	 * Get the JexlContext. Creates one if necessary.
+	 */
+
+	protected JexlContext getContext()
+	{
+		JexlContext context = LOCAL_CONTEXT.get();
+
+		if ( context == null )
 		{
-			String value = entry.getValue();
-
-			// ...that looks like a value reference...
-
-			if ( !JexlUtils.isValueReference( value ))
-				continue;
-
-			// ...evaluate it...
-
-			try
-			{
-				if ( context == null )
-				{
-					context = createContext( LOCAL_TOINSPECT.get() );
-					LOCAL_TOINSPECT.remove();
-				}
-
-				value = StringUtils.quietValueOf( ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( value ) ).evaluate( context ) );
-			}
-			catch( Exception e )
-			{
-				throw InspectorException.newException( e );
-			}
-
-			// ...and replace it
-
-			attributes.put( entry.getKey(), value );
+			context = createContext( LOCAL_TOINSPECT.get() );
+			LOCAL_CONTEXT.set( context );
 		}
 
-		return attributes;
+		return context;
 	}
 
 	/**
@@ -165,11 +164,51 @@ public class JexlXmlInspector
 		@SuppressWarnings( "unchecked" )
 		Map<String, Object> contextMap = context.getVars();
 
-		// Put the toInspect in under its simple Class name
+		// Put the toInspect in under 'this'
 
 		if ( toInspect != null )
-			contextMap.put( StringUtils.lowercaseFirstLetter( toInspect.getClass().getSimpleName() ), toInspect );
+			contextMap.put( "this", toInspect );
 
 		return context;
+	}
+
+	//
+	//
+	// Private methods
+	//
+	//
+
+	private Map<String, String> inspect( Element toInspect )
+	{
+		Map<String, String> attributes = XmlUtils.getAttributesAsMap( toInspect );
+
+		// For each attribute value...
+
+		for ( Map.Entry<String, String> entry : CollectionUtils.newArrayList( attributes.entrySet() ) )
+		{
+			String value = entry.getValue();
+
+			// ...that looks like a value reference...
+
+			if ( !JexlUtils.isValueReference( value ) )
+				continue;
+
+			// ...evaluate it...
+
+			try
+			{
+				value = StringUtils.quietValueOf( ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( value ) ).evaluate( getContext() ) );
+			}
+			catch ( Exception e )
+			{
+				throw InspectorException.newException( e );
+			}
+
+			// ...and replace it
+
+			attributes.put( entry.getKey(), value );
+		}
+
+		return attributes;
 	}
 }

@@ -31,6 +31,21 @@ public class SwingAllWidgetsBeansBindingTest
 {
 	//
 	//
+	// Constructor
+	//
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public SwingAllWidgetsBeansBindingTest( String name )
+	{
+		super( name );
+	}
+
+	//
+	//
 	// Public methods
 	//
 	//
@@ -46,20 +61,5 @@ public class SwingAllWidgetsBeansBindingTest
 		BeansBinding.registerConverter( Date.class, String.class, new org.metawidget.test.swing.allwidgets.converter.beansbinding.DateConverter( DATE_FORMAT ) );
 		BeansBinding.registerConverter( NestedWidgets.class, String.class, new org.metawidget.test.swing.allwidgets.converter.beansbinding.NestedWidgetsConverter() );
 		runTest( BeansBinding.class );
-	}
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingAllWidgetsBeansBindingTest( String name )
-	{
-		super( name );
 	}
 }
