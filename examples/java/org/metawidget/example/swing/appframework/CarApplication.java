@@ -91,7 +91,7 @@ public class CarApplication
 	/**
 	 * Prepare the Application.
 	 * <p>
-	 * Separated out from <code>startup</code> to allow easy unit testing.
+	 * Separated out from <code>startup</code> for ease of unit testing.
 	 */
 
 	protected void startupWithoutShow()
@@ -144,6 +144,12 @@ public class CarApplication
 			@Override
 			public void actionPerformed( ActionEvent event )
 			{
+				// Save in case changed make/type
+
+				mMetawidget.save();
+
+				// Re-inspect to create Owner section
+
 				mMetawidget.setToInspect( mCar );
 			}
 		} );

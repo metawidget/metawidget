@@ -18,11 +18,14 @@ package org.metawidget.test.example.swing.appframework;
 
 import java.lang.reflect.Method;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
+import org.metawidget.example.swing.appframework.Car;
 import org.metawidget.example.swing.appframework.CarApplication;
 import org.metawidget.swing.SwingMetawidget;
 
@@ -71,8 +74,29 @@ public class SwingAppFrameworkTest
 
 		JFrame frame = carApplication.getMainFrame();
 		SwingMetawidget metawidget = (SwingMetawidget) frame.getContentPane().getComponent( 1 );
-		assertTrue( "Ford".equals(((JTextField) metawidget.getComponent( 1 )).getText() ));
+		Car car = (Car) metawidget.getToInspect();
 
-		// TODO: Test CarApplication
+		// Test Car Application
+
+		assertTrue( "Ford".equals( ( (JTextField) metawidget.getComponent( 1 ) ).getText() ) );
+		assertTrue( "Ford".equals( car.toString() ) );
+		assertTrue( null == car.getOwner() );
+		assertTrue( metawidget.getComponentCount() == 6 );
+		assertTrue( "Save".equals( ((JButton) ((SwingMetawidget) metawidget.getFacet( "buttons" ).getComponent( 0 )).getComponent( 0 )).getText() ));
+
+		( (JComboBox) metawidget.getComponent( 3 ) ).setSelectedIndex( 1 );
+		JButton button = (JButton) metawidget.getComponent( "addOwner" );
+		assertTrue( "Add an Owner".equals( button.getText() ) );
+		button.getAction().actionPerformed( null );
+
+		assertTrue( null != car.getOwner() );
+		assertTrue( metawidget.getComponentCount() == 7 );
+		assertTrue( "Ford Sport, owned by (no name specified)".equals( car.toString() ) );
+		SwingMetawidget metawidgetOwner = (SwingMetawidget) metawidget.getComponent( 5 );
+		( (JTextField) metawidgetOwner.getComponent( 1 ) ).setText( "Richard" );
+		( (JTextField) metawidgetOwner.getComponent( 3 ) ).setText( "Kennard" );
+		metawidget.save();
+
+		assertTrue( "Ford Sport, owned by Richard Kennard".equals( car.toString() ) );
 	}
 }

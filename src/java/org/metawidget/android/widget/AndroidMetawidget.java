@@ -636,6 +636,11 @@ public class AndroidMetawidget
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 			return null;
 
+		// Action
+
+		if ( ACTION.equals( elementName ) )
+			return null;
+
 		// Masked (return an invisible View, so that we DO still
 		// render a label and reserve some blank space)
 
@@ -704,6 +709,11 @@ public class AndroidMetawidget
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+			return null;
+
+		// Action
+
+		if ( ACTION.equals( elementName ) )
 			return null;
 
 		String type = attributes.get( TYPE );

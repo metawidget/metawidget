@@ -640,13 +640,13 @@
         <exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="test/android/allwidgets">
             <arg value="package" />
             <arg value="-f" />
-            <arg value="-c" />
             <arg value="-M" />
             <arg value="AndroidManifest.xml" />
             <arg value="-S" />
             <arg value="res" />
             <arg value="-I" />
             <arg value="${android.dir}/android.jar" />
+            <arg value="-F" />
             <arg value="${build.metawidget.dir}/test/android/allwidgets-android.apk" />
         </exec>
 
