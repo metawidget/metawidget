@@ -917,9 +917,9 @@ public abstract class UIMetawidget
 	}
 
 	/**
-	 * Attach converters for renderer.
+	 * Attach converter for renderer.
 	 *
-	 * @return the attached converter
+	 * @return the converter that was attached
 	 */
 
 	protected Converter setConverter( UIComponent component, Map<String, String> attributes )
