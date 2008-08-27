@@ -432,7 +432,7 @@ public class XmlUtils
 
 		for ( int loop = 0; loop < indent; loop++ )
 		{
-			buffer.append( "\t" );
+			buffer.append( "   " );
 		}
 
 		// Open tag
@@ -501,7 +501,7 @@ public class XmlUtils
 
 			for ( int loop = 0; loop < indent; loop++ )
 			{
-				buffer.append( "\t" );
+				buffer.append( "   " );
 			}
 
 			// Close tag

@@ -26,6 +26,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import org.metawidget.example.shared.addressbook.model.Contact;
 
+/**
+ * @author Richard Kennard
+ */
+
 public class LoadServlet
 	extends HttpServlet
 {

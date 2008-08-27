@@ -7,5 +7,11 @@
 		Address Book (Metawidget JSP Example)
 	</display-name>
 	
+	<listener>
+		<listener-class>
+			org.metawidget.example.jsp.servlet.AddressBookContextListener
+		</listener-class>
+	</listener>
+	
 </web-app>
 

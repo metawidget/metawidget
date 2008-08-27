@@ -48,7 +48,7 @@ public abstract class Binding
 	//
 	//
 
-	public Binding( SwingMetawidget metawidget )
+	protected Binding( SwingMetawidget metawidget )
 	{
 		mMetawidget = metawidget;
 	}

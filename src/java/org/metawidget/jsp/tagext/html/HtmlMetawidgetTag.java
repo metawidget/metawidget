@@ -19,6 +19,8 @@ package org.metawidget.jsp.tagext.html;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -134,7 +136,7 @@ public class HtmlMetawidgetTag
 
 		// Action
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return null;
 
 		// Masked (return an empty String, so that we DO still render a label)
@@ -212,7 +214,7 @@ public class HtmlMetawidgetTag
 
 		// Action
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return null;
 
 		// String Lookups
@@ -267,7 +269,7 @@ public class HtmlMetawidgetTag
 					buffer.append( "<textarea" );
 					buffer.append( writeAttributes( attributes ) );
 					buffer.append( ">" );
-					buffer.append( StringUtils.quietValueOf( evaluate( attributes ) ) );
+					buffer.append( evaluateAsText( attributes ) );
 					buffer.append( "</textarea>" );
 
 					return buffer.toString();
@@ -330,7 +332,7 @@ public class HtmlMetawidgetTag
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
 		StringBuffer buffer = new StringBuffer();
-		String value = StringUtils.quietValueOf( evaluate( attributes ) );
+		String value = evaluateAsText( attributes );
 		buffer.append( value );
 
 		if ( mCreateHiddenFields && !TRUE.equals( attributes.get( NO_SETTER ) ) )
@@ -408,7 +410,7 @@ public class HtmlMetawidgetTag
 	{
 		Object result = evaluate( attributes );
 
-		if ( result == null || "".equals( result ))
+		if ( result == null || "".equals( result ) )
 			return "";
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -431,32 +433,6 @@ public class HtmlMetawidgetTag
 			return " checked";
 
 		return "";
-	}
-
-	private Object evaluate( Map<String, String> attributes )
-		throws Exception
-	{
-		if ( mNamePrefix == null )
-			return null;
-
-		return evaluate( "${" + mNamePrefix + attributes.get( NAME ) + "}" );
-	}
-
-	private Object evaluate( String expression )
-		throws Exception
-	{
-		try
-		{
-			return pageContext.getExpressionEvaluator().evaluate( expression, Object.class, pageContext.getVariableResolver(), null );
-		}
-		catch ( Throwable t )
-		{
-			// EL should fail gracefully
-			//
-			// Note: pageContext.getExpressionEvaluator() is only available with JSP 2.0
-
-			return null;
-		}
 	}
 
 	/**
@@ -530,9 +506,8 @@ public class HtmlMetawidgetTag
 			buffer.append( "<option value=\"\"></option>" );
 
 		// Evaluate the expression
-		// TODO: add converters here?
 
-		String selected = StringUtils.quietValueOf( evaluate( attributes ) );
+		String selected = evaluateAsText( attributes );
 
 		// Add the options
 
@@ -569,4 +544,59 @@ public class HtmlMetawidgetTag
 		return buffer.toString();
 	}
 
+	/**
+	 * Evaluate to text (via a PropertyEditor if available).
+	 */
+
+	private String evaluateAsText( Map<String, String> attributes )
+		throws Exception
+	{
+		Object evaluated = evaluate( attributes );
+
+		if ( evaluated == null )
+			return null;
+
+		Class<?> clazz = evaluated.getClass();
+
+		while( clazz != null )
+		{
+			PropertyEditor editor = PropertyEditorManager.findEditor( clazz );
+
+			if ( editor != null )
+			{
+				editor.setValue( evaluated );
+				return editor.getAsText();
+			}
+
+			clazz = clazz.getSuperclass();
+		}
+
+		return StringUtils.quietValueOf( evaluated );
+	}
+
+	private Object evaluate( Map<String, String> attributes )
+		throws Exception
+	{
+		if ( mNamePrefix == null )
+			return null;
+
+		return evaluate( "${" + mNamePrefix + attributes.get( NAME ) + "}" );
+	}
+
+	private Object evaluate( String expression )
+		throws Exception
+	{
+		try
+		{
+			return pageContext.getExpressionEvaluator().evaluate( expression, Object.class, pageContext.getVariableResolver(), null );
+		}
+		catch ( Throwable t )
+		{
+			// EL should fail gracefully
+			//
+			// Note: pageContext.getExpressionEvaluator() is only available with JSP 2.0
+
+			return null;
+		}
+	}
 }

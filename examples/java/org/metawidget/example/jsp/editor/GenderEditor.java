@@ -14,71 +14,49 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.layout;
+package org.metawidget.example.jsp.editor;
 
-import java.awt.Component;
-import java.util.Map;
+import java.beans.PropertyEditorSupport;
 
-import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.example.shared.addressbook.model.Gender;
 
 /**
- * Base class for all Swing-based layouts.
- * <p>
- * Implementations need not be Thread-safe.
- *
  * @author Richard Kennard
  */
 
-public abstract class Layout
+public class GenderEditor
+	extends PropertyEditorSupport
 {
-	//
-	//
-	// Private members
-	//
-	//
-
-	private SwingMetawidget				mMetawidget;
-
-	//
-	//
-	// Constructor
-	//
-	//
-
-	protected Layout( SwingMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
 	//
 	//
 	// Public methods
 	//
 	//
 
-	public void layoutBegin()
+	@Override
+	public String getAsText()
 	{
-		// Do nothing by default
+		Gender value = (Gender) getValue();
+
+		if ( value == null )
+			return "";
+
+		// Convert enums to their .name() form, not their .toString() form, so that we can
+		// use .valueOf() in asText.
+
+		return value.name();
 	}
 
-	public void layoutChild( Component component, Map<String, String> attributes )
+	@Override
+	public void setAsText( String text )
+		throws IllegalArgumentException
 	{
-		// Do nothing by default
-	}
+		if ( text == null || "".equals( text ) )
+		{
+			setValue( null );
+			return;
+		}
 
-	public void layoutEnd()
-	{
-		// Do nothing by default
-	}
-
-	//
-	//
-	// Protected methods
-	//
-	//
-
-	protected SwingMetawidget getMetawidget()
-	{
-		return mMetawidget;
+		setValue( Gender.valueOf( text ) );
 	}
 }

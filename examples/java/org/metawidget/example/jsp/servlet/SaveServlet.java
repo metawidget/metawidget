@@ -33,6 +33,10 @@ import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 
+/**
+ * @author Richard Kennard
+ */
+
 public class SaveServlet
 	extends HttpServlet
 {

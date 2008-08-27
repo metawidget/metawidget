@@ -14,17 +14,18 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.jsp.servlet;
+package org.metawidget.example.jsp.editor;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
+import java.beans.PropertyEditorSupport;
 
-import org.metawidget.example.shared.addressbook.controller.CommunicationsController;
-import org.metawidget.example.shared.addressbook.controller.ContactsController;
+import org.metawidget.example.shared.addressbook.model.ContactType;
 
-public class AddressBookListener
-	implements ServletContextListener
+/**
+ * @author Richard Kennard
+ */
+
+public class ContactTypeEditor
+	extends PropertyEditorSupport
 {
 	//
 	//
@@ -33,19 +34,29 @@ public class AddressBookListener
 	//
 
 	@Override
-	public void contextInitialized( ServletContextEvent contextEvent )
+	public String getAsText()
 	{
-		ServletContext context = contextEvent.getServletContext();
+		ContactType value = (ContactType) getValue();
 
-		// Application-wide Controllers
+		if ( value == null )
+			return "";
 
-		context.setAttribute( "contacts", new ContactsController() );
-		context.setAttribute( "communications", new CommunicationsController() );
+		// Convert enums to their .name() form, not their .toString() form, so that we can
+		// use .valueOf() in asText.
+
+		return value.name();
 	}
 
 	@Override
-	public void contextDestroyed( ServletContextEvent arg0 )
+	public void setAsText( String text )
+		throws IllegalArgumentException
 	{
-		// Do nothing
+		if ( text == null || "".equals( text ) )
+		{
+			setValue( null );
+			return;
+		}
+
+		setValue( ContactType.valueOf( text ) );
 	}
 }

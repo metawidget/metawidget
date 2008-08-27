@@ -27,6 +27,10 @@ import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.struts.addressbook.form.BusinessContactForm;
 import org.metawidget.example.struts.addressbook.form.PersonalContactForm;
 
+/**
+ * @author Richard Kennard
+ */
+
 public class SearchServlet
 	extends HttpServlet
 {
