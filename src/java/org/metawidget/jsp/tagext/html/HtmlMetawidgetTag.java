@@ -554,7 +554,7 @@ public class HtmlMetawidgetTag
 		Object evaluated = evaluate( attributes );
 
 		if ( evaluated == null )
-			return null;
+			return "";
 
 		Class<?> clazz = evaluated.getClass();
 

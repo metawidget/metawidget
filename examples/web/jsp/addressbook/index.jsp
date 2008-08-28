@@ -1,5 +1,5 @@
 <%@ page language="java" %>
-<%@ page import="java.util.*, org.metawidget.example.shared.addressbook.model.*, org.metawidget.example.shared.addressbook.controller.*" %>
+<%@ page import="org.metawidget.example.shared.addressbook.model.*, org.metawidget.example.shared.addressbook.controller.*" %>
 
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -8,9 +8,7 @@
 <%@ taglib uri="http://metawidget.org/example/jsp/addressbook" prefix="a"%>
 
 <%
-	ContactsController contactsController = new ContactsController();
-	pageContext.setAttribute( "contactsController", contactsController );
-
+	ContactsController contactsController = (ContactsController) pageContext.getServletContext().getAttribute( "contacts" );
 	ContactSearch contactSearch = new ContactSearch();
 	pageContext.setAttribute( "contactSearch", contactSearch );
 
