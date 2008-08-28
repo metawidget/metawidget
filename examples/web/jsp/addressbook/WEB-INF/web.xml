@@ -9,7 +9,7 @@
 	
 	<listener>
 		<listener-class>
-			org.metawidget.example.jsp.servlet.AddressBookContextListener
+			org.metawidget.example.jsp.addressbook.servlet.AddressBookContextListener
 		</listener-class>
 	</listener>
 	

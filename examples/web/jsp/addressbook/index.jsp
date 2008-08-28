@@ -8,9 +8,9 @@
 <%@ taglib uri="http://metawidget.org/example/jsp/addressbook" prefix="a"%>
 
 <%
-	ContactsController contactsController = (ContactsController) pageContext.getServletContext().getAttribute( "contacts" );
+	ContactsController contactsController = (ContactsController) session.getServletContext().getAttribute( ContactsController.class.getSimpleName() );
 	ContactSearch contactSearch = new ContactSearch();
-	pageContext.setAttribute( "contactSearch", contactSearch );
+	request.setAttribute( ContactSearch.class.getSimpleName(), contactSearch );
 
 	// Manual mapping (this is what Web frameworks typically do for you)
 
@@ -22,7 +22,7 @@
 	if ( contactType != null && !"".equals( contactType ))
 		contactSearch.setType( ContactType.valueOf( request.getParameter( "contactSearch.type" )));
 	
-	pageContext.setAttribute( "contacts", contactsController.getAllByExample( contactSearch ));
+	request.setAttribute( "results", contactsController.getAllByExample( contactSearch ));
 %>
 	
 <tags:page>
@@ -37,7 +37,7 @@
 		
 		<form action="index.jsp" method="POST">
 
-			<m:metawidget value="contactSearch" bundle="${bundle}">
+			<m:metawidget value="ContactSearch" bundle="${bundle}">
 				<m:param name="tableStyleClass" value="table-form"/>
 				<m:param name="columnStyleClasses" value="table-label-column,table-component-column,required"/>
 
@@ -60,10 +60,10 @@
 			</thead>
 			<tbody>
 			
-				<c:forEach items="${contacts}" var="_contact">
+				<c:forEach items="${results}" var="_contact">
 					<tr>
 						<td class="column-half">
-							<a href="load.do?id=${_contact.id}">
+							<a href="contact.jsp?id=${_contact.id}">
 								${_contact.fullname}
 							</a>
 						</td>

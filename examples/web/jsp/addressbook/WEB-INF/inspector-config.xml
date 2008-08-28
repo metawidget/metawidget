@@ -5,7 +5,6 @@
 
 	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 		<inspectors>
-			<xmlInspector xmlns="java:org.metawidget.inspector.xml"/>
 			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 			<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" />
 			<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>

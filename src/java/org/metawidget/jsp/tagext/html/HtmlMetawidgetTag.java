@@ -215,16 +215,14 @@ public class HtmlMetawidgetTag
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return null;
+			return writeSubmitTag( attributes );
 
 		// String Lookups
 
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
-		{
 			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
-		}
 
 		String type = attributes.get( TYPE );
 
@@ -405,10 +403,26 @@ public class HtmlMetawidgetTag
 		return buffer.toString();
 	}
 
+	private String writeSubmitTag( Map<String, String> attributes )
+		throws Exception
+	{
+		// (use StringBuffer for J2SE 1.4 compatibility)
+
+		StringBuffer buffer = new StringBuffer();
+
+		buffer.append( "<input type=\"submit\" value=\"" );
+		buffer.append( getLabelString( attributes ));
+		buffer.append( "\"" );
+		buffer.append( writeAttributes( attributes ) );
+		buffer.append( ">" );
+
+		return buffer.toString();
+	}
+
 	private String writeValueAttribute( Map<String, String> attributes )
 		throws Exception
 	{
-		Object result = evaluate( attributes );
+		String result = evaluateAsText( attributes );
 
 		if ( result == null || "".equals( result ) )
 			return "";
@@ -418,7 +432,7 @@ public class HtmlMetawidgetTag
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append( " value=\"" );
-		buffer.append( String.valueOf( result ) );
+		buffer.append( result );
 		buffer.append( "\"" );
 
 		return buffer.toString();
@@ -558,7 +572,7 @@ public class HtmlMetawidgetTag
 
 		Class<?> clazz = evaluated.getClass();
 
-		while( clazz != null )
+		while ( clazz != null )
 		{
 			PropertyEditor editor = PropertyEditorManager.findEditor( clazz );
 

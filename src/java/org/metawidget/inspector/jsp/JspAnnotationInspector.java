@@ -210,7 +210,7 @@ public class JspAnnotationInspector
 
 		if ( !"".equals( condition ) )
 		{
-			if ( JspUtils.isExpression( condition ) )
+			if ( !JspUtils.isExpression( condition ) )
 				throw MetawidgetException.newException( "Condition '" + condition + "' is not of the form ${...}" );
 
 			Object conditionResult = expressionEvaluator.evaluate( condition, Object.class, variableResolver, null );
@@ -237,7 +237,7 @@ public class JspAnnotationInspector
 			}
 			else
 			{
-				value = StringUtils.quietValueOf( value );
+				value = StringUtils.quietValueOf( objectValue );
 			}
 		}
 

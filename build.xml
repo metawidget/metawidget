@@ -650,13 +650,17 @@
             <arg value="${build.metawidget.dir}/test/android/allwidgets-android.apk" />
         </exec>
 
-	    <!-- Put the project's .dex files into the output package file -->
+	    <!-- Put the project's .dex files into the APK -->
 		
-        <zip destfile="${build.metawidget.dir}/test/android/allwidgets-android.tmp">
-            <zipfileset file="${build.metawidget.dir}/test/android/allwidgets/classes.dex" fullpath="classes.dex" />
-            <zipfileset src="${build.metawidget.dir}/test/android/allwidgets-android.apk" />
-        </zip>
-    	<move file="${build.metawidget.dir}/test/android/allwidgets-android.tmp" tofile="${build.metawidget.dir}/test/android/allwidgets-android.apk" />
+        <exec executable="${android.tools.dir}/apkbuilder.bat" failonerror="true" dir="test/android/allwidgets">
+            <arg value="${build.metawidget.dir}/test/android/allwidgets-android.apk" />
+            <arg value="-z" />
+            <arg value="res" />
+            <arg value="-f" />
+            <arg value="${build.metawidget.dir}/test/android/allwidgets/classes.dex" />
+            <arg value="-rf" />
+            <arg value="test/java" />
+        </exec>
 
 	</target>
 
@@ -1600,7 +1604,6 @@
         <exec executable="${android.tools.dir}/dx.bat" failonerror="true">
             <arg value="--dex" />
             <arg value="--output=${build.metawidget.dir}/examples/android/addressbook/classes.dex" />
-            <arg value="--positions=lines" />
             <arg path="${build.metawidget.dir}/examples/android/addressbook/dex-classes" />
         </exec>
 
@@ -1609,23 +1612,27 @@
         <exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="examples/android/addressbook">
             <arg value="package" />
             <arg value="-f" />
-            <arg value="-c" />
             <arg value="-M" />
             <arg value="AndroidManifest.xml" />
             <arg value="-S" />
             <arg value="res" />
             <arg value="-I" />
             <arg value="${android.dir}/android.jar" />
+            <arg value="-F" />
             <arg value="${build.metawidget.dir}/examples/android/addressbook-android.apk" />
         </exec>
 
-	    <!-- Put the project's .dex files into the output package file -->
+	    <!-- Put the project's .dex files into the APK -->
 		
-        <zip destfile="${build.metawidget.dir}/examples/android/addressbook-android.tmp">
-            <zipfileset file="${build.metawidget.dir}/examples/android/addressbook/classes.dex" fullpath="classes.dex" />
-            <zipfileset src="${build.metawidget.dir}/examples/android/addressbook-android.apk" />
-        </zip>
-    	<move file="${build.metawidget.dir}/examples/android/addressbook-android.tmp" tofile="${build.metawidget.dir}/examples/android/addressbook-android.apk" />
+        <exec executable="${apk-builder}" failonerror="true">
+            <arg value="${build.metawidget.dir}/examples/android/addressbook-android.apk" />
+            <arg value="-z" />
+            <arg value="res" />
+            <arg value="-f" />
+            <arg value="${build.metawidget.dir}/examples/android/addressbook/classes.dex" />
+            <arg value="-rf" />
+            <arg value="${srcdir-ospath}" />
+        </exec>
 
 		<copy todir="${build.metawidget.dir}/examples/android" file="examples/java/org/metawidget/example/android/readme.txt"/>
 

@@ -26,6 +26,7 @@ import javax.persistence.Lob;
 
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
+import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.faces.UiFacesLookup;
 import org.metawidget.inspector.spring.UiSpringLookup;
@@ -33,8 +34,7 @@ import org.metawidget.inspector.spring.UiSpringLookup;
 /**
  * Models a Contact in the Address Book
  * <p>
- * Implements Serializable because Web containers require session-level
- * values to be Serializable.
+ * Implements Serializable because Web containers require session-level values to be Serializable.
  *
  * @author Richard Kennard
  */
@@ -102,7 +102,11 @@ public abstract class Contact
 	}
 
 	/**
-	 * Get the Person's title.
+	 * Get the Contact's title.
+	 * <p>
+	 * Note this getter is doubly annotated both <code>UiFacesLookup</code> and
+	 * <code>UiSpringLookup</code>. Normally you only need one or the other, but we use both
+	 * because we use this same code in both Faces and Spring examples.
 	 */
 
 	@Column( nullable = false )
@@ -205,16 +209,16 @@ public abstract class Contact
 
 	public boolean addCommunication( Communication communication )
 	{
-		if ( communication.getType() == null || "".equals( communication.getType() ))
+		if ( communication.getType() == null || "".equals( communication.getType() ) )
 			throw new RuntimeException( "Communication type is required" );
 
-		if ( communication.getValue() == null || "".equals( communication.getValue() ))
+		if ( communication.getValue() == null || "".equals( communication.getValue() ) )
 			throw new RuntimeException( "Communication value is required" );
 
 		if ( mCommunications == null )
 		{
 			// (don't use CollectionUtils.newHashSet() here, to avoid
-			//  dragging CollectionUtils in under GWT)
+			// dragging CollectionUtils in under GWT)
 
 			mCommunications = new HashSet<Communication>();
 		}
@@ -235,7 +239,7 @@ public abstract class Contact
 		if ( mCommunications == null )
 			return false;
 
-		for( Iterator<Communication> i = mCommunications.iterator(); i.hasNext(); )
+		for ( Iterator<Communication> i = mCommunications.iterator(); i.hasNext(); )
 		{
 			if ( i.next().getId() != id )
 				continue;
@@ -247,9 +251,18 @@ public abstract class Contact
 		return false;
 	}
 
+	/**
+	 * Gets the notes.
+	 * <p>
+	 * Note this getter is doubly annotated both <code>Lob</code> and <code>UiLarge</code>.
+	 * Normally you only need one or the other, but we use both because we use this same code in
+	 * both JPA and non-JPA examples.
+	 */
+
 	@UiComesAfter
 	@UiSection( "Other" )
 	@Lob
+	@UiLarge
 	public String getNotes()
 	{
 		return mNotes;
@@ -285,17 +298,17 @@ public abstract class Contact
 		if ( !( that instanceof Contact ) )
 			return false;
 
-		Contact personThat = (Contact) that;
+		Contact contactThat = (Contact) that;
 
 		if ( mId == 0 )
 		{
-			if ( personThat.mId != 0 )
+			if ( contactThat.mId != 0 )
 				return false;
 
-			return super.equals( personThat );
+			return super.equals( contactThat );
 		}
 
-		return mId == personThat.mId;
+		return mId == contactThat.mId;
 	}
 
 	@Override

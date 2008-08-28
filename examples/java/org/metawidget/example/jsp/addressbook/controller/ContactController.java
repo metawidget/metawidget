@@ -18,6 +18,9 @@ package org.metawidget.example.jsp.addressbook.controller;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import javax.servlet.http.HttpSession;
+
+import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
@@ -37,9 +40,20 @@ public class ContactController
 	//
 	//
 
-	private boolean			mReadOnly;
+	private HttpSession	mSession;
 
-	private Contact			mCurrent;
+	private boolean		mReadOnly;
+
+	//
+	//
+	// Constructor
+	//
+	//
+
+	public ContactController( HttpSession session )
+	{
+		mSession = session;
+	}
 
 	//
 	//
@@ -58,58 +72,37 @@ public class ContactController
 		mReadOnly = readOnly;
 	}
 
-	@UiHidden
-	public Contact getCurrent()
-	{
-		return mCurrent;
-	}
-
-	public void setCurrent( Contact current )
-	{
-		mCurrent = current;
-
-		setReadOnly( mCurrent == null || mCurrent.getId() != 0 );
-	}
-
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, value = "#{!contact.readOnly}" )
+	@UiJspAttribute( name = HIDDEN, value = "${!ContactController.readOnly}" )
 	public void edit()
 	{
 		mReadOnly = false;
 	}
 
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, value = "${contact.readOnly}" )
-	public String save()
-		throws Exception
+	@UiJspAttribute( name = HIDDEN, value = "${ContactController.readOnly}" )
+	public void save()
 	{
-		try
-		{
-			//getContactsBean().save( mCurrent );
-		}
-		catch ( Exception e )
-		{
-			// TODO:FacesContext.getCurrentInstance().addMessage( null, new FacesMessage( e.getMessage() ) );
-			return null;
-		}
+		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( ContactsController.class.getSimpleName() );
+		Contact contact = (Contact) mSession.getAttribute( Contact.class.getSimpleName() );
 
-		return "index";
+		contactsController.save( contact );
 	}
 
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, value = "${contact.readOnly || contact.current.id == 0}" )
+	@UiJspAttribute( name = HIDDEN, value = "${ContactController.readOnly || Contact.id == 0}" )
 	@UiComesAfter( "save" )
-	public String delete()
-		throws Exception
+	public void delete()
 	{
-		//getContactsBean().delete( getCurrent().getId() );
+		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( ContactsController.class.getSimpleName() );
+		Contact contact = (Contact) mSession.getAttribute( Contact.class.getSimpleName() );
 
-		return "index";
+		contactsController.delete( contact );
 	}
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiJspAttributes( { @UiJspAttribute( name = LABEL, value = "Back", condition = "#{contact.readOnly}" ) } )
+	@UiJspAttributes( { @UiJspAttribute( name = LABEL, value = "Back", condition = "${ContactController.readOnly}" ) } )
 	public String cancel()
 		throws Exception
 	{
@@ -118,24 +111,25 @@ public class ContactController
 
 	public void addCommunication()
 	{
-		//CommunicationBean bean = getCommunicationBean();
+		// CommunicationBean bean = getCommunicationBean();
 
 		try
 		{
-			//getCurrent().addCommunication( bean.getCurrent() );
+			// getCurrent().addCommunication( bean.getCurrent() );
 		}
 		catch ( Exception e )
 		{
-			// TODO: FacesContext.getCurrentInstance().addMessage( null, new FacesMessage( e.getMessage() ) );
+			// TODO: FacesContext.getCurrentInstance().addMessage( null, new FacesMessage(
+			// e.getMessage() ) );
 			return;
 		}
 
-		//bean.clear();
+		// bean.clear();
 	}
 
 	public void deleteCommunication()
 	{
-		//Communication communication = (Communication) mModelCommunications.getRowData();
-		//getCurrent().removeCommunication( communication );
+		// Communication communication = (Communication) mModelCommunications.getRowData();
+		// getCurrent().removeCommunication( communication );
 	}
 }
