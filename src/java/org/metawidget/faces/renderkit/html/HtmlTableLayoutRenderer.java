@@ -140,7 +140,6 @@ public class HtmlTableLayoutRenderer
 
 		writeStyleAndClass( component, writer, "table" );
 		writer.write( ">" );
-		writer.write( "<tbody>" );
 
 		// Determine label, component, required styles
 
@@ -196,6 +195,46 @@ public class HtmlTableLayoutRenderer
 		}
 
 		putState( KEY_NUMBER_OF_COLUMNS, columns );
+
+		// Buttons facet (XHTML requires TFOOT come before TBODY)
+
+		UIComponent componentButtons = component.getFacet( "buttons" );
+
+		if ( componentButtons != null )
+		{
+			writer.write( "\r\n<tfoot>" );
+			writer.write( "<tr>" );
+			writer.write( "<td colspan=\"" );
+
+			Integer numberOfColumns = (Integer) getState( KEY_NUMBER_OF_COLUMNS );
+
+			if ( numberOfColumns == null )
+			{
+				// (layoutEnd may get called even if layoutBegin crashed. Try
+				// to fail gracefully)
+			}
+			else
+			{
+				// Buttons span multiples of label/component/required
+
+				int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, numberOfColumns.intValue() * LABEL_AND_COMPONENT_AND_REQUIRED );
+				writer.write( String.valueOf( colspan ) );
+			}
+
+			writer.write( "\"" );
+			writeStyleAndClass( component, writer, "buttons" );
+			writer.write( ">" );
+
+			// Render facet
+
+			FacesUtils.render( context, componentButtons );
+
+			writer.write( "</td>" );
+			writer.write( "</tr>" );
+			writer.write( "</tfoot>" );
+		}
+
+		writer.write( "<tbody>" );
 	}
 
 	/**
@@ -273,47 +312,6 @@ public class HtmlTableLayoutRenderer
 	{
 		ResponseWriter writer = context.getResponseWriter();
 		writer.write( "</tbody>" );
-
-		// Buttons facet
-
-		UIComponent componentButtons = component.getFacet( "buttons" );
-
-		if ( componentButtons != null )
-		{
-			writer.write( "\r\n<tfoot>" );
-			writer.write( "<tr>" );
-			writer.write( "<td colspan=\"" );
-
-			Integer numberOfColumns = (Integer) getState( KEY_NUMBER_OF_COLUMNS );
-
-			if ( numberOfColumns == null )
-			{
-				// (layoutEnd may get called even if layoutBegin crashed. Try
-				// to fail gracefully)
-			}
-			else
-			{
-				// Buttons span multiples of label/component/required
-
-				int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, numberOfColumns.intValue() * LABEL_AND_COMPONENT_AND_REQUIRED );
-				writer.write( String.valueOf( colspan ) );
-			}
-
-			writer.write( "\"" );
-			writeStyleAndClass( component, writer, "buttons" );
-			writer.write( ">" );
-
-			// Render facet
-
-			FacesUtils.render( context, componentButtons );
-
-			writer.write( "</td>" );
-			writer.write( "</tr>" );
-			writer.write( "</tfoot>" );
-		}
-
-		// End the table
-
 		writer.write( "</table>" );
 	}
 

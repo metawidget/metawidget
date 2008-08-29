@@ -35,6 +35,8 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/th" text="Textarea:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]/textarea"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]/textarea/@cols" value="20"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]/textarea/@rows" value="2"/>
 				<verifyTextarea name="form:allWidgetsTextarea" text="Textarea"/>
 				<setInputField name="form:allWidgetsTextarea" value="Textarea1"/>
 

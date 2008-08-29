@@ -31,6 +31,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -441,7 +442,18 @@ public class HtmlMetawidget
 				}
 
 				if ( TRUE.equals( attributes.get( "large" ) ) )
-					return application.createComponent( "javax.faces.HtmlInputTextarea" );
+				{
+					HtmlInputTextarea textarea = (HtmlInputTextarea) application.createComponent( "javax.faces.HtmlInputTextarea" );
+
+					// XHTML requires the 'cols' and 'rows' attributes be set, even though
+					// most people override them with CSS widths and heights. The default is
+					// 20 columns by 2 rows
+
+					textarea.setCols( 20 );
+					textarea.setRows( 2 );
+
+					return textarea;
+				}
 
 				component = application.createComponent( "javax.faces.HtmlInputText" );
 

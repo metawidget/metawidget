@@ -170,6 +170,50 @@ public class HtmlTableLayout
 		}
 
 		buffer.append( ">" );
+
+		// Buttons parameter (XHTML requires TFOOT to come before TBODY)
+
+		FacetContent facetButtons = getMetawidgetTag().getFacet( "buttons" );
+
+		if ( facetButtons != null )
+		{
+			buffer.append( "\r\n<tfoot>" );
+			buffer.append( "<tr>" );
+			buffer.append( "<td colspan=\"" );
+
+			// Buttons span multiples of label/component/required
+
+			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			buffer.append( String.valueOf( colspan ) );
+			buffer.append( "\"" );
+
+			// CSS styles
+
+			String buttonsStyle = facetButtons.getAttribute( "style" );
+
+			if ( buttonsStyle != null )
+			{
+				buffer.append( " style=\"" );
+				buffer.append( buttonsStyle );
+				buffer.append( "\"" );
+			}
+
+			String buttonsStyleClass = facetButtons.getAttribute( "styleClass" );
+
+			if ( buttonsStyleClass != null )
+			{
+				buffer.append( " class=\"" );
+				buffer.append( buttonsStyleClass );
+				buffer.append( "\"" );
+			}
+
+			buffer.append( ">" );
+			buffer.append( facetButtons.getContent() );
+			buffer.append( "</td>" );
+			buffer.append( "</tr>" );
+			buffer.append( "</tfoot>" );
+		}
+
 		buffer.append( "<tbody>" );
 
 		return buffer.toString();
@@ -215,52 +259,6 @@ public class HtmlTableLayout
 
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( "</tbody>" );
-
-		// Buttons parameter
-
-		FacetContent facetButtons = getMetawidgetTag().getFacet( "buttons" );
-
-		if ( facetButtons != null )
-		{
-			buffer.append( "\r\n<tfoot>" );
-			buffer.append( "<tr>" );
-			buffer.append( "<td colspan=\"" );
-
-			// Buttons span multiples of label/component/required
-
-			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
-			buffer.append( String.valueOf( colspan ) );
-			buffer.append( "\"" );
-
-			// CSS styles
-
-			String buttonsStyle = facetButtons.getAttribute( "style" );
-
-			if ( buttonsStyle != null )
-			{
-				buffer.append( " style=\"" );
-				buffer.append( buttonsStyle );
-				buffer.append( "\"" );
-			}
-
-			String buttonsStyleClass = facetButtons.getAttribute( "styleClass" );
-
-			if ( buttonsStyleClass != null )
-			{
-				buffer.append( " class=\"" );
-				buffer.append( buttonsStyleClass );
-				buffer.append( "\"" );
-			}
-
-			buffer.append( ">" );
-			buffer.append( facetButtons.getContent() );
-			buffer.append( "</td>" );
-			buffer.append( "</tr>" );
-			buffer.append( "</tfoot>" );
-		}
-
-		// End the table
-
 		buffer.append( "</table>" );
 
 		// Output any hidden fields
