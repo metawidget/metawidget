@@ -555,6 +555,7 @@ public abstract class UIMetawidget
 		}
 
 		mClientIds = null;
+		mBindingPrefix = null;
 
 		// Validator
 
@@ -1253,11 +1254,22 @@ public abstract class UIMetawidget
 
 		// Add an empty choice (if nullable, and not required)
 
-		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
+		if ( component instanceof HtmlSelectOneListbox )
+		{
+			String type = attributes.get( TYPE );
 
-		if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE )) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED )))))
-			addSelectItem( component, "", null );
+			if ( type != null )
+			{
+				Class<?> clazz = ClassUtils.niceForName( type );
 
+				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
+					addSelectItem( component, "", null );
+			}
+			else
+			{
+				addSelectItem( component, "", null );
+			}
+		}
 		// See if we're using labels
 		//
 		// (note: where possible, it is better to use a Converter than a hard-coded label)

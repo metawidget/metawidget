@@ -48,8 +48,6 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-// TODO: JexlLookup?
-
 public class JexlInspector
 	extends BaseObjectInspector
 {

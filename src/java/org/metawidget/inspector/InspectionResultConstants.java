@@ -130,6 +130,11 @@ public final class InspectionResultConstants
 
 	public final static String	LOOKUP_LABELS				= "lookup-labels";
 
+	/**
+	 * Force the lookup to have an empty choice in cases where it would normally
+	 * be suppressed (eg. on primitive or required fields)
+	 */
+
 	public final static String	LOOKUP_HAS_EMPTY_CHOICE		= "lookup-has-empty-choice";
 
 	/**
