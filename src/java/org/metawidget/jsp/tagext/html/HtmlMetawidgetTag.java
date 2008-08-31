@@ -512,7 +512,7 @@ public class HtmlMetawidgetTag
 
 		buffer.append( ">" );
 
-		// Empty option
+		// Add an empty choice (if nullable, and not required)
 
 		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 

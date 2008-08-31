@@ -1409,7 +1409,7 @@ public class GwtMetawidget
 		if ( values == null )
 			return;
 
-		// Add an empty choice (if nullable)
+		// Add an empty choice (if nullable, and not required)
 		//
 		// Note: GWT doesn't seem to be able to set null for the
 		// value. It always comes back as String "null"

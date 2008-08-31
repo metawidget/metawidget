@@ -40,26 +40,33 @@
 	
 	// Parse actions
 	
-	if ( request.getParameter( "ContactController.cancel" ) != null )
+	try
 	{
-		response.sendRedirect( "index.jsp" );
-		return;
+		if ( request.getParameter( "ContactController.cancel" ) != null )
+		{
+			response.sendRedirect( "index.jsp" );
+			return;
+		}
+		else if ( request.getParameter( "ContactController.edit" ) != null )
+		{
+			contactController.edit();
+		}
+		else if ( request.getParameter( "ContactController.save" ) != null )
+		{
+			contactController.save();
+			response.sendRedirect( "index.jsp" );
+			return;
+		}
+		else if ( request.getParameter( "ContactController.delete" ) != null )
+		{
+			contactController.delete();
+			response.sendRedirect( "index.jsp" );
+			return;
+		}
 	}
-	else if ( request.getParameter( "ContactController.edit" ) != null )
+	catch( Exception e )
 	{
-		contactController.edit();
-	}
-	else if ( request.getParameter( "ContactController.save" ) != null )
-	{
-		contactController.save();
-		response.sendRedirect( "index.jsp" );
-		return;
-	}
-	else if ( request.getParameter( "ContactController.delete" ) != null )
-	{
-		contactController.delete();
-		response.sendRedirect( "index.jsp" );
-		return;
+		request.setAttribute( "errors", e.getMessage() );
 	}
 %>
 
@@ -82,6 +89,10 @@
 		</c:otherwise>
 	</c:choose>
 
+		<c:if test="${!empty errors}">
+			<div class="errors">${errors}</div>
+		</c:if>
+		
 		<form action="contact.jsp" method="POST">
 
 			<m:metawidget value="Contact" readOnly="${ContactController.readOnly}">
@@ -99,6 +110,16 @@
 								<th class="column-tiny">&nbsp;</th>
 							</tr>
 						</thead>
+						<c:if test="${!ContactController.readOnly}">
+							<tfoot>
+								<tr>
+									<jsp:useBean id="communication" class="org.metawidget.example.shared.addressbook.model.Communication"/>						
+									<td class="column-half"><m:metawidget value="communication.type" style="width: 100%" layoutClass=""/></td>
+									<td class="column-half"><m:metawidget value="communication.value" style="width: 100%" layoutClass=""/></td>
+									<td class="column-tiny, table-buttons"><input type="submit" name="addCommunication" value="Add"/></td>
+								</tr>
+							</foot>
+						</c:if>
 						<tbody>
 							<c:forEach items="${a:sort(Contact.communications)}" var="_communication">
 								<tr>
@@ -112,16 +133,6 @@
 								</tr>
 							</c:forEach>
 						</tbody>
-						<c:if test="${!ContactController.readOnly}">
-							<tfoot>
-								<tr>
-									<jsp:useBean id="communication" class="org.metawidget.example.shared.addressbook.model.Communication"/>						
-									<td class="column-half"><m:metawidget value="communication.type" style="width: 100%" layoutClass=""/></td>
-									<td class="column-half"><m:metawidget value="communication.value" style="width: 100%" layoutClass=""/></td>
-									<td class="column-tiny, table-buttons"><input type="submit" name="addCommunication" value="Add"/></td>
-								</tr>
-							</foot>
-						</c:if>
 					</table>
 				</m:stub>
 

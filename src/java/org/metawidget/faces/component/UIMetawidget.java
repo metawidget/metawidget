@@ -1251,11 +1251,11 @@ public abstract class UIMetawidget
 		if ( values == null )
 			return;
 
-		// Add an empty choice (if a listbox, and if nullable)
+		// Add an empty choice (if nullable, and not required)
 
 		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-		if ( component instanceof HtmlSelectOneListbox && ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED )))))
+		if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE )) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED )))))
 			addSelectItem( component, "", null );
 
 		// See if we're using labels
@@ -1319,24 +1319,12 @@ public abstract class UIMetawidget
 		@SuppressWarnings( "unchecked" )
 		List<UIComponent> children = component.getChildren();
 
-		// Add an empty choice (if a listbox, and if nullable)
+		// Add an empty choice (if nullable, and not required)
 
-		if ( component instanceof HtmlSelectOneListbox )
-		{
-			String type = attributes.get( TYPE );
+		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-			if ( type != null )
-			{
-				Class<?> clazz = ClassUtils.niceForName( type );
-
-				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
-					addSelectItem( component, "", null );
-			}
-			else
-			{
-				addSelectItem( component, "", null );
-			}
-		}
+		if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE )) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED )))))
+			addSelectItem( component, "", null );
 
 		UISelectItems selectItems = (UISelectItems) application.createComponent( "javax.faces.SelectItems" );
 		selectItems.setId( viewRoot.createUniqueId() );

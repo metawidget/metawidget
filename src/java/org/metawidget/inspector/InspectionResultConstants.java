@@ -130,6 +130,8 @@ public final class InspectionResultConstants
 
 	public final static String	LOOKUP_LABELS				= "lookup-labels";
 
+	public final static String	LOOKUP_HAS_EMPTY_CHOICE		= "lookup-has-empty-choice";
+
 	/**
 	 * Masked field attribute.
 	 */

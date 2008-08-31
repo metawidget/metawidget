@@ -735,6 +735,8 @@ public class AndroidMetawidget
 			{
 				List<String> lookupList = CollectionUtils.fromString( lookup );
 
+				// Add an empty choice (if nullable, and not required)
+				//
 				// (CollectionUtils.fromString returns unmodifiable EMPTY_LIST if empty)
 
 				if ( !clazz.isPrimitive() && !lookupList.isEmpty() )

@@ -1154,6 +1154,8 @@ public class SwingMetawidget
 		{
 			JComboBox comboBox = new JComboBox();
 
+			// Add an empty choice (if nullable, and not required)
+
 			if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 				comboBox.addItem( null );
 
