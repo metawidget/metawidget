@@ -131,9 +131,7 @@ public class JbpmInspector
 			{
 				// ...look up each pageflow...
 
-				Element jbpm = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), "jbpm" );
-				Element pageflow = XmlUtils.getChildNamed( jbpm, "pageflow-definitions" );
-				Element value = XmlUtils.getChildNamed( pageflow, "value" );
+				Element value = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), "jbpm", "pageflow-definitions", "value" );
 
 				List<String> fileList = CollectionUtils.newArrayList();
 

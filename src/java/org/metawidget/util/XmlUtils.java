@@ -106,29 +106,43 @@ public class XmlUtils
 
 	/**
 	 * Looks up a child with the given (local) name.
+	 * <p>
+	 * An array of several names may be passed, in which case they will be traversed in a simple
+	 * XPath-like fashion.
 	 */
 
-	public static Element getChildNamed( Element element, String name )
+	public static Element getChildNamed( Element element, String... names )
 	{
 		if ( element == null )
 			return null;
 
+		Element child = null;
 		NodeList children = element.getChildNodes();
 
-		for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
+		outer: for ( String name : names )
 		{
-			Node node = children.item( loop );
+			for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
+			{
+				Node node = children.item( loop );
 
-			if ( !( node instanceof Element ) )
-				continue;
+				if ( !( node instanceof Element ) )
+					continue;
 
-			Element child = (Element) node;
+				child = (Element) node;
 
-			if ( name.equals( child.getLocalName() ) )
-				return child;
+				if ( name.equals( child.getLocalName() ) )
+				{
+					children = child.getChildNodes();
+					continue outer;
+				}
+			}
+
+			// No match found
+
+			return null;
 		}
 
-		return null;
+		return child;
 	}
 
 	public static Element getChildWithAttribute( Element element, String attributeName )
@@ -240,7 +254,7 @@ public class XmlUtils
 	 * 	return out.toString();
 	 * </code>
 	 * <p>
-	 * ...but not all platforms (eg. Android) support <code>javax.xml.Transformer</code>.
+	 * ...but not all platforms (eg. Android) support <code>javax.xml.transform.Transformer</code>.
 	 */
 
 	public static String documentToString( Document document )
@@ -262,7 +276,7 @@ public class XmlUtils
 		{
 			return newDocumentBuilder().parse( new InputSource( new StringReader( xml ) ) );
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			throw new RuntimeException( e );
 		}
@@ -379,7 +393,7 @@ public class XmlUtils
 				String nodeNameInMaster = masterChild.getNodeName();
 				String nodeNameInAdd = childToAdd.getNodeName();
 
-				if ( !nodeNameInMaster.equals( nodeNameInAdd ))
+				if ( !nodeNameInMaster.equals( nodeNameInAdd ) )
 					throw new RuntimeException( "Matching elements named '" + masterChildName + "', but existing one is a '" + nodeNameInMaster + "' whilst new one is a '" + nodeNameInAdd + "'" );
 
 				// ...and combine them
@@ -410,14 +424,31 @@ public class XmlUtils
 		}
 	}
 
+	//
+	//
+	// Private statics
+	//
+	//
+
 	/**
 	 * Convert the given Node to an XML String.
+	 * <p>
+	 * This method is a simplified version of...
+	 * <p>
+	 * <code>
+	 * 	ByteArrayOutputStream out = new ByteArrayOutputStream();
+	 * 	javax.xml.Transformer transformer = TransformerFactory.newInstance().newTransformer();
+	 * 	transformer.transform( new DOMSource( node ), new StreamResult( out ));
+	 * 	return out.toString();
+	 * </code>
+	 * <p>
+	 * ...but not all platforms (eg. Android) support <code>javax.xml.transform.Transformer</code>.
 	 *
 	 * @param indent
 	 *            how much to indent the output. -1 for no indent.
 	 */
 
-	public static String nodeToString( Node node, int indent )
+	private static String nodeToString( Node node, int indent )
 	{
 		// Ignore non-Elements
 
@@ -517,12 +548,6 @@ public class XmlUtils
 		return buffer.toString();
 	}
 
-	//
-	//
-	// Private statics
-	//
-	//
-
 	/**
 	 * Hack to workaround bug in Android m5-rc15.
 	 */
@@ -593,7 +618,7 @@ public class XmlUtils
 	static
 	{
 		DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
-		DOCUMENT_BUILDER_FACTORY.setCoalescing( true );
+		// DOCUMENT_BUILDER_FACTORY.setCoalescing( true );
 		DOCUMENT_BUILDER_FACTORY.setNamespaceAware( true );
 		DOCUMENT_BUILDER_FACTORY.setIgnoringComments( true );
 		DOCUMENT_BUILDER_FACTORY.setIgnoringElementContentWhitespace( true );

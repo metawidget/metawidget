@@ -7,66 +7,96 @@
 <%@ taglib uri="http://metawidget.org/example/jsp/addressbook" prefix="a"%>
 
 <%
-	ContactController contactController = (ContactController) session.getAttribute( ContactController.class.getSimpleName() );
+	ContactController contactController = (ContactController) session.getAttribute( "contactController" );
 	
 	if ( contactController == null )
 	{
 		contactController = new ContactController( session );
-		session.setAttribute( ContactController.class.getSimpleName(), contactController );
-		
-		session.setAttribute( Contact.class.getName(), new PersonalContact() );
-		contactController.setReadOnly( true );
+		session.setAttribute( "contactController", contactController );		
 	}
 		
 	// Parse request parameters
 
 	String id = request.getParameter( "id" );
-	ContactsController contactsController = (ContactsController) session.getServletContext().getAttribute( ContactsController.class.getSimpleName() );
-	Contact contact = (Contact) session.getAttribute( Contact.class.getSimpleName() );
 	
-	if ( id != null )
+	if ( "personal".equals( id ))
 	{
-		contact = contactsController.load( Long.parseLong( id ));
-		session.setAttribute( Contact.class.getSimpleName(), contact );
+		session.setAttribute( "contact", new PersonalContact() );
+		contactController.setReadOnly( false );
+	}
+	else if ( "business".equals( id ))
+	{
+		session.setAttribute( "contact", new BusinessContact() );
+		contactController.setReadOnly( false );
+	}
+	else if ( id != null )
+	{
+		ContactsController contactsController = (ContactsController) session.getServletContext().getAttribute( "contactsController" );
+		Contact contact = contactsController.load( Long.parseLong( id ));
+		session.setAttribute( "contact", contact );
 		contactController.setReadOnly( true );
 	}
-	else
-	{
-		// Manual binding
-		
-		if ( request.getParameter( "Contact.firstnames" ) != null )
-			contact.setFirstnames( request.getParameter( "Contact.firstnames" ));
-	}
+
+	Communication communication = new Communication();
+	session.setAttribute( "communication", communication );
 	
 	// Parse actions
 	
 	try
 	{
-		if ( request.getParameter( "ContactController.cancel" ) != null )
+		if ( request.getParameter( "contactController.cancel" ) != null )
 		{
 			response.sendRedirect( "index.jsp" );
 			return;
 		}
-		else if ( request.getParameter( "ContactController.edit" ) != null )
+		else if ( request.getParameter( "contactController.edit" ) != null )
 		{
 			contactController.edit();
 		}
-		else if ( request.getParameter( "ContactController.save" ) != null )
+		else if ( request.getParameter( "contactController.save" ) != null )
 		{
+			// Manual binding
+			
+			Contact contact = (Contact) session.getAttribute( "contact" );			
+			contact.setFirstnames( request.getParameter( "contact.firstnames" ));
+			contact.setSurname( request.getParameter( "contact.surname" ));
+			
+			if ( contact instanceof BusinessContact )
+			{
+				BusinessContact businessContact = (BusinessContact) contact;
+				businessContact.setNumberOfStaff( Integer.parseInt( request.getParameter( "contact.numberOfStaff" )));
+			}
+
 			contactController.save();
 			response.sendRedirect( "index.jsp" );
 			return;
 		}
-		else if ( request.getParameter( "ContactController.delete" ) != null )
+		else if ( request.getParameter( "contactController.delete" ) != null )
 		{
 			contactController.delete();
 			response.sendRedirect( "index.jsp" );
 			return;
 		}
+		else if ( request.getParameter( "addCommunication" ) != null )
+		{
+			communication.setType( request.getParameter( "communication.type" ));
+			communication.setValue( request.getParameter( "communication.value" ));
+			
+			contactController.addCommunication();
+		}
+		else if ( request.getParameter( "deleteCommunication" ) != null )
+		{
+			contactController.deleteCommunication( Long.parseLong( request.getParameter( "deleteCommunicationId" )));
+		}
 	}
 	catch( Exception e )
 	{
-		request.setAttribute( "errors", e.getMessage() );
+		String message = e.getMessage();
+		
+		if ( message == null )
+			message = e.getClass().getSimpleName();
+		
+		request.setAttribute( "errors", message );
 	}
 %>
 
@@ -95,7 +125,7 @@
 		
 		<form action="contact.jsp" method="POST">
 
-			<m:metawidget value="Contact" readOnly="${ContactController.readOnly}">
+			<m:metawidget value="contact" readOnly="${contactController.readOnly}">
 				<m:param name="tableStyleClass" value="table-form"/>
 				<m:param name="columnStyleClasses" value="table-label-column,table-component-column,required"/>
 				<m:param name="sectionStyleClass" value="section-heading"/>
@@ -110,7 +140,7 @@
 								<th class="column-tiny">&nbsp;</th>
 							</tr>
 						</thead>
-						<c:if test="${!ContactController.readOnly}">
+						<c:if test="${!contactController.readOnly}">
 							<tfoot>
 								<tr>
 									<jsp:useBean id="communication" class="org.metawidget.example.shared.addressbook.model.Communication"/>						
@@ -121,7 +151,7 @@
 							</foot>
 						</c:if>
 						<tbody>
-							<c:forEach items="${a:sort(Contact.communications)}" var="_communication">
+							<c:forEach items="${a:sort(contact.communications)}" var="_communication">
 								<tr>
 									<td class="column-half">${_communication.type}</td>
 									<td class="column-half">${_communication.value}</td>
@@ -137,7 +167,7 @@
 				</m:stub>
 
 				<m:facet name="buttons" styleClass="buttons">
-					<m:metawidget value="ContactController" layoutClass=""/>
+					<m:metawidget value="contactController" layoutClass=""/>
 				</m:facet>
 
 			</m:metawidget>

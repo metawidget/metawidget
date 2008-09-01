@@ -150,7 +150,7 @@ public abstract class BaseXmlInspector
 			// Debug
 
 			if ( mLog.isTraceEnabled() )
-				mLog.trace( XmlUtils.nodeToString( mRoot, 0 ) );
+				mLog.trace( XmlUtils.documentToString( mRoot.getOwnerDocument() ) );
 		}
 		catch ( Exception e )
 		{

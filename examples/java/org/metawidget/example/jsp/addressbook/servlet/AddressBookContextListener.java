@@ -51,8 +51,8 @@ public class AddressBookContextListener
 
 		// Application-wide Controllers
 
-		context.setAttribute( ContactsController.class.getSimpleName(), new ContactsController() );
-		context.setAttribute( CommunicationsController.class.getSimpleName(), new CommunicationsController() );
+		context.setAttribute( "contactsController", new ContactsController() );
+		context.setAttribute( "communicationsController", new CommunicationsController() );
 
 		// Register PropertyEditors
 

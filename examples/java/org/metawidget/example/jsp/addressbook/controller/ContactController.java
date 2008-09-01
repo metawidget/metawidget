@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import javax.servlet.http.HttpSession;
 
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
+import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
@@ -73,36 +74,36 @@ public class ContactController
 	}
 
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, value = "${!ContactController.readOnly}" )
+	@UiJspAttribute( name = HIDDEN, value = "${!contactController.readOnly}" )
 	public void edit()
 	{
 		mReadOnly = false;
 	}
 
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, value = "${ContactController.readOnly}" )
+	@UiJspAttribute( name = HIDDEN, value = "${contactController.readOnly}" )
 	public void save()
 	{
-		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( ContactsController.class.getSimpleName() );
-		Contact contact = (Contact) mSession.getAttribute( Contact.class.getSimpleName() );
+		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( "contactsController" );
+		Contact contact = (Contact) mSession.getAttribute( "contact" );
 
 		contactsController.save( contact );
 	}
 
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, value = "${ContactController.readOnly || Contact.id == 0}" )
+	@UiJspAttribute( name = HIDDEN, value = "${contactController.readOnly || contact.id == 0}" )
 	@UiComesAfter( "save" )
 	public void delete()
 	{
-		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( ContactsController.class.getSimpleName() );
-		Contact contact = (Contact) mSession.getAttribute( Contact.class.getSimpleName() );
+		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( "contactsController" );
+		Contact contact = (Contact) mSession.getAttribute( "contact" );
 
 		contactsController.delete( contact );
 	}
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiJspAttributes( { @UiJspAttribute( name = LABEL, value = "Back", condition = "${ContactController.readOnly}" ) } )
+	@UiJspAttributes( { @UiJspAttribute( name = LABEL, value = "Back", condition = "${contactController.readOnly}" ) } )
 	public String cancel()
 		throws Exception
 	{
@@ -111,25 +112,15 @@ public class ContactController
 
 	public void addCommunication()
 	{
-		// CommunicationBean bean = getCommunicationBean();
+		Contact contact = (Contact) mSession.getAttribute( "contact" );
+		Communication communication = (Communication) mSession.getAttribute( "communication" );
 
-		try
-		{
-			// getCurrent().addCommunication( bean.getCurrent() );
-		}
-		catch ( Exception e )
-		{
-			// TODO: FacesContext.getCurrentInstance().addMessage( null, new FacesMessage(
-			// e.getMessage() ) );
-			return;
-		}
-
-		// bean.clear();
+		contact.addCommunication( communication );
 	}
 
-	public void deleteCommunication()
+	public void deleteCommunication( long communicationId )
 	{
-		// Communication communication = (Communication) mModelCommunications.getRowData();
-		// getCurrent().removeCommunication( communication );
+		Contact contact = (Contact) mSession.getAttribute( "contact" );
+		contact.removeCommunication( communicationId );
 	}
 }

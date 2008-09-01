@@ -514,10 +514,22 @@ public class HtmlMetawidgetTag
 
 		// Add an empty choice (if nullable, and not required)
 
-		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
+		String type = attributes.get( TYPE );
 
-		if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
+		if ( type == null )
+		{
+			// Type can be null if this lookup was specified by a metawidget-metadata.xml
+			// and the type was omitted from the XML. In that case, assume nullable
+
 			buffer.append( "<option value=\"\"></option>" );
+		}
+		else
+		{
+			Class<?> clazz = ClassUtils.niceForName( type );
+
+			if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
+				buffer.append( "<option value=\"\"></option>" );
+		}
 
 		// Evaluate the expression
 

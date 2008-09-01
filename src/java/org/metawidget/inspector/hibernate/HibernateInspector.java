@@ -151,8 +151,7 @@ public class HibernateInspector
 			{
 				// ...look up each hibernate-mapping file...
 
-				Element sessionFactory = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), "session-factory" );
-				Element mapping = XmlUtils.getChildNamed( sessionFactory, "mapping" );
+				Element mapping = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), "session-factory", "mapping" );
 
 				List<String> fileList = CollectionUtils.newArrayList();
 

@@ -162,7 +162,7 @@ public class CompositeInspector
 
 				if ( LOG.isTraceEnabled() )
 				{
-					String formattedXml = XmlUtils.nodeToString( inspectionDocument.getFirstChild(), 0 );
+					String formattedXml = XmlUtils.documentToString( inspectionDocument );
 					LOG.trace( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + inspector.getClass() + "\r\n" + formattedXml );
 				}
 
@@ -195,7 +195,7 @@ public class CompositeInspector
 
 			if ( LOG.isDebugEnabled() )
 			{
-				String formattedXml = XmlUtils.nodeToString( masterDocument.getFirstChild(), 0 );
+				String formattedXml = XmlUtils.documentToString( masterDocument );
 				LOG.debug( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + formattedXml );
 			}
 

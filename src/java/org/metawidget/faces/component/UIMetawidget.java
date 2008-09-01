@@ -1254,22 +1254,23 @@ public abstract class UIMetawidget
 
 		// Add an empty choice (if nullable, and not required)
 
-		if ( component instanceof HtmlSelectOneListbox )
+		String type = attributes.get( TYPE );
+
+		if ( type == null )
 		{
-			String type = attributes.get( TYPE );
+			// Type can be null if this lookup was specified by a metawidget-metadata.xml
+			// and the type was omitted from the XML. In that case, assume nullable
 
-			if ( type != null )
-			{
-				Class<?> clazz = ClassUtils.niceForName( type );
-
-				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
-					addSelectItem( component, "", null );
-			}
-			else
-			{
-				addSelectItem( component, "", null );
-			}
+			addSelectItem( component, "", null );
 		}
+		else
+		{
+			Class<?> clazz = ClassUtils.niceForName( type );
+
+			if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE )) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED )))))
+				addSelectItem( component, "", null );
+		}
+
 		// See if we're using labels
 		//
 		// (note: where possible, it is better to use a Converter than a hard-coded label)
@@ -1333,10 +1334,22 @@ public abstract class UIMetawidget
 
 		// Add an empty choice (if nullable, and not required)
 
-		Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
+		String type = attributes.get( TYPE );
 
-		if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE )) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED )))))
+		if ( type == null )
+		{
+			// Type can be null if this lookup was specified by a metawidget-metadata.xml
+			// and the type was omitted from the XML. In that case, assume nullable
+
 			addSelectItem( component, "", null );
+		}
+		else
+		{
+			Class<?> clazz = ClassUtils.niceForName( type );
+
+			if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE )) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED )))))
+				addSelectItem( component, "", null );
+		}
 
 		UISelectItems selectItems = (UISelectItems) application.createComponent( "javax.faces.SelectItems" );
 		selectItems.setId( viewRoot.createUniqueId() );

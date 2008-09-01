@@ -1414,8 +1414,21 @@ public class GwtMetawidget
 		// Note: GWT doesn't seem to be able to set null for the
 		// value. It always comes back as String "null"
 
-		if ( !GwtUtils.isPrimitive( attributes.get( TYPE ) ) && !TRUE.equals( attributes.get( REQUIRED ) ))
+		String type = attributes.get( TYPE );
+
+		if ( type == null )
+		{
+			// Type can be null if this lookup was specified by a metawidget-metadata.xml
+			// and the type was omitted from the XML. In that case, assume nullable
+
 			addListBoxItem( listBox, "", null );
+		}
+		else
+		{
+			if ( !GwtUtils.isPrimitive( type ) && !TRUE.equals( attributes.get( REQUIRED ) ))
+				addListBoxItem( listBox, "", null );
+		}
+
 
 		// See if we're using labels
 
