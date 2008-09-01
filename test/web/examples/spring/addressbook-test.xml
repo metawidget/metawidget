@@ -185,7 +185,7 @@
 				<verifyInputField name="company" value="Some Company"/>
 				<verifyInputField name="numberOfStaff" value="2"/>
 			
-				<clickButton label="Delete" index="2"/>
+				<clickButton label="Delete" fieldIndex="0"/>
 				
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a" text="Mr Charles Montgomery Burns"/>
 			</steps>

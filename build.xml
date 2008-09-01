@@ -797,6 +797,25 @@
 		
 	</target>
 
+	<target name="test-jsp-addressbook" depends="example-jsp-addressbook">
+		
+		<copy file="${build.metawidget.dir}/examples/jsp/addressbook-jsp.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/addressbook-jsp"/>
+		<antcall target="test-web-start-tomcat"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/jsp">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-tomcat"/>
+		
+	</target>
+	
 	<target name="test-struts-addressbook" depends="example-struts-addressbook">
 		
 		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
@@ -862,6 +881,7 @@
 		<property name="skip-compile" value="true"/>
 		
 		<antcall target="test-gwt-addressbook"/>
+		<antcall target="test-jsp-addressbook"/>
 		<antcall target="test-jsp-allwidgets"/>
 		<antcall target="test-spring-addressbook"/>
 		<antcall target="test-struts-addressbook"/>
@@ -1411,6 +1431,41 @@
 
 	</target>
 
+	<target name="example-jsp-addressbook" depends="example-shared-addressbook">
+
+		<mkdir dir="${build.metawidget.dir}/examples/jsp"/>
+
+		<war warfile="${build.metawidget.dir}/examples/jsp/addressbook-jsp.war" webxml="examples/web/jsp/addressbook/WEB-INF/web.xml">
+			<fileset dir="examples/web/jsp/addressbook">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="css/**"/>
+				<exclude name="WEB-INF/tags/**"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<fileset dir="${build.metawidget.dir}/examples/web/shared/addressbook">
+				<include name="css/**"/>
+				<include name="WEB-INF/tags/**"/>
+			</fileset>
+			<fileset dir="examples/java/org/metawidget/example/shared/addressbook">
+				<include name="media/**"/>
+			</fileset>
+			<classes dir="${build.metawidget.dir}/example-classes">
+				<include name="org/metawidget/example/jsp/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**"/>
+			</classes>
+			<lib dir="${build.metawidget.dir}/lib">
+				<include name="jstl.jar"/>
+				<include name="standard.jar"/>
+				<include name="metawidget.jar"/>
+			</lib>
+		</war>
+
+		<copy todir="${build.metawidget.dir}/examples/jsp" file="examples/web/jsp/readme.txt"/>
+		
+	</target>
+
 	<target name="example-struts-addressbook" depends="example-shared-addressbook">
 
 		<mkdir dir="${build.metawidget.dir}/examples/struts"/>
@@ -1557,7 +1612,7 @@
 
 	</target>
 	
-	<target name="examples-web" depends="example-gwt-addressbook, example-faces-addressbook, example-faces-seam-booking, example-faces-seam-dvdstore, example-faces-seam-groovybooking, example-spring-addressbook, example-struts-addressbook"/>
+	<target name="examples-web" depends="example-faces-addressbook, example-faces-seam-booking, example-faces-seam-dvdstore, example-faces-seam-groovybooking, example-gwt-addressbook, example-jsp-addressbook, example-spring-addressbook, example-struts-addressbook"/>
 
 	<available property="android-available" file="${android.dir}/tools/dx.bat"/>
 	

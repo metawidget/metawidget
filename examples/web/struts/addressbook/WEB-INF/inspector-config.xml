@@ -12,8 +12,11 @@
 				<propertyStyle>org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle</propertyStyle>
 			</propertyTypeInspector>
 			<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
-			<!-- <jspAnnotationInspector xmlns="java:org.metawidget.inspector.jsp"/>-->
 			<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/>
+			
+			<!-- Note: we need jspAnnotationInspector because we use both HtmlMetawidgetTag and SpringMetawidgetTag -->
+			
+			<jspAnnotationInspector xmlns="java:org.metawidget.inspector.jsp"/>
 		</inspectors>
 	</compositeInspector>
 

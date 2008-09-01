@@ -47,16 +47,6 @@
 								<th class="column-tiny">&nbsp;</th>
 							</tr>
 						</thead>
-						<c:if test="${!readOnly}">
-							<tfoot>
-								<tr>						
-									<jsp:useBean id="communication" class="org.metawidget.example.shared.addressbook.model.Communication"/>
-									<td class="column-half"><mh:metawidget value="communication.type" style="width: 100%" layoutClass=""/></td>
-									<td class="column-half"><mh:metawidget value="communication.value" style="width: 100%" layoutClass=""/></td>
-									<td class="column-tiny, table-buttons"><input type="submit" name="addCommunication" value="Add"/></td>
-								</tr>
-							</foot>
-						</c:if>
 						<tbody>
 							<c:forEach items="${a:sort(contactCommand.communications)}" var="_communication">
 								<tr>
@@ -70,6 +60,16 @@
 								</tr>
 							</c:forEach>
 						</tbody>
+						<c:if test="${!readOnly}">
+							<tfoot>
+								<tr>						
+									<jsp:useBean id="communication" class="org.metawidget.example.shared.addressbook.model.Communication"/>
+									<td class="column-half"><mh:metawidget value="communication.type" style="width: 100%" layoutClass=""/></td>
+									<td class="column-half"><mh:metawidget value="communication.value" style="width: 100%" layoutClass=""/></td>
+									<td class="column-tiny, table-buttons"><input type="submit" name="addCommunication" value="Add"/></td>
+								</tr>
+							</foot>
+						</c:if>
 					</table>
 				</m:stub>
 
