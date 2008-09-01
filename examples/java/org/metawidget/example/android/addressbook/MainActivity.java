@@ -118,7 +118,7 @@ public class MainActivity
 			{
 				// Manual mapping
 
-				mContactSearch.setFirstnames( (String) metawidget.getValue( "firstnames" ) );
+				mContactSearch.setFirstname( (String) metawidget.getValue( "firstname" ) );
 				mContactSearch.setSurname( (String) metawidget.getValue( "surname" ) );
 
 				String type = (String) metawidget.getValue( "type" );

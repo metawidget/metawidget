@@ -32,6 +32,7 @@ import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiMasked;
 import org.metawidget.inspector.annotation.UiReadOnly;
+import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.XmlUtils;
@@ -160,6 +161,8 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( PROPERTY.equals( property.getNodeName() ));
 		assertTrue( "object1".equals( property.getAttribute( NAME ) ));
 		assertTrue( "foo\\,,bar".equals( property.getAttribute( LOOKUP ) ));
+		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ));
+		assertTrue( property.getAttributes().getLength() == 3 );
 
 		property = (Element) property.getNextSibling();
 		assertTrue( "string1".equals( property.getAttribute( NAME ) ));
@@ -172,6 +175,8 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( "Foo".equals( property.getAttribute( SECTION ) ));
 		assertTrue( TRUE.equals( property.getAttribute( MASKED ) ));
 		assertTrue( TRUE.equals( property.getAttribute( LARGE ) ));
+
+		assertTrue( property.getAttributes().getLength() == 10 );
 	}
 
 	public void testInfiniteLoop()
@@ -228,6 +233,7 @@ public class MetawidgetAnnotationInspectorTest
 
 	public static class Foo
 	{
+		@UiRequired
 		@UiLookup( value = { "foo,", "bar" } )
 		public Object	object1;
 

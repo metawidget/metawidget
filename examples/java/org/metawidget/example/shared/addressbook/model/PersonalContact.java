@@ -54,9 +54,9 @@ public class PersonalContact
 		// Default constructor
 	}
 
-	public PersonalContact( String title, String firstnames, String surname )
+	public PersonalContact( String title, String firstname, String surname )
 	{
-		super( title, firstnames, surname );
+		super( title, firstname, surname );
 	}
 
 	//

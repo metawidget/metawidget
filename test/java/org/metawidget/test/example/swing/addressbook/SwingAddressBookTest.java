@@ -134,8 +134,8 @@ public class SwingAddressBookTest
 		// Check loading
 
 		SwingMetawidget metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
-		assertTrue( "Homer".equals( metawidgetContact.getValue( "firstnames" ) ) );
-		assertTrue( metawidgetContact.getComponent( "firstnames" ) instanceof JLabel );
+		assertTrue( "Homer".equals( metawidgetContact.getValue( "firstname" ) ) );
+		assertTrue( metawidgetContact.getComponent( "firstname" ) instanceof JLabel );
 		assertTrue( "12/05/56".equals( metawidgetContact.getValue( "dateOfBirth" ) ) );
 
 		try
@@ -259,7 +259,7 @@ public class SwingAddressBookTest
 		buttonEdit = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		assertTrue( "Edit".equals( buttonEdit.getText() ) );
 		buttonEdit.getAction().actionPerformed( null );
-		assertTrue( "Charles Montgomery".equals( metawidgetContact.getValue( "firstnames" ) ) );
+		assertTrue( "Charles Montgomery".equals( metawidgetContact.getValue( "firstname" ) ) );
 		assertTrue( 0 == (Integer) metawidgetContact.getValue( "numberOfStaff" ) );
 
 		// Check saving
@@ -302,7 +302,7 @@ public class SwingAddressBookTest
 
 		assertTrue( "Mr".equals( ((JComboBox) metawidgetContact.getComponent( "title" )).getItemAt( 0 )));
 		metawidgetContact.setValue( "Miss", "title" );
-		metawidgetContact.setValue( "Business", "firstnames" );
+		metawidgetContact.setValue( "Business", "firstname" );
 		metawidgetContact.setValue( "Contact", "surname" );
 
 		buttonSave = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );

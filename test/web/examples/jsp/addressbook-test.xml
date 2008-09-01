@@ -15,11 +15,11 @@
 				<verifyTitle text="Address Book (Metawidget JSP Example)" />
 				
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@id='table-contactSearch']"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactSearchFirstnames-row']"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactSearchFirstnames-cell']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactSearchFirstname-row']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactSearchFirstname-cell']"/>
 				
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@class='table-form']"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Firstnames:"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Firstname:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-component-column']"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='required']"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td[@class='buttons']"/>
@@ -54,7 +54,7 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactTitle-cell']"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-component-column']" text="Mr"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/th[@class='table-label-column']" text="Firstnames:"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/th[@class='table-label-column']" text="Firstname:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-component-column']" text="Homer"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/th[@class='table-label-column']" text="Surname:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-component-column']" text="Simpson"/>
@@ -82,7 +82,7 @@
 				
 				<clickButton label="Edit"/>
 				<verifySelectField name="title" value="Mr"/>
-				<verifyInputField name="firstnames" value="Homer"/>
+				<verifyInputField name="firstname" value="Homer"/>
 				<verifyInputField name="surname" value="Simpson"/>
 				<verifySelectField name="gender" value="MALE"/>
 				<verifyInputField name="dateOfBirth" value="5/12/56"/>
@@ -94,7 +94,7 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[1]" text="Telephone"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]/input/@value" text="Delete"/>
-				<setInputField name="firstnames" value="Homer Jay"/>
+				<setInputField name="firstname" value="Homer Jay"/>
 				
 				<setSelectField name="communication.type" value="Fax"/>
 				<clickButton label="Add"/>
@@ -155,12 +155,12 @@
 				<setInputField name="communication.value" value="miss@business.contact.com"/>
 				<clickButton label="Add"/>
 			
-				<verifyXPath xpath="/html/body/div[@id='content']/form/span[@class='errors']" text="Firstnames is required"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/span[@class='errors']" text="Firstname is required"/>
 				<verifyInputField name="communication.value" value=""/>
 				<verifyText text="miss@business.contact.com"/>	
 				<verifySelectField name="title" value="Mr"/>
 				<setSelectField name="title" value="Miss"/>
-				<setInputField name="firstnames" value="Business"/>
+				<setInputField name="firstname" value="Business"/>
 				<setInputField name="company" value="Some Company"/>
 				<clickButton label="Save"/>
 				<verifyInputField name="company" value="Some Company"/>

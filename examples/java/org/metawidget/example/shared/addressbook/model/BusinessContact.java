@@ -57,9 +57,9 @@ public class BusinessContact
 		// Default constructor
 	}
 
-	public BusinessContact( String title, String firstnames, String surname )
+	public BusinessContact( String title, String firstname, String surname )
 	{
-		super( title, firstnames, surname );
+		super( title, firstname, surname );
 	}
 
 	//

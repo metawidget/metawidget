@@ -73,7 +73,7 @@ public class CompositeInspectorTest
 		xml += "<property name=\"id\" hidden=\"true\"/>";
 		xml += "<property name=\"fullname\" hidden=\"true\"/>";
 		xml += "<property name=\"title\" lookup=\"Mr, Mrs, Miss, Dr, Cpt\"/>";
-		xml += "<property name=\"firstnames\"/>";
+		xml += "<property name=\"firstname\"/>";
 		xml += "<property name=\"surname\"/>";
 		xml += "<property name=\"gender\"/>";
 		xml += "<property name=\"dateOfBirth\"/>";

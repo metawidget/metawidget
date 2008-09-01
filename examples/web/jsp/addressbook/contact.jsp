@@ -58,7 +58,7 @@
 			// Manual binding
 			
 			Contact contact = (Contact) session.getAttribute( "contact" );			
-			contact.setFirstnames( request.getParameter( "contact.firstnames" ));
+			contact.setFirstname( request.getParameter( "contact.firstname" ));
 			contact.setSurname( request.getParameter( "contact.surname" ));
 			
 			if ( contact instanceof BusinessContact )

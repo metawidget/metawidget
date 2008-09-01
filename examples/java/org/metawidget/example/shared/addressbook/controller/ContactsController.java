@@ -136,7 +136,7 @@ public class ContactsController
 		{
 			if ( search != null )
 			{
-				if ( !caseInsensitiveContains( contact.getFirstnames(), search.getFirstnames() ) )
+				if ( !caseInsensitiveContains( contact.getFirstname(), search.getFirstname() ) )
 					continue;
 
 				if ( !caseInsensitiveContains( contact.getSurname(), search.getSurname() ) )
@@ -181,8 +181,8 @@ public class ContactsController
 		if ( contact.getTitle() == null || "".equals( contact.getTitle() ))
 			throw new RuntimeException( "Title is required" );
 
-		if ( contact.getFirstnames() == null || "".equals( contact.getFirstnames() ))
-			throw new RuntimeException( "Firstnames is required" );
+		if ( contact.getFirstname() == null || "".equals( contact.getFirstname() ))
+			throw new RuntimeException( "Firstname is required" );
 
 		if ( contact.getSurname() == null || "".equals( contact.getSurname() ))
 			throw new RuntimeException( "Surname is required" );

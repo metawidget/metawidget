@@ -21,18 +21,23 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import javax.persistence.Column;
-import javax.persistence.Lob;
-
+import org.hibernate.validator.Length;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
+import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.faces.UiFacesLookup;
 import org.metawidget.inspector.spring.UiSpringLookup;
 
 /**
  * Models a Contact in the Address Book
+ * <p>
+ * So that it can easily be reused across different examples, this class mostly uses annotations from
+ * <code>org.metawidget.inspector.annotation.*</code>. In the real world, clients should prefer
+ * to use something like <code>javax.persistence.Column(nullable = false)</code> or
+ * <code>org.hibernate.validator.NotNull</code> rather than <code>UiRequired</code>:
+ * Metawidget will inspect your <em>existing</em> annotations as much as possible.
  * <p>
  * Implements Serializable because Web containers require session-level values to be Serializable.
  *
@@ -52,7 +57,7 @@ public abstract class Contact
 
 	private String				mTitle;
 
-	private String				mFirstnames;
+	private String				mFirstname;
 
 	private String				mSurname;
 
@@ -75,10 +80,10 @@ public abstract class Contact
 		this( null, null, null );
 	}
 
-	public Contact( String title, String firstnames, String surname )
+	public Contact( String title, String firstname, String surname )
 	{
 		mTitle = title;
-		mFirstnames = firstnames;
+		mFirstname = firstname;
 		mSurname = surname;
 		mAddress = new Address();
 		mAddress.setOwner( this );
@@ -109,7 +114,7 @@ public abstract class Contact
 	 * because we use this same code in both Faces and Spring examples.
 	 */
 
-	@Column( nullable = false )
+	@UiRequired
 	@UiFacesLookup( "#{contacts.allTitlesAsSelectItems}" )
 	@UiSpringLookup( "${contacts.allTitles}" )
 	public String getTitle()
@@ -123,19 +128,20 @@ public abstract class Contact
 	}
 
 	@UiComesAfter( "title" )
-	@Column( nullable = false )
-	public String getFirstnames()
+	@UiRequired
+	public String getFirstname()
 	{
-		return mFirstnames;
+		return mFirstname;
 	}
 
-	public void setFirstnames( String firstname )
+	public void setFirstname( String firstname )
 	{
-		mFirstnames = firstname;
+		mFirstname = firstname;
 	}
 
-	@UiComesAfter( "firstnames" )
-	@Column( nullable = false, length = 50 )
+	@UiComesAfter( "firstname" )
+	@UiRequired
+	@Length( max = 50 )
 	public String getSurname()
 	{
 		return mSurname;
@@ -154,12 +160,12 @@ public abstract class Contact
 		if ( mTitle != null )
 			builder.append( mTitle );
 
-		if ( mFirstnames != null )
+		if ( mFirstname != null )
 		{
 			if ( builder.length() > 0 )
 				builder.append( ' ' );
 
-			builder.append( mFirstnames );
+			builder.append( mFirstname );
 		}
 
 		if ( mSurname != null )
@@ -261,7 +267,6 @@ public abstract class Contact
 
 	@UiComesAfter
 	@UiSection( "Other" )
-	@Lob
 	@UiLarge
 	public String getNotes()
 	{
@@ -278,18 +283,18 @@ public abstract class Contact
 		if ( that == null )
 			return -1;
 
-		String thisFirstnames = getFirstnames();
-		String thatFirstnames = that.getFirstnames();
+		String thisFirstname = getFirstname();
+		String thatFirstname = that.getFirstname();
 
-		if ( thisFirstnames == null )
+		if ( thisFirstname == null )
 		{
-			if ( thatFirstnames != null )
+			if ( thatFirstname != null )
 				return -1;
 
 			return 0;
 		}
 
-		return thisFirstnames.compareTo( thatFirstnames );
+		return thisFirstname.compareTo( thatFirstname );
 	}
 
 	@Override

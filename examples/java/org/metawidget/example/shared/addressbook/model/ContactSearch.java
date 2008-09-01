@@ -41,7 +41,7 @@ public class ContactSearch
 	//
 	//
 
-	private String				mFirstnames;
+	private String				mFirstname;
 
 	private String				mSurname;
 
@@ -53,17 +53,17 @@ public class ContactSearch
 	//
 	//
 
-	public String getFirstnames()
+	public String getFirstname()
 	{
-		return mFirstnames;
+		return mFirstname;
 	}
 
-	public void setFirstnames( String firstnames )
+	public void setFirstname( String firstname )
 	{
-		mFirstnames = firstnames;
+		mFirstname = firstname;
 	}
 
-	@UiComesAfter( "firstnames" )
+	@UiComesAfter( "firstname" )
 	public String getSurname()
 	{
 		return mSurname;

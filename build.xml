@@ -1367,7 +1367,6 @@
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-discovery-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="ejb3-persistence.jar"/>
 				<include name="hibernate-validator*.jar"/>
 				<include name="jstl.jar"/>
 				<include name="metawidget.jar"/>
@@ -1532,7 +1531,6 @@
 			<lib dir="${build.metawidget.dir}/lib">
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="ejb3-persistence.jar"/>
 				<include name="jstl.jar"/>
 				<include name="spring.jar"/>
 				<include name="spring-*.jar"/>

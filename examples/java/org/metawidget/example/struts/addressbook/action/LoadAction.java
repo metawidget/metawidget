@@ -87,7 +87,7 @@ public class LoadAction
 
 			formContact.setId( contact.getId() );
 			formContact.setTitle( contact.getTitle() );
-			formContact.setFirstnames( contact.getFirstnames() );
+			formContact.setFirstname( contact.getFirstname() );
 			formContact.setSurname( contact.getSurname() );
 			formContact.setGender( contact.getGender() );
 			formContact.setAddress( contact.getAddress() );

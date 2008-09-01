@@ -27,7 +27,7 @@
 
 	// Manual mapping (this is what Web frameworks typically do for you)
 
-	contactSearch.setFirstnames( request.getParameter( "contactSearch.firstnames" ));
+	contactSearch.setFirstname( request.getParameter( "contactSearch.firstname" ));
 	contactSearch.setSurname( request.getParameter( "contactSearch.surname" ));
 	
 	String contactType = request.getParameter( "contactSearch.type" );

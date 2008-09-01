@@ -99,7 +99,7 @@ public class SaveAction
 
 		contact.setId( formContact.getId() );
 		contact.setTitle( formContact.getTitle() );
-		contact.setFirstnames( formContact.getFirstnames() );
+		contact.setFirstname( formContact.getFirstname() );
 		contact.setSurname( formContact.getSurname() );
 		contact.setGender( formContact.getGender() );
 		contact.setAddress( formContact.getAddress() );

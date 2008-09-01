@@ -7,7 +7,7 @@
 	
 	<entity type="org.metawidget.example.shared.addressbook.model.Contact">
 		<property name="title" lookup="Mr, Mrs, Miss, Dr, Cpt" required="true"/>
-		<property name="firstnames" required="true"/>
+		<property name="firstname" required="true"/>
 		<property name="surname" required="true"/>
 		<property name="notes" large="true"/>
 	</entity>

@@ -142,8 +142,8 @@ public class GwtAddressBookTest
 									@Override
 									public void run()
 									{
-										assertTrue( contactMetawidget.getWidget( "firstnames" ) instanceof Label );
-										assertTrue( "Homer".equals( contactMetawidget.getValue( "firstnames" ) ) );
+										assertTrue( contactMetawidget.getWidget( "firstname" ) instanceof Label );
+										assertTrue( "Homer".equals( contactMetawidget.getValue( "firstname" ) ) );
 
 										FlexTable contactFlexTable = (FlexTable) contactMetawidget.getWidget( 0 );
 										assertTrue( "Date of Birth:".equals( contactFlexTable.getText( 3, 0 ) ) );
@@ -195,8 +195,8 @@ public class GwtAddressBookTest
 												assertTrue( contactMetawidget.getWidget( "title" ) instanceof ListBox );
 												assertTrue( ( (ListBox) contactMetawidget.getWidget( "title" ) ).getItemCount() == 5 );
 
-												assertTrue( contactMetawidget.getWidget( "firstnames" ) instanceof TextBox );
-												assertTrue( "Homer".equals( contactMetawidget.getValue( "firstnames" ) ) );
+												assertTrue( contactMetawidget.getWidget( "firstname" ) instanceof TextBox );
+												assertTrue( "Homer".equals( contactMetawidget.getValue( "firstname" ) ) );
 												assertTrue( "5/12/56".equals( contactMetawidget.getValue( "dateOfBirth" ) ) );
 												final Button deleteCommunication = (Button) communications.getWidget( 1, 2 );
 												assertTrue( deleteCommunication.isVisible() );
@@ -340,7 +340,7 @@ public class GwtAddressBookTest
 					@Override
 					public void run()
 					{
-						assertTrue( "Charles Montgomery".equals( contactMetawidget.getValue( "firstnames" ) ) );
+						assertTrue( "Charles Montgomery".equals( contactMetawidget.getValue( "firstname" ) ) );
 						assertTrue( "0".equals( contactMetawidget.getValue( "numberOfStaff" ) ) );
 
 						Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 2 );
@@ -460,7 +460,7 @@ public class GwtAddressBookTest
 			{
 				ListBox titleListBox = ((ListBox) contactMetawidget.getWidget( "title" ));
 				assertTrue( "Mr".equals( titleListBox.getItemText( 0 )));
-				assertTrue( "".equals( contactMetawidget.getValue( "firstnames" ) ) );
+				assertTrue( "".equals( contactMetawidget.getValue( "firstname" ) ) );
 				assertTrue( "0".equals( contactMetawidget.getValue( "numberOfStaff" ) ) );
 
 				Button cancelButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 3 );
@@ -468,7 +468,7 @@ public class GwtAddressBookTest
 				assertTrue( cancelButton.isVisible() );
 
 				contactMetawidget.setValue( "Miss", "title" );
-				contactMetawidget.setValue( "Business", "firstnames" );
+				contactMetawidget.setValue( "Business", "firstname" );
 				contactMetawidget.setValue( "Contact", "surname" );
 
 				// Check adding a Communication
@@ -547,7 +547,7 @@ public class GwtAddressBookTest
 															@Override
 															public void run()
 															{
-																assertTrue( "Business".equals( deleteContactMetawidget.getValue( "firstnames" ) ) );
+																assertTrue( "Business".equals( deleteContactMetawidget.getValue( "firstname" ) ) );
 																assertTrue( "Contact".equals( deleteContactMetawidget.getValue( "surname" ) ) );
 
 																// Check editing
@@ -654,7 +654,7 @@ public class GwtAddressBookTest
 			"type": "Type",
 			"add": "Add",
 			"businessContact": "Business Contact",
-			"firstnames": "Firstnames",
+			"firstname": "Firstname",
 			"city": "City",
 			"title": "Title",
 			"search": "Search",

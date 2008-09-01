@@ -68,7 +68,7 @@ public class SearchAction
 		request.setAttribute( "contactSearch", contactSearch );
 
 		DynaActionForm actionForm = (DynaActionForm) form;
-		contactSearch.setFirstnames( (String) actionForm.get( "firstnames" ));
+		contactSearch.setFirstname( (String) actionForm.get( "firstname" ));
 		contactSearch.setSurname( (String) actionForm.get( "surname" ));
 		contactSearch.setType( (ContactType) actionForm.get( "type" ));
 

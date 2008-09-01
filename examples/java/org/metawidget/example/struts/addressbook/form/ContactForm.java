@@ -46,7 +46,7 @@ public abstract class ContactForm
 
 	private String				mTitle;
 
-	private String				mFirstnames;
+	private String				mFirstname;
 
 	private String				mSurname;
 
@@ -95,17 +95,17 @@ public abstract class ContactForm
 
 	@UiComesAfter( "title" )
 	@UiAttribute( name = "required", value = "true" )
-	public String getFirstnames()
+	public String getFirstname()
 	{
-		return mFirstnames;
+		return mFirstname;
 	}
 
-	public void setFirstnames( String firstname )
+	public void setFirstname( String firstname )
 	{
-		mFirstnames = firstname;
+		mFirstname = firstname;
 	}
 
-	@UiComesAfter( "firstnames" )
+	@UiComesAfter( "firstname" )
 	@UiAttribute( name = "required", value = "true" )
 	public String getSurname()
 	{

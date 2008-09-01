@@ -16,7 +16,6 @@
 
 package org.metawidget.example.shared.addressbook.model;
 
-
 /**
  * ContactType (for ContactSearch)
  *

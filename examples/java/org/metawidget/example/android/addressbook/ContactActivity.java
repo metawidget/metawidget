@@ -281,7 +281,7 @@ public class ContactActivity
 		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
 		metawidget.setValue( mContact.getTitle(), "title" );
-		metawidget.setValue( mContact.getFirstnames(), "firstnames" );
+		metawidget.setValue( mContact.getFirstname(), "firstname" );
 		metawidget.setValue( mContact.getSurname(), "surname" );
 
 		Gender gender = mContact.getGender();
@@ -329,7 +329,7 @@ public class ContactActivity
 		AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
 		mContact.setTitle( (String) metawidget.getValue( "title" ) );
-		mContact.setFirstnames( (String) metawidget.getValue( "firstnames" ) );
+		mContact.setFirstname( (String) metawidget.getValue( "firstname" ) );
 		mContact.setSurname( (String) metawidget.getValue( "surname" ) );
 
 		String gender = (String) metawidget.getValue( "gender" );

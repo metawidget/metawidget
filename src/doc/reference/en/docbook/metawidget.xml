@@ -852,7 +852,7 @@ public class Main {
 				</figure>				
 				
 				<para>
-					The three search filter fields (<parameter>Firstnames</parameter>, <parameter>Surname</parameter> and <parameter>Type</parameter>)
+					The three search filter fields (<parameter>Firstname</parameter>, <parameter>Surname</parameter> and <parameter>Type</parameter>)
 					are created by <classname>SwingMetawidget</classname>
 					based on the <classname>ContactSearch</classname> business class. This includes populating the <parameter>Type</parameter> dropdown based
 					on the <classname>ContactType</classname>

@@ -5,7 +5,7 @@
 	<form-beans>
 	
 		<form-bean name="contactSearchForm" type="org.apache.struts.action.DynaActionForm">
-	         <form-property name="firstnames" type="java.lang.String"/>
+	         <form-property name="firstname" type="java.lang.String"/>
 	         <form-property name="surname" type="java.lang.String"/>
 	         <form-property name="type" type="org.metawidget.example.shared.addressbook.model.ContactType"/>
 		</form-bean>

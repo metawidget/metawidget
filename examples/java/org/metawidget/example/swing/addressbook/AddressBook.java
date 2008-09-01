@@ -154,7 +154,7 @@ public class AddressBook
 	{
 		// Example of manual mapping. See ContactDialog for an example of using automatic Bindings
 
-		mContactSearch.setFirstnames( (String) mSearchMetawidget.getValue( "firstnames" ) );
+		mContactSearch.setFirstname( (String) mSearchMetawidget.getValue( "firstname" ) );
 		mContactSearch.setSurname( (String) mSearchMetawidget.getValue( "surname" ) );
 
 		String type = (String) mSearchMetawidget.getValue( "type" );

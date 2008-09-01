@@ -247,6 +247,11 @@ public class MetawidgetAnnotationInspector
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
+		// UiRequired
+
+		if ( property.isAnnotationPresent( UiRequired.class ) )
+			attributes.put( REQUIRED, TRUE );
+
 		// UiLookup
 
 		UiLookup lookup = property.getAnnotation( UiLookup.class );
