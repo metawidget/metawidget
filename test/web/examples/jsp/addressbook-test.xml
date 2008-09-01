@@ -12,11 +12,11 @@
 			<config resultpath="${build.metawidget.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-jsp" />
-				<verifyTitle text="Address Book (Metawidget jsp Web MVC Example)" />
+				<verifyTitle text="Address Book (Metawidget JSP Example)" />
 				
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@id='table-contactSearchCommand']"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactSearchCommandFirstnames-row']"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactSearchCommandFirstnames-cell']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@id='table-contactSearch']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactSearchFirstnames-row']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactSearchFirstnames-cell']"/>
 				
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@class='table-form']"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Firstnames:"/>
@@ -30,12 +30,12 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[4]/td[1]/a" text="Mrs Maude Flanders"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[5]/td[1]/a" text="Mr Nedward Flanders"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[6]/td[1]/a" text="Mr Waylon Smithers"/>
-				<setInputField name="surname" value="Simpson"/>
+				<setInputField name="contactSearch.surname" value="Simpson"/>
 				<clickButton label="Search"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a" text="Mr Homer Simpson"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mrs Marjorie Simpson"/>
-				<setInputField name="surname" value=""/>
-				<setSelectField name="type" value="BUSINESS"/>
+				<setInputField name="contactSearch.surname" value=""/>
+				<setSelectField name="contactSearch.type" value="BUSINESS"/>
 				<clickButton label="Search"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a" text="Mr Charles Montgomery Burns"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mr Waylon Smithers"/>
@@ -49,9 +49,9 @@
 			<steps>
 				<invoke url="${webtest.url}/addressbook-jsp" />
 				<clickLink label="Mr Homer Simpson"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@id='table-contactCommand']"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactCommandTitle-row']"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactCommandTitle-cell']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@id='table-contact']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactTitle-row']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactTitle-cell']"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-label-column']" text="Title:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-component-column']" text="Mr"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/th[@class='table-label-column']" text="Firstnames:"/>
@@ -73,9 +73,9 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[3]/td[1]" text="Anytown"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[4]/th" text="Postcode:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[4]/td[1]" text="90701"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[1]" text="Telephone"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]" text=""/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[1]" text="Telephone"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]" text=""/>
 				<not>
 					<verifyText text="owner"/>
 				</not>	
@@ -90,10 +90,10 @@
 				<verifyInputField name="address.city" value="jspfield"/>
 				<verifySelectField name="address.state" value="Anytown"/>
 				<verifyInputField name="address.postcode" value="90701"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/input[@type='hidden']/@id" text="deleteCommunicationId"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[1]" text="Telephone"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]/input/@value" text="Delete"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/input[@type='hidden']/@id" text="deleteCommunicationId"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[1]" text="Telephone"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]/input/@value" text="Delete"/>
 				<setInputField name="firstnames" value="Homer Jay"/>
 				
 				<setSelectField name="communication.type" value="Fax"/>
@@ -138,7 +138,7 @@
 			<steps>
 				<invoke url="${webtest.url}/addressbook-jsp" />
 				<clickButton label="Add Personal Contact"/>
-				<verifyInputField name="dateOfBirth" value=""/>
+				<verifyInputField name="contact.dateOfBirth" value=""/>
 				<clickButton label="Cancel"/>
 				
 				<clickButton label="Add Business Contact"/>
@@ -147,9 +147,9 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='required']" text="*"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='required']" text="*"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='required']" text=""/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/thead/tr/th[1]" text="Type"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/thead/tr/th[@class='column-tiny']"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommandCommunications-cell']/table[@class='data-table']/tfoot/tr/td[@class='column-tiny, table-buttons']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/thead/tr/th[1]" text="Type"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/thead/tr/th[@class='column-tiny']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tfoot/tr/td[@class='column-tiny, table-buttons']"/>
 			
 				<setSelectField name="communication.type" value="E-mail"/>
 				<setInputField name="communication.value" value="miss@business.contact.com"/>
