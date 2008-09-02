@@ -13,7 +13,12 @@
 				
 				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']"/>
 				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/@style" text="aTableStyle"/>
-				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/@class" text="aTableStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/@class" text="aTableStyleClass"/>				
+				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/thead/tr/td/@style" text="aInstructionsStyle"/>
+				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/thead/tr/td/@class" text="aInstructionsStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/thead/tr/td/@colspan" text="3"/>
+				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/thead/tr/td" text="This page tests all possible widgets"/>				
+				<verifyXPath xpath="count(/html/body/form/table[@id='table-allWidgets']/thead/tr)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[@id='table-allWidgetsTextbox-row']"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[@id='table-allWidgetsTextbox-cell']"/>
 				
@@ -35,8 +40,8 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/th" text="Textarea:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]/textarea"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]/textarea/@cols" value="20"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]/textarea/@rows" value="2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]/textarea/@cols" text="20"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]/textarea/@rows" text="2"/>
 				<verifyTextarea name="form:allWidgetsTextarea" text="Textarea"/>
 				<setInputField name="form:allWidgetsTextarea" value="Textarea1"/>
 

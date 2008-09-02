@@ -42,6 +42,13 @@ import org.metawidget.util.simple.StringUtils;
  * Layout to arrange components in a table, with one column for labels and another for the
  * component.
  * <p>
+ * This implementation recognizes the following <code>&lt;f:facet&gt;</code> names:
+ * <p>
+ * <ul>
+ * 	<li><code>instructions<code> - rendered at the top of the table (thead)</li>
+ * 	<li><code>buttons<code> - rendered at the bottom of the table (tfoot)</li>
+ * </ul>
+ * <p>
  * This implementation recognizes the following <code>&lt;f:param&gt;</code> parameters:
  * <p>
  * <ul>
@@ -55,6 +62,8 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>requiredStyle</code>
  * <li><code>sectionStyle</code>
  * <li><code>sectionStyleClass</code>
+ * <li><code>instructionsStyle</code>
+ * <li><code>instructionsStyleClass</code>
  * <li><code>buttonsStyle</code>
  * <li><code>buttonsStyleClass</code>
  * </ul>
@@ -65,6 +74,8 @@ import org.metawidget.util.simple.StringUtils;
  *
  * @author Richard Kennard
  */
+
+// TODO: test 'instructions'
 
 @SuppressWarnings( "deprecation" )
 public class HtmlTableLayoutRenderer
@@ -196,6 +207,34 @@ public class HtmlTableLayoutRenderer
 
 		putState( KEY_NUMBER_OF_COLUMNS, columns );
 
+		// Instructions facet
+
+		UIComponent componentInstructions = component.getFacet( "instructions" );
+
+		if ( componentInstructions != null )
+		{
+			writer.write( "\r\n<thead>" );
+			writer.write( "<tr>" );
+			writer.write( "<td colspan=\"" );
+
+			// Instructions span multiples of label/component/required
+
+			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, columns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			writer.write( String.valueOf( colspan ) );
+
+			writer.write( "\"" );
+			writeStyleAndClass( component, writer, "instructions" );
+			writer.write( ">" );
+
+			// Render facet
+
+			FacesUtils.render( context, componentInstructions );
+
+			writer.write( "</td>" );
+			writer.write( "</tr>" );
+			writer.write( "</thead>" );
+		}
+
 		// Buttons facet (XHTML requires TFOOT come before TBODY)
 
 		UIComponent componentButtons = component.getFacet( "buttons" );
@@ -206,20 +245,10 @@ public class HtmlTableLayoutRenderer
 			writer.write( "<tr>" );
 			writer.write( "<td colspan=\"" );
 
-			Integer numberOfColumns = (Integer) getState( KEY_NUMBER_OF_COLUMNS );
+			// Buttons span multiples of label/component/required
 
-			if ( numberOfColumns == null )
-			{
-				// (layoutEnd may get called even if layoutBegin crashed. Try
-				// to fail gracefully)
-			}
-			else
-			{
-				// Buttons span multiples of label/component/required
-
-				int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, numberOfColumns.intValue() * LABEL_AND_COMPONENT_AND_REQUIRED );
-				writer.write( String.valueOf( colspan ) );
-			}
+			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, columns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			writer.write( String.valueOf( colspan ) );
 
 			writer.write( "\"" );
 			writeStyleAndClass( component, writer, "buttons" );
@@ -234,7 +263,7 @@ public class HtmlTableLayoutRenderer
 			writer.write( "</tfoot>" );
 		}
 
-		writer.write( "<tbody>" );
+		writer.write( "\r\n<tbody>" );
 	}
 
 	/**
@@ -312,7 +341,7 @@ public class HtmlTableLayoutRenderer
 	{
 		ResponseWriter writer = context.getResponseWriter();
 		writer.write( "</tbody>" );
-		writer.write( "</table>" );
+		writer.write( "\r\n</table>" );
 	}
 
 	//

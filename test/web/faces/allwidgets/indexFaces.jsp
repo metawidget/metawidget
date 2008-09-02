@@ -16,8 +16,14 @@
 					<f:param name="tableStyle" value="aTableStyle"/>
 					<f:param name="tableStyleClass" value="aTableStyleClass"/>
 					<f:param name="columnClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>
+					<f:param name="instructionsStyle" value="aInstructionsStyle"/>
+					<f:param name="instructionsStyleClass" value="aInstructionsStyleClass"/>
 					<f:param name="buttonsStyle" value="aButtonsStyle"/>
 					<f:param name="buttonsStyleClass" value="aButtonsStyleClass"/>
+					
+					<f:facet name="instructions">
+						<h:outputText value="This page tests all possible widgets"/>
+					</f:facet>
 					
 					<m:stub value="#{allWidgets.mystery}" attributes="required: false"/>
 

@@ -447,7 +447,7 @@ public class HtmlMetawidget
 
 					// XHTML requires the 'cols' and 'rows' attributes be set, even though
 					// most people override them with CSS widths and heights. The default is
-					// 20 columns by 2 rows
+					// generally 20 columns by 2 rows
 
 					textarea.setCols( 20 );
 					textarea.setRows( 2 );
