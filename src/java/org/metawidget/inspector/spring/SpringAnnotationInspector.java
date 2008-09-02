@@ -16,6 +16,8 @@
 
 package org.metawidget.inspector.spring;
 
+import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
+
 import java.util.Map;
 
 import org.metawidget.inspector.impl.BaseObjectInspector;
@@ -65,7 +67,7 @@ public class SpringAnnotationInspector
 		UiSpringLookup springLookup = property.getAnnotation( UiSpringLookup.class );
 
 		if ( springLookup != null )
-			attributes.put( "spring-lookup", springLookup.value() );
+			attributes.put( SPRING_LOOKUP, springLookup.value() );
 
 		return attributes;
 	}

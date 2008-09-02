@@ -28,16 +28,17 @@ import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.faces.UiFacesLookup;
+import org.metawidget.inspector.jsp.UiJspLookup;
 import org.metawidget.inspector.spring.UiSpringLookup;
 
 /**
  * Models a Contact in the Address Book
  * <p>
- * So that it can easily be reused across different examples, this class mostly uses annotations from
- * <code>org.metawidget.inspector.annotation.*</code>. In the real world, clients should prefer
- * to use something like <code>javax.persistence.Column(nullable = false)</code> or
- * <code>org.hibernate.validator.NotNull</code> rather than <code>UiRequired</code>:
- * Metawidget will inspect your <em>existing</em> annotations as much as possible.
+ * So that it can easily be reused across different examples, this class mostly uses annotations
+ * from <code>org.metawidget.inspector.annotation.*</code>. In the real world, clients should
+ * prefer to use something like <code>javax.persistence.Column(nullable = false)</code> or
+ * <code>org.hibernate.validator.NotNull</code> rather than <code>UiRequired</code>: Metawidget
+ * will inspect your <em>existing</em> annotations as much as possible.
  * <p>
  * Implements Serializable because Web containers require session-level values to be Serializable.
  *
@@ -109,14 +110,16 @@ public abstract class Contact
 	/**
 	 * Get the Contact's title.
 	 * <p>
-	 * Note this getter is doubly annotated both <code>UiFacesLookup</code> and
-	 * <code>UiSpringLookup</code>. Normally you only need one or the other, but we use both
-	 * because we use this same code in both Faces and Spring examples.
+	 * Note this getter is doubly annotated with <code>UiFacesLookup</code>,
+	 * <code>UiSpringLookup</code> and <code>UiJspLookup</code>. Normally you only need one or
+	 * the other, but we use both because we use this same code in both Faces, Spring and JSP
+	 * examples.
 	 */
 
 	@UiRequired
 	@UiFacesLookup( "#{contacts.allTitlesAsSelectItems}" )
 	@UiSpringLookup( "${contacts.allTitles}" )
+	@UiJspLookup( "${contacts.allTitles}" )
 	public String getTitle()
 	{
 		return mTitle;

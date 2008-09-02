@@ -17,6 +17,7 @@
 package org.metawidget.jsp.tagext.html;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
 import java.beans.PropertyEditor;
@@ -151,6 +152,11 @@ public class HtmlMetawidgetTag
 		if ( lookup != null && !"".equals( lookup ) )
 			return writeReadOnlyTag( attributes );
 
+		String jspLookup = attributes.get( JSP_LOOKUP );
+
+		if ( jspLookup != null && !"".equals( jspLookup ) )
+			return writeReadOnlyTag( attributes );
+
 		String type = attributes.get( TYPE );
 
 		// If no type, fail gracefully
@@ -217,7 +223,12 @@ public class HtmlMetawidgetTag
 		if ( ACTION.equals( elementName ) )
 			return writeSubmitTag( attributes );
 
-		// String Lookups
+		// Lookups
+
+		String jspLookup = attributes.get( JSP_LOOKUP );
+
+		if ( jspLookup != null && !"".equals( jspLookup ) )
+			return writeSelectTag( jspLookup, attributes );
 
 		String lookup = attributes.get( LOOKUP );
 
@@ -411,7 +422,7 @@ public class HtmlMetawidgetTag
 		StringBuffer buffer = new StringBuffer();
 
 		buffer.append( "<input type=\"submit\" value=\"" );
-		buffer.append( getLabelString( attributes ));
+		buffer.append( getLabelString( attributes ) );
 		buffer.append( "\"" );
 		buffer.append( writeAttributes( attributes ) );
 		buffer.append( ">" );
@@ -491,6 +502,24 @@ public class HtmlMetawidgetTag
 		}
 
 		return buffer.toString();
+	}
+
+	@SuppressWarnings( "unchecked" )
+	private String writeSelectTag( final String expression, final Map<String, String> attributes )
+		throws Exception
+	{
+		Object collection = evaluate( expression );
+
+		if ( collection == null )
+			return null;
+
+		if ( collection instanceof Collection && !( collection instanceof List ) )
+			collection = CollectionUtils.newArrayList( (Collection) collection );
+
+		else if ( collection.getClass().isArray() )
+			collection = CollectionUtils.newArrayList( (Object[]) collection );
+
+		return writeSelectTag( (List<?>) collection, null, attributes );
 	}
 
 	private String writeSelectTag( final List<?> values, final List<String> labels, Map<String, String> attributes )

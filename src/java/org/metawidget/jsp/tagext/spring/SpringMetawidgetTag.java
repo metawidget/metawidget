@@ -252,23 +252,17 @@ public class SpringMetawidgetTag
 		if ( ACTION.equals( elementName ))
 			return null;
 
-		// Spring Lookups
+		// Lookups
 
 		String springLookup = attributes.get( SPRING_LOOKUP );
 
 		if ( springLookup != null && !"".equals( springLookup ) )
-		{
 			return writeSelectTag( springLookup, attributes );
-		}
-
-		// String Lookups
 
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
-		{
 			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
-		}
 
 		String type = attributes.get( TYPE );
 

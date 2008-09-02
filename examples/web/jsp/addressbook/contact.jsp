@@ -58,6 +58,7 @@
 			// Manual binding
 			
 			Contact contact = (Contact) session.getAttribute( "contact" );			
+			contact.setTitle( request.getParameter( "contact.title" ));
 			contact.setFirstname( request.getParameter( "contact.firstname" ));
 			contact.setSurname( request.getParameter( "contact.surname" ));
 			

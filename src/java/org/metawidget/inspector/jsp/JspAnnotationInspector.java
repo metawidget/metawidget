@@ -16,6 +16,8 @@
 
 package org.metawidget.inspector.jsp;
 
+import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
+
 import java.util.Collection;
 import java.util.Map;
 
@@ -102,6 +104,13 @@ public class JspAnnotationInspector
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
+
+		// UiJspLookup
+
+		UiJspLookup jspLookup = property.getAnnotation( UiJspLookup.class );
+
+		if ( jspLookup != null )
+			attributes.put( JSP_LOOKUP, jspLookup.value() );
 
 		// UiJspAttributes/UiJspAttribute
 
