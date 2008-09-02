@@ -84,7 +84,7 @@ public class ContactController
 	@UiJspAttribute( name = HIDDEN, value = "${contactController.readOnly}" )
 	public void save()
 	{
-		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( "contactsController" );
+		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( "contacts" );
 		Contact contact = (Contact) mSession.getAttribute( "contact" );
 
 		contactsController.save( contact );
@@ -95,7 +95,7 @@ public class ContactController
 	@UiComesAfter( "save" )
 	public void delete()
 	{
-		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( "contactsController" );
+		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( "contacts" );
 		Contact contact = (Contact) mSession.getAttribute( "contact" );
 
 		contactsController.delete( contact );

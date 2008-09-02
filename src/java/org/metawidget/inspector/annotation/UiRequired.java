@@ -25,8 +25,8 @@ import java.lang.annotation.Target;
  * Annotates the field should be 'required' in the UI. For example, should be displayed with a star
  * after it and, depending on the target UI platform, have 'required' validators attached to it.
  * <p>
- * Note: Metawidget prefers to use <em>existing</em> annotations as much as possible. Clients should
- * use something like <code>javax.persistence.Column(nullable = false)</code> or
+ * Note: Metawidget is designed to use <em>existing</em> annotations as much as possible. Clients
+ * should use something like <code>javax.persistence.Column(nullable = false)</code> or
  * <code>org.hibernate.validator.NotNull</code> in preference to <code>UiRequired</code>.
  *
  * @author Richard Kennard

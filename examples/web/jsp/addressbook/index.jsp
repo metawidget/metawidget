@@ -8,7 +8,7 @@
 <%@ taglib uri="http://metawidget.org/example/jsp/addressbook" prefix="a"%>
 
 <%
-	ContactsController contactsController = (ContactsController) session.getServletContext().getAttribute( "contactsController" );
+	ContactsController contactsController = (ContactsController) session.getServletContext().getAttribute( "contacts" );
 	ContactSearch contactSearch = new ContactSearch();
 	request.setAttribute( "contactSearch", contactSearch );
 
@@ -35,7 +35,7 @@
 	if ( contactType != null && !"".equals( contactType ))
 		contactSearch.setType( ContactType.valueOf( request.getParameter( "contactSearch.type" )));
 	
-	request.setAttribute( "contacts", contactsController.getAllByExample( contactSearch ));
+	request.setAttribute( "results", contactsController.getAllByExample( contactSearch ));
 %>
 	
 <tags:page>
@@ -73,17 +73,17 @@
 			</thead>
 			<tbody>
 			
-				<c:forEach items="${contacts}" var="_contact">
+				<c:forEach items="${results}" var="_result">
 					<tr>
 						<td class="column-half">
-							<a href="contact.jsp?id=${_contact.id}">
-								${_contact.fullname}
+							<a href="contact.jsp?id=${_result.id}">
+								${_result.fullname}
 							</a>
 						</td>
-						<td class="column-half">${a:collectionToString(_contact.communications,", ")}</td>
+						<td class="column-half">${a:collectionToString(_result.communications,", ")}</td>
 						<td class="column-tiny">
 							<c:choose>
-								<c:when test="${_contact.class.simpleName == 'PersonalContact'}">
+								<c:when test="${_result.class.simpleName == 'PersonalContact'}">
 									<img src="media/personal-small.gif" alt="Personal Contact"/>
 								</c:when>
 								<c:otherwise>

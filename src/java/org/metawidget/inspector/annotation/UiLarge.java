@@ -22,11 +22,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Annotates the field should be 'large' in the UI. For example, should
- * be multi-line or span across multi-columns.
+ * Annotates the field should be 'large' in the UI. For example, should be multi-line or span across
+ * multi-columns.
  * <p>
- * Note: Metawidget prefers to use <em>existing</em> annotations as much as possible. Clients should
- * use something like <code>javax.persistence.Lob</code> in preference to <code>UiLarge</code>.
+ * Note: Metawidget is designed to use <em>existing</em> annotations as much as possible. Clients
+ * should use something like <code>javax.persistence.Lob</code> in preference to
+ * <code>UiLarge</code>.
  *
  * @author Richard Kennard
  */

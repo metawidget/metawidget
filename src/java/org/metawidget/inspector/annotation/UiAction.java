@@ -25,6 +25,10 @@ import java.lang.annotation.Target;
  * Identifies a method as being an executable action.
  * <p>
  * The method must not take any parameters in its signature.
+ * <p>
+ * Note: Metawidget is designed to use <em>existing</em> metadata as much as possible. Clients
+ * should use something like <code>org.jdesktop.application.Action</code> or JBoss jBPM in
+ * preference to <code>UiAction</code>.
  *
  * @author Richard Kennard
  */

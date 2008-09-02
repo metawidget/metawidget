@@ -31,7 +31,7 @@
 	}
 	else if ( id != null )
 	{
-		ContactsController contactsController = (ContactsController) session.getServletContext().getAttribute( "contactsController" );
+		ContactsController contactsController = (ContactsController) session.getServletContext().getAttribute( "contacts" );
 		Contact contact = contactsController.load( Long.parseLong( id ));
 		session.setAttribute( "contact", contact );
 		contactController.setReadOnly( true );
@@ -53,7 +53,7 @@
 		{
 			contactController.edit();
 		}
-		else if ( request.getParameter( "contactController.save" ) != null )
+		else if ( request.getParameter( "contactController.save" ) != null || request.getParameter( "contactController.delete" ) != null || request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null )
 		{
 			// Manual binding
 			
@@ -67,26 +67,33 @@
 				businessContact.setNumberOfStaff( Integer.parseInt( request.getParameter( "contact.numberOfStaff" )));
 			}
 
-			contactController.save();
-			response.sendRedirect( "index.jsp" );
-			return;
-		}
-		else if ( request.getParameter( "contactController.delete" ) != null )
-		{
-			contactController.delete();
-			response.sendRedirect( "index.jsp" );
-			return;
-		}
-		else if ( request.getParameter( "addCommunication" ) != null )
-		{
-			communication.setType( request.getParameter( "communication.type" ));
-			communication.setValue( request.getParameter( "communication.value" ));
+			// Execute action
 			
-			contactController.addCommunication();
-		}
-		else if ( request.getParameter( "deleteCommunication" ) != null )
-		{
-			contactController.deleteCommunication( Long.parseLong( request.getParameter( "deleteCommunicationId" )));
+			if ( request.getParameter( "contactController.delete" ) != null )
+			{
+				contactController.delete();
+				response.sendRedirect( "index.jsp" );
+				return;
+			}
+
+			contactController.save();
+			
+			if ( request.getParameter( "contactController.save" ) != null )
+			{
+				response.sendRedirect( "index.jsp" );
+				return;
+			}
+			else if ( request.getParameter( "addCommunication" ) != null )
+			{
+				communication.setType( request.getParameter( "communication.type" ));
+				communication.setValue( request.getParameter( "communication.value" ));
+				
+				contactController.addCommunication();
+			}
+			else if ( request.getParameter( "deleteCommunication" ) != null )
+			{
+				contactController.deleteCommunication( Long.parseLong( request.getParameter( "deleteCommunicationId" )));
+			}
 		}
 	}
 	catch( Exception e )
@@ -119,12 +126,12 @@
 		</c:otherwise>
 	</c:choose>
 
-		<c:if test="${!empty errors}">
-			<div class="errors">${errors}</div>
-		</c:if>
-		
 		<form action="contact.jsp" method="POST">
 
+			<c:if test="${!empty errors}">
+				<span class="errors">${errors}</span>
+			</c:if>
+		
 			<m:metawidget value="contact" readOnly="${contactController.readOnly}">
 				<m:param name="tableStyleClass" value="table-form"/>
 				<m:param name="columnStyleClasses" value="table-label-column,table-component-column,required"/>
