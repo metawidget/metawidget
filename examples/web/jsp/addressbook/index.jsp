@@ -1,5 +1,5 @@
 <%@ page language="java" %>
-<%@ page import="org.metawidget.example.shared.addressbook.model.*, org.metawidget.example.shared.addressbook.controller.*" %>
+<%@ page import="java.beans.*, org.metawidget.example.shared.addressbook.model.*, org.metawidget.example.shared.addressbook.controller.*" %>
 
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -30,10 +30,9 @@
 	contactSearch.setFirstname( request.getParameter( "contactSearch.firstname" ));
 	contactSearch.setSurname( request.getParameter( "contactSearch.surname" ));
 	
-	String contactType = request.getParameter( "contactSearch.type" );
-	
-	if ( contactType != null && !"".equals( contactType ))
-		contactSearch.setType( ContactType.valueOf( request.getParameter( "contactSearch.type" )));
+	PropertyEditor contactTypeEditor = PropertyEditorManager.findEditor( ContactType.class );
+	contactTypeEditor.setAsText( request.getParameter( "contactSearch.type" ));
+	contactSearch.setType( (ContactType) contactTypeEditor.getValue() );
 	
 	request.setAttribute( "results", contactsController.getAllByExample( contactSearch ));
 %>

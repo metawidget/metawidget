@@ -192,6 +192,7 @@
 				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>				
 				<setSelectField name="form:contactCurrentTitle" value="Miss"/>
 				<setInputField name="form:contactCurrentFirstname" value="Business"/>
+				<setSelectField name="form:contactCurrentGender" value="FEMALE"/>
 				<setInputField name="form:contactCurrentCompany" value="Some Company"/>
 				<clickButton label="Save"/>
 				<verifyInputField name="form:contactCurrentCompany" value="Some Company"/>
@@ -231,6 +232,7 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='required']" text="*"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='required']" text="*"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='required']" text="*"/>
+				<verifySelectField name="form:contactCurrentGender" value="FEMALE"/>
 				<verifyInputField name="form:contactCurrentCompany" value="Some Company"/>
 				<verifyInputField name="form:contactCurrentNumberOfStaff" value="2"/>
 			

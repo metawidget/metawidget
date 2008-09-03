@@ -20,6 +20,8 @@
 					<f:param name="instructionsStyleClass" value="aInstructionsStyleClass"/>
 					<f:param name="buttonsStyle" value="aButtonsStyle"/>
 					<f:param name="buttonsStyleClass" value="aButtonsStyleClass"/>
+					<f:param name="componentStyle" value="aComponentStyle"/>
+					<f:param name="requiredStyle" value="aRequiredStyle"/>
 					
 					<f:facet name="instructions">
 						<h:outputText value="This page tests all possible widgets"/>

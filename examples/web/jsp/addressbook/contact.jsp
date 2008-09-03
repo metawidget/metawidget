@@ -63,6 +63,10 @@
 			contact.setFirstname( request.getParameter( "contact.firstname" ));
 			contact.setSurname( request.getParameter( "contact.surname" ));
 			
+			PropertyEditor genderEditor = PropertyEditorManager.findEditor( Gender.class );
+			genderEditor.setAsText( request.getParameter( "contact.gender" ));
+			contact.setGender( (Gender) genderEditor.getValue() );
+
 			if ( contact instanceof PersonalContact )
 			{
 				PersonalContact personalContact = (PersonalContact) contact;

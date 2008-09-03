@@ -162,6 +162,7 @@
 				<verifySelectField name="contact.title" value="Mr"/>
 				<setSelectField name="contact.title" value="Miss"/>
 				<setInputField name="contact.firstname" value="Business"/>
+				<setSelectField name="contact.gender" value="FEMALE"/>
 				<setInputField name="contact.company" value="Some Company"/>
 				<clickButton label="Save"/>
 				<verifyInputField name="contact.company" value="Some Company"/>
@@ -183,6 +184,7 @@
 				<clickLink label="Miss Business Contact"/>
 				<clickButton label="Edit"/>
 				
+				<verifySelectField name="contact.gender" value="FEMALE"/>
 				<verifyInputField name="contact.company" value="Some Company"/>
 				<verifyInputField name="contact.numberOfStaff" value="2"/>
 			

@@ -138,7 +138,7 @@
 			<steps>
 				<invoke url="${webtest.url}/addressbook-spring" />
 				<clickButton label="Add Personal Contact"/>
-				<verifyXPath xpath="count(/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-component-column']/select/option)" text="5"/>
+				<verifyXPath xpath="count(/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='table-component-column']/select/option)" text="5"/>
 				<verifyInputField name="dateOfBirth" value=""/>
 				<clickButton label="Cancel"/>
 				
@@ -162,6 +162,7 @@
 				<verifySelectField name="title" value="Mr"/>
 				<setSelectField name="title" value="Miss"/>
 				<setInputField name="firstname" value="Business"/>
+				<setSelectField name="gender" value="FEMALE"/>
 				<setInputField name="company" value="Some Company"/>
 				<clickButton label="Save"/>
 				<verifyInputField name="company" value="Some Company"/>
@@ -183,6 +184,7 @@
 				<clickLink label="Miss Business Contact"/>
 				<clickButton label="Edit"/>
 				
+				<verifySelectField name="gender" value="FEMALE"/>
 				<verifyInputField name="company" value="Some Company"/>
 				<verifyInputField name="numberOfStaff" value="2"/>
 			

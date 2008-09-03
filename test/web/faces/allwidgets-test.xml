@@ -24,10 +24,12 @@
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Textbox:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th/@class" text="aLabelClass"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/@style" text="aComponentStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/@class" text="aComponentClass"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/input[@type='text']"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/input[@type='text']/@style" text="aStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/input[@type='text']/@class" text="aStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[2]/@style" text="aRequiredStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[2]/@class" text="aRequiredClass"/>
 				<verifyInputField name="form:allWidgetsTextbox" value="Textbox"/>
 				<setInputField name="form:allWidgetsTextbox" value="Textbox1"/>
