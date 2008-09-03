@@ -1071,6 +1071,8 @@
 
 		<copy file="${build.metawidget.dir}/test/jsp/allwidgets-jsp.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/allwidgets-jsp"/>
+		<delete dir="${tomcat.dir}/webapps/addressbook-jsp"/>
+		<delete file="${tomcat.dir}/webapps/addressbook-jsp.war"/>
 		<antcall target="test-web-start-tomcat"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/jsp">
