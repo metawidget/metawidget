@@ -32,7 +32,7 @@ test-existing-personal:
 
 test-new-business:
 
-1. Click Add Personal. Check title has focus
+1. Click Add Personal. Check title has focus. Check title does not have a blank choice
 2. Click Back
 3. Click Add Business. Check title has focus
 4. Try to save. Check title is required

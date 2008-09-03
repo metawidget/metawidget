@@ -75,8 +75,6 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-// TODO: test 'instructions'
-
 @SuppressWarnings( "deprecation" )
 public class HtmlTableLayoutRenderer
 	extends HtmlLayoutRenderer

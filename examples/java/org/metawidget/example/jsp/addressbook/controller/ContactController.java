@@ -116,6 +116,7 @@ public class ContactController
 		Communication communication = (Communication) mSession.getAttribute( "communication" );
 
 		contact.addCommunication( communication );
+		mSession.setAttribute( "communication", new Communication() );
 	}
 
 	public void deleteCommunication( long communicationId )

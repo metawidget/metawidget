@@ -1,8 +1,9 @@
 <%@ page language="java" %>
-<%@ page import="org.metawidget.example.jsp.addressbook.controller.*, org.metawidget.example.shared.addressbook.model.*, org.metawidget.example.shared.addressbook.controller.*" %>
+<%@ page import="java.beans.*, java.util.*, org.metawidget.example.jsp.addressbook.controller.*, org.metawidget.example.shared.addressbook.model.*, org.metawidget.example.shared.addressbook.controller.*" %>
 
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://metawidget.org/html" prefix="m"%>
 <%@ taglib uri="http://metawidget.org/example/jsp/addressbook" prefix="a"%>
 
@@ -62,9 +63,17 @@
 			contact.setFirstname( request.getParameter( "contact.firstname" ));
 			contact.setSurname( request.getParameter( "contact.surname" ));
 			
-			if ( contact instanceof BusinessContact )
+			if ( contact instanceof PersonalContact )
+			{
+				PersonalContact personalContact = (PersonalContact) contact;
+				PropertyEditor dateEditor = PropertyEditorManager.findEditor( Date.class );
+				dateEditor.setAsText( request.getParameter( "contact.dateOfBirth" ));
+				personalContact.setDateOfBirth( (Date) dateEditor.getValue() );
+			}
+			else if ( contact instanceof BusinessContact )
 			{
 				BusinessContact businessContact = (BusinessContact) contact;
+				businessContact.setCompany( request.getParameter( "contact.company" ));
 				businessContact.setNumberOfStaff( Integer.parseInt( request.getParameter( "contact.numberOfStaff" )));
 			}
 
@@ -77,24 +86,25 @@
 				return;
 			}
 
-			contactController.save();
+			communication.setType( request.getParameter( "communication.type" ));
+			communication.setValue( request.getParameter( "communication.value" ));
 			
-			if ( request.getParameter( "contactController.save" ) != null )
+			if ( request.getParameter( "addCommunication" ) != null )
 			{
-				response.sendRedirect( "index.jsp" );
-				return;
-			}
-			else if ( request.getParameter( "addCommunication" ) != null )
-			{
-				communication.setType( request.getParameter( "communication.type" ));
-				communication.setValue( request.getParameter( "communication.value" ));
-				
 				contactController.addCommunication();
 			}
 			else if ( request.getParameter( "deleteCommunication" ) != null )
 			{
 				contactController.deleteCommunication( Long.parseLong( request.getParameter( "deleteCommunicationId" )));
 			}
+			
+			contactController.save();
+			
+			if ( request.getParameter( "contactController.save" ) != null )
+			{
+				response.sendRedirect( "index.jsp" );
+				return;
+			}			
 		}
 	}
 	catch( Exception e )
@@ -109,6 +119,8 @@
 %>
 
 <tags:page>
+
+	<fmt:setBundle var="bundle" basename="org.metawidget.example.shared.addressbook.resource.Resources"/>
 
 	<c:choose>
 		<c:when test="${contact.class.simpleName == 'PersonalContact'}">
@@ -133,7 +145,7 @@
 				<span class="errors">${errors}</span>
 			</c:if>
 		
-			<m:metawidget value="contact" readOnly="${contactController.readOnly}">
+			<m:metawidget value="contact" bundle="${bundle}" readOnly="${contactController.readOnly}">
 				<m:param name="tableStyleClass" value="table-form"/>
 				<m:param name="columnStyleClasses" value="table-label-column,table-component-column,required"/>
 				<m:param name="sectionStyleClass" value="section-heading"/>
@@ -151,7 +163,6 @@
 						<c:if test="${!contactController.readOnly}">
 							<tfoot>
 								<tr>
-									<jsp:useBean id="communication" class="org.metawidget.example.shared.addressbook.model.Communication"/>						
 									<td class="column-half"><m:metawidget value="communication.type" style="width: 100%" layoutClass=""/></td>
 									<td class="column-half"><m:metawidget value="communication.value" style="width: 100%" layoutClass=""/></td>
 									<td class="column-tiny, table-buttons"><input type="submit" name="addCommunication" value="Add"/></td>

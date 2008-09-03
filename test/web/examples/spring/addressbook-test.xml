@@ -138,6 +138,7 @@
 			<steps>
 				<invoke url="${webtest.url}/addressbook-spring" />
 				<clickButton label="Add Personal Contact"/>
+				<verifyXPath xpath="count(/html/body/div[@id='content']/form/table/tbody/tr[1]/th[@class='table-component-column']/select/option)" text="5"/>
 				<verifyInputField name="dateOfBirth" value=""/>
 				<clickButton label="Cancel"/>
 				
