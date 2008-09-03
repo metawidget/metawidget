@@ -342,6 +342,25 @@ public class HtmlMetawidgetTag
 
 		StringBuffer buffer = new StringBuffer();
 		String value = evaluateAsText( attributes );
+
+		// Support lookup labels
+
+		String lookupLabels = attributes.get( LOOKUP_LABELS );
+
+		if ( lookupLabels != null )
+		{
+			List<String> lookupList = CollectionUtils.fromString( attributes.get( LOOKUP ));
+			int indexOf = lookupList.indexOf( value );
+
+			if ( indexOf != -1 )
+			{
+				List<String> lookupLabelsList = CollectionUtils.fromString( lookupLabels );
+
+				if ( indexOf < lookupLabelsList.size() )
+					value = lookupLabelsList.get( indexOf );
+			}
+		}
+
 		buffer.append( value );
 
 		if ( mCreateHiddenFields && !TRUE.equals( attributes.get( NO_SETTER ) ) )

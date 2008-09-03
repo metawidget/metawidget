@@ -68,7 +68,7 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[1]/th" text="Street:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[1]/td[1]" text="742 Evergreen Terrace"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[2]/th" text="City:"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[2]/td[1]" text="jspfield"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[2]/td[1]" text="Springfield"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[3]/th" text="State:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[3]/td[1]" text="Anytown"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[4]/th" text="Postcode:"/>
@@ -81,20 +81,20 @@
 				</not>	
 				
 				<clickButton label="Edit"/>
-				<verifySelectField name="title" value="Mr"/>
-				<verifyInputField name="firstname" value="Homer"/>
-				<verifyInputField name="surname" value="Simpson"/>
-				<verifySelectField name="gender" value="MALE"/>
-				<verifyInputField name="dateOfBirth" value="5/12/56"/>
-				<verifyInputField name="address.street" value="742 Evergreen Terrace"/>
-				<verifyInputField name="address.city" value="jspfield"/>
-				<verifySelectField name="address.state" value="Anytown"/>
-				<verifyInputField name="address.postcode" value="90701"/>
+				<verifySelectField name="contact.title" value="Mr"/>
+				<verifyInputField name="contact.firstname" value="Homer"/>
+				<verifyInputField name="contact.surname" value="Simpson"/>
+				<verifySelectField name="contact.gender" value="MALE"/>
+				<verifyInputField name="contact.dateOfBirth" value="5/12/56"/>
+				<verifyInputField name="contact.address.street" value="742 Evergreen Terrace"/>
+				<verifyInputField name="contact.address.city" value="Springfield"/>
+				<verifySelectField name="contact.address.state" value="Anytown"/>
+				<verifyInputField name="contact.address.postcode" value="90701"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/input[@type='hidden']/@id" text="deleteCommunicationId"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[1]" text="Telephone"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]/input/@value" text="Delete"/>
-				<setInputField name="firstname" value="Homer Jay"/>
+				<setInputField name="contact.firstname" value="Homer Jay"/>
 				
 				<setSelectField name="communication.type" value="Fax"/>
 				<clickButton label="Add"/>
@@ -111,7 +111,7 @@
 
 				<clickButton name="deleteCommunication" fieldIndex="2"/>
 
-				<setInputField name="dateOfBirth" value="bad date"/>
+				<setInputField name="contact.dateOfBirth" value="bad date"/>
 				<clickButton label="Save"/>
 
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mr Homer Jay Simpson"/>
@@ -127,7 +127,7 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='required']" text="*"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='required']" text="*"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='required']" text="*"/>
-				<verifyTextarea name="notes" text="Known as 'Marge'"/>
+				<verifyTextarea name="contact.notes" text="Known as 'Marge'"/>
 			</steps>
 		</webtest>
 	</target>

@@ -167,7 +167,7 @@
 									<td class="column-half"><m:metawidget value="communication.value" style="width: 100%" layoutClass=""/></td>
 									<td class="column-tiny, table-buttons"><input type="submit" name="addCommunication" value="Add"/></td>
 								</tr>
-							</foot>
+							</tfoot>
 						</c:if>
 						<tbody>
 							<c:forEach items="${a:sort(contact.communications)}" var="_communication">
