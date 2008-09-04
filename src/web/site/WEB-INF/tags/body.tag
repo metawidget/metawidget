@@ -4,6 +4,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="path" scope="request" value="${pageContext.request.servletPath}"/>
 		
+	<body>
+	
 		<div id="logo">
 			<h1><a href="${context}/index.html">Metawidget</a></h1>
 		</div>
@@ -108,3 +110,5 @@
 
 		</div>
 		
+	</body>
+	

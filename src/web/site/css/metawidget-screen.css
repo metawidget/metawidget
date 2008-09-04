@@ -222,6 +222,11 @@ a {
 	position: absolute;
 } 
 
+.tooltip span {
+	float: left;
+	font-size: 30pt;
+}
+
 /*
  * Content
  */

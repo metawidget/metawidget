@@ -20,9 +20,7 @@
 		<script src="${context}/js/tooltip-v0.2.js" type="text/javascript"></script>
 		</c:if>
 	</head>	
-	<body>
 		
-		<jsp:doBody />
+	<jsp:doBody />
 		
-	</body>	    
 </html>

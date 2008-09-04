@@ -13,10 +13,10 @@
 			</a>
 		</center>
 
-		<p>
+		<h2 style="font-family: Arial, sans-serif; font-size: 10pt">
 			Metawidget takes your domain objects and automatically creates User Interface widgets for them, saving you handcoding your UIs and
 			leaving you to concentrate on stitching together your application.
-		</p>
+		</h2>
 
 		<p>
 			As much as possible, Metawidget does this without introducing new technologies. It inspects, at runtime, an application's <em>existing</em> back-end
@@ -46,145 +46,164 @@
 		</map>
 
 		<center>
-			<img src="media/overview.png" usemap="#overiew-map" style="border: 0; margin-top: 5px; margin-bottom: 20px" alt=""></img>
+			<img src="media/overview.png" usemap="#overiew-map" style="border: 0; margin-top: 5px; margin-bottom: 20px" alt="" style="display: block"></img>
 
-			<table id="supported-tech">
-				<thead>
-					<tr>
-						<th colspan="2"><h3>Supported Technologies</h3></th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>
-							<h3>1. Front-Ends</h3>
-							<ul>
-								<li>Android</li>
-								<li>Google Web Toolkit (GWT)</li>
-								<li>Java Server Faces (JSF)
-									<ul>
-										<li>Facelets</li>
-										<li>RichFaces</li>
-									</ul></li>
-								<li>Java Server Pages (JSP)</li>
-								<li>Spring Web MVC</li>
-								<li>Struts</li>
-								<li>Swing
-									<ul>
-										<li>Beans Binding (JSR 295)</li>
-										<li>Commons BeanUtils</li>
-									</ul></li>
-								<li><a href="contributing.html">...help us add more!</a></li>
-							</ul>
-						</td>
-						<td>
-							<h3>2. Back-Ends</h3>
-							<ul>
-								<li>Annotations</li>
-								<li>Commons JEXL</li>
-								<li>Groovy</li>
-								<li>Hibernate</li>
-								<li>Hibernate Validator</li>
-								<li>JavaBeans</li>
-								<li>Java Persistence Architecture (JPA)</li>
-								<li>Javassist</li>
-								<li>JBoss jBPM</li>
-								<li>Swing AppFramework</li>
-								<li><a href="contributing.html">...help us add more!</a></li>
-							</ul>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<div class="tooltip" style="position: relative; top: -490px; left: -330px">
+				<span>1</span>
+				Metawidget comes with a UI component native to the <em>existing</em> front end
+			</div>
+
+			<div class="tooltip" style="position: relative; top: -510px; left: 110px">
+				<span>2</span>
+				Metawidget inspects, at runtime, the <em>existing</em> back-end architecture
+			</div>
+
+			<div class="tooltip" style="position: relative; top: -370px; left: -270px">
+				<span>3</span>
+				Metawidget creates native UI subcomponents matched to the back-end
+			</div>
 		</center>
 
-		<p>
-			At a high level, the goals of Metawidget are:
-		</p>
+		<div style="position: relative; top: -190px">
+			<center>
+				<table id="supported-tech">
+					<thead>
+						<tr>
+							<th colspan="2"><h3>Supported Technologies</h3></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<h3>1. Front-Ends</h3>
+								<ul>
+									<li>Android</li>
+									<li>Google Web Toolkit (GWT)</li>
+									<li>Java Server Faces (JSF)
+										<ul>
+											<li>Facelets</li>
+											<li>RichFaces</li>
+										</ul></li>
+									<li>Java Server Pages (JSP)</li>
+									<li>Spring Web MVC</li>
+									<li>Struts</li>
+									<li>Swing
+										<ul>
+											<li>Beans Binding (JSR 295)</li>
+											<li>Commons BeanUtils</li>
+										</ul></li>
+									<li><a href="contributing.html">...help us add more!</a></li>
+								</ul>
+							</td>
+							<td>
+								<h3>2. Back-Ends</h3>
+								<ul>
+									<li>Annotations</li>
+									<li>Commons JEXL</li>
+									<li>Groovy</li>
+									<li>Hibernate</li>
+									<li>Hibernate Validator</li>
+									<li>JavaBeans</li>
+									<li>Java Persistence Architecture (JPA)</li>
+									<li>Javassist</li>
+									<li>JBoss jBPM</li>
+									<li>Swing AppFramework</li>
+									<li><a href="contributing.html">...help us add more!</a></li>
+								</ul>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</center>
 
-		<ul>
-			<li>to create UI widgets by inspecting existing back-end architectures</li>
-			<li>not to try to 'own' the entire UI, but to focus on creating native sub-widgets for slotting into existing UIs</li>
-			<li>to perform inspection <em>at runtime</em>, detecting types and subtypes dynamically</li>
-		</ul>
+			<p>
+				At a high level, the goals of Metawidget are:
+			</p>
 
-		<p>
-			Metawidget requires J2SE 1.4 or higher. Some optional features require Java SE 5 or 6.
-		</p>
+			<ul>
+				<li>to create UI widgets by inspecting existing back-end architectures</li>
+				<li>not to try to 'own' the entire UI, but to focus on creating native sub-widgets for slotting into existing UIs</li>
+				<li>to perform inspection <em>at runtime</em>, detecting types and subtypes dynamically</li>
+			</ul>
 
-		<p>
-			The download includes documentation and examples for all supported front-ends and back-ends. <a href="download.html">Click here to download it</a>.
-		</p>
+			<p>
+				Metawidget requires J2SE 1.4 or higher. Some optional features require Java SE 5 or 6.
+			</p>
 
+			<p>
+				The download includes documentation and examples for all supported front-ends and back-ends. <a href="download.html">Click here to download it</a>.
+			</p>
+		</div>
+
+		<div id="tooltip-web" class="tooltip">
+			<strong>Web:</strong> Metawidget has a native component/taglib for each popular Web framework
+		</div>
+	
+		<div id="tooltip-desktop" class="tooltip">
+			<strong>Desktop:</strong> Metawidget has a native Swing JComponent
+		</div>
+	
+		<div id="tooltip-mobile" class="tooltip">
+			<strong>Mobile:</strong> Metawidget has a native Android View
+		</div>
+	
+		<div id="tooltip-inspect" class="tooltip">
+			<strong>Inspect:</strong> all Metawidgets, regardless of which front-end they are native to, use
+			a common inspection process to inspect the existing back-end architecture
+		</div>
+	
+		<div id="tooltip-property" class="tooltip">
+			<strong>Properties:</strong> Metawidget inspects runtime properties from JavaBeans or GroovyBeans
+		</div>
+	
+		<div id="tooltip-annotation" class="tooltip">
+			<strong>Annotations:</strong> Metawidget inspects runtime Java objects for existing annotations, such
+			as JPA or Hibernate Validator annotations
+		</div>
+	
+		<div id="tooltip-xml" class="tooltip">
+			<strong>XML:</strong> Metawidget inspects existing XML configuration files, such as<br/>
+			struts-config.xml or hibernate.cfg.xml
+		</div>
+	
+		<div id="tooltip-create" class="tooltip">
+			<strong>Create:</strong> the inspection results are used to choose the best UI
+			sub-widgets, depending on those available on the native platform
+		</div>
+	
+		<div id="tooltip-web-widget" class="tooltip">
+			<strong>Web:</strong> Metawidget creates native components/taglibs for each popular Web framework,
+			including attaching validators
+		</div>
+	
+		<div id="tooltip-desktop-widget" class="tooltip">
+			<strong>Desktop:</strong> Metawidget creates native Swing JComponents, optionally
+			bound with Beans Binding (JSR 295)
+		</div>
+	
+		<div id="tooltip-mobile-widget" class="tooltip">
+			<strong>Mobile:</strong> Metawidget creates native Android Views
+		</div>
+	
+		<div id="tooltip-embed" class="tooltip">
+			<strong>Embed:</strong> the native UI subcomponents slot into the existing front-end
+		</div>
+	
+		<script type="text/javascript">
+			new Tooltip( "area-web", "tooltip-web" );
+			new Tooltip( "area-desktop", "tooltip-desktop" );
+			new Tooltip( "area-mobile", "tooltip-mobile" );
+			new Tooltip( "area-inspect", "tooltip-inspect" );
+			new Tooltip( "area-property", "tooltip-property" );
+			new Tooltip( "area-annotation", "tooltip-annotation" );
+			new Tooltip( "area-xml", "tooltip-xml" );
+			new Tooltip( "area-create", "tooltip-create" );
+			new Tooltip( "area-web-widget", "tooltip-web-widget" );
+			new Tooltip( "area-desktop-widget", "tooltip-desktop-widget" );
+			new Tooltip( "area-mobile-widget", "tooltip-mobile-widget" );
+			new Tooltip( "area-embed", "tooltip-embed" );
+		</script>
+		
 	</tags:body>
-
-	<div id="tooltip-web" class="tooltip">
-		<strong>Web:</strong> Metawidget has a native component/taglib for each popular Web framework
-	</div>
-
-	<div id="tooltip-desktop" class="tooltip">
-		<strong>Desktop:</strong> Metawidget has a native Swing JComponent
-	</div>
-
-	<div id="tooltip-mobile" class="tooltip">
-		<strong>Mobile:</strong> Metawidget has a native Android View
-	</div>
-
-	<div id="tooltip-inspect" class="tooltip">
-		<strong>Inspect:</strong> all Metawidgets, regardless of which front-end they are native to, use
-		a common inspection process to inspect the existing back-end architecture
-	</div>
-
-	<div id="tooltip-property" class="tooltip">
-		<strong>Properties:</strong> Metawidget inspects runtime properties from JavaBeans or GroovyBeans
-	</div>
-
-	<div id="tooltip-annotation" class="tooltip">
-		<strong>Annotations:</strong> Metawidget inspects runtime Java objects for existing annotations, such
-		as JPA or Hibernate Validator annotations
-	</div>
-
-	<div id="tooltip-xml" class="tooltip">
-		<strong>XML:</strong> Metawidget inspects existing XML configuration files, such as<br/>
-		struts-config.xml or hibernate.cfg.xml
-	</div>
-
-	<div id="tooltip-create" class="tooltip">
-		<strong>Create:</strong> the inspection results are used to choose the best UI
-		sub-widgets, depending on those available on the native platform
-	</div>
-
-	<div id="tooltip-web-widget" class="tooltip">
-		<strong>Web:</strong> Metawidget creates native components/taglibs for each popular Web framework,
-		including attaching validators
-	</div>
-
-	<div id="tooltip-desktop-widget" class="tooltip">
-		<strong>Desktop:</strong> Metawidget creates native Swing JComponents, optionally
-		bound with Beans Binding (JSR 295)
-	</div>
-
-	<div id="tooltip-mobile-widget" class="tooltip">
-		<strong>Mobile:</strong> Metawidget creates native Android Views
-	</div>
-
-	<div id="tooltip-embed" class="tooltip">
-		<strong>Embed:</strong> the native UI subcomponents slot into the existing front-end
-	</div>
-
-	<script type="text/javascript">
-		new Tooltip( "area-web", "tooltip-web" );
-		new Tooltip( "area-desktop", "tooltip-desktop" );
-		new Tooltip( "area-mobile", "tooltip-mobile" );
-		new Tooltip( "area-inspect", "tooltip-inspect" );
-		new Tooltip( "area-property", "tooltip-property" );
-		new Tooltip( "area-annotation", "tooltip-annotation" );
-		new Tooltip( "area-xml", "tooltip-xml" );
-		new Tooltip( "area-create", "tooltip-create" );
-		new Tooltip( "area-web-widget", "tooltip-web-widget" );
-		new Tooltip( "area-desktop-widget", "tooltip-desktop-widget" );
-		new Tooltip( "area-mobile-widget", "tooltip-mobile-widget" );
-		new Tooltip( "area-embed", "tooltip-embed" );
-	</script>
-
+	
 </tags:page>

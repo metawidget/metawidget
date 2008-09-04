@@ -24,6 +24,7 @@ import java.util.Map;
 
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIData;
 import javax.faces.component.UIOutput;
 import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlInputHidden;
@@ -380,7 +381,9 @@ public class HtmlTableLayoutRenderer
 
 			// Large components get a whole row
 
-			if ( TRUE.equals( attributes.get( "large" ) ) && currentColumn != 1 )
+			boolean largeComponent = ( component instanceof UIData || TRUE.equals( attributes.get( LARGE )));
+			
+			if ( largeComponent && currentColumn != 1 )
 			{
 				writer.write( "</tr>" );
 				currentColumn = 1;
