@@ -76,7 +76,7 @@
 					</table>
 				</m:stub>
 
-				<m:facet name="buttons" styleClass="buttons">
+				<m:facet name="footer" styleClass="buttons">
 					<c:choose>
 						<c:when test="${contactForm.readOnly}">
 							<html:submit property="edit">

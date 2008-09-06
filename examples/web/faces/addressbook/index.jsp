@@ -24,9 +24,9 @@
 				<m:metawidget value="#{contactSearch.current}">
 					<f:param name="tableStyleClass" value="table-form"/>
 					<f:param name="columnClasses" value="table-label-column,table-component-column,required" />
-					<f:param name="buttonsStyleClass" value="buttons"/>
+					<f:param name="footerStyleClass" value="buttons"/>
 
-					<f:facet name="buttons">
+					<f:facet name="footer">
 						<m:metawidget value="#{contactSearch}" rendererType="simple"/>
 					</f:facet>
 

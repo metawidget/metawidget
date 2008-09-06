@@ -35,7 +35,7 @@
 				<f:param name="columnClasses" value="table-label-column,table-component-column,required" />
 				<f:param name="messageStyleClass" value="inline-error" />
 				<f:param name="sectionStyleClass" value="section-heading" />
-				<f:param name="buttonsStyleClass" value="buttons" />
+				<f:param name="footerStyleClass" value="buttons" />
 
 				<m:stub value="#{contact.current.communications}">
 					<h:dataTable id="communications" value="#{contact.currentCommunications}" var="_communication" styleClass="data-table" columnClasses="column-half, column-half, column-tiny table-buttons" rowClasses="row-odd, row-even">
@@ -73,7 +73,7 @@
 					</h:dataTable>
 				</m:stub>
 
-				<f:facet name="buttons">
+				<f:facet name="footer">
 					<m:metawidget value="#{contact}" rendererType="simple"/>
 				</f:facet>
 

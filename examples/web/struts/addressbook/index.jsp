@@ -28,7 +28,7 @@
 				<m:param name="tableStyleClass" value="table-form"/>
 				<m:param name="columnStyleClasses" value="table-label-column,table-component-column,required"/>
 
-				<m:facet name="buttons" styleClass="buttons">
+				<m:facet name="footer" styleClass="buttons">
 					<html:submit property="search">
 						<bean:message key="search"/>
  					</html:submit>

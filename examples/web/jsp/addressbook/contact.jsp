@@ -189,7 +189,7 @@
 					</table>
 				</m:stub>
 
-				<m:facet name="buttons" styleClass="buttons">
+				<m:facet name="footer" styleClass="buttons">
 					<m:metawidget value="contactController" layoutClass=""/>
 				</m:facet>
 
