@@ -60,6 +60,14 @@ public abstract class MetawidgetTag
 	//
 	//
 
+	/**
+	 * Sets the value binding.
+	 * <p>
+	 * This is JSF 1.1 style. In JSF 1.2, you use <code>setValue( ValueExpression )</code> and
+	 * <code>&lt;deferred-value&gt;&lt;type&gt;java.lang.Object&lt;/type&gt;&lt;/deferred-value&gt;</code>
+	 * in the TLD, but we want to be compatible with both.
+	 */
+
 	public void setValue( String value )
 	{
 		mValue = value;

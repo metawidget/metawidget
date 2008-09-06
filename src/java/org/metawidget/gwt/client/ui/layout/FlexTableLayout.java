@@ -160,7 +160,7 @@ public class FlexTableLayout
 			int row = mLayout.getRowCount();
 			mFormatter.setColSpan( row, 0, 2 );
 
-			String styleName = (String) getMetawidget().getParameter( "buttonsStyleName" );
+			String styleName = (String) getMetawidget().getParameter( "footerStyleName" );
 
 			if ( styleName != null )
 				mFormatter.setStyleName( row, 0, styleName );

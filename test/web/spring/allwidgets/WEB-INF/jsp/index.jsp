@@ -16,7 +16,7 @@
 				
 				<m:stub path="mystery"/>
 				
-				<m:facet name="buttons" style="aButtonsStyle" styleClass="aButtonsStyleClass">
+				<m:facet name="footer" style="aHeaderStyle" styleClass="aHeaderStyleClass">
 					<input type="submit" name="save" value="Save"/>
 				</m:facet>				
 			</m:metawidget>

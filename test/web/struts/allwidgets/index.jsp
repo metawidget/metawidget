@@ -17,7 +17,7 @@
 				<m:stub property="mystery"/>
 				<m:stub property="collection"/>
 				
-				<m:facet name="buttons" style="aButtonsStyle" styleClass="aButtonsStyleClass">
+				<m:facet name="footer" style="aHeaderStyle" styleClass="aHeaderStyleClass">
 					<html:submit value="Save"/>
 				</m:facet>
 			</m:metawidget>

@@ -14,8 +14,8 @@
 				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']"/>
 				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/@style" text="aTableStyle"/>
 				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/@class" text="aTableStyleClass"/>				
-				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/thead/tr/td/@style" text="aInstructionsStyle"/>
-				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/thead/tr/td/@class" text="aInstructionsStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/thead/tr/td/@style" text="aHeaderStyle"/>
+				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/thead/tr/td/@class" text="aHeaderStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/thead/tr/td/@colspan" text="3"/>
 				<verifyXPath xpath="/html/body/form/table[@id='table-allWidgets']/thead/tr/td" text="This page tests all possible widgets"/>				
 				<verifyXPath xpath="count(/html/body/form/table[@id='table-allWidgets']/thead/tr)" text="1"/>
@@ -220,8 +220,8 @@
 
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="32"/>
 
-				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aButtonsStyle"/>
-				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aButtonsStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aFooterStyle"/>
+				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aFooterStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@colspan" text="3"/>
 
 				<verifyXPath xpath="/html/body/form/input[1]/@type" text="hidden"/>
@@ -528,8 +528,8 @@
 
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="32"/>
 
-				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aButtonsStyle"/>
-				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aButtonsStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aFooterStyle"/>
+				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aFooterStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@colspan" text="3"/>
 
 				<verifyXPath xpath="/html/body/form/input[1]/@type" text="hidden"/>

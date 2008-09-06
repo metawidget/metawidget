@@ -18,12 +18,12 @@
 					<f:param name="tableStyle" value="aTableStyle"/>
 					<f:param name="tableStyleClass" value="aTableStyleClass"/>
 					<f:param name="columnClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>
-					<f:param name="buttonsStyle" value="aButtonsStyle"/>
-					<f:param name="buttonsStyleClass" value="aButtonsStyleClass"/>
+					<f:param name="footerStyle" value="aFooterStyle"/>
+					<f:param name="footerStyleClass" value="aFooterStyleClass"/>
 					
 					<m:stub value="#{allWidgets.mystery}" attributes="#{'required:false'}"/>
 
-					<f:facet name="buttons">
+					<f:facet name="footer">
 						<h:commandButton value="Save" action="#{allWidgetsBean.save}"/>
 					</f:facet>					
 				</m:metawidget>

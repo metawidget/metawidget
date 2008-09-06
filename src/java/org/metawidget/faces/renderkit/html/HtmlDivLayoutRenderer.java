@@ -49,8 +49,8 @@ import org.metawidget.util.simple.StringUtils;
  * <code>style</code> attribute on the Metawidget tag
  * <li><code>divStyleClasses</code> - comma separated list of style classes to apply to the DIVs,
  * in order of outer, label, required, widget, errors
- * <li><code>buttonsStyle</code>
- * <li><code>buttonsStyleClass</code>
+ * <li><code>footerStyle</code>
+ * <li><code>footerStyleClass</code>
  * </ul>
  * <p>
  *
@@ -173,19 +173,19 @@ public class HtmlDivLayoutRenderer
 	{
 		ResponseWriter writer = context.getResponseWriter();
 
-		// Buttons facet
+		// Footer facet
 
-		UIComponent componentButtons = component.getFacet( "buttons" );
+		UIComponent componentFooter = component.getFacet( "footer" );
 
-		if ( componentButtons != null )
+		if ( componentFooter != null )
 		{
 			writer.write( "\r\n<div" );
-			writeStyleAndClass( component, writer, "buttons" );
+			writeStyleAndClass( component, writer, "footer" );
 			writer.write( ">" );
 
 			// Render facet
 
-			FacesUtils.render( context, componentButtons );
+			FacesUtils.render( context, componentFooter );
 
 			writer.write( "</div>" );
 		}

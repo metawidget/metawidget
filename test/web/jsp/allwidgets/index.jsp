@@ -17,7 +17,7 @@
 				
 				<m:stub value="longObject"/>
 				
-				<m:facet name="buttons" style="aButtonsStyle" styleClass="aButtonsStyleClass">
+				<m:facet name="footer" style="aHeaderStyle" styleClass="aHeaderStyleClass">
 					<input type="submit" value="Save"/>
 				</m:facet>
 				

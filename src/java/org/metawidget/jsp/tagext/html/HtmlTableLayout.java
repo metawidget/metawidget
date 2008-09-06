@@ -41,7 +41,7 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>sectionStyleClass</code>
  * </ul>
  * <p>
- * Styles and style classes can be applied to any facets (such as the 'buttons' facet) by specifying
+ * Styles and style classes can be applied to any facets (such as the 'footer' facet) by specifying
  * them on the <code>&lt;m:facet&gt;</code> tag.
  *
  * @author Richard Kennard
@@ -171,17 +171,17 @@ public class HtmlTableLayout
 
 		buffer.append( ">" );
 
-		// Buttons parameter (XHTML requires TFOOT to come before TBODY)
+		// Footer parameter (XHTML requires TFOOT to come before TBODY)
 
-		FacetContent facetButtons = getMetawidgetTag().getFacet( "buttons" );
+		FacetContent facetFooter = getMetawidgetTag().getFacet( "footer" );
 
-		if ( facetButtons != null )
+		if ( facetFooter != null )
 		{
 			buffer.append( "\r\n<tfoot>" );
 			buffer.append( "<tr>" );
 			buffer.append( "<td colspan=\"" );
 
-			// Buttons span multiples of label/component/required
+			// Footer spans multiples of label/component/required
 
 			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 			buffer.append( String.valueOf( colspan ) );
@@ -189,26 +189,26 @@ public class HtmlTableLayout
 
 			// CSS styles
 
-			String buttonsStyle = facetButtons.getAttribute( "style" );
+			String footerStyle = facetFooter.getAttribute( "style" );
 
-			if ( buttonsStyle != null )
+			if ( footerStyle != null )
 			{
 				buffer.append( " style=\"" );
-				buffer.append( buttonsStyle );
+				buffer.append( footerStyle );
 				buffer.append( "\"" );
 			}
 
-			String buttonsStyleClass = facetButtons.getAttribute( "styleClass" );
+			String footerStyleClass = facetFooter.getAttribute( "styleClass" );
 
-			if ( buttonsStyleClass != null )
+			if ( footerStyleClass != null )
 			{
 				buffer.append( " class=\"" );
-				buffer.append( buttonsStyleClass );
+				buffer.append( footerStyleClass );
 				buffer.append( "\"" );
 			}
 
 			buffer.append( ">" );
-			buffer.append( facetButtons.getContent() );
+			buffer.append( facetFooter.getContent() );
 			buffer.append( "</td>" );
 			buffer.append( "</tr>" );
 			buffer.append( "</tfoot>" );

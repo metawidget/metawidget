@@ -208,8 +208,8 @@
 
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="31"/>
 
-				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aButtonsStyle"/>
-				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aButtonsStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aHeaderStyle"/>
+				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aHeaderStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@colspan" text="3"/>
 	
 				<verifyXPath xpath="/html/body/form/input[@type='hidden']/@value" text="Hidden"/>

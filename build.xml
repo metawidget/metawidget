@@ -1021,7 +1021,7 @@
 				<include name="commons-el-*.jar"/>
 				<include name="commons-lang-*.jar"/>
 				<include name="jsp-2.0.jar"/>
-				<include name="jstl.jar"/>
+				<include name="jstl-*.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-1.1*.jar"/>
 				<include name="richfaces-*.jar"/>
@@ -1061,7 +1061,7 @@
 				<include name="org/metawidget/test/shared/allwidgets/**"/>
 			</classes>
 			<lib dir="${build.metawidget.dir}/lib">
-				<include name="jstl.jar"/>
+				<include name="jstl-*.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="standard.jar"/>
 			</lib>
@@ -1106,7 +1106,7 @@
 			<lib dir="${build.metawidget.dir}/lib">
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="jstl.jar"/>
+				<include name="jstl-*.jar"/>
 				<include name="spring.jar"/>
 				<include name="spring-*.jar"/>
 				<include name="metawidget.jar"/>
@@ -1149,7 +1149,7 @@
 				<include name="commons-beanutils-*.jar"/>
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="jstl.jar"/>
+				<include name="jstl-*.jar"/>
 				<include name="struts.jar"/>
 				<include name="metawidget.jar"/>
 			</lib>
@@ -1370,7 +1370,7 @@
 				<include name="commons-discovery-*.jar"/>
 				<include name="commons-logging-*.jar"/>
 				<include name="hibernate-validator*.jar"/>
-				<include name="jstl.jar"/>
+				<include name="jstl-*.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-1.2*.jar"/>
 				<include name="richfaces-*.jar"/>
@@ -1457,7 +1457,7 @@
 				<include name="org/metawidget/example/shared/addressbook/**"/>
 			</classes>
 			<lib dir="${build.metawidget.dir}/lib">
-				<include name="jstl.jar"/>
+				<include name="jstl-*.jar"/>
 				<include name="standard.jar"/>
 				<include name="metawidget.jar"/>
 			</lib>
@@ -1495,7 +1495,7 @@
 				<include name="commons-beanutils-*.jar"/>
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="jstl.jar"/>
+				<include name="jstl-*.jar"/>
 				<include name="struts.jar"/>
 				<include name="standard.jar"/>
 				<include name="metawidget.jar"/>
@@ -1533,7 +1533,7 @@
 			<lib dir="${build.metawidget.dir}/lib">
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="jstl.jar"/>
+				<include name="jstl-*.jar"/>
 				<include name="spring.jar"/>
 				<include name="spring-*.jar"/>
 				<include name="standard.jar"/>
@@ -1602,7 +1602,7 @@
 			</classes>
 			<lib dir="${build.metawidget.dir}/lib">
 				<include name="gwt-servlet.jar"/>
-				<include name="jstl.jar"/>
+				<include name="jstl-*.jar"/>
 				<include name="standard.jar"/>
 				<include name="metawidget.jar"/>
 			</lib>
@@ -1718,7 +1718,7 @@
 			
 		<copy todir="${tomcat.dir}/webapps/ROOT/WEB-INF/lib">
 			<fileset dir="${build.metawidget.dir}/lib">
-				<include name="jstl.jar"/>
+				<include name="jstl-*.jar"/>
 				<include name="standard.jar"/>
 			</fileset>
 		</copy>
