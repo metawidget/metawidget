@@ -155,7 +155,7 @@ public class ContactDialog
 		mMetawidget.setParameter( "tableStyleName", "table-form" );
 		mMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
 		mMetawidget.setParameter( "sectionStyleName", "section-heading" );
-		mMetawidget.setParameter( "buttonsStyleName", "buttons" );
+		mMetawidget.setParameter( "footerStyleName", "buttons" );
 		mMetawidget.setBindingClass( SimpleBinding.class );
 		mMetawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, mMetawidget );
@@ -171,7 +171,7 @@ public class ContactDialog
 		mAddressMetawidget.setParameter( "tableStyleName", "table-form" );
 		mAddressMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
 		mAddressMetawidget.setParameter( "sectionStyleName", "section-heading" );
-		mAddressMetawidget.setParameter( "buttonsStyleName", "buttons" );
+		mAddressMetawidget.setParameter( "footerStyleName", "buttons" );
 		mAddressMetawidget.setBindingClass( SimpleBinding.class );
 		mAddressMetawidget.setToInspect( contact );
 

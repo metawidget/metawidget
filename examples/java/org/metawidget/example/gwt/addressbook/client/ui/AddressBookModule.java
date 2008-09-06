@@ -149,7 +149,7 @@ public class AddressBookModule
 		metawidget.setDictionaryName( "bundle" );
 		metawidget.setParameter( "tableStyleName", "table-form" );
 		metawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
-		metawidget.setParameter( "buttonsStyleName", "buttons" );
+		metawidget.setParameter( "footerStyleName", "buttons" );
 		metawidget.setToInspect( mContactSearch );
 
 		// Embedded buttons
