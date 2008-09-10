@@ -920,6 +920,8 @@ public abstract class UIMetawidget
 	/**
 	 * Attach converter for renderer.
 	 *
+	 * @param component	the component to attach the converter to. Need not be a ValueHolder (eg. might
+	 * be a UIStub, in which case the converter is attached to its children)
 	 * @return the converter that was attached
 	 */
 
@@ -1334,21 +1336,24 @@ public abstract class UIMetawidget
 
 		// Add an empty choice (if nullable, and not required)
 
-		String type = attributes.get( TYPE );
-
-		if ( type == null )
+		if ( component instanceof HtmlSelectOneListbox )
 		{
-			// Type can be null if this lookup was specified by a metawidget-metadata.xml
-			// and the type was omitted from the XML. In that case, assume nullable
+			String type = attributes.get( TYPE );
 
-			addSelectItem( component, "", null );
-		}
-		else
-		{
-			Class<?> clazz = ClassUtils.niceForName( type );
+			if ( type == null )
+			{
+				// Type can be null if this lookup was specified by a metawidget-metadata.xml
+				// and the type was omitted from the XML. In that case, assume nullable
 
-			if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE )) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED )))))
 				addSelectItem( component, "", null );
+			}
+			else
+			{
+				Class<?> clazz = ClassUtils.niceForName( type );
+
+				if ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE )) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
+					addSelectItem( component, "", null );
+			}
 		}
 
 		UISelectItems selectItems = (UISelectItems) application.createComponent( "javax.faces.SelectItems" );

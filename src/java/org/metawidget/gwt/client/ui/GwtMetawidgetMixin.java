@@ -26,6 +26,7 @@ import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
 import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
 /**
@@ -47,7 +48,22 @@ public abstract class GwtMetawidgetMixin<W>
 	protected Element getFirstElement( String xml )
 	{
 		Document document = XMLParser.parse( xml );
-		return (Element) document.getDocumentElement().getFirstChild();
+
+		// TODO: test ignoring any indentation TextNodes
+
+		// Get the first node (ignoring any indentation TextNodes)
+
+		Node node = document.getDocumentElement().getFirstChild();
+
+		while( node != null )
+		{
+			if ( node instanceof Element )
+				return (Element) node;
+
+			node = node.getNextSibling();
+		}
+
+		return null;
 	}
 
 	@Override
@@ -59,10 +75,24 @@ public abstract class GwtMetawidgetMixin<W>
 	@Override
 	protected Element getChildAt( Element element, int index )
 	{
-		Node node = element.getChildNodes().item( index );
+		// Get the indexed node (ignoring any indentation TextNodes)
 
-		if ( node instanceof Element )
-			return (Element) node;
+		NodeList nodes = element.getChildNodes();
+
+		int actualIndex = 0;
+
+		for( int loop = 0, length = nodes.getLength(); loop < length; loop++ )
+		{
+			Node node = nodes.item( loop );
+
+			if ( !( node instanceof Element ))
+				continue;
+
+			if ( actualIndex == index )
+				return (Element) node;
+
+			actualIndex++;
+		}
 
 		return null;
 	}

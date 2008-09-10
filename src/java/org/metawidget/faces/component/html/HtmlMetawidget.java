@@ -24,6 +24,7 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.faces.application.Application;
 import javax.faces.component.UICommand;
@@ -119,9 +120,9 @@ public class HtmlMetawidget
 		if ( component instanceof UIStub )
 			componentToStyle = component.getChildren().get( 0 );
 
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings( "unchecked" )
 		Map<String, Object> componentAttributes = componentToStyle.getAttributes();
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings( "unchecked" )
 		Map<String, Object> thisAttributes = getAttributes();
 		String style = (String) thisAttributes.get( "style" );
 
@@ -173,7 +174,7 @@ public class HtmlMetawidget
 
 		// Action
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return null;
 
 		// Lookups
@@ -282,12 +283,12 @@ public class HtmlMetawidget
 
 		// Action
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 		{
 			if ( component == null )
 				component = application.createComponent( "javax.faces.HtmlCommandButton" );
 
-			((UICommand) component).setValue( getLabelString( context, attributes ) );
+			( (UICommand) component ).setValue( getLabelString( context, attributes ) );
 
 			return component;
 		}
@@ -342,8 +343,6 @@ public class HtmlMetawidget
 
 				if ( component instanceof ValueHolder )
 				{
-					ValueHolder valueHolder = (ValueHolder) component;
-
 					// ...using either the specified converter...
 
 					Converter converter = setConverter( component, attributes );
@@ -352,10 +351,18 @@ public class HtmlMetawidget
 
 					if ( converter == null )
 					{
-						converter = application.createConverter( clazz );
+						// If the target type is itself a List or Set, and we have a
+						// parameterizedType, use that instead when converting for the
+						// convertedValues
 
-						if ( converter != null )
-							valueHolder.setConverter( converter );
+						String parameterizedType = attributes.get( PARAMETERIZED_TYPE );
+
+						if ( ( Set.class.isAssignableFrom( clazz ) || List.class.isAssignableFrom( clazz ) ) && parameterizedType != null )
+							converter = application.createConverter( ClassUtils.niceForName( parameterizedType ) );
+						else
+							converter = application.createConverter( clazz );
+
+						( (ValueHolder) component ).setConverter( converter );
 					}
 
 					// ...if any
@@ -367,6 +374,12 @@ public class HtmlMetawidget
 
 						for ( int loop = 0; loop < size; loop++ )
 						{
+							// Note: the component at this point will not have a ValueBinding, as
+							// that gets added in addWidget. This can scupper clever Converters that
+							// try to determine the type based on the ValueBinding. For those, we
+							// recommend overriding 'Application.createConverter' and passing the
+							// type in the Converter's constructor instead
+
 							Object convertedValue = converter.getAsObject( context, component, (String) values.get( loop ) );
 							convertedValues.add( convertedValue );
 						}

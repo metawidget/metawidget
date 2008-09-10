@@ -19,6 +19,8 @@ package org.metawidget.faces.component.html.richfaces;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -132,11 +134,13 @@ public class RichFacesMetawidget
 				{
 					spinner.setMinValue( String.valueOf( -Float.MAX_VALUE ));
 					spinner.setMaxValue( String.valueOf( Float.MAX_VALUE ));
+					spinner.setStep( "0.1" );
 				}
 				else if ( "double".equals( type ) )
 				{
 					spinner.setMinValue( String.valueOf( -Double.MAX_VALUE ));
 					spinner.setMaxValue( String.valueOf( Double.MAX_VALUE ));
+					spinner.setStep( "0.1" );
 				}
 
 				return spinner;
@@ -200,20 +204,25 @@ public class RichFacesMetawidget
 					spinner.setMinValue( String.valueOf( Integer.MIN_VALUE ));
 					spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ));
 				}
-				else if ( Long.class.equals( clazz ) )
+
+				// TODO: test BigInteger, BigDecimal
+
+				else if ( Long.class.equals( clazz ) || BigInteger.class.equals( clazz ))
 				{
 					spinner.setMinValue( String.valueOf( Long.MIN_VALUE ));
 					spinner.setMaxValue( String.valueOf( Long.MAX_VALUE ));
 				}
-				else if ( Float.class.equals( clazz ) )
+				else if ( Float.class.equals( clazz ))
 				{
 					spinner.setMinValue( String.valueOf( -Float.MAX_VALUE ));
 					spinner.setMaxValue( String.valueOf( Float.MAX_VALUE ));
+					spinner.setStep( "0.1" );
 				}
-				else if ( Double.class.equals( clazz ) )
+				else if ( Double.class.equals( clazz ) || BigDecimal.class.equals( clazz ))
 				{
 					spinner.setMinValue( String.valueOf( -Double.MAX_VALUE ));
 					spinner.setMaxValue( String.valueOf( Double.MAX_VALUE ));
+					spinner.setStep( "0.1" );
 				}
 
 				return spinner;

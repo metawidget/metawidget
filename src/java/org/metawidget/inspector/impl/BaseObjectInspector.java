@@ -227,7 +227,7 @@ public abstract class BaseObjectInspector
 
 			// Return the document
 
-			return XmlUtils.documentToString( document );
+			return XmlUtils.documentToString( document, false );
 		}
 		catch ( Exception e )
 		{

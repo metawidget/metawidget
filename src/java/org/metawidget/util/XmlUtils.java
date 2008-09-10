@@ -257,14 +257,14 @@ public class XmlUtils
 	 * ...but not all platforms (eg. Android) support <code>javax.xml.transform.Transformer</code>.
 	 */
 
-	public static String documentToString( Document document )
+	public static String documentToString( Document document, boolean indented )
 	{
 		// Nothing to do?
 
 		if ( document == null )
 			return "";
 
-		return nodeToString( document.getFirstChild(), -1 );
+		return nodeToString( document.getFirstChild(), ( indented ? 0 : -1 ) );
 	}
 
 	public static Document documentFromString( String xml )
@@ -542,7 +542,7 @@ public class XmlUtils
 			buffer.append( ">" );
 		}
 
-		if ( indent != -1 )
+		if ( indent > 0 )
 			buffer.append( "\n" );
 
 		return buffer.toString();
@@ -618,7 +618,6 @@ public class XmlUtils
 	static
 	{
 		DOCUMENT_BUILDER_FACTORY = DocumentBuilderFactory.newInstance();
-		// DOCUMENT_BUILDER_FACTORY.setCoalescing( true );
 		DOCUMENT_BUILDER_FACTORY.setNamespaceAware( true );
 		DOCUMENT_BUILDER_FACTORY.setIgnoringComments( true );
 		DOCUMENT_BUILDER_FACTORY.setIgnoringElementContentWhitespace( true );

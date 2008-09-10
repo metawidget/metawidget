@@ -134,35 +134,40 @@ public abstract class MetawidgetTag
 	{
 		super.setProperties( component );
 
-		UIMetawidget componentMetawidet = (UIMetawidget) component;
+		UIMetawidget metawidetComponent = (UIMetawidget) component;
 		Application application = getFacesContext().getApplication();
 
 		// Value
 		//
 		// Note: Metawidets do not have to have a value. They can be used purely
-		// to lay out manually-specified components.
+		// to lay out manually-specified components. Equally, the value need not
+		// be a value binding - it can be a String into a JBPM subsystem, for example
 
 		if ( mValue != null )
 		{
-			if ( !isValueReference( mValue ) )
-				throw MetawidgetException.newException( "Value must be an EL expression" );
-
-			componentMetawidet.setValueBinding( "value", application.createValueBinding( mValue ) );
+			if ( isValueReference( mValue ) )
+			{
+				metawidetComponent.setValueBinding( "value", application.createValueBinding( mValue ) );
+			}
+			else
+			{
+				metawidetComponent.setValue( mValue );
+			}
 		}
 
 		// Renderer
 
 		if ( mRendererType != null )
-			componentMetawidet.setRendererType( mRendererType );
+			metawidetComponent.setRendererType( mRendererType );
 
 		// Inspector Config
 
 		if ( mInspectorConfig != null )
-			componentMetawidet.setInspectorConfig( mInspectorConfig );
+			metawidetComponent.setInspectorConfig( mInspectorConfig );
 
 		// Inspect from parent
 
-		componentMetawidet.setInspectFromParent( mInspectFromParent );
+		metawidetComponent.setInspectFromParent( mInspectFromParent );
 
 		// Read-Only
 
@@ -170,13 +175,13 @@ public abstract class MetawidgetTag
 		{
 			if ( isValueReference( mReadOnly ) )
 			{
-				componentMetawidet.setValueBinding( "readOnly", application.createValueBinding( mReadOnly ) );
+				metawidetComponent.setValueBinding( "readOnly", application.createValueBinding( mReadOnly ) );
 			}
 			else
 			{
 				// (use new Boolean, not Boolean.valueOf, so that we're 1.4 compatible)
 
-				componentMetawidet.setReadOnly( new Boolean( mReadOnly ) );
+				metawidetComponent.setReadOnly( new Boolean( mReadOnly ) );
 			}
 		}
 
@@ -187,11 +192,11 @@ public abstract class MetawidgetTag
 			if ( !isValueReference( mBundle ) )
 				throw MetawidgetException.newException( "Bundle must be an EL expression" );
 
-			componentMetawidet.setValueBinding( "bundle", application.createValueBinding( mBundle ) );
+			metawidetComponent.setValueBinding( "bundle", application.createValueBinding( mBundle ) );
 		}
 
 		// Validator
 
-		componentMetawidet.setValidatorClass( mValidatorClass );
+		metawidetComponent.setValidatorClass( mValidatorClass );
 	}
 }

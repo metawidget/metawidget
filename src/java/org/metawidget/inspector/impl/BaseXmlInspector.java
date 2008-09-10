@@ -150,7 +150,7 @@ public abstract class BaseXmlInspector
 			// Debug
 
 			if ( mLog.isTraceEnabled() )
-				mLog.trace( XmlUtils.documentToString( mRoot.getOwnerDocument() ) );
+				mLog.trace( XmlUtils.documentToString( mRoot.getOwnerDocument(), false ) );
 		}
 		catch ( Exception e )
 		{
@@ -232,7 +232,7 @@ public abstract class BaseXmlInspector
 
 			// Return the document
 
-			return XmlUtils.documentToString( document );
+			return XmlUtils.documentToString( document, false );
 		}
 		catch ( Exception e )
 		{

@@ -24,6 +24,8 @@ import org.metawidget.example.shared.addressbook.model.Gender;
  * @author Richard Kennard
  */
 
+// TODO: not needed in JSF 1.2?
+
 public class GenderConverter
 	extends EnumConverter<Gender>
 {

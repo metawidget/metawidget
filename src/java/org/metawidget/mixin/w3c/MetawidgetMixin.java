@@ -23,6 +23,7 @@ import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * Mixin for platforms that support <code>org.w3c.dom</code>.
@@ -43,7 +44,21 @@ public abstract class MetawidgetMixin<W>
 	protected Element getFirstElement( String xml )
 	{
 		Document document = XmlUtils.documentFromString( xml );
-		return (Element) document.getDocumentElement().getFirstChild();
+
+		// TODO: test ignoring any indentation TextNodes
+		// Get the first node (ignoring any indentation TextNodes)
+
+		Node node = document.getDocumentElement().getFirstChild();
+
+		while( node != null )
+		{
+			if ( node instanceof Element )
+				return (Element) node;
+
+			node = node.getNextSibling();
+		}
+
+		return null;
 	}
 
 	@Override
@@ -55,10 +70,24 @@ public abstract class MetawidgetMixin<W>
 	@Override
 	protected Element getChildAt( Element element, int index )
 	{
-		Node node = element.getChildNodes().item( index );
+		// Get the indexed node (ignoring any indentation TextNodes)
 
-		if ( node instanceof Element )
-			return (Element) node;
+		NodeList nodes = element.getChildNodes();
+
+		int actualIndex = 0;
+
+		for( int loop = 0, length = nodes.getLength(); loop < length; loop++ )
+		{
+			Node node = nodes.item( loop );
+
+			if ( !( node instanceof Element ))
+				continue;
+
+			if ( actualIndex == index )
+				return (Element) node;
+
+			actualIndex++;
+		}
 
 		return null;
 	}
