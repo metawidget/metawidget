@@ -577,7 +577,7 @@ public abstract class UIMetawidget
 	protected UIComponent getOverridenWidget( String elementName, Map<String, String> attributes )
 	{
 		Application application = getFacesContext().getApplication();
-		String binding = attributes.get( FACES_BINDING );
+		String binding = attributes.get( FACES_EXPRESSION );
 
 		// Actions
 
@@ -1076,9 +1076,9 @@ public abstract class UIMetawidget
 
 			if ( binding == null )
 			{
-				// If there is a faces-binding, use it...
+				// If there is a faces-expression, use it...
 
-				String methodBinding = attributes.get( FACES_BINDING );
+				String methodBinding = attributes.get( FACES_EXPRESSION );
 
 				if ( methodBinding != null )
 				{
@@ -1146,9 +1146,9 @@ public abstract class UIMetawidget
 
 			if ( binding == null )
 			{
-				// If there is a faces-binding, use it...
+				// If there is a faces-expression, use it...
 
-				String valueBinding = attributes.get( FACES_BINDING );
+				String valueBinding = attributes.get( FACES_EXPRESSION );
 
 				if ( valueBinding == null )
 				{
@@ -1388,7 +1388,7 @@ public abstract class UIMetawidget
 			if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
 				return true;
 
-			// Read-only value-binding
+			// Check read-only value binding
 
 			return UIMetawidget.this.isReadOnly();
 		}

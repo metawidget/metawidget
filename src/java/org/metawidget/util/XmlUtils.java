@@ -257,14 +257,14 @@ public class XmlUtils
 	 * ...but not all platforms (eg. Android) support <code>javax.xml.transform.Transformer</code>.
 	 */
 
-	public static String documentToString( Document document, boolean indented )
+	public static String documentToString( Document document, boolean pretty )
 	{
 		// Nothing to do?
 
 		if ( document == null )
 			return "";
 
-		return nodeToString( document.getFirstChild(), ( indented ? 0 : -1 ) );
+		return nodeToString( document.getFirstChild(), ( pretty ? 0 : -1 ) );
 	}
 
 	public static Document documentFromString( String xml )
@@ -468,9 +468,9 @@ public class XmlUtils
 
 		// Open tag
 
-		String name = escapeForXml( node.getNodeName() );
+		String nodeName = escapeForXml( node.getNodeName() );
 		buffer.append( "<" );
-		buffer.append( name );
+		buffer.append( nodeName );
 
 		// Changing namespace
 
@@ -486,13 +486,34 @@ public class XmlUtils
 
 		// Attributes (go via getAttributesAsMap to benefit from getAttributesAsMapHack)
 
-		for ( Map.Entry<String, String> attribute : getAttributesAsMap( node ).entrySet() )
+		Map<String, String> attributes = getAttributesAsMap( node );
+
+		// In pretty mode, always put name first for easy reading
+
+		if ( indent > -1 )
+		{
+			String name = attributes.get( "name" );
+
+			if ( name != null )
+			{
+				buffer.append( " name=\"" );
+				buffer.append( escapeForXml( name ) );
+				buffer.append( "\"" );
+			}
+		}
+
+		for ( Map.Entry<String, String> attribute : attributes.entrySet() )
 		{
 			String attributeName = attribute.getKey();
 
 			// (I'm a bit surprised xmlns is an attribute - is that a bug?)
 
 			if ( "xmlns".equals( attributeName ) )
+				continue;
+
+			// (in pretty mode, always put name first for easy reading)
+
+			if ( indent > -1 && "name".equals( attributeName ) )
 				continue;
 
 			buffer.append( " " );
@@ -538,7 +559,7 @@ public class XmlUtils
 			// Close tag
 
 			buffer.append( "</" );
-			buffer.append( name );
+			buffer.append( nodeName );
 			buffer.append( ">" );
 		}
 

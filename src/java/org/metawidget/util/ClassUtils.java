@@ -36,11 +36,13 @@ public final class ClassUtils
 	//
 	//
 
-	public final static String	JAVABEAN_SET_PREFIX	= "set";
+	public final static String		JAVABEAN_SET_PREFIX	= "set";
 
-	public final static String	JAVABEAN_GET_PREFIX	= "get";
+	public final static String		JAVABEAN_GET_PREFIX	= "get";
 
-	public final static String	JAVABEAN_IS_PREFIX	= "is";
+	public final static String		JAVABEAN_IS_PREFIX	= "is";
+
+	public final static Class<?>[]	NO_CLASSES			= new Class[0];
 
 	/**
 	 * Lookup JavaBean-convention getter without using <code>java.beans</code>, as that package
@@ -183,33 +185,34 @@ public final class ClassUtils
 	}
 
 	/**
-	 * Returns the wrapper class for a primitive class (eg. <code>Integer.class</code> for <code>int.class</code>)
+	 * Returns the wrapper class for a primitive class (eg. <code>Integer.class</code> for
+	 * <code>int.class</code>)
 	 */
 
 	public static Class<?> getWrapperClass( Class<?> clazz )
 	{
-		if ( clazz.equals( byte.class ))
+		if ( clazz.equals( byte.class ) )
 			return Byte.class;
 
-		if ( clazz.equals( short.class ))
+		if ( clazz.equals( short.class ) )
 			return Short.class;
 
-		if ( clazz.equals( int.class ))
+		if ( clazz.equals( int.class ) )
 			return Integer.class;
 
-		if ( clazz.equals( long.class ))
+		if ( clazz.equals( long.class ) )
 			return Long.class;
 
-		if ( clazz.equals( float.class ))
+		if ( clazz.equals( float.class ) )
 			return Float.class;
 
-		if ( clazz.equals( double.class ))
+		if ( clazz.equals( double.class ) )
 			return Double.class;
 
-		if ( clazz.equals( boolean.class ))
+		if ( clazz.equals( boolean.class ) )
 			return Boolean.class;
 
-		if ( clazz.equals( char.class ))
+		if ( clazz.equals( char.class ) )
 			return Character.class;
 
 		throw new RuntimeException( clazz + " is not a primitive type" );
@@ -306,28 +309,28 @@ public final class ClassUtils
 		}
 		catch ( ClassNotFoundException e )
 		{
-			if ( "byte".equals( className ))
+			if ( "byte".equals( className ) )
 				return byte.class;
 
-			if ( "short".equals( className ))
+			if ( "short".equals( className ) )
 				return short.class;
 
-			if ( "int".equals( className ))
+			if ( "int".equals( className ) )
 				return int.class;
 
-			if ( "long".equals( className ))
+			if ( "long".equals( className ) )
 				return long.class;
 
-			if ( "float".equals( className ))
+			if ( "float".equals( className ) )
 				return float.class;
 
-			if ( "double".equals( className ))
+			if ( "double".equals( className ) )
 				return double.class;
 
-			if ( "boolean".equals( className ))
+			if ( "boolean".equals( className ) )
 				return boolean.class;
 
-			if ( "char".equals( className ))
+			if ( "char".equals( className ) )
 				return char.class;
 
 			return null;
@@ -340,7 +343,7 @@ public final class ClassUtils
 	//
 	//
 
-	private final static Pattern				PROXY_PATTERN	= Pattern.compile( "ByCGLIB\\$\\$|_\\$\\$_javassist_" );
+	private final static Pattern	PROXY_PATTERN	= Pattern.compile( "ByCGLIB\\$\\$|_\\$\\$_javassist_" );
 
 	//
 	//

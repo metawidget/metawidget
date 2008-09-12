@@ -65,18 +65,18 @@ public class HtmlLookupOutputText
 		{
 			// Convert as necessary
 
-			FacesContext context = FacesContext.getCurrentInstance();
+			FacesContext context = getFacesContext();
 
 			if ( getConverter() != null )
 			{
-				value = getConverter().getAsString( FacesContext.getCurrentInstance(), this, value );
+				value = getConverter().getAsString( context, this, value );
 			}
 			else
 			{
 				Converter converter = context.getApplication().createConverter( value.getClass() );
 
 				if ( converter != null )
-					value = converter.getAsString( FacesContext.getCurrentInstance(), this, value );
+					value = converter.getAsString( context, this, value );
 				else
 					value = String.valueOf( value );
 			}

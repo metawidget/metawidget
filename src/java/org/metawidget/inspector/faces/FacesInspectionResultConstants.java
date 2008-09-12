@@ -33,7 +33,7 @@ public final class FacesInspectionResultConstants
 
 	public final static String	FACES_LOOKUP					= "faces-lookup";
 
-	public final static String	FACES_BINDING					= "faces-binding";
+	public final static String	FACES_EXPRESSION				= "faces-expression";
 
 	public final static String	FACES_COMPONENT					= "faces-component";
 

@@ -28,7 +28,6 @@ import java.util.TimeZone;
 
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.ClassUtils;
@@ -73,7 +72,7 @@ public class RichFacesMetawidget
 		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ))
 			return super.buildActiveWidget( elementName, attributes );
 
-		Application application = FacesContext.getCurrentInstance().getApplication();
+		Application application = getFacesContext().getApplication();
 		String type = attributes.get( TYPE );
 
 		if ( type == null )

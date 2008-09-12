@@ -28,6 +28,11 @@ import org.metawidget.faces.FacesUtils;
  * <p>
  * This Layout is suited to rendering single components, or for rendering components whose
  * layout relies entirely on CSS.
+ * This implementation recognizes the following <code>&lt;f:facet&gt;</code> names:
+ * <p>
+ * <ul>
+ * 	<li><code>after<code></li>
+ * </ul>
  *
  * @author Richard Kennard
  */
@@ -41,7 +46,7 @@ public class SimpleLayoutRenderer
 	//
 	//
 
-	private final static String	BUTTONS_FACET	= "buttons";
+	private final static String	AFTER_FACET	= "after";
 
 	//
 	//
@@ -53,13 +58,13 @@ public class SimpleLayoutRenderer
 	public void encodeEnd( FacesContext context, UIComponent component )
 		throws IOException
 	{
-		// Buttons facet
+		// After facet
 
-		UIComponent componentButtons = component.getFacet( BUTTONS_FACET );
+		UIComponent afterFacet = component.getFacet( AFTER_FACET );
 
-		if ( componentButtons != null )
+		if ( afterFacet != null )
 		{
-			FacesUtils.render( context, componentButtons );
+			FacesUtils.render( context, afterFacet );
 		}
 	}
 }
