@@ -2,14 +2,14 @@
 
 	<!-- Core GWT -->
 	
-	<inherits name='com.google.gwt.user.User' />
-	<inherits name='org.metawidget.GwtMetawidget' />
+	<inherits name="com.google.gwt.user.User" />
+	<inherits name="org.metawidget.GwtMetawidget" />
 
 	<!-- Client -->
 	
 	<source path="gwt/allwidgets/client"/>
 	<source path="shared/allwidgets/model"/>	
-	<entry-point class='org.metawidget.test.gwt.allwidgets.client.ui.AllWidgets' />
+	<entry-point class="org.metawidget.test.gwt.allwidgets.client.ui.AllWidgets" />
 
 	<!-- Binding -->
 	

@@ -39,24 +39,10 @@ public abstract class MetawidgetMixin<W>
 	//
 
 	@Override
-	protected Element getFirstElement( String xml )
+	protected Element getDocumentElement( String xml )
 	{
 		Document document = XmlUtils.documentFromString( xml );
-
-		// TODO: test ignoring any indentation TextNodes
-		// Get the first node (ignoring any indentation TextNodes)
-
-		Node node = document.getDocumentElement().getFirstChild();
-
-		while( node != null )
-		{
-			if ( node instanceof Element )
-				return (Element) node;
-
-			node = node.getNextSibling();
-		}
-
-		return null;
+		return document.getDocumentElement();
 	}
 
 	@Override
@@ -100,11 +86,5 @@ public abstract class MetawidgetMixin<W>
 	protected Map<String, String> getAttributesAsMap( Element element )
 	{
 		return XmlUtils.getAttributesAsMap( element );
-	}
-
-	@Override
-	protected boolean isMetawidget( W widget )
-	{
-		return getClass().getDeclaringClass().isAssignableFrom( widget.getClass() );
 	}
 }

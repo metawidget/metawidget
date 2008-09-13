@@ -1,0 +1,12 @@
+<module>
+
+	<!-- Core GWT -->
+	
+	<inherits name="com.google.gwt.user.User" />
+	<inherits name="org.metawidget.GwtMetawidget" />
+
+	<!-- Client -->
+	
+	<source path="client"/>
+
+</module>

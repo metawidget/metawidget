@@ -2101,7 +2101,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 								Update the application's <filename>.gwt.xml</filename> module to include Metawidet:
 							</para>
 							<programlisting language="xml">&lt;module&gt;								
-	&lt;inherits name='org.metawidget.GwtMetawidget' /&gt;
+	&lt;inherits name="org.metawidget.GwtMetawidget" /&gt;
 	...
 &lt;/module&gt;</programlisting>
 						</listitem>

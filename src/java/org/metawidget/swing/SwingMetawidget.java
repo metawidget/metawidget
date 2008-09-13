@@ -1482,6 +1482,12 @@ public class SwingMetawidget
 		}
 
 		@Override
+		protected boolean isMetawidget( JComponent widget )
+		{
+			return ( widget instanceof SwingMetawidget );
+		}
+
+		@Override
 		protected boolean isStub( JComponent component )
 		{
 			return ( component instanceof Stub );

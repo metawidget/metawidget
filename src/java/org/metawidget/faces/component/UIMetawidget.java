@@ -1403,6 +1403,12 @@ public abstract class UIMetawidget
 		}
 
 		@Override
+		protected boolean isMetawidget( UIComponent widget )
+		{
+			return ( widget instanceof UIMetawidget );
+		}
+
+		@Override
 		protected boolean isStub( UIComponent widget )
 		{
 			return ( widget instanceof UIStub );

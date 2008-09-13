@@ -2,8 +2,8 @@
 
 	<!-- Core GWT -->
 	
-	<inherits name='com.google.gwt.user.User' />
-	<inherits name='com.google.gwt.xml.XML' />
+	<inherits name="com.google.gwt.user.User" />
+	<inherits name="com.google.gwt.xml.XML" />
 
 	<!-- Source paths -->
 	
@@ -21,7 +21,7 @@
 		<when-type-assignable class="org.metawidget.gwt.client.inspector.InspectorFactory"/>
 	</generate-with>
 
-	<servlet path='/metawidget-inspector' class='org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl' />
+	<servlet path="/metawidget-inspector" class="org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl" />
 
 	<!-- Binding -->
 	

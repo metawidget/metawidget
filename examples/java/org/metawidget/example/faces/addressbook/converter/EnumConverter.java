@@ -23,9 +23,10 @@ import javax.faces.convert.ConverterException;
 
 /**
  * Converts Enums to/from a String representation.
- *
- * Unlike the built-in <code>javax.faces.convert.EnumConverter</code>, converts to String via
- * <code>.name()</code>, which is far more reliable.
+ * <p>
+ * Unlike the built-in <code>javax.faces.convert.EnumConverter</code>, which <a
+ * href="https://javaserverfaces-spec-public.dev.java.net/issues/show_bug.cgi?id=470">may need
+ * fixing</a>, converts to String via <code>.name()</code>, which is far more reliable.
  *
  * @author Richard Kennard
  */

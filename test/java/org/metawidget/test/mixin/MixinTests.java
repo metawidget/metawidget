@@ -14,25 +14,30 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.faces.addressbook.converter;
+package org.metawidget.test.mixin;
 
-import org.metawidget.example.shared.addressbook.model.Gender;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.metawidget.test.mixin.w3c.MetawidgetMixinTest;
 
 /**
- * Converts Gender to/from a String representation.
- *
  * @author Richard Kennard
  */
 
-public class GenderConverter
-	extends EnumConverter<Gender>
+public class MixinTests
+	extends TestCase
 {
 	//
-	// Constructor
+	// Public statics
 	//
 
-	public GenderConverter()
+	public static Test suite()
 	{
-		super( Gender.class );
+		TestSuite suite = new TestSuite( "Mixin Tests" );
+		suite.addTestSuite( MetawidgetMixinTest.class );
+
+		return suite;
 	}
 }

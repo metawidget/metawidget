@@ -112,7 +112,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 		{
 			// Build simple widget (from the top-level element)
 
-			E element = getFirstElement( xml );
+			E element = getChildAt( getDocumentElement( xml ), 0 );
 			Map<String, String> attributes = getAttributesAsMap( element );
 
 			// It is a little counter-intuitive that there can ever be an override
@@ -224,7 +224,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 	// Protected abstract methods
 	//
 
-	protected abstract E getFirstElement( String xml );
+	protected abstract E getDocumentElement( String xml );
 
 	protected abstract int getChildCount( E element );
 

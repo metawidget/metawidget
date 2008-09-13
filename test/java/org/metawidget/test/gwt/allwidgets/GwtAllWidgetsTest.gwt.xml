@@ -1,6 +1,6 @@
 <module>
 
-	<inherits name='com.google.gwt.user.User'/>
-	<inherits name='org.metawidget.test.GwtAllWidgets' />
+	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="org.metawidget.test.GwtAllWidgets" />
 
 </module>

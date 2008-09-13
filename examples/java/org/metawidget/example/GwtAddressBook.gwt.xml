@@ -2,15 +2,15 @@
 
 	<!-- Core GWT -->
 	
-	<inherits name='com.google.gwt.user.User' />
-	<inherits name='org.metawidget.GwtMetawidget' />
+	<inherits name="com.google.gwt.user.User" />
+	<inherits name="org.metawidget.GwtMetawidget" />
 
 	<!-- Client -->
 	
 	<source path="gwt/addressbook/client"/>
 	<source path="gwt/addressbook/inspector/remote/client"/>
 	<source path="shared/addressbook/model"/>
-	<entry-point class='org.metawidget.example.gwt.addressbook.client.ui.AddressBookModule' />
+	<entry-point class="org.metawidget.example.gwt.addressbook.client.ui.AddressBookModule" />
 	
 	<!-- Public path (for hosted mode) -->
 	
@@ -18,7 +18,7 @@
 
 	<!-- Server -->
 	
-	<servlet path='/contacts' class='org.metawidget.example.gwt.addressbook.server.rpc.ContactsServiceImpl' />
+	<servlet path="/contacts" class="org.metawidget.example.gwt.addressbook.server.rpc.ContactsServiceImpl" />
 
 	<!-- Binding -->
 	
