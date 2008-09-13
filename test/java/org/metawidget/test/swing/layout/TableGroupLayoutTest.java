@@ -42,9 +42,7 @@ public class TableGroupLayoutTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -57,9 +55,7 @@ public class TableGroupLayoutTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testLayout()
@@ -123,9 +119,7 @@ public class TableGroupLayoutTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	static class PersonAtTutorialEnd

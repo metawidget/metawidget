@@ -37,17 +37,13 @@ import java.util.Map;
 public abstract class Layout
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private MetawidgetTag	mMetawidgetTag;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public Layout( MetawidgetTag metawidgetTag )
@@ -56,9 +52,7 @@ public abstract class Layout
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String layoutBegin( String value )
@@ -77,9 +71,7 @@ public abstract class Layout
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected MetawidgetTag getMetawidgetTag()

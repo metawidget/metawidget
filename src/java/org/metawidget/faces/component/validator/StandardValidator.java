@@ -40,9 +40,7 @@ public class StandardValidator
 	extends Validator
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public StandardValidator( UIMetawidget metawidget )
@@ -51,9 +49,7 @@ public class StandardValidator
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

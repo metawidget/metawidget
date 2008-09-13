@@ -29,9 +29,7 @@ public class DateEditor
 	extends PropertyEditorSupport
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static DateFormat	FORMAT	= new SimpleDateFormat( "E MMM dd HH:mm:ss z yyyy" );
@@ -42,9 +40,7 @@ public class DateEditor
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

@@ -40,9 +40,7 @@ public class RequiredValidator
 	extends Validator
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public RequiredValidator( UIMetawidget metawidget )
@@ -51,9 +49,7 @@ public class RequiredValidator
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

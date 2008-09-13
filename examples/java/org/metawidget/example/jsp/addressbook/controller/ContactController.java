@@ -36,9 +36,7 @@ import org.metawidget.inspector.jsp.UiJspAttributes;
 public class ContactController
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private HttpSession	mSession;
@@ -46,9 +44,7 @@ public class ContactController
 	private boolean		mReadOnly;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public ContactController( HttpSession session )
@@ -57,9 +53,7 @@ public class ContactController
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiHidden

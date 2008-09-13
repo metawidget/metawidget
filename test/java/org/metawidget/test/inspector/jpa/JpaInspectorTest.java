@@ -39,9 +39,7 @@ public class JpaInspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -54,9 +52,7 @@ public class JpaInspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testInspection()
@@ -127,9 +123,7 @@ public class JpaInspectorTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class Foo

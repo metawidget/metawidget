@@ -47,17 +47,13 @@ public class JspAnnotationInspector
 	extends BaseObjectInspector
 {
 	//
-	//
 	// Private member
-	//
 	//
 
 	private final static ThreadLocal<PageContext>	LOCAL_PAGE_CONTEXT	= ThreadUtils.newThreadLocal();
 
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -78,9 +74,7 @@ public class JspAnnotationInspector
 	}
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public JspAnnotationInspector()
@@ -94,9 +88,7 @@ public class JspAnnotationInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

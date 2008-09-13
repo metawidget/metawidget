@@ -28,9 +28,7 @@ public class XmlInspectorConfig
 	extends BaseXmlInspectorConfig
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public XmlInspectorConfig()

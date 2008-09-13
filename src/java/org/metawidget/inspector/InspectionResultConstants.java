@@ -38,9 +38,7 @@ package org.metawidget.inspector;
 public final class InspectionResultConstants
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public final static String	NAMESPACE					= "http://metawidget.org/inspection-result";
@@ -229,9 +227,7 @@ public final class InspectionResultConstants
 	public final static String	FALSE						= "false";
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private InspectionResultConstants()

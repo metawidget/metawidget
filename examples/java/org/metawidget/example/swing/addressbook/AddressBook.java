@@ -56,17 +56,13 @@ public class AddressBook
 	implements ContactsControllerProvider
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static int		COMPONENT_SPACING	= 5;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private ContactSearch			mContactSearch;
@@ -78,9 +74,7 @@ public class AddressBook
 	private ContactsController		mContactsController;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public AddressBook( Container container )
@@ -132,9 +126,7 @@ public class AddressBook
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiHidden
@@ -182,9 +174,7 @@ public class AddressBook
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private JComponent createSearchSection()

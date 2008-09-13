@@ -43,9 +43,7 @@ public class ContactController
 	extends SimpleFormController
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

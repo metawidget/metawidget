@@ -38,9 +38,7 @@ public class UIMetawidgetTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -53,9 +51,7 @@ public class UIMetawidgetTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testMetawidget()

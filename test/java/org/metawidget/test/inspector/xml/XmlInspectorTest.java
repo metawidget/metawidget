@@ -37,17 +37,13 @@ public class XmlInspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private XmlInspector	mInspector;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -60,9 +56,7 @@ public class XmlInspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

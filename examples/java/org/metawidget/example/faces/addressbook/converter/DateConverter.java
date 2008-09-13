@@ -27,9 +27,7 @@ public class DateConverter
 	extends javax.faces.convert.DateTimeConverter
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public DateConverter()

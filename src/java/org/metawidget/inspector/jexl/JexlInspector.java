@@ -52,17 +52,13 @@ public class JexlInspector
 	extends BaseObjectInspector
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private final static ThreadLocal<JexlContext>	LOCAL_CONTEXT	= ThreadUtils.newThreadLocal();
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public JexlInspector()
@@ -76,9 +72,7 @@ public class JexlInspector
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -91,9 +85,7 @@ public class JexlInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

@@ -36,9 +36,7 @@ public class JavassistPropertyStyleTest
 	extends TestCase
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testJavassist()
@@ -71,9 +69,7 @@ public class JavassistPropertyStyleTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	class Foo

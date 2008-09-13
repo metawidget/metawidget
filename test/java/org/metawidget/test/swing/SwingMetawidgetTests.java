@@ -32,9 +32,7 @@ public class SwingMetawidgetTests
 	extends TestCase
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static Test suite()

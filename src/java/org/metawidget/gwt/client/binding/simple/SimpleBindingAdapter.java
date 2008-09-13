@@ -29,9 +29,7 @@ package org.metawidget.gwt.client.binding.simple;
 public interface SimpleBindingAdapter<T>
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	Object getProperty( T object, String... property );

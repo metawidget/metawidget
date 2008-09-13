@@ -38,17 +38,13 @@ public class FacetTag
 	extends BodyTagSupport
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= -5978018248754085419L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String				mName;
@@ -56,9 +52,7 @@ public class FacetTag
 	private Map<String, String>	mAttributes;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setName( String name )
@@ -89,9 +83,7 @@ public class FacetTag
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void setAttribute( String name, String value )
@@ -103,9 +95,7 @@ public class FacetTag
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class FacetContent

@@ -72,9 +72,7 @@ public class ContactDialog
 	extends JDialog
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long			serialVersionUID	= 1907130713267121112L;
@@ -82,17 +80,13 @@ public class ContactDialog
 	private final static int			COMPONENT_SPACING	= 5;
 
 	//
-	//
 	// Package-level members
-	//
 	//
 
 	ListTableModel<Communication>		mCommunicationsModel;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private ContactsControllerProvider	mProvider;
@@ -104,9 +98,7 @@ public class ContactDialog
 	private boolean						mShowConfirmDialog	= true;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public ContactDialog( ContactsControllerProvider provider, final Contact contact )
@@ -231,9 +223,7 @@ public class ContactDialog
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiHidden
@@ -314,9 +304,7 @@ public class ContactDialog
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	private static class CommunicationEditor

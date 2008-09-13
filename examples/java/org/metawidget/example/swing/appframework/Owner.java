@@ -23,9 +23,7 @@ package org.metawidget.example.swing.appframework;
 public class Owner
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String	mFirstname;
@@ -33,9 +31,7 @@ public class Owner
 	private String	mSurname;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String getFirstname()

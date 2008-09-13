@@ -28,17 +28,13 @@ public class AddressBookApplication
 	extends Application
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private ContactsController	mContactsController;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

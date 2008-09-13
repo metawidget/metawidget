@@ -30,9 +30,7 @@ public class NestedWidgetsEditor
 	extends PropertyEditorSupport
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

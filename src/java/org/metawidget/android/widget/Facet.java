@@ -38,17 +38,13 @@ public class Facet
 	extends LinearLayout
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String	mName;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public Facet( Context context )
@@ -65,9 +61,7 @@ public class Facet
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String getName()

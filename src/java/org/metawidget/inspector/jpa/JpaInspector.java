@@ -39,17 +39,13 @@ public class JpaInspector
 	extends BaseObjectInspector
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private boolean	mHideIds;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public JpaInspector()
@@ -65,9 +61,7 @@ public class JpaInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

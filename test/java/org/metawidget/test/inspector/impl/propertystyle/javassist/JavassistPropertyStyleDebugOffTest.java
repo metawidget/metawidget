@@ -29,9 +29,7 @@ public class JavassistPropertyStyleDebugOffTest
 	extends TestCase
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testJavassist()
@@ -55,9 +53,7 @@ public class JavassistPropertyStyleDebugOffTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	class Foo

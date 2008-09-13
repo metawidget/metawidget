@@ -26,9 +26,7 @@ import java.util.List;
 public class BadInspectorConfig
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private List<String>	mList;
@@ -36,9 +34,7 @@ public class BadInspectorConfig
 	private int				mInt;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setList( List<String> list )

@@ -30,9 +30,7 @@ public class GenderConverter
 	extends EnumConverter<Gender>
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public GenderConverter()

@@ -46,9 +46,7 @@ import org.xml.sax.InputSource;
 public class XmlUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -425,9 +423,7 @@ public class XmlUtils
 	}
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	/**
@@ -629,9 +625,7 @@ public class XmlUtils
 	}
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static DocumentBuilderFactory	DOCUMENT_BUILDER_FACTORY;
@@ -653,9 +647,7 @@ public class XmlUtils
 	private final static Pattern				PATTERN_QUOT	= Pattern.compile( "\"", Pattern.LITERAL );
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private XmlUtils()

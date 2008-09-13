@@ -44,25 +44,19 @@ public class JspUtilsTest
 	extends TestCase
 {
 	//
-	//
 	// Package-level statics
-	//
 	//
 
 	final static String	NEWLINE	= System.getProperty( "line.separator" );
 
 	//
-	//
 	// Package-level members
-	//
 	//
 
 	int					mPageContextHits;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -75,9 +69,7 @@ public class JspUtilsTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testJspUtils()

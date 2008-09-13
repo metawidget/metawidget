@@ -60,25 +60,19 @@ public class ConfigReader
 	implements ResourceResolver
 {
 	//
-	//
 	// Package-level statics
-	//
 	//
 
 	final static Log				LOG	= LogUtils.getLog( ConfigReader.class );
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private final SAXParserFactory	mFactory;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public ConfigReader()
@@ -88,9 +82,7 @@ public class ConfigReader
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**
@@ -127,9 +119,7 @@ public class ConfigReader
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**
@@ -200,9 +190,7 @@ public class ConfigReader
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -260,9 +248,7 @@ public class ConfigReader
 	}
 
 	//
-	//
 	// Inner classes
-	//
 	//
 
 	protected class ConfigHandler

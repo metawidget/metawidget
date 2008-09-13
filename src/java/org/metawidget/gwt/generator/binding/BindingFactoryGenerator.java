@@ -41,9 +41,7 @@ public class BindingFactoryGenerator
 	extends Generator
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

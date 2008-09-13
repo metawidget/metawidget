@@ -32,9 +32,7 @@ public class SwingAppFrameworkActionStyle
 	extends MethodActionStyle
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

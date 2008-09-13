@@ -42,17 +42,13 @@ import org.metawidget.util.CollectionUtils;
 public class ContactsController
 {
 	//
-	//
 	// Protected statics
-	//
 	//
 
 	protected final static String[]	ALL_TITLES	= { "Mr", "Mrs", "Miss", "Dr", "Cpt" };
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Map<Long, Contact>		mAll;
@@ -62,9 +58,7 @@ public class ContactsController
 	private long					mNextCommunicationId;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -110,9 +104,7 @@ public class ContactsController
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**
@@ -255,9 +247,7 @@ public class ContactsController
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private synchronized long incrementNextContactId()

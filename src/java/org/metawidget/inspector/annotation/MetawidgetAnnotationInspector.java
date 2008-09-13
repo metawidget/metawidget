@@ -47,9 +47,7 @@ public class MetawidgetAnnotationInspector
 	extends BaseObjectInspector
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public MetawidgetAnnotationInspector()
@@ -63,9 +61,7 @@ public class MetawidgetAnnotationInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override
@@ -389,9 +385,7 @@ public class MetawidgetAnnotationInspector
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	private static class ElementWithComesAfter

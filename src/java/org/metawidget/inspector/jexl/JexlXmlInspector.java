@@ -54,9 +54,7 @@ public class JexlXmlInspector
 	extends BaseXmlInspector
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private final static ThreadLocal<Object>		LOCAL_TOINSPECT	= ThreadUtils.newThreadLocal();
@@ -64,9 +62,7 @@ public class JexlXmlInspector
 	private final static ThreadLocal<JexlContext>	LOCAL_CONTEXT	= ThreadUtils.newThreadLocal();
 
 	//
-	//
 	// Constructors
-	//
 	//
 
 	public JexlXmlInspector()
@@ -90,9 +86,7 @@ public class JexlXmlInspector
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -106,9 +100,7 @@ public class JexlXmlInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override
@@ -173,9 +165,7 @@ public class JexlXmlInspector
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private Map<String, String> inspect( Element toInspect )

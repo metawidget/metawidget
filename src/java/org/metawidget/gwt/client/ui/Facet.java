@@ -34,17 +34,13 @@ public class Facet
 	implements HasName
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String	mName;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String getName()

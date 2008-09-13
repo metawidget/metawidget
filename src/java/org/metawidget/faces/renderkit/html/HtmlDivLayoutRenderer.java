@@ -61,9 +61,7 @@ public class HtmlDivLayoutRenderer
 	extends HtmlLayoutRenderer
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String	KEY_OUTER_STYLE		= "outerStyle";
@@ -77,9 +75,7 @@ public class HtmlDivLayoutRenderer
 	private final static String	KEY_STYLE_CLASSES	= "divStyleClasses";
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -210,9 +206,7 @@ public class HtmlDivLayoutRenderer
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void layoutBeforeChild( FacesContext context, UIComponent component, UIComponent componentChild )

@@ -32,9 +32,7 @@ public class MetawidgetActionStyle
 	extends MethodActionStyle
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

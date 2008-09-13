@@ -39,9 +39,7 @@ public abstract class GwtMetawidgetMixin<W>
 	extends BaseMetawidgetMixin<W, Element>
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

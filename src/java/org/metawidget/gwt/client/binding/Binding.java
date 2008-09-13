@@ -29,17 +29,13 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class Binding
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private GwtMetawidget	mMetawidget;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public Binding( GwtMetawidget metawidget )
@@ -48,9 +44,7 @@ public abstract class Binding
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**
@@ -81,9 +75,7 @@ public abstract class Binding
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected GwtMetawidget getMetawidget()

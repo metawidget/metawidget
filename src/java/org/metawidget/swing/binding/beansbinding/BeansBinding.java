@@ -59,9 +59,7 @@ public class BeansBinding
 	extends Binding
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static Map<ConvertFromTo<?, ?>, Converter<?, ?>>	CONVERTERS	= Collections.synchronizedMap( new HashMap<ConvertFromTo<?, ?>, Converter<?, ?>>() );
@@ -79,9 +77,7 @@ public class BeansBinding
 	}
 
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static <S, T> void registerConverter( Class<S> source, Class<T> target, Converter<S, T> converter )
@@ -95,9 +91,7 @@ public class BeansBinding
 	}
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	mBindings;
@@ -105,9 +99,7 @@ public class BeansBinding
 	private UpdateStrategy																mUpdateStrategy;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public BeansBinding( SwingMetawidget metawidget )
@@ -123,9 +115,7 @@ public class BeansBinding
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -224,9 +214,7 @@ public class BeansBinding
 	}
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	@SuppressWarnings( "unchecked" )
@@ -340,9 +328,7 @@ public class BeansBinding
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	private final static class ConvertFromTo<S, T>

@@ -27,9 +27,7 @@ import org.metawidget.inspector.iface.Inspector;
 public class CompositeInspectorConfig
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Inspector[]	mInspectors;
@@ -37,9 +35,7 @@ public class CompositeInspectorConfig
 	private boolean		mValidating;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public Inspector[] getInspectors()

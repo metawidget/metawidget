@@ -28,9 +28,7 @@ public class ContactTypeEditor
 	extends PropertyEditorSupport
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

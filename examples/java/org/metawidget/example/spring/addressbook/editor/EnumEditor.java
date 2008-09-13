@@ -26,17 +26,13 @@ public class EnumEditor<T extends Enum<T>>
 	extends PropertyEditorSupport
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Class<T>	mClass;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public EnumEditor( Class<T> clazz )
@@ -45,9 +41,7 @@ public class EnumEditor<T extends Enum<T>>
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

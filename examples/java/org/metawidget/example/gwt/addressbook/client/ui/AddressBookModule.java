@@ -55,9 +55,7 @@ public class AddressBookModule
 	implements EntryPoint
 {
 	//
-	//
 	// Package-level members
-	//
 	//
 
 	Panel					mPanel;
@@ -82,9 +80,7 @@ public class AddressBookModule
 	ContactDialog			mBusinessContactDialog;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public AddressBookModule()
@@ -98,9 +94,7 @@ public class AddressBookModule
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void onModuleLoad()
@@ -286,9 +280,7 @@ public class AddressBookModule
 	}
 
 	//
-	//
 	// Package-level methods
-	//
 	//
 
 	void showContactDialog( Contact contact )

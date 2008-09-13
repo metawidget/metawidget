@@ -28,9 +28,7 @@ public class RichFacesMetawidgetTag
 	extends HtmlMetawidgetTag
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

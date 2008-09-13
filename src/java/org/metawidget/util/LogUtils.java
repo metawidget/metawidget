@@ -30,9 +30,7 @@ import org.apache.commons.logging.LogFactory;
 public final class LogUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -100,9 +98,7 @@ public final class LogUtils
 	}
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	/**
@@ -322,9 +318,7 @@ public final class LogUtils
 	}
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private LogUtils()

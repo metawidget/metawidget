@@ -33,9 +33,7 @@ public class SwingAppFrameworkActionStyleTest
 	extends TestCase
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testSwingAppFrameworkActionStyle()
@@ -69,9 +67,7 @@ public class SwingAppFrameworkActionStyleTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	abstract class Foo

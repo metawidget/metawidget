@@ -32,9 +32,7 @@ public class FlowLayout
 	extends Layout
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public FlowLayout( GwtMetawidget metawidget )
@@ -43,9 +41,7 @@ public class FlowLayout
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

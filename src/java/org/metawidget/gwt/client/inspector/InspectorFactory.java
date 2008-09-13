@@ -27,9 +27,7 @@ import org.metawidget.inspector.iface.Inspector;
 public interface InspectorFactory
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	Inspector newInspector( Class<? extends Inspector> inspectorClass );

@@ -35,9 +35,7 @@ public class SpringAnnotationInspector
 	extends BaseObjectInspector
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public SpringAnnotationInspector()
@@ -51,9 +49,7 @@ public class SpringAnnotationInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

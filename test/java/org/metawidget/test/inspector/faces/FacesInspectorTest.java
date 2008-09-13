@@ -43,9 +43,7 @@ public class FacesInspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -58,9 +56,7 @@ public class FacesInspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testInspection()
@@ -131,9 +127,7 @@ public class FacesInspectorTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class Foo

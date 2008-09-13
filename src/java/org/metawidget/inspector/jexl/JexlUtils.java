@@ -28,9 +28,7 @@ import java.util.regex.Pattern;
 public final class JexlUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static boolean isValueReference( String binding )
@@ -66,9 +64,7 @@ public final class JexlUtils
 	}
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static Pattern	PATTERN_BINDING	= Pattern.compile( "(\\$\\{)([^}]*)(\\})" );
@@ -78,9 +74,7 @@ public final class JexlUtils
 	private final static String		BINDING_END		= "}";
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private JexlUtils()

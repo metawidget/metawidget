@@ -27,9 +27,7 @@ import org.metawidget.util.simple.StringUtils;
 public class PathUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static TypeAndNames parsePath( String path )
@@ -100,9 +98,7 @@ public class PathUtils
 	}
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private PathUtils()

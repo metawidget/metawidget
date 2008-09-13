@@ -27,9 +27,7 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 public interface BindingFactory
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	Binding newBinding( Class<? extends Binding> bindingClass, GwtMetawidget metawidget );

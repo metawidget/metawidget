@@ -51,9 +51,7 @@ import javax.servlet.jsp.tagext.Tag;
 public final class JspUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static boolean isExpression( String binding )
@@ -113,9 +111,7 @@ public final class JspUtils
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	/**
@@ -564,17 +560,13 @@ public final class JspUtils
 	}
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static Pattern	PATTERN_BINDING	= Pattern.compile( "(\\$\\{)([^}]*)(\\})" );
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private JspUtils()

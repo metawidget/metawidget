@@ -25,9 +25,7 @@ package org.metawidget.util.simple;
 public final class StringUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -192,9 +190,7 @@ public final class StringUtils
 	}
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private StringUtils()

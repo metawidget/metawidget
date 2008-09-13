@@ -37,17 +37,13 @@ import org.metawidget.inspector.annotation.UiHidden;
 public class ContactSearchBean
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private ContactSearch	mCurrent;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public ContactSearchBean()
@@ -56,9 +52,7 @@ public class ContactSearchBean
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiHidden
@@ -103,9 +97,7 @@ public class ContactSearchBean
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private ContactsBean getContactsBean()

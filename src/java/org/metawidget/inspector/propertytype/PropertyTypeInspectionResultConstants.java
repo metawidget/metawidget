@@ -26,9 +26,7 @@ package org.metawidget.inspector.propertytype;
 public final class PropertyTypeInspectionResultConstants
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -57,9 +55,7 @@ public final class PropertyTypeInspectionResultConstants
 	public final static String	ACTUAL_CLASS	= "actual-class";
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private PropertyTypeInspectionResultConstants()

@@ -40,9 +40,7 @@ public class JavaBeanPropertyStyleTest
 	extends TestCase
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testJavaBeanPropertyStyle()
@@ -119,9 +117,7 @@ public class JavaBeanPropertyStyleTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	class Foo

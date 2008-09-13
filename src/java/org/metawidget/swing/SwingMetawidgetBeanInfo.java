@@ -31,9 +31,7 @@ public class SwingMetawidgetBeanInfo
 	extends SimpleBeanInfo
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

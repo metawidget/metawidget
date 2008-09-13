@@ -59,17 +59,13 @@ public class SwingAllWidgetsTest
 	extends TestCase
 {
 	//
-	//
 	// Protected statics
-	//
 	//
 
 	protected final static String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -82,9 +78,7 @@ public class SwingAllWidgetsTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testAllWidgets()
@@ -100,9 +94,7 @@ public class SwingAllWidgetsTest
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void runTest( Class<? extends Binding> bindingClass )

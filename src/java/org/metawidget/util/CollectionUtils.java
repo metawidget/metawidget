@@ -42,9 +42,7 @@ import org.metawidget.util.simple.StringUtils;
 public final class CollectionUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -319,9 +317,7 @@ public final class CollectionUtils
 	}
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private CollectionUtils()

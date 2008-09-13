@@ -43,9 +43,7 @@ public class CompositeInspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -58,9 +56,7 @@ public class CompositeInspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testInspection()
@@ -151,9 +147,7 @@ public class CompositeInspectorTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class PersonalContact$EnhancerByCGLIB$$1234

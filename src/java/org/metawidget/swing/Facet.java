@@ -32,9 +32,7 @@ public class Facet
 	extends JPanel
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= 4972416784247660697L;

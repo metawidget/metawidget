@@ -44,17 +44,13 @@ public class GwtRemoteInspectorProxy
 	implements Inspector
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private GwtRemoteInspectorAsync	mInspector;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public GwtRemoteInspectorProxy()
@@ -63,9 +59,7 @@ public class GwtRemoteInspectorProxy
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String inspect( Object toInspect, String type, String... names )

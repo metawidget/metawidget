@@ -40,9 +40,7 @@ public class XmlInspector
 	extends BaseXmlInspector
 {
 	//
-	//
 	// Constructors
-	//
 	//
 
 	public XmlInspector()
@@ -66,9 +64,7 @@ public class XmlInspector
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

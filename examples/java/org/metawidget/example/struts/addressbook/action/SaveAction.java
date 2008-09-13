@@ -43,9 +43,7 @@ public class SaveAction
 	extends Action
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

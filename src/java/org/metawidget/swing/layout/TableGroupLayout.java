@@ -47,9 +47,7 @@ public class TableGroupLayout
 	extends Layout
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static Component[]	EMPTY_COMPONENTS_ARRAY		= new Component[] {};
@@ -63,9 +61,7 @@ public class TableGroupLayout
 	private final static int			SEPARATOR_HEIGHT			= 2;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private GroupLayout					mLayout;
@@ -79,9 +75,7 @@ public class TableGroupLayout
 	private List<JLabel>				mLabels;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public TableGroupLayout( SwingMetawidget metawidget )
@@ -90,9 +84,7 @@ public class TableGroupLayout
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -181,9 +173,7 @@ public class TableGroupLayout
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void layoutSection( String section )

@@ -38,9 +38,7 @@ import android.widget.TextView;
 public final class AndroidUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -127,9 +125,7 @@ public final class AndroidUtils
 	}
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private AndroidUtils()

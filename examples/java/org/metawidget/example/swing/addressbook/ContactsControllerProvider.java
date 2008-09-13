@@ -25,9 +25,7 @@ import org.metawidget.example.shared.addressbook.controller.ContactsController;
 public interface ContactsControllerProvider
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	ContactsController getContactsController();

@@ -28,17 +28,13 @@ public class ContactSearch
 	implements Serializable
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private static final long	serialVersionUID	= 4260373927173571355L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String				mFirstname;
@@ -48,9 +44,7 @@ public class ContactSearch
 	private ContactType			mType;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String getFirstname()

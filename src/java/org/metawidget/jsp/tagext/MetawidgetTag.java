@@ -54,25 +54,19 @@ public abstract class MetawidgetTag
 	extends BodyTagSupport
 {
 	//
-	//
 	// Protected statics
-	//
 	//
 
 	protected final static String		METAWIDGET				= MetawidgetTag.class.getName();
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String			INSPECTORS_ATTRIBUTE	= "metawidget-inspectors";
 
 	//
-	//
 	// Protected members
-	//
 	//
 
 	/**
@@ -86,9 +80,7 @@ public abstract class MetawidgetTag
 	protected String					mPath;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String						mInspectorConfig		= "inspector-config.xml";
@@ -108,9 +100,7 @@ public abstract class MetawidgetTag
 	private MetawidgetMixin<Object>		mMetawidgetMixin;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public MetawidgetTag()
@@ -119,9 +109,7 @@ public abstract class MetawidgetTag
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setInspectorConfig( String inspectorConfig )
@@ -289,9 +277,7 @@ public abstract class MetawidgetTag
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -464,9 +450,7 @@ public abstract class MetawidgetTag
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	protected class JspMetawidgetMixin

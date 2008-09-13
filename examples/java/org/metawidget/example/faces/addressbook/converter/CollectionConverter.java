@@ -35,9 +35,7 @@ public class CollectionConverter
 	implements Converter
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public Object getAsObject( FacesContext context, UIComponent component, String value )

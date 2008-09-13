@@ -32,9 +32,7 @@ public class JexlXmlInspectorConfig
 	extends BaseXmlInspectorConfig
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public JexlXmlInspectorConfig()

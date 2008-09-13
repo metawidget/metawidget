@@ -51,9 +51,7 @@ public class HtmlTableLayout
 	extends Layout
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String		TABLE_PREFIX						= "table-";
@@ -69,9 +67,7 @@ public class HtmlTableLayout
 	private final static Pattern	PATTERN_HIDDEN_FIELDS				= Pattern.compile( "(\\s*<\\s*(input)\\s+[^>]*?(type)\\s*=\\s*\"\\s*hidden\\s*\"[^>]*?>\\s*)+?" );
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private int						mNumberOfColumns;
@@ -93,9 +89,7 @@ public class HtmlTableLayout
 	private String					mTableType;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public HtmlTableLayout( MetawidgetTag metawidget )
@@ -129,9 +123,7 @@ public class HtmlTableLayout
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -276,9 +268,7 @@ public class HtmlTableLayout
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected String layoutBeforeChild( Map<String, String> attributes )

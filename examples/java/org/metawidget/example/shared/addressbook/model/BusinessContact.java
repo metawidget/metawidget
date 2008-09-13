@@ -29,17 +29,13 @@ public class BusinessContact
 	extends Contact
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= -6316305215958971964L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String				mCompany;
@@ -47,9 +43,7 @@ public class BusinessContact
 	private int					mNumberOfStaff;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public BusinessContact()
@@ -63,9 +57,7 @@ public class BusinessContact
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiComesAfter( "surname" )

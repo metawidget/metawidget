@@ -33,9 +33,7 @@ public abstract class BasePropertyStyle
 	implements PropertyStyle
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	/**
@@ -52,9 +50,7 @@ public abstract class BasePropertyStyle
 	private Map<Class<?>, Map<String, Property>>	mPropertiesCache	= CollectionUtils.newHashMap();
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public Map<String, Property> getProperties( Class<?> clazz )
@@ -109,9 +105,7 @@ public abstract class BasePropertyStyle
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**

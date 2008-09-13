@@ -36,17 +36,13 @@ public class PersonalContactForm
 	extends ContactForm
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= -1146370265385364438L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String	mDateOfBirthAsString;
@@ -54,9 +50,7 @@ public class PersonalContactForm
 	private Date	mOfBirth;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**

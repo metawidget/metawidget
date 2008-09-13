@@ -72,9 +72,7 @@ public class StrutsMetawidgetTag
 	extends BaseHtmlMetawidgetTag
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long			serialVersionUID	= 2195312831615495157L;
@@ -82,17 +80,13 @@ public class StrutsMetawidgetTag
 	private final static List<Boolean>	LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String						mPropertyPrefix;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setProperty( String property )
@@ -145,9 +139,7 @@ public class StrutsMetawidgetTag
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override
@@ -390,9 +382,7 @@ public class StrutsMetawidgetTag
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private String writeStrutsTag( Class<? extends Tag> tagClass, Map<String, String> attributes )

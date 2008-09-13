@@ -67,9 +67,7 @@ public class SpringMetawidgetTag
 	extends BaseHtmlMetawidgetTag
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long			serialVersionUID	= 3439367941152120506L;
@@ -77,17 +75,13 @@ public class SpringMetawidgetTag
 	private final static List<Boolean>	LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String						mPathPrefix;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setPath( String path )
@@ -142,9 +136,7 @@ public class SpringMetawidgetTag
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override
@@ -342,9 +334,7 @@ public class SpringMetawidgetTag
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private String writeSpringTag( Class<? extends Tag> tagClass, Map<String, String> attributes )

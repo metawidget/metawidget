@@ -49,9 +49,7 @@ public class GwtAddressBookTest
 	extends GWTTestCase
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	/**
@@ -63,9 +61,7 @@ public class GwtAddressBookTest
 	private final static int	TEST_FINISH_DELAY		= 500 * CONTACTS_SERVICE_DELAY;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -609,9 +605,7 @@ public class GwtAddressBookTest
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -624,9 +618,7 @@ public class GwtAddressBookTest
 	}
 
 	//
-	//
 	// Native methods
-	//
 	//
 
 	native void fireClickListeners( FocusWidget focusWidget )

@@ -41,9 +41,7 @@ public class SwingAppFrameworkInspector
 	extends BaseObjectInspector
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public SwingAppFrameworkInspector()
@@ -57,9 +55,7 @@ public class SwingAppFrameworkInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

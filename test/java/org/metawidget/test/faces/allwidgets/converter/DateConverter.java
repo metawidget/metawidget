@@ -28,9 +28,7 @@ public class DateConverter
 	extends DateTimeConverter
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public DateConverter()

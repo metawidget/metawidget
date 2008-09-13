@@ -36,9 +36,7 @@ public class FacesConfigReader
 	extends ConfigReader
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**

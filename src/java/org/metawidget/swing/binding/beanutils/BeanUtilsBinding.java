@@ -39,17 +39,13 @@ public class BeanUtilsBinding
 	extends Binding
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Set<SavedBinding>	mBindings;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public BeanUtilsBinding( SwingMetawidget metawidget )
@@ -58,9 +54,7 @@ public class BeanUtilsBinding
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -159,9 +153,7 @@ public class BeanUtilsBinding
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	private final static class SavedBinding

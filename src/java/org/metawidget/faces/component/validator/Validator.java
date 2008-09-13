@@ -34,17 +34,13 @@ import org.metawidget.faces.component.UIMetawidget;
 public abstract class Validator
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private UIMetawidget	mMetawidget;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public Validator( UIMetawidget metawidget )
@@ -53,17 +49,13 @@ public abstract class Validator
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public abstract void addValidators( FacesContext context, EditableValueHolder editableValueHolder, Map<String, String> attributes );
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected UIMetawidget getMetawidget()

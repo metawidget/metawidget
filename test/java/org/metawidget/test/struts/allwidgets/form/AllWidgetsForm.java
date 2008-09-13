@@ -28,25 +28,19 @@ public class AllWidgetsForm
 	extends ActionForm
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= -873390607322732628L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private AllWidgets			mAllWidgets			= new AllWidgets_$$_javassist_1();
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public AllWidgets getAllWidgets()

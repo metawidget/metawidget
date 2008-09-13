@@ -34,17 +34,13 @@ public class AllWidgets
 	implements Serializable
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID					= -3192742460248268135L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String				mTextbox							= "Textbox";
@@ -133,9 +129,7 @@ public class AllWidgets
 	private Collection<String>	mCollection							= new ArrayList<String>( Arrays.asList( "element1", "element2" ) );
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public AllWidgets()
@@ -146,9 +140,7 @@ public class AllWidgets
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String getTextbox()
@@ -482,9 +474,7 @@ public class AllWidgets
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class NestedWidgets

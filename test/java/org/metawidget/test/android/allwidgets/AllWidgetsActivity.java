@@ -43,9 +43,7 @@ public class AllWidgetsActivity
 	extends Activity
 {
 	//
-	//
 	// Protected members
-	//
 	//
 
 	protected AllWidgets	mAllWidgets;
@@ -53,9 +51,7 @@ public class AllWidgetsActivity
 	protected DateFormat	mFormat;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -126,9 +122,7 @@ public class AllWidgetsActivity
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	/**

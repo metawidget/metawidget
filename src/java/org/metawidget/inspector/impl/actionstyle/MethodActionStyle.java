@@ -32,9 +32,7 @@ public abstract class MethodActionStyle
 	extends BaseActionStyle
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -90,9 +88,7 @@ public abstract class MethodActionStyle
 	protected abstract boolean matchAction( Method method );
 
 	//
-	//
 	// Inner classes
-	//
 	//
 
 	/**

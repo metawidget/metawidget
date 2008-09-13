@@ -29,9 +29,7 @@ import java.lang.reflect.Type;
 public interface Property
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	String getName();

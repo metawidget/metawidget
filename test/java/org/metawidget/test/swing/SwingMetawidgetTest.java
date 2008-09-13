@@ -41,9 +41,7 @@ public class SwingMetawidgetTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -56,9 +54,7 @@ public class SwingMetawidgetTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testBeanInfo()
@@ -247,9 +243,7 @@ public class SwingMetawidgetTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class Foo

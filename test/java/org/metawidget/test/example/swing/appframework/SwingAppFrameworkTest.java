@@ -37,9 +37,7 @@ public class SwingAppFrameworkTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -52,9 +50,7 @@ public class SwingAppFrameworkTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testCarApplication()

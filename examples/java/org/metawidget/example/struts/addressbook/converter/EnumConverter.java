@@ -28,9 +28,7 @@ public class EnumConverter
 	implements Converter
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@SuppressWarnings( "unchecked" )

@@ -44,17 +44,13 @@ import java.util.Map;
 public abstract class BaseMetawidgetMixin<W, E>
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static int	DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private boolean				mReadOnly;
@@ -62,9 +58,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 	private int					mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setReadOnly( boolean readOnly )
@@ -162,9 +156,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void buildCompoundWidget( E element )
@@ -229,9 +221,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 	}
 
 	//
-	//
 	// Protected abstract methods
-	//
 	//
 
 	protected abstract E getFirstElement( String xml );

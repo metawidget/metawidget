@@ -26,17 +26,13 @@ public class EnumConverter<T extends Enum<T>>
 	extends Converter<T, Object>
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Class<T>	mEnum;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public EnumConverter( Class<T> anEnum )
@@ -45,9 +41,7 @@ public class EnumConverter<T extends Enum<T>>
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

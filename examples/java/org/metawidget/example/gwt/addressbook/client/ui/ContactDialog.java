@@ -62,9 +62,7 @@ public class ContactDialog
 	extends DialogBox
 {
 	//
-	//
 	// Package-level members
-	//
 	//
 
 	AddressBookModule	mAddressBookModule;
@@ -90,9 +88,7 @@ public class ContactDialog
 	Button				mCancelButton;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public ContactDialog( AddressBookModule addressBookModule, final Contact contact )
@@ -331,9 +327,7 @@ public class ContactDialog
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void rebind( Contact contact )
@@ -345,9 +339,7 @@ public class ContactDialog
 	}
 
 	//
-	//
 	// Package-level methods
-	//
 	//
 
 	void setVisibility()

@@ -32,9 +32,7 @@ public class ExampleTests
 	extends TestCase
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static Test suite()

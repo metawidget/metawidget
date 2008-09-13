@@ -30,17 +30,13 @@ public class ParamTag
 	extends BodyTagSupport
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= -3856876782278545015L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String	mName;
@@ -48,9 +44,7 @@ public class ParamTag
 	private String	mValue;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setName( String name )

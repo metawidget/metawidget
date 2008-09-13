@@ -33,9 +33,7 @@ import java.io.InputStream;
 public interface ResourceResolver
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	InputStream openResource( String resource );

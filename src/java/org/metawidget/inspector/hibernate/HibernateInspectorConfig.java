@@ -29,17 +29,13 @@ public class HibernateInspectorConfig
 	extends BaseXmlInspectorConfig
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private boolean	mHideIds	= true;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public HibernateInspectorConfig()
@@ -48,9 +44,7 @@ public class HibernateInspectorConfig
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**

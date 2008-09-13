@@ -35,17 +35,13 @@ import org.metawidget.swing.SwingMetawidget;
 public abstract class Binding
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private SwingMetawidget	mMetawidget;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	protected Binding( SwingMetawidget metawidget )
@@ -54,9 +50,7 @@ public abstract class Binding
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public abstract void bind( Component component, String componentValueProperty, String... names );
@@ -91,9 +85,7 @@ public abstract class Binding
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected SwingMetawidget getMetawidget()

@@ -33,9 +33,7 @@ public class CollectionUtilsTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -48,9 +46,7 @@ public class CollectionUtilsTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testCollectionUtils()

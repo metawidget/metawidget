@@ -25,17 +25,13 @@ package org.metawidget.inspector.jsp;
 public final class JspInspectionResultConstants
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public final static String	JSP_LOOKUP				= "jsp-lookup";
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private JspInspectionResultConstants()

@@ -34,9 +34,7 @@ public class AllWidgetsController
 	extends SimpleFormController
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

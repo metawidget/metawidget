@@ -86,9 +86,7 @@ public class SwingMetawidget
 	extends JComponent
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long					serialVersionUID	= 5614421785160728346L;
@@ -98,9 +96,7 @@ public class SwingMetawidget
 	private final static Stroke					STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Object								mToInspect;
@@ -159,9 +155,7 @@ public class SwingMetawidget
 	private MetawidgetMixin<JComponent>			mMetawidgetMixin;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public SwingMetawidget()
@@ -170,9 +164,7 @@ public class SwingMetawidget
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**
@@ -737,9 +729,7 @@ public class SwingMetawidget
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -1423,9 +1413,7 @@ public class SwingMetawidget
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	/**
@@ -1461,9 +1449,7 @@ public class SwingMetawidget
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	protected class SwingMetawidgetMixin

@@ -28,9 +28,7 @@ public class CommunicationsBean
 	extends CommunicationsController
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static SelectItem[]	ALL_COMMUNICATION_TYPE_SELECT_ITEMS;
@@ -46,9 +44,7 @@ public class CommunicationsBean
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public SelectItem[] getAllAsSelectItems()

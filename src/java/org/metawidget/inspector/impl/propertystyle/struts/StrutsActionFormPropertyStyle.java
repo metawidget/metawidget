@@ -33,9 +33,7 @@ public class StrutsActionFormPropertyStyle
 	extends JavaBeanPropertyStyle
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

@@ -34,17 +34,13 @@ public class Address
 	implements Serializable
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= -8394441234593717487L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Contact				mOwner;
@@ -58,9 +54,7 @@ public class Address
 	private String				mPostcode;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiHidden

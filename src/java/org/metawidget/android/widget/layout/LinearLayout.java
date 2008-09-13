@@ -39,9 +39,7 @@ public class LinearLayout
 	extends Layout
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String						mCurrentSection;
@@ -51,9 +49,7 @@ public class LinearLayout
 	private int							mSectionStyle;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public LinearLayout( AndroidMetawidget metawidget )
@@ -76,9 +72,7 @@ public class LinearLayout
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -144,9 +138,7 @@ public class LinearLayout
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void layoutSection( String section )

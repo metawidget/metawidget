@@ -37,9 +37,7 @@ public abstract class ContactForm
 	extends ActionForm
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private long				mId;
@@ -61,9 +59,7 @@ public abstract class ContactForm
 	private boolean				mReadOnly;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiHidden

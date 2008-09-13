@@ -42,17 +42,13 @@ public class PropertyTypeInspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Inspector	mInspector;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -65,9 +61,7 @@ public class PropertyTypeInspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -285,9 +279,7 @@ public class PropertyTypeInspectorTest
 	}
 
 	//
-	//
 	// Inner classes
-	//
 	//
 
 	protected static class DeclaredTypeTester

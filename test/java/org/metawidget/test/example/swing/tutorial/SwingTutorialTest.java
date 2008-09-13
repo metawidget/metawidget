@@ -40,9 +40,7 @@ public class SwingTutorialTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -55,9 +53,7 @@ public class SwingTutorialTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testTutorial()
@@ -115,9 +111,7 @@ public class SwingTutorialTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	static class PersonAtTutorialEnd

@@ -32,9 +32,7 @@ public class StrutsActionFormPropertyStyleTest
 	extends TestCase
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testStruts()
@@ -46,9 +44,7 @@ public class StrutsActionFormPropertyStyleTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	private static class FooForm

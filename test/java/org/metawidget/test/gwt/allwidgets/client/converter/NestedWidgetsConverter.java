@@ -33,9 +33,7 @@ public class NestedWidgetsConverter
 	extends Converter<NestedWidgets>
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

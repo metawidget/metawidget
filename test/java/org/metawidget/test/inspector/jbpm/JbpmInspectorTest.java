@@ -38,17 +38,13 @@ public class JbpmInspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Inspector	mInspector;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -61,9 +57,7 @@ public class JbpmInspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

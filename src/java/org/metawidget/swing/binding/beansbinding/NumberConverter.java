@@ -27,17 +27,13 @@ public class NumberConverter<T extends Number>
 	extends Converter<T, String>
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Class<? extends Number>	mNumberClass;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public NumberConverter( Class<? extends T> numberClass )
@@ -46,9 +42,7 @@ public class NumberConverter<T extends Number>
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

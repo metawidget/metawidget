@@ -47,17 +47,13 @@ public class GwtAllWidgetsTest
 	extends GWTTestCase
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static int	TEST_FINISH_DELAY	= 50 * 5000;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -515,9 +511,7 @@ public class GwtAllWidgetsTest
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -530,9 +524,7 @@ public class GwtAllWidgetsTest
 	}
 
 	//
-	//
 	// Native methods
-	//
 	//
 
 	native void fireClickListeners( FocusWidget focusWidget )

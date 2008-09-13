@@ -39,17 +39,13 @@ public class MainActivity
 	extends Activity
 {
 	//
-	//
 	// Protected members
-	//
 	//
 
 	protected ContactSearch		mContactSearch;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -157,9 +153,7 @@ public class MainActivity
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

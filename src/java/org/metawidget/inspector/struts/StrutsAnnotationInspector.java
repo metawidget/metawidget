@@ -35,9 +35,7 @@ public class StrutsAnnotationInspector
 	extends BaseObjectInspector
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public StrutsAnnotationInspector()
@@ -51,9 +49,7 @@ public class StrutsAnnotationInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

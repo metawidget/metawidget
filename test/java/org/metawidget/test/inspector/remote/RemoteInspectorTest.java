@@ -40,9 +40,7 @@ public class RemoteInspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -55,9 +53,7 @@ public class RemoteInspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testInspection()

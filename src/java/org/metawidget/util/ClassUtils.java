@@ -31,9 +31,7 @@ import org.metawidget.util.simple.StringUtils;
 public final class ClassUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public final static String		JAVABEAN_SET_PREFIX	= "set";
@@ -338,17 +336,13 @@ public final class ClassUtils
 	}
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static Pattern	PROXY_PATTERN	= Pattern.compile( "ByCGLIB\\$\\$|_\\$\\$_javassist_" );
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private ClassUtils()

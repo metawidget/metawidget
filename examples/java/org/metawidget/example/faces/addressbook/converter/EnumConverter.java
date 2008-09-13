@@ -34,17 +34,13 @@ public abstract class EnumConverter<T extends Enum<T>>
 	implements Converter
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Class<T>	mClass;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	protected EnumConverter( Class<T> clazz )
@@ -53,9 +49,7 @@ public abstract class EnumConverter<T extends Enum<T>>
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public final Object getAsObject( FacesContext context, UIComponent component, String value )

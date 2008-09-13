@@ -38,9 +38,7 @@ import com.google.gwt.user.client.ui.ListBox;
 public final class GwtUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -221,17 +219,13 @@ public final class GwtUtils
 	}
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String[]	EMPTY_STRING_ARRAY	= new String[0];
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private GwtUtils()

@@ -38,9 +38,7 @@ public class StubTag
 	extends UIComponentTag
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String	mValue;
@@ -48,9 +46,7 @@ public class StubTag
 	private String	mAttributes;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -76,9 +72,7 @@ public class StubTag
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

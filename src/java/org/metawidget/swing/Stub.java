@@ -38,25 +38,19 @@ public class Stub
 	extends JPanel
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= -2103016926514513436L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Map<String, String>	mAttributes;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setAttribute( String name, String value )

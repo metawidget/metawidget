@@ -24,9 +24,7 @@ package org.metawidget.test.faces.allwidgets.managedbean;
 public class AllWidgetsBean
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String save()

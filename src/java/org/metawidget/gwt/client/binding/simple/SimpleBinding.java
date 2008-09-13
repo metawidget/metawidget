@@ -42,9 +42,7 @@ public class SimpleBinding
 	extends Binding
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static Map<Class<?>, SimpleBindingAdapter<?>>	ADAPTERS	= new HashMap<Class<?>, SimpleBindingAdapter<?>>();
@@ -71,9 +69,7 @@ public class SimpleBinding
 	}
 
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -105,17 +101,13 @@ public class SimpleBinding
 	}
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Set<Object[]>	mBindings;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public SimpleBinding( GwtMetawidget metawidget )
@@ -124,9 +116,7 @@ public class SimpleBinding
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -278,9 +268,7 @@ public class SimpleBinding
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	/**

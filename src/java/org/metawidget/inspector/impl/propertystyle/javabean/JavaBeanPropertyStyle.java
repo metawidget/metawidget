@@ -43,9 +43,7 @@ public class JavaBeanPropertyStyle
 	extends BasePropertyStyle
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -287,9 +285,7 @@ public class JavaBeanPropertyStyle
 	}
 
 	//
-	//
 	// Inner classes
-	//
 	//
 
 	/**

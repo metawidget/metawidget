@@ -27,9 +27,7 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 public interface LayoutFactory
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	Layout newLayout( Class<? extends Layout> layoutClass, GwtMetawidget metawidget );

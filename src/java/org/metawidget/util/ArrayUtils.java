@@ -31,9 +31,7 @@ import org.metawidget.util.simple.StringUtils;
 public final class ArrayUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static <T> String toString( final T[] array )
@@ -170,17 +168,13 @@ public final class ArrayUtils
 	}
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String[]	EMPTY_STRING_ARRAY	= new String[0];
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private ArrayUtils()

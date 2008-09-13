@@ -81,9 +81,7 @@ public class HtmlTableLayoutRenderer
 	extends HtmlLayoutRenderer
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String	TABLE_PREFIX						= "table-";
@@ -117,9 +115,7 @@ public class HtmlTableLayoutRenderer
 	private final static int	LABEL_AND_COMPONENT_AND_REQUIRED	= 3;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -344,9 +340,7 @@ public class HtmlTableLayoutRenderer
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void layoutBeforeChild( FacesContext context, UIComponent component, UIComponent componentChild )

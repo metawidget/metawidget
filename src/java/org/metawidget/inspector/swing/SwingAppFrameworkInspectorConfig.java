@@ -33,9 +33,7 @@ public class SwingAppFrameworkInspectorConfig
 	extends BaseObjectInspectorConfig
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public SwingAppFrameworkInspectorConfig()

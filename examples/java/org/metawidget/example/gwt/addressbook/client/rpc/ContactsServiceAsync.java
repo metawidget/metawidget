@@ -32,9 +32,7 @@ public interface ContactsServiceAsync
 	extends RemoteService
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	void getAllByExample( ContactSearch search, AsyncCallback<List<Contact>> callback );

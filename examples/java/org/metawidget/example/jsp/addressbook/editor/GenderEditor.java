@@ -28,9 +28,7 @@ public class GenderEditor
 	extends PropertyEditorSupport
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

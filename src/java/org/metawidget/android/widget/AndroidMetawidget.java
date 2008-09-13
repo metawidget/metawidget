@@ -80,9 +80,7 @@ public class AndroidMetawidget
 	extends LinearLayout
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static List<Boolean>				LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( null, Boolean.TRUE, Boolean.FALSE );
@@ -92,9 +90,7 @@ public class AndroidMetawidget
 	private final static String						PARAM_PREFIX		= "param";
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Object									mToInspect;
@@ -124,9 +120,7 @@ public class AndroidMetawidget
 	private AndroidMetawidgetMixin					mMetawidgetMixin;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public AndroidMetawidget( Context context )
@@ -200,9 +194,7 @@ public class AndroidMetawidget
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setToInspect( Object toInspect )
@@ -470,9 +462,7 @@ public class AndroidMetawidget
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -928,9 +918,7 @@ public class AndroidMetawidget
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private View findViewWithTag( String... tags )
@@ -1019,9 +1007,7 @@ public class AndroidMetawidget
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	protected class AndroidMetawidgetMixin

@@ -44,17 +44,13 @@ public class AllWidgetsModule
 	implements EntryPoint
 {
 	//
-	//
 	// Private members
 	//
-	//
 
-	Panel					mPanel;
+	private Panel	mPanel;
 
-	//
 	//
 	// Constructor
-	//
 	//
 
 	public AllWidgetsModule()
@@ -68,9 +64,7 @@ public class AllWidgetsModule
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void onModuleLoad()

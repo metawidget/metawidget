@@ -25,9 +25,7 @@ package org.metawidget.inspector.struts;
 public final class StrutsInspectionResultConstants
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public final static String	STRUTS_LOOKUP_NAME		= "struts-lookup-name";
@@ -35,9 +33,7 @@ public final class StrutsInspectionResultConstants
 	public final static String	STRUTS_LOOKUP_PROPERTY	= "struts-lookup-property";
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private StrutsInspectionResultConstants()

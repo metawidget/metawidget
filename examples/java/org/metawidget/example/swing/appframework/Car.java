@@ -35,9 +35,7 @@ import org.metawidget.inspector.jexl.UiJexlAttribute;
 public class Car
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String					mMake;
@@ -49,9 +47,7 @@ public class Car
 	private List<ActionListener>	mActionListeners	= new ArrayList<ActionListener>();
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String getMake()
@@ -139,9 +135,7 @@ public class Car
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void fireActionEvent( String command )

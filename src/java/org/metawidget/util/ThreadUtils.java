@@ -27,9 +27,7 @@ import java.util.Stack;
 public final class ThreadUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -51,9 +49,7 @@ public final class ThreadUtils
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	/**
@@ -131,9 +127,7 @@ public final class ThreadUtils
 	}
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private ThreadUtils()

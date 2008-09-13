@@ -41,9 +41,7 @@ public class InspectorFactoryGenerator
 	extends Generator
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

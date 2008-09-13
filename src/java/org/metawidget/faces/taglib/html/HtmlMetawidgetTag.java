@@ -36,9 +36,7 @@ public class HtmlMetawidgetTag
 	extends MetawidgetTag
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String	mStyle;
@@ -48,9 +46,7 @@ public class HtmlMetawidgetTag
 	private boolean	mCreateHiddenFields;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -93,9 +89,7 @@ public class HtmlMetawidgetTag
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

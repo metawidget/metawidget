@@ -31,25 +31,19 @@ public class ImagePanel
 	extends JPanel
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= 4911654330220639789L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Image				mImage;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public ImagePanel()
@@ -58,9 +52,7 @@ public class ImagePanel
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setImage( URL url )

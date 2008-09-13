@@ -25,17 +25,13 @@ import org.metawidget.example.shared.addressbook.model.Communication;
 public class CommunicationBean
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private Communication				mCommunicationCurrent;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public CommunicationBean()
@@ -44,9 +40,7 @@ public class CommunicationBean
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public Communication getCurrent()

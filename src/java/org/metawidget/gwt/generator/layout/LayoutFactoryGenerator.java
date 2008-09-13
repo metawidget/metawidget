@@ -41,9 +41,7 @@ public class LayoutFactoryGenerator
 	extends Generator
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

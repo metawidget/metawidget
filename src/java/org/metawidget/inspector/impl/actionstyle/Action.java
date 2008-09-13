@@ -27,9 +27,7 @@ import java.lang.annotation.Annotation;
 public interface Action
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	String getName();

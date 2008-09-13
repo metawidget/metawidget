@@ -39,9 +39,7 @@ public class AddressBookContextListener
 	implements ServletContextListener
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

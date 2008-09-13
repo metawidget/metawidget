@@ -23,17 +23,13 @@ package org.metawidget.example.shared.addressbook.controller;
 public class CommunicationsController
 {
 	//
-	//
 	// Protected members
-	//
 	//
 
 	protected final static String[]	ALL_COMMUNICATION_TYPES	= { "Telephone", "Mobile", "Fax", "E-mail" };
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**

@@ -40,9 +40,7 @@ public class Java5Inspector
 	extends BaseObjectInspector
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public Java5Inspector()
@@ -56,9 +54,7 @@ public class Java5Inspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

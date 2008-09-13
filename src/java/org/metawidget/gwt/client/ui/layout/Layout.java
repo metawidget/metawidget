@@ -33,17 +33,13 @@ import com.google.gwt.user.client.ui.Widget;
 public abstract class Layout
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private GwtMetawidget				mMetawidget;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public Layout( GwtMetawidget metawidget )
@@ -52,9 +48,7 @@ public abstract class Layout
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void layoutBegin()
@@ -73,9 +67,7 @@ public abstract class Layout
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected GwtMetawidget getMetawidget()

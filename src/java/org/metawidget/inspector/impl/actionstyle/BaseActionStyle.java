@@ -33,9 +33,7 @@ public abstract class BaseActionStyle
 	implements ActionStyle
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	/**
@@ -52,9 +50,7 @@ public abstract class BaseActionStyle
 	private Map<Class<?>, Map<String, Action>>	mActionCache	= CollectionUtils.newHashMap();
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public Map<String, Action> getActions( Class<?> clazz )
@@ -109,9 +105,7 @@ public abstract class BaseActionStyle
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**

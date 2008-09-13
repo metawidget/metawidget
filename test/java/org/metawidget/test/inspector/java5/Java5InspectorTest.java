@@ -38,9 +38,7 @@ public class Java5InspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -53,9 +51,7 @@ public class Java5InspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testInspection()
@@ -101,9 +97,7 @@ public class Java5InspectorTest
 	}
 
 	//
-	//
 	// Inner classes
-	//
 	//
 
 	protected enum Foo

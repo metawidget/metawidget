@@ -49,9 +49,7 @@ public class GroovyPropertyStyle
 	extends BasePropertyStyle
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -113,9 +111,7 @@ public class GroovyPropertyStyle
 	}
 
 	//
-	//
 	// Inner classes
-	//
 	//
 
 	/**

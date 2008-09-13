@@ -28,9 +28,7 @@ public class ToStringConverter
 	implements Converter
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@SuppressWarnings( "unchecked" )

@@ -45,9 +45,7 @@ import org.metawidget.util.CollectionUtils;
 public class ContactBean
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private boolean			mReadOnly;
@@ -57,9 +55,7 @@ public class ContactBean
 	private ListDataModel	mModelCommunications;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiHidden
@@ -193,9 +189,7 @@ public class ContactBean
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private ContactsBean getContactsBean()

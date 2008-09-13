@@ -30,9 +30,7 @@ public class ArrayUtilsTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -45,9 +43,7 @@ public class ArrayUtilsTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testArrayUtils()

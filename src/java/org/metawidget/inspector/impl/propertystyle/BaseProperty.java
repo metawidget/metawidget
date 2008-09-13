@@ -30,9 +30,7 @@ public abstract class BaseProperty
 	implements Property
 {
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private String		mName;
@@ -40,9 +38,7 @@ public abstract class BaseProperty
 	private Class<?>	mType;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public BaseProperty( String name, Class<?> type )
@@ -52,9 +48,7 @@ public abstract class BaseProperty
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String getName()

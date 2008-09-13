@@ -63,9 +63,7 @@ public class SwingAddressBookTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -78,9 +76,7 @@ public class SwingAddressBookTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testAddressBook()
@@ -362,9 +358,7 @@ public class SwingAddressBookTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class Foo

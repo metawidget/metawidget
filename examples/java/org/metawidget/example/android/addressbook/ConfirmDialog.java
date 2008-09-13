@@ -31,9 +31,7 @@ public class ConfirmDialog
 	extends AlertDialog
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static void show( Context context, CharSequence title, CharSequence message, DialogInterface.OnClickListener listener )
@@ -43,9 +41,7 @@ public class ConfirmDialog
 	}
 
 	//
-	//
 	// Contructor
-	//
 	//
 
 	protected ConfirmDialog( Context context, CharSequence title, CharSequence message, DialogInterface.OnClickListener listener )

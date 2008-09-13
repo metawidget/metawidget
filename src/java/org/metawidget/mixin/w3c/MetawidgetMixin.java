@@ -35,9 +35,7 @@ public abstract class MetawidgetMixin<W>
 	extends BaseMetawidgetMixin<W, Element>
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

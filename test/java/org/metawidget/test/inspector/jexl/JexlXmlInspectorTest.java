@@ -36,9 +36,7 @@ public class JexlXmlInspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -51,9 +49,7 @@ public class JexlXmlInspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testXml()
@@ -118,9 +114,7 @@ public class JexlXmlInspectorTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class Foo

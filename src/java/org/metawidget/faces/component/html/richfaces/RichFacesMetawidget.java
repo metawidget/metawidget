@@ -48,9 +48,7 @@ public class RichFacesMetawidget
 	extends HtmlMetawidget
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**

@@ -29,9 +29,7 @@ public class ThreadUtilsTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -44,9 +42,7 @@ public class ThreadUtilsTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testThreadUtils()

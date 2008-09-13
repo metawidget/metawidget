@@ -30,17 +30,13 @@ public abstract class BaseAction
 	implements Action
 {
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private String		mName;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public BaseAction( String name )
@@ -49,9 +45,7 @@ public abstract class BaseAction
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String getName()

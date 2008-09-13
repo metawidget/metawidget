@@ -44,9 +44,7 @@ public class ConfigReaderTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -59,9 +57,7 @@ public class ConfigReaderTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@SuppressWarnings( "unchecked" )

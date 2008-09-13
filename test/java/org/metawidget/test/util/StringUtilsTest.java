@@ -28,9 +28,7 @@ public class StringUtilsTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -43,9 +41,7 @@ public class StringUtilsTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testStringUtils()

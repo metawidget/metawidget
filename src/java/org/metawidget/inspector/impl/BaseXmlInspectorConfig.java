@@ -29,9 +29,7 @@ import java.io.InputStream;
 public class BaseXmlInspectorConfig
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String[]		mFiles;
@@ -43,9 +41,7 @@ public class BaseXmlInspectorConfig
 	private InputStream		mSchemaStream;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String[] getFiles()

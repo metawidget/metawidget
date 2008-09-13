@@ -36,9 +36,7 @@ import java.util.Map;
 public interface ActionStyle
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	/**

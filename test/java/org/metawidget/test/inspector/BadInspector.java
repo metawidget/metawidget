@@ -29,9 +29,7 @@ public class BadInspector
 	implements Inspector
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private List<String>	mList;
@@ -39,9 +37,7 @@ public class BadInspector
 	private int				mInt;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public BadInspector( BadInspectorConfig config )
@@ -51,9 +47,7 @@ public class BadInspector
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String inspect( Object toInspect, String type, String... names )

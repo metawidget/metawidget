@@ -43,25 +43,19 @@ public abstract class StubTag
 	extends BodyTagSupport
 {
 	//
-	//
 	// Protected members
-	//
 	//
 
 	protected String			mPath;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Map<String, String>	mAttributes;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setAttributes( String attributes )
@@ -116,9 +110,7 @@ public abstract class StubTag
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class StubContent

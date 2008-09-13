@@ -28,9 +28,7 @@ public class DateEditor
 	extends PropertyEditorSupport
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static DateFormat	FORMAT	= DateFormat.getDateInstance( DateFormat.SHORT );
@@ -41,9 +39,7 @@ public class DateEditor
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

@@ -74,9 +74,7 @@ public abstract class BaseXmlInspector
 	implements Inspector
 {
 	//
-	//
 	// Protected members
-	//
 	//
 
 	protected Log		mLog	= LogUtils.getLog( getClass() );
@@ -84,9 +82,7 @@ public abstract class BaseXmlInspector
 	protected Element	mRoot;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -159,9 +155,7 @@ public abstract class BaseXmlInspector
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String inspect( Object toInspect, String type, String... names )
@@ -241,9 +235,7 @@ public abstract class BaseXmlInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, BaseXmlInspectorConfig config )

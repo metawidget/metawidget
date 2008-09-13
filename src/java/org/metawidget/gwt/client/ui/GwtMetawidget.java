@@ -79,9 +79,7 @@ public class GwtMetawidget
 	implements HasName
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static int										BUILDING_COMPLETE		= 0;
@@ -112,9 +110,7 @@ public class GwtMetawidget
 	private final static Map<Class<? extends Inspector>, Inspector>	INSPECTORS				= new HashMap<Class<? extends Inspector>, Inspector>();
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Object													mToInspect;
@@ -164,9 +160,7 @@ public class GwtMetawidget
 	private Timer													mBuildWidgets;
 
 	//
-	//
 	// Package-level members
-	//
 	//
 
 	String															mType;
@@ -190,9 +184,7 @@ public class GwtMetawidget
 	GwtMetawidgetMixin<Widget>										mMetawidgetMixin;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public GwtMetawidget()
@@ -201,9 +193,7 @@ public class GwtMetawidget
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public Object getToInspect()
@@ -725,9 +715,7 @@ public class GwtMetawidget
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -1296,9 +1284,7 @@ public class GwtMetawidget
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	protected class GwtMetawidgetMixinImpl
@@ -1399,9 +1385,7 @@ public class GwtMetawidget
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private void addListBoxItems( ListBox listBox, List<String> values, List<String> labels, Map<String, String> attributes )

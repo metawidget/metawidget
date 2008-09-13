@@ -29,17 +29,13 @@ public class MainFrame
 	extends JFrame
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private static final long	serialVersionUID	= 8237029790012008665L;
 
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static void main( String[] args )
@@ -50,17 +46,13 @@ public class MainFrame
 	}
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private AddressBook	mAddressBook;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public MainFrame()
@@ -82,9 +74,7 @@ public class MainFrame
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**

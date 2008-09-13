@@ -24,17 +24,13 @@ public class InspectorException
 	extends RuntimeException
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= 2348940955816603864L;
 
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -65,9 +61,7 @@ public class InspectorException
 	}
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	private InspectorException( String message )

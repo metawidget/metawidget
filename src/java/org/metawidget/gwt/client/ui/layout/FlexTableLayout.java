@@ -40,9 +40,7 @@ public class FlexTableLayout
 	extends Layout
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private FlexTable			mLayout;
@@ -56,9 +54,7 @@ public class FlexTableLayout
 	private String				mCurrentSection;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public FlexTableLayout( GwtMetawidget metawidget )
@@ -80,9 +76,7 @@ public class FlexTableLayout
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -170,9 +164,7 @@ public class FlexTableLayout
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void layoutSection( String section )

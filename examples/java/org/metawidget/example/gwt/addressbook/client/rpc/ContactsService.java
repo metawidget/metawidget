@@ -33,9 +33,7 @@ public interface ContactsService
 	extends RemoteService
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	List<Contact> getAllByExample( ContactSearch search );

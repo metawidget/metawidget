@@ -42,17 +42,13 @@ public class TableLayout
 	extends Layout
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static int			LABEL_AND_WIDGET	= 2;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private android.widget.TableLayout	mLayout;
@@ -67,9 +63,7 @@ public class TableLayout
 	private int							mSectionStyle;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public TableLayout( AndroidMetawidget metawidget )
@@ -107,9 +101,7 @@ public class TableLayout
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -201,9 +193,7 @@ public class TableLayout
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void layoutSection( String section )
@@ -242,9 +232,7 @@ public class TableLayout
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	/**

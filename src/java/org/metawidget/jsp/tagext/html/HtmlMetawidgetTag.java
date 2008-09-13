@@ -51,9 +51,7 @@ public class HtmlMetawidgetTag
 	extends BaseHtmlMetawidgetTag
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long			serialVersionUID	= 2764949384474589158L;
@@ -61,17 +59,13 @@ public class HtmlMetawidgetTag
 	private final static List<Boolean>	LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String						mNamePrefix;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**
@@ -116,9 +110,7 @@ public class HtmlMetawidgetTag
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override
@@ -330,9 +322,7 @@ public class HtmlMetawidgetTag
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private String writeReadOnlyTag( Map<String, String> attributes )

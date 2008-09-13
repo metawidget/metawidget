@@ -41,9 +41,7 @@ public class HibernateValidatorInspector
 	extends BaseObjectInspector
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public HibernateValidatorInspector()
@@ -57,9 +55,7 @@ public class HibernateValidatorInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

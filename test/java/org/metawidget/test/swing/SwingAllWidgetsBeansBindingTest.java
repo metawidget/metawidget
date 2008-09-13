@@ -30,9 +30,7 @@ public class SwingAllWidgetsBeansBindingTest
 	extends SwingAllWidgetsTest
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -45,9 +43,7 @@ public class SwingAllWidgetsBeansBindingTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

@@ -28,9 +28,7 @@ public class ContactTypeConverter
 	extends EnumConverter<ContactType>
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public ContactTypeConverter()

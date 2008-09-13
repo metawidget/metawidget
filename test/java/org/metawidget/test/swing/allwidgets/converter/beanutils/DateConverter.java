@@ -32,17 +32,13 @@ public class DateConverter
 	implements Converter
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private DateFormat	mFormat;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public DateConverter( String pattern )
@@ -52,9 +48,7 @@ public class DateConverter
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@SuppressWarnings( "unchecked" )

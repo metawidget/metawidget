@@ -54,9 +54,7 @@ public class TableGridBagLayoutTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -69,9 +67,7 @@ public class TableGridBagLayoutTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testLayout()
@@ -210,9 +206,7 @@ public class TableGridBagLayoutTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	static class Foo

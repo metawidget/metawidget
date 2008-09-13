@@ -61,9 +61,7 @@ public class TableGridBagLayout
 	extends Layout
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public final static int		SECTION_AS_HEADING				= 0;
@@ -71,9 +69,7 @@ public class TableGridBagLayout
 	public final static int		SECTION_AS_TAB					= 1;
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static Insets	INSETS_TOP_LEFT_COLUMN_LABEL	= new Insets( 1, 0, 3, 3 );
@@ -99,9 +95,7 @@ public class TableGridBagLayout
 	private final static Border	INSETS_TAB						= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private GridBagLayout		mLayout;
@@ -141,9 +135,7 @@ public class TableGridBagLayout
 	private boolean				mNeedPanelSpacerRow;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public TableGridBagLayout( SwingMetawidget metawidget )
@@ -182,9 +174,7 @@ public class TableGridBagLayout
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -340,9 +330,7 @@ public class TableGridBagLayout
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void addComponent( Component component, GridBagConstraints constraints )

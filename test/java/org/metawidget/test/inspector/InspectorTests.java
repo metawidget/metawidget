@@ -50,9 +50,7 @@ public class InspectorTests
 	extends TestCase
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static Test suite()

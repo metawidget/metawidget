@@ -32,17 +32,13 @@ import org.metawidget.swing.SwingMetawidget;
 public abstract class Layout
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private SwingMetawidget				mMetawidget;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	protected Layout( SwingMetawidget metawidget )
@@ -51,9 +47,7 @@ public abstract class Layout
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void layoutBegin()
@@ -72,9 +66,7 @@ public abstract class Layout
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected SwingMetawidget getMetawidget()

@@ -56,9 +56,7 @@ public class ContactActivity
 	extends Activity
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static DateFormat	FORMAT				= DateFormat.getDateInstance( DateFormat.SHORT );
@@ -69,17 +67,13 @@ public class ContactActivity
 	}
 
 	//
-	//
 	// Protected members
-	//
 	//
 
 	protected Contact				mContact;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -265,9 +259,7 @@ public class ContactActivity
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**

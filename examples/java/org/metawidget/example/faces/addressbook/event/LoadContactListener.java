@@ -39,17 +39,13 @@ public class LoadContactListener
 	implements javax.faces.event.PhaseListener
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= 1057853553358600595L;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public PhaseId getPhaseId()

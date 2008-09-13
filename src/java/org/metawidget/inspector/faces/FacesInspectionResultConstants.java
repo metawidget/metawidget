@@ -26,9 +26,7 @@ package org.metawidget.inspector.faces;
 public final class FacesInspectionResultConstants
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public final static String	FACES_LOOKUP					= "faces-lookup";
@@ -78,9 +76,7 @@ public final class FacesInspectionResultConstants
 	public final static String	DATETIME_TYPE					= "datetime-type";
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private FacesInspectionResultConstants()

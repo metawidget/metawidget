@@ -40,9 +40,7 @@ public class LoadAction
 	extends Action
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

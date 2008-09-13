@@ -43,9 +43,7 @@ public class BeansBindingTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -58,9 +56,7 @@ public class BeansBindingTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testBinding()
@@ -251,9 +247,7 @@ public class BeansBindingTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	protected static class Foo

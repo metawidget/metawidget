@@ -29,9 +29,7 @@ public class LogUtilsTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -44,9 +42,7 @@ public class LogUtilsTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testLogger()

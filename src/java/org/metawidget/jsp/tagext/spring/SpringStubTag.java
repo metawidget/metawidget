@@ -28,17 +28,13 @@ public class SpringStubTag
 	extends StubTag
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= 1794616515577236586L;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setPath( String path )

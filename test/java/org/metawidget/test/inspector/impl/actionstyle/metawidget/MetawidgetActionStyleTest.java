@@ -34,9 +34,7 @@ public class MetawidgetActionStyleTest
 	extends TestCase
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testMetawidgetActionStyle()
@@ -84,9 +82,7 @@ public class MetawidgetActionStyleTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	abstract class Foo

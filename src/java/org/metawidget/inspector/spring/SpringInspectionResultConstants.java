@@ -25,17 +25,13 @@ package org.metawidget.inspector.spring;
 public final class SpringInspectionResultConstants
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public final static String	SPRING_LOOKUP				= "spring-lookup";
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private SpringInspectionResultConstants()

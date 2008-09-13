@@ -42,9 +42,7 @@ import org.metawidget.util.ArrayUtils;
 public final class FacesUtils
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static boolean isValueReference( String binding )
@@ -249,9 +247,7 @@ public final class FacesUtils
 	}
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private static void renderChildren( FacesContext context, UIComponent component )
@@ -273,9 +269,7 @@ public final class FacesUtils
 	private final static String		BINDING_END		= "}";
 
 	//
-	//
 	// Private constructor
-	//
 	//
 
 	private FacesUtils()

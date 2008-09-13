@@ -28,9 +28,7 @@ public class JbpmInspectorConfig
 	extends BaseXmlInspectorConfig
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public JbpmInspectorConfig()

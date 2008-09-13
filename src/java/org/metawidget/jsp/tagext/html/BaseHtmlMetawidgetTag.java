@@ -30,9 +30,7 @@ public abstract class BaseHtmlMetawidgetTag
 	extends MetawidgetTag
 {
 	//
-	//
 	// Protected members
-	//
 	//
 
 	protected String	mStyle;
@@ -42,9 +40,7 @@ public abstract class BaseHtmlMetawidgetTag
 	protected boolean	mCreateHiddenFields;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setStyle( String style )
@@ -81,9 +77,7 @@ public abstract class BaseHtmlMetawidgetTag
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

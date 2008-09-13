@@ -43,9 +43,7 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
 public class BaseObjectInspectorConfig
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Class<? extends PropertyStyle>	mPropertyStyle;
@@ -53,9 +51,7 @@ public class BaseObjectInspectorConfig
 	private Class<? extends ActionStyle>	mActionStyle;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public BaseObjectInspectorConfig()
@@ -80,9 +76,7 @@ public class BaseObjectInspectorConfig
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**

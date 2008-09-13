@@ -27,17 +27,13 @@ public class BusinessContactForm
 	extends ContactForm
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= 3417114140574397193L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String				mCompany;
@@ -45,9 +41,7 @@ public class BusinessContactForm
 	private int					mNumberOfStaff;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiComesAfter( "surname" )

@@ -28,17 +28,13 @@ public class JpaInspectorConfig
 	extends BaseObjectInspectorConfig
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private boolean	mHideIds	= true;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**

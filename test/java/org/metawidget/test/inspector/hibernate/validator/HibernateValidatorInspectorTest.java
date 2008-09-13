@@ -38,9 +38,7 @@ public class HibernateValidatorInspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -53,9 +51,7 @@ public class HibernateValidatorInspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testInspection()
@@ -93,9 +89,7 @@ public class HibernateValidatorInspectorTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class Foo

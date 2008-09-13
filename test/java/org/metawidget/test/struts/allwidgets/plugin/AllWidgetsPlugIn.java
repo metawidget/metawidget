@@ -34,9 +34,7 @@ public class AllWidgetsPlugIn
 	implements PlugIn
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void init( ActionServlet servlet, ModuleConfig config )

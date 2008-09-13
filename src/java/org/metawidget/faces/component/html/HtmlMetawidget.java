@@ -55,17 +55,13 @@ public class HtmlMetawidget
 	extends UIMetawidget
 {
 	//
-	//
 	// Protected members
-	//
 	//
 
 	protected boolean	mCreateHiddenFields;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**
@@ -101,9 +97,7 @@ public class HtmlMetawidget
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

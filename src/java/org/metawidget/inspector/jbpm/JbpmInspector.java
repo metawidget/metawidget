@@ -46,9 +46,7 @@ public class JbpmInspector
 	extends BaseXmlInspector
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String		SEAM_COMPONENTS_ELEMENT	= "components";
@@ -58,9 +56,7 @@ public class JbpmInspector
 	private final static String[]	EMPTY_STRING_ARRAY		= new String[0];
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public JbpmInspector()
@@ -84,9 +80,7 @@ public class JbpmInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**

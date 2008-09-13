@@ -42,17 +42,13 @@ public class UIStub
 	extends UIComponentBase
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String	mStubAttributes;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

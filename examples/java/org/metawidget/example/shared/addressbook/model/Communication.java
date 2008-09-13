@@ -36,17 +36,13 @@ public class Communication
 	implements Comparable<Communication>, Serializable
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= 5357117362912411289L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private long				mId;
@@ -56,9 +52,7 @@ public class Communication
 	private String				mValue;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public Communication()
@@ -73,9 +67,7 @@ public class Communication
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiHidden

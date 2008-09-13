@@ -45,25 +45,19 @@ public class Stub
 	extends LinearLayout
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String						ATTRIBUTE_PREFIX		= "attrib";
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Map<String, String>	mAttributes;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public Stub( Context context )
@@ -102,9 +96,7 @@ public class Stub
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setAttribute( String name, String value )

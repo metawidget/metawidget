@@ -37,9 +37,7 @@ public class CommunicationDialog
 	implements DialogInterface.OnClickListener
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static void show( Activity activity, Contact contact, Communication communication, DialogInterface.OnClickListener listener )
@@ -54,9 +52,7 @@ public class CommunicationDialog
 	}
 
 	//
-	//
 	// Protected members
-	//
 	//
 
 	protected Contact							mContact;
@@ -66,9 +62,7 @@ public class CommunicationDialog
 	protected DialogInterface.OnClickListener	mListener;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Activity							mActivity;
@@ -76,9 +70,7 @@ public class CommunicationDialog
 	private AndroidMetawidget					mMetawidget;
 
 	//
-	//
 	// Contructor
-	//
 	//
 
 	protected CommunicationDialog( Activity activity, Contact contact, Communication communication, DialogInterface.OnClickListener listener )

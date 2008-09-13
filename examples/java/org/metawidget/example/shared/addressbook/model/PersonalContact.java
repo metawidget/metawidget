@@ -28,25 +28,19 @@ public class PersonalContact
 	extends Contact
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= -2966469150276754189L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Date				mDateOfBirth;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public PersonalContact()
@@ -60,9 +54,7 @@ public class PersonalContact
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiComesAfter( "surname" )

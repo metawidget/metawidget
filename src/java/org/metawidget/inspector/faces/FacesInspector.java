@@ -47,9 +47,7 @@ public class FacesInspector
 	extends BaseObjectInspector
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public FacesInspector()
@@ -63,9 +61,7 @@ public class FacesInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

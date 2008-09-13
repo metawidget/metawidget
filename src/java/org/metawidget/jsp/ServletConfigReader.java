@@ -36,17 +36,13 @@ public class ServletConfigReader
 	extends ConfigReader
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private ServletContext	mContext;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public ServletConfigReader( ServletContext context )
@@ -55,9 +51,7 @@ public class ServletConfigReader
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**

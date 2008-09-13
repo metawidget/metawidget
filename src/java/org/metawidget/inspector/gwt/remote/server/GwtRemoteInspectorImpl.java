@@ -45,25 +45,19 @@ public class GwtRemoteInspectorImpl
 	implements GwtRemoteInspector
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private static final long	serialVersionUID	= -7037413818513317265L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Inspector			mInspector;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

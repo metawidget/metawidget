@@ -46,9 +46,7 @@ public class PropertyTypeInspector
 	extends BaseObjectInspector
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public PropertyTypeInspector()
@@ -62,9 +60,7 @@ public class PropertyTypeInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

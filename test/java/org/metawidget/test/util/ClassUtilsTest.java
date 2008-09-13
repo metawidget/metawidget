@@ -28,9 +28,7 @@ public class ClassUtilsTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -43,9 +41,7 @@ public class ClassUtilsTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testObjectPrimitive()
@@ -93,9 +89,7 @@ public class ClassUtilsTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	protected static class Foo

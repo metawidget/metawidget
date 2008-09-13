@@ -41,17 +41,13 @@ public class StrutsInspector
 	extends BaseXmlInspector
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String	FORM_BEANS_ELEMENT	= "form-beans";
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public StrutsInspector()
@@ -75,9 +71,7 @@ public class StrutsInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

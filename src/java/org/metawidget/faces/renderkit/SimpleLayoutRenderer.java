@@ -41,17 +41,13 @@ public class SimpleLayoutRenderer
 	extends LayoutRenderer
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String	AFTER_FACET	= "after";
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

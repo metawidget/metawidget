@@ -29,9 +29,7 @@ public class NestedWidgetsConverter
 	implements Converter
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@SuppressWarnings( "unchecked" )

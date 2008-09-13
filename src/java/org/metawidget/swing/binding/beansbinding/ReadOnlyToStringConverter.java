@@ -34,9 +34,7 @@ public class ReadOnlyToStringConverter<SV>
 	extends Converter<SV, String>
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

@@ -35,9 +35,7 @@ public abstract class MetawidgetTag
 	extends UIComponentTag
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String	mValue;
@@ -55,9 +53,7 @@ public abstract class MetawidgetTag
 	private String	mValidatorClass	= StandardValidator.class.getName();
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	/**
@@ -124,9 +120,7 @@ public abstract class MetawidgetTag
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

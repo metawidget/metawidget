@@ -28,17 +28,13 @@ public class HtmlStubTag
 	extends StubTag
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= -3075623485786990598L;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setValue( String value )

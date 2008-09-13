@@ -36,17 +36,13 @@ import android.widget.TextView;
 public abstract class Layout
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private AndroidMetawidget				mMetawidget;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public Layout( AndroidMetawidget metawidget )
@@ -55,9 +51,7 @@ public abstract class Layout
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void layoutBegin()
@@ -76,9 +70,7 @@ public abstract class Layout
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected AndroidMetawidget getMetawidget()

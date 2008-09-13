@@ -39,9 +39,7 @@ public class Bundle2VariableTag
 	extends TagSupport
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private static final long	serialVersionUID		= 7317432354574136160L;
@@ -49,9 +47,7 @@ public class Bundle2VariableTag
 	private final static String	DEFAULT_VARIABLE_NAME	= "bundle";
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private ResourceBundle		mBundle;
@@ -59,9 +55,7 @@ public class Bundle2VariableTag
 	private String				mVariableName			= DEFAULT_VARIABLE_NAME;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setBundle( ResourceBundle bundle )

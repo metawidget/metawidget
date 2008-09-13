@@ -47,17 +47,13 @@ public class MetawidgetAnnotationInspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private MetawidgetAnnotationInspector mInspector;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -70,9 +66,7 @@ public class MetawidgetAnnotationInspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -226,9 +220,7 @@ public class MetawidgetAnnotationInspectorTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class Foo

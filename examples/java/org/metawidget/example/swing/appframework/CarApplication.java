@@ -42,9 +42,7 @@ public class CarApplication
 	extends SingleFrameApplication
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static void main( String[] args )
@@ -53,9 +51,7 @@ public class CarApplication
 	}
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	SwingMetawidget	mMetawidget;
@@ -63,9 +59,7 @@ public class CarApplication
 	Car				mCar;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Action
@@ -76,9 +70,7 @@ public class CarApplication
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	@Override

@@ -37,17 +37,13 @@ public class AndroidConfigReader
 	extends ConfigReader
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Context	mContext;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public AndroidConfigReader( Context context )
@@ -57,9 +53,7 @@ public class AndroidConfigReader
 
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**

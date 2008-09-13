@@ -28,9 +28,7 @@ public class ContactsBean
 	extends ContactsController
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static SelectItem[] ALL_TITLES_SELECT_ITEMS;
@@ -46,9 +44,7 @@ public class ContactsBean
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public SelectItem[] getAllTitlesAsSelectItems()

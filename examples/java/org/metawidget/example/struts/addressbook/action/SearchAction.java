@@ -37,9 +37,7 @@ public class SearchAction
 	extends Action
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

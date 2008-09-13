@@ -43,9 +43,7 @@ public abstract class LayoutRenderer
 	extends Renderer
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	/**
@@ -64,9 +62,7 @@ public abstract class LayoutRenderer
 																	};
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -128,9 +124,7 @@ public abstract class LayoutRenderer
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected Object getState( String key )

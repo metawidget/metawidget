@@ -31,9 +31,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface GwtRemoteInspectorAsync
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	void inspect( Serializable toInspect, String type, String[] names, AsyncCallback<String> callback );

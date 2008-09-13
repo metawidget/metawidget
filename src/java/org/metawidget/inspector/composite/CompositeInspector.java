@@ -60,9 +60,7 @@ public class CompositeInspector
 	implements Inspector
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private static Object						SCHEMA_METADATA;
@@ -70,9 +68,7 @@ public class CompositeInspector
 	private final static Log					LOG							= LogUtils.getLog( CompositeInspector.class );
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Inspector[]							mInspectors;
@@ -80,9 +76,7 @@ public class CompositeInspector
 	private boolean								mValidating;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public CompositeInspector( CompositeInspectorConfig config )
@@ -127,9 +121,7 @@ public class CompositeInspector
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String inspect( Object toInspect, String type, String... names )

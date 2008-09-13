@@ -66,9 +66,7 @@ public class JavassistPropertyStyle
 	extends JavaBeanPropertyStyle
 {
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -182,9 +180,7 @@ public class JavassistPropertyStyle
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	/**
@@ -211,9 +207,7 @@ public class JavassistPropertyStyle
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	private static class ClassAndLineNumberAndName

@@ -37,17 +37,13 @@ public class ListTableModel<T extends Comparable<T>>
 	extends AbstractTableModel
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static long	serialVersionUID	= -8068789874824604436L;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Class<T>			mClass;
@@ -61,9 +57,7 @@ public class ListTableModel<T extends Comparable<T>>
 	private boolean				mExtraBlankRow;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public ListTableModel( Class<T> clazz, Collection<T> collection, String... columns )
@@ -75,9 +69,7 @@ public class ListTableModel<T extends Comparable<T>>
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void importCollection( Collection<T> collection )

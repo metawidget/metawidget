@@ -38,9 +38,7 @@ public class GroovyPropertyStyleTest
 	extends TestCase
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testGroovy()

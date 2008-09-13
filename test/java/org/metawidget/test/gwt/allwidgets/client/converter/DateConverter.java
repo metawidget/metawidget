@@ -31,17 +31,13 @@ public class DateConverter
 	extends Converter<Date>
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private DateTimeFormat	mFormat;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public DateConverter()
@@ -50,9 +46,7 @@ public class DateConverter
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 

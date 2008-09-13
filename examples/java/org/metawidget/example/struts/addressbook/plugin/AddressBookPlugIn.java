@@ -41,9 +41,7 @@ public class AddressBookPlugIn
 	implements PlugIn
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void init( ActionServlet servlet, ModuleConfig config )

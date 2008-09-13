@@ -30,9 +30,7 @@ public class DateConverter
 	extends Converter<Date, String>
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static DateFormat	FORMAT	= DateFormat.getDateInstance( DateFormat.SHORT );
@@ -43,9 +41,7 @@ public class DateConverter
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

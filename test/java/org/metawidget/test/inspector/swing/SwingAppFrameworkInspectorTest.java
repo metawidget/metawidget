@@ -33,9 +33,7 @@ public class SwingAppFrameworkInspectorTest
 	extends TestCase
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**
@@ -48,9 +46,7 @@ public class SwingAppFrameworkInspectorTest
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void testAnnotations()
@@ -81,9 +77,7 @@ public class SwingAppFrameworkInspectorTest
 	}
 
 	//
-	//
 	// Inner class
-	//
 	//
 
 	public static class Foo

@@ -52,9 +52,7 @@ public abstract class BaseObjectInspector
 	implements Inspector
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static Map<Class<? extends PropertyStyle>, PropertyStyle>	PROPERTY_STYLE_CACHE	= CollectionUtils.newHashMap();
@@ -62,9 +60,7 @@ public abstract class BaseObjectInspector
 	private final static Map<Class<? extends ActionStyle>, ActionStyle>		ACTION_STYLE_CACHE		= CollectionUtils.newHashMap();
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private PropertyStyle													mPropertyStyle;
@@ -72,17 +68,13 @@ public abstract class BaseObjectInspector
 	private ActionStyle														mActionStyle;
 
 	//
-	//
 	// Protected members
-	//
 	//
 
 	protected Log															mLog					= LogUtils.getLog( getClass() );
 
 	//
-	//
 	// Constructors
-	//
 	//
 
 	/**
@@ -133,9 +125,7 @@ public abstract class BaseObjectInspector
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String inspect( Object toInspect, String type, String... names )
@@ -236,9 +226,7 @@ public abstract class BaseObjectInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -365,9 +353,7 @@ public abstract class BaseObjectInspector
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private Object traverse( Object toTraverse, String type, boolean onlyToParent, String... names )

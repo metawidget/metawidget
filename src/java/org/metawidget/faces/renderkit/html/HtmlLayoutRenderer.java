@@ -50,9 +50,7 @@ public class HtmlLayoutRenderer
 	extends LayoutRenderer
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String	KEY_USE_INLINE_MESSAGES	= "inlineMessages";
@@ -62,9 +60,7 @@ public class HtmlLayoutRenderer
 	private final static String	KEY_MESSAGE_STYLE_CLASS	= "messageStyleClass";
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	protected void layoutChild( FacesContext context, UIComponent component, UIComponent childComponent )

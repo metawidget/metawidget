@@ -29,9 +29,7 @@ public class SimpleConverter
 	extends Converter<Object>
 {
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override

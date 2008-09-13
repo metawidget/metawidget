@@ -49,9 +49,7 @@ public abstract class Contact
 	implements Comparable<Contact>, Serializable
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private long				mId;
@@ -71,9 +69,7 @@ public abstract class Contact
 	private String				mNotes;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public Contact()
@@ -91,9 +87,7 @@ public abstract class Contact
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@UiHidden

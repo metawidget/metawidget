@@ -32,9 +32,7 @@ public class HtmlLookupOutputText
 	extends HtmlOutputText
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private List<String>	mValues;
@@ -42,9 +40,7 @@ public class HtmlLookupOutputText
 	private List<String>	mLabels;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public void setLabels( List<String> values, List<String> labels )

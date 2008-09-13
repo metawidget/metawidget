@@ -39,9 +39,7 @@ public class Stub
 	implements HasName
 {
 	//
-	//
 	// Private members
-	//
 	//
 
 	private String				mName;
@@ -49,9 +47,7 @@ public class Stub
 	private Map<String, String>	mAttributes;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	public String getName()

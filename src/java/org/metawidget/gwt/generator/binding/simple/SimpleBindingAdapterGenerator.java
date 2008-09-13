@@ -78,9 +78,7 @@ public class SimpleBindingAdapterGenerator
 	extends Generator
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	/**
@@ -111,17 +109,13 @@ public class SimpleBindingAdapterGenerator
 	private final static int	MAXIMUM_DEPTH			= 10;
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private TypeOracle			mTypeOracle;
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -254,9 +248,7 @@ public class SimpleBindingAdapterGenerator
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private void writeSubtypes( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, int writeType, int depth )

@@ -46,9 +46,7 @@ public class HibernateInspector
 	extends BaseXmlInspector
 {
 	//
-	//
 	// Private statics
-	//
 	//
 
 	private final static String		HIBERNATE_CONFIGURATION_ELEMENT	= "hibernate-configuration";
@@ -58,17 +56,13 @@ public class HibernateInspector
 	private final static String[]	EMPTY_STRING_ARRAY				= new String[0];
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private boolean					mHideIds;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public HibernateInspector()
@@ -94,9 +88,7 @@ public class HibernateInspector
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -309,9 +301,7 @@ public class HibernateInspector
 	}
 
 	//
-	//
 	// Private methods
-	//
 	//
 
 	private void prependPackageToClassAttribute( Element element, String packagePrefix )

@@ -28,9 +28,7 @@ public class UtilTests
 	extends TestCase
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	public static Test suite()

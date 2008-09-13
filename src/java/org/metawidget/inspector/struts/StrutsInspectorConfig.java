@@ -28,9 +28,7 @@ public class StrutsInspectorConfig
 	extends BaseXmlInspectorConfig
 {
 	//
-	//
 	// Constructor
-	//
 	//
 
 	/**

@@ -34,9 +34,7 @@ public interface GwtRemoteInspector
 	extends RemoteService
 {
 	//
-	//
 	// Methods
-	//
 	//
 
 	String inspect( Serializable toInspect, String type, String[] names )

@@ -80,9 +80,7 @@ public abstract class UIMetawidget
 	extends UIComponentBase
 {
 	//
-	//
 	// Public statics
-	//
 	//
 
 	/**
@@ -92,9 +90,7 @@ public abstract class UIMetawidget
 	public final static String	COMPONENT_ATTRIBUTE_METADATA				= "metawidget-metadata";
 
 	//
-	//
 	// Private statics
-	//
 	//
 
 	/**
@@ -110,9 +106,7 @@ public abstract class UIMetawidget
 	private final static String	APPLICATION_ATTRIBUTE_INSPECTORS			= "metawidget-inspectors";
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	private Object				mValue;
@@ -134,9 +128,7 @@ public abstract class UIMetawidget
 	private UIMetawidgetMixin	mMetawidgetMixin;
 
 	//
-	//
 	// Constructor
-	//
 	//
 
 	public UIMetawidget()
@@ -149,9 +141,7 @@ public abstract class UIMetawidget
 	}
 
 	//
-	//
 	// Public methods
-	//
 	//
 
 	@Override
@@ -415,9 +405,7 @@ public abstract class UIMetawidget
 	}
 
 	//
-	//
 	// Protected methods
-	//
 	//
 
 	/**
@@ -1466,9 +1454,7 @@ public abstract class UIMetawidget
 	}
 
 	//
-	//
 	// Private members
-	//
 	//
 
 	@SuppressWarnings( "unchecked" )
