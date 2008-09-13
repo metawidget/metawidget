@@ -110,11 +110,6 @@ public class FacesInspectorTest
 
 	public void testUtils()
 	{
-		assertTrue( FacesUtils.isValueReference( "#{foo.bar}" ));
-		assertTrue( !FacesUtils.isValueReference( "foo.bar" ));
-		assertTrue( !FacesUtils.isValueReference( "#{foo.bar" ));
-		assertTrue( !FacesUtils.isValueReference( "foo.bar}" ));
-
 		assertTrue( "foo.bar".equals( FacesUtils.unwrapValueReference( "foo.bar" )));
 		assertTrue( "#{foo.bar".equals( FacesUtils.unwrapValueReference( "#{foo.bar" )));
 		assertTrue( "foo.bar".equals( FacesUtils.unwrapValueReference( "#{foo.bar}" )));

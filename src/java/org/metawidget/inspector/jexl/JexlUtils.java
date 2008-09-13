@@ -36,7 +36,7 @@ public final class JexlUtils
 		return PATTERN_BINDING.matcher( binding ).matches();
 	}
 	/**
-	 * @return the original String, not wrapped in #{...}. If the original String was not wrapped,
+	 * @return the original String, not wrapped in ${...}. If the original String was not wrapped,
 	 *         returns the original String
 	 */
 
@@ -51,7 +51,7 @@ public final class JexlUtils
 	}
 
 	/**
-	 * @return the original String, wrapped in #{...}. If the original String was already wrapped,
+	 * @return the original String, wrapped in ${...}. If the original String was already wrapped,
 	 *         returns the original String
 	 */
 

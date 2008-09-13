@@ -197,7 +197,7 @@ public class HtmlMetawidget
 
 		String type = attributes.get( TYPE );
 
-		// If no type, fail gracefully with a javax.faces.Output
+		// If no type, fail gracefully with a javax.faces.HtmlOutputText
 
 		if ( type == null || "".equals( type ) )
 			return createReadOnlyComponent( attributes );
@@ -393,7 +393,7 @@ public class HtmlMetawidget
 			// Primitives
 
 			if ( boolean.class.equals( clazz ) )
-				return application.createComponent( "javax.faces.SelectBoolean" );
+				return application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
 
 			if ( char.class.equals( clazz ) )
 			{
@@ -515,7 +515,12 @@ public class HtmlMetawidget
 	protected UIComponent createReadOnlyComponent( Map<String, String> attributes )
 	{
 		Application application = getFacesContext().getApplication();
-		return createReadOnlyComponent( attributes, application.createComponent( "javax.faces.Output" ) );
+
+		// Note: it is important to use 'javax.faces.HtmlOutputText', not just 'javax.faces.Output',
+		// because the latter is not HTML escaped (according to the JSF 1.2 spec)
+
+		UIComponent readOnlyComponent = application.createComponent( "javax.faces.HtmlOutputText" );
+		return createReadOnlyComponent( attributes, readOnlyComponent );
 	}
 
 	protected UIComponent createReadOnlyComponent( Map<String, String> attributes, UIComponent readOnlyComponent )

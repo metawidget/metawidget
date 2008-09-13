@@ -448,20 +448,25 @@ public abstract class UIMetawidget
 			}
 		}
 
-		// In the event the direct object is 'null' or a primitive, traverse from the parent
-		// as there may be useful metadata there (such as 'name' and 'type')
+		// In the event the direct object is 'null' or a primitive, and there is a parent, traverse
+		// from the parent as there may be useful metadata there (such as 'name' and 'type')
 
 		String binding = FacesUtils.unwrapValueReference( valueBindingString );
 		int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-		Application application = context.getApplication();
-		ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapValueReference( binding.substring( 0, lastIndexOf ) ) );
-		Object toInspect = bindingParent.getValue( context );
+		// TODO: test this -1
 
-		if ( toInspect != null )
+		if ( lastIndexOf != -1 )
 		{
-			Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-			return inspector.inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
+			Application application = context.getApplication();
+			ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapValueReference( binding.substring( 0, lastIndexOf ) ) );
+			Object toInspect = bindingParent.getValue( context );
+
+			if ( toInspect != null )
+			{
+				Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
+				return inspector.inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
+			}
 		}
 
 		return null;
@@ -908,8 +913,9 @@ public abstract class UIMetawidget
 	/**
 	 * Attach converter for renderer.
 	 *
-	 * @param component	the component to attach the converter to. Need not be a ValueHolder (eg. might
-	 * be a UIStub, in which case the converter is attached to its children)
+	 * @param component
+	 *            the component to attach the converter to. Need not be a ValueHolder (eg. might be
+	 *            a UIStub, in which case the converter is attached to its children)
 	 * @return the converter that was attached
 	 */
 
@@ -1257,7 +1263,7 @@ public abstract class UIMetawidget
 		{
 			Class<?> clazz = ClassUtils.niceForName( type );
 
-			if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE )) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED )))))
+			if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) ) )
 				addSelectItem( component, "", null );
 		}
 
@@ -1339,7 +1345,7 @@ public abstract class UIMetawidget
 			{
 				Class<?> clazz = ClassUtils.niceForName( type );
 
-				if ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE )) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
+				if ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 					addSelectItem( component, "", null );
 			}
 		}

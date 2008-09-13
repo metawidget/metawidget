@@ -71,6 +71,15 @@ public class StubTag
 		return null;
 	}
 
+	@Override
+	public void release()
+	{
+		super.release();
+
+		mValue = null;
+		mAttributes = null;
+	}
+
 	//
 	// Protected methods
 	//

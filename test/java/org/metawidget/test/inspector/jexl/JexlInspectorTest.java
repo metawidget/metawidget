@@ -141,7 +141,9 @@ public class JexlInspectorTest
 
 	public static class BadFoo
 	{
-		@UiJexlAttribute( name = "foo", value = "bar", condition = "bad-condition" )
+		// Note: 'condition' is a '#{...}', not a '${...}', so it should fail
+
+		@UiJexlAttribute( name = "foo", value = "bar", condition = "#{bad-condition}" )
 		public String bad;
 	}
 }

@@ -25,7 +25,6 @@ import java.util.Map;
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
-import javax.faces.component.UIOutput;
 import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlOutputText;
@@ -577,7 +576,7 @@ public class HtmlTableLayoutRenderer
 
 		// Section name (possibly localized)
 
-		UIOutput output = (UIOutput) context.getApplication().createComponent( "javax.faces.Output" );
+		HtmlOutputText output = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
 
 		String localizedSection = ( (UIMetawidget) childComponent.getParent() ).getLocalizedKey( context, StringUtils.camelCase( section ) );
 
