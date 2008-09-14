@@ -90,7 +90,7 @@ public class JexlInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Condition 'bad-condition' is not of the form ${...}".equals( e.getMessage() ));
+			assertTrue( "Condition '#{bad-condition}' is not of the form ${...}".equals( e.getMessage() ));
 		}
 	}
 
