@@ -1012,8 +1012,8 @@ public class Main {
 				<tip>
 					<title>Tip</title>
 					For most web environments, deploying Metawidget is as simple as adding <filename>metawidget.jar</filename> to
-					<filename>WEB-INF/lib</filename>. For GWT, you'll also need to include <filename>metawidget.jar</filename>
-					and <filename>examples/gwt/metawidget-gwt-client.jar</filename> in the <parameter>CLASSPATH</parameter>
+					<filename>WEB-INF\lib</filename>. For GWT, you'll also need to include <filename>metawidget.jar</filename>
+					and <filename>examples\gwt\metawidget-gwt-client.jar</filename> in the <parameter>CLASSPATH</parameter>
 					during your <parameter>GWTCompiler</parameter> step.
 				</tip>				
 
@@ -1249,7 +1249,7 @@ public class Main {
 					</para>
 					
 					<para>
-						Go into Tomcat's <filename>webapps/addressbook-faces</filename> folder (the exploded WAR)
+						Go into Tomcat's <filename>webapps\addressbook-faces</filename> folder (the exploded WAR)
 						and edit <filename>contact.jsp</filename> to change <uri>http://metawidget.org/faces</uri> to <uri>http://metawidget.org/faces/richfaces</uri>
 						(shown in bold):
 					</para>
@@ -1505,19 +1505,19 @@ ant</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							Delete the contents of <filename>HostedAddressBook/src/org/metawidget/example</filename>.
+							Delete the contents of <filename>HostedAddressBook\src\org\metawidget\example</filename>.
 						</para>
 					</listitem>   
 					<listitem>
 						<para>
-							From the Metawidget source distribution, copy from the <filename>examples/java/org/metawidget/example</filename>
+							From the Metawidget source distribution, copy from the <filename>examples\java\org\metawidget\example</filename>
 							folder the <filename>gwt</filename> and <filename>shared</filename> folders, and the
-							<filename>GwtAddressBook.gwt.xml</filename> file, into <filename>HostedAddressBook/src/org/metawidget/example</filename> 
+							<filename>GwtAddressBook.gwt.xml</filename> file, into <filename>HostedAddressBook\src\org\metawidget\example</filename> 
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							From the Metawidget source distribution, copy from the <filename>examples/web/gwt/addressbook/WEB-INF</filename>
+							From the Metawidget source distribution, copy from the <filename>examples\web\gwt\addressbook\WEB-INF</filename>
 							folder the <filename>inspector-config.xml</filename> and <filename>metawidget-metadata.xml</filename> files into
 							<filename>HostedAddressBook/src</filename>
 						</para>
@@ -1531,13 +1531,13 @@ ant</programlisting>
 					</listitem>   
 					<listitem>
 						<para>
-							From the Metawidget binary distribution, copy <filename>metawidget.jar</filename> and <filename>examples/gwt/metawidget-gwt-client.jar</filename>
-							into <filename>HostedAddressBook/lib</filename>
+							From the Metawidget binary distribution, copy <filename>metawidget.jar</filename> and <filename>examples\gwt\metawidget-gwt-client.jar</filename>
+							into <filename>HostedAddressBook\lib</filename>
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							Modify <filename>HostedAddressBook/AddressBook.launch</filename>. Change...
+							Modify <filename>HostedAddressBook\AddressBook.launch</filename>. Change...
 						</para>
 						<programlisting language="shell">...
 &lt;stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS"
@@ -1559,7 +1559,7 @@ ant</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							In Eclipse, edit the Build Path of the new project and add all 5 JARs from <filename>HostedAddressBook/lib</filename>
+							In Eclipse, edit the Build Path of the new project and add all 5 JARs from <filename>HostedAddressBook\lib</filename>
 						</para>
 					</listitem>
 				</itemizedlist>					
@@ -1571,7 +1571,7 @@ ant</programlisting>
 			</section>
 
 			<section id="section-introduction-part3-seam">
-				<title>Seam Booking Example</title>
+				<title>Seam Example</title>
 	
 				<para>
 					The Seam Booking Example demonstrates updating an existing Seam application to use Metawidget, reducing
@@ -1581,8 +1581,8 @@ ant</programlisting>
 				</para>
 				
 				<para>
-					The example is located in <filename>examples/faces/seam/booking</filename>. It is
-					not pre-built. To build it, change to the <filename>examples/faces/seam/booking</filename> folder and type:
+					The example is located in <filename>examples\faces\seam\booking</filename>. It is
+					not pre-built. To build it, change to the <filename>examples\faces\seam\booking</filename> folder and type:
 				</para>
 				
 				<programlisting language="shell">ant</programlisting>
@@ -1609,9 +1609,9 @@ bin\run</programlisting>
 				</figure>
 				
 				<para>
-					The files modified for adding Metawidget support are in <filename>examples/faces/seam/booking</filename>. Most of the
-					UI code in <filename>view/book.xhtml</filename>, <filename>view/confirm.xhtml</filename> and
-					<filename>view/hotelview.xhtml</filename> has been replaced with a single Metawidget tag. Some annotations
+					The files modified for adding Metawidget support are in <filename>examples\faces\seam\booking</filename>. Most of the
+					UI code in <filename>view\book.xhtml</filename>, <filename>view\confirm.xhtml</filename> and
+					<filename>view\hotelview.xhtml</filename> has been replaced with a single Metawidget tag. Some annotations
 					have been added to <filename>Hotel.java</filename> and <filename>Booking.java</filename>, though
 					Metawidget also leverages the existing JPA and Hibernate Validator ones.
 				</para>
@@ -1626,7 +1626,7 @@ bin\run</programlisting>
 			</section>
 
 			<section id="section-introduction-part3-groovy">
-				<title>Seam Groovy Booking Example</title>
+				<title>Groovy Example</title>
 
 				<para>
 					The Seam Groovy Booking Example demonstrates updating an existing Seam Groovy application to 
@@ -1635,8 +1635,8 @@ bin\run</programlisting>
 				</para>
 
 				<para>
-					The example is located in <filename>examples/faces/seam/groovybooking</filename>. It is
-					not pre-built. To build it, change to the <filename>examples/faces/seam/groovybooking</filename> folder and type:
+					The example is located in <filename>examples\faces\seam\groovybooking</filename>. It is
+					not pre-built. To build it, change to the <filename>examples\faces\seam\groovybooking</filename> folder and type:
 				</para>
 				
 				<programlisting language="shell">ant</programlisting>
@@ -1662,7 +1662,7 @@ bin\run</programlisting>
 					Metawidget supports pluggable 'property styles' for JavaBean and Groovy property styles.
 					Groovy properties differ from JavaBean properties in that their annotations are tied to
 					the private member variable, rather than the getters and setters. The use of Groovy is configured
-					per <classname>Inspector</classname>, as in <filename>examples/faces/seam/groovybooking/resources/WEB-INF/inspector-config.xml</filename>:
+					per <classname>Inspector</classname>, as in <filename>examples\faces\seam\groovybooking\resources\WEB-INF\inspector-config.xml</filename>:
 				</para>
 
 				<programlisting language="xml">&lt;propertyTypeInspector config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
@@ -1672,6 +1672,30 @@ bin\run</programlisting>
 &lt;/propertyTypeInspector&gt;</programlisting>
 
 			</section>
+			
+		</section>
+
+		<section id="section-introduction-part3-jbpm">
+			<title>jBPM Example</title>
+
+			<para>
+				The Seam DVD Store Example demonstrates updating an existing Seam jBPM application to use Metawidget, reducing
+				boilerplate code. The example requires you to have previously downloaded Seam 2.0.2.SP1
+				and JBoss 4.2.2.GA, and you should be familiar with the existing Seam DVD Store application.
+			</para>
+
+		</section>
+		
+		<section id="section-introduction-part3-swingappframework">
+			<title>Swing AppFramework Example</title>
+
+			<para>
+				The Swing AppFramework Car Demo demonstrates using Metawidget with the Swing AppFramework.
+			</para>
+
+			<para>
+				The example is located in <filename>examples\swing\</filename>. It is
+			</para>
 			
 		</section>
 
@@ -2107,7 +2131,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						</listitem>
 						<listitem>
 							<para>
-								Include both <filename>metawidget.jar</filename> <emphasis>and</emphasis> <filename>examples/gwt/metawidget-gwt-client.jar</filename>
+								Include both <filename>metawidget.jar</filename> <emphasis>and</emphasis> <filename>examples\gwt\metawidget-gwt-client.jar</filename>
 								in the <parameter>CLASSPATH</parameter> during the <classname>GWTCompiler</classname> phase.
 							</para>
 						</listitem>
