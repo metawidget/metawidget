@@ -425,7 +425,7 @@ public class HtmlMetawidget
 				HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
 				select.setSize( 1 );
 
-				addSelectItem( component, "", null );
+				addSelectItem( component, null, null );
 				addSelectItem( component, Boolean.TRUE, "Yes" );
 				addSelectItem( component, Boolean.FALSE, "No" );
 
