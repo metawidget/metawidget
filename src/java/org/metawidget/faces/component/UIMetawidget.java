@@ -1257,14 +1257,14 @@ public abstract class UIMetawidget
 			// Type can be null if this lookup was specified by a metawidget-metadata.xml
 			// and the type was omitted from the XML. In that case, assume nullable
 
-			addSelectItem( component, "", null );
+			addSelectItem( component, null, null );
 		}
 		else
 		{
 			Class<?> clazz = ClassUtils.niceForName( type );
 
 			if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) ) )
-				addSelectItem( component, "", null );
+				addSelectItem( component, null, null );
 		}
 
 		// See if we're using labels
@@ -1295,6 +1295,8 @@ public abstract class UIMetawidget
 
 		UISelectItem selectItem = (UISelectItem) application.createComponent( "javax.faces.SelectItem" );
 		selectItem.setId( context.getViewRoot().createUniqueId() );
+
+		// JSF 1.1 doesn't allow 'null' as the item value (JSF 1.2 does)
 
 		if ( value == null )
 			selectItem.setItemValue( "" );
@@ -1339,14 +1341,14 @@ public abstract class UIMetawidget
 				// Type can be null if this lookup was specified by a metawidget-metadata.xml
 				// and the type was omitted from the XML. In that case, assume nullable
 
-				addSelectItem( component, "", null );
+				addSelectItem( component, null, null );
 			}
 			else
 			{
 				Class<?> clazz = ClassUtils.niceForName( type );
 
 				if ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
-					addSelectItem( component, "", null );
+					addSelectItem( component, null, null );
 			}
 		}
 

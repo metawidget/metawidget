@@ -49,7 +49,7 @@ public abstract class LayoutRenderer
 	/**
 	 * Mechanism to pass state between Renderer methods whose signature we cannot control (eg.
 	 * encodeBegin, encodeChildren, encodeEnd). This mechanism needs to be reentrant because
-	 * Metawidgets can be embedded whereas JSF Renderers are shared.
+	 * Metawidgets can be nested.
 	 */
 
 	private ReentrantThreadLocal<Map<String, Object>>	mLocalState	= new ReentrantThreadLocal<Map<String, Object>>()
