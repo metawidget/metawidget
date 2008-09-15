@@ -454,7 +454,7 @@ public abstract class UIMetawidget
 		String binding = FacesUtils.unwrapValueReference( valueBindingString );
 		int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-		// TODO: test this -1
+		// LOW: test this being -1
 
 		if ( lastIndexOf != -1 )
 		{

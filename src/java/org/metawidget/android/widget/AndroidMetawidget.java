@@ -74,7 +74,6 @@ import android.widget.TextView;
  */
 
 // TODO: upgrade Android
-// TODO: doco for DVD store
 
 public class AndroidMetawidget
 	extends LinearLayout

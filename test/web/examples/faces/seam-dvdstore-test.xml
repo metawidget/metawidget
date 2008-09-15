@@ -14,7 +14,7 @@
 				<option name="ThrowExceptionOnScriptError" value="false" />
 			</config>
 			<steps>
-				<invoke url="${webtest.url}/seam-dvd" />
+				<invoke url="${webtest.url}/seam-dvd/home" />
 				<verifyTitle text="JBoss DVD Store" />
 				<clickLink label="Create Account" />
 				<clickButton label="Next" />

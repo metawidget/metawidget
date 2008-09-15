@@ -202,7 +202,7 @@ public class RichFacesMetawidget
 					spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ));
 				}
 
-				// TODO: test BigInteger, BigDecimal
+				// LOW: test BigInteger, BigDecimal
 
 				else if ( Long.class.equals( clazz ) || BigInteger.class.equals( clazz ))
 				{
