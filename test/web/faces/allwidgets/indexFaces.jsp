@@ -27,7 +27,7 @@
 						<h:outputText value="This page tests all possible widgets"/>
 					</f:facet>
 					
-					<m:stub value="#{allWidgets.mystery}" attributes="required: false"/>
+					<m:stub value="#{allWidgets.mystery}" attributes="dummy-attribute: dummy-value"/>
 
 					<f:facet name="footer">
 						<h:commandButton value="Save" action="#{allWidgetsBean.save}"/>

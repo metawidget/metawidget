@@ -15,7 +15,7 @@
 				<m:param name="tableStyleClass" value="aTableStyleClass"/>
 				<m:param name="columnStyleClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>
 				
-				<m:stub value="longObject"/>
+				<m:stub value="longObject" attributes="dummy-attribute: dummy-value"/>
 				
 				<m:facet name="footer" style="aHeaderStyle" styleClass="aHeaderStyleClass">
 					<input type="submit" value="Save"/>

@@ -8,7 +8,7 @@
 	<script type="text/javascript" src="org.metawidget.example.GwtAddressBook.nocache.js"></script>
 	
 	<fmt:setBundle basename="org.metawidget.example.shared.addressbook.resource.Resources" var="localizationContext"/>	
-	<a:bundle2Variable bundle="${localizationContext.resourceBundle}"/>
+	<a:bundle2Variable bundle="${localizationContext.resourceBundle}" variableName="bundle"/>
 	
 	<div id="page-image">
 		<img src="media/addressbook.gif">

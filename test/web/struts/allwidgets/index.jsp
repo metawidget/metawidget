@@ -14,7 +14,7 @@
 				<m:param name="tableStyleClass" value="aTableStyleClass"/>
 				<m:param name="columnStyleClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>
 				
-				<m:stub property="mystery"/>
+				<m:stub property="mystery" attributes="dummy-attribute: dummy-value"/>
 				<m:stub property="collection"/>
 				
 				<m:facet name="footer" style="aHeaderStyle" styleClass="aHeaderStyleClass">
