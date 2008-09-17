@@ -36,8 +36,8 @@ import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Layout to arrange widgets in HTML <code>DIV</code> tags, with one <code>DIV</code> per
- * label and per widget, and a wrapper <code>DIV</code> around both.
+ * Layout to arrange widgets in HTML <code>DIV</code> tags, with one <code>DIV</code> per label
+ * and per widget, and a wrapper <code>DIV</code> around both.
  * <p>
  * This implementation recognizes the following <code>&lt;f:param&gt;</code> parameters:
  * <p>
@@ -45,8 +45,8 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>outerStyle</code>
  * <li><code>labelStyle</code>
  * <li><code>componentStyle</code> - this is the style applied to the DIV <em>around</em> the
- * widget, not to the widget itself. The widget itself can be styled using the
- * <code>style</code> attribute on the Metawidget tag
+ * widget, not to the widget itself. The widget itself can be styled using the <code>style</code>
+ * attribute on the Metawidget tag
  * <li><code>divStyleClasses</code> - comma separated list of style classes to apply to the DIVs,
  * in order of outer, label, required, widget, errors
  * <li><code>footerStyle</code>
@@ -80,6 +80,7 @@ public class HtmlDivLayoutRenderer
 
 	@Override
 	public void reentrantEncodeBegin( FacesContext context, UIComponent component )
+		throws IOException
 	{
 		// Determine outer styles
 
@@ -120,6 +121,13 @@ public class HtmlDivLayoutRenderer
 			if ( parameterStyleClasses != null )
 				putState( KEY_STYLE_CLASSES, ( (String) parameterStyleClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA ) );
 		}
+
+		// Start component
+
+		ResponseWriter writer = context.getResponseWriter();
+		writer.write( "<div id=\"" );
+		writer.write( component.getClientId( context ));
+		writer.write( "\">" );
 	}
 
 	@Override
@@ -185,6 +193,10 @@ public class HtmlDivLayoutRenderer
 
 			writer.write( "</div>" );
 		}
+
+		// End component
+
+		writer.write( "</div>" );
 	}
 
 	@Override
@@ -306,7 +318,7 @@ public class HtmlDivLayoutRenderer
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY )) && !((UIMetawidget) component).isReadOnly() )
+		if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !( (UIMetawidget) component ).isReadOnly() )
 		{
 			writer.write( "<span" );
 

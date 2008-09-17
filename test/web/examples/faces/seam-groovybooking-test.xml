@@ -32,117 +32,119 @@
 				<clickButton label="Find Hotels"/>
 					
 				<clickLink label="View Hotel"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[1]" text="Name:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[2]/span/@id" text="hotelName"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[2]/span" text="Marriott Courtyard"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[2]/div[1]" text="Address:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[2]/div[2]/span/@id" text="hotelAddress"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[2]/div[2]/span" text="Tower Place, Buckhead"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[3]/div[1]" text="City:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[3]/div[2]/span/@id" text="hotelCity"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[3]/div[2]/span" text="Atlanta"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[4]/div[1]" text="State:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[4]/div[2]/span/@id" text="hotelState"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[4]/div[2]/span" text="GA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[1]" text="Zip:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span/@id" text="hotelZip"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[5]/div[2]/span" text="30305"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[1]" text="Country:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span/@id" text="hotelCountry"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[6]/div[2]/span" text="USA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[1]" text="Nightly rate:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[2]/span/@id" text="hotelPrice"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[7]/div[2]/span" text="$120.00"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[1]/div[1]" text="Name:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[1]/div[2]/span/@id" text="hotelName"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[1]/div[2]/span" text="Marriott Courtyard"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[2]/div[1]" text="Address:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[2]/div[2]/span/@id" text="hotelAddress"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[2]/div[2]/span" text="Tower Place, Buckhead"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[3]/div[1]" text="City:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[3]/div[2]/span/@id" text="hotelCity"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[3]/div[2]/span" text="Atlanta"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[4]/div[1]" text="State:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[4]/div[2]/span/@id" text="hotelState"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[4]/div[2]/span" text="GA"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[5]/div[1]" text="Zip:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[5]/div[2]/span/@id" text="hotelZip"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[5]/div[2]/span" text="30305"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[6]/div[1]" text="Country:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[6]/div[2]/span/@id" text="hotelCountry"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[6]/div[2]/span" text="USA"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[7]/div[1]" text="Nightly rate:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[7]/div[2]/span/@id" text="hotelPrice"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[1]/div[7]/div[2]/span" text="$120.00"/>
 				
 				<clickButton label="Book Hotel"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[1]" text="Name:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[2]/span/@id" text="booking:hotelName"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[2]/span" text="Marriott Courtyard"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[1]" text="Address:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[2]/span/@id" text="booking:hotelAddress"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[2]/span" text="Tower Place, Buckhead"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[3]/div[1]" text="City:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[3]/div[2]/span/@id" text="booking:hotelCity"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[3]/div[2]/span" text="Atlanta"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[4]/div[1]" text="State:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[4]/div[2]/span/@id" text="booking:hotelState"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[4]/div[2]/span" text="GA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[5]/div[1]" text="Zip:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[5]/div[2]/span/@id" text="booking:hotelZip"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[5]/div[2]/span" text="30305"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[6]/div[1]" text="Country:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[6]/div[2]/span/@id" text="booking:hotelCountry"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[6]/div[2]/span" text="USA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[7]/div[1]" text="Nightly rate:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[7]/div[2]/span/@id" text="booking:hotelPrice"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[7]/div[2]/span" text="$120.00"/>				
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[8]/div[1]" text="Checkin date:*"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[9]/div[1]" text="Checkout date:*"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[10]/div[1]" text="Room preference:"/>
-				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[10]/div[2]/select/option)" text="3"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[11]/div[1]" text="Smoking:"/>
-				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[11]/div[2]/table/tbody/tr/td)" text="2"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[12]/div[1]" text="Credit card #:*"/>				
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[13]/div[1]" text="Credit card name:*"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[14]/div[1]" text="Expiry month:"/>
-				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[14]/div[2]/select/option)" text="12"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[15]/div[1]" text="Expiry year:"/>				
-				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[15]/div[2]/select/option)" text="5"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[1]/div[1]" text="Name:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[1]/div[2]/span/@id" text="booking:hotelName"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[1]/div[2]/span" text="Marriott Courtyard"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[2]/div[1]" text="Address:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[2]/div[2]/span/@id" text="booking:hotelAddress"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[2]/div[2]/span" text="Tower Place, Buckhead"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[3]/div[1]" text="City:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[3]/div[2]/span/@id" text="booking:hotelCity"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[3]/div[2]/span" text="Atlanta"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[4]/div[1]" text="State:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[4]/div[2]/span/@id" text="booking:hotelState"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[4]/div[2]/span" text="GA"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[5]/div[1]" text="Zip:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[5]/div[2]/span/@id" text="booking:hotelZip"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[5]/div[2]/span" text="30305"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[6]/div[1]" text="Country:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[6]/div[2]/span/@id" text="booking:hotelCountry"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[6]/div[2]/span" text="USA"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[7]/div[1]" text="Nightly rate:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[7]/div[2]/span/@id" text="booking:hotelPrice"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[7]/div[2]/span" text="$120.00"/>				
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[1]/div[1]" text="Checkin date:*"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[2]/div[1]" text="Checkout date:*"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[3]/div[1]" text="Room preference:"/>
+				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[3]/div[2]/select/option)" text="3"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[4]/div[1]" text="Smoking:"/>
+				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[4]/div[2]/table/tbody/tr/td)" text="2"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[5]/div[1]" text="Credit card #:*"/>				
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[6]/div[1]" text="Credit card name:*"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[7]/div[1]" text="Expiry month:"/>
+				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[7]/div[2]/select/option)" text="12"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[8]/div[1]" text="Expiry year:"/>				
+				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[8]/div[2]/select/option)" text="5"/>
 				<clickButton label="Proceed"/>
 				
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[12]/div[2]/span[@class='error errors']" text="value is required"/>				
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[13]/div[2]/span[@class='error errors']" text="value is required"/>				
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[5]/div[2]/span[@class='error errors']" text="value is required"/>				
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[6]/div[2]/span[@class='error errors']" text="value is required"/>				
 				<setSelectField name="booking:bookingBeds" value="2"/>				
 				<setInputField name="booking:bookingCreditCard" value="123412341234"/>
 				<setInputField name="booking:bookingCreditCardName" value="RK"/>
 				<clickButton label="Proceed"/>
 				
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[12]/div[2]/span[@class='error errors']" text="Credit card number must 16 digits long"/>				
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[5]/div[2]/span[@class='error errors']" text="Credit card number must 16 digits long"/>				
 				<setInputField name="booking:bookingCreditCard" value="1234123412341234"/>
 				<clickButton label="Proceed"/>
 
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[13]/div[2]/span[@class='error errors']" text="length must be between 3 and 70"/>				
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[6]/div[2]/span[@class='error errors']" text="length must be between 3 and 70"/>				
 				<setInputField name="booking:bookingCreditCardName" value="Richard Kennard"/>
 				<clickButton label="Proceed"/>
 				
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[1]" text="Name:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[2]/span/@id" text="confirm:hotelName"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[2]/span" text="Marriott Courtyard"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[1]" text="Address:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[2]/span/@id" text="confirm:hotelAddress"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[2]/span" text="Tower Place, Buckhead"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[3]/div[1]" text="City:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[3]/div[2]/span/@id" text="confirm:hotelCity"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[3]/div[2]/span" text="Atlanta"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[4]/div[1]" text="State:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[4]/div[2]/span/@id" text="confirm:hotelState"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[4]/div[2]/span" text="GA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[5]/div[1]" text="Zip:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[5]/div[2]/span/@id" text="confirm:hotelZip"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[5]/div[2]/span" text="30305"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[6]/div[1]" text="Country:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[6]/div[2]/span/@id" text="confirm:hotelCountry"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[6]/div[2]/span" text="USA"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[7]/div[1]" text="Nightly rate:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[7]/div[2]/span/@id" text="confirm:hotelPrice"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[7]/div[2]/span" text="$120.00"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[8]/div[1]" text="Total payment:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[8]/div[2]" text="$120.00"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[9]/div[1]" text="Checkin date:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[10]/div[1]" text="Checkout date:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[11]/div[1]" text="Room preference:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[11]/div[2]/span/@id" text="confirm:bookingBeds"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[11]/div[2]/span" text="Two double beds"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[12]/div[1]" text="Smoking:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[12]/div[2]/span/@id" text="confirm:bookingSmoking"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[12]/div[2]/span" text="Non Smoking"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[13]/div[1]" text="Credit card #:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[13]/div[2]/span/@id" text="confirm:bookingCreditCard"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[13]/div[2]/span" text="1234123412341234"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[14]/div[1]" text="Credit card name:"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[14]/div[2]/span/@id" text="confirm:bookingCreditCardName"/>
-				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[14]/div[2]/span" text="Richard Kennard"/>
-				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[@class='entry'])" text="15"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[1]/div[1]" text="Name:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[1]/div[2]/span/@id" text="confirm:hotelName"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[1]/div[2]/span" text="Marriott Courtyard"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[2]/div[1]" text="Address:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[2]/div[2]/span/@id" text="confirm:hotelAddress"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[2]/div[2]/span" text="Tower Place, Buckhead"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[3]/div[1]" text="City:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[3]/div[2]/span/@id" text="confirm:hotelCity"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[3]/div[2]/span" text="Atlanta"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[4]/div[1]" text="State:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[4]/div[2]/span/@id" text="confirm:hotelState"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[4]/div[2]/span" text="GA"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[5]/div[1]" text="Zip:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[5]/div[2]/span/@id" text="confirm:hotelZip"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[5]/div[2]/span" text="30305"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[6]/div[1]" text="Country:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[6]/div[2]/span/@id" text="confirm:hotelCountry"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[6]/div[2]/span" text="USA"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[7]/div[1]" text="Nightly rate:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[7]/div[2]/span/@id" text="confirm:hotelPrice"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[7]/div[2]/span" text="$120.00"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[1]/div[1]" text="Total payment:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[1]/div[2]" text="$120.00"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[2]/div[1]" text="Checkin date:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[3]/div[1]" text="Checkout date:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[4]/div[1]" text="Room preference:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[4]/div[2]/span/@id" text="confirm:bookingBeds"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[4]/div[2]/span" text="Two double beds"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[5]/div[1]" text="Smoking:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[5]/div[2]/span/@id" text="confirm:bookingSmoking"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[5]/div[2]/span" text="Non Smoking"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[6]/div[1]" text="Credit card #:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[6]/div[2]/span/@id" text="confirm:bookingCreditCard"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[6]/div[2]/span" text="1234123412341234"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[7]/div[1]" text="Credit card name:"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[7]/div[2]/span/@id" text="confirm:bookingCreditCardName"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[7]/div[2]/span" text="Richard Kennard"/>
+				
+				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[@class='entry'])" text="7"/>
+				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[@class='entry'])" text="7"/>
 				
 				<clickButton label="Confirm"/>
 				<verifyText text="Thank you, New User Real Name, your confimation number for Marriott Courtyard is 1"/>

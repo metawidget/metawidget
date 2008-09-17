@@ -127,19 +127,9 @@ public class HtmlTableLayoutRenderer
 
 		// Start table
 
-		writer.write( "<table" );
-
-		// Id
-
-		String id = getId( component );
-
-		if ( id != null )
-		{
-			writer.write( " id=\"" );
-			writer.write( TABLE_PREFIX );
-			writer.write( id );
-			writer.write( "\"" );
-		}
+		writer.write( "<table id=\"" );
+		writer.write( component.getClientId( context ) );
+		writer.write( "\"" );
 
 		// Styles
 
@@ -349,7 +339,7 @@ public class HtmlTableLayoutRenderer
 
 		int currentColumn = (Integer) getState( KEY_CURRENT_COLUMN );
 		int numberOfColumns = (Integer) getState( KEY_NUMBER_OF_COLUMNS );
-		String id = getId( componentChild );
+		String cssId = getCssId( componentChild );
 
 		// Section headings
 
@@ -391,11 +381,11 @@ public class HtmlTableLayoutRenderer
 
 			writer.write( "\r\n<tr" );
 
-			if ( id != null )
+			if ( cssId != null )
 			{
 				writer.write( " id=\"" );
 				writer.write( TABLE_PREFIX );
-				writer.write( id );
+				writer.write( cssId );
 				writer.write( ROW_SUFFIX );
 				writer.write( "\"" );
 			}
@@ -413,11 +403,11 @@ public class HtmlTableLayoutRenderer
 		{
 			writer.write( "</tr>\r\n<tr" );
 
-			if ( id != null )
+			if ( cssId != null )
 			{
 				writer.write( " id=\"" );
 				writer.write( TABLE_PREFIX );
-				writer.write( id );
+				writer.write( cssId );
 				writer.write( ROW_SUFFIX );
 				writer.write( "2\"" );
 			}
@@ -429,11 +419,11 @@ public class HtmlTableLayoutRenderer
 
 		writer.write( "<td" );
 
-		if ( id != null )
+		if ( cssId != null )
 		{
 			writer.write( " id=\"" );
 			writer.write( TABLE_PREFIX );
-			writer.write( id );
+			writer.write( cssId );
 			writer.write( COMPONENT_CELL_SUFFIX );
 			writer.write( "\"" );
 		}
@@ -497,12 +487,12 @@ public class HtmlTableLayoutRenderer
 
 		writer.write( "<th" );
 
-		String id = getId( componentNeedingLabel );
-		if ( id != null )
+		String cssId = getCssId( componentNeedingLabel );
+		if ( cssId != null )
 		{
 			writer.write( " id=\"" );
 			writer.write( TABLE_PREFIX );
-			writer.write( id );
+			writer.write( cssId );
 			writer.write( LABEL_CELL_SUFFIX );
 			writer.write( "\"" );
 		}
@@ -654,7 +644,7 @@ public class HtmlTableLayoutRenderer
 			writer.write( "*" );
 	}
 
-	protected String getId( UIComponent component )
+	protected String getCssId( UIComponent component )
 	{
 		ValueBinding binding = component.getValueBinding( "value" );
 
