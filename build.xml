@@ -295,6 +295,18 @@
 		
 	</target>
 
+	<target name="pack-util-debug" depends="compile">
+		
+		<property name="build.debug" value="on"/>		
+		<mkdir dir="${build.metawidget.dir}/debug"/>		
+		<jar destfile="${build.metawidget.dir}/debug/metawidget-util-debug-version.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/classes">
+				<include name="org/metawidget/util/**"/>
+			</fileset>
+		</jar>
+		
+	</target>
+
 	<target name="flatten-libs" depends="pack">
 		
 		<copy todir="${build.metawidget.dir}/lib" flatten="true" includeemptydirs="false">

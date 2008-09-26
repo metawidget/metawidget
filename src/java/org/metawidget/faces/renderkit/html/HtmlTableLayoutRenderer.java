@@ -364,7 +364,7 @@ public class HtmlTableLayoutRenderer
 
 			// Large components get a whole row
 
-			boolean largeComponent = ( component instanceof UIData || TRUE.equals( attributes.get( LARGE )));
+			boolean largeComponent = ( component instanceof UIData || TRUE.equals( attributes.get( LARGE ) ) );
 
 			if ( largeComponent && currentColumn != 1 )
 			{
@@ -441,22 +441,47 @@ public class HtmlTableLayoutRenderer
 
 		writeStyleClass( writer, 1 );
 
-		int colspan = 1;
+		// Colspan
 
-		if ( !labelWritten )
-			colspan = 2;
+		int colspan;
+
+		// Large components span all columns
+		// LOW: test large without a label
+
+		if ( attributes != null && TRUE.equals( attributes.get( "large" ) ) )
+		{
+			colspan = ( numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
+			putState( KEY_CURRENT_COLUMN, numberOfColumns );
+
+			if ( !labelWritten )
+				colspan++;
+
+			if ( ( componentChild instanceof UIMetawidget && "table".equals( componentChild.getRendererType() ) ) || componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) == null )
+				colspan++;
+		}
 
 		// Embedded Metawidgets span the component and the required column
 
-		if ( ( componentChild instanceof UIMetawidget && "table".equals( componentChild.getRendererType() ) ) || componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) == null )
-			colspan += JUST_COMPONENT_AND_REQUIRED;
-
-		// Large components span all columns
-
-		if ( numberOfColumns > 1 && attributes != null && TRUE.equals( attributes.get( "large" ) ) )
+		else if ( ( componentChild instanceof UIMetawidget && "table".equals( componentChild.getRendererType() ) ) || componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) == null )
 		{
-			colspan += ( ( numberOfColumns - 1 ) * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1;
-			putState( KEY_CURRENT_COLUMN, numberOfColumns );
+			if ( !labelWritten )
+				colspan = LABEL_AND_COMPONENT_AND_REQUIRED;
+			else
+				colspan = JUST_COMPONENT_AND_REQUIRED;
+		}
+
+		// Components without labels span two columns
+
+		else if ( !labelWritten )
+		{
+			colspan = 2;
+		}
+
+		// Everyone else spans just one
+
+		else
+		{
+			colspan = 1;
 		}
 
 		if ( colspan > 1 )
@@ -468,6 +493,7 @@ public class HtmlTableLayoutRenderer
 
 		writer.write( ">" );
 	}
+
 
 	/**
 	 * @return whether a label was written
