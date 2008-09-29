@@ -18,7 +18,6 @@ package org.metawidget.util;
 
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
-import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -28,7 +27,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.w3c.dom.Attr;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
@@ -56,14 +55,6 @@ public class XmlUtils
 	public static Map<String, String> getAttributesAsMap( Node node )
 	{
 		NamedNodeMap nodes = node.getAttributes();
-
-		// Running on Android m5-rc15?
-
-		if ( nodes == null )
-			return getAttributesAsMapAndroidHack( node );
-
-		// Running on something compliant :)
-
 		int length = nodes.getLength();
 
 		if ( length == 0 )
@@ -217,9 +208,9 @@ public class XmlUtils
 		{
 			return (Element) document.importNode( element, true );
 		}
-		catch ( RuntimeException e )
+		catch ( DOMException e )
 		{
-			// Note: importNode returns 'implement me!' under Android m5-rc15
+			// Note: importNode returns 'DOMException' under Android 1.0_r1
 
 			Element imported = document.createElementNS( element.getNamespaceURI(), element.getNodeName() );
 			setMapAsAttributes( imported, getAttributesAsMap( element ) );
@@ -563,50 +554,6 @@ public class XmlUtils
 			buffer.append( "\n" );
 
 		return buffer.toString();
-	}
-
-	/**
-	 * Hack to workaround bug in Android m5-rc15.
-	 */
-
-	private static Map<String, String> getAttributesAsMapAndroidHack( Node node )
-	{
-		try
-		{
-			Field field = node.getClass().getDeclaredField( "attributes" );
-			field.setAccessible( true );
-
-			@SuppressWarnings( "unchecked" )
-			Map<String, Attr> map = (Map<String, Attr>) field.get( node );
-
-			if ( map == null )
-			{
-				// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that
-				// we're 1.4 compatible)
-
-				@SuppressWarnings( "unchecked" )
-				Map<String, String> empty = Collections.EMPTY_MAP;
-				return empty;
-			}
-
-			Map<String, String> attributes = CollectionUtils.newHashMap( map.size() );
-
-			for ( Attr attr : map.values() )
-			{
-				attributes.put( attr.getName(), attr.getValue() );
-			}
-
-			return attributes;
-		}
-		catch ( Exception e )
-		{
-			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that
-			// we're 1.4 compatible)
-
-			@SuppressWarnings( "unchecked" )
-			Map<String, String> empty = Collections.EMPTY_MAP;
-			return empty;
-		}
 	}
 
 	private static String escapeForXml( String in )

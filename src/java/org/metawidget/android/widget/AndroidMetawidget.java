@@ -42,8 +42,8 @@ import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Element;
 
 import android.content.Context;
-import android.graphics.Canvas;
 import android.text.InputFilter;
+import android.text.method.DateKeyListener;
 import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
@@ -72,8 +72,6 @@ import android.widget.TextView;
  *
  * @author Richard Kennard
  */
-
-// TODO: upgrade Android
 
 public class AndroidMetawidget
 	extends LinearLayout
@@ -351,6 +349,20 @@ public class AndroidMetawidget
 	// The following methods all kick off a buildWidgets()
 	//
 
+	@Override
+	public int getChildCount()
+	{
+		buildWidgets();
+		return super.getChildCount();
+	}
+
+	@Override
+	public View getChildAt( int index )
+	{
+		buildWidgets();
+		return super.getChildAt( index );
+	}
+
 	/**
 	 * Gets the value from the View with the given name.
 	 * <p>
@@ -359,9 +371,13 @@ public class AndroidMetawidget
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
 	 */
 
+	@SuppressWarnings( "deprecation" )
 	public Object getValue( String... names )
 	{
-		View view = findViewWithTag( names );
+		if ( names == null )
+			throw MetawidgetException.newException( "No names specified" );
+
+		View view = findViewWithTags( names );
 
 		if ( view == null )
 			throw MetawidgetException.newException( "No view with tag " + ArrayUtils.toString( names ) );
@@ -381,6 +397,14 @@ public class AndroidMetawidget
 		if ( view instanceof TextView )
 			return ( (TextView) view ).getText();
 
+		// DatePicker
+
+		if ( view instanceof DatePicker )
+		{
+			DatePicker datePicker = (DatePicker) view;
+			return new Date( datePicker.getYear() - 1900, datePicker.getMonth(), datePicker.getDayOfMonth() );
+		}
+
 		// AdapterView
 
 		if ( view instanceof AdapterView )
@@ -399,9 +423,13 @@ public class AndroidMetawidget
 	 * is not ideal.
 	 */
 
+	@SuppressWarnings( "deprecation" )
 	public void setValue( Object value, String... names )
 	{
-		View view = findViewWithTag( names );
+		if ( names == null )
+			throw MetawidgetException.newException( "No names specified" );
+
+		View view = findViewWithTags( names );
 
 		if ( view == null )
 			throw MetawidgetException.newException( "No view with tag " + ArrayUtils.toString( names ) );
@@ -419,6 +447,15 @@ public class AndroidMetawidget
 		if ( view instanceof TextView )
 		{
 			( (TextView) view ).setText( StringUtils.quietValueOf( value ) );
+			return;
+		}
+
+		// DatePicker
+
+		if ( view instanceof DatePicker )
+		{
+			Date date = (Date) value;
+			( (DatePicker) view ).updateDate( 1900 + date.getYear(), date.getMonth(), date.getDate() );
 			return;
 		}
 
@@ -477,24 +514,10 @@ public class AndroidMetawidget
 	}
 
 	@Override
-	protected void onDraw( Canvas canvas )
+	protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec )
 	{
 		buildWidgets();
-		super.onDraw( canvas );
-	}
-
-	@Override
-	protected View findViewTraversal( int id )
-	{
-		buildWidgets();
-		return super.findViewTraversal( id );
-	}
-
-	@Override
-	protected View findViewWithTagTraversal( Object tag )
-	{
-		buildWidgets();
-		return super.findViewWithTagTraversal( tag );
+		super.onMeasure( widthMeasureSpec, heightMeasureSpec );
 	}
 
 	/**
@@ -518,7 +541,7 @@ public class AndroidMetawidget
 
 		mNeedToBuildWidgets = true;
 
-		invalidate();
+		postInvalidate();
 	}
 
 	protected void buildWidgets()
@@ -592,7 +615,11 @@ public class AndroidMetawidget
 		view.setTag( childName );
 
 		if ( mLayout != null )
+		{
+			if ( view.getParent() != null )
+				( (ViewGroup) view.getParent() ).removeView( view );
 			mLayout.layoutChild( view, attributes );
+		}
 	}
 
 	protected View getOverridenWidget( String elementName, Map<String, String> attributes )
@@ -729,7 +756,7 @@ public class AndroidMetawidget
 				//
 				// (CollectionUtils.fromString returns unmodifiable EMPTY_LIST if empty)
 
-				if ( !clazz.isPrimitive() && !lookupList.isEmpty() )
+				if ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) )
 					lookupList.add( 0, null );
 
 				List<String> lookupLabelsList = null;
@@ -791,7 +818,20 @@ public class AndroidMetawidget
 			// Dates
 
 			if ( Date.class.equals( clazz ) )
-				return new DatePicker( getContext() );
+			{
+				// Not-nullable dates can use a DatePicker...
+
+				if ( TRUE.equals( attributes.get( REQUIRED ) ) )
+					return new DatePicker( getContext() );
+
+				// ...but nullable ones need a TextBox
+
+				EditText editText = new EditText( getContext() );
+				editText.setFilters( new InputFilter[] { new DateKeyListener() } );
+
+				return editText;
+
+			}
 
 			// Booleans (are tri-state)
 
@@ -920,7 +960,7 @@ public class AndroidMetawidget
 	// Private methods
 	//
 
-	private View findViewWithTag( String... tags )
+	private View findViewWithTags( String... tags )
 	{
 		if ( tags == null )
 			return null;
@@ -1058,9 +1098,6 @@ public class AndroidMetawidget
 		@Override
 		protected boolean isMetawidget( View view )
 		{
-			// The MetawidgetMixin base class uses .getDeclaringClass, which
-			// isn't implemented in m5-rc15
-
 			return ( view instanceof AndroidMetawidget );
 		}
 

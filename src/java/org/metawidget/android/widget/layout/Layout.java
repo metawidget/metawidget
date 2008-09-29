@@ -82,7 +82,7 @@ public abstract class Layout
 	 * Applies the given style id (defined in <code>res/values/styles.xml</code>) to the given View.
 	 */
 
-	// It isn't clear in m5-rc15 how one is meant to generically and programmatically apply styles from their ids. In particular:
+	// It isn't clear in 1.0_r1 how one is meant to generically and programmatically apply styles from their ids. In particular:
 	//
 	// 1. AssetManager.applyStyle is package-protected; and
 	// 2. Theme.obtainStyledAttributes( AttributeSet, int, int, int ) has an explicit cast to XmlBlock$Parser (not just AttributeSet)

@@ -1281,9 +1281,9 @@ public class Main {
 				</para>
 				
 				<para>
-					Like Web-based applications, Mobile applications require a container to run. Download version m5-rc15 of
+					Like Web-based applications, Mobile applications require a container to run. Download version 1.0_r1 of
 					the Android SDK from <uri>http://code.google.com/android/download.html</uri>.
-					Then, change to the installation directory (usually <filename>android-sdk_m5-rc15_windows</filename>) and run the emulator by
+					Then, change to the installation directory (usually <filename>android-sdk-windows-1.0_r1</filename>) and run the emulator by
 					opening a command prompt and typing:
 				</para>
 				
