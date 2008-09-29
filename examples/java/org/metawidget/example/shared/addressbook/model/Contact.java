@@ -104,10 +104,15 @@ public abstract class Contact
 	/**
 	 * Get the Contact's title.
 	 * <p>
-	 * Note this getter is doubly annotated with <code>UiFacesLookup</code>,
+	 * Note: this getter is multiple annotated with <code>UiFacesLookup</code>,
 	 * <code>UiSpringLookup</code> and <code>UiJspLookup</code>. Normally you only need one or
 	 * the other, but we use both because we use this same code in both Faces, Spring and JSP
 	 * examples.
+	 * <p>
+	 * Note: this method is annotated <code>UiRequired</code>. Metawidget is designed to use
+	 * <em>existing</em> annotations as much as possible. Clients would generally use something
+	 * like <code>javax.persistence.Column(nullable = false)</code> or
+	 * <code>org.hibernate.validator.NotNull</code> in preference to <code>UiRequired</code>.
 	 */
 
 	@UiRequired
@@ -124,6 +129,15 @@ public abstract class Contact
 		mTitle = title;
 	}
 
+	/**
+	 * Get's the Contact's firstname.
+	 * <p>
+	 * Note: this method is annotated <code>UiRequired</code>. Metawidget is designed to use
+	 * <em>existing</em> annotations as much as possible. Clients would generally use something
+	 * like <code>javax.persistence.Column(nullable = false)</code> or
+	 * <code>org.hibernate.validator.NotNull</code> in preference to <code>UiRequired</code>.
+	 */
+
 	@UiComesAfter( "title" )
 	@UiRequired
 	public String getFirstname()
@@ -135,6 +149,15 @@ public abstract class Contact
 	{
 		mFirstname = firstname;
 	}
+
+	/**
+	 * Get's the Contact's surname.
+	 * <p>
+	 * Note: this method is annotated <code>UiRequired</code>. Metawidget is designed to use
+	 * <em>existing</em> annotations as much as possible. Clients would generally use something
+	 * like <code>javax.persistence.Column(nullable = false)</code> or
+	 * <code>org.hibernate.validator.NotNull</code> in preference to <code>UiRequired</code>.
+	 */
 
 	@UiComesAfter( "firstname" )
 	@UiRequired
@@ -256,10 +279,6 @@ public abstract class Contact
 
 	/**
 	 * Gets the notes.
-	 * <p>
-	 * Note this getter is doubly annotated both <code>Lob</code> and <code>UiLarge</code>.
-	 * Normally you only need one or the other, but we use both because we use this same code in
-	 * both JPA and non-JPA examples.
 	 */
 
 	@UiComesAfter

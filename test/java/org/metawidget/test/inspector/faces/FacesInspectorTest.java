@@ -25,12 +25,15 @@ import javax.faces.convert.NumberConverter;
 import junit.framework.TestCase;
 
 import org.metawidget.faces.FacesUtils;
+import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.faces.FacesInspector;
+import org.metawidget.inspector.faces.UiFacesAttribute;
 import org.metawidget.inspector.faces.UiFacesComponent;
 import org.metawidget.inspector.faces.UiFacesConverter;
 import org.metawidget.inspector.faces.UiFacesDateTimeConverter;
 import org.metawidget.inspector.faces.UiFacesLookup;
 import org.metawidget.inspector.faces.UiFacesNumberConverter;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -108,6 +111,42 @@ public class FacesInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 3 );
 	}
 
+	public void testDoubleConverter()
+	{
+		try
+		{
+			new FacesInspector().inspect( new DoubleConverterFoo(), DoubleConverterFoo.class.getName() );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "Property bar cannot define both UiFacesDateTimeConverter and another converter".equals( e.getMessage() ));
+		}
+	}
+
+	public void testNoFacesContext()
+	{
+		try
+		{
+			new FacesInspector().inspect( new NoFacesContextOnPropertyFoo(), NoFacesContextOnPropertyFoo.class.getName() );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "FacesContext not available to FacesInspector".equals( e.getMessage() ));
+		}
+
+		try
+		{
+			new FacesInspector().inspect( new NoFacesContextOnActionFoo(), NoFacesContextOnActionFoo.class.getName() );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "FacesContext not available to FacesInspector".equals( e.getMessage() ));
+		}
+	}
+
 	public void testUtils()
 	{
 		assertTrue( "foo.bar".equals( FacesUtils.unwrapValueReference( "foo.bar" )));
@@ -137,5 +176,34 @@ public class FacesInspectorTest
 
 		@UiFacesNumberConverter( currencyCode = "AUD", currencySymbol = "$", groupingUsed = true, locale = "AU", maxFractionDigits = 2, minFractionDigits = 1, maxIntegerDigits = 100, minIntegerDigits = 3, pattern = "#0.00", type = "currency" )
 		public Object	object3;
+	}
+
+	public static class DoubleConverterFoo
+	{
+		@UiFacesNumberConverter
+		@UiFacesDateTimeConverter
+		public Object getBar()
+		{
+			return null;
+		}
+	}
+
+	public static class NoFacesContextOnPropertyFoo
+	{
+		@UiFacesAttribute( name="baz", value="#{abc}" )
+		public Object getBar()
+		{
+			return null;
+		}
+	}
+
+	public static class NoFacesContextOnActionFoo
+	{
+		@UiAction
+		@UiFacesAttribute( name="baz", value="#{abc}" )
+		public Object action()
+		{
+			return null;
+		}
 	}
 }

@@ -46,6 +46,7 @@ import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
+import javax.faces.model.SelectItem;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
@@ -1296,12 +1297,25 @@ public abstract class UIMetawidget
 		UISelectItem selectItem = (UISelectItem) application.createComponent( "javax.faces.SelectItem" );
 		selectItem.setId( context.getViewRoot().createUniqueId() );
 
-		// JSF 1.1 doesn't allow 'null' as the item value (JSF 1.2 does)
+		// JSF 1.1 doesn't allow 'null' as the item value, but JSF 1.2 requires
+		// it for proper behaviour (see https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=795)
 
 		if ( value == null )
-			selectItem.setItemValue( "" );
+		{
+			try
+			{
+				UISelectItem.class.getMethod( "getValueExpression", String.class );
+				selectItem.setValue( new SelectItem( null, "" ) );
+			}
+			catch( NoSuchMethodException e )
+			{
+				selectItem.setItemValue( "" );
+			}
+		}
 		else
+		{
 			selectItem.setItemValue( value );
+		}
 
 		if ( label != null )
 		{

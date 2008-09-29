@@ -603,62 +603,6 @@ public class GwtMetawidget
 	}
 
 	@Override
-	public void add( Widget widget )
-	{
-		if ( !mIgnoreAddRemove )
-		{
-			invalidateWidgets();
-
-			if ( widget instanceof Facet )
-			{
-				Facet facet = (Facet) widget;
-				mFacets.put( facet.getName(), facet );
-			}
-			else
-			{
-				mExistingWidgets.add( widget );
-			}
-
-			// Because of the lag between invalidateWidgets() and buildWidgets(), and
-			// because some CSS styles aren't applied until buildWidgets(), we
-			// see a visual 'glitch' when adding new widgets (like buttons). To stop
-			// this, we don't call super.add directly when !mIgnoreAddRemove
-
-			return;
-		}
-
-		super.add( widget );
-	}
-
-	@Override
-	public void insert( Widget widget, int beforeIndex )
-	{
-		if ( !mIgnoreAddRemove )
-		{
-			invalidateWidgets();
-
-			if ( widget instanceof Facet )
-			{
-				Facet facet = (Facet) widget;
-				mFacets.put( facet.getName(), facet );
-			}
-			else
-			{
-				mExistingWidgets.add( widget );
-			}
-
-			// Because of the lag between invalidateWidgets() and buildWidgets(), and
-			// because some CSS styles aren't applied until buildWidgets(), we
-			// see a visual 'glitch' when inserting new widgets (like buttons). To stop
-			// this, we don't call super.insert directly when !mIgnoreAddRemove
-
-			return;
-		}
-
-		super.insert( widget, beforeIndex );
-	}
-
-	@Override
 	public boolean remove( int index )
 	{
 		if ( !mIgnoreAddRemove )
@@ -728,6 +672,62 @@ public class GwtMetawidget
 	protected GwtMetawidgetMixin<Widget> newMetawidgetMixin()
 	{
 		return new GwtMetawidgetMixinImpl();
+	}
+
+	@Override
+	protected void add( Widget child, com.google.gwt.user.client.Element container )
+	{
+		if ( !mIgnoreAddRemove )
+		{
+			invalidateWidgets();
+
+			if ( child instanceof Facet )
+			{
+				Facet facet = (Facet) child;
+				mFacets.put( facet.getName(), facet );
+			}
+			else
+			{
+				mExistingWidgets.add( child );
+			}
+
+			// Because of the lag between invalidateWidgets() and buildWidgets(), and
+			// because some CSS styles aren't applied until buildWidgets(), we
+			// see a visual 'glitch' when adding new widgets (like buttons). To stop
+			// this, we don't call super.add directly when !mIgnoreAddRemove
+
+			return;
+		}
+
+		super.add( child, container );
+	}
+
+	@Override
+	protected void insert( Widget child, com.google.gwt.user.client.Element container, int beforeIndex, boolean domInsert )
+	{
+		if ( !mIgnoreAddRemove )
+		{
+			invalidateWidgets();
+
+			if ( child instanceof Facet )
+			{
+				Facet facet = (Facet) child;
+				mFacets.put( facet.getName(), facet );
+			}
+			else
+			{
+				mExistingWidgets.add( child );
+			}
+
+			// Because of the lag between invalidateWidgets() and buildWidgets(), and
+			// because some CSS styles aren't applied until buildWidgets(), we
+			// see a visual 'glitch' when inserting new widgets (like buttons). To stop
+			// this, we don't call super.insert directly when !mIgnoreAddRemove
+
+			return;
+		}
+
+		super.insert( child, container, beforeIndex, domInsert );
 	}
 
 	/**
@@ -989,7 +989,7 @@ public class GwtMetawidget
 
 		// Action
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return null;
 
 		// Masked (return a Panel, so that we DO still render a label)
@@ -1043,7 +1043,7 @@ public class GwtMetawidget
 
 		// Action
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return null;
 
 		String type = attributes.get( TYPE );
@@ -1409,10 +1409,9 @@ public class GwtMetawidget
 		}
 		else
 		{
-			if ( !GwtUtils.isPrimitive( type ) && !TRUE.equals( attributes.get( REQUIRED ) ))
+			if ( !GwtUtils.isPrimitive( type ) && !TRUE.equals( attributes.get( REQUIRED ) ) )
 				addListBoxItem( listBox, "", null );
 		}
-
 
 		// See if we're using labels
 
