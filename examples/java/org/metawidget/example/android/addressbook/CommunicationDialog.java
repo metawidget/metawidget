@@ -24,7 +24,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.view.View;
 
 /**
  * Dialog for editing Communications.
@@ -36,21 +35,6 @@ public class CommunicationDialog
 	extends AlertDialog
 	implements DialogInterface.OnClickListener
 {
-	//
-	// Public statics
-	//
-
-	public static void show( Activity activity, Contact contact, Communication communication, DialogInterface.OnClickListener listener )
-	{
-		CommunicationDialog dialog = new CommunicationDialog( activity, contact, communication, listener );
-		dialog.show();
-
-		View view = dialog.mMetawidget.findViewWithTag( "type" );
-		view.setFocusable( true );
-		view.setFocusableInTouchMode( true );
-		view.requestFocus();
-	}
-
 	//
 	// Protected members
 	//

@@ -50,6 +50,19 @@ public class InspectorTests
 	extends TestCase
 {
 	//
+	// Constructor
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public InspectorTests( String name )
+	{
+		super( name );
+	}
+
+	//
 	// Public statics
 	//
 
@@ -81,5 +94,4 @@ public class InspectorTests
 
 		return suite;
 	}
-
 }

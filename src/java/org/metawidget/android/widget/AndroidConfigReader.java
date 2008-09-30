@@ -51,9 +51,8 @@ public class AndroidConfigReader
 		mContext = context;
 	}
 
-
 	//
-	// Protected methods
+	// Public methods
 	//
 
 	/**

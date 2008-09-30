@@ -32,8 +32,6 @@ public class CompositeInspectorConfig
 
 	private Inspector[]	mInspectors;
 
-	private boolean		mValidating;
-
 	//
 	// Public methods
 	//
@@ -53,24 +51,5 @@ public class CompositeInspectorConfig
 	public void setInspectors( Inspector... inspectors )
 	{
 		mInspectors = inspectors;
-	}
-
-	public boolean isValidating()
-	{
-		return mValidating;
-	}
-
-	/**
-	 * Sets whether the CompositeInspector should validate all DOMs returned by sub-Inspectors.
-	 * <p>
-	 * DOMs will be validated against <code>inspection-result-1.0.xsd</code>. Useful when
-	 * developing new Inspectors, but carries a performance penalty. False by default.
-	 *
-	 * @param validating
-	 */
-
-	public void setValidating( boolean validating )
-	{
-		mValidating = validating;
 	}
 }

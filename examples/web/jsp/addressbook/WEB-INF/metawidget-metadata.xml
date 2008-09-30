@@ -3,13 +3,20 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/inspection-result/inspection-result-1.0.xsd">
 
-	<!-- Example of using XML. We could have used a @UiLarge annotation instead -->
+	<!-- Example of using XML. We could have used a @JspLookup annotation instead -->
 	
 	<entity type="org.metawidget.example.shared.addressbook.model.Contact">
-		<property name="title" required="true"/>
-		<property name="firstname" required="true"/>
-		<property name="surname" required="true"/>
-		<property name="notes" large="true"/>
+		<property name="title" jsp-lookup="${contacts.allTitles}"/>
+	</entity>
+
+	<entity type="org.metawidget.example.shared.addressbook.model.PersonalContact"
+			extends="org.metawidget.example.shared.addressbook.model.Contact"/>
+
+	<entity type="org.metawidget.example.shared.addressbook.model.BusinessContact"
+			extends="org.metawidget.example.shared.addressbook.model.Contact"/>
+
+	<entity type="org.metawidget.example.shared.addressbook.model.Communication">
+		<property name="type" type="java.lang.String" jsp-lookup="${communications.all}"/>
 	</entity>
 
 </inspection-result>

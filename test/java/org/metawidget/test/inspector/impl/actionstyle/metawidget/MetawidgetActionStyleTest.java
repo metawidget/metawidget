@@ -34,6 +34,19 @@ public class MetawidgetActionStyleTest
 	extends TestCase
 {
 	//
+	// Constructor
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public MetawidgetActionStyleTest( String name )
+	{
+		super( name );
+	}
+
+	//
 	// Public methods
 	//
 

@@ -186,8 +186,13 @@ public abstract class BaseXmlInspector
 
 				String typeAttribute = getTypeAttribute();
 
-				if ( !propertyInParent.hasAttribute( typeAttribute ))
-					return null;
+				// If the parent has no @type, then we cannot traverse to the child. Even if we
+				// wanted to just return the parent attributes, we have no @type to attach to
+				// the top-level 'entity' node. So we must fail hard here. If we just return 'null',
+				// we may silently ignore parent attributes (such as a lookup)
+
+				if ( !propertyInParent.hasAttribute( typeAttribute ) )
+					throw InspectorException.newException( "Parent property of " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) + " has no @" + typeAttribute );
 
 				elementToInspect = traverse( propertyInParent.getAttribute( typeAttribute ), false );
 			}
@@ -470,7 +475,7 @@ public abstract class BaseXmlInspector
 				return property;
 
 			if ( !property.hasAttribute( typeAttribute ) )
-				throw InspectorException.newException( "Property " + name + " of " + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT ) + " has no @" + typeAttribute );
+				throw InspectorException.newException( "Property " + name + " of " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) + " has no @" + typeAttribute );
 
 			String propertyType = property.getAttribute( typeAttribute );
 			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, propertyType );

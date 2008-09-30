@@ -3,11 +3,10 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/inspection-result/inspection-result-1.0.xsd">
 
-	<!-- contactSearchForm is a plain Struts DynaActionForm, so we must help it out with   -->
-	<!-- enum lookups. The other form, contactForm, demonstrates a more automatic approach -->
+	<!-- Example of using XML. We could have used a @FacesLookup annotation instead -->
 	
-	<entity type="contactSearchForm">
-		<property name="type" lookup="PERSONAL,BUSINESS" lookup-labels="Personal,Business"/>
+	<entity type="org.metawidget.example.shared.addressbook.model.Contact">
+		<property name="title" faces-lookup="#{contacts.allTitlesAsSelectItems}"/>
 	</entity>
 
 	<entity type="org.metawidget.example.shared.addressbook.model.PersonalContact"
@@ -17,7 +16,7 @@
 			extends="org.metawidget.example.shared.addressbook.model.Contact"/>
 
 	<entity type="org.metawidget.example.shared.addressbook.model.Communication">
-		<property name="type" jsp-lookup="${communications.all}"/>
+		<property name="type" type="java.lang.String" faces-lookup="#{communications.allAsSelectItems}"/>
 	</entity>
 
 </inspection-result>

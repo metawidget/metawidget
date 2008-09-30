@@ -16,8 +16,10 @@
 
 package org.metawidget.example.shared.addressbook.model;
 
-import org.hibernate.validator.Max;
-import org.hibernate.validator.Min;
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import org.metawidget.inspector.annotation.UiAttribute;
+import org.metawidget.inspector.annotation.UiAttributes;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiSection;
 
@@ -71,10 +73,18 @@ public class BusinessContact
 		mCompany = company;
 	}
 
+	/**
+	 * Gets the number of staff managed by this contact.
+	 * <p>
+	 * Note: this method is annotated <code>UiAttributes</code>. Metawidget is designed to use
+	 * <em>existing</em> annotations as much as possible. Real apps would generally use something
+	 * like <code>org.hibernate.validator.Min</code> and <code>org.hibernate.validator.Max</code>
+	 * in preference to <code>UiAttribute</code>.
+	 */
+
 	@UiComesAfter( "communications" )
 	@UiSection( "Other" )
-	@Min( 0 )
-	@Max( 100 )
+	@UiAttributes( { @UiAttribute( name = MINIMUM_VALUE, value = "0" ), @UiAttribute( name = MAXIMUM_VALUE, value = "100" ) } )
 	public int getNumberOfStaff()
 	{
 		return mNumberOfStaff;

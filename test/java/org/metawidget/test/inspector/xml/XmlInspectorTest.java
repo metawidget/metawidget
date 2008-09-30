@@ -147,7 +147,15 @@ public class XmlInspectorTest
 
 	public void testMissingType()
 	{
-		assertTrue( null == mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz" ));
+		try
+		{
+			mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz" );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( e.getMessage().endsWith( "Parent property of org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo.bar.baz has no @type" ));
+		}
 
 		try
 		{
@@ -156,7 +164,7 @@ public class XmlInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Property baz of bar.baz.abc has no @type" ));
+			assertTrue( e.getMessage().endsWith( "Property baz of org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo.bar.baz.abc has no @type" ));
 		}
 	}
 

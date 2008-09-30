@@ -32,6 +32,19 @@ public class StrutsActionFormPropertyStyleTest
 	extends TestCase
 {
 	//
+	// Constructor
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public StrutsActionFormPropertyStyleTest( String name )
+	{
+		super( name );
+	}
+
+	//
 	// Public methods
 	//
 

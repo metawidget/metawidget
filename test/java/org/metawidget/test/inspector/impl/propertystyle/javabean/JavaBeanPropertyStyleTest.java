@@ -40,6 +40,19 @@ public class JavaBeanPropertyStyleTest
 	extends TestCase
 {
 	//
+	// Constructor
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public JavaBeanPropertyStyleTest( String name )
+	{
+		super( name );
+	}
+
+	//
 	// Public methods
 	//
 

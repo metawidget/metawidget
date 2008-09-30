@@ -79,7 +79,7 @@ public class Java5Inspector
 			List<String> lookup = CollectionUtils.newArrayList();
 			List<String> lookupLabels = CollectionUtils.newArrayList();
 
-			for( Enum<?> anEnum : enums )
+			for ( Enum<?> anEnum : enums )
 			{
 				// Convert enum values to their .name() form, not their .toString()
 				// form, so that clients can use .valueOf() to convert them back
@@ -98,9 +98,18 @@ public class Java5Inspector
 
 		if ( type instanceof ParameterizedType )
 		{
-			Type[] typeActuals = ((ParameterizedType) type).getActualTypeArguments();
+			Type[] typeActuals = null;
 
-			if ( typeActuals.length > 0 )
+			try
+			{
+				typeActuals = ( (ParameterizedType) type ).getActualTypeArguments();
+			}
+			catch ( Exception e )
+			{
+				// Android 1.0_r1 fails here with a ClassNotFoundException
+			}
+
+			if ( typeActuals != null && typeActuals.length > 0 )
 			{
 				StringBuilder builder = new StringBuilder();
 
@@ -110,7 +119,7 @@ public class Java5Inspector
 						builder.append( StringUtils.SEPARATOR_COMMA );
 
 					if ( typeActual instanceof Class )
-						builder.append( ((Class<?>) typeActual).getName() );
+						builder.append( ( (Class<?>) typeActual ).getName() );
 					else
 						builder.append( typeActual.toString() );
 				}

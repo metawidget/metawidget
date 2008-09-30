@@ -16,31 +16,31 @@
 
 package org.metawidget.example.shared.addressbook.model;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.hibernate.validator.Length;
+import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.inspector.faces.UiFacesLookup;
-import org.metawidget.inspector.jsp.UiJspLookup;
-import org.metawidget.inspector.spring.UiSpringLookup;
 
 /**
  * Models a Contact in the Address Book
  * <p>
- * So that it can easily be reused across different examples, this class mostly uses annotations
- * from <code>org.metawidget.inspector.annotation.*</code>. In the real world, clients should
- * prefer to use something like <code>javax.persistence.Column(nullable = false)</code> or
+ * So that it can easily be reused across different examples, this class only uses annotations from
+ * <code>org.metawidget.inspector.annotation.*</code>. In the real world, apps should prefer to
+ * use something like <code>javax.persistence.Column(nullable = false)</code> or
  * <code>org.hibernate.validator.NotNull</code> rather than <code>UiRequired</code>: Metawidget
  * will inspect your <em>existing</em> annotations as much as possible.
  * <p>
- * Implements Serializable because Web containers require session-level values to be Serializable.
+ * Implements Serializable because some Web containers require session-level values to be
+ * Serializable.
  *
  * @author Richard Kennard
  */
@@ -90,6 +90,14 @@ public abstract class Contact
 	// Public methods
 	//
 
+	/**
+	 * Gets the Contact's id.
+	 * <p>
+	 * Note: this method is annotated <code>UiHidden</code>. Metawidget is designed to use
+	 * <em>existing</em> annotations as much as possible. Real apps would generally use something
+	 * like <code>javax.persistence.Id</code> here in preference to <code>UiHidden</code>.
+	 */
+
 	@UiHidden
 	public long getId()
 	{
@@ -110,15 +118,12 @@ public abstract class Contact
 	 * examples.
 	 * <p>
 	 * Note: this method is annotated <code>UiRequired</code>. Metawidget is designed to use
-	 * <em>existing</em> annotations as much as possible. Clients would generally use something
+	 * <em>existing</em> annotations as much as possible. Real apps would generally use something
 	 * like <code>javax.persistence.Column(nullable = false)</code> or
-	 * <code>org.hibernate.validator.NotNull</code> in preference to <code>UiRequired</code>.
+	 * <code>org.hibernate.validator.NotNull</code> here in preference to <code>UiRequired</code>.
 	 */
 
 	@UiRequired
-	@UiFacesLookup( "#{contacts.allTitlesAsSelectItems}" )
-	@UiSpringLookup( "${contacts.allTitles}" )
-	@UiJspLookup( "${contacts.allTitles}" )
 	public String getTitle()
 	{
 		return mTitle;
@@ -133,9 +138,9 @@ public abstract class Contact
 	 * Get's the Contact's firstname.
 	 * <p>
 	 * Note: this method is annotated <code>UiRequired</code>. Metawidget is designed to use
-	 * <em>existing</em> annotations as much as possible. Clients would generally use something
+	 * <em>existing</em> annotations as much as possible. Real apps would generally use something
 	 * like <code>javax.persistence.Column(nullable = false)</code> or
-	 * <code>org.hibernate.validator.NotNull</code> in preference to <code>UiRequired</code>.
+	 * <code>org.hibernate.validator.NotNull</code> here in preference to <code>UiRequired</code>.
 	 */
 
 	@UiComesAfter( "title" )
@@ -154,14 +159,18 @@ public abstract class Contact
 	 * Get's the Contact's surname.
 	 * <p>
 	 * Note: this method is annotated <code>UiRequired</code>. Metawidget is designed to use
-	 * <em>existing</em> annotations as much as possible. Clients would generally use something
+	 * <em>existing</em> annotations as much as possible. Real apps would generally use something
 	 * like <code>javax.persistence.Column(nullable = false)</code> or
-	 * <code>org.hibernate.validator.NotNull</code> in preference to <code>UiRequired</code>.
+	 * <code>org.hibernate.validator.NotNull</code> here in preference to <code>UiRequired</code>.
+	 * <p>
+	 * Note: this method is annotated <code>UiAttribute</code>. Metawidget is designed to use
+	 * <em>existing</em> annotations as much as possible. Real apps would generally use something
+	 * like <code>org.hibernate.validator.Length</code> here in preference to <code>UiAttribute</code>.
 	 */
 
 	@UiComesAfter( "firstname" )
 	@UiRequired
-	@Length( max = 50 )
+	@UiAttribute( name = MAXIMUM_LENGTH, value = "50" )
 	public String getSurname()
 	{
 		return mSurname;

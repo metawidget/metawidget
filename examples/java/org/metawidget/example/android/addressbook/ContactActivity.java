@@ -18,7 +18,6 @@ package org.metawidget.example.android.addressbook;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 
@@ -59,7 +58,9 @@ public class ContactActivity
 	// Private statics
 	//
 
-	private final static DateFormat	FORMAT				= DateFormat.getDateInstance( DateFormat.SHORT );
+	private final static int		MENU_GROUP_ID	= 0;
+
+	private final static DateFormat	FORMAT			= DateFormat.getDateInstance( DateFormat.SHORT );
 
 	static
 	{
@@ -127,28 +128,23 @@ public class ContactActivity
 		final ListView communicationsView = (ListView) findViewById( R.id.communications );
 		Set<Communication> communications = mContact.getCommunications();
 
-		// If no communications, go with an emptySet. This is because we still need a ArrayAdpater
-		// or Android will not scroll the screen correctly
-
-		if ( communications == null )
-			communications = Collections.emptySet();
-
-		communicationsView.setAdapter( new ResourcelessArrayAdapter<Communication>( this, communications ) );
+		if ( communications != null )
+			communicationsView.setAdapter( new ResourcelessArrayAdapter<Communication>( this, communications ) );
 
 		communicationsView.setOnItemClickListener( new ListView.OnItemClickListener()
 		{
 			@SuppressWarnings( "unchecked" )
-			public void onItemClick( final AdapterView viewAdapter, View view, int position, long itemId )
+			public void onItemClick( AdapterView viewAdapter, View view, int position, long itemId )
 			{
-				Communication communication = (Communication) viewAdapter.getSelectedItem();
+				Communication communication = (Communication) viewAdapter.getAdapter().getItem( position );
 
-				CommunicationDialog.show( ContactActivity.this, mContact, communication, new DialogInterface.OnClickListener()
+				new CommunicationDialog( ContactActivity.this, mContact, communication, new DialogInterface.OnClickListener()
 				{
 					public void onClick( DialogInterface dialog, int button )
 					{
 						communicationsView.setAdapter( new ResourcelessArrayAdapter<Communication>( ContactActivity.this, mContact.getCommunications() ) );
 					}
-				} );
+				} ).show();
 			}
 		} );
 
@@ -183,15 +179,15 @@ public class ContactActivity
 
 		if ( metawidget.isReadOnly() )
 		{
-			menu.add( R.string.edit );
+			menu.add( MENU_GROUP_ID, R.string.edit, 0, R.string.edit );
 		}
 		else
 		{
-			menu.add( R.string.addCommunication );
-			menu.add( R.string.save );
+			menu.add( MENU_GROUP_ID, R.string.addCommunication, 0, R.string.addCommunication );
+			menu.add( MENU_GROUP_ID, R.string.save, 1, R.string.save );
 
 			if ( mContact.getId() != -1 )
-				menu.add( R.string.delete );
+				menu.add( MENU_GROUP_ID, R.string.delete, 2, R.string.delete );
 		}
 
 		return true;
@@ -205,7 +201,7 @@ public class ContactActivity
 
 		switch ( item.getItemId() )
 		{
-			case 0:
+			case R.string.edit:
 				metawidget.setReadOnly( false );
 				refresh();
 				View view = metawidget.findViewWithTag( "title" );
@@ -214,7 +210,7 @@ public class ContactActivity
 				view.requestFocus();
 				break;
 
-			case 1:
+			case R.string.save:
 				if ( !save() )
 					return false;
 
@@ -229,7 +225,7 @@ public class ContactActivity
 				}
 				break;
 
-			case 2:
+			case R.string.delete:
 				ConfirmDialog.show( ContactActivity.this, getString( R.string.deleteContact ), getString( R.string.confirmDeleteContact ), new DialogInterface.OnClickListener()
 				{
 					public void onClick( DialogInterface dialog, int button )
@@ -243,15 +239,15 @@ public class ContactActivity
 				} );
 				break;
 
-			case 3:
-				CommunicationDialog.show( ContactActivity.this, mContact, null, new DialogInterface.OnClickListener()
+			case R.string.addCommunication:
+				new CommunicationDialog( ContactActivity.this, mContact, null, new DialogInterface.OnClickListener()
 				{
 					public void onClick( DialogInterface dialog, int button )
 					{
 						ListView communicationsView = (ListView) findViewById( R.id.communications );
 						communicationsView.setAdapter( new ResourcelessArrayAdapter<Communication>( ContactActivity.this, mContact.getCommunications() ) );
 					}
-				} );
+				} ).show();
 				break;
 		}
 
@@ -293,9 +289,9 @@ public class ContactActivity
 
 		if ( mContact instanceof PersonalContact )
 		{
-			Date ofBirth = ( (PersonalContact) mContact ).getDateOfBirth();
+			Date dateOfBirth = ( (PersonalContact) mContact ).getDateOfBirth();
 
-			if ( ofBirth != null )
+			if ( dateOfBirth != null )
 			{
 				synchronized ( FORMAT )
 				{
@@ -339,9 +335,9 @@ public class ContactActivity
 
 		if ( mContact instanceof PersonalContact )
 		{
-			String ofBirth = (String) metawidget.getValue( "dateOfBirth" );
+			String dateOfBirth = (String) metawidget.getValue( "dateOfBirth" );
 
-			if ( ofBirth == null || "".equals( ofBirth ) )
+			if ( dateOfBirth == null || "".equals( dateOfBirth ) )
 			{
 				( (PersonalContact) mContact ).setDateOfBirth( null );
 			}
@@ -351,12 +347,12 @@ public class ContactActivity
 				{
 					synchronized ( FORMAT )
 					{
-						( (PersonalContact) mContact ).setDateOfBirth( FORMAT.parse( ofBirth ) );
+						( (PersonalContact) mContact ).setDateOfBirth( FORMAT.parse( dateOfBirth ) );
 					}
 				}
 				catch ( ParseException e )
 				{
-					new AlertDialog.Builder( getCurrentFocus().getContext() ).setTitle( getString( R.string.dateError ) ).setMessage( "Unable to recognize date '" + ofBirth + "'\n\nPlease re-enter the date" ).setPositiveButton( "OK", null ).show();
+					new AlertDialog.Builder( getCurrentFocus().getContext() ).setTitle( getString( R.string.dateError ) ).setMessage( "Unable to recognize date '" + dateOfBirth + "'\n\nPlease re-enter the date" ).setPositiveButton( "OK", null ).show();
 
 					return false;
 				}

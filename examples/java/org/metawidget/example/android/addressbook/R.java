@@ -12,8 +12,7 @@ public final class R {
     	// Empty block
     }
     public static final class drawable {
-        public static final int background=0x7f020000;
-        public static final int icon=0x7f020001;
+        public static final int icon=0x7f020000;
     }
     public static final class id {
         public static final int communications=0x7f070001;

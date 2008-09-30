@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
+import org.metawidget.inspector.composite.ValidatingCompositeInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.xml.XmlInspector;
@@ -85,9 +86,8 @@ public class CompositeInspectorTest
 
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( inspectorXml, new PropertyTypeInspector() );
-		config.setValidating( true );
 
-		CompositeInspector inspector = new CompositeInspector( config );
+		ValidatingCompositeInspector inspector = new ValidatingCompositeInspector( config );
 
 		// Inspect
 

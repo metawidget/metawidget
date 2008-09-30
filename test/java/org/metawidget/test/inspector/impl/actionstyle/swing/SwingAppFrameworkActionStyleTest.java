@@ -33,6 +33,19 @@ public class SwingAppFrameworkActionStyleTest
 	extends TestCase
 {
 	//
+	// Constructor
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public SwingAppFrameworkActionStyleTest( String name )
+	{
+		super( name );
+	}
+
+	//
 	// Public methods
 	//
 

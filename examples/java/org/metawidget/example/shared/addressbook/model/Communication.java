@@ -18,11 +18,7 @@ package org.metawidget.example.shared.addressbook.model;
 
 import java.io.Serializable;
 
-import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
-import org.metawidget.inspector.faces.UiFacesLookup;
-import org.metawidget.inspector.jsp.UiJspAttribute;
-import org.metawidget.inspector.jsp.UiJspAttributes;
 
 /**
  * Models a Communication of a Contact.
@@ -70,6 +66,14 @@ public class Communication
 	// Public methods
 	//
 
+	/**
+	 * Gets the Communication's id.
+	 * <p>
+	 * Note: this method is annotated <code>UiHidden</code>. Metawidget is designed to use
+	 * <em>existing</em> annotations as much as possible. Real apps would generally use something
+	 * like <code>javax.persistence.Id</code> here in preference to <code>UiHidden</code>.
+	 */
+
 	@UiHidden
 	public long getId()
 	{
@@ -81,8 +85,6 @@ public class Communication
 		mId = id;
 	}
 
-	@UiFacesLookup( "#{communications.allAsSelectItems}" )
-	@UiJspAttributes( @UiJspAttribute( name = "lookup", value = "${communications.all}" ))
 	public String getType()
 	{
 		return mType;
@@ -93,7 +95,6 @@ public class Communication
 		mType = type;
 	}
 
-	@UiComesAfter( "Type" )
 	public String getValue()
 	{
 		return mValue;

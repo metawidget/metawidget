@@ -8,11 +8,7 @@
 			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 			<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 			<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
-			<springAnnotationInspector xmlns="java:org.metawidget.inspector.spring"/>
-			
-			<!-- Note: we need jspAnnotationInspector because we use both HtmlMetawidgetTag and SpringMetawidgetTag -->
-			
-			<jspAnnotationInspector xmlns="java:org.metawidget.inspector.jsp"/>
+			<xmlInspector xmlns="java:org.metawidget.inspector.xml" />
 		</inspectors>
 	</compositeInspector>
 

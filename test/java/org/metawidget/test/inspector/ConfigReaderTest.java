@@ -22,6 +22,7 @@ import java.lang.reflect.Field;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.ConfigReader;
+import org.metawidget.inspector.ValidatingConfigReader;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.faces.FacesInspector;
@@ -66,7 +67,7 @@ public class ConfigReaderTest
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
-		xml += "<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
+		xml += "<validatingCompositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
 		xml += "<inspectors>";
 		xml += "<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\"/>";
 		xml += "<facesInspector xmlns=\"java:org.metawidget.inspector.faces\"/>";
@@ -92,11 +93,9 @@ public class ConfigReaderTest
 		xml += "<inputStream>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</inputStream>";
 		xml += "</xmlInspector>";
 		xml += "</inspectors>";
-		xml += "<validating>true</validating>";
-		xml += "</compositeInspector></inspector-config>";
+		xml += "</validatingCompositeInspector></inspector-config>";
 
-		ConfigReader reader = new ConfigReader();
-		reader.setValidating( true );
+		ValidatingConfigReader reader = new ValidatingConfigReader();
 		CompositeInspector inspector = (CompositeInspector) reader.read( new ByteArrayInputStream( xml.getBytes() ) );
 
 		// Use reflection to test config result
@@ -153,8 +152,6 @@ public class ConfigReaderTest
 		try
 		{
 			ConfigReader reader = new ConfigReader();
-			reader.setValidating( true );
-			reader.setValidating( false );
 			reader.read( new ByteArrayInputStream( xml.getBytes() ) );
 			assertTrue( false );
 		}

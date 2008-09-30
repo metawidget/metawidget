@@ -139,19 +139,13 @@ public final class ClassUtils
 	{
 		try
 		{
-			Method method;
 			Class<?> baseClass = base.getClass();
 
-			if ( value == null )
-			{
-				method = getReadMethod( baseClass, property );
-				method = getWriteMethod( baseClass, property, method.getReturnType() );
-			}
-			else
-			{
-				method = getWriteMethod( baseClass, property, value.getClass() );
-			}
+			// Determine the type based on the 'read' method, not the value.getClass(), because
+			// that is unreliable for 'Integer' versus 'int'
 
+			Method method = getReadMethod( baseClass, property );
+			method = getWriteMethod( baseClass, property, method.getReturnType() );
 			method.invoke( base, value );
 		}
 		catch ( Throwable t )

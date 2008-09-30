@@ -39,6 +39,12 @@ public class MainActivity
 	extends Activity
 {
 	//
+	// Private statics
+	//
+
+	private final static int	MENU_GROUP_ID	= 0;
+
+	//
 	// Protected members
 	//
 
@@ -83,7 +89,7 @@ public class MainActivity
 
 				intent.putExtra( "contactId", contact.getId() );
 
-				startActivity( intent );
+				startActivityForResult( intent, 0 );
 			}
 		} );
 		contacts.setAdapter( new ResourcelessArrayAdapter<Contact>( this, application.getContactsController().getAllByExample( mContactSearch ), null ) );
@@ -94,9 +100,9 @@ public class MainActivity
 	{
 		super.onCreateOptionsMenu( menu );
 
-		menu.add( R.string.search );
-		menu.add( R.string.addPersonal );
-		menu.add( R.string.addBusiness );
+		menu.add( MENU_GROUP_ID, R.string.search, 0, R.string.search );
+		menu.add( MENU_GROUP_ID, R.string.addPersonal, 1, R.string.addPersonal );
+		menu.add( MENU_GROUP_ID, R.string.addBusiness, 2, R.string.addBusiness );
 
 		return true;
 	}
@@ -110,7 +116,7 @@ public class MainActivity
 
 		switch ( item.getItemId() )
 		{
-			case 0:
+			case R.string.search:
 			{
 				// Manual mapping
 
@@ -128,23 +134,23 @@ public class MainActivity
 				break;
 			}
 
-			case 1:
+			case R.string.addPersonal:
 			{
 				Intent intent = new Intent();
 				intent.setClass( MainActivity.this, ContactActivity.class );
 				intent.putExtra( "contactType", "personal" );
 
-				startActivity( intent );
+				startActivityForResult( intent, 0 );
 				break;
 			}
 
-			case 2:
+			case R.string.addBusiness:
 			{
 				Intent intent = new Intent();
 				intent.setClass( MainActivity.this, ContactActivity.class );
 				intent.putExtra( "contactType", "business" );
 
-				startActivity( intent );
+				startActivityForResult( intent, 0 );
 				break;
 			}
 		}

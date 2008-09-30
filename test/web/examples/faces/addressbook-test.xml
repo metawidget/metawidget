@@ -110,7 +110,7 @@
 				<setInputField name="form:contactCurrentDateOfBirth" value="bad date"/>
 				<clickButton label="Save"/>
 		
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-component-column']/span[@class='inline-error']" text="Conversion error"/>				
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-component-column']/span[@class='inline-error']" text="Date of Birth: 'bad date' could not be understood as a date. Example: 9/30/08 "/>				
 				<setInputField name="form:contactCurrentDateOfBirth" value="5/12/57"/>
 				<clickButton label="Save"/>
 

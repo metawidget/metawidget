@@ -43,7 +43,7 @@
 		<echo message="      (eg. annotations, javax.swing.GroupLayout)"/>
 
 		<!-- As a first step, build everything as Java SE 5 -->
-				
+
 		<javac srcdir="src/java" destdir="${build.metawidget.dir}/java5-classes" debug="${build.debug}" optimize="on" target="1.5">
 			<classpath>
 				<fileset dir="lib"/>
@@ -672,19 +672,17 @@
             <arg value="-I" />
             <arg value="${android.dir}/android.jar" />
             <arg value="-F" />
-            <arg value="${build.metawidget.dir}/test/android/allwidgets-android.apk" />
+            <arg value="${build.metawidget.dir}/test/android/allwidgets-android.ap_" />
         </exec>
 
 	    <!-- Put the project's .dex files into the APK -->
 		
-        <exec executable="${android.tools.dir}/apkbuilder.bat" failonerror="true" dir="test/android/allwidgets">
+        <exec executable="${android.tools.dir}/apkbuilder.bat" failonerror="true">
             <arg value="${build.metawidget.dir}/test/android/allwidgets-android.apk" />
             <arg value="-z" />
-            <arg value="res" />
+            <arg value="${build.metawidget.dir}/test/android/allwidgets-android.ap_" />
             <arg value="-f" />
             <arg value="${build.metawidget.dir}/test/android/allwidgets/classes.dex" />
-            <arg value="-rf" />
-            <arg value="test/java" />
         </exec>
 
 	</target>
@@ -1658,8 +1656,6 @@
 			
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/metawidget/*.class"/>				
-				<include name="org/metawidget/example/android/addressbook/**"/>
-				<include name="org/metawidget/example/shared/addressbook/**/*.class"/>
 				<include name="org/metawidget/android/**"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
@@ -1668,6 +1664,7 @@
 				<include name="org/metawidget/inspector/impl/**"/>
 				<include name="org/metawidget/inspector/propertytype/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>
+				<include name="org/metawidget/inspector/xml/**"/>
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
@@ -1684,6 +1681,7 @@
         <exec executable="${android.tools.dir}/dx.bat" failonerror="true">
             <arg value="--dex" />
             <arg value="--output=${build.metawidget.dir}/examples/android/addressbook/classes.dex" />
+            <arg value="--positions=lines" />
             <arg path="${build.metawidget.dir}/examples/android/addressbook/dex-classes" />
         </exec>
 
@@ -1699,19 +1697,17 @@
             <arg value="-I" />
             <arg value="${android.dir}/android.jar" />
             <arg value="-F" />
-            <arg value="${build.metawidget.dir}/examples/android/addressbook-android.apk" />
+            <arg value="${build.metawidget.dir}/examples/android/addressbook-android.ap_" />
         </exec>
 
 	    <!-- Put the project's .dex files into the APK -->
 		
-        <exec executable="${apk-builder}" failonerror="true">
+        <exec executable="${android.tools.dir}/apkbuilder.bat" failonerror="true">        
             <arg value="${build.metawidget.dir}/examples/android/addressbook-android.apk" />
             <arg value="-z" />
-            <arg value="res" />
+            <arg value="${build.metawidget.dir}/examples/android/addressbook-android.ap_" />
             <arg value="-f" />
             <arg value="${build.metawidget.dir}/examples/android/addressbook/classes.dex" />
-            <arg value="-rf" />
-            <arg value="${srcdir-ospath}" />
         </exec>
 
 		<copy todir="${build.metawidget.dir}/examples/android" file="examples/java/org/metawidget/example/android/readme.txt"/>

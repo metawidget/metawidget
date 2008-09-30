@@ -35,11 +35,27 @@ public class AllTests
 	extends TestCase
 {
 	//
+	// Constructor
+	//
+
+	/**
+	 * JUnit 3.7 constructor.
+	 */
+
+	public AllTests( String name )
+	{
+		super( name );
+	}
+
+	//
 	// Public statics
 	//
 
 	public static Test suite()
 	{
+		// Note: if this fails saying 'java.lang.RuntimeException: Stub!' or such, it's
+		// probably because it is picking up the version of JUnit inside android.jar
+
 		TestSuite suite = new TestSuite( "Metawidget Tests" );
 		suite.addTest( ExampleTests.suite() );
 		suite.addTestSuite( UIMetawidgetTest.class );

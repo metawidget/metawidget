@@ -26,10 +26,7 @@ import java.util.List;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.SchemaFactory;
 
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
@@ -63,13 +60,13 @@ public class ConfigReader
 	// Package-level statics
 	//
 
-	final static Log				LOG	= LogUtils.getLog( ConfigReader.class );
+	final static Log					LOG	= LogUtils.getLog( ConfigReader.class );
 
 	//
-	// Private members
+	// Protected members
 	//
 
-	private final SAXParserFactory	mFactory;
+	protected final SAXParserFactory	mFactory;
 
 	//
 	// Constructor
@@ -86,49 +83,12 @@ public class ConfigReader
 	//
 
 	/**
-	 * Sets whether the ConfigReader should validate the input against the
-	 * <code>inspector-config-1.0.xsd</code> schema.
-	 * <p>
-	 * False by default.
-	 */
-
-	public void setValidating( boolean validating )
-	{
-		if ( !validating )
-		{
-			mFactory.setSchema( null );
-			return;
-		}
-
-		// (J2SE1.4 and Android don't support java.xml.validation)
-
-		if ( !ClassUtils.classExists( "javax.xml.validation.SchemaFactory" ) )
-			return;
-
-		SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
-		InputStream in = openResource( "org/metawidget/inspector/inspector-config-1.0.xsd" );
-
-		try
-		{
-			mFactory.setSchema( factory.newSchema( new StreamSource( in ) ) );
-		}
-		catch ( SAXException e )
-		{
-			throw InspectorException.newException( e );
-		}
-	}
-
-	//
-	// Public methods
-	//
-
-	/**
 	 * Read configuration from an application resource.
 	 */
 
 	public Inspector read( String resource )
 	{
-		return read( openResource( resource ));
+		return read( openResource( resource ) );
 	}
 
 	/**
@@ -164,7 +124,7 @@ public class ConfigReader
 
 	public InputStream openResource( String resource )
 	{
-		if ( resource == null || "".equals( resource.trim() ))
+		if ( resource == null || "".equals( resource.trim() ) )
 			throw InspectorException.newException( "No resource specified" );
 
 		// Thread's ClassLoader
@@ -196,8 +156,7 @@ public class ConfigReader
 	/**
 	 * Convert the given String to an Object of the given Class.
 	 * <p>
-	 * Subclasses can override this method to hook in custom resource
-	 * resolution.
+	 * Subclasses can override this method to hook in custom resource resolution.
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -212,7 +171,7 @@ public class ConfigReader
 			{
 				return (T) Class.forName( input );
 			}
-			catch( Exception e )
+			catch ( Exception e )
 			{
 				throw InspectorException.newException( e );
 			}
@@ -600,7 +559,7 @@ public class ConfigReader
 				// Prevent InvocationTargetException 'masking' the error
 
 				if ( e instanceof InvocationTargetException )
-					e = (Exception) ((InvocationTargetException) e).getTargetException();
+					e = (Exception) ( (InvocationTargetException) e ).getTargetException();
 
 				throw new SAXException( e );
 			}

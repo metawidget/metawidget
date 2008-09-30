@@ -18,26 +18,16 @@ package org.metawidget.inspector.composite;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.io.InputStream;
-
-import javax.xml.XMLConstants;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
-
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 /**
  * Delegates inspection to one or more sub-inspectors, then combines the resulting DOMs.
@@ -63,8 +53,6 @@ public class CompositeInspector
 	// Private statics
 	//
 
-	private static Object						SCHEMA_METADATA;
-
 	private final static Log					LOG							= LogUtils.getLog( CompositeInspector.class );
 
 	//
@@ -72,8 +60,6 @@ public class CompositeInspector
 	//
 
 	private Inspector[]							mInspectors;
-
-	private boolean								mValidating;
 
 	//
 	// Constructor
@@ -95,29 +81,6 @@ public class CompositeInspector
 
 		mInspectors = new Inspector[inspectors.length];
 		System.arraycopy( inspectors, 0, mInspectors, 0, inspectors.length );
-
-		mValidating = config.isValidating();
-
-		// If validating, fetch the schema
-
-		if ( mValidating )
-		{
-			// (J2SE1.4 and Android don't support java.xml.validation)
-
-			if ( SCHEMA_METADATA == null && ClassUtils.classExists( "javax.xml.validation.SchemaFactory" ) )
-			{
-				InputStream in = resolver.openResource( "org/metawidget/inspector/inspection-result-1.0.xsd" );
-
-				try
-				{
-					SCHEMA_METADATA = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI ).newSchema( new StreamSource( in ) );
-				}
-				catch ( SAXException e )
-				{
-					throw InspectorException.newException( e );
-				}
-			}
-		}
 	}
 
 	//
@@ -141,14 +104,14 @@ public class CompositeInspector
 
 			for ( Inspector inspector : mInspectors )
 			{
-				String inspectionXml = inspector.inspect( toInspect, type, names );
+				String xml = inspector.inspect( toInspect, type, names );
 
-				if ( inspectionXml == null )
+				if ( xml == null )
 					continue;
 
 				// ...parse the result...
 
-				Document inspectionDocument = XmlUtils.documentFromString( inspectionXml );
+				Document inspectionDocument = parseInspectionResult( xml );
 
 				// ...(trace)...
 
@@ -157,11 +120,6 @@ public class CompositeInspector
 					String formattedXml = XmlUtils.documentToString( inspectionDocument, true );
 					LOG.trace( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + inspector.getClass() + "\r\n" + formattedXml );
 				}
-
-				// ...validate it...
-
-				if ( mValidating && SCHEMA_METADATA != null )
-					( (Schema) SCHEMA_METADATA ).newValidator().validate( new DOMSource( inspectionDocument ) );
 
 				// ...and combine them
 
@@ -197,5 +155,15 @@ public class CompositeInspector
 		{
 			throw InspectorException.newException( e );
 		}
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected Document parseInspectionResult( String xml )
+		throws Exception
+	{
+		return XmlUtils.documentFromString( xml );
 	}
 }
