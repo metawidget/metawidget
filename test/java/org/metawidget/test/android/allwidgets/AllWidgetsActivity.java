@@ -157,6 +157,7 @@ public class AllWidgetsActivity
 		metawidget.setValue( mAllWidgets.getDropdown(), "dropdown" );
 		metawidget.setValue( mAllWidgets.getDropdownWithLabels(), "dropdownWithLabels" );
 		metawidget.setValue( mAllWidgets.getNotNullDropdown(), "notNullDropdown" );
+		metawidget.setValue( mAllWidgets.getNotNullObjectDropdown(), "notNullObjectDropdown" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgets().getFurtherNestedWidgets().getNestedTextbox1() ), "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgets().getFurtherNestedWidgets().getNestedTextbox2() ), "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" );
 		metawidget.setValue( StringUtils.quietValueOf( mAllWidgets.getNestedWidgets().getNestedTextbox1() ), "nestedWidgets", "nestedTextbox1" );
@@ -252,6 +253,7 @@ public class AllWidgetsActivity
 		mAllWidgets.setDropdown( (String) metawidget.getValue( "dropdown" ) );
 		mAllWidgets.setDropdownWithLabels( (String) metawidget.getValue( "dropdownWithLabels" ) );
 		mAllWidgets.setNotNullDropdown( Byte.parseByte( (String) metawidget.getValue( "notNullDropdown" ) ) );
+		mAllWidgets.setNotNullObjectDropdown( (String) metawidget.getValue( "notNullObjectDropdown" ) );
 		mAllWidgets.getNestedWidgets().getFurtherNestedWidgets().setNestedTextbox1( (String) metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" ) );
 		mAllWidgets.getNestedWidgets().getFurtherNestedWidgets().setNestedTextbox2( (String) metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) );
 		mAllWidgets.getNestedWidgets().setNestedTextbox1( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) );

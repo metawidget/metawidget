@@ -42,7 +42,8 @@ import org.metawidget.util.simple.StringUtils;
  * A significant difference of <code>JexlInspector</code> compared to other ELs is that the JEXL
  * EL is relative to the object being inspected, not to some global EL context. So expressions use
  * <code>this</code>, as in <code>${this.retired}</code>. Use of a <code>this</code>
- * keyword, as opposed to the class name, keeps JEXL EL expressions working even for subclasses.
+ * keyword, as opposed to the name of the class being annotated, keeps JEXL EL expressions working
+ * even for subclasses.
  *
  * @author Richard Kennard
  */
@@ -93,26 +94,9 @@ public class JexlInspector
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		// UiJexlAttribute
+		// UiJexlAttributes/UiJexlAttribute
 
-		UiJexlAttribute jexlAttribute = property.getAnnotation( UiJexlAttribute.class );
-
-		if ( jexlAttribute != null )
-		{
-			putJexlAttribute( toInspect, jexlAttribute, attributes );
-		}
-
-		// UiJexlAttributes
-
-		UiJexlAttributes JexlAttributes = property.getAnnotation( UiJexlAttributes.class );
-
-		if ( JexlAttributes != null )
-		{
-			for ( UiJexlAttribute nestedJexlAttribute : JexlAttributes.value() )
-			{
-				putJexlAttribute( toInspect, nestedJexlAttribute, attributes );
-			}
-		}
+		putJexlAttributes( toInspect, attributes, property.getAnnotation( UiJexlAttributes.class ), property.getAnnotation( UiJexlAttribute.class ));
 
 		return attributes;
 	}
@@ -123,9 +107,17 @@ public class JexlInspector
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		// UiJexlAttribute
+		// UiJexlAttributes/UiJexlAttribute
 
-		UiJexlAttribute jexlAttribute = action.getAnnotation( UiJexlAttribute.class );
+		putJexlAttributes( toInspect, attributes, action.getAnnotation( UiJexlAttributes.class ), action.getAnnotation( UiJexlAttribute.class ));
+
+		return attributes;
+	}
+
+	protected void putJexlAttributes( Object toInspect, Map<String, String> attributes, UiJexlAttributes jexlAttributes, UiJexlAttribute jexlAttribute )
+		throws Exception
+	{
+		// UiJexlAttribute
 
 		if ( jexlAttribute != null )
 		{
@@ -134,17 +126,13 @@ public class JexlInspector
 
 		// UiJexlAttributes
 
-		UiJexlAttributes JexlAttributes = action.getAnnotation( UiJexlAttributes.class );
-
-		if ( JexlAttributes != null )
+		if ( jexlAttributes != null )
 		{
-			for ( UiJexlAttribute nestedJexlAttribute : JexlAttributes.value() )
+			for ( UiJexlAttribute nestedJexlAttribute : jexlAttributes.value() )
 			{
 				putJexlAttribute( toInspect, nestedJexlAttribute, attributes );
 			}
 		}
-
-		return attributes;
 	}
 
 	protected void putJexlAttribute( Object toInspect, UiJexlAttribute jexlAttribute, Map<String, String> attributes )
@@ -206,7 +194,7 @@ public class JexlInspector
 		@SuppressWarnings( "unchecked" )
 		Map<String, Object> contextMap = context.getVars();
 
-		// Put the toInspect in under 'this'
+		// Put the toInspect in as 'this'
 
 		if ( toInspect != null )
 			contextMap.put( "this", toInspect );

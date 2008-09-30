@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Inspectors: Hibernate support.
+ * Inspectors: Metawidget action style.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.inspector.hibernate;
+package org.metawidget.inspector.impl.actionstyle.metawidget;

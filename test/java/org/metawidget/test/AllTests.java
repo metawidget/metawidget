@@ -54,7 +54,9 @@ public class AllTests
 	public static Test suite()
 	{
 		// Note: if this fails saying 'java.lang.RuntimeException: Stub!' or such, it's
-		// probably because it is picking up the version of JUnit inside android.jar
+		// probably because it is picking up the version of JUnit inside android.jar.
+		//
+		// To fix, place the junit-4.5.jar first on your CLASSPATH
 
 		TestSuite suite = new TestSuite( "Metawidget Tests" );
 		suite.addTest( ExampleTests.suite() );

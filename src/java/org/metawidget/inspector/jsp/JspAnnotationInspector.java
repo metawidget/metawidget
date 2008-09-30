@@ -106,46 +106,7 @@ public class JspAnnotationInspector
 
 		// UiJspAttributes/UiJspAttribute
 
-		UiJspAttribute jspAttribute = property.getAnnotation( UiJspAttribute.class );
-		UiJspAttributes jspAttributes = property.getAnnotation( UiJspAttributes.class );
-
-		if ( jspAttribute != null || jspAttributes != null )
-		{
-			PageContext pageContext = LOCAL_PAGE_CONTEXT.get();
-
-			if ( pageContext == null )
-				throw InspectorException.newException( "ThreadLocalPageContext not set" );
-
-			ExpressionEvaluator expressionEvaluator;
-
-			try
-			{
-				expressionEvaluator = pageContext.getExpressionEvaluator();
-			}
-			catch ( Throwable t )
-			{
-				throw InspectorException.newException( "ExpressionEvaluator requires JSP 2.0" );
-			}
-
-			VariableResolver variableResolver = pageContext.getVariableResolver();
-
-			// UiJspAttribute
-
-			if ( jspAttribute != null )
-			{
-				putJspAttribute( expressionEvaluator, variableResolver, attributes, jspAttribute );
-			}
-
-			// UiJspAttributes
-
-			if ( jspAttributes != null )
-			{
-				for ( UiJspAttribute nestedJspAttribute : jspAttributes.value() )
-				{
-					putJspAttribute( expressionEvaluator, variableResolver, attributes, nestedJspAttribute );
-				}
-			}
-		}
+		putJspAttributes( attributes, property.getAnnotation( UiJspAttributes.class ), property.getAnnotation( UiJspAttribute.class ));
 
 		return attributes;
 	}
@@ -158,48 +119,53 @@ public class JspAnnotationInspector
 
 		// UiJspAttributes/UiJspAttribute
 
-		UiJspAttribute jspAttribute = action.getAnnotation( UiJspAttribute.class );
-		UiJspAttributes jspAttributes = action.getAnnotation( UiJspAttributes.class );
-
-		if ( jspAttribute != null || jspAttributes != null )
-		{
-			PageContext pageContext = LOCAL_PAGE_CONTEXT.get();
-
-			if ( pageContext == null )
-				throw InspectorException.newException( "ThreadLocalPageContext not set" );
-
-			ExpressionEvaluator expressionEvaluator;
-
-			try
-			{
-				expressionEvaluator = pageContext.getExpressionEvaluator();
-			}
-			catch ( Throwable t )
-			{
-				throw InspectorException.newException( "ExpressionEvaluator requires JSP 2.0" );
-			}
-
-			VariableResolver variableResolver = pageContext.getVariableResolver();
-
-			// UiJspAttribute
-
-			if ( jspAttribute != null )
-			{
-				putJspAttribute( expressionEvaluator, variableResolver, attributes, jspAttribute );
-			}
-
-			// UiJspAttributes
-
-			if ( jspAttributes != null )
-			{
-				for ( UiJspAttribute nestedJspAttribute : jspAttributes.value() )
-				{
-					putJspAttribute( expressionEvaluator, variableResolver, attributes, nestedJspAttribute );
-				}
-			}
-		}
+		putJspAttributes( attributes, action.getAnnotation( UiJspAttributes.class ), action.getAnnotation( UiJspAttribute.class ));
 
 		return attributes;
+	}
+
+	protected void putJspAttributes( Map<String, String> attributes, UiJspAttributes jspAttributes, UiJspAttribute jspAttribute )
+		throws Exception
+	{
+		// Nothing to do?
+
+		if ( jspAttributes == null && jspAttribute == null )
+			return;
+
+		PageContext pageContext = LOCAL_PAGE_CONTEXT.get();
+
+		if ( pageContext == null )
+			throw InspectorException.newException( "ThreadLocalPageContext not set" );
+
+		ExpressionEvaluator expressionEvaluator;
+
+		try
+		{
+			expressionEvaluator = pageContext.getExpressionEvaluator();
+		}
+		catch ( Throwable t )
+		{
+			throw InspectorException.newException( "ExpressionEvaluator requires JSP 2.0" );
+		}
+
+		VariableResolver variableResolver = pageContext.getVariableResolver();
+
+		// UiJspAttribute
+
+		if ( jspAttribute != null )
+		{
+			putJspAttribute( expressionEvaluator, variableResolver, attributes, jspAttribute );
+		}
+
+		// UiJspAttributes
+
+		if ( jspAttributes != null )
+		{
+			for ( UiJspAttribute nestedJspAttribute : jspAttributes.value() )
+			{
+				putJspAttribute( expressionEvaluator, variableResolver, attributes, nestedJspAttribute );
+			}
+		}
 	}
 
 	protected void putJspAttribute( ExpressionEvaluator expressionEvaluator, VariableResolver variableResolver, Map<String, String> attributes, UiJspAttribute jspAttribute )

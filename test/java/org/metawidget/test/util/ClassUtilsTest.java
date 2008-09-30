@@ -68,7 +68,7 @@ public class ClassUtilsTest
 		}
 		catch( Exception e )
 		{
-			assertTrue( "No such method setBar1( org.metawidget.test.util.ClassUtilsTest$Baz ) on class org.metawidget.test.util.ClassUtilsTest$Foo".equals( e.getCause().getMessage() ));
+			assertTrue( "No such method getBar1() or isBar1() on class org.metawidget.test.util.ClassUtilsTest$Foo".equals( e.getCause().getMessage() ));
 		}
 
 		try

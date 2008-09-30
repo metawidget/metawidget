@@ -220,11 +220,13 @@ a {
 	padding: 5px;
 	width: 175px;
 	position: absolute;
+	text-align: left;
 } 
 
 .tooltip span {
 	float: left;
 	font-size: 30pt;
+	margin-right: 5px;
 }
 
 /*

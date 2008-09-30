@@ -162,37 +162,9 @@ public class FacesInspector
 				attributes.put( DATETIME_TYPE, dateTimeConverter.type() );
 		}
 
-		// Attributes
+		// UiFacesAttributes/UiFacesAttribute
 
-		UiFacesAttribute facesAttribute = property.getAnnotation( UiFacesAttribute.class );
-		UiFacesAttributes facesAttributes = property.getAnnotation( UiFacesAttributes.class );
-
-		if ( facesAttribute != null || facesAttributes != null )
-		{
-			FacesContext context = FacesContext.getCurrentInstance();
-
-			if ( context == null )
-				throw InspectorException.newException( "FacesContext not available to FacesInspector" );
-
-			Application application = context.getApplication();
-
-			// UiFacesAttribute
-
-			if ( facesAttribute != null )
-			{
-				putFacesAttribute( context, application, attributes, facesAttribute );
-			}
-
-			// UiFacesAttributes
-
-			if ( facesAttributes != null )
-			{
-				for ( UiFacesAttribute nestedFacesAttribute : facesAttributes.value() )
-				{
-					putFacesAttribute( context, application, attributes, nestedFacesAttribute );
-				}
-			}
-		}
+		putFacesAttributes( attributes, property.getAnnotation( UiFacesAttributes.class ), property.getAnnotation( UiFacesAttribute.class ));
 
 		return attributes;
 	}
@@ -205,37 +177,41 @@ public class FacesInspector
 
 		// UiFacesAttributes/UiFacesAttribute
 
-		UiFacesAttribute facesAttribute = property.getAnnotation( UiFacesAttribute.class );
-		UiFacesAttributes facesAttributes = property.getAnnotation( UiFacesAttributes.class );
-
-		if ( facesAttribute != null || facesAttributes != null )
-		{
-			FacesContext context = FacesContext.getCurrentInstance();
-
-			if ( context == null )
-				throw InspectorException.newException( "FacesContext not available to FacesInspector" );
-
-			Application application = context.getApplication();
-
-			// UiFacesAttribute
-
-			if ( facesAttribute != null )
-			{
-				putFacesAttribute( context, application, attributes, facesAttribute );
-			}
-
-			// UiFacesAttributes
-
-			if ( facesAttributes != null )
-			{
-				for ( UiFacesAttribute nestedFacesAttribute : facesAttributes.value() )
-				{
-					putFacesAttribute( context, application, attributes, nestedFacesAttribute );
-				}
-			}
-		}
+		putFacesAttributes( attributes, property.getAnnotation( UiFacesAttributes.class ), property.getAnnotation( UiFacesAttribute.class ));
 
 		return attributes;
+	}
+
+	protected void putFacesAttributes( Map<String, String> attributes, UiFacesAttributes facesAttributes, UiFacesAttribute facesAttribute )
+	{
+		// Nothing to do?
+
+		if ( facesAttributes == null && facesAttribute == null )
+			return;
+
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if ( context == null )
+			throw InspectorException.newException( "FacesContext not available to FacesInspector" );
+
+		Application application = context.getApplication();
+
+		// UiFacesAttribute
+
+		if ( facesAttribute != null )
+		{
+			putFacesAttribute( context, application, attributes, facesAttribute );
+		}
+
+		// UiFacesAttributes
+
+		if ( facesAttributes != null )
+		{
+			for ( UiFacesAttribute nestedFacesAttribute : facesAttributes.value() )
+			{
+				putFacesAttribute( context, application, attributes, nestedFacesAttribute );
+			}
+		}
 	}
 
 	protected void putFacesAttribute( FacesContext context, Application application, Map<String, String> attributes, UiFacesAttribute facesAttribute )

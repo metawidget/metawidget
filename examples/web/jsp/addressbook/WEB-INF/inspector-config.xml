@@ -8,6 +8,7 @@
 			<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 			<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" />
 			<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
+			<jspAnnotationInspector xmlns="java:org.metawidget.inspector.jsp"/>
 			<xmlInspector xmlns="java:org.metawidget.inspector.xml" />
 		</inspectors>
 	</compositeInspector>

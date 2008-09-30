@@ -15,7 +15,7 @@
 	
 	<!-- Init -->
 
-	<target name="init">		
+	<target name="init">
 		<mkdir dir="${build.metawidget.dir}"/>
 		<mkdir dir="${run.dir}"/>
 	</target>
@@ -463,7 +463,9 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.AllTests"/>
 			<classpath>
-				<fileset dir="lib"/>
+				<fileset dir="lib">
+					<exclude name="android.jar"/>
+				</fileset>
 				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement location="${build.metawidget.dir}/examples/swing/addressbook-swing.jar"/>
 				<pathelement location="${build.metawidget.dir}/examples/swing/appframework-swing.jar"/>
@@ -500,7 +502,9 @@
 				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
 				<dirset dir="${build.metawidget.dir}/example-classes"/>
 				<dirset dir="${build.metawidget.dir}/test-classes"/>
-				<fileset dir="lib"/>
+				<fileset dir="lib">
+					<exclude name="android.jar"/>
+				</fileset>
 				<pathelement path="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement path="${build.metawidget.dir}/examples/gwt/metawidget-gwt-client.jar"/>
 			</classpath>
@@ -515,7 +519,9 @@
 				<pathelement path="test/java"/>
 				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
 				<dirset dir="${build.metawidget.dir}/test-classes"/>
-				<fileset dir="lib"/>
+				<fileset dir="lib">
+					<exclude name="android.jar"/>
+				</fileset>
 				<pathelement path="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement path="${build.metawidget.dir}/examples/gwt/metawidget-gwt-client.jar"/>
 			</classpath>
@@ -528,7 +534,9 @@
 			<classpath>
 				<pathelement path="test/java"/>
 				<dirset dir="${build.metawidget.dir}/test-classes"/>
-				<fileset dir="lib"/>
+				<fileset dir="lib">
+					<exclude name="android.jar"/>
+				</fileset>
 				<pathelement path="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement path="${build.metawidget.dir}/examples/gwt/metawidget-gwt-client.jar"/>
 			</classpath>
@@ -544,7 +552,9 @@
 			<classpath>
 				<fileset dir="lib">
 					<exclude name="android.jar"/>
+					<exclude name="junit*.jar"/>
 				</fileset>
+				<pathelement location="test/lib-1.4/junit.jar"/>
 				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement path="${build.metawidget.dir}/test-classes"/>
 				<pathelement path="test/java"/>
@@ -1268,6 +1278,7 @@
 				<include name="org/metawidget/inspector/impl/propertystyle/javabean/*.class"/>
 				<include name="org/metawidget/inspector/propertytype/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>				
+				<include name="org/metawidget/inspector/jexl/**"/>				
 				<include name="org/metawidget/inspector/xml/**"/>				
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/w3c/**"/>
@@ -1300,6 +1311,8 @@
 			<fileset dir="examples/web/swing/applet/addressbook"/>
 			<fileset dir="lib">
 				<include name="beansbinding*.jar"/>
+				<include name="commons-jexl-*.jar"/>
+				<include name="commons-logging-*.jar"/>
 			</fileset>			
 		</copy>
 
@@ -1868,12 +1881,14 @@
 				<exclude name="examples/web/**/css/**"/>				
 				<exclude name="examples/web/**/media/**"/>				
 				<exclude name="examples/web/**/WEB-INF/tags/**"/>				
-				<include name="examples/web/shared/css/**"/>				
-				<include name="examples/web/shared/WEB-INF/tags/**"/>				
 				<exclude name="**/WEB-INF/classes/**"/>
 				<exclude name="**/WEB-INF/lib/**"/>
 				<exclude name="**/.p4ignore"/>
 				
+			</fileset>
+			<fileset dir=".">
+				<include name="examples/web/shared/css/**"/>				
+				<include name="examples/web/shared/WEB-INF/tags/**"/>				
 			</fileset>
 		</copy>
 
@@ -1911,6 +1926,8 @@
 		<delete>
 			<fileset dir="${build.metawidget.dir}">
 				<include name="classes/**"/>
+				<include name="java4-classes/**"/>
+				<include name="java5-classes/**"/>
 			</fileset>
 		</delete>
 
@@ -1939,6 +1956,8 @@
 				
 				<include name="${metawidget.name}/examples/**"/>
 				<exclude name="${metawidget.name}/examples/android/addressbook/**"/>
+				<exclude name="${metawidget.name}/examples/android/addressbook-android.ap_"/>
+				<exclude name="${metawidget.name}/examples/web/**"/>
 									
 			</fileset>
 				

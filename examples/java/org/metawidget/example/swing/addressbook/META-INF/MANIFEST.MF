@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
 Main-Class: org.metawidget.example.swing.addressbook.MainFrame
-Class-Path: ../../metawidget.jar beansbinding-1.2.1.jar
+Class-Path: ../../metawidget.jar beansbinding-1.2.1.jar commons-jexl-1.1.jar commons-logging-1.1.1.jar

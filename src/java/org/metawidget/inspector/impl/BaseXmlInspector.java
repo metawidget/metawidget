@@ -21,18 +21,12 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.io.InputStream;
 import java.util.Map;
 
-import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 
 import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
-import org.metawidget.util.ClassUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
@@ -95,45 +89,10 @@ public abstract class BaseXmlInspector
 	{
 		try
 		{
-			DocumentBuilder builder = null;
+			DocumentBuilder builder = XmlUtils.newDocumentBuilder();
 
-			// Look up the schema
-			//
-			// (J2SE1.4 and Android don't support java.xml.validation)
-
-			if ( ClassUtils.classExists( "javax.xml.validation.SchemaFactory" ) )
-			{
-				SchemaFactory factorySchema = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
-				InputStream schemaStream = config.getSchemaInputStream();
-
-				Object schema = null;
-
-				if ( schemaStream != null )
-				{
-					schema = factorySchema.newSchema( new StreamSource( schemaStream ) );
-				}
-				else
-				{
-					String schemaFile = config.getSchema();
-
-					if ( schemaFile != null && !"".equals( schemaFile ) )
-						schema = factorySchema.newSchema( new StreamSource( resolver.openResource( schemaFile ) ) );
-				}
-
-				if ( schema != null )
-				{
-					DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-					factory.setNamespaceAware( true );
-					factory.setIgnoringComments( true );
-					factory.setIgnoringElementContentWhitespace( true );
-
-					factory.setSchema( (Schema) schema );
-					builder = factory.newDocumentBuilder();
-				}
-			}
-
-			if ( builder == null )
-				builder = XmlUtils.newDocumentBuilder();
+			// (note: we don't attempt schema validation. It is less performant and Android
+			//  fails with a dalvik VerifyError)
 
 			// Look up the XML file
 

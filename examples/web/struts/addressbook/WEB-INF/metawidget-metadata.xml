@@ -17,7 +17,7 @@
 			extends="org.metawidget.example.shared.addressbook.model.Contact"/>
 
 	<entity type="org.metawidget.example.shared.addressbook.model.Communication">
-		<property name="type" jsp-lookup="${communications.all}"/>
+		<property name="type" type="java.lang.String" jsp-lookup="${communications.all}"/>
 	</entity>
 
 </inspection-result>
