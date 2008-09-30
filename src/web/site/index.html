@@ -15,7 +15,7 @@
 
 		<h2 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: normal">
 			Metawidget is a 'smart User Interface widget' that populates itself, at runtime, with UI components to match
-			the properties of your business objects. 		
+			the properties of your business objects.
 		</h2>
 
 		<h3 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: normal">
@@ -25,7 +25,7 @@
 		</h3>
 
 		<p>
-			Metawidget does not replace or hide your existing User Interface framework and guarantees that your investment in
+			Metawidget does not replace or hide your existing UI framework and guarantees that your investment in
 			its technology and knowledge is as valid as always. The <a href="http://www.gnu.org/licenses/lgpl.html" target="_blank">LGPL</a> Open
 			Source license allows the use of Metawidget in open source and commercial projects.
 		</p>
@@ -45,95 +45,91 @@
 			<area id="area-embed" shape="poly" coords="90,243,131,190,195,203,223,172,266,182,112,397,148,487,0,487,0,243" alt=""/>
 		</map>
 
-		<center>
-			<img src="media/overview.png" usemap="#overiew-map" style="border: 0; margin-top: 5px; margin-bottom: 20px" alt="" style="display: block"></img>
+		<img src="media/overview.png" usemap="#overiew-map" style="border: 0; margin-top: 5px; margin-bottom: 20px" alt="" style="display: block"/>
 
-			<div class="tooltip" style="position: relative; top: -490px; left: -330px">
+		<div style="position: relative">
+			<div class="tooltip" style="top: -500px; left: 30px">
 				<span>1</span>
-				Metawidget comes with a UI component native to the <em>existing</em> front end
+				Metawidget comes with a UI component native to the <em>existing</em> front-end
 			</div>
 
-			<div class="tooltip" style="position: relative; top: -510px; left: 120px">
+			<div class="tooltip" style="top: -450px; left: 470px">
 				<span>2</span>
 				Metawidget inspects, at runtime, the <em>existing</em> back-end architecture
 			</div>
 
-			<div class="tooltip" style="position: relative; top: -370px; left: -270px">
+			<div class="tooltip" style="top: -240px; left: 80px">
 				<span>3</span>
 				Metawidget creates native UI subcomponents matched to the back-end
 			</div>
-		</center>
-
-		<div style="position: relative; top: -190px">
-			<center>
-				<table id="supported-tech">
-					<thead>
-						<tr>
-							<th colspan="2"><h3>Supported Technologies</h3></th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr>
-							<td>
-								<h3>1. Front-Ends</h3>
-								<ul>
-									<li>Android</li>
-									<li>Google Web Toolkit (GWT)</li>
-									<li>Java Server Faces (JSF)
-										<ul>
-											<li>Facelets</li>
-											<li>RichFaces</li>
-										</ul></li>
-									<li>Java Server Pages (JSP)</li>
-									<li>Spring Web MVC</li>
-									<li>Struts</li>
-									<li>Swing
-										<ul>
-											<li>Beans Binding (JSR 295)</li>
-											<li>Commons BeanUtils</li>
-										</ul></li>
-									<li><a href="contributing.html">...help us add more!</a></li>
-								</ul>
-							</td>
-							<td>
-								<h3>2. Back-Ends</h3>
-								<ul>
-									<li>Annotations</li>
-									<li>Commons JEXL</li>
-									<li>Groovy</li>
-									<li>Hibernate</li>
-									<li>Hibernate Validator</li>
-									<li>JavaBeans</li>
-									<li>Java Persistence Architecture (JPA)</li>
-									<li>Javassist</li>
-									<li>JBoss jBPM</li>
-									<li>Swing AppFramework</li>
-									<li><a href="contributing.html">...help us add more!</a></li>
-								</ul>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</center>
-
-			<p>
-				At a high level, the goals of Metawidget are:
-			</p>
-
-			<ul>
-				<li>to create UI widgets by inspecting existing back-end architectures</li>
-				<li>not to try to 'own' the entire UI, but to focus on creating native sub-widgets for slotting into existing UIs</li>
-				<li>to perform inspection <em>at runtime</em>, detecting types and subtypes dynamically</li>
-			</ul>
-
-			<p>
-				Metawidget requires J2SE 1.4 or higher. Some optional features require Java SE 5 or 6.
-			</p>
-
-			<p>
-				The download includes documentation and examples for all supported front-ends and back-ends. <a href="download.html">Click here to download it</a>.
-			</p>
 		</div>
+		
+		<table id="supported-tech" style="position: relative; left: 150px">
+			<thead>
+				<tr>
+					<th colspan="2"><h3>Supported Technologies</h3></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>
+						<h3>1. Front-Ends</h3>
+						<ul>
+							<li>Android</li>
+							<li>Google Web Toolkit (GWT)</li>
+							<li>Java Server Faces (JSF)
+								<ul>
+									<li>Facelets</li>
+									<li>RichFaces</li>
+								</ul></li>
+							<li>Java Server Pages (JSP)</li>
+							<li>Spring Web MVC</li>
+							<li>Struts</li>
+							<li>Swing
+								<ul>
+									<li>Beans Binding (JSR 295)</li>
+									<li>Commons BeanUtils</li>
+								</ul></li>
+							<li><a href="contributing.html">...help us add more!</a></li>
+						</ul>
+					</td>
+					<td>
+						<h3>2. Back-Ends</h3>
+						<ul>
+							<li>Annotations</li>
+							<li>Commons JEXL</li>
+							<li>Groovy</li>
+							<li>Hibernate</li>
+							<li>Hibernate Validator</li>
+							<li>JavaBeans</li>
+							<li>Java Persistence Architecture (JPA)</li>
+							<li>Javassist</li>
+							<li>JBoss jBPM</li>
+							<li>Swing AppFramework</li>
+							<li><a href="contributing.html">...help us add more!</a></li>
+						</ul>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<p>
+			At a high level, the goals of Metawidget are:
+		</p>
+
+		<ul>
+			<li>to create UI widgets by inspecting existing back-end architectures</li>
+			<li>not to try to 'own' the entire UI, but to focus on creating native sub-widgets for slotting into existing UIs</li>
+			<li>to perform inspection <em>at runtime</em>, detecting types and subtypes dynamically</li>
+		</ul>
+
+		<p>
+			Metawidget requires J2SE 1.4 or higher. Some optional features require Java SE 5 or 6.
+		</p>
+
+		<p>
+			The download includes documentation and examples for all supported front-ends and back-ends. <a href="download.html">Click here to download it</a>.
+		</p>
 
 		<div id="tooltip-web" class="tooltip">
 			<strong>Web:</strong> Metawidget has a native component/taglib for each popular Web framework

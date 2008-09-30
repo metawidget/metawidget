@@ -188,6 +188,14 @@
 
 	<target name="pack-debug">
 
+		<delete failonerror="false">
+			<fileset dir="${build.metawidget.dir}">
+				<include name="classes/**"/>
+				<include name="java4-classes/**"/>
+				<include name="java5-classes/**"/>
+			</fileset>
+		</delete>
+
 		<property name="build.debug" value="on"/>		
 		<antcall target="pack-internal"/>
 
@@ -206,6 +214,14 @@
 	</target>
 	
 	<target name="pack-as-frontend-backend-debug">
+
+		<delete failonerror="false">
+			<fileset dir="${build.metawidget.dir}">
+				<include name="classes/**"/>
+				<include name="java4-classes/**"/>
+				<include name="java5-classes/**"/>
+			</fileset>
+		</delete>
 
 		<property name="build.debug" value="on"/>
 		<antcall target="pack-as-frontend-backend-internal"/>
@@ -295,9 +311,23 @@
 		
 	</target>
 
-	<target name="pack-util-debug" depends="compile">
+	<target name="pack-util-debug">
 		
-		<property name="build.debug" value="on"/>		
+		<delete failonerror="false">
+			<fileset dir="${build.metawidget.dir}">
+				<include name="classes/**"/>
+				<include name="java4-classes/**"/>
+				<include name="java5-classes/**"/>
+			</fileset>
+		</delete>
+
+		<property name="build.debug" value="on"/>
+		<antcall target="pack-util-internal"/>
+		
+	</target>
+
+	<target name="pack-util-internal" depends="compile">
+		
 		<mkdir dir="${build.metawidget.dir}/debug"/>		
 		<jar destfile="${build.metawidget.dir}/debug/metawidget-util-debug-version.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/classes">
@@ -1274,6 +1304,8 @@
 				<include name="org/metawidget/inspector/composite/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/inspector/impl/*.class"/>
+				<include name="org/metawidget/inspector/impl/actionstyle/*.class"/>
+				<include name="org/metawidget/inspector/impl/actionstyle/metawidget/*.class"/>
 				<include name="org/metawidget/inspector/impl/propertystyle/*.class"/>
 				<include name="org/metawidget/inspector/impl/propertystyle/javabean/*.class"/>
 				<include name="org/metawidget/inspector/propertytype/**"/>
@@ -1858,9 +1890,9 @@
 				<include name="lgpl.txt"/>
 				<include name="readme.txt"/>
 				
-				<!-- Shared test resources. This stops them being scattered and duplicated -->
-				<!-- all over the ZIP. However, scattering and duplicating is useful for   -->
-				<!-- some IDE deployers, such as MyEclipse                                 -->
+				<!-- Shared resources. This stops them being scattered and duplicated    -->
+				<!-- all over the ZIP. However, scattering and duplicating is useful for -->
+				<!-- some IDE deployers, such as MyEclipse                               -->
 
 				<exclude name="**/WEB-INF/classes/**"/>
 				<exclude name="**/WEB-INF/lib/**"/>
@@ -1881,14 +1913,16 @@
 				<exclude name="examples/web/**/css/**"/>				
 				<exclude name="examples/web/**/media/**"/>				
 				<exclude name="examples/web/**/WEB-INF/tags/**"/>				
+				<include name="examples/web/shared/addressbook/css/**"/>
+				<include name="examples/web/shared/addressbook/WEB-INF/tags/**"/>				
 				<exclude name="**/WEB-INF/classes/**"/>
 				<exclude name="**/WEB-INF/lib/**"/>
 				<exclude name="**/.p4ignore"/>
 				
 			</fileset>
-			<fileset dir=".">
-				<include name="examples/web/shared/css/**"/>				
-				<include name="examples/web/shared/WEB-INF/tags/**"/>				
+			<fileset dir="${build.metawidget.dir}">
+				<include name="examples/web/shared/addressbook/css/**"/>
+				<include name="examples/web/shared/addressbook/WEB-INF/tags/**"/>				
 			</fileset>
 		</copy>
 
@@ -1923,14 +1957,6 @@
 		
 		<!-- Binaries -->
 			
-		<delete>
-			<fileset dir="${build.metawidget.dir}">
-				<include name="classes/**"/>
-				<include name="java4-classes/**"/>
-				<include name="java5-classes/**"/>
-			</fileset>
-		</delete>
-
 		<antcall target="pack-debug"/>
 
 		<zip zipfile="${build.metawidget.dir}/${metawidget.name}.zip">
