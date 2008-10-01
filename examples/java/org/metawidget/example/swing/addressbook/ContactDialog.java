@@ -297,7 +297,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiJexlAttribute( name = "label", value = "Back", condition = "${this.readOnly}" )
+	@UiJexlAttribute( name = LABEL, value = "Back", condition = "${this.readOnly}" )
 	public void cancel()
 	{
 		setVisible( false );
