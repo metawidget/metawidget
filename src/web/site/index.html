@@ -7,10 +7,6 @@
 
 		<center id="quick-start">
 			<tags:quickstart />
-
-			<a href="http://www.opensource.org/docs/definition.php" target="_blank">
-				<img src="media/logo-opensource.gif" alt="Open Source (OSI)" style="border: 0px" />
-			</a>
 		</center>
 
 		<h2 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: normal">
@@ -45,73 +41,83 @@
 			<area id="area-embed" shape="poly" coords="90,243,131,190,195,203,223,172,266,182,112,397,148,487,0,487,0,243" alt=""/>
 		</map>
 
-		<img src="media/overview.png" usemap="#overiew-map" style="border: 0; margin-top: 5px; margin-bottom: 20px" alt="" style="display: block"/>
-
-		<div style="position: relative">
-			<div class="tooltip" style="top: -500px; left: 30px">
-				<span>1</span>
-				Metawidget comes with a UI component native to the <em>existing</em> front-end
-			</div>
-
-			<div class="tooltip" style="top: -450px; left: 470px">
-				<span>2</span>
-				Metawidget inspects, at runtime, the <em>existing</em> back-end architecture
-			</div>
-
-			<div class="tooltip" style="top: -240px; left: 80px">
-				<span>3</span>
-				Metawidget creates native UI subcomponents matched to the back-end
-			</div>
-		</div>
+		<center>
+			<div style="width: 750px">
+				<img src="media/overview.png" usemap="#overiew-map" style="border: 0; margin-top: 5px; margin-bottom: 20px" alt=""/>
 		
-		<table id="supported-tech" style="position: relative; left: 150px">
-			<thead>
-				<tr>
-					<th colspan="2"><h3>Supported Technologies</h3></th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr>
-					<td>
-						<h3>1. Front-Ends</h3>
-						<ul>
-							<li>Android</li>
-							<li>Google Web Toolkit (GWT)</li>
-							<li>Java Server Faces (JSF)
-								<ul>
-									<li>Facelets</li>
-									<li>RichFaces</li>
-								</ul></li>
-							<li>Java Server Pages (JSP)</li>
-							<li>Spring Web MVC</li>
-							<li>Struts</li>
-							<li>Swing
-								<ul>
-									<li>Beans Binding (JSR 295)</li>
-									<li>Commons BeanUtils</li>
-								</ul></li>
-							<li><a href="contributing.html">...help us add more!</a></li>
-						</ul>
-					</td>
-					<td>
-						<h3>2. Back-Ends</h3>
-						<ul>
-							<li>Annotations</li>
-							<li>Commons JEXL</li>
-							<li>Groovy</li>
-							<li>Hibernate</li>
-							<li>Hibernate Validator</li>
-							<li>JavaBeans</li>
-							<li>Java Persistence Architecture (JPA)</li>
-							<li>Javassist</li>
-							<li>JBoss jBPM</li>
-							<li>Swing AppFramework</li>
-							<li><a href="contributing.html">...help us add more!</a></li>
-						</ul>
-					</td>
-				</tr>
-			</tbody>
-		</table>
+				<div style="position: relative; text-align: left">
+					<div class="tooltip" style="top: -500px; left: 30px">
+						<span>1</span>
+						<h4 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: normal">
+							Metawidget comes with a UI component native to your <em>existing</em> front-end
+						</h4>
+					</div>
+		
+					<div class="tooltip" style="top: -450px; left: 470px">
+						<span>2</span>
+						<h4 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: normal">
+							Metawidget inspects, at runtime, your <em>existing</em> back-end architecture
+						</h4>
+					</div>
+		
+					<div class="tooltip" style="top: -240px; left: 70px">
+						<span>3</span>
+						<h4 style="font-family: Arial, sans-serif; font-size: 10pt; font-weight: normal">
+							Metawidget creates native UI subcomponents matched to the back-end
+						</h4>
+					</div>
+				</div>
+			</div>
+			
+			<table id="supported-tech">
+				<thead>
+					<tr>
+						<th colspan="2"><h3>Supported Technologies</h3></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>
+							<h3>1. Front-Ends</h3>
+							<ul>
+								<li>Android</li>
+								<li>Google Web Toolkit (GWT)</li>
+								<li>Java Server Faces (JSF)
+									<ul>
+										<li>Facelets</li>
+										<li>RichFaces</li>
+									</ul></li>
+								<li>Java Server Pages (JSP)</li>
+								<li>Spring Web MVC</li>
+								<li>Struts</li>
+								<li>Swing
+									<ul>
+										<li>Beans Binding (JSR 295)</li>
+										<li>Commons BeanUtils</li>
+									</ul></li>
+								<li><a href="contributing.html">...help us add more!</a></li>
+							</ul>
+						</td>
+						<td>
+							<h3>2. Back-Ends</h3>
+							<ul>
+								<li>Annotations</li>
+								<li>Commons JEXL</li>
+								<li>Groovy</li>
+								<li>Hibernate</li>
+								<li>Hibernate Validator</li>
+								<li>JavaBeans</li>
+								<li>Java Persistence Architecture (JPA)</li>
+								<li>Javassist</li>
+								<li>JBoss jBPM</li>
+								<li>Swing AppFramework</li>
+								<li><a href="contributing.html">...help us add more!</a></li>
+							</ul>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</center>
 
 		<p>
 			At a high level, the goals of Metawidget are:
@@ -164,7 +170,7 @@
 	
 		<div id="tooltip-create" class="tooltip">
 			<strong>Create:</strong> the inspection results are used to choose the best UI
-			sub-widgets, depending on those available on the native platform
+			subcomponents, depending on those available on the native platform
 		</div>
 	
 		<div id="tooltip-web-widget" class="tooltip">

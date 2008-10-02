@@ -215,6 +215,7 @@ a {
 	border: 1px solid #B2B2B2;
 	font-size: 8pt;
 	background: #EBFEFF url(../media/tooltip-background.gif) repeat-x left center;
+	opacity: .85;
 	filter: alpha( opacity = 85 ) progid:DXImageTransform.Microsoft.Shadow( color='#444444', Direction=135, Strength=3 );
 	margin: 5px;
 	padding: 5px;

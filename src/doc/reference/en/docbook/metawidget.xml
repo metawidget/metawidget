@@ -1449,7 +1449,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 					The notable feature of the example is how the applet is packaged. Metawidget is highly modular and has no
 					mandatory third-party JAR dependencies. The <filename>example-swing-addressbook-applet</filename> Ant task
 					builds only those Inspectors necessary for the Address Book application. The resulting <filename>metawidget-applet.jar</filename> is
-					then further compressed using <filename>pack200</filename> to less than 40KB. This small download size
+					then further compressed using <filename>pack200</filename> to around 45KB. This small download size
 					makes Metawidget very viable for Applet-based environments.
 				</para>
 	
