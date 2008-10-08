@@ -114,11 +114,18 @@ h4 {
 #supported-tech h3 {
 	margin: 0;
 	text-align: center;
+	padding: 2px;
+}
+
+#supported-tech em {
+	display: block;
+	text-align: center;
+	padding: 2px;
 }
 
 #supported-tech tbody ul {
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 #supported-tech tbody ul ul {

@@ -203,7 +203,8 @@ public class Main {
 			    </important>
 				
 				<para>
-					We'll see how Metawidget slots into existing UIs later.
+					You slot Metawidget alongside your standard UI components, often combining several Metawidgets on the same screen. We'll
+					see how this works later.
 				</para>
 				
 			</section>

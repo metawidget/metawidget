@@ -305,6 +305,11 @@ a {
 	color: #D6E8F2;
 }
 
+#supported-tech tbody em {
+	background-color: #B9D6E7;
+	color: #085AA4;
+}
+
 #supported-tech tbody a {
 	color: #085AA4;
 }
