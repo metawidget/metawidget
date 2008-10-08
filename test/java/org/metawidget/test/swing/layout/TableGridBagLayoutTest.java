@@ -38,6 +38,7 @@ import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiReadOnly;
+import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
@@ -214,7 +215,7 @@ public class TableGridBagLayoutTest
 		public String	abc;
 
 		@UiComesAfter( "abc" )
-		@UiAttribute( name = "required", value = "true" )
+		@UiRequired
 		public int		def;
 
 		@UiComesAfter( "def" )

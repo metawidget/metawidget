@@ -28,6 +28,7 @@ import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiReadOnly;
+import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
@@ -145,7 +146,7 @@ public class TableGroupLayoutTest
 		@UiAttribute( name = "required", value = "true" )
 		public String bar;
 
-		@UiAttribute( name = "required", value = "true" )
+		@UiRequired
 		@UiReadOnly
 		public String baz;
 	}
