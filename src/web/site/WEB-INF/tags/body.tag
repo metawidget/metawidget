@@ -44,6 +44,7 @@
 					<h2>Get Involved</h2>
 					<ul>
 						<li <c:if test="${path == '/blogs.html'}">class="active"</c:if>><a href="${context}/blogs.html">Blogs</a></li>
+						<li <c:if test="${path == '/survey.html'}">class="active"</c:if>><a href="${context}/survey.html">Complete a Survey</a></li>
 						<li <c:if test="${path == '/contributing.html'}">class="active"</c:if>><a href="${context}/contributing.html">Contributing</a></li>
 						<li <c:if test="${path == '/issues.html'}">class="active"</c:if>><a href="${context}/issues.html">Issue Tracker</a></li>
 						<li <c:if test="${path == '/coverage.html'}">class="active"</c:if>><a href="${context}/coverage.html">Code Coverage</a></li>

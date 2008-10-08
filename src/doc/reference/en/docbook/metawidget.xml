@@ -1752,6 +1752,18 @@ bin\run</programlisting>
 				</para>
 				
 				<para>
+					Metawidget supports pluggable 'action styles'. The use of Swing AppFramework is configured
+					per <classname>Inspector</classname>, as in <filename>examples/java/org/metawidget/example/swing/appframework/inspector-config.xml</filename>
+					from the source distribution:
+				</para>
+
+				<programlisting language="xml">&lt;metawidgetAnnotationInspector config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+	&lt;actionStyle&gt;
+		org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle
+	&lt;/actionStyle&gt;
+&lt;/metawidgetAnnotationInspector&gt;</programlisting>
+
+				<para>
 					As a further feature, after the <guibutton>Add an Owner</guibutton> button is clicked it disappears. This is
 					acheived by using <classname>JexlInspector</classname> to introduce an expression language for Swing similar to JSP's EL.
 					The method is annotated...
@@ -2589,29 +2601,15 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 		<section id="section-inspectors-property">
 			<title>Property Inspectors</title>
 
-			<section id="section-inspectors-property-base">
+			<section id="section-inspectors-base-object">
 				<title>BaseObjectInspector</title>
 				
 				<para>
 					<classname>BaseObjectInspector</classname> underlies many of the Inspectors that inspect objects (as opposed to, say,
-					config files). Its notable features include:
+					config files). It supports pluggable PropertyStyles and ActionStyles.
 				</para>
 				
-				<itemizedlist>
-					<listitem>
-						<para>
-							it automatically unwraps proxied classes, such as CGLIB and Javassist proxies (this can be configured via
-							<function>setProxyPattern</function>).
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							it supports pluggable property styles (see <xref linkend="section-inspectors-property-base-propertystyle"/>).
-						</para>
-					</listitem>
-				</itemizedlist>
-				
-				<section id="section-inspectors-property-base-propertystyle">
+				<section id="section-inspectors-base-object-propertystyle">
 					<title>PropertyStyle</title>
 					
 					<para>
@@ -2645,7 +2643,7 @@ config.setPropertyStyle( StrutsActionFormPropertyStyle.class );
 metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 				</section>
 
-				<section id="section-inspectors-property-base-javabean">
+				<section id="section-inspectors-base-object-javabean">
 					<title>JavaBeanPropertyStyle</title>
 				
 					<para>
@@ -2660,7 +2658,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					
 				</section>
 				
-				<section id="section-inspectors-property-base-struts">
+				<section id="section-inspectors-base-object-struts">
 					<title>StrutsActionFormPropertyStyle</title>
 				
 					<para>
@@ -2669,24 +2667,29 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					
 					<para>
 						<classname>ActionForm</classname> properties essentially follow JavaBean-convention (this class extends <classname>JavaBeanPropertyStyle</classname>),
-						but should not include the base class methods <function>ActionForm.getServlet</function>, <function>ActionForm.getServletWrapper</function> and
- 						<function>ActionForm.getMultipartRequestHandler</function>.
+						but should not include properties from the base class, (eg. <function>getServlet</function>, <function>getServletWrapper</function> and
+ 						<function>getMultipartRequestHandler</function>).
 					</para>
 					
 				</section>
 
-				<section id="section-inspectors-property-base-groovy">
+				<section id="section-inspectors-base-object-groovy">
 					<title>GroovyPropertyStyle</title>
 				
 					<para>
 						The <classname>GroovyPropertyStyle</classname> recognizes GroovyBean properties.
-						GroovyBean properties differ from JavaBean-convention properties in that their annotations are not attached to the
-						generated getter/setter methods.
+					</para>
+					
+					<para>
+						Groovy tries hard to make its GroovyBean properties compatible with JavaBean getters/setters, and indeed
+						one can almost use <classname>JavaBeanPropertyStyle</classname> to read them. Unfortunately, GroovyBean
+						properties differ in that any annotations are only ever
+						attached to their (generated) private member variable, not their (generated) getter/setter methods.
 					</para>
 
 				</section>
 				
-				<section id="section-inspectors-property-base-javassist">
+				<section id="section-inspectors-base-object-javassist">
 					<title>JavassistPropertyStyle</title>
 						
 					<para>
@@ -2744,6 +2747,48 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						
 				</section>
 
+				<section id="section-inspectors-base-object-actionstyle">
+					<title>ActionStyle</title>
+					
+					<para>
+						The <classname>ActionStyle</classname> interface allows pluggable, fine-grained control over what is considered an 'action'					
+					</para>
+					
+					<para>
+						Different environments may have different approaches to defining what constitutes an action. For
+						example, the Swing AppFramework uses an <classname>@Action</classname> annotation.
+					</para>
+					
+					<para>
+						The default property style is <classname>MetawidgetActionStyle</classname>. To change it within <filename>inspector-config.xml</filename>:
+					</para>
+					
+				<programlisting language="xml">&lt;metawidgetAnnotationInspector config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+	&lt;actionStyle&gt;
+		org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle
+	&lt;/actionStyle&gt;
+&lt;/metawidgetAnnotationInspector&gt;</programlisting>
+					
+					<para>
+						To change it programmatically:
+					</para>
+					
+					<programlisting language="java">BaseObjectInspectorConfig config = new BaseObjectInspectorConfig();
+config.setActionStyle( SwingAppFrameworkActionStyle.class );
+metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</programlisting>
+				</section>
+				
+				<section id="section-inspectors-base-object-metawidget">
+					<title>MetawidgetActionStyle</title>
+				
+					
+				</section>
+				
+				<section id="section-inspectors-base-object-appframework">
+					<title>SwingAppFrameworkActionStyle</title>
+				
+				</section>
+
 			</section>
 			
 			<section id="section-inspectors-property-type">
@@ -2797,10 +2842,6 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					<para>
 						If this is the cause, either add the appropriate JAR to the tier, or consider implementing a remote Inspector
 						(see <xref linkend="section-howto-order"/>).
-					</para>
-
-					<para>
-						Note also that annotations are not implemented in the current build (m5-rc15) of the Android platform.
 					</para>
 				</section>
 			</section>
@@ -3141,7 +3182,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			<title>JAR Size</title>
 
 			<para>
-				Metawidget have no mandatory third-party JAR dependencies, and is also highly modular. This
+				Metawidget has no mandatory third-party JAR dependencies, and is also highly modular. This
 				allows the standard <filename>metawidget.jar</filename> to be repackaged for different environments to save JAR size.
 			</para>
 			
@@ -3149,7 +3190,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 				For example, the <filename>example-swing-addressbook-applet</filename> Ant task	builds
 				<filename>examples\swing\applet\addressbook\metawidget-applet.jar</filename>. This JAR includes only the
 				<classname>SwingMetawidget</classname> and those <classname>Inspectors</classname> necessary for the Address Book
-				example application. After further compression using <filename>pack200</filename>, it comes to less than 40KB.
+				example application. After further compression using <filename>pack200</filename>, it comes to around 45KB.
 			</para>
 			
 		</section>
