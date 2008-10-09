@@ -2752,12 +2752,12 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					<title>ActionStyle</title>
 					
 					<para>
-						The <classname>ActionStyle</classname> interface allows pluggable, fine-grained control over what is considered an 'action'					
+						The <classname>ActionStyle</classname> interface allows pluggable, fine-grained control over what is considered an 'action'.					
 					</para>
 					
 					<para>
 						Different environments may have different approaches to defining what constitutes an action. For
-						example, the Swing AppFramework uses an <classname>@Action</classname> annotation.
+						example, the Swing AppFramework uses an <classname>@org.jdesktop.application.Action</classname> annotation.
 					</para>
 					
 					<para>
@@ -2777,17 +2777,34 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					<programlisting language="java">BaseObjectInspectorConfig config = new BaseObjectInspectorConfig();
 config.setActionStyle( SwingAppFrameworkActionStyle.class );
 metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</programlisting>
+
+					<para>
+						Note these action styles only apply to <classname>BaseObjectInspector</classname> and its subclasses. This covers
+						most annotation-recognising Inspectors (eg. <classname>JpaInspector</classname>, <classname>HibernateValidatorInspector</classname>)
+						but <emphasis>not</emphasis> XML-based Inspectors. For example, <classname>JbpmInspector</classname> recognizes actions in
+						JBoss jBPM files without any concept of an 'action style'.
+					</para>
+					
 				</section>
 				
 				<section id="section-inspectors-base-object-metawidget">
 					<title>MetawidgetActionStyle</title>
 				
+					<para>
+						The default Metawidget action style recognizes any method annotated with <classname>@UiAction</classname>. Action methods
+						must not accept any parameters in their signature. 
+					</para>
 					
 				</section>
 				
 				<section id="section-inspectors-base-object-appframework">
 					<title>SwingAppFrameworkActionStyle</title>
 				
+					<para>
+						The <classname>SwingAppFrameworkActionStyle</classname> recognises Swing AppFramework's <classname>@Action</classname>
+						annotation as denoting an action.
+					</para>
+
 				</section>
 
 			</section>

@@ -33,6 +33,8 @@ import java.lang.annotation.Target;
  * @author Richard Kennard
  */
 
+// LOW: UiAction methods must be public?
+
 @Retention( RetentionPolicy.RUNTIME )
 @Target( ElementType.METHOD )
 public @interface UiAction
