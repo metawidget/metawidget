@@ -385,97 +385,95 @@ public class HtmlMetawidget
 				addSelectItems( component, values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
 			}
 
-			// Already specified an overriden component?
+			// If no component specified yet, pick one
 
-			if ( component != null )
-				return component;
-
-			// Primitives
-
-			if ( boolean.class.equals( clazz ) )
-				return application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
-
-			if ( char.class.equals( clazz ) )
+			if ( component == null )
 			{
-				component = application.createComponent( "javax.faces.HtmlInputText" );
-				( (HtmlInputText) component ).setMaxlength( 1 );
+				if ( boolean.class.equals( clazz ) )
+				{
+					component = application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
+				}
+				else if ( char.class.equals( clazz ) )
+				{
+					component = application.createComponent( "javax.faces.HtmlInputText" );
+					( (HtmlInputText) component ).setMaxlength( 1 );
+				}
+				else if ( clazz.isPrimitive() )
+				{
+					component = application.createComponent( "javax.faces.HtmlInputText" );
+				}
+				else if ( Date.class.isAssignableFrom( clazz ) )
+				{
+					component = application.createComponent( "javax.faces.HtmlInputText" );
+				}
+				else if ( Number.class.isAssignableFrom( clazz ) )
+				{
+					component = application.createComponent( "javax.faces.HtmlInputText" );
+				}
+				else if ( Boolean.class.isAssignableFrom( clazz ) )
+				{
+					component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
+					((HtmlSelectOneListbox) component).setSize( 1 );
+				}
+				else if ( String.class.equals( clazz ) )
+				{
+					if ( TRUE.equals( attributes.get( MASKED ) ) )
+					{
+						component = application.createComponent( "javax.faces.HtmlInputSecret" );
+					}
+					else if ( TRUE.equals( attributes.get( LARGE ) ) )
+					{
+						component = application.createComponent( "javax.faces.HtmlInputTextarea" );
 
-				return component;
+						// XHTML requires the 'cols' and 'rows' attributes be set, even though
+						// most people override them with CSS widths and heights. The default is
+						// generally 20 columns by 2 rows
+
+						((HtmlInputTextarea) component).setCols( 20 );
+						((HtmlInputTextarea) component).setRows( 2 );
+					}
+					else
+					{
+						component = application.createComponent( "javax.faces.HtmlInputText" );
+					}
+				}
+				else if ( Collection.class.isAssignableFrom( clazz ) )
+				{
+					component = createCollectionComponent( clazz, attributes );
+				}
 			}
 
-			if ( clazz.isPrimitive() )
-				return application.createComponent( "javax.faces.HtmlInputText" );
-
-			// Dates
-
-			if ( Date.class.isAssignableFrom( clazz ) )
-				return application.createComponent( "javax.faces.HtmlInputText" );
-
-			// Numbers
-
-			if ( Number.class.isAssignableFrom( clazz ) )
-				return application.createComponent( "javax.faces.HtmlInputText" );
-
-			// Booleans (are tri-state)
+			// Populate Booleans (are tri-state)
+			// LOW: test population of radio buttons
 
 			if ( Boolean.class.isAssignableFrom( clazz ) )
 			{
-				component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
+				if ( component instanceof HtmlSelectOneListbox )
+				{
+					((HtmlSelectOneListbox) component).setSize( 1 );
+					addSelectItem( component, null, null );
+				}
 
-				HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
-				select.setSize( 1 );
-
-				addSelectItem( component, null, null );
 				addSelectItem( component, Boolean.TRUE, "Yes" );
 				addSelectItem( component, Boolean.FALSE, "No" );
 
 				return component;
 			}
 
-			// Strings
+			// Limit maximum length
 
-			if ( String.class.equals( clazz ) )
+			String maximumLength = attributes.get( MAXIMUM_LENGTH );
+
+			if ( maximumLength != null && !"".equals( maximumLength ) )
 			{
-				if ( TRUE.equals( attributes.get( MASKED ) ) )
-				{
-					component = application.createComponent( "javax.faces.HtmlInputSecret" );
-
-					String maximumLength = attributes.get( MAXIMUM_LENGTH );
-
-					if ( maximumLength != null && !"".equals( maximumLength ) )
-						( (HtmlInputSecret) component ).setMaxlength( Integer.parseInt( maximumLength ) );
-
-					return component;
-				}
-
-				if ( TRUE.equals( attributes.get( "large" ) ) )
-				{
-					HtmlInputTextarea textarea = (HtmlInputTextarea) application.createComponent( "javax.faces.HtmlInputTextarea" );
-
-					// XHTML requires the 'cols' and 'rows' attributes be set, even though
-					// most people override them with CSS widths and heights. The default is
-					// generally 20 columns by 2 rows
-
-					textarea.setCols( 20 );
-					textarea.setRows( 2 );
-
-					return textarea;
-				}
-
-				component = application.createComponent( "javax.faces.HtmlInputText" );
-
-				String maximumLength = attributes.get( MAXIMUM_LENGTH );
-
-				if ( maximumLength != null && !"".equals( maximumLength ) )
+				if ( component instanceof HtmlInputText )
 					( (HtmlInputText) component ).setMaxlength( Integer.parseInt( maximumLength ) );
-
-				return component;
+				else if ( component instanceof HtmlInputSecret )
+					( (HtmlInputSecret) component ).setMaxlength( Integer.parseInt( maximumLength ) );
 			}
 
-			// Collections
-
-			if ( Collection.class.isAssignableFrom( clazz ) )
-				return createCollectionComponent( clazz, attributes );
+			if ( component != null )
+				return component;
 		}
 
 		// Not simple, but don't expand

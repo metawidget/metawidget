@@ -453,7 +453,8 @@ public abstract class UIMetawidget
 		// ...and the EL expression is such that we can chop it off to get to the parent...
 		//
 		// Note: using EL functions in generated ValueExpressions doesn't actually work yet,
-		// see https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=813
+		// see https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=813. A workaround is
+		// to assign the function to a temporary, request-scoped variable using c:set
 
 		if ( binding.indexOf( ' ' ) == -1 && binding.indexOf( ':' ) == -1 && binding.indexOf( '(' ) == -1 )
 		{

@@ -20,6 +20,7 @@
 					<f:param name="columnClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>
 					<f:param name="footerStyle" value="aFooterStyle"/>
 					<f:param name="footerStyleClass" value="aFooterStyleClass"/>
+					<f:param name="labelSuffix" value="->"/>					
 					
 					<m:stub value="#{allWidgets.mystery}" attributes="#{'dummy-attribute: dummy-value'}"/>
 

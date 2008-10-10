@@ -45,7 +45,7 @@ import org.metawidget.util.simple.StringUtils;
  * This implementation recognizes the following <code>&lt;f:facet&gt;</code> names:
  * <p>
  * <ul>
- * 	<li><code>header<code></li>
+ * <li><code>header<code></li>
  * 	<li><code>footer<code></li>
  * </ul>
  * <p>
@@ -66,6 +66,8 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>headerStyleClass</code>
  * <li><code>footerStyle</code>
  * <li><code>footerStyleClass</code>
+ * <li><code>rowClasses</code>
+ * <li><code>labelSuffix</code> - defaults to a colon
  * </ul>
  * <p>
  * The parameters <code>columns</code> and <code>columnClasses</code> might more properly be named
@@ -95,6 +97,8 @@ public class HtmlTableLayoutRenderer
 
 	private final static String	KEY_NUMBER_OF_COLUMNS				= "columns";
 
+	private final static String	KEY_CURRENT_ROW						= "currentRow";
+
 	private final static String	KEY_CURRENT_SECTION					= "currentSection";
 
 	private final static String	KEY_LABEL_STYLE						= "labelStyle";
@@ -108,6 +112,10 @@ public class HtmlTableLayoutRenderer
 	private final static String	KEY_SECTION_STYLE_CLASS				= "sectionStyleClass";
 
 	private final static String	KEY_COLUMN_CLASSES					= "columnClasses";
+
+	private final static String	KEY_ROW_CLASSES						= "rowClasses";
+
+	private final static String	KEY_LABEL_SUFFIX					= "labelSuffix";
 
 	private final static int	JUST_COMPONENT_AND_REQUIRED			= 2;
 
@@ -172,6 +180,11 @@ public class HtmlTableLayoutRenderer
 		if ( parameterColumnClasses != null )
 			putState( KEY_COLUMN_CLASSES, ( (String) parameterColumnClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA ) );
 
+		UIParameter parameterRowClasses = FacesUtils.findParameterWithName( component, KEY_ROW_CLASSES );
+
+		if ( parameterRowClasses != null )
+			putState( KEY_ROW_CLASSES, ( (String) parameterRowClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA ) );
+
 		// Determine number of columns
 
 		UIParameter parameterColumns = FacesUtils.findParameterWithName( component, KEY_NUMBER_OF_COLUMNS );
@@ -191,7 +204,14 @@ public class HtmlTableLayoutRenderer
 
 		putState( KEY_NUMBER_OF_COLUMNS, columns );
 
-		// Header facet
+		// Determine label suffix
+
+		UIParameter parameterLabelSuffix = FacesUtils.findParameterWithName( component, KEY_LABEL_SUFFIX );
+
+		if ( parameterLabelSuffix != null )
+			putState( KEY_LABEL_SUFFIX, parameterLabelSuffix.getValue() );
+
+		// Render header facet
 
 		UIComponent componentHeader = component.getFacet( "header" );
 
@@ -219,7 +239,7 @@ public class HtmlTableLayoutRenderer
 			writer.write( "</thead>" );
 		}
 
-		// Footer facet (XHTML requires TFOOT come before TBODY)
+		// Render footer facet (XHTML requires TFOOT come before TBODY)
 
 		UIComponent componentFooter = component.getFacet( "footer" );
 
@@ -287,6 +307,7 @@ public class HtmlTableLayoutRenderer
 		// Next, for each child component...
 
 		putState( KEY_CURRENT_COLUMN, 0 );
+		putState( KEY_CURRENT_ROW, 0 );
 
 		for ( UIComponent componentChild : children )
 		{
@@ -339,6 +360,7 @@ public class HtmlTableLayoutRenderer
 
 		int currentColumn = (Integer) getState( KEY_CURRENT_COLUMN );
 		int numberOfColumns = (Integer) getState( KEY_NUMBER_OF_COLUMNS );
+		int currentRow = (Integer) getState( KEY_CURRENT_ROW );
 		String cssId = getCssId( componentChild );
 
 		// Section headings
@@ -390,6 +412,8 @@ public class HtmlTableLayoutRenderer
 				writer.write( "\"" );
 			}
 
+			writeRowStyleClass( writer, currentRow );
+			putState( KEY_CURRENT_ROW, currentRow + 1 );
 			writer.write( ">" );
 		}
 
@@ -398,6 +422,7 @@ public class HtmlTableLayoutRenderer
 		boolean labelWritten = layoutLabel( context, componentChild );
 
 		// Zero-column layouts need an extra row
+		// (though we colour it the same from a CSS perspective)
 
 		if ( labelWritten && numberOfColumns == 0 )
 		{
@@ -412,6 +437,7 @@ public class HtmlTableLayoutRenderer
 				writer.write( "2\"" );
 			}
 
+			writeRowStyleClass( writer, currentRow );
 			writer.write( ">" );
 		}
 
@@ -439,7 +465,7 @@ public class HtmlTableLayoutRenderer
 			writer.write( "\"" );
 		}
 
-		writeStyleClass( writer, 1 );
+		writeColumnStyleClass( writer, 1 );
 
 		// Colspan
 
@@ -494,7 +520,6 @@ public class HtmlTableLayoutRenderer
 		writer.write( ">" );
 	}
 
-
 	/**
 	 * @return whether a label was written
 	 */
@@ -534,13 +559,19 @@ public class HtmlTableLayoutRenderer
 			writer.write( "\"" );
 		}
 
-		writeStyleClass( writer, 0 );
+		writeColumnStyleClass( writer, 0 );
 		writer.write( ">" );
 
-		if ( !"".equals( label.trim() ) && !( componentNeedingLabel instanceof UICommand ))
+		if ( !"".equals( label.trim() ) && !( componentNeedingLabel instanceof UICommand ) )
 		{
 			HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
-			componentLabel.setValue( label + ':' );
+
+			String labelSuffix = (String) getState( KEY_LABEL_SUFFIX );
+
+			if ( labelSuffix == null )
+				labelSuffix = ":";
+
+			componentLabel.setValue( label + labelSuffix );
 			FacesUtils.render( context, componentLabel );
 		}
 
@@ -638,7 +669,7 @@ public class HtmlTableLayoutRenderer
 				writer.write( "\"" );
 			}
 
-			writeStyleClass( writer, 2 );
+			writeColumnStyleClass( writer, 2 );
 			writer.write( ">" );
 
 			layoutRequired( context, component, childComponent );
@@ -680,21 +711,47 @@ public class HtmlTableLayoutRenderer
 		return StringUtils.camelCase( FacesUtils.unwrapValueReference( binding.getExpressionString() ), StringUtils.SEPARATOR_DOT_CHAR );
 	}
 
-	protected void writeStyleClass( ResponseWriter writer, int styleClass )
+	protected void writeColumnStyleClass( ResponseWriter writer, int columnStyleClass )
 		throws IOException
 	{
 		String[] columnClasses = (String[]) getState( KEY_COLUMN_CLASSES );
 
-		if ( columnClasses == null || columnClasses.length <= styleClass )
+		// Note: As per the JSF spec, columnClasses do not repeat like rowClasses do. See...
+		//
+		// http://java.sun.com/javaee/javaserverfaces/1.2_MR1/docs/renderkitdocs/HTML_BASIC/javax.faces.Datajavax.faces.Table.html
+		//
+		// ...where it says 'If the number of [styleClasses] is less than the number of
+		// columns specified in the "columns" attribute, no "class" attribute is output for each
+		// column greater than the number of [styleClasses]'
+
+		if ( columnClasses == null || columnClasses.length <= columnStyleClass )
 			return;
 
-		String columnClass = columnClasses[styleClass];
+		String columnClass = columnClasses[columnStyleClass];
 
 		if ( columnClass.length() == 0 )
 			return;
 
 		writer.write( " class=\"" );
 		writer.write( columnClass.trim() );
+		writer.write( "\"" );
+	}
+
+	protected void writeRowStyleClass( ResponseWriter writer, int rowStyleClass )
+		throws IOException
+	{
+		String[] rowClasses = (String[]) getState( KEY_ROW_CLASSES );
+
+		if ( rowClasses == null )
+			return;
+
+		String rowClass = rowClasses[rowStyleClass % rowClasses.length];
+
+		if ( rowClass.length() == 0 )
+			return;
+
+		writer.write( " class=\"" );
+		writer.write( rowClass.trim() );
 		writer.write( "\"" );
 	}
 }
