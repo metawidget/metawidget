@@ -343,21 +343,23 @@ public abstract class UIMetawidget
 			if ( valueBinding != null )
 			{
 				mMetawidgetMixin.buildWidgets( inspect( getInspector(), valueBinding, mInspectFromParent ) );
+				super.encodeBegin( context );
+				return;
 			}
 
 			// ...or from a raw value (for jBPM)...
 
-			else if ( mValue != null )
+			if ( mValue != null )
 			{
 				mMetawidgetMixin.buildWidgets( getInspector().inspect( null, (String) mValue ) );
+				super.encodeBegin( context );
+				return;
 			}
 
 			// ...or run without inspection (eg. using the Metawidget purely for layout)
 
-			else
-			{
-				mMetawidgetMixin.buildWidgets( null );
-			}
+			mMetawidgetMixin.buildWidgets( null );
+			super.encodeBegin( context );
 		}
 		catch ( Exception e )
 		{
@@ -371,11 +373,6 @@ public abstract class UIMetawidget
 
 			throw new IOException( e.getMessage() );
 		}
-
-		// Delegate to our subclass, which in turn
-		// will delegate to our renderer
-
-		super.encodeBegin( context );
 	}
 
 	@Override
@@ -449,24 +446,34 @@ public abstract class UIMetawidget
 			}
 		}
 
-		// In the event the direct object is 'null' or a primitive, and there is a parent, traverse
-		// from the parent as there may be useful metadata there (such as 'name' and 'type')
+		// In the event the direct object is 'null' or a primitive...
 
 		String binding = FacesUtils.unwrapValueReference( valueBindingString );
-		int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-		// LOW: test this being -1
+		// ...and the EL expression is such that we can chop it off to get to the parent...
+		//
+		// Note: using EL functions in generated ValueExpressions doesn't actually work yet,
+		// see https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=813
 
-		if ( lastIndexOf != -1 )
+		if ( binding.indexOf( ' ' ) == -1 && binding.indexOf( ':' ) == -1 && binding.indexOf( '(' ) == -1 )
 		{
-			Application application = context.getApplication();
-			ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapValueReference( binding.substring( 0, lastIndexOf ) ) );
-			Object toInspect = bindingParent.getValue( context );
+			int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-			if ( toInspect != null )
+			// LOW: test this being -1
+
+			if ( lastIndexOf != -1 )
 			{
-				Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-				return inspector.inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
+				// ...traverse from the parent as there may be useful metadata there (such as 'name' and 'type')
+
+				Application application = context.getApplication();
+				ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapValueReference( binding.substring( 0, lastIndexOf ) ) );
+				Object toInspect = bindingParent.getValue( context );
+
+				if ( toInspect != null )
+				{
+					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
+					return inspector.inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
+				}
 			}
 		}
 
@@ -570,20 +577,13 @@ public abstract class UIMetawidget
 
 	protected UIComponent getOverridenWidget( String elementName, Map<String, String> attributes )
 	{
-		Application application = getFacesContext().getApplication();
 		String binding = attributes.get( FACES_EXPRESSION );
 
 		// Actions
 
 		if ( ACTION.equals( elementName ) )
 		{
-			MethodBinding methodBindingChild;
-
-			if ( binding != null )
-			{
-				methodBindingChild = application.createMethodBinding( binding, null );
-			}
-			else
+			if ( binding == null )
 			{
 				if ( mBindingPrefix == null )
 				{
@@ -592,51 +592,46 @@ public abstract class UIMetawidget
 					if ( valueBinding != null )
 					{
 						binding = FacesUtils.unwrapValueReference( valueBinding.getExpressionString() );
-						methodBindingChild = application.createMethodBinding( binding, null );
 					}
 
 					// Not using a valueBinding? Using a raw value (eg. for jBPM)?
 
 					else
 					{
-						methodBindingChild = application.createMethodBinding( attributes.get( NAME ), null );
+						binding = attributes.get( NAME );
 					}
 				}
 				else
 				{
-					methodBindingChild = application.createMethodBinding( FacesUtils.wrapValueReference( mBindingPrefix + attributes.get( NAME ) ), null );
+					binding = FacesUtils.wrapValueReference( mBindingPrefix + attributes.get( NAME ) );
 				}
 			}
 
-			return FacesUtils.findRenderedComponentWithMethodBinding( UIMetawidget.this, methodBindingChild );
+			return FacesUtils.findRenderedComponentWithMethodBinding( UIMetawidget.this, binding );
 		}
 
 		// Properties
 
-		ValueBinding valueBindingChild;
-
-		if ( binding != null )
-		{
-			valueBindingChild = application.createValueBinding( binding );
-		}
-		else
+		if ( binding == null )
 		{
 			if ( mBindingPrefix == null )
 			{
-				valueBindingChild = getValueBinding( "value" );
+				ValueBinding valueBindingChild = getValueBinding( "value" );
 
 				// Metawidget has no valueBinding? Not overridable, then
 
 				if ( valueBindingChild == null )
 					return null;
+
+				binding = valueBindingChild.getExpressionString();
 			}
 			else
 			{
-				valueBindingChild = application.createValueBinding( FacesUtils.wrapValueReference( mBindingPrefix + attributes.get( NAME ) ) );
+				binding = FacesUtils.wrapValueReference( mBindingPrefix + attributes.get( NAME ) );
 			}
 		}
 
-		return FacesUtils.findRenderedComponentWithValueBinding( UIMetawidget.this, valueBindingChild );
+		return FacesUtils.findRenderedComponentWithValueBinding( UIMetawidget.this, binding );
 	}
 
 	protected UIComponent afterBuildWidget( UIComponent component, Map<String, String> attributes )

@@ -98,13 +98,8 @@ public final class FacesUtils
 	 * Note: this method does <em>not</em> recurse into sub-children.
 	 */
 
-	public static UIComponent findRenderedComponentWithValueBinding( UIComponent component, ValueBinding valueBinding )
+	public static UIComponent findRenderedComponentWithValueBinding( UIComponent component, String expressionString )
 	{
-		if ( valueBinding == null )
-			throw new NullPointerException( "valueBinding" );
-
-		String expressionString = valueBinding.getExpressionString();
-
 		// Try to find a child...
 
 		@SuppressWarnings( "unchecked" )
@@ -138,13 +133,8 @@ public final class FacesUtils
 	 * Note: this method does <em>not</em> recurse into sub-children.
 	 */
 
-	public static UIComponent findRenderedComponentWithMethodBinding( UIComponent component, MethodBinding methodBinding )
+	public static UIComponent findRenderedComponentWithMethodBinding( UIComponent component, String expressionString )
 	{
-		if ( methodBinding == null )
-			throw new NullPointerException( "methodBinding" );
-
-		String expressionString = methodBinding.getExpressionString();
-
 		// Try to find a child...
 
 		@SuppressWarnings( "unchecked" )
