@@ -2290,9 +2290,10 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					</para>
 					
 					<para>
-						<classname>HtmlTableLayoutRenderer</classname> further defines <parameter>tableStyle</parameter>, <parameter>tableStyleClass</parameter> and
-						<parameter>columnStyleClasses</parameter> parameters.
-						The latter is a comma separated list of CSS style classes to be applied to table columns. The first style
+						<classname>HtmlTableLayoutRenderer</classname> is the default <classname>LayoutRenderer</classname>. It further
+						defines parameters such as <parameter>tableStyle</parameter>,
+						<parameter>labelStyle</parameter> and <parameter>columnStyleClasses</parameter> parameters (see the
+						JavaDoc for a complete list). The latter is a comma separated list of CSS style classes to be applied to table columns. The first style
 						class is the label column, the second the widget column, and the third the 'required' column.
 						Further style classes may be used for multi-column layouts. You can	get quite far using, for example:
 					</para>
@@ -2309,6 +2310,12 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					
 					<para>
 						...in which case it may be better to switch to using <parameter>styleClass</parameter> on <classname>HtmlMetawidget</classname> itself.
+					</para>
+					
+					<para>
+						Other supplied <classname>LayoutRenderer</classname>s include <parameter>div</parameter> and <parameter>simple</parameter> (see
+						the JavaDoc, and the <filename>META-INF/faces-config.xml</filename> in <filename>metawidget.jar</filename> for a
+						complete list).
 					</para>
 					
 				</section>

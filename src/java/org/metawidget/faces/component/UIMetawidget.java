@@ -72,6 +72,8 @@ import org.w3c.dom.Element;
  * <li>a <code>UIOutput</code>, though it may contain output widgets
  * <li>a <code>ValueHolder</code>, as it does not use a <code>Converter</code>
  * </ul>
+ * <p>
+ * Its default RendererType is <code>table</code>.
  *
  * @author Richard Kennard
  */
