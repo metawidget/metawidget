@@ -102,6 +102,16 @@ public class MetawidgetActionStyleTest
 	{
 		@UiAction
 		public abstract void bar();
+
+		@UiAction
+		protected abstract void shouldntFindMe();
+
+		@SuppressWarnings("unused")
+		@UiAction
+		private void shouldntFindMeEither()
+		{
+			// Do nothing
+		}
 	}
 
 	abstract class BadFoo
