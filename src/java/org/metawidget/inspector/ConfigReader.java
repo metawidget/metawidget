@@ -167,6 +167,9 @@ public class ConfigReader
 
 		if ( Class.class.isAssignableFrom( toReturn ) )
 		{
+			if ( "".equals( input ))
+				return null;
+
 			try
 			{
 				return (T) Class.forName( input );

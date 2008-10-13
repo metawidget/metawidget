@@ -1,12 +1,13 @@
 <?xml version="1.0"?>
 <inspector-config xmlns="http://metawidget.org/inspector-config"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd">
+	xsi:schemaLocation="http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd" version="1.0">
 
 	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 		<inspectors>
 			<swingAppFrameworkInspector xmlns="java:org.metawidget.inspector.swing"/>
 			<jexlInspector xmlns="java:org.metawidget.inspector.jexl" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+				<propertyStyle/>
 				<actionStyle>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</actionStyle>
 			</jexlInspector>
 		</inspectors>

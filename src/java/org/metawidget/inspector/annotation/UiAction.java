@@ -24,7 +24,7 @@ import java.lang.annotation.Target;
 /**
  * Identifies a method as being an executable action.
  * <p>
- * The method must not take any parameters in its signature.
+ * The method must be public, and must not take any parameters in its signature.
  * <p>
  * Note: Metawidget is designed to use <em>existing</em> metadata as much as possible. Clients
  * should use something like <code>org.jdesktop.application.Action</code> or JBoss jBPM in
@@ -32,8 +32,6 @@ import java.lang.annotation.Target;
  *
  * @author Richard Kennard
  */
-
-// LOW: UiAction methods must be public?
 
 @Retention( RetentionPolicy.RUNTIME )
 @Target( ElementType.METHOD )

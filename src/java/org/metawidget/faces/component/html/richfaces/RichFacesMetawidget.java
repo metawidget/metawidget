@@ -203,7 +203,6 @@ public class RichFacesMetawidget
 				}
 
 				// LOW: test BigInteger, BigDecimal
-				// LOW: version attribute on inspector-config.xsd and inspection-result.xsd
 
 				else if ( Long.class.equals( clazz ) || BigInteger.class.equals( clazz ))
 				{

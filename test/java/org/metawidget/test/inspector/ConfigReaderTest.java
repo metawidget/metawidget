@@ -66,7 +66,7 @@ public class ConfigReaderTest
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
+		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\" version=\"1.0\">";
 		xml += "<validatingCompositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
 		xml += "<inspectors>";
 		xml += "<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\"/>";
@@ -124,7 +124,7 @@ public class ConfigReaderTest
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
+		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\" version=\"1.0\">";
 		xml += "<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\"/>";
 		xml += "</inspector-config>";
 
@@ -144,7 +144,7 @@ public class ConfigReaderTest
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
+		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\" version=\"1.0\">";
 		xml += "<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\">";
 		xml += "<file>foo</file>";
 		xml += "</xmlInspector></inspector-config>";

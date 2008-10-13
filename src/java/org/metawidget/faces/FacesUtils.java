@@ -17,7 +17,6 @@
 package org.metawidget.faces;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -102,10 +101,7 @@ public final class FacesUtils
 	{
 		// Try to find a child...
 
-		@SuppressWarnings( "unchecked" )
-		List<UIComponent> children = component.getChildren();
-
-		for ( UIComponent child : children )
+		for ( UIComponent child : component.getChildren() )
 		{
 			// ...with the binding we're interested in
 
@@ -137,10 +133,7 @@ public final class FacesUtils
 	{
 		// Try to find a child...
 
-		@SuppressWarnings( "unchecked" )
-		List<UIComponent> children = component.getChildren();
-
-		for ( UIComponent child : children )
+		for ( UIComponent child :  component.getChildren() )
 		{
 			if ( !( child instanceof ActionSource ))
 				continue;
@@ -168,10 +161,7 @@ public final class FacesUtils
 	{
 		// Try to find a child parameter...
 
-		@SuppressWarnings( "unchecked" )
-		List<UIComponent> children = component.getChildren();
-
-		for ( UIComponent child : children )
+		for ( UIComponent child : component.getChildren() )
 		{
 			if ( !( child instanceof UIParameter ) )
 				continue;
@@ -203,7 +193,6 @@ public final class FacesUtils
 		component.encodeEnd( context );
 	}
 
-	@SuppressWarnings( "unchecked" )
 	public static void copyAttributes( UIComponent from, UIComponent to )
 	{
 		to.getAttributes().putAll( from.getAttributes() );
@@ -217,13 +206,7 @@ public final class FacesUtils
 
 		// For each child parameter...
 
-		@SuppressWarnings( "unchecked" )
-		List<UIComponent> fromChildren = from.getChildren();
-
-		@SuppressWarnings( "unchecked" )
-		List<UIComponent> toChildren = to.getChildren();
-
-		for ( UIComponent component : fromChildren )
+		for ( UIComponent component : from.getChildren() )
 		{
 			if ( !( component instanceof UIParameter ) )
 				continue;
@@ -245,7 +228,7 @@ public final class FacesUtils
 			parameterCopy.setName( name );
 			parameterCopy.setValue( parameter.getValue() );
 
-			toChildren.add( parameterCopy );
+			to.getChildren().add( parameterCopy );
 		}
 	}
 
@@ -256,10 +239,7 @@ public final class FacesUtils
 	private static void renderChildren( FacesContext context, UIComponent component )
 		throws IOException
 	{
-		@SuppressWarnings( "unchecked" )
-		List<UIComponent> children = component.getChildren();
-
-		for ( UIComponent componentChild : children )
+		for ( UIComponent componentChild : component.getChildren() )
 		{
 			render( context, componentChild );
 		}
