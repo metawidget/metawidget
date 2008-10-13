@@ -178,6 +178,7 @@ public abstract class BaseXmlInspector
 				return null;
 
 			Element root = document.createElementNS( NAMESPACE, ROOT );
+			root.setAttribute( VERSION, "1.0" );
 			document.appendChild( root );
 			root.appendChild( entity );
 

@@ -182,30 +182,31 @@ public abstract class BaseObjectInspector
 			}
 
 			Document document = XmlUtils.newDocumentBuilder().newDocument();
-			Element elementEntity = document.createElementNS( NAMESPACE, ENTITY );
+			Element entity = document.createElementNS( NAMESPACE, ENTITY );
 
 			// Inspect child properties
 
 			if ( childToInspect != null )
-				inspect( childToInspect, elementEntity );
+				inspect( childToInspect, entity );
 
 			// Nothing of consequence to return?
 
-			if ( isInspectionEmpty( elementEntity, parentAttributes ) )
+			if ( isInspectionEmpty( entity, parentAttributes ) )
 				return null;
 
 			// Start a new DOM Document
 
-			Element elementRoot = document.createElementNS( NAMESPACE, ROOT );
-			document.appendChild( elementRoot );
-			elementRoot.appendChild( elementEntity );
+			Element root = document.createElementNS( NAMESPACE, ROOT );
+			root.setAttribute( VERSION, "1.0" );
+			document.appendChild( root );
+			root.appendChild( entity );
 
 			// Add any parent attributes
 
 			if ( parentAttributes != null )
 			{
-				XmlUtils.setMapAsAttributes( elementEntity, parentAttributes );
-				elementEntity.setAttribute( NAME, childName );
+				XmlUtils.setMapAsAttributes( entity, parentAttributes );
+				entity.setAttribute( NAME, childName );
 			}
 
 			// Every Inspector needs to attach a type to the entity, so that CompositeInspector can
@@ -213,7 +214,7 @@ public abstract class BaseObjectInspector
 			// subtypes (and proxied types) will stop XML and Object-based Inspectors merging back
 			// together properly
 
-			elementEntity.setAttribute( TYPE, childType );
+			entity.setAttribute( TYPE, childType );
 
 			// Return the document
 

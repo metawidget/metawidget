@@ -55,7 +55,7 @@ public class JexlXmlInspectorTest
 	public void testXml()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\">";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
 		xml += "<entity type=\"org.metawidget.test.inspector.jexl.JexlXmlInspectorTest$Foo\">";
 		xml += "<property name=\"bar1\" value-is-el=\"${this.baz}\" value-is-text=\"text\"/>";
 		xml += "<action name=\"bar2\" value-is-el=\"${this.baz}\" value-is-text=\"text\"/>";

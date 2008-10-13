@@ -63,7 +63,7 @@ public class XmlInspectorTest
 	public void setUp()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\">";
+		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
 		xml += "<entity type=\"org.metawidget.test.inspector.xml.XmlInspectorTest$SuperSuperFoo\">";
 		xml += "<property name=\"bar\" type=\"Bar\" required=\"true\"/>";
 		xml += "<property name=\"a\"/>";

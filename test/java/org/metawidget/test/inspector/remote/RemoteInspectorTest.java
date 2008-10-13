@@ -62,7 +62,7 @@ public class RemoteInspectorTest
 		// Inspect back-end
 
 		String toInspect = "<?xml version=\"1.0\"?>";
-		toInspect += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\">";
+		toInspect += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
 		toInspect += "<entity type=\"org.metawidget.example.shared.addressbook.model.Communication\">";
 		toInspect += "<property name=\"id\" hidden=\"true\"/>";
 		toInspect += "<property name=\"type\" lookup=\"Phone, Fax\"/>";

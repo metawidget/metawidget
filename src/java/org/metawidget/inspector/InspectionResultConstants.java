@@ -45,6 +45,8 @@ public final class InspectionResultConstants
 
 	public final static String	ROOT						= "inspection-result";
 
+	public final static String	VERSION						= "version";
+
 	public final static String	ENTITY						= "entity";
 
 	public final static String	PROPERTY					= "property";
@@ -129,8 +131,8 @@ public final class InspectionResultConstants
 	public final static String	LOOKUP_LABELS				= "lookup-labels";
 
 	/**
-	 * Force the lookup to have an empty choice in cases where it would normally
-	 * be suppressed (eg. on primitive or required fields)
+	 * Force the lookup to have an empty choice in cases where it would normally be suppressed (eg.
+	 * on primitive or required fields)
 	 */
 
 	public final static String	LOOKUP_HAS_EMPTY_CHOICE		= "lookup-has-empty-choice";
