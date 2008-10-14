@@ -238,12 +238,7 @@ public class ContactsController
 		if ( contact == null )
 			return false;
 
-		return delete( contact.getId() );
-	}
-
-	public boolean delete( long id )
-	{
-		return ( mAll.remove( id ) != null );
+		return ( mAll.remove( contact.getId() ) != null );
 	}
 
 	//

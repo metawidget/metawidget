@@ -318,6 +318,11 @@ public class SwingAddressBookTest
 		assertTrue( null == model.getColumnClass( 0 ) );
 		assertTrue( null == model.getValueAt( 0 ) );
 
+		model = new ListTableModel<Foo>( Foo.class, null, "Foo" );
+		model.setExtraBlankRow( true );
+		model.setValueAt( null, 0, 0 );
+		model.setValueAt( "", 0, 0 );
+
 		// Test normal list
 
 		List<Foo> fooList = CollectionUtils.newArrayList();

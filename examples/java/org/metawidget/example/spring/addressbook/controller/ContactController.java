@@ -159,7 +159,7 @@ public class ContactController
 		if ( request.getParameter( "delete" ) != null )
 		{
 			ContactsController controller = (ContactsController) getWebApplicationContext().getBean( "contacts" );
-			controller.delete( contact.getId() );
+			controller.delete( contact );
 		}
 	}
 

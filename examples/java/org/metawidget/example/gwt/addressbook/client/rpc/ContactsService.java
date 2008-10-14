@@ -44,6 +44,4 @@ public interface ContactsService
 		throws Exception;
 
 	boolean delete( Contact contact );
-
-	boolean delete( long id );
 }

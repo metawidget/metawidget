@@ -42,6 +42,4 @@ public interface ContactsServiceAsync
 	void save( Contact contact, AsyncCallback<?> callback );
 
 	void delete( Contact contact, AsyncCallback<Boolean> callback );
-
-	void delete( long id, AsyncCallback<Boolean> callback );
 }

@@ -113,8 +113,7 @@ public class ListTableModel<T extends Comparable<T>>
 
 	public int getColumnCount()
 	{
-		if ( mColumns == null )
-			return 0;
+		// (mColumns can never be null)
 
 		return mColumns.length;
 	}
@@ -130,12 +129,9 @@ public class ListTableModel<T extends Comparable<T>>
 
 	public int getRowCount()
 	{
-		int rows;
+		// (mList can never be null)
 
-		if ( mList == null )
-			rows = 0;
-		else
-			rows = mList.size();
+		int rows = mList.size();
 
 		if ( mExtraBlankRow )
 			rows++;
@@ -175,9 +171,6 @@ public class ListTableModel<T extends Comparable<T>>
 	public T getValueAt( int rowIndex )
 	{
 		// Sanity check
-
-		if ( mList == null )
-			return null;
 
 		if ( rowIndex >= mList.size() )
 			return null;

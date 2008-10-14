@@ -161,7 +161,7 @@ public class SaveAction
 
 		if ( request.getParameter( "delete" ) != null )
 		{
-			controller.delete( contact.getId() );
+			controller.delete( contact );
 		}
 
 		// Cancel

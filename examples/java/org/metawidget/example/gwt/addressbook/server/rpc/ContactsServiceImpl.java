@@ -69,9 +69,4 @@ public class ContactsServiceImpl
 	{
 		return mContactsController.delete( contact );
 	}
-
-	public boolean delete( long id )
-	{
-		return mContactsController.delete( id );
-	}
 }

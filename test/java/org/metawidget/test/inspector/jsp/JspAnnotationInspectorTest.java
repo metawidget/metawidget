@@ -20,8 +20,11 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
+import org.metawidget.inspector.jsp.UiJspAttribute;
 import org.metawidget.inspector.jsp.UiJspLookup;
+import org.metawidget.test.util.JspUtilsTest.DummyPageContext;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -50,10 +53,10 @@ public class JspAnnotationInspectorTest
 	// Public methods
 	//
 
-	public void testInspection()
+	public void testLookup()
 	{
 		JspAnnotationInspector inspector = new JspAnnotationInspector();
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 
@@ -73,6 +76,30 @@ public class JspAnnotationInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 1 );
 	}
 
+	public void testAttribute()
+	{
+		JspAnnotationInspector inspector = new JspAnnotationInspector();
+
+		try
+		{
+			inspector.inspect( new Bar(), Bar.class.getName() );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "ThreadLocalPageContext not set".equals( e.getMessage() ));
+		}
+
+		try
+		{
+			JspAnnotationInspector.setThreadLocalPageContext( new DummyPageContext() );
+			inspector.inspect( new Bar(), Bar.class.getName() );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "Condition 'bad-condition' is not of the form ${...}".equals( e.getMessage() ));
+		}
+	}
+
 	//
 	// Inner class
 	//
@@ -80,6 +107,12 @@ public class JspAnnotationInspectorTest
 	public static class Foo
 	{
 		@UiJspLookup( "${foo.bar}" )
+		public Object	object1;
+	}
+
+	public static class Bar
+	{
+		@UiJspAttribute( name = "baz", value = "${abc}", condition="bad-condition" )
 		public Object	object1;
 	}
 }

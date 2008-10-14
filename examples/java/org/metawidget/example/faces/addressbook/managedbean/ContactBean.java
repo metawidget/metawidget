@@ -148,7 +148,7 @@ public class ContactBean
 	public String delete()
 		throws Exception
 	{
-		getContactsBean().delete( getCurrent().getId() );
+		getContactsBean().delete( getCurrent() );
 
 		return "index";
 	}

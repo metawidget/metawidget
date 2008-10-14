@@ -26,7 +26,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
@@ -223,7 +222,7 @@ public class FacesInspector
 		if ( !"".equals( condition ))
 		{
 			if ( !FacesUtils.isValueReference( condition ))
-				throw MetawidgetException.newException( "Condition '" + condition + "' is not of the form #{...}" );
+				throw InspectorException.newException( "Condition '" + condition + "' is not of the form #{...}" );
 
 			Object conditionResult = application.createValueBinding( condition ).getValue( context );
 

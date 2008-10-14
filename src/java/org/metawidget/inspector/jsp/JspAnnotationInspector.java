@@ -25,7 +25,6 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ExpressionEvaluator;
 import javax.servlet.jsp.el.VariableResolver;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
@@ -178,7 +177,7 @@ public class JspAnnotationInspector
 		if ( !"".equals( condition ) )
 		{
 			if ( !JspUtils.isExpression( condition ) )
-				throw MetawidgetException.newException( "Condition '" + condition + "' is not of the form ${...}" );
+				throw InspectorException.newException( "Condition '" + condition + "' is not of the form ${...}" );
 
 			Object conditionResult = expressionEvaluator.evaluate( condition, Object.class, variableResolver, null );
 
