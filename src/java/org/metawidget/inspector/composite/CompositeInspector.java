@@ -74,6 +74,9 @@ public class CompositeInspector
 	{
 		Inspector[] inspectors = config.getInspectors();
 
+		// Must have at least one Inspector. At least two, really, but one can be useful
+		// if we want to validate what the sub-Inspector is returning
+
 		if ( inspectors == null || inspectors.length == 0 )
 			throw InspectorException.newException( "CompositeInspector needs at least one Inspector" );
 
@@ -118,7 +121,7 @@ public class CompositeInspector
 				if ( LOG.isTraceEnabled() )
 				{
 					String formattedXml = XmlUtils.documentToString( inspectionDocument, true );
-					LOG.trace( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + inspector.getClass() + "\r\n" + formattedXml );
+					LOG.trace( inspector.getClass() + " inspected " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + formattedXml );
 				}
 
 				// ...and combine them
@@ -146,7 +149,7 @@ public class CompositeInspector
 			if ( LOG.isDebugEnabled() )
 			{
 				String formattedXml = XmlUtils.documentToString( masterDocument, true );
-				LOG.debug( type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + formattedXml );
+				LOG.debug( "Inspected " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + "\r\n" + formattedXml );
 			}
 
 			return XmlUtils.documentToString( masterDocument, false );

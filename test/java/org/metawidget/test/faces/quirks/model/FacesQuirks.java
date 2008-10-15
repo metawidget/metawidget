@@ -1,0 +1,69 @@
+// Metawidget
+//
+// This library is free software; you can redistribute it and/or
+// modify it under the terms of the GNU Lesser General Public
+// License as published by the Free Software Foundation; either
+// version 2.1 of the License, or (at your option) any later version.
+//
+// This library is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+// Lesser General Public License for more details.
+//
+// You should have received a copy of the GNU Lesser General Public
+// License along with this library; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
+
+package org.metawidget.test.faces.quirks.model;
+
+import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiLabel;
+import org.metawidget.inspector.annotation.UiLarge;
+import org.metawidget.inspector.annotation.UiRequired;
+import org.metawidget.inspector.faces.UiFacesComponent;
+
+/**
+ * Models an entity that tests some Faces-specific quirks.
+ *
+ * @author Richard Kennard
+ */
+
+public class FacesQuirks
+{
+	//
+	// Private members
+	//
+
+	private Boolean	mBoolean;
+
+	private String	mLarge;
+
+	//
+	// Public methods
+	//
+
+	@UiFacesComponent( "javax.faces.HtmlSelectOneRadio" )
+	public Boolean getBoolean()
+	{
+		return mBoolean;
+	}
+
+	public void setBoolean( Boolean b )
+	{
+		mBoolean = b;
+	}
+
+	@UiLarge
+	@UiLabel( "" )
+	@UiComesAfter( "boolean" )
+	@UiRequired
+	public String getLarge()
+	{
+		return mLarge;
+	}
+
+	public void setLarge( String large )
+	{
+		mLarge = large;
+	}
+}

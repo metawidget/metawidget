@@ -1184,12 +1184,12 @@ public class SwingMetawidget
 			{
 				// booleans
 
-				if ( "boolean".equals( type ) )
+				if ( boolean.class.equals( clazz ) )
 					return new JCheckBox();
 
 				// chars
 
-				if ( "char".equals( type ) )
+				if ( char.class.equals( clazz ) )
 					return new JTextField();
 
 				// Ranged
@@ -1212,17 +1212,17 @@ public class SwingMetawidget
 
 				// (use 'new', not '.valueOf', for JDK 1.4 compatibility)
 
-				if ( "byte".equals( type ) )
+				if ( byte.class.equals( clazz ) )
 					setSpinnerModel( spinner, new Byte( (byte) 0 ), new Byte( Byte.MIN_VALUE ), new Byte( Byte.MAX_VALUE ), new Byte( (byte) 1 ) );
-				else if ( "short".equals( type ) )
+				else if ( short.class.equals( clazz ) )
 					setSpinnerModel( spinner, new Short( (short) 0 ), new Short( Short.MIN_VALUE ), new Short( Short.MAX_VALUE ), new Short( (short) 1 ) );
-				else if ( "int".equals( type ) )
+				else if ( int.class.equals( clazz ) )
 					setSpinnerModel( spinner, new Integer( 0 ), new Integer( Integer.MIN_VALUE ), new Integer( Integer.MAX_VALUE ), new Integer( 1 ) );
-				else if ( "long".equals( type ) )
+				else if ( long.class.equals( clazz ) )
 					setSpinnerModel( spinner, new Long( 0l ), new Long( Long.MIN_VALUE ), new Long( Long.MAX_VALUE ), new Long( 1l ) );
-				else if ( "float".equals( type ) )
+				else if ( float.class.equals( clazz ) )
 					setSpinnerModel( spinner, new Float( 0f ), new Float( -Float.MAX_VALUE ), new Float( Float.MAX_VALUE ), new Float( 0.1f ) );
-				else if ( "double".equals( type ) )
+				else if ( double.class.equals( clazz ) )
 					setSpinnerModel( spinner, new Double( 0f ), new Double( -Double.MAX_VALUE ), new Double( Double.MAX_VALUE ), new Double( 0.1f ) );
 
 				return spinner;

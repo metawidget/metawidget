@@ -7,7 +7,7 @@ For Android Address Book, test:
 
 test-search:
 
-1. Test title says 'Address Book (Metawidget Example)'
+1. Test title says 'Address Book (Metawidget Test)'
 2. Test 6 contacts appear
 3. Test searching for surname 'Simpson'. Homer and Marjorie Simpson should appear
 4. Clear Surname and test searching by type 'Business'. Charles Montgomery Burns and Waylon Smithers should appear

@@ -3,10 +3,10 @@
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@ taglib uri="http://metawidget.org/faces" prefix="m" %>
 
-<f:view>
+<html>
+	<body>
 
-	<html>
-		<body>
+		<f:view>
 
 			<h:form id="form">
 
@@ -38,7 +38,7 @@
 
 			</h:form>
 		
-		</body>	    
-	</html>
-
-</f:view>
+		</f:view>
+		
+	</body>	    
+</html>		

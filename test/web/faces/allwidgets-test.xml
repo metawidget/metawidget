@@ -368,7 +368,7 @@
 				<setInputField name="form:allWidgetsByte" value="126"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/th" text="Byte object (i18n)->"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[6]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsByteObject" value="-128"/>
 				<setInputField name="form:allWidgetsByteObject" value="-127"/>
 
@@ -378,7 +378,7 @@
 				<setInputField name="form:allWidgetsShort" value="32766"/>
 			
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[8]/th" text="Short object (i18n)->"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[8]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[8]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsShortObject" value="-32768"/>
 				<setInputField name="form:allWidgetsShortObject" value="-32767"/>
 
@@ -388,7 +388,7 @@
 				<setInputField name="form:allWidgetsInt" value="2147483646"/>
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[10]/th" text="Integer object (i18n)->"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[10]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[10]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsIntegerObject" value="-2147483648"/>
 				<setInputField name="form:allWidgetsIntegerObject" value="-2147483647"/>
 	
@@ -408,7 +408,7 @@
 				<setInputField name="form:allWidgetsLong" value="43"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/th" text=""/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsLongObject" value="43"/>
 				<setInputField name="form:allWidgetsLongObject" value="44"/>
 			
@@ -418,7 +418,7 @@
 				<setInputField name="form:allWidgetsFloat" value="5.3"/>
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/th" text=""/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsFloatObject" value="4.3"/>
 				<setInputField name="form:allWidgetsFloatObject" value="5.4"/>
 			
@@ -428,7 +428,7 @@
 				<setInputField name="form:allWidgetsDouble" value="53.3"/>
 			
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[18]/td[@colspan=2]"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[18]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[18]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsDoubleObject" value="43.3"/>
 				<setInputField name="form:allWidgetsDoubleObject" value="54.4"/>
 			

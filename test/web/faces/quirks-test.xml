@@ -1,0 +1,26 @@
+<project name="faces-allwidgets-test" default="test-all">
+
+	<property file="../../../build.properties" />
+	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
+
+	<import file="${webtest.dir}/lib/taskdef.xml" />
+
+	<target name="test-all">
+		<webtest name="test-faces">
+			<config resultpath="${build.metawidget.dir}"/>
+			<steps>
+				<invoke url="${webtest.url}/quirks-faces" />
+				
+				<verifyXPath xpath="count(/html/body/form/table/tr)" text="3"/>				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Boolean:"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[1]/td[1]/input[@type='radio'])" value="2"/>
+								
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[2]/th)" text="0"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/input[@type='textarea']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/@colspan" value="2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[2]" value="*"/>				
+			</steps>
+		</webtest>
+	</target>
+
+</project>

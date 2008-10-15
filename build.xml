@@ -1108,6 +1108,51 @@
 		
 	</target>
 
+	<target name="test-faces-quirks" depends="flatten-libs">
+		
+		<mkdir dir="${build.metawidget.dir}/test/faces"/>
+
+		<war warfile="${build.metawidget.dir}/test/faces/quirks-faces.war" webxml="test/web/faces/quirks/WEB-INF/web.xml">
+			<fileset dir="test/web/faces/quirks">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<classes dir="${build.metawidget.dir}/test-classes">
+				<include name="org/metawidget/test/faces/quirks/**"/>
+			</classes>
+			<lib dir="${build.metawidget.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-codec-*.jar"/>
+				<include name="commons-collections-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-discovery-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="jstl-*.jar"/>
+				<include name="metawidget.jar"/>
+				<include name="myfaces-*-1.2*.jar"/>
+				<include name="standard.jar"/>
+			</lib>
+		</war>
+		
+		<copy file="${build.metawidget.dir}/test/faces/quirks-faces.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/quirks-faces"/>
+		<antcall target="test-web-start-tomcat"/>
+		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file quirks-test.xml"/>
+		</java>
+		
+		<antcall target="test-web-stop-tomcat"/>
+		
+	</target>
+
 	<target name="test-jsp-allwidgets" depends="test-shared-allwidgets">
 		
 		<mkdir dir="${build.metawidget.dir}/test/jsp"/>

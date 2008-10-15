@@ -19,8 +19,6 @@ package org.metawidget.faces.component.html.richfaces;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.Date;
 import java.util.Locale;
 import java.util.Map;
@@ -107,33 +105,33 @@ public class RichFacesMetawidget
 
 				HtmlInputNumberSpinner spinner = (HtmlInputNumberSpinner) application.createComponent( "org.richfaces.inputNumberSpinner" );
 
-				if ( "byte".equals( type ) )
+				if ( byte.class.equals( clazz ))
 				{
 					spinner.setMinValue( String.valueOf( Byte.MIN_VALUE ));
 					spinner.setMaxValue( String.valueOf( Byte.MAX_VALUE ));
 				}
-				else if ( "short".equals( type ) )
+				else if ( short.class.equals( clazz ) )
 				{
 					spinner.setMinValue( String.valueOf( Short.MIN_VALUE ));
 					spinner.setMaxValue( String.valueOf( Short.MAX_VALUE ));
 				}
-				else if ( "int".equals( type ) )
+				else if ( int.class.equals( clazz ) )
 				{
 					spinner.setMinValue( String.valueOf( Integer.MIN_VALUE ));
 					spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ));
 				}
-				else if ( "long".equals( type ) )
+				else if ( long.class.equals( clazz ) )
 				{
 					spinner.setMinValue( String.valueOf( Long.MIN_VALUE ));
 					spinner.setMaxValue( String.valueOf( Long.MAX_VALUE ));
 				}
-				else if ( "float".equals( type ) )
+				else if ( float.class.equals( clazz ) )
 				{
 					spinner.setMinValue( String.valueOf( -Float.MAX_VALUE ));
 					spinner.setMaxValue( String.valueOf( Float.MAX_VALUE ));
 					spinner.setStep( "0.1" );
 				}
-				else if ( "double".equals( type ) )
+				else if ( double.class.equals( clazz ) )
 				{
 					spinner.setMinValue( String.valueOf( -Double.MAX_VALUE ));
 					spinner.setMaxValue( String.valueOf( Double.MAX_VALUE ));
@@ -183,46 +181,9 @@ public class RichFacesMetawidget
 				}
 
 				// Not-ranged
-
-				HtmlInputNumberSpinner spinner = (HtmlInputNumberSpinner) application.createComponent( "org.richfaces.inputNumberSpinner" );
-
-				if ( Byte.class.equals( clazz ) )
-				{
-					spinner.setMinValue( String.valueOf( Byte.MIN_VALUE ));
-					spinner.setMaxValue( String.valueOf( Byte.MAX_VALUE ));
-				}
-				else if ( Short.class.equals( clazz ) )
-				{
-					spinner.setMinValue( String.valueOf( Short.MIN_VALUE ));
-					spinner.setMaxValue( String.valueOf( Short.MAX_VALUE ));
-				}
-				else if ( Integer.class.equals( clazz ) )
-				{
-					spinner.setMinValue( String.valueOf( Integer.MIN_VALUE ));
-					spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ));
-				}
-
-				// LOW: test BigInteger, BigDecimal
-
-				else if ( Long.class.equals( clazz ) || BigInteger.class.equals( clazz ))
-				{
-					spinner.setMinValue( String.valueOf( Long.MIN_VALUE ));
-					spinner.setMaxValue( String.valueOf( Long.MAX_VALUE ));
-				}
-				else if ( Float.class.equals( clazz ))
-				{
-					spinner.setMinValue( String.valueOf( -Float.MAX_VALUE ));
-					spinner.setMaxValue( String.valueOf( Float.MAX_VALUE ));
-					spinner.setStep( "0.1" );
-				}
-				else if ( Double.class.equals( clazz ) || BigDecimal.class.equals( clazz ))
-				{
-					spinner.setMinValue( String.valueOf( -Double.MAX_VALUE ));
-					spinner.setMaxValue( String.valueOf( Double.MAX_VALUE ));
-					spinner.setStep( "0.1" );
-				}
-
-				return spinner;
+				//
+				// Until https://jira.jboss.org/jira/browse/RF-4450 is fixed, do not use
+				// HtmlInputNumberSpinner for nullable numbers
 			}
 		}
 

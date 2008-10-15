@@ -49,6 +49,10 @@
 			<fileset dir="addressbook/WEB-INF" includes="inspector-config.xml, metawidget-metadata.xml" />
 		</copy>
 
+		<copy todir="${addressbook.gwt.project.dir}/test">
+			<fileset dir="../../../test/java" includes="org/metawidget/test/example/gwt/addressbook/**" />
+		</copy>
+
 		<mkdir dir="${addressbook.gwt.project.dir}/lib" />
 		<copy todir="${addressbook.gwt.project.dir}/lib">
 			<fileset dir="../../../lib" includes="ejb3-persistence.jar,hibernate-validator.jar,javax.servlet.jsp.jar">
@@ -56,6 +60,8 @@
 			<fileset dir="${build.metawidget.dir}" includes="metawidget.jar, metawidget-gwt-client.jar" />
 		</copy>
 
+		<!-- Launch configuration -->
+		
 		<replace file="${addressbook.gwt.project.dir}/Addressbook.launch" token="org.metawidget.example.gwt.addressbook.AddressBook" value="org.metawidget.example.GwtAddressBook" />
 		<replace file="${addressbook.gwt.project.dir}/.classpath" token="&lt;/classpath>" value='&lt;classpathentry kind="lib" path="lib/metawidget.jar"/>
 			&lt;classpathentry kind="lib" path="lib/metawidget-gwt-client.jar"/>
@@ -63,6 +69,13 @@
 			&lt;classpathentry kind="lib" path="lib/hibernate-validator.jar"/>
 			&lt;classpathentry kind="lib" path="lib/javax.servlet.jsp.jar"/>
 			&lt;/classpath>' />
+		
+		<!-- Test launch configuration -->
+
+		<copy file="${addressbook.gwt.project.dir}/Addressbook.launch" tofile="${addressbook.gwt.project.dir}/AddressbookTest.launch" />
+		<replace file="${addressbook.gwt.project.dir}/AddressbookTest.launch" token="org.eclipse.jdt.launching.localJavaApplication" value="org.eclipse.jdt.junit.launchconfig" />
+		<replace file="${addressbook.gwt.project.dir}/AddressbookTest.launch" token="com.google.gwt.dev.GWTShell" value="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest" />
+		
 	</target>
 
 </project>
