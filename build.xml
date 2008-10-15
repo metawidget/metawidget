@@ -941,6 +941,7 @@
 	<target name="test-web-ok" if="webtest-available">
 		
 		<antcall target="test-faces-addressbook"/>
+		<antcall target="test-faces-quirks"/>
 		<property name="skip-compile" value="true"/>
 		
 		<antcall target="test-gwt-addressbook"/>
@@ -1136,7 +1137,7 @@
 			</lib>
 		</war>
 		
-		<copy file="${build.metawidget.dir}/test/faces/quirks-faces.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
+		<copy file="${build.metawidget.dir}/test/faces/quirks-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/quirks-faces"/>
 		<antcall target="test-web-start-tomcat"/>
 		

@@ -472,7 +472,6 @@ public class HtmlTableLayoutRenderer
 		int colspan;
 
 		// Large components and tables span all columns
-		// LOW: test large without a label
 
 		if (( attributes != null && TRUE.equals( attributes.get( "large" ) )) || component instanceof UIData )
 		{

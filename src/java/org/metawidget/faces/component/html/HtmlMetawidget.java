@@ -444,7 +444,6 @@ public class HtmlMetawidget
 			}
 
 			// Populate Booleans (are tri-state)
-			// LOW: test population of radio buttons
 
 			if ( Boolean.class.isAssignableFrom( clazz ) )
 			{

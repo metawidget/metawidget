@@ -462,8 +462,6 @@ public abstract class UIMetawidget
 		{
 			int lastIndexOf = binding.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
-			// LOW: test this being -1
-
 			if ( lastIndexOf != -1 )
 			{
 				// ...traverse from the parent as there may be useful metadata there (such as 'name' and 'type')
