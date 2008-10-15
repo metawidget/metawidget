@@ -17,8 +17,6 @@
 package org.metawidget.test.shared.allwidgets.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -129,10 +127,6 @@ public class AllWidgets
 	private String				mReadOnly							= "Read Only";
 
 	private Collection<String>	mCollection							= new ArrayList<String>( Arrays.asList( "element1", "element2" ) );
-
-	private BigInteger			mBigInteger							= new BigInteger( "52" );
-
-	private BigDecimal			mBigDecimal							= new BigDecimal( "52.2" );
 
 	//
 	// Constructor
@@ -472,26 +466,6 @@ public class AllWidgets
 	public void setCollection( Collection<String> collection )
 	{
 		mCollection = collection;
-	}
-
-	public BigInteger getBigInteger()
-	{
-		return mBigInteger;
-	}
-
-	public void setBigInteger( BigInteger bigInteger )
-	{
-		mBigInteger = bigInteger;
-	}
-
-	public BigDecimal getBigDecimal()
-	{
-		return mBigDecimal;
-	}
-
-	public void setBigDecimal( BigDecimal bigDecimal )
-	{
-		mBigDecimal = bigDecimal;
 	}
 
 	public void doAction()
