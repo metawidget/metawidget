@@ -9,7 +9,7 @@
 	<tag>
 		<name>bundle2Variable</name>
 		<tagclass>org.metawidget.example.gwt.addressbook.server.tagext.Bundle2VariableTag</tagclass>
-		<bodycontent>none</bodycontent>
+		<bodycontent>empty</bodycontent>
 		<attribute>
 			<name>bundle</name>
 			<rtexprvalue>true</rtexprvalue>

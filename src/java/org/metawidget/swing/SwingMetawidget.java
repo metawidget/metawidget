@@ -1146,6 +1146,9 @@ public class SwingMetawidget
 
 			// Add an empty choice (if nullable, and not required)
 
+			// LOW: test clazz != null (done for Groovy)
+			// LOW: sections in allwidgets
+
 			if ( clazz != null && !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) )
 				comboBox.addItem( null );
 

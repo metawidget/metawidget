@@ -28,7 +28,7 @@
 		<property name="char"/>
 		<property name="boolean"/>
 		<property name="booleanObject"/>
-		<property name="dropdown" lookup="foo1,dropdown1,bar1" lookup-labels="" section="Section Break"/>
+		<property name="dropdown" lookup="foo1,dropdown1,bar1" lookup-labels=""/>
 		<property name="dropdownWithLabels" lookup="foo2,dropdown2,bar2,baz2" lookup-labels="Foo #2,Dropdown #2,Bar #2,Baz #2"/>
 		<property name="notNullDropdown" lookup="-1,0,1"/>
 		<property name="notNullObjectDropdown" lookup="foo3,dropdown3,bar3,baz3,abc3,def3" required="true"/>
@@ -38,7 +38,7 @@
 		<property name="readOnlyNestedWidgetsDontExpand" read-only="true" dont-expand="true"/>
 		<property name="date"/>
 		<property name="hidden" hidden="true"/>
-		<property name="readOnly" read-only="true"/>
+		<property name="readOnly" read-only="true" section="Section Break"/>
 		<property name="mystery"/>
 		<property name="collection"/>
 		<action name="doAction"/>

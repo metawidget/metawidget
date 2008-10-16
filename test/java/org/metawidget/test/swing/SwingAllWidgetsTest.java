@@ -431,17 +431,22 @@ public class SwingAllWidgetsTest
 		assertTrue( dateFormat.format( allWidgets.getDate() ).equals( metawidget.getValue( "date" ) ) );
 		( (JTextField) metawidget.getComponent( 57 ) ).setText( "bad date" );
 
-		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 58 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 59 ) instanceof JLabel );
-		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 59 ) ).gridx );
+		assertTrue( metawidget.getComponent( 58 ) instanceof JPanel );
+		assertTrue( GridBagConstraints.WEST == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).anchor );
+		assertTrue( GridBagConstraints.HORIZONTAL == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).fill );
+		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).gridwidth );
+		assertTrue( "Section Break".equals( ((JLabel) ((JPanel) metawidget.getComponent( 58 ) ).getComponent( 0 )).getText() ) );
+
+		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 59 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 60 ) instanceof JLabel );
 		assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
-		assertTrue( metawidget.getComponent( 60 ) instanceof JButton );
-		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 60 ) ).gridx );
-		assertTrue( GridBagConstraints.NONE == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 60 ) ).fill );
-		assertTrue( "Do action".equals( ((JButton) metawidget.getComponent( 60 )).getText() ) );
+		assertTrue( metawidget.getComponent( 61 ) instanceof JButton );
+		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 61 ) ).gridx );
+		assertTrue( GridBagConstraints.NONE == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 61 ) ).fill );
+		assertTrue( "Do action".equals( ((JButton) metawidget.getComponent( 61 )).getText() ) );
 
-		assertTrue( 61 == metawidget.getComponentCount() );
+		assertTrue( 62 == metawidget.getComponentCount() );
 
 		// Check painting
 
@@ -541,10 +546,11 @@ public class SwingAllWidgetsTest
 		assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (JLabel) metawidget.getComponent( 55 ) ).getText() ) );
 		assertTrue( "Date:".equals( ( (JLabel) metawidget.getComponent( 56 ) ).getText() ) );
 		assertTrue( now.equals( ( (JLabel) metawidget.getComponent( 57 ) ).getText() ) );
-		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 58 ) ).getText() ) );
-		assertTrue( "Read Only".equals( ( (JLabel) metawidget.getComponent( 59 ) ).getText() ) );
+		assertTrue( "Section Break".equals( ( (JLabel) ((JPanel) metawidget.getComponent( 58 )).getComponent( 0 ) ).getText() ) );
+		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 59 ) ).getText() ) );
+		assertTrue( "Read Only".equals( ( (JLabel) metawidget.getComponent( 60 ) ).getText() ) );
 
-		assertTrue( metawidget.getComponentCount() == 60 );
+		assertTrue( metawidget.getComponentCount() == 61 );
 
 		// Test unbind
 
