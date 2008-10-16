@@ -360,7 +360,7 @@ public abstract class BaseObjectInspector
 	private Object traverse( Object toTraverse, String type, boolean onlyToParent, String... names )
 		throws InspectorException
 	{
-		// Validate type
+		// Sanity check
 
 		if ( toTraverse == null )
 			return null;
@@ -368,12 +368,15 @@ public abstract class BaseObjectInspector
 		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz == null )
+		{
+			// Note: we're not always going to be able to do this sanity check. When
+			// using dynamic classes (eg. Groovy), Class.forName doesn't work very
+			// well, especially in applets. So we relax this check.
+		}
+		else if ( !clazz.isAssignableFrom( toTraverse.getClass() ) )
 			return null;
 
-		if ( !clazz.isAssignableFrom( toTraverse.getClass() ) )
-			return null;
-
-		// Traverse through names
+		// Traverse through names (if any)
 
 		if ( names == null || names.length == 0 )
 			return toTraverse;

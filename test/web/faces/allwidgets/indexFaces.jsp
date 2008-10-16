@@ -23,6 +23,7 @@
 					<f:param name="footerStyleClass" value="aFooterStyleClass"/>
 					<f:param name="componentStyle" value="aComponentStyle"/>
 					<f:param name="requiredStyle" value="aRequiredStyle"/>
+					<f:param name="sectionStyle" value="aSectionStyle"/>
 					<f:param name="labelSuffix" value=""/>
 					
 					<f:facet name="header">

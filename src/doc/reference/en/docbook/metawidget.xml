@@ -2690,10 +2690,24 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					
 					<para>
 						Groovy tries hard to make its GroovyBean properties compatible with JavaBean getters/setters, and indeed
-						one can almost use <classname>JavaBeanPropertyStyle</classname> to read them. Unfortunately, GroovyBean
-						properties differ in that any annotations are only ever
-						attached to their (generated) private member variable, not their (generated) getter/setter methods.
+						one can almost use <classname>JavaBeanPropertyStyle</classname> to read them. Unfortunately, GroovyBeans
+						differ in that:
 					</para>
+					
+					<itemizedlist>
+						<listitem>
+							<para>
+								annotations defined on properties are only attached to the (generated) private member
+								variable, not the (generated) getter/setter methods.
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								GroovyBeans define an implicit <function>getMetaClass</function> method which, although matching
+								the JavaBean signature, should not be treated as a business model property.
+							</para>
+						</listitem>
+					</itemizedlist>
 
 				</section>
 				

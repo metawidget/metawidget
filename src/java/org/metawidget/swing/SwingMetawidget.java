@@ -1146,7 +1146,7 @@ public class SwingMetawidget
 
 			// Add an empty choice (if nullable, and not required)
 
-			if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
+			if ( clazz != null && !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) )
 				comboBox.addItem( null );
 
 			List<String> values = CollectionUtils.fromString( lookup );

@@ -1,0 +1,96 @@
+<%@ page language="java" %>
+<%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
+
+<tags:page title="Live demo">
+
+	<tags:body>
+
+		<p>
+			Try Metawidget right now in your browser! The applet below
+			is a Groovy console. It contains a small script that defines a business model
+			and launches a SwingMetawiget. Click <strong>Script > Run</strong> to run it, then
+			try editing the business model to add new fields.
+		</p>
+
+		<textarea rows="10" cols="50">
+            import javax.swing.*;
+            import javax.persistence.*;
+            import org.metawidget.*;
+            import org.metawidget.inspector.annotation.*;
+            import org.metawidget.inspector.composite.*;
+            import org.metawidget.inspector.hibernate.validator.*;
+            import org.metawidget.inspector.impl.*;
+            import org.metawidget.inspector.impl.propertystyle.groovy.*;
+            import org.metawidget.inspector.java5.*;
+            import org.metawidget.inspector.jpa.*;
+            import org.metawidget.inspector.propertytype.*;
+            import org.metawidget.swing.*;
+            import org.hibernate.validator.*;
+
+            // Business Model
+
+            enum Title { Mr, Mrs, Miss }
+
+            class Person {
+                @Id
+                String id;
+                @NotNull
+                Title title;
+                @UiComesAfter("title")
+                String firstname;
+                @Column(nullable=false) @UiComesAfter("firstname")
+                String surname
+                @UiComesAfter("surname") @Min(0l) @Max(100l)
+                int age;
+                @UiComesAfter("age")
+                boolean retired;
+                @UiSection( "Address" ) @UiLabel( "" ) @UiComesAfter("retired")
+                Address address = new Address();
+                @Lob @UiComesAfter("address") @UiSection( "Other" )
+                String notes;
+            }
+
+            class Address {
+                String street;
+                @UiComesAfter( "street" )
+                String city;
+                @UiLookup( ["Anytown", "Cyberton", "Lostville", "Whereverton"] ) @UiComesAfter( "city" )
+                String state;
+                @UiComesAfter( "state" )
+                String postcode;
+            }
+
+            // Inspectors (normally configured using inspector-config.xml)
+
+            BaseObjectInspectorConfig groovyConfig = new BaseObjectInspectorConfig();
+            groovyConfig.setPropertyStyle( GroovyPropertyStyle.class );
+            JpaInspectorConfig jpaConfig = new JpaInspectorConfig();
+            jpaConfig.setPropertyStyle( GroovyPropertyStyle.class );
+            CompositeInspectorConfig compositeConfig = new CompositeInspectorConfig();
+            compositeConfig.setInspectors(
+                new MetawidgetAnnotationInspector( groovyConfig ),
+                new PropertyTypeInspector( groovyConfig ),
+                new HibernateValidatorInspector( groovyConfig ),
+                new Java5Inspector( groovyConfig ),
+                new JpaInspector( jpaConfig ) );
+
+            // Metawidget
+
+            SwingMetawidget metawidget = new SwingMetawidget();
+            metawidget.setInspector( new CompositeInspector( compositeConfig ));
+            metawidget.setToInspect( new Person() );
+            metawidget.setParameter( "sectionStyle", 1 );
+
+            // UI around the Metawidget
+
+            JDialog dialog = new JDialog( SwingUtilities.getSharedOwnerFrame(), "Metawidget Live Demo", true );
+            dialog.add( metawidget );
+            metawidget.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ));
+            dialog.setSize( 500, 350 );
+            dialog.show();
+		</textarea>
+		<applet archive="groovy-all-1.6-beta-2.jar, metawidget.jar, hibernate-validator.jar, ejb3-persistence.jar" code="groovy.ui.ConsoleApplet" width="100%" height="600" />
+
+	</tags:body>
+
+</tags:page>
