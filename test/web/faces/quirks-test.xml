@@ -29,9 +29,22 @@
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/@colspan" text="5"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[2]" text="*"/>
 				
+				<!-- Test zero columns -->
+				
+				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr)" text="3"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[1]/th" text="Boolean:"/>
+				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr[2]/td[1]/table/tbody/tr/td)" text="2"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/input/@type" text="radio"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/label" text="Yes"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[2]/td[1]/table/tbody/tr/td[2]/input/@type" text="radio"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[2]/td[1]/table/tbody/tr/td[2]/label" text="No"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[3]/td[1]/textarea/@id" text="quirksLarge_2"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[3]/td[1]/@colspan" text=""/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[3]/td[2]" text="*"/>
+
 				<!-- Test the '-1 check' in UIMetawidget.inspect -->
 			
-				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr)" text="0"/>
+				<verifyXPath xpath="count(/html/body/table[3]/tbody/tr)" text="0"/>
 			</steps>
 		</webtest>
 	</target>

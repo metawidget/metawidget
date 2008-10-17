@@ -14,9 +14,11 @@
 				<f:param name="columns" value="2"/>
 			</m:metawidget>
 						
-			<m:metawidget value="#{aNull}">
+			<m:metawidget value="#{quirks}">
 				<f:param name="columns" value="0"/>
 			</m:metawidget>
+
+			<m:metawidget value="#{aNull}"/>
 			
 		</f:view>
 		
