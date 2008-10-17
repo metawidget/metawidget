@@ -16,9 +16,15 @@
 
 package org.metawidget.test.swing;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.beans.BeanInfo;
 import java.beans.Introspector;
+import java.lang.reflect.Method;
+import java.util.Map;
 
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -32,6 +38,7 @@ import org.metawidget.swing.binding.Binding;
 import org.metawidget.swing.binding.beansbinding.BeansBinding;
 import org.metawidget.swing.binding.beanutils.BeanUtilsBinding;
 import org.metawidget.test.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
@@ -240,6 +247,33 @@ public class SwingMetawidgetTest
 		{
 			assertTrue( errorMessage.equals( e.getMessage() ) );
 		}
+	}
+
+	public void testGroovy()
+		throws Exception
+	{
+		// Test supporting the enum dropdown for a dynamic type...
+
+		Method method = SwingMetawidget.class.getDeclaredMethod( "buildActiveWidget", String.class, Map.class );
+		method.setAccessible( true );
+
+		// ...both nullable (the default)...
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, "dynamic-type-that-cant-be-loaded" );
+		attributes.put( LOOKUP, "bar,baz" );
+
+		JComponent component = (JComponent) method.invoke( new SwingMetawidget(), "foo", attributes );
+		assertTrue( component instanceof JComboBox );
+		assertTrue( 3 == ((JComboBox) component).getItemCount() );
+
+		// ...and not-nullable...
+
+		attributes.put( REQUIRED, TRUE );
+
+		component = (JComponent) method.invoke( new SwingMetawidget(), "foo", attributes );
+		assertTrue( component instanceof JComboBox );
+		assertTrue( 2 == ((JComboBox) component).getItemCount() );
 	}
 
 	//

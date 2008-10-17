@@ -274,6 +274,14 @@ public final class ClassUtils
 		return superclass;
 	}
 
+	public static Class<?> niceForName( String className )
+	{
+		// Use Thread.currentThread().getContextClassLoader(), in case metawidget.jar
+		// is in JRE/lib/ext (which it might be for desktop apps)
+
+		return niceForName( className, Thread.currentThread().getContextClassLoader() );
+	}
+
 	/**
 	 * Replacement for <code>Class.forName()</code> that:
 	 * <ul>
@@ -283,17 +291,12 @@ public final class ClassUtils
 	 * </ul>
 	 */
 
-	public static Class<?> niceForName( String className )
+	public static Class<?> niceForName( String className, ClassLoader classLoader )
 	{
 		try
 		{
-			// Use Thread.currentThread().getContextClassLoader(), in case metawidget.jar
-			// is in JRE/lib/ext (which it might be for desktop apps)
-
-			ClassLoader contextClassLoader = Thread.currentThread().getContextClassLoader();
-
-			if ( contextClassLoader != null )
-				return contextClassLoader.loadClass( className );
+			if ( classLoader != null )
+				return classLoader.loadClass( className );
 
 			// Use Class.forName() if there is no contextClassLoader (eg. Android)
 

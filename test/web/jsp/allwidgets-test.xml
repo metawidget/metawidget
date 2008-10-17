@@ -196,13 +196,23 @@
 				<verifyInputField name="allWidgets.date" value="Wed Apr 09 01:00:00 GMT 1975"/>
 				<setInputField name="allWidgets.date" value="Thu Apr 10 01:00:00 GMT 1975"/>
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/th" text="Read only (i18n):"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/th" text="Section Break (i18n)"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/th/@colspan" text="3"/>
+
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th" text="Read only (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
 				<forceHiddenInputField name="allWidgets.readOnly" value="Read Only1"/>
 			
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th" text="???mystery???:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td[1]/input[@type='text']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/th" text="???mystery???:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]/input[@type='text']"/>
 				<setInputField name="allWidgets.mystery" value="Goes nowhere"/>
+				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/th" text="Action (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input/@type" text="submit"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input/@name" text="allWidgets.doAction"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input/@value" text="Action (i18n)"/>
+
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="33"/>
 
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aHeaderStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aHeaderStyleClass"/>
@@ -285,10 +295,12 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[15]/td[1]" text="Nested Textbox 1, Nested Textbox 2"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[15]/th[2]" text="Date (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[15]/td[3]" text="Thu Apr 10 01:00:00 GMT 1975"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[16]/th[1]" text="Read only (i18n):"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[16]/td[1]" text="Read Only1"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[16]/th[2]" text="???mystery???:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[16]/td[3]" text=""/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[16]/th[1]" text="Section Break (i18n)"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[16]/th[1]/@colspan" text="6"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[17]/th[1]" text="Read only (i18n):"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[17]/td[1]" text="Read Only1"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[17]/th[2]" text="???mystery???:"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[17]/td[3]" text=""/>
 				<verifyXPath xpath="/html/body/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/input[1]/@value" text="Hidden1"/>
 				

@@ -365,16 +365,26 @@ public abstract class BaseObjectInspector
 		if ( toTraverse == null )
 			return null;
 
-		Class<?> clazz = ClassUtils.niceForName( type );
+		ClassLoader classLoader = null;
 
-		if ( clazz == null )
+		try
 		{
-			// Note: we're not always going to be able to do this sanity check. When
-			// using dynamic classes (eg. Groovy), Class.forName doesn't work very
-			// well, especially in applets. So we relax this check.
+			// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
+
+			classLoader = toTraverse.getClass().getClassLoader();
 		}
-		else if ( !clazz.isAssignableFrom( toTraverse.getClass() ) )
-			return null;
+		catch ( SecurityException e )
+		{
+			// We might not be allowed to in applets, in which case we relax this sanity check
+		}
+
+		if ( classLoader != null )
+		{
+			Class<?> clazz = ClassUtils.niceForName( type, classLoader );
+
+			if ( clazz == null || !clazz.isAssignableFrom( toTraverse.getClass() ) )
+				return null;
+		}
 
 		// Traverse through names (if any)
 

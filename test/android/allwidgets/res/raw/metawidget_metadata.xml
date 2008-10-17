@@ -3,8 +3,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/inspection-result/inspection-result-1.0.xsd" version="1.0">
 
-	<!-- Some blank lines so that everything lines up when visually -->
-	<!-- toggling between this and metawidget-metadata.xml          -->
+	<!-- Some blank lines so that everything lines up when visually toggling -->
+	<!-- between this and allwidgets/model/metawidget-metadata.xml           -->
 
 	<entity type="org.metawidget.test.shared.allwidgets.model.AllWidgets">
 		<property name="textbox" lookup="" masked="" large="" maximum-length="" required="true"/>
@@ -38,7 +38,7 @@
 		<property name="readOnlyNestedWidgetsDontExpand" read-only="true" dont-expand="true"/>
 		<property name="date"/>
 		<property name="hidden" hidden="true"/>
-		<property name="readOnly" read-only="true"/>
+		<property name="readOnly" read-only="true" section="Section Break"/>
 		<property name="mystery"/>
 		<property name="collection"/>		
 		<action name="doAction"/>

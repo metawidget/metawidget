@@ -16,7 +16,8 @@ For Android AllWidgets, test:
 * All dropdowns have a blank choice available, except notNullDropdown
 * The mystery field is a text box
 * 'Futher nested widgets' appears 3 times
-* Not null object dropdown
+* Not null object dropdown???
+* There is a section break
 
 Editing all values and choosing 'Save' (from the menu) reports the changed values as a read-only screen. Test:
 

@@ -327,11 +327,13 @@ public class GwtAllWidgetsTest
 														assertTrue( new DateConverter().convertForWidget( null, ( (AllWidgets) metawidget.getToInspect() ).getDate() ).equals( metawidget.getValue( "date" ) ) );
 														( (TextBox) flexTable.getWidget( 29, 1 ) ).setText( "bad date" );
 
-														assertTrue( "Read only:".equals( flexTable.getText( 30, 0 ) ) );
-														assertTrue( flexTable.getWidget( 30, 1 ) instanceof Label );
+														assertTrue( "Section Break".equals( flexTable.getText( 30, 0 ) ) );
+
+														assertTrue( "Read only:".equals( flexTable.getText( 31, 0 ) ) );
+														assertTrue( flexTable.getWidget( 31, 1 ) instanceof Label );
 														assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
-														assertTrue( 32 == flexTable.getRowCount() );
+														assertTrue( 33 == flexTable.getRowCount() );
 
 														// Check IllegalArgumentException
 
@@ -460,8 +462,12 @@ public class GwtAllWidgetsTest
 																						assertTrue( "Date (i18n):".equals( readOnlyFlexTable.getText( 29, 0 ) ) );
 																						assertTrue( now.equals( ( (Label) readOnlyFlexTable.getWidget( 29, 1 ) ).getText() ) );
 
-																						assertTrue( "Read only (i18n):".equals( readOnlyFlexTable.getText( 30, 0 ) ) );
-																						assertTrue( "Read Only".equals( ( (Label) readOnlyFlexTable.getWidget( 30, 1 ) ).getText() ) );
+																						assertTrue( "Section Break (i18n)".equals( readOnlyFlexTable.getText( 30, 0 ) ) );
+																						assertTrue( "aSectionStyleName".equals( readOnlyFlexTable.getFlexCellFormatter().getStyleName( 30, 0 ) ) );
+																						assertTrue( 3 == readOnlyFlexTable.getFlexCellFormatter().getColSpan( 30, 0 ) );
+
+																						assertTrue( "Read only (i18n):".equals( readOnlyFlexTable.getText( 31, 0 ) ) );
+																						assertTrue( "Read Only".equals( ( (Label) readOnlyFlexTable.getWidget( 31, 1 ) ).getText() ) );
 
 																						assertTrue( 32 == flexTable.getRowCount() );
 
@@ -572,6 +578,7 @@ public class GwtAllWidgetsTest
 			"nestedWidgetsDontExpand": "Nested Widgets (don't expand) (i18n)",
 			"readOnlyNestedWidgetsDontExpand": "Read only Nested Widgets (don't expand) (i18n)",
 			"date": "Date (i18n)",
+			"sectionBreak": "Section Break (i18n)",
 			"readOnly": "Read only (i18n)",
 			"collection": "Collection (i18n)"
 		};

@@ -76,6 +76,7 @@ public class AllWidgetsModule
 		// Metawidget
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
+		metawidget.setParameter( "sectionStyleName", "aSectionStyleName" );
 		metawidget.setToInspect( allWidgets );
 
 		// Binding

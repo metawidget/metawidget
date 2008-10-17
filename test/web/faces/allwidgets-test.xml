@@ -211,15 +211,20 @@
 				<verifyInputField name="form:allWidgetsDate" value="Wed Apr 09 01:00:00 GMT 1975"/>
 				<setInputField name="form:allWidgetsDate" value="Thu Apr 10 01:00:00 GMT 1975"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th" text="Read only"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td[1]" text="Read Only"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th" text="Section Break"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@style" text="aSectionStyle"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@class" text="aSectionStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@colspan" text="3"/>
+
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/th" text="Read only"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]" text="Read Only"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnly" value="Read Only1"/>
 	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/th" text=""/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]/input[@type='submit']/@value" text="Do action"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/th" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input[@type='submit']/@value" text="Do action"/>
 
-				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="32"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="33"/>
 
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aFooterStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aFooterStyleClass"/>
@@ -312,12 +317,15 @@
 				<verifyXPath xpath="/html/body/div[1]/div[29]/div[2]" text="Nested Textbox 1, Nested Textbox 2"/>
 				<verifyXPath xpath="/html/body/div[1]/div[30]/div[1]" text="Date:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[30]/div[2]" text="Thu Apr 10 01:00:00 GMT 1975"/>
-				<verifyXPath xpath="/html/body/div[1]/div[31]/div[1]" text="Read only:"/>
-				<verifyXPath xpath="/html/body/div[1]/div[31]/div[2]" text="Read Only1"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]" text="Section Break"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]/@style" text="aSectionStyle"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]/@class" text="aSectionStyleClass"/>
+				<verifyXPath xpath="/html/body/div[1]/div[32]/div[1]" text="Read only:"/>
+				<verifyXPath xpath="/html/body/div[1]/div[32]/div[2]" text="Read Only1"/>
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@value" text="Hidden1"/>
 				
-				<verifyXPath xpath="count(/html/body/div[1]/div)" text="31"/>
+				<verifyXPath xpath="count(/html/body/div[1]/div)" text="32"/>
 
 			</steps>
 		</webtest>
@@ -518,15 +526,20 @@
 				<verifyInputField name="form:allWidgetsDateInputDate" value="Apr 9, 1975"/>
 				<setInputField name="form:allWidgetsDateInputDate" value="Apr 10, 1975"/>
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th" text="Read only (i18n)->"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td[1]" text="Read Only"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th" text="Section Break (i18n)"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@style" text="aSectionStyle"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@class" text="aSectionStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@colspan" text="3"/>
+
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/th" text="Read only (i18n)->"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]" text="Read Only"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]/input[@type='hidden']/@value" text="Read Only"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnly" value="Read Only1"/>
 	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/th" text=""/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]/input[@type='submit']/@value" text="???doAction???"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/th" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input[@type='submit']/@value" text="Action (i18n)"/>
 
-				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="32"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="33"/>
 
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aFooterStyle"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aFooterStyleClass"/>
@@ -618,12 +631,15 @@
 				<verifyXPath xpath="/html/body/div[1]/div[29]/div[2]" text="Nested Textbox 1, Nested Textbox 2"/>
 				<verifyXPath xpath="/html/body/div[1]/div[30]/div[1]" text="Date:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[30]/div[2]" text="Thu Apr 10 00:00:00 GMT 1975"/>
-				<verifyXPath xpath="/html/body/div[1]/div[31]/div[1]" text="Read only:"/>
-				<verifyXPath xpath="/html/body/div[1]/div[31]/div[2]" text="Read Only1"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]" text="Section Break"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]/@style" text="aSectionStyle"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]/@class" text="aSectionStyleClass"/>
+				<verifyXPath xpath="/html/body/div[1]/div[32]/div[1]" text="Read only:"/>
+				<verifyXPath xpath="/html/body/div[1]/div[32]/div[2]" text="Read Only1"/>
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@value" text="Hidden1"/>
 				
-				<verifyXPath xpath="count(/html/body/div[1]/div)" text="31"/>
+				<verifyXPath xpath="count(/html/body/div[1]/div)" text="32"/>
 				
 			</steps>
 		</webtest>

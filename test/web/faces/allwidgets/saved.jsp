@@ -14,6 +14,8 @@
 				<f:param name="labelStyle" value="aLabelStyle"/>
 				<f:param name="requiredStyle" value="aRequiredStyle"/>
 				<f:param name="componentStyle" value="aComponentStyle"/>
+				<f:param name="sectionStyle" value="aSectionStyle"/>
+				<f:param name="sectionStyleClass" value="aSectionStyleClass"/>
 				<m:stub value="#{allWidgets.mystery}"/>
 			</m:metawidget>
 		

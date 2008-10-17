@@ -64,15 +64,21 @@ public class HtmlDivLayoutRenderer
 	// Private statics
 	//
 
-	private final static String	KEY_OUTER_STYLE		= "outerStyle";
+	private final static String	KEY_OUTER_STYLE			= "outerStyle";
 
-	private final static String	KEY_LABEL_STYLE		= "labelStyle";
+	private final static String	KEY_LABEL_STYLE			= "labelStyle";
 
-	private final static String	KEY_REQUIRED_STYLE	= "requiredStyle";
+	private final static String	KEY_REQUIRED_STYLE		= "requiredStyle";
 
-	private final static String	KEY_COMPONENT_STYLE	= "componentStyle";
+	private final static String	KEY_COMPONENT_STYLE		= "componentStyle";
 
-	private final static String	KEY_STYLE_CLASSES	= "divStyleClasses";
+	private final static String	KEY_STYLE_CLASSES		= "divStyleClasses";
+
+	private final static String	KEY_SECTION_STYLE		= "sectionStyle";
+
+	private final static String	KEY_SECTION_STYLE_CLASS	= "sectionStyleClass";
+
+	private final static String	KEY_CURRENT_SECTION		= "currentSection";
 
 	//
 	// Public methods
@@ -122,11 +128,23 @@ public class HtmlDivLayoutRenderer
 				putState( KEY_STYLE_CLASSES, ( (String) parameterStyleClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA ) );
 		}
 
+		// Determine section styles
+
+		UIParameter parameterSectionStyle = FacesUtils.findParameterWithName( component, KEY_SECTION_STYLE );
+
+		if ( parameterSectionStyle != null )
+			putState( KEY_SECTION_STYLE, parameterSectionStyle.getValue() );
+
+		UIParameter parameterSectionStyleClass = FacesUtils.findParameterWithName( component, KEY_SECTION_STYLE_CLASS );
+
+		if ( parameterSectionStyleClass != null )
+			putState( KEY_SECTION_STYLE_CLASS, parameterSectionStyleClass.getValue() );
+
 		// Start component
 
 		ResponseWriter writer = context.getResponseWriter();
 		writer.write( "<div id=\"" );
-		writer.write( component.getClientId( context ));
+		writer.write( component.getClientId( context ) );
 		writer.write( "\">" );
 	}
 
@@ -226,6 +244,26 @@ public class HtmlDivLayoutRenderer
 	{
 		ResponseWriter writer = context.getResponseWriter();
 
+		// Section headings
+
+		String currentSection = (String) getState( KEY_CURRENT_SECTION );
+
+		@SuppressWarnings( "unchecked" )
+		Map<String, String> attributes = (Map<String, String>) componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+
+		// (layoutBeforeChild may get called even if layoutBegin crashed. Try
+		// to fail gracefully)
+
+		if ( attributes != null )
+		{
+			String section = attributes.get( SECTION );
+
+			if ( section != null && !section.equals( currentSection ) )
+			{
+				putState( KEY_CURRENT_SECTION, section );
+				layoutSection( context, section, componentChild );
+			}
+		}
 		// Outer
 
 		writer.write( "\r\n<div" );
@@ -334,6 +372,54 @@ public class HtmlDivLayoutRenderer
 			writeStyleClass( writer, 2 );
 			writer.write( ">*</span>" );
 		}
+	}
+
+	protected void layoutSection( FacesContext context, String section, UIComponent childComponent )
+		throws IOException
+	{
+		// Blank section?
+
+		if ( "".equals( section ) )
+			return;
+
+		ResponseWriter writer = context.getResponseWriter();
+
+		writer.write( "\r\n<div" );
+
+		String sectionStyle = (String) getState( KEY_SECTION_STYLE );
+
+		if ( sectionStyle != null )
+		{
+			writer.write( " style=\"" );
+			writer.write( sectionStyle );
+			writer.write( "\"" );
+		}
+
+		String sectionStyleClass = (String) getState( KEY_SECTION_STYLE_CLASS );
+
+		if ( sectionStyleClass != null )
+		{
+			writer.write( " class=\"" );
+			writer.write( sectionStyleClass );
+			writer.write( "\"" );
+		}
+
+		writer.write( ">" );
+
+		// Section name (possibly localized)
+
+		HtmlOutputText output = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
+
+		String localizedSection = ( (UIMetawidget) childComponent.getParent() ).getLocalizedKey( context, StringUtils.camelCase( section ) );
+
+		if ( localizedSection != null )
+			output.setValue( localizedSection );
+		else
+			output.setValue( section );
+
+		FacesUtils.render( context, output );
+
+		writer.write( "</div>" );
 	}
 
 	protected void layoutAfterChild( FacesContext context, UIComponent component, UIComponent childComponent )

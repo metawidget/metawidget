@@ -1145,11 +1145,12 @@ public class SwingMetawidget
 			JComboBox comboBox = new JComboBox();
 
 			// Add an empty choice (if nullable, and not required)
+			//
+			// Note: there's an extra caveat for Groovy dynamic types: if we can't load
+			// the class, assume it is non-primitive and therefore add a null choice
+			// (unless 'required=true' is specified)
 
-			// LOW: test clazz != null (done for Groovy)
-			// LOW: sections in allwidgets
-
-			if ( clazz != null && !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) )
+			if (( clazz == null || !clazz.isPrimitive() ) && !TRUE.equals( attributes.get( REQUIRED ) ) )
 				comboBox.addItem( null );
 
 			List<String> values = CollectionUtils.fromString( lookup );

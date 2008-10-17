@@ -18,8 +18,15 @@
 					<f:param name="tableStyle" value="aTableStyle"/>
 					<f:param name="tableStyleClass" value="aTableStyleClass"/>
 					<f:param name="columnClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>
+					<f:param name="rowClasses" value="aRowClass1, aRowClass2"/>
+					<f:param name="headerStyle" value="aHeaderStyle"/>
+					<f:param name="headerStyleClass" value="aHeaderStyleClass"/>
 					<f:param name="footerStyle" value="aFooterStyle"/>
 					<f:param name="footerStyleClass" value="aFooterStyleClass"/>
+					<f:param name="componentStyle" value="aComponentStyle"/>
+					<f:param name="requiredStyle" value="aRequiredStyle"/>
+					<f:param name="sectionStyle" value="aSectionStyle"/>
+					<f:param name="sectionStyleClass" value="aSectionStyleClass"/>
 					<f:param name="labelSuffix" value="->"/>					
 					
 					<m:stub value="#{allWidgets.mystery}" attributes="#{'dummy-attribute: dummy-value'}"/>
