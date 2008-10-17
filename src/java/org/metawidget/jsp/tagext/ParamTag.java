@@ -33,7 +33,7 @@ public class ParamTag
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= -3856876782278545015L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Private members

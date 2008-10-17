@@ -27,7 +27,7 @@ public class InspectorException
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 2348940955816603864L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Public statics

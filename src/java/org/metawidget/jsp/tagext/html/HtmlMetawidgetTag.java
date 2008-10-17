@@ -54,7 +54,7 @@ public class HtmlMetawidgetTag
 	// Private statics
 	//
 
-	private final static long			serialVersionUID	= 2764949384474589158L;
+	private final static long			serialVersionUID	= 1l;
 
 	private final static List<Boolean>	LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );
 

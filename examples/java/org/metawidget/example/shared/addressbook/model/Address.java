@@ -37,7 +37,7 @@ public class Address
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= -8394441234593717487L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Private members

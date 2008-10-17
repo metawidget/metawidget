@@ -34,7 +34,7 @@ public class ImagePanel
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 4911654330220639789L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Private members

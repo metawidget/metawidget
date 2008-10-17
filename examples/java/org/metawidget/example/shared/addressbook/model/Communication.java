@@ -35,7 +35,7 @@ public class Communication
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 5357117362912411289L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Private members

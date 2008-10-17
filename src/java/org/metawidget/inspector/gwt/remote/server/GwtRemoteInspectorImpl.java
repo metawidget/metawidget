@@ -48,7 +48,7 @@ public class GwtRemoteInspectorImpl
 	// Private statics
 	//
 
-	private static final long	serialVersionUID	= -7037413818513317265L;
+	private static final long	serialVersionUID	= 1l;
 
 	//
 	// Private members

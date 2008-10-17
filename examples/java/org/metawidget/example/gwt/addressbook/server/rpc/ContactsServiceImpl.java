@@ -37,7 +37,7 @@ public class ContactsServiceImpl
 	// Private statics
 	//
 
-	private static final long	serialVersionUID	= 4260373927173571355L;
+	private static final long	serialVersionUID	= 1l;
 
 	//
 	// Private members

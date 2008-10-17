@@ -31,7 +31,7 @@ public class AllWidgetsForm
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= -873390607322732628L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Private members

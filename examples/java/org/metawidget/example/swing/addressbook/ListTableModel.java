@@ -40,7 +40,7 @@ public class ListTableModel<T extends Comparable<T>>
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= -8068789874824604436L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Private members

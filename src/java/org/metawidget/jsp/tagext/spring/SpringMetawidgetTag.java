@@ -70,7 +70,7 @@ public class SpringMetawidgetTag
 	// Private statics
 	//
 
-	private final static long			serialVersionUID	= 3439367941152120506L;
+	private final static long			serialVersionUID	= 1l;
 
 	private final static List<Boolean>	LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );
 

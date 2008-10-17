@@ -31,7 +31,7 @@ public class HtmlFacetTag
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= -8619854241192051562L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Public methods

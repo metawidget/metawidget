@@ -29,5 +29,5 @@ public class AllWidgets_$$_javassist_1
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 2905633368701428102L;
+	private final static long	serialVersionUID	= 1l;
 }

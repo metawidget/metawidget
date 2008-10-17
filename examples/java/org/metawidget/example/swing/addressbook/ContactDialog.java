@@ -75,7 +75,7 @@ public class ContactDialog
 	// Private statics
 	//
 
-	private final static long			serialVersionUID	= 1907130713267121112L;
+	private final static long			serialVersionUID	= 1l;
 
 	private final static int			COMPONENT_SPACING	= 5;
 
@@ -317,7 +317,7 @@ public class ContactDialog
 		//
 		//
 
-		private final static long	serialVersionUID	= -3986617226200636100L;
+		private final static long	serialVersionUID	= 1l;
 
 		//
 		//

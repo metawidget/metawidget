@@ -35,5 +35,5 @@ public class Facet
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 4972416784247660697L;
+	private final static long	serialVersionUID	= 1l;
 }

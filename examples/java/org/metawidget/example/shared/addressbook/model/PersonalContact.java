@@ -31,7 +31,7 @@ public class PersonalContact
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= -2966469150276754189L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Private members

@@ -30,7 +30,7 @@ public class BusinessContactForm
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 3417114140574397193L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Private members

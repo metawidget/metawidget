@@ -31,7 +31,7 @@ public class StrutsStubTag
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 781005998557656854L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Public methods

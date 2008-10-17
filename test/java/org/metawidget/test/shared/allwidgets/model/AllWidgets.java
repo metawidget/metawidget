@@ -37,7 +37,7 @@ public class AllWidgets
 	// Private statics
 	//
 
-	private final static long	serialVersionUID					= -3192742460248268135L;
+	private final static long	serialVersionUID					= 1l;
 
 	//
 	// Private members
@@ -486,7 +486,7 @@ public class AllWidgets
 		//
 		//
 
-		private final static long	serialVersionUID	= -8515549801460170124L;
+		private final static long	serialVersionUID	= 1l;
 
 		//
 		//

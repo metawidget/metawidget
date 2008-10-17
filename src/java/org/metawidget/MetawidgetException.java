@@ -29,7 +29,7 @@ public class MetawidgetException
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 7214759220924182143L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Public statics

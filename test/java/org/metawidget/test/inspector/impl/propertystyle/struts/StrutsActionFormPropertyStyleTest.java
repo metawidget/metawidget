@@ -69,6 +69,6 @@ public class StrutsActionFormPropertyStyleTest
 		//
 		//
 
-		private static final long	serialVersionUID	= 1234979606050156787L;
+		private static final long	serialVersionUID	= 1l;
 	}
 }

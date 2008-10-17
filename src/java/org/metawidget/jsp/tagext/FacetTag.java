@@ -41,7 +41,7 @@ public class FacetTag
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= -5978018248754085419L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Private members

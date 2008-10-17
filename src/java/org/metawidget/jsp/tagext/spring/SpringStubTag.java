@@ -31,7 +31,7 @@ public class SpringStubTag
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 1794616515577236586L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Public methods

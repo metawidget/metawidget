@@ -41,7 +41,7 @@ public class Stub
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= -2103016926514513436L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Private members

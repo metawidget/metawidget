@@ -89,7 +89,7 @@ public class SwingMetawidget
 	// Private statics
 	//
 
-	private final static long					serialVersionUID	= 5614421785160728346L;
+	private final static long					serialVersionUID	= 1l;
 
 	private final static Map<String, Inspector>	INSPECTORS			= Collections.synchronizedMap( new HashMap<String, Inspector>() );
 
@@ -1555,7 +1555,7 @@ public class SwingMetawidget
 		//
 		//
 
-		private static final long	serialVersionUID	= -7037413818513317265L;
+		private static final long	serialVersionUID	= 1l;
 
 		//
 		//
@@ -1652,7 +1652,7 @@ public class SwingMetawidget
 		//
 		//
 
-		private final static long	serialVersionUID	= -6726292881904521906L;
+		private final static long	serialVersionUID	= 1l;
 
 		//
 		//

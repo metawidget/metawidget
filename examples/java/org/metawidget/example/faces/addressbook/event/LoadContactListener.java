@@ -42,7 +42,7 @@ public class LoadContactListener
 	// Private statics
 	//
 
-	private final static long	serialVersionUID	= 1057853553358600595L;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Public methods

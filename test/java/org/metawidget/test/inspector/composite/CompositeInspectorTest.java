@@ -159,6 +159,6 @@ public class CompositeInspectorTest
 		//
 		//
 
-		private final static long	serialVersionUID	= 7424334035351559444L;
+		private final static long	serialVersionUID	= 1l;
 	}
 }
