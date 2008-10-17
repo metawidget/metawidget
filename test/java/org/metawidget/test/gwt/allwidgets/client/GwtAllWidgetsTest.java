@@ -464,12 +464,13 @@ public class GwtAllWidgetsTest
 
 																						assertTrue( "Section Break (i18n)".equals( readOnlyFlexTable.getText( 30, 0 ) ) );
 																						assertTrue( "aSectionStyleName".equals( readOnlyFlexTable.getFlexCellFormatter().getStyleName( 30, 0 ) ) );
-																						assertTrue( 3 == readOnlyFlexTable.getFlexCellFormatter().getColSpan( 30, 0 ) );
+																						assertTrue( 2 == readOnlyFlexTable.getFlexCellFormatter().getColSpan( 30, 0 ) );
 
 																						assertTrue( "Read only (i18n):".equals( readOnlyFlexTable.getText( 31, 0 ) ) );
 																						assertTrue( "Read Only".equals( ( (Label) readOnlyFlexTable.getWidget( 31, 1 ) ).getText() ) );
 
-																						assertTrue( 32 == flexTable.getRowCount() );
+																						assertTrue( "Save".equals( readOnlyFlexTable.getText( 32, 0 ) ) );
+																						assertTrue( 33 == readOnlyFlexTable.getRowCount() );
 
 																						// Test
 																						// maximum

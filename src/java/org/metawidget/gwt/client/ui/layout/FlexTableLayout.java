@@ -142,6 +142,8 @@ public class FlexTableLayout
 
 		if ( widgetColumn == 0 )
 			mFormatter.setColSpan( row, 0, 2 );
+
+		// TODO: required column
 	}
 
 	@Override
