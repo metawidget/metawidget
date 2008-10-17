@@ -77,6 +77,7 @@ public class SwingMetawidgetTest
 		assertTrue( info.getIcon( 5 ) == null );
 	}
 
+	@SuppressWarnings( "serial" )
 	public void testRepainting()
 	{
 		final StringBuilder builder = new StringBuilder();
@@ -95,27 +96,28 @@ public class SwingMetawidgetTest
 
 		JTextField component = new JTextField();
 		metawidget.add( component );
-		assertTrue( "repaint\n".equals( builder.toString() ));
+		assertTrue( "repaint\n".equals( builder.toString() ) );
 
-		// Should see another 'repaint' because of remove called .getComponent, which built the widgets
+		// Should see another 'repaint' because of remove called .getComponent, which built the
+		// widgets
 
 		metawidget.remove( component );
-		assertTrue( "repaint\nrepaint\n".equals( builder.toString() ));
+		assertTrue( "repaint\nrepaint\n".equals( builder.toString() ) );
 
 		// Should not see another repaint, because widgets already need repainting
 
 		metawidget.add( component );
-		assertTrue( "repaint\nrepaint\n".equals( builder.toString() ));
+		assertTrue( "repaint\nrepaint\n".equals( builder.toString() ) );
 
 		// Should see another repaint, because .remove will build the widgets
 
 		metawidget.remove( 0 );
-		assertTrue( "repaint\nrepaint\nrepaint\n".equals( builder.toString() ));
+		assertTrue( "repaint\nrepaint\nrepaint\n".equals( builder.toString() ) );
 
 		// Should not see another repaint, because widgets already need repainting
 
 		metawidget.removeAll();
-		assertTrue( "repaint\nrepaint\nrepaint\n".equals( builder.toString() ));
+		assertTrue( "repaint\nrepaint\nrepaint\n".equals( builder.toString() ) );
 	}
 
 	public void testNestedWithManualInspector()
@@ -177,10 +179,11 @@ public class SwingMetawidgetTest
 
 		// Goes: root (foo1) -> foo (foo2) -> foo (foo3) -> foo (new Foo) -> foo == null
 		//
-		// ...but because we know the type of the child property, we end up putting an empty Metawidget
+		// ...but because we know the type of the child property, we end up putting an empty
+		// Metawidget
 
-		assertTrue( 1 == ((SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" )).getComponentCount() );
-		assertTrue( 0 == ((JPanel) ((SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" )).getComponent( 0 )).getComponentCount() );
+		assertTrue( 1 == ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
+		assertTrue( 0 == ( (JPanel) ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponent( 0 ) ).getComponentCount() );
 	}
 
 	public void testRebind()
@@ -232,7 +235,7 @@ public class SwingMetawidgetTest
 		metawidget.setParameter( "labelAlignment", SwingConstants.RIGHT );
 		assertTrue( textField != metawidget.getComponent( "name" ) );
 		assertTrue( nestedTextField != metawidget.getComponent( "foo", "name" ) );
-		assertTrue( SwingConstants.RIGHT == ( (JLabel) metawidget.getComponent( 0 )).getHorizontalAlignment() );
+		assertTrue( SwingConstants.RIGHT == ( (JLabel) metawidget.getComponent( 0 ) ).getHorizontalAlignment() );
 		assertTrue( "Julianne".equals( ( (JTextField) metawidget.getComponent( "name" ) ).getText() ) );
 		assertTrue( "Richard".equals( ( (JTextField) metawidget.getComponent( "foo", "name" ) ).getText() ) );
 
@@ -265,7 +268,7 @@ public class SwingMetawidgetTest
 
 		JComponent component = (JComponent) method.invoke( new SwingMetawidget(), "foo", attributes );
 		assertTrue( component instanceof JComboBox );
-		assertTrue( 3 == ((JComboBox) component).getItemCount() );
+		assertTrue( 3 == ( (JComboBox) component ).getItemCount() );
 
 		// ...and not-nullable...
 
@@ -273,7 +276,7 @@ public class SwingMetawidgetTest
 
 		component = (JComponent) method.invoke( new SwingMetawidget(), "foo", attributes );
 		assertTrue( component instanceof JComboBox );
-		assertTrue( 2 == ((JComboBox) component).getItemCount() );
+		assertTrue( 2 == ( (JComboBox) component ).getItemCount() );
 	}
 
 	//

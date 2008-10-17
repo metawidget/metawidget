@@ -101,6 +101,7 @@ public class ContactDialog
 	// Constructor
 	//
 
+	@SuppressWarnings("serial")
 	public ContactDialog( ContactsControllerProvider provider, final Contact contact )
 	{
 		mProvider = provider;

@@ -894,6 +894,7 @@ public class SwingMetawidget
 		mNamesPrefix = PathUtils.parsePath( mPath ).getNames();
 	}
 
+	@SuppressWarnings("serial")
 	protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
 		throws Exception
 	{

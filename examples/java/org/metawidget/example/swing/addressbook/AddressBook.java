@@ -208,6 +208,7 @@ public class AddressBook
 		return mSearchMetawidget;
 	}
 
+	@SuppressWarnings("serial")
 	private JComponent createResultsSection()
 	{
 		final JTable table = new JTable( mModel );

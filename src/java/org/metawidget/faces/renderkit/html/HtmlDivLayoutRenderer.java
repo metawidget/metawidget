@@ -197,6 +197,8 @@ public class HtmlDivLayoutRenderer
 
 		// Footer facet
 
+		// TODO: test coverage
+
 		UIComponent componentFooter = component.getFacet( "footer" );
 
 		if ( componentFooter != null )
@@ -216,8 +218,6 @@ public class HtmlDivLayoutRenderer
 
 		writer.write( "</div>" );
 	}
-
-	// TODO: not hit?
 
 	@Override
 	protected HtmlMessage createMessage( FacesContext context, UIComponent component, String messageFor )
