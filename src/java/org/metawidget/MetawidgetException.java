@@ -53,8 +53,7 @@ public class MetawidgetException
 	/**
 	 * Static constructor.
 	 * <p>
-	 * Using static constructor methods prevents unnecessarily nesting MetawidgetExceptions
-	 * within MetawidgetExceptions.
+	 * For consistency with <code>MetawidgetException.newException( Exception )</code>.
 	 */
 
 	public static MetawidgetException newException( String message )
@@ -65,8 +64,7 @@ public class MetawidgetException
 	/**
 	 * Static constructor.
 	 * <p>
-	 * Using static constructor methods prevents unnecessarily nesting MetawidgetExceptions
-	 * within MetawidgetExceptions.
+	 * For consistency with <code>MetawidgetException.newException( Exception )</code>.
 	 */
 
 	public static MetawidgetException newException( String message, Exception exception )

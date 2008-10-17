@@ -51,8 +51,7 @@ public class InspectorException
 	/**
 	 * Static constructor.
 	 * <p>
-	 * Using static constructor methods prevents unnecessarily nesting InspectorExceptions within
-	 * InspectorExceptions.
+	 * For consistency with <code>InspectorException.newException( Exception )</code>.
 	 */
 
 	public static InspectorException newException( String message )
