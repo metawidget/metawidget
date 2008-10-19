@@ -31,7 +31,8 @@ import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 /**
- * Layout to arrange widgets in a <code>FlexTable</code>, with one column for labels and another for the widget.
+ * Layout to arrange widgets in a <code>FlexTable</code>, with one column for labels and another
+ * for the widget.
  *
  * @author Richard Kennard
  */
@@ -143,7 +144,7 @@ public class FlexTableLayout
 		if ( widgetColumn == 0 )
 			mFormatter.setColSpan( row, 0, 2 );
 
-		// TODO: required column
+		layoutRequired( attributes );
 	}
 
 	@Override
@@ -168,6 +169,16 @@ public class FlexTableLayout
 	//
 	// Protected methods
 	//
+
+	protected void layoutRequired( Map<String, String> attributes )
+	{
+		if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
+		{
+			int row = mLayout.getRowCount() - 1;
+			mFormatter.setStyleName( row, 0, getStyleName( 2 ) );
+			mLayout.setText( row, 2, "*" );
+		}
+	}
 
 	protected void layoutSection( String section )
 	{

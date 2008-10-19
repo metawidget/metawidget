@@ -349,6 +349,11 @@ public class GwtAddressBookTest
 							@Override
 							public void run()
 							{
+								FlexTable flexTable = (FlexTable) contactMetawidget.getWidget( 0 );
+								assertTrue( "*".equals( flexTable.getText( 0, 2 )));
+								assertTrue( "*".equals( flexTable.getText( 1, 2 )));
+								assertTrue( "*".equals( flexTable.getText( 2, 2 )));
+								assertTrue( 2 == flexTable.getCellCount( 3 ));
 								contactMetawidget.setValue( 2, "numberOfStaff" );
 								contactMetawidget.setValue( "A Company", "company" );
 

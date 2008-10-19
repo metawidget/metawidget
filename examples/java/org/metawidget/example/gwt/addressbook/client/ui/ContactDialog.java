@@ -149,7 +149,7 @@ public class ContactDialog
 		mMetawidget.setReadOnly( contact.getId() != 0 );
 		mMetawidget.setDictionaryName( "bundle" );
 		mMetawidget.setParameter( "tableStyleName", "table-form" );
-		mMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
+		mMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column,required" );
 		mMetawidget.setParameter( "sectionStyleName", "section-heading" );
 		mMetawidget.setParameter( "footerStyleName", "buttons" );
 		mMetawidget.setBindingClass( SimpleBinding.class );
@@ -165,7 +165,7 @@ public class ContactDialog
 		mAddressMetawidget.setReadOnly( contact.getId() != 0 );
 		mAddressMetawidget.setDictionaryName( "bundle" );
 		mAddressMetawidget.setParameter( "tableStyleName", "table-form" );
-		mAddressMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
+		mAddressMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column,required" );
 		mAddressMetawidget.setParameter( "sectionStyleName", "section-heading" );
 		mAddressMetawidget.setParameter( "footerStyleName", "buttons" );
 		mAddressMetawidget.setBindingClass( SimpleBinding.class );
