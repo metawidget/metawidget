@@ -16,6 +16,8 @@
 
 package org.metawidget.gwt.client.binding;
 
+import java.util.Map;
+
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 
 import com.google.gwt.user.client.ui.Widget;
@@ -51,7 +53,7 @@ public abstract class Binding
 	 * Bind the given Widget to the given 'path of names' within the source Object.
 	 */
 
-	public abstract <T> void bind( Widget widget, String... names );
+	public abstract void bind( Widget widget, Map<String, String> attributes, String... names );
 
 	/**
 	 * Update bound values in the Widgets from the source Object.

@@ -1188,7 +1188,7 @@ public class GwtMetawidget
 		{
 			if ( mNamesPrefix == null )
 			{
-				mBinding.bind( widget, name );
+				mBinding.bind( widget, attributes, name );
 			}
 			else
 			{
@@ -1197,7 +1197,7 @@ public class GwtMetawidget
 				System.arraycopy( mNamesPrefix, 0, names, 0, mNamesPrefix.length );
 				names[mNamesPrefix.length] = name;
 
-				mBinding.bind( widget, names );
+				mBinding.bind( widget, attributes, names );
 			}
 		}
 	}

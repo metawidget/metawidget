@@ -966,9 +966,9 @@ public class SwingMetawidget
 			if ( mBinding != null )
 			{
 				if ( mNamesPrefix == null )
-					bind( component, childName );
+					bind( component, attributes, childName );
 				else
-					bind( component, ArrayUtils.add( mNamesPrefix, childName ) );
+					bind( component, attributes, ArrayUtils.add( mNamesPrefix, childName ) );
 			}
 		}
 
@@ -1405,7 +1405,7 @@ public class SwingMetawidget
 		return null;
 	}
 
-	protected void bind( Component component, String... names )
+	protected void bind( Component component, Map<String, String> attributes, String... names )
 	{
 		Component actualComponent = component;
 
@@ -1414,7 +1414,7 @@ public class SwingMetawidget
 		if ( actualComponent instanceof JScrollPane )
 			actualComponent = ( (JScrollPane) actualComponent ).getViewport().getView();
 
-		mBinding.bind( actualComponent, getValueProperty( actualComponent ), names );
+		mBinding.bind( actualComponent, getValueProperty( actualComponent ), attributes, names );
 	}
 
 	//

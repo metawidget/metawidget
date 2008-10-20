@@ -17,6 +17,7 @@
 package org.metawidget.swing.binding.beanutils;
 
 import java.awt.Component;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
@@ -58,7 +59,7 @@ public class BeanUtilsBinding
 	//
 
 	@Override
-	public void bind( Component component, String componentProperty, String... names )
+	public void bind( Component component, String componentProperty, Map<String, String> attributes, String... names )
 	{
 		if ( componentProperty == null )
 			return;

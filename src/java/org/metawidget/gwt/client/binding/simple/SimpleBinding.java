@@ -120,7 +120,7 @@ public class SimpleBinding
 	//
 
 	@Override
-	public void bind( Widget widget, String... names )
+	public void bind( Widget widget, Map<String, String> attributes, String... names )
 	{
 		// SimpleBinding doesn't bind to Stubs or FlexTables
 

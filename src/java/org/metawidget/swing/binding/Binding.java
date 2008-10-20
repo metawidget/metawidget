@@ -17,6 +17,7 @@
 package org.metawidget.swing.binding;
 
 import java.awt.Component;
+import java.util.Map;
 
 import org.metawidget.swing.SwingMetawidget;
 
@@ -53,7 +54,7 @@ public abstract class Binding
 	// Public methods
 	//
 
-	public abstract void bind( Component component, String componentValueProperty, String... names );
+	public abstract void bind( Component component, String componentValueProperty, Map<String, String> attributes, String... names );
 
 	/**
 	 * Update bound values in the Components from the source Object.

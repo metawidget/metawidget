@@ -119,9 +119,9 @@ public class BeansBinding
 	//
 
 	@Override
-	public void bind( Component component, String componentProperty, String... names )
+	public void bind( Component component, String componentProperty, Map<String, String> attributes, String... names )
 	{
-		typesafeBind( component, componentProperty, names );
+		typesafeBind( component, componentProperty, attributes, names );
 	}
 
 	@Override
@@ -218,7 +218,7 @@ public class BeansBinding
 	//
 
 	@SuppressWarnings( "unchecked" )
-	private <SS, SV, TS extends Component, TV> void typesafeBind( TS component, String componentProperty, String... names )
+	private <SS, SV, TS extends Component, TV> void typesafeBind( TS component, String componentProperty, Map<String, String> attributes, String... names )
 	{
 		if ( componentProperty == null )
 			return;
