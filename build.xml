@@ -636,6 +636,10 @@
 		<fail message="JBoss not installed at 'jboss.dir' (as indicated in build.properties)" unless="jboss-exists"/>
 		<copy todir="${jboss.dir}/server/default/lib" file="lib/emma.jar"/>
 
+		<available property="glassfish-exists" file="${glassfish.dir}/bin/asadmin.bat"/>
+		<fail message="GlassFish not installed at 'glassfish.dir' (as indicated in build.properties)" unless="glassfish-exists"/>
+		<copy todir="${glassfish.dir}/domains/${glassfish.domain}/lib" file="lib/emma.jar"/>
+
 		<!-- Run tests as normal -->
 
 		<antcall target="test"/>
@@ -748,7 +752,7 @@
 	
 	<target name="test-web-stop-tomcat">
 		
-		<echo message="Stopping Tomcat (then waiting 10 seconds)..."/>
+		<echo message="Stopping ${tomcat.dir} (then waiting 10 seconds)..."/>
 
 		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" dir="${run.dir}">
 	        <jvmarg value="-Dcatalina.home=${tomcat.dir}"/>
@@ -761,6 +765,8 @@
 	
 	<target name="test-faces-addressbook" depends="example-faces-addressbook">
 		
+		<!-- Test on Tomcat -->
+
 		<copy file="${build.metawidget.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/addressbook-faces"/>
 		<antcall target="test-web-start-tomcat"/>
@@ -776,6 +782,22 @@
 		
 		<antcall target="test-web-stop-tomcat"/>
 		
+		<!-- Test on GlassFish -->
+
+		<copy file="${build.metawidget.dir}/examples/faces/addressbook-faces.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
+		<antcall target="test-web-start-glassfish"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-glassfish"/>
+
 	</target>
 
 	<target name="test-faces-seam-booking" depends="example-faces-seam-booking">
@@ -843,6 +865,8 @@
 
 	<target name="test-gwt-addressbook" depends="example-gwt-addressbook">
 		
+		<!-- Test on Tomcat -->
+		
 		<copy file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/addressbook-gwt"/>
 		<antcall target="test-web-start-tomcat"/>
@@ -858,9 +882,28 @@
 
 		<antcall target="test-web-stop-tomcat"/>
 		
+		<!-- Test on GlassFish -->
+
+		<copy file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
+		<delete file="${glassfish.dir}/domains/${glassfish.domain}/autodeploy/addressbook-gwt.war_deployed"/>
+		<antcall target="test-web-start-glassfish"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/gwt">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-glassfish"/>
+
 	</target>
 
 	<target name="test-jsp-addressbook" depends="example-jsp-addressbook">
+		
+		<!-- Test on Tomcat -->
 		
 		<copy file="${build.metawidget.dir}/examples/jsp/addressbook-jsp.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/addressbook-jsp"/>
@@ -877,9 +920,27 @@
 
 		<antcall target="test-web-stop-tomcat"/>
 		
+		<!-- Test on GlassFish -->
+
+		<copy file="${build.metawidget.dir}/examples/faces/addressbook-jsp.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
+		<antcall target="test-web-start-glassfish"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/jsp">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-glassfish"/>
+
 	</target>
 	
 	<target name="test-struts-addressbook" depends="example-struts-addressbook">
+		
+		<!-- Test on Tomcat -->
 		
 		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/addressbook-struts"/>
@@ -895,10 +956,28 @@
 		</java>
 
 		<antcall target="test-web-stop-tomcat"/>
-		
+
+		<!-- Test on GlassFish -->
+
+		<copy file="${build.metawidget.dir}/examples/faces/addressbook-struts.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
+		<antcall target="test-web-start-glassfish"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/struts">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-glassfish"/>
+
 	</target>
 
 	<target name="test-spring-addressbook" depends="example-spring-addressbook">
+		
+		<!-- Test on Tomcat -->
 		
 		<copy file="${build.metawidget.dir}/examples/spring/addressbook-spring.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/addressbook-spring"/>
@@ -915,6 +994,22 @@
 
 		<antcall target="test-web-stop-tomcat"/>
 		
+		<!-- Test on GlassFish -->
+
+		<copy file="${build.metawidget.dir}/examples/faces/addressbook-spring.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
+		<antcall target="test-web-start-glassfish"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/spring">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-glassfish"/>
+
 	</target>
 
 	<target name="test-swing-addressbook-applet" depends="example-swing-addressbook-applet">
@@ -984,7 +1079,7 @@
 	
 	<target name="test-web-stop-tomcat4">
 		
-		<echo message="Stopping Tomcat 4 (then waiting 10 seconds)..."/>
+		<echo message="Stopping ${tomcat4.dir} (then waiting 10 seconds)..."/>
 
 		<java jar="${tomcat4.dir}/bin/bootstrap.jar" fork="true" dir="${run.dir}">
 	        <jvmarg value="-Dcatalina.home=${tomcat4.dir}"/>
@@ -1026,7 +1121,7 @@
 	
 	<target name="test-web-stop-jboss">
 		
-		<echo message="Stopping JBoss (then waiting 20 seconds)..."/>
+		<echo message="Stopping ${jboss.dir} (then waiting 20 seconds)..."/>
         <exec executable="${jboss.dir}/bin/shutdown.bat" dir="${run.dir}" spawn="true">
         	<arg value="-S"/>
 		</exec>
@@ -1052,6 +1147,38 @@
 
 	<target name="test-jboss" depends="test-jboss-ok, test-jboss-skip"/>
 
+	<!-- GlassFish Tests -->
+
+	<target name="test-web-start-glassfish">
+
+		<available property="glassfish-exists" file="${glassfish.dir}/bin/asadmin.bat"/>
+		<fail message="GlassFish not installed at 'glassfish.dir' (as indicated in build.properties)" unless="glassfish-exists"/>
+		
+		<echo message="Starting ${glassfish.dir} (then waiting 60 seconds)..."/>
+
+        <exec executable="${glassfish.dir}/bin/asadmin.bat" dir="${run.dir}" spawn="true">
+        	<arg value="start-domain"/>
+        	<arg value="${glassfish.domain}"/>
+	    	<env key="JAVA_OPTS" value="-Duser.timezone=GMT -Duser.language=en -Duser.country=UK"/>
+		</exec>
+		
+		<sleep seconds="60"/>
+		
+	</target>
+	
+	<target name="test-web-stop-glassfish">
+		
+		<echo message="Stopping ${glassfish.dir} (then waiting 20 seconds)..."/>
+        <exec executable="${glassfish.dir}/bin/asadmin.bat" dir="${run.dir}" spawn="true">
+        	<arg value="stop-domain"/>
+        	<arg value="${glassfish.domain}"/>
+		</exec>
+		<sleep seconds="20"/>
+
+	</target>
+
+	<!-- AllWidgets tests -->
+	
 	<target name="test-shared-allwidgets" depends="flatten-libs">
 
 		<copy todir="${build.metawidget.dir}/test-classes">

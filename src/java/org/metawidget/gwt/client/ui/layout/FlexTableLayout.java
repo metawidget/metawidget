@@ -175,7 +175,7 @@ public class FlexTableLayout
 		if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
 		{
 			int row = mLayout.getRowCount() - 1;
-			mFormatter.setStyleName( row, 0, getStyleName( 2 ) );
+			mFormatter.setStyleName( row, 2, getStyleName( 2 ) );
 			mLayout.setText( row, 2, "*" );
 		}
 	}
