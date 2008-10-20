@@ -60,7 +60,7 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/th[@class='table-label-column']" text="Surname:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-component-column']" text="Simpson"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/th[@class='table-label-column']" text="Date of Birth:"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-component-column']" text="5/12/56"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-component-column']" text="(5/11|5/12|11/05|12/05)/56" regex="true"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[5]/th[@class='table-label-column']" text="Gender:"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[5]/td[@class='table-component-column']" text="Male"/>	
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[6]/th/@colspan" text="3"/>
@@ -77,8 +77,11 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactFormCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[1]" text="Telephone"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactFormCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0113"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactFormCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[3]" text=""/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[9]/th[@class='section-heading']" text="Other"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[10]/th[@class='table-label-column']" text="Notes:"/>
 				<not>
 					<verifyText text="owner"/>
+					<verifyText text="servlet"/>
 				</not>
 
 				<clickButton label="Edit"/>
@@ -86,7 +89,7 @@
 				<verifyInputField name="firstname" value="Homer"/>
 				<verifyInputField name="surname" value="Simpson"/>
 				<verifySelectField name="gender" value="MALE"/>
-				<verifyInputField name="dateOfBirthAsString" value="5/12/56"/>
+				<verifyInputField name="dateOfBirthAsString" value="(5/11|5/12|11/05|12/05)/56" regex="true"/>
 				<verifyInputField name="address.street" value="742 Evergreen Terrace"/>
 				<verifyInputField name="address.city" value="Springfield"/>
 				<verifySelectField name="address.state" value="Anytown"/>
@@ -133,6 +136,11 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='required']" text="*"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='required']" text="*"/>
 				<verifyTextarea name="notes" text="Known as 'Marge'"/>
+				<clickButton label="Cancel"/>
+
+				<clickLink label="Mr Charles Montgomery Burns"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[1]/th" text="Street:"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[11]/th[@class='table-label-column']" text="Notes:"/>
 			</steps>
 		</webtest>
 	</target>

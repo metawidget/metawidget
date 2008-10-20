@@ -20,8 +20,8 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Pattern;
 
+import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.Layout;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
@@ -63,8 +63,6 @@ public class HtmlTableLayout
 	private final static int		JUST_COMPONENT_AND_REQUIRED			= 2;
 
 	private final static int		LABEL_AND_COMPONENT_AND_REQUIRED	= 3;
-
-	private final static Pattern	PATTERN_HIDDEN_FIELDS				= Pattern.compile( "(\\s*<\\s*(input)\\s+[^>]*?(type)\\s*=\\s*\"\\s*hidden\\s*\"[^>]*?>\\s*)+?" );
 
 	//
 	// Private members
@@ -219,7 +217,7 @@ public class HtmlTableLayout
 
 		// If the String is just hidden fields...
 
-		if ( PATTERN_HIDDEN_FIELDS.matcher( child ).matches() )
+		if ( JspUtils.isJustHiddenFields( child ))
 		{
 			// ...store it up for later (eg. don't render a row in the table
 			// and a label)

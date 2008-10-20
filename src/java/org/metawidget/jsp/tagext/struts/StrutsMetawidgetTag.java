@@ -464,7 +464,17 @@ public class StrutsMetawidgetTag
 		if ( !mCreateHiddenFields || TRUE.equals( attributes.get( NO_SETTER ) ) )
 			tag.setDisabled( true );
 
-		return JspUtils.writeTag( pageContext, tag, this, null );
+		String toReturn = JspUtils.writeTag( pageContext, tag, this, null );
+
+		// If the String is just a hidden field, output a SPAN tag to
+		// stop the whole thing vanishing under HtmlTableLayout. This is
+		// a bit hacky, unfortunately, but it's because JSP doesn't have
+		// a 'real' component model
+
+		if ( JspUtils.isJustHiddenFields( toReturn ))
+ 			toReturn += "<span></span>";
+
+		return toReturn;
 	}
 
 	private String writeSelectTag( final String name, final String property, final Map<String, String> attributes )

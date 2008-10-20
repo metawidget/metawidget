@@ -60,6 +60,15 @@ public final class JspUtils
 	}
 
 	/**
+	 * @return true if the given HTML consists of nothing but hidden fields
+	 */
+
+	public static boolean isJustHiddenFields( String html )
+	{
+		return PATTERN_HIDDEN_FIELDS.matcher( html ).matches();
+	}
+
+	/**
 	 * Writes the given Tag to a String (<em>not</em> its usual pageContext.getOut).
 	 */
 
@@ -354,9 +363,9 @@ public final class JspUtils
 		//
 		//
 
-		private StringWriter	mWriterString;
+		private StringWriter	mStringWriter;
 
-		private PrintWriter		mWriterPrint;
+		private PrintWriter		mPrintWriter;
 
 		//
 		//
@@ -379,8 +388,8 @@ public final class JspUtils
 		@Override
 		public void clear()
 		{
-			mWriterString = new StringWriter();
-			mWriterPrint = new PrintWriter( mWriterString );
+			mStringWriter = new StringWriter();
+			mPrintWriter = new PrintWriter( mStringWriter );
 		}
 
 		@Override
@@ -392,13 +401,13 @@ public final class JspUtils
 		@Override
 		public void close()
 		{
-			mWriterPrint.close();
+			mPrintWriter.close();
 		}
 
 		@Override
 		public void flush()
 		{
-			mWriterPrint.flush();
+			mPrintWriter.flush();
 		}
 
 		@Override
@@ -410,127 +419,127 @@ public final class JspUtils
 		@Override
 		public void newLine()
 		{
-			mWriterPrint.println();
+			mPrintWriter.println();
 		}
 
 		@Override
 		public void print( boolean value )
 		{
-			mWriterPrint.print( value );
+			mPrintWriter.print( value );
 		}
 
 		@Override
 		public void print( char value )
 		{
-			mWriterPrint.print( value );
+			mPrintWriter.print( value );
 		}
 
 		@Override
 		public void print( int value )
 		{
-			mWriterPrint.print( value );
+			mPrintWriter.print( value );
 		}
 
 		@Override
 		public void print( long value )
 		{
-			mWriterPrint.print( value );
+			mPrintWriter.print( value );
 		}
 
 		@Override
 		public void print( float value )
 		{
-			mWriterPrint.print( value );
+			mPrintWriter.print( value );
 		}
 
 		@Override
 		public void print( double value )
 		{
-			mWriterPrint.print( value );
+			mPrintWriter.print( value );
 		}
 
 		@Override
 		public void print( char[] value )
 		{
-			mWriterPrint.print( value );
+			mPrintWriter.print( value );
 		}
 
 		@Override
 		public void print( String value )
 		{
-			mWriterPrint.print( value );
+			mPrintWriter.print( value );
 		}
 
 		@Override
 		public void print( Object value )
 		{
-			mWriterPrint.print( value );
+			mPrintWriter.print( value );
 		}
 
 		@Override
 		public void println()
 		{
-			mWriterPrint.println();
+			mPrintWriter.println();
 		}
 
 		@Override
 		public void println( boolean value )
 		{
-			mWriterPrint.println( value );
+			mPrintWriter.println( value );
 		}
 
 		@Override
 		public void println( char value )
 		{
-			mWriterPrint.println( value );
+			mPrintWriter.println( value );
 		}
 
 		@Override
 		public void println( int value )
 		{
-			mWriterPrint.println( value );
+			mPrintWriter.println( value );
 		}
 
 		@Override
 		public void println( long value )
 		{
-			mWriterPrint.println( value );
+			mPrintWriter.println( value );
 		}
 
 		@Override
 		public void println( float value )
 		{
-			mWriterPrint.println( value );
+			mPrintWriter.println( value );
 		}
 
 		@Override
 		public void println( double value )
 		{
-			mWriterPrint.println( value );
+			mPrintWriter.println( value );
 		}
 
 		@Override
 		public void println( char[] value )
 		{
-			mWriterPrint.println( value );
+			mPrintWriter.println( value );
 		}
 
 		@Override
 		public void println( String value )
 		{
-			mWriterPrint.println( value );
+			mPrintWriter.println( value );
 		}
 
 		@Override
 		public void println( Object value )
 		{
-			mWriterPrint.println( value );
+			mPrintWriter.println( value );
 		}
 
 		@Override
 		public void write( char[] cbuf, int off, int len )
 		{
-			mWriterPrint.write( cbuf, off, len );
+			mPrintWriter.write( cbuf, off, len );
 		}
 
 		@Override
@@ -548,7 +557,7 @@ public final class JspUtils
 		@Override
 		public String getString()
 		{
-			return mWriterString.toString();
+			return mStringWriter.toString();
 		}
 
 		@Override
@@ -563,7 +572,9 @@ public final class JspUtils
 	// Private statics
 	//
 
-	private final static Pattern	PATTERN_BINDING	= Pattern.compile( "(\\$\\{)([^}]*)(\\})" );
+	private final static Pattern	PATTERN_BINDING			= Pattern.compile( "(\\$\\{)([^}]*)(\\})" );
+
+	private final static Pattern	PATTERN_HIDDEN_FIELDS	= Pattern.compile( "(\\s*<\\s*(input)\\s+[^>]*?(type)\\s*=\\s*\"\\s*hidden\\s*\"[^>]*?>\\s*)+?" );
 
 	//
 	// Private constructor
