@@ -1,94 +1,39 @@
 <%@ page language="java" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
 
-<tags:page title="Live demo">
+<tags:page title="Play with Metawidget in your browser">
 
 	<tags:body>
 
+		<%-- button/Start+Live+Demo.png?pt=20&bc=3f95b8&fc=ffffff --%>
+		
 		<p>
-			Try Metawidget right now in your browser! The applet below
-			is a Groovy console. It contains a small script that defines a business model
-			and launches a SwingMetawiget. Click <strong>Script > Run</strong> to run it, then
-			try editing the business model to add new fields.
+			Play with Metawidget right now, in your browser! Click the button below to open a Groovy
+			console (may take a few minutes to download initially) and populate it with a small script that:
 		</p>
-
-		<applet archive="metawidget.jar, groovy-all-1.6-beta-2.jar, hibernate-validator.jar, ejb3-persistence.jar" code="org.metawidget.example.swing.console.GroovyConsoleApplet" width="100%" height="600">
-			<param name="script" value="import javax.swing.*;
-import javax.persistence.*;
-import org.metawidget.*;
-import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.composite.*;
-import org.metawidget.inspector.hibernate.validator.*;
-import org.metawidget.inspector.impl.*;
-import org.metawidget.inspector.impl.propertystyle.groovy.*;
-import org.metawidget.inspector.java5.*;
-import org.metawidget.inspector.jpa.*;
-import org.metawidget.inspector.propertytype.*;
-import org.metawidget.swing.*;
-import org.hibernate.validator.*;
-
-// Business Model
-
-enum Title { Mr, Mrs, Miss }
-
-class Person {
-    @Id
-    String id;
-    @NotNull
-    Title title;
-    @UiComesAfter(&quot;title&quot;)
-    String firstname;
-    @Column(nullable=false) @UiComesAfter(&quot;firstname&quot;)
-    String surname
-    @UiComesAfter(&quot;surname&quot;) @Min(0l) @Max(100l)
-    int age;
-    @UiComesAfter(&quot;age&quot;)
-    boolean retired;
-    @UiSection(&quot;Address&quot;) @UiLabel(&quot;&quot;) @UiComesAfter(&quot;retired&quot;)
-    Address address = new Address();
-    @Lob @UiComesAfter(&quot;address&quot;) @UiSection(&quot;Other&quot;)
-    String notes;
-}
-
-class Address {
-    String street;
-    @UiComesAfter(&quot;street&quot;)
-    String city;
-    @UiLookup([&quot;Anytown&quot;,&quot;Cyberton&quot;,&quot;Lostville&quot;,&quot;Whereverton&quot;]) @UiComesAfter(&quot;city&quot;)
-    String state;
-    @UiComesAfter(&quot;state&quot;)
-    String postcode;
-}
-
-// Inspectors (normally configured using inspector-config.xml)
-
-BaseObjectInspectorConfig groovyConfig = new BaseObjectInspectorConfig();
-groovyConfig.setPropertyStyle( GroovyPropertyStyle.class );
-JpaInspectorConfig jpaConfig = new JpaInspectorConfig();
-jpaConfig.setPropertyStyle( GroovyPropertyStyle.class );
-CompositeInspectorConfig compositeConfig = new CompositeInspectorConfig();
-compositeConfig.setInspectors(
-    new MetawidgetAnnotationInspector( groovyConfig ),
-    new PropertyTypeInspector( groovyConfig ),
-    new HibernateValidatorInspector( groovyConfig ),
-    new Java5Inspector( groovyConfig ),
-    new JpaInspector( jpaConfig ) );
-
-// Metawidget
-
-SwingMetawidget metawidget = new SwingMetawidget();
-metawidget.setInspector( new CompositeInspector( compositeConfig));
-metawidget.setToInspect( new Person());
-metawidget.setParameter( &quot;sectionStyle&quot;, 1 );
-
-// UI around the Metawidget
-
-JDialog dialog = new JDialog( SwingUtilities.getSharedOwnerFrame(), &quot;Metawidget Live Demo&quot;, true );
-dialog.add( metawidget );
-metawidget.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ));
-dialog.setSize( 500, 350 );
-dialog.show();"/>
-		</applet>
+		
+		<ul>
+			<li>defines a business model</li>
+			<li>configures inspectors for Groovy, JPA and Hibernate Validator</li>
+			<li>launches a Swing-based Metawiget</li>
+		</ul>
+		
+		<p>
+			You can then play by:
+		</p>
+		
+		<ul>
+			<li>running the code</li>
+			<li>changing the business model by adding fields, altering the annotations etc.</li>
+			<li>importing your own business object JARs to see how Metawidget renders them</li>
+		</ul>
+		
+		<a href="demo.html"><img src="${context}/media/start-live-demo.png"></a>
+		
+		<p>
+			If you like what you see, <a href="${context}/download.html">download the full distribution</a> which includes
+			data binding support, pluggable layouts, multiple inspectors, Web-based and mobile-based Metawidgets and more!
+		</p>
 
 	</tags:body>
 

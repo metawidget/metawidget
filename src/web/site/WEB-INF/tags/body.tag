@@ -2,6 +2,7 @@
 <%@ attribute name="floater" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="path" scope="request" value="${pageContext.request.servletPath}"/>
 		
 	<body>
@@ -12,7 +13,7 @@
 		
 		<div id="top-tabs">
 			<ul>
-				<li <c:if test="${path == '/index.html'}">class="active"</c:if>><a href="${context}/index.html">Home</a></li>
+				<li <c:if test="${fn:startsWith(path, '/live-demo')}">class="active"</c:if>><a href="${context}/live-demo">Live Demo!</a></li>
 				<li class="wide<c:if test="${path == '/download.html'}"> wide-active</c:if>"><a href="${context}/download.html">Download v0.65</a></li>
 				<li <c:if test="${path == '/support.html'}">class="active"</c:if>><a href="${context}/support.html">Support</a></li>
 				<li <c:if test="${path == '/wiki.html'}">class="active"</c:if>><a href="${context}/wiki.html">Wiki</a></li>

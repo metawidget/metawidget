@@ -70,7 +70,7 @@ a {
 }
 
 #top-tabs a:hover {
-	color: #204B5C;
+	color: #204b5c;
 }
 
 #top-tabs .active a {
@@ -148,15 +148,15 @@ a {
 }
 
 #left-menu1 a {
-	color: #5BB7B8;
+	color: #5bb7b8;
 }
 
 #left-menu1 a:hover {
-	color: #458D8F;
+	color: #458d8f;
 }
 
 #left-menu1 .active,#left-menu1 .active a {
-	background-color: #56B5B6;
+	background-color: #56b5b6;
 	color: white;
 }
 
@@ -165,23 +165,23 @@ a {
 }
 
 #left-menu2 ul {
-	background: #B9D7E8 url(../media/left-menu2-background.gif) no-repeat left bottom;
+	background: #b9d7e8 url(../media/left-menu2-background.gif) no-repeat left bottom;
 }
 
 #left-menu2 li {
-	border-top: 1px dashed #3F95B8;
+	border-top: 1px dashed #3f95b8;
 }
 
 #left-menu2 a {
-	color: #3F95B8;
+	color: #3f95b8;
 }
 
 #left-menu2 a:hover {
-	color: #204B5C;
+	color: #204b5c;
 }
 
 #left-menu2 .active,#left-menu2 .active a {
-	background-color: #204B5C;
+	background-color: #204b5c;
 	color: white;
 }
 
@@ -212,9 +212,9 @@ a {
  * Tooltip
  */
 .tooltip {	
-	border: 1px solid #B2B2B2;
+	border: 1px solid #b2b2b2;
 	font-size: 8pt;
-	background: #EBFEFF url(../media/tooltip-background.gif) repeat-x left center;
+	background: #ebfeff url(../media/tooltip-background.gif) repeat-x left center;
 	opacity: .85;
 	filter: alpha( opacity = 85 ) progid:DXImageTransform.Microsoft.Shadow( color='#444444', Direction=135, Strength=3 );
 	margin: 5px;
@@ -251,30 +251,30 @@ a {
 }
 
 .data-table {
-	border: 1px solid #56B5B6;
+	border: 1px solid #56b5b6;
 }
 
 .data-table thead tr {
-	background-color: #56B5B6;
+	background-color: #56b5b6;
 	color: white;
 }
 
 .data-table thead tr th {
-	border-bottom: 1px solid #085AA4;
+	border-bottom: 1px solid #085aa4;
 }
 
 .data-table tbody tr {
-	background-color: #DDF2F2;
+	background-color: #ddf2f2;
 }
 
 #quick-start table
 {
-	border: 1px solid #085AA4;
-	background-color: #D6E8F2;
+	border: 1px solid #085aa4;
+	background-color: #d6e8f2;
 }
 
 #quick-start table thead th {
-	background-color: #6BA7C9;
+	background-color: #6ba7C9;
 	color: white;
 }
 
@@ -283,33 +283,33 @@ a {
 }
 
 #quick-start table tbody a {
-	color: #085AA4;
+	color: #085aa4;
 }
 
 #supported-tech {
-	border: 1px solid #085AA4;
+	border: 1px solid #085aa4;
 }
 
 #supported-tech thead th {
-	background-color: #085AA4;
+	background-color: #085aa4;
 	color: white;
 }
 
 #supported-tech tbody tr td {
-	background-color: #D6E8F2;
-	border: 1px solid #085AA4;
+	background-color: #d6e8f2;
+	border: 1px solid #085aa4;
 }
 
 #supported-tech tbody h3 {
-	background-color: #6BA7C9;
-	color: #D6E8F2;
+	background-color: #6ba7C9;
+	color: #d6e8f2;
 }
 
 #supported-tech tbody em {
-	background-color: #B9D6E7;
-	color: #085AA4;
+	background-color: #b9d6e7;
+	color: #085aa4;
 }
 
 #supported-tech tbody a {
-	color: #085AA4;
+	color: #085aa4;
 }
