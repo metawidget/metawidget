@@ -254,6 +254,11 @@ public class GwtMetawidget
 		invalidateInspection();
 	}
 
+	public String getPath()
+	{
+		return mPath;
+	}
+
 	public void setName( String name )
 	{
 		mName = name;
@@ -886,7 +891,7 @@ public class GwtMetawidget
 				if ( mInspector instanceof GwtRemoteInspectorProxy )
 				{
 					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-					( (GwtRemoteInspectorProxy) mInspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames(), new AsyncCallback<String>()
+					( (GwtRemoteInspectorProxy) mInspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray(), new AsyncCallback<String>()
 					{
 						public void onFailure( Throwable caught )
 						{
@@ -940,7 +945,7 @@ public class GwtMetawidget
 				if ( mLastInspection == null )
 				{
 					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-					mLastInspection = mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
+					mLastInspection = mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 				}
 
 				mMetawidgetMixin.buildWidgets( mLastInspection );
@@ -1014,7 +1019,7 @@ public class GwtMetawidget
 
 	protected void beforeBuildCompoundWidget( Element element )
 	{
-		mNamesPrefix = PathUtils.parsePath( mPath ).getNames();
+		mNamesPrefix = PathUtils.parsePath( mPath ).getNamesAsArray();
 	}
 
 	protected Widget buildReadOnlyWidget( String elementName, Map<String, String> attributes )
@@ -1229,16 +1234,11 @@ public class GwtMetawidget
 		{
 			if ( mNamesPrefix == null )
 			{
-				mBinding.bind( widget, attributes, name );
+				mBinding.bind( widget, attributes, mPath );
 			}
 			else
 			{
-				String[] names = new String[mNamesPrefix.length + 1];
-
-				System.arraycopy( mNamesPrefix, 0, names, 0, mNamesPrefix.length );
-				names[mNamesPrefix.length] = name;
-
-				mBinding.bind( widget, attributes, names );
+				mBinding.bind( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
 			}
 		}
 	}

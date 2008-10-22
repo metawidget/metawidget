@@ -26,8 +26,8 @@ import org.apache.commons.beanutils.PropertyUtils;
 import org.metawidget.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.Binding;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -59,14 +59,16 @@ public class BeanUtilsBinding
 	//
 
 	@Override
-	public void bind( Component component, String componentProperty, Map<String, String> attributes, String... names )
+	public void bind( Component component, Map<String, String> attributes, String path )
 	{
+		String componentProperty = getMetawidget().getValueProperty( component );
+
 		if ( componentProperty == null )
 			return;
 
 		try
 		{
-			String sourceBinding = ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT );
+			String sourceBinding = PathUtils.parsePath( path ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
 			Object sourceValue;
 
 			try

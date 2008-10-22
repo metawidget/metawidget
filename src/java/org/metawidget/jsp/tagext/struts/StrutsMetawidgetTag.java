@@ -167,7 +167,7 @@ public class StrutsMetawidgetTag
 			type = obj.getClass().getName();
 		}
 
-		return inspector.inspect( obj, type, typeAndNames.getNames() );
+		return inspector.inspect( obj, type, typeAndNames.getNamesAsArray() );
 	}
 
 	@Override

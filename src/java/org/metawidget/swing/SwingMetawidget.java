@@ -219,6 +219,11 @@ public class SwingMetawidget
 		invalidateInspection();
 	}
 
+	public String getPath()
+	{
+		return mPath;
+	}
+
 	public void setInspectorConfig( String inspectorConfig )
 	{
 		mInspectorConfig = inspectorConfig;
@@ -631,6 +636,39 @@ public class SwingMetawidget
 	}
 
 	/**
+	 * Returns the property used to get/set the value of the component.
+	 * <p>
+	 * If the component is not known, returns <code>null</code>. Does not throw an Exception, as
+	 * we want to fail gracefully if, say, someone tries to bind to a JPanel.
+	 * <p>
+	 * Subclasses who introduce new component types (eg. JXDatePicker) should override this method
+	 * to return the value property for the new component (eg. getDate/setDate).
+	 */
+
+	public String getValueProperty( Component component )
+	{
+		if ( component instanceof JComboBox )
+			return "selectedItem";
+
+		if ( component instanceof JLabel )
+			return "text";
+
+		if ( component instanceof JTextComponent )
+			return "text";
+
+		if ( component instanceof JSpinner )
+			return "value";
+
+		if ( component instanceof JSlider )
+			return "value";
+
+		if ( component instanceof JCheckBox )
+			return "selected";
+
+		return null;
+	}
+
+	/**
 	 * Finds the Component with the given name.
 	 */
 
@@ -910,14 +948,14 @@ public class SwingMetawidget
 
 	protected void beforeBuildCompoundWidget( Element element )
 	{
-		mNamesPrefix = PathUtils.parsePath( mPath ).getNames();
+		mNamesPrefix = PathUtils.parsePath( mPath ).getNamesAsArray();
 	}
 
 	@SuppressWarnings( "serial" )
 	protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		String childName = attributes.get( NAME );
+		final String name = attributes.get( NAME );
 
 		// Bind actions
 
@@ -929,7 +967,6 @@ public class SwingMetawidget
 			{
 				JButton button = (JButton) component;
 				String text = button.getText();
-				final String name = attributes.get( NAME );
 
 				try
 				{
@@ -984,17 +1021,24 @@ public class SwingMetawidget
 		{
 			if ( mBinding != null )
 			{
+				Component actualComponent = component;
+
+				// Drill into JScrollPanes
+
+				if ( actualComponent instanceof JScrollPane )
+					actualComponent = ( (JScrollPane) actualComponent ).getViewport().getView();
+
 				if ( mNamesPrefix == null )
-					bind( component, attributes, childName );
+					mBinding.bind( actualComponent, attributes, mPath );
 				else
-					bind( component, attributes, ArrayUtils.add( mNamesPrefix, childName ) );
+					mBinding.bind( actualComponent, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
 			}
 		}
 
 		// Add to layout
 
 		remove( component );
-		component.setName( childName );
+		component.setName( name );
 
 		if ( mLayout == null )
 		{
@@ -1366,7 +1410,7 @@ public class SwingMetawidget
 		// Use the inspector to inspect the path
 
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-		return mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
+		return mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
 	protected SwingMetawidget initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
@@ -1389,51 +1433,6 @@ public class SwingMetawidget
 		metawidget.setToInspect( mToInspect );
 
 		return metawidget;
-	}
-
-	/**
-	 * Returns the property used to get/set the value of the component.
-	 * <p>
-	 * If the component is not known, returns <code>null</code>. Does not throw an Exception, as
-	 * we want to fail gracefully if, say, someone tries to bind to a JPanel.
-	 * <p>
-	 * Subclasses who introduce new component types (eg. JXDatePicker) should override this method
-	 * to return the value property for the new component (eg. getDate/setDate).
-	 */
-
-	protected String getValueProperty( Component component )
-	{
-		if ( component instanceof JComboBox )
-			return "selectedItem";
-
-		if ( component instanceof JLabel )
-			return "text";
-
-		if ( component instanceof JTextComponent )
-			return "text";
-
-		if ( component instanceof JSpinner )
-			return "value";
-
-		if ( component instanceof JSlider )
-			return "value";
-
-		if ( component instanceof JCheckBox )
-			return "selected";
-
-		return null;
-	}
-
-	protected void bind( Component component, Map<String, String> attributes, String... names )
-	{
-		Component actualComponent = component;
-
-		// Drill into JScrollPanes
-
-		if ( actualComponent instanceof JScrollPane )
-			actualComponent = ( (JScrollPane) actualComponent ).getViewport().getView();
-
-		mBinding.bind( actualComponent, getValueProperty( actualComponent ), attributes, names );
 	}
 
 	//

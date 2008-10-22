@@ -50,16 +50,16 @@ public class PathUtilsTest
 		assertTrue( "foo".equals( PathUtils.parsePath( "foo" ).getType() ));
 		assertTrue( "foo".equals( PathUtils.parsePath( " foo " ).getType() ));
 		assertTrue( "foo".equals( PathUtils.parsePath( "foo/" ).getType() ));
-		assertTrue( 0 == PathUtils.parsePath( "foo" ).getNames().length );
-		assertTrue( 0 == PathUtils.parsePath( "foo/" ).getNames().length );
-		assertTrue( "bar".equals( PathUtils.parsePath( "foo/bar" ).getNames()[0] ));
-		assertTrue( "bar".equals( PathUtils.parsePath( "foo/bar " ).getNames()[0] ));
-		assertTrue( 1 == PathUtils.parsePath( "foo/bar/" ).getNames().length );
-		assertTrue( "bar".equals( PathUtils.parsePath( "foo/bar/" ).getNames()[0] ));
-		assertTrue( "baz".equals( PathUtils.parsePath( "foo/bar/baz" ).getNames()[1] ));
+		assertTrue( 0 == PathUtils.parsePath( "foo" ).getNamesAsArray().length );
+		assertTrue( 0 == PathUtils.parsePath( "foo/" ).getNamesAsArray().length );
+		assertTrue( "bar".equals( PathUtils.parsePath( "foo/bar" ).getNamesAsArray()[0] ));
+		assertTrue( "bar".equals( PathUtils.parsePath( "foo/bar " ).getNamesAsArray()[0] ));
+		assertTrue( 1 == PathUtils.parsePath( "foo/bar/" ).getNamesAsArray().length );
+		assertTrue( "bar".equals( PathUtils.parsePath( "foo/bar/" ).getNamesAsArray()[0] ));
+		assertTrue( "baz".equals( PathUtils.parsePath( "foo/bar/baz" ).getNamesAsArray()[1] ));
 
 		// test regex escaping
 
-		assertTrue( "type".equals( PathUtils.parsePath( "communication.type", '.' ).getNames()[0] ));
+		assertTrue( "type".equals( PathUtils.parsePath( "communication.type", '.' ).getNamesAsArray()[0] ));
 	}
 }

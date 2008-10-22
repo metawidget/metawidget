@@ -16,8 +16,6 @@
 
 package org.metawidget.gwt.client.binding.simple;
 
-import static org.metawidget.util.simple.StringUtils.*;
-
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -25,8 +23,8 @@ import java.util.Set;
 
 import org.metawidget.gwt.client.binding.Binding;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
-import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.util.simple.PathUtils;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -120,7 +118,7 @@ public class SimpleBinding
 	//
 
 	@Override
-	public void bind( Widget widget, Map<String, String> attributes, String... names )
+	public void bind( Widget widget, Map<String, String> attributes, String path )
 	{
 		// SimpleBinding doesn't bind to Stubs or FlexTables
 
@@ -143,6 +141,7 @@ public class SimpleBinding
 
 		// ...fetch the value...
 
+		String[] names = PathUtils.parsePath( path ).getNamesAsArray();
 		Object value = adapter.getProperty( toInspect, names );
 
 		// ...convert it (if necessary)...
@@ -171,7 +170,7 @@ public class SimpleBinding
 		}
 		catch ( Exception e )
 		{
-			Window.alert( GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + ": " + e.getMessage() );
+			Window.alert( path + ": " + e.getMessage() );
 		}
 	}
 

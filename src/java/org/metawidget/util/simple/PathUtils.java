@@ -16,8 +16,6 @@
 
 package org.metawidget.util.simple;
 
-
-
 /**
  * Utilities for working with <code>type/name</code>-formatted Strings
  *
@@ -32,33 +30,18 @@ public class PathUtils
 
 	public static TypeAndNames parsePath( String path )
 	{
-		return parsePath( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
+		return new TypeAndNames( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
 	}
 
 	public static TypeAndNames parsePath( String path, char separator )
 	{
-		String trimmedPath = path.trim();
-		int indexOfTypeEnd = trimmedPath.indexOf( separator );
-
-		// Just type?
-
-		if ( indexOfTypeEnd == -1 )
-			return new TypeAndNames( trimmedPath, EMPTY_STRING_ARRAY );
-
-		// Parse names
-
-		String type = trimmedPath.substring( 0, indexOfTypeEnd );
-
-		if ( indexOfTypeEnd == trimmedPath.length() - 1 )
-			return new TypeAndNames( type, EMPTY_STRING_ARRAY );
-
-		String[] names = trimmedPath.substring( indexOfTypeEnd + 1 ).split( "\\" + separator );
-
-		return new TypeAndNames( type, names );
+		return new TypeAndNames( path, separator );
 	}
 
 	/**
 	 * Tuple for returning a <code>type</code> and an array of <code>names</code>.
+	 * <p>
+	 * Uses lazy initialization to save on regex calls.
 	 */
 
 	public static class TypeAndNames
@@ -69,9 +52,15 @@ public class PathUtils
 		//
 		//
 
-		private String		mType;
+		private String		mPath;
 
-		private String[]	mNames;
+		private char		mSeparator;
+
+		private String		mParsedType;
+
+		private String		mParsedNames;
+
+		private String[]	mParsedNamesAsArray;
 
 		//
 		//
@@ -79,10 +68,10 @@ public class PathUtils
 		//
 		//
 
-		public TypeAndNames( String type, String[] names )
+		public TypeAndNames( String path, char separator )
 		{
-			mType = type;
-			mNames = names;
+			mPath = path.trim();
+			mSeparator = separator;
 		}
 
 		//
@@ -93,12 +82,56 @@ public class PathUtils
 
 		public String getType()
 		{
-			return mType;
+			if ( mParsedType == null )
+			{
+				int indexOfTypeEnd = mPath.indexOf( mSeparator );
+
+				// Just type?
+
+				if ( indexOfTypeEnd == -1 )
+				{
+					mParsedType = mPath;
+					mParsedNames = "";
+				}
+				else
+				{
+					mParsedType = mPath.substring( 0, indexOfTypeEnd );
+
+					// Ends in separator?
+
+					if ( indexOfTypeEnd == mPath.length() - 1 )
+						mParsedNames = "";
+					else
+						mParsedNames = mPath.substring( indexOfTypeEnd + 1 );
+				}
+
+
+			}
+
+			return mParsedType;
 		}
 
-		public String[] getNames()
+		public String getNames()
 		{
-			return mNames;
+			if ( mParsedNames == null )
+				getType();
+
+			return mParsedNames;
+		}
+
+		public String[] getNamesAsArray()
+		{
+			if ( mParsedNamesAsArray == null )
+			{
+				String names = getNames();
+
+				if ( "".equals( names ))
+					mParsedNamesAsArray = EMPTY_STRING_ARRAY;
+				else
+					mParsedNamesAsArray = getNames().split( "\\" + mSeparator );
+			}
+
+			return mParsedNamesAsArray;
 		}
 	}
 
@@ -106,7 +139,7 @@ public class PathUtils
 	// Private statics
 	//
 
-	private final static String[]	EMPTY_STRING_ARRAY	= new String[0];
+	final static String[]	EMPTY_STRING_ARRAY	= new String[0];
 
 	//
 	// Private constructor

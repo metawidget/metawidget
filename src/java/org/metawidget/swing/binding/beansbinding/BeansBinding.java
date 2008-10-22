@@ -32,9 +32,9 @@ import org.jdesktop.beansbinding.Binding.SyncFailure;
 import org.metawidget.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.Binding;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -119,9 +119,9 @@ public class BeansBinding
 	//
 
 	@Override
-	public void bind( Component component, String componentProperty, Map<String, String> attributes, String... names )
+	public void bind( Component component, Map<String, String> attributes, String path )
 	{
-		typesafeBind( component, componentProperty, attributes, names );
+		typesafeBind( component, path );
 	}
 
 	@Override
@@ -218,15 +218,17 @@ public class BeansBinding
 	//
 
 	@SuppressWarnings( "unchecked" )
-	private <SS, SV, TS extends Component, TV> void typesafeBind( TS component, String componentProperty, Map<String, String> attributes, String... names )
+	private <SS, SV, TS extends Component, TV> void typesafeBind( TS component, String path )
 	{
+		String componentProperty = getMetawidget().getValueProperty( component );
+
 		if ( componentProperty == null )
 			return;
 
 		// Source property
 
 		SS source = (SS) getMetawidget().getToInspect();
-		String sourceProperty = ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT );
+		String sourceProperty = PathUtils.parsePath( path ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
 		BeanProperty<SS, SV> propertySource = BeanProperty.create( sourceProperty );
 
 		Class<TV> target;
@@ -282,7 +284,7 @@ public class BeansBinding
 		}
 		catch ( ClassCastException e )
 		{
-			throw MetawidgetException.newException( "When binding " + ArrayUtils.toString( names ) + " to " + component.getClass() + "." + componentProperty + " (have you used BeansBinding.registerConverter?)", e );
+			throw MetawidgetException.newException( "When binding " + path + " to " + component.getClass() + "." + componentProperty + " (have you used BeansBinding.registerConverter?)", e );
 		}
 
 		mBindings.add( (org.jdesktop.beansbinding.Binding<Object, SV, TS, TV>) binding );

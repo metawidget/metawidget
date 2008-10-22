@@ -234,6 +234,11 @@ public class AndroidMetawidget
 		invalidateInspection();
 	}
 
+	public String getPath()
+	{
+		return mPath;
+	}
+
 	/**
 	 * Provides an id for the inspector configuration.
 	 * <p>
@@ -949,7 +954,7 @@ public class AndroidMetawidget
 	protected String inspect( Inspector inspector, String path )
 	{
 		TypeAndNames typeAndNames = PathUtils.parsePath( path );
-		return inspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
+		return inspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
 	protected AndroidMetawidget createMetawidget( Map<String, String> attributes )

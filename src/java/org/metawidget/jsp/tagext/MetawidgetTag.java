@@ -438,7 +438,7 @@ public abstract class MetawidgetTag
 
 		// Do the Inspection
 
-		return inspector.inspect( obj, type, typeAndNames.getNames() );
+		return inspector.inspect( obj, type, typeAndNames.getNamesAsArray() );
 	}
 
 	protected StubContent getStub( String path )

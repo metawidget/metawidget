@@ -51,9 +51,16 @@ public abstract class Binding
 
 	/**
 	 * Bind the given Widget to the given 'path of names' within the source Object.
+	 *
+	 * @param widget
+	 *            the widget to bind to
+	 * @param attributes
+	 *            metadata of the property being bound
+	 * @param path
+	 *            path to bind to
 	 */
 
-	public abstract void bind( Widget widget, Map<String, String> attributes, String... names );
+	public abstract void bind( Widget widget, Map<String, String> attributes, String path );
 
 	/**
 	 * Update bound values in the Widgets from the source Object.
