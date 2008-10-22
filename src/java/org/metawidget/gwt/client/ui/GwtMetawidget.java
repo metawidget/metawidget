@@ -56,7 +56,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.gwt.xml.client.Element;
 
 /**
  * Metawidget for GWT environments.
@@ -166,8 +165,6 @@ public class GwtMetawidget
 	//
 
 	String															mPath;
-
-	String[]														mNamesPrefix;
 
 	/**
 	 * Name used to implement <code>HasName</code>. Subtly different from <code>mPath</code>
@@ -810,8 +807,6 @@ public class GwtMetawidget
 			super.clear();
 			mAddedWidgets.clear();
 
-			mNamesPrefix = null;
-
 			if ( mBinding != null )
 			{
 				mBinding.unbind();
@@ -1015,11 +1010,6 @@ public class GwtMetawidget
 			mExistingWidgetsUnused.remove( widget );
 
 		return widget;
-	}
-
-	protected void beforeBuildCompoundWidget( Element element )
-	{
-		mNamesPrefix = PathUtils.parsePath( mPath ).getNamesAsArray();
 	}
 
 	protected Widget buildReadOnlyWidget( String elementName, Map<String, String> attributes )
@@ -1232,14 +1222,10 @@ public class GwtMetawidget
 
 		if ( mBinding != null && !( widget instanceof GwtMetawidget ) )
 		{
-			if ( mNamesPrefix == null )
-			{
-				mBinding.bind( widget, attributes, mPath );
-			}
-			else
-			{
+			if ( mMetawidgetMixin.isCompoundWidget() )
 				mBinding.bind( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
-			}
+			else
+				mBinding.bind( widget, attributes, mPath );
 		}
 	}
 
@@ -1361,14 +1347,6 @@ public class GwtMetawidget
 		protected Map<String, String> getStubAttributes( Widget stub )
 		{
 			return ( (Stub) stub ).getAttributes();
-		}
-
-		@Override
-		protected void buildCompoundWidget( Element element )
-			throws Exception
-		{
-			GwtMetawidget.this.beforeBuildCompoundWidget( element );
-			super.buildCompoundWidget( element );
 		}
 
 		@Override

@@ -71,7 +71,6 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
-import org.w3c.dom.Element;
 
 /**
  * Metawidget for Swing environments.
@@ -102,8 +101,6 @@ public class SwingMetawidget
 	private Object								mToInspect;
 
 	private String								mPath;
-
-	private String[]							mNamesPrefix;
 
 	private String								mInspectorConfig	= "inspector-config.xml";
 
@@ -852,8 +849,6 @@ public class SwingMetawidget
 		mNeedToBuildWidgets = true;
 		super.removeAll();
 
-		mNamesPrefix = null;
-
 		if ( mBinding != null )
 		{
 			mBinding.unbind();
@@ -946,11 +941,6 @@ public class SwingMetawidget
 			mBinding = mBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
 	}
 
-	protected void beforeBuildCompoundWidget( Element element )
-	{
-		mNamesPrefix = PathUtils.parsePath( mPath ).getNamesAsArray();
-	}
-
 	@SuppressWarnings( "serial" )
 	protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
 		throws Exception
@@ -1028,10 +1018,10 @@ public class SwingMetawidget
 				if ( actualComponent instanceof JScrollPane )
 					actualComponent = ( (JScrollPane) actualComponent ).getViewport().getView();
 
-				if ( mNamesPrefix == null )
-					mBinding.bind( actualComponent, attributes, mPath );
-				else
+				if ( mMetawidgetMixin.isCompoundWidget() )
 					mBinding.bind( actualComponent, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
+				else
+					mBinding.bind( actualComponent, attributes, mPath );
 			}
 		}
 
@@ -1520,14 +1510,6 @@ public class SwingMetawidget
 		protected Map<String, String> getStubAttributes( JComponent stub )
 		{
 			return ( (Stub) stub ).getAttributes();
-		}
-
-		@Override
-		protected void buildCompoundWidget( Element element )
-			throws Exception
-		{
-			SwingMetawidget.this.beforeBuildCompoundWidget( element );
-			super.buildCompoundWidget( element );
 		}
 
 		@Override

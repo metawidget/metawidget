@@ -55,6 +55,8 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 	private boolean				mReadOnly;
 
+	private boolean				mCompoundWidget;
+
 	private int					mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
 	//
@@ -69,6 +71,11 @@ public abstract class BaseMetawidgetMixin<W, E>
 	public boolean isReadOnly()
 	{
 		return mReadOnly;
+	}
+
+	public boolean isCompoundWidget()
+	{
+		return mCompoundWidget;
 	}
 
 	public int getMaximumInspectionDepth()
@@ -106,6 +113,8 @@ public abstract class BaseMetawidgetMixin<W, E>
 	public void buildWidgets( String xml )
 		throws Exception
 	{
+		mCompoundWidget = false;
+
 		startBuild();
 
 		if ( xml != null )
@@ -162,6 +171,8 @@ public abstract class BaseMetawidgetMixin<W, E>
 	protected void buildCompoundWidget( E element )
 		throws Exception
 	{
+		mCompoundWidget = true;
+
 		for ( int loop = 0, length = getChildCount( element ); loop < length; loop++ )
 		{
 			E child = getChildAt( element, loop );
