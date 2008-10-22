@@ -139,6 +139,10 @@ public final class InspectionResultConstants
 
 	/**
 	 * Masked field attribute.
+	 * <p>
+	 * Whether the field is 'masked' (eg. a password field). Expected values are <code>true</code>
+	 * or <code>false</code>. Note this attribute does <em>not</em> denote 'masked' as in a date
+	 * format or a number format.
 	 */
 
 	public final static String	MASKED						= "masked";

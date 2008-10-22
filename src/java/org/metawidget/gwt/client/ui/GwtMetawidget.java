@@ -37,7 +37,9 @@ import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.ui.layout.LayoutFactory;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.util.simple.PathUtils.TypeAndNames;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
@@ -163,11 +165,16 @@ public class GwtMetawidget
 	// Package-level members
 	//
 
-	String															mType;
-
-	String															mName;
+	String															mPath;
 
 	String[]														mNamesPrefix;
+
+	/**
+	 * Name used to implement <code>HasName</code>. Subtly different from <code>mPath</code>
+	 * and <code>mNamesPrefix</code>.
+	 */
+
+	String															mName;
 
 	int																mNeedToBuildWidgets;
 
@@ -205,20 +212,51 @@ public class GwtMetawidget
 	 * Sets the Object to inspect.
 	 */
 
+	/**
+	 * Sets the Object to inspect.
+	 * <p>
+	 * If <code>setPath</code> has not been set, or points to a previous <code>setToInspect</code>,
+	 * sets it to point to the given Object.
+	 */
+
 	public void setToInspect( Object toInspect )
 	{
+		if ( mToInspect == null )
+		{
+			if ( mPath == null && toInspect != null )
+				mPath = toInspect.getClass().getName();
+		}
+		else if ( mToInspect.getClass().getName().equals( mPath ) )
+		{
+			if ( toInspect == null )
+				mPath = null;
+			else
+				mPath = toInspect.getClass().getName();
+		}
+
 		mToInspect = toInspect;
+		invalidateInspection();
+	}
 
-		if ( toInspect != null && mType == null )
-			mType = toInspect.getClass().getName();
+	/**
+	 * Sets the path to be inspected.
+	 * <p>
+	 * Note <code>setPath</code> is quite different to
+	 * <code>com.google.gwt.user.client.ui.HasName.setName</code>. <code>setPath</code> is
+	 * always in relation to <code>setToInspect</code>, so must include the type name and any
+	 * subsequent sub-names (eg. type/name/name). Conversely, <code>setName</code> is a single
+	 * name relative to our immediate parent.
+	 */
 
+	public void setPath( String path )
+	{
+		mPath = path;
 		invalidateInspection();
 	}
 
 	public void setName( String name )
 	{
 		mName = name;
-		invalidateInspection();
 	}
 
 	public String getName()
@@ -847,8 +885,8 @@ public class GwtMetawidget
 
 				if ( mInspector instanceof GwtRemoteInspectorProxy )
 				{
-					String[] names = GwtUtils.fromStringToArray( mName, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
-					( (GwtRemoteInspectorProxy) mInspector ).inspect( mToInspect, mType, names, new AsyncCallback<String>()
+					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+					( (GwtRemoteInspectorProxy) mInspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames(), new AsyncCallback<String>()
 					{
 						public void onFailure( Throwable caught )
 						{
@@ -901,8 +939,8 @@ public class GwtMetawidget
 
 				if ( mLastInspection == null )
 				{
-					String[] names = GwtUtils.fromStringToArray( mName, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
-					mLastInspection = mInspector.inspect( mToInspect, mType, names );
+					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+					mLastInspection = mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNames() );
 				}
 
 				mMetawidgetMixin.buildWidgets( mLastInspection );
@@ -976,7 +1014,7 @@ public class GwtMetawidget
 
 	protected void beforeBuildCompoundWidget( Element element )
 	{
-		mNamesPrefix = GwtUtils.fromStringToArray( mName, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR );
+		mNamesPrefix = PathUtils.parsePath( mPath ).getNames();
 	}
 
 	protected Widget buildReadOnlyWidget( String elementName, Map<String, String> attributes )
@@ -1180,6 +1218,9 @@ public class GwtMetawidget
 
 		// Layout
 
+		if ( widget instanceof HasName )
+			((HasName) widget).setName( name );
+
 		mLayout.layoutChild( widget, attributes );
 
 		// Bind
@@ -1214,12 +1255,8 @@ public class GwtMetawidget
 	protected Widget initMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
 		throws Exception
 	{
+		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		metawidget.setInspectorClass( mInspectorClass );
-
-		if ( mName == null )
-			metawidget.setName( attributes.get( NAME ) );
-		else
-			metawidget.setName( mName + SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBindingClass( mBindingClass );

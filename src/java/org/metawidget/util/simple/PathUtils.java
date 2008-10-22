@@ -14,9 +14,9 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.util;
+package org.metawidget.util.simple;
 
-import org.metawidget.util.simple.StringUtils;
+
 
 /**
  * Utilities for working with <code>type/name</code>-formatted Strings
@@ -37,17 +37,22 @@ public class PathUtils
 
 	public static TypeAndNames parsePath( String path, char separator )
 	{
-		int indexOfTypeEnd = path.indexOf( separator );
+		String trimmedPath = path.trim();
+		int indexOfTypeEnd = trimmedPath.indexOf( separator );
 
 		// Just type?
 
 		if ( indexOfTypeEnd == -1 )
-			return new TypeAndNames( path, null );
+			return new TypeAndNames( trimmedPath, EMPTY_STRING_ARRAY );
 
 		// Parse names
 
-		String type = path.substring( 0, indexOfTypeEnd );
-		String[] names = ArrayUtils.fromString( path.substring( indexOfTypeEnd ), separator );
+		String type = trimmedPath.substring( 0, indexOfTypeEnd );
+
+		if ( indexOfTypeEnd == trimmedPath.length() - 1 )
+			return new TypeAndNames( type, EMPTY_STRING_ARRAY );
+
+		String[] names = trimmedPath.substring( indexOfTypeEnd + 1 ).split( "\\" + separator );
 
 		return new TypeAndNames( type, names );
 	}
@@ -96,6 +101,12 @@ public class PathUtils
 			return mNames;
 		}
 	}
+
+	//
+	// Private statics
+	//
+
+	private final static String[]	EMPTY_STRING_ARRAY	= new String[0];
 
 	//
 	// Private constructor

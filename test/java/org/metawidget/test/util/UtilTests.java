@@ -20,6 +20,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.test.util.simple.PathUtilsTest;
+import org.metawidget.test.util.simple.StringUtilsTest;
+
 /**
  * @author Richard Kennard
  */
@@ -52,6 +55,7 @@ public class UtilTests
 		suite.addTestSuite( CollectionUtilsTest.class );
 		suite.addTestSuite( JspUtilsTest.class );
 		suite.addTestSuite( LogUtilsTest.class );
+		suite.addTestSuite( PathUtilsTest.class );
 		suite.addTestSuite( StringUtilsTest.class );
 		suite.addTestSuite( ThreadUtilsTest.class );
 

@@ -68,9 +68,9 @@ import org.metawidget.swing.layout.TableGridBagLayout;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.PathUtils;
-import org.metawidget.util.PathUtils.TypeAndNames;
+import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.w3c.dom.Element;
 
 /**
@@ -169,17 +169,27 @@ public class SwingMetawidget
 
 	/**
 	 * Sets the Object to inspect.
+	 * <p>
+	 * If <code>setPath</code> has not been set, or points to a previous <code>setToInspect</code>,
+	 * sets it to point to the given Object.
 	 */
 
 	public void setToInspect( Object toInspect )
 	{
+		if ( mToInspect == null )
+		{
+			if ( mPath == null && toInspect != null )
+				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+		}
+		else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mPath ) )
+		{
+			if ( toInspect == null )
+				mPath = null;
+			else
+				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+		}
+
 		mToInspect = toInspect;
-
-		// If no path, or path points to an old class, override it
-
-		if ( toInspect != null && ( mPath == null || mPath.indexOf( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ) == -1 ) )
-			mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
-
 		invalidateInspection();
 	}
 
@@ -193,6 +203,15 @@ public class SwingMetawidget
 	{
 		return mToInspect;
 	}
+
+	/**
+	 * Sets the path to be inspected.
+	 * <p>
+	 * Note <code>setPath</code> is quite different to <code>java.awt.Component.setName</code>.
+	 * <code>setPath</code> is always in relation to <code>setToInspect</code>, so must include
+	 * the type name and any subsequent sub-names (eg. type/name/name). Conversely,
+	 * <code>setName</code> is a single name relative to our immediate parent.
+	 */
 
 	public void setPath( String path )
 	{
@@ -894,7 +913,7 @@ public class SwingMetawidget
 		mNamesPrefix = PathUtils.parsePath( mPath ).getNames();
 	}
 
-	@SuppressWarnings("serial")
+	@SuppressWarnings( "serial" )
 	protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
@@ -934,7 +953,7 @@ public class SwingMetawidget
 						}
 					} );
 				}
-				catch( NoSuchMethodException e )
+				catch ( NoSuchMethodException e )
 				{
 					// ActionEvent-parameter based
 
@@ -1124,7 +1143,7 @@ public class SwingMetawidget
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return new JButton( getLabelString( attributes ));
+			return new JButton( getLabelString( attributes ) );
 
 		String type = attributes.get( TYPE );
 
@@ -1151,7 +1170,7 @@ public class SwingMetawidget
 			// the class, assume it is non-primitive and therefore add a null choice
 			// (unless 'required=true' is specified)
 
-			if (( clazz == null || !clazz.isPrimitive() ) && !TRUE.equals( attributes.get( REQUIRED ) ) )
+			if ( ( clazz == null || !clazz.isPrimitive() ) && !TRUE.equals( attributes.get( REQUIRED ) ) )
 				comboBox.addItem( null );
 
 			List<String> values = CollectionUtils.fromString( lookup );

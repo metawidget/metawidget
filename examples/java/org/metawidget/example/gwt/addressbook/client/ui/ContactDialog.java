@@ -31,6 +31,7 @@ import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.gwt.client.ui.layout.FlowLayout;
+import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
@@ -170,6 +171,8 @@ public class ContactDialog
 		mAddressMetawidget.setParameter( "footerStyleName", "buttons" );
 		mAddressMetawidget.setBindingClass( SimpleBinding.class );
 		mAddressMetawidget.setToInspect( contact );
+		mAddressMetawidget.setPath( Contact.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + "address" );
+
 
 		// Communications override
 
@@ -201,13 +204,13 @@ public class ContactDialog
 		final GwtMetawidget typeMetawidget = new GwtMetawidget();
 		typeMetawidget.setLayoutClass( FlowLayout.class );
 		typeMetawidget.setToInspect( communication );
-		typeMetawidget.setName( "type" );
+		typeMetawidget.setPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + "type" );
 		mCommunications.setWidget( 1, 0, typeMetawidget );
 
 		final GwtMetawidget valueMetawidget = new GwtMetawidget();
 		valueMetawidget.setLayoutClass( FlowLayout.class );
 		valueMetawidget.setToInspect( communication );
-		valueMetawidget.setName( "value" );
+		valueMetawidget.setPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + "value" );
 		mCommunications.setWidget( 1, 1, valueMetawidget );
 
 		Button addButton = new Button( dictionary.get( "add" ) );

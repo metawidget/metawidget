@@ -36,9 +36,9 @@ import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.PathUtils;
-import org.metawidget.util.PathUtils.TypeAndNames;
+import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.w3c.dom.Element;
 
 import android.content.Context;
@@ -194,17 +194,39 @@ public class AndroidMetawidget
 	// Public methods
 	//
 
+	/**
+	 * Sets the Object to inspect.
+	 * <p>
+	 * If <code>setPath</code> has not been set, or points to a previous <code>setToInspect</code>,
+	 * sets it to point to the given Object.
+	 */
+
 	public void setToInspect( Object toInspect )
 	{
+		if ( mToInspect == null )
+		{
+			if ( mPath == null && toInspect != null )
+				mPath = toInspect.getClass().getName();
+		}
+		else if ( mToInspect.getClass().getName().equals( mPath ) )
+		{
+			if ( toInspect == null )
+				mPath = null;
+			else
+				mPath = toInspect.getClass().getName();
+		}
 		mToInspect = toInspect;
-
-		// If no path, or path points to an old class, override it
-
-		if ( toInspect != null && ( mPath == null || mPath.indexOf( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ) == -1 ) )
-			mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
-
 		invalidateInspection();
 	}
+
+	/**
+	 * Sets the path to be inspected.
+	 * <p>
+	 * Note <code>setPath</code> is quite different to <code>setTag</code>.
+	 * <code>setPath</code> is always in relation to <code>setToInspect</code>, so must include
+	 * the type name and any subsequent sub-names (eg. type/name/name). Conversely,
+	 * <code>setTag</code> is a single name relative to our immediate parent.
+	 */
 
 	public void setPath( String path )
 	{
