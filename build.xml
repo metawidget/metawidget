@@ -975,7 +975,7 @@
 
 		<!-- Test on Jetty -->
 
-		<copy file="${build.metawidget.dir}/examples/faces/addressbook-jsp.war" todir="${jetty.dir}/webapps" overwrite="true"/>
+		<copy file="${build.metawidget.dir}/examples/jsp/addressbook-jsp.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/jsp">
@@ -1028,7 +1028,7 @@
 
 		<!-- Test on Jetty -->
 
-		<copy file="${build.metawidget.dir}/examples/faces/addressbook-struts.war" todir="${jetty.dir}/webapps" overwrite="true"/>
+		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/struts">
@@ -1081,7 +1081,7 @@
 
 		<!-- Test on Jetty -->
 
-		<copy file="${build.metawidget.dir}/examples/faces/addressbook-spring.war" todir="${jetty.dir}/webapps" overwrite="true"/>
+		<copy file="${build.metawidget.dir}/examples/spring/addressbook-spring.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/spring">
