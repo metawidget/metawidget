@@ -360,6 +360,21 @@ public class SwingAddressBookTest
 		model.setValueAt( "myFoo2", 1, 0 );
 		assertTrue( "myFoo2".equals( model.getValueAt( 1, 0 ) ) );
 		assertTrue( 3 == model.getRowCount() );
+
+		// Invalid column
+
+		model = new ListTableModel<Foo>( Foo.class, fooList, "Baz" );
+
+		try
+		{
+			model.getColumnClass( 0 );
+			assertTrue( false );
+		}
+		catch( Exception e )
+		{
+			assertTrue( e.getCause() instanceof NoSuchMethodException );
+			assertTrue( e.getCause().getMessage().contains( "Baz()" ));
+		}
 	}
 
 	//

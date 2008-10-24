@@ -486,7 +486,7 @@
 		<!-- Note: run the unit tests against the actual metawiget.jar and   -->
 		<!--       addressbook-swing.jar, to make sure they packed correctly -->
 
-		<echo message="Note: network access is disabled for Unit Tests, to make sure Metawidget isn't trying external DTDs"/>
+		<!-- Note: network access is disabled for Unit Tests, to make sure Metawidget isn't trying external DTDs -->
 
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Djava.util.logging.config.file=${basedir}/test/java/logging.properties"/>
@@ -508,6 +508,20 @@
 			</classpath>
 		</junit>
 		
+		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
+			<jvmarg value="-Djava.util.logging.config.file=${basedir}/test/java/logging.properties"/>
+			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
+			<formatter type="brief" usefile="false"/>
+			<test name="org.metawidget.test.util.LogUtilsTest"/>
+			<classpath>
+				<fileset dir="lib">
+					<include name="junit-*.jar"/>
+				</fileset>
+				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
+				<pathelement path="${build.metawidget.dir}/test-classes"/>
+			</classpath>
+		</junit>
+
 		<!-- GWT tests -->
 		
 		<copy todir="${build.metawidget.dir}/gwt-example-src">
@@ -757,14 +771,14 @@
 	
 	<target name="test-web-stop-tomcat">
 		
-		<echo message="Stopping ${tomcat.dir} (then waiting 60 seconds)..."/>
+		<echo message="Stopping ${tomcat.dir} (then waiting 30 seconds)..."/>
 
 		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" dir="${run.dir}">
 	        <jvmarg value="-Dcatalina.home=${tomcat.dir}"/>
 	        <arg line="stop"/>
 	    </java>
 		
-		<sleep seconds="60"/>
+		<sleep seconds="30"/>
 
 	</target>
 	
@@ -790,6 +804,11 @@
 		<!-- Test on GlassFish -->
 
 		<copy file="${build.metawidget.dir}/examples/faces/addressbook-faces.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
+		<delete>
+			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
+				<include name="addressbook-*"/>
+			</fileset>
+		</delete>
 		<antcall target="test-web-start-glassfish"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
@@ -906,7 +925,11 @@
 		<!-- Test on GlassFish -->
 
 		<copy file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
-		<delete file="${glassfish.dir}/domains/${glassfish.domain}/autodeploy/addressbook-gwt.war_deployed"/>
+		<delete>
+			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
+				<include name="addressbook-*"/>
+			</fileset>
+		</delete>
 		<antcall target="test-web-start-glassfish"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/gwt">
@@ -960,6 +983,11 @@
 		<!-- Test on GlassFish -->
 
 		<copy file="${build.metawidget.dir}/examples/jsp/addressbook-jsp.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
+		<delete>
+			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
+				<include name="addressbook-*"/>
+			</fileset>
+		</delete>
 		<antcall target="test-web-start-glassfish"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/jsp">
@@ -1013,6 +1041,11 @@
 		<!-- Test on GlassFish -->
 
 		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
+		<delete>
+			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
+				<include name="addressbook-*"/>
+			</fileset>
+		</delete>
 		<antcall target="test-web-start-glassfish"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/struts">
@@ -1066,6 +1099,11 @@
 		<!-- Test on GlassFish -->
 
 		<copy file="${build.metawidget.dir}/examples/spring/addressbook-spring.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
+		<delete>
+			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
+				<include name="addressbook-*"/>
+			</fileset>
+		</delete>
 		<antcall target="test-web-start-glassfish"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/spring">
@@ -1164,14 +1202,14 @@
 	
 	<target name="test-web-stop-tomcat4">
 		
-		<echo message="Stopping ${tomcat4.dir} (then waiting 60 seconds)..."/>
+		<echo message="Stopping ${tomcat4.dir} (then waiting 30 seconds)..."/>
 
 		<java jar="${tomcat4.dir}/bin/bootstrap.jar" fork="true" dir="${run.dir}">
 	        <jvmarg value="-Dcatalina.home=${tomcat4.dir}"/>
 	        <arg line="stop"/>
 	    </java>
 		
-		<sleep seconds="60"/>
+		<sleep seconds="30"/>
 
 	</target>
 
@@ -1191,7 +1229,7 @@
 			</fileset>			
 		</delete>
 		
-		<echo message="Starting ${jboss.dir} (then waiting 60 seconds)..."/>
+		<echo message="Starting ${jboss.dir} (then waiting 30 seconds)..."/>
 
 		<!-- Unlike for Tomcat, don't also set time zone -->
 		<!-- here: seems to badly mess up Seam/Facelets  -->
@@ -1200,17 +1238,17 @@
 	    	<env key="JAVA_OPTS" value="-Duser.language=en -Duser.country=UK"/>
 		</exec>
 		
-		<sleep seconds="60"/>
+		<sleep seconds="30"/>
 		
 	</target>
 	
 	<target name="test-web-stop-jboss">
 		
-		<echo message="Stopping ${jboss.dir} (then waiting 60 seconds)..."/>
+		<echo message="Stopping ${jboss.dir} (then waiting 30 seconds)..."/>
         <exec executable="${jboss.dir}/bin/shutdown.bat" dir="${run.dir}">
         	<arg value="-S"/>
 		</exec>
-		<sleep seconds="60"/>
+		<sleep seconds="30"/>
 
 	</target>
 
@@ -1239,25 +1277,25 @@
 		<available property="glassfish-exists" file="${glassfish.dir}/bin/asadmin.bat"/>
 		<fail message="GlassFish not installed at 'glassfish.dir' (as indicated in build.properties)" unless="glassfish-exists"/>
 		
-		<echo message="Starting ${glassfish.dir} (then waiting 60 seconds)..."/>
+		<echo message="Starting ${glassfish.dir} (then waiting 30 seconds)..."/>
 
         <exec executable="${glassfish.dir}/bin/asadmin.bat" dir="${run.dir}" spawn="true">
         	<arg value="start-domain"/>
         	<arg value="${glassfish.domain}"/>
 		</exec>
 		
-		<sleep seconds="60"/>
+		<sleep seconds="30"/>
 		
 	</target>
 	
 	<target name="test-web-stop-glassfish">
 		
-		<echo message="Stopping ${glassfish.dir} (then waiting 60 seconds)..."/>
+		<echo message="Stopping ${glassfish.dir} (then waiting 30 seconds)..."/>
         <exec executable="${glassfish.dir}/bin/asadmin.bat" dir="${run.dir}">
         	<arg value="stop-domain"/>
         	<arg value="${glassfish.domain}"/>
 		</exec>
-		<sleep seconds="60"/>
+		<sleep seconds="30"/>
 
 	</target>
 
@@ -1284,14 +1322,14 @@
 	
 	<target name="test-web-stop-jetty">
 		
-		<echo message="Stopping ${jetty.dir} (then waiting 60 seconds)..."/>
+		<echo message="Stopping ${jetty.dir} (then waiting 30 seconds)..."/>
 		<java jar="${jetty.dir}/start.jar" fork="true" dir="${run.dir}">
 			<jvmarg value="-Djetty.home=${jetty.dir}"/>
 			<jvmarg value="-DSTOP.PORT=8079"/>
 			<jvmarg value="-DSTOP.KEY=secret"/>
 			<arg value="--stop"/>
 		</java>
-		<sleep seconds="60"/>
+		<sleep seconds="30"/>
 
 	</target>
 
