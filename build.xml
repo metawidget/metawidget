@@ -18,6 +18,7 @@
 	<target name="init">
 		<mkdir dir="${build.metawidget.dir}"/>
 		<mkdir dir="${run.dir}"/>
+		<mkdir dir="${run.dir}/logs"/>
 	</target>
 
 	<!-- Compile -->
@@ -640,6 +641,10 @@
 		<fail message="GlassFish not installed at 'glassfish.dir' (as indicated in build.properties)" unless="glassfish-exists"/>
 		<copy todir="${glassfish.dir}/domains/${glassfish.domain}/lib" file="lib/emma.jar"/>
 
+		<available property="jetty-exists" file="${jetty.dir}/start.jar"/>
+		<fail message="Jetty not installed at 'jetty.dir' (as indicated in build.properties)" unless="jetty-exists"/>
+		<copy todir="${jetty.dir}/lib" file="lib/emma.jar"/>
+
 		<!-- Run tests as normal -->
 
 		<antcall target="test"/>
@@ -752,14 +757,14 @@
 	
 	<target name="test-web-stop-tomcat">
 		
-		<echo message="Stopping ${tomcat.dir} (then waiting 10 seconds)..."/>
+		<echo message="Stopping ${tomcat.dir} (then waiting 60 seconds)..."/>
 
 		<java jar="${tomcat.dir}/bin/bootstrap.jar" fork="true" dir="${run.dir}">
 	        <jvmarg value="-Dcatalina.home=${tomcat.dir}"/>
 	        <arg line="stop"/>
 	    </java>
 		
-		<sleep seconds="10"/>
+		<sleep seconds="60"/>
 
 	</target>
 	
@@ -797,6 +802,22 @@
 		</java>
 
 		<antcall target="test-web-stop-glassfish"/>
+
+		<!-- Test on Jetty -->
+
+		<copy file="${build.metawidget.dir}/examples/faces/addressbook-faces.war" todir="${jetty.dir}/webapps" overwrite="true"/>
+		<antcall target="test-web-start-jetty"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-jetty"/>
 
 	</target>
 
@@ -899,6 +920,22 @@
 
 		<antcall target="test-web-stop-glassfish"/>
 
+		<!-- Test on Jetty -->
+
+		<copy file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" todir="${jetty.dir}/webapps" overwrite="true"/>
+		<antcall target="test-web-start-jetty"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/gwt">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-jetty"/>
+
 	</target>
 
 	<target name="test-jsp-addressbook" depends="example-jsp-addressbook">
@@ -935,6 +972,22 @@
 		</java>
 
 		<antcall target="test-web-stop-glassfish"/>
+
+		<!-- Test on Jetty -->
+
+		<copy file="${build.metawidget.dir}/examples/faces/addressbook-jsp.war" todir="${jetty.dir}/webapps" overwrite="true"/>
+		<antcall target="test-web-start-jetty"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/jsp">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-jetty"/>
 
 	</target>
 	
@@ -973,6 +1026,22 @@
 
 		<antcall target="test-web-stop-glassfish"/>
 
+		<!-- Test on Jetty -->
+
+		<copy file="${build.metawidget.dir}/examples/faces/addressbook-struts.war" todir="${jetty.dir}/webapps" overwrite="true"/>
+		<antcall target="test-web-start-jetty"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/struts">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-jetty"/>
+
 	</target>
 
 	<target name="test-spring-addressbook" depends="example-spring-addressbook">
@@ -1009,6 +1078,22 @@
 		</java>
 
 		<antcall target="test-web-stop-glassfish"/>
+
+		<!-- Test on Jetty -->
+
+		<copy file="${build.metawidget.dir}/examples/faces/addressbook-spring.war" todir="${jetty.dir}/webapps" overwrite="true"/>
+		<antcall target="test-web-start-jetty"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/spring">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-jetty"/>
 
 	</target>
 
@@ -1079,14 +1164,14 @@
 	
 	<target name="test-web-stop-tomcat4">
 		
-		<echo message="Stopping ${tomcat4.dir} (then waiting 10 seconds)..."/>
+		<echo message="Stopping ${tomcat4.dir} (then waiting 60 seconds)..."/>
 
 		<java jar="${tomcat4.dir}/bin/bootstrap.jar" fork="true" dir="${run.dir}">
 	        <jvmarg value="-Dcatalina.home=${tomcat4.dir}"/>
 	        <arg line="stop"/>
 	    </java>
 		
-		<sleep seconds="10"/>
+		<sleep seconds="60"/>
 
 	</target>
 
@@ -1121,11 +1206,11 @@
 	
 	<target name="test-web-stop-jboss">
 		
-		<echo message="Stopping ${jboss.dir} (then waiting 20 seconds)..."/>
-        <exec executable="${jboss.dir}/bin/shutdown.bat" dir="${run.dir}" spawn="true">
+		<echo message="Stopping ${jboss.dir} (then waiting 60 seconds)..."/>
+        <exec executable="${jboss.dir}/bin/shutdown.bat" dir="${run.dir}">
         	<arg value="-S"/>
 		</exec>
-		<sleep seconds="20"/>
+		<sleep seconds="60"/>
 
 	</target>
 
@@ -1167,12 +1252,46 @@
 	
 	<target name="test-web-stop-glassfish">
 		
-		<echo message="Stopping ${glassfish.dir} (then waiting 20 seconds)..."/>
-        <exec executable="${glassfish.dir}/bin/asadmin.bat" dir="${run.dir}" spawn="true">
+		<echo message="Stopping ${glassfish.dir} (then waiting 60 seconds)..."/>
+        <exec executable="${glassfish.dir}/bin/asadmin.bat" dir="${run.dir}">
         	<arg value="stop-domain"/>
         	<arg value="${glassfish.domain}"/>
 		</exec>
+		<sleep seconds="60"/>
+
+	</target>
+
+	<!-- Jetty Tests -->
+
+	<target name="test-web-start-jetty">
+
+		<available property="jetty-exists" file="${jetty.dir}/start.jar"/>
+		<fail message="Jetty not installed at 'jetty.dir' (as indicated in build.properties)" unless="jetty-exists"/>
+		
+		<echo message="Starting ${jetty.dir} (then waiting 20 seconds)..."/>
+
+		<java jar="${jetty.dir}/start.jar" fork="true" spawn="true" dir="${run.dir}">
+			<jvmarg value="-Djetty.home=${jetty.dir}"/>
+			<jvmarg value="-Duser.timezone=GMT"/>
+			<jvmarg value="-Duser.region=US"/>
+			<jvmarg value="-DSTOP.PORT=8079"/>
+			<jvmarg value="-DSTOP.KEY=secret"/>
+		</java>
+
 		<sleep seconds="20"/>
+		
+	</target>
+	
+	<target name="test-web-stop-jetty">
+		
+		<echo message="Stopping ${jetty.dir} (then waiting 60 seconds)..."/>
+		<java jar="${jetty.dir}/start.jar" fork="true" dir="${run.dir}">
+			<jvmarg value="-Djetty.home=${jetty.dir}"/>
+			<jvmarg value="-DSTOP.PORT=8079"/>
+			<jvmarg value="-DSTOP.KEY=secret"/>
+			<arg value="--stop"/>
+		</java>
+		<sleep seconds="60"/>
 
 	</target>
 

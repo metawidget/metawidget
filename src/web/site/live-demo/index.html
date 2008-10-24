@@ -1,15 +1,16 @@
 <%@ page language="java" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
 
-<tags:page title="Play with Metawidget in your browser">
+<tags:page title="Live Demo">
 
-	<tags:body>
+	<tags:body floater="jigsaw-green.gif">
 
 		<%-- button/Start+Live+Demo.png?pt=20&bc=3f95b8&fc=ffffff --%>
 		
+		<h2>Play with Metawidget right now, in your browser!</h2>
+		
 		<p>
-			Play with Metawidget right now, in your browser! Click the button below to open a Groovy
-			console (may take a few minutes to download initially) and populate it with a small script that:
+			Click the button below to start a Groovy console (may take a few minutes to download initially) and populate it with a small script that:
 		</p>
 		
 		<ul>
@@ -19,7 +20,7 @@
 		</ul>
 		
 		<p>
-			You can then play by:
+			You can then play with Metawidget by:
 		</p>
 		
 		<ul>
@@ -28,13 +29,10 @@
 			<li>importing your own business object JARs to see how Metawidget renders them</li>
 		</ul>
 		
-		<a href="demo.html"><img src="${context}/media/start-live-demo.png"></a>
+		<center>
+			<a href="demo.html"><img src="${context}/media/start-live-demo.png" style="border: 0"></a>
+		</center>
 		
-		<p>
-			If you like what you see, <a href="${context}/download.html">download the full distribution</a> which includes
-			data binding support, pluggable layouts, multiple inspectors, Web-based and mobile-based Metawidgets and more!
-		</p>
-
 	</tags:body>
 
 </tags:page>

@@ -1,10 +1,22 @@
 <%@ page language="java" %>
 <%@ taglib tagdir="/WEB-INF/tags" prefix="tags"%>
 
-<tags:page title="Groovy Console">
+<tags:page title="Live Demo">
 
 	<tags:body>
 
+		<h2>Groovy Console with a Swing-based Metawidget</h2>
+		
+		<p>
+			Play with Metawidget by:
+		</p>
+		
+		<ul>
+			<li>running the code</li>
+			<li>changing the business model by adding fields, altering the annotations etc.</li>
+			<li>importing your own business object JARs to see how Metawidget renders them</li>
+		</ul>
+		
 		<applet archive="metawidget.jar, groovy-all-1.6-beta-2.jar, hibernate-validator.jar, ejb3-persistence.jar" code="org.metawidget.example.swing.console.GroovyConsoleApplet" width="100%" height="600">
 			<param name="script" value="import javax.swing.*;
 import javax.persistence.*;
@@ -83,6 +95,22 @@ dialog.setSize( 500, 350 );
 dialog.show();"/>
 		</applet>
 
+		<h2 style="margin-top: 10px">Like what you see?</h2>
+		
+		<p>
+			The next step is to <a href="${context}/download.html">download the full distribution</a> which includes:
+		</p>
+		
+		<ul>
+			<li>step-by-step tutorial</li>
+			<li>extensive documentation</li>
+			<li>data binding</li>
+			<li>pluggable layouts</li>
+			<li>multiple inspectors</li>
+			<li>Web-based and mobile-based Metawidgets</li>
+			<li>...and much more!</li>
+		</ul>
+		
 	</tags:body>
 
 </tags:page>
