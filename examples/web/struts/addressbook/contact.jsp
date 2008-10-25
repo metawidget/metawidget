@@ -27,6 +27,8 @@
 		</c:otherwise>
 	</c:choose>
 
+		<html:javascript formName="contactForm"/>
+		
 		<html:form action="/save">
 
 			<c:if test="${!empty requestScope['org.apache.struts.action.ERROR']}">

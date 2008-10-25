@@ -32,7 +32,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Inspector to look for relevant settings in struts-config.xml files.
+ * Inspector to look for metadata in struts-config.xml files.
  *
  * @author Richard Kennard
  */
@@ -44,7 +44,9 @@ public class StrutsInspector
 	// Private statics
 	//
 
-	private final static String	FORM_BEANS_ELEMENT	= "form-beans";
+	private final static String	FORM_BEANS_ELEMENT		= "form-beans";
+
+	private final static String	FORM_PROPERTY_ELEMENT	= "form-property";
 
 	//
 	// Constructor
@@ -99,16 +101,16 @@ public class StrutsInspector
 	@Override
 	protected Map<String, String> inspectProperty( Element toInspect )
 	{
-		if ( !"form-property".equals( toInspect.getNodeName() ) )
+		if ( !FORM_PROPERTY_ELEMENT.equals( toInspect.getNodeName() ) )
 			return null;
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		if ( toInspect.hasAttribute( NAME ) )
-			attributes.put( NAME, toInspect.getAttribute( NAME ) );
+		if ( toInspect.hasAttribute( getNameAttribute() ) )
+			attributes.put( NAME, toInspect.getAttribute( getNameAttribute() ) );
 
-		if ( toInspect.hasAttribute( TYPE ) )
-			attributes.put( TYPE, toInspect.getAttribute( TYPE ) );
+		if ( toInspect.hasAttribute( getTypeAttribute() ) )
+			attributes.put( TYPE, toInspect.getAttribute( getTypeAttribute() ) );
 
 		return attributes;
 	}

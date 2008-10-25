@@ -1,12 +1,60 @@
 <form-validation>
+	<global>
+		<validator />
+	</global>
+	
 	<formset>
-		<form name="logonForm">
-			<field property="userId" depends="required">
-				<arg0 key="prompt.userId" />
+		<form name="testForm1">
+			<field property="foo" depends="required"/>
+			<field property="bar" depends="intRange,maxlength">
+				<arg0 key="ignore.me" />
+				<var>
+					<var-name>min</var-name>
+					<var-value>1</var-value>
+				</var>
+				<var>
+					<var-name>max</var-name>
+					<var-value>99</var-value>
+				</var>
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>42</var-value>
+				</var>
 			</field>
-			<field property="password" depends="required">
-				<arg0 key="prompt.password" />
+			<field property="baz" depends="minlength">
+				<var>
+					<var-name>minlength</var-name>
+					<var-value>5</var-value>
+				</var>
+			</field>
+			<field property="abc" depends="floatRange">
+				<var>
+					<var-name>min</var-name>
+					<var-value>0.5</var-value>
+				</var>
+			</field>
+			<field property="def" depends="doubleRange">
+				<var>
+					<var-name>max</var-name>
+					<var-value>0.99</var-value>
+				</var>
 			</field>
 		</form>
+		<form name="testForm2">
+			<field property="foo" depends="floatRange"/>
+		</form>		
+		<form name="testForm3">
+			<field property="foo" depends="minlength"/>
+		</form>		
+		<form name="testForm4">
+			<field property="foo" depends="maxlength"/>
+		</form>		
+		<form name="testForm5">
+			<field property="foo" depends="intRange">
+				<var>
+					<var-name>min</var-name>
+				</var>
+			</field>
+		</form>		
 	</formset>
 </form-validation>

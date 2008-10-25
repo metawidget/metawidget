@@ -64,6 +64,7 @@ import org.w3c.dom.NodeList;
  * @author Richard Kennard
  */
 
+// TODO: ValidatingBaseXmlInspector?
 public abstract class BaseXmlInspector
 	implements Inspector
 {
@@ -92,7 +93,7 @@ public abstract class BaseXmlInspector
 			DocumentBuilder builder = XmlUtils.newDocumentBuilder();
 
 			// (note: we don't attempt schema validation. It is less performant and Android
-			//  fails with a dalvik VerifyError)
+			// fails with a dalvik VerifyError)
 
 			// Look up the XML file
 
@@ -318,7 +319,7 @@ public abstract class BaseXmlInspector
 		// ...and combine them all. Note the element may already exist from the superclass,
 		// and its attributes will get overriden by the subclass
 
-		XmlUtils.combineElements( toAddTo, element, getNameAttribute(), getNameAttribute() );
+		XmlUtils.combineElements( toAddTo, element, NAME, NAME );
 	}
 
 	protected Element inspect( Document toAddTo, Element toInspect )
@@ -470,6 +471,10 @@ public abstract class BaseXmlInspector
 
 	/**
 	 * The attribute on child elements that identifies another top-level element.
+	 * <p>
+	 * This is necessary for path traversal. If an XML format does not specify a way to traverse from a
+	 * child to another top-level element, the Inspector cannot find information along paths (eg.
+	 * <code>foo/bar/baz</code>).
 	 */
 
 	protected String getTypeAttribute()

@@ -80,6 +80,10 @@ public class XmlUtils
 
 	/**
 	 * Sets the Map as DOM attributes on the given Element.
+	 * <p>
+	 * This implementation uses <code>element.setAttribute</code>. Therefore if the element
+	 * already has attributes, the new attributes are added amongst them. If attributes with the
+	 * same name already exist, they are overwritten.
 	 */
 
 	public static void setMapAsAttributes( Element element, Map<String, String> attributes )
