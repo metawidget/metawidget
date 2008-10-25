@@ -51,7 +51,7 @@ import org.metawidget.example.swing.addressbook.converter.EnumConverter;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
-import org.metawidget.inspector.jexl.UiJexlAttribute;
+import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.beansbinding.BeansBinding;

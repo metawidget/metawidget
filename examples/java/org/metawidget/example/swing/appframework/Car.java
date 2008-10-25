@@ -26,7 +26,7 @@ import java.util.List;
 import org.jdesktop.application.Action;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
-import org.metawidget.inspector.jexl.UiJexlAttribute;
+import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
 
 /**
  * @author Richard Kennard

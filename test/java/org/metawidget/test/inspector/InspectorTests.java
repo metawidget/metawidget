@@ -21,6 +21,8 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.metawidget.test.inspector.annotation.MetawidgetAnnotationInspectorTest;
+import org.metawidget.test.inspector.commons.jexl.JexlInspectorTest;
+import org.metawidget.test.inspector.commons.jexl.JexlXmlInspectorTest;
 import org.metawidget.test.inspector.composite.CompositeInspectorTest;
 import org.metawidget.test.inspector.faces.FacesInspectorTest;
 import org.metawidget.test.inspector.hibernate.HibernateInspectorTest;
@@ -33,8 +35,6 @@ import org.metawidget.test.inspector.impl.propertystyle.javassist.JavassistPrope
 import org.metawidget.test.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest;
 import org.metawidget.test.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyleTest;
 import org.metawidget.test.inspector.java5.Java5InspectorTest;
-import org.metawidget.test.inspector.jexl.JexlInspectorTest;
-import org.metawidget.test.inspector.jexl.JexlXmlInspectorTest;
 import org.metawidget.test.inspector.jpa.JpaInspectorTest;
 import org.metawidget.test.inspector.jsp.JspAnnotationInspectorTest;
 import org.metawidget.test.inspector.propertytype.PropertyTypeInspectorTest;

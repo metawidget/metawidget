@@ -1,0 +1,12 @@
+<form-validation>
+	<formset>
+		<form name="logonForm">
+			<field property="userId" depends="required">
+				<arg0 key="prompt.userId" />
+			</field>
+			<field property="password" depends="required">
+				<arg0 key="prompt.password" />
+			</field>
+		</form>
+	</formset>
+</form-validation>
