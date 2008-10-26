@@ -8,18 +8,32 @@
                        org.apache.struts.action.ActionMessages,
                        org.apache.commons.validator.Validator,
                        javax.servlet.http.HttpServletRequest" msg="errors.required" />
+		<validator name="maxlength" classname="org.apache.struts.validator.FieldChecks" method="validateMaxLength" methodParams="java.lang.Object,
+                       org.apache.commons.validator.ValidatorAction,
+                       org.apache.commons.validator.Field,
+                       org.apache.struts.action.ActionMessages,
+                       org.apache.commons.validator.Validator,
+                       javax.servlet.http.HttpServletRequest" msg="errors.maxlength" />
 	</global>
 
 	<formset>
 		<form name="contactForm">
 			<field property="title" depends="required">
-				<arg0 key="title"/>
+				<arg0 key="title" />
 			</field>
-			<field property="firstname" depends="required">
-				<arg0 key="firstname"/>
+			<field property="firstname" depends="required,maxlength">
+				<arg0 key="firstname" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>50</var-value>
+				</var>
 			</field>
-			<field property="surname" depends="required">
-				<arg0 key="surname"/>
+			<field property="surname" depends="required,maxlength">
+				<arg0 key="surname" />
+				<var>
+					<var-name>maxlength</var-name>
+					<var-value>60</var-value>
+				</var>
 			</field>
 		</form>
 	</formset>

@@ -41,9 +41,9 @@ class Person {
     String id;
     @NotNull
     Title title;
-    @UiComesAfter(&quot;title&quot;)
+    @UiComesAfter(&quot;title&quot;)    
     String firstname;
-    @Column(nullable=false) @UiComesAfter(&quot;firstname&quot;)
+    @Column(nullable=false,length=30) @UiComesAfter(&quot;firstname&quot;)
     String surname
     @UiComesAfter(&quot;surname&quot;) @Min(0l) @Max(100l)
     int age;

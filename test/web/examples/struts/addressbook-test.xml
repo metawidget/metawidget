@@ -87,7 +87,9 @@
 				<clickButton label="Edit"/>
 				<verifySelectField name="title" value="Mr"/>
 				<verifyInputField name="firstname" value="Homer"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[@class='table-component-column']/input/@maxlength" text="50"/>
 				<verifyInputField name="surname" value="Simpson"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[3]/td[@class='table-component-column']/input/@maxlength" text="60"/>
 				<verifySelectField name="gender" value="MALE"/>
 				<verifyInputField name="dateOfBirthAsString" value="(5/11|5/12|11/05|12/05)/56" regex="true"/>
 				<verifyInputField name="address.street" value="742 Evergreen Terrace"/>

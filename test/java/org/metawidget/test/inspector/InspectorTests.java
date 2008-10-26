@@ -23,6 +23,7 @@ import junit.framework.TestSuite;
 import org.metawidget.test.inspector.annotation.MetawidgetAnnotationInspectorTest;
 import org.metawidget.test.inspector.commons.jexl.JexlInspectorTest;
 import org.metawidget.test.inspector.commons.jexl.JexlXmlInspectorTest;
+import org.metawidget.test.inspector.commons.validator.CommonsValidatorInspectorTest;
 import org.metawidget.test.inspector.composite.CompositeInspectorTest;
 import org.metawidget.test.inspector.faces.FacesInspectorTest;
 import org.metawidget.test.inspector.hibernate.HibernateInspectorTest;
@@ -71,6 +72,7 @@ public class InspectorTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Inspector Tests" );
+		suite.addTestSuite( CommonsValidatorInspectorTest.class );
 		suite.addTestSuite( ConfigReaderTest.class );
 		suite.addTestSuite( FacesInspectorTest.class );
 		suite.addTestSuite( GroovyPropertyStyleTest.class );

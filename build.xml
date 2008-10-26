@@ -515,6 +515,7 @@
 			<test name="org.metawidget.test.util.LogUtilsTest"/>
 			<classpath>
 				<fileset dir="lib">
+					<include name="emma.jar"/>
 					<include name="junit-*.jar"/>
 				</fileset>
 				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
@@ -1271,6 +1272,9 @@
 	<target name="test-jboss" depends="test-jboss-ok, test-jboss-skip"/>
 
 	<!-- GlassFish Tests -->
+	
+	<!-- (if GlassFish fails intermittently, try setting com.sun.enterprise.server.ss.setReuseAddress -->
+	<!--  to true as discussed here http://forums.java.net/jive/message.jspa?messageID=172574)        -->
 
 	<target name="test-web-start-glassfish">
 
