@@ -140,7 +140,9 @@ public class CompositeInspector
 
 			if ( masterDocument == null || !masterDocument.hasChildNodes() )
 			{
-				LOG.warn( "No inspectors matched path == " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+				if ( LOG.isDebugEnabled() )
+					LOG.debug( "No inspectors matched path == " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+
 				return null;
 			}
 

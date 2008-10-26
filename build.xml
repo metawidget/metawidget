@@ -803,12 +803,12 @@
 		
 		<!-- Test on GlassFish -->
 
-		<copy file="${build.metawidget.dir}/examples/faces/addressbook-faces.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<delete>
 			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
 				<include name="addressbook-*"/>
 			</fileset>
 		</delete>
+		<copy file="${build.metawidget.dir}/examples/faces/addressbook-faces.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
@@ -924,12 +924,12 @@
 		
 		<!-- Test on GlassFish -->
 
-		<copy file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<delete>
 			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
 				<include name="addressbook-*"/>
 			</fileset>
 		</delete>
+		<copy file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/gwt">
@@ -982,12 +982,12 @@
 		
 		<!-- Test on GlassFish -->
 
-		<copy file="${build.metawidget.dir}/examples/jsp/addressbook-jsp.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<delete>
 			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
 				<include name="addressbook-*"/>
 			</fileset>
 		</delete>
+		<copy file="${build.metawidget.dir}/examples/jsp/addressbook-jsp.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/jsp">
@@ -1040,12 +1040,12 @@
 
 		<!-- Test on GlassFish -->
 
-		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<delete>
 			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
 				<include name="addressbook-*"/>
 			</fileset>
 		</delete>
+		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/struts">
@@ -1098,12 +1098,12 @@
 		
 		<!-- Test on GlassFish -->
 
-		<copy file="${build.metawidget.dir}/examples/spring/addressbook-spring.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<delete>
 			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
 				<include name="addressbook-*"/>
 			</fileset>
 		</delete>
+		<copy file="${build.metawidget.dir}/examples/spring/addressbook-spring.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/spring">
@@ -1892,6 +1892,7 @@
 				<include name="commons-beanutils-*.jar"/>
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-logging-*.jar"/>
+				<include name="commons-validator*.jar"/>
 				<include name="jstl-*.jar"/>
 				<include name="struts.jar"/>
 				<include name="standard.jar"/>

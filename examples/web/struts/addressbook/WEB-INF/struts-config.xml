@@ -25,7 +25,7 @@
         	<forward name="contact" path="/contact.jsp"/>
         </action>
 
-        <action path="/save" name="contactForm" type="org.metawidget.example.struts.addressbook.action.SaveAction" input="/contact.jsp" scope="session">
+        <action path="/save" name="contactForm" type="org.metawidget.example.struts.addressbook.action.SaveAction" input="/contact.jsp" scope="session" validate="true">
         	<forward name="home" path="/index.jsp" redirect="true"/>
         	<forward name="contact" path="/contact.jsp"/>
         </action>
@@ -35,5 +35,9 @@
 	<message-resources parameter="org.metawidget.example.shared.addressbook.resource.Resources" null="false"/>
     
     <plug-in className="org.metawidget.example.struts.addressbook.plugin.AddressBookPlugIn"/>
+    
+    <plug-in className="org.apache.struts.validator.ValidatorPlugIn">
+		<set-property property="pathnames" value="/WEB-INF/validation.xml"/>
+    </plug-in>
 	
 </struts-config>

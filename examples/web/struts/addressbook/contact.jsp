@@ -29,7 +29,7 @@
 
 		<html:javascript formName="contactForm"/>
 		
-		<html:form action="/save">
+		<html:form action="/save" onsubmit="return validateContactForm( this )">
 
 			<c:if test="${!empty requestScope['org.apache.struts.action.ERROR']}">
 				<span class="errors">
@@ -84,7 +84,7 @@
 							<html:submit property="edit">
 								<bean:message key="edit"/>
  							</html:submit>
-							<html:submit property="cancel">
+							<html:submit property="cancel" onclick="window.location = 'index.jsp'; return false">
 								<bean:message key="back"/>
 		 					</html:submit>								
 						</c:when>
@@ -95,7 +95,7 @@
 							<html:submit property="delete" onclick="if ( !confirm( 'Sure you want to delete this contact?' )) return false">
 								<bean:message key="delete"/>
  							</html:submit>
-							<html:submit property="cancel">
+							<html:submit property="cancel" onclick="window.location = 'index.jsp'; return false">
 								<bean:message key="cancel"/>
 		 					</html:submit>								
  						</c:otherwise>

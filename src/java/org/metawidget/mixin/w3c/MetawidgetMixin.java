@@ -22,8 +22,6 @@ import org.metawidget.mixin.base.BaseMetawidgetMixin;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * Mixin for platforms that support <code>org.w3c.dom</code>.
@@ -54,26 +52,7 @@ public abstract class MetawidgetMixin<W>
 	@Override
 	protected Element getChildAt( Element element, int index )
 	{
-		// Get the indexed node (ignoring any indentation TextNodes)
-
-		NodeList nodes = element.getChildNodes();
-
-		int actualIndex = 0;
-
-		for( int loop = 0, length = nodes.getLength(); loop < length; loop++ )
-		{
-			Node node = nodes.item( loop );
-
-			if ( !( node instanceof Element ))
-				continue;
-
-			if ( actualIndex == index )
-				return (Element) node;
-
-			actualIndex++;
-		}
-
-		return null;
+		return XmlUtils.getElementAt( element, index );
 	}
 
 	@Override

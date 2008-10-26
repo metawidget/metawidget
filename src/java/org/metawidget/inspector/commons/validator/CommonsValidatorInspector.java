@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.InputStream;
 import java.util.Map;
+import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
 
@@ -114,19 +115,21 @@ public class CommonsValidatorInspector
 
 		if ( toInspect.hasAttribute( "depends" ))
 		{
-			String[] depends = toInspect.getAttribute( "depends" ).split( "," );
+			StringTokenizer tokenizer = new StringTokenizer( toInspect.getAttribute( "depends" ), "," );
 			Element firstVar = XmlUtils.getChildNamed( toInspect, "var" );
 
-			for( String depend : depends )
+			while( tokenizer.hasMoreTokens() )
 			{
+				String depends = tokenizer.nextToken();
+
 				// Required
 
-				if ( "required".equals( depend ) )
+				if ( "required".equals( depends ) )
 					attributes.put( REQUIRED, TRUE );
 
 				// Minimum/Maximum values
 
-				if ( "intRange".equals( depend ) || "floatRange".equals( depend ) || "doubleRange".equals( depend ))
+				if ( "intRange".equals( depends ) || "floatRange".equals( depends ) || "doubleRange".equals( depends ))
 				{
 					String min = getVarValue( firstVar, "min" );
 
@@ -139,18 +142,18 @@ public class CommonsValidatorInspector
 						attributes.put( MAXIMUM_VALUE, max );
 
 					if ( min == null && max == null )
-						throw InspectorException.newException( "Property '" + name + "' depends on " + depend + " but has no var-name of min or max" );
+						throw InspectorException.newException( "Property '" + name + "' depends on " + depends + " but has no var-name of min or max" );
 				}
 
 				// Minimum length
 
-				if ( "minlength".equals( depend ) )
-					attributes.put( MINIMUM_LENGTH, getVarValue( firstVar, "minlength", name, depend ));
+				if ( "minlength".equals( depends ) )
+					attributes.put( MINIMUM_LENGTH, getVarValue( firstVar, "minlength", name, depends ));
 
 				// Maximum length
 
-				if ( "maxlength".equals( depend ) )
-					attributes.put( MAXIMUM_LENGTH, getVarValue( firstVar, "maxlength", name, depend ));
+				if ( "maxlength".equals( depends ) )
+					attributes.put( MAXIMUM_LENGTH, getVarValue( firstVar, "maxlength", name, depends ));
 			}
 		}
 

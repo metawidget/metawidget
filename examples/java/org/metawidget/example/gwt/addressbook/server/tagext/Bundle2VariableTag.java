@@ -17,12 +17,15 @@
 package org.metawidget.example.gwt.addressbook.server.tagext;
 
 import java.io.IOException;
-import java.util.Enumeration;
+import java.util.Collections;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
+
+import org.metawidget.util.CollectionUtils;
 
 /**
  * Tag to render a ResourceBundle as a JavaScript variable.
@@ -86,17 +89,19 @@ public class Bundle2VariableTag
 			writer.write( mVariableName );
 			writer.write( " = {\n" );
 
-			for ( Enumeration<String> enumeration = mBundle.getKeys(); enumeration.hasMoreElements(); )
-			{
-				String key = enumeration.nextElement();
+			List<String> keys = CollectionUtils.newArrayList( mBundle.keySet());
+			Collections.sort( keys );
 
+			for ( int loop = 0, length = keys.size(); loop < length; loop++ )
+			{
+				String key = keys.get( loop );
 				writer.write( "\t\"" );
 				writer.write( key );
 				writer.write( "\": \"" );
 				writer.write( mBundle.getString( key ) );
 				writer.write( "\"" );
 
-				if ( enumeration.hasMoreElements() )
+				if ( loop < length - 1 )
 					writer.write( "," );
 
 				writer.write( "\n" );

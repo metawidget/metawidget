@@ -18,14 +18,13 @@ package org.metawidget.example.struts.addressbook.form;
 
 import java.util.Set;
 
-import org.apache.struts.action.ActionForm;
+import org.apache.struts.validator.ValidatorForm;
 import org.metawidget.example.shared.addressbook.model.Address;
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
-import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.struts.UiStrutsLookup;
 
@@ -34,7 +33,7 @@ import org.metawidget.inspector.struts.UiStrutsLookup;
  */
 
 public abstract class ContactForm
-	extends ActionForm
+	extends ValidatorForm
 {
 	//
 	// Private members
@@ -75,9 +74,10 @@ public abstract class ContactForm
 
 	/**
 	 * Get the Person's title.
+	 * <p>
+	 * Note: the 'required' metadata comes from validator-rules.xml.
 	 */
 
-	@UiRequired
 	@UiStrutsLookup( name = "contacts", property = "allTitles" )
 	public String getTitle()
 	{
@@ -89,8 +89,13 @@ public abstract class ContactForm
 		mTitle = title;
 	}
 
+	/**
+	 * Get the Person's firstname.
+	 * <p>
+	 * Note: the 'required' metadata comes from validator-rules.xml.
+	 */
+
 	@UiComesAfter( "title" )
-	@UiRequired
 	public String getFirstname()
 	{
 		return mFirstname;
@@ -101,8 +106,13 @@ public abstract class ContactForm
 		mFirstname = firstname;
 	}
 
+	/**
+	 * Get the Person's surname.
+	 * <p>
+	 * Note: the 'required' metadata comes from validator-rules.xml.
+	 */
+
 	@UiComesAfter( "firstname" )
-	@UiRequired
 	public String getSurname()
 	{
 		return mSurname;

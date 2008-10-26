@@ -16,15 +16,16 @@
 
 package org.metawidget.inspector.impl.propertystyle.struts;
 
-import org.apache.struts.action.ActionForm;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 
 /**
  * PropertyStyle for Struts ActionForm-style properties.
  * <p>
  * ActionForm properties essentially follow JavaBean-convention, but should not include the extra
- * methods defined in the <code>ActionForm</code> class itself, such as <code>getServlet</code>,
- * <code>getServletWrapper</code> and <code>getMultipartRequestHandler</code>.
+ * methods defined in the <code>ActionForm</code> classes themselves, such as
+ * <code>getServlet</code>, <code>getServletWrapper</code> and
+ * <code>getMultipartRequestHandler</code> in <code>ActionForm</code> and
+ * <code>getDynaClass()</code> in <code>DynaActionForm</code>.
  *
  * @author Richard Kennard
  */
@@ -39,7 +40,10 @@ public class StrutsActionFormPropertyStyle
 	@Override
 	protected boolean isExcludedBaseType( Class<?> clazz )
 	{
-		if ( ActionForm.class.equals( clazz ))
+		// Exclude org.apache.struts.* (includes org.apache.struts.action.* and
+		// org.apache.struts.validator.*)
+
+		if ( clazz.getName().startsWith( "org.apache.struts." ) )
 			return true;
 
 		return super.isExcludedBaseType( clazz );

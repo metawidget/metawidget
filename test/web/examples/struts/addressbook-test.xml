@@ -49,7 +49,7 @@
 			<steps>
 				<invoke url="${webtest.url}/addressbook-struts" />
 	
-				<clickLink label="Mr Homer Simpson"/>				
+				<clickLink label="Mr Homer Simpson"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table[@id='table-contactForm']"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[@id='table-contactFormTitle-row']"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr/td[@id='table-contactFormTitle-cell']"/>
@@ -167,23 +167,23 @@
 
 				<setSelectField name="communication.type" value="E-mail"/>
 				<setInputField name="communication.value" value="miss@business.contact.com"/>
-				<clickButton label="Add"/>
-	
-				<verifyXPath xpath="/html/body/div[@id='content']/form/span[@class='errors']"/>
-				<verifyText text="Firstname is required"/>
-				<verifyInputField name="communication.value" value=""/>
-				<verifyText text="miss@business.contact.com"/>
+				<expectDialog dialogType="alert" saveProperty="simpleDialog" />
+				<clickButton label="Add"/>	
+		        <verifyProperty name="simpleDialog" regex="true" text="Firstname is required\nSurname is required"/>
+		
 				<verifySelectField name="title" value="Mr"/>
 				<setSelectField name="title" value="Miss"/>
 				<setInputField name="firstname" value="Business"/>
 				<setSelectField name="gender" value="FEMALE"/>
 				<setInputField name="company" value="Some Company"/>
-				<clickButton label="Save"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/span[@class='errors']"/>	
-				<verifyText text="Surname is required"/>
+
+				<expectDialog dialogType="alert" saveProperty="simpleDialog" />
+				<clickButton label="Add"/>
+		        <verifyProperty name="simpleDialog" text="Surname is required"/>
 				
 				<setInputField name="surname" value="Contact"/>
 				<setInputField name="numberOfStaff" value="2"/>
+				<clickButton label="Add"/>
 				<setSelectField name="communication.type" value="Mobile"/>
 				<setInputField name="communication.value" value="(0402) 456 123"/>
 				<clickButton label="Add"/>
@@ -202,7 +202,9 @@
 				<verifyInputField name="company" value="Some Company"/>
 				<verifyInputField name="numberOfStaff" value="2"/>
 
+				<expectDialog dialogType="confirm" saveProperty="simpleDialog" response="true"/>
 				<clickButton label="Delete" fieldIndex="0"/>
+				<verifyProperty name="simpleDialog" text="Sure you want to delete this contact?"/>
 				
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a" text="Mr Charles Montgomery Burns"/>
 			</steps>

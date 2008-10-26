@@ -2675,8 +2675,9 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					
 					<para>
 						<classname>ActionForm</classname> properties essentially follow JavaBean-convention (this class extends <classname>JavaBeanPropertyStyle</classname>),
-						but should not include properties from the base class, (eg. <function>getServlet</function>, <function>getServletWrapper</function> and
- 						<function>getMultipartRequestHandler</function>).
+						but should not include properties from the Struts classes, (eg. <function>getServlet</function>, <function>getServletWrapper</function> and
+ 						<function>getMultipartRequestHandler</function> in <classname>ActionForm</classname> and <function>getDynaClass</function> in
+ 						<classname>DynaActionForm</classname>). 						
 					</para>
 					
 				</section>

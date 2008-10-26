@@ -13,6 +13,7 @@
 			</propertyTypeInspector>
 			<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 			<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/>
+			<commonsValidatorInspector xmlns="java:org.metawidget.inspector.commons.validator"/>
 			
 			<!-- Note: we need jspAnnotationInspector because we use both HtmlMetawidgetTag and SpringMetawidgetTag -->
 			

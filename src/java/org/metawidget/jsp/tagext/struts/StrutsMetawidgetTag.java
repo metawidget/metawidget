@@ -34,7 +34,6 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.apache.struts.Globals;
 import org.apache.struts.action.ActionServletWrapper;
-import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.taglib.html.BaseHandlerTag;
 import org.apache.struts.taglib.html.BaseInputTag;
 import org.apache.struts.taglib.html.CheckboxTag;
@@ -48,15 +47,12 @@ import org.apache.struts.taglib.html.TextareaTag;
 import org.apache.struts.upload.MultipartRequestHandler;
 import org.apache.struts.util.MessageResources;
 import org.metawidget.MetawidgetException;
-import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.w3c.dom.Element;
 
 /**
@@ -141,34 +137,6 @@ public class StrutsMetawidgetTag
 	//
 	// Protected methods
 	//
-
-	@Override
-	protected String inspect( Inspector inspector, String value )
-	{
-		TypeAndNames typeAndNames = PathUtils.parsePath( value, '.' );
-		String type = typeAndNames.getType();
-
-		// Try to locate a runtime Struts bean. This allows the Inspectors
-		// to act on it polymorphically.
-		//
-		// Because Metawidget will typically be embedded in a Struts FORM
-		// tag, Struts will typically have initialized 'strType' just-in-time
-
-		Object obj = pageContext.findAttribute( type );
-
-		if ( obj instanceof DynaActionForm )
-		{
-			// (never inspect DynaActionForms, though)
-
-			obj = null;
-		}
-		else if ( obj != null )
-		{
-			type = obj.getClass().getName();
-		}
-
-		return inspector.inspect( obj, type, typeAndNames.getNamesAsArray() );
-	}
 
 	@Override
 	protected String buildReadOnlyWidget( String elementName, Map<String, String> attributes )

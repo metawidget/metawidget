@@ -315,6 +315,35 @@ public class XmlUtils
 	}
 
 	/**
+	 * Get the indexed Element.
+	 * <p>
+	 * Similar to <code>Element.getChildNodes.item</code>, but ignores any Nodes (such as
+	 * indentation TextNodes).
+	 */
+
+	public static Element getElementAt( Element element, int index )
+	{
+		NodeList nodes = element.getChildNodes();
+
+		int actualIndex = 0;
+
+		for ( int loop = 0, length = nodes.getLength(); loop < length; loop++ )
+		{
+			Node node = nodes.item( loop );
+
+			if ( !( node instanceof Element ) )
+				continue;
+
+			if ( actualIndex == index )
+				return (Element) node;
+
+			actualIndex++;
+		}
+
+		return null;
+	}
+
+	/**
 	 * Combine the attributes and child elements of the second element into the first element.
 	 * <p>
 	 * Combining is performed purely by matching a topLevelAttributeToCombineOn attribute on the
@@ -330,12 +359,14 @@ public class XmlUtils
 		// Note: when Android is fixed, we can go back to using
 		// toAdd.getAttributes directly, which may be slightly faster
 
-		Map<String, String> attributesToAdd = XmlUtils.getAttributesAsMap( toAdd );
+		NamedNodeMap attributesToAdd = toAdd.getAttributes();
 
-		for ( Map.Entry<String, String> entryToAdd : attributesToAdd.entrySet() )
+		for ( int loop = 0, length = attributesToAdd.getLength(); loop < length; loop++ )
 		{
-			String attributeToAddName = entryToAdd.getKey();
-			String attributeToAddValue = entryToAdd.getValue();
+			Node nodeToAdd = attributesToAdd.item( loop );
+
+			String attributeToAddName = nodeToAdd.getNodeName();
+			String attributeToAddValue = nodeToAdd.getNodeValue();
 
 			if ( attributeToAddValue == null || attributeToAddValue.length() == 0 )
 				master.removeAttribute( attributeToAddName );

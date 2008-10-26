@@ -39,9 +39,11 @@ import org.metawidget.jsp.tagext.html.HtmlTableLayout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -284,8 +286,8 @@ public abstract class MetawidgetTag
 	 * Sets the ResourceBundle used to localize labels.
 	 * <p>
 	 * This will need to be exposed in framework-specific ways. For example, JSTL can use
-	 * <code>LocalizationContext</code>s, though these are not necessarily available to
-	 * a Struts app.
+	 * <code>LocalizationContext</code>s, though these are not necessarily available to a Struts
+	 * app.
 	 */
 
 	protected void setBundle( ResourceBundle bundle )
@@ -413,32 +415,38 @@ public abstract class MetawidgetTag
 		TypeAndNames typeAndNames = PathUtils.parsePath( path, '.' );
 		String type = typeAndNames.getType();
 
-		// Try to locate a runtime bean. This allows the Inspectors
-		// to act on it polymorphically
-
-		Object obj = pageContext.findAttribute( type );
-
-		if ( obj != null )
-			type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
-
 		// Inject the PageContext (in case it is used)
 
 		try
 		{
 			JspAnnotationInspector.setThreadLocalPageContext( pageContext );
 		}
-		catch( NoClassDefFoundError e )
+		catch ( NoClassDefFoundError e )
 		{
 			// Fail gracefully (if running without JspAnnotationInspector installed)
 		}
-		catch( UnsupportedClassVersionError e )
+		catch ( UnsupportedClassVersionError e )
 		{
 			// Fail gracefully (if running without annotations)
 		}
 
-		// Do the Inspection
+		// Inspect using the 'raw' type (eg. contactForm)
 
-		return inspector.inspect( obj, type, typeAndNames.getNamesAsArray() );
+		String xml = inspector.inspect( null, type, typeAndNames.getNamesAsArray() );
+
+		// Try to locate the runtime bean. This allows some Inspectors
+		// to act on it polymorphically.
+
+		Object obj = pageContext.findAttribute( type );
+
+		if ( obj != null )
+		{
+			type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
+			String additionalXml = inspector.inspect( obj, type, typeAndNames.getNamesAsArray() );
+			xml = combineSubtrees( xml, additionalXml );
+		}
+
+		return xml;
 	}
 
 	protected StubContent getStub( String path )
@@ -447,6 +455,34 @@ public abstract class MetawidgetTag
 			return null;
 
 		return mStubs.get( path );
+	}
+
+	//
+	// Private methods
+	//
+
+	/**
+	 * Combine the subtrees.
+	 * <p>
+	 * Note the top-level types attribute will be different, because one is the 'raw' type (eg.
+	 * contactForm) and one the runtime bean (eg.
+	 * org.metawidget.example.struts.addressbook.form.BusinessContactForm)
+	 */
+
+	public static String combineSubtrees( String master, String toAdd )
+	{
+		if ( master == null )
+			return toAdd;
+
+		if ( toAdd == null )
+			return master;
+
+		Document document = XmlUtils.documentFromString( master );
+		Element masterElement = XmlUtils.getElementAt( document.getDocumentElement(), 0 );
+		Element toAddElement = XmlUtils.getElementAt( XmlUtils.documentFromString( toAdd ).getDocumentElement(), 0 );
+		XmlUtils.combineElements( masterElement, toAddElement, NAME, null );
+
+		return XmlUtils.documentToString( document, false );
 	}
 
 	//
