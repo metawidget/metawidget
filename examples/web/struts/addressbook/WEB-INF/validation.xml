@@ -16,8 +16,8 @@
                        javax.servlet.http.HttpServletRequest" msg="errors.maxlength" />
 	</global>
 
-	<formset>
-		<form name="contactForm">
+	<formset>	
+		<form name="contactForm">		
 			<field property="title" depends="required">
 				<arg0 key="title" />
 			</field>
