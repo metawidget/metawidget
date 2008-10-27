@@ -1700,13 +1700,25 @@ bin\run</programlisting>
 
 				<para>
 					Open a Web browser to <uri>http://localhost:8080/seam-dvd</uri>. As with the previous
-					two sections, the updated Metawidget Seam DVD Store example looks very similar to the original, but
-					uses significantly less	boilerplate code. This time, as well as generating <classname>UIComponents</classname>
-					for business objects such as <classname>com.jboss.dvd.seam.Customer</classname>, Metawidget inspects jBPM files like
-					<filename>newuser.jpdl.xml</filename> and <filename>checkout.jpdl.xml</filename> to generate the
-					correct <classname>UICommands</classname> for each screen.
+					two sections, the updated Metawidget Seam DVD Store example looks very similar to the original, 
+					as in <xref linkend="section-introduction-part3-jbpm-screenshot"/>, but
+					uses significantly less	boilerplate code.
 				</para>
 				
+				<figure id="section-introduction-part3-jbpm-screenshot">
+					<title>Seam DVD Store with Metawidget</title>
+					<screenshot>
+						<graphic fileref="../shared/images/web-seam-dvd.jpg"/>
+					</screenshot>
+				</figure>
+				
+				<para>
+ 					This time, as well as generating <classname>UIComponents</classname>
+					for business objects such as <classname>com.jboss.dvd.seam.Customer</classname>, Metawidget inspects jBPM files like
+					<filename>newuser.jpdl.xml</filename> and <filename>checkout.jpdl.xml</filename> to generate the
+					correct <classname>UICommand</classname> buttons for each screen.				
+				</para>
+
 			</section>
 			
 			<section id="section-introduction-part3-swingappframework">
