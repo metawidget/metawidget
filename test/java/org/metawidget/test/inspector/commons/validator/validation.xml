@@ -6,6 +6,7 @@
 	
 	<formset>
 		<form name="testForm1">
+			<ignore />
 			<field property="foo" depends="required"/>
 			<field property="bar" depends="intRange,maxlength">
 				<arg0 key="ignore.me" />
