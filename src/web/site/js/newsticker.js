@@ -11,14 +11,21 @@ at.bartelme.newsticker.prototype = {
 	{
 		// Get elements
 		this.interval = 8000;
-		this.container = $("newsticker");
-		this.messages  = $A(this.container.getElementsByTagName("li"));
+		this.newsticker = $("newsticker");
+		this.messages  = $A(this.newsticker.getElementsByTagName("li"));
 		this.number_of_messages = this.messages.length;
 		this.current_message = this.randomMessage();
 		this.previous_message = null;
+
+		// Show ticker
 		this.hideMessages();
 		this.showMessage();
-		this.container.style.display = 'block';
+		this.quote_left = $("quote-left");
+		this.quote_right = $("quote-right");
+		this.quote_left.style.display = 'block';
+		this.quote_right.style.display = 'block';
+		this.newsticker.style.display = 'block';
+
 		// Install timer
 		this.timer = setInterval(this.showMessage.bind(this), this.interval);
   	},

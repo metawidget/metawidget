@@ -21,19 +21,19 @@ a {
 #newsticker {
 	position: absolute;
 	top: 5px;
-	right: 5px;
-	width: 550px;
+	right: 15px;
+	width: 600px;
 	font-size: 8pt;
 	color: #d6e8f2;
 	display: none;
 	text-align: right;
 	overflow: hidden;
 	height: 45px;
-	margin: 0px;
 }
 
 #newsticker ul {
-	list-style: none;	
+	list-style: none;
+	margin: 0px;
 }
 
 #newsticker a {	
@@ -41,6 +41,26 @@ a {
 	color: white;
 	text-decoration: none;
 	display: block;
+}
+
+#quote-left {
+	position: absolute;
+	top: 5px;
+	right: 300px;
+	height: 30px;
+	width: 38px;
+	background: url(../media/quote-left.gif) no-repeat;
+	display: none;
+}
+
+#quote-right {
+	position: absolute;
+	top: 5px;
+	right: 5px;
+	height: 30px;
+	width: 38px;
+	background: url(../media/quote-right.gif) no-repeat;
+	display: none;
 }
 
 /*

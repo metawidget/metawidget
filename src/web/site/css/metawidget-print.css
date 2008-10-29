@@ -1,4 +1,4 @@
-#top-tabs, #left-bar, #copyright, #quick-start, #floater, #newsticker, .tooltip {
+#top-tabs, #left-bar, #copyright, #quick-start, #floater, #newsticker ul, .tooltip {
 	display: none;
 }
 
