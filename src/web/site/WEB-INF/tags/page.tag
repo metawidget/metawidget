@@ -17,10 +17,14 @@
 		<link rel="stylesheet" type="text/css" href="${context}/css/metawidget-print.css" media="print" />
 		<c:if test="${useTooltips}">
 		<script src="${context}/js/prototype.js" type="text/javascript"></script>
+		<script src="${context}/js/effects.js" type="text/javascript"></script>
+		<script src="${context}/js/newsticker.js" type="text/javascript"></script>
 		<script src="${context}/js/tooltip-v0.2.js" type="text/javascript"></script>
 		</c:if>
 	</head>	
 		
-	<jsp:doBody />
+	<body>
+		<jsp:doBody />
+	</body>
 		
 </html>
