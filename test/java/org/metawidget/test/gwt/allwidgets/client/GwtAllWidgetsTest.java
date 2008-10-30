@@ -97,7 +97,7 @@ public class GwtAllWidgetsTest
 				assertTrue( 20 == ( (TextBox) flexTable.getWidget( 1, 1 ) ).getMaxLength() );
 				assertTrue( "Limited Textbox".equals( metawidget.getValue( "limitedTextbox" ) ) );
 				( (TextBox) flexTable.getWidget( 1, 1 ) ).setText( "Limited Textbox1" );
-				assertTrue( 2 == flexTable.getCellCount( 1 ) );
+				assertTrue( 3 == flexTable.getCellCount( 1 ) );
 
 				assertTrue( "Textarea:".equals( flexTable.getText( 2, 0 ) ) );
 				assertTrue( flexTable.getWidget( 2, 1 ) instanceof TextArea );
@@ -234,6 +234,7 @@ public class GwtAllWidgetsTest
 
 				assertTrue( "Nested widgets:".equals( flexTable.getText( 25, 0 ) ) );
 				assertTrue( flexTable.getWidget( 25, 1 ) instanceof GwtMetawidget );
+				assertTrue( 2 == flexTable.getFlexCellFormatter().getColSpan( 25, 1 ) );
 				assertTrue( 2 == flexTable.getCellCount( 25 ) );
 
 				final GwtMetawidget metawidgetNested = (GwtMetawidget) metawidget.getWidget( "nestedWidgets" );
@@ -468,7 +469,7 @@ public class GwtAllWidgetsTest
 
 																						assertTrue( "Section Break (i18n)".equals( readOnlyFlexTable.getText( 30, 0 ) ) );
 																						assertTrue( "aSectionStyleName".equals( readOnlyFlexTable.getFlexCellFormatter().getStyleName( 30, 0 ) ) );
-																						assertTrue( 2 == readOnlyFlexTable.getFlexCellFormatter().getColSpan( 30, 0 ) );
+																						assertTrue( 3 == readOnlyFlexTable.getFlexCellFormatter().getColSpan( 30, 0 ) );
 
 																						assertTrue( "Read only (i18n):".equals( readOnlyFlexTable.getText( 31, 0 ) ) );
 																						assertTrue( "Read Only".equals( ( (Label) readOnlyFlexTable.getWidget( 31, 1 ) ).getText() ) );

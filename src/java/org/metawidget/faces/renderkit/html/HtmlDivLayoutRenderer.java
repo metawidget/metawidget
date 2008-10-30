@@ -197,8 +197,6 @@ public class HtmlDivLayoutRenderer
 
 		// Footer facet
 
-		// TODO: test coverage
-
 		UIComponent componentFooter = component.getFacet( "footer" );
 
 		if ( componentFooter != null )

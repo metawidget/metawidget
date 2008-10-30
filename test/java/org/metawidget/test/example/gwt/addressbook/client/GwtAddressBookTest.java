@@ -145,7 +145,7 @@ public class GwtAddressBookTest
 										assertTrue( "Date of Birth:".equals( contactFlexTable.getText( 3, 0 ) ) );
 										assertTrue( "5/12/56".equals( contactMetawidget.getValue( "dateOfBirth" ) ) );
 										assertTrue( "Contact Details".equals( contactFlexTable.getText( 5, 0 ) ) );
-										assertTrue( 2 == contactFlexTable.getFlexCellFormatter().getColSpan( 5, 0 ) );
+										assertTrue( 3 == contactFlexTable.getFlexCellFormatter().getColSpan( 5, 0 ) );
 										assertTrue( "section-heading".equals( contactFlexTable.getFlexCellFormatter().getStyleName( 5, 0 ) ) );
 										assertTrue( "Address:".equals( contactFlexTable.getText( 6, 0 ) ) );
 
@@ -356,9 +356,11 @@ public class GwtAddressBookTest
 								assertTrue( "required".equals( flexTable.getCellFormatter().getStyleName( 0, 2 )));
 								assertTrue( "*".equals( flexTable.getText( 1, 2 )));
 								assertTrue( "*".equals( flexTable.getText( 2, 2 )));
-								assertTrue( 2 == flexTable.getCellCount( 3 ));
+								assertTrue( "".equals( flexTable.getText( 3, 2 )));
+								assertTrue( "<DIV></DIV>".equals( flexTable.getHTML( 3, 2 )));
 								assertTrue( "table-label-column".equals( flexTable.getCellFormatter().getStyleName( 3, 0 )));
 								assertTrue( "table-component-column".equals( flexTable.getCellFormatter().getStyleName( 3, 1 )));
+								assertTrue( "required".equals( flexTable.getCellFormatter().getStyleName( 3, 2 )));
 								contactMetawidget.setValue( 2, "numberOfStaff" );
 								contactMetawidget.setValue( "A Company", "company" );
 

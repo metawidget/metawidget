@@ -132,6 +132,8 @@ public class FlexTableLayout
 
 		// Widget
 
+		// Widget column (null labels get collapsed, blank Strings get preserved)
+
 		int widgetColumn = ( labelText == null ? 0 : 1 );
 
 		String styleName = getStyleName( 1 );
@@ -141,10 +143,27 @@ public class FlexTableLayout
 
 		mLayout.setWidget( row, widgetColumn, widget );
 
-		if ( widgetColumn == 0 )
-			mFormatter.setColSpan( row, 0, 2 );
+		// Colspan
 
-		layoutRequired( attributes );
+		int colspan = 1;
+
+		if ( widgetColumn == 0 )
+			colspan++;
+
+		// Nested Metawidgets span the required column too
+
+		boolean isMetawidget = ( widget instanceof GwtMetawidget );
+
+		if ( isMetawidget )
+			colspan++;
+
+		if ( colspan > 1 )
+			mFormatter.setColSpan( row, widgetColumn, colspan );
+
+		// Required
+
+		if ( !isMetawidget )
+			layoutRequired( attributes );
 	}
 
 	@Override
@@ -172,11 +191,20 @@ public class FlexTableLayout
 
 	protected void layoutRequired( Map<String, String> attributes )
 	{
+		int row = mLayout.getRowCount() - 1;
+		mFormatter.setStyleName( row, 2, getStyleName( 2 ) );
+
 		if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
 		{
-			int row = mLayout.getRowCount() - 1;
-			mFormatter.setStyleName( row, 2, getStyleName( 2 ) );
 			mLayout.setText( row, 2, "*" );
+		}
+		else
+		{
+			// Render an empty div, so that the CSS can force it to a certain
+			// width if desired for the layout (browsers seem to not respect
+			// widths set on empty table columns)
+
+			mLayout.setHTML( row, 2, "<div/>" );
 		}
 	}
 
@@ -200,7 +228,7 @@ public class FlexTableLayout
 
 		// Span and style
 
-		mFormatter.setColSpan( row, 0, 2 );
+		mFormatter.setColSpan( row, 0, 3 );
 
 		if ( mSectionStyleName != null )
 			mFormatter.setStyleName( row, 0, mSectionStyleName );

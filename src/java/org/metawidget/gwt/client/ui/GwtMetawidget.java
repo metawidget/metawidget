@@ -532,19 +532,22 @@ public class GwtMetawidget
 
 	public void setValue( Object value, Widget widget )
 	{
+		// CheckBox (must come before HasText, because CheckBox extends
+		// ButtonBase which implements HasHTML which extends HasText)
+
+		// TODO: quirks test - test true setting back of CheckBox (currently uses read-only)
+
+		if ( widget instanceof CheckBox )
+		{
+			( (CheckBox) widget ).setChecked( (Boolean) value );
+			return;
+		}
+
 		// HasText
 
 		if ( widget instanceof HasText )
 		{
 			( (HasText) widget ).setText( StringUtils.quietValueOf( value ) );
-			return;
-		}
-
-		// CheckBox
-
-		if ( widget instanceof CheckBox )
-		{
-			( (CheckBox) widget ).setChecked( (Boolean) value );
 			return;
 		}
 

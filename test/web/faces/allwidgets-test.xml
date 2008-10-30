@@ -325,7 +325,7 @@
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@value" text="Hidden1"/>
 				
-				<verifyXPath xpath="count(/html/body/div[1]/div)" text="32"/>
+				<verifyXPath xpath="count(/html/body/div[1]/div)" text="33"/>
 
 			</steps>
 		</webtest>
@@ -636,10 +636,15 @@
 				<verifyXPath xpath="/html/body/div[1]/div[31]/@class" text="aSectionStyleClass"/>
 				<verifyXPath xpath="/html/body/div[1]/div[32]/div[1]" text="Read only:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[32]/div[2]" text="Read Only1"/>
+				<verifyXPath xpath="/html/body/div[1]/div[32]/div[1]" text="Read only:"/>
+				<verifyXPath xpath="/html/body/div[1]/div[32]/div[2]" text="Read Only1"/>
+				<verifyXPath xpath="/html/body/div[1]/div[33]/@style" text="aFooterStyle"/>
+				<verifyXPath xpath="/html/body/div[1]/div[33]/@class" text="aFooterStyleClass"/>
+				<verifyXPath xpath="/html/body/div[1]/div[33]" text="Footer"/>
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@value" text="Hidden1"/>
 				
-				<verifyXPath xpath="count(/html/body/div[1]/div)" text="32"/>
+				<verifyXPath xpath="count(/html/body/div[1]/div)" text="33"/>
 				
 			</steps>
 		</webtest>

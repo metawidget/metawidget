@@ -256,7 +256,14 @@ public class ContactDialog
 		{
 			public void onClick( Widget sender )
 			{
-				mMetawidget.save();
+				try
+				{
+					mMetawidget.save();
+				}
+				catch( Exception e )
+				{
+					Window.alert( e.getMessage() );
+				}
 
 				mAddressBookModule.getContactsService().save( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Object>()
 				{
