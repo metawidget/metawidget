@@ -272,6 +272,12 @@ public class GwtMetawidget
 		invalidateInspection();
 	}
 
+	public void setInspector( Inspector inspector )
+	{
+		mInspector = inspector;
+		invalidateInspection();
+	}
+
 	public void setLayoutClass( Class<? extends Layout> layoutClass )
 	{
 		mLayoutClass = layoutClass;
@@ -532,22 +538,20 @@ public class GwtMetawidget
 
 	public void setValue( Object value, Widget widget )
 	{
-		// CheckBox (must come before HasText, because CheckBox extends
-		// ButtonBase which implements HasHTML which extends HasText)
-
-		// TODO: quirks test - test true setting back of CheckBox (currently uses read-only)
-
-		if ( widget instanceof CheckBox )
-		{
-			( (CheckBox) widget ).setChecked( (Boolean) value );
-			return;
-		}
-
 		// HasText
 
 		if ( widget instanceof HasText )
 		{
 			( (HasText) widget ).setText( StringUtils.quietValueOf( value ) );
+			return;
+		}
+
+		// CheckBox (must come before HasText, because CheckBox extends
+		// ButtonBase which implements HasHTML which extends HasText)
+
+		if ( widget instanceof CheckBox )
+		{
+			( (CheckBox) widget ).setChecked( (Boolean) value );
 			return;
 		}
 
@@ -775,6 +779,9 @@ public class GwtMetawidget
 
 	/**
 	 * Invalidates the current inspection result (if any) <em>and</em> invalidates the widgets.
+	 * <p>
+	 * As an optimisation we only invalidate the widgets, not the entire inspection result, for
+	 * some operations (such as adding/removing stubs, changing read-only etc.)
 	 */
 
 	protected void invalidateInspection()
@@ -1245,7 +1252,11 @@ public class GwtMetawidget
 		throws Exception
 	{
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-		metawidget.setInspectorClass( mInspectorClass );
+
+		if ( mInspector != null )
+			metawidget.setInspector( mInspector );
+		else
+			metawidget.setInspectorClass( mInspectorClass );
 
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBindingClass( mBindingClass );

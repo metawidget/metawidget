@@ -204,6 +204,8 @@ public class FlexTableLayout
 			// width if desired for the layout (browsers seem to not respect
 			// widths set on empty table columns)
 
+			// TODO: divs everywhere else too?
+
 			mLayout.setHTML( row, 2, "<div/>" );
 		}
 	}

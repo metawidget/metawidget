@@ -24,6 +24,7 @@ import org.metawidget.inspector.iface.Inspector;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 
 /**
  * GwtInspector that sends its objects to the server for inspection.
@@ -32,10 +33,10 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
  * pass objects to the server where the full power of Java introspection and reflection can be used
  * to inspect them. This includes inspecting their annotations.
  * <p>
- * Note it is not possible to generically optimize this call to, say, only pass the class name rather
- * than the entire object. This is because some <code>Inspectors</code> inspect the <em>value</em>
- * of the properties (eg. <code>UiLookup.onlyIfNull</code>). On a case-by-case basis, however, such
- * optimization is possible - see <code>GwtMetawidget.rebind</code>.
+ * Note it is not possible to generically optimize this call to, say, only pass the class name
+ * rather than the entire object. This is because some <code>Inspectors</code> inspect the
+ * <em>value</em> of the properties (eg. <code>UiLookup.onlyIfNull</code>). On a case-by-case
+ * basis, however, such optimization is possible - see <code>GwtMetawidget.rebind</code>.
  *
  * @author Richard Kennard
  */
@@ -53,9 +54,31 @@ public class GwtRemoteInspectorProxy
 	// Constructor
 	//
 
+	/**
+	 * Create a GwtRemoteInspectorProxy.
+	 */
+
 	public GwtRemoteInspectorProxy()
 	{
 		mInspector = (GwtRemoteInspectorAsync) GWT.create( GwtRemoteInspector.class );
+	}
+
+	/**
+	 * Create a GwtRemoteInspectorProxy.
+	 * <p>
+	 * This version of the constructor allows the caller to override the 'service entry point' of
+	 * the <code>GwtRemoteInspectorImpl</code> servlet. This can be useful for setting up multiple
+	 * servlets, each with their own <code>inspector-config.xml</code> configuration.
+	 *
+	 * @param serviceEntryPoint
+	 *            override servlet path of serviceEntryPoint
+	 */
+
+	public GwtRemoteInspectorProxy( String serviceEntryPoint )
+	{
+		this();
+
+		( (ServiceDefTarget) mInspector ).setServiceEntryPoint( serviceEntryPoint );
 	}
 
 	//

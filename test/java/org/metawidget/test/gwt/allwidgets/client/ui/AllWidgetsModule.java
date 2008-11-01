@@ -23,6 +23,7 @@ import org.metawidget.gwt.client.binding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.test.gwt.allwidgets.client.converter.DateConverter;
 import org.metawidget.test.gwt.allwidgets.client.converter.NestedWidgetsConverter;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
@@ -33,7 +34,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -53,11 +53,6 @@ public class AllWidgetsModule
 	// Constructor
 	//
 
-	public AllWidgetsModule()
-	{
-		this( RootPanel.get() );
-	}
-
 	public AllWidgetsModule( Panel panel )
 	{
 		mPanel = panel;
@@ -69,15 +64,12 @@ public class AllWidgetsModule
 
 	public void onModuleLoad()
 	{
-		// Model
-
-		AllWidgets allWidgets = new AllWidgets();
-
 		// Metawidget
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setParameter( "sectionStyleName", "aSectionStyleName" );
-		metawidget.setToInspect( allWidgets );
+		metawidget.setInspector( new GwtRemoteInspectorProxy( "/metawidget-inspector-allwidgets" ) );
+		metawidget.setToInspect( new AllWidgets() );
 
 		// Binding
 
@@ -114,15 +106,8 @@ public class AllWidgetsModule
 
 		buttonsFacet.add( saveButton );
 
-		// Add to either RootPanel or the given Panel (for unit tests)
+		// Add to the given Panel (for unit tests)
 
-		if ( mPanel instanceof RootPanel )
-		{
-			RootPanel.get().add( metawidget );
-		}
-		else
-		{
-			mPanel.add( metawidget );
-		}
+		mPanel.add( metawidget );
 	}
 }
