@@ -81,7 +81,7 @@ public class AddressBook
 
 	public AddressBook( Container container )
 	{
-		// Nimbus look and feel
+		// Nimbus look and feel (if available)
 
 		try
 		{
