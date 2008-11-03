@@ -63,7 +63,6 @@ public class JexlXmlInspectorTest
 
 		JexlXmlInspectorConfig config = new JexlXmlInspectorConfig();
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
-		config.setSchema( "" );
 		JexlXmlInspector inspector = new JexlXmlInspector( config );
 
 		String result = inspector.inspect( new Foo(), Foo.class.getName() );

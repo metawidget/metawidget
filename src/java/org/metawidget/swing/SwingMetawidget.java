@@ -193,7 +193,7 @@ public class SwingMetawidget
 	/**
 	 * Gets the Object being inspected.
 	 * <p>
-	 * Exposed for GUI builders and binding implementations.
+	 * Exposed for binding implementations.
 	 */
 
 	public Object getToInspect()
@@ -829,6 +829,9 @@ public class SwingMetawidget
 
 	/**
 	 * Invalidates the current inspection result (if any) <em>and</em> invalidates the widgets.
+	 * <p>
+	 * As an optimisation we only invalidate the widgets, not the entire inspection result, for
+	 * some operations (such as adding/removing stubs, changing read-only etc.)
 	 */
 
 	protected void invalidateInspection()
@@ -1407,10 +1410,10 @@ public class SwingMetawidget
 	{
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 
-		if ( mInspectorConfig != null )
-			metawidget.setInspectorConfig( mInspectorConfig );
-		else
+		if ( mInspector != null )
 			metawidget.setInspector( mInspector );
+		else
+			metawidget.setInspectorConfig( mInspectorConfig );
 
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBindingClass( mBindingClass );

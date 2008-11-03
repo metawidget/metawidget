@@ -33,6 +33,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.UIManager;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
@@ -79,6 +81,24 @@ public class AddressBook
 
 	public AddressBook( Container container )
 	{
+		// Nimbus look and feel
+
+		try
+		{
+			for ( LookAndFeelInfo info : UIManager.getInstalledLookAndFeels() )
+			{
+				if ( "Nimbus".equals( info.getName() ) )
+				{
+					UIManager.setLookAndFeel( info.getClassName() );
+					break;
+				}
+			}
+		}
+		catch ( Exception e )
+		{
+			// Okay to fail
+		}
+
 		container.setLayout( new BorderLayout() );
 
 		// Table model
@@ -208,7 +228,7 @@ public class AddressBook
 		return mSearchMetawidget;
 	}
 
-	@SuppressWarnings("serial")
+	@SuppressWarnings( "serial" )
 	private JComponent createResultsSection()
 	{
 		final JTable table = new JTable( mModel );

@@ -81,7 +81,6 @@ public class XmlInspectorTest
 
 		XmlInspectorConfig config = new XmlInspectorConfig();
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
-		config.setSchema( "" );
 		mInspector = new XmlInspector( config );
 	}
 

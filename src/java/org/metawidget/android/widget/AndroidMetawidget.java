@@ -968,10 +968,10 @@ public class AndroidMetawidget
 	{
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 
-		if ( mInspectorConfig != 0 )
-			metawidget.setInspectorConfig( mInspectorConfig );
-		else
+		if ( mInspector != null )
 			metawidget.setInspector( mInspector );
+		else
+			metawidget.setInspectorConfig( mInspectorConfig );
 
 		metawidget.setLayoutClass( mLayoutClass );
 

@@ -21,7 +21,7 @@ import java.io.InputStream;
 /**
  * Base class for BaseXmlInspectorConfig configurations.
  * <p>
- * Handles specifying XML file and schema file input.
+ * Handles specifying XML file input.
  *
  * @author Richard Kennard
  */
@@ -35,10 +35,6 @@ public class BaseXmlInspectorConfig
 	private String[]		mFiles;
 
 	private InputStream[]	mFileStreams;
-
-	private String			mSchema;
-
-	private InputStream		mSchemaStream;
 
 	//
 	// Public methods
@@ -86,34 +82,5 @@ public class BaseXmlInspectorConfig
 	public void setInputStreams( InputStream... streams )
 	{
 		mFileStreams = streams;
-	}
-
-	public String getSchema()
-	{
-		return mSchema;
-	}
-
-	/**
-	 * Sets the location of the XML Schema. Location will be searched using
-	 * <code>ResourceUtils.getResource</code>.
-	 */
-
-	public void setSchema( String schema )
-	{
-		mSchema = schema;
-	}
-
-	public InputStream getSchemaInputStream()
-	{
-		return mSchemaStream;
-	}
-
-	/**
-	 * Sets the InputStream of the XML Schema. If set, <code>setSchema</code> is ignored.
-	 */
-
-	public void setSchemaInputStream( InputStream schemaStream )
-	{
-		mSchemaStream = schemaStream;
 	}
 }

@@ -118,6 +118,7 @@
 			<include name="org/metawidget/example/android/**"/>
 			<include name="org/metawidget/example/swing/appframework/**"/>
 			<include name="org/metawidget/example/swing/applet/**"/>
+			<include name="org/metawidget/example/swing/console/**"/>
 			<include name="org/metawidget/example/**/addressbook/**"/>
 			<classpath>
 				<fileset dir="lib"/>
@@ -138,13 +139,13 @@
 
 		<!-- Build Groovy files -->
 
-		<java classname="org.codehaus.groovy.ant.Groovyc" fork="yes" failonerror="true">
+		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
 			<classpath>
 				<fileset dir="lib"/>
 			</classpath>
-	      	<arg value="${build.metawidget.dir}/groovy-test-classes"/>
-		    <arg value="test/groovy"/>
-		</java>		
+		</taskdef>
+
+		<groovyc srcdir="test/groovy" destdir="${build.metawidget.dir}/groovy-test-classes"/>
 
 		<!-- Build test files -->
 
@@ -538,6 +539,7 @@
 			</fileset>			
 		</copy>
 		
+		<!-- 
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
@@ -571,8 +573,25 @@
 				<pathelement path="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement path="${build.metawidget.dir}/examples/gwt/metawidget-gwt-client.jar"/>
 			</classpath>
+		</junit>-->
+
+		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
+			<jvmarg value="-Xmx256M"/>
+			<formatter type="brief" usefile="false"/>
+			<test name="org.metawidget.test.gwt.quirks.client.GwtQuirksTest"/>
+			<classpath>
+				<pathelement path="test/java/org/metawidget/test/gwt/quirks"/>
+				<pathelement path="test/java"/>
+				<dirset dir="${build.metawidget.dir}/test-classes"/>
+				<fileset dir="lib">
+					<exclude name="android.jar"/>
+				</fileset>
+				<pathelement path="${build.metawidget.dir}/metawidget.jar"/>
+				<pathelement path="${build.metawidget.dir}/examples/gwt/metawidget-gwt-client.jar"/>
+			</classpath>
 		</junit>
 
+		<!-- 
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
@@ -586,7 +605,7 @@
 				<pathelement path="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement path="${build.metawidget.dir}/examples/gwt/metawidget-gwt-client.jar"/>
 			</classpath>
-		</junit>
+		</junit> -->
 
 		<!-- 1.4 Unit tests -->
 
@@ -2099,8 +2118,10 @@
 
 	<!-- http://www.metawidget.org -->
 
-	<target name="web-site">
-		
+	<target name="web-site" depends="pack">
+
+		<delete dir="${tomcat.dir}/webapps"/>
+
 		<!-- JSP version -->
 
 		<copy todir="${build.metawidget.dir}/lib" flatten="true" includeemptydirs="false">
@@ -2109,8 +2130,6 @@
 				<include name="**/lib/**"/>
 			</fileset>
 		</copy>
-
-		<delete dir="${tomcat.dir}/webapps"/>		
 
 		<copy todir="${tomcat.dir}/webapps/ROOT">
 			<fileset dir="src/web/site"/>
@@ -2123,6 +2142,34 @@
 			</fileset>
 		</copy>
 
+		<!-- Live demo -->
+		
+		<jar destfile="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar">
+			<fileset dir="${build.metawidget.dir}/example-classes">
+				<include name="org/metawidget/example/swing/console/**"/>
+			</fileset>
+		</jar>
+		
+		<copy todir="${tomcat.dir}/webapps/ROOT/live-demo">
+			<fileset dir="${build.metawidget.dir}">
+				<include name="metawidget.jar"/>
+			</fileset>
+			<fileset dir="lib">
+				<include name="ejb3-persistence*.jar"/>
+				<include name="groovy*.jar"/>
+				<include name="hibernate-validator*.jar"/>
+			</fileset>
+		</copy>
+
+		<signjar alias="Metawidget" keystore="examples/java/org/metawidget/example/swing/console/metawidget.keystore" storepass="m3t4w1dg3t">
+			<path>
+				<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
+					<include name="console-applet.jar"/>
+					<include name="groovy*.jar"/>
+				</fileset>				
+			</path>
+		</signjar>
+		
 		<!-- Extract HTML -->
 
 		<available property="httrack-exists" file="${httrack.dir}/httrack.exe"/>

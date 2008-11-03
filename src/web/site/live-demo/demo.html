@@ -12,25 +12,18 @@
 		</p>
 		
 		<ul>
-			<li>running the code</li>
-			<li>changing the business model by adding fields, altering the annotations etc.</li>
-			<li>importing your own business object JARs to see how Metawidget renders them</li>
+			<li>running the script (click the <img src="../media/groovy-run.gif"/> button)</li>
+			<li>changing the business model by adding fields, altering annotations etc.</li>
+			<li>using <strong>Script > Add Jar to Classpath</strong> to import your own business objects and see how they render</li>
 		</ul>
 		
-		<applet archive="metawidget.jar, groovy-all-1.6-beta-2.jar, hibernate-validator.jar, ejb3-persistence.jar" code="org.metawidget.example.swing.console.GroovyConsoleApplet" width="100%" height="600">
-			<param name="script" value="import javax.swing.*;
-import javax.persistence.*;
-import org.metawidget.*;
-import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.composite.*;
-import org.metawidget.inspector.hibernate.validator.*;
-import org.metawidget.inspector.impl.*;
-import org.metawidget.inspector.impl.propertystyle.groovy.*;
-import org.metawidget.inspector.java5.*;
-import org.metawidget.inspector.jpa.*;
-import org.metawidget.inspector.propertytype.*;
-import org.metawidget.swing.*;
-import org.hibernate.validator.*;
+		<applet archive="console-applet.jar, metawidget.jar, groovy-all-1.6-beta-2.jar, hibernate-validator.jar, ejb3-persistence.jar" code="org.metawidget.example.swing.console.GroovyConsoleApplet" width="100%" height="600">
+			<param name="script" value="import javax.swing.*; import javax.persistence.*; import org.hibernate.validator.*;
+import org.metawidget.inspector.annotation.*; import org.metawidget.inspector.composite.*;
+import org.metawidget.inspector.hibernate.validator.*; import org.metawidget.inspector.impl.*;
+import org.metawidget.inspector.impl.propertystyle.groovy.*; import org.metawidget.inspector.java5.*;
+import org.metawidget.inspector.jpa.*; import org.metawidget.inspector.propertytype.*;
+import org.metawidget.swing.*; import org.metawidget.swing.layout.*;
 
 // Business Model
 
@@ -39,33 +32,43 @@ enum Title { Mr, Mrs, Miss }
 class Person {
     @Id
     String id;
+    
     @NotNull
     Title title;
+    
     @UiComesAfter(&quot;title&quot;)    
     String firstname;
+    
     @Column(nullable=false,length=30) @UiComesAfter(&quot;firstname&quot;)
-    String surname
+    String surname;
+    
     @UiComesAfter(&quot;surname&quot;) @Min(0l) @Max(100l)
     int age;
+    
     @UiComesAfter(&quot;age&quot;)
     boolean retired;
+    
     @UiSection(&quot;Address&quot;) @UiLabel(&quot;&quot;) @UiComesAfter(&quot;retired&quot;)
     Address address = new Address();
+    
     @Lob @UiComesAfter(&quot;address&quot;) @UiSection(&quot;Other&quot;)
     String notes;
 }
 
 class Address {
     String street;
+    
     @UiComesAfter(&quot;street&quot;)
     String city;
+    
     @UiLookup([&quot;Anytown&quot;,&quot;Cyberton&quot;,&quot;Lostville&quot;,&quot;Whereverton&quot;]) @UiComesAfter(&quot;city&quot;)
     String state;
+    
     @UiComesAfter(&quot;state&quot;)
     String postcode;
 }
 
-// Inspectors (normally configured using inspector-config.xml)
+// Inspectors (normally configured with an inspector-config.xml)
 
 BaseObjectInspectorConfig groovyConfig = new BaseObjectInspectorConfig();
 groovyConfig.setPropertyStyle( GroovyPropertyStyle.class );
@@ -79,14 +82,14 @@ compositeConfig.setInspectors(
     new Java5Inspector( groovyConfig ),
     new JpaInspector( jpaConfig ) );
 
-// Metawidget
+// Metawidget for Swing (many other platforms also supported)  
 
 SwingMetawidget metawidget = new SwingMetawidget();
-metawidget.setInspector( new CompositeInspector( compositeConfig));
-metawidget.setToInspect( new Person());
-metawidget.setParameter( &quot;sectionStyle&quot;, 1 );
+metawidget.setInspector( new CompositeInspector( compositeConfig ));
+metawidget.setToInspect( new Person() );
+metawidget.setParameter( &quot;sectionStyle&quot;, TableGridBagLayout.SECTION_AS_TAB );
 
-// UI around the Metawidget
+// Simple UI around the Metawidget
 
 JDialog dialog = new JDialog( SwingUtilities.getSharedOwnerFrame(), &quot;Metawidget Live Demo&quot;, true );
 dialog.add( metawidget );
@@ -95,15 +98,14 @@ dialog.setSize( 500, 350 );
 dialog.show();"/>
 		</applet>
 
-		<h2 style="margin-top: 10px">Like what you see?</h2>
+		<h2 style="margin-top: 20px">Like what you see?</h2>
 		
 		<p>
-			The next step is to <a href="${context}/download.html">download the full distribution</a> which includes:
+			Now <a href="${context}/download.html">download the full distribution</a> which includes:
 		</p>
 		
 		<ul>
-			<li>step-by-step tutorial</li>
-			<li>extensive documentation</li>
+			<li>extensive documentation (including step-by-step tutorial)</li>
 			<li>data binding</li>
 			<li>pluggable layouts</li>
 			<li>multiple inspectors</li>

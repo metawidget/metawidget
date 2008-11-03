@@ -60,11 +60,17 @@ import org.w3c.dom.NodeList;
  * <code>&lt;entity name="myBar" type="bar"&gt;</code>
  * <p>
  * ...as output.
+ * <p>
+ * This class does not support schema validation. It is not that useful in practice for two reasons.
+ * First, Inspectors like <code>HibernateInspector</code> and <code>JbpmInspector</code> cannot
+ * use it because they can be pointed at different kinds of files (eg. hibernate.cfg.xml or
+ * hibernate-mapping.hbm.xml). Second, Inspectors that are intended for Android environments (eg.
+ * <code>XmlInspector</code>) cannot use it because Android's Dalvik preprocessor balks at the
+ * unsupported schema classes (even if they're wrapped in a <code>ClassNotFoundException</code>).
  *
  * @author Richard Kennard
  */
 
-// TODO: ValidatingBaseXmlInspector?
 public abstract class BaseXmlInspector
 	implements Inspector
 {
@@ -90,10 +96,7 @@ public abstract class BaseXmlInspector
 	{
 		try
 		{
-			DocumentBuilder builder = XmlUtils.newDocumentBuilder();
-
-			// (note: we don't attempt schema validation. It is less performant and Android
-			// fails with a dalvik VerifyError)
+			DocumentBuilder builder = newDocumentBuilder( config, resolver );
 
 			// Look up the XML file
 
@@ -203,6 +206,12 @@ public abstract class BaseXmlInspector
 	//
 	// Protected methods
 	//
+
+	protected DocumentBuilder newDocumentBuilder( BaseXmlInspectorConfig config, ResourceResolver resolver )
+		throws Exception
+	{
+		return XmlUtils.newDocumentBuilder();
+	}
 
 	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, BaseXmlInspectorConfig config )
 		throws Exception

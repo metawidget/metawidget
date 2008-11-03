@@ -3,6 +3,7 @@ package org.metawidget.example.swing.console;
 import groovy.ui.Console;
 
 import javax.swing.JApplet;
+import javax.swing.JTextPane;
 
 public class GroovyConsoleApplet
 	extends JApplet
@@ -14,10 +15,10 @@ public class GroovyConsoleApplet
 	private static final long	serialVersionUID	= 1L;
 
 	//
-	// Private members
+	// Package members
 	//
 
-	private Console				mConsole;
+	Console						mConsole;
 
 	//
 	// Public methods
@@ -27,8 +28,24 @@ public class GroovyConsoleApplet
 	public void start()
 	{
 		mConsole = new Console();
-		mConsole.getInputArea().setText( getParameter( "script" ) );
-		mConsole.run();
+		mConsole.run( this );
+
+		// Initialize the Console with a script
+
+		final String script = getParameter( "script" );
+
+		if ( script != null )
+		{
+			//SwingUtilities.invokeLater( new Runnable()
+			//{
+				//public void run()
+				//{
+					JTextPane inputArea = mConsole.getInputArea();
+					inputArea.setText( script );
+					inputArea.setCaretPosition( 0 );
+				//}
+			//} );
+		}
 	}
 
 	@Override

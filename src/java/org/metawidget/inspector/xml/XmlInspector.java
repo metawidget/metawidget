@@ -32,6 +32,9 @@ import org.w3c.dom.Element;
  * <p>
  * XmlInspector is a very simple Inspector: it takes as its input XML in the same format that
  * Inspectors usually output.
+ * <p>
+ * Note: this class does not extend <code>ValidatingXmlInspector</code> as we want to be able
+ * to use it in Android environments.
  *
  * @author Richard Kennard
  */
