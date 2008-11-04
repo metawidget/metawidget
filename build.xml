@@ -2118,7 +2118,7 @@
 
 	<!-- http://www.metawidget.org -->
 
-	<target name="web-site" depends="pack">
+	<target name="web-site" depends="clean,pack">
 
 		<delete dir="${tomcat.dir}/webapps"/>
 
