@@ -24,7 +24,6 @@ a {
 	right: 15px;
 	font-size: 8pt;
 	color: #d6e8f2;
-	display: none;
 	text-align: right;
 	overflow: hidden;
 	height: 45px;
@@ -91,6 +90,8 @@ a {
 	position: absolute;
 	right: 0px;
 	top: 12px;
+	overflow: hidden;
+	height: 90px;
 }
 
 #top-tabs ul {

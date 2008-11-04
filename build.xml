@@ -2142,34 +2142,6 @@
 			</fileset>
 		</copy>
 
-		<!-- Live demo -->
-		
-		<jar destfile="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar">
-			<fileset dir="${build.metawidget.dir}/example-classes">
-				<include name="org/metawidget/example/swing/console/**"/>
-			</fileset>
-		</jar>
-		
-		<copy todir="${tomcat.dir}/webapps/ROOT/live-demo">
-			<fileset dir="${build.metawidget.dir}">
-				<include name="metawidget.jar"/>
-			</fileset>
-			<fileset dir="lib">
-				<include name="ejb3-persistence*.jar"/>
-				<include name="groovy*.jar"/>
-				<include name="hibernate-validator*.jar"/>
-			</fileset>
-		</copy>
-
-		<signjar alias="Metawidget" keystore="examples/java/org/metawidget/example/swing/console/metawidget.keystore" storepass="m3t4w1dg3t">
-			<path>
-				<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
-					<include name="console-applet.jar"/>
-					<include name="groovy*.jar"/>
-				</fileset>				
-			</path>
-		</signjar>
-		
 		<!-- Extract HTML -->
 
 		<available property="httrack-exists" file="${httrack.dir}/httrack.exe"/>
@@ -2237,6 +2209,34 @@
 			<include name="**/*.js"/>
 		</fixcrlf>
 			
+		<!-- Live demo -->
+		
+		<jar destfile="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar">
+			<fileset dir="${build.metawidget.dir}/example-classes">
+				<include name="org/metawidget/example/swing/console/**"/>
+			</fileset>
+		</jar>
+		
+		<copy todir="${tomcat.dir}/webapps/ROOT/live-demo">
+			<fileset dir="${build.metawidget.dir}">
+				<include name="metawidget.jar"/>
+			</fileset>
+			<fileset dir="lib">
+				<include name="ejb3-persistence*.jar"/>
+				<include name="groovy*.jar"/>
+				<include name="hibernate-validator*.jar"/>
+			</fileset>
+		</copy>
+
+		<signjar alias="Metawidget" keystore="examples/java/org/metawidget/example/swing/console/metawidget.keystore" storepass="m3t4w1dg3t">
+			<path>
+				<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
+					<include name="console-applet.jar"/>
+					<include name="groovy*.jar"/>
+				</fileset>				
+			</path>
+		</signjar>
+		
 		<!-- Test HTML links
 
 		<antcall target="test-web-start-tomcat"/>
