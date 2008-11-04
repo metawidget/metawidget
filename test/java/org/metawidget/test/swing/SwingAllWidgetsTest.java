@@ -209,7 +209,7 @@ public class SwingAllWidgetsTest
 		assertTrue( metawidget.getComponent( 9 ) instanceof JSpinner );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 9 ) ).gridx );
 		assertTrue( Byte.MAX_VALUE == (Byte) metawidget.getValue( "byte" ) );
-		assertTrue( Byte.MIN_VALUE == (Byte) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 9 ) ).getModel() ).getMinimum() );
+		assertTrue( -5 == (Byte) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 9 ) ).getModel() ).getMinimum() );
 		assertTrue( Byte.MAX_VALUE == (Byte) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 9 ) ).getModel() ).getMaximum() );
 		assertTrue( 0 == ( (JSpinner.DefaultEditor) ( (JSpinner) metawidget.getComponent( 9 ) ).getEditor() ).getTextField().getColumns() );
 		JSpinner spinner = (JSpinner) metawidget.getComponent( 9 );
@@ -225,7 +225,7 @@ public class SwingAllWidgetsTest
 		assertTrue( metawidget.getComponent( 13 ) instanceof JSpinner );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 13 ) ).gridx );
 		assertTrue( Short.MAX_VALUE == (Short) metawidget.getValue( "short" ) );
-		assertTrue( Short.MIN_VALUE == (Short) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 13 ) ).getModel() ).getMinimum() );
+		assertTrue( -6 == (Short) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 13 ) ).getModel() ).getMinimum() );
 		assertTrue( Short.MAX_VALUE == (Short) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 13 ) ).getModel() ).getMaximum() );
 		spinner = (JSpinner) metawidget.getComponent( 13 );
 		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
@@ -271,7 +271,7 @@ public class SwingAllWidgetsTest
 		assertTrue( metawidget.getComponent( 25 ) instanceof JSpinner );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 25 ) ).gridx );
 		assertTrue( 42 == (Long) metawidget.getValue( "long" ) );
-		assertTrue( Long.MIN_VALUE == (Long) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 25 ) ).getModel() ).getMinimum() );
+		assertTrue( -7 == (Long) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 25 ) ).getModel() ).getMinimum() );
 		assertTrue( Long.MAX_VALUE == (Long) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 25 ) ).getModel() ).getMaximum() );
 		spinner = (JSpinner) metawidget.getComponent( 25 );
 		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
@@ -287,7 +287,7 @@ public class SwingAllWidgetsTest
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 28 ) ).gridx );
 		assertTrue( 4.2f == (Float) metawidget.getValue( "float" ) );
 		assertTrue( -Float.MAX_VALUE == (Float) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 28 ) ).getModel() ).getMinimum() );
-		assertTrue( Float.MAX_VALUE == (Float) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 28 ) ).getModel() ).getMaximum() );
+		assertTrue( 2048 == (Float) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 28 ) ).getModel() ).getMaximum() );
 		spinner = (JSpinner) metawidget.getComponent( 28 );
 		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );
 		spinner.setValue( spinner.getModel().getNextValue() );
@@ -302,7 +302,7 @@ public class SwingAllWidgetsTest
 		assertTrue( metawidget.getComponent( 32 ) instanceof JSpinner );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 32 ) ).gridx );
 		assertTrue( 42.2d == (Double) metawidget.getValue( "double" ) );
-		assertTrue( -Double.MAX_VALUE == (Double) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 32 ) ).getModel() ).getMinimum() );
+		assertTrue( -8 == (Double) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 32 ) ).getModel() ).getMinimum() );
 		assertTrue( Double.MAX_VALUE == (Double) ( (SpinnerNumberModel) ( (JSpinner) metawidget.getComponent( 32 ) ).getModel() ).getMaximum() );
 		spinner = (JSpinner) metawidget.getComponent( 32 );
 		assertTrue( 0 == ( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().getColumns() );

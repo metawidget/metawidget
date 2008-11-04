@@ -2,6 +2,8 @@ package org.metawidget.example.swing.console;
 
 import groovy.ui.Console;
 
+import java.util.regex.Matcher;
+
 import javax.swing.JApplet;
 import javax.swing.JTextPane;
 import javax.swing.SwingUtilities;
@@ -55,10 +57,17 @@ public class GroovyConsoleApplet
 
 		// Initialize the Console with a script
 
-		final String script = getParameter( "script" );
+		String script = getParameter( "script" );
 
 		if ( script != null )
 		{
+			// (applet PARAM tag does not support newlines, so we roll our own convention)
+
+			script = script.replaceAll( Matcher.quoteReplacement( "\\n" ), "\n" );
+			script = script.replaceAll( Matcher.quoteReplacement( "\\t" ), "\t" );
+
+			final String parsedScript = script;
+
 			// (crashes unless we use .invokeLater)
 
 			SwingUtilities.invokeLater( new Runnable()
@@ -66,7 +75,7 @@ public class GroovyConsoleApplet
 				public void run()
 				{
 					JTextPane inputArea = mConsole.getInputArea();
-					inputArea.setText( script );
+					inputArea.setText( parsedScript );
 					inputArea.setCaretPosition( 0 );
 				}
 			} );

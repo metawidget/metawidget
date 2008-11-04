@@ -1844,7 +1844,7 @@
 		
 		<copy todir="${build.metawidget.dir}/examples/faces/seam/groovybooking">
 			<fileset dir="lib">
-				<include name="groovy-all*.jar"/>
+				<include name="groovy*.jar"/>
 			</fileset>
 		</copy>
 

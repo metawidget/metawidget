@@ -1274,17 +1274,83 @@ public class SwingMetawidget
 				// (use 'new', not '.valueOf', for JDK 1.4 compatibility)
 
 				if ( byte.class.equals( clazz ) )
-					setSpinnerModel( spinner, new Byte( (byte) 0 ), new Byte( Byte.MIN_VALUE ), new Byte( Byte.MAX_VALUE ), new Byte( (byte) 1 ) );
+				{
+					byte minimum = Byte.MIN_VALUE;
+					byte maximum = Byte.MAX_VALUE;
+
+					if ( minimumValue != null && !"".equals( minimumValue ))
+						minimum = Byte.parseByte( minimumValue );
+
+					if ( maximumValue != null && !"".equals( maximumValue ))
+						maximum = Byte.parseByte( maximumValue );
+
+					setSpinnerModel( spinner, (byte) 0, minimum, maximum, (byte) 1 );
+				}
 				else if ( short.class.equals( clazz ) )
-					setSpinnerModel( spinner, new Short( (short) 0 ), new Short( Short.MIN_VALUE ), new Short( Short.MAX_VALUE ), new Short( (short) 1 ) );
+				{
+					short minimum = Short.MIN_VALUE;
+					short maximum = Short.MAX_VALUE;
+
+					if ( minimumValue != null && !"".equals( minimumValue ) )
+						minimum = Short.parseShort( minimumValue );
+
+					if ( maximumValue != null && !"".equals( maximumValue ) )
+						maximum = Short.parseShort( maximumValue );
+
+					setSpinnerModel( spinner, (short) 0, minimum, maximum, (short) 1 );
+				}
 				else if ( int.class.equals( clazz ) )
-					setSpinnerModel( spinner, new Integer( 0 ), new Integer( Integer.MIN_VALUE ), new Integer( Integer.MAX_VALUE ), new Integer( 1 ) );
+				{
+					int minimum = Integer.MIN_VALUE;
+					int maximum = Integer.MAX_VALUE;
+
+					if ( minimumValue != null && !"".equals( minimumValue ))
+						minimum = Integer.parseInt( minimumValue );
+
+					if ( maximumValue != null && !"".equals( maximumValue ) )
+						maximum = Integer.parseInt( maximumValue );
+
+					setSpinnerModel( spinner, 0, minimum, maximum, 1 );
+				}
 				else if ( long.class.equals( clazz ) )
-					setSpinnerModel( spinner, new Long( 0l ), new Long( Long.MIN_VALUE ), new Long( Long.MAX_VALUE ), new Long( 1l ) );
+				{
+					long minimum = Long.MIN_VALUE;
+					long maximum = Long.MAX_VALUE;
+
+					if ( minimumValue != null && !"".equals( minimumValue ) )
+						minimum = Long.parseLong( minimumValue );
+
+					if ( maximumValue != null && !"".equals( maximumValue ) )
+						maximum = Long.parseLong( maximumValue );
+
+					setSpinnerModel( spinner, (long) 0, minimum, maximum, (long) 1 );
+				}
 				else if ( float.class.equals( clazz ) )
-					setSpinnerModel( spinner, new Float( 0f ), new Float( -Float.MAX_VALUE ), new Float( Float.MAX_VALUE ), new Float( 0.1f ) );
+				{
+					float minimum = -Float.MAX_VALUE;
+					float maximum = Float.MAX_VALUE;
+
+					if ( minimumValue != null && !"".equals( minimumValue ) )
+						minimum = Float.parseFloat( minimumValue );
+
+					if ( maximumValue != null && !"".equals( maximumValue ) )
+						maximum = Float.parseFloat( maximumValue );
+
+					setSpinnerModel( spinner, (float) 0, minimum, maximum, (float) 0.1 );
+				}
 				else if ( double.class.equals( clazz ) )
-					setSpinnerModel( spinner, new Double( 0f ), new Double( -Double.MAX_VALUE ), new Double( Double.MAX_VALUE ), new Double( 0.1f ) );
+				{
+					double minimum = -Double.MAX_VALUE;
+					double maximum = Double.MAX_VALUE;
+
+					if ( minimumValue != null && !"".equals( minimumValue ) )
+						minimum = Double.parseDouble( minimumValue );
+
+					if ( maximumValue != null && !"".equals( maximumValue ) )
+						maximum = Double.parseDouble( maximumValue );
+
+					setSpinnerModel( spinner, (double) 0, minimum, maximum, 0.1 );
+				}
 
 				return spinner;
 			}

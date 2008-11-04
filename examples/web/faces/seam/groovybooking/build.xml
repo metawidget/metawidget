@@ -53,7 +53,7 @@
 		<delete file="${seam.dir}/lib/groovy-all.jar"/>
 		
 		<copy todir="${seam.dir}/lib" file="../../../../metawidget.jar"/>
-		<copy tofile="${seam.dir}/lib/groovy-all.jar" file="groovy-all-1.5.6.jar"/>
+		<copy tofile="${seam.dir}/lib/groovy-all.jar" file="groovy-all-1.6-beta-2.jar"/>
 
 		<ant dir="${seam.dir}/examples/metawidget-groovybooking" inheritall="false"/>
 		
