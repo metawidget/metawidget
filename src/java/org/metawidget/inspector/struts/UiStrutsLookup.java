@@ -32,6 +32,8 @@ import java.lang.annotation.Target;
 @Target( { ElementType.FIELD, ElementType.METHOD } )
 public @interface UiStrutsLookup
 {
+	// TODO: labelName, labelProperty
+
 	String name( );
 
 	String property( );

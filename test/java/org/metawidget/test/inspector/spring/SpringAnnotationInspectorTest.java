@@ -70,7 +70,13 @@ public class SpringAnnotationInspectorTest
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( "bar".equals( property.getAttribute( SPRING_LOOKUP ) ) );
 
-		assertTrue( entity.getChildNodes().getLength() == 1 );
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
+		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertTrue( "baz".equals( property.getAttribute( SPRING_LOOKUP ) ) );
+		assertTrue( "abc".equals( property.getAttribute( SPRING_LOOKUP_ITEM_VALUE ) ) );
+		assertTrue( "def".equals( property.getAttribute( SPRING_LOOKUP_ITEM_LABEL ) ) );
+
+		assertTrue( entity.getChildNodes().getLength() == 2 );
 	}
 
 	//
@@ -81,5 +87,8 @@ public class SpringAnnotationInspectorTest
 	{
 		@UiSpringLookup( "bar" )
 		public Object	object1;
+
+		@UiSpringLookup( value = "baz", itemValue = "abc", itemLabel = "def" )
+		public Object	object2;
 	}
 }

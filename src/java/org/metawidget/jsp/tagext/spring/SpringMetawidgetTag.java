@@ -453,8 +453,6 @@ public class SpringMetawidgetTag
 			{
 				// Empty option
 
-				// Empty option
-
 				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
 				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
@@ -468,6 +466,18 @@ public class SpringMetawidgetTag
 
 				OptionsTag tagOptions = new OptionsTag();
 				tagOptions.setItems( expression );
+
+				// Optional itemValue and itemLabel
+
+				String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
+
+				if ( itemValue != null )
+					tagOptions.setItemValue( itemValue );
+
+				String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
+
+				if ( itemLabel != null )
+					tagOptions.setItemLabel( itemLabel );
 
 				delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptions, tagSelect, null ) );
 			}

@@ -1186,6 +1186,7 @@
 		<antcall target="test-jsp-addressbook"/>
 		<antcall target="test-jsp-allwidgets"/>
 		<antcall target="test-spring-addressbook"/>
+		<antcall target="test-spring-quirks"/>
 		<antcall target="test-struts-addressbook"/>
 		<antcall target="test-swing-addressbook-applet"/>					
 		
@@ -1545,6 +1546,47 @@
 		
 	</target>
 	
+	<target name="test-spring-quirks" depends="flatten-libs">
+		
+		<mkdir dir="${build.metawidget.dir}/test/spring"/>
+
+		<war warfile="${build.metawidget.dir}/test/spring/quirks-spring.war" webxml="test/web/spring/quirks/WEB-INF/web.xml">
+			<fileset dir="test/web/spring/quirks">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<classes dir="${build.metawidget.dir}/test-classes">
+				<include name="org/metawidget/test/spring/quirks/**"/>
+			</classes>
+			<lib dir="${build.metawidget.dir}/lib">
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="jstl-*.jar"/>
+				<include name="spring.jar"/>
+				<include name="spring-*.jar"/>
+				<include name="metawidget.jar"/>
+			</lib>
+		</war>
+
+		<copy file="${build.metawidget.dir}/test/spring/quirks-spring.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/quirks-spring"/>
+		<antcall target="test-web-start-tomcat"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/spring">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file quirks-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-tomcat"/>
+		
+	</target>
+
 	<target name="test-struts-allwidgets" depends="test-shared-allwidgets">
 		
 		<mkdir dir="${build.metawidget.dir}/test/struts"/>

@@ -37,5 +37,24 @@ import java.lang.annotation.Target;
 @Target( { ElementType.FIELD, ElementType.METHOD } )
 public @interface UiSpringLookup
 {
-	String value( );
+	/**
+	 * Value of the lookup. Equivalent to
+	 * <code>org.springframework.web.servlet.tags.form.OptionsTag.setItems</code>
+	 */
+
+	String value();
+
+	/**
+	 * Name of the property mapped to the label (inner text) of the 'option' tag. Equivalent to
+	 * <code>org.springframework.web.servlet.tags.form.OptionsTag.setItemValue</code>
+	 */
+
+	String itemValue() default "";
+
+	/**
+	 * Name of the property mapped to the 'value' attribute of the 'option' tag. Equivalent to
+	 * <code>org.springframework.web.servlet.tags.form.OptionsTag.setItemLabel</code>
+	 */
+
+	String itemLabel() default "";
 }

@@ -14,33 +14,57 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.spring;
+package org.metawidget.test.spring.quirks.model;
+
+import org.metawidget.inspector.spring.UiSpringLookup;
 
 /**
- * Spring-specific element and attribute names appearing in DOMs conforming to
- * inspection-result-1.0.xsd.
+ * Models an entity that tests some Spring-specific quirks.
  *
  * @author Richard Kennard
  */
 
-public final class SpringInspectionResultConstants
+public class SpringQuirks
 {
 	//
-	// Public statics
+	// Private members
 	//
 
-	public final static String	SPRING_LOOKUP				= "spring-lookup";
-
-	public final static String	SPRING_LOOKUP_ITEM_VALUE	= "spring-lookup-item-value";
-
-	public final static String	SPRING_LOOKUP_ITEM_LABEL	= "spring-lookup-item-label";
+	private String	mLookup;
 
 	//
-	// Private constructor
+	// Public methods
 	//
 
-	private SpringInspectionResultConstants()
+	@UiSpringLookup( value = "${lookup.items}", itemValue = "value", itemLabel = "label" )
+	public String getLookup()
 	{
-		// Can never be called
+		return mLookup;
+	}
+
+	public void setLookup( String lookup )
+	{
+		mLookup = lookup;
+	}
+
+	//
+	// Inner class
+	//
+
+	public static class Lookup
+	{
+		//
+		// Public methods
+		//
+
+		public String getValue()
+		{
+			return "aValue";
+		}
+
+		public String getLabel()
+		{
+			return "aLabel";
+		}
 	}
 }

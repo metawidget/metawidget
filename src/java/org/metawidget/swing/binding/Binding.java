@@ -62,7 +62,7 @@ public abstract class Binding
 	 * @param attributes
 	 *            metadata of the property being bound
 	 * @param path
-	 *            path to bind to
+	 *            path to bind to (can be parsed using PathUtils.parsePath)
 	 */
 
 	public abstract void bind( Component component, Map<String, String> attributes, String path );

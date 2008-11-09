@@ -248,9 +248,7 @@ public class StrutsMetawidgetTag
 		String strutsLookup = attributes.get( STRUTS_LOOKUP_NAME );
 
 		if ( strutsLookup != null )
-		{
 			return writeSelectTag( strutsLookup, attributes.get( STRUTS_LOOKUP_PROPERTY ), attributes );
-		}
 
 		// String Lookups
 

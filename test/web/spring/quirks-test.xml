@@ -1,0 +1,34 @@
+<project name="spring-quirks-test" default="test-all">
+
+	<property file="../../../build.properties" />
+	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
+
+	<import file="${webtest.dir}/lib/taskdef.xml" />
+
+	<target name="test-all">
+		<webtest name="test-all">
+			<config resultpath="${build.metawidget.dir}"/>
+			<steps>
+				<invoke url="${webtest.url}/quirks-spring" />
+				
+				<verifyXPath xpath="/html/body/form/table[@id='table-quirksCommand']"/>
+
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Lookup:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select[@name='lookup']"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[1]/td[1]/select/option)" text="4"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[1]/@value" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[1]" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[2]/@value" text="value1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[2]" text="label1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[3]/@value" text="value2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[3]" text="label2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[4]/@value" text="value3"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[4]" text="label3"/>
+
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="1"/>
+				
+			</steps>
+		</webtest>
+	</target>
+
+</project>
