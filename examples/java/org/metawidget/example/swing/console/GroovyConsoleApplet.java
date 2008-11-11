@@ -10,6 +10,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
+// TODO: unit test this. See swing/applet/addressbook-test.xml
+
 public class GroovyConsoleApplet
 	extends JApplet
 {

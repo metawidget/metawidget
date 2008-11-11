@@ -375,7 +375,8 @@ public abstract class BaseObjectInspector
 		}
 		catch ( SecurityException e )
 		{
-			// We might not be allowed to in applets, in which case we relax this sanity check
+			// We might not be allowed to in unsigned applets, in which case we relax this
+			// (it's only a sanity check)
 		}
 
 		if ( classLoader != null )

@@ -36,7 +36,7 @@ public class SpringQuirks
 	// Public methods
 	//
 
-	@UiSpringLookup( value = "${lookup.items}", itemValue = "value", itemLabel = "label" )
+	@UiSpringLookup( value = "${lookup.items}", itemValue = "${'va'}lue", itemLabel = "label" )
 	public String getLookup()
 	{
 		return mLookup;
