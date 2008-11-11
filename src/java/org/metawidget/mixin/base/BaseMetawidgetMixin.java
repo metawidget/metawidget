@@ -225,6 +225,11 @@ public abstract class BaseMetawidgetMixin<W, E>
 	protected W buildWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
+		// Note: we tried further refining this to buildReadOnlyFieldWidget, buildReadOnlyActionWidget,
+		// buildActiveFieldWidget, buildActiveActionWidget, but it wasn't really better because
+		// we still had to pass 'elementName' to other methods (such as UIMetawidget.getOverridenWidget)
+		// and so it seemed simplier and more symmetrical to also pass it here
+
 		if ( isReadOnly( attributes ) )
 			return buildReadOnlyWidget( elementName, attributes );
 
