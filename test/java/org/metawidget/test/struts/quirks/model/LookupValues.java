@@ -14,35 +14,20 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.struts;
+package org.metawidget.test.struts.quirks.model;
 
 /**
- * Struts-specific element and attribute names appearing in DOMs conforming to
- * inspection-result-1.0.xsd.
- *
  * @author Richard Kennard
  */
 
-public final class StrutsInspectionResultConstants
+public class LookupValues
 {
 	//
-	// Public statics
+	// Public methods
 	//
 
-	public final static String	STRUTS_LOOKUP_NAME				= "struts-lookup-name";
-
-	public final static String	STRUTS_LOOKUP_PROPERTY			= "struts-lookup-property";
-
-	public final static String	STRUTS_LOOKUP_LABEL_NAME		= "struts-lookup-label-name";
-
-	public final static String	STRUTS_LOOKUP_LABEL_PROPERTY	= "struts-lookup-label-property";
-
-	//
-	// Private constructor
-	//
-
-	private StrutsInspectionResultConstants()
+	public String[] getValues()
 	{
-		// Can never be called
+		return new String[]{ "value1", "value2", "value3" };
 	}
 }

@@ -14,35 +14,44 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.struts;
+package org.metawidget.test.struts.quirks.form;
+
+import org.apache.struts.action.ActionForm;
+import org.metawidget.inspector.struts.UiStrutsLookup;
 
 /**
- * Struts-specific element and attribute names appearing in DOMs conforming to
- * inspection-result-1.0.xsd.
+ * Models an entity that tests some Struts-specific quirks.
  *
  * @author Richard Kennard
  */
 
-public final class StrutsInspectionResultConstants
+public class StrutsQuirksForm
+	extends ActionForm
 {
 	//
-	// Public statics
+	// Private statics
 	//
 
-	public final static String	STRUTS_LOOKUP_NAME				= "struts-lookup-name";
-
-	public final static String	STRUTS_LOOKUP_PROPERTY			= "struts-lookup-property";
-
-	public final static String	STRUTS_LOOKUP_LABEL_NAME		= "struts-lookup-label-name";
-
-	public final static String	STRUTS_LOOKUP_LABEL_PROPERTY	= "struts-lookup-label-property";
+	private static final long	serialVersionUID	= 1L;
 
 	//
-	// Private constructor
+	// Private members
 	//
 
-	private StrutsInspectionResultConstants()
+	private String				mLookup;
+
+	//
+	// Public methods
+	//
+
+	@UiStrutsLookup( name = "lookupValues", property = "values", labelName = "lookupLabels", labelProperty = "labels" )
+	public String getLookup()
 	{
-		// Can never be called
+		return mLookup;
+	}
+
+	public void setLookup( String lookup )
+	{
+		mLookup = lookup;
 	}
 }

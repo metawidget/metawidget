@@ -477,6 +477,18 @@ public class StrutsMetawidgetTag
 				tagOptions.setName( name );
 				tagOptions.setProperty( property );
 
+				// Optional labelName and labelProperty
+
+				String labelName = attributes.get( STRUTS_LOOKUP_LABEL_NAME );
+
+				if ( labelName != null )
+					tagOptions.setLabelName( labelName );
+
+				String labelProperty = attributes.get( STRUTS_LOOKUP_LABEL_PROPERTY );
+
+				if ( labelProperty != null )
+					tagOptions.setLabelProperty( labelProperty );
+
 				bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOptions, tagSelect, null ) );
 			}
 		} );

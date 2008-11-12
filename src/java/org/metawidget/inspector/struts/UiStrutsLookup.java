@@ -32,9 +32,31 @@ import java.lang.annotation.Target;
 @Target( { ElementType.FIELD, ElementType.METHOD } )
 public @interface UiStrutsLookup
 {
-	// TODO: labelName, labelProperty
+	/**
+	 * Name of the bean containing the lookup. Equivalent to
+	 * <code>org.apache.struts.taglib.OptionsTag.setName</code>
+	 */
 
 	String name( );
 
+	/**
+	 * Name of the property to use to build the values collection. Equivalent to
+	 * <code>org.apache.struts.taglib.OptionsTag.setProperty</code>
+	 */
+
 	String property( );
+
+	/**
+	 * Name of the bean containing the labels lookup. Equivalent to
+	 * <code>org.apache.struts.taglib.OptionsTag.setLabelName</code>
+	 */
+
+	String labelName( ) default "";
+
+	/**
+	 * Name of the property to use to build the labels collection. Equivalent to
+	 * <code>org.apache.struts.taglib.OptionsTag.setLabelProperty</code>
+	 */
+
+	String labelProperty( ) default "";
 }

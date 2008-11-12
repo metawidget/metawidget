@@ -46,25 +46,4 @@ public class SpringQuirks
 	{
 		mLookup = lookup;
 	}
-
-	//
-	// Inner class
-	//
-
-	public static class Lookup
-	{
-		//
-		// Public methods
-		//
-
-		public String getValue()
-		{
-			return "aValue";
-		}
-
-		public String getLabel()
-		{
-			return "aLabel";
-		}
-	}
 }

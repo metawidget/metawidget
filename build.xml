@@ -1188,6 +1188,7 @@
 		<antcall target="test-spring-addressbook"/>
 		<antcall target="test-spring-quirks"/>
 		<antcall target="test-struts-addressbook"/>
+		<antcall target="test-struts-quirks"/>
 		<antcall target="test-swing-addressbook-applet"/>					
 		
 	</target>
@@ -1626,6 +1627,47 @@
 		</java>
 			
 		<antcall target="test-web-stop-tomcat4"/>
+		
+	</target>
+
+	<target name="test-struts-quirks" depends="flatten-libs">
+		
+		<mkdir dir="${build.metawidget.dir}/test/struts"/>
+
+		<war warfile="${build.metawidget.dir}/test/struts/quirks-struts.war" webxml="test/web/struts/quirks/WEB-INF/web.xml">
+			<fileset dir="test/web/struts/quirks">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<classes dir="${build.metawidget.dir}/test-classes">
+				<include name="org/metawidget/test/struts/quirks/**"/>
+			</classes>
+			<lib dir="${build.metawidget.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="jstl-*.jar"/>
+				<include name="struts.jar"/>
+				<include name="metawidget.jar"/>
+			</lib>
+		</war>
+
+		<copy file="${build.metawidget.dir}/test/struts/quirks-struts.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/quirks-struts"/>
+		<antcall target="test-web-start-tomcat"/>
+		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/struts">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file quirks-test.xml"/>
+		</java>
+			
+		<antcall target="test-web-stop-tomcat"/>
 		
 	</target>
 
@@ -2274,6 +2316,7 @@
 			<path>
 				<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
 					<include name="console-applet.jar"/>
+					<include name="metawidget.jar"/>
 					<include name="groovy*.jar"/>
 				</fileset>				
 			</path>

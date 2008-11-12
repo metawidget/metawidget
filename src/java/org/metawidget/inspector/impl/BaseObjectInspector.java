@@ -365,27 +365,16 @@ public abstract class BaseObjectInspector
 		if ( toTraverse == null )
 			return null;
 
-		ClassLoader classLoader = null;
+		// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
+		//
+		// (note: in some cases, this needs the applet to be signed - I think this is still
+		//  better than 'relaxing' this sanity check, as that would lead to differing behaviour
+		//  when deployed as an unsigned applet versus a signed applet)
 
-		try
-		{
-			// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
+		Class<?> clazz = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
 
-			classLoader = toTraverse.getClass().getClassLoader();
-		}
-		catch ( SecurityException e )
-		{
-			// We might not be allowed to in unsigned applets, in which case we relax this
-			// (it's only a sanity check)
-		}
-
-		if ( classLoader != null )
-		{
-			Class<?> clazz = ClassUtils.niceForName( type, classLoader );
-
-			if ( clazz == null || !clazz.isAssignableFrom( toTraverse.getClass() ) )
-				return null;
-		}
+		if ( clazz == null || !clazz.isAssignableFrom( toTraverse.getClass() ) )
+			return null;
 
 		// Traverse through names (if any)
 
