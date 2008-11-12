@@ -78,7 +78,7 @@ public class GwtRemoteInspectorProxy
 	{
 		this();
 
-		( (ServiceDefTarget) mInspector ).setServiceEntryPoint( serviceEntryPoint );
+		( (ServiceDefTarget) mInspector ).setServiceEntryPoint( GWT.getModuleBaseURL() + serviceEntryPoint );
 	}
 
 	//

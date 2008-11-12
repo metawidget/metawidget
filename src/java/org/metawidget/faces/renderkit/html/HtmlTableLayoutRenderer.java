@@ -691,13 +691,19 @@ public class HtmlTableLayoutRenderer
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> attributes = (Map<String, String>) child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
 
-		if ( attributes == null )
-			return;
-
 		ResponseWriter writer = context.getResponseWriter();
 
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !( (UIMetawidget) component ).isReadOnly() )
+		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !( (UIMetawidget) component ).isReadOnly() )
+		{
 			writer.write( "*" );
+			return;
+		}
+
+		// Render an empty div, so that the CSS can force it to a certain
+		// width if desired for the layout (browsers seem to not respect
+		// widths set on empty table columns)
+
+		writer.write( "<div/>" );
 	}
 
 	protected String getCssId( UIComponent component )

@@ -18,6 +18,7 @@ package org.metawidget.test.inspector;
 
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
+import java.util.Date;
 
 import junit.framework.TestCase;
 
@@ -167,18 +168,27 @@ public class ConfigReaderTest
 		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.test.inspector\" config=\"BadInspectorConfig\">";
 		xml += "<int>3</int>";
-		xml += "<list>";
+		xml += "<listOfStrings>";
 		xml += "<string>foo</string>";
 		xml += "<string>bar</string>";
-		xml += "</list>";
+		xml += "</listOfStrings>";
+		xml += "<listOfClasses>";
+		xml += "<class>java.lang.String</class>";
+		xml += "<class>java.util.Date</class>";
+		xml += "<class>java.lang.Long</class>";
+		xml += "</listOfClasses>";
 		xml += "</badInspector>";
 		xml += "</inspector-config>";
 
 		BadInspector inspector = (BadInspector) new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
 		assertTrue( 3 == inspector.getInt() );
-		assertTrue( "foo".equals( inspector.getList().get( 0 ) ));
-		assertTrue( "bar".equals( inspector.getList().get( 1 ) ));
-		assertTrue( 2 == inspector.getList().size() );
+		assertTrue( "foo".equals( inspector.getListOfStrings().get( 0 ) ));
+		assertTrue( "bar".equals( inspector.getListOfStrings().get( 1 ) ));
+		assertTrue( 2 == inspector.getListOfStrings().size() );
+		assertTrue( String.class.equals( inspector.getListOfClasses().get( 0 ) ));
+		assertTrue( Date.class.equals( inspector.getListOfClasses().get( 1 ) ));
+		assertTrue( Long.class.equals( inspector.getListOfClasses().get( 2 ) ));
+		assertTrue( 3 == inspector.getListOfClasses().size() );
 	}
 
 	public void testUnsupportedType()

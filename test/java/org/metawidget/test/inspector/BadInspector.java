@@ -32,9 +32,11 @@ public class BadInspector
 	// Private members
 	//
 
-	private List<String>	mList;
+	private List<String>	mListOfStrings;
 
 	private int				mInt;
+
+	private List<Class<?>>	mListOfClasses;
 
 	//
 	// Constructor
@@ -42,8 +44,9 @@ public class BadInspector
 
 	public BadInspector( BadInspectorConfig config )
 	{
-		mList = config.getList();
+		mListOfStrings = config.getListOfStrings();
 		mInt = config.getInt();
+		mListOfClasses = config.getListOfClasses();
 	}
 
 	//
@@ -56,13 +59,18 @@ public class BadInspector
 		return null;
 	}
 
-	public List<String> getList()
+	public List<String> getListOfStrings()
 	{
-		return mList;
+		return mListOfStrings;
 	}
 
 	public int getInt()
 	{
 		return mInt;
+	}
+
+	public List<Class<?>> getListOfClasses()
+	{
+		return mListOfClasses;
 	}
 }

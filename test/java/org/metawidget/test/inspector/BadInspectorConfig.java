@@ -29,24 +29,26 @@ public class BadInspectorConfig
 	// Private members
 	//
 
-	private List<String>	mList;
+	private List<String>	mListOfStrings;
 
 	private int				mInt;
+
+	private List<Class<?>>	mListOfClasses;
 
 	//
 	// Public methods
 	//
 
-	public void setList( List<String> list )
+	public void setListOfStrings( List<String> listOfStrings )
 	{
-		mList = list;
+		mListOfStrings = listOfStrings;
 	}
 
-	public List<String> getList()
+	public List<String> getListOfStrings()
 	{
-		return mList;
+		return mListOfStrings;
 	}
-	
+
 	public void setInt( int anInt )
 	{
 		mInt = anInt;
@@ -56,7 +58,17 @@ public class BadInspectorConfig
 	{
 		return mInt;
 	}
-	
+
+	public void setListOfClasses( List<Class<?>> listOfClasses )
+	{
+		mListOfClasses = listOfClasses;
+	}
+
+	public List<Class<?>> getListOfClasses()
+	{
+		return mListOfClasses;
+	}
+
 	public void setDate( Date date )
 	{
 		// Test unsupported types

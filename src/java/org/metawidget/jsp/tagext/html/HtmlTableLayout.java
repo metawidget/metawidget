@@ -502,13 +502,14 @@ public class HtmlTableLayout
 
 	protected String layoutRequired( Map<String, String> attributes )
 	{
-		if ( attributes == null )
-			return "";
+		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidgetTag().isReadOnly() )
+			return "*";
 
-		if ( !TRUE.equals( attributes.get( REQUIRED ) ) || TRUE.equals( attributes.get( READ_ONLY ) ) || getMetawidgetTag().isReadOnly() )
-			return "";
+		// Render an empty div, so that the CSS can force it to a certain
+		// width if desired for the layout (browsers seem to not respect
+		// widths set on empty table columns)
 
-		return "*";
+		return "<div/>";
 	}
 
 	protected String getStyleClass( int styleClass )

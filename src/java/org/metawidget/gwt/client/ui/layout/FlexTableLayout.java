@@ -194,20 +194,17 @@ public class FlexTableLayout
 		int row = mLayout.getRowCount() - 1;
 		mFormatter.setStyleName( row, 2, getStyleName( 2 ) );
 
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
+		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
 		{
 			mLayout.setText( row, 2, "*" );
+			return;
 		}
-		else
-		{
-			// Render an empty div, so that the CSS can force it to a certain
-			// width if desired for the layout (browsers seem to not respect
-			// widths set on empty table columns)
 
-			// TODO: divs everywhere else too?
+		// Render an empty div, so that the CSS can force it to a certain
+		// width if desired for the layout (browsers seem to not respect
+		// widths set on empty table columns)
 
-			mLayout.setHTML( row, 2, "<div/>" );
-		}
+		mLayout.setHTML( row, 2, "<div/>" );
 	}
 
 	protected void layoutSection( String section )
