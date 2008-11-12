@@ -539,7 +539,6 @@
 			</fileset>			
 		</copy>
 		
-		<!-- 
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
@@ -573,7 +572,7 @@
 				<pathelement path="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement path="${build.metawidget.dir}/examples/gwt/metawidget-gwt-client.jar"/>
 			</classpath>
-		</junit>-->
+		</junit>
 
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
@@ -591,7 +590,6 @@
 			</classpath>
 		</junit>
 
-		<!-- 
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
@@ -605,7 +603,7 @@
 				<pathelement path="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement path="${build.metawidget.dir}/examples/gwt/metawidget-gwt-client.jar"/>
 			</classpath>
-		</junit> -->
+		</junit>
 
 		<!-- 1.4 Unit tests -->
 
@@ -1302,14 +1300,14 @@
 		<available property="glassfish-exists" file="${glassfish.dir}/bin/asadmin.bat"/>
 		<fail message="GlassFish not installed at 'glassfish.dir' (as indicated in build.properties)" unless="glassfish-exists"/>
 		
-		<echo message="Starting ${glassfish.dir} (then waiting 30 seconds)..."/>
+		<echo message="Starting ${glassfish.dir} (then waiting 40 seconds)..."/>
 
         <exec executable="${glassfish.dir}/bin/asadmin.bat" dir="${run.dir}" spawn="true">
         	<arg value="start-domain"/>
         	<arg value="${glassfish.domain}"/>
 		</exec>
 		
-		<sleep seconds="30"/>
+		<sleep seconds="40"/>
 		
 	</target>
 	
