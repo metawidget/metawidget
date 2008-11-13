@@ -17,6 +17,7 @@
 package org.metawidget.test.inspector;
 
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
@@ -38,6 +39,10 @@ public class BadInspector
 
 	private List<Class<?>>	mListOfClasses;
 
+	private boolean			mBoolean;
+
+	private Pattern			mPattern;
+
 	//
 	// Constructor
 	//
@@ -47,6 +52,8 @@ public class BadInspector
 		mListOfStrings = config.getListOfStrings();
 		mInt = config.getInt();
 		mListOfClasses = config.getListOfClasses();
+		mBoolean = config.isBoolean();
+		mPattern = config.getPattern();
 	}
 
 	//
@@ -72,5 +79,15 @@ public class BadInspector
 	public List<Class<?>> getListOfClasses()
 	{
 		return mListOfClasses;
+	}
+
+	public boolean isBoolean()
+	{
+		return mBoolean;
+	}
+
+	public Pattern getPattern()
+	{
+		return mPattern;
 	}
 }

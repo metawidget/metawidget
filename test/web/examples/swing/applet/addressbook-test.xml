@@ -6,27 +6,24 @@
 	<path id="webtest.path.id">
 		<pathelement location="${webtest.dir}/lib"/>
 		<fileset dir="${webtest.dir}/lib" includes="*.jar"/>
-		<fileset dir="${webtest.dir}/lib" includes="optional/*.jar"/>
-		<fileset dir="${webtest.dir}/lib" includes="plugins/**/*.jar"/>
-		<fileset dir="${webtest.dir}/lib" includes="runtime/*.jar"/>
 		<fileset dir="${build.metawidget.dir}/examples/swing/applet/addressbook" includes="*.jar"/>
 		<fileset dir="../../../../../lib" includes="emma.jar"/>
 	</path>
 	
     <taskdef resource="webtest.taskdef" loaderref="webtest.loader" classpathref="webtest.path.id"/>
 
-	<!-- Test Applet Loads (more thorough testing is done by SwingAddressBookTest -->
+	<!-- Test Applet Loads (more thorough testing is done by SwingAddressBookTest) -->
 				
 	<target name="test-all">
 		<webtest name="test-loads">
 			<config resultpath="${build.metawidget.dir}" />
 			<steps>
-				<invoke url="file://c:${build.metawidget.dir}/examples/swing/applet/addressbook/index.html" />
+				<invoke url="file://${build.metawidget.dir}/examples/swing/applet/addressbook/index.html" />
 				<verifyTitle text="Address Book (Metawidget Swing Applet Example)" />
 
-				<!-- Test contacts row count. It would be nice one day to also test the Metawidget -->
-				<!-- generated the JTextFields and JComboBox, but that alludes us for now because  -->
-				<!-- of classpath issues when trying to load inspector-config.xml                  -->
+				<!-- Test contacts row count. Note this makes a new AddressBookApplet, it does not test the -->
+				<!-- one actually on the page. We couldn't figure out how to get testing with appletRunner  -->
+				<!-- working (see http://lists.canoo.com/pipermail/webtest/2008q2/010687.html)              -->
 				
 				<groovy>
 					def applet = new org.metawidget.example.swing.applet.AddressBookApplet();

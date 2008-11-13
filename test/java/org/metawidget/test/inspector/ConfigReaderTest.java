@@ -177,18 +177,25 @@ public class ConfigReaderTest
 		xml += "<class>java.util.Date</class>";
 		xml += "<class>java.lang.Long</class>";
 		xml += "</listOfClasses>";
+		xml += "<boolean>true</boolean>";
+		xml += "<pattern>.*?</pattern>";
 		xml += "</badInspector>";
 		xml += "</inspector-config>";
 
 		BadInspector inspector = (BadInspector) new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
 		assertTrue( 3 == inspector.getInt() );
+
 		assertTrue( "foo".equals( inspector.getListOfStrings().get( 0 ) ));
 		assertTrue( "bar".equals( inspector.getListOfStrings().get( 1 ) ));
 		assertTrue( 2 == inspector.getListOfStrings().size() );
+
 		assertTrue( String.class.equals( inspector.getListOfClasses().get( 0 ) ));
 		assertTrue( Date.class.equals( inspector.getListOfClasses().get( 1 ) ));
 		assertTrue( Long.class.equals( inspector.getListOfClasses().get( 2 ) ));
 		assertTrue( 3 == inspector.getListOfClasses().size() );
+
+		assertTrue( true == inspector.isBoolean() );
+		assertTrue( ".*?".equals( inspector.getPattern().toString() ));
 	}
 
 	public void testUnsupportedType()

@@ -18,6 +18,7 @@ package org.metawidget.test.inspector;
 
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * @author Richard Kennard
@@ -34,6 +35,10 @@ public class BadInspectorConfig
 	private int				mInt;
 
 	private List<Class<?>>	mListOfClasses;
+
+	private boolean			mBoolean;
+
+	private Pattern			mPattern;
 
 	//
 	// Public methods
@@ -67,6 +72,26 @@ public class BadInspectorConfig
 	public List<Class<?>> getListOfClasses()
 	{
 		return mListOfClasses;
+	}
+
+	public boolean isBoolean()
+	{
+		return mBoolean;
+	}
+
+	public void setBoolean( boolean aBoolean )
+	{
+		mBoolean = aBoolean;
+	}
+
+	public Pattern getPattern()
+	{
+		return mPattern;
+	}
+
+	public void setPattern( Pattern pattern )
+	{
+		mPattern = pattern;
 	}
 
 	public void setDate( Date date )

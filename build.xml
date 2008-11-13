@@ -1166,6 +1166,21 @@
 		
 	</target>
 
+	<target name="test-swing-console" depends="live-demo">
+
+		<copy file="src/web/site/live-demo/demo.html" todir="${tomcat.dir}/webapps/ROOT/live-demo"/>
+		
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${run.dir}">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file '${basedir}/test/web/examples/swing/console-test.xml'"/>
+		</java>
+		
+	</target>
+
 	<available property="webtest-available" file="${webtest.dir}/webtest.xml"/>
 
 	<target name="test-web-skip" unless="webtest-available">
@@ -1188,6 +1203,7 @@
 		<antcall target="test-struts-addressbook"/>
 		<antcall target="test-struts-quirks"/>
 		<antcall target="test-swing-addressbook-applet"/>					
+		<antcall target="test-swing-console"/>					
 		
 	</target>
 
@@ -2200,6 +2216,38 @@
 
 	<!-- http://www.metawidget.org -->
 
+	<target name="live-demo" depends="pack">
+		
+		<mkdir dir="${tomcat.dir}/webapps/ROOT/live-demo"/>
+		
+		<jar destfile="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar">
+			<fileset dir="${build.metawidget.dir}/example-classes">
+				<include name="org/metawidget/example/swing/console/**"/>
+			</fileset>
+		</jar>
+		
+		<copy todir="${tomcat.dir}/webapps/ROOT/live-demo">
+			<fileset dir="${build.metawidget.dir}">
+				<include name="metawidget.jar"/>
+			</fileset>
+			<fileset dir="lib">
+				<include name="ejb3-persistence*.jar"/>
+				<include name="groovy*.jar"/>
+				<include name="hibernate-validator*.jar"/>
+			</fileset>
+		</copy>
+
+		<signjar alias="Metawidget" keystore="examples/java/org/metawidget/example/swing/console/metawidget.keystore" storepass="m3t4w1dg3t">
+			<path>
+				<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
+					<include name="console-applet.jar"/>
+					<include name="metawidget.jar"/>
+					<include name="groovy*.jar"/>
+				</fileset>				
+			</path>
+		</signjar>
+	</target>
+	
 	<target name="web-site" depends="clean,pack">
 
 		<delete dir="${tomcat.dir}/webapps"/>
@@ -2292,33 +2340,8 @@
 		</fixcrlf>
 			
 		<!-- Live demo -->
-		
-		<jar destfile="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar">
-			<fileset dir="${build.metawidget.dir}/example-classes">
-				<include name="org/metawidget/example/swing/console/**"/>
-			</fileset>
-		</jar>
-		
-		<copy todir="${tomcat.dir}/webapps/ROOT/live-demo">
-			<fileset dir="${build.metawidget.dir}">
-				<include name="metawidget.jar"/>
-			</fileset>
-			<fileset dir="lib">
-				<include name="ejb3-persistence*.jar"/>
-				<include name="groovy*.jar"/>
-				<include name="hibernate-validator*.jar"/>
-			</fileset>
-		</copy>
 
-		<signjar alias="Metawidget" keystore="examples/java/org/metawidget/example/swing/console/metawidget.keystore" storepass="m3t4w1dg3t">
-			<path>
-				<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
-					<include name="console-applet.jar"/>
-					<include name="metawidget.jar"/>
-					<include name="groovy*.jar"/>
-				</fileset>				
-			</path>
-		</signjar>
+		<antcall target="live-demo"/>
 		
 		<!-- Test HTML links
 
