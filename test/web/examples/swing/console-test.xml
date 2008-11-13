@@ -20,7 +20,7 @@
 			<steps>
 				<invoke url="file://${tomcat.dir}/webapps/ROOT/live-demo/demo.html" />
 
-				<!-- Test contacts row count. Note this makes a new GroovyConsoleApplet, it does not test the -->
+				<!-- Note this makes a new GroovyConsoleApplet, it does not test the -->
 				<!-- one actually on the page. We couldn't figure out how to get testing with appletRunner  -->
 				<!-- working (see http://lists.canoo.com/pipermail/webtest/2008q2/010687.html)              -->
 				

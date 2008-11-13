@@ -648,7 +648,7 @@
 				<filter excludes="*Constants, org.metawidget.android.*, org.metawidget.example.android.*, org.metawidget.gwt.client.*, org.metawidget.inspector.gwt.remote.client.*"/>				
 			</instr>
 			<instr instrpath="${build.metawidget.dir}/example-classes" destdir="${build.metawidget.dir}/example-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.gwt.addressbook.client.*, org.metawidget.example.gwt.addressbook.inspector.remote.client.*"/>				
+				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.gwt.addressbook.client.*, org.metawidget.example.gwt.addressbook.inspector.remote.client.*, org.metawidget.example.swing.console.*"/>				
 			</instr>
 			<instr instrpath="${build.metawidget.dir}/tutorial-classes" destdir="${build.metawidget.dir}/tutorial-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="org.metawidget.example.swing.tutorial.Main"/>
