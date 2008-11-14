@@ -31,6 +31,7 @@
 				<h2>Get Started</h2>
 				<ul>
 					<li <c:if test="${path == '/index.html'}">class="active"</c:if>><a href="${context}/index.html">Overview</a></li>
+					<li <c:if test="${fn:startsWith(path, '/live-demo')}">class="active"</c:if>><a href="${context}/live-demo">Live Demo</a></li>
 					<li <c:if test="${path == '/news.html'}">class="active"</c:if>><a href="${context}/news.html">News</a></li>
 					<li <c:if test="${path == '/download.html'}">class="active"</c:if>><a href="${context}/download.html">Download</a></li>
 					<li <c:if test="${path == '/documentation.html'}">class="active"</c:if>><a href="${context}/documentation.html">Documentation</a></li>
