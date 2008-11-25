@@ -2219,33 +2219,40 @@
 	<target name="live-demo" depends="pack">
 		
 		<mkdir dir="${tomcat.dir}/webapps/ROOT/live-demo"/>
+		<mkdir dir="${build.metawidget.dir}/website"/>
 		
-		<jar destfile="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar">
+		<jar destfile="${build.metawidget.dir}/website/console-applet.jar">
 			<fileset dir="${build.metawidget.dir}/example-classes">
 				<include name="org/metawidget/example/swing/console/**"/>
 			</fileset>
 		</jar>
 		
+		<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="lib/Pack200Task.jar"/>
+		<pack200 repack="true" src="${build.metawidget.dir}/website/console-applet.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar"/>		
+		<pack200 repack="true" src="${build.metawidget.dir}/metawidget.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/metawidget.jar"/>		
 		<copy todir="${tomcat.dir}/webapps/ROOT/live-demo">
-			<fileset dir="${build.metawidget.dir}">
-				<include name="metawidget.jar"/>
-			</fileset>
 			<fileset dir="lib">
-				<include name="ejb3-persistence*.jar"/>
+				<include name="ejb3-persistence.jar"/>
 				<include name="groovy*.jar"/>
-				<include name="hibernate-validator*.jar"/>
+				<include name="hibernate-validator.jar"/>
 			</fileset>
-		</copy>
+		</copy>		
 
 		<signjar alias="Metawidget" keystore="examples/java/org/metawidget/example/swing/console/metawidget.keystore" storepass="m3t4w1dg3t">
 			<path>
 				<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
-					<include name="console-applet.jar"/>
-					<include name="metawidget.jar"/>
-					<include name="groovy*.jar"/>
+					<include name="console-applet.jar*"/>
+					<include name="metawidget.jar*"/>
+					<include name="groovy*.jar*"/>
 				</fileset>				
 			</path>
 		</signjar>
+
+		<pack200 src="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar.pack"/>		
+		<pack200 src="${tomcat.dir}/webapps/ROOT/live-demo/metawidget.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/metawidget.jar.pack"/>		
+		<pack200 src="${tomcat.dir}/webapps/ROOT/live-demo/ejb3-persistence.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/ejb3-persistence.jar.pack"/>		
+		<pack200 src="${tomcat.dir}/webapps/ROOT/live-demo/hibernate-validator.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/hibernate-validator.jar.pack"/>		
+
 	</target>
 	
 	<target name="web-site" depends="clean,pack">

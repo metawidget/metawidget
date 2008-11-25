@@ -31,7 +31,7 @@
 				<h2>Get Started</h2>
 				<ul>
 					<li <c:if test="${path == '/index.html'}">class="active"</c:if>><a href="${context}/index.html">Overview</a></li>
-					<li <c:if test="${fn:startsWith(path, '/live-demo')}">class="active"</c:if>><a href="${context}/live-demo">Live Demo</a></li>
+					<li <c:if test="${fn:startsWith(path, '/live-demo')}">class="active"</c:if>><a href="${context}/live-demo">Live Demo!</a></li>
 					<li <c:if test="${path == '/news.html'}">class="active"</c:if>><a href="${context}/news.html">News</a></li>
 					<li <c:if test="${path == '/download.html'}">class="active"</c:if>><a href="${context}/download.html">Download</a></li>
 					<li <c:if test="${path == '/documentation.html'}">class="active"</c:if>><a href="${context}/documentation.html">Documentation</a></li>
@@ -44,7 +44,7 @@
 				<h2>Get Involved</h2>
 				<ul>
 					<li <c:if test="${path == '/blogs.html'}">class="active"</c:if>><a href="${context}/blogs.html">Blogs</a></li>
-					<li <c:if test="${path == '/survey.html'}">class="active"</c:if>><a href="${context}/survey.html">Complete a Survey</a></li>
+					<li <c:if test="${path == '/survey.html'}">class="active"</c:if>><a href="${context}/survey.html">Complete our Survey</a></li>
 					<li <c:if test="${path == '/contributing.html'}">class="active"</c:if>><a href="${context}/contributing.html">Contributing</a></li>
 					<li <c:if test="${path == '/issues.html'}">class="active"</c:if>><a href="${context}/issues.html">Issue Tracker</a></li>
 					<li <c:if test="${path == '/coverage.html'}">class="active"</c:if>><a href="${context}/coverage.html">Code Coverage</a></li>
