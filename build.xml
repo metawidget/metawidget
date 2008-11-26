@@ -2218,6 +2218,7 @@
 
 	<target name="live-demo" depends="pack">
 		
+		<delete dir="${tomcat.dir}/webapps/ROOT/live-demo"/>
 		<mkdir dir="${tomcat.dir}/webapps/ROOT/live-demo"/>
 		<mkdir dir="${build.metawidget.dir}/website"/>
 		
