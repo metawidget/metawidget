@@ -82,6 +82,8 @@ public class AddressBook
 	public AddressBook( Container container )
 	{
 		// Nimbus look and feel (if available)
+		//
+		// Note: applies to both application and applet version of AddressBook
 
 		try
 		{

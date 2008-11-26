@@ -33,6 +33,10 @@ public class GroovyConsoleApplet
 	public void start()
 	{
 		// Nimbus look and feel (if available)
+		//
+		// Note: we tried <param name="java_arguments" value="-Djnlp.packEnabled=true
+		// -Dswing.defaultlaf=com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel"/>
+		// but that didn't seem to work?
 
 		try
 		{

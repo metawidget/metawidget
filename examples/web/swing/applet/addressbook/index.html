@@ -8,7 +8,8 @@
 			<applet code="org.metawidget.example.swing.applet.AddressBookApplet"
 					archive="addressbook-swing-applet.jar, metawidget-applet.jar, beansbinding-1.2.1.jar, commons-jexl-1.1.jar, commons-logging-1.1.1.jar"
 					width="600" height="500">
-					<param name="java_arguments" value="-Djnlp.packEnabled=true"/>
+				<param name="codebase_lookup" value="false"/>
+				<param name="java_arguments" value="-Djnlp.packEnabled=true"/>
 			</applet>
 		</center>
 	</body>
