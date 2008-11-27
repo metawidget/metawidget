@@ -309,12 +309,12 @@ public class SpringMetawidgetTag
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
 				return null;
-
-			// Not simple, but don't expand
-
-			if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-				return writeSpringTag( InputTag.class, attributes );
 		}
+
+		// Not simple, but don't expand
+
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+			return writeSpringTag( InputTag.class, attributes );
 
 		// Nested Metawidget
 

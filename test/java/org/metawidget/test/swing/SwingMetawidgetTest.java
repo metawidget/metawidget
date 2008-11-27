@@ -257,8 +257,8 @@ public class SwingMetawidgetTest
 	{
 		// Test supporting the enum dropdown for a dynamic type...
 
-		Method method = SwingMetawidget.class.getDeclaredMethod( "buildActiveWidget", String.class, Map.class );
-		method.setAccessible( true );
+		Method buildActiveWidgetMethod = SwingMetawidget.class.getDeclaredMethod( "buildActiveWidget", String.class, Map.class );
+		buildActiveWidgetMethod.setAccessible( true );
 
 		// ...both nullable (the default)...
 
@@ -266,7 +266,7 @@ public class SwingMetawidgetTest
 		attributes.put( TYPE, "dynamic-type-that-cant-be-loaded" );
 		attributes.put( LOOKUP, "bar,baz" );
 
-		JComponent component = (JComponent) method.invoke( new SwingMetawidget(), "foo", attributes );
+		JComponent component = (JComponent) buildActiveWidgetMethod.invoke( new SwingMetawidget(), "foo", attributes );
 		assertTrue( component instanceof JComboBox );
 		assertTrue( 3 == ( (JComboBox) component ).getItemCount() );
 
@@ -274,9 +274,22 @@ public class SwingMetawidgetTest
 
 		attributes.put( REQUIRED, TRUE );
 
-		component = (JComponent) method.invoke( new SwingMetawidget(), "foo", attributes );
+		component = (JComponent) buildActiveWidgetMethod.invoke( new SwingMetawidget(), "foo", attributes );
 		assertTrue( component instanceof JComboBox );
 		assertTrue( 2 == ( (JComboBox) component ).getItemCount() );
+
+		// Also test UiDontExpand on a dynamic type
+
+		attributes.remove( REQUIRED );
+		attributes.remove( LOOKUP );
+
+		component = (JComponent) buildActiveWidgetMethod.invoke( new SwingMetawidget(), "foo", attributes );
+		assertTrue( component instanceof SwingMetawidget );
+
+		attributes.put( DONT_EXPAND, TRUE );
+
+		component = (JComponent) buildActiveWidgetMethod.invoke( new SwingMetawidget(), "foo", attributes );
+		assertTrue( component instanceof JTextField );
 	}
 
 	//

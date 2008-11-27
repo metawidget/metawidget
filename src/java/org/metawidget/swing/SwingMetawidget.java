@@ -1157,12 +1157,12 @@ public class SwingMetawidget
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
 				return null;
-
-			// Not simple, but don't expand
-
-			if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-				return new JLabel();
 		}
+
+		// Not simple, but don't expand
+
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+			return new JLabel();
 
 		// Nested Metawidget
 
@@ -1402,12 +1402,12 @@ public class SwingMetawidget
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
 				return null;
-
-			// Not simple, but don't expand
-
-			if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-				return new JTextField();
 		}
+
+		// Not simple, but don't expand
+
+		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+			return new JTextField();
 
 		// Nested Metawidget
 

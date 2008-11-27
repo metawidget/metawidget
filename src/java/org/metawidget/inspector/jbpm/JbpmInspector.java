@@ -37,7 +37,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Inspector to look for relevant settings in hibernate.cfg.xml and mapping.hbm.xml files.
+ * Inspector to look for relevant settings in components.xml and pageflow.jpdl.xml files.
  *
  * @author Richard Kennard
  */
