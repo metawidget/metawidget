@@ -16,6 +16,7 @@
 		<link rel="stylesheet" type="text/css" href="${context}/css/metawidget-screen.css" media="screen" />		
 		<link rel="stylesheet" type="text/css" href="${context}/css/metawidget-print.css" media="print" />
 		<c:if test="${useTooltips}">
+		<script src="http://www.google-analytics.com/ga.js" type="text/javascript"></script>
 		<script src="${context}/js/prototype.js" type="text/javascript"></script>
 		<script src="${context}/js/effects.js" type="text/javascript"></script>
 		<script src="${context}/js/newsticker.js" type="text/javascript"></script>
@@ -25,6 +26,16 @@
 		
 	<body>
 		<jsp:doBody />
+		
+		<%-- Google Analytics --%>
+		
+		<script type="text/javascript">
+			try {
+				var pageTracker = _gat._getTracker("UA-6471965-1");
+				pageTracker._trackPageview();
+			} catch(e) {}
+		</script>
+      		
 	</body>
 		
 </html>
