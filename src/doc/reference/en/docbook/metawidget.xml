@@ -1577,8 +1577,8 @@ ant</programlisting>
 	
 				<para>
 					The Seam Booking Example demonstrates updating an existing Seam application to use Metawidget, reducing
-					boilerplate code. The example requires you to have previously downloaded Seam 2.0.2.SP1
-					and JBoss 4.2.2.GA, and you should be familiar with the existing Seam
+					boilerplate code. The example requires you to have previously downloaded Seam 2.1.0.SP1
+					and JBoss 4.2.3.GA, and you should be familiar with the existing Seam
 					Booking application.
 				</para>
 				
@@ -1593,8 +1593,8 @@ ant</programlisting>
 					To run it, type:
 				</para>
 
-				<programlisting language="shell">cd \jboss-4.2.2.GA
-copy \Applications\jboss-4.2.2.GA\server\default\deploy server\default\deploy
+				<programlisting language="shell">cd \jboss-4.2.3.GA
+copy \Applications\jboss-4.2.3.GA\server\default\deploy server\default\deploy
 bin\run</programlisting>
 
 				<para>
@@ -1647,8 +1647,8 @@ bin\run</programlisting>
 					To run it, type:
 				</para>
 
-				<programlisting language="shell">cd \jboss-4.2.2.GA
-xcopy /s \Applications\jboss-4.2.2.GA\server\default\deploy server\default\deploy
+				<programlisting language="shell">cd \jboss-4.2.3.GA
+xcopy /s \Applications\jboss-4.2.3.GA\server\default\deploy server\default\deploy
 bin\run</programlisting>
 
 				<para>
@@ -1680,8 +1680,8 @@ bin\run</programlisting>
 		
 				<para>
 					The Seam DVD Store Example demonstrates updating an existing Seam jBPM application to use Metawidget, reducing
-					boilerplate code. The example requires you to have previously downloaded Seam 2.0.2.SP1
-					and JBoss 4.2.2.GA, and you should be familiar with the existing Seam DVD Store application.
+					boilerplate code. The example requires you to have previously downloaded Seam 2.1.0.SP1
+					and JBoss 4.2.3.GA, and you should be familiar with the existing Seam DVD Store application.
 				</para>
 
 				<para>
@@ -1695,8 +1695,8 @@ bin\run</programlisting>
 					To run it, type:
 				</para>
 
-				<programlisting language="shell">cd \jboss-4.2.2.GA
-xcopy /s \Applications\jboss-4.2.2.GA\server\default\deploy server\default\deploy
+				<programlisting language="shell">cd \jboss-4.2.3.GA
+xcopy /s \Applications\jboss-4.2.3.GA\server\default\deploy server\default\deploy
 bin\run</programlisting>
 
 				<para>

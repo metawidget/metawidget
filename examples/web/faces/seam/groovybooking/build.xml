@@ -40,14 +40,6 @@
     		<fileset dir="../../../../">
     			<include name="metawidget.jar"/>
     		</fileset>
-    		
-    		<!-- Version of Hibernate Validator shipped with JBoss 4.2.2.GA does not include @Digits -->
-    		
-    		<fileset dir="${seam.dir}/lib">    			
-    			<include name="hibernate-annotations.jar"/>
-    			<include name="hibernate-commons-annotations.jar"/>
-    			<include name="hibernate-validator.jar"/>
-    		</fileset>    		
 		</copy>
 
 		<delete file="${seam.dir}/lib/groovy-all.jar"/>

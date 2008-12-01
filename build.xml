@@ -861,8 +861,8 @@
 	<target name="test-faces-seam-booking" depends="example-faces-seam-booking">
 		
 		<ant dir="${build.metawidget.dir}/examples/faces/seam/booking"/>
-		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/jboss-seam-booking.ear" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
-		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/jboss-seam-booking-ds.xml" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
+		<copy file="/Applications/jboss-4.2.3.GA/server/default/deploy/jboss-seam-booking.ear" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
+		<copy file="/Applications/jboss-4.2.3.GA/server/default/deploy/jboss-seam-booking-ds.xml" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
 		<antcall target="test-web-start-jboss"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
@@ -881,7 +881,7 @@
 	<target name="test-faces-seam-dvdstore" depends="example-faces-seam-dvdstore">
 		
 		<ant dir="${build.metawidget.dir}/examples/faces/seam/dvdstore"/>
-		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/jboss-seam-dvd.ear" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
+		<copy file="/Applications/jboss-4.2.3.GA/server/default/deploy/jboss-seam-dvd.ear" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
 		<antcall target="test-web-start-jboss"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
@@ -901,11 +901,11 @@
 		
 		<ant dir="${build.metawidget.dir}/examples/faces/seam/groovybooking"/>
 		<copy todir="${jboss.dir}/server/default/deploy" overwrite="true">
-			<fileset dir="/Applications/jboss-4.2.2.GA/server/default/deploy">
+			<fileset dir="/Applications/jboss-4.2.3.GA/server/default/deploy">
 				<include name="jboss-seam-groovy.war/**"/>
 			</fileset>
 		</copy>
-		<copy file="/Applications/jboss-4.2.2.GA/server/default/deploy/groovybooking-dev-ds.xml" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
+		<copy file="/Applications/jboss-4.2.3.GA/server/default/deploy/groovybooking-dev-ds.xml" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
 		<antcall target="test-web-start-jboss"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
@@ -1751,6 +1751,7 @@
 				<include name="org/metawidget/swing/layout/*.class"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
+				<include name="org/metawidget/inspector/commons/jexl/**"/>				
 				<include name="org/metawidget/inspector/composite/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/inspector/impl/*.class"/>
@@ -1760,7 +1761,6 @@
 				<include name="org/metawidget/inspector/impl/propertystyle/javabean/*.class"/>
 				<include name="org/metawidget/inspector/propertytype/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>				
-				<include name="org/metawidget/inspector/jexl/**"/>				
 				<include name="org/metawidget/inspector/xml/**"/>				
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/w3c/**"/>

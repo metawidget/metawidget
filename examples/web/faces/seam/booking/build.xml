@@ -34,14 +34,6 @@
     		<fileset dir=".">
     			<include name="metawidget-backend.jar"/>
     		</fileset>
-    		
-    		<!-- Version of Hibernate Validator shipped with JBoss 4.2.2.GA does not include @Digits -->
-    		
-    		<fileset dir="${seam.dir}/lib">
-    			<include name="hibernate-annotations.jar"/>
-    			<include name="hibernate-commons-annotations.jar"/>
-    			<include name="hibernate-validator.jar"/>
-    		</fileset>
 		</copy>
 
     	<copy todir="${seam.dir}/examples/metawidget-booking/exploded-archives/jboss-seam-booking.war/WEB-INF/lib" file="metawidget-frontend.jar" />

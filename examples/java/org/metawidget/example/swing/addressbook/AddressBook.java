@@ -85,6 +85,8 @@ public class AddressBook
 		//
 		// Note: applies to both application and applet version of AddressBook
 
+		// TODO: doesn't work with application version (when launched via java -jar)?
+
 		try
 		{
 			for ( LookAndFeelInfo info : UIManager.getInstalledLookAndFeels() )
