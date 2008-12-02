@@ -37,7 +37,10 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Inspector to look for relevant settings in components.xml and pageflow.jpdl.xml files.
+ * Inspector to look for relevant settings in <code>pageflow.jpdl.xml</code> files.
+ * <p>
+ * As a convenience, can also be pointed at a Seam <code>components.xml</code> file which
+ * has a <code>jbpm:pageflow-definitions</code> element.
  *
  * @author Richard Kennard
  */
@@ -49,7 +52,19 @@ public class JbpmInspector
 	// Private statics
 	//
 
+	/**
+	 * In Seam, pageflows can be defined in <code>components.xml</code> in a
+	 * <code>pageflow-definitions.xml</code> block.
+	 * <p>
+	 * They can also be scanned for automatically on startup (see
+	 * https://jira.jboss.org/jira/browse/JBSEAM-979).
+	 */
+
 	private final static String		SEAM_COMPONENTS_ELEMENT	= "components";
+
+	private final static String		SEAM_PAGEFLOWS_ELEMENT	= "pageflow-definitions";
+
+	private final static String		JBPM_NAMESPACE			= "jbpm";
 
 	private final static String		JBPM_PAGEFLOW_ELEMENT	= "pageflow-definition";
 
@@ -100,7 +115,7 @@ public class JbpmInspector
 	}
 
 	/**
-	 * Overriden to automatically drill into Hibernate Configuration files.
+	 * Overriden to automatically drill into Seam <code>components.xml</code> files.
 	 */
 
 	@Override
@@ -125,7 +140,10 @@ public class JbpmInspector
 			{
 				// ...look up each pageflow...
 
-				Element value = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), "jbpm", "pageflow-definitions", "value" );
+				Element value = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), JBPM_NAMESPACE, SEAM_PAGEFLOWS_ELEMENT, "value" );
+
+				if ( value == null )
+					throw InspectorException.newException( "No " + SEAM_PAGEFLOWS_ELEMENT + " defined" );
 
 				List<String> fileList = CollectionUtils.newArrayList();
 
@@ -192,7 +210,7 @@ public class JbpmInspector
 		{
 			Node pageNode = rootChildren.item( loopPages );
 
-			if ( !"page".equals( pageNode.getNodeName() ))
+			if ( !"page".equals( pageNode.getNodeName() ) )
 			{
 				root.removeChild( pageNode );
 				lengthPages--;
@@ -215,7 +233,7 @@ public class JbpmInspector
 			{
 				Node transitionNode = pageChildren.item( loopTransition );
 
-				if ( !"transition".equals( transitionNode.getNodeName() ))
+				if ( !"transition".equals( transitionNode.getNodeName() ) )
 				{
 					pageNode.removeChild( transitionNode );
 					lengthTransitions--;

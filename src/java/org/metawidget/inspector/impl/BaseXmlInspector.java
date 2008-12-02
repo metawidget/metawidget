@@ -218,7 +218,7 @@ public abstract class BaseXmlInspector
 	{
 		InputStream[] files = config.getInputStreams();
 
-		if ( files != null )
+		if ( files != null && files.length > 0 )
 			return getDocumentElement( builder, resolver, files );
 
 		String[] fileList = config.getFiles();
@@ -273,8 +273,8 @@ public abstract class BaseXmlInspector
 	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, String[] files )
 		throws Exception
 	{
-		if ( files.length == 0 )
-			throw InspectorException.newException( "No files found" );
+		if ( files == null || files.length == 0 )
+			throw InspectorException.newException( "No files specified for " + getClass() );
 
 		InputStream[] fileList = new InputStream[files.length];
 

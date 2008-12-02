@@ -84,7 +84,7 @@ public class PersonalContactForm
 		mOfBirth = ofBirth;
 
 		if ( mOfBirth != null )
-			mDateOfBirthAsString = (String) ConvertUtils.convert( mOfBirth, String.class );
+			mDateOfBirthAsString = ConvertUtils.convert( mOfBirth );
 	}
 
 	@Override

@@ -36,6 +36,7 @@ import org.metawidget.test.inspector.impl.propertystyle.javassist.JavassistPrope
 import org.metawidget.test.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest;
 import org.metawidget.test.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyleTest;
 import org.metawidget.test.inspector.java5.Java5InspectorTest;
+import org.metawidget.test.inspector.jbpm.JbpmInspectorTest;
 import org.metawidget.test.inspector.jpa.JpaInspectorTest;
 import org.metawidget.test.inspector.jsp.JspAnnotationInspectorTest;
 import org.metawidget.test.inspector.propertytype.PropertyTypeInspectorTest;
@@ -83,6 +84,7 @@ public class InspectorTests
 		suite.addTestSuite( JavaBeanPropertyStyleTest.class );
 		suite.addTestSuite( JavassistPropertyStyleTest.class );
 		suite.addTestSuite( JavassistPropertyStyleDebugOffTest.class );
+		suite.addTestSuite( JbpmInspectorTest.class );
 		suite.addTestSuite( JexlInspectorTest.class );
 		suite.addTestSuite( JexlXmlInspectorTest.class );
 		suite.addTestSuite( JpaInspectorTest.class );

@@ -49,6 +49,9 @@ public class BadInspector
 
 	public BadInspector( BadInspectorConfig config )
 	{
+		if ( config.isFailDuringConstruction() )
+			throw new RuntimeException( "Failed during construction" );
+
 		mListOfStrings = config.getListOfStrings();
 		mInt = config.getInt();
 		mListOfClasses = config.getListOfClasses();

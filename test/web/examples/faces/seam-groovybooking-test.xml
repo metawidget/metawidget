@@ -20,8 +20,8 @@
 				
 				<setInputField name="register:usernameDecorate:username" value="NewUser"/>
 				<setInputField name="register:nameDecorate:name" value="New User Real Name"/>
-				<setInputField name="register:j_id21:password" value="New Password"/>
-				<setInputField name="register:j_id26:verify" value="New Password"/>
+				<setInputField name="register:passwordDecorate:password" value="New Password"/>
+				<setInputField name="register:verifyDecorate:verify" value="New Password"/>
 				<clickButton label="Register"/>
 				
 				<verifyText text="Successfully registered as NewUser"/>

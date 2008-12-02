@@ -40,18 +40,18 @@ public class InspectorException
 	 * InspectorExceptions.
 	 */
 
-	public static InspectorException newException( Exception exception )
+	public static InspectorException newException( Throwable cause )
 	{
-		if ( exception instanceof InspectorException )
-			return (InspectorException) exception;
+		if ( cause instanceof InspectorException )
+			return (InspectorException) cause;
 
-		return new InspectorException( exception );
+		return new InspectorException( cause );
 	}
 
 	/**
 	 * Static constructor.
 	 * <p>
-	 * For consistency with <code>InspectorException.newException( Exception )</code>.
+	 * For consistency with <code>InspectorException.newException( Throwable )</code>.
 	 */
 
 	public static InspectorException newException( String message )
@@ -68,8 +68,8 @@ public class InspectorException
 		super( message );
 	}
 
-	private InspectorException( Exception exception )
+	private InspectorException( Throwable cause )
 	{
-		super( exception );
+		super( cause );
 	}
 }

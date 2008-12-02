@@ -18,9 +18,9 @@ package org.metawidget.inspector.hibernate.validator;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.lang.annotation.Annotation;
 import java.util.Map;
 
-import org.hibernate.validator.Digits;
 import org.hibernate.validator.Length;
 import org.hibernate.validator.Max;
 import org.hibernate.validator.Min;
@@ -65,19 +65,29 @@ public class HibernateValidatorInspector
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Digits
-		//
-		// Note: not all versions of Hibernate Validator support @Digits, but we couldn't
-		// find a way to catch the ClassNotFoundException gracefully
 
-		Digits digits = property.getAnnotation( Digits.class );
-
-		if ( digits != null )
+		try
 		{
-			if ( digits.integerDigits() > 0 )
-				attributes.put( MAXIMUM_INTEGER_DIGITS, String.valueOf( digits.integerDigits() ));
+			@SuppressWarnings( "unchecked" )
+			Class<? extends Annotation> digitsClass = (Class<? extends Annotation>) Class.forName( "org.hibernate.validator.Digits" );
+			Object digitsAnnotation = property.getAnnotation( digitsClass );
 
-			if ( digits.fractionalDigits() > 0 )
-				attributes.put( MAXIMUM_FRACTIONAL_DIGITS, String.valueOf( digits.fractionalDigits() ));
+			if ( digitsAnnotation != null )
+			{
+				int integerDigits = (Integer) digitsClass.getMethod( "integerDigits" ).invoke( digitsAnnotation );
+
+				if ( integerDigits > 0 )
+					attributes.put( MAXIMUM_INTEGER_DIGITS, String.valueOf( integerDigits ) );
+
+				int fractionalDigits = (Integer) digitsClass.getMethod( "fractionalDigits" ).invoke( digitsAnnotation );
+
+				if ( fractionalDigits > 0 )
+					attributes.put( MAXIMUM_FRACTIONAL_DIGITS, String.valueOf( fractionalDigits ) );
+			}
+		}
+		catch ( ClassNotFoundException e )
+		{
+			// Not all versions of Hibernate Validator support @Digits
 		}
 
 		// NotNull
@@ -95,14 +105,14 @@ public class HibernateValidatorInspector
 		Min min = property.getAnnotation( Min.class );
 
 		if ( min != null )
-			attributes.put( MINIMUM_VALUE, String.valueOf( min.value() ));
+			attributes.put( MINIMUM_VALUE, String.valueOf( min.value() ) );
 
 		// Max
 
 		Max max = property.getAnnotation( Max.class );
 
 		if ( max != null )
-			attributes.put( MAXIMUM_VALUE, String.valueOf( max.value() ));
+			attributes.put( MAXIMUM_VALUE, String.valueOf( max.value() ) );
 
 		// Length
 
@@ -111,10 +121,10 @@ public class HibernateValidatorInspector
 		if ( length != null )
 		{
 			if ( length.min() > 0 )
-				attributes.put( MINIMUM_LENGTH, String.valueOf( length.min() ));
+				attributes.put( MINIMUM_LENGTH, String.valueOf( length.min() ) );
 
 			if ( length.max() > 0 )
-				attributes.put( MAXIMUM_LENGTH, String.valueOf( length.max() ));
+				attributes.put( MAXIMUM_LENGTH, String.valueOf( length.max() ) );
 		}
 
 		return attributes;

@@ -42,18 +42,18 @@ public class MetawidgetException
 	 * within MetawidgetExceptions.
 	 */
 
-	public static MetawidgetException newException( Exception exception )
+	public static MetawidgetException newException( Throwable cause )
 	{
-		if ( exception instanceof MetawidgetException )
-			return (MetawidgetException) exception;
+		if ( cause instanceof MetawidgetException )
+			return (MetawidgetException) cause;
 
-		return new MetawidgetException( exception );
+		return new MetawidgetException( cause );
 	}
 
 	/**
 	 * Static constructor.
 	 * <p>
-	 * For consistency with <code>MetawidgetException.newException( Exception )</code>.
+	 * For consistency with <code>MetawidgetException.newException( Throwable )</code>.
 	 */
 
 	public static MetawidgetException newException( String message )
@@ -64,12 +64,12 @@ public class MetawidgetException
 	/**
 	 * Static constructor.
 	 * <p>
-	 * For consistency with <code>MetawidgetException.newException( Exception )</code>.
+	 * For consistency with <code>MetawidgetException.newException( Throwable )</code>.
 	 */
 
-	public static MetawidgetException newException( String message, Exception exception )
+	public static MetawidgetException newException( String message, Throwable cause )
 	{
-		return new MetawidgetException( message, exception );
+		return new MetawidgetException( message, cause );
 	}
 
 	//
@@ -81,13 +81,13 @@ public class MetawidgetException
 		super( message );
 	}
 
-	private MetawidgetException( Exception exception )
+	private MetawidgetException( Throwable cause )
 	{
-		super( exception );
+		super( cause );
 	}
 
-	private MetawidgetException( String message, Exception exception )
+	private MetawidgetException( String message, Throwable cause )
 	{
-		super( message, exception );
+		super( message, cause );
 	}
 }

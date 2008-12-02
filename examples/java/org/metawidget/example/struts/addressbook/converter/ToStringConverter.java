@@ -16,6 +16,9 @@
 
 package org.metawidget.example.struts.addressbook.converter;
 
+import java.text.DateFormat;
+import java.util.Date;
+
 import org.apache.commons.beanutils.Converter;
 
 /**
@@ -34,17 +37,21 @@ public class ToStringConverter
 	@SuppressWarnings( "unchecked" )
 	public Object convert( Class clazz, Object value )
 	{
-		if ( value == null || "".equals( value ))
+		if ( value == null || "".equals( value ) )
 			return null;
 
 		// Convert enums to their .name() form, not their .toString() form, so that we can
 		// use .valueOf() in EnumConverter.
-		//
-		// Note: for this to be called correctly, it requires a fix for http://issues.apache.org/jira/browse/BEANUTILS-110,
-		// which is only available in BeanUtils 1.8.0 and greater!
 
 		if ( value instanceof Enum )
-			return ((Enum) value).name();
+			return ( (Enum) value ).name();
+
+		// Do the Date toString here, as unfortunately it seems
+		// org.apache.commons.beanutils.converters.DateConverter.convertToString never
+		// gets called?
+
+		if ( value instanceof Date )
+			return DateFormat.getDateInstance( DateFormat.SHORT ).format( (Date) value );
 
 		return value.toString();
 	}

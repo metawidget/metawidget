@@ -416,6 +416,10 @@ public class ConfigReader
 
 				throw new SAXException( "No such method on " + classToInit + "." + methodName );
 			}
+			catch( RuntimeException e )
+			{
+				throw e;
+			}
 			catch ( Exception e )
 			{
 				throw new SAXException( e );
@@ -556,6 +560,10 @@ public class ConfigReader
 						}
 					}
 				}
+			}
+			catch( RuntimeException e )
+			{
+				throw e;
 			}
 			catch ( Exception e )
 			{

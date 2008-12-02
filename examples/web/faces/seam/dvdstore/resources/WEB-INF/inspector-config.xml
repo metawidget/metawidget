@@ -10,7 +10,12 @@
 			<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
 			<jpaInspector xmlns="java:org.metawidget.inspector.jpa"/>
 			<hibernateValidatorInspector xmlns="java:org.metawidget.inspector.hibernate.validator"/>
-			<jbpmInspector xmlns="java:org.metawidget.inspector.jbpm"/>
+			<jbpmInspector xmlns="java:org.metawidget.inspector.jbpm" config="JbpmInspectorConfig">
+				<files>
+					<string>checkout.jpdl.xml</string>
+					<string>newuser.jpdl.xml</string>
+				</files>
+			</jbpmInspector>
 		</inspectors>
 	</compositeInspector>
 

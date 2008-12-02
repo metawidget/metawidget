@@ -40,6 +40,8 @@ public class BadInspectorConfig
 
 	private Pattern			mPattern;
 
+	private boolean		mFailDuringConstruction;
+
 	//
 	// Public methods
 	//
@@ -92,6 +94,16 @@ public class BadInspectorConfig
 	public void setPattern( Pattern pattern )
 	{
 		mPattern = pattern;
+	}
+
+	public void setFailDuringConstruction( boolean failDuringConstruction )
+	{
+		mFailDuringConstruction = true;
+	}
+
+	public boolean isFailDuringConstruction()
+	{
+		return mFailDuringConstruction;
 	}
 
 	public void setDate( Date date )

@@ -136,7 +136,7 @@ public class ConfigReaderTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( e.getMessage().contains( "requires a 'config' attribute" ));
+			assertTrue( "org.metawidget.inspector.composite.CompositeInspector requires a 'config' attribute".equals( e.getMessage() ));
 		}
 	}
 
@@ -215,6 +215,26 @@ public class ConfigReaderTest
 		catch( InspectorException e )
 		{
 			assertTrue( e.getMessage().endsWith( "Don't know how to convert '1/1/2001' to class java.util.Date" ));
+		}
+	}
+
+	public void testInspectorExceptionDuringConstruction()
+	{
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
+		xml += "<badInspector xmlns=\"java:org.metawidget.test.inspector\" config=\"BadInspectorConfig\">";
+		xml += "<failDuringConstruction>true</failDuringConstruction>";
+		xml += "</badInspector>";
+		xml += "</inspector-config>";
+
+		try
+		{
+			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "Failed during construction".equals( e.getCause().getMessage() ));
 		}
 	}
 
