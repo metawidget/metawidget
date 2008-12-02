@@ -145,7 +145,12 @@
 			</classpath>
 		</taskdef>
 
-		<groovyc srcdir="test/groovy" destdir="${build.metawidget.dir}/groovy-test-classes"/>
+		<groovyc srcdir="test/groovy" destdir="${build.metawidget.dir}/groovy-test-classes">
+			<include name="**/*.groovy"/>
+			<classpath>
+				<fileset dir="lib"/>
+			</classpath>
+		</groovyc>
 
 		<!-- Build test files -->
 
@@ -2218,7 +2223,7 @@
 
 	<target name="live-demo" depends="pack">
 		
-		<delete>
+		<delete failonerror="false">
 			<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
 				<include name="*.jar"/>
 				<include name="*.jar.pack"/>
