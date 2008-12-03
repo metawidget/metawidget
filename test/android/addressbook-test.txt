@@ -18,13 +18,13 @@ test-existing-personal:
 2. Check all values are populated as read-only
 3. Click Edit
 4. Check all values are populated as active controls. Check title has focus
-5. Check date is May 12 1956
+5. Check date is May 12 1956 (though formatted as per your locale)
 5. Change firstname to Homer Jay
 6. Choose Add Communication
 7. Add a Fax of (939) 555-0114. Check it appears
 8. Add an E-mail of homer@simpsons.com. Check it appears
 9. Delete the Telephone number
-10. Change Date of Birth to 'May 12 1957' and try to save
+10. Change Date of Birth to 'May 12 1957' and save
 11. Check front page shows Homer Jay Simpson
 12. Click Mrs Marjorie Simpson
 13. Click Edit

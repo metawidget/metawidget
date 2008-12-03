@@ -13,13 +13,12 @@ For Android AllWidgets, test:
 * There is no label for longObject
 * There is a label 'nullInBundle'
 * There is no label for doubleObject
-* All dropdowns have a blank choice available, except notNullDropdown
+* All dropdowns have a blank choice available, except notNullDropdown and notNullObjectDropdown
 * The mystery field is a text box
-* 'Futher nested widgets' appears 3 times
-* Not null object dropdown???
+* 'Futher nested widgets' appears 3 times (twice up top, once down bottom)
 * There is a section break
 
 Editing all values and choosing 'Save' (from the menu) reports the changed values as a read-only screen. Test:
-
+fdsf
 * All values appear (except mystery value)
 * Password label appears but has a blank line for the value

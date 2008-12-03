@@ -7,8 +7,8 @@
 	
 	<entity type="org.metawidget.example.shared.addressbook.model.Contact">
 		<property name="title" lookup="Mr, Mrs, Miss, Dr, Cpt" required="true"/>
-		<property name="address" label=""/>
-		<property name="communications" label=""/>
+		<property name="address" label="" type="org.metawidget.example.shared.addressbook.model.Address"/>
+		<property name="communications" label="" type="java.util.Set"/>
 	</entity>
 
 	<entity type="org.metawidget.example.shared.addressbook.model.PersonalContact"

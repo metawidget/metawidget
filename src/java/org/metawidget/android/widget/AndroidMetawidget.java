@@ -206,15 +206,16 @@ public class AndroidMetawidget
 		if ( mToInspect == null )
 		{
 			if ( mPath == null && toInspect != null )
-				mPath = toInspect.getClass().getName();
+				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
 		}
-		else if ( mToInspect.getClass().getName().equals( mPath ) )
+		else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mPath ) )
 		{
 			if ( toInspect == null )
 				mPath = null;
 			else
-				mPath = toInspect.getClass().getName();
+				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
 		}
+
 		mToInspect = toInspect;
 		invalidateInspection();
 	}

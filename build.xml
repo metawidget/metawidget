@@ -866,8 +866,6 @@
 	<target name="test-faces-seam-booking" depends="example-faces-seam-booking">
 		
 		<ant dir="${build.metawidget.dir}/examples/faces/seam/booking"/>
-		<copy file="/Applications/jboss-4.2.3.GA/server/default/deploy/jboss-seam-booking.ear" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
-		<copy file="/Applications/jboss-4.2.3.GA/server/default/deploy/jboss-seam-booking-ds.xml" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
 		<antcall target="test-web-start-jboss"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
@@ -886,7 +884,6 @@
 	<target name="test-faces-seam-dvdstore" depends="example-faces-seam-dvdstore">
 		
 		<ant dir="${build.metawidget.dir}/examples/faces/seam/dvdstore"/>
-		<copy file="/Applications/jboss-4.2.3.GA/server/default/deploy/jboss-seam-dvd.ear" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
 		<antcall target="test-web-start-jboss"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
@@ -905,12 +902,6 @@
 	<target name="test-faces-seam-groovybooking" depends="example-faces-seam-groovybooking">
 		
 		<ant dir="${build.metawidget.dir}/examples/faces/seam/groovybooking"/>
-		<copy todir="${jboss.dir}/server/default/deploy" overwrite="true">
-			<fileset dir="/Applications/jboss-4.2.3.GA/server/default/deploy">
-				<include name="jboss-seam-groovy.war/**"/>
-			</fileset>
-		</copy>
-		<copy file="/Applications/jboss-4.2.3.GA/server/default/deploy/groovybooking-dev-ds.xml" todir="${jboss.dir}/server/default/deploy" overwrite="true"/>
 		<antcall target="test-web-start-jboss"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
@@ -1321,14 +1312,14 @@
 		<available property="glassfish-exists" file="${glassfish.dir}/bin/asadmin.bat"/>
 		<fail message="GlassFish not installed at 'glassfish.dir' (as indicated in build.properties)" unless="glassfish-exists"/>
 		
-		<echo message="Starting ${glassfish.dir} (then waiting 40 seconds)..."/>
+		<echo message="Starting ${glassfish.dir} (then waiting 50 seconds)..."/>
 
         <exec executable="${glassfish.dir}/bin/asadmin.bat" dir="${run.dir}" spawn="true">
         	<arg value="start-domain"/>
         	<arg value="${glassfish.domain}"/>
 		</exec>
 		
-		<sleep seconds="40"/>
+		<sleep seconds="50"/>
 		
 	</target>
 	
@@ -1350,7 +1341,7 @@
 		<available property="jetty-exists" file="${jetty.dir}/start.jar"/>
 		<fail message="Jetty not installed at 'jetty.dir' (as indicated in build.properties)" unless="jetty-exists"/>
 		
-		<echo message="Starting ${jetty.dir} (then waiting 20 seconds)..."/>
+		<echo message="Starting ${jetty.dir} (then waiting 30 seconds)..."/>
 
 		<java jar="${jetty.dir}/start.jar" fork="true" spawn="true" dir="${run.dir}">
 			<jvmarg value="-Djetty.home=${jetty.dir}"/>
@@ -1360,7 +1351,7 @@
 			<jvmarg value="-DSTOP.KEY=secret"/>
 		</java>
 
-		<sleep seconds="20"/>
+		<sleep seconds="30"/>
 		
 	</target>
 	

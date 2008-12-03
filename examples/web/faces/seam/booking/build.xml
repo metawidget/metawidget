@@ -40,7 +40,7 @@
 
 		<copy todir="${seam.dir}/lib">
     		<fileset dir=".">
-    			<include name="metawidget-*.jar"/>
+    			<include name="metawidget.jar"/>
     		</fileset>
 		</copy>
 		
