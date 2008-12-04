@@ -1474,7 +1474,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 
 				<para>
 					There are two ways to set up a hosted mode project. For Windows developers, there is an automated Ant build
-					included in the source distribution. To run it, type: 
+					included in the source distribution (not the binary distribution). To run it, type: 
 				</para>
 				
 				<programlisting language="shell">cd examples\web\gwt
@@ -1593,8 +1593,7 @@ ant</programlisting>
 					To run it, type:
 				</para>
 
-				<programlisting language="shell">cd \jboss-4.2.3.GA
-copy \Applications\jboss-4.2.3.GA\server\default\deploy server\default\deploy
+				<programlisting language="shell">cd \Applications\jboss-4.2.3.GA
 bin\run</programlisting>
 
 				<para>
@@ -1647,8 +1646,7 @@ bin\run</programlisting>
 					To run it, type:
 				</para>
 
-				<programlisting language="shell">cd \jboss-4.2.3.GA
-xcopy /s \Applications\jboss-4.2.3.GA\server\default\deploy server\default\deploy
+				<programlisting language="shell">cd \Applications\jboss-4.2.3.GA
 bin\run</programlisting>
 
 				<para>
@@ -1695,8 +1693,7 @@ bin\run</programlisting>
 					To run it, type:
 				</para>
 
-				<programlisting language="shell">cd \jboss-4.2.3.GA
-xcopy /s \Applications\jboss-4.2.3.GA\server\default\deploy server\default\deploy
+				<programlisting language="shell">cd \Applications\jboss-4.2.3.GA
 bin\run</programlisting>
 
 				<para>

@@ -2257,7 +2257,7 @@
 
 	</target>
 	
-	<target name="web-site" depends="clean,pack">
+	<target name="web-site" depends="pack">
 
 		<delete dir="${tomcat.dir}/webapps"/>
 
