@@ -985,8 +985,8 @@ public class Main {
 				
 				<para>
 					As there are a large number of Java Web application frameworks to choose from, this example comes written
-					in four of the most popular: Google Web Toolkit (GWT), Java Server Faces (JSF), Spring Web MVC and Struts. We
-					recommend you follow along using the one most relevant to you.
+					in five of the most popular: Google Web Toolkit (GWT), Java Server Faces (JSF), Java Server Pages (JSP),
+					Spring Web MVC and Struts. We recommend you follow along using the one most relevant to you.
 				</para>
 				
 				<para>
@@ -999,7 +999,7 @@ public class Main {
 				<para>
 					Take a fresh install of Tomcat. The Address Book WAR is pre-built for you in
 					either <filename>examples\faces\addressbook-faces.war</filename>, <filename>examples\gwt\addressbook-gwt.war</filename>,
-					<filename>examples\spring\addressbook-spring.war</filename> or
+					<filename>examples\jsp\addressbook-jsp.war</filename>, <filename>examples\spring\addressbook-spring.war</filename> or
 					<filename>examples\struts\addressbook-struts.war</filename>. If you've downloaded the source code, you can build it
 					yourself by typing:
 				</para>
@@ -1007,7 +1007,7 @@ public class Main {
 				<programlisting language="shell">ant example-faces-addressbook</programlisting>
 
 				<para>
-					(replacing <parameter>faces</parameter> with <parameter>gwt</parameter>, <parameter>spring</parameter> or <parameter>struts</parameter> as appropriate).
+					(replacing <parameter>faces</parameter> with <parameter>gwt</parameter>, <parameter>jsp</parameter>, <parameter>spring</parameter> or <parameter>struts</parameter> as appropriate).
 				</para>
 
 				<tip>
@@ -1124,11 +1124,11 @@ public class Main {
 &lt;m:metawidget&gt;</programlisting>
 
 				<para>
-					Spring and Struts, being based on JSP, lack some component-based features found in Swing and JSF. Specifically,
-					whilst it is possible for JSP tags to reference their <emphasis>parent</emphasis>
+					JSP, Spring, Struts lack some component-based features found in Swing and JSF. Specifically,
+					whilst it is possible for tags to reference their <emphasis>parent</emphasis>
 					(using <function>TagSupport.findAncestorWithClass</function>), they have no way to interrogate
 					their <emphasis>children</emphasis>. Therefore, it is not possible to directly support arbitrary child tags
-					within <classname>SpringMetawidget</classname> and <classname>StrutsMetawidget</classname>.
+					within <classname>HtmlMetawidget</classname>, <classname>SpringMetawidget</classname> and <classname>StrutsMetawidget</classname>.
 				</para>
 
 				<para>
@@ -1155,7 +1155,7 @@ public class Main {
 					<title>Mixing Metawidgets</title>
 					
 					<para>
-						This section does not apply to GWT.
+						This section only applies to Spring and Struts.
 					</para>
 
 					<para>
@@ -1246,7 +1246,7 @@ public class Main {
 					<title>Alternate Widget Libraries</title>
 					
 					<para>
-						This section only works on JSF.
+						This section only applies to JSF.
 					</para>
 					
 					<para>
@@ -2031,6 +2031,12 @@ public void addOwner() {
 			<section id="section-metawidgets-desktop-swing">
 				<title>SwingMetawidget</title>
 	
+				<para>
+					<classname>SwingMetawidget</classname> is a Swing component. For an introduction
+					to <classname>SwingMetawidget</classname>, see <xref linkend="section-introduction-part1"/>
+					and <xref linkend="section-introduction-part2-desktop"/>.
+				</para>
+	
 				<section id="section-metawidgets-desktop-swing-binding">
 					<title>Binding</title>
 					
@@ -2085,7 +2091,9 @@ public void addOwner() {
 	
 				<para>
 					<classname>GwtMetawidget</classname> is a client-side, JavaScript widget for GWT. Despite the limitations of the
-					JavaScript environment, it supports reflection, annotations, pluggable layouts and data binding.
+					JavaScript environment, it supports reflection, annotations, pluggable layouts and data binding. For an introduction
+					to <classname>GwtMetawidget</classname>, see <xref linkend="section-introduction-part2-web"/> and 
+					<xref linkend="section-introduction-part3-gwt-hosted"/>.
 				</para>
 				
 				<section id="section-metawidgets-web-gwt-reflection">
@@ -2276,6 +2284,12 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 			<section id="section-metawidgets-web-faces">
 				<title>UIMetawidget (JSF)</title>
 	
+				<para>
+					<classname>UIMetawidget</classname> is a Java Server Faces component. For an introduction
+					to <classname>UIMetawidget</classname>, see <xref linkend="section-introduction-part2-web"/> 
+					and <xref linkend="section-introduction-part3-seam"/>. 
+				</para>
+	
 				<section id="section-metawidgets-web-faces-look">
 					<title>Customizing Look and Feel</title>
 					
@@ -2436,6 +2450,11 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 			<section id="section-metawidgets-web-struts">
 				<title>StrutsMetawidget</title>
 	
+				<para>
+					<classname>StrutsMetawidget</classname> is a Struts taglib. For an introduction
+					to <classname>StrutsMetawidget</classname>, see <xref linkend="section-introduction-part2-web"/>.
+				</para>
+
 				<section id="section-metawidgets-web-struts-look">
 					<title>Customizing Look and Feel</title>
 					
@@ -2478,6 +2497,10 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 				</section>
 			</section>
 			
+		</section>
+
+		<section id="section-metawidgets-mobile">
+			<title>Mobile Metawidgets</title>
 		</section>
 
 		<section id="section-metawidgets-implementing-your-own">
