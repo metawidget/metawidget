@@ -16,6 +16,9 @@
 
 package org.metawidget.gwt.client.binding.simple;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
+
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -160,7 +163,7 @@ public class SimpleBinding
 		{
 			getMetawidget().setValue( value, widget );
 
-			if ( adapter.isPropertyReadOnly( toInspect, names ) )
+			if ( TRUE.equals( attributes.get( NO_SETTER )))
 				return;
 
 			if ( mBindings == null )
@@ -205,6 +208,8 @@ public class SimpleBinding
 			Converter<Object> converter = (Converter<Object>) binding[2];
 
 			// ...fetch the value...
+
+			// TODO: can we just use something similar to GwtMetawidget.invokeMethod here? Iterate an array of names?
 
 			Object value = adapter.getProperty( toInspect, names );
 

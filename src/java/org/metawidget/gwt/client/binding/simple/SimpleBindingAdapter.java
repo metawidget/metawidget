@@ -36,7 +36,5 @@ public interface SimpleBindingAdapter<T>
 
 	Class<?> getPropertyType( T object, String... property );
 
-	boolean isPropertyReadOnly( T object, String... property );
-
 	void setProperty( T object, Object value, String... property );
 }

@@ -75,12 +75,14 @@ public class GwtQuirksTest
 				assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
 				( (CheckBox) flexTable.getWidget( 0, 1 ) ).setChecked( true );
 
+				assertTrue( 1 == flexTable.getRowCount() );
+
 				// Save and refresh
 
 				metawidget.save();
 				metawidget.rebind( metawidget.getToInspect() );
 
-				// Test checkbox was still checked (eg. HasText didn't get hit
+				// Test checkbox was still checked (ie. HasText didn't get hit
 				// first in GwtMetawidget.setValue)
 
 				assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );

@@ -470,7 +470,9 @@ public class AllWidgets
 
 	public void doAction()
 	{
-		// Do nothing
+		// Throw an Exception so that unit tests can catch it
+
+		throw new RuntimeException( "doAction called" );
 	}
 
 	//

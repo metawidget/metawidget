@@ -94,9 +94,7 @@ public class SimpleBindingAdapterGenerator
 
 	private final static int	WRITE_TYPE_GETTER		= 1;
 
-	private final static int	WRITE_IS_READ_ONLY		= 2;
-
-	private final static int	WRITE_SETTER			= 3;
+	private final static int	WRITE_SETTER			= 2;
 
 	/**
 	 * Maximum depth of recursion to avoid infinite recursion.
@@ -195,26 +193,6 @@ public class SimpleBindingAdapterGenerator
 			// Write subtypes
 
 			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_TYPE_GETTER, 0 );
-
-			sourceWriter.outdent();
-			sourceWriter.println( "}" );
-
-			// isPropertyReadOnly method
-
-			sourceWriter.println();
-			sourceWriter.println( "public boolean isPropertyReadOnly( " + classType.getQualifiedSourceName() + " " + variableName + ", String... property ) {" );
-			sourceWriter.indent();
-
-			// Sanity check
-
-			sourceWriter.println();
-			sourceWriter.println( "// Sanity check" );
-			sourceWriter.println();
-			sourceWriter.println( "if ( property == null || property.length == 0 ) throw new RuntimeException( \"No property specified\" );" );
-
-			// Write subtypes
-
-			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_IS_READ_ONLY, 0 );
 
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
@@ -374,18 +352,6 @@ public class SimpleBindingAdapterGenerator
 							sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return " + getWrapperType( returnType ).getQualifiedSourceName() + ".class;" );
 							break;
 
-						case WRITE_IS_READ_ONLY:
-							try
-							{
-								classType.getMethod( setterMethodName, new JType[] { returnType } );
-								sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return false;" );
-							}
-							catch ( NotFoundException e )
-							{
-								sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return true;" );
-							}
-							break;
-
 						case WRITE_SETTER:
 							try
 							{
@@ -419,18 +385,6 @@ public class SimpleBindingAdapterGenerator
 
 				case WRITE_TYPE_GETTER:
 					sourceWriter.println( "return " + getWrapperType( returnType ).getQualifiedSourceName() + ".class;" );
-					break;
-
-				case WRITE_IS_READ_ONLY:
-					try
-					{
-						classType.getMethod( setterMethodName, new JType[] { returnType } );
-						sourceWriter.println( "return false;" );
-					}
-					catch ( NotFoundException e )
-					{
-						sourceWriter.println( "return true;" );
-					}
 					break;
 
 				case WRITE_SETTER:

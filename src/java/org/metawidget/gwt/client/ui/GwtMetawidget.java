@@ -45,7 +45,9 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
@@ -1087,7 +1089,10 @@ public class GwtMetawidget
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return null;
+		{
+			Button button = new Button( getLabelString( attributes ));
+			return button;
+		}
 
 		String type = attributes.get( TYPE );
 
@@ -1218,25 +1223,48 @@ public class GwtMetawidget
 	protected void addWidget( Widget widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		String name = attributes.get( "name" );
-		mAddedWidgets.put( name, widget );
+		final String name = attributes.get( "name" );
 
-		// Layout
+		// Bind actions
+
+		if ( ACTION.equals( elementName ) && widget instanceof Button )
+		{
+			final Object toInspect = getToInspect();
+
+			if ( toInspect != null )
+			{
+				Button button = (Button) widget;
+				button.addClickListener( new ClickListener()
+				{
+					public void onClick( Widget sender )
+					{
+						invokeMethod( toInspect, name );
+					}
+				} );
+			}
+		}
+
+		// Bind properties
+
+		else
+		{
+			if ( mBinding != null && !( widget instanceof GwtMetawidget ) )
+			{
+				if ( mMetawidgetMixin.isCompoundWidget() )
+					mBinding.bind( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
+				else
+					mBinding.bind( widget, attributes, mPath );
+			}
+		}
+
+		// Add to layout
+
+		mAddedWidgets.put( name, widget );
 
 		if ( widget instanceof HasName )
 			((HasName) widget).setName( name );
 
 		mLayout.layoutChild( widget, attributes );
-
-		// Bind
-
-		if ( mBinding != null && !( widget instanceof GwtMetawidget ) )
-		{
-			if ( mMetawidgetMixin.isCompoundWidget() )
-				mBinding.bind( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
-			else
-				mBinding.bind( widget, attributes, mPath );
-		}
 	}
 
 	/**
@@ -1412,6 +1440,24 @@ public class GwtMetawidget
 			GwtMetawidget.this.endBuild();
 		}
 	}
+
+	//
+	// Native methods
+	//
+
+	void invokeMethod( Object obj, String method )
+	{
+		invokeMethod( obj, obj.getClass().getName(), method );
+	}
+
+	/**
+	 * Invoke JavaScript method using special GWT naming convention
+	 */
+
+	native void invokeMethod( Object obj, String type, String method )
+	/*-{
+		obj['@' + type + '::' + method + '()']();
+	}-*/;
 
 	//
 	// Private methods

@@ -8,7 +8,7 @@
 	<!-- Binding -->
 	
   	<generate-with class="org.metawidget.gwt.generator.binding.simple.SimpleBindingAdapterGenerator">
-		<when-type-assignable class="org.metawidget.test.gwt.quirks.client.model.Quirks"/>
+		<when-type-assignable class="org.metawidget.test.gwt.quirks.client.model.GwtQuirks"/>
 	</generate-with>
 
 </module>

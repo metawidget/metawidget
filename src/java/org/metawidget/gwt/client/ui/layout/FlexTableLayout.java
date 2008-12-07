@@ -25,6 +25,7 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.util.simple.StringUtils;
 
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -118,7 +119,7 @@ public class FlexTableLayout
 
 		String labelText = getMetawidget().getLabelString( attributes );
 
-		if ( labelText != null && !"".equals( labelText ) )
+		if ( labelText != null && !"".equals( labelText.trim() ) && !( widget instanceof Button ) )
 		{
 			Label label = new Label( labelText + ":" );
 

@@ -22,7 +22,7 @@ import java.io.Serializable;
  * @author Richard Kennard
  */
 
-public class Quirks
+public class GwtQuirks
 	implements Serializable
 {
 	//

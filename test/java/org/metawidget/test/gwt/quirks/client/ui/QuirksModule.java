@@ -19,7 +19,7 @@ package org.metawidget.test.gwt.quirks.client.ui;
 import org.metawidget.gwt.client.binding.simple.SimpleBinding;
 import org.metawidget.gwt.client.binding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
-import org.metawidget.test.gwt.quirks.client.model.Quirks;
+import org.metawidget.test.gwt.quirks.client.model.GwtQuirks;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -57,15 +57,15 @@ public class QuirksModule
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setParameter( "sectionStyleName", "aSectionStyleName" );
-		metawidget.setToInspect( new Quirks() );
+		metawidget.setToInspect( new GwtQuirks() );
 
 		// Binding
 
 		metawidget.setBindingClass( SimpleBinding.class );
 
 		@SuppressWarnings( "unchecked" )
-		SimpleBindingAdapter<Quirks> quirksAdapter = (SimpleBindingAdapter<Quirks>) GWT.create( Quirks.class );
-		SimpleBinding.registerAdapter( Quirks.class, quirksAdapter );
+		SimpleBindingAdapter<GwtQuirks> quirksAdapter = (SimpleBindingAdapter<GwtQuirks>) GWT.create( GwtQuirks.class );
+		SimpleBinding.registerAdapter( GwtQuirks.class, quirksAdapter );
 
 		// Add to the given Panel (for unit tests)
 

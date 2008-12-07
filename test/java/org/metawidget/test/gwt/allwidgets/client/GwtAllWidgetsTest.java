@@ -338,7 +338,20 @@ public class GwtAllWidgetsTest
 														assertTrue( flexTable.getWidget( 31, 1 ) instanceof Label );
 														assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
-														assertTrue( 33 == flexTable.getRowCount() );
+														assertTrue( "".equals( flexTable.getText( 32, 0 ) ) );
+														Button doActionButton = (Button) flexTable.getWidget( 32, 1 );
+														assertTrue( "Do action".equals( doActionButton.getText() ) );
+														try
+														{
+															fireClickListeners( doActionButton );
+															assertTrue( false );
+														}
+														catch ( Exception e )
+														{
+															assertTrue( "doAction called".equals( e.getMessage() ) );
+														}
+
+														assertTrue( 34 == flexTable.getRowCount() );
 
 														// Check IllegalArgumentException
 
@@ -348,6 +361,7 @@ public class GwtAllWidgetsTest
 														try
 														{
 															fireClickListeners( saveButton );
+															assertTrue( false );
 														}
 														catch ( IllegalArgumentException e )
 														{
