@@ -20,6 +20,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.ConversionException;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.struts.action.ActionErrors;
 import org.apache.struts.action.ActionMapping;
@@ -31,8 +32,6 @@ import org.metawidget.inspector.annotation.UiLabel;
 /**
  * @author Richard Kennard
  */
-
-// TODO: ???en_AU.org.apache.commons.beanutils.ConversionException
 
 public class PersonalContactForm
 	extends ContactForm
@@ -103,7 +102,7 @@ public class PersonalContactForm
 		}
 		catch( Exception e )
 		{
-			errors.add( "dateOfBirth", new ActionMessage( e.toString() ) );
+			errors.add( "dateOfBirth", new ActionMessage( ConversionException.class.getName(), mDateOfBirthAsString ) );
 		}
 
 		// Base class

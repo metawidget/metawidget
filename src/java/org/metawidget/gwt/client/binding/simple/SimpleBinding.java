@@ -145,6 +145,20 @@ public class SimpleBinding
 		// ...fetch the value...
 
 		String[] names = PathUtils.parsePath( path ).getNamesAsArray();
+
+		// Note: we explored using JSNI methods to access the property, as opposed to a Generator.
+		// (the GwtMetawidget class uses this approach to fire actions). It doesn't work out too
+		// well, because:
+		//
+		// 1) you still need a generator to access PropertyTypes, so that you can talk in Java
+		// classes and getConverter can traverse superclasses
+		// 2) you have to try both 'is' and 'get'
+		// 3) you have to guess the class name (and type when calling the setter), because
+		// GWT names its JavaScript functions @class.name::function(type)
+		//
+		// So it doesn't seem a great approach. Binding is pluggable, however, so you could still
+		// try it.
+
 		Object value = adapter.getProperty( toInspect, names );
 
 		// ...convert it (if necessary)...
@@ -163,7 +177,7 @@ public class SimpleBinding
 		{
 			getMetawidget().setValue( value, widget );
 
-			if ( TRUE.equals( attributes.get( NO_SETTER )))
+			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return;
 
 			if ( mBindings == null )
@@ -208,8 +222,6 @@ public class SimpleBinding
 			Converter<Object> converter = (Converter<Object>) binding[2];
 
 			// ...fetch the value...
-
-			// TODO: can we just use something similar to GwtMetawidget.invokeMethod here? Iterate an array of names?
 
 			Object value = adapter.getProperty( toInspect, names );
 

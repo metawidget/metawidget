@@ -45,7 +45,7 @@
 			Building great UIs is both art and science. Metawidget
 			does not attempt to address the <emphasis>art</emphasis>, it only automates the
 			<emphasis>science</emphasis>. That is to say, it does not overlap with those areas of
-			UI design involving creativity and subjectivity – its goal is
+			UI design involving creativity and subjectivity - its goal is
 			only to ease the creation of areas that are already rigidly
 			defined. Typically, this means those areas that display data and
 			those that collect data - these tend to be both commonplace and
@@ -100,7 +100,7 @@
 				<title>The Object</title>
 				
 				<para>
-					Metawidget is an object/user interface mapping tool (OIM), so first we need an object to map from – the <emphasis>O</emphasis> in OIM:
+					Metawidget is an object/user interface mapping tool (OIM), so first we need an object to map from - the <emphasis>O</emphasis> in OIM:
 				</para>
 	
 	<programlisting language="java">package com.myapp;
@@ -123,7 +123,7 @@ public class Person {
 				<title>The Interface</title>
 				
 				<para>
-					Next we need a User Interface framework – the <emphasis>I</emphasis> in OIM:
+					Next we need a User Interface framework - the <emphasis>I</emphasis> in OIM:
 				</para>
 								
 	<programlisting language="java">package com.myapp;
@@ -213,7 +213,7 @@ public class Main {
 				<title>Fine-Tuning The Output</title>
 				
 				<para>
-					At the moment, the order of fields in our UI is alphabetical – it does not match
+					At the moment, the order of fields in our UI is alphabetical - it does not match
 					the order they are defined in the <classname>Person</classname> class. <classname>PropertyTypeInspector</classname> sorts fields
 					alphabetically, because the Java Language Specification
 					does not retain field ordering information within class files.
@@ -284,7 +284,7 @@ public class Main {
 }</programlisting>
 	
 				<para>
-					Run the code. It does not yield the correct result – the fields appear in the correct order, as in
+					Run the code. It does not yield the correct result - the fields appear in the correct order, as in
 					<xref linkend="section-introduction-part1-incorrect-screenshot"/>, but they	are all <classname>JTextFields</classname>. We
 					have lost our <classname>JSpinner</classname> and <classname>JCheckBox</classname>! What happened?
 				</para>

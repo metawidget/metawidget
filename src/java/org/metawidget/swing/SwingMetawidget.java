@@ -961,6 +961,9 @@ public class SwingMetawidget
 				JButton button = (JButton) component;
 				String text = button.getText();
 
+				// TODO: fails in Groovy?
+				// TODO: document widget types for GWT
+
 				try
 				{
 					// Parameterless

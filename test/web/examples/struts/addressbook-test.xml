@@ -120,7 +120,10 @@
 				<setInputField name="dateOfBirthAsString" value="bad date"/>
 				<clickButton label="Save"/>
 
-				<verifyText text="Error converting 'String' to 'Date'"/>
+				<verifyText text="Unable to convert bad date"/>
+				<not>
+					<verifyText text="???"/>
+				</not>
 				<setInputField name="dateOfBirthAsString" value="5/12/57"/>
 				<clickButton label="Save"/>
 	
