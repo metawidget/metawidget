@@ -119,7 +119,7 @@ public final class ArrayUtils
 	}
 
 	@SuppressWarnings( "unchecked" )
-	public static <T> T[] add( T[] array, T[] arrayToAdd )
+	public static <T> T[] add( T[] array, T... arrayToAdd )
 	{
 		if ( array == null )
 			return arrayToAdd;
