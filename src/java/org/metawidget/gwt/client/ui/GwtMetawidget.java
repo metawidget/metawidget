@@ -782,8 +782,8 @@ public class GwtMetawidget
 	/**
 	 * Invalidates the current inspection result (if any) <em>and</em> invalidates the widgets.
 	 * <p>
-	 * As an optimisation we only invalidate the widgets, not the entire inspection result, for
-	 * some operations (such as adding/removing stubs, changing read-only etc.)
+	 * As an optimisation we only invalidate the widgets, not the entire inspection result, for some
+	 * operations (such as adding/removing stubs, changing read-only etc.)
 	 */
 
 	protected void invalidateInspection()
@@ -1090,7 +1090,7 @@ public class GwtMetawidget
 
 		if ( ACTION.equals( elementName ) )
 		{
-			Button button = new Button( getLabelString( attributes ));
+			Button button = new Button( getLabelString( attributes ) );
 			return button;
 		}
 
@@ -1229,19 +1229,14 @@ public class GwtMetawidget
 
 		if ( ACTION.equals( elementName ) && widget instanceof Button )
 		{
-			final Object toInspect = getToInspect();
-
-			if ( toInspect != null )
+			Button button = (Button) widget;
+			button.addClickListener( new ClickListener()
 			{
-				Button button = (Button) widget;
-				button.addClickListener( new ClickListener()
+				public void onClick( Widget sender )
 				{
-					public void onClick( Widget sender )
-					{
-						invokeMethod( toInspect, name );
-					}
-				} );
-			}
+					invokeAction( name );
+				}
+			} );
 		}
 
 		// Bind properties
@@ -1262,7 +1257,7 @@ public class GwtMetawidget
 		mAddedWidgets.put( name, widget );
 
 		if ( widget instanceof HasName )
-			((HasName) widget).setName( name );
+			( (HasName) widget ).setName( name );
 
 		mLayout.layoutChild( widget, attributes );
 	}
@@ -1346,6 +1341,23 @@ public class GwtMetawidget
 			return true;
 
 		return false;
+	}
+
+	/**
+	 * Invoke the specified action on the current <code>toInspect</code>.
+	 * <p>
+	 * Clients may override this method to instead invoke the action using, say, an RPC call to a
+	 * servlet.
+	 */
+
+	protected void invokeAction( String actionName )
+	{
+		Object toInspect = getToInspect();
+
+		if ( toInspect == null )
+			return;
+
+		invokeMethod( toInspect, toInspect.getClass().getName(), actionName );
 	}
 
 	//
@@ -1444,11 +1456,6 @@ public class GwtMetawidget
 	//
 	// Native methods
 	//
-
-	void invokeMethod( Object obj, String method )
-	{
-		invokeMethod( obj, obj.getClass().getName(), method );
-	}
 
 	/**
 	 * Invoke JavaScript method using special GWT naming convention
