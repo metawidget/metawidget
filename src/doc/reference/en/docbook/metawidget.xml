@@ -2236,7 +2236,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						<listitem>
 							<para>
 								Include both <filename>metawidget.jar</filename> <emphasis>and</emphasis> <filename>examples\gwt\metawidget-gwt-client.jar</filename>
-								in the <parameter>CLASSPATH</parameter> during the <classname>GWTCompiler</classname> phase.
+								in the <parameter>CLASSPATH</parameter> during the GWTCompiler phase.
 							</para>
 						</listitem>
 						<listitem>
@@ -2277,6 +2277,57 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						distribution's <filename>build.xml</filename> useful.
 					</para>
 					
+				</section>
+				
+				<section id="section-metawidgets-web-gwt-client-side-inspection">
+					<title>Client-Side Inspection</title>
+					
+					<para>
+						As noted in <xref linkend="section-metawidgets-web-gwt-reflection"/> by default <classname>GwtMetawidget</classname> uses
+						server-side Inspectors. This allows the full power of Java-based reflection but carries the performance cost of an AJAX call.
+						This cost can be mitigated by using rebinding (see <xref linkend="section-performance-rebind"/>), but there is
+						another way: inspection can be performed <emphasis>client-side</emphasis>, with no AJAX calls.
+					</para>
+					
+					<para>
+						Setting up a client-side <classname>Inspector</classname> is very easy. The default <classname>GwtMetawidget</classname>
+						<classname>Inspector</classname> is <classname>GwtRemoteInspectorProxy</classname>, which is itself a client-side
+						<classname>Inspector</classname> (one that makes a remote call to <classname>GwtRemoteInspectorImpl</classname>). To
+						replace this default, simply implement your own <classname>Inspector</classname>:
+					</para>
+					
+					<programlisting language="java">public class MyClientSideInspector
+	implements Inspector {
+	public String inspect( Object toInspect, String type, String... names )
+		throws InspectorException {
+		return ...some XML string...
+	}
+}</programlisting>					
+
+					<para>
+						Make sure this <classname>Inspector</classname> is located under the <filename>client</filename> folder of your GWT application
+						so that it is compiled by the GWTCompiler into JavaScript. Use this <classname>Inspector</classname> by doing...
+					</para>
+
+					<programlisting language="java">myGWTMetawidget.setInspectorClass( MyClientSideInspector.class )</programlisting>
+					
+					<para>
+						...which overrides the default <classname>GwtRemoteInspectorProxy</classname>. Behind the scenes, <classname>GwtMetawidget</classname>
+						has a <classname>InspectorFactoryGenerator</classname> which takes care of generating JavaScript code to
+						instantiate your inspector.
+					</para>
+					
+					<para>
+						That's it! Of course, JavaScript-based inspection is severely limited compared to Java-based inspection, but you may
+						be able to find tricks that work for your environment. For example, you can try...
+					</para>
+					
+					<programlisting language="java">for( var property in myObject ) { alert( myObject[property] ); }</programlisting>					
+
+					<para>
+						...or perhaps you already have the XML you need available somewhere else in your client-side code.
+					</para>
+
 				</section>
 				
 			</section>
