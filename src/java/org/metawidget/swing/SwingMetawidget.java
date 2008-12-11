@@ -964,50 +964,14 @@ public class SwingMetawidget
 				// TODO: fails in Groovy?
 				// TODO: document widget types for GWT
 
-				try
+				button.setAction( new AbstractAction( text )
 				{
-					// Parameterless
-
-					final Method parameterlessActionMethod = toInspect.getClass().getMethod( name, (Class[]) null );
-
-					button.setAction( new AbstractAction( text )
+					@Override
+					public void actionPerformed( ActionEvent e )
 					{
-						@Override
-						public void actionPerformed( ActionEvent e )
-						{
-							try
-							{
-								parameterlessActionMethod.invoke( toInspect, (Object[]) null );
-							}
-							catch ( Exception ex )
-							{
-								throw new RuntimeException( ex );
-							}
-						}
-					} );
-				}
-				catch ( NoSuchMethodException e )
-				{
-					// ActionEvent-parameter based
-
-					final Method parameterizedActionMethod = toInspect.getClass().getMethod( name, ActionEvent.class );
-
-					button.setAction( new AbstractAction( text )
-					{
-						@Override
-						public void actionPerformed( ActionEvent event )
-						{
-							try
-							{
-								parameterizedActionMethod.invoke( toInspect, new ActionEvent( toInspect, 0, name ) );
-							}
-							catch ( Exception ex )
-							{
-								throw new RuntimeException( ex );
-							}
-						}
-					} );
-				}
+						invokeAction( name );
+					}
+				} );
 			}
 		}
 
@@ -1497,6 +1461,42 @@ public class SwingMetawidget
 		return metawidget;
 	}
 
+	/**
+	 * Invoke the specified action on the current <code>toInspect</code>.
+	 * <p>
+	 * Clients may override this method to instead invoke the action using, say, an RPC call to a
+	 * servlet.
+	 */
+
+	protected void invokeAction( String actionName )
+	{
+		Object toInspect = getToInspect();
+
+		if ( toInspect == null )
+			return;
+
+		try
+		{
+			try
+			{
+				// Parameterless
+
+				final Method parameterlessActionMethod = toInspect.getClass().getMethod( actionName, (Class[]) null );
+				parameterlessActionMethod.invoke( toInspect, (Object[]) null );
+			}
+			catch ( NoSuchMethodException e )
+			{
+				// ActionEvent-parameter based
+
+				final Method parameterizedActionMethod = toInspect.getClass().getMethod( actionName, ActionEvent.class );
+				parameterizedActionMethod.invoke( toInspect, new ActionEvent( toInspect, 0, actionName ) );
+			}
+		}
+		catch ( Exception ex )
+		{
+			throw MetawidgetException.newException( ex );
+		}
+	}
 	//
 	// Private methods
 	//

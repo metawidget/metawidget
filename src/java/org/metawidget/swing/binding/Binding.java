@@ -29,6 +29,9 @@ import org.metawidget.swing.SwingMetawidget;
  * and Metawidget supports these.
  * <p>
  * Implementations need not be Thread-safe.
+ * <p>
+ * Note: binding only applies to <em>properties</em>. Binding for actions is covered by the
+ * <code>SwingMetawidget.invokeAction</code> method.
  *
  * @author Richard Kennard
  */

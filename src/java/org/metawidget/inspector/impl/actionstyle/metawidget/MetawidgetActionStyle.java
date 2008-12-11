@@ -43,6 +43,10 @@ public class MetawidgetActionStyle
 		if ( action == null )
 			return false;
 
+		// Note: @UiAction must not take any parameters, because it is cross-platform. However the
+		// action methods themselves may take, say, a java.awt.event.ActionEvent and they may
+		// be annotated by something framework-specific like org.jdesktop.application.Action
+
 		if ( method.getParameterTypes().length > 0 )
 			throw InspectorException.newException( "@UiAction " + method + " must not take any parameters" );
 

@@ -24,6 +24,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Interface for pluggable Binding implementations.
+ * <p>
+ * Note: binding only applies to <em>properties</em>. Binding for actions is covered by the
+ * <code>GwtMetawidget.invokeAction</code> method.
  *
  * @author Richard Kennard
  */
