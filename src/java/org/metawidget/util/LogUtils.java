@@ -23,6 +23,11 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  * Utilities for working with Logging.
+ * <p>
+ * Note: we're not trying to create <em>another</em> logging framework here! We're just trying to
+ * use Commons Logging where available, and java.util Logging where it's not. Most web containers
+ * will prefer Commons Logging, but we don't want to have to ship commons-logging.jar with, say, a
+ * Swing applet.
  *
  * @author Richard Kennard
  */
@@ -34,12 +39,16 @@ public final class LogUtils
 	//
 
 	/**
-	 * Where possible, returns an implementation of Commons Logging. For those
-	 * applications that do not use Commons Logging, returns an implementation of
-	 * java.util Logging.
+	 * Where possible, returns an implementation of Commons Logging. For those applications that do
+	 * not use Commons Logging, returns an implementation of java.util Logging.
 	 * <p>
-	 * In general, Commons Logging is the better choice. However, that introduces a
-	 * mandatory JAR dependency which we want to avoid if possible.
+	 * In general, Commons Logging is the better choice. However, that introduces a mandatory JAR
+	 * dependency which we want to avoid.
+	 * <p>
+	 * Note: we're not trying to create <em>another</em> logging framework here! We're just trying to
+	 * use Commons Logging where available, and java.util Logging where it's not. Most web
+	 * containers will prefer Commons Logging, but we don't want to have to ship commons-logging.jar
+	 * with, say, a Swing applet.
 	 */
 
 	public static Log getLog( Class<?> clazz )
@@ -56,6 +65,11 @@ public final class LogUtils
 
 	/**
 	 * Common logging interface.
+	 * <p>
+	 * Note: we're not trying to create <em>another</em> logging framework here! We're just trying
+	 * to use Commons Logging where available, and java.util Logging where it's not. Most web
+	 * containers will prefer Commons Logging, but we don't want to have to ship commons-logging.jar
+	 * with, say, a Swing applet.
 	 */
 
 	public interface Log
