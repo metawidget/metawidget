@@ -1477,18 +1477,20 @@ public class SwingMetawidget
 
 		try
 		{
+			Class<?> clazz = toInspect.getClass();
+
 			try
 			{
 				// Parameterless
 
-				final Method parameterlessActionMethod = toInspect.getClass().getMethod( actionName, (Class[]) null );
+				final Method parameterlessActionMethod = clazz.getMethod( actionName, (Class[]) null );
 				parameterlessActionMethod.invoke( toInspect, (Object[]) null );
 			}
 			catch ( NoSuchMethodException e )
 			{
 				// ActionEvent-parameter based
 
-				final Method parameterizedActionMethod = toInspect.getClass().getMethod( actionName, ActionEvent.class );
+				final Method parameterizedActionMethod = clazz.getMethod( actionName, ActionEvent.class );
 				parameterizedActionMethod.invoke( toInspect, new ActionEvent( toInspect, 0, actionName ) );
 			}
 		}
@@ -1497,6 +1499,7 @@ public class SwingMetawidget
 			throw MetawidgetException.newException( ex );
 		}
 	}
+
 	//
 	// Private methods
 	//

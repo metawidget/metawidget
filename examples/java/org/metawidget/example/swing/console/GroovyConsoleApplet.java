@@ -87,6 +87,7 @@ public class GroovyConsoleApplet
 		{
 			// (applet PARAM tag does not support newlines, so we roll our own convention)
 
+			script = script.replaceAll( Matcher.quoteReplacement( "\\\\" ), "\\" );
 			script = script.replaceAll( Matcher.quoteReplacement( "\\n" ), "\n" );
 			script = script.replaceAll( Matcher.quoteReplacement( "\\t" ), "\t" );
 

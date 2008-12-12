@@ -19,10 +19,12 @@ package org.metawidget.inspector.impl.propertystyle.groovy;
 import groovy.lang.GroovySystem;
 import groovy.lang.MetaBeanProperty;
 import groovy.lang.MetaMethod;
+import groovy.lang.MetaProperty;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
@@ -69,19 +71,31 @@ public class GroovyPropertyStyle
 		// these can change dynamically?
 
 		@SuppressWarnings( "unchecked" )
-		List<MetaBeanProperty> properties = GroovySystem.getMetaClassRegistry().getMetaClass( clazz ).getProperties();
+		List<MetaProperty> properties = GroovySystem.getMetaClassRegistry().getMetaClass( clazz ).getProperties();
 
-		for ( MetaBeanProperty property : properties )
+		for ( MetaProperty property : properties )
 		{
+			// Not CachedField, MetaArrayLengthProperty, or MetaExpandoProperty
+			// TODO: test not CachedField, MetaArrayLengthProperty, or MetaExpandoProperty
+
+			if ( !( property instanceof MetaBeanProperty ))
+				continue;
+
 			String name = property.getName();
 			Class<?> type = property.getType();
+
+			// Only public properties
+			// TODO: test only public properties are returned
+
+			if ( !Modifier.isPublic( property.getModifiers() ))
+				continue;
 
 			// Exclude based on criteria
 
 			if ( isExcluded( clazz, name, type ))
 				continue;
 
-			propertiesToReturn.put( name, new GroovyProperty( property, clazz ) );
+			propertiesToReturn.put( name, new GroovyProperty( (MetaBeanProperty) property, clazz ) );
 		}
 
 		return propertiesToReturn;

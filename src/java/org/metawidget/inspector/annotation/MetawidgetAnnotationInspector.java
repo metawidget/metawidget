@@ -353,6 +353,14 @@ public class MetawidgetAnnotationInspector
 		if ( readOnly != null )
 			attributes.put( READ_ONLY, TRUE );
 
+		// UiSection
+		// TODO: test section matching
+
+		UiSection uiSection = action.getAnnotation( UiSection.class );
+
+		if ( uiSection != null )
+			attributes.put( SECTION, uiSection.value() );
+
 		// UiLabel
 
 		UiLabel label = action.getAnnotation( UiLabel.class );

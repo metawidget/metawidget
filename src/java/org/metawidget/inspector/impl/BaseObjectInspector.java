@@ -367,9 +367,9 @@ public abstract class BaseObjectInspector
 
 		// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
 		//
-		// (note: in some cases, this needs the applet to be signed - I think this is still
-		//  better than 'relaxing' this sanity check, as that would lead to differing behaviour
-		//  when deployed as an unsigned applet versus a signed applet)
+		// (note: for Groovy dynamic classes, this needs the applet to be signed - I think this is
+		// still better than 'relaxing' this sanity check, as that would lead to differing behaviour
+		// when deployed as an unsigned applet versus a signed applet)
 
 		Class<?> clazz = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
 
