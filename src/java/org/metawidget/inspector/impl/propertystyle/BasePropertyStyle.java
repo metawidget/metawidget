@@ -121,12 +121,42 @@ public abstract class BasePropertyStyle
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected boolean isExcluded( Class<?> clazz, String propertyName, Class<?> propertyType )
+	protected boolean isExcluded( Class<?> declaringClass, String propertyName, Class<?> propertyType )
 	{
+		if ( isExcludedBaseType( declaringClass ) )
+			return true;
+
 		if ( isExcludedReturnType( propertyType ) )
 			return true;
 
 		if ( isExcludedName( propertyName ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Whether to exclude the given base type when searching up the model inheritance chain.
+	 * <p>
+	 * This can be useful when the convention or base class define properties that are
+	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * <p>
+	 * By default, excludes any base types from the <code>java.*</code> or <code>javax.*</code>
+	 * packages.
+	 *
+	 * @return true if the property should be excluded, false otherwise
+	 */
+
+	protected boolean isExcludedBaseType( Class<?> clazz )
+	{
+		Package pkg = clazz.getPackage();
+
+		if ( pkg == null )
+			return false;
+
+		String pkgName = pkg.getName();
+
+		if ( pkgName.startsWith( "java." ) || pkgName.startsWith( "javax." ) )
 			return true;
 
 		return false;

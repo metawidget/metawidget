@@ -354,7 +354,6 @@ public class MetawidgetAnnotationInspector
 			attributes.put( READ_ONLY, TRUE );
 
 		// UiSection
-		// TODO: test section matching
 
 		UiSection uiSection = action.getAnnotation( UiSection.class );
 

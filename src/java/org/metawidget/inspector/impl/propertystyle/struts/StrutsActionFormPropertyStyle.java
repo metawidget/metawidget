@@ -37,6 +37,18 @@ public class StrutsActionFormPropertyStyle
 	// Protected methods
 	//
 
+	/**
+	 * Whether to exclude the given base type when searching up the model inheritance chain.
+	 * <p>
+	 * This can be useful when the convention or base class define properties that are
+	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * <p>
+	 * By default, excludes any base types from the <code>org.apache.struts.*</code> packages, as
+	 * well as those excluded by <code>BasePropertyStyle</code>.
+	 *
+	 * @return true if the property should be excluded, false otherwise
+	 */
+
 	@Override
 	protected boolean isExcludedBaseType( Class<?> clazz )
 	{

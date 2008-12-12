@@ -76,23 +76,33 @@ public class GroovyPropertyStyle
 		for ( MetaProperty property : properties )
 		{
 			// Not CachedField, MetaArrayLengthProperty, or MetaExpandoProperty
-			// TODO: test not CachedField, MetaArrayLengthProperty, or MetaExpandoProperty
+			// TODO: test this
 
 			if ( !( property instanceof MetaBeanProperty ))
 				continue;
 
-			String name = property.getName();
-			Class<?> type = property.getType();
+			MetaBeanProperty metaBeanProperty = (MetaBeanProperty) property;
+
+			String name = metaBeanProperty.getName();
+			Class<?> type = metaBeanProperty.getType();
 
 			// Only public properties
-			// TODO: test only public properties are returned
 
-			if ( !Modifier.isPublic( property.getModifiers() ))
+			if ( !Modifier.isPublic( metaBeanProperty.getModifiers() ))
 				continue;
 
 			// Exclude based on criteria
 
-			if ( isExcluded( clazz, name, type ))
+			Class<?> declaringClass;
+
+			if ( metaBeanProperty.getGetter() != null )
+				declaringClass = metaBeanProperty.getGetter().getDeclaringClass().getTheClass();
+			else if ( metaBeanProperty.getSetter() != null )
+				declaringClass = metaBeanProperty.getSetter().getDeclaringClass().getTheClass();
+			else
+				declaringClass = clazz;
+
+			if ( isExcluded( declaringClass, name, type ))
 				continue;
 
 			propertiesToReturn.put( name, new GroovyProperty( (MetaBeanProperty) property, clazz ) );
@@ -102,26 +112,31 @@ public class GroovyPropertyStyle
 	}
 
 	/**
-	 * Whether to exclude the given property name when searching for properties.
+	 * Whether to exclude the given base type when searching up the model inheritance chain.
 	 * <p>
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, excludes 'class' (as in 'getClass') and 'metaClass' (as in 'getMetaClass')
+	 * By default, excludes any base types from the <code>org.groovy.*</code> packages, as
+	 * well as those excluded by <code>BasePropertyStyle</code>.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
 	@Override
-	protected boolean isExcludedName( String name )
+	protected boolean isExcludedBaseType( Class<?> clazz )
 	{
-		if ( "class".equals( name ) )
+		Package pkg = clazz.getPackage();
+
+		if ( pkg == null )
+			return false;
+
+		String pkgName = pkg.getName();
+
+		if ( pkgName.startsWith( "org.groovy." ))
 			return true;
 
-		if ( "metaClass".equals( name ) )
-			return true;
-
-		return super.isExcludedName( name );
+		return super.isExcludedBaseType( clazz );
 	}
 
 	//

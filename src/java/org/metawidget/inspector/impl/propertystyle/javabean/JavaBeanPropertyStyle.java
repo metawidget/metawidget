@@ -212,29 +212,6 @@ public class JavaBeanPropertyStyle
 	}
 
 	/**
-	 * Whether to exclude the given property, of the given type, in the given class, when searching
-	 * for properties.
-	 * <p>
-	 * This can be useful when the convention or base class define properties that are
-	 * framework-specific, and should be filtered out from 'real' business model properties.
-	 * <p>
-	 * By default, calls <code>isExcludedBaseType</code>, <code>isExcludedReturnType</code> and
-	 * <code>isExcludedName</code> and returns true if any of them return true. Returns false
-	 * otherwise.
-	 *
-	 * @return true if the property should be excluded, false otherwise
-	 */
-
-	@Override
-	protected boolean isExcluded( Class<?> clazz, String propertyName, Class<?> propertyType )
-	{
-		if ( isExcludedBaseType( clazz ) )
-			return true;
-
-		return super.isExcluded( clazz, propertyName, propertyType );
-	}
-
-	/**
 	 * Whether to exclude the given property name when searching for properties.
 	 * <p>
 	 * This can be useful when the convention or base class define properties that are
@@ -255,33 +232,6 @@ public class JavaBeanPropertyStyle
 			return true;
 
 		return super.isExcludedName( name );
-	}
-
-	/**
-	 * Whether to exclude the given base type when searching up the model inheritance chain.
-	 * <p>
-	 * This can be useful when the convention or base class define properties that are
-	 * framework-specific, and should be filtered out from 'real' business model properties.
-	 * <p>
-	 * By default, excludes any base types from the <code>java.*</code> or <code>javax.*</code>
-	 * packages.
-	 *
-	 * @return true if the property should be excluded, false otherwise
-	 */
-
-	protected boolean isExcludedBaseType( Class<?> clazz )
-	{
-		Package pkg = clazz.getPackage();
-
-		if ( pkg == null )
-			return false;
-
-		String pkgName = pkg.getName();
-
-		if ( pkgName.startsWith( "java." ) || pkgName.startsWith( "javax." ) )
-			return true;
-
-		return false;
 	}
 
 	//

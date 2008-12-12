@@ -16,6 +16,8 @@
 
 package org.metawidget.groovytest.inspector.impl.propertystyle.groovy;
 
+import javax.swing.*;
+
 import javax.persistence.*;
 import org.hibernate.validator.*;
 
@@ -24,6 +26,7 @@ import org.hibernate.validator.*;
  */
 
 class GroovyFoo
+	extends JDialog
 {
 	@Column( nullable = false )
 	String		foo
@@ -31,6 +34,8 @@ class GroovyFoo
 	List<Date>	bar
 
 	boolean 	baz
+	
+	protected	boolean	mInaccessibleProperty;
 	
 	@NotNull
 	public String getMethodFoo()
@@ -50,5 +55,15 @@ class GroovyFoo
 	
 	public void setMethodAbc( List<Boolean> methodAbc )
 	{
+	}
+	
+	protected boolean getInaccessibleProperty()
+	{
+		return mInaccessibleProperty;
+	}
+	
+	protected void setInaccessibleProperty( boolean inaccessibleProperty )
+	{
+		mInaccessibleProperty = inaccessibleProperty;	
 	}
 }

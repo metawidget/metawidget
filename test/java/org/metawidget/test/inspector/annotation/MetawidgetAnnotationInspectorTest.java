@@ -127,10 +127,15 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ));
 		assertTrue( "Foo".equals( property.getAttribute( SECTION ) ));
 		assertTrue( TRUE.equals( property.getAttribute( MASKED ) ));
+		assertTrue( TRUE.equals( property.getAttribute( DONT_EXPAND ) ));
+		assertTrue( TRUE.equals( property.getAttribute( LARGE ) ));
+		assertTrue( 10 == property.getAttributes().getLength() );
 
 		Element action = (Element) property.getNextSibling();
 		assertTrue( ACTION.equals( action.getNodeName() ));
 		assertTrue( "doNothing".equals( action.getAttribute( NAME ) ));
+		assertTrue( "Bar".equals( action.getAttribute( SECTION ) ));
+		assertTrue( 2 == action.getAttributes().getLength() );
 
 		assertTrue( null == action.getNextSibling() );
 	}
@@ -242,6 +247,7 @@ public class MetawidgetAnnotationInspectorTest
 
 		@UiAction
 		@UiComesAfter( "string1" )
+		@UiSection( "Bar" )
 		public void doNothing()
 		{
 			// Do nothing
