@@ -16,6 +16,8 @@
 
 package org.metawidget.test.example.swing.appframework;
 
+import java.awt.Container;
+import java.awt.FlowLayout;
 import java.lang.reflect.Method;
 
 import javax.swing.JButton;
@@ -78,6 +80,7 @@ public class SwingAppFrameworkTest
 		assertTrue( "Ford".equals( car.toString() ) );
 		assertTrue( null == car.getOwner() );
 		assertTrue( metawidget.getComponentCount() == 6 );
+		assertTrue( ((Container) metawidget.getFacet( "buttons" ).getComponent( 0 )).getLayout() instanceof FlowLayout );
 		assertTrue( "Save".equals( ((JButton) ((SwingMetawidget) metawidget.getFacet( "buttons" ).getComponent( 0 )).getComponent( 0 )).getText() ));
 
 		( (JComboBox) metawidget.getComponent( 3 ) ).setSelectedIndex( 1 );

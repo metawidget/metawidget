@@ -55,6 +55,7 @@ import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.beansbinding.BeansBinding;
+import org.metawidget.swing.layout.FlowLayout;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -218,7 +219,7 @@ public class ContactDialog
 		mButtonsMetawidget = new SwingMetawidget();
 		mButtonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
 		mButtonsMetawidget.setBundle( ResourceBundle.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" ) );
-		mButtonsMetawidget.setLayoutClass( null );
+		mButtonsMetawidget.setLayoutClass( FlowLayout.class );
 		mButtonsMetawidget.setToInspect( this );
 		facetButtons.add( mButtonsMetawidget );
 	}

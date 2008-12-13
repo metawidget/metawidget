@@ -33,6 +33,7 @@ import org.jdesktop.application.SingleFrameApplication;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.binding.beansbinding.BeansBinding;
+import org.metawidget.swing.layout.FlowLayout;
 
 /**
  * @author Richard Kennard
@@ -122,7 +123,7 @@ public class CarApplication
 		buttonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/appframework/action-inspector-config.xml" );
 		buttonsMetawidget.setBundle( bundle );
 		buttonsMetawidget.setToInspect( this );
-		buttonsMetawidget.setLayoutClass( null );
+		buttonsMetawidget.setLayoutClass( FlowLayout.class );
 
 		Facet facet = new Facet();
 		facet.setName( "buttons" );

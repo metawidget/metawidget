@@ -17,6 +17,7 @@
 package org.metawidget.test.example.swing.addressbook;
 
 import java.awt.Container;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
@@ -104,6 +105,7 @@ public class SwingAddressBookTest
 
 		assertTrue( metawidgetSearch.getComponentCount() == 7 );
 		JPanel panelButtons = (JPanel) metawidgetSearch.getComponent( metawidgetSearch.getComponentCount() - 1 );
+		assertTrue( ((Container) panelButtons.getComponent( 0 )).getLayout() instanceof FlowLayout );
 		JButton buttonSearch = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		assertTrue( "Search".equals( buttonSearch.getText() ) );
 
@@ -159,6 +161,7 @@ public class SwingAddressBookTest
 
 		assertTrue( metawidgetContact.getComponentCount() == 19 );
 		panelButtons = (JPanel) metawidgetContact.getComponent( metawidgetContact.getComponentCount() - 1 );
+		assertTrue( ((Container) panelButtons.getComponent( 0 )).getLayout() instanceof FlowLayout );
 		JButton buttonEdit = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		assertTrue( "Edit".equals( buttonEdit.getText() ) );
 		buttonEdit.getAction().actionPerformed( null );

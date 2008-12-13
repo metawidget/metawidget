@@ -24,6 +24,7 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.event.ActionEvent;
@@ -576,6 +577,20 @@ public class SwingMetawidget
 	}
 
 	/**
+	 * Overriden to build widgets just-in-time.
+	 * <p>
+	 * This method may be called by developers who wish to test the SwingMetawidget's active LayoutManager.
+	 */
+
+	@Override
+	public LayoutManager getLayout()
+	{
+		buildWidgets();
+
+		return super.getLayout();
+	}
+
+	/**
 	 * Gets the value from the Component with the given name.
 	 * <p>
 	 * The value is returned as it was stored in the Component (eg. String for JTextField) so may
@@ -830,8 +845,8 @@ public class SwingMetawidget
 	/**
 	 * Invalidates the current inspection result (if any) <em>and</em> invalidates the widgets.
 	 * <p>
-	 * As an optimisation we only invalidate the widgets, not the entire inspection result, for
-	 * some operations (such as adding/removing stubs, changing read-only etc.)
+	 * As an optimisation we only invalidate the widgets, not the entire inspection result, for some
+	 * operations (such as adding/removing stubs, changing read-only etc.)
 	 */
 
 	protected void invalidateInspection()
@@ -1244,10 +1259,10 @@ public class SwingMetawidget
 					byte minimum = Byte.MIN_VALUE;
 					byte maximum = Byte.MAX_VALUE;
 
-					if ( minimumValue != null && !"".equals( minimumValue ))
+					if ( minimumValue != null && !"".equals( minimumValue ) )
 						minimum = Byte.parseByte( minimumValue );
 
-					if ( maximumValue != null && !"".equals( maximumValue ))
+					if ( maximumValue != null && !"".equals( maximumValue ) )
 						maximum = Byte.parseByte( maximumValue );
 
 					setSpinnerModel( spinner, (byte) 0, minimum, maximum, (byte) 1 );
@@ -1270,7 +1285,7 @@ public class SwingMetawidget
 					int minimum = Integer.MIN_VALUE;
 					int maximum = Integer.MAX_VALUE;
 
-					if ( minimumValue != null && !"".equals( minimumValue ))
+					if ( minimumValue != null && !"".equals( minimumValue ) )
 						minimum = Integer.parseInt( minimumValue );
 
 					if ( maximumValue != null && !"".equals( maximumValue ) )

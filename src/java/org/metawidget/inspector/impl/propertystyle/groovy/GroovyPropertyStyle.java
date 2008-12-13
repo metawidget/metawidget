@@ -139,6 +139,26 @@ public class GroovyPropertyStyle
 		return super.isExcludedBaseType( clazz );
 	}
 
+	/**
+	 * Whether to exclude the given property name when searching for properties.
+	 * <p>
+	 * This can be useful when the convention or base class define properties that are
+	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * <p>
+	 * By default, excludes 'metaClass'.
+	 *
+	 * @return true if the property should be excluded, false otherwise
+	 */
+
+	@Override
+	protected boolean isExcludedName( String name )
+	{
+		if ( "metaClass".equals( name ) )
+			return true;
+
+		return super.isExcludedName( name );
+	}
+
 	//
 	// Inner classes
 	//

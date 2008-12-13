@@ -57,8 +57,6 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-// TODO: a CardLayout for the Live Demo
-
 public class TableGridBagLayout
 	extends Layout
 {

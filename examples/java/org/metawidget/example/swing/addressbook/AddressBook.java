@@ -48,6 +48,7 @@ import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.layout.FlowLayout;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -224,7 +225,7 @@ public class AddressBook
 		buttonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
 		buttonsMetawidget.setBundle( bundle );
 		buttonsMetawidget.setToInspect( this );
-		buttonsMetawidget.setLayoutClass( null );
+		buttonsMetawidget.setLayoutClass( FlowLayout.class );
 		facetButtons.add( buttonsMetawidget );
 
 		return mSearchMetawidget;
