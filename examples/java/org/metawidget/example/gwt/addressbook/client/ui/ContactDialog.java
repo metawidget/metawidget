@@ -25,8 +25,8 @@ import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.gwt.client.binding.simple.SimpleBinding;
-import org.metawidget.gwt.client.binding.simple.SimpleBindingAdapter;
+import org.metawidget.gwt.client.propertybinding.simple.SimpleBinding;
+import org.metawidget.gwt.client.propertybinding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
@@ -153,7 +153,7 @@ public class ContactDialog
 		mMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column,required" );
 		mMetawidget.setParameter( "sectionStyleName", "section-heading" );
 		mMetawidget.setParameter( "footerStyleName", "buttons" );
-		mMetawidget.setBindingClass( SimpleBinding.class );
+		mMetawidget.setPropertyBindingClass( SimpleBinding.class );
 		mMetawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, mMetawidget );
 
@@ -169,7 +169,7 @@ public class ContactDialog
 		mAddressMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column,required" );
 		mAddressMetawidget.setParameter( "sectionStyleName", "section-heading" );
 		mAddressMetawidget.setParameter( "footerStyleName", "buttons" );
-		mAddressMetawidget.setBindingClass( SimpleBinding.class );
+		mAddressMetawidget.setPropertyBindingClass( SimpleBinding.class );
 		mAddressMetawidget.setToInspect( contact );
 		mAddressMetawidget.setPath( Contact.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + "address" );
 

@@ -54,8 +54,8 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.binding.beansbinding.BeansBinding;
 import org.metawidget.swing.layout.FlowLayout;
+import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -162,7 +162,7 @@ public class ContactDialog
 		mContactMetawidget.setOpaque( false );
 		mContactMetawidget.setBundle( ResourceBundle.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" ) );
 		mContactMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
-		mContactMetawidget.setBindingClass( BeansBinding.class );
+		mContactMetawidget.setPropertyBindingClass( BeansBinding.class );
 		mContactMetawidget.setToInspect( contact );
 		mContactMetawidget.setReadOnly( contact.getId() != 0 );
 		panelBackground.add( mContactMetawidget, BorderLayout.CENTER );

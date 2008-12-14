@@ -14,57 +14,60 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.gwt.addressbook.client.ui.converter;
+package org.metawidget.gwt.client.actionbinding;
 
-import org.metawidget.gwt.client.propertybinding.simple.Converter;
+import java.util.Map;
 
-import com.google.gwt.user.client.ui.Label;
+import org.metawidget.gwt.client.ui.GwtMetawidget;
+
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * Base class for automatic binding of actions.
+ *
  * @author Richard Kennard
  */
 
-public class EnumConverter<T extends Enum<T>>
-	extends Converter<T>
+public abstract class ActionBinding
 {
 	//
 	// Private members
 	//
 
-	private Class<T>	mEnum;
+	private GwtMetawidget	mMetawidget;
 
 	//
 	// Constructor
 	//
 
-	public EnumConverter( Class<T> anEnum )
+	public ActionBinding( GwtMetawidget metawidget )
 	{
-		mEnum = anEnum;
+		mMetawidget = metawidget;
 	}
 
 	//
 	// Public methods
 	//
 
-	@Override
-	public T convertFromWidget( Widget widget, Object value, Class<?> type )
+	/**
+	 * Bind the given Widget to the given 'path of names' within the source Object.
+	 *
+	 * @param widget
+	 *            the widget to bind to
+	 * @param attributes
+	 *            metadata of the property being bound
+	 * @param path
+	 *            path to bind to (can be parsed using PathUtils.parsePath)
+	 */
+
+	public abstract void bind( Widget widget, Map<String, String> attributes, String path );
+
+	//
+	// Protected methods
+	//
+
+	protected GwtMetawidget getMetawidget()
 	{
-		if ( value == null || "".equals( value ))
-			return null;
-
-		return Enum.valueOf( mEnum, (String) value );
-	}
-
-	@Override
-	public Object convertForWidget( Widget widget, T value )
-	{
-		if ( value == null )
-			return null;
-
-		if ( widget instanceof Label )
-			return value.toString();
-
-		return value.name();
+		return mMetawidget;
 	}
 }

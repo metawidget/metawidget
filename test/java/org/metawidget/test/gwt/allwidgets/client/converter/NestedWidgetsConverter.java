@@ -18,7 +18,7 @@ package org.metawidget.test.gwt.allwidgets.client.converter;
 
 import java.util.List;
 
-import org.metawidget.gwt.client.binding.simple.Converter;
+import org.metawidget.gwt.client.propertybinding.simple.Converter;
 import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.util.simple.StringUtils;

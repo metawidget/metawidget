@@ -27,8 +27,6 @@ import java.awt.Graphics2D;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.Stroke;
-import java.awt.event.ActionEvent;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -38,7 +36,6 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -63,9 +60,11 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
-import org.metawidget.swing.binding.Binding;
+import org.metawidget.swing.actionbinding.ActionBinding;
+import org.metawidget.swing.actionbinding.reflectionbinding.ReflectionBinding;
 import org.metawidget.swing.layout.Layout;
 import org.metawidget.swing.layout.TableGridBagLayout;
+import org.metawidget.swing.propertybinding.PropertyBinding;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -112,15 +111,23 @@ public class SwingMetawidget
 	private Layout								mLayout;
 
 	/**
-	 * The Binding class.
+	 * The PropertyBinding class.
 	 * <p>
-	 * Binding class is <code>null</code> by default, to avoid default dependencies on third-party
-	 * JARs
+	 * PropertyBinding class is <code>null</code> by default, to avoid default dependencies on
+	 * third-party JARs
 	 */
 
-	private Class<? extends Binding>			mBindingClass;
+	private Class<? extends PropertyBinding>	mPropertyBindingClass;
 
-	private Binding								mBinding;
+	private PropertyBinding						mPropertyBinding;
+
+	/**
+	 * The ActionBinding class.
+	 */
+
+	private Class<? extends ActionBinding>		mActionBindingClass	= ReflectionBinding.class;
+
+	private ActionBinding						mActionBinding;
 
 	private ResourceBundle						mBundle;
 
@@ -249,17 +256,17 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Sets the Binding implementation to use for automatic, two-way Component-to-Object data
-	 * binding. Current implementations include <code>BeansBinding</code> and
+	 * Sets the PropertyBinding implementation to use for automatic, two-way Component-to-Object
+	 * data binding. Current implementations include <code>BeansBinding</code> and
 	 * <code>BeanUtilsBinding</code>.
 	 *
-	 * @param bindingClass
+	 * @param propertyBindingClass
 	 *            may be null
 	 */
 
-	public void setBindingClass( Class<? extends Binding> bindingClass )
+	public void setPropertyBindingClass( Class<? extends PropertyBinding> propertyBindingClass )
 	{
-		mBindingClass = bindingClass;
+		mPropertyBindingClass = propertyBindingClass;
 		invalidateWidgets();
 	}
 
@@ -339,7 +346,7 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Sets parameters to pass to Layout/Binding implementations.
+	 * Sets parameters to pass to Layout/PropertyBinding implementations.
 	 * <p>
 	 * Exposed for GUI builders.
 	 */
@@ -350,8 +357,8 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Gets the parameter value. Used by the chosen <code>Layout</code> or <code>Binding</code>
-	 * implementation.
+	 * Gets the parameter value. Used by the chosen <code>Layout</code> or
+	 * <code>PropertyBinding</code> implementation.
 	 */
 
 	public Object getParameter( String name )
@@ -363,8 +370,8 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Gets the parameter value. Used by the chosen <code>Layout</code> or <code>Binding</code>
-	 * implementation.
+	 * Gets the parameter value. Used by the chosen <code>Layout</code> or
+	 * <code>PropertyBinding</code> implementation.
 	 * <p>
 	 * Convenience method. Equivalent to <code>getParameter( clazz.getName() )</code>
 	 */
@@ -376,7 +383,7 @@ public class SwingMetawidget
 
 	/**
 	 * Sets the parameter value. Parameters are passed to the chosen <code>Layout</code> or
-	 * <code>Binding</code> implementation.
+	 * <code>PropertyBinding</code> implementation.
 	 */
 
 	public void setParameter( String name, Object value )
@@ -391,7 +398,7 @@ public class SwingMetawidget
 
 	/**
 	 * Sets the parameter value. Parameters are passed to the chosen <code>Layout</code> or
-	 * <code>Binding</code> implementation.
+	 * <code>PropertyBinding</code> implementation.
 	 * <p>
 	 * Convenience method. Equivalent to <code>setParameter( clazz.getName(), value )</code>
 	 */
@@ -443,8 +450,9 @@ public class SwingMetawidget
 	 * <code>rebind</code> is of the same type as the one previously passed to
 	 * <code>setToInspect</code>.
 	 * <p>
-	 * For client's not using a Binding implementation, there is no need to call <code>rebind</code>.
-	 * They can simply use <code>setValue</code> to update existing values in the UI.
+	 * For client's not using a PropertyBinding implementation, there is no need to call
+	 * <code>rebind</code>. They can simply use <code>setValue</code> to update existing values
+	 * in the UI.
 	 * <p>
 	 * In many ways, <code>rebind</code> can be thought of as the opposite of <code>save</code>.
 	 *
@@ -454,15 +462,15 @@ public class SwingMetawidget
 
 	public void rebind( Object toRebind )
 	{
-		// buildWidgets() so that mBinding is initialized
+		// buildWidgets() so that mPropertyBinding is initialized
 
 		buildWidgets();
 
-		if ( mBinding == null )
-			throw MetawidgetException.newException( "No binding configured. Use SwingMetawidget.setBindingClass" );
+		if ( mPropertyBinding == null )
+			throw MetawidgetException.newException( "No property binding configured. Use SwingMetawidget.setPropertyBindingClass" );
 
 		mToInspect = toRebind;
-		mBinding.rebind();
+		mPropertyBinding.rebind();
 
 		for ( Component component : getComponents() )
 		{
@@ -482,17 +490,17 @@ public class SwingMetawidget
 
 	public void save()
 	{
-		// buildWidgets() so that mBinding is initialized
+		// buildWidgets() so that mPropertyBinding is initialized
 
 		buildWidgets();
 
-		if ( mBinding == null )
-			throw MetawidgetException.newException( "No binding configured. Use SwingMetawidget.setBindingClass" );
+		if ( mPropertyBinding == null )
+			throw MetawidgetException.newException( "No property binding configured. Use SwingMetawidget.setPropertyBindingClass" );
 
-		mBinding.save();
+		mPropertyBinding.save();
 
 		// Having a save() method avoids having to expose a getBinding() method, which is handy
-		// because we can worry about nested Metawidgets here, not in the Binding class
+		// because we can worry about nested Metawidgets here, not in the PropertyBinding class
 
 		for ( Component component : getComponents() )
 		{
@@ -579,7 +587,8 @@ public class SwingMetawidget
 	/**
 	 * Overriden to build widgets just-in-time.
 	 * <p>
-	 * This method may be called by developers who wish to test the SwingMetawidget's active LayoutManager.
+	 * This method may be called by developers who wish to test the SwingMetawidget's active
+	 * LayoutManager.
 	 */
 
 	@Override
@@ -867,11 +876,13 @@ public class SwingMetawidget
 		mNeedToBuildWidgets = true;
 		super.removeAll();
 
-		if ( mBinding != null )
+		if ( mPropertyBinding != null )
 		{
-			mBinding.unbind();
-			mBinding = null;
+			mPropertyBinding.unbind();
+			mPropertyBinding = null;
 		}
+
+		mActionBinding = null;
 
 		// Call repaint here, rather than just 'invalidate', for scenarios like doing
 		// a 'remove' of a button that masks a Metawidget
@@ -955,8 +966,11 @@ public class SwingMetawidget
 
 		// Start binding
 
-		if ( mBindingClass != null )
-			mBinding = mBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
+		if ( mPropertyBindingClass != null )
+			mPropertyBinding = mPropertyBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
+
+		if ( mActionBindingClass != null )
+			mActionBinding = mActionBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
 	}
 
 	@SuppressWarnings( "serial" )
@@ -965,47 +979,35 @@ public class SwingMetawidget
 	{
 		final String name = attributes.get( NAME );
 
+		// Drill into JScrollPanes
+
+		Component actualComponent = component;
+
+		if ( actualComponent instanceof JScrollPane )
+			actualComponent = ( (JScrollPane) actualComponent ).getViewport().getView();
+
 		// Bind actions
 
-		if ( ACTION.equals( elementName ) && component instanceof JButton )
+		if ( ACTION.equals( elementName ) && mActionBinding != null )
 		{
-			final Object toInspect = getToInspect();
-
-			if ( toInspect != null )
-			{
-				JButton button = (JButton) component;
-				String text = button.getText();
-
-				// TODO: document widget types for GWT
-
-				button.setAction( new AbstractAction( text )
-				{
-					@Override
-					public void actionPerformed( ActionEvent e )
-					{
-						invokeAction( name );
-					}
-				} );
-			}
+			if ( mMetawidgetMixin.isCompoundWidget() )
+				mActionBinding.bind( actualComponent, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
+			else
+				mActionBinding.bind( actualComponent, attributes, mPath );
 		}
 
 		// Bind properties
 
 		else
 		{
-			if ( mBinding != null )
+			// TODO: document widget types for GWT
+
+			if ( mPropertyBinding != null )
 			{
-				Component actualComponent = component;
-
-				// Drill into JScrollPanes
-
-				if ( actualComponent instanceof JScrollPane )
-					actualComponent = ( (JScrollPane) actualComponent ).getViewport().getView();
-
 				if ( mMetawidgetMixin.isCompoundWidget() )
-					mBinding.bind( actualComponent, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
+					mPropertyBinding.bind( actualComponent, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
 				else
-					mBinding.bind( actualComponent, attributes, mPath );
+					mPropertyBinding.bind( actualComponent, attributes, mPath );
 			}
 		}
 
@@ -1197,8 +1199,8 @@ public class SwingMetawidget
 			{
 				Object convertedValue = value;
 
-				if ( mBinding != null )
-					convertedValue = mBinding.convertFromString( value, clazz );
+				if ( mPropertyBinding != null )
+					convertedValue = mPropertyBinding.convertFromString( value, clazz );
 
 				comboBox.addItem( convertedValue );
 			}
@@ -1463,7 +1465,7 @@ public class SwingMetawidget
 			metawidget.setInspectorConfig( mInspectorConfig );
 
 		metawidget.setLayoutClass( mLayoutClass );
-		metawidget.setBindingClass( mBindingClass );
+		metawidget.setPropertyBindingClass( mPropertyBindingClass );
 		metawidget.setBundle( mBundle );
 		metawidget.setOpaque( isOpaque() );
 
@@ -1473,45 +1475,6 @@ public class SwingMetawidget
 		metawidget.setToInspect( mToInspect );
 
 		return metawidget;
-	}
-
-	/**
-	 * Invoke the specified action on the current <code>toInspect</code>.
-	 * <p>
-	 * Clients may override this method to instead invoke the action using, say, an RPC call to a
-	 * servlet.
-	 */
-
-	protected void invokeAction( String actionName )
-	{
-		Object toInspect = getToInspect();
-
-		if ( toInspect == null )
-			return;
-
-		try
-		{
-			Class<?> clazz = toInspect.getClass();
-
-			try
-			{
-				// Parameterless
-
-				final Method parameterlessActionMethod = clazz.getMethod( actionName, (Class[]) null );
-				parameterlessActionMethod.invoke( toInspect, (Object[]) null );
-			}
-			catch ( NoSuchMethodException e )
-			{
-				// ActionEvent-parameter based
-
-				final Method parameterizedActionMethod = clazz.getMethod( actionName, ActionEvent.class );
-				parameterizedActionMethod.invoke( toInspect, new ActionEvent( toInspect, 0, actionName ) );
-			}
-		}
-		catch ( Exception ex )
-		{
-			throw MetawidgetException.newException( ex );
-		}
 	}
 
 	//

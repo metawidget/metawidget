@@ -20,9 +20,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.metawidget.test.swing.binding.beansbinding.BeansBindingTest;
 import org.metawidget.test.swing.layout.TableGridBagLayoutTest;
 import org.metawidget.test.swing.layout.TableGroupLayoutTest;
+import org.metawidget.test.swing.propertybinding.beansbinding.BeansBindingTest;
 
 /**
  * @author Richard Kennard

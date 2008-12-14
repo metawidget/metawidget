@@ -17,7 +17,7 @@
 
 	<!-- Binding -->
 	
-  	<generate-with class="org.metawidget.gwt.generator.binding.simple.SimpleBindingAdapterGenerator">
+  	<generate-with class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingAdapterGenerator">
 		<when-type-assignable class="org.metawidget.test.shared.allwidgets.model.AllWidgets"/>
 	</generate-with>
 	

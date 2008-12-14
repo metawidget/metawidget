@@ -2049,7 +2049,7 @@ public void addOwner() {
 						<title>Beans Binding</title>
 						
 						<para>
-							<classname>org.metawidget.swing.binding.beansbinding.BeansBinding</classname> supports the various Beans Binding
+							<classname>org.metawidget.swing.propertybinding.beansbinding.BeansBinding</classname> supports the various Beans Binding
 							update strategies by calling <function>metawidget.setParameter( UpdateStrategy.class, UpdateStrategy.READ_WRITE )</function>.
 							If set to <parameter>READ</parameter> or <parameter>READ_WRITE</parameter>, the object being inspected must
 							provide <classname>PropertyChangeSupport</classname>.
@@ -2202,7 +2202,7 @@ public void addOwner() {
 					</para>
 					
 					<programlisting language="xml">&lt;generate-with
-	class="org.metawidget.gwt.generator.binding.simple.SimpleBindingAdapterGenerator"&gt;
+	class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingAdapterGenerator"&gt;
 	&lt;when-type-assignable class="org.metawidget.example.shared.addressbook.model.Contact"/&gt;
 &lt;/generate-with&gt;</programlisting>
 

@@ -25,8 +25,12 @@
 
 	<!-- Binding -->
 	
-  	<generate-with class="org.metawidget.gwt.generator.binding.BindingFactoryGenerator">
-		<when-type-assignable class="org.metawidget.gwt.client.binding.BindingFactory"/>
+  	<generate-with class="org.metawidget.gwt.generator.propertybinding.PropertyBindingFactoryGenerator">
+		<when-type-assignable class="org.metawidget.gwt.client.propertybinding.PropertyBindingFactory"/>
+	</generate-with>
+
+  	<generate-with class="org.metawidget.gwt.generator.actionbinding.ActionBindingFactoryGenerator">
+		<when-type-assignable class="org.metawidget.gwt.client.actionbinding.ActionBindingFactory"/>
 	</generate-with>
 
 	<!-- Layout -->

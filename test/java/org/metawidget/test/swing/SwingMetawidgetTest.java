@@ -34,9 +34,9 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.binding.Binding;
-import org.metawidget.swing.binding.beansbinding.BeansBinding;
-import org.metawidget.swing.binding.beanutils.BeanUtilsBinding;
+import org.metawidget.swing.propertybinding.PropertyBinding;
+import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
+import org.metawidget.swing.propertybinding.beanutils.BeanUtilsBinding;
 import org.metawidget.test.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
 import org.metawidget.util.CollectionUtils;
 
@@ -124,7 +124,7 @@ public class SwingMetawidgetTest
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setBindingClass( BeanUtilsBinding.class );
+		metawidget.setPropertyBindingClass( BeanUtilsBinding.class );
 		Foo foo1 = new Foo();
 		Foo foo2 = new Foo();
 		foo1.setFoo( foo2 );
@@ -192,7 +192,7 @@ public class SwingMetawidgetTest
 		_testRebind( BeanUtilsBinding.class, "Property 'name' has no getter" );
 	}
 
-	public void _testRebind( Class<? extends Binding> bindingClass, String errorMessage )
+	public void _testRebind( Class<? extends PropertyBinding> bindingClass, String errorMessage )
 	{
 		// Bind
 
@@ -204,7 +204,7 @@ public class SwingMetawidgetTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setBindingClass( bindingClass );
+		metawidget.setPropertyBindingClass( bindingClass );
 		metawidget.setToInspect( foo1 );
 
 		JTextField textField = (JTextField) metawidget.getComponent( "name" );

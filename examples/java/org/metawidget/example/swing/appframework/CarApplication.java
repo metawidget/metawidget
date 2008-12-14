@@ -32,8 +32,8 @@ import org.jdesktop.application.Application;
 import org.jdesktop.application.SingleFrameApplication;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.binding.beansbinding.BeansBinding;
 import org.metawidget.swing.layout.FlowLayout;
+import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
 
 /**
  * @author Richard Kennard
@@ -112,7 +112,7 @@ public class CarApplication
 		mMetawidget.setInspectorConfig( "org/metawidget/example/swing/appframework/inspector-config.xml" );
 		mMetawidget.setBundle( bundle );
 		mMetawidget.setToInspect( mCar );
-		mMetawidget.setBindingClass( BeansBinding.class );
+		mMetawidget.setPropertyBindingClass( BeansBinding.class );
 		mMetawidget.setBorder( BorderFactory.createEmptyBorder( 5, 5, 5, 5 ) );
 		mMetawidget.setPreferredSize( new Dimension( 400, 150 ) );
 		frame.add( mMetawidget, BorderLayout.CENTER );

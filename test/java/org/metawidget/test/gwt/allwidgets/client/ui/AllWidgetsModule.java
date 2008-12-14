@@ -18,8 +18,8 @@ package org.metawidget.test.gwt.allwidgets.client.ui;
 
 import java.util.Date;
 
-import org.metawidget.gwt.client.binding.simple.SimpleBinding;
-import org.metawidget.gwt.client.binding.simple.SimpleBindingAdapter;
+import org.metawidget.gwt.client.propertybinding.simple.SimpleBinding;
+import org.metawidget.gwt.client.propertybinding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
@@ -71,9 +71,9 @@ public class AllWidgetsModule
 		metawidget.setInspector( new GwtRemoteInspectorProxy( "/metawidget-inspector-allwidgets" ) );
 		metawidget.setToInspect( new AllWidgets() );
 
-		// Binding
+		// PropertyBinding
 
-		metawidget.setBindingClass( SimpleBinding.class );
+		metawidget.setPropertyBindingClass( SimpleBinding.class );
 
 		@SuppressWarnings( "unchecked" )
 		SimpleBindingAdapter<AllWidgets> allWidgetsAdapter = (SimpleBindingAdapter<AllWidgets>) GWT.create( AllWidgets.class );

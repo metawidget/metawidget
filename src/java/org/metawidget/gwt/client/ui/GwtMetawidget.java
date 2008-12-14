@@ -29,9 +29,12 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
 
-import org.metawidget.gwt.client.binding.Binding;
-import org.metawidget.gwt.client.binding.BindingFactory;
+import org.metawidget.gwt.client.actionbinding.ActionBinding;
+import org.metawidget.gwt.client.actionbinding.ActionBindingFactory;
+import org.metawidget.gwt.client.actionbinding.jsni.JsniBinding;
 import org.metawidget.gwt.client.inspector.InspectorFactory;
+import org.metawidget.gwt.client.propertybinding.PropertyBinding;
+import org.metawidget.gwt.client.propertybinding.PropertyBindingFactory;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.ui.layout.LayoutFactory;
@@ -47,7 +50,6 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
@@ -127,15 +129,23 @@ public class GwtMetawidget
 	private Inspector												mInspector;
 
 	/**
-	 * The Binding class.
+	 * The PropertyBinding class.
 	 * <p>
-	 * Binding class is <code>null</code> by default, because setting up Binding is non-trivial
-	 * (eg. you have to generate some SimpleBindingAdapters)
+	 * PropertyBinding class is <code>null</code> by default, because setting up PropertyBinding
+	 * is non-trivial (eg. you have to generate some SimpleBindingAdapters)
 	 */
 
-	private Class<? extends Binding>								mBindingClass;
+	private Class<? extends PropertyBinding>						mPropertyBindingClass;
 
-	private Binding													mBinding;
+	private PropertyBinding											mPropertyBinding;
+
+	/**
+	 * The ActionBinding class.
+	 */
+
+	private Class<? extends ActionBinding>							mActionBindingClass		= JsniBinding.class;
+
+	private ActionBinding											mActionBinding;
 
 	private String													mDictionaryName;
 
@@ -287,13 +297,24 @@ public class GwtMetawidget
 	}
 
 	/**
-	 * @param bindingClass
+	 * @param propertyBindingClass
 	 *            may be null
 	 */
 
-	public void setBindingClass( Class<? extends Binding> bindingClass )
+	public void setPropertyBindingClass( Class<? extends PropertyBinding> propertyBindingClass )
 	{
-		mBindingClass = bindingClass;
+		mPropertyBindingClass = propertyBindingClass;
+		invalidateWidgets();
+	}
+
+	/**
+	 * @param actionBindingClass
+	 *            may be null
+	 */
+
+	public void setActionBindingClass( Class<? extends ActionBinding> actionBindingClass )
+	{
+		mActionBindingClass = actionBindingClass;
 		invalidateWidgets();
 	}
 
@@ -311,8 +332,8 @@ public class GwtMetawidget
 	}
 
 	/**
-	 * Gets the parameter value. Used by the chosen <code>Layout</code> or <code>Binding</code>
-	 * implementation.
+	 * Gets the parameter value. Used by the chosen <code>Layout</code> or
+	 * <code>PropertyBinding</code> implementation.
 	 */
 
 	public Object getParameter( String name )
@@ -325,7 +346,7 @@ public class GwtMetawidget
 
 	/**
 	 * Sets the parameter value. Parameters are passed to the chosen <code>Layout</code> or
-	 * <code>Binding</code> implementation.
+	 * <code>PropertyBinding</code> implementation.
 	 */
 
 	public void setParameter( String name, Object value )
@@ -588,8 +609,9 @@ public class GwtMetawidget
 	 * <code>rebind</code> is of the same type as the one previously passed to
 	 * <code>setToInspect</code>.
 	 * <p>
-	 * For client's not using a Binding implementation, there is no need to call <code>rebind</code>.
-	 * They can simply use <code>setValue</code> to update existing values in the UI.
+	 * For client's not using a PropertyBinding implementation, there is no need to call
+	 * <code>rebind</code>. They can simply use <code>setValue</code> to update existing values
+	 * in the UI.
 	 * <p>
 	 * In many ways, <code>rebind</code> can be thought of as the opposite of <code>save</code>.
 	 *
@@ -602,11 +624,11 @@ public class GwtMetawidget
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
 			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling rebind()" );
 
-		if ( mBinding == null )
+		if ( mPropertyBinding == null )
 			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
 
 		mToInspect = toRebind;
-		mBinding.rebind();
+		mPropertyBinding.rebind();
 
 		for ( Widget widget : mAddedWidgets.values() )
 		{
@@ -629,13 +651,13 @@ public class GwtMetawidget
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
 			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling save()" );
 
-		if ( mBinding == null )
+		if ( mPropertyBinding == null )
 			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
 
-		mBinding.save();
+		mPropertyBinding.save();
 
 		// Having a save() method avoids having to expose a getBinding() method, which is handy
-		// because we can worry about nested Metawidgets here, not in the Binding class
+		// because we can worry about nested Metawidgets here, not in the PropertyBinding class
 
 		for ( Widget widget : mAddedWidgets.values() )
 		{
@@ -819,11 +841,13 @@ public class GwtMetawidget
 			super.clear();
 			mAddedWidgets.clear();
 
-			if ( mBinding != null )
+			if ( mPropertyBinding != null )
 			{
-				mBinding.unbind();
-				mBinding = null;
+				mPropertyBinding.unbind();
+				mPropertyBinding = null;
 			}
+
+			mActionBinding = null;
 		}
 
 		// Schedule a new build
@@ -993,8 +1017,11 @@ public class GwtMetawidget
 
 		// Start binding
 
-		if ( mBindingClass != null )
-			mBinding = ( (BindingFactory) GWT.create( BindingFactory.class ) ).newBinding( mBindingClass, this );
+		if ( mPropertyBindingClass != null )
+			mPropertyBinding = ( (PropertyBindingFactory) GWT.create( PropertyBindingFactory.class ) ).newBinding( mPropertyBindingClass, this );
+
+		if ( mActionBindingClass != null )
+			mActionBinding = ( (ActionBindingFactory) GWT.create( ActionBindingFactory.class ) ).newBinding( mActionBindingClass, this );
 	}
 
 	protected Widget getOverridenWidget( String elementName, Map<String, String> attributes )
@@ -1227,28 +1254,24 @@ public class GwtMetawidget
 
 		// Bind actions
 
-		if ( ACTION.equals( elementName ) && widget instanceof Button )
+		if ( ACTION.equals( elementName ) && mActionBinding != null )
 		{
-			Button button = (Button) widget;
-			button.addClickListener( new ClickListener()
-			{
-				public void onClick( Widget sender )
-				{
-					invokeAction( name );
-				}
-			} );
+			if ( mMetawidgetMixin.isCompoundWidget() )
+				mActionBinding.bind( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
+			else
+				mActionBinding.bind( widget, attributes, mPath );
 		}
 
 		// Bind properties
 
 		else
 		{
-			if ( mBinding != null && !( widget instanceof GwtMetawidget ) )
+			if ( mPropertyBinding != null && !( widget instanceof GwtMetawidget ) )
 			{
 				if ( mMetawidgetMixin.isCompoundWidget() )
-					mBinding.bind( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
+					mPropertyBinding.bind( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
 				else
-					mBinding.bind( widget, attributes, mPath );
+					mPropertyBinding.bind( widget, attributes, mPath );
 			}
 		}
 
@@ -1282,7 +1305,7 @@ public class GwtMetawidget
 			metawidget.setInspectorClass( mInspectorClass );
 
 		metawidget.setLayoutClass( mLayoutClass );
-		metawidget.setBindingClass( mBindingClass );
+		metawidget.setPropertyBindingClass( mPropertyBindingClass );
 		metawidget.setDictionaryName( mDictionaryName );
 
 		if ( mParameters != null )
@@ -1341,23 +1364,6 @@ public class GwtMetawidget
 			return true;
 
 		return false;
-	}
-
-	/**
-	 * Invoke the specified action on the current <code>toInspect</code>.
-	 * <p>
-	 * Clients may override this method to instead invoke the action using, say, an RPC call to a
-	 * servlet.
-	 */
-
-	protected void invokeAction( String actionName )
-	{
-		Object toInspect = getToInspect();
-
-		if ( toInspect == null )
-			return;
-
-		invokeMethod( toInspect, toInspect.getClass().getName(), actionName );
 	}
 
 	//
@@ -1452,19 +1458,6 @@ public class GwtMetawidget
 			GwtMetawidget.this.endBuild();
 		}
 	}
-
-	//
-	// Native methods
-	//
-
-	/**
-	 * Invoke JavaScript method using special GWT naming convention
-	 */
-
-	native void invokeMethod( Object obj, String type, String method )
-	/*-{
-		obj['@' + type + '::' + method + '()']();
-	}-*/;
 
 	//
 	// Private methods

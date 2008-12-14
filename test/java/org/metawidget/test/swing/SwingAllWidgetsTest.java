@@ -45,8 +45,8 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.metawidget.MetawidgetException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.binding.Binding;
-import org.metawidget.swing.binding.beanutils.BeanUtilsBinding;
+import org.metawidget.swing.propertybinding.PropertyBinding;
+import org.metawidget.swing.propertybinding.beanutils.BeanUtilsBinding;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.test.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
@@ -97,7 +97,7 @@ public class SwingAllWidgetsTest
 	// Protected methods
 	//
 
-	protected void runTest( Class<? extends Binding> bindingClass )
+	protected void runTest( Class<? extends PropertyBinding> bindingClass )
 	{
 		// Model
 
@@ -106,7 +106,7 @@ public class SwingAllWidgetsTest
 		// App
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setBindingClass( bindingClass );
+		metawidget.setPropertyBindingClass( bindingClass );
 		metawidget.setInspectorConfig( "org/metawidget/test/swing/allwidgets/inspector-config.xml" );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( allWidgets );
@@ -564,6 +564,6 @@ public class SwingAllWidgetsTest
 
 		// Test unbind
 
-		metawidget.setBindingClass( null );
+		metawidget.setPropertyBindingClass( null );
 	}
 }

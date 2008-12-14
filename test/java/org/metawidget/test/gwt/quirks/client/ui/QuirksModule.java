@@ -16,8 +16,8 @@
 
 package org.metawidget.test.gwt.quirks.client.ui;
 
-import org.metawidget.gwt.client.binding.simple.SimpleBinding;
-import org.metawidget.gwt.client.binding.simple.SimpleBindingAdapter;
+import org.metawidget.gwt.client.propertybinding.simple.SimpleBinding;
+import org.metawidget.gwt.client.propertybinding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.test.gwt.quirks.client.model.GwtQuirks;
 
@@ -59,9 +59,9 @@ public class QuirksModule
 		metawidget.setParameter( "sectionStyleName", "aSectionStyleName" );
 		metawidget.setToInspect( new GwtQuirks() );
 
-		// Binding
+		// PropertyBinding
 
-		metawidget.setBindingClass( SimpleBinding.class );
+		metawidget.setPropertyBindingClass( SimpleBinding.class );
 
 		@SuppressWarnings( "unchecked" )
 		SimpleBindingAdapter<GwtQuirks> quirksAdapter = (SimpleBindingAdapter<GwtQuirks>) GWT.create( GwtQuirks.class );

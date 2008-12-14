@@ -19,7 +19,7 @@ package org.metawidget.test.swing;
 import java.util.Date;
 import java.util.TimeZone;
 
-import org.metawidget.swing.binding.beansbinding.BeansBinding;
+import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
 
 /**
