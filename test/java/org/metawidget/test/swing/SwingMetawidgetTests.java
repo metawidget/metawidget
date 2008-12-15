@@ -20,6 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.test.swing.actionbinding.reflection.ReflectionBindingTest;
 import org.metawidget.test.swing.layout.TableGridBagLayoutTest;
 import org.metawidget.test.swing.layout.TableGroupLayoutTest;
 import org.metawidget.test.swing.propertybinding.beansbinding.BeansBindingTest;
@@ -52,6 +53,7 @@ public class SwingMetawidgetTests
 	{
 		TestSuite suite = new TestSuite( "SwingMetawidget Tests" );
 		suite.addTestSuite( BeansBindingTest.class );
+		suite.addTestSuite( ReflectionBindingTest.class );
 		// Not: suite.addTestSuite( SwingAllWidgetsTest.class ) - run separately as JDK 1.4
 		suite.addTestSuite( SwingAllWidgetsBeansBindingTest.class );
 		suite.addTestSuite( SwingMetawidgetTest.class );

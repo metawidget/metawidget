@@ -1742,8 +1742,10 @@
 			<fileset dir="${build.metawidget.dir}/classes">
 				<include name="org/metawidget/*.class"/>
 				<include name="org/metawidget/swing/*.class"/>
-				<include name="org/metawidget/swing/binding/*.class"/>
-				<include name="org/metawidget/swing/binding/beansbinding/*.class"/>
+				<include name="org/metawidget/swing/actionbinding/*.class"/>
+				<include name="org/metawidget/swing/actionbinding/reflection/*.class"/>
+				<include name="org/metawidget/swing/propertybinding/*.class"/>
+				<include name="org/metawidget/swing/propertybinding/beansbinding/*.class"/>
 				<include name="org/metawidget/swing/layout/*.class"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>

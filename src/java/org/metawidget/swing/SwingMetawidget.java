@@ -61,7 +61,7 @@ import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.actionbinding.ActionBinding;
-import org.metawidget.swing.actionbinding.reflectionbinding.ReflectionBinding;
+import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
 import org.metawidget.swing.layout.Layout;
 import org.metawidget.swing.layout.TableGridBagLayout;
 import org.metawidget.swing.propertybinding.PropertyBinding;
