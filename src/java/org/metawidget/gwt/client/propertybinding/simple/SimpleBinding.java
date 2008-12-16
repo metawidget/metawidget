@@ -24,7 +24,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.metawidget.gwt.client.propertybinding.PropertyBinding;
+import org.metawidget.gwt.client.propertybinding.PropertyBindingImpl;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.util.simple.PathUtils;
@@ -40,7 +40,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class SimpleBinding
-	extends PropertyBinding
+	extends PropertyBindingImpl
 {
 	//
 	// Private statics
@@ -120,7 +120,6 @@ public class SimpleBinding
 	// Public methods
 	//
 
-	@Override
 	public void bind( Widget widget, Map<String, String> attributes, String path )
 	{
 		// SimpleBinding doesn't bind to Stubs or FlexTables
@@ -191,7 +190,6 @@ public class SimpleBinding
 		}
 	}
 
-	@Override
 	public void rebind()
 	{
 		if ( mBindings == null )
@@ -236,7 +234,6 @@ public class SimpleBinding
 		}
 	}
 
-	@Override
 	public void save()
 	{
 		if ( mBindings == null )

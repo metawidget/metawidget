@@ -19,10 +19,8 @@ package org.metawidget.swing.propertybinding;
 import java.awt.Component;
 import java.util.Map;
 
-import org.metawidget.swing.SwingMetawidget;
-
 /**
- * Base class for automatic, two-way binding of properties.
+ * Interface for automatic, two-way binding of properties.
  * <p>
  * Swing does not define a <code>JComponent</code> to <code>Object</code> mapping mechanism like
  * other UI frameworks (eg. Java Server Faces). However, a couple of third party alternatives exist
@@ -33,25 +31,10 @@ import org.metawidget.swing.SwingMetawidget;
  * @author Richard Kennard
  */
 
-public abstract class PropertyBinding
+public interface PropertyBinding
 {
 	//
-	// Private members
-	//
-
-	private SwingMetawidget	mMetawidget;
-
-	//
-	// Constructor
-	//
-
-	protected PropertyBinding( SwingMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
-	//
-	// Public methods
+	// Methods
 	//
 
 	/**
@@ -65,19 +48,19 @@ public abstract class PropertyBinding
 	 *            path to bind to (can be parsed using PathUtils.parsePath)
 	 */
 
-	public abstract void bind( Component component, Map<String, String> attributes, String path );
+	void bind( Component component, Map<String, String> attributes, String path );
 
 	/**
 	 * Update bound values in the Components from the source Object.
 	 */
 
-	public abstract void rebind();
+	void rebind();
 
 	/**
 	 * Save bound values from the Components back to the source Object.
 	 */
 
-	public abstract void save();
+	void save();
 
 	/**
 	 * Convert the given String into the given type, if necessary. If no
@@ -89,19 +72,7 @@ public abstract class PropertyBinding
 	 * property.
 	 */
 
-	public abstract <T> T convertFromString( String value, Class<T> type );
+	<T> T convertFromString( String value, Class<T> type );
 
-	public void unbind()
-	{
-		// Do nothing by default
-	}
-
-	//
-	// Protected methods
-	//
-
-	protected SwingMetawidget getMetawidget()
-	{
-		return mMetawidget;
-	}
+	void unbind();
 }

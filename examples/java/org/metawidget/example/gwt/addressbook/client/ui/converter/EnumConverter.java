@@ -16,7 +16,7 @@
 
 package org.metawidget.example.gwt.addressbook.client.ui.converter;
 
-import org.metawidget.gwt.client.propertybinding.simple.Converter;
+import org.metawidget.gwt.client.propertybinding.simple.ConverterImpl;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class EnumConverter<T extends Enum<T>>
-	extends Converter<T>
+	extends ConverterImpl<T>
 {
 	//
 	// Private members
@@ -47,7 +47,6 @@ public class EnumConverter<T extends Enum<T>>
 	// Public methods
 	//
 
-	@Override
 	public T convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
 		if ( value == null || "".equals( value ))

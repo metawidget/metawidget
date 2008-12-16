@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.jsp.tagext.html;
+package org.metawidget.jsp.tagext.html.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.jsp.JspUtils;
-import org.metawidget.jsp.tagext.Layout;
+import org.metawidget.jsp.tagext.LayoutImpl;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.util.CollectionUtils;
@@ -48,7 +48,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HtmlTableLayout
-	extends Layout
+	extends LayoutImpl
 {
 	//
 	// Private statics

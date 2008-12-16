@@ -29,7 +29,7 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public abstract class MethodActionStyle
-	extends BaseActionStyle
+	extends ActionStyleImpl
 {
 	//
 	// Protected methods
@@ -96,7 +96,7 @@ public abstract class MethodActionStyle
 	 */
 
 	protected static class MethodAction
-		extends BaseAction
+		extends ActionImpl
 	{
 		//
 		//

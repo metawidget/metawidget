@@ -26,7 +26,7 @@ import javax.swing.AbstractButton;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.actionbinding.ActionBinding;
+import org.metawidget.swing.actionbinding.ActionBindingImpl;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.PathUtils;
 
@@ -42,7 +42,7 @@ import org.metawidget.util.simple.PathUtils;
  */
 
 public class ReflectionBinding
-	extends ActionBinding
+	extends ActionBindingImpl
 {
 	//
 	// Constructor
@@ -57,7 +57,6 @@ public class ReflectionBinding
 	// Public methods
 	//
 
-	@Override
 	@SuppressWarnings( "serial" )
 	public void bind( Component component, Map<String, String> attributes, String path )
 	{

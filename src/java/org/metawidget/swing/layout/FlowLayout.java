@@ -30,7 +30,7 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class FlowLayout
-	extends Layout
+	extends LayoutImpl
 {
 	//
 	// Private members
@@ -58,7 +58,6 @@ public class FlowLayout
 		getMetawidget().setLayout( mLayout );
 	}
 
-	@Override
 	public void layoutChild( Component component, Map<String, String> attributes )
 	{
 		// Do not render empty stubs

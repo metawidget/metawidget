@@ -19,10 +19,8 @@ package org.metawidget.swing.actionbinding;
 import java.awt.Component;
 import java.util.Map;
 
-import org.metawidget.swing.SwingMetawidget;
-
 /**
- * Base class for automatic binding of actions.
+ * Interface for automatic binding of actions.
  * <p>
  * Swing already defines <code>Action</code> classes (such as <code>AbstractAction</code>) for
  * binding UI buttons to concrete Java objects. Metawidget makes this pluggable for those wanting to
@@ -33,25 +31,10 @@ import org.metawidget.swing.SwingMetawidget;
  * @author Richard Kennard
  */
 
-public abstract class ActionBinding
+public interface ActionBinding
 {
 	//
-	// Private members
-	//
-
-	private SwingMetawidget	mMetawidget;
-
-	//
-	// Constructor
-	//
-
-	protected ActionBinding( SwingMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
-	//
-	// Public methods
+	// Methods
 	//
 
 	/**
@@ -65,14 +48,5 @@ public abstract class ActionBinding
 	 *            path to bind to (can be parsed using PathUtils.parsePath)
 	 */
 
-	public abstract void bind( Component component, Map<String, String> attributes, String path );
-
-	//
-	// Protected methods
-	//
-
-	protected SwingMetawidget getMetawidget()
-	{
-		return mMetawidget;
-	}
+	void bind( Component component, Map<String, String> attributes, String path );
 }

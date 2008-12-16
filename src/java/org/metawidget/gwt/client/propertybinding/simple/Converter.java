@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Richard Kennard
  */
 
-public abstract class Converter<T>
+public interface Converter<T>
 {
 	//
 	// Methods
@@ -36,19 +36,11 @@ public abstract class Converter<T>
 	 * @param intoClass	the class to convert into. Useful for handling subclasses (eg. see NumberConverter)
 	 */
 
-	public abstract T convertFromWidget( Widget widget, Object value, Class<?> intoClass );
+	T convertFromWidget( Widget widget, Object value, Class<?> intoClass );
 
 	/**
 	 * Convert the given value to a form that can be displayed by the given Widget.
-	 * <p>
-	 * By default, uses <code>String.valueOf</code>.
 	 */
 
-	public Object convertForWidget( Widget widget, T value )
-	{
-		if ( value == null )
-			return null;
-
-		return String.valueOf( value );
-	}
+	Object convertForWidget( Widget widget, T value );
 }

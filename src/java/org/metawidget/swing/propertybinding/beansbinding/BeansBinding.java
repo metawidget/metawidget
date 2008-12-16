@@ -31,7 +31,7 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.Binding.SyncFailure;
 import org.metawidget.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.propertybinding.PropertyBinding;
+import org.metawidget.swing.propertybinding.PropertyBindingImpl;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
@@ -56,7 +56,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class BeansBinding
-	extends PropertyBinding
+	extends PropertyBindingImpl
 {
 	//
 	// Private statics

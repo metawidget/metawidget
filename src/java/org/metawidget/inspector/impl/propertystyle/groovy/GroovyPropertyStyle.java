@@ -31,8 +31,8 @@ import java.util.Map;
 
 import org.codehaus.groovy.reflection.CachedField;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.propertystyle.BaseProperty;
-import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.PropertyImpl;
+import org.metawidget.inspector.impl.propertystyle.PropertyStyleImpl;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
@@ -48,7 +48,7 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class GroovyPropertyStyle
-	extends BasePropertyStyle
+	extends PropertyStyleImpl
 {
 	//
 	// Protected methods
@@ -118,7 +118,7 @@ public class GroovyPropertyStyle
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
 	 * By default, excludes any base types from the <code>org.groovy.*</code> packages, as
-	 * well as those excluded by <code>BasePropertyStyle</code>.
+	 * well as those excluded by <code>PropertyStyleImpl</code>.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
@@ -168,7 +168,7 @@ public class GroovyPropertyStyle
 	 */
 
 	private static class GroovyProperty
-		extends BaseProperty
+		extends PropertyImpl
 	{
 		//
 		//

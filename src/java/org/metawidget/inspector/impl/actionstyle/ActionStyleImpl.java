@@ -29,7 +29,7 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
-public abstract class BaseActionStyle
+public abstract class ActionStyleImpl
 	implements ActionStyle
 {
 	//
@@ -43,7 +43,7 @@ public abstract class BaseActionStyle
 	 * variable, not a static, because we rely on <code>BaseObjectInspector</code> to only create
 	 * one instance of <code>ActionStyle</code> for all <code>Inspectors</code>.
 	 * <p>
-	 * This also stops problems with subclasses of <code>BaseActionStyle</code> sharing the same
+	 * This also stops problems with subclasses of <code>ActionStyleImpl</code> sharing the same
 	 * static cache.
 	 */
 

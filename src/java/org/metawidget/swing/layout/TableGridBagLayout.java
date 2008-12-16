@@ -58,7 +58,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TableGridBagLayout
-	extends Layout
+	extends LayoutImpl
 {
 	//
 	// Public statics
@@ -184,7 +184,6 @@ public class TableGridBagLayout
 		getMetawidget().setLayout( mLayout );
 	}
 
-	@Override
 	public void layoutChild( Component component, Map<String, String> attributes )
 	{
 		// Do not render empty stubs

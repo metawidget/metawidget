@@ -18,35 +18,18 @@ package org.metawidget.gwt.client.actionbinding;
 
 import java.util.Map;
 
-import org.metawidget.gwt.client.ui.GwtMetawidget;
-
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Base class for automatic binding of actions.
+ * Interface for automatic binding of actions.
  *
  * @author Richard Kennard
  */
 
-public abstract class ActionBinding
+public interface ActionBinding
 {
 	//
-	// Private members
-	//
-
-	private GwtMetawidget	mMetawidget;
-
-	//
-	// Constructor
-	//
-
-	public ActionBinding( GwtMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
-	//
-	// Public methods
+	// Methods
 	//
 
 	/**
@@ -60,14 +43,5 @@ public abstract class ActionBinding
 	 *            path to bind to (can be parsed using PathUtils.parsePath)
 	 */
 
-	public abstract void bind( Widget widget, Map<String, String> attributes, String path );
-
-	//
-	// Protected methods
-	//
-
-	protected GwtMetawidget getMetawidget()
-	{
-		return mMetawidget;
-	}
+	void bind( Widget widget, Map<String, String> attributes, String path );
 }

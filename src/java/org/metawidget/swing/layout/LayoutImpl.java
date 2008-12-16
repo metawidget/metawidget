@@ -14,55 +14,54 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.gwt.addressbook.client.ui.converter;
+package org.metawidget.swing.layout;
 
-import java.util.Date;
-
-import org.metawidget.gwt.client.propertybinding.simple.ConverterImpl;
-
-import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.ui.Widget;
+import org.metawidget.swing.SwingMetawidget;
 
 /**
+ * Convenience implementation.
+ *
  * @author Richard Kennard
  */
 
-public class DateConverter
-	extends ConverterImpl<Date>
+public abstract class LayoutImpl
+	implements Layout
 {
 	//
 	// Private members
 	//
 
-	private DateTimeFormat	mFormat;
+	private SwingMetawidget				mMetawidget;
 
 	//
 	// Constructor
 	//
 
-	public DateConverter()
+	protected LayoutImpl( SwingMetawidget metawidget )
 	{
-		mFormat = DateTimeFormat.getShortDateFormat();
+		mMetawidget = metawidget;
 	}
 
 	//
 	// Public methods
 	//
 
-	public Date convertFromWidget( Widget widget, Object value, Class<?> type )
+	public void layoutBegin()
 	{
-		if ( value == null || "".equals( value ))
-			return null;
-
-		return mFormat.parse( (String) value );
+		// Do nothing by default
 	}
 
-	@Override
-	public Object convertForWidget( Widget widget, Date value )
+	public void layoutEnd()
 	{
-		if ( value == null )
-			return null;
+		// Do nothing by default
+	}
 
-		return mFormat.format( value );
+	//
+	// Protected methods
+	//
+
+	protected SwingMetawidget getMetawidget()
+	{
+		return mMetawidget;
 	}
 }

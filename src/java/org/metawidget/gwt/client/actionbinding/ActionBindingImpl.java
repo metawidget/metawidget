@@ -14,61 +14,40 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle;
+package org.metawidget.gwt.client.actionbinding;
 
-import java.lang.annotation.Annotation;
+import org.metawidget.gwt.client.ui.GwtMetawidget;
 
 /**
- * Convenience implementation for Properties.
- * <p>
- * Handles construction, and returning names and types.
+ * Convenience implementation.
  *
  * @author Richard Kennard
  */
 
-public abstract class BaseProperty
-	implements Property
+public abstract class ActionBindingImpl
+	implements ActionBinding
 {
 	//
-	// Private methods
+	// Private members
 	//
 
-	private String		mName;
-
-	private Class<?>	mType;
+	private GwtMetawidget	mMetawidget;
 
 	//
 	// Constructor
 	//
 
-	public BaseProperty( String name, Class<?> type )
+	public ActionBindingImpl( GwtMetawidget metawidget )
 	{
-		mName = name;
-		mType = type;
+		mMetawidget = metawidget;
 	}
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
-	public String getName()
+	protected GwtMetawidget getMetawidget()
 	{
-		return mName;
-	}
-
-	public Class<?> getType()
-	{
-		return mType;
-	}
-
-	public boolean isAnnotationPresent( Class<? extends Annotation> annotation )
-	{
-		return ( getAnnotation( annotation ) != null );
-	}
-
-	@Override
-	public String toString()
-	{
-		return mName;
+		return mMetawidget;
 	}
 }

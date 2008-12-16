@@ -26,13 +26,12 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class SimpleConverter
-	extends Converter<Object>
+	extends ConverterImpl<Object>
 {
 	//
 	// Public methods
 	//
 
-	@Override
 	public Object convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
 		if ( value instanceof String )

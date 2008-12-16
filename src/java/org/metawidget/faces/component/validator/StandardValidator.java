@@ -37,7 +37,7 @@ import org.metawidget.faces.component.UIMetawidget;
  */
 
 public class StandardValidator
-	extends Validator
+	extends ValidatorImpl
 {
 	//
 	// Constructor
@@ -52,7 +52,6 @@ public class StandardValidator
 	// Public methods
 	//
 
-	@Override
 	public void addValidators( FacesContext context, EditableValueHolder editableValueHolder, Map<String, String> attributes )
 	{
 		// JSF 1.2 support

@@ -19,58 +19,23 @@ package org.metawidget.swing.layout;
 import java.awt.Component;
 import java.util.Map;
 
-import org.metawidget.swing.SwingMetawidget;
-
 /**
- * Base class for all Swing-based layouts.
+ * Interface for Swing-based layouts.
  * <p>
  * Implementations need not be Thread-safe.
  *
  * @author Richard Kennard
  */
 
-public abstract class Layout
+public interface Layout
 {
 	//
-	// Private members
+	// Methods
 	//
 
-	private SwingMetawidget				mMetawidget;
+	void layoutBegin();
 
-	//
-	// Constructor
-	//
+	void layoutChild( Component component, Map<String, String> attributes );
 
-	protected Layout( SwingMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
-	//
-	// Public methods
-	//
-
-	public void layoutBegin()
-	{
-		// Do nothing by default
-	}
-
-	public void layoutChild( Component component, Map<String, String> attributes )
-	{
-		// Do nothing by default
-	}
-
-	public void layoutEnd()
-	{
-		// Do nothing by default
-	}
-
-	//
-	// Protected methods
-	//
-
-	protected SwingMetawidget getMetawidget()
-	{
-		return mMetawidget;
-	}
+	void layoutEnd();
 }

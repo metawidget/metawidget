@@ -37,6 +37,10 @@ import java.util.Map;
  * This base class abstracts the Metawidget lifecycle without enforcing which XML libraries to use.
  * Most subclasses will choose <code>org.metawidget.mixin.w3c.MetawidgetMixin</code>, which uses
  * <code>org.w3c.dom</code>.
+ * <p>
+ * Note: this class is located in <code>org.metawidget.mixin.base</code>, as opposed to just
+ * <code>org.metawidget.mixin</code>, to make it easier to integrate GWT (which is bad at ignoring
+ * sub-packages such as <code>org.metawidget.mixin.w3c</code>).
  *
  * @author Richard Kennard
  */

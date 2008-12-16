@@ -35,7 +35,7 @@ import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.jsp.tagext.StubTag.StubContent;
-import org.metawidget.jsp.tagext.html.HtmlTableLayout;
+import org.metawidget.jsp.tagext.html.layout.HtmlTableLayout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;

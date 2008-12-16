@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  */
 
 public class FlexTableLayout
-	extends Layout
+	extends LayoutImpl
 {
 	//
 	// Private members
@@ -95,7 +95,6 @@ public class FlexTableLayout
 		getMetawidget().add( mLayout );
 	}
 
-	@Override
 	public void layoutChild( Widget widget, Map<String, String> attributes )
 	{
 		// Do not render empty stubs

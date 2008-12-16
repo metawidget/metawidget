@@ -44,7 +44,7 @@ public class StrutsActionFormPropertyStyle
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
 	 * By default, excludes any base types from the <code>org.apache.struts.*</code> packages, as
-	 * well as those excluded by <code>BasePropertyStyle</code>.
+	 * well as those excluded by <code>PropertyStyleImpl</code>.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */

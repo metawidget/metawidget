@@ -39,7 +39,7 @@ import android.widget.TextView;
  */
 
 public class TableLayout
-	extends Layout
+	extends LayoutImpl
 {
 	//
 	// Private statics

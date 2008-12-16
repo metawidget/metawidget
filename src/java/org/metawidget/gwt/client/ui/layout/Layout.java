@@ -18,60 +18,25 @@ package org.metawidget.gwt.client.ui.layout;
 
 import java.util.Map;
 
-import org.metawidget.gwt.client.ui.GwtMetawidget;
-
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Base class for all GWT-based layouts.
+ * Interface for GWT-based layouts.
  * <p>
  * Implementations need not be Thread-safe.
  *
  * @author Richard Kennard
  */
 
-public abstract class Layout
+public interface Layout
 {
 	//
-	// Private members
+	// Methods
 	//
 
-	private GwtMetawidget				mMetawidget;
+	void layoutBegin();
 
-	//
-	// Constructor
-	//
+	void layoutChild( Widget widget, Map<String, String> attributes );
 
-	public Layout( GwtMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
-	//
-	// Public methods
-	//
-
-	public void layoutBegin()
-	{
-		// Do nothing by default
-	}
-
-	public void layoutChild( Widget widget, Map<String, String> attributes )
-	{
-		// Do nothing by default
-	}
-
-	public void layoutEnd()
-	{
-		// Do nothing by default
-	}
-
-	//
-	// Protected methods
-	//
-
-	protected GwtMetawidget getMetawidget()
-	{
-		return mMetawidget;
-	}
+	void layoutEnd();
 }

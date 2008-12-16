@@ -18,37 +18,18 @@ package org.metawidget.gwt.client.propertybinding;
 
 import java.util.Map;
 
-import org.metawidget.gwt.client.ui.GwtMetawidget;
-
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Base class for automatic, two-way binding of properties.
+ * Interface for automatic, two-way binding of properties.
  *
  * @author Richard Kennard
  */
 
-// TODO: code to interfaces
-
-public abstract class PropertyBinding
+public interface PropertyBinding
 {
 	//
-	// Private members
-	//
-
-	private GwtMetawidget	mMetawidget;
-
-	//
-	// Constructor
-	//
-
-	public PropertyBinding( GwtMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
-	//
-	// Public methods
+	// Methods
 	//
 
 	/**
@@ -62,35 +43,23 @@ public abstract class PropertyBinding
 	 *            path to bind to (can be parsed using PathUtils.parsePath)
 	 */
 
-	public abstract void bind( Widget widget, Map<String, String> attributes, String path );
+	void bind( Widget widget, Map<String, String> attributes, String path );
 
 	/**
 	 * Update bound values in the Widgets from the source Object.
 	 */
 
-	public abstract void rebind();
+	void rebind();
 
 	/**
 	 * Save bound values from the Widgets back to the source Object.
 	 */
 
-	public abstract void save();
+	void save();
 
 	/**
 	 * Unbind and release all resources.
 	 */
 
-	public void unbind()
-	{
-		// Do nothing by default
-	}
-
-	//
-	// Protected methods
-	//
-
-	protected GwtMetawidget getMetawidget()
-	{
-		return mMetawidget;
-	}
+	void unbind();
 }

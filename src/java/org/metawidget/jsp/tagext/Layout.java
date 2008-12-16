@@ -19,7 +19,7 @@ package org.metawidget.jsp.tagext;
 import java.util.Map;
 
 /**
- * Base class for all JSP-based layouts.
+ * Interface for all JSP-based layouts.
  * <p>
  * JSP Layouts are shared across all JSP-based Metawidgets, including <code>HtmlMetawidgetTag</code>
  * and <code>StrutsMetawidgetTag</code>.
@@ -34,48 +34,15 @@ import java.util.Map;
  * @author Richard Kennard
  */
 
-public abstract class Layout
+public interface Layout
 {
 	//
-	// Private members
+	// Methods
 	//
 
-	private MetawidgetTag	mMetawidgetTag;
+	String layoutBegin( String value );
 
-	//
-	// Constructor
-	//
+	String layoutChild( String child, Map<String, String> attributes );
 
-	public Layout( MetawidgetTag metawidgetTag )
-	{
-		mMetawidgetTag = metawidgetTag;
-	}
-
-	//
-	// Public methods
-	//
-
-	public String layoutBegin( String value )
-	{
-		return null;
-	}
-
-	public String layoutChild( String child, Map<String, String> attributes )
-	{
-		return null;
-	}
-
-	public String layoutEnd()
-	{
-		return null;
-	}
-
-	//
-	// Protected methods
-	//
-
-	protected MetawidgetTag getMetawidgetTag()
-	{
-		return mMetawidgetTag;
-	}
+	String layoutEnd();
 }

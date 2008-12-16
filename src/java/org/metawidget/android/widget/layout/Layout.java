@@ -18,130 +18,25 @@ package org.metawidget.android.widget.layout;
 
 import java.util.Map;
 
-import org.metawidget.android.widget.AndroidMetawidget;
-
-import android.content.res.ColorStateList;
-import android.content.res.TypedArray;
 import android.view.View;
-import android.widget.TextView;
 
 /**
- * Base class for all Android-based layouts.
+ * Interface for Android-based layouts.
  * <p>
  * Implementations need not be Thread-safe.
  *
  * @author Richard Kennard
  */
 
-public abstract class Layout
+public interface Layout
 {
 	//
-	// Private members
+	// Methods
 	//
 
-	private AndroidMetawidget				mMetawidget;
+	void layoutBegin();
 
-	//
-	// Constructor
-	//
+	void layoutChild( View view, Map<String, String> attributes );
 
-	public Layout( AndroidMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
-	//
-	// Public methods
-	//
-
-	public void layoutBegin()
-	{
-		// Do nothing by default
-	}
-
-	public void layoutChild( View view, Map<String, String> attributes )
-	{
-		// Do nothing by default
-	}
-
-	public void layoutEnd()
-	{
-		// Do nothing by default
-	}
-
-	//
-	// Protected methods
-	//
-
-	protected AndroidMetawidget getMetawidget()
-	{
-		return mMetawidget;
-	}
-
-	/**
-	 * Applies the given style id (defined in <code>res/values/styles.xml</code>) to the given View.
-	 */
-
-	// It isn't clear in 1.0_r1 how one is meant to generically and programmatically apply styles from their ids. In particular:
-	//
-	// 1. AssetManager.applyStyle is package-protected; and
-	// 2. Theme.obtainStyledAttributes( AttributeSet, int, int, int ) has an explicit cast to XmlBlock$Parser (not just AttributeSet)
-	//
-	// So, this method is hard-coded for now. It is enough to convey the general idea though (eg. being able to set paramLabelStyle and
-	// paramSectionStyle externally).
-
-	protected void applyStyle( View view, int style )
-	{
-		// No style?
-
-		if ( style == 0 )
-			return;
-
-		// Construct StyledAttributes
-
-		TypedArray attributes = getMetawidget().getContext().obtainStyledAttributes( style, android.R.styleable.View );
-
-		// Padding
-
-		int padding = attributes.getDimensionPixelSize( android.R.styleable.View_padding, -1 );
-		int leftPadding;
-		int topPadding;
-		int rightPadding;
-		int bottomPadding;
-
-		if ( padding >= 0 )
-		{
-			leftPadding = padding;
-			topPadding = padding;
-			rightPadding = padding;
-			bottomPadding = padding;
-		}
-		else
-		{
-			leftPadding = attributes.getDimensionPixelSize( android.R.styleable.View_paddingLeft, 0 );
-			topPadding = attributes.getDimensionPixelSize( android.R.styleable.View_paddingTop, 0 );
-			rightPadding = attributes.getDimensionPixelSize( android.R.styleable.View_paddingRight, 0 );
-			bottomPadding = attributes.getDimensionPixelSize( android.R.styleable.View_paddingBottom, 0 );
-		}
-
-		view.setPadding( leftPadding, topPadding, rightPadding, bottomPadding );
-
-		if ( view instanceof TextView )
-		{
-			attributes = getMetawidget().getContext().obtainStyledAttributes( style, android.R.styleable.TextView );
-			TextView textView = (TextView) view;
-
-			// Color
-
-			ColorStateList colors = attributes.getColorStateList( android.R.styleable.TextView_textColor );
-
-			if ( colors != null )
-				textView.setTextColor( colors );
-
-			// Size
-
-			textView.setTextSize( attributes.getDimensionPixelSize( android.R.styleable.TextView_textSize, 15 ) );
-		}
-
-	}
+	void layoutEnd();
 }

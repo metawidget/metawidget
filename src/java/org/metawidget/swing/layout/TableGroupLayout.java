@@ -44,7 +44,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TableGroupLayout
-	extends Layout
+	extends LayoutImpl
 {
 	//
 	// Private statics
@@ -106,7 +106,6 @@ public class TableGroupLayout
 		mLayout.setVerticalGroup( mGroupVertical );
 	}
 
-	@Override
 	public void layoutChild( Component component, Map<String, String> attributes )
 	{
 		// Do not render empty stubs

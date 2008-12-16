@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class FlowLayout
-	extends Layout
+	extends LayoutImpl
 {
 	//
 	// Constructor
@@ -44,7 +44,6 @@ public class FlowLayout
 	// Public methods
 	//
 
-	@Override
 	public void layoutChild( Widget widget, Map<String, String> attributes )
 	{
 		getMetawidget().add( widget );
