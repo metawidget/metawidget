@@ -17,7 +17,7 @@
 	
 	<!-- Inspectors -->
 	
-  	<generate-with class="org.metawidget.gwt.generator.inspector.InspectorFactoryGenerator">
+  	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
 		<when-type-assignable class="org.metawidget.gwt.client.inspector.InspectorFactory"/>
 	</generate-with>
 
@@ -25,17 +25,17 @@
 
 	<!-- Binding -->
 	
-  	<generate-with class="org.metawidget.gwt.generator.propertybinding.PropertyBindingFactoryGenerator">
+  	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
 		<when-type-assignable class="org.metawidget.gwt.client.propertybinding.PropertyBindingFactory"/>
 	</generate-with>
 
-  	<generate-with class="org.metawidget.gwt.generator.actionbinding.ActionBindingFactoryGenerator">
+  	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
 		<when-type-assignable class="org.metawidget.gwt.client.actionbinding.ActionBindingFactory"/>
 	</generate-with>
 
 	<!-- Layout -->
 
-  	<generate-with class="org.metawidget.gwt.generator.layout.LayoutFactoryGenerator">
+  	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
 		<when-type-assignable class="org.metawidget.gwt.client.ui.layout.LayoutFactory"/>
 	</generate-with>
 
