@@ -65,18 +65,22 @@ public class ReflectionBinding
 
 		AbstractButton button = (AbstractButton) component;
 
+		Object toInspect = getMetawidget().getToInspect();
+
+		if ( toInspect == null )
+			return;
+
 		// Traverse to the last Object...
 
-		Object toInspect = getMetawidget().getToInspect();
 		String[] names = PathUtils.parsePath( path ).getNamesAsArray();
 		int last = names.length - 1;
 
 		for( int loop = 0; loop < last; loop++ )
 		{
+			toInspect = ClassUtils.getProperty( toInspect, names[loop] );
+
 			if ( toInspect == null )
 				return;
-
-			toInspect = ClassUtils.getProperty( toInspect, names[loop] );
 		}
 
 		// ...and wire it up

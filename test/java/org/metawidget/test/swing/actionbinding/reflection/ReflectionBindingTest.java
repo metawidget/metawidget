@@ -17,15 +17,20 @@
 package org.metawidget.test.swing.actionbinding.reflection;
 
 import javax.swing.JButton;
+import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
-import org.metawidget.inspector.annotation.UiAction;
+import org.jdesktop.application.Action;
+import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
+import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.inspector.swing.SwingAppFrameworkInspector;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
 
 /**
  * @author Richard Kennard
@@ -60,12 +65,17 @@ public class ReflectionBindingTest
 	public void testBinding()
 		throws Exception
 	{
+		// Configure
+
+		BaseObjectInspectorConfig actionConfig = new BaseObjectInspectorConfig();
+		actionConfig.setActionStyle( SwingAppFrameworkActionStyle.class );
+		CompositeInspectorConfig compositeConfig = new CompositeInspectorConfig();
+		compositeConfig.setInspectors( new PropertyTypeInspector( actionConfig ), new SwingAppFrameworkInspector( actionConfig ) );
+
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		CompositeInspectorConfig config = new CompositeInspectorConfig();
-		config.setInspectors( new PropertyTypeInspector(), new MetawidgetAnnotationInspector() );
-		metawidget.setInspector( new CompositeInspector( config ) );
+		metawidget.setInspector( new CompositeInspector( compositeConfig ) );
 		metawidget.setToInspect( new Foo() );
 
 		JButton button = (JButton) ((SwingMetawidget) metawidget.getComponent( 1 )).getComponent( 0 );
@@ -73,6 +83,43 @@ public class ReflectionBindingTest
 		assertTrue( mActionFired == 0 );
 		button.doClick();
 		assertTrue( mActionFired == 1 );
+	}
+
+	public void testNullBinding()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		ReflectionBinding binding = new ReflectionBinding( metawidget );
+
+		// Null object
+
+		JButton button = new JButton();
+		binding.bind( button, null, null );
+
+		assertTrue( button.getAction() == null );
+
+		// Null nested object
+
+		Foo foo = new Foo();
+		foo.setNestedFoo( null );
+
+		metawidget.setToInspect( foo );
+		binding.bind( button, null, "foo/nestedFoo/doAction" );
+
+		assertTrue( button.getAction() == null );
+	}
+
+	public void testBadBinding()
+	{
+		ReflectionBinding binding = new ReflectionBinding( null );
+
+		try
+		{
+			binding.bind( new JTextField(), null, null );
+		}
+		catch( MetawidgetException e )
+		{
+			assertTrue( "ReflectionBinding only supports binding actions to AbstractButtons".equals( e.getMessage() ));
+		}
 	}
 
 	//
@@ -96,9 +143,9 @@ public class ReflectionBindingTest
 			return mNestedFoo;
 		}
 
-		public void setNestedFoo( NestedFoo foo )
+		public void setNestedFoo( NestedFoo nestedFoo )
 		{
-			throw new UnsupportedOperationException();
+			mNestedFoo = nestedFoo;
 		}
 	}
 
@@ -108,8 +155,8 @@ public class ReflectionBindingTest
 		// Public methods
 		//
 
-		@UiAction
-		public void doAction()
+		@Action
+		public void doAction( java.awt.event.ActionEvent event )
 		{
 			mActionFired++;
 		}
