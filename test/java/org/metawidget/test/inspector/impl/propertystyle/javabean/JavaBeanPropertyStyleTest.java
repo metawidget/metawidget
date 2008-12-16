@@ -232,12 +232,12 @@ public class JavaBeanPropertyStyleTest
 		extends JavaBeanPropertyStyle
 	{
 		@Override
-		protected boolean isExcludedBaseType( Class<?> clazz )
+		protected boolean isExcludedBaseType( String className )
 		{
-			if ( SuperFoo.class.equals( clazz ))
+			if ( SuperFoo.class.getName().equals( className ))
 				return true;
 
-			return super.isExcludedBaseType( clazz );
+			return super.isExcludedBaseType( className );
 		}
 	}
 

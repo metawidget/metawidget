@@ -31,9 +31,9 @@ import java.util.Map;
 
 import org.codehaus.groovy.reflection.CachedField;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyImpl;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyleImpl;
-import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -93,14 +93,14 @@ public class GroovyPropertyStyle
 
 			// Exclude based on criteria
 
-			Class<?> declaringClass;
+			String declaringClass;
 
 			if ( metaBeanProperty.getGetter() != null )
-				declaringClass = metaBeanProperty.getGetter().getDeclaringClass().getTheClass();
+				declaringClass = metaBeanProperty.getGetter().getDeclaringClass().getName();
 			else if ( metaBeanProperty.getSetter() != null )
-				declaringClass = metaBeanProperty.getSetter().getDeclaringClass().getTheClass();
+				declaringClass = metaBeanProperty.getSetter().getDeclaringClass().getName();
 			else
-				declaringClass = clazz;
+				declaringClass = clazz.getName();
 
 			if ( isExcluded( declaringClass, name, type ))
 				continue;
@@ -124,19 +124,12 @@ public class GroovyPropertyStyle
 	 */
 
 	@Override
-	protected boolean isExcludedBaseType( Class<?> clazz )
+	protected boolean isExcludedBaseType( String className )
 	{
-		Package pkg = clazz.getPackage();
-
-		if ( pkg == null )
-			return false;
-
-		String pkgName = pkg.getName();
-
-		if ( pkgName.startsWith( "org.groovy." ))
+		if ( className.startsWith( "org.groovy." ))
 			return true;
 
-		return super.isExcludedBaseType( clazz );
+		return super.isExcludedBaseType( className );
 	}
 
 	/**

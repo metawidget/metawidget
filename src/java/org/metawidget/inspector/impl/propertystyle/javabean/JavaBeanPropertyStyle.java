@@ -24,9 +24,9 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyImpl;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyleImpl;
-import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -80,7 +80,7 @@ public class JavaBeanPropertyStyle
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( field.getDeclaringClass(), fieldName, type ) )
+			if ( isExcluded( field.getDeclaringClass().getName(), fieldName, type ) )
 				continue;
 
 			properties.put( fieldName, new FieldProperty( fieldName, field ) );
@@ -126,7 +126,7 @@ public class JavaBeanPropertyStyle
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( methodRead.getDeclaringClass(), lowercasedPropertyName, type ) )
+			if ( isExcluded( methodRead.getDeclaringClass().getName(), lowercasedPropertyName, type ) )
 				continue;
 
 			// Already found via its field?
@@ -186,7 +186,7 @@ public class JavaBeanPropertyStyle
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( methodWrite.getDeclaringClass(), lowercasedPropertyName, type ) )
+			if ( isExcluded( methodWrite.getDeclaringClass().getName(), lowercasedPropertyName, type ) )
 				continue;
 
 			// Already found via its field?

@@ -1001,6 +1001,8 @@ public class SwingMetawidget
 		else
 		{
 			// TODO: document widget types for GWT
+			// TODO: document quick overview of supported technologies
+			// TODO: document property binding/action binding
 
 			if ( mPropertyBinding != null )
 			{

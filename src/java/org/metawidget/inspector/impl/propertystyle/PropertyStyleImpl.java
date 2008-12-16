@@ -121,9 +121,9 @@ public abstract class PropertyStyleImpl
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected boolean isExcluded( Class<?> declaringClass, String propertyName, Class<?> propertyType )
+	protected boolean isExcluded( String className, String propertyName, Class<?> propertyType )
 	{
-		if ( isExcludedBaseType( declaringClass ) )
+		if ( isExcludedBaseType( className ) )
 			return true;
 
 		if ( isExcludedReturnType( propertyType ) )
@@ -143,20 +143,17 @@ public abstract class PropertyStyleImpl
 	 * <p>
 	 * By default, excludes any base types from the <code>java.*</code> or <code>javax.*</code>
 	 * packages.
+	 * <p>
+	 * Note: this method takes a <code>String</code>, not a <code>Class</code>, because of
+	 * incompatibilites between Groovy 1.5 and 1.6. Once 1.6 is released, we may use
+	 * <code>Class</code> instead.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
-	protected boolean isExcludedBaseType( Class<?> clazz )
+	protected boolean isExcludedBaseType( String className )
 	{
-		Package pkg = clazz.getPackage();
-
-		if ( pkg == null )
-			return false;
-
-		String pkgName = pkg.getName();
-
-		if ( pkgName.startsWith( "java." ) || pkgName.startsWith( "javax." ) )
+		if ( className.startsWith( "java." ) || className.startsWith( "javax." ) )
 			return true;
 
 		return false;
