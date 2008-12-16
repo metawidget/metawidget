@@ -16,6 +16,8 @@
 
 package org.metawidget.gwt.client.propertybinding.simple;
 
+import org.metawidget.util.simple.StringUtils;
+
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -34,14 +36,11 @@ public abstract class ConverterImpl<T>
 	/**
 	 * Convert the given value to a form that can be displayed by the given Widget.
 	 * <p>
-	 * By default, uses <code>String.valueOf</code>.
+	 * By default, uses <code>StringUtils.quietValueOf</code>.
 	 */
 
 	public Object convertForWidget( Widget widget, T value )
 	{
-		if ( value == null )
-			return null;
-
-		return String.valueOf( value );
+		return StringUtils.quietValueOf( value );
 	}
 }

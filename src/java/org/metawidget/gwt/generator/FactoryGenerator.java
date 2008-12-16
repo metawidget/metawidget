@@ -127,6 +127,11 @@ public class FactoryGenerator<F>
 
 				for ( JClassType subtype : bindingClass.getSubtypes() )
 				{
+					// (ignore abstract xxxImpl types)
+
+					if ( subtype.isAbstract() )
+						continue;
+
 					sourceWriter.print( "if ( " + subtype.getQualifiedSourceName() + ".class.equals( implementingClass )) return new " + subtype.getQualifiedSourceName() + "(" );
 
 					if ( parameters.length == 2 )

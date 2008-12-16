@@ -18,7 +18,7 @@ package org.metawidget.test.gwt.allwidgets.client.converter;
 
 import java.util.List;
 
-import org.metawidget.gwt.client.propertybinding.simple.Converter;
+import org.metawidget.gwt.client.propertybinding.simple.ConverterImpl;
 import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.util.simple.StringUtils;
@@ -30,13 +30,12 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class NestedWidgetsConverter
-	extends Converter<NestedWidgets>
+	extends ConverterImpl<NestedWidgets>
 {
 	//
 	// Public methods
 	//
 
-	@Override
 	public NestedWidgets convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
 		List<String> values = GwtUtils.fromString( (String) value, StringUtils.SEPARATOR_COMMA_CHAR );
@@ -51,11 +50,5 @@ public class NestedWidgetsConverter
 			nestedWidgets.setNestedTextbox2( values.get( 1 ) );
 
 		return nestedWidgets;
-	}
-
-	@Override
-	public Object convertForWidget( Widget widget, NestedWidgets value )
-	{
-		return StringUtils.quietValueOf( value );
 	}
 }

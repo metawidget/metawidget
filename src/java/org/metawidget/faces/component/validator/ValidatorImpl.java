@@ -27,6 +27,7 @@ import org.metawidget.faces.component.UIMetawidget;
  */
 
 public abstract class ValidatorImpl
+	implements Validator
 {
 	//
 	// Private members

@@ -18,7 +18,7 @@ package org.metawidget.test.gwt.allwidgets.client.converter;
 
 import java.util.Date;
 
-import org.metawidget.gwt.client.propertybinding.simple.Converter;
+import org.metawidget.gwt.client.propertybinding.simple.ConverterImpl;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Widget;
@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class DateConverter
-	extends Converter<Date>
+	extends ConverterImpl<Date>
 {
 	//
 	// Private members
@@ -49,8 +49,6 @@ public class DateConverter
 	// Public methods
 	//
 
-
-	@Override
 	public Date convertFromWidget( Widget widget, Object value, Class<?> type )
 	{
 		if ( value == null || "".equals( value ))
