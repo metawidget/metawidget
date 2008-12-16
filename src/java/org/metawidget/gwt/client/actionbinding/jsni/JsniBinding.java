@@ -51,16 +51,22 @@ public class JsniBinding
 	@Override
 	public void bind( Widget widget, Map<String, String> attributes, String path )
 	{
+		// How can we bind without addClickListener?
+
 		if ( !( widget instanceof FocusWidget ))
 			throw new RuntimeException( "JsniBinding only supports binding actions to FocusWidgets" );
+
+		// How can we bind to null?
 
 		final Object toInspect = getMetawidget().getToInspect();
 
 		if ( toInspect == null )
 			return;
 
+		// Bind the action
+
 		String[] names = PathUtils.parsePath( path ).getNamesAsArray();
-		int last = names.length - 1;
+		final int last = names.length - 1;
 		final String actionName = names[last];
 
 		FocusWidget focusWidget = (FocusWidget) widget;
@@ -68,6 +74,11 @@ public class JsniBinding
 		{
 			public void onClick( Widget sender )
 			{
+				// How can we reflect the full JS name of obj['@com.foo.Foo::action()']?
+
+				if ( last > 0 )
+					throw new RuntimeException( "JsniBinding does not support nested actions" );
+
 				invokeMethod( toInspect, toInspect.getClass().getName(), actionName );
 			}
 		} );

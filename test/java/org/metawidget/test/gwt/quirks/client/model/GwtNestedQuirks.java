@@ -18,11 +18,13 @@ package org.metawidget.test.gwt.quirks.client.model;
 
 import java.io.Serializable;
 
+import org.metawidget.inspector.annotation.UiAction;
+
 /**
  * @author Richard Kennard
  */
 
-public class GwtQuirks
+public class GwtNestedQuirks
 	implements Serializable
 {
 	//
@@ -32,34 +34,12 @@ public class GwtQuirks
 	private static final long	serialVersionUID	= 1l;
 
 	//
-	// Private members
-	//
-
-	private boolean				mBoolean;
-
-	private GwtNestedQuirks		mNestedQuirks		= new GwtNestedQuirks();
-
-	//
 	// Public methods
 	//
 
-	public boolean isBoolean()
+	@UiAction
+	public void nestedAction()
 	{
-		return mBoolean;
-	}
-
-	public void setBoolean( boolean aBoolean )
-	{
-		mBoolean = aBoolean;
-	}
-
-	public GwtNestedQuirks getNestedQuirks()
-	{
-		return mNestedQuirks;
-	}
-
-	public void setNestedQuirks( GwtNestedQuirks nestedQuirks )
-	{
-		mNestedQuirks = nestedQuirks;
+		throw new RuntimeException( "nestedAction called" );
 	}
 }

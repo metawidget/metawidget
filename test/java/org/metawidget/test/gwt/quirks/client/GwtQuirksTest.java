@@ -21,9 +21,11 @@ import org.metawidget.test.gwt.quirks.client.ui.QuirksModule;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.FocusWidget;
 
 /**
  * @author Richard Kennard
@@ -68,28 +70,55 @@ public class GwtQuirksTest
 
 				final FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
 
-				// Check what created, and edit it
+				// Check what created
 
 				assertTrue( "Boolean:".equals( flexTable.getText( 0, 0 ) ) );
 				assertTrue( flexTable.getWidget( 0, 1 ) instanceof CheckBox );
 				assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
 				( (CheckBox) flexTable.getWidget( 0, 1 ) ).setChecked( true );
 
-				assertTrue( 1 == flexTable.getRowCount() );
+				// Click a nested button
 
-				// Save and refresh
+				assertTrue( "Nested quirks:".equals( flexTable.getText( 1, 0 ) ) );
+				final GwtMetawidget nestedMetawidget = (GwtMetawidget) flexTable.getWidget( 1, 1 );
 
-				metawidget.save();
-				metawidget.rebind( metawidget.getToInspect() );
+				assertTrue( 2 == flexTable.getRowCount() );
 
-				// Test checkbox was still checked (ie. HasText didn't get hit
-				// first in GwtMetawidget.setValue)
+				executeAfterBuildWidgets( nestedMetawidget, new Timer()
+				{
+					@Override
+					public void run()
+					{
+						final FlexTable nestedFlexTable = (FlexTable) nestedMetawidget.getWidget( 0 );
+						assertTrue( "".equals( nestedFlexTable.getText( 0, 0 ) ) );
+						Button nestedActionButton = (Button) nestedFlexTable.getWidget( 0, 1 );
+						assertTrue( "Nested action".equals( nestedActionButton.getText() ) );
 
-				assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );
+						try
+						{
+							fireClickListeners( nestedActionButton );
+							assertTrue( false );
+						}
+						catch ( Exception e )
+						{
+							assertTrue( "JsniBinding does not support nested actions".equals( e.getMessage() ) );
+						}
 
-				// All done
+						// Save and refresh
 
-				finish();
+						metawidget.save();
+						metawidget.rebind( metawidget.getToInspect() );
+
+						// Test checkbox was still checked (ie. HasText didn't get hit
+						// first in GwtMetawidget.setValue)
+
+						assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );
+
+						// All done
+
+						finish();
+					}
+				} );
 			}
 		} );
 
@@ -114,6 +143,11 @@ public class GwtQuirksTest
 	//
 	// Native methods
 	//
+
+	native void fireClickListeners( FocusWidget focusWidget )
+	/*-{
+		focusWidget.@com.google.gwt.user.client.ui.FocusWidget::fireClickListeners()();
+	}-*/;
 
 	native void executeAfterBuildWidgets( GwtMetawidget metawidget, Timer timer )
 	/*-{
