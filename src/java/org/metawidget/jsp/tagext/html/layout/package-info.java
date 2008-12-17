@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * GWT support: Generator-based property binding.
+ * JSP support: layouts.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.gwt.generator.propertybinding.simple;
+package org.metawidget.jsp.tagext.html.layout;
