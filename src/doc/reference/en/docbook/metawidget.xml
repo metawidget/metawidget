@@ -949,7 +949,7 @@ public class Main {
 				
 					<para> 					
 						<classname>SwingMetawidget</classname> directly supports third-party binding alternatives such as Apache BeanUtils and
-						Beans Binding (JSR 295) via <function>SwingMetawidget.setBindingClass</function>. These
+						Beans Binding (JSR 295) via <function>SwingMetawidget.setPropertyBindingClass</function>. These
 						binding implementations automatically map <classname>JComponent</classname> values to <classname>Object</classname> values,
 						including performing the necessary conversions, further reducing the amount of boilerplate code required.
 					</para>
@@ -2037,12 +2037,12 @@ public void addOwner() {
 					and <xref linkend="section-introduction-part2-desktop"/>.
 				</para>
 	
-				<section id="section-metawidgets-desktop-swing-binding">
-					<title>Binding</title>
+				<section id="section-metawidgets-desktop-swing-propertybinding">
+					<title>Property Binding</title>
 					
 					<para>
 						Swing does not include an automatic <classname>JComponent</classname> to <classname>Object</classname> binding mechanism, but Metawidget
-						supports third-party alternatives via <function>setBindingClass</function>.
+						supports third-party alternatives via <function>setPropertyBindingClass</function>.
 					</para>
 					
 					<section id="section-metawidgets-desktop-swing-binding-beansbinding">
@@ -2058,6 +2058,25 @@ public void addOwner() {
 				
 				</section>
 	
+				<section id="section-metawidgets-desktop-swing-actionbinding">
+					<title>Action Binding</title>
+					
+					<para>
+						Swing supplies <code>javax.swing.Action</code> for binding <classname>JButtons</classname> to backing classes, and this is
+						typically combined with Java-based reflection to support runtime binding. This is exactly what the default action binding,
+						<classname>ReflectionBinding</classname>, does.
+					</para>
+					
+					<para>
+						However, Metawidget makes action bindings pluggable to support other use cases. In particular, use cases where there
+						<emphasis>is</emphasis> no backing class, and instead the <classname>JButton</classname> should invoke, say, an RPC
+						call. Implement your own pluggable binding by extending <classname>ActionBindingImpl</classname> and use it by calling:
+					</para>
+					
+					<programlisting language="java">myMetawidget.setActionBindingClass( myActionBinding.class );</programlisting>
+										
+				</section>
+
 				<section id="section-metawidgets-desktop-swing-look">
 					<title>Customizing Look and Feel</title>
 					
@@ -2180,12 +2199,12 @@ public void addOwner() {
 					
 				</section>
 				
-				<section id="section-metawidgets-web-gwt-binding">
-					<title>Two-way Binding</title>
+				<section id="section-metawidgets-web-gwt-propertybinding">
+					<title>Property Binding</title>
 					
 					<para>
-						Like most other Metawidgets, <classname>GwtMetawidget</classname> supports two-way data binding. Data binding
-						generally requires reflection, and GWT recommends	using <classname>Generators</classname> to achieve this. As of GWT
+						Like most other Metawidgets, <classname>GwtMetawidget</classname> supports property binding. Property binding
+						generally requires reflection, and GWT recommends using <classname>Generators</classname> to achieve this. As of GWT
 						1.5, however, much of the burden of implementation rests on the developer.
 					</para>
 					
@@ -2210,10 +2229,29 @@ public void addOwner() {
 						...and in the application code...
 					</para>
 					
-					<programlisting language="java">metawidget.setBindingClass(SimpleBinding.class);
+					<programlisting language="java">metawidget.setPropertyBindingClass(SimpleBinding.class);
 SimpleBindingAdapter&lt;Contact&gt; adp = (SimpleBindingAdapter&lt;Contact&gt;) GWT.create(Contact.class);
 SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>					
 					
+				</section>
+				
+				<section id="section-metawidgets-web-gwt-actionbinding">
+					<title>Action Binding</title>
+					
+					<para>
+						GWT supplies <code>com.google.gwt.user.client.ui.ClickListener</code> for binding <classname>Buttons</classname> to backing
+						classes. It is futher possible to combine this with a little JSNI trickery to support runtime binding. This is exactly what
+						the default action binding, <classname>JsniBinding</classname>, does.
+					</para>
+					
+					<para>
+						However, Metawidget makes action bindings pluggable to support other use cases. In particular, use cases where there
+						<emphasis>is</emphasis> no backing class, and instead the <classname>Button</classname> should invoke, say, an RPC
+						call. Implement your own pluggable binding by extending <classname>ActionBindingImpl</classname> and use it by calling:
+					</para>
+					
+					<programlisting language="java">myMetawidget.setActionBindingClass( myActionBinding.class );</programlisting>
+										
 				</section>
 				
 				<section id="section-metawidgets-web-gwt-deployment">

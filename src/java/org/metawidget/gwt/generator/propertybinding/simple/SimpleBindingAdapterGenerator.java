@@ -53,7 +53,7 @@ import com.google.gwt.user.rebind.SourceWriter;
  * <code>
  * BindingAdapter&lt;BusinessClass&gt; bindingAdapter = (BindingAdapter&lt;BusinessClass&gt;) GWT.create( BusinessClass.class );
  * bindingAdapter.setAdaptee( (BusinessClass) businessClass );
- * metawidget.setBinding( bindingAdapter );
+ * metawidget.setPropertyBinding( bindingAdapter );
  * </code>
  * <p>
  * This generator <em>statically</em> generates code for all levels of all possible properties

@@ -625,7 +625,7 @@ public class GwtMetawidget
 			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling rebind()" );
 
 		if ( mPropertyBinding == null )
-			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
+			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setPropertyBindingClass" );
 
 		mToInspect = toRebind;
 		mPropertyBinding.rebind();
@@ -652,7 +652,7 @@ public class GwtMetawidget
 			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling save()" );
 
 		if ( mPropertyBinding == null )
-			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setBindingClass" );
+			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setPropertyBindingClass" );
 
 		mPropertyBinding.save();
 
