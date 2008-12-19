@@ -36,7 +36,7 @@ import android.widget.TextView;
  */
 
 public class LinearLayout
-	extends LayoutImpl
+	extends BaseLayout
 {
 	//
 	// Private members

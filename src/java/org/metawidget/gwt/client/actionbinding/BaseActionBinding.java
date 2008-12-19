@@ -14,9 +14,9 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.layout;
+package org.metawidget.gwt.client.actionbinding;
 
-import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.gwt.client.ui.GwtMetawidget;
 
 /**
  * Convenience implementation.
@@ -24,43 +24,29 @@ import org.metawidget.swing.SwingMetawidget;
  * @author Richard Kennard
  */
 
-public abstract class LayoutImpl
-	implements Layout
+public abstract class BaseActionBinding
+	implements ActionBinding
 {
 	//
 	// Private members
 	//
 
-	private SwingMetawidget				mMetawidget;
+	private GwtMetawidget	mMetawidget;
 
 	//
 	// Constructor
 	//
 
-	protected LayoutImpl( SwingMetawidget metawidget )
+	public BaseActionBinding( GwtMetawidget metawidget )
 	{
 		mMetawidget = metawidget;
-	}
-
-	//
-	// Public methods
-	//
-
-	public void layoutBegin()
-	{
-		// Do nothing by default
-	}
-
-	public void layoutEnd()
-	{
-		// Do nothing by default
 	}
 
 	//
 	// Protected methods
 	//
 
-	protected SwingMetawidget getMetawidget()
+	protected GwtMetawidget getMetawidget()
 	{
 		return mMetawidget;
 	}

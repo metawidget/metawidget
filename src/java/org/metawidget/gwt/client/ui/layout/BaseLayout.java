@@ -24,7 +24,7 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
  * @author Richard Kennard
  */
 
-public abstract class LayoutImpl
+public abstract class BaseLayout
 	implements Layout
 {
 	//
@@ -37,7 +37,7 @@ public abstract class LayoutImpl
 	// Constructor
 	//
 
-	public LayoutImpl( GwtMetawidget metawidget )
+	public BaseLayout( GwtMetawidget metawidget )
 	{
 		mMetawidget = metawidget;
 	}

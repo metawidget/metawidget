@@ -18,7 +18,7 @@ package org.metawidget.gwt.client.actionbinding.jsni;
 
 import java.util.Map;
 
-import org.metawidget.gwt.client.actionbinding.ActionBindingImpl;
+import org.metawidget.gwt.client.actionbinding.BaseActionBinding;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.util.simple.PathUtils;
 
@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class JsniBinding
-	extends ActionBindingImpl
+	extends BaseActionBinding
 {
 	//
 	// Constructor

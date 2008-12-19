@@ -14,9 +14,11 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.propertybinding;
+package org.metawidget.gwt.client.propertybinding.simple;
 
-import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.simple.StringUtils;
+
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Convenience implementation.
@@ -24,39 +26,21 @@ import org.metawidget.swing.SwingMetawidget;
  * @author Richard Kennard
  */
 
-public abstract class PropertyBindingImpl
-	implements PropertyBinding
+public abstract class BaseConverter<T>
+	implements Converter<T>
 {
-	//
-	// Private members
-	//
-
-	private SwingMetawidget	mMetawidget;
-
-	//
-	// Constructor
-	//
-
-	protected PropertyBindingImpl( SwingMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
 	//
 	// Public methods
 	//
 
-	public void unbind()
-	{
-		// Do nothing by default
-	}
+	/**
+	 * Convert the given value to a form that can be displayed by the given Widget.
+	 * <p>
+	 * By default, uses <code>StringUtils.quietValueOf</code>.
+	 */
 
-	//
-	// Protected methods
-	//
-
-	protected SwingMetawidget getMetawidget()
+	public Object convertForWidget( Widget widget, T value )
 	{
-		return mMetawidget;
+		return StringUtils.quietValueOf( value );
 	}
 }

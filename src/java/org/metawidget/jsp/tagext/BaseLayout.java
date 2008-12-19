@@ -14,9 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.actionbinding;
-
-import org.metawidget.swing.SwingMetawidget;
+package org.metawidget.jsp.tagext;
 
 /**
  * Convenience implementation.
@@ -24,30 +22,44 @@ import org.metawidget.swing.SwingMetawidget;
  * @author Richard Kennard
  */
 
-public abstract class ActionBindingImpl
-	implements ActionBinding
+public abstract class BaseLayout
+	implements Layout
 {
 	//
 	// Private members
 	//
 
-	private SwingMetawidget	mMetawidget;
+	private MetawidgetTag	mMetawidgetTag;
 
 	//
 	// Constructor
 	//
 
-	protected ActionBindingImpl( SwingMetawidget metawidget )
+	public BaseLayout( MetawidgetTag metawidgetTag )
 	{
-		mMetawidget = metawidget;
+		mMetawidgetTag = metawidgetTag;
+	}
+
+	//
+	// Public methods
+	//
+
+	public String layoutBegin( String value )
+	{
+		return null;
+	}
+
+	public String layoutEnd()
+	{
+		return null;
 	}
 
 	//
 	// Protected methods
 	//
 
-	protected SwingMetawidget getMetawidget()
+	protected MetawidgetTag getMetawidgetTag()
 	{
-		return mMetawidget;
+		return mMetawidgetTag;
 	}
 }

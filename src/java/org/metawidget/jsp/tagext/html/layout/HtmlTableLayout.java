@@ -22,7 +22,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.jsp.JspUtils;
-import org.metawidget.jsp.tagext.LayoutImpl;
+import org.metawidget.jsp.tagext.BaseLayout;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.util.CollectionUtils;
@@ -48,7 +48,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HtmlTableLayout
-	extends LayoutImpl
+	extends BaseLayout
 {
 	//
 	// Private statics

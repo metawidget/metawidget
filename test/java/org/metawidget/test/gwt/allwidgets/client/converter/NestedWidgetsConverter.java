@@ -18,7 +18,7 @@ package org.metawidget.test.gwt.allwidgets.client.converter;
 
 import java.util.List;
 
-import org.metawidget.gwt.client.propertybinding.simple.ConverterImpl;
+import org.metawidget.gwt.client.propertybinding.simple.BaseConverter;
 import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.util.simple.StringUtils;
@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class NestedWidgetsConverter
-	extends ConverterImpl<NestedWidgets>
+	extends BaseConverter<NestedWidgets>
 {
 	//
 	// Public methods

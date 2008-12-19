@@ -25,7 +25,7 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.metawidget.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.propertybinding.PropertyBindingImpl;
+import org.metawidget.swing.propertybinding.BasePropertyBinding;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -37,7 +37,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class BeanUtilsBinding
-	extends PropertyBindingImpl
+	extends BasePropertyBinding
 {
 	//
 	// Private members

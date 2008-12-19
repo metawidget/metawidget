@@ -58,7 +58,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TableGridBagLayout
-	extends LayoutImpl
+	extends BaseLayout
 {
 	//
 	// Public statics

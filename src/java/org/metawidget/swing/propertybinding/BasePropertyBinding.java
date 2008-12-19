@@ -14,9 +14,9 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.actionbinding;
+package org.metawidget.swing.propertybinding;
 
-import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.swing.SwingMetawidget;
 
 /**
  * Convenience implementation.
@@ -24,29 +24,38 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
  * @author Richard Kennard
  */
 
-public abstract class ActionBindingImpl
-	implements ActionBinding
+public abstract class BasePropertyBinding
+	implements PropertyBinding
 {
 	//
 	// Private members
 	//
 
-	private GwtMetawidget	mMetawidget;
+	private SwingMetawidget	mMetawidget;
 
 	//
 	// Constructor
 	//
 
-	public ActionBindingImpl( GwtMetawidget metawidget )
+	protected BasePropertyBinding( SwingMetawidget metawidget )
 	{
 		mMetawidget = metawidget;
+	}
+
+	//
+	// Public methods
+	//
+
+	public void unbind()
+	{
+		// Do nothing by default
 	}
 
 	//
 	// Protected methods
 	//
 
-	protected GwtMetawidget getMetawidget()
+	protected SwingMetawidget getMetawidget()
 	{
 		return mMetawidget;
 	}

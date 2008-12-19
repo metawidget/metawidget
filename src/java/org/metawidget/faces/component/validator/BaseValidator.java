@@ -26,7 +26,7 @@ import org.metawidget.faces.component.UIMetawidget;
  * @author Richard Kennard
  */
 
-public abstract class ValidatorImpl
+public abstract class BaseValidator
 	implements Validator
 {
 	//
@@ -39,7 +39,7 @@ public abstract class ValidatorImpl
 	// Constructor
 	//
 
-	public ValidatorImpl( UIMetawidget metawidget )
+	public BaseValidator( UIMetawidget metawidget )
 	{
 		mMetawidget = metawidget;
 	}

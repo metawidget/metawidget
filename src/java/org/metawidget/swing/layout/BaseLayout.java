@@ -14,53 +14,54 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.actionstyle;
+package org.metawidget.swing.layout;
 
-import java.lang.annotation.Annotation;
+import org.metawidget.swing.SwingMetawidget;
 
 /**
- * Convenience implementation for Actions.
- * <p>
- * Handles construction, and returning names.
+ * Convenience implementation.
  *
  * @author Richard Kennard
  */
 
-public abstract class ActionImpl
-	implements Action
+public abstract class BaseLayout
+	implements Layout
 {
 	//
-	// Private methods
+	// Private members
 	//
 
-	private String		mName;
+	private SwingMetawidget				mMetawidget;
 
 	//
 	// Constructor
 	//
 
-	public ActionImpl( String name )
+	protected BaseLayout( SwingMetawidget metawidget )
 	{
-		mName = name;
+		mMetawidget = metawidget;
 	}
 
 	//
 	// Public methods
 	//
 
-	public String getName()
+	public void layoutBegin()
 	{
-		return mName;
+		// Do nothing by default
 	}
 
-	public boolean isAnnotationPresent( Class<? extends Annotation> annotation )
+	public void layoutEnd()
 	{
-		return ( getAnnotation( annotation ) != null );
+		// Do nothing by default
 	}
 
-	@Override
-	public String toString()
+	//
+	// Protected methods
+	//
+
+	protected SwingMetawidget getMetawidget()
 	{
-		return mName;
+		return mMetawidget;
 	}
 }

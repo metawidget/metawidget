@@ -127,7 +127,7 @@ public class FactoryGenerator<F>
 
 				for ( JClassType subtype : bindingClass.getSubtypes() )
 				{
-					// (ignore abstract xxxImpl types)
+					// (ignore abstract Basexxx types)
 
 					if ( subtype.isAbstract() )
 						continue;

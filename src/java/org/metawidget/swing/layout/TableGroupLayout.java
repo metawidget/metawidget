@@ -44,7 +44,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TableGroupLayout
-	extends LayoutImpl
+	extends BaseLayout
 {
 	//
 	// Private statics

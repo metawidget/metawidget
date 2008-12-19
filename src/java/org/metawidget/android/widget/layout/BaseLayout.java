@@ -31,7 +31,7 @@ import android.widget.TextView;
  * @author Richard Kennard
  */
 
-public abstract class LayoutImpl
+public abstract class BaseLayout
 	implements Layout
 {
 	//
@@ -44,7 +44,7 @@ public abstract class LayoutImpl
 	// Constructor
 	//
 
-	public LayoutImpl( AndroidMetawidget metawidget )
+	public BaseLayout( AndroidMetawidget metawidget )
 	{
 		mMetawidget = metawidget;
 	}

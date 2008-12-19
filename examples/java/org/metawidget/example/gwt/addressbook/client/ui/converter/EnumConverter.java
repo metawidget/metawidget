@@ -16,7 +16,7 @@
 
 package org.metawidget.example.gwt.addressbook.client.ui.converter;
 
-import org.metawidget.gwt.client.propertybinding.simple.ConverterImpl;
+import org.metawidget.gwt.client.propertybinding.simple.BaseConverter;
 
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class EnumConverter<T extends Enum<T>>
-	extends ConverterImpl<T>
+	extends BaseConverter<T>
 {
 	//
 	// Private members

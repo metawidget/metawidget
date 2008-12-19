@@ -30,7 +30,7 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class FlowLayout
-	extends LayoutImpl
+	extends BaseLayout
 {
 	//
 	// Private members

@@ -58,7 +58,46 @@
 			This Reference Documentation is included in the distribution as a PDF, a single HTML page or as multiple
 			HTML pages, depending on your reading preference.
 		</tip>
-			
+
+		<table id="supported-technologies">
+			<tgroup cols='2' align='left' colsep='1' rowsep='1'>
+				<colspec colname='c1'/>
+				<colspec colname='c2'/>
+				<thead>
+					<row>
+						<entry>Front Ends</entry>
+						<entry>Back Ends</entry>
+					</row>
+				</thead>
+				<tbody>
+					<row>
+						<entry>
+<literallayout>Android
+Google Web Toolkit (GWT)
+Java Server Faces (JSF), including Facelets and RichFaces
+Java Server Pages (JSP) 
+Spring Web MVC
+Struts
+Swing, including Beans Binding (JSR 295) and Commons BeanUtils</literallayout>
+						</entry>
+						<entry>
+<literallayout>Annotations
+Commons JEXL
+Commons Validator
+Groovy
+Hibernate
+Hibernate Validator
+JavaBeans
+Java Persistence Architecture (JPA)
+Javassist
+JBoss jBPM
+Swing AppFramework</literallayout>
+						</entry>
+					</row>
+				</tbody>
+			</tgroup>
+		</table>
+
 	</preface>
 		
 	<chapter id="chapter-introduction">
@@ -2070,7 +2109,7 @@ public void addOwner() {
 					<para>
 						However, Metawidget makes action bindings pluggable to support other use cases. In particular, use cases where there
 						<emphasis>is</emphasis> no backing class, and instead the <classname>JButton</classname> should invoke, say, an RPC
-						call. Implement your own pluggable binding by extending <classname>ActionBindingImpl</classname> and use it by calling:
+						call. Implement your own pluggable binding by extending <classname>BaseActionBinding</classname> and use it by calling:
 					</para>
 					
 					<programlisting language="java">myMetawidget.setActionBindingClass( myActionBinding.class );</programlisting>
@@ -2189,8 +2228,7 @@ public void addOwner() {
 					
 					<para>
 						Instead, <classname>GwtMetawidget</classname> supplies GWT <classname>Generators</classname> in the form of
-						<classname>InspectorFactoryGenerator</classname>, <classname>LayoutFactoryGenerator</classname> and
-						<classname>BindingFactoryGenerator</classname>. At compile-time, each generator scans all the classes included in the
+						<classname>org.metawidget.gwt.generator.FactoryGenerator</classname>. At compile-time, each generator scans all the classes included in the
 						application and statically generates code to instantiate them. This is transparent to the application code,
 						which can simply do:
 					</para>
@@ -2247,10 +2285,16 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					<para>
 						However, Metawidget makes action bindings pluggable to support other use cases. In particular, use cases where there
 						<emphasis>is</emphasis> no backing class, and instead the <classname>Button</classname> should invoke, say, an RPC
-						call. Implement your own pluggable binding by extending <classname>ActionBindingImpl</classname> and use it by calling:
+						call. Implement your own pluggable binding by extending <classname>BaseActionBinding</classname> and use it by calling...
 					</para>
 					
 					<programlisting language="java">myMetawidget.setActionBindingClass( myActionBinding.class );</programlisting>
+					
+					<para>
+						...which overrides the default <classname>JsniBinding</classname>. Behind the scenes, <classname>GwtMetawidget</classname>
+						has a <classname>FactoryGenerator</classname> which takes care of generating JavaScript code to
+						instantiate your <classname>ActionBinding</classname>.
+					</para>					
 										
 				</section>
 				
@@ -2351,7 +2395,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					
 					<para>
 						...which overrides the default <classname>GwtRemoteInspectorProxy</classname>. Behind the scenes, <classname>GwtMetawidget</classname>
-						has a <classname>InspectorFactoryGenerator</classname> which takes care of generating JavaScript code to
+						has a <classname>FactoryGenerator</classname> which takes care of generating JavaScript code to
 						instantiate your inspector.
 					</para>
 					

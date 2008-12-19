@@ -14,33 +14,61 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.propertybinding.simple;
+package org.metawidget.inspector.impl.propertystyle;
 
-import org.metawidget.util.simple.StringUtils;
-
-import com.google.gwt.user.client.ui.Widget;
+import java.lang.annotation.Annotation;
 
 /**
- * Convenience implementation.
+ * Convenience implementation for Properties.
+ * <p>
+ * Handles construction, and returning names and types.
  *
  * @author Richard Kennard
  */
 
-public abstract class ConverterImpl<T>
-	implements Converter<T>
+public abstract class BaseProperty
+	implements Property
 {
+	//
+	// Private methods
+	//
+
+	private String		mName;
+
+	private Class<?>	mType;
+
+	//
+	// Constructor
+	//
+
+	public BaseProperty( String name, Class<?> type )
+	{
+		mName = name;
+		mType = type;
+	}
+
 	//
 	// Public methods
 	//
 
-	/**
-	 * Convert the given value to a form that can be displayed by the given Widget.
-	 * <p>
-	 * By default, uses <code>StringUtils.quietValueOf</code>.
-	 */
-
-	public Object convertForWidget( Widget widget, T value )
+	public String getName()
 	{
-		return StringUtils.quietValueOf( value );
+		return mName;
+	}
+
+	public Class<?> getType()
+	{
+		return mType;
+	}
+
+	public boolean isAnnotationPresent( Class<? extends Annotation> annotation )
+	{
+		return ( getAnnotation( annotation ) != null );
+	}
+
+	@Override
+	public String toString()
+	{
+		return mName;
 	}
 }

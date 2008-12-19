@@ -25,8 +25,8 @@ import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.inspector.impl.propertystyle.PropertyImpl;
-import org.metawidget.inspector.impl.propertystyle.PropertyStyleImpl;
+import org.metawidget.inspector.impl.propertystyle.BaseProperty;
+import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -40,7 +40,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class JavaBeanPropertyStyle
-	extends PropertyStyleImpl
+	extends BasePropertyStyle
 {
 	//
 	// Protected methods
@@ -243,7 +243,7 @@ public class JavaBeanPropertyStyle
 	 */
 
 	protected static class FieldProperty
-		extends PropertyImpl
+		extends BaseProperty
 	{
 		//
 		//
@@ -322,7 +322,7 @@ public class JavaBeanPropertyStyle
 	 */
 
 	protected static class JavaBeanProperty
-		extends PropertyImpl
+		extends BaseProperty
 	{
 		//
 		//

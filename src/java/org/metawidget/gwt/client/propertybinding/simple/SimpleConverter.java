@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class SimpleConverter
-	extends ConverterImpl<Object>
+	extends BaseConverter<Object>
 {
 	//
 	// Public methods

@@ -37,7 +37,7 @@ import org.metawidget.faces.component.UIMetawidget;
  */
 
 public class RequiredValidator
-	extends ValidatorImpl
+	extends BaseValidator
 {
 	//
 	// Constructor

@@ -39,7 +39,7 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  */
 
 public class FlexTableLayout
-	extends LayoutImpl
+	extends BaseLayout
 {
 	//
 	// Private members

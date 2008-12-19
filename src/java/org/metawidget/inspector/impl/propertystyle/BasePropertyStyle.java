@@ -29,7 +29,7 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
-public abstract class PropertyStyleImpl
+public abstract class BasePropertyStyle
 	implements PropertyStyle
 {
 	//
@@ -43,7 +43,7 @@ public abstract class PropertyStyleImpl
 	 * variable, not a static, because we rely on <code>BaseObjectInspector</code> to only create
 	 * one instance of <code>PropertyStyle</code> for all <code>Inspectors</code>.
 	 * <p>
-	 * This also stops problems with subclasses of <code>PropertyStyleImpl</code> sharing the same
+	 * This also stops problems with subclasses of <code>BasePropertyStyle</code> sharing the same
 	 * static cache.
 	 */
 
