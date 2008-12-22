@@ -59,47 +59,47 @@
 			HTML pages, depending on your reading preference.
 		</tip>
 
-		<table id="supported-technologies">
-			<tgroup cols='2' align='left' colsep='1' rowsep='1'>
-				<colspec colname='c1'/>
-				<colspec colname='c2'/>
-				<thead>
-					<row>
-						<entry>Front Ends</entry>
-						<entry>Back Ends</entry>
-					</row>
-				</thead>
-				<tbody>
-					<row>
-						<entry>
-<literallayout>Android
-Google Web Toolkit (GWT)
-Java Server Faces (JSF), including Facelets and RichFaces
-Java Server Pages (JSP) 
-Spring Web MVC
-Struts
-Swing, including Beans Binding (JSR 295) and Commons BeanUtils</literallayout>
-						</entry>
-						<entry>
-<literallayout>Annotations
-Commons JEXL
-Commons Validator
-Groovy
-Hibernate
-Hibernate Validator
-JavaBeans
-Java Persistence Architecture (JPA)
-Javassist
-JBoss jBPM
-Swing AppFramework</literallayout>
-						</entry>
-					</row>
-				</tbody>
-			</tgroup>
-		</table>
-
 	</preface>
 		
+	<preface id="preface-supported-technologies">
+		<title>Supported Technologies</title>
+		
+		<para>
+			A primary goal of Metawidget is to work with your <emphasis>existing</emphasis>
+			front-end and back-end architecture. Out of the box, Metawidget supports a broad range of both
+			front-end and back-end technologies, and makes it easy to add your own. 
+		</para>
+		
+		<para>
+			Metawidget comes with a native UI component for each supported front-end.
+			This support includes: Android (for mobile phones), Google Web Toolkit, Java Server
+			Faces (including extensions such as Facelets and JBoss RichFaces), 'plain' Java Server Pages,
+			Spring Web MVC, Struts and Swing (including extensions such as Beans Binding and Commons
+			BeanUtils).  
+		</para>
+		
+		<para>
+			Metawidget can read business object information from any combination of supported
+			back-end technologies. This support includes: annotations, Commons
+			JEXL, Commons Validator, Groovy, Hibernate, Hibernate Validator, JavaBeans, Java Persistence
+			Architecture (JPA), Javassist, JBoss jBPM and the Swing AppFramework. 
+		</para>
+		
+		<para>
+			Note it is <emphasis>not</emphasis> a goal of Metawidget that all widgets look the same on
+			every front-end framework, or that all back-end technologies conform to some 'lowest common
+			denominator': every technology has different features, and Metawidget takes advantage of this.
+		</para>
+		
+		<para>
+			The next chapter presents a tutorial covering using Metawidget with a variety of front-ends and
+			back-ends. Chapter 2 then follows with a more in-depth architectual overview. Chapters 3 and
+			4 explore each supported front-end and back-end technology in detail. Finally, chapters
+			5 and 6 offer general advice and performance tips.
+		</para>
+		
+	</preface>
+	
 	<chapter id="chapter-introduction">
 		<title>Introduction to Metawidget</title>
 		

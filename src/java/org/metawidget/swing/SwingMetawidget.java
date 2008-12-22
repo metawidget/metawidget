@@ -1001,7 +1001,6 @@ public class SwingMetawidget
 		else
 		{
 			// TODO: document widget types for GWT
-			// TODO: document quick overview of supported technologies
 
 			if ( mPropertyBinding != null )
 			{
@@ -1357,7 +1356,7 @@ public class SwingMetawidget
 					textarea.setWrapStyleWord( true );
 
 					// We also consider 2 rows a sensible default, so that the
-					// JTextarea is always distinguishable from a JTextField
+					// JTextArea is always distinguishable from a JTextField
 
 					textarea.setRows( 2 );
 					return new JScrollPane( textarea );
