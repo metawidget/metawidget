@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Android support.
+ * <strong>Android support.</strong>
  *
  * @author Richard Kennard
  */
