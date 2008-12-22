@@ -195,7 +195,11 @@ public class SwingAllWidgetsTest
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 5 ) ).gridx );
 		assertTrue( "Textarea".equals( metawidget.getValue( "textarea" ) ) );
 
-		( (JTextArea) ( (JScrollPane) metawidget.getComponent( 5 ) ).getViewport().getView() ).setText( "Textarea1" );
+		JTextArea textarea = (JTextArea) ( (JScrollPane) metawidget.getComponent( 5 ) ).getViewport().getView();
+		assertTrue( 2 == textarea.getRows() );
+		assertTrue( true == textarea.getLineWrap() );
+		assertTrue( true == textarea.getWrapStyleWord() );
+		textarea.setText( "Textarea1" );
 
 		assertTrue( "Password:".equals( ( (JLabel) metawidget.getComponent( 6 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JPasswordField );

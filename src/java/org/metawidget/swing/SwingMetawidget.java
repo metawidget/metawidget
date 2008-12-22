@@ -1349,6 +1349,16 @@ public class SwingMetawidget
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
 				{
 					JTextArea textarea = new JTextArea();
+
+					// Since we know we are dealing with Strings, we consider
+					// word-wrapping a sensible default
+
+					textarea.setLineWrap( true );
+					textarea.setWrapStyleWord( true );
+
+					// We also consider 2 rows a sensible default, so that the
+					// JTextarea is always distinguishable from a JTextField
+
 					textarea.setRows( 2 );
 					return new JScrollPane( textarea );
 				}
