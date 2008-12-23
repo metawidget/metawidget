@@ -31,9 +31,9 @@ import java.util.Map;
 
 import org.codehaus.groovy.reflection.CachedField;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -76,7 +76,6 @@ public class GroovyPropertyStyle
 		for ( MetaProperty property : properties )
 		{
 			// Not CachedField, MetaArrayLengthProperty, or MetaExpandoProperty
-			// TODO: test this
 
 			if ( !( property instanceof MetaBeanProperty ))
 				continue;

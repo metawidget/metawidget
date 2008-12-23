@@ -82,4 +82,11 @@ public class GroovyPropertyStyleTest
 			// Should fail
 		}
 	}
+
+	public void testIgnoreMetaArrayLengthProperty()
+	{
+		GroovyPropertyStyle propertyStyle = new GroovyPropertyStyle();
+		Map<String, Property> properties = propertyStyle.getProperties( byte[].class );
+		assertTrue( properties.isEmpty() );
+	}
 }
