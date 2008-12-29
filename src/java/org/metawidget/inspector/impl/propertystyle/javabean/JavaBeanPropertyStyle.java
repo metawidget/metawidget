@@ -24,9 +24,9 @@ import java.lang.reflect.Type;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -57,12 +57,25 @@ public class JavaBeanPropertyStyle
 
 		Map<String, Property> properties = CollectionUtils.newTreeMap();
 
-		//
-		// Public fields
-		//
+		// Lookup fields, getters and setters
+
+		lookupFields( properties, clazz );
+		lookupGetters( properties, clazz );
+		lookupSetters( properties, clazz );
+
+		return properties;
+	}
+
+	/**
+	 * Lookup public field-based properties.
+	 * <p>
+	 * This method will be called before <code>lookupGetters</code> and <code>lookupSetters</code>.
+	 */
+
+	protected void lookupFields( Map<String, Property> properties, Class<?> clazz )
+	{
 		// Note: we must use clazz.getFields(), not clazz.getDeclaredFields(), in order
 		// to avoid Applet SecurityExceptions
-		//
 
 		for ( Field field : clazz.getFields() )
 		{
@@ -85,31 +98,36 @@ public class JavaBeanPropertyStyle
 
 			properties.put( fieldName, new FieldProperty( fieldName, field ) );
 		}
+	}
 
-		//
-		// Public getter methods
-		//
+	/**
+	 * Lookup getter-based properties.
+	 * <p>
+	 * This method will be called after <code>lookupGetters</code> but before <code>lookupSetters</code>.
+	 */
+
+	protected void lookupGetters( Map<String, Property> properties, Class<?> clazz )
+	{
 		// Note: we must use clazz.getMethods(), not clazz.getDeclaredMethods(), in order
 		// to avoid Applet SecurityExceptions
-		//
 
-		for ( Method methodRead : clazz.getMethods() )
+		for ( Method method : clazz.getMethods() )
 		{
 			// Get type
 
-			Class<?>[] parameters = methodRead.getParameterTypes();
+			Class<?>[] parameters = method.getParameterTypes();
 
 			if ( parameters.length != 0 )
 				continue;
 
-			Class<?> type = methodRead.getReturnType();
+			Class<?> type = method.getReturnType();
 
 			if ( void.class.equals( type ) )
 				continue;
 
 			// Get name
 
-			String methodName = methodRead.getName();
+			String methodName = method.getName();
 			String propertyName = null;
 
 			if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
@@ -126,7 +144,7 @@ public class JavaBeanPropertyStyle
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( methodRead.getDeclaringClass().getName(), lowercasedPropertyName, type ) )
+			if ( isExcluded( method.getDeclaringClass().getName(), lowercasedPropertyName, type ) )
 				continue;
 
 			// Already found via its field?
@@ -149,21 +167,27 @@ public class JavaBeanPropertyStyle
 					continue;
 			}
 
-			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, methodRead, null ) );
+			// Give subclasses a chance to lookup an alternate version
+
+			method = lookupAlternateGetter( lowercasedPropertyName, clazz, method );
+
+			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, method, null ) );
 		}
+	}
 
-		//
-		// Public setter methods
-		//
-		// Note: we must use clazz.getMethods(), not clazz.getDeclaredMethods(), in order
-		// to avoid Applet SecurityExceptions
-		//
+	/**
+	 * Lookup setter-based properties.
+	 * <p>
+	 * This method will be called after <code>lookupGetters</code> and <code>lookupSetters</code>.
+	 */
 
-		for ( Method methodWrite : clazz.getMethods() )
+	protected void lookupSetters( Map<String, Property> properties, Class<?> clazz )
+	{
+		for ( Method method : clazz.getMethods() )
 		{
 			// Get type
 
-			Class<?>[] parameters = methodWrite.getParameterTypes();
+			Class<?>[] parameters = method.getParameterTypes();
 
 			if ( parameters.length != 1 )
 				continue;
@@ -172,7 +196,7 @@ public class JavaBeanPropertyStyle
 
 			// Get name
 
-			String methodName = methodWrite.getName();
+			String methodName = method.getName();
 
 			if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
 				continue;
@@ -186,7 +210,7 @@ public class JavaBeanPropertyStyle
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( methodWrite.getDeclaringClass().getName(), lowercasedPropertyName, type ) )
+			if ( isExcluded( method.getDeclaringClass().getName(), lowercasedPropertyName, type ) )
 				continue;
 
 			// Already found via its field?
@@ -196,19 +220,21 @@ public class JavaBeanPropertyStyle
 			if ( existingProperty instanceof FieldProperty )
 				continue;
 
+			// Give subclasses a chance to lookup an alternate version
+
+			method = lookupAlternateSetter( lowercasedPropertyName, clazz, method );
+
 			// Already found via its getter?
 
 			if ( existingProperty instanceof JavaBeanProperty )
 			{
 				JavaBeanProperty existingJavaBeanProperty = (JavaBeanProperty) existingProperty;
-				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, existingJavaBeanProperty.getReadMethod(), methodWrite ) );
+				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, existingJavaBeanProperty.getReadMethod(), method ) );
 				continue;
 			}
 
-			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, null, methodWrite ) );
+			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, null, method ) );
 		}
-
-		return properties;
 	}
 
 	/**
@@ -232,6 +258,28 @@ public class JavaBeanPropertyStyle
 			return true;
 
 		return super.isExcludedName( name );
+	}
+
+	/**
+	 * Hook to allow subclasses to lookup an alternate getter method for the given property.
+	 *
+	 * @param clazz	class of the object being inspected. May be different to <code>getter.getDeclaringClass()</code>
+	 */
+
+	protected Method lookupAlternateGetter( String name, Class<?> clazz, Method getter )
+	{
+		return getter;
+	}
+
+	/**
+	 * Hook to allow subclasses to lookup an alternate setter method for the given property.
+	 *
+	 * @param clazz	class of the object being inspected. May be different to <code>setter.getDeclaringClass()</code>
+	 */
+
+	protected Method lookupAlternateSetter( String name, Class<?> clazz, Method setter )
+	{
+		return setter;
 	}
 
 	//

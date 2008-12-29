@@ -69,6 +69,12 @@ public final class StringUtils
 		return Character.isUpperCase( in.charAt( 0 ) );
 	}
 
+	/**
+	 * Converts the given string from camel case.
+	 * <p>
+	 * For example, converts <code>fooBar1</code> into <code>Foo bar 1</code>.
+	 */
+
 	public static String uncamelCase( final String camelCase )
 	{
 		// Nothing to do?
