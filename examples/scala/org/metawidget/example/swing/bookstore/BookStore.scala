@@ -14,42 +14,49 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-import javax.swing._
-
 import org.metawidget.swing._
-import org.metawidget.swing.propertybinding.beansbinding._
 import org.metawidget.inspector.annotation._
+import scala.swing._
+import scala.swing.event._
 
 package org.metawidget.example.swing.bookstore
 {
+	object BookStore extends SimpleGUIApplication
+	{
+		var book = new Book( "The Reflective Practitioner", "1-85742-319-4" )
+		def top = new MainFrame{
+				val metawidget = new SwingMetawidget()
+				metawidget.setInspectorConfig( "org/metawidget/example/swing/bookstore/inspector-config.xml" )
+				metawidget.setToInspect( book )
+
+				metawidget.setValue( book.title, "title" )
+
+				contents=new BorderPanel {
+					add(Component.wrap( metawidget ),BorderPanel.Position.Center)
+					add(new Button("Save") {
+					reactions += {
+						case ButtonClicked(_) =>
+						  book.title = metawidget.getValue( "title" ).asInstanceOf[String]
+						  println(book) // Make sure it was saved correclty
+					}
+				},BorderPanel.Position.South)
+			}
+		}
+	}
 	class Author
 	{
 		var firstname = "";
 		var surname = "";
+		override def toString = firstname+ " "+surname
 	}
-	
+
 	class Book( var title:String, @UiComesAfter( Array( "title" )) var ISBN:String )
 	{
-	  	@UiComesAfter( Array( "ISBN" ))
+		@UiComesAfter( Array( "ISBN" ))
 		var year = 2008;
-		
+
 		@UiComesAfter( Array( "year" ))
 		val author = new Author();
-	}
-	
-	object BookStore extends JFrame( "Book Store" ) 
-	{
-	    def main( args: Array[String] ) = 
-	    {
-	        setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-	        
-	        val metawidget = new SwingMetawidget()
-         	metawidget.setInspectorConfig( "org/metawidget/example/swing/bookstore/inspector-config.xml" )
-	        metawidget.setToInspect( new Book( "The Reflective Practitioner", "1-85742-319-4" ) )
-	        
-	        add( metawidget )
-	        pack();
-	        setVisible( true );
-	    }
+		override def toString = title + " by "+author+", "+year
 	}
 }
