@@ -62,7 +62,6 @@ public class ConfigReaderTest
 	// Public methods
 	//
 
-	@SuppressWarnings( "unchecked" )
 	public void testReader()
 		throws Exception
 	{
@@ -120,7 +119,6 @@ public class ConfigReaderTest
 		assertTrue( inspectors[10] instanceof XmlInspector );
 	}
 
-	@SuppressWarnings( "unchecked" )
 	public void testMandatoryConfigAttribute()
 		throws Exception
 	{
@@ -134,13 +132,12 @@ public class ConfigReaderTest
 			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( "org.metawidget.inspector.composite.CompositeInspector requires a 'config' attribute".equals( e.getMessage() ));
+			assertTrue( "org.metawidget.inspector.composite.CompositeInspector requires a 'config' attribute".equals( e.getMessage() ) );
 		}
 	}
 
-	@SuppressWarnings( "unchecked" )
 	public void testForgottenConfigAttribute()
 		throws Exception
 	{
@@ -156,9 +153,9 @@ public class ConfigReaderTest
 			reader.read( new ByteArrayInputStream( xml.getBytes() ) );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( e.getMessage().contains( "forget a 'config' attribute?" ));
+			assertTrue( e.getMessage().contains( "forget a 'config' attribute?" ) );
 		}
 	}
 
@@ -185,17 +182,17 @@ public class ConfigReaderTest
 		BadInspector inspector = (BadInspector) new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
 		assertTrue( 3 == inspector.getInt() );
 
-		assertTrue( "foo".equals( inspector.getListOfStrings().get( 0 ) ));
-		assertTrue( "bar".equals( inspector.getListOfStrings().get( 1 ) ));
+		assertTrue( "foo".equals( inspector.getListOfStrings().get( 0 ) ) );
+		assertTrue( "bar".equals( inspector.getListOfStrings().get( 1 ) ) );
 		assertTrue( 2 == inspector.getListOfStrings().size() );
 
-		assertTrue( String.class.equals( inspector.getListOfClasses().get( 0 ) ));
-		assertTrue( Date.class.equals( inspector.getListOfClasses().get( 1 ) ));
-		assertTrue( Long.class.equals( inspector.getListOfClasses().get( 2 ) ));
+		assertTrue( String.class.equals( inspector.getListOfClasses().get( 0 ) ) );
+		assertTrue( Date.class.equals( inspector.getListOfClasses().get( 1 ) ) );
+		assertTrue( Long.class.equals( inspector.getListOfClasses().get( 2 ) ) );
 		assertTrue( 3 == inspector.getListOfClasses().size() );
 
 		assertTrue( true == inspector.isBoolean() );
-		assertTrue( ".*?".equals( inspector.getPattern().toString() ));
+		assertTrue( ".*?".equals( inspector.getPattern().toString() ) );
 	}
 
 	public void testUnsupportedType()
@@ -212,9 +209,9 @@ public class ConfigReaderTest
 			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Don't know how to convert '1/1/2001' to class java.util.Date" ));
+			assertTrue( e.getMessage().endsWith( "Don't know how to convert '1/1/2001' to class java.util.Date" ) );
 		}
 	}
 
@@ -232,9 +229,9 @@ public class ConfigReaderTest
 			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( "Failed during construction".equals( e.getCause().getMessage() ));
+			assertTrue( "Failed during construction".equals( e.getCause().getMessage() ) );
 		}
 	}
 
@@ -252,9 +249,9 @@ public class ConfigReaderTest
 			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "public void org.metawidget.test.inspector.BadInspectorConfig.setNoParameters() is not a setter method - has no parameters" ));
+			assertTrue( e.getMessage().endsWith( "public void org.metawidget.test.inspector.BadInspectorConfig.setNoParameters() is not a setter method - has no parameters" ) );
 		}
 	}
 
@@ -272,9 +269,9 @@ public class ConfigReaderTest
 			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "public void org.metawidget.test.inspector.BadInspectorConfig.setMultipleParameters(java.lang.String,java.lang.String) is not a setter method - has multiple parameters" ));
+			assertTrue( e.getMessage().endsWith( "public void org.metawidget.test.inspector.BadInspectorConfig.setMultipleParameters(java.lang.String,java.lang.String) is not a setter method - has multiple parameters" ) );
 		}
 	}
 
@@ -289,9 +286,9 @@ public class ConfigReaderTest
 			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( "No Inspector declared".equals( e.getMessage() ));
+			assertTrue( "No Inspector declared".equals( e.getMessage() ) );
 		}
 	}
 
@@ -308,7 +305,7 @@ public class ConfigReaderTest
 			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
 			assertTrue( e.getMessage().endsWith( "Don't know how to combine a class org.metawidget.test.inspector.BadInspector with a class org.metawidget.test.inspector.BadInspector" ) );
 		}
@@ -323,9 +320,9 @@ public class ConfigReaderTest
 			reader.read( (String) null );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( "No resource specified".equals( e.getMessage() ));
+			assertTrue( "No resource specified".equals( e.getMessage() ) );
 		}
 
 		try
@@ -333,9 +330,9 @@ public class ConfigReaderTest
 			reader.read( "" );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( "No resource specified".equals( e.getMessage() ));
+			assertTrue( "No resource specified".equals( e.getMessage() ) );
 		}
 
 		try
@@ -343,9 +340,9 @@ public class ConfigReaderTest
 			reader.read( " " );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( "No resource specified".equals( e.getMessage() ));
+			assertTrue( "No resource specified".equals( e.getMessage() ) );
 		}
 
 		try
@@ -353,9 +350,9 @@ public class ConfigReaderTest
 			reader.read( " foo" );
 			assertTrue( false );
 		}
-		catch( InspectorException e )
+		catch ( InspectorException e )
 		{
-			assertTrue( "Unable to locate  foo".equals( e.getMessage() ));
+			assertTrue( "Unable to locate  foo".equals( e.getMessage() ) );
 		}
 	}
 }

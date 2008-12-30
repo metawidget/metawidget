@@ -24,7 +24,7 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for working with Classes.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -43,8 +43,8 @@ public final class ClassUtils
 	public final static Class<?>[]	NO_CLASSES			= new Class[0];
 
 	/**
-	 * Lookup JavaBean-convention getter without using <code>java.beans</code>, as that package
-	 * is not available on all target platforms.
+	 * Lookup JavaBean-convention getter without using <code>java.beans</code>, as that package is
+	 * not available on all target platforms.
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -70,8 +70,8 @@ public final class ClassUtils
 	}
 
 	/**
-	 * Lookup JavaBean-convention setter without using <code>java.beans</code>, as that package
-	 * is not available on all target platforms.
+	 * Lookup JavaBean-convention setter without using <code>java.beans</code>, as that package is
+	 * not available on all target platforms.
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -113,8 +113,8 @@ public final class ClassUtils
 	}
 
 	/**
-	 * Get the value of the JavaBean-convention property without using <code>java.beans</code>,
-	 * as that package is not available on all target platforms.
+	 * Get the value of the JavaBean-convention property without using <code>java.beans</code>, as
+	 * that package is not available on all target platforms.
 	 */
 
 	public static Object getProperty( Object base, String property )
@@ -131,8 +131,8 @@ public final class ClassUtils
 	}
 
 	/**
-	 * Set the value of the JavaBean-convention property without using <code>java.beans</code>,
-	 * as that package is not available on all target platforms.
+	 * Set the value of the JavaBean-convention property without using <code>java.beans</code>, as
+	 * that package is not available on all target platforms.
 	 */
 
 	public static void setProperty( Object base, String property, Object value )
@@ -248,8 +248,8 @@ public final class ClassUtils
 	 * Return the unproxied version of a class proxied by, say, CGLIB or Javassist.
 	 * <p>
 	 * Unproxying a class back to its original type is desirable so that
-	 * <code>BaseObjectInspector</code>-based and <code>BaseXmlInspector</code>-based
-	 * inspectors can merge to a common type.
+	 * <code>BaseObjectInspector</code>-based and <code>BaseXmlInspector</code>-based inspectors can
+	 * merge to a common type.
 	 * <p>
 	 * However, unproxying may not always be possible. If the proxied class is not an extension of
 	 * some base class but simply a <code>java.lang.Object</code> that implements one or more
@@ -286,8 +286,8 @@ public final class ClassUtils
 	 * Replacement for <code>Class.forName()</code> that:
 	 * <ul>
 	 * <li>supports primitives (<code>int</code>, <code>long</code>, etc)</li>
-	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic
-	 * type, such as 'Login Screen')</li>
+	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic type,
+	 * such as 'Login Screen')</li>
 	 * </ul>
 	 */
 

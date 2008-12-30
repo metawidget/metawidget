@@ -34,10 +34,10 @@ import android.widget.LinearLayout;
  * that Facets are simply 'decorations' (such as button bars) to be recognized and arranged at the
  * discretion of the Layout.
  * <p>
- * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>,
- * because <code>FrameLayout</code> would <em>always</em> need to have another
- * <code>Layout</code> embedded within it, whereas <code>LinearLayout</code> is occasionally useful directly.
- *
+ * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>, because
+ * <code>FrameLayout</code> would <em>always</em> need to have another <code>Layout</code> embedded
+ * within it, whereas <code>LinearLayout</code> is occasionally useful directly.
+ * 
  * @author Richard Kennard
  */
 
@@ -48,7 +48,7 @@ public class Stub
 	// Private statics
 	//
 
-	private final static String						ATTRIBUTE_PREFIX		= "attrib";
+	private final static String	ATTRIBUTE_PREFIX	= "attrib";
 
 	//
 	// Private members
@@ -65,7 +65,6 @@ public class Stub
 		super( context );
 	}
 
-	@SuppressWarnings( "unchecked" )
 	public Stub( Context context, AttributeSet attributes )
 	{
 		super( context, attributes );

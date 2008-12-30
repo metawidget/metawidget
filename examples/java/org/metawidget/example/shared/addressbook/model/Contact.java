@@ -34,20 +34,26 @@ import org.metawidget.inspector.annotation.UiSection;
  * Models a Contact in the Address Book
  * <p>
  * So that it can easily be reused across different examples, this class only uses annotations from
- * <code>org.metawidget.inspector.annotation.*</code>. In the real world, apps should prefer to
- * use something like <code>javax.persistence.Column(nullable = false)</code> or
- * <code>org.hibernate.validator.NotNull</code> rather than <code>UiRequired</code>: Metawidget
- * will inspect your <em>existing</em> annotations as much as possible.
+ * <code>org.metawidget.inspector.annotation.*</code>. In the real world, apps should prefer to use
+ * something like <code>javax.persistence.Column(nullable = false)</code> or
+ * <code>org.hibernate.validator.NotNull</code> rather than <code>UiRequired</code>: Metawidget will
+ * inspect your <em>existing</em> annotations as much as possible.
  * <p>
  * Implements Serializable because some Web containers require session-level values to be
  * Serializable.
- *
+ * 
  * @author Richard Kennard
  */
 
 public abstract class Contact
 	implements Comparable<Contact>, Serializable
 {
+	//
+	// Private statics
+	//
+
+	private final static long	serialVersionUID	= 1l;
+
 	//
 	// Private members
 	//
@@ -113,9 +119,8 @@ public abstract class Contact
 	 * Get the Contact's title.
 	 * <p>
 	 * Note: this getter is multiple annotated with <code>UiFacesLookup</code>,
-	 * <code>UiSpringLookup</code> and <code>UiJspLookup</code>. Normally you only need one or
-	 * the other, but we use both because we use this same code in both Faces, Spring and JSP
-	 * examples.
+	 * <code>UiSpringLookup</code> and <code>UiJspLookup</code>. Normally you only need one or the
+	 * other, but we use both because we use this same code in both Faces, Spring and JSP examples.
 	 * <p>
 	 * Note: this method is annotated <code>UiRequired</code>. Metawidget is designed to use
 	 * <em>existing</em> annotations as much as possible. Real apps would generally use something
@@ -165,7 +170,8 @@ public abstract class Contact
 	 * <p>
 	 * Note: this method is annotated <code>UiAttribute</code>. Metawidget is designed to use
 	 * <em>existing</em> annotations as much as possible. Real apps would generally use something
-	 * like <code>org.hibernate.validator.Length</code> here in preference to <code>UiAttribute</code>.
+	 * like <code>org.hibernate.validator.Length</code> here in preference to
+	 * <code>UiAttribute</code>.
 	 */
 
 	@UiComesAfter( "firstname" )

@@ -26,9 +26,8 @@ import org.metawidget.faces.taglib.MetawidgetTag;
 /**
  * JSP tag for HtmlMetawidget JSF widgets.
  * <p>
- * Includes HTML-specific attributes, such as <code>style</code>
- * and <code>styleClass</code>.
- *
+ * Includes HTML-specific attributes, such as <code>style</code> and <code>styleClass</code>.
+ * 
  * @author Richard Kennard
  */
 
@@ -99,7 +98,6 @@ public class HtmlMetawidgetTag
 
 		// CSS
 
-		@SuppressWarnings( "unchecked" )
 		Map<String, Object> attributes = component.getAttributes();
 
 		if ( mStyle != null )

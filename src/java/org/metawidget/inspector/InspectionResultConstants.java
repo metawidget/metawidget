@@ -22,8 +22,8 @@ package org.metawidget.inspector;
  * Metawidget promotes a loose coupling between Inspectors and widget creation. In particular, it
  * discourages any single Inspector dictating an XML attribute name, as that Inspector then holds a
  * 'monopoly' on how that attribute gets initialised (eg. it should not matter whether a
- * <code>required</code> attribute came from a JPA annotation, a Hibernate mapping file or
- * Hibernate Validator).
+ * <code>required</code> attribute came from a JPA annotation, a Hibernate mapping file or Hibernate
+ * Validator).
  * <p>
  * Metawidget also promotes that, as both Inspectors and widget creation evolve independently, the
  * XML attributes recognized should evolve in an 'ad hoc' fashion: Metawidget places no restrictions
@@ -31,7 +31,7 @@ package org.metawidget.inspector;
  * <p>
  * However, for those attribute names that have become sufficiently standardized, it is desirable to
  * have a more formalized 'middle ground', if only to avoid typos.
- *
+ * 
  * @author Richard Kennard
  */
 

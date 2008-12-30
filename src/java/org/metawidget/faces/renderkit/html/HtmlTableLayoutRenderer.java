@@ -46,7 +46,7 @@ import org.metawidget.util.simple.StringUtils;
  * <p>
  * <ul>
  * <li><code>header<code></li>
- * 	<li><code>footer<code></li>
+ * <li><code>footer<code></li>
  * </ul>
  * <p>
  * This implementation recognizes the following <code>&lt;f:param&gt;</code> parameters:
@@ -55,8 +55,8 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>tableStyle</code>
  * <li><code>tableStyleClass</code>
  * <li><code>columns<code> - number of columns. Each label/component pair is considered one column
- * <li><code>columnClasses</code> - comma delimited string of CSS style classes to apply to
- * table columns in order of: label, component, required
+ * <li><code>columnClasses</code> - comma delimited string of CSS style classes to apply to table
+ * columns in order of: label, component, required
  * <li><code>labelStyle</code>
  * <li><code>componentStyle</code>
  * <li><code>requiredStyle</code>
@@ -71,9 +71,9 @@ import org.metawidget.util.simple.StringUtils;
  * </ul>
  * <p>
  * The parameters <code>columns</code> and <code>columnClasses</code> might more properly be named
- * <code>numberOfColumns</code> and <code>columnStyleClasses</code>, but we are trying to follow
- * the <code>javax.faces.component.html.HtmlDataTable</code> convention.
- *
+ * <code>numberOfColumns</code> and <code>columnStyleClasses</code>, but we are trying to follow the
+ * <code>javax.faces.component.html.HtmlDataTable</code> convention.
+ * 
  * @author Richard Kennard
  */
 
@@ -277,7 +277,6 @@ public class HtmlTableLayoutRenderer
 	protected void layoutHiddenChildren( FacesContext context, UIComponent component )
 		throws IOException
 	{
-		@SuppressWarnings( "unchecked" )
 		List<UIComponent> children = component.getChildren();
 
 		for ( UIComponent componentChild : children )
@@ -301,7 +300,6 @@ public class HtmlTableLayoutRenderer
 		if ( numberOfColumns == null )
 			return;
 
-		@SuppressWarnings( "unchecked" )
 		List<UIComponent> children = component.getChildren();
 
 		// Next, for each child component...
@@ -473,7 +471,7 @@ public class HtmlTableLayoutRenderer
 
 		// Large components and tables span all columns
 
-		if (( attributes != null && TRUE.equals( attributes.get( "large" ) )) || component instanceof UIData )
+		if ( ( attributes != null && TRUE.equals( attributes.get( "large" ) ) ) || component instanceof UIData )
 		{
 			colspan = ( numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 			putState( KEY_CURRENT_COLUMN, numberOfColumns );

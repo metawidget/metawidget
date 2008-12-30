@@ -35,7 +35,7 @@ import org.metawidget.util.simple.StringUtils;
  * PropertyStyle for JavaBean-style properties.
  * <p>
  * This PropertyStyle recognizes both getters and setters and public member fields.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -103,7 +103,8 @@ public class JavaBeanPropertyStyle
 	/**
 	 * Lookup getter-based properties.
 	 * <p>
-	 * This method will be called after <code>lookupGetters</code> but before <code>lookupSetters</code>.
+	 * This method will be called after <code>lookupGetters</code> but before
+	 * <code>lookupSetters</code>.
 	 */
 
 	protected void lookupGetters( Map<String, Property> properties, Class<?> clazz )
@@ -127,29 +128,19 @@ public class JavaBeanPropertyStyle
 
 			// Get name
 
-			String methodName = method.getName();
-			String propertyName = null;
+			String propertyName = matchGetterNamingConvention( method );
 
-			if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
-				propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
-			else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
-				propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
-			else
+			if ( propertyName == null )
 				continue;
-
-			if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
-				continue;
-
-			String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( method.getDeclaringClass().getName(), lowercasedPropertyName, type ) )
+			if ( isExcluded( method.getDeclaringClass().getName(), propertyName, type ) )
 				continue;
 
 			// Already found via its field?
 
-			Property existingProperty = properties.get( lowercasedPropertyName );
+			Property existingProperty = properties.get( propertyName );
 
 			if ( existingProperty instanceof FieldProperty )
 				continue;
@@ -167,12 +158,26 @@ public class JavaBeanPropertyStyle
 					continue;
 			}
 
-			// Give subclasses a chance to lookup an alternate version
-
-			method = lookupAlternateGetter( lowercasedPropertyName, clazz, method );
-
-			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, method, null ) );
+			properties.put( propertyName, new JavaBeanProperty( propertyName, type, method, null ) );
 		}
+	}
+
+	protected String matchGetterNamingConvention( Method method )
+	{
+		String methodName = method.getName();
+		String propertyName;
+
+		if ( methodName.startsWith( ClassUtils.JAVABEAN_GET_PREFIX ) )
+			propertyName = methodName.substring( ClassUtils.JAVABEAN_GET_PREFIX.length() );
+		else if ( methodName.startsWith( ClassUtils.JAVABEAN_IS_PREFIX ) )
+			propertyName = methodName.substring( ClassUtils.JAVABEAN_IS_PREFIX.length() );
+		else
+			return null;
+
+		if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
+			return null;
+
+		return StringUtils.lowercaseFirstLetter( propertyName );
 	}
 
 	/**
@@ -196,45 +201,49 @@ public class JavaBeanPropertyStyle
 
 			// Get name
 
-			String methodName = method.getName();
+			String propertyName = matchSetterNamingConvention( method );
 
-			if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
+			if ( propertyName == null )
 				continue;
-
-			String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
-
-			if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
-				continue;
-
-			String lowercasedPropertyName = StringUtils.lowercaseFirstLetter( propertyName );
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( method.getDeclaringClass().getName(), lowercasedPropertyName, type ) )
+			if ( isExcluded( method.getDeclaringClass().getName(), propertyName, type ) )
 				continue;
 
 			// Already found via its field?
 
-			Property existingProperty = properties.get( lowercasedPropertyName );
+			Property existingProperty = properties.get( propertyName );
 
 			if ( existingProperty instanceof FieldProperty )
 				continue;
-
-			// Give subclasses a chance to lookup an alternate version
-
-			method = lookupAlternateSetter( lowercasedPropertyName, clazz, method );
 
 			// Already found via its getter?
 
 			if ( existingProperty instanceof JavaBeanProperty )
 			{
 				JavaBeanProperty existingJavaBeanProperty = (JavaBeanProperty) existingProperty;
-				properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, existingJavaBeanProperty.getReadMethod(), method ) );
+				properties.put( propertyName, new JavaBeanProperty( propertyName, type, existingJavaBeanProperty.getReadMethod(), method ) );
 				continue;
 			}
 
-			properties.put( lowercasedPropertyName, new JavaBeanProperty( lowercasedPropertyName, type, null, method ) );
+			properties.put( propertyName, new JavaBeanProperty( propertyName, type, null, method ) );
 		}
+	}
+
+	protected String matchSetterNamingConvention( Method method )
+	{
+		String methodName = method.getName();
+
+		if ( !methodName.startsWith( ClassUtils.JAVABEAN_SET_PREFIX ) )
+			return null;
+
+		String propertyName = methodName.substring( ClassUtils.JAVABEAN_SET_PREFIX.length() );
+
+		if ( !StringUtils.isFirstLetterUppercase( propertyName ) )
+			return null;
+
+		return StringUtils.lowercaseFirstLetter( propertyName );
 	}
 
 	/**
@@ -244,7 +253,7 @@ public class JavaBeanPropertyStyle
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
 	 * By default, excludes 'propertyChangeListeners' and 'vetoableChangeListeners'.
-	 *
+	 * 
 	 * @return true if the property should be excluded, false otherwise
 	 */
 
@@ -258,28 +267,6 @@ public class JavaBeanPropertyStyle
 			return true;
 
 		return super.isExcludedName( name );
-	}
-
-	/**
-	 * Hook to allow subclasses to lookup an alternate getter method for the given property.
-	 *
-	 * @param clazz	class of the object being inspected. May be different to <code>getter.getDeclaringClass()</code>
-	 */
-
-	protected Method lookupAlternateGetter( String name, Class<?> clazz, Method getter )
-	{
-		return getter;
-	}
-
-	/**
-	 * Hook to allow subclasses to lookup an alternate setter method for the given property.
-	 *
-	 * @param clazz	class of the object being inspected. May be different to <code>setter.getDeclaringClass()</code>
-	 */
-
-	protected Method lookupAlternateSetter( String name, Class<?> clazz, Method setter )
-	{
-		return setter;
 	}
 
 	//

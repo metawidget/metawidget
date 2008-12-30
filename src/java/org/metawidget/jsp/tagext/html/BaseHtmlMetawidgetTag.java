@@ -22,7 +22,7 @@ import org.metawidget.jsp.tagext.MetawidgetTag;
 
 /**
  * Base Metawidget for JSP environments that output HTML.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -30,14 +30,20 @@ public abstract class BaseHtmlMetawidgetTag
 	extends MetawidgetTag
 {
 	//
+	// Private statics
+	//
+
+	private final static long	serialVersionUID	= 1l;
+
+	//
 	// Protected members
 	//
 
-	protected String	mStyle;
+	protected String			mStyle;
 
-	protected String	mStyleClass;
+	protected String			mStyleClass;
 
-	protected boolean	mCreateHiddenFields;
+	protected boolean			mCreateHiddenFields;
 
 	//
 	// Public methods

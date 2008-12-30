@@ -30,7 +30,7 @@ import org.metawidget.example.shared.addressbook.model.Contact;
 
 /**
  * PhaseListener to load a Contact from a Request parameter.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -58,7 +58,6 @@ public class LoadContactListener
 		FacesContext context = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = context.getExternalContext();
 
-		@SuppressWarnings( "unchecked" )
 		Map<String, String[]> parameters = externalContext.getRequestParameterValuesMap();
 
 		String[] id = parameters.get( "contact.load" );

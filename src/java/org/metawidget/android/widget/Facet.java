@@ -23,14 +23,13 @@ import android.widget.LinearLayout;
 /**
  * Facet for Android environments.
  * <p>
- * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are
- * 'decorations' (such as button bars) to be recognized and arranged at the discretion of the
- * Layout.
+ * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are 'decorations'
+ * (such as button bars) to be recognized and arranged at the discretion of the Layout.
  * <p>
- * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>,
- * because <code>FrameLayout</code> would <em>always</em> need to have another
- * <code>Layout</code> embedded within it, whereas <code>LinearLayout</code> is occasionally useful directly.
- *
+ * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>, because
+ * <code>FrameLayout</code> would <em>always</em> need to have another <code>Layout</code> embedded
+ * within it, whereas <code>LinearLayout</code> is occasionally useful directly.
+ * 
  * @author Richard Kennard
  */
 
@@ -52,7 +51,6 @@ public class Facet
 		super( context );
 	}
 
-	@SuppressWarnings( "unchecked" )
 	public Facet( Context context, AttributeSet attributes )
 	{
 		super( context, attributes );

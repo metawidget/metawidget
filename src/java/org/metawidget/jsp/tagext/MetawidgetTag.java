@@ -48,7 +48,7 @@ import org.w3c.dom.Element;
 
 /**
  * Base Metawidget for JSP environments.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -65,6 +65,8 @@ public abstract class MetawidgetTag
 	// Private statics
 	//
 
+	private final static long			serialVersionUID		= 1l;
+
 	private final static String			INSPECTORS_ATTRIBUTE	= "metawidget-inspectors";
 
 	//
@@ -74,9 +76,8 @@ public abstract class MetawidgetTag
 	/**
 	 * Path to inspect.
 	 * <p>
-	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for
-	 * Struts, <code>property</code> for Spring). Read by subclasses during
-	 * <code>buildCompoundWidget</code>.
+	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for Struts,
+	 * <code>property</code> for Spring). Read by subclasses during <code>buildCompoundWidget</code>.
 	 */
 
 	protected String					mPath;

@@ -32,9 +32,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 /**
- * Layout to arrange widgets in a table, with one column for labels and another for the
- * widget.
- *
+ * Layout to arrange widgets in a table, with one column for labels and another for the widget.
+ * 
  * @author Richard Kennard
  */
 
@@ -55,7 +54,6 @@ public class TableLayout
 
 	private String						mCurrentSection;
 
-	@SuppressWarnings( "unused" )
 	private int							mNumberOfColumns	= 1;
 
 	private int							mLabelStyle;
@@ -134,7 +132,7 @@ public class TableLayout
 			{
 				TextView textView = new TextView( metawidget.getContext() );
 
-				if ( !"".equals( label ))
+				if ( !"".equals( label ) )
 					textView.setText( label + ": " );
 
 				applyStyle( textView, mLabelStyle );
@@ -238,8 +236,8 @@ public class TableLayout
 	/**
 	 * Initialize the TableLayout.
 	 * <p>
-	 * We don't initialize the TableLayout unless we find we have something
-	 * to put into it, because Android doesn't like empty TableLayouts.
+	 * We don't initialize the TableLayout unless we find we have something to put into it, because
+	 * Android doesn't like empty TableLayouts.
 	 */
 
 	private void initLayout()

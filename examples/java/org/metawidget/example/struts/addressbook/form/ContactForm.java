@@ -36,6 +36,12 @@ public abstract class ContactForm
 	extends ValidatorForm
 {
 	//
+	// Private statics
+	//
+
+	private final static long	serialVersionUID	= 1l;
+
+	//
 	// Private members
 	//
 

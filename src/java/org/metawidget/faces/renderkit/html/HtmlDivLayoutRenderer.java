@@ -36,8 +36,8 @@ import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Layout to arrange widgets in HTML <code>DIV</code> tags, with one <code>DIV</code> per label
- * and per widget, and a wrapper <code>DIV</code> around both.
+ * Layout to arrange widgets in HTML <code>DIV</code> tags, with one <code>DIV</code> per label and
+ * per widget, and a wrapper <code>DIV</code> around both.
  * <p>
  * This implementation recognizes the following <code>&lt;f:param&gt;</code> parameters:
  * <p>
@@ -47,13 +47,13 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>componentStyle</code> - this is the style applied to the DIV <em>around</em> the
  * widget, not to the widget itself. The widget itself can be styled using the <code>style</code>
  * attribute on the Metawidget tag
- * <li><code>divStyleClasses</code> - comma separated list of style classes to apply to the DIVs,
- * in order of outer, label, required, widget, errors
+ * <li><code>divStyleClasses</code> - comma separated list of style classes to apply to the DIVs, in
+ * order of outer, label, required, widget, errors
  * <li><code>footerStyle</code>
  * <li><code>footerStyleClass</code>
  * </ul>
  * <p>
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -152,7 +152,6 @@ public class HtmlDivLayoutRenderer
 	public void encodeChildren( FacesContext context, UIComponent component )
 		throws IOException
 	{
-		@SuppressWarnings( "unchecked" )
 		List<UIComponent> children = component.getChildren();
 
 		// For each child component...

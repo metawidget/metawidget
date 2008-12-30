@@ -49,7 +49,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * <p>
  * This class is not just a collection of static methods, because ConfigReaders need to be able to
  * be subclassed.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -167,7 +167,7 @@ public class ConfigReader
 
 		if ( Class.class.isAssignableFrom( toReturn ) )
 		{
-			if ( "".equals( input ))
+			if ( "".equals( input ) )
 				return null;
 
 			try
@@ -416,7 +416,7 @@ public class ConfigReader
 
 				throw new SAXException( "No such method on " + classToInit + "." + methodName );
 			}
-			catch( RuntimeException e )
+			catch ( RuntimeException e )
 			{
 				throw e;
 			}
@@ -507,7 +507,6 @@ public class ConfigReader
 
 				else if ( peeked.getClass().isArray() )
 				{
-					@SuppressWarnings( "unchecked" )
 					Object[] arrayPeeked = (Object[]) mStackConstructing.pop();
 					mStackConstructing.push( ArrayUtils.add( arrayPeeked, popped ) );
 				}
@@ -550,7 +549,6 @@ public class ConfigReader
 						}
 						else if ( peeked.getClass().isArray() )
 						{
-							@SuppressWarnings( "unchecked" )
 							Object[] arrayPeeked = (Object[]) mStackConstructing.pop();
 							mStackConstructing.push( ArrayUtils.add( arrayPeeked, popped ) );
 						}
@@ -561,7 +559,7 @@ public class ConfigReader
 					}
 				}
 			}
-			catch( RuntimeException e )
+			catch ( RuntimeException e )
 			{
 				throw e;
 			}

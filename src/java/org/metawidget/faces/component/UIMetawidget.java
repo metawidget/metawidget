@@ -74,7 +74,7 @@ import org.w3c.dom.Element;
  * </ul>
  * <p>
  * Its default RendererType is <code>table</code>.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -204,10 +204,9 @@ public abstract class UIMetawidget
 	 * Instructs the Metawidget to inspect the value binding from the parent.
 	 * <p>
 	 * If the value binding is of the form <code>#{foo.bar}</code>, sometimes
-	 * <code>foo.getBar()</code> has useful metadata (such as <code>UiLookup</code>).
-	 * Metawidget inspects from parent anyway if <code>#{foo.bar}</code> evaluates to
-	 * <code>null</code>, but on occasion it may be necessary to specify parent inspection
-	 * explicitly.
+	 * <code>foo.getBar()</code> has useful metadata (such as <code>UiLookup</code>). Metawidget
+	 * inspects from parent anyway if <code>#{foo.bar}</code> evaluates to <code>null</code>, but on
+	 * occasion it may be necessary to specify parent inspection explicitly.
 	 * <p>
 	 * The disadvantage of inspecting from parent (and the reason it is not enabled by default) is
 	 * that some Inspectors will not know the parent and so not be able to return anything. For
@@ -464,7 +463,8 @@ public abstract class UIMetawidget
 
 			if ( lastIndexOf != -1 )
 			{
-				// ...traverse from the parent as there may be useful metadata there (such as 'name' and 'type')
+				// ...traverse from the parent as there may be useful metadata there (such as 'name'
+				// and 'type')
 
 				Application application = context.getApplication();
 				ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapValueReference( binding.substring( 0, lastIndexOf ) ) );
@@ -487,7 +487,6 @@ public abstract class UIMetawidget
 
 		// If this InspectorConfig has already been read...
 
-		@SuppressWarnings( "unchecked" )
 		Map<String, Object> application = getFacesContext().getExternalContext().getApplicationMap();
 		@SuppressWarnings( "unchecked" )
 		Map<String, Inspector> inspectors = (Map<String, Inspector>) application.get( APPLICATION_ATTRIBUTE_INSPECTORS );
@@ -526,14 +525,12 @@ public abstract class UIMetawidget
 		// important for polymorphic controls, which may change from
 		// refresh to refresh)
 
-		@SuppressWarnings( "unchecked" )
 		List<UIComponent> children = getChildren();
 
 		for ( Iterator<UIComponent> i = children.iterator(); i.hasNext(); )
 		{
 			UIComponent componentChild = i.next();
 
-			@SuppressWarnings( "unchecked" )
 			Map<String, Object> attributes = componentChild.getAttributes();
 
 			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) )
@@ -663,7 +660,6 @@ public abstract class UIMetawidget
 	protected void endBuild()
 		throws Exception
 	{
-		@SuppressWarnings( "unchecked" )
 		List<UIComponent> children = getChildren();
 
 		// Inspect any remaining components, and sort them to the bottom
@@ -674,7 +670,6 @@ public abstract class UIMetawidget
 		{
 			UIComponent component = children.get( index );
 
-			@SuppressWarnings( "unchecked" )
 			Map<String, Object> miscAttributes = component.getAttributes();
 
 			if ( miscAttributes.get( COMPONENT_ATTRIBUTE_METADATA ) != null || !component.isRendered() )
@@ -777,15 +772,14 @@ public abstract class UIMetawidget
 	}
 
 	/**
-	 * Unlike <code>UIViewRoot.createUniqueId</code>, tries to make the Id human readable, both
-	 * for debugging purposes and for when running unit tests (using, say, WebTest).
+	 * Unlike <code>UIViewRoot.createUniqueId</code>, tries to make the Id human readable, both for
+	 * debugging purposes and for when running unit tests (using, say, WebTest).
 	 */
 
 	protected void setUniqueId( FacesContext context, UIComponent component, String expressionString )
 	{
 		// Create our ideal Id
 
-		@SuppressWarnings( "unchecked" )
 		Map<String, Object> attributes = component.getAttributes();
 		attributes.put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
 
@@ -798,7 +792,6 @@ public abstract class UIMetawidget
 		{
 			mClientIds = CollectionUtils.newHashSet();
 
-			@SuppressWarnings( "unchecked" )
 			Iterator<UIComponent> iteratorFacetsAndChildren = context.getViewRoot().getFacetsAndChildren();
 			gatherClientIds( iteratorFacetsAndChildren );
 		}
@@ -818,7 +811,6 @@ public abstract class UIMetawidget
 
 		if ( component instanceof UIStub )
 		{
-			@SuppressWarnings( "unchecked" )
 			List<UIComponent> children = component.getChildren();
 
 			int childId = 1;
@@ -854,7 +846,6 @@ public abstract class UIMetawidget
 
 		if ( widget instanceof UIStub )
 		{
-			@SuppressWarnings( "unchecked" )
 			List<UIComponent> children = widget.getChildren();
 
 			for ( UIComponent componentChild : children )
@@ -880,7 +871,6 @@ public abstract class UIMetawidget
 
 		if ( widget instanceof UIStub )
 		{
-			@SuppressWarnings( "unchecked" )
 			List<UIComponent> children = widget.getChildren();
 
 			for ( UIComponent componentChild : children )
@@ -902,14 +892,13 @@ public abstract class UIMetawidget
 
 	protected void putMetadata( UIComponent widget, Map<String, String> attributes )
 	{
-		@SuppressWarnings( "unchecked" )
 		Map<String, Object> componentAttributes = widget.getAttributes();
 		componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
 	}
 
 	/**
 	 * Attach converter for renderer.
-	 *
+	 * 
 	 * @param component
 	 *            the component to attach the converter to. Need not be a ValueHolder (eg. might be
 	 *            a UIStub, in which case the converter is attached to its children)
@@ -930,7 +919,6 @@ public abstract class UIMetawidget
 
 		if ( component instanceof UIStub )
 		{
-			@SuppressWarnings( "unchecked" )
 			List<UIComponent> children = component.getChildren();
 
 			for ( UIComponent componentChild : children )
@@ -1221,7 +1209,6 @@ public abstract class UIMetawidget
 	protected void addWidget( UIComponent widget )
 		throws Exception
 	{
-		@SuppressWarnings( "unchecked" )
 		List<UIComponent> children = getChildren();
 
 		// If this component already exists in the list, remove it and re-add it. This
@@ -1294,7 +1281,8 @@ public abstract class UIMetawidget
 		selectItem.setId( context.getViewRoot().createUniqueId() );
 
 		// JSF 1.1 doesn't allow 'null' as the item value, but JSF 1.2 requires
-		// it for proper behaviour (see https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=795)
+		// it for proper behaviour (see
+		// https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=795)
 
 		if ( value == null )
 		{
@@ -1303,7 +1291,7 @@ public abstract class UIMetawidget
 				UISelectItem.class.getMethod( "getValueExpression", String.class );
 				selectItem.setValue( new SelectItem( null, "" ) );
 			}
-			catch( NoSuchMethodException e )
+			catch ( NoSuchMethodException e )
 			{
 				selectItem.setItemValue( "" );
 			}
@@ -1323,7 +1311,6 @@ public abstract class UIMetawidget
 				selectItem.setItemLabel( label );
 		}
 
-		@SuppressWarnings( "unchecked" )
 		List<UIComponent> children = component.getChildren();
 		children.add( selectItem );
 	}
@@ -1337,7 +1324,6 @@ public abstract class UIMetawidget
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
-		@SuppressWarnings( "unchecked" )
 		List<UIComponent> children = component.getChildren();
 
 		// Add an empty choice (if nullable, and not required)
@@ -1481,7 +1467,6 @@ public abstract class UIMetawidget
 	// Private members
 	//
 
-	@SuppressWarnings( "unchecked" )
 	private void gatherClientIds( Iterator<UIComponent> iteratorFacetsAndChildren )
 	{
 		for ( ; iteratorFacetsAndChildren.hasNext(); )

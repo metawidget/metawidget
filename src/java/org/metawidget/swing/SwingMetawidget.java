@@ -75,9 +75,9 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
 /**
  * Metawidget for Swing environments.
  * <p>
- * Automatically creates native Swing <code>JComponents</code>, such as <code>JTextField</code>
- * and <code>JComboBox</code>, to suit the inspected fields.
- *
+ * Automatically creates native Swing <code>JComponents</code>, such as <code>JTextField</code> and
+ * <code>JComboBox</code>, to suit the inspected fields.
+ * 
  * @author Richard Kennard
  */
 
@@ -213,9 +213,9 @@ public class SwingMetawidget
 	 * Sets the path to be inspected.
 	 * <p>
 	 * Note <code>setPath</code> is quite different to <code>java.awt.Component.setName</code>.
-	 * <code>setPath</code> is always in relation to <code>setToInspect</code>, so must include
-	 * the type name and any subsequent sub-names (eg. type/name/name). Conversely,
-	 * <code>setName</code> is a single name relative to our immediate parent.
+	 * <code>setPath</code> is always in relation to <code>setToInspect</code>, so must include the
+	 * type name and any subsequent sub-names (eg. type/name/name). Conversely, <code>setName</code>
+	 * is a single name relative to our immediate parent.
 	 */
 
 	public void setPath( String path )
@@ -259,7 +259,7 @@ public class SwingMetawidget
 	 * Sets the PropertyBinding implementation to use for automatic, two-way Component-to-Object
 	 * data binding. Current implementations include <code>BeansBinding</code> and
 	 * <code>BeanUtilsBinding</code>.
-	 *
+	 * 
 	 * @param propertyBindingClass
 	 *            may be null
 	 */
@@ -441,9 +441,9 @@ public class SwingMetawidget
 	 * Rebinds the values in the UI to the given Object.
 	 * <p>
 	 * <code>rebind</code> can be thought of as a lightweight version of <code>setToInspect</code>.
-	 * Unlike <code>setToInspect</code>, <code>rebind</code> does <em>not</em> reinspect the
-	 * Object or recreate any <code>JComponents</code>. Rather, <code>rebind</code> applies
-	 * only at the binding level, and updates the binding with values from the given Object.
+	 * Unlike <code>setToInspect</code>, <code>rebind</code> does <em>not</em> reinspect the Object
+	 * or recreate any <code>JComponents</code>. Rather, <code>rebind</code> applies only at the
+	 * binding level, and updates the binding with values from the given Object.
 	 * <p>
 	 * This is more performant, and allows the Metawidget to be created 'in advance' and reused many
 	 * times with different Objects, but it is the caller's responsibility that the Object passed to
@@ -451,11 +451,11 @@ public class SwingMetawidget
 	 * <code>setToInspect</code>.
 	 * <p>
 	 * For client's not using a PropertyBinding implementation, there is no need to call
-	 * <code>rebind</code>. They can simply use <code>setValue</code> to update existing values
-	 * in the UI.
+	 * <code>rebind</code>. They can simply use <code>setValue</code> to update existing values in
+	 * the UI.
 	 * <p>
 	 * In many ways, <code>rebind</code> can be thought of as the opposite of <code>save</code>.
-	 *
+	 * 
 	 * @throws MetawidgetException
 	 *             if no binding configured
 	 */
@@ -483,7 +483,7 @@ public class SwingMetawidget
 
 	/**
 	 * Saves the values from the binding back to the Object being inspected.
-	 *
+	 * 
 	 * @throws MetawidgetException
 	 *             if no binding configured
 	 */
@@ -659,8 +659,8 @@ public class SwingMetawidget
 	/**
 	 * Returns the property used to get/set the value of the component.
 	 * <p>
-	 * If the component is not known, returns <code>null</code>. Does not throw an Exception, as
-	 * we want to fail gracefully if, say, someone tries to bind to a JPanel.
+	 * If the component is not known, returns <code>null</code>. Does not throw an Exception, as we
+	 * want to fail gracefully if, say, someone tries to bind to a JPanel.
 	 * <p>
 	 * Subclasses who introduce new component types (eg. JXDatePicker) should override this method
 	 * to return the value property for the new component (eg. getDate/setDate).
@@ -973,7 +973,6 @@ public class SwingMetawidget
 			mActionBinding = mActionBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
 	}
 
-	@SuppressWarnings( "serial" )
 	protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
@@ -1494,9 +1493,9 @@ public class SwingMetawidget
 	/**
 	 * Sets the JSpinner model.
 	 * <p>
-	 * By default, a JSpinner calls <code>setColumns</code> upon <code>setModel</code>. For
-	 * numbers like <code>Integer.MAX_VALUE</code> and <code>Double.MAX_VALUE</code>, this can
-	 * be very large and mess up the layout. Here, we reset <code>setColumns</code> to 0.
+	 * By default, a JSpinner calls <code>setColumns</code> upon <code>setModel</code>. For numbers
+	 * like <code>Integer.MAX_VALUE</code> and <code>Double.MAX_VALUE</code>, this can be very large
+	 * and mess up the layout. Here, we reset <code>setColumns</code> to 0.
 	 * <p>
 	 * Note it is very important we set the initial value of the <code>JSpinner</code> to the same
 	 * type as the property it maps to (eg. float or double, int or long).

@@ -31,17 +31,23 @@ import org.metawidget.util.CollectionUtils;
  * Base Stub for JSP environments.
  * <p>
  * A Stub takes a <code>path</code> but does nothing with it. Stubs are used to 'stub out' what
- * Metawidget would normally create - either to suppress widget creation entirely or to create
- * child widgets with a different path.
+ * Metawidget would normally create - either to suppress widget creation entirely or to create child
+ * widgets with a different path.
  * <p>
  * StubTags differ from FacetTags in that they define a path and override widget creation.
- *
+ * 
  * @author Richard Kennard
  */
 
 public abstract class StubTag
 	extends BodyTagSupport
 {
+	//
+	// Private statics
+	//
+
+	private final static long	serialVersionUID	= 1l;
+
 	//
 	// Protected members
 	//
@@ -152,7 +158,8 @@ public abstract class StubTag
 		{
 			if ( mAttributes == null )
 			{
-				// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
+				// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4
+				// compatible)
 
 				@SuppressWarnings( "unchecked" )
 				Map<String, String> empty = Collections.EMPTY_MAP;

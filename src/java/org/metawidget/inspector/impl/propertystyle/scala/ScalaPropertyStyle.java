@@ -19,7 +19,6 @@ package org.metawidget.inspector.impl.propertystyle.scala;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 
@@ -31,7 +30,7 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
  * Scala-style getters and setters. Unfortunately, it only copies any annotations defined on the
  * property to the Scala getters and setters, not the JavaBean ones. This <code>PropertyStyle</code>
  * is designed to access those annotations.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -39,11 +38,18 @@ public class ScalaPropertyStyle
 	extends JavaBeanPropertyStyle
 {
 	//
+	// Private statics
+	//
+
+	private final static String	SCALA_SET_SUFFIX	= "_$eq";
+
+	//
 	// Protected methods
 	//
 
 	/**
-	 * Overriden because Scala does not use public fields.
+	 * Overriden because Scala always wraps properties with getter and setter methods. It never uses
+	 * public fields directly.
 	 */
 
 	@Override
@@ -53,36 +59,36 @@ public class ScalaPropertyStyle
 	}
 
 	/**
-	 * Overriden because Scala uses <code>foo()</code> instead of <code>getFoo()</code>.
+	 * Overriden because Scala uses <code>x()</code> instead of <code>getX()</code>.
 	 */
 
 	@Override
-	protected Method lookupAlternateGetter( String name, Class<?> clazz, Method getter )
+	protected String matchGetterNamingConvention( Method method )
 	{
 		try
 		{
-			return clazz.getMethod( name );
+			String name = method.getName();
+			method.getDeclaringClass().getDeclaredField( name );
+			return name;
 		}
-		catch ( Exception e )
+		catch ( NoSuchFieldException e )
 		{
-			throw InspectorException.newException( e );
+			return null;
 		}
 	}
 
 	/**
-	 * Overriden because Scala uses <code>foo_$eq()</code> instead of <code>setFoo()</code>.
+	 * Overriden because Scala uses <code>foo_$eq( x )</code> instead of <code>setFoo( x )</code>.
 	 */
 
 	@Override
-	protected Method lookupAlternateSetter( String name, Class<?> clazz, Method setter )
+	protected String matchSetterNamingConvention( Method method )
 	{
-		try
-		{
-			return clazz.getMethod( name + "_$eq", setter.getParameterTypes()[0] );
-		}
-		catch ( Exception e )
-		{
-			throw InspectorException.newException( e );
-		}
+		String methodName = method.getName();
+
+		if ( !methodName.endsWith( SCALA_SET_SUFFIX ) )
+			return null;
+
+		return methodName.substring( 0, methodName.length() - SCALA_SET_SUFFIX.length() );
 	}
 }

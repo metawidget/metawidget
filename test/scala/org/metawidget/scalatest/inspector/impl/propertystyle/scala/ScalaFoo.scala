@@ -14,8 +14,6 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.scalatest.inspector.impl.propertystyle.scala;
-
 import java.util._;
 import javax.swing._;
 
@@ -26,20 +24,15 @@ import org.hibernate.validator._;
  * @author Richard Kennard
  */
 
-class ScalaFoo( @Column{ val nullable = false } var foo:String, var bar:List[Boolean], var baz:Boolean, protected var mInaccessibleProperty:Boolean )
-	extends JDialog
+package org.metawidget.scalatest.inspector.impl.propertystyle.scala
 {
-	@NotNull
-	def getMethodFoo():String =	{ return null }
-
-	@Length{ val min = 5 }
-	def setMethodBar(methodBar:String) = {}
+	class ScalaFoo( @Column{ val nullable = false } var foo:String, @NotNull var bar:List[Date], val baz:Boolean, private var mInaccessibleProperty:Boolean )
+		extends JDialog
+	{
+		def getIgnoredProperty():String = { return null }
 	
-	def getMethodBaz():List[String] = {	return null	}
-	
-	def setMethodAbc(methodAbc:List[Boolean]) =	{}
-	
-	protected def getInaccessibleProperty():Boolean = {	return mInaccessibleProperty }
-	
-	protected def setInaccessibleProperty(inaccessibleProperty:Boolean) = {	mInaccessibleProperty = inaccessibleProperty }
+		protected def getInaccessibleProperty():Boolean = {	return mInaccessibleProperty }
+		
+		protected def setInaccessibleProperty(inaccessibleProperty:Boolean) = {	mInaccessibleProperty = inaccessibleProperty }
+	}
 }

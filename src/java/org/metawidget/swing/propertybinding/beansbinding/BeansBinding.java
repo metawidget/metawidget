@@ -46,12 +46,12 @@ import org.metawidget.util.simple.StringUtils;
  * <ul>
  * <li><code>UpdateStrategy.class</code> - as defined by
  * <code>org.jdesktop.beansbinding.AutoBinding.UpdateStrategy</code>. Defaults to
- * <code>READ_ONCE</code>. If set to <code>READ</code> or <code>READ_WRITE</code>, the
- * object being inspected must provide <code>PropertyChangeSupport</code>. If set to
- * <code>READ</code>, there is no need to call <code>SwingMetawidget.rebind</code>. If set to
- * <code>READ_WRITE</code>, there is no need to call <code>SwingMetawidget.save</code>.
+ * <code>READ_ONCE</code>. If set to <code>READ</code> or <code>READ_WRITE</code>, the object being
+ * inspected must provide <code>PropertyChangeSupport</code>. If set to <code>READ</code>, there is
+ * no need to call <code>SwingMetawidget.rebind</code>. If set to <code>READ_WRITE</code>, there is
+ * no need to call <code>SwingMetawidget.save</code>.
  * </ul>
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -87,7 +87,7 @@ public class BeansBinding
 
 	public static <S, T> void unregisterConverter( Class<S> source, Class<T> target )
 	{
-		CONVERTERS.remove( new ConvertFromTo<S, T>( source, target ));
+		CONVERTERS.remove( new ConvertFromTo<S, T>( source, target ) );
 	}
 
 	//
@@ -155,7 +155,6 @@ public class BeansBinding
 		for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : mBindings )
 		{
 			Object sourceObject = binding.getSourceObject();
-			@SuppressWarnings( "unchecked" )
 			BeanProperty<Object, Object> sourceProperty = (BeanProperty<Object, Object>) binding.getSourceProperty();
 
 			if ( !sourceProperty.isWriteable( sourceObject ) )
@@ -295,13 +294,12 @@ public class BeansBinding
 	 * <p>
 	 * Includes traversing superclasses of the given Class for a suitable Converter, so for example
 	 * registering a Converter for <code>Number.class</code> will match <code>Integer.class</code>,
-	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also
-	 * registered.
+	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also registered.
 	 * <p>
 	 * Also includes traversing from primitive types to wrapper types (eg. from
 	 * <code>int.class</code> to <code>Integer.class</code>), because we cannot declare a
-	 * <code>org.jdesktop.beansbinding.Converter</code> for <code>int</code>s (because Java
-	 * generics cannot accept primitives).
+	 * <code>org.jdesktop.beansbinding.Converter</code> for <code>int</code>s (because Java generics
+	 * cannot accept primitives).
 	 */
 
 	@SuppressWarnings( "unchecked" )

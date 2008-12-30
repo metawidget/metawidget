@@ -24,7 +24,6 @@ import javax.persistence.Column;
 
 import junit.framework.TestCase;
 
-import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle;
@@ -56,36 +55,14 @@ public class ScalaPropertyStyleTest
 	public void testScala()
 	{
 		ScalaPropertyStyle propertyStyle = new ScalaPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( ScalaFoo.class );
+		Map<String, Property> properties = propertyStyle.getProperties( org.metawidget.scalatest.inspector.impl.propertystyle.scala.ScalaFoo.class );
 
-		assertTrue( properties.size() == 7 );
+		assertTrue( properties.size() == 3 );
 
 		assertTrue( !properties.get( "foo" ).getAnnotation( Column.class ).nullable() );
-		assertTrue( Date.class.equals( ((ParameterizedType) properties.get( "bar" ).getGenericType()).getActualTypeArguments()[0] ));
-		assertTrue( properties.get( "methodFoo" ).isAnnotationPresent( NotNull.class ));
-		assertTrue( 5 == properties.get( "methodBar" ).getAnnotation( Length.class ).min() );
-		assertTrue( String.class.equals( ((ParameterizedType) properties.get( "methodBaz" ).getGenericType()).getActualTypeArguments()[0] ) );
-		assertTrue( properties.get( "methodBaz" ).isReadable() );
-		assertTrue( !properties.get( "methodBaz" ).isWritable() );
-		assertTrue( Boolean.class.equals( ((ParameterizedType) properties.get( "methodAbc" ).getGenericType()).getActualTypeArguments()[0] ) );
-		assertTrue( !properties.get( "methodAbc" ).isReadable() );
-		assertTrue( properties.get( "methodAbc" ).isWritable() );
-
-		try
-		{
-			properties.get( "foo" ).read( new Object() );
-			assertTrue( false );
-		}
-		catch( Exception e )
-		{
-			// Should fail
-		}
-	}
-
-	public void testIgnoreMetaArrayLengthProperty()
-	{
-		ScalaPropertyStyle propertyStyle = new ScalaPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( byte[].class );
-		assertTrue( properties.isEmpty() );
+		assertTrue( properties.get( "bar" ).isAnnotationPresent( NotNull.class ) );
+		assertTrue( Date.class.equals( ( (ParameterizedType) properties.get( "bar" ).getGenericType() ).getActualTypeArguments()[0] ) );
+		assertTrue( properties.get( "baz" ).isReadable() );
+		assertTrue( !properties.get( "baz" ).isWritable() );
 	}
 }

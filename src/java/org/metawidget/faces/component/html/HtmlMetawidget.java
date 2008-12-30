@@ -47,7 +47,7 @@ import org.metawidget.util.CollectionUtils;
  * <p>
  * Automatically creates native JSF HTML UIComponents, such as <code>HtmlInputText</code> and
  * <code>HtmlSelectOneListbox</code>, to suit the inspected fields.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -114,9 +114,7 @@ public class HtmlMetawidget
 		if ( component instanceof UIStub )
 			componentToStyle = component.getChildren().get( 0 );
 
-		@SuppressWarnings( "unchecked" )
 		Map<String, Object> componentAttributes = componentToStyle.getAttributes();
-		@SuppressWarnings( "unchecked" )
 		Map<String, Object> thisAttributes = getAttributes();
 		String style = (String) thisAttributes.get( "style" );
 
@@ -134,7 +132,7 @@ public class HtmlMetawidget
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
 	 * preparing metadata for the renderer.
-	 *
+	 * 
 	 * @return the widget to use in read-only scenarios
 	 */
 
@@ -159,7 +157,6 @@ public class HtmlMetawidget
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
 		{
 			UIComponent component = application.createComponent( "org.metawidget.Stub" );
-			@SuppressWarnings( "unchecked" )
 			List<UIComponent> listChildren = component.getChildren();
 			listChildren.add( application.createComponent( "org.metawidget.Stub" ) );
 
@@ -245,7 +242,7 @@ public class HtmlMetawidget
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
 	 * preparing metadata for the renderer.
-	 *
+	 * 
 	 * @return the widget to use in non-read-only scenarios
 	 */
 
@@ -413,7 +410,7 @@ public class HtmlMetawidget
 				else if ( Boolean.class.isAssignableFrom( clazz ) )
 				{
 					component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
-					((HtmlSelectOneListbox) component).setSize( 1 );
+					( (HtmlSelectOneListbox) component ).setSize( 1 );
 				}
 				else if ( String.class.equals( clazz ) )
 				{
@@ -429,8 +426,8 @@ public class HtmlMetawidget
 						// most people override them with CSS widths and heights. The default is
 						// generally 20 columns by 2 rows
 
-						((HtmlInputTextarea) component).setCols( 20 );
-						((HtmlInputTextarea) component).setRows( 2 );
+						( (HtmlInputTextarea) component ).setCols( 20 );
+						( (HtmlInputTextarea) component ).setRows( 2 );
 					}
 					else
 					{
@@ -449,7 +446,7 @@ public class HtmlMetawidget
 			{
 				if ( component instanceof HtmlSelectOneListbox )
 				{
-					((HtmlSelectOneListbox) component).setSize( 1 );
+					( (HtmlSelectOneListbox) component ).setSize( 1 );
 					addSelectItem( component, null, null );
 				}
 
@@ -531,7 +528,6 @@ public class HtmlMetawidget
 
 		UIComponent componentStub = application.createComponent( "org.metawidget.Stub" );
 
-		@SuppressWarnings( "unchecked" )
 		List<UIComponent> children = componentStub.getChildren();
 
 		children.add( application.createComponent( "javax.faces.HtmlInputHidden" ) );

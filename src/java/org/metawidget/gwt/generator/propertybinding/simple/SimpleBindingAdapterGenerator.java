@@ -39,8 +39,8 @@ import com.google.gwt.user.rebind.SourceWriter;
  * <p>
  * <code>SimpleBinding</code> requires clients to supply an explicit
  * <code>SimpleBindingAdapter</code> interface through which to execute binding calls. In most
- * cases, clients can use <code>SimpleBindingAdapterGenerator</code> to automatically generate
- * this as a secondary class. First, they modify their <code>.gwt.xml</code> file to include...
+ * cases, clients can use <code>SimpleBindingAdapterGenerator</code> to automatically generate this
+ * as a secondary class. First, they modify their <code>.gwt.xml</code> file to include...
  * <p>
  * <code>
  * &lt;generate-with class="org.metawidget.gwt.generator.propertybinding.simple.BindingAdapterGenerator"&gt;
@@ -56,21 +56,22 @@ import com.google.gwt.user.rebind.SourceWriter;
  * metawidget.setPropertyBinding( bindingAdapter );
  * </code>
  * <p>
- * This generator <em>statically</em> generates code for all levels of all possible properties
- * (eg. <code>contact.address.street</code>), including subtypes of properties. Because this
- * could quickly become very large, we impose the following restriction:
+ * This generator <em>statically</em> generates code for all levels of all possible properties (eg.
+ * <code>contact.address.street</code>), including subtypes of properties. Because this could
+ * quickly become very large, we impose the following restriction:
  * <ul>
- * <li>only properties whose return type is in the same package, or a subpackage, of the parent
- * type are traversed into</li>
+ * <li>only properties whose return type is in the same package, or a subpackage, of the parent type
+ * are traversed into</li>
  * </ul>
  * Clients needing to avoid such restrictions must write their own class that implements
  * <code>SimpleBindingAdapter</code> or, more drastically, their own binding implementation that
  * implements <code>PropertyBinding</code>.
- *
+ * 
  * @author Richard Kennard
  */
 
-// Note: there is no equivalent PropertyBindingFactoryGenerator like there is a LayoutFactoryGenerator,
+// Note: there is no equivalent PropertyBindingFactoryGenerator like there is a
+// LayoutFactoryGenerator,
 // because whereas all Layouts extend a well defined base class and therefore discovering them a
 // well-constrained process, bindings are associated with domain objects so we need the user to
 // specify the base class in their own application.gwt.xml
@@ -100,8 +101,8 @@ public class SimpleBindingAdapterGenerator
 	 * Maximum depth of recursion to avoid infinite recursion.
 	 * <p>
 	 * It is not possible to detect infinite recursion (caused by cyclic references) in advance
-	 * because SimpleBindingAdapterGenerator operates at compile-time, where the values of
-	 * objects are not known.
+	 * because SimpleBindingAdapterGenerator operates at compile-time, where the values of objects
+	 * are not known.
 	 */
 
 	private final static int	MAXIMUM_DEPTH			= 10;
@@ -280,6 +281,8 @@ public class SimpleBindingAdapterGenerator
 
 			if ( returnType == null )
 				continue;
+
+			// ...that follows the JavaBean convention...
 
 			String methodName = method.getName();
 			String propertyName;
