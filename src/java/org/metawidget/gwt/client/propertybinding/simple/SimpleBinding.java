@@ -17,7 +17,6 @@
 package org.metawidget.gwt.client.propertybinding.simple;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -35,7 +34,7 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Simple, Generator-based two-way binding implementation.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -92,8 +91,7 @@ public class SimpleBinding
 	 * <p>
 	 * Converters also apply to subclasses of the given Class. So for example registering a
 	 * Converter for <code>Number.class</code> will match <code>Integer.class</code>,
-	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also
-	 * registered.
+	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also registered.
 	 */
 
 	public static <T> void registerConverter( Class<T> forClass, Converter<T> converter )
@@ -155,7 +153,8 @@ public class SimpleBinding
 		// 3) you have to guess the class name (and type when calling the setter), because
 		// GWT names its JavaScript functions @class.name::function(type)
 		//
-		// So it doesn't seem a great approach. PropertyBinding is pluggable, however, so you could still
+		// So it doesn't seem a great approach. PropertyBinding is pluggable, however, so you could
+		// still
 		// try it.
 
 		Object value = adapter.getProperty( toInspect, names );
@@ -289,8 +288,8 @@ public class SimpleBinding
 	 * <p>
 	 * Includes traversing superclasses of the given Class for a suitable Converter, so for example
 	 * registering an Adapter for <code>Contact.class</code> will match
-	 * <code>PersonalContact.class</code>, <code>BusinessContact.class</code> etc., unless a
-	 * more subclass-specific Adapter is also registered.
+	 * <code>PersonalContact.class</code>, <code>BusinessContact.class</code> etc., unless a more
+	 * subclass-specific Adapter is also registered.
 	 */
 
 	private SimpleBindingAdapter<?> getAdapter( Class<?> classToBindTo )
@@ -315,8 +314,7 @@ public class SimpleBinding
 	 * <p>
 	 * Includes traversing superclasses of the given Class for a suitable Converter, so for example
 	 * registering a Converter for <code>Number.class</code> will match <code>Integer.class</code>,
-	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also
-	 * registered.
+	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also registered.
 	 */
 
 	private Converter<?> getConverter( Class<?> classToConvert )

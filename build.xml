@@ -35,6 +35,7 @@
 		<mkdir dir="${build.metawidget.dir}/java4-classes"/>
 		<mkdir dir="${build.metawidget.dir}/classes"/>
 		<mkdir dir="${build.metawidget.dir}/example-classes"/>
+		<mkdir dir="${build.metawidget.dir}/scala-example-classes"/>
 		<mkdir dir="${build.metawidget.dir}/test-classes"/>
 		<mkdir dir="${build.metawidget.dir}/groovy-test-classes"/>
 		<mkdir dir="${build.metawidget.dir}/scala-test-classes"/>
@@ -162,6 +163,14 @@
 				</fileset>
 			</classpath>
 		</taskdef>
+
+		<scalac srcdir="examples/scala" destdir="${build.metawidget.dir}/scala-example-classes">
+			<include name="**/*.scala"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement path="${build.metawidget.dir}/classes"/>
+			</classpath>
+		</scalac>
 
 		<scalac srcdir="test/scala" destdir="${build.metawidget.dir}/scala-test-classes">
 			<include name="**/*.scala"/>
@@ -1851,7 +1860,32 @@
 		
 	</target>
 
-	<target name="examples-desktop" depends="example-swing-addressbook, example-swing-addressbook-applet, example-swing-appframework"/>
+	<target name="example-swing-bookstore" depends="pack">
+		
+		<mkdir dir="${build.metawidget.dir}/examples/swing"/>
+
+		<jar jarfile="${build.metawidget.dir}/examples/swing/bookstore-swing.jar" manifest="examples/scala/org/metawidget/example/swing/bookstore/META-INF/MANIFEST.MF">
+			<fileset dir="${build.metawidget.dir}/scala-example-classes">
+				<include name="org/metawidget/example/swing/bookstore/**"/>
+			</fileset>
+			<fileset dir="examples/scala">
+				<include name="org/metawidget/example/swing/bookstore/*.xml"/>
+			</fileset>
+		</jar>		
+
+		<copy todir="${build.metawidget.dir}/examples/swing">
+			<fileset dir="examples/java/org/metawidget/example/swing">
+				<include name="readme.txt"/>
+			</fileset>
+			<fileset dir="lib">
+				<include name="beansbinding*.jar"/>
+				<include name="scala-library.jar"/>
+			</fileset>
+		</copy>
+		
+	</target>
+
+	<target name="examples-desktop" depends="example-swing-addressbook, example-swing-addressbook-applet, example-swing-appframework, example-swing-bookstore"/>
 		
 	<target name="example-shared-addressbook" depends="flatten-libs">
 		

@@ -41,7 +41,7 @@ import java.util.Map;
  * Note: this class is located in <code>org.metawidget.mixin.base</code>, as opposed to just
  * <code>org.metawidget.mixin</code>, to make it easier to integrate GWT (which is bad at ignoring
  * sub-packages such as <code>org.metawidget.mixin.w3c</code>).
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -93,11 +93,11 @@ public abstract class BaseMetawidgetMixin<W, E>
 	 * Metawidget renders most non-primitve types by using nested Metawidgets. This value limits the
 	 * number of nestings.
 	 * <p>
-	 * This can be useful in detecing cyclic references. Although <code>BaseObjectInspector</code>-derived
-	 * Inspectors are capable of detecting cyclic references, other Inspectors may not be. For
-	 * example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
+	 * This can be useful in detecing cyclic references. Although <code>BaseObjectInspector</code>
+	 * -derived Inspectors are capable of detecting cyclic references, other Inspectors may not be.
+	 * For example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
 	 * types, not actual objects.
-	 *
+	 * 
 	 * @param maximumDepth
 	 *            0 for top-level only, 1 for 1 level deep etc.
 	 */
@@ -110,8 +110,8 @@ public abstract class BaseMetawidgetMixin<W, E>
 	/**
 	 * Build widgets from the given XML inspection result.
 	 * <p>
-	 * Note: the <code>BaseMetawidgetMixin</code> expects the XML to be passed in internally,
-	 * rather than fetching it itself, because some XML inspections may be asynchronous.
+	 * Note: the <code>BaseMetawidgetMixin</code> expects the XML to be passed in internally, rather
+	 * than fetching it itself, because some XML inspections may be asynchronous.
 	 */
 
 	public void buildWidgets( String xml )
@@ -229,12 +229,27 @@ public abstract class BaseMetawidgetMixin<W, E>
 	protected W buildWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		// Note: we tried further refining this to buildReadOnlyFieldWidget, buildReadOnlyActionWidget,
-		// buildActiveFieldWidget, buildActiveActionWidget, but it wasn't really better because
-		// we still had to pass 'elementName' to other methods (such as UIMetawidget.getOverridenWidget)
-		// and so it seemed simplier and more symmetrical to also pass it here
+		// Note: we tried further refining this to buildReadOnlyFieldWidget,
+		// buildReadOnlyActionWidget, buildActiveFieldWidget, buildActiveActionWidget, but it wasn't
+		// really better because we still had to pass 'elementName' to other methods (such as
+		// UIMetawidget.getOverridenWidget) and so it seemed simplier and more symmetrical to also
+		// pass it here
 
 		if ( isReadOnly( attributes ) )
+			return buildReadOnlyWidget( elementName, attributes );
+
+		// If the attribute has NO_SETTER, we consider it read-only.
+		//
+		// Note: this relies on complex attributes being rendered by nested Metawidgets, and the
+		// nested Metawidgets will NOT have setReadOnly set on them. This gets us the desired
+		// result: primitive types without a setter are rendered as read-only, complex types without
+		// a setter are rendered as writeable (because their nested primitives are writeable).
+		//
+		// Furthermore, what is considered 'primitive' is up to the platform. Some
+		// platforms may consider, say, an Address as 'primitive', using a dedicated Address
+		// widget. Other platforms may consider an Address as complex, using a nested Metawidget.
+
+		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
 			return buildReadOnlyWidget( elementName, attributes );
 
 		return buildActiveWidget( elementName, attributes );

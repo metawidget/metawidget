@@ -90,6 +90,16 @@ public final class InspectionResultConstants
 	public final static String	READ_ONLY					= "read-only";
 
 	/**
+	 * Whether the property has no setter method.
+	 * <p>
+	 * Properties without setters are <em>not</em> automatically considered <code>READ_ONLY</code>.
+	 * If the property is a complex type (eg. Address), it may be settable by setting each of its
+	 * nested primitives (eg. Street, City, etc).
+	 */
+
+	public final static String	NO_SETTER					= "no-setter";
+
+	/**
 	 * Write-only field attribute.
 	 */
 

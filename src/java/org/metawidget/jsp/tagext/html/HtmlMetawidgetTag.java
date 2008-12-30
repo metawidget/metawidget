@@ -18,7 +18,6 @@ package org.metawidget.jsp.tagext.html;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
-import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
 import java.beans.PropertyEditor;
 import java.beans.PropertyEditorManager;
@@ -43,7 +42,7 @@ import org.w3c.dom.Element;
  * <code>&lt;select&gt;</code>, to suit the inspected fields.
  * <p>
  * When used in a JSP 2.0 environment, automatically initializes tags using JSP EL.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -339,7 +338,7 @@ public class HtmlMetawidgetTag
 
 		if ( lookupLabels != null )
 		{
-			List<String> lookupList = CollectionUtils.fromString( attributes.get( LOOKUP ));
+			List<String> lookupList = CollectionUtils.fromString( attributes.get( LOOKUP ) );
 			int indexOf = lookupList.indexOf( value );
 
 			if ( indexOf != -1 )

@@ -38,7 +38,7 @@ import org.w3c.dom.Element;
  * <code>JavaBeanPropertyStyle</code> (the default) this is 'alphabetical by name'. Most clients
  * will want to refine this by using, say, <code>UiComesAfter</code> and
  * MetawidgetAnnotationInspector.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -107,7 +107,10 @@ public class PropertyTypeInspector
 		if ( !property.isWritable() )
 		{
 			attributes.put( NO_SETTER, TRUE );
-			attributes.put( READ_ONLY, TRUE );
+
+			// Note: we do not also attributes.put( READ_ONLY, TRUE ) here. If an attribute
+			// has no setter, but IS a complex type, then it should not be considered READ_ONLY
+			// as it may be settable by its nested primitives
 		}
 
 		if ( !property.isReadable() )
@@ -119,8 +122,8 @@ public class PropertyTypeInspector
 	/**
 	 * Overriden to return <code>false<code>.
 	 * <p>
-	 * <code>PropertyTypeInspector</code> always returns an XML document, even if
-	 * just to convey the <code>type</code> attribute of the top-level <code>entity</code> element.
+	 * <code>PropertyTypeInspector</code> always returns an XML document, even if just to convey the
+	 * <code>type</code> attribute of the top-level <code>entity</code> element.
 	 */
 
 	@Override

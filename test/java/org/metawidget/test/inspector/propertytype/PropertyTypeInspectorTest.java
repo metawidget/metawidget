@@ -205,8 +205,7 @@ public class PropertyTypeInspectorTest
 		assertTrue( "contact".equals( property.getAttribute( NAME ) ) );
 		assertTrue( PersonalContact.class.getName().equals( property.getAttribute( TYPE ) ) );
 		assertTrue( TRUE.equals( property.getAttribute( NO_SETTER ) ) );
-		assertTrue( TRUE.equals( property.getAttribute( READ_ONLY ) ) );
-		assertTrue( 4 == property.getAttributes().getLength() );
+		assertTrue( 3 == property.getAttributes().getLength() );
 
 		// Check there are no more properties (eg. public static int notVisible)
 

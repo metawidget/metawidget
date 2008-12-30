@@ -19,7 +19,7 @@ package org.metawidget.inspector.propertytype;
 /**
  * PropertyType-specific element and attribute names appearing in DOMs conforming to
  * inspection-result-1.0.xsd.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -28,16 +28,6 @@ public final class PropertyTypeInspectionResultConstants
 	//
 	// Public statics
 	//
-
-	/**
-	 * Whether the property has no setter method.
-	 * <p>
-	 * All properties without setters are also <code>READ_ONLY</code>, but not all
-	 * <code>READ_ONLY</code> properties have <code>NO_SETTER</code>. For example, a property
-	 * may be read only in the UI but be settable by the backend.
-	 */
-
-	public final static String	NO_SETTER		= "no-setter";
 
 	public final static String	NO_GETTER		= "no-getter";
 

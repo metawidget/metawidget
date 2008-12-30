@@ -17,7 +17,6 @@
 package org.metawidget.jsp.tagext.spring;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
 
 import java.io.IOException;
@@ -59,7 +58,7 @@ import org.w3c.dom.Element;
  * <p>
  * Automatically creates native Spring form tags, such as <code>&lt;form:input&gt;</code> and
  * <code>&lt;form:select&gt;</code>, to suit the inspected fields.
- *
+ * 
  * @author Richard Kennard
  */
 
@@ -155,7 +154,7 @@ public class SpringMetawidgetTag
 
 		// Action
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return null;
 
 		// Masked (return an empty String, so that we DO still render a label)
@@ -167,12 +166,12 @@ public class SpringMetawidgetTag
 
 		String lookup = attributes.get( LOOKUP );
 
-		if ( lookup != null && !"".equals( lookup ))
+		if ( lookup != null && !"".equals( lookup ) )
 			return writeReadOnlyTag( attributes );
 
 		String springLookup = attributes.get( SPRING_LOOKUP );
 
-		if ( springLookup != null && !"".equals( springLookup ))
+		if ( springLookup != null && !"".equals( springLookup ) )
 			return writeReadOnlyTag( attributes );
 
 		String type = attributes.get( TYPE );
@@ -241,7 +240,7 @@ public class SpringMetawidgetTag
 
 		// Action
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return null;
 
 		// Lookups
@@ -414,7 +413,7 @@ public class SpringMetawidgetTag
 
 		if ( lookupLabels != null )
 		{
-			List<String> lookupList = CollectionUtils.fromString( attributes.get( LOOKUP ));
+			List<String> lookupList = CollectionUtils.fromString( attributes.get( LOOKUP ) );
 			int indexOf = lookupList.indexOf( value );
 
 			if ( indexOf != -1 )
@@ -431,7 +430,7 @@ public class SpringMetawidgetTag
 		// May need a hidden input tag too
 
 		if ( mCreateHiddenFields && !TRUE.equals( attributes.get( NO_SETTER ) ) )
-			buffer.append( writeSpringTag( HiddenInputTag.class, attributes ));
+			buffer.append( writeSpringTag( HiddenInputTag.class, attributes ) );
 
 		return buffer.toString();
 	}
@@ -455,7 +454,7 @@ public class SpringMetawidgetTag
 
 				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
+				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );
@@ -508,7 +507,7 @@ public class SpringMetawidgetTag
 
 				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
+				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );

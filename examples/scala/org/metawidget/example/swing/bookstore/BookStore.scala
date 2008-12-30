@@ -15,17 +15,26 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import javax.swing._
-import javax.persistence._
 
 import org.metawidget.swing._
+import org.metawidget.swing.propertybinding.beansbinding._
 import org.metawidget.inspector.annotation._
 
 package org.metawidget.example.swing.bookstore
 {
-	class Book( @Id var id:Int, var title:String, @UiComesAfter( Array( "title" ) ) var ISBN:String )
+	class Author
 	{
-	  	@UiComesAfter( Array( "ISBN" ) )
-		var year:Int = 2008;
+		var firstname = "";
+		var surname = "";
+	}
+	
+	class Book( var title:String, @UiComesAfter( Array( "title" )) var ISBN:String )
+	{
+	  	@UiComesAfter( Array( "ISBN" ))
+		var year = 2008;
+		
+		@UiComesAfter( Array( "year" ))
+		val author = new Author();
 	}
 	
 	object BookStore extends JFrame( "Book Store" ) 
@@ -36,7 +45,7 @@ package org.metawidget.example.swing.bookstore
 	        
 	        val metawidget = new SwingMetawidget()
          	metawidget.setInspectorConfig( "org/metawidget/example/swing/bookstore/inspector-config.xml" )
-	        metawidget.setToInspect( new Book( 123, "Foo", "Bar" ) )
+	        metawidget.setToInspect( new Book( "The Reflective Practitioner", "1-85742-319-4" ) )
 	        
 	        add( metawidget )
 	        pack();

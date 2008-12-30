@@ -57,9 +57,4 @@ public class GwtQuirks
 	{
 		return mNestedQuirks;
 	}
-
-	public void setNestedQuirks( GwtNestedQuirks nestedQuirks )
-	{
-		mNestedQuirks = nestedQuirks;
-	}
 }

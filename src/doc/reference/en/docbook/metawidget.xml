@@ -862,7 +862,7 @@ public class Main {
 				
 				<para>
 					The application is pre-built for you in <filename>examples\swing\addressbook-swing.jar</filename> or, if you've downloaded
-					the source code, you can build it yourself by typing:
+					the source code distribution, you can build it yourself by typing:
 				</para>
 				
 				<programlisting language="shell">ant example-swing-addressbook</programlisting>
@@ -900,6 +900,14 @@ public class Main {
 					are created by <classname>SwingMetawidget</classname> based on annotated methods in the <classname>ContactDialog</classname> class.
 				</para>
 				
+				<tip>
+					<title>Tip</title>
+					To view the source code for the examples, such as the code for the <classname>ContactSearch</classname>,
+					<classname>ContactType</classname> and <classname>ContactDialog</classname> classes, download the Metawidget
+					source code distribution or browse it online at
+					<uri>http://metawidget.svn.sourceforge.net/viewvc/metawidget/trunk/examples/java/org/metawidget/example</uri>. 
+				</tip>				
+
 				<para>
 					Click <guibutton>Add Personal Contact</guibutton>. The screen displays a form for filling out Personal Contact information
 					as in <xref linkend="section-introduction-part2-desktop-add-screenshot"/>.
@@ -1039,7 +1047,7 @@ public class Main {
 					Take a fresh install of Tomcat. The Address Book WAR is pre-built for you in
 					either <filename>examples\faces\addressbook-faces.war</filename>, <filename>examples\gwt\addressbook-gwt.war</filename>,
 					<filename>examples\jsp\addressbook-jsp.war</filename>, <filename>examples\spring\addressbook-spring.war</filename> or
-					<filename>examples\struts\addressbook-struts.war</filename>. If you've downloaded the source code, you can build it
+					<filename>examples\struts\addressbook-struts.war</filename>. If you've downloaded the source code distribution, you can build it
 					yourself by typing:
 				</para>
 				
@@ -1331,7 +1339,7 @@ public class Main {
 				
 				<para>
 					The emulator may take a little while to start. Once finished, it will display the phone's desktop. The Address Book APK
-					is pre-built for you in <filename>examples\android\addressbook-android.apk</filename>. If you've downloaded the source code, you
+					is pre-built for you in <filename>examples\android\addressbook-android.apk</filename>. If you've downloaded the source code distribution, you
 					can build it yourself by typing:
 				</para>
 				
@@ -1472,7 +1480,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 	
 				<para>
 					The Swing Applet Address Book Example demonstrates using Metawidget in applets. The example is pre-built for you in
-					<filename>examples\swing\applet\addressbook</filename>. If you've downloaded the source code, you can build it
+					<filename>examples\swing\applet\addressbook</filename>. If you've downloaded the source code distribution, you can build it
 					yourself by typing:
 				</para>
 				
@@ -1770,7 +1778,7 @@ bin\run</programlisting>
 	
 				<para>
 					The application is pre-built for you in <filename>examples\swing\appframework-swing.jar</filename> or, if you've downloaded
-					the source code, you can build it yourself by typing:
+					the source code distribution, you can build it yourself by typing:
 				</para>
 				
 				<programlisting language="shell">ant example-swing-appframework</programlisting>
