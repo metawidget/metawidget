@@ -66,7 +66,7 @@ import com.google.gwt.user.rebind.SourceWriter;
  * Clients needing to avoid such restrictions must write their own class that implements
  * <code>SimpleBindingAdapter</code> or, more drastically, their own binding implementation that
  * implements <code>PropertyBinding</code>.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -158,7 +158,9 @@ public class SimpleBindingAdapterGenerator
 			sourceWriter.println();
 			sourceWriter.println( "// Public methods" );
 
+			//
 			// getProperty method
+			//
 
 			sourceWriter.println();
 			sourceWriter.println( "public Object getProperty( " + classType.getQualifiedSourceName() + " " + variableName + ", String... property ) {" );
@@ -178,7 +180,9 @@ public class SimpleBindingAdapterGenerator
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
 
+			//
 			// getPropertyType method
+			//
 
 			sourceWriter.println();
 			sourceWriter.println( "public Class<?> getPropertyType( " + classType.getQualifiedSourceName() + " " + variableName + ", String... property ) {" );
@@ -198,7 +202,9 @@ public class SimpleBindingAdapterGenerator
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );
 
+			//
 			// setProperty method
+			//
 
 			sourceWriter.println();
 			sourceWriter.println( "public void setProperty( " + classType.getQualifiedSourceName() + " " + variableName + ", Object value, String... property ) {" );
@@ -214,6 +220,28 @@ public class SimpleBindingAdapterGenerator
 			// Write subtypes
 
 			writeSubtypes( sourceWriter, classType, variableName, 0, WRITE_SETTER, 0 );
+
+			sourceWriter.outdent();
+			sourceWriter.println( "}" );
+
+			//
+			// invokeAction method
+			//
+
+			sourceWriter.println();
+			sourceWriter.println( "public void invokeAction( " + classType.getQualifiedSourceName() + " " + variableName + ", String... action ) {" );
+			sourceWriter.indent();
+
+			// Sanity check
+
+			sourceWriter.println();
+			sourceWriter.println( "// Sanity check" );
+			sourceWriter.println();
+			sourceWriter.println( "if ( action == null || action.length == 0 ) throw new RuntimeException( \"No action specified\" );" );
+
+			// Write subtypes
+
+			sourceWriter.println( "throw new RuntimeException( \"Implement me!\" );" );
 
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );

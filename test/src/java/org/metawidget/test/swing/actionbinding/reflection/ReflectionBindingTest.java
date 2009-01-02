@@ -93,7 +93,7 @@ public class ReflectionBindingTest
 		// Null object
 
 		JButton button = new JButton();
-		binding.bind( button, null, null );
+		binding.bindAction( button, null, null );
 
 		assertTrue( button.getAction() == null );
 
@@ -103,7 +103,7 @@ public class ReflectionBindingTest
 		foo.setNestedFoo( null );
 
 		metawidget.setToInspect( foo );
-		binding.bind( button, null, "foo/nestedFoo/doAction" );
+		binding.bindAction( button, null, "foo/nestedFoo/doAction" );
 
 		assertTrue( button.getAction() == null );
 	}
@@ -114,7 +114,7 @@ public class ReflectionBindingTest
 
 		try
 		{
-			binding.bind( new JTextField(), null, null );
+			binding.bindAction( new JTextField(), null, null );
 		}
 		catch( MetawidgetException e )
 		{

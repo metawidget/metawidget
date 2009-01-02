@@ -14,34 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.actionbinding;
-
-import java.util.Map;
-
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Interface for automatic binding of actions.
+ * Swing support: automatic validation.
  *
  * @author Richard Kennard
  */
 
-public interface ActionBinding
-{
-	//
-	// Methods
-	//
-
-	/**
-	 * Bind the given Widget to the given 'path of names' within the source Object.
-	 *
-	 * @param widget
-	 *            the widget to bind to
-	 * @param attributes
-	 *            metadata of the property being bound
-	 * @param path
-	 *            path to bind to (can be parsed using PathUtils.parsePath)
-	 */
-
-	void bindAction( Widget widget, Map<String, String> attributes, String path );
-}
+package org.metawidget.swing.validator;

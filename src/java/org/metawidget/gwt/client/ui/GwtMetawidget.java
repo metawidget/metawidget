@@ -628,7 +628,7 @@ public class GwtMetawidget
 			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setPropertyBindingClass" );
 
 		mToInspect = toRebind;
-		mPropertyBinding.rebind();
+		mPropertyBinding.rebindProperties();
 
 		for ( Widget widget : mAddedWidgets.values() )
 		{
@@ -654,7 +654,7 @@ public class GwtMetawidget
 		if ( mPropertyBinding == null )
 			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setPropertyBindingClass" );
 
-		mPropertyBinding.save();
+		mPropertyBinding.saveProperties();
 
 		// Having a save() method avoids having to expose a getBinding() method, which is handy
 		// because we can worry about nested Metawidgets here, not in the PropertyBinding class
@@ -843,7 +843,7 @@ public class GwtMetawidget
 
 			if ( mPropertyBinding != null )
 			{
-				mPropertyBinding.unbind();
+				mPropertyBinding.unbindProperties();
 				mPropertyBinding = null;
 			}
 
@@ -1257,9 +1257,9 @@ public class GwtMetawidget
 		if ( ACTION.equals( elementName ) && mActionBinding != null )
 		{
 			if ( mMetawidgetMixin.isCompoundWidget() )
-				mActionBinding.bind( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
+				mActionBinding.bindAction( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
 			else
-				mActionBinding.bind( widget, attributes, mPath );
+				mActionBinding.bindAction( widget, attributes, mPath );
 		}
 
 		// Bind properties
@@ -1269,9 +1269,9 @@ public class GwtMetawidget
 			if ( mPropertyBinding != null && !( widget instanceof GwtMetawidget ) )
 			{
 				if ( mMetawidgetMixin.isCompoundWidget() )
-					mPropertyBinding.bind( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
+					mPropertyBinding.bindProperty( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
 				else
-					mPropertyBinding.bind( widget, attributes, mPath );
+					mPropertyBinding.bindProperty( widget, attributes, mPath );
 			}
 		}
 

@@ -119,13 +119,13 @@ public class BeansBinding
 	//
 
 	@Override
-	public void bind( Component component, Map<String, String> attributes, String path )
+	public void bindProperty( Component component, Map<String, String> attributes, String path )
 	{
 		typesafeBind( component, path );
 	}
 
 	@Override
-	public void rebind()
+	public void rebindProperties()
 	{
 		if ( mBindings == null )
 			return;
@@ -147,7 +147,7 @@ public class BeansBinding
 
 	@SuppressWarnings( "unchecked" )
 	@Override
-	public void save()
+	public void saveProperties()
 	{
 		if ( mBindings == null )
 			return;
@@ -201,7 +201,7 @@ public class BeansBinding
 	}
 
 	@Override
-	public void unbind()
+	public void unbindProperties()
 	{
 		if ( mBindings == null )
 			return;

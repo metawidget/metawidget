@@ -48,7 +48,7 @@ public class JsniBinding
 	// Public methods
 	//
 
-	public void bind( Widget widget, Map<String, String> attributes, String path )
+	public void bindAction( Widget widget, Map<String, String> attributes, String path )
 	{
 		// How can we bind without addClickListener?
 

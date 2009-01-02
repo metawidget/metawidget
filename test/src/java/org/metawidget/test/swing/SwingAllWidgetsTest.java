@@ -45,6 +45,7 @@ import org.apache.commons.beanutils.ConvertUtils;
 import org.metawidget.MetawidgetException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
 import org.metawidget.swing.propertybinding.PropertyBinding;
 import org.metawidget.swing.propertybinding.beanutils.BeanUtilsBinding;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
@@ -107,6 +108,7 @@ public class SwingAllWidgetsTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setPropertyBindingClass( bindingClass );
+		metawidget.setActionBindingClass( ReflectionBinding.class );
 		metawidget.setInspectorConfig( "org/metawidget/test/swing/allwidgets/inspector-config.xml" );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( allWidgets );

@@ -37,4 +37,6 @@ public interface SimpleBindingAdapter<T>
 	Class<?> getPropertyType( T object, String... property );
 
 	void setProperty( T object, Object value, String... property );
+
+	void invokeAction( T object, String... action );
 }

@@ -23,6 +23,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import org.metawidget.gwt.client.actionbinding.ActionBinding;
 import org.metawidget.gwt.client.propertybinding.BasePropertyBinding;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
@@ -34,12 +35,13 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Simple, Generator-based two-way binding implementation.
- * 
+ *
  * @author Richard Kennard
  */
 
 public class SimpleBinding
 	extends BasePropertyBinding
+	implements ActionBinding
 {
 	//
 	// Private statics
@@ -118,7 +120,7 @@ public class SimpleBinding
 	// Public methods
 	//
 
-	public void bind( Widget widget, Map<String, String> attributes, String path )
+	public void bindProperty( Widget widget, Map<String, String> attributes, String path )
 	{
 		// SimpleBinding doesn't bind to Stubs or FlexTables
 
@@ -142,21 +144,6 @@ public class SimpleBinding
 		// ...fetch the value...
 
 		String[] names = PathUtils.parsePath( path ).getNamesAsArray();
-
-		// Note: we explored using JSNI methods to access the property, as opposed to a Generator.
-		// (the GwtMetawidget class uses this approach to fire actions). It doesn't work out too
-		// well, because:
-		//
-		// 1) you still need a generator to access PropertyTypes, so that you can talk in Java
-		// classes and getConverter can traverse superclasses
-		// 2) you have to try both 'is' and 'get'
-		// 3) you have to guess the class name (and type when calling the setter), because
-		// GWT names its JavaScript functions @class.name::function(type)
-		//
-		// So it doesn't seem a great approach. PropertyBinding is pluggable, however, so you could
-		// still
-		// try it.
-
 		Object value = adapter.getProperty( toInspect, names );
 
 		// ...convert it (if necessary)...
@@ -189,7 +176,38 @@ public class SimpleBinding
 		}
 	}
 
-	public void rebind()
+	@Override
+	public void bindAction( Widget widget, Map<String, String> attributes, String path )
+	{
+		Object toInspect = getMetawidget().getToInspect();
+
+		if ( toInspect == null )
+			return;
+
+		// Use the adapter...
+
+		Class<?> classToBindTo = toInspect.getClass();
+		@SuppressWarnings( "unchecked" )
+		SimpleBindingAdapter<Object> adapter = (SimpleBindingAdapter<Object>) getAdapter( classToBindTo );
+
+		if ( adapter == null )
+			throw new RuntimeException( "Don't know how to bind to a " + classToBindTo );
+
+		// ...to invoke the action
+
+		String[] names = PathUtils.parsePath( path ).getNamesAsArray();
+
+		try
+		{
+			adapter.invokeAction( toInspect, names );
+		}
+		catch ( Exception e )
+		{
+			Window.alert( path + ": " + e.getMessage() );
+		}
+	}
+
+	public void rebindProperties()
 	{
 		if ( mBindings == null )
 			return;
@@ -233,7 +251,7 @@ public class SimpleBinding
 		}
 	}
 
-	public void save()
+	public void saveProperties()
 	{
 		if ( mBindings == null )
 			return;

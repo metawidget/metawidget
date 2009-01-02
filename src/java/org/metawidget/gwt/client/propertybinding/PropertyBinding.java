@@ -43,23 +43,23 @@ public interface PropertyBinding
 	 *            path to bind to (can be parsed using PathUtils.parsePath)
 	 */
 
-	void bind( Widget widget, Map<String, String> attributes, String path );
+	void bindProperty( Widget widget, Map<String, String> attributes, String path );
 
 	/**
 	 * Update bound values in the Widgets from the source Object.
 	 */
 
-	void rebind();
+	void rebindProperties();
 
 	/**
 	 * Save bound values from the Widgets back to the source Object.
 	 */
 
-	void save();
+	void saveProperties();
 
 	/**
 	 * Unbind and release all resources.
 	 */
 
-	void unbind();
+	void unbindProperties();
 }

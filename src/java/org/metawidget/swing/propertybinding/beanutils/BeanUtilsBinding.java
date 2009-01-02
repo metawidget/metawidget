@@ -59,7 +59,7 @@ public class BeanUtilsBinding
 	//
 
 	@Override
-	public void bind( Component component, Map<String, String> attributes, String path )
+	public void bindProperty( Component component, Map<String, String> attributes, String path )
 	{
 		String componentProperty = getMetawidget().getValueProperty( component );
 
@@ -94,7 +94,7 @@ public class BeanUtilsBinding
 	}
 
 	@Override
-	public void rebind()
+	public void rebindProperties()
 	{
 		if ( mBindings == null )
 			return;
@@ -127,7 +127,7 @@ public class BeanUtilsBinding
 	}
 
 	@Override
-	public void save()
+	public void saveProperties()
 	{
 		if ( mBindings == null )
 			return;

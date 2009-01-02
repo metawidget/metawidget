@@ -48,19 +48,19 @@ public interface PropertyBinding
 	 *            path to bind to (can be parsed using PathUtils.parsePath)
 	 */
 
-	void bind( Component component, Map<String, String> attributes, String path );
+	void bindProperty( Component component, Map<String, String> attributes, String path );
 
 	/**
 	 * Update bound values in the Components from the source Object.
 	 */
 
-	void rebind();
+	void rebindProperties();
 
 	/**
 	 * Save bound values from the Components back to the source Object.
 	 */
 
-	void save();
+	void saveProperties();
 
 	/**
 	 * Convert the given String into the given type, if necessary. If no
@@ -74,5 +74,5 @@ public interface PropertyBinding
 
 	<T> T convertFromString( String value, Class<T> type );
 
-	void unbind();
+	void unbindProperties();
 }

@@ -50,7 +50,7 @@ public abstract class BasePropertyBinding
 	 * Unbind and release all resources.
 	 */
 
-	public void unbind()
+	public void unbindProperties()
 	{
 		// Do nothing by default
 	}

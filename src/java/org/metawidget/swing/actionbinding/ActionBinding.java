@@ -48,5 +48,5 @@ public interface ActionBinding
 	 *            path to bind to (can be parsed using PathUtils.parsePath)
 	 */
 
-	void bind( Component component, Map<String, String> attributes, String path );
+	void bindAction( Component component, Map<String, String> attributes, String path );
 }

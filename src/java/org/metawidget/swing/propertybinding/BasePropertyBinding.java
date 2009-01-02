@@ -46,7 +46,7 @@ public abstract class BasePropertyBinding
 	// Public methods
 	//
 
-	public void unbind()
+	public void unbindProperties()
 	{
 		// Do nothing by default
 	}

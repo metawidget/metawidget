@@ -65,6 +65,7 @@ import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
 import org.metawidget.swing.layout.Layout;
 import org.metawidget.swing.layout.TableGridBagLayout;
 import org.metawidget.swing.propertybinding.PropertyBinding;
+import org.metawidget.swing.validator.Validator;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -77,7 +78,7 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
  * <p>
  * Automatically creates native Swing <code>JComponents</code>, such as <code>JTextField</code> and
  * <code>JComboBox</code>, to suit the inspected fields.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -128,6 +129,10 @@ public class SwingMetawidget
 	private Class<? extends ActionBinding>		mActionBindingClass	= ReflectionBinding.class;
 
 	private ActionBinding						mActionBinding;
+
+	private Class<? extends Validator>			mValidatorClass;
+
+	private Validator							mValidator;
 
 	private ResourceBundle						mBundle;
 
@@ -259,7 +264,7 @@ public class SwingMetawidget
 	 * Sets the PropertyBinding implementation to use for automatic, two-way Component-to-Object
 	 * data binding. Current implementations include <code>BeansBinding</code> and
 	 * <code>BeanUtilsBinding</code>.
-	 * 
+	 *
 	 * @param propertyBindingClass
 	 *            may be null
 	 */
@@ -267,6 +272,18 @@ public class SwingMetawidget
 	public void setPropertyBindingClass( Class<? extends PropertyBinding> propertyBindingClass )
 	{
 		mPropertyBindingClass = propertyBindingClass;
+		invalidateWidgets();
+	}
+
+	public void setActionBindingClass( Class<? extends ActionBinding> actionBindingClass )
+	{
+		mActionBindingClass = actionBindingClass;
+		invalidateWidgets();
+	}
+
+	public void setValidatorClass( Class<? extends Validator> validatorClass )
+	{
+		mValidatorClass = validatorClass;
 		invalidateWidgets();
 	}
 
@@ -455,7 +472,7 @@ public class SwingMetawidget
 	 * the UI.
 	 * <p>
 	 * In many ways, <code>rebind</code> can be thought of as the opposite of <code>save</code>.
-	 * 
+	 *
 	 * @throws MetawidgetException
 	 *             if no binding configured
 	 */
@@ -470,7 +487,7 @@ public class SwingMetawidget
 			throw MetawidgetException.newException( "No property binding configured. Use SwingMetawidget.setPropertyBindingClass" );
 
 		mToInspect = toRebind;
-		mPropertyBinding.rebind();
+		mPropertyBinding.rebindProperties();
 
 		for ( Component component : getComponents() )
 		{
@@ -483,7 +500,7 @@ public class SwingMetawidget
 
 	/**
 	 * Saves the values from the binding back to the Object being inspected.
-	 * 
+	 *
 	 * @throws MetawidgetException
 	 *             if no binding configured
 	 */
@@ -497,7 +514,7 @@ public class SwingMetawidget
 		if ( mPropertyBinding == null )
 			throw MetawidgetException.newException( "No property binding configured. Use SwingMetawidget.setPropertyBindingClass" );
 
-		mPropertyBinding.save();
+		mPropertyBinding.saveProperties();
 
 		// Having a save() method avoids having to expose a getBinding() method, which is handy
 		// because we can worry about nested Metawidgets here, not in the PropertyBinding class
@@ -878,11 +895,12 @@ public class SwingMetawidget
 
 		if ( mPropertyBinding != null )
 		{
-			mPropertyBinding.unbind();
+			mPropertyBinding.unbindProperties();
 			mPropertyBinding = null;
 		}
 
 		mActionBinding = null;
+		mValidator = null;
 
 		// Call repaint here, rather than just 'invalidate', for scenarios like doing
 		// a 'remove' of a button that masks a Metawidget
@@ -971,6 +989,11 @@ public class SwingMetawidget
 
 		if ( mActionBindingClass != null )
 			mActionBinding = mActionBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
+
+		// Validator
+
+		if ( mValidatorClass != null )
+			mValidator = mValidatorClass.getConstructor( SwingMetawidget.class ).newInstance( this );
 	}
 
 	protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
@@ -985,14 +1008,18 @@ public class SwingMetawidget
 		if ( actualComponent instanceof JScrollPane )
 			actualComponent = ( (JScrollPane) actualComponent ).getViewport().getView();
 
+		// Construct path
+
+		String path = mPath;
+
+		if ( mMetawidgetMixin.isCompoundWidget() )
+			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
+
 		// Bind actions
 
 		if ( ACTION.equals( elementName ) && mActionBinding != null )
 		{
-			if ( mMetawidgetMixin.isCompoundWidget() )
-				mActionBinding.bind( actualComponent, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
-			else
-				mActionBinding.bind( actualComponent, attributes, mPath );
+			mActionBinding.bindAction( actualComponent, attributes, path );
 		}
 
 		// Bind properties
@@ -1003,11 +1030,11 @@ public class SwingMetawidget
 
 			if ( mPropertyBinding != null )
 			{
-				if ( mMetawidgetMixin.isCompoundWidget() )
-					mPropertyBinding.bind( actualComponent, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
-				else
-					mPropertyBinding.bind( actualComponent, attributes, mPath );
+				mPropertyBinding.bindProperty( actualComponent, attributes, path );
 			}
+
+			if ( mValidator != null )
+				mValidator.addValidators( actualComponent, attributes, path );
 		}
 
 		// Add to layout
