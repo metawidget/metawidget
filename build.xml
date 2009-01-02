@@ -100,7 +100,7 @@
 
 		<!-- Build test files -->
 		
-		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
+		<javac sourcepath="" srcdir="test/src/java" destdir="${build.metawidget.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
 			<include name="org/metawidget/test/faces/allwidgets/**"/>
 			<include name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
 			<include name="org/metawidget/test/shared/allwidgets/**"/>
@@ -116,7 +116,7 @@
 
 		<!-- Build example files -->
 		
-		<javac sourcepath="" srcdir="examples/java" destdir="${build.metawidget.dir}/example-classes" debug="${build.debug}" optimize="on" target="1.5">
+		<javac sourcepath="" srcdir="examples/src/java" destdir="${build.metawidget.dir}/example-classes" debug="${build.debug}" optimize="on" target="1.5">
 			<include name="org/metawidget/example/android/**"/>
 			<include name="org/metawidget/example/swing/appframework/**"/>
 			<include name="org/metawidget/example/swing/applet/**"/>
@@ -131,7 +131,7 @@
 		<!-- Build tutorial files (which are neither 'src/test' files, nor should -->
 		<!-- end up as examples in the finished distribution                      -->
 		
-		<javac sourcepath="" srcdir="examples/java" destdir="${build.metawidget.dir}/tutorial-classes" debug="on" optimize="on" target="1.5">
+		<javac sourcepath="" srcdir="examples/src/java" destdir="${build.metawidget.dir}/tutorial-classes" debug="on" optimize="on" target="1.5">
 			<include name="org/metawidget/example/**/tutorial/**"/>
 			<classpath>
 				<fileset dir="lib"/>
@@ -147,7 +147,7 @@
 			</classpath>
 		</taskdef>
 
-		<groovyc srcdir="test/groovy" destdir="${build.metawidget.dir}/groovy-test-classes">
+		<groovyc srcdir="test/src/groovy" destdir="${build.metawidget.dir}/groovy-test-classes">
 			<include name="**/*.groovy"/>
 			<classpath>
 				<fileset dir="lib"/>
@@ -164,15 +164,16 @@
 			</classpath>
 		</taskdef>
 
-		<scalac srcdir="examples/scala" destdir="${build.metawidget.dir}/scala-example-classes">
+		<scalac srcdir="examples/src/scala" destdir="${build.metawidget.dir}/scala-example-classes">
 			<include name="**/*.scala"/>
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement path="${build.metawidget.dir}/classes"/>
+				<fileset dir="examples/src/scala/org/metawidget/example/swing/bookstore"/>
 			</classpath>
 		</scalac>
 
-		<scalac srcdir="test/scala" destdir="${build.metawidget.dir}/scala-test-classes">
+		<scalac srcdir="test/src/scala" destdir="${build.metawidget.dir}/scala-test-classes">
 			<include name="**/*.scala"/>
 			<classpath>
 				<fileset dir="lib"/>
@@ -181,7 +182,7 @@
 
 		<!-- Build test files -->
 
-		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="off" target="1.5">
+		<javac sourcepath="" srcdir="test/src/java" destdir="${build.metawidget.dir}/test-classes" debug="off" target="1.5">
 			<include name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
 			<classpath>
 				<fileset dir="lib"/>
@@ -189,7 +190,7 @@
 			</classpath>
 		</javac>
 		
-		<javac sourcepath="" srcdir="test/java" destdir="${build.metawidget.dir}/test-classes" debug="on" target="1.5">
+		<javac sourcepath="" srcdir="test/src/java" destdir="${build.metawidget.dir}/test-classes" debug="on" target="1.5">
 			<exclude name="org/metawidget/test/faces/allwidgets/**"/>
 			<exclude name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
 			<exclude name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
@@ -376,10 +377,10 @@
 		
 		<copy todir="${build.metawidget.dir}/lib" flatten="true" includeemptydirs="false">
 			<fileset dir="lib"/>
-			<fileset dir="examples/web">
+			<fileset dir="examples/src/web">
 				<include name="**/lib/**"/>
 			</fileset>
-			<fileset dir="test/web">
+			<fileset dir="test/src/web">
 				<include name="**/lib/**"/>
 			</fileset>
 		</copy>
@@ -523,7 +524,7 @@
 		<!-- Note: network access is disabled for Unit Tests, to make sure Metawidget isn't trying external DTDs -->
 
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
-			<jvmarg value="-Djava.util.logging.config.file=${basedir}/test/java/logging.properties"/>
+			<jvmarg value="-Djava.util.logging.config.file=${basedir}/test/src/java/logging.properties"/>
 			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.AllTests"/>
@@ -538,13 +539,13 @@
 				<pathelement path="${build.metawidget.dir}/groovy-test-classes"/>
 				<pathelement path="${build.metawidget.dir}/scala-test-classes"/>
 				<pathelement path="${build.metawidget.dir}/tutorial-classes"/>
-				<pathelement path="examples/java"/>
-				<pathelement path="test/java"/>
+				<pathelement path="examples/src/java"/>
+				<pathelement path="test/src/java"/>
 			</classpath>
 		</junit>
 		
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
-			<jvmarg value="-Djava.util.logging.config.file=${basedir}/test/java/logging.properties"/>
+			<jvmarg value="-Djava.util.logging.config.file=${basedir}/test/src/java/logging.properties"/>
 			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.util.LogUtilsTest"/>
@@ -561,10 +562,10 @@
 		<!-- GWT tests -->
 		
 		<copy todir="${build.metawidget.dir}/gwt-example-src">
-			<fileset dir="examples/java">
+			<fileset dir="examples/src/java">
 				<include name="org/metawidget/example/gwt/addressbook/public/**"/>
 			</fileset>			
-			<fileset dir="test/java">
+			<fileset dir="test/src/java">
 				<include name="org/metawidget/test/*.gwt.xml"/>
 				<include name="org/metawidget/test/gwt/allwidgets/*.gwt.xml"/>
 				<include name="org/metawidget/test/gwt/allwidgets/**/*.java"/>
@@ -578,8 +579,8 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest"/>
 			<classpath>				
-				<pathelement path="examples/web/gwt/addressbook/WEB-INF"/>
-				<pathelement path="examples/web/gwt/addressbook/WEB-INF/config"/>
+				<pathelement path="examples/src/web/gwt/addressbook/WEB-INF"/>
+				<pathelement path="examples/src/web/gwt/addressbook/WEB-INF/config"/>
 				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
 				<dirset dir="${build.metawidget.dir}/example-classes"/>
 				<dirset dir="${build.metawidget.dir}/test-classes"/>
@@ -596,8 +597,8 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.gwt.allwidgets.client.GwtAllWidgetsTest"/>
 			<classpath>
-				<pathelement path="test/java/org/metawidget/test/gwt/allwidgets"/>
-				<pathelement path="test/java"/>
+				<pathelement path="test/src/java/org/metawidget/test/gwt/allwidgets"/>
+				<pathelement path="test/src/java"/>
 				<dirset dir="${build.metawidget.dir}/gwt-example-src"/>
 				<dirset dir="${build.metawidget.dir}/test-classes"/>
 				<fileset dir="lib">
@@ -613,8 +614,8 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.gwt.quirks.client.GwtQuirksTest"/>
 			<classpath>
-				<pathelement path="test/java/org/metawidget/test/gwt/quirks"/>
-				<pathelement path="test/java"/>
+				<pathelement path="test/src/java/org/metawidget/test/gwt/quirks"/>
+				<pathelement path="test/src/java"/>
 				<dirset dir="${build.metawidget.dir}/test-classes"/>
 				<fileset dir="lib">
 					<exclude name="android.jar"/>
@@ -629,7 +630,7 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.gwt.client.ui.GwtMetawidgetMixinTest"/>
 			<classpath>
-				<pathelement path="test/java"/>
+				<pathelement path="test/src/java"/>
 				<dirset dir="${build.metawidget.dir}/test-classes"/>
 				<fileset dir="lib">
 					<exclude name="android.jar"/>
@@ -654,7 +655,7 @@
 				<pathelement location="test/lib-1.4/junit.jar"/>
 				<pathelement location="${build.metawidget.dir}/metawidget.jar"/>
 				<pathelement path="${build.metawidget.dir}/test-classes"/>
-				<pathelement path="test/java"/>
+				<pathelement path="test/src/java"/>
 			</classpath>
 		</java>
 
@@ -720,9 +721,9 @@
 		<emma>
 			<report>
 				<sourcepath>
-					<dirset dir="examples/java"/>
+					<dirset dir="examples/src/java"/>
 					<dirset dir="src/java"/>
-					<dirset dir="test/java"/>
+					<dirset dir="test/src/java"/>
 		        </sourcepath>				
 				<fileset dir="${run.dir}">
 					<include name="*.ec"/>
@@ -842,7 +843,7 @@
 		<delete dir="${tomcat.dir}/webapps/addressbook-faces"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -863,7 +864,7 @@
 		<copy file="${build.metawidget.dir}/examples/faces/addressbook-faces.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -879,7 +880,7 @@
 		<copy file="${build.metawidget.dir}/examples/faces/addressbook-faces.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -897,7 +898,7 @@
 		<ant dir="${build.metawidget.dir}/examples/faces/seam/booking"/>
 		<antcall target="test-web-start-jboss"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -915,7 +916,7 @@
 		<ant dir="${build.metawidget.dir}/examples/faces/seam/dvdstore"/>
 		<antcall target="test-web-start-jboss"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -933,7 +934,7 @@
 		<ant dir="${build.metawidget.dir}/examples/faces/seam/groovybooking"/>
 		<antcall target="test-web-start-jboss"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -954,7 +955,7 @@
 		<delete dir="${tomcat.dir}/webapps/addressbook-gwt"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/gwt">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/gwt">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -975,7 +976,7 @@
 		<copy file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/gwt">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/gwt">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -991,7 +992,7 @@
 		<copy file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/gwt">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/gwt">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1012,7 +1013,7 @@
 		<delete dir="${tomcat.dir}/webapps/addressbook-jsp"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/jsp">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/jsp">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1033,7 +1034,7 @@
 		<copy file="${build.metawidget.dir}/examples/jsp/addressbook-jsp.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/jsp">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/jsp">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1049,7 +1050,7 @@
 		<copy file="${build.metawidget.dir}/examples/jsp/addressbook-jsp.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/jsp">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/jsp">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1070,7 +1071,7 @@
 		<delete dir="${tomcat.dir}/webapps/addressbook-struts"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/struts">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/struts">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1091,7 +1092,7 @@
 		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/struts">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/struts">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1107,7 +1108,7 @@
 		<copy file="${build.metawidget.dir}/examples/struts/addressbook-struts.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/struts">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/struts">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1128,7 +1129,7 @@
 		<delete dir="${tomcat.dir}/webapps/addressbook-spring"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/spring">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/spring">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1149,7 +1150,7 @@
 		<copy file="${build.metawidget.dir}/examples/spring/addressbook-spring.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
 		<antcall target="test-web-start-glassfish"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/spring">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/spring">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1165,7 +1166,7 @@
 		<copy file="${build.metawidget.dir}/examples/spring/addressbook-spring.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/examples/spring">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/spring">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1186,7 +1187,7 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
-			<arg line="-file '${basedir}/test/web/examples/swing/applet/addressbook-test.xml'"/>
+			<arg line="-file '${basedir}/test/src/web/examples/swing/applet/addressbook-test.xml'"/>
 		</java>
 		
 	</target>
@@ -1201,7 +1202,7 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
-			<arg line="-file '${basedir}/test/web/examples/swing/console-test.xml'"/>
+			<arg line="-file '${basedir}/test/src/web/examples/swing/console-test.xml'"/>
 		</java>
 		
 	</target>
@@ -1402,7 +1403,7 @@
 	<target name="test-shared-allwidgets" depends="flatten-libs">
 
 		<copy todir="${build.metawidget.dir}/test-classes">
-			<fileset dir="test/java">
+			<fileset dir="test/src/java">
 				<include name="org/metawidget/test/shared/allwidgets/**/*.properties"/>
 				<include name="org/metawidget/test/shared/allwidgets/**/metawidget-metadata.xml"/>
 			</fileset>
@@ -1414,8 +1415,8 @@
 		
 		<mkdir dir="${build.metawidget.dir}/test/faces"/>
 
-		<war warfile="${build.metawidget.dir}/test/faces/allwidgets-faces.war" webxml="test/web/faces/allwidgets/WEB-INF/web.xml">
-			<fileset dir="test/web/faces/allwidgets">
+		<war warfile="${build.metawidget.dir}/test/faces/allwidgets-faces.war" webxml="test/src/web/faces/allwidgets/WEB-INF/web.xml">
+			<fileset dir="test/src/web/faces/allwidgets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1443,7 +1444,7 @@
 		<delete dir="${tomcat4.dir}/webapps/allwidgets-faces"/>
 		<antcall target="test-web-start-tomcat4"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1460,8 +1461,8 @@
 		
 		<mkdir dir="${build.metawidget.dir}/test/faces"/>
 
-		<war warfile="${build.metawidget.dir}/test/faces/quirks-faces.war" webxml="test/web/faces/quirks/WEB-INF/web.xml">
-			<fileset dir="test/web/faces/quirks">
+		<war warfile="${build.metawidget.dir}/test/faces/quirks-faces.war" webxml="test/src/web/faces/quirks/WEB-INF/web.xml">
+			<fileset dir="test/src/web/faces/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1488,7 +1489,7 @@
 		<delete dir="${tomcat.dir}/webapps/quirks-faces"/>
 		<antcall target="test-web-start-tomcat"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/faces">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1505,8 +1506,8 @@
 		
 		<mkdir dir="${build.metawidget.dir}/test/jsp"/>
 
-		<war warfile="${build.metawidget.dir}/test/jsp/allwidgets-jsp.war" webxml="test/web/jsp/allwidgets/WEB-INF/web.xml">
-			<fileset dir="test/web/jsp/allwidgets">
+		<war warfile="${build.metawidget.dir}/test/jsp/allwidgets-jsp.war" webxml="test/src/web/jsp/allwidgets/WEB-INF/web.xml">
+			<fileset dir="test/src/web/jsp/allwidgets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1531,7 +1532,7 @@
 		<delete file="${tomcat.dir}/webapps/addressbook-jsp.war"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/jsp">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/jsp">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1548,8 +1549,8 @@
 		
 		<mkdir dir="${build.metawidget.dir}/test/spring"/>
 
-		<war warfile="${build.metawidget.dir}/test/spring/allwidgets-spring.war" webxml="test/web/spring/allwidgets/WEB-INF/web.xml">
-			<fileset dir="test/web/spring/allwidgets">
+		<war warfile="${build.metawidget.dir}/test/spring/allwidgets-spring.war" webxml="test/src/web/spring/allwidgets/WEB-INF/web.xml">
+			<fileset dir="test/src/web/spring/allwidgets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1573,7 +1574,7 @@
 		<delete dir="${tomcat4.dir}/webapps/allwidgets-spring"/>
 		<antcall target="test-web-start-tomcat4"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/spring">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/spring">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1590,8 +1591,8 @@
 		
 		<mkdir dir="${build.metawidget.dir}/test/spring"/>
 
-		<war warfile="${build.metawidget.dir}/test/spring/quirks-spring.war" webxml="test/web/spring/quirks/WEB-INF/web.xml">
-			<fileset dir="test/web/spring/quirks">
+		<war warfile="${build.metawidget.dir}/test/spring/quirks-spring.war" webxml="test/src/web/spring/quirks/WEB-INF/web.xml">
+			<fileset dir="test/src/web/spring/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1614,7 +1615,7 @@
 		<delete dir="${tomcat.dir}/webapps/quirks-spring"/>
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/spring">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/spring">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1631,8 +1632,8 @@
 		
 		<mkdir dir="${build.metawidget.dir}/test/struts"/>
 
-		<war warfile="${build.metawidget.dir}/test/struts/allwidgets-struts.war" webxml="test/web/struts/allwidgets/WEB-INF/web.xml">
-			<fileset dir="test/web/struts/allwidgets">
+		<war warfile="${build.metawidget.dir}/test/struts/allwidgets-struts.war" webxml="test/src/web/struts/allwidgets/WEB-INF/web.xml">
+			<fileset dir="test/src/web/struts/allwidgets">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1656,7 +1657,7 @@
 		<delete dir="${tomcat4.dir}/webapps/allwidgets-struts"/>
 		<antcall target="test-web-start-tomcat4"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/struts">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/struts">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1673,8 +1674,8 @@
 		
 		<mkdir dir="${build.metawidget.dir}/test/struts"/>
 
-		<war warfile="${build.metawidget.dir}/test/struts/quirks-struts.war" webxml="test/web/struts/quirks/WEB-INF/web.xml">
-			<fileset dir="test/web/struts/quirks">
+		<war warfile="${build.metawidget.dir}/test/struts/quirks-struts.war" webxml="test/src/web/struts/quirks/WEB-INF/web.xml">
+			<fileset dir="test/src/web/struts/quirks">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1697,7 +1698,7 @@
 		<delete dir="${tomcat.dir}/webapps/quirks-struts"/>
 		<antcall target="test-web-start-tomcat"/>
 		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/struts">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/struts">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -1739,12 +1740,12 @@
 		
 		<mkdir dir="${build.metawidget.dir}/examples/swing"/>
 
-		<jar jarfile="${build.metawidget.dir}/examples/swing/addressbook-swing.jar" manifest="examples/java/org/metawidget/example/swing/addressbook/META-INF/MANIFEST.MF">
+		<jar jarfile="${build.metawidget.dir}/examples/swing/addressbook-swing.jar" manifest="examples/src/java/org/metawidget/example/swing/addressbook/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/example-classes">
 				<include name="org/metawidget/example/swing/addressbook/**"/>
 				<include name="org/metawidget/example/shared/addressbook/**"/>
 			</fileset>
-			<fileset dir="examples/java">
+			<fileset dir="examples/src/java">
 				<include name="org/metawidget/example/shared/addressbook/media/*.jpg"/>
 				<include name="org/metawidget/example/shared/addressbook/media/*.gif"/>
 				<include name="org/metawidget/example/shared/addressbook/**/*.properties"/>
@@ -1753,7 +1754,7 @@
 		</jar>		
 
 		<copy todir="${build.metawidget.dir}/examples/swing">
-			<fileset dir="examples/java/org/metawidget/example/swing">
+			<fileset dir="examples/src/java/org/metawidget/example/swing">
 				<include name="readme.txt"/>
 			</fileset>
 			<fileset dir="lib">
@@ -1804,7 +1805,7 @@
 				<include name="org/metawidget/example/swing/addressbook/**"/>
 				<include name="org/metawidget/example/shared/addressbook/**"/>
 			</fileset>
-			<fileset dir="examples/java">
+			<fileset dir="examples/src/java">
 				<include name="org/metawidget/example/shared/addressbook/media/*.jpg"/>
 				<include name="org/metawidget/example/shared/addressbook/media/*.gif"/>
 				<include name="org/metawidget/example/shared/addressbook/**/*.properties"/>
@@ -1817,7 +1818,7 @@
 		<pack200 src="${build.metawidget.dir}/examples/swing/applet/addressbook/addressbook-swing-applet.jar" destfile="${build.metawidget.dir}/examples/swing/applet/addressbook/addressbook-swing-applet.jar.pack"/>		
 		
 		<copy todir="${build.metawidget.dir}/examples/swing/applet/addressbook">
-			<fileset dir="examples/web/swing/applet/addressbook"/>
+			<fileset dir="examples/src/web/swing/applet/addressbook"/>
 			<fileset dir="lib">
 				<include name="beansbinding*.jar"/>
 				<include name="commons-jexl-*.jar"/>
@@ -1825,7 +1826,7 @@
 			</fileset>			
 		</copy>
 
-		<copy todir="${build.metawidget.dir}/examples/swing" file="examples/java/org/metawidget/example/swing/readme.txt"/>
+		<copy todir="${build.metawidget.dir}/examples/swing" file="examples/src/java/org/metawidget/example/swing/readme.txt"/>
 
 	</target>
 
@@ -1833,21 +1834,21 @@
 		
 		<mkdir dir="${build.metawidget.dir}/examples/swing"/>
 
-		<jar jarfile="${build.metawidget.dir}/examples/swing/appframework-swing.jar" manifest="examples/java/org/metawidget/example/swing/appframework/META-INF/MANIFEST.MF">
+		<jar jarfile="${build.metawidget.dir}/examples/swing/appframework-swing.jar" manifest="examples/src/java/org/metawidget/example/swing/appframework/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/example-classes">
 				<include name="org/metawidget/example/swing/appframework/**"/>
 			</fileset>
-			<fileset dir="examples/java">
+			<fileset dir="examples/src/java">
 				<include name="org/metawidget/example/swing/appframework/resources/*.properties"/>
 				<include name="org/metawidget/example/swing/appframework/*.xml"/>
 			</fileset>
 		</jar>		
 
 		<copy todir="${build.metawidget.dir}/examples/swing">
-			<fileset dir="examples/java/org/metawidget/example/swing">
+			<fileset dir="examples/src/java/org/metawidget/example/swing">
 				<include name="readme.txt"/>
 			</fileset>
-			<fileset dir="examples/java/org/metawidget/example/swing/appframework">
+			<fileset dir="examples/src/java/org/metawidget/example/swing/appframework">
 				<include name="swing-worker.jar"/>
 			</fileset>
 			<fileset dir="lib">
@@ -1864,17 +1865,17 @@
 		
 		<mkdir dir="${build.metawidget.dir}/examples/swing"/>
 
-		<jar jarfile="${build.metawidget.dir}/examples/swing/bookstore-swing.jar" manifest="examples/scala/org/metawidget/example/swing/bookstore/META-INF/MANIFEST.MF">
+		<jar jarfile="${build.metawidget.dir}/examples/swing/bookstore-swing.jar" manifest="examples/src/scala/org/metawidget/example/swing/bookstore/META-INF/MANIFEST.MF">
 			<fileset dir="${build.metawidget.dir}/scala-example-classes">
 				<include name="org/metawidget/example/swing/bookstore/**"/>
 			</fileset>
-			<fileset dir="examples/scala">
+			<fileset dir="examples/src/scala">
 				<include name="org/metawidget/example/swing/bookstore/*.xml"/>
 			</fileset>
 		</jar>		
 
 		<copy todir="${build.metawidget.dir}/examples/swing">
-			<fileset dir="examples/java/org/metawidget/example/swing">
+			<fileset dir="examples/src/java/org/metawidget/example/swing">
 				<include name="readme.txt"/>
 			</fileset>
 			<fileset dir="lib">
@@ -1889,19 +1890,19 @@
 		
 	<target name="example-shared-addressbook" depends="flatten-libs">
 		
-		<copy todir="${build.metawidget.dir}/examples/web/shared/addressbook" failonerror="false" >
-			<fileset dir="examples/web/struts/addressbook">
+		<copy todir="${build.metawidget.dir}/examples/src/web/shared/addressbook" failonerror="false" >
+			<fileset dir="examples/src/web/struts/addressbook">
 				<include name="css/**"/>
 				<include name="WEB-INF/tags/**"/>
 			</fileset>
-			<fileset dir="examples/web/shared/addressbook">
+			<fileset dir="examples/src/web/shared/addressbook">
 				<include name="css/**"/>
 				<include name="WEB-INF/tags/**"/>
 			</fileset>
 		</copy>
 
 		<copy todir="${build.metawidget.dir}/example-classes">
-			<fileset dir="examples/java">
+			<fileset dir="examples/src/java">
 				<include name="org/metawidget/example/shared/addressbook/**/*.properties"/>
 			</fileset>
 		</copy>
@@ -1912,8 +1913,8 @@
 
 		<mkdir dir="${build.metawidget.dir}/examples/faces"/>
 
-		<war warfile="${build.metawidget.dir}/examples/faces/addressbook-faces.war" webxml="examples/web/faces/addressbook/WEB-INF/web.xml">
-			<fileset dir="examples/web/faces/addressbook">
+		<war warfile="${build.metawidget.dir}/examples/faces/addressbook-faces.war" webxml="examples/src/web/faces/addressbook/WEB-INF/web.xml">
+			<fileset dir="examples/src/web/faces/addressbook">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -1921,11 +1922,11 @@
 				<exclude name="WEB-INF/tags/**"/>
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
-			<fileset dir="${build.metawidget.dir}/examples/web/shared/addressbook">
+			<fileset dir="${build.metawidget.dir}/examples/src/web/shared/addressbook">
 				<include name="css/**"/>
 				<include name="WEB-INF/tags/**"/>
 			</fileset>
-			<fileset dir="examples/java/org/metawidget/example/shared/addressbook">
+			<fileset dir="examples/src/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
 			</fileset>
 			<classes dir="${build.metawidget.dir}/example-classes">
@@ -1948,14 +1949,14 @@
 			</lib>
 		</war>
 
-		<copy todir="${build.metawidget.dir}/examples/faces" file="examples/web/faces/readme.txt"/>
+		<copy todir="${build.metawidget.dir}/examples/faces" file="examples/src/web/faces/readme.txt"/>
 
 	</target>
 	
 	<target name="example-faces-seam-booking" depends="pack-as-frontend-backend">
 		
 		<copy todir="${build.metawidget.dir}/examples/faces">
-			<fileset dir="examples/web/faces">
+			<fileset dir="examples/src/web/faces">
 				<include name="seam/booking/**"/>
 			</fileset>
 		</copy>
@@ -1963,14 +1964,14 @@
 		<copy todir="${build.metawidget.dir}/examples/faces/seam/booking" file="${build.metawidget.dir}/metawidget-frontend.jar"/>
 		<copy todir="${build.metawidget.dir}/examples/faces/seam/booking" file="${build.metawidget.dir}/metawidget-backend.jar"/>
 
-		<copy todir="${build.metawidget.dir}/examples/faces" file="examples/web/faces/readme.txt"/>
+		<copy todir="${build.metawidget.dir}/examples/faces" file="examples/src/web/faces/readme.txt"/>
 
 	</target>
 
 	<target name="example-faces-seam-dvdstore" depends="pack-as-frontend-backend">
 		
 		<copy todir="${build.metawidget.dir}/examples/faces">
-			<fileset dir="examples/web/faces">
+			<fileset dir="examples/src/web/faces">
 				<include name="seam/dvdstore/**"/>
 			</fileset>
 		</copy>
@@ -1978,14 +1979,14 @@
 		<copy todir="${build.metawidget.dir}/examples/faces/seam/dvdstore" file="${build.metawidget.dir}/metawidget-frontend.jar"/>
 		<copy todir="${build.metawidget.dir}/examples/faces/seam/dvdstore" file="${build.metawidget.dir}/metawidget-backend.jar"/>
 
-		<copy todir="${build.metawidget.dir}/examples/faces" file="examples/web/faces/readme.txt"/>
+		<copy todir="${build.metawidget.dir}/examples/faces" file="examples/src/web/faces/readme.txt"/>
 
 	</target>
 
 	<target name="example-faces-seam-groovybooking" depends="pack">
 		
 		<copy todir="${build.metawidget.dir}/examples/faces">
-			<fileset dir="examples/web/faces">
+			<fileset dir="examples/src/web/faces">
 				<include name="seam/groovybooking/**"/>
 			</fileset>
 		</copy>
@@ -1998,7 +1999,7 @@
 			</fileset>
 		</copy>
 
-		<copy todir="${build.metawidget.dir}/examples/faces" file="examples/web/faces/readme.txt"/>
+		<copy todir="${build.metawidget.dir}/examples/faces" file="examples/src/web/faces/readme.txt"/>
 
 	</target>
 
@@ -2006,8 +2007,8 @@
 
 		<mkdir dir="${build.metawidget.dir}/examples/jsp"/>
 
-		<war warfile="${build.metawidget.dir}/examples/jsp/addressbook-jsp.war" webxml="examples/web/jsp/addressbook/WEB-INF/web.xml">
-			<fileset dir="examples/web/jsp/addressbook">
+		<war warfile="${build.metawidget.dir}/examples/jsp/addressbook-jsp.war" webxml="examples/src/web/jsp/addressbook/WEB-INF/web.xml">
+			<fileset dir="examples/src/web/jsp/addressbook">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -2015,11 +2016,11 @@
 				<exclude name="WEB-INF/tags/**"/>
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
-			<fileset dir="${build.metawidget.dir}/examples/web/shared/addressbook">
+			<fileset dir="${build.metawidget.dir}/examples/src/web/shared/addressbook">
 				<include name="css/**"/>
 				<include name="WEB-INF/tags/**"/>
 			</fileset>
-			<fileset dir="examples/java/org/metawidget/example/shared/addressbook">
+			<fileset dir="examples/src/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
 			</fileset>
 			<classes dir="${build.metawidget.dir}/example-classes">
@@ -2033,7 +2034,7 @@
 			</lib>
 		</war>
 
-		<copy todir="${build.metawidget.dir}/examples/jsp" file="examples/web/jsp/readme.txt"/>
+		<copy todir="${build.metawidget.dir}/examples/jsp" file="examples/src/web/jsp/readme.txt"/>
 		
 	</target>
 
@@ -2041,8 +2042,8 @@
 
 		<mkdir dir="${build.metawidget.dir}/examples/struts"/>
 
-		<war warfile="${build.metawidget.dir}/examples/struts/addressbook-struts.war" webxml="examples/web/struts/addressbook/WEB-INF/web.xml">
-			<fileset dir="examples/web/struts/addressbook">
+		<war warfile="${build.metawidget.dir}/examples/struts/addressbook-struts.war" webxml="examples/src/web/struts/addressbook/WEB-INF/web.xml">
+			<fileset dir="examples/src/web/struts/addressbook">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -2050,11 +2051,11 @@
 				<exclude name="WEB-INF/tags/**"/>
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
-			<fileset dir="${build.metawidget.dir}/examples/web/shared/addressbook">
+			<fileset dir="${build.metawidget.dir}/examples/src/web/shared/addressbook">
 				<include name="css/**"/>
 				<include name="WEB-INF/tags/**"/>
 			</fileset>
-			<fileset dir="examples/java/org/metawidget/example/shared/addressbook">
+			<fileset dir="examples/src/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
 			</fileset>
 			<classes dir="${build.metawidget.dir}/example-classes">
@@ -2073,7 +2074,7 @@
 			</lib>
 		</war>
 
-		<copy todir="${build.metawidget.dir}/examples/struts" file="examples/web/struts/readme.txt"/>
+		<copy todir="${build.metawidget.dir}/examples/struts" file="examples/src/web/struts/readme.txt"/>
 
 	</target>
 
@@ -2081,8 +2082,8 @@
 
 		<mkdir dir="${build.metawidget.dir}/examples/spring"/>
 
-		<war warfile="${build.metawidget.dir}/examples/spring/addressbook-spring.war" webxml="examples/web/spring/addressbook/WEB-INF/web.xml">
-			<fileset dir="examples/web/spring/addressbook">
+		<war warfile="${build.metawidget.dir}/examples/spring/addressbook-spring.war" webxml="examples/src/web/spring/addressbook/WEB-INF/web.xml">
+			<fileset dir="examples/src/web/spring/addressbook">
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
@@ -2090,11 +2091,11 @@
 				<exclude name="WEB-INF/tags/**"/>
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
-			<fileset dir="${build.metawidget.dir}/examples/web/shared/addressbook">
+			<fileset dir="${build.metawidget.dir}/examples/src/web/shared/addressbook">
 				<include name="css/**"/>
 				<include name="WEB-INF/tags/**"/>
 			</fileset>
-			<fileset dir="examples/java/org/metawidget/example/shared/addressbook">
+			<fileset dir="examples/src/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
 			</fileset>
 			<classes dir="${build.metawidget.dir}/example-classes">
@@ -2112,7 +2113,7 @@
 			</lib>
 		</war>
 
-		<copy todir="${build.metawidget.dir}/examples/spring" file="examples/web/spring/readme.txt"/>
+		<copy todir="${build.metawidget.dir}/examples/spring" file="examples/src/web/spring/readme.txt"/>
 		
 	</target>
 
@@ -2124,7 +2125,7 @@
 		<mkdir dir="${build.metawidget.dir}/gwt-example-src"/>
 
 		<copy todir="${build.metawidget.dir}/gwt-example-src">
-			<fileset dir="examples/java">
+			<fileset dir="examples/src/java">
 				<include name="org/metawidget/example/*.gwt.xml"/>
 				<include name="org/metawidget/example/gwt/addressbook/client/**"/>
 				<include name="org/metawidget/example/gwt/addressbook/inspector/remote/client/**"/>
@@ -2154,16 +2155,16 @@
 		
 		<!-- Create the WAR -->
 			
-		<war file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" webxml="examples/web/gwt/addressbook/WEB-INF/web.xml">
+		<war file="${build.metawidget.dir}/examples/gwt/addressbook-gwt.war" webxml="examples/src/web/gwt/addressbook/WEB-INF/web.xml">
 			<fileset dir="${build.metawidget.dir}/gwt-classes/org.metawidget.example.GwtAddressBook"/>
-			<fileset dir="examples/web/gwt/addressbook">
+			<fileset dir="examples/src/web/gwt/addressbook">
 				<exclude name="**/lib/**"/>
 			</fileset>
-			<fileset dir="${build.metawidget.dir}/examples/web/shared/addressbook">
+			<fileset dir="${build.metawidget.dir}/examples/src/web/shared/addressbook">
 				<include name="css/**"/>
 				<include name="WEB-INF/tags/**"/>
 			</fileset>
-			<fileset dir="examples/java/org/metawidget/example/shared/addressbook">
+			<fileset dir="examples/src/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
 			</fileset>
 			<classes dir="${build.metawidget.dir}/example-classes">
@@ -2179,7 +2180,7 @@
 			</lib>
 		</war>
 		
-		<copy todir="${build.metawidget.dir}/examples/gwt" file="examples/web/gwt/readme.txt"/>
+		<copy todir="${build.metawidget.dir}/examples/gwt" file="examples/src/web/gwt/readme.txt"/>
 
 	</target>
 	
@@ -2258,7 +2259,7 @@
             <arg value="${build.metawidget.dir}/examples/android/addressbook/classes.dex" />
         </exec>
 
-		<copy todir="${build.metawidget.dir}/examples/android" file="examples/java/org/metawidget/example/android/readme.txt"/>
+		<copy todir="${build.metawidget.dir}/examples/android" file="examples/src/java/org/metawidget/example/android/readme.txt"/>
 
 	</target>
 	
@@ -2296,7 +2297,7 @@
 			</fileset>
 		</copy>		
 
-		<signjar alias="Metawidget" keystore="examples/java/org/metawidget/example/swing/console/metawidget.keystore" storepass="m3t4w1dg3t">
+		<signjar alias="Metawidget" keystore="examples/src/java/org/metawidget/example/swing/console/metawidget.keystore" storepass="m3t4w1dg3t">
 			<path>
 				<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
 					<include name="console-applet.jar*"/>
@@ -2321,7 +2322,7 @@
 
 		<copy todir="${build.metawidget.dir}/lib" flatten="true" includeemptydirs="false">
 			<fileset dir="lib"/>
-			<fileset dir="examples/web">
+			<fileset dir="examples/src/web">
 				<include name="**/lib/**"/>
 			</fileset>
 		</copy>
@@ -2412,7 +2413,7 @@
 
 		<antcall target="test-web-start-tomcat"/>
 
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/web/site">
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/site">
 			<classpath>
 				<fileset dir="${ant.home}">
 					<include name="lib/*.jar"/>
@@ -2462,19 +2463,19 @@
 				<!-- all over the ZIP. However, scattering and duplicating is useful for some -->
 				<!-- IDE deployers, such as MyEclipse                                         -->
 				
-				<exclude name="examples/web/**/css/**"/>				
-				<exclude name="examples/web/**/media/**"/>				
-				<exclude name="examples/web/**/WEB-INF/tags/**"/>				
-				<include name="examples/web/shared/addressbook/css/**"/>
-				<include name="examples/web/shared/addressbook/WEB-INF/tags/**"/>				
+				<exclude name="examples/src/web/**/css/**"/>				
+				<exclude name="examples/src/web/**/media/**"/>				
+				<exclude name="examples/src/web/**/WEB-INF/tags/**"/>				
+				<include name="examples/src/web/shared/addressbook/css/**"/>
+				<include name="examples/src/web/shared/addressbook/WEB-INF/tags/**"/>				
 				<exclude name="**/WEB-INF/classes/**"/>
 				<exclude name="**/WEB-INF/lib/**"/>
 				<exclude name="**/.p4ignore"/>
 				
 			</fileset>
 			<fileset dir="${build.metawidget.dir}">
-				<include name="examples/web/shared/addressbook/css/**"/>
-				<include name="examples/web/shared/addressbook/WEB-INF/tags/**"/>				
+				<include name="examples/src/web/shared/addressbook/css/**"/>
+				<include name="examples/src/web/shared/addressbook/WEB-INF/tags/**"/>				
 			</fileset>
 		</copy>
 
@@ -2535,7 +2536,7 @@
 				<include name="${metawidget.name}/examples/**"/>
 				<exclude name="${metawidget.name}/examples/android/addressbook/**"/>
 				<exclude name="${metawidget.name}/examples/android/addressbook-android.ap_"/>
-				<exclude name="${metawidget.name}/examples/web/**"/>
+				<exclude name="${metawidget.name}/examples/src/web/**"/>
 									
 			</fileset>
 				

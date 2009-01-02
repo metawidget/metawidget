@@ -56,7 +56,7 @@
 		</copy>
 
 		<copy todir="${addressbook.gwt.project.dir}/test">
-			<fileset dir="../../../test/java" includes="org/metawidget/test/example/gwt/addressbook/**" />
+			<fileset dir="../../../../test/src/java" includes="org/metawidget/test/example/gwt/addressbook/**" />
 		</copy>
 
 		<mkdir dir="${addressbook.gwt.project.dir}/lib" />

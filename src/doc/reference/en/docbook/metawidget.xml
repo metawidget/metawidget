@@ -905,7 +905,7 @@ public class Main {
 					To view the source code for the examples, such as the code for the <classname>ContactSearch</classname>,
 					<classname>ContactType</classname> and <classname>ContactDialog</classname> classes, download the Metawidget
 					source code distribution or browse it online at
-					<uri>http://metawidget.svn.sourceforge.net/viewvc/metawidget/trunk/examples/java/org/metawidget/example</uri>. 
+					<uri>http://metawidget.svn.sourceforge.net/viewvc/metawidget/trunk/examples/src/java/org/metawidget/example</uri>. 
 				</tip>				
 
 				<para>
@@ -1811,7 +1811,7 @@ bin\run</programlisting>
 				
 				<para>
 					Metawidget supports pluggable 'action styles'. The use of Swing AppFramework is configured
-					per <classname>Inspector</classname>, as in <filename>examples/java/org/metawidget/example/swing/appframework/inspector-config.xml</filename>
+					per <classname>Inspector</classname>, as in <filename>examples/src/java/org/metawidget/example/swing/appframework/inspector-config.xml</filename>
 					from the source distribution:
 				</para>
 
