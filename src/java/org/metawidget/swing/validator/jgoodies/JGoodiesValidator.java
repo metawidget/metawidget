@@ -92,17 +92,17 @@ public class JGoodiesValidator
 
 				Object value = metawidget.getValue( names );
 
-				// ...run it through all the Validators...
-
-				ValidationResult validationResult = new ValidationResult();
+				// ...run it through the Validator...
 
 				@SuppressWarnings( "unchecked" )
 				Validator<Object> objectValidator = (Validator<Object>) validator;
-				validationResult.addAllFrom( objectValidator.validate( value ) );
+				ValidationResult validationResult = objectValidator.validate( value );
 
 				// ...and update the UI
 
 				// TODO: How?
+
+				validationResult.getErrors();
 			}
 		} );
 	}
