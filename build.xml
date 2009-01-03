@@ -1757,8 +1757,8 @@
 			<fileset dir="examples/src/java/org/metawidget/example/swing">
 				<include name="readme.txt"/>
 			</fileset>
-			<fileset dir="lib">
-				<include name="beansbinding*.jar"/>
+			<fileset dir=".">
+				<include name="lib\beansbinding*.jar"/>
 			</fileset>
 		</copy>
 		
@@ -1849,13 +1849,13 @@
 				<include name="readme.txt"/>
 			</fileset>
 			<fileset dir="examples/src/java/org/metawidget/example/swing/appframework">
-				<include name="swing-worker.jar"/>
+				<include name="lib/swing-worker.jar"/>
 			</fileset>
-			<fileset dir="lib">
-				<include name="AppFramework.jar"/>
-				<include name="beansbinding*.jar"/>
-				<include name="commons-jexl-*.jar"/>
-				<include name="commons-logging-*.jar"/>
+			<fileset dir=".">
+				<include name="lib/AppFramework.jar"/>
+				<include name="lib/beansbinding*.jar"/>
+				<include name="lib/commons-jexl-*.jar"/>
+				<include name="lib/commons-logging-*.jar"/>
 			</fileset>
 		</copy>
 		
@@ -1878,9 +1878,9 @@
 			<fileset dir="examples/src/java/org/metawidget/example/swing">
 				<include name="readme.txt"/>
 			</fileset>
-			<fileset dir="lib">
-				<include name="beansbinding*.jar"/>
-				<include name="scala-library.jar"/>
+			<fileset dir=".">
+				<include name="lib/beansbinding*.jar"/>
+				<include name="lib/scala-library.jar"/>
 			</fileset>
 		</copy>
 		
