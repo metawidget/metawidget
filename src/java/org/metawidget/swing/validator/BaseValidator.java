@@ -43,15 +43,6 @@ public abstract class BaseValidator
 	}
 
 	//
-	// Public methods
-	//
-
-	public void unbindProperties()
-	{
-		// Do nothing by default
-	}
-
-	//
 	// Protected methods
 	//
 
