@@ -33,5 +33,5 @@ public abstract interface Validator
 	// Methods
 	//
 
-	void addValidators( Component component, Map<String, String> attributes, String path );
+	void addValidator( Component component, Map<String, String> attributes, String path );
 }

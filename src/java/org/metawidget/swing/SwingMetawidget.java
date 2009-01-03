@@ -1034,7 +1034,7 @@ public class SwingMetawidget
 			}
 
 			if ( mValidator != null )
-				mValidator.addValidators( actualComponent, attributes, path );
+				mValidator.addValidator( actualComponent, attributes, path );
 		}
 
 		// Add to layout

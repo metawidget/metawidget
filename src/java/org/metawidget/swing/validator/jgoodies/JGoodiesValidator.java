@@ -34,7 +34,7 @@ import com.jgoodies.validation.Validator;
  * @author Richard Kennard, Stefan Ackermann
  */
 
-public abstract class JGoodiesValidator
+public class JGoodiesValidator
 	extends BaseValidator
 {
 	//
@@ -51,14 +51,14 @@ public abstract class JGoodiesValidator
 	//
 
 	@Override
-	public void addValidators( Component component, Map<String, String> attributes, String path )
+	public void addValidator( Component component, Map<String, String> attributes, String path )
 	{
-		Validator<?>[] validators = getValidators( component, attributes, path );
+		Validator<?> validator = getValidator( component, attributes, path );
 
-		if ( validators == null )
+		if ( validator == null )
 			return;
 
-		attachValidators( component, validators, path );
+		attachValidator( component, validator, path );
 	}
 
 	//
@@ -69,16 +69,16 @@ public abstract class JGoodiesValidator
 	 * Return the appropriate validators for the given Component with the given attributes.
 	 */
 
-	protected Validator<?>[] getValidators( Component component, Map<String, String> attributes, String path )
+	protected Validator<?> getValidator( Component component, Map<String, String> attributes, String path )
 	{
 		return null;
 	}
 
 	/**
-	 * Attach the given validators to the given Component
+	 * Attach the given Validator to the given Component
 	 */
 
-	protected void attachValidators( Component component, final Validator<?>[] validators, String path )
+	protected void attachValidator( Component component, final Validator<?> validator, String path )
 	{
 		final SwingMetawidget metawidget = getMetawidget();
 		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
@@ -96,12 +96,9 @@ public abstract class JGoodiesValidator
 
 				ValidationResult validationResult = new ValidationResult();
 
-				for ( Validator<?> validator : validators )
-				{
-					@SuppressWarnings( "unchecked" )
-					Validator<Object> objectValidator = (Validator<Object>) validator;
-					validationResult.addAllFrom( objectValidator.validate( value ) );
-				}
+				@SuppressWarnings( "unchecked" )
+				Validator<Object> objectValidator = (Validator<Object>) validator;
+				validationResult.addAllFrom( objectValidator.validate( value ) );
 
 				// ...and update the UI
 
