@@ -246,6 +246,11 @@ public class BeansBindingTest
 		}
 	}
 
+	public void testScalaBinding()
+	{
+		// TODO: implement me!
+	}
+
 	//
 	// Inner class
 	//

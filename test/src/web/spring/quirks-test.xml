@@ -1,6 +1,6 @@
 <project name="spring-quirks-test" default="test-all">
 
-	<property file="../../../build.properties" />
+	<property file="../../../../build.properties" />
 	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
 
 	<import file="${webtest.dir}/lib/taskdef.xml" />

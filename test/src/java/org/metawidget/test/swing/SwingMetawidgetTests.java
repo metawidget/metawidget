@@ -24,6 +24,7 @@ import org.metawidget.test.swing.actionbinding.reflection.ReflectionBindingTest;
 import org.metawidget.test.swing.layout.TableGridBagLayoutTest;
 import org.metawidget.test.swing.layout.TableGroupLayoutTest;
 import org.metawidget.test.swing.propertybinding.beansbinding.BeansBindingTest;
+import org.metawidget.test.swing.validator.jgoodies.JGoodiesValidatorTest;
 
 /**
  * @author Richard Kennard
@@ -53,6 +54,7 @@ public class SwingMetawidgetTests
 	{
 		TestSuite suite = new TestSuite( "SwingMetawidget Tests" );
 		suite.addTestSuite( BeansBindingTest.class );
+		suite.addTestSuite( JGoodiesValidatorTest.class );
 		suite.addTestSuite( ReflectionBindingTest.class );
 		// Not: suite.addTestSuite( SwingAllWidgetsTest.class ) - run separately as JDK 1.4
 		suite.addTestSuite( SwingAllWidgetsBeansBindingTest.class );

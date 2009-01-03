@@ -17,15 +17,21 @@
 package org.metawidget.swing.validator.jgoodies;
 
 import java.awt.Component;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.Map;
 
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.validator.BaseValidator;
+import org.metawidget.util.simple.PathUtils;
+
+import com.jgoodies.validation.ValidationResult;
+import com.jgoodies.validation.Validator;
 
 /**
- * Convenience implementation.
+ * Validator to add JGoodies validators to a Component.
  *
- * @author Richard Kennard
+ * @author Richard Kennard, Stefan Ackermann
  */
 
 public abstract class JGoodiesValidator
@@ -47,6 +53,60 @@ public abstract class JGoodiesValidator
 	@Override
 	public void addValidators( Component component, Map<String, String> attributes, String path )
 	{
-		throw new UnsupportedOperationException();
+		Validator<?>[] validators = getValidators( component, attributes, path );
+
+		if ( validators == null )
+			return;
+
+		attachValidators( component, validators, path );
+	}
+
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Return the appropriate validators for the given Component with the given attributes.
+	 */
+
+	protected Validator<?>[] getValidators( Component component, Map<String, String> attributes, String path )
+	{
+		return null;
+	}
+
+	/**
+	 * Attach the given validators to the given Component
+	 */
+
+	protected void attachValidators( Component component, final Validator<?>[] validators, String path )
+	{
+		final SwingMetawidget metawidget = getMetawidget();
+		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
+
+		component.addKeyListener( new KeyAdapter()
+		{
+			@Override
+			public void keyReleased( KeyEvent event )
+			{
+				// Fetch the value...
+
+				Object value = metawidget.getValue( names );
+
+				// ...run it through all the Validators...
+
+				ValidationResult validationResult = new ValidationResult();
+
+				for ( Validator<?> validator : validators )
+				{
+					@SuppressWarnings( "unchecked" )
+					Validator<Object> objectValidator = (Validator<Object>) validator;
+					validationResult.addAllFrom( objectValidator.validate( value ) );
+				}
+
+				// ...and update the UI
+
+				// TODO: How?
+			}
+		} );
 	}
 }

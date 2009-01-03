@@ -1,6 +1,6 @@
 <project name="gwt-addressbook-test" default="test-all">
 
-	<property file="../../../../build.properties" />
+	<property file="../../../../../build.properties" />
 	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
 
 	<import file="${webtest.dir}/lib/taskdef.xml" />
@@ -18,7 +18,7 @@
 				<invoke url="${webtest.url}/addressbook-gwt" />
 				<verifyTitle text="Address Book (Metawidget GWT Example)" />
 				
-				<verifyContent referenceFile="../../../../examples/src/java/org/metawidget/example/gwt/addressbook/public/AddressBook.html" />
+				<verifyContent referenceFile="../../../../../examples/src/java/org/metawidget/example/gwt/addressbook/public/AddressBook.html" />
 			</steps>
 		</webtest>
 	</target>

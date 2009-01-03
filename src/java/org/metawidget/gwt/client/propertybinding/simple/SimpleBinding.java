@@ -176,7 +176,6 @@ public class SimpleBinding
 		}
 	}
 
-	@Override
 	public void bindAction( Widget widget, Map<String, String> attributes, String path )
 	{
 		Object toInspect = getMetawidget().getToInspect();

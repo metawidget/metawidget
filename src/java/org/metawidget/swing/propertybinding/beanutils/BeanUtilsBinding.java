@@ -24,6 +24,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.metawidget.MetawidgetException;
+import org.metawidget.inspector.InspectionResultConstants;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.propertybinding.BasePropertyBinding;
 import org.metawidget.util.CollectionUtils;
@@ -32,18 +33,36 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Property binding implementation based on BeansUtils.
+ * <p>
+ * This implementation recognizes the following <code>SwingMetawidget.setParameter</code>
+ * parameters:
+ * <p>
+ * <ul>
+ * <li><code>propertyStyle</code> - either <code>PROPERTYSTYLE_JAVABEAN</code> (default) or
+ * <code>PROPERTYSTYLE_SCALA</code> (for Scala-style getters and setters).
+ * </ul>
  *
- * @author Richard Kennard
+ * @author Richard Kennard, Stefan Ackermann
  */
 
 public class BeanUtilsBinding
 	extends BasePropertyBinding
 {
 	//
+	// Public statics
+	//
+
+	public final static int		PROPERTYSTYLE_JAVABEAN	= 0;
+
+	public final static int		PROPERTYSTYLE_SCALA		= 1;
+
+	//
 	// Private members
 	//
 
 	private Set<SavedBinding>	mBindings;
+
+	private int					mPropertyStyle			= PROPERTYSTYLE_JAVABEAN;
 
 	//
 	// Constructor
@@ -52,6 +71,13 @@ public class BeanUtilsBinding
 	public BeanUtilsBinding( SwingMetawidget metawidget )
 	{
 		super( metawidget );
+
+		// Read parameters
+
+		Integer propertyStyle = (Integer) metawidget.getParameter( "propertyStyle" );
+
+		if ( propertyStyle != null )
+			mPropertyStyle = propertyStyle;
 	}
 
 	//
@@ -73,19 +99,21 @@ public class BeanUtilsBinding
 
 			try
 			{
-				sourceValue = PropertyUtils.getProperty( getMetawidget().getToInspect(), sourceBinding );
+				sourceValue = retrieveValueFromObject( getMetawidget().getToInspect(), sourceBinding );
 			}
 			catch ( NoSuchMethodException e )
 			{
 				throw MetawidgetException.newException( "Property '" + sourceBinding + "' has no getter" );
 			}
-
-			BeanUtils.setProperty( component, componentProperty, sourceValue );
+			String readonlykey = InspectionResultConstants.READ_ONLY;
+			boolean readonly = attributes.containsKey( readonlykey ) && attributes.get( readonlykey ).equals( "true" );
+			SavedBinding binding = new SavedBinding( component, componentProperty, sourceBinding, readonly );
+			saveValueToWidget( binding, sourceValue );
 
 			if ( mBindings == null )
 				mBindings = CollectionUtils.newHashSet();
 
-			mBindings.add( new SavedBinding( component, componentProperty, sourceBinding ) );
+			mBindings.add( binding );
 		}
 		catch ( Exception e )
 		{
@@ -110,14 +138,14 @@ public class BeanUtilsBinding
 
 				try
 				{
-					sourceValue = PropertyUtils.getProperty( sourceObject, sourceBinding );
+					sourceValue = retrieveValueFromObject( sourceObject, sourceBinding );
 				}
 				catch ( NoSuchMethodException e )
 				{
 					throw MetawidgetException.newException( "Property '" + sourceBinding + "' has no getter" );
 				}
 
-				BeanUtils.setProperty( binding.getComponent(), binding.getComponentProperty(), sourceValue );
+				saveValueToWidget( binding, sourceValue );
 			}
 		}
 		catch ( Exception e )
@@ -138,8 +166,11 @@ public class BeanUtilsBinding
 
 			for ( SavedBinding binding : mBindings )
 			{
-				Object componentValue = PropertyUtils.getProperty( binding.getComponent(), binding.getComponentProperty() );
-				BeanUtils.setProperty( source, binding.getSourceBinding(), componentValue );
+				if ( binding.isReadOnly() )
+					continue;
+
+				Object componentValue = retrieveValueFromWidget( binding );
+				saveValueToObject( source, binding, componentValue );
 			}
 		}
 		catch ( Exception e )
@@ -153,6 +184,51 @@ public class BeanUtilsBinding
 	public <T> T convertFromString( String value, Class<T> type )
 	{
 		return (T) ConvertUtils.convert( value, type );
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected Object retrieveValueFromObject( Object sourceObject, String sourceBinding )
+		throws Exception
+	{
+		switch ( mPropertyStyle )
+		{
+			case PROPERTYSTYLE_SCALA:
+				// TODO: implement me!
+				return null;
+
+			default:
+				return PropertyUtils.getProperty( sourceObject, sourceBinding );
+		}
+	}
+
+	private void saveValueToObject( Object source, SavedBinding binding, Object componentValue )
+		throws Exception
+	{
+		switch ( mPropertyStyle )
+		{
+			case PROPERTYSTYLE_SCALA:
+				// TODO: implement me!
+				break;
+
+			default:
+				BeanUtils.setProperty( source, binding.getSourceBinding(), componentValue );
+		}
+	}
+
+	protected Object retrieveValueFromWidget( SavedBinding binding )
+		throws Exception
+	{
+		Object componentValue = PropertyUtils.getProperty( binding.getComponent(), binding.getComponentProperty() );
+		return componentValue;
+	}
+
+	protected void saveValueToWidget( SavedBinding binding, Object sourceValue )
+		throws Exception
+	{
+		BeanUtils.setProperty( binding.getComponent(), binding.getComponentProperty(), sourceValue );
 	}
 
 	//
@@ -173,17 +249,20 @@ public class BeanUtilsBinding
 
 		private String		mSourceBinding;
 
+		private boolean		mReadOnly;
+
 		//
 		//
 		// Constructor
 		//
 		//
 
-		public SavedBinding( Component component, String componentProperty, String sourceBinding )
+		public SavedBinding( Component component, String componentProperty, String sourceBinding, boolean readonly )
 		{
 			mComponent = component;
 			mComponentProperty = componentProperty;
 			mSourceBinding = sourceBinding;
+			mReadOnly = readonly;
 		}
 
 		//
@@ -205,6 +284,11 @@ public class BeanUtilsBinding
 		public String getSourceBinding()
 		{
 			return mSourceBinding;
+		}
+
+		public boolean isReadOnly()
+		{
+			return mReadOnly;
 		}
 	}
 }

@@ -29,14 +29,11 @@ package org.metawidget.example.swing.bookstore
 				metawidget.setInspectorConfig( "org/metawidget/example/swing/bookstore/inspector-config.xml" )
 				metawidget.setToInspect( book )
 
-				metawidget.setValue( book.title, Array( "title" ))
-
 				contents=new BorderPanel {
 					add(Component.wrap( metawidget ),BorderPanel.Position.Center)
 					add(new Button("Save") {
 					reactions += {
 						case ButtonClicked(_) =>
-						  book.title = metawidget.getValue( Array( "title" )).asInstanceOf[String]
 						  println(book) // Make sure it was saved correclty
 					}
 				},BorderPanel.Position.South)
