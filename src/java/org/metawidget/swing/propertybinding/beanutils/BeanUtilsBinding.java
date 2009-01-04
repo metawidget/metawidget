@@ -205,7 +205,7 @@ public class BeanUtilsBinding
 		}
 	}
 
-	private void saveValueToObject( Object source, SavedBinding binding, Object componentValue )
+	protected void saveValueToObject( Object source, SavedBinding binding, Object componentValue )
 		throws Exception
 	{
 		switch ( mPropertyStyle )
@@ -241,8 +241,7 @@ public class BeanUtilsBinding
 	protected Object retrieveValueFromWidget( SavedBinding binding )
 		throws Exception
 	{
-		Object componentValue = PropertyUtils.getProperty( binding.getComponent(), binding.getComponentProperty() );
-		return componentValue;
+		return PropertyUtils.getProperty( binding.getComponent(), binding.getComponentProperty() );
 	}
 
 	protected void saveValueToWidget( SavedBinding binding, Object sourceValue )

@@ -70,14 +70,21 @@ public class JGoodiesValidator
 
 		JComponent jcomponent = (JComponent) component;
 
-		// Mandatory?
+		// Required?
 
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) )
+		boolean required = ( TRUE.equals( attributes.get( REQUIRED ) ));
+
+		if ( required )
 			ValidationComponentUtils.setMandatory( jcomponent, true );
 
 		// Custom validator?
 
 		Validator<?> validator = getValidator( jcomponent, attributes, path );
+
+		// Do not attachValidator if no validator and not required
+
+		if ( validator == null && !required )
+			return;
 
 		// Attach
 

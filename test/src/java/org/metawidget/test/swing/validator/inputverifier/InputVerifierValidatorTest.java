@@ -58,14 +58,16 @@ public class InputVerifierValidatorTest
 	{
 		// Model
 
-		Foo foo = new Foo();
-		foo.setBar( 42 );
+		Foo foo1 = new Foo();
+		foo1.setBar( 42 );
+		Foo foo2 = new Foo();
+		foo1.setNestedFoo( foo2 );
 
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setToInspect( foo );
+		metawidget.setToInspect( foo1 );
 
 		JSpinner spinner = (JSpinner) metawidget.getComponent( 1 );
 		assertTrue( null == spinner.getInputVerifier() );
@@ -75,6 +77,8 @@ public class InputVerifierValidatorTest
 		metawidget.setValidatorClass( MyInputVerifierValidator.class );
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		assertTrue( !spinner.getInputVerifier().verify( spinner ) );
+		JSpinner nestedSpinner = (JSpinner) ((SwingMetawidget) metawidget.getComponent( 3 )).getComponent( 1 );
+		assertTrue( !nestedSpinner.getInputVerifier().verify( spinner ) );
 	}
 
 	//
@@ -121,6 +125,8 @@ public class InputVerifierValidatorTest
 
 		private long	mBar;
 
+		private Foo		mNestedFoo;
+
 		//
 		//
 		// Public methods
@@ -135,6 +141,16 @@ public class InputVerifierValidatorTest
 		public void setBar( long bar )
 		{
 			mBar = bar;
+		}
+
+		public Foo getNestedFoo()
+		{
+			return mNestedFoo;
+		}
+
+		public void setNestedFoo( Foo nestedFoo )
+		{
+			mNestedFoo = nestedFoo;
 		}
 	}
 }

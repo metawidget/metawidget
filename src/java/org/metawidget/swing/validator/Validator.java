@@ -40,6 +40,8 @@ public abstract interface Validator
 	 * SwingMetawidget is displayed.
 	 */
 
+	// TODO: test me
+
 	void initializeValidators();
 
 	/**
@@ -48,6 +50,8 @@ public abstract interface Validator
 	 * Some validation implementations will use immediate validation (ie. based on
 	 * <code>keyReleased</code>). Others may prefer deferred, explicit validation.
 	 */
+
+	// TODO: test me
 
 	void validate();
 }

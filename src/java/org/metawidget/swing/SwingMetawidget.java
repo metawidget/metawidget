@@ -1536,9 +1536,6 @@ public class SwingMetawidget
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setPropertyBindingClass( mPropertyBindingClass );
 		metawidget.setActionBindingClass( mActionBindingClass );
-
-		// TODO: test nested validator
-
 		metawidget.setValidatorClass( mValidatorClass );
 		metawidget.setBundle( mBundle );
 		metawidget.setOpaque( isOpaque() );

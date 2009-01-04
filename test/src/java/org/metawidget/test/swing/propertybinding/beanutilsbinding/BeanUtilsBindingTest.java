@@ -16,11 +16,16 @@
 
 package org.metawidget.test.swing.propertybinding.beanutilsbinding;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import javax.swing.JLabel;
-import javax.swing.JSpinner;
+import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.beanutils.ConvertUtils;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -34,6 +39,12 @@ import org.metawidget.swing.propertybinding.beanutils.BeanUtilsBinding;
 public class BeanUtilsBindingTest
 	extends TestCase
 {
+	//
+	// Protected statics
+	//
+
+	protected final static String	DATE_FORMAT	= "dd/MM/yyyy";
+
 	//
 	// Constructor
 	//
@@ -57,12 +68,16 @@ public class BeanUtilsBindingTest
 		// Model
 
 		ScalaFoo scalaFoo = new ScalaFoo();
-		scalaFoo.bar_$eq( 42l );
+		scalaFoo.bar_$eq( new GregorianCalendar( 1975, Calendar.APRIL, 9 ).getTime() );
 		ScalaFoo scalaFoo2 = new ScalaFoo();
 		scalaFoo.nestedFoo = scalaFoo2;
 		ScalaFoo scalaFoo3 = new ScalaFoo();
 		scalaFoo2.nestedFoo = scalaFoo3;
-		scalaFoo3.bar_$eq( 52l );
+		scalaFoo3.bar_$eq( new GregorianCalendar( 1976, Calendar.MAY, 16 ).getTime() );
+
+		// BeanUtilsBinding
+
+		ConvertUtils.register( new org.metawidget.test.swing.allwidgets.converter.beanutils.DateConverter( DATE_FORMAT ), Date.class );
 
 		// Inspect
 
@@ -75,31 +90,30 @@ public class BeanUtilsBindingTest
 		metawidget.setToInspect( scalaFoo );
 
 		// Loading
-		//
-		// Note: if this test fails with an 'illegal value' from SpinnerNumberModel.setValue, check
-		// there isn't a pre-1.8 version of BeanUtils somewhere on the CLASSPATH (eg.
-		// gwt-dev-windows.jar)
 
-		JSpinner spinner = (JSpinner) metawidget.getComponent( 1 );
-		assertTrue( 42l == (Long) spinner.getValue() );
+		JTextField textField = (JTextField) metawidget.getComponent( 1 );
+		assertTrue( "09/04/1975".equals( textField.getText() ));
 		JLabel label = (JLabel) metawidget.getComponent( 5 );
-		assertTrue( "Not settable".equals( label.getText() ));
+		assertTrue( "Not settable".equals( label.getText() ) );
 
-		JSpinner nestedSpinner = (JSpinner) ( (SwingMetawidget) metawidget.getComponent( 3 )).getComponent( 1 );
-		assertTrue( 0l == (Long) nestedSpinner.getValue() );
+		JTextField nestedTextField = (JTextField) ( (SwingMetawidget) metawidget.getComponent( 3 ) ).getComponent( 1 );
+		assertTrue( "".equals( nestedTextField.getText() ));
 
-		JSpinner nestedNestedSpinner = (JSpinner) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 3 ) ).getComponent( 3 ) ).getComponent( 1 );
-		assertTrue( 52l == (Long) nestedNestedSpinner.getValue() );
+		JTextField nestedNestedTextField = (JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 3 ) ).getComponent( 3 ) ).getComponent( 1 );
+		assertTrue( "16/05/1976".equals( nestedNestedTextField.getText() ));
 
 		// Saving
 
-		spinner.setValue( 43l );
-		nestedNestedSpinner.setValue( 53l );
+		textField.setText( "10/05/1976" );
+		nestedNestedTextField.setText( "17/06/1977" );
 		metawidget.save();
 
-		assertTrue( 43l == scalaFoo.bar() );
-		assertTrue( 0l == scalaFoo2.bar() );
-		assertTrue( 53l == scalaFoo3.bar() );
+		GregorianCalendar calendar = new GregorianCalendar();
+		calendar.setTime( scalaFoo.bar() );
+		assertTrue( 1976 == calendar.get( Calendar.YEAR ));
+		assertTrue( null == scalaFoo2.bar() );
+		calendar.setTime( scalaFoo3.bar() );
+		assertTrue( 1977 == calendar.get( Calendar.YEAR ));
 	}
 
 	//
@@ -112,9 +126,9 @@ public class BeanUtilsBindingTest
 		// Private members
 		//
 
-		private long		bar;
+		private Date		bar;
 
-		private String		notSettable = "Not settable";
+		private String		notSettable	= "Not settable";
 
 		protected ScalaFoo	nestedFoo;
 
@@ -122,12 +136,12 @@ public class BeanUtilsBindingTest
 		// Public methods
 		//
 
-		public long bar()
+		public Date bar()
 		{
 			return bar;
 		}
 
-		public void bar_$eq( long theBar )
+		public void bar_$eq( Date theBar )
 		{
 			bar = theBar;
 		}
