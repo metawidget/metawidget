@@ -18,11 +18,15 @@ package org.metawidget.test.swing;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.awt.Component;
+import java.awt.event.ActionEvent;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.lang.reflect.Method;
 import java.util.Map;
 
+import javax.swing.AbstractAction;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -32,8 +36,13 @@ import javax.swing.SwingConstants;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
+import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.composite.CompositeInspector;
+import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.actionbinding.BaseActionBinding;
 import org.metawidget.swing.propertybinding.PropertyBinding;
 import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
 import org.metawidget.swing.propertybinding.beanutils.BeanUtilsBinding;
@@ -232,6 +241,29 @@ public class SwingMetawidgetTest
 		assertTrue( component instanceof JTextField );
 	}
 
+	public void testNestedActionBinding()
+	{
+		Foo foo1 = new Foo();
+		Foo foo2 = new Foo();
+		Foo foo3 = new Foo();
+		foo1.setFoo( foo2 );
+		foo2.setFoo( foo3 );
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		CompositeInspectorConfig config = new CompositeInspectorConfig();
+		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
+		metawidget.setInspector( new CompositeInspector( config ) );
+		metawidget.setActionBindingClass( FooActionBinding.class );
+		metawidget.setToInspect( foo1 );
+
+		( (JButton) metawidget.getComponent( 0 ) ).doClick();
+		( (JButton) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 0 ) ).doClick();
+
+		assertTrue( "FooActionBinding fired".equals( ((JTextField) metawidget.getComponent( 4 )).getText() ));
+		assertTrue( "".equals( ((JTextField) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 4 )).getText() ));
+		assertTrue( "FooActionBinding fired".equals( ((JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 4 )).getText() ));
+	}
+
 	//
 	// Private methods
 	//
@@ -336,6 +368,45 @@ public class SwingMetawidgetTest
 		public void setFoo( Foo foo )
 		{
 			mFoo = foo;
+		}
+
+		@UiAction
+		public void doAction()
+		{
+			// Do nothing
+		}
+	}
+
+	public static class FooActionBinding
+		extends BaseActionBinding
+	{
+		//
+		// Constructor
+		//
+
+		public FooActionBinding( SwingMetawidget metawidget )
+		{
+			super( metawidget );
+		}
+
+		//
+		// Public methods
+		//
+
+		@SuppressWarnings( "serial" )
+		public void bindAction( Component component, Map<String, String> attributes, String path )
+		{
+			JButton button = (JButton) component;
+			final SwingMetawidget metawidget = getMetawidget();
+
+			button.setAction( new AbstractAction( button.getText() )
+			{
+				@Override
+				public void actionPerformed( ActionEvent e )
+				{
+					metawidget.setValue( "FooActionBinding fired", "name" );
+				}
+			} );
 		}
 	}
 }
