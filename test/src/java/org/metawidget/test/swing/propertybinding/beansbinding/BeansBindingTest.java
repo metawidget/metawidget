@@ -246,11 +246,6 @@ public class BeansBindingTest
 		}
 	}
 
-	public void testScalaBinding()
-	{
-		// TODO: implement me!
-	}
-
 	//
 	// Inner class
 	//
@@ -258,9 +253,7 @@ public class BeansBindingTest
 	protected static class Foo
 	{
 		//
-		//
 		// Private members
-		//
 		//
 
 		private final PropertyChangeSupport	mPropertyChangeSupport	= new PropertyChangeSupport( this );
@@ -272,9 +265,7 @@ public class BeansBindingTest
 		private List<String>				mList					= CollectionUtils.unmodifiableList( "element1", "element2" );
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		public long getBar()
@@ -320,9 +311,7 @@ public class BeansBindingTest
 		private Date	mBar;
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		public Date getBar()
@@ -339,9 +328,7 @@ public class BeansBindingTest
 	protected static class NoGetSetFoo
 	{
 		//
-		//
 		// Public methods
-		//
 		//
 
 		public float	bar;

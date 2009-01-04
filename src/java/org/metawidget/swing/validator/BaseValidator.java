@@ -43,6 +43,20 @@ public abstract class BaseValidator
 	}
 
 	//
+	// Public methods
+	//
+
+	public void initializeValidators()
+	{
+		// Do nothing by default
+	}
+
+	public void validate()
+	{
+		// Do nothing by default
+	}
+
+	//
 	// Protected methods
 	//
 

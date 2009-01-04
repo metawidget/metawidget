@@ -16,7 +16,10 @@
 
 package org.metawidget.swing.propertybinding.beanutils;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.awt.Component;
+import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
 
@@ -24,7 +27,6 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.metawidget.MetawidgetException;
-import org.metawidget.inspector.InspectionResultConstants;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.propertybinding.BasePropertyBinding;
 import org.metawidget.util.CollectionUtils;
@@ -94,20 +96,18 @@ public class BeanUtilsBinding
 
 		try
 		{
-			String sourceBinding = PathUtils.parsePath( path ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
 			Object sourceValue;
 
 			try
 			{
-				sourceValue = retrieveValueFromObject( getMetawidget().getToInspect(), sourceBinding );
+				sourceValue = retrieveValueFromObject( getMetawidget().getToInspect(), path );
 			}
 			catch ( NoSuchMethodException e )
 			{
-				throw MetawidgetException.newException( "Property '" + sourceBinding + "' has no getter" );
+				throw MetawidgetException.newException( "Property '" + path + "' has no getter" );
 			}
-			String readonlykey = InspectionResultConstants.READ_ONLY;
-			boolean readonly = attributes.containsKey( readonlykey ) && attributes.get( readonlykey ).equals( "true" );
-			SavedBinding binding = new SavedBinding( component, componentProperty, sourceBinding, readonly );
+
+			SavedBinding binding = new SavedBinding( component, componentProperty, path, TRUE.equals( attributes.get( NO_SETTER )) );
 			saveValueToWidget( binding, sourceValue );
 
 			if ( mBindings == null )
@@ -134,15 +134,15 @@ public class BeanUtilsBinding
 			for ( SavedBinding binding : mBindings )
 			{
 				Object sourceValue;
-				String sourceBinding = binding.getSourceBinding();
+				String path = binding.getPath();
 
 				try
 				{
-					sourceValue = retrieveValueFromObject( sourceObject, sourceBinding );
+					sourceValue = retrieveValueFromObject( sourceObject, path );
 				}
 				catch ( NoSuchMethodException e )
 				{
-					throw MetawidgetException.newException( "Property '" + sourceBinding + "' has no getter" );
+					throw MetawidgetException.newException( "Property '" + path + "' has no getter" );
 				}
 
 				saveValueToWidget( binding, sourceValue );
@@ -166,7 +166,7 @@ public class BeanUtilsBinding
 
 			for ( SavedBinding binding : mBindings )
 			{
-				if ( binding.isReadOnly() )
+				if ( !binding.isSettable() )
 					continue;
 
 				Object componentValue = retrieveValueFromWidget( binding );
@@ -190,17 +190,18 @@ public class BeanUtilsBinding
 	// Protected methods
 	//
 
-	protected Object retrieveValueFromObject( Object sourceObject, String sourceBinding )
+	protected Object retrieveValueFromObject( Object source, String path )
 		throws Exception
 	{
 		switch ( mPropertyStyle )
 		{
 			case PROPERTYSTYLE_SCALA:
-				// TODO: implement me!
-				return null;
+				String[] names = PathUtils.parsePath( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNamesAsArray();
+				return scalaTraverse( source, false, names );
 
 			default:
-				return PropertyUtils.getProperty( sourceObject, sourceBinding );
+				String beanPath = PathUtils.parsePath( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
+				return PropertyUtils.getProperty( source, beanPath );
 		}
 	}
 
@@ -210,11 +211,30 @@ public class BeanUtilsBinding
 		switch ( mPropertyStyle )
 		{
 			case PROPERTYSTYLE_SCALA:
-				// TODO: implement me!
+
+				// Traverse to the setter...
+
+				String[] names = PathUtils.parsePath( binding.getPath(), StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNamesAsArray();
+				Object parent = scalaTraverse( source, true, names );
+
+				if ( parent == null )
+					return;
+
+				// ...determine its type...
+
+				Class<?> parentClass = parent.getClass();
+				String name = names[ names.length - 1 ];
+				Class<?> propertyType = parentClass.getMethod( name ).getReturnType();
+
+				// ...and set it
+
+				Method writeMethod = parentClass.getMethod( name + "_$eq", propertyType );
+				writeMethod.invoke( parent, componentValue );
 				break;
 
 			default:
-				BeanUtils.setProperty( source, binding.getSourceBinding(), componentValue );
+				String beanPath = PathUtils.parsePath( binding.getPath(), StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
+				BeanUtils.setProperty( source, beanPath, componentValue );
 		}
 	}
 
@@ -229,6 +249,51 @@ public class BeanUtilsBinding
 		throws Exception
 	{
 		BeanUtils.setProperty( binding.getComponent(), binding.getComponentProperty(), sourceValue );
+	}
+
+	//
+	// Private methods
+	//
+
+	private Object scalaTraverse( Object toTraverse, boolean onlyToParent, String... names )
+		throws Exception
+	{
+		// Sanity check
+
+		if ( toTraverse == null )
+			return null;
+
+		// Traverse through names (if any)
+
+		if ( names == null )
+			return toTraverse;
+
+		int length = names.length;
+
+		if ( length == 0 )
+			return toTraverse;
+
+		// Only to parent?
+
+		if ( onlyToParent )
+			length--;
+
+		// Do the traversal
+
+		Object traverse = toTraverse;
+
+		for ( int loop = 0; loop < length; loop++ )
+		{
+			Method readMethod = traverse.getClass().getMethod( names[loop] );
+			traverse = readMethod.invoke( traverse );
+
+			// Can go no further?
+
+			if ( traverse == null )
+				break;
+		}
+
+		return traverse;
 	}
 
 	//
@@ -247,9 +312,9 @@ public class BeanUtilsBinding
 
 		private String		mComponentProperty;
 
-		private String		mSourceBinding;
+		private String		mPath;
 
-		private boolean		mReadOnly;
+		private boolean		mNoSetter;
 
 		//
 		//
@@ -257,12 +322,12 @@ public class BeanUtilsBinding
 		//
 		//
 
-		public SavedBinding( Component component, String componentProperty, String sourceBinding, boolean readonly )
+		public SavedBinding( Component component, String componentProperty, String path, boolean noSetter )
 		{
 			mComponent = component;
 			mComponentProperty = componentProperty;
-			mSourceBinding = sourceBinding;
-			mReadOnly = readonly;
+			mPath = path;
+			mNoSetter = noSetter;
 		}
 
 		//
@@ -281,14 +346,14 @@ public class BeanUtilsBinding
 			return mComponentProperty;
 		}
 
-		public String getSourceBinding()
+		public String getPath()
 		{
-			return mSourceBinding;
+			return mPath;
 		}
 
-		public boolean isReadOnly()
+		public boolean isSettable()
 		{
-			return mReadOnly;
+			return !mNoSetter;
 		}
 	}
 }

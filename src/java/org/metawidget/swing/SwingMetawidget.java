@@ -529,6 +529,36 @@ public class SwingMetawidget
 	}
 
 	/**
+	 * Validates all component values using the current Validator (as set by <code>setValidatorClass</code>).
+	 *
+	 * @throws MetawidgetException
+	 *             if no binding configured
+	 */
+
+	public void validateValues()
+	{
+		// buildWidgets() so that mValidator is initialized
+
+		buildWidgets();
+
+		if ( mValidator == null )
+			throw MetawidgetException.newException( "No validator configured. Use SwingMetawidget.setValidatorClass" );
+
+		mValidator.validate();
+
+		// Having a validate() method avoids having to expose a getValidator() method, which is handy
+		// because we can worry about nested Metawidgets here, not in the Validator class
+
+		for ( Component component : getComponents() )
+		{
+			if ( component instanceof SwingMetawidget )
+			{
+				( (SwingMetawidget) component ).validateValues();
+			}
+		}
+	}
+
+	/**
 	 * Overriden to build widgets just-in-time.
 	 * <p>
 	 * This is the first method a JFrame.pack calls.
@@ -1457,6 +1487,9 @@ public class SwingMetawidget
 			mLayout.layoutEnd();
 		}
 
+		if ( mValidator != null )
+			mValidator.initializeValidators();
+
 		// Call validate because JComponents have been added/removed, and
 		// JComponent layout information has changed
 
@@ -1502,6 +1535,12 @@ public class SwingMetawidget
 
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setPropertyBindingClass( mPropertyBindingClass );
+
+		// TODO: test nested action binding
+		// TODO: test nested validator
+
+		metawidget.setActionBindingClass( mActionBindingClass );
+		metawidget.setValidatorClass( mValidatorClass );
 		metawidget.setBundle( mBundle );
 		metawidget.setOpaque( isOpaque() );
 

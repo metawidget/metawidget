@@ -1878,8 +1878,13 @@
 			<fileset dir="examples/src/java/org/metawidget/example/swing">
 				<include name="readme.txt"/>
 			</fileset>
+			<fileset dir="examples/src/scala/org/metawidget/example/swing/bookstore">
+				<include name="lib/scala-swing.jar"/>
+			</fileset>
 			<fileset dir=".">
 				<include name="lib/beansbinding*.jar"/>
+				<include name="lib/commons-beanutils-*.jar"/>
+				<include name="lib/commons-logging-*.jar"/>
 				<include name="lib/scala-library.jar"/>
 			</fileset>
 		</copy>

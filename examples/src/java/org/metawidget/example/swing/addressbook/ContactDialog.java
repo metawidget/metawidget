@@ -56,6 +56,7 @@ import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.FlowLayout;
 import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
+import org.metawidget.swing.validator.jgoodies.JGoodiesValidator;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -165,6 +166,7 @@ public class ContactDialog
 		mContactMetawidget.setPropertyBindingClass( BeansBinding.class );
 		mContactMetawidget.setToInspect( contact );
 		mContactMetawidget.setReadOnly( contact.getId() != 0 );
+		mContactMetawidget.setValidatorClass( JGoodiesValidator.class );
 		panelBackground.add( mContactMetawidget, BorderLayout.CENTER );
 
 		// Communications override

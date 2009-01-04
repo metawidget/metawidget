@@ -34,4 +34,20 @@ public abstract interface Validator
 	//
 
 	void addValidator( Component component, Map<String, String> attributes, String path );
+
+	/**
+	 * Called after all components, and validators, have been created, but before the
+	 * SwingMetawidget is displayed.
+	 */
+
+	void initializeValidators();
+
+	/**
+	 * Called in response to <code>SwingMetawidget.validateValues</code>.
+	 * <p>
+	 * Some validation implementations will use immediate validation (ie. based on
+	 * <code>keyReleased</code>). Others may prefer deferred, explicit validation.
+	 */
+
+	void validate();
 }

@@ -16,10 +16,14 @@
 
 package org.metawidget.swing.validator.jgoodies;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Map;
+
+import javax.swing.JComponent;
 
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.validator.BaseValidator;
@@ -27,9 +31,15 @@ import org.metawidget.util.simple.PathUtils;
 
 import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.Validator;
+import com.jgoodies.validation.view.ValidationComponentUtils;
 
 /**
  * Validator to add JGoodies validators to a Component.
+ * <p>
+ * Out of the box, JGoodies does not provide any Validator implementations, so by default this class
+ * only calls JGoodies' <code>setMandatory</code> and <code>updateComponentTreeMandatory</code> methods.
+ * Clients are expected to extend this class and override <code>getValidator</code> to integrate
+ * their own validators.
  *
  * @author Richard Kennard, Stefan Ackermann
  */
@@ -51,14 +61,36 @@ public class JGoodiesValidator
 	//
 
 	@Override
-	public void addValidator( Component component, Map<String, String> attributes, String path )
+	public void addValidator( final Component component, Map<String, String> attributes, String path )
 	{
-		Validator<?> validator = getValidator( component, attributes, path );
+		// JGoodies only supports JComponents
 
-		if ( validator == null )
+		if ( !( component instanceof JComponent ) )
 			return;
 
-		attachValidator( component, validator, path );
+		JComponent jcomponent = (JComponent) component;
+
+		// Mandatory?
+
+		if ( TRUE.equals( attributes.get( REQUIRED ) ) )
+			ValidationComponentUtils.setMandatory( jcomponent, true );
+
+		// Custom validator?
+
+		Validator<?> validator = getValidator( jcomponent, attributes, path );
+
+		// Attach
+
+		attachValidator( jcomponent, validator, path );
+	}
+
+	@Override
+	public void initializeValidators()
+	{
+		super.initializeValidators();
+
+		ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground( getMetawidget() );
+		ValidationComponentUtils.updateComponentTreeMandatoryBorder( getMetawidget() );
 	}
 
 	//
@@ -66,23 +98,22 @@ public class JGoodiesValidator
 	//
 
 	/**
-	 * Return the appropriate validators for the given Component with the given attributes.
+	 * Return the appropriate validator for the given JComponent with the given attributes.
 	 */
 
-	protected Validator<?> getValidator( Component component, Map<String, String> attributes, String path )
+	protected Validator<?> getValidator( JComponent component, Map<String, String> attributes, String path )
 	{
 		return null;
 	}
 
 	/**
-	 * Attach the given Validator to the given Component
+	 * Attach the given Validator to the given JComponent
 	 */
 
-	protected void attachValidator( Component component, final Validator<?> validator, String path )
+	protected void attachValidator( final JComponent component, final Validator<?> validator, String path )
 	{
 		final SwingMetawidget metawidget = getMetawidget();
 		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
-
 		component.addKeyListener( new KeyAdapter()
 		{
 			@Override
@@ -94,15 +125,25 @@ public class JGoodiesValidator
 
 				// ...run it through the Validator...
 
-				@SuppressWarnings( "unchecked" )
-				Validator<Object> objectValidator = (Validator<Object>) validator;
-				ValidationResult validationResult = objectValidator.validate( value );
+				if ( validator != null )
+				{
+					@SuppressWarnings( "unchecked" )
+					Validator<Object> objectValidator = (Validator<Object>) validator;
+					ValidationResult validationResult = objectValidator.validate( value );
 
-				// ...and update the UI
+					// ...and update the UI
 
-				// TODO: How?
+					ValidationComponentUtils.updateComponentTreeSeverity( metawidget, validationResult );
+					ValidationComponentUtils.updateComponentTreeSeverityBackground( metawidget, validationResult );
+				}
 
-				validationResult.getErrors();
+				// Note: it may be nicer to only update the JComponent, not revisit the entire
+				// tree, but JGoodies' built-in (private) MandatoryAndBlankBackgroundVisitor uses
+				// its (private) restoreBackground, so seemingly this is the way JGoodies wants us
+				// to do it
+
+				if ( ValidationComponentUtils.isMandatory( component ) )
+					ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground( metawidget );
 			}
 		} );
 	}

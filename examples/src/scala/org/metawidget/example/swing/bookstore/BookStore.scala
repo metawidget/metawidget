@@ -15,6 +15,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 import org.metawidget.swing._
+import org.metawidget.swing.propertybinding.beanutils._
 import org.metawidget.inspector.annotation._
 import scala.swing._
 import scala.swing.event._
@@ -24,9 +25,13 @@ package org.metawidget.example.swing.bookstore
 	object BookStore extends SimpleGUIApplication
 	{
 		var book = new Book( "The Reflective Practitioner", "1-85742-319-4" )
+		book.author.firstname = "Donald"
+		book.author.surname = "Schon"
 		def top = new MainFrame{
 				val metawidget = new SwingMetawidget()
 				metawidget.setInspectorConfig( "org/metawidget/example/swing/bookstore/inspector-config.xml" )
+				metawidget.setPropertyBindingClass( classOf[ BeanUtilsBinding ])
+				metawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA )
 				metawidget.setToInspect( book )
 
 				contents=new BorderPanel {
@@ -34,6 +39,7 @@ package org.metawidget.example.swing.bookstore
 					add(new Button("Save") {
 					reactions += {
 						case ButtonClicked(_) =>
+						  metawidget.save()
 						  println(book) // Make sure it was saved correclty
 					}
 				},BorderPanel.Position.South)

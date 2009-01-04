@@ -358,7 +358,6 @@ public abstract class BaseObjectInspector
 	//
 
 	private Object traverse( Object toTraverse, String type, boolean onlyToParent, String... names )
-		throws InspectorException
 	{
 		// Sanity check
 
