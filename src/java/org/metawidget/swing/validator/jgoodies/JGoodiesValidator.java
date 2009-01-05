@@ -98,10 +98,17 @@ public class JGoodiesValidator
 
 		Validator<?> validator = getValidator( jcomponent, attributes, path );
 
-		// Do not attachValidator if no validator and not required
+		if ( validator == null )
+		{
+			// Do not attachValidator if no validator and not required
 
-		if ( validator == null && !required )
-			return;
+			if ( !required )
+				return;
+		}
+		else
+		{
+			ValidationComponentUtils.setMessageKey( jcomponent, component.getName() );
+		}
 
 		// Attach
 
