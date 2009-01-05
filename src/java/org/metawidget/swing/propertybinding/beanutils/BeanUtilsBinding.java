@@ -54,7 +54,7 @@ public class BeanUtilsBinding
 	// Private statics
 	//
 
-	private final static String	SCALA_SET_SUFFIX	= "_$eq";
+	private final static String	SCALA_SET_SUFFIX		= "_$eq";
 
 	//
 	// Public statics
@@ -180,7 +180,7 @@ public class BeanUtilsBinding
 					continue;
 
 				Object componentValue = retrieveValueFromWidget( binding );
-				saveValueToObject( source, binding, componentValue );
+				saveValueToObject( source, binding.getNames(), componentValue );
 			}
 		}
 		catch ( Exception e )
@@ -200,20 +200,35 @@ public class BeanUtilsBinding
 	// Protected methods
 	//
 
+	/**
+	 * Retrieve value identified by the given names from the given source.
+	 * <p>
+	 * Clients may override this method to incorporate their own getter convention.
+	 */
+
 	protected Object retrieveValueFromObject( Object source, String names )
 		throws Exception
 	{
 		switch ( mPropertyStyle )
 		{
 			case PROPERTYSTYLE_SCALA:
-				return scalaTraverse( source, false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ));
+				return scalaTraverse( source, false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ) );
 
 			default:
 				return PropertyUtils.getProperty( source, names );
 		}
 	}
 
-	protected void saveValueToObject( Object source, SavedBinding binding, Object componentValue )
+	/**
+	 * Save the given value into the given source at the location specified by the given names.
+	 * <p>
+	 * Clients may override this method to incorporate their own setter convention.
+	 *
+	 * @param componentValue
+	 *            the raw value from the <code>JComponent</code>
+	 */
+
+	protected void saveValueToObject( Object source, String names, Object componentValue )
 		throws Exception
 	{
 		switch ( mPropertyStyle )
@@ -222,8 +237,8 @@ public class BeanUtilsBinding
 
 				// Traverse to the setter...
 
-				String[] names = binding.getNames().split( "\\" + StringUtils.SEPARATOR_DOT_CHAR );
-				Object parent = scalaTraverse( source, true, names );
+				String[] namesAsArray = names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR );
+				Object parent = scalaTraverse( source, true, namesAsArray );
 
 				if ( parent == null )
 					return;
@@ -231,7 +246,7 @@ public class BeanUtilsBinding
 				// ...determine its type...
 
 				Class<?> parentClass = parent.getClass();
-				String lastName = names[names.length - 1];
+				String lastName = namesAsArray[namesAsArray.length - 1];
 				Class<?> propertyType = parentClass.getMethod( lastName ).getReturnType();
 
 				// ...convert if necessary (BeanUtils.setProperty usually does this for us)...
@@ -245,7 +260,7 @@ public class BeanUtilsBinding
 				break;
 
 			default:
-				BeanUtils.setProperty( source, binding.getNames(), componentValue );
+				BeanUtils.setProperty( source, names, componentValue );
 		}
 	}
 
