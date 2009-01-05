@@ -75,10 +75,23 @@ public class InputVerifierValidatorTest
 		// Validate
 
 		metawidget.setValidatorClass( MyInputVerifierValidator.class );
+		assertTrue( null == metawidget.getClientProperty( "initializeValidators" ));
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		assertTrue( !spinner.getInputVerifier().verify( spinner ) );
-		JSpinner nestedSpinner = (JSpinner) ((SwingMetawidget) metawidget.getComponent( 3 )).getComponent( 1 );
+		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "initializeValidators" )));
+
+		SwingMetawidget nestedMetawidget = (SwingMetawidget) metawidget.getComponent( 3 );
+		JSpinner nestedSpinner = (JSpinner) nestedMetawidget.getComponent( 1 );
 		assertTrue( !nestedSpinner.getInputVerifier().verify( spinner ) );
+		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "initializeValidators" )));
+
+		// ValidateValues
+
+		assertTrue( null == metawidget.getClientProperty( "validateValues" ));
+		assertTrue( null == nestedMetawidget.getClientProperty( "validateValues" ));
+		metawidget.validateValues();
+		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "validateValues" )));
+		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "validateValues" )));
 	}
 
 	//
@@ -99,6 +112,22 @@ public class InputVerifierValidatorTest
 
 		//
 		// Public methods
+		//
+
+		@Override
+		public void initializeValidators()
+		{
+			getMetawidget().putClientProperty( "initializeValidators", Boolean.TRUE );
+		}
+
+		@Override
+		public void validate()
+		{
+			getMetawidget().putClientProperty( "validateValues", Boolean.TRUE );
+		}
+
+		//
+		// Protected methods
 		//
 
 		@Override
