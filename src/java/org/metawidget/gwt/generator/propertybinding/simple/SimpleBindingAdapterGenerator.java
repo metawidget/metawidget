@@ -241,6 +241,8 @@ public class SimpleBindingAdapterGenerator
 
 			// Write subtypes
 
+			// TODO: implement me
+
 			sourceWriter.println( "throw new RuntimeException( \"Implement me!\" );" );
 
 			sourceWriter.outdent();
