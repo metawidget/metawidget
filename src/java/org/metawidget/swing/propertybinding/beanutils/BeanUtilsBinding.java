@@ -102,8 +102,11 @@ public class BeanUtilsBinding
 
 		try
 		{
-			Object sourceValue;
+			// Convert 'com.Foo/bar/baz' into BeanUtils notation 'bar.baz'
+
 			String names = PathUtils.parsePath( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
+
+			Object sourceValue;
 
 			try
 			{
