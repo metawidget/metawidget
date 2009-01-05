@@ -41,7 +41,7 @@ import org.metawidget.inspector.annotation.UiSection;
  * <p>
  * Implements Serializable because some Web containers require session-level values to be
  * Serializable.
- * 
+ *
  * @author Richard Kennard
  */
 

@@ -31,7 +31,6 @@ import java.util.Set;
 
 import org.metawidget.gwt.client.actionbinding.ActionBinding;
 import org.metawidget.gwt.client.actionbinding.ActionBindingFactory;
-import org.metawidget.gwt.client.actionbinding.jsni.JsniBinding;
 import org.metawidget.gwt.client.inspector.InspectorFactory;
 import org.metawidget.gwt.client.propertybinding.PropertyBinding;
 import org.metawidget.gwt.client.propertybinding.PropertyBindingFactory;
@@ -97,10 +96,10 @@ public class GwtMetawidget
 	 * Delay before rebuilding widgets (in milliseconds).
 	 * <p>
 	 * GWT does not define a good 'paint' method to override, so we must call
-	 * <code>buildWidgets</code> after every <code>invalidateWidgets</code>. Many methods (eg.
-	 * most setters) trigger <code>invalidateWidgets</code>, however, so we impose a short delay
-	 * to try and 'batch' multiple <code>buildWidgets</code> requests (and their associated AJAX
-	 * calls) into one.
+	 * <code>buildWidgets</code> after every <code>invalidateWidgets</code>. Many methods (eg. most
+	 * setters) trigger <code>invalidateWidgets</code>, however, so we impose a short delay to try
+	 * and 'batch' multiple <code>buildWidgets</code> requests (and their associated AJAX calls)
+	 * into one.
 	 */
 
 	private final static int										BUILD_DELAY				= 50;
@@ -131,8 +130,8 @@ public class GwtMetawidget
 	/**
 	 * The PropertyBinding class.
 	 * <p>
-	 * PropertyBinding class is <code>null</code> by default, because setting up PropertyBinding
-	 * is non-trivial (eg. you have to generate some SimpleBindingAdapters)
+	 * PropertyBinding class is <code>null</code> by default, because setting up PropertyBinding is
+	 * non-trivial (eg. you have to generate some SimpleBindingAdapters)
 	 */
 
 	private Class<? extends PropertyBinding>						mPropertyBindingClass;
@@ -141,9 +140,12 @@ public class GwtMetawidget
 
 	/**
 	 * The ActionBinding class.
+	 * <p>
+	 * ActionBinding class is <code>null</code> by default, because setting up ActionBinding is
+	 * non-trivial (eg. you have to generate some SimpleBindingAdapters)
 	 */
 
-	private Class<? extends ActionBinding>							mActionBindingClass		= JsniBinding.class;
+	private Class<? extends ActionBinding>							mActionBindingClass;
 
 	private ActionBinding											mActionBinding;
 
@@ -179,8 +181,8 @@ public class GwtMetawidget
 	String															mPath;
 
 	/**
-	 * Name used to implement <code>HasName</code>. Subtly different from <code>mPath</code>
-	 * and <code>mNamesPrefix</code>.
+	 * Name used to implement <code>HasName</code>. Subtly different from <code>mPath</code> and
+	 * <code>mNamesPrefix</code>.
 	 */
 
 	String															mName;
@@ -251,10 +253,10 @@ public class GwtMetawidget
 	 * Sets the path to be inspected.
 	 * <p>
 	 * Note <code>setPath</code> is quite different to
-	 * <code>com.google.gwt.user.client.ui.HasName.setName</code>. <code>setPath</code> is
-	 * always in relation to <code>setToInspect</code>, so must include the type name and any
-	 * subsequent sub-names (eg. type/name/name). Conversely, <code>setName</code> is a single
-	 * name relative to our immediate parent.
+	 * <code>com.google.gwt.user.client.ui.HasName.setName</code>. <code>setPath</code> is always in
+	 * relation to <code>setToInspect</code>, so must include the type name and any subsequent
+	 * sub-names (eg. type/name/name). Conversely, <code>setName</code> is a single name relative to
+	 * our immediate parent.
 	 */
 
 	public void setPath( String path )
@@ -600,9 +602,9 @@ public class GwtMetawidget
 	 * Rebinds the values in the UI to the given Object.
 	 * <p>
 	 * <code>rebind</code> can be thought of as a lightweight version of <code>setToInspect</code>.
-	 * Unlike <code>setToInspect</code>, <code>rebind</code> does <em>not</em> reinspect the
-	 * Object or recreate any <code>Widgets</code>. Rather, <code>rebind</code> applies only at
-	 * the binding level, and updates the binding with values from the given Object.
+	 * Unlike <code>setToInspect</code>, <code>rebind</code> does <em>not</em> reinspect the Object
+	 * or recreate any <code>Widgets</code>. Rather, <code>rebind</code> applies only at the binding
+	 * level, and updates the binding with values from the given Object.
 	 * <p>
 	 * This is more performant, and allows the Metawidget to be created 'in advance' and reused many
 	 * times with different Objects, but it is the caller's responsibility that the Object passed to
@@ -610,8 +612,8 @@ public class GwtMetawidget
 	 * <code>setToInspect</code>.
 	 * <p>
 	 * For client's not using a PropertyBinding implementation, there is no need to call
-	 * <code>rebind</code>. They can simply use <code>setValue</code> to update existing values
-	 * in the UI.
+	 * <code>rebind</code>. They can simply use <code>setValue</code> to update existing values in
+	 * the UI.
 	 * <p>
 	 * In many ways, <code>rebind</code> can be thought of as the opposite of <code>save</code>.
 	 *

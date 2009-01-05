@@ -81,6 +81,10 @@ public class AllWidgetsModule
 		SimpleBinding.registerConverter( Date.class, new DateConverter() );
 		SimpleBinding.registerConverter( NestedWidgets.class, new NestedWidgetsConverter() );
 
+		// ActionBinding
+
+		metawidget.setActionBindingClass( SimpleBinding.class );
+
 		// Stubs
 
 		Stub stub = new Stub();

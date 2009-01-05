@@ -67,6 +67,10 @@ public class QuirksModule
 		SimpleBindingAdapter<GwtQuirks> quirksAdapter = (SimpleBindingAdapter<GwtQuirks>) GWT.create( GwtQuirks.class );
 		SimpleBinding.registerAdapter( GwtQuirks.class, quirksAdapter );
 
+		// ActionBinding
+
+		metawidget.setActionBindingClass( SimpleBinding.class );
+
 		// Add to the given Panel (for unit tests)
 
 		mPanel.add( metawidget );

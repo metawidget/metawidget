@@ -30,11 +30,13 @@ import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.util.simple.PathUtils;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Simple, Generator-based two-way binding implementation.
+ * Simple, Generator-based property and action binding implementation.
  *
  * @author Richard Kennard
  */
@@ -178,32 +180,41 @@ public class SimpleBinding
 
 	public void bindAction( Widget widget, Map<String, String> attributes, String path )
 	{
-		Object toInspect = getMetawidget().getToInspect();
+		// How can we bind without addClickListener?
 
-		if ( toInspect == null )
-			return;
+		if ( !( widget instanceof FocusWidget ))
+			throw new RuntimeException( "JsniBinding only supports binding actions to FocusWidgets" );
 
-		// Use the adapter...
+		// Bind the action
 
-		Class<?> classToBindTo = toInspect.getClass();
-		@SuppressWarnings( "unchecked" )
-		SimpleBindingAdapter<Object> adapter = (SimpleBindingAdapter<Object>) getAdapter( classToBindTo );
+		final GwtMetawidget metawidget = getMetawidget();
+		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
 
-		if ( adapter == null )
-			throw new RuntimeException( "Don't know how to bind to a " + classToBindTo );
-
-		// ...to invoke the action
-
-		String[] names = PathUtils.parsePath( path ).getNamesAsArray();
-
-		try
+		FocusWidget focusWidget = (FocusWidget) widget;
+		focusWidget.addClickListener( new ClickListener()
 		{
-			adapter.invokeAction( toInspect, names );
-		}
-		catch ( Exception e )
-		{
-			Window.alert( path + ": " + e.getMessage() );
-		}
+			public void onClick( Widget sender )
+			{
+				// Use the adapter...
+
+				Object toInspect = metawidget.getToInspect();
+
+				if ( toInspect == null )
+					return;
+
+				Class<?> classToBindTo = toInspect.getClass();
+				@SuppressWarnings( "unchecked" )
+				SimpleBindingAdapter<Object> adapter = (SimpleBindingAdapter<Object>) getAdapter( classToBindTo );
+
+				if ( adapter == null )
+					throw new RuntimeException( "Don't know how to bind to a " + classToBindTo );
+
+				// ...to invoke the action
+
+				adapter.invokeAction( toInspect, names );
+			}
+		} );
+
 	}
 
 	public void rebindProperties()
@@ -297,7 +308,7 @@ public class SimpleBinding
 	}
 
 	//
-	// Private methods
+	// Protected methods
 	//
 
 	/**
@@ -309,7 +320,7 @@ public class SimpleBinding
 	 * subclass-specific Adapter is also registered.
 	 */
 
-	private SimpleBindingAdapter<?> getAdapter( Class<?> classToBindTo )
+	protected SimpleBindingAdapter<?> getAdapter( Class<?> classToBindTo )
 	{
 		Class<?> classTraversal = classToBindTo;
 
@@ -325,6 +336,10 @@ public class SimpleBinding
 
 		return null;
 	}
+
+	//
+	// Private methods
+	//
 
 	/**
 	 * Gets the Converter for the given Class (if any).
