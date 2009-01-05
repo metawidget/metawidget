@@ -107,7 +107,7 @@ public class BeanUtilsBinding
 				throw MetawidgetException.newException( "Property '" + path + "' has no getter" );
 			}
 
-			SavedBinding binding = new SavedBinding( component, componentProperty, path, TRUE.equals( attributes.get( NO_SETTER )) );
+			SavedBinding binding = new SavedBinding( component, componentProperty, path, TRUE.equals( attributes.get( NO_SETTER ) ) );
 			saveValueToWidget( binding, sourceValue );
 
 			if ( mBindings == null )
@@ -223,10 +223,10 @@ public class BeanUtilsBinding
 				// ...determine its type...
 
 				Class<?> parentClass = parent.getClass();
-				String name = names[ names.length - 1 ];
+				String name = names[names.length - 1];
 				Class<?> propertyType = parentClass.getMethod( name ).getReturnType();
 
-				// ...convert if necessary...
+				// ...convert if necessary (BeanUtils.setProperty usually does this for us)...
 
 				Object convertedValue = ConvertUtils.convert( componentValue, propertyType );
 
@@ -303,7 +303,7 @@ public class BeanUtilsBinding
 	// Inner class
 	//
 
-	private final static class SavedBinding
+	protected class SavedBinding
 	{
 		//
 		//
