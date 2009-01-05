@@ -51,6 +51,12 @@ public class BeanUtilsBinding
 	extends BasePropertyBinding
 {
 	//
+	// Private statics
+	//
+
+	private final static String	SCALA_SET_SUFFIX	= "_$eq";
+
+	//
 	// Public statics
 	//
 
@@ -97,17 +103,18 @@ public class BeanUtilsBinding
 		try
 		{
 			Object sourceValue;
+			String names = PathUtils.parsePath( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
 
 			try
 			{
-				sourceValue = retrieveValueFromObject( getMetawidget().getToInspect(), path );
+				sourceValue = retrieveValueFromObject( getMetawidget().getToInspect(), names );
 			}
 			catch ( NoSuchMethodException e )
 			{
-				throw MetawidgetException.newException( "Property '" + path + "' has no getter" );
+				throw MetawidgetException.newException( "Property '" + names + "' has no getter" );
 			}
 
-			SavedBinding binding = new SavedBinding( component, componentProperty, path, TRUE.equals( attributes.get( NO_SETTER ) ) );
+			SavedBinding binding = new SavedBinding( component, componentProperty, names, TRUE.equals( attributes.get( NO_SETTER ) ) );
 			saveValueToWidget( binding, sourceValue );
 
 			if ( mBindings == null )
@@ -134,15 +141,15 @@ public class BeanUtilsBinding
 			for ( SavedBinding binding : mBindings )
 			{
 				Object sourceValue;
-				String path = binding.getPath();
+				String names = binding.getNames();
 
 				try
 				{
-					sourceValue = retrieveValueFromObject( sourceObject, path );
+					sourceValue = retrieveValueFromObject( sourceObject, names );
 				}
 				catch ( NoSuchMethodException e )
 				{
-					throw MetawidgetException.newException( "Property '" + path + "' has no getter" );
+					throw MetawidgetException.newException( "Property '" + names + "' has no getter" );
 				}
 
 				saveValueToWidget( binding, sourceValue );
@@ -190,18 +197,16 @@ public class BeanUtilsBinding
 	// Protected methods
 	//
 
-	protected Object retrieveValueFromObject( Object source, String path )
+	protected Object retrieveValueFromObject( Object source, String names )
 		throws Exception
 	{
 		switch ( mPropertyStyle )
 		{
 			case PROPERTYSTYLE_SCALA:
-				String[] names = PathUtils.parsePath( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNamesAsArray();
-				return scalaTraverse( source, false, names );
+				return scalaTraverse( source, false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ));
 
 			default:
-				String beanPath = PathUtils.parsePath( path, StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
-				return PropertyUtils.getProperty( source, beanPath );
+				return PropertyUtils.getProperty( source, names );
 		}
 	}
 
@@ -214,7 +219,7 @@ public class BeanUtilsBinding
 
 				// Traverse to the setter...
 
-				String[] names = PathUtils.parsePath( binding.getPath(), StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNamesAsArray();
+				String[] names = binding.getNames().split( "\\" + StringUtils.SEPARATOR_DOT_CHAR );
 				Object parent = scalaTraverse( source, true, names );
 
 				if ( parent == null )
@@ -223,8 +228,8 @@ public class BeanUtilsBinding
 				// ...determine its type...
 
 				Class<?> parentClass = parent.getClass();
-				String name = names[names.length - 1];
-				Class<?> propertyType = parentClass.getMethod( name ).getReturnType();
+				String lastName = names[names.length - 1];
+				Class<?> propertyType = parentClass.getMethod( lastName ).getReturnType();
 
 				// ...convert if necessary (BeanUtils.setProperty usually does this for us)...
 
@@ -232,13 +237,12 @@ public class BeanUtilsBinding
 
 				// ...and set it
 
-				Method writeMethod = parentClass.getMethod( name + "_$eq", propertyType );
+				Method writeMethod = parentClass.getMethod( lastName + SCALA_SET_SUFFIX, propertyType );
 				writeMethod.invoke( parent, convertedValue );
 				break;
 
 			default:
-				String beanPath = PathUtils.parsePath( binding.getPath(), StringUtils.SEPARATOR_FORWARD_SLASH_CHAR ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
-				BeanUtils.setProperty( source, beanPath, componentValue );
+				BeanUtils.setProperty( source, binding.getNames(), componentValue );
 		}
 	}
 
@@ -287,6 +291,8 @@ public class BeanUtilsBinding
 
 		for ( int loop = 0; loop < length; loop++ )
 		{
+			// Scala getter methods are just 'foo()', not 'getFoo()'
+
 			Method readMethod = traverse.getClass().getMethod( names[loop] );
 			traverse = readMethod.invoke( traverse );
 
@@ -315,7 +321,7 @@ public class BeanUtilsBinding
 
 		private String		mComponentProperty;
 
-		private String		mPath;
+		private String		mNames;
 
 		private boolean		mNoSetter;
 
@@ -325,11 +331,11 @@ public class BeanUtilsBinding
 		//
 		//
 
-		public SavedBinding( Component component, String componentProperty, String path, boolean noSetter )
+		public SavedBinding( Component component, String componentProperty, String names, boolean noSetter )
 		{
 			mComponent = component;
 			mComponentProperty = componentProperty;
-			mPath = path;
+			mNames = names;
 			mNoSetter = noSetter;
 		}
 
@@ -349,9 +355,15 @@ public class BeanUtilsBinding
 			return mComponentProperty;
 		}
 
-		public String getPath()
+		/**
+		 * Property names into the source object.
+		 * <p>
+		 * Stored in BeanUtils style <code>foo.bar.baz</code>.
+		 */
+
+		public String getNames()
 		{
-			return mPath;
+			return mNames;
 		}
 
 		public boolean isSettable()

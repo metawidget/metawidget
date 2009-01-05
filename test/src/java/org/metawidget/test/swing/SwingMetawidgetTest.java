@@ -198,7 +198,7 @@ public class SwingMetawidgetTest
 	public void testRebind()
 	{
 		_testRebind( BeansBinding.class, org.jdesktop.beansbinding.Binding.SyncFailureType.SOURCE_UNREADABLE.toString() );
-		_testRebind( BeanUtilsBinding.class, "Property 'org.metawidget.test.swing.SwingMetawidgetTest$Foo/name' has no getter" );
+		_testRebind( BeanUtilsBinding.class, "Property 'name' has no getter" );
 	}
 
 	public void testGroovy()
