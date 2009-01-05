@@ -226,10 +226,14 @@ public class BeanUtilsBinding
 				String name = names[ names.length - 1 ];
 				Class<?> propertyType = parentClass.getMethod( name ).getReturnType();
 
+				// ...convert if necessary...
+
+				Object convertedValue = ConvertUtils.convert( componentValue, propertyType );
+
 				// ...and set it
 
 				Method writeMethod = parentClass.getMethod( name + "_$eq", propertyType );
-				writeMethod.invoke( parent, componentValue );
+				writeMethod.invoke( parent, convertedValue );
 				break;
 
 			default:

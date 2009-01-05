@@ -16,6 +16,8 @@
 
 package org.metawidget.test.swing.propertybinding.beanutilsbinding;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -40,10 +42,10 @@ public class BeanUtilsBindingTest
 	extends TestCase
 {
 	//
-	// Protected statics
+	// Private statics
 	//
 
-	protected final static String	DATE_FORMAT	= "dd/MM/yyyy";
+	private final static String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
 
 	//
 	// Constructor
@@ -92,7 +94,8 @@ public class BeanUtilsBindingTest
 		// Loading
 
 		JTextField textField = (JTextField) metawidget.getComponent( 1 );
-		assertTrue( "09/04/1975".equals( textField.getText() ));
+		DateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
+		assertTrue( dateFormat.format( scalaFoo.bar() ).equals( textField.getText() ) );
 		JLabel label = (JLabel) metawidget.getComponent( 5 );
 		assertTrue( "Not settable".equals( label.getText() ) );
 
@@ -100,12 +103,12 @@ public class BeanUtilsBindingTest
 		assertTrue( "".equals( nestedTextField.getText() ));
 
 		JTextField nestedNestedTextField = (JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 3 ) ).getComponent( 3 ) ).getComponent( 1 );
-		assertTrue( "16/05/1976".equals( nestedNestedTextField.getText() ));
+		assertTrue( dateFormat.format( scalaFoo3.bar() ).equals( nestedNestedTextField.getText() ) );
 
 		// Saving
 
-		textField.setText( "10/05/1976" );
-		nestedNestedTextField.setText( "17/06/1977" );
+		textField.setText( dateFormat.format( new GregorianCalendar( 1976, Calendar.MAY, 10 ).getTime() ));
+		nestedNestedTextField.setText( dateFormat.format( new GregorianCalendar( 1977, Calendar.JUNE, 17 ).getTime() ));
 		metawidget.save();
 
 		GregorianCalendar calendar = new GregorianCalendar();

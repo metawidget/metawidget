@@ -60,10 +60,10 @@ public class SwingAllWidgetsTest
 	extends TestCase
 {
 	//
-	// Protected statics
+	// Private statics
 	//
 
-	protected final static String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
+	private final static String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
 
 	//
 	// Constructor

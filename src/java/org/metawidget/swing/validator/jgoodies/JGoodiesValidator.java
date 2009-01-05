@@ -140,7 +140,6 @@ public class JGoodiesValidator
 
 					// ...and update the UI
 
-					ValidationComponentUtils.updateComponentTreeSeverity( metawidget, validationResult );
 					ValidationComponentUtils.updateComponentTreeSeverityBackground( metawidget, validationResult );
 				}
 
