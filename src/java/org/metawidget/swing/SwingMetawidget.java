@@ -516,8 +516,9 @@ public class SwingMetawidget
 
 		mPropertyBinding.saveProperties();
 
-		// Having a save() method avoids having to expose a getBinding() method, which is handy
-		// because we can worry about nested Metawidgets here, not in the PropertyBinding class
+		// Having a save() method avoids having to expose a getPropertyBinding() method, which is
+		// handy because we can worry about nested Metawidgets here, not in the PropertyBinding
+		// class
 
 		for ( Component component : getComponents() )
 		{
@@ -529,7 +530,12 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Validates all component values using the current Validator (as set by <code>setValidatorClass</code>).
+	 * Validates all component values using the current Validator (as set by
+	 * <code>setValidatorClass</code>).
+	 * <p>
+	 * Some validation implementations will use immediate validation (ie. based on
+	 * <code>keyReleased</code>). Others may prefer deferred, explicit validation. Clients may wish
+	 * to call <code>validateValues</code> immediately before calling <code>save</code>.
 	 *
 	 * @throws MetawidgetException
 	 *             if no binding configured
@@ -546,8 +552,8 @@ public class SwingMetawidget
 
 		mValidator.validate();
 
-		// Having a validate() method avoids having to expose a getValidator() method, which is handy
-		// because we can worry about nested Metawidgets here, not in the Validator class
+		// Having a validateValues() method avoids having to expose a getValidator() method, which
+		// is handy because we can worry about nested Metawidgets here, not in the Validator class
 
 		for ( Component component : getComponents() )
 		{
