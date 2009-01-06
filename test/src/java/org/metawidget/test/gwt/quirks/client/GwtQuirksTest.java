@@ -101,7 +101,7 @@ public class GwtQuirksTest
 						}
 						catch ( Exception e )
 						{
-							assertTrue( "JsniBinding does not support nested actions".equals( e.getMessage() ) );
+							assertTrue( "nestedAction called".equals( e.getMessage() ) );
 						}
 
 						// Save and refresh

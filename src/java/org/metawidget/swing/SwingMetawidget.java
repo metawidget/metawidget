@@ -1053,9 +1053,10 @@ public class SwingMetawidget
 
 		// Bind actions
 
-		if ( ACTION.equals( elementName ) && mActionBinding != null )
+		if ( ACTION.equals( elementName ))
 		{
-			mActionBinding.bindAction( actualComponent, attributes, path );
+			if ( mActionBinding != null )
+				mActionBinding.bindAction( actualComponent, attributes, path );
 		}
 
 		// Bind properties
@@ -1065,9 +1066,7 @@ public class SwingMetawidget
 			// TODO: document widget types for GWT
 
 			if ( mPropertyBinding != null )
-			{
 				mPropertyBinding.bindProperty( actualComponent, attributes, path );
-			}
 
 			if ( mValidator != null )
 				mValidator.addValidator( actualComponent, attributes, path );

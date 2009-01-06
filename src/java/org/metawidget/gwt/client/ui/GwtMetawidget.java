@@ -1254,14 +1254,19 @@ public class GwtMetawidget
 	{
 		final String name = attributes.get( "name" );
 
+		// Construct path
+
+		String path = mPath;
+
+		if ( mMetawidgetMixin.isCompoundWidget() )
+			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
+
 		// Bind actions
 
-		if ( ACTION.equals( elementName ) && mActionBinding != null )
+		if ( ACTION.equals( elementName ))
 		{
-			if ( mMetawidgetMixin.isCompoundWidget() )
-				mActionBinding.bindAction( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
-			else
-				mActionBinding.bindAction( widget, attributes, mPath );
+			if ( mActionBinding != null )
+				mActionBinding.bindAction( widget, attributes, path );
 		}
 
 		// Bind properties
@@ -1269,12 +1274,7 @@ public class GwtMetawidget
 		else
 		{
 			if ( mPropertyBinding != null && !( widget instanceof GwtMetawidget ) )
-			{
-				if ( mMetawidgetMixin.isCompoundWidget() )
-					mPropertyBinding.bindProperty( widget, attributes, mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name );
-				else
-					mPropertyBinding.bindProperty( widget, attributes, mPath );
-			}
+				mPropertyBinding.bindProperty( widget, attributes, path );
 		}
 
 		// Add to layout
@@ -1308,6 +1308,7 @@ public class GwtMetawidget
 
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setPropertyBindingClass( mPropertyBindingClass );
+		metawidget.setActionBindingClass( mActionBindingClass );
 		metawidget.setDictionaryName( mDictionaryName );
 
 		if ( mParameters != null )
