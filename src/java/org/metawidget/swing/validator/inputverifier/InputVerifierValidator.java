@@ -57,12 +57,14 @@ public abstract class InputVerifierValidator
 		if ( !( component instanceof JComponent ) )
 			return;
 
-		InputVerifier verifier = getInputVerifier( component, attributes, path );
+		JComponent jcomponent = (JComponent) component;
+
+		InputVerifier verifier = getInputVerifier( jcomponent, attributes, path );
 
 		if ( verifier == null )
 			return;
 
-		( (JComponent) component ).setInputVerifier( verifier );
+		jcomponent.setInputVerifier( verifier );
 	}
 
 	//
@@ -80,5 +82,5 @@ public abstract class InputVerifierValidator
 	 *            path to the source object. Can be parsed using PathUtils.parsePath
 	 */
 
-	protected abstract InputVerifier getInputVerifier( Component component, Map<String, String> attributes, String path );
+	protected abstract InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, String path );
 }

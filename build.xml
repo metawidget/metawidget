@@ -516,7 +516,7 @@
 	
 	<!-- Unit Tests -->
 	
-	<target name="test-unit-desktop" depends="example-swing-addressbook">
+	<target name="test-unit-desktop" depends="examples-desktop">
 
 		<!-- Note: run the unit tests against the actual metawiget.jar and   -->
 		<!--       addressbook-swing.jar, to make sure they packed correctly -->

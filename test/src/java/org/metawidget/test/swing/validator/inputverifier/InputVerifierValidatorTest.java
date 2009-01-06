@@ -16,7 +16,6 @@
 
 package org.metawidget.test.swing.validator.inputverifier;
 
-import java.awt.Component;
 import java.util.Map;
 
 import javax.swing.InputVerifier;
@@ -81,6 +80,7 @@ public class InputVerifierValidatorTest
 		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "initializeValidators" )));
 
 		SwingMetawidget nestedMetawidget = (SwingMetawidget) metawidget.getComponent( 3 );
+		assertTrue( null == nestedMetawidget.getInputVerifier() );
 		JSpinner nestedSpinner = (JSpinner) nestedMetawidget.getComponent( 1 );
 		assertTrue( !nestedSpinner.getInputVerifier().verify( spinner ) );
 		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "initializeValidators" )));
@@ -131,8 +131,11 @@ public class InputVerifierValidatorTest
 		//
 
 		@Override
-		protected InputVerifier getInputVerifier( Component component, Map<String, String> attributes, String path )
+		protected InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, String path )
 		{
+			if ( component instanceof SwingMetawidget )
+				return null;
+
 			return new InputVerifier()
 			{
 				@Override
