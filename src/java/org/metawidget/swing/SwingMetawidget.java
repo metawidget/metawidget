@@ -1035,8 +1035,6 @@ public class SwingMetawidget
 	protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		final String name = attributes.get( NAME );
-
 		// Drill into JScrollPanes
 
 		Component actualComponent = component;
@@ -1046,6 +1044,7 @@ public class SwingMetawidget
 
 		// Construct path
 
+		final String name = attributes.get( NAME );
 		String path = mPath;
 
 		if ( mMetawidgetMixin.isCompoundWidget() )
@@ -1053,7 +1052,7 @@ public class SwingMetawidget
 
 		// Bind actions
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 		{
 			if ( mActionBinding != null )
 				mActionBinding.bindAction( actualComponent, attributes, path );
@@ -1072,10 +1071,17 @@ public class SwingMetawidget
 				mValidator.addValidator( actualComponent, attributes, path );
 		}
 
+		// Set the name of the component.
+		//
+		// If this is a JScrollPane, set the name of the top-level JScrollPane. Don't do this before
+		// now, as we don't want binding/validation implementations accidentally relying on the
+		// name being set (which it won't be for JScrollPanes)
+
+		component.setName( name );
+
 		// Add to layout
 
 		remove( component );
-		component.setName( name );
 
 		if ( mLayout == null )
 		{

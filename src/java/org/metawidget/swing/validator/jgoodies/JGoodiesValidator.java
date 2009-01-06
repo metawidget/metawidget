@@ -107,7 +107,7 @@ public class JGoodiesValidator
 		}
 		else
 		{
-			ValidationComponentUtils.setMessageKey( jcomponent, component.getName() );
+			ValidationComponentUtils.setMessageKey( jcomponent, attributes.get( NAME ) );
 		}
 
 		// Attach
