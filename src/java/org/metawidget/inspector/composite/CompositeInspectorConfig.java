@@ -46,10 +46,16 @@ public class CompositeInspectorConfig
 	 * <p>
 	 * Inspectors will be called in order. CompositeInspector's merging
 	 * algorithm preserves the element ordering of the first DOMs as new DOMs are merged in.
+	 *
+	 * @return	this, as part of a fluent interface
 	 */
 
-	public void setInspectors( Inspector... inspectors )
+	public CompositeInspectorConfig setInspectors( Inspector... inspectors )
 	{
 		mInspectors = inspectors;
+
+		// Fluent interface
+
+		return this;
 	}
 }

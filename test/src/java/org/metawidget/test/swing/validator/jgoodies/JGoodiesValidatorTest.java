@@ -16,11 +16,19 @@
 
 package org.metawidget.test.swing.validator.jgoodies;
 
+import javax.swing.JTextField;
+
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
+import org.metawidget.inspector.annotation.UiRequired;
+import org.metawidget.inspector.composite.CompositeInspector;
+import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.validator.jgoodies.JGoodiesValidator;
+
+import com.jgoodies.validation.view.ValidationComponentUtils;
 
 /**
  * @author Richard Kennard
@@ -49,19 +57,35 @@ public class JGoodiesValidatorTest
 	public void testValidator()
 		throws Exception
 	{
-		// Model
-
-		Foo foo = new Foo();
-		foo.setBar( 42 );
-
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setValidatorClass( JGoodiesValidator.class );
-		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setToInspect( foo );
+		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() ) ) );
+		metawidget.setToInspect( new Foo() );
 
-		// TODO: implement me!
+		// Initial validation
+
+		JTextField textField = (JTextField) metawidget.getComponent( 1 );
+		assertTrue( ValidationComponentUtils.isMandatory( textField ));
+		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField.getBorder() ));
+		assertTrue( ValidationComponentUtils.getMandatoryBackground().equals( textField.getBackground() ));
+
+		// Validation after a keypress
+
+		textField.setText( "Not empty" );
+		textField.getKeyListeners()[0].keyReleased( null );
+
+		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField.getBorder() ));
+		assertTrue( !ValidationComponentUtils.getMandatoryBackground().equals( textField.getBackground() ));
+
+		// Validation after deleting contents
+
+		textField.setText( "" );
+		textField.getKeyListeners()[0].keyReleased( null );
+
+		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField.getBorder() ));
+		assertTrue( ValidationComponentUtils.getMandatoryBackground().equals( textField.getBackground() ));
 	}
 
 	//
@@ -76,7 +100,7 @@ public class JGoodiesValidatorTest
 		//
 		//
 
-		private long						mBar;
+		private String						mBar;
 
 		//
 		//
@@ -84,12 +108,13 @@ public class JGoodiesValidatorTest
 		//
 		//
 
-		public long getBar()
+		@UiRequired
+		public String getBar()
 		{
 			return mBar;
 		}
 
-		public void setBar( long bar )
+		public void setBar( String bar )
 		{
 			mBar = bar;
 		}
