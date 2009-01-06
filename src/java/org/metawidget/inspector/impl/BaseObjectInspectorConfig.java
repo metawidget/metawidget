@@ -81,11 +81,17 @@ public class BaseObjectInspectorConfig
 
 	/**
 	 * Sets the style used to recognize properties. Defaults to <code>JavaBeanPropertyStyle</code>.
+	 *
+	 * @return	this, as part of a fluent interface
 	 */
 
-	public void setPropertyStyle( Class<? extends PropertyStyle> propertyStyle )
+	public BaseObjectInspectorConfig setPropertyStyle( Class<? extends PropertyStyle> propertyStyle )
 	{
 		mPropertyStyle = propertyStyle;
+
+		// Fluent interface
+
+		return this;
 	}
 
 	/**
@@ -102,11 +108,17 @@ public class BaseObjectInspectorConfig
 
 	/**
 	 * Sets the style used to recognize actions. Defaults to <code>MetawidgetActionStyle</code>.
+	 *
+	 * @return	this, as part of a fluent interface
 	 */
 
-	public void setActionStyle( Class<? extends ActionStyle> actionStyle )
+	public BaseObjectInspectorConfig setActionStyle( Class<? extends ActionStyle> actionStyle )
 	{
 		mActionStyle = actionStyle;
+
+		// Fluent interface
+
+		return this;
 	}
 
 	/**

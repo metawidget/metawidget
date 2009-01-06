@@ -86,8 +86,7 @@ public class BeanUtilsBindingTest
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setPropertyBindingClass( BeanUtilsBinding.class );
 		metawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA );
-		BaseObjectInspectorConfig config = new BaseObjectInspectorConfig();
-		config.setPropertyStyle( ScalaPropertyStyle.class );
+		BaseObjectInspectorConfig config = new BaseObjectInspectorConfig().setPropertyStyle( ScalaPropertyStyle.class );
 		metawidget.setInspector( new PropertyTypeInspector( config ) );
 		metawidget.setToInspect( scalaFoo );
 
