@@ -48,21 +48,33 @@ public class BaseXmlInspectorConfig
 	/**
 	 * Sets the location of the XML. Location will be searched using
 	 * <code>ResourceUtils.getResource</code>.
+	 *
+	 * @return	this, as part of a fluent interface
 	 */
 
-	public void setFile( String file )
+	public BaseXmlInspectorConfig setFile( String file )
 	{
 		mFiles = new String[]{ file };
+
+		// Fluent interface
+
+		return this;
 	}
 
 	/**
 	 * Sets the location of multiple XML files. Locations will be searched using
 	 * <code>ResourceUtils.getResource</code>.
+	 *
+	 * @return	this, as part of a fluent interface
 	 */
 
-	public void setFiles( String... files )
+	public BaseXmlInspectorConfig setFiles( String... files )
 	{
 		mFiles = files;
+
+		// Fluent interface
+
+		return this;
 	}
 
 	public InputStream[] getInputStreams()
@@ -72,11 +84,17 @@ public class BaseXmlInspectorConfig
 
 	/**
 	 * Sets the InputStream of the XML. If set, <code>setFile</code> is ignored.
+	 *
+	 * @return	this, as part of a fluent interface
 	 */
 
-	public void setInputStream( InputStream stream )
+	public BaseXmlInspectorConfig setInputStream( InputStream stream )
 	{
 		mFileStreams = new InputStream[]{ stream };
+
+		// Fluent interface
+
+		return this;
 	}
 
 	public void setInputStreams( InputStream... streams )

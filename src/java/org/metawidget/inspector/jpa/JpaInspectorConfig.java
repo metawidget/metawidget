@@ -49,8 +49,16 @@ public class JpaInspectorConfig
 		return mHideIds;
 	}
 
-	public void setHideIds( boolean hideIds )
+	/**
+	 * @return	this, as part of a fluent interface
+	 */
+
+	public JpaInspectorConfig setHideIds( boolean hideIds )
 	{
 		mHideIds = hideIds;
+
+		// Fluent interface
+
+		return this;
 	}
 }

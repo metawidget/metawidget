@@ -96,8 +96,7 @@ public class JpaInspectorTest
 
 	public void testHideIds()
 	{
-		JpaInspectorConfig config = new JpaInspectorConfig();
-		config.setHideIds( false );
+		JpaInspectorConfig config = new JpaInspectorConfig().setHideIds( false );
 		JpaInspector inspector = new JpaInspector( config );
 		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
 

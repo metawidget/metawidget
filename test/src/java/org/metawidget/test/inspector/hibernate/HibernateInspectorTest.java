@@ -148,9 +148,8 @@ public class HibernateInspectorTest
 
 	public void testHideIds()
 	{
-		HibernateInspectorConfig config = new HibernateInspectorConfig();
+		HibernateInspectorConfig config = new HibernateInspectorConfig().setHideIds( false );
 		config.setFile( "org/metawidget/test/inspector/hibernate/test-hibernate.cfg.xml" );
-		config.setHideIds( false );
 		mInspector = new HibernateInspector( config );
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.hibernate.SubFoo" ));

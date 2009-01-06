@@ -60,8 +60,16 @@ public class HibernateInspectorConfig
 		return mHideIds;
 	}
 
-	public void setHideIds( boolean hideIds )
+	/**
+	 * @return	this, as part of a fluent interface
+	 */
+
+	public HibernateInspectorConfig setHideIds( boolean hideIds )
 	{
 		mHideIds = hideIds;
+
+		// Fluent interface
+
+		return this;
 	}
 }
