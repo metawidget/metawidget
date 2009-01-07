@@ -951,14 +951,18 @@ public class SwingMetawidget
 		{
 			invalidateWidgets();
 
+			// Don't fall through to super.addImpl for facets. Tuck them away
+			// in mFacets instead. Some layouts may never use them, and
+			// others (eg. MigLayout) don't like adding components
+			// without constraints
+
 			if ( component instanceof Facet )
 			{
 				mFacets.put( component.getName(), (Facet) component );
+				return;
 			}
-			else
-			{
-				mExistingComponents.add( component );
-			}
+
+			mExistingComponents.add( component );
 		}
 
 		super.addImpl( component, constraints, index );
@@ -1075,7 +1079,7 @@ public class SwingMetawidget
 		//
 		// If this is a JScrollPane, set the name of the top-level JScrollPane. Don't do this before
 		// now, as we don't want binding/validation implementations accidentally relying on the
-		// name being set (which it won't be for JScrollPanes)
+		// name being set (which it won't be for actualComponent)
 
 		component.setName( name );
 
