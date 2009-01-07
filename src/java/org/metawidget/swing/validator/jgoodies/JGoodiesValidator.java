@@ -107,8 +107,6 @@ public class JGoodiesValidator
 		}
 		else
 		{
-			// TODO: test name gets set
-
 			ValidationComponentUtils.setMessageKey( jcomponent, attributes.get( NAME ) );
 		}
 

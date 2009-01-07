@@ -16,6 +16,9 @@
 
 package org.metawidget.test.swing.validator.jgoodies;
 
+import java.util.Map;
+
+import javax.swing.JComponent;
 import javax.swing.JTextField;
 
 import junit.framework.TestCase;
@@ -28,6 +31,8 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.validator.jgoodies.JGoodiesValidator;
 
+import com.jgoodies.validation.ValidationResult;
+import com.jgoodies.validation.Validator;
 import com.jgoodies.validation.view.ValidationComponentUtils;
 
 /**
@@ -67,25 +72,32 @@ public class JGoodiesValidatorTest
 		// Initial validation
 
 		JTextField textField = (JTextField) metawidget.getComponent( 1 );
-		assertTrue( ValidationComponentUtils.isMandatory( textField ));
-		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField.getBorder() ));
-		assertTrue( ValidationComponentUtils.getMandatoryBackground().equals( textField.getBackground() ));
+		assertTrue( null == ValidationComponentUtils.getMessageKeys( textField ));
+		assertTrue( ValidationComponentUtils.isMandatory( textField ) );
+		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField.getBorder() ) );
+		assertTrue( ValidationComponentUtils.getMandatoryBackground().equals( textField.getBackground() ) );
 
 		// Validation after a keypress
 
 		textField.setText( "Not empty" );
 		textField.getKeyListeners()[0].keyReleased( null );
 
-		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField.getBorder() ));
-		assertTrue( !ValidationComponentUtils.getMandatoryBackground().equals( textField.getBackground() ));
+		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField.getBorder() ) );
+		assertTrue( !ValidationComponentUtils.getMandatoryBackground().equals( textField.getBackground() ) );
 
 		// Validation after deleting contents
 
 		textField.setText( "" );
 		textField.getKeyListeners()[0].keyReleased( null );
 
-		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField.getBorder() ));
-		assertTrue( ValidationComponentUtils.getMandatoryBackground().equals( textField.getBackground() ));
+		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField.getBorder() ) );
+		assertTrue( ValidationComponentUtils.getMandatoryBackground().equals( textField.getBackground() ) );
+
+		// Custom validator
+
+		metawidget.setValidatorClass( MyJGoodiesValidator.class );
+		textField = (JTextField) metawidget.getComponent( 1 );
+		assertTrue( "bar".equals( ValidationComponentUtils.getMessageKeys( textField )[0] ));
 	}
 
 	//
@@ -100,7 +112,7 @@ public class JGoodiesValidatorTest
 		//
 		//
 
-		private String						mBar;
+		private String	mBar;
 
 		//
 		//
@@ -117,6 +129,36 @@ public class JGoodiesValidatorTest
 		public void setBar( String bar )
 		{
 			mBar = bar;
+		}
+	}
+
+	protected static class MyJGoodiesValidator
+		extends JGoodiesValidator
+	{
+		//
+		// Constructor
+		//
+
+		public MyJGoodiesValidator( SwingMetawidget metawidget )
+		{
+			super( metawidget );
+		}
+
+		//
+		// Protected methods
+		//
+
+		@Override
+		protected Validator<?> getValidator( JComponent component, Map<String, String> attributes, String path )
+		{
+			return new Validator<String>()
+			{
+				@Override
+				public ValidationResult validate( String validationTarget )
+				{
+					return null;
+				}
+			};
 		}
 	}
 }
