@@ -175,6 +175,7 @@ public class SwingMetawidgetTest
 		assertTrue( 1 == metawidget.getMaximumInspectionDepth() );
 		assertTrue( metawidget.getComponent( "foo" ) instanceof SwingMetawidget );
 		assertTrue( metawidget.getComponent( "foo", "name" ) instanceof JTextField );
+		assertTrue( "name".equals( metawidget.getComponent( "foo", "name" ).getName() ));
 		assertTrue( metawidget.getComponent( "foo", "foo" ) == null );
 
 		metawidget.setMaximumInspectionDepth( 2 );
