@@ -41,6 +41,7 @@ import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.actionbinding.BaseActionBinding;
 import org.metawidget.swing.propertybinding.PropertyBinding;
@@ -262,6 +263,19 @@ public class SwingMetawidgetTest
 		assertTrue( "FooActionBinding fired".equals( ((JTextField) metawidget.getComponent( 4 )).getText() ));
 		assertTrue( "".equals( ((JTextField) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 4 )).getText() ));
 		assertTrue( "FooActionBinding fired".equals( ((JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 4 )).getText() ));
+	}
+
+	public void testFacet()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+
+		// Facets shouldn't get added directly
+
+		metawidget.add( new Facet() );
+		assertTrue( metawidget.getComponentCount() == 0 );
+
+		metawidget.add( new JTextField() );
+		assertTrue( metawidget.getComponentCount() == 1 );
 	}
 
 	//
