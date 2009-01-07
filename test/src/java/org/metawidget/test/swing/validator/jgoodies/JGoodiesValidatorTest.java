@@ -16,6 +16,8 @@
 
 package org.metawidget.test.swing.validator.jgoodies;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import javax.swing.JComponent;
@@ -31,8 +33,11 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.validator.jgoodies.JGoodiesValidator;
 
+import com.jgoodies.validation.Severity;
+import com.jgoodies.validation.ValidationMessage;
 import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.Validator;
+import com.jgoodies.validation.message.SimpleValidationMessage;
 import com.jgoodies.validation.view.ValidationComponentUtils;
 
 /**
@@ -97,7 +102,11 @@ public class JGoodiesValidatorTest
 
 		metawidget.setValidatorClass( MyJGoodiesValidator.class );
 		textField = (JTextField) metawidget.getComponent( 1 );
+
 		assertTrue( "bar".equals( ValidationComponentUtils.getMessageKeys( textField )[0] ));
+
+		textField.getKeyListeners()[0].keyReleased( null );
+		assertTrue( ValidationComponentUtils.getErrorBackground().equals( textField.getBackground() ));
 	}
 
 	//
@@ -149,14 +158,18 @@ public class JGoodiesValidatorTest
 		//
 
 		@Override
-		protected Validator<?> getValidator( JComponent component, Map<String, String> attributes, String path )
+		protected Validator<?> getValidator( final JComponent component, final Map<String, String> attributes, String path )
 		{
 			return new Validator<String>()
 			{
 				@Override
 				public ValidationResult validate( String validationTarget )
 				{
-					return null;
+					ValidationMessage message = new SimpleValidationMessage( "MyJGoodiesValidator error", Severity.ERROR, attributes.get( NAME ));
+					ValidationResult validationResult = new ValidationResult();
+					validationResult.add( message );
+
+					return validationResult;
 				}
 			};
 		}

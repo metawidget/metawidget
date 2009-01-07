@@ -195,8 +195,6 @@ public class JGoodiesValidator
 
 	protected void updateComponent( JComponent component, ValidationResult validationResult )
 	{
-		ValidationComponentUtils.updateComponentTreeSeverityBackground( getMetawidget(), validationResult );
-
 		// Note: it may be nicer to only update the JComponent, not revisit the entire
 		// tree, but JGoodies' built-in (private) MandatoryAndBlankBackgroundVisitor uses
 		// its (private) restoreBackground, so seemingly this is the way JGoodies wants us
@@ -204,5 +202,10 @@ public class JGoodiesValidator
 
 		if ( ValidationComponentUtils.isMandatory( component ) )
 			ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground( getMetawidget() );
+
+		// Do the severity background after the mandatory background, as presumably it
+		// has precedence
+
+		ValidationComponentUtils.updateComponentTreeSeverityBackground( getMetawidget(), validationResult );
 	}
 }
