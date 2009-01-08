@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
 import javax.faces.component.UIParameter;
@@ -73,7 +72,7 @@ import org.metawidget.util.simple.StringUtils;
  * The parameters <code>columns</code> and <code>columnClasses</code> might more properly be named
  * <code>numberOfColumns</code> and <code>columnStyleClasses</code>, but we are trying to follow the
  * <code>javax.faces.component.html.HtmlDataTable</code> convention.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -114,8 +113,6 @@ public class HtmlTableLayoutRenderer
 	private final static String	KEY_COLUMN_CLASSES					= "columnClasses";
 
 	private final static String	KEY_ROW_CLASSES						= "rowClasses";
-
-	private final static String	KEY_LABEL_SUFFIX					= "labelSuffix";
 
 	private final static int	JUST_COMPONENT_AND_REQUIRED			= 2;
 
@@ -203,13 +200,6 @@ public class HtmlTableLayoutRenderer
 		}
 
 		putState( KEY_NUMBER_OF_COLUMNS, columns );
-
-		// Determine label suffix
-
-		UIParameter parameterLabelSuffix = FacesUtils.findParameterWithName( component, KEY_LABEL_SUFFIX );
-
-		if ( parameterLabelSuffix != null )
-			putState( KEY_LABEL_SUFFIX, parameterLabelSuffix.getValue() );
 
 		// Render header facet
 
@@ -521,6 +511,7 @@ public class HtmlTableLayoutRenderer
 	 * @return whether a label was written
 	 */
 
+	@Override
 	protected boolean layoutLabel( FacesContext context, UIComponent componentNeedingLabel )
 		throws IOException
 	{
@@ -559,18 +550,7 @@ public class HtmlTableLayoutRenderer
 		writeColumnStyleClass( writer, 0 );
 		writer.write( ">" );
 
-		if ( !"".equals( label.trim() ) && !( componentNeedingLabel instanceof UICommand ) )
-		{
-			HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
-
-			String labelSuffix = (String) getState( KEY_LABEL_SUFFIX );
-
-			if ( labelSuffix == null )
-				labelSuffix = ":";
-
-			componentLabel.setValue( label + labelSuffix );
-			FacesUtils.render( context, componentLabel );
-		}
+		super.layoutLabel( context, componentNeedingLabel );
 
 		writer.write( "</th>" );
 

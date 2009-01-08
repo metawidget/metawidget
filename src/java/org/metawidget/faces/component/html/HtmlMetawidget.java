@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.faces.application.Application;
 import javax.faces.component.UICommand;
@@ -46,7 +45,7 @@ import org.metawidget.util.CollectionUtils;
  * <p>
  * Automatically creates native JSF HTML UIComponents, such as <code>HtmlInputText</code> and
  * <code>HtmlSelectOneListbox</code>, to suit the inspected fields.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -131,7 +130,7 @@ public class HtmlMetawidget
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
 	 * preparing metadata for the renderer.
-	 * 
+	 *
 	 * @return the widget to use in read-only scenarios
 	 */
 
@@ -241,7 +240,7 @@ public class HtmlMetawidget
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
 	 * preparing metadata for the renderer.
-	 * 
+	 *
 	 * @return the widget to use in non-read-only scenarios
 	 */
 
@@ -322,9 +321,21 @@ public class HtmlMetawidget
 			{
 				if ( component == null )
 				{
-					component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
-					HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
-					select.setSize( 1 );
+					// UISelectMany can support Lists and Arrays (as per JSF spec)...
+
+					if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() )
+					{
+						component = application.createComponent( "javax.faces.HtmlSelectManyCheckbox" );
+					}
+
+					// ...otherwise just a UISelectOne
+
+					else
+					{
+						component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
+						HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
+						select.setSize( 1 );
+					}
 				}
 
 				List<?> values = CollectionUtils.fromString( lookup );
@@ -341,16 +352,27 @@ public class HtmlMetawidget
 
 					if ( converter == null )
 					{
-						// If the target type is itself a List or Set, and we have a
-						// parameterizedType, use that instead when converting for the
-						// convertedValues
+						// If the target type has a parameterizedType, use that instead when
+						// converting for the convertedValues
 
-						String parameterizedType = attributes.get( PARAMETERIZED_TYPE );
+						String parameterizedTypeName = attributes.get( PARAMETERIZED_TYPE );
 
-						if ( ( Set.class.isAssignableFrom( clazz ) || List.class.isAssignableFrom( clazz ) ) && parameterizedType != null )
-							converter = application.createConverter( ClassUtils.niceForName( parameterizedType ) );
+						if ( parameterizedTypeName != null )
+						{
+							Class<?> parameterizedType = ClassUtils.niceForName( parameterizedTypeName );
+
+							// The parameterized type might not be concrete enough to be
+							// instantiatable (eg. List<? extends Foo>)
+
+							if ( parameterizedType != null )
+								converter = application.createConverter( parameterizedType );
+							else
+								converter = application.createConverter( clazz );
+						}
 						else
+						{
 							converter = application.createConverter( clazz );
+						}
 
 						( (ValueHolder) component ).setConverter( converter );
 					}

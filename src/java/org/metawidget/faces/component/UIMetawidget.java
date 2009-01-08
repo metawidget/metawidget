@@ -74,7 +74,7 @@ import org.w3c.dom.Element;
  * </ul>
  * <p>
  * Its default RendererType is <code>table</code>.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -225,6 +225,10 @@ public abstract class UIMetawidget
 		mValidatorClass = validatorClass;
 		mValidator = null;
 	}
+
+	/**
+	 * @return	the text of the label. This may itself contain a value expression, such as <code>UiLabel( "#{foo.name}'s name" )</code>
+	 */
 
 	public String getLabelString( FacesContext context, Map<String, String> attributes )
 	{
@@ -898,7 +902,7 @@ public abstract class UIMetawidget
 
 	/**
 	 * Attach converter for renderer.
-	 * 
+	 *
 	 * @param component
 	 *            the component to attach the converter to. Need not be a ValueHolder (eg. might be
 	 *            a UIStub, in which case the converter is attached to its children)
@@ -1238,7 +1242,7 @@ public abstract class UIMetawidget
 
 		if ( type == null )
 		{
-			// Type can be null if this lookup was specified by a metawidget-metadata.xml
+			// Type may be null if this lookup was specified by a metawidget-metadata.xml
 			// and the type was omitted from the XML. In that case, assume nullable
 
 			addSelectItem( component, null, null );
@@ -1301,7 +1305,14 @@ public abstract class UIMetawidget
 			selectItem.setItemValue( value );
 		}
 
-		if ( label != null )
+		if ( label == null )
+		{
+			// If no label, make it the same as the value. For JSF-RI, this is needed for labels
+			// next to UISelectMany checkboxes
+
+			selectItem.setItemLabel( StringUtils.quietValueOf( value ) );
+		}
+		else
 		{
 			// Label may be a value reference (eg. into a bundle)
 

@@ -58,7 +58,6 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-// TODO: just GridBagLayout?
 public class GridBagLayout
 	extends BaseLayout
 {
@@ -91,8 +90,6 @@ public class GridBagLayout
 	private final static Insets		INSETS_SECTION					= new Insets( 12, 0, 5, 0 );
 
 	private final static Insets		INSETS_TABBED_PANE				= new Insets( 5, 0, 5, 0 );
-
-	private final static Insets		INSETS_BUTTONS					= new Insets( 7, 0, 0, 0 );
 
 	private final static Border		INSETS_TAB						= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
 
@@ -294,7 +291,6 @@ public class GridBagLayout
 			GridBagConstraints constraintsButtons = new GridBagConstraints();
 			constraintsButtons.fill = GridBagConstraints.BOTH;
 			constraintsButtons.anchor = GridBagConstraints.WEST;
-			constraintsButtons.insets = INSETS_BUTTONS;
 			constraintsButtons.gridy = mCurrentRow;
 			constraintsButtons.gridwidth = GridBagConstraints.REMAINDER;
 

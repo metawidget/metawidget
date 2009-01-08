@@ -21,11 +21,13 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.io.IOException;
 import java.util.Map;
 
+import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIInput;
 import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlMessage;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.FacesUtils;
@@ -37,10 +39,11 @@ import org.metawidget.faces.renderkit.LayoutRenderer;
  * <code>&lt;f:param&gt;</code> parameters:
  * <p>
  * <ul>
- * <li><code>inlineMessages</code> - whether to wrap input components with inline
- * &lt;h:message&gt; tags. True by default
+ * <li><code>inlineMessages</code> - whether to wrap input components with inline &lt;h:message&gt;
+ * tags. True by default
  * <li><code>messageStyle</code>
  * <li><code>messageStyleClass</code>
+ * <li><code>labelSuffix</code>
  * </ul>
  *
  * @author Richard Kennard
@@ -59,9 +62,62 @@ public class HtmlLayoutRenderer
 
 	private final static String	KEY_MESSAGE_STYLE_CLASS	= "messageStyleClass";
 
+	private final static String	KEY_LABEL_SUFFIX		= "labelSuffix";
+
+	//
+	// Public methods
+	//
+
+	@SuppressWarnings( "unused" )
+	@Override
+	public void reentrantEncodeBegin( FacesContext context, UIComponent component )
+		throws IOException
+	{
+		// Determine label suffix
+
+		UIParameter parameterLabelSuffix = FacesUtils.findParameterWithName( component, KEY_LABEL_SUFFIX );
+
+		if ( parameterLabelSuffix != null )
+			putState( KEY_LABEL_SUFFIX, parameterLabelSuffix.getValue() );
+	}
+
 	//
 	// Protected methods
 	//
+
+	/**
+	 * Render the label text. Rendering is done via a <code>HtmlOutputText</code> renderer, so that
+	 * the label may contain value expressions, such as <code>UiLabel( "#{foo.name}'s name" )</code>.
+	 *
+	 * @return whether a label was written
+	 */
+
+	@SuppressWarnings( "deprecation" )
+	protected boolean layoutLabel( FacesContext context, UIComponent componentNeedingLabel )
+		throws IOException
+	{
+		@SuppressWarnings( "unchecked" )
+		Map<String, String> attributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( context, attributes );
+
+		if ( label == null )
+			return false;
+
+		if ( !"".equals( label.trim() ) && !( componentNeedingLabel instanceof UICommand ) )
+		{
+			HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
+
+			String labelSuffix = (String) getState( KEY_LABEL_SUFFIX );
+
+			if ( labelSuffix == null )
+				labelSuffix = ":";
+
+			componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( label + labelSuffix ) );
+			FacesUtils.render( context, componentLabel );
+		}
+
+		return true;
+	}
 
 	protected void layoutChild( FacesContext context, UIComponent component, UIComponent childComponent )
 		throws IOException
@@ -84,7 +140,7 @@ public class HtmlLayoutRenderer
 
 			messageFor = childComponent.getChildren().get( 0 ).getId();
 		}
-		else if ( !( childComponent instanceof UIInput ))
+		else if ( !( childComponent instanceof UIInput ) )
 			return;
 
 		@SuppressWarnings( "unchecked" )

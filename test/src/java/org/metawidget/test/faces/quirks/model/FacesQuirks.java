@@ -16,9 +16,12 @@
 
 package org.metawidget.test.faces.quirks.model;
 
+import java.util.List;
+
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.inspector.annotation.UiLarge;
+import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.faces.UiFacesComponent;
 
@@ -34,15 +37,18 @@ public class FacesQuirks
 	// Private members
 	//
 
-	private Boolean	mBoolean;
+	private Boolean					mBoolean;
 
-	private String	mLarge;
+	private String					mLarge;
+
+	private List<? extends Object>	mStrings;
 
 	//
 	// Public methods
 	//
 
 	@UiFacesComponent( "javax.faces.HtmlSelectOneRadio" )
+	@UiLabel( "#{1+2} boolean" )
 	public Boolean getBoolean()
 	{
 		return mBoolean;
@@ -65,5 +71,17 @@ public class FacesQuirks
 	public void setLarge( String large )
 	{
 		mLarge = large;
+	}
+
+	@UiComesAfter( "large" )
+	@UiLookup( { "Foo", "Bar", "Baz" } )
+	public List<? extends Object> getStrings()
+	{
+		return mStrings;
+	}
+
+	public void setStrings( List<? extends Object> strings )
+	{
+		mStrings = strings;
 	}
 }

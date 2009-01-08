@@ -11,8 +11,8 @@
 			<steps>
 				<invoke url="${webtest.url}/quirks-faces" />
 				
-				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="2"/>
-				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/th" text="Boolean:"/>
+				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="3"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/th" text="3 boolean:"/>
 				
 				<!-- Test the 'not tri-state if not listbox' in HtmlMetawidget.buildActiveWidget -->
 
@@ -28,11 +28,22 @@
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/textarea/@id" text="quirksLarge"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/@colspan" text="5"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[2]" text="*"/>
-				
+
+				<!-- Test Lists with a UiLookup -->
+								
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/th" text="Strings:"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[1]/input[@type='checkbox']/@value" text="Foo"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[1]/label" text="Foo"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[2]/input[@type='checkbox']/@value" text="Bar"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[2]/label" text="Bar"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[3]/input[@type='checkbox']/@value" text="Baz"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[3]/label" text="Baz"/>
+				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td)" text="3"/>
+
 				<!-- Test zero columns -->
 				
-				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr)" text="3"/>
-				<verifyXPath xpath="/html/body/table[2]/tbody/tr[1]/th" text="Boolean:"/>
+				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr)" text="5"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[1]/th" text="3 boolean:"/>
 				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr[2]/td[1]/table/tbody/tr/td)" text="2"/>
 				<verifyXPath xpath="/html/body/table[2]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/input/@type" text="radio"/>
 				<verifyXPath xpath="/html/body/table[2]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/label" text="Yes"/>

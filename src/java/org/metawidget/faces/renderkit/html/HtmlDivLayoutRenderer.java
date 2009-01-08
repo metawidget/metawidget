@@ -53,7 +53,7 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>footerStyleClass</code>
  * </ul>
  * <p>
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -330,12 +330,7 @@ public class HtmlDivLayoutRenderer
 		writeStyleClass( writer, 1 );
 		writer.write( ">" );
 
-		if ( !"".equals( label.trim() ) )
-		{
-			HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
-			componentLabel.setValue( label + ':' );
-			FacesUtils.render( context, componentLabel );
-		}
+		super.layoutLabel( context, componentNeedingLabel );
 
 		layoutRequired( context, component, componentNeedingLabel );
 
