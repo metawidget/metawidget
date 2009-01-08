@@ -62,8 +62,8 @@ import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.actionbinding.ActionBinding;
 import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
-import org.metawidget.swing.layout.Layout;
 import org.metawidget.swing.layout.GridBagLayout;
+import org.metawidget.swing.layout.Layout;
 import org.metawidget.swing.propertybinding.PropertyBinding;
 import org.metawidget.swing.validator.Validator;
 import org.metawidget.util.ArrayUtils;
@@ -1220,7 +1220,7 @@ public class SwingMetawidget
 
 		// Nested Metawidget
 
-		return getClass().newInstance();
+		return createMetawidget();
 	}
 
 	protected JComponent buildActiveWidget( String elementName, Map<String, String> attributes )
@@ -1475,6 +1475,24 @@ public class SwingMetawidget
 
 		// Nested Metawidget
 
+		return createMetawidget();
+	}
+
+	/**
+	 * Create a sub-Metawidget.
+	 * <p>
+	 * By default, this method will create a sub-Metawidget of the same type as the original
+	 * Metawidget (ie. <code>this.getClass().newInstance()</code>. Usually this will be the desired
+	 * behaviour - so that clients who subclass SwingMetawidget will get a new instance of their own
+	 * subclass.
+	 * <p>
+	 * However, this might not work in all situations (ie. if you create an anonymous inner class
+	 * based on SwingMetawidget) so clients can override this behaviour if required.
+	 */
+
+	protected SwingMetawidget createMetawidget()
+		throws Exception
+	{
 		return getClass().newInstance();
 	}
 
