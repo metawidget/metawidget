@@ -49,7 +49,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * <p>
  * This class is not just a collection of static methods, because ConfigReaders need to be able to
  * be subclassed.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -146,7 +146,7 @@ public class ConfigReader
 		if ( stream != null )
 			return stream;
 
-		throw InspectorException.newException( "Unable to locate " + resource );
+		throw InspectorException.newException( "Unable to locate " + resource + " on CLASSPATH" );
 	}
 
 	//

@@ -102,11 +102,21 @@ public class JGoodiesValidatorTest
 
 		metawidget.setValidatorClass( MyJGoodiesValidator.class );
 		textField = (JTextField) metawidget.getComponent( 1 );
-
 		assertTrue( "bar".equals( ValidationComponentUtils.getMessageKeys( textField )[0] ));
 
+		textField.setText( "error" );
 		textField.getKeyListeners()[0].keyReleased( null );
 		assertTrue( ValidationComponentUtils.getErrorBackground().equals( textField.getBackground() ));
+
+		textField.setText( "warning" );
+		textField.getKeyListeners()[0].keyReleased( null );
+		assertTrue( ValidationComponentUtils.getWarningBackground().equals( textField.getBackground() ));
+
+		textField.setText( "all good" );
+		textField.getKeyListeners()[0].keyReleased( null );
+		assertTrue( !ValidationComponentUtils.getErrorBackground().equals( textField.getBackground() ));
+		assertTrue( !ValidationComponentUtils.getWarningBackground().equals( textField.getBackground() ));
+		assertTrue( !ValidationComponentUtils.getMandatoryBackground().equals( textField.getBackground() ) );
 	}
 
 	//
@@ -165,11 +175,25 @@ public class JGoodiesValidatorTest
 				@Override
 				public ValidationResult validate( String validationTarget )
 				{
-					ValidationMessage message = new SimpleValidationMessage( "MyJGoodiesValidator error", Severity.ERROR, attributes.get( NAME ));
-					ValidationResult validationResult = new ValidationResult();
-					validationResult.add( message );
+					if ( "error".equals( validationTarget ))
+					{
+						ValidationMessage message = new SimpleValidationMessage( "MyJGoodiesValidator error", Severity.ERROR, attributes.get( NAME ));
+						ValidationResult validationResult = new ValidationResult();
+						validationResult.add( message );
 
-					return validationResult;
+						return validationResult;
+					}
+
+					if ( "warning".equals( validationTarget ))
+					{
+						ValidationMessage message = new SimpleValidationMessage( "MyJGoodiesValidator warning", Severity.WARNING, attributes.get( NAME ));
+						ValidationResult validationResult = new ValidationResult();
+						validationResult.add( message );
+
+						return validationResult;
+					}
+
+					return null;
 				}
 			};
 		}

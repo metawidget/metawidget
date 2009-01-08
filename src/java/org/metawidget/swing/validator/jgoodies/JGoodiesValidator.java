@@ -160,7 +160,12 @@ public class JGoodiesValidator
 				{
 					@SuppressWarnings( "unchecked" )
 					Validator<Object> objectValidator = (Validator<Object>) validator;
-					mValidationResults.put( component, objectValidator.validate( value ) );
+					ValidationResult validationResult = objectValidator.validate( value );
+
+					if ( validationResult == null )
+						mValidationResults.remove( component );
+					else
+						mValidationResults.put( component, validationResult );
 				}
 
 				// ...collate all ValidationResults...

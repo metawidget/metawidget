@@ -57,6 +57,8 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
+// TODO: just GridBagLayout?
+
 public class TableGridBagLayout
 	extends BaseLayout
 {

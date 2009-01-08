@@ -352,7 +352,7 @@ public class ConfigReaderTest
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( "Unable to locate  foo".equals( e.getMessage() ) );
+			assertTrue( "Unable to locate  foo on CLASSPATH".equals( e.getMessage() ) );
 		}
 	}
 }
