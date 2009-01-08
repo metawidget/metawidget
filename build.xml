@@ -280,6 +280,7 @@
 				<exclude name="org/metawidget/test/**"/>
 			</fileset>
 			<fileset dir="src/java">
+				<exclude name="META-INF/metawidget.bnd"/>
 				<exclude name="org/metawidget/example/**"/>
 				<include name="org/metawidget/swing/icon/**"/>
 				<include name="**/faces-config.xml"/>
@@ -288,6 +289,17 @@
 				<include name="**/*.tld"/>
 			</fileset>
 		</jar>
+		
+		<!-- OSGI headers -->
+
+		<taskdef resource="aQute/bnd/ant/taskdef.properties">
+			<classpath>
+				<fileset dir="lib">
+					<include name="bnd-*.jar"/>
+				</fileset>
+			</classpath>
+		</taskdef>
+		<bndwrap jars="${build.metawidget.dir}/pack/metawidget.jar" output="${build.metawidget.dir}/pack/metawidget.jar" definitions="src/java/META-INF" />
 		
 	</target>
 
