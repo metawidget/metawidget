@@ -22,7 +22,6 @@ import java.awt.Component;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.GroupLayout;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
@@ -37,13 +36,14 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Layout to arrange widgets in a table, with one column for labels and another for the
- * widget, using <code>javax.swing.GroupLayout</code>.
+ * Layout to arrange widgets using <code>javax.swing.GroupLayout</code>.
+ * <p>
+ * Widgets are arranged in a table, with one column for labels and another for the widget,
  *
  * @author Richard Kennard
  */
 
-public class TableGroupLayout
+public class GroupLayout
 	extends BaseLayout
 {
 	//
@@ -64,7 +64,7 @@ public class TableGroupLayout
 	// Private members
 	//
 
-	private GroupLayout					mLayout;
+	private javax.swing.GroupLayout		mLayout;
 
 	private ParallelGroup				mGroupHorizontal;
 
@@ -78,7 +78,7 @@ public class TableGroupLayout
 	// Constructor
 	//
 
-	public TableGroupLayout( SwingMetawidget metawidget )
+	public GroupLayout( SwingMetawidget metawidget )
 	{
 		super( metawidget );
 	}
@@ -90,7 +90,7 @@ public class TableGroupLayout
 	@Override
 	public void layoutBegin()
 	{
-		mLayout = new GroupLayout( getMetawidget() );
+		mLayout = new javax.swing.GroupLayout( getMetawidget() );
 		getMetawidget().setLayout( mLayout );
 
 		// Horziontal group
@@ -133,7 +133,7 @@ public class TableGroupLayout
 
 			// Required
 
-			if ( labelText != null && !"".equals( labelText ))
+			if ( labelText != null && !"".equals( labelText ) )
 			{
 				if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
 					labelText += "*";

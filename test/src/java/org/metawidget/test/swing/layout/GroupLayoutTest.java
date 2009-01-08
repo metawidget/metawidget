@@ -33,13 +33,13 @@ import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.layout.TableGroupLayout;
+import org.metawidget.swing.layout.GroupLayout;
 
 /**
  * @author Richard Kennard
  */
 
-public class TableGroupLayoutTest
+public class GroupLayoutTest
 	extends TestCase
 {
 	//
@@ -50,7 +50,7 @@ public class TableGroupLayoutTest
 	 * JUnit 3.7 constructor.
 	 */
 
-	public TableGroupLayoutTest( String name )
+	public GroupLayoutTest( String name )
 	{
 		super( name );
 	}
@@ -66,7 +66,7 @@ public class TableGroupLayoutTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setLayoutClass( TableGroupLayout.class );
+		metawidget.setLayoutClass( GroupLayout.class );
 		metawidget.setToInspect( new Person() );
 
 		// Check what created

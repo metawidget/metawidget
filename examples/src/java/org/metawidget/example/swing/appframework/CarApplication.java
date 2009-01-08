@@ -118,7 +118,7 @@ public class CarApplication
 		// Set our default size. After first run, this will be overriden by the value
 		// stored in ${userHome}\Application Data\${vendorId}\${applicationId}\session.xml
 
-		// TODO: bit of a large space at the bottom here? TableGridBagLayout.INSETS_BUTTONS
+		// TODO: bit of a large space at the bottom here? GridBagLayout.INSETS_BUTTONS
 
 		mMetawidget.setPreferredSize( new Dimension( 400, 150 ) );
 		frame.add( mMetawidget, BorderLayout.CENTER );

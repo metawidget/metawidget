@@ -21,8 +21,8 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.metawidget.test.swing.actionbinding.reflection.ReflectionBindingTest;
-import org.metawidget.test.swing.layout.TableGridBagLayoutTest;
-import org.metawidget.test.swing.layout.TableGroupLayoutTest;
+import org.metawidget.test.swing.layout.GridBagLayoutTest;
+import org.metawidget.test.swing.layout.GroupLayoutTest;
 import org.metawidget.test.swing.propertybinding.beansbinding.BeansBindingTest;
 import org.metawidget.test.swing.propertybinding.beanutilsbinding.BeanUtilsBindingTest;
 import org.metawidget.test.swing.validator.inputverifier.InputVerifierValidatorTest;
@@ -63,8 +63,8 @@ public class SwingMetawidgetTests
 		// Not: suite.addTestSuite( SwingAllWidgetsTest.class ) - run separately as JDK 1.4
 		suite.addTestSuite( SwingAllWidgetsBeansBindingTest.class );
 		suite.addTestSuite( SwingMetawidgetTest.class );
-		suite.addTestSuite( TableGridBagLayoutTest.class );
-		suite.addTestSuite( TableGroupLayoutTest.class );
+		suite.addTestSuite( GridBagLayoutTest.class );
+		suite.addTestSuite( GroupLayoutTest.class );
 
 		return suite;
 	}

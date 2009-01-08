@@ -432,7 +432,7 @@ public class Person {
 				<title>Fine-Tuning The Layout</title>
 				
 				<para>
-					By default, <classname>SwingMetawidget</classname> lays out <classname>JComponents</classname> using <classname>org.metawidget.swing.layout.TableGridBagLayout</classname>.
+					By default, <classname>SwingMetawidget</classname> lays out <classname>JComponents</classname> using <classname>org.metawidget.swing.layout.GridBagLayout</classname>.
 					You can swap this for a different layout using <function>SwingMetawidget.setLayoutClass</function>, or you can fine-tune the existing
 					one using <function>SwingMetawidget.setParameter</function>:
 				</para>
@@ -469,7 +469,7 @@ public class Main {
 
 				<para>
 					Run the code. The <classname>JComponents</classname> are now arranged across two columns as in
-					<xref linkend="section-introduction-part1-columns-screenshot"/>. <classname>TableGridBagLayout</classname> is smart enough
+					<xref linkend="section-introduction-part1-columns-screenshot"/>. <classname>GridBagLayout</classname> is smart enough
 					to give large <classname>JComponents</classname> like <parameter>Notes</parameter> the full width of the <classname>JFrame</classname>.
 				</para>
 				

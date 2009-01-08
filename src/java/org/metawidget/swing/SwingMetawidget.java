@@ -63,7 +63,7 @@ import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.actionbinding.ActionBinding;
 import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
 import org.metawidget.swing.layout.Layout;
-import org.metawidget.swing.layout.TableGridBagLayout;
+import org.metawidget.swing.layout.GridBagLayout;
 import org.metawidget.swing.propertybinding.PropertyBinding;
 import org.metawidget.swing.validator.Validator;
 import org.metawidget.util.ArrayUtils;
@@ -107,7 +107,7 @@ public class SwingMetawidget
 
 	private Inspector							mInspector;
 
-	private Class<? extends Layout>				mLayoutClass		= TableGridBagLayout.class;
+	private Class<? extends Layout>				mLayoutClass		= GridBagLayout.class;
 
 	private Layout								mLayout;
 

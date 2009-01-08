@@ -45,13 +45,12 @@ import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.layout.TableGridBagLayout;
 
 /**
  * @author Richard Kennard
  */
 
-public class TableGridBagLayoutTest
+public class GridBagLayoutTest
 	extends TestCase
 {
 	//
@@ -62,7 +61,7 @@ public class TableGridBagLayoutTest
 	 * JUnit 3.7 constructor.
 	 */
 
-	public TableGridBagLayoutTest( String name )
+	public GridBagLayoutTest( String name )
 	{
 		super( name );
 	}
@@ -81,7 +80,7 @@ public class TableGridBagLayoutTest
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 0 );
-		metawidget.setParameter( "sectionStyle", TableGridBagLayout.SECTION_AS_TAB );
+		metawidget.setParameter( "sectionStyle", org.metawidget.swing.layout.GridBagLayout.SECTION_AS_TAB );
 		metawidget.setToInspect( new Foo() );
 
 		try
