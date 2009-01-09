@@ -1,15 +1,13 @@
 <project name="struts-addressbook-test" default="test-all">
 
 	<property file="../../../../../build.properties" />
-	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
-
 	<import file="${webtest.dir}/lib/taskdef.xml" />
 
 	<!-- Test Search Screen -->
 				
 	<target name="test-search">
 		<webtest name="test-search">
-			<config resultpath="${build.metawidget.dir}"/>
+			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-struts" />
 				<verifyTitle text="Address Book (Metawidget Struts Example)" />
@@ -45,7 +43,7 @@
 
 	<target name="test-existing-personal">
 		<webtest name="test-existing-personal">
-			<config resultpath="${build.metawidget.dir}"/>
+			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-struts" />
 	
@@ -152,7 +150,7 @@
 
 	<target name="test-new-business">
 		<webtest name="test-new-business">
-			<config resultpath="${build.metawidget.dir}"/>
+			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-struts" />
 				<clickButton label="Add Personal Contact"/>

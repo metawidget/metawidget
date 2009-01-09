@@ -1,7 +1,6 @@
 <project name="swing-console-test" default="test-all">
 
 	<property file="../../../../../build.properties" />
-	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
 
 	<path id="webtest.path.id">
 		<pathelement location="${webtest.dir}/lib"/>
@@ -16,7 +15,7 @@
 
 	<target name="test-all">
 		<webtest name="test-loads">
-			<config resultpath="${build.metawidget.dir}" />
+			<config resultpath="${build.dir}" />
 			<steps>
 				<invoke url="file://${tomcat.dir}/webapps/ROOT/live-demo/demo.html" />
 

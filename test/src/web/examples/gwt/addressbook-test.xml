@@ -1,8 +1,6 @@
 <project name="gwt-addressbook-test" default="test-all">
 
 	<property file="../../../../../build.properties" />
-	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
-
 	<import file="${webtest.dir}/lib/taskdef.xml" />
 
 	<!-- WebTest is not up to testing GWT yet. This just tests Bundle2VariableTag -->
@@ -10,7 +8,7 @@
 	
 	<target name="test-all">
 		<webtest name="test-all">
-			<config resultpath="${build.metawidget.dir}">
+			<config resultpath="${build.dir}">
 				<header name="User-Agent" value="Mozilla/4.0"/>
 			</config>
 			<steps>

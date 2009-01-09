@@ -1,13 +1,12 @@
 <project name="site-test" default="test-site">
 
 	<property file="../../../build.properties" />
-	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
 
 	<import file="${webtest.dir}/lib/taskdef.xml" />
 
 	<target name="test-site">
 		<webtest name="test-site">
-			<config resultpath="${build.metawidget.dir}"/>
+			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}"/>
 				<verifyLinks onsiteonly="true" ignoreforeignjserrors="true"/>

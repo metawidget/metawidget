@@ -1,15 +1,13 @@
 <project name="faces-addressbook-test" default="test-all">
 
 	<property file="../../../../../build.properties" />
-	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
-
 	<import file="${webtest.dir}/lib/taskdef.xml" />
 
 	<!-- Test Search Screen -->
 				
 	<target name="test-search">
 		<webtest name="test-search">
-			<config resultpath="${build.metawidget.dir}"/>
+			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces" />
 				<verifyTitle text="Address Book (Metawidget Java Server Faces Example)" />
@@ -44,7 +42,7 @@
 
 	<target name="test-existing-personal">
 		<webtest name="test-existing-personal">
-			<config resultpath="${build.metawidget.dir}"/>
+			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces" />
 				<clickLink label="Mr Homer Simpson"/>
@@ -134,7 +132,7 @@
 
 	<target name="test-richfaces">
 		<webtest name="test-richfaces">
-			<config resultpath="${build.metawidget.dir}">
+			<config resultpath="${build.dir}">
 				<header name="User-Agent" value="Mozilla/4.0"/>
 				<option name="ThrowExceptionOnScriptError" value="false"/>
 			</config>
@@ -171,7 +169,7 @@
 
 	<target name="test-new-business">
 		<webtest name="test-new-business">
-			<config resultpath="${build.metawidget.dir}"/>
+			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces" />
 				<clickButton label="Add Personal Contact"/>

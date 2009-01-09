@@ -1,15 +1,13 @@
 <project name="faces-seam-groovybooking-test" default="test-all">
 
 	<property file="../../../../../build.properties" />
-	<property name="build.metawidget.dir" value="${build.dir}/metawidget-${metawidget.version}"/>
-
 	<import file="${webtest.dir}/lib/taskdef.xml" />
 
 	<!-- Test Search Screen -->
 				
 	<target name="test-all">
 		<webtest name="test-all">
-			<config resultpath="${build.metawidget.dir}">
+			<config resultpath="${build.dir}">
 				<header name="User-Agent" value="Mozilla/4.0"/>
 				<option name="ThrowExceptionOnScriptError" value="false"/>
 			</config>
