@@ -288,11 +288,15 @@ public class ConfigReader
 					}
 
 					// Inspectors
+					//
+					// (namespace may be 'java:org.foo' or 'urn:java:org.foo'
 
-					if ( !uri.startsWith( JAVA_NAMESPACE_PREFIX ) )
-						throw new SAXException( "Namespace must begin with " + JAVA_NAMESPACE_PREFIX );
+					int indexOf = uri.indexOf( JAVA_NAMESPACE_PREFIX );
 
-					String packagePrefix = uri.substring( JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
+					if ( indexOf == -1 )
+						throw new SAXException( "Namespace must contain " + JAVA_NAMESPACE_PREFIX );
+
+					String packagePrefix = uri.substring( indexOf + JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
 					String toConstruct = packagePrefix + StringUtils.uppercaseFirstLetter( localName );
 					Class<?> classToConstruct = ClassUtils.niceForName( toConstruct );
 

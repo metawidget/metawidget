@@ -69,7 +69,7 @@ public class ConfigReaderTest
 		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\" version=\"1.0\">";
 		xml += "<validatingCompositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
 		xml += "<inspectors>";
-		xml += "<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\"/>";
+		xml += "<metawidgetAnnotationInspector xmlns=\"urn:java:org.metawidget.inspector.annotation\"/>";
 		xml += "<facesInspector xmlns=\"java:org.metawidget.inspector.faces\"/>";
 		xml += "<hibernateValidatorInspector xmlns=\"java:org.metawidget.inspector.hibernate.validator\"/>";
 		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";

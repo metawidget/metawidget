@@ -77,7 +77,7 @@ public class HibernateInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Unable to locate hibernate.cfg.xml".equals( e.getMessage() ));
+			assertTrue( "Unable to locate hibernate.cfg.xml on CLASSPATH".equals( e.getMessage() ));
 		}
 
 		try
