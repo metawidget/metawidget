@@ -565,7 +565,7 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Overriden to build widgets just-in-time.
+	 * Overridden to build widgets just-in-time.
 	 * <p>
 	 * This is the first method a JFrame.pack calls.
 	 */
@@ -579,7 +579,7 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Overriden to build widgets just-in-time.
+	 * Overridden to build widgets just-in-time.
 	 * <p>
 	 * This is the first method a JTable.editCellAt calls.
 	 */
@@ -593,7 +593,7 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Overriden to build widgets just-in-time.
+	 * Overridden to build widgets just-in-time.
 	 * <p>
 	 * This is the first method a JComponent.paintChildren calls (this includes JDialog)
 	 */
@@ -607,7 +607,7 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Overriden to build widgets just-in-time.
+	 * Overridden to build widgets just-in-time.
 	 * <p>
 	 * This method may be called by developers who wish to modify the created Components before they
 	 * are displayed. For example, they may wish to call .setBorder( null ) if the component is to
@@ -623,7 +623,7 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Overriden to build widgets just-in-time.
+	 * Overridden to build widgets just-in-time.
 	 * <p>
 	 * This method may be called by developers who wish to modify the created Components before they
 	 * are displayed.
@@ -638,7 +638,7 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Overriden to build widgets just-in-time.
+	 * Overridden to build widgets just-in-time.
 	 * <p>
 	 * This method may be called by developers who wish to test the SwingMetawidget's active
 	 * LayoutManager.
@@ -1101,7 +1101,7 @@ public class SwingMetawidget
 
 	}
 
-	protected JComponent getOverridenWidget( String elementName, Map<String, String> attributes )
+	protected JComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
 	{
 		String name = attributes.get( NAME );
 
@@ -1645,9 +1645,9 @@ public class SwingMetawidget
 		}
 
 		@Override
-		protected JComponent getOverridenWidget( String elementName, Map<String, String> attributes )
+		protected JComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
 		{
-			return SwingMetawidget.this.getOverridenWidget( elementName, attributes );
+			return SwingMetawidget.this.getOverriddenWidget( elementName, attributes );
 		}
 
 		@Override

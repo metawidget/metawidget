@@ -99,7 +99,7 @@ public class JbpmInspector
 	//
 
 	/**
-	 * Overriden to search by <code>name=</code>, not <code>type=</code>.
+	 * Overridden to search by <code>name=</code>, not <code>type=</code>.
 	 */
 
 	@Override
@@ -115,7 +115,7 @@ public class JbpmInspector
 	}
 
 	/**
-	 * Overriden to automatically drill into Seam <code>components.xml</code> files.
+	 * Overridden to automatically drill into Seam <code>components.xml</code> files.
 	 */
 
 	@Override
@@ -191,7 +191,7 @@ public class JbpmInspector
 	}
 
 	/**
-	 * Overriden to strip everything but the &lt;page&gt; and &lt;transition&gt; nodes.
+	 * Overridden to strip everything but the &lt;page&gt; and &lt;transition&gt; nodes.
 	 */
 
 	@Override

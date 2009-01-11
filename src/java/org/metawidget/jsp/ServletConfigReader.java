@@ -55,7 +55,7 @@ public class ServletConfigReader
 	//
 
 	/**
-	 * Overriden to try <code>/WEB-INF/</code> first.
+	 * Overridden to try <code>/WEB-INF/</code> first.
 	 */
 
 	@Override

@@ -120,7 +120,7 @@ public class PropertyTypeInspector
 	}
 
 	/**
-	 * Overriden to return <code>false<code>.
+	 * Overridden to return <code>false<code>.
 	 * <p>
 	 * <code>PropertyTypeInspector</code> always returns an XML document, even if just to convey the
 	 * <code>type</code> attribute of the top-level <code>entity</code> element.

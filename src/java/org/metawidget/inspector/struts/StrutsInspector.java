@@ -116,7 +116,7 @@ public class StrutsInspector
 	}
 
 	/**
-	 * Overriden to search by <code>name=</code>, not <code>type=</code>.
+	 * Overridden to search by <code>name=</code>, not <code>type=</code>.
 	 * <p>
 	 * This is because <code>struts-config.xml</code> requires <code>form-beans/name</code> be
 	 * unique, whereas <code>form-beans/type</code> can be, say, <code>DynaActionForm</code>.

@@ -110,7 +110,7 @@ public class MetawidgetMixinTest
 		}
 
 		@Override
-		protected Object getOverridenWidget( String elementName, Map<String, String> attributes )
+		protected Object getOverriddenWidget( String elementName, Map<String, String> attributes )
 		{
 			return null;
 		}

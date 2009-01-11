@@ -48,7 +48,7 @@ public class ScalaPropertyStyle
 	//
 
 	/**
-	 * Overriden because Scala always wraps properties with getter and setter methods. It never uses
+	 * Overridden because Scala always wraps properties with getter and setter methods. It never uses
 	 * public fields directly.
 	 */
 
@@ -59,7 +59,7 @@ public class ScalaPropertyStyle
 	}
 
 	/**
-	 * Overriden because Scala uses <code>x()</code> instead of <code>getX()</code>.
+	 * Overridden because Scala uses <code>x()</code> instead of <code>getX()</code>.
 	 */
 
 	@Override
@@ -78,7 +78,7 @@ public class ScalaPropertyStyle
 	}
 
 	/**
-	 * Overriden because Scala uses <code>foo_$eq( x )</code> instead of <code>setFoo( x )</code>.
+	 * Overridden because Scala uses <code>foo_$eq( x )</code> instead of <code>setFoo( x )</code>.
 	 */
 
 	@Override

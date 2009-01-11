@@ -135,7 +135,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 			// Java Server Faces POST backs) where we need to re-identify that
 
 			String elementName = getElementName( element );
-			W widget = getOverridenWidget( elementName, attributes );
+			W widget = getOverriddenWidget( elementName, attributes );
 
 			if ( widget == null )
 				widget = buildWidget( elementName, attributes );
@@ -192,7 +192,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 				throw new Exception( "Child element #" + loop + " of '" + attributes.get( TYPE ) + "' has no @" + NAME );
 
 			String elementName = getElementName( child );
-			W widget = getOverridenWidget( elementName, attributes );
+			W widget = getOverriddenWidget( elementName, attributes );
 
 			if ( widget == null )
 			{
@@ -232,7 +232,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 		// Note: we tried further refining this to buildReadOnlyFieldWidget,
 		// buildReadOnlyActionWidget, buildActiveFieldWidget, buildActiveActionWidget, but it wasn't
 		// really better because we still had to pass 'elementName' to other methods (such as
-		// UIMetawidget.getOverridenWidget) and so it seemed simplier and more symmetrical to also
+		// UIMetawidget.getOverriddenWidget) and so it seemed simplier and more symmetrical to also
 		// pass it here
 
 		if ( isReadOnly( attributes ) )
@@ -276,7 +276,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 	protected abstract void startBuild()
 		throws Exception;
 
-	protected abstract W getOverridenWidget( String elementName, Map<String, String> attributes );
+	protected abstract W getOverriddenWidget( String elementName, Map<String, String> attributes );
 
 	protected abstract boolean isStub( W widget );
 
