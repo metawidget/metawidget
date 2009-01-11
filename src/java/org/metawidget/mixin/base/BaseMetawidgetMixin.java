@@ -39,9 +39,9 @@ import java.util.Map;
  * <code>org.w3c.dom</code>.
  * <p>
  * Note: this class is located in <code>org.metawidget.mixin.base</code>, as opposed to just
- * <code>org.metawidget.mixin</code>, to make it easier to integrate GWT (which is bad at ignoring
- * sub-packages such as <code>org.metawidget.mixin.w3c</code>).
- * 
+ * <code>org.metawidget.mixin</code>, to make it easier to integrate GWT (which is bad at
+ * ignoring sub-packages such as <code>org.metawidget.mixin.w3c</code>).
+ *
  * @author Richard Kennard
  */
 
@@ -95,9 +95,9 @@ public abstract class BaseMetawidgetMixin<W, E>
 	 * <p>
 	 * This can be useful in detecing cyclic references. Although <code>BaseObjectInspector</code>
 	 * -derived Inspectors are capable of detecting cyclic references, other Inspectors may not be.
-	 * For example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
-	 * types, not actual objects.
-	 * 
+	 * For example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only
+	 * test types, not actual objects.
+	 *
 	 * @param maximumDepth
 	 *            0 for top-level only, 1 for 1 level deep etc.
 	 */
@@ -110,8 +110,8 @@ public abstract class BaseMetawidgetMixin<W, E>
 	/**
 	 * Build widgets from the given XML inspection result.
 	 * <p>
-	 * Note: the <code>BaseMetawidgetMixin</code> expects the XML to be passed in internally, rather
-	 * than fetching it itself, because some XML inspections may be asynchronous.
+	 * Note: the <code>BaseMetawidgetMixin</code> expects the XML to be passed in internally,
+	 * rather than fetching it itself, because some XML inspections may be asynchronous.
 	 */
 
 	public void buildWidgets( String xml )
@@ -138,13 +138,27 @@ public abstract class BaseMetawidgetMixin<W, E>
 			W widget = getOverriddenWidget( elementName, attributes );
 
 			if ( widget == null )
-				widget = buildWidget( elementName, attributes );
+				widget = buildSingleWidget( elementName, attributes );
 
 			if ( widget != null )
 			{
 				// If the returned widget is itself a Metawidget, it must have
 				// the same path as us. In that case, DON'T use it, as that would
-				// be infinite recursion
+				// be infinite recursion. Instead, treat this as a 'flag' to trigger going into
+				// buildCompoundWidget
+				//
+				// Note: we use this approach because:
+				//
+				// 1. We want clients to just have to implement 'W buildActiveWidget(...)', without
+				// having to worry about the difference between buildSimple/buildCompound
+				//
+				// 2. Because 'buildActiveWidget' returns a 'W', the flag must be of type 'W'
+				//
+				// 3. It is still possible to have a separate version of W for the flag, as opposed
+				// to using the Metawidget itself. This doesn't seem of huge benefit, however,
+				// because the Metawidget is not expensive to create (initMetawidget is not called)
+				// and it seems more confusing to clients to have to return a FlagMetawidget than
+				// the real Metawidget
 
 				if ( !isMetawidget( widget ) )
 				{
@@ -171,6 +185,31 @@ public abstract class BaseMetawidgetMixin<W, E>
 	//
 	// Protected methods
 	//
+
+	/**
+	 * Build a single widget by deferring to <code>buildWidget</code>.
+	 * <p>
+	 * Subclasses may override this method if they wish to perform cleanup on the 'flag Metawidget'
+	 * that is returned by <code>buildWidget</code> (and subsequently used as a trigger to enter
+	 * <code>buildCompoundWidget</code>). Note this 'flag Metawidget' is never passed to
+	 * <code>initMetawidget</code>, so its creation and subsequent ignoring should be relatively
+	 * low impact.
+	 * <p>
+	 * However, some frameworks (such as SWT) do not allow low impact widget creation, as they
+	 * require the widget to be added to its container during construction. Therefore clients may
+	 * want to detect and clean up their 'flag Metawidget' here.
+	 */
+
+	protected W buildSingleWidget( String elementName, Map<String, String> attributes )
+		throws Exception
+	{
+		return buildWidget( elementName, attributes );
+	}
+
+	/**
+	 * Build a compound widget by iterating through children of the given element, calling
+	 * <code>buildWidget</code> and <code>addWidget</code on each.
+	 */
 
 	protected void buildCompoundWidget( E element )
 		throws Exception
