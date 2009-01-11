@@ -115,7 +115,7 @@ public class CarApplication
 		mMetawidget.setPropertyBindingClass( BeansBinding.class );
 		mMetawidget.setBorder( BorderFactory.createEmptyBorder( 5, 5, 0, 5 ) );
 
-		// Set our default size. After first run, this will be overriden by the value
+		// Set our default size. After first run, this will be overridden by the value
 		// stored in ${userHome}\Application Data\${vendorId}\${applicationId}\session.xml
 
 		mMetawidget.setPreferredSize( new Dimension( 400, 150 ) );

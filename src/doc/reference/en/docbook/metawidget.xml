@@ -537,7 +537,7 @@ public class Main {
 				</para>
 				
 				<figure id="section-introduction-part1-override-screenshot">
-					<title>The 'retired' field has been overriden</title>
+					<title>The 'retired' field has been overridden</title>
 					<screenshot>
 						<graphic fileref="../shared/images/swing-tutorial5.jpg"/>
 					</screenshot>
@@ -940,7 +940,7 @@ public class Main {
 				<para>
 					The <parameter>Address</parameter> field is created as a nested <classname>SwingMetawidget</classname>. This is the default behaviour when Metawidget
 					encounters datatypes it does not know how to represent with any other UI widget. The <parameter>Communications</parameter> field
-					has been overriden with a manually specified <classname>JTable</classname>.
+					has been overridden with a manually specified <classname>JTable</classname>.
 				</para>
 				
 				<para>
@@ -1131,7 +1131,7 @@ public class Main {
 				
 				<para>
 					The <parameter>Address</parameter> field is a nested Metawidget. The <parameter>Communications</parameter> field
-					has been overriden in the JSP page with a manually specified table. <classname>UIMetawidget</classname> understands a manually-specified widget to
+					has been overridden in the JSP page with a manually specified table. <classname>UIMetawidget</classname> understands a manually-specified widget to
 					override an automatic one if it has the same <parameter>value</parameter> binding as the automatic
 					widget would have (<classname>GwtMetawidget</classname>, <classname>SpringMetawidget</classname> and <classname>StrutsMetawidget</classname> do
 					something similar):
@@ -1179,7 +1179,7 @@ public class Main {
 				</para>
 
 				<para>
-					Instead, we wrap the overriden <parameter>Communications</parameter> field in Metawidget's <classname>Stub</classname> tag. Metawidget
+					Instead, we wrap the overridden <parameter>Communications</parameter> field in Metawidget's <classname>Stub</classname> tag. Metawidget
 					and its Stub tags have explicit	support for co-ordinating the overriding of widget creation:
 				</para>
 				
@@ -1946,7 +1946,7 @@ public void addOwner() {
 					</listitem>
 					<listitem>
 						<para>
-							widget creation can be overriden if there are existing child widgets with suitably matching attributes
+							widget creation can be overridden if there are existing child widgets with suitably matching attributes
 						</para>
 					</listitem>
 					<listitem>

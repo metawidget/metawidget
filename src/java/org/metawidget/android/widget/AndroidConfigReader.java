@@ -56,7 +56,7 @@ public class AndroidConfigReader
 	//
 
 	/**
-	 * Overriden to try <code>Context.getResources</code> first.
+	 * Overridden to try <code>Context.getResources</code> first.
 	 * <p>
 	 * Resource strings should be of the form <code>@com.foo:raw/metawidget_metadata</code>.
 	 */

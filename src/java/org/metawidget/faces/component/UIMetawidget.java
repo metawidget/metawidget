@@ -577,7 +577,7 @@ public abstract class UIMetawidget
 		}
 	}
 
-	protected UIComponent getOverridenWidget( String elementName, Map<String, String> attributes )
+	protected UIComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
 	{
 		String binding = attributes.get( FACES_EXPRESSION );
 
@@ -1223,8 +1223,8 @@ public abstract class UIMetawidget
 		// Note: delegating to the Renderer to do the adding, such that it can decorate
 		// the UIComponent if necessary (eg. adding a UIMessage) doesn't work out too well.
 		// Specifically, the Renderer should not care whether a UIComponent is manually created
-		// or overriden, but if it wraps a UIComponent with a UIStub then it needs to specify
-		// whether the UIStub is for a manually created component or an overriden one, so that
+		// or overridden, but if it wraps a UIComponent with a UIStub then it needs to specify
+		// whether the UIStub is for a manually created component or an overridden one, so that
 		// UIMetawidget will clean it up again during startBuild. This just smells wrong, because
 		// Renderers should render, not manipulate the UIComponent tree.
 
@@ -1412,9 +1412,9 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected UIComponent getOverridenWidget( String elementName, Map<String, String> attributes )
+		protected UIComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
 		{
-			return UIMetawidget.this.getOverridenWidget( elementName, attributes );
+			return UIMetawidget.this.getOverriddenWidget( elementName, attributes );
 		}
 
 		@Override

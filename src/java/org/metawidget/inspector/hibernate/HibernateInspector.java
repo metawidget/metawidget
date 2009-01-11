@@ -92,7 +92,7 @@ public class HibernateInspector
 	//
 
 	/**
-	 * Overriden to search by <code>name=</code>, not <code>type=</code>.
+	 * Overridden to search by <code>name=</code>, not <code>type=</code>.
 	 */
 
 	@Override
@@ -118,7 +118,7 @@ public class HibernateInspector
 	}
 
 	/**
-	 * Overriden to automatically drill into Hibernate Configuration files.
+	 * Overridden to automatically drill into Hibernate Configuration files.
 	 */
 
 	@Override

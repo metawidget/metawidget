@@ -73,7 +73,7 @@ public class JavassistPropertyStyle
 	 * Inspect the given Classes and merge their results.
 	 * <p>
 	 * This version of <code>inspectProperties</code> is used when inspecting the interfaces of a
-	 * proxied class. Overriden to use a <code>LinkedHashMap</code> to combine the properties.
+	 * proxied class. Overridden to use a <code>LinkedHashMap</code> to combine the properties.
 	 */
 
 	@Override

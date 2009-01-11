@@ -326,7 +326,7 @@ public abstract class BaseXmlInspector
 		}
 
 		// ...and combine them all. Note the element may already exist from the superclass,
-		// and its attributes will get overriden by the subclass
+		// and its attributes will get overridden by the subclass
 
 		XmlUtils.combineElements( toAddTo, element, NAME, NAME );
 	}

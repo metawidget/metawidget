@@ -650,7 +650,7 @@ public class AndroidMetawidget
 		}
 	}
 
-	protected View getOverridenWidget( String elementName, Map<String, String> attributes )
+	protected View getOverriddenWidget( String elementName, Map<String, String> attributes )
 	{
 		View view = null;
 		String childName = attributes.get( NAME );
@@ -1106,9 +1106,9 @@ public class AndroidMetawidget
 		}
 
 		@Override
-		protected View getOverridenWidget( String elementName, Map<String, String> attributes )
+		protected View getOverriddenWidget( String elementName, Map<String, String> attributes )
 		{
-			return AndroidMetawidget.this.getOverridenWidget( elementName, attributes );
+			return AndroidMetawidget.this.getOverriddenWidget( elementName, attributes );
 		}
 
 		@Override

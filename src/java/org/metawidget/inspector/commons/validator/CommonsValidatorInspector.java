@@ -161,7 +161,7 @@ public class CommonsValidatorInspector
 	}
 
 	/**
-	 * Overriden to search by <code>name=</code>, not <code>type=</code>.
+	 * Overridden to search by <code>name=</code>, not <code>type=</code>.
 	 */
 
 	@Override

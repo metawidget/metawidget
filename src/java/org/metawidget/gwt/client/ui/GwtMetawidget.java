@@ -1026,7 +1026,7 @@ public class GwtMetawidget
 			mActionBinding = ( (ActionBindingFactory) GWT.create( ActionBindingFactory.class ) ).newBinding( mActionBindingClass, this );
 	}
 
-	protected Widget getOverridenWidget( String elementName, Map<String, String> attributes )
+	protected Widget getOverriddenWidget( String elementName, Map<String, String> attributes )
 	{
 		String name = attributes.get( NAME );
 
@@ -1401,9 +1401,9 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected Widget getOverridenWidget( String elementName, Map<String, String> attributes )
+		protected Widget getOverriddenWidget( String elementName, Map<String, String> attributes )
 		{
-			return GwtMetawidget.this.getOverridenWidget( elementName, attributes );
+			return GwtMetawidget.this.getOverriddenWidget( elementName, attributes );
 		}
 
 		@Override

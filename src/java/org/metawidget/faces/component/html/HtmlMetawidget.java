@@ -262,7 +262,7 @@ public class HtmlMetawidget
 			return application.createComponent( "javax.faces.HtmlInputHidden" );
 		}
 
-		// Overriden component
+		// Overridden component
 
 		UIComponent component = null;
 		String componentName = attributes.get( FACES_COMPONENT );
