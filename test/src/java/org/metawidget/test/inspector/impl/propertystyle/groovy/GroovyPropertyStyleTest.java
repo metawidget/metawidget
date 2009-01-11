@@ -26,7 +26,6 @@ import junit.framework.TestCase;
 
 import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
-import org.metawidget.groovytest.inspector.impl.propertystyle.groovy.GroovyFoo;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle;
 

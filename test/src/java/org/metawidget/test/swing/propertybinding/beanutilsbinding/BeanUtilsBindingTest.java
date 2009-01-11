@@ -69,8 +69,10 @@ public class BeanUtilsBindingTest
 	{
 		// Model
 
+		Date dateFirst = new GregorianCalendar( 1975, Calendar.APRIL, 9 ).getTime();
+
 		ScalaFoo scalaFoo = new ScalaFoo();
-		scalaFoo.bar_$eq( new GregorianCalendar( 1975, Calendar.APRIL, 9 ).getTime() );
+		scalaFoo.bar_$eq( dateFirst );
 		ScalaFoo scalaFoo2 = new ScalaFoo();
 		scalaFoo.nestedFoo = scalaFoo2;
 		ScalaFoo scalaFoo3 = new ScalaFoo();
@@ -94,7 +96,7 @@ public class BeanUtilsBindingTest
 
 		JTextField textField = (JTextField) metawidget.getComponent( 1 );
 		DateFormat dateFormat = new SimpleDateFormat( DATE_FORMAT );
-		assertTrue( dateFormat.format( scalaFoo.bar() ).equals( textField.getText() ) );
+		assertTrue( dateFormat.format( dateFirst ).equals( textField.getText() ) );
 		JLabel label = (JLabel) metawidget.getComponent( 5 );
 		assertTrue( "Not settable".equals( label.getText() ) );
 
@@ -106,7 +108,8 @@ public class BeanUtilsBindingTest
 
 		// Saving
 
-		textField.setText( dateFormat.format( new GregorianCalendar( 1976, Calendar.MAY, 10 ).getTime() ));
+		Date dateSecond = new GregorianCalendar( 1976, Calendar.MAY, 10 ).getTime();
+		textField.setText( dateFormat.format( dateSecond ));
 		nestedNestedTextField.setText( dateFormat.format( new GregorianCalendar( 1977, Calendar.JUNE, 17 ).getTime() ));
 		metawidget.save();
 
@@ -116,6 +119,17 @@ public class BeanUtilsBindingTest
 		assertTrue( null == scalaFoo2.bar() );
 		calendar.setTime( scalaFoo3.bar() );
 		assertTrue( 1977 == calendar.get( Calendar.YEAR ));
+
+		// Rebinding
+
+		textField = (JTextField) metawidget.getComponent( 1 );
+		assertTrue( dateFormat.format( dateSecond ).equals( textField.getText() ) );
+
+		scalaFoo.bar_$eq( dateFirst );
+		metawidget.rebind( scalaFoo );
+
+		textField = (JTextField) metawidget.getComponent( 1 );
+		assertTrue( dateFormat.format( dateFirst ).equals( textField.getText() ) );
 	}
 
 	//

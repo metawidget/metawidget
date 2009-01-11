@@ -62,12 +62,12 @@ import org.w3c.dom.NodeList;
  * ...as output.
  * <p>
  * This class does not support schema validation. It is not that useful in practice for two reasons.
- * First, Inspectors like <code>HibernateInspector</code> and <code>JbpmInspector</code> cannot use
- * it because they can be pointed at different kinds of files (eg. hibernate.cfg.xml or
+ * First, Inspectors like <code>HibernateInspector</code> and <code>JbpmInspector</code> cannot
+ * use it because they can be pointed at different kinds of files (eg. hibernate.cfg.xml or
  * hibernate-mapping.hbm.xml). Second, Inspectors that are intended for Android environments (eg.
  * <code>XmlInspector</code>) cannot use it because Android's Dalvik preprocessor balks at the
  * unsupported schema classes (even if they're wrapped in a <code>ClassNotFoundException</code>).
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -384,6 +384,7 @@ public abstract class BaseXmlInspector
 		return null;
 	}
 
+	@SuppressWarnings( "null" )
 	protected Element traverse( String type, boolean onlyToParent, String... names )
 		throws InspectorException
 	{
@@ -439,8 +440,6 @@ public abstract class BaseXmlInspector
 					if ( property != null )
 						break;
 				}
-
-				// This line needed to stop an (incorrect?) Eclipse warning
 
 				if ( property == null )
 					return null;

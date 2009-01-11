@@ -55,7 +55,7 @@ public class ScalaPropertyStyleTest
 	public void testScala()
 	{
 		ScalaPropertyStyle propertyStyle = new ScalaPropertyStyle();
-		Map<String, Property> properties = propertyStyle.getProperties( org.metawidget.scalatest.inspector.impl.propertystyle.scala.ScalaFoo.class );
+		Map<String, Property> properties = propertyStyle.getProperties( org.metawidget.test.inspector.impl.propertystyle.scala.ScalaFoo.class );
 
 		assertTrue( properties.size() == 3 );
 
