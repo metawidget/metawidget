@@ -91,9 +91,12 @@ public class UIStub
 
 		for ( String nameAndValue : CollectionUtils.fromString( stubAttributes, ';' ) )
 		{
+			if ( nameAndValue.isEmpty() )
+				continue;
+
 			List<String> nameAndValueList = CollectionUtils.fromString( nameAndValue, ':' );
 
-			if ( nameAndValueList.size() != 2 )
+			if ( nameAndValueList.size() != 2 || nameAndValueList.get( 1 ).isEmpty() )
 				throw new FacesException( "Unrecognized value '" + nameAndValue + "'" );
 
 			attributes.put( nameAndValueList.get( 0 ), nameAndValueList.get( 1 ) );

@@ -289,7 +289,7 @@ public final class CollectionUtils
 
 	public static List<String> fromString( final String collection, char separator )
 	{
-		if ( collection == null )
+		if ( collection == null || collection.length() == 0 )
 		{
 			// (use Collections.EMPTY_LIST, not Collections.emptyList, so that we're 1.4 compatible)
 
@@ -299,7 +299,7 @@ public final class CollectionUtils
 		}
 
 		List<String> split = CollectionUtils.newArrayList();
-		Pattern patternSplit = Pattern.compile( "\\s*(((\\\\" + separator + ")|[^" + separator + "])+)\\s*(" + separator + "|$)" );
+		Pattern patternSplit = Pattern.compile( "((\\\\" + separator + "|[^" + separator + "])*)(" + separator + "|$)" );
 		Pattern patternSeparator = Pattern.compile( "\\" + separator, Pattern.LITERAL );
 		String replacement = String.valueOf( separator );
 
@@ -307,10 +307,13 @@ public final class CollectionUtils
 
 		while ( matcher.find() )
 		{
-			String match = matcher.group( 1 );
+			String match = matcher.group( 1 ).trim();
 			match = patternSeparator.matcher( match ).replaceAll( replacement );
 
 			split.add( match );
+
+			if ( matcher.end( 1 ) == matcher.regionEnd() )
+				break;
 		}
 
 		return split;

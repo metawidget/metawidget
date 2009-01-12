@@ -67,7 +67,16 @@ public class CollectionUtilsTest
 		assertTrue( CollectionUtils.sort( emptySet ).isEmpty() );
 
 		assertTrue( CollectionUtils.newArrayList( "foo", "bar" ).equals( CollectionUtils.fromString( "foo, bar" ) ));
-		assertTrue( CollectionUtils.newArrayList( "foo", "bar" ).equals( CollectionUtils.fromString( "foo, bar," ) ));
+		assertTrue( CollectionUtils.newArrayList( "foo", "bar", "" ).equals( CollectionUtils.fromString( "foo, bar," ) ));
 		assertTrue( CollectionUtils.newArrayList( "foo", "bar", "baz" ).equals( CollectionUtils.fromString( "foo, bar,  baz" ) ));
+
+		assertTrue( CollectionUtils.fromString( null ).isEmpty() );
+		assertTrue( CollectionUtils.fromString( "" ).isEmpty() );
+		assertTrue( CollectionUtils.fromString( " " ).size() == 1 );
+		assertTrue( CollectionUtils.fromString( "foo" ).size() == 1 );
+		assertTrue( CollectionUtils.fromString( "," ).size() == 2 );
+		assertTrue( CollectionUtils.fromString( "foo," ).size() == 2 );
+		assertTrue( CollectionUtils.fromString( ",,foo" ).size() == 3 );
+		assertTrue( CollectionUtils.fromString( ",,foo," ).size() == 4 );
 	}
 }
