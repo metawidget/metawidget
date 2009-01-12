@@ -112,7 +112,11 @@ public class HtmlLayoutRenderer
 			if ( labelSuffix == null )
 				labelSuffix = ":";
 
-			componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( label + labelSuffix ) );
+			if ( label.indexOf( "#{" ) != -1 )
+				componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( label + labelSuffix ) );
+			else
+				componentLabel.setValue( label + labelSuffix );
+
 			FacesUtils.render( context, componentLabel );
 		}
 
