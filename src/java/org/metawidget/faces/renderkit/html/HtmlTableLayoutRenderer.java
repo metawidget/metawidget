@@ -126,6 +126,8 @@ public class HtmlTableLayoutRenderer
 	public void reentrantEncodeBegin( FacesContext context, UIComponent component )
 		throws IOException
 	{
+		super.reentrantEncodeBegin( context, component );
+
 		ResponseWriter writer = context.getResponseWriter();
 
 		layoutHiddenChildren( context, component );

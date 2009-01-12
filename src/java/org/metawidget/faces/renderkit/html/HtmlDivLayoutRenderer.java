@@ -88,6 +88,8 @@ public class HtmlDivLayoutRenderer
 	public void reentrantEncodeBegin( FacesContext context, UIComponent component )
 		throws IOException
 	{
+		super.reentrantEncodeBegin( context, component );
+
 		// Determine outer styles
 
 		UIParameter parameterOuterStyle = FacesUtils.findParameterWithName( component, KEY_OUTER_STYLE );

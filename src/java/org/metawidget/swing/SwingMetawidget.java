@@ -83,7 +83,7 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
  */
 
 // Note: It would be nice for SwingMetawidget to extend AwtMetawidget, but we want
-// SwingMetawidget to extend JComponent for various Swing-specific goodies like setBorder and
+// SwingMetawidget to extend JComponent for various Swing-specific features like setBorder and
 // setOpaque
 //
 public class SwingMetawidget

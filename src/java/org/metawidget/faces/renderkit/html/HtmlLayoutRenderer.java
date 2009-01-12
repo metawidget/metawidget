@@ -73,6 +73,8 @@ public class HtmlLayoutRenderer
 	public void reentrantEncodeBegin( FacesContext context, UIComponent component )
 		throws IOException
 	{
+		super.reentrantEncodeBegin( context, component );
+
 		// Determine label suffix
 
 		UIParameter parameterLabelSuffix = FacesUtils.findParameterWithName( component, KEY_LABEL_SUFFIX );
