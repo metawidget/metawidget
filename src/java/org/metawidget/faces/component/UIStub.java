@@ -91,7 +91,9 @@ public class UIStub
 
 		for ( String nameAndValue : CollectionUtils.fromString( stubAttributes, ';' ) )
 		{
-			if ( nameAndValue.isEmpty() )
+			// (use .length(), not .isEmpty(), so that we're 1.4 compatible)
+
+			if ( nameAndValue.length() == 0 )
 				continue;
 
 			List<String> nameAndValueList = CollectionUtils.fromString( nameAndValue, ':' );
