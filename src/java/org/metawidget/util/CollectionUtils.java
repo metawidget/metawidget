@@ -312,7 +312,7 @@ public final class CollectionUtils
 
 			split.add( match );
 
-			if ( matcher.end( 1 ) == matcher.regionEnd() )
+			if ( matcher.end( 1 ) == collection.length() )
 				break;
 		}
 
