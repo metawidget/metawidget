@@ -113,9 +113,7 @@ public class SwingAllWidgetsTest
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( allWidgets );
 
-		Stub stub = new Stub();
-		stub.setName( "mystery" );
-		metawidget.add( stub );
+		metawidget.add( new Stub( "mystery" ) );
 
 		// Test missing components
 

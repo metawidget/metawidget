@@ -87,9 +87,7 @@ public class AllWidgetsModule
 
 		// Stubs
 
-		Stub stub = new Stub();
-		stub.setName( "mystery" );
-		metawidget.add( stub );
+		metawidget.add( new Stub( "mystery" ));
 
 		// Embedded buttons
 

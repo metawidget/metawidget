@@ -50,6 +50,26 @@ public class Stub
 	private Map<String, String>	mAttributes;
 
 	//
+	// Constructors
+	//
+
+	public Stub()
+	{
+		// Default constructor
+	}
+
+	/**
+	 * Convenience constructor.
+	 * <p>
+	 * Useful for creating stubs that will otherwise be empty, such as <code>metawidget.add( new Stub( "foo" ))</code>
+	 */
+
+	public Stub( String name )
+	{
+		setName( name );
+	}
+
+	//
 	// Public methods
 	//
 

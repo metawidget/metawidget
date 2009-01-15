@@ -570,9 +570,7 @@ public class Main {
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( person );
-		<emphasis role="bold">Stub stub = new Stub();
-		stub.setName( "retired" );
-		metawidget.add( stub );</emphasis>
+		<emphasis role="bold">metawidget.add( new Stub( "retired" ));</emphasis>
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -683,9 +681,7 @@ public class Main {
 		<emphasis role="bold">metawidget.setInspectorConfig( "com/myapp/inspector-config.xml" );</emphasis>
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( person );
-		Stub stub = new Stub();
-		stub.setName( "retired" );
-		metawidget.add( stub );
+		metawidget.add( new Stub( "retired" ));
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );

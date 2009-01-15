@@ -156,9 +156,7 @@ public class GridBagLayoutTest
 
 		// With stub
 
-		Stub stub = new Stub();
-		stub.setName( "mno" );
-		metawidget.add( stub );
+		metawidget.add( new Stub( "mno" ) );
 
 		// With stub attributes
 

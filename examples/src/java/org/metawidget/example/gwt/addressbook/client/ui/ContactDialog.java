@@ -176,8 +176,7 @@ public class ContactDialog
 
 		// Communications override
 
-		Stub communicationsStub = new Stub();
-		communicationsStub.setName( "communications" );
+		Stub communicationsStub = new Stub( "communications" );
 		mMetawidget.add( communicationsStub );
 
 		mCommunications = new FlexTable();
