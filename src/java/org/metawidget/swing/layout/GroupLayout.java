@@ -93,7 +93,7 @@ public class GroupLayout
 		mLayout = new javax.swing.GroupLayout( getMetawidget() );
 		getMetawidget().setLayout( mLayout );
 
-		// Horziontal group
+		// Horizontal group
 
 		mGroupHorizontal = mLayout.createParallelGroup();
 		mLayout.setHorizontalGroup( mGroupHorizontal );

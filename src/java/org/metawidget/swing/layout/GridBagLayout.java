@@ -97,8 +97,6 @@ public class GridBagLayout
 	// Private members
 	//
 
-	private java.awt.GridBagLayout	mLayout;
-
 	private String					mCurrentSection;
 
 	private int						mLabelAlignment;
@@ -179,8 +177,7 @@ public class GridBagLayout
 	@Override
 	public void layoutBegin()
 	{
-		mLayout = new java.awt.GridBagLayout();
-		getMetawidget().setLayout( mLayout );
+		getMetawidget().setLayout( new java.awt.GridBagLayout() );
 	}
 
 	public void layoutChild( Component component, Map<String, String> attributes )
@@ -211,43 +208,43 @@ public class GridBagLayout
 
 		// ...and layout the component
 
-		GridBagConstraints constraintsComponent = new GridBagConstraints();
+		GridBagConstraints componentConstraints = new GridBagConstraints();
 
 		if ( !( component instanceof JButton ) )
-			constraintsComponent.fill = GridBagConstraints.BOTH;
+			componentConstraints.fill = GridBagConstraints.BOTH;
 
-		constraintsComponent.anchor = GridBagConstraints.WEST;
+		componentConstraints.anchor = GridBagConstraints.WEST;
 
 		if ( labelText != null )
 		{
-			constraintsComponent.gridx = ( mCurrentColumn * 2 ) + 1;
+			componentConstraints.gridx = ( mCurrentColumn * 2 ) + 1;
 		}
 		else
 		{
-			constraintsComponent.gridx = mCurrentColumn * 2;
-			constraintsComponent.gridwidth = 2;
+			componentConstraints.gridx = mCurrentColumn * 2;
+			componentConstraints.gridwidth = 2;
 		}
 
-		constraintsComponent.gridy = mCurrentRow;
-		constraintsComponent.weightx = 1.0f / mNumberOfColumns;
+		componentConstraints.gridy = mCurrentRow;
+		componentConstraints.weightx = 1.0f / mNumberOfColumns;
 
 		if ( largeComponent )
 		{
-			constraintsComponent.gridwidth = GridBagConstraints.REMAINDER;
+			componentConstraints.gridwidth = GridBagConstraints.REMAINDER;
 			mCurrentColumn = mNumberOfColumns;
 		}
 
 		if ( mCurrentRow == 0 )
-			constraintsComponent.insets = INSETS_TOP_COMPONENT;
+			componentConstraints.insets = INSETS_TOP_COMPONENT;
 		else
-			constraintsComponent.insets = INSETS_COMPONENT;
+			componentConstraints.insets = INSETS_COMPONENT;
 
 		// Hack for spacer row (see JavaDoc for mNeedSpacerRow): assume components
 		// embedded in a JScrollPane are their own spacer row
 
 		if ( component instanceof JScrollPane )
 		{
-			constraintsComponent.weighty = 1.0f;
+			componentConstraints.weighty = 1.0f;
 
 			if ( mPanelCurrent == null )
 				mNeedParentSpacerRow = false;
@@ -258,9 +255,9 @@ public class GridBagLayout
 		// Add to either current panel or direct to the Metawidget
 
 		if ( mPanelCurrent == null )
-			getMetawidget().add( component, constraintsComponent );
+			getMetawidget().add( component, componentConstraints );
 		else
-			mPanelCurrent.add( component, constraintsComponent );
+			mPanelCurrent.add( component, componentConstraints );
 
 		mCurrentColumn++;
 
@@ -288,21 +285,21 @@ public class GridBagLayout
 				mCurrentRow++;
 			}
 
-			GridBagConstraints constraintsButtons = new GridBagConstraints();
-			constraintsButtons.fill = GridBagConstraints.BOTH;
-			constraintsButtons.anchor = GridBagConstraints.WEST;
-			constraintsButtons.gridy = mCurrentRow;
-			constraintsButtons.gridwidth = GridBagConstraints.REMAINDER;
+			GridBagConstraints buttonConstraints = new GridBagConstraints();
+			buttonConstraints.fill = GridBagConstraints.BOTH;
+			buttonConstraints.anchor = GridBagConstraints.WEST;
+			buttonConstraints.gridy = mCurrentRow;
+			buttonConstraints.gridwidth = GridBagConstraints.REMAINDER;
 
 			// (buttons facet can act as the spacer row)
 
 			if ( mNeedParentSpacerRow )
 			{
-				constraintsButtons.weighty = 1.0f;
+				buttonConstraints.weighty = 1.0f;
 				mNeedParentSpacerRow = false;
 			}
 
-			getMetawidget().add( facetButtons, constraintsButtons );
+			getMetawidget().add( facetButtons, buttonConstraints );
 
 			mCurrentRow++;
 		}
@@ -329,11 +326,6 @@ public class GridBagLayout
 	//
 	// Protected methods
 	//
-
-	protected void addComponent( Component component, GridBagConstraints constraints )
-	{
-		getMetawidget().add( component, constraints );
-	}
 
 	protected String layoutBeforeChild( Component component, String labelText, Map<String, String> attributes )
 	{
@@ -364,26 +356,26 @@ public class GridBagLayout
 			else
 				label.setText( labelText + ":" );
 
-			GridBagConstraints constraintsLabel = new GridBagConstraints();
-			constraintsLabel.fill = GridBagConstraints.BOTH;
-			constraintsLabel.anchor = GridBagConstraints.NORTHWEST;
-			constraintsLabel.gridx = mCurrentColumn * 2;
-			constraintsLabel.gridy = mCurrentRow;
-			constraintsLabel.weightx = 0.1f / mNumberOfColumns;
+			GridBagConstraints labelConstraints = new GridBagConstraints();
+			labelConstraints.fill = GridBagConstraints.BOTH;
+			labelConstraints.anchor = GridBagConstraints.NORTHWEST;
+			labelConstraints.gridx = mCurrentColumn * 2;
+			labelConstraints.gridy = mCurrentRow;
+			labelConstraints.weightx = 0.1f / mNumberOfColumns;
 
 			if ( mCurrentColumn == 0 )
 			{
 				if ( mCurrentRow == 0 )
-					constraintsLabel.insets = INSETS_TOP_LEFT_COLUMN_LABEL;
+					labelConstraints.insets = INSETS_TOP_LEFT_COLUMN_LABEL;
 				else
-					constraintsLabel.insets = INSETS_LEFT_COLUMN_LABEL;
+					labelConstraints.insets = INSETS_LEFT_COLUMN_LABEL;
 			}
 			else
 			{
 				if ( mCurrentRow == 0 )
-					constraintsLabel.insets = INSETS_TOP_LABEL;
+					labelConstraints.insets = INSETS_TOP_LABEL;
 				else
-					constraintsLabel.insets = INSETS_LABEL;
+					labelConstraints.insets = INSETS_LABEL;
 			}
 
 			label.setVerticalAlignment( SwingConstants.TOP );
@@ -391,9 +383,9 @@ public class GridBagLayout
 			// Add to either current panel or direct to the Metawidget
 
 			if ( mPanelCurrent == null )
-				getMetawidget().add( label, constraintsLabel );
+				getMetawidget().add( label, labelConstraints );
 			else
-				mPanelCurrent.add( label, constraintsLabel );
+				mPanelCurrent.add( label, labelConstraints );
 		}
 
 		return labelText;
