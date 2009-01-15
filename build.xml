@@ -22,23 +22,11 @@
 
 	<!-- Compile -->
 
-	<target name="compile-skip" depends="init" if="skip-compile">
-		
-		<echo message="Not re-compiling - already compiled"/>
-		
-	</target>
-
-	<target name="compile-ok" depends="init" unless="skip-compile">
+	<target name="compile-main" depends="init" unless="skip-compile-main">
 		
 		<mkdir dir="${build.dir}/java5-classes"/>
 		<mkdir dir="${build.dir}/java4-classes"/>
 		<mkdir dir="${build.dir}/classes"/>
-		<mkdir dir="${build.dir}/example-classes"/>
-		<mkdir dir="${build.dir}/scala-example-classes"/>
-		<mkdir dir="${build.dir}/test-classes"/>
-		<mkdir dir="${build.dir}/groovy-test-classes"/>
-		<mkdir dir="${build.dir}/scala-test-classes"/>
-		<mkdir dir="${build.dir}/tutorial-classes"/>
 
 		<echo message="Note: Metawidget requires Java SE 6 to build, though only J2SE 1.4 to run"/>
 		<echo message="      This is because some optional features require Java SE 6"/>
@@ -96,9 +84,58 @@
 		<copy todir="${build.dir}/classes" overwrite="true">
 			<fileset dir="${build.dir}/java4-classes"/>
 		</copy>
-
-		<!-- Build test files -->
+	
+		<property name="skip-compile-main" value="true"/>
 		
+	</target>
+		
+	<target name="compile-examples" depends="compile-main" unless="skip-compile-examples">
+
+		<mkdir dir="${build.dir}/example-classes"/>
+		<mkdir dir="${build.dir}/scala-example-classes"/>
+
+		<javac sourcepath="" srcdir="examples/src/java" destdir="${build.dir}/example-classes" debug="${build.debug}" optimize="on" target="1.5">
+			<include name="org/metawidget/example/android/**"/>
+			<include name="org/metawidget/example/swing/appframework/**"/>
+			<include name="org/metawidget/example/swing/applet/**"/>
+			<include name="org/metawidget/example/swing/console/**"/>
+			<include name="org/metawidget/example/**/addressbook/**"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement path="${build.dir}/classes"/>
+			</classpath>
+		</javac>
+
+		<!-- Build Scala files -->
+
+		<taskdef resource="scala/tools/ant/antlib.xml">
+			<classpath>
+				<fileset dir="lib">
+					<include name="scala-*.jar"/>
+				</fileset>
+			</classpath>
+		</taskdef>
+
+		<scalac srcdir="examples/src/scala" destdir="${build.dir}/scala-example-classes">
+			<include name="**/*.scala"/>
+			<classpath>
+				<fileset dir="lib"/>
+				<pathelement path="${build.dir}/classes"/>
+				<fileset dir="examples/src/scala/org/metawidget/example/swing/bookstore"/>
+			</classpath>
+		</scalac>
+
+		<property name="skip-compile-examples" value="true"/>
+
+	</target>
+
+	<target name="compile-test" depends="compile-examples" unless="skip-compile-test">
+
+		<mkdir dir="${build.dir}/test-classes"/>
+		<mkdir dir="${build.dir}/groovy-test-classes"/>
+		<mkdir dir="${build.dir}/scala-test-classes"/>
+		<mkdir dir="${build.dir}/tutorial-classes"/>
+
 		<javac sourcepath="" srcdir="test/src/java" destdir="${build.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
 			<include name="org/metawidget/test/faces/allwidgets/**"/>
 			<include name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
@@ -112,21 +149,7 @@
 				<pathelement path="${build.dir}/classes"/>
 			</classpath>
 		</javac>
-
-		<!-- Build example files -->
 		
-		<javac sourcepath="" srcdir="examples/src/java" destdir="${build.dir}/example-classes" debug="${build.debug}" optimize="on" target="1.5">
-			<include name="org/metawidget/example/android/**"/>
-			<include name="org/metawidget/example/swing/appframework/**"/>
-			<include name="org/metawidget/example/swing/applet/**"/>
-			<include name="org/metawidget/example/swing/console/**"/>
-			<include name="org/metawidget/example/**/addressbook/**"/>
-			<classpath>
-				<fileset dir="lib"/>
-				<pathelement path="${build.dir}/classes"/>
-			</classpath>
-		</javac>
-
 		<!-- Build tutorial files (which are neither 'src/test' files, nor should -->
 		<!-- end up as examples in the finished distribution                      -->
 		
@@ -162,15 +185,6 @@
 				</fileset>
 			</classpath>
 		</taskdef>
-
-		<scalac srcdir="examples/src/scala" destdir="${build.dir}/scala-example-classes">
-			<include name="**/*.scala"/>
-			<classpath>
-				<fileset dir="lib"/>
-				<pathelement path="${build.dir}/classes"/>
-				<fileset dir="examples/src/scala/org/metawidget/example/swing/bookstore"/>
-			</classpath>
-		</scalac>
 
 		<scalac srcdir="test/src/scala" destdir="${build.dir}/scala-test-classes">
 			<include name="**/*.scala"/>
@@ -208,15 +222,14 @@
 			</classpath>
 		</javac>
 		
+		<property name="skip-compile-test" value="true"/>
+
 	</target>
 
-	<target name="compile" depends="compile-ok, compile-skip"/>
-	
 	<!-- Pack -->
 
-	<target name="pack">
+	<target name="pack" depends="pack-internal">
 
-		<antcall target="pack-internal"/>
 		<move file="${build.dir}/pack/metawidget.jar" tofile="${build.dir}/metawidget.jar" />
 		
 	</target>
@@ -267,7 +280,7 @@
 		
 	</target>
 
-	<target name="pack-internal" depends="compile">
+	<target name="pack-internal" depends="compile-main">
 		
 		<mkdir dir="${build.dir}/pack"/>		
 		<jar destfile="${build.dir}/pack/metawidget.jar" manifest="src/java/META-INF/MANIFEST.MF">
@@ -302,7 +315,7 @@
 		
 	</target>
 
-	<target name="pack-as-frontend-backend-internal" depends="compile">
+	<target name="pack-as-frontend-backend-internal" depends="compile-main">
 
 		<mkdir dir="${build.dir}/pack"/>		
 		<jar destfile="${build.dir}/pack/metawidget-backend.jar" manifest="src/java/META-INF/MANIFEST.MF">
@@ -373,7 +386,7 @@
 		
 	</target>
 
-	<target name="pack-util-internal" depends="compile">
+	<target name="pack-util-internal" depends="compile-main">
 		
 		<mkdir dir="${build.dir}/debug"/>		
 		<jar destfile="${build.dir}/debug/metawidget-util-debug-version.jar" manifest="src/java/META-INF/MANIFEST.MF">
@@ -384,7 +397,7 @@
 		
 	</target>
 
-	<target name="flatten-libs" depends="pack">
+	<target name="flatten-libs" depends="pack,compile-examples">
 		
 		<copy todir="${build.dir}/lib" flatten="true" includeemptydirs="false">
 			<fileset dir="lib"/>
@@ -405,7 +418,7 @@
 	
 	<available property="ydoc-available" file="${ydoc.dir}/lib/ydoc.jar"/>
 	
-	<target name="javadoc-ydoc" depends="compile" if="ydoc-available">
+	<target name="javadoc-ydoc" depends="compile-main" if="ydoc-available">
 
 		<javadoc destdir="${build.dir}/doc/api"
 			author="true" version="true" use="true"
@@ -436,7 +449,7 @@
 		
 	</target>
 	
-	<target name="javadoc-plain" depends="compile" unless="ydoc-available">
+	<target name="javadoc-plain" depends="compile-main" unless="ydoc-available">
 		
 		<echo level="warning" message="YDoc not installed at 'ydoc.dir' in 'build.properties'. Building JavaDoc without YDoc"/>
 		
@@ -527,7 +540,7 @@
 	
 	<!-- Unit Tests -->
 	
-	<target name="test-unit-desktop" depends="examples-desktop">
+	<target name="test-unit-desktop" depends="examples-desktop,compile-test">
 
 		<!-- Note: run the unit tests against the actual metawiget.jar and   -->
 		<!--       addressbook-swing.jar, to make sure they packed correctly -->
@@ -572,7 +585,7 @@
 	
 	</target>
 
-	<target name="test-unit-gwt" depends="example-gwt-addressbook">
+	<target name="test-unit-gwt" depends="example-gwt-addressbook,compile-test">
 		
 		<copy todir="${build.dir}/gwt-example-src">
 			<fileset dir="examples/src/java">
@@ -655,7 +668,7 @@
 	
 	</target>
 
-	<target name="test-unit-14" depends="compile">
+	<target name="test-unit-14" depends="compile-test">
 
 		<available property="java4-exists" file="${java4.dir}/bin"/>
 		<fail message="JDK 1.4 not installed at 'java4.dir' (as indicated in build.properties)" unless="java4-exists"/>
@@ -683,8 +696,7 @@
 		<!-- Compile with debug on -->
 		
 		<property name="build.debug" value="on"/>		
-		<antcall target="compile"/>
-		<property name="skip-compile" value="true"/>
+		<antcall target="compile-test"/>
 
 		<!-- Instrument -->
 
@@ -754,7 +766,7 @@
 
 	<!-- Manual test -->
 		
-	<target name="test-android-allwidgets" depends="pack">
+	<target name="test-android-allwidgets" depends="pack,compile-test">
 
 		<mkdir dir="${build.dir}/test/android"/>
 		<mkdir dir="${build.dir}/test/android/allwidgets/classes"/>
@@ -852,7 +864,7 @@
 
 	</target>
 	
-	<target name="test-faces-addressbook" depends="example-faces-addressbook">
+	<target name="test-faces-addressbook" depends="example-faces-addressbook,compile-test">
 		
 		<!-- Test on Tomcat -->
 
@@ -910,7 +922,7 @@
 
 	</target>
 
-	<target name="test-faces-seam-booking" depends="example-faces-seam-booking">
+	<target name="test-faces-seam-booking" depends="example-faces-seam-booking,compile-test">
 		
 		<ant dir="${build.dir}/examples/faces/seam/booking"/>
 		<antcall target="test-web-start-jboss"/>
@@ -928,7 +940,7 @@
 		
 	</target>
 
-	<target name="test-faces-seam-dvdstore" depends="example-faces-seam-dvdstore">
+	<target name="test-faces-seam-dvdstore" depends="example-faces-seam-dvdstore,compile-test">
 		
 		<ant dir="${build.dir}/examples/faces/seam/dvdstore"/>
 		<antcall target="test-web-start-jboss"/>
@@ -946,7 +958,7 @@
 		
 	</target>
 
-	<target name="test-faces-seam-groovybooking" depends="example-faces-seam-groovybooking">
+	<target name="test-faces-seam-groovybooking" depends="example-faces-seam-groovybooking,compile-test">
 		
 		<ant dir="${build.dir}/examples/faces/seam/groovybooking"/>
 		<antcall target="test-web-start-jboss"/>
@@ -964,7 +976,7 @@
 		
 	</target>
 
-	<target name="test-gwt-addressbook" depends="example-gwt-addressbook">
+	<target name="test-gwt-addressbook" depends="example-gwt-addressbook,compile-test">
 		
 		<!-- Test on Tomcat -->
 		
@@ -1022,7 +1034,7 @@
 
 	</target>
 
-	<target name="test-jsp-addressbook" depends="example-jsp-addressbook">
+	<target name="test-jsp-addressbook" depends="example-jsp-addressbook,compile-test">
 		
 		<!-- Test on Tomcat -->
 		
@@ -1080,7 +1092,7 @@
 
 	</target>
 	
-	<target name="test-struts-addressbook" depends="example-struts-addressbook">
+	<target name="test-struts-addressbook" depends="example-struts-addressbook,compile-test">
 		
 		<!-- Test on Tomcat -->
 		
@@ -1138,7 +1150,7 @@
 
 	</target>
 
-	<target name="test-spring-addressbook" depends="example-spring-addressbook">
+	<target name="test-spring-addressbook" depends="example-spring-addressbook,compile-test">
 		
 		<!-- Test on Tomcat -->
 		
@@ -1196,7 +1208,7 @@
 
 	</target>
 
-	<target name="test-swing-addressbook-applet" depends="example-swing-addressbook-applet">
+	<target name="test-swing-addressbook-applet" depends="example-swing-addressbook-applet,compile-test">
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${run.dir}">
 			<classpath>
@@ -1417,7 +1429,7 @@
 
 	<!-- AllWidgets tests -->
 	
-	<target name="test-shared-allwidgets" depends="flatten-libs">
+	<target name="test-shared-allwidgets" depends="flatten-libs,compile-test">
 
 		<copy todir="${build.dir}/test-classes">
 			<fileset dir="test/src/java">
@@ -1474,7 +1486,7 @@
 		
 	</target>
 
-	<target name="test-faces-quirks" depends="flatten-libs">
+	<target name="test-faces-quirks" depends="flatten-libs,compile-test">
 		
 		<mkdir dir="${build.dir}/test/faces"/>
 
@@ -1604,7 +1616,7 @@
 		
 	</target>
 	
-	<target name="test-spring-quirks" depends="flatten-libs">
+	<target name="test-spring-quirks" depends="flatten-libs,compile-test">
 		
 		<mkdir dir="${build.dir}/test/spring"/>
 
@@ -1687,7 +1699,7 @@
 		
 	</target>
 
-	<target name="test-struts-quirks" depends="flatten-libs">
+	<target name="test-struts-quirks" depends="flatten-libs,compile-test">
 		
 		<mkdir dir="${build.dir}/test/struts"/>
 
@@ -1753,7 +1765,7 @@
 	
 	<!-- Examples -->
 
-	<target name="example-swing-addressbook" depends="pack">
+	<target name="example-swing-addressbook" depends="pack,compile-examples">
 		
 		<mkdir dir="${build.dir}/examples/swing"/>
 
@@ -1781,7 +1793,7 @@
 		
 	</target>
 
-	<target name="example-swing-addressbook-applet" depends="compile">
+	<target name="example-swing-addressbook-applet" depends="compile-examples">
 		
 		<mkdir dir="${build.dir}/examples/swing/applet/addressbook"/>
 
@@ -1847,7 +1859,7 @@
 
 	</target>
 
-	<target name="example-swing-appframework" depends="pack">
+	<target name="example-swing-appframework" depends="pack,compile-examples">
 		
 		<mkdir dir="${build.dir}/examples/swing"/>
 
@@ -1878,7 +1890,7 @@
 		
 	</target>
 
-	<target name="example-swing-bookstore" depends="pack">
+	<target name="example-swing-bookstore" depends="pack,compile-examples">
 		
 		<mkdir dir="${build.dir}/examples/swing"/>
 
@@ -1975,7 +1987,7 @@
 
 	</target>
 	
-	<target name="example-faces-seam-booking" depends="pack-as-frontend-backend">
+	<target name="example-faces-seam-booking" depends="pack-as-frontend-backend,compile-examples">
 		
 		<copy todir="${build.dir}/examples/faces">
 			<fileset dir="examples/src/web/faces">
@@ -1990,7 +2002,7 @@
 
 	</target>
 
-	<target name="example-faces-seam-dvdstore" depends="pack-as-frontend-backend">
+	<target name="example-faces-seam-dvdstore" depends="pack-as-frontend-backend,compile-examples">
 		
 		<copy todir="${build.dir}/examples/faces">
 			<fileset dir="examples/src/web/faces">
@@ -2005,7 +2017,7 @@
 
 	</target>
 
-	<target name="example-faces-seam-groovybooking" depends="pack">
+	<target name="example-faces-seam-groovybooking" depends="pack,compile-examples">
 		
 		<copy todir="${build.dir}/examples/faces">
 			<fileset dir="examples/src/web/faces">
@@ -2216,7 +2228,7 @@
 		
 	</target>
 
-	<target name="example-android-addressbook" depends="pack" if="android-available">
+	<target name="example-android-addressbook" depends="pack,compile-examples" if="android-available">
 
 		<mkdir dir="${build.dir}/examples/android"/>
 		<mkdir dir="${build.dir}/examples/android/addressbook/dex-classes"/>
@@ -2251,14 +2263,14 @@
 		
         <exec executable="${android.tools.dir}/dx.bat" failonerror="true">
             <arg value="--dex" />
-            <arg value="--output=${build.dir}/examples/android/addressbook/classes.dex" />
+            <arg value="--output=${basedir}/${build.dir}/examples/android/addressbook/classes.dex" />
             <arg value="--positions=lines" />
-            <arg path="${build.dir}/examples/android/addressbook/dex-classes" />
+            <arg path="${basedir}/${build.dir}/examples/android/addressbook/dex-classes" />
         </exec>
 
 	    <!-- Put the project's resources into the output package file -->
 				
-        <exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="examples/android/addressbook">
+        <exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="examples/src/android/addressbook">
             <arg value="package" />
             <arg value="-f" />
             <arg value="-M" />
@@ -2268,17 +2280,17 @@
             <arg value="-I" />
             <arg value="${android.dir}/android.jar" />
             <arg value="-F" />
-            <arg value="${build.dir}/examples/android/addressbook-android.ap_" />
+            <arg value="${basedir}/${build.dir}/examples/android/addressbook-android.ap_" />
         </exec>
 
 	    <!-- Put the project's .dex files into the APK -->
 		
         <exec executable="${android.tools.dir}/apkbuilder.bat" failonerror="true">        
-            <arg value="${build.dir}/examples/android/addressbook-android.apk" />
+            <arg value="${basedir}/${build.dir}/examples/android/addressbook-android.apk" />
             <arg value="-z" />
-            <arg value="${build.dir}/examples/android/addressbook-android.ap_" />
+            <arg value="${basedir}/${build.dir}/examples/android/addressbook-android.ap_" />
             <arg value="-f" />
-            <arg value="${build.dir}/examples/android/addressbook/classes.dex" />
+            <arg value="${basedir}/${build.dir}/examples/android/addressbook/classes.dex" />
         </exec>
 
 		<copy todir="${build.dir}/examples/android" file="examples/src/java/org/metawidget/example/android/readme.txt"/>
@@ -2291,7 +2303,7 @@
 
 	<!-- http://www.metawidget.org -->
 
-	<target name="live-demo" depends="pack">
+	<target name="live-demo" depends="pack,compile-examples">
 		
 		<delete failonerror="false">
 			<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
@@ -2336,7 +2348,7 @@
 
 	</target>
 	
-	<target name="web-site" depends="pack">
+	<target name="web-site">
 
 		<delete dir="${tomcat.dir}/webapps"/>
 

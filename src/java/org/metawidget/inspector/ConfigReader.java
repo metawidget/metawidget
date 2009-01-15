@@ -41,9 +41,6 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
-// TODO: build repeats even if already built
-// TODO: build shouldn't need to rebuild examples
-
 /**
  * Helper class for reading inspector-config.xml files and instantiating Inspectors.
  * <p>
