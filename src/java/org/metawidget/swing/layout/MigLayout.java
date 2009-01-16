@@ -189,8 +189,6 @@ public class MigLayout
 
 		if ( component instanceof JScrollPane )
 			componentConstraints.growY();
-		else
-			componentConstraints.growY( 0f );
 
 		// Add to either current panel or direct to the Metawidget
 
