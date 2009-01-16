@@ -61,25 +61,25 @@ public class MigLayout
 	// Public statics
 	//
 
-	public final static int					SECTION_AS_HEADING	= 0;
+	public final static int	SECTION_AS_HEADING	= 0;
 
-	public final static int					SECTION_AS_TAB		= 1;
+	public final static int	SECTION_AS_TAB		= 1;
 
 	//
 	// Private members
 	//
 
-	private String							mCurrentSection;
+	private String			mCurrentSection;
 
-	private JPanel							mPanelCurrent;
+	private JPanel			mPanelCurrent;
 
-	private int								mNumberOfColumns;
+	private int				mNumberOfColumns;
 
-	private int								mCurrentColumn;
+	private int				mCurrentColumn;
 
-	private int								mCurrentRow;
+	private int				mCurrentRow;
 
-	private int								mSectionStyle;
+	private int				mSectionStyle;
 
 	//
 	// Constructor
@@ -120,9 +120,11 @@ public class MigLayout
 	@Override
 	public void layoutBegin()
 	{
-		// The entire layout should fill both horizontally and vertically
+		// The entire layout should fill both horizontally and vertically,
+		// with no insets. This allows us to be properly nested, as well as
+		// embedded within existing UIs, without alignment problems
 
-		LC layoutConstraints = new LC().fill();
+		LC layoutConstraints = new LC().fill().insets( "0" );
 
 		// Debug Info (draws the red and blue lines)
 		//
@@ -133,7 +135,7 @@ public class MigLayout
 		// Note: we don't use column/row constraints, because we don't know
 		// what the components will be in advance. Rather, we use 'cell' and 'push'
 
-		getMetawidget().setLayout( new net.miginfocom.swing.MigLayout( layoutConstraints ));
+		getMetawidget().setLayout( new net.miginfocom.swing.MigLayout( layoutConstraints ) );
 	}
 
 	public void layoutChild( Component component, Map<String, String> attributes )
@@ -255,9 +257,13 @@ public class MigLayout
 				label.setText( labelText + ":" );
 
 			CC labelConstraints = new CC();
-			labelConstraints.alignY( "top" );
 			labelConstraints.cell( mCurrentColumn * 2, mCurrentRow );
 			labelConstraints.growX();
+
+			// If component grows vertically, top align the label
+
+			if ( component instanceof JScrollPane || component instanceof SwingMetawidget )
+				labelConstraints.alignY( "top" );
 
 			// Add to either current panel or direct to the Metawidget
 
