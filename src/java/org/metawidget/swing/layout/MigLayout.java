@@ -165,7 +165,17 @@ public class MigLayout
 		// ...and layout the component
 
 		CC componentConstraints = new CC();
-		componentConstraints.cell( ( mCurrentColumn * 2 ) + 1, mCurrentRow );
+
+		if ( labelText != null )
+		{
+			componentConstraints.cell( ( mCurrentColumn * 2 ) + 1, mCurrentRow );
+		}
+		else
+		{
+			componentConstraints.cell( mCurrentColumn * 2, mCurrentRow );
+			componentConstraints.spanX( 2 );
+		}
+
 		componentConstraints.pushX( 1f );
 		componentConstraints.growX();
 
@@ -175,7 +185,7 @@ public class MigLayout
 			mCurrentColumn = mNumberOfColumns;
 		}
 
-		// Assume components should grow vertically
+		// Assume JScrollPanes should grow vertically
 
 		if ( component instanceof JScrollPane )
 			componentConstraints.growY();
@@ -191,7 +201,7 @@ public class MigLayout
 
 		mCurrentColumn++;
 
-		if ( mCurrentColumn == mNumberOfColumns )
+		if ( mCurrentColumn >= mNumberOfColumns )
 		{
 			mCurrentColumn = 0;
 			mCurrentRow++;
@@ -305,7 +315,6 @@ public class MigLayout
 				}
 
 				mPanelCurrent = new JPanel();
-				mPanelCurrent.setOpaque( false );
 				mPanelCurrent.setName( localizedSection );
 				mPanelCurrent.setLayout( new net.miginfocom.swing.MigLayout( new LC().fill() ) );
 
@@ -330,6 +339,7 @@ public class MigLayout
 		if ( mPanelCurrent == null )
 			return;
 
+		mCurrentColumn = 0;
 		mPanelCurrent = null;
 	}
 }

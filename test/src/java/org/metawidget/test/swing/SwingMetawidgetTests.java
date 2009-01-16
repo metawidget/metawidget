@@ -23,6 +23,7 @@ import junit.framework.TestSuite;
 import org.metawidget.test.swing.actionbinding.reflection.ReflectionBindingTest;
 import org.metawidget.test.swing.layout.GridBagLayoutTest;
 import org.metawidget.test.swing.layout.GroupLayoutTest;
+import org.metawidget.test.swing.layout.MigLayoutTest;
 import org.metawidget.test.swing.propertybinding.beansbinding.BeansBindingTest;
 import org.metawidget.test.swing.propertybinding.beanutilsbinding.BeanUtilsBindingTest;
 import org.metawidget.test.swing.validator.inputverifier.InputVerifierValidatorTest;
@@ -65,6 +66,8 @@ public class SwingMetawidgetTests
 		suite.addTestSuite( SwingMetawidgetTest.class );
 		suite.addTestSuite( GridBagLayoutTest.class );
 		suite.addTestSuite( GroupLayoutTest.class );
+		suite.addTestSuite( GroupLayoutTest.class );
+		suite.addTestSuite( MigLayoutTest.class );
 
 		return suite;
 	}
