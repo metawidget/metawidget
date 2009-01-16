@@ -28,6 +28,8 @@ import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 import net.miginfocom.layout.CC;
+import net.miginfocom.layout.LC;
+import net.miginfocom.layout.UnitValue;
 import net.miginfocom.swing.MigLayout;
 
 import org.metawidget.MetawidgetException;
@@ -102,9 +104,15 @@ public class MigLayoutTest
 
 		metawidget.setParameter( "numberOfColumns", 2 );
 
+		UnitValue[] insets = ((LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints()).getInsets();
+		assertTrue( 0 == insets[0].getValue() );
+		assertTrue( 0 == insets[1].getValue() );
+		assertTrue( 0 == insets[2].getValue() );
+		assertTrue( 0 == insets[3].getValue() );
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getCellX() );
+		assertTrue( null == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getVertical().getGrow() );
 		assertTrue( "Def*:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
 		assertTrue( 3 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 3 ) ) ).getCellX() );
@@ -119,8 +127,8 @@ public class MigLayoutTest
 		assertTrue( 0 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getCellX() );
 		assertTrue( 2 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getCellY() );
 		assertTrue( SPAN_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getSpanX() );
-		// TODO: why is everything 100?
-		assertTrue( 100 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getVertical().getGrowPriority() );
+		assertTrue( 100 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getVertical().getGrow() );
+		// TODO: test valign
 
 		JPanel panelTab = (JPanel) tabbedPane.getComponent( 0 );
 		assertTrue( panelTab.isOpaque() );
@@ -141,6 +149,7 @@ public class MigLayoutTest
 		assertTrue( panelTab.getComponent( 0 ) instanceof JScrollPane );
 		assertTrue( 0 == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getCellX() );
 		assertTrue( SPAN_ALL == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getSpanX() );
+		assertTrue( 100 == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getVertical().getGrow() );
 		assertTrue( 1 == panelTab.getComponentCount() );
 
 		panelTab = (JPanel) tabbedPane.getComponent( 2 );
