@@ -18,12 +18,16 @@ package org.metawidget.test.faces.quirks.model;
 
 import java.util.List;
 
+import javax.faces.model.SelectItem;
+
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.faces.UiFacesComponent;
+import org.metawidget.inspector.faces.UiFacesLookup;
 
 /**
  * Models an entity that tests some Faces-specific quirks.
@@ -42,6 +46,8 @@ public class FacesQuirks
 	private String					mLarge;
 
 	private List<? extends Object>	mStrings;
+
+	private List<String>	mMoreStrings;
 
 	//
 	// Public methods
@@ -83,5 +89,23 @@ public class FacesQuirks
 	public void setStrings( List<? extends Object> strings )
 	{
 		mStrings = strings;
+	}
+
+	@UiComesAfter( "large" )
+	@UiFacesLookup( "#{quirks.possibleStrings}" )
+	public List<String> getMoreStrings()
+	{
+		return mMoreStrings;
+	}
+
+	public void setMoreStrings( List<String> moreStrings )
+	{
+		mMoreStrings = moreStrings;
+	}
+
+	@UiHidden
+	public SelectItem[] getPossibleStrings()
+	{
+		return new SelectItem[]{ new SelectItem( "MoreFoo" ), new SelectItem( "MoreBar" ), new SelectItem( "MoreBaz" ) };
 	}
 }

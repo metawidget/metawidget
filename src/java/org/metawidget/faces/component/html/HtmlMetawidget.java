@@ -284,15 +284,29 @@ public class HtmlMetawidget
 
 		// Faces Lookups
 
+		Class<?> clazz = ClassUtils.niceForName( type );
+
 		String facesLookup = attributes.get( FACES_LOOKUP );
 
 		if ( facesLookup != null && !"".equals( facesLookup ) )
 		{
 			if ( component == null )
 			{
-				component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
-				HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
-				select.setSize( 1 );
+				// UISelectMany can support Lists and Arrays (as per JSF spec)...
+
+				if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ))
+				{
+					component = application.createComponent( "javax.faces.HtmlSelectManyCheckbox" );
+				}
+
+				// ...otherwise just a UISelectOne
+
+				else
+				{
+					component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
+					HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
+					select.setSize( 1 );
+				}
 			}
 
 			addSelectItems( component, facesLookup, attributes );
@@ -306,8 +320,6 @@ public class HtmlMetawidget
 
 		if ( type == null || "".equals( type ) )
 			return application.createComponent( "javax.faces.HtmlInputText" );
-
-		Class<?> clazz = ClassUtils.niceForName( type );
 
 		// clazz may be null, if type is symbolic (eg. type="Login Screen")
 

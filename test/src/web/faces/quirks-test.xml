@@ -29,7 +29,7 @@
 
 				<!-- Test Lists with a UiLookup -->
 								
-				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/th" text="Strings:"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/th[1]" text="Strings:"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[1]/input[@type='checkbox']/@value" text="Foo"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[1]/label" text="Foo"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[2]/input[@type='checkbox']/@value" text="Bar"/>
@@ -38,9 +38,20 @@
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[3]/label" text="Baz"/>
 				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td)" text="3"/>
 
+				<!-- Test Lists with a FacesLookup -->
+								
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/th[2]" text="More strings:"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[3]/table/tbody/tr/td[1]/input[@type='checkbox']/@value" text="MoreFoo"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[3]/table/tbody/tr/td[1]/label" text="MoreFoo"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[3]/table/tbody/tr/td[2]/input[@type='checkbox']/@value" text="MoreBar"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[3]/table/tbody/tr/td[2]/label" text="MoreBar"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[3]/table/tbody/tr/td[3]/input[@type='checkbox']/@value" text="MoreBaz"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[3]/table/tbody/tr/td[3]/label" text="MoreBaz"/>
+				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr[3]/td[3]/table/tbody/tr/td)" text="3"/>
+
 				<!-- Test zero columns -->
 				
-				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr)" text="5"/>
+				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr)" text="7"/>
 				<verifyXPath xpath="/html/body/table[2]/tbody/tr[1]/th" text="3 boolean:"/>
 				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr[2]/td[1]/table/tbody/tr/td)" text="2"/>
 				<verifyXPath xpath="/html/body/table[2]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/input/@type" text="radio"/>
