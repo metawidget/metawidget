@@ -275,9 +275,9 @@ public class GridBagLayout
 
 		// Buttons
 
-		Facet facetButtons = getMetawidget().getFacet( "buttons" );
+		Facet buttonsFacet = getMetawidget().getFacet( "buttons" );
 
-		if ( facetButtons != null )
+		if ( buttonsFacet != null )
 		{
 			if ( mCurrentColumn > 0 )
 			{
@@ -299,7 +299,7 @@ public class GridBagLayout
 				mNeedParentSpacerRow = false;
 			}
 
-			getMetawidget().add( facetButtons, buttonConstraints );
+			getMetawidget().add( buttonsFacet, buttonConstraints );
 
 			mCurrentRow++;
 		}
@@ -467,8 +467,7 @@ public class GridBagLayout
 
 				GridBagConstraints constraintsLabel = new GridBagConstraints();
 				constraintsLabel.insets = INSETS_SECTION_LABEL;
-				JLabel labelSection = new JLabel();
-				labelSection.setText( localizedSection );
+				JLabel labelSection = new JLabel( localizedSection );
 				panelSection.add( labelSection, constraintsLabel );
 
 				GridBagConstraints constraintsSeparator = new GridBagConstraints();

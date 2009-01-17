@@ -71,8 +71,6 @@ public class MigLayout
 
 	private String			mCurrentSection;
 
-	private JPanel			mPanelCurrent;
-
 	private int				mNumberOfColumns;
 
 	private int				mCurrentColumn;
@@ -80,6 +78,8 @@ public class MigLayout
 	private int				mCurrentRow;
 
 	private int				mSectionStyle;
+
+	private JPanel			mPanelCurrent;
 
 	//
 	// Constructor
@@ -91,9 +91,9 @@ public class MigLayout
 
 		// Read parameters
 
-		Object numberOfColumns = getMetawidget().getParameter( "numberOfColumns" );
+		Object numberOfColumns = metawidget.getParameter( "numberOfColumns" );
 
-		if ( numberOfColumns == null || getMetawidget().getParent() instanceof SwingMetawidget )
+		if ( numberOfColumns == null || metawidget.getParent() instanceof SwingMetawidget )
 		{
 			mNumberOfColumns = 1;
 		}
@@ -105,7 +105,7 @@ public class MigLayout
 				throw MetawidgetException.newException( "numberOfColumns must be >= 1" );
 		}
 
-		Object sectionStyle = getMetawidget().getParameter( "sectionStyle" );
+		Object sectionStyle = metawidget.getParameter( "sectionStyle" );
 
 		if ( sectionStyle == null )
 			mSectionStyle = SECTION_AS_HEADING;
@@ -124,7 +124,7 @@ public class MigLayout
 		// with no insets. This allows us to be properly nested, as well as
 		// embedded within existing UIs, without alignment problems
 
-		LC layoutConstraints = new LC().fill().insets( "0" );
+		LC layoutConstraints = new LC().insets( "0" );
 
 		// Debug Info (draws the red and blue lines)
 		//
@@ -178,8 +178,7 @@ public class MigLayout
 			componentConstraints.spanX( 2 );
 		}
 
-		componentConstraints.pushX( 1f );
-		componentConstraints.growX();
+		componentConstraints.pushX( 1f ).growX();
 
 		if ( largeComponent )
 		{
@@ -190,7 +189,14 @@ public class MigLayout
 		// Assume JScrollPanes should grow vertically
 
 		if ( component instanceof JScrollPane )
+		{
 			componentConstraints.growY();
+
+			if ( mPanelCurrent == null )
+				((LC) ((net.miginfocom.swing.MigLayout) getMetawidget().getLayout()).getLayoutConstraints()).fill();
+			else
+				((LC) ((net.miginfocom.swing.MigLayout) mPanelCurrent.getLayout()).getLayoutConstraints()).fill();
+		}
 
 		// Add to either current panel or direct to the Metawidget
 
@@ -219,7 +225,12 @@ public class MigLayout
 
 		if ( buttonsFacet != null )
 		{
-			mCurrentRow++;
+			if ( mCurrentColumn > 0 )
+			{
+				mCurrentColumn = 0;
+				mCurrentRow++;
+			}
+
 			getMetawidget().add( buttonsFacet, new CC().cell( 0, mCurrentRow ).spanX().growX() );
 		}
 	}
@@ -263,7 +274,10 @@ public class MigLayout
 			// If component grows vertically, top align the label
 
 			if ( component instanceof JScrollPane || component instanceof SwingMetawidget )
+			{
 				labelConstraints.alignY( "top" );
+				// TODO: labelConstraints.pad( 5, 0, 0, 0 );
+			}
 
 			// Add to either current panel or direct to the Metawidget
 
@@ -311,6 +325,7 @@ public class MigLayout
 				{
 					tabbedPane = new JTabbedPane();
 					getMetawidget().add( tabbedPane, new CC().cell( mCurrentColumn, mCurrentRow ).spanX().grow() );
+					((LC) ((net.miginfocom.swing.MigLayout) getMetawidget().getLayout()).getLayoutConstraints()).fill();
 				}
 				else
 				{
@@ -320,7 +335,7 @@ public class MigLayout
 
 				mPanelCurrent = new JPanel();
 				mPanelCurrent.setName( localizedSection );
-				mPanelCurrent.setLayout( new net.miginfocom.swing.MigLayout( new LC().fill() ) );
+				mPanelCurrent.setLayout( new net.miginfocom.swing.MigLayout( new LC() ) );
 
 				tabbedPane.add( mPanelCurrent );
 				break;
@@ -335,6 +350,7 @@ public class MigLayout
 				getMetawidget().add( separator, new CC().cell( mCurrentColumn, mCurrentRow ).growX() );
 
 				mCurrentRow++;
+				break;
 		}
 	}
 

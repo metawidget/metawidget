@@ -104,7 +104,7 @@ public class MigLayoutTest
 
 		metawidget.setParameter( "numberOfColumns", 2 );
 
-		UnitValue[] insets = ((LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints()).getInsets();
+		UnitValue[] insets = ( (LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getInsets();
 		assertTrue( 0 == insets[0].getValue() );
 		assertTrue( 0 == insets[1].getValue() );
 		assertTrue( 0 == insets[2].getValue() );
@@ -128,13 +128,14 @@ public class MigLayoutTest
 		assertTrue( 2 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getCellY() );
 		assertTrue( SPAN_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getSpanX() );
 		assertTrue( 100 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getVertical().getGrow() );
-		// TODO: test valign
+		assertTrue( true == ( (LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints()).isFillY() );
 
 		JPanel panelTab = (JPanel) tabbedPane.getComponent( 0 );
 		assertTrue( panelTab.isOpaque() );
 		assertTrue( "tab1".equals( panelTab.getName() ) );
-		assertTrue( "Tab 1_jkl:".equals( ( (JLabel) panelTab.getComponent( 0 ) ).getText() ) );
 		assertTrue( panelTab.getComponent( 1 ) instanceof JLabel );
+		assertTrue( "Tab 1_jkl:".equals( ( (JLabel) panelTab.getComponent( 0 ) ).getText() ) );
+		assertTrue( false == ( (LC) ( (MigLayout) panelTab.getLayout() ).getLayoutConstraints()).isFillY() );
 		assertTrue( 1 == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 1 ) ) ).getCellX() );
 		assertTrue( "Tab 1_mno:".equals( ( (JLabel) panelTab.getComponent( 2 ) ).getText() ) );
 		assertTrue( panelTab.getComponent( 3 ) instanceof JComboBox );
@@ -146,6 +147,7 @@ public class MigLayoutTest
 
 		panelTab = (JPanel) tabbedPane.getComponent( 1 );
 		assertTrue( "tab2".equals( panelTab.getName() ) );
+		assertTrue( true == ( (LC) ( (MigLayout) panelTab.getLayout() ).getLayoutConstraints()).isFillY() );
 		assertTrue( panelTab.getComponent( 0 ) instanceof JScrollPane );
 		assertTrue( 0 == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getCellX() );
 		assertTrue( SPAN_ALL == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getSpanX() );
@@ -154,6 +156,7 @@ public class MigLayoutTest
 
 		panelTab = (JPanel) tabbedPane.getComponent( 2 );
 		assertTrue( "tab3".equals( panelTab.getName() ) );
+		assertTrue( false == ( (LC) ( (MigLayout) panelTab.getLayout() ).getLayoutConstraints()).isFillY() );
 		assertTrue( panelTab.getComponent( 0 ) instanceof JTextField );
 		assertTrue( 0 == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getCellX() );
 		assertTrue( 2 == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getSpanX() );
@@ -229,7 +232,7 @@ public class MigLayoutTest
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setParameter( "sectionStyle", org.metawidget.swing.layout.MigLayout.SECTION_AS_TAB );
 		metawidget.setLayoutClass( org.metawidget.swing.layout.MigLayout.class );
-		metawidget.setToInspect( new Foo() );
+		metawidget.setToInspect( new NastyNestingTop() );
 
 		// JFrame
 
@@ -288,5 +291,34 @@ public class MigLayoutTest
 		@UiSection( "" )
 		@UiComesAfter( "tab3_pqr" )
 		public String	mno;
+	}
+
+	public static class NastyNestingTop
+	{
+		public NastyNestingBottom	nested1	= new NastyNestingBottom();
+
+		public NastyNestingMiddle1	nested2	= new NastyNestingMiddle1();
+	}
+
+	public static class NastyNestingMiddle1
+	{
+		public NastyNestingMiddle2	nested1	= new NastyNestingMiddle2();
+
+		public NastyNestingBottom	nested2	= new NastyNestingBottom();
+	}
+
+	public static class NastyNestingMiddle2
+	{
+		public NastyNestingBottom	nested1	= new NastyNestingBottom();
+
+		public String				string;
+
+		@UiLarge
+		public String				large;
+	}
+
+	public static class NastyNestingBottom
+	{
+		public String	string;
 	}
 }
