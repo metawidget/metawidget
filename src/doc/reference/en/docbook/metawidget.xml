@@ -729,7 +729,7 @@ public class Main {
 &lt;inspection-result xmlns="http://metawidget.org/inspection-result"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org/inspection-result
-		http://metawidget.org/inspection-result-1.0.xsd "&gt;
+		http://metawidget.org/inspection-result/inspection-result-1.0.xsd "&gt;
 
 	&lt;entity type="com.myapp.Person"&gt;
 		&lt;property name="name" /&gt;
