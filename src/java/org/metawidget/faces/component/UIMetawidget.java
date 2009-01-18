@@ -37,6 +37,8 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
+import javax.faces.component.UISelectMany;
+import javax.faces.component.UISelectOne;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlSelectOneListbox;
@@ -970,21 +972,21 @@ public abstract class UIMetawidget
 				converter = (Converter) ClassUtils.niceForName( converterClass ).newInstance();
 			}
 
-			// Create from application-wide
+			// Create from parameterized type (eg. a Date converter for List<Date>)
 
-			else
+			else if ( component instanceof UISelectOne || component instanceof UISelectMany )
 			{
-				String parameterizedTypeName = attributes.get( PARAMETERIZED_TYPE );
+				String parameterizedType = attributes.get( PARAMETERIZED_TYPE );
 
-				if ( parameterizedTypeName != null )
+				if ( parameterizedType != null )
 				{
-					Class<?> parameterizedType = ClassUtils.niceForName( parameterizedTypeName );
+					Class<?> parameterizedClass = ClassUtils.niceForName( parameterizedType );
 
-					// The parameterized type might be null, or might not be concrete enough to be
-					// instantiatable (eg. List<? extends Foo>)
+					// The parameterized type might be null, or might not be concrete
+					// enough to be instantiatable (eg. List<? extends Foo>)
 
-					if ( parameterizedType != null )
-						converter = getFacesContext().getApplication().createConverter( parameterizedType );
+					if ( parameterizedClass != null )
+						converter = getFacesContext().getApplication().createConverter( parameterizedClass );
 				}
 			}
 

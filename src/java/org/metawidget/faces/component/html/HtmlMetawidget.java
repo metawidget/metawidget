@@ -295,9 +295,9 @@ public class HtmlMetawidget
 		{
 			if ( component == null )
 			{
-				// UISelectMany can support Lists and Arrays (as per JSF spec)...
+				// UISelectMany...
 
-				if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ))
+				if ( clazz != null && isSelectManyCollection( clazz ))
 				{
 					component = application.createComponent( "javax.faces.HtmlSelectManyCheckbox" );
 				}
@@ -320,6 +320,10 @@ public class HtmlMetawidget
 		//
 		// Note: we don't do this if there is a FACES_LOOKUP, because a FACES_LOOKUP
 		// can get away with not specifying a type
+		//
+		// Note: having no type is very different from having a type for which
+		// clazz == null (eg. type="Login Screen"), because the latter should
+		// end up becoming a nested Metawidget
 
 		if ( type == null || "".equals( type ) )
 			return application.createComponent( "javax.faces.HtmlInputText" );
@@ -336,9 +340,9 @@ public class HtmlMetawidget
 			{
 				if ( component == null )
 				{
-					// UISelectMany can support Lists and Arrays (as per JSF spec)...
+					// UISelectMany...
 
-					if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() )
+					if ( isSelectManyCollection( clazz ) )
 					{
 						component = application.createComponent( "javax.faces.HtmlSelectManyCheckbox" );
 					}
@@ -363,6 +367,11 @@ public class HtmlMetawidget
 					// we can find out what Converter to use)...
 
 					Converter converter = setConverter( component, attributes );
+
+					// ...(setConverter doesn't do application-wide converters)...
+
+					if ( converter == null )
+						converter = application.createConverter( clazz );
 
 					// ...if any
 
@@ -542,6 +551,18 @@ public class HtmlMetawidget
 		children.add( readOnlyComponent );
 
 		return componentStub;
+	}
+
+	/**
+	 * Returns true if the Collection is of a type supported by UISelectMany.
+	 * <p>
+	 * By default, JSF only supports Lists and Arrays. Clients can override this if their
+	 * framework also supports other collection types, such as Sets.
+	 */
+
+	protected boolean isSelectManyCollection( Class<?> clazz )
+	{
+		return ( List.class.isAssignableFrom( clazz ) || clazz.isArray() );
 	}
 
 	protected UIComponent createCollectionComponent( Class<?> collectionClass, Map<String, String> attributes )
