@@ -148,19 +148,11 @@ public abstract class LayoutRenderer
 		UIParameter parameterStyle = FacesUtils.findParameterWithName( component, style + "Style" );
 
 		if ( parameterStyle != null )
-		{
-			writer.write( " style=\"" );
-			writer.write( (String) parameterStyle.getValue() );
-			writer.write( "\"" );
-		}
+			writer.writeAttribute( "style", parameterStyle.getValue(), "style" );
 
 		UIParameter parameterStyleClass = FacesUtils.findParameterWithName( component, style + "StyleClass" );
 
 		if ( parameterStyleClass != null )
-		{
-			writer.write( " class=\"" );
-			writer.write( (String) parameterStyleClass.getValue() );
-			writer.write( "\"" );
-		}
+			writer.writeAttribute( "class", parameterStyleClass.getValue(), "class" );
 	}
 }

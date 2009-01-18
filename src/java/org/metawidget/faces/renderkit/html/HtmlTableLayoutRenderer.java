@@ -134,14 +134,12 @@ public class HtmlTableLayoutRenderer
 
 		// Start table
 
-		writer.write( "<table id=\"" );
-		writer.write( component.getClientId( context ) );
-		writer.write( "\"" );
+		writer.startElement( "table", component );
+		writer.writeAttribute( "id", component.getClientId( context ), "id" );
 
 		// Styles
 
 		writeStyleAndClass( component, writer, "table" );
-		writer.write( ">" );
 
 		// Determine label, component, required styles
 
@@ -209,26 +207,24 @@ public class HtmlTableLayoutRenderer
 
 		if ( componentHeader != null )
 		{
-			writer.write( "\r\n<thead>" );
-			writer.write( "<tr>" );
-			writer.write( "<td colspan=\"" );
+			writer.startElement( "thead", component );
+			writer.startElement( "tr", component );
+			writer.startElement( "td", component );
 
 			// Header spans multiples of label/component/required
 
 			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, columns * LABEL_AND_COMPONENT_AND_REQUIRED );
-			writer.write( String.valueOf( colspan ) );
+			writer.writeAttribute( "colspan", String.valueOf( colspan ), null );
 
-			writer.write( "\"" );
 			writeStyleAndClass( component, writer, "header" );
-			writer.write( ">" );
 
 			// Render facet
 
 			FacesUtils.render( context, componentHeader );
 
-			writer.write( "</td>" );
-			writer.write( "</tr>" );
-			writer.write( "</thead>" );
+			writer.endElement( "td" );
+			writer.endElement( "tr" );
+			writer.endElement( "thead" );
 		}
 
 		// Render footer facet (XHTML requires TFOOT come before TBODY)
@@ -237,29 +233,27 @@ public class HtmlTableLayoutRenderer
 
 		if ( componentFooter != null )
 		{
-			writer.write( "\r\n<tfoot>" );
-			writer.write( "<tr>" );
-			writer.write( "<td colspan=\"" );
+			writer.startElement( "tfoot", component );
+			writer.startElement( "tr", component );
+			writer.startElement( "td", component );
 
 			// Footer spans multiples of label/component/required
 
 			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, columns * LABEL_AND_COMPONENT_AND_REQUIRED );
-			writer.write( String.valueOf( colspan ) );
+			writer.writeAttribute( "colspan", String.valueOf( colspan ), null );
 
-			writer.write( "\"" );
 			writeStyleAndClass( component, writer, "footer" );
-			writer.write( ">" );
 
 			// Render facet
 
 			FacesUtils.render( context, componentFooter );
 
-			writer.write( "</td>" );
-			writer.write( "</tr>" );
-			writer.write( "</tfoot>" );
+			writer.endElement( "td" );
+			writer.endElement( "tr" );
+			writer.endElement( "tfoot" );
 		}
 
-		writer.write( "\r\n<tbody>" );
+		writer.startElement( "tbody", component );
 	}
 
 	/**
@@ -335,8 +329,8 @@ public class HtmlTableLayoutRenderer
 		throws IOException
 	{
 		ResponseWriter writer = context.getResponseWriter();
-		writer.write( "</tbody>" );
-		writer.write( "\r\n</table>" );
+		writer.endElement( "tbody" );
+		writer.endElement( "table" );
 	}
 
 	//
@@ -370,7 +364,7 @@ public class HtmlTableLayoutRenderer
 			if ( section != null && !section.equals( currentSection ) )
 			{
 				putState( KEY_CURRENT_SECTION, section );
-				layoutSection( context, section, componentChild );
+				layoutSection( context, component, section, componentChild );
 				putState( KEY_CURRENT_COLUMN, 1 );
 			}
 
@@ -380,7 +374,7 @@ public class HtmlTableLayoutRenderer
 
 			if ( largeComponent && currentColumn != 1 )
 			{
-				writer.write( "</tr>" );
+				writer.endElement( "tr" );
 				currentColumn = 1;
 			}
 		}
@@ -391,69 +385,46 @@ public class HtmlTableLayoutRenderer
 		{
 			putState( KEY_CURRENT_COLUMN, 1 );
 
-			writer.write( "\r\n<tr" );
+			writer.startElement( "tr", component );
 
 			if ( cssId != null )
-			{
-				writer.write( " id=\"" );
-				writer.write( TABLE_PREFIX );
-				writer.write( cssId );
-				writer.write( ROW_SUFFIX );
-				writer.write( "\"" );
-			}
+				writer.writeAttribute( "id", TABLE_PREFIX + cssId + ROW_SUFFIX, null );
 
 			writeRowStyleClass( writer, currentRow );
 			putState( KEY_CURRENT_ROW, currentRow + 1 );
-			writer.write( ">" );
 		}
 
 		// Start the label column
 
-		boolean labelWritten = layoutLabel( context, componentChild );
+		boolean labelWritten = layoutLabel( context, component, componentChild );
 
 		// Zero-column layouts need an extra row
 		// (though we colour it the same from a CSS perspective)
 
 		if ( labelWritten && numberOfColumns == 0 )
 		{
-			writer.write( "</tr>\r\n<tr" );
+			writer.endElement( "tr" );
+			writer.startElement( "tr", component );
 
 			if ( cssId != null )
-			{
-				writer.write( " id=\"" );
-				writer.write( TABLE_PREFIX );
-				writer.write( cssId );
-				writer.write( ROW_SUFFIX );
-				writer.write( "2\"" );
-			}
+				writer.writeAttribute( "id", TABLE_PREFIX + cssId + ROW_SUFFIX + "2", null );
 
 			writeRowStyleClass( writer, currentRow );
-			writer.write( ">" );
 		}
 
 		// Start the component column
 
-		writer.write( "<td" );
+		writer.startElement( "td", component );
 
 		if ( cssId != null )
-		{
-			writer.write( " id=\"" );
-			writer.write( TABLE_PREFIX );
-			writer.write( cssId );
-			writer.write( COMPONENT_CELL_SUFFIX );
-			writer.write( "\"" );
-		}
+			writer.writeAttribute( "id", TABLE_PREFIX + cssId + COMPONENT_CELL_SUFFIX, null );
 
 		// CSS
 
 		String componentStyle = (String) getState( KEY_COMPONENT_STYLE );
 
 		if ( componentStyle != null )
-		{
-			writer.write( " style=\"" );
-			writer.write( componentStyle );
-			writer.write( "\"" );
-		}
+			writer.writeAttribute( "style", componentStyle, null );
 
 		writeColumnStyleClass( writer, 1 );
 
@@ -500,13 +471,7 @@ public class HtmlTableLayoutRenderer
 		}
 
 		if ( colspan > 1 )
-		{
-			writer.write( " colspan=\"" );
-			writer.write( String.valueOf( colspan ) );
-			writer.write( "\"" );
-		}
-
-		writer.write( ">" );
+			writer.writeAttribute( "colspan", String.valueOf( colspan ), null );
 	}
 
 	/**
@@ -514,7 +479,7 @@ public class HtmlTableLayoutRenderer
 	 */
 
 	@Override
-	protected boolean layoutLabel( FacesContext context, UIComponent componentNeedingLabel )
+	protected boolean layoutLabel( FacesContext context, UIComponent component, UIComponent componentNeedingLabel )
 		throws IOException
 	{
 		@SuppressWarnings( "unchecked" )
@@ -525,41 +490,29 @@ public class HtmlTableLayoutRenderer
 			return false;
 
 		ResponseWriter writer = context.getResponseWriter();
-
-		writer.write( "<th" );
+		writer.startElement( "th", component );
 
 		String cssId = getCssId( componentNeedingLabel );
 		if ( cssId != null )
-		{
-			writer.write( " id=\"" );
-			writer.write( TABLE_PREFIX );
-			writer.write( cssId );
-			writer.write( LABEL_CELL_SUFFIX );
-			writer.write( "\"" );
-		}
+			writer.writeAttribute( "id", TABLE_PREFIX + cssId + LABEL_CELL_SUFFIX, null );
 
 		// CSS
 
 		String labelStyle = (String) getState( KEY_LABEL_STYLE );
 
 		if ( labelStyle != null )
-		{
-			writer.write( " style=\"" );
-			writer.write( labelStyle );
-			writer.write( "\"" );
-		}
+			writer.writeAttribute( "style", labelStyle, null );
 
 		writeColumnStyleClass( writer, 0 );
-		writer.write( ">" );
 
-		super.layoutLabel( context, componentNeedingLabel );
+		super.layoutLabel( context, component, componentNeedingLabel );
 
-		writer.write( "</th>" );
+		writer.endElement( "th" );
 
 		return true;
 	}
 
-	protected void layoutSection( FacesContext context, String section, UIComponent childComponent )
+	protected void layoutSection( FacesContext context, UIComponent component, String section, UIComponent childComponent )
 		throws IOException
 	{
 		// Blank section?
@@ -569,36 +522,25 @@ public class HtmlTableLayoutRenderer
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		writer.write( "\r\n<tr>" );
-		writer.write( "<th colspan=\"" );
+		writer.startElement( "tr", component );
+		writer.startElement( "th", component );
 
 		// Sections span multiples of label/component/required
 
 		int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, ( (Integer) getState( KEY_NUMBER_OF_COLUMNS ) ) * LABEL_AND_COMPONENT_AND_REQUIRED );
-		writer.write( String.valueOf( colspan ) );
-		writer.write( "\"" );
+		writer.writeAttribute( "colspan", String.valueOf( colspan ), null );
 
 		// CSS
 
 		String sectionStyle = (String) getState( KEY_SECTION_STYLE );
 
 		if ( sectionStyle != null )
-		{
-			writer.write( " style=\"" );
-			writer.write( sectionStyle );
-			writer.write( "\"" );
-		}
+			writer.writeAttribute( "style", sectionStyle, null );
 
 		String sectionStyleClass = (String) getState( KEY_SECTION_STYLE_CLASS );
 
 		if ( sectionStyleClass != null )
-		{
-			writer.write( " class=\"" );
-			writer.write( sectionStyleClass );
-			writer.write( "\"" );
-		}
-
-		writer.write( ">" );
+			writer.writeAttribute( "class", sectionStyleClass, null );
 
 		// Section name (possibly localized)
 
@@ -613,8 +555,8 @@ public class HtmlTableLayoutRenderer
 
 		FacesUtils.render( context, output );
 
-		writer.write( "</th>" );
-		writer.write( "</tr>" );
+		writer.endElement( "th" );
+		writer.endElement( "tr" );
 	}
 
 	protected void layoutAfterChild( FacesContext context, UIComponent component, UIComponent childComponent )
@@ -624,7 +566,7 @@ public class HtmlTableLayoutRenderer
 
 		// End the component column
 
-		writer.write( "</td>" );
+		writer.endElement( "td" );
 
 		// Render the 'required' column
 
@@ -635,25 +577,20 @@ public class HtmlTableLayoutRenderer
 		}
 		else
 		{
-			writer.write( "<td" );
+			writer.startElement( "td", component );
 
 			// CSS
 
 			String requiredStyle = (String) getState( KEY_REQUIRED_STYLE );
 
 			if ( requiredStyle != null )
-			{
-				writer.write( " style=\"" );
-				writer.write( requiredStyle );
-				writer.write( "\"" );
-			}
+				writer.writeAttribute( "style", requiredStyle, null );
 
 			writeColumnStyleClass( writer, 2 );
-			writer.write( ">" );
 
 			layoutRequired( context, component, childComponent );
 
-			writer.write( "</td>" );
+			writer.endElement( "td" );
 		}
 
 		// End the row, if necessary
@@ -661,7 +598,7 @@ public class HtmlTableLayoutRenderer
 		if ( ( (Integer) getState( KEY_CURRENT_COLUMN ) ).intValue() >= ( (Integer) getState( KEY_NUMBER_OF_COLUMNS ) ).intValue() )
 		{
 			putState( KEY_CURRENT_COLUMN, 0 );
-			writer.write( "</tr>" );
+			writer.endElement( "tr" );
 		}
 	}
 
@@ -683,7 +620,8 @@ public class HtmlTableLayoutRenderer
 		// width if desired for the layout (browsers seem to not respect
 		// widths set on empty table columns)
 
-		writer.write( "<div/>" );
+		writer.startElement( "div", component );
+		writer.endElement( "div" );
 	}
 
 	protected String getCssId( UIComponent component )
@@ -717,9 +655,7 @@ public class HtmlTableLayoutRenderer
 		if ( columnClass.length() == 0 )
 			return;
 
-		writer.write( " class=\"" );
-		writer.write( columnClass.trim() );
-		writer.write( "\"" );
+		writer.writeAttribute( "class", columnClass.trim(), null );
 	}
 
 	protected void writeRowStyleClass( ResponseWriter writer, int rowStyleClass )
@@ -735,8 +671,6 @@ public class HtmlTableLayoutRenderer
 		if ( rowClass.length() == 0 )
 			return;
 
-		writer.write( " class=\"" );
-		writer.write( rowClass.trim() );
-		writer.write( "\"" );
+		writer.writeAttribute( "class", rowClass.trim(), null );
 	}
 }

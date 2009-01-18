@@ -145,9 +145,8 @@ public class HtmlDivLayoutRenderer
 		// Start component
 
 		ResponseWriter writer = context.getResponseWriter();
-		writer.write( "<div id=\"" );
-		writer.write( component.getClientId( context ) );
-		writer.write( "\">" );
+		writer.startElement( "div", component );
+		writer.writeAttribute( "id", component.getClientId( context ), "id" );
 	}
 
 	@Override
@@ -202,20 +201,19 @@ public class HtmlDivLayoutRenderer
 
 		if ( componentFooter != null )
 		{
-			writer.write( "\r\n<div" );
+			writer.startElement( "div", component );
 			writeStyleAndClass( component, writer, "footer" );
-			writer.write( ">" );
 
 			// Render facet
 
 			FacesUtils.render( context, componentFooter );
 
-			writer.write( "</div>" );
+			writer.endElement( "div" );
 		}
 
 		// End component
 
-		writer.write( "</div>" );
+		writer.endElement( "div" );
 	}
 
 	@Override
@@ -262,24 +260,19 @@ public class HtmlDivLayoutRenderer
 			if ( section != null && !section.equals( currentSection ) )
 			{
 				putState( KEY_CURRENT_SECTION, section );
-				layoutSection( context, section, componentChild );
+				layoutSection( context, component, section, componentChild );
 			}
 		}
 		// Outer
 
-		writer.write( "\r\n<div" );
+		writer.startElement( "div", component );
 
 		String outerStyle = (String) getState( KEY_OUTER_STYLE );
 
 		if ( outerStyle != null )
-		{
-			writer.write( " style=\"" );
-			writer.write( outerStyle );
-			writer.write( "\"" );
-		}
+			writer.writeAttribute( "style", outerStyle, null );
 
 		writeStyleClass( writer, 0 );
-		writer.write( ">" );
 
 		// Label
 
@@ -287,25 +280,21 @@ public class HtmlDivLayoutRenderer
 
 		// Component
 
-		writer.write( "<div" );
+		writer.startElement( "div", component );
 
 		String componentStyle = (String) getState( KEY_COMPONENT_STYLE );
 
 		if ( componentStyle != null )
-		{
-			writer.write( " style=\"" );
-			writer.write( componentStyle );
-			writer.write( "\"" );
-		}
+			writer.writeAttribute( "style", componentStyle, null );
 
 		writeStyleClass( writer, 3 );
-		writer.write( ">" );
 	}
 
 	/**
 	 * @return whether a label was written
 	 */
 
+	@Override
 	protected boolean layoutLabel( FacesContext context, UIComponent component, UIComponent componentNeedingLabel )
 		throws IOException
 	{
@@ -318,25 +307,20 @@ public class HtmlDivLayoutRenderer
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		writer.write( "<div" );
+		writer.startElement( "div", component );
 
 		String labelStyle = (String) getState( KEY_LABEL_STYLE );
 
 		if ( labelStyle != null )
-		{
-			writer.write( " style=\"" );
-			writer.write( labelStyle );
-			writer.write( "\"" );
-		}
+			writer.writeAttribute( "style", labelStyle, null );
 
 		writeStyleClass( writer, 1 );
-		writer.write( ">" );
 
-		super.layoutLabel( context, componentNeedingLabel );
+		super.layoutLabel( context, component, componentNeedingLabel );
 
 		layoutRequired( context, component, componentNeedingLabel );
 
-		writer.write( "</div>" );
+		writer.endElement( "div" );
 
 		return true;
 	}
@@ -354,23 +338,20 @@ public class HtmlDivLayoutRenderer
 
 		if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !( (UIMetawidget) component ).isReadOnly() )
 		{
-			writer.write( "<span" );
+			writer.startElement( "span", component );
 
 			String requiredStyle = (String) getState( KEY_REQUIRED_STYLE );
 
 			if ( requiredStyle != null )
-			{
-				writer.write( " style=\"" );
-				writer.write( requiredStyle );
-				writer.write( "\"" );
-			}
+				writer.writeAttribute( "style", requiredStyle, null );
 
 			writeStyleClass( writer, 2 );
-			writer.write( ">*</span>" );
+			writer.write( "*" );
+			writer.endElement( "span" );
 		}
 	}
 
-	protected void layoutSection( FacesContext context, String section, UIComponent childComponent )
+	protected void layoutSection( FacesContext context, UIComponent component, String section, UIComponent childComponent )
 		throws IOException
 	{
 		// Blank section?
@@ -380,27 +361,17 @@ public class HtmlDivLayoutRenderer
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		writer.write( "\r\n<div" );
+		writer.startElement( "div", component );
 
 		String sectionStyle = (String) getState( KEY_SECTION_STYLE );
 
 		if ( sectionStyle != null )
-		{
-			writer.write( " style=\"" );
-			writer.write( sectionStyle );
-			writer.write( "\"" );
-		}
+			writer.writeAttribute( "style", sectionStyle, null );
 
 		String sectionStyleClass = (String) getState( KEY_SECTION_STYLE_CLASS );
 
 		if ( sectionStyleClass != null )
-		{
-			writer.write( " class=\"" );
-			writer.write( sectionStyleClass );
-			writer.write( "\"" );
-		}
-
-		writer.write( ">" );
+			writer.writeAttribute( "class", sectionStyleClass, null );
 
 		// Section name (possibly localized)
 
@@ -415,7 +386,7 @@ public class HtmlDivLayoutRenderer
 
 		FacesUtils.render( context, output );
 
-		writer.write( "</div>" );
+		writer.endElement( "div" );
 	}
 
 	protected void layoutAfterChild( FacesContext context, UIComponent component, UIComponent childComponent )
@@ -423,8 +394,8 @@ public class HtmlDivLayoutRenderer
 	{
 		ResponseWriter writer = context.getResponseWriter();
 
-		writer.write( "</div>" );
-		writer.write( "</div>" );
+		writer.endElement( "div" );
+		writer.endElement( "div" );
 	}
 
 	protected void writeStyleClass( ResponseWriter writer, int styleClass )
@@ -440,9 +411,7 @@ public class HtmlDivLayoutRenderer
 		if ( columnClass.length() == 0 )
 			return;
 
-		writer.write( " class=\"" );
-		writer.write( columnClass.trim() );
-		writer.write( "\"" );
+		writer.writeAttribute( "class", columnClass.trim(), null );
 	}
 
 }

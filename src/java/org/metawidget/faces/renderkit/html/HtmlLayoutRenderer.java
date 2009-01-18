@@ -95,7 +95,7 @@ public class HtmlLayoutRenderer
 	 */
 
 	@SuppressWarnings( "deprecation" )
-	protected boolean layoutLabel( FacesContext context, UIComponent componentNeedingLabel )
+	protected boolean layoutLabel( FacesContext context, UIComponent component, UIComponent componentNeedingLabel )
 		throws IOException
 	{
 		@SuppressWarnings( "unchecked" )
