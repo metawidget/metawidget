@@ -232,23 +232,6 @@ public final class FacesUtils
 		}
 	}
 
-	@SuppressWarnings( "unchecked" )
-	public static <T extends UIComponent> T findParentOfType( final UIComponent component, final Class<T> toFind )
-	{
-		UIComponent componentParent = component;
-
-		while( componentParent != null )
-		{
-			if ( toFind.isAssignableFrom( componentParent.getClass() ) )
-				return (T) componentParent;
-
-			componentParent = componentParent.getParent();
-		}
-
-		return null;
-	}
-
-
 	//
 	// Private statics
 	//

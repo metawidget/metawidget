@@ -34,14 +34,9 @@ import net.miginfocom.swing.MigLayout;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
-import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
-import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.inspector.annotation.UiLarge;
-import org.metawidget.inspector.annotation.UiLookup;
-import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.annotation.UiRequired;
-import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -231,8 +226,8 @@ public class MigLayoutTest
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setParameter( "sectionStyle", org.metawidget.swing.layout.MigLayout.SECTION_AS_TAB );
-		metawidget.setLayoutClass( org.metawidget.swing.layout.MigLayout.class );
-		metawidget.setToInspect( new NastyNestingTop() );
+		//metawidget.setLayoutClass( org.metawidget.swing.layout.MigLayout.class );
+		metawidget.setToInspect( new Foo() );
 
 		// JFrame
 
@@ -258,6 +253,7 @@ public class MigLayoutTest
 		@UiComesAfter( "def" )
 		public boolean	ghi;
 
+		/*
 		@UiSection( "tab1" )
 		@UiComesAfter( "ghi" )
 		@UiAttribute( name = "required", value = "true" )
@@ -291,6 +287,7 @@ public class MigLayoutTest
 		@UiSection( "" )
 		@UiComesAfter( "tab3_pqr" )
 		public String	mno;
+		*/
 	}
 
 	public static class NastyNestingTop

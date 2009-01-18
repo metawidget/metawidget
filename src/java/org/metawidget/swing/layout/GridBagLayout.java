@@ -65,71 +65,73 @@ public class GridBagLayout
 	// Public statics
 	//
 
-	public final static int			SECTION_AS_HEADING				= 0;
+	public final static int		SECTION_AS_HEADING				= 0;
 
-	public final static int			SECTION_AS_TAB					= 1;
+	public final static int		SECTION_AS_TAB					= 1;
 
 	//
 	// Private statics
 	//
 
-	private final static Insets		INSETS_TOP_LEFT_COLUMN_LABEL	= new Insets( 1, 0, 3, 3 );
+	private final static Insets	INSETS_TOP_LEFT_COLUMN_LABEL	= new Insets( 1, 0, 3, 3 );
 
-	private final static Insets		INSETS_TOP_LABEL				= new Insets( 1, 5, 3, 3 );
+	private final static Insets	INSETS_TOP_LABEL				= new Insets( 1, 5, 3, 3 );
 
-	private final static Insets		INSETS_LEFT_COLUMN_LABEL		= new Insets( 3, 0, 3, 3 );
+	private final static Insets	INSETS_LEFT_COLUMN_LABEL		= new Insets( 3, 0, 3, 3 );
 
-	private final static Insets		INSETS_LABEL					= new Insets( 3, 5, 3, 3 );
+	private final static Insets	INSETS_LABEL					= new Insets( 3, 5, 3, 3 );
 
-	private final static Insets		INSETS_TOP_COMPONENT			= new Insets( 0, 0, 2, 0 );
+	private final static Insets	INSETS_TOP_COMPONENT			= new Insets( 0, 0, 2, 0 );
 
-	private final static Insets		INSETS_COMPONENT				= new Insets( 2, 0, 2, 0 );
+	private final static Insets	INSETS_COMPONENT				= new Insets( 2, 0, 2, 0 );
 
-	private final static Insets		INSETS_SECTION_LABEL			= new Insets( 10, 0, 5, 5 );
+	private final static Insets	INSETS_SECTION_LABEL			= new Insets( 10, 0, 5, 5 );
 
-	private final static Insets		INSETS_SECTION					= new Insets( 12, 0, 5, 0 );
+	private final static Insets	INSETS_SECTION					= new Insets( 12, 0, 5, 0 );
 
-	private final static Insets		INSETS_TABBED_PANE				= new Insets( 5, 0, 5, 0 );
+	private final static Insets	INSETS_TABBED_PANE				= new Insets( 5, 0, 5, 0 );
 
-	private final static Border		INSETS_TAB						= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
+	private final static Border	INSETS_TAB						= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
 
 	//
 	// Private members
 	//
 
-	private String					mCurrentSection;
+	private String				mCurrentSection;
 
-	private int						mLabelAlignment;
+	private int					mLabelAlignment;
 
-	private int						mSectionStyle;
+	private int					mSectionStyle;
 
-	private int						mNumberOfColumns;
+	private int					mNumberOfColumns;
 
-	private int						mCurrentColumn;
+	private int					mCurrentColumn;
 
-	private int						mCurrentRow;
+	private int					mCurrentRow;
 
-	private int						mPanelInsertedRow;
+	private int					mPanelInsertedRow;
 
-	private JPanel					mPanelCurrent;
+	private JPanel				mPanelCurrent;
 
 	/**
 	 * Whether a spacer row is required on the last row of the layout.
 	 * <p>
-	 * GridBagLayouts do not expand to fill their horizontal/vertical space, and therefore do not
-	 * 'align top' or 'align left', unless at least one of their constraints has a weighting &gt; 0.
-	 * However, as soon as there <em>is</em> such a constraint, that component gets expanded
-	 * proportionally. This looks very bad for 'single line' controls such as JTextField and
-	 * JComboBox.
-	 * <p>
-	 * In order to have the GridBagLayout 'align top' whilst still keeping JTextField and JCombBox
-	 * their original height, we use an additional invisible 'spacer row'. Other layouts (such as
-	 * GroupLayout) do not have this problem.
+	 * By default, GridBagLayouts expand to fill their vertical space, and 'align middle' their
+	 * group of components. To make them 'align top' at least one of the components must have a
+	 * vertical constraint weighting &gt; 0.
 	 */
 
-	private boolean					mNeedParentSpacerRow			= true;
+	private boolean				mNeedParentSpacerRow			= true;
 
-	private boolean					mNeedPanelSpacerRow;
+	/**
+	 * Whether a spacer row is required on the last row of the current panel.
+	 * <p>
+	 * By default, GridBagLayouts expand to fill their vertical space, and 'align middle' their
+	 * group of components. To make them 'align top' at least one of the components must have a
+	 * vertical constraint weighting &gt; 0.
+	 */
+
+	private boolean				mNeedPanelSpacerRow;
 
 	//
 	// Constructor

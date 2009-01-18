@@ -35,7 +35,7 @@ import org.metawidget.util.simple.StringUtils;
  * PropertyStyle for JavaBean-style properties.
  * <p>
  * This PropertyStyle recognizes both getters and setters and public member fields.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -128,7 +128,7 @@ public class JavaBeanPropertyStyle
 
 			// Get name
 
-			String propertyName = matchGetterNamingConvention( method );
+			String propertyName = isGetter( method );
 
 			if ( propertyName == null )
 				continue;
@@ -162,7 +162,15 @@ public class JavaBeanPropertyStyle
 		}
 	}
 
-	protected String matchGetterNamingConvention( Method method )
+	/**
+	 * Returns whether the given method is a 'getter' method.
+	 *
+	 * @param method
+	 *            a parameterless method that returns a non-void
+	 * @return the property name
+	 */
+
+	protected String isGetter( Method method )
 	{
 		String methodName = method.getName();
 		String propertyName;
@@ -201,7 +209,7 @@ public class JavaBeanPropertyStyle
 
 			// Get name
 
-			String propertyName = matchSetterNamingConvention( method );
+			String propertyName = isSetter( method );
 
 			if ( propertyName == null )
 				continue;
@@ -231,7 +239,15 @@ public class JavaBeanPropertyStyle
 		}
 	}
 
-	protected String matchSetterNamingConvention( Method method )
+	/**
+	 * Returns whether the given method is a 'setter' method.
+	 *
+	 * @param method
+	 *            a single-parametered method. May return non-void (ie. for Fluent interfaces)
+	 * @return the property name
+	 */
+
+	protected String isSetter( Method method )
 	{
 		String methodName = method.getName();
 
@@ -253,7 +269,7 @@ public class JavaBeanPropertyStyle
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
 	 * By default, excludes 'propertyChangeListeners' and 'vetoableChangeListeners'.
-	 * 
+	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
 

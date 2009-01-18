@@ -63,7 +63,7 @@ public class ScalaPropertyStyle
 	 */
 
 	@Override
-	protected String matchGetterNamingConvention( Method method )
+	protected String isGetter( Method method )
 	{
 		try
 		{
@@ -82,7 +82,7 @@ public class ScalaPropertyStyle
 	 */
 
 	@Override
-	protected String matchSetterNamingConvention( Method method )
+	protected String isSetter( Method method )
 	{
 		String methodName = method.getName();
 

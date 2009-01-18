@@ -31,7 +31,9 @@ import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
+import javax.faces.component.html.HtmlSelectManyCheckbox;
 import javax.faces.component.html.HtmlSelectOneListbox;
+import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
@@ -53,10 +55,22 @@ public class HtmlMetawidget
 	extends UIMetawidget
 {
 	//
+	// Private statics
+	//
+
+	/**
+	 * The number of items in a multi-select lookup at which it should change from being a
+	 * 'lineDirection' to a 'pageDirection' layout. The latter is generally the safer choice, as it
+	 * stops the Metawidget blowing out horizontally.
+	 */
+
+	private final static int	SHORT_LOOKUP_SIZE	= 3;
+
+	//
 	// Protected members
 	//
 
-	protected boolean	mCreateHiddenFields;
+	protected boolean			mCreateHiddenFields;
 
 	//
 	// Public methods
@@ -297,7 +311,7 @@ public class HtmlMetawidget
 			{
 				// UISelectMany...
 
-				if ( clazz != null && isSelectManyCollection( clazz ))
+				if ( clazz != null && isSelectManyCompatible( clazz ) )
 				{
 					component = application.createComponent( "javax.faces.HtmlSelectManyCheckbox" );
 				}
@@ -307,9 +321,19 @@ public class HtmlMetawidget
 				else
 				{
 					component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
-					HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
-					select.setSize( 1 );
+					( (HtmlSelectOneListbox) component ).setSize( 1 );
 				}
+			}
+
+			// (pageDirection is a 'safer' default for anything but short lists)
+
+			if ( component instanceof HtmlSelectManyCheckbox )
+			{
+				( (HtmlSelectManyCheckbox) component ).setLayout( "pageDirection" );
+			}
+			else if ( component instanceof HtmlSelectOneRadio )
+			{
+				( (HtmlSelectOneRadio) component ).setLayout( "pageDirection" );
 			}
 
 			addSelectItems( component, facesLookup, attributes );
@@ -338,11 +362,13 @@ public class HtmlMetawidget
 
 			if ( lookup != null && !"".equals( lookup ) )
 			{
+				List<?> values = CollectionUtils.fromString( lookup );
+
 				if ( component == null )
 				{
 					// UISelectMany...
 
-					if ( isSelectManyCollection( clazz ) )
+					if ( isSelectManyCompatible( clazz ) )
 					{
 						component = application.createComponent( "javax.faces.HtmlSelectManyCheckbox" );
 					}
@@ -352,12 +378,23 @@ public class HtmlMetawidget
 					else
 					{
 						component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
-						HtmlSelectOneListbox select = (HtmlSelectOneListbox) component;
-						select.setSize( 1 );
+						( (HtmlSelectOneListbox) component ).setSize( 1 );
 					}
 				}
 
-				List<?> values = CollectionUtils.fromString( lookup );
+				// (pageDirection is a 'safer' default for anything but short lists)
+
+				if ( values.size() > SHORT_LOOKUP_SIZE )
+				{
+					if ( component instanceof HtmlSelectManyCheckbox )
+					{
+						( (HtmlSelectManyCheckbox) component ).setLayout( "pageDirection" );
+					}
+					else if ( component instanceof HtmlSelectOneRadio )
+					{
+						( (HtmlSelectOneRadio) component ).setLayout( "pageDirection" );
+					}
+				}
 
 				// Convert values of SelectItems (eg. from Strings to ints)...
 
@@ -554,13 +591,13 @@ public class HtmlMetawidget
 	}
 
 	/**
-	 * Returns true if the Collection is of a type supported by UISelectMany.
+	 * Returns true if the class is of a type compatible with UISelectMany.
 	 * <p>
-	 * By default, JSF only supports Lists and Arrays. Clients can override this if their
-	 * framework also supports other collection types, such as Sets.
+	 * By default, JSF's UISelectMany only supports Lists and Arrays. Clients can override this if
+	 * their framework also supports other collection types, such as Sets.
 	 */
 
-	protected boolean isSelectManyCollection( Class<?> clazz )
+	protected boolean isSelectManyCompatible( Class<?> clazz )
 	{
 		return ( List.class.isAssignableFrom( clazz ) || clazz.isArray() );
 	}
