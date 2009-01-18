@@ -204,9 +204,10 @@ public abstract class UIMetawidget
 	 * Instructs the Metawidget to inspect the value binding from the parent.
 	 * <p>
 	 * If the value binding is of the form <code>#{foo.bar}</code>, sometimes
-	 * <code>foo.getBar()</code> has useful metadata (such as <code>UiLookup</code>). Metawidget
-	 * inspects from parent anyway if <code>#{foo.bar}</code> evaluates to <code>null</code>, but on
-	 * occasion it may be necessary to specify parent inspection explicitly.
+	 * <code>foo.getBar()</code> has useful metadata (such as <code>UiLookup</code>).
+	 * Metawidget inspects from parent anyway if <code>#{foo.bar}</code> evaluates to
+	 * <code>null</code>, but on occasion it may be necessary to specify parent inspection
+	 * explicitly.
 	 * <p>
 	 * The disadvantage of inspecting from parent (and the reason it is not enabled by default) is
 	 * that some Inspectors will not know the parent and so not be able to return anything. For
@@ -227,7 +228,8 @@ public abstract class UIMetawidget
 	}
 
 	/**
-	 * @return	the text of the label. This may itself contain a value expression, such as <code>UiLabel( "#{foo.name}'s name" )</code>
+	 * @return the text of the label. This may itself contain a value expression, such as
+	 *         <code>UiLabel( "#{foo.name}'s name" )</code>
 	 */
 
 	public String getLabelString( FacesContext context, Map<String, String> attributes )
@@ -589,11 +591,11 @@ public abstract class UIMetawidget
 			{
 				if ( mBindingPrefix == null )
 				{
-					ValueBinding valueBinding = getValueBinding( "value" );
+					ValueBinding methodBinding = getValueBinding( "value" );
 
-					if ( valueBinding != null )
+					if ( methodBinding != null )
 					{
-						binding = FacesUtils.unwrapValueReference( valueBinding.getExpressionString() );
+						binding = FacesUtils.unwrapValueReference( methodBinding.getExpressionString() );
 					}
 
 					// Not using a valueBinding? Using a raw value (eg. for jBPM)?
@@ -609,7 +611,15 @@ public abstract class UIMetawidget
 				}
 			}
 
-			return FacesUtils.findRenderedComponentWithMethodBinding( UIMetawidget.this, binding );
+			UIComponent overridenWidget = FacesUtils.findRenderedComponentWithMethodBinding( UIMetawidget.this, binding );
+
+			if ( overridenWidget != null )
+				return overridenWidget;
+
+			// Special support for overriding a method binding using a component with a matching
+			// value binding (eg. for overriding UICommands using UIStubs)
+
+			return FacesUtils.findRenderedComponentWithValueBinding( UIMetawidget.this, binding );
 		}
 
 		// Properties
@@ -776,8 +786,8 @@ public abstract class UIMetawidget
 	}
 
 	/**
-	 * Unlike <code>UIViewRoot.createUniqueId</code>, tries to make the Id human readable, both for
-	 * debugging purposes and for when running unit tests (using, say, WebTest).
+	 * Unlike <code>UIViewRoot.createUniqueId</code>, tries to make the Id human readable, both
+	 * for debugging purposes and for when running unit tests (using, say, WebTest).
 	 */
 
 	protected void setUniqueId( FacesContext context, UIComponent component, String expressionString )
@@ -911,14 +921,6 @@ public abstract class UIMetawidget
 
 	protected Converter setConverter( UIComponent component, Map<String, String> attributes )
 	{
-		// Ignore if no converter
-
-		String converterId = attributes.get( FACES_CONVERTER_ID );
-		String converterClass = attributes.get( FACES_CONVERTER_CLASS );
-
-		if ( converterId == null && converterClass == null )
-			return null;
-
 		// Recurse into stubs
 
 		if ( component instanceof UIStub )
@@ -953,15 +955,37 @@ public abstract class UIMetawidget
 
 			// Create from id
 
+			String converterId = attributes.get( FACES_CONVERTER_ID );
+			String converterClass = attributes.get( FACES_CONVERTER_CLASS );
+
 			if ( converterId != null )
 			{
 				converter = getFacesContext().getApplication().createConverter( converterId );
 			}
+
+			// Create from class
+
+			else if ( converterClass != null )
+			{
+				converter = (Converter) ClassUtils.niceForName( converterClass ).newInstance();
+			}
+
+			// Create from application-wide
+
 			else
 			{
-				// Create from class
+				String parameterizedTypeName = attributes.get( PARAMETERIZED_TYPE );
 
-				converter = (Converter) ClassUtils.niceForName( converterClass ).newInstance();
+				if ( parameterizedTypeName != null )
+				{
+					Class<?> parameterizedType = ClassUtils.niceForName( parameterizedTypeName );
+
+					// The parameterized type might be null, or might not be concrete enough to be
+					// instantiatable (eg. List<? extends Foo>)
+
+					if ( parameterizedType != null )
+						converter = getFacesContext().getApplication().createConverter( parameterizedType );
+				}
 			}
 
 			// Native support for DateTimeConverter

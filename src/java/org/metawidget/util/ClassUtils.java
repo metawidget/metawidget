@@ -24,7 +24,7 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Utilities for working with Classes.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -289,6 +289,7 @@ public final class ClassUtils
 	 * <li>returns <code>null</code> if there is no such class (eg. if the name is a symbolic type,
 	 * such as 'Login Screen')</li>
 	 * </ul>
+	 * @throws NullPointerException	if className is null
 	 */
 
 	public static Class<?> niceForName( String className, ClassLoader classLoader )

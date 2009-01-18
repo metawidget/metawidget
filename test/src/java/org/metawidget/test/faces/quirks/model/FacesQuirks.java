@@ -20,6 +20,7 @@ import java.util.List;
 
 import javax.faces.model.SelectItem;
 
+import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLabel;
@@ -28,6 +29,7 @@ import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.faces.UiFacesComponent;
 import org.metawidget.inspector.faces.UiFacesLookup;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * Models an entity that tests some Faces-specific quirks.
@@ -45,9 +47,9 @@ public class FacesQuirks
 
 	private String					mLarge;
 
-	private List<? extends Object>	mStrings;
+	private List<? extends Object>	mStrings = CollectionUtils.newArrayList();
 
-	private List<String>	mMoreStrings;
+	private List<Integer>			mIntegers = CollectionUtils.newArrayList();
 
 	//
 	// Public methods
@@ -91,21 +93,39 @@ public class FacesQuirks
 		mStrings = strings;
 	}
 
-	@UiComesAfter( "large" )
-	@UiFacesLookup( "#{quirks.possibleStrings}" )
-	public List<String> getMoreStrings()
+	@UiComesAfter( "strings" )
+	@UiFacesLookup( "#{quirks.possibleIntegers}" )
+	public List<Integer> getIntegers()
 	{
-		return mMoreStrings;
+		return mIntegers;
 	}
 
-	public void setMoreStrings( List<String> moreStrings )
+	public void setIntegers( List<Integer> integers )
 	{
-		mMoreStrings = moreStrings;
+		// Check converters are hooked up
+
+		if ( integers != null )
+		{
+			for( Object integer : integers )
+			{
+				if ( !( integer instanceof Integer ))
+					throw new ClassCastException( integer + " is not of type Integer" );
+			}
+		}
+
+		mIntegers = integers;
 	}
 
 	@UiHidden
-	public SelectItem[] getPossibleStrings()
+	public SelectItem[] getPossibleIntegers()
 	{
-		return new SelectItem[]{ new SelectItem( "MoreFoo" ), new SelectItem( "MoreBar" ), new SelectItem( "MoreBaz" ) };
+		return new SelectItem[] { new SelectItem( 1 ), new SelectItem( 2 ), new SelectItem( 3 ), new SelectItem( 4 ) };
+	}
+
+	@UiAction
+	@UiComesAfter
+	public void refresh()
+	{
+		// Test refreshing the screen
 	}
 }

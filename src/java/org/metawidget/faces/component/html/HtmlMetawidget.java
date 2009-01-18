@@ -284,7 +284,10 @@ public class HtmlMetawidget
 
 		// Faces Lookups
 
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = null;
+
+		if ( type != null )
+			clazz = ClassUtils.niceForName( type );
 
 		String facesLookup = attributes.get( FACES_LOOKUP );
 
@@ -356,38 +359,10 @@ public class HtmlMetawidget
 
 				if ( component instanceof ValueHolder )
 				{
-					// ...using either the specified converter...
+					// ...using the specified converter (call setConverter prematurely so
+					// we can find out what Converter to use)...
 
 					Converter converter = setConverter( component, attributes );
-
-					// ...or an application-wide converter...
-
-					if ( converter == null )
-					{
-						// If the target type has a parameterizedType, use that instead when
-						// converting for the convertedValues
-
-						String parameterizedTypeName = attributes.get( PARAMETERIZED_TYPE );
-
-						if ( parameterizedTypeName != null )
-						{
-							Class<?> parameterizedType = ClassUtils.niceForName( parameterizedTypeName );
-
-							// The parameterized type might not be concrete enough to be
-							// instantiatable (eg. List<? extends Foo>)
-
-							if ( parameterizedType != null )
-								converter = application.createConverter( parameterizedType );
-							else
-								converter = application.createConverter( clazz );
-						}
-						else
-						{
-							converter = application.createConverter( clazz );
-						}
-
-						( (ValueHolder) component ).setConverter( converter );
-					}
 
 					// ...if any
 
