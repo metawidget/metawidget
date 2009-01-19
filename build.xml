@@ -121,7 +121,7 @@
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement path="${build.dir}/classes"/>
-				<fileset dir="examples/src/scala/org/metawidget/example/swing/bookstore"/>
+				<fileset dir="examples/src/scala/org/metawidget/example/swing/animalraces"/>
 			</classpath>
 		</scalac>
 
@@ -1890,16 +1890,17 @@
 		
 	</target>
 
-	<target name="example-swing-bookstore" depends="pack,compile-examples">
+	<target name="example-swing-animalraces" depends="pack,compile-examples">
 		
 		<mkdir dir="${build.dir}/examples/swing"/>
 
-		<jar jarfile="${build.dir}/examples/swing/bookstore-swing.jar" manifest="examples/src/scala/org/metawidget/example/swing/bookstore/META-INF/MANIFEST.MF">
+		<jar jarfile="${build.dir}/examples/swing/animalraces-swing.jar" manifest="examples/src/scala/org/metawidget/example/swing/animalraces/META-INF/MANIFEST.MF">
 			<fileset dir="${build.dir}/scala-example-classes">
-				<include name="org/metawidget/example/swing/bookstore/**"/>
+				<include name="org/metawidget/example/swing/animalraces/**"/>
 			</fileset>
 			<fileset dir="examples/src/scala">
-				<include name="org/metawidget/example/swing/bookstore/*.xml"/>
+				<include name="org/metawidget/example/swing/animalraces/*.xml"/>
+				<include name="org/metawidget/example/swing/animalraces/media/**"/>
 			</fileset>
 		</jar>		
 
@@ -1907,20 +1908,18 @@
 			<fileset dir="examples/src/java/org/metawidget/example/swing">
 				<include name="readme.txt"/>
 			</fileset>
-			<fileset dir="examples/src/scala/org/metawidget/example/swing/bookstore">
-				<include name="lib/scala-swing.jar"/>
-			</fileset>
 			<fileset dir=".">
 				<include name="lib/beansbinding*.jar"/>
 				<include name="lib/commons-beanutils-*.jar"/>
 				<include name="lib/commons-logging-*.jar"/>
 				<include name="lib/scala-library.jar"/>
+				<include name="lib/miglayout-*.jar"/>
 			</fileset>
 		</copy>
 		
 	</target>
 
-	<target name="examples-desktop" depends="example-swing-addressbook, example-swing-addressbook-applet, example-swing-appframework, example-swing-bookstore"/>
+	<target name="examples-desktop" depends="example-swing-addressbook, example-swing-addressbook-applet, example-swing-appframework, example-swing-animalraces"/>
 		
 	<target name="example-shared-addressbook" depends="flatten-libs">
 		
