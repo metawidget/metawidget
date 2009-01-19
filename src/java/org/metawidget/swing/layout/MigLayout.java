@@ -58,28 +58,34 @@ public class MigLayout
 	extends BaseLayout
 {
 	//
+	// Private statics
+	//
+
+	private final static int	INSET_LABEL			= 3;
+
+	//
 	// Public statics
 	//
 
-	public final static int	SECTION_AS_HEADING	= 0;
+	public final static int		SECTION_AS_HEADING	= 0;
 
-	public final static int	SECTION_AS_TAB		= 1;
+	public final static int		SECTION_AS_TAB		= 1;
 
 	//
 	// Private members
 	//
 
-	private String			mCurrentSection;
+	private String				mCurrentSection;
 
-	private int				mNumberOfColumns;
+	private int					mNumberOfColumns;
 
-	private int				mCurrentColumn;
+	private int					mCurrentColumn;
 
-	private int				mCurrentRow;
+	private int					mCurrentRow;
 
-	private int				mSectionStyle;
+	private int					mSectionStyle;
 
-	private JPanel			mPanelCurrent;
+	private JPanel				mPanelCurrent;
 
 	//
 	// Constructor
@@ -193,9 +199,9 @@ public class MigLayout
 			componentConstraints.growY();
 
 			if ( mPanelCurrent == null )
-				((LC) ((net.miginfocom.swing.MigLayout) getMetawidget().getLayout()).getLayoutConstraints()).fill();
+				( (LC) ( (net.miginfocom.swing.MigLayout) getMetawidget().getLayout() ).getLayoutConstraints() ).fill();
 			else
-				((LC) ((net.miginfocom.swing.MigLayout) mPanelCurrent.getLayout()).getLayoutConstraints()).fill();
+				( (LC) ( (net.miginfocom.swing.MigLayout) mPanelCurrent.getLayout() ).getLayoutConstraints() ).fill();
 		}
 
 		// Add to either current panel or direct to the Metawidget
@@ -271,13 +277,12 @@ public class MigLayout
 			labelConstraints.cell( mCurrentColumn * 2, mCurrentRow );
 			labelConstraints.growX();
 
-			// If component grows vertically, top align the label
+			// Top align all labels, not just those belonging to 'tall' components,
+			// so that tall components, regular components and nested Metawidget
+			// components all line up
 
-			if ( component instanceof JScrollPane || component instanceof SwingMetawidget )
-			{
-				labelConstraints.alignY( "top" );
-				// TODO: labelConstraints.pad( 5, 0, 0, 0 );
-			}
+			labelConstraints.alignY( "top" );
+			labelConstraints.pad( INSET_LABEL, 0, 0, 0 );
 
 			// Add to either current panel or direct to the Metawidget
 
@@ -325,7 +330,7 @@ public class MigLayout
 				{
 					tabbedPane = new JTabbedPane();
 					getMetawidget().add( tabbedPane, new CC().cell( mCurrentColumn, mCurrentRow ).spanX().grow() );
-					((LC) ((net.miginfocom.swing.MigLayout) getMetawidget().getLayout()).getLayoutConstraints()).fill();
+					( (LC) ( (net.miginfocom.swing.MigLayout) getMetawidget().getLayout() ).getLayoutConstraints() ).fill();
 				}
 				else
 				{

@@ -365,6 +365,12 @@ public class GridBagLayout
 			labelConstraints.gridy = mCurrentRow;
 			labelConstraints.weightx = 0.1f / mNumberOfColumns;
 
+			// Top align all labels, not just those belonging to 'tall' components,
+			// so that tall components, regular components and nested Metawidget
+			// components all line up
+
+			label.setVerticalAlignment( SwingConstants.TOP );
+
 			if ( mCurrentColumn == 0 )
 			{
 				if ( mCurrentRow == 0 )
@@ -379,8 +385,6 @@ public class GridBagLayout
 				else
 					labelConstraints.insets = INSETS_LABEL;
 			}
-
-			label.setVerticalAlignment( SwingConstants.TOP );
 
 			// Add to either current panel or direct to the Metawidget
 

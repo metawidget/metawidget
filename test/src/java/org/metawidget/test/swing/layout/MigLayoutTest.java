@@ -34,9 +34,14 @@ import net.miginfocom.swing.MigLayout;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
+import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiLabel;
 import org.metawidget.inspector.annotation.UiLarge;
+import org.metawidget.inspector.annotation.UiLookup;
+import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.annotation.UiRequired;
+import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -193,8 +198,15 @@ public class MigLayoutTest
 		metawidget.add( arbitraryStubWithAttributes );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		UnitValue[] padding = ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 0 ) ) ).getPadding();
+		assertTrue( padding[0].getValue() == 3 );
+		assertTrue( padding[1].getValue() == 0 );
+		assertTrue( padding[2].getValue() == 0 );
+		assertTrue( padding[3].getValue() == 0 );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
+		assertTrue( 0f == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 0 ) ) ).getVertical().getAlign().getValue() );
 		assertTrue( 1 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getCellX() );
+		assertTrue( null == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getVertical().getAlign() );
 		assertTrue( "Def*:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 3 ) instanceof Stub );
 		assertTrue( ( (Stub) metawidget.getComponent( 3 ) ).getComponent( 0 ) instanceof JSpinner );
@@ -226,8 +238,8 @@ public class MigLayoutTest
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setParameter( "sectionStyle", org.metawidget.swing.layout.MigLayout.SECTION_AS_TAB );
-		//metawidget.setLayoutClass( org.metawidget.swing.layout.MigLayout.class );
-		metawidget.setToInspect( new Foo() );
+		metawidget.setLayoutClass( org.metawidget.swing.layout.MigLayout.class );
+		metawidget.setToInspect( new NastyNestingTop() );
 
 		// JFrame
 
@@ -253,7 +265,6 @@ public class MigLayoutTest
 		@UiComesAfter( "def" )
 		public boolean	ghi;
 
-		/*
 		@UiSection( "tab1" )
 		@UiComesAfter( "ghi" )
 		@UiAttribute( name = "required", value = "true" )
@@ -287,7 +298,6 @@ public class MigLayoutTest
 		@UiSection( "" )
 		@UiComesAfter( "tab3_pqr" )
 		public String	mno;
-		*/
 	}
 
 	public static class NastyNestingTop
