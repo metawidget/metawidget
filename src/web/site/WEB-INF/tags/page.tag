@@ -1,6 +1,7 @@
 <%@ tag language="java" %>
 <%@ attribute name="title" %>
 <%@ attribute name="useTooltips" %>
+<%@ attribute name="useThumbailViewer" %>
 
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="context" scope="request" value="${pageContext.request.contextPath}"/>
@@ -21,6 +22,19 @@
 			<script src="${context}/js/effects.js" type="text/javascript"></script>
 			<script src="${context}/js/newsticker.js" type="text/javascript"></script>
 			<script src="${context}/js/tooltip-v0.2.js" type="text/javascript"></script>
+		</c:if>
+		<c:if test="${useThumbailViewer}">
+			<link rel="stylesheet" type="text/css" href="${context}/css/thumbnailviewer.css" />
+			
+			<script src="${context}/js/thumbnailviewer.js" type="text/javascript">
+			
+				/***********************************************
+				* Image Thumbnail Viewer Script- © Dynamic Drive (www.dynamicdrive.com)
+				* This notice must stay intact for legal use.
+				* Visit http://www.dynamicdrive.com/ for full source code
+				***********************************************/
+			
+			</script>
 		</c:if>
 	</head>	
 		

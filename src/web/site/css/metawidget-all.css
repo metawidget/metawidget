@@ -144,3 +144,15 @@ h4 {
 #supported-tech tbody tr td {
 	border: 1px solid black;
 }
+
+#screenshots td {
+	text-align: center;	
+	font-style: italic;
+	padding: 20px;
+}
+
+#screenshots img {
+	display: block;
+	padding-bottom: 5px;
+	border: 0;
+}

@@ -12,8 +12,8 @@
 	<div id="top-tabs">
 		<ul>
 			<li class="wide<c:if test="${fn:startsWith(path, '/live-demo')}"> wide-active</c:if>"><a href="http://metawidget.sourceforge.net/live-demo/" onclick="pageTracker._link(this.href); return false;">Live Demo!</a></li>
+			<li class="wide <c:if test="${path == '/screenshots.html'}"> wide-active</c:if>"><a href="${context}/screenshots.html">Screenshots</a></li>
 			<li class="wide<c:if test="${path == '/download.html'}"> wide-active</c:if>"><a href="${context}/download.html">Download v0.7</a></li>
-			<li <c:if test="${path == '/support.html'}">class="active"</c:if>><a href="${context}/support.html">Support</a></li>
 			<li <c:if test="${path == '/wiki.html'}">class="active"</c:if>><a href="${context}/wiki.html">Wiki</a></li>
 		</ul>
 	</div>
