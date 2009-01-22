@@ -25,6 +25,10 @@ import org.metawidget.swing.layout._
 import org.metawidget.swing.propertybinding.beanutils._
 import org.metawidget.inspector.annotation._
 
+/**
+ * @author Richard Kennard
+ */
+
 package org.metawidget.example.swing.animalraces
 {
 	//
