@@ -20,7 +20,9 @@ import org.metawidget.swing.propertybinding.beanutils._
 import org.metawidget.inspector.annotation._
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.JFrame;
+import javax.swing.UIManager;
 import javax.swing._
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border._
 
 package org.metawidget.example.swing.animalraces
@@ -29,7 +31,7 @@ package org.metawidget.example.swing.animalraces
 	// Model
 	//
 
-	class Animal( var name:String, @UiComesAfter( Array( "name" )) var speed:int )
+	class Animal( var name:String, @UiComesAfter( Array( "name" )) var delay:int )
 
 	//
 	// UI
@@ -43,8 +45,21 @@ package org.metawidget.example.swing.animalraces
 		
 		var elephant = new Animal( "Eddie the Elephant", 100 )
 		var hippo = new Animal( "Harry the Hippo", 50 )
-		var panda = new Animal( "Paula the Panda",25 )
+		var panda = new Animal( "Paula the Panda", 25 )
 
+		//
+		// Look and feel
+		//
+		
+		
+		UIManager.getInstalledLookAndFeels().foreach
+		{
+			info => if ( "Nimbus".equals( info.getName() ) )
+			{
+				UIManager.setLookAndFeel( info.getClassName() )
+			}
+		}
+		
 		//
 		// Toolbar
 		//
@@ -58,7 +73,7 @@ package org.metawidget.example.swing.animalraces
 
 		def toolbar = new JPanel
 		{
-			setLayout( new java.awt.GridLayout(1,3) )
+			setLayout( new java.awt.GridLayout( 1, 3 ))
 			setBorder( new EtchedBorder() )
 
 			elephantMetawidget.setInspectorConfig( "org/metawidget/example/swing/animalraces/inspector-config.xml" )
@@ -66,6 +81,7 @@ package org.metawidget.example.swing.animalraces
 			elephantMetawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA )
 			elephantMetawidget.setLayoutClass( classOf[ MigLayout ])
 			elephantMetawidget.setToInspect( elephant )
+			elephantMetawidget.getLayout().asInstanceOf[net.miginfocom.swing.MigLayout].setLayoutConstraints( new net.miginfocom.layout.LC().insets( "10" ));
 			add( elephantMetawidget )
 
 			hippoMetawidget.setInspectorConfig( "org/metawidget/example/swing/animalraces/inspector-config.xml" )
@@ -73,6 +89,7 @@ package org.metawidget.example.swing.animalraces
 			hippoMetawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA )
 			hippoMetawidget.setLayoutClass( classOf[ MigLayout ])
 			hippoMetawidget.setToInspect( hippo )
+			hippoMetawidget.getLayout().asInstanceOf[net.miginfocom.swing.MigLayout].setLayoutConstraints( new net.miginfocom.layout.LC().insets( "10" ));
 			add( hippoMetawidget )
 
 			pandaMetawidget.setInspectorConfig( "org/metawidget/example/swing/animalraces/inspector-config.xml" )
@@ -80,6 +97,7 @@ package org.metawidget.example.swing.animalraces
 			pandaMetawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA )
 			pandaMetawidget.setLayoutClass( classOf[ MigLayout ])
 			pandaMetawidget.setToInspect( panda )
+			pandaMetawidget.getLayout().asInstanceOf[net.miginfocom.swing.MigLayout].setLayoutConstraints( new net.miginfocom.layout.LC().insets( "10" ));
 			add( pandaMetawidget )
 		}
 
@@ -89,8 +107,9 @@ package org.metawidget.example.swing.animalraces
 		
 		def racetrack = new JPanel
 		{
-			setLayout( null );
-
+			setLayout( null )
+			setBackground( new java.awt.Color( 57, 223, 57 ))
+			
    			elephantLabel.setVerticalTextPosition( 1 )
    			elephantLabel.setHorizontalTextPosition( 0 )
    			elephantLabel.setLocation( 0, 0 );
@@ -110,12 +129,6 @@ package org.metawidget.example.swing.animalraces
 			add( pandaLabel )
 		}
 
-		implicit def actionPerformedWrapper(func: (ActionEvent) => Unit) = new ActionListener { def actionPerformed(e:ActionEvent) = func(e) }
-
-		def elephantTimer = new Timer( elephant.speed, ((e:ActionEvent) => elephantLabel.setLocation( elephantLabel.getLocation().x + 1, 0 )))
-		def hippoTimer = new Timer( hippo.speed, ((e:ActionEvent) => hippoLabel.setLocation( hippoLabel.getLocation().x + 1, 200 )))
-		def pandaTimer = new Timer( panda.speed, ((e:ActionEvent) => pandaLabel.setLocation( pandaLabel.getLocation().x + 1, 400 )))
-		
 		//
 		// Statusbar
 		//
@@ -129,45 +142,58 @@ package org.metawidget.example.swing.animalraces
 			add( statusMetawidget )
 
 			@UiAction
-			def restart()
+			def startRace()
 			{
-				elephantTimer.stop()
 				elephantMetawidget.save()
 				elephantLabel.setText( elephant.name )
 				elephantLabel.setLocation( 0, elephantLabel.getLocation().y );
-				elephantTimer.setDelay( elephant.speed )
+				elephantTimer.stop()		
+				elephantTimer.setDelay( elephant.delay )
 				elephantTimer.start()		
 
-				hippoTimer.stop()
 				hippoMetawidget.save()
 				hippoLabel.setText( hippo.name )
 				hippoLabel.setLocation( 0, hippoLabel.getLocation().y );
-				hippoTimer.setDelay( hippo.speed )
+				hippoTimer.stop()		
+				hippoTimer.setDelay( hippo.delay )
 				hippoTimer.start()		
 
-				pandaTimer.stop()
 				pandaMetawidget.save()
 				pandaLabel.setText( panda.name )
 				pandaLabel.setLocation( 0, pandaLabel.getLocation().y );
-				pandaTimer.setDelay( panda.speed )
+				pandaTimer.stop()
+				pandaTimer.setDelay( panda.delay )
 				pandaTimer.start()		
 			}			
 		}
 
+		//
+		// JFrame
+		//
+		
+		val mainFrame = new JFrame( "Animal Races" )
+		mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE )
+		mainFrame.getContentPane().add( toolbar, java.awt.BorderLayout.NORTH )
+		mainFrame.getContentPane().add( racetrack, java.awt.BorderLayout.CENTER )
+		mainFrame.getContentPane().add( statusbar, java.awt.BorderLayout.SOUTH )
+		mainFrame.setSize( 600, 800 )
+
+		//
+		// Animation timers
+		//
+		
+		implicit def actionPerformedWrapper(func: (ActionEvent) => Unit) = new ActionListener { def actionPerformed(e:ActionEvent) = func(e) }
+
+		def elephantTimer = new Timer( elephant.delay, ((e:ActionEvent) => if ( elephantLabel.getLocation().x < mainFrame.getWidth() - 200 ) elephantLabel.setLocation( elephantLabel.getLocation().x + 1, 0 )))
+		def hippoTimer = new Timer( hippo.delay, ((e:ActionEvent) => if ( hippoLabel.getLocation().x < mainFrame.getWidth() - 200 ) hippoLabel.setLocation( hippoLabel.getLocation().x + 1, 200 )))
+		def pandaTimer = new Timer( panda.delay, ((e:ActionEvent) => if ( pandaLabel.getLocation().x < mainFrame.getWidth() - 200 ) pandaLabel.setLocation( pandaLabel.getLocation().x + 1, 400 )))
+		
 		//
 		// Main method
 		//
 		
 		def main(args : Array[String]) =
 		{
-			def mainFrame = new JFrame
-			{
-				setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE )
-				getContentPane().add( toolbar, java.awt.BorderLayout.NORTH )
-				getContentPane().add( racetrack, java.awt.BorderLayout.CENTER )
-				getContentPane().add( statusbar, java.awt.BorderLayout.SOUTH )
-			}
-			
 			mainFrame.setVisible( true )
 		}		
 	}
