@@ -18,6 +18,7 @@ import org.metawidget.swing._
 import org.metawidget.swing.layout._
 import org.metawidget.swing.propertybinding.beanutils._
 import org.metawidget.inspector.annotation._
+import java.awt.{BorderLayout, Color, GridLayout}
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.JFrame;
 import javax.swing.UIManager;
@@ -28,7 +29,7 @@ import javax.swing.border._
 package org.metawidget.example.swing.animalraces
 {
 	//
-	// Model
+	// Model class
 	//
 
 	class Animal( var name:String, @UiComesAfter( Array( "name" )) var delay:int )
@@ -43,15 +44,14 @@ package org.metawidget.example.swing.animalraces
 		// Model instance
 		//
 		
-		var elephant = new Animal( "Eddie the Elephant", 100 )
-		var hippo = new Animal( "Harry the Hippo", 50 )
-		var panda = new Animal( "Paula the Panda", 25 )
+		var elephant = new Animal( "Eddie the Elephant", 10 )
+		var hippo = new Animal( "Harry the Hippo", 5 )
+		var panda = new Animal( "Paula the Panda", 2 )
 
 		//
 		// Look and feel
 		//
-		
-		
+				
 		UIManager.getInstalledLookAndFeels().foreach
 		{
 			info => if ( "Nimbus".equals( info.getName() ) )
@@ -73,8 +73,8 @@ package org.metawidget.example.swing.animalraces
 
 		def toolbar = new JPanel
 		{
-			setLayout( new java.awt.GridLayout( 1, 3 ))
-			setBorder( new EtchedBorder() )
+			setLayout( new GridLayout( 1, 3 ))
+			setBorder( BorderFactory.createEtchedBorder() )
 
 			elephantMetawidget.setInspectorConfig( "org/metawidget/example/swing/animalraces/inspector-config.xml" )
 			elephantMetawidget.setPropertyBindingClass( classOf[ BeanUtilsBinding ])
@@ -105,10 +105,13 @@ package org.metawidget.example.swing.animalraces
 		// Racetrack
 		//
 		
+		val mainFrame = new JFrame( "Animal Races" )
+
 		def racetrack = new JPanel
 		{
 			setLayout( null )
-			setBackground( new java.awt.Color( 57, 223, 57 ))
+			setBackground( new Color( 192, 255, 192 ))
+			setBorder( BorderFactory.createCompoundBorder( BorderFactory.createLineBorder( new Color( 141, 195, 141 ), 5 ), BorderFactory.createLineBorder( new Color( 147, 233, 147 ), 5 )))
 			
    			elephantLabel.setVerticalTextPosition( 1 )
    			elephantLabel.setHorizontalTextPosition( 0 )
@@ -127,56 +130,66 @@ package org.metawidget.example.swing.animalraces
    			pandaLabel.setLocation( 0, 400 );
    			pandaLabel.setSize( 200, 200 );
 			add( pandaLabel )
-		}
-
-		//
-		// Statusbar
-		//
-		
-		def statusbar = new JPanel
-		{
-			val statusMetawidget = new SwingMetawidget();
-			statusMetawidget.setInspectorConfig( "org/metawidget/example/swing/animalraces/inspector-config.xml" )
-			statusMetawidget.setLayoutClass( classOf[ FlowLayout ])
-			statusMetawidget.setToInspect( this )			
-			add( statusMetawidget )
 
 			@UiAction
 			def startRace()
 			{
+				stopRace()
+				
 				elephantMetawidget.save()
 				elephantLabel.setText( elephant.name )
 				elephantLabel.setLocation( 0, elephantLabel.getLocation().y );
-				elephantTimer.stop()		
 				elephantTimer.setDelay( elephant.delay )
 				elephantTimer.start()		
 
 				hippoMetawidget.save()
 				hippoLabel.setText( hippo.name )
 				hippoLabel.setLocation( 0, hippoLabel.getLocation().y );
-				hippoTimer.stop()		
 				hippoTimer.setDelay( hippo.delay )
 				hippoTimer.start()		
 
 				pandaMetawidget.save()
 				pandaLabel.setText( panda.name )
 				pandaLabel.setLocation( 0, pandaLabel.getLocation().y );
-				pandaTimer.stop()
 				pandaTimer.setDelay( panda.delay )
 				pandaTimer.start()		
-			}			
+			}
+
+			@UiAction
+			def stopRace()
+			{
+				elephantTimer.stop()		
+				hippoTimer.stop()		
+				pandaTimer.stop()
+			}
+			
+			@UiAction
+			@UiComesAfter
+			def close()
+			{
+				System.exit( 0 )
+			}
 		}
+
+		//
+		// Status bar
+		//
+		
+		val statusMetawidget = new SwingMetawidget();
+		statusMetawidget.setInspectorConfig( "org/metawidget/example/swing/animalraces/inspector-config.xml" )
+		statusMetawidget.setLayoutClass( classOf[ FlowLayout ])
+		statusMetawidget.setToInspect( racetrack )			
+		statusMetawidget.setBorder( BorderFactory.createEtchedBorder() )
 
 		//
 		// JFrame
 		//
 		
-		val mainFrame = new JFrame( "Animal Races" )
 		mainFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE )
-		mainFrame.getContentPane().add( toolbar, java.awt.BorderLayout.NORTH )
-		mainFrame.getContentPane().add( racetrack, java.awt.BorderLayout.CENTER )
-		mainFrame.getContentPane().add( statusbar, java.awt.BorderLayout.SOUTH )
-		mainFrame.setSize( 600, 800 )
+		mainFrame.getContentPane().add( toolbar, BorderLayout.NORTH )
+		mainFrame.getContentPane().add( racetrack, BorderLayout.CENTER )
+		mainFrame.getContentPane().add( statusMetawidget, BorderLayout.SOUTH )
+		mainFrame.setSize( 600, 750 )
 
 		//
 		// Animation timers
