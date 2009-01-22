@@ -362,3 +362,7 @@ a {
 #supported-tech tbody a {
 	color: #085aa4;
 }
+
+#screenshots img {
+	border: 2px solid #C5E8E8;
+}

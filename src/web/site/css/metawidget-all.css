@@ -145,14 +145,13 @@ h4 {
 	border: 1px solid black;
 }
 
-#screenshots td {
-	text-align: center;	
-	font-style: italic;
+#screenshots td {	
+	font-size: 8pt;
 	padding: 20px;
 }
 
 #screenshots img {
 	display: block;
-	padding-bottom: 5px;
+	margin-bottom: 5px;	
 	border: 0;
 }

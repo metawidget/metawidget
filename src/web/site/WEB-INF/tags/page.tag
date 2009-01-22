@@ -24,17 +24,8 @@
 			<script src="${context}/js/tooltip-v0.2.js" type="text/javascript"></script>
 		</c:if>
 		<c:if test="${useThumbailViewer}">
-			<link rel="stylesheet" type="text/css" href="${context}/css/thumbnailviewer.css" />
-			
-			<script src="${context}/js/thumbnailviewer.js" type="text/javascript">
-			
-				/***********************************************
-				* Image Thumbnail Viewer Script- © Dynamic Drive (www.dynamicdrive.com)
-				* This notice must stay intact for legal use.
-				* Visit http://www.dynamicdrive.com/ for full source code
-				***********************************************/
-			
-			</script>
+			<link rel="stylesheet" type="text/css" href="${context}/css/lightbox.css" />
+			<script type="text/javascript" src="${context}/js/lightbox.js"></script>
 		</c:if>
 	</head>	
 		

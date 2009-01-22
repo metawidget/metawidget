@@ -2437,7 +2437,13 @@
 			<include name="**/*.html"/>
 			<include name="**/*.js"/>
 		</fixcrlf>
+		
+		<!-- JavaScript images tend to get missed by httrack -->
 			
+		<copy todir="${tomcat.dir}/webapps/ROOT/media">
+			<fileset dir="src/web/site/media"/>
+		</copy>
+
 		<!-- Live demo -->
 
 		<antcall target="live-demo"/>
