@@ -41,17 +41,17 @@
 				<!-- Test Lists with a FacesLookup -->
 								
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/th[2]" text="Integers:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr/td[1]/input[@type='checkbox']/@value" text="1"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr/td[1]/label" text="1"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr/td[2]/input[@type='checkbox']/@value" text="2"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr/td[2]/label" text="2"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr/td[3]/input[@type='checkbox']/@value" text="3"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr/td[3]/label" text="3"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr[1]/td/input[@type='checkbox']/@value" text="1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr[1]/td/label" text="1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr[2]/td/input[@type='checkbox']/@value" text="2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr[2]/td/label" text="2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr[3]/td/input[@type='checkbox']/@value" text="3"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr[3]/td/label" text="3"/>
 				<verifyCheckbox htmlid="form:quirksIntegers:2" checked="false"/>
 				<setCheckbox htmlid="form:quirksIntegers:2" checked="true"/>				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr/td[4]/input[@type='checkbox']/@value" text="4"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr/td[4]/label" text="4"/>
-				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr/td)" text="4"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr[4]/td/input[@type='checkbox']/@value" text="4"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr[4]/td/label" text="4"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr)" text="4"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]/input[@type='submit']/@value" text="Refresh"/>
 
