@@ -42,6 +42,14 @@ public class FlexTableLayout
 	extends BaseLayout
 {
 	//
+	// Private statics
+	//
+
+	private final static int	JUST_COMPONENT_AND_REQUIRED			= 2;
+
+	private final static int	LABEL_AND_COMPONENT_AND_REQUIRED	= 3;
+
+	//
 	// Private members
 	//
 
@@ -49,9 +57,13 @@ public class FlexTableLayout
 
 	private FlexCellFormatter	mFormatter;
 
+	private int					mNumberOfColumns;
+
 	private String[]			mColumnStyleNames;
 
 	private String				mSectionStyleName;
+
+	private int					mCurrentColumn;
 
 	private String				mCurrentSection;
 
@@ -75,6 +87,15 @@ public class FlexTableLayout
 		// Section style name
 
 		mSectionStyleName = (String) metawidget.getParameter( "sectionStyleName" );
+
+		// Number of columns
+
+		Integer numberOfColumns = (Integer) metawidget.getParameter( "numberOfColumns" );
+
+		if ( numberOfColumns == null )
+			mNumberOfColumns = 1;
+		else
+			mNumberOfColumns = numberOfColumns;
 	}
 
 	//
@@ -104,15 +125,47 @@ public class FlexTableLayout
 
 		// Section headings
 
-		String section = attributes.get( SECTION );
-
-		if ( section != null && !section.equals( mCurrentSection ) )
+		if ( attributes != null )
 		{
-			mCurrentSection = section;
-			layoutSection( section );
+			String section = attributes.get( SECTION );
+
+			if ( section != null && !section.equals( mCurrentSection ) )
+			{
+				mCurrentSection = section;
+				layoutSection( section );
+			}
 		}
 
+		// Calculate row and actualColumn. Note FlexTable doesn't work quite as might be
+		// expected. Specifically, it doesn't understand 'colspan' in relation to previous rows. So
+		// if you do...
+		//
+		// layout.setWidget( row, 0, widget1 );
+		// layout.setColSpan( row, 0, 2 );
+		// layout.setWidget( row, 2, widget2 );
+		//
+		// ...you'll actually get...
+		//
+		// <td colspan="2">widget1</td>
+		// <td/>
+		// <td>widget2</td>
+		//
+		// ...note FlexTable inserts an extra <td/> because it thinks column 1 is missing. Therefore
+		// the actualColumn is always just the next column, regardless of what mCurrentColumn is
+
+		int actualColumn;
 		int row = mLayout.getRowCount();
+
+		if ( mCurrentColumn < mNumberOfColumns && row > 0 )
+		{
+			row--;
+			actualColumn = mLayout.getCellCount( row );
+		}
+		else
+		{
+			mCurrentColumn = 0;
+			actualColumn = 0;
+		}
 
 		// Label
 
@@ -125,45 +178,73 @@ public class FlexTableLayout
 			String styleName = getStyleName( 0 );
 
 			if ( styleName != null )
-				mFormatter.setStyleName( row, 0, styleName );
+				mFormatter.setStyleName( row, actualColumn, styleName );
 
-			mLayout.setWidget( row, 0, label );
+			mLayout.setWidget( row, actualColumn, label );
 		}
 
 		// Widget
 
 		// Widget column (null labels get collapsed, blank Strings get preserved)
 
-		int widgetColumn = ( labelText == null ? 0 : 1 );
+		if ( labelText != null )
+			actualColumn++;
 
 		String styleName = getStyleName( 1 );
 
 		if ( styleName != null )
-			mFormatter.setStyleName( row, widgetColumn, styleName );
+			mFormatter.setStyleName( row, actualColumn, styleName );
 
-		mLayout.setWidget( row, widgetColumn, widget );
+		mLayout.setWidget( row, actualColumn, widget );
 
 		// Colspan
 
-		int colspan = 1;
+		int colspan;
 
-		if ( widgetColumn == 0 )
-			colspan++;
+		// Large components span all columns
 
-		// Nested Metawidgets span the required column too
+		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
+		{
+			colspan = ( mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
+			mCurrentColumn = mNumberOfColumns;
 
-		boolean isMetawidget = ( widget instanceof GwtMetawidget );
+			if ( labelText == null )
+				colspan++;
+		}
 
-		if ( isMetawidget )
-			colspan++;
+		// Embedded Metawidgets span the component and the required column
+
+		else if ( widget instanceof GwtMetawidget )
+		{
+			if ( labelText == null )
+				colspan = LABEL_AND_COMPONENT_AND_REQUIRED;
+			else
+				colspan = JUST_COMPONENT_AND_REQUIRED;
+		}
+
+		// Components without labels span two columns
+
+		else if ( labelText == null )
+		{
+			colspan = 2;
+		}
+
+		// Everyone else spans just one
+
+		else
+		{
+			colspan = 1;
+		}
 
 		if ( colspan > 1 )
-			mFormatter.setColSpan( row, widgetColumn, colspan );
+			mFormatter.setColSpan( row, actualColumn, colspan );
 
 		// Required
 
-		if ( !isMetawidget )
+		if ( !( widget instanceof GwtMetawidget ) )
 			layoutRequired( attributes );
+
+		mCurrentColumn++;
 	}
 
 	@Override
@@ -174,7 +255,7 @@ public class FlexTableLayout
 		if ( facet != null )
 		{
 			int row = mLayout.getRowCount();
-			mFormatter.setColSpan( row, 0, 2 );
+			mFormatter.setColSpan( row, 0, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 
 			String styleName = (String) getMetawidget().getParameter( "footerStyleName" );
 
@@ -192,11 +273,13 @@ public class FlexTableLayout
 	protected void layoutRequired( Map<String, String> attributes )
 	{
 		int row = mLayout.getRowCount() - 1;
-		mFormatter.setStyleName( row, 2, getStyleName( 2 ) );
+		int column = mLayout.getCellCount( row );
+
+		mFormatter.setStyleName( row, column, getStyleName( 2 ) );
 
 		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
 		{
-			mLayout.setText( row, 2, "*" );
+			mLayout.setText( row, column, "*" );
 			return;
 		}
 
@@ -204,7 +287,7 @@ public class FlexTableLayout
 		// width if desired for the layout (browsers seem to not respect
 		// widths set on empty table columns)
 
-		mLayout.setHTML( row, 2, "<div/>" );
+		mLayout.setHTML( row, column, "<div/>" );
 	}
 
 	protected void layoutSection( String section )
@@ -227,10 +310,12 @@ public class FlexTableLayout
 
 		// Span and style
 
-		mFormatter.setColSpan( row, 0, 3 );
+		mFormatter.setColSpan( row, 0, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 
 		if ( mSectionStyleName != null )
 			mFormatter.setStyleName( row, 0, mSectionStyleName );
+
+		mCurrentColumn = mNumberOfColumns;
 	}
 
 	protected String getStyleName( int styleName )
