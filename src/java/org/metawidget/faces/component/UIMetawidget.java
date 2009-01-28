@@ -794,14 +794,6 @@ public abstract class UIMetawidget
 
 	protected void setUniqueId( FacesContext context, UIComponent component, String expressionString )
 	{
-		// Create our ideal Id
-
-		Map<String, Object> attributes = component.getAttributes();
-		attributes.put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
-
-		String idealId = StringUtils.camelCase( FacesUtils.unwrapValueReference( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
-		String actualId = idealId;
-
 		// Avoid duplicates
 
 		if ( mClientIds == null )
@@ -812,6 +804,13 @@ public abstract class UIMetawidget
 			gatherClientIds( iteratorFacetsAndChildren );
 		}
 
+		// Create our ideal Id
+
+		Map<String, Object> attributes = component.getAttributes();
+		attributes.put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
+
+		String idealId = StringUtils.camelCase( FacesUtils.unwrapValueReference( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
+		String actualId = idealId;
 		int duplicateId = 1;
 
 		while ( true )

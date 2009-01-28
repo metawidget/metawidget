@@ -24,6 +24,7 @@ import java.util.Map;
 
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIData;
+import javax.faces.component.UIInput;
 import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlOutputText;
@@ -56,9 +57,9 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>columns<code> - number of columns. Each label/component pair is considered one column
  * <li><code>columnClasses</code> - comma delimited string of CSS style classes to apply to table
  * columns in order of: label, component, required
- * <li><code>labelStyle</code>
- * <li><code>componentStyle</code>
- * <li><code>requiredStyle</code>
+ * <li><code>labelStyle</code> - CSS styles to apply to label column
+ * <li><code>componentStyle</code> - CSS styles to apply to component column
+ * <li><code>requiredStyle</code> - CSS styles to apply to required column
  * <li><code>sectionStyle</code>
  * <li><code>sectionStyleClass</code>
  * <li><code>headerStyle</code>
@@ -434,7 +435,7 @@ public class HtmlTableLayoutRenderer
 
 		// Large components and tables span all columns
 
-		if ( ( attributes != null && TRUE.equals( attributes.get( "large" ) ) ) || component instanceof UIData )
+		if ( ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) || component instanceof UIData )
 		{
 			colspan = ( numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 			putState( KEY_CURRENT_COLUMN, numberOfColumns );
@@ -610,7 +611,9 @@ public class HtmlTableLayoutRenderer
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !( (UIMetawidget) component ).isReadOnly() )
+		// TODO: test star on UIInput
+
+		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && component instanceof UIInput && !( (UIMetawidget) component ).isReadOnly() )
 		{
 			writer.write( "*" );
 			return;

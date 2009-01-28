@@ -27,6 +27,7 @@ import java.util.Map;
 import javax.faces.application.Application;
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UISelectMany;
 import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
@@ -408,7 +409,16 @@ public class HtmlMetawidget
 					// ...(setConverter doesn't do application-wide converters)...
 
 					if ( converter == null )
-						converter = application.createConverter( clazz );
+					{
+						// ...(we don't try a 'clazz' converter for a UISelectMany,
+						// because the 'clazz' will generally be a Collection. setConverter
+						// will have already tried PARAMETERIZED_TYPE)...
+
+						// TODO: test this
+
+						if (!( component instanceof UISelectMany ))
+							converter = application.createConverter( clazz );
+					}
 
 					// ...if any
 

@@ -104,6 +104,7 @@ public class RichFacesMetawidget
 				// Not-ranged
 
 				HtmlInputNumberSpinner spinner = (HtmlInputNumberSpinner) application.createComponent( "org.richfaces.inputNumberSpinner" );
+				spinner.setCycled( false );
 
 				if ( byte.class.equals( clazz ))
 				{
@@ -117,8 +118,17 @@ public class RichFacesMetawidget
 				}
 				else if ( int.class.equals( clazz ) )
 				{
-					spinner.setMinValue( String.valueOf( Integer.MIN_VALUE ));
-					spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ));
+					// TODO: test this
+
+					if ( minimumValue != null && !"".equals( minimumValue ))
+						spinner.setMinValue( minimumValue );
+					else
+						spinner.setMinValue( String.valueOf( Integer.MIN_VALUE ));
+
+					if ( maximumValue != null && !"".equals( maximumValue ))
+						spinner.setMaxValue( maximumValue );
+					else
+						spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ));
 				}
 				else if ( long.class.equals( clazz ) )
 				{
