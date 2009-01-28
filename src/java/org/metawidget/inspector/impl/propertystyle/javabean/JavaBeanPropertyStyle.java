@@ -34,7 +34,16 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * PropertyStyle for JavaBean-style properties.
  * <p>
- * This PropertyStyle recognizes both getters and setters and public member fields.
+ * This PropertyStyle recognizes getters and setters declared using the JavaBean convention.
+ * <p>
+ * Please note:
+ * <p>
+ * <ul>
+ *  <li>this implementation also recognizes public member fields. These are not strictly JavaBean-convention,
+ *  but is a useful default</li>
+ *  <li>this implementation does not use <code>java.beans.Introspector</code>, as some environments that
+ *  use JavaBean-convention do not support the <code>java.bean</code> package (eg. Android).</li>
+ * </ul>
  *
  * @author Richard Kennard
  */
