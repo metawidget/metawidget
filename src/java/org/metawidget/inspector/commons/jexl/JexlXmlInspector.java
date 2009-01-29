@@ -47,7 +47,9 @@ import org.w3c.dom.Element;
  * <code>JexlXmlInspector</code> inspects <code>inspection-result-1.0.xsd</code>-compliant
  * files (such as <code>metawidget-metadata.xml</code>), in the same way as
  * <code>XmlInspector</code>. Any attributes conforming to a <code>${...}</code> convention
- * (ie. same as JSTL) are passed to JEXL.
+ * (ie. same as JSTL) are passed to JEXL. These expressions can include conditions. For example:
+ * <p>
+ * <code>${if ( foo.bar ) 'baz'}</code>
  * <p>
  * Note because <code>JexlXmlInspector</code> overrides attribute values, its position in the
  * <code>CompositeInspector</code> list is important (ie. it should come after

@@ -138,7 +138,14 @@ public class JexlInspector
 	protected void putJexlAttribute( Object toInspect, UiJexlAttribute jexlAttribute, Map<String, String> attributes )
 		throws Exception
 	{
-		Object value = ExpressionFactory.createExpression( jexlAttribute.expression() ).evaluate( getContext( toInspect ) );
+		String expression = jexlAttribute.expression();
+
+		// Likely mistake
+
+		if ( expression.startsWith( "${" ) )
+			throw InspectorException.newException( "Expression '" + expression + "' should be of the form 'foo.bar', not '${foo.bar}'" );
+
+		Object value = ExpressionFactory.createExpression( expression ).evaluate( getContext( toInspect ) );
 
 		if ( value == null )
 			return;

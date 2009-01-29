@@ -35,6 +35,10 @@ public @interface UiJexlAttribute
 
 	/**
 	 * Value to set the attribute to. Must be a JEXL expression.
+	 * <p>
+	 * Note JEXL expressions can include conditions. For example:
+	 * <p>
+	 * <code>if ( foo.bar ) 'baz'</code>.
 	 */
 
 	String expression();

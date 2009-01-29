@@ -42,6 +42,10 @@ public @interface UiFacesAttribute
 
 	/**
 	 * Value to set the attribute to. Must be an EL expression of the form <code>#{...}</code>.
+	 * <p>
+	 * Note EL expressions can include conditions. For example:
+	 * <p>
+	 * <code>#{foo.bar ? 'baz' : null}</code>.
 	 */
 
 	String expression();

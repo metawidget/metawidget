@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.commons.jexl.JexlInspector;
 import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
 import org.metawidget.inspector.commons.jexl.UiJexlAttributes;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -83,6 +84,19 @@ public class JexlInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 2 );
 	}
 
+	public void testBadExpression()
+	{
+		try
+		{
+			new JexlInspector().inspect( new Bar(), Bar.class.getName() );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "Expression '${baz}' should be of the form 'foo.bar', not '${foo.bar}'".equals( e.getMessage() ) );
+		}
+	}
+
 	//
 	// Inner class
 	//
@@ -108,5 +122,11 @@ public class JexlInspectorTest
 		{
 			return true;
 		}
+	}
+
+	public static class Bar
+	{
+		@UiJexlAttribute( name = "foo", expression="${baz}" )
+		public String baz;
 	}
 }
