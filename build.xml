@@ -2471,9 +2471,12 @@
 
 		<!-- Source -->
 		
-		<copy todir="${build.dir}">
+		<mkdir dir="${build.dir}/${metawidget.name}"/>
+
+		<copy todir="${build.dir}/${metawidget.name}">
 			<fileset dir=".">
 				
+				<include name="lib/**"/>
 				<include name="src/**"/>
 				<include name="test/**"/>
 				<include name="build.xml"/>
@@ -2482,20 +2485,6 @@
 				<include name="lgpl.txt"/>
 				<include name="readme.txt"/>
 				
-				<!-- Shared resources. This stops them being scattered and duplicated    -->
-				<!-- all over the ZIP. However, scattering and duplicating is useful for -->
-				<!-- some IDE deployers, such as MyEclipse                               -->
-
-				<exclude name="**/WEB-INF/classes/**"/>
-				<exclude name="**/WEB-INF/lib/**"/>
-				<exclude name="**/.p4ignore"/>
-			</fileset>
-		</copy>
-	
-		<mkdir dir="${build.dir}/examples-src/${metawidget.name}"/>
-
-		<copy todir="${build.dir}/examples-src/${metawidget.name}">
-			<fileset dir=".">
 				<include name="examples/**"/>
 
 				<!-- Shared example resources. This stops them being scattered and duplicated -->
@@ -2510,21 +2499,25 @@
 				<exclude name="**/WEB-INF/classes/**"/>
 				<exclude name="**/WEB-INF/lib/**"/>
 				<exclude name="**/.p4ignore"/>
-				
 			</fileset>
 			<fileset dir="${build.dir}">
-				<include name="examples/src/web/shared/addressbook/css/**"/>
-				<include name="examples/src/web/shared/addressbook/WEB-INF/tags/**"/>				
+				<include name="debug/**"/>
+				<include name="doc/**"/>
+				<include name="examples/**"/>
+				<include name="metawidget.jar"/>
+			</fileset>
+		</copy>
+	
+		<antcall target="pack-debug"/>
+		<copy todir="${build.dir}/${metawidget.name}">
+			<fileset dir="${build.dir}">
+				<include name="debug/**"/>
 			</fileset>
 		</copy>
 
-		<zip zipfile="${build.dir}/${metawidget.name}.zip">
-			<fileset dir="${build.dir}/examples-src">
-				<include name="${metawidget.name}/examples/**"/>
-			</fileset>
+		<zip zipfile="${build.dir}/${metawidget.name}-src.zip">
 			<fileset dir="${build.dir}">
 				
-				<include name="${metawidget.name}/documentation.html"/>				
 				<include name="${metawidget.name}/lgpl.txt"/>
 				<include name="${metawidget.name}/readme.txt"/>
 
@@ -2533,10 +2526,10 @@
 				<!-- is useful for some IDE deployers, such as MyEclipse                   -->
 					
 				<include name="${metawidget.name}/lib/**"/>
-				<exclude name="${metawidget.name}/lib/metawidget.jar"/>
 
 				<!-- Source -->
 					
+				<include name="${metawidget.name}/examples/src/**"/>
 				<include name="${metawidget.name}/src/**"/>
 				<include name="${metawidget.name}/test/**"/>
 				<include name="${metawidget.name}/build.xml"/>
@@ -2545,12 +2538,8 @@
 			</fileset>				
 		</zip>
 		
-		<move file="${build.dir}/${metawidget.name}.zip" tofile="${build.dir}/${metawidget.name}-src.zip"/>
-		
 		<!-- Binaries -->
 			
-		<antcall target="pack-debug"/>
-
 		<zip zipfile="${build.dir}/${metawidget.name}.zip">
 			<fileset dir="${build.dir}">
 				
@@ -2560,22 +2549,19 @@
 				<include name="${metawidget.name}/documentation.html"/>				
 				<include name="${metawidget.name}/lgpl.txt"/>
 				<include name="${metawidget.name}/readme.txt"/>
+				<include name="${metawidget.name}/debug/**"/>
 
 				<!-- Doc -->
 
-				<include name="${metawidget.name}/debug/**"/>
-				<include name="${metawidget.name}/doc/api/**"/>
-				<include name="${metawidget.name}/doc/taglib/**"/>
-				<include name="${metawidget.name}/doc/reference/**/html*/*.html"/>
-				<include name="${metawidget.name}/doc/reference/**/pdf/*.pdf"/>
-				<include name="${metawidget.name}/doc/**/shared/**"/>
+				<include name="${metawidget.name}/doc/**"/>
+				<exclude name="${metawidget.name}/doc/reference/**/tmp/**"/>
 				
 				<!-- Examples -->
 				
 				<include name="${metawidget.name}/examples/**"/>
 				<exclude name="${metawidget.name}/examples/android/addressbook/**"/>
 				<exclude name="${metawidget.name}/examples/android/addressbook-android.ap_"/>
-				<exclude name="${metawidget.name}/examples/src/web/**"/>
+				<exclude name="${metawidget.name}/examples/src/**"/>
 									
 			</fileset>				
 		</zip>

@@ -175,7 +175,7 @@ public class FlexTableLayout
 		{
 			Label label = new Label( labelText + ":" );
 
-			String styleName = getStyleName( 0 );
+			String styleName = getStyleName( mCurrentColumn * LABEL_AND_COMPONENT_AND_REQUIRED );
 
 			if ( styleName != null )
 				mFormatter.setStyleName( row, actualColumn, styleName );
@@ -190,7 +190,7 @@ public class FlexTableLayout
 		if ( labelText != null )
 			actualColumn++;
 
-		String styleName = getStyleName( 1 );
+		String styleName = getStyleName( ( mCurrentColumn * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1 );
 
 		if ( styleName != null )
 			mFormatter.setStyleName( row, actualColumn, styleName );
@@ -275,7 +275,7 @@ public class FlexTableLayout
 		int row = mLayout.getRowCount() - 1;
 		int column = mLayout.getCellCount( row );
 
-		mFormatter.setStyleName( row, column, getStyleName( 2 ) );
+		mFormatter.setStyleName( row, column, getStyleName( ( mCurrentColumn * LABEL_AND_COMPONENT_AND_REQUIRED ) + 2 ) );
 
 		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
 		{
@@ -317,6 +317,9 @@ public class FlexTableLayout
 
 		mCurrentColumn = mNumberOfColumns;
 	}
+
+	// TODO: test multi-columns, test zero columns
+	// TODO: pack-debug not working?
 
 	protected String getStyleName( int styleName )
 	{
