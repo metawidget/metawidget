@@ -251,7 +251,7 @@ public class ContactDialog
 	}
 
 	@UiAction
-	@UiJexlAttribute( name = HIDDEN, value = "${!this.readOnly}" )
+	@UiJexlAttribute( name = HIDDEN, expression = "!this.readOnly" )
 	public void edit()
 	{
 		mContactMetawidget.setReadOnly( false );
@@ -262,7 +262,7 @@ public class ContactDialog
 	}
 
 	@UiAction
-	@UiJexlAttribute( name = HIDDEN, value = "${this.readOnly}" )
+	@UiJexlAttribute( name = HIDDEN, expression = "this.readOnly" )
 	public void save()
 	{
 		try
@@ -284,7 +284,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( "save" )
-	@UiJexlAttribute( name = HIDDEN, value = "${this.readOnly || this.newContact}" )
+	@UiJexlAttribute( name = HIDDEN, expression = "this.readOnly || this.newContact" )
 	public void delete()
 	{
 		Contact contact = (Contact) mContactMetawidget.getToInspect();
@@ -299,7 +299,7 @@ public class ContactDialog
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiJexlAttribute( name = LABEL, value = "Back", condition = "${this.readOnly}" )
+	@UiJexlAttribute( name = LABEL, expression = "if ( this.readOnly ) 'Back'" )
 	public void cancel()
 	{
 		setVisible( false );

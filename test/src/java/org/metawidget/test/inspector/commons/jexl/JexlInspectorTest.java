@@ -20,10 +20,8 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.commons.jexl.JexlInspector;
-import org.metawidget.inspector.commons.jexl.JexlUtils;
 import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
 import org.metawidget.inspector.commons.jexl.UiJexlAttributes;
-import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -83,33 +81,6 @@ public class JexlInspectorTest
 		assertTrue( 2 == property.getAttributes().getLength() );
 
 		assertTrue( entity.getChildNodes().getLength() == 2 );
-
-		try
-		{
-			inspector.inspect( new BadFoo(), BadFoo.class.getName() );
-		}
-		catch( InspectorException e )
-		{
-			assertTrue( "Condition '#{bad-condition}' is not of the form ${...}".equals( e.getMessage() ));
-		}
-	}
-
-	public void testUtils()
-	{
-		assertTrue( JexlUtils.isValueReference( "${foo.bar}" ));
-		assertTrue( !JexlUtils.isValueReference( "foo.bar" ));
-		assertTrue( !JexlUtils.isValueReference( "${foo.bar" ));
-		assertTrue( !JexlUtils.isValueReference( "foo.bar}" ));
-
-		assertTrue( "foo.bar".equals( JexlUtils.unwrapValueReference( "foo.bar" )));
-		assertTrue( "${foo.bar".equals( JexlUtils.unwrapValueReference( "${foo.bar" )));
-		assertTrue( "foo.bar".equals( JexlUtils.unwrapValueReference( "${foo.bar}" )));
-		assertTrue( "foo.bar".equals( JexlUtils.unwrapValueReference( "foo.bar" )));
-		assertTrue( "${foo.bar".equals( JexlUtils.unwrapValueReference( "${foo.bar" )));
-
-		assertTrue( "${foo.bar}".equals( JexlUtils.wrapValueReference( "foo.bar" )));
-		assertTrue( "${foo.bar}".equals( JexlUtils.wrapValueReference( "${foo.bar}" )));
-		assertTrue( "${${foo.bar}".equals( JexlUtils.wrapValueReference( "${foo.bar" )));
 	}
 
 	//
@@ -119,13 +90,13 @@ public class JexlInspectorTest
 	public static class Foo
 	{
 		@UiJexlAttributes( {
-			@UiJexlAttribute( name = "value-is-el", value="${this.baz}" ),
-			@UiJexlAttribute( name = "value-is-text", value="text" ),
-			@UiJexlAttribute( name = "condition-is-false", value="was set", condition="${!this.conditionResult}" )
+			@UiJexlAttribute( name = "value-is-el", expression="this.baz" ),
+			@UiJexlAttribute( name = "value-is-text", expression="'text'" ),
+			@UiJexlAttribute( name = "condition-is-false", expression="if ( !this.conditionResult ) 'was set'" )
 		} )
 		public String bar1;
 
-		@UiJexlAttribute( name = "condition-is-true", value="was set", condition="${this.conditionResult}" )
+		@UiJexlAttribute( name = "condition-is-true", expression="if ( this.conditionResult ) { 'was set'; }" )
 		public String bar2;
 
 		public String getBaz()
@@ -137,13 +108,5 @@ public class JexlInspectorTest
 		{
 			return true;
 		}
-	}
-
-	public static class BadFoo
-	{
-		// Note: 'condition' is a '#{...}', not a '${...}', so it should fail
-
-		@UiJexlAttribute( name = "foo", value = "bar", condition = "#{bad-condition}" )
-		public String bad;
 	}
 }

@@ -613,7 +613,7 @@ public class HtmlTableLayoutRenderer
 
 		// TODO: test star on UIInput
 
-		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && component instanceof UIInput && !( (UIMetawidget) component ).isReadOnly() )
+		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && child instanceof UIInput && !( (UIMetawidget) component ).isReadOnly() )
 		{
 			writer.write( "*" );
 			return;

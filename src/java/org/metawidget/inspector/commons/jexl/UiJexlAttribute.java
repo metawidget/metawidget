@@ -34,19 +34,8 @@ public @interface UiJexlAttribute
 	String name();
 
 	/**
-	 * Value to set the attribute to.
-	 * <p>
-	 * Can be a String or an JEXL expression (in which case it must be of the form <code>${...}</code>)
+	 * Value to set the attribute to. Must be a JEXL expression.
 	 */
 
-	String value();
-
-	/**
-	 * Optional JEXL condition with which to restrict the setting of the attribute, unless the condition
-	 * evaluates to true.
-	 * <p>
-	 * Must be of the form <code>${...}</code>.
-	 */
-
-	String condition() default "";
+	String expression();
 }

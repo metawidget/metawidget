@@ -105,7 +105,7 @@ public class JspAnnotationInspector
 
 		// UiJspAttributes/UiJspAttribute
 
-		putJspAttributes( attributes, property.getAnnotation( UiJspAttributes.class ), property.getAnnotation( UiJspAttribute.class ));
+		putJspAttributes( attributes, property.getAnnotation( UiJspAttributes.class ), property.getAnnotation( UiJspAttribute.class ) );
 
 		return attributes;
 	}
@@ -118,7 +118,7 @@ public class JspAnnotationInspector
 
 		// UiJspAttributes/UiJspAttribute
 
-		putJspAttributes( attributes, action.getAnnotation( UiJspAttributes.class ), action.getAnnotation( UiJspAttribute.class ));
+		putJspAttributes( attributes, action.getAnnotation( UiJspAttributes.class ), action.getAnnotation( UiJspAttribute.class ) );
 
 		return attributes;
 	}
@@ -170,45 +170,27 @@ public class JspAnnotationInspector
 	protected void putJspAttribute( ExpressionEvaluator expressionEvaluator, VariableResolver variableResolver, Map<String, String> attributes, UiJspAttribute jspAttribute )
 		throws Exception
 	{
-		// Optional condition
+		String expression = jspAttribute.expression();
 
-		String condition = jspAttribute.condition();
+		if ( !JspUtils.isExpression( expression ) )
+			throw InspectorException.newException( "Expression '" + expression + "' is not of the form ${...}" );
 
-		if ( !"".equals( condition ) )
+		Object value = expressionEvaluator.evaluate( expression, Object.class, variableResolver, null );
+
+		if ( value == null )
+			return;
+
+		if ( value instanceof Collection )
 		{
-			if ( !JspUtils.isExpression( condition ) )
-				throw InspectorException.newException( "Condition '" + condition + "' is not of the form ${...}" );
-
-			Object conditionResult = expressionEvaluator.evaluate( condition, Object.class, variableResolver, null );
-
-			if ( !Boolean.TRUE.equals( conditionResult ) )
-				return;
+			attributes.put( jspAttribute.name(), CollectionUtils.toString( (Collection<?>) value ) );
 		}
-
-		// Optionally expression-based
-
-		String value = jspAttribute.value();
-
-		if ( JspUtils.isExpression( value ) )
+		else if ( value instanceof Object[] )
 		{
-			Object objectValue = expressionEvaluator.evaluate( value, Object.class, variableResolver, null );
-
-			if ( objectValue instanceof Collection )
-			{
-				value = CollectionUtils.toString( (Collection<?>) objectValue );
-			}
-			else if ( objectValue instanceof Object[] )
-			{
-				value = ArrayUtils.toString( (Object[]) objectValue );
-			}
-			else
-			{
-				value = StringUtils.quietValueOf( objectValue );
-			}
+			attributes.put( jspAttribute.name(), ArrayUtils.toString( (Object[]) value ) );
 		}
-
-		// Set the value
-
-		attributes.put( jspAttribute.name(), value );
+		else
+		{
+			attributes.put( jspAttribute.name(), StringUtils.quietValueOf( value ) );
+		}
 	}
 }

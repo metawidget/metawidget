@@ -138,29 +138,10 @@ public class JexlInspector
 	protected void putJexlAttribute( Object toInspect, UiJexlAttribute jexlAttribute, Map<String, String> attributes )
 		throws Exception
 	{
-		// Optional condition
+		Object value = ExpressionFactory.createExpression( jexlAttribute.expression() ).evaluate( getContext( toInspect ) );
 
-		String condition = jexlAttribute.condition();
-
-		if ( !"".equals( condition ) )
-		{
-			if ( !JexlUtils.isValueReference( condition ) )
-				throw InspectorException.newException( "Condition '" + condition + "' is not of the form ${...}" );
-
-			Object conditionResult = ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( condition ) ).evaluate( getContext( toInspect ) );
-
-			if ( !Boolean.TRUE.equals( conditionResult ) )
-				return;
-		}
-
-		// Optionally expression-based
-
-		String value = jexlAttribute.value();
-
-		if ( JexlUtils.isValueReference( value ) )
-			value = StringUtils.quietValueOf( ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( value ) ).evaluate( getContext( toInspect ) ) );
-
-		// Set the value
+		if ( value == null )
+			return;
 
 		attributes.put( jexlAttribute.name(), StringUtils.quietValueOf( value ) );
 	}

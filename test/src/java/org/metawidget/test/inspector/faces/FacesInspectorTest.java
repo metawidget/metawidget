@@ -190,7 +190,7 @@ public class FacesInspectorTest
 
 	public static class NoFacesContextOnPropertyFoo
 	{
-		@UiFacesAttribute( name="baz", value="#{abc}" )
+		@UiFacesAttribute( name="baz", expression="#{abc}" )
 		public Object getBar()
 		{
 			return null;
@@ -200,7 +200,7 @@ public class FacesInspectorTest
 	public static class NoFacesContextOnActionFoo
 	{
 		@UiAction
-		@UiFacesAttribute( name="baz", value="#{abc}" )
+		@UiFacesAttribute( name="baz", expression="#{abc}" )
 		public Object action()
 		{
 			return null;

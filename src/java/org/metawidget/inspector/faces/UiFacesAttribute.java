@@ -41,19 +41,8 @@ public @interface UiFacesAttribute
 	String name();
 
 	/**
-	 * Value to set the attribute to.
-	 * <p>
-	 * Can be a String or an EL expression (in which case it must be of the form <code>#{...}</code>)
+	 * Value to set the attribute to. Must be an EL expression of the form <code>#{...}</code>.
 	 */
 
-	String value();
-
-	/**
-	 * Optional EL condition with which to restrict the setting of the attribute, unless the condition
-	 * evaluates to true.
-	 * <p>
-	 * Must be of the form <code>#{...}</code>.
-	 */
-
-	String condition() default "";
+	String expression();
 }

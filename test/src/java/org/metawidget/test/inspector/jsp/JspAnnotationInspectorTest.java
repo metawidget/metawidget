@@ -96,7 +96,7 @@ public class JspAnnotationInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Condition 'bad-condition' is not of the form ${...}".equals( e.getMessage() ));
+			assertTrue( "Expression 'bad-expression' is not of the form ${...}".equals( e.getMessage() ));
 		}
 	}
 
@@ -112,7 +112,7 @@ public class JspAnnotationInspectorTest
 
 	public static class Bar
 	{
-		@UiJspAttribute( name = "baz", value = "${abc}", condition="bad-condition" )
+		@UiJspAttribute( name = "baz", expression = "bad-expression" )
 		public Object	object1;
 	}
 }

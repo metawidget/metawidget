@@ -215,29 +215,15 @@ public class FacesInspector
 
 	protected void putFacesAttribute( FacesContext context, Application application, Map<String, String> attributes, UiFacesAttribute facesAttribute )
 	{
-		// Optional condition
+		String expression = facesAttribute.expression();
 
-		String condition = facesAttribute.condition();
+		if ( !FacesUtils.isValueReference( expression ) )
+			throw InspectorException.newException( "Expression '" + expression + "' is not of the form #{...}" );
 
-		if ( !"".equals( condition ))
-		{
-			if ( !FacesUtils.isValueReference( condition ))
-				throw InspectorException.newException( "Condition '" + condition + "' is not of the form #{...}" );
+		Object value = application.createValueBinding( expression ).getValue( context );
 
-			Object conditionResult = application.createValueBinding( condition ).getValue( context );
-
-			if ( !Boolean.TRUE.equals( conditionResult ))
-				return;
-		}
-
-		// Optionally expression-based
-
-		String value = facesAttribute.value();
-
-		if ( FacesUtils.isValueReference( value ) )
-			value = StringUtils.quietValueOf( application.createValueBinding( value ).getValue( context ));
-
-		// Set the value
+		if ( value == null )
+			return;
 
 		attributes.put( facesAttribute.name(), StringUtils.quietValueOf( value ));
 	}

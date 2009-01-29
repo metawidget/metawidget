@@ -572,7 +572,7 @@ public final class JspUtils
 	// Private statics
 	//
 
-	private final static Pattern	PATTERN_BINDING			= Pattern.compile( "(\\$\\{)([^}]*)(\\})" );
+	private final static Pattern	PATTERN_BINDING			= Pattern.compile( "^\\$\\{(.*)\\}$" );
 
 	private final static Pattern	PATTERN_HIDDEN_FIELDS	= Pattern.compile( "(\\s*<\\s*(input)\\s+[^>]*?(type)\\s*=\\s*\"\\s*hidden\\s*\"[^>]*?>\\s*)+?" );
 

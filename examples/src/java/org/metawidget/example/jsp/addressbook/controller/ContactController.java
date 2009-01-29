@@ -68,14 +68,14 @@ public class ContactController
 	}
 
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, value = "${!contactController.readOnly}" )
+	@UiJspAttribute( name = HIDDEN, expression = "${!contactController.readOnly}" )
 	public void edit()
 	{
 		mReadOnly = false;
 	}
 
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, value = "${contactController.readOnly}" )
+	@UiJspAttribute( name = HIDDEN, expression = "${contactController.readOnly}" )
 	public void save()
 	{
 		ContactsController contactsController = (ContactsController) mSession.getServletContext().getAttribute( "contacts" );
@@ -85,7 +85,7 @@ public class ContactController
 	}
 
 	@UiAction
-	@UiJspAttribute( name = HIDDEN, value = "${contactController.readOnly || contact.id == 0}" )
+	@UiJspAttribute( name = HIDDEN, expression = "${contactController.readOnly || contact.id == 0}" )
 	@UiComesAfter( "save" )
 	public void delete()
 	{
@@ -97,7 +97,7 @@ public class ContactController
 
 	@UiAction
 	@UiComesAfter( { "edit", "delete" } )
-	@UiJspAttributes( { @UiJspAttribute( name = LABEL, value = "Back", condition = "${contactController.readOnly}" ) } )
+	@UiJspAttributes( { @UiJspAttribute( name = LABEL, expression = "${contactController.readOnly ? 'Back' : null}" ) } )
 	public String cancel()
 		throws Exception
 	{

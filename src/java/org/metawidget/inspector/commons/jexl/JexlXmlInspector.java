@@ -19,6 +19,8 @@ package org.metawidget.inspector.commons.jexl;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.jexl.ExpressionFactory;
 import org.apache.commons.jexl.JexlContext;
@@ -44,8 +46,12 @@ import org.w3c.dom.Element;
  * <p>
  * <code>JexlXmlInspector</code> inspects <code>inspection-result-1.0.xsd</code>-compliant
  * files (such as <code>metawidget-metadata.xml</code>), in the same way as
- * <code>XmlInspector</code>. Any attributes conforming to the <code>${...}</code> convention
- * are passed to JEXL.
+ * <code>XmlInspector</code>. Any attributes conforming to a <code>${...}</code> convention
+ * (ie. same as JSTL) are passed to JEXL.
+ * <p>
+ * Note because <code>JexlXmlInspector</code> overrides attribute values, its position in the
+ * <code>CompositeInspector</code> list is important (ie. it should come after
+ * <code>XmlInspector</code>).
  *
  * @author Richard Kennard
  */
@@ -54,12 +60,14 @@ public class JexlXmlInspector
 	extends BaseXmlInspector
 {
 	//
-	// Private members
+	// Private statics
 	//
 
 	private final static ThreadLocal<Object>		LOCAL_TOINSPECT	= ThreadUtils.newThreadLocal();
 
 	private final static ThreadLocal<JexlContext>	LOCAL_CONTEXT	= ThreadUtils.newThreadLocal();
+
+	private final static Pattern					PATTERN_BINDING	= Pattern.compile( "^\\$\\{(.*)\\}$" );
 
 	//
 	// Constructors
@@ -180,14 +188,16 @@ public class JexlXmlInspector
 
 			// ...that looks like a value reference...
 
-			if ( !JexlUtils.isValueReference( value ) )
+			Matcher matcher = PATTERN_BINDING.matcher( value );
+
+			if ( !matcher.matches() )
 				continue;
 
 			// ...evaluate it...
 
 			try
 			{
-				value = StringUtils.quietValueOf( ExpressionFactory.createExpression( JexlUtils.unwrapValueReference( value ) ).evaluate( getContext() ) );
+				value = StringUtils.quietValueOf( ExpressionFactory.createExpression( matcher.group( 1 ) ).evaluate( getContext() ) );
 			}
 			catch ( Exception e )
 			{

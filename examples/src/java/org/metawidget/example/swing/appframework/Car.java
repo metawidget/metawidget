@@ -72,7 +72,7 @@ public class Car
 		mType = type;
 	}
 
-	@UiJexlAttribute( name = HIDDEN, value = "${this.owner == null}" )
+	@UiJexlAttribute( name = HIDDEN, expression = "this.owner == null" )
 	@UiComesAfter( "type" )
 	public Owner getOwner()
 	{
@@ -85,7 +85,7 @@ public class Car
 	}
 
 	@Action( name = "add" )
-	@UiJexlAttribute( name = HIDDEN, value = "${this.owner != null}" )
+	@UiJexlAttribute( name = HIDDEN, expression = "this.owner != null" )
 	public void addOwner()
 	{
 		mOwner = new Owner();
