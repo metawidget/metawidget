@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import junit.framework.TestCase;
 import net.miginfocom.layout.CC;
@@ -199,7 +200,10 @@ public class MigLayoutTest
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		UnitValue[] padding = ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 0 ) ) ).getPadding();
-		assertTrue( padding[0].getValue() == 3 );
+
+		// (padding[0].getValue() == 6 for Nimbus, 2 for Metal - depends on what UIManger.setLookAndFeel has been called by other tests)
+
+		assertTrue( padding[0].getValue() == ( "Nimbus".equals( UIManager.getLookAndFeel().getName() ) ? 6 : 2 ));
 		assertTrue( padding[1].getValue() == 0 );
 		assertTrue( padding[2].getValue() == 0 );
 		assertTrue( padding[3].getValue() == 0 );

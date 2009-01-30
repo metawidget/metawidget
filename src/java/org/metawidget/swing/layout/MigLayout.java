@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import net.miginfocom.layout.CC;
@@ -58,34 +59,30 @@ public class MigLayout
 	extends BaseLayout
 {
 	//
-	// Private statics
-	//
-
-	private final static int	INSET_LABEL			= 3;
-
-	//
 	// Public statics
 	//
 
-	public final static int		SECTION_AS_HEADING	= 0;
+	public final static int	SECTION_AS_HEADING	= 0;
 
-	public final static int		SECTION_AS_TAB		= 1;
+	public final static int	SECTION_AS_TAB		= 1;
 
 	//
 	// Private members
 	//
 
-	private String				mCurrentSection;
+	private String			mCurrentSection;
 
-	private int					mNumberOfColumns;
+	private int				mNumberOfColumns;
 
-	private int					mCurrentColumn;
+	private int				mCurrentColumn;
 
-	private int					mCurrentRow;
+	private int				mCurrentRow;
 
-	private int					mSectionStyle;
+	private int				mSectionStyle;
 
-	private JPanel				mPanelCurrent;
+	private JPanel			mPanelCurrent;
+
+	private int				mDefaultLabelTopInset;
 
 	//
 	// Constructor
@@ -141,7 +138,25 @@ public class MigLayout
 		// Note: we don't use column/row constraints, because we don't know
 		// what the components will be in advance. Rather, we use 'cell' and 'push'
 
-		getMetawidget().setLayout( new net.miginfocom.swing.MigLayout( layoutConstraints ) );
+		java.awt.LayoutManager layoutManager = new net.miginfocom.swing.MigLayout( layoutConstraints );
+		getMetawidget().setLayout( layoutManager );
+
+		// Calculate default label inset
+		//
+		// We top align all our labels, not just those belonging to 'tall' components,
+		// so that tall components, regular components and nested Metawidget components all line up.
+		// However, we still want the JLabels to be middle aligned for one-line components (such as
+		// JTextFields), so we top inset them a bit
+
+		JTextField dummyTextField = new JTextField();
+		dummyTextField.setLayout( layoutManager );
+		double dummyTextFieldHeight = dummyTextField.getPreferredSize().getHeight();
+
+		JLabel dummyLabel = new JLabel( "X" );
+		dummyLabel.setLayout( layoutManager );
+		double dummyLabelHeight = dummyLabel.getPreferredSize().getHeight();
+
+		mDefaultLabelTopInset = (int) Math.max( 0, ( dummyTextFieldHeight - dummyLabelHeight ) / 2 );
 	}
 
 	public void layoutChild( Component component, Map<String, String> attributes )
@@ -282,7 +297,7 @@ public class MigLayout
 			// components all line up
 
 			labelConstraints.alignY( "top" );
-			labelConstraints.pad( INSET_LABEL, 0, 0, 0 );
+			labelConstraints.pad( mDefaultLabelTopInset, 0, 0, 0 );
 
 			// Add to either current panel or direct to the Metawidget
 
