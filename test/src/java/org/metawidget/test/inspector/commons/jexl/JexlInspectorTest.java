@@ -73,12 +73,12 @@ public class JexlInspectorTest
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( "from-baz".equals( property.getAttribute( "value-is-el" ) ) );
 		assertTrue( "text".equals( property.getAttribute( "value-is-text" ) ) );
-		assertTrue( !property.hasAttribute( "condition-is-false" ) );
+		assertTrue( !property.hasAttribute( "expression-is-false" ) );
 		assertTrue( 3 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar2" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "was set".equals( property.getAttribute( "condition-is-true" ) ) );
+		assertTrue( "was set".equals( property.getAttribute( "expression-is-true" ) ) );
 		assertTrue( 2 == property.getAttributes().getLength() );
 
 		assertTrue( entity.getChildNodes().getLength() == 2 );
@@ -106,11 +106,11 @@ public class JexlInspectorTest
 		@UiJexlAttributes( {
 			@UiJexlAttribute( name = "value-is-el", expression="this.baz" ),
 			@UiJexlAttribute( name = "value-is-text", expression="'text'" ),
-			@UiJexlAttribute( name = "condition-is-false", expression="if ( !this.conditionResult ) 'was set'" )
+			@UiJexlAttribute( name = "expression-is-false", expression="if ( !this.expressionResult ) 'was set'" )
 		} )
 		public String bar1;
 
-		@UiJexlAttribute( name = "condition-is-true", expression="if ( this.conditionResult ) { 'was set'; }" )
+		@UiJexlAttribute( name = "expression-is-true", expression="if ( this.expressionResult ) { 'was set'; }" )
 		public String bar2;
 
 		public String getBaz()
@@ -118,7 +118,7 @@ public class JexlInspectorTest
 			return "from-baz";
 		}
 
-		public boolean isConditionResult()
+		public boolean isExpressionResult()
 		{
 			return true;
 		}
