@@ -219,6 +219,7 @@
 				<pathelement path="${build.dir}/tutorial-classes"/>				
 				<pathelement path="${build.dir}/groovy-test-classes"/>				
 				<pathelement path="${build.dir}/scala-test-classes"/>				
+				<pathelement path="${build.dir}/scala-example-classes"/>
 			</classpath>
 		</javac>
 		
@@ -558,6 +559,7 @@
 				</fileset>
 				<pathelement location="${build.dir}/metawidget.jar"/>
 				<pathelement location="${build.dir}/examples/swing/addressbook-swing.jar"/>
+				<pathelement location="${build.dir}/examples/swing/animalraces-swing.jar"/>
 				<pathelement location="${build.dir}/examples/swing/appframework-swing.jar"/>
 				<pathelement path="${build.dir}/test-classes"/>
 				<pathelement path="${build.dir}/groovy-test-classes"/>
