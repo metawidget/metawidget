@@ -82,7 +82,7 @@ public class MigLayout
 
 	private JPanel			mPanelCurrent;
 
-	private int				mDefaultLabelTopInset;
+	private int				mDefaultLabelVerticalPadding;
 
 	//
 	// Constructor
@@ -156,7 +156,7 @@ public class MigLayout
 		dummyLabel.setLayout( layoutManager );
 		double dummyLabelHeight = dummyLabel.getPreferredSize().getHeight();
 
-		mDefaultLabelTopInset = (int) Math.max( 0, ( dummyTextFieldHeight - dummyLabelHeight ) / 2 );
+		mDefaultLabelVerticalPadding = (int) Math.max( 0, ( dummyTextFieldHeight - dummyLabelHeight ) / 2 );
 	}
 
 	public void layoutChild( Component component, Map<String, String> attributes )
@@ -297,7 +297,7 @@ public class MigLayout
 			// components all line up
 
 			labelConstraints.alignY( "top" );
-			labelConstraints.pad( mDefaultLabelTopInset, 0, 0, 0 );
+			labelConstraints.pad( mDefaultLabelVerticalPadding, 0, mDefaultLabelVerticalPadding, 0 );
 
 			// Add to either current panel or direct to the Metawidget
 

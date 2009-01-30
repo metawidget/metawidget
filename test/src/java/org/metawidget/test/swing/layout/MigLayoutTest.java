@@ -205,7 +205,7 @@ public class MigLayoutTest
 
 		assertTrue( padding[0].getValue() == ( "Nimbus".equals( UIManager.getLookAndFeel().getName() ) ? 6 : 2 ));
 		assertTrue( padding[1].getValue() == 0 );
-		assertTrue( padding[2].getValue() == 0 );
+		assertTrue( padding[2].getValue() == padding[0].getValue() );
 		assertTrue( padding[3].getValue() == 0 );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 0f == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 0 ) ) ).getVertical().getAlign().getValue() );
