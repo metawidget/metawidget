@@ -123,9 +123,7 @@ object AnimalRaces
 	def newTimer( label:JLabel ) =
 	{
 		implicit def actionPerformedWrapper(func: (ActionEvent) => Unit) = new ActionListener { def actionPerformed(e:ActionEvent) = func(e) }
-
-		val timer = new Timer( 0, ((e:ActionEvent) => if ( label.getLocation().x < mainFrame.getWidth() - 200 ) label.setLocation( label.getLocation().x + 1, label.getLocation().y )))
-		timer
+		new Timer( 0, ((e:ActionEvent) => if ( label.getLocation().x < mainFrame.getWidth() - 200 ) label.setLocation( label.getLocation().x + 1, label.getLocation().y )))
 	}
 	
 	// Racetrack
