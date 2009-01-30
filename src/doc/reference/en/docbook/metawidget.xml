@@ -2834,6 +2834,13 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						methods, as well as public member variables. In addition, it maintains a cache of reflected classes for performance. 
 					</para>
 					
+					<tip>
+						<title>Note</title>
+						When using getter methods and private members, make sure you annotate the getter <emphasis>not the private
+						member</emphasis>. <classname>JavaBeanPropertyStyle</classname> cannot find annotations on private members, because
+						the JavaBean specification does not define a way to determine which private members belong to which getters.
+					</tip>
+
 				</section>
 				
 				<section id="section-inspectors-base-object-struts">
