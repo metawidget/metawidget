@@ -366,10 +366,10 @@ public class Main {
 		Person person = new Person();
 	
 		SwingMetawidget metawidget = new SwingMetawidget();
-		<emphasis role="bold">CompositeInspectorConfig config = new CompositeInspectorConfig();
-		config.setInspectors( 
-			new MetawidgetAnnotationInspector(),
-			new PropertyTypeInspector() );
+		<emphasis role="bold">CompositeInspectorConfig config = new CompositeInspectorConfig()
+			.setInspectors( 
+				new MetawidgetAnnotationInspector(),
+				new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );</emphasis>
 		metawidget.setToInspect( person );
 
@@ -451,10 +451,10 @@ public class Main {
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		CompositeInspectorConfig config = new CompositeInspectorConfig();
-		config.setInspectors(
-			new MetawidgetAnnotationInspector(),
-			new PropertyTypeInspector() );
+		CompositeInspectorConfig config = new CompositeInspectorConfig()
+			.setInspectors(
+				new MetawidgetAnnotationInspector(),
+				new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
 		<emphasis role="bold">metawidget.setParameter( "numberOfColumns", 2 );</emphasis>
 		metawidget.setToInspect( person );
@@ -512,10 +512,10 @@ public class Main {
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		CompositeInspectorConfig config = new CompositeInspectorConfig();
-		config.setInspectors(
-			new MetawidgetAnnotationInspector(),
-			new PropertyTypeInspector() );
+		CompositeInspectorConfig config = new CompositeInspectorConfig()
+			.setInspectors(
+				new MetawidgetAnnotationInspector(),
+				new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 2 );		
 		metawidget.setToInspect( person );
@@ -563,10 +563,10 @@ public class Main {
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		CompositeInspectorConfig config = new CompositeInspectorConfig();
-		config.setInspectors(
-			new MetawidgetAnnotationInspector(),
-			new PropertyTypeInspector() );
+		CompositeInspectorConfig config = new CompositeInspectorConfig()
+			.setInspectors(
+				new MetawidgetAnnotationInspector(),
+				new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( person );

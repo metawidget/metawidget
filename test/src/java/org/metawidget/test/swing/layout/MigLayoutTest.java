@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
@@ -46,6 +47,7 @@ import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 
@@ -61,6 +63,8 @@ public class MigLayoutTest
 	//
 
 	private final static int	SPAN_ALL	= 2097051;
+
+	private final static int	GROW_ALL	= 100;
 
 	//
 	// Constructor
@@ -79,7 +83,7 @@ public class MigLayoutTest
 	// Public methods
 	//
 
-	public void testLayout()
+	public void testTabLayout()
 		throws Exception
 	{
 		// Without stub
@@ -128,15 +132,15 @@ public class MigLayoutTest
 		assertTrue( 0 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getCellX() );
 		assertTrue( 2 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getCellY() );
 		assertTrue( SPAN_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getSpanX() );
-		assertTrue( 100 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getVertical().getGrow() );
-		assertTrue( true == ( (LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints()).isFillY() );
+		assertTrue( GROW_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( tabbedPane ) ).getVertical().getGrow() );
+		assertTrue( true == ( (LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).isFillY() );
 
 		JPanel panelTab = (JPanel) tabbedPane.getComponent( 0 );
 		assertTrue( panelTab.isOpaque() );
 		assertTrue( "tab1".equals( panelTab.getName() ) );
 		assertTrue( panelTab.getComponent( 1 ) instanceof JLabel );
 		assertTrue( "Tab 1_jkl:".equals( ( (JLabel) panelTab.getComponent( 0 ) ).getText() ) );
-		assertTrue( false == ( (LC) ( (MigLayout) panelTab.getLayout() ).getLayoutConstraints()).isFillY() );
+		assertTrue( false == ( (LC) ( (MigLayout) panelTab.getLayout() ).getLayoutConstraints() ).isFillY() );
 		assertTrue( 1 == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 1 ) ) ).getCellX() );
 		assertTrue( "Tab 1_mno:".equals( ( (JLabel) panelTab.getComponent( 2 ) ).getText() ) );
 		assertTrue( panelTab.getComponent( 3 ) instanceof JComboBox );
@@ -148,16 +152,16 @@ public class MigLayoutTest
 
 		panelTab = (JPanel) tabbedPane.getComponent( 1 );
 		assertTrue( "tab2".equals( panelTab.getName() ) );
-		assertTrue( true == ( (LC) ( (MigLayout) panelTab.getLayout() ).getLayoutConstraints()).isFillY() );
+		assertTrue( true == ( (LC) ( (MigLayout) panelTab.getLayout() ).getLayoutConstraints() ).isFillY() );
 		assertTrue( panelTab.getComponent( 0 ) instanceof JScrollPane );
 		assertTrue( 0 == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getCellX() );
 		assertTrue( SPAN_ALL == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getSpanX() );
-		assertTrue( 100 == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getVertical().getGrow() );
+		assertTrue( GROW_ALL == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getVertical().getGrow() );
 		assertTrue( 1 == panelTab.getComponentCount() );
 
 		panelTab = (JPanel) tabbedPane.getComponent( 2 );
 		assertTrue( "tab3".equals( panelTab.getName() ) );
-		assertTrue( false == ( (LC) ( (MigLayout) panelTab.getLayout() ).getLayoutConstraints()).isFillY() );
+		assertTrue( false == ( (LC) ( (MigLayout) panelTab.getLayout() ).getLayoutConstraints() ).isFillY() );
 		assertTrue( panelTab.getComponent( 0 ) instanceof JTextField );
 		assertTrue( 0 == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getCellX() );
 		assertTrue( 2 == ( (CC) ( (MigLayout) panelTab.getLayout() ).getComponentConstraints( panelTab.getComponent( 0 ) ) ).getSpanX() );
@@ -201,9 +205,10 @@ public class MigLayoutTest
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		UnitValue[] padding = ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 0 ) ) ).getPadding();
 
-		// (padding[0].getValue() == 6 for Nimbus, 2 for Metal - depends on what UIManger.setLookAndFeel has been called by other tests)
+		// (padding[0].getValue() == 6 for Nimbus, 2 for Metal - depends on what
+		// UIManger.setLookAndFeel has been called by other tests)
 
-		assertTrue( padding[0].getValue() == ( "Nimbus".equals( UIManager.getLookAndFeel().getName() ) ? 6 : 2 ));
+		assertTrue( padding[0].getValue() == ( "Nimbus".equals( UIManager.getLookAndFeel().getName() ) ? 6 : 2 ) );
 		assertTrue( padding[1].getValue() == 0 );
 		assertTrue( padding[2].getValue() == padding[0].getValue() );
 		assertTrue( padding[3].getValue() == 0 );
@@ -230,6 +235,48 @@ public class MigLayoutTest
 
 		metawidget.setReadOnly( true );
 		assertTrue( "Def:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+	}
+
+	public void testHeadingLayout()
+		throws Exception
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() ) ) );
+		metawidget.setLayoutClass( org.metawidget.swing.layout.MigLayout.class );
+		metawidget.setToInspect( new Foo() );
+
+		// Heading
+
+		JLabel label = (JLabel) metawidget.getComponent( 6 );
+		assertTrue( "tab1".equals( label.getText() ) );
+		assertTrue( 0 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( label ) ).getCellX() );
+		assertTrue( 3 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( label ) ).getCellY() );
+		assertTrue( SPAN_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( label ) ).getSpanX() );
+
+		JSeparator separator = (JSeparator) metawidget.getComponent( 7 );
+		assertTrue( 0 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( separator ) ).getCellX() );
+		assertTrue( 3 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( separator ) ).getCellY() );
+		assertTrue( GROW_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( separator ) ).getHorizontal().getGrow() );
+	}
+
+	public void testOddColumns()
+		throws Exception
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setParameter( "numberOfColumns", 2 );
+		metawidget.setLayoutClass( org.metawidget.swing.layout.MigLayout.class );
+		metawidget.add( new JTextField() );
+		Facet buttons = new Facet();
+		buttons.setName( "buttons" );
+		metawidget.add( buttons );
+
+		// Facet goes at 'row 1', not 'row 0 column 2'
+
+		Facet facet = (Facet) metawidget.getComponent( 1 );
+		assertTrue( 0 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( facet ) ).getCellX() );
+		assertTrue( 1 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( facet ) ).getCellY() );
+		assertTrue( SPAN_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( facet ) ).getSpanX() );
+		assertTrue( GROW_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( facet ) ).getHorizontal().getGrow() );
 	}
 
 	public static void main( String[] args )

@@ -987,10 +987,11 @@ public class SwingMetawidget
 			if ( mLastInspection == null )
 				mLastInspection = inspect();
 
-			// Don't buildWidgets if null, in order to protect
-			// our 'dotted rectangle in IDE tools' effect
+			// Don't buildWidgets if null, in order to protect our 'dotted rectangle in IDE tools'
+			// effect. However, do 'getComponentCount() > 0' in case the SwingMetawidget is being
+			// used purely for layout purposes
 
-			if ( mLastInspection != null )
+			if ( mLastInspection != null || getComponentCount() > 0 )
 				mMetawidgetMixin.buildWidgets( mLastInspection );
 		}
 		catch ( Exception e )

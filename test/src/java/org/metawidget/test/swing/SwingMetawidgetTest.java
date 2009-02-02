@@ -270,13 +270,15 @@ public class SwingMetawidgetTest
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
 
-		// Facets shouldn't get added directly
+		// Facets shouldn't get added directly...
 
 		metawidget.add( new Facet() );
 		assertTrue( metawidget.getComponentCount() == 0 );
 
+		// ...but adding a component will cause a layout
+
 		metawidget.add( new JTextField() );
-		assertTrue( metawidget.getComponentCount() == 1 );
+		assertTrue( metawidget.getComponentCount() == 2 );
 	}
 
 	//
