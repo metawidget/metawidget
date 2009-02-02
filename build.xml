@@ -22,7 +22,7 @@
 
 	<!-- Compile -->
 
-	<target name="compile-main" depends="init">
+	<target name="compile-main" depends="init" unless="skip-compile-main">
 		
 		<mkdir dir="${build.dir}/java5-classes"/>
 		<mkdir dir="${build.dir}/java4-classes"/>
@@ -698,6 +698,7 @@
 		
 		<property name="build.debug" value="on"/>		
 		<antcall target="compile-test"/>
+		<property name="skip-compile-main" value="true"/>		
 
 		<!-- Instrument -->
 
