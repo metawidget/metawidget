@@ -91,9 +91,16 @@ public class FlexTableLayout
 		Integer numberOfColumns = (Integer) metawidget.getParameter( "numberOfColumns" );
 
 		if ( numberOfColumns == null )
+		{
 			mNumberOfColumns = 1;
+		}
 		else
+		{
 			mNumberOfColumns = numberOfColumns;
+
+			if ( numberOfColumns < 0 )
+				throw new RuntimeException( "columns must be >= 0" );
+		}
 	}
 
 	//
@@ -186,7 +193,20 @@ public class FlexTableLayout
 		// Widget column (null labels get collapsed, blank Strings get preserved)
 
 		if ( labelText != null )
-			actualColumn++;
+		{
+			// Zero-column layouts need an extra row
+
+			if ( mNumberOfColumns == 0 )
+			{
+				mCurrentColumn = 0;
+				actualColumn = 0;
+				row++;
+			}
+			else
+			{
+				actualColumn++;
+			}
+		}
 
 		String styleName = getStyleName( ( mCurrentColumn * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1 );
 
@@ -313,8 +333,6 @@ public class FlexTableLayout
 
 		mCurrentColumn = mNumberOfColumns;
 	}
-
-	// TODO: test zero columns
 
 	protected String getStyleName( int styleName )
 	{

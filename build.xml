@@ -601,7 +601,7 @@
 			</fileset>			
 		</copy>
 		
-		<!--<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
+		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest"/>
@@ -617,7 +617,7 @@
 				<pathelement path="${build.dir}/metawidget.jar"/>
 				<pathelement path="${build.dir}/examples/gwt/metawidget-gwt-client.jar"/>
 			</classpath>
-		</junit>-->
+		</junit>
 		
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>

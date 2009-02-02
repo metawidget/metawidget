@@ -119,15 +119,15 @@ public class SwingAnimalRacesTest
 
 		Thread.sleep( 1000 );
 		assertTrue( "Eddie1".equals( ((JLabel) racetrack.getComponent( 0 )).getText() ));
-		assertTrue( ((JLabel) racetrack.getComponent( 0 )).getLocation().x > 30 );
+		assertTrue( ((JLabel) racetrack.getComponent( 0 )).getLocation().x > 20 );
 		assertTrue( 0 == ((JLabel) racetrack.getComponent( 0 )).getLocation().y );
 		assertTrue( hippoIcon == ((JLabel) racetrack.getComponent( 0 )).getIcon() );
 		assertTrue( "Harry1".equals( ((JLabel) racetrack.getComponent( 1 )).getText() ));
-		assertTrue( ((JLabel) racetrack.getComponent( 1 )).getLocation().x > 30 );
+		assertTrue( ((JLabel) racetrack.getComponent( 1 )).getLocation().x > 20 );
 		assertTrue( 200 == ((JLabel) racetrack.getComponent( 1 )).getLocation().y );
 		assertTrue( pandaIcon == ((JLabel) racetrack.getComponent( 1 )).getIcon() );
 		assertTrue( "Paula1".equals( ((JLabel) racetrack.getComponent( 2 )).getText() ));
-		assertTrue( ((JLabel) racetrack.getComponent( 2 )).getLocation().x > 30 );
+		assertTrue( ((JLabel) racetrack.getComponent( 2 )).getLocation().x > 20 );
 		assertTrue( 400 == ((JLabel) racetrack.getComponent( 2 )).getLocation().y );
 		assertTrue( elephantIcon == ((JLabel) racetrack.getComponent( 2 )).getIcon() );
 
@@ -144,9 +144,9 @@ public class SwingAnimalRacesTest
 		((JButton) statusbar.getComponent( 0 )).doClick();
 
 		Thread.sleep( 1000 );
-		assertTrue( ((JLabel) racetrack.getComponent( 0 )).getLocation().x > 30 );
-		assertTrue( ((JLabel) racetrack.getComponent( 1 )).getLocation().x > 30 );
-		assertTrue( ((JLabel) racetrack.getComponent( 2 )).getLocation().x > 30 );
+		assertTrue( ((JLabel) racetrack.getComponent( 0 )).getLocation().x > 20 );
+		assertTrue( ((JLabel) racetrack.getComponent( 1 )).getLocation().x > 20 );
+		assertTrue( ((JLabel) racetrack.getComponent( 2 )).getLocation().x > 20 );
 
 		// Stop race again
 

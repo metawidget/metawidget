@@ -1312,7 +1312,10 @@ public class GwtMetawidget
 		metawidget.setDictionaryName( mDictionaryName );
 
 		if ( mParameters != null )
+		{
 			metawidget.mParameters = new HashMap<String, Object>( mParameters );
+			metawidget.mParameters.remove( "numberOfColumns" );
+		}
 
 		metawidget.setToInspect( mToInspect );
 
