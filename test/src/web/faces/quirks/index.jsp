@@ -10,25 +10,19 @@
 	<body>
 
 		<f:view>
-		
+
+			<h1>Quirks</h1>
+					
 			<h:form id="form">
 				<m:metawidget value="#{quirks}">
 					<f:param name="columns" value="2"/>
 				</m:metawidget>
 			</h:form>
-						
-			<m:metawidget value="#{quirks2}">
-				<f:param name="columns" value="0"/>
-				<m:stub value="#{quirks2.refresh}"/>
-			</m:metawidget>
-
-			<m:metawidget value="#{quirks2}">
-				<f:param name="columns" value="0"/>
-				<m:stub value="#{quirks2.refresh}"/>
-			</m:metawidget>
-
+			
+			<h1>Rendering Null</h1>
+			
 			<m:metawidget value="#{aNull}"/>
-						
+			
 		</f:view>
 		
 	</body>	    

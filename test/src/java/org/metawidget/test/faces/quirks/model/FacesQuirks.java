@@ -47,9 +47,9 @@ public class FacesQuirks
 
 	private String					mLarge;
 
-	private List<? extends Object>	mStrings = CollectionUtils.newArrayList();
+	private List<? extends Object>	mStrings	= CollectionUtils.newArrayList();
 
-	private List<Integer>			mIntegers = CollectionUtils.newArrayList();
+	private List<Integer>			mIntegers	= CollectionUtils.newArrayList();
 
 	//
 	// Public methods
@@ -106,9 +106,9 @@ public class FacesQuirks
 
 		if ( integers != null )
 		{
-			for( Object integer : integers )
+			for ( Object integer : integers )
 			{
-				if ( !( integer instanceof Integer ))
+				if ( !( integer instanceof Integer ) )
 					throw new ClassCastException( integer + " is not of type Integer" );
 			}
 		}

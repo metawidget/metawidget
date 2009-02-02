@@ -370,6 +370,8 @@
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/th" text="Byte (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyText text="min:-5,"/>
+				<verifyText text="max:127,"/>
 				<verifyInputField name="form:allWidgetsByte" value="127"/>
 				<setInputField name="form:allWidgetsByte" value="126"/>
 
@@ -380,6 +382,8 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[7]/th" text="Short (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[7]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyText text="min:-6,"/>
+				<verifyText text="max:32767,"/>
 				<verifyInputField name="form:allWidgetsShort" value="32767"/>
 				<setInputField name="form:allWidgetsShort" value="32766"/>
 			
@@ -390,6 +394,8 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[9]/th" text="Int (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[9]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyText text="min:-2147483648,"/>
+				<verifyText text="max:2147483647,"/>
 				<verifyInputField name="form:allWidgetsInt" value="2147483647"/>
 				<setInputField name="form:allWidgetsInt" value="2147483646"/>
 				
@@ -410,6 +416,8 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[13]/th" text="Long (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[13]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyText text="min:-7,"/>
+				<verifyText text="max:9223372036854775807,"/>
 				<verifyInputField name="form:allWidgetsLong" value="42"/>
 				<setInputField name="form:allWidgetsLong" value="43"/>
 
@@ -420,6 +428,8 @@
 			
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/th" text="Float (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyText text="min:-3.4028235E38,"/>
+				<verifyText text="max:2048,"/>
 				<verifyInputField name="form:allWidgetsFloat" value="4.2"/>
 				<setInputField name="form:allWidgetsFloat" value="5.3"/>
 				
@@ -430,6 +440,8 @@
 			
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[17]/th" text="Double (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[17]/td[1]/table[@class='dr-spnr-c rich-spinner-c aStyleClass']"/>
+				<verifyText text="min:-8,"/>
+				<verifyText text="max:1.7976931348623157E308,"/>
 				<verifyInputField name="form:allWidgetsDouble" value="42.2"/>
 				<setInputField name="form:allWidgetsDouble" value="53.3"/>
 			

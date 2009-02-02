@@ -38,6 +38,7 @@ import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.TextArea;
 import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
 /**
  * @author Richard Kennard
@@ -92,121 +93,122 @@ public class GwtAllWidgetsTest
 				( (TextBox) flexTable.getWidget( 0, 1 ) ).setText( "Textbox1" );
 				assertTrue( "*".equals( flexTable.getText( 0, 2 ) ) );
 
-				assertTrue( "Limited textbox:".equals( flexTable.getText( 1, 0 ) ) );
-				assertTrue( flexTable.getWidget( 1, 1 ) instanceof TextBox );
-				assertTrue( 20 == ( (TextBox) flexTable.getWidget( 1, 1 ) ).getMaxLength() );
+				assertTrue( "Limited textbox:".equals( flexTable.getText( 0, 3 ) ) );
+				assertTrue( flexTable.getWidget( 0, 4 ) instanceof TextBox );
+				assertTrue( 20 == ( (TextBox) flexTable.getWidget( 0, 4 ) ).getMaxLength() );
 				assertTrue( "Limited Textbox".equals( metawidget.getValue( "limitedTextbox" ) ) );
-				( (TextBox) flexTable.getWidget( 1, 1 ) ).setText( "Limited Textbox1" );
-				assertTrue( 3 == flexTable.getCellCount( 1 ) );
+				( (TextBox) flexTable.getWidget( 0, 4 ) ).setText( "Limited Textbox1" );
+				assertTrue( 6 == flexTable.getCellCount( 0 ) );
 
-				assertTrue( "Textarea:".equals( flexTable.getText( 2, 0 ) ) );
-				assertTrue( flexTable.getWidget( 2, 1 ) instanceof TextArea );
+				assertTrue( "Textarea:".equals( flexTable.getText( 1, 0 ) ) );
+				assertTrue( flexTable.getWidget( 1, 1 ) instanceof TextArea );
 				assertTrue( "Textarea".equals( metawidget.getValue( "textarea" ) ) );
-				( (TextArea) flexTable.getWidget( 2, 1 ) ).setText( "Textarea1" );
+				( (TextArea) flexTable.getWidget( 1, 1 ) ).setText( "Textarea1" );
+				assertTrue( 4 == ((FlexCellFormatter) flexTable.getCellFormatter()).getColSpan( 1, 1 ) );
 
-				assertTrue( "Password:".equals( flexTable.getText( 3, 0 ) ) );
-				assertTrue( flexTable.getWidget( 3, 1 ) instanceof PasswordTextBox );
+				assertTrue( "Password:".equals( flexTable.getText( 2, 0 ) ) );
+				assertTrue( flexTable.getWidget( 2, 1 ) instanceof PasswordTextBox );
 				assertTrue( "Password".equals( metawidget.getValue( "password" ) ) );
-				( (PasswordTextBox) flexTable.getWidget( 3, 1 ) ).setText( "Password1" );
+				( (PasswordTextBox) flexTable.getWidget( 2, 1 ) ).setText( "Password1" );
 
 				// Primitives
 
-				assertTrue( "Byte:".equals( flexTable.getText( 4, 0 ) ) );
-				assertTrue( flexTable.getWidget( 4, 1 ) instanceof TextBox );
+				assertTrue( "Byte:".equals( flexTable.getText( 2, 3 ) ) );
+				assertTrue( flexTable.getWidget( 2, 4 ) instanceof TextBox );
 				assertTrue( String.valueOf( Byte.MAX_VALUE ).equals( metawidget.getValue( "byte" ) ) );
-				( (TextBox) flexTable.getWidget( 4, 1 ) ).setText( String.valueOf( Byte.MAX_VALUE - 1 ) );
+				( (TextBox) flexTable.getWidget( 2, 4 ) ).setText( String.valueOf( Byte.MAX_VALUE - 1 ) );
 
-				assertTrue( "Byte object:".equals( flexTable.getText( 5, 0 ) ) );
-				assertTrue( flexTable.getWidget( 5, 1 ) instanceof TextBox );
+				assertTrue( "Byte object:".equals( flexTable.getText( 3, 0 ) ) );
+				assertTrue( flexTable.getWidget( 3, 1 ) instanceof TextBox );
 				assertTrue( String.valueOf( Byte.MIN_VALUE ).equals( metawidget.getValue( "byteObject" ) ) );
-				( (TextBox) flexTable.getWidget( 5, 1 ) ).setText( String.valueOf( Byte.MIN_VALUE + 1 ) );
+				( (TextBox) flexTable.getWidget( 3, 1 ) ).setText( String.valueOf( Byte.MIN_VALUE + 1 ) );
 
-				assertTrue( "Short:".equals( flexTable.getText( 6, 0 ) ) );
-				assertTrue( flexTable.getWidget( 6, 1 ) instanceof TextBox );
+				assertTrue( "Short:".equals( flexTable.getText( 3, 3 ) ) );
+				assertTrue( flexTable.getWidget( 3, 4 ) instanceof TextBox );
 				assertTrue( String.valueOf( Short.MAX_VALUE ).equals( metawidget.getValue( "short" ) ) );
-				( (TextBox) flexTable.getWidget( 6, 1 ) ).setText( String.valueOf( Short.MAX_VALUE - 1 ) );
+				( (TextBox) flexTable.getWidget( 3, 4 ) ).setText( String.valueOf( Short.MAX_VALUE - 1 ) );
 
-				assertTrue( "Short object:".equals( flexTable.getText( 7, 0 ) ) );
-				assertTrue( flexTable.getWidget( 7, 1 ) instanceof TextBox );
+				assertTrue( "Short object:".equals( flexTable.getText( 4, 0 ) ) );
+				assertTrue( flexTable.getWidget( 4, 1 ) instanceof TextBox );
 				assertTrue( String.valueOf( Short.MIN_VALUE ).equals( metawidget.getValue( "shortObject" ) ) );
-				( (TextBox) flexTable.getWidget( 7, 1 ) ).setText( String.valueOf( Short.MIN_VALUE + 1 ) );
+				( (TextBox) flexTable.getWidget( 4, 1 ) ).setText( String.valueOf( Short.MIN_VALUE + 1 ) );
 
-				assertTrue( "Int:".equals( flexTable.getText( 8, 0 ) ) );
-				assertTrue( flexTable.getWidget( 8, 1 ) instanceof TextBox );
+				assertTrue( "Int:".equals( flexTable.getText( 4, 3 ) ) );
+				assertTrue( flexTable.getWidget( 4, 4 ) instanceof TextBox );
 				assertTrue( String.valueOf( Integer.MAX_VALUE ).equals( metawidget.getValue( "int" ) ) );
-				( (TextBox) flexTable.getWidget( 8, 1 ) ).setText( String.valueOf( Integer.MAX_VALUE - 1 ) );
+				( (TextBox) flexTable.getWidget( 4, 4 ) ).setText( String.valueOf( Integer.MAX_VALUE - 1 ) );
 
-				assertTrue( "Integer object:".equals( flexTable.getText( 9, 0 ) ) );
-				assertTrue( flexTable.getWidget( 9, 1 ) instanceof TextBox );
+				assertTrue( "Integer object:".equals( flexTable.getText( 5, 0 ) ) );
+				assertTrue( flexTable.getWidget( 5, 1 ) instanceof TextBox );
 				assertTrue( String.valueOf( Integer.MIN_VALUE ).equals( metawidget.getValue( "integerObject" ) ) );
-				( (TextBox) flexTable.getWidget( 9, 1 ) ).setText( String.valueOf( Integer.MIN_VALUE + 1 ) );
+				( (TextBox) flexTable.getWidget( 5, 1 ) ).setText( String.valueOf( Integer.MIN_VALUE + 1 ) );
 
-				assertTrue( "Ranged int:".equals( flexTable.getText( 10, 0 ) ) );
-				assertTrue( flexTable.getWidget( 10, 1 ) instanceof TextBox );
+				assertTrue( "Ranged int:".equals( flexTable.getText( 5, 3 ) ) );
+				assertTrue( flexTable.getWidget( 5, 4 ) instanceof TextBox );
 				assertTrue( "32".equals( metawidget.getValue( "rangedInt" ) ) );
-				( (TextBox) flexTable.getWidget( 10, 1 ) ).setText( "33" );
+				( (TextBox) flexTable.getWidget( 5, 4 ) ).setText( "33" );
 
-				assertTrue( "Ranged integer:".equals( flexTable.getText( 11, 0 ) ) );
-				assertTrue( flexTable.getWidget( 11, 1 ) instanceof TextBox );
+				assertTrue( "Ranged integer:".equals( flexTable.getText( 6, 0 ) ) );
+				assertTrue( flexTable.getWidget( 6, 1 ) instanceof TextBox );
 				assertTrue( "33".equals( metawidget.getValue( "rangedInteger" ) ) );
-				( (TextBox) flexTable.getWidget( 11, 1 ) ).setText( "34" );
+				( (TextBox) flexTable.getWidget( 6, 1 ) ).setText( "34" );
 
-				assertTrue( "Long:".equals( flexTable.getText( 12, 0 ) ) );
-				assertTrue( flexTable.getWidget( 12, 1 ) instanceof TextBox );
+				assertTrue( "Long:".equals( flexTable.getText( 6, 3 ) ) );
+				assertTrue( flexTable.getWidget( 6, 4 ) instanceof TextBox );
 				assertTrue( "42".equals( metawidget.getValue( "long" ) ) );
-				( (TextBox) flexTable.getWidget( 12, 1 ) ).setText( "43" );
+				( (TextBox) flexTable.getWidget( 6, 4 ) ).setText( "43" );
 
-				assertTrue( "".equals( flexTable.getText( 13, 0 ) ) );
-				assertTrue( flexTable.getWidget( 13, 1 ) instanceof TextBox );
+				assertTrue( "".equals( flexTable.getText( 7, 0 ) ) );
+				assertTrue( flexTable.getWidget( 7, 1 ) instanceof TextBox );
 				assertTrue( "43".equals( metawidget.getValue( "longObject" ) ) );
-				( (TextBox) flexTable.getWidget( 13, 1 ) ).setText( "44" );
+				( (TextBox) flexTable.getWidget( 7, 1 ) ).setText( "44" );
 
-				assertTrue( "Float:".equals( flexTable.getText( 14, 0 ) ) );
-				assertTrue( flexTable.getWidget( 14, 1 ) instanceof TextBox );
+				assertTrue( "Float:".equals( flexTable.getText( 7, 3 ) ) );
+				assertTrue( flexTable.getWidget( 7, 4 ) instanceof TextBox );
 				assertTrue( "4.2".equals( metawidget.getValue( "float" ) ) );
-				( (TextBox) flexTable.getWidget( 14, 1 ) ).setText( "5.3" );
+				( (TextBox) flexTable.getWidget( 7, 4 ) ).setText( "5.3" );
 
-				assertTrue( "nullInBundle:".equals( flexTable.getText( 15, 0 ) ) );
-				assertTrue( flexTable.getWidget( 15, 1 ) instanceof TextBox );
+				assertTrue( "nullInBundle:".equals( flexTable.getText( 8, 0 ) ) );
+				assertTrue( flexTable.getWidget( 8, 1 ) instanceof TextBox );
 				assertTrue( "4.3".equals( metawidget.getValue( "floatObject" ) ) );
-				( (TextBox) flexTable.getWidget( 15, 1 ) ).setText( "5.4" );
+				( (TextBox) flexTable.getWidget( 8, 1 ) ).setText( "5.4" );
 
-				assertTrue( "Double:".equals( flexTable.getText( 16, 0 ) ) );
-				assertTrue( flexTable.getWidget( 16, 1 ) instanceof TextBox );
+				assertTrue( "Double:".equals( flexTable.getText( 8, 3 ) ) );
+				assertTrue( flexTable.getWidget( 8, 4 ) instanceof TextBox );
 				assertTrue( "42.2".equals( metawidget.getValue( "double" ) ) );
-				( (TextBox) flexTable.getWidget( 16, 1 ) ).setText( "53.3" );
+				( (TextBox) flexTable.getWidget( 8, 4 ) ).setText( "53.3" );
 
-				assertTrue( flexTable.getWidget( 17, 0 ) instanceof TextBox );
-				assertTrue( 2 == flexTable.getFlexCellFormatter().getColSpan( 17, 0 ) );
+				assertTrue( flexTable.getWidget( 9, 0 ) instanceof TextBox );
+				assertTrue( 2 == flexTable.getFlexCellFormatter().getColSpan( 9, 0 ) );
 				assertTrue( "43.3".equals( metawidget.getValue( "doubleObject" ) ) );
-				( (TextBox) flexTable.getWidget( 17, 0 ) ).setText( "54.4" );
+				( (TextBox) flexTable.getWidget( 9, 0 ) ).setText( "54.4" );
 
-				assertTrue( "Char:".equals( flexTable.getText( 18, 0 ) ) );
-				assertTrue( flexTable.getWidget( 18, 1 ) instanceof TextBox );
+				assertTrue( "Char:".equals( flexTable.getText( 9, 2 ) ) );
+				assertTrue( flexTable.getWidget( 9, 3 ) instanceof TextBox );
 				assertTrue( "A".equals( metawidget.getValue( "char" ) ) );
-				assertTrue( 1 == ( (TextBox) flexTable.getWidget( 18, 1 ) ).getMaxLength() );
-				( (TextBox) flexTable.getWidget( 18, 1 ) ).setText( "Z" );
+				assertTrue( 1 == ( (TextBox) flexTable.getWidget( 9, 3 ) ).getMaxLength() );
+				( (TextBox) flexTable.getWidget( 9, 3 ) ).setText( "Z" );
 
-				assertTrue( "Boolean:".equals( flexTable.getText( 19, 0 ) ) );
-				assertTrue( flexTable.getWidget( 19, 1 ) instanceof CheckBox );
+				assertTrue( "Boolean:".equals( flexTable.getText( 10, 0 ) ) );
+				assertTrue( flexTable.getWidget( 10, 1 ) instanceof CheckBox );
 				assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
-				( (CheckBox) flexTable.getWidget( 19, 1 ) ).setChecked( true );
+				( (CheckBox) flexTable.getWidget( 10, 1 ) ).setChecked( true );
 
-				assertTrue( "Boolean object:".equals( flexTable.getText( 20, 0 ) ) );
-				assertTrue( flexTable.getWidget( 20, 1 ) instanceof ListBox );
-				assertTrue( 3 == ( (ListBox) flexTable.getWidget( 20, 1 ) ).getItemCount() );
+				assertTrue( "Boolean object:".equals( flexTable.getText( 10, 3 ) ) );
+				assertTrue( flexTable.getWidget( 10, 4 ) instanceof ListBox );
+				assertTrue( 3 == ( (ListBox) flexTable.getWidget( 10, 4 ) ).getItemCount() );
 				assertTrue( Boolean.TRUE.toString().equals( metawidget.getValue( "booleanObject" ) ) );
-				GwtUtils.setListBoxSelectedItem( ( (ListBox) flexTable.getWidget( 20, 1 ) ), Boolean.FALSE.toString() );
+				GwtUtils.setListBoxSelectedItem( ( (ListBox) flexTable.getWidget( 10, 4 ) ), Boolean.FALSE.toString() );
 
-				assertTrue( "Dropdown:".equals( flexTable.getText( 21, 0 ) ) );
-				assertTrue( flexTable.getWidget( 21, 1 ) instanceof ListBox );
-				assertTrue( 4 == ( (ListBox) flexTable.getWidget( 21, 1 ) ).getItemCount() );
+				assertTrue( "Dropdown:".equals( flexTable.getText( 11, 0 ) ) );
+				assertTrue( flexTable.getWidget( 11, 1 ) instanceof ListBox );
+				assertTrue( 4 == ( (ListBox) flexTable.getWidget( 11, 1 ) ).getItemCount() );
 				assertTrue( "dropdown1".equals( metawidget.getValue( "dropdown" ) ) );
-				GwtUtils.setListBoxSelectedItem( ( (ListBox) flexTable.getWidget( 21, 1 ) ), "foo1" );
+				GwtUtils.setListBoxSelectedItem( ( (ListBox) flexTable.getWidget( 11, 1 ) ), "foo1" );
 
-				assertTrue( "Dropdown with labels:".equals( flexTable.getText( 22, 0 ) ) );
-				assertTrue( flexTable.getWidget( 22, 1 ) instanceof ListBox );
-				ListBox listbox = (ListBox) flexTable.getWidget( 22, 1 );
+				assertTrue( "Dropdown with labels:".equals( flexTable.getText( 11, 3 ) ) );
+				assertTrue( flexTable.getWidget( 11, 4 ) instanceof ListBox );
+				ListBox listbox = (ListBox) flexTable.getWidget( 11, 4 );
 				assertTrue( 5 == listbox.getItemCount() );
 				assertTrue( "foo2".equals( listbox.getValue( 1 ) ) );
 				assertTrue( "Foo #2".equals( listbox.getItemText( 1 ) ) );
@@ -217,25 +219,25 @@ public class GwtAllWidgetsTest
 				assertTrue( "baz2".equals( listbox.getValue( 4 ) ) );
 				assertTrue( "Baz #2".equals( listbox.getItemText( 4 ) ) );
 				assertTrue( "dropdown2".equals( metawidget.getValue( "dropdownWithLabels" ) ) );
-				GwtUtils.setListBoxSelectedItem( ( (ListBox) flexTable.getWidget( 22, 1 ) ), "bar2" );
+				GwtUtils.setListBoxSelectedItem( ( (ListBox) flexTable.getWidget( 11, 4 ) ), "bar2" );
 
-				assertTrue( "Not null dropdown:".equals( flexTable.getText( 23, 0 ) ) );
-				assertTrue( flexTable.getWidget( 23, 1 ) instanceof ListBox );
-				assertTrue( 3 == ( (ListBox) flexTable.getWidget( 23, 1 ) ).getItemCount() );
+				assertTrue( "Not null dropdown:".equals( flexTable.getText( 12, 0 ) ) );
+				assertTrue( flexTable.getWidget( 12, 1 ) instanceof ListBox );
+				assertTrue( 3 == ( (ListBox) flexTable.getWidget( 12, 1 ) ).getItemCount() );
 				assertTrue( "0".equals( metawidget.getValue( "notNullDropdown" ) ) );
-				GwtUtils.setListBoxSelectedItem( ( (ListBox) flexTable.getWidget( 23, 1 ) ), "1" );
+				GwtUtils.setListBoxSelectedItem( ( (ListBox) flexTable.getWidget( 12, 1 ) ), "1" );
 
-				assertTrue( "Not null object dropdown:".equals( flexTable.getText( 24, 0 ) ) );
-				assertTrue( flexTable.getWidget( 24, 1 ) instanceof ListBox );
-				assertTrue( 6 == ( (ListBox) flexTable.getWidget( 24, 1 ) ).getItemCount() );
+				assertTrue( "Not null object dropdown:".equals( flexTable.getText( 12, 3 ) ) );
+				assertTrue( flexTable.getWidget( 12, 4 ) instanceof ListBox );
+				assertTrue( 6 == ( (ListBox) flexTable.getWidget( 12, 4 ) ).getItemCount() );
 				assertTrue( "dropdown3".equals( metawidget.getValue( "notNullObjectDropdown" ) ) );
-				((ListBox) flexTable.getWidget( 24, 1 ) ).setSelectedIndex( 0 );
-				assertTrue( "*".equals( flexTable.getText( 24, 2 ) ) );
+				((ListBox) flexTable.getWidget( 12, 4 ) ).setSelectedIndex( 0 );
+				assertTrue( "*".equals( flexTable.getText( 12, 5 ) ) );
 
-				assertTrue( "Nested widgets:".equals( flexTable.getText( 25, 0 ) ) );
-				assertTrue( flexTable.getWidget( 25, 1 ) instanceof GwtMetawidget );
-				assertTrue( 2 == flexTable.getFlexCellFormatter().getColSpan( 25, 1 ) );
-				assertTrue( 2 == flexTable.getCellCount( 25 ) );
+				assertTrue( "Nested widgets:".equals( flexTable.getText( 13, 0 ) ) );
+				assertTrue( flexTable.getWidget( 13, 1 ) instanceof GwtMetawidget );
+				assertTrue( 5 == flexTable.getFlexCellFormatter().getColSpan( 13, 1 ) );
+				assertTrue( 2 == flexTable.getCellCount( 13 ) );
 
 				final GwtMetawidget metawidgetNested = (GwtMetawidget) metawidget.getWidget( "nestedWidgets" );
 
@@ -272,23 +274,23 @@ public class GwtAllWidgetsTest
 										assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" ) ) );
 										( (TextBox) flexTableFurtherNested.getWidget( 1, 1 ) ).setText( "Nested Textbox 1.1 (further)" );
 
-										assertTrue( "Nested textbox 2:".equals( flexTableFurtherNested.getText( 2, 0 ) ) );
-										assertTrue( flexTableFurtherNested.getWidget( 2, 1 ) instanceof TextBox );
+										assertTrue( "Nested textbox 2:".equals( flexTableFurtherNested.getText( 1, 3 ) ) );
+										assertTrue( flexTableFurtherNested.getWidget( 1, 4 ) instanceof TextBox );
 										assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) ) );
-										( (TextBox) flexTableFurtherNested.getWidget( 2, 1 ) ).setText( "Nested Textbox 2.2 (further)" );
+										( (TextBox) flexTableFurtherNested.getWidget( 1, 4 ) ).setText( "Nested Textbox 2.2 (further)" );
 
 										assertTrue( "Nested textbox 1:".equals( flexTableNested.getText( 1, 0 ) ) );
 										assertTrue( flexTableNested.getWidget( 1, 1 ) instanceof TextBox );
 										assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) ) );
 										( (TextBox) flexTableNested.getWidget( 1, 1 ) ).setText( "Nested Textbox 1.1" );
 
-										assertTrue( "Nested textbox 2:".equals( flexTableNested.getText( 2, 0 ) ) );
-										assertTrue( flexTableNested.getWidget( 2, 1 ) instanceof TextBox );
+										assertTrue( "Nested textbox 2:".equals( flexTableNested.getText( 1, 3 ) ) );
+										assertTrue( flexTableNested.getWidget( 1, 4 ) instanceof TextBox );
 										assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) ) );
-										( (TextBox) flexTableNested.getWidget( 2, 1 ) ).setText( "Nested Textbox 2.2" );
+										( (TextBox) flexTableNested.getWidget( 1, 4 ) ).setText( "Nested Textbox 2.2" );
 
-										assertTrue( "Read only nested widgets:".equals( flexTable.getText( 26, 0 ) ) );
-										assertTrue( flexTable.getWidget( 26, 1 ) instanceof GwtMetawidget );
+										assertTrue( "Read only nested widgets:".equals( flexTable.getText( 14, 0 ) ) );
+										assertTrue( flexTable.getWidget( 14, 1 ) instanceof GwtMetawidget );
 
 										final GwtMetawidget metawidgetReadOnlyNested = (GwtMetawidget) metawidget.getWidget( "readOnlyNestedWidgets" );
 
@@ -314,32 +316,32 @@ public class GwtAllWidgetsTest
 														assertTrue( flexTableReadOnlyNested.getWidget( 1, 1 ) instanceof Label );
 														assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox1" ) ) );
 
-														assertTrue( "Nested textbox 2:".equals( flexTableReadOnlyNested.getText( 2, 0 ) ) );
-														assertTrue( flexTableReadOnlyNested.getWidget( 2, 1 ) instanceof Label );
+														assertTrue( "Nested textbox 2:".equals( flexTableReadOnlyNested.getText( 1, 3 ) ) );
+														assertTrue( flexTableReadOnlyNested.getWidget( 1, 4 ) instanceof Label );
 														assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "readOnlyNestedWidgets", "nestedTextbox2" ) ) );
 
-														assertTrue( "Nested widgets dont expand:".equals( flexTable.getText( 27, 0 ) ) );
-														assertTrue( flexTable.getWidget( 27, 1 ) instanceof TextBox );
-														assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (TextBox) flexTable.getWidget( 27, 1 ) ).getText() ) );
-														( (TextBox) flexTable.getWidget( 27, 1 ) ).setText( "Nested Textbox 1.01, Nested Textbox 2.02" );
+														assertTrue( "Nested widgets dont expand:".equals( flexTable.getText( 15, 0 ) ) );
+														assertTrue( flexTable.getWidget( 15, 1 ) instanceof TextBox );
+														assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (TextBox) flexTable.getWidget( 15, 1 ) ).getText() ) );
+														( (TextBox) flexTable.getWidget( 15, 1 ) ).setText( "Nested Textbox 1.01, Nested Textbox 2.02" );
 
-														assertTrue( "Read only nested widgets dont expand:".equals( flexTable.getText( 28, 0 ) ) );
-														assertTrue( flexTable.getWidget( 28, 1 ) instanceof Label );
-														assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (Label) flexTable.getWidget( 28, 1 ) ).getText() ) );
+														assertTrue( "Read only nested widgets dont expand:".equals( flexTable.getText( 15, 3 ) ) );
+														assertTrue( flexTable.getWidget( 15, 4 ) instanceof Label );
+														assertTrue( "Nested Textbox 1, Nested Textbox 2".equals( ( (Label) flexTable.getWidget( 15, 4 ) ).getText() ) );
 
-														assertTrue( "Date:".equals( flexTable.getText( 29, 0 ) ) );
-														assertTrue( flexTable.getWidget( 29, 1 ) instanceof TextBox );
+														assertTrue( "Date:".equals( flexTable.getText( 16, 0 ) ) );
+														assertTrue( flexTable.getWidget( 16, 1 ) instanceof TextBox );
 														assertTrue( new DateConverter().convertForWidget( null, ( (AllWidgets) metawidget.getToInspect() ).getDate() ).equals( metawidget.getValue( "date" ) ) );
-														( (TextBox) flexTable.getWidget( 29, 1 ) ).setText( "bad date" );
+														( (TextBox) flexTable.getWidget( 16, 1 ) ).setText( "bad date" );
 
-														assertTrue( "Section Break".equals( flexTable.getText( 30, 0 ) ) );
+														assertTrue( "Section Break".equals( flexTable.getText( 17, 0 ) ) );
 
-														assertTrue( "Read only:".equals( flexTable.getText( 31, 0 ) ) );
-														assertTrue( flexTable.getWidget( 31, 1 ) instanceof Label );
+														assertTrue( "Read only:".equals( flexTable.getText( 18, 0 ) ) );
+														assertTrue( flexTable.getWidget( 18, 1 ) instanceof Label );
 														assertTrue( "Read Only".equals( metawidget.getValue( "readOnly" ) ) );
 
-														assertTrue( "".equals( flexTable.getText( 32, 0 ) ) );
-														Button doActionButton = (Button) flexTable.getWidget( 32, 1 );
+														assertTrue( "".equals( flexTable.getText( 18, 3 ) ) );
+														Button doActionButton = (Button) flexTable.getWidget( 18, 4 );
 														assertTrue( "Do action".equals( doActionButton.getText() ) );
 														try
 														{
@@ -351,11 +353,13 @@ public class GwtAllWidgetsTest
 															assertTrue( "doAction called".equals( e.getMessage() ) );
 														}
 
-														assertTrue( 34 == flexTable.getRowCount() );
+														assertTrue( 20 == flexTable.getRowCount() );
 
 														// Check IllegalArgumentException
 
-														Button saveButton = (Button) ( (Facet) flexTable.getWidget( flexTable.getRowCount() - 1, 0 ) ).getWidget();
+														assertTrue( 6 == flexTable.getFlexCellFormatter().getColSpan( 19, 0 ) );
+														assertTrue( 1 == flexTable.getCellCount( 19 ) );
+														Button saveButton = (Button) ( (Facet) flexTable.getWidget( 19, 0 ) ).getWidget();
 														assertTrue( "Save".equals( saveButton.getText() ) );
 
 														try
@@ -371,7 +375,7 @@ public class GwtAllWidgetsTest
 														// Check saving
 
 														final String now = (String) new DateConverter().convertForWidget( null, new Date() );
-														( (TextBox) flexTable.getWidget( 29, 1 ) ).setText( now );
+														( (TextBox) flexTable.getWidget( 16, 1 ) ).setText( now );
 														fireClickListeners( saveButton );
 
 														executeAfterBuildWidgets( metawidget, new Timer()
@@ -483,7 +487,6 @@ public class GwtAllWidgetsTest
 
 																						assertTrue( "Section Break (i18n)".equals( readOnlyFlexTable.getText( 30, 0 ) ) );
 																						assertTrue( "aSectionStyleName".equals( readOnlyFlexTable.getFlexCellFormatter().getStyleName( 30, 0 ) ) );
-																						assertTrue( 3 == readOnlyFlexTable.getFlexCellFormatter().getColSpan( 30, 0 ) );
 
 																						assertTrue( "Read only (i18n):".equals( readOnlyFlexTable.getText( 31, 0 ) ) );
 																						assertTrue( "Read Only".equals( ( (Label) readOnlyFlexTable.getWidget( 31, 1 ) ).getText() ) );

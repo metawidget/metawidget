@@ -414,8 +414,6 @@ public class HtmlMetawidget
 						// because the 'clazz' will generally be a Collection. setConverter
 						// will have already tried PARAMETERIZED_TYPE)...
 
-						// TODO: test this
-
 						if (!( component instanceof UISelectMany ))
 							converter = application.createConverter( clazz );
 					}

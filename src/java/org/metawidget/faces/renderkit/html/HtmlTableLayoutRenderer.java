@@ -338,7 +338,7 @@ public class HtmlTableLayoutRenderer
 	// Protected methods
 	//
 
-	protected void layoutBeforeChild( FacesContext context, UIComponent component, UIComponent componentChild )
+	protected void layoutBeforeChild( FacesContext context, UIComponent component, UIComponent childComponent )
 		throws IOException
 	{
 		ResponseWriter writer = context.getResponseWriter();
@@ -346,14 +346,14 @@ public class HtmlTableLayoutRenderer
 		int currentColumn = (Integer) getState( KEY_CURRENT_COLUMN );
 		int numberOfColumns = (Integer) getState( KEY_NUMBER_OF_COLUMNS );
 		int currentRow = (Integer) getState( KEY_CURRENT_ROW );
-		String cssId = getCssId( componentChild );
+		String cssId = getCssId( childComponent );
 
 		// Section headings
 
 		String currentSection = (String) getState( KEY_CURRENT_SECTION );
 
 		@SuppressWarnings( "unchecked" )
-		Map<String, String> attributes = (Map<String, String>) componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+		Map<String, String> attributes = (Map<String, String>) childComponent.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
 
 		// (layoutBeforeChild may get called even if layoutBegin crashed. Try
 		// to fail gracefully)
@@ -365,7 +365,7 @@ public class HtmlTableLayoutRenderer
 			if ( section != null && !section.equals( currentSection ) )
 			{
 				putState( KEY_CURRENT_SECTION, section );
-				layoutSection( context, component, section, componentChild );
+				layoutSection( context, component, section, childComponent );
 				putState( KEY_CURRENT_COLUMN, 1 );
 			}
 
@@ -397,7 +397,7 @@ public class HtmlTableLayoutRenderer
 
 		// Start the label column
 
-		boolean labelWritten = layoutLabel( context, component, componentChild );
+		boolean labelWritten = layoutLabel( context, component, childComponent );
 
 		// Zero-column layouts need an extra row
 		// (though we colour it the same from a CSS perspective)
@@ -433,9 +433,9 @@ public class HtmlTableLayoutRenderer
 
 		int colspan;
 
-		// Large components and tables span all columns
+		// Metawidgets, tables and large components span all columns
 
-		if ( ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) || component instanceof UIData )
+		if ( childComponent instanceof UIMetawidget || childComponent instanceof UIData || ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) )
 		{
 			colspan = ( numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 			putState( KEY_CURRENT_COLUMN, numberOfColumns );
@@ -443,18 +443,10 @@ public class HtmlTableLayoutRenderer
 			if ( !labelWritten )
 				colspan++;
 
-			if ( ( componentChild instanceof UIMetawidget && "table".equals( componentChild.getRendererType() ) ) || componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) == null )
+			// Metawidgets span the required column too
+
+			if ( childComponent instanceof UIMetawidget )
 				colspan++;
-		}
-
-		// Embedded Metawidgets span the component and the required column
-
-		else if ( ( componentChild instanceof UIMetawidget && "table".equals( componentChild.getRendererType() ) ) || componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) == null )
-		{
-			if ( !labelWritten )
-				colspan = LABEL_AND_COMPONENT_AND_REQUIRED;
-			else
-				colspan = JUST_COMPONENT_AND_REQUIRED;
 		}
 
 		// Components without labels span two columns
@@ -610,8 +602,6 @@ public class HtmlTableLayoutRenderer
 		Map<String, String> attributes = (Map<String, String>) child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
 
 		ResponseWriter writer = context.getResponseWriter();
-
-		// TODO: test star on UIInput
 
 		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && child instanceof UIInput && !( (UIMetawidget) component ).isReadOnly() )
 		{

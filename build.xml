@@ -22,7 +22,7 @@
 
 	<!-- Compile -->
 
-	<target name="compile-main" depends="init" unless="skip-compile-main">
+	<target name="compile-main" depends="init">
 		
 		<mkdir dir="${build.dir}/java5-classes"/>
 		<mkdir dir="${build.dir}/java4-classes"/>
@@ -85,8 +85,6 @@
 			<fileset dir="${build.dir}/java4-classes"/>
 		</copy>
 	
-		<property name="skip-compile-main" value="true"/>
-		
 	</target>
 		
 	<target name="compile-examples" depends="compile-main" unless="skip-compile-examples">
@@ -245,7 +243,8 @@
 			</fileset>
 		</delete>
 
-		<property name="build.debug" value="on"/>		
+		<property name="build.debug" value="on"/>
+
 		<antcall target="pack-internal"/>
 
 		<mkdir dir="${build.dir}/debug"/>		
@@ -602,7 +601,7 @@
 			</fileset>			
 		</copy>
 		
-		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
+		<!--<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest"/>
@@ -618,7 +617,7 @@
 				<pathelement path="${build.dir}/metawidget.jar"/>
 				<pathelement path="${build.dir}/examples/gwt/metawidget-gwt-client.jar"/>
 			</classpath>
-		</junit>
+		</junit>-->
 		
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
@@ -1250,8 +1249,6 @@
 		
 		<antcall target="test-faces-addressbook"/>
 		<antcall target="test-faces-quirks"/>
-		<property name="skip-compile" value="true"/>
-		
 		<antcall target="test-gwt-addressbook"/>
 		<antcall target="test-jsp-addressbook"/>
 		<antcall target="test-jsp-allwidgets"/>

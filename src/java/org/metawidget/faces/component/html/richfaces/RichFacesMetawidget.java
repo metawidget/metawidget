@@ -106,47 +106,42 @@ public class RichFacesMetawidget
 				HtmlInputNumberSpinner spinner = (HtmlInputNumberSpinner) application.createComponent( "org.richfaces.inputNumberSpinner" );
 				spinner.setCycled( false );
 
-				if ( byte.class.equals( clazz ))
-				{
+				// May be ranged in one dimension only
+
+				if ( minimumValue != null && !"".equals( minimumValue ))
+					spinner.setMinValue( minimumValue );
+				else if ( byte.class.equals( clazz ))
 					spinner.setMinValue( String.valueOf( Byte.MIN_VALUE ));
-					spinner.setMaxValue( String.valueOf( Byte.MAX_VALUE ));
-				}
 				else if ( short.class.equals( clazz ) )
-				{
 					spinner.setMinValue( String.valueOf( Short.MIN_VALUE ));
-					spinner.setMaxValue( String.valueOf( Short.MAX_VALUE ));
-				}
 				else if ( int.class.equals( clazz ) )
-				{
-					// TODO: test this
-
-					if ( minimumValue != null && !"".equals( minimumValue ))
-						spinner.setMinValue( minimumValue );
-					else
-						spinner.setMinValue( String.valueOf( Integer.MIN_VALUE ));
-
-					if ( maximumValue != null && !"".equals( maximumValue ))
-						spinner.setMaxValue( maximumValue );
-					else
-						spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ));
-				}
+					spinner.setMinValue( String.valueOf( Integer.MIN_VALUE ));
 				else if ( long.class.equals( clazz ) )
-				{
 					spinner.setMinValue( String.valueOf( Long.MIN_VALUE ));
-					spinner.setMaxValue( String.valueOf( Long.MAX_VALUE ));
-				}
 				else if ( float.class.equals( clazz ) )
-				{
 					spinner.setMinValue( String.valueOf( -Float.MAX_VALUE ));
-					spinner.setMaxValue( String.valueOf( Float.MAX_VALUE ));
-					spinner.setStep( "0.1" );
-				}
 				else if ( double.class.equals( clazz ) )
-				{
 					spinner.setMinValue( String.valueOf( -Double.MAX_VALUE ));
+
+				if ( maximumValue != null && !"".equals( maximumValue ))
+					spinner.setMaxValue( maximumValue );
+				else if ( byte.class.equals( clazz ))
+					spinner.setMaxValue( String.valueOf( Byte.MAX_VALUE ));
+				else if ( short.class.equals( clazz ) )
+					spinner.setMaxValue( String.valueOf( Short.MAX_VALUE ));
+				else if ( int.class.equals( clazz ) )
+					spinner.setMaxValue( String.valueOf( Integer.MAX_VALUE ));
+				else if ( long.class.equals( clazz ) )
+					spinner.setMaxValue( String.valueOf( Long.MAX_VALUE ));
+				else if ( float.class.equals( clazz ) )
+					spinner.setMaxValue( String.valueOf( Float.MAX_VALUE ));
+				else if ( double.class.equals( clazz ) )
 					spinner.setMaxValue( String.valueOf( Double.MAX_VALUE ));
+
+				// Stepped
+
+				if ( float.class.equals( clazz ) || double.class.equals( clazz ))
 					spinner.setStep( "0.1" );
-				}
 
 				return spinner;
 			}

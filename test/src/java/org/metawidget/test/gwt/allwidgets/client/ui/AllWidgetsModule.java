@@ -68,6 +68,7 @@ public class AllWidgetsModule
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setParameter( "sectionStyleName", "aSectionStyleName" );
+		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setInspector( new GwtRemoteInspectorProxy( "/metawidget-inspector-allwidgets" ) );
 		metawidget.setToInspect( new AllWidgets() );
 
@@ -102,6 +103,7 @@ public class AllWidgetsModule
 			{
 				metawidget.save();
 				metawidget.setReadOnly( true );
+				metawidget.setParameter( "numberOfColumns", 0 );
 				metawidget.setDictionaryName( "bundle" );
 			}
 		} );

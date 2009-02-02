@@ -45,8 +45,6 @@ public class FlexTableLayout
 	// Private statics
 	//
 
-	private final static int	JUST_COMPONENT_AND_REQUIRED			= 2;
-
 	private final static int	LABEL_AND_COMPONENT_AND_REQUIRED	= 3;
 
 	//
@@ -201,25 +199,20 @@ public class FlexTableLayout
 
 		int colspan;
 
-		// Large components span all columns
+		// Metawidgets and large components span all columns
 
-		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
+		if ( widget instanceof GwtMetawidget || ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) )
 		{
 			colspan = ( mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 			mCurrentColumn = mNumberOfColumns;
 
 			if ( labelText == null )
 				colspan++;
-		}
 
-		// Embedded Metawidgets span the component and the required column
+			// Metawidgets span the required column too
 
-		else if ( widget instanceof GwtMetawidget )
-		{
-			if ( labelText == null )
-				colspan = LABEL_AND_COMPONENT_AND_REQUIRED;
-			else
-				colspan = JUST_COMPONENT_AND_REQUIRED;
+			if ( widget instanceof GwtMetawidget )
+				colspan++;
 		}
 
 		// Components without labels span two columns
@@ -255,7 +248,9 @@ public class FlexTableLayout
 		if ( facet != null )
 		{
 			int row = mLayout.getRowCount();
-			mFormatter.setColSpan( row, 0, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+
+			if ( mNumberOfColumns > 0 )
+				mFormatter.setColSpan( row, 0, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 
 			String styleName = (String) getMetawidget().getParameter( "footerStyleName" );
 
@@ -310,7 +305,8 @@ public class FlexTableLayout
 
 		// Span and style
 
-		mFormatter.setColSpan( row, 0, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+		if ( mNumberOfColumns > 0 )
+			mFormatter.setColSpan( row, 0, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 
 		if ( mSectionStyleName != null )
 			mFormatter.setStyleName( row, 0, mSectionStyleName );
@@ -318,8 +314,7 @@ public class FlexTableLayout
 		mCurrentColumn = mNumberOfColumns;
 	}
 
-	// TODO: test multi-columns, test zero columns
-	// TODO: pack-debug not working?
+	// TODO: test zero columns
 
 	protected String getStyleName( int styleName )
 	{
