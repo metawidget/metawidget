@@ -443,9 +443,9 @@ public class HtmlTableLayoutRenderer
 			if ( !labelWritten )
 				colspan++;
 
-			// Metawidgets span the required column too
+			// Nested table Metawidgets span the required column too (as they have their own required column)
 
-			if ( childComponent instanceof UIMetawidget )
+			if ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ))
 				colspan++;
 		}
 

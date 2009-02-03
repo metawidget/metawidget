@@ -88,13 +88,20 @@
 				
 				<!-- Test duplicated controls -->
 				
-				<verifyXPath xpath="/html/body/table[2]/tbody/tr[3]/td[1]/textarea/@id" text="quirksLarge_2"/>				
-
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[2]/td[1]/textarea/@id" text="quirksLarge_2"/>
+				
 				<!-- Test overriding a required UIInput with a UIOutput (star should disappear) --> 
 
-				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[2]" text="*"/>
-				<verifyXPath xpath="/html/body/table[3]/tbody/tr[3]/td[2]" text=""/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr[2]/td[2]" text="*"/>
+				<verifyXPath xpath="/html/body/table[3]/tbody/tr[2]/td[2]/div"/>
 
+				<!-- Test 'colspan' on nested Metawidgets: 'rendererType=table' and 'rendererType=simple' -->
+
+				<not>
+					<verifyXPath xpath="/html/body/table[3]/tbody/tr[1]/td[1]/@colspan"/>
+				</not>
+				<verifyXPath xpath="/html/body/table[3]/tbody/tr[3]/td[1]/@colspan" text="2"/>
+				
 			</steps>
 		</webtest>
 	</target>
