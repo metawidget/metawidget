@@ -2864,7 +2864,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 				<title>Recommended Metawidget API Design</title>
 				<mediaobject>
 					<imageobject>
-						<imagedata fileref="../shared/images/metawidget-api.jpg" format="jpg"/>
+						<imagedata fileref="../shared/images/metawidget-api.jpg" format="jpg" width="100mm"/>
 					</imageobject>
 				</mediaobject>
 			</figure>			
