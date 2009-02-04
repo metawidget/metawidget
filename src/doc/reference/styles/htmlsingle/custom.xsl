@@ -34,6 +34,7 @@
   <xsl:param name="html.stylesheet">../shared/css/stylesheet.css</xsl:param>
   <xsl:param name="html.stylesheet.type">text/css</xsl:param>         
   <xsl:param name="generate.toc">book toc,title</xsl:param>         
+  <xsl:param name="ignore.image.scaling" select="1"></xsl:param>         
 
   <xsl:param name="admonition.title.properties">text-align: left</xsl:param>
 

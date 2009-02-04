@@ -141,6 +141,5 @@ public abstract class BaseLayout
 
 			textView.setTextSize( attributes.getDimensionPixelSize( android.R.styleable.TextView_textSize, 15 ) );
 		}
-
 	}
 }

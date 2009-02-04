@@ -82,7 +82,8 @@ object AnimalRaces
 		metawidget.setLayoutClass( classOf[ MigLayout ])
 		metawidget.setToInspect( animal )
 		metawidget.getLayout().asInstanceOf[net.miginfocom.swing.MigLayout].setLayoutConstraints( new net.miginfocom.layout.LC().insets( "10" ));
-		metawidget
+		
+		return metawidget
 	}
 	
 	val toolbar = new JPanel

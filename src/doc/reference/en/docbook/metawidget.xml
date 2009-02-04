@@ -208,7 +208,7 @@ public class Main {
 				<figure id="section-introduction-part1-output-screenshot">
 					<title>SwingMetawidget rendering of Person class</title>			
 					<screenshot>
-						<graphic fileref="../shared/images/swing-tutorial1.jpg"/>
+						<graphic fileref="../shared/images/swing-tutorial1.jpg" width="100mm"/>
 					</screenshot>
 				</figure>				
 				
@@ -331,7 +331,7 @@ public class Main {
 				<figure id="section-introduction-part1-incorrect-screenshot">
 					<title>SwingMetawidget incorrect rendering</title>			
 					<screenshot>
-						<graphic fileref="../shared/images/swing-tutorial2.jpg"/>
+						<graphic fileref="../shared/images/swing-tutorial2.jpg" width="100mm" />
 					</screenshot>
 				</figure>				
 
@@ -422,7 +422,7 @@ public class Person {
 				<figure id="section-introduction-part1-more-screenshot">
 					<title>Additional fields and a section heading</title>			
 					<screenshot>
-						<graphic fileref="../shared/images/swing-tutorial3.jpg"/>
+						<graphic fileref="../shared/images/swing-tutorial3.jpg" width="100mm" />
 					</screenshot>
 				</figure>				
 				
@@ -476,7 +476,7 @@ public class Main {
 				<figure id="section-introduction-part1-columns-screenshot">
 					<title>A two-column layout</title>			
 					<screenshot>
-						<graphic fileref="../shared/images/swing-tutorial4.jpg"/>
+						<graphic fileref="../shared/images/swing-tutorial4.jpg" width="100mm" />
 					</screenshot>
 				</figure>				
 				
@@ -539,7 +539,7 @@ public class Main {
 				<figure id="section-introduction-part1-override-screenshot">
 					<title>The 'retired' field has been overridden</title>
 					<screenshot>
-						<graphic fileref="../shared/images/swing-tutorial5.jpg"/>
+						<graphic fileref="../shared/images/swing-tutorial5.jpg" width="100mm" />
 					</screenshot>
 				</figure>				
 
@@ -587,7 +587,7 @@ public class Main {
 				<figure id="section-introduction-part1-suppress-screenshot">
 					<title>The 'retired' field has been suppressed</title>
 					<screenshot>
-						<graphic fileref="../shared/images/swing-tutorial6.jpg"/>
+						<graphic fileref="../shared/images/swing-tutorial6.jpg" width="100mm" />
 					</screenshot>
 				</figure>				
 
@@ -877,7 +877,7 @@ public class Main {
 				<figure id="section-introduction-part2-desktop-opening-screenshot">
 					<title>Desktop Address Book opening screen</title>
 					<screenshot>
-						<graphic fileref="../shared/images/desktop-addressbook1.jpg"/>
+						<graphic fileref="../shared/images/desktop-addressbook1.jpg" width="100mm" />
 					</screenshot>
 				</figure>				
 				
@@ -906,7 +906,7 @@ public class Main {
 				<figure id="section-introduction-part2-desktop-add-screenshot">
 					<title>Desktop Address Book 'Add Personal Contact' screen</title>
 					<screenshot>
-						<graphic fileref="../shared/images/desktop-addressbook2.jpg"/>
+						<graphic fileref="../shared/images/desktop-addressbook2.jpg" width="100mm" />
 					</screenshot>
 				</figure>				
 
@@ -951,7 +951,7 @@ public class Main {
 					<figure id="section-introduction-part2-desktop-readonly-screenshot">
 						<title>Desktop Address Book read-only mode</title>
 						<screenshot>
-							<graphic fileref="../shared/images/desktop-addressbook3.jpg"/>
+							<graphic fileref="../shared/images/desktop-addressbook3.jpg" width="100mm" />
 						</screenshot>
 					</figure>
 
@@ -963,7 +963,7 @@ public class Main {
 					<figure id="section-introduction-part2-desktop-editable-screenshot">
 						<title>Desktop Address Book edit mode</title>
 						<screenshot>
-							<graphic fileref="../shared/images/desktop-addressbook4.jpg"/>
+							<graphic fileref="../shared/images/desktop-addressbook4.jpg" width="100mm" />
 						</screenshot>
 					</figure>
 					
@@ -1065,7 +1065,7 @@ public class Main {
 				<figure id="section-introduction-part2-web-opening-screenshot">
 					<title>Web Address Book opening screen</title>
 					<screenshot>
-						<graphic fileref="../shared/images/web-addressbook1.jpg"/>
+						<graphic fileref="../shared/images/web-addressbook1.jpg" width="100mm" />
 					</screenshot>
 				</figure>
 
@@ -1110,7 +1110,7 @@ public class Main {
 				<figure id="section-introduction-part2-web-add-screenshot">
 					<title>Web Address Book 'Add Personal Contact' screen</title>
 					<screenshot>
-						<graphic fileref="../shared/images/web-addressbook2.jpg"/>
+						<graphic fileref="../shared/images/web-addressbook2.jpg" width="100mm" />
 					</screenshot>
 				</figure>
 
@@ -1355,7 +1355,7 @@ public class Main {
 				<figure id="section-introduction-part2-mobile-opening-screenshot">
 					<title>Mobile Address Book opening screen</title>
 					<screenshot>
-						<graphic fileref="../shared/images/mobile-addressbook1.jpg"/>
+						<graphic fileref="../shared/images/mobile-addressbook1.jpg" width="60mm" />
 					</screenshot>
 				</figure>
 
@@ -1378,7 +1378,7 @@ public class Main {
 				<figure id="section-introduction-part2-mobile-add-screenshot">
 					<title>Mobile Address Book 'Add Personal Contact' screen</title>
 					<screenshot>
-						<graphic fileref="../shared/images/mobile-addressbook2.jpg"/>
+						<graphic fileref="../shared/images/mobile-addressbook2.jpg" width="60mm" />
 					</screenshot>
 				</figure>
 
@@ -1421,7 +1421,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 				<figure id="section-introduction-part2-mobile-dialog-screenshot">
 					<title>Mobile Address Book Communications Dialog</title>
 					<screenshot>
-						<graphic fileref="../shared/images/mobile-addressbook3.jpg"/>
+						<graphic fileref="../shared/images/mobile-addressbook3.jpg" width="60mm" />
 					</screenshot>
 				</figure>
 
@@ -1483,7 +1483,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 				<figure id="section-introduction-part3-gwt-hosted-screenshot">
 					<title>Address Book Example running in GWT Hosted Mode</title>
 					<screenshot>
-						<graphic fileref="../shared/images/web-gwt-hosted.jpg"/>
+						<graphic fileref="../shared/images/web-gwt-hosted.jpg" width="100mm" />
 					</screenshot>
 				</figure>
 
@@ -1620,7 +1620,7 @@ bin\run</programlisting>
 				<figure id="section-introduction-part3-seam-screenshot">
 					<title>Seam Booking with Metawidget</title>
 					<screenshot>
-						<graphic fileref="../shared/images/web-seam-booking.jpg"/>
+						<graphic fileref="../shared/images/web-seam-booking.jpg" width="100mm" />
 					</screenshot>
 				</figure>
 				
@@ -1721,7 +1721,7 @@ bin\run</programlisting>
 				<figure id="section-introduction-part3-jbpm-screenshot">
 					<title>Seam DVD Store with Metawidget</title>
 					<screenshot>
-						<graphic fileref="../shared/images/web-seam-dvd.jpg"/>
+						<graphic fileref="../shared/images/web-seam-dvd.jpg" width="100mm" />
 					</screenshot>
 				</figure>
 				
@@ -1835,19 +1835,19 @@ public void addOwner() {
 				<programlisting language="shell">java -jar animalraces-swing.jar</programlisting>
 				
 				<para>
-					The screen displays fields to allow you to change the name, speed and type of each animal as well a buttons
+					The screen displays fields to allow you to change the name, speed and type of each animal as well buttons
 					to start and stop the race.
 				</para>
 				
 				<figure id="section-introduction-part3-scala-screenshot">
 					<title>Scala and MigLayout with Metawidget</title>
 					<screenshot>
-						<graphic fileref="../shared/images/desktop-animalraces.jpg"/>
+						<graphic fileref="../shared/images/desktop-animalraces.jpg" width="100mm" />
 					</screenshot>
 				</figure>
 
 				<para>
-					Animal Races is deliberately whimsical to demonstrate how Metawidget's goal of not 'owning' the UI allows multiple
+					Animal Races whimsical User Interface demonstrates how Metawidget's goal of not 'owning' the UI allows multiple
 					Metawidgets to be combined in unconventional ways. There are three Metawidgets across the top (one for each animal in
 					the race), and a fourth Metawidget for the buttons at the bottom.
 				</para>
@@ -1864,9 +1864,14 @@ metawidget.setToInspect( animal );
 				<para>
 					The Animal Races code is written purely in Scala, located at
 					<filename>examples/src/scala/org/metawidget/example/swing/animalraces/AnimalRaces.scala</filename>. It uses
-					<classname>ScalaPropertyStyle</classname> to allow Metawidget to inspect Scala-based business objects. 
+					<classname>BeanUtilsBinding.PROPERTYSTYLE_SCALA</classname> to allow Metawidget to inspect Scala-based business objects: 
 				</para>
 				
+				<programlisting language="scala">val metawidget = new SwingMetawidget()
+metawidget.setPropertyBindingClass( classOf[ BeanUtilsBinding ])
+metawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA )
+metawidget.setToInspect( animal )</programlisting>
+
 			</section>
 
 		</section>
