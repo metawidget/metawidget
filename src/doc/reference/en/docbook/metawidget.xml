@@ -1803,7 +1803,68 @@ public void addOwner() {
 }</programlisting>
 				
 				<para>
-					...such that the button gets hidden when the car has an owner.					
+					...such that the button gets hidden when the car has an owner.
+				</para>
+				
+			</section>
+
+			<section id="section-introduction-part3-scala">
+				<title>Scala Example</title>
+	
+				<para>
+					The Scala Animal Races Example demonstrates using SwingMetawidget together with Scala and MigLayout.
+				</para>
+	
+				<para>
+					The application is pre-built for you in <filename>examples\swing\animalraces-swing.jar</filename> or, if you've downloaded
+					the source code distribution, you can build it yourself by typing:
+				</para>
+				
+				<programlisting language="shell">ant example-swing-animalraces</programlisting>
+				
+				<para>
+					This is a self-executing JAR. For convenience, it has <filename>MAINFEST.MF</filename> dependencies hard-wired into it to
+					<filename>..\..\metawidget.jar</filename> and <filename>lib\scala-library.jar</filename> among others, so it's best not to move
+					it to a different folder (if you do, you'll need to manually put those JARs on your classpath).
+				</para>
+				
+				<para> 
+					Run the code by navigating to the <filename>examples\swing</filename> folder and typing:
+				</para>				
+				
+				<programlisting language="shell">java -jar animalraces-swing.jar</programlisting>
+				
+				<para>
+					The screen displays fields to allow you to change the name, speed and type of each animal as well a buttons
+					to start and stop the race.
+				</para>
+				
+				<figure id="section-introduction-part3-scala-screenshot">
+					<title>Scala and MigLayout with Metawidget</title>
+					<screenshot>
+						<graphic fileref="../shared/images/desktop-animalraces.jpg"/>
+					</screenshot>
+				</figure>
+
+				<para>
+					Animal Races is deliberately whimsical to demonstrate how Metawidget's goal of not 'owning' the UI allows multiple
+					Metawidgets to be combined in unconventional ways. There are three Metawidgets across the top (one for each animal in
+					the race), and a fourth Metawidget for the buttons at the bottom.
+				</para>
+				
+				<para>
+					The top three Metawidgets all use MigLayout. Because Metawidget does not hide the underlying UI framework, using
+					MigLayout allows the Animal Races code to easily pad the Metawidget: 
+				</para>
+
+				<programlisting language="java">metawidget.setLayoutClass( MigLayout.class );
+metawidget.setToInspect( animal );
+((MigLayout) metawidget.getLayout()).setLayoutConstraints( new LC().insets( "10" ));</programlisting>
+
+				<para>
+					The Animal Races code is written purely in Scala, located at
+					<filename>examples/src/scala/org/metawidget/example/swing/animalraces/AnimalRaces.scala</filename>. It uses
+					<classname>ScalaPropertyStyle</classname> to allow Metawidget to inspect Scala-based business objects. 
 				</para>
 				
 			</section>
