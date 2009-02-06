@@ -73,7 +73,7 @@ object AnimalRaces
 	val hippoMetawidget = newAnimalMetawidget( hippo )
 	val pandaMetawidget = newAnimalMetawidget( panda )
 	
-	private def newAnimalMetawidget( animal:Animal ) =
+	private def newAnimalMetawidget( animal:Animal ):SwingMetawidget =
 	{
 		val metawidget = new SwingMetawidget()
 		metawidget.setInspectorConfig( "org/metawidget/example/swing/animalraces/inspector-config.xml" )
