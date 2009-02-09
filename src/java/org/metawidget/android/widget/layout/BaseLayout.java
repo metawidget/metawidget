@@ -38,23 +38,45 @@ public abstract class BaseLayout
 	// Private statics
 	//
 
-	private final static int	VIEW_PADDING		= 0x0000000d;
+	private final static int	VIEW_PADDING		= 16842965;
 
-	private final static int	VIEW_PADDING_BOTTOM	= 0x00000011;
+	private final static int	VIEW_PADDING_BOTTOM	= 16842969;
 
-	private final static int	VIEW_PADDING_LEFT	= 0x0000000e;
+	private final static int	VIEW_PADDING_LEFT	= 16842966;
 
-	private final static int	VIEW_PADDING_RIGHT	= 0x00000010;
+	private final static int	VIEW_PADDING_RIGHT	= 16842968;
 
-	private final static int	VIEW_PADDING_TOP	= 0x0000000f;
+	private final static int	VIEW_PADDING_TOP	= 16842967;
 
-	private final static int[]	VIEW				= new int[] { VIEW_PADDING, VIEW_PADDING_BOTTOM, VIEW_PADDING_LEFT, VIEW_PADDING_RIGHT, VIEW_PADDING_TOP };
+	/**
+	 * Array of View style attributes.
+	 * <p>
+	 * These values from, say,
+	 * http://code.google.com/android/reference/android/R.attr.html#textSize. Note: as of SDK 1.0
+	 * R2, this technique is frowned upon. Google have deprecated
+	 * <code>andorid.R.styleable.View</code> because these numbers will change in the future.
+	 * However, they haven't provided a good alternative (see below).
+	 */
 
-	private final static int	TEXTVIEW_COLOR		= 0x00000005;
+	private final static int[]	VIEW				= new int[] { VIEW_PADDING, VIEW_PADDING_LEFT, VIEW_PADDING_TOP, VIEW_PADDING_RIGHT, VIEW_PADDING_BOTTOM };
 
-	private final static int	TEXTVIEW_SIZE		= 0x00000002;
+	private final static int	TEXTVIEW_COLOR		= 16842904;
+
+	private final static int	TEXTVIEW_SIZE		= 16842901;
+
+	/**
+	 * Array of TextView style attributes.
+	 * <p>
+	 * These values from, say,
+	 * http://code.google.com/android/reference/android/R.attr.html#textSize. Note: as of SDK 1.0
+	 * R2, this technique is frowned upon. Google have deprecated
+	 * <code>andorid.R.styleable.View</code> because these numbers will change in the future.
+	 * However, they haven't provided a good alternative (see below).
+	 */
 
 	private final static int[]	TEXTVIEW			= new int[] { TEXTVIEW_COLOR, TEXTVIEW_SIZE };
+
+	private final static float	DEFAULT_TEXT_SIZE	= 15;
 
 	//
 	// Private members
@@ -104,15 +126,14 @@ public abstract class BaseLayout
 	 * View.
 	 */
 
-	// It isn't clear in 1.0_r1 how one is meant to generically and programmatically apply styles
-	// from their ids. In particular:
+	// It isn't clear in SDK 1.0 R2 how one is meant to generically and programmatically apply
+	// styles. It seems like the 'new View( Context, AttributeSet, int )' constructor would do the
+	// trick, but how to create the AttributeSet? This comment...
 	//
-	// 1. AssetManager.applyStyle is package-protected; and
-	// 2. Theme.obtainStyledAttributes( AttributeSet, int, int, int ) has an explicit cast to
-	// XmlBlock$Parser (not just AttributeSet)
+	// http://markmail.org/message/ogskv4frewsxghlp
 	//
-	// So, this method is hard-coded for now. It is enough to convey the general idea though (eg.
-	// being able to set paramLabelStyle and paramSectionStyle externally).
+	// ...seems to suggest only the container can do this at present, but that this will be cleaned
+	// up in future
 	//
 	protected void applyStyle( View view, int style )
 	{
@@ -127,7 +148,7 @@ public abstract class BaseLayout
 
 		// Padding
 
-		int padding = attributes.getDimensionPixelSize( VIEW_PADDING, -1 );
+		int padding = attributes.getDimensionPixelSize( 0, -1 );
 		int leftPadding;
 		int topPadding;
 		int rightPadding;
@@ -142,10 +163,10 @@ public abstract class BaseLayout
 		}
 		else
 		{
-			leftPadding = attributes.getDimensionPixelSize( VIEW_PADDING_LEFT, 0 );
-			topPadding = attributes.getDimensionPixelSize( VIEW_PADDING_TOP, 0 );
-			rightPadding = attributes.getDimensionPixelSize( VIEW_PADDING_RIGHT, 0 );
-			bottomPadding = attributes.getDimensionPixelSize( VIEW_PADDING_BOTTOM, 0 );
+			leftPadding = attributes.getDimensionPixelSize( 1, 0 );
+			topPadding = attributes.getDimensionPixelSize( 2, 0 );
+			rightPadding = attributes.getDimensionPixelSize( 3, 0 );
+			bottomPadding = attributes.getDimensionPixelSize( 4, 0 );
 		}
 
 		view.setPadding( leftPadding, topPadding, rightPadding, bottomPadding );
@@ -155,16 +176,21 @@ public abstract class BaseLayout
 			attributes = getMetawidget().getContext().obtainStyledAttributes( style, TEXTVIEW );
 			TextView textView = (TextView) view;
 
+			System.out.println( "View paddingTop is " + topPadding );
+			System.out.println( "View paddingBottom is " + bottomPadding );
+			System.out.println( "TextView colors are " + attributes.getColorStateList( 0 ) );
+			System.out.println( "TextView size is " + attributes.getDimension( 1, -1 ) );
+
 			// Color
 
-			ColorStateList colors = attributes.getColorStateList( TEXTVIEW_COLOR );
+			ColorStateList colors = attributes.getColorStateList( 0 );
 
 			if ( colors != null )
 				textView.setTextColor( colors );
 
 			// Size
 
-			textView.setTextSize( attributes.getDimensionPixelSize( TEXTVIEW_SIZE, 15 ) );
+			textView.setTextSize( attributes.getDimension( 1, DEFAULT_TEXT_SIZE ) );
 		}
 	}
 }
