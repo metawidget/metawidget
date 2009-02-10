@@ -38,20 +38,20 @@ public abstract class BaseLayout
 	// Private statics
 	//
 
-	private final static int	VIEW_PADDING		= 16842965;
+	private final static int	VIEW_PADDING		= 0x010100d5;
 
-	private final static int	VIEW_PADDING_BOTTOM	= 16842969;
+	private final static int	VIEW_PADDING_BOTTOM	= 0x010100d9;
 
-	private final static int	VIEW_PADDING_LEFT	= 16842966;
+	private final static int	VIEW_PADDING_LEFT	= 0x010100d6;
 
-	private final static int	VIEW_PADDING_RIGHT	= 16842968;
+	private final static int	VIEW_PADDING_RIGHT	= 0x010100d8;
 
-	private final static int	VIEW_PADDING_TOP	= 16842967;
+	private final static int	VIEW_PADDING_TOP	= 0x010100d7;
 
 	/**
 	 * Array of View style attributes.
 	 * <p>
-	 * These values from, say,
+	 * These values are from, say,
 	 * http://code.google.com/android/reference/android/R.attr.html#textSize. Note: as of SDK 1.0
 	 * R2, this technique is frowned upon. Google have deprecated
 	 * <code>andorid.R.styleable.View</code> because these numbers will change in the future.
@@ -60,14 +60,14 @@ public abstract class BaseLayout
 
 	private final static int[]	VIEW				= new int[] { VIEW_PADDING, VIEW_PADDING_LEFT, VIEW_PADDING_TOP, VIEW_PADDING_RIGHT, VIEW_PADDING_BOTTOM };
 
-	private final static int	TEXTVIEW_COLOR		= 16842904;
+	private final static int	TEXTVIEW_COLOR		= 0x01010098;
 
-	private final static int	TEXTVIEW_SIZE		= 16842901;
+	private final static int	TEXTVIEW_SIZE		= 0x01010095;
 
 	/**
 	 * Array of TextView style attributes.
 	 * <p>
-	 * These values from, say,
+	 * These values are from, say,
 	 * http://code.google.com/android/reference/android/R.attr.html#textSize. Note: as of SDK 1.0
 	 * R2, this technique is frowned upon. Google have deprecated
 	 * <code>andorid.R.styleable.View</code> because these numbers will change in the future.
@@ -76,7 +76,7 @@ public abstract class BaseLayout
 
 	private final static int[]	TEXTVIEW			= new int[] { TEXTVIEW_COLOR, TEXTVIEW_SIZE };
 
-	private final static float	DEFAULT_TEXT_SIZE	= 15;
+	private final static int	BOGUS_DEFAULT		= -1;
 
 	//
 	// Private members
@@ -127,8 +127,8 @@ public abstract class BaseLayout
 	 */
 
 	// It isn't clear in SDK 1.0 R2 how one is meant to generically and programmatically apply
-	// styles. It seems like the 'new View( Context, AttributeSet, int )' constructor would do the
-	// trick, but how to create the AttributeSet? This comment...
+	// styles. It seems like the 'new View( Context, AttributeSet, styleId )' constructor would do the
+	// trick, but how to create the AttributeSet for the styleId? This comment...
 	//
 	// http://markmail.org/message/ogskv4frewsxghlp
 	//
@@ -148,25 +148,25 @@ public abstract class BaseLayout
 
 		// Padding
 
-		int padding = attributes.getDimensionPixelSize( 0, -1 );
+		int padding = attributes.getDimensionPixelSize( 0, BOGUS_DEFAULT );
 		int leftPadding;
 		int topPadding;
 		int rightPadding;
 		int bottomPadding;
 
-		if ( padding >= 0 )
-		{
-			leftPadding = padding;
-			topPadding = padding;
-			rightPadding = padding;
-			bottomPadding = padding;
-		}
-		else
+		if ( padding == BOGUS_DEFAULT )
 		{
 			leftPadding = attributes.getDimensionPixelSize( 1, 0 );
 			topPadding = attributes.getDimensionPixelSize( 2, 0 );
 			rightPadding = attributes.getDimensionPixelSize( 3, 0 );
 			bottomPadding = attributes.getDimensionPixelSize( 4, 0 );
+		}
+		else
+		{
+			leftPadding = padding;
+			topPadding = padding;
+			rightPadding = padding;
+			bottomPadding = padding;
 		}
 
 		view.setPadding( leftPadding, topPadding, rightPadding, bottomPadding );
@@ -190,7 +190,10 @@ public abstract class BaseLayout
 
 			// Size
 
-			textView.setTextSize( attributes.getDimension( 1, DEFAULT_TEXT_SIZE ) );
+			int textSize = attributes.getDimensionPixelSize( 1, BOGUS_DEFAULT );
+
+			if ( textSize != BOGUS_DEFAULT )
+				textView.setTextSize( textSize );
 		}
 	}
 }

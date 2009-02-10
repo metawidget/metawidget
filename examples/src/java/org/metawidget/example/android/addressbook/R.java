@@ -54,8 +54,6 @@ public final class R {
         public static final int yes=0x7f050014;
     }
     public static final class style {
-        public static final int buttons=0x7f060002;
-        public static final int dialogLabel=0x7f060001;
         public static final int section=0x7f060000;
     }
 }

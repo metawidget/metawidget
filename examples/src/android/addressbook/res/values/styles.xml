@@ -7,12 +7,4 @@
         <item name="android:paddingBottom">5px</item>
     </style>
 
-    <style name="dialogLabel">
-        <item name="android:textColor">#ffffff</item>
-    </style>
-
-    <style name="buttons">
-        <item name="android:paddingTop">5px</item>
-    </style>
-
 </resources>
