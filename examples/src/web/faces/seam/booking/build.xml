@@ -39,7 +39,7 @@
     	<copy todir="${seam.dir}/examples/metawidget-booking/exploded-archives/jboss-seam-booking.war/WEB-INF/lib" file="metawidget-frontend.jar" />
 
 		<copy todir="${seam.dir}/lib">
-    		<fileset dir=".">
+    		<fileset dir="../../../../">
     			<include name="metawidget.jar"/>
     		</fileset>
 		</copy>

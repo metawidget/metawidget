@@ -965,6 +965,8 @@
 		<ant dir="${build.dir}/examples/faces/seam/groovybooking"/>
 		<antcall target="test-web-start-jboss"/>
 		
+		<!-- This test may require increasing the PermGen in JBoss -XX:MaxPermSize=128m -->
+		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">

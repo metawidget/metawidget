@@ -35,6 +35,15 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  * Layout to arrange widgets in a <code>FlexTable</code>, with one column for labels and another
  * for the widget.
  *
+ * This implementation recognizes the following parameters:
+ * <p>
+ * <ul>
+ * <li><code>numberOfColumns<code> - number of columns. Each label/component pair is considered one column
+ * <li><code>columnStyleNames</code> - comma delimited string of CSS style classes to apply to table
+ * columns in order of: label, component, required
+ * <li><code>sectionStyleName</code> - CSS style class to apply to section heading
+ * </ul>
+ *
  * @author Richard Kennard
  */
 

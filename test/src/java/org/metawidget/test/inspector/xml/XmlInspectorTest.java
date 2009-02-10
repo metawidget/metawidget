@@ -77,6 +77,8 @@ public class XmlInspectorTest
 		xml += "</entity>";
 		xml += "<entity type=\"Bar\">";
 		xml += "<property name=\"baz\"/>";
+		xml += "<action name=\"doAction\"/>";
+		xml += "<some-junk name=\"ignoreMe\"/>";
 		xml += "</entity></inspection-result>";
 
 		XmlInspectorConfig config = new XmlInspectorConfig();
@@ -123,6 +125,13 @@ public class XmlInspectorTest
 		assertTrue( !property.hasAttribute( LABEL ) );
 		assertTrue( "Telephone, Mobile, Fax, E-mail".equals( property.getAttribute( LOOKUP ) ));
 		assertTrue( property.getAttributes().getLength() == 2 );
+
+		property = (Element) property.getNextSibling();
+		assertTrue( PROPERTY.equals( property.getNodeName() ));
+		assertTrue( "d".equals( property.getAttribute( NAME ) ));
+		assertTrue( property.getAttributes().getLength() == 1 );
+
+		assertTrue( entity.getChildNodes().getLength() == 5 );
 	}
 
 	public void testTraverseViaParent()
@@ -142,6 +151,12 @@ public class XmlInspectorTest
 		Element property = (Element) entity.getFirstChild();
 		assertTrue( PROPERTY.equals( property.getNodeName() ));
 		assertTrue( "baz".equals( property.getAttribute( NAME ) ));
+
+		property = (Element) property.getNextSibling();
+		assertTrue( ACTION.equals( property.getNodeName() ));
+		assertTrue( "doAction".equals( property.getAttribute( NAME ) ));
+
+		assertTrue( entity.getChildNodes().getLength() == 2 );
 	}
 
 	public void testMissingType()
@@ -177,5 +192,18 @@ public class XmlInspectorTest
 		assertTrue( mInspector.inspect( null, "no-such-type" ) == null );
 		assertTrue( mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "no-such-name" ) == null );
 		assertTrue( mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "no-such-parent-name", "foo" ) == null );
+	}
+
+	public void testParameterlessConstructor()
+	{
+		try
+		{
+			new XmlInspector();
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "Unable to locate metawidget-metadata.xml on CLASSPATH".equals( e.getMessage() ));
+		}
 	}
 }
