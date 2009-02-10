@@ -61,7 +61,7 @@
 
 		<mkdir dir="${addressbook.gwt.project.dir}/lib" />
 		<copy todir="${addressbook.gwt.project.dir}/lib">
-			<fileset dir="../../../lib" includes="ejb3-persistence.jar,hibernate-validator.jar,javax.servlet.jsp.jar">
+			<fileset dir="../../../../lib" includes="ejb3-persistence.jar,hibernate-validator.jar,javax.servlet.jsp.jar">
 			</fileset>
 			<fileset dir="${metawidget.home}" includes="metawidget.jar" />
 			<fileset dir="${metawidget.home}/examples/gwt" includes="metawidget-gwt-client.jar" />
