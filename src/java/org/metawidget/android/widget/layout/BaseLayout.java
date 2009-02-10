@@ -176,11 +176,6 @@ public abstract class BaseLayout
 			attributes = getMetawidget().getContext().obtainStyledAttributes( style, TEXTVIEW );
 			TextView textView = (TextView) view;
 
-			System.out.println( "View paddingTop is " + topPadding );
-			System.out.println( "View paddingBottom is " + bottomPadding );
-			System.out.println( "TextView colors are " + attributes.getColorStateList( 0 ) );
-			System.out.println( "TextView size is " + attributes.getDimension( 1, -1 ) );
-
 			// Color
 
 			ColorStateList colors = attributes.getColorStateList( 0 );
