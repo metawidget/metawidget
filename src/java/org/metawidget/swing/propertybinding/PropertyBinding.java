@@ -38,10 +38,10 @@ public interface PropertyBinding
 	//
 
 	/**
-	 * Bind the given Widget to the given 'path of names' within the source Object.
+	 * Bind the given Component to the given 'path of names' within the source Object.
 	 *
-	 * @param widget
-	 *            the widget to bind to
+	 * @param component
+	 *            the component to bind to
 	 * @param attributes
 	 *            metadata of the property being bound
 	 * @param path

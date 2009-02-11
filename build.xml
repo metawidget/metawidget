@@ -2499,7 +2499,6 @@
 				<include name="examples/src/web/shared/addressbook/css/**"/>
 				<include name="examples/src/web/shared/addressbook/WEB-INF/tags/**"/>				
 				<exclude name="**/WEB-INF/classes/**"/>
-				<exclude name="**/WEB-INF/lib/**"/>
 				<exclude name="**/.p4ignore"/>
 			</fileset>
 			<fileset dir="${build.dir}">
@@ -2525,6 +2524,7 @@
 		<zip zipfile="${build.dir}/${metawidget.name}-src.zip">
 			<fileset dir="${build.dir}">
 				
+				<include name="${metawidget.name}/documentation.html"/>
 				<include name="${metawidget.name}/lgpl.txt"/>
 				<include name="${metawidget.name}/readme.txt"/>
 

@@ -98,7 +98,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 	 * For example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only
 	 * test types, not actual objects.
 	 *
-	 * @param maximumDepth
+	 * @param maximumInspectionDepth
 	 *            0 for top-level only, 1 for 1 level deep etc.
 	 */
 
