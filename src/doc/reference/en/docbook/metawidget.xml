@@ -1783,7 +1783,8 @@ bin\run</programlisting>
 					from the source distribution:
 				</para>
 
-				<programlisting language="xml">&lt;metawidgetAnnotationInspector config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+				<programlisting language="xml">&lt;metawidgetAnnotationInspector
+	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 	&lt;actionStyle&gt;
 		org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle
 	&lt;/actionStyle&gt;
@@ -1847,8 +1848,8 @@ public void addOwner() {
 				</figure>
 
 				<para>
-					Animal Races whimsical User Interface demonstrates how Metawidget's goal of not 'owning' the UI allows multiple
-					Metawidgets to be combined in unconventional ways. There are three Metawidgets across the top (one for each animal in
+					Animal Races' whimsical User Interface demonstrates how Metawidget's goal of not 'owning' the UI allows multiple
+					Metawidgets to be combined for unconventional UIs. There are three Metawidgets across the top (one for each animal in
 					the race), and a fourth Metawidget for the buttons at the bottom.
 				</para>
 				
@@ -1864,9 +1865,23 @@ metawidget.setToInspect( animal );
 				<para>
 					The Animal Races code is written purely in Scala, located at
 					<filename>examples/src/scala/org/metawidget/example/swing/animalraces/AnimalRaces.scala</filename>. It uses
-					<classname>BeanUtilsBinding.PROPERTYSTYLE_SCALA</classname> to allow Metawidget to inspect Scala-based business objects: 
+					<classname>ScalaPropertyStyle</classname> to allow Metawidget to inspect Scala-based business objects: 
 				</para>
 				
+				<programlisting language="xml">&lt;inspector-config&gt;
+	&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"
+		config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+		&lt;propertyStyle&gt;
+			org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle
+		&lt;/propertyStyle&gt;			
+	&lt;/metawidgetAnnotationInspector&gt;
+&lt;/inspector-config&gt;</programlisting>
+
+				<para>
+					In addition, it uses <classname>BeanUtilsBinding.PROPERTYSTYLE_SCALA</classname> to bind <classname>JComponents</classname>
+					to Scala-based business objects:
+				</para>
+					
 				<programlisting language="scala">val metawidget = new SwingMetawidget()
 metawidget.setPropertyBindingClass( classOf[ BeanUtilsBinding ])
 metawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA )

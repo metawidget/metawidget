@@ -26,11 +26,9 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
  * PropertyStyle for Scala-style properties.
  * <p>
  * Scala-style properties can <em>almost</em> be handled using <code>JavaBeanPropertyStyle</code>,
- * because the Scala compiler automatically generates JavaBean-style getters and setters as well as
- * Scala-style getters and setters. Unfortunately, it only copies any annotations defined on the
- * property to the Scala getters and setters, not the JavaBean ones. This <code>PropertyStyle</code>
- * is designed to access those annotations.
- * 
+ * but you have to use Scala's <code>BeanProperty</code> annotation everywhere which is
+ * cumbersome. This <code>PropertyStyle</code> is designed to access Scala properties natively.
+ *
  * @author Richard Kennard
  */
 
@@ -48,8 +46,8 @@ public class ScalaPropertyStyle
 	//
 
 	/**
-	 * Overridden because Scala always wraps properties with getter and setter methods. It never uses
-	 * public fields directly.
+	 * Overridden because Scala always wraps properties with getter and setter methods. It never
+	 * uses public fields directly.
 	 */
 
 	@Override

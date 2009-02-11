@@ -2404,7 +2404,7 @@
 		<antcall target="javadoc"/>
 		<antcall target="tlddoc"/>
 
-		<copy todir="${tomcat.dir}/webapps/ROOT">			
+		<copy todir="${tomcat.dir}/webapps/ROOT" overwrite="true">			
 			<fileset dir="${build.dir}">
 				<include name="doc/api/**"/>
 				<include name="doc/coverage/**"/>
@@ -2504,7 +2504,12 @@
 			</fileset>
 			<fileset dir="${build.dir}">
 				<include name="debug/**"/>
-				<include name="doc/**"/>
+				<include name="doc/api/**"/>
+				<include name="doc/coverage/**"/>
+				<include name="doc/taglib/**"/>
+				<include name="doc/reference/**/html*/*.html"/>
+				<include name="doc/reference/**/pdf/*.pdf"/>
+				<include name="doc/**/shared/**"/>
 				<include name="examples/**"/>
 				<include name="metawidget.jar"/>
 			</fileset>

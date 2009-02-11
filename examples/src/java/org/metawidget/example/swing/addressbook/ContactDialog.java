@@ -186,10 +186,19 @@ public class ContactDialog
 				if ( JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) != JOptionPane.OK_OPTION )
 					return;
 
-				Communication communication = mCommunicationsModel.getValueAt( tableCommunications.rowAtPoint( menuPopup.getLocation() ) );
+				int rowAtPoint = tableCommunications.rowAtPoint( menuPopup.getLocation() );
+
+				if ( rowAtPoint == -1 )
+					return;
+
+				Communication communication = mCommunicationsModel.getValueAt( rowAtPoint );
 
 				contact.removeCommunication( communication );
 				mCommunicationsModel.importCollection( contact.getCommunications() );
+
+				// (needed for Nimbus)
+
+				menuPopup.setVisible( false );
 			}
 		} );
 		tableCommunications.add( menuPopup );

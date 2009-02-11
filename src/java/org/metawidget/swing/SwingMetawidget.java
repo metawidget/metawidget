@@ -930,8 +930,15 @@ public class SwingMetawidget
 		if ( mNeedToBuildWidgets )
 			return;
 
-		mNeedToBuildWidgets = true;
+		// Note: it is important to call removeAll BEFORE setting mNeedToBuildWidgets
+		// to true. On some JRE implementations (ie. 1.6_12) removeAll triggers an
+		// immediate repaint which sets mNeedToBuildWidgets back to false
+
 		super.removeAll();
+
+		// Prepare to build widgets
+
+		mNeedToBuildWidgets = true;
 
 		if ( mPropertyBinding != null )
 		{
