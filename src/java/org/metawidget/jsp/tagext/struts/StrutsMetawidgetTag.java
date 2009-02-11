@@ -75,12 +75,6 @@ public class StrutsMetawidgetTag
 	private final static List<Boolean>	LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );
 
 	//
-	// Private members
-	//
-
-	private String						mPropertyPrefix;
-
-	//
 	// Public methods
 	//
 
@@ -100,7 +94,7 @@ public class StrutsMetawidgetTag
 				int firstIndexOf = property.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 				if ( firstIndexOf != lastIndexOf )
-					mPropertyPrefix = property.substring( firstIndexOf + 1, lastIndexOf + 1 );
+					mPathPrefix = property.substring( firstIndexOf + 1, lastIndexOf + 1 );
 			}
 		}
 	}
@@ -123,16 +117,6 @@ public class StrutsMetawidgetTag
 		return resources.getMessage( key );
 	}
 
-	@Override
-	public void release()
-	{
-		super.release();
-
-		// Clear the prefix, in case we're reused
-
-		mPropertyPrefix = null;
-	}
-
 	//
 	// Protected methods
 	//
@@ -153,7 +137,7 @@ public class StrutsMetawidgetTag
 
 		// Action
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return null;
 
 		// Masked (return an empty String, so that we DO still render a label)
@@ -239,7 +223,7 @@ public class StrutsMetawidgetTag
 
 		// Action
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return null;
 
 		// Struts Lookups
@@ -343,7 +327,7 @@ public class StrutsMetawidgetTag
 		int firstIndexOf = mPath.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( firstIndexOf != -1 )
-			mPropertyPrefix = mPath.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR;
+			mPathPrefix = mPath.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR;
 	}
 
 	//
@@ -373,8 +357,8 @@ public class StrutsMetawidgetTag
 
 		String name = attributes.get( NAME );
 
-		if ( mPropertyPrefix != null )
-			name = mPropertyPrefix + name;
+		if ( mPathPrefix != null )
+			name = mPathPrefix + name;
 
 		if ( tag instanceof BaseInputTag )
 		{
@@ -436,8 +420,8 @@ public class StrutsMetawidgetTag
 		// a bit hacky, unfortunately, but it's because JSP doesn't have
 		// a 'real' component model
 
-		if ( JspUtils.isJustHiddenFields( toReturn ))
- 			toReturn += "<span></span>";
+		if ( JspUtils.isJustHiddenFields( toReturn ) )
+			toReturn += "<span></span>";
 
 		return toReturn;
 	}
@@ -463,7 +447,7 @@ public class StrutsMetawidgetTag
 
 				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
+				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );
@@ -519,7 +503,7 @@ public class StrutsMetawidgetTag
 
 				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ))))
+				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );

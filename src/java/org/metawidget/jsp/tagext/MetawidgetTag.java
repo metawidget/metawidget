@@ -18,6 +18,8 @@ package org.metawidget.jsp.tagext;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Map;
@@ -48,7 +50,7 @@ import org.w3c.dom.Element;
 
 /**
  * Base Metawidget for JSP environments.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -76,11 +78,18 @@ public abstract class MetawidgetTag
 	/**
 	 * Path to inspect.
 	 * <p>
-	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for Struts,
-	 * <code>property</code> for Spring). Read by subclasses during <code>buildCompoundWidget</code>.
+	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for
+	 * Struts, <code>property</code> for Spring). Read by subclasses during
+	 * <code>buildCompoundWidget</code>.
 	 */
 
 	protected String					mPath;
+
+	/**
+	 * Prefix of path to inspect, to support nesting.
+	 */
+
+	protected String					mPathPrefix;
 
 	//
 	// Private members
@@ -272,6 +281,7 @@ public abstract class MetawidgetTag
 		super.release();
 
 		mPath = null;
+		mPathPrefix = null;
 		mInspectorConfig = null;
 		mLayoutClass = null;
 		mBundle = null;
@@ -376,6 +386,54 @@ public abstract class MetawidgetTag
 
 	protected String inspect()
 	{
+		TypeAndNames typeAndNames = PathUtils.parsePath( mPath, '.' );
+		String type = typeAndNames.getType();
+
+		// Inject the PageContext (in case it is used)
+
+		try
+		{
+			JspAnnotationInspector.setThreadLocalPageContext( pageContext );
+		}
+		catch ( NoClassDefFoundError e )
+		{
+			// Fail gracefully (if running without JspAnnotationInspector installed)
+		}
+		catch ( UnsupportedClassVersionError e )
+		{
+			// Fail gracefully (if running without annotations)
+		}
+
+		// Inspect using the 'raw' type (eg. contactForm)
+
+		String xml = inspect( null, type, typeAndNames.getNamesAsArray() );
+
+		// Try to locate the runtime bean. This allows some Inspectors
+		// to act on it polymorphically.
+
+		Object obj = pageContext.findAttribute( type );
+
+		if ( obj != null )
+		{
+			type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
+			String additionalXml = inspect( obj, type, typeAndNames.getNamesAsArray() );
+			xml = combineSubtrees( xml, additionalXml );
+		}
+
+		return xml;
+	}
+
+	/**
+	 * Inspect the given Object according to the given path, and return the result as a String
+	 * conforming to inspection-result-1.0.xsd.
+	 * <p>
+	 * This method mirrors the <code>Inspector</code> interface. Internally it looks up the
+	 * Inspector to use. It is a useful hook for subclasses wishing to inspect different Objects
+	 * using our same <code>Inspector</code>.
+	 */
+
+	protected String inspect( Object toInspect, String type, String... names )
+	{
 		Inspector inspector;
 
 		// If this InspectorConfig has already been read...
@@ -408,46 +466,7 @@ public abstract class MetawidgetTag
 
 		// Use the inspector to inspect the path
 
-		return inspect( inspector, mPath );
-	}
-
-	protected String inspect( Inspector inspector, String path )
-	{
-		TypeAndNames typeAndNames = PathUtils.parsePath( path, '.' );
-		String type = typeAndNames.getType();
-
-		// Inject the PageContext (in case it is used)
-
-		try
-		{
-			JspAnnotationInspector.setThreadLocalPageContext( pageContext );
-		}
-		catch ( NoClassDefFoundError e )
-		{
-			// Fail gracefully (if running without JspAnnotationInspector installed)
-		}
-		catch ( UnsupportedClassVersionError e )
-		{
-			// Fail gracefully (if running without annotations)
-		}
-
-		// Inspect using the 'raw' type (eg. contactForm)
-
-		String xml = inspector.inspect( null, type, typeAndNames.getNamesAsArray() );
-
-		// Try to locate the runtime bean. This allows some Inspectors
-		// to act on it polymorphically.
-
-		Object obj = pageContext.findAttribute( type );
-
-		if ( obj != null )
-		{
-			type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
-			String additionalXml = inspector.inspect( obj, type, typeAndNames.getNamesAsArray() );
-			xml = combineSubtrees( xml, additionalXml );
-		}
-
-		return xml;
+		return inspector.inspect( toInspect, type, names );
 	}
 
 	protected StubContent getStub( String path )
@@ -456,6 +475,62 @@ public abstract class MetawidgetTag
 			return null;
 
 		return mStubs.get( path );
+	}
+
+	/**
+	 * Evaluate to text (via a PropertyEditor if available).
+	 */
+
+	protected String evaluateAsText( Map<String, String> attributes )
+		throws Exception
+	{
+		Object evaluated = evaluate( attributes );
+
+		if ( evaluated == null )
+			return "";
+
+		Class<?> clazz = evaluated.getClass();
+
+		while ( clazz != null )
+		{
+			PropertyEditor editor = PropertyEditorManager.findEditor( clazz );
+
+			if ( editor != null )
+			{
+				editor.setValue( evaluated );
+				return editor.getAsText();
+			}
+
+			clazz = clazz.getSuperclass();
+		}
+
+		return StringUtils.quietValueOf( evaluated );
+	}
+
+	protected Object evaluate( Map<String, String> attributes )
+		throws Exception
+	{
+		if ( mPathPrefix == null )
+			return null;
+
+		return evaluate( "${" + mPathPrefix + attributes.get( NAME ) + "}" );
+	}
+
+	protected Object evaluate( String expression )
+		throws Exception
+	{
+		try
+		{
+			return pageContext.getExpressionEvaluator().evaluate( expression, Object.class, pageContext.getVariableResolver(), null );
+		}
+		catch ( Throwable t )
+		{
+			// EL should fail gracefully
+			//
+			// Note: pageContext.getExpressionEvaluator() is only available with JSP 2.0
+
+			return null;
+		}
 	}
 
 	//

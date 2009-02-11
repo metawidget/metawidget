@@ -1546,6 +1546,21 @@ public class SwingMetawidget
 		if ( mPath == null )
 			return null;
 
+		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+	}
+
+	/**
+	 * Inspect the given Object according to the given path, and return the result as a String
+	 * conforming to inspection-result-1.0.xsd.
+	 * <p>
+	 * This method mirrors the <code>Inspector</code> interface. Internally it looks up the
+	 * Inspector to use. It is a useful hook for subclasses wishing to inspect different Objects
+	 * using our same <code>Inspector</code>.
+	 */
+
+	protected String inspect( Object toInspect, String type, String... names )
+	{
 		// If this Inspector has been set externally, use it...
 
 		if ( mInspector == null )
@@ -1565,8 +1580,7 @@ public class SwingMetawidget
 
 		// Use the inspector to inspect the path
 
-		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-		return mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+		return mInspector.inspect( mToInspect, type, names );
 	}
 
 	protected SwingMetawidget initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )

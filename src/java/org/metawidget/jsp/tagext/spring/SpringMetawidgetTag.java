@@ -58,7 +58,7 @@ import org.w3c.dom.Element;
  * <p>
  * Automatically creates native Spring form tags, such as <code>&lt;form:input&gt;</code> and
  * <code>&lt;form:select&gt;</code>, to suit the inspected fields.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -72,12 +72,6 @@ public class SpringMetawidgetTag
 	private final static long			serialVersionUID	= 1l;
 
 	private final static List<Boolean>	LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );
-
-	//
-	// Private members
-	//
-
-	private String						mPathPrefix;
 
 	//
 	// Public methods
@@ -122,16 +116,6 @@ public class SpringMetawidgetTag
 		MessageSource context = RequestContextUtils.getWebApplicationContext( request );
 
 		return context.getMessage( key, null, null, RequestContextUtils.getLocale( request ) );
-	}
-
-	@Override
-	public void release()
-	{
-		super.release();
-
-		// Clear the prefix, in case we're reused
-
-		mPathPrefix = null;
 	}
 
 	//
@@ -346,7 +330,7 @@ public class SpringMetawidgetTag
 	}
 
 	/**
-	 * Initialize the Struts Tag with various attributes, CSS settings etc.
+	 * Initialize the Spring Tag with various attributes, CSS settings etc.
 	 * <p>
 	 * In other Metawidgets, this step is done after the widget has been built. However, because JSP
 	 * lacks a 'true' component model (eg. buildActiveWidget returns a String) we must do it here.

@@ -900,25 +900,25 @@ public class GwtMetawidget
 
 		if ( mToInspect != null )
 		{
-			if ( mLastInspection == null )
+			// If this Inspector has been set externally, use it...
+
+			if ( mInspector == null )
 			{
-				// If this Inspector has been set externally, use it...
+				// ...otherwise, if this InspectorConfig has already been created, use it...
+
+				mInspector = INSPECTORS.get( mInspectorClass );
+
+				// ...otherwise, initialize the Inspector
 
 				if ( mInspector == null )
 				{
-					// ...otherwise, if this InspectorConfig has already been created, use it...
-
-					mInspector = INSPECTORS.get( mInspectorClass );
-
-					// ...otherwise, initialize the Inspector
-
-					if ( mInspector == null )
-					{
-						mInspector = ( (InspectorFactory) GWT.create( InspectorFactory.class ) ).newInspector( mInspectorClass );
-						INSPECTORS.put( mInspectorClass, mInspector );
-					}
+					mInspector = ( (InspectorFactory) GWT.create( InspectorFactory.class ) ).newInspector( mInspectorClass );
+					INSPECTORS.put( mInspectorClass, mInspector );
 				}
+			}
 
+			if ( mLastInspection == null )
+			{
 				// Special support for GwtRemoteInspectorProxy
 
 				if ( mInspector instanceof GwtRemoteInspectorProxy )

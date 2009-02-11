@@ -351,7 +351,7 @@ public abstract class UIMetawidget
 
 			if ( valueBinding != null )
 			{
-				mMetawidgetMixin.buildWidgets( inspect( getInspector(), valueBinding, mInspectFromParent ) );
+				mMetawidgetMixin.buildWidgets( inspect( valueBinding, mInspectFromParent ) );
 				super.encodeBegin( context );
 				return;
 			}
@@ -360,7 +360,7 @@ public abstract class UIMetawidget
 
 			if ( mValue != null )
 			{
-				mMetawidgetMixin.buildWidgets( getInspector().inspect( null, (String) mValue ) );
+				mMetawidgetMixin.buildWidgets( inspect( null, (String) mValue ) );
 				super.encodeBegin( context );
 				return;
 			}
@@ -434,7 +434,7 @@ public abstract class UIMetawidget
 	 * components
 	 */
 
-	protected String inspect( Inspector inspector, ValueBinding valueBinding, boolean inspectFromParent )
+	protected String inspect( ValueBinding valueBinding, boolean inspectFromParent )
 	{
 		if ( valueBinding == null )
 			return null;
@@ -451,7 +451,7 @@ public abstract class UIMetawidget
 			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) )
 			{
 				Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-				return inspector.inspect( toInspect, classToInspect.getName() );
+				return inspect( toInspect, classToInspect.getName() );
 			}
 		}
 
@@ -481,7 +481,7 @@ public abstract class UIMetawidget
 				if ( toInspect != null )
 				{
 					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-					return inspector.inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
+					return inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
 				}
 			}
 		}
@@ -489,7 +489,16 @@ public abstract class UIMetawidget
 		return null;
 	}
 
-	protected Inspector getInspector()
+	/**
+	 * Inspect the given Object according to the given path, and return the result as a String
+	 * conforming to inspection-result-1.0.xsd.
+	 * <p>
+	 * This method mirrors the <code>Inspector</code> interface. Internally it looks up the
+	 * Inspector to use. It is a useful hook for subclasses wishing to inspect different Objects
+	 * using our same <code>Inspector</code>.
+	 */
+
+	protected String inspect( Object toInspect, String type, String... names )
 	{
 		Inspector inspector;
 
@@ -520,7 +529,9 @@ public abstract class UIMetawidget
 			inspectors.put( mInspectorConfig, inspector );
 		}
 
-		return inspector;
+		// Use the inspector to inspect the path
+
+		return inspector.inspect( toInspect, type, names );
 	}
 
 	/**
@@ -680,8 +691,6 @@ public abstract class UIMetawidget
 
 		// Inspect any remaining components, and sort them to the bottom
 
-		Inspector inspector = getInspector();
-
 		for ( int loop = 0, index = 0, length = children.size(); loop < length; loop++ )
 		{
 			UIComponent component = children.get( index );
@@ -703,7 +712,7 @@ public abstract class UIMetawidget
 
 			if ( binding != null )
 			{
-				String xml = inspect( inspector, binding, true );
+				String xml = inspect( binding, true );
 
 				if ( xml != null )
 				{

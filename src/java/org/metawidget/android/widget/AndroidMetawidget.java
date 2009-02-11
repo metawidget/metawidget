@@ -925,6 +925,21 @@ public class AndroidMetawidget
 		if ( mPath == null )
 			return null;
 
+		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+	}
+
+	/**
+	 * Inspect the given Object according to the given path, and return the result as a String
+	 * conforming to inspection-result-1.0.xsd.
+	 * <p>
+	 * This method mirrors the <code>Inspector</code> interface. Internally it looks up the
+	 * Inspector to use. It is a useful hook for subclasses wishing to inspect different Objects
+	 * using our same <code>Inspector</code>.
+	 */
+
+	protected String inspect( Object toInspect, String type, String... names )
+	{
 		// If this Inspector has been set externally, use it...
 
 		Inspector inspector = mInspector;
@@ -949,13 +964,7 @@ public class AndroidMetawidget
 
 		// Use the inspector to inspect the path
 
-		return inspect( inspector, mPath );
-	}
-
-	protected String inspect( Inspector inspector, String path )
-	{
-		TypeAndNames typeAndNames = PathUtils.parsePath( path );
-		return inspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+		return inspector.inspect( mToInspect, type, names );
 	}
 
 	protected AndroidMetawidget createMetawidget( Map<String, String> attributes )

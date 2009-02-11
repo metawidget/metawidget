@@ -19,8 +19,6 @@ package org.metawidget.jsp.tagext.html;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -42,7 +40,7 @@ import org.w3c.dom.Element;
  * <code>&lt;select&gt;</code>, to suit the inspected fields.
  * <p>
  * When used in a JSP 2.0 environment, automatically initializes tags using JSP EL.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -56,12 +54,6 @@ public class HtmlMetawidgetTag
 	private final static long			serialVersionUID	= 1l;
 
 	private final static List<Boolean>	LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );
-
-	//
-	// Private members
-	//
-
-	private String						mNamePrefix;
 
 	//
 	// Public methods
@@ -85,7 +77,7 @@ public class HtmlMetawidgetTag
 			int lastIndexOf = value.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 			if ( lastIndexOf != -1 )
-				mNamePrefix = value.substring( 0, lastIndexOf + 1 );
+				mPathPrefix = value.substring( 0, lastIndexOf + 1 );
 		}
 	}
 
@@ -96,16 +88,6 @@ public class HtmlMetawidgetTag
 	public void setBundle( LocalizationContext bundle )
 	{
 		super.setBundle( bundle.getResourceBundle() );
-	}
-
-	@Override
-	public void release()
-	{
-		super.release();
-
-		// Clear the prefix, in case we're reused
-
-		mNamePrefix = null;
 	}
 
 	//
@@ -317,7 +299,7 @@ public class HtmlMetawidgetTag
 	{
 		// Take the whole path as the name prefix, so that names are unique
 
-		mNamePrefix = mPath + StringUtils.SEPARATOR_DOT_CHAR;
+		mPathPrefix = mPath + StringUtils.SEPARATOR_DOT_CHAR;
 	}
 
 	//
@@ -485,10 +467,8 @@ public class HtmlMetawidgetTag
 
 		String name = attributes.get( NAME );
 
-		if ( mNamePrefix != null )
-		{
-			name = mNamePrefix + name;
-		}
+		if ( mPathPrefix != null )
+			name = mPathPrefix + name;
 
 		buffer.append( name );
 		buffer.append( "\"" );
@@ -605,61 +585,5 @@ public class HtmlMetawidgetTag
 		buffer.append( "</select>" );
 
 		return buffer.toString();
-	}
-
-	/**
-	 * Evaluate to text (via a PropertyEditor if available).
-	 */
-
-	private String evaluateAsText( Map<String, String> attributes )
-		throws Exception
-	{
-		Object evaluated = evaluate( attributes );
-
-		if ( evaluated == null )
-			return "";
-
-		Class<?> clazz = evaluated.getClass();
-
-		while ( clazz != null )
-		{
-			PropertyEditor editor = PropertyEditorManager.findEditor( clazz );
-
-			if ( editor != null )
-			{
-				editor.setValue( evaluated );
-				return editor.getAsText();
-			}
-
-			clazz = clazz.getSuperclass();
-		}
-
-		return StringUtils.quietValueOf( evaluated );
-	}
-
-	private Object evaluate( Map<String, String> attributes )
-		throws Exception
-	{
-		if ( mNamePrefix == null )
-			return null;
-
-		return evaluate( "${" + mNamePrefix + attributes.get( NAME ) + "}" );
-	}
-
-	private Object evaluate( String expression )
-		throws Exception
-	{
-		try
-		{
-			return pageContext.getExpressionEvaluator().evaluate( expression, Object.class, pageContext.getVariableResolver(), null );
-		}
-		catch ( Throwable t )
-		{
-			// EL should fail gracefully
-			//
-			// Note: pageContext.getExpressionEvaluator() is only available with JSP 2.0
-
-			return null;
-		}
 	}
 }
