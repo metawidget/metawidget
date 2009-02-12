@@ -36,7 +36,7 @@
 			</fileset>
 		</copy>
 
-    	<copy todir="${seam.dir}/examples/metawidget-groovybooking/exploded-archives/jboss-seam-groovy.war/WEB-INF/lib">
+    	<copy todir="${seam.dir}/examples/metawidget-groovybooking/exploded-archives/jboss-seam-groovybooking.war/WEB-INF/lib">
     		<fileset dir="../../../../">
     			<include name="metawidget.jar"/>
     		</fileset>

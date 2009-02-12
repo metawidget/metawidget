@@ -11,14 +11,13 @@
 <ui:define name="content">
 
 <div class="section">
+  <h:form id="main">
   
     <span class="errors">
-       <h:messages globalOnly="true"/>
+       <h:messages id="messages" globalOnly="true"/>
     </span>
     
-    <h1>Search Hotels</h1>
-
-	<h:form id="searchCriteria">
+	<h1>Search Hotels</h1>
 	<fieldset> 
 	   <h:inputText id="searchString" value="#{hotelSearch.searchString}" style="width: 165px;">
          <a:support event="onkeyup" actionListener="#{hotelSearch.find}" reRender="searchResults" />
@@ -28,7 +27,7 @@
        &#160;
        <a:status>
           <f:facet name="start">
-             <h:graphicImage value="/img/spinner.gif"/>
+             <h:graphicImage id="Spinner" value="/img/spinner.gif"/>
           </f:facet>
        </a:status>
 	   <br/>
@@ -39,13 +38,13 @@
           <f:selectItem itemLabel="20" itemValue="20"/>
        </h:selectOneMenu>
     </fieldset>
-    </h:form>
     
+  </h:form>
 </div>
 
 <a:outputPanel id="searchResults">
   <div class="section">
-	<h:outputText value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
+	<h:outputText id="NoHotelsFoundMessage" value="No Hotels Found" rendered="#{hotels != null and hotels.rowCount==0}"/>
 	<h:dataTable id="hotels" value="#{hotels}" var="hot" rendered="#{hotels.rowCount>0}">
 		<h:column>
 			<f:facet name="header">Name</f:facet>
@@ -68,7 +67,7 @@
 			<s:link id="viewHotel" value="View Hotel" action="#{hotelBooking.selectHotel(hot)}"/>
 		</h:column>
 	</h:dataTable>
-	<s:link value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
+	<s:link id="MoreResultsLink" value="More results" action="#{hotelSearch.nextPage}" rendered="#{hotelSearch.nextPageAvailable}"/>
   </div>
 </a:outputPanel>
 
@@ -115,25 +114,6 @@
 
 <!-- sidebar -->
 <ui:define name="sidebar">
-
-<h1>State management in Seam</h1>
-<p>
-   State in Seam is <em>contextual</em>. When you click "Find Hotels", the application
-   retrieves a list of hotels from the database and caches it in the session context. When you
-   navigate to one of the hotel records by clicking the "View Hotel" link, a <em>conversation</em> 
-   begins. The conversation is attached to a particular tab, in a particular browser window. You can
-   navigate to multiple hotels using "open in new tab" or "open in new window" in your web browser.
-   Each window will execute in the context of a different conversation. The application keeps state
-   associated with your hotel booking in the conversation context, which ensures that the concurrent
-   conversations do not interfere with each other.
-</p>
-
-<p>
-   <a href="#" onclick="window.open('exp/mainExp.html','exp','width=752,height=500,scrollbars=yes');">
-      How does the search page work?
-   </a>
-</p>
-
 </ui:define>
 
 </ui:composition>

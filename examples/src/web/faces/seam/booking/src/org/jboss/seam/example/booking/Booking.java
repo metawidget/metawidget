@@ -74,7 +74,7 @@ public class Booking implements Serializable
    }
    
    @NotNull
-   @Basic @Temporal(TemporalType.DATE)
+   @Basic @Temporal(TemporalType.DATE) 
    @UiComesAfter( "total" )
    @UiFacesDateTimeConverter( pattern = "MM/dd/yyyy" )
    public Date getCheckinDate()

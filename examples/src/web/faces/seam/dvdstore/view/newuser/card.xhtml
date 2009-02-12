@@ -19,11 +19,11 @@
         </ui:define>
        
         <ui:define name="body">
-            <h2><h:outputText value="#{messages.newCustomerHeader}" /></h2>
+            <h2><h:outputText id="NewCustomerHeaderText" value="#{messages.newCustomerHeader}" /></h2>
             
-            <p><em><h:outputText value="#{messages.newCustomerInfo}" /></em></p>
+            <p><em><h:outputText id="NewCustomerInfoText" value="#{messages.newCustomerInfo}" /></em></p>
             
-            <h:form id="newuser">
+            <h:form id="NewAccountForm">
                 <m:metawidget>
                 	<f:param name="labelStyle" value="text-align: left; font-weight: normal"/>
    	            	<f:param name="messageStyleClass" value="cntError"/>

@@ -28,7 +28,7 @@ public class Hotel implements Serializable
    private String zip;
    private String country;
    private BigDecimal price;
-
+   
    @Id @GeneratedValue
    public Long getId()
    {
@@ -38,7 +38,7 @@ public class Hotel implements Serializable
    {
       this.id = id;
    }
-
+   
    @Length(max=50) @NotNull
    public String getName()
    {
@@ -48,7 +48,7 @@ public class Hotel implements Serializable
    {
       this.name = name;
    }
-
+   
    @Length(max=100) @NotNull
    @UiComesAfter("name")
    public String getAddress()
