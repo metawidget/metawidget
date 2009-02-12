@@ -770,8 +770,7 @@
 		
 	<target name="test-android-allwidgets" depends="pack,compile-test">
 
-		<mkdir dir="${build.dir}/test/android"/>
-		<mkdir dir="${build.dir}/test/android/allwidgets/classes"/>
+		<mkdir dir="${build.dir}/test/android/allwidgets/dex-classes"/>
 			
 		<!-- Copy and DEX only the relevant classes -->
 		
@@ -802,14 +801,14 @@
 		
         <exec executable="${android.tools.dir}/dx.bat" failonerror="true">
             <arg value="--dex" />
-            <arg value="--output=${build.dir}/test/android/allwidgets/classes.dex" />
+            <arg value="--output=${basedir}/${build.dir}/test/android/allwidgets/classes.dex" />
             <arg value="--positions=lines" />
-            <arg path="${build.dir}/test/android/allwidgets/dex-classes" />
+            <arg path="${basedir}/${build.dir}/test/android/allwidgets/dex-classes" />
         </exec>
 
 	    <!-- Put the project's resources into the output package file -->
 				
-        <exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="test/android/allwidgets">
+        <exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="test/src/android/allwidgets">
             <arg value="package" />
             <arg value="-f" />
             <arg value="-M" />
@@ -819,17 +818,17 @@
             <arg value="-I" />
             <arg value="${android.dir}/android.jar" />
             <arg value="-F" />
-            <arg value="${build.dir}/test/android/allwidgets-android.ap_" />
+            <arg value="${basedir}/${build.dir}/test/android/allwidgets-android.ap_" />
         </exec>
 
 	    <!-- Put the project's .dex files into the APK -->
 		
         <exec executable="${android.tools.dir}/apkbuilder.bat" failonerror="true">
-            <arg value="${build.dir}/test/android/allwidgets-android.apk" />
+            <arg value="${basedir}/${build.dir}/test/android/allwidgets-android.apk" />
             <arg value="-z" />
-            <arg value="${build.dir}/test/android/allwidgets-android.ap_" />
+            <arg value="${basedir}/${build.dir}/test/android/allwidgets-android.ap_" />
             <arg value="-f" />
-            <arg value="${build.dir}/test/android/allwidgets/classes.dex" />
+            <arg value="${basedir}/${build.dir}/test/android/allwidgets/classes.dex" />
         </exec>
 
 	</target>
@@ -2231,7 +2230,6 @@
 
 	<target name="example-android-addressbook" depends="pack,compile-examples" if="android-available">
 
-		<mkdir dir="${build.dir}/examples/android"/>
 		<mkdir dir="${build.dir}/examples/android/addressbook/dex-classes"/>
 			
 		<!-- Copy and DEX only the relevant classes -->

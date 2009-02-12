@@ -7,7 +7,7 @@ For Android Address Book, test:
 
 test-search:
 
-1. Test title says 'Address Book (Metawidget Test)'
+1. Test title says 'Address Book (Metawidget Example)'
 2. Test 6 contacts appear
 3. Test searching for surname 'Simpson'. Homer and Marjorie Simpson should appear
 4. Clear Surname and test searching by type 'Business'. Charles Montgomery Burns and Waylon Smithers should appear
@@ -16,7 +16,7 @@ test-existing-personal:
 
 1. Click Mr Homer Simpson
 2. Check all values are populated as read-only
-3. Check 'Contact Details' heading is in a large font
+3. Check 'Contact Details' and 'Other' headings are in a large font
 4. Click Edit
 5. Check all values are populated as active controls. Check title has focus
 6. Check date is May 12 1956 (though formatted as per your locale)

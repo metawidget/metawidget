@@ -93,11 +93,19 @@ public class AllWidgetsActivity
 			case 0:
 				try
 				{
+					// Already saved?
+
+					AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
+
+					if ( metawidget.isReadOnly() )
+						return false;
+
+					// Save
+
 					mapFromMetawidget();
 
 					// Show result
 
-					AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 					metawidget.setReadOnly( true );
 					mapToMetawidget();
 

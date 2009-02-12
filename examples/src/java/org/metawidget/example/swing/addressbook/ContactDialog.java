@@ -183,20 +183,20 @@ public class ContactDialog
 		{
 			public void actionPerformed( ActionEvent event )
 			{
-				if ( JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) == JOptionPane.OK_OPTION )
-				{
-					int rowAtPoint = tableCommunications.rowAtPoint( menuPopup.getLocation() );
-
-					if ( rowAtPoint >= 0 && rowAtPoint < mCommunicationsModel.getRowCount() )
-					{
-						Communication communication = mCommunicationsModel.getValueAt( rowAtPoint );
-
-						contact.removeCommunication( communication );
-						mCommunicationsModel.importCollection( contact.getCommunications() );
-					}
-				}
-
 				menuPopup.setVisible( false );
+
+				if ( JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) != JOptionPane.OK_OPTION )
+					return;
+
+				int rowAtPoint = tableCommunications.rowAtPoint( menuPopup.getLocation() );
+
+				if ( rowAtPoint < 0 || rowAtPoint >= mCommunicationsModel.getRowCount() )
+					return;
+
+				Communication communication = mCommunicationsModel.getValueAt( rowAtPoint );
+
+				contact.removeCommunication( communication );
+				mCommunicationsModel.importCollection( contact.getCommunications() );
 			}
 		} );
 		tableCommunications.add( menuPopup );
