@@ -12,7 +12,7 @@
 				<option name="ThrowExceptionOnScriptError" value="false" />
 			</config>
 			<steps>
-				<invoke url="${webtest.url}/seam-dvd/home" />
+				<invoke url="${webtest.url}/seam-dvdstore/home" />
 				<verifyTitle text="JBoss DVD Store" />
 				<clickLink label="Create Account" />
 				<clickButton label="Next" />
@@ -20,32 +20,29 @@
 				<verifyText text="User name: Validation Error: Value is required." />
 				<verifyText text="Password: Validation Error: Value is required." />
 				<verifyText text="Password verify: Validation Error: Value is required." />
-				<setInputField name="newuser:customerUserName" value="NewUser" />
-				<setInputField name="newuser:customerPassword" value="New" />
+				<setInputField name="NewAccountForm:customerUserName" value="NewUser" />
+				<setInputField name="NewAccountForm:customerPassword" value="New" />
 				<clickButton label="Next" />
 				
 				<verifyText text="Password: Validation Error: Value is less than allowable minimum of '6'" />
-				<setInputField name="newuser:customerPassword" value="New Password" />
-				<setInputField name="newuser:editCustomerPasswordVerify" value="New Password" />
+				<setInputField name="NewAccountForm:customerPassword" value="New Password" />
+				<setInputField name="NewAccountForm:editCustomerPasswordVerify" value="New Password" />
 				<clickButton label="Next" />
 				<clickButton label="Next" />
 
-				<verifyText text="First name: Validation Error: Value is required." />
-				<verifyText text="Last name: Validation Error: Value is required." />
 				<verifyText text="Address 1: Validation Error: Value is required." />
 				<verifyText text="Address 2: Validation Error: Value is required." />
 				<verifyText text="City: Validation Error: Value is required." />
 				<verifyText text="State: Validation Error: Value is required." />
 				<verifyText text="Zip: Validation Error: Value is required." />
-				<verifyText text="Email: Validation Error: Value is required." />				
-				<setInputField name="newuser:customerFirstName" value="New" />
-				<setInputField name="newuser:customerLastName" value="User" />
-				<setInputField name="newuser:customerAddress1" value="Apt 2" />
-				<setInputField name="newuser:customerAddress2" value="11/36-66 User Av" />
-				<setInputField name="newuser:customerCity" value="Userton" />
-				<setInputField name="newuser:customerState" value="U" />
-				<setInputField name="newuser:customerZip" value="1" />
-				<setInputField name="newuser:customerEmail" value="user" />
+				<setInputField name="NewAccountForm:customerFirstName" value="New" />
+				<setInputField name="NewAccountForm:customerLastName" value="User" />
+				<setInputField name="NewAccountForm:customerAddress1" value="Apt 2" />
+				<setInputField name="NewAccountForm:customerAddress2" value="11/36-66 User Av" />
+				<setInputField name="NewAccountForm:customerCity" value="Userton" />
+				<setInputField name="NewAccountForm:customerState" value="U" />
+				<setInputField name="NewAccountForm:customerZip" value="1" />
+				<setInputField name="NewAccountForm:customerEmail" value="user" />
 				<clickButton label="Next" />
 
 				<verifyText text="length must be between 2 and 2" />
@@ -53,13 +50,13 @@
 				<verifyText text="not a well-formed email address"/>				
 				<clickButton label="Next" />
 				
-				<setInputField name="newuser:customerState" value="UR" />
-				<setInputField name="newuser:customerZip" value="12345" />
-				<setInputField name="newuser:customerEmail" value="user@user.com" />
+				<setInputField name="NewAccountForm:customerState" value="UR" />
+				<setInputField name="NewAccountForm:customerZip" value="12345" />
+				<setInputField name="NewAccountForm:customerEmail" value="user@user.com" />
 				<clickButton label="Next" />
 								
-				<verifySelectField name="newuser:customerCreditCardType" value="1"/>
-				<setSelectField name="newuser:customerCreditCardType" value="2"/>				
+				<verifySelectField name="NewAccountForm:customerCreditCardType" value="1"/>
+				<setSelectField name="NewAccountForm:customerCreditCardType" value="2"/>				
 				<clickButton label="Next" />
 				<clickLink label="start shopping" />
 				

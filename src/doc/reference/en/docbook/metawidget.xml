@@ -1665,7 +1665,7 @@ bin\run</programlisting>
 bin\run</programlisting>
 
 				<para>
-					Open a Web browser to <uri>http://localhost:8080/jboss-seam-groovy</uri>. As with the previous
+					Open a Web browser to <uri>http://localhost:8080/jboss-seam-groovybooking</uri>. As with the previous
 					section, the updated Metawidget Seam Groovy Booking Example looks very similar to the original, but
 					uses significantly less	boilerplate code. Also, this time we are using Groovy to define
 					our business classes. The biggest impact this has is in <code>inspector-config.xml</code>,
@@ -1712,7 +1712,7 @@ bin\run</programlisting>
 bin\run</programlisting>
 
 				<para>
-					Open a Web browser to <uri>http://localhost:8080/seam-dvd</uri>. As with the previous
+					Open a Web browser to <uri>http://localhost:8080/seam-dvdstore</uri>. As with the previous
 					two sections, the updated Metawidget Seam DVD Store example looks very similar to the original, 
 					as in <xref linkend="section-introduction-part3-jbpm-screenshot"/>, but
 					uses significantly less	boilerplate code.

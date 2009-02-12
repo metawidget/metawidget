@@ -183,20 +183,18 @@ public class ContactDialog
 		{
 			public void actionPerformed( ActionEvent event )
 			{
-				if ( JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) != JOptionPane.OK_OPTION )
-					return;
+				if ( JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this communication?" ) == JOptionPane.OK_OPTION )
+				{
+					int rowAtPoint = tableCommunications.rowAtPoint( menuPopup.getLocation() );
 
-				int rowAtPoint = tableCommunications.rowAtPoint( menuPopup.getLocation() );
+					if ( rowAtPoint >= 0 && rowAtPoint < mCommunicationsModel.getRowCount() )
+					{
+						Communication communication = mCommunicationsModel.getValueAt( rowAtPoint );
 
-				if ( rowAtPoint == -1 )
-					return;
-
-				Communication communication = mCommunicationsModel.getValueAt( rowAtPoint );
-
-				contact.removeCommunication( communication );
-				mCommunicationsModel.importCollection( contact.getCommunications() );
-
-				// (needed for Nimbus)
+						contact.removeCommunication( communication );
+						mCommunicationsModel.importCollection( contact.getCommunications() );
+					}
+				}
 
 				menuPopup.setVisible( false );
 			}

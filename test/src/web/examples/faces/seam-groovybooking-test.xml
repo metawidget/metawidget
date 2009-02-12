@@ -12,7 +12,7 @@
 				<option name="ThrowExceptionOnScriptError" value="false"/>
 			</config>
 			<steps>
-				<invoke url="${webtest.url}/jboss-seam-groovy/home.seam" />
+				<invoke url="${webtest.url}/jboss-seam-groovybooking/home.seam" />
 				<verifyTitle text="JBoss Suites: Seam Framework" />
 				<clickLink label="Register New User"/>
 				

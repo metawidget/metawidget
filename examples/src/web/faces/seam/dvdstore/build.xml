@@ -30,13 +30,13 @@
 			</fileset>
 		</copy>
 
-    	<copy todir="${seam.dir}/examples/metawidget-dvdstore/exploded-archives/jboss-seam-dvd.ear/lib">
+    	<copy todir="${seam.dir}/examples/metawidget-dvdstore/exploded-archives/jboss-seam-dvdstore.ear/lib">
     		<fileset dir=".">
     			<include name="metawidget-backend.jar"/>
     		</fileset>
 		</copy>
 
-    	<copy todir="${seam.dir}/examples/metawidget-dvdstore/exploded-archives/jboss-seam-dvd.war/WEB-INF/lib" file="metawidget-frontend.jar" />
+    	<copy todir="${seam.dir}/examples/metawidget-dvdstore/exploded-archives/jboss-seam-dvdstore.war/WEB-INF/lib" file="metawidget-frontend.jar" />
 
 		<copy todir="${seam.dir}/lib">
     		<fileset dir="../../../../">
