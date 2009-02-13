@@ -45,6 +45,8 @@
 				<setInputField name="NewAccountForm:customerEmail" value="user" />
 				<clickButton label="Next" />
 
+				<!-- E-mail validation only works the second time you press 'Next', because of JBSEAM-3251 -->
+				
 				<verifyText text="length must be between 2 and 2" />
 				<verifyText text="length must be between 5 and 10" />				
 				<verifyText text="not a well-formed email address"/>				
