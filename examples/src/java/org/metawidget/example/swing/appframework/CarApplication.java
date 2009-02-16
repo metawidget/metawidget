@@ -118,7 +118,7 @@ public class CarApplication
 		// Set our default size. After first run, this will be overridden by the value
 		// stored in ${userHome}\Application Data\${vendorId}\${applicationId}\session.xml
 
-		mMetawidget.setPreferredSize( new Dimension( 400, 150 ) );
+		mMetawidget.setPreferredSize( new Dimension( 550, 150 ) );
 		frame.add( mMetawidget, BorderLayout.CENTER );
 
 		// Actions
