@@ -203,16 +203,20 @@ public class MigLayoutTest
 		metawidget.add( arbitraryStubWithAttributes );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
-		UnitValue[] padding = ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 0 ) ) ).getPadding();
 
 		// (padding[0].getValue() == 6 for Nimbus, 2 for Metal - depends on what
 		// UIManger.setLookAndFeel has been called by other tests)
 
+		UnitValue[] padding = ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 0 ) ) ).getPadding();
 		assertTrue( padding[0].getValue() == ( "Nimbus".equals( UIManager.getLookAndFeel().getName() ) ? 6 : 2 ) );
 		assertTrue( padding[1].getValue() == 0 );
 		assertTrue( padding[2].getValue() == padding[0].getValue() );
 		assertTrue( padding[3].getValue() == 0 );
+
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
+		padding = ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getPadding();
+		assertTrue( padding == null );
+
 		assertTrue( 0f == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 0 ) ) ).getVertical().getAlign().getValue() );
 		assertTrue( 1 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getCellX() );
 		assertTrue( null == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getVertical().getAlign() );

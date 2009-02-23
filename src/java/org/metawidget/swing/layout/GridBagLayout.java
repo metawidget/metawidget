@@ -30,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
@@ -65,33 +66,19 @@ public class GridBagLayout
 	// Public statics
 	//
 
-	public final static int		SECTION_AS_HEADING				= 0;
+	public final static int		SECTION_AS_HEADING		= 0;
 
-	public final static int		SECTION_AS_TAB					= 1;
+	public final static int		SECTION_AS_TAB			= 1;
 
 	//
 	// Private statics
 	//
 
-	private final static Insets	INSETS_TOP_LEFT_COLUMN_LABEL	= new Insets( 1, 0, 3, 3 );
+	private final static Insets	INSETS_SECTION_LABEL	= new Insets( 0, 0, 0, 5 );
 
-	private final static Insets	INSETS_TOP_LABEL				= new Insets( 1, 5, 3, 3 );
+	private final static Border	BORDER_SECTION			= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
 
-	private final static Insets	INSETS_LEFT_COLUMN_LABEL		= new Insets( 3, 0, 3, 3 );
-
-	private final static Insets	INSETS_LABEL					= new Insets( 3, 5, 3, 3 );
-
-	private final static Insets	INSETS_TOP_COMPONENT			= new Insets( 0, 0, 2, 0 );
-
-	private final static Insets	INSETS_COMPONENT				= new Insets( 2, 0, 2, 0 );
-
-	private final static Insets	INSETS_SECTION_LABEL			= new Insets( 10, 0, 5, 5 );
-
-	private final static Insets	INSETS_SECTION					= new Insets( 12, 0, 5, 0 );
-
-	private final static Insets	INSETS_TABBED_PANE				= new Insets( 5, 0, 5, 0 );
-
-	private final static Border	INSETS_TAB						= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
+	private final static Border	BORDER_TAB				= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
 
 	//
 	// Private members
@@ -113,6 +100,8 @@ public class GridBagLayout
 
 	private JPanel				mPanelCurrent;
 
+	private Insets				mDefaultLabelInsets;
+
 	/**
 	 * Whether a spacer row is required on the last row of the layout.
 	 * <p>
@@ -121,7 +110,7 @@ public class GridBagLayout
 	 * vertical constraint weighting &gt; 0.
 	 */
 
-	private boolean				mNeedParentSpacerRow			= true;
+	private boolean				mNeedParentSpacerRow	= true;
 
 	/**
 	 * Whether a spacer row is required on the last row of the current panel.
@@ -179,7 +168,26 @@ public class GridBagLayout
 	@Override
 	public void layoutBegin()
 	{
-		getMetawidget().setLayout( new java.awt.GridBagLayout() );
+		java.awt.GridBagLayout layoutManager = new java.awt.GridBagLayout();
+		getMetawidget().setLayout( layoutManager );
+
+		// Calculate default label inset
+		//
+		// We top align all our labels, not just those belonging to 'tall' components,
+		// so that tall components, regular components and nested Metawidget components all line up.
+		// However, we still want the JLabels to be middle aligned for one-line components (such as
+		// JTextFields), so we top inset them a bit
+
+		JTextField dummyTextField = new JTextField();
+		dummyTextField.setLayout( layoutManager );
+		double dummyTextFieldHeight = dummyTextField.getPreferredSize().getHeight();
+
+		JLabel dummyLabel = new JLabel( "X" );
+		dummyLabel.setLayout( layoutManager );
+		double dummyLabelHeight = dummyLabel.getPreferredSize().getHeight();
+
+		int defaultLabelVerticalPadding = (int) Math.max( 0, ( dummyTextFieldHeight - dummyLabelHeight ) / 2 );
+		mDefaultLabelInsets = new Insets( defaultLabelVerticalPadding, 0, defaultLabelVerticalPadding, 0 );
 	}
 
 	public void layoutChild( Component component, Map<String, String> attributes )
@@ -235,11 +243,6 @@ public class GridBagLayout
 			componentConstraints.gridwidth = GridBagConstraints.REMAINDER;
 			mCurrentColumn = mNumberOfColumns;
 		}
-
-		if ( mCurrentRow == 0 )
-			componentConstraints.insets = INSETS_TOP_COMPONENT;
-		else
-			componentConstraints.insets = INSETS_COMPONENT;
 
 		// Hack for spacer row (see JavaDoc for mNeedSpacerRow): assume components
 		// embedded in a JScrollPane are their own spacer row
@@ -359,32 +362,17 @@ public class GridBagLayout
 				label.setText( labelText + ":" );
 
 			GridBagConstraints labelConstraints = new GridBagConstraints();
-			labelConstraints.fill = GridBagConstraints.BOTH;
-			labelConstraints.anchor = GridBagConstraints.NORTHWEST;
 			labelConstraints.gridx = mCurrentColumn * 2;
 			labelConstraints.gridy = mCurrentRow;
+			labelConstraints.fill = GridBagConstraints.HORIZONTAL;
 			labelConstraints.weightx = 0.1f / mNumberOfColumns;
 
 			// Top align all labels, not just those belonging to 'tall' components,
 			// so that tall components, regular components and nested Metawidget
 			// components all line up
 
-			label.setVerticalAlignment( SwingConstants.TOP );
-
-			if ( mCurrentColumn == 0 )
-			{
-				if ( mCurrentRow == 0 )
-					labelConstraints.insets = INSETS_TOP_LEFT_COLUMN_LABEL;
-				else
-					labelConstraints.insets = INSETS_LEFT_COLUMN_LABEL;
-			}
-			else
-			{
-				if ( mCurrentRow == 0 )
-					labelConstraints.insets = INSETS_TOP_LABEL;
-				else
-					labelConstraints.insets = INSETS_LABEL;
-			}
+			labelConstraints.anchor = GridBagConstraints.NORTHWEST;
+			labelConstraints.insets = mDefaultLabelInsets;
 
 			// Add to either current panel or direct to the Metawidget
 
@@ -431,6 +419,7 @@ public class GridBagLayout
 				if ( mPanelCurrent == null )
 				{
 					tabbedPane = new JTabbedPane();
+					tabbedPane.setBorder( BORDER_SECTION );
 
 					mPanelInsertedRow = mCurrentRow;
 
@@ -440,7 +429,6 @@ public class GridBagLayout
 					constraintsTabbedPane.gridy = mPanelInsertedRow;
 					constraintsTabbedPane.gridwidth = GridBagConstraints.REMAINDER;
 					constraintsTabbedPane.weighty = 1.0f;
-					constraintsTabbedPane.insets = INSETS_TABBED_PANE;
 					mNeedParentSpacerRow = false;
 
 					getMetawidget().add( tabbedPane, constraintsTabbedPane );
@@ -452,7 +440,7 @@ public class GridBagLayout
 				}
 
 				mPanelCurrent = new JPanel();
-				mPanelCurrent.setBorder( INSETS_TAB );
+				mPanelCurrent.setBorder( BORDER_TAB );
 				mPanelCurrent.setName( localizedSection );
 				mPanelCurrent.setLayout( new java.awt.GridBagLayout() );
 				mNeedPanelSpacerRow = true;
@@ -468,6 +456,7 @@ public class GridBagLayout
 				// Separator panel (a GridBagLayout within a GridBagLayout)
 
 				JPanel panelSection = new JPanel();
+				panelSection.setBorder( BORDER_SECTION );
 				panelSection.setLayout( new java.awt.GridBagLayout() );
 				panelSection.setOpaque( false );
 
@@ -479,13 +468,11 @@ public class GridBagLayout
 				GridBagConstraints constraintsSeparator = new GridBagConstraints();
 				constraintsSeparator.fill = GridBagConstraints.HORIZONTAL;
 				constraintsSeparator.weightx = 1.0;
-				constraintsSeparator.insets = INSETS_SECTION;
-				constraintsSeparator.gridwidth = GridBagConstraints.REMAINDER;
-				panelSection.add( new JSeparator( SwingConstants.CENTER ), constraintsSeparator );
+				constraintsSeparator.anchor = GridBagConstraints.EAST;
+				panelSection.add( new JSeparator( SwingConstants.HORIZONTAL ), constraintsSeparator );
 
 				GridBagConstraints constraintsSection = new GridBagConstraints();
 				constraintsSection.fill = GridBagConstraints.HORIZONTAL;
-				constraintsSection.anchor = GridBagConstraints.WEST;
 				constraintsSection.gridy = mCurrentRow;
 				constraintsSection.gridwidth = GridBagConstraints.REMAINDER;
 				getMetawidget().add( panelSection, constraintsSection );

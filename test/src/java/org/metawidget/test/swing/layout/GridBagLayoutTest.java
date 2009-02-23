@@ -18,6 +18,7 @@ package org.metawidget.test.swing.layout;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -28,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import junit.framework.TestCase;
 
@@ -89,9 +91,9 @@ public class GridBagLayoutTest
 			metawidget.getComponent( 0 );
 			assertTrue( false );
 		}
-		catch( MetawidgetException e )
+		catch ( MetawidgetException e )
 		{
-			assertTrue( "numberOfColumns must be >= 1".equals( e.getCause().getCause().getMessage() ));
+			assertTrue( "numberOfColumns must be >= 1".equals( e.getCause().getCause().getMessage() ) );
 		}
 
 		metawidget.setParameter( "numberOfColumns", 2 );
@@ -110,7 +112,7 @@ public class GridBagLayoutTest
 		// JTabbedPane
 
 		JTabbedPane tabbedPane = (JTabbedPane) metawidget.getComponent( 6 );
-		assertTrue( 3 == tabbedPane.getComponentCount());
+		assertTrue( 3 == tabbedPane.getComponentCount() );
 		assertTrue( -1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).gridx );
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).gridy );
 		assertTrue( GridBagConstraints.BOTH == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).fill );
@@ -119,7 +121,7 @@ public class GridBagLayoutTest
 
 		JPanel panelTab = (JPanel) tabbedPane.getComponent( 0 );
 		assertTrue( panelTab.isOpaque() );
-		assertTrue( "tab1".equals( panelTab.getName() ));
+		assertTrue( "tab1".equals( panelTab.getName() ) );
 		assertTrue( "Tab 1_jkl:".equals( ( (JLabel) panelTab.getComponent( 0 ) ).getText() ) );
 		assertTrue( panelTab.getComponent( 1 ) instanceof JLabel );
 		assertTrue( 1 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 1 ) ).gridx );
@@ -134,14 +136,14 @@ public class GridBagLayoutTest
 		assertTrue( 7 == panelTab.getComponentCount() );
 
 		panelTab = (JPanel) tabbedPane.getComponent( 1 );
-		assertTrue( "tab2".equals( panelTab.getName() ));
+		assertTrue( "tab2".equals( panelTab.getName() ) );
 		assertTrue( panelTab.getComponent( 0 ) instanceof JScrollPane );
 		assertTrue( 0 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 0 ) ).gridx );
 		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 0 ) ).gridwidth );
 		assertTrue( 1 == panelTab.getComponentCount() );
 
 		panelTab = (JPanel) tabbedPane.getComponent( 2 );
-		assertTrue( "tab3".equals( panelTab.getName() ));
+		assertTrue( "tab3".equals( panelTab.getName() ) );
 		assertTrue( panelTab.getComponent( 0 ) instanceof JTextField );
 		assertTrue( 0 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 0 ) ).gridx );
 		assertTrue( 2 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 0 ) ).gridwidth );
@@ -185,8 +187,24 @@ public class GridBagLayoutTest
 		metawidget.add( arbitraryStubWithAttributes );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+
+		// (insets.top == 6 for Nimbus, 2 for Metal - depends on what
+		// UIManger.setLookAndFeel has been called by other tests)
+
+		Insets insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
+		assertTrue( insets.top == ( "Nimbus".equals( UIManager.getLookAndFeel().getName() ) ? 6 : 2 ) );
+		assertTrue( insets.left == 0 );
+		assertTrue( insets.bottom == insets.top );
+		assertTrue( insets.right == 0 );
+
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridx );
+		insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ) ).insets;
+		assertTrue( insets.top == 0 );
+		assertTrue( insets.left == 0 );
+		assertTrue( insets.bottom == 0 );
+		assertTrue( insets.right == 0 );
+
 		assertTrue( "Def*:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 3 ) instanceof Stub );
 		assertTrue( ( (Stub) metawidget.getComponent( 3 ) ).getComponent( 0 ) instanceof JSpinner );
@@ -197,8 +215,8 @@ public class GridBagLayoutTest
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 5 ) ).gridx );
 
 		assertTrue( metawidget.getComponent( 6 ) instanceof JTabbedPane );
-		assertTrue( arbitrary.equals( metawidget.getComponent( 7 )));
-		assertTrue( arbitraryStubWithAttributes.equals( metawidget.getComponent( 8 )));
+		assertTrue( arbitrary.equals( metawidget.getComponent( 7 ) ) );
+		assertTrue( arbitraryStubWithAttributes.equals( metawidget.getComponent( 8 ) ) );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 8 ) ).gridx );
 		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 8 ) ).gridwidth );
 
@@ -244,7 +262,7 @@ public class GridBagLayoutTest
 		@UiComesAfter( "def" )
 		public boolean	ghi;
 
-		@UiSection( "tab1")
+		@UiSection( "tab1" )
 		@UiComesAfter( "ghi" )
 		@UiAttribute( name = "required", value = "true" )
 		@UiReadOnly
@@ -257,13 +275,13 @@ public class GridBagLayoutTest
 		@UiComesAfter( "tab1_mno" )
 		public String	tab1_pqr;
 
-		@UiSection( "tab2")
+		@UiSection( "tab2" )
 		@UiComesAfter( "tab1_pqr" )
 		@UiLarge
 		@UiLabel( "" )
 		public String	tab2_jkl;
 
-		@UiSection( "tab3")
+		@UiSection( "tab3" )
 		@UiComesAfter( "tab2_jkl" )
 		@UiLabel( "" )
 		public String	tab3_jkl;

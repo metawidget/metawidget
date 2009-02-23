@@ -436,7 +436,7 @@ public class SwingAllWidgetsTest
 		( (JTextField) metawidget.getComponent( 57 ) ).setText( "bad date" );
 
 		assertTrue( metawidget.getComponent( 58 ) instanceof JPanel );
-		assertTrue( GridBagConstraints.WEST == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).anchor );
+		assertTrue( GridBagConstraints.CENTER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).anchor );
 		assertTrue( GridBagConstraints.HORIZONTAL == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).fill );
 		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).gridwidth );
 		assertTrue( "Section Break".equals( ( (JLabel) ( (JPanel) metawidget.getComponent( 58 ) ).getComponent( 0 ) ).getText() ) );
