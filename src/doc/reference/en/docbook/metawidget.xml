@@ -1860,7 +1860,7 @@ public void addOwner() {
 
 				<programlisting language="java">metawidget.setLayoutClass( MigLayout.class );
 metawidget.setToInspect( animal );
-((MigLayout) metawidget.getLayout()).setLayoutConstraints( new LC().insets( "10" ));</programlisting>
+<emphasis role="bold">((MigLayout) metawidget.getLayout()).setLayoutConstraints( new LC().insets( "10" ));</emphasis></programlisting>
 
 				<para>
 					The Animal Races code is written purely in Scala, located at
@@ -1872,7 +1872,7 @@ metawidget.setToInspect( animal );
 	&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"
 		config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 		&lt;propertyStyle&gt;
-			org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle
+			<emphasis role="bold">org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle</emphasis>
 		&lt;/propertyStyle&gt;			
 	&lt;/metawidgetAnnotationInspector&gt;
 &lt;/inspector-config&gt;</programlisting>
@@ -1884,7 +1884,7 @@ metawidget.setToInspect( animal );
 					
 				<programlisting language="scala">val metawidget = new SwingMetawidget()
 metawidget.setPropertyBindingClass( classOf[ BeanUtilsBinding ])
-metawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA )
+<emphasis role="bold">metawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA )</emphasis>
 metawidget.setToInspect( animal )</programlisting>
 
 			</section>
