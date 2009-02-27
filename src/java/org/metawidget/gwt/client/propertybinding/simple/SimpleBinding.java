@@ -95,7 +95,8 @@ public class SimpleBinding
 	 * <p>
 	 * Converters also apply to subclasses of the given Class. So for example registering a
 	 * Converter for <code>Number.class</code> will match <code>Integer.class</code>,
-	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also registered.
+	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also
+	 * registered.
 	 */
 
 	public static <T> void registerConverter( Class<T> forClass, Converter<T> converter )
@@ -137,8 +138,7 @@ public class SimpleBinding
 		// From the adapter...
 
 		Class<?> classToBindTo = toInspect.getClass();
-		@SuppressWarnings( "unchecked" )
-		SimpleBindingAdapter<Object> adapter = (SimpleBindingAdapter<Object>) getAdapter( classToBindTo );
+		SimpleBindingAdapter<Object> adapter = getAdapter( classToBindTo );
 
 		if ( adapter == null )
 			throw new RuntimeException( "Don't know how to bind to a " + classToBindTo );
@@ -151,9 +151,7 @@ public class SimpleBinding
 		// ...convert it (if necessary)...
 
 		Class<?> propertyType = adapter.getPropertyType( toInspect, names );
-
-		@SuppressWarnings( "unchecked" )
-		Converter<Object> converter = (Converter<Object>) getConverter( propertyType );
+		Converter<Object> converter = getConverter( propertyType );
 
 		if ( converter != null )
 			value = converter.convertForWidget( widget, value );
@@ -182,7 +180,7 @@ public class SimpleBinding
 	{
 		// How can we bind without addClickListener?
 
-		if ( !( widget instanceof FocusWidget ))
+		if ( !( widget instanceof FocusWidget ) )
 			throw new RuntimeException( "JsniBinding only supports binding actions to FocusWidgets" );
 
 		// Bind the action
@@ -203,8 +201,7 @@ public class SimpleBinding
 					return;
 
 				Class<?> classToBindTo = toInspect.getClass();
-				@SuppressWarnings( "unchecked" )
-				SimpleBindingAdapter<Object> adapter = (SimpleBindingAdapter<Object>) getAdapter( classToBindTo );
+				SimpleBindingAdapter<Object> adapter = getAdapter( classToBindTo );
 
 				if ( adapter == null )
 					throw new RuntimeException( "Don't know how to bind to a " + classToBindTo );
@@ -231,8 +228,7 @@ public class SimpleBinding
 		// From the adapter...
 
 		Class<?> classToBindTo = toInspect.getClass();
-		@SuppressWarnings( "unchecked" )
-		SimpleBindingAdapter<Object> adapter = (SimpleBindingAdapter<Object>) getAdapter( classToBindTo );
+		SimpleBindingAdapter<Object> adapter = getAdapter( classToBindTo );
 
 		if ( adapter == null )
 			throw new RuntimeException( "Don't know how to rebind to a " + classToBindTo );
@@ -274,8 +270,7 @@ public class SimpleBinding
 		// From the adapter...
 
 		Class<?> classToBindTo = toInspect.getClass();
-		@SuppressWarnings( "unchecked" )
-		SimpleBindingAdapter<Object> adapter = (SimpleBindingAdapter<Object>) getAdapter( classToBindTo );
+		SimpleBindingAdapter<Object> adapter = getAdapter( classToBindTo );
 
 		if ( adapter == null )
 			throw new RuntimeException( "Don't know how to save to a " + classToBindTo );
@@ -316,17 +311,18 @@ public class SimpleBinding
 	 * <p>
 	 * Includes traversing superclasses of the given Class for a suitable Converter, so for example
 	 * registering an Adapter for <code>Contact.class</code> will match
-	 * <code>PersonalContact.class</code>, <code>BusinessContact.class</code> etc., unless a more
-	 * subclass-specific Adapter is also registered.
+	 * <code>PersonalContact.class</code>, <code>BusinessContact.class</code> etc., unless a
+	 * more subclass-specific Adapter is also registered.
 	 */
 
-	protected SimpleBindingAdapter<?> getAdapter( Class<?> classToBindTo )
+	protected <T extends SimpleBindingAdapter<?>> T getAdapter( Class<?> classToBindTo )
 	{
 		Class<?> classTraversal = classToBindTo;
 
 		while ( classTraversal != null )
 		{
-			SimpleBindingAdapter<?> adapter = ADAPTERS.get( classTraversal );
+			@SuppressWarnings( "unchecked" )
+			T adapter = (T) ADAPTERS.get( classTraversal );
 
 			if ( adapter != null )
 				return adapter;
@@ -346,16 +342,18 @@ public class SimpleBinding
 	 * <p>
 	 * Includes traversing superclasses of the given Class for a suitable Converter, so for example
 	 * registering a Converter for <code>Number.class</code> will match <code>Integer.class</code>,
-	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also registered.
+	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also
+	 * registered.
 	 */
 
-	private Converter<?> getConverter( Class<?> classToConvert )
+	private <T extends Converter<?>> T getConverter( Class<?> classToConvert )
 	{
 		Class<?> classTraversal = classToConvert;
 
 		while ( classTraversal != null )
 		{
-			Converter<?> converter = CONVERTERS.get( classTraversal );
+			@SuppressWarnings( "unchecked" )
+			T converter = (T) CONVERTERS.get( classTraversal );
 
 			if ( converter != null )
 				return converter;

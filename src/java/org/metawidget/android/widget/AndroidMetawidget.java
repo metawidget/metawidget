@@ -328,12 +328,13 @@ public class AndroidMetawidget
 		return null;
 	}
 
-	public Object getParameter( String name )
+	@SuppressWarnings("unchecked")
+	public <T> T getParameter( String name )
 	{
 		if ( mParameters == null )
 			return null;
 
-		return mParameters.get( name );
+		return (T) mParameters.get( name );
 	}
 
 	/**
@@ -399,8 +400,8 @@ public class AndroidMetawidget
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
 	 */
 
-	@SuppressWarnings( "deprecation" )
-	public Object getValue( String... names )
+	@SuppressWarnings( { "deprecation", "unchecked" } )
+	public <T> T getValue( String... names )
 	{
 		if ( names == null )
 			throw MetawidgetException.newException( "No names specified" );
@@ -413,30 +414,30 @@ public class AndroidMetawidget
 		// CheckBox
 
 		if ( view instanceof CheckBox )
-			return ( (CheckBox) view ).isChecked();
+			return (T) Boolean.valueOf( ( (CheckBox) view ).isChecked() );
 
 		// EditText
 
 		if ( view instanceof EditText )
-			return ( (EditText) view ).getText().toString();
+			return (T) ( (EditText) view ).getText().toString();
 
 		// TextView
 
 		if ( view instanceof TextView )
-			return ( (TextView) view ).getText();
+			return (T) ( (TextView) view ).getText();
 
 		// DatePicker
 
 		if ( view instanceof DatePicker )
 		{
 			DatePicker datePicker = (DatePicker) view;
-			return new Date( datePicker.getYear() - 1900, datePicker.getMonth(), datePicker.getDayOfMonth() );
+			return (T) new Date( datePicker.getYear() - 1900, datePicker.getMonth(), datePicker.getDayOfMonth() );
 		}
 
 		// AdapterView
 
 		if ( view instanceof AdapterView )
-			return ( (AdapterView<?>) view ).getSelectedItem();
+			return (T) ( (AdapterView<?>) view ).getSelectedItem();
 
 		// Unknown (subclasses should override this)
 

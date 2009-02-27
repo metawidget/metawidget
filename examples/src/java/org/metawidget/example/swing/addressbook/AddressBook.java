@@ -172,7 +172,7 @@ public class AddressBook
 		mContactSearch.setFirstname( (String) mSearchMetawidget.getValue( "firstname" ) );
 		mContactSearch.setSurname( (String) mSearchMetawidget.getValue( "surname" ) );
 
-		String type = (String) mSearchMetawidget.getValue( "type" );
+		String type = mSearchMetawidget.getValue( "type" );
 
 		if ( type == null )
 			mContactSearch.setType( null );

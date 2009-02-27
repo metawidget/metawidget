@@ -86,16 +86,18 @@ public class ConfigReader
 	 * Read configuration from an application resource.
 	 */
 
-	public Inspector read( String resource )
+	@SuppressWarnings( "unchecked" )
+	public <T extends Inspector> T read( String resource )
 	{
-		return read( openResource( resource ) );
+		return (T) read( openResource( resource ) );
 	}
 
 	/**
 	 * Read configuration from an input stream.
 	 */
 
-	public Inspector read( InputStream stream )
+	@SuppressWarnings("unchecked")
+	public <T extends Inspector> T read( InputStream stream )
 	{
 		if ( stream == null )
 			throw InspectorException.newException( "No input stream specified" );
@@ -105,7 +107,7 @@ public class ConfigReader
 			ConfigHandler configHandler = new ConfigHandler();
 			mFactory.newSAXParser().parse( stream, configHandler );
 
-			return configHandler.getInspector();
+			return (T) configHandler.getInspector();
 		}
 		catch ( Exception e )
 		{
@@ -202,6 +204,8 @@ public class ConfigReader
 		// calls .setFile in its constructor. Without this, it would have to call
 		// .setInputStreams, so it would need a ResourceResolver passing in its
 		// constructor, which all gets very icky
+
+		// TODO: support URLs?
 
 		if ( InputStream.class.isAssignableFrom( toReturn ) )
 			return (T) openResource( input );
@@ -590,7 +594,8 @@ public class ConfigReader
 			throw InspectorException.newException( exception );
 		}
 
-		public Inspector getInspector()
+		@SuppressWarnings( "unchecked" )
+		public <T extends Inspector> T getInspector()
 		{
 			if ( mStackConstructing.isEmpty() )
 				throw InspectorException.newException( "No Inspector declared" );
@@ -598,7 +603,7 @@ public class ConfigReader
 			if ( mStackConstructing.size() > 1 )
 				throw InspectorException.newException( "More than one Inspector declared" );
 
-			return (Inspector) mStackConstructing.pop();
+			return (T) mStackConstructing.pop();
 		}
 	}
 }

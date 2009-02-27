@@ -96,7 +96,7 @@ public class ConfigReaderTest
 		xml += "</validatingCompositeInspector></inspector-config>";
 
 		ValidatingConfigReader reader = new ValidatingConfigReader();
-		CompositeInspector inspector = (CompositeInspector) reader.read( new ByteArrayInputStream( xml.getBytes() ) );
+		CompositeInspector inspector = reader.read( new ByteArrayInputStream( xml.getBytes() ) );
 
 		// Use reflection to test config result
 
@@ -179,7 +179,7 @@ public class ConfigReaderTest
 		xml += "</badInspector>";
 		xml += "</inspector-config>";
 
-		BadInspector inspector = (BadInspector) new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
+		BadInspector inspector = new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
 		assertTrue( 3 == inspector.getInt() );
 
 		assertTrue( "foo".equals( inspector.getListOfStrings().get( 0 ) ) );

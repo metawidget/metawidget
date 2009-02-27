@@ -239,7 +239,7 @@ public class GwtAllWidgetsTest
 				assertTrue( 5 == flexTable.getFlexCellFormatter().getColSpan( 13, 1 ) );
 				assertTrue( 2 == flexTable.getCellCount( 13 ) );
 
-				final GwtMetawidget metawidgetNested = (GwtMetawidget) metawidget.getWidget( "nestedWidgets" );
+				final GwtMetawidget metawidgetNested = metawidget.getWidget( "nestedWidgets" );
 
 				executeAfterBuildWidgets( metawidgetNested, new Timer()
 				{
@@ -259,7 +259,7 @@ public class GwtAllWidgetsTest
 								final FlexTable flexTableFurtherNested = (FlexTable) metawidgetFurtherNested.getWidget( 0 );
 
 								assertTrue( "Further nested widgets:".equals( flexTableFurtherNested.getText( 0, 0 ) ) );
-								final GwtMetawidget metawidgetFurtherFurtherNested = (GwtMetawidget) metawidgetFurtherNested.getWidget( "furtherNestedWidgets" );
+								final GwtMetawidget metawidgetFurtherFurtherNested = metawidgetFurtherNested.getWidget( "furtherNestedWidgets" );
 
 								executeAfterBuildWidgets( metawidgetFurtherFurtherNested, new Timer()
 								{
@@ -292,7 +292,7 @@ public class GwtAllWidgetsTest
 										assertTrue( "Read only nested widgets:".equals( flexTable.getText( 14, 0 ) ) );
 										assertTrue( flexTable.getWidget( 14, 1 ) instanceof GwtMetawidget );
 
-										final GwtMetawidget metawidgetReadOnlyNested = (GwtMetawidget) metawidget.getWidget( "readOnlyNestedWidgets" );
+										final GwtMetawidget metawidgetReadOnlyNested = metawidget.getWidget( "readOnlyNestedWidgets" );
 
 										executeAfterBuildWidgets( metawidgetReadOnlyNested, new Timer()
 										{
@@ -302,7 +302,7 @@ public class GwtAllWidgetsTest
 												final FlexTable flexTableReadOnlyNested = (FlexTable) metawidgetReadOnlyNested.getWidget( 0 );
 
 												assertTrue( "Further nested widgets:".equals( flexTableReadOnlyNested.getText( 0, 0 ) ) );
-												final GwtMetawidget metawidgetReadOnlyFurtherNested = (GwtMetawidget) metawidgetReadOnlyNested.getWidget( "furtherNestedWidgets" );
+												final GwtMetawidget metawidgetReadOnlyFurtherNested = metawidgetReadOnlyNested.getWidget( "furtherNestedWidgets" );
 
 												executeAfterBuildWidgets( metawidgetReadOnlyFurtherNested, new Timer()
 												{

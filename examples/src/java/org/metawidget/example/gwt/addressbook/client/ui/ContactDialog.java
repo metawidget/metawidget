@@ -221,7 +221,7 @@ public class ContactDialog
 				communicationToAdd.setType( (String) typeMetawidget.getValue( "type" ) );
 				communicationToAdd.setValue( (String) valueMetawidget.getValue( "value" ) );
 
-				Contact currentContact = (Contact) mMetawidget.getToInspect();
+				Contact currentContact = mMetawidget.getToInspect();
 
 				try
 				{
@@ -373,7 +373,7 @@ public class ContactDialog
 	void loadCommunications()
 	{
 		CellFormatter cellFormatter = mCommunications.getCellFormatter();
-		final Contact contact = (Contact) mMetawidget.getToInspect();
+		final Contact contact = mMetawidget.getToInspect();
 		Set<Communication> communications = contact.getCommunications();
 		final boolean readOnly = mMetawidget.isReadOnly();
 		final boolean confirm = ( mAddressBookModule.getPanel() instanceof RootPanel );

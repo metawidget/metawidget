@@ -343,6 +343,8 @@ public class SpringMetawidgetTag
 
 		String path = attributes.get( NAME );
 
+		// TODO: if mPathPrefix is null, use mPath?
+
 		if ( mPathPrefix != null )
 			path = mPathPrefix + path;
 

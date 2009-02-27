@@ -82,7 +82,7 @@ public class BeanUtilsBinding
 
 		// Read parameters
 
-		Integer propertyStyle = (Integer) metawidget.getParameter( "propertyStyle" );
+		Integer propertyStyle = metawidget.getParameter( "propertyStyle" );
 
 		if ( propertyStyle != null )
 			mPropertyStyle = propertyStyle;

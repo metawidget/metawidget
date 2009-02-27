@@ -86,7 +86,7 @@ public class FlexTableLayout
 		//
 		// (note: ColumnFormatter uses COL elements, so is not suitable for this)
 
-		String columnStyleNames = (String) metawidget.getParameter( "columnStyleNames" );
+		String columnStyleNames = metawidget.getParameter( "columnStyleNames" );
 
 		if ( columnStyleNames != null )
 			mColumnStyleNames = columnStyleNames.split( "," );
@@ -97,7 +97,7 @@ public class FlexTableLayout
 
 		// Number of columns
 
-		Integer numberOfColumns = (Integer) metawidget.getParameter( "numberOfColumns" );
+		Integer numberOfColumns = metawidget.getParameter( "numberOfColumns" );
 
 		if ( numberOfColumns == null )
 		{
@@ -122,7 +122,7 @@ public class FlexTableLayout
 		mLayout = new FlexTable();
 		mFormatter = mLayout.getFlexCellFormatter();
 
-		String styleName = (String) getMetawidget().getParameter( "tableStyleName" );
+		String styleName = getMetawidget().getParameter( "tableStyleName" );
 
 		if ( styleName != null )
 			mLayout.setStyleName( styleName );
@@ -281,7 +281,7 @@ public class FlexTableLayout
 			if ( mNumberOfColumns > 0 )
 				mFormatter.setColSpan( row, 0, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 
-			String styleName = (String) getMetawidget().getParameter( "footerStyleName" );
+			String styleName = getMetawidget().getParameter( "footerStyleName" );
 
 			if ( styleName != null )
 				mFormatter.setStyleName( row, 0, styleName );

@@ -213,9 +213,10 @@ public class SwingMetawidget
 	 * Exposed for binding implementations.
 	 */
 
-	public Object getToInspect()
+	@SuppressWarnings( "unchecked" )
+	public <T> T getToInspect()
 	{
-		return mToInspect;
+		return (T) mToInspect;
 	}
 
 	/**
@@ -382,12 +383,13 @@ public class SwingMetawidget
 	 * <code>PropertyBinding</code> implementation.
 	 */
 
-	public Object getParameter( String name )
+	@SuppressWarnings( "unchecked" )
+	public <T> T getParameter( String name )
 	{
 		if ( mParameters == null )
 			return null;
 
-		return mParameters.get( name );
+		return (T) mParameters.get( name );
 	}
 
 	/**
@@ -397,9 +399,10 @@ public class SwingMetawidget
 	 * Convenience method. Equivalent to <code>getParameter( clazz.getName() )</code>
 	 */
 
-	public Object getParameter( Class<?> clazz )
+	@SuppressWarnings( "unchecked" )
+	public <T> T getParameter( Class<?> clazz )
 	{
-		return getParameter( clazz.getName() );
+		return (T) getParameter( clazz.getName() );
 	}
 
 	/**
@@ -665,7 +668,8 @@ public class SwingMetawidget
 	 * may prefer to use bindingClass instead.
 	 */
 
-	public Object getValue( String... names )
+	@SuppressWarnings( "unchecked" )
+	public <T> T getValue( String... names )
 	{
 		Component component = getComponent( names );
 
@@ -682,7 +686,7 @@ public class SwingMetawidget
 		if ( componentProperty == null )
 			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
 
-		return ClassUtils.getProperty( component, componentProperty );
+		return (T) ClassUtils.getProperty( component, componentProperty );
 	}
 
 	/**
@@ -750,7 +754,8 @@ public class SwingMetawidget
 	 * Finds the Component with the given name.
 	 */
 
-	public Component getComponent( String... names )
+	@SuppressWarnings( "unchecked" )
+	public <T extends Component> T getComponent( String... names )
 	{
 		if ( names == null || names.length == 0 )
 			return null;
@@ -785,7 +790,7 @@ public class SwingMetawidget
 			}
 
 			if ( loop == length - 1 )
-				return topComponent;
+				return (T) topComponent;
 
 			if ( topComponent == null )
 				throw MetawidgetException.newException( "No such component '" + name + "' of '" + ArrayUtils.toString( names, "', '" ) + "'" );
@@ -794,7 +799,7 @@ public class SwingMetawidget
 				throw MetawidgetException.newException( "'" + name + "' is not a Container" );
 		}
 
-		return topComponent;
+		return (T) topComponent;
 	}
 
 	public Facet getFacet( String name )
@@ -1458,6 +1463,10 @@ public class SwingMetawidget
 			if ( Boolean.class.equals( clazz ) )
 			{
 				JComboBox comboBox = new JComboBox();
+
+				// TODO: checkbox if required!
+				// TODO: source code for Android tutorial
+
 				comboBox.addItem( null );
 				comboBox.addItem( Boolean.TRUE );
 				comboBox.addItem( Boolean.FALSE );

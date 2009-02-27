@@ -275,7 +275,7 @@ public class ContactDialog
 		try
 		{
 			mContactMetawidget.save();
-			Contact contact = (Contact) mContactMetawidget.getToInspect();
+			Contact contact = mContactMetawidget.getToInspect();
 			contact.setCommunications( CollectionUtils.newHashSet( mCommunicationsModel.exportList() ) );
 			mProvider.getContactsController().save( contact );
 		}
@@ -294,7 +294,7 @@ public class ContactDialog
 	@UiJexlAttribute( name = HIDDEN, expression = "this.readOnly || this.newContact" )
 	public void delete()
 	{
-		Contact contact = (Contact) mContactMetawidget.getToInspect();
+		Contact contact = mContactMetawidget.getToInspect();
 
 		if ( !mShowConfirmDialog && JOptionPane.showConfirmDialog( ContactDialog.this, "Sure you want to delete this contact?" ) != JOptionPane.OK_OPTION )
 			return;

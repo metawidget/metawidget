@@ -120,7 +120,7 @@ public class HtmlDivLayoutRenderer
 
 		// Determine style classes
 
-		String[] styleClasses = (String[]) getState( KEY_STYLE_CLASSES );
+		String[] styleClasses = getState( KEY_STYLE_CLASSES );
 
 		if ( styleClasses == null )
 		{
@@ -225,7 +225,7 @@ public class HtmlDivLayoutRenderer
 
 		if ( message.getStyleClass() == null )
 		{
-			String[] styleClasses = (String[]) getState( KEY_STYLE_CLASSES );
+			String[] styleClasses = getState( KEY_STYLE_CLASSES );
 
 			if ( styleClasses != null && styleClasses.length > 4 )
 				message.setStyleClass( styleClasses[4] );
@@ -245,7 +245,7 @@ public class HtmlDivLayoutRenderer
 
 		// Section headings
 
-		String currentSection = (String) getState( KEY_CURRENT_SECTION );
+		String currentSection = getState( KEY_CURRENT_SECTION );
 
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> attributes = (Map<String, String>) componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
@@ -267,7 +267,7 @@ public class HtmlDivLayoutRenderer
 
 		writer.startElement( "div", component );
 
-		String outerStyle = (String) getState( KEY_OUTER_STYLE );
+		String outerStyle = getState( KEY_OUTER_STYLE );
 
 		if ( outerStyle != null )
 			writer.writeAttribute( "style", outerStyle, null );
@@ -282,7 +282,7 @@ public class HtmlDivLayoutRenderer
 
 		writer.startElement( "div", component );
 
-		String componentStyle = (String) getState( KEY_COMPONENT_STYLE );
+		String componentStyle = getState( KEY_COMPONENT_STYLE );
 
 		if ( componentStyle != null )
 			writer.writeAttribute( "style", componentStyle, null );
@@ -309,7 +309,7 @@ public class HtmlDivLayoutRenderer
 
 		writer.startElement( "div", component );
 
-		String labelStyle = (String) getState( KEY_LABEL_STYLE );
+		String labelStyle = getState( KEY_LABEL_STYLE );
 
 		if ( labelStyle != null )
 			writer.writeAttribute( "style", labelStyle, null );
@@ -340,7 +340,7 @@ public class HtmlDivLayoutRenderer
 		{
 			writer.startElement( "span", component );
 
-			String requiredStyle = (String) getState( KEY_REQUIRED_STYLE );
+			String requiredStyle = getState( KEY_REQUIRED_STYLE );
 
 			if ( requiredStyle != null )
 				writer.writeAttribute( "style", requiredStyle, null );
@@ -363,12 +363,12 @@ public class HtmlDivLayoutRenderer
 
 		writer.startElement( "div", component );
 
-		String sectionStyle = (String) getState( KEY_SECTION_STYLE );
+		String sectionStyle = getState( KEY_SECTION_STYLE );
 
 		if ( sectionStyle != null )
 			writer.writeAttribute( "style", sectionStyle, null );
 
-		String sectionStyleClass = (String) getState( KEY_SECTION_STYLE_CLASS );
+		String sectionStyleClass = getState( KEY_SECTION_STYLE_CLASS );
 
 		if ( sectionStyleClass != null )
 			writer.writeAttribute( "class", sectionStyleClass, null );
@@ -401,7 +401,7 @@ public class HtmlDivLayoutRenderer
 	protected void writeStyleClass( ResponseWriter writer, int styleClass )
 		throws IOException
 	{
-		String[] styleClasses = (String[]) getState( KEY_STYLE_CLASSES );
+		String[] styleClasses = getState( KEY_STYLE_CLASSES );
 
 		if ( styleClasses == null || styleClasses.length <= styleClass )
 			return;

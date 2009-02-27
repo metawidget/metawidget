@@ -72,7 +72,7 @@ public class SwingAppFrameworkTest
 
 		JFrame frame = carApplication.getMainFrame();
 		SwingMetawidget metawidget = (SwingMetawidget) frame.getContentPane().getComponent( 1 );
-		Car car = (Car) metawidget.getToInspect();
+		Car car = metawidget.getToInspect();
 
 		// Test Car Application
 

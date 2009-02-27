@@ -123,7 +123,7 @@ public class MainActivity
 				mContactSearch.setFirstname( (String) metawidget.getValue( "firstname" ) );
 				mContactSearch.setSurname( (String) metawidget.getValue( "surname" ) );
 
-				String type = (String) metawidget.getValue( "type" );
+				String type = metawidget.getValue( "type" );
 
 				if ( type == null || "".equals( type ) )
 					mContactSearch.setType( null );

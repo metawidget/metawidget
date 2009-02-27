@@ -146,7 +146,7 @@ public class SwingAddressBookTest
 			// Should throw MetawidgetException
 		}
 
-		JScrollPane scrollPane = (JScrollPane) metawidgetContact.getComponent( "communications" );
+		JScrollPane scrollPane = metawidgetContact.getComponent( "communications" );
 		JTable communications = (JTable) scrollPane.getViewport().getView();
 		TableModel model = communications.getModel();
 

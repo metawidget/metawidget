@@ -109,7 +109,7 @@ public class HtmlLayoutRenderer
 		{
 			HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
 
-			String labelSuffix = (String) getState( KEY_LABEL_SUFFIX );
+			String labelSuffix =  getState( KEY_LABEL_SUFFIX );
 
 			if ( labelSuffix == null )
 				labelSuffix = ":";
@@ -160,7 +160,7 @@ public class HtmlLayoutRenderer
 
 		// Not using inline messages?
 
-		Boolean useInlineMessages = (Boolean) getState( KEY_USE_INLINE_MESSAGES );
+		Boolean useInlineMessages = getState( KEY_USE_INLINE_MESSAGES );
 
 		if ( useInlineMessages == null )
 		{
@@ -191,7 +191,7 @@ public class HtmlLayoutRenderer
 
 		// Parse styles
 
-		String messageStyle = (String) getState( KEY_MESSAGE_STYLE );
+		String messageStyle = getState( KEY_MESSAGE_STYLE );
 
 		if ( messageStyle == null )
 		{
@@ -205,7 +205,7 @@ public class HtmlLayoutRenderer
 			putState( KEY_MESSAGE_STYLE, messageStyle );
 		}
 
-		String messageStyleClass = (String) getState( KEY_MESSAGE_STYLE_CLASS );
+		String messageStyleClass = getState( KEY_MESSAGE_STYLE_CLASS );
 
 		if ( messageStyleClass == null )
 		{

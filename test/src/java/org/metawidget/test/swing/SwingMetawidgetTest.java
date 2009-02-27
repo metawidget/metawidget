@@ -300,8 +300,8 @@ public class SwingMetawidgetTest
 		metawidget.setPropertyBindingClass( bindingClass );
 		metawidget.setToInspect( foo1 );
 
-		JTextField textField = (JTextField) metawidget.getComponent( "name" );
-		JTextField nestedTextField = (JTextField) metawidget.getComponent( "foo", "name" );
+		JTextField textField = metawidget.getComponent( "name" );
+		JTextField nestedTextField = metawidget.getComponent( "foo", "name" );
 		assertTrue( "Charlotte".equals( textField.getText() ) );
 		assertTrue( "Philippa".equals( nestedTextField.getText() ) );
 

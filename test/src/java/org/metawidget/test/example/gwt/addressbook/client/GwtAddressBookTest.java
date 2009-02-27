@@ -225,7 +225,7 @@ public class GwtAddressBookTest
 
 												// Save again
 
-												GwtMetawidget addressMetawidget = (GwtMetawidget) contactMetawidget.getWidget( "address" );
+												GwtMetawidget addressMetawidget = contactMetawidget.getWidget( "address" );
 
 												executeAfterBuildWidgets( addressMetawidget, new Timer()
 												{
@@ -399,7 +399,7 @@ public class GwtAddressBookTest
 												assertTrue( "table-buttons".equals( communications.getCellFormatter().getStyleName( 1, 2 ) ) );
 												assertTrue( addButton.isVisible() );
 
-												GwtMetawidget addressMetawidget = (GwtMetawidget) contactMetawidget.getWidget( "address" );
+												GwtMetawidget addressMetawidget = contactMetawidget.getWidget( "address" );
 
 												executeAfterBuildWidgets( addressMetawidget, new Timer()
 												{
@@ -509,7 +509,7 @@ public class GwtAddressBookTest
 								assertTrue( "Mobile".equals( communications.getText( 1, 0 ) ) );
 								assertTrue( "(0402) 456 123".equals( communications.getText( 1, 1 ) ) );
 
-								GwtMetawidget addressMetawidget = (GwtMetawidget) contactMetawidget.getWidget( "address" );
+								GwtMetawidget addressMetawidget = contactMetawidget.getWidget( "address" );
 
 								executeAfterBuildWidgets( addressMetawidget, new Timer()
 								{

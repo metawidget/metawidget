@@ -127,19 +127,22 @@ public abstract class LayoutRenderer
 	// Protected methods
 	//
 
-	protected Object getState( String key )
+	@SuppressWarnings( "unchecked" )
+	protected <T> T getState( String key )
 	{
-		return mLocalState.get().get( key );
+		return (T) mLocalState.get().get( key );
 	}
 
-	protected Object putState( String key, Object value )
+	@SuppressWarnings( "unchecked" )
+	protected <T> T putState( String key, Object value )
 	{
-		return mLocalState.get().put( key, value );
+		return (T) mLocalState.get().put( key, value );
 	}
 
-	protected Object removeState( String key )
+	@SuppressWarnings( "unchecked" )
+	protected <T> T removeState( String key )
 	{
-		return mLocalState.get().remove( key );
+		return (T) mLocalState.get().remove( key );
 	}
 
 	protected void writeStyleAndClass( UIComponent component, ResponseWriter writer, String style )

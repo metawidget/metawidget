@@ -193,7 +193,7 @@ public class AllWidgetsActivity
 		mAllWidgets.setPassword( (String) metawidget.getValue( "password" ) );
 		mAllWidgets.setByte( Byte.parseByte( (String) metawidget.getValue( "byte" ) ) );
 
-		String byteObject = (String) metawidget.getValue( "byteObject" );
+		String byteObject = metawidget.getValue( "byteObject" );
 
 		if ( byteObject == null || "".equals( byteObject ) )
 			mAllWidgets.setByteObject( null );
@@ -202,7 +202,7 @@ public class AllWidgetsActivity
 
 		mAllWidgets.setShort( Short.parseShort( (String) metawidget.getValue( "short" ) ) );
 
-		String shortObject = (String) metawidget.getValue( "shortObject" );
+		String shortObject = metawidget.getValue( "shortObject" );
 
 		if ( shortObject == null || "".equals( shortObject ) )
 			mAllWidgets.setShortObject( null );
@@ -211,7 +211,7 @@ public class AllWidgetsActivity
 
 		mAllWidgets.setInt( Integer.parseInt( (String) metawidget.getValue( "int" ) ) );
 
-		String integerObject = (String) metawidget.getValue( "integerObject" );
+		String integerObject = metawidget.getValue( "integerObject" );
 
 		if ( integerObject == null || "".equals( integerObject ) )
 			mAllWidgets.setIntegerObject( null );
@@ -220,7 +220,7 @@ public class AllWidgetsActivity
 
 		mAllWidgets.setRangedInt( Integer.parseInt( (String) metawidget.getValue( "rangedInt" ) ) );
 
-		String rangedInteger = (String) metawidget.getValue( "rangedInteger" );
+		String rangedInteger = metawidget.getValue( "rangedInteger" );
 
 		if ( rangedInteger == null || "".equals( rangedInteger ) )
 			mAllWidgets.setRangedInteger( null );
@@ -229,7 +229,7 @@ public class AllWidgetsActivity
 
 		mAllWidgets.setLong( Long.parseLong( (String) metawidget.getValue( "long" ) ) );
 
-		String longObject = (String) metawidget.getValue( "longObject" );
+		String longObject = metawidget.getValue( "longObject" );
 
 		if ( longObject == null || "".equals( longObject ) )
 			mAllWidgets.setLongObject( null );
@@ -238,7 +238,7 @@ public class AllWidgetsActivity
 
 		mAllWidgets.setFloat( Float.parseFloat( (String) metawidget.getValue( "float" ) ) );
 
-		String floatObject = (String) metawidget.getValue( "floatObject" );
+		String floatObject = metawidget.getValue( "floatObject" );
 
 		if ( floatObject == null || "".equals( floatObject ) )
 			mAllWidgets.setFloatObject( null );
@@ -247,7 +247,7 @@ public class AllWidgetsActivity
 
 		mAllWidgets.setDouble( Double.parseDouble( (String) metawidget.getValue( "double" ) ) );
 
-		String doubleObject = (String) metawidget.getValue( "doubleObject" );
+		String doubleObject = metawidget.getValue( "doubleObject" );
 
 		if ( doubleObject == null || "".equals( doubleObject ) )
 			mAllWidgets.setDoubleObject( null );
@@ -269,7 +269,7 @@ public class AllWidgetsActivity
 		mAllWidgets.getNestedWidgets().setNestedTextbox1( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox1" ) );
 		mAllWidgets.getNestedWidgets().setNestedTextbox2( (String) metawidget.getValue( "nestedWidgets", "nestedTextbox2" ) );
 
-		String nestedWidgetsDontExpandString = (String) metawidget.getValue( "nestedWidgetsDontExpand" );
+		String nestedWidgetsDontExpandString = metawidget.getValue( "nestedWidgetsDontExpand" );
 		String[] values = ArrayUtils.fromString( nestedWidgetsDontExpandString );
 
 		if ( values.length != 0 )
@@ -283,7 +283,7 @@ public class AllWidgetsActivity
 			mAllWidgets.setNestedWidgetsDontExpand( nestedWidgetsDontExpand );
 		}
 
-		String date = (String) metawidget.getValue( "date" );
+		String date = metawidget.getValue( "date" );
 
 		if ( date == null || "".equals( date ) )
 		{

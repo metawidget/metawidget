@@ -96,10 +96,10 @@ public class GwtMetawidget
 	 * Delay before rebuilding widgets (in milliseconds).
 	 * <p>
 	 * GWT does not define a good 'paint' method to override, so we must call
-	 * <code>buildWidgets</code> after every <code>invalidateWidgets</code>. Many methods (eg. most
-	 * setters) trigger <code>invalidateWidgets</code>, however, so we impose a short delay to try
-	 * and 'batch' multiple <code>buildWidgets</code> requests (and their associated AJAX calls)
-	 * into one.
+	 * <code>buildWidgets</code> after every <code>invalidateWidgets</code>. Many methods (eg.
+	 * most setters) trigger <code>invalidateWidgets</code>, however, so we impose a short delay
+	 * to try and 'batch' multiple <code>buildWidgets</code> requests (and their associated AJAX
+	 * calls) into one.
 	 */
 
 	private final static int										BUILD_DELAY				= 50;
@@ -130,8 +130,8 @@ public class GwtMetawidget
 	/**
 	 * The PropertyBinding class.
 	 * <p>
-	 * PropertyBinding class is <code>null</code> by default, because setting up PropertyBinding is
-	 * non-trivial (eg. you have to generate some SimpleBindingAdapters)
+	 * PropertyBinding class is <code>null</code> by default, because setting up PropertyBinding
+	 * is non-trivial (eg. you have to generate some SimpleBindingAdapters)
 	 */
 
 	private Class<? extends PropertyBinding>						mPropertyBindingClass;
@@ -181,8 +181,8 @@ public class GwtMetawidget
 	String															mPath;
 
 	/**
-	 * Name used to implement <code>HasName</code>. Subtly different from <code>mPath</code> and
-	 * <code>mNamesPrefix</code>.
+	 * Name used to implement <code>HasName</code>. Subtly different from <code>mPath</code>
+	 * and <code>mNamesPrefix</code>.
 	 */
 
 	String															mName;
@@ -214,9 +214,10 @@ public class GwtMetawidget
 	// Public methods
 	//
 
-	public Object getToInspect()
+	@SuppressWarnings( "unchecked" )
+	public <T> T getToInspect()
 	{
-		return mToInspect;
+		return (T) mToInspect;
 	}
 
 	/**
@@ -253,10 +254,10 @@ public class GwtMetawidget
 	 * Sets the path to be inspected.
 	 * <p>
 	 * Note <code>setPath</code> is quite different to
-	 * <code>com.google.gwt.user.client.ui.HasName.setName</code>. <code>setPath</code> is always in
-	 * relation to <code>setToInspect</code>, so must include the type name and any subsequent
-	 * sub-names (eg. type/name/name). Conversely, <code>setName</code> is a single name relative to
-	 * our immediate parent.
+	 * <code>com.google.gwt.user.client.ui.HasName.setName</code>. <code>setPath</code> is
+	 * always in relation to <code>setToInspect</code>, so must include the type name and any
+	 * subsequent sub-names (eg. type/name/name). Conversely, <code>setName</code> is a single
+	 * name relative to our immediate parent.
 	 */
 
 	public void setPath( String path )
@@ -338,12 +339,13 @@ public class GwtMetawidget
 	 * <code>PropertyBinding</code> implementation.
 	 */
 
-	public Object getParameter( String name )
+	@SuppressWarnings( "unchecked" )
+	public <T> T getParameter( String name )
 	{
 		if ( mParameters == null )
 			return null;
 
-		return mParameters.get( name );
+		return (T) mParameters.get( name );
 	}
 
 	/**
@@ -457,7 +459,8 @@ public class GwtMetawidget
 	 * Gets the widget with the given name.
 	 */
 
-	public Widget getWidget( String... names )
+	@SuppressWarnings( "unchecked" )
+	public <T extends Widget> T getWidget( String... names )
 	{
 		if ( names == null )
 			return null;
@@ -479,7 +482,7 @@ public class GwtMetawidget
 				return null;
 
 			if ( loop == length - 1 )
-				return widget;
+				return (T) widget;
 
 			if ( !( widget instanceof GwtMetawidget ) )
 				return null;
@@ -499,39 +502,41 @@ public class GwtMetawidget
 	 * use binding instead.
 	 */
 
-	public Object getValue( String... names )
+	@SuppressWarnings( "unchecked" )
+	public <T> T getValue( String... names )
 	{
 		Widget widget = getWidget( names );
 
 		if ( widget == null )
 			throw new RuntimeException( "No such widget " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) );
 
-		return getValue( widget );
+		return (T) getValue( widget );
 	}
 
 	/**
 	 * Gets the value from the given Widget.
 	 */
 
-	public Object getValue( Widget widget )
+	@SuppressWarnings( "unchecked" )
+	public <T> T getValue( Widget widget )
 	{
 		// CheckBox (must come before HasText, because CheckBox extends
 		// ButtonBase which implements HasHTML which extends HasText)
 
 		if ( widget instanceof CheckBox )
-			return ( (CheckBox) widget ).isChecked();
+			return (T) Boolean.valueOf( ( (CheckBox) widget ).isChecked() );
 
 		// HasText
 
 		if ( widget instanceof HasText )
-			return ( (HasText) widget ).getText();
+			return (T) ( (HasText) widget ).getText();
 
 		// ListBox
 
 		if ( widget instanceof ListBox )
 		{
 			ListBox listBox = (ListBox) widget;
-			return listBox.getValue( listBox.getSelectedIndex() );
+			return (T) listBox.getValue( listBox.getSelectedIndex() );
 		}
 
 		// Unknown (subclasses should override this)
@@ -602,9 +607,9 @@ public class GwtMetawidget
 	 * Rebinds the values in the UI to the given Object.
 	 * <p>
 	 * <code>rebind</code> can be thought of as a lightweight version of <code>setToInspect</code>.
-	 * Unlike <code>setToInspect</code>, <code>rebind</code> does <em>not</em> reinspect the Object
-	 * or recreate any <code>Widgets</code>. Rather, <code>rebind</code> applies only at the binding
-	 * level, and updates the binding with values from the given Object.
+	 * Unlike <code>setToInspect</code>, <code>rebind</code> does <em>not</em> reinspect the
+	 * Object or recreate any <code>Widgets</code>. Rather, <code>rebind</code> applies only at
+	 * the binding level, and updates the binding with values from the given Object.
 	 * <p>
 	 * This is more performant, and allows the Metawidget to be created 'in advance' and reused many
 	 * times with different Objects, but it is the caller's responsibility that the Object passed to
@@ -612,8 +617,8 @@ public class GwtMetawidget
 	 * <code>setToInspect</code>.
 	 * <p>
 	 * For client's not using a PropertyBinding implementation, there is no need to call
-	 * <code>rebind</code>. They can simply use <code>setValue</code> to update existing values in
-	 * the UI.
+	 * <code>rebind</code>. They can simply use <code>setValue</code> to update existing values
+	 * in the UI.
 	 * <p>
 	 * In many ways, <code>rebind</code> can be thought of as the opposite of <code>save</code>.
 	 *
@@ -1263,7 +1268,7 @@ public class GwtMetawidget
 
 		// Bind actions
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 		{
 			if ( mActionBinding != null )
 				mActionBinding.bindAction( widget, attributes, path );

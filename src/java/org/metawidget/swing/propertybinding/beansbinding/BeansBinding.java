@@ -51,7 +51,7 @@ import org.metawidget.util.simple.StringUtils;
  * no need to call <code>SwingMetawidget.rebind</code>. If set to <code>READ_WRITE</code>, there is
  * no need to call <code>SwingMetawidget.save</code>.
  * </ul>
- * 
+ *
  * @author Richard Kennard
  */
 

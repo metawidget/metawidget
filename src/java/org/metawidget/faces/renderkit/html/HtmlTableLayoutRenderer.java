@@ -279,7 +279,7 @@ public class HtmlTableLayoutRenderer
 	public void encodeChildren( FacesContext context, UIComponent component )
 		throws IOException
 	{
-		Integer numberOfColumns = (Integer) getState( KEY_NUMBER_OF_COLUMNS );
+		Integer numberOfColumns = getState( KEY_NUMBER_OF_COLUMNS );
 
 		// (layoutChildren may get called even if layoutBegin crashed. Try
 		// to fail gracefully)
@@ -350,7 +350,7 @@ public class HtmlTableLayoutRenderer
 
 		// Section headings
 
-		String currentSection = (String) getState( KEY_CURRENT_SECTION );
+		String currentSection = getState( KEY_CURRENT_SECTION );
 
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> attributes = (Map<String, String>) childComponent.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
@@ -422,7 +422,7 @@ public class HtmlTableLayoutRenderer
 
 		// CSS
 
-		String componentStyle = (String) getState( KEY_COMPONENT_STYLE );
+		String componentStyle = getState( KEY_COMPONENT_STYLE );
 
 		if ( componentStyle != null )
 			writer.writeAttribute( "style", componentStyle, null );
@@ -491,7 +491,7 @@ public class HtmlTableLayoutRenderer
 
 		// CSS
 
-		String labelStyle = (String) getState( KEY_LABEL_STYLE );
+		String labelStyle = getState( KEY_LABEL_STYLE );
 
 		if ( labelStyle != null )
 			writer.writeAttribute( "style", labelStyle, null );
@@ -525,12 +525,12 @@ public class HtmlTableLayoutRenderer
 
 		// CSS
 
-		String sectionStyle = (String) getState( KEY_SECTION_STYLE );
+		String sectionStyle = getState( KEY_SECTION_STYLE );
 
 		if ( sectionStyle != null )
 			writer.writeAttribute( "style", sectionStyle, null );
 
-		String sectionStyleClass = (String) getState( KEY_SECTION_STYLE_CLASS );
+		String sectionStyleClass = getState( KEY_SECTION_STYLE_CLASS );
 
 		if ( sectionStyleClass != null )
 			writer.writeAttribute( "class", sectionStyleClass, null );
@@ -574,7 +574,7 @@ public class HtmlTableLayoutRenderer
 
 			// CSS
 
-			String requiredStyle = (String) getState( KEY_REQUIRED_STYLE );
+			String requiredStyle = getState( KEY_REQUIRED_STYLE );
 
 			if ( requiredStyle != null )
 				writer.writeAttribute( "style", requiredStyle, null );
@@ -630,7 +630,7 @@ public class HtmlTableLayoutRenderer
 	protected void writeColumnStyleClass( ResponseWriter writer, int columnStyleClass )
 		throws IOException
 	{
-		String[] columnClasses = (String[]) getState( KEY_COLUMN_CLASSES );
+		String[] columnClasses = getState( KEY_COLUMN_CLASSES );
 
 		// Note: As per the JSF spec, columnClasses do not repeat like rowClasses do. See...
 		//
@@ -654,7 +654,7 @@ public class HtmlTableLayoutRenderer
 	protected void writeRowStyleClass( ResponseWriter writer, int rowStyleClass )
 		throws IOException
 	{
-		String[] rowClasses = (String[]) getState( KEY_ROW_CLASSES );
+		String[] rowClasses = getState( KEY_ROW_CLASSES );
 
 		if ( rowClasses == null )
 			return;
