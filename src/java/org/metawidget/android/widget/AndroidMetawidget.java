@@ -328,7 +328,14 @@ public class AndroidMetawidget
 		return null;
 	}
 
-	@SuppressWarnings("unchecked")
+	/**
+	 * Gets the parameter with the given name.
+	 *
+	 * @return the value of the parameter. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>String s = getParameter(name)</code>)
+	 */
+
+	@SuppressWarnings( "unchecked" )
 	public <T> T getParameter( String name )
 	{
 		if ( mParameters == null )
@@ -398,6 +405,9 @@ public class AndroidMetawidget
 	 * The value is returned as it is stored in the View (eg. String for EditText) so may need some
 	 * conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
+	 *
+	 * @return the value from the View. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */
 
 	@SuppressWarnings( { "deprecation", "unchecked" } )

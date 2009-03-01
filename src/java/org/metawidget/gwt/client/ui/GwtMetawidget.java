@@ -214,15 +214,20 @@ public class GwtMetawidget
 	// Public methods
 	//
 
+	/**
+	 * Gets the object being inspected.
+	 * <p>
+	 * Exposed for binding implementations.
+	 *
+	 * @return the object. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>Person p = getToInspect()</code>)
+	 */
+
 	@SuppressWarnings( "unchecked" )
 	public <T> T getToInspect()
 	{
 		return (T) mToInspect;
 	}
-
-	/**
-	 * Sets the Object to inspect.
-	 */
 
 	/**
 	 * Sets the Object to inspect.
@@ -337,6 +342,9 @@ public class GwtMetawidget
 	/**
 	 * Gets the parameter value. Used by the chosen <code>Layout</code> or
 	 * <code>PropertyBinding</code> implementation.
+	 *
+	 * @return the value. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>String s = getParameter(name)</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -500,6 +508,9 @@ public class GwtMetawidget
 	 * conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which Widget GwtMetawidget created, which is not ideal, so clients may prefer to
 	 * use binding instead.
+	 *
+	 * @return the value. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -515,6 +526,9 @@ public class GwtMetawidget
 
 	/**
 	 * Gets the value from the given Widget.
+	 *
+	 * @return the value. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>String s = getValue(widget)</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )

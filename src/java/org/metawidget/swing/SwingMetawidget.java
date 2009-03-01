@@ -211,6 +211,9 @@ public class SwingMetawidget
 	 * Gets the Object being inspected.
 	 * <p>
 	 * Exposed for binding implementations.
+	 *
+	 * @return the object. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>Person p = getToInspect()</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -381,6 +384,9 @@ public class SwingMetawidget
 	/**
 	 * Gets the parameter value. Used by the chosen <code>Layout</code> or
 	 * <code>PropertyBinding</code> implementation.
+	 *
+	 * @return the value. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>String s = getParameter(name)</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -397,6 +403,9 @@ public class SwingMetawidget
 	 * <code>PropertyBinding</code> implementation.
 	 * <p>
 	 * Convenience method. Equivalent to <code>getParameter( clazz.getName() )</code>
+	 *
+	 * @return the value. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>String s = getParameter(clazz)</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -666,6 +675,9 @@ public class SwingMetawidget
 	 * need some conversion before being reapplied to the object being inspected. This obviously
 	 * requires knowledge of which Component SwingMetawidget created, which is not ideal, so clients
 	 * may prefer to use bindingClass instead.
+	 *
+	 * @return the value. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )

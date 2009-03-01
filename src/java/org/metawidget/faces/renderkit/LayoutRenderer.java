@@ -127,17 +127,35 @@ public abstract class LayoutRenderer
 	// Protected methods
 	//
 
+	/**
+	 * Gets the value of the 'Re-entrant Thread Local' with the given name.
+	 *
+	 * @return the value. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>String s = getState(key)</code>)
+	 */
+
 	@SuppressWarnings( "unchecked" )
 	protected <T> T getState( String key )
 	{
 		return (T) mLocalState.get().get( key );
 	}
 
+	/**
+	 * Sets the value of the 'Re-entrant Thread Local' with the given name.
+	 */
+
 	@SuppressWarnings( "unchecked" )
-	protected <T> T putState( String key, Object value )
+	protected void putState( String key, Object value )
 	{
-		return (T) mLocalState.get().put( key, value );
+		mLocalState.get().put( key, value );
 	}
+
+	/**
+	 * Removes the value of the 'Re-entrant Thread Local' with the given name.
+	 *
+	 * @return the value. Note this return type uses generics, so as to
+	 *         not require a cast by the caller (eg. <code>String s = removeState(key)</code>)
+	 */
 
 	@SuppressWarnings( "unchecked" )
 	protected <T> T removeState( String key )
