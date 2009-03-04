@@ -41,6 +41,10 @@ import org.w3c.dom.Document;
  * <li>element attributes from the new DOM override ones in the existing DOM
  * </ul>
  * <p>
+ * This algorithm should be suitable for most use cases, but one benefit of having a separate
+ * CompositeInspector is that developers can replace it with their own version, with its own
+ * combining algorithm, if required.
+ * <p>
  * Note: the name <em>Composite</em>Inspector refers to the Composite design pattern.
  *
  * @author Richard Kennard
@@ -53,13 +57,13 @@ public class CompositeInspector
 	// Private statics
 	//
 
-	private final static Log					LOG							= LogUtils.getLog( CompositeInspector.class );
+	private final static Log	LOG	= LogUtils.getLog( CompositeInspector.class );
 
 	//
 	// Private members
 	//
 
-	private Inspector[]							mInspectors;
+	private Inspector[]			mInspectors;
 
 	//
 	// Constructor
