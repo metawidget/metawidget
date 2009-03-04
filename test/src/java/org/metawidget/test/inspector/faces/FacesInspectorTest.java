@@ -18,10 +18,6 @@ package org.metawidget.test.inspector.faces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
-
-import javax.faces.convert.DateTimeConverter;
-import javax.faces.convert.NumberConverter;
-
 import junit.framework.TestCase;
 
 import org.metawidget.faces.FacesUtils;
@@ -86,7 +82,6 @@ public class FacesInspectorTest
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( DateTimeConverter.class.getName().equals( property.getAttribute( FACES_CONVERTER_CLASS ) ) );
 		assertTrue( "full".equals( property.getAttribute( DATE_STYLE ) ) );
 		assertTrue( "medium".equals( property.getAttribute( TIME_STYLE ) ) );
 		assertTrue( "UK".equals( property.getAttribute( LOCALE ) ) );
@@ -96,7 +91,6 @@ public class FacesInspectorTest
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object3" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( NumberConverter.class.getName().equals( property.getAttribute( FACES_CONVERTER_CLASS ) ) );
 		assertTrue( "AUD".equals( property.getAttribute( CURRENCY_CODE ) ) );
 		assertTrue( "$".equals( property.getAttribute( CURRENCY_SYMBOL ) ) );
 		assertTrue( TRUE.equals( property.getAttribute( NUMBER_USES_GROUPING_SEPARATORS ) ) );

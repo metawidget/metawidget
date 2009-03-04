@@ -21,6 +21,7 @@ import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -697,7 +698,7 @@ public abstract class UIMetawidget
 
 			Map<String, Object> miscAttributes = component.getAttributes();
 
-			if ( miscAttributes.get( COMPONENT_ATTRIBUTE_METADATA ) != null || !component.isRendered() )
+			if ( miscAttributes.containsKey( COMPONENT_ATTRIBUTE_METADATA ) || !component.isRendered() )
 			{
 				index++;
 				continue;
@@ -724,7 +725,7 @@ public abstract class UIMetawidget
 			{
 				// Manually created components with no found metadata default to no section
 
-				if ( miscAttributes.get( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) == null )
+				if ( !miscAttributes.containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) )
 					childAttributes.put( SECTION, "" );
 			}
 
@@ -966,18 +967,10 @@ public abstract class UIMetawidget
 			// Create from id
 
 			String converterId = attributes.get( FACES_CONVERTER_ID );
-			String converterClass = attributes.get( FACES_CONVERTER_CLASS );
 
 			if ( converterId != null )
 			{
 				converter = getFacesContext().getApplication().createConverter( converterId );
-			}
-
-			// Create from class
-
-			else if ( converterClass != null )
-			{
-				converter = (Converter) ClassUtils.niceForName( converterClass ).newInstance();
 			}
 
 			// Create from parameterized type (eg. a Date converter for List<Date>)
@@ -1000,68 +993,105 @@ public abstract class UIMetawidget
 
 			// Native support for DateTimeConverter
 
-			if ( converter instanceof DateTimeConverter )
+			if ( attributes.containsKey( DATE_STYLE ) )
 			{
-				DateTimeConverter dateTimeConverter = (DateTimeConverter) converter;
+				converter = getDateTimeConverter( converter );
+				( (DateTimeConverter) converter ).setDateStyle( attributes.get( DATE_STYLE ) );
+			}
 
-				if ( attributes.get( DATE_STYLE ) != null )
-					dateTimeConverter.setDateStyle( attributes.get( DATE_STYLE ) );
+			if ( attributes.containsKey( LOCALE ) )
+			{
+				converter = getDateTimeConverter( converter );
+				( (DateTimeConverter) converter ).setLocale( new Locale( attributes.get( LOCALE ) ) );
+			}
 
-				if ( attributes.get( LOCALE ) != null )
-					dateTimeConverter.setLocale( new Locale( attributes.get( LOCALE ) ) );
+			if ( attributes.containsKey( DATETIME_PATTERN ) )
+			{
+				converter = getDateTimeConverter( converter );
+				( (DateTimeConverter) converter ).setPattern( attributes.get( DATETIME_PATTERN ) );
+			}
 
-				if ( attributes.get( DATETIME_PATTERN ) != null )
-					dateTimeConverter.setPattern( attributes.get( DATETIME_PATTERN ) );
+			if ( attributes.containsKey( TIME_STYLE ) )
+			{
+				converter = getDateTimeConverter( converter );
+				( (DateTimeConverter) converter ).setTimeStyle( attributes.get( TIME_STYLE ) );
+			}
 
-				if ( attributes.get( TIME_STYLE ) != null )
-					dateTimeConverter.setTimeStyle( attributes.get( TIME_STYLE ) );
+			if ( attributes.containsKey( TIME_ZONE ) )
+			{
+				converter = getDateTimeConverter( converter );
+				( (DateTimeConverter) converter ).setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
+			}
 
-				if ( attributes.get( TIME_ZONE ) != null )
-					dateTimeConverter.setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
-
-				if ( attributes.get( DATETIME_TYPE ) != null )
-					dateTimeConverter.setType( attributes.get( DATETIME_TYPE ) );
+			if ( attributes.containsKey( DATETIME_TYPE ) )
+			{
+				converter = getDateTimeConverter( converter );
+				( (DateTimeConverter) converter ).setType( attributes.get( DATETIME_TYPE ) );
 			}
 
 			// Native support for NumberConverter
 
-			else if ( converter instanceof NumberConverter )
+			if ( attributes.containsKey( CURRENCY_CODE ) )
 			{
-				NumberConverter numberConverter = (NumberConverter) converter;
-
-				if ( attributes.get( CURRENCY_CODE ) != null )
-					numberConverter.setCurrencyCode( attributes.get( CURRENCY_CODE ) );
-
-				if ( attributes.get( CURRENCY_SYMBOL ) != null )
-					numberConverter.setCurrencySymbol( attributes.get( CURRENCY_SYMBOL ) );
-
-				if ( attributes.get( NUMBER_USES_GROUPING_SEPARATORS ) != null )
-					numberConverter.setGroupingUsed( Boolean.parseBoolean( attributes.get( NUMBER_USES_GROUPING_SEPARATORS ) ) );
-
-				if ( "int".equals( attributes.get( TYPE ) ) || "long".equals( attributes.get( TYPE ) ) || Integer.class.getName().equals( attributes.get( TYPE ) ) || Long.class.getName().equals( attributes.get( TYPE ) ) )
-					numberConverter.setIntegerOnly( true );
-
-				if ( attributes.get( MINIMUM_INTEGER_DIGITS ) != null )
-					numberConverter.setMinIntegerDigits( Integer.parseInt( attributes.get( MINIMUM_INTEGER_DIGITS ) ) );
-
-				if ( attributes.get( MAXIMUM_INTEGER_DIGITS ) != null )
-					numberConverter.setMaxIntegerDigits( Integer.parseInt( attributes.get( MAXIMUM_INTEGER_DIGITS ) ) );
-
-				if ( attributes.get( MINIMUM_FRACTIONAL_DIGITS ) != null )
-					numberConverter.setMinFractionDigits( Integer.parseInt( attributes.get( MINIMUM_FRACTIONAL_DIGITS ) ) );
-
-				if ( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) != null )
-					numberConverter.setMaxFractionDigits( Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
-
-				if ( attributes.get( LOCALE ) != null )
-					numberConverter.setLocale( new Locale( attributes.get( LOCALE ) ) );
-
-				if ( attributes.get( NUMBER_PATTERN ) != null )
-					numberConverter.setPattern( attributes.get( NUMBER_PATTERN ) );
-
-				if ( attributes.get( NUMBER_TYPE ) != null )
-					numberConverter.setType( attributes.get( NUMBER_TYPE ) );
+				converter = getNumberConverter( converter );
+				( (NumberConverter) converter ).setCurrencyCode( attributes.get( CURRENCY_CODE ) );
 			}
+
+			if ( attributes.containsKey( CURRENCY_SYMBOL ) )
+			{
+				converter = getNumberConverter( converter );
+				( (NumberConverter) converter ).setCurrencySymbol( attributes.get( CURRENCY_SYMBOL ) );
+			}
+
+			if ( attributes.containsKey( NUMBER_USES_GROUPING_SEPARATORS ) )
+			{
+				converter = getNumberConverter( converter );
+				( (NumberConverter) converter ).setGroupingUsed( Boolean.parseBoolean( attributes.get( NUMBER_USES_GROUPING_SEPARATORS ) ) );
+			}
+
+			if ( attributes.containsKey( MINIMUM_INTEGER_DIGITS ) )
+			{
+				converter = getNumberConverter( converter );
+				( (NumberConverter) converter ).setMinIntegerDigits( Integer.parseInt( attributes.get( MINIMUM_INTEGER_DIGITS ) ) );
+			}
+
+			if ( attributes.containsKey( MAXIMUM_INTEGER_DIGITS ) )
+			{
+				converter = getNumberConverter( converter );
+				( (NumberConverter) converter ).setMaxIntegerDigits( Integer.parseInt( attributes.get( MAXIMUM_INTEGER_DIGITS ) ) );
+			}
+
+			if ( attributes.containsKey( MINIMUM_FRACTIONAL_DIGITS ) )
+			{
+				converter = getNumberConverter( converter );
+				( (NumberConverter) converter ).setMinFractionDigits( Integer.parseInt( attributes.get( MINIMUM_FRACTIONAL_DIGITS ) ) );
+			}
+
+			if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) )
+			{
+				converter = getNumberConverter( converter );
+				( (NumberConverter) converter ).setMaxFractionDigits( Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
+			}
+
+			if ( attributes.containsKey( LOCALE ) )
+			{
+				converter = getNumberConverter( converter );
+				( (NumberConverter) converter ).setLocale( new Locale( attributes.get( LOCALE ) ) );
+			}
+
+			if ( attributes.containsKey( NUMBER_PATTERN ) )
+			{
+				converter = getNumberConverter( converter );
+				( (NumberConverter) converter ).setPattern( attributes.get( NUMBER_PATTERN ) );
+			}
+
+			if ( attributes.containsKey( NUMBER_TYPE ) )
+			{
+				converter = getNumberConverter( converter );
+				( (NumberConverter) converter ).setType( attributes.get( NUMBER_TYPE ) );
+			}
+
+			// Set it and return it
 
 			valueHolder.setConverter( converter );
 			return converter;
@@ -1524,5 +1554,44 @@ public abstract class UIMetawidget
 
 			gatherClientIds( component.getFacetsAndChildren() );
 		}
+	}
+
+	private DateTimeConverter getDateTimeConverter( Converter existingConverter )
+	{
+		if ( existingConverter != null && !( existingConverter instanceof DateTimeConverter ) )
+			throw MetawidgetException.newException( "Unable to set date/time attributes on a " + existingConverter.getClass() );
+
+		// In case the application defines its own one
+
+		DateTimeConverter dateTimeConverter = (DateTimeConverter) getFacesContext().getApplication().createConverter( Date.class );
+
+		if ( dateTimeConverter != null )
+			return dateTimeConverter;
+
+		// The JSF default
+
+		return new DateTimeConverter();
+	}
+
+	private NumberConverter getNumberConverter( Converter existingConverter )
+	{
+		if ( existingConverter != null )
+		{
+			if ( !( existingConverter instanceof NumberConverter ) )
+				throw MetawidgetException.newException( "Unable to set number attributes on a " + existingConverter.getClass() );
+
+			return (NumberConverter) existingConverter;
+		}
+
+		// In case the application defines its own one
+
+		NumberConverter numberConverter = (NumberConverter) getFacesContext().getApplication().createConverter( Number.class );
+
+		if ( numberConverter != null )
+			return numberConverter;
+
+		// The JSF default
+
+		return new NumberConverter();
 	}
 }

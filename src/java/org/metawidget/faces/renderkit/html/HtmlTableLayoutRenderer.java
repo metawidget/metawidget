@@ -563,7 +563,7 @@ public class HtmlTableLayoutRenderer
 
 		// Render the 'required' column
 
-		if ( ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) ) || childComponent.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) == null )
+		if ( ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) ) || !childComponent.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ))
 		{
 			// (except embedded Metawidgets, which have their own required
 			// column)

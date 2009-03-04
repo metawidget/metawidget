@@ -190,7 +190,7 @@ public class ContactsController
 		}
 		else
 		{
-			if ( mAll.get( id ) == null )
+			if ( !mAll.containsKey( id ))
 				throw new RuntimeException( "Contact #" + id + " not found" );
 		}
 

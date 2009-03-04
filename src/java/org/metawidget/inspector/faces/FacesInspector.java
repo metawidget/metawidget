@@ -23,8 +23,6 @@ import java.util.Map;
 
 import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.DateTimeConverter;
-import javax.faces.convert.NumberConverter;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.iface.InspectorException;
@@ -94,11 +92,6 @@ public class FacesInspector
 
 		if ( numberConverter != null )
 		{
-			if ( attributes.containsKey( FACES_CONVERTER_ID ))
-				throw InspectorException.newException( "Property " + property + " cannot define both UiFacesNumberConverter and another converter" );
-
-			attributes.put( FACES_CONVERTER_CLASS, NumberConverter.class.getName() );
-
 			if ( !"".equals( numberConverter.currencyCode() ))
 				attributes.put( CURRENCY_CODE, numberConverter.currencyCode() );
 
@@ -137,11 +130,6 @@ public class FacesInspector
 
 		if ( dateTimeConverter != null )
 		{
-			if ( attributes.containsKey( FACES_CONVERTER_CLASS ) || attributes.containsKey( FACES_CONVERTER_ID ))
-				throw InspectorException.newException( "Property " + property + " cannot define both UiFacesDateTimeConverter and another converter" );
-
-			attributes.put( FACES_CONVERTER_CLASS, DateTimeConverter.class.getName() );
-
 			if ( !"".equals( dateTimeConverter.dateStyle() ))
 				attributes.put( DATE_STYLE, dateTimeConverter.dateStyle() );
 

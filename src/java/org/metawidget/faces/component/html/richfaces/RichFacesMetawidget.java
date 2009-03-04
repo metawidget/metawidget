@@ -155,13 +155,13 @@ public class RichFacesMetawidget
 			{
 				UICalendar calendar = (UICalendar) application.createComponent( "org.richfaces.Calendar" );
 
-				if ( attributes.get( DATETIME_PATTERN ) != null )
+				if ( attributes.containsKey( DATETIME_PATTERN ))
 					calendar.setDatePattern( attributes.get( DATETIME_PATTERN ));
 
-				if ( attributes.get( LOCALE ) != null )
+				if ( attributes.containsKey( LOCALE ))
 					calendar.setLocale( new Locale( attributes.get( LOCALE ) ) );
 
-				if ( attributes.get( TIME_ZONE ) != null )
+				if ( attributes.containsKey( TIME_ZONE ))
 					calendar.setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE )));
 
 				return calendar;

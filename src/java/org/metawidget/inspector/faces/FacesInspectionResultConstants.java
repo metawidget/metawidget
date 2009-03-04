@@ -35,8 +35,6 @@ public final class FacesInspectionResultConstants
 
 	public final static String	FACES_COMPONENT					= "faces-component";
 
-	public final static String	FACES_CONVERTER_CLASS			= "faces-converter-class";
-
 	public final static String	FACES_CONVERTER_ID				= "faces-converter-id";
 
 	public final static String	FACES_IMMEDIATE					= "faces-immediate";
