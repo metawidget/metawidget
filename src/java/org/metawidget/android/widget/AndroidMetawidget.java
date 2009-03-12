@@ -1098,7 +1098,7 @@ public class AndroidMetawidget
 	//
 
 	protected class AndroidMetawidgetMixin
-		extends MetawidgetMixin<View>
+		extends MetawidgetMixin<View,AndroidMetawidget>
 	{
 		//
 		//
@@ -1144,7 +1144,7 @@ public class AndroidMetawidget
 		}
 
 		@Override
-		public View buildMetawidget( Map<String, String> attributes )
+		public AndroidMetawidget buildMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			AndroidMetawidget metawidget = AndroidMetawidget.this.getClass().newInstance();
@@ -1157,6 +1157,12 @@ public class AndroidMetawidget
 		protected void endBuild()
 		{
 			AndroidMetawidget.this.endBuild();
+		}
+
+		@Override
+		protected AndroidMetawidget getMixinOwner()
+		{
+			return AndroidMetawidget.this;
 		}
 	}
 }

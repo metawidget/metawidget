@@ -20,16 +20,19 @@ import java.util.Map;
 
 /**
  * Common interface implemented by all WidgetBuilders.
+ * <p>
+ * Implementors must be threadsafe and immutable (or, at least, appear that way to clients. They can
+ * have caches or configuration settings internally).
  *
  * @author Richard Kennard
  */
 
-public interface WidgetBuilder<W>
+public interface WidgetBuilder<W, M>
 {
 	//
 	// Methods
 	//
 
-	W buildWidget( String elementName, Map<String, String> attributes )
+	W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
 		throws Exception;
 }

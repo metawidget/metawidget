@@ -61,15 +61,15 @@ public abstract class MetawidgetTag
 	// Protected statics
 	//
 
-	protected final static String		METAWIDGET				= MetawidgetTag.class.getName();
+	protected final static String			METAWIDGET				= MetawidgetTag.class.getName();
 
 	//
 	// Private statics
 	//
 
-	private final static long			serialVersionUID		= 1l;
+	private final static long				serialVersionUID		= 1l;
 
-	private final static String			INSPECTORS_ATTRIBUTE	= "metawidget-inspectors";
+	private final static String				INSPECTORS_ATTRIBUTE	= "metawidget-inspectors";
 
 	//
 	// Protected members
@@ -83,33 +83,33 @@ public abstract class MetawidgetTag
 	 * <code>buildCompoundWidget</code>.
 	 */
 
-	protected String					mPath;
+	protected String						mPath;
 
 	/**
 	 * Prefix of path to inspect, to support nesting.
 	 */
 
-	protected String					mPathPrefix;
+	protected String						mPathPrefix;
 
 	//
 	// Private members
 	//
 
-	private String						mInspectorConfig		= "inspector-config.xml";
+	private String							mInspectorConfig		= "inspector-config.xml";
 
-	private String						mLayoutClass			= HtmlTableLayout.class.getName();
+	private String							mLayoutClass			= HtmlTableLayout.class.getName();
 
-	private Layout						mLayout;
+	private Layout							mLayout;
 
-	private ResourceBundle				mBundle;
+	private ResourceBundle					mBundle;
 
-	private Map<String, String>			mParameters;
+	private Map<String, String>				mParameters;
 
-	private Map<String, FacetContent>	mFacets;
+	private Map<String, FacetContent>		mFacets;
 
-	private Map<String, StubContent>	mStubs;
+	private Map<String, StubContent>		mStubs;
 
-	private MetawidgetMixin<Object>		mMetawidgetMixin;
+	private MetawidgetMixin<Object, Object>	mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -313,9 +313,9 @@ public abstract class MetawidgetTag
 	 * instantiate their version.
 	 */
 
-	protected MetawidgetMixin<Object> newMetawidgetMixin()
+	protected MetawidgetMixin<Object, Object> newMetawidgetMixin()
 	{
-		return new JspMetawidgetMixin();
+		return new MetawidgetTagMixin();
 	}
 
 	protected void startBuild()
@@ -565,8 +565,8 @@ public abstract class MetawidgetTag
 	// Inner class
 	//
 
-	protected class JspMetawidgetMixin
-		extends MetawidgetMixin<Object>
+	protected class MetawidgetTagMixin
+		extends MetawidgetMixin<Object, Object>
 	{
 		//
 		//
@@ -634,6 +634,12 @@ public abstract class MetawidgetTag
 			throws Exception
 		{
 			MetawidgetTag.this.endBuild();
+		}
+
+		@Override
+		protected MetawidgetTag getMixinOwner()
+		{
+			return MetawidgetTag.this;
 		}
 	}
 }

@@ -47,7 +47,7 @@ import org.metawidget.widgetbuilder.WidgetBuilder;
  * @author Richard Kennard
  */
 
-public abstract class BaseMetawidgetMixin<W, E>
+public abstract class BaseMetawidgetMixin<W, E, M extends W>
 {
 	//
 	// Private statics
@@ -65,7 +65,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 	private int					mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
-	private WidgetBuilder<W>	mWidgetBuilder;
+	private WidgetBuilder<W, M>	mWidgetBuilder;
 
 	//
 	// Public methods
@@ -111,7 +111,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 		mMaximumInspectionDepth = maximumInspectionDepth;
 	}
 
-	public void setWidgetBuilder( WidgetBuilder<W> widgetBuilder )
+	public void setWidgetBuilder( WidgetBuilder<W, M> widgetBuilder )
 	{
 		mWidgetBuilder = widgetBuilder;
 	}
@@ -190,7 +190,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 	protected W buildSingleWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		return mWidgetBuilder.buildWidget( elementName, attributes );
+		return mWidgetBuilder.buildWidget( elementName, attributes, getMixinOwner() );
 	}
 
 	/**
@@ -225,7 +225,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 			if ( widget == null )
 			{
-				widget = mWidgetBuilder.buildWidget( elementName, attributes );
+				widget = mWidgetBuilder.buildWidget( elementName, attributes, getMixinOwner() );
 
 				if ( widget == null )
 				{
@@ -271,8 +271,10 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 	protected abstract Map<String, String> getStubAttributes( W stub );
 
-	protected abstract W buildMetawidget( Map<String, String> attributes )
+	protected abstract M buildMetawidget( Map<String, String> attributes )
 		throws Exception;
+
+	protected abstract M getMixinOwner();
 
 	protected abstract void addWidget( W widget, String elementName, Map<String, String> attributes )
 		throws Exception;

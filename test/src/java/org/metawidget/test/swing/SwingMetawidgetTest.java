@@ -49,7 +49,6 @@ import org.metawidget.swing.propertybinding.beanutils.BeanUtilsBinding;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.test.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.widgetbuilder.WidgetBuilder;
 
 /**
  * @author Richard Kennard
@@ -215,9 +214,10 @@ public class SwingMetawidgetTest
 		attributes.put( TYPE, "dynamic-type-that-cant-be-loaded" );
 		attributes.put( LOOKUP, "bar,baz" );
 
-		WidgetBuilder<JComponent> widgetBuilder = new SwingWidgetBuilder( new SwingMetawidget() );
+		SwingMetawidget metawidget = new SwingMetawidget();
+		SwingWidgetBuilder widgetBuilder = new SwingWidgetBuilder();
 
-		JComponent component = widgetBuilder.buildWidget( "foo", attributes );
+		JComponent component = widgetBuilder.buildWidget( "foo", attributes, metawidget );
 		assertTrue( component instanceof JComboBox );
 		assertTrue( 3 == ( (JComboBox) component ).getItemCount() );
 
@@ -225,7 +225,7 @@ public class SwingMetawidgetTest
 
 		attributes.put( REQUIRED, TRUE );
 
-		component = widgetBuilder.buildWidget( "foo", attributes );
+		component = widgetBuilder.buildWidget( "foo", attributes, metawidget );
 		assertTrue( component instanceof JComboBox );
 		assertTrue( 2 == ( (JComboBox) component ).getItemCount() );
 
@@ -234,12 +234,12 @@ public class SwingMetawidgetTest
 		attributes.remove( REQUIRED );
 		attributes.remove( LOOKUP );
 
-		component = widgetBuilder.buildWidget("foo", attributes );
+		component = widgetBuilder.buildWidget("foo", attributes, metawidget );
 		assertTrue( null == component );
 
 		attributes.put( DONT_EXPAND, TRUE );
 
-		component = widgetBuilder.buildWidget( "foo", attributes );
+		component = widgetBuilder.buildWidget( "foo", attributes, metawidget );
 		assertTrue( component instanceof JTextField );
 	}
 

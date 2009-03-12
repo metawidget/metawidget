@@ -20,14 +20,14 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-public abstract class BaseWidgetBuilder<W>
-	implements WidgetBuilder<W>
+public abstract class BaseWidgetBuilder<W, M>
+	implements WidgetBuilder<W, M>
 {
 	//
 	// Public methods
 	//
 
-	public W buildWidget( String elementName, Map<String, String> attributes )
+	public W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
 		throws Exception
 	{
 		// Note: we tried further refining this to buildReadOnlyFieldWidget,
@@ -37,7 +37,7 @@ public abstract class BaseWidgetBuilder<W>
 		// pass it here
 
 		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
-			return buildReadOnlyWidget( elementName, attributes );
+			return buildReadOnlyWidget( elementName, attributes, metawidget );
 
 		// If the attribute has NO_SETTER, we consider it read-only.
 		//
@@ -51,18 +51,18 @@ public abstract class BaseWidgetBuilder<W>
 		// widget. Other platforms may consider an Address as complex, using a nested Metawidget.
 
 		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-			return buildReadOnlyWidget( elementName, attributes );
+			return buildReadOnlyWidget( elementName, attributes, metawidget );
 
-		return buildActiveWidget( elementName, attributes );
+		return buildActiveWidget( elementName, attributes, metawidget );
 	}
 
 	//
 	// Protected abstract methods
 	//
 
-	protected abstract W buildReadOnlyWidget( String elementName, Map<String, String> attributes )
+	protected abstract W buildReadOnlyWidget( String elementName, Map<String, String> attributes, M metawidget )
 		throws Exception;
 
-	protected abstract W buildActiveWidget( String elementName, Map<String, String> attributes )
+	protected abstract W buildActiveWidget( String elementName, Map<String, String> attributes, M metawidget )
 		throws Exception;
 }

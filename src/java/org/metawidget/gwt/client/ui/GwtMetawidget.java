@@ -199,7 +199,7 @@ public class GwtMetawidget
 
 	Timer															mExecuteAfterBuildWidgets;
 
-	GwtMetawidgetMixin<Widget>										mMetawidgetMixin;
+	GwtMetawidgetMixin<Widget, GwtMetawidget>						mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -219,8 +219,8 @@ public class GwtMetawidget
 	 * <p>
 	 * Exposed for binding implementations.
 	 *
-	 * @return the object. Note this return type uses generics, so as to
-	 *         not require a cast by the caller (eg. <code>Person p = getToInspect()</code>)
+	 * @return the object. Note this return type uses generics, so as to not require a cast by the
+	 *         caller (eg. <code>Person p = getToInspect()</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -343,8 +343,8 @@ public class GwtMetawidget
 	 * Gets the parameter value. Used by the chosen <code>Layout</code> or
 	 * <code>PropertyBinding</code> implementation.
 	 *
-	 * @return the value. Note this return type uses generics, so as to
-	 *         not require a cast by the caller (eg. <code>String s = getParameter(name)</code>)
+	 * @return the value. Note this return type uses generics, so as to not require a cast by the
+	 *         caller (eg. <code>String s = getParameter(name)</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -509,8 +509,8 @@ public class GwtMetawidget
 	 * knowledge of which Widget GwtMetawidget created, which is not ideal, so clients may prefer to
 	 * use binding instead.
 	 *
-	 * @return the value. Note this return type uses generics, so as to
-	 *         not require a cast by the caller (eg. <code>String s = getValue(names)</code>)
+	 * @return the value. Note this return type uses generics, so as to not require a cast by the
+	 *         caller (eg. <code>String s = getValue(names)</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -527,8 +527,8 @@ public class GwtMetawidget
 	/**
 	 * Gets the value from the given Widget.
 	 *
-	 * @return the value. Note this return type uses generics, so as to
-	 *         not require a cast by the caller (eg. <code>String s = getValue(widget)</code>)
+	 * @return the value. Note this return type uses generics, so as to not require a cast by the
+	 *         caller (eg. <code>String s = getValue(widget)</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -761,7 +761,7 @@ public class GwtMetawidget
 	 * instantiate their version.
 	 */
 
-	protected GwtMetawidgetMixin<Widget> newMetawidgetMixin()
+	protected GwtMetawidgetMixin<Widget, GwtMetawidget> newMetawidgetMixin()
 	{
 		return new GwtMetawidgetMixinImpl();
 	}
@@ -1303,7 +1303,7 @@ public class GwtMetawidget
 		mLayout.layoutChild( widget, attributes );
 	}
 
-	protected Widget initMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
+	protected GwtMetawidget initMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
 		throws Exception
 	{
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
@@ -1384,7 +1384,7 @@ public class GwtMetawidget
 	//
 
 	protected class GwtMetawidgetMixinImpl
-		extends GwtMetawidgetMixin<Widget>
+		extends GwtMetawidgetMixin<Widget, GwtMetawidget>
 	{
 		//
 		//
@@ -1400,7 +1400,7 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected Widget buildMetawidget( Map<String, String> attributes )
+		protected GwtMetawidget buildMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			GwtMetawidget metawidget = new GwtMetawidget();
@@ -1440,6 +1440,12 @@ public class GwtMetawidget
 			throws Exception
 		{
 			GwtMetawidget.this.endBuild();
+		}
+
+		@Override
+		protected GwtMetawidget getMixinOwner()
+		{
+			return GwtMetawidget.this;
 		}
 	}
 

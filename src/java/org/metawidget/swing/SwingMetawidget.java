@@ -82,27 +82,27 @@ public class SwingMetawidget
 	// Private statics
 	//
 
-	private final static long					serialVersionUID	= 1l;
+	private final static long								serialVersionUID	= 1l;
 
-	private final static Map<String, Inspector>	INSPECTORS			= Collections.synchronizedMap( new HashMap<String, Inspector>() );
+	private final static Map<String, Inspector>				INSPECTORS			= Collections.synchronizedMap( new HashMap<String, Inspector>() );
 
-	private final static Stroke					STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
+	private final static Stroke								STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
 	// Private members
 	//
 
-	private Object								mToInspect;
+	private Object											mToInspect;
 
-	private String								mPath;
+	private String											mPath;
 
-	private String								mInspectorConfig	= "inspector-config.xml";
+	private String											mInspectorConfig	= "inspector-config.xml";
 
-	private Inspector							mInspector;
+	private Inspector										mInspector;
 
-	private Class<? extends Layout>				mLayoutClass		= GridBagLayout.class;
+	private Class<? extends Layout>							mLayoutClass		= GridBagLayout.class;
 
-	private Layout								mLayout;
+	private Layout											mLayout;
 
 	/**
 	 * The PropertyBinding class.
@@ -111,31 +111,31 @@ public class SwingMetawidget
 	 * third-party JARs
 	 */
 
-	private Class<? extends PropertyBinding>	mPropertyBindingClass;
+	private Class<? extends PropertyBinding>				mPropertyBindingClass;
 
-	private PropertyBinding						mPropertyBinding;
+	private PropertyBinding									mPropertyBinding;
 
 	/**
 	 * The ActionBinding class.
 	 */
 
-	private Class<? extends ActionBinding>		mActionBindingClass	= ReflectionBinding.class;
+	private Class<? extends ActionBinding>					mActionBindingClass	= ReflectionBinding.class;
 
-	private ActionBinding						mActionBinding;
+	private ActionBinding									mActionBinding;
 
-	private Class<? extends Validator>			mValidatorClass;
+	private Class<? extends Validator>						mValidatorClass;
 
-	private Validator							mValidator;
+	private Validator										mValidator;
 
-	private ResourceBundle						mBundle;
+	private ResourceBundle									mBundle;
 
-	private Map<String, Object>					mParameters;
+	private Map<String, Object>								mParameters;
 
-	private boolean								mNeedToBuildWidgets;
+	private boolean											mNeedToBuildWidgets;
 
-	private String								mLastInspection;
+	private String											mLastInspection;
 
-	private boolean								mIgnoreAddRemove;
+	private boolean											mIgnoreAddRemove;
 
 	/**
 	 * List of existing, manually added components.
@@ -143,7 +143,7 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<Component>						mExistingComponents	= CollectionUtils.newArrayList();
+	private List<Component>									mExistingComponents	= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -151,11 +151,11 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<Component>						mExistingComponentsUnused;
+	private List<Component>									mExistingComponentsUnused;
 
-	private Map<String, Facet>					mFacets				= CollectionUtils.newHashMap();
+	private Map<String, Facet>								mFacets				= CollectionUtils.newHashMap();
 
-	private MetawidgetMixin<JComponent>			mMetawidgetMixin;
+	private MetawidgetMixin<JComponent, SwingMetawidget>	mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -888,10 +888,10 @@ public class SwingMetawidget
 	 * instantiate their version.
 	 */
 
-	protected MetawidgetMixin<JComponent> newMetawidgetMixin()
+	protected MetawidgetMixin<JComponent, SwingMetawidget> newMetawidgetMixin()
 	{
 		SwingMetawidgetMixin mixin = new SwingMetawidgetMixin();
-		mixin.setWidgetBuilder( new SwingWidgetBuilder( this ) );
+		mixin.setWidgetBuilder( new SwingWidgetBuilder() );
 
 		return mixin;
 	}
@@ -1258,7 +1258,7 @@ public class SwingMetawidget
 	//
 
 	protected class SwingMetawidgetMixin
-		extends MetawidgetMixin<JComponent>
+		extends MetawidgetMixin<JComponent,SwingMetawidget>
 	{
 		//
 		//
@@ -1299,7 +1299,7 @@ public class SwingMetawidget
 		}
 
 		@Override
-		public JComponent buildMetawidget( Map<String, String> attributes )
+		public SwingMetawidget buildMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			SwingMetawidget metawidget = SwingMetawidget.this.getClass().newInstance();
@@ -1313,6 +1313,12 @@ public class SwingMetawidget
 		protected void endBuild()
 		{
 			SwingMetawidget.this.endBuild();
+		}
+
+		@Override
+		protected SwingMetawidget getMixinOwner()
+		{
+			return SwingMetawidget.this;
 		}
 	}
 }

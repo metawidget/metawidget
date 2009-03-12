@@ -47,6 +47,7 @@ import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetbuilder.BaseWidgetBuilder;
 
 /**
  * WidgetBuilder for Swing environments.
@@ -58,23 +59,14 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public class SwingWidgetBuilder
-	extends BaseWidgetBuilder
+	extends BaseWidgetBuilder<JComponent, SwingMetawidget>
 {
-	//
-	// Public methods
-	//
-
-	public SwingWidgetBuilder( SwingMetawidget metawidget )
-	{
-		super( metawidget );
-	}
-
 	//
 	// Protected methods
 	//
 
 	@Override
-	protected JComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes )
+	protected JComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 		throws Exception
 	{
 		// Hidden
@@ -173,7 +165,7 @@ public class SwingWidgetBuilder
 	}
 
 	@Override
-	protected JComponent buildActiveWidget( String elementName, Map<String, String> attributes )
+	protected JComponent buildActiveWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 		throws Exception
 	{
 		// Hidden
@@ -184,7 +176,7 @@ public class SwingWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return new JButton( getMetawidget().getLabelString( attributes ) );
+			return new JButton( metawidget.getLabelString( attributes ) );
 
 		String type = attributes.get( TYPE );
 
@@ -218,7 +210,7 @@ public class SwingWidgetBuilder
 
 			for ( String value : values )
 			{
-				Object convertedValue = getMetawidget().convertFromString( value, clazz );
+				Object convertedValue = metawidget.convertFromString( value, clazz );
 
 				comboBox.addItem( convertedValue );
 			}

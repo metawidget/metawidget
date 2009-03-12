@@ -36,25 +36,21 @@ import javax.faces.component.ActionSource;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
-import javax.faces.component.UISelectItem;
-import javax.faces.component.UISelectItems;
 import javax.faces.component.UISelectMany;
 import javax.faces.component.UISelectOne;
-import javax.faces.component.UIViewRoot;
 import javax.faces.component.ValueHolder;
-import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
-import javax.faces.model.SelectItem;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.validator.StandardValidator;
 import org.metawidget.faces.component.validator.Validator;
+import org.metawidget.faces.component.widgetbuilder.html.HtmlWidgetBuilder;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
@@ -93,7 +89,7 @@ public abstract class UIMetawidget
 	 * Component-level attribute used to store metadata.
 	 */
 
-	public final static String	COMPONENT_ATTRIBUTE_METADATA				= "metawidget-metadata";
+	public final static String							COMPONENT_ATTRIBUTE_METADATA				= "metawidget-metadata";
 
 	//
 	// Private statics
@@ -103,35 +99,35 @@ public abstract class UIMetawidget
 	 * Component-level attribute used to tag components as being created by Metawidget.
 	 */
 
-	private final static String	COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET	= "metawidget-created-by";
+	private final static String							COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET	= "metawidget-created-by";
 
 	/**
 	 * Application-level attribute used to cache Inspectors.
 	 */
 
-	private final static String	APPLICATION_ATTRIBUTE_INSPECTORS			= "metawidget-inspectors";
+	private final static String							APPLICATION_ATTRIBUTE_INSPECTORS			= "metawidget-inspectors";
 
 	//
 	// Private members
 	//
 
-	private Object				mValue;
+	private Object										mValue;
 
-	private String				mInspectorConfig							= "inspector-config.xml";
+	private String										mInspectorConfig							= "inspector-config.xml";
 
-	private boolean				mInspectFromParent;
+	private boolean										mInspectFromParent;
 
-	private Set<String>			mClientIds;
+	private Set<String>									mClientIds;
 
-	private Boolean				mReadOnly;
+	private Boolean										mReadOnly;
 
-	private String				mValidatorClass								= StandardValidator.class.getName();
+	private String										mValidatorClass								= StandardValidator.class.getName();
 
-	private Validator			mValidator;
+	private Validator									mValidator;
 
-	private String				mBindingPrefix;
+	private String										mBindingPrefix;
 
-	private UIMetawidgetMixin	mMetawidgetMixin;
+	private MetawidgetMixin<UIComponent, UIMetawidget>	mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -425,7 +421,10 @@ public abstract class UIMetawidget
 
 	protected UIMetawidgetMixin newMetawidgetMixin()
 	{
-		return new UIMetawidgetMixin();
+		UIMetawidgetMixin mixin = new UIMetawidgetMixin();
+		mixin.setWidgetBuilder( new HtmlWidgetBuilder() );
+
+		return mixin;
 	}
 
 	/**
@@ -731,8 +730,8 @@ public abstract class UIMetawidget
 
 			// Stubs
 
-			if ( mMetawidgetMixin.isStub( component ) )
-				childAttributes.putAll( mMetawidgetMixin.getStubAttributes( component ) );
+			if ( component instanceof UIStub )
+				childAttributes.putAll( ((UIMetawidgetMixin) mMetawidgetMixin).getStubAttributes( component ) );
 
 			addWidget( component );
 		}
@@ -930,7 +929,7 @@ public abstract class UIMetawidget
 	 * @return the converter that was attached
 	 */
 
-	protected Converter setConverter( UIComponent component, Map<String, String> attributes )
+	public Converter setConverter( UIComponent component, Map<String, String> attributes )
 	{
 		// Recurse into stubs
 
@@ -1101,12 +1100,6 @@ public abstract class UIMetawidget
 			throw MetawidgetException.newException( e );
 		}
 	}
-
-	protected abstract UIComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes )
-		throws Exception;
-
-	protected abstract UIComponent buildActiveWidget( String elementName, Map<String, String> attributes )
-		throws Exception;
 
 	protected abstract UIMetawidget buildMetawidget( Map<String, String> attributes );
 
@@ -1297,146 +1290,8 @@ public abstract class UIMetawidget
 		children.add( widget );
 	}
 
-	protected void addSelectItems( UIComponent component, List<?> values, List<String> labels, Map<String, String> attributes )
-	{
-		if ( values == null )
-			return;
-
-		// Add an empty choice (if nullable, and not required)
-
-		String type = attributes.get( TYPE );
-
-		if ( type == null )
-		{
-			// Type may be null if this lookup was specified by a metawidget-metadata.xml
-			// and the type was omitted from the XML. In that case, assume nullable
-
-			addSelectItem( component, null, null );
-		}
-		else
-		{
-			Class<?> clazz = ClassUtils.niceForName( type );
-
-			if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) ) )
-				addSelectItem( component, null, null );
-		}
-
-		// See if we're using labels
-		//
-		// (note: where possible, it is better to use a Converter than a hard-coded label)
-
-		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
-			throw MetawidgetException.newException( "Labels list must be same size as values list" );
-
-		// Add the select items
-
-		for ( int loop = 0, length = values.size(); loop < length; loop++ )
-		{
-			Object value = values.get( loop );
-			String label = null;
-
-			if ( labels != null && !labels.isEmpty() )
-				label = labels.get( loop );
-
-			addSelectItem( component, value, label );
-		}
-	}
-
-	protected void addSelectItem( UIComponent component, Object value, String label )
-	{
-		FacesContext context = getFacesContext();
-		Application application = context.getApplication();
-
-		UISelectItem selectItem = (UISelectItem) application.createComponent( "javax.faces.SelectItem" );
-		selectItem.setId( context.getViewRoot().createUniqueId() );
-
-		// JSF 1.1 doesn't allow 'null' as the item value, but JSF 1.2 requires
-		// it for proper behaviour (see
-		// https://javaserverfaces.dev.java.net/issues/show_bug.cgi?id=795)
-
-		if ( value == null )
-		{
-			try
-			{
-				UISelectItem.class.getMethod( "getValueExpression", String.class );
-				selectItem.setValue( new SelectItem( null, "" ) );
-			}
-			catch ( NoSuchMethodException e )
-			{
-				selectItem.setItemValue( "" );
-			}
-		}
-		else
-		{
-			selectItem.setItemValue( value );
-		}
-
-		if ( label == null )
-		{
-			// If no label, make it the same as the value. For JSF-RI, this is needed for labels
-			// next to UISelectMany checkboxes
-
-			selectItem.setItemLabel( StringUtils.quietValueOf( value ) );
-		}
-		else
-		{
-			// Label may be a value reference (eg. into a bundle)
-
-			if ( FacesUtils.isValueReference( label ) )
-				selectItem.setValueBinding( "itemLabel", application.createValueBinding( label ) );
-			else
-				selectItem.setItemLabel( label );
-		}
-
-		List<UIComponent> children = component.getChildren();
-		children.add( selectItem );
-	}
-
-	protected void addSelectItems( UIComponent component, String binding, Map<String, String> attributes )
-	{
-		if ( binding == null )
-			return;
-
-		FacesContext context = getFacesContext();
-		Application application = context.getApplication();
-		UIViewRoot viewRoot = context.getViewRoot();
-
-		List<UIComponent> children = component.getChildren();
-
-		// Add an empty choice (if nullable, and not required)
-
-		if ( component instanceof HtmlSelectOneListbox )
-		{
-			String type = attributes.get( TYPE );
-
-			if ( type == null )
-			{
-				// Type can be null if this lookup was specified by a metawidget-metadata.xml
-				// and the type was omitted from the XML. In that case, assume nullable
-
-				addSelectItem( component, null, null );
-			}
-			else
-			{
-				Class<?> clazz = ClassUtils.niceForName( type );
-
-				if ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
-					addSelectItem( component, null, null );
-			}
-		}
-
-		UISelectItems selectItems = (UISelectItems) application.createComponent( "javax.faces.SelectItems" );
-		selectItems.setId( viewRoot.createUniqueId() );
-		children.add( selectItems );
-
-		if ( !FacesUtils.isValueReference( binding ) )
-			throw MetawidgetException.newException( "Lookup '" + binding + "' is not of the form #{...}" );
-
-		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
-	}
-
 	protected class UIMetawidgetMixin
-		extends MetawidgetMixin<UIComponent>
+		extends MetawidgetMixin<UIComponent, UIMetawidget>
 	{
 		//
 		//
@@ -1497,7 +1352,7 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected UIComponent buildMetawidget( Map<String, String> attributes )
+		protected UIMetawidget buildMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			return UIMetawidget.this.buildMetawidget( attributes );
@@ -1508,6 +1363,12 @@ public abstract class UIMetawidget
 			throws Exception
 		{
 			UIMetawidget.this.endBuild();
+		}
+
+		@Override
+		protected UIMetawidget getMixinOwner()
+		{
+			return UIMetawidget.this;
 		}
 	}
 

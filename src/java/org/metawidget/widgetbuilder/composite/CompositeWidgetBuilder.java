@@ -24,26 +24,26 @@ import org.metawidget.widgetbuilder.WidgetBuilder;
  * @author Richard Kennard
  */
 
-public class CompositeWidgetBuilder<W>
-	implements WidgetBuilder<W>
+public class CompositeWidgetBuilder<W,M>
+	implements WidgetBuilder<W,M>
 {
 	//
 	// Private members
 	//
 
-	private WidgetBuilder<W>[]	mWidgetBuilders;
+	private WidgetBuilder<W,M>[]	mWidgetBuilders;
 
 	//
 	// Public methods
 	//
 
 	@Override
-	public W buildWidget( String elementName, Map<String, String> attributes )
+	public W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
 		throws Exception
 	{
-		for( WidgetBuilder<W> widgetBuilder: mWidgetBuilders )
+		for( WidgetBuilder<W,M> widgetBuilder: mWidgetBuilders )
 		{
-			W widget = widgetBuilder.buildWidget( elementName, attributes );
+			W widget = widgetBuilder.buildWidget( elementName, attributes, metawidget );
 
 			if ( widget != null )
 				return widget;

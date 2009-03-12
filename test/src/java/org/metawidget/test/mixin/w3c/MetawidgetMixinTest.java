@@ -58,7 +58,7 @@ public class MetawidgetMixinTest
 	//
 
 	static class TestMixin
-		extends MetawidgetMixin<Object>
+		extends MetawidgetMixin<Object,Object>
 	{
 		//
 		// Public methods
@@ -125,6 +125,12 @@ public class MetawidgetMixinTest
 			throws Exception
 		{
 			// Do nothing
+		}
+
+		@Override
+		protected Object getMixinOwner()
+		{
+			return null;
 		}
 	}
 }

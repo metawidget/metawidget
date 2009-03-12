@@ -29,8 +29,8 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public abstract class MetawidgetMixin<W>
-	extends BaseMetawidgetMixin<W, Element>
+public abstract class MetawidgetMixin<W, M extends W>
+	extends BaseMetawidgetMixin<W, Element, M>
 {
 	//
 	// Protected methods

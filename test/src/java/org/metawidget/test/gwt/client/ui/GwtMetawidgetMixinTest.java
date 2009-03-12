@@ -18,6 +18,7 @@ package org.metawidget.test.gwt.client.ui;
 
 import java.util.Map;
 
+import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtMetawidgetMixin;
 
 import com.google.gwt.junit.client.GWTTestCase;
@@ -51,7 +52,7 @@ public class GwtMetawidgetMixinTest
 	//
 
 	static class TestMixin
-		extends GwtMetawidgetMixin<Object>
+		extends GwtMetawidgetMixin<Object,GwtMetawidget>
 	{
 		//
 		// Public methods
@@ -107,7 +108,7 @@ public class GwtMetawidgetMixinTest
 		}
 
 		@Override
-		protected Object buildMetawidget( Map<String, String> attributes )
+		protected GwtMetawidget buildMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			return null;
@@ -118,6 +119,12 @@ public class GwtMetawidgetMixinTest
 			throws Exception
 		{
 			// Do nothing
+		}
+
+		@Override
+		protected GwtMetawidget getMixinOwner()
+		{
+			return null;
 		}
 	}
 }

@@ -35,8 +35,8 @@ import com.google.gwt.xml.client.XMLParser;
  * @author Richard Kennard
  */
 
-public abstract class GwtMetawidgetMixin<W>
-	extends BaseMetawidgetMixin<W, Element>
+public abstract class GwtMetawidgetMixin<W, M extends W>
+	extends BaseMetawidgetMixin<W, Element, M>
 {
 	//
 	// Protected methods
@@ -64,11 +64,11 @@ public abstract class GwtMetawidgetMixin<W>
 
 		int actualIndex = 0;
 
-		for( int loop = 0, length = nodes.getLength(); loop < length; loop++ )
+		for ( int loop = 0, length = nodes.getLength(); loop < length; loop++ )
 		{
 			Node node = nodes.item( loop );
 
-			if ( !( node instanceof Element ))
+			if ( !( node instanceof Element ) )
 				continue;
 
 			if ( actualIndex == index )
