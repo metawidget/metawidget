@@ -160,7 +160,7 @@ public class HtmlMetawidget
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
 			if ( !mCreateHiddenFields || TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return null;
+				return application.createComponent( "org.metawidget.Stub" );
 
 			return application.createComponent( "javax.faces.HtmlInputHidden" );
 		}
@@ -179,7 +179,7 @@ public class HtmlMetawidget
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return null;
+			return application.createComponent( "org.metawidget.Stub" );
 
 		// Lookups
 
@@ -249,7 +249,7 @@ public class HtmlMetawidget
 
 		// Nested Metawidget
 
-		return createMetawidget();
+		return null;
 	}
 
 	/**
@@ -272,7 +272,7 @@ public class HtmlMetawidget
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
 			if ( !mCreateHiddenFields || TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return null;
+				return application.createComponent( "org.metawidget.Stub" );
 
 			return application.createComponent( "javax.faces.HtmlInputHidden" );
 		}
@@ -541,7 +541,7 @@ public class HtmlMetawidget
 
 		// Nested Metawidget
 
-		return createMetawidget();
+		return null;
 	}
 
 	/**
@@ -553,7 +553,8 @@ public class HtmlMetawidget
 	 * this method.
 	 */
 
-	protected HtmlMetawidget createMetawidget()
+	@Override
+	protected HtmlMetawidget buildMetawidget( Map<String, String> attributes )
 	{
 		Application application = getFacesContext().getApplication();
 		return (HtmlMetawidget) application.createComponent( "org.metawidget.HtmlMetawidget" );

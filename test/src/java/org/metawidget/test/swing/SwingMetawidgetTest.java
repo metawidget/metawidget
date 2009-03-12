@@ -22,7 +22,6 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
@@ -47,8 +46,10 @@ import org.metawidget.swing.actionbinding.BaseActionBinding;
 import org.metawidget.swing.propertybinding.PropertyBinding;
 import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
 import org.metawidget.swing.propertybinding.beanutils.BeanUtilsBinding;
+import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.test.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetbuilder.WidgetBuilder;
 
 /**
  * @author Richard Kennard
@@ -208,16 +209,15 @@ public class SwingMetawidgetTest
 	{
 		// Test supporting the enum dropdown for a dynamic type...
 
-		Method buildActiveWidgetMethod = SwingMetawidget.class.getDeclaredMethod( "buildActiveWidget", String.class, Map.class );
-		buildActiveWidgetMethod.setAccessible( true );
-
 		// ...both nullable (the default)...
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( TYPE, "dynamic-type-that-cant-be-loaded" );
 		attributes.put( LOOKUP, "bar,baz" );
 
-		JComponent component = (JComponent) buildActiveWidgetMethod.invoke( new SwingMetawidget(), "foo", attributes );
+		WidgetBuilder<JComponent> widgetBuilder = new SwingWidgetBuilder( new SwingMetawidget() );
+
+		JComponent component = widgetBuilder.buildWidget( "foo", attributes );
 		assertTrue( component instanceof JComboBox );
 		assertTrue( 3 == ( (JComboBox) component ).getItemCount() );
 
@@ -225,7 +225,7 @@ public class SwingMetawidgetTest
 
 		attributes.put( REQUIRED, TRUE );
 
-		component = (JComponent) buildActiveWidgetMethod.invoke( new SwingMetawidget(), "foo", attributes );
+		component = widgetBuilder.buildWidget( "foo", attributes );
 		assertTrue( component instanceof JComboBox );
 		assertTrue( 2 == ( (JComboBox) component ).getItemCount() );
 
@@ -234,12 +234,12 @@ public class SwingMetawidgetTest
 		attributes.remove( REQUIRED );
 		attributes.remove( LOOKUP );
 
-		component = (JComponent) buildActiveWidgetMethod.invoke( new SwingMetawidget(), "foo", attributes );
-		assertTrue( component instanceof SwingMetawidget );
+		component = widgetBuilder.buildWidget("foo", attributes );
+		assertTrue( null == component );
 
 		attributes.put( DONT_EXPAND, TRUE );
 
-		component = (JComponent) buildActiveWidgetMethod.invoke( new SwingMetawidget(), "foo", attributes );
+		component = widgetBuilder.buildWidget( "foo", attributes );
 		assertTrue( component instanceof JTextField );
 	}
 

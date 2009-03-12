@@ -1108,6 +1108,8 @@ public abstract class UIMetawidget
 	protected abstract UIComponent buildActiveWidget( String elementName, Map<String, String> attributes )
 		throws Exception;
 
+	protected abstract UIMetawidget buildMetawidget( Map<String, String> attributes );
+
 	protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
@@ -1443,21 +1445,22 @@ public abstract class UIMetawidget
 		//
 
 		@Override
+		public boolean isReadOnly()
+		{
+			// Check read-only value binding
+
+			return UIMetawidget.this.isReadOnly();
+		}
+
+		//
+		// Protected methods
+		//
+
+		@Override
 		protected void startBuild()
 			throws Exception
 		{
 			UIMetawidget.this.startBuild();
-		}
-
-		@Override
-		protected boolean isReadOnly( Map<String, String> attributes )
-		{
-			if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
-				return true;
-
-			// Check read-only value binding
-
-			return UIMetawidget.this.isReadOnly();
 		}
 
 		@Override
@@ -1482,12 +1485,6 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected boolean isMetawidget( UIComponent widget )
-		{
-			return ( widget instanceof UIMetawidget );
-		}
-
-		@Override
 		protected boolean isStub( UIComponent widget )
 		{
 			return ( widget instanceof UIStub );
@@ -1500,34 +1497,10 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected UIComponent buildWidget( String type, Map<String, String> attributes )
+		protected UIComponent buildMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
-			UIComponent component = super.buildWidget( type, attributes );
-			return UIMetawidget.this.afterBuildWidget( component, attributes );
-		}
-
-		@Override
-		protected UIComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			return UIMetawidget.this.buildReadOnlyWidget( elementName, attributes );
-		}
-
-		@Override
-		protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			return UIMetawidget.this.buildActiveWidget( elementName, attributes );
-		}
-
-		@Override
-		protected UIComponent initMetawidget( UIComponent widget, Map<String, String> attributes )
-			throws Exception
-		{
-			UIMetawidget.this.initMetawidget( (UIMetawidget) widget, attributes );
-
-			return widget;
+			return UIMetawidget.this.buildMetawidget( attributes );
 		}
 
 		@Override

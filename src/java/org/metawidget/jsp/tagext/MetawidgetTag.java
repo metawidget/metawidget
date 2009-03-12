@@ -598,12 +598,6 @@ public abstract class MetawidgetTag
 		}
 
 		@Override
-		protected boolean isMetawidget( Object widget )
-		{
-			return METAWIDGET.equals( widget );
-		}
-
-		@Override
 		protected boolean isStub( Object widget )
 		{
 			return ( widget instanceof StubContent );
@@ -623,28 +617,14 @@ public abstract class MetawidgetTag
 			super.buildCompoundWidget( element );
 		}
 
-		@Override
-		protected String buildReadOnlyWidget( String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			return MetawidgetTag.this.buildReadOnlyWidget( elementName, attributes );
-		}
-
-		@Override
-		protected String buildActiveWidget( String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			return MetawidgetTag.this.buildActiveWidget( elementName, attributes );
-		}
-
 		@SuppressWarnings( "synthetic-access" )
 		@Override
-		protected Object initMetawidget( Object widget, Map<String, String> attributes )
+		protected Object buildMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			MetawidgetTag metawidget = MetawidgetTag.this.getClass().newInstance();
 			MetawidgetTag.this.initMetawidget( metawidget, attributes );
-			metawidget.setReadOnly( isReadOnly( attributes ) );
+			metawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
 
 			return JspUtils.writeTag( pageContext, metawidget, MetawidgetTag.this, null );
 		}

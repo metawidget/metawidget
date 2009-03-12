@@ -20,6 +20,8 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.widgetbuilder.WidgetBuilder;
+
 /**
  * Mixin to help build Metawidgets.
  * <p>
@@ -62,6 +64,8 @@ public abstract class BaseMetawidgetMixin<W, E>
 	private boolean				mCompoundWidget;
 
 	private int					mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
+
+	private WidgetBuilder<W>	mWidgetBuilder;
 
 	//
 	// Public methods
@@ -107,6 +111,11 @@ public abstract class BaseMetawidgetMixin<W, E>
 		mMaximumInspectionDepth = maximumInspectionDepth;
 	}
 
+	public void setWidgetBuilder( WidgetBuilder<W> widgetBuilder )
+	{
+		mWidgetBuilder = widgetBuilder;
+	}
+
 	/**
 	 * Build widgets from the given XML inspection result.
 	 * <p>
@@ -140,37 +149,15 @@ public abstract class BaseMetawidgetMixin<W, E>
 			if ( widget == null )
 				widget = buildSingleWidget( elementName, attributes );
 
-			if ( widget != null )
+			// If buildSingleWidget returns null, try buildCompoundWidget (from our child elements)
+
+			if ( widget == null )
 			{
-				// If the returned widget is itself a Metawidget, it must have
-				// the same path as us. In that case, DON'T use it, as that would
-				// be infinite recursion. Instead, treat this as a 'flag' to trigger going into
-				// buildCompoundWidget
-				//
-				// Note: we use this approach because:
-				//
-				// 1. We want clients to just have to implement 'W buildActiveWidget(...)', without
-				// having to worry about the difference between buildSimple/buildCompound
-				//
-				// 2. Because 'buildActiveWidget' returns a 'W', the flag must be of type 'W'
-				//
-				// 3. It is still possible to have a separate version of W for the flag, as opposed
-				// to using the Metawidget itself. This doesn't seem of huge benefit, however,
-				// because the Metawidget is not expensive to create (initMetawidget is not called)
-				// and it seems more confusing to clients to have to return a FlagMetawidget than
-				// the real Metawidget
-
-				if ( !isMetawidget( widget ) )
-				{
-					addWidget( widget, elementName, attributes );
-				}
-
-				// Failing that, build a compound widget (from our child elements)
-
-				else
-				{
-					buildCompoundWidget( element );
-				}
+				buildCompoundWidget( element );
+			}
+			else
+			{
+				addWidget( widget, elementName, attributes );
 			}
 		}
 
@@ -203,7 +190,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 	protected W buildSingleWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		return buildWidget( elementName, attributes );
+		return mWidgetBuilder.buildWidget( elementName, attributes );
 	}
 
 	/**
@@ -230,22 +217,22 @@ public abstract class BaseMetawidgetMixin<W, E>
 			if ( childName == null || "".equals( childName ) )
 				throw new Exception( "Child element #" + loop + " of '" + attributes.get( TYPE ) + "' has no @" + NAME );
 
+			if ( mReadOnly )
+				attributes.put( READ_ONLY, TRUE );
+
 			String elementName = getElementName( child );
 			W widget = getOverriddenWidget( elementName, attributes );
 
 			if ( widget == null )
 			{
-				widget = buildWidget( elementName, attributes );
+				widget = mWidgetBuilder.buildWidget( elementName, attributes );
 
 				if ( widget == null )
-					continue;
-
-				if ( isMetawidget( widget ) )
 				{
 					if ( mMaximumInspectionDepth <= 0 )
 						continue;
 
-					widget = initMetawidget( widget, attributes );
+					widget = buildMetawidget( attributes );
 				}
 			}
 			else if ( isStub( widget ) )
@@ -255,43 +242,6 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 			addWidget( widget, elementName, attributes );
 		}
-	}
-
-	protected boolean isReadOnly( Map<String, String> attributes )
-	{
-		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
-			return true;
-
-		return mReadOnly;
-	}
-
-	protected W buildWidget( String elementName, Map<String, String> attributes )
-		throws Exception
-	{
-		// Note: we tried further refining this to buildReadOnlyFieldWidget,
-		// buildReadOnlyActionWidget, buildActiveFieldWidget, buildActiveActionWidget, but it wasn't
-		// really better because we still had to pass 'elementName' to other methods (such as
-		// UIMetawidget.getOverriddenWidget) and so it seemed simplier and more symmetrical to also
-		// pass it here
-
-		if ( isReadOnly( attributes ) )
-			return buildReadOnlyWidget( elementName, attributes );
-
-		// If the attribute has NO_SETTER, we consider it read-only.
-		//
-		// Note: this relies on complex attributes being rendered by nested Metawidgets, and the
-		// nested Metawidgets will NOT have setReadOnly set on them. This gets us the desired
-		// result: primitive types without a setter are rendered as read-only, complex types without
-		// a setter are rendered as writeable (because their nested primitives are writeable).
-		//
-		// Furthermore, what is considered 'primitive' is up to the platform. Some
-		// platforms may consider, say, an Address as 'primitive', using a dedicated Address
-		// widget. Other platforms may consider an Address as complex, using a nested Metawidget.
-
-		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-			return buildReadOnlyWidget( elementName, attributes );
-
-		return buildActiveWidget( elementName, attributes );
 	}
 
 	//
@@ -321,19 +271,7 @@ public abstract class BaseMetawidgetMixin<W, E>
 
 	protected abstract Map<String, String> getStubAttributes( W stub );
 
-	protected abstract boolean isMetawidget( W widget );
-
-	protected abstract W buildReadOnlyWidget( String elementName, Map<String, String> attributes )
-		throws Exception;
-
-	/**
-	 * Build 'active' (as opposed to read-only) widgets.
-	 */
-
-	protected abstract W buildActiveWidget( String elementName, Map<String, String> attributes )
-		throws Exception;
-
-	protected abstract W initMetawidget( W widget, Map<String, String> attributes )
+	protected abstract W buildMetawidget( Map<String, String> attributes )
 		throws Exception;
 
 	protected abstract void addWidget( W widget, String elementName, Map<String, String> attributes )

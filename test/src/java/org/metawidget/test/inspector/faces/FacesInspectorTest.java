@@ -105,19 +105,6 @@ public class FacesInspectorTest
 		assertTrue( entity.getChildNodes().getLength() == 3 );
 	}
 
-	public void testDoubleConverter()
-	{
-		try
-		{
-			new FacesInspector().inspect( new DoubleConverterFoo(), DoubleConverterFoo.class.getName() );
-			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
-			assertTrue( "Property bar cannot define both UiFacesDateTimeConverter and another converter".equals( e.getMessage() ));
-		}
-	}
-
 	public void testNoFacesContext()
 	{
 		try

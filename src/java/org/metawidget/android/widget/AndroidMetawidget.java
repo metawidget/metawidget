@@ -1021,7 +1021,7 @@ public class AndroidMetawidget
 
 			// buildWidgets just-in-time
 
-			if ( mMetawidgetMixin.isMetawidget( viewgroup ) )
+			if ( viewgroup instanceof AndroidMetawidget )
 				( (AndroidMetawidget) viewgroup ).buildWidgets();
 
 			// Use our own findViewWithTag, not View.findViewWithTag!
@@ -1144,30 +1144,11 @@ public class AndroidMetawidget
 		}
 
 		@Override
-		protected boolean isMetawidget( View view )
-		{
-			return ( view instanceof AndroidMetawidget );
-		}
-
-		@Override
-		protected View buildReadOnlyWidget( String elementName, Map<String, String> attributes )
+		public View buildMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
-			return AndroidMetawidget.this.buildReadOnlyWidget( elementName, attributes );
-		}
-
-		@Override
-		protected View buildActiveWidget( String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			return AndroidMetawidget.this.buildActiveWidget( elementName, attributes );
-		}
-
-		@Override
-		public View initMetawidget( View widget, Map<String, String> attributes )
-		{
-			AndroidMetawidget metawidget = (AndroidMetawidget) widget;
-			metawidget.setReadOnly( isReadOnly( attributes ) );
+			AndroidMetawidget metawidget = AndroidMetawidget.this.getClass().newInstance();
+			metawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
 
 			return AndroidMetawidget.this.initMetawidget( metawidget, attributes );
 		}

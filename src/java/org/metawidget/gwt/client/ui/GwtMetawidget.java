@@ -1078,12 +1078,12 @@ public class GwtMetawidget
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return null;
+			return new Stub();
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return null;
+			return new Stub();
 
 		// Masked (return a Panel, so that we DO still render a label)
 
@@ -1114,7 +1114,7 @@ public class GwtMetawidget
 		// Collections
 
 		if ( isCollection( type ) )
-			return null;
+			return new Stub();
 
 		// Not simple, but don't expand
 
@@ -1123,7 +1123,7 @@ public class GwtMetawidget
 
 		// Nested Metawidget
 
-		return createMetawidget();
+		return null;
 	}
 
 	protected Widget buildActiveWidget( String elementName, Map<String, String> attributes )
@@ -1132,15 +1132,12 @@ public class GwtMetawidget
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return null;
+			return new Stub();
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-		{
-			Button button = new Button( getLabelString( attributes ) );
-			return button;
-		}
+			return new Button( getLabelString( attributes ) );
 
 		String type = attributes.get( TYPE );
 
@@ -1250,7 +1247,7 @@ public class GwtMetawidget
 
 		// Nested Metawidget
 
-		return createMetawidget();
+		return null;
 	}
 
 	protected Widget afterBuildWidget( Widget widget, Map<String, String> attributes )
@@ -1304,15 +1301,6 @@ public class GwtMetawidget
 			( (HasName) widget ).setName( name );
 
 		mLayout.layoutChild( widget, attributes );
-	}
-
-	/**
-	 * Subclasses should override to instantiate their own flavour of GwtMetawidget.
-	 */
-
-	protected GwtMetawidget createMetawidget()
-	{
-		return new GwtMetawidget();
 	}
 
 	protected Widget initMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
@@ -1412,11 +1400,11 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected Widget initMetawidget( Widget widget, Map<String, String> attributes )
+		protected Widget buildMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
-			GwtMetawidget metawidget = (GwtMetawidget) widget;
-			metawidget.setReadOnly( isReadOnly( attributes ) );
+			GwtMetawidget metawidget = new GwtMetawidget();
+			metawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
 			metawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 
 			return GwtMetawidget.this.initMetawidget( metawidget, attributes );
@@ -1435,39 +1423,10 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected Widget buildWidget( String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			Widget widget = super.buildWidget( elementName, attributes );
-
-			return GwtMetawidget.this.afterBuildWidget( widget, attributes );
-		}
-
-		@Override
-		protected Widget buildReadOnlyWidget( String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			return GwtMetawidget.this.buildReadOnlyWidget( elementName, attributes );
-		}
-
-		@Override
-		protected Widget buildActiveWidget( String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			return GwtMetawidget.this.buildActiveWidget( elementName, attributes );
-		}
-
-		@Override
 		protected void addWidget( Widget widget, String elementName, Map<String, String> attributes )
 			throws Exception
 		{
 			GwtMetawidget.this.addWidget( widget, elementName, attributes );
-		}
-
-		@Override
-		protected boolean isMetawidget( Widget widget )
-		{
-			return ( widget instanceof GwtMetawidget );
 		}
 
 		@Override

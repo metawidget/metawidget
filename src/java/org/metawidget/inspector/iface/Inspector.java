@@ -28,6 +28,10 @@ package org.metawidget.inspector.iface;
 
 public interface Inspector
 {
+	//
+	// Methods
+	//
+
 	/**
 	 * Inspect the given Object according to the given path, and return the result as a String
 	 * conforming to inspection-result-1.0.xsd.

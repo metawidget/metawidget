@@ -72,7 +72,7 @@ public interface PropertyBinding
 	 * property.
 	 */
 
-	<T> T convertFromString( String value, Class<T> type );
+	<T> Object convertFromString( String value, Class<T> type );
 
 	void unbindProperties();
 }

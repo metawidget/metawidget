@@ -89,29 +89,9 @@ public class GwtMetawidgetMixinTest
 		}
 
 		@Override
-		protected Object buildActiveWidget( String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			return null;
-		}
-
-		@Override
-		protected Object buildReadOnlyWidget( String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			return null;
-		}
-
-		@Override
 		protected Object getOverriddenWidget( String elementName, Map<String, String> attributes )
 		{
 			return null;
-		}
-
-		@Override
-		protected boolean isMetawidget( Object widget )
-		{
-			return false;
 		}
 
 		@Override
@@ -127,7 +107,7 @@ public class GwtMetawidgetMixinTest
 		}
 
 		@Override
-		protected Object initMetawidget( Object widget, Map<String, String> attributes )
+		protected Object buildMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			return null;

@@ -158,7 +158,7 @@ public class BeansBindingTest
 		// convertReverse with built in Converter
 
 		BeansBinding binding = new BeansBinding( new SwingMetawidget() );
-		assertTrue( 1 == binding.convertFromString( "1", int.class ) );
+		assertTrue( 1 == (Integer) binding.convertFromString( "1", int.class ) );
 
 		// convertForward with given Converter
 
@@ -180,7 +180,7 @@ public class BeansBindingTest
 			}
 		} );
 
-		assertTrue( 1 == binding.convertFromString( "1", int.class ) );
+		assertTrue( 1 == (Integer) binding.convertFromString( "1", int.class ) );
 		assertTrue( "convertedForward".equals( builder.toString() ) );
 	}
 
