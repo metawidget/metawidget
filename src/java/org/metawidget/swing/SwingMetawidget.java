@@ -27,8 +27,6 @@ import java.awt.Graphics2D;
 import java.awt.LayoutManager;
 import java.awt.Rectangle;
 import java.awt.Stroke;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
@@ -45,7 +43,7 @@ import javax.swing.JSpinner;
 import javax.swing.text.JTextComponent;
 
 import org.metawidget.MetawidgetException;
-import org.metawidget.inspector.ConfigReader;
+import org.metawidget.inspector.ConfigReader2;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.actionbinding.ActionBinding;
@@ -54,13 +52,13 @@ import org.metawidget.swing.layout.GridBagLayout;
 import org.metawidget.swing.layout.Layout;
 import org.metawidget.swing.propertybinding.PropertyBinding;
 import org.metawidget.swing.validator.Validator;
-import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
+import org.metawidget.widgetbuilder.WidgetBuilder;
 
 /**
  * Metawidget for Swing environments.
@@ -84,8 +82,6 @@ public class SwingMetawidget
 
 	private final static long								serialVersionUID	= 1l;
 
-	private final static Map<String, Inspector>				INSPECTORS			= Collections.synchronizedMap( new HashMap<String, Inspector>() );
-
 	private final static Stroke								STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
@@ -96,7 +92,7 @@ public class SwingMetawidget
 
 	private String											mPath;
 
-	private String											mInspectorConfig	= "inspector-config.xml";
+	private String											mInspectorConfig	= "metawidget.xml";
 
 	private Inspector										mInspector;
 
@@ -242,6 +238,12 @@ public class SwingMetawidget
 	{
 		mInspector = inspector;
 		mInspectorConfig = null;
+		invalidateInspection();
+	}
+
+	public void setWidgetBuilder( WidgetBuilder<JComponent,SwingMetawidget> widgetBuilder )
+	{
+		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
 		invalidateInspection();
 	}
 
@@ -890,10 +892,7 @@ public class SwingMetawidget
 
 	protected MetawidgetMixin<JComponent, SwingMetawidget> newMetawidgetMixin()
 	{
-		SwingMetawidgetMixin mixin = new SwingMetawidgetMixin();
-		mixin.setWidgetBuilder( new SwingWidgetBuilder() );
-
-		return mixin;
+		return new SwingMetawidgetMixin();
 	}
 
 	@Override
@@ -1211,17 +1210,8 @@ public class SwingMetawidget
 
 		if ( mInspector == null )
 		{
-			// ...otherwise, if this InspectorConfig has already been read, use it...
-
-			mInspector = INSPECTORS.get( mInspectorConfig );
-
-			// ...otherwise, initialize the Inspector
-
 			if ( mInspector == null )
-			{
-				mInspector = new ConfigReader().read( mInspectorConfig );
-				INSPECTORS.put( mInspectorConfig, mInspector );
-			}
+				new ConfigReader2<SwingMetawidget>().configure( mInspectorConfig, this );
 		}
 
 		// Use the inspector to inspect the path
@@ -1258,7 +1248,7 @@ public class SwingMetawidget
 	//
 
 	protected class SwingMetawidgetMixin
-		extends MetawidgetMixin<JComponent,SwingMetawidget>
+		extends MetawidgetMixin<JComponent, SwingMetawidget>
 	{
 		//
 		//

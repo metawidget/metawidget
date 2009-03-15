@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
+
+	<swingMetawidget xmlns="java:org.metawidget.swing">
+		<bundle>org.metawidget.example.shared.addressbook.resource.Resources</bundle>
+		<widgetBuilder>
+			<swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/>
+		</widgetBuilder>
+		<inspector>			
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
+					<jexlInspector xmlns="java:org.metawidget.inspector.commons.jexl"/>
+					<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
+						<file>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</file>
+					</xmlInspector>
+					<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+					<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+	</swingMetawidget>
+
+</metawidget>

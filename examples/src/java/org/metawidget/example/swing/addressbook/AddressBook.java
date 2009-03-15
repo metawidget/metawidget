@@ -22,7 +22,6 @@ import java.awt.Container;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
-import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.swing.BorderFactory;
@@ -202,15 +201,10 @@ public class AddressBook
 
 	private JComponent createSearchSection()
 	{
-		// Bundle
-
-		ResourceBundle bundle = ResourceBundle.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" );
-
 		// Metawidget
 
 		mSearchMetawidget = new SwingMetawidget();
-		mSearchMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
-		mSearchMetawidget.setBundle( bundle );
+		mSearchMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
 		mSearchMetawidget.setToInspect( mContactSearch );
 		mSearchMetawidget.setOpaque( false );
 
@@ -222,8 +216,7 @@ public class AddressBook
 		mSearchMetawidget.add( facetButtons );
 
 		SwingMetawidget buttonsMetawidget = new SwingMetawidget();
-		buttonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
-		buttonsMetawidget.setBundle( bundle );
+		buttonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
 		buttonsMetawidget.setToInspect( this );
 		buttonsMetawidget.setLayoutClass( FlowLayout.class );
 		facetButtons.add( buttonsMetawidget );
