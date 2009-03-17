@@ -205,8 +205,6 @@ public class ConfigReader
 		// .setInputStreams, so it would need a ResourceResolver passing in its
 		// constructor, which all gets very icky
 
-		// TODO: support URLs?
-
 		if ( InputStream.class.isAssignableFrom( toReturn ) )
 			return (T) openResource( input );
 
