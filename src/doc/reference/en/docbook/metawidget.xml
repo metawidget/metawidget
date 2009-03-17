@@ -895,7 +895,7 @@ public class Main {
 					To view the source code for the examples, such as the code for the <classname>ContactSearch</classname>,
 					<classname>ContactType</classname> and <classname>ContactDialog</classname> classes, download the Metawidget
 					source code distribution or browse it online at
-					<uri>http://metawidget.svn.sourceforge.net/viewvc/metawidget/trunk/examples/src/java/org/metawidget/example</uri>. 
+					<uri>http://metawidget.svn.sourceforge.net/viewvc/metawidget/trunk/examples/src</uri>. 
 				</tip>				
 
 				<para>
@@ -1086,6 +1086,15 @@ public class Main {
 					in the <classname>ContactBean</classname> (for JSF).
 				</para>
 								
+				<tip>
+					<title>Tip</title>
+					As with the Desktop Address Book, all source code for the examples can be found in the
+					source code distribution under
+					<uri>examples/src/java/org/metawidget/example</uri>.
+					All Web-specific resources (such as JSP files) can be found under
+					<uri>examples/src/web</uri>.
+				</tip>				
+
 				<para>
 					The look of the Web page relies entirely on HTML and CSS technologies:
 				</para>
@@ -1364,6 +1373,15 @@ public class Main {
 					by Metawidget (this time <classname>AndroidMetawidget</classname>) based on the <classname>ContactSearch</classname> business class.
 					Again, this includes populating the <parameter>Type</parameter> dropdown.
 				</para>
+
+				<tip>
+					<title>Tip</title>
+					As with the Desktop Address Book, all source code for the examples can be found in the
+					source code distribution under
+					<uri>examples/src/java/org/metawidget/example</uri>.
+					All Android-specific resources (such as XML files) can be found under
+					<uri>examples/src/android</uri>.
+				</tip>				
 
 				<para>
 					The look of the screen relies entirely on Android XML layout files, styles and themes. Only the 'one column for the label, one column
