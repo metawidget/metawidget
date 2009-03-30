@@ -28,6 +28,8 @@ import javax.faces.convert.Converter;
  * @author Richard Kennard
  */
 
+// TODO: this doesn't seem to work for collections?
+
 public class HtmlLookupOutputText
 	extends HtmlOutputText
 {

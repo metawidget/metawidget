@@ -81,6 +81,8 @@ public class FacesQuirks
 		mLarge = large;
 	}
 
+	// TODO: test String[]?
+
 	@UiComesAfter( "large" )
 	@UiLookup( { "Foo", "Bar", "Baz" } )
 	public List<? extends Object> getStrings()

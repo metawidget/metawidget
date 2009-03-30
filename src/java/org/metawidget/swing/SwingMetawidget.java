@@ -1095,6 +1095,7 @@ public class SwingMetawidget
 		else
 		{
 			// TODO: document widget types for GWT
+			// TODO: JSF top-level style (not class) does not get applied down?
 
 			if ( mPropertyBinding != null )
 				mPropertyBinding.bindProperty( actualComponent, attributes, path );
