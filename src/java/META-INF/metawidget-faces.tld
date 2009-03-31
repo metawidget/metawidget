@@ -14,6 +14,9 @@
 		<tagclass>org.metawidget.faces.taglib.html.HtmlMetawidgetTag</tagclass>
 		<info>JSP tag for HtmlMetawidget JSF component</info>
 		<attribute>
+			<name>id</name>
+		</attribute>
+		<attribute>
 			<name>value</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

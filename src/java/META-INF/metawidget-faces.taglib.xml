@@ -12,7 +12,7 @@
 
 	<tag>
 		<tag-name>stub</tag-name>
-		<component>	
+		<component>
 			<component-type>org.metawidget.Stub</component-type>
 		</component>
 	</tag>	

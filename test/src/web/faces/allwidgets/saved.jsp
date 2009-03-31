@@ -8,7 +8,7 @@
 	<html>
 		<body>
 
-			<m:metawidget value="#{allWidgets}" createHiddenFields="true" rendererType="div" readOnly="true" inspectorConfig="config/inspector-config.xml">
+			<m:metawidget id="allWidgetsMetawidget" value="#{allWidgets}" createHiddenFields="true" rendererType="div" readOnly="true" inspectorConfig="config/inspector-config.xml">
 				<f:param name="divStyleClasses" value="anOuterClass,aLabelClass,aRequiredClass,aComponentClass"/>					
 				<f:param name="outerStyle" value="anOuterStyle"/>					
 				<f:param name="labelStyle" value="aLabelStyle"/>

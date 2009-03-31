@@ -14,7 +14,7 @@
 			<h1>Quirks</h1>
 					
 			<h:form id="form">
-				<m:metawidget value="#{quirks}">
+				<m:metawidget id="quirksMetawidget" value="#{quirks}">
 					<f:param name="columns" value="2"/>
 				</m:metawidget>
 			</h:form>
