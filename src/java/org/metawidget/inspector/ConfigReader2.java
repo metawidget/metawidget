@@ -16,35 +16,43 @@
 
 package org.metawidget.inspector;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Stack;
 import java.util.regex.Pattern;
 
 import javax.xml.parsers.SAXParserFactory;
 
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetbuilder.WidgetBuilder;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.DefaultHandler;
 
 /**
- * Helper class for reading inspector-config.xml files and instantiating Inspectors.
+ * Helper class for reading <code>metadata.xml</code> files and configuring Metawidgets.
  * <p>
- * All Inspectors are configured via a separate &lt;inspector name&gt;Config class passed to their
- * constructor. This ensures they are immutable once instantiated.
+ * In spirit, <code>metadata.xml</code> is a general-purpose mechanism for configuring JavaBeans
+ * based on XML files. In practice, there are some Metawidget-specific features such as support for
+ * immutable objects.
  * <p>
  * This class is not just a collection of static methods, because ConfigReaders need to be able to
  * be subclassed.
@@ -59,13 +67,29 @@ public class ConfigReader2
 	// Package-level statics
 	//
 
-	final static Log					LOG	= LogUtils.getLog( ConfigReader.class );
+	final static Log								LOG				= LogUtils.getLog( ConfigReader.class );
+
+	//
+	// Private statics
+	//
+
+	private final static int						BUFFER_SIZE		= 1024 * 64;
 
 	//
 	// Protected members
 	//
 
-	protected final SAXParserFactory	mFactory;
+	protected final SAXParserFactory				mFactory;
+
+	//
+	// Package-level members
+	//
+
+	/**
+	 * Certain objects are cached (ie. they are both immutable and threadsafe)
+	 */
+
+	final static Map<String, Map<Integer, Object>>	CACHED_OBJECTS	= CollectionUtils.newHashMap();
 
 	//
 	// Constructor
@@ -101,8 +125,13 @@ public class ConfigReader2
 
 		try
 		{
+			ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
+			streamBetween( stream, streamOut );
+			byte[] xml = streamOut.toByteArray();
+
 			ConfigHandler configHandler = new ConfigHandler( toConfigure );
-			mFactory.newSAXParser().parse( stream, configHandler );
+			configHandler.setXml( new String( xml ) );
+			mFactory.newSAXParser().parse( new ByteArrayInputStream( xml ), configHandler );
 		}
 		catch ( Exception e )
 		{
@@ -253,13 +282,55 @@ public class ConfigReader2
 		return null;
 	}
 
+	/**
+	 * Certain classes are safe to cache (ie. their objects are both immutable and threadsafe).
+	 */
+
+	protected boolean isCacheable( Class<?> clazz )
+	{
+		if ( Inspector.class.isAssignableFrom( clazz ) )
+			return true;
+
+		if ( WidgetBuilder.class.isAssignableFrom( clazz ) )
+			return true;
+
+		return false;
+	}
+
+	//
+	// Private methods
+	//
+
+	private void streamBetween( InputStream in, OutputStream out )
+		throws IOException
+	{
+		try
+		{
+			int iCount;
+
+			// (must create a local buffer for Thread-safety)
+
+			byte[] byteData = new byte[BUFFER_SIZE];
+
+			while ( ( iCount = in.read( byteData, 0, BUFFER_SIZE ) ) != -1 )
+			{
+				out.write( byteData, 0, iCount );
+			}
+		}
+		finally
+		{
+			out.close();
+			in.close();
+		}
+	}
+
 	//
 	// Inner classes
 	//
 
 	private static enum EncounteredState
 	{
-		METHOD, NATIVE_TYPE, NATIVE_COLLECTION_TYPE, CONFIGURED_TYPE, JAVA_OBJECT
+		METHOD, NATIVE_TYPE, NATIVE_COLLECTION_TYPE, CONFIGURED_TYPE, JAVA_OBJECT, CACHED
 	}
 
 	private static enum ExpectingState
@@ -286,6 +357,12 @@ public class ConfigReader2
 
 		private Object					mToConfigure;
 
+		private String					mXml;
+
+		private Map<Integer, Object>	mCached;
+
+		private int						mElement;
+
 		/**
 		 * Track our depth in the SAX tree.
 		 * <p>
@@ -294,6 +371,12 @@ public class ConfigReader2
 		 */
 
 		private int						mDepth;
+
+		private int						mIgnoreAfterDepth		= -1;
+
+		private int						mCacheAsElement			= -1;
+
+		private int						mCacheAtDepth			= -1;
 
 		/**
 		 * Stack of Objects constructed so far.
@@ -330,14 +413,27 @@ public class ConfigReader2
 		// Public methods
 		//
 
+		public void setXml( String xml )
+		{
+			mXml = xml;
+		}
+
 		@Override
 		public void startElement( String uri, String localName, String name, Attributes attributes )
 			throws SAXException
 		{
+			mElement++;
 			mDepth++;
+
+			if ( mIgnoreAfterDepth != -1 && mDepth > mIgnoreAfterDepth )
+				return;
 
 			try
 			{
+				// Note: we rely on our schema-validating parser to enforce the correct
+				// nesting of elements and/or prescence of attributes, so we don't need to
+				// re-check that here
+
 				switch ( mExpecting )
 				{
 					case ROOT:
@@ -356,7 +452,10 @@ public class ConfigReader2
 						Class<?> toConfigureClass = classForName( uri, localName );
 
 						if ( !toConfigureClass.isAssignableFrom( mToConfigure.getClass() ) )
+						{
+							mIgnoreAfterDepth = 2;
 							return;
+						}
 
 						if ( !mConstructing.isEmpty() )
 							throw InspectorException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
@@ -365,12 +464,6 @@ public class ConfigReader2
 						mExpecting = ExpectingState.METHOD;
 						break;
 					}
-
-						// Construct object
-						//
-						// Note: we rely on our schema-validating parser to enforce the correct
-						// nesting of elements and/or prescence of attributes, so we don't need to
-						// re-check that here
 
 					case OBJECT:
 					{
@@ -398,9 +491,29 @@ public class ConfigReader2
 							return;
 						}
 
-						// Configured types
+						// Cached?
 
 						Class<?> classToConstruct = classForName( uri, localName );
+
+						if ( mCacheAsElement == -1 && isCacheable( classToConstruct ) )
+						{
+							Object cached = getCached( classToConstruct );
+
+							if ( cached != null )
+							{
+								mConstructing.push( cached );
+								mEncountered.push( EncounteredState.CACHED );
+								mIgnoreAfterDepth = mDepth;
+
+								return;
+							}
+
+							mCacheAsElement = mElement;
+							mCacheAtDepth = mDepth;
+						}
+
+						// Configured types
+
 						String configClassName = attributes.getValue( "config" );
 
 						if ( configClassName != null )
@@ -480,6 +593,14 @@ public class ConfigReader2
 		{
 			mDepth--;
 
+			if ( mIgnoreAfterDepth != -1 )
+			{
+				if ( mDepth >= mIgnoreAfterDepth )
+					return;
+
+				mIgnoreAfterDepth = -1;
+			}
+
 			// All done?
 
 			if ( mDepth == 0 )
@@ -498,6 +619,8 @@ public class ConfigReader2
 				mExpecting = ExpectingState.TO_CONFIGURE;
 				return;
 			}
+
+			// Configure based on what was encountered
 
 			try
 			{
@@ -528,26 +651,24 @@ public class ConfigReader2
 					}
 
 					case CONFIGURED_TYPE:
-					{
-						Class<?> classToConstruct = classForName( uri, localName );
-
-						Object config = mConstructing.pop();
-						Constructor<?> constructor = classToConstruct.getConstructor( config.getClass() );
-
-						@SuppressWarnings( "unchecked" )
-						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
-						parameters.add( constructor.newInstance( config ) );
-						mExpecting = ExpectingState.OBJECT;
-						return;
-					}
-
 					case JAVA_OBJECT:
+					case CACHED:
 					{
 						Object object = mConstructing.pop();
+
+						if ( encountered == EncounteredState.CONFIGURED_TYPE )
+						{
+							Class<?> classToConstruct = classForName( uri, localName );
+							Constructor<?> constructor = classToConstruct.getConstructor( object.getClass() );
+							object = constructor.newInstance( object );
+						}
 
 						@SuppressWarnings( "unchecked" )
 						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
 						parameters.add( object );
+
+						if ( encountered != EncounteredState.CACHED && mDepth == ( mCacheAtDepth - 1 ) && isCacheable( object.getClass() ) )
+							putCached( object );
 
 						mExpecting = ExpectingState.OBJECT;
 						return;
@@ -555,29 +676,11 @@ public class ConfigReader2
 
 					case METHOD:
 					{
-						// Look up parameter types
-
 						@SuppressWarnings( "unchecked" )
 						List<Object> parameters = (List<Object>) mConstructing.pop();
-						int length = parameters.size();
-						Class<?>[] parameterTypes = new Class<?>[length];
-						Object[] args = new Object[length];
-
-						for ( int loop = 0; loop < length; loop++ )
-						{
-							Object arg = parameters.get( loop );
-							args[loop] = arg;
-							parameterTypes[loop] = arg.getClass();
-						}
-
-						// ...look up method...
-
 						Object constructing = mConstructing.peek();
-						Method method = getOverloadedMethod( constructing.getClass(), "set" + StringUtils.uppercaseFirstLetter( localName ), parameterTypes );
-
-						// ...and call it
-
-						method.invoke( constructing, args );
+						Method method = classGetMethod( constructing.getClass(), "set" + StringUtils.uppercaseFirstLetter( localName ), parameters );
+						method.invoke( constructing, parameters.toArray() );
 
 						mExpecting = ExpectingState.METHOD;
 						return;
@@ -612,8 +715,46 @@ public class ConfigReader2
 		}
 
 		//
+		// Protected methods
+		//
+
+		protected Object getCached( Class<?> clazz )
+		{
+			if ( mCached == null )
+			{
+				mCached = CACHED_OBJECTS.get( mXml );
+
+				if ( mCached == null )
+					return null;
+			}
+
+			return mCached.get( mElement );
+		}
+
+		protected void putCached( Object cacheable )
+		{
+			if ( mCached == null )
+			{
+				mCached = CACHED_OBJECTS.get( mXml );
+
+				if ( mCached == null )
+				{
+					mCached = CollectionUtils.newHashMap();
+					CACHED_OBJECTS.put( mXml, mCached );
+				}
+			}
+
+			mCached.put( mCacheAsElement, cacheable );
+			mCacheAsElement = -1;
+		}
+
+		//
 		// Private methods
 		//
+
+		/**
+		 * Resolves a class based on the URI namespace and the local name of the XML tag.
+		 */
 
 		private Class<?> classForName( String uri, String localName )
 			throws SAXException
@@ -634,18 +775,30 @@ public class ConfigReader2
 		}
 
 		/**
-		 * Overloaded methods get resolved at <em>compile-time</em>, overridden methods get
-		 * resolved at <em>runtime</em>.
+		 * Finds a method with the specified parameter types.
+		 * <p>
+		 * Like <code>Class.getMethod</code>, but works based on <code>isInstance</code> rather
+		 * than an exact match of parameter types. This is essentially a crude and partial
+		 * implementation of
+		 * http://java.sun.com/docs/books/jls/second_edition/html/expressions.doc.html#20448. In
+		 * particular, no attempt at 'closest matching' is implemented.
 		 */
 
-		private Method getOverloadedMethod( Class<?> clazz, String name, Class<?>[] parameterTypes )
+		private Method classGetMethod( Class<?> clazz, String name, List<Object> args )
+			throws NoSuchMethodException
 		{
-			int numberOfParameterTypes = parameterTypes.length;
+			int numberOfParameterTypes = args.size();
+
+			// For each method...
 
 			methods: for ( Method method : clazz.getMethods() )
 			{
+				// ...with a matching name...
+
 				if ( !method.getName().equals( name ) )
 					continue;
+
+				// ...and compatible parameters...
 
 				Class<?>[] methodParameterTypes = method.getParameterTypes();
 
@@ -659,16 +812,18 @@ public class ConfigReader2
 					if ( parameterType.isPrimitive() )
 						parameterType = ClassUtils.getWrapperClass( parameterType );
 
-					if ( !parameterType.isAssignableFrom( parameterTypes[loop] ) )
+					if ( !parameterType.isInstance( args.get( loop ) ) )
 						continue methods;
 				}
 
-				// TODO: closest match?
+				// ...return it. Note we make no attempt to find the 'closest match'
 
 				return method;
 			}
 
-			return null;
+			// No such method
+
+			throw new NoSuchMethodException( clazz + "." + name );
 		}
 	}
 }

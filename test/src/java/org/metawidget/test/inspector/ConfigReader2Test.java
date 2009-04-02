@@ -18,11 +18,31 @@ package org.metawidget.test.inspector;
 
 import java.awt.Point;
 import java.io.ByteArrayInputStream;
+import java.lang.reflect.Field;
+
+import javax.swing.JComponent;
 
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.ConfigReader2;
+import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
+import org.metawidget.inspector.composite.CompositeInspector;
+import org.metawidget.inspector.faces.FacesInspector;
+import org.metawidget.inspector.hibernate.validator.HibernateValidatorInspector;
+import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.jpa.JpaInspector;
+import org.metawidget.inspector.jsp.JspAnnotationInspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.inspector.spring.SpringAnnotationInspector;
+import org.metawidget.inspector.struts.StrutsAnnotationInspector;
+import org.metawidget.inspector.struts.StrutsInspector;
+import org.metawidget.inspector.xml.XmlInspector;
+import org.metawidget.mixin.base.BaseMetawidgetMixin;
+import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
+import org.metawidget.widgetbuilder.WidgetBuilder;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 
 /**
  * @author Richard Kennard
@@ -63,7 +83,13 @@ public class ConfigReader2Test
 		xml += "	</point>";
 		xml += "	<swingMetawidget xmlns=\"urn:java:org.metawidget.swing\">";
 		xml += "		<widgetBuilder>";
-		xml += "			<swingWidgetBuilder xmlns=\"urn:java:org.metawidget.swing.widgetbuilder\"/>";
+		xml += "			<compositeWidgetBuilder xmlns=\"urn:java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
+		xml += "				<widgetBuilders>";
+		xml += "					<list>";
+		xml += "						<swingWidgetBuilder xmlns=\"urn:java:org.metawidget.swing.widgetbuilder\"/>";
+		xml += "					</list>";
+		xml += "				</widgetBuilders>";
+		xml += "			</compositeWidgetBuilder>";
 		xml += "		</widgetBuilder>";
 		xml += "		<inspector>";
 		xml += "			<compositeInspector xmlns=\"urn:java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
@@ -80,6 +106,28 @@ public class ConfigReader2Test
 		xml += "								<class>org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle</class>";
 		xml += "							</actionStyle>";
 		xml += "						</propertyTypeInspector>";
+		xml += "						<jpaInspector xmlns=\"java:org.metawidget.inspector.jpa\"/>";
+		xml += "						<jspAnnotationInspector xmlns=\"java:org.metawidget.inspector.jsp\"/>";
+		xml += "						<springAnnotationInspector xmlns=\"java:org.metawidget.inspector.spring\"/>";
+		xml += "						<strutsInspector xmlns=\"java:org.metawidget.inspector.struts\" config=\"StrutsInspectorConfig\">";
+		xml += "							<files>";
+		xml += "								<list>";
+		xml += "									<string>org/metawidget/test/inspector/struts/test-struts-config1.xml</string>";
+		xml += "									<string>org/metawidget/test/inspector/struts/test-struts-config2.xml</string>";
+		xml += "								</list>";
+		xml += "							</files>";
+		xml += "						</strutsInspector>";
+		xml += "						<strutsAnnotationInspector xmlns=\"java:org.metawidget.inspector.struts\"/>";
+		xml += "						<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
+		xml += "							<file>";
+		xml += "								<string>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</string>";
+		xml += "							</file>";
+		xml += "						</xmlInspector>";
+		xml += "						<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
+		xml += "							<inputStream>";
+		xml += "								<stream>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</stream>";
+		xml += "							</inputStream>";
+		xml += "						</xmlInspector>";
 		xml += "					</list>";
 		xml += "				</inspectors>";
 		xml += "			</compositeInspector>";
@@ -96,7 +144,7 @@ public class ConfigReader2Test
 		xml += "		</parameter>";
 		xml += "		<parameter>";
 		xml += "			<string>another parameter</string>";
-		xml += "			<int>1</int>";
+		xml += "			<int>5</int>";
 		xml += "		</parameter>";
 		xml += "	</swingMetawidget>";
 		xml += "</metawidget>";
@@ -112,14 +160,76 @@ public class ConfigReader2Test
 
 		// SwingMetawidget
 
-		SwingMetawidget metawidget = new SwingMetawidget();
-		assertTrue( null == metawidget.getName() );
-		assertTrue( !metawidget.isOpaque() );
-		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget );
+		SwingMetawidget metawidget1 = new SwingMetawidget();
+		assertTrue( null == metawidget1.getName() );
+		assertTrue( !metawidget1.isOpaque() );
+		assertTrue( null == metawidget1.getParameter( "a parameter" ));
+		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1 );
 
 		// Test
 
-		assertTrue( "foo".equals( metawidget.getName() ));
-		assertTrue( metawidget.isOpaque() );
+		assertTrue( "foo".equals( metawidget1.getName() ) );
+		assertTrue( metawidget1.isOpaque() );
+		assertTrue( 1 == (Integer) metawidget1.getParameter( "a parameter" ));
+		assertTrue( 5 == (Integer) metawidget1.getParameter( "another parameter" ));
+
+		// SwingMetawidget2
+
+		SwingMetawidget metawidget2 = new SwingMetawidget();
+		assertTrue( null == metawidget2.getName() );
+		assertTrue( !metawidget2.isOpaque() );
+		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget2 );
+
+		// Test WidgetBuilder
+
+		Field mixinField = SwingMetawidget.class.getDeclaredField( "mMetawidgetMixin" );
+		mixinField.setAccessible( true );
+		@SuppressWarnings( "unchecked" )
+		MetawidgetMixin<JComponent, SwingMetawidget> mixin1 = (MetawidgetMixin<JComponent, SwingMetawidget>) mixinField.get( metawidget1 );
+		@SuppressWarnings( "unchecked" )
+		MetawidgetMixin<JComponent, SwingMetawidget> mixin2 = (MetawidgetMixin<JComponent, SwingMetawidget>) mixinField.get( metawidget2 );
+
+		Field widgetBuilderField = BaseMetawidgetMixin.class.getDeclaredField( "mWidgetBuilder" );
+		widgetBuilderField.setAccessible( true );
+		@SuppressWarnings( "unchecked" )
+		CompositeWidgetBuilder<JComponent,SwingMetawidget> compositeWidgetBuilder1 = (CompositeWidgetBuilder<JComponent,SwingMetawidget>) widgetBuilderField.get( mixin1 );
+		@SuppressWarnings( "unchecked" )
+		CompositeWidgetBuilder<JComponent,SwingMetawidget> compositeWidgetBuilder2 = (CompositeWidgetBuilder<JComponent,SwingMetawidget>) widgetBuilderField.get( mixin2 );
+
+		assertTrue( compositeWidgetBuilder1 == compositeWidgetBuilder2 );
+
+		Field widgetBuildersField = CompositeWidgetBuilder.class.getDeclaredField( "mWidgetBuilders" );
+		widgetBuildersField.setAccessible( true );
+		@SuppressWarnings("unchecked")
+		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuilders = (WidgetBuilder<JComponent, SwingMetawidget>[]) widgetBuildersField.get( compositeWidgetBuilder1 );
+
+		assertTrue( widgetBuilders.length == 1 );
+		assertTrue( widgetBuilders[0] instanceof SwingWidgetBuilder );
+
+		// Test Inspector
+
+		Field inspectorField = SwingMetawidget.class.getDeclaredField( "mInspector" );
+		inspectorField.setAccessible( true );
+		CompositeInspector compositeInspector1 = (CompositeInspector) inspectorField.get( metawidget1 );
+		CompositeInspector compositeInspector2 = (CompositeInspector) inspectorField.get( metawidget2 );
+
+		assertTrue( compositeInspector1 == compositeInspector2 );
+
+		Field inspectorsField = CompositeInspector.class.getDeclaredField( "mInspectors" );
+		inspectorsField.setAccessible( true );
+		Inspector[] inspectors = (Inspector[]) inspectorsField.get( compositeInspector1 );
+
+		assertTrue( inspectors.length == 11 );
+		assertTrue( inspectors[0] instanceof MetawidgetAnnotationInspector );
+		assertTrue( inspectors[1] instanceof FacesInspector );
+		assertTrue( inspectors[2] instanceof HibernateValidatorInspector );
+		assertTrue( inspectors[3] instanceof PropertyTypeInspector );
+		assertTrue( inspectors[4] instanceof JpaInspector );
+		assertTrue( inspectors[5] instanceof JspAnnotationInspector );
+		assertTrue( inspectors[6] instanceof SpringAnnotationInspector );
+		assertTrue( inspectors[7] instanceof StrutsInspector );
+		assertTrue( inspectors[8] instanceof StrutsAnnotationInspector );
+		assertTrue( inspectors[9] instanceof XmlInspector );
+		assertTrue( inspectors[10] instanceof XmlInspector );
 	}
 }

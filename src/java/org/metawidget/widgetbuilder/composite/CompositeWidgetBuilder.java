@@ -18,6 +18,7 @@ package org.metawidget.widgetbuilder.composite;
 
 import java.util.Map;
 
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.widgetbuilder.WidgetBuilder;
 
 /**
@@ -32,6 +33,27 @@ public class CompositeWidgetBuilder<W,M>
 	//
 
 	private WidgetBuilder<W,M>[]	mWidgetBuilders;
+
+	//
+	// Constructor
+	//
+
+	@SuppressWarnings("unchecked")
+	public CompositeWidgetBuilder( CompositeWidgetBuilderConfig<W,M> config )
+	{
+		WidgetBuilder<W,M>[] widgetBuilders = config.getWidgetBuilders();
+
+		// Must have at least one WidgetBuilder. At least two, really, but one can be useful
+		// if we want to validate what the sub-WidgetBuilder is returning
+
+		if ( widgetBuilders == null || widgetBuilders.length == 0 )
+			throw InspectorException.newException( "CompositeWidgetBuilder needs at least one WidgetBuilder" );
+
+		// Defensive copy
+
+		mWidgetBuilders = new WidgetBuilder[widgetBuilders.length];
+		System.arraycopy( widgetBuilders, 0, mWidgetBuilders, 0, widgetBuilders.length );
+	}
 
 	//
 	// Public methods

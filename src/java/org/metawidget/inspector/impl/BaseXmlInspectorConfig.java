@@ -17,6 +17,7 @@
 package org.metawidget.inspector.impl;
 
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Base class for BaseXmlInspectorConfig configurations.
@@ -75,6 +76,21 @@ public class BaseXmlInspectorConfig
 		// Fluent interface
 
 		return this;
+	}
+
+	/**
+	 * Sets the location of multiple XML files. Locations will be searched using
+	 * <code>ResourceUtils.getResource</code>.
+	 * <p>
+	 * This overloaded form of the setter is useful for <code>metawidget.xml</code>.
+	 *
+	 * @return	this, as part of a fluent interface
+	 */
+
+	public BaseXmlInspectorConfig setFiles( List<String> files )
+	{
+		String[] filesArray = new String[ files.size() ];
+		return setFiles( files.toArray( filesArray ));
 	}
 
 	public InputStream[] getInputStreams()

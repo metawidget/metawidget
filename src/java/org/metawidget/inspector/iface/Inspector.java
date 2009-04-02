@@ -19,7 +19,7 @@ package org.metawidget.inspector.iface;
 /**
  * Common interface implemented by all Inspectors.
  * <p>
- * Implementors must be threadsafe and immutable (or, at least, appear that way to clients. They can
+ * Inspectors must be threadsafe and immutable (or, at least, appear that way to clients. They can
  * have caches or configuration settings internally).
  *
  * @author Richard Kennard
