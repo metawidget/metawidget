@@ -16,6 +16,8 @@
 
 package org.metawidget.inspector.composite;
 
+import java.util.List;
+
 import org.metawidget.inspector.iface.Inspector;
 
 /**
@@ -39,6 +41,27 @@ public class CompositeInspectorConfig
 	public Inspector[] getInspectors()
 	{
 		return mInspectors;
+	}
+
+	/**
+	 * Sets the sub-Inspectors the CompositeInspector will call.
+	 * <p>
+	 * Inspectors will be called in order. CompositeInspector's merging
+	 * algorithm preserves the element ordering of the first DOMs as new DOMs are merged in.
+	 * <p>
+	 * This overloaded form of the setter is useful for <code>metawidget.xml</code>.
+	 *
+	 * @return	this, as part of a fluent interface
+	 */
+
+	public CompositeInspectorConfig setInspectors( List<Inspector> inspectors )
+	{
+		mInspectors = new Inspector[ inspectors.size() ];
+		mInspectors = inspectors.toArray( mInspectors );
+
+		// Fluent interface
+
+		return this;
 	}
 
 	/**

@@ -17,10 +17,10 @@
 package org.metawidget.inspector;
 
 import java.io.InputStream;
-import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -30,7 +30,6 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
@@ -53,7 +52,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author Richard Kennard
  */
 
-public class ConfigReader2<C>
+public class ConfigReader2
 	implements ResourceResolver
 {
 	//
@@ -86,27 +85,24 @@ public class ConfigReader2<C>
 	 * Read configuration from an application resource.
 	 */
 
-	public C configure( String resource, C initial )
+	public void configure( String resource, Object toConfigure )
 	{
-		return configure( openResource( resource ), initial );
+		configure( openResource( resource ), toConfigure );
 	}
 
 	/**
 	 * Read configuration from an input stream.
 	 */
 
-	public C configure( InputStream stream, C initial )
+	public void configure( InputStream stream, Object toConfigure )
 	{
 		if ( stream == null )
 			throw InspectorException.newException( "No input stream specified" );
 
 		try
 		{
-			ConfigHandler configHandler = new ConfigHandler();
-			configHandler.pushInitial( initial );
+			ConfigHandler configHandler = new ConfigHandler( toConfigure );
 			mFactory.newSAXParser().parse( stream, configHandler );
-
-			return configHandler.popFinal();
 		}
 		catch ( Exception e )
 		{
@@ -155,44 +151,71 @@ public class ConfigReader2<C>
 	//
 
 	/**
-	 * Convert the given String to an Object of the given Class.
+	 * Certain XML tags are supported 'natively' by the reader.
 	 * <p>
-	 * Subclasses can override this method to hook in custom resource resolution.
+	 * Deciding (ie. <code>isNative</code>) and creating (ie. <code>createNative</code>) are
+	 * separated into two phases. The former is called to decide whether to
+	 * <code>SAX.startRecording</code>. The latter is called after <code>SAX.endRecording</code>.
+	 */
+
+	protected boolean isNative( String name )
+	{
+		if ( "string".equals( name ) )
+			return true;
+
+		if ( "class".equals( name ) )
+			return true;
+
+		if ( "pattern".equals( name ) )
+			return true;
+
+		if ( "int".equals( name ) )
+			return true;
+
+		if ( "boolean".equals( name ) )
+			return true;
+
+		if ( "stream".equals( name ) )
+			return true;
+
+		if ( "bundle".equals( name ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Create the given native type based on the recorded text (as returned by
+	 * <code>SAX.endRecording</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	protected <T> T convertFromString( String input, Class<T> toReturn )
+	protected Object createNative( String name, String recordedText )
+		throws Exception
 	{
-		if ( String.class.isAssignableFrom( toReturn ) )
-			return (T) input;
+		if ( "string".equals( name ) )
+			return recordedText;
 
-		if ( Class.class.isAssignableFrom( toReturn ))
+		if ( "class".equals( name ) )
 		{
-			if ( "".equals( input ) )
+			if ( "".equals( recordedText ) )
 				return null;
 
-			try
-			{
-				return (T) Class.forName( input );
-			}
-			catch ( Exception e )
-			{
-				throw InspectorException.newException( e );
-			}
+			return Class.forName( recordedText );
 		}
 
-		if ( Pattern.class.isAssignableFrom( toReturn ) )
-			return (T) Pattern.compile( input );
+		if ( "pattern".equals( name ) )
+			return Pattern.compile( recordedText );
 
 		// (use new Integer, not Integer.valueOf, so that we're 1.4 compatible)
 
-		if ( int.class.isAssignableFrom( toReturn ) )
-			return (T) new Integer( input );
+		if ( "int".equals( name ) )
+			return new Integer( recordedText );
 
 		// (use new Boolean, not Boolean.valueOf, so that we're 1.4 compatible)
 
-		if ( boolean.class.isAssignableFrom( toReturn ) )
-			return (T) new Boolean( input );
+		if ( "boolean".equals( name ) )
+			return new Boolean( recordedText );
 
 		// InputStreams
 		//
@@ -206,119 +229,140 @@ public class ConfigReader2<C>
 
 		// TODO: support URLs?
 
-		if ( InputStream.class.isAssignableFrom( toReturn ) )
-			return (T) openResource( input );
+		if ( "stream".equals( name ) )
+			return openResource( recordedText );
 
-		if ( ResourceBundle.class.isAssignableFrom( toReturn ))
-			return (T) ResourceBundle.getBundle( input );
+		if ( "bundle".equals( name ) )
+			return ResourceBundle.getBundle( recordedText );
 
-		throw InspectorException.newException( "Don't know how to convert '" + input + "' to " + toReturn );
+		throw InspectorException.newException( "Don't know how to convert '" + recordedText + "' to a " + name );
+	}
+
+	/**
+	 * Certain XML tags are supported 'natively' as collections by the reader.
+	 */
+
+	protected Collection<Object> createNativeCollection( String name )
+	{
+		if ( "list".equals( name ) )
+			return CollectionUtils.newArrayList();
+
+		if ( "set".equals( name ) )
+			return CollectionUtils.newHashSet();
+
+		return null;
 	}
 
 	//
 	// Inner classes
 	//
 
-	protected class ConfigHandler
+	private static enum EncounteredState
+	{
+		METHOD, NATIVE_TYPE, NATIVE_COLLECTION_TYPE, CONFIGURED_TYPE, JAVA_OBJECT
+	}
+
+	private static enum ExpectingState
+	{
+		ROOT, TO_CONFIGURE, OBJECT, METHOD
+	}
+
+	private class ConfigHandler
 		extends DefaultHandler
 	{
 		//
 		// Private statics
 		//
 
-		private final static String	JAVA_NAMESPACE_PREFIX	= "java:";
-
-		private final static int	EXPECT_INITIAL			= 0;
-
-		private final static int	EXPECT_OBJECT			= 1;
-
-		private final static int	EXPECT_PROPERTY			= 2;
+		private final static String		JAVA_NAMESPACE_PREFIX	= "java:";
 
 		//
 		// Private members
 		//
 
 		/**
-		 * What the expect next.
+		 * Object to configure.
 		 */
 
-		private int					mExpect					= EXPECT_INITIAL;
+		private Object					mToConfigure;
 
-		private int					mElementDepth;
+		/**
+		 * Track our depth in the SAX tree.
+		 * <p>
+		 * Needed so we can ignore large chunks of the SAX tree that don't match our
+		 * <code>mToConfigure</code>.
+		 */
 
-		private Stack<Object>		mStackConstructing		= CollectionUtils.newStack();
+		private int						mDepth;
 
-		private Stack<Object>		mStackConstructed		= CollectionUtils.newStack();
+		/**
+		 * Stack of Objects constructed so far.
+		 */
+
+		private Stack<Object>			mConstructing			= CollectionUtils.newStack();
+
+		/**
+		 * Next expected state in the SAX tree.
+		 */
+
+		private ExpectingState			mExpecting				= ExpectingState.ROOT;
+
+		/**
+		 * Stack of encountered states in the SAX tree.
+		 */
+
+		private Stack<EncounteredState>	mEncountered			= CollectionUtils.newStack();
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
-		private StringBuffer		mBufferValue;
+		private StringBuffer			mBufferValue;
+
+		//
+		// Constructor
+		//
+
+		public ConfigHandler( Object toConfigure )
+		{
+			mToConfigure = toConfigure;
+		}
 
 		//
 		// Public methods
 		//
 
-		public void pushInitial( C toPush )
-		{
-			if ( mElementDepth != 0 || !mStackConstructing.isEmpty() )
-				throw InspectorException.newException( "Already reading configuration" );
-
-			mStackConstructing.push( toPush );
-		}
-
-		@SuppressWarnings( "unchecked" )
-		public C popFinal()
-		{
-			if ( mElementDepth != 0 )
-				throw InspectorException.newException( "Still reading configuration" );
-
-			if ( mStackConstructing.isEmpty() )
-				throw InspectorException.newException( "Nothing to return" );
-
-			if ( mStackConstructing.size() > 1 )
-				throw InspectorException.newException( "More than one object to return" );
-
-			return (C) mStackConstructing.pop();
-		}
-
 		@Override
 		public void startElement( String uri, String localName, String name, Attributes attributes )
 			throws SAXException
 		{
-			mElementDepth++;
+			mDepth++;
 
 			try
 			{
-				switch ( mExpect )
+				switch ( mExpecting )
 				{
-					// Start of everything?
+					case ROOT:
+						mExpecting = ExpectingState.TO_CONFIGURE;
+						break;
 
-					case EXPECT_INITIAL:
+					case TO_CONFIGURE:
 					{
-						if ( "metawidget".equals( localName ) )
+						// Initial elements must be at depth == 2
+
+						if ( mDepth != 2 )
 							return;
 
-						// Initial elements must be at root level
+						// See if a match
 
-						if ( mElementDepth > 2 )
+						Class<?> toConfigureClass = classForName( uri, localName );
+
+						if ( !toConfigureClass.isAssignableFrom( mToConfigure.getClass() ) )
 							return;
 
-						// Java objects
-						//
-						// (namespace may be 'java:org.foo' or 'urn:java:org.foo'
+						if ( !mConstructing.isEmpty() )
+							throw InspectorException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
 
-						int indexOf = uri.indexOf( JAVA_NAMESPACE_PREFIX );
-
-						if ( indexOf == -1 )
-							throw new SAXException( "Namespace must contain " + JAVA_NAMESPACE_PREFIX );
-
-						String packagePrefix = uri.substring( indexOf + JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
-						String toInitialize = packagePrefix + StringUtils.uppercaseFirstLetter( localName );
-						Class<?> initialClass = ClassUtils.niceForName( toInitialize );
-
-						if ( initialClass.isAssignableFrom( mStackConstructing.peek().getClass() ) )
-							mExpect = EXPECT_PROPERTY;
-
+						mConstructing.push( mToConfigure );
+						mExpecting = ExpectingState.METHOD;
 						break;
 					}
 
@@ -328,158 +372,73 @@ public class ConfigReader2<C>
 						// nesting of elements and/or prescence of attributes, so we don't need to
 						// re-check that here
 
-					case EXPECT_OBJECT:
+					case OBJECT:
 					{
-						// Strings in Collections/Arrays
+						// Native types
 
-						if ( "string".equalsIgnoreCase( localName ) )
+						if ( isNative( localName ) )
 						{
-							mStackConstructing.push( String.class );
+							mEncountered.push( EncounteredState.NATIVE_TYPE );
 							startRecording();
+
+							mExpecting = ExpectingState.METHOD;
 							return;
 						}
 
-						// Classes in Collections/Arrays
+						// Native collection types
 
-						if ( "class".equalsIgnoreCase( localName ) )
+						Collection<Object> collection = createNativeCollection( localName );
+
+						if ( collection != null )
 						{
-							mStackConstructing.push( Class.class );
-							startRecording();
+							mConstructing.push( collection );
+							mEncountered.push( EncounteredState.NATIVE_COLLECTION_TYPE );
+
+							mExpecting = ExpectingState.OBJECT;
+							return;
+						}
+
+						// Configured types
+
+						Class<?> classToConstruct = classForName( uri, localName );
+						String configClassName = attributes.getValue( "config" );
+
+						if ( configClassName != null )
+						{
+							String configToConstruct;
+
+							if ( configClassName.indexOf( '.' ) == -1 )
+								configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
+							else
+								configToConstruct = configClassName;
+
+							Class<?> configClass = ClassUtils.niceForName( configToConstruct );
+							if ( configClass == null )
+								throw InspectorException.newException( "No such configuration class " + configToConstruct );
+
+							mConstructing.push( configClass.newInstance() );
+							mEncountered.push( EncounteredState.CONFIGURED_TYPE );
+
+							mExpecting = ExpectingState.METHOD;
 							return;
 						}
 
 						// Java objects
-						//
-						// (namespace may be 'java:org.foo' or 'urn:java:org.foo'
 
-						int indexOf = uri.indexOf( JAVA_NAMESPACE_PREFIX );
+						mConstructing.push( classToConstruct.newInstance() );
+						mEncountered.push( EncounteredState.JAVA_OBJECT );
 
-						if ( indexOf == -1 )
-							throw new SAXException( "Namespace must contain " + JAVA_NAMESPACE_PREFIX );
-
-						String packagePrefix = uri.substring( indexOf + JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
-						String toConstruct = packagePrefix + StringUtils.uppercaseFirstLetter( localName );
-						Class<?> classToConstruct = ClassUtils.niceForName( toConstruct );
-
-						if ( classToConstruct == null )
-						{
-							if ( !mStackConstructing.isEmpty() && mStackConstructing.peek() instanceof Constructor )
-								throw InspectorException.newException( "No such class " + toConstruct + ". Did you forget a 'config' attribute?" );
-
-							throw InspectorException.newException( "No such class " + toConstruct );
-						}
-
-						String configClass = attributes.getValue( "config" );
-
-						// ResourceResolver-based constructor
-
-						Constructor<?> constructor;
-
-						if ( configClass == null )
-						{
-							try
-							{
-								constructor = classToConstruct.getConstructor( ResourceResolver.class );
-							}
-							catch ( NoSuchMethodException e1 )
-							{
-								// Config-less constructor
-
-								try
-								{
-									constructor = classToConstruct.getConstructor();
-								}
-								catch ( NoSuchMethodException e2 )
-								{
-									throw InspectorException.newException( toConstruct + " requires a 'config' attribute" );
-								}
-							}
-
-							mStackConstructing.push( constructor );
-						}
-
-						// Config and ResourceResolver-based constructor
-
-						else
-						{
-							Class<?> config;
-
-							if ( configClass.indexOf( '.' ) == -1 )
-								config = Class.forName( packagePrefix + configClass );
-							else
-								config = Class.forName( configClass );
-
-							try
-							{
-								constructor = classToConstruct.getConstructor( config, ResourceResolver.class );
-							}
-							catch ( NoSuchMethodException e1 )
-							{
-								// Config-based constructor
-
-								try
-								{
-									constructor = classToConstruct.getConstructor( config );
-								}
-								catch ( NoSuchMethodException e2 )
-								{
-									throw InspectorException.newException( toConstruct + " does not support a 'config' attribute" );
-								}
-							}
-
-							mStackConstructing.push( constructor );
-							mStackConstructing.push( config.newInstance() );
-							mExpect = EXPECT_PROPERTY;
-						}
+						mExpecting = ExpectingState.METHOD;
 						break;
 					}
 
-						// Inspect property
-
-					case EXPECT_PROPERTY:
+					case METHOD:
 					{
-						Object toInit = mStackConstructing.peek();
-						String methodName = "set" + StringUtils.uppercaseFirstLetter( localName );
-						Class<?> classToInit = toInit.getClass();
+						mConstructing.push( new ArrayList<Object>() );
+						mEncountered.push( EncounteredState.METHOD );
 
-						for ( Method method : classToInit.getMethods() )
-						{
-							if ( methodName.equals( method.getName() ) )
-							{
-								mStackConstructing.push( method );
-
-								Class<?>[] parameters = method.getParameterTypes();
-
-								if ( parameters.length == 0 )
-									throw new SAXException( method + " is not a setter method - has no parameters" );
-
-								if ( parameters.length > 1 )
-									throw new SAXException( method + " is not a setter method - has multiple parameters" );
-
-								Class<?> parameter = parameters[0];
-
-								// Determine property type
-
-								if ( List.class.isAssignableFrom( parameter ) )
-								{
-									mStackConstructing.push( CollectionUtils.newArrayList() );
-								}
-								else if ( parameter.isArray() )
-								{
-									mStackConstructing.push( Array.newInstance( parameter.getComponentType(), 0 ) );
-								}
-								else
-								{
-									mStackConstructing.push( parameter );
-									startRecording();
-								}
-
-								mExpect = EXPECT_OBJECT;
-								return;
-							}
-						}
-
-						throw new SAXException( "No such method on " + classToInit + "." + methodName );
+						mExpecting = ExpectingState.OBJECT;
+						break;
 					}
 				}
 			}
@@ -519,122 +478,110 @@ public class ConfigReader2<C>
 		public void endElement( String uri, String localName, String name )
 			throws SAXException
 		{
-			mElementDepth--;
+			mDepth--;
 
-			// End of everything?
+			// All done?
 
-			if ( "metawidget".equals( localName ) || mElementDepth == 1 )
+			if ( mDepth == 0 )
 				return;
+
+			// Inside the tree somewhere, but of a different toConfigure?
+
+			if ( mConstructing.isEmpty() )
+				return;
+
+			// Back at root? Expect another TO_CONFIGURE
+
+			if ( mDepth == 1 )
+			{
+				mConstructing.pop();
+				mExpecting = ExpectingState.TO_CONFIGURE;
+				return;
+			}
 
 			try
 			{
-				Object popped = mStackConstructing.pop();
+				EncounteredState encountered = mEncountered.pop();
 
-				// Popped off a Constructor? Construct it
-
-				if ( popped instanceof Constructor )
+				switch ( encountered )
 				{
-					Constructor<?> constructor = (Constructor<?>) popped;
-					Class<?>[] types = constructor.getParameterTypes();
-
-					if ( types.length == 0 )
-						popped = constructor.newInstance();
-
-					else if ( types.length == 1 && types[0].equals( ResourceResolver.class ) )
-						popped = constructor.newInstance( ConfigReader2.this );
-
-					else
-						throw InspectorException.newException( "Don't know how to invoke " + constructor );
-				}
-
-				// Popped off a Class? Find something that matches it
-
-				else if ( popped instanceof Class )
-				{
-					if ( !mStackConstructed.isEmpty() )
-					{
-						Object constructed = mStackConstructed.pop();
-
-						if ( !((Class<?>) popped).isAssignableFrom( constructed.getClass() ))
-							throw InspectorException.newException( "Cannot assign a " + constructed.getClass() + " to a " + popped );
-
-						popped = constructed;
-					}
-					else
-					{
-						popped = convertFromString( endRecording(), (Class<?>) popped );
-					}
-				}
-
-				// Peek at what's next
-
-				mExpect = EXPECT_OBJECT;
-
-				if ( mStackConstructing.isEmpty() )
-					throw InspectorException.newException( "Premature end of stack" );
-
-				Object peeked = mStackConstructing.peek();
-
-				// Peeked Collection
-
-				if ( peeked instanceof Collection )
-				{
-					@SuppressWarnings( "unchecked" )
-					Collection<Object> collectionPeeked = (Collection<Object>) peeked;
-					collectionPeeked.add( popped );
-				}
-
-				// Peeked Array
-
-				else if ( peeked.getClass().isArray() )
-				{
-					Object[] arrayPeeked = (Object[]) mStackConstructing.pop();
-					mStackConstructing.push( ArrayUtils.add( arrayPeeked, popped ) );
-				}
-
-				// Peeked Setter
-
-				else if ( peeked instanceof Method )
-				{
-					Method methodSetter = (Method) mStackConstructing.pop();
-					methodSetter.invoke( mStackConstructing.peek(), popped );
-					mExpect = EXPECT_PROPERTY;
-				}
-
-				// Peeked Constructor for an xxxConfig
-
-				/*else if ( peeked instanceof Constructor )
-				{
-					Constructor<?> constructor = (Constructor<?>) mStackConstructing.pop();
-
-					if ( constructor.getParameterTypes().length == 2 )
-						popped = constructor.newInstance( popped, ConfigReader2.this );
-					else
-						popped = constructor.newInstance( popped );
-
-					// Peek again, because we need to put the Constructed object somewhere
-
-					peeked = mStackConstructing.peek();
-
-					if ( peeked instanceof Collection )
+					case NATIVE_TYPE:
 					{
 						@SuppressWarnings( "unchecked" )
-						Collection<Object> collectionPeeked = (Collection<Object>) peeked;
-						collectionPeeked.add( popped );
+						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
+						parameters.add( createNative( localName, endRecording() ) );
+						mExpecting = ExpectingState.OBJECT;
+						return;
 					}
-					else if ( peeked.getClass().isArray() )
+
+					case NATIVE_COLLECTION_TYPE:
 					{
-						Object[] arrayPeeked = (Object[]) mStackConstructing.pop();
-						mStackConstructing.push( ArrayUtils.add( arrayPeeked, popped ) );
+						@SuppressWarnings( "unchecked" )
+						Collection<Object> collection = (Collection<Object>) mConstructing.pop();
+
+						@SuppressWarnings( "unchecked" )
+						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
+						parameters.add( collection );
+
+						mExpecting = ExpectingState.OBJECT;
+						return;
 					}
-					else
+
+					case CONFIGURED_TYPE:
 					{
-						throw InspectorException.newException( "Don't know how to combine a " + popped.getClass() + " with a " + peeked.getClass() );
+						Class<?> classToConstruct = classForName( uri, localName );
+
+						Object config = mConstructing.pop();
+						Constructor<?> constructor = classToConstruct.getConstructor( config.getClass() );
+
+						@SuppressWarnings( "unchecked" )
+						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
+						parameters.add( constructor.newInstance( config ) );
+						mExpecting = ExpectingState.OBJECT;
+						return;
 					}
-				}*/
-				else
-				{
-					mStackConstructed.push( popped );
+
+					case JAVA_OBJECT:
+					{
+						Object object = mConstructing.pop();
+
+						@SuppressWarnings( "unchecked" )
+						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
+						parameters.add( object );
+
+						mExpecting = ExpectingState.OBJECT;
+						return;
+					}
+
+					case METHOD:
+					{
+						// Look up parameter types
+
+						@SuppressWarnings( "unchecked" )
+						List<Object> parameters = (List<Object>) mConstructing.pop();
+						int length = parameters.size();
+						Class<?>[] parameterTypes = new Class<?>[length];
+						Object[] args = new Object[length];
+
+						for ( int loop = 0; loop < length; loop++ )
+						{
+							Object arg = parameters.get( loop );
+							args[loop] = arg;
+							parameterTypes[loop] = arg.getClass();
+						}
+
+						// ...look up method...
+
+						Object constructing = mConstructing.peek();
+						Method method = getOverloadedMethod( constructing.getClass(), "set" + StringUtils.uppercaseFirstLetter( localName ), parameterTypes );
+
+						// ...and call it
+
+						method.invoke( constructing, args );
+
+						mExpecting = ExpectingState.METHOD;
+						return;
+					}
 				}
 			}
 			catch ( RuntimeException e )
@@ -662,6 +609,66 @@ public class ConfigReader2<C>
 		public void error( SAXParseException exception )
 		{
 			throw InspectorException.newException( exception );
+		}
+
+		//
+		// Private methods
+		//
+
+		private Class<?> classForName( String uri, String localName )
+			throws SAXException
+		{
+			int indexOf = uri.indexOf( JAVA_NAMESPACE_PREFIX );
+
+			if ( indexOf == -1 )
+				throw new SAXException( "Namespace must contain " + JAVA_NAMESPACE_PREFIX );
+
+			String packagePrefix = uri.substring( indexOf + JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
+			String toConstruct = packagePrefix + StringUtils.uppercaseFirstLetter( localName );
+			Class<?> clazz = ClassUtils.niceForName( toConstruct );
+
+			if ( clazz == null )
+				throw InspectorException.newException( "No such class " + toConstruct );
+
+			return clazz;
+		}
+
+		/**
+		 * Overloaded methods get resolved at <em>compile-time</em>, overridden methods get
+		 * resolved at <em>runtime</em>.
+		 */
+
+		private Method getOverloadedMethod( Class<?> clazz, String name, Class<?>[] parameterTypes )
+		{
+			int numberOfParameterTypes = parameterTypes.length;
+
+			methods: for ( Method method : clazz.getMethods() )
+			{
+				if ( !method.getName().equals( name ) )
+					continue;
+
+				Class<?>[] methodParameterTypes = method.getParameterTypes();
+
+				if ( methodParameterTypes.length != numberOfParameterTypes )
+					continue;
+
+				for ( int loop = 0; loop < numberOfParameterTypes; loop++ )
+				{
+					Class<?> parameterType = methodParameterTypes[loop];
+
+					if ( parameterType.isPrimitive() )
+						parameterType = ClassUtils.getWrapperClass( parameterType );
+
+					if ( !parameterType.isAssignableFrom( parameterTypes[loop] ) )
+						continue methods;
+				}
+
+				// TODO: closest match?
+
+				return method;
+			}
+
+			return null;
 		}
 	}
 }

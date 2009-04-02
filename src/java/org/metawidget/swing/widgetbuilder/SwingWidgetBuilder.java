@@ -390,7 +390,6 @@ public class SwingWidgetBuilder
 
 				// TODO: checkbox if required!
 				// TODO: allow onclick and stuff to be applied to the UIComponent
-				// TODO: JSF attribute 'id' invalid for Metawidget?
 
 				comboBox.addItem( null );
 				comboBox.addItem( Boolean.TRUE );

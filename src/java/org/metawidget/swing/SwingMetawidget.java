@@ -1211,7 +1211,7 @@ public class SwingMetawidget
 		if ( mInspector == null )
 		{
 			if ( mInspector == null )
-				new ConfigReader2<SwingMetawidget>().configure( mInspectorConfig, this );
+				new ConfigReader2().configure( mInspectorConfig, this );
 		}
 
 		// Use the inspector to inspect the path
