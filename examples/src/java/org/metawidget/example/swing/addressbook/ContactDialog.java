@@ -159,9 +159,7 @@ public class ContactDialog
 
 		mContactMetawidget = new SwingMetawidget();
 		mContactMetawidget.setBorder( BorderFactory.createEmptyBorder( COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING ) );
-		mContactMetawidget.setOpaque( false );
-		mContactMetawidget.setBundle( ResourceBundle.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" ) );
-		mContactMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
+		mContactMetawidget.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
 		mContactMetawidget.setPropertyBindingClass( BeansBinding.class );
 		mContactMetawidget.setToInspect( contact );
 		mContactMetawidget.setReadOnly( contact.getId() != 0 );
@@ -224,8 +222,7 @@ public class ContactDialog
 		mContactMetawidget.add( facetButtons );
 
 		mButtonsMetawidget = new SwingMetawidget();
-		mButtonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
-		mButtonsMetawidget.setBundle( ResourceBundle.getBundle( "org.metawidget.example.shared.addressbook.resource.Resources" ) );
+		mButtonsMetawidget.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
 		mButtonsMetawidget.setLayoutClass( FlowLayout.class );
 		mButtonsMetawidget.setToInspect( this );
 		facetButtons.add( mButtonsMetawidget );
@@ -348,7 +345,7 @@ public class ContactDialog
 		{
 			mEditor = new SwingMetawidget();
 			mEditor.setLayoutClass( null );
-			mEditor.setInspectorConfig( "org/metawidget/example/swing/addressbook/inspector-config.xml" );
+			mEditor.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
 		}
 
 		//

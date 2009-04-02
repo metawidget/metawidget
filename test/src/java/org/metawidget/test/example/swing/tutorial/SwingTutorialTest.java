@@ -62,6 +62,7 @@ public class SwingTutorialTest
 		// Start app
 
 		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setConfig( null );
 		metawidget.setInspector( new PropertyTypeInspector() );
 		Person person = new Person();
 		metawidget.setToInspect( person );
@@ -88,7 +89,7 @@ public class SwingTutorialTest
 
 		// Check end of tutorial
 
-		metawidget.setInspectorConfig( "org/metawidget/example/swing/tutorial/inspector-config.xml" );
+		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 		metawidget.remove( stub );
 

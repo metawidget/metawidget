@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.widgetbuilder.WidgetBuilder;
 
 /**
@@ -64,6 +65,8 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	private boolean				mCompoundWidget;
 
 	private int					mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
+
+	private Inspector			mInspector;
 
 	private WidgetBuilder<W, M>	mWidgetBuilder;
 
@@ -111,9 +114,38 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		mMaximumInspectionDepth = maximumInspectionDepth;
 	}
 
+	public void setInspector( Inspector inspector )
+	{
+		mInspector = inspector;
+	}
+
+	public Inspector getInspector()
+	{
+		return mInspector;
+	}
+
 	public void setWidgetBuilder( WidgetBuilder<W, M> widgetBuilder )
 	{
 		mWidgetBuilder = widgetBuilder;
+	}
+
+	public WidgetBuilder<W, M> getWidgetBuilder()
+	{
+		return mWidgetBuilder;
+	}
+
+	/**
+	 * Inspect the given Object according to the given path, and return the result as a String
+	 * conforming to inspection-result-1.0.xsd.
+	 * <p>
+	 * This method mirrors the <code>Inspector</code> interface. Internally it looks up the
+	 * Inspector to use. It is a useful hook for subclasses wishing to inspect different Objects
+	 * using our same <code>Inspector</code>.
+	 */
+
+	public String inspect( Object toInspect, String type, String... names )
+	{
+		return mInspector.inspect( toInspect, type, names );
 	}
 
 	/**

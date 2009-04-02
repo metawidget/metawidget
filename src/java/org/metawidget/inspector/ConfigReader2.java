@@ -67,19 +67,19 @@ public class ConfigReader2
 	// Package-level statics
 	//
 
-	final static Log								LOG				= LogUtils.getLog( ConfigReader.class );
+	final static Log					LOG				= LogUtils.getLog( ConfigReader.class );
 
 	//
 	// Private statics
 	//
 
-	private final static int						BUFFER_SIZE		= 1024 * 64;
+	private final static int			BUFFER_SIZE		= 1024 * 64;
 
 	//
 	// Protected members
 	//
 
-	protected final SAXParserFactory				mFactory;
+	protected final SAXParserFactory	mFactory;
 
 	//
 	// Package-level members
@@ -89,7 +89,7 @@ public class ConfigReader2
 	 * Certain objects are cached (ie. they are both immutable and threadsafe)
 	 */
 
-	final static Map<String, Map<Integer, Object>>	CACHED_OBJECTS	= CollectionUtils.newHashMap();
+	Map<String, Map<Integer, Object>>	CACHED_OBJECTS	= CollectionUtils.newHashMap();
 
 	//
 	// Constructor
@@ -357,24 +357,47 @@ public class ConfigReader2
 
 		private Object					mToConfigure;
 
+		/**
+		 * XML document. Used purely as a cache key.
+		 */
+
 		private String					mXml;
 
-		private Map<Integer, Object>	mCached;
+		/**
+		 * Number of elements encountered so far. Used as a simple way to
+		 * get a unique 'row/column' reference into the XML tree.
+		 */
 
 		private int						mElement;
 
 		/**
-		 * Track our depth in the SAX tree.
-		 * <p>
-		 * Needed so we can ignore large chunks of the SAX tree that don't match our
-		 * <code>mToConfigure</code>.
+		 * Map of objects cached for this XML document. Keyed by element number.
+		 */
+
+		private Map<Integer, Object>	mCached;
+
+		/**
+		 * Track our depth in the XML tree.
 		 */
 
 		private int						mDepth;
 
+		/**
+		 * Depth after which to skip processing, so as to ignore chunks of the XML tree.
+		 */
+
 		private int						mIgnoreAfterDepth		= -1;
 
+		/**
+		 * Element number where this cacheable element starts.
+		 */
+
 		private int						mCacheAsElement			= -1;
+
+		/**
+		 * Depth after which to ignore caching, so that we only cache the 'top-level' of a cacheable
+		 * object that itself contains cacheable objects.
+		 */
 
 		private int						mCacheAtDepth			= -1;
 
@@ -385,13 +408,13 @@ public class ConfigReader2
 		private Stack<Object>			mConstructing			= CollectionUtils.newStack();
 
 		/**
-		 * Next expected state in the SAX tree.
+		 * Next expected state in the XML tree.
 		 */
 
 		private ExpectingState			mExpecting				= ExpectingState.ROOT;
 
 		/**
-		 * Stack of encountered states in the SAX tree.
+		 * Stack of encountered states in the XML tree.
 		 */
 
 		private Stack<EncounteredState>	mEncountered			= CollectionUtils.newStack();
@@ -715,10 +738,10 @@ public class ConfigReader2
 		}
 
 		//
-		// Protected methods
+		// Private methods
 		//
 
-		protected Object getCached( Class<?> clazz )
+		private Object getCached( Class<?> clazz )
 		{
 			if ( mCached == null )
 			{
@@ -731,7 +754,7 @@ public class ConfigReader2
 			return mCached.get( mElement );
 		}
 
-		protected void putCached( Object cacheable )
+		private void putCached( Object cacheable )
 		{
 			if ( mCached == null )
 			{
@@ -747,10 +770,6 @@ public class ConfigReader2
 			mCached.put( mCacheAsElement, cacheable );
 			mCacheAsElement = -1;
 		}
-
-		//
-		// Private methods
-		//
 
 		/**
 		 * Resolves a class based on the URI namespace and the local name of the XML tag.

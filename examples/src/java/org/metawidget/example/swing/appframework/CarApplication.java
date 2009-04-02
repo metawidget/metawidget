@@ -109,7 +109,7 @@ public class CarApplication
 		// Metawidget
 
 		mMetawidget = new SwingMetawidget();
-		mMetawidget.setInspectorConfig( "org/metawidget/example/swing/appframework/inspector-config.xml" );
+		mMetawidget.setConfig( "org/metawidget/example/swing/appframework/inspector-config.xml" );
 		mMetawidget.setBundle( bundle );
 		mMetawidget.setToInspect( mCar );
 		mMetawidget.setPropertyBindingClass( BeansBinding.class );
@@ -124,7 +124,7 @@ public class CarApplication
 		// Actions
 
 		SwingMetawidget buttonsMetawidget = new SwingMetawidget();
-		buttonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/appframework/action-inspector-config.xml" );
+		buttonsMetawidget.setConfig( "org/metawidget/example/swing/appframework/action-inspector-config.xml" );
 		buttonsMetawidget.setBundle( bundle );
 		buttonsMetawidget.setToInspect( this );
 		buttonsMetawidget.setLayoutClass( FlowLayout.class );

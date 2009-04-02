@@ -204,9 +204,8 @@ public class AddressBook
 		// Metawidget
 
 		mSearchMetawidget = new SwingMetawidget();
-		mSearchMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
+		mSearchMetawidget.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
 		mSearchMetawidget.setToInspect( mContactSearch );
-		mSearchMetawidget.setOpaque( false );
 
 		// Embedded buttons
 
@@ -216,7 +215,7 @@ public class AddressBook
 		mSearchMetawidget.add( facetButtons );
 
 		SwingMetawidget buttonsMetawidget = new SwingMetawidget();
-		buttonsMetawidget.setInspectorConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
+		buttonsMetawidget.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
 		buttonsMetawidget.setToInspect( this );
 		buttonsMetawidget.setLayoutClass( FlowLayout.class );
 		facetButtons.add( buttonsMetawidget );

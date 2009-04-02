@@ -92,7 +92,7 @@ public class GroupLayoutTest
 
 		// Check end of tutorial
 
-		metawidget.setInspectorConfig( "org/metawidget/example/swing/tutorial/inspector-config.xml" );
+		metawidget.setConfig( "org/metawidget/example/swing/tutorial/inspector-config.xml" );
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 		metawidget.remove( stub );
 

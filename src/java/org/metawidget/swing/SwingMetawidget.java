@@ -82,6 +82,8 @@ public class SwingMetawidget
 
 	private final static long								serialVersionUID	= 1l;
 
+	private final static ConfigReader2						CONFIG_READER		= new ConfigReader2();
+
 	private final static Stroke								STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
@@ -92,9 +94,9 @@ public class SwingMetawidget
 
 	private String											mPath;
 
-	private String											mInspectorConfig	= "metawidget.xml";
+	private String											mConfig				= "metawidget.xml";
 
-	private Inspector										mInspector;
+	private boolean											mNeedsConfiguring	= true;
 
 	private Class<? extends Layout>							mLayoutClass		= GridBagLayout.class;
 
@@ -227,21 +229,20 @@ public class SwingMetawidget
 		return mPath;
 	}
 
-	public void setInspectorConfig( String inspectorConfig )
+	public void setConfig( String inspectorConfig )
 	{
-		mInspectorConfig = inspectorConfig;
-		mInspector = null;
+		mConfig = inspectorConfig;
+		mNeedsConfiguring = true;
 		invalidateInspection();
 	}
 
 	public void setInspector( Inspector inspector )
 	{
-		mInspector = inspector;
-		mInspectorConfig = null;
+		mMetawidgetMixin.setInspector( inspector );
 		invalidateInspection();
 	}
 
-	public void setWidgetBuilder( WidgetBuilder<JComponent,SwingMetawidget> widgetBuilder )
+	public void setWidgetBuilder( WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder )
 	{
 		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
 		invalidateInspection();
@@ -1002,6 +1003,29 @@ public class SwingMetawidget
 		if ( !mNeedToBuildWidgets )
 			return;
 
+		// Need to configure?
+
+		if ( mNeedsConfiguring && mConfig != null )
+		{
+			CONFIG_READER.configure( mConfig, this );
+			mNeedsConfiguring = false;
+		}
+
+		if ( mMetawidgetMixin.getWidgetBuilder() == null )
+		{
+			try
+			{
+				@SuppressWarnings("unchecked")
+				WidgetBuilder widgetBuilder	=(WidgetBuilder) Class.forName( "org.metawidget.swing.widgetbuilder.SwingWidgetBuilder" ).newInstance();
+
+				mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+			}
+			catch( Exception e )
+			{
+				throw MetawidgetException.newException( e );
+			}
+		}
+
 		mNeedToBuildWidgets = false;
 		mIgnoreAddRemove = true;
 
@@ -1192,42 +1216,20 @@ public class SwingMetawidget
 			return null;
 
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
-	}
-
-	/**
-	 * Inspect the given Object according to the given path, and return the result as a String
-	 * conforming to inspection-result-1.0.xsd.
-	 * <p>
-	 * This method mirrors the <code>Inspector</code> interface. Internally it looks up the
-	 * Inspector to use. It is a useful hook for subclasses wishing to inspect different Objects
-	 * using our same <code>Inspector</code>.
-	 */
-
-	protected String inspect( Object toInspect, String type, String... names )
-	{
-		// If this Inspector has been set externally, use it...
-
-		if ( mInspector == null )
-		{
-			if ( mInspector == null )
-				new ConfigReader2().configure( mInspectorConfig, this );
-		}
-
-		// Use the inspector to inspect the path
-
-		return mInspector.inspect( mToInspect, type, names );
+		return mMetawidgetMixin.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
 	protected SwingMetawidget initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
 	{
+		// Don't reconfigure...
+
+		metawidget.setConfig( null );
+
+		// ...instead, copy runtime values
+
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-
-		if ( mInspector != null )
-			metawidget.setInspector( mInspector );
-		else
-			metawidget.setInspectorConfig( mInspectorConfig );
-
+		metawidget.setInspector( mMetawidgetMixin.getInspector() );
+		metawidget.setWidgetBuilder( mMetawidgetMixin.getWidgetBuilder() );
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setPropertyBindingClass( mPropertyBindingClass );
 		metawidget.setActionBindingClass( mActionBindingClass );
