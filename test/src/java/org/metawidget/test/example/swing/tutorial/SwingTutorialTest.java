@@ -28,7 +28,6 @@ import junit.framework.TestCase;
 import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 
@@ -62,10 +61,7 @@ public class SwingTutorialTest
 		// Start app
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setConfig( null );
-		metawidget.setInspector( new PropertyTypeInspector() );
-		Person person = new Person();
-		metawidget.setToInspect( person );
+		metawidget.setToInspect( new Person() );
 
 		// Check what created
 

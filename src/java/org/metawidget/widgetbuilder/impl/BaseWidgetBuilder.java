@@ -14,11 +14,13 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.widgetbuilder;
+package org.metawidget.widgetbuilder.impl;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
+
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 public abstract class BaseWidgetBuilder<W, M>
 	implements WidgetBuilder<W, M>
@@ -33,7 +35,7 @@ public abstract class BaseWidgetBuilder<W, M>
 		// Note: we tried further refining this to buildReadOnlyFieldWidget,
 		// buildReadOnlyActionWidget, buildActiveFieldWidget, buildActiveActionWidget, but it wasn't
 		// really better because we still had to pass 'elementName' to other methods (such as
-		// UIMetawidget.getOverriddenWidget) and so it seemed simplier and more symmetrical to also
+		// UIMetawidget.getOverriddenWidget) and so it seemed simpler and more symmetrical to also
 		// pass it here
 
 		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
@@ -60,8 +62,18 @@ public abstract class BaseWidgetBuilder<W, M>
 	// Protected abstract methods
 	//
 
-	protected abstract W buildReadOnlyWidget( String elementName, Map<String, String> attributes, M metawidget )
-		throws Exception;
+	/**
+	 * Build a read-only widget for this element.
+	 * <p>
+	 * Default implementation returns null, as most subclasses will only be interested in overriding
+	 * <code>buildActiveWidget</code>.
+	 */
+
+	protected W buildReadOnlyWidget( String elementName, Map<String, String> attributes, M metawidget )
+		throws Exception
+	{
+		return null;
+	}
 
 	protected abstract W buildActiveWidget( String elementName, Map<String, String> attributes, M metawidget )
 		throws Exception;

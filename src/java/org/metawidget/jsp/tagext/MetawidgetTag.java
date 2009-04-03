@@ -460,7 +460,7 @@ public abstract class MetawidgetTag
 
 		if ( inspector == null )
 		{
-			inspector = new ServletConfigReader( pageContext.getServletContext() ).read( mInspectorConfig );
+			inspector = (Inspector) new ServletConfigReader( pageContext.getServletContext() ).configure( mInspectorConfig, Inspector.class );
 			inspectors.put( mInspectorConfig, inspector );
 		}
 
@@ -619,7 +619,7 @@ public abstract class MetawidgetTag
 
 		@SuppressWarnings( "synthetic-access" )
 		@Override
-		protected Object buildMetawidget( Map<String, String> attributes )
+		protected Object buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			MetawidgetTag metawidget = MetawidgetTag.this.getClass().newInstance();

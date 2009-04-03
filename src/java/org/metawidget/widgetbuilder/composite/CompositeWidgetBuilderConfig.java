@@ -18,7 +18,7 @@ package org.metawidget.widgetbuilder.composite;
 
 import java.util.List;
 
-import org.metawidget.widgetbuilder.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * Configures a CompositeWidgetBuilder prior to use. Once instantiated, WidgetBuilders are

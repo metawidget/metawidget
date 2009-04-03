@@ -21,7 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.widgetbuilder.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * Mixin to help build Metawidgets.
@@ -264,7 +264,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 					if ( mMaximumInspectionDepth <= 0 )
 						continue;
 
-					widget = buildMetawidget( attributes );
+					widget = buildNestedMetawidget( attributes );
 				}
 			}
 			else if ( isStub( widget ) )
@@ -303,7 +303,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	protected abstract Map<String, String> getStubAttributes( W stub );
 
-	protected abstract M buildMetawidget( Map<String, String> attributes )
+	protected abstract M buildNestedMetawidget( Map<String, String> attributes )
 		throws Exception;
 
 	protected abstract M getMixinOwner();

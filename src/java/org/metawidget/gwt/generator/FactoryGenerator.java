@@ -99,9 +99,6 @@ public class FactoryGenerator<F>
 		composer.addImplementedInterface( classType.getQualifiedSourceName() );
 		composer.addImport( "org.metawidget.gwt.client.ui.GwtMetawidget" );
 
-		String qualifiedName = returnType.getQualifiedSourceName();
-		composer.addImport( qualifiedName );
-
 		SourceWriter sourceWriter = composer.createSourceWriter( context, printWriter );
 
 		if ( sourceWriter != null )
@@ -112,8 +109,8 @@ public class FactoryGenerator<F>
 			sourceWriter.println( "// Public methods" );
 			sourceWriter.println();
 
-			String simpleName = returnType.getSimpleSourceName();
-			sourceWriter.print( "public " + simpleName + " " + newMethod.getName() + "( Class<? extends " + simpleName + "> implementingClass" );
+			String parameterizedQualifiedReturnTypeName = returnType.getParameterizedQualifiedSourceName();
+			sourceWriter.print( "public " + parameterizedQualifiedReturnTypeName + " " + newMethod.getName() + "( Class<? extends " + parameterizedQualifiedReturnTypeName + "> implementingClass" );
 			if ( parameters.length == 2 )
 				sourceWriter.println( ", GwtMetawidget metawidget" );
 			sourceWriter.println( " ) {" );
@@ -123,7 +120,7 @@ public class FactoryGenerator<F>
 
 			try
 			{
-				JClassType bindingClass = typeOracle.getType( qualifiedName );
+				JClassType bindingClass = typeOracle.getType( parameterizedQualifiedReturnTypeName );
 
 				for ( JClassType subtype : bindingClass.getSubtypes() )
 				{

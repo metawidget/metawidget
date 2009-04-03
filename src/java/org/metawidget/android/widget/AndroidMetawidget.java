@@ -1144,7 +1144,7 @@ public class AndroidMetawidget
 		}
 
 		@Override
-		public AndroidMetawidget buildMetawidget( Map<String, String> attributes )
+		public AndroidMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			AndroidMetawidget metawidget = AndroidMetawidget.this.getClass().newInstance();

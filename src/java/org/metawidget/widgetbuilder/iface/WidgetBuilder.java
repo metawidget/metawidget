@@ -14,35 +14,25 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.swing.tutorial;
+package org.metawidget.widgetbuilder.iface;
 
-import javax.swing.JFrame;
-
-import org.metawidget.swing.SwingMetawidget;
+import java.util.Map;
 
 /**
+ * Common interface implemented by all WidgetBuilders.
+ * <p>
+ * WidgetBuilders must be threadsafe and immutable (or, at least, appear that way to clients. They can
+ * have caches or configuration settings internally).
+ *
  * @author Richard Kennard
  */
 
-public class Main
+public interface WidgetBuilder<W, M>
 {
-	public static void main( String[] args )
-	{
-		// Data model
+	//
+	// Methods
+	//
 
-		Person person = new Person();
-
-		// Metawidget
-
-		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setToInspect( person );
-
-		// JFrame
-
-		JFrame frame = new JFrame( "Metawidget Tutorial" );
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 210 );
-		frame.setVisible( true );
-	}
+	W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
+		throws Exception;
 }

@@ -108,7 +108,7 @@ public class GwtMetawidgetMixinTest
 		}
 
 		@Override
-		protected GwtMetawidget buildMetawidget( Map<String, String> attributes )
+		protected GwtMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			return null;

@@ -114,7 +114,7 @@ public class MetawidgetMixinTest
 		}
 
 		@Override
-		protected Object buildMetawidget( Map<String, String> attributes )
+		protected Object buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			return null;

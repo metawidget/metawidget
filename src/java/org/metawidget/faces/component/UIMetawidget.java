@@ -1352,7 +1352,7 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected UIMetawidget buildMetawidget( Map<String, String> attributes )
+		protected UIMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			return UIMetawidget.this.buildMetawidget( attributes );

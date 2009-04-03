@@ -14,25 +14,24 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.widgetbuilder;
+package org.metawidget.gwt.client.widgetbuilder;
 
-import java.util.Map;
+import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+
+import com.google.gwt.user.client.ui.Widget;
 
 /**
- * Common interface implemented by all WidgetBuilders.
- * <p>
- * WidgetBuilders must be threadsafe and immutable (or, at least, appear that way to clients. They can
- * have caches or configuration settings internally).
+ * Interface for instantiating pluggable WidgetBuilders.
  *
  * @author Richard Kennard
  */
 
-public interface WidgetBuilder<W, M>
+public interface WidgetBuilderFactory
 {
 	//
 	// Methods
 	//
 
-	W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
-		throws Exception;
+	WidgetBuilder<Widget, GwtMetawidget> newWidgetBuilder( Class<? extends WidgetBuilder<Widget, GwtMetawidget>> widgetBuilderClass );
 }

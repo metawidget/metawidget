@@ -19,12 +19,8 @@ package org.metawidget.gwt.client.ui;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.util.simple.StringUtils.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
@@ -37,6 +33,8 @@ import org.metawidget.gwt.client.propertybinding.PropertyBindingFactory;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.ui.layout.LayoutFactory;
+import org.metawidget.gwt.client.widgetbuilder.GwtWidgetBuilder;
+import org.metawidget.gwt.client.widgetbuilder.WidgetBuilderFactory;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.util.simple.PathUtils;
@@ -47,17 +45,12 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -124,8 +117,6 @@ public class GwtMetawidget
 	private Layout													mLayout;
 
 	private Class<? extends Inspector>								mInspectorClass			= GwtRemoteInspectorProxy.class;
-
-	private Inspector												mInspector;
 
 	/**
 	 * The PropertyBinding class.
@@ -294,7 +285,7 @@ public class GwtMetawidget
 
 	public void setInspector( Inspector inspector )
 	{
-		mInspector = inspector;
+		mMetawidgetMixin.setInspector( inspector );
 		invalidateInspection();
 	}
 
@@ -917,22 +908,31 @@ public class GwtMetawidget
 
 		mNeedToBuildWidgets = BUILDING_IN_PROGRESS;
 
+		// Sensible WidgetBuilder default
+
+		if ( mMetawidgetMixin.getWidgetBuilder() == null )
+		{
+			mMetawidgetMixin.setWidgetBuilder( ( (WidgetBuilderFactory) GWT.create( WidgetBuilderFactory.class ) ).newWidgetBuilder( GwtWidgetBuilder.class ));
+		}
+
 		if ( mToInspect != null )
 		{
+			Inspector inspector = mMetawidgetMixin.getInspector();
+
 			// If this Inspector has been set externally, use it...
 
-			if ( mInspector == null )
+			if ( inspector == null )
 			{
 				// ...otherwise, if this InspectorConfig has already been created, use it...
 
-				mInspector = INSPECTORS.get( mInspectorClass );
+				inspector = INSPECTORS.get( mInspectorClass );
 
 				// ...otherwise, initialize the Inspector
 
-				if ( mInspector == null )
+				if ( inspector == null )
 				{
-					mInspector = ( (InspectorFactory) GWT.create( InspectorFactory.class ) ).newInspector( mInspectorClass );
-					INSPECTORS.put( mInspectorClass, mInspector );
+					inspector = ( (InspectorFactory) GWT.create( InspectorFactory.class ) ).newInspector( mInspectorClass );
+					INSPECTORS.put( mInspectorClass, inspector );
 				}
 			}
 
@@ -940,10 +940,10 @@ public class GwtMetawidget
 			{
 				// Special support for GwtRemoteInspectorProxy
 
-				if ( mInspector instanceof GwtRemoteInspectorProxy )
+				if ( inspector instanceof GwtRemoteInspectorProxy )
 				{
 					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-					( (GwtRemoteInspectorProxy) mInspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray(), new AsyncCallback<String>()
+					( (GwtRemoteInspectorProxy) inspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray(), new AsyncCallback<String>()
 					{
 						public void onFailure( Throwable caught )
 						{
@@ -997,7 +997,7 @@ public class GwtMetawidget
 				if ( mLastInspection == null )
 				{
 					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-					mLastInspection = mInspector.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+					mLastInspection = mMetawidgetMixin.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 				}
 
 				mMetawidgetMixin.buildWidgets( mLastInspection );
@@ -1072,184 +1072,6 @@ public class GwtMetawidget
 		return widget;
 	}
 
-	protected Widget buildReadOnlyWidget( String elementName, Map<String, String> attributes )
-		throws Exception
-	{
-		// Hidden
-
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return new Stub();
-
-		// Action
-
-		if ( ACTION.equals( elementName ) )
-			return new Stub();
-
-		// Masked (return a Panel, so that we DO still render a label)
-
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-			return new SimplePanel();
-
-		String type = attributes.get( TYPE );
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) )
-			return new Label();
-
-		// If no type, fail gracefully with a Label
-
-		if ( type == null || "".equals( type ) )
-			return new Label();
-
-		if ( GwtUtils.isPrimitive( type ) || GwtUtils.isPrimitiveWrapper( type ) )
-			return new Label();
-
-		if ( String.class.getName().equals( type ) )
-			return new Label();
-
-		if ( Date.class.getName().equals( type ) )
-			return new Label();
-
-		// Collections
-
-		if ( isCollection( type ) )
-			return new Stub();
-
-		// Not simple, but don't expand
-
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new Label();
-
-		// Nested Metawidget
-
-		return null;
-	}
-
-	protected Widget buildActiveWidget( String elementName, Map<String, String> attributes )
-		throws Exception
-	{
-		// Hidden
-
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return new Stub();
-
-		// Action
-
-		if ( ACTION.equals( elementName ) )
-			return new Button( getLabelString( attributes ) );
-
-		String type = attributes.get( TYPE );
-
-		// If no type, fail gracefully with a TextBox
-
-		if ( type == null || "".equals( type ) )
-			return new TextBox();
-
-		// Lookups
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) )
-		{
-			ListBox listBox = new ListBox();
-			listBox.setVisibleItemCount( 1 );
-
-			addListBoxItems( listBox, GwtUtils.fromString( lookup, StringUtils.SEPARATOR_COMMA_CHAR ), GwtUtils.fromString( attributes.get( LOOKUP_LABELS ), StringUtils.SEPARATOR_COMMA_CHAR ), attributes );
-			return listBox;
-		}
-
-		if ( GwtUtils.isPrimitive( type ) )
-		{
-			// booleans
-
-			if ( "boolean".equals( type ) )
-				return new CheckBox();
-
-			// chars
-
-			if ( "char".equals( type ) )
-			{
-				TextBox textbox = new TextBox();
-				textbox.setMaxLength( 1 );
-
-				return textbox;
-			}
-
-			// Everything else
-
-			return new TextBox();
-		}
-
-		// Strings
-
-		if ( String.class.getName().equals( type ) )
-		{
-			if ( TRUE.equals( attributes.get( MASKED ) ) )
-				return new PasswordTextBox();
-
-			if ( TRUE.equals( attributes.get( LARGE ) ) )
-				return new TextArea();
-
-			TextBox textBox = new TextBox();
-
-			String maximumLength = attributes.get( MAXIMUM_LENGTH );
-
-			if ( maximumLength != null && !"".equals( maximumLength ) )
-				textBox.setMaxLength( Integer.parseInt( maximumLength ) );
-
-			return textBox;
-		}
-
-		// Dates
-
-		if ( Date.class.getName().equals( type ) )
-			return new TextBox();
-
-		if ( GwtUtils.isPrimitiveWrapper( type ) )
-		{
-			// Booleans (are tri-state)
-
-			if ( Boolean.class.getName().equals( type ) )
-			{
-				ListBox listBox = new ListBox();
-				addListBoxItem( listBox, null, null );
-				addListBoxItem( listBox, "true", "True" );
-				addListBoxItem( listBox, "false", "False" );
-
-				return listBox;
-			}
-
-			// Characters
-
-			if ( Character.class.getName().equals( type ) )
-			{
-				TextBox textbox = new TextBox();
-				textbox.setMaxLength( 1 );
-
-				return textbox;
-			}
-
-			// Numbers
-
-			return new TextBox();
-		}
-
-		// Collections
-
-		if ( isCollection( type ) )
-			return null;
-
-		// Not simple, but don't expand
-
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new TextBox();
-
-		// Nested Metawidget
-
-		return null;
-	}
-
 	protected Widget afterBuildWidget( Widget widget, Map<String, String> attributes )
 	{
 		if ( widget == null )
@@ -1308,11 +1130,7 @@ public class GwtMetawidget
 	{
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 
-		if ( mInspector != null )
-			metawidget.setInspector( mInspector );
-		else
-			metawidget.setInspectorClass( mInspectorClass );
-
+		metawidget.setInspector( mMetawidgetMixin.getInspector() );
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setPropertyBindingClass( mPropertyBindingClass );
 		metawidget.setActionBindingClass( mActionBindingClass );
@@ -1352,33 +1170,6 @@ public class GwtMetawidget
 		mLayout.layoutEnd();
 	}
 
-	/**
-	 * Whether the given class name is a Collection. This is a crude, GWT-equivalent of...
-	 * <p>
-	 * <code>
-	 *    Collection.class.isAssignableFrom( ... );
-	 * </code>
-	 * <p>
-	 * ...subclasses may need to override this method if they introduce a new Collection subtype.
-	 */
-
-	protected boolean isCollection( String className )
-	{
-		if ( Collection.class.getName().equals( className ) )
-			return true;
-
-		if ( List.class.getName().equals( className ) || ArrayList.class.getName().equals( className ) )
-			return true;
-
-		if ( Set.class.getName().equals( className ) || HashSet.class.getName().equals( className ) )
-			return true;
-
-		if ( Map.class.getName().equals( className ) || HashMap.class.getName().equals( className ) )
-			return true;
-
-		return false;
-	}
-
 	//
 	// Inner class
 	//
@@ -1400,7 +1191,7 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected GwtMetawidget buildMetawidget( Map<String, String> attributes )
+		protected GwtMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			GwtMetawidget metawidget = new GwtMetawidget();
@@ -1447,64 +1238,5 @@ public class GwtMetawidget
 		{
 			return GwtMetawidget.this;
 		}
-	}
-
-	//
-	// Private methods
-	//
-
-	private void addListBoxItems( ListBox listBox, List<String> values, List<String> labels, Map<String, String> attributes )
-	{
-		if ( values == null )
-			return;
-
-		// Add an empty choice (if nullable, and not required)
-		//
-		// Note: GWT doesn't seem to be able to set null for the
-		// value. It always comes back as String "null"
-
-		String type = attributes.get( TYPE );
-
-		if ( type == null )
-		{
-			// Type can be null if this lookup was specified by a metawidget-metadata.xml
-			// and the type was omitted from the XML. In that case, assume nullable
-
-			addListBoxItem( listBox, "", null );
-		}
-		else
-		{
-			if ( !GwtUtils.isPrimitive( type ) && !TRUE.equals( attributes.get( REQUIRED ) ) )
-				addListBoxItem( listBox, "", null );
-		}
-
-		// See if we're using labels
-
-		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
-			throw new RuntimeException( "Labels list must be same size as values list" );
-
-		// Add the select items
-
-		for ( int loop = 0, length = values.size(); loop < length; loop++ )
-		{
-			String value = values.get( loop );
-			String label = null;
-
-			if ( labels != null && !labels.isEmpty() )
-				label = labels.get( loop );
-
-			addListBoxItem( listBox, value, label );
-		}
-	}
-
-	private void addListBoxItem( ListBox listBox, String value, String label )
-	{
-		if ( label != null )
-		{
-			listBox.addItem( label, value );
-			return;
-		}
-
-		listBox.addItem( value );
 	}
 }

@@ -58,7 +58,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
-import org.metawidget.widgetbuilder.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * Metawidget for Swing environments.
@@ -94,7 +94,7 @@ public class SwingMetawidget
 
 	private String											mPath;
 
-	private String											mConfig				= "metawidget.xml";
+	private String											mConfig;
 
 	private boolean											mNeedsConfiguring	= true;
 
@@ -996,6 +996,42 @@ public class SwingMetawidget
 		super.addImpl( component, constraints, index );
 	}
 
+	protected void configure()
+	{
+		if ( !mNeedsConfiguring )
+			return;
+
+		mNeedsConfiguring = false;
+
+		try
+		{
+			if ( mConfig != null )
+				CONFIG_READER.configure( mConfig, this );
+
+			// Sensible WidgetBuilder default
+
+			if ( mMetawidgetMixin.getWidgetBuilder() == null )
+			{
+				@SuppressWarnings( "unchecked" )
+				WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder = (WidgetBuilder<JComponent, SwingMetawidget>) Class.forName( "org.metawidget.swing.widgetbuilder.SwingWidgetBuilder" ).newInstance();
+				mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+			}
+
+			// Sensible Inspector default
+
+			if ( mMetawidgetMixin.getInspector() == null )
+			{
+				// TODO: metawidgetannotationinspector
+				Inspector inspector = (Inspector) Class.forName( "org.metawidget.inspector.propertytype.PropertyTypeInspector" ).newInstance();
+				mMetawidgetMixin.setInspector( inspector );
+			}
+		}
+		catch ( Exception e )
+		{
+			throw MetawidgetException.newException( e );
+		}
+	}
+
 	protected void buildWidgets()
 	{
 		// No need to build?
@@ -1003,28 +1039,7 @@ public class SwingMetawidget
 		if ( !mNeedToBuildWidgets )
 			return;
 
-		// Need to configure?
-
-		if ( mNeedsConfiguring && mConfig != null )
-		{
-			CONFIG_READER.configure( mConfig, this );
-			mNeedsConfiguring = false;
-		}
-
-		if ( mMetawidgetMixin.getWidgetBuilder() == null )
-		{
-			try
-			{
-				@SuppressWarnings("unchecked")
-				WidgetBuilder widgetBuilder	=(WidgetBuilder) Class.forName( "org.metawidget.swing.widgetbuilder.SwingWidgetBuilder" ).newInstance();
-
-				mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
-			}
-			catch( Exception e )
-			{
-				throw MetawidgetException.newException( e );
-			}
-		}
+		configure();
 
 		mNeedToBuildWidgets = false;
 		mIgnoreAddRemove = true;
@@ -1291,7 +1306,7 @@ public class SwingMetawidget
 		}
 
 		@Override
-		public SwingMetawidget buildMetawidget( Map<String, String> attributes )
+		public SwingMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
 			SwingMetawidget metawidget = SwingMetawidget.this.getClass().newInstance();

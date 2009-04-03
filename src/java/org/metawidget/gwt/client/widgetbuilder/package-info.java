@@ -14,35 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.swing.tutorial;
-
-import javax.swing.JFrame;
-
-import org.metawidget.swing.SwingMetawidget;
-
 /**
+ * GWT support: pluggable WidgetBuilders.
+ *
  * @author Richard Kennard
  */
 
-public class Main
-{
-	public static void main( String[] args )
-	{
-		// Data model
-
-		Person person = new Person();
-
-		// Metawidget
-
-		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setToInspect( person );
-
-		// JFrame
-
-		JFrame frame = new JFrame( "Metawidget Tutorial" );
-		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 210 );
-		frame.setVisible( true );
-	}
-}
+package org.metawidget.gwt.client.widgetbuilder;

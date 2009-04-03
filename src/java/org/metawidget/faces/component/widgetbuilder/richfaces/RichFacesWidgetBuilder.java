@@ -30,7 +30,7 @@ import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.util.ClassUtils;
-import org.metawidget.widgetbuilder.BaseWidgetBuilder;
+import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.html.HtmlInputNumberSlider;
 import org.richfaces.component.html.HtmlInputNumberSpinner;
@@ -50,15 +50,6 @@ public class RichFacesWidgetBuilder
 	//
 	// Protected methods
 	//
-
-	@Override
-	protected UIComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-		throws Exception
-	{
-		// Not for RichFaces
-
-		return null;
-	}
 
 	@Override
 	protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )

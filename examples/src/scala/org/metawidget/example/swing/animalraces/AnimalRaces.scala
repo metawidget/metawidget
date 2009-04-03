@@ -76,7 +76,7 @@ object AnimalRaces
 	private def newAnimalMetawidget( animal:Animal ):SwingMetawidget =
 	{
 		val metawidget = new SwingMetawidget()
-		metawidget.setInspectorConfig( "org/metawidget/example/swing/animalraces/inspector-config.xml" )
+		metawidget.setConfig( "org/metawidget/example/swing/animalraces/inspector-config.xml" )
 		metawidget.setPropertyBindingClass( classOf[ BeanUtilsBinding ])
 		metawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA )
 		metawidget.setLayoutClass( classOf[ MigLayout ])
@@ -193,7 +193,7 @@ object AnimalRaces
 	// Status bar (a Metawidget hooked into 'racetrack')
 	
 	val statusMetawidget = new SwingMetawidget();
-	statusMetawidget.setInspectorConfig( "org/metawidget/example/swing/animalraces/inspector-config.xml" )
+	statusMetawidget.setConfig( "org/metawidget/example/swing/animalraces/inspector-config.xml" )
 	statusMetawidget.setLayoutClass( classOf[ FlowLayout ])
 	statusMetawidget.setToInspect( racetrack )			
 	statusMetawidget.setBorder( BorderFactory.createEtchedBorder() )

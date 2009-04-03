@@ -41,7 +41,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetbuilder.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -67,13 +67,13 @@ public class ConfigReader2
 	// Package-level statics
 	//
 
-	final static Log					LOG				= LogUtils.getLog( ConfigReader.class );
+	final static Log					LOG								= LogUtils.getLog( ConfigReader.class );
 
 	//
 	// Private statics
 	//
 
-	private final static int			BUFFER_SIZE		= 1024 * 64;
+	private final static int			BUFFER_SIZE						= 1024 * 64;
 
 	//
 	// Protected members
@@ -86,10 +86,10 @@ public class ConfigReader2
 	//
 
 	/**
-	 * Certain objects are cached (ie. they are both immutable and threadsafe)
+	 * Certain objects are both immutable and threadsafe
 	 */
 
-	Map<String, Map<Integer, Object>>	CACHED_OBJECTS	= CollectionUtils.newHashMap();
+	Map<String, Map<Integer, Object>>	IMMUTABLE_THREADSAFE_OBJECTS	= CollectionUtils.newHashMap();
 
 	//
 	// Constructor
@@ -109,16 +109,16 @@ public class ConfigReader2
 	 * Read configuration from an application resource.
 	 */
 
-	public void configure( String resource, Object toConfigure )
+	public Object configure( String resource, Object toConfigure )
 	{
-		configure( openResource( resource ), toConfigure );
+		return configure( openResource( resource ), toConfigure );
 	}
 
 	/**
 	 * Read configuration from an input stream.
 	 */
 
-	public void configure( InputStream stream, Object toConfigure )
+	public Object configure( InputStream stream, Object toConfigure )
 	{
 		if ( stream == null )
 			throw InspectorException.newException( "No input stream specified" );
@@ -132,6 +132,8 @@ public class ConfigReader2
 			ConfigHandler configHandler = new ConfigHandler( toConfigure );
 			configHandler.setXml( new String( xml ) );
 			mFactory.newSAXParser().parse( new ByteArrayInputStream( xml ), configHandler );
+
+			return configHandler.getConfigured();
 		}
 		catch ( Exception e )
 		{
@@ -283,10 +285,11 @@ public class ConfigReader2
 	}
 
 	/**
-	 * Certain classes are safe to cache (ie. their objects are both immutable and threadsafe).
+	 * Certain classes are both immutable and threadsafe. We only ever need one instance of such
+	 * classes.
 	 */
 
-	protected boolean isCacheable( Class<?> clazz )
+	protected boolean isImmutableThreadsafe( Class<?> clazz )
 	{
 		if ( Inspector.class.isAssignableFrom( clazz ) )
 			return true;
@@ -330,7 +333,7 @@ public class ConfigReader2
 
 	private static enum EncounteredState
 	{
-		METHOD, NATIVE_TYPE, NATIVE_COLLECTION_TYPE, CONFIGURED_TYPE, JAVA_OBJECT, CACHED
+		METHOD, NATIVE_TYPE, NATIVE_COLLECTION_TYPE, CONFIGURED_TYPE, JAVA_OBJECT, IMMUTABLE_THREADSAFE
 	}
 
 	private static enum ExpectingState
@@ -345,7 +348,7 @@ public class ConfigReader2
 		// Private statics
 		//
 
-		private final static String		JAVA_NAMESPACE_PREFIX	= "java:";
+		private final static String		JAVA_NAMESPACE_PREFIX		= "java:";
 
 		//
 		// Private members
@@ -358,23 +361,24 @@ public class ConfigReader2
 		private Object					mToConfigure;
 
 		/**
-		 * XML document. Used purely as a cache key.
+		 * XML document. Used purely as a key into IMMUTABLE_THREADSAFE_OBJECTS.
 		 */
 
 		private String					mXml;
 
 		/**
-		 * Number of elements encountered so far. Used as a simple way to
-		 * get a unique 'row/column' reference into the XML tree.
+		 * Number of elements encountered so far. Used as a simple way to get a unique 'row/column'
+		 * reference into the XML tree.
 		 */
 
 		private int						mElement;
 
 		/**
-		 * Map of objects cached for this XML document. Keyed by element number.
+		 * Map of objects that are immutable and threadsafe for this XML document. Keyed by element
+		 * number.
 		 */
 
-		private Map<Integer, Object>	mCached;
+		private Map<Integer, Object>	mImmutableThreadsafe;
 
 		/**
 		 * Track our depth in the XML tree.
@@ -386,38 +390,38 @@ public class ConfigReader2
 		 * Depth after which to skip processing, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreAfterDepth		= -1;
+		private int						mIgnoreAfterDepth			= -1;
 
 		/**
-		 * Element number where this cacheable element starts.
+		 * Element number where this element starts.
 		 */
 
-		private int						mCacheAsElement			= -1;
+		private int						mStoreAsElement				= -1;
 
 		/**
-		 * Depth after which to ignore caching, so that we only cache the 'top-level' of a cacheable
-		 * object that itself contains cacheable objects.
+		 * Depth after which to ignore immutable threadsafe caching, so that we only consider the
+		 * 'top-level' of an object that itself contains immutable and threadsafe objects.
 		 */
 
-		private int						mCacheAtDepth			= -1;
+		private int						mImmutableThreadsafeAtDepth	= -1;
 
 		/**
 		 * Stack of Objects constructed so far.
 		 */
 
-		private Stack<Object>			mConstructing			= CollectionUtils.newStack();
+		private Stack<Object>			mConstructing				= CollectionUtils.newStack();
 
 		/**
 		 * Next expected state in the XML tree.
 		 */
 
-		private ExpectingState			mExpecting				= ExpectingState.ROOT;
+		private ExpectingState			mExpecting					= ExpectingState.ROOT;
 
 		/**
 		 * Stack of encountered states in the XML tree.
 		 */
 
-		private Stack<EncounteredState>	mEncountered			= CollectionUtils.newStack();
+		private Stack<EncounteredState>	mEncountered				= CollectionUtils.newStack();
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -441,6 +445,11 @@ public class ConfigReader2
 			mXml = xml;
 		}
 
+		public Object getConfigured()
+		{
+			return mToConfigure;
+		}
+
 		@Override
 		public void startElement( String uri, String localName, String name, Attributes attributes )
 			throws SAXException
@@ -460,7 +469,10 @@ public class ConfigReader2
 				switch ( mExpecting )
 				{
 					case ROOT:
-						mExpecting = ExpectingState.TO_CONFIGURE;
+						if ( mToConfigure == null )
+							mExpecting = ExpectingState.OBJECT;
+						else
+							mExpecting = ExpectingState.TO_CONFIGURE;
 						break;
 
 					case TO_CONFIGURE:
@@ -470,20 +482,40 @@ public class ConfigReader2
 						if ( mDepth != 2 )
 							return;
 
-						// See if a match
-
 						Class<?> toConfigureClass = classForName( uri, localName );
 
-						if ( !toConfigureClass.isAssignableFrom( mToConfigure.getClass() ) )
+						// Match by Class...
+
+						if ( mToConfigure instanceof Class )
 						{
-							mIgnoreAfterDepth = 2;
-							return;
+							if ( !toConfigureClass.isAssignableFrom( (Class<?>) mToConfigure ) )
+							{
+								mIgnoreAfterDepth = 2;
+								return;
+							}
+
+							if ( !mConstructing.isEmpty() )
+								throw InspectorException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
+
+							handleNonNativeObject( uri, localName, attributes );
 						}
 
-						if ( !mConstructing.isEmpty() )
-							throw InspectorException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
+						// ...or instance of Object
 
-						mConstructing.push( mToConfigure );
+						else
+						{
+							if ( !toConfigureClass.isAssignableFrom( mToConfigure.getClass() ) )
+							{
+								mIgnoreAfterDepth = 2;
+								return;
+							}
+
+							if ( !mConstructing.isEmpty() )
+								throw InspectorException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
+
+							mConstructing.push( mToConfigure );
+						}
+
 						mExpecting = ExpectingState.METHOD;
 						break;
 					}
@@ -514,55 +546,7 @@ public class ConfigReader2
 							return;
 						}
 
-						// Cached?
-
-						Class<?> classToConstruct = classForName( uri, localName );
-
-						if ( mCacheAsElement == -1 && isCacheable( classToConstruct ) )
-						{
-							Object cached = getCached( classToConstruct );
-
-							if ( cached != null )
-							{
-								mConstructing.push( cached );
-								mEncountered.push( EncounteredState.CACHED );
-								mIgnoreAfterDepth = mDepth;
-
-								return;
-							}
-
-							mCacheAsElement = mElement;
-							mCacheAtDepth = mDepth;
-						}
-
-						// Configured types
-
-						String configClassName = attributes.getValue( "config" );
-
-						if ( configClassName != null )
-						{
-							String configToConstruct;
-
-							if ( configClassName.indexOf( '.' ) == -1 )
-								configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
-							else
-								configToConstruct = configClassName;
-
-							Class<?> configClass = ClassUtils.niceForName( configToConstruct );
-							if ( configClass == null )
-								throw InspectorException.newException( "No such configuration class " + configToConstruct );
-
-							mConstructing.push( configClass.newInstance() );
-							mEncountered.push( EncounteredState.CONFIGURED_TYPE );
-
-							mExpecting = ExpectingState.METHOD;
-							return;
-						}
-
-						// Java objects
-
-						mConstructing.push( classToConstruct.newInstance() );
-						mEncountered.push( EncounteredState.JAVA_OBJECT );
+						handleNonNativeObject( uri, localName, attributes );
 
 						mExpecting = ExpectingState.METHOD;
 						break;
@@ -638,7 +622,7 @@ public class ConfigReader2
 
 			if ( mDepth == 1 )
 			{
-				mConstructing.pop();
+				mToConfigure = mConstructing.pop();
 				mExpecting = ExpectingState.TO_CONFIGURE;
 				return;
 			}
@@ -675,7 +659,7 @@ public class ConfigReader2
 
 					case CONFIGURED_TYPE:
 					case JAVA_OBJECT:
-					case CACHED:
+					case IMMUTABLE_THREADSAFE:
 					{
 						Object object = mConstructing.pop();
 
@@ -690,8 +674,8 @@ public class ConfigReader2
 						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
 						parameters.add( object );
 
-						if ( encountered != EncounteredState.CACHED && mDepth == ( mCacheAtDepth - 1 ) && isCacheable( object.getClass() ) )
-							putCached( object );
+						if ( encountered != EncounteredState.IMMUTABLE_THREADSAFE && mDepth == ( mImmutableThreadsafeAtDepth - 1 ) && isImmutableThreadsafe( object.getClass() ) )
+							putImmutableThreadsafe( object );
 
 						mExpecting = ExpectingState.OBJECT;
 						return;
@@ -741,34 +725,88 @@ public class ConfigReader2
 		// Private methods
 		//
 
-		private Object getCached( Class<?> clazz )
+		private void handleNonNativeObject( String uri, String localName, Attributes attributes )
+			throws Exception
 		{
-			if ( mCached == null )
-			{
-				mCached = CACHED_OBJECTS.get( mXml );
+			Class<?> classToConstruct = classForName( uri, localName );
 
-				if ( mCached == null )
+			// Immutable and Threadsafe?
+
+			if ( mStoreAsElement == -1 && isImmutableThreadsafe( classToConstruct ) )
+			{
+				Object immutableThreadsafe = getImmutableThreadsafe( classToConstruct );
+
+				if ( immutableThreadsafe != null )
+				{
+					mConstructing.push( immutableThreadsafe );
+					mEncountered.push( EncounteredState.IMMUTABLE_THREADSAFE );
+					mIgnoreAfterDepth = mDepth;
+
+					return;
+				}
+
+				mStoreAsElement = mElement;
+				mImmutableThreadsafeAtDepth = mDepth;
+			}
+
+			// Configured types
+
+			String configClassName = attributes.getValue( "config" );
+
+			if ( configClassName != null )
+			{
+				String configToConstruct;
+
+				if ( configClassName.indexOf( '.' ) == -1 )
+					configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
+				else
+					configToConstruct = configClassName;
+
+				Class<?> configClass = ClassUtils.niceForName( configToConstruct );
+				if ( configClass == null )
+					throw InspectorException.newException( "No such configuration class " + configToConstruct );
+
+				mConstructing.push( configClass.newInstance() );
+				mEncountered.push( EncounteredState.CONFIGURED_TYPE );
+
+				mExpecting = ExpectingState.METHOD;
+				return;
+			}
+
+			// Java objects
+
+			mConstructing.push( classToConstruct.newInstance() );
+			mEncountered.push( EncounteredState.JAVA_OBJECT );
+		}
+
+		private Object getImmutableThreadsafe( Class<?> clazz )
+		{
+			if ( mImmutableThreadsafe == null )
+			{
+				mImmutableThreadsafe = IMMUTABLE_THREADSAFE_OBJECTS.get( mXml );
+
+				if ( mImmutableThreadsafe == null )
 					return null;
 			}
 
-			return mCached.get( mElement );
+			return mImmutableThreadsafe.get( mElement );
 		}
 
-		private void putCached( Object cacheable )
+		private void putImmutableThreadsafe( Object immutableThreadsafe )
 		{
-			if ( mCached == null )
+			if ( mImmutableThreadsafe == null )
 			{
-				mCached = CACHED_OBJECTS.get( mXml );
+				mImmutableThreadsafe = IMMUTABLE_THREADSAFE_OBJECTS.get( mXml );
 
-				if ( mCached == null )
+				if ( mImmutableThreadsafe == null )
 				{
-					mCached = CollectionUtils.newHashMap();
-					CACHED_OBJECTS.put( mXml, mCached );
+					mImmutableThreadsafe = CollectionUtils.newHashMap();
+					IMMUTABLE_THREADSAFE_OBJECTS.put( mXml, mImmutableThreadsafe );
 				}
 			}
 
-			mCached.put( mCacheAsElement, cacheable );
-			mCacheAsElement = -1;
+			mImmutableThreadsafe.put( mStoreAsElement, immutableThreadsafe );
+			mStoreAsElement = -1;
 		}
 
 		/**

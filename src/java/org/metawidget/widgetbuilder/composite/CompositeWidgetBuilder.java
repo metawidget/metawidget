@@ -19,7 +19,7 @@ package org.metawidget.widgetbuilder.composite;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.widgetbuilder.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * @author Richard Kennard

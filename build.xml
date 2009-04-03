@@ -344,7 +344,7 @@
 
 	</target>
 
-	<target name="pack-gwt-client">
+	<target name="pack-gwt-client" depends="compile-main">
 
 		<jar destfile="${build.dir}/metawidget-gwt-client.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="src/java">
@@ -355,6 +355,7 @@
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/gwt/**"/>
 				<include name="org/metawidget/util/simple/**"/>
+				<include name="org/metawidget/widgetbuilder/**"/>
 				<include name="org/metawidget/GwtMetawidget.gwt.xml"/>
 				<exclude name="**/package-info.java"/>
 			</fileset>

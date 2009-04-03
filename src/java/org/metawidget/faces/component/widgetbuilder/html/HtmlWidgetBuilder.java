@@ -49,7 +49,7 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetbuilder.BaseWidgetBuilder;
+import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 /**
  * WidgetBuilder for Java Server Faces environments.

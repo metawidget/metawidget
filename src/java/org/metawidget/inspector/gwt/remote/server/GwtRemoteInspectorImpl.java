@@ -61,19 +61,19 @@ public class GwtRemoteInspectorImpl
 	//
 
 	@Override
-	public void init( ServletConfig config )
+	public void init( ServletConfig servletConfig )
 		throws ServletException
 	{
-		super.init( config );
+		super.init( servletConfig );
 
 		// Locate inspector-config.xml
 
-		String inspectorConfig = config.getInitParameter( "inspector-config" );
+		String config = servletConfig.getInitParameter( "config" );
 
-		if ( inspectorConfig == null )
-			inspectorConfig = "inspector-config.xml";
+		if ( config == null )
+			config = "metawidget.xml";
 
-		mInspector = new ServletConfigReader( config.getServletContext() ).read( inspectorConfig );
+		mInspector = (Inspector) new ServletConfigReader( servletConfig.getServletContext() ).configure( config, Inspector.class );
 	}
 
 	public String inspect( Serializable toInspect, String type, String[] names )

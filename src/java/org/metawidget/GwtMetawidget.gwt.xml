@@ -14,7 +14,15 @@
 	<source path="mixin/base"/>
 	<source path="mixin/gwt"/>
 	<source path="util/simple"/>
+	<source path="widgetbuilder/iface"/>
+	<source path="widgetbuilder/impl"/>
 	
+	<!-- WidgetBuilders -->
+	
+  	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
+		<when-type-assignable class="org.metawidget.gwt.client.widgetbuilder.WidgetBuilderFactory"/>
+	</generate-with>
+
 	<!-- Inspectors -->
 	
   	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">

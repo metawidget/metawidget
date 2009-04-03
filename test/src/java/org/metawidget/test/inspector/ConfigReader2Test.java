@@ -41,8 +41,8 @@ import org.metawidget.mixin.base.BaseMetawidgetMixin;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
-import org.metawidget.widgetbuilder.WidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * @author Richard Kennard
@@ -149,12 +149,17 @@ public class ConfigReader2Test
 		xml += "	</swingMetawidget>";
 		xml += "</metawidget>";
 
-		// Point
+		// New Point
 
-		Point point = new Point();
 		ConfigReader2 configReader = new ConfigReader2();
-		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), point );
+		Point point = (Point) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Point.class );
+		assertTrue( 10 == point.x );
+		assertTrue( 20 == point.y );
 
+		// Existing Point
+
+		point = new Point();
+		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), point );
 		assertTrue( 10 == point.x );
 		assertTrue( 20 == point.y );
 
@@ -208,10 +213,10 @@ public class ConfigReader2Test
 
 		// Test Inspector
 
-		Field inspectorField = SwingMetawidget.class.getDeclaredField( "mInspector" );
+		Field inspectorField = BaseMetawidgetMixin.class.getDeclaredField( "mInspector" );
 		inspectorField.setAccessible( true );
-		CompositeInspector compositeInspector1 = (CompositeInspector) inspectorField.get( metawidget1 );
-		CompositeInspector compositeInspector2 = (CompositeInspector) inspectorField.get( metawidget2 );
+		CompositeInspector compositeInspector1 = (CompositeInspector) inspectorField.get( mixin1 );
+		CompositeInspector compositeInspector2 = (CompositeInspector) inspectorField.get( mixin1 );
 
 		assertTrue( compositeInspector1 == compositeInspector2 );
 

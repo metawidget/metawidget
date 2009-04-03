@@ -47,7 +47,7 @@ import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.widgetbuilder.BaseWidgetBuilder;
+import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 /**
  * WidgetBuilder for Swing environments.
