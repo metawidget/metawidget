@@ -25,8 +25,6 @@ import java.util.regex.Pattern;
 import org.apache.commons.jexl.ExpressionFactory;
 import org.apache.commons.jexl.JexlContext;
 import org.apache.commons.jexl.JexlHelper;
-import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.CollectionUtils;
@@ -82,17 +80,7 @@ public class JexlXmlInspector
 
 	public JexlXmlInspector( JexlXmlInspectorConfig config )
 	{
-		this( config, new ConfigReader() );
-	}
-
-	public JexlXmlInspector( ResourceResolver resolver )
-	{
-		this( new JexlXmlInspectorConfig(), resolver );
-	}
-
-	public JexlXmlInspector( JexlXmlInspectorConfig config, ResourceResolver resolver )
-	{
-		super( config, resolver );
+		super( config );
 	}
 
 	//

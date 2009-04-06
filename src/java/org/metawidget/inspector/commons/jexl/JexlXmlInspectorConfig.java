@@ -37,6 +37,6 @@ public class JexlXmlInspectorConfig
 
 	public JexlXmlInspectorConfig()
 	{
-		setFile( "metawidget-metadata.xml" );
+		setDefaultFile( "metawidget-metadata.xml" );
 	}
 }

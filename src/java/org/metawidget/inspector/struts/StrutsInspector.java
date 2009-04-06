@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 
-import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.CollectionUtils;
@@ -59,17 +58,7 @@ public class StrutsInspector
 
 	public StrutsInspector( StrutsInspectorConfig config )
 	{
-		this( config, new ConfigReader() );
-	}
-
-	public StrutsInspector( ResourceResolver resolver )
-	{
-		this( new StrutsInspectorConfig(), resolver );
-	}
-
-	public StrutsInspector( StrutsInspectorConfig config, ResourceResolver resolver )
-	{
-		super( config, resolver );
+		super( config );
 	}
 
 	//

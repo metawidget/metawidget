@@ -34,11 +34,6 @@ public class CommonsValidatorInspectorConfig
 
 	public CommonsValidatorInspectorConfig()
 	{
-		setFile( "validation.xml" );
+		setDefaultFile( "validation.xml" );
 	}
-
-	//
-	// Public methods
-	//
-
 }

@@ -109,8 +109,7 @@ public class FactoryGenerator<F>
 			sourceWriter.println( "// Public methods" );
 			sourceWriter.println();
 
-			String parameterizedQualifiedReturnTypeName = returnType.getParameterizedQualifiedSourceName();
-			sourceWriter.print( "public " + parameterizedQualifiedReturnTypeName + " " + newMethod.getName() + "( Class<? extends " + parameterizedQualifiedReturnTypeName + "> implementingClass" );
+			sourceWriter.print( "public " + returnType.getParameterizedQualifiedSourceName() + " " + newMethod.getName() + "( Class<? extends " + returnType.getParameterizedQualifiedSourceName() + "> implementingClass" );
 			if ( parameters.length == 2 )
 				sourceWriter.println( ", GwtMetawidget metawidget" );
 			sourceWriter.println( " ) {" );
@@ -120,7 +119,9 @@ public class FactoryGenerator<F>
 
 			try
 			{
-				JClassType bindingClass = typeOracle.getType( parameterizedQualifiedReturnTypeName );
+				// (note: returnType.getParameterizedQualifiedSourceName() does not seem to work)
+
+				JClassType bindingClass = typeOracle.getType( returnType.getQualifiedSourceName() );
 
 				for ( JClassType subtype : bindingClass.getSubtypes() )
 				{
@@ -142,7 +143,7 @@ public class FactoryGenerator<F>
 				// Fail gracefully
 			}
 
-			sourceWriter.println( "throw new RuntimeException( \"Unknown type \" + implementingClass );" );
+			sourceWriter.println( "throw new RuntimeException( \"Unknown " + returnType.getSimpleSourceName() + " \" + implementingClass );" );
 
 			sourceWriter.outdent();
 			sourceWriter.println( "}" );

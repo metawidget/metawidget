@@ -367,6 +367,7 @@
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/gwt/**"/>
 				<include name="org/metawidget/util/simple/**"/>
+				<include name="org/metawidget/widgetbuilder/**"/>
 			</fileset>
 		</jar>
 		

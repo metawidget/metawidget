@@ -33,6 +33,6 @@ public class JbpmInspectorConfig
 
 	public JbpmInspectorConfig()
 	{
-		setFile( "components.xml" );
+		setDefaultFile( "components.xml" );
 	}
 }

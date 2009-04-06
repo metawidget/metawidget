@@ -24,7 +24,6 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 
-import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspector;
@@ -49,17 +48,17 @@ public class HibernateInspector
 	// Private statics
 	//
 
-	private final static String		HIBERNATE_CONFIGURATION_ELEMENT	= "hibernate-configuration";
+	private final static String			HIBERNATE_CONFIGURATION_ELEMENT	= "hibernate-configuration";
 
-	private final static String		HIBERNATE_MAPPING_ELEMENT		= "hibernate-mapping";
+	private final static String			HIBERNATE_MAPPING_ELEMENT		= "hibernate-mapping";
 
-	private final static String[]	EMPTY_STRING_ARRAY				= new String[0];
+	private final static InputStream[]	EMPTY_INPUTSTREAM_ARRAY			= new InputStream[0];
 
 	//
 	// Private members
 	//
 
-	private boolean					mHideIds;
+	private boolean						mHideIds;
 
 	//
 	// Constructor
@@ -72,17 +71,7 @@ public class HibernateInspector
 
 	public HibernateInspector( HibernateInspectorConfig config )
 	{
-		this( config, new ConfigReader() );
-	}
-
-	public HibernateInspector( ResourceResolver resolver )
-	{
-		this( new HibernateInspectorConfig(), resolver );
-	}
-
-	public HibernateInspector( HibernateInspectorConfig config, ResourceResolver resolver )
-	{
-		super( config, resolver );
+		super( config );
 
 		mHideIds = config.isHideIds();
 	}
@@ -145,17 +134,17 @@ public class HibernateInspector
 
 				Element mapping = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), "session-factory", "mapping" );
 
-				List<String> fileList = CollectionUtils.newArrayList();
+				List<InputStream> inputStreamList = CollectionUtils.newArrayList();
 
-				while( mapping != null )
+				while ( mapping != null )
 				{
-					fileList.add( mapping.getAttribute( "resource" ) );
+					inputStreamList.add( resolver.openResource( mapping.getAttribute( "resource" ) ));
 					mapping = XmlUtils.getSiblingNamed( mapping, "mapping" );
 				}
 
 				// ...and combine them
 
-				parsed = getDocumentElement( builder, resolver, fileList.toArray( EMPTY_STRING_ARRAY ) );
+				parsed = getDocumentElement( builder, resolver, inputStreamList.toArray( EMPTY_INPUTSTREAM_ARRAY ) );
 
 				if ( documentMaster == null || !documentMaster.hasChildNodes() )
 				{
@@ -191,8 +180,8 @@ public class HibernateInspector
 	}
 
 	/**
-	 * Prepend 'package' attribute to class 'name' and 'extends' attributes, and
-	 * to 'class' attributes of children.
+	 * Prepend 'package' attribute to class 'name' and 'extends' attributes, and to 'class'
+	 * attributes of children.
 	 */
 
 	@Override
@@ -213,7 +202,7 @@ public class HibernateInspector
 			{
 				Node node = children.item( loop );
 
-				if ( ! ( node instanceof Element ) )
+				if ( !( node instanceof Element ) )
 					continue;
 
 				Element element = (Element) node;
@@ -267,8 +256,8 @@ public class HibernateInspector
 
 		String typeAttribute = getTypeAttribute();
 
-		if ( toInspect.hasAttribute( typeAttribute ))
-			attributes.put( TYPE, toInspect.getAttribute( typeAttribute ));
+		if ( toInspect.hasAttribute( typeAttribute ) )
+			attributes.put( TYPE, toInspect.getAttribute( typeAttribute ) );
 
 		// Required
 
@@ -277,8 +266,8 @@ public class HibernateInspector
 
 		// Length
 
-		if ( toInspect.hasAttribute( "length" ))
-			attributes.put( MAXIMUM_LENGTH, toInspect.getAttribute( "length" ));
+		if ( toInspect.hasAttribute( "length" ) )
+			attributes.put( MAXIMUM_LENGTH, toInspect.getAttribute( "length" ) );
 
 		// Hidden
 
@@ -316,7 +305,7 @@ public class HibernateInspector
 		{
 			Node node = children.item( loop );
 
-			if ( ! ( node instanceof Element ) )
+			if ( !( node instanceof Element ) )
 				continue;
 
 			Element child = (Element) node;

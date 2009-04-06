@@ -24,7 +24,6 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 
-import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspector;
@@ -39,8 +38,8 @@ import org.w3c.dom.NodeList;
 /**
  * Inspector to look for relevant settings in <code>pageflow.jpdl.xml</code> files.
  * <p>
- * As a convenience, can also be pointed at a Seam <code>components.xml</code> file which
- * has a <code>jbpm:pageflow-definitions</code> element.
+ * As a convenience, can also be pointed at a Seam <code>components.xml</code> file which has a
+ * <code>jbpm:pageflow-definitions</code> element.
  *
  * @author Richard Kennard
  */
@@ -60,15 +59,15 @@ public class JbpmInspector
 	 * https://jira.jboss.org/jira/browse/JBSEAM-979).
 	 */
 
-	private final static String		SEAM_COMPONENTS_ELEMENT	= "components";
+	private final static String			SEAM_COMPONENTS_ELEMENT	= "components";
 
-	private final static String		SEAM_PAGEFLOWS_ELEMENT	= "pageflow-definitions";
+	private final static String			SEAM_PAGEFLOWS_ELEMENT	= "pageflow-definitions";
 
-	private final static String		JBPM_NAMESPACE			= "jbpm";
+	private final static String			JBPM_NAMESPACE			= "jbpm";
 
-	private final static String		JBPM_PAGEFLOW_ELEMENT	= "pageflow-definition";
+	private final static String			JBPM_PAGEFLOW_ELEMENT	= "pageflow-definition";
 
-	private final static String[]	EMPTY_STRING_ARRAY		= new String[0];
+	private final static InputStream[]	EMPTY_INPUTSTREAM_ARRAY	= new InputStream[0];
 
 	//
 	// Constructor
@@ -81,17 +80,7 @@ public class JbpmInspector
 
 	public JbpmInspector( JbpmInspectorConfig config )
 	{
-		this( config, new ConfigReader() );
-	}
-
-	public JbpmInspector( ResourceResolver resolver )
-	{
-		this( new JbpmInspectorConfig(), resolver );
-	}
-
-	public JbpmInspector( JbpmInspectorConfig config, ResourceResolver resolver )
-	{
-		super( config, resolver );
+		super( config );
 	}
 
 	//
@@ -145,17 +134,17 @@ public class JbpmInspector
 				if ( value == null )
 					throw InspectorException.newException( "No " + SEAM_PAGEFLOWS_ELEMENT + " defined" );
 
-				List<String> fileList = CollectionUtils.newArrayList();
+				List<InputStream> inputStreamList = CollectionUtils.newArrayList();
 
 				while ( value != null )
 				{
-					fileList.add( value.getTextContent() );
+					inputStreamList.add( resolver.openResource( value.getTextContent() ));
 					value = XmlUtils.getSiblingNamed( value, "value" );
 				}
 
 				// ...and combine them
 
-				parsed = getDocumentElement( builder, resolver, fileList.toArray( EMPTY_STRING_ARRAY ) );
+				parsed = getDocumentElement( builder, resolver, inputStreamList.toArray( EMPTY_INPUTSTREAM_ARRAY ) );
 
 				if ( documentMaster == null || !documentMaster.hasChildNodes() )
 				{

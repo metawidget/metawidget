@@ -92,16 +92,19 @@ public abstract class BaseXmlInspector
 	 * All BaseXmlInspector inspectors must be configurable, to allow specifying an XML file.
 	 */
 
-	protected BaseXmlInspector( BaseXmlInspectorConfig config, ResourceResolver resolver )
+	protected BaseXmlInspector( BaseXmlInspectorConfig config )
 	{
 		try
 		{
-			DocumentBuilder builder = newDocumentBuilder( config, resolver );
+			DocumentBuilder builder = newDocumentBuilder( config );
 
 			// Look up the XML file
 
 			builder.setEntityResolver( new NopEntityResolver() );
-			mRoot = getDocumentElement( builder, resolver, config );
+			InputStream[] files = config.getInputStreams();
+
+			if ( files != null && files.length > 0 )
+				mRoot = getDocumentElement( builder, config.getResourceResolver(), config.getInputStreams() );
 
 			if ( mRoot == null )
 				throw InspectorException.newException( "No XML input file specified" );
@@ -207,26 +210,10 @@ public abstract class BaseXmlInspector
 	// Protected methods
 	//
 
-	protected DocumentBuilder newDocumentBuilder( BaseXmlInspectorConfig config, ResourceResolver resolver )
+	protected DocumentBuilder newDocumentBuilder( BaseXmlInspectorConfig config )
 		throws Exception
 	{
 		return XmlUtils.newDocumentBuilder();
-	}
-
-	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, BaseXmlInspectorConfig config )
-		throws Exception
-	{
-		InputStream[] files = config.getInputStreams();
-
-		if ( files != null && files.length > 0 )
-			return getDocumentElement( builder, resolver, files );
-
-		String[] fileList = config.getFiles();
-
-		if ( fileList != null )
-			return getDocumentElement( builder, resolver, fileList );
-
-		return null;
 	}
 
 	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, InputStream... files )
@@ -261,29 +248,6 @@ public abstract class BaseXmlInspector
 	protected void preprocessDocument( Document document )
 	{
 		// Do nothing by default
-	}
-
-	/**
-	 * Initializes the root element from an array of file paths.
-	 * <p>
-	 * After resolving the file paths to <code>InputStream</code>s, calls
-	 * <code>initRootElement( DocumentBuilder, InputStream... )</code>.
-	 */
-
-	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, String[] files )
-		throws Exception
-	{
-		if ( files == null || files.length == 0 )
-			throw InspectorException.newException( "No files specified for " + getClass() );
-
-		InputStream[] fileList = new InputStream[files.length];
-
-		for ( int loop = 0, length = files.length; loop < length; loop++ )
-		{
-			fileList[loop] = resolver.openResource( files[loop] );
-		}
-
-		return getDocumentElement( builder, resolver, fileList );
 	}
 
 	protected void inspect( Element toInspect, Element toAddTo )

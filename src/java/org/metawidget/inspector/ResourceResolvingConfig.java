@@ -14,31 +14,17 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.struts;
-
-import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
+package org.metawidget.inspector;
 
 /**
- * Configures a StrutsInspector prior to use. Once instantiated, Inspectors are immutable.
- *
  * @author Richard Kennard
  */
 
-public class StrutsInspectorConfig
-	extends BaseXmlInspectorConfig
+public interface ResourceResolvingConfig
 {
 	//
-	// Constructor
+	// Methods
 	//
 
-	/**
-	 * Creates a StrutsInspectorConfig.
-	 *
-	 * Defaults the XML file name to <code>struts-config.xml</code>
-	 */
-
-	public StrutsInspectorConfig()
-	{
-		setDefaultFile( "struts-config.xml" );
-	}
+	void setResourceResolver( ResourceResolver resourceResolver );
 }

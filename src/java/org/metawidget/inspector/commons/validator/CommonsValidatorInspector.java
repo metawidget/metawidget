@@ -24,7 +24,6 @@ import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
 
-import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspector;
@@ -61,17 +60,7 @@ public class CommonsValidatorInspector
 
 	public CommonsValidatorInspector( CommonsValidatorInspectorConfig config )
 	{
-		this( config, new ConfigReader() );
-	}
-
-	public CommonsValidatorInspector( ResourceResolver resolver )
-	{
-		this( new CommonsValidatorInspectorConfig(), resolver );
-	}
-
-	public CommonsValidatorInspector( CommonsValidatorInspectorConfig config, ResourceResolver resolver )
-	{
-		super( config, resolver );
+		super( config );
 	}
 
 	//

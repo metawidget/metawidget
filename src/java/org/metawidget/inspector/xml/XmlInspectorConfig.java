@@ -33,6 +33,6 @@ public class XmlInspectorConfig
 
 	public XmlInspectorConfig()
 	{
-		setFile( "metawidget-metadata.xml" );
+		setDefaultFile( "metawidget-metadata.xml" );
 	}
 }

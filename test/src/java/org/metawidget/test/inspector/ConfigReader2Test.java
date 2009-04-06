@@ -147,6 +147,15 @@ public class ConfigReader2Test
 		xml += "			<int>5</int>";
 		xml += "		</parameter>";
 		xml += "	</swingMetawidget>";
+		xml += "	<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
+		xml += "		<inspectors>";
+		xml += "			<list>";
+		xml += "				<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\"/>";
+		xml += "				<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\"/>";
+		xml += "				<java5Inspector xmlns=\"java:org.metawidget.inspector.java5\"/>";
+		xml += "			</list>";
+		xml += "		</inspectors>";
+		xml += "	</compositeInspector>";
 		xml += "</metawidget>";
 
 		// New Point
@@ -236,5 +245,10 @@ public class ConfigReader2Test
 		assertTrue( inspectors[8] instanceof StrutsAnnotationInspector );
 		assertTrue( inspectors[9] instanceof XmlInspector );
 		assertTrue( inspectors[10] instanceof XmlInspector );
+
+		// Inspector
+
+		Inspector inspector = (Inspector) new ConfigReader2().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		assertTrue( inspector instanceof CompositeInspector );
 	}
 }

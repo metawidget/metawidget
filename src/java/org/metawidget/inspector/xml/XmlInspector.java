@@ -20,8 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Element;
@@ -53,17 +51,7 @@ public class XmlInspector
 
 	public XmlInspector( XmlInspectorConfig config )
 	{
-		this( config, new ConfigReader() );
-	}
-
-	public XmlInspector( ResourceResolver resolver )
-	{
-		this( new XmlInspectorConfig(), resolver );
-	}
-
-	public XmlInspector( XmlInspectorConfig config, ResourceResolver resolver )
-	{
-		super( config, resolver );
+		super( config );
 	}
 
 	//

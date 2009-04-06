@@ -40,7 +40,7 @@ public class HibernateInspectorConfig
 
 	public HibernateInspectorConfig()
 	{
-		setFile( "hibernate.cfg.xml" );
+		setDefaultFile( "hibernate.cfg.xml" );
 	}
 
 	//

@@ -447,7 +447,13 @@ public class ConfigReader2
 
 		public Object getConfigured()
 		{
-			return mToConfigure;
+			if ( mConstructing.isEmpty() )
+				throw InspectorException.newException( "No match for " + mToConfigure + " within config" );
+
+			if ( mConstructing.size() > 1 )
+				throw InspectorException.newException( "Config still processing" );
+
+			return mConstructing.peek();
 		}
 
 		@Override
@@ -488,7 +494,7 @@ public class ConfigReader2
 
 						if ( mToConfigure instanceof Class )
 						{
-							if ( !toConfigureClass.isAssignableFrom( (Class<?>) mToConfigure ) )
+							if ( !((Class<?>) mToConfigure).isAssignableFrom( toConfigureClass ) )
 							{
 								mIgnoreAfterDepth = 2;
 								return;
@@ -618,19 +624,28 @@ public class ConfigReader2
 			if ( mConstructing.isEmpty() )
 				return;
 
-			// Back at root? Expect another TO_CONFIGURE
-
-			if ( mDepth == 1 )
-			{
-				mToConfigure = mConstructing.pop();
-				mExpecting = ExpectingState.TO_CONFIGURE;
-				return;
-			}
-
 			// Configure based on what was encountered
 
 			try
 			{
+				// Back at root? Expect another TO_CONFIGURE
+				// TODO: awful!
+
+				if ( mDepth == 1 )
+				{
+					mExpecting = ExpectingState.TO_CONFIGURE;
+
+					if ( mToConfigure instanceof Class && !mEncountered.isEmpty() && mEncountered.peek() == EncounteredState.CONFIGURED_TYPE )
+					{
+						Object config = mConstructing.pop();
+						Class<?> classToConstruct = classForName( uri, localName );
+						Constructor<?> constructor = classToConstruct.getConstructor( config.getClass() );
+						mConstructing.push( constructor.newInstance( config ));
+					}
+
+					return;
+				}
+
 				EncounteredState encountered = mEncountered.pop();
 
 				switch ( encountered )
@@ -766,7 +781,12 @@ public class ConfigReader2
 				if ( configClass == null )
 					throw InspectorException.newException( "No such configuration class " + configToConstruct );
 
-				mConstructing.push( configClass.newInstance() );
+				Object config = configClass.newInstance();
+
+				if ( config instanceof ResourceResolvingConfig )
+					((ResourceResolvingConfig) config).setResourceResolver( ConfigReader2.this );
+
+				mConstructing.push( config );
 				mEncountered.push( EncounteredState.CONFIGURED_TYPE );
 
 				mExpecting = ExpectingState.METHOD;
