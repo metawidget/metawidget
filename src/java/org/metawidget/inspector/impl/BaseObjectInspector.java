@@ -405,7 +405,7 @@ public abstract class BaseObjectInspector
 
 			if ( !traversed.add( traverse ) )
 			{
-				LogUtils.getLog( getClass() ).warn( getClass().getSimpleName() + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating " + name + " as @UiHidden" );
+				LogUtils.getLog( getClass() ).warn( ClassUtils.getSimpleName( getClass() ) + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating " + name + " as @UiHidden" );
 				return null;
 			}
 		}

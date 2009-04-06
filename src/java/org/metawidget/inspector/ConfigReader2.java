@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -206,7 +207,10 @@ public class ConfigReader2
 		if ( "boolean".equals( name ) )
 			return true;
 
-		if ( "stream".equals( name ) )
+		if ( "resource".equals( name ) )
+			return true;
+
+		if ( "url".equals( name ) )
 			return true;
 
 		if ( "bundle".equals( name ) )
@@ -248,10 +252,11 @@ public class ConfigReader2
 		if ( "boolean".equals( name ) )
 			return new Boolean( recordedText );
 
-		// TODO: support URLs?
-
-		if ( "stream".equals( name ) )
+		if ( "resource".equals( name ) )
 			return openResource( recordedText );
+
+		if ( "url".equals( name ))
+			return new URL( recordedText ).openStream();
 
 		if ( "bundle".equals( name ) )
 			return ResourceBundle.getBundle( recordedText );
@@ -785,9 +790,23 @@ public class ConfigReader2
 
 			// Java objects
 
-			// TODO: no default constructor? Warn about using config constructor
+			try
+			{
+				Constructor<?> defaultConstructor = classToConstruct.getConstructor();
+				mConstructing.push( defaultConstructor.newInstance() );
+			}
+			catch( NoSuchMethodException e )
+			{
+				// Hint for config-based constructors
 
-			mConstructing.push( classToConstruct.newInstance() );
+				Constructor<?>[] constructors = classToConstruct.getConstructors();
+
+				if ( constructors.length == 1 && constructors[0].getParameterTypes().length == 1 )
+					throw InspectorException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + ClassUtils.getSimpleName( constructors[0].getParameterTypes()[0] ) + "\"?" );
+
+				throw InspectorException.newException( classToConstruct + " does not have a default constructor" );
+			}
+
 			mEncountered.push( EncounteredState.JAVA_OBJECT );
 		}
 

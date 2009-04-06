@@ -337,6 +337,25 @@ public final class ClassUtils
 		}
 	}
 
+	/**
+	 * Gets the 'simple' name of the class.
+	 * <p>
+	 * Essentially a simplified version of <code>Class.getSimpleName</code>, which is JDK
+	 * 1.5-specific.
+	 */
+
+	public static String getSimpleName( Class<?> clazz )
+	{
+		String className = clazz.getName();
+
+		int lastIndexOf = className.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
+
+		if ( lastIndexOf != -1 )
+			className = className.substring( lastIndexOf + 1 );
+
+		return className;
+	}
+
 	//
 	// Private statics
 	//
