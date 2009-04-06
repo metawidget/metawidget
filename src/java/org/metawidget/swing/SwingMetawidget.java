@@ -1234,30 +1234,28 @@ public class SwingMetawidget
 		return mMetawidgetMixin.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
-	protected SwingMetawidget initMetawidget( SwingMetawidget metawidget, Map<String, String> attributes )
+	protected void initNestedMetawidget( SwingMetawidget nestedMetawidget, Map<String, String> attributes )
 	{
 		// Don't reconfigure...
 
-		metawidget.setConfig( null );
+		nestedMetawidget.setConfig( null );
 
 		// ...instead, copy runtime values
 
-		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-		metawidget.setInspector( mMetawidgetMixin.getInspector() );
-		metawidget.setWidgetBuilder( mMetawidgetMixin.getWidgetBuilder() );
-		metawidget.setLayoutClass( mLayoutClass );
-		metawidget.setPropertyBindingClass( mPropertyBindingClass );
-		metawidget.setActionBindingClass( mActionBindingClass );
-		metawidget.setValidatorClass( mValidatorClass );
-		metawidget.setBundle( mBundle );
-		metawidget.setOpaque( isOpaque() );
+		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+		nestedMetawidget.setInspector( mMetawidgetMixin.getInspector() );
+		nestedMetawidget.setWidgetBuilder( mMetawidgetMixin.getWidgetBuilder() );
+		nestedMetawidget.setLayoutClass( mLayoutClass );
+		nestedMetawidget.setPropertyBindingClass( mPropertyBindingClass );
+		nestedMetawidget.setActionBindingClass( mActionBindingClass );
+		nestedMetawidget.setValidatorClass( mValidatorClass );
+		nestedMetawidget.setBundle( mBundle );
+		nestedMetawidget.setOpaque( isOpaque() );
 
 		if ( mParameters != null )
-			metawidget.setParameters( CollectionUtils.newHashMap( mParameters ) );
+			nestedMetawidget.setParameters( CollectionUtils.newHashMap( mParameters ) );
 
-		metawidget.setToInspect( mToInspect );
-
-		return metawidget;
+		nestedMetawidget.setToInspect( mToInspect );
 	}
 
 	//
@@ -1309,11 +1307,12 @@ public class SwingMetawidget
 		public SwingMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
-			SwingMetawidget metawidget = SwingMetawidget.this.getClass().newInstance();
-			metawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
-			metawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
+			SwingMetawidget nestedMetawidget = SwingMetawidget.this.getClass().newInstance();
+			nestedMetawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
+			nestedMetawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
+			SwingMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
-			return SwingMetawidget.this.initMetawidget( metawidget, attributes );
+			return nestedMetawidget;
 		}
 
 		@Override

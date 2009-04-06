@@ -20,7 +20,7 @@ package org.metawidget.inspector;
  * @author Richard Kennard
  */
 
-public interface ResourceResolvingConfig
+public interface NeedsResourceResolver
 {
 	//
 	// Methods

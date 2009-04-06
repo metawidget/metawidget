@@ -53,11 +53,6 @@ public class CommonsValidatorInspector
 	// Constructor
 	//
 
-	public CommonsValidatorInspector()
-	{
-		this( new CommonsValidatorInspectorConfig() );
-	}
-
 	public CommonsValidatorInspector( CommonsValidatorInspectorConfig config )
 	{
 		super( config );

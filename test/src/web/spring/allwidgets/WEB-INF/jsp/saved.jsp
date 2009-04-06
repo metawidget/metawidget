@@ -7,7 +7,7 @@
 
 		<form:form commandName="allWidgetsCommand">
 
-			<m:metawidget path="allWidgetsCommand" createHiddenFields="true" readOnly="true" inspectorConfig="config/inspector-config.xml">				
+			<m:metawidget path="allWidgetsCommand" createHiddenFields="true" readOnly="true" config="config/metawidget.xml">				
 				<m:stub path="mystery"/>
 			</m:metawidget>
 

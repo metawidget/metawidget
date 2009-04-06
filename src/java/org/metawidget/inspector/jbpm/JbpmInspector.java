@@ -73,11 +73,6 @@ public class JbpmInspector
 	// Constructor
 	//
 
-	public JbpmInspector()
-	{
-		this( new JbpmInspectorConfig() );
-	}
-
 	public JbpmInspector( JbpmInspectorConfig config )
 	{
 		super( config );

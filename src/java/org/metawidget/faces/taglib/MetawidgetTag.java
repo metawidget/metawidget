@@ -42,7 +42,7 @@ public abstract class MetawidgetTag
 
 	private String	mRendererType;
 
-	private String	mInspectorConfig;
+	private String	mConfig;
 
 	private boolean	mInspectFromParent;
 
@@ -80,9 +80,9 @@ public abstract class MetawidgetTag
 		mRendererType = rendererType;
 	}
 
-	public void setInspectorConfig( String inspectorConfig )
+	public void setConfig( String config )
 	{
-		mInspectorConfig = inspectorConfig;
+		mConfig = config;
 	}
 
 	public void setInspectFromParent( boolean inspectFromParent )
@@ -112,7 +112,7 @@ public abstract class MetawidgetTag
 
 		mValue = null;
 		mRendererType = null;
-		mInspectorConfig = null;
+		mConfig = null;
 		mInspectFromParent = false;
 		mReadOnly = null;
 		mBundle = null;
@@ -154,10 +154,10 @@ public abstract class MetawidgetTag
 		if ( mRendererType != null )
 			metawidetComponent.setRendererType( mRendererType );
 
-		// Inspector Config
+		// Config
 
-		if ( mInspectorConfig != null )
-			metawidetComponent.setInspectorConfig( mInspectorConfig );
+		if ( mConfig != null )
+			metawidetComponent.setConfig( mConfig );
 
 		// Inspect from parent
 

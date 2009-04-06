@@ -64,11 +64,6 @@ public class HibernateInspector
 	// Constructor
 	//
 
-	public HibernateInspector()
-	{
-		this( new HibernateInspectorConfig() );
-	}
-
 	public HibernateInspector( HibernateInspectorConfig config )
 	{
 		super( config );

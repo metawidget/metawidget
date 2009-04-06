@@ -248,16 +248,6 @@ public class ConfigReader2
 		if ( "boolean".equals( name ) )
 			return new Boolean( recordedText );
 
-		// InputStreams
-		//
-		// Note: this means we can set, say, BaseXmlInspector's <inputStream>
-		// directly in the inspector-config.xml, rather than using <file>. This makes
-		// it tempting to do away with <file> altogether, but we keep it because it
-		// has an important role in 'lazy' evaluation. For example, HibernateInspectorConfig
-		// calls .setFile in its constructor. Without this, it would have to call
-		// .setInputStreams, so it would need a ResourceResolver passing in its
-		// constructor, which all gets very icky
-
 		// TODO: support URLs?
 
 		if ( "stream".equals( name ) )
@@ -783,8 +773,8 @@ public class ConfigReader2
 
 				Object config = configClass.newInstance();
 
-				if ( config instanceof ResourceResolvingConfig )
-					((ResourceResolvingConfig) config).setResourceResolver( ConfigReader2.this );
+				if ( config instanceof NeedsResourceResolver )
+					((NeedsResourceResolver) config).setResourceResolver( ConfigReader2.this );
 
 				mConstructing.push( config );
 				mEncountered.push( EncounteredState.CONFIGURED_TYPE );
@@ -794,6 +784,8 @@ public class ConfigReader2
 			}
 
 			// Java objects
+
+			// TODO: no default constructor?
 
 			mConstructing.push( classToConstruct.newInstance() );
 			mEncountered.push( EncounteredState.JAVA_OBJECT );

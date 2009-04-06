@@ -45,19 +45,22 @@ import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
+import javax.servlet.http.HttpSession;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.validator.StandardValidator;
 import org.metawidget.faces.component.validator.Validator;
-import org.metawidget.faces.component.widgetbuilder.html.HtmlWidgetBuilder;
+import org.metawidget.inspector.ConfigReader2;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -102,10 +105,10 @@ public abstract class UIMetawidget
 	private final static String							COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET	= "metawidget-created-by";
 
 	/**
-	 * Application-level attribute used to cache Inspectors.
+	 * Application-level attribute used to cache ConfigReader.
 	 */
 
-	private final static String							APPLICATION_ATTRIBUTE_INSPECTORS			= "metawidget-inspectors";
+	private final static String							APPLICATION_ATTRIBUTE_CONFIG_READER			= "metawidget-config-reader";
 
 	//
 	// Private members
@@ -113,7 +116,9 @@ public abstract class UIMetawidget
 
 	private Object										mValue;
 
-	private String										mInspectorConfig							= "inspector-config.xml";
+	private String										mConfig										= "metawidget.xml";
+
+	private boolean										mNeedsConfiguring							= true;
 
 	private boolean										mInspectFromParent;
 
@@ -194,9 +199,20 @@ public abstract class UIMetawidget
 		mReadOnly = readOnly;
 	}
 
-	public void setInspectorConfig( String inspectorConfig )
+	public void setConfig( String config )
 	{
-		mInspectorConfig = inspectorConfig;
+		mConfig = config;
+		mNeedsConfiguring = true;
+	}
+
+	public void setInspector( Inspector inspector )
+	{
+		mMetawidgetMixin.setInspector( inspector );
+	}
+
+	public void setWidgetBuilder( WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder )
+	{
+		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
 	}
 
 	/**
@@ -340,6 +356,8 @@ public abstract class UIMetawidget
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
+		configure();
+
 		try
 		{
 			// Inspect from the value binding...
@@ -357,7 +375,7 @@ public abstract class UIMetawidget
 
 			if ( mValue != null )
 			{
-				mMetawidgetMixin.buildWidgets( inspect( null, (String) mValue ) );
+				mMetawidgetMixin.buildWidgets( mMetawidgetMixin.inspect( null, (String) mValue ) );
 				super.encodeBegin( context );
 				return;
 			}
@@ -388,7 +406,7 @@ public abstract class UIMetawidget
 		values[0] = super.saveState( context );
 		values[1] = mValue;
 		values[2] = mReadOnly;
-		values[3] = mInspectorConfig;
+		values[3] = mConfig;
 		values[4] = mValidatorClass;
 		values[5] = mInspectFromParent;
 
@@ -403,7 +421,7 @@ public abstract class UIMetawidget
 
 		mValue = values[1];
 		mReadOnly = (Boolean) values[2];
-		mInspectorConfig = (String) values[3];
+		mConfig = (String) values[3];
 		mValidatorClass = (String) values[4];
 		mInspectFromParent = (Boolean) values[5];
 	}
@@ -421,10 +439,7 @@ public abstract class UIMetawidget
 
 	protected UIMetawidgetMixin newMetawidgetMixin()
 	{
-		UIMetawidgetMixin mixin = new UIMetawidgetMixin();
-		mixin.setWidgetBuilder( new HtmlWidgetBuilder() );
-
-		return mixin;
+		return new UIMetawidgetMixin();
 	}
 
 	/**
@@ -451,7 +466,7 @@ public abstract class UIMetawidget
 			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) )
 			{
 				Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-				return inspect( toInspect, classToInspect.getName() );
+				return mMetawidgetMixin.inspect( toInspect, classToInspect.getName() );
 			}
 		}
 
@@ -481,7 +496,7 @@ public abstract class UIMetawidget
 				if ( toInspect != null )
 				{
 					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-					return inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
+					return mMetawidgetMixin.inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
 				}
 			}
 		}
@@ -489,49 +504,52 @@ public abstract class UIMetawidget
 		return null;
 	}
 
-	/**
-	 * Inspect the given Object according to the given path, and return the result as a String
-	 * conforming to inspection-result-1.0.xsd.
-	 * <p>
-	 * This method mirrors the <code>Inspector</code> interface. Internally it looks up the
-	 * Inspector to use. It is a useful hook for subclasses wishing to inspect different Objects
-	 * using our same <code>Inspector</code>.
-	 */
-
-	protected String inspect( Object toInspect, String type, String... names )
+	protected void configure()
 	{
-		Inspector inspector;
+		if ( !mNeedsConfiguring )
+			return;
 
-		// If this InspectorConfig has already been read...
+		mNeedsConfiguring = false;
 
-		Map<String, Object> application = getFacesContext().getExternalContext().getApplicationMap();
-		@SuppressWarnings( "unchecked" )
-		Map<String, Inspector> inspectors = (Map<String, Inspector>) application.get( APPLICATION_ATTRIBUTE_INSPECTORS );
-
-		// ...use it...
-
-		if ( inspectors != null )
+		try
 		{
-			inspector = inspectors.get( mInspectorConfig );
+			if ( mConfig != null )
+			{
+				FacesContext facesContext = getFacesContext();
+				Map<String, Object> applicationMap = facesContext.getExternalContext().getApplicationMap();
+				@SuppressWarnings( "unchecked" )
+				ConfigReader2 configReader = (ConfigReader2) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
+
+				if ( configReader == null )
+				{
+					configReader = new ServletConfigReader( ( (HttpSession) facesContext.getExternalContext().getSession( false ) ).getServletContext() );
+					applicationMap.put( APPLICATION_ATTRIBUTE_CONFIG_READER, configReader );
+				}
+
+				configReader.configure( mConfig, this );
+			}
+
+			// Sensible WidgetBuilder default
+
+			if ( mMetawidgetMixin.getWidgetBuilder() == null )
+			{
+				@SuppressWarnings( "unchecked" )
+				WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = (WidgetBuilder<UIComponent, UIMetawidget>) Class.forName( "org.metawidget.faces.component.widgetbuilder.html.HtmlWidgetBuilder" ).newInstance();
+				mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+			}
+
+			// Sensible Inspector default
+
+			if ( mMetawidgetMixin.getInspector() == null )
+			{
+				Inspector inspector = (Inspector) Class.forName( "org.metawidget.inspector.propertytype.PropertyTypeInspector" ).newInstance();
+				mMetawidgetMixin.setInspector( inspector );
+			}
 		}
-		else
+		catch ( Exception e )
 		{
-			inspectors = CollectionUtils.newHashMap();
-			application.put( APPLICATION_ATTRIBUTE_INSPECTORS, inspectors );
-			inspector = null;
+			throw MetawidgetException.newException( e );
 		}
-
-		// ...otherwise, initialize the Inspector
-
-		if ( inspector == null )
-		{
-			inspector = new FacesConfigReader().read( mInspectorConfig );
-			inspectors.put( mInspectorConfig, inspector );
-		}
-
-		// Use the inspector to inspect the path
-
-		return inspector.inspect( toInspect, type, names );
 	}
 
 	/**
@@ -659,31 +677,6 @@ public abstract class UIMetawidget
 		return FacesUtils.findRenderedComponentWithValueBinding( UIMetawidget.this, binding );
 	}
 
-	protected UIComponent afterBuildWidget( UIComponent component, Map<String, String> attributes )
-		throws Exception
-	{
-		if ( component == null )
-			return null;
-
-		// Immediate
-
-		String immediateString = attributes.get( FACES_IMMEDIATE );
-
-		if ( immediateString != null )
-		{
-			boolean immediate = Boolean.parseBoolean( immediateString );
-
-			if ( component instanceof ActionSource )
-				( (ActionSource) component ).setImmediate( immediate );
-			else if ( component instanceof EditableValueHolder )
-				( (EditableValueHolder) component ).setImmediate( immediate );
-			else
-				throw new Exception( "'Immediate' cannot be applied to " + component.getClass() );
-		}
-
-		return component;
-	}
-
 	protected void endBuild()
 		throws Exception
 	{
@@ -731,7 +724,7 @@ public abstract class UIMetawidget
 			// Stubs
 
 			if ( component instanceof UIStub )
-				childAttributes.putAll( ((UIMetawidgetMixin) mMetawidgetMixin).getStubAttributes( component ) );
+				childAttributes.putAll( ( (UIMetawidgetMixin) mMetawidgetMixin ).getStubAttributes( component ) );
 
 			addWidget( component );
 		}
@@ -749,9 +742,13 @@ public abstract class UIMetawidget
 		mBindingPrefix = FacesUtils.unwrapValueReference( valueBinding.getExpressionString() ) + StringUtils.SEPARATOR_DOT_CHAR;
 	}
 
-	protected void initMetawidget( UIMetawidget metawidget, Map<String, String> attributes )
+	protected abstract UIMetawidget buildNestedMetawidget( Map<String, String> attributes );
+
+	protected void initNestedMetawidget( UIMetawidget nestedMetawidget, Map<String, String> attributes )
 		throws Exception
 	{
+		nestedMetawidget.setConfig( mConfig );
+
 		// Read-only
 		//
 		// Note: this isn't just the read-only setting of the parent Metawidget, it must also
@@ -759,41 +756,40 @@ public abstract class UIMetawidget
 
 		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
 		{
-			metawidget.setReadOnly( true );
+			nestedMetawidget.setReadOnly( true );
 		}
 		else
 		{
 			ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
 
 			if ( bindingReadOnly != null )
-				metawidget.setValueBinding( "readOnly", bindingReadOnly );
+				nestedMetawidget.setValueBinding( "readOnly", bindingReadOnly );
 			else
-				metawidget.setReadOnly( mReadOnly );
+				nestedMetawidget.setReadOnly( mReadOnly );
 		}
 
 		// Bundle
 
-		metawidget.setValueBinding( "bundle", getValueBinding( "bundle" ) );
+		nestedMetawidget.setValueBinding( "bundle", getValueBinding( "bundle" ) );
 
 		// Renderer type
 
-		metawidget.setRendererType( getRendererType() );
+		nestedMetawidget.setRendererType( getRendererType() );
 
 		// Attributes and Parameters
 
-		FacesUtils.copyAttributes( this, metawidget );
-		FacesUtils.copyParameters( this, metawidget, "columns" );
+		FacesUtils.copyAttributes( this, nestedMetawidget );
+		FacesUtils.copyParameters( this, nestedMetawidget, "columns" );
 
 		// Other
 
-		metawidget.setInspectorConfig( mInspectorConfig );
-		metawidget.setValidatorClass( mValidatorClass );
+		nestedMetawidget.setValidatorClass( mValidatorClass );
 
 		// Don't use human-readable Id's for nested Metawidgets, because if they
 		// only expand to a single child it will give the child component
 		// a suffixed id
 
-		metawidget.setId( getFacesContext().getViewRoot().createUniqueId() );
+		nestedMetawidget.setId( getFacesContext().getViewRoot().createUniqueId() );
 	}
 
 	/**
@@ -837,19 +833,22 @@ public abstract class UIMetawidget
 		{
 			List<UIComponent> children = component.getChildren();
 
-			int childId = 1;
-
-			for ( UIComponent componentChild : children )
+			if ( !children.isEmpty() )
 			{
-				if ( childId > 1 )
-					componentChild.setId( actualId + '_' + childId );
-				else
-					componentChild.setId( actualId );
+				int childId = 1;
 
-				childId++;
+				for ( UIComponent componentChild : children )
+				{
+					if ( childId > 1 )
+						componentChild.setId( actualId + '_' + childId );
+					else
+						componentChild.setId( actualId );
+
+					childId++;
+				}
+
+				return;
 			}
-
-			return;
 		}
 
 		// Set Id
@@ -1101,13 +1100,27 @@ public abstract class UIMetawidget
 		}
 	}
 
-	protected abstract UIMetawidget buildMetawidget( Map<String, String> attributes );
-
 	protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		FacesContext context = getFacesContext();
 		Application application = context.getApplication();
+
+		// Immediate
+
+		String immediateString = attributes.get( FACES_IMMEDIATE );
+
+		if ( immediateString != null )
+		{
+			boolean immediate = Boolean.parseBoolean( immediateString );
+
+			if ( widget instanceof ActionSource )
+				( (ActionSource) widget ).setImmediate( immediate );
+			else if ( widget instanceof EditableValueHolder )
+				( (EditableValueHolder) widget ).setImmediate( immediate );
+			else
+				throw new Exception( "'Immediate' cannot be applied to " + widget.getClass() );
+		}
 
 		// Bind actions
 
@@ -1355,7 +1368,10 @@ public abstract class UIMetawidget
 		protected UIMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
-			return UIMetawidget.this.buildMetawidget( attributes );
+			UIMetawidget nestedMetawidget = UIMetawidget.this.buildNestedMetawidget( attributes );
+			UIMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
+
+			return nestedMetawidget;
 		}
 
 		@Override

@@ -4,7 +4,7 @@
 	android:layout_height="fill_parent">
 
 	<view class="org.metawidget.android.widget.AndroidMetawidget" android:id="@+id/metawidget"
-		inspectorConfig="@raw/inspector_config"
+		config="@raw/metawidget"
 		layout="org.metawidget.android.widget.layout.LinearLayout"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"/>

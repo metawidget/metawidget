@@ -30,7 +30,7 @@
 			<name>createHiddenFields</name>
 		</attribute>		
 		<attribute>
-			<name>inspectorConfig</name>
+			<name>config</name>
 		</attribute>
 		<attribute>
 			<name>inspectFromParent</name>

@@ -19,6 +19,7 @@ package org.metawidget.test.inspector.struts;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.ConfigReader2;
 import org.metawidget.inspector.struts.StrutsInspector;
 import org.metawidget.inspector.struts.StrutsInspectorConfig;
 import org.metawidget.util.XmlUtils;
@@ -52,7 +53,8 @@ public class StrutsInspectorTest
 	public void testInspection()
 	{
 		StrutsInspectorConfig config = new StrutsInspectorConfig();
-		config.setFiles( "org/metawidget/test/inspector/struts/test-struts-config1.xml", "org/metawidget/test/inspector/struts/test-struts-config2.xml" );
+		ConfigReader2 configReader = new ConfigReader2();
+		config.setInputStreams( configReader.openResource( "org/metawidget/test/inspector/struts/test-struts-config1.xml" ), configReader.openResource( "org/metawidget/test/inspector/struts/test-struts-config2.xml" ));
 		StrutsInspector inspector = new StrutsInspector( config );
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ));

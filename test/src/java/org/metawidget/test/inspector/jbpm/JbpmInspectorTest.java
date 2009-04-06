@@ -22,6 +22,7 @@ import java.io.ByteArrayInputStream;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.ConfigReader2;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.jbpm.JbpmInspector;
@@ -64,7 +65,7 @@ public class JbpmInspectorTest
 	public void setUp()
 	{
 		JbpmInspectorConfig config = new JbpmInspectorConfig();
-		config.setFile( "org/metawidget/test/inspector/jbpm/test-components.xml" );
+		config.setInputStream( new ConfigReader2().openResource( "org/metawidget/test/inspector/jbpm/test-components.xml" ));
 		mInspector = new JbpmInspector( config );
 	}
 
@@ -72,7 +73,7 @@ public class JbpmInspectorTest
 	{
 		try
 		{
-			new JbpmInspector();
+			new JbpmInspector( new JbpmInspectorConfig() );
 			assertTrue( false );
 		}
 		catch( InspectorException e )

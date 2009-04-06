@@ -59,6 +59,11 @@ public abstract class BaseHtmlMetawidgetTag
 		mStyleClass = styleClass;
 	}
 
+	public boolean isCreateHiddenFields()
+	{
+		return mCreateHiddenFields;
+	}
+
 	/**
 	 * Whether to create hidden HTML input fields for hidden values.
 	 * <p>

@@ -89,32 +89,12 @@ public class HtmlMetawidget
 	//
 
 	@Override
-	protected UIComponent afterBuildWidget( UIComponent component, Map<String, String> attributes )
+	protected void addWidget( UIComponent component, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		// Apply CSS attributes
+		applyStyles( component, attributes );
 
-		UIComponent componentToStyle = super.afterBuildWidget( component, attributes );
-
-		if ( componentToStyle == null )
-			return componentToStyle;
-
-		if ( component instanceof UIStub )
-			componentToStyle = component.getChildren().get( 0 );
-
-		Map<String, Object> componentAttributes = componentToStyle.getAttributes();
-		Map<String, Object> thisAttributes = getAttributes();
-		String style = (String) thisAttributes.get( "style" );
-
-		if ( style != null && !componentAttributes.containsKey( "style" ) )
-			componentAttributes.put( "style", style );
-
-		String styleClass = (String) thisAttributes.get( "styleClass" );
-
-		if ( styleClass != null && !componentAttributes.containsKey( "styleClass" ) )
-			componentAttributes.put( "styleClass", styleClass );
-
-		return component;
+		super.addWidget( component, elementName, attributes );
 	}
 
 	/**
@@ -127,18 +107,47 @@ public class HtmlMetawidget
 	 */
 
 	@Override
-	protected HtmlMetawidget buildMetawidget( Map<String, String> attributes )
+	protected HtmlMetawidget buildNestedMetawidget( Map<String, String> attributes )
 	{
 		Application application = getFacesContext().getApplication();
 		return (HtmlMetawidget) application.createComponent( "org.metawidget.HtmlMetawidget" );
 	}
 
 	@Override
-	protected void initMetawidget( UIMetawidget metawidget, Map<String, String> attributes )
+	protected void initNestedMetawidget( UIMetawidget metawidget, Map<String, String> attributes )
 		throws Exception
 	{
-		super.initMetawidget( metawidget, attributes );
+		super.initNestedMetawidget( metawidget, attributes );
 
 		( (HtmlMetawidget) metawidget ).setCreateHiddenFields( mCreateHiddenFields );
+	}
+
+	//
+	// Private methods
+	//
+
+	private void applyStyles( UIComponent componentToStyle, Map<String, String> attributes )
+	{
+		if ( componentToStyle instanceof UIStub )
+		{
+			for( UIComponent component : componentToStyle.getChildren() )
+			{
+				applyStyles( component, attributes );
+			}
+
+			return;
+		}
+
+		Map<String, Object> componentAttributes = componentToStyle.getAttributes();
+		Map<String, Object> thisAttributes = getAttributes();
+		String style = (String) thisAttributes.get( "style" );
+
+		if ( style != null && !componentAttributes.containsKey( "style" ) )
+			componentAttributes.put( "style", style );
+
+		String styleClass = (String) thisAttributes.get( "styleClass" );
+
+		if ( styleClass != null && !componentAttributes.containsKey( "styleClass" ) )
+			componentAttributes.put( "styleClass", styleClass );
 	}
 }

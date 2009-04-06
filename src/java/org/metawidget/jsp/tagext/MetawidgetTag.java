@@ -28,6 +28,7 @@ import java.util.ResourceBundle;
 
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.metawidget.MetawidgetException;
@@ -95,7 +96,7 @@ public abstract class MetawidgetTag
 	// Private members
 	//
 
-	private String							mInspectorConfig		= "inspector-config.xml";
+	private String							mConfig					= "metawidget.xml";
 
 	private String							mLayoutClass			= HtmlTableLayout.class.getName();
 
@@ -124,9 +125,9 @@ public abstract class MetawidgetTag
 	// Public methods
 	//
 
-	public void setInspectorConfig( String inspectorConfig )
+	public void setConfig( String config )
 	{
-		mInspectorConfig = inspectorConfig;
+		mConfig = config;
 	}
 
 	public void setLayoutClass( String layoutClass )
@@ -254,6 +255,15 @@ public abstract class MetawidgetTag
 		mMetawidgetMixin.setReadOnly( readOnly );
 	}
 
+	/**
+	 * Exposed for WidgetBuilders.
+	 */
+
+	public PageContext getPageContext()
+	{
+		return pageContext;
+	}
+
 	@Override
 	public int doEndTag()
 	{
@@ -282,7 +292,7 @@ public abstract class MetawidgetTag
 
 		mPath = null;
 		mPathPrefix = null;
-		mInspectorConfig = null;
+		mConfig = "metawidget.xml";
 		mLayoutClass = null;
 		mBundle = null;
 		mParameters = null;
@@ -350,12 +360,6 @@ public abstract class MetawidgetTag
 	}
 
 	protected abstract void beforeBuildCompoundWidget( Element element );
-
-	protected abstract String buildReadOnlyWidget( String elementName, Map<String, String> attributes )
-		throws Exception;
-
-	protected abstract String buildActiveWidget( String elementName, Map<String, String> attributes )
-		throws Exception;
 
 	protected void addWidget( String widget, String elementName, Map<String, String> attributes )
 		throws IOException

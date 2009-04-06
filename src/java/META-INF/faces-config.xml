@@ -17,12 +17,7 @@
 
 	<component>
 		<component-type>org.metawidget.HtmlLookupOutputText</component-type>
-		<component-class>org.metawidget.faces.component.html.HtmlLookupOutputText</component-class>
-	</component>
-
-	<component>
-		<component-type>org.metawidget.RichFacesMetawidget</component-type>
-		<component-class>org.metawidget.faces.component.html.richfaces.RichFacesMetawidget</component-class>
+		<component-class>org.metawidget.faces.component.html.widgetbuilder.HtmlLookupOutputText</component-class>
 	</component>
 
 	<!-- Render kit -->

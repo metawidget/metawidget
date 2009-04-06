@@ -44,11 +44,6 @@ public class XmlInspector
 	// Constructors
 	//
 
-	public XmlInspector()
-	{
-		this( new XmlInspectorConfig() );
-	}
-
 	public XmlInspector( XmlInspectorConfig config )
 	{
 		super( config );

@@ -145,6 +145,9 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	public String inspect( Object toInspect, String type, String... names )
 	{
+		if ( mInspector == null )
+			throw new NullPointerException( "No inspector configured" );
+
 		return mInspector.inspect( toInspect, type, names );
 	}
 
@@ -169,6 +172,9 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			E element = getChildAt( getDocumentElement( xml ), 0 );
 			Map<String, String> attributes = getAttributesAsMap( element );
 
+			if ( isReadOnly() )
+				attributes.put( READ_ONLY, TRUE );
+
 			// It is a little counter-intuitive that there can ever be an override
 			// of the top-level element. However, if we go down the path that builds
 			// a single widget (eg. doesn't invoke buildCompoundWidget), then our
@@ -179,9 +185,10 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			W widget = getOverriddenWidget( elementName, attributes );
 
 			if ( widget == null )
-				widget = buildSingleWidget( elementName, attributes );
+				widget = mWidgetBuilder.buildWidget( elementName, attributes, getMixinOwner() );
 
-			// If buildSingleWidget returns null, try buildCompoundWidget (from our child elements)
+			// If mWidgetBuilder.buildWidget returns null, try buildCompoundWidget (from our child
+			// elements)
 
 			if ( widget == null )
 			{
@@ -204,26 +211,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	//
 	// Protected methods
 	//
-
-	/**
-	 * Build a single widget by deferring to <code>buildWidget</code>.
-	 * <p>
-	 * Subclasses may override this method if they wish to perform cleanup on the 'flag Metawidget'
-	 * that is returned by <code>buildWidget</code> (and subsequently used as a trigger to enter
-	 * <code>buildCompoundWidget</code>). Note this 'flag Metawidget' is never passed to
-	 * <code>initMetawidget</code>, so its creation and subsequent ignoring should be relatively
-	 * low impact.
-	 * <p>
-	 * However, some frameworks (such as SWT) do not allow low impact widget creation, as they
-	 * require the widget to be added to its container during construction. Therefore clients may
-	 * want to detect and clean up their 'flag Metawidget' here.
-	 */
-
-	protected W buildSingleWidget( String elementName, Map<String, String> attributes )
-		throws Exception
-	{
-		return mWidgetBuilder.buildWidget( elementName, attributes, getMixinOwner() );
-	}
 
 	/**
 	 * Build a compound widget by iterating through children of the given element, calling
@@ -249,8 +236,15 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			if ( childName == null || "".equals( childName ) )
 				throw new Exception( "Child element #" + loop + " of '" + attributes.get( TYPE ) + "' has no @" + NAME );
 
-			if ( mReadOnly )
+			// Metawidget as a whole may have had setReadOnly( true )
+
+			boolean forcedReadOnly = false;
+
+			if ( !TRUE.equals( attributes.get( READ_ONLY ) ) && isReadOnly() )
+			{
 				attributes.put( READ_ONLY, TRUE );
+				forcedReadOnly = true;
+			}
 
 			String elementName = getElementName( child );
 			W widget = getOverriddenWidget( elementName, attributes );
@@ -263,6 +257,12 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 				{
 					if ( mMaximumInspectionDepth <= 0 )
 						continue;
+
+					// If setReadOnly( true ), remove our forced attribute so the nestedMetawidget
+					// can differentiate whether it was forced or in the inspector XML
+
+					if ( forcedReadOnly )
+						attributes.remove( READ_ONLY );
 
 					widget = buildNestedMetawidget( attributes );
 				}

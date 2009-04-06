@@ -14,7 +14,7 @@
 
 				<h:messages />
 
-				<m:metawidget value="#{allWidgets}" style="aStyle" styleClass="aStyleClass" createHiddenFields="true" inspectorConfig="config/inspector-config.xml" bundle="#{bundle}">
+				<m:metawidget value="#{allWidgets}" style="aStyle" styleClass="aStyleClass" createHiddenFields="true" config="config/metawidget.xml" bundle="#{bundle}">
 					<f:param name="tableStyle" value="aTableStyle"/>
 					<f:param name="tableStyleClass" value="aTableStyleClass"/>
 					<f:param name="columnClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>

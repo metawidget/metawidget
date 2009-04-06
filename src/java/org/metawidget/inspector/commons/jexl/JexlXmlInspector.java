@@ -73,11 +73,6 @@ public class JexlXmlInspector
 	// Constructors
 	//
 
-	public JexlXmlInspector()
-	{
-		this( new JexlXmlInspectorConfig() );
-	}
-
 	public JexlXmlInspector( JexlXmlInspectorConfig config )
 	{
 		super( config );

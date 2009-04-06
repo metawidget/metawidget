@@ -51,11 +51,6 @@ public class StrutsInspector
 	// Constructor
 	//
 
-	public StrutsInspector()
-	{
-		this( new StrutsInspectorConfig() );
-	}
-
 	public StrutsInspector( StrutsInspectorConfig config )
 	{
 		super( config );

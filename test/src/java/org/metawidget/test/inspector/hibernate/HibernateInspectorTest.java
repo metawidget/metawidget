@@ -22,6 +22,7 @@ import java.io.ByteArrayInputStream;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.ConfigReader2;
 import org.metawidget.inspector.hibernate.HibernateInspector;
 import org.metawidget.inspector.hibernate.HibernateInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;
@@ -64,7 +65,7 @@ public class HibernateInspectorTest
 	public void setUp()
 	{
 		HibernateInspectorConfig config = new HibernateInspectorConfig();
-		config.setFile( "org/metawidget/test/inspector/hibernate/test-hibernate.cfg.xml" );
+		config.setInputStream( new ConfigReader2().openResource( "org/metawidget/test/inspector/hibernate/test-hibernate.cfg.xml" ));
 		mInspector = new HibernateInspector( config );
 	}
 
@@ -72,7 +73,7 @@ public class HibernateInspectorTest
 	{
 		try
 		{
-			new HibernateInspector();
+			new HibernateInspector( new HibernateInspectorConfig() );
 			assertTrue( false );
 		}
 		catch( InspectorException e )
@@ -149,7 +150,7 @@ public class HibernateInspectorTest
 	public void testHideIds()
 	{
 		HibernateInspectorConfig config = new HibernateInspectorConfig().setHideIds( false );
-		config.setFile( "org/metawidget/test/inspector/hibernate/test-hibernate.cfg.xml" );
+		config.setInputStream( new ConfigReader2().openResource( "org/metawidget/test/inspector/hibernate/test-hibernate.cfg.xml" ));
 		mInspector = new HibernateInspector( config );
 
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.hibernate.SubFoo" ));

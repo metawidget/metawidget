@@ -1408,7 +1408,7 @@ public class Main {
 				</para>
 
 				<programlisting language="xml">&lt;view class="org.metawidget.android.widget.AndroidMetawidget" android:id="@+id/metawidget"
-	inspectorConfig="@raw/inspector_config"
+	config="@raw/metawidget"
 	paramSectionStyle="@style/section"&gt;
 	
 	&lt;view class="org.metawidget.android.widget.Stub" tag="communications"&gt;

@@ -194,11 +194,11 @@ public class XmlInspectorTest
 		assertTrue( mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "no-such-parent-name", "foo" ) == null );
 	}
 
-	public void testParameterlessConstructor()
+	public void testDefaultConfig()
 	{
 		try
 		{
-			new XmlInspector();
+			new XmlInspector( new XmlInspectorConfig() );
 			assertTrue( false );
 		}
 		catch( InspectorException e )

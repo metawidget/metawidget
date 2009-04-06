@@ -3,7 +3,7 @@
 
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
-<%@ taglib uri="http://metawidget.org/faces/richfaces" prefix="m"%>
+<%@ taglib uri="http://metawidget.org/faces" prefix="m"%>
 
 <f:loadBundle basename="org.metawidget.example.shared.addressbook.resource.Resources" var="bundle"/>
 
@@ -30,7 +30,7 @@
 
 			<h:messages globalOnly="true"/>
 
-			<m:metawidget value="#{contact.current}" readOnly="#{contact.readOnly}">
+			<m:metawidget value="#{contact.current}" readOnly="#{contact.readOnly}" config="metawidget-richfaces.xml">
 				<f:param name="tableStyleClass" value="table-form"/>
 				<f:param name="columnClasses" value="table-label-column,table-component-column,required" />
 				<f:param name="messageStyleClass" value="inline-error" />
