@@ -14,10 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.jsp.tagext.html.widgetbuilder.spring;
+package org.metawidget.jsp.tagext.html.widgetbuilder.struts;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
+import static org.metawidget.inspector.struts.StrutsInspectionResultConstants.*;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -25,43 +25,44 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.Servlet;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.apache.struts.action.ActionServletWrapper;
+import org.apache.struts.taglib.html.BaseHandlerTag;
+import org.apache.struts.taglib.html.BaseInputTag;
+import org.apache.struts.taglib.html.CheckboxTag;
+import org.apache.struts.taglib.html.HiddenTag;
+import org.apache.struts.taglib.html.OptionTag;
+import org.apache.struts.taglib.html.OptionsTag;
+import org.apache.struts.taglib.html.PasswordTag;
+import org.apache.struts.taglib.html.SelectTag;
+import org.apache.struts.taglib.html.TextTag;
+import org.apache.struts.taglib.html.TextareaTag;
+import org.apache.struts.upload.MultipartRequestHandler;
 import org.metawidget.MetawidgetException;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
-import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
+import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
-import org.springframework.web.servlet.support.RequestContext;
-import org.springframework.web.servlet.tags.RequestContextAwareTag;
-import org.springframework.web.servlet.tags.form.AbstractDataBoundFormElementTag;
-import org.springframework.web.servlet.tags.form.AbstractHtmlElementTag;
-import org.springframework.web.servlet.tags.form.CheckboxTag;
-import org.springframework.web.servlet.tags.form.HiddenInputTag;
-import org.springframework.web.servlet.tags.form.InputTag;
-import org.springframework.web.servlet.tags.form.OptionTag;
-import org.springframework.web.servlet.tags.form.OptionsTag;
-import org.springframework.web.servlet.tags.form.PasswordInputTag;
-import org.springframework.web.servlet.tags.form.SelectTag;
-import org.springframework.web.servlet.tags.form.TextareaTag;
 
 /**
- * WidgetBuilder for Spring environments.
+ * WidgetBuilder for Struts environments.
  * <p>
- * Automatically creates native Spring form tags, such as <code>&lt;form:input&gt;</code> and
- * <code>&lt;form:select&gt;</code>, to suit the inspected fields.
+ * Automatically creates native Struts tags, such as <code>&lt;h:text&gt;</code> and
+ * <code>&lt;h:select&gt;</code>, to suit the inspected fields.
  *
  * @author Richard Kennard
  */
 
 @SuppressWarnings( "deprecation" )
-public class SpringWidgetBuilder
-	extends BaseWidgetBuilder<String, SpringMetawidgetTag>
+public class StrutsWidgetBuilder
+	extends BaseWidgetBuilder<String, StrutsMetawidgetTag>
 {
 	//
 	// Private statics
@@ -74,20 +75,17 @@ public class SpringWidgetBuilder
 	//
 
 	@Override
-	protected String buildReadOnlyWidget( String elementName, Map<String, String> attributes, SpringMetawidgetTag metawidget )
+	protected String buildReadOnlyWidget( String elementName, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !metawidget.isCreateHiddenFields() )
+			if ( !metawidget.isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return null;
 
-			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return null;
-
-			return writeSpringTag( HiddenInputTag.class, attributes, metawidget );
+			return writeStrutsTag( HiddenTag.class, attributes, metawidget );
 		}
 
 		// Action
@@ -107,9 +105,9 @@ public class SpringWidgetBuilder
 		if ( lookup != null && !"".equals( lookup ) )
 			return writeReadOnlyTag( attributes, metawidget );
 
-		String springLookup = attributes.get( SPRING_LOOKUP );
+		String strutsLookupName = attributes.get( STRUTS_LOOKUP_NAME );
 
-		if ( springLookup != null && !"".equals( springLookup ) )
+		if ( strutsLookupName != null && !"".equals( strutsLookupName ) )
 			return writeReadOnlyTag( attributes, metawidget );
 
 		String type = attributes.get( TYPE );
@@ -160,7 +158,7 @@ public class SpringWidgetBuilder
 	}
 
 	@Override
-	protected String buildActiveWidget( String elementName, Map<String, String> attributes, SpringMetawidgetTag metawidget )
+	protected String buildActiveWidget( String elementName, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
@@ -173,7 +171,7 @@ public class SpringWidgetBuilder
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return null;
 
-			return writeSpringTag( HiddenInputTag.class, attributes, metawidget );
+			return writeStrutsTag( HiddenTag.class, attributes, metawidget );
 		}
 
 		// Action
@@ -181,24 +179,28 @@ public class SpringWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return null;
 
-		// Lookups
+		// Struts Lookups
 
-		String springLookup = attributes.get( SPRING_LOOKUP );
+		String strutsLookup = attributes.get( STRUTS_LOOKUP_NAME );
 
-		if ( springLookup != null && !"".equals( springLookup ) )
-			return writeSelectTag( springLookup, attributes, metawidget );
+		if ( strutsLookup != null )
+			return writeSelectTag( strutsLookup, attributes.get( STRUTS_LOOKUP_PROPERTY ), attributes, metawidget );
+
+		// String Lookups
 
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
+		{
 			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
+		}
 
 		String type = attributes.get( TYPE );
 
 		// If no type, fail gracefully with a text box
 
 		if ( type == null || "".equals( type ) )
-			return writeSpringTag( InputTag.class, attributes, metawidget );
+			return writeStrutsTag( TextTag.class, attributes, metawidget );
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
@@ -209,28 +211,39 @@ public class SpringWidgetBuilder
 			if ( clazz.isPrimitive() )
 			{
 				if ( boolean.class.equals( clazz ) )
-					return writeSpringTag( CheckboxTag.class, attributes, metawidget );
+					return writeStrutsTag( CheckboxTag.class, attributes, metawidget );
 
-				return writeSpringTag( InputTag.class, attributes, metawidget );
+				return writeStrutsTag( TextTag.class, attributes, metawidget );
 			}
+
+			// Never inspect ActionForm base properties
+
+			if ( ActionServletWrapper.class.isAssignableFrom( clazz ) )
+				return null;
+
+			if ( MultipartRequestHandler.class.isAssignableFrom( clazz ) )
+				return null;
+
+			if ( Servlet.class.isAssignableFrom( clazz ) )
+				return null;
 
 			// Strings
 
 			if ( String.class.equals( clazz ) )
 			{
 				if ( TRUE.equals( attributes.get( MASKED ) ) )
-					return writeSpringTag( PasswordInputTag.class, attributes, metawidget );
+					return writeStrutsTag( PasswordTag.class, attributes, metawidget );
 
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
-					return writeSpringTag( TextareaTag.class, attributes, metawidget );
+					return writeStrutsTag( TextareaTag.class, attributes, metawidget );
 
-				return writeSpringTag( InputTag.class, attributes, metawidget );
+				return writeStrutsTag( TextTag.class, attributes, metawidget );
 			}
 
 			// Dates
 
 			if ( Date.class.equals( clazz ) )
-				return writeSpringTag( InputTag.class, attributes, metawidget );
+				return writeStrutsTag( TextTag.class, attributes, metawidget );
 
 			// Booleans (are tri-state)
 
@@ -240,7 +253,7 @@ public class SpringWidgetBuilder
 			// Numbers
 
 			if ( Number.class.isAssignableFrom( clazz ) )
-				return writeSpringTag( InputTag.class, attributes, metawidget );
+				return writeStrutsTag( TextTag.class, attributes, metawidget );
 
 			// Collections
 
@@ -251,7 +264,7 @@ public class SpringWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return writeSpringTag( InputTag.class, attributes, metawidget );
+			return writeStrutsTag( TextTag.class, attributes, metawidget );
 
 		// Nested Metawidget
 
@@ -262,114 +275,105 @@ public class SpringWidgetBuilder
 	// Private methods
 	//
 
-	private String writeSpringTag( Class<? extends Tag> tagClass, Map<String, String> attributes, SpringMetawidgetTag metawidget )
+	private String writeStrutsTag( Class<? extends Tag> tagClass, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
 		throws Exception
 	{
 		Tag tag = tagClass.newInstance();
-		initSpringTag( tag, attributes, metawidget );
+		initStrutsTag( tag, attributes, metawidget );
 
 		return JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget, null );
 	}
 
 	/**
-	 * Initialize the Spring Tag with various attributes, CSS settings etc.
+	 * Initialize the Struts Tag with various attributes, CSS settings etc.
 	 * <p>
 	 * In other Metawidgets, this step is done after the widget has been built. However, because JSP
 	 * lacks a 'true' component model (eg. buildActiveWidget returns a String) we must do it here.
 	 */
 
-	private void initSpringTag( Tag tag, Map<String, String> attributes, SpringMetawidgetTag metawidget )
+	private void initStrutsTag( Tag tag, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
 		throws Exception
 	{
-		// Path
+		// Property
 
-		String path = attributes.get( NAME );
+		String name = attributes.get( NAME );
 
-		// TODO: if mPathPrefix is null, use mPath?
+		if ( metawidget.getPropertyPrefix() != null )
+			name = metawidget.getPropertyPrefix() + name;
 
-		if ( metawidget.getPathPrefix() != null )
-			path = metawidget.getPathPrefix() + path;
-
-		if ( tag instanceof AbstractDataBoundFormElementTag )
+		if ( tag instanceof BaseInputTag )
 		{
-			( (AbstractDataBoundFormElementTag) tag ).setPath( path );
+			( (BaseInputTag) tag ).setProperty( name );
+		}
+		else if ( tag instanceof SelectTag )
+		{
+			( (SelectTag) tag ).setProperty( name );
+		}
+		else if ( tag instanceof CheckboxTag )
+		{
+			( (CheckboxTag) tag ).setProperty( name );
 		}
 
 		// Maxlength
 
-		if ( tag instanceof InputTag )
+		if ( tag instanceof BaseInputTag )
 		{
 			if ( "char".equals( attributes.get( TYPE ) ) )
 			{
-				( (InputTag) tag ).setMaxlength( "1" );
+				( (BaseInputTag) tag ).setMaxlength( "1" );
 			}
 			else
 			{
 				String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
 				if ( maximumLength != null )
-					( (InputTag) tag ).setMaxlength( maximumLength );
+					( (BaseInputTag) tag ).setMaxlength( maximumLength );
 			}
 		}
 
 		// CSS
 
-		if ( tag instanceof AbstractHtmlElementTag )
+		if ( tag instanceof BaseHandlerTag )
 		{
-			AbstractHtmlElementTag tagAbstractHtmlElement = (AbstractHtmlElementTag) tag;
-			tagAbstractHtmlElement.setCssStyle( metawidget.getStyle() );
-			tagAbstractHtmlElement.setCssClass( metawidget.getStyleClass() );
+			BaseHandlerTag tagBaseHandler = (BaseHandlerTag) tag;
+			tagBaseHandler.setStyle( metawidget.getStyle() );
+			tagBaseHandler.setStyleClass( metawidget.getStyleClass() );
 		}
 	}
 
-	private String writeReadOnlyTag( Map<String, String> attributes, SpringMetawidgetTag metawidget )
+	private String writeReadOnlyTag( Map<String, String> attributes, StrutsMetawidgetTag metawidget )
 		throws Exception
 	{
-		// (use StringBuffer for J2SE 1.4 compatibility)
+		HiddenTag tag = HiddenTag.class.newInstance();
+		initStrutsTag( tag, attributes, metawidget );
+		tag.setWrite( true );
 
-		StringBuffer buffer = new StringBuffer();
+		// Note: according to STR-1305 we'll get a proper html:label tag
+		// with Struts 1.4.0, so we can use it instead of .setDisabled( true )
 
-		// Use the Spring binder to render the read-only value
+		if ( !metawidget.isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
+			tag.setDisabled( true );
 
-		RequestContext requestContext = (RequestContext) metawidget.getPageContext().getAttribute( RequestContextAwareTag.REQUEST_CONTEXT_PAGE_ATTRIBUTE );
-		String path = metawidget.getPath() + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
-		String value = requestContext.getBindStatus( path ).getDisplayValue();
+		String toReturn = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget, null );
 
-		// Support lookup labels
+		// If the String is just a hidden field, output a SPAN tag to
+		// stop the whole thing vanishing under HtmlTableLayout. This is
+		// a bit hacky, unfortunately, but it's because JSP doesn't have
+		// a 'real' component model
 
-		String lookupLabels = attributes.get( LOOKUP_LABELS );
+		if ( JspUtils.isJustHiddenFields( toReturn ) )
+			toReturn += "<span></span>";
 
-		if ( lookupLabels != null )
-		{
-			List<String> lookupList = CollectionUtils.fromString( attributes.get( LOOKUP ) );
-			int indexOf = lookupList.indexOf( value );
-
-			if ( indexOf != -1 )
-			{
-				List<String> lookupLabelsList = CollectionUtils.fromString( lookupLabels );
-
-				if ( indexOf < lookupLabelsList.size() )
-					value = lookupLabelsList.get( indexOf );
-			}
-		}
-
-		buffer.append( value );
-
-		// May need a hidden input tag too
-
-		if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
-			buffer.append( writeSpringTag( HiddenInputTag.class, attributes, metawidget ) );
-
-		return buffer.toString();
+		return toReturn;
 	}
 
-	private String writeSelectTag( final String expression, final Map<String, String> attributes, SpringMetawidgetTag metawidget )
+	private String writeSelectTag( final String name, final String property, final Map<String, String> attributes, StrutsMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Write the SELECT tag
 
 		final SelectTag tagSelect = new SelectTag();
-		initSpringTag( tagSelect, attributes, metawidget );
+		initStrutsTag( tagSelect, attributes, metawidget );
 
 		return JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 		{
@@ -378,6 +382,8 @@ public class SpringWidgetBuilder
 			public void prepareBody( PageContext delgateContext )
 				throws JspException, IOException
 			{
+				BodyContent bodyContentSelect = tagSelect.getBodyContent();
+
 				// Empty option
 
 				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
@@ -386,38 +392,39 @@ public class SpringWidgetBuilder
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );
-					delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
+					bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
 				}
 
 				// Options tag
 
 				OptionsTag tagOptions = new OptionsTag();
-				tagOptions.setItems( expression );
+				tagOptions.setName( name );
+				tagOptions.setProperty( property );
 
-				// Optional itemValue and itemLabel
+				// Optional labelName and labelProperty
 
-				String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
+				String labelName = attributes.get( STRUTS_LOOKUP_LABEL_NAME );
 
-				if ( itemValue != null )
-					tagOptions.setItemValue( itemValue );
+				if ( labelName != null )
+					tagOptions.setLabelName( labelName );
 
-				String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
+				String labelProperty = attributes.get( STRUTS_LOOKUP_LABEL_PROPERTY );
 
-				if ( itemLabel != null )
-					tagOptions.setItemLabel( itemLabel );
+				if ( labelProperty != null )
+					tagOptions.setLabelProperty( labelProperty );
 
-				delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptions, tagSelect, null ) );
+				bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOptions, tagSelect, null ) );
 			}
 		} );
 	}
 
-	private String writeSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes, SpringMetawidgetTag metawidget )
+	private String writeSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes, StrutsMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Write the SELECT tag
 
 		final SelectTag tagSelect = new SelectTag();
-		initSpringTag( tagSelect, attributes, metawidget );
+		initStrutsTag( tagSelect, attributes, metawidget );
 
 		return JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 		{
@@ -431,6 +438,8 @@ public class SpringWidgetBuilder
 				if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
 					throw MetawidgetException.newException( "Labels list must be same size as values list" );
 
+				BodyContent bodyContentSelect = tagSelect.getBodyContent();
+
 				// Empty option
 
 				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
@@ -439,7 +448,7 @@ public class SpringWidgetBuilder
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );
-					delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
+					bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
 				}
 
 				// Add the options
@@ -447,12 +456,24 @@ public class SpringWidgetBuilder
 				for ( int loop = 0, length = values.size(); loop < length; loop++ )
 				{
 					final OptionTag tagOption = new OptionTag();
-					tagOption.setValue( values.get( loop ) );
+					tagOption.setValue( String.valueOf( values.get( loop ) ) );
 
-					if ( labels != null && !labels.isEmpty() )
-						tagOption.setLabel( labels.get( loop ) );
+					if ( labels == null || labels.isEmpty() )
+					{
+						bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOption, tagSelect, null ) );
+						continue;
+					}
 
-					delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOption, tagSelect, null ) );
+					final String label = labels.get( loop );
+
+					bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOption, tagSelect, new BodyPreparer()
+					{
+						public void prepareBody( PageContext optionDelgateContext )
+							throws IOException
+						{
+							tagOption.getBodyContent().write( label );
+						}
+					} ) );
 				}
 			}
 		} );

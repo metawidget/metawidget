@@ -18,8 +18,6 @@ package org.metawidget.jsp.tagext;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Map;
@@ -376,11 +374,11 @@ public abstract class MetawidgetTag
 		}
 	}
 
-	protected void initMetawidget( MetawidgetTag metawidget, Map<String, String> attributes )
+	protected void initNestedMetawidget( MetawidgetTag metawidget, Map<String, String> attributes )
 	{
 		metawidget.mPath = mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 
-		metawidget.setInspectorConfig( mInspectorConfig );
+		metawidget.setConfig( mConfig );
 		metawidget.setLayoutClass( mLayoutClass );
 		metawidget.setBundle( mBundle );
 
@@ -451,7 +449,7 @@ public abstract class MetawidgetTag
 
 		if ( inspectors != null )
 		{
-			inspector = inspectors.get( mInspectorConfig );
+			inspector = inspectors.get( mConfig );
 		}
 		else
 		{
@@ -464,8 +462,8 @@ public abstract class MetawidgetTag
 
 		if ( inspector == null )
 		{
-			inspector = (Inspector) new ServletConfigReader( pageContext.getServletContext() ).configure( mInspectorConfig, Inspector.class );
-			inspectors.put( mInspectorConfig, inspector );
+			inspector = (Inspector) new ServletConfigReader( pageContext.getServletContext() ).configure( mConfig, Inspector.class );
+			inspectors.put( mConfig, inspector );
 		}
 
 		// Use the inspector to inspect the path
@@ -479,62 +477,6 @@ public abstract class MetawidgetTag
 			return null;
 
 		return mStubs.get( path );
-	}
-
-	/**
-	 * Evaluate to text (via a PropertyEditor if available).
-	 */
-
-	protected String evaluateAsText( Map<String, String> attributes )
-		throws Exception
-	{
-		Object evaluated = evaluate( attributes );
-
-		if ( evaluated == null )
-			return "";
-
-		Class<?> clazz = evaluated.getClass();
-
-		while ( clazz != null )
-		{
-			PropertyEditor editor = PropertyEditorManager.findEditor( clazz );
-
-			if ( editor != null )
-			{
-				editor.setValue( evaluated );
-				return editor.getAsText();
-			}
-
-			clazz = clazz.getSuperclass();
-		}
-
-		return StringUtils.quietValueOf( evaluated );
-	}
-
-	protected Object evaluate( Map<String, String> attributes )
-		throws Exception
-	{
-		if ( mPathPrefix == null )
-			return null;
-
-		return evaluate( "${" + mPathPrefix + attributes.get( NAME ) + "}" );
-	}
-
-	protected Object evaluate( String expression )
-		throws Exception
-	{
-		try
-		{
-			return pageContext.getExpressionEvaluator().evaluate( expression, Object.class, pageContext.getVariableResolver(), null );
-		}
-		catch ( Throwable t )
-		{
-			// EL should fail gracefully
-			//
-			// Note: pageContext.getExpressionEvaluator() is only available with JSP 2.0
-
-			return null;
-		}
 	}
 
 	//
@@ -627,7 +569,7 @@ public abstract class MetawidgetTag
 			throws Exception
 		{
 			MetawidgetTag metawidget = MetawidgetTag.this.getClass().newInstance();
-			MetawidgetTag.this.initMetawidget( metawidget, attributes );
+			MetawidgetTag.this.initNestedMetawidget( metawidget, attributes );
 			metawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
 
 			return JspUtils.writeTag( pageContext, metawidget, MetawidgetTag.this, null );

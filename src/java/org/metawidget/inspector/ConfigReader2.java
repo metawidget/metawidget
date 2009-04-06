@@ -785,7 +785,7 @@ public class ConfigReader2
 
 			// Java objects
 
-			// TODO: no default constructor?
+			// TODO: no default constructor? Warn about using config constructor
 
 			mConstructing.push( classToConstruct.newInstance() );
 			mEncountered.push( EncounteredState.JAVA_OBJECT );

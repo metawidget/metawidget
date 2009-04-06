@@ -49,9 +49,19 @@ public abstract class BaseHtmlMetawidgetTag
 	// Public methods
 	//
 
+	public String getStyle()
+	{
+		return mStyle;
+	}
+
 	public void setStyle( String style )
 	{
 		mStyle = style;
+	}
+
+	public String getStyleClass()
+	{
+		return mStyleClass;
 	}
 
 	public void setStyleClass( String styleClass )
@@ -92,9 +102,9 @@ public abstract class BaseHtmlMetawidgetTag
 	//
 
 	@Override
-	protected void initMetawidget( MetawidgetTag metawidget, Map<String, String> attributes )
+	protected void initNestedMetawidget( MetawidgetTag metawidget, Map<String, String> attributes )
 	{
-		super.initMetawidget( metawidget, attributes );
+		super.initNestedMetawidget( metawidget, attributes );
 
 		BaseHtmlMetawidgetTag tag = (BaseHtmlMetawidgetTag) metawidget;
 
