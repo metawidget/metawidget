@@ -14,10 +14,12 @@
 						<jpaInspector xmlns="java:org.metawidget.inspector.jpa"/>
 						<hibernateValidatorInspector xmlns="java:org.metawidget.inspector.hibernate.validator"/>
 						<jbpmInspector xmlns="java:org.metawidget.inspector.jbpm" config="JbpmInspectorConfig">
-							<files>
-								<resource>checkout.jpdl.xml</resource>
-								<resource>newuser.jpdl.xml</resource>
-							</files>
+							<inputStreams>
+								<list>
+									<resource>checkout.jpdl.xml</resource>
+									<resource>newuser.jpdl.xml</resource>
+								</list>
+							</inputStreams>
 						</jbpmInspector>
 					</list>
 				</inspectors>

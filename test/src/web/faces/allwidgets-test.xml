@@ -234,8 +234,8 @@
 	
 				<clickButton label="Save"/>
 				
-				<verifyXPath xpath="count(/html/body/div[1]/@id)" text="1"/>
-				<verifyXPath xpath="/html/body/div[1]/div[1]/@id" text="allWidgetsMetawidget"/>
+				<verifyXPath xpath="count(/html/body/div)" text="1"/>
+				<verifyXPath xpath="/html/body/div[1]/@id" text="allWidgetsMetawidget"/>
 				<verifyXPath xpath="/html/body/div[1]/div[1]/@style" text="anOuterStyle"/>
 				<verifyXPath xpath="/html/body/div[1]/div[1]/@class" text="anOuterClass"/>
 				<verifyXPath xpath="/html/body/div[1]/div[1]/div[1]/@style" text="aLabelStyle"/>

@@ -62,9 +62,9 @@ public abstract class MetawidgetTag
 	// Private statics
 	//
 
-	private final static long					serialVersionUID		= 1l;
+	private final static long				serialVersionUID		= 1l;
 
-	private final static String					CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
+	private final static String				CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
 
 	//
 	// Protected members
@@ -78,35 +78,35 @@ public abstract class MetawidgetTag
 	 * <code>buildCompoundWidget</code>.
 	 */
 
-	protected String							mPath;
+	protected String						mPath;
 
 	/**
 	 * Prefix of path to inspect, to support nesting.
 	 */
 
-	protected String							mPathPrefix;
-
-	protected MetawidgetMixin<Object, Object>	mMetawidgetMixin;
+	protected String						mPathPrefix;
 
 	//
 	// Private members
 	//
 
-	private String								mConfig					= "metawidget.xml";
+	private String							mConfig					= "metawidget.xml";
 
-	private boolean								mNeedsConfiguring		= true;
+	private boolean							mNeedsConfiguring		= true;
 
-	private String								mLayoutClass			= HtmlTableLayout.class.getName();
+	private String							mLayoutClass			= HtmlTableLayout.class.getName();
 
-	private Layout								mLayout;
+	private Layout							mLayout;
 
-	private ResourceBundle						mBundle;
+	private ResourceBundle					mBundle;
 
-	private Map<String, String>					mParameters;
+	private Map<String, String>				mParameters;
 
-	private Map<String, FacetContent>			mFacets;
+	private Map<String, FacetContent>		mFacets;
 
-	private Map<String, StubContent>			mStubs;
+	private Map<String, StubContent>		mStubs;
+
+	private MetawidgetMixin<Object, Object>	mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -335,6 +335,11 @@ public abstract class MetawidgetTag
 	protected MetawidgetMixin<Object, Object> newMetawidgetMixin()
 	{
 		return new MetawidgetTagMixin();
+	}
+
+	protected MetawidgetMixin<Object, Object> getMetawidgetMixin()
+	{
+		return mMetawidgetMixin;
 	}
 
 	protected void startBuild()

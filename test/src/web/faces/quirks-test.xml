@@ -10,7 +10,7 @@
 				<invoke url="${webtest.url}/quirks-faces" />
 				
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="4"/>
-				<verifyXPath xpath="/html/body/form/table/@id" text="quirksMetawidget"/>
+				<verifyXPath xpath="/html/body/form/table/@id" text="form:quirksMetawidget"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="3 boolean:"/>
 				
 				<!-- Test the 'not tri-state if not listbox' in HtmlMetawidget.buildActiveWidget -->

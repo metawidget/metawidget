@@ -255,7 +255,7 @@ public class ConfigReader2
 		if ( "resource".equals( name ) )
 			return openResource( recordedText );
 
-		if ( "url".equals( name ))
+		if ( "url".equals( name ) )
 			return new URL( recordedText ).openStream();
 
 		if ( "bundle".equals( name ) )
@@ -326,16 +326,6 @@ public class ConfigReader2
 	// Inner classes
 	//
 
-	private static enum EncounteredState
-	{
-		METHOD, NATIVE_TYPE, NATIVE_COLLECTION_TYPE, CONFIGURED_TYPE, JAVA_OBJECT, IMMUTABLE_THREADSAFE, WRONG_TYPE
-	}
-
-	private static enum ExpectingState
-	{
-		ROOT, TO_CONFIGURE, OBJECT, METHOD
-	}
-
 	private class ConfigHandler
 		extends DefaultHandler
 	{
@@ -343,7 +333,41 @@ public class ConfigReader2
 		// Private statics
 		//
 
-		private final static String		JAVA_NAMESPACE_PREFIX		= "java:";
+		private final static String		JAVA_NAMESPACE_PREFIX				= "java:";
+
+		/**
+		 * Possible 'encountered' states.
+		 * <p>
+		 * Note: not using enum, for JDK 1.4 compatibility.
+		 */
+
+		private final static int		ENCOUNTERED_METHOD					= 0;
+
+		private final static int		ENCOUNTERED_NATIVE_TYPE				= 1;
+
+		private final static int		ENCOUNTERED_NATIVE_COLLECTION_TYPE	= 2;
+
+		private final static int		ENCOUNTERED_CONFIGURED_TYPE			= 3;
+
+		private final static int		ENCOUNTERED_JAVA_OBJECT				= 4;
+
+		private final static int		ENCOUNTERED_IMMUTABLE_THREADSAFE	= 5;
+
+		private final static int		ENCOUNTERED_WRONG_TYPE				= 6;
+
+		/**
+		 * Possible 'expecting' states.
+		 * <p>
+		 * Note: not using enum, for JDK 1.4 compatibility.
+		 */
+
+		private final static int		EXPECTING_ROOT						= 0;
+
+		private final static int		EXPECTING_TO_CONFIGURE				= 1;
+
+		private final static int		EXPECTING_OBJECT					= 2;
+
+		private final static int		EXPECTING_METHOD					= 3;
 
 		//
 		// Private members
@@ -385,38 +409,38 @@ public class ConfigReader2
 		 * Depth after which to skip processing, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreAfterDepth			= -1;
+		private int						mIgnoreAfterDepth					= -1;
 
 		/**
 		 * Element number where this element starts.
 		 */
 
-		private int						mStoreAsElement				= -1;
+		private int						mStoreAsElement						= -1;
 
 		/**
 		 * Depth after which to ignore immutable threadsafe caching, so that we only consider the
 		 * 'top-level' of an object that itself contains immutable and threadsafe objects.
 		 */
 
-		private int						mImmutableThreadsafeAtDepth	= -1;
+		private int						mImmutableThreadsafeAtDepth			= -1;
 
 		/**
 		 * Stack of Objects constructed so far.
 		 */
 
-		private Stack<Object>			mConstructing				= CollectionUtils.newStack();
+		private Stack<Object>			mConstructing						= CollectionUtils.newStack();
 
 		/**
 		 * Next expected state in the XML tree.
 		 */
 
-		private ExpectingState			mExpecting					= ExpectingState.ROOT;
+		private int						mExpecting							= EXPECTING_ROOT;
 
 		/**
 		 * Stack of encountered states in the XML tree.
 		 */
 
-		private Stack<EncounteredState>	mEncountered				= CollectionUtils.newStack();
+		private Stack<Integer>			mEncountered						= CollectionUtils.newStack();
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -469,14 +493,14 @@ public class ConfigReader2
 
 				switch ( mExpecting )
 				{
-					case ROOT:
+					case EXPECTING_ROOT:
 						if ( mToConfigure == null )
-							mExpecting = ExpectingState.OBJECT;
+							mExpecting = EXPECTING_OBJECT;
 						else
-							mExpecting = ExpectingState.TO_CONFIGURE;
+							mExpecting = EXPECTING_TO_CONFIGURE;
 						break;
 
-					case TO_CONFIGURE:
+					case EXPECTING_TO_CONFIGURE:
 					{
 						// Initial elements must be at depth == 2
 
@@ -489,9 +513,9 @@ public class ConfigReader2
 
 						if ( mToConfigure instanceof Class )
 						{
-							if ( !((Class<?>) mToConfigure).isAssignableFrom( toConfigureClass ) )
+							if ( !( (Class<?>) mToConfigure ).isAssignableFrom( toConfigureClass ) )
 							{
-								mEncountered.push( EncounteredState.WRONG_TYPE );
+								mEncountered.push( ENCOUNTERED_WRONG_TYPE );
 								mIgnoreAfterDepth = 2;
 								return;
 							}
@@ -508,7 +532,7 @@ public class ConfigReader2
 						{
 							if ( !toConfigureClass.isAssignableFrom( mToConfigure.getClass() ) )
 							{
-								mEncountered.push( EncounteredState.WRONG_TYPE );
+								mEncountered.push( ENCOUNTERED_WRONG_TYPE );
 								mIgnoreAfterDepth = 2;
 								return;
 							}
@@ -517,23 +541,23 @@ public class ConfigReader2
 								throw InspectorException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
 
 							mConstructing.push( mToConfigure );
-							mEncountered.push( EncounteredState.JAVA_OBJECT );
+							mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
 						}
 
-						mExpecting = ExpectingState.METHOD;
+						mExpecting = EXPECTING_METHOD;
 						break;
 					}
 
-					case OBJECT:
+					case EXPECTING_OBJECT:
 					{
 						// Native types
 
 						if ( isNative( localName ) )
 						{
-							mEncountered.push( EncounteredState.NATIVE_TYPE );
+							mEncountered.push( ENCOUNTERED_NATIVE_TYPE );
 							startRecording();
 
-							mExpecting = ExpectingState.METHOD;
+							mExpecting = EXPECTING_METHOD;
 							return;
 						}
 
@@ -544,24 +568,24 @@ public class ConfigReader2
 						if ( collection != null )
 						{
 							mConstructing.push( collection );
-							mEncountered.push( EncounteredState.NATIVE_COLLECTION_TYPE );
+							mEncountered.push( ENCOUNTERED_NATIVE_COLLECTION_TYPE );
 
-							mExpecting = ExpectingState.OBJECT;
+							mExpecting = EXPECTING_OBJECT;
 							return;
 						}
 
 						handleNonNativeObject( uri, localName, attributes );
 
-						mExpecting = ExpectingState.METHOD;
+						mExpecting = EXPECTING_METHOD;
 						break;
 					}
 
-					case METHOD:
+					case EXPECTING_METHOD:
 					{
 						mConstructing.push( new ArrayList<Object>() );
-						mEncountered.push( EncounteredState.METHOD );
+						mEncountered.push( ENCOUNTERED_METHOD );
 
-						mExpecting = ExpectingState.OBJECT;
+						mExpecting = EXPECTING_OBJECT;
 						break;
 					}
 				}
@@ -626,20 +650,20 @@ public class ConfigReader2
 
 			try
 			{
-				EncounteredState encountered = mEncountered.pop();
+				int encountered = mEncountered.pop().intValue();
 
 				switch ( encountered )
 				{
-					case NATIVE_TYPE:
+					case ENCOUNTERED_NATIVE_TYPE:
 					{
 						@SuppressWarnings( "unchecked" )
 						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
 						parameters.add( createNative( localName, endRecording() ) );
-						mExpecting = ExpectingState.OBJECT;
+						mExpecting = EXPECTING_OBJECT;
 						return;
 					}
 
-					case NATIVE_COLLECTION_TYPE:
+					case ENCOUNTERED_NATIVE_COLLECTION_TYPE:
 					{
 						@SuppressWarnings( "unchecked" )
 						Collection<Object> collection = (Collection<Object>) mConstructing.pop();
@@ -648,24 +672,24 @@ public class ConfigReader2
 						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
 						parameters.add( collection );
 
-						mExpecting = ExpectingState.OBJECT;
+						mExpecting = EXPECTING_OBJECT;
 						return;
 					}
 
-					case CONFIGURED_TYPE:
-					case JAVA_OBJECT:
-					case IMMUTABLE_THREADSAFE:
+					case ENCOUNTERED_CONFIGURED_TYPE:
+					case ENCOUNTERED_JAVA_OBJECT:
+					case ENCOUNTERED_IMMUTABLE_THREADSAFE:
 					{
 						Object object = mConstructing.pop();
 
-						if ( encountered == EncounteredState.CONFIGURED_TYPE )
+						if ( encountered == ENCOUNTERED_CONFIGURED_TYPE )
 						{
 							Class<?> classToConstruct = classForName( uri, localName );
 							Constructor<?> constructor = classToConstruct.getConstructor( object.getClass() );
 							object = constructor.newInstance( object );
 						}
 
-						if ( encountered != EncounteredState.IMMUTABLE_THREADSAFE && mDepth == ( mImmutableThreadsafeAtDepth - 1 ) && isImmutableThreadsafe( object.getClass() ) )
+						if ( encountered != ENCOUNTERED_IMMUTABLE_THREADSAFE && mDepth == ( mImmutableThreadsafeAtDepth - 1 ) && isImmutableThreadsafe( object.getClass() ) )
 							putImmutableThreadsafe( object );
 
 						// Back at root? Expect another TO_CONFIGURE
@@ -673,7 +697,7 @@ public class ConfigReader2
 						if ( mDepth == 1 )
 						{
 							mConstructing.push( object );
-							mExpecting = ExpectingState.TO_CONFIGURE;
+							mExpecting = EXPECTING_TO_CONFIGURE;
 							return;
 						}
 
@@ -681,11 +705,11 @@ public class ConfigReader2
 						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
 						parameters.add( object );
 
-						mExpecting = ExpectingState.OBJECT;
+						mExpecting = EXPECTING_OBJECT;
 						return;
 					}
 
-					case METHOD:
+					case ENCOUNTERED_METHOD:
 					{
 						@SuppressWarnings( "unchecked" )
 						List<Object> parameters = (List<Object>) mConstructing.pop();
@@ -693,11 +717,11 @@ public class ConfigReader2
 						Method method = classGetMethod( constructing.getClass(), "set" + StringUtils.uppercaseFirstLetter( localName ), parameters );
 						method.invoke( constructing, parameters.toArray() );
 
-						mExpecting = ExpectingState.METHOD;
+						mExpecting = EXPECTING_METHOD;
 						return;
 					}
 
-					case WRONG_TYPE:
+					case ENCOUNTERED_WRONG_TYPE:
 						return;
 				}
 			}
@@ -746,7 +770,7 @@ public class ConfigReader2
 				if ( immutableThreadsafe != null )
 				{
 					mConstructing.push( immutableThreadsafe );
-					mEncountered.push( EncounteredState.IMMUTABLE_THREADSAFE );
+					mEncountered.push( ENCOUNTERED_IMMUTABLE_THREADSAFE );
 					mIgnoreAfterDepth = mDepth;
 
 					return;
@@ -776,12 +800,12 @@ public class ConfigReader2
 				Object config = configClass.newInstance();
 
 				if ( config instanceof NeedsResourceResolver )
-					((NeedsResourceResolver) config).setResourceResolver( ConfigReader2.this );
+					( (NeedsResourceResolver) config ).setResourceResolver( ConfigReader2.this );
 
 				mConstructing.push( config );
-				mEncountered.push( EncounteredState.CONFIGURED_TYPE );
+				mEncountered.push( ENCOUNTERED_CONFIGURED_TYPE );
 
-				mExpecting = ExpectingState.METHOD;
+				mExpecting = EXPECTING_METHOD;
 				return;
 			}
 
@@ -792,7 +816,7 @@ public class ConfigReader2
 				Constructor<?> defaultConstructor = classToConstruct.getConstructor();
 				mConstructing.push( defaultConstructor.newInstance() );
 			}
-			catch( NoSuchMethodException e )
+			catch ( NoSuchMethodException e )
 			{
 				// Hint for config-based constructors
 
@@ -804,7 +828,7 @@ public class ConfigReader2
 				throw InspectorException.newException( classToConstruct + " does not have a default constructor" );
 			}
 
-			mEncountered.push( EncounteredState.JAVA_OBJECT );
+			mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
 		}
 
 		private Object getImmutableThreadsafe( Class<?> clazz )

@@ -68,6 +68,7 @@
 			<include name="org/metawidget/struts/**"/>
 			<include name="org/metawidget/swing/**"/>
 			<include name="org/metawidget/util/**"/>
+			<include name="org/metawidget/widgetbuilder/**"/>
 			<include name="org/metawidget/*.java"/>
 			<classpath>
 				<fileset dir="lib"/>
@@ -136,7 +137,6 @@
 
 		<javac sourcepath="" srcdir="test/src/java" destdir="${build.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
 			<include name="org/metawidget/test/faces/allwidgets/**"/>
-			<include name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
 			<include name="org/metawidget/test/shared/allwidgets/**"/>
 			<include name="org/metawidget/test/spring/allwidgets/**"/>
 			<include name="org/metawidget/test/struts/allwidgets/**"/>
@@ -203,7 +203,6 @@
 		
 		<javac sourcepath="" srcdir="test/src/java" destdir="${build.dir}/test-classes" debug="on" target="1.5">
 			<exclude name="org/metawidget/test/faces/allwidgets/**"/>
-			<exclude name="org/metawidget/test/faces/richfaces/allwidgets/**"/>
 			<exclude name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
 			<exclude name="org/metawidget/test/shared/allwidgets/**"/>
 			<exclude name="org/metawidget/test/spring/allwidgets/**"/>
@@ -2421,8 +2420,6 @@
 		<copy file="src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT"/>
 		<copy file="src/java/META-INF/metawidget-faces.tld" tofile="${tomcat.dir}/webapps/ROOT/faces/index.html"/>
 		<copy file="src/java/META-INF/metawidget-faces.tld" todir="${tomcat.dir}/webapps/ROOT/faces"/>
-		<copy file="src/java/META-INF/metawidget-richfaces.tld" tofile="${tomcat.dir}/webapps/ROOT/faces/richfaces/index.html"/>
-		<copy file="src/java/META-INF/metawidget-richfaces.tld" todir="${tomcat.dir}/webapps/ROOT/faces/richfaces"/>
 		<copy file="src/java/META-INF/metawidget-html.tld" tofile="${tomcat.dir}/webapps/ROOT/html/index.html"/>
 		<copy file="src/java/META-INF/metawidget-html.tld" todir="${tomcat.dir}/webapps/ROOT/html"/>
 		<copy file="src/java/META-INF/metawidget-spring.tld" tofile="${tomcat.dir}/webapps/ROOT/spring/index.html"/>

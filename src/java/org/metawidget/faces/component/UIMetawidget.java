@@ -36,6 +36,7 @@ import javax.faces.component.ActionSource;
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
+import javax.faces.component.UIParameter;
 import javax.faces.component.UISelectMany;
 import javax.faces.component.UISelectOne;
 import javax.faces.component.ValueHolder;
@@ -92,7 +93,7 @@ public abstract class UIMetawidget
 	 * Component-level attribute used to store metadata.
 	 */
 
-	public final static String							COMPONENT_ATTRIBUTE_METADATA				= "metawidget-metadata";
+	public final static String	COMPONENT_ATTRIBUTE_METADATA				= "metawidget-metadata";
 
 	//
 	// Private statics
@@ -102,37 +103,37 @@ public abstract class UIMetawidget
 	 * Component-level attribute used to tag components as being created by Metawidget.
 	 */
 
-	private final static String							COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET	= "metawidget-created-by";
+	private final static String	COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET	= "metawidget-created-by";
 
 	/**
 	 * Application-level attribute used to cache ConfigReader.
 	 */
 
-	private final static String							APPLICATION_ATTRIBUTE_CONFIG_READER			= "metawidget-config-reader";
+	private final static String	APPLICATION_ATTRIBUTE_CONFIG_READER			= "metawidget-config-reader";
 
 	//
 	// Private members
 	//
 
-	private Object										mValue;
+	private Object				mValue;
 
-	private String										mConfig										= "metawidget.xml";
+	private String				mConfig										= "metawidget.xml";
 
-	private boolean										mNeedsConfiguring							= true;
+	private boolean				mNeedsConfiguring							= true;
 
-	private boolean										mInspectFromParent;
+	private boolean				mInspectFromParent;
 
-	private Set<String>									mClientIds;
+	private Set<String>			mClientIds;
 
-	private Boolean										mReadOnly;
+	private Boolean				mReadOnly;
 
-	private String										mValidatorClass								= StandardValidator.class.getName();
+	private String				mValidatorClass								= StandardValidator.class.getName();
 
-	private Validator									mValidator;
+	private Validator			mValidator;
 
-	private String										mBindingPrefix;
+	private String				mBindingPrefix;
 
-	private MetawidgetMixin<UIComponent, UIMetawidget>	mMetawidgetMixin;
+	private UIMetawidgetMixin	mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -352,6 +353,24 @@ public abstract class UIMetawidget
 		return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 	}
 
+	/**
+	 * Convenience method for <code>metawidget.xml</code>.
+	 */
+
+	public void setParameter( String name, Object value )
+	{
+		UIParameter parameter = FacesUtils.findParameterWithName( this, name );
+
+		if ( parameter == null )
+		{
+			parameter = new UIParameter();
+			getChildren().add( parameter );
+		}
+
+		parameter.setName( name );
+		parameter.setValue( value );
+	}
+
 	@Override
 	public void encodeBegin( FacesContext context )
 		throws IOException
@@ -442,6 +461,11 @@ public abstract class UIMetawidget
 		return new UIMetawidgetMixin();
 	}
 
+	protected UIMetawidgetMixin getMetawidgetMixin()
+	{
+		return mMetawidgetMixin;
+	}
+
 	/**
 	 * Inspect the value binding.
 	 * <p>
@@ -530,21 +554,16 @@ public abstract class UIMetawidget
 			}
 
 			mMetawidgetMixin.configureDefault();
-
-			// Sensible WidgetBuilder default
-
-			if ( mMetawidgetMixin.getWidgetBuilder() == null )
-			{
-				@SuppressWarnings( "unchecked" )
-				WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = (WidgetBuilder<UIComponent, UIMetawidget>) Class.forName( "org.metawidget.faces.component.widgetbuilder.html.HtmlWidgetBuilder" ).newInstance();
-				mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
-			}
+			configureDefault();
 		}
 		catch ( Exception e )
 		{
 			throw MetawidgetException.newException( e );
 		}
 	}
+
+	protected abstract void configureDefault()
+		throws Exception;
 
 	/**
 	 * Build child widgets.
@@ -718,7 +737,7 @@ public abstract class UIMetawidget
 			// Stubs
 
 			if ( component instanceof UIStub )
-				childAttributes.putAll( ( (UIMetawidgetMixin) mMetawidgetMixin ).getStubAttributes( component ) );
+				childAttributes.putAll( ( mMetawidgetMixin ).getStubAttributes( component ) );
 
 			addWidget( component );
 		}

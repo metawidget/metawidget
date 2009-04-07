@@ -93,11 +93,11 @@ public class HtmlMetawidgetTag
 	{
 		// Sensible WidgetBuilder default
 
-		if ( mMetawidgetMixin.getWidgetBuilder() == null )
+		if ( getMetawidgetMixin().getWidgetBuilder() == null )
 		{
 			@SuppressWarnings( "unchecked" )
 			WidgetBuilder<Object, Object> widgetBuilder = (WidgetBuilder<Object, Object>) Class.forName( "org.metawidget.jsp.tagext.html.widgetbuilder.HtmlWidgetBuilder" ).newInstance();
-			mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+			getMetawidgetMixin().setWidgetBuilder( widgetBuilder );
 		}
 	}
 

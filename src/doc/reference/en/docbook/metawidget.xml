@@ -1297,7 +1297,7 @@ public class Main {
 					
 					<para>
 						Go into Tomcat's <filename>webapps\addressbook-faces</filename> folder (the exploded WAR)
-						and edit <filename>contact.jsp</filename> to change <uri>http://metawidget.org/faces</uri> to <uri>http://metawidget.org/faces/richfaces</uri>
+						and edit <filename>contact.jsp</filename> to change <uri>http://metawidget.org/faces</uri> to <uri>http://metawidget.org/faces</uri>
 						(shown in bold):
 					</para>
 					
