@@ -43,7 +43,7 @@ import javax.swing.JSpinner;
 import javax.swing.text.JTextComponent;
 
 import org.metawidget.MetawidgetException;
-import org.metawidget.inspector.ConfigReader2;
+import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.actionbinding.ActionBinding;
@@ -82,7 +82,7 @@ public class SwingMetawidget
 
 	private final static long								serialVersionUID	= 1l;
 
-	private final static ConfigReader2						CONFIG_READER		= new ConfigReader2();
+	private final static ConfigReader						CONFIG_READER		= new ConfigReader();
 
 	private final static Stroke								STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 

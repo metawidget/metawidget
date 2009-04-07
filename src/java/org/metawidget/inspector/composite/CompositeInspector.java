@@ -18,8 +18,6 @@ package org.metawidget.inspector.composite;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
@@ -70,11 +68,6 @@ public class CompositeInspector
 	//
 
 	public CompositeInspector( CompositeInspectorConfig config )
-	{
-		this( config, new ConfigReader() );
-	}
-
-	public CompositeInspector( CompositeInspectorConfig config, ResourceResolver resolver )
 	{
 		Inspector[] inspectors = config.getInspectors();
 

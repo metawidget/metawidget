@@ -40,7 +40,7 @@ public class BadInspectorConfig
 
 	private Pattern			mPattern;
 
-	private boolean		mFailDuringConstruction;
+	private boolean			mFailDuringConstruction;
 
 	//
 	// Public methods
@@ -113,11 +113,6 @@ public class BadInspectorConfig
 
 	public void setNoParameters()
 	{
-		// Test method with no parameters
-	}
-
-	public void setMultipleParameters( String foo, String bar )
-	{
-		// Test method with multiple parameters
+		throw new UnsupportedOperationException( "Called setNoParameters" );
 	}
 }

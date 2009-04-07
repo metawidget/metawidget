@@ -19,7 +19,7 @@ package org.metawidget.inspector.impl;
 import java.io.InputStream;
 import java.util.List;
 
-import org.metawidget.inspector.ConfigReader2;
+import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.NeedsResourceResolver;
 import org.metawidget.inspector.ResourceResolver;
 
@@ -102,7 +102,7 @@ public class BaseXmlInspectorConfig
 	public ResourceResolver getResourceResolver()
 	{
 		if ( mResourceResolver == null )
-			mResourceResolver = new ConfigReader2();
+			mResourceResolver = new ConfigReader();
 
 		return mResourceResolver;
 	}

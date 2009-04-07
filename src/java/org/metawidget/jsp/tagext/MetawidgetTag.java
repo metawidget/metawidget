@@ -30,7 +30,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.metawidget.MetawidgetException;
-import org.metawidget.inspector.ConfigReader2;
+import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.jsp.JspUtils;
@@ -455,7 +455,7 @@ public abstract class MetawidgetTag
 				ServletContext servletContext = pageContext.getServletContext();
 
 				@SuppressWarnings( "unchecked" )
-				ConfigReader2 configReader = (ConfigReader2) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
+				ConfigReader configReader = (ConfigReader) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
 
 				if ( configReader == null )
 				{

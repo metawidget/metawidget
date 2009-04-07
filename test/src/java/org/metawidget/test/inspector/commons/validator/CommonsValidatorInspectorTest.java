@@ -19,7 +19,7 @@ package org.metawidget.test.inspector.commons.validator;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.ConfigReader2;
+import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.commons.validator.CommonsValidatorInspector;
 import org.metawidget.inspector.commons.validator.CommonsValidatorInspectorConfig;
 import org.metawidget.inspector.iface.InspectorException;
@@ -54,7 +54,7 @@ public class CommonsValidatorInspectorTest
 	public void testInspection()
 	{
 		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader2().openResource( "org/metawidget/test/inspector/commons/validator/validation.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/test/inspector/commons/validator/validation.xml" ));
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ));
@@ -108,7 +108,7 @@ public class CommonsValidatorInspectorTest
 	public void testBadInput()
 	{
 		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader2().openResource( "org/metawidget/test/inspector/commons/validator/validation.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/test/inspector/commons/validator/validation.xml" ));
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
 		try
@@ -151,7 +151,7 @@ public class CommonsValidatorInspectorTest
 	public void testTraversal()
 	{
 		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader2().openResource( "org/metawidget/test/inspector/commons/validator/validation.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/test/inspector/commons/validator/validation.xml" ));
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
 		assertTrue( null != inspector.inspect( null, "testForm1" ));

@@ -16,14 +16,16 @@
 
 package org.metawidget.test.inspector;
 
+import java.awt.Point;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
 import java.util.Date;
 
+import javax.swing.JComponent;
+
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.ValidatingConfigReader;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.faces.FacesInspector;
@@ -37,6 +39,12 @@ import org.metawidget.inspector.spring.SpringAnnotationInspector;
 import org.metawidget.inspector.struts.StrutsAnnotationInspector;
 import org.metawidget.inspector.struts.StrutsInspector;
 import org.metawidget.inspector.xml.XmlInspector;
+import org.metawidget.mixin.base.BaseMetawidgetMixin;
+import org.metawidget.mixin.w3c.MetawidgetMixin;
+import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * @author Richard Kennard
@@ -65,45 +73,167 @@ public class ConfigReaderTest
 	public void testReader()
 		throws Exception
 	{
+		// Configure
+
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\" version=\"1.0\">";
-		xml += "<validatingCompositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
-		xml += "<inspectors>";
-		xml += "<metawidgetAnnotationInspector xmlns=\"urn:java:org.metawidget.inspector.annotation\"/>";
-		xml += "<facesInspector xmlns=\"java:org.metawidget.inspector.faces\"/>";
-		xml += "<hibernateValidatorInspector xmlns=\"java:org.metawidget.inspector.hibernate.validator\"/>";
-		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
-		xml += "<propertyStyle>org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle</propertyStyle>";
-		xml += "<actionStyle>org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle</actionStyle>";
-		xml += "</propertyTypeInspector>";
-		xml += "<jpaInspector xmlns=\"java:org.metawidget.inspector.jpa\"/>";
-		xml += "<jspAnnotationInspector xmlns=\"java:org.metawidget.inspector.jsp\"/>";
-		xml += "<springAnnotationInspector xmlns=\"java:org.metawidget.inspector.spring\"/>";
-		xml += "<strutsInspector xmlns=\"java:org.metawidget.inspector.struts\" config=\"StrutsInspectorConfig\">";
-		xml += "<files>";
-		xml += "<string>org/metawidget/test/inspector/struts/test-struts-config1.xml</string>";
-		xml += "<string>org/metawidget/test/inspector/struts/test-struts-config2.xml</string>";
-		xml += "</files>";
-		xml += "</strutsInspector>";
-		xml += "<strutsAnnotationInspector xmlns=\"java:org.metawidget.inspector.struts\"/>";
-		xml += "<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
-		xml += "<file>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</file>";
-		xml += "</xmlInspector>";
-		xml += "<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
-		xml += "<inputStream>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</inputStream>";
-		xml += "</xmlInspector>";
-		xml += "</inspectors>";
-		xml += "</validatingCompositeInspector></inspector-config>";
+		xml += "<metawidget>";
+		xml += "	<point xmlns=\"urn:java:java.awt\">";
+		xml += "		<location>";
+		xml += "			<int>10</int>";
+		xml += "			<int>20</int>";
+		xml += "		</location>";
+		xml += "	</point>";
+		xml += "	<swingMetawidget xmlns=\"urn:java:org.metawidget.swing\">";
+		xml += "		<widgetBuilder>";
+		xml += "			<compositeWidgetBuilder xmlns=\"urn:java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
+		xml += "				<widgetBuilders>";
+		xml += "					<list>";
+		xml += "						<swingWidgetBuilder xmlns=\"urn:java:org.metawidget.swing.widgetbuilder\"/>";
+		xml += "					</list>";
+		xml += "				</widgetBuilders>";
+		xml += "			</compositeWidgetBuilder>";
+		xml += "		</widgetBuilder>";
+		xml += "		<inspector>";
+		xml += "			<compositeInspector xmlns=\"urn:java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
+		xml += "				<inspectors>";
+		xml += "					<list>";
+		xml += "						<metawidgetAnnotationInspector xmlns=\"urn:java:org.metawidget.inspector.annotation\"/>";
+		xml += "						<facesInspector xmlns=\"java:org.metawidget.inspector.faces\"/>";
+		xml += "						<hibernateValidatorInspector xmlns=\"java:org.metawidget.inspector.hibernate.validator\"/>";
+		xml += "						<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
+		xml += "							<propertyStyle>";
+		xml += "								<class>org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle</class>";
+		xml += "							</propertyStyle>";
+		xml += "							<actionStyle>";
+		xml += "								<class>org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle</class>";
+		xml += "							</actionStyle>";
+		xml += "						</propertyTypeInspector>";
+		xml += "						<jpaInspector xmlns=\"java:org.metawidget.inspector.jpa\"/>";
+		xml += "						<jspAnnotationInspector xmlns=\"java:org.metawidget.inspector.jsp\"/>";
+		xml += "						<springAnnotationInspector xmlns=\"java:org.metawidget.inspector.spring\"/>";
+		xml += "						<strutsInspector xmlns=\"java:org.metawidget.inspector.struts\" config=\"StrutsInspectorConfig\">";
+		xml += "							<inputStreams>";
+		xml += "								<list>";
+		xml += "									<resource>org/metawidget/test/inspector/struts/test-struts-config1.xml</resource>";
+		xml += "									<resource>org/metawidget/test/inspector/struts/test-struts-config2.xml</resource>";
+		xml += "								</list>";
+		xml += "							</inputStreams>";
+		xml += "						</strutsInspector>";
+		xml += "						<strutsAnnotationInspector xmlns=\"java:org.metawidget.inspector.struts\"/>";
+		xml += "						<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
+		xml += "							<inputStream>";
+		xml += "								<resource>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</resource>";
+		xml += "							</inputStream>";
+		xml += "						</xmlInspector>";
+		xml += "						<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
+		xml += "							<inputStream>";
+		xml += "								<resource>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</resource>";
+		xml += "							</inputStream>";
+		xml += "						</xmlInspector>";
+		xml += "					</list>";
+		xml += "				</inspectors>";
+		xml += "			</compositeInspector>";
+		xml += "		</inspector>";
+		xml += "		<name>";
+		xml += "			<string>foo</string>";
+		xml += "		</name>";
+		xml += "		<opaque>";
+		xml += "			<boolean>true</boolean>";
+		xml += "		</opaque>";
+		xml += "		<parameter>";
+		xml += "			<string>a parameter</string>";
+		xml += "			<int>1</int>";
+		xml += "		</parameter>";
+		xml += "		<parameter>";
+		xml += "			<string>another parameter</string>";
+		xml += "			<int>5</int>";
+		xml += "		</parameter>";
+		xml += "	</swingMetawidget>";
+		xml += "	<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
+		xml += "		<inspectors>";
+		xml += "			<list>";
+		xml += "				<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\"/>";
+		xml += "				<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\"/>";
+		xml += "				<java5Inspector xmlns=\"java:org.metawidget.inspector.java5\"/>";
+		xml += "			</list>";
+		xml += "		</inspectors>";
+		xml += "	</compositeInspector>";
+		xml += "</metawidget>";
 
-		ValidatingConfigReader reader = new ValidatingConfigReader();
-		CompositeInspector inspector = reader.read( new ByteArrayInputStream( xml.getBytes() ) );
+		// New Point
 
-		// Use reflection to test config result
+		ConfigReader configReader = new ConfigReader();
+		Point point = (Point) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Point.class );
+		assertTrue( 10 == point.x );
+		assertTrue( 20 == point.y );
 
-		Field field = CompositeInspector.class.getDeclaredField( "mInspectors" );
-		field.setAccessible( true );
+		// Existing Point
 
-		Inspector[] inspectors = (Inspector[]) field.get( inspector );
+		point = new Point();
+		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), point );
+		assertTrue( 10 == point.x );
+		assertTrue( 20 == point.y );
+
+		// SwingMetawidget
+
+		SwingMetawidget metawidget1 = new SwingMetawidget();
+		assertTrue( null == metawidget1.getName() );
+		assertTrue( !metawidget1.isOpaque() );
+		assertTrue( null == metawidget1.getParameter( "a parameter" ) );
+		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1 );
+
+		// Test
+
+		assertTrue( "foo".equals( metawidget1.getName() ) );
+		assertTrue( metawidget1.isOpaque() );
+		assertTrue( 1 == (Integer) metawidget1.getParameter( "a parameter" ) );
+		assertTrue( 5 == (Integer) metawidget1.getParameter( "another parameter" ) );
+
+		// SwingMetawidget2
+
+		SwingMetawidget metawidget2 = new SwingMetawidget();
+		assertTrue( null == metawidget2.getName() );
+		assertTrue( !metawidget2.isOpaque() );
+		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget2 );
+
+		// Test WidgetBuilder
+
+		Field mixinField = SwingMetawidget.class.getDeclaredField( "mMetawidgetMixin" );
+		mixinField.setAccessible( true );
+		@SuppressWarnings( "unchecked" )
+		MetawidgetMixin<JComponent, SwingMetawidget> mixin1 = (MetawidgetMixin<JComponent, SwingMetawidget>) mixinField.get( metawidget1 );
+		@SuppressWarnings( "unchecked" )
+		MetawidgetMixin<JComponent, SwingMetawidget> mixin2 = (MetawidgetMixin<JComponent, SwingMetawidget>) mixinField.get( metawidget2 );
+
+		Field widgetBuilderField = BaseMetawidgetMixin.class.getDeclaredField( "mWidgetBuilder" );
+		widgetBuilderField.setAccessible( true );
+		@SuppressWarnings( "unchecked" )
+		CompositeWidgetBuilder<JComponent, SwingMetawidget> compositeWidgetBuilder1 = (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilderField.get( mixin1 );
+		@SuppressWarnings( "unchecked" )
+		CompositeWidgetBuilder<JComponent, SwingMetawidget> compositeWidgetBuilder2 = (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilderField.get( mixin2 );
+
+		assertTrue( compositeWidgetBuilder1 == compositeWidgetBuilder2 );
+
+		Field widgetBuildersField = CompositeWidgetBuilder.class.getDeclaredField( "mWidgetBuilders" );
+		widgetBuildersField.setAccessible( true );
+		@SuppressWarnings( "unchecked" )
+		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuilders = (WidgetBuilder<JComponent, SwingMetawidget>[]) widgetBuildersField.get( compositeWidgetBuilder1 );
+
+		assertTrue( widgetBuilders.length == 1 );
+		assertTrue( widgetBuilders[0] instanceof SwingWidgetBuilder );
+
+		// Test Inspector
+
+		Field inspectorField = BaseMetawidgetMixin.class.getDeclaredField( "mInspector" );
+		inspectorField.setAccessible( true );
+		CompositeInspector compositeInspector1 = (CompositeInspector) inspectorField.get( mixin1 );
+		CompositeInspector compositeInspector2 = (CompositeInspector) inspectorField.get( mixin1 );
+
+		assertTrue( compositeInspector1 == compositeInspector2 );
+
+		Field inspectorsField = CompositeInspector.class.getDeclaredField( "mInspectors" );
+		inspectorsField.setAccessible( true );
+		Inspector[] inspectors = (Inspector[]) inspectorsField.get( compositeInspector1 );
 
 		assertTrue( inspectors.length == 11 );
 		assertTrue( inspectors[0] instanceof MetawidgetAnnotationInspector );
@@ -117,24 +247,79 @@ public class ConfigReaderTest
 		assertTrue( inspectors[8] instanceof StrutsAnnotationInspector );
 		assertTrue( inspectors[9] instanceof XmlInspector );
 		assertTrue( inspectors[10] instanceof XmlInspector );
+
+		// Inspector
+
+		Inspector inspector1 = (Inspector) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		assertTrue( inspector1 instanceof CompositeInspector );
+
+		Inspector inspector2 = (Inspector) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		assertTrue( inspector2 instanceof CompositeInspector );
+		assertTrue( inspector1 == inspector2 );
 	}
 
-	public void testMandatoryConfigAttribute()
+	public void testNoDefaultConstructor()
 		throws Exception
 	{
+		// With config hint
+
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\" version=\"1.0\">";
-		xml += "<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\"/>";
-		xml += "</inspector-config>";
+		xml += "<metawidget>";
+		xml += "	<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\"/>";
+		xml += "</metawidget>";
+
+		ConfigReader configReader = new ConfigReader();
 
 		try
 		{
-			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( "org.metawidget.inspector.composite.CompositeInspector requires a 'config' attribute".equals( e.getMessage() ) );
+			assertTrue( "class org.metawidget.inspector.xml.XmlInspector does not have a default constructor. Did you mean config=\"XmlInspectorConfig\"?".equals( e.getMessage() ) );
+		}
+
+		// Without config hint
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget>";
+		xml += "	<Class xmlns=\"java:java.lang\"/>";
+		xml += "</metawidget>";
+
+		try
+		{
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Class.class );
+			assertTrue( false );
+		}
+		catch ( InspectorException e )
+		{
+			assertTrue( "class java.lang.Class does not have a default constructor".equals( e.getMessage() ) );
+		}
+	}
+
+	public void testBadUrl()
+		throws Exception
+	{
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget>";
+		xml += "	<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
+		xml += "		<inputStream>";
+		xml += "			<url>http://foo.nowhere</url>";
+		xml += "		</inputStream>";
+		xml += "	</xmlInspector>";
+		xml += "</metawidget>";
+
+		ConfigReader configReader = new ConfigReader();
+
+		try
+		{
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+			assertTrue( false );
+		}
+		catch ( InspectorException e )
+		{
+			assertTrue( "java.net.UnknownHostException: foo.nowhere".equals( e.getMessage() ) );
 		}
 	}
 
@@ -142,44 +327,48 @@ public class ConfigReaderTest
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\" version=\"1.0\">";
-		xml += "<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\">";
-		xml += "<file>foo</file>";
-		xml += "</xmlInspector></inspector-config>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\">";
+		xml += "<propertyStyle><class>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</class></propertyStyle>";
+		xml += "</propertyTypeInspector></metawidget>";
 
 		try
 		{
-			ConfigReader reader = new ConfigReader();
-			reader.read( new ByteArrayInputStream( xml.getBytes() ) );
+			ConfigReader configReader = new ConfigReader();
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( e.getMessage().contains( "forget a 'config' attribute?" ) );
+			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle( class java.lang.Class )".equals( e.getMessage() ) );
 		}
 	}
 
 	public void testSupportedTypes()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.test.inspector\" config=\"BadInspectorConfig\">";
-		xml += "<int>3</int>";
+		xml += "<int><int>3</int></int>";
 		xml += "<listOfStrings>";
+		xml += "<list>";
 		xml += "<string>foo</string>";
 		xml += "<string>bar</string>";
+		xml += "</list>";
 		xml += "</listOfStrings>";
 		xml += "<listOfClasses>";
+		xml += "<list>";
 		xml += "<class>java.lang.String</class>";
 		xml += "<class>java.util.Date</class>";
 		xml += "<class>java.lang.Long</class>";
+		xml += "</list>";
 		xml += "</listOfClasses>";
-		xml += "<boolean>true</boolean>";
-		xml += "<pattern>.*?</pattern>";
+		xml += "<boolean><boolean>true</boolean></boolean>";
+		xml += "<pattern><pattern>.*?</pattern></pattern>";
 		xml += "</badInspector>";
-		xml += "</inspector-config>";
+		xml += "</metawidget>";
 
-		BadInspector inspector = new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
+		BadInspector inspector = (BadInspector) new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 		assertTrue( 3 == inspector.getInt() );
 
 		assertTrue( "foo".equals( inspector.getListOfStrings().get( 0 ) ) );
@@ -198,35 +387,35 @@ public class ConfigReaderTest
 	public void testUnsupportedType()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.test.inspector\" config=\"BadInspectorConfig\">";
-		xml += "<date>1/1/2001</date>";
+		xml += "<date><date>1/1/2001</date></date>";
 		xml += "</badInspector>";
-		xml += "</inspector-config>";
+		xml += "</metawidget>";
 
 		try
 		{
-			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
+			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 			assertTrue( false );
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Don't know how to convert '1/1/2001' to class java.util.Date" ) );
+			assertTrue( e.getMessage().endsWith( "No such class org.metawidget.test.inspector.Date" ) );
 		}
 	}
 
 	public void testInspectorExceptionDuringConstruction()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.test.inspector\" config=\"BadInspectorConfig\">";
-		xml += "<failDuringConstruction>true</failDuringConstruction>";
+		xml += "<failDuringConstruction><boolean>true</boolean></failDuringConstruction>";
 		xml += "</badInspector>";
-		xml += "</inspector-config>";
+		xml += "</metawidget>";
 
 		try
 		{
-			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
+			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 			assertTrue( false );
 		}
 		catch ( InspectorException e )
@@ -238,86 +427,66 @@ public class ConfigReaderTest
 	public void testSetterWithNoParameters()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.test.inspector\" config=\"BadInspectorConfig\">";
-		xml += "<noParameters>foo</noParameters>";
+		xml += "<noParameters/>";
 		xml += "</badInspector>";
-		xml += "</inspector-config>";
+		xml += "</metawidget>";
 
 		try
 		{
-			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
+			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 			assertTrue( false );
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "public void org.metawidget.test.inspector.BadInspectorConfig.setNoParameters() is not a setter method - has no parameters" ) );
-		}
-	}
-
-	public void testSetterWithMultipleParameters()
-	{
-		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
-		xml += "<badInspector xmlns=\"java:org.metawidget.test.inspector\" config=\"BadInspectorConfig\">";
-		xml += "<multipleParameters>foo</multipleParameters>";
-		xml += "</badInspector>";
-		xml += "</inspector-config>";
-
-		try
-		{
-			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
-			assertTrue( false );
-		}
-		catch ( InspectorException e )
-		{
-			assertTrue( e.getMessage().endsWith( "public void org.metawidget.test.inspector.BadInspectorConfig.setMultipleParameters(java.lang.String,java.lang.String) is not a setter method - has multiple parameters" ) );
+			assertTrue( "java.lang.UnsupportedOperationException: Called setNoParameters".equals( e.getMessage() ));
 		}
 	}
 
 	public void testNoInspector()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
-		xml += "</inspector-config>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "</metawidget>";
 
 		try
 		{
-			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
+			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 			assertTrue( false );
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( "No Inspector declared".equals( e.getMessage() ) );
+			assertTrue( "No match for class org.metawidget.test.inspector.BadInspector within config".equals( e.getMessage() ));
 		}
 	}
 
 	public void testMultipleInspectors()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspector-config xmlns=\"http://metawidget.org/inspector-config\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspector-config http://metawidget.org/inspector-config/inspector-config-1.0.xsd\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.test.inspector\" config=\"BadInspectorConfig\"/>";
 		xml += "<badInspector xmlns=\"java:org.metawidget.test.inspector\" config=\"BadInspectorConfig\"/>";
-		xml += "</inspector-config>";
+		xml += "</metawidget>";
 
 		try
 		{
-			new ConfigReader().read( new ByteArrayInputStream( xml.getBytes() ) );
+			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 			assertTrue( false );
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Don't know how to combine a class org.metawidget.test.inspector.BadInspector with a class org.metawidget.test.inspector.BadInspector" ) );
+			assertTrue( "Already configured a class org.metawidget.test.inspector.BadInspector, ambiguous match with class org.metawidget.test.inspector.BadInspector".equals( e.getMessage() ));
 		}
 	}
 
 	public void testMissingResource()
 	{
-		ConfigReader reader = new ConfigReader();
+		ConfigReader configReader = new ConfigReader();
 
 		try
 		{
-			reader.read( (String) null );
+			configReader.configure( (String) null, null );
 			assertTrue( false );
 		}
 		catch ( InspectorException e )
@@ -327,7 +496,7 @@ public class ConfigReaderTest
 
 		try
 		{
-			reader.read( "" );
+			configReader.configure( "", null );
 			assertTrue( false );
 		}
 		catch ( InspectorException e )
@@ -337,7 +506,7 @@ public class ConfigReaderTest
 
 		try
 		{
-			reader.read( " " );
+			configReader.configure( " ", null );
 			assertTrue( false );
 		}
 		catch ( InspectorException e )
@@ -347,7 +516,7 @@ public class ConfigReaderTest
 
 		try
 		{
-			reader.read( " foo" );
+			configReader.configure( " foo", null );
 			assertTrue( false );
 		}
 		catch ( InspectorException e )

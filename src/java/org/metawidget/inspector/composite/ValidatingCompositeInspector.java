@@ -16,19 +16,10 @@
 
 package org.metawidget.inspector.composite;
 
-import java.io.InputStream;
-
-import javax.xml.XMLConstants;
 import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
-import javax.xml.validation.SchemaFactory;
 
-import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.ResourceResolver;
-import org.metawidget.inspector.iface.InspectorException;
 import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
 
 /**
  * CompositeInspector that validates the inspection result XMLs against the
@@ -57,23 +48,7 @@ public class ValidatingCompositeInspector
 
 	public ValidatingCompositeInspector( CompositeInspectorConfig config )
 	{
-		this( config, new ConfigReader() );
-	}
-
-	public ValidatingCompositeInspector( CompositeInspectorConfig config, ResourceResolver resolver )
-	{
-		super( config, resolver );
-
-		InputStream in = resolver.openResource( "org/metawidget/inspector/inspection-result-1.0.xsd" );
-
-		try
-		{
-			mSchema = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI ).newSchema( new StreamSource( in ) );
-		}
-		catch ( SAXException e )
-		{
-			throw InspectorException.newException( e );
-		}
+		super( config );
 	}
 
 	//

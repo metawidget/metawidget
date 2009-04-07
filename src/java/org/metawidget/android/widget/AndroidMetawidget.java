@@ -968,7 +968,7 @@ public class AndroidMetawidget
 
 			if ( inspector == null )
 			{
-				inspector = new AndroidConfigReader( getContext() ).read( getContext().getResources().openRawResource( mInspectorConfig ) );
+				inspector = (Inspector) new AndroidConfigReader( getContext() ).configure( getContext().getResources().openRawResource( mInspectorConfig ), Inspector.class );
 				INSPECTORS.put( mInspectorConfig, inspector );
 			}
 		}

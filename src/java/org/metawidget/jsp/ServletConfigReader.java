@@ -21,7 +21,7 @@ import java.net.URL;
 
 import javax.servlet.ServletContext;
 
-import org.metawidget.inspector.ConfigReader2;
+import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.InspectorException;
 
 /**
@@ -33,7 +33,7 @@ import org.metawidget.inspector.iface.InspectorException;
  */
 
 public class ServletConfigReader
-	extends ConfigReader2
+	extends ConfigReader
 {
 	//
 	// Private members

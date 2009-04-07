@@ -52,7 +52,7 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.validator.StandardValidator;
 import org.metawidget.faces.component.validator.Validator;
-import org.metawidget.inspector.ConfigReader2;
+import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
@@ -542,7 +542,7 @@ public abstract class UIMetawidget
 				FacesContext facesContext = getFacesContext();
 				Map<String, Object> applicationMap = facesContext.getExternalContext().getApplicationMap();
 				@SuppressWarnings( "unchecked" )
-				ConfigReader2 configReader = (ConfigReader2) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
+				ConfigReader configReader = (ConfigReader) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
 
 				if ( configReader == null )
 				{
