@@ -40,6 +40,8 @@ public class BadInspectorConfig
 
 	private Pattern			mPattern;
 
+	private String			mNull = "not-null";
+
 	private boolean			mFailDuringConstruction;
 
 	//
@@ -94,6 +96,16 @@ public class BadInspectorConfig
 	public void setPattern( Pattern pattern )
 	{
 		mPattern = pattern;
+	}
+
+	public String getNull()
+	{
+		return mNull;
+	}
+
+	public void setNull( String value )
+	{
+		mNull = value;
 	}
 
 	public void setFailDuringConstruction( boolean failDuringConstruction )

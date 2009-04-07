@@ -9,12 +9,16 @@
 				<inspectors>
 					<list>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
-							<actionStyle>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</actionStyle>
+							<actionStyle>
+								<class>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</class>
+							</actionStyle>
 						</metawidgetAnnotationInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<swingAppFrameworkInspector xmlns="java:org.metawidget.inspector.swing"/>			
 						<jexlInspector xmlns="java:org.metawidget.inspector.commons.jexl" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
-							<actionStyle>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</actionStyle>
+							<actionStyle>
+								<class>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</class>
+							</actionStyle>
 						</jexlInspector>
 					</list>
 				</inspectors>

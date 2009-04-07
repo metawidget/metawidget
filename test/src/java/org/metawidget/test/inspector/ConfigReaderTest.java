@@ -361,10 +361,12 @@ public class ConfigReaderTest
 		xml += "<class>java.lang.String</class>";
 		xml += "<class>java.util.Date</class>";
 		xml += "<class>java.lang.Long</class>";
+		xml += "<null/>";
 		xml += "</list>";
 		xml += "</listOfClasses>";
 		xml += "<boolean><boolean>true</boolean></boolean>";
 		xml += "<pattern><pattern>.*?</pattern></pattern>";
+		xml += "<null><null/></null>";
 		xml += "</badInspector>";
 		xml += "</metawidget>";
 
@@ -378,7 +380,8 @@ public class ConfigReaderTest
 		assertTrue( String.class.equals( inspector.getListOfClasses().get( 0 ) ) );
 		assertTrue( Date.class.equals( inspector.getListOfClasses().get( 1 ) ) );
 		assertTrue( Long.class.equals( inspector.getListOfClasses().get( 2 ) ) );
-		assertTrue( 3 == inspector.getListOfClasses().size() );
+		assertTrue( null == inspector.getListOfClasses().get( 3 ) );
+		assertTrue( 4 == inspector.getListOfClasses().size() );
 
 		assertTrue( true == inspector.isBoolean() );
 		assertTrue( ".*?".equals( inspector.getPattern().toString() ) );

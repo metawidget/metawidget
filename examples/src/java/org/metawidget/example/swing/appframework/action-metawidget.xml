@@ -10,8 +10,12 @@
 					<list>
 						<swingAppFrameworkInspector xmlns="java:org.metawidget.inspector.swing"/>
 						<jexlInspector xmlns="java:org.metawidget.inspector.commons.jexl" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
-							<propertyStyle/>
-							<actionStyle>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</actionStyle>
+							<propertyStyle>
+								<null/>
+							</propertyStyle>
+							<actionStyle>
+								<class>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</class>
+							</actionStyle>
 						</jexlInspector>
 					</list>
 				</inspectors>

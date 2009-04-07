@@ -192,6 +192,9 @@ public class ConfigReader
 
 	protected boolean isNative( String name )
 	{
+		if ( "null".equals( name ) )
+			return true;
+
 		if ( "string".equals( name ) )
 			return true;
 
@@ -228,6 +231,9 @@ public class ConfigReader
 	protected Object createNative( String name, String recordedText )
 		throws Exception
 	{
+		if ( "null".equals( name ))
+			return null;
+
 		if ( "string".equals( name ) )
 			return recordedText;
 
@@ -921,7 +927,12 @@ public class ConfigReader
 					if ( parameterType.isPrimitive() )
 						parameterType = ClassUtils.getWrapperClass( parameterType );
 
-					if ( !parameterType.isInstance( args.get( loop ) ) )
+					Object arg = args.get( loop );
+
+					if ( arg == null )
+						continue;
+
+					if ( !parameterType.isInstance( arg ) )
 						continue methods;
 				}
 
@@ -939,7 +950,9 @@ public class ConfigReader
 				if ( buffer.length() > 0 )
 					buffer.append( ", " );
 
-				if ( obj != null )
+				if ( obj == null )
+					buffer.append( "null" );
+				else
 					buffer.append( obj.getClass() );
 			}
 
