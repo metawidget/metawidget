@@ -328,7 +328,7 @@ public class ConfigReader2
 
 	private static enum EncounteredState
 	{
-		METHOD, NATIVE_TYPE, NATIVE_COLLECTION_TYPE, CONFIGURED_TYPE, JAVA_OBJECT, IMMUTABLE_THREADSAFE
+		METHOD, NATIVE_TYPE, NATIVE_COLLECTION_TYPE, CONFIGURED_TYPE, JAVA_OBJECT, IMMUTABLE_THREADSAFE, WRONG_TYPE
 	}
 
 	private static enum ExpectingState
@@ -491,6 +491,7 @@ public class ConfigReader2
 						{
 							if ( !((Class<?>) mToConfigure).isAssignableFrom( toConfigureClass ) )
 							{
+								mEncountered.push( EncounteredState.WRONG_TYPE );
 								mIgnoreAfterDepth = 2;
 								return;
 							}
@@ -507,6 +508,7 @@ public class ConfigReader2
 						{
 							if ( !toConfigureClass.isAssignableFrom( mToConfigure.getClass() ) )
 							{
+								mEncountered.push( EncounteredState.WRONG_TYPE );
 								mIgnoreAfterDepth = 2;
 								return;
 							}
@@ -515,6 +517,7 @@ public class ConfigReader2
 								throw InspectorException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
 
 							mConstructing.push( mToConfigure );
+							mEncountered.push( EncounteredState.JAVA_OBJECT );
 						}
 
 						mExpecting = ExpectingState.METHOD;
@@ -623,24 +626,6 @@ public class ConfigReader2
 
 			try
 			{
-				// Back at root? Expect another TO_CONFIGURE
-				// TODO: awful!
-
-				if ( mDepth == 1 )
-				{
-					mExpecting = ExpectingState.TO_CONFIGURE;
-
-					if ( mToConfigure instanceof Class && !mEncountered.isEmpty() && mEncountered.peek() == EncounteredState.CONFIGURED_TYPE )
-					{
-						Object config = mConstructing.pop();
-						Class<?> classToConstruct = classForName( uri, localName );
-						Constructor<?> constructor = classToConstruct.getConstructor( config.getClass() );
-						mConstructing.push( constructor.newInstance( config ));
-					}
-
-					return;
-				}
-
 				EncounteredState encountered = mEncountered.pop();
 
 				switch ( encountered )
@@ -680,12 +665,21 @@ public class ConfigReader2
 							object = constructor.newInstance( object );
 						}
 
+						if ( encountered != EncounteredState.IMMUTABLE_THREADSAFE && mDepth == ( mImmutableThreadsafeAtDepth - 1 ) && isImmutableThreadsafe( object.getClass() ) )
+							putImmutableThreadsafe( object );
+
+						// Back at root? Expect another TO_CONFIGURE
+
+						if ( mDepth == 1 )
+						{
+							mConstructing.push( object );
+							mExpecting = ExpectingState.TO_CONFIGURE;
+							return;
+						}
+
 						@SuppressWarnings( "unchecked" )
 						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
 						parameters.add( object );
-
-						if ( encountered != EncounteredState.IMMUTABLE_THREADSAFE && mDepth == ( mImmutableThreadsafeAtDepth - 1 ) && isImmutableThreadsafe( object.getClass() ) )
-							putImmutableThreadsafe( object );
 
 						mExpecting = ExpectingState.OBJECT;
 						return;
@@ -702,6 +696,9 @@ public class ConfigReader2
 						mExpecting = ExpectingState.METHOD;
 						return;
 					}
+
+					case WRONG_TYPE:
+						return;
 				}
 			}
 			catch ( RuntimeException e )
