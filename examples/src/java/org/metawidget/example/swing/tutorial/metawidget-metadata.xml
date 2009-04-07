@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <inspection-result xmlns="http://metawidget.org/inspection-result"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/inspection-result/inspection-result-1.0.xsd" version="1.0">
+	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/inspection-result-1.0.xsd" version="1.0">
 
 	<entity type="org.metawidget.example.swing.tutorial.Person">
 		<property name="name"/>

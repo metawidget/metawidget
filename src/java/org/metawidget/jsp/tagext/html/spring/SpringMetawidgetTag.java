@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.springframework.context.MessageSource;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.w3c.dom.Element;
@@ -97,6 +98,20 @@ public class SpringMetawidgetTag
 	//
 	// Protected methods
 	//
+
+	@Override
+	protected void configureDefault()
+		throws Exception
+	{
+		// Sensible WidgetBuilder default
+
+		if ( mMetawidgetMixin.getWidgetBuilder() == null )
+		{
+			@SuppressWarnings( "unchecked" )
+			WidgetBuilder<Object, Object> widgetBuilder = (WidgetBuilder<Object, Object>) Class.forName( "org.metawidget.jsp.tagext.html.widgetbuilder.spring.SpringWidgetBuilder" ).newInstance();
+			mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+		}
+	}
 
 	@Override
 	protected void beforeBuildCompoundWidget( Element element )

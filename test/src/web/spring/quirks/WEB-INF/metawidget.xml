@@ -3,21 +3,17 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
 
-	<androidMetawidget xmlns="java:org.metawidget.android">
+	<springMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html.spring">
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<list>
-						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
-							<file>
-								<resource>@org.metawidget.test.android.allwidgets:raw/metawidget_metadata</resource>
-							</file>
-						</xmlInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+						<springAnnotationInspector xmlns="java:org.metawidget.inspector.spring"/>
 					</list>
 				</inspectors>
 			</compositeInspector>
 		</inspector>
-	</androidMetawidget>
+	</springMetawidgetTag>
 
 </metawidget>

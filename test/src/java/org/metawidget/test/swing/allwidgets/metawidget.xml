@@ -3,14 +3,14 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
 
-	<androidMetawidget xmlns="java:org.metawidget.android">
+	<swingMetawidget xmlns="java:org.metawidget.swing">
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<list>	
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
 							<file>
-								<resource>@org.metawidget.test.android.allwidgets:raw/metawidget_metadata</resource>
+								<resource>org/metawidget/test/shared/allwidgets/model/metawidget-metadata.xml</resource>
 							</file>
 						</xmlInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
@@ -18,6 +18,6 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
-	</androidMetawidget>
+	</swingMetawidget>
 
 </metawidget>

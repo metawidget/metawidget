@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
+
+	<swingMetawidget xmlns="java:org.metawidget.swing">
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<list>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle</propertyStyle>			
+						</metawidgetAnnotationInspector>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle</propertyStyle>			
+						</propertyTypeInspector>
+					</list>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+	</swingMetawidget>
+
+</metawidget>

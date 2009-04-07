@@ -1008,6 +1008,8 @@ public class SwingMetawidget
 			if ( mConfig != null )
 				CONFIG_READER.configure( mConfig, this );
 
+			mMetawidgetMixin.configureDefault();
+
 			// Sensible WidgetBuilder default
 
 			if ( mMetawidgetMixin.getWidgetBuilder() == null )
@@ -1015,15 +1017,6 @@ public class SwingMetawidget
 				@SuppressWarnings( "unchecked" )
 				WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder = (WidgetBuilder<JComponent, SwingMetawidget>) Class.forName( "org.metawidget.swing.widgetbuilder.SwingWidgetBuilder" ).newInstance();
 				mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
-			}
-
-			// Sensible Inspector default
-
-			if ( mMetawidgetMixin.getInspector() == null )
-			{
-				// TODO: metawidgetannotationinspector
-				Inspector inspector = (Inspector) Class.forName( "org.metawidget.inspector.propertytype.PropertyTypeInspector" ).newInstance();
-				mMetawidgetMixin.setInspector( inspector );
 			}
 		}
 		catch ( Exception e )

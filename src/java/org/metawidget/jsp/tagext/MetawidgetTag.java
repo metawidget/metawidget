@@ -30,6 +30,7 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.metawidget.MetawidgetException;
+import org.metawidget.inspector.ConfigReader2;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.jsp.JspUtils;
@@ -44,6 +45,7 @@ import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -57,18 +59,12 @@ public abstract class MetawidgetTag
 	extends BodyTagSupport
 {
 	//
-	// Protected statics
-	//
-
-	protected final static String			METAWIDGET				= MetawidgetTag.class.getName();
-
-	//
 	// Private statics
 	//
 
-	private final static long				serialVersionUID		= 1l;
+	private final static long					serialVersionUID		= 1l;
 
-	private final static String				INSPECTORS_ATTRIBUTE	= "metawidget-inspectors";
+	private final static String					CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
 
 	//
 	// Protected members
@@ -82,33 +78,35 @@ public abstract class MetawidgetTag
 	 * <code>buildCompoundWidget</code>.
 	 */
 
-	protected String						mPath;
+	protected String							mPath;
 
 	/**
 	 * Prefix of path to inspect, to support nesting.
 	 */
 
-	protected String						mPathPrefix;
+	protected String							mPathPrefix;
+
+	protected MetawidgetMixin<Object, Object>	mMetawidgetMixin;
 
 	//
 	// Private members
 	//
 
-	private String							mConfig					= "metawidget.xml";
+	private String								mConfig					= "metawidget.xml";
 
-	private String							mLayoutClass			= HtmlTableLayout.class.getName();
+	private boolean								mNeedsConfiguring		= true;
 
-	private Layout							mLayout;
+	private String								mLayoutClass			= HtmlTableLayout.class.getName();
 
-	private ResourceBundle					mBundle;
+	private Layout								mLayout;
 
-	private Map<String, String>				mParameters;
+	private ResourceBundle						mBundle;
 
-	private Map<String, FacetContent>		mFacets;
+	private Map<String, String>					mParameters;
 
-	private Map<String, StubContent>		mStubs;
+	private Map<String, FacetContent>			mFacets;
 
-	private MetawidgetMixin<Object, Object>	mMetawidgetMixin;
+	private Map<String, StubContent>			mStubs;
 
 	//
 	// Constructor
@@ -126,6 +124,7 @@ public abstract class MetawidgetTag
 	public void setConfig( String config )
 	{
 		mConfig = config;
+		mNeedsConfiguring = true;
 	}
 
 	public void setLayoutClass( String layoutClass )
@@ -253,6 +252,16 @@ public abstract class MetawidgetTag
 		mMetawidgetMixin.setReadOnly( readOnly );
 	}
 
+	public void setInspector( Inspector inspector )
+	{
+		mMetawidgetMixin.setInspector( inspector );
+	}
+
+	public void setWidgetBuilder( WidgetBuilder<Object, Object> widgetBuilder )
+	{
+		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+	}
+
 	/**
 	 * Exposed for WidgetBuilders.
 	 */
@@ -265,6 +274,8 @@ public abstract class MetawidgetTag
 	@Override
 	public int doEndTag()
 	{
+		configure();
+
 		try
 		{
 			mMetawidgetMixin.buildWidgets( inspect() );
@@ -408,7 +419,7 @@ public abstract class MetawidgetTag
 
 		// Inspect using the 'raw' type (eg. contactForm)
 
-		String xml = inspect( null, type, typeAndNames.getNamesAsArray() );
+		String xml = mMetawidgetMixin.inspect( null, type, typeAndNames.getNamesAsArray() );
 
 		// Try to locate the runtime bean. This allows some Inspectors
 		// to act on it polymorphically.
@@ -418,58 +429,49 @@ public abstract class MetawidgetTag
 		if ( obj != null )
 		{
 			type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
-			String additionalXml = inspect( obj, type, typeAndNames.getNamesAsArray() );
+			String additionalXml = mMetawidgetMixin.inspect( obj, type, typeAndNames.getNamesAsArray() );
 			xml = combineSubtrees( xml, additionalXml );
 		}
 
 		return xml;
 	}
 
-	/**
-	 * Inspect the given Object according to the given path, and return the result as a String
-	 * conforming to inspection-result-1.0.xsd.
-	 * <p>
-	 * This method mirrors the <code>Inspector</code> interface. Internally it looks up the
-	 * Inspector to use. It is a useful hook for subclasses wishing to inspect different Objects
-	 * using our same <code>Inspector</code>.
-	 */
-
-	protected String inspect( Object toInspect, String type, String... names )
+	protected void configure()
 	{
-		Inspector inspector;
+		if ( !mNeedsConfiguring )
+			return;
 
-		// If this InspectorConfig has already been read...
+		mNeedsConfiguring = false;
 
-		ServletContext servletContext = pageContext.getServletContext();
-
-		@SuppressWarnings( "unchecked" )
-		Map<String, Inspector> inspectors = (Map) servletContext.getAttribute( INSPECTORS_ATTRIBUTE );
-
-		// ...use it...
-
-		if ( inspectors != null )
+		try
 		{
-			inspector = inspectors.get( mConfig );
+			if ( mConfig != null )
+			{
+				ServletContext servletContext = pageContext.getServletContext();
+
+				@SuppressWarnings( "unchecked" )
+				ConfigReader2 configReader = (ConfigReader2) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
+
+				if ( configReader == null )
+				{
+					configReader = new ServletConfigReader( servletContext );
+					servletContext.setAttribute( CONFIG_READER_ATTRIBUTE, configReader );
+				}
+
+				configReader.configure( mConfig, this );
+			}
+
+			mMetawidgetMixin.configureDefault();
+			configureDefault();
 		}
-		else
+		catch ( Exception e )
 		{
-			inspectors = CollectionUtils.newHashMap();
-			servletContext.setAttribute( INSPECTORS_ATTRIBUTE, inspectors );
-			inspector = null;
+			throw MetawidgetException.newException( e );
 		}
-
-		// ...otherwise, initialize the Inspector
-
-		if ( inspector == null )
-		{
-			inspector = (Inspector) new ServletConfigReader( pageContext.getServletContext() ).configure( mConfig, Inspector.class );
-			inspectors.put( mConfig, inspector );
-		}
-
-		// Use the inspector to inspect the path
-
-		return inspector.inspect( toInspect, type, names );
 	}
+
+	protected abstract void configureDefault()
+		throws Exception;
 
 	protected StubContent getStub( String path )
 	{
@@ -532,9 +534,20 @@ public abstract class MetawidgetTag
 			throws Exception
 		{
 			if ( widget instanceof StubContent )
-				MetawidgetTag.this.addWidget( ( (StubContent) widget ).getContent(), elementName, attributes );
+			{
+				String stubContent = ( (StubContent) widget ).getContent();
+
+				// Ignore empty stubs
+
+				if ( stubContent.length() == 0 )
+					return;
+
+				MetawidgetTag.this.addWidget( stubContent, elementName, attributes );
+			}
 			else
+			{
 				MetawidgetTag.this.addWidget( (String) widget, elementName, attributes );
+			}
 		}
 
 		@Override

@@ -208,6 +208,21 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		endBuild();
 	}
 
+	public void configureDefault()
+	{
+		try
+		{
+			// TODO: metawidgetannotationinspector
+
+			if ( mInspector == null )
+				mInspector = (Inspector) Class.forName( "org.metawidget.inspector.propertytype.PropertyTypeInspector" ).newInstance();
+		}
+		catch( Exception e )
+		{
+			throw new RuntimeException( e );
+		}
+	}
+
 	//
 	// Protected methods
 	//

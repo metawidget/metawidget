@@ -19,6 +19,7 @@ package org.metawidget.jsp.tagext.html;
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
 
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.w3c.dom.Element;
 
 /**
@@ -40,7 +41,7 @@ public class HtmlMetawidgetTag
 	// Private statics
 	//
 
-	private final static long			serialVersionUID	= 1l;
+	private final static long	serialVersionUID	= 1l;
 
 	//
 	// Public methods
@@ -82,6 +83,24 @@ public class HtmlMetawidgetTag
 		super.setBundle( bundle.getResourceBundle() );
 	}
 
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected void configureDefault()
+		throws Exception
+	{
+		// Sensible WidgetBuilder default
+
+		if ( mMetawidgetMixin.getWidgetBuilder() == null )
+		{
+			@SuppressWarnings( "unchecked" )
+			WidgetBuilder<Object, Object> widgetBuilder = (WidgetBuilder<Object, Object>) Class.forName( "org.metawidget.jsp.tagext.html.widgetbuilder.HtmlWidgetBuilder" ).newInstance();
+			mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+		}
+	}
+
 	@Override
 	protected void beforeBuildCompoundWidget( Element element )
 	{
@@ -89,6 +108,4 @@ public class HtmlMetawidgetTag
 
 		mPathPrefix = mPath + StringUtils.SEPARATOR_DOT_CHAR;
 	}
-
-
 }

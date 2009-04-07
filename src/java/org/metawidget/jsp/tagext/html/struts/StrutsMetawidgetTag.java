@@ -22,6 +22,7 @@ import org.apache.struts.Globals;
 import org.apache.struts.util.MessageResources;
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.w3c.dom.Element;
 
 /**
@@ -90,6 +91,20 @@ public class StrutsMetawidgetTag
 	//
 	// Protected methods
 	//
+
+	@Override
+	protected void configureDefault()
+		throws Exception
+	{
+		// Sensible WidgetBuilder default
+
+		if ( mMetawidgetMixin.getWidgetBuilder() == null )
+		{
+			@SuppressWarnings( "unchecked" )
+			WidgetBuilder<Object, Object> widgetBuilder = (WidgetBuilder<Object, Object>) Class.forName( "org.metawidget.jsp.tagext.html.widgetbuilder.struts.StrutsWidgetBuilder" ).newInstance();
+			mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+		}
+	}
 
 	@Override
 	protected void beforeBuildCompoundWidget( Element element )

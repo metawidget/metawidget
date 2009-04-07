@@ -32,9 +32,9 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * <p>
  * This servlet recognizes the following &lt;init-param&gt;'s:
  * <ul>
- * <li><code>inspector-config</code> - fully qualified path to <code>inspector-config.xml</code>,
- * for example <code>com/foo/inspector-config.xml</code>. Defaults to simply
- * <code>inspector-config.xml</code>.
+ * <li><code>config</code> - fully qualified path to <code>metawidget.xml</code>,
+ * for example <code>com/foo/metawidget.xml</code>. Defaults to simply
+ * <code>metawidget.xml</code>.
  * </ul>
  *
  * @author Richard Kennard
@@ -66,7 +66,7 @@ public class GwtRemoteInspectorImpl
 	{
 		super.init( servletConfig );
 
-		// Locate inspector-config.xml
+		// Locate metawidget.xml
 
 		String config = servletConfig.getInitParameter( "config" );
 

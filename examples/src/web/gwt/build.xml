@@ -52,7 +52,7 @@
 		</copy>
 
 		<copy todir="${addressbook.gwt.project.dir}/src">
-			<fileset dir="addressbook/WEB-INF" includes="inspector-config.xml, metawidget-metadata.xml" />
+			<fileset dir="addressbook/WEB-INF" includes="metawidget.xml, metawidget-metadata.xml" />
 		</copy>
 
 		<copy todir="${addressbook.gwt.project.dir}/test">

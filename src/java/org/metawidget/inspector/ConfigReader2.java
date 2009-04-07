@@ -908,7 +908,7 @@ public class ConfigReader2
 
 			// No such method
 
-			throw new NoSuchMethodException( clazz + "." + name );
+			throw new NoSuchMethodException( clazz + "." + name + "(" + CollectionUtils.toString( args ) + ")" );
 		}
 	}
 }

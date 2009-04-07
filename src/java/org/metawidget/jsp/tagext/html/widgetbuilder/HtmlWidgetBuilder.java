@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.metawidget.MetawidgetException;
+import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -47,7 +48,7 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 @SuppressWarnings( "deprecation" )
 public class HtmlWidgetBuilder
-	extends BaseWidgetBuilder<String, HtmlMetawidgetTag>
+	extends BaseWidgetBuilder<Object, HtmlMetawidgetTag>
 {
 	//
 	// Private statics
@@ -60,15 +61,18 @@ public class HtmlWidgetBuilder
 	//
 
 	@Override
-	protected String buildReadOnlyWidget( String elementName, Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	protected Object buildReadOnlyWidget( String elementName, Map<String, String> attributes, HtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !metawidget.isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return null;
+			if ( !metawidget.isCreateHiddenFields() )
+				return new StubTag.StubContent();
+
+			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return new StubTag.StubContent();
 
 			return writeHiddenTag( attributes, metawidget );
 		}
@@ -76,7 +80,7 @@ public class HtmlWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return null;
+			return new StubTag.StubContent();
 
 		// Masked (return an empty String, so that we DO still render a label)
 
@@ -143,15 +147,18 @@ public class HtmlWidgetBuilder
 	}
 
 	@Override
-	protected String buildActiveWidget( String elementName, Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	protected Object buildActiveWidget( String elementName, Map<String, String> attributes, HtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !metawidget.isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return null;
+			if ( !metawidget.isCreateHiddenFields() )
+				return new StubTag.StubContent();
+
+			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return new StubTag.StubContent();
 
 			return writeHiddenTag( attributes, metawidget );
 		}
@@ -246,7 +253,7 @@ public class HtmlWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return null;
+				return new StubTag.StubContent();
 		}
 
 		// Not simple, but don't expand

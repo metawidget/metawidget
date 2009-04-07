@@ -35,7 +35,7 @@ import org.metawidget.util.CollectionUtils;
  * widgets with a different path.
  * <p>
  * StubTags differ from FacetTags in that they define a path and override widget creation.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -136,6 +136,11 @@ public abstract class StubTag
 		// Constructor
 		//
 		//
+
+		public StubContent()
+		{
+			mContent = "";
+		}
 
 		public StubContent( String content, Map<String, String> attributes )
 		{

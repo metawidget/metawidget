@@ -529,6 +529,8 @@ public abstract class UIMetawidget
 				configReader.configure( mConfig, this );
 			}
 
+			mMetawidgetMixin.configureDefault();
+
 			// Sensible WidgetBuilder default
 
 			if ( mMetawidgetMixin.getWidgetBuilder() == null )
@@ -536,14 +538,6 @@ public abstract class UIMetawidget
 				@SuppressWarnings( "unchecked" )
 				WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = (WidgetBuilder<UIComponent, UIMetawidget>) Class.forName( "org.metawidget.faces.component.widgetbuilder.html.HtmlWidgetBuilder" ).newInstance();
 				mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
-			}
-
-			// Sensible Inspector default
-
-			if ( mMetawidgetMixin.getInspector() == null )
-			{
-				Inspector inspector = (Inspector) Class.forName( "org.metawidget.inspector.propertytype.PropertyTypeInspector" ).newInstance();
-				mMetawidgetMixin.setInspector( inspector );
 			}
 		}
 		catch ( Exception e )

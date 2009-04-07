@@ -8,7 +8,7 @@
 
 	<tag>
 		<name>metawidget</name>
-		<tagclass>org.metawidget.jsp.tagext.struts.StrutsMetawidgetTag</tagclass>
+		<tagclass>org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag</tagclass>
 		<bodycontent>jsp</bodycontent>
 		<info>Metawidget for Struts environments</info>
 		<attribute>
@@ -84,7 +84,7 @@
 
 	<tag>
 		<name>stub</name>
-		<tagclass>org.metawidget.jsp.tagext.struts.StrutsStubTag</tagclass>
+		<tagclass>org.metawidget.jsp.tagext.html.struts.StrutsStubTag</tagclass>
 		<bodycontent>jsp</bodycontent>
 		<info>Stub for JSP environments that output HTML</info>
 		<attribute>

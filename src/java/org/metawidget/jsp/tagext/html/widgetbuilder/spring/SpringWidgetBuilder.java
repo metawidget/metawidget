@@ -32,6 +32,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.metawidget.MetawidgetException;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
+import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -61,7 +62,7 @@ import org.springframework.web.servlet.tags.form.TextareaTag;
 
 @SuppressWarnings( "deprecation" )
 public class SpringWidgetBuilder
-	extends BaseWidgetBuilder<String, SpringMetawidgetTag>
+	extends BaseWidgetBuilder<Object, SpringMetawidgetTag>
 {
 	//
 	// Private statics
@@ -74,7 +75,7 @@ public class SpringWidgetBuilder
 	//
 
 	@Override
-	protected String buildReadOnlyWidget( String elementName, Map<String, String> attributes, SpringMetawidgetTag metawidget )
+	protected Object buildReadOnlyWidget( String elementName, Map<String, String> attributes, SpringMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
@@ -82,10 +83,10 @@ public class SpringWidgetBuilder
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
 			if ( !metawidget.isCreateHiddenFields() )
-				return null;
+				return new StubTag.StubContent();
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return null;
+				return new StubTag.StubContent();
 
 			return writeSpringTag( HiddenInputTag.class, attributes, metawidget );
 		}
@@ -146,7 +147,7 @@ public class SpringWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return null;
+				return new StubTag.StubContent();
 		}
 
 		// Not simple, but don't expand
@@ -160,7 +161,7 @@ public class SpringWidgetBuilder
 	}
 
 	@Override
-	protected String buildActiveWidget( String elementName, Map<String, String> attributes, SpringMetawidgetTag metawidget )
+	protected Object buildActiveWidget( String elementName, Map<String, String> attributes, SpringMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
@@ -168,10 +169,10 @@ public class SpringWidgetBuilder
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
 			if ( !metawidget.isCreateHiddenFields() )
-				return null;
+				return new StubTag.StubContent();
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return null;
+				return new StubTag.StubContent();
 
 			return writeSpringTag( HiddenInputTag.class, attributes, metawidget );
 		}
@@ -179,7 +180,7 @@ public class SpringWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return null;
+			return new StubTag.StubContent();
 
 		// Lookups
 
@@ -245,7 +246,7 @@ public class SpringWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return null;
+				return new StubTag.StubContent();
 		}
 
 		// Not simple, but don't expand

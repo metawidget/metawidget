@@ -8,7 +8,7 @@
 
 	<tag>
 		<name>metawidget</name>
-		<tagclass>org.metawidget.jsp.tagext.spring.SpringMetawidgetTag</tagclass>
+		<tagclass>org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag</tagclass>
 		<bodycontent>jsp</bodycontent>
 		<info>Metawidget for Spring environments</info>
 		<attribute>
@@ -80,7 +80,7 @@
 
 	<tag>
 		<name>stub</name>
-		<tagclass>org.metawidget.jsp.tagext.spring.SpringStubTag</tagclass>
+		<tagclass>org.metawidget.jsp.tagext.html.spring.SpringStubTag</tagclass>
 		<bodycontent>jsp</bodycontent>
 		<info>Stub for JSP environments that output HTML</info>
 		<attribute>

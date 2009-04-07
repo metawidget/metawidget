@@ -26,8 +26,8 @@ import org.metawidget.inspector.iface.InspectorException;
 import org.xml.sax.SAXException;
 
 /**
- * ConfigReader that validates the <code>inspector-config.xml</code> file against the
- * <code>inspector-config-1.0.xsd</code> schema.
+ * ConfigReader that validates the <code>metawidget.xml</code> file against the
+ * <code>metawidget-1.0.xsd</code> schema.
  * <p>
  * Not all environments (eg. J2SE 1.4, Android) support schema validation.
  *
@@ -44,7 +44,7 @@ public class ValidatingConfigReader
 	public ValidatingConfigReader()
 	{
 		SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
-		InputStream in = openResource( "org/metawidget/inspector/inspector-config-1.0.xsd" );
+		InputStream in = openResource( "org/metawidget/inspector/metawidget-1.0.xsd" );
 
 		try
 		{

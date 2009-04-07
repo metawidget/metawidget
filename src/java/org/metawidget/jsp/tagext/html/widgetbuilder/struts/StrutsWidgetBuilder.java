@@ -25,13 +25,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.Servlet;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.apache.struts.action.ActionServletWrapper;
 import org.apache.struts.taglib.html.BaseHandlerTag;
 import org.apache.struts.taglib.html.BaseInputTag;
 import org.apache.struts.taglib.html.CheckboxTag;
@@ -42,10 +40,10 @@ import org.apache.struts.taglib.html.PasswordTag;
 import org.apache.struts.taglib.html.SelectTag;
 import org.apache.struts.taglib.html.TextTag;
 import org.apache.struts.taglib.html.TextareaTag;
-import org.apache.struts.upload.MultipartRequestHandler;
 import org.metawidget.MetawidgetException;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
+import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -62,7 +60,7 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 @SuppressWarnings( "deprecation" )
 public class StrutsWidgetBuilder
-	extends BaseWidgetBuilder<String, StrutsMetawidgetTag>
+	extends BaseWidgetBuilder<Object, StrutsMetawidgetTag>
 {
 	//
 	// Private statics
@@ -75,15 +73,18 @@ public class StrutsWidgetBuilder
 	//
 
 	@Override
-	protected String buildReadOnlyWidget( String elementName, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
+	protected Object buildReadOnlyWidget( String elementName, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !metawidget.isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return null;
+			if ( !metawidget.isCreateHiddenFields() )
+				return new StubTag.StubContent();
+
+			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return new StubTag.StubContent();
 
 			return writeStrutsTag( HiddenTag.class, attributes, metawidget );
 		}
@@ -91,7 +92,7 @@ public class StrutsWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return null;
+			return new StubTag.StubContent();
 
 		// Masked (return an empty String, so that we DO still render a label)
 
@@ -144,7 +145,7 @@ public class StrutsWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return null;
+				return new StubTag.StubContent();
 		}
 
 		// Not simple, but don't expand
@@ -158,7 +159,7 @@ public class StrutsWidgetBuilder
 	}
 
 	@Override
-	protected String buildActiveWidget( String elementName, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
+	protected Object buildActiveWidget( String elementName, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
@@ -166,10 +167,10 @@ public class StrutsWidgetBuilder
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
 			if ( !metawidget.isCreateHiddenFields() )
-				return null;
+				return new StubTag.StubContent();
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return null;
+				return new StubTag.StubContent();
 
 			return writeStrutsTag( HiddenTag.class, attributes, metawidget );
 		}
@@ -177,7 +178,7 @@ public class StrutsWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return null;
+			return new StubTag.StubContent();
 
 		// Struts Lookups
 
@@ -216,17 +217,6 @@ public class StrutsWidgetBuilder
 				return writeStrutsTag( TextTag.class, attributes, metawidget );
 			}
 
-			// Never inspect ActionForm base properties
-
-			if ( ActionServletWrapper.class.isAssignableFrom( clazz ) )
-				return null;
-
-			if ( MultipartRequestHandler.class.isAssignableFrom( clazz ) )
-				return null;
-
-			if ( Servlet.class.isAssignableFrom( clazz ) )
-				return null;
-
 			// Strings
 
 			if ( String.class.equals( clazz ) )
@@ -258,7 +248,7 @@ public class StrutsWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return null;
+				return new StubTag.StubContent();
 		}
 
 		// Not simple, but don't expand

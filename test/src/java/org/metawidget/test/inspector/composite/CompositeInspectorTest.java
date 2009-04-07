@@ -65,7 +65,7 @@ public class CompositeInspectorTest
 		// Set up
 
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/inspection-result/inspection-result-1.0.xsd\" version=\"1.0\">";
+		xml += "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/inspection-result-1.0.xsd\" version=\"1.0\">";
 		xml += "<entity type=\"org.metawidget.example.shared.addressbook.model.PersonalContact\">";
 		xml += "<property name=\"id\" hidden=\"true\"/>";
 		xml += "<property name=\"fullname\" hidden=\"true\"/>";

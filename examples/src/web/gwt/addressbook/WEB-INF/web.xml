@@ -25,11 +25,11 @@
 		<servlet-name>metawidget-inspector</servlet-name>
 		<servlet-class>org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl</servlet-class>
 		
-		<!-- Optional 'inspector-config' override -->
+		<!-- Optional 'config' override -->
 		
 		<init-param>
-			<param-name>inspector-config</param-name>
-			<param-value>inspector-config.xml</param-value>
+			<param-name>config</param-name>
+			<param-value>metawidget.xml</param-value>
 		</init-param>
 	</servlet>
 

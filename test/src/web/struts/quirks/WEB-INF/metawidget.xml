@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
+
+	<strutsMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html.struts">
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<list>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle</propertyStyle>
+						</propertyTypeInspector>
+						<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/>
+					</list>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+	</strutsMetawidgetTag>			
+
+</metawidget>

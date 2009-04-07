@@ -68,7 +68,7 @@ public class GwtRemoteInspectorProxy
 	 * <p>
 	 * This version of the constructor allows the caller to override the 'service entry point' of
 	 * the <code>GwtRemoteInspectorImpl</code> servlet. This can be useful for setting up multiple
-	 * servlets, each with their own <code>inspector-config.xml</code> configuration.
+	 * servlets, each with their own <code>metawidget.xml</code> configuration.
 	 *
 	 * @param serviceEntryPoint
 	 *            override servlet path of serviceEntryPoint
