@@ -884,7 +884,7 @@ public class ConfigReader
 			Class<?> clazz = ClassUtils.niceForName( toConstruct );
 
 			if ( clazz == null )
-				throw InspectorException.newException( "No such class " + toConstruct );
+				throw InspectorException.newException( "No such class " + toConstruct + " or supported tag <" + localName + ">" );
 
 			return clazz;
 		}

@@ -17,6 +17,7 @@
 package org.metawidget.test.inspector;
 
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.metawidget.inspector.iface.Inspector;
@@ -33,11 +34,11 @@ public class BadInspector
 	// Private members
 	//
 
-	private List<String>	mListOfStrings;
+	private List<Object>	mList;
+
+	private Set<Object>		mSet;
 
 	private int				mInt;
-
-	private List<Class<?>>	mListOfClasses;
 
 	private boolean			mBoolean;
 
@@ -52,9 +53,9 @@ public class BadInspector
 		if ( config.isFailDuringConstruction() )
 			throw new RuntimeException( "Failed during construction" );
 
-		mListOfStrings = config.getListOfStrings();
+		mList = config.getList();
+		mSet = config.getSet();
 		mInt = config.getInt();
-		mListOfClasses = config.getListOfClasses();
 		mBoolean = config.isBoolean();
 		mPattern = config.getPattern();
 	}
@@ -69,19 +70,19 @@ public class BadInspector
 		return null;
 	}
 
-	public List<String> getListOfStrings()
+	public List<Object> getList()
 	{
-		return mListOfStrings;
+		return mList;
+	}
+
+	public Set<Object> getSet()
+	{
+		return mSet;
 	}
 
 	public int getInt()
 	{
 		return mInt;
-	}
-
-	public List<Class<?>> getListOfClasses()
-	{
-		return mListOfClasses;
 	}
 
 	public boolean isBoolean()

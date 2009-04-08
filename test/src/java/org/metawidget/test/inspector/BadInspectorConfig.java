@@ -18,6 +18,7 @@ package org.metawidget.test.inspector;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
@@ -30,17 +31,17 @@ public class BadInspectorConfig
 	// Private members
 	//
 
-	private List<String>	mListOfStrings;
+	private List<Object>	mList;
+
+	private Set<Object>		mSet;
 
 	private int				mInt;
-
-	private List<Class<?>>	mListOfClasses;
 
 	private boolean			mBoolean;
 
 	private Pattern			mPattern;
 
-	private String			mNull = "not-null";
+	private String			mNull	= "not-null";
 
 	private boolean			mFailDuringConstruction;
 
@@ -48,14 +49,24 @@ public class BadInspectorConfig
 	// Public methods
 	//
 
-	public void setListOfStrings( List<String> listOfStrings )
+	public void setList( List<Object> list )
 	{
-		mListOfStrings = listOfStrings;
+		mList = list;
 	}
 
-	public List<String> getListOfStrings()
+	public List<Object> getList()
 	{
-		return mListOfStrings;
+		return mList;
+	}
+
+	public void setSet( Set<Object> set )
+	{
+		mSet = set;
+	}
+
+	public Set<Object> getSet()
+	{
+		return mSet;
 	}
 
 	public void setInt( int anInt )
@@ -66,16 +77,6 @@ public class BadInspectorConfig
 	public int getInt()
 	{
 		return mInt;
-	}
-
-	public void setListOfClasses( List<Class<?>> listOfClasses )
-	{
-		mListOfClasses = listOfClasses;
-	}
-
-	public List<Class<?>> getListOfClasses()
-	{
-		return mListOfClasses;
 	}
 
 	public boolean isBoolean()

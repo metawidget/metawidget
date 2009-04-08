@@ -20,6 +20,8 @@ import java.awt.Point;
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.List;
+import java.util.Set;
 
 import javax.swing.JComponent;
 
@@ -350,20 +352,21 @@ public class ConfigReaderTest
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.test.inspector\" config=\"BadInspectorConfig\">";
 		xml += "<int><int>3</int></int>";
-		xml += "<listOfStrings>";
+		xml += "<list>";
 		xml += "<list>";
 		xml += "<string>foo</string>";
 		xml += "<string>bar</string>";
-		xml += "</list>";
-		xml += "</listOfStrings>";
-		xml += "<listOfClasses>";
-		xml += "<list>";
 		xml += "<class>java.lang.String</class>";
 		xml += "<class>java.util.Date</class>";
 		xml += "<class>java.lang.Long</class>";
 		xml += "<null/>";
 		xml += "</list>";
-		xml += "</listOfClasses>";
+		xml += "</list>";
+		xml += "<set>";
+		xml += "<set>";
+		xml += "<string>baz</string>";
+		xml += "</set>";
+		xml += "</set>";
 		xml += "<boolean><boolean>true</boolean></boolean>";
 		xml += "<pattern><pattern>.*?</pattern></pattern>";
 		xml += "<null><null/></null>";
@@ -373,15 +376,17 @@ public class ConfigReaderTest
 		BadInspector inspector = (BadInspector) new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 		assertTrue( 3 == inspector.getInt() );
 
-		assertTrue( "foo".equals( inspector.getListOfStrings().get( 0 ) ) );
-		assertTrue( "bar".equals( inspector.getListOfStrings().get( 1 ) ) );
-		assertTrue( 2 == inspector.getListOfStrings().size() );
+		List<Object> list = inspector.getList();
+		assertTrue( "foo".equals( list.get( 0 ) ) );
+		assertTrue( "bar".equals( list.get( 1 ) ) );
+		assertTrue( String.class.equals( list.get( 2 ) ) );
+		assertTrue( Date.class.equals( list.get( 3 ) ) );
+		assertTrue( Long.class.equals( list.get( 4 ) ) );
+		assertTrue( null == list.get( 5 ) );
+		assertTrue( 6 == list.size() );
 
-		assertTrue( String.class.equals( inspector.getListOfClasses().get( 0 ) ) );
-		assertTrue( Date.class.equals( inspector.getListOfClasses().get( 1 ) ) );
-		assertTrue( Long.class.equals( inspector.getListOfClasses().get( 2 ) ) );
-		assertTrue( null == inspector.getListOfClasses().get( 3 ) );
-		assertTrue( 4 == inspector.getListOfClasses().size() );
+		Set<Object> set = inspector.getSet();
+		assertTrue( "baz".equals( set.iterator().next() ));
 
 		assertTrue( true == inspector.isBoolean() );
 		assertTrue( ".*?".equals( inspector.getPattern().toString() ) );
@@ -403,7 +408,7 @@ public class ConfigReaderTest
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "No such class org.metawidget.test.inspector.Date" ) );
+			assertTrue( e.getMessage().endsWith( "No such class org.metawidget.test.inspector.Date or supported tag <date>" ) );
 		}
 	}
 
