@@ -12,9 +12,9 @@
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
-							<file>
+							<inputStream>
 								<resource>@org.metawidget.example.android.addressbook:raw/metawidget_metadata</resource>
-							</file>
+							</inputStream>
 						</xmlInspector>
 					</list>
 				</inspectors>

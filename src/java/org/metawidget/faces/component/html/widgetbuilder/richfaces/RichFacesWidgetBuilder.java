@@ -55,8 +55,6 @@ public class RichFacesWidgetBuilder
 	protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 		throws Exception
 	{
-		// Not for RichFaces
-
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 			return null;
 

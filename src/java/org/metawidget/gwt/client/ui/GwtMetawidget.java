@@ -1177,10 +1177,14 @@ public class GwtMetawidget
 	protected class GwtMetawidgetMixinImpl
 		extends GwtMetawidgetMixin<Widget, GwtMetawidget>
 	{
-		//
+		@Override
+		public void configureDefault()
+		{
+			// TODO: smarter use of Inspector for GWT
+		}
+
 		//
 		// Protected methods
-		//
 		//
 
 		@Override

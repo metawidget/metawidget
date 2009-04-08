@@ -45,6 +45,7 @@ import javax.swing.text.JTextComponent;
 import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.actionbinding.ActionBinding;
 import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
@@ -1259,9 +1260,18 @@ public class SwingMetawidget
 		extends MetawidgetMixin<JComponent, SwingMetawidget>
 	{
 		//
+		// Public methods
+		//
+
+		@Override
+		public void configureDefault()
+		{
+			if ( getInspector() == null )
+				setInspector( new PropertyTypeInspector() );
+		}
+
 		//
 		// Protected methods
-		//
 		//
 
 		@Override

@@ -9,10 +9,14 @@
 				<inspectors>
 					<list>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
-							<propertyStyle>org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle</propertyStyle>			
+							<propertyStyle>
+								<class>org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle</class>
+							</propertyStyle>			
 						</metawidgetAnnotationInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
-							<propertyStyle>org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle</propertyStyle>			
+							<propertyStyle>
+								<class>org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle</class>
+							</propertyStyle>			
 						</propertyTypeInspector>
 					</list>
 				</inspectors>

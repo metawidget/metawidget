@@ -185,7 +185,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			W widget = getOverriddenWidget( elementName, attributes );
 
 			if ( widget == null )
-				widget = mWidgetBuilder.buildWidget( elementName, attributes, getMixinOwner() );
+				widget = buildWidget( elementName, attributes );
 
 			// If mWidgetBuilder.buildWidget returns null, try buildCompoundWidget (from our child
 			// elements)
@@ -208,20 +208,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		endBuild();
 	}
 
-	public void configureDefault()
-	{
-		try
-		{
-			// TODO: metawidgetannotationinspector
-
-			if ( mInspector == null )
-				mInspector = (Inspector) Class.forName( "org.metawidget.inspector.propertytype.PropertyTypeInspector" ).newInstance();
-		}
-		catch( Exception e )
-		{
-			throw new RuntimeException( e );
-		}
-	}
+	public abstract void configureDefault();
 
 	//
 	// Protected methods
@@ -266,7 +253,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 			if ( widget == null )
 			{
-				widget = mWidgetBuilder.buildWidget( elementName, attributes, getMixinOwner() );
+				widget = buildWidget( elementName, attributes );
 
 				if ( widget == null )
 				{
@@ -317,6 +304,20 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	protected abstract boolean isStub( W widget );
 
 	protected abstract Map<String, String> getStubAttributes( W stub );
+
+	/**
+	 * Builds the widget using our <code>WidgetBuilder</code>.
+	 * <p>
+	 * Subclasses can override this method to perform post-initalization on the built widget. Those
+	 * looking to perform post-initialization on any widget (whether built or overridden) should
+	 * override <code>addWidget</code>.
+	 */
+
+	protected W buildWidget( String elementName, Map<String, String> attributes )
+		throws Exception
+	{
+		return mWidgetBuilder.buildWidget( elementName, attributes, getMixinOwner() );
+	}
 
 	protected abstract M buildNestedMetawidget( Map<String, String> attributes )
 		throws Exception;

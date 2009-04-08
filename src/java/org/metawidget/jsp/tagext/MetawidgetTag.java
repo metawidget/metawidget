@@ -33,6 +33,7 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
@@ -522,9 +523,18 @@ public abstract class MetawidgetTag
 		extends MetawidgetMixin<Object, Object>
 	{
 		//
-		//
 		// Public methods
 		//
+
+		@Override
+		public void configureDefault()
+		{
+			if ( getInspector() == null )
+				setInspector( new PropertyTypeInspector() );
+		}
+
+		//
+		// Protected methods
 		//
 
 		@Override

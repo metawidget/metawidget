@@ -9,9 +9,9 @@
 				<inspectors>
 					<list>	
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
-							<file>
+							<inputStream>
 								<resource>org/metawidget/test/shared/allwidgets/model/metawidget-metadata.xml</resource>
-							</file>
+							</inputStream>
 						</xmlInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 					</list>

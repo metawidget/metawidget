@@ -91,19 +91,14 @@ public class HtmlWidgetBuilder
 	protected UIComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 		throws Exception
 	{
-		Application application = FacesContext.getCurrentInstance().getApplication();
-
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
-			if ( !( (HtmlMetawidget) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return application.createComponent( "org.metawidget.Stub" );
-
-			return application.createComponent( "javax.faces.HtmlInputHidden" );
-		}
+			return createHiddenComponent( attributes, metawidget );
 
 		// Masked (return a couple of nested Stubs, so that we DO still render a label)
+
+		Application application = FacesContext.getCurrentInstance().getApplication();
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
 		{
@@ -177,7 +172,7 @@ public class HtmlWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return createCollectionComponent( clazz, attributes, metawidget );
+				return createHiddenComponent( attributes, metawidget );
 		}
 
 		// Not simple, but don't expand
@@ -201,21 +196,15 @@ public class HtmlWidgetBuilder
 	protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 		throws Exception
 	{
-		FacesContext context = FacesContext.getCurrentInstance();
-		Application application = context.getApplication();
-		String type = attributes.get( TYPE );
-
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-		{
-			if ( !( (HtmlMetawidget) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return application.createComponent( "org.metawidget.Stub" );
-
-			return application.createComponent( "javax.faces.HtmlInputHidden" );
-		}
+			return createHiddenComponent( attributes, metawidget );
 
 		// Overridden component
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
 
 		UIComponent component = null;
 		String componentName = attributes.get( FACES_COMPONENT );
@@ -237,6 +226,7 @@ public class HtmlWidgetBuilder
 
 		// Faces Lookups
 
+		String type = attributes.get( TYPE );
 		Class<?> clazz = null;
 
 		if ( type != null )
@@ -250,7 +240,7 @@ public class HtmlWidgetBuilder
 			{
 				// UISelectMany...
 
-				if ( clazz != null && isSelectManyCompatible( clazz ) )
+				if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ))
 				{
 					component = application.createComponent( "javax.faces.HtmlSelectManyCheckbox" );
 				}
@@ -307,7 +297,7 @@ public class HtmlWidgetBuilder
 				{
 					// UISelectMany...
 
-					if ( isSelectManyCompatible( clazz ) )
+					if ( List.class.isAssignableFrom( clazz ) || clazz.isArray() )
 					{
 						component = application.createComponent( "javax.faces.HtmlSelectManyCheckbox" );
 					}
@@ -435,9 +425,7 @@ public class HtmlWidgetBuilder
 					}
 				}
 				else if ( Collection.class.isAssignableFrom( clazz ) )
-				{
-					component = createCollectionComponent( clazz, attributes, metawidget );
-				}
+					return createHiddenComponent( attributes, metawidget );
 			}
 
 			// Populate Booleans (are tri-state)
@@ -482,7 +470,23 @@ public class HtmlWidgetBuilder
 		return null;
 	}
 
-	protected UIComponent createReadOnlyComponent( Map<String, String> attributes, UIMetawidget metawidget )
+	//
+	// Private methods
+	//
+
+	private UIComponent createHiddenComponent( Map<String, String> attributes, UIMetawidget metawidget )
+	{
+		Application application = FacesContext.getCurrentInstance().getApplication();
+
+		if ( !( (HtmlMetawidget) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
+			return application.createComponent( "org.metawidget.Stub" );
+
+		// If using hidden fields, create a hidden field to POST back
+
+		return application.createComponent( "javax.faces.HtmlInputHidden" );
+	}
+
+	private UIComponent createReadOnlyComponent( Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		Application application = FacesContext.getCurrentInstance().getApplication();
 
@@ -493,7 +497,7 @@ public class HtmlWidgetBuilder
 		return createReadOnlyComponent( attributes, readOnlyComponent, metawidget );
 	}
 
-	protected UIComponent createReadOnlyComponent( Map<String, String> attributes, UIComponent readOnlyComponent, UIMetawidget metawidget )
+	private UIComponent createReadOnlyComponent( Map<String, String> attributes, UIComponent readOnlyComponent, UIMetawidget metawidget )
 	{
 		Application application = FacesContext.getCurrentInstance().getApplication();
 
@@ -512,31 +516,7 @@ public class HtmlWidgetBuilder
 		return componentStub;
 	}
 
-	/**
-	 * Returns true if the class is of a type compatible with UISelectMany.
-	 * <p>
-	 * By default, JSF's UISelectMany only supports Lists and Arrays. Clients can override this if
-	 * their framework also supports other collection types, such as Sets.
-	 */
-
-	protected boolean isSelectManyCompatible( Class<?> clazz )
-	{
-		return ( List.class.isAssignableFrom( clazz ) || clazz.isArray() );
-	}
-
-	protected UIComponent createCollectionComponent( Class<?> collectionClass, Map<String, String> attributes, UIMetawidget metawidget )
-	{
-		Application application = FacesContext.getCurrentInstance().getApplication();
-
-		if ( !( (HtmlMetawidget) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
-			return null;
-
-		// If using hidden fields, create a hidden field to POST back the Collection
-
-		return application.createComponent( "javax.faces.HtmlInputHidden" );
-	}
-
-	protected void addSelectItems( UIComponent component, List<?> values, List<String> labels, Map<String, String> attributes )
+	private void addSelectItems( UIComponent component, List<?> values, List<String> labels, Map<String, String> attributes )
 	{
 		if ( values == null )
 			return;
@@ -581,7 +561,7 @@ public class HtmlWidgetBuilder
 		}
 	}
 
-	protected void addSelectItem( UIComponent component, Object value, String label )
+	private void addSelectItem( UIComponent component, Object value, String label )
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -631,7 +611,7 @@ public class HtmlWidgetBuilder
 		children.add( selectItem );
 	}
 
-	protected void addSelectItems( UIComponent component, String binding, Map<String, String> attributes )
+	private void addSelectItems( UIComponent component, String binding, Map<String, String> attributes )
 	{
 		if ( binding == null )
 			return;

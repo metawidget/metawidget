@@ -54,6 +54,7 @@ import org.metawidget.faces.component.validator.StandardValidator;
 import org.metawidget.faces.component.validator.Validator;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
@@ -375,10 +376,10 @@ public abstract class UIMetawidget
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		configure();
-
 		try
 		{
+			configure();
+
 			// Inspect from the value binding...
 
 			ValueBinding valueBinding = getValueBinding( "value" );
@@ -529,37 +530,31 @@ public abstract class UIMetawidget
 	}
 
 	protected void configure()
+		throws Exception
 	{
 		if ( !mNeedsConfiguring )
 			return;
 
 		mNeedsConfiguring = false;
 
-		try
+		if ( mConfig != null )
 		{
-			if ( mConfig != null )
+			FacesContext facesContext = getFacesContext();
+			Map<String, Object> applicationMap = facesContext.getExternalContext().getApplicationMap();
+			@SuppressWarnings( "unchecked" )
+			ConfigReader configReader = (ConfigReader) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
+
+			if ( configReader == null )
 			{
-				FacesContext facesContext = getFacesContext();
-				Map<String, Object> applicationMap = facesContext.getExternalContext().getApplicationMap();
-				@SuppressWarnings( "unchecked" )
-				ConfigReader configReader = (ConfigReader) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
-
-				if ( configReader == null )
-				{
-					configReader = new ServletConfigReader( ( (HttpSession) facesContext.getExternalContext().getSession( false ) ).getServletContext() );
-					applicationMap.put( APPLICATION_ATTRIBUTE_CONFIG_READER, configReader );
-				}
-
-				configReader.configure( mConfig, this );
+				configReader = new ServletConfigReader( ( (HttpSession) facesContext.getExternalContext().getSession( false ) ).getServletContext() );
+				applicationMap.put( APPLICATION_ATTRIBUTE_CONFIG_READER, configReader );
 			}
 
-			mMetawidgetMixin.configureDefault();
-			configureDefault();
+			configReader.configure( mConfig, this );
 		}
-		catch ( Exception e )
-		{
-			throw MetawidgetException.newException( e );
-		}
+
+		mMetawidgetMixin.configureDefault();
+		configureDefault();
 	}
 
 	protected abstract void configureDefault()
@@ -753,6 +748,31 @@ public abstract class UIMetawidget
 			return;
 
 		mBindingPrefix = FacesUtils.unwrapValueReference( valueBinding.getExpressionString() ) + StringUtils.SEPARATOR_DOT_CHAR;
+	}
+
+	protected UIComponent afterBuildWidget( UIComponent component, Map<String, String> attributes )
+		throws Exception
+	{
+		if ( component == null )
+			return null;
+
+		// Immediate
+
+		String immediateString = attributes.get( FACES_IMMEDIATE );
+
+		if ( immediateString != null )
+		{
+			boolean immediate = Boolean.parseBoolean( immediateString );
+
+			if ( component instanceof ActionSource )
+				( (ActionSource) component ).setImmediate( immediate );
+			else if ( component instanceof EditableValueHolder )
+				( (EditableValueHolder) component ).setImmediate( immediate );
+			else
+				throw new Exception( "'Immediate' cannot be applied to " + component.getClass() );
+		}
+
+		return component;
 	}
 
 	protected abstract UIMetawidget buildNestedMetawidget( Map<String, String> attributes );
@@ -1119,22 +1139,6 @@ public abstract class UIMetawidget
 		FacesContext context = getFacesContext();
 		Application application = context.getApplication();
 
-		// Immediate
-
-		String immediateString = attributes.get( FACES_IMMEDIATE );
-
-		if ( immediateString != null )
-		{
-			boolean immediate = Boolean.parseBoolean( immediateString );
-
-			if ( widget instanceof ActionSource )
-				( (ActionSource) widget ).setImmediate( immediate );
-			else if ( widget instanceof EditableValueHolder )
-				( (EditableValueHolder) widget ).setImmediate( immediate );
-			else
-				throw new Exception( "'Immediate' cannot be applied to " + widget.getClass() );
-		}
-
 		// Bind actions
 
 		if ( widget instanceof ActionSource )
@@ -1320,9 +1324,7 @@ public abstract class UIMetawidget
 		extends MetawidgetMixin<UIComponent, UIMetawidget>
 	{
 		//
-		//
 		// Public methods
-		//
 		//
 
 		@Override
@@ -1331,6 +1333,13 @@ public abstract class UIMetawidget
 			// Check read-only value binding
 
 			return UIMetawidget.this.isReadOnly();
+		}
+
+		@Override
+		public void configureDefault()
+		{
+			if ( getInspector() == null )
+				setInspector( new PropertyTypeInspector() );
 		}
 
 		//
@@ -1375,6 +1384,14 @@ public abstract class UIMetawidget
 		protected Map<String, String> getStubAttributes( UIComponent stub )
 		{
 			return ( (UIStub) stub ).getStubAttributes();
+		}
+
+		@Override
+		protected UIComponent buildWidget( String type, Map<String, String> attributes )
+			throws Exception
+		{
+			UIComponent component = super.buildWidget( type, attributes );
+			return UIMetawidget.this.afterBuildWidget( component, attributes );
 		}
 
 		@Override

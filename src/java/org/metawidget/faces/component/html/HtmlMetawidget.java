@@ -23,7 +23,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.faces.component.UIStub;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
@@ -104,12 +103,31 @@ public class HtmlMetawidget
 	}
 
 	@Override
-	protected void addWidget( UIComponent component, String elementName, Map<String, String> attributes )
+	protected UIComponent afterBuildWidget( UIComponent component, Map<String, String> attributes )
 		throws Exception
 	{
-		applyStyles( component, attributes );
+		// Apply CSS attributes
 
-		super.addWidget( component, elementName, attributes );
+		if ( component != null )
+		{
+			// Note: this applies the styles to UIStubs too. In practice, this seemed to give
+			// more 'expected' behaviour than drilling into the UIStubs and applying the styles
+			// to all their subcomponents
+
+			Map<String, Object> componentAttributes = component.getAttributes();
+			Map<String, Object> thisAttributes = getAttributes();
+			String style = (String) thisAttributes.get( "style" );
+
+			if ( style != null && !componentAttributes.containsKey( "style" ) )
+				componentAttributes.put( "style", style );
+
+			String styleClass = (String) thisAttributes.get( "styleClass" );
+
+			if ( styleClass != null && !componentAttributes.containsKey( "styleClass" ) )
+				componentAttributes.put( "styleClass", styleClass );
+		}
+
+		return super.afterBuildWidget( component, attributes );
 	}
 
 	/**
@@ -135,34 +153,5 @@ public class HtmlMetawidget
 		super.initNestedMetawidget( metawidget, attributes );
 
 		( (HtmlMetawidget) metawidget ).setCreateHiddenFields( mCreateHiddenFields );
-	}
-
-	//
-	// Private methods
-	//
-
-	private void applyStyles( UIComponent componentToStyle, Map<String, String> attributes )
-	{
-		if ( componentToStyle instanceof UIStub )
-		{
-			for( UIComponent component : componentToStyle.getChildren() )
-			{
-				applyStyles( component, attributes );
-			}
-
-			return;
-		}
-
-		Map<String, Object> componentAttributes = componentToStyle.getAttributes();
-		Map<String, Object> thisAttributes = getAttributes();
-		String style = (String) thisAttributes.get( "style" );
-
-		if ( style != null && !componentAttributes.containsKey( "style" ) )
-			componentAttributes.put( "style", style );
-
-		String styleClass = (String) thisAttributes.get( "styleClass" );
-
-		if ( styleClass != null && !componentAttributes.containsKey( "styleClass" ) )
-			componentAttributes.put( "styleClass", styleClass );
 	}
 }
