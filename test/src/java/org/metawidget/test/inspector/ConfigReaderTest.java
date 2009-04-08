@@ -18,6 +18,9 @@ package org.metawidget.test.inspector;
 
 import java.awt.Point;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
@@ -55,6 +58,12 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 public class ConfigReaderTest
 	extends TestCase
 {
+	//
+	// Private statics
+	//
+
+	private final static int	BUFFER_SIZE	= 1024 * 64;
+
 	//
 	// Constructor
 	//
@@ -369,7 +378,8 @@ public class ConfigReaderTest
 		xml += "</set>";
 		xml += "<boolean><boolean>true</boolean></boolean>";
 		xml += "<pattern><pattern>.*?</pattern></pattern>";
-		xml += "<null><null/></null>";
+		xml += "<inputStream><resource>org/metawidget/test/swing/allwidgets/metawidget.xml</resource></inputStream>";
+		xml += "<resourceBundle><bundle>org.metawidget.test.shared.allwidgets.resource.Resources</bundle></resourceBundle>";
 		xml += "</badInspector>";
 		xml += "</metawidget>";
 
@@ -386,10 +396,16 @@ public class ConfigReaderTest
 		assertTrue( 6 == list.size() );
 
 		Set<Object> set = inspector.getSet();
-		assertTrue( "baz".equals( set.iterator().next() ));
+		assertTrue( "baz".equals( set.iterator().next() ) );
 
 		assertTrue( true == inspector.isBoolean() );
 		assertTrue( ".*?".equals( inspector.getPattern().toString() ) );
+
+		ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
+		streamBetween( inspector.getInputStream(), streamOut );
+		assertTrue( streamOut.toString().contains( "<metawidget xmlns=\"http://metawidget.org\"" ) );
+
+		assertTrue( "Limited textbox (i18n)".equals( inspector.getResourceBundle().getString( "limitedTextbox" ) ) );
 	}
 
 	public void testUnsupportedType()
@@ -448,7 +464,7 @@ public class ConfigReaderTest
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( "java.lang.UnsupportedOperationException: Called setNoParameters".equals( e.getMessage() ));
+			assertTrue( "java.lang.UnsupportedOperationException: Called setNoParameters".equals( e.getMessage() ) );
 		}
 	}
 
@@ -465,7 +481,7 @@ public class ConfigReaderTest
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( "No match for class org.metawidget.test.inspector.BadInspector within config".equals( e.getMessage() ));
+			assertTrue( "No match for class org.metawidget.test.inspector.BadInspector within config".equals( e.getMessage() ) );
 		}
 	}
 
@@ -484,7 +500,7 @@ public class ConfigReaderTest
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( "Already configured a class org.metawidget.test.inspector.BadInspector, ambiguous match with class org.metawidget.test.inspector.BadInspector".equals( e.getMessage() ));
+			assertTrue( "Already configured a class org.metawidget.test.inspector.BadInspector, ambiguous match with class org.metawidget.test.inspector.BadInspector".equals( e.getMessage() ) );
 		}
 	}
 
@@ -530,6 +546,43 @@ public class ConfigReaderTest
 		catch ( InspectorException e )
 		{
 			assertTrue( "Unable to locate  foo on CLASSPATH".equals( e.getMessage() ) );
+		}
+	}
+
+	//
+	// Private methods
+	//
+
+	private void streamBetween( InputStream in, OutputStream out )
+	{
+		try
+		{
+			int iCount;
+
+			// (must create a local buffer for Thread-safety)
+
+			byte[] byteData = new byte[BUFFER_SIZE];
+
+			while ( ( iCount = in.read( byteData, 0, BUFFER_SIZE ) ) != -1 )
+			{
+				out.write( byteData, 0, iCount );
+			}
+		}
+		catch ( Exception e )
+		{
+			throw new RuntimeException( e );
+		}
+		finally
+		{
+			try
+			{
+				out.close();
+				in.close();
+			}
+			catch ( Exception e )
+			{
+				throw new RuntimeException( e );
+			}
 		}
 	}
 }

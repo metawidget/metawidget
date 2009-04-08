@@ -94,7 +94,7 @@ public class SpringWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return null;
+			return new StubTag.StubContent();
 
 		// Masked (return an empty String, so that we DO still render a label)
 

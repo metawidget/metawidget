@@ -16,8 +16,10 @@
 
 package org.metawidget.test.inspector;
 
+import java.io.InputStream;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -41,7 +43,9 @@ public class BadInspectorConfig
 
 	private Pattern			mPattern;
 
-	private String			mNull	= "not-null";
+	private InputStream		mInputStream;
+
+	private ResourceBundle	mResourceBundle;
 
 	private boolean			mFailDuringConstruction;
 
@@ -99,14 +103,24 @@ public class BadInspectorConfig
 		mPattern = pattern;
 	}
 
-	public String getNull()
+	public InputStream getInputStream()
 	{
-		return mNull;
+		return mInputStream;
 	}
 
-	public void setNull( String value )
+	public void setInputStream( InputStream inputStream )
 	{
-		mNull = value;
+		mInputStream = inputStream;
+	}
+
+	public ResourceBundle getResourceBundle()
+	{
+		return mResourceBundle;
+	}
+
+	public void setResourceBundle( ResourceBundle resourceBundle )
+	{
+		mResourceBundle = resourceBundle;
 	}
 
 	public void setFailDuringConstruction( boolean failDuringConstruction )

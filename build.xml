@@ -1824,6 +1824,7 @@
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
+				<include name="org/metawidget/widgetbuilder/**"/>
 			</fileset>
 			<fileset dir="src/java">			
 				<include name="**/*.xsd"/>

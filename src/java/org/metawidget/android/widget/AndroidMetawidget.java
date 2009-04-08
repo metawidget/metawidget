@@ -94,7 +94,7 @@ public class AndroidMetawidget
 
 	private String									mPath;
 
-	private int										mInspectorConfig;
+	private int										mConfig;
 
 	private Inspector								mInspector;
 
@@ -169,7 +169,7 @@ public class AndroidMetawidget
 
 		// Support configuring inspectors in the XML
 
-		mInspectorConfig = attributes.getAttributeResourceValue( null, "inspectorConfig", 0 );
+		mConfig = attributes.getAttributeResourceValue( null, "config", 0 );
 
 		// Support configuring layouts in the XML
 
@@ -246,9 +246,9 @@ public class AndroidMetawidget
 	 * Typically, the id will be retrieved by <code>R.raw.inspector</code>
 	 */
 
-	public void setInspectorConfig( int inspectorConfig )
+	public void setConfig( int config )
 	{
-		mInspectorConfig = inspectorConfig;
+		mConfig = config;
 		mInspector = null;
 		invalidateInspection();
 	}
@@ -256,7 +256,7 @@ public class AndroidMetawidget
 	public void setInspector( Inspector inspector )
 	{
 		mInspector = inspector;
-		mInspectorConfig = 0;
+		mConfig = 0;
 		invalidateInspection();
 	}
 
@@ -957,19 +957,19 @@ public class AndroidMetawidget
 
 		if ( inspector == null )
 		{
-			if ( mInspectorConfig == 0 )
-				throw MetawidgetException.newException( "No inspector or inspectorConfig specified" );
+			if ( mConfig == 0 )
+				throw MetawidgetException.newException( "No inspector or config specified" );
 
-			// ...otherwise, if this InspectorConfig has already been read, use it...
+			// ...otherwise, if this Config has already been read, use it...
 
-			inspector = INSPECTORS.get( mInspectorConfig );
+			inspector = INSPECTORS.get( mConfig );
 
 			// ...otherwise, initialize the Inspector
 
 			if ( inspector == null )
 			{
-				inspector = (Inspector) new AndroidConfigReader( getContext() ).configure( getContext().getResources().openRawResource( mInspectorConfig ), Inspector.class );
-				INSPECTORS.put( mInspectorConfig, inspector );
+				inspector = (Inspector) new AndroidConfigReader( getContext() ).configure( getContext().getResources().openRawResource( mConfig ), Inspector.class );
+				INSPECTORS.put( mConfig, inspector );
 			}
 		}
 
@@ -992,7 +992,7 @@ public class AndroidMetawidget
 		if ( mInspector != null )
 			metawidget.setInspector( mInspector );
 		else
-			metawidget.setInspectorConfig( mInspectorConfig );
+			metawidget.setConfig( mConfig );
 
 		metawidget.setLayoutClass( mLayoutClass );
 

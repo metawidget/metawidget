@@ -923,7 +923,7 @@ public class GwtMetawidget
 
 			if ( inspector == null )
 			{
-				// ...otherwise, if this InspectorConfig has already been created, use it...
+				// ...otherwise, if this config has already been created, use it...
 
 				inspector = INSPECTORS.get( mInspectorClass );
 

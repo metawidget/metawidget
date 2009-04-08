@@ -491,6 +491,8 @@ public class GwtAllWidgetsTest
 																						assertTrue( "Read only (i18n):".equals( readOnlyFlexTable.getText( 60, 0 ) ) );
 																						assertTrue( "Read Only".equals( ( (Label) readOnlyFlexTable.getWidget( 61, 0 ) ).getText() ) );
 
+																						// HIGH: only bind actions to focuswidgets?
+
 																						assertTrue( "Save".equals( readOnlyFlexTable.getText( 62, 0 ) ) );
 																						assertTrue( 63 == readOnlyFlexTable.getRowCount() );
 

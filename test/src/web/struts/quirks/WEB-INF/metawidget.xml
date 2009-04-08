@@ -9,7 +9,9 @@
 				<inspectors>
 					<list>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
-							<propertyStyle>org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle</propertyStyle>
+							<propertyStyle>
+								<class>org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle</class>
+							</propertyStyle>
 						</propertyTypeInspector>
 						<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/>
 					</list>

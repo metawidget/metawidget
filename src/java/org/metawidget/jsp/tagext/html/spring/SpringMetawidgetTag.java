@@ -19,8 +19,8 @@ package org.metawidget.jsp.tagext.html.spring;
 import javax.servlet.http.HttpServletRequest;
 
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
+import org.metawidget.jsp.tagext.html.widgetbuilder.spring.SpringWidgetBuilder;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.springframework.context.MessageSource;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.w3c.dom.Element;
@@ -106,11 +106,7 @@ public class SpringMetawidgetTag
 		// Sensible WidgetBuilder default
 
 		if ( getMetawidgetMixin().getWidgetBuilder() == null )
-		{
-			@SuppressWarnings( "unchecked" )
-			WidgetBuilder<Object, Object> widgetBuilder = (WidgetBuilder<Object, Object>) Class.forName( "org.metawidget.jsp.tagext.html.widgetbuilder.spring.SpringWidgetBuilder" ).newInstance();
-			getMetawidgetMixin().setWidgetBuilder( widgetBuilder );
-		}
+			setWidgetBuilder( new SpringWidgetBuilder() );
 	}
 
 	@Override

@@ -178,10 +178,15 @@ public class SimpleBinding
 
 	public void bindAction( Widget widget, Map<String, String> attributes, String path )
 	{
+		// SimpleBinding doesn't bind to Stubs or FlexTables
+
+		if ( widget instanceof Stub )
+			return;
+
 		// How can we bind without addClickListener?
 
 		if ( !( widget instanceof FocusWidget ) )
-			throw new RuntimeException( "JsniBinding only supports binding actions to FocusWidgets" );
+			throw new RuntimeException( "SimpleBinding only supports binding actions to FocusWidgets - '" + attributes.get( NAME ) + "' is using a " + widget.getClass().getName() );
 
 		// Bind the action
 

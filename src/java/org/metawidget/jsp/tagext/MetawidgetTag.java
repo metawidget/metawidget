@@ -258,9 +258,10 @@ public abstract class MetawidgetTag
 		mMetawidgetMixin.setInspector( inspector );
 	}
 
-	public void setWidgetBuilder( WidgetBuilder<Object, Object> widgetBuilder )
+	@SuppressWarnings( "unchecked" )
+	public void setWidgetBuilder( WidgetBuilder<Object, ? extends MetawidgetTag> widgetBuilder )
 	{
-		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+		mMetawidgetMixin.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
 	}
 
 	/**
@@ -554,7 +555,7 @@ public abstract class MetawidgetTag
 
 				// Ignore empty stubs
 
-				if ( stubContent.length() == 0 )
+				if ( stubContent == null || stubContent.length() == 0 )
 					return;
 
 				MetawidgetTag.this.addWidget( stubContent, elementName, attributes );

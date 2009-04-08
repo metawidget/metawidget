@@ -133,7 +133,7 @@ public class HtmlWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return null;
+				return new StubTag.StubContent();
 		}
 
 		// Not simple, but don't expand

@@ -16,7 +16,9 @@
 
 package org.metawidget.test.inspector;
 
+import java.io.InputStream;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Pattern;
 
@@ -44,6 +46,10 @@ public class BadInspector
 
 	private Pattern			mPattern;
 
+	private InputStream		mInputStream;
+
+	private ResourceBundle	mResourceBundle;
+
 	//
 	// Constructor
 	//
@@ -58,6 +64,8 @@ public class BadInspector
 		mInt = config.getInt();
 		mBoolean = config.isBoolean();
 		mPattern = config.getPattern();
+		mInputStream = config.getInputStream();
+		mResourceBundle = config.getResourceBundle();
 	}
 
 	//
@@ -93,5 +101,15 @@ public class BadInspector
 	public Pattern getPattern()
 	{
 		return mPattern;
+	}
+
+	public InputStream getInputStream()
+	{
+		return mInputStream;
+	}
+
+	public ResourceBundle getResourceBundle()
+	{
+		return mResourceBundle;
 	}
 }
