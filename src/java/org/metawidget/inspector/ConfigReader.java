@@ -18,7 +18,6 @@ package org.metawidget.inspector;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
@@ -87,6 +86,12 @@ public class ConfigReader
 	//
 
 	/**
+	 * Cache of resource content based on resource name
+	 */
+
+	Map<String, byte[]>					RESOURCE_CACHE					= CollectionUtils.newHashMap();
+
+	/**
 	 * Certain objects are both immutable and threadsafe
 	 */
 
@@ -108,15 +113,36 @@ public class ConfigReader
 
 	/**
 	 * Read configuration from an application resource.
+	 * <p>
+	 * This version of <code>configure</code> uses <code>openResource</code> to open the
+	 * specified resource, then caches the contents against the resource name. It further caches any
+	 * immutable and threadsafe objects (as determined by <code>isImmutableThreadsafe</code>) and
+	 * reuses them for subsequent calls. This helps ensure there is only ever one instance of a,
+	 * say, Inspector or WidgetBuilder.
 	 */
 
 	public Object configure( String resource, Object toConfigure )
 	{
-		return configure( openResource( resource ), toConfigure );
+		byte[] bytes = RESOURCE_CACHE.get( resource );
+
+		if ( bytes == null )
+		{
+			ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
+			streamBetween( openResource( resource ), streamOut );
+			bytes = streamOut.toByteArray();
+
+			RESOURCE_CACHE.put( resource, bytes );
+		}
+
+		return configure( bytes, toConfigure );
 	}
 
 	/**
 	 * Read configuration from an input stream.
+	 * <p>
+	 * This version of <code>configure</code> caches any immutable and threadsafe objects (as
+	 * determined by <code>isImmutableThreadsafe</code>) and reuses them for subsequent calls.
+	 * This helps ensure there is only ever one instance of a, say, Inspector or WidgetBuilder.
 	 */
 
 	public Object configure( InputStream stream, Object toConfigure )
@@ -128,13 +154,9 @@ public class ConfigReader
 		{
 			ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
 			streamBetween( stream, streamOut );
-			byte[] xml = streamOut.toByteArray();
+			byte[] bytes = streamOut.toByteArray();
 
-			ConfigHandler configHandler = new ConfigHandler( toConfigure );
-			configHandler.setXml( new String( xml ) );
-			mFactory.newSAXParser().parse( new ByteArrayInputStream( xml ), configHandler );
-
-			return configHandler.getConfigured();
+			return configure( bytes, toConfigure );
 		}
 		catch ( Exception e )
 		{
@@ -181,6 +203,22 @@ public class ConfigReader
 	//
 	// Protected methods
 	//
+
+	protected Object configure( byte[] bytes, Object toConfigure )
+	{
+		try
+		{
+			ConfigHandler configHandler = new ConfigHandler( toConfigure );
+			configHandler.setXml( new String( bytes ) );
+			mFactory.newSAXParser().parse( new ByteArrayInputStream( bytes ), configHandler );
+
+			return configHandler.getConfigured();
+		}
+		catch ( Exception e )
+		{
+			throw InspectorException.newException( e );
+		}
+	}
 
 	/**
 	 * Certain XML tags are supported 'natively' by the reader.
@@ -231,7 +269,7 @@ public class ConfigReader
 	protected Object createNative( String name, String recordedText )
 		throws Exception
 	{
-		if ( "null".equals( name ))
+		if ( "null".equals( name ) )
 			return null;
 
 		if ( "string".equals( name ) )
@@ -306,7 +344,6 @@ public class ConfigReader
 	//
 
 	private void streamBetween( InputStream in, OutputStream out )
-		throws IOException
 	{
 		try
 		{
@@ -321,10 +358,21 @@ public class ConfigReader
 				out.write( byteData, 0, iCount );
 			}
 		}
+		catch ( Exception e )
+		{
+			throw new RuntimeException( e );
+		}
 		finally
 		{
-			out.close();
-			in.close();
+			try
+			{
+				out.close();
+				in.close();
+			}
+			catch ( Exception e )
+			{
+				throw new RuntimeException( e );
+			}
 		}
 	}
 
@@ -945,7 +993,7 @@ public class ConfigReader
 
 			StringBuffer buffer = new StringBuffer();
 
-			for( Object obj : args )
+			for ( Object obj : args )
 			{
 				if ( buffer.length() > 0 )
 					buffer.append( ", " );
@@ -966,4 +1014,3 @@ public class ConfigReader
 		}
 	}
 }
-

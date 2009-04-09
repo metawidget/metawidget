@@ -301,7 +301,7 @@ public final class ClassUtils
 		try
 		{
 			if ( classLoader != null )
-				return classLoader.loadClass( className );
+				return Class.forName( className, false, classLoader );
 
 			// Use Class.forName() if there is no contextClassLoader (eg. Android)
 

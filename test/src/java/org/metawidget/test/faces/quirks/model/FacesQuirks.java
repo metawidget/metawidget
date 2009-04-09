@@ -51,6 +51,8 @@ public class FacesQuirks
 
 	private List<Integer>			mIntegers	= CollectionUtils.newArrayList();
 
+	private String[]				mStringArray;
+
 	//
 	// Public methods
 	//
@@ -80,8 +82,6 @@ public class FacesQuirks
 	{
 		mLarge = large;
 	}
-
-	// TODO: test String[]?
 
 	@UiComesAfter( "large" )
 	@UiLookup( { "Foo", "Bar", "Baz" } )
@@ -116,6 +116,18 @@ public class FacesQuirks
 		}
 
 		mIntegers = integers;
+	}
+
+	@UiComesAfter( "integers" )
+	@UiLookup( { "Foo2", "Bar2", "Baz2" } )
+	public String[] getStringArray()
+	{
+		return mStringArray;
+	}
+
+	public void setStringArray( String[] stringArray )
+	{
+		mStringArray = stringArray;
 	}
 
 	@UiHidden

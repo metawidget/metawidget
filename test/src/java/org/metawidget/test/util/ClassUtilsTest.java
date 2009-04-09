@@ -88,6 +88,22 @@ public class ClassUtilsTest
 		assertTrue( CannotUnproxyFoo_$$_javassist_1.class.equals( ClassUtils.getUnproxiedClass( CannotUnproxyFoo_$$_javassist_1.class )));
 	}
 
+	public void testForName()
+	{
+		// With ClassLoader
+
+		ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
+		assertTrue( classLoader != null );
+		assertTrue( String.class.equals( ClassUtils.niceForName( "java.lang.String" )));
+		assertTrue( ClassUtils.niceForName( "[Ljava.lang.String;", classLoader ).isArray() );
+		assertTrue( String.class.equals( ClassUtils.niceForName( "[Ljava.lang.String;", classLoader ).getComponentType() ));
+
+		// Without ClassLoader
+
+		assertTrue( String.class.equals( ClassUtils.niceForName( "java.lang.String", null )));
+		assertTrue( ClassUtils.niceForName( "[Ljava.lang.String;", null ).isArray() );
+		assertTrue( String.class.equals( ClassUtils.niceForName( "[Ljava.lang.String;", null ).getComponentType() ));
+	}
 	//
 	// Inner class
 	//

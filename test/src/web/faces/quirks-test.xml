@@ -54,7 +54,18 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr[4]/td/label" text="4"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[3]/td[3]/table/tbody/tr)" text="4"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]/input[@type='submit']/@value" text="Refresh"/>
+				<!-- Test Arrays with a UiLookup -->
+								
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/th[1]" text="String array:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]/table/tbody/tr/td[1]/input[@type='checkbox']/@value" text="Foo2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]/table/tbody/tr/td[1]/label" text="Foo2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]/table/tbody/tr/td[2]/input[@type='checkbox']/@value" text="Bar2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]/table/tbody/tr/td[2]/label" text="Bar2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]/table/tbody/tr/td[3]/input[@type='checkbox']/@value" text="Baz2"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]/table/tbody/tr/td[3]/label" text="Baz2"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[4]/td[1]/table/tbody/tr/td)" text="3"/>
+
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[3]/input[@type='submit']/@value" text="Refresh"/>
 
 				<!-- Test the '-1 check' in UIMetawidget.inspect -->
 			
@@ -77,7 +88,7 @@
 				<!-- Test zero columns -->
 				
 				<invoke url="${webtest.url}/quirks-faces/index2.jsf" />
-				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="7"/>
+				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="9"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/th" text="3 boolean:"/>
 				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td)" text="2"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/input/@type" text="radio"/>
