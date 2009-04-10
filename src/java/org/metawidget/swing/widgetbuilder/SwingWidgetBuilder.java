@@ -203,8 +203,6 @@ public class SwingWidgetBuilder
 			// the class, assume it is non-primitive and therefore add a null choice
 			// (unless 'required=true' is specified)
 
-			// TODO: Swing Address Book still has empty choice for 'title'?
-
 			if ( ( clazz == null || !clazz.isPrimitive() ) && !TRUE.equals( attributes.get( REQUIRED ) ) )
 				comboBox.addItem( null );
 
@@ -386,9 +384,11 @@ public class SwingWidgetBuilder
 
 			if ( Boolean.class.equals( clazz ) )
 			{
+				if ( TRUE.equals( attributes.get( REQUIRED )))
+					return new JCheckBox();
+
 				JComboBox comboBox = new JComboBox();
 
-				// TODO: checkbox if required!
 				// TODO: allow onclick and stuff to be applied to the UIComponent
 
 				comboBox.addItem( null );

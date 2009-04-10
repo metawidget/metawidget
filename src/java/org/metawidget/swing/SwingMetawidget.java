@@ -44,6 +44,9 @@ import javax.swing.text.JTextComponent;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
+import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
+import org.metawidget.inspector.composite.CompositeInspector;
+import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
@@ -1266,8 +1269,10 @@ public class SwingMetawidget
 		@Override
 		public void configureDefault()
 		{
+			// TODO: this isn't idempotent?
+
 			if ( getInspector() == null )
-				setInspector( new PropertyTypeInspector() );
+				setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() )) );
 		}
 
 		//

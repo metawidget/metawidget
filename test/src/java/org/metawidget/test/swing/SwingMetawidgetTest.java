@@ -26,6 +26,7 @@ import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -37,6 +38,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -281,6 +283,14 @@ public class SwingMetawidgetTest
 		assertTrue( metawidget.getComponentCount() == 2 );
 	}
 
+	public void testRequiredBoolean()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setToInspect( new FooRequiredBoolean() );
+
+		assertTrue( metawidget.getComponent( 1 ) instanceof JCheckBox );
+	}
+
 	//
 	// Private methods
 	//
@@ -424,6 +434,24 @@ public class SwingMetawidgetTest
 					metawidget.setValue( "FooActionBinding fired", "name" );
 				}
 			} );
+		}
+	}
+
+	public static class FooRequiredBoolean
+	{
+		//
+		// Public methods
+		//
+
+		@UiRequired
+		public Boolean getBoolean()
+		{
+			return null;
+		}
+
+		public void setBoolean( Boolean aBoolean )
+		{
+			// Do nothing
 		}
 	}
 }

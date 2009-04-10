@@ -549,6 +549,21 @@ public class ConfigReaderTest
 		}
 	}
 
+	public void testCaching()
+	{
+		MyConfigReader configReader = new MyConfigReader();
+		configReader.configure( "org/metawidget/test/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
+		configReader.configure( "org/metawidget/test/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
+		configReader.configure( "org/metawidget/test/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
+		configReader.configure( "org/metawidget/test/gwt/allwidgets/metawidget.xml", Inspector.class );
+		configReader.configure( "org/metawidget/test/gwt/allwidgets/metawidget.xml", Inspector.class );
+		configReader.configure( "org/metawidget/test/gwt/allwidgets/metawidget.xml", Inspector.class );
+
+		// (4 because each metawidget.xml contains a metawidget-metadata.xml)
+
+		assertTrue( 4 == configReader.getOpenedResource() );
+	}
+
 	//
 	// Private methods
 	//
@@ -583,6 +598,37 @@ public class ConfigReaderTest
 			{
 				throw new RuntimeException( e );
 			}
+		}
+	}
+
+	//
+	// Inner class
+	//
+
+	class MyConfigReader
+		extends ConfigReader
+	{
+		//
+		// Private members
+		//
+
+		private int	mOpenedResource;
+
+		//
+		// Public methods
+		//
+
+		@Override
+		public InputStream openResource( String resource )
+		{
+			mOpenedResource++;
+
+			return super.openResource( resource );
+		}
+
+		public int getOpenedResource()
+		{
+			return mOpenedResource;
 		}
 	}
 }
