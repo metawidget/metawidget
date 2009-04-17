@@ -18,12 +18,14 @@ package org.metawidget.faces.component.html.widgetbuilder;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
 import org.metawidget.MetawidgetException;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * Component to output text based on a lookup value.
@@ -74,10 +76,18 @@ public class HtmlLookupOutputText
 
 			try
 			{
-				boolean gotBestConverter = false;
-				Converter bestConverter = null;
+				boolean gotConverter = false;
+				Converter converter = null;
 				@SuppressWarnings( "unchecked" )
-				Collection<String> labels = (Collection<String>) value.getClass().newInstance();
+				Collection<String> labels;
+
+				// Try to return the same Collection type. But don't do
+				// value.getClass().newInstance() because it might be a PersistentSet or something
+
+				if ( value instanceof Set )
+					labels = CollectionUtils.newHashSet();
+				else
+					labels = CollectionUtils.newArrayList();
 
 				for ( Object itemValue : values )
 				{
@@ -85,12 +95,13 @@ public class HtmlLookupOutputText
 
 					if ( itemValue != null )
 					{
-						// Convert each item...
+						if ( !gotConverter )
+						{
+							converter = getFacesContext().getApplication().createConverter( itemValue.getClass() );
+							gotConverter = true;
+						}
 
-						if ( !gotBestConverter )
-							bestConverter = getFacesContext().getApplication().createConverter( itemValue.getClass() );
-
-						label = convertAndLookup( bestConverter, itemValue );
+						label = convertAndLookup( converter, itemValue );
 					}
 
 					labels.add( label );
