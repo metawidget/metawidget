@@ -71,12 +71,6 @@ public class GwtMetawidgetMixinTest
 			assertTrue( null == element );
 		}
 
-		@Override
-		public void configureDefault()
-		{
-			// Do nothing
-		}
-
 		//
 		// Protected methods
 		//

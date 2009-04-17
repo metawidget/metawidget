@@ -54,7 +54,6 @@ import org.metawidget.faces.component.validator.StandardValidator;
 import org.metawidget.faces.component.validator.Validator;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
@@ -529,6 +528,7 @@ public abstract class UIMetawidget
 		return null;
 	}
 
+	@SuppressWarnings( "unchecked" )
 	protected void configure()
 		throws Exception
 	{
@@ -537,28 +537,30 @@ public abstract class UIMetawidget
 
 		mNeedsConfiguring = false;
 
-		if ( mConfig != null )
+		FacesContext facesContext = getFacesContext();
+		Map<String, Object> applicationMap = facesContext.getExternalContext().getApplicationMap();
+		@SuppressWarnings( "unchecked" )
+		ConfigReader configReader = (ConfigReader) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
+
+		if ( configReader == null )
 		{
-			FacesContext facesContext = getFacesContext();
-			Map<String, Object> applicationMap = facesContext.getExternalContext().getApplicationMap();
-			@SuppressWarnings( "unchecked" )
-			ConfigReader configReader = (ConfigReader) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
-
-			if ( configReader == null )
-			{
-				configReader = new ServletConfigReader( ( (HttpSession) facesContext.getExternalContext().getSession( false ) ).getServletContext() );
-				applicationMap.put( APPLICATION_ATTRIBUTE_CONFIG_READER, configReader );
-			}
-
-			configReader.configure( mConfig, this );
+			configReader = new ServletConfigReader( ( (HttpSession) facesContext.getExternalContext().getSession( false ) ).getServletContext() );
+			applicationMap.put( APPLICATION_ATTRIBUTE_CONFIG_READER, configReader );
 		}
 
-		mMetawidgetMixin.configureDefault();
-		configureDefault();
+		if ( mConfig != null )
+			configReader.configure( mConfig, this );
+
+		// Sensible defaults
+
+		if ( mMetawidgetMixin.getWidgetBuilder() == null )
+			mMetawidgetMixin.setWidgetBuilder( configReader.configure( getDefaultConfiguration(), WidgetBuilder.class ) );
+
+		if ( mMetawidgetMixin.getInspector() == null )
+			mMetawidgetMixin.setInspector( configReader.configure( getDefaultConfiguration(), Inspector.class ) );
 	}
 
-	protected abstract void configureDefault()
-		throws Exception;
+	protected abstract String getDefaultConfiguration();
 
 	/**
 	 * Build child widgets.
@@ -1333,13 +1335,6 @@ public abstract class UIMetawidget
 			// Check read-only value binding
 
 			return UIMetawidget.this.isReadOnly();
-		}
-
-		@Override
-		public void configureDefault()
-		{
-			if ( getInspector() == null )
-				setInspector( new PropertyTypeInspector() );
 		}
 
 		//

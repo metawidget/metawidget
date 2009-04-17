@@ -389,8 +389,6 @@ public class SwingWidgetBuilder
 
 				JComboBox comboBox = new JComboBox();
 
-				// TODO: allow onclick and stuff to be applied to the UIComponent
-
 				comboBox.addItem( null );
 				comboBox.addItem( Boolean.TRUE );
 				comboBox.addItem( Boolean.FALSE );

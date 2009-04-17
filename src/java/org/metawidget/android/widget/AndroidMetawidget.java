@@ -1101,16 +1101,6 @@ public class AndroidMetawidget
 		extends MetawidgetMixin<View,AndroidMetawidget>
 	{
 		//
-		// Public methods
-		//
-
-		@Override
-		public void configureDefault()
-		{
-			// Do nothing
-		}
-
-		//
 		// Protected methods
 		//
 

@@ -73,7 +73,7 @@ public class GwtRemoteInspectorImpl
 		if ( config == null )
 			config = "metawidget.xml";
 
-		mInspector = (Inspector) new ServletConfigReader( servletConfig.getServletContext() ).configure( config, Inspector.class );
+		mInspector = new ServletConfigReader( servletConfig.getServletContext() ).configure( config, Inspector.class );
 	}
 
 	public String inspect( Serializable toInspect, String type, String[] names )

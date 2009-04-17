@@ -103,6 +103,15 @@ public final class CollectionUtils
 	 * Type-safe initializer.
 	 */
 
+	public static final <K> HashSet<K> newHashSet( K... array )
+	{
+		return new HashSet<K>( Arrays.asList( array ));
+	}
+
+	/**
+	 * Type-safe initializer.
+	 */
+
 	public static final <K> Stack<K> newStack()
 	{
 		return new Stack<K>();

@@ -431,8 +431,8 @@ public class HtmlWidgetBuilder
 
 		String name = attributes.get( NAME );
 
-		if ( metawidget.getValuePrefix() != null )
-			name = metawidget.getValuePrefix() + name;
+		if ( metawidget.getPathPrefix() != null )
+			name = metawidget.getPathPrefix() + name;
 
 		buffer.append( name );
 		buffer.append( "\"" );
@@ -584,10 +584,10 @@ public class HtmlWidgetBuilder
 	protected Object evaluate( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
 		throws Exception
 	{
-		if ( metawidget.getValuePrefix() == null )
+		if ( metawidget.getPathPrefix() == null )
 			return null;
 
-		return evaluate( "${" + metawidget.getValuePrefix() + attributes.get( NAME ) + "}", metawidget );
+		return evaluate( "${" + metawidget.getPathPrefix() + attributes.get( NAME ) + "}", metawidget );
 	}
 
 	protected Object evaluate( String expression, HtmlMetawidgetTag metawidget )

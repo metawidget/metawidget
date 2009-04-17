@@ -295,6 +295,7 @@
 				<exclude name="org/metawidget/example/**"/>
 				<include name="org/metawidget/swing/icon/**"/>
 				<include name="**/faces-config.xml"/>
+				<include name="**/metawidget-*-default.xml"/>
 				<include name="**/*.xsd"/>
 				<include name="**/*.taglib.xml"/>
 				<include name="**/*.tld"/>

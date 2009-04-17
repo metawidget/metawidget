@@ -161,7 +161,6 @@ public class RichFacesWidgetBuilder
 			}
 
 			// Object primitives
-			// TODO: There appears to be a problem with @Column(length = 10) and RichFaces calendar input. It says the input must be less than 10 characters.
 
 			if ( Number.class.isAssignableFrom( clazz ) )
 			{

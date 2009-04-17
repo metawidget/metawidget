@@ -19,7 +19,6 @@ package org.metawidget.jsp.tagext.html.spring;
 import javax.servlet.http.HttpServletRequest;
 
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
-import org.metawidget.jsp.tagext.html.widgetbuilder.spring.SpringWidgetBuilder;
 import org.metawidget.util.simple.StringUtils;
 import org.springframework.context.MessageSource;
 import org.springframework.web.servlet.support.RequestContextUtils;
@@ -44,14 +43,9 @@ public class SpringMetawidgetTag
 	// Public methods
 	//
 
-	public String getPath()
-	{
-		return mPath;
-	}
-
 	public void setPath( String path )
 	{
-		mPath = path;
+		super.setPathInternal( path );
 
 		// Take the LHS minus the first path (if any), as we assume that will
 		// be supplied by the form
@@ -65,14 +59,9 @@ public class SpringMetawidgetTag
 				int firstIndexOf = path.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 				if ( firstIndexOf != lastIndexOf )
-					mPathPrefix = path.substring( firstIndexOf + 1, lastIndexOf + 1 );
+					setPathPrefix( path.substring( firstIndexOf + 1, lastIndexOf + 1 ));
 			}
 		}
-	}
-
-	public String getPathPrefix()
-	{
-		return mPathPrefix;
 	}
 
 	@Override
@@ -100,13 +89,9 @@ public class SpringMetawidgetTag
 	//
 
 	@Override
-	protected void configureDefault()
-		throws Exception
+	protected String getDefaultConfiguration()
 	{
-		// Sensible WidgetBuilder default
-
-		if ( getMetawidgetMixin().getWidgetBuilder() == null )
-			setWidgetBuilder( new SpringWidgetBuilder() );
+		return "org/metawidget/jsp/tagext/html/spring/metawidget-spring-default.xml";
 	}
 
 	@Override
@@ -115,9 +100,9 @@ public class SpringMetawidgetTag
 		// Take the whole path minus the first value (if any), as we assume that will
 		// be supplied by the form
 
-		int firstIndexOf = mPath.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
+		int firstIndexOf = getPath().indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( firstIndexOf != -1 )
-			mPathPrefix = mPath.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR;
+			setPathPrefix( getPath().substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR );
 	}
 }

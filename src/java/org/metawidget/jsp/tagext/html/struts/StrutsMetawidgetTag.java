@@ -22,7 +22,6 @@ import org.apache.struts.Globals;
 import org.apache.struts.util.MessageResources;
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.w3c.dom.Element;
 
 /**
@@ -46,7 +45,7 @@ public class StrutsMetawidgetTag
 
 	public void setProperty( String property )
 	{
-		mPath = property;
+		super.setPathInternal( property );
 
 		// Take the LHS minus the first property (if any), as we assume that will
 		// be supplied by the form
@@ -60,14 +59,9 @@ public class StrutsMetawidgetTag
 				int firstIndexOf = property.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 				if ( firstIndexOf != lastIndexOf )
-					mPathPrefix = property.substring( firstIndexOf + 1, lastIndexOf + 1 );
+					setPathPrefix( property.substring( firstIndexOf + 1, lastIndexOf + 1 ));
 			}
 		}
-	}
-
-	public String getPropertyPrefix()
-	{
-		return mPathPrefix;
 	}
 
 	@Override
@@ -93,17 +87,9 @@ public class StrutsMetawidgetTag
 	//
 
 	@Override
-	protected void configureDefault()
-		throws Exception
+	protected String getDefaultConfiguration()
 	{
-		// Sensible WidgetBuilder default
-
-		if ( getMetawidgetMixin().getWidgetBuilder() == null )
-		{
-			@SuppressWarnings( "unchecked" )
-			WidgetBuilder<Object, Object> widgetBuilder = (WidgetBuilder<Object, Object>) Class.forName( "org.metawidget.jsp.tagext.html.widgetbuilder.struts.StrutsWidgetBuilder" ).newInstance();
-			getMetawidgetMixin().setWidgetBuilder( widgetBuilder );
-		}
+		return "org/metawidget/jsp/tagext/html/struts/metawidget-struts-default.xml";
 	}
 
 	@Override
@@ -112,9 +98,9 @@ public class StrutsMetawidgetTag
 		// Take the whole path minus the first value (if any), as we assume that will
 		// be supplied by the form
 
-		int firstIndexOf = mPath.indexOf( StringUtils.SEPARATOR_DOT_CHAR );
+		int firstIndexOf = getPath().indexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 		if ( firstIndexOf != -1 )
-			mPathPrefix = mPath.substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR;
+			setPathPrefix( getPath().substring( firstIndexOf + 1 ) + StringUtils.SEPARATOR_DOT_CHAR );
 	}
 }

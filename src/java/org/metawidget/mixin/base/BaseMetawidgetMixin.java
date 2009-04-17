@@ -208,8 +208,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		endBuild();
 	}
 
-	public abstract void configureDefault();
-
 	//
 	// Protected methods
 	//

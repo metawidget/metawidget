@@ -23,7 +23,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * Metawidget for Java Server Faces environments.
@@ -89,17 +88,9 @@ public class HtmlMetawidget
 	//
 
 	@Override
-	protected void configureDefault()
-		throws Exception
+	protected String getDefaultConfiguration()
 	{
-		// Sensible WidgetBuilder default
-
-		if ( getMetawidgetMixin().getWidgetBuilder() == null )
-		{
-			@SuppressWarnings( "unchecked" )
-			WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = (WidgetBuilder<UIComponent, UIMetawidget>) Class.forName( "org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder" ).newInstance();
-			getMetawidgetMixin().setWidgetBuilder( widgetBuilder );
-		}
+		return "org/metawidget/faces/component/html/metawidget-html-default.xml";
 	}
 
 	@Override

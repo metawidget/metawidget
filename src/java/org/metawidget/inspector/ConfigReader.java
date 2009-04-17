@@ -114,11 +114,22 @@ public class ConfigReader
 	/**
 	 * Read configuration from an application resource.
 	 * <p>
+	 * This is a convenience method for <code>configure( String, Object )</code> that casts the
+	 * returned Object to an instance of the given <code>toConfigure</code> class.
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T configure( String resource, Class<T> toConfigure )
+	{
+		return (T) configure( resource, (Object) toConfigure );
+	}
+
+	/**
+	 * Read configuration from an application resource.
+	 * <p>
 	 * This version of <code>configure</code> uses <code>openResource</code> to open the
-	 * specified resource, then caches the contents against the resource name. It further caches any
-	 * immutable and threadsafe objects (as determined by <code>isImmutableThreadsafe</code>) and
-	 * reuses them for subsequent calls. This helps ensure there is only ever one instance of a,
-	 * say, Inspector or WidgetBuilder.
+	 * specified resource, then caches the contents against the resource name. It then calls
+	 * <code>configure( InputStream, Object )</code>.
 	 */
 
 	public Object configure( String resource, Object toConfigure )
@@ -142,7 +153,48 @@ public class ConfigReader
 	 * <p>
 	 * This version of <code>configure</code> caches any immutable and threadsafe objects (as
 	 * determined by <code>isImmutableThreadsafe</code>) and reuses them for subsequent calls.
-	 * This helps ensure there is only ever one instance of a, say, Inspector or WidgetBuilder.
+	 * This helps ensure there is only ever one instance of a, say, <code>Inspector</code> or
+	 * <code>WidgetBuilder</code>.
+	 * <p>
+	 * If the Object to configure is a <code>Class</code>, this method will create and return an
+	 * instance of that class based on the configuration file. For example, if the configuration
+	 * file is...
+	 * <p>
+	 * <code>
+	 * &lt;metawidget&gt;<br/>
+	 * &nbsp;&nbsp;&nbsp;&lt;myInspector config="myConfig"&gt;<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;someConfigParameter/&gt;<br/>
+	 * &nbsp;&nbsp;&nbsp;&lt;/myInspector&gt;<br/>
+	 * &lt;/metawidget&gt;
+	 * </code>
+	 * <p>
+	 * ...then the code...
+	 * <p>
+	 * <code>
+	 * Inspector myInspector = myConfigReader.configure( stream, Inspector.class );
+	 * </code>
+	 * <p>
+	 * ...will create a <code>MyInspector</code> configured with <code>someConfigParameter</code>.
+	 * <p>
+	 * Conversely, if the Object to configure is already an instance, this method will configure the
+	 * instance. For example if the configuration file is...
+	 * <p>
+	 * <code>
+	 * &lt;metawidget&gt;<br/>
+	 * &nbsp;&nbsp;&nbsp;&lt;swingMetawidget&gt;<br/>
+	 * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;opaque&gt;&lt;boolean&gt;true&lt;/boolean&gt;&lt;/opaque&gt;<br/>
+	 * &nbsp;&nbsp;&nbsp;&lt;/swingMetawidget&gt;<br/>
+	 * &lt;/metawidget&gt;
+	 * </code>
+	 * <p>
+	 * ...then the code...
+	 * <p>
+	 * <code>
+	 * JPanel panel = new JPanel();
+	 * myConfigReader.configure( stream, panel );
+	 * </code>
+	 * <p>
+	 * ...will call <code>setOpaque</code> on the given <code>JPanel</code>.
 	 */
 
 	public Object configure( InputStream stream, Object toConfigure )

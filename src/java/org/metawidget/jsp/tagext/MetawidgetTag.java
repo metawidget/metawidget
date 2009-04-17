@@ -33,7 +33,6 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
-import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
@@ -68,28 +67,23 @@ public abstract class MetawidgetTag
 	private final static String				CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
 
 	//
-	// Protected members
+	// Private members
 	//
 
 	/**
 	 * Path to inspect.
 	 * <p>
 	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for
-	 * Struts, <code>property</code> for Spring). Read by subclasses during
-	 * <code>buildCompoundWidget</code>.
+	 * Struts, <code>property</code> for Spring). Read by <code>WidgetBuilders</code>.
 	 */
 
-	protected String						mPath;
+	private String							mPath;
 
 	/**
 	 * Prefix of path to inspect, to support nesting.
 	 */
 
-	protected String						mPathPrefix;
-
-	//
-	// Private members
-	//
+	private String							mPathPrefix;
 
 	private String							mConfig					= "metawidget.xml";
 
@@ -121,6 +115,16 @@ public abstract class MetawidgetTag
 	//
 	// Public methods
 	//
+
+	public String getPath()
+	{
+		return mPath;
+	}
+
+	public String getPathPrefix()
+	{
+		return mPathPrefix;
+	}
 
 	public void setConfig( String config )
 	{
@@ -315,6 +319,23 @@ public abstract class MetawidgetTag
 	//
 
 	/**
+	 * Sets the path.
+	 * <p>
+	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for
+	 * Struts, <code>property</code> for Spring).
+	 */
+
+	protected void setPathInternal( String path )
+	{
+		mPath = path;
+	}
+
+	protected void setPathPrefix( String pathPrefix )
+	{
+		mPathPrefix = pathPrefix;
+	}
+
+	/**
 	 * Sets the ResourceBundle used to localize labels.
 	 * <p>
 	 * This will need to be exposed in framework-specific ways. For example, JSTL can use
@@ -443,6 +464,7 @@ public abstract class MetawidgetTag
 		return xml;
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
@@ -452,24 +474,27 @@ public abstract class MetawidgetTag
 
 		try
 		{
-			if ( mConfig != null )
+			ServletContext servletContext = pageContext.getServletContext();
+
+			@SuppressWarnings( "unchecked" )
+			ConfigReader configReader = (ConfigReader) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
+
+			if ( configReader == null )
 			{
-				ServletContext servletContext = pageContext.getServletContext();
-
-				@SuppressWarnings( "unchecked" )
-				ConfigReader configReader = (ConfigReader) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
-
-				if ( configReader == null )
-				{
-					configReader = new ServletConfigReader( servletContext );
-					servletContext.setAttribute( CONFIG_READER_ATTRIBUTE, configReader );
-				}
-
-				configReader.configure( mConfig, this );
+				configReader = new ServletConfigReader( servletContext );
+				servletContext.setAttribute( CONFIG_READER_ATTRIBUTE, configReader );
 			}
 
-			mMetawidgetMixin.configureDefault();
-			configureDefault();
+			if ( mConfig != null )
+				configReader.configure( mConfig, this );
+
+			// Sensible defaults
+
+			if ( mMetawidgetMixin.getWidgetBuilder() == null )
+				mMetawidgetMixin.setWidgetBuilder( configReader.configure( getDefaultConfiguration(), WidgetBuilder.class ) );
+
+			if ( mMetawidgetMixin.getInspector() == null )
+				mMetawidgetMixin.setInspector( configReader.configure( getDefaultConfiguration(), Inspector.class ) );
 		}
 		catch ( Exception e )
 		{
@@ -477,8 +502,7 @@ public abstract class MetawidgetTag
 		}
 	}
 
-	protected abstract void configureDefault()
-		throws Exception;
+	protected abstract String getDefaultConfiguration();
 
 	protected StubContent getStub( String path )
 	{
@@ -523,17 +547,6 @@ public abstract class MetawidgetTag
 	protected class MetawidgetTagMixin
 		extends MetawidgetMixin<Object, Object>
 	{
-		//
-		// Public methods
-		//
-
-		@Override
-		public void configureDefault()
-		{
-			if ( getInspector() == null )
-				setInspector( new PropertyTypeInspector() );
-		}
-
 		//
 		// Protected methods
 		//

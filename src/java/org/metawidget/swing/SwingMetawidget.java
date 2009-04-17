@@ -44,11 +44,7 @@ import javax.swing.text.JTextComponent;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
-import org.metawidget.inspector.composite.CompositeInspector;
-import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.actionbinding.ActionBinding;
 import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
@@ -87,6 +83,8 @@ public class SwingMetawidget
 	private final static long								serialVersionUID	= 1l;
 
 	private final static ConfigReader						CONFIG_READER		= new ConfigReader();
+
+	private final static String								DEFAULT_CONFIG		= "org/metawidget/swing/metawidget-swing-default.xml";
 
 	private final static Stroke								STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
@@ -1000,6 +998,7 @@ public class SwingMetawidget
 		super.addImpl( component, constraints, index );
 	}
 
+	@SuppressWarnings("unchecked")
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
@@ -1012,16 +1011,13 @@ public class SwingMetawidget
 			if ( mConfig != null )
 				CONFIG_READER.configure( mConfig, this );
 
-			mMetawidgetMixin.configureDefault();
-
-			// Sensible WidgetBuilder default
+			// Sensible defaults
 
 			if ( mMetawidgetMixin.getWidgetBuilder() == null )
-			{
-				@SuppressWarnings( "unchecked" )
-				WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder = (WidgetBuilder<JComponent, SwingMetawidget>) Class.forName( "org.metawidget.swing.widgetbuilder.SwingWidgetBuilder" ).newInstance();
-				mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
-			}
+				mMetawidgetMixin.setWidgetBuilder( CONFIG_READER.configure( DEFAULT_CONFIG, WidgetBuilder.class ) );
+
+			if ( mMetawidgetMixin.getInspector() == null )
+				mMetawidgetMixin.setInspector( CONFIG_READER.configure( DEFAULT_CONFIG, Inspector.class ) );
 		}
 		catch ( Exception e )
 		{
@@ -1262,19 +1258,6 @@ public class SwingMetawidget
 	protected class SwingMetawidgetMixin
 		extends MetawidgetMixin<JComponent, SwingMetawidget>
 	{
-		//
-		// Public methods
-		//
-
-		@Override
-		public void configureDefault()
-		{
-			// TODO: this isn't idempotent?
-
-			if ( getInspector() == null )
-				setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() )) );
-		}
-
 		//
 		// Protected methods
 		//

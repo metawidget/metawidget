@@ -17,6 +17,7 @@
 package org.metawidget.test.faces.quirks.model;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.model.SelectItem;
 
@@ -47,18 +48,20 @@ public class FacesQuirks
 
 	private String					mLarge;
 
-	private List<? extends Object>	mStrings	= CollectionUtils.newArrayList();
+	private List<? extends Object>	mStrings					= CollectionUtils.newArrayList();
 
-	private List<Integer>			mIntegers	= CollectionUtils.newArrayList();
+	private List<Integer>			mIntegers					= CollectionUtils.newArrayList();
 
 	private String[]				mStringArray;
+
+	private Set<String>				mReadOnlyLookupWithLabels	= CollectionUtils.newHashSet( "_foo", "_bar" );
 
 	//
 	// Public methods
 	//
 
 	@UiFacesComponent( "javax.faces.HtmlSelectOneRadio" )
-	@UiLabel( "#{1+2} boolean" )
+	@UiLabel( "#{40+2} boolean" )
 	public Boolean getBoolean()
 	{
 		return mBoolean;
@@ -134,6 +137,13 @@ public class FacesQuirks
 	public SelectItem[] getPossibleIntegers()
 	{
 		return new SelectItem[] { new SelectItem( 1 ), new SelectItem( 2 ), new SelectItem( 3 ), new SelectItem( 4 ) };
+	}
+
+	@UiLookup( value = { "_foo", "_bar", "_baz" }, labels = { "Foo", "Bar", "Baz" } )
+	@UiComesAfter( "stringArray" )
+	public Set<String> getReadOnlyLookupWithLabels()
+	{
+		return mReadOnlyLookupWithLabels;
 	}
 
 	@UiAction

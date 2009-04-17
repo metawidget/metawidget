@@ -19,7 +19,6 @@ package org.metawidget.jsp.tagext.html;
 import javax.servlet.jsp.jstl.fmt.LocalizationContext;
 
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.w3c.dom.Element;
 
 /**
@@ -56,7 +55,7 @@ public class HtmlMetawidgetTag
 
 	public void setValue( String value )
 	{
-		mPath = value;
+		super.setPathInternal( value );
 
 		// Take the whole LHS of the path as the prefix, so that names are unique
 
@@ -65,13 +64,8 @@ public class HtmlMetawidgetTag
 			int lastIndexOf = value.lastIndexOf( StringUtils.SEPARATOR_DOT_CHAR );
 
 			if ( lastIndexOf != -1 )
-				mPathPrefix = value.substring( 0, lastIndexOf + 1 );
+				setPathPrefix( value.substring( 0, lastIndexOf + 1 ));
 		}
-	}
-
-	public String getValuePrefix()
-	{
-		return mPathPrefix;
 	}
 
 	/**
@@ -88,17 +82,9 @@ public class HtmlMetawidgetTag
 	//
 
 	@Override
-	protected void configureDefault()
-		throws Exception
+	protected String getDefaultConfiguration()
 	{
-		// Sensible WidgetBuilder default
-
-		if ( getMetawidgetMixin().getWidgetBuilder() == null )
-		{
-			@SuppressWarnings( "unchecked" )
-			WidgetBuilder<Object, Object> widgetBuilder = (WidgetBuilder<Object, Object>) Class.forName( "org.metawidget.jsp.tagext.html.widgetbuilder.HtmlWidgetBuilder" ).newInstance();
-			getMetawidgetMixin().setWidgetBuilder( widgetBuilder );
-		}
+		return "org/metawidget/jsp/tagext/html/metawidget-html-default.xml";
 	}
 
 	@Override
@@ -106,6 +92,6 @@ public class HtmlMetawidgetTag
 	{
 		// Take the whole path as the name prefix, so that names are unique
 
-		mPathPrefix = mPath + StringUtils.SEPARATOR_DOT_CHAR;
+		setPathPrefix( getPath() + StringUtils.SEPARATOR_DOT_CHAR );
 	}
 }

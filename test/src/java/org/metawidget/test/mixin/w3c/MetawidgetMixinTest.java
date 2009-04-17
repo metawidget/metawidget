@@ -77,12 +77,6 @@ public class MetawidgetMixinTest
 			assertTrue( null == element );
 		}
 
-		@Override
-		public void configureDefault()
-		{
-			// Do nothing
-		}
-
 		//
 		// Protected methods
 		//

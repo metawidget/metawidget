@@ -102,6 +102,11 @@ public class GwtMetawidget
 	 * <p>
 	 * Note this needn't be <code>synchronized</code> like the SwingMetawidget one, because
 	 * JavaScript is not multi-threaded.
+	 * <p>
+	 * <code>GWTMetawidget</code> cannot use our <code>ConfigReader</code>, because that relies
+	 * heavily on reflection which is not available client-side. Note
+	 * <code>GwtRemoteInspectorProxy</code>
+	 * <em>does</em> use <code>ConfigReader</code>.
 	 */
 
 	private final static Map<Class<? extends Inspector>, Inspector>	INSPECTORS				= new HashMap<Class<? extends Inspector>, Inspector>();
@@ -912,7 +917,7 @@ public class GwtMetawidget
 
 		if ( mMetawidgetMixin.getWidgetBuilder() == null )
 		{
-			mMetawidgetMixin.setWidgetBuilder( ( (WidgetBuilderFactory) GWT.create( WidgetBuilderFactory.class ) ).newWidgetBuilder( GwtWidgetBuilder.class ));
+			mMetawidgetMixin.setWidgetBuilder( ( (WidgetBuilderFactory) GWT.create( WidgetBuilderFactory.class ) ).newWidgetBuilder( GwtWidgetBuilder.class ) );
 		}
 
 		if ( mToInspect != null )
@@ -1177,12 +1182,6 @@ public class GwtMetawidget
 	protected class GwtMetawidgetMixinImpl
 		extends GwtMetawidgetMixin<Widget, GwtMetawidget>
 	{
-		@Override
-		public void configureDefault()
-		{
-			// TODO: smarter use of Inspector for GWT
-		}
-
 		//
 		// Protected methods
 		//

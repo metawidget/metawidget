@@ -13,10 +13,10 @@
 	
 	<!-- Converters -->
 	
-	<!-- Test if (!( component instanceof UISelectMany )) check in HtmlMetawidget:418 -->
+	<!-- Test if (!( component instanceof UISelectMany )) check in HtmlWidgetBuilder:345 -->
 	
 	<converter>
-		<converter-for-class>java.util.Collection</converter-for-class>
+		<converter-for-class>java.util.List</converter-for-class>
 		<converter-class>com.foo.ShouldNotBeCreated</converter-class>
 	</converter>	
 

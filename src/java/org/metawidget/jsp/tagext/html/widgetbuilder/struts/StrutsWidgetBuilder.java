@@ -288,8 +288,8 @@ public class StrutsWidgetBuilder
 
 		String name = attributes.get( NAME );
 
-		if ( metawidget.getPropertyPrefix() != null )
-			name = metawidget.getPropertyPrefix() + name;
+		if ( metawidget.getPathPrefix() != null )
+			name = metawidget.getPathPrefix() + name;
 
 		if ( tag instanceof BaseInputTag )
 		{

@@ -16,19 +16,20 @@
 
 package org.metawidget.faces.component.html.widgetbuilder;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
+import org.metawidget.MetawidgetException;
+
 /**
  * Component to output text based on a lookup value.
  *
  * @author Richard Kennard
  */
-
-// TODO: this doesn't seem to work for collections?
 
 public class HtmlLookupOutputText
 	extends HtmlOutputText
@@ -49,6 +50,9 @@ public class HtmlLookupOutputText
 	{
 		mValues = values;
 		mLabels = labels;
+
+		if ( mValues.size() != mLabels.size() )
+			throw MetawidgetException.newException( "There are " + mValues.size() + " possible values, but " + mLabels.size() + " possible labels" );
 	}
 
 	@Override
@@ -59,35 +63,55 @@ public class HtmlLookupOutputText
 		if ( value == null )
 			return null;
 
-		if ( mValues != null && mLabels != null && !mLabels.isEmpty() )
+		// Special support for Collections
+
+		if ( value instanceof Collection )
 		{
-			// Convert as necessary
+			Collection<?> values = (Collection<?>) value;
 
-			FacesContext context = getFacesContext();
+			if ( values.isEmpty() )
+				return null;
 
-			if ( getConverter() != null )
+			try
 			{
-				value = getConverter().getAsString( context, this, value );
+				boolean gotBestConverter = false;
+				Converter bestConverter = null;
+				@SuppressWarnings( "unchecked" )
+				Collection<String> labels = (Collection<String>) value.getClass().newInstance();
+
+				for ( Object itemValue : values )
+				{
+					String label = null;
+
+					if ( itemValue != null )
+					{
+						// Convert each item...
+
+						if ( !gotBestConverter )
+							bestConverter = getFacesContext().getApplication().createConverter( itemValue.getClass() );
+
+						label = convertAndLookup( bestConverter, itemValue );
+					}
+
+					labels.add( label );
+				}
+
+				return labels;
 			}
-			else
+			catch ( Exception e )
 			{
-				Converter converter = context.getApplication().createConverter( value.getClass() );
-
-				if ( converter != null )
-					value = converter.getAsString( context, this, value );
-				else
-					value = String.valueOf( value );
+				throw MetawidgetException.newException( e );
 			}
-
-			// Map to lookup value
-
-			int indexOf = mValues.indexOf( value );
-
-			if ( indexOf >= 0 && indexOf < mLabels.size() )
-				value = mLabels.get( indexOf );
 		}
 
-		return value;
+		// Support regular, non-Collections
+
+		Converter converter = getConverter();
+
+		if ( converter == null )
+			converter = getFacesContext().getApplication().createConverter( value.getClass() );
+
+		return convertAndLookup( converter, value );
 	}
 
 	@Override
@@ -102,7 +126,7 @@ public class HtmlLookupOutputText
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	public void restoreState( FacesContext context, Object state )
 	{
 		Object values[] = (Object[]) state;
@@ -110,5 +134,30 @@ public class HtmlLookupOutputText
 
 		mValues = (List<String>) values[1];
 		mLabels = (List<String>) values[2];
+	}
+
+	//
+	// Private members
+	//
+
+	private String convertAndLookup( Converter converter, Object value )
+	{
+		// Convert...
+
+		String convertedValue;
+
+		if ( converter != null )
+			convertedValue = converter.getAsString( getFacesContext(), this, value );
+		else
+			convertedValue = String.valueOf( value );
+
+		// ...and lookup
+
+		int indexOf = mValues.indexOf( convertedValue );
+
+		if ( indexOf == -1 )
+			throw MetawidgetException.newException( value + " is not a value listed in the @UiLookup" );
+
+		return mLabels.get( indexOf );
 	}
 }
