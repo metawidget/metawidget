@@ -26,6 +26,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.jsp.PageContext;
+
 import org.metawidget.MetawidgetException;
 import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
@@ -555,7 +557,7 @@ public class HtmlWidgetBuilder
 	 * Evaluate to text (via a PropertyEditor if available).
 	 */
 
-	protected String evaluateAsText( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String evaluateAsText( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		Object evaluated = evaluate( attributes, metawidget );
@@ -581,7 +583,7 @@ public class HtmlWidgetBuilder
 		return StringUtils.quietValueOf( evaluated );
 	}
 
-	protected Object evaluate( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private Object evaluate( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		if ( metawidget.getPathPrefix() == null )
@@ -590,12 +592,13 @@ public class HtmlWidgetBuilder
 		return evaluate( "${" + metawidget.getPathPrefix() + attributes.get( NAME ) + "}", metawidget );
 	}
 
-	protected Object evaluate( String expression, HtmlMetawidgetTag metawidget )
+	private Object evaluate( String expression, HtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		try
 		{
-			return metawidget.getPageContext().getExpressionEvaluator().evaluate( expression, Object.class, metawidget.getPageContext().getVariableResolver(), null );
+			PageContext context = metawidget.getPageContext();
+			return context.getExpressionEvaluator().evaluate( expression, Object.class, context.getVariableResolver(), null );
 		}
 		catch ( Throwable t )
 		{

@@ -286,8 +286,6 @@ public class SpringWidgetBuilder
 
 		String path = attributes.get( NAME );
 
-		// TODO: if mPathPrefix is null, use mPath?
-
 		if ( metawidget.getPathPrefix() != null )
 			path = metawidget.getPathPrefix() + path;
 
