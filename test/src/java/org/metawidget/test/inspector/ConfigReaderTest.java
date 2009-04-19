@@ -27,6 +27,9 @@ import java.util.List;
 import java.util.Set;
 
 import javax.swing.JComponent;
+import javax.xml.XMLConstants;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.SchemaFactory;
 
 import junit.framework.TestCase;
 
@@ -50,6 +53,7 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.xml.sax.SAXException;
 
 /**
  * @author Richard Kennard
@@ -173,7 +177,7 @@ public class ConfigReaderTest
 
 		// New Point
 
-		ConfigReader configReader = new ConfigReader();
+		ConfigReader configReader = new ValidatingConfigReader();
 		Point point = (Point) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Point.class );
 		assertTrue( 10 == point.x );
 		assertTrue( 20 == point.y );
@@ -551,7 +555,7 @@ public class ConfigReaderTest
 
 	public void testCaching()
 	{
-		MyConfigReader configReader = new MyConfigReader();
+		ValidatingConfigReader configReader = new ValidatingConfigReader();
 		configReader.configure( "org/metawidget/test/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
 		configReader.configure( "org/metawidget/test/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
 		configReader.configure( "org/metawidget/test/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
@@ -605,7 +609,7 @@ public class ConfigReaderTest
 	// Inner class
 	//
 
-	class MyConfigReader
+	class ValidatingConfigReader
 		extends ConfigReader
 	{
 		//
@@ -613,6 +617,25 @@ public class ConfigReaderTest
 		//
 
 		private int	mOpenedResource;
+
+		//
+		// Constructor
+		//
+
+		public ValidatingConfigReader()
+		{
+			SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
+			InputStream in = openResource( "org/metawidget/inspector/metawidget-1.0.xsd" );
+
+			try
+			{
+				mFactory.setSchema( factory.newSchema( new StreamSource( in ) ) );
+			}
+			catch ( SAXException e )
+			{
+				throw InspectorException.newException( e );
+			}
+		}
 
 		//
 		// Public methods
