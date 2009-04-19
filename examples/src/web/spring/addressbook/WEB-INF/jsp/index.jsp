@@ -27,9 +27,6 @@
 		<form:form commandName="contactSearchCommand">
 		
 			<m:metawidget path="contactSearchCommand">
-				<m:param name="tableStyleClass" value="table-form"/>
-				<m:param name="columnStyleClasses" value="table-label-column,table-component-column,required"/>
-
 				<m:facet name="footer" styleClass="buttons">
 					<input type="submit" name="search" value="<spring:message code="search"/>"/>
 					<input type="submit" name="addPersonal" value="<spring:message code="addPersonal"/>"/>

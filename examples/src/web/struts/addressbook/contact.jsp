@@ -38,8 +38,6 @@
 			</c:if>
 		
 			<m:metawidget property="contactForm" readOnly="${contactForm.readOnly}">
-				<m:param name="tableStyleClass" value="table-form"/>
-				<m:param name="columnStyleClasses" value="table-label-column,table-component-column,required"/>
 				<m:param name="sectionStyleClass" value="section-heading"/>
 
 				<m:stub property="communications">

@@ -76,28 +76,19 @@ public class StrutsWidgetBuilder
 	protected Object buildReadOnlyWidget( String elementName, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
 		throws Exception
 	{
-		// Hidden
+		// Not for us?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !metawidget.isCreateHiddenFields() )
-				return new StubTag.StubContent();
-
-			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return new StubTag.StubContent();
-
-			return writeStrutsTag( HiddenTag.class, attributes, metawidget );
+			if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return writeStrutsTag( HiddenTag.class, attributes, metawidget );
 		}
 
-		// Action
-
 		if ( ACTION.equals( elementName ) )
-			return new StubTag.StubContent();
-
-		// Masked (return an empty String, so that we DO still render a label)
+			return null;
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
-			return "";
+			return null;
 
 		// Lookups
 
@@ -162,23 +153,16 @@ public class StrutsWidgetBuilder
 	protected Object buildActiveWidget( String elementName, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
 		throws Exception
 	{
-		// Hidden
+		// Not for us?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !metawidget.isCreateHiddenFields() )
-				return new StubTag.StubContent();
-
-			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return new StubTag.StubContent();
-
-			return writeStrutsTag( HiddenTag.class, attributes, metawidget );
+			if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return writeStrutsTag( HiddenTag.class, attributes, metawidget );
 		}
 
-		// Action
-
 		if ( ACTION.equals( elementName ) )
-			return new StubTag.StubContent();
+			return null;
 
 		// Struts Lookups
 
@@ -192,9 +176,7 @@ public class StrutsWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
-		{
 			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
-		}
 
 		String type = attributes.get( TYPE );
 
@@ -244,11 +226,6 @@ public class StrutsWidgetBuilder
 
 			if ( Number.class.isAssignableFrom( clazz ) )
 				return writeStrutsTag( TextTag.class, attributes, metawidget );
-
-			// Collections
-
-			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new StubTag.StubContent();
 		}
 
 		// Not simple, but don't expand

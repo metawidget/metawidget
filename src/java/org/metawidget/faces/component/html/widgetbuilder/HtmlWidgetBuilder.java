@@ -127,8 +127,13 @@ public class HtmlWidgetBuilder
 
 			// Special support for read-only lookups with labels
 
+			List<String> labels = CollectionUtils.fromString( lookupLabels );
+
+			if ( labels.isEmpty() )
+				return createReadOnlyComponent( attributes, metawidget );
+
 			HtmlLookupOutputText lookupOutputText = (HtmlLookupOutputText) application.createComponent( "org.metawidget.HtmlLookupOutputText" );
-			lookupOutputText.setLabels( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) );
+			lookupOutputText.setLabels( CollectionUtils.fromString( lookup ), labels );
 
 			return createReadOnlyComponent( attributes, lookupOutputText, metawidget );
 		}

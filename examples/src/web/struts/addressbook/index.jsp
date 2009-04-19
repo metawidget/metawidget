@@ -25,9 +25,6 @@
 		<html:form action="/search">
 
 			<m:metawidget property="contactSearchForm">
-				<m:param name="tableStyleClass" value="table-form"/>
-				<m:param name="columnStyleClasses" value="table-label-column,table-component-column,required"/>
-
 				<m:facet name="footer" styleClass="buttons">
 					<html:submit property="search">
 						<bean:message key="search"/>

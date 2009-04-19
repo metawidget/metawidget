@@ -20,7 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.spring.SpringInspectionResultConstants.*;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,6 @@ import javax.servlet.jsp.tagext.Tag;
 import org.metawidget.MetawidgetException;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
-import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -78,28 +76,19 @@ public class SpringWidgetBuilder
 	protected Object buildReadOnlyWidget( String elementName, Map<String, String> attributes, SpringMetawidgetTag metawidget )
 		throws Exception
 	{
-		// Hidden
+		// Not for us?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !metawidget.isCreateHiddenFields() )
-				return new StubTag.StubContent();
-
-			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return new StubTag.StubContent();
-
-			return writeSpringTag( HiddenInputTag.class, attributes, metawidget );
+			if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return writeSpringTag( HiddenInputTag.class, attributes, metawidget );
 		}
 
-		// Action
-
 		if ( ACTION.equals( elementName ) )
-			return new StubTag.StubContent();
-
-		// Masked (return an empty String, so that we DO still render a label)
+			return null;
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
-			return "";
+			return null;
 
 		// Lookups
 
@@ -143,11 +132,6 @@ public class SpringWidgetBuilder
 
 			if ( String.class.equals( clazz ) )
 				return writeReadOnlyTag( attributes, metawidget );
-
-			// Collections
-
-			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new StubTag.StubContent();
 		}
 
 		// Not simple, but don't expand
@@ -164,23 +148,16 @@ public class SpringWidgetBuilder
 	protected Object buildActiveWidget( String elementName, Map<String, String> attributes, SpringMetawidgetTag metawidget )
 		throws Exception
 	{
-		// Hidden
+		// Not for us?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !metawidget.isCreateHiddenFields() )
-				return new StubTag.StubContent();
-
-			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return new StubTag.StubContent();
-
-			return writeSpringTag( HiddenInputTag.class, attributes, metawidget );
+			if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return writeSpringTag( HiddenInputTag.class, attributes, metawidget );
 		}
 
-		// Action
-
 		if ( ACTION.equals( elementName ) )
-			return new StubTag.StubContent();
+			return null;
 
 		// Lookups
 
@@ -242,11 +219,6 @@ public class SpringWidgetBuilder
 
 			if ( Number.class.isAssignableFrom( clazz ) )
 				return writeSpringTag( InputTag.class, attributes, metawidget );
-
-			// Collections
-
-			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new StubTag.StubContent();
 		}
 
 		// Not simple, but don't expand

@@ -207,7 +207,7 @@ public abstract class MetawidgetTag
 		return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 	}
 
-	public void setParam( String name, String value )
+	public void setParameter( String name, String value )
 	{
 		if ( mParameters == null )
 			mParameters = CollectionUtils.newHashMap();
@@ -215,7 +215,7 @@ public abstract class MetawidgetTag
 		mParameters.put( name, value );
 	}
 
-	public String getParam( String name )
+	public String getParameter( String name )
 	{
 		if ( mParameters == null )
 			return null;

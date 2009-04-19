@@ -336,9 +336,14 @@
 				<exclude name="org/metawidget/test/**"/>
 			</fileset>
 			<fileset dir="src/java">
-				<include name="META-INF/*"/>
+				<exclude name="META-INF/metawidget.bnd"/>
+				<exclude name="org/metawidget/example/**"/>
 				<include name="org/metawidget/swing/icon/**"/>
-				<include name="org/metawidget/inspector/*.xsd"/>				
+				<include name="**/faces-config.xml"/>
+				<include name="**/metawidget-*-default.xml"/>
+				<include name="**/*.xsd"/>
+				<include name="**/*.taglib.xml"/>
+				<include name="**/*.tld"/>
 			</fileset>
 		</jar>
 

@@ -50,9 +50,6 @@
 		<form action="index.jsp" method="POST">
 
 			<m:metawidget value="contactSearch" bundle="${bundle}">
-				<m:param name="tableStyleClass" value="table-form"/>
-				<m:param name="columnStyleClasses" value="table-label-column,table-component-column,required"/>
-
 				<m:facet name="footer" styleClass="buttons">
 					<input type="submit" name="search" value="<fmt:message key="search" bundle="${bundle}"/>"/>
 					<input type="submit" name="addPersonal" value="<fmt:message key="addPersonal" bundle="${bundle}"/>"/>

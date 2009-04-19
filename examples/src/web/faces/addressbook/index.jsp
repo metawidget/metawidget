@@ -22,14 +22,9 @@
 				<h:messages />
 
 				<m:metawidget value="#{contactSearch.current}">
-					<f:param name="tableStyleClass" value="table-form"/>
-					<f:param name="columnClasses" value="table-label-column,table-component-column,required" />
-					<f:param name="footerStyleClass" value="buttons"/>
-
 					<f:facet name="footer">
 						<m:metawidget value="#{contactSearch}" rendererType="simple"/>
 					</f:facet>
-
 				</m:metawidget>
 
 			</h:form>

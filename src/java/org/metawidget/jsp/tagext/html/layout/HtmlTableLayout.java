@@ -96,23 +96,23 @@ public class HtmlTableLayout
 
 		// Table styles
 
-		mTableStyle = metawidget.getParam( "tableStyle" );
-		mTableStyleClass = metawidget.getParam( "tableStyleClass" );
+		mTableStyle = metawidget.getParameter( "tableStyle" );
+		mTableStyleClass = metawidget.getParameter( "tableStyleClass" );
 
 		// Inner styles
 
-		String columnStyleClasses = metawidget.getParam( "columnStyleClasses" );
+		String columnStyleClasses = metawidget.getParameter( "columnStyleClasses" );
 
 		if ( columnStyleClasses != null )
 			mColumnStyleClasses = columnStyleClasses.split( StringUtils.SEPARATOR_COMMA );
 
 		// Section styles
 
-		mSectionStyleClass = metawidget.getParam( "sectionStyleClass" );
+		mSectionStyleClass = metawidget.getParameter( "sectionStyleClass" );
 
 		// Number of columns
 
-		String numberOfColumns = metawidget.getParam( "numberOfColumns" );
+		String numberOfColumns = metawidget.getParameter( "numberOfColumns" );
 
 		if ( numberOfColumns == null )
 			mNumberOfColumns = 1;

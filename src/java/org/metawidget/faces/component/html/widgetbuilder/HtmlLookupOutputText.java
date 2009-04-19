@@ -79,7 +79,7 @@ public class HtmlLookupOutputText
 				boolean gotConverter = false;
 				Converter converter = null;
 				@SuppressWarnings( "unchecked" )
-				Collection<String> labels;
+				Collection<Object> labels;
 
 				// Try to return the same Collection type. But don't do
 				// value.getClass().newInstance() because it might be a PersistentSet or something
@@ -91,7 +91,7 @@ public class HtmlLookupOutputText
 
 				for ( Object itemValue : values )
 				{
-					String label = null;
+					Object label = null;
 
 					if ( itemValue != null )
 					{
@@ -151,7 +151,7 @@ public class HtmlLookupOutputText
 	// Private members
 	//
 
-	private String convertAndLookup( Converter converter, Object value )
+	private Object convertAndLookup( Converter converter, Object value )
 	{
 		// Convert...
 
@@ -166,9 +166,12 @@ public class HtmlLookupOutputText
 
 		int indexOf = mValues.indexOf( convertedValue );
 
-		if ( indexOf == -1 )
-			throw MetawidgetException.newException( value + " is not a value listed in the @UiLookup" );
+		if ( indexOf != -1 )
+			return mLabels.get( indexOf );
 
-		return mLabels.get( indexOf );
+		// There may be no such lookup. It is tempting to error at this point, but that gets
+		// icky with enums, who are already converted to their .toString by EnumConverter
+
+		return value;
 	}
 }

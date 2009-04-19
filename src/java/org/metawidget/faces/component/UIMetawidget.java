@@ -46,7 +46,6 @@ import javax.faces.convert.DateTimeConverter;
 import javax.faces.convert.NumberConverter;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
-import javax.servlet.http.HttpSession;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
@@ -54,7 +53,6 @@ import org.metawidget.faces.component.validator.StandardValidator;
 import org.metawidget.faces.component.validator.Validator;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -544,7 +542,7 @@ public abstract class UIMetawidget
 
 		if ( configReader == null )
 		{
-			configReader = new ServletConfigReader( ( (HttpSession) facesContext.getExternalContext().getSession( false ) ).getServletContext() );
+			configReader = new FacesConfigReader();
 			applicationMap.put( APPLICATION_ATTRIBUTE_CONFIG_READER, configReader );
 		}
 

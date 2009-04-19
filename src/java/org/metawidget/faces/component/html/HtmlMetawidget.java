@@ -64,6 +64,16 @@ public class HtmlMetawidget
 		return mCreateHiddenFields;
 	}
 
+	public void setStyle( String style )
+	{
+		handleAttribute( "style", style );
+	}
+
+	public void setStyleClass( String styleClass )
+	{
+		handleAttribute( "styleClass", styleClass );
+	}
+
 	@Override
 	public Object saveState( FacesContext context )
 	{
@@ -144,5 +154,17 @@ public class HtmlMetawidget
 		super.initNestedMetawidget( metawidget, attributes );
 
 		( (HtmlMetawidget) metawidget ).setCreateHiddenFields( mCreateHiddenFields );
+	}
+
+	//
+	// Private methods
+	//
+
+	private void handleAttribute( String name, String value )
+	{
+		if ( value == null )
+			getAttributes().remove( name );
+		else
+			getAttributes().put( name, value );
 	}
 }

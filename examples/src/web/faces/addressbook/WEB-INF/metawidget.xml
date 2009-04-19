@@ -4,6 +4,18 @@
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
 
 	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
+		<parameter>
+			<string>tableStyleClass</string>
+			<string>table-form</string>
+		</parameter>
+		<parameter>
+			<string>columnClasses</string>
+			<string>table-label-column,table-component-column,required</string>
+		</parameter>
+		<parameter>
+			<string>footerStyleClass</string>
+			<string>buttons</string>
+		</parameter>
 		<inspector>		
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>

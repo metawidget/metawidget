@@ -66,7 +66,7 @@ public class ParamTag
 		if ( tagMetawidget == null )
 			throw new JspTagException( getClass() + " must be used within " + MetawidgetTag.class );
 
-		tagMetawidget.setParam( mName, mValue );
+		tagMetawidget.setParameter( mName, mValue );
 
 		return super.doEndTag();
 	}
