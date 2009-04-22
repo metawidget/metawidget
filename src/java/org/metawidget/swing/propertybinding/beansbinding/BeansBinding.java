@@ -74,6 +74,7 @@ public class BeansBinding
 		registerConverter( Long.class, String.class, new NumberConverter<Long>( Long.class ) );
 		registerConverter( Float.class, String.class, new NumberConverter<Float>( Float.class ) );
 		registerConverter( Double.class, String.class, new NumberConverter<Double>( Double.class ) );
+		registerConverter( Boolean.class, String.class, new BooleanConverter() );
 	}
 
 	//

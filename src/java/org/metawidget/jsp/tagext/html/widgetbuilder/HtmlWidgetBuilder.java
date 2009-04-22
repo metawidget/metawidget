@@ -53,12 +53,6 @@ public class HtmlWidgetBuilder
 	extends BaseWidgetBuilder<Object, HtmlMetawidgetTag>
 {
 	//
-	// Private statics
-	//
-
-	private final static List<Boolean>	LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );
-
-	//
 	// Protected methods
 	//
 
@@ -170,6 +164,32 @@ public class HtmlWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return writeSubmitTag( attributes, metawidget );
 
+		String type = attributes.get( TYPE );
+
+		// If no type, fail gracefully with a text box
+
+		if ( type == null || "".equals( type ) )
+			return writeTextTag( attributes, metawidget );
+
+		// Lookup the Class
+
+		Class<?> clazz = ClassUtils.niceForName( type );
+
+		// booleans
+
+		if ( boolean.class.equals( clazz ) || ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ))))
+		{
+			// (use StringBuffer for J2SE 1.4 compatibility)
+
+			StringBuffer buffer = new StringBuffer();
+			buffer.append( "<input type=\"checkbox\"" );
+			buffer.append( writeAttributes( attributes, metawidget ) );
+			buffer.append( writeCheckedAttribute( attributes, metawidget ) );
+			buffer.append( ">" );
+
+			return buffer.toString();
+		}
+
 		// Lookups
 
 		String jspLookup = attributes.get( JSP_LOOKUP );
@@ -182,36 +202,12 @@ public class HtmlWidgetBuilder
 		if ( lookup != null && !"".equals( lookup ) )
 			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
 
-		String type = attributes.get( TYPE );
-
-		// If no type, fail gracefully with a text box
-
-		if ( type == null || "".equals( type ) )
-			return writeTextTag( attributes, metawidget );
-
-		Class<?> clazz = ClassUtils.niceForName( type );
-
 		if ( clazz != null )
 		{
 			// Primitives
 
 			if ( clazz.isPrimitive() )
-			{
-				if ( boolean.class.equals( clazz ) )
-				{
-					// (use StringBuffer for J2SE 1.4 compatibility)
-
-					StringBuffer buffer = new StringBuffer();
-					buffer.append( "<input type=\"checkbox\"" );
-					buffer.append( writeAttributes( attributes, metawidget ) );
-					buffer.append( writeCheckedAttribute( attributes, metawidget ) );
-					buffer.append( ">" );
-
-					return buffer.toString();
-				}
-
 				return writeTextTag( attributes, metawidget );
-			}
 
 			// String
 
@@ -236,11 +232,6 @@ public class HtmlWidgetBuilder
 
 				return writeTextTag( attributes, metawidget );
 			}
-
-			// Booleans (are tri-state)
-
-			if ( Boolean.class.equals( clazz ) )
-				return writeSelectTag( LIST_BOOLEAN_VALUES, null, attributes, metawidget );
 
 			// Dates
 

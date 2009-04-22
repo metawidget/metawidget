@@ -135,6 +135,11 @@ public class GwtWidgetBuilder
 		if ( type == null || "".equals( type ) )
 			return new TextBox();
 
+		// booleans
+
+		if ( "boolean".equals( type ) || ( "Boolean".equals( type ) && TRUE.equals( attributes.get( REQUIRED ))))
+			return new CheckBox();
+
 		// Lookups
 
 		String lookup = attributes.get( LOOKUP );
@@ -150,10 +155,7 @@ public class GwtWidgetBuilder
 
 		if ( GwtUtils.isPrimitive( type ) )
 		{
-			// booleans
-
-			if ( "boolean".equals( type ) )
-				return new CheckBox();
+			// booleans already handled above
 
 			// chars
 

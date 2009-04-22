@@ -392,7 +392,7 @@ public abstract class UIMetawidget
 
 			if ( mValue != null )
 			{
-				mMetawidgetMixin.buildWidgets( mMetawidgetMixin.inspect( null, (String) mValue ) );
+				mMetawidgetMixin.buildWidgets( inspect( null, (String) mValue ) );
 				super.encodeBegin( context );
 				return;
 			}
@@ -414,6 +414,15 @@ public abstract class UIMetawidget
 
 			throw new IOException( e.getMessage() );
 		}
+	}
+
+	/**
+	 * This method is public for use by WidgetBuilders.
+	 */
+
+	public String inspect( Object toInspect, String type, String... names )
+	{
+		return mMetawidgetMixin.inspect( toInspect, type, names );
 	}
 
 	@Override
@@ -488,7 +497,7 @@ public abstract class UIMetawidget
 			if ( toInspect != null && !ClassUtils.isPrimitiveWrapper( toInspect.getClass() ) )
 			{
 				Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-				return mMetawidgetMixin.inspect( toInspect, classToInspect.getName() );
+				return inspect( toInspect, classToInspect.getName() );
 			}
 		}
 
@@ -518,7 +527,7 @@ public abstract class UIMetawidget
 				if ( toInspect != null )
 				{
 					Class<?> classToInspect = ClassUtils.getUnproxiedClass( toInspect.getClass() );
-					return mMetawidgetMixin.inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
+					return inspect( toInspect, classToInspect.getName(), binding.substring( lastIndexOf + 1 ) );
 				}
 			}
 		}

@@ -65,16 +65,15 @@ public class MetawidgetAnnotationInspector
 	//
 
 	@Override
-	protected void inspect( Object toInspect, Element toAddTo )
+	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
 		throws Exception
 	{
 		Document document = toAddTo.getOwnerDocument();
 		Map<String, ElementWithComesAfter> elementsWithComesAfter = CollectionUtils.newHashMap();
-		Class<?> clazz = toInspect.getClass();
 
 		// For each property...
 
-		Map<String, Property> properties = getProperties( clazz );
+		Map<String, Property> properties = getProperties( classToInspect );
 
 		for ( Property property : properties.values() )
 		{
@@ -111,7 +110,7 @@ public class MetawidgetAnnotationInspector
 
 		// For each action...
 
-		Map<String, Action> actions = getActions( clazz );
+		Map<String, Action> actions = getActions( classToInspect );
 
 		for( Action action : actions.values() )
 		{

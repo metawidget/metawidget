@@ -290,6 +290,9 @@ public class HtmlWidgetBuilder
 
 		if ( clazz != null )
 		{
+			if ( boolean.class.equals( clazz ) || ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ))))
+				return application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
+
 			// String Lookups
 
 			String lookup = attributes.get( LOOKUP );
@@ -381,11 +384,7 @@ public class HtmlWidgetBuilder
 
 			if ( component == null )
 			{
-				if ( boolean.class.equals( clazz ) )
-				{
-					component = application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
-				}
-				else if ( char.class.equals( clazz ) )
+				if ( char.class.equals( clazz ) )
 				{
 					component = application.createComponent( "javax.faces.HtmlInputText" );
 					( (HtmlInputText) component ).setMaxlength( 1 );
@@ -431,22 +430,6 @@ public class HtmlWidgetBuilder
 				}
 				else if ( Collection.class.isAssignableFrom( clazz ) )
 					return createHiddenComponent( attributes, metawidget );
-			}
-
-			// Populate Booleans (are tri-state)
-
-			if ( Boolean.class.isAssignableFrom( clazz ) )
-			{
-				if ( component instanceof HtmlSelectOneListbox )
-				{
-					( (HtmlSelectOneListbox) component ).setSize( 1 );
-					addSelectItem( component, null, null );
-				}
-
-				addSelectItem( component, Boolean.TRUE, "Yes" );
-				addSelectItem( component, Boolean.FALSE, "No" );
-
-				return component;
 			}
 
 			// Limit maximum length

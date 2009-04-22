@@ -52,9 +52,8 @@ public class SwingAppFrameworkInspectorTest
 	public void testAnnotations()
 	{
 		SwingAppFrameworkInspector inspector = new SwingAppFrameworkInspector();
-		assertTrue( null == inspector.inspect( (Object) null, Foo.class.getName() ));
 
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
+		Document document = XmlUtils.documentFromString( inspector.inspect( null, Foo.class.getName() ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 

@@ -16,6 +16,26 @@
 			<string>footerStyleClass</string>
 			<string>buttons</string>
 		</parameter>
+		<widgetBuilder>
+			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<list>
+						<htmlDataTableWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.htmldatatable" config="HtmlDataTableWidgetBuilderConfig">
+							<styleClass>
+								<string>data-table</string>
+							</styleClass>
+							<columnClasses>
+								<string>column-half, column-half, column-tiny table-buttons</string>
+							</columnClasses>
+							<rowClasses>
+								<string>row-odd, row-even</string>
+							</rowClasses>							
+						</htmlDataTableWidgetBuilder>
+						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
+					</list>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
+		</widgetBuilder>		
 		<inspector>		
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>

@@ -38,9 +38,12 @@ import org.w3c.dom.Element;
  * <code>JavaBeanPropertyStyle</code> (the default) this is 'alphabetical by name'. Most clients
  * will want to refine this by using, say, <code>UiComesAfter</code> and
  * MetawidgetAnnotationInspector.
- * 
+ *
  * @author Richard Kennard
  */
+
+// TODO: lookup for boolean, helps i18n?
+// TODO: if object is null, look at the class?
 
 public class PropertyTypeInspector
 	extends BaseObjectInspector
@@ -101,6 +104,12 @@ public class PropertyTypeInspector
 				}
 			}
 		}
+
+		if ( boolean.class.isAssignableFrom( propertyClass ))
+			attributes.put( LOOKUP, "true, false" );
+
+		if ( Boolean.class.isAssignableFrom( propertyClass ))
+			attributes.put( LOOKUP, "true, false" );
 
 		// ...(no-setter/no-getter)...
 

@@ -68,8 +68,6 @@ public class DisplayTagWidgetBuilder
 		if ( clazz == null )
 			return null;
 
-		// Collections
-
 		if ( !( Collection.class.isAssignableFrom( clazz ) ))
 			return null;
 

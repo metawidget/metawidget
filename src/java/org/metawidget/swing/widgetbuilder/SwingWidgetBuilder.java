@@ -189,6 +189,11 @@ public class SwingWidgetBuilder
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
+		// booleans
+
+		if ( boolean.class.equals( clazz ) || ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ))))
+			return new JCheckBox();
+
 		// Lookups
 
 		String lookup = attributes.get( LOOKUP );
@@ -236,10 +241,7 @@ public class SwingWidgetBuilder
 
 			if ( clazz.isPrimitive() )
 			{
-				// booleans
-
-				if ( boolean.class.equals( clazz ) )
-					return new JCheckBox();
+				// booleans already handled above
 
 				// chars
 
@@ -379,22 +381,6 @@ public class SwingWidgetBuilder
 
 			if ( Date.class.equals( clazz ) )
 				return new JTextField();
-
-			// Booleans (are tri-state)
-
-			if ( Boolean.class.equals( clazz ) )
-			{
-				if ( TRUE.equals( attributes.get( REQUIRED )))
-					return new JCheckBox();
-
-				JComboBox comboBox = new JComboBox();
-
-				comboBox.addItem( null );
-				comboBox.addItem( Boolean.TRUE );
-				comboBox.addItem( Boolean.FALSE );
-
-				return comboBox;
-			}
 
 			// Numbers
 			//

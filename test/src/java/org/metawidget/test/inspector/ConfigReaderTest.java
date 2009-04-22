@@ -91,7 +91,7 @@ public class ConfigReaderTest
 		// Configure
 
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\" version=\"1.0\">";
 		xml += "	<point xmlns=\"urn:java:java.awt\">";
 		xml += "		<location>";
 		xml += "			<int>10</int>";
@@ -625,7 +625,7 @@ public class ConfigReaderTest
 		public ValidatingConfigReader()
 		{
 			SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
-			InputStream in = openResource( "org/metawidget/inspector/metawidget-1.0.xsd" );
+			InputStream in = super.openResource( "org/metawidget/inspector/metawidget-1.0.xsd" );
 
 			try
 			{

@@ -34,7 +34,7 @@
 				<f:param name="messageStyleClass" value="inline-error" />
 				<f:param name="sectionStyleClass" value="section-heading" />
 
-				<m:stub value="#{contact.current.communications}">
+				<m:stub value="#{contact.current.communications}" rendered="#{!contact.readOnly}">
 					<h:dataTable id="communications" value="#{contact.currentCommunications}" var="_communication" styleClass="data-table" columnClasses="column-half, column-half, column-tiny table-buttons" rowClasses="row-odd, row-even">
 
 						<h:column>
@@ -43,7 +43,7 @@
 							</f:facet>
 							<h:outputText value="#{_communication.type}"/>
 							<f:facet name="footer">
-								<m:metawidget value="#{communication.current.type}" inspectFromParent="true" rendererType="simple" rendered="#{!contact.readOnly}"/>
+								<m:metawidget value="#{communication.current.type}" inspectFromParent="true" rendererType="simple"/>
 							</f:facet>
 						</h:column>
 
@@ -53,7 +53,7 @@
 							</f:facet>							
 							<h:outputText value="#{_communication.value}"/>
 							<f:facet name="footer">
-								<m:metawidget value="#{communication.current.value}" rendererType="simple" rendered="#{!contact.readOnly}"/>
+								<m:metawidget value="#{communication.current.value}" rendererType="simple"/>
 							</f:facet>
 						</h:column>
 
@@ -63,7 +63,7 @@
 							</f:facet>							
 							<h:commandButton id="deleteCommunication" value="#{bundle.delete}" action="#{contact.deleteCommunication}" onclick="if ( !confirm( 'Are you sure you want to delete this communication?' )) return false" immediate="true" rendered="#{!contact.readOnly}"/>
 							<f:facet name="footer">
-								<h:commandButton value="#{bundle.add}" action="#{contact.addCommunication}" rendered="#{!contact.readOnly}"/>
+								<h:commandButton value="#{bundle.add}" action="#{contact.addCommunication}"/>
 							</f:facet>
 						</h:column>
 

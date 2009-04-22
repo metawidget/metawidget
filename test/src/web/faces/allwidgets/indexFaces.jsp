@@ -12,7 +12,7 @@
 
 				<h:messages />
 
-				<m:metawidget value="#{allWidgets}" style="aStyle" styleClass="aStyleClass" createHiddenFields="true" config="config/metawidget.xml">
+				<m:metawidget value="#{allWidgets}" config="config/metawidget.xml">
 					<f:param name="tableStyle" value="aTableStyle"/>
 					<f:param name="tableStyleClass" value="aTableStyleClass"/>
 					<f:param name="columnClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>

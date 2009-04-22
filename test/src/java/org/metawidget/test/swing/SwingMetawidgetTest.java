@@ -30,7 +30,6 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -177,7 +176,7 @@ public class SwingMetawidgetTest
 		assertTrue( 1 == metawidget.getMaximumInspectionDepth() );
 		assertTrue( metawidget.getComponent( "foo" ) instanceof SwingMetawidget );
 		assertTrue( metawidget.getComponent( "foo", "name" ) instanceof JTextField );
-		assertTrue( "name".equals( metawidget.getComponent( "foo", "name" ).getName() ));
+		assertTrue( "name".equals( metawidget.getComponent( "foo", "name" ).getName() ) );
 		assertTrue( metawidget.getComponent( "foo", "foo" ) == null );
 
 		metawidget.setMaximumInspectionDepth( 2 );
@@ -195,8 +194,9 @@ public class SwingMetawidgetTest
 		// ...but because we know the type of the child property, we end up putting an empty
 		// Metawidget
 
-		assertTrue( 1 == ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
-		assertTrue( 0 == ( (JPanel) ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponent( 0 ) ).getComponentCount() );
+		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo" ) instanceof SwingMetawidget );
+		assertTrue( 0 == ((SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" )).getComponentCount() );
+		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ) == null );
 	}
 
 	public void testRebind()
@@ -236,7 +236,7 @@ public class SwingMetawidgetTest
 		attributes.remove( REQUIRED );
 		attributes.remove( LOOKUP );
 
-		component = widgetBuilder.buildWidget("foo", attributes, metawidget );
+		component = widgetBuilder.buildWidget( "foo", attributes, metawidget );
 		assertTrue( null == component );
 
 		attributes.put( DONT_EXPAND, TRUE );
@@ -263,9 +263,9 @@ public class SwingMetawidgetTest
 		( (JButton) metawidget.getComponent( 0 ) ).doClick();
 		( (JButton) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 0 ) ).doClick();
 
-		assertTrue( "FooActionBinding fired".equals( ((JTextField) metawidget.getComponent( 4 )).getText() ));
-		assertTrue( "".equals( ((JTextField) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 4 )).getText() ));
-		assertTrue( "FooActionBinding fired".equals( ((JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 4 )).getText() ));
+		assertTrue( "FooActionBinding fired".equals( ( (JTextField) metawidget.getComponent( 4 ) ).getText() ) );
+		assertTrue( "".equals( ( (JTextField) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 4 ) ).getText() ) );
+		assertTrue( "FooActionBinding fired".equals( ( (JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 4 ) ).getText() ) );
 	}
 
 	public void testFacet()

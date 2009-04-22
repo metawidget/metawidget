@@ -37,10 +37,14 @@ public class HtmlMetawidget
 	extends UIMetawidget
 {
 	//
-	// Protected members
+	// Private members
 	//
 
-	protected boolean			mCreateHiddenFields;
+	private boolean	mCreateHiddenFields;
+
+	private String	mStyle;
+
+	private String	mStyleClass;
 
 	//
 	// Public methods
@@ -64,22 +68,34 @@ public class HtmlMetawidget
 		return mCreateHiddenFields;
 	}
 
+	public String getStyle()
+	{
+		return mStyle;
+	}
+
 	public void setStyle( String style )
 	{
-		handleAttribute( "style", style );
+		mStyle = style;
+	}
+
+	public String getStyleClass()
+	{
+		return mStyleClass;
 	}
 
 	public void setStyleClass( String styleClass )
 	{
-		handleAttribute( "styleClass", styleClass );
+		mStyleClass = styleClass;
 	}
 
 	@Override
 	public Object saveState( FacesContext context )
 	{
-		Object values[] = new Object[2];
+		Object values[] = new Object[4];
 		values[0] = super.saveState( context );
 		values[1] = mCreateHiddenFields;
+		values[2] = mStyle;
+		values[3] = mStyleClass;
 
 		return values;
 	}
@@ -91,6 +107,8 @@ public class HtmlMetawidget
 		super.restoreState( context, values[0] );
 
 		mCreateHiddenFields = (Boolean) values[1];
+		mStyle = (String) values[2];
+		mStyleClass = (String) values[3];
 	}
 
 	//
@@ -154,17 +172,5 @@ public class HtmlMetawidget
 		super.initNestedMetawidget( metawidget, attributes );
 
 		( (HtmlMetawidget) metawidget ).setCreateHiddenFields( mCreateHiddenFields );
-	}
-
-	//
-	// Private methods
-	//
-
-	private void handleAttribute( String name, String value )
-	{
-		if ( value == null )
-			getAttributes().remove( name );
-		else
-			getAttributes().put( name, value );
 	}
 }

@@ -140,7 +140,7 @@ public abstract class BaseObjectInspector
 		{
 			Object childToInspect = null;
 			String childName = null;
-			String childType;
+			Class<?> childDeclaredType;
 			Map<String, String> parentAttributes = null;
 
 			// If the path has a parent...
@@ -149,23 +149,32 @@ public abstract class BaseObjectInspector
 			{
 				// ...inspect its property for useful annotations...
 
-				Object parentToInspect = traverse( toInspect, type, true, names );
+				Object[] tuple = traverse( toInspect, type, true, names );
 
-				if ( parentToInspect == null )
+				if ( tuple == null )
 					return null;
 
 				childName = names[names.length - 1];
-				Property propertyInParent = mPropertyStyle.getProperties( parentToInspect.getClass() ).get( childName );
+				Class<?> parentType = (Class<?>) tuple[1];
+
+				Property propertyInParent = mPropertyStyle.getProperties( parentType ).get( childName );
 
 				if ( propertyInParent == null )
 					return null;
 
-				childType = propertyInParent.getType().getName();
+				childDeclaredType = propertyInParent.getType();
+
+				// ...provided it has a getter
 
 				if ( propertyInParent.isReadable() )
 				{
+					Object parentToInspect = tuple[0];
 					childToInspect = propertyInParent.read( parentToInspect );
-					parentAttributes = inspectProperty( propertyInParent, toInspect );
+
+					if ( childToInspect == null )
+						return null;
+
+					parentAttributes = inspectProperty( propertyInParent, parentToInspect );
 				}
 			}
 
@@ -173,12 +182,13 @@ public abstract class BaseObjectInspector
 
 			else
 			{
-				childToInspect = traverse( toInspect, type, false );
+				Object[] tuple = traverse( toInspect, type, false );
 
-				if ( childToInspect == null )
+				if ( tuple == null )
 					return null;
 
-				childType = type;
+				childToInspect = tuple[0];
+				childDeclaredType = (Class<?>) tuple[1];
 			}
 
 			Document document = XmlUtils.newDocumentBuilder().newDocument();
@@ -186,8 +196,14 @@ public abstract class BaseObjectInspector
 
 			// Inspect child properties
 
-			if ( childToInspect != null )
-				inspect( childToInspect, entity );
+			Class<?> actualType;
+
+			if ( childToInspect == null )
+				actualType = childDeclaredType;
+			else
+				actualType = childToInspect.getClass();
+
+			inspect( childToInspect, actualType, entity );
 
 			// Nothing of consequence to return?
 
@@ -214,7 +230,7 @@ public abstract class BaseObjectInspector
 			// subtypes (and proxied types) will stop XML and Object-based Inspectors merging back
 			// together properly
 
-			entity.setAttribute( TYPE, childType );
+			entity.setAttribute( TYPE, childDeclaredType.getName() );
 
 			// Return the document
 
@@ -232,18 +248,20 @@ public abstract class BaseObjectInspector
 
 	/**
 	 * @param toInspect
-	 *            the obejct to inspect. Never null
+	 *            the object to inspect. May be null
+	 * @param clazz
+	 *            the class to inspect. If toInspect is not null, will be the actual class of
+	 *            toInspect. If toInspect is null, will be the class to lookup
 	 */
 
-	protected void inspect( Object toInspect, Element toAddTo )
+	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
 		throws Exception
 	{
 		Document document = toAddTo.getOwnerDocument();
-		Class<?> clazz = toInspect.getClass();
 
 		// Inspect properties
 
-		for ( Property property : getProperties( clazz ).values() )
+		for ( Property property : getProperties( classToInspect ).values() )
 		{
 			Map<String, String> attributes = inspectProperty( property, toInspect );
 
@@ -260,7 +278,7 @@ public abstract class BaseObjectInspector
 
 		// Inspect actions
 
-		for ( Action action : getActions( clazz ).values() )
+		for ( Action action : getActions( classToInspect ).values() )
 		{
 			Map<String, String> attributes = inspectAction( action, toInspect );
 
@@ -357,12 +375,16 @@ public abstract class BaseObjectInspector
 	// Private methods
 	//
 
-	private Object traverse( Object toTraverse, String type, boolean onlyToParent, String... names )
+	/**
+	 * @return If found, a tuple of Object and declared type (not actual type). If not found, returns null.
+	 */
+
+	private Object[] traverse( Object toTraverse, String type, boolean onlyToParent, String... names )
 	{
-		// Sanity check
+		// Special support for class lookup
 
 		if ( toTraverse == null )
-			return null;
+			return new Object[] { null, ClassUtils.niceForName( type ) };
 
 		// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
 		//
@@ -377,42 +399,48 @@ public abstract class BaseObjectInspector
 
 		// Traverse through names (if any)
 
-		if ( names == null || names.length == 0 )
-			return toTraverse;
-
 		Object traverse = toTraverse;
-		Object parentTraverse = null;
+		Class<?> traverseDeclaredType = ClassUtils.niceForName( type );
 
-		Set<Object> traversed = CollectionUtils.newHashSet();
-		traversed.add( traverse );
-
-		for ( String name : names )
+		if ( names != null && names.length > 0 )
 		{
-			Property property = mPropertyStyle.getProperties( traverse.getClass() ).get( name );
+			Object parentTraverse = null;
+			Object parentTraverseDeclaredType = null;
 
-			if ( property == null || !property.isReadable() )
-				return null;
+			Set<Object> traversed = CollectionUtils.newHashSet();
+			traversed.add( traverse );
 
-			parentTraverse = traverse;
-			traverse = property.read( traverse );
-
-			if ( traverse == null )
-				break;
-
-			// Unlike BaseXmlInspector (which can never be certain it has detected a
-			// cyclic reference because it only looks at types, not objects), BaseObjectInspector
-			// can detect cycles and nip them in the bud
-
-			if ( !traversed.add( traverse ) )
+			for ( String name : names )
 			{
-				LogUtils.getLog( getClass() ).warn( ClassUtils.getSimpleName( getClass() ) + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating " + name + " as @UiHidden" );
-				return null;
+				Property property = mPropertyStyle.getProperties( traverse.getClass() ).get( name );
+
+				if ( property == null || !property.isReadable() )
+					return null;
+
+				parentTraverse = traverse;
+				parentTraverseDeclaredType = traverseDeclaredType;
+				traverse = property.read( traverse );
+				traverseDeclaredType = property.getType();
+
+				if ( traverse == null )
+					break;
+
+				// Unlike BaseXmlInspector (which can never be certain it has detected a
+				// cyclic reference because it only looks at types, not objects),
+				// BaseObjectInspector
+				// can detect cycles and nip them in the bud
+
+				if ( !traversed.add( traverse ) )
+				{
+					LogUtils.getLog( getClass() ).warn( ClassUtils.getSimpleName( getClass() ) + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating " + name + " as @UiHidden" );
+					return null;
+				}
 			}
+
+			if ( onlyToParent )
+				return new Object[] { parentTraverse, parentTraverseDeclaredType };
 		}
 
-		if ( onlyToParent )
-			return parentTraverse;
-
-		return traverse;
+		return new Object[] { traverse, traverseDeclaredType };
 	}
 }
