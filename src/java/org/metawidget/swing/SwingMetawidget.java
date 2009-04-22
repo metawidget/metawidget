@@ -1046,7 +1046,7 @@ public class SwingMetawidget
 			// effect. However, do 'getComponentCount() > 0' in case the SwingMetawidget is being
 			// used purely for layout purposes
 
-			if ( mLastInspection != null || getComponentCount() > 0 )
+			// TODO: if ( mLastInspection != null || getComponentCount() > 0 )
 				mMetawidgetMixin.buildWidgets( mLastInspection );
 		}
 		catch ( Exception e )

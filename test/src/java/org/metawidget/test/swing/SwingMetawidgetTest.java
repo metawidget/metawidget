@@ -195,7 +195,7 @@ public class SwingMetawidgetTest
 		// Metawidget
 
 		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo" ) instanceof SwingMetawidget );
-		assertTrue( 0 == ((SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" )).getComponentCount() );
+		assertTrue( 1 == ((SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" )).getComponentCount() );
 		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ) == null );
 	}
 

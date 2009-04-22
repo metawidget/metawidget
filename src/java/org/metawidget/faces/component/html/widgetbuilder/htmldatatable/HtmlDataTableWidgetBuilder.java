@@ -18,7 +18,6 @@ package org.metawidget.faces.component.html.widgetbuilder.htmldatatable;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -29,6 +28,7 @@ import javax.faces.component.html.HtmlColumn;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
+import javax.faces.model.DataModel;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.util.ClassUtils;
@@ -101,7 +101,7 @@ public class HtmlDataTableWidgetBuilder
 		if ( clazz == null )
 			return null;
 
-		if ( !( Collection.class.isAssignableFrom( clazz ) ) )
+		if ( !List.class.isAssignableFrom( clazz ) && !DataModel.class.isAssignableFrom( clazz ))
 			return null;
 
 		// Build the HtmlDataTable
@@ -115,47 +115,72 @@ public class HtmlDataTableWidgetBuilder
 		dataTable.setRowClasses( mRowClasses );
 		List<UIComponent> dataChildren = dataTable.getChildren();
 
-		// Inspect the parameterized type
+		// If there is no parameterized type...
 
-		String inspectedType = metawidget.inspect( null, attributes.get( PARAMETERIZED_TYPE ), (String[]) null );
-		Document document = XmlUtils.documentFromString( inspectedType );
-		NodeList elements = document.getFirstChild().getChildNodes();
+		String parameterizedType = attributes.get( PARAMETERIZED_TYPE );
 
-		// For each name...
-
-		for ( int loop = 0, length = elements.getLength(); loop < length; loop++ )
+		if ( parameterizedType == null )
 		{
-			Node node = elements.item( loop );
+			// ...do a single column table
 
-			if ( !( node instanceof Element ) )
-				continue;
-
-			Element element = (Element) node;
-
-			// ...that is visible...
-
-			if ( TRUE.equals( attributes.get( HIDDEN )))
-				continue;
-
-			// ...make a label...
-
-			String columnName = element.getAttribute( NAME );
 			UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
-			ValueExpression expression = application.getExpressionFactory().createValueExpression( context.getELContext(), "#{_internal." + columnName + "}", Object.class );
+			ValueExpression expression = application.getExpressionFactory().createValueExpression( context.getELContext(), "#{_internal}", Object.class );
 			columnText.setValueExpression( "value", expression );
-
-			// ...and put it in a column...
 
 			HtmlColumn column = (HtmlColumn) application.createComponent( "javax.faces.HtmlColumn" );
 			dataChildren.add( column );
 			List<UIComponent> columnChildren = column.getChildren();
 			columnChildren.add( columnText );
 
-			// ...with a header
-
 			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
-			headerText.setValue( columnName );
+			headerText.setValue( metawidget.getLabelString( context, attributes ));
 			column.setHeader( headerText );
+		}
+
+		// ...otherwise, if there is a parameterized type...
+
+		else
+		{
+			String inspectedType = metawidget.inspect( null, parameterizedType, (String[]) null );
+			Document document = XmlUtils.documentFromString( inspectedType );
+			NodeList elements = document.getDocumentElement().getFirstChild().getChildNodes();
+
+			// ...then for each property of the parameterized type...
+
+			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ )
+			{
+				Node node = elements.item( loop );
+
+				if ( !( node instanceof Element ) )
+					continue;
+
+				Element element = (Element) node;
+
+				// ...that is visible...
+
+				if ( TRUE.equals( element.getAttribute( HIDDEN )))
+					continue;
+
+				// ...make a label...
+
+				String columnName = element.getAttribute( NAME );
+				UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
+				ValueExpression expression = application.getExpressionFactory().createValueExpression( context.getELContext(), "#{_internal." + columnName + "}", Object.class );
+				columnText.setValueExpression( "value", expression );
+
+				// ...and put it in a column...
+
+				HtmlColumn column = (HtmlColumn) application.createComponent( "javax.faces.HtmlColumn" );
+				dataChildren.add( column );
+				List<UIComponent> columnChildren = column.getChildren();
+				columnChildren.add( columnText );
+
+				// ...with a header
+
+				HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
+				headerText.setValue( metawidget.getLabelString( context, XmlUtils.getAttributesAsMap( element ) ));
+				column.setHeader( headerText );
+			}
 		}
 
 		return dataTable;
