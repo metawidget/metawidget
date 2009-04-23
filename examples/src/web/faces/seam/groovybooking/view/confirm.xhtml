@@ -16,12 +16,9 @@
 	<h:form id="confirm">
 	<fieldset>
 
-		<m:metawidget value="#{hotel}" rendererType="div" readOnly="#{true}">
-			<f:param name="divStyleClasses" value="entry,label,required,output"/>
-		</m:metawidget>
+		<m:metawidget value="#{hotel}" readOnly="#{true}"/>
 
-		<m:metawidget value="#{booking}" rendererType="div" readOnly="#{true}">
-			<f:param name="divStyleClasses" value="entry,label,required,output"/>
+		<m:metawidget value="#{booking}" readOnly="#{true}">
 			<h:outputText value="#{booking.total}"/>
 			<m:stub value="#{booking.creditCardExpiryMonth}"/>
 			<m:stub value="#{booking.creditCardExpiryYear}"/>

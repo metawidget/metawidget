@@ -25,9 +25,6 @@
             
             <h:form id="NewAccountForm">
                 <m:metawidget>
-                	<f:param name="labelStyle" value="text-align: left; font-weight: normal"/>
-   	            	<f:param name="messageStyleClass" value="cntError"/>
-                
                     <m:metawidget value="#{customer.creditCardType}" inspectFromParent="true" rendererType="simple"/>
                     <m:metawidget value="#{customer.creditCard}" inspectFromParent="true" rendererType="simple"/>
                     <m:stub value="#{customer.creditCardMonth}">

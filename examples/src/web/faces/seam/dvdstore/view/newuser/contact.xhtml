@@ -26,8 +26,6 @@
             <h:form id="NewAccountForm">
                 <s:validateAll id="ValidateAll">
 	                <m:metawidget value="#{customer}" validatorClass="org.metawidget.faces.component.validator.RequiredValidator">
-	                	<f:param name="labelStyle" value="text-align: left; font-weight: normal"/>
-	                	<f:param name="messageStyleClass" value="cntError"/>
 	
 	                	<m:stub value="#{customer.userName}"/>
 	                	<m:stub value="#{customer.password}"/>

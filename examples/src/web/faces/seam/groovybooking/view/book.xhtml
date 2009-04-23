@@ -18,13 +18,11 @@
 	<h:form id="booking">
 	<fieldset>
 	
-		<m:metawidget value="#{hotel}" rendererType="div" readOnly="#{true}">
-			<f:param name="divStyleClasses" value="entry,label,required,output"/>
-		</m:metawidget>
+		<m:metawidget value="#{hotel}" readOnly="#{true}"/>
 		
 		<s:validateAll>
     
-			<m:metawidget value="#{booking}" rendererType="div" validatorClass="org.metawidget.faces.component.validator.RequiredValidator">
+			<m:metawidget value="#{booking}" validatorClass="org.metawidget.faces.component.validator.RequiredValidator">
 				<f:param name="divStyleClasses" value="entry,label,required,input,error errors"/>
 			</m:metawidget>
 			

@@ -43,7 +43,6 @@ import org.w3c.dom.Element;
  */
 
 // TODO: lookup for boolean, helps i18n?
-// TODO: if object is null, look at the class?
 
 public class PropertyTypeInspector
 	extends BaseObjectInspector

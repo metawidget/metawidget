@@ -101,7 +101,7 @@ public class HtmlDataTableWidgetBuilder
 		if ( clazz == null )
 			return null;
 
-		if ( !List.class.isAssignableFrom( clazz ) && !DataModel.class.isAssignableFrom( clazz ))
+		if ( !List.class.isAssignableFrom( clazz ) && !DataModel.class.isAssignableFrom( clazz ) && !clazz.isArray() )
 			return null;
 
 		// Build the HtmlDataTable
@@ -115,13 +115,20 @@ public class HtmlDataTableWidgetBuilder
 		dataTable.setRowClasses( mRowClasses );
 		List<UIComponent> dataChildren = dataTable.getChildren();
 
-		// If there is no parameterized type...
+		// Determine component type
 
-		String parameterizedType = attributes.get( PARAMETERIZED_TYPE );
+		String componentType;
 
-		if ( parameterizedType == null )
+		if ( clazz.isArray() )
+			componentType = clazz.getComponentType().getName();
+		else
+			componentType = attributes.get( PARAMETERIZED_TYPE );
+
+		// If there is no type...
+
+		if ( componentType == null )
 		{
-			// ...do a single column table
+			// ...resort to a single column table...
 
 			UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
 			ValueExpression expression = application.getExpressionFactory().createValueExpression( context.getELContext(), "#{_internal}", Object.class );
@@ -132,20 +139,22 @@ public class HtmlDataTableWidgetBuilder
 			List<UIComponent> columnChildren = column.getChildren();
 			columnChildren.add( columnText );
 
+			// ...with a localized header
+
 			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
 			headerText.setValue( metawidget.getLabelString( context, attributes ));
 			column.setHeader( headerText );
 		}
 
-		// ...otherwise, if there is a parameterized type...
+		// ...otherwise, inspect the component type...
 
 		else
 		{
-			String inspectedType = metawidget.inspect( null, parameterizedType, (String[]) null );
+			String inspectedType = metawidget.inspect( null, componentType, (String[]) null );
 			Document document = XmlUtils.documentFromString( inspectedType );
 			NodeList elements = document.getDocumentElement().getFirstChild().getChildNodes();
 
-			// ...then for each property of the parameterized type...
+			// ...and for each property...
 
 			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ )
 			{
@@ -175,7 +184,7 @@ public class HtmlDataTableWidgetBuilder
 				List<UIComponent> columnChildren = column.getChildren();
 				columnChildren.add( columnText );
 
-				// ...with a header
+				// ...with a localized header
 
 				HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
 				headerText.setValue( metawidget.getLabelString( context, XmlUtils.getAttributesAsMap( element ) ));

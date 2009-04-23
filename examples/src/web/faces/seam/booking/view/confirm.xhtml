@@ -18,8 +18,7 @@
 
 	<ui:include src="hotelview.xhtml"/>
 
-	<m:metawidget value="#{booking}" rendererType="div" readOnly="#{true}">
-		<f:param name="divStyleClasses" value="entry,label,required,input"/>
+	<m:metawidget value="#{booking}" readOnly="#{true}">
 		<h:outputText value="#{booking.total}"/>
 		<m:stub value="#{booking.creditCardExpiryMonth}"/>
 		<m:stub value="#{booking.creditCardExpiryYear}"/>

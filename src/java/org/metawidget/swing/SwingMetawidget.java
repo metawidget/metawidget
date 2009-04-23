@@ -1046,7 +1046,7 @@ public class SwingMetawidget
 			// effect. However, do 'getComponentCount() > 0' in case the SwingMetawidget is being
 			// used purely for layout purposes
 
-			// TODO: if ( mLastInspection != null || getComponentCount() > 0 )
+			if ( mPath != null || getComponentCount() > 0 )
 				mMetawidgetMixin.buildWidgets( mLastInspection );
 		}
 		catch ( Exception e )
@@ -1193,6 +1193,11 @@ public class SwingMetawidget
 			{
 				for ( Component componentExisting : mExistingComponentsUnused )
 				{
+					// Unused facets don't count
+
+					if ( componentExisting instanceof Facet )
+						continue;
+
 					Map<String, String> miscAttributes = CollectionUtils.newHashMap();
 
 					// Manually created components default to no section
