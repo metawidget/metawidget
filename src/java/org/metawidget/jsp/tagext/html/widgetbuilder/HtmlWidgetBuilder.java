@@ -73,7 +73,7 @@ public class HtmlWidgetBuilder
 			return writeHiddenTag( attributes, metawidget );
 		}
 
-		// Action
+		// Action (read-only actions ignored)
 
 		if ( ACTION.equals( elementName ) )
 			return new StubTag.StubContent();

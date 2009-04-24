@@ -168,7 +168,6 @@ public class Person {
 	<programlisting language="java">package com.myapp;
 	
 import javax.swing.*;
-import org.metawidget.inspector.propertytype.*;
 import org.metawidget.swing.*;
 
 public class Main {
@@ -176,7 +175,6 @@ public class Main {
 		Person person = new Person();
 	
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( person );
 	
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
@@ -253,21 +251,21 @@ public class Main {
 				
 				<para>
 					At the moment, the order of fields in our UI is alphabetical - it does not match
-					the order they are defined in the <classname>Person</classname> class. <classname>PropertyTypeInspector</classname> sorts fields
-					alphabetically, because the Java Language Specification
-					does not retain field ordering information within class files.
+					the order they are defined in the <classname>Person</classname> class. This is
+					because the ordering information is not retained within Java class files
+					(as per the Java Language Specification).
 				</para>
 				
 				<para>
-					To describe a different ordering, Metawidget needs a way to capture additional information.
-					There are several ways Metawidget can do this, but the
-					simplest for now is to use the built-in Metawidget annotation <classname>@UiComesAfter</classname>.
+					We need a place Metawidget can inspect to determine the order. There are several ways to
+					define such a place, but the simplest for now is to use the built-in Metawidget annotation
+					<classname>@UiComesAfter</classname>.
 				</para>
 				
 				<tip>
 					<title>Note</title>
 					The following code uses annotations, so you'll need Java SE 5. Metawidget itself can run
-					on J2SE 1.4, but you'll need to capture the additional information from a different source
+					on J2SE 1.4, but you'll need to  the ordering information from a different source
 					(see <xref linkend="section-introduction-part1-xmlinspector"/>)
 				</tip>
 								
@@ -295,15 +293,54 @@ public class Person {
 				</para>
 				
 				<para>
-					To recognise the annotations, Metawidget needs to use a different Inspector. Metawidget
+					Run the code again. This time the fields should appear in the correct order.
+				</para>
+				
+				<figure id="section-introduction-part1-output-screenshot">
+					<title>SwingMetawidget rendering with correct order</title>			
+					<screenshot>
+						<graphic fileref="../shared/images/swing-tutorial2.jpg" width="100mm"/>
+					</screenshot>
+				</figure>
+				
+				<para>
+					In general, introducing new annotations to fine-tune the UI is not in the spirit of Metawidget. Metawidget
+					would much rather fine-tune by gathering more information from <emphasis>existing</emphasis> sources. Add
+					the following lines to <classname>Person</classname>  (lines to change are shown in bold):
+				</para>
+				
+				<programlisting language="java">package com.myapp;
+
+import org.metawidget.inspector.annotation.*;
+
+public class Person {
+	public String name;
+	
+	@UiComesAfter( "name" )
+	public int age;
+	
+	@UiComesAfter( "age" )
+	public boolean retired;
+	
+	<emphasis role="bold">public Gender gender;
+	
+	enum Gender { Male, Female }</emphasis>
+}</programlisting>
+				
+				<para>
+					Run the code again. Metawidget... 
+				</para>
+				
+				<para>
+					To recognise the enum, Metawidget needs to use a different Inspector. Metawidget
 					comes with multiple Inspectors, each targeting different sources of information. Change the Main class to use
-					<classname>MetawidgetAnnotationInspector</classname> (lines to change are shown in bold):
+					<classname>Java5Inspector</classname> (lines to change are shown in bold):
 				</para>
 				
 				<programlisting language="java">package com.myapp;
 
 import javax.swing.*;
-<emphasis role="bold">import org.metawidget.inspector.annotation.*;</emphasis>
+<emphasis role="bold">import org.metawidget.inspector.java5.*;</emphasis>
 import org.metawidget.swing.*;
 
 public class Main {
@@ -311,7 +348,7 @@ public class Main {
 		Person person = new Person();
 	
 		SwingMetawidget metawidget = new SwingMetawidget();
-		<emphasis role="bold">metawidget.setInspector( new MetawidgetAnnotationInspector() );</emphasis>
+		<emphasis role="bold">metawidget.setInspector( new Java5Inspector() );</emphasis>
 		metawidget.setToInspect( person );
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );

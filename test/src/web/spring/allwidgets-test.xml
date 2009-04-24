@@ -127,8 +127,8 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/th" text="Boolean object:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/td[1]/select"/>
-				<verifySelectField name="booleanObject" text="true"/>
-				<setSelectField name="booleanObject" text="false"/>
+				<verifySelectField name="booleanObject" text="Yes"/>
+				<setSelectField name="booleanObject" text="No"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/th" text="Dropdown:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/td[1]/select"/>
@@ -265,7 +265,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[20]/th" text="Boolean:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[20]/td[1]" text="true"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/th" text="Boolean object:"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/td[1]" text="false"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/td[1]" text="No"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/th" text="Dropdown:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/td[1]" text="foo1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/th" text="Dropdown with labels:"/>

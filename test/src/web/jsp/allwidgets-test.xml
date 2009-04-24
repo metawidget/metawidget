@@ -119,8 +119,8 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[20]/th" text="Boolean object (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[20]/td[1]/select"/>
-				<verifySelectField name="allWidgets.booleanObject" text="true"/>
-				<setSelectField name="allWidgets.booleanObject" text="false"/>
+				<verifySelectField name="allWidgets.booleanObject" text="Yes"/>
+				<setSelectField name="allWidgets.booleanObject" text="No"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/th" text="Dropdown (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/td[1]/select"/>
@@ -263,7 +263,7 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[10]/th[2]" text="Boolean (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[10]/td[3]" text="true"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[11]/th[1]" text="Boolean object (i18n):"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td[1]" text="false"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td[1]" text="No"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[11]/th[2]" text="Dropdown (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[11]/td[3]" text="foo1"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[12]/th[1]" text="Dropdown with Labels (i18n):"/>

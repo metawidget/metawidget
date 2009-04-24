@@ -31,6 +31,7 @@ import javax.servlet.jsp.tagext.Tag;
 import org.metawidget.MetawidgetException;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
+import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -82,6 +83,8 @@ public class SpringWidgetBuilder
 		{
 			if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return writeSpringTag( HiddenInputTag.class, attributes, metawidget );
+
+			return null;
 		}
 
 		if ( ACTION.equals( elementName ) )
@@ -154,10 +157,14 @@ public class SpringWidgetBuilder
 		{
 			if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return writeSpringTag( HiddenInputTag.class, attributes, metawidget );
+
+			return null;
 		}
 
+		// Actions (ignored)
+
 		if ( ACTION.equals( elementName ) )
-			return null;
+			return new StubTag.StubContent();
 
 		String type = attributes.get( TYPE );
 

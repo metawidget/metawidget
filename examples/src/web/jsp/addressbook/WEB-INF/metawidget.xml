@@ -9,7 +9,7 @@
 			<string>table-form</string>
 		</parameter>
 		<parameter>
-			<string>columnClasses</string>
+			<string>columnStyleClasses</string>
 			<string>table-label-column,table-component-column,required</string>
 		</parameter>
 		<inspector>		

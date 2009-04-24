@@ -977,7 +977,7 @@ public class ConfigReader
 			int indexOf = uri.indexOf( JAVA_NAMESPACE_PREFIX );
 
 			if ( indexOf == -1 )
-				throw new SAXException( "Namespace must contain " + JAVA_NAMESPACE_PREFIX );
+				throw new SAXException( "Namespace '" + uri + "' of element <" + localName + "> must contain " + JAVA_NAMESPACE_PREFIX );
 
 			String packagePrefix = uri.substring( indexOf + JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
 			String toConstruct = packagePrefix + StringUtils.uppercaseFirstLetter( localName );

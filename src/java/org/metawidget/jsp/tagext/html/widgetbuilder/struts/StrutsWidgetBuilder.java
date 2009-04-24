@@ -83,6 +83,8 @@ public class StrutsWidgetBuilder
 		{
 			if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return writeStrutsTag( HiddenTag.class, attributes, metawidget );
+
+			return null;
 		}
 
 		if ( ACTION.equals( elementName ) )
@@ -160,10 +162,14 @@ public class StrutsWidgetBuilder
 		{
 			if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return writeStrutsTag( HiddenTag.class, attributes, metawidget );
+
+			return null;
 		}
 
+		// Actions (ignored)
+
 		if ( ACTION.equals( elementName ) )
-			return null;
+			return new StubTag.StubContent();
 
 		String type = attributes.get( TYPE );
 

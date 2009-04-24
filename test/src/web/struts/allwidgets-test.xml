@@ -124,8 +124,8 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/th" text="Boolean object (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[21]/td[1]/select"/>
-				<verifySelectField name="allWidgets.booleanObject" text="true"/>
-				<setSelectField name="allWidgets.booleanObject" text="false"/>
+				<verifySelectField name="allWidgets.booleanObject" text="Yes"/>
+				<setSelectField name="allWidgets.booleanObject" text="No"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/th" text="Dropdown (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[22]/td[1]/select"/>
