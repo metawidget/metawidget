@@ -139,7 +139,8 @@
 				<title>The Object</title>
 				
 				<para>
-					Metawidget is an object/user interface mapping tool (OIM), so first we need an object to map from - the <emphasis>O</emphasis> in OIM:
+					Metawidget is an object/user interface mapping tool (OIM), so first we need an object to map from - the <emphasis>O</emphasis> in OIM.
+					Create a class in your project called <classname>Person</classname> with the following code:
 				</para>
 	
 	<programlisting language="java">package com.myapp;
@@ -162,7 +163,8 @@ public class Person {
 				<title>The Interface</title>
 				
 				<para>
-					Next we need a User Interface framework - the <emphasis>I</emphasis> in OIM:
+					Next we need a User Interface framework - the <emphasis>I</emphasis> in OIM. Create a class in your
+					project called <classname>Main</classname> with the following code:
 				</para>
 								
 	<programlisting language="java">package com.myapp;
@@ -293,7 +295,7 @@ public class Person {
 				</para>
 				
 				<para>
-					Run the code again. This time the fields should appear in the correct order.
+					Run the code again. This time the fields should appear in the correct order":
 				</para>
 				
 				<figure id="section-introduction-part1-output-screenshot">
@@ -304,9 +306,10 @@ public class Person {
 				</figure>
 				
 				<para>
-					In general, introducing new annotations to fine-tune the UI is not in the spirit of Metawidget. Metawidget
-					would much rather fine-tune by gathering more information from <emphasis>existing</emphasis> sources. Add
-					the following lines to <classname>Person</classname>  (lines to change are shown in bold):
+					Introducing new annotations to fine-tune the UI is not really in the spirit of
+					the First Goal Of Metawidget. We'd much rather fine-tune by gathering more
+					information from <emphasis>existing</emphasis> sources. To demonstrate,	add
+					the following lines to <classname>Person</classname> (lines to change are shown in bold):
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -324,17 +327,23 @@ public class Person {
 	
 	<emphasis role="bold">public Gender gender;
 	
-	enum Gender { Male, Female }</emphasis>
+	public enum Gender { Male, Female }</emphasis>
 }</programlisting>
 				
 				<para>
-					Run the code again. Metawidget... 
+					Run the code again:  
 				</para>
 				
 				<para>
-					To recognise the enum, Metawidget needs to use a different Inspector. Metawidget
-					comes with multiple Inspectors, each targeting different sources of information. Change the Main class to use
-					<classname>Java5Inspector</classname> (lines to change are shown in bold):
+					Metawidget finds the new <function>gender</function> property, and renders a <classname>JLabel</classname>
+					for it on the left, but doesn't know what <classname>UIComponent</classname> to put on the right. This
+					is because, by default, Metawidget uses only JDK 1.4-compatible Inspectors, and JDK 1.4 doesn't include
+					enums.
+				</para>
+				
+				<para>
+					To recognise the enum, Metawidget needs to use a different Inspector. Metawidget comes with multiple Inspectors, each
+					targeting different sources of information. Change the Main class to use <classname>Java5Inspector</classname>:
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -360,9 +369,8 @@ public class Main {
 }</programlisting>
 	
 				<para>
-					Run the code. It does not yield the correct result - the fields appear in the correct order, as in
-					<xref linkend="section-introduction-part1-incorrect-screenshot"/>, but they	are all <classname>JTextFields</classname>. We
-					have lost our <classname>JSpinner</classname> and <classname>JCheckBox</classname>! What happened?
+					Run the code again. It does not yield the correct result - the enum appears correctly as a dropdown
+					but all the other fields have disappeared! What happened?
 				</para>
 				
 				<figure id="section-introduction-part1-incorrect-screenshot">
@@ -373,10 +381,10 @@ public class Main {
 				</figure>				
 
 				<para>
-					Metawidget Inspectors are very targeted in what they inspect. Although
-					<classname>MetawidgetAnnotationInspector</classname> looks for Metawidget annotations (such as <classname>@UiComesAfter</classname>), it does <emphasis>not</emphasis>
-					look for property type information (like <classname>PropertyTypeInspector</classname> did). Without type information, <classname>SwingMetawidget</classname>
-					is unable to accurately choose <classname>JComponents</classname>.
+					Metawidget Inspectors are very targeted in what they inspect. <classname>Java5Inspector</classname>
+					looks for Java 5 features, such as enums, but it does <emphasis>not</emphasis>
+					look for anything else, such as JavaBean properties. Before we explicitly specified our own Inspector, Metawidget had by
+					default been instantiating a <classname>PropertyTypeInspector</classname> for us.
 				</para>
 						
 			</section>
@@ -386,7 +394,7 @@ public class Main {
 				
 				<para>
 					What we need is to <emphasis>combine</emphasis> the results of
-					<classname>MetawidgetAnnotationInspector</classname> and <classname>PropertyTypeInspector</classname> before
+					<classname>Java5Inspector</classname> and <classname>PropertyTypeInspector</classname> before
 					returning them to <classname>SwingMetawidget</classname>. We do this using <classname>CompositeInspector</classname>:
 				</para>
 	
@@ -394,8 +402,9 @@ public class Main {
 				
 import javax.swing.*;
 <emphasis role="bold">import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.propertytype.*;
-import org.metawidget.inspector.composite.*;</emphasis>
+import org.metawidget.inspector.composite.*;
+import org.metawidget.inspector.java5.*;
+import org.metawidget.inspector.propertytype.*;</emphasis>
 import org.metawidget.swing.*;
 
 public class Main {
@@ -406,7 +415,8 @@ public class Main {
 		<emphasis role="bold">CompositeInspectorConfig config = new CompositeInspectorConfig()
 			.setInspectors( 
 				new MetawidgetAnnotationInspector(),
-				new PropertyTypeInspector() );
+				new PropertyTypeInspector(),
+				new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );</emphasis>
 		metawidget.setToInspect( person );
 
@@ -419,12 +429,15 @@ public class Main {
 }</programlisting>
 
 				<para>
-					Run the code again. This time the fields should appear both in the correct order <emphasis>and</emphasis> with the
-					correct <classname>JComponents</classname>.			
+					Run the code again. This time both the original fields and the new enum dropdown should appear:
 				</para>
 				
 				<para>
-					From here, adding new fields is as simple as adding new member variables and annotating them:
+					This idea of combining multiple Inspectors to inspect different characteristics of your
+					existing application is very powerful. Metawidget comes with lots of pre-written Inspectors
+					for inspecting lots of different architectures - from JPA and Hibernate Validator annotations,
+					to <filename>struts-config.xml</filename> files, to Groovy and Scala objects - Metawidget
+					will combine information from wherever it can find it.
 				</para>
 				
 				<programlisting language="java">package com.myapp;

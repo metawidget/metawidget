@@ -90,6 +90,12 @@ public class Java5Inspector
 
 			attributes.put( LOOKUP, CollectionUtils.toString( lookup ) );
 			attributes.put( LOOKUP_LABELS, CollectionUtils.toString( lookupLabels ) );
+
+			// Put the type in too. This is not strictly necessary, as generally we
+			// will be teamed up with PropertyTypeInspector, but we are used standalone
+			// in the tutorial so we need to support this (contrived) use case.
+
+			attributes.put( TYPE, propertyClass.getName() );
 		}
 
 		// Generics
