@@ -82,32 +82,42 @@ public final class JspUtils
 
 		try
 		{
-			tag.doStartTag();
+			int returnCode = tag.doStartTag();
 
-			if ( generator != null )
+			if ( returnCode != Tag.SKIP_BODY )
 			{
-				if ( tag instanceof BodyTag )
+				if ( generator != null )
 				{
-					( (BodyTag) tag ).setBodyContent( new BufferedContent() );
+					if ( tag instanceof BodyTag )
+					{
+						( (BodyTag) tag ).setBodyContent( new BufferedContent() );
+					}
+
+					try
+					{
+						generator.prepareBody( pageContext );
+					}
+					catch ( IOException e )
+					{
+						throw new JspException( e );
+					}
+
+					if ( tag instanceof BodyTag )
+					{
+						( (BodyTag) tag ).doInitBody();
+					}
 				}
 
-				try
+				if ( tag instanceof IterationTag )
 				{
-					generator.prepareBody( pageContext );
-				}
-				catch ( IOException e )
-				{
-					throw new JspException( e );
-				}
+					returnCode = IterationTag.EVAL_BODY_AGAIN;
 
-				if ( tag instanceof BodyTag )
-				{
-					( (BodyTag) tag ).doInitBody();
+					while( returnCode == IterationTag.EVAL_BODY_AGAIN )
+					{
+						returnCode = ( (IterationTag) tag ).doAfterBody();
+					}
 				}
 			}
-
-			if ( tag instanceof IterationTag )
-				( (IterationTag) tag ).doAfterBody();
 
 			tag.doEndTag();
 		}

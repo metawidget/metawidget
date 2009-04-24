@@ -16,8 +16,12 @@
 
 package org.metawidget.test.struts.quirks.form;
 
+import java.util.List;
+
 import org.apache.struts.action.ActionForm;
+import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.struts.UiStrutsLookup;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * Models an entity that tests some Struts-specific quirks.
@@ -32,13 +36,26 @@ public class StrutsQuirksForm
 	// Private statics
 	//
 
-	private static final long	serialVersionUID	= 1L;
+	private static final long		serialVersionUID	= 1L;
 
 	//
 	// Private members
 	//
 
-	private String				mLookup;
+	private String					mLookup;
+
+	private List<DisplayTagQuirks>	mList= CollectionUtils.newArrayList();
+
+	//
+	// Constructor
+	//
+
+	public StrutsQuirksForm()
+	{
+		mList.add( new DisplayTagQuirks( 0, "Foo", "A Foo" ) );
+		mList.add( new DisplayTagQuirks( 1, "Bar", "A Bar" ) );
+		mList.add( new DisplayTagQuirks( 2, "Baz", "A Baz" ) );
+	}
 
 	//
 	// Public methods
@@ -53,5 +70,16 @@ public class StrutsQuirksForm
 	public void setLookup( String lookup )
 	{
 		mLookup = lookup;
+	}
+
+	@UiComesAfter( "lookup" )
+	public List<DisplayTagQuirks> getList()
+	{
+		return mList;
+	}
+
+	public void setList( List<DisplayTagQuirks> list )
+	{
+		mList = list;
 	}
 }

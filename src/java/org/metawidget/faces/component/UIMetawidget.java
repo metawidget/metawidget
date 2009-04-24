@@ -354,20 +354,21 @@ public abstract class UIMetawidget
 
 	/**
 	 * Convenience method for <code>metawidget.xml</code>.
+	 * <p>
+	 * This method will not override existing, manually specified <code>&lt;f:param /&gt;</code>
 	 */
 
 	public void setParameter( String name, Object value )
 	{
 		UIParameter parameter = FacesUtils.findParameterWithName( this, name );
 
-		if ( parameter == null )
-		{
-			parameter = new UIParameter();
-			getChildren().add( parameter );
-		}
+		if ( parameter != null )
+			return;
 
+		parameter = new UIParameter();
 		parameter.setName( name );
 		parameter.setValue( value );
+		getChildren().add( parameter );
 	}
 
 	@Override

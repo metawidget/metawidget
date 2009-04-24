@@ -1729,8 +1729,11 @@
 			</classes>
 			<lib dir="${build.dir}/lib">
 				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-collections-*.jar"/>
 				<include name="commons-digester-*.jar"/>
+				<include name="commons-lang-*.jar"/>
 				<include name="commons-logging-*.jar"/>
+				<include name="displaytag-*.jar"/>
 				<include name="jstl-*.jar"/>
 				<include name="struts.jar"/>
 				<include name="metawidget.jar"/>

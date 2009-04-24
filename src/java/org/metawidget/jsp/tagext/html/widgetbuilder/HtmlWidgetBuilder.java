@@ -30,7 +30,7 @@ import javax.servlet.jsp.PageContext;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.jsp.tagext.StubTag;
-import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
+import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -50,14 +50,14 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 @SuppressWarnings( "deprecation" )
 public class HtmlWidgetBuilder
-	extends BaseWidgetBuilder<Object, HtmlMetawidgetTag>
+	extends BaseWidgetBuilder<Object, BaseHtmlMetawidgetTag>
 {
 	//
 	// Protected methods
 	//
 
 	@Override
-	protected Object buildReadOnlyWidget( String elementName, Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	protected Object buildReadOnlyWidget( String elementName, Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
@@ -143,7 +143,7 @@ public class HtmlWidgetBuilder
 	}
 
 	@Override
-	protected Object buildActiveWidget( String elementName, Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	protected Object buildActiveWidget( String elementName, Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
@@ -259,7 +259,7 @@ public class HtmlWidgetBuilder
 	// Private methods
 	//
 
-	private String writeReadOnlyTag( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String writeReadOnlyTag( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -301,7 +301,7 @@ public class HtmlWidgetBuilder
 		return buffer.toString();
 	}
 
-	private String writeHiddenTag( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String writeHiddenTag( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -315,7 +315,7 @@ public class HtmlWidgetBuilder
 		return buffer.toString();
 	}
 
-	private String writeCheckboxTag( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String writeCheckboxTag( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -329,13 +329,13 @@ public class HtmlWidgetBuilder
 		return buffer.toString();
 	}
 
-	private String writeTextTag( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String writeTextTag( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		return writeTextTag( "text", attributes, metawidget );
 	}
 
-	private String writeTextTag( String textTag, Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String writeTextTag( String textTag, Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -371,7 +371,7 @@ public class HtmlWidgetBuilder
 		return buffer.toString();
 	}
 
-	private String writeSubmitTag( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String writeSubmitTag( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -387,7 +387,7 @@ public class HtmlWidgetBuilder
 		return buffer.toString();
 	}
 
-	private String writeValueAttribute( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String writeValueAttribute( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		String result = evaluateAsText( attributes, metawidget );
@@ -406,7 +406,7 @@ public class HtmlWidgetBuilder
 		return buffer.toString();
 	}
 
-	private String writeCheckedAttribute( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String writeCheckedAttribute( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		Object result = evaluate( attributes, metawidget );
@@ -424,7 +424,7 @@ public class HtmlWidgetBuilder
 	 * lacks a 'true' component model (eg. buildActiveWidget returns a String) we must do it here.
 	 */
 
-	private String writeAttributes( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String writeAttributes( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -460,7 +460,7 @@ public class HtmlWidgetBuilder
 	}
 
 	@SuppressWarnings( "unchecked" )
-	private String writeSelectTag( final String expression, final Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String writeSelectTag( final String expression, final Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		Object collection = evaluate( expression, metawidget );
@@ -477,7 +477,7 @@ public class HtmlWidgetBuilder
 		return writeSelectTag( (List<?>) collection, null, attributes, metawidget );
 	}
 
-	private String writeSelectTag( final List<?> values, final List<String> labels, Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String writeSelectTag( final List<?> values, final List<String> labels, Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		// See if we're using labels
@@ -558,7 +558,7 @@ public class HtmlWidgetBuilder
 	 * Evaluate to text (via a PropertyEditor if available).
 	 */
 
-	private String evaluateAsText( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private String evaluateAsText( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		Object evaluated = evaluate( attributes, metawidget );
@@ -584,7 +584,7 @@ public class HtmlWidgetBuilder
 		return StringUtils.quietValueOf( evaluated );
 	}
 
-	private Object evaluate( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+	private Object evaluate( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		if ( metawidget.getPathPrefix() == null )
@@ -593,7 +593,7 @@ public class HtmlWidgetBuilder
 		return evaluate( "${" + metawidget.getPathPrefix() + attributes.get( NAME ) + "}", metawidget );
 	}
 
-	private Object evaluate( String expression, HtmlMetawidgetTag metawidget )
+	private Object evaluate( String expression, BaseHtmlMetawidgetTag metawidget )
 		throws Exception
 	{
 		try

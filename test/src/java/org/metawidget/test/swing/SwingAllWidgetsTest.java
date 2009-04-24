@@ -528,7 +528,7 @@ public class SwingAllWidgetsTest
 		assertTrue( "Boolean:".equals( ( (JLabel) metawidget.getComponent( 36 ) ).getText() ) );
 		assertTrue( "true".equals( ( (JLabel) metawidget.getComponent( 37 ) ).getText() ) );
 		assertTrue( "Boolean object:".equals( ( (JLabel) metawidget.getComponent( 38 ) ).getText() ) );
-		assertTrue( "false".equals( ( (JLabel) metawidget.getComponent( 39 ) ).getText() ) );
+		assertTrue( "No".equals( ( (JLabel) metawidget.getComponent( 39 ) ).getText() ) );
 		assertTrue( "Dropdown:".equals( ( (JLabel) metawidget.getComponent( 40 ) ).getText() ) );
 		assertTrue( "foo1".equals( ( (JLabel) metawidget.getComponent( 41 ) ).getText() ) );
 		assertTrue( "Dropdown with labels:".equals( ( (JLabel) metawidget.getComponent( 42 ) ).getText() ) );

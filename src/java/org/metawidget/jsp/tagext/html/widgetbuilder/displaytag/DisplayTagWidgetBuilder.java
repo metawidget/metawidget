@@ -21,14 +21,22 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 
+import org.displaytag.tags.ColumnTag;
 import org.displaytag.tags.TableTag;
 import org.metawidget.jsp.JspUtils;
+import org.metawidget.jsp.JspUtils.BodyPreparer;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * WidgetBuilder for the DisplayTag library.
@@ -39,8 +47,6 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * @author Richard Kennard
  */
 
-// TODO: DisplayTagWidgetBuilder
-
 @SuppressWarnings( "deprecation" )
 public class DisplayTagWidgetBuilder
 	implements WidgetBuilder<String, MetawidgetTag>
@@ -50,7 +56,7 @@ public class DisplayTagWidgetBuilder
 	//
 
 	@Override
-	public String buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	public String buildWidget( String elementName, final Map<String, String> attributes, final MetawidgetTag metawidgetTag )
 		throws Exception
 	{
 		// Not for us?
@@ -63,12 +69,12 @@ public class DisplayTagWidgetBuilder
 		if ( type == null || type.length() == 0 )
 			return null;
 
-		Class<?> clazz = ClassUtils.niceForName( type );
+		final Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz == null )
 			return null;
 
-		if ( !( Collection.class.isAssignableFrom( clazz ) ))
+		if ( !( Collection.class.isAssignableFrom( clazz ) ) && !clazz.isArray() )
 			return null;
 
 		// Evaluate the expression
@@ -82,8 +88,63 @@ public class DisplayTagWidgetBuilder
 
 		// Create the DisplayTag
 
-		TableTag displayTag = new TableTag();
+		final TableTag displayTag = new TableTag();
 		displayTag.setName( toDisplay );
-		return JspUtils.writeTag( metawidgetTag.getPageContext(), displayTag, metawidgetTag, null );
+
+		// Write the DisplayTag
+
+		return JspUtils.writeTag( metawidgetTag.getPageContext(), displayTag, metawidgetTag, new BodyPreparer()
+		{
+			// After DisplayTag.doStartTag, can add columns
+
+			public void prepareBody( PageContext delgateContext )
+				throws JspException
+			{
+				// Determine component type...
+
+				String componentType;
+
+				if ( clazz.isArray() )
+					componentType = clazz.getComponentType().getName();
+				else
+					componentType = attributes.get( PARAMETERIZED_TYPE );
+
+				// ...if any...
+
+				if ( componentType != null )
+				{
+					// ...inspect it...
+
+					String inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
+					Document document = XmlUtils.documentFromString( inspectedType );
+					NodeList elements = document.getDocumentElement().getFirstChild().getChildNodes();
+
+					// ...and for each property...
+
+					for ( int loop = 0, length = elements.getLength(); loop < length; loop++ )
+					{
+						Node node = elements.item( loop );
+
+						if ( !( node instanceof Element ) )
+							continue;
+
+						Element element = (Element) node;
+
+						// ...that is visible...
+
+						if ( TRUE.equals( element.getAttribute( HIDDEN ) ) )
+							continue;
+
+						// ...add a column
+
+						ColumnTag columnTag = new ColumnTag();
+						columnTag.setTitle( metawidgetTag.getLabelString( XmlUtils.getAttributesAsMap( element ) ) );
+						columnTag.setProperty( element.getAttribute( NAME ) );
+
+						JspUtils.writeTag( metawidgetTag.getPageContext(), columnTag, displayTag, null );
+					}
+				}
+			}
+		} );
 	}
 }

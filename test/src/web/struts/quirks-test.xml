@@ -11,6 +11,8 @@
 				
 				<verifyXPath xpath="/html/body/form/table[@id='table-quirksForm']"/>
 
+				<!-- Test Struts lookup -->
+					
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Lookup:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select[@name='lookup']"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[1]/td[1]/select/option)" text="4"/>
@@ -23,7 +25,23 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[4]/@value" text="value3"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[4]" text="label3"/>
 
-				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="1"/>
+				<!-- Test DisplayTag -->
+
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/th" text="List:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/thead/tr/th[1]" text="Name label"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/thead/tr/th[2]" text="Description"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[1]/td[1]" text="Foo"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[1]/td[2]" text="A Foo"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[2]/td[1]" text="Bar"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[2]/td[2]" text="A Bar"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[3]/td[1]" text="Baz"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[3]/td[2]" text="A Baz"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr[1]/td)" text="2"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[2]/td[1]/table/tbody/tr)" text="3"/>
+
+				<!-- Should be nothing else! -->
+
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="2"/>
 				
 			</steps>
 		</webtest>

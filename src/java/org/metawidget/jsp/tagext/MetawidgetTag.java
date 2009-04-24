@@ -277,6 +277,15 @@ public abstract class MetawidgetTag
 		return pageContext;
 	}
 
+	/**
+	 * This method is public for use by WidgetBuilders.
+	 */
+
+	public String inspect( Object toInspect, String type, String... names )
+	{
+		return mMetawidgetMixin.inspect( toInspect, type, names );
+	}
+
 	@Override
 	public int doEndTag()
 	{
@@ -447,7 +456,7 @@ public abstract class MetawidgetTag
 
 		// Inspect using the 'raw' type (eg. contactForm)
 
-		String xml = mMetawidgetMixin.inspect( null, type, typeAndNames.getNamesAsArray() );
+		String xml = inspect( null, type, typeAndNames.getNamesAsArray() );
 
 		// Try to locate the runtime bean. This allows some Inspectors
 		// to act on it polymorphically.
@@ -457,7 +466,7 @@ public abstract class MetawidgetTag
 		if ( obj != null )
 		{
 			type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
-			String additionalXml = mMetawidgetMixin.inspect( obj, type, typeAndNames.getNamesAsArray() );
+			String additionalXml = inspect( obj, type, typeAndNames.getNamesAsArray() );
 			xml = combineSubtrees( xml, additionalXml );
 		}
 

@@ -299,6 +299,8 @@
 				<verifyXPath xpath="/html/body/form/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/form/input[1]/@value" text="Hidden1"/>
 				
+				<!-- Should be nothing else! -->
+				
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="32"/>				
 	
 			</steps>

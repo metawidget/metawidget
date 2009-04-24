@@ -324,6 +324,8 @@
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@value" text="Hidden1"/>
 				
+				<!-- Should be nothing else! -->
+
 				<verifyXPath xpath="count(/html/body/div[1]/div)" text="33"/>
 
 			</steps>
@@ -550,6 +552,8 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/th" text=""/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input[@type='submit']/@value" text="Action (i18n)"/>
 
+				<!-- Should be nothing else! -->
+
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="33"/>
 
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aFooterStyle"/>
@@ -654,7 +658,9 @@
 				<verifyXPath xpath="/html/body/div[1]/div[33]" text="Footer"/>
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/div[1]/input[1]/@value" text="Hidden1"/>
-				
+
+				<!-- Should be nothing else! -->
+
 				<verifyXPath xpath="count(/html/body/div[1]/div)" text="33"/>
 				
 			</steps>
