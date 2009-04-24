@@ -160,23 +160,26 @@ public final class StringUtils
 			if ( c == separator )
 			{
 				lastWasSeparator = true;
+				continue;
 			}
-			else if ( buffer.length() == 0 )
+
+			if ( !Character.isLetter( c ) && !Character.isDigit( c ) )
+				continue;
+
+			if ( buffer.length() == 0 )
 			{
 				buffer.append( Character.toLowerCase( c ) );
+				continue;
 			}
-			else
+
+			if ( lastWasSeparator )
 			{
-				if ( lastWasSeparator )
-				{
-					buffer.append( Character.toUpperCase( c ) );
-					lastWasSeparator = false;
-				}
-				else
-				{
-					buffer.append( c );
-				}
+				buffer.append( Character.toUpperCase( c ) );
+				lastWasSeparator = false;
+				continue;
 			}
+
+			buffer.append( c );
 		}
 
 		return buffer.toString();

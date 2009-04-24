@@ -209,6 +209,17 @@ public class MetawidgetAnnotationInspectorTest
 		// Should 'short circuit' and return null, as an optimization for CompositeInspector
 
 		assertTrue( null == mInspector.inspect( "foo", String.class.getName() ));
+
+		// Should gather annotations from parent
+
+		String xml = mInspector.inspect( new Foo(), Foo.class.getName(), "string1" );
+		Document document = XmlUtils.documentFromString( xml );
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ));
+		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ));
+		assertTrue( "string1".equals( entity.getAttribute( NAME ) ));
+		assertTrue( "bar".equals( entity.getAttribute( LABEL ) ));
 	}
 
 	public void testComesAfterItself()

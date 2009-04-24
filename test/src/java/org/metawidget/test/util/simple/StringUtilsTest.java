@@ -48,8 +48,18 @@ public class StringUtilsTest
 		throws Exception
 	{
 		assertTrue( false == StringUtils.isFirstLetterUppercase( "" ));
+
+		// uncamelCase
+
 		assertTrue( null == StringUtils.uncamelCase( null ));
 		assertTrue( "Camel cased".equals( StringUtils.uncamelCase( "camelCased" )));
 		assertTrue( "Camel CASED".equals( StringUtils.uncamelCase( "camelCASED" )));
+
+		// camelCase
+
+		assertTrue( "dropdownFoo".equals( StringUtils.camelCase( "Dropdown #Foo" )));
+		assertTrue( "dropdownFoo".equals( StringUtils.camelCase( "Dropdown#foo", '#' )));
+		assertTrue( "dropdownfoo".equals( StringUtils.camelCase( "Dropdown#foo" )));
+		assertTrue( "dropdown2".equals( StringUtils.camelCase( "Dropdown #2" )));
 	}
 }

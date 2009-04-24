@@ -270,7 +270,7 @@ public class HtmlWidgetBuilder
 				( (HtmlSelectOneRadio) component ).setLayout( "pageDirection" );
 			}
 
-			addSelectItems( component, facesLookup, attributes );
+			addSelectItems( component, facesLookup, attributes, metawidget );
 			return component;
 		}
 
@@ -290,7 +290,10 @@ public class HtmlWidgetBuilder
 
 		if ( clazz != null )
 		{
-			if ( boolean.class.equals( clazz ) || ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ))))
+			// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
+			// Lookup)
+
+			if ( component == null && Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED )))
 				return application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
 
 			// String Lookups
@@ -377,14 +380,18 @@ public class HtmlWidgetBuilder
 					}
 				}
 
-				addSelectItems( component, values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes );
+				addSelectItems( component, values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
 			}
 
 			// If no component specified yet, pick one
 
 			if ( component == null )
 			{
-				if ( char.class.equals( clazz ) )
+				if ( boolean.class.equals( clazz ) )
+				{
+					component = application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
+				}
+				else if ( char.class.equals( clazz ) )
 				{
 					component = application.createComponent( "javax.faces.HtmlInputText" );
 					( (HtmlInputText) component ).setMaxlength( 1 );
@@ -400,11 +407,6 @@ public class HtmlWidgetBuilder
 				else if ( Number.class.isAssignableFrom( clazz ) )
 				{
 					component = application.createComponent( "javax.faces.HtmlInputText" );
-				}
-				else if ( Boolean.class.isAssignableFrom( clazz ) )
-				{
-					component = application.createComponent( "javax.faces.HtmlSelectOneListbox" );
-					( (HtmlSelectOneListbox) component ).setSize( 1 );
 				}
 				else if ( String.class.equals( clazz ) )
 				{
@@ -504,7 +506,7 @@ public class HtmlWidgetBuilder
 		return componentStub;
 	}
 
-	private void addSelectItems( UIComponent component, List<?> values, List<String> labels, Map<String, String> attributes )
+	private void addSelectItems( UIComponent component, List<?> values, List<String> labels, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		if ( values == null )
 			return;
@@ -518,14 +520,14 @@ public class HtmlWidgetBuilder
 			// Type may be null if this lookup was specified by a metawidget-metadata.xml
 			// and the type was omitted from the XML. In that case, assume nullable
 
-			addSelectItem( component, null, null );
+			addSelectItem( component, null, null, metawidget );
 		}
 		else
 		{
 			Class<?> clazz = ClassUtils.niceForName( type );
 
 			if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) ) )
-				addSelectItem( component, null, null );
+				addSelectItem( component, null, null, metawidget );
 		}
 
 		// See if we're using labels
@@ -545,11 +547,11 @@ public class HtmlWidgetBuilder
 			if ( labels != null && !labels.isEmpty() )
 				label = labels.get( loop );
 
-			addSelectItem( component, value, label );
+			addSelectItem( component, value, label, metawidget );
 		}
 	}
 
-	private void addSelectItem( UIComponent component, Object value, String label )
+	private void addSelectItem( UIComponent component, Object value, String label, UIMetawidget metawidget )
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -583,23 +585,34 @@ public class HtmlWidgetBuilder
 			// If no label, make it the same as the value. For JSF-RI, this is needed for labels
 			// next to UISelectMany checkboxes
 
-			selectItem.setItemLabel( StringUtils.quietValueOf( value ) );
+			selectItem.setItemLabel( label );
 		}
 		else
 		{
 			// Label may be a value reference (eg. into a bundle)
 
 			if ( FacesUtils.isValueReference( label ) )
+			{
 				selectItem.setValueBinding( "itemLabel", application.createValueBinding( label ) );
+			}
 			else
-				selectItem.setItemLabel( label );
+			{
+				// Label may be localized
+
+				String localizedLabel = metawidget.getLocalizedKey( context, StringUtils.camelCase( label ));
+
+				if ( localizedLabel != null )
+					selectItem.setItemLabel( localizedLabel );
+				else
+					selectItem.setItemLabel( label );
+			}
 		}
 
 		List<UIComponent> children = component.getChildren();
 		children.add( selectItem );
 	}
 
-	private void addSelectItems( UIComponent component, String binding, Map<String, String> attributes )
+	private void addSelectItems( UIComponent component, String binding, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		if ( binding == null )
 			return;
@@ -621,14 +634,14 @@ public class HtmlWidgetBuilder
 				// Type can be null if this lookup was specified by a metawidget-metadata.xml
 				// and the type was omitted from the XML. In that case, assume nullable
 
-				addSelectItem( component, null, null );
+				addSelectItem( component, null, null, metawidget );
 			}
 			else
 			{
 				Class<?> clazz = ClassUtils.niceForName( type );
 
 				if ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
-					addSelectItem( component, null, null );
+					addSelectItem( component, null, null, metawidget );
 			}
 		}
 

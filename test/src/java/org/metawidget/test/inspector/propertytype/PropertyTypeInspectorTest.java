@@ -129,23 +129,60 @@ public class PropertyTypeInspectorTest
 
 	public void testInspectString()
 	{
+		// Test pointed directly at an actual String
+
 		String xml = mInspector.inspect( "foo", String.class.getName() );
 		Document document = XmlUtils.documentFromString( xml );
-
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
-
-		// Entity only
-
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ) );
-
 		assertTrue( 1 == entity.getAttributes().getLength() );
+		assertTrue( 0 == entity.getChildNodes().getLength() );
+
+		// Test pointed directly at a null String
+
+		xml = mInspector.inspect( null, String.class.getName() );
+		document = XmlUtils.documentFromString( xml );
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertTrue( 1 == entity.getAttributes().getLength() );
+		assertTrue( 0 == entity.getChildNodes().getLength() );
+
+		// Test pointed indirectly at an actual String
+
+		StringHolder stringHolder = new StringHolder();
+		stringHolder.string = "foo";
+		xml = mInspector.inspect( stringHolder, StringHolder.class.getName(), "string" );
+		document = XmlUtils.documentFromString( xml );
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertTrue( "string".equals( entity.getAttribute( NAME ) ) );
+		assertTrue( 2 == entity.getAttributes().getLength() );
+		assertTrue( 0 == entity.getChildNodes().getLength() );
+
+		// Test pointed indirectly at a null String
+
+		stringHolder.string = null;
+		xml = mInspector.inspect( stringHolder, StringHolder.class.getName(), "string" );
+		document = XmlUtils.documentFromString( xml );
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertTrue( String.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertTrue( "string".equals( entity.getAttribute( NAME ) ) );
+		assertTrue( 2 == entity.getAttributes().getLength() );
 		assertTrue( 0 == entity.getChildNodes().getLength() );
 	}
 
 	public void testTraverseViaParent()
 	{
+		// Indirectly pointed at a not null complex type
+
 		PropertyTypeInspector inspector = new PropertyTypeInspector();
 
 		DeclaredTypeTester tester = new DeclaredTypeTester();
@@ -163,6 +200,24 @@ public class PropertyTypeInspectorTest
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "address" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+
+		// Indirectly pointed at a null complex type
+
+		tester.value = null;
+		xml = inspector.inspect( tester, DeclaredTypeTester.class.getName(), "value" );
+		document = XmlUtils.documentFromString( xml );
+
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertTrue( Contact.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertTrue( "value".equals( entity.getAttribute( NAME ) ) );
+		assertTrue( 2 == entity.getAttributes().getLength() );
+
+		// (should be no children because value was null)
+
+		assertTrue( 0 == entity.getChildNodes().getLength() );
 	}
 
 	public void testCovariantReturn()
@@ -346,5 +401,10 @@ public class PropertyTypeInspectorTest
 	public static class RecursiveFoo
 	{
 		public Object	foo;
+	}
+
+	public static class StringHolder
+	{
+		public String string;
 	}
 }

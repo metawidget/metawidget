@@ -80,7 +80,6 @@ import org.w3c.dom.Element;
  */
 
 // TODO: pass attributes to MetawidgetTag
-
 @SuppressWarnings( "deprecation" )
 public abstract class UIMetawidget
 	extends UIComponentBase
@@ -1307,7 +1306,8 @@ public abstract class UIMetawidget
 	 * Adds the given widget.
 	 * <p>
 	 * This method does not attach metadata, validators, etc. because it is used for adding both
-	 * generated widgets and manully-created widgets.
+	 * generated (or manually overridden) widgets based on the toInspect, and also unrelated widgets
+	 * that have been arbitrarily placed in the tree.
 	 */
 
 	protected void addWidget( UIComponent widget )

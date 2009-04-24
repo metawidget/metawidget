@@ -148,6 +148,12 @@
 			</classpath>
 		</javac>
 		
+		<copy todir="${build.dir}/test-classes">
+			<fileset dir="test/src/java">
+				<include name="**/*.properties"/>
+			</fileset>
+		</copy>
+		
 		<!-- Build tutorial files (which are neither 'src/test' files, nor should -->
 		<!-- end up as examples in the finished distribution                      -->
 		

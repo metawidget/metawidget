@@ -170,10 +170,6 @@ public abstract class BaseObjectInspector
 				{
 					Object parentToInspect = tuple[0];
 					childToInspect = propertyInParent.read( parentToInspect );
-
-					if ( childToInspect == null )
-						return null;
-
 					parentAttributes = inspectProperty( propertyInParent, parentToInspect );
 				}
 			}
@@ -196,14 +192,20 @@ public abstract class BaseObjectInspector
 
 			// Inspect child properties
 
-			Class<?> actualType;
-
 			if ( childToInspect == null )
-				actualType = childDeclaredType;
-			else
-				actualType = childToInspect.getClass();
+			{
+				// If pointed directly at a type, return type information even
+				// if the actual value is null. This is a special concession so
+				// we can inspect parameterized types of Collections without having
+				// to iterate over and grab the first element in that Collection
 
-			inspect( childToInspect, actualType, entity );
+				if ( names == null || names.length == 0 )
+					inspect( childToInspect, childDeclaredType, entity );
+			}
+			else
+			{
+				inspect( childToInspect, childToInspect.getClass(), entity );
+			}
 
 			// Nothing of consequence to return?
 
@@ -376,7 +378,8 @@ public abstract class BaseObjectInspector
 	//
 
 	/**
-	 * @return If found, a tuple of Object and declared type (not actual type). If not found, returns null.
+	 * @return If found, a tuple of Object and declared type (not actual type). If not found,
+	 *         returns null.
 	 */
 
 	private Object[] traverse( Object toTraverse, String type, boolean onlyToParent, String... names )
@@ -384,7 +387,14 @@ public abstract class BaseObjectInspector
 		// Special support for class lookup
 
 		if ( toTraverse == null )
-			return new Object[] { null, ClassUtils.niceForName( type ) };
+		{
+			Class<?> clazz = ClassUtils.niceForName( type );
+
+			if ( clazz == null )
+				return null;
+
+			return new Object[] { null, clazz };
+		}
 
 		// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
 		//
@@ -427,8 +437,7 @@ public abstract class BaseObjectInspector
 
 				// Unlike BaseXmlInspector (which can never be certain it has detected a
 				// cyclic reference because it only looks at types, not objects),
-				// BaseObjectInspector
-				// can detect cycles and nip them in the bud
+				// BaseObjectInspector can detect cycles and nip them in the bud
 
 				if ( !traversed.add( traverse ) )
 				{

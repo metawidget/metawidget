@@ -159,18 +159,6 @@ public class SpringWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return null;
 
-		// Lookups
-
-		String springLookup = attributes.get( SPRING_LOOKUP );
-
-		if ( springLookup != null && !"".equals( springLookup ) )
-			return writeSelectTag( springLookup, attributes, metawidget );
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) )
-			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
-
 		String type = attributes.get( TYPE );
 
 		// If no type, fail gracefully with a text box
@@ -178,7 +166,29 @@ public class SpringWidgetBuilder
 		if ( type == null || "".equals( type ) )
 			return writeSpringTag( InputTag.class, attributes, metawidget );
 
+		// Lookup the Class
+
 		Class<?> clazz = ClassUtils.niceForName( type );
+
+		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
+		// Lookup)
+
+		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
+			return writeSpringTag( CheckboxTag.class, attributes, metawidget );
+
+		// Spring Lookups
+
+		String springLookup = attributes.get( SPRING_LOOKUP );
+
+		if ( springLookup != null && !"".equals( springLookup ) )
+			return writeSelectTag( springLookup, attributes, metawidget );
+
+		// String Lookups
+
+		String lookup = attributes.get( LOOKUP );
+
+		if ( lookup != null && !"".equals( lookup ) )
+			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
 
 		if ( clazz != null )
 		{

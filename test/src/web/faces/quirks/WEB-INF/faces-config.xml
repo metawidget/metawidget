@@ -3,6 +3,12 @@
 
 <faces-config>
 
+	<!-- Test localizing 'true'/'false' to 'Yes'/'No' -->
+	
+	<application>
+		<message-bundle>org.metawidget.test.faces.quirks.resource.Resources</message-bundle>
+	</application>
+
 	<!-- Request-Level Managed Beans -->
 
 	<managed-bean>

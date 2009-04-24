@@ -1,4 +1,4 @@
-<project name="faces-allwidgets-test" default="test-all">
+<project name="faces-quirks-test" default="test-all">
 
 	<property file="../../../../build.properties" />
 	<import file="${webtest.dir}/lib/taskdef.xml" />
@@ -17,9 +17,9 @@
 
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td)" text="2"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[1]/input/@type" text="radio"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[1]/label" text="Yes"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[1]/label" text="Yes (i18n)"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[2]/input/@type" text="radio"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[2]/label" text="No"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[2]/label" text="No (i18n)"/>
 
 				<!-- Test spanning of large components that don't have a label -->
 								
@@ -101,9 +101,9 @@
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/th" text="42 boolean:"/>
 				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td)" text="2"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/input/@type" text="radio"/>
-				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/label" text="Yes"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/label" text="Yes (i18n)"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[2]/input/@type" text="radio"/>
-				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[2]/label" text="No"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[2]/label" text="No (i18n)"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/textarea/@id" text="quirksLarge"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/@colspan" text=""/>
 				

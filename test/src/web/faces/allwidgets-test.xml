@@ -284,7 +284,7 @@
 				<verifyXPath xpath="/html/body/div[1]/div[20]/div[1]" text="Boolean:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[20]/div[2]" text="true"/>
 				<verifyXPath xpath="/html/body/div[1]/div[21]/div[1]" text="Boolean object:"/>
-				<verifyXPath xpath="/html/body/div[1]/div[21]/div[2]" text="false"/>
+				<verifyXPath xpath="/html/body/div[1]/div[21]/div[2]" text="No"/>
 				<verifyXPath xpath="/html/body/div[1]/div[22]/div[1]" text="Dropdown:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[22]/div[2]" text="foo1"/>
 				<verifyXPath xpath="/html/body/div[1]/div[23]/div[1]" text="Dropdown with labels:"/>
@@ -475,9 +475,9 @@
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/th" text="Dropdown with Labels (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[23]/td[1]/select"/>
-				<verifySelectField name="form:allWidgetsDropdownWithLabels" text="Dropdown #2"/>
+				<verifySelectField name="form:allWidgetsDropdownWithLabels" text="Dropdown #2 (i18n)"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[23]/td[1]/select/option)" text="5"/>				
-				<setSelectField name="form:allWidgetsDropdownWithLabels" text="Bar #2"/>
+				<setSelectField name="form:allWidgetsDropdownWithLabels" text="???bar2???"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/th" text="Not-null Dropdown (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[24]/td[1]/select"/>
@@ -610,7 +610,7 @@
 				<verifyXPath xpath="/html/body/div[1]/div[20]/div[1]" text="Boolean:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[20]/div[2]" text="true"/>
 				<verifyXPath xpath="/html/body/div[1]/div[21]/div[1]" text="Boolean object:"/>
-				<verifyXPath xpath="/html/body/div[1]/div[21]/div[2]" text="false"/>
+				<verifyXPath xpath="/html/body/div[1]/div[21]/div[2]" text="No"/>
 				<verifyXPath xpath="/html/body/div[1]/div[22]/div[1]" text="Dropdown:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[22]/div[2]" text="foo1"/>
 				<verifyXPath xpath="/html/body/div[1]/div[23]/div[1]" text="Dropdown with labels:"/>

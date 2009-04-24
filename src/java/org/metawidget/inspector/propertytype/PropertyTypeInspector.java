@@ -42,8 +42,6 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-// TODO: lookup for boolean, helps i18n?
-
 public class PropertyTypeInspector
 	extends BaseObjectInspector
 {
@@ -104,11 +102,13 @@ public class PropertyTypeInspector
 			}
 		}
 
-		if ( boolean.class.isAssignableFrom( propertyClass ))
-			attributes.put( LOOKUP, "true, false" );
+		// Special support for Booleans, which are tri-state
 
 		if ( Boolean.class.isAssignableFrom( propertyClass ))
+		{
 			attributes.put( LOOKUP, "true, false" );
+			attributes.put( LOOKUP_LABELS, "Yes, No" );
+		}
 
 		// ...(no-setter/no-getter)...
 

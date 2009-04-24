@@ -175,20 +175,11 @@ public class HtmlWidgetBuilder
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
-		// booleans
+		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
+		// Lookup)
 
-		if ( boolean.class.equals( clazz ) || ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ))))
-		{
-			// (use StringBuffer for J2SE 1.4 compatibility)
-
-			StringBuffer buffer = new StringBuffer();
-			buffer.append( "<input type=\"checkbox\"" );
-			buffer.append( writeAttributes( attributes, metawidget ) );
-			buffer.append( writeCheckedAttribute( attributes, metawidget ) );
-			buffer.append( ">" );
-
-			return buffer.toString();
-		}
+		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
+			return writeCheckboxTag( attributes, metawidget );
 
 		// Lookups
 
@@ -204,6 +195,11 @@ public class HtmlWidgetBuilder
 
 		if ( clazz != null )
 		{
+			// booleans
+
+			if ( boolean.class.equals( clazz ) )
+				return writeCheckboxTag( attributes, metawidget );
+
 			// Primitives
 
 			if ( clazz.isPrimitive() )
@@ -314,6 +310,20 @@ public class HtmlWidgetBuilder
 		buffer.append( "<input type=\"hidden\"" );
 		buffer.append( writeValueAttribute( attributes, metawidget ) );
 		buffer.append( writeAttributes( attributes, metawidget ) );
+		buffer.append( ">" );
+
+		return buffer.toString();
+	}
+
+	private String writeCheckboxTag( Map<String, String> attributes, HtmlMetawidgetTag metawidget )
+		throws Exception
+	{
+		// (use StringBuffer for J2SE 1.4 compatibility)
+
+		StringBuffer buffer = new StringBuffer();
+		buffer.append( "<input type=\"checkbox\"" );
+		buffer.append( writeAttributes( attributes, metawidget ) );
+		buffer.append( writeCheckedAttribute( attributes, metawidget ) );
 		buffer.append( ">" );
 
 		return buffer.toString();

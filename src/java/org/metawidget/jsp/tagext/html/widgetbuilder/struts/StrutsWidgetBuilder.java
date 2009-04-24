@@ -48,6 +48,7 @@ import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
+import org.springframework.web.servlet.tags.form.InputTag;
 
 /**
  * WidgetBuilder for Struts environments.
@@ -164,6 +165,23 @@ public class StrutsWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return null;
 
+		String type = attributes.get( TYPE );
+
+		// If no type, fail gracefully with a text box
+
+		if ( type == null || "".equals( type ) )
+			return writeStrutsTag( InputTag.class, attributes, metawidget );
+
+		// Lookup the Class
+
+		Class<?> clazz = ClassUtils.niceForName( type );
+
+		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
+		// Lookup)
+
+		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
+			return writeStrutsTag( CheckboxTag.class, attributes, metawidget );
+
 		// Struts Lookups
 
 		String strutsLookup = attributes.get( STRUTS_LOOKUP_NAME );
@@ -177,15 +195,6 @@ public class StrutsWidgetBuilder
 
 		if ( lookup != null && !"".equals( lookup ) )
 			return writeSelectTag( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ), attributes, metawidget );
-
-		String type = attributes.get( TYPE );
-
-		// If no type, fail gracefully with a text box
-
-		if ( type == null || "".equals( type ) )
-			return writeStrutsTag( TextTag.class, attributes, metawidget );
-
-		Class<?> clazz = ClassUtils.niceForName( type );
 
 		if ( clazz != null )
 		{

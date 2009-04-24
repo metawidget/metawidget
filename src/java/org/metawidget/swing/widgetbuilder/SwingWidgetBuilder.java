@@ -189,9 +189,10 @@ public class SwingWidgetBuilder
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
-		// booleans
+		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
+		// Lookup)
 
-		if ( boolean.class.equals( clazz ) || ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ))))
+		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
 			return new JCheckBox();
 
 		// Lookups
@@ -241,7 +242,10 @@ public class SwingWidgetBuilder
 
 			if ( clazz.isPrimitive() )
 			{
-				// booleans already handled above
+				// booleans
+
+				if ( boolean.class.equals( clazz ) )
+					return new JCheckBox();
 
 				// chars
 
