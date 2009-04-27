@@ -19,7 +19,11 @@
 			<h1>Quirks (Again)</h1>
 
 			<m:metawidget value="#{quirks}">
-				<m:stub value="#{quirks.refresh}"/>
+				<m:stub value="#{quirks.refresh}">
+					<h:outputText value="Test whether non-rendered" rendered="false"/>
+					<h:outputText value="stub children still stub out" rendered="false"/>
+					<h:outputText value="the parent completely" rendered="false"/>
+				</m:stub>
 			</m:metawidget>
 
 			<h1>Quirks (Yet Again)</h1>
@@ -28,7 +32,9 @@
 				<m:metawidget value="#{quirks.boolean}" rendererType="simple"/>
 				<h:outputText value="#{quirks.large}"/>
 				<m:metawidget value="#{quirks.strings}"/>
-				<m:stub value="#{quirks.refresh}"/>
+				<m:stub value="#{quirks.refresh}">
+					<h:outputText value="Not rendered" rendered="false"/>
+				</m:stub>
 			</m:metawidget>
 
 		</f:view>

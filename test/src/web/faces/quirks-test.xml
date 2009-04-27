@@ -72,12 +72,18 @@
 				<!-- Test DataTableWidgetBuilder -->
 								
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/th" text="List:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/@class" text="dataTableStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/thead/tr/th[1]" text="Name label"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/thead/tr/th[2]" text="Description"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[1]/@class" text="dataTableRowClass1"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[1]/td[1]" text="Foo"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[1]/td[1]/@class" text="dataTableColumnClass1"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[1]/td[2]" text="A Foo"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[1]/td[2]/@class" text="dataTableColumnClass2"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[2]/@class" text="dataTableRowClass2"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[2]/td[1]" text="Bar"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[2]/td[2]" text="A Bar"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[3]/@class" text="dataTableRowClass1"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[3]/td[1]" text="Baz"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[3]/td[2]" text="A Baz"/>
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[1]/td)" text="2"/>

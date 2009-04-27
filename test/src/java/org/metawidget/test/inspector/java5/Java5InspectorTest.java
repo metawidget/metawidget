@@ -73,8 +73,10 @@ public class Java5InspectorTest
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "foo" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertTrue( Foo.class.getName().equals( property.getAttribute( TYPE ) ) );
 		assertTrue( "FOO1,FOO2".equals( property.getAttribute( LOOKUP ) ) );
 		assertTrue( "foo1,foo2".equals( property.getAttribute( LOOKUP_LABELS ) ) );
+		assertTrue( 4 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );

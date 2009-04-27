@@ -84,6 +84,7 @@ public class SwingTutorialTest
 		assertTrue( metawidget.getComponent( 3 ) instanceof JCheckBox );
 
 		// Check end of tutorial
+		// TODO: this test must sync up
 
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
 		metawidget.setToInspect( new PersonAtTutorialEnd() );

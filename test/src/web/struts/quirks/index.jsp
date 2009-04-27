@@ -12,7 +12,7 @@
 
 			<html:errors />
 			
-			<m:metawidget property="quirksForm" />
+			<m:metawidget property="quirksForm"/>
 
 		</html:form>
 		

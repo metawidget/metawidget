@@ -8,7 +8,17 @@
 			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<list>
-						<dataTableWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.datatable"/>
+						<dataTableWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.datatable" config="DataTableWidgetBuilderConfig">
+							<styleClass>
+								<string>dataTableStyleClass</string>
+							</styleClass>
+							<columnClasses>
+								<string>dataTableColumnClass1,dataTableColumnClass2</string>
+							</columnClasses>
+							<rowClasses>
+								<string>dataTableRowClass1,dataTableRowClass2</string>
+							</rowClasses>
+						</dataTableWidgetBuilder>
 						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
 					</list>
 				</widgetBuilders>

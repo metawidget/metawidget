@@ -298,8 +298,22 @@ public class HtmlTableLayoutRenderer
 		{
 			// ...that is visible...
 
-			if ( componentChild instanceof UIStub && componentChild.getChildCount() == 0 )
-				continue;
+			if ( componentChild instanceof UIStub )
+			{
+				boolean visibleChildren = false;
+
+				for ( UIComponent stubChild : componentChild.getChildren() )
+				{
+					if ( !stubChild.isRendered() )
+						continue;
+
+					visibleChildren = true;
+					break;
+				}
+
+				if ( !visibleChildren )
+					continue;
+			}
 
 			if ( componentChild instanceof UIParameter )
 				continue;
