@@ -44,17 +44,30 @@ public class FacesQuirks
 	// Private members
 	//
 
-	private Boolean					mBoolean;
+	private Boolean						mBoolean;
 
-	private String					mLarge;
+	private String						mLarge;
 
-	private List<? extends Object>	mStrings					= CollectionUtils.newArrayList();
+	private List<? extends Object>		mStrings					= CollectionUtils.newArrayList();
 
-	private List<Integer>			mIntegers					= CollectionUtils.newArrayList();
+	private List<Integer>				mIntegers					= CollectionUtils.newArrayList();
 
-	private String[]				mStringArray;
+	private String[]					mStringArray;
 
-	private Set<String>				mReadOnlyLookupWithLabels	= CollectionUtils.newHashSet( "_foo", "_bar" );
+	private Set<String>					mReadOnlyLookupWithLabels	= CollectionUtils.newHashSet( "_foo", "_bar" );
+
+	private List<HtmlDataTableQuirks>	mList						= CollectionUtils.newArrayList();
+
+	//
+	// Constructor
+	//
+
+	public FacesQuirks()
+	{
+		mList.add( new HtmlDataTableQuirks( 0, "Foo", "A Foo" ) );
+		mList.add( new HtmlDataTableQuirks( 1, "Bar", "A Bar" ) );
+		mList.add( new HtmlDataTableQuirks( 2, "Baz", "A Baz" ) );
+	}
 
 	//
 	// Public methods
@@ -144,6 +157,17 @@ public class FacesQuirks
 	public Set<String> getReadOnlyLookupWithLabels()
 	{
 		return mReadOnlyLookupWithLabels;
+	}
+
+	@UiComesAfter( "readOnlyLookupWithLabels" )
+	public List<HtmlDataTableQuirks> getList()
+	{
+		return mList;
+	}
+
+	public void setList( List<HtmlDataTableQuirks> list )
+	{
+		mList = list;
 	}
 
 	@UiAction

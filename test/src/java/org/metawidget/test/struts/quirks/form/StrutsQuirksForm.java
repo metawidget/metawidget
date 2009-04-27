@@ -44,7 +44,7 @@ public class StrutsQuirksForm
 
 	private String					mLookup;
 
-	private List<DisplayTagQuirks>	mList= CollectionUtils.newArrayList();
+	private List<DisplayTagQuirks>	mList				= CollectionUtils.newArrayList();
 
 	//
 	// Constructor

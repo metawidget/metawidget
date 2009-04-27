@@ -8,8 +8,7 @@
 			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/quirks-faces" />
-				
-				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="5"/>
+
 				<verifyXPath xpath="/html/body/form/table[1]/@id" text="form:quirksMetawidget"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/th" text="42 boolean:"/>
 				
@@ -70,6 +69,24 @@
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/th[2]" text="Read only lookup with labels:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/td[3]" text="[Foo, Bar]"/>
 
+				<!-- Test DataTableWidgetBuilder -->
+								
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/th" text="List:"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/thead/tr/th[1]" text="Name label"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/thead/tr/th[2]" text="Description"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[1]/td[1]" text="Foo"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[1]/td[2]" text="A Foo"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[2]/td[1]" text="Bar"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[2]/td[2]" text="A Bar"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[3]/td[1]" text="Baz"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[3]/td[2]" text="A Baz"/>
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr[1]/td)" text="2"/>
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[5]/td[1]/table/tbody/tr)" text="3"/>
+
+				<!-- Should be nothing else! -->
+				
+				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr)" text="6"/>
+				
 				<!-- Test the '-1 check' in UIMetawidget.inspect -->
 			
 				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="0"/>
@@ -81,7 +98,7 @@
 
 				<!-- Test inline Actions -->
 				
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[5]/td[1]/input[@type='submit']/@value" text="Refresh"/>
+				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td[1]/input[@type='submit']/@value" text="Refresh"/>
 				<clickButton label="Refresh"/>
 				<verifyText text="rror"/>
 				<setInputField name="form:quirksLarge" value="Some text"/>
@@ -97,7 +114,7 @@
 				<!-- Test zero columns -->
 				
 				<invoke url="${webtest.url}/quirks-faces/index2.jsf" />
-				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="11"/>
+				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="13"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/th" text="42 boolean:"/>
 				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td)" text="2"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/input/@type" text="radio"/>

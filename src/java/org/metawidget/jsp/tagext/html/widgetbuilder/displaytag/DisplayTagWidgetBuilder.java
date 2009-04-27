@@ -61,7 +61,7 @@ public class DisplayTagWidgetBuilder
 	{
 		// Not for us?
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		if ( TRUE.equals( attributes.get( HIDDEN ) ) || attributes.containsKey( LOOKUP ) )
 			return null;
 
 		String type = attributes.get( TYPE );
@@ -100,7 +100,7 @@ public class DisplayTagWidgetBuilder
 			public void prepareBody( PageContext delgateContext )
 				throws JspException
 			{
-				// Determine component type...
+				// Inspect component type
 
 				String componentType;
 
@@ -109,13 +109,14 @@ public class DisplayTagWidgetBuilder
 				else
 					componentType = attributes.get( PARAMETERIZED_TYPE );
 
-				// ...if any...
+				String inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
+
+				// If there is a type...
 
 				if ( componentType != null )
 				{
-					// ...inspect it...
+					// ...iterate over it...
 
-					String inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
 					Document document = XmlUtils.documentFromString( inspectedType );
 					NodeList elements = document.getDocumentElement().getFirstChild().getChildNodes();
 
