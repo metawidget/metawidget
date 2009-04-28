@@ -20,10 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.lang.reflect.Constructor;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -31,7 +28,10 @@ import org.metawidget.MetawidgetException;
 import org.metawidget.android.AndroidUtils.ResourcelessArrayAdapter;
 import org.metawidget.android.widget.layout.Layout;
 import org.metawidget.android.widget.layout.TableLayout;
+import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
+import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
@@ -39,13 +39,10 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.w3c.dom.Element;
 
 import android.content.Context;
-import android.text.InputFilter;
-import android.text.method.DateKeyListener;
-import android.text.method.DigitsKeyListener;
-import android.text.method.PasswordTransformationMethod;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -56,7 +53,6 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 /**
@@ -80,41 +76,39 @@ public class AndroidMetawidget
 	// Private statics
 	//
 
-	private final static List<Boolean>				LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( null, Boolean.TRUE, Boolean.FALSE );
+	private static ConfigReader		CONFIG_READER;
 
-	private final static Map<Integer, Inspector>	INSPECTORS			= Collections.synchronizedMap( new HashMap<Integer, Inspector>() );
-
-	private final static String						PARAM_PREFIX		= "param";
+	private final static String		PARAM_PREFIX		= "param";
 
 	//
 	// Private members
 	//
 
-	private Object									mToInspect;
+	private Object					mToInspect;
 
-	private String									mPath;
+	private String					mPath;
 
-	private int										mConfig;
+	private int						mConfig;
 
-	private Inspector								mInspector;
+	private boolean					mNeedsConfiguring	= true;
 
-	private Class<? extends Layout>					mLayoutClass		= TableLayout.class;
+	private Class<? extends Layout>	mLayoutClass		= TableLayout.class;
 
-	private Layout									mLayout;
+	private Layout					mLayout;
 
-	private Map<String, Object>						mParameters;
+	private Map<String, Object>		mParameters;
 
-	private boolean									mNeedToBuildWidgets;
+	private boolean					mNeedToBuildWidgets;
 
-	String											mLastInspection;
+	String							mLastInspection;
 
-	private Set<View>								mExistingViews;
+	private Set<View>				mExistingViews;
 
-	private Set<View>								mExistingViewsUnused;
+	private Set<View>				mExistingViewsUnused;
 
-	private Map<String, Facet>						mFacets;
+	private Map<String, Facet>		mFacets;
 
-	private AndroidMetawidgetMixin					mMetawidgetMixin;
+	private AndroidMetawidgetMixin	mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -249,14 +243,19 @@ public class AndroidMetawidget
 	public void setConfig( int config )
 	{
 		mConfig = config;
-		mInspector = null;
+		mNeedsConfiguring = true;
 		invalidateInspection();
 	}
 
 	public void setInspector( Inspector inspector )
 	{
-		mInspector = inspector;
-		mConfig = 0;
+		mMetawidgetMixin.setInspector( inspector );
+		invalidateInspection();
+	}
+
+	public void setWidgetBuilder( WidgetBuilder<View, AndroidMetawidget> widgetBuilder )
+	{
+		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
 		invalidateInspection();
 	}
 
@@ -331,8 +330,8 @@ public class AndroidMetawidget
 	/**
 	 * Gets the parameter with the given name.
 	 *
-	 * @return the value of the parameter. Note this return type uses generics, so as to
-	 *         not require a cast by the caller (eg. <code>String s = getParameter(name)</code>)
+	 * @return the value of the parameter. Note this return type uses generics, so as to not require
+	 *         a cast by the caller (eg. <code>String s = getParameter(name)</code>)
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -406,8 +405,8 @@ public class AndroidMetawidget
 	 * conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
 	 *
-	 * @return the value from the View. Note this return type uses generics, so as to
-	 *         not require a cast by the caller (eg. <code>String s = getValue(names)</code>)
+	 * @return the value from the View. Note this return type uses generics, so as to not require a
+	 *         cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */
 
 	@SuppressWarnings( { "deprecation", "unchecked" } )
@@ -536,6 +535,15 @@ public class AndroidMetawidget
 		return mFacets.get( name );
 	}
 
+	/**
+	 * This method is public for use by WidgetBuilders.
+	 */
+
+	public String inspect( Object toInspect, String type, String... names )
+	{
+		return mMetawidgetMixin.inspect( toInspect, type, names );
+	}
+
 	//
 	// Protected methods
 	//
@@ -583,12 +591,47 @@ public class AndroidMetawidget
 		postInvalidate();
 	}
 
+	@SuppressWarnings( "unchecked" )
+	protected void configure()
+	{
+		if ( !mNeedsConfiguring )
+			return;
+
+		mNeedsConfiguring = false;
+
+		try
+		{
+			if ( mConfig != 0 )
+			{
+				if ( CONFIG_READER == null )
+					CONFIG_READER = new AndroidConfigReader( getContext() );
+
+				CONFIG_READER.configure( getContext().getResources().openRawResource( mConfig ), this );
+			}
+
+			// Sensible defaults
+			// TODO: immutable?
+
+			if ( mMetawidgetMixin.getWidgetBuilder() == null )
+				mMetawidgetMixin.setWidgetBuilder( new AndroidWidgetBuilder() );
+
+			if ( mMetawidgetMixin.getInspector() == null )
+				mMetawidgetMixin.setInspector( new PropertyTypeInspector() );
+		}
+		catch ( Exception e )
+		{
+			throw MetawidgetException.newException( e );
+		}
+	}
+
 	protected void buildWidgets()
 	{
 		// No need to build?
 
 		if ( !mNeedToBuildWidgets )
 			return;
+
+		configure();
 
 		mNeedToBuildWidgets = false;
 
@@ -684,234 +727,6 @@ public class AndroidMetawidget
 		return view;
 	}
 
-	protected View buildReadOnlyWidget( String elementName, Map<String, String> attributes )
-		throws Exception
-	{
-		// Hidden
-
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return null;
-
-		// Action
-
-		if ( ACTION.equals( elementName ) )
-			return null;
-
-		// Masked (return an invisible View, so that we DO still
-		// render a label and reserve some blank space)
-
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-		{
-			TextView view = new TextView( getContext() );
-			view.setVisibility( View.INVISIBLE );
-
-			return view;
-		}
-
-		// Lookups
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) )
-			return new TextView( getContext() );
-
-		String type = attributes.get( TYPE );
-
-		// If no type, fail gracefully with a JTextField
-
-		if ( type == null || "".equals( type ) )
-			return new TextView( getContext() );
-
-		// Lookup the Class
-
-		Class<?> clazz = ClassUtils.niceForName( type );
-
-		if ( clazz != null )
-		{
-			if ( clazz.isPrimitive() )
-				return new TextView( getContext() );
-
-			if ( String.class.equals( clazz ) )
-				return new TextView( getContext() );
-
-			if ( Date.class.equals( clazz ) )
-				return new TextView( getContext() );
-
-			if ( Boolean.class.equals( clazz ) )
-				return new TextView( getContext() );
-
-			if ( Number.class.isAssignableFrom( clazz ) )
-				return new TextView( getContext() );
-
-			// Collections
-
-			if ( Collection.class.isAssignableFrom( clazz ) )
-				return null;
-		}
-
-		// Not simple, but don't expand
-
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new TextView( getContext() );
-
-		// Nested Metawidget
-
-		return createMetawidget( attributes );
-	}
-
-	protected View buildActiveWidget( String elementName, Map<String, String> attributes )
-		throws Exception
-	{
-		// Hidden
-
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return null;
-
-		// Action
-
-		if ( ACTION.equals( elementName ) )
-			return null;
-
-		String type = attributes.get( TYPE );
-
-		// If no type, fail gracefully with an EditText
-
-		if ( type == null || "".equals( type ) )
-			return new EditText( getContext() );
-
-		Class<?> clazz = ClassUtils.niceForName( type );
-
-		if ( clazz != null )
-		{
-			// String Lookups
-
-			String lookup = attributes.get( LOOKUP );
-
-			if ( lookup != null && !"".equals( lookup ) )
-			{
-				List<String> lookupList = CollectionUtils.fromString( lookup );
-
-				// Add an empty choice (if nullable, and not required)
-				//
-				// (CollectionUtils.fromString returns unmodifiable EMPTY_LIST if empty)
-
-				if ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) )
-					lookupList.add( 0, null );
-
-				List<String> lookupLabelsList = null;
-				String lookupLabels = attributes.get( LOOKUP_LABELS );
-
-				if ( lookupLabels != null && !"".equals( lookupLabels ) )
-				{
-					lookupLabelsList = CollectionUtils.fromString( lookupLabels );
-
-					// (CollectionUtils.fromString returns unmodifiable EMPTY_LIST if empty)
-
-					if ( !lookupLabelsList.isEmpty() )
-						lookupLabelsList.add( 0, null );
-				}
-
-				Spinner spinner = new Spinner( getContext() );
-				spinner.setAdapter( new ResourcelessArrayAdapter<String>( getContext(), lookupList, lookupLabelsList ) );
-
-				return spinner;
-			}
-
-			if ( clazz.isPrimitive() )
-			{
-				// booleans
-
-				if ( boolean.class.equals( clazz ) )
-					return new CheckBox( getContext() );
-
-				EditText editText = new EditText( getContext() );
-
-				// DigitsInputMethod is 0-9 and +
-
-				if ( byte.class.equals( clazz ) || short.class.equals( clazz ) || int.class.equals( clazz ) || long.class.equals( clazz ) )
-					editText.setKeyListener( new DigitsKeyListener() );
-
-				return editText;
-			}
-
-			// Strings
-
-			if ( String.class.equals( clazz ) )
-			{
-				EditText editText = new EditText( getContext() );
-
-				if ( TRUE.equals( attributes.get( MASKED ) ) )
-					editText.setTransformationMethod( PasswordTransformationMethod.getInstance() );
-
-				if ( TRUE.equals( attributes.get( LARGE ) ) )
-					editText.setMinLines( 3 );
-
-				String maximumLength = attributes.get( MAXIMUM_LENGTH );
-
-				if ( maximumLength != null && !"".equals( maximumLength ) )
-					editText.setFilters( new InputFilter[] { new InputFilter.LengthFilter( Integer.parseInt( maximumLength ) ) } );
-
-				return editText;
-			}
-
-			// Dates
-
-			if ( Date.class.equals( clazz ) )
-			{
-				// Not-nullable dates can use a DatePicker...
-
-				if ( TRUE.equals( attributes.get( REQUIRED ) ) )
-					return new DatePicker( getContext() );
-
-				// ...but nullable ones need a TextBox
-
-				EditText editText = new EditText( getContext() );
-				editText.setFilters( new InputFilter[] { new DateKeyListener() } );
-
-				return editText;
-
-			}
-
-			// Booleans (are tri-state)
-
-			if ( Boolean.class.equals( clazz ) )
-			{
-				Spinner spinner = new Spinner( getContext() );
-				spinner.setAdapter( new ResourcelessArrayAdapter<Boolean>( getContext(), LIST_BOOLEAN_VALUES, null ) );
-
-				return spinner;
-			}
-
-			// Numbers
-
-			if ( Number.class.isAssignableFrom( clazz ) )
-			{
-				EditText editText = new EditText( getContext() );
-
-				// DigitsInputMethod is 0-9 and +
-
-				if ( Byte.class.isAssignableFrom( clazz ) || Short.class.isAssignableFrom( clazz ) || Integer.class.isAssignableFrom( clazz ) || Long.class.isAssignableFrom( clazz ) )
-					editText.setKeyListener( new DigitsKeyListener() );
-
-				return editText;
-			}
-
-			// Collections
-
-			if ( Collection.class.isAssignableFrom( clazz ) )
-				return null;
-		}
-
-		// Not simple, but don't expand
-
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new EditText( getContext() );
-
-		// Nested Metawidget
-
-		return createMetawidget( attributes );
-	}
-
 	protected void endBuild()
 	{
 		// End layout
@@ -940,68 +755,19 @@ public class AndroidMetawidget
 		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
-	/**
-	 * Inspect the given Object according to the given path, and return the result as a String
-	 * conforming to inspection-result-1.0.xsd.
-	 * <p>
-	 * This method mirrors the <code>Inspector</code> interface. Internally it looks up the
-	 * Inspector to use. It is a useful hook for subclasses wishing to inspect different Objects
-	 * using our same <code>Inspector</code>.
-	 */
-
-	protected String inspect( Object toInspect, String type, String... names )
+	protected AndroidMetawidget initNestedMetawidget( AndroidMetawidget nestedMetawidget, Map<String, String> attributes )
 	{
-		// If this Inspector has been set externally, use it...
-
-		Inspector inspector = mInspector;
-
-		if ( inspector == null )
-		{
-			if ( mConfig == 0 )
-				throw MetawidgetException.newException( "No inspector or config specified" );
-
-			// ...otherwise, if this Config has already been read, use it...
-
-			inspector = INSPECTORS.get( mConfig );
-
-			// ...otherwise, initialize the Inspector
-
-			if ( inspector == null )
-			{
-				inspector = (Inspector) new AndroidConfigReader( getContext() ).configure( getContext().getResources().openRawResource( mConfig ), Inspector.class );
-				INSPECTORS.put( mConfig, inspector );
-			}
-		}
-
-		// Use the inspector to inspect the path
-
-		return inspector.inspect( mToInspect, type, names );
-	}
-
-	protected AndroidMetawidget createMetawidget( Map<String, String> attributes )
-		throws Exception
-	{
-		Constructor<? extends AndroidMetawidget> constructor = getClass().getConstructor( Context.class );
-		return constructor.newInstance( getContext() );
-	}
-
-	protected AndroidMetawidget initMetawidget( AndroidMetawidget metawidget, Map<String, String> attributes )
-	{
-		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-
-		if ( mInspector != null )
-			metawidget.setInspector( mInspector );
-		else
-			metawidget.setConfig( mConfig );
-
-		metawidget.setLayoutClass( mLayoutClass );
+		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+		nestedMetawidget.setInspector( mMetawidgetMixin.getInspector() );
+		nestedMetawidget.setWidgetBuilder( mMetawidgetMixin.getWidgetBuilder() );
+		nestedMetawidget.setLayoutClass( mLayoutClass );
 
 		if ( mParameters != null )
-			metawidget.mParameters = CollectionUtils.newHashMap( mParameters );
+			nestedMetawidget.mParameters = CollectionUtils.newHashMap( mParameters );
 
-		metawidget.setToInspect( mToInspect );
+		nestedMetawidget.setToInspect( mToInspect );
 
-		return metawidget;
+		return nestedMetawidget;
 	}
 
 	//
@@ -1098,7 +864,7 @@ public class AndroidMetawidget
 	//
 
 	protected class AndroidMetawidgetMixin
-		extends MetawidgetMixin<View,AndroidMetawidget>
+		extends MetawidgetMixin<View, AndroidMetawidget>
 	{
 		//
 		// Protected methods
@@ -1145,10 +911,11 @@ public class AndroidMetawidget
 		public AndroidMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
-			AndroidMetawidget metawidget = AndroidMetawidget.this.getClass().newInstance();
+			Constructor<?> constructor = getClass().getConstructor( Context.class );
+			AndroidMetawidget metawidget = (AndroidMetawidget) constructor.newInstance( getContext() );
 			metawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
 
-			return AndroidMetawidget.this.initMetawidget( metawidget, attributes );
+			return AndroidMetawidget.this.initNestedMetawidget( metawidget, attributes );
 		}
 
 		@Override

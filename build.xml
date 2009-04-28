@@ -802,6 +802,7 @@
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
+				<include name="org/metawidget/widgetbuilder/**"/>
 			</fileset>			
 			<fileset dir="${build.dir}/test-classes">
 				<include name="org/metawidget/test/android/allwidgets/**"/>
@@ -819,9 +820,9 @@
             <arg path="${basedir}/${build.dir}/test/android/allwidgets/dex-classes" />
         </exec>
 
-	    <!-- Put the project's resources into the output package file -->
+		<!-- Put the project's resources into the output package file -->
 				
-        <exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="test/src/android/allwidgets">
+		<exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="test/src/android/allwidgets">
             <arg value="package" />
             <arg value="-f" />
             <arg value="-M" />
@@ -2267,6 +2268,7 @@
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
+				<include name="org/metawidget/widgetbuilder/**"/>				
 			</fileset>
 			<fileset dir="${build.dir}/example-classes">
 				<include name="org/metawidget/example/android/addressbook/**"/>
@@ -2284,7 +2286,7 @@
             <arg path="${basedir}/${build.dir}/examples/android/addressbook/dex-classes" />
         </exec>
 
-	    <!-- Put the project's resources into the output package file -->
+		<!-- Put the project's resources into the output package file -->
 				
         <exec executable="${android.tools.dir}/aapt.exe" failonerror="true" dir="examples/src/android/addressbook">
             <arg value="package" />

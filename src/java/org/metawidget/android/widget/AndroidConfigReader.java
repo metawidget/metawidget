@@ -65,10 +65,13 @@ public class AndroidConfigReader
 	public InputStream openResource( String resource )
 	{
 		if ( !resource.startsWith( "@" ) )
-			throw InspectorException.newException( "Not a valid resource name: " + resource );
+			throw InspectorException.newException( "Resource name does not start with '@': " + resource );
 
 		Resources resources = mContext.getResources();
 		int id = resources.getIdentifier( resource, null, null );
+
+		if ( id == 0 )
+			throw InspectorException.newException( "Resource.getIdentifier returns 0 for " + resource );
 
 		return resources.openRawResource( id );
 
