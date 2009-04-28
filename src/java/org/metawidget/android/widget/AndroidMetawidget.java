@@ -90,7 +90,7 @@ public class AndroidMetawidget
 
 	private int						mConfig;
 
-	private boolean					mNeedsConfiguring	= true;
+	private boolean					mNeedsConfiguring;
 
 	private Class<? extends Layout>	mLayoutClass		= TableLayout.class;
 
@@ -164,6 +164,9 @@ public class AndroidMetawidget
 		// Support configuring inspectors in the XML
 
 		mConfig = attributes.getAttributeResourceValue( null, "config", 0 );
+
+		if ( mConfig != 0 )
+			mNeedsConfiguring = true;
 
 		// Support configuring layouts in the XML
 
@@ -755,7 +758,7 @@ public class AndroidMetawidget
 		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
-	protected AndroidMetawidget initNestedMetawidget( AndroidMetawidget nestedMetawidget, Map<String, String> attributes )
+	protected void initNestedMetawidget( AndroidMetawidget nestedMetawidget, Map<String, String> attributes )
 	{
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setInspector( mMetawidgetMixin.getInspector() );
@@ -766,8 +769,6 @@ public class AndroidMetawidget
 			nestedMetawidget.mParameters = CollectionUtils.newHashMap( mParameters );
 
 		nestedMetawidget.setToInspect( mToInspect );
-
-		return nestedMetawidget;
 	}
 
 	//
@@ -911,11 +912,14 @@ public class AndroidMetawidget
 		public AndroidMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
-			Constructor<?> constructor = getClass().getConstructor( Context.class );
-			AndroidMetawidget metawidget = (AndroidMetawidget) constructor.newInstance( getContext() );
-			metawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
+			Constructor<?> constructor = AndroidMetawidget.this.getClass().getConstructor( Context.class );
+			AndroidMetawidget nestedMetawidget = (AndroidMetawidget) constructor.newInstance( getContext() );
+			nestedMetawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
+			nestedMetawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 
-			return AndroidMetawidget.this.initNestedMetawidget( metawidget, attributes );
+			AndroidMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
+
+			return nestedMetawidget;
 		}
 
 		@Override

@@ -112,7 +112,7 @@ public class Java5Inspector
 			}
 			catch ( Exception e )
 			{
-				// Android 1.0_r1 fails here with a ClassNotFoundException
+				// Android 1.1_r1 fails here with a ClassNotFoundException
 			}
 
 			if ( typeActuals != null && typeActuals.length > 0 )
@@ -123,8 +123,8 @@ public class Java5Inspector
 				{
 					// Android 1.0_r1 sometimes provides null typeActuals?
 
-					if ( typeActual == null )
-						continue;
+					//if ( typeActual == null )
+						//continue;
 
 					if ( builder.length() > 0 )
 						builder.append( StringUtils.SEPARATOR_COMMA );

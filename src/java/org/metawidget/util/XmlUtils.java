@@ -214,7 +214,7 @@ public class XmlUtils
 		}
 		catch ( DOMException e )
 		{
-			// Note: importNode returns 'DOMException' under Android 1.0_r1
+			// Note: importNode returns 'DOMException' under Android 1.1_r1
 
 			Element imported = document.createElementNS( element.getNamespaceURI(), element.getNodeName() );
 			setMapAsAttributes( imported, getAttributesAsMap( element ) );

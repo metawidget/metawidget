@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.android.widget.Stub;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +34,7 @@ import android.widget.TextView;
 
 /**
  * Layout to arrange widgets in a table, with one column for labels and another for the widget.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -105,6 +106,11 @@ public class TableLayout
 	@Override
 	public void layoutChild( View view, Map<String, String> attributes )
 	{
+		// Ignore empty Stubs
+
+		if ( view instanceof Stub && ((Stub) view).getChildCount() == 0 )
+			return;
+
 		initLayout();
 
 		AndroidMetawidget metawidget = getMetawidget();

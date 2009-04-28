@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Map;
 
 import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.android.widget.Stub;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
@@ -78,6 +79,11 @@ public class LinearLayout
 	@Override
 	public void layoutChild( View view, Map<String, String> attributes )
 	{
+		// Ignore empty Stubs
+
+		if ( view instanceof Stub && ((Stub) view).getChildCount() == 0 )
+			return;
+
 		AndroidMetawidget metawidget = getMetawidget();
 
 		String label = null;

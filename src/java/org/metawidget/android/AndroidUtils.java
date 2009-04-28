@@ -50,25 +50,19 @@ public final class AndroidUtils
 		extends ArrayAdapter<T>
 	{
 		//
-		//
 		// Private statics
-		//
 		//
 
 		private final static int	NO_RESOURCE	= 0;
 
 		//
-		//
 		// Private members
 		//
-		//
 
-		private List<String>	mLabels;
+		private List<String>		mLabels;
 
-		//
 		//
 		// Constructor
-		//
 		//
 
 		public ResourcelessArrayAdapter( Context context, Collection<T> values )
@@ -77,7 +71,8 @@ public final class AndroidUtils
 		}
 
 		/**
-		 * @param labels	List of human-readable labels. May be null.
+		 * @param labels
+		 *            List of human-readable labels. May be null.
 		 */
 
 		public ResourcelessArrayAdapter( Context context, List<T> values, List<String> labels )
@@ -94,9 +89,7 @@ public final class AndroidUtils
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		@Override
@@ -110,7 +103,7 @@ public final class AndroidUtils
 				viewToReturn = new TextView( getContext() );
 
 			if ( mLabels != null )
-				viewToReturn.setText( StringUtils.quietValueOf( mLabels.get( position ) ));
+				viewToReturn.setText( StringUtils.quietValueOf( mLabels.get( position ) ) );
 			else
 				viewToReturn.setText( StringUtils.quietValueOf( getItem( position ) ) );
 
