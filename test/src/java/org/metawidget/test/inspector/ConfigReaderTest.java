@@ -232,7 +232,7 @@ public class ConfigReaderTest
 
 		assertTrue( widgetBuilders.size() == 1 );
 		assertTrue( widgetBuilders.get( 0 ) instanceof SwingWidgetBuilder );
-		assertTrue( widgetBuilders.getClass().getName().contains( "Unmodifiable" ));
+		assertTrue( widgetBuilders.getClass().getName().contains( "Unmodifiable" ) );
 
 		// Test Inspector
 
@@ -245,20 +245,22 @@ public class ConfigReaderTest
 
 		Field inspectorsField = CompositeInspector.class.getDeclaredField( "mInspectors" );
 		inspectorsField.setAccessible( true );
-		Inspector[] inspectors = (Inspector[]) inspectorsField.get( compositeInspector1 );
+		@SuppressWarnings( "unchecked" )
+		List<Inspector> inspectors = (List<Inspector>) inspectorsField.get( compositeInspector1 );
 
-		assertTrue( inspectors.length == 11 );
-		assertTrue( inspectors[0] instanceof MetawidgetAnnotationInspector );
-		assertTrue( inspectors[1] instanceof FacesInspector );
-		assertTrue( inspectors[2] instanceof HibernateValidatorInspector );
-		assertTrue( inspectors[3] instanceof PropertyTypeInspector );
-		assertTrue( inspectors[4] instanceof JpaInspector );
-		assertTrue( inspectors[5] instanceof JspAnnotationInspector );
-		assertTrue( inspectors[6] instanceof SpringAnnotationInspector );
-		assertTrue( inspectors[7] instanceof StrutsInspector );
-		assertTrue( inspectors[8] instanceof StrutsAnnotationInspector );
-		assertTrue( inspectors[9] instanceof XmlInspector );
-		assertTrue( inspectors[10] instanceof XmlInspector );
+		assertTrue( inspectors.size() == 11 );
+		assertTrue( inspectors.get( 0 ) instanceof MetawidgetAnnotationInspector );
+		assertTrue( inspectors.get( 1 ) instanceof FacesInspector );
+		assertTrue( inspectors.get( 2 ) instanceof HibernateValidatorInspector );
+		assertTrue( inspectors.get( 3 ) instanceof PropertyTypeInspector );
+		assertTrue( inspectors.get( 4 ) instanceof JpaInspector );
+		assertTrue( inspectors.get( 5 ) instanceof JspAnnotationInspector );
+		assertTrue( inspectors.get( 6 ) instanceof SpringAnnotationInspector );
+		assertTrue( inspectors.get( 7 ) instanceof StrutsInspector );
+		assertTrue( inspectors.get( 8 ) instanceof StrutsAnnotationInspector );
+		assertTrue( inspectors.get( 9 ) instanceof XmlInspector );
+		assertTrue( inspectors.get( 10 ) instanceof XmlInspector );
+		assertTrue( inspectors.getClass().getName().contains( "Unmodifiable" ) );
 
 		// Inspector
 

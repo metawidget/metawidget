@@ -53,10 +53,12 @@ public class FactoryGenerator<F>
 
 		TypeOracle typeOracle = context.getTypeOracle();
 		JClassType classType;
+		JClassType metawidgetType;
 
 		try
 		{
 			classType = typeOracle.getType( typeName );
+			metawidgetType = typeOracle.getType( "org.metawidget.gwt.client.ui.GwtMetawidget" );
 		}
 		catch ( NotFoundException e )
 		{
@@ -97,7 +99,7 @@ public class FactoryGenerator<F>
 
 		ClassSourceFileComposerFactory composer = new ClassSourceFileComposerFactory( packageName, bindingClassName );
 		composer.addImplementedInterface( classType.getQualifiedSourceName() );
-		composer.addImport( "org.metawidget.gwt.client.ui.GwtMetawidget" );
+		composer.addImport( metawidgetType.getQualifiedSourceName() );
 
 		SourceWriter sourceWriter = composer.createSourceWriter( context, printWriter );
 
@@ -106,12 +108,10 @@ public class FactoryGenerator<F>
 			// Write the method
 
 			sourceWriter.println();
-			sourceWriter.println( "// Public methods" );
-			sourceWriter.println();
 
 			sourceWriter.print( "public " + returnType.getParameterizedQualifiedSourceName() + " " + newMethod.getName() + "( Class<? extends " + returnType.getParameterizedQualifiedSourceName() + "> implementingClass" );
 			if ( parameters.length == 2 )
-				sourceWriter.println( ", GwtMetawidget metawidget" );
+				sourceWriter.println( ", " + metawidgetType.getSimpleSourceName() + " metawidget" );
 			sourceWriter.println( " ) {" );
 			sourceWriter.indent();
 
@@ -129,6 +129,33 @@ public class FactoryGenerator<F>
 
 					if ( subtype.isAbstract() )
 						continue;
+
+					// (ignore CompositeWidgetBuilder and the like, that have unusual constructors)
+
+					if ( parameters.length == 2 )
+					{
+						try
+						{
+							subtype.getConstructor( new JType[]{ metawidgetType } );
+						}
+						catch( NotFoundException e )
+						{
+							continue;
+						}
+					}
+					else
+					{
+						try
+						{
+							subtype.getConstructor( new JType[0] );
+						}
+						catch( NotFoundException e )
+						{
+							continue;
+						}
+					}
+
+					// Write the instantiation code
 
 					sourceWriter.print( "if ( " + subtype.getQualifiedSourceName() + ".class.equals( implementingClass )) return new " + subtype.getQualifiedSourceName() + "(" );
 

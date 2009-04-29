@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.ByteArrayInputStream;
 import java.lang.reflect.Field;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -97,39 +98,39 @@ public class CompositeInspectorTest
 
 		// Test
 
-		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 
 		// Entity
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
-		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( PersonalContact.class.getName().equals( entity.getAttribute( TYPE ) ));
+		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertTrue( PersonalContact.class.getName().equals( entity.getAttribute( TYPE ) ) );
 		assertTrue( !entity.hasAttribute( NAME ) );
 
 		// Properties
 
 		Element property = (Element) entity.getFirstChild();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "id".equals( property.getAttribute( NAME ) ));
-		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ));
+		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertTrue( "id".equals( property.getAttribute( NAME ) ) );
+		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "fullname".equals( property.getAttribute( NAME ) ));
-		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ));
+		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertTrue( "fullname".equals( property.getAttribute( NAME ) ) );
+		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ) );
 
 		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "title".equals( property.getAttribute( NAME ) ));
-		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ));
-		assertTrue( "Mr, Mrs, Miss, Dr, Cpt".equals( property.getAttribute( LOOKUP ) ));
+		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertTrue( "title".equals( property.getAttribute( NAME ) ) );
+		assertTrue( String.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertTrue( "Mr, Mrs, Miss, Dr, Cpt".equals( property.getAttribute( LOOKUP ) ) );
 	}
 
 	public void testDefensiveCopy()
 		throws Exception
 	{
 		PropertyTypeInspector inspector = new PropertyTypeInspector();
-		Inspector[] inspectors = new Inspector[]{ inspector };
+		Inspector[] inspectors = new Inspector[] { inspector };
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( inspectors );
 
@@ -140,10 +141,11 @@ public class CompositeInspectorTest
 		Field field = CompositeInspector.class.getDeclaredField( "mInspectors" );
 		field.setAccessible( true );
 
-		Inspector[] inspectorsCopied = (Inspector[]) field.get( inspectorComposite );
-		assertTrue( inspectorsCopied[0] == inspector );
+		@SuppressWarnings( "unchecked" )
+		List<Inspector> inspectorsCopied = (List<Inspector>) field.get( inspectorComposite );
+		assertTrue( inspectorsCopied.get( 0 ) == inspector );
 		inspectors[0] = null;
-		assertTrue( inspectorsCopied[0] != null );
+		assertTrue( inspectorsCopied.get( 0 ) != null );
 	}
 
 	//

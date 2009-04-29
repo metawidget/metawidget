@@ -14,8 +14,7 @@
 	<source path="mixin/base"/>
 	<source path="mixin/gwt"/>
 	<source path="util/simple"/>
-	<source path="widgetbuilder/iface"/>
-	<source path="widgetbuilder/impl"/>
+	<source path="widgetbuilder"/>
 	
 	<!-- WidgetBuilders -->
 	

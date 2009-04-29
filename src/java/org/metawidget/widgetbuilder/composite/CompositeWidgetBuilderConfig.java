@@ -16,6 +16,7 @@
 
 package org.metawidget.widgetbuilder.composite;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -33,13 +34,13 @@ public class CompositeWidgetBuilderConfig<W, M>
 	// Private members
 	//
 
-	private WidgetBuilder<W, M>[]	mWidgetBuilders;
+	private List<WidgetBuilder<W, M>>	mWidgetBuilders;
 
 	//
 	// Public methods
 	//
 
-	public WidgetBuilder<W, M>[] getWidgetBuilders()
+	public List<WidgetBuilder<W, M>> getWidgetBuilders()
 	{
 		return mWidgetBuilders;
 	}
@@ -54,11 +55,7 @@ public class CompositeWidgetBuilderConfig<W, M>
 
 	public CompositeWidgetBuilderConfig<W, M> setWidgetBuilders( WidgetBuilder<W, M>... widgetBuilders )
 	{
-		mWidgetBuilders = widgetBuilders;
-
-		// Fluent interface
-
-		return this;
+		return setWidgetBuilders( Arrays.asList( widgetBuilders ));
 	}
 
 	/**
@@ -75,7 +72,10 @@ public class CompositeWidgetBuilderConfig<W, M>
 	@SuppressWarnings( "unchecked" )
 	public CompositeWidgetBuilderConfig<W, M> setWidgetBuilders( List<WidgetBuilder<W, M>> widgetBuilders )
 	{
-		WidgetBuilder<W, M>[] widgetBuildersArray = new WidgetBuilder[widgetBuilders.size()];
-		return setWidgetBuilders( widgetBuilders.toArray( widgetBuildersArray ) );
+		mWidgetBuilders = widgetBuilders;
+
+		// Fluent interface
+
+		return this;
 	}
 }

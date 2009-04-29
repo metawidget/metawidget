@@ -16,12 +16,12 @@
 
 package org.metawidget.widgetbuilder.composite;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
@@ -44,24 +44,23 @@ public class CompositeWidgetBuilder<W, M>
 	@SuppressWarnings( "unchecked" )
 	public CompositeWidgetBuilder( CompositeWidgetBuilderConfig<W, M> config )
 	{
-		WidgetBuilder<W, M>[] widgetBuilders = config.getWidgetBuilders();
+		List<WidgetBuilder<W, M>> widgetBuilders = config.getWidgetBuilders();
 
 		// Must have at least one WidgetBuilder. At least two, really, but one can be useful
 		// if we want to validate what the sub-WidgetBuilder is returning
 
-		if ( widgetBuilders == null || widgetBuilders.length == 0 )
+		if ( widgetBuilders == null || widgetBuilders.size() == 0 )
 			throw InspectorException.newException( "CompositeWidgetBuilder needs at least one WidgetBuilder" );
 
 		// Defensive copy
 
-		mWidgetBuilders = Collections.unmodifiableList( CollectionUtils.newArrayList( widgetBuilders ));
+		mWidgetBuilders = Collections.unmodifiableList( new ArrayList<WidgetBuilder<W, M>>( widgetBuilders ) );
 	}
 
 	//
 	// Public methods
 	//
 
-	@Override
 	public W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
 		throws Exception
 	{

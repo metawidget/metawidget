@@ -16,6 +16,7 @@
 
 package org.metawidget.inspector.composite;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.metawidget.inspector.ConfigReader;
@@ -36,7 +37,7 @@ public class CompositeInspectorConfig
 	// Private members
 	//
 
-	private Inspector[]			mInspectors;
+	private List<Inspector>		mInspectors;
 
 	private ResourceResolver	mResourceResolver;
 
@@ -44,7 +45,7 @@ public class CompositeInspectorConfig
 	// Public methods
 	//
 
-	public Inspector[] getInspectors()
+	public List<Inspector> getInspectors()
 	{
 		return mInspectors;
 	}
@@ -60,11 +61,7 @@ public class CompositeInspectorConfig
 
 	public CompositeInspectorConfig setInspectors( Inspector... inspectors )
 	{
-		mInspectors = inspectors;
-
-		// Fluent interface
-
-		return this;
+		return setInspectors( Arrays.asList( inspectors ) );
 	}
 
 	/**
@@ -80,8 +77,11 @@ public class CompositeInspectorConfig
 
 	public CompositeInspectorConfig setInspectors( List<Inspector> inspectors )
 	{
-		Inspector[] inspectorsArray = new Inspector[inspectors.size()];
-		return setInspectors( inspectors.toArray( inspectorsArray ) );
+		mInspectors = inspectors;
+
+		// Fluent interface
+
+		return this;
 	}
 
 	public ResourceResolver getResourceResolver()
