@@ -693,11 +693,12 @@ public class Person {
 	<emphasis role="bold">@UiHidden</emphasis>
 	public boolean retired;
 
+	@UiComesAfter( "retired" )
 	public Gender gender;
 	
 	public enum Gender { Male, Female }
 
-	@UiComesAfter( "retired" )
+	@UiComesAfter( "gender" )
 	@UiLarge
 	public String notes;
 

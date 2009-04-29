@@ -16,9 +16,13 @@
 
 package org.metawidget.test.example.swing.tutorial;
 
+import java.awt.GridBagLayout;
+
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -27,6 +31,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -58,46 +63,40 @@ public class SwingTutorialTest
 	public void testTutorial()
 		throws Exception
 	{
-		// Start app
+		// Check start of tutorial
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setToInspect( new Person() );
-
-		// Check what created
-
 		assertTrue( "Age:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JTextField );
 		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
-
-		// Check adding a stub
-
-		Stub stub = new Stub();
-		stub.setName( "age" );
-		metawidget.add( stub );
-
-		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
-		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 3 ) instanceof JCheckBox );
+		assertTrue( metawidget.getComponent( 6 ) instanceof JPanel );
+		assertTrue( 7 == metawidget.getComponentCount() );
 
 		// Check end of tutorial
-		// TODO: this test must sync up
 
+		Stub stub = new Stub();
+		stub.setName( "retired" );
+		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
+		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
-		metawidget.remove( stub );
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( "Age:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertTrue( 2 == ((GridBagLayout) metawidget.getLayout()).getConstraints( (metawidget.getComponent( 2 )) ).gridx );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
-		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
-		assertTrue( "Hobbies:".equals( ( (JLabel) metawidget.getComponent( 6 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 7 ) instanceof JTextField );
+		assertTrue( "Gender:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
+		assertTrue( 0 == ((GridBagLayout) metawidget.getLayout()).getConstraints( (metawidget.getComponent( 4 )) ).gridx );
+		assertTrue( metawidget.getComponent( 5 ) instanceof JComboBox );
+		assertTrue( 3 == ((JComboBox) metawidget.getComponent( 5 )).getModel().getSize() );
+		assertTrue( "Notes:".equals( ( (JLabel) metawidget.getComponent( 6 ) ).getText() ) );
+		assertTrue( 0 == ((GridBagLayout) metawidget.getLayout()).getConstraints( (metawidget.getComponent( 6 )) ).gridx );
+		assertTrue( metawidget.getComponent( 7 ) instanceof JScrollPane );
 
 		JPanel panel = (JPanel) metawidget.getComponent( 8 );
 		assertTrue( "Work".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
@@ -106,6 +105,10 @@ public class SwingTutorialTest
 
 		assertTrue( "Employer:".equals( ( (JLabel) metawidget.getComponent( 9 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 10 ) instanceof JTextField );
+		assertTrue( "Department:".equals( ( (JLabel) metawidget.getComponent( 11 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 12 ) instanceof JTextField );
+
+		assertTrue( 13 == metawidget.getComponentCount() );
 	}
 
 	//
@@ -123,10 +126,22 @@ public class SwingTutorialTest
 		public boolean	retired;
 
 		@UiComesAfter( "retired" )
-		public String	hobbies;
+		public Gender	gender;
 
+		public enum Gender
+		{
+			Male, Female
+		}
+
+		@UiComesAfter( "gender" )
+		@UiLarge
+		public String	notes;
+
+		@UiComesAfter( "notes" )
 		@UiSection( "Work" )
-		@UiComesAfter( "hobbies" )
 		public String	employer;
+
+		@UiComesAfter( "employer" )
+		public String	department;
 	}
 }
