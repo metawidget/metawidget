@@ -228,14 +228,11 @@ public class ConfigReaderTest
 		CompositeWidgetBuilder<JComponent, SwingMetawidget> compositeWidgetBuilder2 = (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilderField.get( mixin2 );
 
 		assertTrue( compositeWidgetBuilder1 == compositeWidgetBuilder2 );
+		List<WidgetBuilder<JComponent, SwingMetawidget>> widgetBuilders = compositeWidgetBuilder1.getWidgetBuilders();
 
-		Field widgetBuildersField = CompositeWidgetBuilder.class.getDeclaredField( "mWidgetBuilders" );
-		widgetBuildersField.setAccessible( true );
-		@SuppressWarnings( "unchecked" )
-		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuilders = (WidgetBuilder<JComponent, SwingMetawidget>[]) widgetBuildersField.get( compositeWidgetBuilder1 );
-
-		assertTrue( widgetBuilders.length == 1 );
-		assertTrue( widgetBuilders[0] instanceof SwingWidgetBuilder );
+		assertTrue( widgetBuilders.size() == 1 );
+		assertTrue( widgetBuilders.get( 0 ) instanceof SwingWidgetBuilder );
+		assertTrue( widgetBuilders.getClass().getName().contains( "Unmodifiable" ));
 
 		// Test Inspector
 

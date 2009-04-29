@@ -29,12 +29,14 @@ import java.util.Set;
 
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
+import org.metawidget.gwt.client.ui.GwtValueAccessor;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -54,7 +56,74 @@ import com.google.gwt.user.client.ui.Widget;
 
 public class GwtWidgetBuilder
 	extends BaseWidgetBuilder<Widget, GwtMetawidget>
+	implements GwtValueAccessor
 {
+	//
+	// Public methods
+	//
+
+	@SuppressWarnings( "unchecked" )
+	public Object getValue( Widget widget )
+	{
+		// CheckBox (must come before HasText, because CheckBox extends
+		// ButtonBase which implements HasHTML which extends HasText)
+
+		if ( widget instanceof CheckBox )
+			return Boolean.valueOf( ( (CheckBox) widget ).isChecked() );
+
+		// HasText
+
+		if ( widget instanceof HasText )
+			return ( (HasText) widget ).getText();
+
+		// ListBox
+
+		if ( widget instanceof ListBox )
+		{
+			ListBox listBox = (ListBox) widget;
+			return listBox.getValue( listBox.getSelectedIndex() );
+		}
+
+		return null;
+	}
+
+	public boolean setValue( Object value, Widget widget )
+	{
+		// HasText
+
+		if ( widget instanceof HasText )
+		{
+			( (HasText) widget ).setText( StringUtils.quietValueOf( value ) );
+			return true;
+		}
+
+		// CheckBox (must come before HasText, because CheckBox extends
+		// ButtonBase which implements HasHTML which extends HasText)
+
+		if ( widget instanceof CheckBox )
+		{
+			( (CheckBox) widget ).setChecked( (Boolean) value );
+			return true;
+		}
+
+		// ListBox
+
+		if ( widget instanceof ListBox )
+		{
+			GwtUtils.setListBoxSelectedItem( (ListBox) widget, StringUtils.quietValueOf( value ) );
+			return true;
+		}
+
+		// Panel (fail gracefully for MASKED fields)
+
+		if ( widget instanceof SimplePanel )
+			return true;
+
+		// Not for us
+
+		return false;
+	}
+
 	//
 	// Protected methods
 	//

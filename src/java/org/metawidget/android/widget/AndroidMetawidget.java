@@ -19,17 +19,17 @@ package org.metawidget.android.widget;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.lang.reflect.Constructor;
-import java.util.Collection;
-import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.MetawidgetException;
-import org.metawidget.android.AndroidUtils.ResourcelessArrayAdapter;
 import org.metawidget.android.widget.layout.Layout;
 import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.inspector.ConfigReader;
+import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
+import org.metawidget.inspector.composite.CompositeInspector;
+import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
@@ -39,6 +39,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.w3c.dom.Element;
 
@@ -47,13 +48,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 /**
  * Metawidget for Android environments.
@@ -76,39 +71,43 @@ public class AndroidMetawidget
 	// Private statics
 	//
 
-	private static ConfigReader		CONFIG_READER;
+	private static Inspector								DEFAULT_INSPECTOR;
 
-	private final static String		PARAM_PREFIX		= "param";
+	private static WidgetBuilder<View, AndroidMetawidget>	DEFAULT_WIDGETBUILDER;
+
+	private static ConfigReader								CONFIG_READER;
+
+	private final static String								PARAM_PREFIX	= "param";
 
 	//
 	// Private members
 	//
 
-	private Object					mToInspect;
+	private Object											mToInspect;
 
-	private String					mPath;
+	private String											mPath;
 
-	private int						mConfig;
+	private int												mConfig;
 
-	private boolean					mNeedsConfiguring;
+	private boolean											mNeedsConfiguring;
 
-	private Class<? extends Layout>	mLayoutClass		= TableLayout.class;
+	private Class<? extends Layout>							mLayoutClass	= TableLayout.class;
 
-	private Layout					mLayout;
+	private Layout											mLayout;
 
-	private Map<String, Object>		mParameters;
+	private Map<String, Object>								mParameters;
 
-	private boolean					mNeedToBuildWidgets;
+	private boolean											mNeedToBuildWidgets;
 
-	String							mLastInspection;
+	String													mLastInspection;
 
-	private Set<View>				mExistingViews;
+	private Set<View>										mExistingViews;
 
-	private Set<View>				mExistingViewsUnused;
+	private Set<View>										mExistingViewsUnused;
 
-	private Map<String, Facet>		mFacets;
+	private Map<String, Facet>								mFacets;
 
-	private AndroidMetawidgetMixin	mMetawidgetMixin;
+	private AndroidMetawidgetMixin							mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -412,7 +411,7 @@ public class AndroidMetawidget
 	 *         cast by the caller (eg. <code>String s = getValue(names)</code>)
 	 */
 
-	@SuppressWarnings( { "deprecation", "unchecked" } )
+	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( String... names )
 	{
 		if ( names == null )
@@ -423,37 +422,7 @@ public class AndroidMetawidget
 		if ( view == null )
 			throw MetawidgetException.newException( "No view with tag " + ArrayUtils.toString( names ) );
 
-		// CheckBox
-
-		if ( view instanceof CheckBox )
-			return (T) Boolean.valueOf( ( (CheckBox) view ).isChecked() );
-
-		// EditText
-
-		if ( view instanceof EditText )
-			return (T) ( (EditText) view ).getText().toString();
-
-		// TextView
-
-		if ( view instanceof TextView )
-			return (T) ( (TextView) view ).getText();
-
-		// DatePicker
-
-		if ( view instanceof DatePicker )
-		{
-			DatePicker datePicker = (DatePicker) view;
-			return (T) new Date( datePicker.getYear() - 1900, datePicker.getMonth(), datePicker.getDayOfMonth() );
-		}
-
-		// AdapterView
-
-		if ( view instanceof AdapterView )
-			return (T) ( (AdapterView<?>) view ).getSelectedItem();
-
-		// Unknown (subclasses should override this)
-
-		throw MetawidgetException.newException( "Don't know how to getValue from a " + view.getClass().getName() );
+		return (T) getValue( view, mMetawidgetMixin.getWidgetBuilder() );
 	}
 
 	/**
@@ -464,7 +433,6 @@ public class AndroidMetawidget
 	 * is not ideal.
 	 */
 
-	@SuppressWarnings( "deprecation" )
 	public void setValue( Object value, String... names )
 	{
 		if ( names == null )
@@ -475,60 +443,8 @@ public class AndroidMetawidget
 		if ( view == null )
 			throw MetawidgetException.newException( "No view with tag " + ArrayUtils.toString( names ) );
 
-		// CheckBox
-
-		if ( view instanceof CheckBox )
-		{
-			( (CheckBox) view ).setChecked( (Boolean) value );
-			return;
-		}
-
-		// EditView/TextView
-
-		if ( view instanceof TextView )
-		{
-			( (TextView) view ).setText( StringUtils.quietValueOf( value ) );
-			return;
-		}
-
-		// DatePicker
-
-		if ( view instanceof DatePicker )
-		{
-			Date date = (Date) value;
-			( (DatePicker) view ).updateDate( 1900 + date.getYear(), date.getMonth(), date.getDate() );
-			return;
-		}
-
-		// AdapterView
-
-		if ( view instanceof AdapterView )
-		{
-			@SuppressWarnings( "unchecked" )
-			AdapterView<ArrayAdapter<Object>> adapterView = (AdapterView<ArrayAdapter<Object>>) view;
-
-			// Set the backing collection
-
-			if ( value instanceof Collection )
-			{
-				@SuppressWarnings( "unchecked" )
-				Collection<Object> collection = (Collection<Object>) value;
-				adapterView.setAdapter( new ResourcelessArrayAdapter<Object>( getContext(), collection ) );
-			}
-
-			// Set the selected value
-
-			else
-			{
-				adapterView.setSelection( adapterView.getAdapter().getPosition( value ) );
-			}
-
-			return;
-		}
-
-		// Unknown (subclasses should override this)
-
-		throw MetawidgetException.newException( "Don't know how to setValue of a " + view.getClass().getName() );
+		if ( !setValue( value, view, mMetawidgetMixin.getWidgetBuilder() ))
+			throw MetawidgetException.newException( "Don't know how to setValue of a " + view.getClass().getName() );
 	}
 
 	public Facet getFacet( String name )
@@ -613,13 +529,22 @@ public class AndroidMetawidget
 			}
 
 			// Sensible defaults
-			// TODO: immutable?
 
 			if ( mMetawidgetMixin.getWidgetBuilder() == null )
-				mMetawidgetMixin.setWidgetBuilder( new AndroidWidgetBuilder() );
+			{
+				if ( DEFAULT_WIDGETBUILDER == null )
+					DEFAULT_WIDGETBUILDER = new AndroidWidgetBuilder();
+
+				mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
+			}
 
 			if ( mMetawidgetMixin.getInspector() == null )
-				mMetawidgetMixin.setInspector( new PropertyTypeInspector() );
+			{
+				if ( DEFAULT_INSPECTOR == null )
+					DEFAULT_INSPECTOR = new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() ) );
+
+				mMetawidgetMixin.setInspector( DEFAULT_INSPECTOR );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -858,6 +783,54 @@ public class AndroidMetawidget
 		// Not found
 
 		return null;
+	}
+
+	private Object getValue( View widget, WidgetBuilder<View, AndroidMetawidget> widgetBuilder )
+	{
+		// Recurse into CompositeWidgetBuilders
+
+		if ( widgetBuilder instanceof CompositeWidgetBuilder )
+		{
+			for ( WidgetBuilder<View, AndroidMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<View, AndroidMetawidget>) widgetBuilder ).getWidgetBuilders() )
+			{
+				Object value = getValue( widget, widgetBuilderChild );
+
+				if ( value != null )
+					return value;
+			}
+
+			return null;
+		}
+
+		// Interrogate AndroidValueAccessors
+
+		if ( widgetBuilder instanceof AndroidValueAccessor )
+			return ( (AndroidValueAccessor) widgetBuilder ).getValue( widget );
+
+		return null;
+	}
+
+	private boolean setValue( Object value, View widget, WidgetBuilder<View, AndroidMetawidget> widgetBuilder )
+	{
+		// Recurse into CompositeWidgetBuilders
+
+		if ( widgetBuilder instanceof CompositeWidgetBuilder )
+		{
+			for ( WidgetBuilder<View, AndroidMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<View, AndroidMetawidget>) widgetBuilder ).getWidgetBuilders() )
+			{
+				if ( setValue( value, widget, widgetBuilderChild ) )
+					return true;
+			}
+
+			return false;
+		}
+
+		// Interrogate AndroidValueAccessors
+
+		if ( widgetBuilder instanceof AndroidValueAccessor )
+			return ( (AndroidValueAccessor) widgetBuilder ).setValue( value, widget );
+
+		return false;
 	}
 
 	//

@@ -25,9 +25,11 @@ import java.util.Map;
 
 import org.metawidget.android.AndroidUtils.ResourcelessArrayAdapter;
 import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.android.widget.AndroidValueAccessor;
 import org.metawidget.android.widget.Stub;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 import android.text.InputFilter;
@@ -35,6 +37,8 @@ import android.text.method.DateKeyListener;
 import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -52,13 +56,111 @@ import android.widget.TextView;
 
 public class AndroidWidgetBuilder
 	extends BaseWidgetBuilder<View, AndroidMetawidget>
+	implements AndroidValueAccessor
 {
 	//
 	// Public methods
 	//
 
+	@SuppressWarnings( "deprecation" )
+	public Object getValue( View view )
+	{
+		// CheckBox
+
+		if ( view instanceof CheckBox )
+			return Boolean.valueOf( ( (CheckBox) view ).isChecked() );
+
+		// EditText
+
+		if ( view instanceof EditText )
+			return ( (EditText) view ).getText().toString();
+
+		// TextView
+
+		if ( view instanceof TextView )
+			return ( (TextView) view ).getText();
+
+		// DatePicker
+
+		if ( view instanceof DatePicker )
+		{
+			DatePicker datePicker = (DatePicker) view;
+			return new Date( datePicker.getYear() - 1900, datePicker.getMonth(), datePicker.getDayOfMonth() );
+		}
+
+		// AdapterView
+
+		if ( view instanceof AdapterView )
+			return ( (AdapterView<?>) view ).getSelectedItem();
+
+		return null;
+	}
+
+	@SuppressWarnings( "deprecation" )
+	public boolean setValue( Object value, View view )
+	{
+		// CheckBox
+
+		if ( view instanceof CheckBox )
+		{
+			( (CheckBox) view ).setChecked( (Boolean) value );
+			return true;
+		}
+
+		// EditView/TextView
+
+		if ( view instanceof TextView )
+		{
+			( (TextView) view ).setText( StringUtils.quietValueOf( value ) );
+			return true;
+		}
+
+		// DatePicker
+
+		if ( view instanceof DatePicker )
+		{
+			Date date = (Date) value;
+			( (DatePicker) view ).updateDate( 1900 + date.getYear(), date.getMonth(), date.getDate() );
+			return true;
+		}
+
+		// AdapterView
+
+		if ( view instanceof AdapterView )
+		{
+			@SuppressWarnings( "unchecked" )
+			AdapterView<ArrayAdapter<Object>> adapterView = (AdapterView<ArrayAdapter<Object>>) view;
+
+			// Set the backing collection
+
+			if ( value instanceof Collection )
+			{
+				@SuppressWarnings( "unchecked" )
+				Collection<Object> collection = (Collection<Object>) value;
+				adapterView.setAdapter( new ResourcelessArrayAdapter<Object>( view.getContext(), collection ) );
+			}
+
+			// Set the selected value
+
+			else
+			{
+				adapterView.setSelection( adapterView.getAdapter().getPosition( value ) );
+			}
+
+			return true;
+		}
+
+		// Unknown
+
+		return false;
+	}
+
+	//
+	// Protected methods
+	//
+
 	@Override
-	public View buildReadOnlyWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
+	protected View buildReadOnlyWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
 		throws Exception
 	{
 		// Hidden

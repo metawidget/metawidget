@@ -33,14 +33,8 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import javax.swing.BoxLayout;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JSlider;
-import javax.swing.JSpinner;
-import javax.swing.text.JTextComponent;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
@@ -58,6 +52,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
@@ -736,32 +731,11 @@ public class SwingMetawidget
 	 * <p>
 	 * If the component is not known, returns <code>null</code>. Does not throw an Exception, as
 	 * we want to fail gracefully if, say, someone tries to bind to a JPanel.
-	 * <p>
-	 * Subclasses who introduce new component types (eg. JXDatePicker) should override this method
-	 * to return the value property for the new component (eg. getDate/setDate).
 	 */
 
 	public String getValueProperty( Component component )
 	{
-		if ( component instanceof JComboBox )
-			return "selectedItem";
-
-		if ( component instanceof JLabel )
-			return "text";
-
-		if ( component instanceof JTextComponent )
-			return "text";
-
-		if ( component instanceof JSpinner )
-			return "value";
-
-		if ( component instanceof JSlider )
-			return "value";
-
-		if ( component instanceof JCheckBox )
-			return "selected";
-
-		return null;
+		return getValueProperty( component, mMetawidgetMixin.getWidgetBuilder() );
 	}
 
 	/**
@@ -998,7 +972,7 @@ public class SwingMetawidget
 		super.addImpl( component, constraints, index );
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
@@ -1254,6 +1228,35 @@ public class SwingMetawidget
 			nestedMetawidget.setParameters( CollectionUtils.newHashMap( mParameters ) );
 
 		nestedMetawidget.setToInspect( mToInspect );
+	}
+
+	//
+	// Private methods
+	//
+
+	private String getValueProperty( Component component, WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder )
+	{
+		// Recurse into CompositeWidgetBuilders
+
+		if ( widgetBuilder instanceof CompositeWidgetBuilder )
+		{
+			for ( WidgetBuilder<JComponent, SwingMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilder ).getWidgetBuilders() )
+			{
+				String valueProperty = getValueProperty( component, widgetBuilderChild );
+
+				if ( valueProperty != null )
+					return valueProperty;
+			}
+
+			return null;
+		}
+
+		// Interrogate ValuePropertyProviders
+
+		if ( widgetBuilder instanceof SwingValuePropertyProvider )
+			return ((SwingValuePropertyProvider) widgetBuilder).getValueProperty( component );
+
+		return null;
 	}
 
 	//

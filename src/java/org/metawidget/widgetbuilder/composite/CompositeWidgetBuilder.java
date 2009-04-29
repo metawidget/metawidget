@@ -16,32 +16,35 @@
 
 package org.metawidget.widgetbuilder.composite;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * @author Richard Kennard
  */
 
-public class CompositeWidgetBuilder<W,M>
-	implements WidgetBuilder<W,M>
+public class CompositeWidgetBuilder<W, M>
+	implements WidgetBuilder<W, M>
 {
 	//
 	// Private members
 	//
 
-	private WidgetBuilder<W,M>[]	mWidgetBuilders;
+	private List<WidgetBuilder<W, M>>	mWidgetBuilders;
 
 	//
 	// Constructor
 	//
 
-	@SuppressWarnings("unchecked")
-	public CompositeWidgetBuilder( CompositeWidgetBuilderConfig<W,M> config )
+	@SuppressWarnings( "unchecked" )
+	public CompositeWidgetBuilder( CompositeWidgetBuilderConfig<W, M> config )
 	{
-		WidgetBuilder<W,M>[] widgetBuilders = config.getWidgetBuilders();
+		WidgetBuilder<W, M>[] widgetBuilders = config.getWidgetBuilders();
 
 		// Must have at least one WidgetBuilder. At least two, really, but one can be useful
 		// if we want to validate what the sub-WidgetBuilder is returning
@@ -51,8 +54,7 @@ public class CompositeWidgetBuilder<W,M>
 
 		// Defensive copy
 
-		mWidgetBuilders = new WidgetBuilder[widgetBuilders.length];
-		System.arraycopy( widgetBuilders, 0, mWidgetBuilders, 0, widgetBuilders.length );
+		mWidgetBuilders = Collections.unmodifiableList( CollectionUtils.newArrayList( widgetBuilders ));
 	}
 
 	//
@@ -63,7 +65,7 @@ public class CompositeWidgetBuilder<W,M>
 	public W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
 		throws Exception
 	{
-		for( WidgetBuilder<W,M> widgetBuilder: mWidgetBuilders )
+		for ( WidgetBuilder<W, M> widgetBuilder : mWidgetBuilders )
 		{
 			W widget = widgetBuilder.buildWidget( elementName, attributes, metawidget );
 
@@ -72,5 +74,12 @@ public class CompositeWidgetBuilder<W,M>
 		}
 
 		return null;
+	}
+
+	public List<WidgetBuilder<W, M>> getWidgetBuilders()
+	{
+		// List is unmodifiable
+
+		return mWidgetBuilders;
 	}
 }

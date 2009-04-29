@@ -41,10 +41,12 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
+import javax.swing.text.JTextComponent;
 
 import org.metawidget.MetawidgetException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.SwingValuePropertyProvider;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
@@ -60,7 +62,35 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 public class SwingWidgetBuilder
 	extends BaseWidgetBuilder<JComponent, SwingMetawidget>
+	implements SwingValuePropertyProvider
 {
+	//
+	// Public methods
+	//
+
+	public String getValueProperty( Component component )
+	{
+		if ( component instanceof JComboBox )
+			return "selectedItem";
+
+		if ( component instanceof JLabel )
+			return "text";
+
+		if ( component instanceof JTextComponent )
+			return "text";
+
+		if ( component instanceof JSpinner )
+			return "value";
+
+		if ( component instanceof JSlider )
+			return "value";
+
+		if ( component instanceof JCheckBox )
+			return "selected";
+
+		return null;
+	}
+
 	//
 	// Protected methods
 	//

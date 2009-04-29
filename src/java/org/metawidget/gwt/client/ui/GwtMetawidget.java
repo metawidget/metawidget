@@ -40,17 +40,15 @@ import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasName;
-import com.google.gwt.user.client.ui.HasText;
-import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -530,28 +528,7 @@ public class GwtMetawidget
 	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( Widget widget )
 	{
-		// CheckBox (must come before HasText, because CheckBox extends
-		// ButtonBase which implements HasHTML which extends HasText)
-
-		if ( widget instanceof CheckBox )
-			return (T) Boolean.valueOf( ( (CheckBox) widget ).isChecked() );
-
-		// HasText
-
-		if ( widget instanceof HasText )
-			return (T) ( (HasText) widget ).getText();
-
-		// ListBox
-
-		if ( widget instanceof ListBox )
-		{
-			ListBox listBox = (ListBox) widget;
-			return (T) listBox.getValue( listBox.getSelectedIndex() );
-		}
-
-		// Unknown (subclasses should override this)
-
-		throw new RuntimeException( "Don't know how to getValue from a " + widget.getClass().getName() );
+		return (T) getValue( widget, mMetawidgetMixin.getWidgetBuilder() );
 	}
 
 	/**
@@ -578,39 +555,8 @@ public class GwtMetawidget
 
 	public void setValue( Object value, Widget widget )
 	{
-		// HasText
-
-		if ( widget instanceof HasText )
-		{
-			( (HasText) widget ).setText( StringUtils.quietValueOf( value ) );
-			return;
-		}
-
-		// CheckBox (must come before HasText, because CheckBox extends
-		// ButtonBase which implements HasHTML which extends HasText)
-
-		if ( widget instanceof CheckBox )
-		{
-			( (CheckBox) widget ).setChecked( (Boolean) value );
-			return;
-		}
-
-		// ListBox
-
-		if ( widget instanceof ListBox )
-		{
-			GwtUtils.setListBoxSelectedItem( (ListBox) widget, StringUtils.quietValueOf( value ) );
-			return;
-		}
-
-		// Panel (fail gracefully for MASKED fields)
-
-		if ( widget instanceof SimplePanel )
-			return;
-
-		// Unknown (subclasses should override this)
-
-		throw new RuntimeException( "Don't know how to setValue of a " + widget.getClass().getName() );
+		if ( !setValue( value, widget, mMetawidgetMixin.getWidgetBuilder() ))
+			throw new RuntimeException( "Don't know how to setValue of a " + widget.getClass().getName() );
 	}
 
 	/**
@@ -1173,6 +1119,58 @@ public class GwtMetawidget
 		}
 
 		mLayout.layoutEnd();
+	}
+
+	//
+	// Private members
+	//
+
+	private Object getValue( Widget widget, WidgetBuilder<Widget, GwtMetawidget> widgetBuilder )
+	{
+		// Recurse into CompositeWidgetBuilders
+
+		if ( widgetBuilder instanceof CompositeWidgetBuilder )
+		{
+			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
+			{
+				Object value = getValue( widget, widgetBuilderChild );
+
+				if ( value != null )
+					return value;
+			}
+
+			return null;
+		}
+
+		// Interrogate GwtValueAccessors
+
+		if ( widgetBuilder instanceof GwtValueAccessor )
+			return ((GwtValueAccessor) widgetBuilder).getValue( widget );
+
+		return null;
+	}
+
+	private boolean setValue( Object value, Widget widget, WidgetBuilder<Widget, GwtMetawidget> widgetBuilder )
+	{
+		// Recurse into CompositeWidgetBuilders
+
+		if ( widgetBuilder instanceof CompositeWidgetBuilder )
+		{
+			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
+			{
+				if ( setValue( value, widget, widgetBuilderChild ))
+					return true;
+			}
+
+			return false;
+		}
+
+		// Interrogate GwtValueAccessors
+
+		if ( widgetBuilder instanceof GwtValueAccessor )
+			return ((GwtValueAccessor) widgetBuilder).setValue( value, widget );
+
+		return false;
 	}
 
 	//
