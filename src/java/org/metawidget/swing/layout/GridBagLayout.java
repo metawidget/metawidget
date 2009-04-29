@@ -74,6 +74,8 @@ public class GridBagLayout
 	// Private statics
 	//
 
+	private final static Insets	INSETS_COMPONENT		= new Insets( 0, 0, 3, 0 );
+
 	private final static Insets	INSETS_SECTION_LABEL	= new Insets( 0, 0, 0, 5 );
 
 	private final static Border	BORDER_SECTION			= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
@@ -100,7 +102,9 @@ public class GridBagLayout
 
 	private JPanel				mPanelCurrent;
 
-	private Insets				mDefaultLabelInsets;
+	private Insets				mDefaultLabelInsetsFirstColumn;
+
+	private Insets				mDefaultLabelInsetsRemainderColumns;
 
 	/**
 	 * Whether a spacer row is required on the last row of the layout.
@@ -186,8 +190,9 @@ public class GridBagLayout
 		dummyLabel.setLayout( layoutManager );
 		double dummyLabelHeight = dummyLabel.getPreferredSize().getHeight();
 
-		int defaultLabelVerticalPadding = (int) Math.max( 0, ( dummyTextFieldHeight - dummyLabelHeight ) / 2 );
-		mDefaultLabelInsets = new Insets( defaultLabelVerticalPadding, 0, defaultLabelVerticalPadding, 0 );
+		int defaultLabelVerticalPadding = (int) Math.max( 0, Math.floor(( dummyTextFieldHeight - dummyLabelHeight ) / 2 ));
+		mDefaultLabelInsetsFirstColumn = new Insets( defaultLabelVerticalPadding, 0, defaultLabelVerticalPadding, 0 );
+		mDefaultLabelInsetsRemainderColumns = new Insets( defaultLabelVerticalPadding, 3, defaultLabelVerticalPadding, 0 );
 	}
 
 	public void layoutChild( Component component, Map<String, String> attributes )
@@ -237,6 +242,7 @@ public class GridBagLayout
 
 		componentConstraints.gridy = mCurrentRow;
 		componentConstraints.weightx = 1.0f / mNumberOfColumns;
+		componentConstraints.insets = INSETS_COMPONENT;
 
 		if ( largeComponent )
 		{
@@ -372,7 +378,14 @@ public class GridBagLayout
 			// components all line up
 
 			labelConstraints.anchor = GridBagConstraints.NORTHWEST;
-			labelConstraints.insets = mDefaultLabelInsets;
+
+			// Apply some vertical padding, and some left padding on everything but the
+			// first column, so the label lines up with the component nicely
+
+			if ( mCurrentColumn == 0 )
+				labelConstraints.insets = mDefaultLabelInsetsFirstColumn;
+			else
+				labelConstraints.insets = mDefaultLabelInsetsRemainderColumns;
 
 			// Add to either current panel or direct to the Metawidget
 

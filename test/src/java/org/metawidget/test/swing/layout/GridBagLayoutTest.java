@@ -99,10 +99,17 @@ public class GridBagLayoutTest
 		metawidget.setParameter( "numberOfColumns", 2 );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		Insets insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
+		assertTrue( insets.left == 0 );
+		assertTrue( insets.right == 0 );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridx );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridy );
 		assertTrue( "Def*:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 2 ) ) ).insets;
+		assertTrue( insets.left == 3 );
+		assertTrue( insets.right == 0 );
+
 		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 3 ) ).gridx );
 		assertTrue( "Ghi:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
@@ -191,7 +198,7 @@ public class GridBagLayoutTest
 		// (insets.top == 6 for Nimbus, 2 for Metal - depends on what
 		// UIManger.setLookAndFeel has been called by other tests)
 
-		Insets insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
+		insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
 		assertTrue( insets.top == ( "Nimbus".equals( UIManager.getLookAndFeel().getName() ) ? 6 : 2 ) );
 		assertTrue( insets.left == 0 );
 		assertTrue( insets.bottom == insets.top );
@@ -202,7 +209,7 @@ public class GridBagLayoutTest
 		insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ) ).insets;
 		assertTrue( insets.top == 0 );
 		assertTrue( insets.left == 0 );
-		assertTrue( insets.bottom == 0 );
+		assertTrue( insets.bottom == 3 );
 		assertTrue( insets.right == 0 );
 
 		assertTrue( "Def*:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );

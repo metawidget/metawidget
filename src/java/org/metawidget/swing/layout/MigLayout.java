@@ -156,7 +156,7 @@ public class MigLayout
 		dummyLabel.setLayout( layoutManager );
 		double dummyLabelHeight = dummyLabel.getPreferredSize().getHeight();
 
-		mDefaultLabelVerticalPadding = (int) Math.max( 0, ( dummyTextFieldHeight - dummyLabelHeight ) / 2 );
+		mDefaultLabelVerticalPadding = (int) Math.max( 0, Math.floor(( dummyTextFieldHeight - dummyLabelHeight ) / 2 ));
 	}
 
 	public void layoutChild( Component component, Map<String, String> attributes )
@@ -297,6 +297,9 @@ public class MigLayout
 			// components all line up
 
 			labelConstraints.alignY( "top" );
+
+			// Apply some vertical padding so the label lines up with the component nicely
+
 			labelConstraints.pad( mDefaultLabelVerticalPadding, 0, mDefaultLabelVerticalPadding, 0 );
 
 			// Add to either current panel or direct to the Metawidget

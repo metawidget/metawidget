@@ -4,7 +4,7 @@
 
 	<bookinfo>
 		<productname>Metawidget</productname>
-		<releaseinfo>V 0.7</releaseinfo>
+		<releaseinfo>V 0.75</releaseinfo>
 
 		<mediaobject>
 			<imageobject>
@@ -182,7 +182,7 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 220 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 }</programlisting>
@@ -205,7 +205,7 @@ public class Main {
 					Run the code. You should see the screen in <xref linkend="section-introduction-part1-output-screenshot"/>.
 				</para>
 				
-				<figure id="section-introduction-part1-output-screenshot">
+				<figure id="section-introduction-part1-screenshot1">
 					<title>SwingMetawidget rendering of Person class</title>			
 					<screenshot>
 						<graphic fileref="../shared/images/swing-tutorial1.jpg" width="100mm"/>
@@ -254,13 +254,13 @@ public class Main {
 				<para>
 					At the moment the order of fields in our UI is alphabetical - it does not match
 					the order they are defined in the <classname>Person</classname> class. This is
-					because the ordering information is not retained within Java class files
+					because field ordering information is not retained within Java class files
 					(as per the Java Language Specification).
 				</para>
 				
 				<para>
-					We need a place Metawidget can inspect to determine the order. There are several ways to
-					define such a place, but the simplest for now is to use the built-in Metawidget annotation
+					We need to define a place Metawidget can inspect to determine the order. There are several ways to
+					do this, but the simplest for now is to use the built-in Metawidget annotation
 					<classname>@UiComesAfter</classname>.
 				</para>
 				
@@ -298,8 +298,8 @@ public class Person {
 					Run the code again. This time the fields should appear in the correct order:
 				</para>
 				
-				<figure id="section-introduction-part1-ordered-screenshot">
-					<title>SwingMetawidget rendering with correct order</title>			
+				<figure id="section-introduction-part1-ordered-screenshot2">
+					<title>Fields in correct order</title>			
 					<screenshot>
 						<graphic fileref="../shared/images/swing-tutorial2.jpg" width="100mm"/>
 					</screenshot>
@@ -329,7 +329,8 @@ public class Person {
 	@UiComesAfter( "age" )
 	public boolean retired;
 	
-	<emphasis role="bold">public Gender gender;
+	<emphasis role="bold">@UiComesAfter( "retired" )
+	public Gender gender;
 	
 	public enum Gender { Male, Female }</emphasis>
 }</programlisting>
@@ -338,6 +339,13 @@ public class Person {
 					Run the code again:  
 				</para>
 				
+				<figure id="section-introduction-part1-screenshot3">
+					<title>New Gender field, but missing a component</title>			
+					<screenshot>
+						<graphic fileref="../shared/images/swing-tutorial3.jpg" width="100mm"/>
+					</screenshot>
+				</figure>
+
 				<para>
 					Metawidget finds the new <function>gender</function> property, and renders a <classname>JLabel</classname>
 					for it on the left, but doesn't know what <classname>JComponent</classname> to put on the right. This
@@ -367,22 +375,23 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 220 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 }</programlisting>
 	
 				<para>
-					Run the code again. It does not yield the correct result - the enum appears correctly as a dropdown
-					but all the other fields have disappeared! What happened?
+					Run the code again. It does not yield the correct result - the <function>gender</function>
+					enum appears correctly as a <classname>JComboBox</classname> but all the other fields have
+					disappeared! What happened?
 				</para>
 				
-				<figure id="section-introduction-part1-incorrect-screenshot">
-					<title>SwingMetawidget incorrect rendering</title>			
+				<figure id="section-introduction-part1-screenshot4">
+					<title>Correct Gender field, but missing other fields</title>			
 					<screenshot>
-						<graphic fileref="../shared/images/swing-tutorial2.jpg" width="100mm" />
+						<graphic fileref="../shared/images/swing-tutorial4.jpg" width="100mm"/>
 					</screenshot>
-				</figure>				
+				</figure>
 
 				<para>
 					Metawidget Inspectors are very targeted in what they inspect. <classname>Java5Inspector</classname>
@@ -427,15 +436,23 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 220 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 }</programlisting>
 
 				<para>
-					Run the code again. This time both the original fields and the new enum dropdown appear:
+					Run the code again. This time both the original fields and the new <function>gender</function>
+					<classname>JComboBox</classname> appear:
 				</para>
 				
+				<figure id="section-introduction-part1-screenshot5">
+					<title>Using multiple inspectors</title>			
+					<screenshot>
+						<graphic fileref="../shared/images/swing-tutorial5.jpg" width="100mm"/>
+					</screenshot>
+				</figure>
+
 				<para>
 					This idea of combining multiple Inspectors to inspect different characteristics of your
 					existing application is very powerful. Metawidget comes with many pre-written Inspectors
@@ -465,7 +482,7 @@ public class Person {
 	@UiComesAfter( "age" )
 	public boolean retired;
 
-	<emphasis role="bold">@UiComesAfter( "retired" )</emphasis>
+	@UiComesAfter( "retired" )
 	public Gender gender;
 	
 	public enum Gender { Male, Female }
@@ -483,15 +500,15 @@ public class Person {
 }</programlisting>
 
 				<para>
-					This code produces the screen in <xref linkend="section-introduction-part1-more-screenshot"/>.
+					This code produces the screen in <xref linkend="section-introduction-part1-screenshot6"/>.
 				</para>
 				
-				<figure id="section-introduction-part1-more-screenshot">
+				<figure id="section-introduction-part1-screenshot6">
 					<title>Additional fields and a section heading</title>			
 					<screenshot>
-						<graphic fileref="../shared/images/swing-tutorial3.jpg" width="100mm" />
+						<graphic fileref="../shared/images/swing-tutorial6.jpg" width="100mm"/>
 					</screenshot>
-				</figure>				
+				</figure>
 				
 			</section>
 
@@ -528,23 +545,22 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 220 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 }</programlisting>
 
 				<para>
 					Run the code. The <classname>JComponents</classname> are now arranged across two columns as in
-					<xref linkend="section-introduction-part1-columns-screenshot"/>. <classname>GridBagLayout</classname> is smart enough
-					to give large <classname>JComponents</classname> like <parameter>Notes</parameter> the full width of the <classname>JFrame</classname>.
+					<xref linkend="section-introduction-part1-columns-screenshot"/>.
 				</para>
 				
-				<figure id="section-introduction-part1-columns-screenshot">
+				<figure id="section-introduction-part1-screenshot7">
 					<title>A two-column layout</title>			
 					<screenshot>
-						<graphic fileref="../shared/images/swing-tutorial4.jpg" width="100mm" />
+						<graphic fileref="../shared/images/swing-tutorial7.jpg" width="100mm"/>
 					</screenshot>
-				</figure>				
+				</figure>
 				
 				<para>
 					Again, if you've ever used <classname>java.awt.GridBagLayout</classname> by hand, you'll appreciate how much easier Metawidget makes
@@ -594,7 +610,7 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 220 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 }</programlisting>
@@ -604,10 +620,10 @@ public class Main {
 					because it has the same name (eg. 'retired') as Metawidget would have given the <classname>JCheckbox</classname>.
 				</para>
 				
-				<figure id="section-introduction-part1-override-screenshot">
+				<figure id="section-introduction-part1-screenshot8">
 					<title>The 'retired' field has been overridden</title>
 					<screenshot>
-						<graphic fileref="../shared/images/swing-tutorial5.jpg" width="100mm" />
+						<graphic fileref="../shared/images/swing-tutorial8.jpg" width="100mm"/>
 					</screenshot>
 				</figure>				
 
@@ -643,7 +659,7 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 220 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 }</programlisting>
@@ -652,10 +668,10 @@ public class Main {
 					Run the code. The <parameter>retired</parameter> field and its label will not appear.
 				</para>
 				
-				<figure id="section-introduction-part1-suppress-screenshot">
+				<figure id="section-introduction-part1-screenshot9">
 					<title>The 'retired' field has been suppressed</title>
 					<screenshot>
-						<graphic fileref="../shared/images/swing-tutorial6.jpg" width="100mm" />
+						<graphic fileref="../shared/images/swing-tutorial9.jpg" width="100mm"/>
 					</screenshot>
 				</figure>				
 
@@ -693,6 +709,12 @@ public class Person {
 	public String department;
 }</programlisting>
 
+				<para>
+					In both cases, <classname>org.metawidget.swing.layout.GridBagLayout</classname> is smart enough to
+					always give large <classname>JComponents</classname> like <parameter>notes</parameter> the full width
+					of the <classname>JFrame</classname>.					
+				</para>
+				
 			</section>
 			
 			<section id="section-introduction-part1-inspector-config">
@@ -758,7 +780,7 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 220 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 }</programlisting>

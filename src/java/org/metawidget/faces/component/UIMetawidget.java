@@ -79,7 +79,6 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-// TODO: pass attributes to MetawidgetTag
 @SuppressWarnings( "deprecation" )
 public abstract class UIMetawidget
 	extends UIComponentBase
