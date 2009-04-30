@@ -49,14 +49,14 @@ import org.w3c.dom.NodeList;
 
 @SuppressWarnings( "deprecation" )
 public class DisplayTagWidgetBuilder
-	implements WidgetBuilder<String, MetawidgetTag>
+	implements WidgetBuilder<Object, MetawidgetTag>
 {
 	//
 	// Public methods
 	//
 
 	@Override
-	public String buildWidget( String elementName, final Map<String, String> attributes, final MetawidgetTag metawidgetTag )
+	public Object buildWidget( String elementName, final Map<String, String> attributes, final MetawidgetTag metawidgetTag )
 		throws Exception
 	{
 		// Not for us?

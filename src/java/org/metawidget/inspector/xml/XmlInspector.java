@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
  * XmlInspector is a very simple Inspector: it takes as its input XML in the same format that
  * Inspectors usually output.
  * <p>
- * Note: this class does not extend <code>ValidatingXmlInspector</code> as we want to be able
- * to use it in Android environments.
+ * Note: this class does not extend <code>ValidatingXmlInspector</code> as we want to be able to
+ * use it in Android environments.
  *
  * @author Richard Kennard
  */
@@ -43,6 +43,14 @@ public class XmlInspector
 	//
 	// Constructors
 	//
+
+	/**
+	 * Constructs an XmlInspector.
+	 * <p>
+	 * Note XmlInspector requires a config. It does not have a default constructor, because the
+	 * XmlInspectorConfig must be externally configured using <code>setResourceResolver</code> to
+	 * support resolving resources from non-standard locations (such as <code>WEB-INF</code).
+	 */
 
 	public XmlInspector( XmlInspectorConfig config )
 	{
@@ -62,7 +70,7 @@ public class XmlInspector
 	@Override
 	protected Map<String, String> inspectProperty( Element toInspect )
 	{
-		if ( PROPERTY.equals( toInspect.getNodeName() ))
+		if ( PROPERTY.equals( toInspect.getNodeName() ) )
 			return XmlUtils.getAttributesAsMap( toInspect );
 
 		return null;
@@ -71,7 +79,7 @@ public class XmlInspector
 	@Override
 	protected Map<String, String> inspectAction( Element toInspect )
 	{
-		if ( ACTION.equals( toInspect.getNodeName() ))
+		if ( ACTION.equals( toInspect.getNodeName() ) )
 			return XmlUtils.getAttributesAsMap( toInspect );
 
 		return null;

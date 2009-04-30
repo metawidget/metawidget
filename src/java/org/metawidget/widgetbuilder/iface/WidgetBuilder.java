@@ -27,7 +27,7 @@ import java.util.Map;
  * @author Richard Kennard
  */
 
-public interface WidgetBuilder<W, M>
+public interface WidgetBuilder<W, M extends W>
 {
 	//
 	// Methods

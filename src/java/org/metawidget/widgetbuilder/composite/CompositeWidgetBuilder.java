@@ -28,7 +28,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * @author Richard Kennard
  */
 
-public class CompositeWidgetBuilder<W, M>
+public class CompositeWidgetBuilder<W, M extends W>
 	implements WidgetBuilder<W, M>
 {
 	//

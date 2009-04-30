@@ -28,7 +28,7 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * @author Richard Kennard
  */
 
-public class CompositeWidgetBuilderConfig<W, M>
+public class CompositeWidgetBuilderConfig<W, M extends W>
 {
 	//
 	// Private members

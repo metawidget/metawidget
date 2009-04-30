@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
-public abstract class BaseWidgetBuilder<W, M>
+public abstract class BaseWidgetBuilder<W, M extends W>
 	implements WidgetBuilder<W, M>
 {
 	//
