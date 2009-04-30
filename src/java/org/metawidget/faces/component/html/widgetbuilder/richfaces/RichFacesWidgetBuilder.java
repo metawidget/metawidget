@@ -32,7 +32,8 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 import org.richfaces.component.UICalendar;
-import org.richfaces.component.html.HtmlInputNumberSlider;
+import org.richfaces.component.UIInputNumberSlider;
+import org.richfaces.component.UIInputNumberSpinner;
 import org.richfaces.component.html.HtmlInputNumberSpinner;
 
 /**
@@ -87,7 +88,7 @@ public class RichFacesWidgetBuilder
 
 				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
 				{
-					HtmlInputNumberSlider slider = (HtmlInputNumberSlider) application.createComponent( "org.richfaces.inputNumberSlider" );
+					UIInputNumberSlider slider = (UIInputNumberSlider) application.createComponent( "org.richfaces.inputNumberSlider" );
 					slider.setMinValue( minimumValue );
 					slider.setMaxValue( maximumValue );
 
@@ -96,8 +97,7 @@ public class RichFacesWidgetBuilder
 
 				// Not-ranged
 
-				HtmlInputNumberSpinner spinner = (HtmlInputNumberSpinner) application.createComponent( "org.richfaces.inputNumberSpinner" );
-				spinner.setCycled( false );
+				UIInputNumberSpinner spinner = (UIInputNumberSpinner) application.createComponent( "org.richfaces.inputNumberSpinner" );
 
 				// May be ranged in one dimension only
 
@@ -131,10 +131,21 @@ public class RichFacesWidgetBuilder
 				else if ( double.class.equals( clazz ) )
 					spinner.setMaxValue( String.valueOf( Double.MAX_VALUE ) );
 
-				// Stepped
+				// HtmlInputNumberSpinner-specific properties
 
-				if ( float.class.equals( clazz ) || double.class.equals( clazz ) )
-					spinner.setStep( "0.1" );
+				if ( spinner instanceof HtmlInputNumberSpinner )
+				{
+					HtmlInputNumberSpinner htmlSpinner = (HtmlInputNumberSpinner) spinner;
+
+					// Wraps around?
+
+					htmlSpinner.setCycled( false );
+
+					// Stepped
+
+					if ( float.class.equals( clazz ) || double.class.equals( clazz ) )
+						htmlSpinner.setStep( "0.1" );
+				}
 
 				return spinner;
 			}
@@ -171,7 +182,7 @@ public class RichFacesWidgetBuilder
 
 				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
 				{
-					HtmlInputNumberSlider slider = (HtmlInputNumberSlider) application.createComponent( "org.richfaces.inputNumberSlider" );
+					UIInputNumberSlider slider = (UIInputNumberSlider) application.createComponent( "org.richfaces.inputNumberSlider" );
 					slider.setMinValue( minimumValue );
 					slider.setMaxValue( maximumValue );
 
@@ -181,7 +192,7 @@ public class RichFacesWidgetBuilder
 				// Not-ranged
 				//
 				// Until https://jira.jboss.org/jira/browse/RF-4450 is fixed, do not use
-				// HtmlInputNumberSpinner for nullable numbers
+				// UIInputNumberSpinner for nullable numbers
 			}
 		}
 

@@ -272,18 +272,6 @@ public class GwtWidgetBuilder
 
 		if ( GwtUtils.isPrimitiveWrapper( type ) )
 		{
-			// Booleans (are tri-state)
-
-			if ( Boolean.class.getName().equals( type ) )
-			{
-				ListBox listBox = new ListBox();
-				addListBoxItem( listBox, null, null );
-				addListBoxItem( listBox, "true", "True" );
-				addListBoxItem( listBox, "false", "False" );
-
-				return listBox;
-			}
-
 			// Characters
 
 			if ( Character.class.getName().equals( type ) )

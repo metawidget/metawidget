@@ -1100,8 +1100,6 @@ public class SwingMetawidget
 
 		else
 		{
-			// TODO: document widget types for GWT
-
 			if ( mPropertyBinding != null )
 				mPropertyBinding.bindProperty( actualComponent, attributes, path );
 

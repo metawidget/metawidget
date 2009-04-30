@@ -29,6 +29,9 @@ import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.el.ExpressionEvaluator;
 import javax.servlet.jsp.el.VariableResolver;
+import javax.servlet.jsp.tagext.BodyContent;
+import javax.servlet.jsp.tagext.BodyTag;
+import javax.servlet.jsp.tagext.IterationTag;
 import javax.servlet.jsp.tagext.Tag;
 
 import junit.framework.TestCase;
@@ -66,7 +69,7 @@ public class JspUtilsTest
 	// Public methods
 	//
 
-	public void testJspUtils()
+	public void testBodyTag()
 		throws Exception
 	{
 		Tag testTag = new Tag()
@@ -74,13 +77,13 @@ public class JspUtilsTest
 			@Override
 			public int doEndTag()
 			{
-				return 0;
+				return Tag.EVAL_PAGE;
 			}
 
 			@Override
 			public int doStartTag()
 			{
-				return 0;
+				return Tag.EVAL_BODY_INCLUDE;
 			}
 
 			@Override
@@ -198,6 +201,134 @@ public class JspUtilsTest
 				assertTrue( verify.equals( writer.toString() ) );
 			}
 		} );
+	}
+
+	public void testSkipBody()
+		throws Exception
+	{
+		Tag testTag = new Tag()
+		{
+			@Override
+			public int doEndTag()
+			{
+				return Tag.EVAL_PAGE;
+			}
+
+			@Override
+			public int doStartTag()
+			{
+				return Tag.SKIP_BODY;
+			}
+
+			@Override
+			public Tag getParent()
+			{
+				return null;
+			}
+
+			@Override
+			public void release()
+			{
+				// Do nothing
+			}
+
+			@Override
+			public void setPageContext( PageContext context )
+			{
+				// Do nothing
+			}
+
+			@Override
+			public void setParent( Tag parent )
+			{
+				// Do nothing
+			}
+		};
+
+		final DummyPageContext dummyPageContext = new DummyPageContext();
+
+		JspUtils.writeTag( dummyPageContext, testTag, null, new BodyPreparer()
+		{
+			@Override
+			public void prepareBody( PageContext delegateContext )
+			{
+				assertTrue( false );
+			}
+		} );
+	}
+
+	int mRepeat;
+
+	public void testRepeatBody()
+		throws Exception
+	{
+		BodyTag testTag = new BodyTag()
+		{
+			@Override
+			public int doEndTag()
+			{
+				return Tag.EVAL_PAGE;
+			}
+
+			@Override
+			public int doStartTag()
+			{
+				return Tag.EVAL_BODY_INCLUDE;
+			}
+
+			@Override
+			public Tag getParent()
+			{
+				return null;
+			}
+
+			@Override
+			public void release()
+			{
+				// Do nothing
+			}
+
+			@Override
+			public void setPageContext( PageContext context )
+			{
+				// Do nothing
+			}
+
+			@Override
+			public void setParent( Tag parent )
+			{
+				// Do nothing
+			}
+
+			@Override
+			public void doInitBody()
+			{
+				// Do nothing
+			}
+
+			@Override
+			public void setBodyContent( BodyContent bodycontent )
+			{
+				// Do nothing
+			}
+
+			@Override
+			public int doAfterBody()
+			{
+				mRepeat++;
+
+				if ( mRepeat < 5 )
+					return IterationTag.EVAL_BODY_AGAIN;
+
+				return Tag.EVAL_PAGE;
+			}
+		};
+
+		mRepeat = 0;
+
+		JspUtils.writeTag( null, testTag, null, null );
+
+		assertTrue( mRepeat == 5 );
 	}
 
 	//
