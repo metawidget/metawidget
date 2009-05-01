@@ -41,7 +41,7 @@ import org.metawidget.util.simple.StringUtils;
  * <p>
  * A significant difference of <code>JexlInspector</code> compared to other ELs is that the JEXL
  * EL is relative to the object being inspected, not to some global EL context. So expressions use
- * <code>this</code>, as in <code>${this.retired}</code>. Use of a <code>this</code>
+ * <code>this</code>, as in <code>this.retired</code>. Use of a <code>this</code>
  * keyword, as opposed to the name of the class being annotated, keeps JEXL EL expressions working
  * even for subclasses.
  *

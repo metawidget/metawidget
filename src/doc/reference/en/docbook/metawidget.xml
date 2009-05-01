@@ -4320,25 +4320,44 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 
 			</section>
 			
-			<section id="section-inspectors-property-type">
+			<section id="section-inspectors-propertytype">
 				<title>PropertyTypeInspector</title>
 				
 				<para>
-					<classname>PropertyTypeInspector</classname> extends <classname>BaseObjectInspector</classname>, and so inherits its features. In addition, its own
-					notable features include:
+					<classname>PropertyTypeInspector</classname> extends <classname>BaseObjectInspector</classname>, and so inherits its features.
+					In addition, it returns the following attributes for the following business properties:
 				</para>
 				
-				<itemizedlist>
-					<listitem>
-						<para>
-							it inspects the declared type of properties. Provided the type
-							is not primitive or <parameter>final</parameter>, it further inspects the actual type of the object. If
-							it differs from the declared type (eg. it is a subclass), it returns the actual type together
-							with the declared type.
-						</para>
-					</listitem>
-				</itemizedlist>
-				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Attribute</th>
+							<th></th>
+							<th align="left">Type of property</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td><parameter>type</parameter></td>
+							<td>declared type of the property</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>actual-type</parameter></td>
+							<td>
+								if the type is not primitive or <parameter>final</parameter>, and reflection shows
+								the actual type to differ from the declared type (ie. it is a subclass)
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
 			</section>
 			
 		</section>
@@ -4346,6 +4365,234 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 		<section id="section-inspectors-annotation">
 			<title>Annotation Inspectors</title>
 
+			<section id="section-inspectors-hibernatevalidator">
+				<title>HibernateValidatorInspector</title>
+				
+				<para>
+					<classname>HibernateValidatorInspector</classname> inspects Hibernate Validator annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Attribute</th>
+							<th></th>
+							<th align="left">Type of property</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td><parameter>maximum-fractional-digits</parameter></td>
+							<td><classname>@Digits(fractionalDigits=...)</classname></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>maximum-integer-digits</parameter></td>
+							<td><classname>@Digits(integerDigits=...)</classname></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>maximum-length</parameter></td>
+							<td><classname>@Length(min=...)</classname></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>maximum-value</parameter></td>
+							<td><classname>@Max</classname></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>minimum-length</parameter></td>
+							<td><classname>@Length(min=...)</classname></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>minimum-value</parameter></td>
+							<td><classname>@Min</classname></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>required</parameter></td>
+							<td><classname>@NotNull</classname> or <classname>@NotEmpty</classname></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</section>
+
+			<section id="section-inspectors-jexl">
+				<title>JexlInspector</title>
+				
+				<para>
+					<classname>JexlInspector</classname> inspects <classname>@UiJexlAttribute</classname> annotations and
+					sets arbitrary attributes based on the result of evaluating an Apache Commons JEXL expression. It can
+					be used to introduce declarative UI scripting into environments that lack their	own expression language
+					(ie. JSP has an EL, Swing does not). For example:
+				</para>
+				
+				<programlisting language="java">import org.metawidget.inspector.commons.jexl.*;
+
+public class Person {
+	public boolean retired;
+	@UiJexlAttribute( name = "hidden", value = "!this.retired" )
+	public BigDecimal pension;
+}</programlisting>
+
+				<para>
+					This code returns a <parameter>hidden</parameter> attribute based on evaluating the JEXL expression
+					<parameter>!this.retired</parameter> (where <parameter>this</parameter> refers to the runtime instance of
+					the <classname>Person</classname> being inspected). It could be used to show/hide the <parameter>pension</parameter>
+					field in response to the <parameter>retired</parameter> checkbox being checked.
+				</para>
+				
+				<para>
+					The JEXL expression language also supports branching statements. For example:
+				</para>
+				
+				<programlisting language="java">import org.metawidget.inspector.commons.jexl.*;
+
+public class PersonController {
+
+	@UiJexlAttribute( name = "label", value = "if ( this.readOnly ) 'Back'" )
+	public void cancel() { ... }
+}</programlisting>
+
+				<para>
+					This code overrides the <parameter>label</parameter> of an action to be either 'Back' or 'Cancel', depending
+					on whether the <classname>Person</classname> was being edited. It is taken from the Swing Address Book
+					sample (see <xref linkend="section-introduction-part2-desktop"/>).
+				</para>
+			</section>
+
+			<section id="section-inspectors-jpa">
+				<title>JpaInspector</title>
+				
+				<para>
+					<classname>JpaInspector</classname> inspects Java Persistence Architecture annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Attribute</th>
+							<th></th>
+							<th align="left">Type of property</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td><parameter>hidden</parameter></td>
+							<td><classname>@Id</classname>, unless <classname>JpaInspectorConfig.setHideIds</classname> is false</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>large</parameter></td>
+							<td><classname>@Lob</classname></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>maximum-length</parameter></td>
+							<td><classname>@Column(length=...)</classname></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>required</parameter></td>
+							<td><classname>@Column(nullable=false)</classname> or <classname>@ManyToOne(optional=false)</classname></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</section>
+
+			<section id="section-inspectors-metawidgetannotation">
+				<title>MetawidgetAnnotationInspector</title>
+				
+				<para>
+					As much as possible, Metawidget tries to inspect metadata from existing sources, without
+					introducing new concepts. Where that is not sufficient, <classname>MetawidgetAnnotationInspector</classname> adds
+					a handful of annotations:
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Annotation</th>
+							<th></th>
+							<th align="left">Result</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td><classname>@UiComesAfter</classname></td>
+							<td>denotes the ordering of properties and fields in the UI</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>@UiSection</classname></td>
+							<td>denotes the start of a logical grouping in the UI</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>@UiLabel</classname></td>
+							<td>
+								denotes the label to used in the UI. Can be a resource key if the UI is using resource bundles, or
+								an EL expression if the UI has an expression language (ie. JSF)
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>@UiLarge</classname></td>
+							<td>denotes the field should be 'large' in the UI (ie. a multi-line textbox)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>@UiHidden</classname></td>
+							<td>
+								denotes a value should be hidden in the UI. The value may
+								still be rendered on the client, depending on the Metawidget (ie. for Web clients,
+								may use a HTML hidden field)
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>@UiReadOnly</classname></td>
+							<td>denotes a value should be read-only in the UI</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>@UiMasked</classname></td>
+							<td>denotes a value should be masked in the UI (eg. a password field)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>@UiAttributes</classname> and <classname>@UiAttribute</classname></td>
+							<td>a 'catch all' for denoting arbitrary UI metadata</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</section>
+			
 			<section id="section-inspectors-annotation-troubleshooting">
 				<title>Troubleshooting</title>				
 
@@ -4373,46 +4620,6 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 						(see <xref linkend="section-howto-order"/>).
 					</para>
 				</section>
-			</section>
-			
-			<section id="section-inspectors-metawidget-annotation">
-				<title>MetawidgetAnnotationInspector</title>
-				
-				<para>
-					As much as possible, Metawidget tries to inspect metadata from existing sources, without
-					introducing new concepts. Where that is not sufficient, <classname>MetawidgetAnnotationInspector</classname> adds
-					a handful of annotations:
-				</para>
-				
-				<itemizedlist>
-					<listitem>
-						<para><classname>@UiComesAfter</classname> - denotes the ordering of properties and fields in the UI</para>
-					</listitem>
-					<listitem>
-						<para><classname>@UiSection</classname> - denotes the start of a logical grouping in the UI</para>
-					</listitem>
-					<listitem>
-						<para><classname>@UiLabel</classname> - denotes the label to use in the UI. Can be a resource key if the UI is using resource bundles</para>
-					</listitem>
-					<listitem>
-						<para><classname>@UiLarge</classname> - denotes the field should be 'large' in the UI (eg. a multi-line textbox)</para>
-					</listitem>
-					<listitem>
-						<para><classname>@UiHidden</classname> - denotes a value should be hidden in the UI. The value may
-						still be rendered on the client, depending on the Metawidget (eg. for Web clients,
-						may use a HTML hidden field)</para>
-					</listitem>
-					<listitem>
-						<para><classname>@UiReadOnly</classname> - denotes a value should be read-only in the UI.</para>
-					</listitem>
-					<listitem>
-						<para><classname>@UiMasked</classname> - denotes a value should be masked in the UI (eg. a password field)</para>
-					</listitem>
-					<listitem>
-						<para><classname>@UiAttributes</classname> and <classname>@UiAttribute</classname> - a 'catch all' for denoting arbitrary UI metadata</para>
-					</listitem>
-				</itemizedlist>
-				
 			</section>
 			
 		</section>
