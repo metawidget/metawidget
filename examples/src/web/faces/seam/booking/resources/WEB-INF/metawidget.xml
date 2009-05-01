@@ -11,6 +11,16 @@
 			<string>divStyleClasses</string>
 			<string>entry,label,required,input,error errors</string>
 		</parameter>
+		<widgetBuilder>
+			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<list>
+						<richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/>
+						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
+					</list>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
+		</widgetBuilder>
 		<inspector>		
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>

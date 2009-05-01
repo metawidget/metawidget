@@ -75,7 +75,9 @@
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[7]/div[2]/span/@id" text="booking:hotelPrice"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[1]/div[7]/div[2]/span" text="$120.00"/>				
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[1]/div[1]" text="Checkin date:*"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[1]/div[@class = 'input']/span/input[1]/@name" text="booking:bookingCheckinDateInputDate"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[2]/div[1]" text="Checkout date:*"/>
+				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[2]/div[@class = 'input']/span/input[1]/@name" text="booking:bookingCheckoutDateInputDate"/>				
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[3]/div[1]" text="Room preference:"/>
 				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[3]/div[2]/select/option)" text="3"/>
 				<verifyXPath xpath="/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/form/fieldset/div[2]/div[4]/div[1]" text="Smoking:"/>

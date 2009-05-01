@@ -12,7 +12,7 @@
 			<string>messageStyleClass</string>
 			<string>cntError</string>
 		</parameter>	
-		<inspector>		
+		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<list>
