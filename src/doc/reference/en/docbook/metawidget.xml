@@ -4026,6 +4026,41 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 			
 		</section>			
 
+		<section id="section-widgetbuilders-swingx">
+			<title>SwingXWidgetBuilder</title>
+			
+			<para>
+				SwingXWidgetBuilder is a pluggable WidgetBuilder for the SwingX library. It is intended
+				to be used in conjunction with the default SwingWidgetBuilder. It instantiates the
+				following widgets for the following types of fields: 
+			</para>
+			
+			<table>
+				<colgroup>
+					<col width="5%"/>
+					<col width="35%"/>
+					<col width="60%"/>
+				</colgroup>
+				<thead>
+					<tr>
+						<th align="left">Widget</th>
+						<th></th>
+						<th align="left">Type of field</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<th align="left" colspan="2"><classname>org.jdesktop.swingx</classname></th>
+					</tr>
+					<tr>
+						<td></td>
+						<td><classname>JXDatePicker</classname></td>
+						<td>Dates</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>	
+
 		<section id="section-widgetbuilders-implementing-your-own">
 			<title>Implementing Your Own WidgetBuilder</title>
 

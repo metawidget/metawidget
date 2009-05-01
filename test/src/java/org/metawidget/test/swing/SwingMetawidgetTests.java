@@ -28,6 +28,7 @@ import org.metawidget.test.swing.propertybinding.beansbinding.BeansBindingTest;
 import org.metawidget.test.swing.propertybinding.beanutilsbinding.BeanUtilsBindingTest;
 import org.metawidget.test.swing.validator.inputverifier.InputVerifierValidatorTest;
 import org.metawidget.test.swing.validator.jgoodies.JGoodiesValidatorTest;
+import org.metawidget.test.swing.widgetbuilder.swingx.SwingXWidgetBuilderTest;
 
 /**
  * @author Richard Kennard
@@ -64,6 +65,7 @@ public class SwingMetawidgetTests
 		// Not: suite.addTestSuite( SwingAllWidgetsTest.class ) - run separately as JDK 1.4
 		suite.addTestSuite( SwingAllWidgetsBeansBindingTest.class );
 		suite.addTestSuite( SwingMetawidgetTest.class );
+		suite.addTestSuite( SwingXWidgetBuilderTest.class );
 		suite.addTestSuite( GridBagLayoutTest.class );
 		suite.addTestSuite( GroupLayoutTest.class );
 		suite.addTestSuite( GroupLayoutTest.class );
