@@ -21,11 +21,19 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Date;
 import java.util.Map;
 
+import javax.swing.JComponent;
+
 import junit.framework.TestCase;
 
 import org.jdesktop.swingx.JXDatePicker;
+import org.metawidget.swing.Stub;
+import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
+import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilder;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 
 /**
  * @author Richard Kennard
@@ -57,12 +65,80 @@ public class SwingXWidgetBuilderTest
 		SwingXWidgetBuilder widgetBuilder = new SwingXWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 
 		attributes.put( TYPE, String.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 
 		attributes.put( TYPE, Date.class.getName() );
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof JXDatePicker );
+
+		attributes.put( HIDDEN, TRUE );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof Stub );
+	}
+
+	@SuppressWarnings( { "deprecation", "unchecked" } )
+	public void testValuePropertyProvider()
+		throws Exception
+	{
+		DateHolder dateHolder = new DateHolder();
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( new SwingXWidgetBuilder(), new SwingWidgetBuilder() ) ) );
+		metawidget.setPropertyBindingClass( BeansBinding.class );
+		metawidget.setToInspect( dateHolder );
+
+		Date date = new Date();
+		metawidget.setValue( date, "date" );
+		metawidget.setValue( "Foo", "string" );
+		Date dateFromMetawidget = (Date) metawidget.getValue( "date" );
+		assertTrue( date.getDay() == dateFromMetawidget.getDay() );
+		assertTrue( date.getMonth() == dateFromMetawidget.getMonth() );
+		assertTrue( date.getYear() == dateFromMetawidget.getYear() );
+		metawidget.save();
+
+		assertTrue( dateFromMetawidget.equals( dateHolder.getDate() ) );
+
+		// Test SwingXWidgetBuilder.getValueProperty passthrough
+
+		assertTrue( "Foo".equals( dateHolder.getString() ));
+	}
+
+	//
+	// Inner class
+	//
+
+	public static class DateHolder
+	{
+		//
+		// Private members
+		//
+
+		private Date	mDate;
+
+		private String	mString;
+
+		//
+		// Public methods
+		//
+
+		public Date getDate()
+		{
+			return mDate;
+		}
+
+		public void setDate( Date date )
+		{
+			mDate = date;
+		}
+
+		public String getString()
+		{
+			return mString;
+		}
+
+		public void setString( String string )
+		{
+			mString = string;
+		}
 	}
 }

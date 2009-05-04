@@ -58,21 +58,25 @@ public class Java5Inspector
 	//
 
 	@Override
-	protected Map<String, String> inspectProperty( Property property, Object toInspect )
+	protected boolean shouldInspectPropertyAsEntity( Property property )
+	{
+		return true;
+	}
+
+	@Override
+	protected Map<String, String> inspectEntity( Class<?> classToInspect )
 		throws Exception
 	{
-		// Enums
-
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		Class<?> propertyClass = property.getType();
+		// Enums
 
-		if ( propertyClass.isEnum() )
+		if ( Enum.class.isAssignableFrom( classToInspect ))
 		{
 			// Invoke 'magic' values method
 
-			Method methodValues = propertyClass.getMethod( "values" );
-			Enum<?>[] enums = (Enum[]) methodValues.invoke( property );
+			Method methodValues = classToInspect.getMethod( "values" );
+			Enum<?>[] enums = (Enum[]) methodValues.invoke( classToInspect );
 
 			// Construct lookup values
 
@@ -95,8 +99,17 @@ public class Java5Inspector
 			// will be teamed up with PropertyTypeInspector, but we are used standalone
 			// in the tutorial so we need to support this (contrived) use case.
 
-			attributes.put( TYPE, propertyClass.getName() );
+			attributes.put( TYPE, classToInspect.getName() );
 		}
+
+		return attributes;
+	}
+
+	@Override
+	protected Map<String, String> inspectProperty( Property property, Object toInspect )
+		throws Exception
+	{
+		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Generics
 
@@ -121,11 +134,6 @@ public class Java5Inspector
 
 				for ( Type typeActual : typeActuals )
 				{
-					// Android 1.0_r1 sometimes provides null typeActuals?
-
-					//if ( typeActual == null )
-						//continue;
-
 					if ( builder.length() > 0 )
 						builder.append( StringUtils.SEPARATOR_COMMA );
 

@@ -4344,6 +4344,38 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 					<tbody>
 						<tr>
 							<td></td>
+							<td><parameter>lookup</parameter></td>
+							<td>
+								lookup of 'true, false' if the type is Boolean
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>lookup-labels</parameter></td>
+							<td>
+								lookup of 'Yes, No' if the type is Boolean. This will generally
+								be localized by the Metawidget
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>no-setter</parameter></td>
+							<td>
+								if the property has no <function>setXXX</function> method. Note <parameter>no-setter</parameter>
+								is distinct from <parameter>read-only</parameter>, because it is common to
+								have no setter for a complex type (eg. <function>Person.getAddress</function>) but
+								this shouldn't make all its contents (eg. <function>Address.getStreet</function>) read-only.
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>no-getter</parameter></td>
+							<td>
+								if the property has no <function>getXXX</function> method
+							</td>
+						</tr>
+						<tr>
+							<td></td>
 							<td><parameter>type</parameter></td>
 							<td>declared type of the property</td>
 						</tr>
@@ -4351,8 +4383,7 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 							<td></td>
 							<td><parameter>actual-type</parameter></td>
 							<td>
-								if the type is not primitive or <parameter>final</parameter>, and reflection shows
-								the actual type to differ from the declared type (ie. it is a subclass)
+								if the actual type differs from the declared type (ie. it is a subclass)
 							</td>
 						</tr>
 					</tbody>

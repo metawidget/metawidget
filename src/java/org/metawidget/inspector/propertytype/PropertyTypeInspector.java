@@ -19,14 +19,12 @@ package org.metawidget.inspector.propertytype;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
-import java.lang.reflect.Modifier;
 import java.util.Map;
 
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
-import org.w3c.dom.Element;
 
 /**
  * Inspector to look for types of properties.
@@ -64,79 +62,92 @@ public class PropertyTypeInspector
 	//
 
 	@Override
-	protected Map<String, String> inspectProperty( Property property, Object toInspect )
+	protected boolean shouldInspectPropertyAsEntity( Property property )
+	{
+		return true;
+	}
+
+	@Override
+	protected Map<String, String> inspectPropertyAsEntity( Property property, Object toInspect )
+		throws Exception
+	{
+		Map<String, String> attributes = super.inspectPropertyAsEntity( property, toInspect );
+
+		// Actual class
+		//
+		// Note: we don't do this the other way around (eg. return the actual class as
+		// TYPE and have a, say, DECLARED_CLASS attribute) because the type must be
+		// consistent between Object and XML-based inspectors. In particular, we don't
+		// want to use a proxied class as the 'type'
+
+		String propertyClass = property.getType().getName();
+		String actualClass = attributes.get( TYPE );
+
+		if ( !actualClass.equals( propertyClass ) )
+		{
+			attributes.put( TYPE, propertyClass );
+			attributes.put( ACTUAL_CLASS, actualClass );
+		}
+
+		return attributes;
+	}
+
+	@Override
+	protected Map<String, String> inspectPropertyFromParent( Property propertyInParent, Object parentToInspect )
+		throws Exception
+	{
+		// Return the parent property's type. This will be the declared type, not
+		// the actual type. This is a special case for when the value of the parent
+		// property turns out to be null. For most Inspectors, they should abort at
+		// that point, but PropertyTypeInspector needs to still return a type
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( TYPE, propertyInParent.getType().getName() );
+
+		return attributes;
+	}
+
+	@Override
+	protected Map<String, String> inspectEntity( Class<?> classToInspect )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		// ...type...
+		// Type
 
-		Class<?> propertyClass = property.getType();
-		attributes.put( TYPE, propertyClass.getName() );
-
-		// ...(may be polymorphic)...
-
-		if ( !Modifier.isFinal( propertyClass.getModifiers() ) )
-		{
-			if ( property.isReadable() )
-			{
-				try
-				{
-					Object actual = property.read( toInspect );
-
-					// Note: we don't do this the other way around (eg. return the actual class as
-					// TYPE and have a, say, DECLARED_CLASS attribute) because the type must be
-					// consistent between Object and XML-based inspectors. In particular, we don't
-					// want to use a proxied class as the 'type'
-
-					if ( actual != null )
-						attributes.put( ACTUAL_CLASS, actual.getClass().getName() );
-				}
-				catch ( Throwable t )
-				{
-					// By definition, a 'getter' method should not affect the state
-					// of the object. However, sometimes a getter's implementation
-					// may fail if an object is not in a certain state (eg. JSF's
-					// DataModel.getRowData) - in which case fall back to property
-				}
-			}
-		}
+		attributes.put( TYPE, classToInspect.getName() );
 
 		// Special support for Booleans, which are tri-state
 
-		if ( Boolean.class.isAssignableFrom( propertyClass ))
+		if ( Boolean.class.isAssignableFrom( classToInspect ) )
 		{
 			attributes.put( LOOKUP, "true, false" );
 			attributes.put( LOOKUP_LABELS, "Yes, No" );
 		}
 
-		// ...(no-setter/no-getter)...
+		return attributes;
+	}
+
+	@Override
+	protected Map<String, String> inspectProperty( Property property, Object toInspect )
+		throws Exception
+	{
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+
+		// No setter
+		//
+		// Note: we do not also attributes.put( READ_ONLY, TRUE ) here. If an attribute
+		// has no setter, but IS a complex type, then it should not be considered READ_ONLY
+		// as it may be settable by its nested primitives
 
 		if ( !property.isWritable() )
-		{
 			attributes.put( NO_SETTER, TRUE );
 
-			// Note: we do not also attributes.put( READ_ONLY, TRUE ) here. If an attribute
-			// has no setter, but IS a complex type, then it should not be considered READ_ONLY
-			// as it may be settable by its nested primitives
-		}
+		// No getter
 
 		if ( !property.isReadable() )
 			attributes.put( NO_GETTER, TRUE );
 
 		return attributes;
-	}
-
-	/**
-	 * Overridden to return <code>false<code>.
-	 * <p>
-	 * <code>PropertyTypeInspector</code> always returns an XML document, even if just to convey the
-	 * <code>type</code> attribute of the top-level <code>entity</code> element.
-	 */
-
-	@Override
-	protected boolean isInspectionEmpty( Element elementEntity, Map<String, String> parentAttributes )
-	{
-		return false;
 	}
 }

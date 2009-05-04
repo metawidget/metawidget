@@ -259,6 +259,7 @@ public class SwingAddressBookTest
 		assertTrue( "Edit".equals( buttonEdit.getText() ) );
 		buttonEdit.getAction().actionPerformed( null );
 		assertTrue( "Charles Montgomery".equals( metawidgetContact.getValue( "firstname" ) ) );
+		assertTrue( "MALE".equals( metawidgetContact.getValue( "gender" ) ) );
 		assertTrue( 0 == (Integer) metawidgetContact.getValue( "numberOfStaff" ) );
 
 		// Check saving

@@ -194,9 +194,9 @@ public class PropertyTypeInspectorTest
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
-		assertTrue( PersonalContact.class.getName().equals( entity.getAttribute( ACTUAL_CLASS ) ) );
 		assertTrue( Contact.class.getName().equals( entity.getAttribute( TYPE ) ) );
 		assertTrue( "value".equals( entity.getAttribute( NAME ) ) );
+		assertTrue( 2 == entity.getAttributes().getLength() );
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "address" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
@@ -331,6 +331,17 @@ public class PropertyTypeInspectorTest
 	public void testNullType()
 	{
 		assertTrue( null == mInspector.inspect( null, null ) );
+	}
+
+	public void testBoolean()
+	{
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, Boolean.class.getName() ) );
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertTrue( Boolean.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertTrue( "true, false".equals( entity.getAttribute( LOOKUP ) ) );
 	}
 
 	//

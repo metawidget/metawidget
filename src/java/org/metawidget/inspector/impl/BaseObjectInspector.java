@@ -18,6 +18,7 @@ package org.metawidget.inspector.impl;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.lang.reflect.Modifier;
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
@@ -169,8 +170,8 @@ public abstract class BaseObjectInspector
 				if ( propertyInParent.isReadable() )
 				{
 					Object parentToInspect = tuple[0];
+					parentAttributes = inspectPropertyFromParent( propertyInParent, parentToInspect );
 					childToInspect = propertyInParent.read( parentToInspect );
-					parentAttributes = inspectProperty( propertyInParent, parentToInspect );
 				}
 			}
 
@@ -207,9 +208,13 @@ public abstract class BaseObjectInspector
 				inspect( childToInspect, childToInspect.getClass(), entity );
 			}
 
+			// Add parent attributes
+
+			XmlUtils.setMapAsAttributes( entity, parentAttributes );
+
 			// Nothing of consequence to return?
 
-			if ( isInspectionEmpty( entity, parentAttributes ) )
+			if ( isInspectionEmpty( entity ) )
 				return null;
 
 			// Start a new DOM Document
@@ -219,13 +224,10 @@ public abstract class BaseObjectInspector
 			document.appendChild( root );
 			root.appendChild( entity );
 
-			// Add any parent attributes
+			// If there were parent attributes, we may have a useful child name
 
-			if ( parentAttributes != null )
-			{
-				XmlUtils.setMapAsAttributes( entity, parentAttributes );
+			if ( childName != null )
 				entity.setAttribute( NAME, childName );
-			}
 
 			// Every Inspector needs to attach a type to the entity, so that CompositeInspector can
 			// merge it. The type should be the *declared* type, not the *actual* type, as otherwise
@@ -261,21 +263,35 @@ public abstract class BaseObjectInspector
 	{
 		Document document = toAddTo.getOwnerDocument();
 
+		// Inspect entity
+
+		{
+			Map<String, String> attributes = inspectEntity( toInspect == null ? classToInspect : toInspect.getClass() );
+
+			if ( attributes != null && !attributes.isEmpty() )
+				XmlUtils.setMapAsAttributes( toAddTo, attributes );
+		}
+
 		// Inspect properties
 
 		for ( Property property : getProperties( classToInspect ).values() )
 		{
-			Map<String, String> attributes = inspectProperty( property, toInspect );
+			Map<String, String> propertyAttributes = inspectProperty( property, toInspect );
+			Map<String, String> entityAttributes = null;
 
-			if ( attributes == null || attributes.isEmpty() )
-				continue;
+			if ( shouldInspectPropertyAsEntity( property ) )
+				entityAttributes = inspectPropertyAsEntity( property, toInspect );
 
-			Element element = document.createElementNS( NAMESPACE, PROPERTY );
-			element.setAttribute( NAME, property.getName() );
+			if ( ( propertyAttributes != null && !propertyAttributes.isEmpty() ) || ( entityAttributes != null && !entityAttributes.isEmpty() ) )
+			{
+				Element element = document.createElementNS( NAMESPACE, PROPERTY );
+				element.setAttribute( NAME, property.getName() );
 
-			XmlUtils.setMapAsAttributes( element, attributes );
+				XmlUtils.setMapAsAttributes( element, propertyAttributes );
+				XmlUtils.setMapAsAttributes( element, entityAttributes );
 
-			toAddTo.appendChild( element );
+				toAddTo.appendChild( element );
+			}
 		}
 
 		// Inspect actions
@@ -294,6 +310,102 @@ public abstract class BaseObjectInspector
 
 			toAddTo.appendChild( element );
 		}
+	}
+
+	/**
+	 * Whether to additionally inspect each child property from its class level.
+	 * <p>
+	 * This can be useful if the property's value defines useful class-level annotations, but it is
+	 * expensive (as it requires invoking the property's getter to retrieve the value) so is
+	 * <code>false</code> by default.
+	 * <p>
+	 * For example usage, see <code>PropertyTypeInspector</code>.
+	 */
+
+	protected boolean shouldInspectPropertyAsEntity( Property property )
+	{
+		return false;
+	}
+
+	/**
+	 * Inspect the given property as an entity.
+	 * <p>
+	 * This method invokes the property's getter, inspects the class of the runtime type, then
+	 * delegates to <code>inspectEntity</code>.
+	 */
+
+	protected Map<String, String> inspectPropertyAsEntity( Property property, Object toInspect )
+		throws Exception
+	{
+		Class<?> entityClass = property.getType();
+
+		// Inspect the runtime type
+		//
+		// Note: it is tempting to provide a less-expensive version of
+		// inspectPropertyAsEntity that inspects the property's type without invoking
+		// the getter. However that places a burden on the individual Inspector,
+		// because what if the field is declared to be of type Object but its
+		// actual value is a Boolean?
+
+		if ( property.isReadable() && !Modifier.isFinal( entityClass.getModifiers() ) )
+		{
+			Object propertyValue = null;
+
+			try
+			{
+				propertyValue = property.read( toInspect );
+			}
+			catch ( Throwable t )
+			{
+				// By definition, a 'getter' method should not affect the state
+				// of the object, so it should not fail. However, sometimes a getter's
+				// implementation may rely on another object being in a certain state (eg.
+				// JSF's DataModel.getRowData) - in which case it will not be readable.
+				// We therefore treat value as 'null', so that at least we inspect the type
+			}
+
+			if ( propertyValue != null )
+				entityClass = propertyValue.getClass();
+		}
+
+		// Delegate to inspectEntity
+
+		return inspectEntity( entityClass );
+	}
+
+	/**
+	 * Inspect the given property via its parent.
+	 * <p>
+	 * This can be useful if the parent's getter defines useful annotations (such as <code>UiLookup</code>).
+	 * <p>
+	 * This method delegates to <code>inspectProperty</code>.
+	 */
+
+	protected Map<String, String> inspectPropertyFromParent( Property propertyInParent, Object parentToInspect )
+		throws Exception
+	{
+		return inspectProperty( propertyInParent, parentToInspect );
+	}
+
+	/**
+	 * Inspect the given entity's class (<em>not</em> its child properties/actions) and return a
+	 * Map of attributes.
+	 * <p>
+	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
+	 * Those subclasses wanting more control over these features should override methods higher in
+	 * the call stack instead.
+	 * <p>
+	 * Note: unlike <code>inspectProperty</code>, this method has a default implementation that
+	 * returns <code>null</code>. This is because most Inspectors will not implement
+	 * <code>inspectEntity</code>.
+	 * <p>
+	 * For example usage, see <code>PropertyTypeInspector</code>.
+	 */
+
+	protected Map<String, String> inspectEntity( Class<?> classToInspect )
+		throws Exception
+	{
+		return null;
 	}
 
 	/**
@@ -353,6 +465,10 @@ public abstract class BaseObjectInspector
 		return mActionStyle.getActions( clazz );
 	}
 
+	//
+	// Private methods
+	//
+
 	/**
 	 * Returns true if the inspection returned nothing of consequence. This is an optimization that
 	 * allows our <code>Inspector</code> to return <code>null</code> overall, rather than
@@ -362,20 +478,16 @@ public abstract class BaseObjectInspector
 	 * @return true if the inspection is 'empty'
 	 */
 
-	protected boolean isInspectionEmpty( Element elementEntity, Map<String, String> parentAttributes )
+	private boolean isInspectionEmpty( Element elementEntity )
 	{
-		if ( elementEntity.hasChildNodes() )
+		if ( elementEntity.hasAttributes() )
 			return false;
 
-		if ( parentAttributes != null && !parentAttributes.isEmpty() )
+		if ( elementEntity.hasChildNodes() )
 			return false;
 
 		return true;
 	}
-
-	//
-	// Private methods
-	//
 
 	/**
 	 * @return If found, a tuple of Object and declared type (not actual type). If not found,
