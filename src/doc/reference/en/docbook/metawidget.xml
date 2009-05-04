@@ -2588,40 +2588,40 @@ metawidget.setToInspect( animal )</programlisting>
 					</thead>
 					<tbody>
 						<tr>
-							<td><classname>&lt;null&gt;</classname></td>
-							<td>Java <classname>null</classname> value</td>
+							<td><classname>&lt;boolean&gt;</classname></td>
+							<td>Java <classname>boolean</classname> primitive</td>
 						</tr>
 						<tr>
-							<td><classname>&lt;string&gt;</classname></td>
-							<td>Java <classname>String</classname></td>
+							<td><classname>&lt;bundle&gt;</classname></td>
+							<td>uses <classname>ResourceBundle.getBundle</classname> to construct a <classname>ResourceBundle</classname></td>
 						</tr>
 						<tr>
 							<td><classname>&lt;class&gt;</classname></td>
 							<td>Java <classname>Class</classname></td>
 						</tr>
 						<tr>
-							<td><classname>&lt;pattern&gt;</classname></td>
-							<td>Java <classname>Pattern</classname></td>
-						</tr>
-						<tr>
 							<td><classname>&lt;int&gt;</classname></td>
 							<td>Java <classname>int</classname> primitive</td>
 						</tr>
 						<tr>
-							<td><classname>&lt;boolean&gt;</classname></td>
-							<td>Java <classname>boolean</classname> primitive</td>
+							<td><classname>&lt;null&gt;</classname></td>
+							<td>Java <classname>null</classname> value</td>
+						</tr>
+						<tr>
+							<td><classname>&lt;pattern&gt;</classname></td>
+							<td>Java <classname>Pattern</classname></td>
 						</tr>
 						<tr>
 							<td><classname>&lt;resource&gt;</classname></td>
 							<td>uses <classname>Class.getResourceAsStream</classname> to open the resource as an <classname>InputStream</classname></td>
 						</tr>
 						<tr>
-							<td><classname>&lt;url&gt;</classname></td>
-							<td>uses <classname>URL.openStream</classname> to open the URL as an <classname>InputStream</classname></td>
+							<td><classname>&lt;string&gt;</classname></td>
+							<td>Java <classname>String</classname></td>
 						</tr>
 						<tr>
-							<td><classname>&lt;bundle&gt;</classname></td>
-							<td>uses <classname>ResourceBundle.getBundle</classname> to construct a <classname>ResourceBundle</classname></td>
+							<td><classname>&lt;url&gt;</classname></td>
+							<td>uses <classname>URL.openStream</classname> to open the URL as an <classname>InputStream</classname></td>
 						</tr>
 					</tbody>
 				</table>
@@ -3523,705 +3523,718 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 			block in a Commons Validator XML file, or some other source.
 		</para>
 		
-		<section id="section-widgetbuilders-android">
-			<title>AndroidWidgetBuilder</title>
+		<section id="section-widgetbuilders-desktop">
+			<title>Desktop Widget Builders</title>
 			
-			<para>
-				AndroidWidgetBuilder is the default WidgetBuilder for AndroidMetawidget. It instantiates the
-				following widgets for the following types of fields: 
-			</para>
-			
-			<table>
-				<colgroup>
-					<col width="5%"/>
-					<col width="35%"/>
-					<col width="60%"/>
-				</colgroup>
-				<thead>
-					<tr>
-						<th align="left">Widget</th>
-						<th></th>
-						<th align="left">Type of field</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th align="left" colspan="2"><classname>android.widget</classname></th>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>CheckBox</classname></td>
-						<td>Primitive booleans and required Booleans</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>DatePicker</classname></td>
-						<td>Dates</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>EditText</classname></td>
-						<td>
-							Primitives (except booleans), Characters, Strings, and fields of unknown type. If the
-							field is masked, sets a <classname>PasswordTransformationMethod</classname>. If the
-							field is numeric, sets a <classname>DigitsKeyListener</classname>. If the field is
-							large, calls <classname>setMinLines</classname>. If the field has a maximum length,
-							sets a <classname>InputFilter.LengthFilter</classname>.
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>PasswordTextBox</classname></td>
-						<td>Masked fields (except when read-only)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>Spinner</classname></td>
-						<td>Fields with lookups</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>TextView</classname></td>
-						<td>
-							Read-only fields (except Collections). If the field is masked, sets
-							<classname>View.INVISIBLE</classname>
-						</td>
-					</tr>
-					<tr>
-						<th align="left" colspan="2"><classname>org.metawidget.gwt.client.ui</classname></th>
-					</tr>
-					<tr>
-						<td></td>					
-						<td><classname>Stub</classname></td>
-						<td>Actions, hidden fields, read-only actions and Collections</td>
-					</tr>
-				</tbody>
-			</table>
-			
-		</section>			
+			<section id="section-widgetbuilders-swing">
+				<title>SwingWidgetBuilder</title>
+				
+				<para>
+					SwingWidgetBuilder is the default WidgetBuilder for SwingMetawidget. It instantiates the
+					following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>javax.swing</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>JButton</classname></td>
+							<td>Actions (except read-only actions)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>JCheckBox</classname></td>
+							<td>Primitive booleans and required Booleans</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>JComboBox</classname></td>
+							<td>Fields with lookups</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>JLabel</classname></td>
+							<td>Read-only fields (except Collections and masked fields)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>JPanel</classname></td>
+							<td>Read-only masked fields</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>JPasswordField</classname></td>
+							<td>Masked fields (except when read-only)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>JSlider</classname></td>
+							<td>Primitives (except boolean and char) that have both a minimum and a maximum value</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>JSpinner</classname></td>
+							<td>Primitives (except boolean and char) that have only one or neither minimum/maximum value</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>JTextArea</classname></td>
+							<td>Large String fields. The <classname>JTextArea</classname> is automatically wrapped in a <classname>JScrollPane</classname></td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>JTextField</classname></td>
+							<td>Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type</td>
+						</tr>
+						<tr>
+							<th align="left" colspan="2"><classname>org.metawidget.swing</classname></th>
+						</tr>
+						<tr>
+							<td></td>					
+							<td><classname>Stub</classname></td>
+							<td>Hidden fields, read-only actions and Collections</td>
+						</tr>
+					</tbody>
+				</table>
+				
+			</section>			
+	
+			<section id="section-widgetbuilders-swingx">
+				<title>SwingXWidgetBuilder</title>
+				
+				<para>
+					SwingXWidgetBuilder is a pluggable WidgetBuilder for the SwingX library. It is intended
+					to be used in conjunction with the default SwingWidgetBuilder. It instantiates the
+					following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>org.jdesktop.swingx</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>JXDatePicker</classname></td>
+							<td>Dates</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>
+		</section>
 
-		<section id="section-widgetbuilders-displaytag">
-			<title>DisplayTagWidgetBuilder</title>
+		<section id="section-widgetbuilders-web">
+			<title>Web Widget Builders</title>
+	
+			<section id="section-widgetbuilders-displaytag">
+				<title>DisplayTagWidgetBuilder</title>
+				
+				<para>
+					DisplayTagWidgetBuilder is a pluggable WidgetBuilder for the DisplayTag library. It is intended
+					to be used in conjunction with the JSP <classname>HtmlWidgetBuilder</classname>, <classname>SpringWidgetBuilder</classname>
+					or <classname>StrutsWidgetBuilder</classname>. It instantiates the following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>org.displaytag.tags</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>TableTag</classname></td>
+							<td>Collections and Arrays (except if hidden, or if have a lookup)</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>	
+	
+			<section id="section-widgetbuilders-gwt">
+				<title>GwtWidgetBuilder</title>
+				
+				<para>
+					GwtWidgetBuilder is the default WidgetBuilder for GwtMetawidget. It instantiates the
+					following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>com.google.gwt.user.client.ui</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>Button</classname></td>
+							<td>Actions (except read-only actions)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>CheckBox</classname></td>
+							<td>Primitive booleans and required Booleans</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>Label</classname></td>
+							<td>Read-only fields (except Collections and masked fields)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>ListBox</classname></td>
+							<td>Fields with lookups</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>PasswordTextBox</classname></td>
+							<td>Masked fields (except when read-only)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>SimplePanel</classname></td>
+							<td>Read-only masked fields</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>TextArea</classname></td>
+							<td>Large String fields</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>TextBox</classname></td>
+							<td>
+								Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type. If
+								the field has a maximum length, calls <classname>setMaxLength</classname>
+							</td>
+						</tr>
+						<tr>
+							<th align="left" colspan="2"><classname>org.metawidget.gwt.client.ui</classname></th>
+						</tr>
+						<tr>
+							<td></td>					
+							<td><classname>Stub</classname></td>
+							<td>Hidden fields, read-only actions and Collections</td>
+						</tr>
+					</tbody>
+				</table>
+				
+			</section>			
 			
-			<para>
-				DisplayTagWidgetBuilder is a pluggable WidgetBuilder for the DisplayTag library. It is intended
-				to be used in conjunction with the JSP <classname>HtmlWidgetBuilder</classname>, <classname>SpringWidgetBuilder</classname>
-				or <classname>StrutsWidgetBuilder</classname>. It instantiates the following widgets for the following types of fields: 
-			</para>
+			<section id="section-widgetbuilders-jsfhtml">
+				<title>HtmlWidgetBuilder (JSF)</title>
+				
+				<para>
+					HtmlWidgetBuilder is the default WidgetBuilder for the JSF HtmlMetawidget. It instantiates the
+					following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>javax.faces.component.html</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HtmlCommandButton</classname></td>
+							<td>Actions (except read-only actions)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HtmlInputHidden</classname></td>
+							<td>Hidden fields when <parameter>HtmlMetawidget.setCreateHiddenFields</parameter> is set to true</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HtmlInputSecret</classname></td>
+							<td>Masked fields (except when read-only)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HtmlInputText</classname></td>
+							<td>
+								Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
+								If the field has a maximum length, calls <classname>setMaxlength</classname>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HtmlInputTextarea</classname></td>
+							<td>Large String fields</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HtmlOutputText</classname></td>
+							<td>Read-only fields (except Collections and masked fields)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HtmlSelectBooleanCheckbox</classname></td>
+							<td>Primitive booleans and required Booleans</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HtmlSelectManyCheckbox</classname></td>
+							<td>Lists or Arrays with a lookup</td>
+						</tr>					
+						<tr>
+							<td></td>
+							<td><classname>HtmlSelectOneListbox</classname></td>
+							<td>Fields with lookups</td>
+						</tr>					
+						<tr>
+							<th align="left" colspan="2"><classname>org.metawidget.faces.component</classname></th>
+						</tr>
+						<tr>
+							<td></td>					
+							<td><classname>HtmlLookupOutputText</classname></td>
+							<td>Read-only fields with lookup labels</td>
+						</tr>
+						<tr>
+							<td></td>					
+							<td><classname>UIStub</classname></td>
+							<td>Hidden fields, read-only actions, read-only masked fields and Collections</td>
+						</tr>
+					</tbody>
+				</table>
+				
+			</section>			
+	
+			<section id="section-widgetbuilders-jsphtml">
+				<title>HtmlWidgetBuilder (JSP)</title>
+				
+				<para>
+					HtmlWidgetBuilder is the default WidgetBuilder for the JSP HtmlMetawidgetTag. Since JSP has
+					only a light component model (ie. HTML tags such as &lt;input&gt; and &lt;select&gt; are just
+					Strings, not modelled as JSP tags), HtmlWidgetBuilder simply returns String-based fragments
+					of HTML. It returns the following fragments for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td><classname>&lt;input type="checkbox"&gt;</classname></td>
+							<td>Primitive booleans and required Booleans</td>
+						</tr>				
+						<tr>
+							<td></td>
+							<td><classname>&lt;input type="hidden"&gt;</classname></td>
+							<td>Hidden fields when <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>&lt;input type="password"&gt;</classname></td>
+							<td>Masked fields (except when read-only)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>&lt;input type="submit"&gt;</classname></td>
+							<td>Actions (except read-only actions)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>&lt;input type="text"&gt;</classname></td>
+							<td>
+								Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
+								If the field has a maximum length, adds <classname>maxlength="..."</classname>							
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>&lt;select&gt;</classname></td>
+							<td>Fields with lookups</td>
+						</tr>					
+						<tr>
+							<td></td>
+							<td>raw text</td>
+							<td>
+								Read-only fields (except Collections and masked fields). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
+								true, further adds a <classname>&lt;input type="hidden"&gt;</classname> so that something gets POSTed back
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>&lt;textarea&gt;</classname></td>
+							<td>Large String fields</td>
+						</tr>
+						<tr>
+							<th align="left" colspan="2"><classname>org.metawidget.jsp.tagext</classname></th>
+						</tr>
+						<tr>
+							<td></td>					
+							<td><classname>StubTag</classname></td>
+							<td>Hidden fields, read-only actions, read-only masked fields and Collections</td>
+						</tr>
+					</tbody>
+				</table>
+				
+			</section>			
+	
+			<section id="section-widgetbuilders-richfaces">
+				<title>RichFacesWidgetBuilder</title>
+				
+				<para>
+					RichFacesWidgetBuilder is a pluggable WidgetBuilder for the JSF UIMetawidget. It is intended
+					to be used in conjunction with the default HtmlWidgetBuilder. For an example, see <xref linkend="section-introduction-part2-web-richfaces"/>.
+					RichFacesWidgetBuilder instantiates the following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>org.richfaces.component.html</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>UICalendar</classname></td>
+							<td>Dates</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>UIInputNumberSlider</classname></td>
+							<td>Primitives (except boolean and char) that have a maximum and minimum value</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>UIInputNumberSpinner</classname></td>
+							<td>Primitives (except boolean and char) and Numbers that have only one or neither minimum/maximum value</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>	
 			
-			<table>
-				<colgroup>
-					<col width="5%"/>
-					<col width="35%"/>
-					<col width="60%"/>
-				</colgroup>
-				<thead>
-					<tr>
-						<th align="left">Widget</th>
-						<th></th>
-						<th align="left">Type of field</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th align="left" colspan="2"><classname>org.displaytag.tags</classname></th>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>TableTag</classname></td>
-						<td>Collections and Arrays (except if hidden, or if have a lookup)</td>
-					</tr>
-				</tbody>
-			</table>
+			<section id="section-widgetbuilders-spring">
+				<title>SpringWidgetBuilder</title>
+				
+				<para>
+					SpringWidgetBuilder is the default WidgetBuilder for SpringMetawidgetTag, though it is
+					used in conjunction with the JSP HtmlWidgetBuilder. Like HtmlWidgetBuilder, it simply
+					returns fragments of HTML. The JSP component model is too light to support returning
+					tags containing child tags (ie. a <classname>SelectTag</classname> containing
+					<classname>OptionTag</classname>s).	SpringWidgetBuilder
+					returns the following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>org.springframework.web.servlet.tags.form</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>CheckboxTag</classname></td>
+							<td>Primitive booleans and required Booleans</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HiddenInputTag</classname></td>
+							<td>Hidden fields when <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>InputTag</classname></td>
+							<td>
+								Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
+								If the field has a maximum length, calls <classname>setMaxlength</classname>							
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>PasswordInputTag</classname></td>
+							<td>Masked fields (except when read-only)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>raw text</td>
+							<td>
+								Read-only fields (except Collections and masked fields). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
+								true, further adds a <classname>HiddenInputTag</classname> so that something gets POSTed back
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>SelectTag</classname></td>
+							<td>Fields with lookups</td>
+						</tr>					
+						<tr>
+							<td></td>
+							<td><classname>TextareaTag</classname></td>
+							<td>Large String fields</td>
+						</tr>
+						<tr>
+							<th align="left" colspan="2"><classname>org.metawidget.jsp.tagext</classname></th>
+						</tr>
+						<tr>
+							<td></td>					
+							<td><classname>StubTag</classname></td>
+							<td>Actions</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>	
+	
+			<section id="section-widgetbuilders-struts">
+				<title>StrutsWidgetBuilder</title>
+				
+				<para>
+					StrutsWidgetBuilder is the default WidgetBuilder for StrutsMetawidgetTag, though it is
+					used in conjunction with the JSP HtmlWidgetBuilder. Like HtmlWidgetBuilder, it simply
+					returns fragments of HTML. The JSP component model is too light to support returning
+					tags containing child tags (ie. a <classname>SelectTag</classname> containing
+					<classname>OptionTag</classname>s).	StrutsWidgetBuilder
+					returns the following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>org.apache.struts.taglib.html</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>CheckboxTag</classname></td>
+							<td>Primitive booleans and required Booleans</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>SelectTag</classname></td>
+							<td>Fields with lookups</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HiddenTag</classname></td>
+							<td>Hidden fields when <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>PasswordTag</classname></td>
+							<td>Masked fields (except when read-only)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>raw text</td>
+							<td>
+								Read-only fields (except Collections and masked fields).If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
+								true, further adds a <classname>HiddenTag</classname> so that something gets POSTed back
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>TextTag</classname></td>
+							<td>
+								Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
+								If the field has a maximum length, calls <classname>setMaxlength</classname>							
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>TextareaTag</classname></td>
+							<td>Large String fields</td>
+						</tr>
+						<tr>
+							<th align="left" colspan="2"><classname>org.metawidget.jsp.tagext</classname></th>
+						</tr>
+						<tr>
+							<td></td>					
+							<td><classname>StubTag</classname></td>
+							<td>Actions</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>	
+
 		</section>	
 
-		<section id="section-widgetbuilders-gwt">
-			<title>GwtWidgetBuilder</title>
-			
-			<para>
-				GwtWidgetBuilder is the default WidgetBuilder for GwtMetawidget. It instantiates the
-				following widgets for the following types of fields: 
-			</para>
-			
-			<table>
-				<colgroup>
-					<col width="5%"/>
-					<col width="35%"/>
-					<col width="60%"/>
-				</colgroup>
-				<thead>
-					<tr>
-						<th align="left">Widget</th>
-						<th></th>
-						<th align="left">Type of field</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th align="left" colspan="2"><classname>com.google.gwt.user.client.ui</classname></th>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>Button</classname></td>
-						<td>Actions (except read-only actions)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>CheckBox</classname></td>
-						<td>Primitive booleans and required Booleans</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>Label</classname></td>
-						<td>Read-only fields (except Collections and masked fields)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>ListBox</classname></td>
-						<td>Fields with lookups</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>PasswordTextBox</classname></td>
-						<td>Masked fields (except when read-only)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>SimplePanel</classname></td>
-						<td>Read-only masked fields</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>TextArea</classname></td>
-						<td>Large String fields</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>TextBox</classname></td>
-						<td>
-							Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type. If
-							the field has a maximum length, calls <classname>setMaxLength</classname>
-						</td>
-					</tr>
-					<tr>
-						<th align="left" colspan="2"><classname>org.metawidget.gwt.client.ui</classname></th>
-					</tr>
-					<tr>
-						<td></td>					
-						<td><classname>Stub</classname></td>
-						<td>Hidden fields, read-only actions and Collections</td>
-					</tr>
-				</tbody>
-			</table>
-			
-		</section>			
-		
-		<section id="section-widgetbuilders-jsfhtml">
-			<title>HtmlWidgetBuilder (JSF)</title>
-			
-			<para>
-				HtmlWidgetBuilder is the default WidgetBuilder for the JSF HtmlMetawidget. It instantiates the
-				following widgets for the following types of fields: 
-			</para>
-			
-			<table>
-				<colgroup>
-					<col width="5%"/>
-					<col width="35%"/>
-					<col width="60%"/>
-				</colgroup>
-				<thead>
-					<tr>
-						<th align="left">Widget</th>
-						<th></th>
-						<th align="left">Type of field</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th align="left" colspan="2"><classname>javax.faces.component.html</classname></th>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>HtmlCommandButton</classname></td>
-						<td>Actions (except read-only actions)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>HtmlInputHidden</classname></td>
-						<td>Hidden fields when <parameter>HtmlMetawidget.setCreateHiddenFields</parameter> is set to true</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>HtmlInputSecret</classname></td>
-						<td>Masked fields (except when read-only)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>HtmlInputText</classname></td>
-						<td>
-							Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
-							If the field has a maximum length, calls <classname>setMaxlength</classname>
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>HtmlInputTextarea</classname></td>
-						<td>Large String fields</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>HtmlOutputText</classname></td>
-						<td>Read-only fields (except Collections and masked fields)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>HtmlSelectBooleanCheckbox</classname></td>
-						<td>Primitive booleans and required Booleans</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>HtmlSelectManyCheckbox</classname></td>
-						<td>Lists or Arrays with a lookup</td>
-					</tr>					
-					<tr>
-						<td></td>
-						<td><classname>HtmlSelectOneListbox</classname></td>
-						<td>Fields with lookups</td>
-					</tr>					
-					<tr>
-						<th align="left" colspan="2"><classname>org.metawidget.faces.component</classname></th>
-					</tr>
-					<tr>
-						<td></td>					
-						<td><classname>HtmlLookupOutputText</classname></td>
-						<td>Read-only fields with lookup labels</td>
-					</tr>
-					<tr>
-						<td></td>					
-						<td><classname>UIStub</classname></td>
-						<td>Hidden fields, read-only actions, read-only masked fields and Collections</td>
-					</tr>
-				</tbody>
-			</table>
-			
-		</section>			
+		<section id="section-widgetbuilders-web">
+			<title>Mobile Widget Builders</title>
 
-		<section id="section-widgetbuilders-jsphtml">
-			<title>HtmlWidgetBuilder (JSP)</title>
-			
-			<para>
-				HtmlWidgetBuilder is the default WidgetBuilder for the JSP HtmlMetawidgetTag. Since JSP has
-				only a light component model (ie. HTML tags such as &lt;input&gt; and &lt;select&gt; are just
-				Strings, not modelled as JSP tags), HtmlWidgetBuilder simply returns String-based fragments
-				of HTML. It returns the following fragments for the following types of fields: 
-			</para>
-			
-			<table>
-				<colgroup>
-					<col width="5%"/>
-					<col width="35%"/>
-					<col width="60%"/>
-				</colgroup>
-				<thead>
-					<tr>
-						<th align="left">Widget</th>
-						<th></th>
-						<th align="left">Type of field</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td></td>
-						<td><classname>&lt;input type="checkbox"&gt;</classname></td>
-						<td>Primitive booleans and required Booleans</td>
-					</tr>				
-					<tr>
-						<td></td>
-						<td><classname>&lt;input type="hidden"&gt;</classname></td>
-						<td>Hidden fields when <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>&lt;input type="password"&gt;</classname></td>
-						<td>Masked fields (except when read-only)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>&lt;input type="submit"&gt;</classname></td>
-						<td>Actions (except read-only actions)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>&lt;input type="text"&gt;</classname></td>
-						<td>
-							Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
-							If the field has a maximum length, adds <classname>maxlength="..."</classname>							
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>&lt;select&gt;</classname></td>
-						<td>Fields with lookups</td>
-					</tr>					
-					<tr>
-						<td></td>
-						<td>raw text</td>
-						<td>
-							Read-only fields (except Collections and masked fields). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
-							true, further adds a <classname>&lt;input type="hidden"&gt;</classname> so that something gets POSTed back
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>&lt;textarea&gt;</classname></td>
-						<td>Large String fields</td>
-					</tr>
-					<tr>
-						<th align="left" colspan="2"><classname>org.metawidget.jsp.tagext</classname></th>
-					</tr>
-					<tr>
-						<td></td>					
-						<td><classname>StubTag</classname></td>
-						<td>Hidden fields, read-only actions, read-only masked fields and Collections</td>
-					</tr>
-				</tbody>
-			</table>
-			
-		</section>			
-
-		<section id="section-widgetbuilders-richfaces">
-			<title>RichFacesWidgetBuilder</title>
-			
-			<para>
-				RichFacesWidgetBuilder is a pluggable WidgetBuilder for the JSF UIMetawidget. It is intended
-				to be used in conjunction with the default HtmlWidgetBuilder. For an example, see <xref linkend="section-introduction-part2-web-richfaces"/>.
-				RichFacesWidgetBuilder instantiates the following widgets for the following types of fields: 
-			</para>
-			
-			<table>
-				<colgroup>
-					<col width="5%"/>
-					<col width="35%"/>
-					<col width="60%"/>
-				</colgroup>
-				<thead>
-					<tr>
-						<th align="left">Widget</th>
-						<th></th>
-						<th align="left">Type of field</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th align="left" colspan="2"><classname>org.richfaces.component.html</classname></th>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>UICalendar</classname></td>
-						<td>Dates</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>UIInputNumberSlider</classname></td>
-						<td>Primitives (except boolean and char) that have a maximum and minimum value</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>UIInputNumberSpinner</classname></td>
-						<td>Primitives (except boolean and char) and Numbers that have only one or neither minimum/maximum value</td>
-					</tr>
-				</tbody>
-			</table>
-		</section>	
-		
-		<section id="section-widgetbuilders-spring">
-			<title>SpringWidgetBuilder</title>
-			
-			<para>
-				SpringWidgetBuilder is the default WidgetBuilder for SpringMetawidgetTag, though it is
-				used in conjunction with the JSP HtmlWidgetBuilder. Like HtmlWidgetBuilder, it simply
-				returns fragments of HTML. The JSP component model is too light to support returning
-				tags containing child tags (ie. a <classname>SelectTag</classname> containing
-				<classname>OptionTag</classname>s).	SpringWidgetBuilder
-				returns the following widgets for the following types of fields: 
-			</para>
-			
-			<table>
-				<colgroup>
-					<col width="5%"/>
-					<col width="35%"/>
-					<col width="60%"/>
-				</colgroup>
-				<thead>
-					<tr>
-						<th align="left">Widget</th>
-						<th></th>
-						<th align="left">Type of field</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th align="left" colspan="2"><classname>org.springframework.web.servlet.tags.form</classname></th>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>CheckboxTag</classname></td>
-						<td>Primitive booleans and required Booleans</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>HiddenInputTag</classname></td>
-						<td>Hidden fields when <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>InputTag</classname></td>
-						<td>
-							Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
-							If the field has a maximum length, calls <classname>setMaxlength</classname>							
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>PasswordInputTag</classname></td>
-						<td>Masked fields (except when read-only)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>raw text</td>
-						<td>
-							Read-only fields (except Collections and masked fields). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
-							true, further adds a <classname>HiddenInputTag</classname> so that something gets POSTed back
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>SelectTag</classname></td>
-						<td>Fields with lookups</td>
-					</tr>					
-					<tr>
-						<td></td>
-						<td><classname>TextareaTag</classname></td>
-						<td>Large String fields</td>
-					</tr>
-					<tr>
-						<th align="left" colspan="2"><classname>org.metawidget.jsp.tagext</classname></th>
-					</tr>
-					<tr>
-						<td></td>					
-						<td><classname>StubTag</classname></td>
-						<td>Actions</td>
-					</tr>
-				</tbody>
-			</table>
-		</section>	
-
-		<section id="section-widgetbuilders-struts">
-			<title>StrutsWidgetBuilder</title>
-			
-			<para>
-				StrutsWidgetBuilder is the default WidgetBuilder for StrutsMetawidgetTag, though it is
-				used in conjunction with the JSP HtmlWidgetBuilder. Like HtmlWidgetBuilder, it simply
-				returns fragments of HTML. The JSP component model is too light to support returning
-				tags containing child tags (ie. a <classname>SelectTag</classname> containing
-				<classname>OptionTag</classname>s).	StrutsWidgetBuilder
-				returns the following widgets for the following types of fields: 
-			</para>
-			
-			<table>
-				<colgroup>
-					<col width="5%"/>
-					<col width="35%"/>
-					<col width="60%"/>
-				</colgroup>
-				<thead>
-					<tr>
-						<th align="left">Widget</th>
-						<th></th>
-						<th align="left">Type of field</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th align="left" colspan="2"><classname>org.apache.struts.taglib.html</classname></th>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>CheckboxTag</classname></td>
-						<td>Primitive booleans and required Booleans</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>SelectTag</classname></td>
-						<td>Fields with lookups</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>HiddenTag</classname></td>
-						<td>Hidden fields when <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>PasswordTag</classname></td>
-						<td>Masked fields (except when read-only)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>raw text</td>
-						<td>
-							Read-only fields (except Collections and masked fields).If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
-							true, further adds a <classname>HiddenTag</classname> so that something gets POSTed back
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>TextTag</classname></td>
-						<td>
-							Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
-							If the field has a maximum length, calls <classname>setMaxlength</classname>							
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>TextareaTag</classname></td>
-						<td>Large String fields</td>
-					</tr>
-					<tr>
-						<th align="left" colspan="2"><classname>org.metawidget.jsp.tagext</classname></th>
-					</tr>
-					<tr>
-						<td></td>					
-						<td><classname>StubTag</classname></td>
-						<td>Actions</td>
-					</tr>
-				</tbody>
-			</table>
-		</section>	
-
-		<section id="section-widgetbuilders-swing">
-			<title>SwingWidgetBuilder</title>
-			
-			<para>
-				SwingWidgetBuilder is the default WidgetBuilder for SwingMetawidget. It instantiates the
-				following widgets for the following types of fields: 
-			</para>
-			
-			<table>
-				<colgroup>
-					<col width="5%"/>
-					<col width="35%"/>
-					<col width="60%"/>
-				</colgroup>
-				<thead>
-					<tr>
-						<th align="left">Widget</th>
-						<th></th>
-						<th align="left">Type of field</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th align="left" colspan="2"><classname>javax.swing</classname></th>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>JButton</classname></td>
-						<td>Actions (except read-only actions)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>JCheckBox</classname></td>
-						<td>Primitive booleans and required Booleans</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>JComboBox</classname></td>
-						<td>Fields with lookups</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>JLabel</classname></td>
-						<td>Read-only fields (except Collections and masked fields)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>JPanel</classname></td>
-						<td>Read-only masked fields</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>JPasswordField</classname></td>
-						<td>Masked fields (except when read-only)</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>JSlider</classname></td>
-						<td>Primitives (except boolean and char) that have both a minimum and a maximum value</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>JSpinner</classname></td>
-						<td>Primitives (except boolean and char) that have only one or neither minimum/maximum value</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>JTextArea</classname></td>
-						<td>Large String fields. The <classname>JTextArea</classname> is automatically wrapped in a <classname>JScrollPane</classname></td>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>JTextField</classname></td>
-						<td>Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type</td>
-					</tr>
-					<tr>
-						<th align="left" colspan="2"><classname>org.metawidget.swing</classname></th>
-					</tr>
-					<tr>
-						<td></td>					
-						<td><classname>Stub</classname></td>
-						<td>Hidden fields, read-only actions and Collections</td>
-					</tr>
-				</tbody>
-			</table>
-			
-		</section>			
-
-		<section id="section-widgetbuilders-swingx">
-			<title>SwingXWidgetBuilder</title>
-			
-			<para>
-				SwingXWidgetBuilder is a pluggable WidgetBuilder for the SwingX library. It is intended
-				to be used in conjunction with the default SwingWidgetBuilder. It instantiates the
-				following widgets for the following types of fields: 
-			</para>
-			
-			<table>
-				<colgroup>
-					<col width="5%"/>
-					<col width="35%"/>
-					<col width="60%"/>
-				</colgroup>
-				<thead>
-					<tr>
-						<th align="left">Widget</th>
-						<th></th>
-						<th align="left">Type of field</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<th align="left" colspan="2"><classname>org.jdesktop.swingx</classname></th>
-					</tr>
-					<tr>
-						<td></td>
-						<td><classname>JXDatePicker</classname></td>
-						<td>Dates</td>
-					</tr>
-				</tbody>
-			</table>
-		</section>	
-
+			<section id="section-widgetbuilders-android">
+				<title>AndroidWidgetBuilder</title>
+				
+				<para>
+					AndroidWidgetBuilder is the default WidgetBuilder for AndroidMetawidget. It instantiates the
+					following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>android.widget</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>CheckBox</classname></td>
+							<td>Primitive booleans and required Booleans</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>DatePicker</classname></td>
+							<td>Dates</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>EditText</classname></td>
+							<td>
+								Primitives (except booleans), Characters, Strings, and fields of unknown type. If the
+								field is masked, sets a <classname>PasswordTransformationMethod</classname>. If the
+								field is numeric, sets a <classname>DigitsKeyListener</classname>. If the field is
+								large, calls <classname>setMinLines</classname>. If the field has a maximum length,
+								sets a <classname>InputFilter.LengthFilter</classname>.
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>PasswordTextBox</classname></td>
+							<td>Masked fields (except when read-only)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>Spinner</classname></td>
+							<td>Fields with lookups</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>TextView</classname></td>
+							<td>
+								Read-only fields (except Collections). If the field is masked, sets
+								<classname>View.INVISIBLE</classname>
+							</td>
+						</tr>
+						<tr>
+							<th align="left" colspan="2"><classname>org.metawidget.gwt.client.ui</classname></th>
+						</tr>
+						<tr>
+							<td></td>					
+							<td><classname>Stub</classname></td>
+							<td>Actions, hidden fields, read-only actions and Collections</td>
+						</tr>
+					</tbody>
+				</table>
+				
+			</section>
+		</section>
+					
 		<section id="section-widgetbuilders-implementing-your-own">
 			<title>Implementing Your Own WidgetBuilder</title>
 
@@ -4491,27 +4504,23 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				
 				<table>
 					<colgroup>
-						<col width="5%"/>
-						<col width="35%"/>
+						<col width="40%"/>
 						<col width="60%"/>
 					</colgroup>
 					<thead>
 						<tr>
-							<th align="left">Attribute</th>
-							<th></th>
-							<th align="left">Type of property</th>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Property Type</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td></td>
 							<td><parameter>lookup</parameter></td>
 							<td>
 								lookup of 'true, false' if the type is Boolean
 							</td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>lookup-labels</parameter></td>
 							<td>
 								lookup of 'Yes, No' if the type is Boolean. This will generally
@@ -4519,7 +4528,6 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 							</td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>no-setter</parameter></td>
 							<td>
 								if the property has no <function>setXXX</function> method. Note <parameter>no-setter</parameter>
@@ -4529,19 +4537,16 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 							</td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>no-getter</parameter></td>
 							<td>
 								if the property has no <function>getXXX</function> method
 							</td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>type</parameter></td>
 							<td>declared type of the property</td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>actual-type</parameter></td>
 							<td>
 								if the actual type differs from the declared type (ie. it is a subclass)
@@ -4562,34 +4567,29 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				
 				<table>
 					<colgroup>
-						<col width="5%"/>
-						<col width="35%"/>
+						<col width="40%"/>
 						<col width="60%"/>
 					</colgroup>
 					<thead>
 						<tr>
-							<th align="left">Attribute</th>
-							<th></th>
-							<th align="left">Type of property</th>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Java5 feature</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td></td>
 							<td><parameter>lookup</parameter></td>
 							<td>
 								values of enums, as returned by .name()
 							</td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>lookup-labels</parameter></td>
 							<td>
 								labels of enums, as returned by .toString()
 							</td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>parameterized-type</parameter></td>
 							<td>
 								if the property is using generics
@@ -4621,50 +4621,41 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				
 				<table>
 					<colgroup>
-						<col width="5%"/>
-						<col width="35%"/>
+						<col width="40%"/>
 						<col width="60%"/>
 					</colgroup>
 					<thead>
 						<tr>
-							<th align="left">Attribute</th>
-							<th></th>
-							<th align="left">Type of property</th>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Hibernate Validator Annotation</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td></td>
 							<td><parameter>maximum-fractional-digits</parameter></td>
 							<td><classname>@Digits(fractionalDigits=...)</classname></td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>maximum-integer-digits</parameter></td>
 							<td><classname>@Digits(integerDigits=...)</classname></td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>maximum-length</parameter></td>
 							<td><classname>@Length(min=...)</classname></td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>maximum-value</parameter></td>
 							<td><classname>@Max</classname></td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>minimum-length</parameter></td>
 							<td><classname>@Length(min=...)</classname></td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>minimum-value</parameter></td>
 							<td><classname>@Min</classname></td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>required</parameter></td>
 							<td><classname>@NotNull</classname> or <classname>@NotEmpty</classname></td>
 						</tr>
@@ -4727,35 +4718,29 @@ public class PersonController {
 				
 				<table>
 					<colgroup>
-						<col width="5%"/>
-						<col width="35%"/>
+						<col width="40%"/>
 						<col width="60%"/>
 					</colgroup>
 					<thead>
 						<tr>
-							<th align="left">Attribute</th>
-							<th></th>
-							<th align="left">Type of property</th>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">JPA Annotation</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td></td>
 							<td><parameter>hidden</parameter></td>
 							<td><classname>@Id</classname>, unless <classname>JpaInspectorConfig.setHideIds</classname> is false</td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>large</parameter></td>
 							<td><classname>@Lob</classname></td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>maximum-length</parameter></td>
 							<td><classname>@Column(length=...)</classname></td>
 						</tr>
 						<tr>
-							<td></td>
 							<td><parameter>required</parameter></td>
 							<td><classname>@Column(nullable=false)</classname> or <classname>@ManyToOne(optional=false)</classname></td>
 						</tr>
@@ -4775,64 +4760,53 @@ public class PersonController {
 				
 				<table>
 					<colgroup>
-						<col width="5%"/>
-						<col width="35%"/>
+						<col width="40%"/>
 						<col width="60%"/>
 					</colgroup>
 					<thead>
 						<tr>
-							<th align="left">Annotation</th>
-							<th></th>
-							<th align="left">Result</th>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Metawidget Annotation</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td></td>
+							<td>n/a (order of fields)</td>
 							<td><classname>@UiComesAfter</classname></td>
-							<td>denotes the ordering of properties and fields in the UI</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td><classname>@UiSection</classname></td>
-							<td>denotes the start of a logical grouping in the UI</td>
+							<td><parameter>section</parameter></td>
+							<td><classname>@UiSection</classname> - denotes the start of a logical grouping in the UI</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td><classname>@UiLabel</classname></td>
-							<td>
-								denotes the label to used in the UI. Can be a resource key if the UI is using resource bundles, or
+							<td><parameter>label</parameter></td>
+							<td><classname>@UiLabel</classname> - denotes the label to used in the UI. Can be a resource
+								key if the UI is using resource bundles, or
 								an EL expression if the UI has an expression language (ie. JSF)
 							</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td><classname>@UiLarge</classname></td>
-							<td>denotes the field should be 'large' in the UI (ie. a multi-line textbox)</td>
+							<td><parameter>large</parameter></td>
+							<td><classname>@UiLarge</classname> - denotes the field should be 'large' in the UI (ie. a multi-line textbox)</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td><classname>@UiHidden</classname></td>
-							<td>
-								denotes a value should be hidden in the UI. The value may
+							<td><parameter>hidden</parameter></td>
+							<td><classname>@UiHidden</classname> - denotes a value should be hidden in the UI. The value may
 								still be rendered on the client, depending on the Metawidget (ie. for Web clients,
 								may use a HTML hidden field)
 							</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td><classname>@UiReadOnly</classname></td>
-							<td>denotes a value should be read-only in the UI</td>
+							<td><parameter>read-only</parameter></td>
+							<td><classname>@UiReadOnly</classname> - denotes a value should be read-only in the UI</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td><classname>@UiMasked</classname></td>
-							<td>denotes a value should be masked in the UI (eg. a password field)</td>
+							<td><parameter>masked</parameter></td>
+							<td><classname>@UiMasked</classname> - denotes a value should be masked in the UI (eg. a password field)</td>
 						</tr>
 						<tr>
-							<td></td>
-							<td><classname>@UiAttributes</classname> and <classname>@UiAttribute</classname></td>
-							<td>a 'catch all' for denoting arbitrary UI metadata</td>
+							<td>any</td>
+							<td><classname>@UiAttributes</classname> and <classname>@UiAttribute</classname> - a 'catch all' for denoting arbitrary UI metadata</td>
 						</tr>
 					</tbody>
 				</table>
@@ -4884,6 +4858,96 @@ public class PersonController {
 				don't need to also use <classname>@UiComesAfter</classname>).
 			</para>
 			
+			<section id="section-inspectors-metawidgetannotation">
+				<title>BaseXmlInspector</title>
+				
+				<para>
+					<classname>BaseXmlInspector</classname>'s config class, <classname>BaseXmlInspectorConfig</classname>, uses a
+					<function>setInputStream</function> method to specify the location of the XML. This allows a variety of options
+					for sourcing the XML. For example:
+				</para>
+
+				<programlisting language="xml">&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml"
+	config="XmlInspectorConfig"&gt;
+	&lt;inputStream&gt;
+		&lt;resource&gt;com/myapp/metawidget-metadata.xml&lt;/resource&gt;
+	&lt;/inputStream&gt;
+&lt;/xmlInspector&gt;</programlisting>					
+				
+				<para>
+					And:
+				</para>
+
+				<programlisting language="xml">&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml"
+	config="XmlInspectorConfig"&gt;
+	&lt;inputStream&gt;
+		&lt;url&gt;http://myserver.com/my-xml.xml&lt;/url&gt;
+	&lt;/inputStream&gt;
+&lt;/xmlInspector&gt;</programlisting>					
+
+				<para>
+					As well as specifying multiple files (which will all be inspected as one):
+				</para>
+
+				<programlisting language="xml">&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml"
+	config="XmlInspectorConfig"&gt;
+	&lt;inputStreams&gt;
+		&lt;list&gt;
+			&lt;url&gt;http://myserver.com/my-xml-1.xml&lt;/url&gt;
+			&lt;url&gt;http://myserver.com/my-xml-2.xml&lt;/url&gt;
+		&lt;/list&gt;			
+	&lt;/inputStreams&gt;
+&lt;/xmlInspector&gt;</programlisting>					
+
+			</section>
+
+			<section id="section-inspectors-metawidgetannotation">
+				<title>HibernateInspector</title>
+				
+				<para>
+					<classname>HibernateInspector</classname> inspects Hibernate <filename>hibernate.cfg.xml</filename> and
+					<filename>mapping.hbm.xml</filename> files. For the former, it iterates over <parameter>&lt;session-factory&gt;</parameter>'s
+					<parameter>&lt;mapping&gt;</parameter> elements and inspects all mapping files.
+					It returns the following attributes for the following business properties:
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Hibernate XML</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>hidden</parameter></td>
+							<td><parameter>&lt;id /&gt;</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>large</parameter></td>
+							<td><parameter>&lt;property type="clob" /&gt;</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum length</parameter></td>
+							<td><parameter>&lt;property length="..." /&gt;</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>parameterized-type</parameter></td>
+							<td><parameter>&lt;bag type="..." /&gt;</parameter> or <parameter>&lt;list type="..." /&gt;</parameter> or <parameter>&lt;set type="..." /&gt;</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>required</parameter></td>
+							<td><parameter>&lt;property not-null="true" /&gt;</parameter></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</section>
+
 			<section id="section-inspectors-xml-xmlinspector">
 				<title>XmlInspector</title>
 				
@@ -4899,6 +4963,7 @@ public class PersonController {
 				</para>
 				
 			</section>
+
 		</section>
 
 		<section id="section-inspectors-implementing-your-own">
