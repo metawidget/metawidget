@@ -4154,7 +4154,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 
 		</section>	
 
-		<section id="section-widgetbuilders-web">
+		<section id="section-widgetbuilders-mobile">
 			<title>Mobile Widget Builders</title>
 
 			<section id="section-widgetbuilders-android">
