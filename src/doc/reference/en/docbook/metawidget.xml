@@ -1419,55 +1419,55 @@ public class Person {
 	version="1.0"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
 
-	&lt;htmlMetawidget xmlns="java:org.metawidget.faces.component.html"&gt;
-		&lt;parameter&gt;
-			&lt;string&gt;tableStyleClass&lt;/string&gt;
-			&lt;string&gt;table-form&lt;/string&gt;
-		&lt;/parameter&gt;
-		&lt;parameter&gt;
-			&lt;string&gt;columnClasses&lt;/string&gt;
-			&lt;string&gt;table-label-column,table-component-column,required&lt;/string&gt;
-		&lt;/parameter&gt;
-		&lt;parameter&gt;
-			&lt;string&gt;footerStyleClass&lt;/string&gt;
-			&lt;string&gt;buttons&lt;/string&gt;
-		&lt;/parameter&gt;	
-		<emphasis role="bold">&lt;widgetBuilder&gt;
-		&lt;compositeWidgetBuilder
-			xmlns="urn:java:org.metawidget.widgetbuilder.composite"
-			config="CompositeWidgetBuilderConfig"&gt;
-			&lt;widgetBuilders&gt;
+&lt;htmlMetawidget xmlns="java:org.metawidget.faces.component.html"&gt;
+	&lt;parameter&gt;
+		&lt;string&gt;tableStyleClass&lt;/string&gt;
+		&lt;string&gt;table-form&lt;/string&gt;
+	&lt;/parameter&gt;
+	&lt;parameter&gt;
+		&lt;string&gt;columnClasses&lt;/string&gt;
+		&lt;string&gt;table-label-column,table-component-column,required&lt;/string&gt;
+	&lt;/parameter&gt;
+	&lt;parameter&gt;
+		&lt;string&gt;footerStyleClass&lt;/string&gt;
+		&lt;string&gt;buttons&lt;/string&gt;
+	&lt;/parameter&gt;	
+	<emphasis role="bold">&lt;widgetBuilder&gt;
+	&lt;compositeWidgetBuilder
+		xmlns="urn:java:org.metawidget.widgetbuilder.composite"
+		config="CompositeWidgetBuilderConfig"&gt;
+		&lt;widgetBuilders&gt;
+		&lt;list&gt;
+		&lt;richFacesWidgetBuilder
+		xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
+		&lt;htmlWidgetBuilder
+		xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
+		&lt;/list&gt;
+		&lt;/widgetBuilders&gt;
+	&lt;/compositeWidgetBuilder&gt;
+	&lt;/widgetBuilder&gt;</emphasis>
+	&lt;inspector&gt;		
+		&lt;compositeInspector
+			xmlns="java:org.metawidget.inspector.composite"
+			config="CompositeInspectorConfig"&gt;
+			&lt;inspectors&gt;
 			&lt;list&gt;
-			&lt;richFacesWidgetBuilder
-			xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
-			&lt;htmlWidgetBuilder
-			xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
+			&lt;metawidgetAnnotationInspector
+				xmlns="java:org.metawidget.inspector.annotation"/&gt;
+			&lt;propertyTypeInspector
+				xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+			&lt;java5Inspector
+				xmlns="java:org.metawidget.inspector.java5"/&gt;
+			&lt;facesInspector
+				xmlns="java:org.metawidget.inspector.faces"/&gt;			
+			&lt;xmlInspector
+				xmlns="java:org.metawidget.inspector.xml"
+				config="XmlInspectorConfig"/&gt;
 			&lt;/list&gt;
-			&lt;/widgetBuilders&gt;
-		&lt;/compositeWidgetBuilder&gt;
-		&lt;/widgetBuilder&gt;</emphasis>
-		&lt;inspector&gt;		
-			&lt;compositeInspector
-				xmlns="java:org.metawidget.inspector.composite"
-				config="CompositeInspectorConfig"&gt;
-				&lt;inspectors&gt;
-				&lt;list&gt;
-				&lt;metawidgetAnnotationInspector
-					xmlns="java:org.metawidget.inspector.annotation"/&gt;
-				&lt;propertyTypeInspector
-					xmlns="java:org.metawidget.inspector.propertytype"/&gt;
-				&lt;java5Inspector
-					xmlns="java:org.metawidget.inspector.java5"/&gt;
-				&lt;facesInspector
-					xmlns="java:org.metawidget.inspector.faces"/&gt;			
-				&lt;xmlInspector
-					xmlns="java:org.metawidget.inspector.xml"
-					config="XmlInspectorConfig"/&gt;
-				&lt;/list&gt;
-				&lt;/inspectors&gt;
-			&lt;/compositeInspector&gt;
-		&lt;/inspector&gt;
-	&lt;/htmlMetawidget&gt;
+			&lt;/inspectors&gt;
+		&lt;/compositeInspector&gt;
+	&lt;/inspector&gt;
+&lt;/htmlMetawidget&gt;
 
 &lt;/metawidget&gt;</programlisting>
 	
@@ -2278,7 +2278,7 @@ metawidget.setToInspect( animal )</programlisting>
 			<title>Widget Builders</title>
 			
 			<para>
-				Metawidget decouples the process of choosing widgets for business fields.
+				WidgetBuilders decouple the process of choosing widgets for business fields.
 			</para>
 			
 			<section id="section-architecture-widgetbuilders-interface">
@@ -2300,19 +2300,95 @@ metawidget.setToInspect( animal )</programlisting>
 					Each WidgetBuilder must look to the <parameter>elementName</parameter>, which is typically just 'property' or 'action', and
 					to the various <parameter>attributes</parameter> and instantiate an appropriate widget. WidgetBuilders can use
 					the given <parameter>metawidget</parameter> to help them if needed (for example, to access a UI context with which
-					to create widgets). Typically the WidgetBuilders do not need to configure the widget beyond simply instantiating it: the job
+					to instantiate widgets). Typically the WidgetBuilders do not need to configure the widget beyond simply instantiating it: the job
 					of setting <parameter>id</parameter>s, attaching validators, configuring bindings and so forth is done by the Metawidget.
 				</para>
 				
 			</section>
+			
+			<section id="section-architecture-widgetbuilders-usage">
+				<title>Usage</title>
+				
+				<para>
+					Unless explicitly specified, each Metawidget will instantiate a default WidgetBuilder to match
+					the target platform. For example, <classname>SwingMetawidget</classname> will by default
+					instantiate a <classname>SwingWidgetBuilder</classname>.
+				</para>
+				
+				<para>
+					This default behaviour can be overridden either in code:
+				</para>
+				
+				<programlisting language="java">metawidget.setWidgetBuilder( new MyWidgetBuilder() );</programlisting>
+				
+				<para>
+					Or via <filename>metawidget.xml</filename>
+				</para>
+				
+				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
+	&lt;widgetBuilder&gt;
+		&lt;myWidgetBuilder xmlns="java:com.myapp"/&gt;
+	&lt;/widgetBuilder&gt;
+&lt;/swingMetawidget&gt;</programlisting>
+	
+				<para>
+					This allows easy plugging in of third-party widget libraries. Note that overriding the default
+					means the default is no longer instantiated. In the example above, this would mean <classname>MyWidgetBuilder</classname>
+					is used but <classname>SwingWidgetBuilder</classname> is not. This is usually not what you want,
+					because <classname>MyWidgetBuilder</classname> will be focussed on a particular third party library and
+					will want to leave standard widgets to <classname>SwingWidgetBuilder</classname>.
+				</para>
+				
+				<para>
+					To achieve this, use <classname>CompositeWidgetBuilder</classname>:
+				</para>
+				
+				<programlisting language="java">metawidget.setWidgetBuilder( new CompositeWidetBuilder( new CompositeWidgetBuilderConfig()
+	.setWidgetBuilders(
+		new MyWidgetBuilder(), new SwingWidgetBuilder()
+	)));</programlisting>
+				
+				<para>
+					Or via <filename>metawidget.xml</filename>
+				</para>
+				
+				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
+&lt;widgetBuilder&gt;
+	&lt;compositeWidgetBuilder
+		xmlns="urn:java:org.metawidget.widgetbuilder.composite"
+		config="CompositeWidgetBuilderConfig"&gt;
+		&lt;widgetBuilders&gt;
+			&lt;list&gt;
+			&lt;myWidgetBuilder xmlns="java:com.myapp"/&gt;
+			&lt;swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/&gt;
+			&lt;/list&gt;
+		&lt;/widgetBuilders&gt;
+	&lt;/compositeWidgetBuilder&gt;
+&lt;/widgetBuilders&gt;
+&lt;/swingMetawidget&gt;</programlisting>
 
+			</section>
+
+			<section id="section-architecture-widgetbuilders-immutability">
+				<title>Immutability</title>
+				
+				<para>
+					All WidgetBuilders are required to be threadsafe and immutable. This means you only
+					need a single instance of a WidgetBuilder for your entire application. If you are using
+					<filename>metawidget.xml</filename> then <classname>ConfigReader</classname> takes care
+					of this for you, but if you are instantiating WidgetBuilders in Java code you should
+					reuse instances.
+				</para>
+				
+			</section>
+			
 		</section>
 
 		<section id="section-architecture-inspectors">
 			<title>Inspectors</title>
 
 			<para>
-				Metawidget decouples the process of inspecting back-end metadata.
+				Inspectors decouple the process of inspecting back-end metadata.
 			</para>
 
 			<section id="section-architecture-inspectors-interface">
@@ -2341,13 +2417,95 @@ metawidget.setToInspect( animal )</programlisting>
 				
 			</section>
 			
+			<section id="section-architecture-inspectors-usage">
+				<title>Usage</title>
+				
+				<para>
+					Unless explicitly specified, each Metawidget will instantiate a default Inspector. Typically this
+					will be a <classname>CompositeInspector</classname> composed of a <classname>MetawidgetAnnotationInspector</classname>
+					and a <classname>PropertyTypeInspector</classname>.
+				</para>
+				
+				<para>
+					This default behaviour can be overridden either in code:
+				</para>
+				
+				<programlisting language="java">metawidget.setInspector( new MyInspector() );</programlisting>
+				
+				<para>
+					Or via <filename>metawidget.xml</filename>
+				</para>
+				
+				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
+	&lt;inspector&gt;
+		&lt;myInspector xmlns="java:com.myapp"/&gt;
+	&lt;/inspector&gt;
+&lt;/swingMetawidget&gt;</programlisting>
+	
+				<para>
+					This allows easy plugging in of alternate Inspectors. Note that overriding the default
+					means the default is no longer instantiated. In the example above, this would mean <classname>MyInspector</classname>
+					is used but <classname>MetawidgetAnnotationInspector</classname> and <classname>PropertyTypeInspector</classname>
+					are not. This is usually not what you want,
+					because <classname>MyInspector</classname> will be focussed on a particular type of metadata and
+					will want to leave other metadata to other inspectors.
+				</para>
+				
+				<para>
+					To achieve this, use <classname>CompositeInspector</classname>:
+				</para>
+				
+				<programlisting language="java">metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig()
+	.setWidgetBuilders(
+		new MetawidgetAnnotationInspector(),
+		new PropertyTypeInspector(),
+		new MyInspector()
+	)));</programlisting>
+				
+				<para>
+					Or via <filename>metawidget.xml</filename>
+				</para>
+				
+				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
+&lt;inspector&gt;
+	&lt;compositeInspector
+		xmlns="urn:java:org.metawidget.inspector.composite"
+		config="CompositeInspectorConfig"&gt;
+		&lt;inspectors&gt;
+			&lt;list&gt;
+				&lt;metawidgetAnnotationInspector
+					xmlns="java:org.metawidget.inspector.annotation" /&gt;
+				&lt;propertyTypeInspector
+					xmlns="java:org.metawidget.inspector.propertytype"/&gt;			
+				&lt;myInspector xmlns="java:com.myapp"/&gt;
+			&lt;/list&gt;
+		&lt;/inspectors&gt;
+	&lt;/compositeInspector&gt;
+&lt;/inspector&gt;
+&lt;/swingMetawidget&gt;</programlisting>
+
+			</section>
+
+			<section id="section-architecture-inspectors-immutability">
+				<title>Immutability</title>
+				
+				<para>
+					All Inspectors are required to be threadsafe and immutable. This means you only
+					need a single instance of an Inspectors for your entire application. If you are using
+					<filename>metawidget.xml</filename> then <classname>ConfigReader</classname> takes care
+					of this for you, but if you are instantiating Inspectors in Java code you should
+					reuse instances.
+				</para>
+				
+			</section>
+
 		</section>
 
 		<section id="section-architecture-xml">
 			<title>metawidget.xml</title>
 
 			<para>
-				<filename>metawidget.xml</filename> is used to configure a Metawidget without using Java code. This
+				<filename>metawidget.xml</filename> is used to configure a Metawidget without writing Java code. This
 				can be useful in environments with intermediate languages that shield the developer from the
 				raw code, such as JSPs or Facelets. It can also be useful as a single place for configuring multiple Metawidgets,
 				such as on multiple pages of a Web application.
@@ -2356,7 +2514,7 @@ metawidget.setToInspect( animal )</programlisting>
 			<para>
 				The <filename>metawidget.xml</filename> format, as parsed by <classname>org.metawidget.inspector.ConfigReader</classname>,
 				is specialised for configuring Metawidget instances. The following sections explore some of the features of the
-				format.
+				XML format.
 			</para>
 			
 			<section id="section-architecture-xml-construct-objects">
@@ -2413,68 +2571,71 @@ metawidget.setToInspect( animal )</programlisting>
 				
 				<para>
 					As alluded to in the previous section, when calling <function>setXXX</function> methods the XML format can
-					construct and pass primitive types. The previous example used <classname>boolean</classname> and <classname>string</classname>.
-					Also supported are: 
+					construct and pass simple types. The previous example used <classname>boolean</classname>, <classname>string</classname>
+					and <classname>int</classname>. Also supported are: 
 				</para>
 
-				<itemizedlist>
-					<listitem>
-						<para>
-							<parameter>&lt;null/&gt;</parameter> - constructs a Java <classname>null</classname> value.
-						</para> 
-					</listitem>
-					<listitem>
-						<para>
-							<parameter>&lt;string&gt;...&lt;/string&gt;</parameter> - constructs a Java <classname>String</classname>.
-						</para> 
-					</listitem>
-					<listitem>
-						<para>
-							<parameter>&lt;class&gt;...&lt;/class&gt;</parameter> - constructs a Java <classname>Class</classname>.
-						</para> 
-					</listitem>
-					<listitem>
-						<para>
-							<parameter>&lt;pattern&gt;...&lt;/pattern&gt;</parameter> - constructs a Java <classname>Pattern</classname>.
-						</para> 
-					</listitem>
-					<listitem>
-						<para>
-							<parameter>&lt;int&gt;...&lt;/int&gt;</parameter> - constructs a Java <classname>int</classname>.
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							<parameter>&lt;boolean&gt;...&lt;/boolean&gt;</parameter> - constructs a Java <classname>boolean</classname>.
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							<parameter>&lt;resource&gt;...&lt;/resource&gt;</parameter> - uses <classname>Class.getResourceAsStream</classname> to open the resource as an <classname>InputStream</classname>.
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							<parameter>&lt;url&gt;...&lt;/url&gt;</parameter> - uses <classname>URL.openStream</classname> to open the URL as an <classname>InputStream</classname>.
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							<parameter>&lt;bundle&gt;...&lt;/bundle&gt;</parameter> - constructs a <classname>ResourceBundle</classname> using <classname>ResourceBundle.getBundle</classname>.
-						</para>
-					</listitem>
-				</itemizedlist>
+				<table>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Element name</th>
+							<th align="left">Java type</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><classname>&lt;null&gt;</classname></td>
+							<td>Java <classname>null</classname> value</td>
+						</tr>
+						<tr>
+							<td><classname>&lt;string&gt;</classname></td>
+							<td>Java <classname>String</classname></td>
+						</tr>
+						<tr>
+							<td><classname>&lt;class&gt;</classname></td>
+							<td>Java <classname>Class</classname></td>
+						</tr>
+						<tr>
+							<td><classname>&lt;pattern&gt;</classname></td>
+							<td>Java <classname>Pattern</classname></td>
+						</tr>
+						<tr>
+							<td><classname>&lt;int&gt;</classname></td>
+							<td>Java <classname>int</classname> primitive</td>
+						</tr>
+						<tr>
+							<td><classname>&lt;boolean&gt;</classname></td>
+							<td>Java <classname>boolean</classname> primitive</td>
+						</tr>
+						<tr>
+							<td><classname>&lt;resource&gt;</classname></td>
+							<td>uses <classname>Class.getResourceAsStream</classname> to open the resource as an <classname>InputStream</classname></td>
+						</tr>
+						<tr>
+							<td><classname>&lt;url&gt;</classname></td>
+							<td>uses <classname>URL.openStream</classname> to open the URL as an <classname>InputStream</classname></td>
+						</tr>
+						<tr>
+							<td><classname>&lt;bundle&gt;</classname></td>
+							<td>uses <classname>ResourceBundle.getBundle</classname> to construct a <classname>ResourceBundle</classname></td>
+						</tr>
+					</tbody>
+				</table>
 			</section>
 
 			<section id="section-architecture-xml-understand-immutability">
 				<title>Understand Immutability</title>
 				
 				<para>
-					Metawidget dictates all Inspectors and WidgetBuilders be immutable. This is an important design decision as
+					Metawidget dictates all Inspectors and WidgetBuilders be threadsafe and immutable. This is an important design decision as
 					it means a single instance of an Inspector or WidgetBuilder can be reused across an entire application. Immutabilty
 					is enforced by not having any <function>setXXX</function> methods on the Inspectors or WidgetBuilders themselves.
 					Rather, the <function>setXXX</function> methods are called on <classname>Config</classname> objects, which are then passed
-					to the Inspector or WidgetBuilder's constructor. Once constructed, the object cannot be changed.
+					to the Inspector or WidgetBuilder's constructor. Once constructed, the Inspector/WidgetBuilder cannot be changed.
 				</para>
 				
 				<para>
@@ -4391,10 +4552,64 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 
 			</section>
 			
+			<section id="section-inspectors-java5">
+				<title>Java5Inspector</title>
+				
+				<para>
+					<classname>Java5Inspector</classname> extends <classname>BaseObjectInspector</classname>, and so inherits its features.
+					In addition, it returns the following attributes for the following business properties:
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Attribute</th>
+							<th></th>
+							<th align="left">Type of property</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td></td>
+							<td><parameter>lookup</parameter></td>
+							<td>
+								values of enums, as returned by .name()
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>lookup-labels</parameter></td>
+							<td>
+								labels of enums, as returned by .toString()
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><parameter>parameterized-type</parameter></td>
+							<td>
+								if the property is using generics
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</section>
+
 		</section>
 
 		<section id="section-inspectors-annotation">
 			<title>Annotation Inspectors</title>
+
+			<para>
+				Beyond the base issue of inspecting an object and its properties, a number of inspectors are focussed on
+				third-party annotations. These annotation inspectors all extend <classname>BaseObjectInspector</classname>,
+				and so inherit its features, but in addition they inspect the following frameworks.
+			</para>
 
 			<section id="section-inspectors-hibernatevalidator">
 				<title>HibernateValidatorInspector</title>
