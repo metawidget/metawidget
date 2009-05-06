@@ -24,7 +24,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
@@ -45,6 +44,7 @@ import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 import javax.faces.model.SelectItem;
 
@@ -590,9 +590,9 @@ public class HtmlWidgetBuilder
 			// ...resort to a single column table...
 
 			UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
-			ValueExpression expression = application.getExpressionFactory().createValueExpression( context.getELContext(), "#{_internal}", Object.class );
+			ValueBinding binding = application.createValueBinding( "#{_internal}" );
 			columnText.setId( viewRoot.createUniqueId() );
-			columnText.setValueExpression( "value", expression );
+			columnText.setValueBinding( "value", binding );
 
 			HtmlColumn column = (HtmlColumn) application.createComponent( "javax.faces.HtmlColumn" );
 			column.setId( viewRoot.createUniqueId() );
@@ -634,9 +634,9 @@ public class HtmlWidgetBuilder
 
 				String columnName = element.getAttribute( NAME );
 				UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
-				ValueExpression expression = application.getExpressionFactory().createValueExpression( context.getELContext(), "#{_internal." + columnName + "}", Object.class );
+				ValueBinding binding = application.createValueBinding( "#{_internal." + columnName + "}" );
 				columnText.setId( viewRoot.createUniqueId() );
-				columnText.setValueExpression( "value", expression );
+				columnText.setValueBinding( "value", binding );
 
 				// ...and put it in a column...
 
