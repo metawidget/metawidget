@@ -24,22 +24,28 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.el.ValueExpression;
 import javax.faces.application.Application;
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIParameter;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.UISelectMany;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.ValueHolder;
+import javax.faces.component.html.HtmlColumn;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectManyCheckbox;
 import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.model.DataModel;
 import javax.faces.model.SelectItem;
 
 import org.metawidget.MetawidgetException;
@@ -48,14 +54,27 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 
 /**
  * WidgetBuilder for Java Server Faces environments.
  * <p>
  * Automatically creates native JSF HTML UIComponents, such as <code>HtmlInputText</code> and
  * <code>HtmlSelectOneListbox</code>, to suit the inspected fields.
+ * <p>
+ * This implementation recognizes the following <code>&lt;f:param&gt;</code> parameters:
+ * <p>
+ * <ul>
+ * <li><code>dataTableStyleClass</code>
+ * <li><code>dataTableColumnClasses</code>
+ * <li><code>dataTableRowClasses</code>
+ * </ul>
  *
  * @author Richard Kennard
  */
@@ -75,6 +94,12 @@ public class HtmlWidgetBuilder
 	 */
 
 	private final static int	SHORT_LOOKUP_SIZE	= 3;
+
+	/**
+	 * The 'var' name to use for generated <code>dataTable</code>s.
+	 */
+
+	private final static String	DATA_TABLE_VAR_NAME	= "_internal";
 
 	//
 	// Protected methods
@@ -174,7 +199,12 @@ public class HtmlWidgetBuilder
 			if ( String.class.equals( clazz ) )
 				return createReadOnlyComponent( attributes, metawidget );
 
-			// Collections
+			// Supported Collections
+
+			if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() )
+				return createDataTableComponent( clazz, attributes, metawidget );
+
+			// Other Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
 				return createHiddenComponent( attributes, metawidget );
@@ -245,7 +275,7 @@ public class HtmlWidgetBuilder
 			{
 				// UISelectMany...
 
-				if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ))
+				if ( clazz != null && ( List.class.isAssignableFrom( clazz ) || clazz.isArray() ) )
 				{
 					component = application.createComponent( "javax.faces.HtmlSelectManyCheckbox" );
 				}
@@ -293,7 +323,7 @@ public class HtmlWidgetBuilder
 			// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 			// Lookup)
 
-			if ( component == null && Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED )))
+			if ( component == null && Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
 				return application.createComponent( "javax.faces.HtmlSelectBooleanCheckbox" );
 
 			// String Lookups
@@ -430,6 +460,14 @@ public class HtmlWidgetBuilder
 						component = application.createComponent( "javax.faces.HtmlInputText" );
 					}
 				}
+
+				// Supported Collections
+
+				else if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() )
+					return createDataTableComponent( clazz, attributes, metawidget );
+
+				// Other Collections
+
 				else if ( Collection.class.isAssignableFrom( clazz ) )
 					return createHiddenComponent( attributes, metawidget );
 			}
@@ -504,6 +542,119 @@ public class HtmlWidgetBuilder
 		children.add( readOnlyComponent );
 
 		return componentStub;
+	}
+
+	private UIComponent createDataTableComponent( Class<?> clazz, Map<String, String> attributes, UIMetawidget metawidget )
+	{
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+		UIViewRoot viewRoot = context.getViewRoot();
+
+		HtmlDataTable dataTable = (HtmlDataTable) application.createComponent( "javax.faces.HtmlDataTable" );
+		dataTable.setVar( DATA_TABLE_VAR_NAME );
+
+		// CSS
+
+		UIParameter parameter = FacesUtils.findParameterWithName( metawidget, "dataTableStyleClass" );
+
+		if ( parameter != null )
+			dataTable.setStyleClass( (String) parameter.getValue() );
+
+		parameter = FacesUtils.findParameterWithName( metawidget, "dataTableColumnClasses" );
+
+		if ( parameter != null )
+			dataTable.setColumnClasses( (String) parameter.getValue() );
+
+		parameter = FacesUtils.findParameterWithName( metawidget, "dataTableRowClasses" );
+
+		if ( parameter != null )
+			dataTable.setRowClasses( (String) parameter.getValue() );
+
+		// Inspect component type
+
+		String componentType;
+
+		if ( clazz.isArray() )
+			componentType = clazz.getComponentType().getName();
+		else
+			componentType = attributes.get( PARAMETERIZED_TYPE );
+
+		String inspectedType = metawidget.inspect( null, componentType, (String[]) null );
+
+		// If there is no type...
+
+		List<UIComponent> dataChildren = dataTable.getChildren();
+
+		if ( inspectedType == null )
+		{
+			// ...resort to a single column table...
+
+			UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
+			ValueExpression expression = application.getExpressionFactory().createValueExpression( context.getELContext(), "#{_internal}", Object.class );
+			columnText.setId( viewRoot.createUniqueId() );
+			columnText.setValueExpression( "value", expression );
+
+			HtmlColumn column = (HtmlColumn) application.createComponent( "javax.faces.HtmlColumn" );
+			column.setId( viewRoot.createUniqueId() );
+			column.getChildren().add( columnText );
+			dataChildren.add( column );
+
+			// ...with a localized header
+
+			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
+			headerText.setId( viewRoot.createUniqueId() );
+			headerText.setValue( metawidget.getLabelString( context, attributes ) );
+			column.setHeader( headerText );
+		}
+
+		// ...otherwise, iterate over the component type...
+
+		else
+		{
+			Document document = XmlUtils.documentFromString( inspectedType );
+			NodeList elements = document.getDocumentElement().getFirstChild().getChildNodes();
+
+			// ...and for each property...
+
+			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ )
+			{
+				Node node = elements.item( loop );
+
+				if ( !( node instanceof Element ) )
+					continue;
+
+				Element element = (Element) node;
+
+				// ...that is visible...
+
+				if ( TRUE.equals( element.getAttribute( HIDDEN ) ) )
+					continue;
+
+				// ...make a label...
+
+				String columnName = element.getAttribute( NAME );
+				UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
+				ValueExpression expression = application.getExpressionFactory().createValueExpression( context.getELContext(), "#{_internal." + columnName + "}", Object.class );
+				columnText.setId( viewRoot.createUniqueId() );
+				columnText.setValueExpression( "value", expression );
+
+				// ...and put it in a column...
+
+				HtmlColumn column = (HtmlColumn) application.createComponent( "javax.faces.HtmlColumn" );
+				column.setId( viewRoot.createUniqueId() );
+				column.getChildren().add( columnText );
+				dataChildren.add( column );
+
+				// ...with a localized header
+
+				HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
+				headerText.setId( viewRoot.createUniqueId() );
+				headerText.setValue( metawidget.getLabelString( context, XmlUtils.getAttributesAsMap( element ) ) );
+				column.setHeader( headerText );
+			}
+		}
+
+		return createReadOnlyComponent( attributes, dataTable, metawidget );
 	}
 
 	private void addSelectItems( UIComponent component, List<?> values, List<String> labels, Map<String, String> attributes, UIMetawidget metawidget )
@@ -599,7 +750,7 @@ public class HtmlWidgetBuilder
 			{
 				// Label may be localized
 
-				String localizedLabel = metawidget.getLocalizedKey( context, StringUtils.camelCase( label ));
+				String localizedLabel = metawidget.getLocalizedKey( context, StringUtils.camelCase( label ) );
 
 				if ( localizedLabel != null )
 					selectItem.setItemLabel( localizedLabel );

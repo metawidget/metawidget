@@ -18,6 +18,7 @@ package org.metawidget.inspector;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Constructor;
@@ -306,6 +307,9 @@ public class ConfigReader
 		if ( "url".equals( name ) )
 			return true;
 
+		if ( "file".equals( name ) )
+			return true;
+
 		if ( "bundle".equals( name ) )
 			return true;
 
@@ -353,6 +357,11 @@ public class ConfigReader
 
 		if ( "url".equals( name ) )
 			return new URL( recordedText ).openStream();
+
+		// TODO: test <file>
+
+		if ( "file".equals( name ) )
+			return new FileInputStream( recordedText );
 
 		if ( "bundle".equals( name ) )
 			return ResourceBundle.getBundle( recordedText );

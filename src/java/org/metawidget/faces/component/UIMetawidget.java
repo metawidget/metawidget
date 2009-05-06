@@ -364,7 +364,9 @@ public abstract class UIMetawidget
 		if ( parameter != null )
 			return;
 
-		parameter = new UIParameter();
+		FacesContext context = getFacesContext();
+		parameter = (UIParameter) context.getApplication().createComponent( "javax.faces.Parameter" );
+		parameter.setId( context.getViewRoot().createUniqueId() );
 		parameter.setName( name );
 		parameter.setValue( value );
 		getChildren().add( parameter );

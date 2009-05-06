@@ -16,6 +16,18 @@
 			<string>footerStyleClass</string>
 			<string>buttons</string>
 		</parameter>
+		<parameter>
+			<string>dataTableStyleClass</string>
+			<string>data-table</string>
+		</parameter>
+		<parameter>
+			<string>dataTableColumnClasses</string>
+			<string>column-half, column-half</string>
+		</parameter>
+		<parameter>
+			<string>dataTableRowClasses</string>
+			<string>row-odd, row-even</string>
+		</parameter>
 		<inspector>		
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
