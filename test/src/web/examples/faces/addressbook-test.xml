@@ -78,6 +78,10 @@
 				<not>
 					<verifyText text="owner"/>
 				</not>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr[1]/td[@class='buttons']/@colspan" text="3"/>
+				<not>
+					<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr[1]/td[@class='buttons']/table"/>
+				</not>
 			
 				<clickButton label="Edit"/>
 				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>

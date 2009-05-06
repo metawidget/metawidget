@@ -84,7 +84,7 @@ public class ContactBean
 		setReadOnly( mCurrent == null || mCurrent.getId() != 0 );
 	}
 
-	@UiAttribute( name = PARAMETERIZED_TYPE, value = "org.metawidget.example.shared.addressbook.model.Communication" )
+	@UiHidden
 	public ListDataModel getCurrentCommunications()
 	{
 		if ( mModelCommunications == null )
