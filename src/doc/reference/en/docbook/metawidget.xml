@@ -3682,7 +3682,12 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						<tr>
 							<td></td>
 							<td><classname>TableTag</classname></td>
-							<td>Collections and Arrays (except if hidden, or if have a lookup)</td>
+							<td>
+								Collections and arrays (except if hidden, or if have a lookup). The
+								columns in the table are based on inspecting the component type of the array or the
+								parameterized type of the Collection (if neither can be determined,
+								the table with only have a single column)								
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -3798,6 +3803,16 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 							<td></td>
 							<td><classname>HtmlCommandButton</classname></td>
 							<td>Actions (except read-only actions)</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HtmlDataTable</classname></td>
+							<td>
+								Lists, DataModels and arrays (except if hidden, or if have
+								a lookup). The columns in the table are based on inspecting the component type of the array or the
+								parameterized type of the <classname>List</classname> (if neither can be determined,
+								the table with only have a single column)
+							</td>
 						</tr>
 						<tr>
 							<td></td>
