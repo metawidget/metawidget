@@ -91,7 +91,7 @@ public class JspAnnotationInspector
 	//
 
 	@Override
-	protected Map<String, String> inspectProperty( Property property, Object toInspect )
+	protected Map<String, String> inspectProperty( Property property )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
@@ -111,7 +111,7 @@ public class JspAnnotationInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectAction( Action action, Object toInspect )
+	protected Map<String, String> inspectAction( Action action )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();

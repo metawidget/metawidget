@@ -64,19 +64,19 @@ public class Java5Inspector
 	}
 
 	@Override
-	protected Map<String, String> inspectEntity( Class<?> classToInspect )
+	protected Map<String, String> inspectEntity( Class<?> actualClass, Class<?> declaredClass )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Enums - classToInspect may an Enum type or an enum instance type (ie. Foo$1)
 
-		if ( Enum.class.isAssignableFrom( classToInspect ) )
+		if ( Enum.class.isAssignableFrom( actualClass ) )
 		{
 			// Invoke 'magic' values method
 
-			Method methodValues = classToInspect.getMethod( "values" );
-			Enum<?>[] enums = (Enum[]) methodValues.invoke( classToInspect );
+			Method methodValues = actualClass.getMethod( "values" );
+			Enum<?>[] enums = (Enum[]) methodValues.invoke( actualClass );
 
 			// Construct lookup values
 
@@ -99,17 +99,17 @@ public class Java5Inspector
 			// will be teamed up with PropertyTypeInspector, but we are used standalone
 			// in the tutorial so we need to support this (contrived) use case.
 
-			if ( classToInspect.isEnum() )
-				attributes.put( TYPE, classToInspect.getName() );
+			if ( actualClass.isEnum() )
+				attributes.put( TYPE, actualClass.getName() );
 			else
-				attributes.put( TYPE, classToInspect.getSuperclass().getName() );
+				attributes.put( TYPE, actualClass.getSuperclass().getName() );
 		}
 
 		return attributes;
 	}
 
 	@Override
-	protected Map<String, String> inspectProperty( Property property, Object toInspect )
+	protected Map<String, String> inspectProperty( Property property )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();

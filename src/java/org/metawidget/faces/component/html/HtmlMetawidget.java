@@ -134,16 +134,12 @@ public class HtmlMetawidget
 			// to all their subcomponents
 
 			Map<String, Object> componentAttributes = component.getAttributes();
-			Map<String, Object> thisAttributes = getAttributes();
-			String style = (String) thisAttributes.get( "style" );
 
-			if ( style != null && !componentAttributes.containsKey( "style" ) )
-				componentAttributes.put( "style", style );
+			if ( mStyle != null && !componentAttributes.containsKey( "style" ) )
+				componentAttributes.put( "style", mStyle );
 
-			String styleClass = (String) thisAttributes.get( "styleClass" );
-
-			if ( styleClass != null && !componentAttributes.containsKey( "styleClass" ) )
-				componentAttributes.put( "styleClass", styleClass );
+			if ( mStyleClass != null && !componentAttributes.containsKey( "styleClass" ) )
+				componentAttributes.put( "styleClass", mStyleClass );
 		}
 
 		return super.afterBuildWidget( component, attributes );

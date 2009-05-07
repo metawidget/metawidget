@@ -53,7 +53,7 @@ public class SpringAnnotationInspector
 	//
 
 	@Override
-	protected Map<String, String> inspectProperty( Property property, Object toInspect )
+	protected Map<String, String> inspectProperty( Property property )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();

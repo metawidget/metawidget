@@ -169,9 +169,8 @@ public abstract class BaseObjectInspector
 
 				if ( propertyInParent.isReadable() )
 				{
-					Object parentToInspect = tuple[0];
-					parentAttributes = inspectProperty( propertyInParent, parentToInspect );
-					childToInspect = propertyInParent.read( parentToInspect );
+					parentAttributes = inspectProperty( propertyInParent );
+					childToInspect = propertyInParent.read( tuple[0] );
 				}
 			}
 
@@ -193,9 +192,9 @@ public abstract class BaseObjectInspector
 
 			// Inspect child properties
 
-			if ( childToInspect == null )
+			if ( childToInspect == null || childDeclaredType.isPrimitive() )
 			{
-				XmlUtils.setMapAsAttributes( entity, inspectEntity( childDeclaredType ));
+				XmlUtils.setMapAsAttributes( entity, inspectEntity( childDeclaredType, childDeclaredType ) );
 
 				// If pointed directly at a type, return properties even
 				// if the actual value is null. This is a special concession so
@@ -208,7 +207,7 @@ public abstract class BaseObjectInspector
 			else
 			{
 				Class<?> actualClass = childToInspect.getClass();
-				XmlUtils.setMapAsAttributes( entity, inspectEntity( actualClass ));
+				XmlUtils.setMapAsAttributes( entity, inspectEntity( actualClass, childDeclaredType ) );
 				inspect( childToInspect, actualClass, entity );
 			}
 
@@ -271,11 +270,8 @@ public abstract class BaseObjectInspector
 
 		for ( Property property : getProperties( classToInspect ).values() )
 		{
-			Map<String, String> propertyAttributes = inspectProperty( property, toInspect );
-			Map<String, String> entityAttributes = null;
-
-			if ( shouldInspectPropertyAsEntity( property ) )
-				entityAttributes = inspectPropertyAsEntity( property, toInspect );
+			Map<String, String> propertyAttributes = inspectProperty( property );
+			Map<String, String> entityAttributes = inspectPropertyAsEntity( property, toInspect );
 
 			if ( ( propertyAttributes != null && !propertyAttributes.isEmpty() ) || ( entityAttributes != null && !entityAttributes.isEmpty() ) )
 			{
@@ -293,7 +289,7 @@ public abstract class BaseObjectInspector
 
 		for ( Action action : getActions( classToInspect ).values() )
 		{
-			Map<String, String> attributes = inspectAction( action, toInspect );
+			Map<String, String> attributes = inspectAction( action );
 
 			if ( attributes == null || attributes.isEmpty() )
 				continue;
@@ -308,30 +304,21 @@ public abstract class BaseObjectInspector
 	}
 
 	/**
-	 * Whether to additionally inspect each child property from its class level.
+	 * Inspect the given property 'as an entity'.
 	 * <p>
-	 * This can be useful if the property's value defines useful class-level annotations, but it is
-	 * expensive (as it requires invoking the property's getter to retrieve the value) so is
-	 * <code>false</code> by default.
+	 * This method delegates to <code>inspectEntity</code>.
 	 * <p>
-	 * For example usage, see <code>PropertyTypeInspector</code>.
-	 */
-
-	protected boolean shouldInspectPropertyAsEntity( Property property )
-	{
-		return false;
-	}
-
-	/**
-	 * Inspect the given property as an entity.
-	 * <p>
-	 * This method invokes the property's getter, inspects the class of the runtime type, then
-	 * delegates to <code>inspectEntity</code>.
+	 * If the property is readable and its type is not final, this method first invokes the
+	 * property's getter so that it can pass the <em>runtime</em> type of the object to
+	 * <code>inspectEntity</code>.
 	 */
 
 	protected Map<String, String> inspectPropertyAsEntity( Property property, Object toInspect )
 		throws Exception
 	{
+		if ( !shouldInspectPropertyAsEntity( property ) )
+			return null;
+
 		Class<?> entityClass = property.getType();
 
 		// Inspect the runtime type
@@ -341,6 +328,9 @@ public abstract class BaseObjectInspector
 		// the getter. However that places a burden on the individual Inspector,
 		// because what if the field is declared to be of type Object but its
 		// actual value is a Boolean?
+		//
+		// Note: If the type is final (which includes Java primitives) there is no
+		// need to call the getter because there cannot be a subtype
 
 		if ( property.isReadable() && !Modifier.isFinal( entityClass.getModifiers() ) )
 		{
@@ -365,7 +355,22 @@ public abstract class BaseObjectInspector
 
 		// Delegate to inspectEntity
 
-		return inspectEntity( entityClass );
+		return inspectEntity( entityClass, property.getType() );
+	}
+
+	/**
+	 * Whether to additionally inspect each child property from its class level.
+	 * <p>
+	 * This can be useful if the property's value defines useful class-level annotations, but it is
+	 * expensive (as it requires invoking the property's getter to retrieve the value) so is
+	 * <code>false</code> by default.
+	 * <p>
+	 * For example usage, see <code>PropertyTypeInspector</code>.
+	 */
+
+	protected boolean shouldInspectPropertyAsEntity( Property property )
+	{
+		return false;
 	}
 
 	/**
@@ -383,7 +388,7 @@ public abstract class BaseObjectInspector
 	 * For example usage, see <code>PropertyTypeInspector</code>.
 	 */
 
-	protected Map<String, String> inspectEntity( Class<?> classToInspect )
+	protected Map<String, String> inspectEntity( Class<?> actualClass, Class<?> declaredClass )
 		throws Exception
 	{
 		return null;
@@ -397,7 +402,7 @@ public abstract class BaseObjectInspector
 	 * the call stack instead.
 	 */
 
-	protected abstract Map<String, String> inspectProperty( Property property, Object toInspect )
+	protected abstract Map<String, String> inspectProperty( Property property )
 		throws Exception;
 
 	protected Map<String, Property> getProperties( Class<?> clazz )
@@ -426,7 +431,7 @@ public abstract class BaseObjectInspector
 	 * <code>inspectAction</code>.
 	 */
 
-	protected Map<String, String> inspectAction( Action action, Object toInspect )
+	protected Map<String, String> inspectAction( Action action )
 		throws Exception
 	{
 		return null;

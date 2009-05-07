@@ -16,8 +16,6 @@
 
 package org.metawidget.faces.taglib.html;
 
-import java.util.Map;
-
 import javax.faces.component.UIComponent;
 
 import org.metawidget.faces.component.html.HtmlMetawidget;
@@ -96,19 +94,14 @@ public class HtmlMetawidgetTag
 	{
 		super.setProperties( component );
 
+		HtmlMetawidget metawidget = (HtmlMetawidget) component;
+
 		// CSS
 
-		Map<String, Object> attributes = component.getAttributes();
-
-		if ( mStyle != null )
-			attributes.put( "style", mStyle );
-
-		if ( mStyleClass != null )
-			attributes.put( "styleClass", mStyleClass );
+		metawidget.setStyle( mStyle );
+		metawidget.setStyleClass( mStyleClass );
 
 		// Other
-
-		HtmlMetawidget metawidget = (HtmlMetawidget) component;
 
 		metawidget.setCreateHiddenFields( mCreateHiddenFields );
 	}

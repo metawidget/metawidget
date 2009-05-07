@@ -196,7 +196,8 @@ public class PropertyTypeInspectorTest
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( Contact.class.getName().equals( entity.getAttribute( TYPE ) ) );
 		assertTrue( "value".equals( entity.getAttribute( NAME ) ) );
-		assertTrue( 2 == entity.getAttributes().getLength() );
+		assertTrue( PersonalContact.class.getName().equals( entity.getAttribute( ACTUAL_CLASS ) ) );
+		assertTrue( 3 == entity.getAttributes().getLength() );
 
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "address" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
@@ -344,6 +345,7 @@ public class PropertyTypeInspectorTest
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( Boolean.class.getName().equals( entity.getAttribute( TYPE ) ) );
 		assertTrue( "true, false".equals( entity.getAttribute( LOOKUP ) ) );
+		assertTrue( "Yes, No".equals( entity.getAttribute( LOOKUP_LABELS ) ) );
 		assertTrue( 3 == entity.getAttributes().getLength() );
 
 		// boolean (little 'b')
@@ -356,6 +358,38 @@ public class PropertyTypeInspectorTest
 		assertTrue( boolean.class.getName().equals( entity.getAttribute( TYPE ) ) );
 		assertTrue( !entity.hasAttribute( LOOKUP ) );
 		assertTrue( 1 == entity.getAttributes().getLength() );
+
+		// boolean with a value
+
+		document = XmlUtils.documentFromString( mInspector.inspect( new BooleanHolder(), BooleanHolder.class.getName() ) );
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+
+		entity = (Element) document.getFirstChild().getFirstChild();
+		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "littleBoolean" );
+		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertTrue( boolean.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertTrue( !property.hasAttribute( LOOKUP ) );
+		assertTrue( 2 == property.getAttributes().getLength() );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bigBoolean" );
+		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertTrue( Boolean.class.getName().equals( property.getAttribute( TYPE ) ) );
+		assertTrue( "true, false".equals( property.getAttribute( LOOKUP ) ) );
+		assertTrue( "Yes, No".equals( property.getAttribute( LOOKUP_LABELS ) ) );
+		assertTrue( 4 == property.getAttributes().getLength() );
+
+		// Pointed directly at a boolean (little 'b')
+
+		document = XmlUtils.documentFromString( mInspector.inspect( new BooleanHolder(), BooleanHolder.class.getName(), "littleBoolean" ) );
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertTrue( "littleBoolean".equals( entity.getAttribute( NAME ) ) );
+		assertTrue( boolean.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertTrue( !entity.hasAttribute( LOOKUP ) );
+		assertTrue( !entity.hasAttribute( LOOKUP_LABELS ) );
+		assertTrue( 2 == entity.getAttributes().getLength() );
 	}
 
 	//
@@ -431,5 +465,12 @@ public class PropertyTypeInspectorTest
 	public static class StringHolder
 	{
 		public String string;
+	}
+
+	public static class BooleanHolder
+	{
+		public boolean littleBoolean;
+
+		public Boolean bigBoolean;
 	}
 }

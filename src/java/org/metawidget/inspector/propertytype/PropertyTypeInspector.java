@@ -68,10 +68,14 @@ public class PropertyTypeInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectPropertyAsEntity( Property property, Object toInspect )
+	protected Map<String, String> inspectEntity( Class<?> actualClass, Class<?> declaredClass )
 		throws Exception
 	{
-		Map<String, String> attributes = super.inspectPropertyAsEntity( property, toInspect );
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+
+		// Type
+
+		attributes.put( TYPE, declaredClass.getName() );
 
 		// Actual class
 		//
@@ -80,31 +84,12 @@ public class PropertyTypeInspector
 		// consistent between Object and XML-based inspectors. In particular, we don't
 		// want to use a proxied class as the 'type'
 
-		String propertyClass = property.getType().getName();
-		String actualClass = attributes.get( TYPE );
-
-		if ( !actualClass.equals( propertyClass ) )
-		{
-			attributes.put( TYPE, propertyClass );
-			attributes.put( ACTUAL_CLASS, actualClass );
-		}
-
-		return attributes;
-	}
-
-	@Override
-	protected Map<String, String> inspectEntity( Class<?> classToInspect )
-		throws Exception
-	{
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-
-		// Type
-
-		attributes.put( TYPE, classToInspect.getName() );
+		if ( !actualClass.equals( declaredClass ))
+			attributes.put( ACTUAL_CLASS, actualClass.getName() );
 
 		// Special support for Booleans, which are tri-state
 
-		if ( Boolean.class.equals( classToInspect ) )
+		if ( Boolean.class.equals( actualClass ) )
 		{
 			attributes.put( LOOKUP, "true, false" );
 			attributes.put( LOOKUP_LABELS, "Yes, No" );
@@ -114,7 +99,7 @@ public class PropertyTypeInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectProperty( Property property, Object toInspect )
+	protected Map<String, String> inspectProperty( Property property )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();

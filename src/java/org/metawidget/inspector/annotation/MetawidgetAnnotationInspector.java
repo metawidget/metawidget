@@ -79,7 +79,7 @@ public class MetawidgetAnnotationInspector
 		{
 			// ...inspect its attributes...
 
-			Map<String, String> attributes = inspectProperty( property, toInspect );
+			Map<String, String> attributes = inspectProperty( property );
 
 			// ...(defer the UiComesAfter ones)...
 
@@ -116,7 +116,7 @@ public class MetawidgetAnnotationInspector
 		{
 			// ...inspect its attributes...
 
-			Map<String, String> attributes = inspectAction( action, toInspect );
+			Map<String, String> attributes = inspectAction( action );
 
 			// ...(defer the UiComesAfter ones)...
 
@@ -237,7 +237,7 @@ public class MetawidgetAnnotationInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectProperty( Property property, Object toInspect )
+	protected Map<String, String> inspectProperty( Property property )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
@@ -330,7 +330,7 @@ public class MetawidgetAnnotationInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectAction( Action action, Object toInspect )
+	protected Map<String, String> inspectAction( Action action )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();

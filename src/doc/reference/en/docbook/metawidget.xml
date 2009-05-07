@@ -4250,6 +4250,10 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 				for everything else.
 			</para>
 			
+			<para>
+				A convenience base class, <classname>BaseWidgetBuilder</classname>, is provided.
+			</para>
+			
 		</section>
 		
 	</chapter>

@@ -41,9 +41,9 @@ import org.metawidget.util.simple.StringUtils;
  * <p>
  * A significant difference of <code>JexlInspector</code> compared to other ELs is that the JEXL
  * EL is relative to the object being inspected, not to some global EL context. So expressions use
- * <code>this</code>, as in <code>this.retired</code>. Use of a <code>this</code>
- * keyword, as opposed to the name of the class being annotated, keeps JEXL EL expressions working
- * even for subclasses.
+ * <code>this</code>, as in <code>this.retired</code>. Use of a <code>this</code> keyword,
+ * as opposed to the name of the class being annotated, keeps JEXL EL expressions working even for
+ * subclasses.
  *
  * @author Richard Kennard
  */
@@ -56,6 +56,8 @@ public class JexlInspector
 	//
 
 	private final static ThreadLocal<JexlContext>	LOCAL_CONTEXT	= ThreadUtils.newThreadLocal();
+
+	private final static ThreadLocal<Object>		LOCAL_TOINSPECT	= ThreadUtils.newThreadLocal();
 
 	//
 	// Constructor
@@ -79,9 +81,14 @@ public class JexlInspector
 	public String inspect( Object toInspect, String type, String... names )
 		throws InspectorException
 	{
-		LOCAL_CONTEXT.remove();
+		LOCAL_TOINSPECT.set( toInspect );
 
-		return super.inspect( toInspect, type, names );
+		String inspect = super.inspect( toInspect, type, names );
+
+		LOCAL_CONTEXT.remove();
+		LOCAL_TOINSPECT.remove();
+
+		return inspect;
 	}
 
 	//
@@ -89,39 +96,39 @@ public class JexlInspector
 	//
 
 	@Override
-	protected Map<String, String> inspectProperty( Property property, Object toInspect )
+	protected Map<String, String> inspectProperty( Property property )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// UiJexlAttributes/UiJexlAttribute
 
-		putJexlAttributes( toInspect, attributes, property.getAnnotation( UiJexlAttributes.class ), property.getAnnotation( UiJexlAttribute.class ));
+		putJexlAttributes( attributes, property.getAnnotation( UiJexlAttributes.class ), property.getAnnotation( UiJexlAttribute.class ) );
 
 		return attributes;
 	}
 
 	@Override
-	protected Map<String, String> inspectAction( Action action, Object toInspect )
+	protected Map<String, String> inspectAction( Action action )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// UiJexlAttributes/UiJexlAttribute
 
-		putJexlAttributes( toInspect, attributes, action.getAnnotation( UiJexlAttributes.class ), action.getAnnotation( UiJexlAttribute.class ));
+		putJexlAttributes( attributes, action.getAnnotation( UiJexlAttributes.class ), action.getAnnotation( UiJexlAttribute.class ) );
 
 		return attributes;
 	}
 
-	protected void putJexlAttributes( Object toInspect, Map<String, String> attributes, UiJexlAttributes jexlAttributes, UiJexlAttribute jexlAttribute )
+	protected void putJexlAttributes( Map<String, String> attributes, UiJexlAttributes jexlAttributes, UiJexlAttribute jexlAttribute )
 		throws Exception
 	{
 		// UiJexlAttribute
 
 		if ( jexlAttribute != null )
 		{
-			putJexlAttribute( toInspect, jexlAttribute, attributes );
+			putJexlAttribute( jexlAttribute, attributes );
 		}
 
 		// UiJexlAttributes
@@ -130,12 +137,12 @@ public class JexlInspector
 		{
 			for ( UiJexlAttribute nestedJexlAttribute : jexlAttributes.value() )
 			{
-				putJexlAttribute( toInspect, nestedJexlAttribute, attributes );
+				putJexlAttribute( nestedJexlAttribute, attributes );
 			}
 		}
 	}
 
-	protected void putJexlAttribute( Object toInspect, UiJexlAttribute jexlAttribute, Map<String, String> attributes )
+	protected void putJexlAttribute( UiJexlAttribute jexlAttribute, Map<String, String> attributes )
 		throws Exception
 	{
 		String expression = jexlAttribute.expression();
@@ -145,7 +152,7 @@ public class JexlInspector
 		if ( expression.startsWith( "${" ) )
 			throw InspectorException.newException( "Expression '" + expression + "' should be of the form 'foo.bar', not '${foo.bar}'" );
 
-		Object value = ExpressionFactory.createExpression( expression ).evaluate( getContext( toInspect ) );
+		Object value = ExpressionFactory.createExpression( expression ).evaluate( getContext( ) );
 
 		if ( value == null )
 			return;
@@ -157,13 +164,13 @@ public class JexlInspector
 	 * Get the JexlContext. Creates one if necessary.
 	 */
 
-	protected JexlContext getContext( Object toInspect )
+	protected JexlContext getContext()
 	{
 		JexlContext context = LOCAL_CONTEXT.get();
 
 		if ( context == null )
 		{
-			context = createContext( toInspect );
+			context = createContext( LOCAL_TOINSPECT.get() );
 			LOCAL_CONTEXT.set( context );
 		}
 
