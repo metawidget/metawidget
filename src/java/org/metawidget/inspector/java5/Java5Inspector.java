@@ -69,9 +69,9 @@ public class Java5Inspector
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		// Enums
+		// Enums - classToInspect may an Enum type or an enum instance type (ie. Foo$1)
 
-		if ( Enum.class.isAssignableFrom( classToInspect ))
+		if ( Enum.class.isAssignableFrom( classToInspect ) )
 		{
 			// Invoke 'magic' values method
 
@@ -99,7 +99,10 @@ public class Java5Inspector
 			// will be teamed up with PropertyTypeInspector, but we are used standalone
 			// in the tutorial so we need to support this (contrived) use case.
 
-			attributes.put( TYPE, classToInspect.getName() );
+			if ( classToInspect.isEnum() )
+				attributes.put( TYPE, classToInspect.getName() );
+			else
+				attributes.put( TYPE, classToInspect.getSuperclass().getName() );
 		}
 
 		return attributes;

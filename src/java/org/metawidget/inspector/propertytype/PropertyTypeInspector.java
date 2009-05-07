@@ -93,21 +93,6 @@ public class PropertyTypeInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectPropertyFromParent( Property propertyInParent, Object parentToInspect )
-		throws Exception
-	{
-		// Return the parent property's type. This will be the declared type, not
-		// the actual type. This is a special case for when the value of the parent
-		// property turns out to be null. For most Inspectors, they should abort at
-		// that point, but PropertyTypeInspector needs to still return a type
-
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-		attributes.put( TYPE, propertyInParent.getType().getName() );
-
-		return attributes;
-	}
-
-	@Override
 	protected Map<String, String> inspectEntity( Class<?> classToInspect )
 		throws Exception
 	{
@@ -119,7 +104,7 @@ public class PropertyTypeInspector
 
 		// Special support for Booleans, which are tri-state
 
-		if ( Boolean.class.isAssignableFrom( classToInspect ) )
+		if ( Boolean.class.equals( classToInspect ) )
 		{
 			attributes.put( LOOKUP, "true, false" );
 			attributes.put( LOOKUP_LABELS, "Yes, No" );

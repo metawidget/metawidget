@@ -74,6 +74,7 @@ public class JpaInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "id" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ) );
+		assertTrue( !property.hasAttribute( MAXIMUM_LENGTH ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "bar" );
@@ -128,6 +129,7 @@ public class JpaInspectorTest
 	public static class Foo
 	{
 		@Id
+		@Column
 		public String id;
 
 		@Column( nullable = false, length = 10 )

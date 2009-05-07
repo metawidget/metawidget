@@ -335,6 +335,8 @@ public class PropertyTypeInspectorTest
 
 	public void testBoolean()
 	{
+		// Boolean (big 'b')
+
 		Document document = XmlUtils.documentFromString( mInspector.inspect( null, Boolean.class.getName() ) );
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 
@@ -342,6 +344,18 @@ public class PropertyTypeInspectorTest
 		assertTrue( ENTITY.equals( entity.getNodeName() ) );
 		assertTrue( Boolean.class.getName().equals( entity.getAttribute( TYPE ) ) );
 		assertTrue( "true, false".equals( entity.getAttribute( LOOKUP ) ) );
+		assertTrue( 3 == entity.getAttributes().getLength() );
+
+		// boolean (little 'b')
+
+		document = XmlUtils.documentFromString( mInspector.inspect( null, boolean.class.getName() ) );
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertTrue( boolean.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertTrue( !entity.hasAttribute( LOOKUP ) );
+		assertTrue( 1 == entity.getAttributes().getLength() );
 	}
 
 	//
@@ -357,7 +371,7 @@ public class PropertyTypeInspectorTest
 		public Contact	value;
 	}
 
-	static class SuperFoo
+	protected static class SuperFoo
 	{
 		public Contact getContact()
 		{
@@ -376,7 +390,7 @@ public class PropertyTypeInspectorTest
 		}
 	}
 
-	static class SubFoo
+	protected static class SubFoo
 		extends SuperFoo
 	{
 		public final static int	notVisible	= 0;

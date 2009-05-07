@@ -86,7 +86,7 @@ public class JpaInspector
 
 			// Length
 
-			if ( column.length() > 0 )
+			if ( column.length() != 255 )
 				attributes.put( MAXIMUM_LENGTH, String.valueOf( column.length() ) );
 		}
 

@@ -337,6 +337,31 @@ public class ConfigReaderTest
 		}
 	}
 
+	public void testBadFile()
+		throws Exception
+	{
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget>";
+		xml += "	<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"XmlInspectorConfig\">";
+		xml += "		<inputStream>";
+		xml += "			<file>/tmp/no.such.file</file>";
+		xml += "		</inputStream>";
+		xml += "	</xmlInspector>";
+		xml += "</metawidget>";
+
+		ConfigReader configReader = new ConfigReader();
+
+		try
+		{
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+			assertTrue( false );
+		}
+		catch ( InspectorException e )
+		{
+			assertTrue( e.getMessage().startsWith( "java.io.FileNotFoundException:" ) );
+		}
+	}
+
 	public void testForgottenConfigAttribute()
 		throws Exception
 	{

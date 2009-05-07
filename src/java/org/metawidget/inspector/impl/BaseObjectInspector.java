@@ -170,7 +170,7 @@ public abstract class BaseObjectInspector
 				if ( propertyInParent.isReadable() )
 				{
 					Object parentToInspect = tuple[0];
-					parentAttributes = inspectPropertyFromParent( propertyInParent, parentToInspect );
+					parentAttributes = inspectProperty( propertyInParent, parentToInspect );
 					childToInspect = propertyInParent.read( parentToInspect );
 				}
 			}
@@ -195,7 +195,9 @@ public abstract class BaseObjectInspector
 
 			if ( childToInspect == null )
 			{
-				// If pointed directly at a type, return type information even
+				XmlUtils.setMapAsAttributes( entity, inspectEntity( childDeclaredType ));
+
+				// If pointed directly at a type, return properties even
 				// if the actual value is null. This is a special concession so
 				// we can inspect parameterized types of Collections without having
 				// to iterate over and grab the first element in that Collection
@@ -205,10 +207,12 @@ public abstract class BaseObjectInspector
 			}
 			else
 			{
-				inspect( childToInspect, childToInspect.getClass(), entity );
+				Class<?> actualClass = childToInspect.getClass();
+				XmlUtils.setMapAsAttributes( entity, inspectEntity( actualClass ));
+				inspect( childToInspect, actualClass, entity );
 			}
 
-			// Add parent attributes
+			// Add parent attributes (if any)
 
 			XmlUtils.setMapAsAttributes( entity, parentAttributes );
 
@@ -262,15 +266,6 @@ public abstract class BaseObjectInspector
 		throws Exception
 	{
 		Document document = toAddTo.getOwnerDocument();
-
-		// Inspect entity
-
-		{
-			Map<String, String> attributes = inspectEntity( toInspect == null ? classToInspect : toInspect.getClass() );
-
-			if ( attributes != null && !attributes.isEmpty() )
-				XmlUtils.setMapAsAttributes( toAddTo, attributes );
-		}
 
 		// Inspect properties
 
@@ -371,20 +366,6 @@ public abstract class BaseObjectInspector
 		// Delegate to inspectEntity
 
 		return inspectEntity( entityClass );
-	}
-
-	/**
-	 * Inspect the given property via its parent.
-	 * <p>
-	 * This can be useful if the parent's getter defines useful annotations (such as <code>UiLookup</code>).
-	 * <p>
-	 * This method delegates to <code>inspectProperty</code>.
-	 */
-
-	protected Map<String, String> inspectPropertyFromParent( Property propertyInParent, Object parentToInspect )
-		throws Exception
-	{
-		return inspectProperty( propertyInParent, parentToInspect );
 	}
 
 	/**
