@@ -18,7 +18,6 @@ package org.metawidget.inspector.java5;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -64,7 +63,7 @@ public class Java5Inspector
 	}
 
 	@Override
-	protected Map<String, String> inspectEntity( Class<?> actualClass, Class<?> declaredClass )
+	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
@@ -73,15 +72,18 @@ public class Java5Inspector
 
 		if ( Enum.class.isAssignableFrom( actualClass ) )
 		{
-			// Invoke 'magic' values method
+			Class<?> enumClass;
 
-			Method methodValues = actualClass.getMethod( "values" );
-			Enum<?>[] enums = (Enum[]) methodValues.invoke( actualClass );
+			if ( actualClass.isEnum() )
+				enumClass = actualClass;
+			else
+				enumClass = actualClass.getSuperclass();
 
 			// Construct lookup values
 
 			List<String> lookup = CollectionUtils.newArrayList();
 			List<String> lookupLabels = CollectionUtils.newArrayList();
+			Enum<?>[] enums = (Enum[]) enumClass.getEnumConstants();
 
 			for ( Enum<?> anEnum : enums )
 			{
@@ -99,10 +101,7 @@ public class Java5Inspector
 			// will be teamed up with PropertyTypeInspector, but we are used standalone
 			// in the tutorial so we need to support this (contrived) use case.
 
-			if ( actualClass.isEnum() )
-				attributes.put( TYPE, actualClass.getName() );
-			else
-				attributes.put( TYPE, actualClass.getSuperclass().getName() );
+			attributes.put( TYPE, enumClass.getName() );
 		}
 
 		return attributes;

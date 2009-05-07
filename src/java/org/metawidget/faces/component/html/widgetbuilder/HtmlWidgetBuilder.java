@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.Application;
+import javax.faces.component.UIColumn;
 import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
@@ -594,7 +595,7 @@ public class HtmlWidgetBuilder
 			columnText.setId( viewRoot.createUniqueId() );
 			columnText.setValueBinding( "value", binding );
 
-			HtmlColumn column = (HtmlColumn) application.createComponent( "javax.faces.HtmlColumn" );
+			UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
 			column.setId( viewRoot.createUniqueId() );
 			column.getChildren().add( columnText );
 			dataChildren.add( column );

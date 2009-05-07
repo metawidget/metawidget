@@ -388,7 +388,7 @@ public abstract class BaseObjectInspector
 	 * For example usage, see <code>PropertyTypeInspector</code>.
 	 */
 
-	protected Map<String, String> inspectEntity( Class<?> actualClass, Class<?> declaredClass )
+	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
 		throws Exception
 	{
 		return null;

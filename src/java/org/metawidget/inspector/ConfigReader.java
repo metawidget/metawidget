@@ -358,8 +358,6 @@ public class ConfigReader
 		if ( "url".equals( name ) )
 			return new URL( recordedText ).openStream();
 
-		// TODO: test <file>
-
 		if ( "file".equals( name ) )
 			return new FileInputStream( recordedText );
 

@@ -68,7 +68,7 @@ public class PropertyTypeInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectEntity( Class<?> actualClass, Class<?> declaredClass )
+	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
