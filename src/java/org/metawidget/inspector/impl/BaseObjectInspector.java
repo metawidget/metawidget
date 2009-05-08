@@ -141,7 +141,7 @@ public abstract class BaseObjectInspector
 		{
 			Object childToInspect = null;
 			String childName = null;
-			Class<?> childDeclaredType;
+			Class<?> declaredChildType;
 			Map<String, String> parentAttributes = null;
 
 			// If the path has a parent...
@@ -163,7 +163,7 @@ public abstract class BaseObjectInspector
 				if ( propertyInParent == null )
 					return null;
 
-				childDeclaredType = propertyInParent.getType();
+				declaredChildType = propertyInParent.getType();
 
 				// ...provided it has a getter
 
@@ -184,7 +184,7 @@ public abstract class BaseObjectInspector
 					return null;
 
 				childToInspect = tuple[0];
-				childDeclaredType = (Class<?>) tuple[1];
+				declaredChildType = (Class<?>) tuple[1];
 			}
 
 			Document document = XmlUtils.newDocumentBuilder().newDocument();
@@ -192,9 +192,9 @@ public abstract class BaseObjectInspector
 
 			// Inspect child properties
 
-			if ( childToInspect == null || childDeclaredType.isPrimitive() )
+			if ( childToInspect == null || declaredChildType.isPrimitive() )
 			{
-				XmlUtils.setMapAsAttributes( entity, inspectEntity( childDeclaredType, childDeclaredType ) );
+				XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, declaredChildType ) );
 
 				// If pointed directly at a type, return properties even
 				// if the actual value is null. This is a special concession so
@@ -202,13 +202,13 @@ public abstract class BaseObjectInspector
 				// to iterate over and grab the first element in that Collection
 
 				if ( names == null || names.length == 0 )
-					inspect( childToInspect, childDeclaredType, entity );
+					inspect( childToInspect, declaredChildType, entity );
 			}
 			else
 			{
-				Class<?> actualClass = childToInspect.getClass();
-				XmlUtils.setMapAsAttributes( entity, inspectEntity( actualClass, childDeclaredType ) );
-				inspect( childToInspect, actualClass, entity );
+				Class<?> actualChildType = childToInspect.getClass();
+				XmlUtils.setMapAsAttributes( entity, inspectEntity( declaredChildType, actualChildType ) );
+				inspect( childToInspect, actualChildType, entity );
 			}
 
 			// Add parent attributes (if any)
@@ -237,7 +237,7 @@ public abstract class BaseObjectInspector
 			// subtypes (and proxied types) will stop XML and Object-based Inspectors merging back
 			// together properly
 
-			entity.setAttribute( TYPE, childDeclaredType.getName() );
+			entity.setAttribute( TYPE, declaredChildType.getName() );
 
 			// Return the document
 
@@ -304,6 +304,108 @@ public abstract class BaseObjectInspector
 	}
 
 	/**
+	 * Inspect the given entity's class (<em>not</em> its child properties/actions) and return a
+	 * Map of attributes.
+	 * <p>
+	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
+	 * Those subclasses wanting more control over these features should override methods higher in
+	 * the call stack instead.
+	 * <p>
+	 * Note: unlike <code>inspectProperty</code>, this method has a default implementation that
+	 * returns <code>null</code>. This is because most Inspectors will not implement
+	 * <code>inspectEntity</code>.
+	 * <p>
+	 * For example usage, see <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
+	 */
+
+	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
+		throws Exception
+	{
+		return null;
+	}
+
+	/**
+	 * Inspect the given property and return a Map of attributes.
+	 * <p>
+	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
+	 * Those subclasses wanting more control over these features should override methods higher in
+	 * the call stack instead.
+	 */
+
+	protected abstract Map<String, String> inspectProperty( Property property )
+		throws Exception;
+
+	/**
+	 * Inspect the given action and return a Map of attributes.
+	 * <p>
+	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
+	 * Those subclasses wanting more control over these features should override methods higher in
+	 * the call stack instead.
+	 * <p>
+	 * Note: unlike <code>inspectProperty</code>, this method has a default implementation that
+	 * returns <code>null</code>. This is because most Inspectors will not implement
+	 * <code>inspectAction</code>.
+	 */
+
+	protected Map<String, String> inspectAction( Action action )
+		throws Exception
+	{
+		return null;
+	}
+
+	/**
+	 * Whether to additionally inspect each child property using <code>inspectEntity</code> from
+	 * its class level.
+	 * <p>
+	 * This can be useful if the property's value defines useful class-level annotations, but it is
+	 * expensive (as it requires invoking the property's getter to retrieve the value) so is
+	 * <code>false</code> by default.
+	 * <p>
+	 * For example usage, see <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
+	 */
+
+	protected boolean shouldInspectPropertyAsEntity( Property property )
+	{
+		return false;
+	}
+
+	//
+	// Protected final methods
+	//
+
+	protected final Map<String, Property> getProperties( Class<?> clazz )
+	{
+		if ( mPropertyStyle == null )
+		{
+			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
+
+			@SuppressWarnings( "unchecked" )
+			Map<String, Property> map = Collections.EMPTY_MAP;
+			return map;
+		}
+
+		return mPropertyStyle.getProperties( clazz );
+	}
+
+	protected final Map<String, Action> getActions( Class<?> clazz )
+	{
+		if ( mActionStyle == null )
+		{
+			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
+
+			@SuppressWarnings( "unchecked" )
+			Map<String, Action> map = Collections.EMPTY_MAP;
+			return map;
+		}
+
+		return mActionStyle.getActions( clazz );
+	}
+
+	//
+	// Private methods
+	//
+
+	/**
 	 * Inspect the given property 'as an entity'.
 	 * <p>
 	 * This method delegates to <code>inspectEntity</code>.
@@ -313,7 +415,7 @@ public abstract class BaseObjectInspector
 	 * <code>inspectEntity</code>.
 	 */
 
-	protected Map<String, String> inspectPropertyAsEntity( Property property, Object toInspect )
+	private Map<String, String> inspectPropertyAsEntity( Property property, Object toInspect )
 		throws Exception
 	{
 		if ( !shouldInspectPropertyAsEntity( property ) )
@@ -355,105 +457,8 @@ public abstract class BaseObjectInspector
 
 		// Delegate to inspectEntity
 
-		return inspectEntity( entityClass, property.getType() );
+		return inspectEntity( property.getType(), entityClass );
 	}
-
-	/**
-	 * Whether to additionally inspect each child property from its class level.
-	 * <p>
-	 * This can be useful if the property's value defines useful class-level annotations, but it is
-	 * expensive (as it requires invoking the property's getter to retrieve the value) so is
-	 * <code>false</code> by default.
-	 * <p>
-	 * For example usage, see <code>PropertyTypeInspector</code>.
-	 */
-
-	protected boolean shouldInspectPropertyAsEntity( Property property )
-	{
-		return false;
-	}
-
-	/**
-	 * Inspect the given entity's class (<em>not</em> its child properties/actions) and return a
-	 * Map of attributes.
-	 * <p>
-	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
-	 * Those subclasses wanting more control over these features should override methods higher in
-	 * the call stack instead.
-	 * <p>
-	 * Note: unlike <code>inspectProperty</code>, this method has a default implementation that
-	 * returns <code>null</code>. This is because most Inspectors will not implement
-	 * <code>inspectEntity</code>.
-	 * <p>
-	 * For example usage, see <code>PropertyTypeInspector</code>.
-	 */
-
-	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
-		throws Exception
-	{
-		return null;
-	}
-
-	/**
-	 * Inspect the given property and return a Map of attributes.
-	 * <p>
-	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
-	 * Those subclasses wanting more control over these features should override methods higher in
-	 * the call stack instead.
-	 */
-
-	protected abstract Map<String, String> inspectProperty( Property property )
-		throws Exception;
-
-	protected Map<String, Property> getProperties( Class<?> clazz )
-	{
-		if ( mPropertyStyle == null )
-		{
-			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
-
-			@SuppressWarnings( "unchecked" )
-			Map<String, Property> map = Collections.EMPTY_MAP;
-			return map;
-		}
-
-		return mPropertyStyle.getProperties( clazz );
-	}
-
-	/**
-	 * Inspect the given action and return a Map of attributes.
-	 * <p>
-	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
-	 * Those subclasses wanting more control over these features should override methods higher in
-	 * the call stack instead.
-	 * <p>
-	 * Note: unlike <code>inspectProperty</code>, this method has a default implementation that
-	 * returns <code>null</code>. This is because most Inspectors will not implement
-	 * <code>inspectAction</code>.
-	 */
-
-	protected Map<String, String> inspectAction( Action action )
-		throws Exception
-	{
-		return null;
-	}
-
-	protected Map<String, Action> getActions( Class<?> clazz )
-	{
-		if ( mActionStyle == null )
-		{
-			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
-
-			@SuppressWarnings( "unchecked" )
-			Map<String, Action> map = Collections.EMPTY_MAP;
-			return map;
-		}
-
-		return mActionStyle.getActions( clazz );
-	}
-
-	//
-	// Private methods
-	//
 
 	/**
 	 * Returns true if the inspection returned nothing of consequence. This is an optimization that
@@ -500,15 +505,14 @@ public abstract class BaseObjectInspector
 		// still better than 'relaxing' this sanity check, as that would lead to differing behaviour
 		// when deployed as an unsigned applet versus a signed applet)
 
-		Class<?> clazz = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
+		Class<?> traverseDeclaredType = ClassUtils.niceForName( type, toTraverse.getClass().getClassLoader() );
 
-		if ( clazz == null || !clazz.isAssignableFrom( toTraverse.getClass() ) )
+		if ( traverseDeclaredType == null || !traverseDeclaredType.isAssignableFrom( toTraverse.getClass() ) )
 			return null;
 
 		// Traverse through names (if any)
 
 		Object traverse = toTraverse;
-		Class<?> traverseDeclaredType = ClassUtils.niceForName( type );
 
 		if ( names != null && names.length > 0 )
 		{

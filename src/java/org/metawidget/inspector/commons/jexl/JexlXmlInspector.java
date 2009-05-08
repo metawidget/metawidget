@@ -87,9 +87,13 @@ public class JexlXmlInspector
 		throws InspectorException
 	{
 		LOCAL_TOINSPECT.set( toInspect );
-		LOCAL_CONTEXT.remove();
 
-		return super.inspect( toInspect, type, names );
+		String inspect = super.inspect( toInspect, type, names );
+
+		LOCAL_CONTEXT.remove();
+		LOCAL_TOINSPECT.remove();
+
+		return inspect;
 	}
 
 	//

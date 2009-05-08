@@ -55,9 +55,9 @@ public class JexlInspector
 	// Private members
 	//
 
-	private final static ThreadLocal<JexlContext>	LOCAL_CONTEXT	= ThreadUtils.newThreadLocal();
-
 	private final static ThreadLocal<Object>		LOCAL_TOINSPECT	= ThreadUtils.newThreadLocal();
+
+	private final static ThreadLocal<JexlContext>	LOCAL_CONTEXT	= ThreadUtils.newThreadLocal();
 
 	//
 	// Constructor

@@ -93,9 +93,9 @@
 		
 		<para>
 			The next chapter presents a tutorial covering using Metawidget with a variety of front-ends and
-			back-ends. Chapter 2 then follows with a more in-depth architectual overview. Chapters 3 and
-			4 explore each supported front-end and back-end technology in detail. Finally, chapters
-			5 and 6 offer general advice and performance tips.
+			back-ends. Chapter 2 then follows with a more in-depth architectual overview. Chapters 3, 4 and
+			5 explore each supported front-end and back-end technology in detail. Finally, chapters
+			6 and 7 offer general advice and performance tips.
 		</para>
 		
 	</preface>
@@ -103,38 +103,28 @@
 	<chapter id="chapter-introduction">
 		<title>Introduction to Metawidget</title>
 		
-		<section id="section-introduction-preface">
-			<title>Preface</title>
-
-			<para>
-				This chapter is an introductory tutorial for new users of
-				Metawidget. Before you begin, you need to download at least the binary distribution, and
-				preferrably the source code distribution as well, from <uri>http://www.metawidget.org/download.html</uri>.
-			</para>
-			
-		</section>
+		<para>
+			This chapter is an introductory tutorial for new users of
+			Metawidget. Before you begin, you need to download at least the binary distribution, and
+			preferrably the source code distribution as well, from <uri>http://www.metawidget.org/download.html</uri>.
+		</para>
 		
 		<section id="section-introduction-part1">
 			<title>Part 1 - The First Metawidget Application</title>
 
-			<section id="section-introduction-part1-preface">
-				<title>Preface</title>
-	
-				<para>
-					Part 1 starts with a simple Swing application and develops it in easy to understand steps.
-					Metawidget supports many UI frameworks, not just Swing, but we start with Swing because it
-					ships with Java SE and requires minimal setup.
-				</para>
-	
-				<para>
-					This tutorial should take around 20 minutes. We recommend you use your preferred Java
-					development environment. If you use an Integrated Development Environment (IDE), you will
-					need to start a new Java project and add <filename>metawidget.jar</filename> to it. Otherwise,
-					you just need to ensure <filename>metawidget.jar</filename> is on your classpath.					
-				</para>
+			<para>
+				Part 1 starts with a simple Swing application and develops it in easy to understand steps.
+				Metawidget supports many UI frameworks, not just Swing, but we start with Swing because it
+				ships with Java SE and requires minimal setup.
+			</para>
+
+			<para>
+				This tutorial should take around 20 minutes. We recommend you use your preferred Java
+				development environment. If you use an Integrated Development Environment (IDE), you will
+				need to start a new Java project and add <filename>metawidget.jar</filename> to it. Otherwise,
+				you just need to ensure <filename>metawidget.jar</filename> is on your classpath.					
+			</para>
 				
-			</section>
-			
 			<section id="section-introduction-part1-object">
 				<title>The Object</title>
 				
@@ -735,8 +725,7 @@ public class Person {
 					in the same folder as your <classname>Main</classname> class:
 				</para>
 			
-				<programlisting language="xml">&lt;?xml version="1.0"?&gt;
-&lt;metawidget xmlns="http://metawidget.org"
+				<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="1.0"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
@@ -817,8 +806,7 @@ public class Main {
 					folder as your <classname>Main</classname> class:
 				</para>
 	
-				<programlisting language="xml">&lt;?xml version="1.0"?&gt;
-&lt;inspection-result xmlns="http://metawidget.org/inspection-result"
+				<programlisting language="xml">&lt;inspection-result xmlns="http://metawidget.org/inspection-result"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="1.0"	
 	xsi:schemaLocation="http://metawidget.org/inspection-result
@@ -847,8 +835,7 @@ public class Main {
 					Update your <filename>metawidget.xml</filename> to use <classname>XmlInspector</classname>:
 				</para>
 	
-				<programlisting language="xml">&lt;?xml version="1.0"?&gt;
-&lt;metawidget xmlns="http://metawidget.org"
+				<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="1.0"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
@@ -930,23 +917,18 @@ public class Person {
 		<section id="section-introduction-part2">
 			<title>Part 2 - The Address Book Application</title>
 			
-			<section id="section-introduction-part2-preface">
-				<title>Preface</title>
-	
-				<para>
-					Part 2 explores a more substantial application, and shows how Metawidget can be used to map the <emphasis>same</emphasis> back-end
-					to <emphasis>multiple</emphasis> front-ends. We will develop an Address Book application with
-					desktop-based, Web-based and mobile-based UIs.
-				</para>
-				
-				<para>
-					This tutorial should take around 45 minutes. To save time, we use the pre-built example
-					applications located in the <filename>examples</filename> folder. Also to save time, we will not
-					focus on any one front-end framework in detail. For detailed framework-specific instructions, please see 
-					<xref linkend="chapter-metawidgets"/>.
-				</para>
-				
-			</section>			
+			<para>
+				Part 2 explores a more substantial application, and shows how Metawidget can be used to map the <emphasis>same</emphasis> back-end
+				to <emphasis>multiple</emphasis> front-ends. We will develop an Address Book application with
+				desktop-based, Web-based and mobile-based UIs.
+			</para>
+			
+			<para>
+				This tutorial should take around 45 minutes. To save time, we use the pre-built example
+				applications located in the <filename>examples</filename> folder. Also to save time, we will not
+				focus on any one front-end framework in detail. For detailed framework-specific instructions, please see 
+				<xref linkend="chapter-metawidgets"/>.
+			</para>
 			
 			<section id="section-introduction-part2-desktop">
 				<title>Desktop Address Book</title>
@@ -1413,8 +1395,7 @@ public class Person {
 						edit <filename>WEB-INF/metawidget.xml</filename>:
 					</para>
 					
-					<programlisting language="xml">&lt;?xml version="1.0"?&gt;
-&lt;metawidget xmlns="http://metawidget.org"
+					<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="1.0"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
@@ -1615,18 +1596,13 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 		<section id="section-introduction-part3-other-examples">
 			<title>Part 3 - Other Examples</title>
 			
-			<section id="section-introduction-part3-preface">
-				<title>Preface</title>
+			<para>
+				The Metawidget distribution includes other examples showcasing particular features
+				on particular platforms. These additional examples are not a required part of the tutorial
+				and may be skipped. However, you may find them useful depending on which platform you
+				use.
+			</para>
 	
-				<para>
-					The Metawidget distribution includes other examples showcasing particular features
-					on particular platforms. These additional examples are not a required part of the tutorial
-					and may be skipped. However, you may find them useful depending on which platform you
-					use.
-				</para>
-	
-			</section>
-			
 			<section id="section-introduction-part3-applet">
 				<title>Swing Applet Address Book Example</title>
 	
@@ -1649,7 +1625,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 					The notable feature of the example is how the applet is packaged. Metawidget is highly modular and has no
 					mandatory third-party JAR dependencies. The <filename>example-swing-addressbook-applet</filename> Ant task
 					builds only those Inspectors necessary for the Address Book application. The resulting <filename>metawidget-applet.jar</filename> is
-					then further compressed using <filename>pack200</filename> to around 45KB. This small download size
+					then further compressed using <filename>pack200</filename> to around 50KB. This small download size
 					makes Metawidget very viable for Applet-based environments.
 				</para>
 	
@@ -2107,18 +2083,13 @@ metawidget.setToInspect( animal )</programlisting>
 	<chapter id="chapter-architecture">
 		<title>Architecture</title>
 		
-		<section id="section-architecture-preface">
-			<title>Preface</title>
-
-			<para>
-				There is a large diversity of front-end and back-end technologies. Metawidget strives to unify this
-				diversity with two over-arching concepts: WidgetBuilders that create widgets for
-				specific front-end frameworks (<classname>SwingWidgetBuilder</classname>, <classname>HtmlWidgetBuilder</classname>, etc.) and Inspectors that
-				inspect specific back-end architectures (<classname>PropertyTypeInspector</classname>, <classname>JpaInspector</classname>, etc.). These
-				two concepts are co-ordinated by a platform-specific Metawidget class.  
-			</para>
-			
-		</section>
+		<para>
+			There is a large diversity of front-end and back-end technologies. Metawidget strives to unify this
+			diversity with two over-arching concepts: WidgetBuilders that create widgets for
+			specific front-end frameworks (<classname>SwingWidgetBuilder</classname>, <classname>HtmlWidgetBuilder</classname>, etc.) and Inspectors that
+			inspect specific back-end architectures (<classname>PropertyTypeInspector</classname>, <classname>JpaInspector</classname>, etc.). These
+			two concepts are co-ordinated by a platform-specific Metawidget class.  
+		</para>
 		
 		<section id="section-architecture-metawidgets">
 			<title>Metawidgets</title>
@@ -2274,11 +2245,43 @@ metawidget.setToInspect( animal )</programlisting>
 			</section>
 		</section>
 		
+		<section id="section-architecture-inspectionresult">
+			<title>inspection-result</title>
+
+			<para>
+				The <parameter>inspection-result</parameter> XML format is the 'glue' that holds everything together: the
+				<classname>Metawidget</classname>s request it, the <classname>Inspector</classname>s provide it, and
+				the <classname>WidgetBuilder</classname>s base their choice of widgets on it.
+			</para>
+			
+			<para>
+				It is a very simple format. As an example:
+			</para>
+			
+			<programlisting language="xml">&lt;inspection-result version="1.0"&gt;
+	&lt;entity type="com.myapp.Person"&gt;
+		&lt;property name="name" required="true"/&gt;
+		&lt;property name="age" minimum-value="0"/&gt;
+	&lt;/entity&gt;
+&lt;/inspection-result&gt;</programlisting>
+
+			<para>
+				Only a handful of XML attributes are mandatory (see <filename>inspection-result-1.0.xsd</filename>). Most, such as <parameter>retired</parameter>
+				and <parameter>minimum-value</parameter>, are provided at the discretion of the <classname>Inspector</classname>
+				and recognised at the discretion of the <classname>WidgetBuilder</classname>. This loose coupling
+				allows Inspectors to evolve independently for new types of metadata, and WidgetBuilders
+				to evolve independently with new types of widgets.
+			</para>
+			
+		</section>
+		
 		<section id="section-architecture-widgetbuilders">
 			<title>Widget Builders</title>
 			
 			<para>
-				WidgetBuilders decouple the process of choosing widgets for business fields.
+				WidgetBuilders decouple the process of choosing widgets based on inspection results. This section
+				covers WidgetBuilders in general. For in-depth documentation of individual WidgetBuilders
+				see <xref linkend="chapter-widgetbuilders"/>.
 			</para>
 			
 			<section id="section-architecture-widgetbuilders-interface">
@@ -2297,7 +2300,8 @@ metawidget.setToInspect( animal )</programlisting>
 				</para>
 				
 				<para>
-					Each WidgetBuilder must look to the <parameter>elementName</parameter>, which is typically just 'property' or 'action', and
+					Each WidgetBuilder must look to the <parameter>elementName</parameter>, which is typically just 'property' or 'action'
+					from the <filename>inspection-result</filename>, and
 					to the various <parameter>attributes</parameter> and instantiate an appropriate widget. WidgetBuilders can use
 					the given <parameter>metawidget</parameter> to help them if needed (for example, to access a UI context with which
 					to instantiate widgets). Typically the WidgetBuilders do not need to configure the widget beyond simply instantiating it: the job
@@ -2388,7 +2392,9 @@ metawidget.setToInspect( animal )</programlisting>
 			<title>Inspectors</title>
 
 			<para>
-				Inspectors decouple the process of inspecting back-end metadata.
+				Inspectors decouple the process of generating inspection results from back-end metadata. This section
+				covers Inspectors in general. For in-depth documentation of individual Inspectors
+				see <xref linkend="chapter-inspectors"/>.
 			</para>
 
 			<section id="section-architecture-inspectors-interface">
@@ -2412,7 +2418,7 @@ metawidget.setToInspect( animal )</programlisting>
 				<para>
 					Depending on the type of Inspector, it may use the given <classname>toInspect</classname> to access the runtime
 					object of the given <classname>type</classname>. Or it may ignore the <classname>toInspect</classname> and look up
-					information on the given <classname>type</classname> from an XML file or a database schema.
+					information on the given <classname>type</classname> from an XML file or a database schema. 
 				</para>
 				
 			</section>
@@ -2525,8 +2531,7 @@ metawidget.setToInspect( animal )</programlisting>
 					and the XML namespace is the Java package. The following example constructs a <classname>org.metawidget.swing.SwingMetawidget</classname>. 
 				</para>
 
-				<programlisting language="xml">&lt;?xml version="1.0"?&gt;
-&lt;metawidget xmlns="http://metawidget.org"
+				<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
 
@@ -2546,8 +2551,7 @@ metawidget.setToInspect( animal )</programlisting>
 					<function>setParameter</function> methods of <classname>SwingMetawidget</classname>. The latter takes two arguments:
 				</para>
 
-				<programlisting language="xml">&lt;?xml version="1.0"?&gt;
-&lt;metawidget xmlns="http://metawidget.org"
+				<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
 
@@ -2598,6 +2602,10 @@ metawidget.setToInspect( animal )</programlisting>
 						<tr>
 							<td><classname>&lt;class&gt;</classname></td>
 							<td>Java <classname>Class</classname></td>
+						</tr>
+						<tr>
+							<td><classname>&lt;file&gt;</classname></td>
+							<td>uses <classname>FileInputStream</classname> to open the file as an <classname>InputStream</classname></td>
 						</tr>
 						<tr>
 							<td><classname>&lt;int&gt;</classname></td>
@@ -2669,16 +2677,11 @@ metawidget.setToInspect( animal )</programlisting>
 	<chapter id="chapter-metawidgets">
 		<title>Metawidgets</title>
 		
-		<section id="section-metawidgets-preface">
-			<title>Preface</title>
-
-			<para>
-				Metawidget ships with native widgets for different UI frameworks. Whilst all Metawidget widgets are
-				broadly similar, they are tailored to take advantage of their native environment. This chapter examines
-				each Metawidget widget in detail.
-			</para>
-			
-		</section>
+		<para>
+			Metawidget ships with native widgets for different UI frameworks. Whilst all Metawidget widgets are
+			broadly similar, they are tailored to take advantage of their native environment. This chapter examines
+			each Metawidget widget in detail.
+		</para>
 
 		<section id="section-metawidgets-desktop">
 			<title>Desktop Metawidgets</title>
@@ -4877,7 +4880,7 @@ public class PersonController {
 				don't need to also use <classname>@UiComesAfter</classname>).
 			</para>
 			
-			<section id="section-inspectors-metawidgetannotation">
+			<section id="section-inspectors-basexml">
 				<title>BaseXmlInspector</title>
 				
 				<para>
@@ -4920,7 +4923,52 @@ public class PersonController {
 
 			</section>
 
-			<section id="section-inspectors-metawidgetannotation">
+			<section id="section-inspectors-commonsvalidator">
+				<title>CommonsValidatorInspector</title>
+				
+				<para>
+					<classname>CommonsValidatorInspector</classname> inspects Apache Commons Validator <filename>validation.xml</filename>
+					files. It returns the following attributes for the following business properties:
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Validator XML</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>maximum-length</parameter></td>
+							<td><parameter>&lt;field depends="maxlength" /&gt;&lt;var&gt;&lt;var-name&gt;maxlength&lt;/var-name&gt;...</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-value</parameter></td>
+							<td><parameter>&lt;field depends="intRange" /&gt;&lt;var&gt;&lt;var-name&gt;max&lt;/var-name&gt;...</parameter> (or <parameter>floatRange</parameter> or <parameter>doubleRange</parameter>)</td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-length</parameter></td>
+							<td><parameter>&lt;field depends="minlength" /&gt;&lt;var&gt;&lt;var-name&gt;minlength&lt;/var-name&gt;...</parameter></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-value</parameter></td>
+							<td><parameter>&lt;field depends="intRange" /&gt;&lt;var&gt;&lt;var-name&gt;min&lt;/var-name&gt;...</parameter> (or <parameter>floatRange</parameter> or <parameter>doubleRange</parameter>)</td>
+						</tr>
+						<tr>
+							<td><parameter>required</parameter></td>
+							<td><parameter>&lt;field depends="required" /&gt;</parameter></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</section>
+
+			<section id="section-inspectors-hibernate">
 				<title>HibernateInspector</title>
 				
 				<para>
@@ -4951,7 +4999,7 @@ public class PersonController {
 							<td><parameter>&lt;property type="clob" /&gt;</parameter></td>
 						</tr>
 						<tr>
-							<td><parameter>maximum length</parameter></td>
+							<td><parameter>maximum-length</parameter></td>
 							<td><parameter>&lt;property length="..." /&gt;</parameter></td>
 						</tr>
 						<tr>
@@ -4967,11 +5015,34 @@ public class PersonController {
 
 			</section>
 
+			<section id="section-inspectors-jexlxml">
+				<title>JexlXmlInspector</title>
+				
+				<para>
+					<classname>JexlXmlInspector</classname> inspects files in <filename>inspection-result-1.0.xsd</filename> format
+					looking for XML attributes wrapped in <parameter>${...}</parameter> notation. It processes these attributes as
+					JEXL expressions before returning them. For example:
+				</para>
+				
+				<programlisting language="xml">&lt;inspection-result&gt;
+
+	&lt;entity type="com.myapp.Person"&gt;
+		&lt;property name="pension" hidden="${!this.retired}"/&gt;
+	&lt;/entity&gt;
+
+&lt;/inspection-result&gt;</programlisting>
+				
+				<para>
+					<classname>JexlXmlInspector</classname> is effectively equivalent to <classname>JexlInspector</classname>
+					but uses XML files instead of annotations.
+				</para>
+			</section>
+
 			<section id="section-inspectors-xml-xmlinspector">
 				<title>XmlInspector</title>
 				
 				<para>
-					<classname>XmlInspector</classname> inspects config files in <filename>inspection-result-1.0.xsd</filename> format. It can
+					<classname>XmlInspector</classname> inspects files in <filename>inspection-result-1.0.xsd</filename> format. It can
 					be used when no other Inspector is available for the given attribute.
 				</para>
 				
@@ -5072,14 +5143,9 @@ public class PersonController {
 	<chapter id="chapter-howto">
 		<title>How To's</title>
 		
-		<section id="section-howto-preface">
-			<title>Preface</title>
-			
-			<para>
-				This section contains 'How To's' (or 'Recipes') for various scenarios you may encounter when using Metawidget.
-			</para>
-			
-		</section>
+		<para>
+			This section contains 'How To's' (or 'Recipes') for various scenarios you may encounter when using Metawidget.
+		</para>
 		
 		<section id="section-howto-order">
 			<title>Order Fields</title>
@@ -5233,16 +5299,11 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 	<chapter id="chapter-performance">
 		<title>Performance</title>
 		
-		<section id="section-performance-preface">
-			<title>Preface</title>
-			
-			<para>
-				Performance is very important to Metawidget. Whilst generating a UI dynamically - as opposed to hard coding it
-				statically - is always likely to involve a performance tradeoff, Metawidget supports a number of techniques
-				to help minimize this.
-			</para>
-			
-		</section>
+		<para>
+			Performance is very important to Metawidget. Whilst generating a UI dynamically - as opposed to hard coding it
+			statically - is always likely to involve a performance tradeoff, Metawidget supports a number of techniques
+			to help minimize this.
+		</para>
 		
 		<section id="section-performance-jar">
 			<title>JAR Size</title>
