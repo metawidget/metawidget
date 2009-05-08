@@ -136,6 +136,12 @@ public class Java5Inspector
 
 				for ( Type typeActual : typeActuals )
 				{
+					// Android 1.1_r1 sometimes provides null typeActuals while
+					// testing the AddressBook application
+
+					if ( typeActual == null )
+						continue;
+
 					if ( builder.length() > 0 )
 						builder.append( StringUtils.SEPARATOR_COMMA );
 

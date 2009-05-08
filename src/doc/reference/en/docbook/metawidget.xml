@@ -4208,7 +4208,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						<tr>
 							<td></td>
 							<td><classname>DatePicker</classname></td>
-							<td>Dates</td>
+							<td>Dates (provided they are not-nullable)</td>
 						</tr>
 						<tr>
 							<td></td>
@@ -4218,7 +4218,8 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 								field is masked, sets a <classname>PasswordTransformationMethod</classname>. If the
 								field is numeric, sets a <classname>DigitsKeyListener</classname>. If the field is
 								large, calls <classname>setMinLines</classname>. If the field has a maximum length,
-								sets a <classname>InputFilter.LengthFilter</classname>.
+								sets a <classname>InputFilter.LengthFilter</classname>. If the field is a
+								Date, sets a <classname>DateKeyListener</classname>.
 							</td>
 						</tr>
 						<tr>
