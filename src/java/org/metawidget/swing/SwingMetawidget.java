@@ -516,7 +516,9 @@ public class SwingMetawidget
 		if ( mPropertyBinding == null )
 			throw MetawidgetException.newException( "No property binding configured. Use SwingMetawidget.setPropertyBindingClass" );
 
-		mPropertyBinding.saveProperties();
+		// (use getPropertyBinding(), not mPropertyBinding, just to make sure that code's okay)
+
+		getPropertyBinding().saveProperties();
 
 		// Having a save() method avoids having to expose a getPropertyBinding() method, which is
 		// handy because we can worry about nested Metawidgets here, not in the PropertyBinding
@@ -1228,6 +1230,17 @@ public class SwingMetawidget
 			nestedMetawidget.setParameters( CollectionUtils.newHashMap( mParameters ) );
 
 		nestedMetawidget.setToInspect( mToInspect );
+	}
+
+	/**
+	 * Hook for subclasses.
+	 * <p>
+	 * As requested here: https://sourceforge.net/forum/message.php?msg_id=7386511
+	 */
+
+	protected PropertyBinding getPropertyBinding()
+	{
+		return mPropertyBinding;
 	}
 
 	//
