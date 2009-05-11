@@ -180,7 +180,7 @@ public class Main {
 				<para>		
 	 				Note many IDEs include visual UI builders
 					for dragging and dropping widgets. Metawidget integrates
-					with these tools, and Metawidget widgets can be dragged and
+					with these tools and Metawidget widgets can be dragged and
 					dropped like any other. As we shall see, however, Metawidget
 					widgets automatically fill themselves with child widgets at runtime,
 					saving significant development time.
@@ -407,9 +407,9 @@ public class Main {
 				
 import javax.swing.*;
 <emphasis role="bold">import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.composite.*;
+import org.metawidget.inspector.composite.*;</emphasis>
 import org.metawidget.inspector.java5.*;
-import org.metawidget.inspector.propertytype.*;</emphasis>
+<emphasis role="bold">import org.metawidget.inspector.propertytype.*;</emphasis>
 import org.metawidget.swing.*;
 
 public class Main {

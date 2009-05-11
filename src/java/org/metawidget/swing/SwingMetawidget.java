@@ -879,7 +879,7 @@ public class SwingMetawidget
 		// When used as part of an IDE builder tool, render as a dotted square so that we can see
 		// something!
 
-		if ( mToInspect == null && getComponentCount() == 0 )
+		if ( mPath == null && getComponentCount() == 0 )
 		{
 			Graphics2D graphics2d = (Graphics2D) graphics;
 			Stroke strokeBefore = graphics2d.getStroke();
@@ -973,6 +973,11 @@ public class SwingMetawidget
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
+			return;
+
+		// Special support for visual IDE builders
+
+		if ( mPath == null )
 			return;
 
 		mNeedsConfiguring = false;

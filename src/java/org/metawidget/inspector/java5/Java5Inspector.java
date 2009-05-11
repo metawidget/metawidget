@@ -18,6 +18,7 @@ package org.metawidget.inspector.java5;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -72,18 +73,20 @@ public class Java5Inspector
 
 		if ( Enum.class.isAssignableFrom( actualClass ) )
 		{
-			Class<?> enumClass;
+			// Invoke 'magic' values method
+			//
+			// This actually proved more reliable than using 'getEnumConstants', as that
+			// didn't seem to work in some environments (ie. NetBeans). Also, you can
+			// call 'values' from both the Enum class (ie. Gender) and a Enum instance
+			// (ie. Gender$Male)
 
-			if ( actualClass.isEnum() )
-				enumClass = actualClass;
-			else
-				enumClass = actualClass.getSuperclass();
+			Method methodValues = actualClass.getMethod( "values" );
+			Enum<?>[] enums = (Enum[]) methodValues.invoke( actualClass );
 
 			// Construct lookup values
 
 			List<String> lookup = CollectionUtils.newArrayList();
 			List<String> lookupLabels = CollectionUtils.newArrayList();
-			Enum<?>[] enums = (Enum[]) enumClass.getEnumConstants();
 
 			for ( Enum<?> anEnum : enums )
 			{
@@ -101,7 +104,10 @@ public class Java5Inspector
 			// will be teamed up with PropertyTypeInspector, but we are used standalone
 			// in the tutorial so we need to support this (contrived) use case.
 
-			attributes.put( TYPE, enumClass.getName() );
+			if ( actualClass.isEnum() )
+				attributes.put( TYPE, actualClass.getName() );
+			else
+				attributes.put( TYPE, actualClass.getSuperclass().getName() );
 		}
 
 		return attributes;
