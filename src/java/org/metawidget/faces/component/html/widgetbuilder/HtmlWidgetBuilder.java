@@ -390,7 +390,7 @@ public class HtmlWidgetBuilder
 							// ...we don't use ACTUAL_TYPE, because for enums (eg. Foo$1) and
 							// proxied types it gets messy
 
-							Class<?> declaredClass = Class.forName( attributes.get( TYPE ) );
+							Class<?> declaredClass = ClassUtils.niceForName( attributes.get( TYPE ) );
 							converter = application.createConverter( declaredClass );
 						}
 					}
