@@ -95,11 +95,11 @@ public class HtmlWidgetBuilder
 		if ( jspLookup != null && !"".equals( jspLookup ) )
 			return writeReadOnlyTag( attributes, metawidget );
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully
 
-		if ( type == null || type.length() == 0 )
+		if ( type == null )
 			return writeReadOnlyTag( attributes, metawidget );
 
 		Class<?> clazz = ClassUtils.niceForName( type );
@@ -164,11 +164,11 @@ public class HtmlWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return writeSubmitTag( attributes, metawidget );
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully with a text box
 
-		if ( type == null || "".equals( type ) )
+		if ( type == null )
 			return writeTextTag( attributes, metawidget );
 
 		// Lookup the Class
@@ -350,7 +350,7 @@ public class HtmlWidgetBuilder
 
 		// Maxlength
 
-		if ( "char".equals( attributes.get( TYPE ) ) )
+		if ( "char".equals( getType( attributes ) ) )
 		{
 			buffer.append( " maxlength=\"1\"" );
 		}
@@ -498,7 +498,7 @@ public class HtmlWidgetBuilder
 
 		// Add an empty choice (if nullable, and not required)
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		if ( type == null )
 		{

@@ -17,7 +17,8 @@
 package org.metawidget.inspector.iface;
 
 /**
- * Common interface implemented by all Inspectors.
+ * Common interface implemented by all Inspectors. Inspectors decouple the process of generating
+ * inspection results from back-end metadata.
  * <p>
  * Inspectors must be threadsafe and immutable (or, at least, appear that way to clients. They can
  * have caches or configuration settings internally).

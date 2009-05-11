@@ -81,8 +81,14 @@ public class PropertyTypeInspector
 		//
 		// Note: we don't do this the other way around (eg. return the actual class as
 		// TYPE and have a, say, DECLARED_CLASS attribute) because the type must be
-		// consistent between Object and XML-based inspectors. In particular, we don't
-		// want to use a proxied class as the 'type'
+		// consistent between Object and XML-based inspectors. In particular:
+		//
+		// 1. Entity types must be consistent in order for CompositeInspector to
+		// merge correctly
+		// 2. Property types don't need to be consistent, but sometimes a widget
+		// needs to be created directly from the top-level entity level so the
+		// WidgetBuilders will always need to check ACTUAL_CLASS
+		// 3. We don't want to use a proxied class as the 'type'
 
 		if ( !actualClass.equals( declaredClass ))
 			attributes.put( ACTUAL_CLASS, actualClass.getName() );

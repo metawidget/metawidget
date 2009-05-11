@@ -14,26 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.widgetbuilder.iface;
-
-import java.util.Map;
-
 /**
- * Common interface implemented by all WidgetBuilders. WidgetBuilders decouple the process of
- * choosing widgets based on inspection results.
- * <p>
- * WidgetBuilders must be threadsafe and immutable (or, at least, appear that way to clients. They
- * can have caches or configuration settings internally).
+ * Struts support: widget builders.
  *
  * @author Richard Kennard
  */
 
-public interface WidgetBuilder<W, M extends W>
-{
-	//
-	// Methods
-	//
-
-	W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
-		throws Exception;
-}
+package org.metawidget.jsp.tagext.html.widgetbuilder.struts;

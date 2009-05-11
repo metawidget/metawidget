@@ -191,11 +191,11 @@ public class AndroidWidgetBuilder
 		if ( lookup != null && !"".equals( lookup ) )
 			return new TextView( metawidget.getContext() );
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully
 
-		if ( type == null || "".equals( type ) )
+		if ( type == null )
 			return new TextView( metawidget.getContext() );
 
 		// Lookup the Class
@@ -249,11 +249,11 @@ public class AndroidWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return new Stub( metawidget.getContext() );
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully with a text box
 
-		if ( type == null || "".equals( type ) )
+		if ( type == null )
 			return new EditText( metawidget.getContext() );
 
 		// Lookup the Class

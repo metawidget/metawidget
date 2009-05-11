@@ -26,9 +26,6 @@ import org.metawidget.faces.component.UIMetawidget;
 
 /**
  * Metawidget for Java Server Faces environments.
- * <p>
- * Automatically creates native JSF HTML UIComponents, such as <code>HtmlInputText</code> and
- * <code>HtmlSelectOneListbox</code>, to suit the inspected fields.
  *
  * @author Richard Kennard
  */

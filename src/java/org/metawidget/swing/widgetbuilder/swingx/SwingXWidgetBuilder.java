@@ -69,9 +69,9 @@ public class SwingXWidgetBuilder
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 			return new Stub();
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
-		if ( type == null || "".equals( type ) )
+		if ( type == null )
 			return null;
 
 		Class<?> clazz = ClassUtils.niceForName( type );

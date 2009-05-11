@@ -130,11 +130,11 @@ public class SwingWidgetBuilder
 			return new JLabel();
 		}
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully with a JTextField
 
-		if ( type == null || "".equals( type ) )
+		if ( type == null )
 			return new JLabel();
 
 		// Lookup the Class
@@ -208,11 +208,11 @@ public class SwingWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return new JButton( metawidget.getLabelString( attributes ) );
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully with a JTextField
 
-		if ( type == null || "".equals( type ) )
+		if ( type == null )
 			return new JTextField();
 
 		// Lookup the Class

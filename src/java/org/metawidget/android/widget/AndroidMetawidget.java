@@ -53,9 +53,6 @@ import android.widget.LinearLayout;
 /**
  * Metawidget for Android environments.
  * <p>
- * Automatically creates native Android Views, such as <code>EditText</code> and
- * <code>Spinner</code>, to suit the inspected fields.
- * <p>
  * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>,
  * because <code>FrameLayout</code> would <em>always</em> need to have another
  * <code>Layout</code> embedded within it, whereas <code>LinearLayout</code> is occasionally

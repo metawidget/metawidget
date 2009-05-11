@@ -169,11 +169,11 @@ public class HtmlWidgetBuilder
 		if ( facesLookup != null && !"".equals( facesLookup ) )
 			return createReadOnlyComponent( attributes, metawidget );
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully with a javax.faces.HtmlOutputText
 
-		if ( type == null || "".equals( type ) )
+		if ( type == null )
 			return createReadOnlyComponent( attributes, metawidget );
 
 		Class<?> clazz = ClassUtils.niceForName( type );
@@ -260,13 +260,14 @@ public class HtmlWidgetBuilder
 			return component;
 		}
 
-		// Faces Lookups
+		String type = getType( attributes );
 
-		String type = attributes.get( TYPE );
 		Class<?> clazz = null;
 
 		if ( type != null )
 			clazz = ClassUtils.niceForName( type );
+
+		// Faces Lookups
 
 		String facesLookup = attributes.get( FACES_LOOKUP );
 
@@ -665,7 +666,7 @@ public class HtmlWidgetBuilder
 
 		// Add an empty choice (if nullable, and not required)
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		if ( type == null )
 		{
@@ -779,7 +780,7 @@ public class HtmlWidgetBuilder
 
 		if ( component instanceof HtmlSelectOneListbox )
 		{
-			String type = attributes.get( TYPE );
+			String type = getType( attributes );
 
 			if ( type == null )
 			{

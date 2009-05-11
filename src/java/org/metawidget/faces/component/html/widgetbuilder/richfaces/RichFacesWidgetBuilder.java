@@ -63,9 +63,9 @@ public class RichFacesWidgetBuilder
 			return null;
 
 		Application application = FacesContext.getCurrentInstance().getApplication();
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
-		if ( type == null )
+		if ( type == null)
 			return null;
 
 		Class<?> clazz = ClassUtils.niceForName( type );

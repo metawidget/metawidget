@@ -17,6 +17,7 @@
 package org.metawidget.widgetbuilder.impl;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
 import java.util.Map;
 
@@ -56,6 +57,31 @@ public abstract class BaseWidgetBuilder<W, M extends W>
 			return buildReadOnlyWidget( elementName, attributes, metawidget );
 
 		return buildActiveWidget( elementName, attributes, metawidget );
+	}
+
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Looks up the TYPE attribute, but first checks the ACTUAL_CLASS attribute.
+	 *
+	 * @return ACTUAL_TYPE of, if none, TYPE or, if none, null. Never an empty String.
+	 */
+
+	protected String getType( Map<String, String> attributes )
+	{
+		String type = attributes.get( ACTUAL_CLASS );
+
+		if ( type != null && !"".equals( type ) )
+			return type;
+
+		type = attributes.get( TYPE );
+
+		if ( "".equals( type ) )
+			return null;
+
+		return type;
 	}
 
 	//

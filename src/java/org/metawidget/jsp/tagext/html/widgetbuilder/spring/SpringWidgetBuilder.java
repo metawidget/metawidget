@@ -105,11 +105,11 @@ public class SpringWidgetBuilder
 		if ( springLookup != null && !"".equals( springLookup ) )
 			return writeReadOnlyTag( attributes, metawidget );
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully
 
-		if ( type == null || type.length() == 0 )
+		if ( type == null )
 			return writeReadOnlyTag( attributes, metawidget );
 
 		Class<?> clazz = ClassUtils.niceForName( type );
@@ -166,11 +166,11 @@ public class SpringWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return new StubTag.StubContent();
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully with a text box
 
-		if ( type == null || "".equals( type ) )
+		if ( type == null )
 			return writeSpringTag( InputTag.class, attributes, metawidget );
 
 		// Lookup the Class
@@ -287,7 +287,7 @@ public class SpringWidgetBuilder
 
 		if ( tag instanceof InputTag )
 		{
-			if ( "char".equals( attributes.get( TYPE ) ) )
+			if ( "char".equals( getType( attributes ) ) )
 			{
 				( (InputTag) tag ).setMaxlength( "1" );
 			}
@@ -359,6 +359,8 @@ public class SpringWidgetBuilder
 		final SelectTag tagSelect = new SelectTag();
 		initSpringTag( tagSelect, attributes, metawidget );
 
+		final Class<?> clazz = ClassUtils.niceForName( getType( attributes ) );
+
 		return JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 		{
 			// Within the SELECT tag, write the OPTION tags
@@ -367,8 +369,6 @@ public class SpringWidgetBuilder
 				throws JspException, IOException
 			{
 				// Empty option
-
-				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
 				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 				{
@@ -407,6 +407,8 @@ public class SpringWidgetBuilder
 		final SelectTag tagSelect = new SelectTag();
 		initSpringTag( tagSelect, attributes, metawidget );
 
+		final Class<?> clazz = ClassUtils.niceForName( getType( attributes ) );
+
 		return JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 		{
 			// Within the SELECT tag, write the OPTION tags
@@ -420,8 +422,6 @@ public class SpringWidgetBuilder
 					throw MetawidgetException.newException( "Labels list must be same size as values list" );
 
 				// Empty option
-
-				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
 				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 				{

@@ -17,6 +17,7 @@
 package org.metawidget.faces.component.validator;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -80,7 +81,10 @@ public class StandardValidator
 
 		if ( minimumValue != null || maximumValue != null )
 		{
-			String type = attributes.get( TYPE );
+			String type = attributes.get( ACTUAL_CLASS );
+
+			if ( type == null )
+				type = attributes.get( TYPE );
 
 			if ( "double".equals( type ) || Double.class.getName().equals( type ) )
 			{

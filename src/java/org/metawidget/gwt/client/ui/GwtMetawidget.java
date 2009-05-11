@@ -54,9 +54,6 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * Metawidget for GWT environments.
  * <p>
- * Automatically creates native GWT Widgets, such as <code>TextBox</code> and <code>ListBox</code>,
- * to suit the inspected fields.
- * <p>
  * GWT compiles Java to JavaScript, and JavaScript lacks Java's comprehensive reflection support.
  * The only viable Inspector the JavaScript could run would be XmlInspector, and even that would
  * have to be considerably rewritten as GWT supplies its own variant of <code>org.w3c.dom</code>.

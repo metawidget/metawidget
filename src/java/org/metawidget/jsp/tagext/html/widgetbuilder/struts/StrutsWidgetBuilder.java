@@ -105,11 +105,11 @@ public class StrutsWidgetBuilder
 		if ( strutsLookupName != null && !"".equals( strutsLookupName ) )
 			return writeReadOnlyTag( attributes, metawidget );
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully
 
-		if ( type == null || type.length() == 0 )
+		if ( type == null )
 			return writeReadOnlyTag( attributes, metawidget );
 
 		Class<?> clazz = ClassUtils.niceForName( type );
@@ -171,7 +171,7 @@ public class StrutsWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return new StubTag.StubContent();
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully with a text box
 
@@ -300,7 +300,7 @@ public class StrutsWidgetBuilder
 
 		if ( tag instanceof BaseInputTag )
 		{
-			if ( "char".equals( attributes.get( TYPE ) ) )
+			if ( "char".equals( getType( attributes ) ) )
 			{
 				( (BaseInputTag) tag ).setMaxlength( "1" );
 			}
@@ -357,6 +357,8 @@ public class StrutsWidgetBuilder
 		final SelectTag tagSelect = new SelectTag();
 		initStrutsTag( tagSelect, attributes, metawidget );
 
+		final Class<?> clazz = ClassUtils.niceForName( getType( attributes ) );
+
 		return JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 		{
 			// Within the SELECT tag, write the OPTION tags
@@ -367,8 +369,6 @@ public class StrutsWidgetBuilder
 				BodyContent bodyContentSelect = tagSelect.getBodyContent();
 
 				// Empty option
-
-				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
 				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 				{
@@ -408,6 +408,8 @@ public class StrutsWidgetBuilder
 		final SelectTag tagSelect = new SelectTag();
 		initStrutsTag( tagSelect, attributes, metawidget );
 
+		final Class<?> clazz = ClassUtils.niceForName( getType( attributes ) );
+
 		return JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 		{
 			// Within the SELECT tag, write the OPTION tags
@@ -423,8 +425,6 @@ public class StrutsWidgetBuilder
 				BodyContent bodyContentSelect = tagSelect.getBodyContent();
 
 				// Empty option
-
-				Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
 				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
 				{

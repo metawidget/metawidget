@@ -458,6 +458,11 @@ public class AllWidgets
 		mReadOnly = readOnly;
 	}
 
+	/**
+	 * The ArrayList is defined as a 'Collection' at the getter/setter level, to test 'actual' versus
+	 * 'declared' types.
+	 */
+
 	public Collection<String> getCollection()
 	{
 		return mCollection;

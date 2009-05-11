@@ -25,6 +25,14 @@ import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
+ * Delegates widget building to one or more sub-WidgetBuilders.
+ * <p>
+ * Each sub-WidgetBuilder in the list is invoked, in order, calling its <code>buildWidget</code>
+ * method. The first non-null result is returned. If all sub-WidgetBuilders return null, null is
+ * returned (the parent Metawidget will generally instantiate a nested Metawidget in this case).
+ * <p>
+ * Note: the name <em>Composite</em>WidgetBuilder refers to the Composite design pattern.
+ *
  * @author Richard Kennard
  */
 

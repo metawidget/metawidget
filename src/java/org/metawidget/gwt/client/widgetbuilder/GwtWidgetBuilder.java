@@ -147,7 +147,7 @@ public class GwtWidgetBuilder
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
 			return new SimplePanel();
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		String lookup = attributes.get( LOOKUP );
 
@@ -197,11 +197,11 @@ public class GwtWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return new Button( metawidget.getLabelString( attributes ) );
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		// If no type, fail gracefully with a TextBox
 
-		if ( type == null || "".equals( type ) )
+		if ( type == null )
 			return new TextBox();
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
@@ -343,7 +343,7 @@ public class GwtWidgetBuilder
 		// Note: GWT doesn't seem to be able to set null for the
 		// value. It always comes back as String "null"
 
-		String type = attributes.get( TYPE );
+		String type = getType( attributes );
 
 		if ( type == null )
 		{

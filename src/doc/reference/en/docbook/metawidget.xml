@@ -3174,63 +3174,6 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					
 				</section>
 				
-				<section id="section-metawidgets-web-faces-override">
-					<title>Overriding Widget Creation</title>
-					
-					<para>
-						<classname>HtmlMetawidget</classname> supports child widgets. If
-						the child widgets have the same <parameter>value</parameter>
-						attribute binding as #TODO#
-					</para>
-					
-					<para>
-						Sometimes you may need to override a widget with one that
-						uses a different <parameter>value</parameter> binding. Or, you may need to override a widget but alter its
-						metadata (such as its <parameter>label</parameter>) #TODO#
-					</para>
-					
-					<para>
-	 					Finally, for advanced use cases, it is straightforward to subclass <classname>HtmlMetawidget</classname> and fine-tune widget
-	 					creation and initialization. First, create a class that extends <classname>HtmlMetawidget</classname> and override its
-	 					<function>buildActiveWidget</function> method:
-					</para>
-					
-					<programlisting language="java">public class MyMetawidget extends HtmlMetawidget {
-	...
-	protected UIComponent buildActiveWidget( Map&lt;String, String&gt; attributes,
-		Application application ) {
-		String type = attributes.get( TYPE );
-		...
-		Class clazz = ClassUtils.niceForName( type );
-
-		if ( Date.class.isAssignableFrom( clazz ) )
-		{
-			DateControl control = (DateControl) application.createComponent(
-				"my.DateControl" );
-			control.setSomeParameters( ... );
-			return control;
-		}
-		...
-	}
-}</programlisting>
-	
-					<para>
-						Then update <filename>faces-config.xml</filename> to use this class for every Metawidget tag:
-					</para>
-					
-					<programlisting language="xml">&lt;component&gt;
-	&lt;component-type&gt;org.metawidget.HtmlMetawidget&lt;/component-type&gt;
-	&lt;component-class&gt;com.foo.MyMetawidget&lt;/component-class&gt;
-&lt;/component&gt;</programlisting>
-	
-					<para>
-						This will automatically update every screen across the entire application, which is a great way to easily update
-						an application to use a new widget library, or to incorporate custom tags (such as Facelets tag files). See
-						<classname>RichFacesMetawidget</classname> for an example.
-					</para>
-					
-				</section>
-
 				<section id="section-metawidgets-web-faces-defaults">
 					<title>Setting Global Defaults</title>
 					
