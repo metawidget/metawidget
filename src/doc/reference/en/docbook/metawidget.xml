@@ -515,10 +515,10 @@ public class Person {
 				<programlisting language="java">package com.myapp;
 
 import javax.swing.*;
-import org.metawidget.inspector.*;
 import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.propertytype.*;
 import org.metawidget.inspector.composite.*;
+import org.metawidget.inspector.java5.*;
+import org.metawidget.inspector.propertytype.*;
 import org.metawidget.swing.*;
 
 public class Main {
@@ -577,10 +577,10 @@ public class Main {
 				<programlisting language="java">package com.myapp;
 
 import javax.swing.*;
-import org.metawidget.inspector.*;
 import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.propertytype.*;
 import org.metawidget.inspector.composite.*;
+import org.metawidget.inspector.java5.*;
+import org.metawidget.inspector.propertytype.*;
 import org.metawidget.swing.*;
 
 public class Main {
@@ -629,10 +629,10 @@ public class Main {
 				<programlisting language="java">package com.myapp;
 
 import javax.swing.*;
-import org.metawidget.inspector.*;
 import org.metawidget.inspector.annotation.*;
-import org.metawidget.inspector.propertytype.*;
 import org.metawidget.inspector.composite.*;
+import org.metawidget.inspector.java5.*;
+import org.metawidget.inspector.propertytype.*;
 import org.metawidget.swing.*;
 
 public class Main {
@@ -643,7 +643,8 @@ public class Main {
 		CompositeInspectorConfig config = new CompositeInspectorConfig()
 			.setInspectors(
 				new MetawidgetAnnotationInspector(),
-				new PropertyTypeInspector() );
+				new PropertyTypeInspector(),
+				new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( person );

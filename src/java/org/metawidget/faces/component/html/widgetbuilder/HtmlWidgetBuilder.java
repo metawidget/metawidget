@@ -386,13 +386,7 @@ public class HtmlWidgetBuilder
 						// will have already tried PARAMETERIZED_TYPE)...
 
 						if ( !( component instanceof UISelectMany ) )
-						{
-							// ...we don't use ACTUAL_TYPE, because for enums (eg. Foo$1) and
-							// proxied types it gets messy
-
-							Class<?> declaredClass = ClassUtils.niceForName( attributes.get( TYPE ) );
-							converter = application.createConverter( declaredClass );
-						}
+							converter = application.createConverter( clazz );
 					}
 
 					// ...if any

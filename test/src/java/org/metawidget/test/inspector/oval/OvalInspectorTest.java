@@ -14,18 +14,21 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.inspector.hibernate.validator;
+package org.metawidget.test.inspector.oval;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
+import net.sf.oval.constraint.Length;
+import net.sf.oval.constraint.Max;
+import net.sf.oval.constraint.MaxLength;
+import net.sf.oval.constraint.Min;
+import net.sf.oval.constraint.MinLength;
+import net.sf.oval.constraint.NotBlank;
+import net.sf.oval.constraint.NotEmpty;
+import net.sf.oval.constraint.NotNull;
+import net.sf.oval.constraint.Range;
 
-import org.hibernate.validator.Digits;
-import org.hibernate.validator.Length;
-import org.hibernate.validator.Max;
-import org.hibernate.validator.Min;
-import org.hibernate.validator.NotEmpty;
-import org.hibernate.validator.NotNull;
-import org.metawidget.inspector.hibernate.validator.HibernateValidatorInspector;
+import org.metawidget.inspector.oval.OvalInspector;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -34,7 +37,7 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public class HibernateValidatorInspectorTest
+public class OvalInspectorTest
 	extends TestCase
 {
 	//
@@ -45,7 +48,7 @@ public class HibernateValidatorInspectorTest
 	 * JUnit 3.7 constructor.
 	 */
 
-	public HibernateValidatorInspectorTest( String name )
+	public OvalInspectorTest( String name )
 	{
 		super( name );
 	}
@@ -56,8 +59,8 @@ public class HibernateValidatorInspectorTest
 
 	public void testInspection()
 	{
-		HibernateValidatorInspector inspector = new HibernateValidatorInspector();
-		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ));
+		OvalInspector inspector = new OvalInspector();
+		Document document = XmlUtils.documentFromString( inspector.inspect( new Foo(), Foo.class.getName() ) );
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
 
@@ -89,6 +92,15 @@ public class HibernateValidatorInspectorTest
 		assertTrue( "2".equals( property.getAttribute( MINIMUM_LENGTH ) ) );
 		assertTrue( "25".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
 		assertTrue( 5 == property.getAttributes().getLength() );
+
+		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "forcedRange" );
+		assertTrue( PROPERTY.equals( property.getNodeName() ) );
+		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
+		assertTrue( "3".equals( property.getAttribute( MINIMUM_VALUE ) ) );
+		assertTrue( "24".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
+		assertTrue( "4".equals( property.getAttribute( MINIMUM_LENGTH ) ) );
+		assertTrue( "23".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
+		assertTrue( 6 == property.getAttributes().getLength() );
 	}
 
 	//
@@ -101,12 +113,17 @@ public class HibernateValidatorInspectorTest
 		public String	bar;
 
 		@NotEmpty
-		@Digits( integerDigits = 1, fractionalDigits = 2 )
 		public String	baz;
 
 		@Min( 1 )
 		@Max( 99 )
 		@Length( min = 2, max = 25 )
 		public int		range;
+
+		@Range( min = 3, max = 24 )
+		@MinLength( 4 )
+		@MaxLength( 23 )
+		@NotBlank
+		public int		forcedRange;
 	}
 }
