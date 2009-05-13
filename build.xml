@@ -2047,12 +2047,6 @@
 
 		<!-- Groovy example uses metawidget.jar, not metawidget-*.jar -->
 		
-		<copy todir="${build.dir}/examples/faces/seam/groovybooking">
-			<fileset dir="lib">
-				<include name="groovy*.jar"/>
-			</fileset>
-		</copy>
-
 		<copy todir="${build.dir}/examples/faces" file="examples/src/web/faces/readme.txt"/>
 
 	</target>
