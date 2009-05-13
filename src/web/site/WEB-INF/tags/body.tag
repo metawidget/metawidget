@@ -53,7 +53,7 @@
 				<span>Metawidget integrates with:</span>
 				
 				<a href="http://java.sun.com/javaee" target="_blank">
-					<img src="${context}/media/logo-java.gif" alt="Java Enterprise Edition" style="border: 0px" />
+					<img src="${context}/media/logo-java.gif" alt="Java" style="border: 0px" />
 				</a>
 				<a href="http://code.google.com/android" target="_blank">
 					<img src="${context}/media/logo-android.gif" alt="Android" style="border: 0px" />
@@ -69,6 +69,9 @@
 				</a>
 				<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank">
 					<img src="${context}/media/logo-jsf.gif" alt="Java Server Faces" style="border: 0px" />
+				</a>
+				<a href="http://www.jboss.org/jbossrichfaces" target="_blank">
+					<img src="${context}/media/logo-richfaces.gif" alt="RichFaces" style="border: 0px" />
 				</a>
 				<a href="http://www.springframework.org/" target="_blank">
 					<img src="${context}/media/logo-spring.gif" alt="Spring" style="border: 0px" />

@@ -617,10 +617,18 @@ public class HtmlTableLayoutRenderer
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && child instanceof UIInput && !( (UIMetawidget) component ).isReadOnly() )
+		if ( attributes != null )
 		{
-			writer.write( "*" );
-			return;
+			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY )) && !((UIMetawidget) component ).isReadOnly() )
+			{
+				// (UIStubs can have attributes="required: true")
+
+				if ( child instanceof UIInput || child instanceof UIStub )
+				{
+					writer.write( "*" );
+					return;
+				}
+			}
 		}
 
 		// Render an empty div, so that the CSS can force it to a certain

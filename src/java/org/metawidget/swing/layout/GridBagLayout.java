@@ -59,6 +59,8 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
+// TODO: label spacing on RHS?
+
 public class GridBagLayout
 	extends BaseLayout
 {
