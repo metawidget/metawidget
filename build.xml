@@ -2362,6 +2362,35 @@
 
 	</target>
 	
+	<target name="m2repo" depends="pack">
+		
+		<copy todir="${tomcat.dir}/webapps/ROOT">
+			<fileset dir="src/web/site">
+				<include name="m2repo/**"/>
+			</fileset>
+		</copy>
+
+		<!-- JARs -->
+			
+		<copy file="${build.dir}/metawidget.jar" tofile="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/${ant.project.name}-${metawidget.version}.jar"/>
+		
+		<jar destfile="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/${ant.project.name}-${metawidget.version}-sources.jar">
+			<fileset dir="src/java"/>
+		</jar>
+		
+		<!-- Checksums -->
+	
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/maven-metadata.xml"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/maven-metadata.xml" algorithm="SHA1"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/${ant.project.name}-${metawidget.version}.jar"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/${ant.project.name}-${metawidget.version}.jar" algorithm="SHA1"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/${ant.project.name}-${metawidget.version}.pom"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/${ant.project.name}-${metawidget.version}.pom" algorithm="SHA1"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/${ant.project.name}-${metawidget.version}-sources.jar"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/${ant.project.name}-${metawidget.version}-sources.jar" algorithm="SHA1"/>
+		
+	</target>
+
 	<target name="web-site">
 
 		<delete dir="${tomcat.dir}/webapps"/>
