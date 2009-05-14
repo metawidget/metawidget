@@ -835,6 +835,12 @@ public abstract class UIMetawidget
 		// a suffixed id
 
 		nestedMetawidget.setId( getFacesContext().getViewRoot().createUniqueId() );
+
+		// Assigning our own id will stop 'setUniqueId' being called, which means
+		// COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET won't be set, which means the
+		// nested Metawidget will not be properly cleaned up during startBuild
+
+		nestedMetawidget.getAttributes().put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
 	}
 
 	/**
