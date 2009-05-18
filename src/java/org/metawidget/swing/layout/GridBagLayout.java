@@ -59,8 +59,6 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-// TODO: label spacing on RHS?
-
 public class GridBagLayout
 	extends BaseLayout
 {
@@ -76,13 +74,17 @@ public class GridBagLayout
 	// Private statics
 	//
 
-	private final static Insets	INSETS_COMPONENT		= new Insets( 0, 0, 3, 0 );
+	private final static int	SMALL_GAP				= 3;
 
-	private final static Insets	INSETS_SECTION_LABEL	= new Insets( 0, 0, 0, 5 );
+	private final static int	MEDIUM_GAP				= 5;
 
-	private final static Border	BORDER_SECTION			= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
+	private final static Insets	INSETS_COMPONENT		= new Insets( 0, 0, SMALL_GAP, 0 );
 
-	private final static Border	BORDER_TAB				= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
+	private final static Insets	INSETS_SECTION_LABEL	= new Insets( 0, 0, 0, MEDIUM_GAP );
+
+	private final static Border	BORDER_SECTION			= BorderFactory.createEmptyBorder( MEDIUM_GAP, 0, MEDIUM_GAP, 0 );
+
+	private final static Border	BORDER_TAB				= BorderFactory.createEmptyBorder( SMALL_GAP, SMALL_GAP, SMALL_GAP, SMALL_GAP );
 
 	//
 	// Private members
@@ -192,9 +194,9 @@ public class GridBagLayout
 		dummyLabel.setLayout( layoutManager );
 		double dummyLabelHeight = dummyLabel.getPreferredSize().getHeight();
 
-		int defaultLabelVerticalPadding = (int) Math.max( 0, Math.floor(( dummyTextFieldHeight - dummyLabelHeight ) / 2 ));
-		mDefaultLabelInsetsFirstColumn = new Insets( defaultLabelVerticalPadding, 0, defaultLabelVerticalPadding, 0 );
-		mDefaultLabelInsetsRemainderColumns = new Insets( defaultLabelVerticalPadding, 3, defaultLabelVerticalPadding, 0 );
+		int defaultLabelVerticalPadding = (int) Math.max( 0, Math.floor( ( dummyTextFieldHeight - dummyLabelHeight ) / 2 ) );
+		mDefaultLabelInsetsFirstColumn = new Insets( defaultLabelVerticalPadding, 0, defaultLabelVerticalPadding, SMALL_GAP );
+		mDefaultLabelInsetsRemainderColumns = new Insets( defaultLabelVerticalPadding, SMALL_GAP, defaultLabelVerticalPadding, SMALL_GAP );
 	}
 
 	public void layoutChild( Component component, Map<String, String> attributes )

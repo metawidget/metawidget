@@ -101,14 +101,14 @@ public class GridBagLayoutTest
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		Insets insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
 		assertTrue( insets.left == 0 );
-		assertTrue( insets.right == 0 );
+		assertTrue( insets.right == 3 );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridx );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridy );
 		assertTrue( "Def*:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 2 ) ) ).insets;
 		assertTrue( insets.left == 3 );
-		assertTrue( insets.right == 0 );
+		assertTrue( insets.right == 3 );
 
 		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 3 ) ).gridx );
@@ -202,7 +202,7 @@ public class GridBagLayoutTest
 		assertTrue( insets.top == ( "Nimbus".equals( UIManager.getLookAndFeel().getName() ) ? 6 : 2 ) );
 		assertTrue( insets.left == 0 );
 		assertTrue( insets.bottom == insets.top );
-		assertTrue( insets.right == 0 );
+		assertTrue( insets.right == 3 );
 
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridx );
