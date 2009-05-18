@@ -2666,8 +2666,7 @@ metawidget.setToInspect( animal )</programlisting>
 &lt;/compositeInspector&gt;</programlisting>
 
 				<para>
-					Having constructed an immutable object, the XML format can reliably cache the instance and reuse it for
-					future configurations.
+					Having constructed an immutable object, the XML format can reliably cache the instance and reuse it.
 				</para>
 								
 			</section>
