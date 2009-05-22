@@ -25,13 +25,16 @@ import org.metawidget.test.gwt.allwidgets.client.converter.DateConverter;
 import org.metawidget.test.gwt.allwidgets.client.ui.AllWidgetsModule;
 import org.metawidget.test.shared.allwidgets.model.AllWidgets;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
@@ -345,7 +348,7 @@ public class GwtAllWidgetsTest
 														assertTrue( "Do action".equals( doActionButton.getText() ) );
 														try
 														{
-															fireClickListeners( doActionButton );
+															fireClickEvent( doActionButton );
 															assertTrue( false );
 														}
 														catch ( Exception e )
@@ -364,7 +367,7 @@ public class GwtAllWidgetsTest
 
 														try
 														{
-															fireClickListeners( saveButton );
+															fireClickEvent( saveButton );
 															assertTrue( false );
 														}
 														catch ( IllegalArgumentException e )
@@ -376,7 +379,7 @@ public class GwtAllWidgetsTest
 
 														final String now = (String) new DateConverter().convertForWidget( null, new Date() );
 														( (TextBox) flexTable.getWidget( 16, 1 ) ).setText( now );
-														fireClickListeners( saveButton );
+														fireClickEvent( saveButton );
 
 														executeAfterBuildWidgets( metawidget, new Timer()
 														{
@@ -552,14 +555,16 @@ public class GwtAllWidgetsTest
 		super.finishTest();
 	}
 
+	void fireClickEvent( HasHandlers widget )
+	{
+		Document document = Document.get();
+		NativeEvent nativeEvent = document.createClickEvent( 0, 0, 0, 0, 0, false, false, false, false );
+		DomEvent.fireNativeEvent( nativeEvent, widget );
+	}
+
 	//
 	// Native methods
 	//
-
-	native void fireClickListeners( FocusWidget focusWidget )
-	/*-{
-		focusWidget.@com.google.gwt.user.client.ui.FocusWidget::fireClickListeners()();
-	}-*/;
 
 	native void executeAfterBuildWidgets( GwtMetawidget metawidget, Timer timer )
 	/*-{

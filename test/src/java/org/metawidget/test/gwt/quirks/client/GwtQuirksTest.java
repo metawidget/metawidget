@@ -19,13 +19,16 @@ package org.metawidget.test.gwt.quirks.client;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.test.gwt.quirks.client.ui.QuirksModule;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusWidget;
 
 /**
  * @author Richard Kennard
@@ -96,7 +99,7 @@ public class GwtQuirksTest
 
 						try
 						{
-							fireClickListeners( nestedActionButton );
+							fireClickEvent( nestedActionButton );
 							assertTrue( false );
 						}
 						catch ( Exception e )
@@ -140,14 +143,16 @@ public class GwtQuirksTest
 		super.finishTest();
 	}
 
+	void fireClickEvent( HasHandlers widget )
+	{
+		Document document = Document.get();
+		NativeEvent nativeEvent = document.createClickEvent( 0, 0, 0, 0, 0, false, false, false, false );
+		DomEvent.fireNativeEvent( nativeEvent, widget );
+	}
+
 	//
 	// Native methods
 	//
-
-	native void fireClickListeners( FocusWidget focusWidget )
-	/*-{
-		focusWidget.@com.google.gwt.user.client.ui.FocusWidget::fireClickListeners()();
-	}-*/;
 
 	native void executeAfterBuildWidgets( GwtMetawidget metawidget, Timer timer )
 	/*-{

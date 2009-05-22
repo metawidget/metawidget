@@ -26,13 +26,16 @@ import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
-import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
@@ -99,7 +102,7 @@ public class GwtAddressBookTest
 				assertTrue( flexTable.getRowCount() == 4 );
 				final Button buttonSearch = (Button) ( (HorizontalPanel) ( (Facet) flexTable.getWidget( 3, 0 ) ).getWidget() ).getWidget( 0 );
 				assertTrue( "Search".equals( buttonSearch.getText() ) );
-				fireClickListeners( buttonSearch );
+				fireClickEvent( buttonSearch );
 
 				Timer timerResults = new Timer()
 				{
@@ -180,7 +183,7 @@ public class GwtAddressBookTest
 										final Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 2 );
 										assertTrue( "Edit".equals( editButton.getText() ) );
 										assertTrue( editButton.isVisible() );
-										fireClickListeners( editButton );
+										fireClickEvent( editButton );
 
 										executeAfterBuildWidgets( contactMetawidget, new Timer()
 										{
@@ -220,7 +223,7 @@ public class GwtAddressBookTest
 												// Check deleting a Communication
 
 												assertTrue( communications.getRowCount() == 3 );
-												fireClickListeners( deleteCommunication );
+												fireClickEvent( deleteCommunication );
 												assertTrue( communications.getRowCount() == 2 );
 
 												// Save again
@@ -245,7 +248,7 @@ public class GwtAddressBookTest
 														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 0 );
 														assertTrue( "Save".equals( saveButton.getText() ) );
 														assertTrue( saveButton.isVisible() );
-														fireClickListeners( saveButton );
+														fireClickEvent( saveButton );
 
 														Timer timerReloadContacts = new Timer()
 														{
@@ -257,7 +260,7 @@ public class GwtAddressBookTest
 																// Check surname change
 
 																metawidgetSearch.setValue( "", "surname" );
-																fireClickListeners( buttonSearch );
+																fireClickEvent( buttonSearch );
 
 																Timer timerReloadContactsAgain = new Timer()
 																{
@@ -342,7 +345,7 @@ public class GwtAddressBookTest
 						Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 2 );
 						assertTrue( "Edit".equals( editButton.getText() ) );
 						assertTrue( editButton.isVisible() );
-						fireClickListeners( editButton );
+						fireClickEvent( editButton );
 
 						executeAfterBuildWidgets( contactMetawidget, new Timer()
 						{
@@ -350,17 +353,17 @@ public class GwtAddressBookTest
 							public void run()
 							{
 								FlexTable flexTable = (FlexTable) contactMetawidget.getWidget( 0 );
-								assertTrue( "*".equals( flexTable.getText( 0, 2 )));
-								assertTrue( "table-label-column".equals( flexTable.getCellFormatter().getStyleName( 0, 0 )));
-								assertTrue( "table-component-column".equals( flexTable.getCellFormatter().getStyleName( 0, 1 )));
-								assertTrue( "required".equals( flexTable.getCellFormatter().getStyleName( 0, 2 )));
-								assertTrue( "*".equals( flexTable.getText( 1, 2 )));
-								assertTrue( "*".equals( flexTable.getText( 2, 2 )));
-								assertTrue( "".equals( flexTable.getText( 3, 2 )));
-								assertTrue( "<DIV></DIV>".equals( flexTable.getHTML( 3, 2 )));
-								assertTrue( "table-label-column".equals( flexTable.getCellFormatter().getStyleName( 3, 0 )));
-								assertTrue( "table-component-column".equals( flexTable.getCellFormatter().getStyleName( 3, 1 )));
-								assertTrue( "required".equals( flexTable.getCellFormatter().getStyleName( 3, 2 )));
+								assertTrue( "*".equals( flexTable.getText( 0, 2 ) ) );
+								assertTrue( "table-label-column".equals( flexTable.getCellFormatter().getStyleName( 0, 0 ) ) );
+								assertTrue( "table-component-column".equals( flexTable.getCellFormatter().getStyleName( 0, 1 ) ) );
+								assertTrue( "required".equals( flexTable.getCellFormatter().getStyleName( 0, 2 ) ) );
+								assertTrue( "*".equals( flexTable.getText( 1, 2 ) ) );
+								assertTrue( "*".equals( flexTable.getText( 2, 2 ) ) );
+								assertTrue( "".equals( flexTable.getText( 3, 2 ) ) );
+								assertTrue( "<DIV></DIV>".equals( flexTable.getHTML( 3, 2 ) ) );
+								assertTrue( "table-label-column".equals( flexTable.getCellFormatter().getStyleName( 3, 0 ) ) );
+								assertTrue( "table-component-column".equals( flexTable.getCellFormatter().getStyleName( 3, 1 ) ) );
+								assertTrue( "required".equals( flexTable.getCellFormatter().getStyleName( 3, 2 ) ) );
 								contactMetawidget.setValue( 2, "numberOfStaff" );
 								contactMetawidget.setValue( "A Company", "company" );
 
@@ -389,7 +392,7 @@ public class GwtAddressBookTest
 												Button addButton = (Button) communications.getWidget( 1, 2 );
 												assertTrue( "Add".equals( addButton.getText() ) );
 												assertTrue( addButton.isVisible() );
-												fireClickListeners( addButton );
+												fireClickEvent( addButton );
 												assertTrue( communications.getRowCount() == 3 );
 												assertTrue( "Mobile".equals( communications.getText( 1, 0 ) ) );
 												assertTrue( "(0402) 123 456".equals( communications.getText( 1, 1 ) ) );
@@ -409,7 +412,7 @@ public class GwtAddressBookTest
 														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 0 );
 														assertTrue( "Save".equals( saveButton.getText() ) );
 														assertTrue( saveButton.isVisible() );
-														fireClickListeners( saveButton );
+														fireClickEvent( saveButton );
 
 														Timer timerReloadContacts = new Timer()
 														{
@@ -466,8 +469,8 @@ public class GwtAddressBookTest
 			@Override
 			public void run()
 			{
-				ListBox titleListBox = ((ListBox) contactMetawidget.getWidget( "title" ));
-				assertTrue( "Mr".equals( titleListBox.getItemText( 0 )));
+				ListBox titleListBox = ( (ListBox) contactMetawidget.getWidget( "title" ) );
+				assertTrue( "Mr".equals( titleListBox.getItemText( 0 ) ) );
 				assertTrue( "".equals( contactMetawidget.getValue( "firstname" ) ) );
 				assertTrue( "0".equals( contactMetawidget.getValue( "numberOfStaff" ) ) );
 
@@ -504,7 +507,7 @@ public class GwtAddressBookTest
 								Button addButton = (Button) communications.getWidget( 1, 2 );
 								assertTrue( "Add".equals( addButton.getText() ) );
 								assertTrue( addButton.isVisible() );
-								fireClickListeners( addButton );
+								fireClickEvent( addButton );
 								assertTrue( communications.getRowCount() == 3 );
 								assertTrue( "Mobile".equals( communications.getText( 1, 0 ) ) );
 								assertTrue( "(0402) 456 123".equals( communications.getText( 1, 1 ) ) );
@@ -519,7 +522,7 @@ public class GwtAddressBookTest
 										Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 0 );
 										assertTrue( "Save".equals( saveButton.getText() ) );
 										assertTrue( saveButton.isVisible() );
-										fireClickListeners( saveButton );
+										fireClickEvent( saveButton );
 
 										// Check appears after saving
 
@@ -536,7 +539,8 @@ public class GwtAddressBookTest
 
 												final ContactsServiceAsync contactsService = addressBookModule.getContactsService();
 
-												// Check loading (new contact should have been assigned an id of 7)
+												// Check loading (new contact should have been
+												// assigned an id of 7)
 
 												contactsService.load( 7, new AsyncCallback<Contact>()
 												{
@@ -563,7 +567,7 @@ public class GwtAddressBookTest
 																final Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) deleteContactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 2 );
 																assertTrue( "Edit".equals( editButton.getText() ) );
 																assertTrue( editButton.isVisible() );
-																fireClickListeners( editButton );
+																fireClickEvent( editButton );
 
 																executeAfterBuildWidgets( deleteContactMetawidget, new Timer()
 																{
@@ -571,15 +575,15 @@ public class GwtAddressBookTest
 																	public void run()
 																	{
 																		assertTrue( !editButton.isVisible() );
-																		ListBox deleteTitleListBox = ((ListBox) deleteContactMetawidget.getWidget( "title" ));
-																		assertTrue( "Miss".equals( deleteTitleListBox.getItemText( deleteTitleListBox.getSelectedIndex() )));
+																		ListBox deleteTitleListBox = ( (ListBox) deleteContactMetawidget.getWidget( "title" ) );
+																		assertTrue( "Miss".equals( deleteTitleListBox.getItemText( deleteTitleListBox.getSelectedIndex() ) ) );
 
 																		// Check deleting
 
 																		Button deleteButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) deleteContactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 1 );
 																		assertTrue( "Delete".equals( deleteButton.getText() ) );
 																		assertTrue( deleteButton.isVisible() );
-																		fireClickListeners( deleteButton );
+																		fireClickEvent( deleteButton );
 
 																		Timer timerReloadContactsAgain = new Timer()
 																		{
@@ -629,14 +633,16 @@ public class GwtAddressBookTest
 		super.finishTest();
 	}
 
+	void fireClickEvent( HasHandlers widget )
+	{
+		Document document = Document.get();
+		NativeEvent nativeEvent = document.createClickEvent( 0, 0, 0, 0, 0, false, false, false, false );
+		DomEvent.fireNativeEvent( nativeEvent, widget );
+	}
+
 	//
 	// Native methods
 	//
-
-	native void fireClickListeners( FocusWidget focusWidget )
-	/*-{
-		focusWidget.@com.google.gwt.user.client.ui.FocusWidget::fireClickListeners()();
-	}-*/;
 
 	native void executeAfterBuildWidgets( GwtMetawidget metawidget, Timer timer )
 	/*-{
