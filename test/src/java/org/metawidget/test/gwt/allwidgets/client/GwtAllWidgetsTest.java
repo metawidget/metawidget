@@ -192,7 +192,7 @@ public class GwtAllWidgetsTest
 				assertTrue( "Boolean:".equals( flexTable.getText( 10, 0 ) ) );
 				assertTrue( flexTable.getWidget( 10, 1 ) instanceof CheckBox );
 				assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
-				( (CheckBox) flexTable.getWidget( 10, 1 ) ).setChecked( true );
+				( (CheckBox) flexTable.getWidget( 10, 1 ) ).setValue( true );
 
 				assertTrue( "Boolean object:".equals( flexTable.getText( 10, 3 ) ) );
 				assertTrue( flexTable.getWidget( 10, 4 ) instanceof ListBox );

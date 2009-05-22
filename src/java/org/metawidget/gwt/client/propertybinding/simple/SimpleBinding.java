@@ -29,8 +29,9 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.util.simple.PathUtils;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.Widget;
@@ -194,9 +195,9 @@ public class SimpleBinding
 		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
 
 		FocusWidget focusWidget = (FocusWidget) widget;
-		focusWidget.addClickListener( new ClickListener()
+		focusWidget.addClickHandler( new ClickHandler()
 		{
-			public void onClick( Widget sender )
+			public void onClick( ClickEvent event )
 			{
 				// Use the adapter...
 

@@ -75,7 +75,7 @@ public class GwtQuirksTest
 				assertTrue( "Boolean:".equals( flexTable.getText( 0, 0 ) ) );
 				assertTrue( flexTable.getWidget( 0, 1 ) instanceof CheckBox );
 				assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
-				( (CheckBox) flexTable.getWidget( 0, 1 ) ).setChecked( true );
+				( (CheckBox) flexTable.getWidget( 0, 1 ) ).setValue( true );
 
 				// Click a nested button
 

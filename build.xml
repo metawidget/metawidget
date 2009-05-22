@@ -2207,6 +2207,7 @@
 			<fileset dir="${build.dir}/gwt-classes/org.metawidget.example.GwtAddressBook"/>
 			<fileset dir="examples/src/web/gwt/addressbook">
 				<exclude name="**/lib/**"/>
+				<exclude name="index-hosted.jsp"/>
 			</fileset>
 			<fileset dir="${build.dir}/examples/src/web/shared/addressbook">
 				<include name="css/**"/>

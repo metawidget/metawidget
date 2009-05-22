@@ -1653,7 +1653,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 					included in the source distribution (not the binary distribution). To run it, type: 
 				</para>
 				
-				<programlisting language="shell">cd examples\web\gwt
+				<programlisting language="shell">cd examples\src\web\gwt
 ant</programlisting>
 								
 				<para>

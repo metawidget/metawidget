@@ -52,7 +52,7 @@ public abstract class LayoutRenderer
 	 * Metawidgets can be nested.
 	 */
 
-	private ReentrantThreadLocal<Map<String, Object>>	mLocalState	= new ReentrantThreadLocal<Map<String, Object>>()
+	private final static ReentrantThreadLocal<Map<String, Object>>	mLocalState	= new ReentrantThreadLocal<Map<String, Object>>()
 																	{
 																		@Override
 																		protected Map<String, Object> initialValue()

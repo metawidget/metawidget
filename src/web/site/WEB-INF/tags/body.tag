@@ -92,23 +92,22 @@
 				<a href="http://sourceforge.net/projects/metawidget" target="_blank">
 					<img src="${context}/media/logo-sourceforge.gif" alt="Hosted on SourceForge.net" style="border: 0px"/>
 				</a>
-			</div>
-			<div class="badges">
-				<span>
-					Artwork by <a href="http://www.susiewalkerdesign.com" target="_blank">Susie Walker Design</a>
-					<br/>
-					Template by <a href="http://www.freecsstemplates.org/" target="_blank">Free CSS Templates</a>
-					<br/>
-					Additional artwork by <a href="http://www.visualpharm.com" target="_blank">Visual Pharm</a>
-				</span>
-				
 				<a href="http://validator.w3.org/check?uri=referer" target="_blank">
 					<img src="${context}/media/logo-xhtml.gif" alt="Valid XHTML 1.0 Transitional" style="border: 0px" />
 				</a>					
 			</div>
-			<div class="badges">
-				<span>All trademarks are the property of their respective owners</span>
-			</div>
 		</div>
 
+	</div>
+	
+	<div id="footer">
+		<a href="${context}/gettingstarted.html">Quick Start</a> |
+		<a href="${context}/download.html">Download</a> |
+		<a href="${context}/documentation.html">Documentation</a> |
+		<a href="${context}/support.html">Support</a>
+		<br/>
+		Artwork by <a href="http://www.susiewalkerdesign.com" target="_blank">Susie Walker Design</a>.
+		Template by <a href="http://www.freecsstemplates.org/" target="_blank">Free CSS Templates</a>.
+		Additional artwork by <a href="http://www.visualpharm.com" target="_blank">Visual Pharm</a>.
+		All trademarks are the property of their respective owners		
 	</div>

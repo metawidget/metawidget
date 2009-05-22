@@ -238,12 +238,14 @@ a {
 	margin-left: 18px;
 	margin-top: 40px;
 	text-align: center;
+	position: relative;
+	border: 1px solid red;
+	width: 200px;
 }
 
 .badges a {
 	display: block;
-	margin-top: 10px;	
-	margin-bottom: 20px;
+	position: absolute;
 }
 
 .badges span {	

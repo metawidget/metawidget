@@ -69,7 +69,7 @@ public class GwtWidgetBuilder
 		// ButtonBase which implements HasHTML which extends HasText)
 
 		if ( widget instanceof CheckBox )
-			return Boolean.valueOf( ( (CheckBox) widget ).isChecked() );
+			return ( (CheckBox) widget ).getValue();
 
 		// HasText
 
@@ -102,7 +102,7 @@ public class GwtWidgetBuilder
 
 		if ( widget instanceof CheckBox )
 		{
-			( (CheckBox) widget ).setChecked( (Boolean) value );
+			( (CheckBox) widget ).setValue( (Boolean) value );
 			return true;
 		}
 

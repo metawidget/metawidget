@@ -31,10 +31,10 @@ import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Richard Kennard
@@ -97,9 +97,9 @@ public class AllWidgetsModule
 		metawidget.add( buttonsFacet );
 
 		final Button saveButton = new Button( "Save" );
-		saveButton.addClickListener( new ClickListener()
+		saveButton.addClickHandler( new ClickHandler()
 		{
-			public void onClick( Widget sender )
+			public void onClick( ClickEvent event )
 			{
 				metawidget.save();
 				metawidget.setReadOnly( true );

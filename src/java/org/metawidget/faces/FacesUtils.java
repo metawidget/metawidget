@@ -45,16 +45,16 @@ public final class FacesUtils
 	//
 
 	/**
-	 * Return <code>true</code> if the specified value conforms to the
-     * syntax requirements of a value binding expression.
-     * <p>
-     * This method is a mirror of the one in <code>UIComponentTag.isValueReference</code>, but
-     * that one is deprecated so may be removed in the future.
-     *
-     * @param value The value to evaluate
-     *
-     * @throws NullPointerException if <code>value</code> is
-     *  <code>null</code>
+	 * Return <code>true</code> if the specified value conforms to the syntax requirements of a
+	 * value binding expression.
+	 * <p>
+	 * This method is a mirror of the one in <code>UIComponentTag.isValueReference</code>, but
+	 * that one is deprecated so may be removed in the future.
+	 *
+	 * @param value
+	 *            The value to evaluate
+	 * @throws NullPointerException
+	 *             if <code>value</code> is <code>null</code>
 	 */
 
 	public static boolean isValueReference( String value )
@@ -84,7 +84,7 @@ public final class FacesUtils
 
 	public static String wrapValueReference( String value )
 	{
-		if ( isValueReference( value ))
+		if ( isValueReference( value ) )
 			return value;
 
 		return VALUE_EXPRESSION_START + unwrapValueReference( value ) + VALUE_EXPRESSION_END;
@@ -135,12 +135,12 @@ public final class FacesUtils
 
 		for ( UIComponent child : component.getChildren() )
 		{
-			if ( !( child instanceof ActionSource ))
+			if ( !( child instanceof ActionSource ) )
 				continue;
 
 			// ...with the binding we're interested in
 
-			MethodBinding childMethodBinding = ((ActionSource) child).getAction();
+			MethodBinding childMethodBinding = ( (ActionSource) child ).getAction();
 
 			if ( childMethodBinding == null )
 				continue;
@@ -247,7 +247,7 @@ public final class FacesUtils
 
 	private final static Pattern	PATTERN_VALUE_EXPRESSION	= Pattern.compile( "((#|\\$)\\{)([^}]*)(\\})" );
 
-	private final static String		VALUE_EXPRESSION_START	= "#{";
+	private final static String		VALUE_EXPRESSION_START		= "#{";
 
 	private final static String		VALUE_EXPRESSION_END		= "}";
 
