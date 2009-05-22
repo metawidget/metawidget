@@ -34,18 +34,18 @@ import org.metawidget.gwt.client.ui.layout.FlowLayout;
 import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 
 /**
@@ -213,9 +213,9 @@ public class ContactDialog
 		mCommunications.setWidget( 1, 1, valueMetawidget );
 
 		Button addButton = new Button( dictionary.get( "add" ) );
-		addButton.addClickListener( new ClickListener()
+		addButton.addClickHandler( new ClickHandler()
 		{
-			public void onClick( Widget sender )
+			public void onClick( ClickEvent event )
 			{
 				Communication communicationToAdd = new Communication();
 				communicationToAdd.setType( (String) typeMetawidget.getValue( "type" ) );
@@ -251,9 +251,9 @@ public class ContactDialog
 		buttonsFacet.add( panel );
 
 		mSaveButton = new Button( dictionary.get( "save" ) );
-		mSaveButton.addClickListener( new ClickListener()
+		mSaveButton.addClickHandler( new ClickHandler()
 		{
-			public void onClick( Widget sender )
+			public void onClick( ClickEvent event )
 			{
 				try
 				{
@@ -282,9 +282,9 @@ public class ContactDialog
 		panel.add( mSaveButton );
 
 		mDeleteButton = new Button( dictionary.get( "delete" ) );
-		mDeleteButton.addClickListener( new ClickListener()
+		mDeleteButton.addClickHandler( new ClickHandler()
 		{
-			public void onClick( Widget sender )
+			public void onClick( ClickEvent event )
 			{
 				if ( mAddressBookModule.getPanel() instanceof RootPanel )
 				{
@@ -310,9 +310,9 @@ public class ContactDialog
 		panel.add( mDeleteButton );
 
 		mEditButton = new Button( dictionary.get( "edit" ) );
-		mEditButton.addClickListener( new ClickListener()
+		mEditButton.addClickHandler( new ClickHandler()
 		{
-			public void onClick( Widget sender )
+			public void onClick( ClickEvent event )
 			{
 				mMetawidget.setReadOnly( false );
 				setVisibility();
@@ -321,9 +321,9 @@ public class ContactDialog
 		panel.add( mEditButton );
 
 		mCancelButton = new Button();
-		mCancelButton.addClickListener( new ClickListener()
+		mCancelButton.addClickHandler( new ClickHandler()
 		{
-			public void onClick( Widget sender )
+			public void onClick( ClickEvent event )
 			{
 				ContactDialog.this.hide();
 			}
@@ -402,9 +402,9 @@ public class ContactDialog
 				else
 				{
 					final Button deleteButton = new Button( "Delete" );
-					deleteButton.addClickListener( new ClickListener()
+					deleteButton.addClickHandler( new ClickHandler()
 					{
-						public void onClick( Widget sender )
+						public void onClick( ClickEvent event )
 						{
 							if ( confirm )
 							{

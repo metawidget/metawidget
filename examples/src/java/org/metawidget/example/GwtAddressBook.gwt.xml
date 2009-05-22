@@ -12,10 +12,6 @@
 	<source path="shared/addressbook/model"/>
 	<entry-point class="org.metawidget.example.gwt.addressbook.client.ui.AddressBookModule" />
 	
-	<!-- Public path (for hosted mode) -->
-	
-	<public path="gwt/addressbook/public"/>
-
 	<!-- Server -->
 	
 	<servlet path="/contacts" class="org.metawidget.example.gwt.addressbook.server.rpc.ContactsServiceImpl" />

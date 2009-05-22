@@ -31,19 +31,17 @@ import org.metawidget.gwt.client.ui.GwtUtils;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.ClickListener;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SourcesTableEvents;
-import com.google.gwt.user.client.ui.TableListener;
-import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 import com.google.gwt.user.client.ui.HTMLTable.ColumnFormatter;
 
@@ -114,13 +112,14 @@ public class AddressBookModule
 		formatter.setStyleName( 1, "column-half" );
 
 		reloadContacts();
-		mContacts.addTableListener( new TableListener()
+		mContacts.addClickHandler( new ClickHandler()
 		{
-			public void onCellClicked( SourcesTableEvents sender, final int row, int cell )
+			@Override
+			public void onClick( ClickEvent event )
 			{
 				// Load the id at the clicked row
 
-				long contactId = mContactsList.get( row - 1 ).getId();
+				long contactId = mContactsList.get( mContacts.getCellForEvent( event ).getRowIndex() - 1 ).getId();
 
 				mContactsService.load( contactId, new AsyncCallback<Contact>()
 				{
@@ -158,9 +157,9 @@ public class AddressBookModule
 		Dictionary dictionary = Dictionary.getDictionary( "bundle" );
 
 		Button searchButton = new Button( dictionary.get( "search" ));
-		searchButton.addClickListener( new ClickListener()
+		searchButton.addClickHandler( new ClickHandler()
 		{
-			public void onClick( Widget sender )
+			public void onClick( ClickEvent event )
 			{
 				// Example of manual mapping. See ContactDialog for an example of using automatic
 				// Bindings
@@ -181,9 +180,9 @@ public class AddressBookModule
 		panel.add( searchButton );
 
 		Button addPersonalButton = new Button( dictionary.get( "addPersonal" ));
-		addPersonalButton.addClickListener( new ClickListener()
+		addPersonalButton.addClickHandler( new ClickHandler()
 		{
-			public void onClick( Widget sender )
+			public void onClick( ClickEvent event )
 			{
 				showContactDialog( new PersonalContact() );
 			}
@@ -191,9 +190,9 @@ public class AddressBookModule
 		panel.add( addPersonalButton );
 
 		Button addBusinessButton = new Button( dictionary.get( "addBusiness" ));
-		addBusinessButton.addClickListener( new ClickListener()
+		addBusinessButton.addClickHandler( new ClickHandler()
 		{
-			public void onClick( Widget sender )
+			public void onClick( ClickEvent event )
 			{
 				showContactDialog( new BusinessContact() );
 			}
