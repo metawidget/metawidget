@@ -8,14 +8,8 @@
 	<!-- Client -->
 	
 	<source path="gwt/addressbook/client"/>
-	<source path="gwt/addressbook/inspector/remote/client"/>
 	<source path="shared/addressbook/model"/>
-	<entry-point class="org.metawidget.example.gwt.addressbook.client.ui.AddressBookModule" />
 	
-	<!-- Server -->
-	
-	<servlet path="/contacts" class="org.metawidget.example.gwt.addressbook.server.rpc.ContactsServiceImpl" />
-
 	<!-- Binding -->
 	
   	<generate-with class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingAdapterGenerator">

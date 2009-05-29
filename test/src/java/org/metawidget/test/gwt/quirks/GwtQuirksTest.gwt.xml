@@ -10,5 +10,9 @@
   	<generate-with class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingAdapterGenerator">
 		<when-type-assignable class="org.metawidget.test.gwt.quirks.client.model.GwtQuirks"/>
 	</generate-with>
+	
+	<!-- Server -->
+	
+	<servlet path="/metawidget-inspector" class="org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl"/>	
 
 </module>

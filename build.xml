@@ -599,53 +599,52 @@
 	
 	</target>
 
-	<target name="test-unit-gwt" depends="example-gwt-addressbook,compile-test">
-		
-		<copy todir="${build.dir}/gwt-example-src">
-			<fileset dir="examples/src/java">
-				<include name="org/metawidget/example/gwt/addressbook/public/**"/>
-			</fileset>			
-			<fileset dir="test/src/java">
-				<include name="org/metawidget/test/*.gwt.xml"/>
-				<include name="org/metawidget/test/gwt/allwidgets/*.gwt.xml"/>
-				<include name="org/metawidget/test/gwt/allwidgets/**/*.java"/>
-				<include name="org/metawidget/test/example/gwt/addressbook/**"/>
-				<include name="org/metawidget/test/shared/allwidgets/model/*.java"/>
-			</fileset>			
-		</copy>
+	<target name="test-unit-gwt" depends="compile-test, pack, pack-gwt-client">
 		
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest"/>
 			<classpath>				
+				<pathelement path="examples/src/java"/>
 				<pathelement path="examples/src/web/gwt/addressbook/WEB-INF"/>
-				<pathelement path="examples/src/web/gwt/addressbook/WEB-INF/config"/>
-				<dirset dir="${build.dir}/gwt-example-src"/>
-				<dirset dir="${build.dir}/example-classes"/>
-				<dirset dir="${build.dir}/test-classes"/>
+				<pathelement path="test/src/java"/>
+				<pathelement path="${build.dir}/example-classes"/>
+				<pathelement path="${build.dir}/test-classes"/>
 				<fileset dir="lib">
-					<exclude name="android.jar"/>
+					<include name="gwt-user.jar"/>
+					<include name="gwt-dev-*.jar"/>
+					<include name="junit-*.jar"/>
 				</fileset>
 				<pathelement path="${build.dir}/metawidget.jar"/>
-				<pathelement path="${build.dir}/examples/gwt/metawidget-gwt-client.jar"/>
+				<pathelement path="${build.dir}/metawidget-gwt-client.jar"/>
 			</classpath>
 		</junit>
 		
+		<!-- Work around for bug http://code.google.com/p/google-web-toolkit/issues/detail?id=3704 -->
+		
+		<copy todir="${build.dir}/gwt-sanitized-test-src">
+			<fileset dir="test/src/java">
+				<exclude name="**/AllWidgets_$*.java"/>
+				<exclude name="**/AllWidgets$*.java"/>
+			</fileset>			
+		</copy>
+
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.gwt.allwidgets.client.GwtAllWidgetsTest"/>
 			<classpath>
+				<pathelement path="${build.dir}/gwt-sanitized-test-src"/>
 				<pathelement path="test/src/java/org/metawidget/test/gwt/allwidgets"/>
-				<pathelement path="test/src/java"/>
-				<dirset dir="${build.dir}/gwt-example-src"/>
-				<dirset dir="${build.dir}/test-classes"/>
+				<pathelement path="${build.dir}/test-classes"/>
 				<fileset dir="lib">
-					<exclude name="android.jar"/>
+					<include name="gwt-user.jar"/>
+					<include name="gwt-dev-*.jar"/>
+					<include name="junit-*.jar"/>
 				</fileset>
 				<pathelement path="${build.dir}/metawidget.jar"/>
-				<pathelement path="${build.dir}/examples/gwt/metawidget-gwt-client.jar"/>
+				<pathelement path="${build.dir}/metawidget-gwt-client.jar"/>
 			</classpath>
 		</junit>
 
@@ -654,14 +653,16 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.gwt.quirks.client.GwtQuirksTest"/>
 			<classpath>
-				<pathelement path="test/src/java/org/metawidget/test/gwt/quirks"/>
 				<pathelement path="test/src/java"/>
+				<pathelement path="test/src/java/org/metawidget/test/gwt/quirks"/>
 				<dirset dir="${build.dir}/test-classes"/>
 				<fileset dir="lib">
-					<exclude name="android.jar"/>
+					<include name="gwt-user.jar"/>
+					<include name="gwt-dev-*.jar"/>
+					<include name="junit-*.jar"/>
 				</fileset>
 				<pathelement path="${build.dir}/metawidget.jar"/>
-				<pathelement path="${build.dir}/examples/gwt/metawidget-gwt-client.jar"/>
+				<pathelement path="${build.dir}/metawidget-gwt-client.jar"/>
 			</classpath>
 		</junit>
 
@@ -673,10 +674,12 @@
 				<pathelement path="test/src/java"/>
 				<dirset dir="${build.dir}/test-classes"/>
 				<fileset dir="lib">
-					<exclude name="android.jar"/>
+					<include name="gwt-user.jar"/>
+					<include name="gwt-dev-*.jar"/>
+					<include name="junit-*.jar"/>
 				</fileset>
 				<pathelement path="${build.dir}/metawidget.jar"/>
-				<pathelement path="${build.dir}/examples/gwt/metawidget-gwt-client.jar"/>
+				<pathelement path="${build.dir}/metawidget-gwt-client.jar"/>
 			</classpath>
 		</junit>
 	
@@ -724,10 +727,10 @@
 		
 		<emma>
 			<instr instrpath="${build.dir}/classes" destdir="${build.dir}/classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="*Constants, org.metawidget.android.*, org.metawidget.example.android.*, org.metawidget.gwt.client.*, org.metawidget.inspector.gwt.remote.client.*"/>				
+				<filter excludes="*Constants, org.metawidget.android.*, org.metawidget.example.android.*"/>				
 			</instr>
 			<instr instrpath="${build.dir}/example-classes" destdir="${build.dir}/example-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.gwt.addressbook.client.*, org.metawidget.example.gwt.addressbook.inspector.remote.client.*, org.metawidget.example.swing.console.*"/>				
+				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.swing.console.*"/>				
 			</instr>
 			<instr instrpath="${build.dir}/tutorial-classes" destdir="${build.dir}/tutorial-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="org.metawidget.example.swing.tutorial.Main"/>
@@ -2184,7 +2187,7 @@
 		<mkdir dir="${build.dir}/examples/gwt"/>
 		<copy todir="${build.dir}/examples/gwt" file="${build.dir}/metawidget-gwt-client.jar"/>
 		
-		<java dir="${build.dir}" classname="com.google.gwt.dev.GWTCompiler" fork="yes" failonerror="true">
+		<java dir="${build.dir}" classname="com.google.gwt.dev.Compiler" fork="yes" failonerror="true">
 			<classpath>
 				<dirset dir="${build.dir}/gwt-example-src"/>
 				<fileset dir="lib"/>
@@ -2196,7 +2199,7 @@
 				</fileset>
 			</classpath>
 			<jvmarg value="-Xmx256M"/>
-			<arg value="-out" />
+			<arg value="-war" />
 			<arg file="${build.dir}/gwt-classes" />
 			<arg value="org.metawidget.example.GwtAddressBook" />
 		</java>

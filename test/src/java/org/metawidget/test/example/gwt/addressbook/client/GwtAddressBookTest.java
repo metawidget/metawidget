@@ -48,6 +48,8 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  * @author Richard Kennard
  */
 
+// TODO: works in hosted mode?
+
 public class GwtAddressBookTest
 	extends GWTTestCase
 {

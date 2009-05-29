@@ -28,8 +28,6 @@
 		<when-type-assignable class="org.metawidget.gwt.client.inspector.InspectorFactory"/>
 	</generate-with>
 
-	<servlet path="/metawidget-inspector" class="org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl" />
-
 	<!-- Binding -->
 	
   	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">

@@ -69,10 +69,9 @@ public class GwtAllWidgetsTest
 	public void testAllWidgets()
 		throws Exception
 	{
-		prepareBundle();
-
 		// Start app
 
+		prepareBundle();
 		final FlowPanel panel = new FlowPanel();
 		final AllWidgetsModule allWidgetsModule = new AllWidgetsModule( panel );
 		allWidgetsModule.onModuleLoad();

@@ -35,7 +35,7 @@ import com.google.gwt.user.client.rpc.ServiceDefTarget;
  * <p>
  * Note it is not possible to generically optimize this call to, say, only pass the class name
  * rather than the entire object. This is because some <code>Inspectors</code> inspect the
- * <em>value</em> of the properties (eg. <code>UiLookup.onlyIfNull</code>). On a case-by-case
+ * <em>value</em> of the properties (eg. <code>PropertyTypeInspector</code>). On a case-by-case
  * basis, however, such optimization is possible - see <code>GwtMetawidget.rebind</code>.
  *
  * @author Richard Kennard

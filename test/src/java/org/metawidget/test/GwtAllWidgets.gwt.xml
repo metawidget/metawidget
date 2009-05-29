@@ -9,16 +9,11 @@
 	
 	<source path="gwt/allwidgets/client"/>
 	<source path="shared/allwidgets/model"/>	
-	<entry-point class="org.metawidget.test.gwt.allwidgets.client.ui.AllWidgets" />
-
-	<!-- Overridden servlet path -->
-	
-	<servlet path="/metawidget-inspector-allwidgets" class="org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl" />	
 
 	<!-- Binding -->
 	
   	<generate-with class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingAdapterGenerator">
 		<when-type-assignable class="org.metawidget.test.shared.allwidgets.model.AllWidgets"/>
 	</generate-with>
-	
+
 </module>
