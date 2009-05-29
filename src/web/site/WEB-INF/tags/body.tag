@@ -23,6 +23,20 @@
 			<c:if test="${!empty floater}"><img id="floater" src="${context}/media/${floater}" alt=""/></c:if>
 
 			<jsp:doBody />
+
+			<div id="footer">
+				<a href="/gettingstarted.html">Quick Start</a> |
+				<a href="/download.html">Download</a> |
+				<a href="/documentation.html">Documentation</a> |
+				<a href="/support.html">Support</a>
+				<br/>
+				Artwork by <a href="http://www.susiewalkerdesign.com" target="_blank">Susie Walker Design</a>.
+				Template by <a href="http://www.freecsstemplates.org/" target="_blank">Free CSS Templates</a>.
+				Additional artwork by <a href="http://www.visualpharm.com" target="_blank">Visual Pharm</a><br/>
+				All trademarks are the property of their respective owners<br/><br/>
+				<a href="http://sourceforge.net/projects/metawidget" target="_blank" style="position: relative; top: -10px; left: -5px"><img src="/media/logo-sourceforge.gif" alt="Hosted on SourceForge.net" style="border: 0px"/></a>
+				<a href="http://validator.w3.org/check?uri=referer" target="_blank" ><img src="/media/logo-xhtml.gif" alt="Valid XHTML 1.0 Transitional" style="border: 0px" /></a>
+			</div>
 		</div>
 	
 		<div id="left-bar">			
@@ -49,65 +63,47 @@
 					<li <c:if test="${path == '/coverage.html'}">class="active"</c:if>><a href="${context}/coverage.html">Code Coverage</a></li>
 				</ul>
 			</div>
-			<div class="badges">
+			<div class="badges" style="height: 250px">
 				<span>Metawidget integrates with:</span>
-				
-				<a href="http://java.sun.com/javaee" target="_blank">
-					<img src="${context}/media/logo-java.gif" alt="Java" style="border: 0px" />
+
+				<a href="http://java.sun.com/javaee" target="_blank" style="top: 30px; left: 0px">
+					<img src="/media/logo-java.gif" alt="Java" style="border: 0px" />
 				</a>
-				<a href="http://code.google.com/android" target="_blank">
-					<img src="${context}/media/logo-android.gif" alt="Android" style="border: 0px" />
+				<a href="http://code.google.com/android" target="_blank" style="top: 40px; left: 70px">
+					<img src="/media/logo-android.gif" alt="Android" style="border: 0px" />
 				</a>
-				<a href="http://code.google.com/webtoolkit" target="_blank">
-					<img src="${context}/media/logo-gwt.gif" alt="Google Web Toolkit" style="border: 0px" />
+				<a href="http://code.google.com/webtoolkit" target="_blank" style="top: 70px; left: 45px">
+					<img src="/media/logo-gwt.gif" alt="Google Web Toolkit" style="border: 0px" />
 				</a>
-				<a href="http://groovy.codehaus.org" target="_blank">
-					<img src="${context}/media/logo-groovy.gif" alt="Groovy" style="border: 0px" />
+				<a href="http://groovy.codehaus.org" target="_blank" style="top: 70px; left: 100px">
+					<img src="/media/logo-groovy.gif" alt="Groovy" style="border: 0px" />
 				</a>
-				<a href="http://www.hibernate.org" target="_blank">
-					<img src="${context}/media/logo-hibernate.gif" alt="Hibernate" style="border: 0px" />
+				<a href="http://www.hibernate.org" target="_blank" style="top: 130px; left: 0px">
+					<img src="/media/logo-hibernate.gif" alt="Hibernate" style="border: 0px" />
 				</a>
-				<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank">
-					<img src="${context}/media/logo-jsf.gif" alt="Java Server Faces" style="border: 0px" />
+				<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 150px; left: 115px">
+					<img src="/media/logo-jsf.gif" alt="Java Server Faces" style="border: 0px" />
 				</a>
-				<a href="http://www.jboss.org/jbossrichfaces" target="_blank">
-					<img src="${context}/media/logo-richfaces.gif" alt="RichFaces" style="border: 0px" />
+				<a href="http://www.jboss.org/jbossrichfaces" target="_blank" style="top: 165px; left: 10px">
+					<img src="/media/logo-richfaces.gif" alt="RichFaces" style="border: 0px" />
 				</a>
-				<a href="http://www.springframework.org/" target="_blank">
-					<img src="${context}/media/logo-spring.gif" alt="Spring" style="border: 0px" />
+				<a href="http://www.springframework.org/" target="_blank" style="top: 200px; left: 120px">
+					<img src="/media/logo-spring.gif" alt="Spring" style="border: 0px" />
 				</a>
-				<a href="http://struts.apache.org" target="_blank">
-					<img src="${context}/media/logo-struts.gif" alt="Struts" style="border: 0px" />
+				<a href="http://struts.apache.org" target="_blank" style="top: 235px; left: 90px">
+					<img src="/media/logo-struts.gif" alt="Struts" style="border: 0px" />
 				</a>
-				<a href="http://java.sun.com/javase/technologies/desktop" target="_blank">
-					<img src="${context}/media/logo-swing.gif" alt="Swing" style="border: 0px" />
+				<a href="http://java.sun.com/javase/technologies/desktop" target="_blank" style="top: 205px; left: 35px">
+					<img src="/media/logo-swing.gif" alt="Swing" style="border: 0px" />
 				</a>
 			</div>
-			<div class="badges">
+			<div class="badges" style="height: 100px">
 				<span>Metawidget is proudly:</span>
-								
-				<a href="http://www.opensource.org/docs/definition.php" target="_blank">
-					<img src="${context}/media/logo-opensource.gif" alt="Open Source (OSI)" style="border: 0px" />
+
+				<a href="http://www.opensource.org/docs/definition.php" target="_blank" style="top: 30px; left: 50px">
+					<img src="/media/logo-opensource.gif" alt="Open Source (OSI)" style="border: 0px" />
 				</a>
-				<a href="http://sourceforge.net/projects/metawidget" target="_blank">
-					<img src="${context}/media/logo-sourceforge.gif" alt="Hosted on SourceForge.net" style="border: 0px"/>
-				</a>
-				<a href="http://validator.w3.org/check?uri=referer" target="_blank">
-					<img src="${context}/media/logo-xhtml.gif" alt="Valid XHTML 1.0 Transitional" style="border: 0px" />
-				</a>					
 			</div>
 		</div>
 
-	</div>
-	
-	<div id="footer">
-		<a href="${context}/gettingstarted.html">Quick Start</a> |
-		<a href="${context}/download.html">Download</a> |
-		<a href="${context}/documentation.html">Documentation</a> |
-		<a href="${context}/support.html">Support</a>
-		<br/>
-		Artwork by <a href="http://www.susiewalkerdesign.com" target="_blank">Susie Walker Design</a>.
-		Template by <a href="http://www.freecsstemplates.org/" target="_blank">Free CSS Templates</a>.
-		Additional artwork by <a href="http://www.visualpharm.com" target="_blank">Visual Pharm</a>.
-		All trademarks are the property of their respective owners		
 	</div>

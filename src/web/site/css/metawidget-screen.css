@@ -239,7 +239,6 @@ a {
 	margin-top: 40px;
 	text-align: center;
 	position: relative;
-	border: 1px solid red;
 	width: 200px;
 }
 
@@ -257,6 +256,12 @@ a {
 
 .badges span a {
 	display: inline;
+}
+
+#footer {
+	margin-top: 50px;
+	text-align: center;
+	color: #888888;
 }
 
 /*
