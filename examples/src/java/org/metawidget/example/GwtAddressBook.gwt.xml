@@ -9,6 +9,7 @@
 	
 	<source path="gwt/addressbook/client"/>
 	<source path="shared/addressbook/model"/>
+	<entry-point class="org.metawidget.example.gwt.addressbook.client.ui.AddressBookModule" />
 	
 	<!-- Binding -->
 	

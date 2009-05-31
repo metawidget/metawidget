@@ -2207,7 +2207,9 @@
 		<!-- Create the WAR -->
 			
 		<war file="${build.dir}/examples/gwt/addressbook-gwt.war" webxml="examples/src/web/gwt/addressbook/WEB-INF/web.xml">
-			<fileset dir="${build.dir}/gwt-classes/org.metawidget.example.GwtAddressBook"/>
+			<fileset dir="${build.dir}/gwt-classes">
+				<include name="org.metawidget.example.GwtAddressBook/**"/>
+			</fileset>
 			<fileset dir="examples/src/web/gwt/addressbook">
 				<exclude name="**/lib/**"/>
 				<exclude name="index-hosted.jsp"/>

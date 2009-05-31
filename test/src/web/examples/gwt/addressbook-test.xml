@@ -12,11 +12,12 @@
 				<header name="User-Agent" value="Mozilla/4.0"/>
 			</config>
 			<steps>
-				<enableJavaScript enable="false"/>
 				<invoke url="${webtest.url}/addressbook-gwt" />
 				<verifyTitle text="Address Book (Metawidget GWT Example)" />
 				
-				<verifyContent referenceFile="../../../../../examples/src/java/org/metawidget/example/gwt/addressbook/public/AddressBook.html" />
+				<sleep seconds="5"/>
+				
+				<verifyText text="Name"/>
 			</steps>
 		</webtest>
 	</target>

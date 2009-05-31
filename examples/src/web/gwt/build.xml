@@ -58,6 +58,9 @@
 			<fileset dir="addressbook">
 				<exclude name="index*.jsp"/>
 			</fileset>
+			<fileset dir="../shared">
+				<exclude name="**/*.tag"/>
+			</fileset>
 		</copy>
 		<copy tofile="${addressbook.gwt.project.dir}/war/index.jsp" file="addressbook/index-hosted.jsp"/>
 
