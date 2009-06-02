@@ -52,7 +52,7 @@ public abstract class LayoutRenderer
 	 * Metawidgets can be nested.
 	 */
 
-	private final static ReentrantThreadLocal<Map<String, Object>>	mLocalState	= new ReentrantThreadLocal<Map<String, Object>>()
+	private final static ReentrantThreadLocal<Map<String, Object>>	LOCAL_STATE	= new ReentrantThreadLocal<Map<String, Object>>()
 																	{
 																		@Override
 																		protected Map<String, Object> initialValue()
@@ -75,7 +75,7 @@ public abstract class LayoutRenderer
 		//
 		// Note: don't use mLocalState.remove() because we need J2SE 1.4 compatibility
 
-		mLocalState.set( new HashMap<String, Object>() );
+		LOCAL_STATE.set( new HashMap<String, Object>() );
 	}
 
 	@Override
@@ -84,7 +84,7 @@ public abstract class LayoutRenderer
 	{
 		// Support re-entry
 
-		mLocalState.push();
+		LOCAL_STATE.push();
 
 		reentrantEncodeBegin( context, component );
 	}
@@ -107,14 +107,14 @@ public abstract class LayoutRenderer
 	}
 
 	@Override
-	public void encodeEnd( FacesContext context, UIComponent component )
+	public final void encodeEnd( FacesContext context, UIComponent component )
 		throws IOException
 	{
 		reentrantEncodeEnd( context, component );
 
 		// Support re-entry
 
-		mLocalState.pop();
+		LOCAL_STATE.pop();
 	}
 
 	public void reentrantEncodeEnd( FacesContext context, UIComponent component )
@@ -137,7 +137,7 @@ public abstract class LayoutRenderer
 	@SuppressWarnings( "unchecked" )
 	protected <T> T getState( String key )
 	{
-		return (T) mLocalState.get().get( key );
+		return (T) LOCAL_STATE.get().get( key );
 	}
 
 	/**
@@ -147,7 +147,7 @@ public abstract class LayoutRenderer
 	@SuppressWarnings( "unchecked" )
 	protected void putState( String key, Object value )
 	{
-		mLocalState.get().put( key, value );
+		LOCAL_STATE.get().put( key, value );
 	}
 
 	/**
@@ -160,7 +160,7 @@ public abstract class LayoutRenderer
 	@SuppressWarnings( "unchecked" )
 	protected <T> T removeState( String key )
 	{
-		return (T) mLocalState.get().remove( key );
+		return (T) LOCAL_STATE.get().remove( key );
 	}
 
 	protected void writeStyleAndClass( UIComponent component, ResponseWriter writer, String style )

@@ -40,6 +40,7 @@ import org.metawidget.test.inspector.java5.Java5InspectorTest;
 import org.metawidget.test.inspector.jbpm.JbpmInspectorTest;
 import org.metawidget.test.inspector.jpa.JpaInspectorTest;
 import org.metawidget.test.inspector.jsp.JspAnnotationInspectorTest;
+import org.metawidget.test.inspector.oval.OvalInspectorTest;
 import org.metawidget.test.inspector.propertytype.PropertyTypeInspectorTest;
 import org.metawidget.test.inspector.remote.RemoteInspectorTest;
 import org.metawidget.test.inspector.spring.SpringAnnotationInspectorTest;
@@ -93,6 +94,7 @@ public class InspectorTests
 		suite.addTestSuite( CompositeInspectorTest.class );
 		suite.addTestSuite( MetawidgetAnnotationInspectorTest.class );
 		suite.addTestSuite( MetawidgetActionStyleTest.class );
+		suite.addTestSuite( OvalInspectorTest.class );
 		suite.addTestSuite( PropertyTypeInspectorTest.class );
 		suite.addTestSuite( RemoteInspectorTest.class );
 		suite.addTestSuite( ScalaPropertyStyleTest.class );

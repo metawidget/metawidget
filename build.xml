@@ -615,6 +615,7 @@
 					<include name="gwt-user.jar"/>
 					<include name="gwt-dev-*.jar"/>
 					<include name="junit-*.jar"/>
+					<include name="emma.jar"/>
 				</fileset>
 				<pathelement path="${build.dir}/metawidget.jar"/>
 				<pathelement path="${build.dir}/metawidget-gwt-client.jar"/>
@@ -642,6 +643,7 @@
 					<include name="gwt-user.jar"/>
 					<include name="gwt-dev-*.jar"/>
 					<include name="junit-*.jar"/>
+					<include name="emma.jar"/>
 				</fileset>
 				<pathelement path="${build.dir}/metawidget.jar"/>
 				<pathelement path="${build.dir}/metawidget-gwt-client.jar"/>
@@ -660,6 +662,7 @@
 					<include name="gwt-user.jar"/>
 					<include name="gwt-dev-*.jar"/>
 					<include name="junit-*.jar"/>
+					<include name="emma.jar"/>
 				</fileset>
 				<pathelement path="${build.dir}/metawidget.jar"/>
 				<pathelement path="${build.dir}/metawidget-gwt-client.jar"/>
@@ -677,6 +680,7 @@
 					<include name="gwt-user.jar"/>
 					<include name="gwt-dev-*.jar"/>
 					<include name="junit-*.jar"/>
+					<include name="emma.jar"/>
 				</fileset>
 				<pathelement path="${build.dir}/metawidget.jar"/>
 				<pathelement path="${build.dir}/metawidget-gwt-client.jar"/>

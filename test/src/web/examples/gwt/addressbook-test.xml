@@ -3,9 +3,6 @@
 	<property file="../../../../../build.properties" />
 	<import file="${webtest.dir}/lib/taskdef.xml" />
 
-	<!-- WebTest is not up to testing GWT yet. This just tests Bundle2VariableTag -->
-	<!-- We do the rest of our unit testing in GwtAddressBookTest.java            -->
-	
 	<target name="test-all">
 		<webtest name="test-all">
 			<config resultpath="${build.dir}">
@@ -15,9 +12,8 @@
 				<invoke url="${webtest.url}/addressbook-gwt" />
 				<verifyTitle text="Address Book (Metawidget GWT Example)" />
 				
-				<sleep seconds="5"/>
+				<!-- WebTest doesn't seem up to testing GWT yet? -->
 				
-				<verifyText text="Name"/>
 			</steps>
 		</webtest>
 	</target>

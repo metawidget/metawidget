@@ -61,37 +61,34 @@ public final class ThreadUtils
 	 * @author Richard Kennard
 	 */
 
+	@SuppressWarnings( "unchecked" )
 	public static class ReentrantThreadLocal<T>
 	{
 		//
-		//
 		// Private members
 		//
-		//
 
-		private ThreadLocal<Stack<T>>	mLocal	= new ThreadLocal<Stack<T>>()
-												{
-													@Override
-													protected Stack<T> initialValue()
-													{
-														return new Stack<T>();
-													}
-												};
+		private final static ThreadLocal<Stack>	LOCAL	= new ThreadLocal<Stack>()
+														{
+															@Override
+															protected Stack initialValue()
+															{
+																return new Stack();
+															}
+														};
 
-		//
 		//
 		// Public methods
-		//
 		//
 
 		public void push()
 		{
-			mLocal.get().push( initialValue() );
+			LOCAL.get().push( initialValue() );
 		}
 
 		public T get()
 		{
-			Stack<T> stack = mLocal.get();
+			Stack<T> stack = LOCAL.get();
 
 			if ( stack.isEmpty() )
 				stack.push( initialValue() );
@@ -101,7 +98,7 @@ public final class ThreadUtils
 
 		public void set( T t )
 		{
-			Stack<T> stack = mLocal.get();
+			Stack<T> stack = LOCAL.get();
 
 			if ( !stack.isEmpty() )
 				stack.pop();
@@ -111,7 +108,7 @@ public final class ThreadUtils
 
 		public void pop()
 		{
-			mLocal.get().pop();
+			LOCAL.get().pop();
 		}
 
 		//

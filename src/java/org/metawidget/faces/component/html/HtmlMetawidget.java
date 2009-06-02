@@ -157,4 +157,18 @@ public class HtmlMetawidget
 		Application application = getFacesContext().getApplication();
 		return (HtmlMetawidget) application.createComponent( "org.metawidget.HtmlMetawidget" );
 	}
+
+	/**
+	 * Overriden to carry the hidden fields flag into the nested Metawidget. It doesn't get
+	 * copied by <code>FacesUtils.copyAttributes</code> alone.
+	 */
+
+	@Override
+	protected void initNestedMetawidget( UIMetawidget metawidget, Map<String, String> attributes )
+		throws Exception
+	{
+		super.initNestedMetawidget( metawidget, attributes );
+
+		( (HtmlMetawidget) metawidget ).setCreateHiddenFields( mCreateHiddenFields );
+	}
 }

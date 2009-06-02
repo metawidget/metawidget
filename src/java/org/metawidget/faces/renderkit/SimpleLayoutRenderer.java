@@ -51,7 +51,7 @@ public class SimpleLayoutRenderer
 	//
 
 	@Override
-	public void encodeEnd( FacesContext context, UIComponent component )
+	public void reentrantEncodeEnd( FacesContext context, UIComponent component )
 		throws IOException
 	{
 		// After facet
