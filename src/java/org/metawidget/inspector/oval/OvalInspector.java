@@ -135,7 +135,7 @@ public class OvalInspector
 		MaxLength maxLength = property.getAnnotation( MaxLength.class );
 
 		if ( maxLength != null )
-			attributes.put( MAXIMUM_VALUE, String.valueOf( maxLength.value() ) );
+			attributes.put( MAXIMUM_LENGTH, String.valueOf( maxLength.value() ) );
 
 		return attributes;
 	}

@@ -165,7 +165,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 		startBuild();
 
-		if ( xml != null )
+		if ( xml != null && "".equals( xml ))
 		{
 			// Build simple widget (from the top-level element)
 

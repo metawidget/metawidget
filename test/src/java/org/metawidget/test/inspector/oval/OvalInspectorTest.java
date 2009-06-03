@@ -81,14 +81,12 @@ public class OvalInspectorTest
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
-		assertTrue( "1".equals( property.getAttribute( MAXIMUM_INTEGER_DIGITS ) ) );
-		assertTrue( "2".equals( property.getAttribute( MAXIMUM_FRACTIONAL_DIGITS ) ) );
-		assertTrue( 4 == property.getAttributes().getLength() );
+		assertTrue( 2 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "range" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "1".equals( property.getAttribute( MINIMUM_VALUE ) ) );
-		assertTrue( "99".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
+		assertTrue( "1.0".equals( property.getAttribute( MINIMUM_VALUE ) ) );
+		assertTrue( "99.0".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
 		assertTrue( "2".equals( property.getAttribute( MINIMUM_LENGTH ) ) );
 		assertTrue( "25".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
 		assertTrue( 5 == property.getAttributes().getLength() );
