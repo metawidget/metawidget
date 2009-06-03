@@ -1,0 +1,9 @@
+<module>
+
+	<inherits name="com.google.gwt.user.User"/>
+	<inherits name="org.metawidget.example.GwtAddressBook"/>
+
+	<servlet path="/contacts" class="org.metawidget.example.gwt.addressbook.server.rpc.ContactsServiceImpl"/>
+	<servlet path="/metawidget-inspector" class="org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl"/>
+
+</module>

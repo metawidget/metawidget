@@ -1,7 +1,7 @@
 <project name="metawidget-gwt-hosted" default="create-projects">
 
 	<property environment="env" />
-	<property name="gwt.project.dir" value="/metawidget-gwt" />
+	<property name="gwt.project.dir" value="/metawidget-gwt-hosted" />
 	<property name="addressbook.dir" value="addressbook" />
 	<property name="clientside.dir" value="clientside" />
 
@@ -26,7 +26,6 @@
 		<fail message="Cannot find metawidget.jar at ${metawidget.home}. Is that the location of the binary distribution?" unless="metawidget-exists" />
 		<fail message="Cannot find /examples/gwt/metawidget-gwt-client.jar at ${metawidget.home}. Is that the location of the binary distribution?" unless="metawidget-gwt-client-exists" />
 		<echo message="Building using gwt.home = ${gwt.home}, metawidget.home = ${metawidget.home}" />
-		<echo message="Writing output to addressbook.gwt.project.dir = ${gwt.project.dir}/${addressbook}" />
 	</target>
 
 	<!-- Clean -->
@@ -46,57 +45,61 @@
 
 	<!-- Create Project -->
 	
-	<target name="create-project-addressbook" depends="clean, check">
+	<target name="create-project-addressbook">
+
+		<echo message="Writing output to gwt.project.dir/addressbook.dir = ${gwt.project.dir}/${addressbook.dir}" />
 
 		<!-- Standard GWT create -->
 		
 		<exec executable="${gwt.home}/webAppCreator.cmd" failonerror="true">
-			<arg line="-out ${gwt.project.dir}/${addressbook} org.metawidget.example.gwt.addressbook.client.AddressBook" />
+			<arg line="-out ${gwt.project.dir}/${addressbook.dir} org.metawidget.example.gwt.addressbook.client.AddressBook" />
 		</exec>
 
 		<!-- Update src files -->
 
-		<delete dir="${gwt.project.dir}/${addressbook}/src/org/metawidget/example"/>
+		<delete dir="${gwt.project.dir}/${addressbook.dir}/src/org/metawidget/example"/>
 		
-		<copy todir="${gwt.project.dir}/${addressbook}/src/org/metawidget/example">
-			<fileset dir="../../java/org/metawidget/example" includes="gwt/**,shared/**,GwtAddressBook.gwt.xml" />
+		<copy todir="${gwt.project.dir}/${addressbook.dir}/src/org/metawidget/example">
+			<fileset dir="../../java/org/metawidget/example" includes="gwt/addressbook/**,shared/addressbook/**,GwtAddressBook.gwt.xml" />
 		</copy>
 
 		<!-- Update web files -->
 
-		<delete dir="${gwt.project.dir}/${addressbook}/war"/>
-		<copy todir="${gwt.project.dir}/${addressbook}/war">
+		<delete dir="${gwt.project.dir}/${addressbook.dir}/war"/>
+		<copy todir="${gwt.project.dir}/${addressbook.dir}/war">
 			<fileset dir="addressbook">
 				<exclude name="index*.jsp"/>
 			</fileset>
-			<fileset dir="../shared">
+		</copy>
+		<copy todir="${gwt.project.dir}/${addressbook.dir}/war" failonerror="false">
+			<fileset dir="../shared" >
 				<exclude name="**/*.tag"/>
 			</fileset>
 		</copy>
-		<copy tofile="${gwt.project.dir}/${addressbook}/war/index.jsp" file="addressbook/index-hosted.jsp"/>
+		<copy tofile="${gwt.project.dir}/${addressbook.dir}/war/index.jsp" file="addressbook/index-hosted.jsp"/>
 
-		<copy todir="${gwt.project.dir}/${addressbook}/war/WEB-INF/lib">
+		<copy todir="${gwt.project.dir}/${addressbook.dir}/war/WEB-INF/lib">
 			<fileset dir="../../../../lib" includes="ejb3-persistence.jar,hibernate-validator.jar"/>
 			<fileset dir="${metawidget.home}" includes="metawidget.jar" />
 		</copy>
 		
 		<!-- Update lib JARs -->
 		
-		<mkdir dir="${gwt.project.dir}/${addressbook}/lib" />
-		<copy todir="${gwt.project.dir}/${addressbook}/lib">
+		<mkdir dir="${gwt.project.dir}/${addressbook.dir}/lib" />
+		<copy todir="${gwt.project.dir}/${addressbook.dir}/lib">
 			<fileset dir="${metawidget.home}/examples/gwt" includes="metawidget-gwt-client.jar" />
 		</copy>
 
 		<!-- Update test files -->
 		
-		<copy todir="${gwt.project.dir}/${addressbook}/test">
+		<copy todir="${gwt.project.dir}/${addressbook.dir}/test">
 			<fileset dir="../../../../test/src/java" includes="org/metawidget/test/example/gwt/addressbook/**" />
 		</copy>
 
 		<!-- Classpath -->
 			
-		<replace file="${gwt.project.dir}/${addressbook}/.classpath" token='&lt;classpathentry kind="src" path="src"/>' value='&lt;classpathentry kind="src" path="src"/>&lt;classpathentry kind="src" path="test"/>'/>
-		<replace file="${gwt.project.dir}/${addressbook}/.classpath" token="&lt;/classpath>" value='&lt;classpathentry kind="lib" path="war/WEB-INF/lib/ejb3-persistence.jar"/>
+		<replace file="${gwt.project.dir}/${addressbook.dir}/.classpath" token='&lt;classpathentry kind="src" path="src"/>' value='&lt;classpathentry kind="src" path="src"/>&lt;classpathentry kind="src" path="test"/>'/>
+		<replace file="${gwt.project.dir}/${addressbook.dir}/.classpath" token="&lt;/classpath>" value='&lt;classpathentry kind="lib" path="war/WEB-INF/lib/ejb3-persistence.jar"/>
 			&lt;classpathentry kind="lib" path="war/WEB-INF/lib/hibernate-validator.jar"/>
 			&lt;classpathentry kind="lib" path="war/WEB-INF/lib/metawidget.jar"/>
 			&lt;classpathentry kind="lib" path="lib/metawidget-gwt-client.jar"/>
@@ -104,74 +107,76 @@
 		
 		<!-- Launch configuration -->
 		
-		<replace file="${gwt.project.dir}/${addressbook}/Addressbook.launch" token="org.metawidget.example.gwt.addressbook.client.AddressBook" value="org.metawidget.example.GwtAddressBook" />
-		<replace file="${gwt.project.dir}/${addressbook}/Addressbook.launch" token="AddressBook.html" value="index.jsp" />
+		<replace file="${gwt.project.dir}/${addressbook.dir}/Addressbook.launch" token="org.metawidget.example.gwt.addressbook.client.AddressBook" value="org.metawidget.example.GwtAddressBook" />
+		<replace file="${gwt.project.dir}/${addressbook.dir}/Addressbook.launch" token="AddressBook.html" value="index.jsp" />
 		
 		<!-- Test launch configuration -->
 
-		<copy file="${gwt.project.dir}/${addressbook}/Addressbook.launch" tofile="${gwt.project.dir}/${addressbook}/AddressbookTest.launch" />
-		<replace file="${gwt.project.dir}/${addressbook}/AddressbookTest.launch" token="org.eclipse.jdt.launching.localJavaApplication" value="org.eclipse.jdt.junit.launchconfig" />
-		<replace file="${gwt.project.dir}/${addressbook}/AddressbookTest.launch" token="com.google.gwt.dev.HostedMode" value="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest" />
-		<replace file="${gwt.project.dir}/${addressbook}/AddressbookTest.launch">
+		<copy file="${gwt.project.dir}/${addressbook.dir}/Addressbook.launch" tofile="${gwt.project.dir}/${addressbook.dir}/AddressbookTest.launch" />
+		<replace file="${gwt.project.dir}/${addressbook.dir}/AddressbookTest.launch" token="org.eclipse.jdt.launching.localJavaApplication" value="org.eclipse.jdt.junit.launchconfig" />
+		<replace file="${gwt.project.dir}/${addressbook.dir}/AddressbookTest.launch" token="com.google.gwt.dev.HostedMode" value="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest" />
+		<replace file="${gwt.project.dir}/${addressbook.dir}/AddressbookTest.launch">
 				<replacetoken><![CDATA[</listAttribute>]]></replacetoken>
 				<replacevalue><![CDATA[<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/AddressBook/test&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#13;&#10;"/><listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/AddressBook/war/WEB-INF&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#13;&#10;"/></listAttribute>]]></replacevalue>
 		</replace>
 		
 	</target>
 
-	<target name="create-project-clientside" depends="clean, check">
+	<target name="create-project-clientside">
 
+		<echo message="Writing output to gwt.project.dir/clientside.dir = ${gwt.project.dir}/${clientside.dir}" />
+		
 		<!-- Standard GWT create -->
 		
 		<exec executable="${gwt.home}/webAppCreator.cmd" failonerror="true">
-			<arg line="-out ${gwt.project.dir}/${clientside} org.metawidget.example.gwt.clientside.client.ClientSide" />
+			<arg line="-out ${gwt.project.dir}/${clientside.dir} org.metawidget.example.gwt.clientside.client.ClientSide" />
 		</exec>
 
 		<!-- Update src files -->
 
-		<delete dir="${gwt.project.dir}/${clientside}/src/org/metawidget/example"/>
+		<delete dir="${gwt.project.dir}/${clientside.dir}/src/org/metawidget/example"/>
 		
-		<copy todir="${gwt.project.dir}/${clientside}/src/org/metawidget/example">
-			<fileset dir="../../java/org/metawidget/example" includes="gwt/**,GwtClientSide.gwt.xml" />
+		<copy todir="${gwt.project.dir}/${clientside.dir}/src/org/metawidget/example/gwt/clientside">
+			<fileset dir="../../java/org/metawidget/example/gwt/clientside" />
 		</copy>
 
 		<!-- Update web files -->
 
-		<delete dir="${gwt.project.dir}/${clientside}/war"/>
-		<copy todir="${gwt.project.dir}/${clientside}/war">
+		<delete dir="${gwt.project.dir}/${clientside.dir}/war"/>
+		<copy todir="${gwt.project.dir}/${clientside.dir}/war">
 			<fileset dir="clientside"/>
 		</copy>
 
 		<!-- Update lib JARs -->
 		
-		<mkdir dir="${gwt.project.dir}/${clientside}/lib" />		
-		<copy todir="${gwt.project.dir}/${clientside}/lib">
+		<mkdir dir="${gwt.project.dir}/${clientside.dir}/lib" />		
+		<copy todir="${gwt.project.dir}/${clientside.dir}/lib">
 			<fileset dir="${metawidget.home}/examples/gwt" includes="metawidget-gwt-client.jar" />
 		</copy>
 
 		<!-- Update test files -->
 		
-		<copy todir="${gwt.project.dir}/${clientside}/test">
+		<copy todir="${gwt.project.dir}/${clientside.dir}/test">
 			<fileset dir="../../../../test/src/java" includes="org/metawidget/test/example/gwt/clientside/**" />
 		</copy>
 
 		<!-- Classpath -->
 			
-		<replace file="${gwt.project.dir}/${addressbook}/.classpath" token='&lt;classpathentry kind="src" path="src"/>' value='&lt;classpathentry kind="src" path="src"/>&lt;classpathentry kind="src" path="test"/>'/>
-		<replace file="${gwt.project.dir}/${addressbook}/.classpath" token="&lt;/classpath>" value='&lt;classpathentry kind="lib" path="lib/metawidget-gwt-client.jar"/>
+		<replace file="${gwt.project.dir}/${clientside.dir}/.classpath" token='&lt;classpathentry kind="src" path="src"/>' value='&lt;classpathentry kind="src" path="src"/>&lt;classpathentry kind="src" path="test"/>'/>
+		<replace file="${gwt.project.dir}/${clientside.dir}/.classpath" token="&lt;/classpath>" value='&lt;classpathentry kind="lib" path="lib/metawidget-gwt-client.jar"/>
 			&lt;/classpath>' />
 		
 		<!-- Launch configuration -->
 		
-		<replace file="${gwt.project.dir}/${addressbook}/ClientSide.launch" token="org.metawidget.example.gwt.clientside.client.ClientSide" value="org.metawidget.example.GwtClientSide" />
-		<replace file="${gwt.project.dir}/${addressbook}/ClientSide.launch" token="ClientSide.html" value="index.htm" />
+		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSide.launch" token="org.metawidget.example.gwt.clientside.client.ClientSide" value="org.metawidget.example.gwt.clientside.GwtClientSide" />
+		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSide.launch" token="ClientSide.html" value="index.htm" />
 		
 		<!-- Test launch configuration -->
 
-		<copy file="${gwt.project.dir}/${addressbook}/ClientSide.launch" tofile="${gwt.project.dir}/${addressbook}/ClientSideTest.launch" />
-		<replace file="${gwt.project.dir}/${addressbook}/ClientSideTest.launch" token="org.eclipse.jdt.launching.localJavaApplication" value="org.eclipse.jdt.junit.launchconfig" />
-		<replace file="${gwt.project.dir}/${addressbook}/ClientSideTest.launch" token="com.google.gwt.dev.HostedMode" value="org.metawidget.test.example.gwt.clientside.client.GwtClientSideTest" />
-		<replace file="${gwt.project.dir}/${addressbook}/ClientSideTest.launch">
+		<copy file="${gwt.project.dir}/${clientside.dir}/ClientSide.launch" tofile="${gwt.project.dir}/${clientside.dir}/ClientSideTest.launch" />
+		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSideTest.launch" token="org.eclipse.jdt.launching.localJavaApplication" value="org.eclipse.jdt.junit.launchconfig" />
+		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSideTest.launch" token="com.google.gwt.dev.HostedMode" value="org.metawidget.test.example.gwt.clientside.client.GwtClientSideTest" />
+		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSideTest.launch">
 				<replacetoken><![CDATA[</listAttribute>]]></replacetoken>
 				<replacevalue><![CDATA[<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ClientSide/test&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#13;&#10;"/><listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ClientSide/war/WEB-INF&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#13;&#10;"/></listAttribute>]]></replacevalue>
 		</replace>

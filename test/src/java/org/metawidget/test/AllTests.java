@@ -23,7 +23,6 @@ import junit.framework.TestSuite;
 import org.metawidget.test.example.ExampleTests;
 import org.metawidget.test.faces.FacesUtilsTest;
 import org.metawidget.test.faces.UIMetawidgetTest;
-import org.metawidget.test.gwt.GwtUtilsTest;
 import org.metawidget.test.inspector.InspectorTests;
 import org.metawidget.test.mixin.MixinTests;
 import org.metawidget.test.swing.SwingMetawidgetTests;
@@ -64,7 +63,6 @@ public class AllTests
 		suite.addTest( ExampleTests.suite() );
 		suite.addTestSuite( UIMetawidgetTest.class );
 		suite.addTestSuite( FacesUtilsTest.class );
-		suite.addTestSuite( GwtUtilsTest.class );
 		suite.addTest( InspectorTests.suite() );
 		suite.addTest( MixinTests.suite() );
 		suite.addTest( SwingMetawidgetTests.suite() );
