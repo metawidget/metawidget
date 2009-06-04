@@ -465,7 +465,7 @@ public class GwtMetawidget
 			return null;
 
 		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
-			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling getWidget( " + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + ")" );
+			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling getWidget( \"" + GwtUtils.toString( names, SEPARATOR_DOT_CHAR ) + "\" )" );
 
 		Map<String, Widget> children = mAddedWidgets;
 

@@ -17,6 +17,8 @@ h1
 	color: #AAAAAA;
 	font-style: italic;
 	font-size: 30pt;
+	margin-top: 5px;
+	margin-bottom: 5px;
 }
 
 h2
@@ -36,7 +38,7 @@ h2 strong
 
 #content
 {
-	position: relative;
+	margin-top: 10px;
 }
 
 .instructions
@@ -82,6 +84,7 @@ h2 strong
 {
 	text-align: center;
 	vertical-align: middle;
+	width: 100px;
 }
 
 #generate-column button

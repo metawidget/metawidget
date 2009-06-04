@@ -37,7 +37,6 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
@@ -100,7 +99,7 @@ public class GwtAddressBookTest
 				FlexTable flexTable = (FlexTable) metawidgetSearch.getWidget( 0 );
 
 				assertTrue( flexTable.getRowCount() == 4 );
-				final Button buttonSearch = (Button) ( (HorizontalPanel) ( (Facet) flexTable.getWidget( 3, 0 ) ).getWidget() ).getWidget( 0 );
+				final Button buttonSearch = (Button) ( (FlowPanel) ( (Facet) flexTable.getWidget( 3, 0 ) ).getWidget() ).getWidget( 0 );
 				assertTrue( "Search".equals( buttonSearch.getText() ) );
 				fireClickEvent( buttonSearch );
 
@@ -176,11 +175,11 @@ public class GwtAddressBookTest
 
 										assertTrue( ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getRowCount() == 11 );
 
-										Button backButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 3 );
+										Button backButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 3 );
 										assertTrue( "Back".equals( backButton.getText() ) );
 										assertTrue( backButton.isVisible() );
 
-										final Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 2 );
+										final Button editButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 2 );
 										assertTrue( "Edit".equals( editButton.getText() ) );
 										assertTrue( editButton.isVisible() );
 										fireClickEvent( editButton );
@@ -241,11 +240,11 @@ public class GwtAddressBookTest
 														contactMetawidget.setValue( "743 Evergreen Terrace", "address", "street" );
 														( (ListBox) contactMetawidget.getWidget( "address", "state" ) ).setSelectedIndex( 3 );
 
-														Button cancelButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 3 );
+														Button cancelButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 3 );
 														assertTrue( "Cancel".equals( cancelButton.getText() ) );
 														assertTrue( cancelButton.isVisible() );
 
-														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 0 );
+														Button saveButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 10, 0 ) ).getWidget() ).getWidget( 0 );
 														assertTrue( "Save".equals( saveButton.getText() ) );
 														assertTrue( saveButton.isVisible() );
 														fireClickEvent( saveButton );
@@ -342,7 +341,7 @@ public class GwtAddressBookTest
 						assertTrue( "Charles Montgomery".equals( contactMetawidget.getValue( "firstname" ) ) );
 						assertTrue( "0".equals( contactMetawidget.getValue( "numberOfStaff" ) ) );
 
-						Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 2 );
+						Button editButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 2 );
 						assertTrue( "Edit".equals( editButton.getText() ) );
 						assertTrue( editButton.isVisible() );
 						fireClickEvent( editButton );
@@ -409,7 +408,7 @@ public class GwtAddressBookTest
 													@Override
 													public void run()
 													{
-														Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 0 );
+														Button saveButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 0 );
 														assertTrue( "Save".equals( saveButton.getText() ) );
 														assertTrue( saveButton.isVisible() );
 														fireClickEvent( saveButton );
@@ -474,7 +473,7 @@ public class GwtAddressBookTest
 				assertTrue( "".equals( contactMetawidget.getValue( "firstname" ) ) );
 				assertTrue( "0".equals( contactMetawidget.getValue( "numberOfStaff" ) ) );
 
-				Button cancelButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 3 );
+				Button cancelButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 3 );
 				assertTrue( "Cancel".equals( cancelButton.getText() ) );
 				assertTrue( cancelButton.isVisible() );
 
@@ -519,7 +518,7 @@ public class GwtAddressBookTest
 									@Override
 									public void run()
 									{
-										Button saveButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 0 );
+										Button saveButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) contactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 0 );
 										assertTrue( "Save".equals( saveButton.getText() ) );
 										assertTrue( saveButton.isVisible() );
 										fireClickEvent( saveButton );
@@ -564,7 +563,7 @@ public class GwtAddressBookTest
 
 																// Check editing
 
-																final Button editButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) deleteContactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 2 );
+																final Button editButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) deleteContactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 2 );
 																assertTrue( "Edit".equals( editButton.getText() ) );
 																assertTrue( editButton.isVisible() );
 																fireClickEvent( editButton );
@@ -580,7 +579,7 @@ public class GwtAddressBookTest
 
 																		// Check deleting
 
-																		Button deleteButton = (Button) ( (HorizontalPanel) ( (Facet) ( (FlexTable) deleteContactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 1 );
+																		Button deleteButton = (Button) ( (FlowPanel) ( (Facet) ( (FlexTable) deleteContactMetawidget.getWidget( 0 ) ).getWidget( 11, 0 ) ).getWidget() ).getWidget( 1 );
 																		assertTrue( "Delete".equals( deleteButton.getText() ) );
 																		assertTrue( deleteButton.isVisible() );
 																		fireClickEvent( deleteButton );

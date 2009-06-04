@@ -76,8 +76,8 @@ public class GwtClientSideTest
 				assertTrue( flexTable1.getWidget( 2, 1 ) instanceof Button );
 				assertTrue( "Genre:".equals( flexTable1.getText( 3, 0 ) ) );
 				assertTrue( "Release date:".equals( flexTable1.getText( 4, 0 ) ) );
-				assertTrue( "Notes:".equals( flexTable1.getText( 4, 0 ) ) );
-				assertTrue( flexTable1.getWidget( 4, 1 ) instanceof TextArea );
+				assertTrue( "Notes:".equals( flexTable1.getText( 5, 0 ) ) );
+				assertTrue( flexTable1.getWidget( 5, 1 ) instanceof TextArea );
 
 				fireClickEvent( sampleButton2 );
 				fireClickEvent( generateButton );

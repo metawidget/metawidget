@@ -1,0 +1,21 @@
+<project name="gwt-clientside-test" default="test-all">
+
+	<property file="../../../../../build.properties" />
+	<import file="${webtest.dir}/lib/taskdef.xml" />
+
+	<target name="test-all">
+		<webtest name="test-all">
+			<config resultpath="${build.dir}">
+				<header name="User-Agent" value="Mozilla/4.0"/>
+			</config>
+			<steps>
+				<invoke url="${webtest.url}/clientside-gwt" />
+				<verifyTitle text="Client Side (Metawidget GWT Example)" />
+				
+				<!-- WebTest doesn't seem up to testing GWT yet? -->
+				
+			</steps>
+		</webtest>
+	</target>
+
+</project>

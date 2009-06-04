@@ -92,7 +92,7 @@ public class SimpleConverter
 
 			// Unknown
 
-			throw new RuntimeException( "Don't know how to convert a String to a " + type );
+			throw new RuntimeException( "Don't know how to convert a String to a " + type.getName() );
 		}
 
 		// Not a String conversion

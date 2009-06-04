@@ -152,6 +152,7 @@
 		<mkdir dir="${gwt.project.dir}/${clientside.dir}/lib" />		
 		<copy todir="${gwt.project.dir}/${clientside.dir}/lib">
 			<fileset dir="${metawidget.home}/examples/gwt" includes="metawidget-gwt-client.jar" />
+			<fileset dir="${metawidget.home}" includes="metawidget.jar" />
 		</copy>
 
 		<!-- Update test files -->
@@ -163,13 +164,14 @@
 		<!-- Classpath -->
 			
 		<replace file="${gwt.project.dir}/${clientside.dir}/.classpath" token='&lt;classpathentry kind="src" path="src"/>' value='&lt;classpathentry kind="src" path="src"/>&lt;classpathentry kind="src" path="test"/>'/>
-		<replace file="${gwt.project.dir}/${clientside.dir}/.classpath" token="&lt;/classpath>" value='&lt;classpathentry kind="lib" path="lib/metawidget-gwt-client.jar"/>
+		<replace file="${gwt.project.dir}/${clientside.dir}/.classpath" token="&lt;/classpath>" value='&lt;classpathentry kind="lib" path="lib/metawidget.jar"/>
+			&lt;classpathentry kind="lib" path="lib/metawidget-gwt-client.jar"/>
 			&lt;/classpath>' />
 		
 		<!-- Launch configuration -->
 		
 		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSide.launch" token="org.metawidget.example.gwt.clientside.client.ClientSide" value="org.metawidget.example.gwt.clientside.GwtClientSide" />
-		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSide.launch" token="ClientSide.html" value="index.htm" />
+		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSide.launch" token="ClientSide.html" value="index.html" />
 		
 		<!-- Test launch configuration -->
 

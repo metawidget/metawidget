@@ -140,41 +140,41 @@ public class GwtQuirksTest
 	{
 		// isPrimitive
 
-		assertTrue( GwtUtils.isPrimitive( "byte" ) );
-		assertTrue( GwtUtils.isPrimitive( "short" ) );
-		assertTrue( GwtUtils.isPrimitive( "int" ) );
-		assertTrue( GwtUtils.isPrimitive( "long" ) );
-		assertTrue( GwtUtils.isPrimitive( "float" ) );
-		assertTrue( GwtUtils.isPrimitive( "double" ) );
-		assertTrue( GwtUtils.isPrimitive( "boolean" ) );
-		assertTrue( GwtUtils.isPrimitive( "char" ) );
-		assertTrue( !GwtUtils.isPrimitive( "Byte" ) );
-		assertTrue( !GwtUtils.isPrimitive( "Short" ) );
-		assertTrue( !GwtUtils.isPrimitive( "Integer" ) );
-		assertTrue( !GwtUtils.isPrimitive( "Long" ) );
-		assertTrue( !GwtUtils.isPrimitive( "Float" ) );
-		assertTrue( !GwtUtils.isPrimitive( "Double" ) );
-		assertTrue( !GwtUtils.isPrimitive( "Boolean" ) );
-		assertTrue( !GwtUtils.isPrimitive( "Character" ) );
+		assertTrue( GwtUtils.isPrimitive( byte.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitive( short.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitive( int.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitive( long.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitive( float.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitive( double.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitive( boolean.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitive( char.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitive( Byte.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitive( Short.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitive( Integer.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitive( Long.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitive( Float.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitive( Double.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitive( Boolean.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitive( Character.class.getName() ) );
 
 		// isPrimitiveWrapper
 
-		assertTrue( GwtUtils.isPrimitiveWrapper( "Byte" ) );
-		assertTrue( GwtUtils.isPrimitiveWrapper( "Short" ) );
-		assertTrue( GwtUtils.isPrimitiveWrapper( "Integer" ) );
-		assertTrue( GwtUtils.isPrimitiveWrapper( "Long" ) );
-		assertTrue( GwtUtils.isPrimitiveWrapper( "Float" ) );
-		assertTrue( GwtUtils.isPrimitiveWrapper( "Double" ) );
-		assertTrue( GwtUtils.isPrimitiveWrapper( "Boolean" ) );
-		assertTrue( GwtUtils.isPrimitiveWrapper( "Character" ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( "byte" ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( "short" ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( "int" ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( "long" ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( "float" ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( "double" ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( "boolean" ) );
-		assertTrue( !GwtUtils.isPrimitiveWrapper( "char" ) );
+		assertTrue( GwtUtils.isPrimitiveWrapper( Byte.class.getName() ));
+		assertTrue( GwtUtils.isPrimitiveWrapper( Short.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitiveWrapper( Integer.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitiveWrapper( Long.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitiveWrapper( Float.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitiveWrapper( Double.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitiveWrapper( Boolean.class.getName() ) );
+		assertTrue( GwtUtils.isPrimitiveWrapper( Character.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitiveWrapper( byte.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitiveWrapper( short.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitiveWrapper( int.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitiveWrapper( long.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitiveWrapper( float.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitiveWrapper( double.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitiveWrapper( boolean.class.getName() ) );
+		assertTrue( !GwtUtils.isPrimitiveWrapper( char.class.getName() ) );
 
 		// toString
 
