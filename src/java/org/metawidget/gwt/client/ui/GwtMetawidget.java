@@ -1073,7 +1073,16 @@ public class GwtMetawidget
 		mLayout.layoutChild( widget, attributes );
 	}
 
-	protected GwtMetawidget initMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
+	/**
+	 * Hook so subclasses can change which class gets created.
+	 */
+
+	protected GwtMetawidget buildNestedMetawidget()
+	{
+		return new GwtMetawidget();
+	}
+
+	protected void initNestedMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
 		throws Exception
 	{
 		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
@@ -1091,8 +1100,6 @@ public class GwtMetawidget
 		}
 
 		metawidget.setToInspect( mToInspect );
-
-		return metawidget;
 	}
 
 	protected void endBuild()
@@ -1192,11 +1199,12 @@ public class GwtMetawidget
 		protected GwtMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
-			GwtMetawidget metawidget = new GwtMetawidget();
-			metawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
-			metawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
+			GwtMetawidget nestedMetawidget = GwtMetawidget.this.buildNestedMetawidget();
+			nestedMetawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
+			nestedMetawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
+			GwtMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
-			return GwtMetawidget.this.initMetawidget( metawidget, attributes );
+			return nestedMetawidget;
 		}
 
 		@Override

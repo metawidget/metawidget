@@ -83,7 +83,7 @@ public class MapPropertyBinding
 
 	public void rebindProperties()
 	{
-		throw new UnsupportedOperationException( "Not sure if you want this" );
+		// Not implemented
 	}
 
 	public void saveProperties()
@@ -101,7 +101,7 @@ public class MapPropertyBinding
 		{
 			// ...fetch the value...
 
-			Object value = metawidget.getValue( binding );
+			Object value = metawidget.getValue( binding[ binding.length - 1 ] );
 
 			// ...and set it back to the model
 

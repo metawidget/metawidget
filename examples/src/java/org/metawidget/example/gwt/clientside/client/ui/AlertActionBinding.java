@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.metawidget.gwt.client.actionbinding.BaseActionBinding;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.util.simple.PathUtils;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -58,6 +59,9 @@ public class AlertActionBinding
 		if ( !( widget instanceof FocusWidget ) )
 			throw new RuntimeException( "DialogBoxActionBinding only supports binding actions to FocusWidgets - '" + attributes.get( NAME ) + "' is using a " + widget.getClass().getName() );
 
+		@SuppressWarnings( "unchecked" )
+		final Map<String, Object> model = (Map<String, Object>) getMetawidget().getToInspect();
+
 		// Bind the action
 
 		FocusWidget focusWidget = (FocusWidget) widget;
@@ -65,7 +69,11 @@ public class AlertActionBinding
 		{
 			public void onClick( ClickEvent event )
 			{
-				Window.alert( "AlertActionBinding detected button click for: " + PathUtils.parsePath( path ).getNames() );
+				String[] namesAsArray = PathUtils.parsePath( path ).getNamesAsArray();
+				String names = GwtUtils.toString( namesAsArray, '.' );
+
+				model.put( names, "clicked" );
+				Window.alert( "AlertActionBinding detected button click for: " + names );
 			}
 		} );
 	}

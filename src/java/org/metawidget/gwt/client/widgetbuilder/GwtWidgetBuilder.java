@@ -197,6 +197,19 @@ public class GwtWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return new Button( metawidget.getLabelString( attributes ) );
 
+		// Lookups (don't need a type)
+
+		String lookup = attributes.get( LOOKUP );
+
+		if ( lookup != null && !"".equals( lookup ) )
+		{
+			ListBox listBox = new ListBox();
+			listBox.setVisibleItemCount( 1 );
+
+			addListBoxItems( listBox, GwtUtils.fromString( lookup, StringUtils.SEPARATOR_COMMA_CHAR ), GwtUtils.fromString( attributes.get( LOOKUP_LABELS ), StringUtils.SEPARATOR_COMMA_CHAR ), attributes );
+			return listBox;
+		}
+
 		String type = getType( attributes );
 
 		// If no type, fail gracefully with a TextBox
@@ -209,19 +222,6 @@ public class GwtWidgetBuilder
 
 		if ( "Boolean".equals( type ) && TRUE.equals( attributes.get( REQUIRED )))
 			return new CheckBox();
-
-		// Lookups
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) )
-		{
-			ListBox listBox = new ListBox();
-			listBox.setVisibleItemCount( 1 );
-
-			addListBoxItems( listBox, GwtUtils.fromString( lookup, StringUtils.SEPARATOR_COMMA_CHAR ), GwtUtils.fromString( attributes.get( LOOKUP_LABELS ), StringUtils.SEPARATOR_COMMA_CHAR ), attributes );
-			return listBox;
-		}
 
 		if ( GwtUtils.isPrimitive( type ) )
 		{

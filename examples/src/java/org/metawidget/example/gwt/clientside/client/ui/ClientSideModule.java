@@ -40,25 +40,52 @@ public class ClientSideModule
 	implements EntryPoint
 {
 	//
-	// Private statics
+	// Package-level statics
 	//
 
-	private final static String SAMPLE1;
+	final static String SAMPLE1;
 
-	private final static String SAMPLE2 = "<metawidget-metadata>\r\n\t<entity type=\"foo\">\r\n\t\t<property name=\"bar\"/>\r\n\t</entity>\r\n</metawidget-metadata>";
+	final static String SAMPLE2;
 
-	private final static String SAMPLE3 = "<metawidget-metadata>\r\n\t<entity type=\"foo\">\r\n\t\t<property name=\"bar\"/>\r\n\t</entity>\r\n</metawidget-metadata>";
+	final static String SAMPLE3;
 
 	static
 	{
-		String sample1 = "<metawidget-metadata>\r\n\t<entity type=\"sample\">";
-		sample1 += "\r\n\t\t<property name=\"albumTitle\"/>";
+		String sample1 = "<metawidget-metadata>\r\n\r\n\t<!-- Album Sample -->\r\n\r\n\t<entity type=\"sample\">";
 		sample1 += "\r\n\t\t<property name=\"artist\"/>";
-		sample1 += "\r\n\t\t<property name=\"releaseDate\"/>";
-		sample1 += "\r\n\t\t<property name=\"genre\" lookup=\"Art rock, Experimental rock, Glam rock, Protopunk, Punk, Rock\"/>";
-		sample1 += "\r\n\t</entity>\r\n</metawidget-metadata>";
+		sample1 += "\r\n\t\t<property name=\"album\"/>";
+		sample1 += "\r\n\t\t<action name=\"addTracks\"/>";
+		sample1 += "\r\n\t\t<property name=\"genre\" lookup=\"Art rock, Disco, Experimental rock, Glam rock, Protopunk, Punk, Rock\"/>";
+		sample1 += "\r\n\t\t<property name=\"releaseDate\" type=\"java.util.Date\"/>";
+		sample1 += "\r\n\t\t<property name=\"notes\" type=\"java.lang.String\" large=\"true\"/>";
+		sample1 += "\r\n\t</entity>\r\n\r\n</metawidget-metadata>";
 
 		SAMPLE1 = sample1;
+
+		String sample2 = "<metawidget-metadata>\r\n\r\n\t<!-- Person Sample -->\r\n\r\n\t<entity type=\"sample\">";
+		sample2 += "\r\n\t\t<property name=\"title\" lookup=\"Mr, Mrs, Miss\"/>";
+		sample2 += "\r\n\t\t<property name=\"firstname\"/>";
+		sample2 += "\r\n\t\t<property name=\"surname\"/>";
+		sample2 += "\r\n\t\t<property name=\"password\" type=\"java.lang.String\" masked=\"true\"/>";
+		sample2 += "\r\n\t\t<property name=\"homeAddress\" type=\"address\"/>";
+		sample2 += "\r\n\t\t<property name=\"workAddress\" type=\"address\"/>";
+		sample2 += "\r\n\t</entity>\r\n\r\n\t<entity type=\"address\">";
+		sample2 += "\r\n\t\t<property name=\"street\"/>";
+		sample2 += "\r\n\t\t<property name=\"city\"/>";
+		sample2 += "\r\n\t\t<property name=\"state\"/>";
+		sample2 += "\r\n\t\t<property name=\"postcode\"/>";
+		sample2 += "\r\n\t</entity>\r\n\r\n</metawidget-metadata>";
+
+		SAMPLE2 = sample2;
+
+		String sample3 = "<metawidget-metadata>\r\n\r\n\t<!-- Pet Sample -->\r\n\r\n\t<entity type=\"sample\">";
+		sample3 += "\r\n\t\t<property name=\"petName\"/>";
+		sample3 += "\r\n\t\t<property name=\"gender\" lookup=\"Male, Female\"/>";
+		sample3 += "\r\n\t\t<property name=\"species\" label=\"Species (eg. dog)\"/>";
+		sample3 += "\r\n\t\t<property name=\"deceased\" type=\"boolean\"/>";
+		sample3 += "\r\n\t</entity>\r\n\r\n</metawidget-metadata>";
+
+		SAMPLE3 = sample3;
 	}
 
 	//
@@ -134,7 +161,7 @@ public class ClientSideModule
 		metawidget.setInspector( new TextAreaInspector( textarea ) );
 		metawidget.setPropertyBindingClass( MapPropertyBinding.class );
 		metawidget.setActionBindingClass( AlertActionBinding.class );
-		metawidget.setPath( "foo" );
+		metawidget.setPath( "sample" );
 
 		// Model
 
@@ -187,7 +214,9 @@ public class ClientSideModule
 		}
 		else
 		{
+			mPanel.add( sampleButtons );
 			mPanel.add( textarea );
+			mPanel.add( generateButton );
 			mPanel.add( metawidget );
 		}
 	}

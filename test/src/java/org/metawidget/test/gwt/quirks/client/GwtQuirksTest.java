@@ -16,8 +16,12 @@
 
 package org.metawidget.test.gwt.quirks.client;
 
+import java.util.Date;
+
+import org.metawidget.gwt.client.propertybinding.simple.SimpleConverter;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
+import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.test.gwt.quirks.client.ui.QuirksModule;
 
 import com.google.gwt.dom.client.Document;
@@ -176,6 +180,44 @@ public class GwtQuirksTest
 
 		assertTrue( "".equals( GwtUtils.toString( (String[]) null, ',' ) ) );
 		assertTrue( "foo#bar#baz".equals( GwtUtils.toString( new String[] { "foo", "bar", "baz" }, '#' ) ) );
+	}
+
+	public void testSimpleConverter()
+		throws Exception
+	{
+		SimpleConverter converter = new SimpleConverter();
+
+		assertTrue( 1 == (Byte) converter.convertFromWidget( null, "1", byte.class ));
+		assertTrue( 2 == (Short) converter.convertFromWidget( null, "2", short.class ));
+		assertTrue( 3 == (Integer) converter.convertFromWidget( null, "3", int.class ));
+		assertTrue( 4l == (Long) converter.convertFromWidget( null, "4", long.class ));
+		assertTrue( 5f == (Float) converter.convertFromWidget( null, "5", float.class ));
+		assertTrue( 6d == (Double) converter.convertFromWidget( null, "6", double.class ));
+		assertTrue( true == (Boolean) converter.convertFromWidget( null, "true", boolean.class ));
+		assertTrue( 'a' == (Character) converter.convertFromWidget( null, "a", char.class ));
+
+		try
+		{
+			converter.convertFromWidget( null, "Foo", Date.class );
+			assertTrue( false );
+		}
+		catch( Exception e )
+		{
+			assertTrue( "Don't know how to convert a String to a java.util.Date".equals( e.getMessage() ));
+		}
+	}
+
+	public void testGwtRemoteInspectorProxy()
+	{
+		try
+		{
+			new GwtRemoteInspectorProxy().inspect( null, null, (String[]) null );
+			assertTrue( false );
+		}
+		catch( Exception e )
+		{
+			assertTrue( "Use async inspection instead".equals( e.getMessage() ));
+		}
 	}
 
 	//

@@ -16,7 +16,20 @@
 
 package org.metawidget.test.example.gwt.clientside.client;
 
+import org.metawidget.example.gwt.clientside.client.ui.ClientSideModule;
+import org.metawidget.gwt.client.ui.GwtMetawidget;
+
+import com.google.gwt.dom.client.Document;
+import com.google.gwt.dom.client.NativeEvent;
+import com.google.gwt.event.dom.client.DomEvent;
+import com.google.gwt.event.shared.HasHandlers;
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * @author Richard Kennard
@@ -38,6 +51,117 @@ public class GwtClientSideTest
 	public void testClientSide()
 		throws Exception
 	{
-		// TODO: write tests
+		FlowPanel panel = new FlowPanel();
+		final ClientSideModule clientSideModule = new ClientSideModule( panel );
+		clientSideModule.onModuleLoad();
+
+		// Check searching
+
+		final Button sampleButton1 = (Button) ( (FlowPanel) panel.getWidget( 0 ) ).getWidget( 0 );
+		final Button sampleButton2 = (Button) ( (FlowPanel) panel.getWidget( 0 ) ).getWidget( 1 );
+		final Button sampleButton3 = (Button) ( (FlowPanel) panel.getWidget( 0 ) ).getWidget( 2 );
+		final Button generateButton = (Button) panel.getWidget( 2 );
+		final GwtMetawidget metawidget = (GwtMetawidget) panel.getWidget( 3 );
+
+		executeAfterBuildWidgets( metawidget, new Timer()
+		{
+			@Override
+			public void run()
+			{
+				FlexTable flexTable1 = (FlexTable) metawidget.getWidget( 0 );
+				assertTrue( "Artist:".equals( flexTable1.getText( 0, 0 ) ) );
+				assertTrue( flexTable1.getWidget( 0, 1 ) instanceof TextBox );
+				assertTrue( "Album:".equals( flexTable1.getText( 1, 0 ) ) );
+				assertTrue( flexTable1.getWidget( 1, 1 ) instanceof TextBox );
+				assertTrue( flexTable1.getWidget( 2, 1 ) instanceof Button );
+				assertTrue( "Genre:".equals( flexTable1.getText( 3, 0 ) ) );
+				assertTrue( "Release date:".equals( flexTable1.getText( 4, 0 ) ) );
+				assertTrue( "Notes:".equals( flexTable1.getText( 4, 0 ) ) );
+				assertTrue( flexTable1.getWidget( 4, 1 ) instanceof TextArea );
+
+				fireClickEvent( sampleButton2 );
+				fireClickEvent( generateButton );
+
+				executeAfterBuildWidgets( metawidget, new Timer()
+				{
+					@Override
+					public void run()
+					{
+						executeAfterBuildWidgets( (GwtMetawidget) metawidget.getWidget( "homeAddress" ), new Timer()
+						{
+							@Override
+							public void run()
+							{
+								executeAfterBuildWidgets( (GwtMetawidget) metawidget.getWidget( "workAddress" ), new Timer()
+								{
+									@Override
+									public void run()
+									{
+										FlexTable flexTable2 = (FlexTable) metawidget.getWidget( 0 );
+										assertTrue( "Title:".equals( flexTable2.getText( 0, 0 ) ) );
+
+										fireClickEvent( sampleButton3 );
+										fireClickEvent( generateButton );
+
+										executeAfterBuildWidgets( metawidget, new Timer()
+										{
+											@Override
+											public void run()
+											{
+												FlexTable flexTable3 = (FlexTable) metawidget.getWidget( 0 );
+												assertTrue( "Pet name:".equals( flexTable3.getText( 0, 0 ) ) );
+
+												fireClickEvent( sampleButton1 );
+												fireClickEvent( generateButton );
+
+												executeAfterBuildWidgets( metawidget, new Timer()
+												{
+													@Override
+													public void run()
+													{
+														FlexTable flexTable4 = (FlexTable) metawidget.getWidget( 0 );
+														assertTrue( "Artist:".equals( flexTable4.getText( 0, 0 ) ) );
+													}
+												} );
+											}
+										} );
+									}
+								} );
+							}
+						} );
+					}
+				} );
+			}
+		} );
 	}
+
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Wrapped to avoid 'synthetic access' warning
+	 */
+
+	void finish()
+	{
+		super.finishTest();
+	}
+
+	void fireClickEvent( HasHandlers widget )
+	{
+		Document document = Document.get();
+		NativeEvent nativeEvent = document.createClickEvent( 0, 0, 0, 0, 0, false, false, false, false );
+		DomEvent.fireNativeEvent( nativeEvent, widget );
+	}
+
+	//
+	// Native methods
+	//
+
+	native void executeAfterBuildWidgets( GwtMetawidget metawidget, Timer timer )
+	/*-{
+		metawidget.@org.metawidget.gwt.client.ui.GwtMetawidget::mExecuteAfterBuildWidgets = timer;
+		metawidget.@org.metawidget.gwt.client.ui.GwtMetawidget::buildWidgets()();
+	}-*/;
 }
