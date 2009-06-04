@@ -5,7 +5,151 @@
 body
 {
 	margin: 0;
-	padding: 0;
+	padding: 10px;
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
+	background: black url( '../media/lou-reed.jpg' ) no-repeat fixed bottom right;
+	color: white;
+}
+
+h1
+{
+	color: #AAAAAA;
+	font-style: italic;
+	font-size: 30pt;
+}
+
+h2
+{
+	color: #888888;
+	font-style: italic;
+	font-size: 10pt;
+	font-weight: normal;
+	padding-left: 5px;
+}
+
+h2 strong
+{
+	color: #CCCCCC;
+}
+
+#content
+{
+	position: relative;
+}
+
+.instructions
+{
+	background-color: #888888;
+	padding: 5px;
+	margin-bottom: 1px;
+}
+
+.instructions h3
+{
+	margin-top: 0px;
+	margin-bottom: 5px;
+	font-size: 10pt;
+}
+
+.instructions p
+{
+	margin: 0px;
+}
+
+.samples
+{
+	text-align: center;
+}
+
+#textarea-column
+{
+	border: 1px dashed #888888;	
+	width: 50%;
+}
+
+#textarea-column textarea
+{
+	width: 99%;
+	height: 400px;
+	color: blue;
+	overflow: auto;
+}
+
+#generate-column
+{
+	text-align: center;
+}
+
+#generate-column button
+{
+	vertical-align: middle;	
+}
+
+#metawidget-column
+{
+	width: 50%;
+	vertical-align: top;
+	border: 1px dashed #888888;
+}
+
+.table-form
+{
+	width: 100%;
+	margin-top: 5px;
+}
+
+.table-label-column
+{
+	width: 25%;
+	text-align: left;
+	vertical-align: top;
+	white-space: nowrap;
+	font-weight: bold;
+}
+
+.table-component-column
+{
+	width: 75%;
+	text-align: left;
+	vertical-align: top;
+}
+
+.table-component-column input, .table-component-column select, .table-component-column textarea, .rich-slider
+{
+	width: 100%;
+}
+
+.buttons
+{
+	padding-top: 5px;
+	text-align: center;
+}
+
+button
+{
+	border: 1px solid #444444;
+	height: 32px;
+	background: white url( ../media/background-button.gif ) repeat-x center left;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	font-weight: bold;
+	margin-left: 1px;
+	margin-right: 1px;
+	padding-left: 10px;
+	padding-right: 10px;
+	color: white;
+}
+
+#small-print
+{
+	margin-top: 100px;
+	font-size: 8pt;
+	color: #888888;
+	text-align: center;
+}
+
+#small-print a
+{
+	color: #888888;
 }

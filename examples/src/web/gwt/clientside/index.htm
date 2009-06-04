@@ -6,15 +6,50 @@
 	</head>	
 	<body>
 
-		<script type="text/javascript" src="org.metawidget.example.GwtAddressBook/org.metawidget.example.GwtAddressBook.nocache.js"></script>
+		<script type="text/javascript" src="org.metawidget.example.gwt.clientside.GwtClientSide/org.metawidget.example.gwt.clientside.GwtClientSide.nocache.js"></script>
 
-		<h1>Come for a walk on the Client Side...</h1>
+		<h1>Take a walk on the client side...</h1>
 
-		<textarea id="input"></textarea>
-		<button id="in"/>
-		<div id="metawidget"></div>
-		<button id="out"/>
-		<textarea id="output"></textarea>
+		<h2>
+			By default, <strong>GwtMetawidget</strong> inspects business objects server-side. This is because client-side
+			JavaScript does not support reflections or annotations.
+		</h2>
+		
+		<h2>			
+			However if don't need reflections or annotations, and
+			have your own way of retrieving inspection results, you can plug in your own <strong>Inspector</strong> and
+			keep everything client-side. This example implements a <strong>TextAreaInspector</strong> that retrieves inspection results from the
+			textarea (on the left), and generates the UI (on the right).
+		</h2>
+		
+		<table id="content">		
+			<td id="textarea-column">
+				<div class="instructions">
+					<h3>Inspection Results</h3>
+					<p>
+						Edit the inspection results here, or use the buttons to load some samples.
+						Then click Generate to see the UI. Note the
+						inspection result must be well-formed.
+					</p>
+				</div>
+			</td>
+			<td id="generate-column">
+			</td>
+			<td id="metawidget-column">
+				<div class="instructions">
+					<h3>Generated Metawidget</h3>
+					<p>
+						The UI is generated here using pure client-side JavaScript. Click the Save
+						button to display the values retrieved from the UI 
+					</p>
+				</div>
+				<div class="metawidget"></div>
+			</td>
+		</table>
+		
+		<div id="small-print">
+			Powered by <a href="http://www.metawidget.org">Metawidget</a>. With apologies to <a href="http://en.wikipedia.org/wiki/Walk_on_the_Wild_Side_(Lou_Reed_song)">Lou Reed</a>
+		</div>		
 		
 	</body>
 </html>

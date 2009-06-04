@@ -179,7 +179,7 @@ public class SimpleBinding
 
 	public void bindAction( Widget widget, Map<String, String> attributes, String path )
 	{
-		// SimpleBinding doesn't bind to Stubs or FlexTables
+		// SimpleBinding doesn't bind to Stubs
 
 		if ( widget instanceof Stub )
 			return;
@@ -217,7 +217,6 @@ public class SimpleBinding
 				adapter.invokeAction( toInspect, names );
 			}
 		} );
-
 	}
 
 	public void rebindProperties()

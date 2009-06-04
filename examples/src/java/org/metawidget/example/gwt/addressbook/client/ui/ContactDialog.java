@@ -42,8 +42,8 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Grid;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
@@ -247,7 +247,7 @@ public class ContactDialog
 		Facet buttonsFacet = new Facet();
 		buttonsFacet.setName( "buttons" );
 		mMetawidget.add( buttonsFacet );
-		HorizontalPanel panel = new HorizontalPanel();
+		FlowPanel panel = new FlowPanel();
 		buttonsFacet.add( panel );
 
 		mSaveButton = new Button( dictionary.get( "save" ) );

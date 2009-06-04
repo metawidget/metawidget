@@ -38,7 +38,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -151,7 +151,7 @@ public class AddressBookModule
 		buttonsFacet.setName( "buttons" );
 		metawidget.add( buttonsFacet );
 
-		HorizontalPanel panel = new HorizontalPanel();
+		FlowPanel panel = new FlowPanel();
 		buttonsFacet.add( panel );
 
 		Dictionary dictionary = Dictionary.getDictionary( "bundle" );
