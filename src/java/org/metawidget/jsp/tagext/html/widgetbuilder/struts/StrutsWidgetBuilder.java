@@ -48,7 +48,6 @@ import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
-import org.springframework.web.servlet.tags.form.InputTag;
 
 /**
  * WidgetBuilder for Struts environments.
@@ -107,10 +106,10 @@ public class StrutsWidgetBuilder
 
 		String type = getType( attributes );
 
-		// If no type, fail gracefully
+		// If no type, assume a String
 
 		if ( type == null )
-			return writeReadOnlyTag( attributes, metawidget );
+			type = String.class.getName();
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
@@ -173,10 +172,10 @@ public class StrutsWidgetBuilder
 
 		String type = getType( attributes );
 
-		// If no type, fail gracefully with a text box
+		// If no type, assume a String
 
-		if ( type == null || "".equals( type ) )
-			return writeStrutsTag( InputTag.class, attributes, metawidget );
+		if ( type == null )
+			type = String.class.getName();
 
 		// Lookup the Class
 

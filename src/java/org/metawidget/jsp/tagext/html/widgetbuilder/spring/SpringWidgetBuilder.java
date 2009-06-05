@@ -107,10 +107,10 @@ public class SpringWidgetBuilder
 
 		String type = getType( attributes );
 
-		// If no type, fail gracefully
+		// If no type, assume a String
 
 		if ( type == null )
-			return writeReadOnlyTag( attributes, metawidget );
+			type = String.class.getName();
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
@@ -168,10 +168,10 @@ public class SpringWidgetBuilder
 
 		String type = getType( attributes );
 
-		// If no type, fail gracefully with a text box
+		// If no type, assume a String
 
 		if ( type == null )
-			return writeSpringTag( InputTag.class, attributes, metawidget );
+			type = String.class.getName();
 
 		// Lookup the Class
 

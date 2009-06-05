@@ -171,10 +171,10 @@ public class HtmlWidgetBuilder
 
 		String type = getType( attributes );
 
-		// If no type, fail gracefully with a javax.faces.HtmlOutputText
+		// If no type, assume a String
 
 		if ( type == null )
-			return createReadOnlyComponent( attributes, metawidget );
+			type = String.class.getName();
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
@@ -262,10 +262,12 @@ public class HtmlWidgetBuilder
 
 		String type = getType( attributes );
 
-		Class<?> clazz = null;
+		// If no type, assume a String
 
-		if ( type != null )
-			clazz = ClassUtils.niceForName( type );
+		if ( type == null )
+			type = String.class.getName();
+
+		Class<?> clazz = ClassUtils.niceForName( type );
 
 		// Faces Lookups
 
@@ -305,18 +307,6 @@ public class HtmlWidgetBuilder
 			addSelectItems( component, facesLookup, attributes, metawidget );
 			return component;
 		}
-
-		// If no type, fail gracefully with a javax.faces.HtmlInputText
-		//
-		// Note: we don't do this if there is a FACES_LOOKUP, because a FACES_LOOKUP
-		// can get away with not specifying a type
-		//
-		// Note: having no type is very different from having a type for which
-		// clazz == null (eg. type="Login Screen"), because the latter should
-		// end up becoming a nested Metawidget
-
-		if ( type == null || "".equals( type ) )
-			return application.createComponent( "javax.faces.HtmlInputText" );
 
 		// clazz may be null, if type is symbolic (eg. type="Login Screen")
 
@@ -666,21 +656,24 @@ public class HtmlWidgetBuilder
 
 		// Add an empty choice (if nullable, and not required)
 
-		String type = getType( attributes );
-
-		if ( type == null )
+		if ( !TRUE.equals( attributes.get( REQUIRED ) ))
 		{
-			// Type may be null if this lookup was specified by a metawidget-metadata.xml
+			String type = getType( attributes );
+
+			// Type can be null if this lookup was specified by a metawidget-metadata.xml
 			// and the type was omitted from the XML. In that case, assume nullable
 
-			addSelectItem( component, null, null, metawidget );
-		}
-		else
-		{
-			Class<?> clazz = ClassUtils.niceForName( type );
-
-			if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) ) )
+			if ( type == null )
+			{
 				addSelectItem( component, null, null, metawidget );
+			}
+			else
+			{
+				Class<?> clazz = ClassUtils.niceForName( type );
+
+				if ( component instanceof HtmlSelectOneListbox && ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) || !clazz.isPrimitive() ) )
+					addSelectItem( component, null, null, metawidget );
+			}
 		}
 
 		// See if we're using labels

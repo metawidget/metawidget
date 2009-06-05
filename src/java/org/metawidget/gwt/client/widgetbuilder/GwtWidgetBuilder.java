@@ -149,14 +149,14 @@ public class GwtWidgetBuilder
 
 		String type = getType( attributes );
 
+		// If no type, assume a String
+
+		if ( type == null )
+			type = String.class.getName();
+
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
-			return new Label();
-
-		// If no type, fail gracefully with a Label
-
-		if ( type == null || "".equals( type ) )
 			return new Label();
 
 		if ( GwtUtils.isPrimitive( type ) || GwtUtils.isPrimitiveWrapper( type ) )
@@ -197,7 +197,20 @@ public class GwtWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return new Button( metawidget.getLabelString( attributes ) );
 
-		// Lookups (don't need a type)
+		String type = getType( attributes );
+
+		// If no type, assume a String
+
+		if ( type == null )
+			type = String.class.getName();
+
+		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
+		// Lookup)
+
+		if ( "Boolean".equals( type ) && TRUE.equals( attributes.get( REQUIRED )))
+			return new CheckBox();
+
+		// Lookups
 
 		String lookup = attributes.get( LOOKUP );
 
@@ -209,19 +222,6 @@ public class GwtWidgetBuilder
 			addListBoxItems( listBox, GwtUtils.fromString( lookup, StringUtils.SEPARATOR_COMMA_CHAR ), GwtUtils.fromString( attributes.get( LOOKUP_LABELS ), StringUtils.SEPARATOR_COMMA_CHAR ), attributes );
 			return listBox;
 		}
-
-		String type = getType( attributes );
-
-		// If no type, fail gracefully with a TextBox
-
-		if ( type == null )
-			return new TextBox();
-
-		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
-		// Lookup)
-
-		if ( "Boolean".equals( type ) && TRUE.equals( attributes.get( REQUIRED )))
-			return new CheckBox();
 
 		if ( GwtUtils.isPrimitive( type ) )
 		{
@@ -343,18 +343,16 @@ public class GwtWidgetBuilder
 		// Note: GWT doesn't seem to be able to set null for the
 		// value. It always comes back as String "null"
 
-		String type = getType( attributes );
-
-		if ( type == null )
+		if ( !TRUE.equals( attributes.get( REQUIRED ) ))
 		{
+			String type = getType( attributes );
+
 			// Type can be null if this lookup was specified by a metawidget-metadata.xml
 			// and the type was omitted from the XML. In that case, assume nullable
 
-			addListBoxItem( listBox, "", null );
-		}
-		else
-		{
-			if ( !GwtUtils.isPrimitive( type ) && !TRUE.equals( attributes.get( REQUIRED ) ) )
+			if ( type == null )
+				addListBoxItem( listBox, "", null );
+			else if ( !GwtUtils.isPrimitive( type )  )
 				addListBoxItem( listBox, "", null );
 		}
 

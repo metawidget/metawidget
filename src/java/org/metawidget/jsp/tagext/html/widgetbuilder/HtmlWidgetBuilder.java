@@ -97,10 +97,10 @@ public class HtmlWidgetBuilder
 
 		String type = getType( attributes );
 
-		// If no type, fail gracefully
+		// If no type, assume a String
 
 		if ( type == null )
-			return writeReadOnlyTag( attributes, metawidget );
+			type = String.class.getName();
 
 		Class<?> clazz = ClassUtils.niceForName( type );
 
@@ -498,21 +498,24 @@ public class HtmlWidgetBuilder
 
 		// Add an empty choice (if nullable, and not required)
 
-		String type = getType( attributes );
-
-		if ( type == null )
+		if ( !TRUE.equals( attributes.get( REQUIRED ) ))
 		{
+			String type = getType( attributes );
+
 			// Type can be null if this lookup was specified by a metawidget-metadata.xml
 			// and the type was omitted from the XML. In that case, assume nullable
 
-			buffer.append( "<option value=\"\"></option>" );
-		}
-		else
-		{
-			Class<?> clazz = ClassUtils.niceForName( type );
-
-			if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
+			if ( type == null )
+			{
 				buffer.append( "<option value=\"\"></option>" );
+			}
+			else
+			{
+				Class<?> clazz = ClassUtils.niceForName( type );
+
+				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
+					buffer.append( "<option value=\"\"></option>" );
+			}
 		}
 
 		// Evaluate the expression

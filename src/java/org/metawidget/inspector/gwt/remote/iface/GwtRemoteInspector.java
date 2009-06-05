@@ -24,7 +24,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 /**
  * GWT AJAX interface to <code>GwtRemoteInspectorImpl</code> servlet.
  * <p>
- * Note: this interface is purely for the AJAX call. It is not closely related to <code>Inspector</code>.
+ * Note: this interface is purely for the AJAX call. It looks similar, but is otherwise unrelated,
+ * to <code>Inspector</code>.
  *
  * @author Richard Kennard
  */
@@ -37,6 +38,5 @@ public interface GwtRemoteInspector
 	// Methods
 	//
 
-	String inspect( Serializable toInspect, String type, String[] names )
-		throws Exception;
+	String inspect( Serializable toInspect, String type, String[] names );
 }

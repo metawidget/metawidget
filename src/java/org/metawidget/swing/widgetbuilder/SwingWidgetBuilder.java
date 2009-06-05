@@ -132,10 +132,10 @@ public class SwingWidgetBuilder
 
 		String type = getType( attributes );
 
-		// If no type, fail gracefully with a JTextField
+		// If no type, assume a String
 
 		if ( type == null )
-			return new JLabel();
+			type = String.class.getName();
 
 		// Lookup the Class
 
@@ -210,10 +210,10 @@ public class SwingWidgetBuilder
 
 		String type = getType( attributes );
 
-		// If no type, fail gracefully with a JTextField
+		// If no type, assume a String
 
 		if ( type == null )
-			return new JTextField();
+			type = String.class.getName();
 
 		// Lookup the Class
 

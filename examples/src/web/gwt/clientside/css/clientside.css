@@ -120,7 +120,7 @@ h2 strong
 	vertical-align: top;
 }
 
-.table-component-column input, .table-component-column select, .table-component-column textarea, .rich-slider
+.table-component-column input, .table-component-column select, .table-component-column textarea
 {
 	width: 100%;
 }
@@ -133,6 +133,20 @@ h2 strong
 .table-component-column textarea
 {
 	height: 100px;
+}
+
+.table-required-column
+{
+	font-weight: bold;
+	font-size: 20pt;
+	text-align: right;
+	line-height: 10pt;
+	padding-top: 10px;
+}
+
+.table-required-column div
+{
+	width: 15px;
 }
 
 .buttons

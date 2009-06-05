@@ -77,18 +77,7 @@ public class GwtRemoteInspectorImpl
 	}
 
 	public String inspect( Serializable toInspect, String type, String[] names )
-		throws Exception
 	{
-		try
-		{
-			return mInspector.inspect( toInspect, type, names );
-		}
-		catch ( Exception e )
-		{
-			// Most Exception subtypes cannot be sent across the wire, so just
-			// send a vanilla Exception
-
-			throw new Exception( e.getMessage() );
-		}
+		return mInspector.inspect( toInspect, type, names );
 	}
 }

@@ -193,10 +193,10 @@ public class AndroidWidgetBuilder
 
 		String type = getType( attributes );
 
-		// If no type, fail gracefully
+		// If no type, assume a String
 
 		if ( type == null )
-			return new TextView( metawidget.getContext() );
+			type = String.class.getName();
 
 		// Lookup the Class
 
@@ -251,10 +251,10 @@ public class AndroidWidgetBuilder
 
 		String type = getType( attributes );
 
-		// If no type, fail gracefully with a text box
+		// If no type, assume a String
 
 		if ( type == null )
-			return new EditText( metawidget.getContext() );
+			type = String.class.getName();
 
 		// Lookup the Class
 

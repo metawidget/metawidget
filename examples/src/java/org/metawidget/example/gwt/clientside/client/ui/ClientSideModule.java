@@ -52,21 +52,21 @@ public class ClientSideModule
 	static
 	{
 		String sample1 = "<metawidget-metadata>\r\n\r\n\t<!-- Album Sample -->\r\n\r\n\t<entity type=\"sample\">";
-		sample1 += "\r\n\t\t<property name=\"artist\"/>";
-		sample1 += "\r\n\t\t<property name=\"album\"/>";
+		sample1 += "\r\n\t\t<property name=\"artist\" required=\"true\"/>";
+		sample1 += "\r\n\t\t<property name=\"album\" required=\"true\"/>";
 		sample1 += "\r\n\t\t<action name=\"addTracks\"/>";
 		sample1 += "\r\n\t\t<property name=\"genre\" lookup=\"Art rock, Disco, Experimental rock, Glam rock, Protopunk, Punk, Rock\"/>";
 		sample1 += "\r\n\t\t<property name=\"releaseDate\" type=\"java.util.Date\"/>";
-		sample1 += "\r\n\t\t<property name=\"notes\" type=\"java.lang.String\" large=\"true\"/>";
+		sample1 += "\r\n\t\t<property name=\"notes\" large=\"true\"/>";
 		sample1 += "\r\n\t</entity>\r\n\r\n</metawidget-metadata>";
 
 		SAMPLE1 = sample1;
 
 		String sample2 = "<metawidget-metadata>\r\n\r\n\t<!-- Person Sample -->\r\n\r\n\t<entity type=\"sample\">";
-		sample2 += "\r\n\t\t<property name=\"title\" lookup=\"Mr, Mrs, Miss\"/>";
-		sample2 += "\r\n\t\t<property name=\"firstname\"/>";
-		sample2 += "\r\n\t\t<property name=\"surname\"/>";
-		sample2 += "\r\n\t\t<property name=\"password\" type=\"java.lang.String\" masked=\"true\"/>";
+		sample2 += "\r\n\t\t<property name=\"title\" lookup=\"Mr, Mrs, Miss\" required=\"true\"/>";
+		sample2 += "\r\n\t\t<property name=\"firstname\" required=\"true\"/>";
+		sample2 += "\r\n\t\t<property name=\"surname\" required=\"true\"/>";
+		sample2 += "\r\n\t\t<property name=\"password\" masked=\"true\"/>";
 		sample2 += "\r\n\t\t<property name=\"homeAddress\" type=\"address\"/>";
 		sample2 += "\r\n\t\t<property name=\"workAddress\" type=\"address\"/>";
 		sample2 += "\r\n\t</entity>\r\n\r\n\t<entity type=\"address\">";
@@ -79,7 +79,7 @@ public class ClientSideModule
 		SAMPLE2 = sample2;
 
 		String sample3 = "<metawidget-metadata>\r\n\r\n\t<!-- Pet Sample -->\r\n\r\n\t<entity type=\"sample\">";
-		sample3 += "\r\n\t\t<property name=\"petName\"/>";
+		sample3 += "\r\n\t\t<property name=\"petName\" required=\"true\"/>";
 		sample3 += "\r\n\t\t<property name=\"gender\" lookup=\"Male, Female\"/>";
 		sample3 += "\r\n\t\t<property name=\"species\" label=\"Species (eg. dog)\"/>";
 		sample3 += "\r\n\t\t<property name=\"deceased\" type=\"boolean\"/>";
@@ -187,7 +187,7 @@ public class ClientSideModule
 		buttonsFacet.add( saveButton );
 		metawidget.add( buttonsFacet );
 		metawidget.setParameter( "tableStyleName", "table-form" );
-		metawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
+		metawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column,table-required-column" );
 		metawidget.setParameter( "footerStyleName", "buttons" );
 
 		// Load button
