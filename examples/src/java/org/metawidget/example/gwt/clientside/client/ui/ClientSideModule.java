@@ -16,8 +16,8 @@
 
 package org.metawidget.example.gwt.clientside.client.ui;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
@@ -43,11 +43,11 @@ public class ClientSideModule
 	// Package-level statics
 	//
 
-	final static String SAMPLE1;
+	final static String	SAMPLE1;
 
-	final static String SAMPLE2;
+	final static String	SAMPLE2;
 
-	final static String SAMPLE3;
+	final static String	SAMPLE3;
 
 	static
 	{
@@ -92,7 +92,7 @@ public class ClientSideModule
 	// Package-level members
 	//
 
-	Panel	mPanel;
+	Panel				mPanel;
 
 	//
 	// Constructor
@@ -164,8 +164,10 @@ public class ClientSideModule
 		metawidget.setPath( "sample" );
 
 		// Model
+		//
+		// (we use a TreeMap for consistent ordering of the .toString() for unit tests)
 
-		final Map<String, Object> model = new HashMap<String, Object>();
+		final Map<String, Object> model = new TreeMap<String, Object>();
 		metawidget.setToInspect( model );
 
 		// Save button (as a facet)
@@ -180,7 +182,11 @@ public class ClientSideModule
 			public void onClick( ClickEvent event )
 			{
 				metawidget.save();
-				Window.alert( "MapPropertyBinding retrieved the following values:\n\n" + model.toString() );
+
+				// (do not Window.alert during unit tests)
+
+				if ( mPanel instanceof RootPanel )
+					Window.alert( "MapPropertyBinding retrieved the following values:\n\n" + model.toString() );
 			}
 		} );
 

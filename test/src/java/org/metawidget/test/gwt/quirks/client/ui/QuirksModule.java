@@ -19,6 +19,7 @@ package org.metawidget.test.gwt.quirks.client.ui;
 import org.metawidget.gwt.client.propertybinding.simple.SimpleBinding;
 import org.metawidget.gwt.client.propertybinding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.test.gwt.quirks.client.model.GwtQuirks;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -74,5 +75,9 @@ public class QuirksModule
 		// Add to the given Panel (for unit tests)
 
 		mPanel.add( metawidget );
+
+		Stub stub = new Stub();
+		stub.setAttribute( "foo", "bar" );
+		mPanel.add( stub );
 	}
 }

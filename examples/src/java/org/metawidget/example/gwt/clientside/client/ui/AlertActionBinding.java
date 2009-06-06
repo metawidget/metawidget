@@ -29,6 +29,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FocusWidget;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -61,6 +62,7 @@ public class AlertActionBinding
 
 		@SuppressWarnings( "unchecked" )
 		final Map<String, Object> model = (Map<String, Object>) getMetawidget().getToInspect();
+		final Widget parent = getMetawidget().getParent();
 
 		// Bind the action
 
@@ -73,7 +75,11 @@ public class AlertActionBinding
 				String names = GwtUtils.toString( namesAsArray, '.' );
 
 				model.put( names, "clicked" );
-				Window.alert( "AlertActionBinding detected button click for: " + names );
+
+				// (do not Window.alert during unit tests)
+
+				if ( parent instanceof RootPanel )
+					Window.alert( "AlertActionBinding detected button click for: " + names );
 			}
 		} );
 	}

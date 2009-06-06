@@ -21,6 +21,7 @@ import java.util.Date;
 import org.metawidget.gwt.client.propertybinding.simple.SimpleConverter;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
+import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.test.gwt.quirks.client.ui.QuirksModule;
 
@@ -129,6 +130,9 @@ public class GwtQuirksTest
 				} );
 			}
 		} );
+
+		final Stub stub = (Stub) panel.getWidget( 0 );
+		assertTrue( "bar".equals( stub.getAttributes().get( "foo" )));
 
 		// Test runs asynchronously
 

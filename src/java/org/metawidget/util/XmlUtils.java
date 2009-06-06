@@ -163,7 +163,7 @@ public class XmlUtils
 
 	public static Element getChildWithAttributeValue( Element element, String attributeName, String attributeValue )
 	{
-		if ( element == null )
+		if ( element == null || !element.hasChildNodes() )
 			return null;
 
 		NodeList children = element.getChildNodes();

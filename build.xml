@@ -760,6 +760,7 @@
 			<instr instrpath="${build.dir}/tutorial-classes" destdir="${build.dir}/tutorial-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="org.metawidget.example.swing.tutorial.Main"/>
 			</instr>
+			<instr instrpath="${build.dir}/test-classes" destdir="${build.dir}/test-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite"/>
 		</emma>
 
 		<!-- Prep servers -->
