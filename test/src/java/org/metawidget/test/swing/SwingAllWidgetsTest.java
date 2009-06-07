@@ -66,6 +66,24 @@ public class SwingAllWidgetsTest
 	protected final static String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
 
 	//
+	// Constructor
+	//
+
+	public SwingAllWidgetsTest()
+	{
+		// Default constructor
+	}
+
+	/**
+	 * JUnit 3.7 constructor (SwingAllWidgetsTest gets run under JDK 1.4 using JUnit 3).
+	 */
+
+	public SwingAllWidgetsTest( String name )
+	{
+		super( name );
+	}
+
+	//
 	// Public methods
 	//
 
