@@ -34,19 +34,6 @@ public class StrutsInspectorTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public StrutsInspectorTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

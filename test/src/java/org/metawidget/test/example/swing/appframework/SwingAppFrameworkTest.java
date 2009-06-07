@@ -39,19 +39,6 @@ public class SwingAppFrameworkTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingAppFrameworkTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

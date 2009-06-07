@@ -33,19 +33,6 @@ public class SwingAppFrameworkInspectorTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingAppFrameworkInspectorTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

@@ -34,19 +34,6 @@ public class SpringAnnotationInspectorTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SpringAnnotationInspectorTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

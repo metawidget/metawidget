@@ -33,19 +33,6 @@ public class CollectionUtilsTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public CollectionUtilsTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

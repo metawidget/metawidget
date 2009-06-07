@@ -45,19 +45,6 @@ public class JbpmInspectorTest
 	private Inspector	mInspector;
 
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public JbpmInspectorTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

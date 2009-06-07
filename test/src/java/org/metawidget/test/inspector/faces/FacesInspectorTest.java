@@ -42,19 +42,6 @@ public class FacesInspectorTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public FacesInspectorTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

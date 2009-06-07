@@ -59,19 +59,6 @@ public class SwingMetawidgetTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingMetawidgetTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

@@ -46,19 +46,6 @@ public class ReflectionBindingTest
 	int mActionFired;
 
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public ReflectionBindingTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

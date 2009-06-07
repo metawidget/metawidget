@@ -48,19 +48,6 @@ public class PropertyTypeInspectorTest
 	private Inspector	mInspector;
 
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public PropertyTypeInspectorTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

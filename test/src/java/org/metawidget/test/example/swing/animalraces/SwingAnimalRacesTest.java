@@ -41,19 +41,6 @@ public class SwingAnimalRacesTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingAnimalRacesTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

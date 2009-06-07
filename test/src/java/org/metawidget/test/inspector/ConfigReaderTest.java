@@ -69,19 +69,6 @@ public class ConfigReaderTest
 	private final static int	BUFFER_SIZE	= 1024 * 64;
 
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public ConfigReaderTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

@@ -36,19 +36,6 @@ public class AllTests
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public AllTests( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public statics
 	//
 

@@ -30,19 +30,6 @@ public class MixinTests
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public MixinTests( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public statics
 	//
 

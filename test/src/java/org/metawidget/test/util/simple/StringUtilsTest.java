@@ -28,19 +28,6 @@ public class StringUtilsTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public StringUtilsTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

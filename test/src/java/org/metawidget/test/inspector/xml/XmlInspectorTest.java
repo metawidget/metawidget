@@ -43,19 +43,6 @@ public class XmlInspectorTest
 	private XmlInspector	mInspector;
 
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public XmlInspectorTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

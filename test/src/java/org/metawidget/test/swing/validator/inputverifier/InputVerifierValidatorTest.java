@@ -36,19 +36,6 @@ public class InputVerifierValidatorTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public InputVerifierValidatorTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

@@ -48,19 +48,6 @@ public class BeanUtilsBindingTest
 	private final static String	DATE_FORMAT	= "E MMM dd HH:mm:ss z yyyy";
 
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public BeanUtilsBindingTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

@@ -30,19 +30,6 @@ public class ArrayUtilsTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public ArrayUtilsTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

@@ -36,19 +36,6 @@ public class JavassistPropertyStyleTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public JavassistPropertyStyleTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

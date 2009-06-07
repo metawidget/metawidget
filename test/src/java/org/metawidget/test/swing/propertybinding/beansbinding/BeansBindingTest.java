@@ -43,19 +43,6 @@ public class BeansBindingTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public BeansBindingTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

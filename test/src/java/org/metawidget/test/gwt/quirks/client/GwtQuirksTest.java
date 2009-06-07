@@ -131,7 +131,7 @@ public class GwtQuirksTest
 			}
 		} );
 
-		final Stub stub = (Stub) panel.getWidget( 0 );
+		final Stub stub = (Stub) panel.getWidget( 1 );
 		assertTrue( "bar".equals( stub.getAttributes().get( "foo" )));
 
 		// Test runs asynchronously

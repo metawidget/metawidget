@@ -64,19 +64,6 @@ public class SwingAddressBookTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingAddressBookTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

@@ -37,19 +37,6 @@ public class GroovyPropertyStyleTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public GroovyPropertyStyleTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

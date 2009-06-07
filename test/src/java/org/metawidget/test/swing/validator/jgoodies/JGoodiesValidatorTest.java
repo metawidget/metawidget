@@ -48,19 +48,6 @@ public class JGoodiesValidatorTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public JGoodiesValidatorTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

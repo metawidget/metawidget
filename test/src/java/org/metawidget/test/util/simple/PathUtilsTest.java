@@ -28,19 +28,6 @@ public class PathUtilsTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public PathUtilsTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

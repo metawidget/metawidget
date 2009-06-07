@@ -67,19 +67,6 @@ public class MigLayoutTest
 	private final static int	GROW_ALL	= 100;
 
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public MigLayoutTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

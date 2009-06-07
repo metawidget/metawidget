@@ -31,19 +31,6 @@ public class UtilTests
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public UtilTests( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public statics
 	//
 

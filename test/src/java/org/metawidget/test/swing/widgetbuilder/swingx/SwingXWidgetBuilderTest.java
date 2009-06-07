@@ -43,19 +43,6 @@ public class SwingXWidgetBuilderTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingXWidgetBuilderTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

@@ -30,19 +30,6 @@ public class SwingAllWidgetsBeansBindingTest
 	extends SwingAllWidgetsTest
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public SwingAllWidgetsBeansBindingTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

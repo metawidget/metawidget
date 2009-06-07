@@ -53,19 +53,6 @@ public class MetawidgetAnnotationInspectorTest
 	private MetawidgetAnnotationInspector mInspector;
 
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public MetawidgetAnnotationInspectorTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

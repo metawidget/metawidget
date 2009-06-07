@@ -53,19 +53,6 @@ public class JspUtilsTest
 	final static String	NEWLINE	= System.getProperty( "line.separator" );
 
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public JspUtilsTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

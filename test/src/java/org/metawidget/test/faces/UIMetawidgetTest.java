@@ -38,19 +38,6 @@ public class UIMetawidgetTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public UIMetawidgetTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

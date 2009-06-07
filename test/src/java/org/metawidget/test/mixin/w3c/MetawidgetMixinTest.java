@@ -31,19 +31,6 @@ public class MetawidgetMixinTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public MetawidgetMixinTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

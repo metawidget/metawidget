@@ -57,19 +57,6 @@ public class GridBagLayoutTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public GridBagLayoutTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

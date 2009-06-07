@@ -33,19 +33,6 @@ public class ExampleTests
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public ExampleTests( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public statics
 	//
 

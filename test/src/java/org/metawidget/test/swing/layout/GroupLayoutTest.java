@@ -43,19 +43,6 @@ public class GroupLayoutTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public GroupLayoutTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

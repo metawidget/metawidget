@@ -29,19 +29,6 @@ public class JavassistPropertyStyleDebugOffTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public JavassistPropertyStyleDebugOffTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

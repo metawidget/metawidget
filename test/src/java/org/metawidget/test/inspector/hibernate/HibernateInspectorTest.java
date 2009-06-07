@@ -45,19 +45,6 @@ public class HibernateInspectorTest
 	private Inspector	mInspector;
 
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public HibernateInspectorTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 

@@ -36,19 +36,6 @@ public class ScalaPropertyStyleTest
 	extends TestCase
 {
 	//
-	// Constructor
-	//
-
-	/**
-	 * JUnit 3.7 constructor.
-	 */
-
-	public ScalaPropertyStyleTest( String name )
-	{
-		super( name );
-	}
-
-	//
 	// Public methods
 	//
 
