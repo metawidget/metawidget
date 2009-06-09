@@ -84,7 +84,6 @@ public class JexlXmlInspector
 
 	@Override
 	public String inspect( Object toInspect, String type, String... names )
-		throws InspectorException
 	{
 		LOCAL_TOINSPECT.set( toInspect );
 

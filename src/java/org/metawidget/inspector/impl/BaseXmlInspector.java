@@ -125,7 +125,6 @@ public abstract class BaseXmlInspector
 	//
 
 	public String inspect( Object toInspect, String type, String... names )
-		throws InspectorException
 	{
 		// If no type, return nothing
 
@@ -350,7 +349,6 @@ public abstract class BaseXmlInspector
 
 	@SuppressWarnings( "null" )
 	protected Element traverse( String type, boolean onlyToParent, String... names )
-		throws InspectorException
 	{
 		// Validate type
 

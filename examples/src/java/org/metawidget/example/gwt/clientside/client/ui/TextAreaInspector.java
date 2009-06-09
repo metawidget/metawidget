@@ -55,7 +55,6 @@ public class TextAreaInspector
 
 	@Override
 	public String inspect( Object toInspect, String type, String... names )
-		throws InspectorException
 	{
 		// Parse the XML (do this each time as it may have been updated by the user)
 

@@ -91,13 +91,11 @@ public class CompositeInspector
 	//
 
 	public String inspect( Object toInspect, String type, String... names )
-		throws InspectorException
 	{
 		return inspect( null, toInspect, type, names );
 	}
 
 	public String inspect( String master, Object toInspect, String type, String... names )
-		throws InspectorException
 	{
 		try
 		{

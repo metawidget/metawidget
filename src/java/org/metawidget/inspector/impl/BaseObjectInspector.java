@@ -130,7 +130,6 @@ public abstract class BaseObjectInspector
 	//
 
 	public String inspect( Object toInspect, String type, String... names )
-		throws InspectorException
 	{
 		// If no type, return nothing
 

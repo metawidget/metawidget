@@ -3022,8 +3022,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					
 					<programlisting language="java">public class MyClientSideInspector
 	implements Inspector {
-	public String inspect( Object toInspect, String type, String... names )
-		throws InspectorException {
+	public String inspect( Object toInspect, String type, String... names ) {
 		return ...some XML string...
 	}
 }</programlisting>					

@@ -49,6 +49,5 @@ public interface Inspector
 	 * @return XML conforming to inspection-result-1.0.xsd
 	 */
 
-	String inspect( Object toInspect, String type, String... names )
-		throws InspectorException;
+	String inspect( Object toInspect, String type, String... names );
 }

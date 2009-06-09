@@ -23,7 +23,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.iface.InspectorException;
 
 /**
  * @author Richard Kennard
@@ -73,7 +72,6 @@ public class BadInspector
 	//
 
 	public String inspect( Object toInspect, String type, String... names )
-		throws InspectorException
 	{
 		return null;
 	}
