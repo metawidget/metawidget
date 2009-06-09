@@ -69,6 +69,7 @@ public class GwtQuirksTest
 		quirksModule.onModuleLoad();
 
 		final GwtMetawidget metawidget = (GwtMetawidget) panel.getWidget( 0 );
+		assertTrue( "org.metawidget.test.gwt.quirks.client.model.GwtQuirks".equals( metawidget.getPath() ));
 
 		executeAfterBuildWidgets( metawidget, new Timer()
 		{
@@ -85,13 +86,18 @@ public class GwtQuirksTest
 				assertTrue( flexTable.getWidget( 0, 1 ) instanceof CheckBox );
 				assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
 				( (CheckBox) flexTable.getWidget( 0, 1 ) ).setValue( true );
+				assertTrue( "componentStyleName".equals( ( (CheckBox) flexTable.getWidget( 0, 1 ) ).getStyleName() ));
+
+				assertTrue( "Foo:".equals( flexTable.getText( 2, 0 ) ) );
+				Stub stub = (Stub) flexTable.getWidget( 2, 1 );
+				assertTrue( "foo".equals( stub.getAttributes().get( "name" )));
 
 				// Click a nested button
 
 				assertTrue( "Nested quirks:".equals( flexTable.getText( 1, 0 ) ) );
 				final GwtMetawidget nestedMetawidget = (GwtMetawidget) flexTable.getWidget( 1, 1 );
 
-				assertTrue( 2 == flexTable.getRowCount() );
+				assertTrue( 3 == flexTable.getRowCount() );
 
 				executeAfterBuildWidgets( nestedMetawidget, new Timer()
 				{
@@ -130,9 +136,6 @@ public class GwtQuirksTest
 				} );
 			}
 		} );
-
-		final Stub stub = (Stub) panel.getWidget( 1 );
-		assertTrue( "bar".equals( stub.getAttributes().get( "foo" )));
 
 		// Test runs asynchronously
 

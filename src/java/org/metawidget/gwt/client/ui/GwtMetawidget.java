@@ -552,7 +552,7 @@ public class GwtMetawidget
 
 	public void setValue( Object value, Widget widget )
 	{
-		if ( !setValue( value, widget, mMetawidgetMixin.getWidgetBuilder() ))
+		if ( !setValue( value, widget, mMetawidgetMixin.getWidgetBuilder() ) )
 			throw new RuntimeException( "Don't know how to setValue of a " + widget.getClass().getName() );
 	}
 
@@ -1149,7 +1149,7 @@ public class GwtMetawidget
 		// Interrogate GwtValueAccessors
 
 		if ( widgetBuilder instanceof GwtValueAccessor )
-			return ((GwtValueAccessor) widgetBuilder).getValue( widget );
+			return ( (GwtValueAccessor) widgetBuilder ).getValue( widget );
 
 		return null;
 	}
@@ -1162,7 +1162,7 @@ public class GwtMetawidget
 		{
 			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
 			{
-				if ( setValue( value, widget, widgetBuilderChild ))
+				if ( setValue( value, widget, widgetBuilderChild ) )
 					return true;
 			}
 
@@ -1172,7 +1172,7 @@ public class GwtMetawidget
 		// Interrogate GwtValueAccessors
 
 		if ( widgetBuilder instanceof GwtValueAccessor )
-			return ((GwtValueAccessor) widgetBuilder).setValue( value, widget );
+			return ( (GwtValueAccessor) widgetBuilder ).setValue( value, widget );
 
 		return false;
 	}
@@ -1193,6 +1193,14 @@ public class GwtMetawidget
 			throws Exception
 		{
 			GwtMetawidget.this.startBuild();
+		}
+
+		@Override
+		protected Widget buildWidget( String elementName, Map<String, String> attributes )
+			throws Exception
+		{
+			Widget widget = super.buildWidget( elementName, attributes );
+			return GwtMetawidget.this.afterBuildWidget( widget, attributes );
 		}
 
 		@Override

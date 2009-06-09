@@ -163,14 +163,27 @@ public class XmlUtils
 
 	public static Element getChildWithAttributeValue( Element element, String attributeName, String attributeValue )
 	{
-		if ( element == null || !element.hasChildNodes() )
+		if ( element == null )
 			return null;
 
 		NodeList children = element.getChildNodes();
 
 		for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
 		{
-			Node node = children.item( loop );
+			Node node;
+
+			try
+			{
+				node = children.item( loop );
+			}
+			catch( NullPointerException e )
+			{
+				// We've seen this throw a NullPointerException from
+				// com.sun.org.apache.xerces.internal.dom.ParentNode.nodeListItem(ParentNode.java:780)
+				// under GWT 1.6
+
+				continue;
+			}
 
 			if ( !( node instanceof Element ) )
 				continue;

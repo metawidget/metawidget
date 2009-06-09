@@ -248,6 +248,14 @@ public class GwtAllWidgetsTest
 					@Override
 					public void run()
 					{
+						// Sanity checks
+
+						assertTrue( null == metawidget.getWidget( (String[]) null ));
+						assertTrue( null == metawidget.getWidget( "foo" ));
+						assertTrue( null == metawidget.getWidget( "nestedWidgets", "foo" ));
+						assertTrue( 10 == metawidget.getMaximumInspectionDepth() );
+						assertTrue( 9 == metawidgetNested.getMaximumInspectionDepth() );
+
 						final FlexTable flexTableNested = (FlexTable) metawidgetNested.getWidget( 0 );
 
 						assertTrue( "Further nested widgets:".equals( flexTableNested.getText( 0, 0 ) ) );

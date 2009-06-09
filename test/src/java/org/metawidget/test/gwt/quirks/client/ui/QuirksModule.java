@@ -25,6 +25,7 @@ import org.metawidget.test.gwt.quirks.client.model.GwtQuirks;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * @author Richard Kennard
@@ -57,6 +58,7 @@ public class QuirksModule
 		// Metawidget
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
+		metawidget.setStyleName( "componentStyleName" );
 		metawidget.setParameter( "sectionStyleName", "aSectionStyleName" );
 		metawidget.setToInspect( new GwtQuirks() );
 
@@ -72,12 +74,15 @@ public class QuirksModule
 
 		metawidget.setActionBindingClass( SimpleBinding.class );
 
+		// Arbitrary stub
+
+		Stub stub = new Stub();
+		stub.setAttribute( "name", "foo" );
+		stub.add( new TextBox() );
+		metawidget.add( stub );
+
 		// Add to the given Panel (for unit tests)
 
 		mPanel.add( metawidget );
-
-		Stub stub = new Stub();
-		stub.setAttribute( "foo", "bar" );
-		mPanel.add( stub );
 	}
 }
