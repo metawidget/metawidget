@@ -51,6 +51,7 @@ import junit.framework.TestSuite;
 
 import org.metawidget.test.faces.widgetbuilder.icefaces.IceFacesWidgetBuilderTest;
 import org.metawidget.test.faces.widgetbuilder.richfaces.RichFacesWidgetBuilderTest;
+import org.metawidget.test.faces.widgetbuilder.tomahawk.TomahawkWidgetBuilderTest;
 
 /**
  * @author Richard Kennard
@@ -70,6 +71,7 @@ public class FacesMetawidgetTests
 		suite.addTestSuite( FacesUtilsTest.class );
 		suite.addTestSuite( IceFacesWidgetBuilderTest.class );
 		suite.addTestSuite( RichFacesWidgetBuilderTest.class );
+		suite.addTestSuite( TomahawkWidgetBuilderTest.class );
 		suite.addTestSuite( UIMetawidgetTest.class );
 
 		return suite;
@@ -79,7 +81,7 @@ public class FacesMetawidgetTests
 	// Inner class
 	//
 
-	public static abstract class MockFacesContext
+	public static class MockFacesContext
 		extends FacesContext
 	{
 		//
@@ -446,7 +448,7 @@ public class FacesMetawidgetTests
 			if ( "javax.faces.HtmlOutputText".equals( componentName ) )
 				return new HtmlOutputText();
 
-			throw new UnsupportedOperationException( "Don't know how to createComponent '" + componentName + "'" );
+			return new MockComponent( componentName );
 		}
 	}
 

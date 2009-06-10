@@ -142,9 +142,6 @@ public class RichFacesWidgetBuilderTest
 			if ( "org.richfaces.Calendar".equals( componentName ) )
 				return new HtmlCalendar();
 
-			if ( "org.richfaces.ColorPicker".equals( componentName ) )
-				return new MockComponent( "org.richfaces.ColorPicker" );
-
 			return super.createComponent( componentName );
 		}
 	}
