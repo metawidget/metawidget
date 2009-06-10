@@ -76,6 +76,10 @@ public class IceFacesWidgetBuilder
 		if ( Date.class.isAssignableFrom( clazz ) )
 		{
 			SelectInputDate selectInputDate = (SelectInputDate) application.createComponent( "com.icesoft.faces.SelectInputDate" );
+
+			if ( attributes.containsKey( DATETIME_PATTERN ) )
+				selectInputDate.setPopupDateFormat( attributes.get( DATETIME_PATTERN ) );
+
 			return selectInputDate;
 		}
 

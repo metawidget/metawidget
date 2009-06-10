@@ -21,8 +21,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.metawidget.test.example.ExampleTests;
-import org.metawidget.test.faces.FacesUtilsTest;
-import org.metawidget.test.faces.UIMetawidgetTest;
+import org.metawidget.test.faces.FacesMetawidgetTests;
 import org.metawidget.test.inspector.InspectorTests;
 import org.metawidget.test.mixin.MixinTests;
 import org.metawidget.test.swing.SwingMetawidgetTests;
@@ -48,8 +47,7 @@ public class AllTests
 
 		TestSuite suite = new TestSuite( "Metawidget Tests" );
 		suite.addTest( ExampleTests.suite() );
-		suite.addTestSuite( UIMetawidgetTest.class );
-		suite.addTestSuite( FacesUtilsTest.class );
+		suite.addTest( FacesMetawidgetTests.suite() );
 		suite.addTest( InspectorTests.suite() );
 		suite.addTest( MixinTests.suite() );
 		suite.addTest( SwingMetawidgetTests.suite() );

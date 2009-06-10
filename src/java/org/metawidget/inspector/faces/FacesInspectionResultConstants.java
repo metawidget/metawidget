@@ -39,40 +39,6 @@ public final class FacesInspectionResultConstants
 
 	public final static String	FACES_IMMEDIATE					= "faces-immediate";
 
-	/**
-	 * ISO 4217 currency code to be applied when formatting currencies.
-	 */
-
-	public final static String	CURRENCY_CODE					= "currency-code";
-
-	public final static String	CURRENCY_SYMBOL					= "currency-symbol";
-
-	/**
-	 * Whether the formatted output should contain grouping separators (eg. commas).
-	 */
-
-	public final static String	NUMBER_USES_GROUPING_SEPARATORS	= "number-uses-grouping-separators";
-
-	public final static String	LOCALE							= "locale";
-
-	public final static String	NUMBER_PATTERN					= "number-pattern";
-
-	/**
-	 * The type of the number, such as 'currency' or 'percentage'.
-	 */
-
-	public final static String	NUMBER_TYPE						= "number-type";
-
-	public final static String	DATE_STYLE						= "date-style";
-
-	public final static String	TIME_STYLE						= "time-style";
-
-	public final static String	DATETIME_PATTERN				= "datetime-pattern";
-
-	public final static String	TIME_ZONE						= "time-zone";
-
-	public final static String	DATETIME_TYPE					= "datetime-type";
-
 	//
 	// Private constructor
 	//
