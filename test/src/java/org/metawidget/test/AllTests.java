@@ -23,6 +23,9 @@ import junit.framework.TestSuite;
 import org.metawidget.test.example.ExampleTests;
 import org.metawidget.test.faces.FacesMetawidgetTests;
 import org.metawidget.test.inspector.InspectorTests;
+import org.metawidget.test.jsp.tagext.html.HtmlMetawidgetTagTest;
+import org.metawidget.test.jsp.tagext.html.spring.SpringMetawidgetTagTest;
+import org.metawidget.test.jsp.tagext.html.struts.StrutsMetawidgetTagTest;
 import org.metawidget.test.mixin.MixinTests;
 import org.metawidget.test.swing.SwingMetawidgetTests;
 import org.metawidget.test.util.UtilTests;
@@ -48,8 +51,11 @@ public class AllTests
 		TestSuite suite = new TestSuite( "Metawidget Tests" );
 		suite.addTest( ExampleTests.suite() );
 		suite.addTest( FacesMetawidgetTests.suite() );
+		suite.addTestSuite( HtmlMetawidgetTagTest.class );
 		suite.addTest( InspectorTests.suite() );
 		suite.addTest( MixinTests.suite() );
+		suite.addTestSuite( SpringMetawidgetTagTest.class );
+		suite.addTestSuite( StrutsMetawidgetTagTest.class );
 		suite.addTest( SwingMetawidgetTests.suite() );
 		suite.addTest( UtilTests.suite() );
 
