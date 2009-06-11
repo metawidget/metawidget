@@ -30,6 +30,7 @@ import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIViewRoot;
+import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -49,6 +50,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.test.faces.widgetbuilder.icefaces.IceFacesWidgetBuilderTest;
 import org.metawidget.test.faces.widgetbuilder.richfaces.RichFacesWidgetBuilderTest;
 import org.metawidget.test.faces.widgetbuilder.tomahawk.TomahawkWidgetBuilderTest;
@@ -447,6 +449,12 @@ public class FacesMetawidgetTests
 		{
 			if ( "javax.faces.HtmlOutputText".equals( componentName ) )
 				return new HtmlOutputText();
+
+			if ( "javax.faces.HtmlInputHidden".equals( componentName ) )
+				return new HtmlInputHidden();
+
+			if ( "org.metawidget.Stub".equals( componentName ) )
+				return new UIStub();
 
 			return new MockComponent( componentName );
 		}

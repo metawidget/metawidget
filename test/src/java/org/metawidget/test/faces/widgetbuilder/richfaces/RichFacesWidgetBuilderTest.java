@@ -17,18 +17,23 @@
 package org.metawidget.test.faces.widgetbuilder.richfaces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.awt.Color;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
 
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
+import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
 
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.richfaces.RichFacesWidgetBuilder;
 import org.metawidget.test.faces.FacesMetawidgetTests.MockComponent;
@@ -63,9 +68,40 @@ public class RichFacesWidgetBuilderTest
 	{
 		RichFacesWidgetBuilder widgetBuilder = new RichFacesWidgetBuilder();
 
-		// Sliders
+		// Read-only pass throughs
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.put( READ_ONLY, TRUE );
+		attributes.put( LOOKUP, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.remove( LOOKUP );
+		attributes.put( FACES_LOOKUP, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.remove( FACES_LOOKUP );
+		attributes.put( HIDDEN, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.remove( HIDDEN );
+		attributes.put( TYPE, "foo" );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+
+		// Active pass throughs
+
+		attributes.remove( READ_ONLY );
+		attributes.put( LOOKUP, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.remove( LOOKUP );
+		attributes.put( FACES_LOOKUP, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.remove( FACES_LOOKUP );
+		attributes.put( HIDDEN, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.remove( HIDDEN );
+		attributes.put( TYPE, "foo" );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+
+		// Sliders
+
 		attributes.put( TYPE, int.class.getName() );
 		attributes.put( MINIMUM_VALUE, "1" );
 		attributes.put( MAXIMUM_VALUE, "1024" );
@@ -83,16 +119,34 @@ public class RichFacesWidgetBuilderTest
 
 		attributes.put( TYPE, Date.class.getName() );
 		attributes.put( DATETIME_PATTERN, "dd-MM-yyyy" );
+		attributes.put( LOCALE, "en-AU" );
+		attributes.put( TIME_ZONE, "Australia/Sydney" );
 		UICalendar calendar = (UICalendar) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( "dd-MM-yyyy".equals( calendar.getDatePattern() ) );
+		assertTrue( new Locale( "en-AU" ).equals( calendar.getLocale() ) );
+		assertTrue( TimeZone.getTimeZone( "Australia/Sydney").equals( calendar.getTimeZone() ) );
 
 		// ColorPickers (as of RichFaces 3.3.1)
 
 		attributes.put( TYPE, Color.class.getName() );
 		MockComponent mockComponent = (MockComponent) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( "org.richfaces.ColorPicker".equals( mockComponent.getFamily() ) );
-		attributes.put( READ_ONLY, "true" );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() ) instanceof HtmlOutputText );
+
+		// createReadOnlyComponent
+
+		attributes.put( READ_ONLY, TRUE );
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof HtmlOutputText );
+
+		metawidget.setCreateHiddenFields( true );
+		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertTrue( 2 == stub.getChildCount() );
+		System.err.println( stub.getChildren().get( 0 ) );
+		assertTrue( stub.getChildren().get( 0 ) instanceof HtmlInputHidden );
+		assertTrue( stub.getChildren().get( 1 ) instanceof HtmlOutputText );
+
+		attributes.put( NO_SETTER, TRUE );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof HtmlOutputText );
 	}
 
 	//

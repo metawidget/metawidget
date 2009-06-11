@@ -17,9 +17,11 @@
 package org.metawidget.test.faces.widgetbuilder.icefaces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
@@ -55,9 +57,26 @@ public class IceFacesWidgetBuilderTest
 	{
 		IceFacesWidgetBuilder widgetBuilder = new IceFacesWidgetBuilder();
 
-		// SelectInputDate
+		// Pass throughs
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.put( LOOKUP, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.remove( LOOKUP );
+		attributes.put( FACES_LOOKUP, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.remove( FACES_LOOKUP );
+		attributes.put( HIDDEN, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.remove( HIDDEN );
+		attributes.put( TYPE, "foo" );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		attributes.put( TYPE, Pattern.class.getName() );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+
+		// SelectInputDate
+
 		attributes.put( TYPE, Date.class.getName() );
 		attributes.put( DATETIME_PATTERN, "dd-MM-yyyy" );
 		SelectInputDate calendar = (SelectInputDate) widgetBuilder.buildWidget( PROPERTY, attributes, null );
