@@ -73,6 +73,7 @@ public class RichFacesWidgetBuilderTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
 		attributes.put( READ_ONLY, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
 		attributes.put( LOOKUP, TRUE );
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
 		attributes.remove( LOOKUP );
@@ -114,6 +115,60 @@ public class RichFacesWidgetBuilderTest
 		attributes.put( MINIMUM_VALUE, "" );
 		UIInputNumberSpinner spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( "1024".equals( spinner.getMaxValue() ));
+
+		// (lower bound)
+
+		attributes.put( TYPE, byte.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( Byte.MIN_VALUE ).equals( spinner.getMinValue() ));
+
+		attributes.put( TYPE, short.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( Short.MIN_VALUE ).equals( spinner.getMinValue() ));
+
+		attributes.put( TYPE, int.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( Integer.MIN_VALUE ).equals( spinner.getMinValue() ));
+
+		attributes.put( TYPE, long.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( Long.MIN_VALUE ).equals( spinner.getMinValue() ));
+
+		attributes.put( TYPE, float.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( -Float.MAX_VALUE ).equals( spinner.getMinValue() ));
+
+		attributes.put( TYPE, double.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( -Double.MAX_VALUE ).equals( spinner.getMinValue() ));
+
+		// (upper bound)
+
+		attributes.put( MAXIMUM_VALUE, "" );
+
+		attributes.put( TYPE, byte.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( Byte.MAX_VALUE ).equals( spinner.getMaxValue() ));
+
+		attributes.put( TYPE, short.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( Short.MAX_VALUE ).equals( spinner.getMaxValue() ));
+
+		attributes.put( TYPE, int.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( Integer.MAX_VALUE ).equals( spinner.getMaxValue() ));
+
+		attributes.put( TYPE, long.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( Long.MAX_VALUE ).equals( spinner.getMaxValue() ));
+
+		attributes.put( TYPE, float.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( Float.MAX_VALUE ).equals( spinner.getMaxValue() ));
+
+		attributes.put( TYPE, double.class.getName() );
+		spinner = (UIInputNumberSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( String.valueOf( Double.MAX_VALUE ).equals( spinner.getMaxValue() ));
 
 		// Calendars
 
