@@ -34,7 +34,6 @@
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>			
-						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/>
 					</list>
 				</inspectors>
 			</compositeInspector>

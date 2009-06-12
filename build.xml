@@ -99,6 +99,7 @@
 			<include name="org/metawidget/example/swing/applet/**"/>
 			<include name="org/metawidget/example/swing/console/**"/>
 			<include name="org/metawidget/example/**/addressbook/**"/>
+			<include name="org/metawidget/example/**/penguincolony/**"/>
 			<include name="org/metawidget/example/gwt/clientside/**"/>
 			<classpath>
 				<fileset dir="lib"/>
@@ -2094,6 +2095,42 @@
 
 	</target>
 	
+	<target name="example-faces-penguincolony" depends="flatten-libs">
+
+		<mkdir dir="${build.dir}/examples/faces"/>
+
+		<war warfile="${build.dir}/examples/faces/penguincolony-faces.war" webxml="examples/src/web/faces/penguincolony/WEB-INF/web.xml">
+			<fileset dir="examples/src/web/faces/penguincolony">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<classes dir="${build.dir}/example-classes">
+				<include name="org/metawidget/example/faces/penguincolony/**"/>
+			</classes>
+			<lib dir="${build.dir}/lib">
+				<include name="backport-util-concurrent.jar"/>
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-collections-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-discovery-*.jar"/>
+				<include name="commons-el.jar"/>
+				<include name="commons-fileupload.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="FastInfoset.jar"/>
+				<include name="icefaces*.jar"/>
+				<include name="jsf-api-1.2.jar"/>
+				<include name="jsf-impl-1.2.jar"/>
+				<include name="jstl*.jar"/>
+				<include name="metawidget.jar"/>
+			</lib>
+		</war>
+
+		<copy todir="${build.dir}/examples/faces" file="examples/src/web/faces/readme.txt"/>
+
+	</target>
+
 	<target name="example-faces-seam-booking" depends="pack-as-frontend-backend,compile-examples">
 		
 		<copy todir="${build.dir}/examples/faces">
@@ -2368,7 +2405,7 @@
 
 	</target>
 
-	<target name="examples-web" depends="example-faces-addressbook, example-faces-seam-booking, example-faces-seam-dvdstore, example-faces-seam-groovybooking, example-gwt-addressbook, example-gwt-clientside, example-jsp-addressbook, example-spring-addressbook, example-struts-addressbook"/>
+	<target name="examples-web" depends="example-faces-addressbook, example-faces-penguincolony, example-faces-seam-booking, example-faces-seam-dvdstore, example-faces-seam-groovybooking, example-gwt-addressbook, example-gwt-clientside, example-jsp-addressbook, example-spring-addressbook, example-struts-addressbook"/>
 
 	<available property="android-available" file="${android.dir}/tools/dx.bat"/>
 	

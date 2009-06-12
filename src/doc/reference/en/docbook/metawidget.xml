@@ -1753,7 +1753,7 @@ ant</programlisting>
 	
 				<para>
 					The Seam Booking Example demonstrates updating an existing Seam application to use Metawidget, reducing
-					boilerplate code. The example requires you to have previously downloaded Seam 2.1.1.GA
+					boilerplate code. The example requires you to have previously downloaded Seam 2.1.2
 					and JBoss 4.2.3.GA, and you should be familiar with the existing Seam
 					Booking application.
 				</para>
@@ -1854,7 +1854,7 @@ bin\run</programlisting>
 		
 				<para>
 					The Seam DVD Store Example demonstrates updating an existing Seam jBPM application to use Metawidget, reducing
-					boilerplate code. The example requires you to have previously downloaded Seam 2.1.1.GA
+					boilerplate code. The example requires you to have previously downloaded Seam 2.1.2
 					and JBoss 4.2.3.GA, and you should be familiar with the existing Seam DVD Store application.
 				</para>
 

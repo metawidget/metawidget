@@ -1,0 +1,28 @@
+<f:view xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:f="http://java.sun.com/jsf/core"
+        xmlns:m="http://metawidget.org/faces"
+        xmlns:ice="http://www.icesoft.com/icefaces/component">
+
+<ice:outputDeclaration doctypeRoot="HTML"
+                       doctypePublic="-//W3C//DTD XHTML 1.0 Transitional//EN"
+                       doctypeSystem="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
+<html>
+	<head>
+		<title>${pageContext.session.servletContext.servletContextName}</title>
+		<link rel="stylesheet" type="text/css" href="css/penguincolony.css" media="all"/>
+	</head>
+	<body>
+
+		<ice:form>
+			<ice:outputText value="foo"/>
+			<m:metawidget value="#{penguin}">
+				<ice:outputText value="bar"/>
+			</m:metawidget>
+		</ice:form>
+		
+		<div id="small-print">Powered by <a href="http://www.metawidget.org">Metawidget</a></div>
+		
+	</body>
+</html>
+
+</f:view>
