@@ -87,7 +87,7 @@ public class GwtWidgetBuilder
 		return null;
 	}
 
-	public boolean setValue( Object value, Widget widget )
+	public boolean setValue( Widget widget, Object value )
 	{
 		// HasText
 

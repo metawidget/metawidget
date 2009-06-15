@@ -16,10 +16,14 @@
 
 package org.metawidget.test.example.gwt.clientside.client;
 
+import java.util.Date;
+import java.util.Map;
+
 import org.metawidget.example.gwt.clientside.client.ui.ClientSideModule;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 
+import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
 import com.google.gwt.event.dom.client.DomEvent;
@@ -70,6 +74,7 @@ public class GwtClientSideTest
 
 		executeAfterBuildWidgets( metawidget, new Timer()
 		{
+			@SuppressWarnings( { "deprecation", "unchecked" } )
 			@Override
 			public void run()
 			{
@@ -78,7 +83,7 @@ public class GwtClientSideTest
 				FlexTable flexTable1 = (FlexTable) metawidget.getWidget( 0 );
 				final Button saveButton = (Button) ( (Facet) flexTable1.getWidget( 6, 0 ) ).getWidget();
 				fireClickEvent( saveButton );
-				assertTrue( "{album=, artist=, genre=, notes=, releaseDate=}".equals( metawidget.getToInspect().toString() ) );
+				assertTrue( "{album=, artist=, genre=, notes=, releaseDate=null}".equals( metawidget.getToInspect().toString() ) );
 
 				// Populate
 
@@ -95,7 +100,8 @@ public class GwtClientSideTest
 				assertTrue( 8 == ( (ListBox) flexTable1.getWidget( 3, 1 ) ).getItemCount() );
 				( (ListBox) flexTable1.getWidget( 3, 1 ) ).setSelectedIndex( 1 );
 				assertTrue( "Release date:".equals( flexTable1.getText( 4, 0 ) ) );
-				( (TextBox) flexTable1.getWidget( 4, 1 ) ).setText( "1/1/2001" );
+				Date releaseDate = new Date( 101, 0, 1 );
+				( (DateField) flexTable1.getWidget( 4, 1 ) ).setValue( releaseDate );
 				assertTrue( "Notes:".equals( flexTable1.getText( 5, 0 ) ) );
 				( (TextArea) flexTable1.getWidget( 5, 1 ) ).setText( "Baz" );
 				assertTrue( flexTable1.getWidget( 6, 0 ) instanceof Facet );
@@ -103,7 +109,8 @@ public class GwtClientSideTest
 				// Save after populating
 
 				fireClickEvent( saveButton );
-				assertTrue( "{addTracks=clicked, album=Bar, artist=Foo, genre=Art rock, notes=Baz, releaseDate=1/1/2001}".equals( metawidget.getToInspect().toString() ) );
+				assertTrue( metawidget.getToInspect().toString().startsWith( "{addTracks=clicked, album=Bar, artist=Foo, genre=Art rock, notes=Baz, releaseDate=" ));
+				assertTrue( releaseDate.equals( ((Map<String, Object>) metawidget.getToInspect()).get( "releaseDate" )));
 
 				fireClickEvent( sampleButton2 );
 				fireClickEvent( generateButton );
@@ -219,7 +226,7 @@ public class GwtClientSideTest
 																		assertTrue( "Species (eg. dog):".equals( flexTable3.getText( 2, 0 ) ) );
 																		( (TextBox) flexTable3.getWidget( 2, 1 ) ).setText( "Dog" );
 																		assertTrue( "Deceased:".equals( flexTable3.getText( 3, 0 ) ) );
-																		((CheckBox) flexTable3.getWidget( 3, 1 )).setValue( true );
+																		( (CheckBox) flexTable3.getWidget( 3, 1 ) ).setValue( true );
 
 																		fireClickEvent( saveButton );
 																		assertTrue( "{deceased=true, gender=Male, petName=Millie, species=Dog}".equals( metawidget.getToInspect().toString() ) );

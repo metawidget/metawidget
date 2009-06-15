@@ -611,7 +611,7 @@
 				<pathelement path="examples/src/java"/>
 				<pathelement path="examples/src/web/gwt/addressbook/WEB-INF"/>
 				<pathelement path="test/src/java"/>
-				<pathelement path="${build.dir}/example-classes"/>
+				<pathelement path="${build.dir}/example-classes"/>					
 				<pathelement path="${build.dir}/test-classes"/>
 				<fileset dir="lib">
 					<include name="gwt-user.jar"/>
@@ -636,6 +636,7 @@
 				<fileset dir="lib">
 					<include name="gwt-user.jar"/>
 					<include name="gwt-dev-*.jar"/>
+					<include name="gxt.jar"/>
 					<include name="junit-*.jar"/>
 					<include name="emma.jar"/>
 				</fileset>

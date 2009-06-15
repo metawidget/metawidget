@@ -289,6 +289,12 @@ public class GwtMetawidget
 		invalidateInspection();
 	}
 
+	public void setWidgetBuilder( WidgetBuilder<Widget, GwtMetawidget> widgetBuilder )
+	{
+		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+		invalidateInspection();
+	}
+
 	public void setLayoutClass( Class<? extends Layout> layoutClass )
 	{
 		mLayoutClass = layoutClass;
@@ -1172,7 +1178,7 @@ public class GwtMetawidget
 		// Interrogate GwtValueAccessors
 
 		if ( widgetBuilder instanceof GwtValueAccessor )
-			return ( (GwtValueAccessor) widgetBuilder ).setValue( value, widget );
+			return ( (GwtValueAccessor) widgetBuilder ).setValue( widget, value );
 
 		return false;
 	}

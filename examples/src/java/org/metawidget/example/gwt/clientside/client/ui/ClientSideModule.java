@@ -21,6 +21,10 @@ import java.util.TreeMap;
 
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.widgetbuilder.GwtWidgetBuilder;
+import org.metawidget.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilder;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -31,6 +35,7 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * @author Richard Kennard
@@ -159,6 +164,9 @@ public class ClientSideModule
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setInspector( new TextAreaInspector( textarea ) );
+		@SuppressWarnings( "unchecked" )
+		CompositeWidgetBuilderConfig<Widget, GwtMetawidget> config = new CompositeWidgetBuilderConfig<Widget, GwtMetawidget>().setWidgetBuilders( new ExtGwtWidgetBuilder(), new GwtWidgetBuilder() );
+		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<Widget, GwtMetawidget>( config ) );
 		metawidget.setPropertyBindingClass( MapPropertyBinding.class );
 		metawidget.setActionBindingClass( AlertActionBinding.class );
 		metawidget.setPath( "sample" );

@@ -14,29 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.ui;
-
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Additional interface implemented by GWT WidgetBuilders.
+ * GWT support: ExtGWT WidgetBuilders.
  *
  * @author Richard Kennard
  */
 
-public interface GwtValueAccessor
-{
-	//
-	// Methods
-	//
-
-	public Object getValue( Widget widget );
-
-	/**
-	 * Sets the given Widget to the specified value.
-	 *
-	 * @return true if the Widget was recognised and its value set
-	 */
-
-	public boolean setValue( Widget widget, Object value );
-}
+package org.metawidget.gwt.client.widgetbuilder.extgwt;
