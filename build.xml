@@ -967,6 +967,64 @@
 
 	</target>
 
+	<target name="test-faces-penguincolony" depends="example-faces-penguincolony,compile-test">
+		
+		<!-- Test on Tomcat -->
+
+		<copy file="${build.dir}/examples/faces/penguincolony-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/penguincolony-faces"/>
+		<antcall target="test-web-start-tomcat"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file penguincolony-test.xml"/>
+		</java>
+		
+		<antcall target="test-web-stop-tomcat"/>
+		
+		<!-- Test on GlassFish -->
+
+		<delete>
+			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
+				<include name="penguincolony-*"/>
+			</fileset>
+		</delete>
+		<copy file="${build.dir}/examples/faces/penguincolony-faces.war" todir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy" overwrite="true"/>
+		<antcall target="test-web-start-glassfish"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file penguincolony-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-glassfish"/>
+
+		<!-- Test on Jetty -->
+
+		<copy file="${build.dir}/examples/faces/penguincolony-faces.war" todir="${jetty.dir}/webapps" overwrite="true"/>
+		<antcall target="test-web-start-jetty"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file penguincolony-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-jetty"/>
+
+	</target>
+
 	<target name="test-faces-seam-booking" depends="example-faces-seam-booking,compile-test">
 		
 		<ant dir="${build.dir}/examples/faces/seam/booking"/>

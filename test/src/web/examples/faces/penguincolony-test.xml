@@ -1,0 +1,15 @@
+<project name="faces-addressbook-test" default="test-all">
+
+	<property file="../../../../../build.properties" />
+	<import file="${webtest.dir}/lib/taskdef.xml" />
+
+	<target name="test-all">
+		<webtest name="test-search">
+			<config resultpath="${build.dir}"/>
+			<steps>
+				<invoke url="${webtest.url}/penguincolony-faces" />
+				<verifyTitle text="Penguin Colony (Metawidget ICEfaces demo)" />
+			</steps>
+		</webtest>
+	</target>
+</project>

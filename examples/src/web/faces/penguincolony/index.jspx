@@ -8,16 +8,15 @@
                        doctypeSystem="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"/>
 <html>
 	<head>
-		<title>${pageContext.session.servletContext.servletContextName}</title>
-		<link rel="stylesheet" type="text/css" href="css/penguincolony.css" media="all"/>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"></meta>
+		<title>Penguin Colony (Metawidget ICEfaces demo)</title>
+		<ice:outputStyle href="xmlhttp/css/xp/xp.css"/>
+		<ice:outputStyle href="css/penguincolony.css"/>
 	</head>
 	<body>
 
 		<ice:form>
-			<ice:outputText value="foo"/>
-			<m:metawidget value="#{penguin}">
-				<ice:outputText value="bar"/>
-			</m:metawidget>
+			<m:metawidget value="#{penguin}"/>
 		</ice:form>
 		
 		<div id="small-print">Powered by <a href="http://www.metawidget.org">Metawidget</a></div>

@@ -95,16 +95,6 @@ h1, .section-heading
 	vertical-align: top;
 }
 
-.table-component-column input, .table-component-column select, .table-component-column textarea, .rich-slider
-{
-	width: 100%;
-}
-
-.table-component-column span input, .table-component-column .rich-slider input
-{
-	width: auto;
-}
-
 .required
 {
 	width: 1%;
