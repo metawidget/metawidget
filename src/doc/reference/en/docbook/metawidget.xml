@@ -3460,11 +3460,10 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 		</para>
 
 		<para>
-			Throughout this section when we refer to, say, 'fields with a maximum value' this is a shorthand way
+			Throughout this chapter when we refer to, say, 'fields with a maximum value' this is a shorthand way
 			of saying 'fields for which the Inspectors returned a <parameter>maximum-value</parameter> attribute'. Quite
 			which Inspector returned the value, and based on what, is covered in <xref linkend="chapter-inspectors"/>: it could be
-			based on a
-			Hibernate Validator <classname>@Max</classname> annotation, or an <parameter>intRange</parameter>
+			based on a Hibernate Validator <classname>@Max</classname> annotation, or an <parameter>intRange</parameter>
 			block in a Commons Validator XML file, or some other source.
 		</para>
 		
@@ -4225,6 +4224,15 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 		<para>
 			This chapter covers each Inspector in detail. For an explanation of how Inspectors
 			fit into the overall architecture of Metawidget, see <xref linkend="chapter-architecture"/>
+		</para>
+
+		<para>
+			Throughout this chapter when we say 'returns the following attributes' this is a shorthand way
+			of saying 'returns the following Metawidget attributes (via a piece of XML conforming to <filename>inspection-result.xsd</filename>).
+			These are passed to the Widget Builder to assist with choosing appropriate widgets'. Quite
+			which widget will be chosen is covered in <xref linkend="chapter-widgetbuilders"/>: it could be
+			a JSF <classname>HtmlInputTextarea</classname>, or a Swing <classname>JTextArea</classname>, or some
+			other framework.
 		</para>
 
 		<section id="section-inspectors-property">
