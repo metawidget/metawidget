@@ -837,12 +837,18 @@ public abstract class UIMetawidget
 		nestedMetawidget.setRendererType( getRendererType() );
 
 		// Parameters
-		//
-		// Note: do not also copy attributes. See the note in HtmlMetawidget.initNestedMetawidget
 
 		FacesUtils.copyParameters( this, nestedMetawidget, "columns" );
 
-		// Other
+		// Attributes
+		//
+		// Note: it is very dangerous to do, say...
+		//
+		// to.getAttributes().putAll( from.getAttributes() );
+		//
+		// ...in order to copy all arbitary attributes, because some frameworks (eg. Facelets) use
+		// the attributes map as a storage area for special flags (eg.
+		// ComponentSupport.MARK_CREATED) that should not get copied from component to component!
 
 		nestedMetawidget.setValidatorClass( mValidatorClass );
 	}

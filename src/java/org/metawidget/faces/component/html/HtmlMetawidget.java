@@ -159,8 +159,7 @@ public class HtmlMetawidget
 	}
 
 	/**
-	 * Overriden to carry the hidden fields flag into the nested Metawidget. It doesn't get
-	 * copied by <code>FacesUtils.copyAttributes</code> alone.
+	 * Overriden to carry the hidden fields flag and other attributes into the nested Metawidget.
 	 */
 
 	@Override
@@ -170,14 +169,6 @@ public class HtmlMetawidget
 		super.initNestedMetawidget( metawidget, attributes );
 
 		// Attributes
-		//
-		// Note: it is very dangerous to do, say...
-		//
-		// to.getAttributes().putAll( from.getAttributes() );
-		//
-		// ...in order to copy all attributes, because some frameworks (eg. Facelets) use
-		// the attributes map as a storage area for special flags (eg. ComponentSupport.MARK_CREATED)
-		// that should not get copied from component to component!
 
 		HtmlMetawidget htmlMetawidget = (HtmlMetawidget) metawidget;
 
