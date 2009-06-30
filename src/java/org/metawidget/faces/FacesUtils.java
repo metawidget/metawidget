@@ -193,11 +193,6 @@ public final class FacesUtils
 		component.encodeEnd( context );
 	}
 
-	public static void copyAttributes( UIComponent from, UIComponent to )
-	{
-		to.getAttributes().putAll( from.getAttributes() );
-	}
-
 	public static void copyParameters( UIComponent from, UIComponent to, String... exclude )
 	{
 		FacesContext context = FacesContext.getCurrentInstance();

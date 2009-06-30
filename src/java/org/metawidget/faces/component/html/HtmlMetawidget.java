@@ -169,6 +169,20 @@ public class HtmlMetawidget
 	{
 		super.initNestedMetawidget( metawidget, attributes );
 
-		( (HtmlMetawidget) metawidget ).setCreateHiddenFields( mCreateHiddenFields );
+		// Attributes
+		//
+		// Note: it is very dangerous to do, say...
+		//
+		// to.getAttributes().putAll( from.getAttributes() );
+		//
+		// ...in order to copy all attributes, because some frameworks (eg. Facelets) use
+		// the attributes map as a storage area for special flags (eg. ComponentSupport.MARK_CREATED)
+		// that should not get copied from component to component!
+
+		HtmlMetawidget htmlMetawidget = (HtmlMetawidget) metawidget;
+
+		htmlMetawidget.setCreateHiddenFields( mCreateHiddenFields );
+		htmlMetawidget.setStyle( mStyle );
+		htmlMetawidget.setStyleClass( mStyle );
 	}
 }

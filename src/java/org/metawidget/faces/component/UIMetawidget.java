@@ -34,6 +34,7 @@ import java.util.TimeZone;
 import javax.faces.application.Application;
 import javax.faces.component.ActionSource;
 import javax.faces.component.EditableValueHolder;
+import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIParameter;
@@ -373,6 +374,18 @@ public abstract class UIMetawidget
 	}
 
 	@Override
+	public void decode( FacesContext context )
+	{
+		super.decode( context );
+	}
+
+	@Override
+	public void processUpdates( FacesContext context )
+	{
+		super.processUpdates( context );
+	}
+
+	@Override
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
@@ -589,6 +602,8 @@ public abstract class UIMetawidget
 			UIComponent componentChild = i.next();
 
 			Map<String, Object> attributes = componentChild.getAttributes();
+
+			// TODO: ICEfaces AJAX support
 
 			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) )
 			{
@@ -821,31 +836,25 @@ public abstract class UIMetawidget
 
 		nestedMetawidget.setRendererType( getRendererType() );
 
-		// Attributes and Parameters
+		// Parameters
+		//
+		// Note: do not also copy attributes. See the note in HtmlMetawidget.initNestedMetawidget
 
-		FacesUtils.copyAttributes( this, nestedMetawidget );
 		FacesUtils.copyParameters( this, nestedMetawidget, "columns" );
 
 		// Other
 
 		nestedMetawidget.setValidatorClass( mValidatorClass );
-
-		// Don't use human-readable Id's for nested Metawidgets, because if they
-		// only expand to a single child it will give the child component
-		// a suffixed id
-
-		nestedMetawidget.setId( getFacesContext().getViewRoot().createUniqueId() );
-
-		// Assigning our own id will stop 'setUniqueId' being called, which means
-		// COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET won't be set, which means the
-		// nested Metawidget will not be properly cleaned up during startBuild
-
-		nestedMetawidget.getAttributes().put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
 	}
 
 	/**
 	 * Unlike <code>UIViewRoot.createUniqueId</code>, tries to make the Id human readable, both
 	 * for debugging purposes and for when running unit tests (using, say, WebTest).
+	 * <p>
+	 * Subclasses can override this method to use <code>UIViewRoot.createUniqueId</code> if
+	 * preferred. They can even override it to assign a different, random id to a component each
+	 * time it is generated. This is a great way to fox hackers who are trying to POST back
+	 * pre-generated payloads of HTTP fields (ie. CSRF attacks).
 	 */
 
 	protected void setUniqueId( FacesContext context, UIComponent component, String expressionString )
@@ -866,6 +875,15 @@ public abstract class UIMetawidget
 		attributes.put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
 
 		String idealId = StringUtils.camelCase( FacesUtils.unwrapValueReference( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
+
+		// Suffix nested Metawidgets, because otherwise if they only expand to a single child they
+		// will give that child component a '_2' suffixed id
+
+		if ( component instanceof UIMetawidget )
+			idealId += "_Metawidget";
+
+		// Convert to an actual, valid id (avoid conflicts)
+
 		String actualId = idealId;
 		int duplicateId = 1;
 
@@ -1158,8 +1176,13 @@ public abstract class UIMetawidget
 		Application application = context.getApplication();
 
 		// Bind actions
+		//
+		// Note: the only class in vanilla JSF that implements ActionSource is
+		// UICommand, but it is dangerous to do 'instanceof ActionSource' because
+		// other component libraries (such as ICEfaces) have things like
+		// SelectInputDate which implement ActionSource
 
-		if ( widget instanceof ActionSource )
+		if ( widget instanceof UICommand )
 		{
 			ActionSource actionSource = (ActionSource) widget;
 			MethodBinding binding = actionSource.getAction();
