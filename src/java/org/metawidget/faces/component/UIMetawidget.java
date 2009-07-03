@@ -223,10 +223,9 @@ public abstract class UIMetawidget
 	 * Instructs the Metawidget to inspect the value binding from the parent.
 	 * <p>
 	 * If the value binding is of the form <code>#{foo.bar}</code>, sometimes
-	 * <code>foo.getBar()</code> has useful metadata (such as <code>UiLookup</code>).
-	 * Metawidget inspects from parent anyway if <code>#{foo.bar}</code> evaluates to
-	 * <code>null</code>, but on occasion it may be necessary to specify parent inspection
-	 * explicitly.
+	 * <code>foo.getBar()</code> has useful metadata (such as <code>UiLookup</code>). Metawidget
+	 * inspects from parent anyway if <code>#{foo.bar}</code> evaluates to <code>null</code>, but on
+	 * occasion it may be necessary to specify parent inspection explicitly.
 	 * <p>
 	 * The disadvantage of inspecting from parent (and the reason it is not enabled by default) is
 	 * that some Inspectors will not know the parent and so not be able to return anything. For
@@ -252,25 +251,25 @@ public abstract class UIMetawidget
 	 * <p>
 	 * By default, Metawidget re-inspects following <code>processUpdates</code> because the
 	 * underlying business model has changed and therefore the Metawidget may need updating to
-	 * reflect this. For example, the <code>readOnly</code> attribute could contain an EL
-	 * expression bound to a managed bean value (eg. <code>#{contact.readOnly}</code>). If this
-	 * managed bean value changes from <code>false</code> to <code>true</code><sup>*</sup>,
-	 * new <code>UIComponents</code> may need to be built.
+	 * reflect this. For example, the <code>readOnly</code> attribute could contain an EL expression
+	 * bound to a managed bean value (eg. <code>#{contact.readOnly}</code>). If this managed bean
+	 * value changes from <code>false</code> to <code>true</code><sup>*</sup>, new
+	 * <code>UIComponents</code> may need to be built.
 	 * <p>
-	 * Metawidget does not re-inspect <em>unless</em> there is a <code>processUpdates</code>,
-	 * so as to preserve invalid values in the event of validation errors.
+	 * Metawidget does not re-inspect <em>unless</em> there is a <code>processUpdates</code>, so as
+	 * to preserve invalid values in the event of validation errors.
 	 * <p>
 	 * However, rebuilding <code>UIComponents</code> following <code>processUpdates</code> and
 	 * before <code>encodeBegin</code> can disrupt some component libaries. For example, ICEfaces'
-	 * DatePicker won't 'popup' because it uses an AJAX call that saves state in the
-	 * component. If the DatePicker is rebuilt midway through the JSF cycle, that state is lost. Setting
+	 * DatePicker won't 'popup' because it uses an AJAX call that saves state in the component. If
+	 * the DatePicker is rebuilt midway through the JSF cycle, that state is lost. Setting
 	 * <code>reinspectOnModelUpdate</code> to false prevents this.
 	 * <p>
 	 * <hr/>
 	 * <p>
 	 * <sup>*</sup> note the EL causes a level of decoupling such that Metawidget has no way to
-	 * detect business model value changes. Therefore we have to err on the side of caution
-	 * and always re-inspect.
+	 * detect business model value changes. Therefore we have to err on the side of caution and
+	 * always re-inspect.
 	 */
 
 	public void setReinspectOnModelUpdate( boolean reinspectOnModelUpdate )
@@ -413,29 +412,22 @@ public abstract class UIMetawidget
 	public void decode( FacesContext context )
 	{
 		// If there was a decode, there must have been a POSTback, so the widgets will
-		// already be built as part of the previously serialized component tree
+		// already be built as part of the previously serialized component tree. If we
+		// are choosing not to reinspectOnModelUpdate, we won't rebuild them
 
-		mNeedToBuildWidgets = false;
+		if ( !mReinspectOnModelUpdate )
+			mNeedToBuildWidgets = false;
 
 		super.decode( context );
-	}
-
-	@Override
-	public void processUpdates( FacesContext context )
-	{
-		if ( mReinspectOnModelUpdate )
-			mNeedToBuildWidgets = true;
-
-		super.processUpdates( context );
 	}
 
 	@Override
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		// No need to rebuild? Just move along to renderer
+		// No need to rebuild? Just move along to our renderer
 
-		if ( !mNeedToBuildWidgets )
+		if ( !mNeedToBuildWidgets || context.getMaximumSeverity() != null )
 		{
 			super.encodeBegin( context );
 			return;
@@ -900,8 +892,8 @@ public abstract class UIMetawidget
 	}
 
 	/**
-	 * Unlike <code>UIViewRoot.createUniqueId</code>, tries to make the Id human readable, both
-	 * for debugging purposes and for when running unit tests (using, say, WebTest).
+	 * Unlike <code>UIViewRoot.createUniqueId</code>, tries to make the Id human readable, both for
+	 * debugging purposes and for when running unit tests (using, say, WebTest).
 	 * <p>
 	 * Subclasses can override this method to use <code>UIViewRoot.createUniqueId</code> if
 	 * preferred. They can even override it to assign a different, random id to a component each
