@@ -16,8 +16,7 @@
 	<body>
 
 		<ice:form>
-			<m:metawidget value="#{penguin}"/>
-			<ice:selectInputDate value="#{penguin.dateOfBirth}" renderAsPopup="true"/>
+			<m:metawidget value="#{penguin}" reinspectOnModelUpdate="false"/>
 		</ice:form>
 		
 		<div id="small-print">Powered by <a href="http://www.metawidget.org">Metawidget</a></div>
