@@ -507,7 +507,6 @@ public class AndroidMetawidget
 		postInvalidate();
 	}
 
-	@SuppressWarnings( "unchecked" )
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )

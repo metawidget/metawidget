@@ -24,8 +24,8 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * Component to output text based on a lookup value.
@@ -54,7 +54,7 @@ public class HtmlLookupOutputText
 		mLabels = labels;
 
 		if ( mValues.size() != mLabels.size() )
-			throw MetawidgetException.newException( "There are " + mValues.size() + " possible values, but " + mLabels.size() + " possible labels" );
+			throw WidgetBuilderException.newException( "There are " + mValues.size() + " possible values, but " + mLabels.size() + " possible labels" );
 	}
 
 	@Override
@@ -78,7 +78,6 @@ public class HtmlLookupOutputText
 			{
 				boolean gotConverter = false;
 				Converter converter = null;
-				@SuppressWarnings( "unchecked" )
 				Collection<Object> labels;
 
 				// Try to return the same Collection type. But don't do
@@ -111,7 +110,7 @@ public class HtmlLookupOutputText
 			}
 			catch ( Exception e )
 			{
-				throw MetawidgetException.newException( e );
+				throw WidgetBuilderException.newException( e );
 			}
 		}
 

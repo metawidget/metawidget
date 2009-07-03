@@ -179,7 +179,6 @@ public class BeansBinding
 	}
 
 	@Override
-	@SuppressWarnings( "unchecked" )
 	public <T> Object convertFromString( String value, Class<T> type )
 	{
 		// Try converters one way round...

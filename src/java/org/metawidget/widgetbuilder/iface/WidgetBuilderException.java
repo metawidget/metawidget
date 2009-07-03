@@ -14,15 +14,15 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.iface;
+package org.metawidget.widgetbuilder.iface;
 
 import org.metawidget.MetawidgetException;
 
 /**
- * Any exception that occurs during inspection.
+ * Any exception that occurs widget building.
  */
 
-public class InspectorException
+public class WidgetBuilderException
 	extends MetawidgetException
 {
 	//
@@ -38,16 +38,16 @@ public class InspectorException
 	/**
 	 * Static constructor.
 	 * <p>
-	 * Using static constructor methods prevents unnecessarily nesting InspectorExceptions within
-	 * InspectorExceptions.
+	 * Using static constructor methods prevents unnecessarily nesting WidgetBuilderExceptions within
+	 * WidgetBuilderExceptions.
 	 */
 
-	public static InspectorException newException( Throwable cause )
+	public static WidgetBuilderException newException( Throwable cause )
 	{
-		if ( cause instanceof InspectorException )
-			return (InspectorException) cause;
+		if ( cause instanceof WidgetBuilderException )
+			return (WidgetBuilderException) cause;
 
-		return new InspectorException( cause );
+		return new WidgetBuilderException( cause );
 	}
 
 	/**
@@ -56,21 +56,21 @@ public class InspectorException
 	 * For consistency with <code>InspectorException.newException( Throwable )</code>.
 	 */
 
-	public static InspectorException newException( String message )
+	public static WidgetBuilderException newException( String message )
 	{
-		return new InspectorException( message );
+		return new WidgetBuilderException( message );
 	}
 
 	//
 	// Constructor
 	//
 
-	private InspectorException( String message )
+	private WidgetBuilderException( String message )
 	{
 		super( message );
 	}
 
-	private InspectorException( Throwable cause )
+	private WidgetBuilderException( Throwable cause )
 	{
 		super( cause );
 	}

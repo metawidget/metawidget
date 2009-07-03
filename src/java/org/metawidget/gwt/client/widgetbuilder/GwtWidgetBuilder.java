@@ -62,7 +62,6 @@ public class GwtWidgetBuilder
 	// Public methods
 	//
 
-	@SuppressWarnings( "unchecked" )
 	public Object getValue( Widget widget )
 	{
 		// CheckBox (must come before HasText, because CheckBox extends

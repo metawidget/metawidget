@@ -22,6 +22,7 @@ import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResult
 import java.util.Map;
 
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 public abstract class BaseWidgetBuilder<W, M extends W>
 	implements WidgetBuilder<W, M>
@@ -31,32 +32,38 @@ public abstract class BaseWidgetBuilder<W, M extends W>
 	//
 
 	public W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
-		throws Exception
 	{
-		// Note: we tried further refining this to buildReadOnlyFieldWidget,
-		// buildReadOnlyActionWidget, buildActiveFieldWidget, buildActiveActionWidget, but it wasn't
-		// really better because we still had to pass 'elementName' to other methods (such as
-		// UIMetawidget.getOverriddenWidget) and so it seemed simpler and more symmetrical to also
-		// pass it here
+		try
+		{
+			// Note: we tried further refining this to buildReadOnlyFieldWidget,
+			// buildReadOnlyActionWidget, buildActiveFieldWidget, buildActiveActionWidget, but it wasn't
+			// really better because we still had to pass 'elementName' to other methods (such as
+			// UIMetawidget.getOverriddenWidget) and so it seemed simpler and more symmetrical to also
+			// pass it here
 
-		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
-			return buildReadOnlyWidget( elementName, attributes, metawidget );
+			if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
+				return buildReadOnlyWidget( elementName, attributes, metawidget );
 
-		// If the attribute has NO_SETTER, we consider it read-only.
-		//
-		// Note: this relies on complex attributes being rendered by nested Metawidgets, and the
-		// nested Metawidgets will NOT have setReadOnly set on them. This gets us the desired
-		// result: primitive types without a setter are rendered as read-only, complex types without
-		// a setter are rendered as writeable (because their nested primitives are writeable).
-		//
-		// Furthermore, what is considered 'primitive' is up to the platform. Some
-		// platforms may consider, say, an Address as 'primitive', using a dedicated Address
-		// widget. Other platforms may consider an Address as complex, using a nested Metawidget.
+			// If the attribute has NO_SETTER, we consider it read-only.
+			//
+			// Note: this relies on complex attributes being rendered by nested Metawidgets, and the
+			// nested Metawidgets will NOT have setReadOnly set on them. This gets us the desired
+			// result: primitive types without a setter are rendered as read-only, complex types without
+			// a setter are rendered as writeable (because their nested primitives are writeable).
+			//
+			// Furthermore, what is considered 'primitive' is up to the platform. Some
+			// platforms may consider, say, an Address as 'primitive', using a dedicated Address
+			// widget. Other platforms may consider an Address as complex, using a nested Metawidget.
 
-		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-			return buildReadOnlyWidget( elementName, attributes, metawidget );
+			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return buildReadOnlyWidget( elementName, attributes, metawidget );
 
-		return buildActiveWidget( elementName, attributes, metawidget );
+			return buildActiveWidget( elementName, attributes, metawidget );
+		}
+		catch( Exception e )
+		{
+			throw WidgetBuilderException.newException( e );
+		}
 	}
 
 	//

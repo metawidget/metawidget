@@ -68,7 +68,6 @@ public class HtmlLayoutRenderer
 	// Public methods
 	//
 
-	@SuppressWarnings( "unused" )
 	@Override
 	public void reentrantEncodeBegin( FacesContext context, UIComponent component )
 		throws IOException

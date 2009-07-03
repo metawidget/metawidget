@@ -40,13 +40,13 @@ import org.apache.struts.taglib.html.PasswordTag;
 import org.apache.struts.taglib.html.SelectTag;
 import org.apache.struts.taglib.html.TextTag;
 import org.apache.struts.taglib.html.TextareaTag;
-import org.metawidget.MetawidgetException;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
 import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 /**
@@ -58,7 +58,6 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
  * @author Richard Kennard
  */
 
-@SuppressWarnings( "deprecation" )
 public class StrutsWidgetBuilder
 	extends BaseWidgetBuilder<Object, StrutsMetawidgetTag>
 {
@@ -419,7 +418,7 @@ public class StrutsWidgetBuilder
 				// See if we're using labels
 
 				if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
-					throw MetawidgetException.newException( "Labels list must be same size as values list" );
+					throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
 
 				BodyContent bodyContentSelect = tagSelect.getBodyContent();
 

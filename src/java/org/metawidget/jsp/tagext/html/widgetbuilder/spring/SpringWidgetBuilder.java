@@ -28,7 +28,6 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
 import org.metawidget.jsp.tagext.StubTag;
@@ -36,6 +35,7 @@ import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 import org.springframework.web.servlet.support.RequestContext;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
@@ -59,7 +59,6 @@ import org.springframework.web.servlet.tags.form.TextareaTag;
  * @author Richard Kennard
  */
 
-@SuppressWarnings( "deprecation" )
 public class SpringWidgetBuilder
 	extends BaseWidgetBuilder<Object, SpringMetawidgetTag>
 {
@@ -419,7 +418,7 @@ public class SpringWidgetBuilder
 				// See if we're using labels
 
 				if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
-					throw MetawidgetException.newException( "Labels list must be same size as values list" );
+					throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
 
 				// Empty option
 

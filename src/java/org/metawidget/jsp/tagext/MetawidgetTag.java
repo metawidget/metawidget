@@ -484,8 +484,6 @@ public abstract class MetawidgetTag
 		try
 		{
 			ServletContext servletContext = pageContext.getServletContext();
-
-			@SuppressWarnings( "unchecked" )
 			ConfigReader configReader = (ConfigReader) servletContext.getAttribute( CONFIG_READER_ATTRIBUTE );
 
 			if ( configReader == null )

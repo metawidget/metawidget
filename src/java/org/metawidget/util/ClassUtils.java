@@ -275,7 +275,6 @@ public final class ClassUtils
 		return superclass;
 	}
 
-	@SuppressWarnings( "unchecked" )
 	public static Class<?> niceForName( String className )
 	{
 		// Use Thread.currentThread().getContextClassLoader(), in case metawidget.jar

@@ -46,11 +46,13 @@ public abstract class MetawidgetTag
 
 	private boolean	mInspectFromParent;
 
+	private boolean	mReinspectOnModelUpdate	= true;
+
 	private String	mReadOnly;
 
 	private String	mBundle;
 
-	private String	mValidatorClass	= StandardValidator.class.getName();
+	private String	mValidatorClass			= StandardValidator.class.getName();
 
 	//
 	// Public methods
@@ -85,9 +87,22 @@ public abstract class MetawidgetTag
 		mConfig = config;
 	}
 
+	/**
+	 * See doco in <code>UIMetawidget</code>.
+	 */
+
 	public void setInspectFromParent( boolean inspectFromParent )
 	{
 		mInspectFromParent = inspectFromParent;
+	}
+
+	/**
+	 * See doco in <code>UIMetawidget</code>.
+	 */
+
+	public void setReinspectOnModelUpdate( boolean reinspectOnModelUpdate )
+	{
+		mReinspectOnModelUpdate = reinspectOnModelUpdate;
 	}
 
 	public void setReadOnly( String readOnly )
@@ -162,6 +177,7 @@ public abstract class MetawidgetTag
 		// Inspect from parent
 
 		metawidetComponent.setInspectFromParent( mInspectFromParent );
+		metawidetComponent.setReinspectOnModelUpdate( mReinspectOnModelUpdate );
 
 		// Read-Only
 

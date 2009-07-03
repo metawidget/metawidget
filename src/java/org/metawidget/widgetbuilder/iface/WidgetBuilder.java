@@ -34,6 +34,5 @@ public interface WidgetBuilder<W, M extends W>
 	// Methods
 	//
 
-	W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
-		throws Exception;
+	W buildWidget( String elementName, Map<String, String> attributes, M metawidget );
 }

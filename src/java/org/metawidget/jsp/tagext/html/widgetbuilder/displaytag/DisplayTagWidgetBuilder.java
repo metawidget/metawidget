@@ -33,6 +33,7 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -47,7 +48,6 @@ import org.w3c.dom.NodeList;
  * @author Richard Kennard
  */
 
-@SuppressWarnings( "deprecation" )
 public class DisplayTagWidgetBuilder
 	implements WidgetBuilder<Object, MetawidgetTag>
 {
@@ -57,98 +57,104 @@ public class DisplayTagWidgetBuilder
 
 	@Override
 	public Object buildWidget( String elementName, final Map<String, String> attributes, final MetawidgetTag metawidgetTag )
-		throws Exception
 	{
-		// Not for us?
-
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) || attributes.containsKey( LOOKUP ) )
-			return null;
-
-		String type = attributes.get( TYPE );
-
-		if ( type == null || "".equals( type ) )
-			type = attributes.get( TYPE );
-
-		if ( type == null || "".equals( type ) )
-			return null;
-
-		final Class<?> clazz = ClassUtils.niceForName( type );
-
-		if ( clazz == null )
-			return null;
-
-		if ( !( Collection.class.isAssignableFrom( clazz ) ) && !clazz.isArray() )
-			return null;
-
-		// Evaluate the expression
-		//
-		// Note: we tried using just .setName( "foo.bar" ), but DisplayTag requires
-		// you to put 'sessionScope' or 'pageScope' at times, and doesn't seem
-		// to have an 'allScope' like JSP does?
-
-		PageContext context = metawidgetTag.getPageContext();
-		Object toDisplay = context.getExpressionEvaluator().evaluate( "${" + metawidgetTag.getPath() + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) + "}", Object.class, context.getVariableResolver(), null );
-
-		// Create the DisplayTag
-
-		final TableTag displayTag = new TableTag();
-		displayTag.setName( toDisplay );
-
-		// Write the DisplayTag
-
-		return JspUtils.writeTag( metawidgetTag.getPageContext(), displayTag, metawidgetTag, new BodyPreparer()
+		try
 		{
-			// After DisplayTag.doStartTag, can add columns
+			// Not for us?
 
-			public void prepareBody( PageContext delgateContext )
-				throws JspException
+			if ( TRUE.equals( attributes.get( HIDDEN ) ) || attributes.containsKey( LOOKUP ) )
+				return null;
+
+			String type = attributes.get( TYPE );
+
+			if ( type == null || "".equals( type ) )
+				type = attributes.get( TYPE );
+
+			if ( type == null || "".equals( type ) )
+				return null;
+
+			final Class<?> clazz = ClassUtils.niceForName( type );
+
+			if ( clazz == null )
+				return null;
+
+			if ( !( Collection.class.isAssignableFrom( clazz ) ) && !clazz.isArray() )
+				return null;
+
+			// Evaluate the expression
+			//
+			// Note: we tried using just .setName( "foo.bar" ), but DisplayTag requires
+			// you to put 'sessionScope' or 'pageScope' at times, and doesn't seem
+			// to have an 'allScope' like JSP does?
+
+			PageContext context = metawidgetTag.getPageContext();
+			Object toDisplay = context.getExpressionEvaluator().evaluate( "${" + metawidgetTag.getPath() + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) + "}", Object.class, context.getVariableResolver(), null );
+
+			// Create the DisplayTag
+
+			final TableTag displayTag = new TableTag();
+			displayTag.setName( toDisplay );
+
+			// Write the DisplayTag
+
+			return JspUtils.writeTag( metawidgetTag.getPageContext(), displayTag, metawidgetTag, new BodyPreparer()
 			{
-				// Inspect component type
+				// After DisplayTag.doStartTag, can add columns
 
-				String componentType;
-
-				if ( clazz.isArray() )
-					componentType = clazz.getComponentType().getName();
-				else
-					componentType = attributes.get( PARAMETERIZED_TYPE );
-
-				String inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
-
-				// If there is a type...
-
-				if ( componentType != null )
+				public void prepareBody( PageContext delgateContext )
+					throws JspException
 				{
-					// ...iterate over it...
+					// Inspect component type
 
-					Document document = XmlUtils.documentFromString( inspectedType );
-					NodeList elements = document.getDocumentElement().getFirstChild().getChildNodes();
+					String componentType;
 
-					// ...and for each property...
+					if ( clazz.isArray() )
+						componentType = clazz.getComponentType().getName();
+					else
+						componentType = attributes.get( PARAMETERIZED_TYPE );
 
-					for ( int loop = 0, length = elements.getLength(); loop < length; loop++ )
+					String inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
+
+					// If there is a type...
+
+					if ( componentType != null )
 					{
-						Node node = elements.item( loop );
+						// ...iterate over it...
 
-						if ( !( node instanceof Element ) )
-							continue;
+						Document document = XmlUtils.documentFromString( inspectedType );
+						NodeList elements = document.getDocumentElement().getFirstChild().getChildNodes();
 
-						Element element = (Element) node;
+						// ...and for each property...
 
-						// ...that is visible...
+						for ( int loop = 0, length = elements.getLength(); loop < length; loop++ )
+						{
+							Node node = elements.item( loop );
 
-						if ( TRUE.equals( element.getAttribute( HIDDEN ) ) )
-							continue;
+							if ( !( node instanceof Element ) )
+								continue;
 
-						// ...add a column
+							Element element = (Element) node;
 
-						ColumnTag columnTag = new ColumnTag();
-						columnTag.setTitle( metawidgetTag.getLabelString( XmlUtils.getAttributesAsMap( element ) ) );
-						columnTag.setProperty( element.getAttribute( NAME ) );
+							// ...that is visible...
 
-						JspUtils.writeTag( metawidgetTag.getPageContext(), columnTag, displayTag, null );
+							if ( TRUE.equals( element.getAttribute( HIDDEN ) ) )
+								continue;
+
+							// ...add a column
+
+							ColumnTag columnTag = new ColumnTag();
+							columnTag.setTitle( metawidgetTag.getLabelString( XmlUtils.getAttributesAsMap( element ) ) );
+							columnTag.setProperty( element.getAttribute( NAME ) );
+
+							JspUtils.writeTag( metawidgetTag.getPageContext(), columnTag, displayTag, null );
+						}
 					}
 				}
-			}
-		} );
+			} );
+		}
+		catch( Exception e )
+		{
+			throw WidgetBuilderException.newException( e );
+		}
 	}
 }

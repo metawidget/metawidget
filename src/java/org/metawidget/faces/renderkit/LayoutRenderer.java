@@ -144,7 +144,6 @@ public abstract class LayoutRenderer
 	 * Sets the value of the 'Re-entrant Thread Local' with the given name.
 	 */
 
-	@SuppressWarnings( "unchecked" )
 	protected void putState( String key, Object value )
 	{
 		LOCAL_STATE.get().put( key, value );

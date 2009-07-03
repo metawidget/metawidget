@@ -347,7 +347,6 @@ public abstract class BaseXmlInspector
 		return null;
 	}
 
-	@SuppressWarnings( "null" )
 	protected Element traverse( String type, boolean onlyToParent, String... names )
 	{
 		// Validate type

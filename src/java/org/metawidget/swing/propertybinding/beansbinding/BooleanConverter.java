@@ -35,7 +35,6 @@ public class BooleanConverter
 		return String.valueOf( value );
 	}
 
-	@SuppressWarnings( "unchecked" )
 	@Override
 	public Boolean convertReverse( String value )
 	{

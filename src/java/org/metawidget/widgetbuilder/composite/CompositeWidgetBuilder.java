@@ -49,7 +49,6 @@ public class CompositeWidgetBuilder<W, M extends W>
 	// Constructor
 	//
 
-	@SuppressWarnings( "unchecked" )
 	public CompositeWidgetBuilder( CompositeWidgetBuilderConfig<W, M> config )
 	{
 		List<WidgetBuilder<W, M>> widgetBuilders = config.getWidgetBuilders();
@@ -70,7 +69,6 @@ public class CompositeWidgetBuilder<W, M extends W>
 	//
 
 	public W buildWidget( String elementName, Map<String, String> attributes, M metawidget )
-		throws Exception
 	{
 		for ( WidgetBuilder<W, M> widgetBuilder : mWidgetBuilders )
 		{

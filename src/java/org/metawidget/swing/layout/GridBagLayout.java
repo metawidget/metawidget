@@ -59,6 +59,10 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
+// HIGH: column link 'target' attribute
+// TODO: search reports by 'superseded'
+// TODO: https://sourceforge.net/tracker/?func=detail&aid=2539005&group_id=208482&atid=1005875
+
 public class GridBagLayout
 	extends BaseLayout
 {

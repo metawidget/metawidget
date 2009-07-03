@@ -69,7 +69,6 @@ public class CompositeWidgetBuilderConfig<W, M extends W>
 	 * @return this, as part of a fluent interface
 	 */
 
-	@SuppressWarnings( "unchecked" )
 	public CompositeWidgetBuilderConfig<W, M> setWidgetBuilders( List<WidgetBuilder<W, M>> widgetBuilders )
 	{
 		mWidgetBuilders = widgetBuilders;

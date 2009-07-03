@@ -45,7 +45,6 @@ public class ExtGwtWidgetBuilder
 	// Public methods
 	//
 
-	@SuppressWarnings( "unchecked" )
 	public Object getValue( Widget widget )
 	{
 		if ( widget instanceof DateField )

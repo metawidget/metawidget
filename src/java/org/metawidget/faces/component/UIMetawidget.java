@@ -132,6 +132,10 @@ public abstract class UIMetawidget
 
 	private String				mBindingPrefix;
 
+	private boolean				mNeedToBuildWidgets							= true;
+
+	private boolean				mReinspectOnModelUpdate						= true;
+
 	private UIMetawidgetMixin	mMetawidgetMixin;
 
 	//
@@ -240,6 +244,38 @@ public abstract class UIMetawidget
 	{
 		mValidatorClass = validatorClass;
 		mValidator = null;
+	}
+
+	/**
+	 * Sets whether to re-inspect the business model following a model update (ie. after
+	 * <code>UIComponent.processUpdates</code>).
+	 * <p>
+	 * By default, Metawidget re-inspects following <code>processUpdates</code> because the
+	 * underlying business model has changed and therefore the Metawidget may need updating to
+	 * reflect this. For example, the <code>readOnly</code> attribute could contain an EL
+	 * expression bound to a managed bean value (eg. <code>#{contact.readOnly}</code>). If this
+	 * managed bean value changes from <code>false</code> to <code>true</code><sup>*</sup>,
+	 * new <code>UIComponents</code> may need to be built.
+	 * <p>
+	 * Metawidget does not re-inspect <em>unless</em> there is a <code>processUpdates</code>,
+	 * so as to preserve invalid values in the event of validation errors.
+	 * <p>
+	 * However, rebuilding <code>UIComponents</code> following <code>processUpdates</code> and
+	 * before <code>encodeBegin</code> can disrupt some component libaries. For example, ICEfaces'
+	 * DatePicker won't 'popup' because it uses an AJAX call that saves state in the
+	 * component. If the DatePicker is rebuilt midway through the JSF cycle, that state is lost. Setting
+	 * <code>reinspectOnModelUpdate</code> to false prevents this.
+	 * <p>
+	 * <hr/>
+	 * <p>
+	 * <sup>*</sup> note the EL causes a level of decoupling such that Metawidget has no way to
+	 * detect business model value changes. Therefore we have to err on the side of caution
+	 * and always re-inspect.
+	 */
+
+	public void setReinspectOnModelUpdate( boolean reinspectOnModelUpdate )
+	{
+		mReinspectOnModelUpdate = reinspectOnModelUpdate;
 	}
 
 	/**
@@ -376,12 +412,20 @@ public abstract class UIMetawidget
 	@Override
 	public void decode( FacesContext context )
 	{
+		// If there was a decode, there must have been a POSTback, so the widgets will
+		// already be built as part of the previously serialized component tree
+
+		mNeedToBuildWidgets = false;
+
 		super.decode( context );
 	}
 
 	@Override
 	public void processUpdates( FacesContext context )
 	{
+		if ( mReinspectOnModelUpdate )
+			mNeedToBuildWidgets = true;
+
 		super.processUpdates( context );
 	}
 
@@ -389,6 +433,14 @@ public abstract class UIMetawidget
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
+		// No need to rebuild? Just move along to renderer
+
+		if ( !mNeedToBuildWidgets )
+		{
+			super.encodeBegin( context );
+			return;
+		}
+
 		try
 		{
 			configure();
@@ -444,13 +496,14 @@ public abstract class UIMetawidget
 	@Override
 	public Object saveState( FacesContext context )
 	{
-		Object values[] = new Object[6];
+		Object values[] = new Object[7];
 		values[0] = super.saveState( context );
 		values[1] = mValue;
 		values[2] = mReadOnly;
 		values[3] = mConfig;
 		values[4] = mValidatorClass;
 		values[5] = mInspectFromParent;
+		values[6] = mReinspectOnModelUpdate;
 
 		return values;
 	}
@@ -466,6 +519,7 @@ public abstract class UIMetawidget
 		mConfig = (String) values[3];
 		mValidatorClass = (String) values[4];
 		mInspectFromParent = (Boolean) values[5];
+		mReinspectOnModelUpdate = (Boolean) values[6];
 	}
 
 	//
@@ -562,7 +616,6 @@ public abstract class UIMetawidget
 
 		FacesContext facesContext = getFacesContext();
 		Map<String, Object> applicationMap = facesContext.getExternalContext().getApplicationMap();
-		@SuppressWarnings( "unchecked" )
 		ConfigReader configReader = (ConfigReader) applicationMap.get( APPLICATION_ATTRIBUTE_CONFIG_READER );
 
 		if ( configReader == null )
@@ -607,20 +660,13 @@ public abstract class UIMetawidget
 
 			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) )
 			{
-				// Do not recreate the components in the event of a validation error,
-				// as that will clear any values in the components (eg. the erroneous values)
-
-				if ( getFacesContext().getMaximumSeverity() == null )
-				{
-					i.remove();
-					continue;
-				}
+				i.remove();
+				continue;
 			}
 
-			// If we did not create the component, or if we created it but this is a POSTback, at
-			// least remove its metadata. This is important as otherwise ad-hoc components (eg.
-			// those not directly descended from our value binding) are not removed/re-added (and
-			// therefore re-ordered) upon POSTback
+			// If we did not create the component at least remove its metadata. This is important as
+			// otherwise ad-hoc components (ie. those not directly descended from our value binding)
+			// are not removed/re-added (and therefore re-ordered) upon POSTback
 
 			attributes.remove( COMPONENT_ATTRIBUTE_METADATA );
 		}

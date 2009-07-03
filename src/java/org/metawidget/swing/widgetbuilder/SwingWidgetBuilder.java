@@ -43,12 +43,12 @@ import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.text.JTextComponent;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingValuePropertyProvider;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 /**
@@ -467,7 +467,7 @@ public class SwingWidgetBuilder
 		Map<String, String> labelsMap = CollectionUtils.newHashMap();
 
 		if ( labels.size() != values.size() )
-			throw MetawidgetException.newException( "Labels list must be same size as values list" );
+			throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
 
 		for ( int loop = 0, length = values.size(); loop < length; loop++ )
 		{

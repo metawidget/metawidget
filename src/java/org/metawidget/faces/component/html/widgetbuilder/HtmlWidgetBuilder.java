@@ -49,7 +49,6 @@ import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 import javax.faces.model.SelectItem;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.HtmlMetawidget;
@@ -57,6 +56,7 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -681,7 +681,7 @@ public class HtmlWidgetBuilder
 		// (note: where possible, it is better to use a Converter than a hard-coded label)
 
 		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
-			throw MetawidgetException.newException( "Labels list must be same size as values list" );
+			throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
 
 		// Add the select items
 
@@ -796,7 +796,7 @@ public class HtmlWidgetBuilder
 		children.add( selectItems );
 
 		if ( !FacesUtils.isValueReference( binding ) )
-			throw MetawidgetException.newException( "Lookup '" + binding + "' is not of the form #{...}" );
+			throw WidgetBuilderException.newException( "Lookup '" + binding + "' is not of the form #{...}" );
 
 		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
 	}

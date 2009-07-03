@@ -321,7 +321,6 @@ public class ConfigReader
 	 * <code>SAX.endRecording</code>)
 	 */
 
-	@SuppressWarnings( "unchecked" )
 	protected Object createNative( String name, String recordedText )
 		throws Exception
 	{

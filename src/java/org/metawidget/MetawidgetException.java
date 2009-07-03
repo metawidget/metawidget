@@ -17,7 +17,7 @@
 package org.metawidget;
 
 /**
- * Any exception that occurs during Metawidget widget creation.
+ * Any exception that occurs during Metawidget operation.
  *
  * @author Richard Kennard
  */
@@ -76,17 +76,17 @@ public class MetawidgetException
 	// Constructor
 	//
 
-	private MetawidgetException( String message )
+	protected MetawidgetException( String message )
 	{
 		super( message );
 	}
 
-	private MetawidgetException( Throwable cause )
+	protected MetawidgetException( Throwable cause )
 	{
 		super( cause );
 	}
 
-	private MetawidgetException( String message, Throwable cause )
+	protected MetawidgetException( String message, Throwable cause )
 	{
 		super( message, cause );
 	}

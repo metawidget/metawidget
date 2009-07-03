@@ -36,6 +36,9 @@
 			<name>inspectFromParent</name>
 		</attribute>
 		<attribute>
+			<name>reinspectOnModelUpdate</name>
+		</attribute>
+		<attribute>
 			<name>validatorClass</name>
 		</attribute>		
 		<attribute>

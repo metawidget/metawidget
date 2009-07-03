@@ -28,12 +28,12 @@ import java.util.Map;
 
 import javax.servlet.jsp.PageContext;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 /**
@@ -48,7 +48,6 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
  * @author Richard Kennard
  */
 
-@SuppressWarnings( "deprecation" )
 public class HtmlWidgetBuilder
 	extends BaseWidgetBuilder<Object, BaseHtmlMetawidgetTag>
 {
@@ -483,7 +482,7 @@ public class HtmlWidgetBuilder
 		// See if we're using labels
 
 		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
-			throw MetawidgetException.newException( "Labels list must be same size as values list" );
+			throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
