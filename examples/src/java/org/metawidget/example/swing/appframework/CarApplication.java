@@ -124,7 +124,7 @@ public class CarApplication
 		// Actions
 
 		SwingMetawidget buttonsMetawidget = new SwingMetawidget();
-		buttonsMetawidget.setConfig( "org/metawidget/example/swing/appframework/action-metawidget.xml" );
+		buttonsMetawidget.setConfig( "org/metawidget/example/swing/appframework/metawidget-action.xml" );
 		buttonsMetawidget.setBundle( bundle );
 		buttonsMetawidget.setToInspect( this );
 		buttonsMetawidget.setLayoutClass( FlowLayout.class );
