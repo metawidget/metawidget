@@ -15,6 +15,14 @@
 		<parameter>
 			<string>footerStyleClass</string>
 			<string>buttons</string>
+		</parameter>
+		<parameter>
+			<string>dataTableStyleClass</string>
+			<string>data-table</string>
+		</parameter>	
+		<parameter>
+			<string>dataTableRowClasses</string>
+			<string>row-odd,row-even</string>
 		</parameter>	
 		<widgetBuilder>
 			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">

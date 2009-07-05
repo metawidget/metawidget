@@ -19,7 +19,7 @@
 
 	<managed-bean>
 		<managed-bean-name>penguin</managed-bean-name>
-		<managed-bean-class>org.metawidget.example.faces.penguincolony.managedbean.Penguin</managed-bean-class>
+		<managed-bean-class>org.metawidget.example.faces.penguincolony.managedbean.PenguinBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 

@@ -11,17 +11,11 @@ body
 	background: url( ../media/background.jpg ) no-repeat;
 }
 
-h1, .section-heading
+h1
 {
 	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
 	font-size: 20pt;
 	text-align: left;
-}
-
-.section-heading
-{
-	padding-top: 20px;
-	padding-bottom: 20px;
 }
 
 #page-image
@@ -33,9 +27,9 @@ h1, .section-heading
 
 #content
 {
-	position: relative;
-	top: 30px;
-	left: 160px;
+	position: absolute;
+	top: 10px;
+	left: 300px;
 	width: 640px;
 }
 
@@ -55,21 +49,6 @@ h1, .section-heading
 	font-weight: bold;
 }
 	
-#small-print
-{
-	position: relative;
-	top: 70px;
-	font-size: 8pt;
-	color: #888888;
-	text-align: right;
-	width: 800px;
-}
-
-#small-print a
-{
-	color: #888888;
-}
-
 /*
  * Input forms
  */
@@ -86,6 +65,7 @@ h1, .section-heading
 	vertical-align: top;
 	white-space: nowrap;
 	font-weight: bold;
+	padding-top: 5px;
 }
 
 .table-component-column
@@ -117,11 +97,12 @@ input, textarea, select
 	margin-top: 10px;
 }
 
-.data-table th, .data-table .header
+.data-table th
 {
 	background: white url( ../media/background-button.gif ) repeat-x center left;
 	height: 20px;
 	border-bottom: 1px solid #B3B3FF;
+	text-align: left;
 }
 
 .row-even
@@ -147,7 +128,7 @@ input, textarea, select
 	text-align: center;
 }
 
-.buttons input, .buttons button
+.buttons input, .buttons button, .table-component-column input[type='submit']
 {
 	border: 1px solid #B3B3FF;
 	height: 32px;	
@@ -156,45 +137,4 @@ input, textarea, select
 	font-size: 10pt;
 	font-weight: bold;
 	margin-right: 5px;
-}
-
-.table-buttons input, .table-buttons button
-{
-	border: 1px solid #B3B3FF;
-	height: 21px;	
-	background: url( ../media/background-button.gif ) repeat-x center left;
-	font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
-	font-size: 10pt;
-	font-weight: bold;
-	width: 50px;
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-.contact-dialog
-{
-	background: white url( ../media/background.jpg ) no-repeat;
-	filter: alpha( opacity = 95 ) progid:DXImageTransform.Microsoft.Shadow( color='#444444', Direction=135, Strength=5 );
-	border: 2px solid #888888;
-}
-
-.contact-dialog .dialogContent
-{
-	width: 650px;
-}
-
-.contact-dialog .Caption
-{
-	font-weight: bold;
-	background: white url( ../media/background-button.gif ) repeat-x center left;
-	border-bottom: 2px solid #888888;
-	padding: 5px;
-}
-
-.contact-dialog .page-image
-{
-	vertical-align: top;
-	padding-top: 15px;
-	padding-left: 20px;
-	padding-right: 20px;
 }
