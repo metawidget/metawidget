@@ -34,7 +34,6 @@ import java.util.TimeZone;
 import javax.faces.application.Application;
 import javax.faces.component.ActionSource;
 import javax.faces.component.EditableValueHolder;
-import javax.faces.component.UICommand;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIParameter;
@@ -94,6 +93,28 @@ public abstract class UIMetawidget
 
 	public final static String	COMPONENT_ATTRIBUTE_METADATA				= "metawidget-metadata";
 
+	/**
+	 * Component-level attribute used to prevent recreation.
+	 * <p>
+	 * By default, Metawidget destroys and recreates every component after
+	 * <code>processUpdates</code> and before <code>encodeBegin</code>. This allows components to
+	 * update to reflect changed state in underlying business objects. For example, components may
+	 * change from being <code>UIOutput</code> labels to <code>UIInput</code> text boxes after the
+	 * user clicks <code>Edit</code>.
+	 * <p>
+	 * Most components work well with this approach. Some, however, maintain internal state that
+	 * would get lost if the component was destroyed and recreated. For example, the ICEfaces
+	 * <code>SelectInputDate</code> component keeps its popup state internally. If it is destroyed
+	 * and recreated, the popup never appears.
+	 * <p>
+	 * Such components can be marked with <code>COMPONENT_ATTRIBUTE_NOT_RECREATABLE</code> to
+	 * prevent their destruction and recreation. Of course, this somewhat impacts their flexibility.
+	 * For example, a <code>SelectInputDate</code> could not change its date format in response to
+	 * another component on the form.
+	 */
+
+	public final static String	COMPONENT_ATTRIBUTE_NOT_RECREATABLE			= "metawidget-not-recreatable";
+
 	//
 	// Private statics
 	//
@@ -131,10 +152,6 @@ public abstract class UIMetawidget
 	private Validator			mValidator;
 
 	private String				mBindingPrefix;
-
-	private boolean				mNeedToBuildWidgets							= true;
-
-	private boolean				mReinspectOnModelUpdate						= true;
 
 	private UIMetawidgetMixin	mMetawidgetMixin;
 
@@ -243,38 +260,6 @@ public abstract class UIMetawidget
 	{
 		mValidatorClass = validatorClass;
 		mValidator = null;
-	}
-
-	/**
-	 * Sets whether to re-inspect the business model following a model update (ie. after
-	 * <code>UIComponent.processUpdates</code>).
-	 * <p>
-	 * By default, Metawidget re-inspects following <code>processUpdates</code> because the
-	 * underlying business model has changed and therefore the Metawidget may need updating to
-	 * reflect this. For example, the <code>readOnly</code> attribute could contain an EL expression
-	 * bound to a managed bean value (eg. <code>#{contact.readOnly}</code>). If this managed bean
-	 * value changes from <code>false</code> to <code>true</code><sup>*</sup>, new
-	 * <code>UIComponents</code> may need to be built.
-	 * <p>
-	 * Metawidget does not re-inspect <em>unless</em> there is a <code>processUpdates</code>, so as
-	 * to preserve invalid values in the event of validation errors.
-	 * <p>
-	 * However, rebuilding <code>UIComponents</code> following <code>processUpdates</code> and
-	 * before <code>encodeBegin</code> can disrupt some component libaries. For example, ICEfaces'
-	 * DatePicker won't 'popup' because it uses an AJAX call that saves state in the component. If
-	 * the DatePicker is rebuilt midway through the JSF cycle, that state is lost. Setting
-	 * <code>reinspectOnModelUpdate</code> to false prevents this.
-	 * <p>
-	 * <hr/>
-	 * <p>
-	 * <sup>*</sup> note the EL causes a level of decoupling such that Metawidget has no way to
-	 * detect business model value changes. Therefore we have to err on the side of caution and
-	 * always re-inspect.
-	 */
-
-	public void setReinspectOnModelUpdate( boolean reinspectOnModelUpdate )
-	{
-		mReinspectOnModelUpdate = reinspectOnModelUpdate;
 	}
 
 	/**
@@ -409,25 +394,13 @@ public abstract class UIMetawidget
 	}
 
 	@Override
-	public void decode( FacesContext context )
-	{
-		// If there was a decode, there must have been a POSTback, so the widgets will
-		// already be built as part of the previously serialized component tree. If we
-		// are choosing not to reinspectOnModelUpdate, we won't rebuild them
-
-		if ( !mReinspectOnModelUpdate )
-			mNeedToBuildWidgets = false;
-
-		super.decode( context );
-	}
-
-	@Override
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		// No need to rebuild? Just move along to our renderer
+		// Validation error? Do not rebuild, as we will lose the invalid values in the components.
+		// Instead, just move along to our renderer
 
-		if ( !mNeedToBuildWidgets || context.getMaximumSeverity() != null )
+		if ( context.getMaximumSeverity() != null )
 		{
 			super.encodeBegin( context );
 			return;
@@ -488,14 +461,13 @@ public abstract class UIMetawidget
 	@Override
 	public Object saveState( FacesContext context )
 	{
-		Object values[] = new Object[7];
+		Object values[] = new Object[6];
 		values[0] = super.saveState( context );
 		values[1] = mValue;
 		values[2] = mReadOnly;
 		values[3] = mConfig;
 		values[4] = mValidatorClass;
 		values[5] = mInspectFromParent;
-		values[6] = mReinspectOnModelUpdate;
 
 		return values;
 	}
@@ -511,7 +483,6 @@ public abstract class UIMetawidget
 		mConfig = (String) values[3];
 		mValidatorClass = (String) values[4];
 		mInspectFromParent = (Boolean) values[5];
-		mReinspectOnModelUpdate = (Boolean) values[6];
 	}
 
 	//
@@ -552,7 +523,7 @@ public abstract class UIMetawidget
 		FacesContext context = getFacesContext();
 		String valueBindingString = valueBinding.getExpressionString();
 
-		if ( !inspectFromParent || !FacesUtils.isValueReference( valueBindingString ) )
+		if ( !inspectFromParent || !FacesUtils.isExpression( valueBindingString ) )
 		{
 			Object toInspect = valueBinding.getValue( context );
 
@@ -565,7 +536,7 @@ public abstract class UIMetawidget
 
 		// In the event the direct object is 'null' or a primitive...
 
-		String binding = FacesUtils.unwrapValueReference( valueBindingString );
+		String binding = FacesUtils.unwrapExpression( valueBindingString );
 
 		// ...and the EL expression is such that we can chop it off to get to the parent...
 		//
@@ -583,7 +554,7 @@ public abstract class UIMetawidget
 				// and 'type')
 
 				Application application = context.getApplication();
-				ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapValueReference( binding.substring( 0, lastIndexOf ) ) );
+				ValueBinding bindingParent = application.createValueBinding( FacesUtils.wrapExpression( binding.substring( 0, lastIndexOf ) ) );
 				Object toInspect = bindingParent.getValue( context );
 
 				if ( toInspect != null )
@@ -648,9 +619,7 @@ public abstract class UIMetawidget
 
 			Map<String, Object> attributes = componentChild.getAttributes();
 
-			// TODO: ICEfaces AJAX support
-
-			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) )
+			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) && !attributes.containsKey( COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) )
 			{
 				i.remove();
 				continue;
@@ -699,7 +668,7 @@ public abstract class UIMetawidget
 
 					if ( methodBinding != null )
 					{
-						binding = FacesUtils.unwrapValueReference( methodBinding.getExpressionString() );
+						binding = FacesUtils.unwrapExpression( methodBinding.getExpressionString() );
 					}
 
 					// Not using a valueBinding? Using a raw value (eg. for jBPM)?
@@ -711,7 +680,7 @@ public abstract class UIMetawidget
 				}
 				else
 				{
-					binding = FacesUtils.wrapValueReference( mBindingPrefix + attributes.get( NAME ) );
+					binding = FacesUtils.wrapExpression( mBindingPrefix + attributes.get( NAME ) );
 				}
 			}
 
@@ -743,7 +712,7 @@ public abstract class UIMetawidget
 			}
 			else
 			{
-				binding = FacesUtils.wrapValueReference( mBindingPrefix + attributes.get( NAME ) );
+				binding = FacesUtils.wrapExpression( mBindingPrefix + attributes.get( NAME ) );
 			}
 		}
 
@@ -761,18 +730,22 @@ public abstract class UIMetawidget
 		{
 			UIComponent component = children.get( index );
 
+			// If this component has already been processed by the inspection (ie. contains
+			// metadata), is not rendered, or is a UIParameter, skip it
+
 			Map<String, Object> miscAttributes = component.getAttributes();
 
-			if ( miscAttributes.containsKey( COMPONENT_ATTRIBUTE_METADATA ) || !component.isRendered() )
+			if ( miscAttributes.containsKey( COMPONENT_ATTRIBUTE_METADATA ) || !component.isRendered() || component instanceof UIParameter )
 			{
 				index++;
 				continue;
 			}
 
+			// Try and determine some metadata for the component by inspecting its binding. This
+			// helps our layout display proper labels, required stars etc.
+
 			Map<String, String> childAttributes = CollectionUtils.newHashMap();
 			miscAttributes.put( COMPONENT_ATTRIBUTE_METADATA, childAttributes );
-
-			// Inspect metadata
 
 			ValueBinding binding = component.getValueBinding( "value" );
 
@@ -812,7 +785,7 @@ public abstract class UIMetawidget
 		if ( valueBinding == null )
 			return;
 
-		mBindingPrefix = FacesUtils.unwrapValueReference( valueBinding.getExpressionString() ) + StringUtils.SEPARATOR_DOT_CHAR;
+		mBindingPrefix = FacesUtils.unwrapExpression( valueBinding.getExpressionString() ) + StringUtils.SEPARATOR_DOT_CHAR;
 	}
 
 	protected UIComponent afterBuildWidget( UIComponent component, Map<String, String> attributes )
@@ -918,7 +891,7 @@ public abstract class UIMetawidget
 		Map<String, Object> attributes = component.getAttributes();
 		attributes.put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
 
-		String idealId = StringUtils.camelCase( FacesUtils.unwrapValueReference( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
+		String idealId = StringUtils.camelCase( FacesUtils.unwrapExpression( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
 
 		// Suffix nested Metawidgets, because otherwise if they only expand to a single child they
 		// will give that child component a '_2' suffixed id
@@ -1220,13 +1193,8 @@ public abstract class UIMetawidget
 		Application application = context.getApplication();
 
 		// Bind actions
-		//
-		// Note: the only class in vanilla JSF that implements ActionSource is
-		// UICommand, but it is dangerous to do 'instanceof ActionSource' because
-		// other component libraries (such as ICEfaces) have things like
-		// SelectInputDate which implement ActionSource
 
-		if ( widget instanceof UICommand )
+		if ( ACTION.equals( elementName ) )
 		{
 			ActionSource actionSource = (ActionSource) widget;
 			MethodBinding binding = actionSource.getAction();
@@ -1254,7 +1222,7 @@ public abstract class UIMetawidget
 
 						if ( valueBinding != null )
 						{
-							methodBinding = FacesUtils.unwrapValueReference( valueBinding.getExpressionString() );
+							methodBinding = FacesUtils.unwrapExpression( valueBinding.getExpressionString() );
 							binding = application.createMethodBinding( methodBinding, null );
 						}
 
@@ -1274,7 +1242,7 @@ public abstract class UIMetawidget
 
 						if ( name != null && !"".equals( name ) )
 						{
-							methodBinding = FacesUtils.wrapValueReference( mBindingPrefix + name );
+							methodBinding = FacesUtils.wrapExpression( mBindingPrefix + name );
 							binding = application.createMethodBinding( methodBinding, null );
 						}
 					}
@@ -1328,7 +1296,7 @@ public abstract class UIMetawidget
 
 						if ( name != null && !"".equals( name ) )
 						{
-							valueBinding = FacesUtils.wrapValueReference( mBindingPrefix + name );
+							valueBinding = FacesUtils.wrapExpression( mBindingPrefix + name );
 						}
 					}
 				}

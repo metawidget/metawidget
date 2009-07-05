@@ -33,6 +33,7 @@ import org.metawidget.faces.component.UIStub;
  * @author Richard Kennard
  */
 
+// TODO: can set action too
 @SuppressWarnings( "deprecation" )
 public class StubTag
 	extends UIComponentTag

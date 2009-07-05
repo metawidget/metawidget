@@ -46,8 +46,6 @@ public abstract class MetawidgetTag
 
 	private boolean	mInspectFromParent;
 
-	private boolean	mReinspectOnModelUpdate	= true;
-
 	private String	mReadOnly;
 
 	private String	mBundle;
@@ -94,15 +92,6 @@ public abstract class MetawidgetTag
 	public void setInspectFromParent( boolean inspectFromParent )
 	{
 		mInspectFromParent = inspectFromParent;
-	}
-
-	/**
-	 * See doco in <code>UIMetawidget</code>.
-	 */
-
-	public void setReinspectOnModelUpdate( boolean reinspectOnModelUpdate )
-	{
-		mReinspectOnModelUpdate = reinspectOnModelUpdate;
 	}
 
 	public void setReadOnly( String readOnly )
@@ -177,7 +166,6 @@ public abstract class MetawidgetTag
 		// Inspect from parent
 
 		metawidetComponent.setInspectFromParent( mInspectFromParent );
-		metawidetComponent.setReinspectOnModelUpdate( mReinspectOnModelUpdate );
 
 		// Read-Only
 

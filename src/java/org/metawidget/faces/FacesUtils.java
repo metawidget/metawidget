@@ -48,8 +48,8 @@ public final class FacesUtils
 	 * Return <code>true</code> if the specified value conforms to the syntax requirements of a
 	 * value binding expression.
 	 * <p>
-	 * This method is a mirror of the one in <code>UIComponentTag.isValueReference</code>, but
-	 * that one is deprecated so may be removed in the future.
+	 * This method is a mirror of the one in <code>UIComponentTag.isValueReference</code>, but that
+	 * one is deprecated so may be removed in the future.
 	 *
 	 * @param value
 	 *            The value to evaluate
@@ -57,9 +57,9 @@ public final class FacesUtils
 	 *             if <code>value</code> is <code>null</code>
 	 */
 
-	public static boolean isValueReference( String value )
+	public static boolean isExpression( String value )
 	{
-		return PATTERN_VALUE_EXPRESSION.matcher( value ).matches();
+		return PATTERN_EXPRESSION.matcher( value ).matches();
 	}
 
 	/**
@@ -67,9 +67,9 @@ public final class FacesUtils
 	 *         returns the original String
 	 */
 
-	public static String unwrapValueReference( String value )
+	public static String unwrapExpression( String value )
 	{
-		Matcher matcher = PATTERN_VALUE_EXPRESSION.matcher( value );
+		Matcher matcher = PATTERN_EXPRESSION.matcher( value );
 
 		if ( !matcher.matches() )
 			return value;
@@ -82,12 +82,12 @@ public final class FacesUtils
 	 *         returns the original String
 	 */
 
-	public static String wrapValueReference( String value )
+	public static String wrapExpression( String value )
 	{
-		if ( isValueReference( value ) )
+		if ( isExpression( value ) )
 			return value;
 
-		return VALUE_EXPRESSION_START + unwrapValueReference( value ) + VALUE_EXPRESSION_END;
+		return EXPRESSION_START + unwrapExpression( value ) + EXPRESSION_END;
 	}
 
 	/**
@@ -240,11 +240,11 @@ public final class FacesUtils
 		}
 	}
 
-	private final static Pattern	PATTERN_VALUE_EXPRESSION	= Pattern.compile( "((#|\\$)\\{)([^}]*)(\\})" );
+	private final static Pattern	PATTERN_EXPRESSION	= Pattern.compile( "((#|\\$)\\{)([^}]*)(\\})" );
 
-	private final static String		VALUE_EXPRESSION_START		= "#{";
+	private final static String		EXPRESSION_START	= "#{";
 
-	private final static String		VALUE_EXPRESSION_END		= "}";
+	private final static String		EXPRESSION_END		= "}";
 
 	//
 	// Private constructor

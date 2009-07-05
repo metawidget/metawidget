@@ -205,7 +205,7 @@ public class FacesInspector
 	{
 		String expression = facesAttribute.expression();
 
-		if ( !FacesUtils.isValueReference( expression ) )
+		if ( !FacesUtils.isExpression( expression ) )
 			throw InspectorException.newException( "Expression '" + expression + "' is not of the form #{...}" );
 
 		Object value = application.createValueBinding( expression ).getValue( context );

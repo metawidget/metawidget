@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.FacesException;
-import javax.faces.component.UIComponentBase;
+import javax.faces.component.UICommand;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
@@ -30,16 +30,16 @@ import org.metawidget.util.CollectionUtils;
 /**
  * Stub for Java Server Faces environments.
  * <p>
- * A UIStub takes a <code>value</code> binding but does nothing with it. Stubs are used to 'stub
- * out' what Metawidget would normally create - either to suppress widget creation entirely or to
- * create child widgets with a different name.
+ * A UIStub takes a <code>value</code> binding and an <code>action</code> binding but does nothing
+ * with them. Stubs are used to 'stub out' what Metawidget would normally create - either to
+ * suppress widget creation entirely or to create child widgets with a different name.
  *
  * @author Richard Kennard
  */
 
 @SuppressWarnings( "deprecation" )
 public class UIStub
-	extends UIComponentBase
+	extends UICommand
 {
 	//
 	// Private members

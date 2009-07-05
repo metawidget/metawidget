@@ -35,6 +35,7 @@ import javax.faces.component.UISelectMany;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlColumn;
+import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
@@ -45,6 +46,7 @@ import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.component.html.HtmlSelectOneRadio;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
+import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 import javax.faces.model.DataModel;
 import javax.faces.model.SelectItem;
@@ -88,19 +90,27 @@ public class HtmlWidgetBuilder
 	// Private statics
 	//
 
+	private final static String	DATATABLE_STYLE_CLASS		= "dataTableStyleClass";
+
+	private final static String	DATATABLE_COLUMN_CLASSES	= "dataTableColumnClasses";
+
+	private final static String	DATATABLE_ROW_CLASSES		= "dataTableRowClasses";
+
+	private final static String	DATATABLE_ROW_ACTION		= "dataTableRowEditAction";
+
 	/**
 	 * The number of items in a multi-select lookup at which it should change from being a
 	 * 'lineDirection' to a 'pageDirection' layout. The latter is generally the safer choice, as it
 	 * stops the Metawidget blowing out horizontally.
 	 */
 
-	private final static int	SHORT_LOOKUP_SIZE	= 3;
+	private final static int	SHORT_LOOKUP_SIZE			= 3;
 
 	/**
 	 * The 'var' name to use for generated <code>dataTable</code>s.
 	 */
 
-	private final static String	DATA_TABLE_VAR_NAME	= "_internal";
+	private final static String	DATA_TABLE_VAR_NAME			= "_internal";
 
 	//
 	// Protected methods
@@ -547,17 +557,17 @@ public class HtmlWidgetBuilder
 
 		// CSS
 
-		UIParameter parameter = FacesUtils.findParameterWithName( metawidget, "dataTableStyleClass" );
+		UIParameter parameter = FacesUtils.findParameterWithName( metawidget, DATATABLE_STYLE_CLASS );
 
 		if ( parameter != null )
 			dataTable.setStyleClass( (String) parameter.getValue() );
 
-		parameter = FacesUtils.findParameterWithName( metawidget, "dataTableColumnClasses" );
+		parameter = FacesUtils.findParameterWithName( metawidget, DATATABLE_COLUMN_CLASSES );
 
 		if ( parameter != null )
 			dataTable.setColumnClasses( (String) parameter.getValue() );
 
-		parameter = FacesUtils.findParameterWithName( metawidget, "dataTableRowClasses" );
+		parameter = FacesUtils.findParameterWithName( metawidget, DATATABLE_ROW_CLASSES );
 
 		if ( parameter != null )
 			dataTable.setRowClasses( (String) parameter.getValue() );
@@ -582,8 +592,8 @@ public class HtmlWidgetBuilder
 			// ...resort to a single column table...
 
 			UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
-			ValueBinding binding = application.createValueBinding( "#{_internal}" );
 			columnText.setId( viewRoot.createUniqueId() );
+			ValueBinding binding = application.createValueBinding( "#{_internal}" );
 			columnText.setValueBinding( "value", binding );
 
 			UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
@@ -617,17 +627,32 @@ public class HtmlWidgetBuilder
 
 				Element element = (Element) node;
 
+				// ...(not action)...
+
+				if ( ACTION.equals( element.getNodeName() ) )
+					continue;
+
 				// ...that is visible...
 
 				if ( TRUE.equals( element.getAttribute( HIDDEN ) ) )
+					continue;
+
+				// ...and is required...
+				//
+				// Note: this is a controversial choice. Our logic is that a) we need to limit
+				// the number of columns somehow, and b) displaying all the required fields should
+				// be enough to uniquely identify the row to the user. However, users may wish
+				// to override this default behaviour with their own WidgetBuilder
+
+				if ( !TRUE.equals( element.getAttribute( REQUIRED ) ) )
 					continue;
 
 				// ...make a label...
 
 				String columnName = element.getAttribute( NAME );
 				UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
-				ValueBinding binding = application.createValueBinding( "#{_internal." + columnName + "}" );
 				columnText.setId( viewRoot.createUniqueId() );
+				ValueBinding binding = application.createValueBinding( "#{_internal." + columnName + "}" );
 				columnText.setValueBinding( "value", binding );
 
 				// ...and put it in a column...
@@ -646,6 +671,30 @@ public class HtmlWidgetBuilder
 			}
 		}
 
+		// Add an 'edit action' column (if requested)
+
+		parameter = FacesUtils.findParameterWithName( metawidget, DATATABLE_ROW_ACTION );
+
+		if ( parameter != null )
+		{
+			HtmlCommandLink rowAction = (HtmlCommandLink) application.createComponent( "javax.faces.HtmlCommandLink" );
+			rowAction.setId( viewRoot.createUniqueId() );
+			String localizedKey = metawidget.getLocalizedKey( context, "edit" );
+
+			if ( localizedKey == null )
+				rowAction.setValue( "Edit" );
+			else
+				rowAction.setValue( localizedKey );
+
+			MethodBinding binding = application.createMethodBinding( FacesUtils.wrapExpression( (String) parameter.getValue() ), null );
+			rowAction.setAction( binding );
+
+			UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
+			column.setId( viewRoot.createUniqueId() );
+			column.getChildren().add( rowAction );
+			dataChildren.add( column );
+		}
+
 		return createReadOnlyComponent( attributes, dataTable, metawidget );
 	}
 
@@ -656,7 +705,7 @@ public class HtmlWidgetBuilder
 
 		// Add an empty choice (if nullable, and not required)
 
-		if ( !TRUE.equals( attributes.get( REQUIRED ) ))
+		if ( !TRUE.equals( attributes.get( REQUIRED ) ) )
 		{
 			String type = getType( attributes );
 
@@ -737,7 +786,7 @@ public class HtmlWidgetBuilder
 		{
 			// Label may be a value reference (eg. into a bundle)
 
-			if ( FacesUtils.isValueReference( label ) )
+			if ( FacesUtils.isExpression( label ) )
 			{
 				selectItem.setValueBinding( "itemLabel", application.createValueBinding( label ) );
 			}
@@ -795,7 +844,7 @@ public class HtmlWidgetBuilder
 		selectItems.setId( viewRoot.createUniqueId() );
 		children.add( selectItems );
 
-		if ( !FacesUtils.isValueReference( binding ) )
+		if ( !FacesUtils.isExpression( binding ) )
 			throw WidgetBuilderException.newException( "Lookup '" + binding + "' is not of the form #{...}" );
 
 		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
