@@ -117,15 +117,15 @@ public class FacesInspectorTest
 
 	public void testUtils()
 	{
-		assertTrue( "foo.bar".equals( FacesUtils.unwrapValueReference( "foo.bar" )));
-		assertTrue( "#{foo.bar".equals( FacesUtils.unwrapValueReference( "#{foo.bar" )));
-		assertTrue( "foo.bar".equals( FacesUtils.unwrapValueReference( "#{foo.bar}" )));
-		assertTrue( "foo.bar".equals( FacesUtils.unwrapValueReference( "foo.bar" )));
-		assertTrue( "#{foo.bar".equals( FacesUtils.unwrapValueReference( "#{foo.bar" )));
+		assertTrue( "foo.bar".equals( FacesUtils.unwrapExpression( "foo.bar" )));
+		assertTrue( "#{foo.bar".equals( FacesUtils.unwrapExpression( "#{foo.bar" )));
+		assertTrue( "foo.bar".equals( FacesUtils.unwrapExpression( "#{foo.bar}" )));
+		assertTrue( "foo.bar".equals( FacesUtils.unwrapExpression( "foo.bar" )));
+		assertTrue( "#{foo.bar".equals( FacesUtils.unwrapExpression( "#{foo.bar" )));
 
-		assertTrue( "#{foo.bar}".equals( FacesUtils.wrapValueReference( "foo.bar" )));
-		assertTrue( "#{foo.bar}".equals( FacesUtils.wrapValueReference( "#{foo.bar}" )));
-		assertTrue( "#{#{foo.bar}".equals( FacesUtils.wrapValueReference( "#{foo.bar" )));
+		assertTrue( "#{foo.bar}".equals( FacesUtils.wrapExpression( "foo.bar" )));
+		assertTrue( "#{foo.bar}".equals( FacesUtils.wrapExpression( "#{foo.bar}" )));
+		assertTrue( "#{#{foo.bar}".equals( FacesUtils.wrapExpression( "#{foo.bar" )));
 	}
 
 	//
