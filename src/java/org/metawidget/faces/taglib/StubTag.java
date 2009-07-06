@@ -33,7 +33,6 @@ import org.metawidget.faces.component.UIStub;
  * @author Richard Kennard
  */
 
-// TODO: can set action too
 @SuppressWarnings( "deprecation" )
 public class StubTag
 	extends UIComponentTag
@@ -41,6 +40,8 @@ public class StubTag
 	//
 	// Private members
 	//
+
+	private String	mAction;
 
 	private String	mValue;
 
@@ -54,6 +55,11 @@ public class StubTag
 	public String getComponentType()
 	{
 		return "org.metawidget.Stub";
+	}
+
+	public void setAction( String action )
+	{
+		mAction = action;
 	}
 
 	public void setValue( String value )
@@ -92,6 +98,16 @@ public class StubTag
 
 		UIStub componentStub = (UIStub) component;
 		Application application = getFacesContext().getApplication();
+
+		// Action
+
+		if ( mAction != null )
+		{
+			if ( !isValueReference( mAction ) )
+				throw MetawidgetException.newException( "Action '" + mAction + "' must be an EL expression" );
+
+			componentStub.setAction( application.createMethodBinding( mAction, null ) );
+		}
 
 		// Value
 

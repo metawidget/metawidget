@@ -13,13 +13,13 @@
 
 			<m:metawidget value="#{quirks}">
 				<f:param name="columns" value="0"/>
-				<m:stub value="#{quirks.refresh}"/>
+				<m:stub action="#{quirks.refresh}"/>
 			</m:metawidget>
 
 			<h1>Quirks (Again)</h1>
 
 			<m:metawidget value="#{quirks}">
-				<m:stub value="#{quirks.refresh}">
+				<m:stub action="#{quirks.refresh}">
 					<h:outputText value="Test whether non-rendered" rendered="false"/>
 					<h:outputText value="stub children still stub out" rendered="false"/>
 					<h:outputText value="the parent completely" rendered="false"/>
@@ -32,7 +32,7 @@
 				<m:metawidget value="#{quirks.boolean}" rendererType="simple"/>
 				<h:outputText value="#{quirks.large}"/>
 				<m:metawidget value="#{quirks.strings}"/>
-				<m:stub value="#{quirks.refresh}">
+				<m:stub action="#{quirks.refresh}">
 					<h:outputText value="Not rendered" rendered="false"/>
 				</m:stub>
 			</m:metawidget>

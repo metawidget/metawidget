@@ -684,15 +684,7 @@ public abstract class UIMetawidget
 				}
 			}
 
-			UIComponent overridenWidget = FacesUtils.findRenderedComponentWithMethodBinding( UIMetawidget.this, binding );
-
-			if ( overridenWidget != null )
-				return overridenWidget;
-
-			// Special support for overriding a method binding using a component with a matching
-			// value binding (eg. for overriding UICommands using UIStubs)
-
-			return FacesUtils.findRenderedComponentWithValueBinding( UIMetawidget.this, binding );
+			return FacesUtils.findRenderedComponentWithMethodBinding( UIMetawidget.this, binding );
 		}
 
 		// Properties

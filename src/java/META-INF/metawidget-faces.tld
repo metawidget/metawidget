@@ -36,9 +36,6 @@
 			<name>inspectFromParent</name>
 		</attribute>
 		<attribute>
-			<name>reinspectOnModelUpdate</name>
-		</attribute>
-		<attribute>
 			<name>validatorClass</name>
 		</attribute>		
 		<attribute>
@@ -65,7 +62,10 @@
 		<info>JSP tag for UIStub component</info>
 		<attribute>
 			<name>value</name>
-			<required>true</required>			
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>action</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
