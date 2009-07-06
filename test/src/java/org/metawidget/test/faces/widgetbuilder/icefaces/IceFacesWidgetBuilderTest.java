@@ -29,6 +29,7 @@ import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
 
+import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidgetBuilder;
 import org.metawidget.test.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.util.CollectionUtils;
@@ -81,6 +82,7 @@ public class IceFacesWidgetBuilderTest
 		attributes.put( DATETIME_PATTERN, "dd-MM-yyyy" );
 		SelectInputDate calendar = (SelectInputDate) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( "dd-MM-yyyy".equals( calendar.getPopupDateFormat() ) );
+		assertTrue( true == (Boolean) calendar.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE ));
 	}
 
 	//

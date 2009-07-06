@@ -616,59 +616,14 @@ public class HtmlWidgetBuilder
 			Document document = XmlUtils.documentFromString( inspectedType );
 			NodeList elements = document.getDocumentElement().getFirstChild().getChildNodes();
 
-			// ...and for each property...
+			// ...and try to create columns for just the 'required' fields...
 
-			for ( int loop = 0, length = elements.getLength(); loop < length; loop++ )
-			{
-				Node node = elements.item( loop );
+			createColumnComponents( elements, dataChildren, metawidget, true );
 
-				if ( !( node instanceof Element ) )
-					continue;
+			// ...but, failing that, create columns for every field
 
-				Element element = (Element) node;
-
-				// ...(not action)...
-
-				if ( ACTION.equals( element.getNodeName() ) )
-					continue;
-
-				// ...that is visible...
-
-				if ( TRUE.equals( element.getAttribute( HIDDEN ) ) )
-					continue;
-
-				// ...and is required...
-				//
-				// Note: this is a controversial choice. Our logic is that a) we need to limit
-				// the number of columns somehow, and b) displaying all the required fields should
-				// be enough to uniquely identify the row to the user. However, users may wish
-				// to override this default behaviour with their own WidgetBuilder
-
-				if ( !TRUE.equals( element.getAttribute( REQUIRED ) ) )
-					continue;
-
-				// ...make a label...
-
-				String columnName = element.getAttribute( NAME );
-				UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
-				columnText.setId( viewRoot.createUniqueId() );
-				ValueBinding binding = application.createValueBinding( "#{_internal." + columnName + "}" );
-				columnText.setValueBinding( "value", binding );
-
-				// ...and put it in a column...
-
-				HtmlColumn column = (HtmlColumn) application.createComponent( "javax.faces.HtmlColumn" );
-				column.setId( viewRoot.createUniqueId() );
-				column.getChildren().add( columnText );
-				dataChildren.add( column );
-
-				// ...with a localized header
-
-				HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
-				headerText.setId( viewRoot.createUniqueId() );
-				headerText.setValue( metawidget.getLabelString( context, XmlUtils.getAttributesAsMap( element ) ) );
-				column.setHeader( headerText );
-			}
+			if ( dataChildren.isEmpty() )
+				createColumnComponents( elements, dataChildren, metawidget, false );
 		}
 
 		// Add an 'edit action' column (if requested)
@@ -696,6 +651,67 @@ public class HtmlWidgetBuilder
 		}
 
 		return createReadOnlyComponent( attributes, dataTable, metawidget );
+	}
+
+	private void createColumnComponents( NodeList elements, List<UIComponent> dataChildren, UIMetawidget metawidget, boolean onlyRequired )
+	{
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+		UIViewRoot viewRoot = context.getViewRoot();
+
+		// For each property...
+
+		for ( int loop = 0, length = elements.getLength(); loop < length; loop++ )
+		{
+			Node node = elements.item( loop );
+
+			if ( !( node instanceof Element ) )
+				continue;
+
+			Element element = (Element) node;
+
+			// ...(not action)...
+
+			if ( ACTION.equals( element.getNodeName() ) )
+				continue;
+
+			// ...that is visible...
+
+			if ( TRUE.equals( element.getAttribute( HIDDEN ) ) )
+				continue;
+
+			// ...and is required...
+			//
+			// Note: this is a controversial choice. Our logic is that a) we need to limit
+			// the number of columns somehow, and b) displaying all the required fields should
+			// be enough to uniquely identify the row to the user. However, users may wish
+			// to override this default behaviour
+
+			if ( onlyRequired && !TRUE.equals( element.getAttribute( REQUIRED ) ) )
+				continue;
+
+			// ...make a label...
+
+			String columnName = element.getAttribute( NAME );
+			UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
+			columnText.setId( viewRoot.createUniqueId() );
+			ValueBinding binding = application.createValueBinding( "#{_internal." + columnName + "}" );
+			columnText.setValueBinding( "value", binding );
+
+			// ...and put it in a column...
+
+			HtmlColumn column = (HtmlColumn) application.createComponent( "javax.faces.HtmlColumn" );
+			column.setId( viewRoot.createUniqueId() );
+			column.getChildren().add( columnText );
+			dataChildren.add( column );
+
+			// ...with a localized header
+
+			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
+			headerText.setId( viewRoot.createUniqueId() );
+			headerText.setValue( metawidget.getLabelString( context, XmlUtils.getAttributesAsMap( element ) ) );
+			column.setHeader( headerText );
+		}
 	}
 
 	private void addSelectItems( UIComponent component, List<?> values, List<String> labels, Map<String, String> attributes, UIMetawidget metawidget )

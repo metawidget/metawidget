@@ -58,11 +58,6 @@ public class UIMetawidgetTest
 		}
 	}
 
-	public void testNeedToBuildWidgets()
-	{
-		// TODO: a test here
-	}
-
 	public void testStub()
 		throws Exception
 	{
