@@ -21,16 +21,19 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.FacesException;
-import javax.faces.component.UICommand;
+import javax.faces.component.ActionSource;
+import javax.faces.component.UIComponentBase;
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
+import javax.faces.event.ActionListener;
 
 import org.metawidget.util.CollectionUtils;
 
 /**
  * Stub for Java Server Faces environments.
  * <p>
- * A UIStub takes a <code>value</code> binding and an <code>action</code> binding but does nothing
+ * A UIStub takes a <code>value</code> binding or an <code>action</code> binding but does nothing
  * with them. Stubs are used to 'stub out' what Metawidget would normally create - either to
  * suppress widget creation entirely or to create child widgets with a different name.
  *
@@ -39,13 +42,16 @@ import org.metawidget.util.CollectionUtils;
 
 @SuppressWarnings( "deprecation" )
 public class UIStub
-	extends UICommand
+	extends UIComponentBase
+	implements ActionSource
 {
 	//
 	// Private members
 	//
 
-	private String	mStubAttributes;
+	private String			mStubAttributes;
+
+	private MethodBinding	mAction;
 
 	//
 	// Public methods
@@ -129,5 +135,65 @@ public class UIStub
 		super.restoreState( context, values[0] );
 
 		mStubAttributes = (String) values[1];
+	}
+
+	@Override
+	public MethodBinding getAction()
+	{
+		return mAction;
+	}
+
+	@Override
+	public void setAction( MethodBinding action )
+	{
+		mAction = action;
+	}
+
+	@Override
+	public MethodBinding getActionListener()
+	{
+		// Do nothing: UIStub is just a stub
+
+		return null;
+	}
+
+	@Override
+	public void setActionListener( MethodBinding arg0 )
+	{
+		// Do nothing: UIStub is just a stub
+	}
+
+	@Override
+	public ActionListener[] getActionListeners()
+	{
+		// Do nothing: UIStub is just a stub
+
+		return null;
+	}
+
+	@Override
+	public void addActionListener( ActionListener arg0 )
+	{
+		// Do nothing: UIStub is just a stub
+	}
+
+	@Override
+	public void removeActionListener( ActionListener arg0 )
+	{
+		// Do nothing: UIStub is just a stub
+	}
+
+	@Override
+	public void setImmediate( boolean arg0 )
+	{
+		// Do nothing: UIStub is just a stub
+	}
+
+	@Override
+	public boolean isImmediate()
+	{
+		// Do nothing: UIStub is just a stub
+
+		return false;
 	}
 }

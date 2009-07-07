@@ -132,11 +132,25 @@ public class HtmlMetawidget
 
 			Map<String, Object> componentAttributes = component.getAttributes();
 
-			if ( mStyle != null && !componentAttributes.containsKey( "style" ) )
-				componentAttributes.put( "style", mStyle );
+			if ( mStyle != null )
+			{
+				String existingStyle = (String) componentAttributes.get( "style" );
 
-			if ( mStyleClass != null && !componentAttributes.containsKey( "styleClass" ) )
-				componentAttributes.put( "styleClass", mStyleClass );
+				if ( existingStyle == null || "".equals( existingStyle ))
+					componentAttributes.put( "style", mStyle );
+				else
+					componentAttributes.put( "style", existingStyle + " " + mStyle );
+			}
+
+			if ( mStyleClass != null )
+			{
+				String existingStyleClass = (String) componentAttributes.get( "styleClass" );
+
+				if ( existingStyleClass == null || "".equals( existingStyleClass ))
+					componentAttributes.put( "styleClass", mStyleClass );
+				else
+					componentAttributes.put( "styleClass", existingStyleClass + " " + mStyleClass );
+			}
 		}
 
 		return super.afterBuildWidget( component, attributes );
@@ -174,6 +188,6 @@ public class HtmlMetawidget
 
 		htmlMetawidget.setCreateHiddenFields( mCreateHiddenFields );
 		htmlMetawidget.setStyle( mStyle );
-		htmlMetawidget.setStyleClass( mStyle );
+		htmlMetawidget.setStyleClass( mStyleClass );
 	}
 }

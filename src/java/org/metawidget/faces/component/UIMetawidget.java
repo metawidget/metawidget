@@ -937,8 +937,10 @@ public abstract class UIMetawidget
 	/**
 	 * Attach value binding for component. We only do this for created components.
 	 * <p>
-	 * In addition, if the created component is a UIStub, we set the same value binding on
-	 * <em>all</em> its children. This allows us to built compound components.
+	 * In addition, if the created component is a <code>UIStub</code>, we set the same value binding
+	 * on <em>all</em> its children (as well as the <code>UIStub</code> itself). This allows us to
+	 * build compound components, such as a <code>HtmlOutputText</code> combined with a
+	 * <code>HtmlInputHidden</code>.
 	 */
 
 	protected void attachValueBinding( UIComponent widget, ValueBinding valueBinding, Map<String, String> attributes )
@@ -953,8 +955,6 @@ public abstract class UIMetawidget
 			{
 				attachValueBinding( componentChild, valueBinding, attributes );
 			}
-
-			return;
 		}
 
 		// Set binding
@@ -978,8 +978,6 @@ public abstract class UIMetawidget
 			{
 				attachValueExpression( componentChild, valueExpression, attributes );
 			}
-
-			return;
 		}
 
 		// Set binding

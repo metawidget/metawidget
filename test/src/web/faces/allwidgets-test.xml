@@ -188,7 +188,9 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/th" text="Read only nested widgets"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/th" text="Further nested widgets"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[1]/td[1]/table/tbody/tr)" text="0"/>				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[2]/th/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox1-label-cell"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[2]/th" text="Nested textbox 1"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[2]/td[1]/@id" text="table-allWidgetsReadOnlyNestedWidgetsNestedTextbox1-cell"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/table/tbody/tr[2]/td[1]" text="Nested Textbox 1"/>
 				<verifyInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox1" value="Nested Textbox 1"/>
 				<forceHiddenInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox1" value="Nested Textbox 1.11"/>
@@ -198,7 +200,7 @@
 				<forceHiddenInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox2" value="Nested Textbox 2.22"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/th" text="Nested widgets dont expand"/>	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]" text="Nested Textbox 1, Nested Textbox 2"/>	
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td/input[@type='text']/@value" text="Nested Textbox 1, Nested Textbox 2"/>	
 				<setInputField name="form:allWidgetsNestedWidgetsDontExpand" value="Nested Textbox 1.01, Nested Textbox 2.02"/>
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/th" text="Read only nested widgets dont expand"/>	
@@ -421,7 +423,8 @@
 				<setInputField name="form:allWidgetsIntegerObject" value="-2147483647"/>
 	
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[11]/th" text="Ranged int (i18n)->"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[11]/td[1]/table[@class='dr-insldr rich-slider aStyleClass']"/>				
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[11]/td[1]/table/@class" text="dr-insldr rich-slider aStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[11]/td[1]/@style" text="aComponentStyle"/>
 				<verifyInputField name="form:allWidgetsRangedInt" value="32"/>
 				<setInputField name="form:allWidgetsRangedInt" value="33"/>
 
@@ -541,7 +544,7 @@
 				<forceHiddenInputField name="form:allWidgetsReadOnlyNestedWidgetsNestedTextbox2" value="Nested Textbox 2.22"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/th" text="Nested Widgets (don't expand) (i18n)->"/>	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]" text="Nested Textbox 1, Nested Textbox 2"/>	
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/td[1]/input[@type='text']/@value" text="Nested Textbox 1, Nested Textbox 2"/>	
 				<setInputField name="form:allWidgetsNestedWidgetsDontExpand" value="Nested Textbox 1.01, Nested Textbox 2.02"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/th" text="Read only Nested Widgets (don't expand) (i18n)->"/>	

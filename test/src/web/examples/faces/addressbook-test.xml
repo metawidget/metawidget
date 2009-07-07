@@ -98,7 +98,8 @@
 				<setInputField name="form:contactCurrentFirstname" value="Homer Jay"/>
 				
 				<clickButton label="Add"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/ul/li" text="Communication type is required"/>
+				<verifyXPath xpath="count(/html/body/div[@id='content']/form/ul/li)" text="1"/>
+				<verifyText text="Communication type is required"/>
 				<setSelectField name="form:communications:communicationCurrentType" value="Fax"/>
 				<setInputField name="form:communications:communicationCurrentValue" value="(939) 555-0114"/>
 				<clickButton label="Add"/>
