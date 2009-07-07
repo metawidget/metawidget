@@ -34,6 +34,7 @@ import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidget
 import org.metawidget.test.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.util.CollectionUtils;
 
+import com.icesoft.faces.component.ext.HtmlInputText;
 import com.icesoft.faces.component.selectinputdate.SelectInputDate;
 
 /**
@@ -125,6 +126,9 @@ public class IceFacesWidgetBuilderTest
 		{
 			if ( "com.icesoft.faces.SelectInputDate".equals( componentName ))
 				return new SelectInputDate();
+
+			if ( "com.icesoft.faces.HtmlInputText".equals( componentName ))
+				return new HtmlInputText();
 
 			return super.createComponent( componentName );
 		}

@@ -70,7 +70,6 @@ public class FacesMetawidgetTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Faces Metawidget Tests" );
-		suite.addTestSuite( FacesUtilsTest.class );
 		suite.addTestSuite( IceFacesWidgetBuilderTest.class );
 		suite.addTestSuite( RichFacesWidgetBuilderTest.class );
 		suite.addTestSuite( TomahawkWidgetBuilderTest.class );

@@ -397,17 +397,17 @@ public abstract class UIMetawidget
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		// Validation error? Do not rebuild, as we will lose the invalid values in the components.
-		// Instead, just move along to our renderer
-
-		if ( context.getMaximumSeverity() != null )
-		{
-			super.encodeBegin( context );
-			return;
-		}
-
 		try
 		{
+			// Validation error? Do not rebuild, as we will lose the invalid values in the components.
+			// Instead, just move along to our renderer
+
+			if ( context.getMaximumSeverity() != null )
+			{
+				super.encodeBegin( context );
+				return;
+			}
+
 			configure();
 
 			// Inspect from the value binding...
