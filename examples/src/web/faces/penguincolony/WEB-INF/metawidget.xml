@@ -5,10 +5,6 @@
 
 	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
 		<parameter>
-			<string>tableStyleClass</string>
-			<string>table-form</string>
-		</parameter>
-		<parameter>
 			<string>columnClasses</string>
 			<string>table-label-column,table-component-column,required</string>
 		</parameter>

@@ -9,6 +9,20 @@
 			<steps>
 				<invoke url="${webtest.url}/penguincolony-faces" />
 				<verifyTitle text="Penguin Colony (Metawidget ICEfaces demo)" />
+				
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/thead/tr/th[1]" text="Name"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/thead/tr/th[2]" text="Species"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[1]" text="Mumble"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[2]" text="Great penguin"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[1]" text="Tux"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[2]" text="Little penguin"/>
+				
+				<!-- Edit -->
+
+				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[3]/a"/>
+				
+				<verifyInputField name="form:penguinCurrentName" value="Mumble"/>
+				
 			</steps>
 		</webtest>
 	</target>

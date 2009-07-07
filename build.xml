@@ -209,7 +209,7 @@
 			</classpath>
 		</javac>
 		
-		<javac sourcepath="" srcdir="test/src/java" destdir="${build.dir}/test-classes" debug="on" target="1.5">
+		<javac sourcepath="" srcdir="test/src/java" destdir="${build.dir}/test-classes" debug="on" target="1.5" fork="yes">
 			<exclude name="org/metawidget/test/faces/allwidgets/**"/>
 			<exclude name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
 			<exclude name="org/metawidget/test/shared/allwidgets/**"/>
