@@ -19,22 +19,27 @@ package org.metawidget.test.faces.widgetbuilder.icefaces;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
+import java.lang.reflect.Method;
 import java.util.Date;
 import java.util.Map;
-import java.util.regex.Pattern;
 
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
-
-import junit.framework.TestCase;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.icefaces.IceFacesWidgetBuilder;
 import org.metawidget.test.faces.FacesMetawidgetTests.MockFacesContext;
+import org.metawidget.test.faces.widgetbuilder.HtmlWidgetBuilderTest;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
+import com.icesoft.faces.component.ext.HtmlCommandButton;
+import com.icesoft.faces.component.ext.HtmlInputSecret;
 import com.icesoft.faces.component.ext.HtmlInputText;
+import com.icesoft.faces.component.ext.HtmlInputTextarea;
+import com.icesoft.faces.component.ext.HtmlSelectBooleanCheckbox;
+import com.icesoft.faces.component.ext.HtmlSelectManyCheckbox;
+import com.icesoft.faces.component.ext.HtmlSelectOneListbox;
 import com.icesoft.faces.component.selectinputdate.SelectInputDate;
 
 /**
@@ -42,48 +47,45 @@ import com.icesoft.faces.component.selectinputdate.SelectInputDate;
  */
 
 public class IceFacesWidgetBuilderTest
-	extends TestCase
+	extends HtmlWidgetBuilderTest
 {
-	//
-	// Private members
-	//
-
-	private FacesContext mContext;
-
 	//
 	// Public methods
 	//
 
-	public void testIceFacesWidgetBuilder()
+	@Override
+	public void testWidgetBuilder()
 		throws Exception
 	{
-		IceFacesWidgetBuilder widgetBuilder = new IceFacesWidgetBuilder();
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 
-		// Pass throughs
+		// Hidden
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
-		attributes.put( LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
-		attributes.remove( LOOKUP );
-		attributes.put( FACES_LOOKUP, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
-		attributes.remove( FACES_LOOKUP );
 		attributes.put( HIDDEN, TRUE );
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
 		attributes.remove( HIDDEN );
-		attributes.put( TYPE, "foo" );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
-		attributes.put( TYPE, Pattern.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+
+		// Masked
+
+		attributes.put( TYPE, String.class.getName() );
+		attributes.put( MASKED, TRUE );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof HtmlInputSecret );
+
+		// Overridden component
+
+		attributes.put( FACES_COMPONENT, "foo" );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		attributes.remove( FACES_COMPONENT );
 
 		// SelectInputDate
 
 		attributes.put( TYPE, Date.class.getName() );
 		attributes.put( DATETIME_PATTERN, "dd-MM-yyyy" );
-		SelectInputDate calendar = (SelectInputDate) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "dd-MM-yyyy".equals( calendar.getPopupDateFormat() ) );
-		assertTrue( true == (Boolean) calendar.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE ));
+		SelectInputDate selectInputDate = (SelectInputDate) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( "dd-MM-yyyy".equals( selectInputDate.getPopupDateFormat() ) );
+		assertTrue( true == (Boolean) selectInputDate.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) );
+		assertTrue( selectInputDate.getPartialSubmit() );
 	}
 
 	//
@@ -91,46 +93,62 @@ public class IceFacesWidgetBuilderTest
 	//
 
 	@Override
-	protected void setUp()
-		throws Exception
+	protected WidgetBuilder<UIComponent, UIMetawidget> newWidgetBuilder()
 	{
-		super.setUp();
-
-		mContext = new MockIceFacesFacesContext();
+		return new IceFacesWidgetBuilder();
 	}
 
 	@Override
-	protected void tearDown()
-		throws Exception
+	protected MockFacesContext newMockFacesContext()
 	{
-		super.tearDown();
+		return new MockFacesContext()
+		{
+			@Override
+			public UIComponent createComponent( String componentName )
+				throws FacesException
+			{
+				if ( "com.icesoft.faces.SelectInputDate".equals( componentName ) )
+					return new SelectInputDate();
 
-		mContext.release();
+				if ( "com.icesoft.faces.HtmlInputText".equals( componentName ) )
+					return new HtmlInputText();
+
+				if ( "com.icesoft.faces.HtmlInputTextarea".equals( componentName ) )
+					return new HtmlInputTextarea();
+
+				if ( "com.icesoft.faces.HtmlInputSecret".equals( componentName ) )
+					return new HtmlInputSecret();
+
+				if ( "com.icesoft.faces.HtmlCommandButton".equals( componentName ) )
+					return new HtmlCommandButton();
+
+				if ( "com.icesoft.faces.HtmlSelectOneListbox".equals( componentName ) )
+					return new HtmlSelectOneListbox();
+
+				if ( "com.icesoft.faces.HtmlSelectManyCheckbox".equals( componentName ) )
+					return new HtmlSelectManyCheckbox();
+
+				if ( "com.icesoft.faces.HtmlSelectBooleanCheckbox".equals( componentName ) )
+					return new HtmlSelectBooleanCheckbox();
+
+				return super.createComponent( componentName );
+			}
+		};
 	}
 
-
-	//
-	// Inner class
-	//
-
-	protected static class MockIceFacesFacesContext
-		extends MockFacesContext
+	@Override
+	protected void furtherAssert( UIComponent component )
 	{
-		//
-		// Protected methods
-		//
-
-		@Override
-		public UIComponent createComponent( String componentName )
-			throws FacesException
+		try
 		{
-			if ( "com.icesoft.faces.SelectInputDate".equals( componentName ))
-				return new SelectInputDate();
+			// Assert that every ICEfaces component has 'partially submit' set to true
 
-			if ( "com.icesoft.faces.HtmlInputText".equals( componentName ))
-				return new HtmlInputText();
-
-			return super.createComponent( componentName );
+			Method partialSubmit = component.getClass().getMethod( "getPartialSubmit" );
+			assertTrue( (Boolean) partialSubmit.invoke( component ));
+		}
+		catch( Exception e )
+		{
+			throw new RuntimeException( e );
 		}
 	}
 }

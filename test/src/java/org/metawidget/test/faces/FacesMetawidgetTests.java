@@ -29,15 +29,26 @@ import javax.faces.application.ViewHandler;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
+import javax.faces.component.UISelectItem;
+import javax.faces.component.UISelectItems;
 import javax.faces.component.UIViewRoot;
+import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputHidden;
+import javax.faces.component.html.HtmlInputSecret;
+import javax.faces.component.html.HtmlInputText;
+import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlOutputText;
+import javax.faces.component.html.HtmlSelectBooleanCheckbox;
+import javax.faces.component.html.HtmlSelectManyCheckbox;
+import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseStream;
 import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
+import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
+import javax.faces.el.PropertyNotFoundException;
 import javax.faces.el.PropertyResolver;
 import javax.faces.el.ReferenceSyntaxException;
 import javax.faces.el.ValueBinding;
@@ -51,6 +62,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.metawidget.faces.component.UIStub;
+import org.metawidget.test.faces.widgetbuilder.HtmlWidgetBuilderTest;
 import org.metawidget.test.faces.widgetbuilder.icefaces.IceFacesWidgetBuilderTest;
 import org.metawidget.test.faces.widgetbuilder.richfaces.RichFacesWidgetBuilderTest;
 import org.metawidget.test.faces.widgetbuilder.tomahawk.TomahawkWidgetBuilderTest;
@@ -70,6 +82,7 @@ public class FacesMetawidgetTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Faces Metawidget Tests" );
+		suite.addTestSuite( HtmlWidgetBuilderTest.class );
 		suite.addTestSuite( IceFacesWidgetBuilderTest.class );
 		suite.addTestSuite( RichFacesWidgetBuilderTest.class );
 		suite.addTestSuite( TomahawkWidgetBuilderTest.class );
@@ -112,6 +125,13 @@ public class FacesMetawidgetTests
 					throws FacesException
 				{
 					return MockFacesContext.this.createComponent( componentName );
+				}
+
+				@Override
+				public ValueBinding createValueBinding( String expressionString )
+					throws ReferenceSyntaxException
+				{
+					return new MockValueBinding( expressionString );
 				}
 
 				//
@@ -171,13 +191,6 @@ public class FacesMetawidgetTests
 				@Override
 				public Validator createValidator( String s )
 					throws FacesException
-				{
-					throw new UnsupportedOperationException();
-				}
-
-				@Override
-				public ValueBinding createValueBinding( String s )
-					throws ReferenceSyntaxException
 				{
 					throw new UnsupportedOperationException();
 				}
@@ -328,6 +341,20 @@ public class FacesMetawidgetTests
 			};
 		}
 
+		@Override
+		public UIViewRoot getViewRoot()
+		{
+			return new UIViewRoot()
+			{
+
+				@Override
+				public String createUniqueId()
+				{
+					return "unique-id";
+				}
+			};
+		}
+
 		//
 		// Unsupported public methods
 		//
@@ -399,12 +426,6 @@ public class FacesMetawidgetTests
 		}
 
 		@Override
-		public UIViewRoot getViewRoot()
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
 		public void release()
 		{
 			FacesContext.setCurrentInstance( null );
@@ -452,6 +473,33 @@ public class FacesMetawidgetTests
 			if ( "javax.faces.HtmlInputHidden".equals( componentName ) )
 				return new HtmlInputHidden();
 
+			if ( "javax.faces.HtmlInputText".equals( componentName ) )
+				return new HtmlInputText();
+
+			if ( "javax.faces.HtmlInputTextarea".equals( componentName ) )
+				return new HtmlInputTextarea();
+
+			if ( "javax.faces.HtmlInputSecret".equals( componentName ) )
+				return new HtmlInputSecret();
+
+			if ( "javax.faces.HtmlCommandButton".equals( componentName ) )
+				return new HtmlCommandButton();
+
+			if ( "javax.faces.HtmlSelectOneListbox".equals( componentName ) )
+				return new HtmlSelectOneListbox();
+
+			if ( "javax.faces.HtmlSelectManyCheckbox".equals( componentName ) )
+				return new HtmlSelectManyCheckbox();
+
+			if ( "javax.faces.HtmlSelectBooleanCheckbox".equals( componentName ) )
+				return new HtmlSelectBooleanCheckbox();
+
+			if ( "javax.faces.SelectItems".equals( componentName ) )
+				return new UISelectItems();
+
+			if ( "javax.faces.SelectItem".equals( componentName ) )
+				return new UISelectItem();
+
 			if ( "org.metawidget.Stub".equals( componentName ) )
 				return new UIStub();
 
@@ -466,7 +514,7 @@ public class FacesMetawidgetTests
 		// Private members
 		//
 
-		private String mFamily;
+		private String	mFamily;
 
 		//
 		// Constructor
@@ -485,6 +533,63 @@ public class FacesMetawidgetTests
 		public String getFamily()
 		{
 			return mFamily;
+		}
+	}
+
+	public static class MockValueBinding
+		extends ValueBinding
+	{
+		//
+		// Private members
+		//
+
+		private String	mExpressionString;
+
+		//
+		// Constructor
+		//
+
+		public MockValueBinding( String expressionString )
+		{
+			mExpressionString = expressionString;
+		}
+
+		//
+		// Public methods
+		//
+
+		@Override
+		public String getExpressionString()
+		{
+			return mExpressionString;
+		}
+
+		@Override
+		public Class getType( FacesContext context )
+			throws EvaluationException, PropertyNotFoundException
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public Object getValue( FacesContext context )
+			throws EvaluationException, PropertyNotFoundException
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public boolean isReadOnly( FacesContext context )
+			throws EvaluationException, PropertyNotFoundException
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public void setValue( FacesContext context, Object value )
+			throws EvaluationException, PropertyNotFoundException
+		{
+			throw new UnsupportedOperationException();
 		}
 	}
 }

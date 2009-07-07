@@ -368,7 +368,7 @@
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/gwt/**"/>
 				<include name="org/metawidget/util/simple/**"/>
-				<include name="org/metawidget/widgetbuilder/**"/>
+				<include name="org/metawidget/widgetbuilder/*.class"/>
 				<include name="org/metawidget/GwtMetawidget.gwt.xml"/>
 				<exclude name="**/package-info.java"/>
 			</fileset>

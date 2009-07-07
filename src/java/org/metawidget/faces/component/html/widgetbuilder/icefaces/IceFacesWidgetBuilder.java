@@ -28,7 +28,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.UISelectMany;
-import javax.faces.component.UIViewRoot;
 import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
@@ -173,7 +172,12 @@ public class IceFacesWidgetBuilder
 			// Lookup)
 
 			if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
-				return application.createComponent( "com.icesoft.faces.HtmlSelectBooleanCheckbox" );
+			{
+				HtmlSelectBooleanCheckbox htmlSelectBooleanCheckbox = (HtmlSelectBooleanCheckbox) application.createComponent( "com.icesoft.faces.HtmlSelectBooleanCheckbox" );
+				htmlSelectBooleanCheckbox.setPartialSubmit( true );
+
+				return htmlSelectBooleanCheckbox;
+			}
 
 			// String Lookups
 
@@ -476,7 +480,6 @@ public class IceFacesWidgetBuilder
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
-		UIViewRoot viewRoot = context.getViewRoot();
 
 		List<UIComponent> children = component.getChildren();
 
@@ -503,7 +506,7 @@ public class IceFacesWidgetBuilder
 		}
 
 		UISelectItems selectItems = (UISelectItems) application.createComponent( "javax.faces.SelectItems" );
-		selectItems.setId( viewRoot.createUniqueId() );
+		selectItems.setId( context.getViewRoot().createUniqueId() );
 		children.add( selectItems );
 
 		if ( !FacesUtils.isExpression( binding ) )
