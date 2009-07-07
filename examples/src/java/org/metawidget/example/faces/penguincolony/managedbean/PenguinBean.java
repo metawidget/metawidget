@@ -53,8 +53,8 @@ public class PenguinBean
 	public PenguinBean()
 	{
 		List<Penguin> all = CollectionUtils.newArrayList();
-		all.add( new Penguin( "Fred", "Sid" ) );
-		all.add( new Penguin( "Bar", "Baz" ) );
+		all.add( new Penguin( "Mumble", "Great penguin" ) );
+		all.add( new Penguin( "Tux", "Little penguin" ) );
 
 		mAll = new ListDataModel( all );
 	}
@@ -71,7 +71,7 @@ public class PenguinBean
 
 	public void createNew()
 	{
-		mPenguinCurrent = new Penguin( "New Penguin", "Great penguin" );
+		mPenguinCurrent = new Penguin( "New penguin", "Great penguin" );
 
 		@SuppressWarnings( "unchecked" )
 		List<Penguin> list = (List<Penguin>) mAll.getWrappedData();
