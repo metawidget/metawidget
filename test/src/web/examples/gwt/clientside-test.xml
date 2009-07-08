@@ -6,10 +6,10 @@
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
 			<steps>
-				<invoke url="${webtest.url}/clientside-gwt" />
+				<invoke url="file://${basedir}/../../../../../${build.dir}/examples/gwt/clientside/index.html" />
 				<verifyTitle text="Client Side (Metawidget GWT Example)" />
 				
-				<!-- WebTest doesn't seem up to testing GWT yet? -->
+				<!-- Brief test: most testing is done by GwtClientSideTest.java -->
 				
 			</steps>
 		</webtest>

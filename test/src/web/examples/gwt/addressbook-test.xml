@@ -9,7 +9,7 @@
 				<invoke url="${webtest.url}/addressbook-gwt" />
 				<verifyTitle text="Address Book (Metawidget GWT Example)" />
 				
-				<!-- WebTest doesn't seem up to testing GWT yet? -->
+				<!-- Brief test: most testing is done by GwtAddressBookTest.java -->
 				
 			</steps>
 		</webtest>
