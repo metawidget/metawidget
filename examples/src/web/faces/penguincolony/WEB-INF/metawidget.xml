@@ -9,6 +9,10 @@
 			<string>table-label-column,table-component-column,required</string>
 		</parameter>
 		<parameter>
+			<string>messageStyleClass</string>
+			<string>inline-error</string>
+		</parameter>
+		<parameter>
 			<string>footerStyleClass</string>
 			<string>buttons</string>
 		</parameter>
