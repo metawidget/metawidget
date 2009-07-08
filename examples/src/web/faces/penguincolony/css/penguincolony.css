@@ -33,18 +33,10 @@ h1
 	width: 640px;
 }
 
-.errors
-{
-	display: block;
-	padding: 5px;
-	background-color: #ff8888;
-	border: 2px solid red;
-	margin-bottom: 20px;
-}
-
 .inline-error
 {
-	color: #880000;
+	display: block;
+	color: red;
 	font-size: 8pt;
 	font-weight: bold;
 }

@@ -1,12 +1,15 @@
 <project name="faces-addressbook-test" default="test-all">
 
 	<property file="../../../../../build.properties" />
-	<import file="${webtest.dir}/lib/taskdef.xml" />
+	<import file="${webtest.dir}/webtest.xml" />
 
-	<target name="test-all">
+	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-search">
-			<config resultpath="${build.dir}"/>
 			<steps>
+				<groovy>
+				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
+						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
+				</groovy>
 				<invoke url="${webtest.url}/penguincolony-faces" />
 				<verifyTitle text="Penguin Colony (Metawidget ICEfaces demo)" />
 				
@@ -16,12 +19,52 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[2]" text="Great penguin"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[1]" text="Tux"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[2]" text="Little penguin"/>
+				<verifyXPath xpath="count(/html/body/div[@id='content']/form/table/tbody/tr)" text="2"/>
 				
-				<!-- Edit -->
+				<!-- Edit penguin #1 -->
 
-				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[3]/a"/>
-				
+				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[3]/a"/>				
 				<verifyInputField name="form:penguinCurrentName" value="Mumble"/>
+				<verifySelectField name="form:penguinCurrentSpecies" value="Great penguin"/>
+				<setInputField name="form:penguinCurrentName" value="Mumbles"/>
+				<setSelectField name="form:penguinCurrentSpecies" value="Banded penguin"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[1]" text="Mumbles"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[2]" text="Banded penguin"/>
+				<clickButton label="Back"/>
+				
+				<!-- Delete penguin #2 -->
+
+				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>				
+				<verifyInputField name="form:penguinCurrentName" value="Tux"/>
+				<verifySelectField name="form:penguinCurrentSpecies" value="Little penguin"/>
+				<clickButton label="Delete"/>
+				<verifyXPath xpath="count(/html/body/div[@id='content']/form/table/tbody/tr)" text="1"/>
+
+				<!-- Add penguin -->
+
+				<clickButton label="Create New Penguin"/>
+				<verifyInputField name="form:penguinCurrentName" value="New penguin"/>
+				<verifySelectField name="form:penguinCurrentSpecies" value="Great penguin"/>				
+				<verifyXPath xpath="count(/html/body/div[@id='content']/form/table/tbody/tr)" text="2"/>
+				<setInputField name="form:penguinCurrentName" value=""/>
+				<setSelectField name="form:penguinCurrentSpecies" value="Crested penguin"/>
+				<verifyXPath xpath="//td[@id='table-penguinCurrentName-cell']/span[@class='inline-error']" text="Name is required"/>
+				<setInputField name="form:penguinCurrentName" value="Tux 2"/>
+				<not>
+					<verifyXPath xpath="//textarea[@name='form:allWidgetsTextarea']"/>
+					<verifyXPath xpath="//select[@name='form:penguinCurrentConditionBeak']"/>
+				</not>
+				<clickButton label="Add condition"/>
+				<setSelectField name="form:penguinCurrentConditionBeak" value="Good"/>
+				<setSelectField name="form:penguinCurrentConditionWings" value="Fair"/>
+				<setSelectField name="form:penguinCurrentConditionFeet" value="Poor"/>
+				<not>
+					<verifyXPath xpath="//td[@id='table-penguinCurrentName-cell']/span"/>
+					<verifyXPath xpath="//a[@id='form:penguinCurrentDateOfBirth_c_50']"/>
+				</not>
+				<clickButton htmlId="form:penguinCurrentDateOfBirth_cb"/>
+				<verifyXPath xpath="//a[@id='form:penguinCurrentDateOfBirth_c_50']"/>
+				<clickButton label="Back"/>
 				
 			</steps>
 		</webtest>
