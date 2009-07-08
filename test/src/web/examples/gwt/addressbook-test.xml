@@ -1,13 +1,10 @@
 <project name="gwt-addressbook-test" default="test-all">
 
 	<property file="../../../../../build.properties" />
-	<import file="${webtest.dir}/lib/taskdef.xml" />
+	<import file="${webtest.dir}/webtest.xml" />
 
-	<target name="test-all">
+	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
-			<config resultpath="${build.dir}">
-				<header name="User-Agent" value="Mozilla/4.0"/>
-			</config>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-gwt" />
 				<verifyTitle text="Address Book (Metawidget GWT Example)" />

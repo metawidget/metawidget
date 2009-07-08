@@ -1,13 +1,12 @@
 <project name="spring-addressbook-test" default="test-all">
 
 	<property file="../../../../../build.properties" />
-	<import file="${webtest.dir}/lib/taskdef.xml" />
+	<import file="${webtest.dir}/webtest.xml" />
 
 	<!-- Test Search Screen -->
 				
-	<target name="test-search">
+	<target name="test-search" depends="wt.defineTasks">
 		<webtest name="test-search">
-			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-spring" />
 				<verifyTitle text="Address Book (Metawidget Spring Web MVC Example)" />
@@ -43,7 +42,6 @@
 
 	<target name="test-existing-personal">
 		<webtest name="test-existing-personal">
-			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-spring" />
 				<clickLink label="Mr Homer Simpson"/>
@@ -139,7 +137,6 @@
 
 	<target name="test-new-business">
 		<webtest name="test-new-business">
-			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-spring" />
 				<clickButton label="Add Personal Contact"/>

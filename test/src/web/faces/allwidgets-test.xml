@@ -1,11 +1,10 @@
 <project name="faces-allwidgets-test" default="test-all">
 
 	<property file="../../../../build.properties" />
-	<import file="${webtest.dir}/lib/taskdef.xml" />
+	<import file="${webtest.dir}/webtest.xml" />
 
-	<target name="test-all">
+	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-faces">
-			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/allwidgets-faces" />
 				
@@ -347,10 +346,6 @@
 		</webtest>
 
 		<webtest name="test-richfaces">
-			<config resultpath="${build.dir}">
-				<header name="User-Agent" value="Mozilla/4.0"/>
-				<option name="ThrowExceptionOnScriptError" value="false"/>
-			</config>
 			<steps>
 				<invoke url="${webtest.url}/allwidgets-faces/indexRichFaces.jsf" />
 				

@@ -1,11 +1,10 @@
 <project name="spring-quirks-test" default="test-all">
 
 	<property file="../../../../build.properties" />
-	<import file="${webtest.dir}/lib/taskdef.xml" />
+	<import file="${webtest.dir}/webtest.xml" />
 
-	<target name="test-all">
+	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
-			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/quirks-spring" />
 				

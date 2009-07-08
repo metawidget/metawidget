@@ -1,11 +1,10 @@
 <project name="jsp-allwidgets-test" default="test-all">
 
 	<property file="../../../../build.properties" />
-	<import file="${webtest.dir}/lib/taskdef.xml" />
+	<import file="${webtest.dir}/webtest.xml" />
 
-	<target name="test-all">
+	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
-			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/allwidgets-jsp" />
 				
@@ -183,7 +182,7 @@
 				<forceHiddenInputField name="allWidgets.readOnlyNestedWidgets.nestedTextbox2" value="Nested Textbox 2.22"/>
 			
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/th" text="Nested Widgets (don't expand) (i18n):"/>	
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]" text="Nested Textbox 1, Nested Textbox 2"/>	
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[27]/td[1]/input[@type='text']/@value" text="Nested Textbox 1, Nested Textbox 2"/>	
 				<setInputField name="allWidgets.nestedWidgetsDontExpand" value="Nested Textbox 1.01, Nested Textbox 2.02"/>
 	
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[28]/th" text="Read only Nested Widgets (don't expand) (i18n):"/>	
@@ -298,7 +297,7 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[17]/th[1]" text="Read only (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[17]/td[1]" text="Read Only1"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[17]/th[2]" text="???mystery???:"/>
-				<verifyXPath xpath="/html/body/table/tbody/tr[17]/td[3]" text=""/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[17]/td[3]/input[@type='hidden']"/>
 				<verifyXPath xpath="/html/body/input[1]/@type" text="hidden"/>
 				<verifyXPath xpath="/html/body/input[1]/@value" text="Hidden1"/>
 				

@@ -48,6 +48,7 @@
 			<include name="**/*InspectionResultConstants.java"/>
 			<include name="org/metawidget/faces/**"/>
 			<include name="org/metawidget/gwt/**"/>
+			<include name="org/metawidget/iface/**"/>			
 			<include name="org/metawidget/inspector/*.java"/>
 			<include name="org/metawidget/inspector/composite/**"/>
 			<include name="org/metawidget/inspector/gwt/**"/>
@@ -361,19 +362,13 @@
 
 		<jar destfile="${build.dir}/metawidget-gwt-client.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="src/java">
-				<include name="org/metawidget/gwt/**"/>
-				<include name="org/metawidget/inspector/iface/**"/>
-				<include name="org/metawidget/inspector/gwt/remote/iface/**"/>
-				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
-				<include name="org/metawidget/mixin/base/**"/>
-				<include name="org/metawidget/mixin/gwt/**"/>
-				<include name="org/metawidget/util/simple/**"/>
-				<include name="org/metawidget/widgetbuilder/*.class"/>
-				<include name="org/metawidget/GwtMetawidget.gwt.xml"/>
-				<exclude name="**/package-info.java"/>
-			</fileset>
-			<fileset dir="${build.dir}/classes">
-				<include name="org/metawidget/gwt/**"/>
+				<include name="org/metawidget/gwt/client/actionbinding/**"/>
+				<include name="org/metawidget/gwt/client/inspector/**"/>
+				<include name="org/metawidget/gwt/client/propertybinding/**"/>
+				<include name="org/metawidget/gwt/client/ui/**"/>
+				<include name="org/metawidget/gwt/client/widgetbuilder/impl/**"/>
+				<include name="org/metawidget/gwt/generator/**"/>
+				<include name="org/metawidget/iface/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/iface/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
@@ -381,9 +376,32 @@
 				<include name="org/metawidget/mixin/gwt/**"/>
 				<include name="org/metawidget/util/simple/**"/>
 				<include name="org/metawidget/widgetbuilder/**"/>
+				<include name="org/metawidget/GwtMetawidget.gwt.xml"/>
+				<exclude name="**/package-info.java"/>
+			</fileset>
+			<fileset dir="${build.dir}/classes">
+				<include name="org/metawidget/gwt/client/actionbinding/**"/>
+				<include name="org/metawidget/gwt/client/inspector/**"/>
+				<include name="org/metawidget/gwt/client/propertybinding/**"/>
+				<include name="org/metawidget/gwt/client/ui/**"/>
+				<include name="org/metawidget/gwt/client/widgetbuilder/impl/**"/>
+				<include name="org/metawidget/gwt/generator/**"/>
+				<include name="org/metawidget/inspector/gwt/remote/iface/**"/>
+				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
+				<include name="org/metawidget/mixin/gwt/**"/>
 			</fileset>
 		</jar>
 		
+		<jar destfile="${build.dir}/metawidget-gwt-extgwt-client.jar" manifest="src/java/META-INF/MANIFEST.MF">
+			<fileset dir="src/java">
+				<include name="org/metawidget/gwt/client/widgetbuilder/extgwt/**"/>
+				<exclude name="**/package-info.java"/>
+			</fileset>
+			<fileset dir="${build.dir}/classes">
+				<include name="org/metawidget/gwt/client/widgetbuilder/extgwt/**"/>
+			</fileset>
+		</jar>
+
 	</target>
 
 	<target name="pack-util-debug">
@@ -642,6 +660,7 @@
 				</fileset>
 				<pathelement path="${build.dir}/metawidget.jar"/>
 				<pathelement path="${build.dir}/metawidget-gwt-client.jar"/>
+				<pathelement path="${build.dir}/metawidget-gwt-extgwt-client.jar"/>
 			</classpath>
 		</junit>
 
@@ -1007,7 +1026,7 @@
 
 		<antcall target="test-web-stop-glassfish"/>
 
-		<!-- Test on Jetty -->
+		<!-- Test on Jetty (ICEfaces doesn't work on Jetty?)
 
 		<copy file="${build.dir}/examples/faces/penguincolony-faces.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
@@ -1021,7 +1040,7 @@
 			<arg line="-file penguincolony-test.xml"/>
 		</java>
 
-		<antcall target="test-web-stop-jetty"/>
+		<antcall target="test-web-stop-jetty"/>-->
 
 	</target>
 
@@ -2158,6 +2177,12 @@
 
 		<mkdir dir="${build.dir}/examples/faces"/>
 
+		<copy todir="${build.dir}/example-classes">
+			<fileset dir="examples/src/java">
+				<include name="org/metawidget/example/faces/penguincolony/**/*.properties"/>
+			</fileset>
+		</copy>
+
 		<war warfile="${build.dir}/examples/faces/penguincolony-faces.war" webxml="examples/src/web/faces/penguincolony/WEB-INF/web.xml">
 			<fileset dir="examples/src/web/faces/penguincolony">
 				<exclude name="**/classes/**"/>
@@ -2366,6 +2391,7 @@
 		
 		<mkdir dir="${build.dir}/examples/gwt"/>
 		<copy todir="${build.dir}/examples/gwt" file="${build.dir}/metawidget-gwt-client.jar"/>
+		<copy todir="${build.dir}/examples/gwt" file="${build.dir}/metawidget-gwt-extgwt-client.jar"/>
 		
 		<java dir="${build.dir}" classname="com.google.gwt.dev.Compiler" fork="yes" failonerror="true">
 			<classpath>
@@ -2418,7 +2444,7 @@
 
 	</target>
 	
-	<target name="example-gwt-clientside" depends="pack-gwt-client">
+	<target name="example-gwt-clientside" depends="pack, pack-gwt-client">
 		
 		<!-- GWT compiler -->
 
@@ -2443,6 +2469,7 @@
 				</fileset>
 				<fileset dir="${build.dir}/examples/gwt">
 					<include name="metawidget-gwt-client.jar"/>
+					<include name="metawidget-gwt-extgwt-client.jar"/>
 				</fileset>
 			</classpath>
 			<jvmarg value="-Xmx256M"/>

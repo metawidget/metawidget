@@ -1,16 +1,12 @@
 <project name="faces-seam-groovybooking-test" default="test-all">
 
 	<property file="../../../../../build.properties" />
-	<import file="${webtest.dir}/lib/taskdef.xml" />
+	<import file="${webtest.dir}/webtest.xml" />
 
 	<!-- Test Search Screen -->
 				
-	<target name="test-all">
+	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
-			<config resultpath="${build.dir}">
-				<header name="User-Agent" value="Mozilla/4.0"/>
-				<option name="ThrowExceptionOnScriptError" value="false"/>
-			</config>
 			<steps>
 				<invoke url="${webtest.url}/jboss-seam-groovybooking/home.seam" />
 				<verifyTitle text="JBoss Suites: Seam Framework" />

@@ -1,11 +1,10 @@
 <project name="faces-quirks-test" default="test-all">
 
 	<property file="../../../../build.properties" />
-	<import file="${webtest.dir}/lib/taskdef.xml" />
+	<import file="${webtest.dir}/webtest.xml" />
 
-	<target name="test-all">
+	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-faces">
-			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/quirks-faces" />
 
@@ -16,9 +15,9 @@
 
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td)" text="2"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[1]/input/@type" text="radio"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[1]/label" text="Yes (i18n)"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[1]/label, 'Yes (i18n)')"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[2]/input/@type" text="radio"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[2]/label" text="No (i18n)"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[1]/td[1]/table/tbody/tr/td[2]/label, 'No (i18n)')"/>
 
 				<!-- Test spanning of large components that don't have a label -->
 								
@@ -31,37 +30,37 @@
 								
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/th[1]" text="Strings:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[1]/input[@type='checkbox']/@value" text="Foo"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[1]/label" text="Foo"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[1]/label, 'Foo')"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[2]/input[@type='checkbox']/@value" text="Bar"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[2]/label" text="Bar"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[2]/label, 'Bar')"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[3]/input[@type='checkbox']/@value" text="Baz"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[3]/label" text="Baz"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td[3]/label, 'Baz')"/>
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[3]/td[1]/table/tbody/tr/td)" text="3"/>
 
 				<!-- Test Lists with a FacesLookup -->
 								
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/th[2]" text="Integers:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[1]/td/input[@type='checkbox']/@value" text="1"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[1]/td/label" text="1"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[1]/td/label, '1' )"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[2]/td/input[@type='checkbox']/@value" text="2"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[2]/td/label" text="2"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[2]/td/label, '2' )"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[3]/td/input[@type='checkbox']/@value" text="3"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[3]/td/label" text="3"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[3]/td/label, '3' )"/>
 				<verifyCheckbox htmlid="form:quirksIntegers:2" checked="false"/>
 				<setCheckbox htmlid="form:quirksIntegers:2" checked="true"/>				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[4]/td/input[@type='checkbox']/@value" text="4"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[4]/td/label" text="4"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr[4]/td/label, '4' )"/>
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[3]/td[3]/table/tbody/tr)" text="4"/>
 
 				<!-- Test Arrays with a UiLookup -->
 								
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/th[1]" text="String array:"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[1]/input[@type='checkbox']/@value" text="Foo2"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[1]/label" text="Foo2"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[1]/label, 'Foo2' )"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[2]/input[@type='checkbox']/@value" text="Bar2"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[2]/label" text="Bar2"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[2]/label, 'Bar2' )"/>
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[3]/input[@type='checkbox']/@value" text="Baz2"/>
-				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[3]/label" text="Baz2"/>
+				<verifyXPath xpath="contains(/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td[3]/label, 'Baz2' )"/>
 				<verifyXPath xpath="count(/html/body/form/table[1]/tbody/tr[4]/td[1]/table/tbody/tr/td)" text="3"/>
 
 				<!-- Test converters on Lists with a FacesLookup -->
@@ -124,9 +123,9 @@
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/th" text="42 boolean:"/>
 				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td)" text="2"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/input/@type" text="radio"/>
-				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/label" text="Yes (i18n)"/>
+				<verifyXPath xpath="contains(/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[1]/label, 'Yes (i18n)' )"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[2]/input/@type" text="radio"/>
-				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[2]/label" text="No (i18n)"/>
+				<verifyXPath xpath="contains(/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[2]/label, 'No (i18n)' )"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/textarea/@id" text="quirksLarge"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/@colspan" text=""/>
 				

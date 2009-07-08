@@ -1,15 +1,13 @@
 <project name="site-test" default="test-site">
 
-	<property file="../../../build.properties" />
+	<property file="../../../../build.properties" />
+	<import file="${webtest.dir}/webtest.xml" />
 
-	<import file="${webtest.dir}/lib/taskdef.xml" />
-
-	<target name="test-site">
+	<target name="test-site" depends="wt.defineTasks">
 		<webtest name="test-site">
-			<config resultpath="${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}"/>
-				<verifyLinks onsiteonly="true" ignoreforeignjserrors="true"/>
+				<verifyLinks onsiteonly="true"/>
 			</steps>
 		</webtest>
 	</target>
