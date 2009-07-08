@@ -39,7 +39,6 @@ import javax.swing.table.TableModel;
 
 import junit.framework.TestCase;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Communication;
@@ -53,6 +52,7 @@ import org.metawidget.example.swing.addressbook.ImagePanel;
 import org.metawidget.example.swing.addressbook.ListTableModel;
 import org.metawidget.example.swing.addressbook.MainFrame;
 import org.metawidget.example.swing.addressbook.converter.DateConverter;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
 

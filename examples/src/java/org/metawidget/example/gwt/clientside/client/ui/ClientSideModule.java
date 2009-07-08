@@ -21,8 +21,8 @@ import java.util.TreeMap;
 
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
-import org.metawidget.gwt.client.widgetbuilder.GwtWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilder;
+import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 

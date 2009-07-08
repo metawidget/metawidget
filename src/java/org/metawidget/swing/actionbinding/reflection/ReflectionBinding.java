@@ -24,7 +24,7 @@ import java.util.Map;
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.actionbinding.BaseActionBinding;

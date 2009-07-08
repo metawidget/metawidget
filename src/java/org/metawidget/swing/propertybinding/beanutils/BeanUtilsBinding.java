@@ -26,7 +26,7 @@ import java.util.Set;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.propertybinding.BasePropertyBinding;
 import org.metawidget.util.CollectionUtils;

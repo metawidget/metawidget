@@ -34,7 +34,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;

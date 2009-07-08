@@ -178,7 +178,7 @@ public class FacesMetawidgetTests
 				@Override
 				public Converter createConverter( Class class1 )
 				{
-					throw new UnsupportedOperationException();
+					return null;
 				}
 
 				@Override

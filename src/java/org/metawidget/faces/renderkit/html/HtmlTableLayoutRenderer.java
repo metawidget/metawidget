@@ -32,10 +32,10 @@ import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.simple.StringUtils;
 
 /**

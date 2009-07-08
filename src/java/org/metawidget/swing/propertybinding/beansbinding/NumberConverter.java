@@ -17,7 +17,7 @@
 package org.metawidget.swing.propertybinding.beansbinding;
 
 import org.jdesktop.beansbinding.Converter;
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 
 /**
  * @author Richard Kennard

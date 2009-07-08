@@ -508,8 +508,10 @@ public class HtmlTableLayout
 		// Render an empty div, so that the CSS can force it to a certain
 		// width if desired for the layout (browsers seem to not respect
 		// widths set on empty table columns)
+		//
+		// Note: don't do <div/>, as we may not be XHTML
 
-		return "<div/>";
+		return "<div></div>";
 	}
 
 	protected String getStyleClass( int styleClass )

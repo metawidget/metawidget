@@ -16,7 +16,7 @@
 
 package org.metawidget.inspector.iface;
 
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 
 /**
  * Any exception that occurs during inspection.

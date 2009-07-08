@@ -310,8 +310,10 @@ public class FlexTableLayout
 		// Render an empty div, so that the CSS can force it to a certain
 		// width if desired for the layout (browsers seem to not respect
 		// widths set on empty table columns)
+		//
+		// Note: don't do <div/>, as we may not be XHTML
 
-		mLayout.setHTML( row, column, "<div/>" );
+		mLayout.setHTML( row, column, "<div></div>" );
 	}
 
 	protected void layoutSection( String section )

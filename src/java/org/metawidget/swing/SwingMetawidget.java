@@ -36,7 +36,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;

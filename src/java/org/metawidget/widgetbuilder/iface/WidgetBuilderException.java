@@ -16,7 +16,7 @@
 
 package org.metawidget.widgetbuilder.iface;
 
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 
 /**
  * Any exception that occurs widget building.

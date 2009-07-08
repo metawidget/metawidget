@@ -20,8 +20,8 @@ import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.webapp.UIComponentTag;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.faces.component.UIStub;
+import org.metawidget.iface.MetawidgetException;
 
 /**
  * JSP tag for UIStub widget.

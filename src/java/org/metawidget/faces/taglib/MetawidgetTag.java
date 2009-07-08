@@ -20,9 +20,9 @@ import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.webapp.UIComponentTag;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.validator.StandardValidator;
+import org.metawidget.iface.MetawidgetException;
 
 /**
  * Base JSP tag for UIMetawidget JSF widgets.

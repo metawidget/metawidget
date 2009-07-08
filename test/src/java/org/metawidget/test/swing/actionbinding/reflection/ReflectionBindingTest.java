@@ -22,7 +22,7 @@ import javax.swing.JTextField;
 import junit.framework.TestCase;
 
 import org.jdesktop.application.Action;
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;

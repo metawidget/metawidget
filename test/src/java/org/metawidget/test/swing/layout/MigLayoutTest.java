@@ -34,7 +34,7 @@ import net.miginfocom.layout.LC;
 import net.miginfocom.layout.UnitValue;
 import net.miginfocom.swing.MigLayout;
 
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;

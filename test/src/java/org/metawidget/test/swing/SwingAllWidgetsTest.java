@@ -42,7 +42,7 @@ import javax.swing.SpinnerNumberModel;
 import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.ConvertUtils;
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;

@@ -357,7 +357,7 @@ public class HtmlWidgetBuilder
 		{
 			String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
-			if ( maximumLength != null )
+			if ( maximumLength != null && !"".equals( maximumLength ))
 			{
 				buffer.append( " maxlength=\"" );
 				buffer.append( maximumLength );

@@ -63,7 +63,7 @@ public class IceFacesWidgetBuilderTest
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( HIDDEN );
 
 		// Masked
@@ -139,14 +139,18 @@ public class IceFacesWidgetBuilderTest
 	@Override
 	protected void furtherAssert( UIComponent component )
 	{
+		// Assert every component we create is an ICEfaces component (never a regular JSF one)
+
+		assertTrue( component.getClass().getPackage().getName().startsWith( "com.icesoft.faces" ) );
+
 		try
 		{
 			// Assert that every ICEfaces component has 'partially submit' set to true
 
 			Method partialSubmit = component.getClass().getMethod( "getPartialSubmit" );
-			assertTrue( (Boolean) partialSubmit.invoke( component ));
+			assertTrue( (Boolean) partialSubmit.invoke( component ) );
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			throw new RuntimeException( e );
 		}

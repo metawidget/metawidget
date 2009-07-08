@@ -22,10 +22,10 @@ import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.Set;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.android.widget.layout.Layout;
 import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;

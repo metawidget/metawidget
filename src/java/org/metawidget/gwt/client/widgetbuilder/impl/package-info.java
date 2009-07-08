@@ -14,24 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.widgetbuilder;
-
-import org.metawidget.gwt.client.ui.GwtMetawidget;
-import org.metawidget.widgetbuilder.iface.WidgetBuilder;
-
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Interface for instantiating pluggable WidgetBuilders.
+ * GWT support: pluggable WidgetBuilders.
  *
  * @author Richard Kennard
  */
 
-public interface WidgetBuilderFactory
-{
-	//
-	// Methods
-	//
-
-	WidgetBuilder<Widget, GwtMetawidget> newWidgetBuilder( Class<? extends WidgetBuilder<Widget, GwtMetawidget>> widgetBuilderClass );
-}
+package org.metawidget.gwt.client.widgetbuilder.impl;

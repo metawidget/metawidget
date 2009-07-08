@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.commons.beanutils.Converter;
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 
 /**
  * @author Richard Kennard

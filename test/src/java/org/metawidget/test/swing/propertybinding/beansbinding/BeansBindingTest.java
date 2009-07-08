@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;

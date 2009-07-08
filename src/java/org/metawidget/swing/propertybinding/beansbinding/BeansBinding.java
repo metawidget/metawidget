@@ -29,7 +29,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.Binding.SyncFailure;
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.propertybinding.BasePropertyBinding;
 import org.metawidget.util.ClassUtils;

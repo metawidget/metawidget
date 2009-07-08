@@ -19,6 +19,7 @@ package org.metawidget.test.faces.widgetbuilder;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
@@ -29,6 +30,7 @@ import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
+import javax.faces.component.html.HtmlSelectManyCheckbox;
 import javax.faces.component.html.HtmlSelectOneListbox;
 import javax.faces.context.FacesContext;
 
@@ -126,7 +128,55 @@ public class HtmlWidgetBuilderTest
 		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 0 )).getItemValue() );
 		assertTrue( "#{foo.bar}".equals( ((UISelectItems) htmlSelectOneListbox.getChildren().get( 1 )).getValueBinding( "value" ).getExpressionString() ));
 		furtherAssert( htmlSelectOneListbox );
+
+		attributes.put( REQUIRED, TRUE );
+		htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( 1 == htmlSelectOneListbox.getSize() );
+		assertTrue( "#{foo.bar}".equals( ((UISelectItems) htmlSelectOneListbox.getChildren().get( 0 )).getValueBinding( "value" ).getExpressionString() ));
+		furtherAssert( htmlSelectOneListbox );
+		attributes.remove( REQUIRED );
+
+		attributes.put( TYPE, List.class.getName() );
+		HtmlSelectManyCheckbox htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( "pageDirection".equals( htmlSelectManyCheckbox.getLayout() ));
+		assertTrue( "#{foo.bar}".equals( ((UISelectItems) htmlSelectManyCheckbox.getChildren().get( 0 )).getValueBinding( "value" ).getExpressionString() ));
 		attributes.remove( FACES_LOOKUP );
+
+		// Lookup
+
+		attributes.put( TYPE, String.class.getName() );
+		attributes.put( LOOKUP, "Foo, Bar, Baz" );
+		htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
+		assertTrue( 1 == htmlSelectOneListbox.getSize() );
+		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 0 )).getItemLabel() );
+		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 0 )).getItemValue() );
+		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 1 )).getItemLabel() );
+		assertTrue( "Foo".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 1 )).getItemValue() ));
+		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 2 )).getItemLabel() );
+		assertTrue( "Bar".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 2 )).getItemValue() ));
+		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 3 )).getItemLabel() );
+		assertTrue( "Baz".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 3 )).getItemValue() ));
+		furtherAssert( htmlSelectOneListbox );
+
+		attributes.put( REQUIRED, TRUE );
+		htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
+		assertTrue( 1 == htmlSelectOneListbox.getSize() );
+		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 0 )).getItemLabel() );
+		assertTrue( "Foo".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 0 )).getItemValue() ));
+		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 1 )).getItemLabel() );
+		assertTrue( "Bar".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 1 )).getItemValue() ));
+		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 2 )).getItemLabel() );
+		assertTrue( "Baz".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 2 )).getItemValue() ));
+		furtherAssert( htmlSelectOneListbox );
+		attributes.remove( REQUIRED );
+
+		attributes.put( TYPE, List.class.getName() );
+		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
+		assertTrue( null == htmlSelectManyCheckbox.getLayout() );
+		attributes.put( LOOKUP, "Foo, Bar, Baz, Abc" );
+		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
+		assertTrue( "pageDirection".equals( htmlSelectManyCheckbox.getLayout() ));
+		attributes.remove( LOOKUP );
 
 		// Boolean
 

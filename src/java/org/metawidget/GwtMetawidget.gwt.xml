@@ -8,6 +8,7 @@
 	<!-- Source paths -->
 	
 	<source path="gwt/client"/>
+	<source path="iface"/>
 	<source path="inspector/gwt/remote/iface"/>
 	<source path="inspector/gwt/remote/client"/>
 	<source path="inspector/iface"/>
@@ -19,7 +20,7 @@
 	<!-- WidgetBuilders -->
 	
   	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
-		<when-type-assignable class="org.metawidget.gwt.client.widgetbuilder.WidgetBuilderFactory"/>
+		<when-type-assignable class="org.metawidget.gwt.client.widgetbuilder.impl.WidgetBuilderFactory"/>
 	</generate-with>
 
 	<!-- Inspectors -->

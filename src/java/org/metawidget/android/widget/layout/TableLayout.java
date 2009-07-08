@@ -20,9 +20,9 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
+import org.metawidget.iface.MetawidgetException;
 
 import android.view.View;
 import android.view.ViewGroup;

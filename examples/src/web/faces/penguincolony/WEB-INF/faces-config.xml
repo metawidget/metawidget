@@ -3,6 +3,10 @@
 
 <faces-config>
 
+	<application>
+		<message-bundle>org.metawidget.example.faces.penguincolony.resource.Resources</message-bundle>
+	</application>
+
 	<!-- Navigation Rules -->
 	
 	<navigation-rule>

@@ -73,7 +73,7 @@ public abstract class BaseWidgetBuilder<W, M extends W>
 	/**
 	 * Looks up the TYPE attribute, but first checks the ACTUAL_CLASS attribute.
 	 *
-	 * @return ACTUAL_TYPE of, if none, TYPE or, if none, null. Never an empty String.
+	 * @return ACTUAL_CLASS of, if none, TYPE or, if none, null. Never an empty String.
 	 */
 
 	protected String getType( Map<String, String> attributes )

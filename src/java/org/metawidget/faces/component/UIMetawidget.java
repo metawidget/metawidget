@@ -47,10 +47,10 @@ import javax.faces.convert.NumberConverter;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
-import org.metawidget.MetawidgetException;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.validator.StandardValidator;
 import org.metawidget.faces.component.validator.Validator;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;

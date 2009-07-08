@@ -33,7 +33,7 @@ import javax.swing.UIManager;
 
 import junit.framework.TestCase;
 
-import org.metawidget.MetawidgetException;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
