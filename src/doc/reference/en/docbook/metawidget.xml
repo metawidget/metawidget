@@ -5162,6 +5162,59 @@ public class PersonController {
 
 			</section>
 			
+			<section id="section-inspectors-oval">
+				<title>OvalInspector</title>
+				
+				<para>
+					<classname>OvalInspector</classname> inspects OVal annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">OVal Annotation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>maximum-fractional-digits</parameter></td>
+							<td><classname>@Digits(fractionalDigits=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-integer-digits</parameter></td>
+							<td><classname>@Digits(integerDigits=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-length</parameter></td>
+							<td><classname>@Length(min=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-value</parameter></td>
+							<td><classname>@Max</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-length</parameter></td>
+							<td><classname>@Length(min=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-value</parameter></td>
+							<td><classname>@Min</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>required</parameter></td>
+							<td><classname>@NotNull</classname> or <classname>@NotEmpty</classname> or <classname>@</classname></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</section>
+
 			<section id="section-inspectors-annotation-troubleshooting">
 				<title>Troubleshooting</title>				
 
