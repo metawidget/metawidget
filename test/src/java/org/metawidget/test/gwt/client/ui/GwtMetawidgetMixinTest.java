@@ -38,7 +38,7 @@ public class GwtMetawidgetMixinTest
 	@Override
 	public String getModuleName()
 	{
-		return "org.metawidget.test.gwt.GwtMetawidgetMixinTest";
+		return "org.metawidget.test.gwt.GwtMetawidgetTest";
 	}
 
 	public void testMixin()

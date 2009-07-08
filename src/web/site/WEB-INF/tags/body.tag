@@ -30,9 +30,9 @@
 				<a href="/documentation.html">Documentation</a> |
 				<a href="/support.html">Support</a>
 				<br/>
-				Artwork by <a href="http://www.susiewalkerdesign.com" target="_blank">Susie Walker Design</a>.
-				Template by <a href="http://www.freecsstemplates.org/" target="_blank">Free CSS Templates</a>.
-				Additional artwork by <a href="http://www.visualpharm.com" target="_blank">Visual Pharm</a><br/>
+				Artwork by <a href="http://susiewalkerdesign.com" target="_blank">Susie Walker Design</a>.
+				Template by <a href="http://freecsstemplates.org/" target="_blank">Free CSS Templates</a>.
+				Additional artwork by <a href="http://visualpharm.com" target="_blank">Visual Pharm</a><br/>
 				All trademarks are the property of their respective owners<br/><br/>
 				<a href="http://sourceforge.net/projects/metawidget" target="_blank" style="position: relative; top: -10px; left: -5px"><img src="/media/logo-sourceforge.gif" alt="Hosted on SourceForge.net" style="border: 0px"/></a>
 				<a href="http://validator.w3.org/check?uri=referer" target="_blank" ><img src="/media/logo-xhtml.gif" alt="Valid XHTML 1.0 Transitional" style="border: 0px" /></a>
@@ -78,16 +78,16 @@
 				<a href="http://groovy.codehaus.org" target="_blank" style="top: 70px; left: 100px">
 					<img src="/media/logo-groovy.gif" alt="Groovy" style="border: 0px" />
 				</a>
-				<a href="http://www.hibernate.org" target="_blank" style="top: 130px; left: 0px">
+				<a href="http://hibernate.org" target="_blank" style="top: 130px; left: 0px">
 					<img src="/media/logo-hibernate.gif" alt="Hibernate" style="border: 0px" />
 				</a>
 				<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 150px; left: 115px">
 					<img src="/media/logo-jsf.gif" alt="Java Server Faces" style="border: 0px" />
 				</a>
-				<a href="http://www.jboss.org/jbossrichfaces" target="_blank" style="top: 165px; left: 10px">
+				<a href="http://jboss.org/jbossrichfaces" target="_blank" style="top: 165px; left: 10px">
 					<img src="/media/logo-richfaces.gif" alt="RichFaces" style="border: 0px" />
 				</a>
-				<a href="http://www.springframework.org/" target="_blank" style="top: 200px; left: 120px">
+				<a href="http://springframework.org/" target="_blank" style="top: 200px; left: 120px">
 					<img src="/media/logo-spring.gif" alt="Spring" style="border: 0px" />
 				</a>
 				<a href="http://struts.apache.org" target="_blank" style="top: 235px; left: 90px">
@@ -100,7 +100,7 @@
 			<div class="badges" style="height: 100px">
 				<span>Metawidget is proudly:</span>
 
-				<a href="http://www.opensource.org/docs/definition.php" target="_blank" style="top: 30px; left: 50px">
+				<a href="http://opensource.org/docs/definition.php" target="_blank" style="top: 30px; left: 50px">
 					<img src="/media/logo-opensource.gif" alt="Open Source (OSI)" style="border: 0px" />
 				</a>
 			</div>

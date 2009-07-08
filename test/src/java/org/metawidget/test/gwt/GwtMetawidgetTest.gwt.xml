@@ -4,6 +4,7 @@
 	
 	<inherits name="com.google.gwt.user.User" />
 	<inherits name="org.metawidget.GwtMetawidget" />
+	<inherits name="com.extjs.gxt.ui.GXT" />
 
 	<!-- Client -->
 	

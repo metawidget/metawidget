@@ -1793,122 +1793,6 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 	
 			</section>
 			
-			<section id="section-introduction-part3-gwt-hosted">
-				<title>GWT Hosted Mode Address Book Example</title>
-	
-				<para>
-					The <filename>examples\gwt\addressbook-gwt.war</filename> discussed in Part 2 of this tutorial demonstrates GWT
-					running in <emphasis>GWT Web mode</emphasis>. Developers may prefer instead to run the example in <emphasis>GWT hosted mode</emphasis>
-					as in <xref linkend="section-introduction-part3-gwt-hosted-screenshot"/>.
-				</para>
-
-				<figure id="section-introduction-part3-gwt-hosted-screenshot">
-					<title>Address Book Example running in GWT Hosted Mode</title>
-					<screenshot>
-						<graphic fileref="../shared/images/web-gwt-hosted.jpg" width="100mm" />
-					</screenshot>
-				</figure>
-
-				<para>
-					There are two ways to set up a hosted mode project. For Windows developers, there is an automated Ant build
-					included in the source distribution (not the binary distribution). To run it, type: 
-				</para>
-				
-				<programlisting language="shell">cd examples\src\web\gwt
-ant</programlisting>
-								
-				<para>
-					You will need to either configure <parameter>GWT_HOME</parameter> and <parameter>METAWIDGET_HOME</parameter>
-					environment variables or pass <parameter>-Dgwt.home</parameter> and <parameter>-Dmetawidget.home</parameter>
-					arguments to Ant. The build will create an Eclipse
-					project which can be imported by using Eclipse's File -> Import menu and choosing
-					"Existing Projects into Workspace" (as described in the GWT Getting	Started Guide).
-				</para>
-				
-				<para>
-					Alternatively, to set up a hosted mode project manually: 
-				</para>
-
-				<itemizedlist>
-					<listitem>
-						<para>
-							Create a new GWT project using the usual method (described in the GWT Getting Started guide). First
-							create a folder called, say, <filename>HostedAddressBook</filename>. Within that folder, run...
-						</para>
-						<programlisting language="shell">projectCreator -eclipse HostedAddressBook</programlisting>
-						<para>
-							...and then... 
-						</para>						
-						<programlisting language="shell">applicationCreator
-	-eclipse HostedAddressBook org.metawidget.example.gwt.addressbook.client.AddressBook</programlisting>
-					</listitem>
-					<listitem>
-						<para>
-							Delete the contents of <filename>HostedAddressBook\src\org\metawidget\example</filename>.
-						</para>
-					</listitem>   
-					<listitem>
-						<para>
-							From the Metawidget source distribution, copy from the <filename>examples\java\org\metawidget\example</filename>
-							folder the <filename>gwt</filename> and <filename>shared</filename> folders, and the
-							<filename>GwtAddressBook.gwt.xml</filename> file, into <filename>HostedAddressBook\src\org\metawidget\example</filename> 
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							From the Metawidget source distribution, copy from the <filename>examples\web\gwt\addressbook\WEB-INF</filename>
-							folder the <filename>metawidget.xml</filename> and <filename>metawidget-metadata.xml</filename> files into
-							<filename>HostedAddressBook/src</filename>
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							From the Metawidget source distribution, copy from the <filename>lib</filename> folder the <filename>ejb3-persistence.jar</filename>,
-							<filename>hibernate-validator.jar</filename> and <filename>javax.servlet.jsp.jar</filename> files into a new folder
-							called <filename>HostedAddressBook/lib</filename>
-						</para>
-					</listitem>   
-					<listitem>
-						<para>
-							From the Metawidget binary distribution, copy <filename>metawidget.jar</filename> and <filename>examples\gwt\metawidget-gwt-client.jar</filename>
-							into <filename>HostedAddressBook\lib</filename>
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							Modify <filename>HostedAddressBook\AddressBook.launch</filename>. Change...
-						</para>
-						<programlisting language="shell">...
-&lt;stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS"
-	value="-out www org.metawidget.example.<emphasis role="bold">gwt.addressbook.AddressBook</emphasis>/AddressBook.html"/&gt;					
-...</programlisting>
-						<para>
-							...to...
-						</para>
-						<programlisting language="shell">...
-&lt;stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS"
-	value="-out www org.metawidget.example.<emphasis role="bold">GwtAddressBook</emphasis>/AddressBook.html"/&gt;					
-...</programlisting>
-					</listitem>   
-					<listitem>
-						<para>
-							In Eclipse, use the File -> Import menu and choose "Existing Projects into Workspace" (as described in the GWT Getting
-							Started Guide). Select <filename>HostedAddressBook</filename>
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							In Eclipse, edit the Build Path of the new project and add all 5 JARs from <filename>HostedAddressBook\lib</filename>
-						</para>
-					</listitem>
-				</itemizedlist>					
-				
-				<para>
-					You should now be able to run the GWT Address Book sample application in hosted mode.
-				</para>
-				
-			</section>
-
 			<section id="section-introduction-part3-seam">
 				<title>Seam Example</title>
 	
@@ -2247,7 +2131,7 @@ metawidget.setToInspect( animal )</programlisting>
 				
 				<para>
 					Finally, this example showcases using third-party GWT component libraries. <classname>ExtGwtWidgetBuilder</classname> is used
-					to render a date picker widget. For more details on ExtGWT support, see <xref linkend="section-widgetbuilder-extgwt"/>. 
+					to render a date picker widget. For more details on ExtGWT support, see <xref linkend="section-widgetbuilders-extgwt"/>. 
 				</para>
 								
 			</section>
@@ -2301,11 +2185,66 @@ public PenguinCondition getCondition() { ...}</programlisting>
 				</para>
 				
 				<para>
-					For more details on ICEfaces support, see <xref linkend="section-widgetbuilder-icefaces"/>.
+					For more details on ICEfaces support, see <xref linkend="section-widgetbuilders-icefaces"/>.
 				</para>
 								
 			</section>
 
+			<section id="section-introduction-part3-gwt-hosted">
+				<title>GWT Hosted Mode Examples</title>
+	
+				<para>
+					The <filename>examples\gwt\addressbook-gwt.war</filename> (discussed in Part 2 of this tutorial)
+					and the <filename>examples\gwt\clientside</filename> (discussed in Part 3 of this tutorial) demonstrates GWT
+					running in <emphasis>GWT Web mode</emphasis>. Developers may prefer instead to run the examples in <emphasis>GWT hosted mode</emphasis>
+					as in <xref linkend="section-introduction-part3-gwt-hosted-screenshot"/>.
+				</para>
+
+				<figure id="section-introduction-part3-gwt-hosted-screenshot">
+					<title>Address Book Example running in GWT Hosted Mode</title>
+					<screenshot>
+						<graphic fileref="../shared/images/web-gwt-hosted.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+
+				<para>
+					There are two ways to set up the hosted mode projects. For Windows developers, there is an automated Ant build
+					included in the source distribution (not the binary distribution). To run it, type: 
+				</para>
+				
+				<programlisting language="shell">cd examples\src\web\gwt
+ant</programlisting>
+								
+				<para>
+					You will need to either configure <parameter>GWT_HOME</parameter> and <parameter>METAWIDGET_HOME</parameter>
+					environment variables or pass <parameter>-Dgwt.home</parameter> and <parameter>-Dmetawidget.home</parameter>
+					arguments to Ant. The build will create Eclipse projects which can be imported by using Eclipse's File -> Import menu and choosing
+					"Existing Projects into Workspace" (as described in the GWT Getting	Started Guide).
+				</para>
+				
+				<tip>
+					<title>Note</title>
+					The automated Ant build requires GWT 1.6.
+				</tip>
+				
+				<para>
+					Alternatively, to set up the hosted mode projects manually: 
+				</para>
+
+				<itemizedlist>
+					<listitem>
+						<para>
+							##TODO##
+						</para>
+					</listitem>
+				</itemizedlist>					
+				
+				<para>
+					You should now be able to run the sample applications in hosted mode, including running their unit tests.
+				</para>
+				
+			</section>
+			
 		</section>
 
 		<section id="section-introduction-part4-conclusion">
@@ -3855,80 +3794,79 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 		<section id="section-widgetbuilders-web">
 			<title>Web Widget Builders</title>
 	
-				<section id="section-widgetbuilders-displaytag">
-					<title>DisplayTagWidgetBuilder</title>
-					
-					<para>
-						DisplayTagWidgetBuilder is a pluggable WidgetBuilder for the DisplayTag library. It is intended
-						to be used in conjunction with the JSP <classname>HtmlWidgetBuilder</classname>, <classname>SpringWidgetBuilder</classname>
-						or <classname>StrutsWidgetBuilder</classname>. It instantiates the following widgets for the following types of fields: 
-					</para>
-					
-					<table>
-						<colgroup>
-							<col width="5%"/>
-							<col width="35%"/>
-							<col width="60%"/>
-						</colgroup>
-						<thead>
-							<tr>
-								<th align="left">Widget</th>
-								<th></th>
-								<th align="left">Type of field</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th align="left" colspan="2"><classname>org.displaytag.tags</classname></th>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>TableTag</classname></td>
-								<td>
-									Collections and arrays (except if hidden, or if have a lookup). The
-									columns in the table are based on inspecting the component type of the array or the
-									parameterized type of the Collection (if neither can be determined,
-									the table with only have a single column)								
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</section>	
-		
-				<section id="section-widgetbuilders-extgwt">
-					<title>ExtGwtWidgetBuilder</title>
-					
-					<para>
-						ExtGwtWidgetBuilder is a pluggable WidgetBuilder for the ExtGWT library. It is intended
-						to be used in conjunction with the default GwtWidgetBuilder. It instantiates the
-						following widgets for the following types of fields: 
-					</para>
-					
-					<table>
-						<colgroup>
-							<col width="5%"/>
-							<col width="35%"/>
-							<col width="60%"/>
-						</colgroup>
-						<thead>
-							<tr>
-								<th align="left">Widget</th>
-								<th></th>
-								<th align="left">Type of field</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<th align="left" colspan="2"><classname>com.extjs.gxt.ui.client.widget.form</classname></th>
-							</tr>
-							<tr>
-								<td></td>
-								<td><classname>DateField</classname></td>
-								<td>Dates</td>
-							</tr>
-						</tbody>
-					</table>
-				</section>
+			<section id="section-widgetbuilders-displaytag">
+				<title>DisplayTagWidgetBuilder</title>
+				
+				<para>
+					DisplayTagWidgetBuilder is a pluggable WidgetBuilder for the DisplayTag library. It is intended
+					to be used in conjunction with the JSP <classname>HtmlWidgetBuilder</classname>, <classname>SpringWidgetBuilder</classname>
+					or <classname>StrutsWidgetBuilder</classname>. It instantiates the following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>org.displaytag.tags</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>TableTag</classname></td>
+							<td>
+								Collections and arrays (except if hidden, or if have a lookup). The
+								columns in the table are based on inspecting the component type of the array or the
+								parameterized type of the Collection (if neither can be determined,
+								the table with only have a single column)								
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>	
+	
+			<section id="section-widgetbuilders-extgwt">
+				<title>ExtGwtWidgetBuilder</title>
+				
+				<para>
+					ExtGwtWidgetBuilder is a pluggable WidgetBuilder for the ExtGWT library. It is intended
+					to be used in conjunction with the default GwtWidgetBuilder. It instantiates the
+					following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>com.extjs.gxt.ui.client.widget.form</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>DateField</classname></td>
+							<td>Dates</td>
+						</tr>
+					</tbody>
+				</table>
 			</section>
 	
 			<section id="section-widgetbuilders-gwt">
@@ -4202,7 +4140,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 				<para>
 					IceFacesWidgetBuilder is a pluggable WidgetBuilder for the JSF UIMetawidget. It is intended
 					to be used in conjunction with the default JSF <classname>HtmlWidgetBuilder</classname>. For an
-					example, see <xref linkend="section-introduction-part3-icefaces"/>.
+					example, see <xref linkend="section-introduction-part3-penguincolony"/>.
 					IceFacesWidgetBuilder instantiates the following widgets for the following types of fields: 
 				</para>
 				
@@ -4306,18 +4244,23 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						</tr>
 						<tr>
 							<td></td>
-							<td><classname>UICalendar</classname></td>
+							<td><classname>HtmlCalendar</classname></td>
 							<td>Dates</td>
 						</tr>
 						<tr>
 							<td></td>
-							<td><classname>UIInputNumberSlider</classname></td>
+							<td><classname>HtmlInputNumberSlider</classname></td>
 							<td>Primitives (except boolean and char) that have a maximum and minimum value</td>
 						</tr>
 						<tr>
 							<td></td>
-							<td><classname>UIInputNumberSpinner</classname></td>
+							<td><classname>HtmlInputNumberSpinner</classname></td>
 							<td>Primitives (except boolean and char) and Numbers that have only one or neither minimum/maximum value</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HtmlColorPicker</classname></td>
+							<td><classname>java.awt.Color</classname></td>
 						</tr>
 					</tbody>
 				</table>
@@ -4482,6 +4425,41 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 							<td></td>					
 							<td><classname>StubTag</classname></td>
 							<td>Actions</td>
+						</tr>
+					</tbody>
+				</table>
+			</section>	
+
+			<section id="section-widgetbuilders-tomahawk">
+				<title>TomahawkWidgetBuilder</title>
+				
+				<para>
+					TomahawkWidgetBuilder is a pluggable WidgetBuilder for the JSF UIMetawidget. It is intended
+					to be used in conjunction with the default JSF <classname>HtmlWidgetBuilder</classname>.
+					TomahawkWidgetBuilder instantiates the following widgets for the following types of fields: 
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="5%"/>
+						<col width="35%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Widget</th>
+							<th></th>
+							<th align="left">Type of field</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th align="left" colspan="2"><classname>org.apache.myfaces.custom</classname></th>
+						</tr>
+						<tr>
+							<td></td>
+							<td><classname>HtmlInputFileUpload</classname></td>
+							<td><classname>org.apache.myfaces.custom.fileupload.UploadedFile</classname></td>
 						</tr>
 					</tbody>
 				</table>
@@ -4990,7 +4968,7 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 						</tr>
 						<tr>
 							<td><parameter>maximum-length</parameter></td>
-							<td><classname>@Length(min=...)</classname></td>
+							<td><classname>@Length(max=...)</classname></td>
 						</tr>
 						<tr>
 							<td><parameter>maximum-value</parameter></td>
@@ -5183,32 +5161,24 @@ public class PersonController {
 					</thead>
 					<tbody>
 						<tr>
-							<td><parameter>maximum-fractional-digits</parameter></td>
-							<td><classname>@Digits(fractionalDigits=...)</classname></td>
-						</tr>
-						<tr>
-							<td><parameter>maximum-integer-digits</parameter></td>
-							<td><classname>@Digits(integerDigits=...)</classname></td>
-						</tr>
-						<tr>
 							<td><parameter>maximum-length</parameter></td>
-							<td><classname>@Length(min=...)</classname></td>
+							<td><classname>@Length(max=...)</classname> or <classname>@MaxLength</classname></td>
 						</tr>
 						<tr>
 							<td><parameter>maximum-value</parameter></td>
-							<td><classname>@Max</classname></td>
+							<td><classname>@Max</classname> or <classname>@Range(max=...)</classname></td>
 						</tr>
 						<tr>
 							<td><parameter>minimum-length</parameter></td>
-							<td><classname>@Length(min=...)</classname></td>
+							<td><classname>@Length(min=...)</classname> or <classname>@MinLength</classname></td>
 						</tr>
 						<tr>
 							<td><parameter>minimum-value</parameter></td>
-							<td><classname>@Min</classname></td>
+							<td><classname>@Min</classname> or <classname>@Range(min=...)</classname></td>
 						</tr>
 						<tr>
 							<td><parameter>required</parameter></td>
-							<td><classname>@NotNull</classname> or <classname>@NotEmpty</classname> or <classname>@</classname></td>
+							<td><classname>@NotNull</classname> or <classname>@NotEmpty</classname> or <classname>@NotBlank</classname></td>
 						</tr>
 					</tbody>
 				</table>

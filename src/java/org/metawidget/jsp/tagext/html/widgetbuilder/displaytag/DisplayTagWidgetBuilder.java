@@ -68,9 +68,6 @@ public class DisplayTagWidgetBuilder
 			String type = attributes.get( TYPE );
 
 			if ( type == null || "".equals( type ) )
-				type = attributes.get( TYPE );
-
-			if ( type == null || "".equals( type ) )
 				return null;
 
 			final Class<?> clazz = ClassUtils.niceForName( type );

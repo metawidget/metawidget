@@ -67,6 +67,8 @@ public class HtmlWidgetBuilderTest
 	{
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 
+		// TODO: read only
+
 		// Hidden
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();

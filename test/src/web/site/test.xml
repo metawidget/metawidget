@@ -3,11 +3,12 @@
 	<property file="../../../../build.properties" />
 	<import file="${webtest.dir}/webtest.xml" />
 
-	<target name="test-site" depends="wt.defineTasks">
+	<target name="test-site" depends="wt.defineTasks">		
 		<webtest name="test-site">
+			<config haltonfailure="false"/>
 			<steps>
 				<invoke url="${webtest.url}"/>
-				<verifyLinks onsiteonly="true"/>
+				<verifyLinks onsiteonly="true" ignoreforeignjserrors="true"/>
 			</steps>
 		</webtest>
 	</target>

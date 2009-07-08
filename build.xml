@@ -715,17 +715,20 @@
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.test.gwt.client.ui.GwtMetawidgetMixinTest"/>
+			<test name="org.metawidget.test.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilderTest"/>
 			<classpath>
 				<pathelement path="test/src/java"/>
 				<dirset dir="${build.dir}/test-classes"/>
 				<fileset dir="lib">
 					<include name="gwt-user.jar"/>
 					<include name="gwt-dev-*.jar"/>
+					<include name="gxt.jar"/>
 					<include name="junit-*.jar"/>
 					<include name="emma.jar"/>
 				</fileset>
 				<pathelement path="${build.dir}/metawidget.jar"/>
 				<pathelement path="${build.dir}/metawidget-gwt-client.jar"/>
+				<pathelement path="${build.dir}/metawidget-gwt-extgwt-client.jar"/>
 			</classpath>
 		</junit>
 	
@@ -1026,7 +1029,7 @@
 
 		<antcall target="test-web-stop-glassfish"/>
 
-		<!-- Test on Jetty -->
+		<!-- Test on Jetty (doesn't work with ICEfaces?)
 
 		<copy file="${build.dir}/examples/faces/penguincolony-faces.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
@@ -1040,7 +1043,7 @@
 			<arg line="-file penguincolony-test.xml"/>
 		</java>
 
-		<antcall target="test-web-stop-jetty"/>
+		<antcall target="test-web-stop-jetty"/> -->
 
 	</target>
 
@@ -1358,21 +1361,6 @@
 		
 	</target>
 
-	<target name="test-swing-console" depends="live-demo">
-
-		<copy file="src/web/site/live-demo/demo.html" todir="${tomcat.dir}/webapps/ROOT/live-demo"/>
-		
-		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${run.dir}">
-			<classpath>
-				<fileset dir="${ant.home}">
-					<include name="lib/*.jar"/>
-				</fileset>
-			</classpath>
-			<arg line="-file '${basedir}/test/src/web/examples/swing/console-test.xml'"/>
-		</java>
-		
-	</target>
-
 	<available property="webtest-available" file="${webtest.dir}/webtest.xml"/>
 
 	<target name="test-web-skip" unless="webtest-available">
@@ -1384,6 +1372,7 @@
 	<target name="test-web-ok" if="webtest-available">
 		
 		<antcall target="test-faces-addressbook"/>
+		<antcall target="test-faces-penguincolony"/>		
 		<antcall target="test-faces-quirks"/>
 		<antcall target="test-gwt-addressbook"/>
 		<antcall target="test-gwt-clientside"/>
@@ -1394,7 +1383,6 @@
 		<antcall target="test-struts-addressbook"/>
 		<antcall target="test-struts-quirks"/>
 		<antcall target="test-swing-addressbook-applet"/>					
-		<antcall target="test-swing-console"/>					
 		
 	</target>
 
@@ -1946,6 +1934,7 @@
 				<include name="org/metawidget/swing/propertybinding/beansbinding/*.class"/>
 				<include name="org/metawidget/swing/layout/*.class"/>
 				<include name="org/metawidget/swing/widgetbuilder/*.class"/>
+				<include name="org/metawidget/iface/**"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
 				<include name="org/metawidget/inspector/commons/jexl/**"/>				
@@ -2705,7 +2694,18 @@
 		
 		<antcall target="m2repo"/>
 		
-		<!-- Test HTML links
+		<!-- Test console applet -->
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${run.dir}">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file '${basedir}/test/src/web/examples/swing/console-test.xml'"/>
+		</java>
+
+		<!-- Test HTML links -->
 
 		<antcall target="test-web-start-tomcat"/>
 
@@ -2718,7 +2718,7 @@
 			<arg line="-file test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/> -->
+		<antcall target="test-web-stop-tomcat"/>
 
 	</target>
 	

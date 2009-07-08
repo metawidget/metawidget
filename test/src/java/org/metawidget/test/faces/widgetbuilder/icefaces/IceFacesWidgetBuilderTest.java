@@ -59,9 +59,15 @@ public class IceFacesWidgetBuilderTest
 	{
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 
-		// Hidden
+		// Read-only
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( READ_ONLY, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		attributes.remove( READ_ONLY );
+
+		// Hidden
+
 		attributes.put( HIDDEN, TRUE );
 		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 		attributes.remove( HIDDEN );

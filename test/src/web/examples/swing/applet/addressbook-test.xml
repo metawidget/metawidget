@@ -15,6 +15,7 @@
 				
 	<target name="test-all">
 		<webtest name="test-loads">
+			<config resultpath="../../../../../../${build.dir}"/>
 			<steps>
 				<invoke url="file://${basedir}/../../../../../../${build.dir}/examples/swing/applet/addressbook/index.html" />
 				<verifyTitle text="Address Book (Metawidget Swing Applet Example)" />

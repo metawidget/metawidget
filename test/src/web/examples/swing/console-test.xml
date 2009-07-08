@@ -15,6 +15,7 @@
 
 	<target name="test-all">
 		<webtest name="test-loads">
+			<config resultpath="../../../../../${build.dir}"/>
 			<steps>
 				<invoke url="file://${tomcat.dir}/webapps/ROOT/live-demo/demo.html" />
 
