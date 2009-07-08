@@ -20,21 +20,21 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='required']"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td[@class='buttons']"/>
 
-				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a" text="Mr Charles Montgomery Burns"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mr Homer Simpson"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[3]/td[1]/a" text="Mrs Marjorie Simpson"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[4]/td[1]/a" text="Mrs Maude Flanders"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[5]/td[1]/a" text="Mr Nedward Flanders"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[6]/td[1]/a" text="Mr Waylon Smithers"/>
+				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Mr Charles Montgomery Burns' )"/>
+				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mr Homer Simpson' )"/>
+				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[3]/td[1]/a, 'Mrs Marjorie Simpson' )"/>
+				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[4]/td[1]/a, 'Mrs Maude Flanders' )"/>
+				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[5]/td[1]/a, 'Mr Nedward Flanders' )"/>
+				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[6]/td[1]/a, 'Mr Waylon Smithers' )"/>
 				<setInputField name="form:contactSearchCurrentSurname" value="Simpson"/>
 				<clickButton label="Search"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a" text="Mr Homer Simpson"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mrs Marjorie Simpson"/>
+				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Mr Homer Simpson' )"/>
+				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mrs Marjorie Simpson' )"/>
 				<setInputField name="form:contactSearchCurrentSurname" value=""/>
 				<setSelectField name="form:contactSearchCurrentType" value="BUSINESS"/>
 				<clickButton label="Search"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a" text="Mr Charles Montgomery Burns"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mr Waylon Smithers"/>
+				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Mr Charles Montgomery Burns' )"/>
+				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mr Waylon Smithers' )"/>
 			</steps>
 		</webtest>
 	</target>

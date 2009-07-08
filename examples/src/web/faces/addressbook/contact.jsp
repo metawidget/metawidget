@@ -13,14 +13,14 @@
 
 		<h:panelGroup rendered="#{contact.current.class.simpleName == 'PersonalContact'}">
 			<div id="page-image">
-				<img src="media/personal.gif">
+				<img src="media/personal.gif" alt=""/>
 			</div>
 			<div id="content">				
 			<h1>Personal Contact</h1>
 		</h:panelGroup>
 		<h:panelGroup rendered="#{contact.current.class.simpleName == 'BusinessContact'}">
 			<div id="page-image">
-				<img src="media/business.gif">
+				<img src="media/business.gif" alt=""/>
 			</div>
 			<div id="content">				
 			<h1>Business Contact</h1>

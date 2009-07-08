@@ -2048,6 +2048,37 @@ metawidget.setToInspect( animal )</programlisting>
 
 			</section>
 
+			<section id="section-introduction-part3-gwt-clientside">
+				<title>GWT Client Side Example</title>
+	
+				<para>
+					By default, <classname>GwtMetawidget</classname> inspects business objects server-side using <classname>GwtRemoteInspector</classname>. This
+					is because client-side JavaScript does not support reflections or annotations. However if don't need reflections or annotations, and
+					have your own way of retrieving inspection results, you can plug in your own Inspector and keep everything client-side. This
+					example implements a <classname>TextAreaInspector</classname> that retrieves inspection results from a textarea and generates a UI. 
+				</para>
+
+				<para>
+					The example is pre-built for you in <filename>examples\gwt\clientside-gwt.war</filename>. Copy the WAR into
+					Tomcat's <filename>webapps</filename> folder, start Tomcat, and open a Web browser
+					to <uri>http://localhost:8080/clientside-gwt</uri>.
+				</para>
+			</section>
+
+			<section id="section-introduction-part3-penguincolony">
+				<title>Penguin Colony Example</title>
+	
+				<para>
+					ICEfaces is an AJAX component library for Java Server Faces. 
+				</para>
+
+				<para>
+					The example is pre-built for you in <filename>examples\faces\penguincolony-faces.war</filename>. Copy the WAR into
+					Tomcat's <filename>webapps</filename> folder, start Tomcat, and open a Web browser
+					to <uri>http://localhost:8080/penguincolony-faces</uri>.
+				</para>
+			</section>
+
 		</section>
 
 		<section id="section-introduction-part4-conclusion">

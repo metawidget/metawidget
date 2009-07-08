@@ -206,7 +206,7 @@ public class ClientSideModule
 
 		// Load button
 
-		Button generateButton = new Button( "Generate >" );
+		Button generateButton = new Button( "Generate" );
 		generateButton.addClickHandler( new ClickHandler()
 		{
 			@Override

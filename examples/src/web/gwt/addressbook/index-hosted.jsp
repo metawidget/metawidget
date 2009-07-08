@@ -57,7 +57,7 @@
 </script>
 	
 	<div id="page-image">
-		<img src="media/addressbook.gif">
+		<img src="media/addressbook.gif" alt=""/>
 	</div>
 
 	<div id="content">

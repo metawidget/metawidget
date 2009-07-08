@@ -2473,6 +2473,7 @@
 				</fileset>
 			</classpath>
 			<jvmarg value="-Xmx256M"/>
+			<jvmarg value="-Xss2m"/>
 			<arg value="-war" />
 			<arg file="${build.dir}/gwt-example/clientside/classes" />
 			<arg value="org.metawidget.example.gwt.clientside.GwtClientSide" />

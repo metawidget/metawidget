@@ -11,7 +11,7 @@
 	<a:bundle2Variable bundle="${localizationContext.resourceBundle}" variableName="bundle"/>
 	
 	<div id="page-image">
-		<img src="media/addressbook.gif" alt="">
+		<img src="media/addressbook.gif" alt=""/>
 	</div>
 
 	<div id="content">

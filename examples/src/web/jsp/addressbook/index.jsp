@@ -42,7 +42,7 @@
 	<fmt:setBundle var="bundle" basename="org.metawidget.example.shared.addressbook.resource.Resources"/>
 
 	<div id="page-image">
-		<img src="media/addressbook.gif">
+		<img src="media/addressbook.gif" alt=""/>
 	</div>
 
 	<div id="content">
