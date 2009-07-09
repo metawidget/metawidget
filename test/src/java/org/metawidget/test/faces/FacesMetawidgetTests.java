@@ -32,7 +32,9 @@ import javax.faces.component.UIComponentBase;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.UIViewRoot;
+import javax.faces.component.html.HtmlColumn;
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
@@ -493,6 +495,12 @@ public class FacesMetawidgetTests
 
 			if ( "javax.faces.HtmlSelectBooleanCheckbox".equals( componentName ) )
 				return new HtmlSelectBooleanCheckbox();
+
+			if ( "javax.faces.HtmlDataTable".equals( componentName ) )
+				return new HtmlDataTable();
+
+			if ( "javax.faces.Column".equals( componentName ) )
+				return new HtmlColumn();
 
 			if ( "javax.faces.SelectItems".equals( componentName ) )
 				return new UISelectItems();

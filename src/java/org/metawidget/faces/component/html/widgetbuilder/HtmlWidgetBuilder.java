@@ -736,7 +736,10 @@ public class HtmlWidgetBuilder
 		else
 			componentType = attributes.get( PARAMETERIZED_TYPE );
 
-		String inspectedType = metawidget.inspect( null, componentType, (String[]) null );
+		String inspectedType = null;
+
+		if ( componentType != null )
+			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
 
 		// If there is no type...
 

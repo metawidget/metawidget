@@ -19,16 +19,24 @@ package org.metawidget.test.faces.widgetbuilder;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
+import java.awt.Color;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
+import javax.faces.component.html.HtmlColumn;
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlDataTable;
+import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
+import javax.faces.component.html.HtmlOutputText;
 import javax.faces.component.html.HtmlSelectBooleanCheckbox;
 import javax.faces.component.html.HtmlSelectManyCheckbox;
 import javax.faces.component.html.HtmlSelectOneListbox;
@@ -39,6 +47,7 @@ import junit.framework.TestCase;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
+import org.metawidget.faces.component.html.widgetbuilder.HtmlLookupOutputText;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.test.faces.FacesMetawidgetTests.MockComponent;
 import org.metawidget.test.faces.FacesMetawidgetTests.MockFacesContext;
@@ -62,25 +71,113 @@ public class HtmlWidgetBuilderTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "deprecation" )
 	public void testWidgetBuilder()
 		throws Exception
 	{
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
 
-		// TODO: read only
-
-		// Hidden
-
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-		attributes.put( HIDDEN, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget()
+		HtmlMetawidget dummyMetawdgetWithoutHiddenFields = new HtmlMetawidget()
 		{
 			@Override
 			public boolean isCreateHiddenFields()
 			{
 				return false;
 			}
-		} ) instanceof UIStub );
+		};
+
+		HtmlMetawidget dummyMetawdgetWithHiddenFields = new HtmlMetawidget()
+		{
+			@Override
+			public boolean isCreateHiddenFields()
+			{
+				return true;
+			}
+		};
+
+		// Read only
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( READ_ONLY, TRUE );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+
+		// Hidden
+
+		attributes.put( HIDDEN, TRUE );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof UIStub );
+		attributes.remove( HIDDEN );
+
+		// Masked
+
+		attributes.put( MASKED, TRUE );
+		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields );
+		assertTrue( 1 == stub.getChildCount() );
+		assertTrue( stub.getChildren().get( 0 ) instanceof UIStub );
+		attributes.remove( MASKED );
+
+		// Lookups
+
+		attributes.put( LOOKUP, "foo" );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+
+		attributes.put( LOOKUP_LABELS, "Foo" );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlLookupOutputText );
+		attributes.remove( LOOKUP_LABELS );
+		attributes.remove( LOOKUP );
+
+		// Faces lookup
+
+		attributes.put( FACES_LOOKUP, "#{foo.bar}" );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithHiddenFields );
+		assertTrue( 2 == stub.getChildCount() );
+		assertTrue( stub.getChildren().get( 1 ) instanceof HtmlOutputText );
+		assertTrue( stub.getChildren().get( 0 ) instanceof HtmlInputHidden );
+		attributes.remove( FACES_LOOKUP );
+
+		// Other types
+
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		attributes.put( TYPE, int.class.getName() );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		attributes.put( TYPE, Integer.class.getName() );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		attributes.put( TYPE, Date.class.getName() );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+
+		// Lists
+
+		attributes.put( TYPE, List.class.getName() );
+		HtmlDataTable htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields );
+		assertTrue( 1 == htmlDataTable.getChildCount() );
+		HtmlColumn htmlColumn = (HtmlColumn) htmlDataTable.getChildren().get( 0 );
+		assertTrue( 1 == htmlColumn.getChildCount() );
+		assertTrue( "#{_internal}".equals( htmlColumn.getChildren().get( 0 ).getValueBinding( "value" ).getExpressionString() ) );
+
+		// Other collections
+
+		attributes.put( TYPE, Set.class.getName() );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithHiddenFields ) instanceof HtmlInputHidden );
+
+		// Unsupport types
+
+		attributes.put( TYPE, Color.class.getName() );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) );
+
+		// Don't expand
+
+		attributes.put( DONT_EXPAND, TRUE );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		attributes.remove( DONT_EXPAND );
+
+		// Non-read only
+
+		attributes.remove( READ_ONLY );
+
+		// Hidden
+
+		attributes.put( HIDDEN, TRUE );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof UIStub );
 		attributes.remove( HIDDEN );
 
 		// Masked
@@ -92,12 +189,22 @@ public class HtmlWidgetBuilderTest
 		// Overridden component
 
 		attributes.put( FACES_COMPONENT, "foo" );
-		assertTrue( "foo".equals( ((MockComponent) widgetBuilder.buildWidget( PROPERTY, attributes, null )).getFamily() ));
+		assertTrue( "foo".equals( ( (MockComponent) widgetBuilder.buildWidget( PROPERTY, attributes, null ) ).getFamily() ) );
 		attributes.remove( FACES_COMPONENT );
 
+		// Unsupport types
+
+		attributes.put( TYPE, Color.class.getName() );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) );
+
+		// Don't expand
+
+		attributes.put( DONT_EXPAND, TRUE );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlInputText );
+		attributes.remove( DONT_EXPAND );
 	}
 
-	@SuppressWarnings("deprecation")
+	@SuppressWarnings( "deprecation" )
 	public void testSharedWidgetBuilder()
 		throws Exception
 	{
@@ -113,8 +220,8 @@ public class HtmlWidgetBuilderTest
 			{
 				return "foo";
 			}
-		});
-		assertTrue( "foo".equals( htmlCommandButton.getValue() ));
+		} );
+		assertTrue( "foo".equals( htmlCommandButton.getValue() ) );
 
 		// No type
 
@@ -126,22 +233,22 @@ public class HtmlWidgetBuilderTest
 		attributes.put( FACES_LOOKUP, "#{foo.bar}" );
 		HtmlSelectOneListbox htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 1 == htmlSelectOneListbox.getSize() );
-		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 0 )).getItemLabel() );
-		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 0 )).getItemValue() );
-		assertTrue( "#{foo.bar}".equals( ((UISelectItems) htmlSelectOneListbox.getChildren().get( 1 )).getValueBinding( "value" ).getExpressionString() ));
+		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
+		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() );
+		assertTrue( "#{foo.bar}".equals( ( (UISelectItems) htmlSelectOneListbox.getChildren().get( 1 ) ).getValueBinding( "value" ).getExpressionString() ) );
 		furtherAssert( htmlSelectOneListbox );
 
 		attributes.put( REQUIRED, TRUE );
 		htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 1 == htmlSelectOneListbox.getSize() );
-		assertTrue( "#{foo.bar}".equals( ((UISelectItems) htmlSelectOneListbox.getChildren().get( 0 )).getValueBinding( "value" ).getExpressionString() ));
+		assertTrue( "#{foo.bar}".equals( ( (UISelectItems) htmlSelectOneListbox.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() ) );
 		furtherAssert( htmlSelectOneListbox );
 		attributes.remove( REQUIRED );
 
 		attributes.put( TYPE, List.class.getName() );
 		HtmlSelectManyCheckbox htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "pageDirection".equals( htmlSelectManyCheckbox.getLayout() ));
-		assertTrue( "#{foo.bar}".equals( ((UISelectItems) htmlSelectManyCheckbox.getChildren().get( 0 )).getValueBinding( "value" ).getExpressionString() ));
+		assertTrue( "pageDirection".equals( htmlSelectManyCheckbox.getLayout() ) );
+		assertTrue( "#{foo.bar}".equals( ( (UISelectItems) htmlSelectManyCheckbox.getChildren().get( 0 ) ).getValueBinding( "value" ).getExpressionString() ) );
 		attributes.remove( FACES_LOOKUP );
 
 		// Lookup
@@ -150,25 +257,25 @@ public class HtmlWidgetBuilderTest
 		attributes.put( LOOKUP, "Foo, Bar, Baz" );
 		htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
 		assertTrue( 1 == htmlSelectOneListbox.getSize() );
-		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 0 )).getItemLabel() );
-		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 0 )).getItemValue() );
-		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 1 )).getItemLabel() );
-		assertTrue( "Foo".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 1 )).getItemValue() ));
-		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 2 )).getItemLabel() );
-		assertTrue( "Bar".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 2 )).getItemValue() ));
-		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 3 )).getItemLabel() );
-		assertTrue( "Baz".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 3 )).getItemValue() ));
+		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
+		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() );
+		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemLabel() );
+		assertTrue( "Foo".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemValue() ) );
+		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemLabel() );
+		assertTrue( "Bar".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemValue() ) );
+		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 3 ) ).getItemLabel() );
+		assertTrue( "Baz".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 3 ) ).getItemValue() ) );
 		furtherAssert( htmlSelectOneListbox );
 
 		attributes.put( REQUIRED, TRUE );
 		htmlSelectOneListbox = (HtmlSelectOneListbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
 		assertTrue( 1 == htmlSelectOneListbox.getSize() );
-		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 0 )).getItemLabel() );
-		assertTrue( "Foo".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 0 )).getItemValue() ));
-		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 1 )).getItemLabel() );
-		assertTrue( "Bar".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 1 )).getItemValue() ));
-		assertTrue( null == ((UISelectItem) htmlSelectOneListbox.getChildren().get( 2 )).getItemLabel() );
-		assertTrue( "Baz".equals( ((UISelectItem) htmlSelectOneListbox.getChildren().get( 2 )).getItemValue() ));
+		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemLabel() );
+		assertTrue( "Foo".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 0 ) ).getItemValue() ) );
+		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemLabel() );
+		assertTrue( "Bar".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 1 ) ).getItemValue() ) );
+		assertTrue( null == ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemLabel() );
+		assertTrue( "Baz".equals( ( (UISelectItem) htmlSelectOneListbox.getChildren().get( 2 ) ).getItemValue() ) );
 		furtherAssert( htmlSelectOneListbox );
 		attributes.remove( REQUIRED );
 
@@ -177,7 +284,7 @@ public class HtmlWidgetBuilderTest
 		assertTrue( null == htmlSelectManyCheckbox.getLayout() );
 		attributes.put( LOOKUP, "Foo, Bar, Baz, Abc" );
 		htmlSelectManyCheckbox = (HtmlSelectManyCheckbox) widgetBuilder.buildWidget( PROPERTY, attributes, new HtmlMetawidget() );
-		assertTrue( "pageDirection".equals( htmlSelectManyCheckbox.getLayout() ));
+		assertTrue( "pageDirection".equals( htmlSelectManyCheckbox.getLayout() ) );
 		attributes.remove( LOOKUP );
 
 		// Boolean
@@ -240,7 +347,18 @@ public class HtmlWidgetBuilderTest
 
 	protected MockFacesContext newMockFacesContext()
 	{
-		return new MockFacesContext();
+		return new MockFacesContext()
+		{
+			@Override
+			public UIComponent createComponent( String componentName )
+				throws FacesException
+			{
+				if ( "org.metawidget.HtmlLookupOutputText".equals( componentName ) )
+					return new HtmlLookupOutputText();
+
+				return super.createComponent( componentName );
+			}
+		};
 	}
 
 	protected WidgetBuilder<UIComponent, UIMetawidget> newWidgetBuilder()
