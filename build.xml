@@ -1029,7 +1029,7 @@
 
 		<antcall target="test-web-stop-glassfish"/>
 
-		<!-- Test on Jetty (doesn't work with ICEfaces?)
+		<!-- Test on Jetty (doesn't work?)
 
 		<copy file="${build.dir}/examples/faces/penguincolony-faces.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
@@ -1518,6 +1518,8 @@
 	</target>
 
 	<!-- Jetty Tests -->
+
+	<!-- (if Jetty fails intermittently, try the latest version) -->
 
 	<target name="test-web-start-jetty">
 

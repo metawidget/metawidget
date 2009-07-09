@@ -28,6 +28,7 @@ import org.metawidget.test.mixin.MixinTests;
 import org.metawidget.test.swing.SwingMetawidgetTests;
 import org.metawidget.test.util.UtilTests;
 import org.metawidget.test.widgetbuilder.iface.WidgetBuilderExceptionTest;
+import org.metawidget.test.widgetbuilder.impl.BaseWidgetBuilderTest;
 
 /**
  * @author Richard Kennard
@@ -48,6 +49,7 @@ public class AllTests
 		// To fix, place the junit-4.5.jar first on your CLASSPATH
 
 		TestSuite suite = new TestSuite( "Metawidget Tests" );
+		suite.addTestSuite( BaseWidgetBuilderTest.class );
 		suite.addTest( ExampleTests.suite() );
 		suite.addTest( FacesMetawidgetTests.suite() );
 		suite.addTest( InspectorTests.suite() );
