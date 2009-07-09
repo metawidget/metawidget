@@ -1662,8 +1662,12 @@ bin\run</programlisting>
 					but uses significantly less boilerplate code.
 				</para>
 				
-				<programlisting language="shell">cd examples\src\web\gwt
-ant</programlisting>
+				<figure id="section-introduction-part3-seam-screenshot">
+					<title>Seam Booking with Metawidget</title>
+					<screenshot>
+						<graphic fileref="../shared/images/web-seam-booking.jpg" width="100mm" />
+					</screenshot>
+				</figure>
 								
 				<para>
 					The files modified for adding Metawidget support are in <filename>examples\faces\seam\booking</filename>. Most of the
@@ -2006,10 +2010,12 @@ metawidget.setToInspect( animal )</programlisting>
 				</para>
 				
 				<programlisting language="java">@UiAction
-@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{!empty penguin.current.condition}" )
+@UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
+	expression = "#{!empty penguin.current.condition}" )
 public void addCondition() { ... }
 
-@UiFacesAttribute( name = InspectionResultConstants.HIDDEN, expression = "#{empty penguin.current.condition}" )
+@UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
+	expression = "#{empty penguin.current.condition}" )
 public PenguinCondition getCondition() { ...}</programlisting>
 				
 				<para>
@@ -3662,7 +3668,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 								Collections and arrays (except if hidden, or if have a lookup). The
 								columns in the table are based on inspecting the component type of the array or the
 								parameterized type of the Collection (if neither can be determined,
-								the table with only have a single column)								
+								the table will only have a single column)								
 							</td>
 						</tr>
 					</tbody>
@@ -3822,7 +3828,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 								Lists, DataModels and arrays (except if hidden, or if have
 								a lookup). The columns in the table are based on inspecting the component type of the array or the
 								parameterized type of the <classname>List</classname> (if neither can be determined,
-								the table with only have a single column)
+								the table will only have a single column)
 							</td>
 						</tr>
 						<tr>
@@ -4084,6 +4090,11 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						</tr>
 						<tr>
 							<td></td>
+							<td><classname>HtmlColorPicker</classname></td>
+							<td><classname>java.awt.Color</classname></td>
+						</tr>
+						<tr>
+							<td></td>
 							<td><classname>HtmlInputNumberSlider</classname></td>
 							<td>Primitives (except boolean and char) that have a maximum and minimum value</td>
 						</tr>
@@ -4091,11 +4102,6 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 							<td></td>
 							<td><classname>HtmlInputNumberSpinner</classname></td>
 							<td>Primitives (except boolean and char) and Numbers that have only one or neither minimum/maximum value</td>
-						</tr>
-						<tr>
-							<td></td>
-							<td><classname>HtmlColorPicker</classname></td>
-							<td><classname>java.awt.Color</classname></td>
 						</tr>
 					</tbody>
 				</table>
