@@ -5,18 +5,21 @@
 
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
+			<config easyajax="true"/>
 			<steps>
-				<groovy>
-				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
-						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
-				</groovy>				
 				<invoke url="${webtest.url}/addressbook-gwt" />
 				<verifyTitle text="Address Book (Metawidget GWT Example)" />
 				
 				<!-- Brief test: most testing is done by GwtAddressBookTest.java -->
 				
 				<verifyXPath xpath="/html/body/div[@id='content']/div[@id='metawidget']"/> 
-				<verifyXPath xpath="/html/body/div[@id='content']/div[@id='contacts']"/> 
+				<verifyXPath xpath="/html/body/div[@id='content']/div[@id='contacts']"/>
+
+				<verifyXPath xpath="/html/body/div[2]/div/div/table/tbody/tr[4]/td/div/div/button[1]" text="Search"/>
+				<verifyXPath xpath="/html/body/div[2]/div/div/table/tbody/tr[4]/td/div/div/button[2]" text="Add Personal Contact"/>
+				<verifyXPath xpath="/html/body/div[2]/div/div/table/tbody/tr[4]/td/div/div/button[3]" text="Add Business Contact"/>
+				
+				<!-- WebTest 3.0 doesn't seem up to doing more yet. Ideally, we want to click 'Add Personal Contact' -->
 			</steps>
 		</webtest>
 	</target>
