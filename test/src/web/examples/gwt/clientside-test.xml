@@ -11,6 +11,10 @@
 				
 				<!-- Brief test: most testing is done by GwtClientSideTest.java -->
 				
+				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='instructions']"/> 
+				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='generate-column']"/> 
+				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div[@class='instructions']"/> 
+				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div[@class='metawidget']"/> 				
 			</steps>
 		</webtest>
 	</target>

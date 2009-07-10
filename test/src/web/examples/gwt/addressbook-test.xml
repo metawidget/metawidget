@@ -6,11 +6,17 @@
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
 			<steps>
+				<groovy>
+				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
+						step.context.webClient.ajaxController = new NicelyResynchronizingAjaxController()
+				</groovy>				
 				<invoke url="${webtest.url}/addressbook-gwt" />
 				<verifyTitle text="Address Book (Metawidget GWT Example)" />
 				
 				<!-- Brief test: most testing is done by GwtAddressBookTest.java -->
 				
+				<verifyXPath xpath="/html/body/div[@id='content']/div[@id='metawidget']"/> 
+				<verifyXPath xpath="/html/body/div[@id='content']/div[@id='contacts']"/> 
 			</steps>
 		</webtest>
 	</target>
