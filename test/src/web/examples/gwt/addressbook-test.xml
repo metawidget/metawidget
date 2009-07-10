@@ -5,7 +5,6 @@
 
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
-			<config easyajax="true"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-gwt" />
 				<verifyTitle text="Address Book (Metawidget GWT Example)" />
@@ -14,6 +13,7 @@
 				
 				<verifyXPath xpath="/html/body/div[@id='content']/div[@id='metawidget']"/> 
 				<verifyXPath xpath="/html/body/div[@id='content']/div[@id='contacts']"/>
+				<sleep seconds="5"/>
 
 				<verifyXPath xpath="/html/body/div[2]/div/div/table/tbody/tr[4]/td/div/div/button[1]" text="Search"/>
 				<verifyXPath xpath="/html/body/div[2]/div/div/table/tbody/tr[4]/td/div/div/button[2]" text="Add Personal Contact"/>

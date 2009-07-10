@@ -5,7 +5,6 @@
 
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
-			<config easyajax="true"/>
 			<steps>
 				<invoke url="file://${basedir}/../../../../../${build.dir}/examples/gwt/clientside/index.html" />
 				<verifyTitle text="Client Side (Metawidget GWT Example)" />
@@ -13,15 +12,17 @@
 				<!-- Brief test: most testing is done by GwtClientSideTest.java -->
 				
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='instructions']"/> 
+				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='generate-column']"/>
+				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div[@class='instructions']"/> 
+				
+				<sleep seconds="5"/>
 				<verifyXPath xpath="count(/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='samples']/button)" text="3"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='samples']/button[1]" text="Sample #1"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='samples']/button[2]" text="Sample #2"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='samples']/button[3]" text="Sample #3"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/textarea"/>
-				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='generate-column']"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='generate-column']/button" text="Generate"/>
-				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div[@class='instructions']"/> 
-				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div[@class='metawidget']"/> 				
+				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div"/> 				
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div/table[@class='table-form']/tbody/tr[1]/td[1]/div" text="Artist:"/> 				
 			</steps>
 		</webtest>
