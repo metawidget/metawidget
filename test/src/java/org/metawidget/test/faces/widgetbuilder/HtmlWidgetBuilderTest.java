@@ -154,6 +154,10 @@ public class HtmlWidgetBuilderTest
 		assertTrue( 1 == htmlColumn.getChildCount() );
 		assertTrue( "#{_internal}".equals( htmlColumn.getChildren().get( 0 ).getValueBinding( "value" ).getExpressionString() ) );
 
+		// TODO: test action column
+		// TODO: gwt datepicker not working
+		// TODO: addressbook CSS
+
 		// Other collections
 
 		attributes.put( TYPE, Set.class.getName() );

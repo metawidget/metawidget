@@ -806,6 +806,14 @@ public class HtmlWidgetBuilder
 			column.setId( viewRoot.createUniqueId() );
 			column.getChildren().add( rowAction );
 			dataChildren.add( column );
+
+			// Put a blank header, so that CSS styling (such as border-bottom) still applies
+
+			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
+			headerText.setId( viewRoot.createUniqueId() );
+			headerText.setValue( "<div></div>" );
+			headerText.setEscape( false );
+			column.setHeader( headerText );
 		}
 
 		return createReadOnlyComponent( attributes, dataTable, metawidget );

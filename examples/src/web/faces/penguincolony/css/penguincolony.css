@@ -137,3 +137,9 @@ textarea
 	font-weight: bold;
 	margin-right: 5px;
 }
+
+.table-component-column input[type='submit']
+{
+	position: relative;
+	left: 2px;
+}

@@ -4057,7 +4057,17 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						<tr>
 							<td></td>					
 							<td><classname>SelectInputDate</classname></td>
-							<td>Dates</td>
+							<td>
+								Dates
+								<para>
+									<emphasis>
+										Note: the ICEfaces SelectInputDate widget uses internal state to control
+										its popup. Therefore Metawidget will not destroy and recreate it upon
+										POSTback, as it does with most other widgets (in order to update them to
+										reflect changes in business model state).
+									</emphasis>
+								</para>
+							</td>
 						</tr>
 					</tbody>
 				</table>
@@ -4610,6 +4620,21 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						both worlds.						
 					</para>
 						
+				</section>
+
+				<section id="section-inspectors-base-object-scala">
+					<title>ScalaPropertyStyle</title>
+				
+					<para>
+						The <classname>ScalaPropertyStyle</classname> recognizes Scala properties.
+					</para>
+					
+					<para>
+						Scala can make its properties compatible with JavaBean getters/setters, but only if you
+						put special <classname>@BeanProperty</classname> annotations on them. Instead, <classname>ScalaPropertyStyle</classname>
+						is designed to access Scala properties natively.
+					</para>
+					
 				</section>
 
 				<section id="section-inspectors-base-object-actionstyle">
