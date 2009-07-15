@@ -2059,17 +2059,6 @@
 		
 	<target name="example-shared-addressbook" depends="flatten-libs">
 		
-		<copy todir="${build.dir}/examples/src/web/shared/addressbook" failonerror="false" >
-			<fileset dir="examples/src/web/struts/addressbook">
-				<include name="css/**"/>
-				<include name="WEB-INF/tags/**"/>
-			</fileset>
-			<fileset dir="examples/src/web/shared/addressbook">
-				<include name="css/**"/>
-				<include name="WEB-INF/tags/**"/>
-			</fileset>
-		</copy>
-
 		<copy todir="${build.dir}/example-classes">
 			<fileset dir="examples/src/java">
 				<include name="org/metawidget/example/shared/addressbook/**/*.properties"/>
@@ -2087,16 +2076,12 @@
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
-				<exclude name="css/**"/>
-				<exclude name="WEB-INF/tags/**"/>
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
-			<fileset dir="${build.dir}/examples/src/web/shared/addressbook">
+			<fileset dir="examples/src/web/shared/addressbook">
 				<include name="css/**"/>
-				<include name="WEB-INF/tags/**"/>
-			</fileset>
-			<fileset dir="examples/src/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
+				<include name="WEB-INF/tags/**"/>
 			</fileset>
 			<classes dir="${build.dir}/example-classes">
 				<include name="org/metawidget/example/faces/addressbook/**"/>
@@ -2217,16 +2202,12 @@
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
-				<exclude name="css/**"/>
-				<exclude name="WEB-INF/tags/**"/>
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
-			<fileset dir="${build.dir}/examples/src/web/shared/addressbook">
+			<fileset dir="examples/src/web/shared/addressbook">
 				<include name="css/**"/>
-				<include name="WEB-INF/tags/**"/>
-			</fileset>
-			<fileset dir="examples/src/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
+				<include name="WEB-INF/tags/**"/>
 			</fileset>
 			<classes dir="${build.dir}/example-classes">
 				<include name="org/metawidget/example/jsp/addressbook/**"/>
@@ -2252,16 +2233,12 @@
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
-				<exclude name="css/**"/>
-				<exclude name="WEB-INF/tags/**"/>
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
-			<fileset dir="${build.dir}/examples/src/web/shared/addressbook">
+			<fileset dir="examples/src/web/shared/addressbook">
 				<include name="css/**"/>
-				<include name="WEB-INF/tags/**"/>
-			</fileset>
-			<fileset dir="examples/src/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
+				<include name="WEB-INF/tags/**"/>
 			</fileset>
 			<classes dir="${build.dir}/example-classes">
 				<include name="org/metawidget/example/struts/addressbook/**"/>
@@ -2292,16 +2269,12 @@
 				<exclude name="**/classes/**"/>
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
-				<exclude name="css/**"/>
-				<exclude name="WEB-INF/tags/**"/>
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
-			<fileset dir="${build.dir}/examples/src/web/shared/addressbook">
+			<fileset dir="examples/src/web/shared/addressbook">
 				<include name="css/**"/>
-				<include name="WEB-INF/tags/**"/>
-			</fileset>
-			<fileset dir="examples/src/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
+				<include name="WEB-INF/tags/**"/>
 			</fileset>
 			<classes dir="${build.dir}/example-classes">
 				<include name="org/metawidget/example/spring/addressbook/**"/>
@@ -2369,12 +2342,10 @@
 				<exclude name="**/lib/**"/>
 				<exclude name="index-hosted.jsp"/>
 			</fileset>
-			<fileset dir="${build.dir}/examples/src/web/shared/addressbook">
+			<fileset dir="examples/src/web/shared/addressbook">
 				<include name="css/**"/>
-				<include name="WEB-INF/tags/**"/>
-			</fileset>
-			<fileset dir="examples/src/java/org/metawidget/example/shared/addressbook">
 				<include name="media/**"/>
+				<include name="WEB-INF/tags/**"/>
 			</fileset>
 			<classes dir="${build.dir}/example-classes">
 				<include name="org/metawidget/example/gwt/addressbook/client/rpc/ContactsService.class"/>
@@ -2749,15 +2720,6 @@
 				
 				<include name="examples/**"/>
 
-				<!-- Shared example resources. This stops them being scattered and duplicated -->
-				<!-- all over the ZIP. However, scattering and duplicating is useful for some -->
-				<!-- IDE deployers, such as MyEclipse                                         -->
-				
-				<exclude name="examples/src/web/**/css/**"/>				
-				<exclude name="examples/src/web/**/media/**"/>				
-				<exclude name="examples/src/web/**/WEB-INF/tags/**"/>				
-				<include name="examples/src/web/shared/addressbook/css/**"/>
-				<include name="examples/src/web/shared/addressbook/WEB-INF/tags/**"/>				
 				<exclude name="**/WEB-INF/classes/**"/>
 				<exclude name="**/.p4ignore"/>
 			</fileset>
