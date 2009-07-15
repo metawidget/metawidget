@@ -13,14 +13,14 @@
 
 		<h:panelGroup rendered="#{contact.current.class.simpleName == 'PersonalContact'}">
 			<div id="page-image">
-				<img src="media/personal.gif">
+				<img src="media/personal.gif" alt=""/>
 			</div>
 			<div id="content">				
 			<h1>Personal Contact</h1>
 		</h:panelGroup>
 		<h:panelGroup rendered="#{contact.current.class.simpleName == 'BusinessContact'}">
 			<div id="page-image">
-				<img src="media/business.gif">
+				<img src="media/business.gif" alt=""/>
 			</div>
 			<div id="content">				
 			<h1>Business Contact</h1>
@@ -61,7 +61,7 @@
 							<f:facet name="header">
 								<h:outputText value="&nbsp;" escape="false"/>
 							</f:facet>							
-							<h:commandButton id="deleteCommunication" value="#{bundle.delete}" action="#{contact.deleteCommunication}" onclick="if ( !confirm( 'Are you sure?' )) return false" immediate="true" rendered="#{!contact.readOnly}"/>
+							<h:commandButton id="deleteCommunication" value="#{bundle.delete}" action="#{contact.deleteCommunication}" onclick="if ( !confirm( 'Are you sure you want to delete this communication?' )) return false" immediate="true" rendered="#{!contact.readOnly}"/>
 							<f:facet name="footer">
 								<h:commandButton value="#{bundle.add}" action="#{contact.addCommunication}" rendered="#{!contact.readOnly}"/>
 							</f:facet>
@@ -71,12 +71,7 @@
 				</m:stub>
 
 				<f:facet name="footer">
-					<h:panelGroup>
-						<h:commandButton value="#{bundle.edit}" action="#{contact.edit}" rendered="#{contact.readOnly}"/>
-						<h:commandButton value="#{bundle.save}" action="#{contact.save}" rendered="#{!contact.readOnly}"/>
-						<h:commandButton value="#{bundle.delete}" action="#{contact.delete}" onclick="if ( !confirm( 'Sure you want to delete this contact?' )) return false" rendered="#{!contact.readOnly}"/>
-						<h:commandButton value="#{bundle.cancel}" action="#{contact.cancel}" immediate="true" />
-					</h:panelGroup>
+					<m:metawidget value="#{contact}" rendererType="simple"/>
 				</f:facet>
 
 			</m:metawidget>
