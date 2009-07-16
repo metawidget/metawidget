@@ -17,15 +17,23 @@
 		<isset property="env.METAWIDGET_HOME" />
 	</condition>
 
+	<!-- Check for METAWIDGET_SRC_HOME -->
+
+	<condition property="metawidget.src.home" value="${env.METAWIDGET_SRC_HOME}">
+		<isset property="env.METAWIDGET_SRC_HOME" />
+	</condition>
+
 	<available property="metawidget-exists" file="${metawidget.home}/metawidget.jar"/>
 	<available property="metawidget-gwt-client-exists" file="${metawidget.home}/examples/gwt/metawidget-gwt-client.jar"/>
+	<available property="gxt-exists" file="${metawidget.src.home}/lib/gxt.jar"/>
 
 	<target name="check">
 		<fail message="Cannot find GWT_HOME. It must point to the binary GWT distribution. Please define the GWT_HOME environment variable or use: ant -Dgwt.home=&lt;gwt home dir> &lt;target>" unless="gwt.home" />
 		<fail message="Cannot find METAWIDGET_HOME. It must point to the binary Metawidget distribution. Please define the METAWIDGET_HOME environment variable or use: ant -Dmetawidget.home=&lt;metawidget home dir> &lt;target>" unless="metawidget.home" />
 		<fail message="Cannot find metawidget.jar at ${metawidget.home}. Is that the location of the binary distribution?" unless="metawidget-exists" />
 		<fail message="Cannot find /examples/gwt/metawidget-gwt-client.jar at ${metawidget.home}. Is that the location of the binary distribution?" unless="metawidget-gwt-client-exists" />
-		<echo message="Building using gwt.home = ${gwt.home}, metawidget.home = ${metawidget.home}" />
+		<fail message="Cannot find /lib/gxt.jar at ${metawidget.src.home}. Is that the location of the source distribution?" unless="gxt-exists" />
+		<echo message="Building using gwt.home = ${gwt.home}, metawidget.home = ${metawidget.home}, metawidget.src.home = ${metawidget.src.home}" />
 	</target>
 
 	<!-- Clean -->
@@ -152,6 +160,8 @@
 		<mkdir dir="${gwt.project.dir}/${clientside.dir}/lib" />		
 		<copy todir="${gwt.project.dir}/${clientside.dir}/lib">
 			<fileset dir="${metawidget.home}/examples/gwt" includes="metawidget-gwt-client.jar" />
+			<fileset dir="${metawidget.home}/examples/gwt" includes="metawidget-gwt-extgwt-client.jar" />
+			<fileset dir="${metawidget.src.home}/lib" includes="gxt.jar" />
 			<fileset dir="${metawidget.home}" includes="metawidget.jar" />
 		</copy>
 
@@ -166,6 +176,8 @@
 		<replace file="${gwt.project.dir}/${clientside.dir}/.classpath" token='&lt;classpathentry kind="src" path="src"/>' value='&lt;classpathentry kind="src" path="src"/>&lt;classpathentry kind="src" path="test"/>'/>
 		<replace file="${gwt.project.dir}/${clientside.dir}/.classpath" token="&lt;/classpath>" value='&lt;classpathentry kind="lib" path="lib/metawidget.jar"/>
 			&lt;classpathentry kind="lib" path="lib/metawidget-gwt-client.jar"/>
+			&lt;classpathentry kind="lib" path="lib/metawidget-gwt-extgwt-client.jar"/>
+			&lt;classpathentry kind="lib" path="lib/gxt.jar"/>
 			&lt;/classpath>' />
 		
 		<!-- Launch configuration -->

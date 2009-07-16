@@ -5,6 +5,7 @@
 
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-faces">
+			<config resultpath="../../../${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/allwidgets-faces" />
 				
@@ -346,6 +347,7 @@
 		</webtest>
 
 		<webtest name="test-richfaces">
+			<config resultpath="../../../${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/allwidgets-faces/indexRichFaces.jsf" />
 				

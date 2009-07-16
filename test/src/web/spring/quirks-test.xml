@@ -5,6 +5,7 @@
 
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
+			<config resultpath="../../../${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/quirks-spring" />
 				

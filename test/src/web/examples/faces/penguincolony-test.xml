@@ -5,6 +5,7 @@
 
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-search">
+			<config resultpath="../../../../../${build.dir}"/>
 			<steps>
 				<groovy>
 				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController

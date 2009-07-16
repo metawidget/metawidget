@@ -170,6 +170,14 @@ button
 	color: white;
 }
 
+.x-btn button
+{
+	height: auto;
+	margin-left: auto;
+	margin-right: auto;
+	color: black;
+}
+
 #small-print
 {
 	margin-top: 100px;

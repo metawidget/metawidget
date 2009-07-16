@@ -7,6 +7,7 @@
 				
 	<target name="test-search">
 		<webtest name="test-search">
+			<config resultpath="../../../../../${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces" />
 				<verifyTitle text="Address Book (Metawidget Java Server Faces Example)" />
@@ -41,6 +42,7 @@
 
 	<target name="test-existing-personal">
 		<webtest name="test-existing-personal">
+			<config resultpath="../../../../../${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces" />
 				<clickLink label="Mr Homer Simpson"/>
@@ -134,6 +136,7 @@
 
 	<target name="test-richfaces">
 		<webtest name="test-richfaces">
+			<config resultpath="../../../../../${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces/contact-richfaces.jsf?contact.load=1" />
 
@@ -167,6 +170,7 @@
 
 	<target name="test-new-business">
 		<webtest name="test-new-business">
+			<config resultpath="../../../../../${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces" />
 				<clickButton label="Add Personal Contact"/>
