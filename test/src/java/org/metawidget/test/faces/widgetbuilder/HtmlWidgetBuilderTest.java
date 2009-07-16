@@ -31,6 +31,7 @@ import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.html.HtmlColumn;
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlInputSecret;
@@ -148,13 +149,20 @@ public class HtmlWidgetBuilderTest
 		// Lists
 
 		attributes.put( TYPE, List.class.getName() );
+		attributes.put( NAME, "bar" );
+		dummyMetawdgetWithoutHiddenFields.setParameter( "dataTableRowEditAction", "#{foo.action}" );
 		HtmlDataTable htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields );
-		assertTrue( 1 == htmlDataTable.getChildCount() );
+		assertTrue( 2 == htmlDataTable.getChildCount() );
 		HtmlColumn htmlColumn = (HtmlColumn) htmlDataTable.getChildren().get( 0 );
 		assertTrue( 1 == htmlColumn.getChildCount() );
 		assertTrue( "#{_internal}".equals( htmlColumn.getChildren().get( 0 ).getValueBinding( "value" ).getExpressionString() ) );
+		assertTrue( "Bar".equals( ((HtmlOutputText) htmlColumn.getFacet( "header" )).getValue() ));
+		htmlColumn = (HtmlColumn) htmlDataTable.getChildren().get( 1 );
+		assertTrue( 1 == htmlColumn.getChildCount() );
+		assertTrue( "#{foo.action}".equals( ((HtmlCommandLink) htmlColumn.getChildren().get( 0 )).getAction().getExpressionString() ) );
+		assertTrue( "<div></div>".equals( ((HtmlOutputText) htmlColumn.getFacet( "header" )).getValue() ));
 
-		// TODO: test action column
+		// Action column
 
 		// Other collections
 

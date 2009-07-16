@@ -29,11 +29,13 @@ import javax.faces.application.ViewHandler;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
+import javax.faces.component.UIParameter;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.html.HtmlColumn;
 import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlInputSecret;
@@ -50,6 +52,7 @@ import javax.faces.context.ResponseWriter;
 import javax.faces.convert.Converter;
 import javax.faces.el.EvaluationException;
 import javax.faces.el.MethodBinding;
+import javax.faces.el.MethodNotFoundException;
 import javax.faces.el.PropertyNotFoundException;
 import javax.faces.el.PropertyResolver;
 import javax.faces.el.ReferenceSyntaxException;
@@ -184,10 +187,10 @@ public class FacesMetawidgetTests
 				}
 
 				@Override
-				public MethodBinding createMethodBinding( String s, Class[] aclass )
+				public MethodBinding createMethodBinding( String expression, Class[] type )
 					throws ReferenceSyntaxException
 				{
-					throw new UnsupportedOperationException();
+					return new MockMethodBinding( expression, null );
 				}
 
 				@Override
@@ -236,7 +239,7 @@ public class FacesMetawidgetTests
 				@Override
 				public String getMessageBundle()
 				{
-					throw new UnsupportedOperationException();
+					return null;
 				}
 
 				@Override
@@ -499,6 +502,9 @@ public class FacesMetawidgetTests
 			if ( "javax.faces.HtmlDataTable".equals( componentName ) )
 				return new HtmlDataTable();
 
+			if ( "javax.faces.HtmlCommandLink".equals( componentName ) )
+				return new HtmlCommandLink();
+
 			if ( "javax.faces.Column".equals( componentName ) )
 				return new HtmlColumn();
 
@@ -510,6 +516,9 @@ public class FacesMetawidgetTests
 
 			if ( "org.metawidget.Stub".equals( componentName ) )
 				return new UIStub();
+
+			if ( "javax.faces.Parameter".equals( componentName ) )
+				return new UIParameter();
 
 			return new MockComponent( componentName );
 		}
@@ -596,6 +605,49 @@ public class FacesMetawidgetTests
 		@Override
 		public void setValue( FacesContext context, Object value )
 			throws EvaluationException, PropertyNotFoundException
+		{
+			throw new UnsupportedOperationException();
+		}
+	}
+
+	public static class MockMethodBinding
+		extends MethodBinding
+	{
+		//
+		// Private members
+		//
+
+		private String	mExpressionString;
+
+		//
+		// Constructor
+		//
+
+		public MockMethodBinding( String expressionString, Class type )
+		{
+			mExpressionString = expressionString;
+		}
+
+		//
+		// Public methods
+		//
+
+		@Override
+		public String getExpressionString()
+		{
+			return mExpressionString;
+		}
+
+		@Override
+		public Class getType( FacesContext context )
+			throws MethodNotFoundException
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		public Object invoke( FacesContext context, Object[] args )
+			throws EvaluationException, MethodNotFoundException
 		{
 			throw new UnsupportedOperationException();
 		}
