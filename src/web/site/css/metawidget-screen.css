@@ -141,8 +141,8 @@ a {
  * Left bar
  */
 #left-bar {
-	position: absolute;
-	top: 240px;
+	vertical-align: top;
+	padding-top: 120px;
 	padding-bottom: 75px;
 	width: 218px;
 }
@@ -291,13 +291,11 @@ a {
  */
 #content {
 	width: 100%;
+	margin-top: 110px;
 }
  
 #content-text {
-	margin-top: 110px;
-	margin-left: 240px;
-	margin-right: 10px;
-	padding-bottom: 75px;
+	padding-left: 15px;
 }
 
 #floater {
