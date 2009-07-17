@@ -506,6 +506,13 @@ public class Person {
 						<graphic fileref="../shared/images/swing-tutorial6.jpg" width="100mm"/>
 					</screenshot>
 				</figure>
+
+				<tip>
+					<title>Tip</title>
+				
+					For a list of all the annotations <classname>MetawidgetAnnotationInspector</classname> recognises,
+					see <xref linkend="section-inspectors-metawidgetannotation"/>.
+				</tip>				
 				
 				<para>
 					By default, <classname>SwingMetawidget</classname> lays out <classname>JComponents</classname>
@@ -2139,6 +2146,11 @@ ant</programlisting>
 			specific front-end frameworks (<classname>SwingWidgetBuilder</classname>, <classname>HtmlWidgetBuilder</classname>, etc.) and Inspectors that
 			inspect specific back-end architectures (<classname>PropertyTypeInspector</classname>, <classname>JpaInspector</classname>, etc.). These
 			two concepts are co-ordinated by a platform-specific Metawidget class.  
+		</para>
+		
+		<para>
+			This architecture can be seen visually in <xref linkend="preface-diagram"/> (in the <xref linkend="preface"/>): the Metawidgets are
+			labelled (1), the Inspectors are labelled (2) and the WidgetBuilders are labelled (3). 
 		</para>
 		
 		<section id="section-architecture-metawidgets">
@@ -4975,12 +4987,31 @@ public class PersonController {
 					</thead>
 					<tbody>
 						<tr>
-							<td>n/a (order of fields)</td>
+							<td>(any)</td>
+							<td><classname>@UiAttributes</classname> and <classname>@UiAttribute</classname> - a 'catch all' for denoting arbitrary UI metadata</td>
+						</tr>
+						<tr>
+							<td>(order of fields)</td>
 							<td><classname>@UiComesAfter</classname></td>
 						</tr>
 						<tr>
-							<td><parameter>section</parameter></td>
-							<td><classname>@UiSection</classname> - denotes the start of a logical grouping in the UI</td>
+							<td>action</td>
+							<td><classname>@UiAction</classname></td>
+						</tr>
+						<tr>
+							<td>dont-expand</td>
+							<td>
+								<classname>@UiDontExpand</classname> - denotes a value should not be inspected and expanded into sub-widgets. This
+								can be useful if, say, you have a read-only field and just want to display its top-level <function>toString()</function>
+								rather than all its child properties
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>hidden</parameter></td>
+							<td><classname>@UiHidden</classname> - denotes a value should be hidden in the UI. The value may
+								still be rendered on the client, depending on the Metawidget (ie. for Web clients,
+								may use a HTML hidden field)
+							</td>
 						</tr>
 						<tr>
 							<td><parameter>label</parameter></td>
@@ -4994,23 +5025,20 @@ public class PersonController {
 							<td><classname>@UiLarge</classname> - denotes the field should be 'large' in the UI (ie. a multi-line textbox)</td>
 						</tr>
 						<tr>
-							<td><parameter>hidden</parameter></td>
-							<td><classname>@UiHidden</classname> - denotes a value should be hidden in the UI. The value may
-								still be rendered on the client, depending on the Metawidget (ie. for Web clients,
-								may use a HTML hidden field)
-							</td>
+							<td><parameter>masked</parameter></td>
+							<td><classname>@UiMasked</classname> - denotes a value should be masked in the UI (eg. a password field)</td>
 						</tr>
 						<tr>
 							<td><parameter>read-only</parameter></td>
 							<td><classname>@UiReadOnly</classname> - denotes a value should be read-only in the UI</td>
 						</tr>
 						<tr>
-							<td><parameter>masked</parameter></td>
-							<td><classname>@UiMasked</classname> - denotes a value should be masked in the UI (eg. a password field)</td>
+							<td><parameter>required</parameter></td>
+							<td><classname>@UiRequired</classname> - denotes a value should be required in the UI</td>
 						</tr>
 						<tr>
-							<td>any</td>
-							<td><classname>@UiAttributes</classname> and <classname>@UiAttribute</classname> - a 'catch all' for denoting arbitrary UI metadata</td>
+							<td><parameter>section</parameter></td>
+							<td><classname>@UiSection</classname> - denotes the start of a logical grouping in the UI</td>
 						</tr>
 					</tbody>
 				</table>
@@ -5549,6 +5577,19 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			
 		</section>
 
+		<section id="section-performance-memory">
+			<title>Memory Usage</title>
+			
+			<para>
+				All Inspectors and WidgetBuilders are threadsafe and immutable. This means you only
+				need a single instance of a given Inspector or WidgetBuilder for your entire application.
+				If you are using <filename>metawidget.xml</filename> then <classname>ConfigReader</classname>
+				takes care of this for you, but if you are instantiating Inspectors and WidgetBuilders in Java
+				code you should reuse instances to save memory.
+			</para>
+			
+		</section>
+	
 		<section id="section-performance-rebind">
 			<title>Rebinding</title>
 			

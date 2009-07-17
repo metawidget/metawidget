@@ -142,8 +142,7 @@ a {
  */
 #left-bar {
 	vertical-align: top;
-	padding-top: 120px;
-	padding-bottom: 75px;
+	padding-top: 125px;
 	width: 218px;
 }
 
@@ -259,7 +258,7 @@ a {
 }
 
 #footer {
-	margin-top: 50px;
+	margin-left: 218px;
 	text-align: center;
 	color: #888888;
 }
@@ -296,6 +295,7 @@ a {
  
 #content-text {
 	padding-left: 15px;
+	padding-bottom: 100px;
 }
 
 #floater {

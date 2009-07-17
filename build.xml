@@ -2495,7 +2495,7 @@
 
 	<!-- http://www.metawidget.org -->
 
-	<target name="live-demo" depends="pack,compile-examples">
+	<target name="live-demo"><!-- depends="pack,compile-examples">-->
 		
 		<delete failonerror="false">
 			<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
@@ -2664,7 +2664,7 @@
 
 		<!-- Live demo -->
 
-		<antcall target="live-demo"/>
+		<!--<antcall target="live-demo"/>-->
 		
 		<!-- m2repo -->
 		
