@@ -34,6 +34,7 @@ import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
@@ -104,7 +105,7 @@ public class SpringWidgetBuilder
 		if ( springLookup != null && !"".equals( springLookup ) )
 			return writeReadOnlyTag( attributes, metawidget );
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
@@ -165,7 +166,7 @@ public class SpringWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return new StubTag.StubContent();
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
@@ -286,7 +287,7 @@ public class SpringWidgetBuilder
 
 		if ( tag instanceof InputTag )
 		{
-			if ( "char".equals( getType( attributes ) ) )
+			if ( "char".equals( WidgetBuilderUtils.getActualClassOrType( attributes ) ) )
 			{
 				( (InputTag) tag ).setMaxlength( "1" );
 			}
@@ -358,8 +359,6 @@ public class SpringWidgetBuilder
 		final SelectTag tagSelect = new SelectTag();
 		initSpringTag( tagSelect, attributes, metawidget );
 
-		final Class<?> clazz = ClassUtils.niceForName( getType( attributes ) );
-
 		return JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 		{
 			// Within the SELECT tag, write the OPTION tags
@@ -369,7 +368,7 @@ public class SpringWidgetBuilder
 			{
 				// Empty option
 
-				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
+				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );
@@ -406,8 +405,6 @@ public class SpringWidgetBuilder
 		final SelectTag tagSelect = new SelectTag();
 		initSpringTag( tagSelect, attributes, metawidget );
 
-		final Class<?> clazz = ClassUtils.niceForName( getType( attributes ) );
-
 		return JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 		{
 			// Within the SELECT tag, write the OPTION tags
@@ -422,7 +419,7 @@ public class SpringWidgetBuilder
 
 				// Empty option
 
-				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
+				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );

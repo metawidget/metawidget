@@ -32,6 +32,7 @@ import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
@@ -94,7 +95,7 @@ public class HtmlWidgetBuilder
 		if ( jspLookup != null && !"".equals( jspLookup ) )
 			return writeReadOnlyTag( attributes, metawidget );
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
@@ -163,7 +164,7 @@ public class HtmlWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return writeSubmitTag( attributes, metawidget );
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, fail gracefully with a text box
 
@@ -349,7 +350,7 @@ public class HtmlWidgetBuilder
 
 		// Maxlength
 
-		if ( "char".equals( getType( attributes ) ) )
+		if ( "char".equals( WidgetBuilderUtils.getActualClassOrType( attributes ) ) )
 		{
 			buffer.append( " maxlength=\"1\"" );
 		}
@@ -495,27 +496,10 @@ public class HtmlWidgetBuilder
 
 		buffer.append( ">" );
 
-		// Add an empty choice (if nullable, and not required)
+		// Empty option
 
-		if ( !TRUE.equals( attributes.get( REQUIRED ) ))
-		{
-			String type = getType( attributes );
-
-			// Type can be null if this lookup was specified by a metawidget-metadata.xml
-			// and the type was omitted from the XML. In that case, assume nullable
-
-			if ( type == null )
-			{
-				buffer.append( "<option value=\"\"></option>" );
-			}
-			else
-			{
-				Class<?> clazz = ClassUtils.niceForName( type );
-
-				if ( clazz == null || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
-					buffer.append( "<option value=\"\"></option>" );
-			}
-		}
+		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+			buffer.append( "<option value=\"\"></option>" );
 
 		// Evaluate the expression
 

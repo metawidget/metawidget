@@ -29,6 +29,7 @@ import org.metawidget.android.widget.AndroidValueAccessor;
 import org.metawidget.android.widget.Stub;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
@@ -191,7 +192,7 @@ public class AndroidWidgetBuilder
 		if ( lookup != null && !"".equals( lookup ) )
 			return new TextView( metawidget.getContext() );
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
@@ -249,7 +250,7 @@ public class AndroidWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return new Stub( metawidget.getContext() );
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
@@ -276,11 +277,9 @@ public class AndroidWidgetBuilder
 			{
 				List<String> lookupList = CollectionUtils.fromString( lookup );
 
-				// Add an empty choice (if nullable, and not required)
-				//
-				// (CollectionUtils.fromString returns unmodifiable EMPTY_LIST if empty)
+				// Empty option
 
-				if ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) )
+				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
 					lookupList.add( 0, null );
 
 				List<String> lookupLabelsList = null;

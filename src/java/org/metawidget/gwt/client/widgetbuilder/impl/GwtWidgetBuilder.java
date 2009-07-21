@@ -146,7 +146,7 @@ public class GwtWidgetBuilder
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
 			return new SimplePanel();
 
-		String type = getType( attributes );
+		String type = GwtUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
@@ -196,7 +196,7 @@ public class GwtWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return new Button( metawidget.getLabelString( attributes ) );
 
-		String type = getType( attributes );
+		String type = GwtUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
@@ -337,23 +337,13 @@ public class GwtWidgetBuilder
 		if ( values == null )
 			return;
 
-		// Add an empty choice (if nullable, and not required)
+		// Empty option
 		//
 		// Note: GWT doesn't seem to be able to set null for the
 		// value. It always comes back as String "null"
 
-		if ( !TRUE.equals( attributes.get( REQUIRED ) ))
-		{
-			String type = getType( attributes );
-
-			// Type can be null if this lookup was specified by a metawidget-metadata.xml
-			// and the type was omitted from the XML. In that case, assume nullable
-
-			if ( type == null )
-				addListBoxItem( listBox, "", null );
-			else if ( !GwtUtils.isPrimitive( type )  )
-				addListBoxItem( listBox, "", null );
-		}
+		if ( GwtUtils.needsEmptyLookupItem( attributes ))
+			addListBoxItem( listBox, "", null );
 
 		// See if we're using labels
 

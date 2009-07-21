@@ -29,6 +29,7 @@ import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingValuePropertyProvider;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 /**
@@ -69,7 +70,7 @@ public class SwingXWidgetBuilder
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 			return new Stub();
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		if ( type == null )
 			return null;

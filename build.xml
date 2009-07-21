@@ -1146,7 +1146,7 @@
 
 		<antcall target="test-web-stop-glassfish"/>
 
-		<!-- Test on Jetty -->
+		<!-- Test on Jetty
 
 		<copy file="${build.dir}/examples/gwt/addressbook-gwt.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
@@ -1160,7 +1160,7 @@
 			<arg line="-file addressbook-test.xml"/>
 		</java>
 
-		<antcall target="test-web-stop-jetty"/>
+		<antcall target="test-web-stop-jetty"/> -->
 
 	</target>
 

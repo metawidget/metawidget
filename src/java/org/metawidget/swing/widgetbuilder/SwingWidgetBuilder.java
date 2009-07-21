@@ -48,6 +48,7 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingValuePropertyProvider;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
@@ -130,7 +131,7 @@ public class SwingWidgetBuilder
 			return new JLabel();
 		}
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
@@ -208,7 +209,7 @@ public class SwingWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 			return new JButton( metawidget.getLabelString( attributes ) );
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
@@ -234,12 +235,8 @@ public class SwingWidgetBuilder
 			JComboBox comboBox = new JComboBox();
 
 			// Add an empty choice (if nullable, and not required)
-			//
-			// Note: there's an extra caveat for Groovy dynamic types: if we can't load
-			// the class, assume it is non-primitive and therefore add a null choice
-			// (unless 'required=true' is specified)
 
-			if ( ( clazz == null || !clazz.isPrimitive() ) && !TRUE.equals( attributes.get( REQUIRED ) ) )
+			if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
 				comboBox.addItem( null );
 
 			List<String> values = CollectionUtils.fromString( lookup );

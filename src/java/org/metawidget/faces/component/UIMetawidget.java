@@ -621,6 +621,7 @@ public abstract class UIMetawidget
 
 			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) && !attributes.containsKey( COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) )
 			{
+				// TODO: need this? if ( getFacesContext().getMaximumSeverity() == null )
 				i.remove();
 				continue;
 			}
@@ -734,7 +735,8 @@ public abstract class UIMetawidget
 			}
 
 			// Try and determine some metadata for the component by inspecting its binding. This
-			// helps our layout display proper labels, required stars etc.
+			// helps our layout display proper labels, required stars etc. - even for components
+			// whose binding is not a descendant of our parent binding
 
 			Map<String, String> childAttributes = CollectionUtils.newHashMap();
 			miscAttributes.put( COMPONENT_ATTRIBUTE_METADATA, childAttributes );

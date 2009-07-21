@@ -56,6 +56,7 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
@@ -179,7 +180,7 @@ public class HtmlWidgetBuilder
 		if ( facesLookup != null && !"".equals( facesLookup ) )
 			return createReadOnlyComponent( attributes, metawidget );
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
@@ -270,7 +271,7 @@ public class HtmlWidgetBuilder
 			return component;
 		}
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 
@@ -527,7 +528,10 @@ public class HtmlWidgetBuilder
 		if ( values == null )
 			return;
 
-		addEmptySelectItem( component, attributes, metawidget );
+		// Empty option
+
+		if ( component instanceof HtmlSelectOneListbox && WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+			addSelectItem( component, null, null, metawidget );
 
 		// See if we're using labels
 		//
@@ -620,7 +624,10 @@ public class HtmlWidgetBuilder
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
-		addEmptySelectItem( component, attributes, metawidget );
+		// Empty option
+
+		if ( component instanceof HtmlSelectOneListbox && WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+			addSelectItem( component, null, null, metawidget );
 
 		UISelectItems selectItems = (UISelectItems) application.createComponent( "javax.faces.SelectItems" );
 		selectItems.setId( viewRoot.createUniqueId() );
@@ -630,33 +637,6 @@ public class HtmlWidgetBuilder
 			throw WidgetBuilderException.newException( "Lookup '" + binding + "' is not of the form #{...}" );
 
 		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
-	}
-
-	private void addEmptySelectItem( UIComponent component, Map<String, String> attributes, UIMetawidget metawidget )
-	{
-		// Add an empty choice (if nullable, and not required)
-
-		if ( !( component instanceof HtmlSelectOneListbox ))
-			return;
-
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) )
-			return;
-
-		String type = getType( attributes );
-
-		if ( type == null )
-		{
-			// Type can be null if this lookup was specified by a metawidget-metadata.xml
-			// and the type was omitted from the XML. In that case, assume nullable
-
-			addSelectItem( component, null, null, metawidget );
-			return;
-		}
-
-		Class<?> clazz = ClassUtils.niceForName( type );
-
-		if ( clazz == null || TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) || ( !clazz.isPrimitive() && !TRUE.equals( attributes.get( REQUIRED ) ) ) )
-			addSelectItem( component, null, null, metawidget );
 	}
 
 	private UIComponent createHiddenComponent( Map<String, String> attributes, UIMetawidget metawidget )

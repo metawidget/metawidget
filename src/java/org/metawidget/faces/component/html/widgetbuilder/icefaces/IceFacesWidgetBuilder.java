@@ -30,6 +30,7 @@ import javax.faces.context.FacesContext;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 
 import com.icesoft.faces.component.ext.HtmlCommandButton;
 import com.icesoft.faces.component.ext.HtmlInputSecret;
@@ -109,7 +110,7 @@ public class IceFacesWidgetBuilder
 			return button;
 		}
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		// If no type, assume a String
 

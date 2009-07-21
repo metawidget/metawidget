@@ -33,6 +33,7 @@ import javax.faces.context.FacesContext;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.UIInputNumberSlider;
@@ -67,7 +68,7 @@ public class RichFacesWidgetBuilder
 		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) )
 			return null;
 
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		if ( type == null)
 			return null;
@@ -100,7 +101,7 @@ public class RichFacesWidgetBuilder
 			return null;
 
 		Application application = FacesContext.getCurrentInstance().getApplication();
-		String type = getType( attributes );
+		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
 		if ( type == null)
 			return null;

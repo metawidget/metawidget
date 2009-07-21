@@ -17,7 +17,6 @@
 package org.metawidget.test.widgetbuilder.impl;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
 import java.util.Map;
 
@@ -42,19 +41,7 @@ public class BaseWidgetBuilderTest
 		throws Exception
 	{
 		DummyWidgetBuilder widgetBuilder = new DummyWidgetBuilder();
-
-		// getType
-
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		assertTrue( null == widgetBuilder.exposeGetType( attributes ) );
-		attributes.put( TYPE, "" );
-		assertTrue( null == widgetBuilder.exposeGetType( attributes ) );
-		attributes.put( TYPE, "foo" );
-		assertTrue( "foo".equals( widgetBuilder.exposeGetType( attributes ) ) );
-		attributes.put( ACTUAL_CLASS, "" );
-		assertTrue( "foo".equals( widgetBuilder.exposeGetType( attributes ) ) );
-		attributes.put( ACTUAL_CLASS, "bar" );
-		assertTrue( "bar".equals( widgetBuilder.exposeGetType( attributes ) ) );
 
 		// buildActiveWidget
 
@@ -85,15 +72,6 @@ public class BaseWidgetBuilderTest
 	class DummyWidgetBuilder
 		extends BaseWidgetBuilder<Object, Object>
 	{
-		//
-		// Public methods
-		//
-
-		public String exposeGetType( Map<String, String> attributes )
-		{
-			return getType( attributes );
-		}
-
 		//
 		// Protected methods
 		//
