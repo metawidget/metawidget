@@ -1083,8 +1083,10 @@ public class Person {
 					</para>
 				
 					<para> 					
-						<classname>SwingMetawidget</classname> directly supports third-party binding alternatives such as Apache BeanUtils and
-						Beans Binding (JSR 295) via <function>SwingMetawidget.setPropertyBindingClass</function>. These
+						<classname>SwingMetawidget</classname> directly supports third-party binding alternatives such as
+						<ulink url="http://commons.apache.org/beanutils">Apache BeanUtils</ulink> and
+						<ulink url="https://beansbinding.dev.java.net">Beans Binding (JSR 295)</ulink>
+						via <function>SwingMetawidget.setPropertyBindingClass</function>. These
 						binding implementations automatically map <classname>JComponent</classname> values to <classname>Object</classname> values,
 						including performing the necessary conversions, further reducing the amount of boilerplate code required.
 					</para>
@@ -1646,9 +1648,8 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 	
 				<para>
 					The Seam Booking Example demonstrates updating an existing Seam application to use Metawidget, reducing
-					boilerplate code. The example requires you to have previously downloaded Seam 2.1.2
-					and JBoss 4.2.3.GA, and you should be familiar with the existing Seam
-					Booking application.
+					boilerplate code. The example requires you to have previously downloaded <ulink url="http://seamframework.org/Download">Seam 2.1.2</ulink>
+					and <ulink url="http://jboss.org/jbossas/downloads">JBoss 4.2.3.GA</ulink>, and you should be <ulink url="http://docs.jboss.com/seam/latest/reference/en-US/html/tutorial.html">familiar with the existing Seam Booking application</ulink>.
 				</para>
 				
 				<para>
@@ -1795,7 +1796,8 @@ bin\run</programlisting>
 				<title>Swing AppFramework Example</title>
 	
 				<para>
-					The Swing AppFramework Car Demo demonstrates using Metawidget with the Swing AppFramework. Metawidget
+					The Swing AppFramework Car Demo demonstrates using Metawidget with the
+					<ulink url="https://appframework.dev.java.net">Swing AppFramework</ulink>. Metawidget
 					can use Swing AppFramework's <classname>@Action</classname> annotation to identify actions, both amongst
 					a business object's properties and in external controllers, and automatically generate <classname>JButtons</classname>
 					for them.
@@ -1875,7 +1877,9 @@ public void addOwner() {
 				<title>Scala Example</title>
 	
 				<para>
-					The Scala Animal Races Example demonstrates using SwingMetawidget together with Scala and MigLayout.
+					The Scala Animal Races Example demonstrates using SwingMetawidget together with
+					<ulink url="http://scala-lang.org">Scala</ulink> and
+					<ulink url="http://miglayout.com">MigLayout</ulink>.
 				</para>
 	
 				<para>
@@ -1992,7 +1996,9 @@ metawidget.setToInspect( animal )</programlisting>
 				
 				<para>
 					Finally, this example showcases using third-party GWT component libraries. <classname>ExtGwtWidgetBuilder</classname> is used
-					to render a date picker widget. For more details on ExtGWT support, see <xref linkend="section-widgetbuilders-extgwt"/>. 
+					to render a date picker widget. For more details on
+					<ulink url="http://extjs.com/products/gxt">ExtGWT</ulink>
+					support, see <xref linkend="section-widgetbuilders-extgwt"/>. 
 				</para>
 								
 			</section>
@@ -2001,8 +2007,8 @@ metawidget.setToInspect( animal )</programlisting>
 				<title>Penguin Colony Example</title>
 	
 				<para>
-					ICEfaces is an AJAX component library for Java Server Faces. This example showcases how Metawidget can work in
-					an AJAX environment to deliver rich Web applications.
+					<ulink url="http://icefaces.org">ICEfaces</ulink> is an AJAX component library for Java Server Faces. This example
+					showcases how Metawidget can work with ICEfaces (1.8.2 and above) to deliver rich AJAX applications.
 				</para>
 
 				<para>
@@ -2083,7 +2089,7 @@ ant</programlisting>
 					environment variables or pass <parameter>-Dgwt.home</parameter> and <parameter>-Dmetawidget.home</parameter>
 					arguments to Ant. GWT_HOME should point to a GWT 1.6 installation. METAWIDGET_HOME should point to the binary
 					Metawidget distribution. The build will create Eclipse projects which can be imported by using Eclipse's File -> Import menu and choosing
-					"Existing Projects into Workspace" (as described in the GWT Getting	Started Guide).
+					"Existing Projects into Workspace" (as described in the <ulink url="http://code.google.com/webtoolkit/gettingstarted.html">GWT Getting Started Guide</ulink>).
 				</para>
 				
 				<para>

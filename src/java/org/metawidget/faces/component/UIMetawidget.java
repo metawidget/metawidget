@@ -621,7 +621,6 @@ public abstract class UIMetawidget
 
 			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) && !attributes.containsKey( COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) )
 			{
-				// TODO: need this? if ( getFacesContext().getMaximumSeverity() == null )
 				i.remove();
 				continue;
 			}
