@@ -14,56 +14,36 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle.groovy;
+package org.metawidget.test.spring.quirks.model;
 
-import javax.swing.*;
-
-import javax.persistence.*;
-import org.hibernate.validator.*;
+import org.metawidget.inspector.spring.UiSpringLookup;
 
 /**
+ * Models an entity that tests some Spring-specific quirks.
+ *
  * @author Richard Kennard
  */
 
-class GroovyFoo
-	extends JDialog
+public class SpringQuirks
 {
-	@Column( nullable = false )
-	String		foo
+	//
+	// Private members
+	//
 
-	List<Date>	bar
+	private String	mLookup;
 
-	boolean 	baz
-	
-	protected	boolean	mInaccessibleProperty;
-	
-	@NotNull
-	public String getMethodFoo()
+	//
+	// Public methods
+	//
+
+	@UiSpringLookup( value = "${lookup.items}", itemValue = "${'va'}lue", itemLabel = "label" )
+	public String getLookup()
 	{
-		return null;
+		return mLookup;
 	}
 
-	@Length( min = 5 )
-	public void setMethodBar( String methodBar )
+	public void setLookup( String lookup )
 	{
-	}
-	
-	public List<String> getMethodBaz()
-	{
-		return null;
-	}
-	
-	public void setMethodAbc( List<Boolean> methodAbc )
-	{
-	}
-	
-	protected boolean getInaccessibleProperty()
-	{
-		return mInaccessibleProperty;
-	}
-	
-	protected void setInaccessibleProperty( boolean inaccessibleProperty )
-	{
-		mInaccessibleProperty = inaccessibleProperty;	
+		mLookup = lookup;
 	}
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.metawidget.test.android.allwidgets">
+    package="org.metawidget.android.allwidgets">
     <application android:icon="@drawable/icon">
         <activity android:name=".AllWidgetsActivity" android:label="@string/app_name">
             <intent-filter>

@@ -14,56 +14,36 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle.groovy;
+package org.metawidget.faces.allwidgets.converter;
 
-import javax.swing.*;
+import java.util.Collection;
 
-import javax.persistence.*;
-import org.hibernate.validator.*;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+
+import org.metawidget.util.CollectionUtils;
 
 /**
+ * Converts Collections to a String representation.
+ *
  * @author Richard Kennard
  */
 
-class GroovyFoo
-	extends JDialog
+public class CollectionConverter
+	implements Converter
 {
-	@Column( nullable = false )
-	String		foo
+	//
+	// Public methods
+	//
 
-	List<Date>	bar
-
-	boolean 	baz
-	
-	protected	boolean	mInaccessibleProperty;
-	
-	@NotNull
-	public String getMethodFoo()
+	public Object getAsObject( FacesContext context, UIComponent component, String value )
 	{
-		return null;
+		return CollectionUtils.fromString( value );
 	}
 
-	@Length( min = 5 )
-	public void setMethodBar( String methodBar )
+	public String getAsString( FacesContext context, UIComponent component, Object value )
 	{
-	}
-	
-	public List<String> getMethodBaz()
-	{
-		return null;
-	}
-	
-	public void setMethodAbc( List<Boolean> methodAbc )
-	{
-	}
-	
-	protected boolean getInaccessibleProperty()
-	{
-		return mInaccessibleProperty;
-	}
-	
-	protected void setInaccessibleProperty( boolean inaccessibleProperty )
-	{
-		mInaccessibleProperty = inaccessibleProperty;	
+		return CollectionUtils.toString( (Collection<?>) value );
 	}
 }

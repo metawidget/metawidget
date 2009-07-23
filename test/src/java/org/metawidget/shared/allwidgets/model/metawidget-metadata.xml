@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<inspection-result xmlns="http://metawidget.org/inspection-result"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://metawidget.org/inspection-result http://metawidget.org/inspection-result-1.0.xsd" version="1.0">
+
+	<!-- We use XML, not annotations, because we  -->
+	<!-- want to test 'allwidgets' under J2SE 1.4 -->
+	
+	<entity type="org.metawidget.test.shared.allwidgets.model.AllWidgets">
+		<property name="textbox" lookup="" masked="" large="" maximum-length="" required="true"/>
+		<property name="limitedTextbox" maximum-length="20"/>
+		<property name="textarea" large="true"/>
+		<property name="password" masked="true"/>
+		<property name="byte" minimum-value="-5"/>
+		<property name="byteObject"/>
+		<property name="short" minimum-value="-6"/>
+		<property name="shortObject"/>
+		<property name="int" minimum-value="" maximum-value=""/>
+		<property name="integerObject"/>
+		<property name="rangedInt" minimum-value="1" maximum-value="100"/>
+		<property name="rangedInteger" minimum-value="2" maximum-value="99"/>
+		<property name="long" minimum-value="-7"/>
+		<property name="longObject" label=" "/>
+		<property name="float" maximum-value="2048"/>
+		<property name="floatObject" label="nullInBundle"/>
+		<property name="double" minimum-value="-8"/>
+		<property name="doubleObject" label=""/>
+		<property name="char"/>
+		<property name="boolean"/>
+		<property name="booleanObject"/>
+		<property name="dropdown" lookup="foo1,dropdown1,bar1" lookup-labels=""/>
+		<property name="dropdownWithLabels" lookup="foo2,dropdown2,bar2,baz2" lookup-labels="Foo #2,Dropdown #2,Bar #2,Baz #2"/>
+		<property name="notNullDropdown" lookup="-1,0,1"/>
+		<property name="notNullObjectDropdown" lookup="foo3,dropdown3,bar3,baz3,abc3,def3" required="true"/>
+		<property name="nestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets"/>
+		<property name="readOnlyNestedWidgets" type="org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets" read-only="true"/>
+		<property name="nestedWidgetsDontExpand" dont-expand="true"/>
+		<property name="readOnlyNestedWidgetsDontExpand" read-only="true" dont-expand="true"/>
+		<property name="date"/>
+		<property name="hidden" hidden="true"/>
+		<property name="readOnly" read-only="true" section="Section Break"/>
+		<property name="mystery"/>
+		<property name="collection"/>
+		<action name="doAction"/>
+	</entity>	
+	
+</inspection-result>

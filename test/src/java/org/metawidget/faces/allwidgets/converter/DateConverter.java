@@ -14,56 +14,25 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle.groovy;
+package org.metawidget.faces.allwidgets.converter;
 
-import javax.swing.*;
-
-import javax.persistence.*;
-import org.hibernate.validator.*;
+import javax.faces.convert.DateTimeConverter;
 
 /**
+ * Converts Dates to a String representation.
+ *
  * @author Richard Kennard
  */
 
-class GroovyFoo
-	extends JDialog
+public class DateConverter
+	extends DateTimeConverter
 {
-	@Column( nullable = false )
-	String		foo
+	//
+	// Constructor
+	//
 
-	List<Date>	bar
-
-	boolean 	baz
-	
-	protected	boolean	mInaccessibleProperty;
-	
-	@NotNull
-	public String getMethodFoo()
+	public DateConverter()
 	{
-		return null;
-	}
-
-	@Length( min = 5 )
-	public void setMethodBar( String methodBar )
-	{
-	}
-	
-	public List<String> getMethodBaz()
-	{
-		return null;
-	}
-	
-	public void setMethodAbc( List<Boolean> methodAbc )
-	{
-	}
-	
-	protected boolean getInaccessibleProperty()
-	{
-		return mInaccessibleProperty;
-	}
-	
-	protected void setInaccessibleProperty( boolean inaccessibleProperty )
-	{
-		mInaccessibleProperty = inaccessibleProperty;	
+		setPattern( "E MMM dd HH:mm:ss z yyyy" );
 	}
 }

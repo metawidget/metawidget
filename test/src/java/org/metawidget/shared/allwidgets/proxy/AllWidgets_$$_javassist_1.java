@@ -14,56 +14,24 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle.groovy;
+package org.metawidget.shared.allwidgets.proxy;
 
-import javax.swing.*;
-
-import javax.persistence.*;
-import org.hibernate.validator.*;
+import org.metawidget.shared.allwidgets.model.AllWidgets;
 
 /**
+ * Models a proxied entity.
+ * <p>
+ * As used by Struts' AllWidgetsForm.
+ *
  * @author Richard Kennard
  */
 
-class GroovyFoo
-	extends JDialog
+public class AllWidgets_$$_javassist_1
+	extends AllWidgets
 {
-	@Column( nullable = false )
-	String		foo
+	//
+	// Private statics
+	//
 
-	List<Date>	bar
-
-	boolean 	baz
-	
-	protected	boolean	mInaccessibleProperty;
-	
-	@NotNull
-	public String getMethodFoo()
-	{
-		return null;
-	}
-
-	@Length( min = 5 )
-	public void setMethodBar( String methodBar )
-	{
-	}
-	
-	public List<String> getMethodBaz()
-	{
-		return null;
-	}
-	
-	public void setMethodAbc( List<Boolean> methodAbc )
-	{
-	}
-	
-	protected boolean getInaccessibleProperty()
-	{
-		return mInaccessibleProperty;
-	}
-	
-	protected void setInaccessibleProperty( boolean inaccessibleProperty )
-	{
-		mInaccessibleProperty = inaccessibleProperty;	
-	}
+	private final static long	serialVersionUID	= 1l;
 }

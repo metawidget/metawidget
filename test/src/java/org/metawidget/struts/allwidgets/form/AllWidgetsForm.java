@@ -14,56 +14,37 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle.groovy;
+package org.metawidget.struts.allwidgets.form;
 
-import javax.swing.*;
-
-import javax.persistence.*;
-import org.hibernate.validator.*;
+import org.apache.struts.action.ActionForm;
+import org.metawidget.shared.allwidgets.model.AllWidgets;
+import org.metawidget.shared.allwidgets.proxy.AllWidgets_$$_javassist_1;
 
 /**
  * @author Richard Kennard
  */
 
-class GroovyFoo
-	extends JDialog
+public class AllWidgetsForm
+	extends ActionForm
 {
-	@Column( nullable = false )
-	String		foo
+	//
+	// Private statics
+	//
 
-	List<Date>	bar
+	private final static long	serialVersionUID	= 1l;
 
-	boolean 	baz
-	
-	protected	boolean	mInaccessibleProperty;
-	
-	@NotNull
-	public String getMethodFoo()
-	{
-		return null;
-	}
+	//
+	// Private members
+	//
 
-	@Length( min = 5 )
-	public void setMethodBar( String methodBar )
+	private AllWidgets			mAllWidgets			= new AllWidgets_$$_javassist_1();
+
+	//
+	// Public methods
+	//
+
+	public AllWidgets getAllWidgets()
 	{
-	}
-	
-	public List<String> getMethodBaz()
-	{
-		return null;
-	}
-	
-	public void setMethodAbc( List<Boolean> methodAbc )
-	{
-	}
-	
-	protected boolean getInaccessibleProperty()
-	{
-		return mInaccessibleProperty;
-	}
-	
-	protected void setInaccessibleProperty( boolean inaccessibleProperty )
-	{
-		mInaccessibleProperty = inaccessibleProperty;	
+		return mAllWidgets;
 	}
 }

@@ -14,56 +14,60 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle.groovy;
+package org.metawidget.struts.quirks.form;
 
-import javax.swing.*;
-
-import javax.persistence.*;
-import org.hibernate.validator.*;
+import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiHidden;
+import org.metawidget.inspector.annotation.UiLabel;
 
 /**
+ * Models an entity that tests DisplayTag-specific quirks.
+ *
  * @author Richard Kennard
  */
 
-class GroovyFoo
-	extends JDialog
+public class DisplayTagQuirks
 {
-	@Column( nullable = false )
-	String		foo
+	//
+	// Private members
+	//
 
-	List<Date>	bar
+	private int		mId;
 
-	boolean 	baz
-	
-	protected	boolean	mInaccessibleProperty;
-	
-	@NotNull
-	public String getMethodFoo()
+	private String	mName;
+
+	private String	mDescription;
+
+	//
+	// Constructor
+	//
+
+	public DisplayTagQuirks( int id, String name, String description )
 	{
-		return null;
+		mId = id;
+		mName = name;
+		mDescription = description;
 	}
 
-	@Length( min = 5 )
-	public void setMethodBar( String methodBar )
+	//
+	// Public methods
+	//
+
+	@UiHidden
+	public int getId()
 	{
+		return mId;
 	}
-	
-	public List<String> getMethodBaz()
+
+	@UiLabel( "Name label" )
+	public String getName()
 	{
-		return null;
+		return mName;
 	}
-	
-	public void setMethodAbc( List<Boolean> methodAbc )
+
+	@UiComesAfter( "name" )
+	public String getDescription()
 	{
-	}
-	
-	protected boolean getInaccessibleProperty()
-	{
-		return mInaccessibleProperty;
-	}
-	
-	protected void setInaccessibleProperty( boolean inaccessibleProperty )
-	{
-		mInaccessibleProperty = inaccessibleProperty;	
+		return mDescription;
 	}
 }

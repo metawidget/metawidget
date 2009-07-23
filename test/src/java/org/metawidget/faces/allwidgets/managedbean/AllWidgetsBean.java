@@ -14,56 +14,21 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle.groovy;
+package org.metawidget.faces.allwidgets.managedbean;
 
-import javax.swing.*;
-
-import javax.persistence.*;
-import org.hibernate.validator.*;
 
 /**
  * @author Richard Kennard
  */
 
-class GroovyFoo
-	extends JDialog
+public class AllWidgetsBean
 {
-	@Column( nullable = false )
-	String		foo
+	//
+	// Public methods
+	//
 
-	List<Date>	bar
-
-	boolean 	baz
-	
-	protected	boolean	mInaccessibleProperty;
-	
-	@NotNull
-	public String getMethodFoo()
+	public String save()
 	{
-		return null;
-	}
-
-	@Length( min = 5 )
-	public void setMethodBar( String methodBar )
-	{
-	}
-	
-	public List<String> getMethodBaz()
-	{
-		return null;
-	}
-	
-	public void setMethodAbc( List<Boolean> methodAbc )
-	{
-	}
-	
-	protected boolean getInaccessibleProperty()
-	{
-		return mInaccessibleProperty;
-	}
-	
-	protected void setInaccessibleProperty( boolean inaccessibleProperty )
-	{
-		mInaccessibleProperty = inaccessibleProperty;	
+		return "saved";
 	}
 }

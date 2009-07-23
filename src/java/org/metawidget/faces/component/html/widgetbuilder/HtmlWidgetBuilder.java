@@ -846,7 +846,7 @@ public class HtmlWidgetBuilder
 
 			// ...and put it in a column...
 
-			HtmlColumn column = (HtmlColumn) application.createComponent( "javax.faces.HtmlColumn" );
+			HtmlColumn column = (HtmlColumn) application.createComponent( "javax.faces.Column" );
 			column.setId( viewRoot.createUniqueId() );
 			column.getChildren().add( columnText );
 			dataChildren.add( column );
