@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.inspector.xml;
+package org.metawidget.inspector.xml;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -51,13 +51,13 @@ public class XmlInspectorTest
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<inspection-result xmlns=\"http://www.metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://www.metawidget.org/inspection-result ../../inspector/inspection-result-1.0.xsd\" version=\"1.0\">";
-		xml += "<entity type=\"org.metawidget.test.inspector.xml.XmlInspectorTest$SuperSuperFoo\">";
+		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperSuperFoo\">";
 		xml += "<property name=\"bar\" type=\"Bar\" required=\"true\"/>";
 		xml += "<property name=\"a\"/>";
 		xml += "<property name=\"d\"/>";
 		xml += "</entity>";
-		xml += "<entity type=\"org.metawidget.test.inspector.xml.XmlInspectorTest$SuperFoo\" extends=\"org.metawidget.test.inspector.xml.XmlInspectorTest$SuperSuperFoo\"/>";
-		xml += "<entity type=\"org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo\" extends=\"org.metawidget.test.inspector.xml.XmlInspectorTest$SuperFoo\">";
+		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperSuperFoo\"/>";
+		xml += "<entity type=\"org.metawidget.inspector.xml.XmlInspectorTest$SubFoo\" extends=\"org.metawidget.inspector.xml.XmlInspectorTest$SuperFoo\">";
 		xml += "<property name=\"a\" hidden=\"true\" label=\" \"/>";
 		xml += "<property name=\"b\" label=\"\"/>";
 		xml += "<property name=\"c\" lookup=\"Telephone, Mobile, Fax, E-mail\"/>";
@@ -75,7 +75,7 @@ public class XmlInspectorTest
 
 	public void testInspection()
 	{
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo" ));
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo" ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
@@ -83,7 +83,7 @@ public class XmlInspectorTest
 
 		Element entity = (Element) document.getFirstChild().getFirstChild();
 		assertTrue( ENTITY.equals( entity.getNodeName() ));
-		assertTrue( "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo".equals( entity.getAttribute( TYPE ) ));
+		assertTrue( "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo".equals( entity.getAttribute( TYPE ) ));
 		assertTrue( !entity.hasAttribute( NAME ) );
 
 		// Properties
@@ -123,7 +123,7 @@ public class XmlInspectorTest
 
 	public void testTraverseViaParent()
 	{
-		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "bar" ));
+		Document document = XmlUtils.documentFromString( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar" ));
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ));
 
@@ -150,22 +150,22 @@ public class XmlInspectorTest
 	{
 		try
 		{
-			mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz" );
+			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz" );
 			assertTrue( false );
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Parent property of org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo.bar.baz has no @type" ));
+			assertTrue( e.getMessage().endsWith( "Parent property of org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz has no @type" ));
 		}
 
 		try
 		{
-			mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz", "abc" );
+			mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "bar", "baz", "abc" );
 			assertTrue( false );
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Property baz of org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo.bar.baz.abc has no @type" ));
+			assertTrue( e.getMessage().endsWith( "Property baz of org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz.abc has no @type" ));
 		}
 	}
 
@@ -177,8 +177,8 @@ public class XmlInspectorTest
 	public void testBadName()
 	{
 		assertTrue( mInspector.inspect( null, "no-such-type" ) == null );
-		assertTrue( mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "no-such-name" ) == null );
-		assertTrue( mInspector.inspect( null, "org.metawidget.test.inspector.xml.XmlInspectorTest$SubFoo", "no-such-parent-name", "foo" ) == null );
+		assertTrue( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "no-such-name" ) == null );
+		assertTrue( mInspector.inspect( null, "org.metawidget.inspector.xml.XmlInspectorTest$SubFoo", "no-such-parent-name", "foo" ) == null );
 	}
 
 	public void testDefaultConfig()

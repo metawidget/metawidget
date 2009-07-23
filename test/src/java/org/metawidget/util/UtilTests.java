@@ -14,31 +14,39 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.widgetbuilder.iface;
+package org.metawidget.util;
 
+import junit.framework.Test;
 import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
-import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
+import org.metawidget.util.simple.PathUtilsTest;
+import org.metawidget.util.simple.StringUtilsTest;
 
 /**
  * @author Richard Kennard
  */
 
-public class WidgetBuilderExceptionTest
+public class UtilTests
 	extends TestCase
 {
 	//
-	// Public methods
+	// Public statics
 	//
 
-	public void testWidgetBuilderException()
-		throws Exception
+	public static Test suite()
 	{
-		Throwable throwable = new Throwable();
-		assertTrue( throwable == WidgetBuilderException.newException( throwable ).getCause() );
+		TestSuite suite = new TestSuite( "Util Tests" );
+		suite.addTestSuite( ArrayUtilsTest.class );
+		suite.addTestSuite( ClassUtilsTest.class );
+		suite.addTestSuite( CollectionUtilsTest.class );
+		suite.addTestSuite( JspUtilsTest.class );
+		suite.addTestSuite( LogUtilsTest.class );
+		suite.addTestSuite( PathUtilsTest.class );
+		suite.addTestSuite( StringUtilsTest.class );
+		suite.addTestSuite( ThreadUtilsTest.class );
+		suite.addTestSuite( WidgetBuilderUtilsTest.class );
 
-		throwable = WidgetBuilderException.newException( "Foo" );
-		assertTrue( "Foo".equals( throwable.getMessage() ));
-		assertTrue( throwable == WidgetBuilderException.newException( throwable ) );
+		return suite;
 	}
 }

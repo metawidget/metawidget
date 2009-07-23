@@ -14,13 +14,19 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.faces;
+package org.metawidget.faces;
 
 import java.io.IOException;
 import java.util.Map;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
+import javax.faces.context.FacesContext;
+import javax.faces.render.RenderKit;
+
 import junit.framework.TestCase;
 
+import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
@@ -56,6 +62,79 @@ public class UIMetawidgetTest
 
 			assertTrue( e instanceof IOException );
 		}
+	}
+
+	public void testValidationError()
+		throws Exception
+	{
+		final StringBuilder result = new StringBuilder();
+
+		UIMetawidget metawidget = new HtmlMetawidget()
+		{
+			@Override
+			public void encodeBegin( FacesContext context )
+				throws IOException
+			{
+				result.append( "encodeBegin called;" );
+
+				super.encodeBegin( context );
+			}
+
+			@Override
+			protected void configure()
+			{
+				// Should not be called
+
+				result.append( "configure called;" );
+			}
+
+			@Override
+			protected void startBuild()
+			{
+				// Should not be called
+
+				result.append( "startBuild called;" );
+			}
+		};
+
+		MockFacesContext context = new MockFacesContext()
+		{
+			@Override
+			public Severity getMaximumSeverity()
+			{
+				return FacesMessage.SEVERITY_INFO;
+			}
+
+			@Override
+			public RenderKit getRenderKit()
+			{
+				result.append( "getRenderKit called;" );
+				return null;
+			}
+		};
+
+		try
+		{
+			metawidget.encodeBegin( context );
+
+			// Should throw an IOException, because getRenderKit is null
+
+			assertTrue( false );
+		}
+		catch ( IOException e )
+		{
+			assertTrue( "encodeBegin called;getRenderKit called;".equals( result.toString() ) );
+		}
+		finally
+		{
+			context.unregisterCurrentInstance();
+		}
+	}
+
+	public void testNotRecreatable()
+		throws Exception
+	{
+
 	}
 
 	public void testStub()

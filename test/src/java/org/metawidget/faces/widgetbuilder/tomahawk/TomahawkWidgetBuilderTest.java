@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.faces.widgetbuilder.tomahawk;
+package org.metawidget.faces.widgetbuilder.tomahawk;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
@@ -27,9 +27,9 @@ import javax.faces.context.FacesContext;
 import junit.framework.TestCase;
 
 import org.apache.myfaces.custom.fileupload.UploadedFile;
+import org.metawidget.faces.FacesMetawidgetTests.MockComponent;
+import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.html.widgetbuilder.tomahawk.TomahawkWidgetBuilder;
-import org.metawidget.test.faces.FacesMetawidgetTests.MockComponent;
-import org.metawidget.test.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.util.CollectionUtils;
 
 /**
