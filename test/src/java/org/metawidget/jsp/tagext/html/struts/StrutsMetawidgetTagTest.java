@@ -14,39 +14,46 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.util.simple;
+package org.metawidget.jsp.tagext.html.struts;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.simple.StringUtils;
+import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag;
 
 /**
+ * StrutsMetawidgetTag test cases.
+ * <p>
+ * These are just some fringe-case tests. Most of the testing is done by WebTest.
+ *
  * @author Richard Kennard
  */
 
-public class StringUtilsTest
+public class StrutsMetawidgetTagTest
 	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	public void testStringUtils()
+	public void testMetawidget()
 		throws Exception
 	{
-		assertTrue( false == StringUtils.isFirstLetterUppercase( "" ));
+		StrutsMetawidgetTag metawidget = new StrutsMetawidgetTag();
 
-		// uncamelCase
+		// Property without prefix
 
-		assertTrue( null == StringUtils.uncamelCase( null ));
-		assertTrue( "Camel cased".equals( StringUtils.uncamelCase( "camelCased" )));
-		assertTrue( "Camel CASED".equals( StringUtils.uncamelCase( "camelCASED" )));
+		metawidget.setProperty( "foo" );
+		assertTrue( "foo".equals( metawidget.getPath() ));
+		assertTrue( null == metawidget.getPathPrefix() );
 
-		// camelCase
+		// Property with prefix
 
-		assertTrue( "dropdownFoo".equals( StringUtils.camelCase( "Dropdown #Foo" )));
-		assertTrue( "dropdownFoo".equals( StringUtils.camelCase( "Dropdown#foo", '#' )));
-		assertTrue( "dropdownfoo".equals( StringUtils.camelCase( "Dropdown#foo" )));
-		assertTrue( "dropdown2".equals( StringUtils.camelCase( "Dropdown #2" )));
+		metawidget.setProperty( "foo.bar" );
+		assertTrue( "foo.bar".equals( metawidget.getPath() ));
+		assertTrue( null == metawidget.getPathPrefix() );
+
+		metawidget.setProperty( "foo.bar.baz" );
+		assertTrue( "foo.bar.baz".equals( metawidget.getPath() ));
+		assertTrue( "bar.".equals( metawidget.getPathPrefix() ));
 	}
 }

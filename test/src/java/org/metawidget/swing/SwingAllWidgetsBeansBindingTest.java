@@ -14,39 +14,35 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.util.simple;
+package org.metawidget.swing;
 
-import junit.framework.TestCase;
+import java.util.Date;
+import java.util.TimeZone;
 
-import org.metawidget.util.simple.StringUtils;
+import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
+import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
 
 /**
  * @author Richard Kennard
  */
 
-public class StringUtilsTest
-	extends TestCase
+public class SwingAllWidgetsBeansBindingTest
+	extends SwingAllWidgetsTest
 {
 	//
 	// Public methods
 	//
 
-	public void testStringUtils()
+	@Override
+	public void testAllWidgets()
 		throws Exception
 	{
-		assertTrue( false == StringUtils.isFirstLetterUppercase( "" ));
+		TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
 
-		// uncamelCase
+		// BeansBinding
 
-		assertTrue( null == StringUtils.uncamelCase( null ));
-		assertTrue( "Camel cased".equals( StringUtils.uncamelCase( "camelCased" )));
-		assertTrue( "Camel CASED".equals( StringUtils.uncamelCase( "camelCASED" )));
-
-		// camelCase
-
-		assertTrue( "dropdownFoo".equals( StringUtils.camelCase( "Dropdown #Foo" )));
-		assertTrue( "dropdownFoo".equals( StringUtils.camelCase( "Dropdown#foo", '#' )));
-		assertTrue( "dropdownfoo".equals( StringUtils.camelCase( "Dropdown#foo" )));
-		assertTrue( "dropdown2".equals( StringUtils.camelCase( "Dropdown #2" )));
+		BeansBinding.registerConverter( Date.class, String.class, new org.metawidget.swing.allwidgets.converter.beansbinding.DateConverter( DATE_FORMAT ) );
+		BeansBinding.registerConverter( NestedWidgets.class, String.class, new org.metawidget.swing.allwidgets.converter.beansbinding.NestedWidgetsConverter() );
+		runTest( BeansBinding.class );
 	}
 }

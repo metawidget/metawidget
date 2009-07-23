@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.inspector.impl.actionstyle.swing;
+package org.metawidget.inspector.impl.actionstyle.swing;
 
 import java.awt.event.ActionEvent;
 import java.util.Map;
@@ -52,7 +52,7 @@ public class SwingAppFrameworkActionStyleTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "@Action public abstract void org.metawidget.test.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo.bar(java.lang.String,java.lang.String) must not have more than one parameter".equals( e.getMessage() ));
+			assertTrue( "@Action public abstract void org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo.bar(java.lang.String,java.lang.String) must not have more than one parameter".equals( e.getMessage() ));
 		}
 
 		try
@@ -62,7 +62,7 @@ public class SwingAppFrameworkActionStyleTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "@Action public abstract void org.metawidget.test.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo2.bar(java.lang.String) parameter must be a java.awt.event.ActionEvent".equals( e.getMessage() ));
+			assertTrue( "@Action public abstract void org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest$BadFoo2.bar(java.lang.String) parameter must be a java.awt.event.ActionEvent".equals( e.getMessage() ));
 		}
 	}
 
