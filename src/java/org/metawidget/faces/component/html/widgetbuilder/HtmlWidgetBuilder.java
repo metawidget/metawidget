@@ -34,7 +34,6 @@ import javax.faces.component.UISelectItems;
 import javax.faces.component.UISelectMany;
 import javax.faces.component.UIViewRoot;
 import javax.faces.component.ValueHolder;
-import javax.faces.component.html.HtmlColumn;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputSecret;
@@ -846,7 +845,7 @@ public class HtmlWidgetBuilder
 
 			// ...and put it in a column...
 
-			HtmlColumn column = (HtmlColumn) application.createComponent( "javax.faces.Column" );
+			UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
 			column.setId( viewRoot.createUniqueId() );
 			column.getChildren().add( columnText );
 			dataChildren.add( column );

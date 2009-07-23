@@ -114,7 +114,7 @@ public class SwingAllWidgetsTest
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setPropertyBindingClass( bindingClass );
 		metawidget.setActionBindingClass( ReflectionBinding.class );
-		metawidget.setConfig( "org/metawidget/test/swing/allwidgets/metawidget.xml" );
+		metawidget.setConfig( "org/metawidget/swing/allwidgets/metawidget.xml" );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( allWidgets );
 

@@ -41,7 +41,7 @@ public class StrutsInspectorTest
 	{
 		StrutsInspectorConfig config = new StrutsInspectorConfig();
 		ConfigReader configReader = new ConfigReader();
-		config.setInputStreams( configReader.openResource( "org/metawidget/test/inspector/struts/test-struts-config1.xml" ), configReader.openResource( "org/metawidget/test/inspector/struts/test-struts-config2.xml" ));
+		config.setInputStreams( configReader.openResource( "org/metawidget/inspector/struts/test-struts-config1.xml" ), configReader.openResource( "org/metawidget/inspector/struts/test-struts-config2.xml" ));
 		StrutsInspector inspector = new StrutsInspector( config );
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ));

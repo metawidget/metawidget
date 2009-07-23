@@ -66,6 +66,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.faces.component.UIMetawidgetTest;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.icefaces.IceFacesWidgetBuilderTest;

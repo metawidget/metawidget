@@ -116,8 +116,8 @@ public class ConfigReaderTest
 		xml += "						<strutsInspector xmlns=\"java:org.metawidget.inspector.struts\" config=\"StrutsInspectorConfig\">";
 		xml += "							<inputStreams>";
 		xml += "								<list>";
-		xml += "									<resource>org/metawidget/test/inspector/struts/test-struts-config1.xml</resource>";
-		xml += "									<resource>org/metawidget/test/inspector/struts/test-struts-config2.xml</resource>";
+		xml += "									<resource>org/metawidget/inspector/struts/test-struts-config1.xml</resource>";
+		xml += "									<resource>org/metawidget/inspector/struts/test-struts-config2.xml</resource>";
 		xml += "								</list>";
 		xml += "							</inputStreams>";
 		xml += "						</strutsInspector>";
@@ -393,7 +393,7 @@ public class ConfigReaderTest
 		xml += "</set>";
 		xml += "<boolean><boolean>true</boolean></boolean>";
 		xml += "<pattern><pattern>.*?</pattern></pattern>";
-		xml += "<inputStream><resource>org/metawidget/test/swing/allwidgets/metawidget.xml</resource></inputStream>";
+		xml += "<inputStream><resource>org/metawidget/swing/allwidgets/metawidget.xml</resource></inputStream>";
 		xml += "<resourceBundle><bundle>org.metawidget.shared.allwidgets.resource.Resources</bundle></resourceBundle>";
 		xml += "</badInspector>";
 		xml += "</metawidget>";
@@ -567,12 +567,12 @@ public class ConfigReaderTest
 	public void testCaching()
 	{
 		ValidatingConfigReader configReader = new ValidatingConfigReader();
-		configReader.configure( "org/metawidget/test/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
-		configReader.configure( "org/metawidget/test/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
-		configReader.configure( "org/metawidget/test/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
-		configReader.configure( "org/metawidget/test/gwt/allwidgets/metawidget.xml", Inspector.class );
-		configReader.configure( "org/metawidget/test/gwt/allwidgets/metawidget.xml", Inspector.class );
-		configReader.configure( "org/metawidget/test/gwt/allwidgets/metawidget.xml", Inspector.class );
+		configReader.configure( "org/metawidget/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
+		configReader.configure( "org/metawidget/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
+		configReader.configure( "org/metawidget/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
+		configReader.configure( "org/metawidget/gwt/allwidgets/metawidget.xml", Inspector.class );
+		configReader.configure( "org/metawidget/gwt/allwidgets/metawidget.xml", Inspector.class );
+		configReader.configure( "org/metawidget/gwt/allwidgets/metawidget.xml", Inspector.class );
 
 		// (4 because each metawidget.xml contains a metawidget-metadata.xml)
 

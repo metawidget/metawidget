@@ -22,8 +22,8 @@ import java.util.Date;
 import java.util.Map;
 
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.GwtValueAccessor;
-import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 import com.extjs.gxt.ui.client.widget.form.DateField;
@@ -86,7 +86,7 @@ public class ExtGwtWidgetBuilder
 		if ( attributes.containsKey( LOOKUP ) )
 			return null;
 
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+		String type = GwtUtils.getActualClassOrType( attributes );
 
 		if ( type == null )
 			return null;

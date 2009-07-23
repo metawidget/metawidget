@@ -52,7 +52,7 @@ public class JbpmInspectorTest
 	public void setUp()
 	{
 		JbpmInspectorConfig config = new JbpmInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/test/inspector/jbpm/test-components.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/jbpm/test-components.xml" ));
 		mInspector = new JbpmInspector( config );
 	}
 

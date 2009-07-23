@@ -41,7 +41,7 @@ public class CommonsValidatorInspectorTest
 	public void testInspection()
 	{
 		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/test/inspector/commons/validator/validation.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ));
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
 		Document document = XmlUtils.documentFromString( inspector.inspect( null, "testForm1" ));
@@ -95,7 +95,7 @@ public class CommonsValidatorInspectorTest
 	public void testBadInput()
 	{
 		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/test/inspector/commons/validator/validation.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ));
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
 		try
@@ -138,7 +138,7 @@ public class CommonsValidatorInspectorTest
 	public void testTraversal()
 	{
 		CommonsValidatorInspectorConfig config = new CommonsValidatorInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/test/inspector/commons/validator/validation.xml" ));
+		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/commons/validator/validation.xml" ));
 		CommonsValidatorInspector inspector = new CommonsValidatorInspector( config );
 
 		assertTrue( null != inspector.inspect( null, "testForm1" ));
