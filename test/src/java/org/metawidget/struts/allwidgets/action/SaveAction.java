@@ -14,44 +14,31 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.allwidgets.converter.beansbinding;
+package org.metawidget.struts.allwidgets.action;
 
-import org.jdesktop.beansbinding.Converter;
-import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.util.ArrayUtils;
-import org.metawidget.util.simple.StringUtils;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts.action.Action;
+import org.apache.struts.action.ActionForm;
+import org.apache.struts.action.ActionForward;
+import org.apache.struts.action.ActionMapping;
 
 /**
  * @author Richard Kennard
  */
 
-public class NestedWidgetsConverter
-	extends Converter<NestedWidgets, String>
+public class SaveAction
+	extends Action
 {
 	//
 	// Public methods
 	//
 
 	@Override
-	public String convertForward( NestedWidgets value )
+	public ActionForward execute( ActionMapping mapping, ActionForm form, HttpServletRequest request, HttpServletResponse response )
+		throws Exception
 	{
-		return StringUtils.quietValueOf( value );
-	}
-
-	@Override
-	public NestedWidgets convertReverse( String value )
-	{
-		String[] values = ArrayUtils.fromString( value );
-
-		if ( values.length == 0 )
-			return null;
-
-		NestedWidgets nestedWidgets = new NestedWidgets();
-		nestedWidgets.setNestedTextbox1( values[0] );
-
-		if ( values.length > 1 )
-			nestedWidgets.setNestedTextbox2( values[1] );
-
-		return nestedWidgets;
+		return mapping.findForward( "success" );
 	}
 }

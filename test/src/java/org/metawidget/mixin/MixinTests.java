@@ -14,36 +14,30 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.spring.quirks.model;
+package org.metawidget.mixin;
 
-import org.metawidget.inspector.spring.UiSpringLookup;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
+
+import org.metawidget.mixin.w3c.MetawidgetMixinTest;
 
 /**
- * Models an entity that tests some Spring-specific quirks.
- *
  * @author Richard Kennard
  */
 
-public class SpringQuirks
+public class MixinTests
+	extends TestCase
 {
 	//
-	// Private members
+	// Public statics
 	//
 
-	private String	mLookup;
-
-	//
-	// Public methods
-	//
-
-	@UiSpringLookup( value = "${lookup.items}", itemValue = "${'va'}lue", itemLabel = "label" )
-	public String getLookup()
+	public static Test suite()
 	{
-		return mLookup;
-	}
+		TestSuite suite = new TestSuite( "Mixin Tests" );
+		suite.addTestSuite( MetawidgetMixinTest.class );
 
-	public void setLookup( String lookup )
-	{
-		mLookup = lookup;
+		return suite;
 	}
 }

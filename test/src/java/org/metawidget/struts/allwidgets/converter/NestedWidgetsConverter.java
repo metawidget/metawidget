@@ -14,36 +14,41 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.spring.quirks.model;
+package org.metawidget.struts.allwidgets.converter;
 
-import org.metawidget.inspector.spring.UiSpringLookup;
+import org.apache.commons.beanutils.Converter;
+import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
+import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.simple.StringUtils;
 
 /**
- * Models an entity that tests some Spring-specific quirks.
- *
  * @author Richard Kennard
  */
 
-public class SpringQuirks
+public class NestedWidgetsConverter
+	implements Converter
 {
-	//
-	// Private members
-	//
-
-	private String	mLookup;
-
 	//
 	// Public methods
 	//
 
-	@UiSpringLookup( value = "${lookup.items}", itemValue = "${'va'}lue", itemLabel = "label" )
-	public String getLookup()
+	@SuppressWarnings( "unchecked" )
+	public Object convert( Class clazz, Object value )
 	{
-		return mLookup;
-	}
+		if ( String.class.equals( clazz ))
+			return StringUtils.quietValueOf( value );
 
-	public void setLookup( String lookup )
-	{
-		mLookup = lookup;
+		String[] values = ArrayUtils.fromString( (String) value );
+
+		if ( values.length == 0 )
+			return null;
+
+		NestedWidgets nestedWidgets = new NestedWidgets();
+		nestedWidgets.setNestedTextbox1( values[0] );
+
+		if ( values.length > 1 )
+			nestedWidgets.setNestedTextbox2( values[1] );
+
+		return nestedWidgets;
 	}
 }

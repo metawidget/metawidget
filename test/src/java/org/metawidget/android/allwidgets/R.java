@@ -5,7 +5,7 @@
  * should not be modified by hand.
  */
 
-package org.metawidget.test.android.allwidgets;
+package org.metawidget.android.allwidgets;
 
 public final class R {
     public static final class attr {

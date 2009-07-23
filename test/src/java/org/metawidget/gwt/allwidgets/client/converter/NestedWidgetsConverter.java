@@ -14,13 +14,13 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.gwt.allwidgets.client.converter;
+package org.metawidget.gwt.allwidgets.client.converter;
 
 import java.util.List;
 
 import org.metawidget.gwt.client.propertybinding.simple.BaseConverter;
 import org.metawidget.gwt.client.ui.GwtUtils;
-import org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets;
+import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.user.client.ui.Widget;

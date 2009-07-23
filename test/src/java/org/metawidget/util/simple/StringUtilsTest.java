@@ -14,46 +14,39 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.test.jsp.tagext.html.spring;
+package org.metawidget.test.util.simple;
 
 import junit.framework.TestCase;
 
-import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
+import org.metawidget.util.simple.StringUtils;
 
 /**
- * SpringMetawidgetTag test cases.
- * <p>
- * These are just some fringe-case tests. Most of the testing is done by WebTest.
- *
  * @author Richard Kennard
  */
 
-public class SpringMetawidgetTagTest
+public class StringUtilsTest
 	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	public void testMetawidget()
+	public void testStringUtils()
 		throws Exception
 	{
-		SpringMetawidgetTag metawidget = new SpringMetawidgetTag();
+		assertTrue( false == StringUtils.isFirstLetterUppercase( "" ));
 
-		// Path without prefix
+		// uncamelCase
 
-		metawidget.setPath( "foo" );
-		assertTrue( "foo".equals( metawidget.getPath() ));
-		assertTrue( null == metawidget.getPathPrefix() );
+		assertTrue( null == StringUtils.uncamelCase( null ));
+		assertTrue( "Camel cased".equals( StringUtils.uncamelCase( "camelCased" )));
+		assertTrue( "Camel CASED".equals( StringUtils.uncamelCase( "camelCASED" )));
 
-		// Path with prefix
+		// camelCase
 
-		metawidget.setPath( "foo.bar" );
-		assertTrue( "foo.bar".equals( metawidget.getPath() ));
-		assertTrue( null == metawidget.getPathPrefix() );
-
-		metawidget.setPath( "foo.bar.baz" );
-		assertTrue( "foo.bar.baz".equals( metawidget.getPath() ));
-		assertTrue( "bar.".equals( metawidget.getPathPrefix() ));
+		assertTrue( "dropdownFoo".equals( StringUtils.camelCase( "Dropdown #Foo" )));
+		assertTrue( "dropdownFoo".equals( StringUtils.camelCase( "Dropdown#foo", '#' )));
+		assertTrue( "dropdownfoo".equals( StringUtils.camelCase( "Dropdown#foo" )));
+		assertTrue( "dropdown2".equals( StringUtils.camelCase( "Dropdown #2" )));
 	}
 }
