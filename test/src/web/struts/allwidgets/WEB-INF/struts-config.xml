@@ -4,20 +4,20 @@
 
 	<form-beans>
 	
-		<form-bean name="allWidgetsForm" type="org.metawidget.test.struts.allwidgets.form.AllWidgetsForm"/>
+		<form-bean name="allWidgetsForm" type="org.metawidget.struts.allwidgets.form.AllWidgetsForm"/>
 		
 	</form-beans>
 	
     <action-mappings>
     
-        <action path="/save" name="allWidgetsForm" type="org.metawidget.test.struts.allwidgets.action.SaveAction" scope="request">
+        <action path="/save" name="allWidgetsForm" type="org.metawidget.struts.allwidgets.action.SaveAction" scope="request">
         	<forward name="success" path="/saved.jsp"/>
         </action>
     
     </action-mappings>
 	
-	<message-resources parameter="org.metawidget.test.shared.allwidgets.resource.Resources" null="false"/>
+	<message-resources parameter="org.metawidget.shared.allwidgets.resource.Resources" null="false"/>
 	
-    <plug-in className="org.metawidget.test.struts.allwidgets.plugin.AllWidgetsPlugIn"/>
+    <plug-in className="org.metawidget.struts.allwidgets.plugin.AllWidgetsPlugIn"/>
 
 </struts-config>

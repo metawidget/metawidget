@@ -6,14 +6,14 @@
 	<!-- Test localizing 'true'/'false' to 'Yes'/'No' -->
 	
 	<application>
-		<message-bundle>org.metawidget.test.faces.quirks.resource.Resources</message-bundle>
+		<message-bundle>org.metawidget.faces.quirks.resource.Resources</message-bundle>
 	</application>
 
 	<!-- Request-Level Managed Beans -->
 
 	<managed-bean>
 		<managed-bean-name>quirks</managed-bean-name>
-		<managed-bean-class>org.metawidget.test.faces.quirks.model.FacesQuirks</managed-bean-class>
+		<managed-bean-class>org.metawidget.faces.quirks.model.FacesQuirks</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	

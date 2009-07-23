@@ -5,8 +5,8 @@
 <html>
 	<body>
 
-		<jsp:useBean id="lookupValues" class="org.metawidget.test.struts.quirks.model.LookupValues"/>
-		<jsp:useBean id="lookupLabels" class="org.metawidget.test.struts.quirks.model.LookupLabels"/>
+		<jsp:useBean id="lookupValues" class="org.metawidget.struts.quirks.model.LookupValues"/>
+		<jsp:useBean id="lookupLabels" class="org.metawidget.struts.quirks.model.LookupLabels"/>
 
 		<html:form action="/save">
 

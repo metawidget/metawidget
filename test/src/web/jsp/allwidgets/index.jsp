@@ -7,8 +7,8 @@
 
 		<form action="saved.jsp" method="POST">
 
-			<jsp:useBean id="allWidgets" class="org.metawidget.test.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234"/>
-			<fmt:setBundle basename="org.metawidget.test.shared.allwidgets.resource.Resources" var="bundle"/>
+			<jsp:useBean id="allWidgets" class="org.metawidget.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234"/>
+			<fmt:setBundle basename="org.metawidget.shared.allwidgets.resource.Resources" var="bundle"/>
 			
 			<m:metawidget value="allWidgets" bundle="${bundle}" style="aStyle" styleClass="aStyleClass" createHiddenFields="true" config="config/metawidget.xml">
 				<m:param name="tableStyle" value="aTableStyle"/>

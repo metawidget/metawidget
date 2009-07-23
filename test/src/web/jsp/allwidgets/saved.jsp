@@ -5,7 +5,7 @@
 <%
 	// Manual mapping
 	
-	org.metawidget.test.shared.allwidgets.model.AllWidgets allWidgets = new org.metawidget.test.shared.allwidgets.model.AllWidgets();
+	org.metawidget.shared.allwidgets.model.AllWidgets allWidgets = new org.metawidget.shared.allwidgets.model.AllWidgets();
 	pageContext.setAttribute( "allWidgets", allWidgets );
 	
 	allWidgets.setTextbox( request.getParameter( "allWidgets.textbox" ) );
@@ -103,7 +103,7 @@
 
 	if ( values.length != 0 )
 	{
-		org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets nestedWidgetsDontExpand = new org.metawidget.test.shared.allwidgets.model.AllWidgets.NestedWidgets();
+		org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets nestedWidgetsDontExpand = new org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets();
 		nestedWidgetsDontExpand.setNestedTextbox1( values[0] );
 	
 		if ( values.length > 1 )
@@ -130,7 +130,7 @@
 <html>
 	<body>
 
-		<fmt:setBundle basename="org.metawidget.test.shared.allwidgets.resource.Resources" var="bundle"/>
+		<fmt:setBundle basename="org.metawidget.shared.allwidgets.resource.Resources" var="bundle"/>
 		
 		<m:metawidget value="allWidgets" bundle="${bundle}" createHiddenFields="true" readOnly="true" config="config/metawidget.xml">
 			<m:param name="numberOfColumns" value="2"/>

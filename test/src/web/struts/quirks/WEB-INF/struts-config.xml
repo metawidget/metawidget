@@ -4,13 +4,13 @@
 
 	<form-beans>
 	
-		<form-bean name="quirksForm" type="org.metawidget.test.struts.quirks.form.StrutsQuirksForm"/>
+		<form-bean name="quirksForm" type="org.metawidget.struts.quirks.form.StrutsQuirksForm"/>
 		
 	</form-beans>
 	
     <action-mappings>
     
-        <action path="/save" name="quirksForm" type="org.metawidget.test.struts.quirks.action.SaveAction" scope="request">
+        <action path="/save" name="quirksForm" type="org.metawidget.struts.quirks.action.SaveAction" scope="request">
         	<forward name="success" path="/index.jsp"/>
         </action>
     

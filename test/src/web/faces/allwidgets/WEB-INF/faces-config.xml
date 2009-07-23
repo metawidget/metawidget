@@ -18,30 +18,30 @@
 	
 	<converter>
 		<converter-for-class>java.util.Date</converter-for-class>
-		<converter-class>org.metawidget.test.faces.allwidgets.converter.DateConverter</converter-class>
+		<converter-class>org.metawidget.faces.allwidgets.converter.DateConverter</converter-class>
 	</converter>
 
 	<converter>
 		<converter-for-class>java.util.Collection</converter-for-class>
-		<converter-class>org.metawidget.test.faces.allwidgets.converter.CollectionConverter</converter-class>
+		<converter-class>org.metawidget.faces.allwidgets.converter.CollectionConverter</converter-class>
 	</converter>
 
 	<converter>
-		<converter-for-class>org.metawidget.test.shared.allwidgets.model.AllWidgets$NestedWidgets</converter-for-class>
-		<converter-class>org.metawidget.test.faces.allwidgets.converter.NestedWidgetsConverter</converter-class>
+		<converter-for-class>org.metawidget.shared.allwidgets.model.AllWidgets$NestedWidgets</converter-for-class>
+		<converter-class>org.metawidget.faces.allwidgets.converter.NestedWidgetsConverter</converter-class>
 	</converter>
 
 	<!-- Request-Level Managed Beans -->
 
 	<managed-bean>
 		<managed-bean-name>allWidgets</managed-bean-name>
-		<managed-bean-class>org.metawidget.test.shared.allwidgets.proxy.AllWidgets_$$_javassist_1</managed-bean-class>
+		<managed-bean-class>org.metawidget.shared.allwidgets.proxy.AllWidgets_$$_javassist_1</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 
 	<managed-bean>
 		<managed-bean-name>allWidgetsBean</managed-bean-name>
-		<managed-bean-class>org.metawidget.test.faces.allwidgets.managedbean.AllWidgetsBean</managed-bean-class>
+		<managed-bean-class>org.metawidget.faces.allwidgets.managedbean.AllWidgetsBean</managed-bean-class>
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 

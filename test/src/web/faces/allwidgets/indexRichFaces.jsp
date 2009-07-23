@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@ taglib uri="http://metawidget.org/faces" prefix="m" %>
 
-<f:loadBundle basename="org.metawidget.test.shared.allwidgets.resource.Resources" var="bundle"/>
+<f:loadBundle basename="org.metawidget.shared.allwidgets.resource.Resources" var="bundle"/>
 
 <f:view>
 
