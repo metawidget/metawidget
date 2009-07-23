@@ -24,7 +24,7 @@ import org.hibernate.validator._;
  * @author Richard Kennard
  */
 
-package org.metawidget.test.inspector.impl.propertystyle.scala
+package org.metawidget.inspector.impl.propertystyle.scala
 {
 	class ScalaFoo( @Column{ val nullable = false } var foo:String, @NotNull var bar:List[Date], val baz:Boolean, private var mInaccessibleProperty:Boolean )
 		extends JDialog
