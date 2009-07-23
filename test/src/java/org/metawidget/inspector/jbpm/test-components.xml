@@ -6,8 +6,8 @@
 			<value>no-such-file.jpdl.xml</value>
 		</bpm:process-definitions>
 		<bpm:pageflow-definitions>
-			<value>org/metawidget/test/inspector/jbpm/test-pageflow1.jpdl.xml</value>
-			<value>org/metawidget/test/inspector/jbpm/test-pageflow2.jpdl.xml</value>
+			<value>org/metawidget/inspector/jbpm/test-pageflow1.jpdl.xml</value>
+			<value>org/metawidget/inspector/jbpm/test-pageflow2.jpdl.xml</value>
 		</bpm:pageflow-definitions>
 	</bpm:jbpm>
 

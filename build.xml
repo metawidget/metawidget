@@ -139,12 +139,12 @@
 		<mkdir dir="${build.dir}/tutorial-classes"/>
 
 		<javac sourcepath="" srcdir="test/src/java" destdir="${build.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
-			<include name="org/metawidget/test/faces/allwidgets/**"/>
-			<include name="org/metawidget/test/shared/allwidgets/**"/>
-			<include name="org/metawidget/test/spring/allwidgets/**"/>
-			<include name="org/metawidget/test/struts/allwidgets/**"/>
-			<include name="org/metawidget/test/swing/allwidgets/**"/>
-			<include name="org/metawidget/test/swing/SwingAllWidgetsTest.java"/>
+			<include name="org/metawidget/faces/allwidgets/**"/>
+			<include name="org/metawidget/shared/allwidgets/**"/>
+			<include name="org/metawidget/spring/allwidgets/**"/>
+			<include name="org/metawidget/struts/allwidgets/**"/>
+			<include name="org/metawidget/swing/allwidgets/**"/>
+			<include name="org/metawidget/swing/SwingAllWidgetsTest.java"/>
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement path="${build.dir}/classes"/>
@@ -203,7 +203,7 @@
 		<!-- Build test files -->
 
 		<javac sourcepath="" srcdir="test/src/java" destdir="${build.dir}/test-classes" debug="off" target="1.5">
-			<include name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
+			<include name="org/metawidget/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement path="${build.dir}/classes"/>				
@@ -211,13 +211,13 @@
 		</javac>
 		
 		<javac sourcepath="" srcdir="test/src/java" destdir="${build.dir}/test-classes" debug="on" target="1.5" fork="yes">
-			<exclude name="org/metawidget/test/faces/allwidgets/**"/>
-			<exclude name="org/metawidget/test/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
-			<exclude name="org/metawidget/test/shared/allwidgets/**"/>
-			<exclude name="org/metawidget/test/spring/allwidgets/**"/>
-			<exclude name="org/metawidget/test/struts/allwidgets/**"/>
-			<exclude name="org/metawidget/test/swing/allwidgets/**"/>
-			<exclude name="org/metawidget/test/swing/SwingAllWidgetsTest.java"/>
+			<exclude name="org/metawidget/faces/allwidgets/**"/>
+			<exclude name="org/metawidget/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
+			<exclude name="org/metawidget/shared/allwidgets/**"/>
+			<exclude name="org/metawidget/spring/allwidgets/**"/>
+			<exclude name="org/metawidget/struts/allwidgets/**"/>
+			<exclude name="org/metawidget/swing/allwidgets/**"/>
+			<exclude name="org/metawidget/swing/SwingAllWidgetsTest.java"/>
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement path="${build.dir}/classes"/>				
@@ -295,9 +295,7 @@
 			<fileset dir="${build.dir}/classes">
 				<include name="org/**"/>
 				<exclude name="org/metawidget/gwt/**"/>
-				<exclude name="org/metawidget/example/**"/>
 				<exclude name="org/metawidget/inspector/gwt/remote/client/**"/>
-				<exclude name="org/metawidget/test/**"/>
 			</fileset>
 			<fileset dir="src/java">
 				<exclude name="META-INF/metawidget.bnd"/>
@@ -341,8 +339,6 @@
 				<exclude name="org/metawidget/inspector/gwt/remote/client/**"/>
 				<exclude name="org/metawidget/inspector/**/Ui*.class"/>
 				<exclude name="org/metawidget/inspector/**/*Constants.class"/>
-				<exclude name="org/metawidget/example/**"/>
-				<exclude name="org/metawidget/test/**"/>
 			</fileset>
 			<fileset dir="src/java">
 				<exclude name="META-INF/metawidget.bnd"/>
@@ -621,6 +617,22 @@
 
 	<target name="test-unit-gwt" depends="compile-test, pack, pack-gwt-client">
 		
+		<!-- Work around for bug http://code.google.com/p/google-web-toolkit/issues/detail?id=3704 -->
+
+		<delete dir="${build.dir}/gwt-sanitized-test-src"/>
+		
+		<copy todir="${build.dir}/gwt-sanitized-test-src">
+			<fileset dir="test/src/java">
+				<include name="org/metawidget/gwt/**"/>
+				<include name="org/metawidget/example/gwt/**"/>
+				<include name="org/metawidget/GwtAllWidgets.gwt.xml"/>
+				<exclude name="org/metawidget/gwt/client/widgetbuilder/extgwt/**"/>
+				<include name="org/metawidget/shared/**"/>
+				<exclude name="**/AllWidgets_$*.java"/>
+				<exclude name="**/AllWidgets$*.java"/>
+			</fileset>			
+		</copy>
+
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
@@ -628,7 +640,7 @@
 			<classpath>				
 				<pathelement path="examples/src/java"/>
 				<pathelement path="examples/src/web/gwt/addressbook/WEB-INF"/>
-				<pathelement path="test/src/java"/>
+				<pathelement path="${build.dir}/gwt-sanitized-test-src"/>
 				<pathelement path="${build.dir}/example-classes"/>					
 				<pathelement path="${build.dir}/test-classes"/>
 				<fileset dir="lib">
@@ -648,7 +660,7 @@
 			<test name="org.metawidget.example.gwt.clientside.client.GwtClientSideTest"/>
 			<classpath>				
 				<pathelement path="examples/src/java"/>
-				<pathelement path="test/src/java"/>
+				<pathelement path="${build.dir}/gwt-sanitized-test-src"/>
 				<pathelement path="${build.dir}/example-classes"/>
 				<pathelement path="${build.dir}/test-classes"/>
 				<fileset dir="lib">
@@ -664,22 +676,13 @@
 			</classpath>
 		</junit>
 
-		<!-- Work around for bug http://code.google.com/p/google-web-toolkit/issues/detail?id=3704 -->
-		
-		<copy todir="${build.dir}/gwt-sanitized-test-src">
-			<fileset dir="test/src/java">
-				<exclude name="**/AllWidgets_$*.java"/>
-				<exclude name="**/AllWidgets$*.java"/>
-			</fileset>			
-		</copy>
-
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.gwt.allwidgets.client.GwtAllWidgetsTest"/>
 			<classpath>
 				<pathelement path="${build.dir}/gwt-sanitized-test-src"/>
-				<pathelement path="test/src/java/org/metawidget/test/gwt/allwidgets"/>
+				<pathelement path="test/src/java/org/metawidget/gwt/allwidgets"/>
 				<pathelement path="${build.dir}/test-classes"/>
 				<fileset dir="lib">
 					<include name="gwt-user.jar"/>
@@ -697,8 +700,8 @@
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.gwt.quirks.client.GwtQuirksTest"/>
 			<classpath>
-				<pathelement path="test/src/java"/>
-				<pathelement path="test/src/java/org/metawidget/test/gwt/quirks"/>
+				<pathelement path="${build.dir}/gwt-sanitized-test-src"/>
+				<pathelement path="test/src/java/org/metawidget/gwt/quirks"/>
 				<dirset dir="${build.dir}/test-classes"/>
 				<fileset dir="lib">
 					<include name="gwt-user.jar"/>
@@ -711,13 +714,19 @@
 			</classpath>
 		</junit>
 
+		<copy todir="${build.dir}/gwt-sanitized-test-src">
+			<fileset dir="test/src/java">
+				<include name="org/metawidget/gwt/client/widgetbuilder/extgwt/**"/>
+			</fileset>			
+		</copy>
+
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
 			<test name="org.metawidget.gwt.client.ui.GwtMetawidgetMixinTest"/>
 			<test name="org.metawidget.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilderTest"/>
 			<classpath>
-				<pathelement path="test/src/java"/>
+				<pathelement path="${build.dir}/gwt-sanitized-test-src"/>
 				<dirset dir="${build.dir}/test-classes"/>
 				<fileset dir="lib">
 					<include name="gwt-user.jar"/>
@@ -860,8 +869,8 @@
 				<include name="org/metawidget/widgetbuilder/**"/>
 			</fileset>			
 			<fileset dir="${build.dir}/test-classes">
-				<include name="org/metawidget/test/android/allwidgets/**"/>
-				<include name="org/metawidget/test/shared/allwidgets/**/*.class"/>
+				<include name="org/metawidget/android/allwidgets/**"/>
+				<include name="org/metawidget/shared/allwidgets/**/*.class"/>
 			</fileset>
 
 		</copy>
@@ -1562,8 +1571,8 @@
 
 		<copy todir="${build.dir}/test-classes">
 			<fileset dir="test/src/java">
-				<include name="org/metawidget/test/shared/allwidgets/**/*.properties"/>
-				<include name="org/metawidget/test/shared/allwidgets/**/metawidget-metadata.xml"/>
+				<include name="org/metawidget/shared/allwidgets/**/*.properties"/>
+				<include name="org/metawidget/shared/allwidgets/**/metawidget-metadata.xml"/>
 			</fileset>
 		</copy>
 
@@ -1581,8 +1590,8 @@
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
 			<classes dir="${build.dir}/test-classes">
-				<include name="org/metawidget/test/faces/allwidgets/**"/>
-				<include name="org/metawidget/test/shared/allwidgets/**"/>
+				<include name="org/metawidget/faces/allwidgets/**"/>
+				<include name="org/metawidget/shared/allwidgets/**"/>
 			</classes>
 			<lib dir="${build.dir}/lib">
 				<include name="commons-beanutils-*.jar"/>
@@ -1627,7 +1636,7 @@
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
 			<classes dir="${build.dir}/test-classes">
-				<include name="org/metawidget/test/faces/quirks/**"/>
+				<include name="org/metawidget/faces/quirks/**"/>
 			</classes>
 			<lib dir="${build.dir}/lib">
 				<include name="commons-beanutils-*.jar"/>
@@ -1672,8 +1681,8 @@
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
 			<classes dir="${build.dir}/test-classes">
-				<include name="org/metawidget/test/jsp/allwidgets/**"/>
-				<include name="org/metawidget/test/shared/allwidgets/**"/>
+				<include name="org/metawidget/jsp/allwidgets/**"/>
+				<include name="org/metawidget/shared/allwidgets/**"/>
 			</classes>
 			<lib dir="${build.dir}/lib">
 				<include name="jstl-*.jar"/>
@@ -1715,8 +1724,8 @@
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
 			<classes dir="${build.dir}/test-classes">
-				<include name="org/metawidget/test/spring/allwidgets/**"/>
-				<include name="org/metawidget/test/shared/allwidgets/**"/>
+				<include name="org/metawidget/spring/allwidgets/**"/>
+				<include name="org/metawidget/shared/allwidgets/**"/>
 			</classes>
 			<lib dir="${build.dir}/lib">
 				<include name="commons-digester-*.jar"/>
@@ -1757,7 +1766,7 @@
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
 			<classes dir="${build.dir}/test-classes">
-				<include name="org/metawidget/test/spring/quirks/**"/>
+				<include name="org/metawidget/spring/quirks/**"/>
 			</classes>
 			<lib dir="${build.dir}/lib">
 				<include name="commons-digester-*.jar"/>
@@ -1798,8 +1807,8 @@
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
 			<classes dir="${build.dir}/test-classes">
-				<include name="org/metawidget/test/struts/allwidgets/**"/>
-				<include name="org/metawidget/test/shared/allwidgets/**"/>
+				<include name="org/metawidget/struts/allwidgets/**"/>
+				<include name="org/metawidget/shared/allwidgets/**"/>
 			</classes>
 			<lib dir="${build.dir}/lib">
 				<include name="commons-beanutils-*.jar"/>
@@ -1840,7 +1849,7 @@
 				<exclude name="WEB-INF/web.xml"/>
 			</fileset>
 			<classes dir="${build.dir}/test-classes">
-				<include name="org/metawidget/test/struts/quirks/**"/>
+				<include name="org/metawidget/struts/quirks/**"/>
 			</classes>
 			<lib dir="${build.dir}/lib">
 				<include name="commons-beanutils-*.jar"/>

@@ -14,7 +14,7 @@
 							<inputStreams>
 								<list>
 									<resource>metawidget-metadata.xml</resource>
-									<resource>org/metawidget/test/shared/allwidgets/model/metawidget-metadata.xml</resource>
+									<resource>org/metawidget/shared/allwidgets/model/metawidget-metadata.xml</resource>
 								</list>
 							</inputStreams>
 						</xmlInspector>

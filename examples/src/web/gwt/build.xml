@@ -101,7 +101,7 @@
 		<!-- Update test files -->
 		
 		<copy todir="${gwt.project.dir}/${addressbook.dir}/test">
-			<fileset dir="../../../../test/src/java" includes="org/metawidget/test/example/gwt/addressbook/**" />
+			<fileset dir="../../../../test/src/java" includes="org/metawidget/example/gwt/addressbook/**" />
 		</copy>
 
 		<!-- Classpath -->
@@ -168,7 +168,7 @@
 		<!-- Update test files -->
 		
 		<copy todir="${gwt.project.dir}/${clientside.dir}/test">
-			<fileset dir="../../../../test/src/java" includes="org/metawidget/test/example/gwt/clientside/**" />
+			<fileset dir="../../../../test/src/java" includes="org/metawidget/example/gwt/clientside/**" />
 		</copy>
 
 		<!-- Classpath -->
