@@ -10,7 +10,7 @@
 					<list>
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
 							<inputStream>
-								<resource>@org.metawidget.test.android.allwidgets:raw/metawidget_metadata</resource>
+								<resource>@org.metawidget.android.allwidgets:raw/metawidget_metadata</resource>
 							</inputStream>
 						</xmlInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
