@@ -584,7 +584,7 @@
 			<jvmarg value="-Djava.util.logging.config.file=${basedir}/test/src/java/logging.properties"/>
 			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
 			<formatter type="brief" usefile="false"/>
-			<test name="org.metawidget.test.AllTests"/>
+			<test name="org.metawidget.AllTests"/>
 			<classpath>
 				<fileset dir="lib">
 					<exclude name="android.jar"/>
@@ -606,7 +606,7 @@
 			<jvmarg value="-Djava.util.logging.config.file=${basedir}/test/src/java/logging.properties"/>
 			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
 			<formatter type="brief" usefile="false"/>
-			<test name="org.metawidget.test.util.LogUtilsTest"/>
+			<test name="org.metawidget.util.LogUtilsTest"/>
 			<classpath>
 				<fileset dir="lib">
 					<include name="emma.jar"/>
@@ -624,7 +624,7 @@
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
-			<test name="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest"/>
+			<test name="org.metawidget.example.gwt.addressbook.client.GwtAddressBookTest"/>
 			<classpath>				
 				<pathelement path="examples/src/java"/>
 				<pathelement path="examples/src/web/gwt/addressbook/WEB-INF"/>
@@ -645,7 +645,7 @@
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
-			<test name="org.metawidget.test.example.gwt.clientside.client.GwtClientSideTest"/>
+			<test name="org.metawidget.example.gwt.clientside.client.GwtClientSideTest"/>
 			<classpath>				
 				<pathelement path="examples/src/java"/>
 				<pathelement path="test/src/java"/>
@@ -676,7 +676,7 @@
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
-			<test name="org.metawidget.test.gwt.allwidgets.client.GwtAllWidgetsTest"/>
+			<test name="org.metawidget.gwt.allwidgets.client.GwtAllWidgetsTest"/>
 			<classpath>
 				<pathelement path="${build.dir}/gwt-sanitized-test-src"/>
 				<pathelement path="test/src/java/org/metawidget/test/gwt/allwidgets"/>
@@ -695,7 +695,7 @@
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
-			<test name="org.metawidget.test.gwt.quirks.client.GwtQuirksTest"/>
+			<test name="org.metawidget.gwt.quirks.client.GwtQuirksTest"/>
 			<classpath>
 				<pathelement path="test/src/java"/>
 				<pathelement path="test/src/java/org/metawidget/test/gwt/quirks"/>
@@ -714,8 +714,8 @@
 		<junit showoutput="true" fork="true" dir="${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
-			<test name="org.metawidget.test.gwt.client.ui.GwtMetawidgetMixinTest"/>
-			<test name="org.metawidget.test.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilderTest"/>
+			<test name="org.metawidget.gwt.client.ui.GwtMetawidgetMixinTest"/>
+			<test name="org.metawidget.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilderTest"/>
 			<classpath>
 				<pathelement path="test/src/java"/>
 				<dirset dir="${build.dir}/test-classes"/>
@@ -740,7 +740,7 @@
 		<fail message="JDK 1.4 not installed at 'java4.dir' (as indicated in build.properties)" unless="java4-exists"/>
 
 		<java classname="junit.textui.TestRunner" fork="true" jvm="${java4.dir}/bin/java" dir="${run.dir}">
-			<arg line="org.metawidget.test.swing.SwingAllWidgetsTest"/>
+			<arg line="org.metawidget.swing.SwingAllWidgetsTest"/>
 			<classpath>
 				<fileset dir="lib">
 					<exclude name="android.jar"/>

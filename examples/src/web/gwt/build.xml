@@ -122,7 +122,7 @@
 
 		<copy file="${gwt.project.dir}/${addressbook.dir}/Addressbook.launch" tofile="${gwt.project.dir}/${addressbook.dir}/AddressbookTest.launch" />
 		<replace file="${gwt.project.dir}/${addressbook.dir}/AddressbookTest.launch" token="org.eclipse.jdt.launching.localJavaApplication" value="org.eclipse.jdt.junit.launchconfig" />
-		<replace file="${gwt.project.dir}/${addressbook.dir}/AddressbookTest.launch" token="com.google.gwt.dev.HostedMode" value="org.metawidget.test.example.gwt.addressbook.client.GwtAddressBookTest" />
+		<replace file="${gwt.project.dir}/${addressbook.dir}/AddressbookTest.launch" token="com.google.gwt.dev.HostedMode" value="org.metawidget.example.gwt.addressbook.client.GwtAddressBookTest" />
 		<replace file="${gwt.project.dir}/${addressbook.dir}/AddressbookTest.launch">
 				<replacetoken><![CDATA[</listAttribute>]]></replacetoken>
 				<replacevalue><![CDATA[<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/AddressBook/test&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#13;&#10;"/><listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/AddressBook/war/WEB-INF&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#13;&#10;"/></listAttribute>]]></replacevalue>
@@ -189,7 +189,7 @@
 
 		<copy file="${gwt.project.dir}/${clientside.dir}/ClientSide.launch" tofile="${gwt.project.dir}/${clientside.dir}/ClientSideTest.launch" />
 		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSideTest.launch" token="org.eclipse.jdt.launching.localJavaApplication" value="org.eclipse.jdt.junit.launchconfig" />
-		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSideTest.launch" token="com.google.gwt.dev.HostedMode" value="org.metawidget.test.example.gwt.clientside.client.GwtClientSideTest" />
+		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSideTest.launch" token="com.google.gwt.dev.HostedMode" value="org.metawidget.example.gwt.clientside.client.GwtClientSideTest" />
 		<replace file="${gwt.project.dir}/${clientside.dir}/ClientSideTest.launch">
 				<replacetoken><![CDATA[</listAttribute>]]></replacetoken>
 				<replacevalue><![CDATA[<listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ClientSide/test&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#13;&#10;"/><listEntry value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;no&quot;?&gt;&#13;&#10;&lt;runtimeClasspathEntry internalArchive=&quot;/ClientSide/war/WEB-INF&quot; path=&quot;3&quot; type=&quot;2&quot;/&gt;&#13;&#10;"/></listAttribute>]]></replacevalue>
