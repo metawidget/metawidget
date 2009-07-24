@@ -348,10 +348,10 @@ public class ContactDialog
 	}
 
 	//
-	// Package-level methods
+	// Private methods
 	//
 
-	void setVisibility()
+	/*package private*/void setVisibility()
 	{
 		boolean readOnly = mMetawidget.isReadOnly();
 		loadCommunications();
@@ -370,7 +370,7 @@ public class ContactDialog
 		mCommunications.getRowFormatter().setVisible( mCommunications.getRowCount() - 1, !readOnly );
 	}
 
-	void loadCommunications()
+	/*package private*/void loadCommunications()
 	{
 		CellFormatter cellFormatter = mCommunications.getCellFormatter();
 		final Contact contact = mMetawidget.getToInspect();

@@ -279,10 +279,10 @@ public class AddressBookModule
 	}
 
 	//
-	// Package-level methods
+	// Private methods
 	//
 
-	void showContactDialog( Contact contact )
+	/*package private*/void showContactDialog( Contact contact )
 	{
 		if ( contact instanceof BusinessContact )
 		{

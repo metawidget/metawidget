@@ -620,19 +620,19 @@ public class GwtAddressBookTest
 	}
 
 	//
-	// Protected methods
+	// Private methods
 	//
 
 	/**
 	 * Wrapped to avoid 'synthetic access' warning
 	 */
 
-	void finish()
+	/*package private*/void finish()
 	{
 		super.finishTest();
 	}
 
-	void fireClickEvent( HasHandlers widget )
+	/*package private*/void fireClickEvent( HasHandlers widget )
 	{
 		Document document = Document.get();
 		NativeEvent nativeEvent = document.createClickEvent( 0, 0, 0, 0, 0, false, false, false, false );

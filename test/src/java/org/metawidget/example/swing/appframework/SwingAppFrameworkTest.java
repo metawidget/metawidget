@@ -18,7 +18,6 @@ package org.metawidget.example.swing.appframework;
 
 import java.awt.Container;
 import java.awt.FlowLayout;
-import java.lang.reflect.Method;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -27,8 +26,6 @@ import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
-import org.metawidget.example.swing.appframework.Car;
-import org.metawidget.example.swing.appframework.CarApplication;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
@@ -51,9 +48,7 @@ public class SwingAppFrameworkTest
 
 		// Start app
 
-		Method methodStartupWithoutShow = CarApplication.class.getDeclaredMethod( "startupWithoutShow" );
-		methodStartupWithoutShow.setAccessible( true );
-		methodStartupWithoutShow.invoke( carApplication );
+		carApplication.startupWithoutShow();
 
 		// Fetch Metawidget
 

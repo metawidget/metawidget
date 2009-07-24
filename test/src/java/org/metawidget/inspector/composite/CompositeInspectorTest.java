@@ -19,15 +19,11 @@ package org.metawidget.inspector.composite;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.ByteArrayInputStream;
-import java.lang.reflect.Field;
 import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.inspector.composite.CompositeInspector;
-import org.metawidget.inspector.composite.CompositeInspectorConfig;
-import org.metawidget.inspector.composite.ValidatingCompositeInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.xml.XmlInspector;
@@ -122,14 +118,7 @@ public class CompositeInspectorTest
 		config.setInspectors( inspectors );
 
 		CompositeInspector inspectorComposite = new CompositeInspector( config );
-
-		// Use reflection to test config result
-
-		Field field = CompositeInspector.class.getDeclaredField( "mInspectors" );
-		field.setAccessible( true );
-
-		@SuppressWarnings( "unchecked" )
-		List<Inspector> inspectorsCopied = (List<Inspector>) field.get( inspectorComposite );
+		List<Inspector> inspectorsCopied = inspectorComposite.mInspectors;
 		assertTrue( inspectorsCopied.get( 0 ) == inspector );
 		inspectors[0] = null;
 		assertTrue( inspectorsCopied.get( 0 ) != null );

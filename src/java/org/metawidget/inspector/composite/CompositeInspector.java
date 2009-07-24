@@ -59,13 +59,13 @@ public class CompositeInspector
 	// Private statics
 	//
 
-	private final static Log	LOG	= LogUtils.getLog( CompositeInspector.class );
+	private final static Log				LOG	= LogUtils.getLog( CompositeInspector.class );
 
 	//
 	// Private members
 	//
 
-	private List<Inspector>		mInspectors;
+	/* package private */List<Inspector>	mInspectors;
 
 	//
 	// Constructor
@@ -83,7 +83,7 @@ public class CompositeInspector
 
 		// Defensive copy
 
-		mInspectors = Collections.unmodifiableList( new ArrayList<Inspector>( inspectors ));
+		mInspectors = Collections.unmodifiableList( new ArrayList<Inspector>( inspectors ) );
 	}
 
 	//
