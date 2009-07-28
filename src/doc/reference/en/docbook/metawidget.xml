@@ -80,7 +80,7 @@
 		
 		<para>
 			Metawidget can read business object information from any combination of supported
-			back-end technologies. This support includes: annotations, Commons
+			back-end technologies. This support includes: annotations, Bean Validation (JSR 303), Commons
 			JEXL, Commons Validator, Groovy, Hibernate, Hibernate Validator, JavaBeans, Java Persistence
 			Architecture (JPA), Javassist, JBoss jBPM, Scala and the Swing AppFramework. 
 		</para>
@@ -4832,6 +4832,59 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 				third-party annotations. These annotation inspectors all extend <classname>BaseObjectInspector</classname>,
 				and so inherit its features, but in addition they inspect the following frameworks.
 			</para>
+
+			<section id="section-inspectors-beanvalidation">
+				<title>BeanValidationInspector</title>
+				
+				<para>
+					<classname>BeanValidationInspector</classname> inspects Bean Validation (JSR 303) annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Bean Validation Annotation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><parameter>maximum-fractional-digits</parameter></td>
+							<td><classname>@Digits(fraction=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-integer-digits</parameter></td>
+							<td><classname>@Digits(integer=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-length</parameter></td>
+							<td><classname>@Size(max=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>maximum-value</parameter></td>
+							<td><classname>@Max</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-length</parameter></td>
+							<td><classname>@Size(min=...)</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>minimum-value</parameter></td>
+							<td><classname>@Min</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>required</parameter></td>
+							<td><classname>@NotNull</classname></td>
+						</tr>
+					</tbody>
+				</table>
+
+			</section>
 
 			<section id="section-inspectors-hibernatevalidator">
 				<title>HibernateValidatorInspector</title>

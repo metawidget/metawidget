@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspectorTest;
+import org.metawidget.inspector.beanvalidation.BeanValidationInspectorTest;
 import org.metawidget.inspector.commons.jexl.JexlInspectorTest;
 import org.metawidget.inspector.commons.jexl.JexlXmlInspectorTest;
 import org.metawidget.inspector.commons.validator.CommonsValidatorInspectorTest;
@@ -63,6 +64,7 @@ public class InspectorTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Inspector Tests" );
+		suite.addTestSuite( BeanValidationInspectorTest.class );
 		suite.addTestSuite( CommonsValidatorInspectorTest.class );
 		suite.addTestSuite( ConfigReaderTest.class );
 		suite.addTestSuite( FacesInspectorTest.class );
