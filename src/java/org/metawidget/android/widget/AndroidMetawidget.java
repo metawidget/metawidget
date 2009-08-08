@@ -27,7 +27,6 @@ import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;
@@ -53,10 +52,9 @@ import android.widget.LinearLayout;
 /**
  * Metawidget for Android environments.
  * <p>
- * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>,
- * because <code>FrameLayout</code> would <em>always</em> need to have another
- * <code>Layout</code> embedded within it, whereas <code>LinearLayout</code> is occasionally
- * useful directly.
+ * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>, because
+ * <code>FrameLayout</code> would <em>always</em> need to have another <code>Layout</code> embedded
+ * within it, whereas <code>LinearLayout</code> is occasionally useful directly.
  *
  * @author Richard Kennard
  */
@@ -216,10 +214,10 @@ public class AndroidMetawidget
 	/**
 	 * Sets the path to be inspected.
 	 * <p>
-	 * Note <code>setPath</code> is quite different to <code>setTag</code>.
-	 * <code>setPath</code> is always in relation to <code>setToInspect</code>, so must include
-	 * the type name and any subsequent sub-names (eg. type/name/name). Conversely,
-	 * <code>setTag</code> is a single name relative to our immediate parent.
+	 * Note <code>setPath</code> is quite different to <code>setTag</code>. <code>setPath</code> is
+	 * always in relation to <code>setToInspect</code>, so must include the type name and any
+	 * subsequent sub-names (eg. type/name/name). Conversely, <code>setTag</code> is a single name
+	 * relative to our immediate parent.
 	 */
 
 	public void setPath( String path )
@@ -440,7 +438,7 @@ public class AndroidMetawidget
 		if ( view == null )
 			throw MetawidgetException.newException( "No view with tag " + ArrayUtils.toString( names ) );
 
-		if ( !setValue( value, view, mMetawidgetMixin.getWidgetBuilder() ))
+		if ( !setValue( value, view, mMetawidgetMixin.getWidgetBuilder() ) )
 			throw MetawidgetException.newException( "Don't know how to setValue of a " + view.getClass().getName() );
 	}
 
@@ -537,7 +535,14 @@ public class AndroidMetawidget
 			if ( mMetawidgetMixin.getInspector() == null )
 			{
 				if ( DEFAULT_INSPECTOR == null )
-					DEFAULT_INSPECTOR = new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() ) );
+				{
+					// Relax the dependancy on MetawidgetAnnotationInspector (if the class is
+					// hard-coded, rather than using Class.forName, Dalvik seems to pick
+					// the dependancy up even if we never come down this codepath)
+
+					Inspector annotationInspector = (Inspector) Class.forName( "org.metawidget.inspector.annotation.MetawidgetAnnotationInspector" ).newInstance();
+					DEFAULT_INSPECTOR = new CompositeInspector( new CompositeInspectorConfig().setInspectors( annotationInspector, new PropertyTypeInspector() ) );
+				}
 
 				mMetawidgetMixin.setInspector( DEFAULT_INSPECTOR );
 			}

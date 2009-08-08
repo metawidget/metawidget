@@ -437,7 +437,7 @@ public abstract class UIMetawidget
 		}
 		catch ( Exception e )
 		{
-			// IOException does not take a Throwable 'cause' argument until 1.6, so
+			// IOException does not take a Throwable 'cause' argument until Java 6, so
 			// as we need to stay 1.4 compatible we output the trace here
 
 			LogUtils.getLog( getClass() ).error( "Unable to encodeBegin", e );

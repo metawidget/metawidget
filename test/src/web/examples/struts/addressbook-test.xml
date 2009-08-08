@@ -123,10 +123,21 @@
 					<verifyText text="???"/>
 				</not>
 				<setInputField name="dateOfBirthAsString" value="5/12/57"/>
+				<setInputField name="address.street" value="742 Evergreen Terrace #2"/>
+				<setInputField name="address.city" value="Springfield #2"/>
+				<setSelectField name="address.state" value="Cyberton"/>
+				<setInputField name="address.postcode" value="90701 #2"/>
 				<clickButton label="Save"/>
 	
 				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mr Homer Jay Simpson' )"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[2]" text="E-mail: homer@simpsons.com, Fax: (939) 555-0114"/>
+				
+				<clickLink label="Mr Homer Jay Simpson"/>				
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[1]/td[1]" text="742 Evergreen Terrace #2"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[2]/td[1]" text="Springfield #2"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[3]/td[1]" text="Cyberton"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[4]/td[1]" text="90701 #2"/>
+				<clickButton label="Back"/>
 				
 				<clickLink label="Mrs Marjorie Simpson"/>
 				

@@ -56,12 +56,17 @@
 		}
 		else if ( request.getParameter( "contactController.save" ) != null || request.getParameter( "contactController.delete" ) != null || request.getParameter( "addCommunication" ) != null || request.getParameter( "deleteCommunication" ) != null )
 		{
-			// Manual binding
+			// Manual mapping (this is what Web frameworks typically do for you)
 			
 			Contact contact = (Contact) session.getAttribute( "contact" );			
 			contact.setTitle( request.getParameter( "contact.title" ));
 			contact.setFirstname( request.getParameter( "contact.firstname" ));
 			contact.setSurname( request.getParameter( "contact.surname" ));
+			contact.getAddress().setStreet( request.getParameter( "contact.address.street" ));
+			contact.getAddress().setCity( request.getParameter( "contact.address.city" ));
+			contact.getAddress().setState( request.getParameter( "contact.address.state" ));
+			contact.getAddress().setPostcode( request.getParameter( "contact.address.postcode" ));
+			contact.setNotes( request.getParameter( "notes" ));
 			
 			PropertyEditor genderEditor = PropertyEditorManager.findEditor( Gender.class );
 			genderEditor.setAsText( request.getParameter( "contact.gender" ));

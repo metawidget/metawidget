@@ -91,11 +91,11 @@ public class AllWidgetsActivity
 		switch ( item.getItemId() )
 		{
 			case 0:
+				AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
+
 				try
 				{
 					// Already saved?
-
-					AndroidMetawidget metawidget = (AndroidMetawidget) findViewById( R.id.metawidget );
 
 					if ( metawidget.isReadOnly() )
 						return false;
@@ -122,7 +122,11 @@ public class AllWidgetsActivity
 					if ( message == null || "".equals( message ) )
 						message = e.getClass().getSimpleName();
 
-					new AlertDialog.Builder( getCurrentFocus().getContext() ).setTitle( "Save error" ).setMessage( "Unable to save:\n" + message ).setPositiveButton( "OK", null ).show();
+					AlertDialog.Builder builder = new AlertDialog.Builder( metawidget.getContext() );
+					builder.setTitle( "Save error" );
+					builder.setMessage( "Unable to save:\n" + message );
+					builder.setPositiveButton( "OK", null );
+					builder.show();
 				}
 		}
 
@@ -257,7 +261,14 @@ public class AllWidgetsActivity
 		mAllWidgets.setChar( ( (String) metawidget.getValue( "char" ) ).charAt( 0 ) );
 
 		mAllWidgets.setBoolean( (Boolean) metawidget.getValue( "boolean" ) );
-		mAllWidgets.setBooleanObject( (Boolean) metawidget.getValue( "booleanObject" ) );
+
+		String booleanObject = metawidget.getValue( "booleanObject" );
+
+		if ( booleanObject == null || "".equals( booleanObject ) )
+			mAllWidgets.setBooleanObject( null );
+		else
+			mAllWidgets.setBooleanObject( Boolean.valueOf( booleanObject ) );
+
 		mAllWidgets.setDropdown( (String) metawidget.getValue( "dropdown" ) );
 		mAllWidgets.setDropdownWithLabels( (String) metawidget.getValue( "dropdownWithLabels" ) );
 		mAllWidgets.setNotNullDropdown( Byte.parseByte( (String) metawidget.getValue( "notNullDropdown" ) ) );

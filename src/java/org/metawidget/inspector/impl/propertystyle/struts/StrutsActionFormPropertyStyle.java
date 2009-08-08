@@ -50,14 +50,16 @@ public class StrutsActionFormPropertyStyle
 	 */
 
 	@Override
-	protected boolean isExcludedBaseType( String className )
+	protected boolean isExcludedBaseType( Class<?> classToExclude )
 	{
+		String className = classToExclude.getName();
+
 		// Exclude org.apache.struts.* (includes org.apache.struts.action.* and
 		// org.apache.struts.validator.*)
 
 		if ( className.startsWith( "org.apache.struts." ) )
 			return true;
 
-		return super.isExcludedBaseType( className );
+		return super.isExcludedBaseType( classToExclude );
 	}
 }

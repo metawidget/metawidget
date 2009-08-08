@@ -30,7 +30,6 @@ import org.hibernate.validator.Length;
 import org.hibernate.validator.NotNull;
 import org.metawidget.inspector.annotation.UiMasked;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 
 /**
  * @author Richard Kennard
@@ -219,12 +218,12 @@ public class JavaBeanPropertyStyleTest
 		extends JavaBeanPropertyStyle
 	{
 		@Override
-		protected boolean isExcludedBaseType( String className )
+		protected boolean isExcludedBaseType( Class<?> classToExclude )
 		{
-			if ( SuperFoo.class.getName().equals( className ))
+			if ( SuperFoo.class.equals( classToExclude ))
 				return true;
 
-			return super.isExcludedBaseType( className );
+			return super.isExcludedBaseType( classToExclude );
 		}
 	}
 

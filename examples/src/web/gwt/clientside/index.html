@@ -2,6 +2,8 @@
 <html>
 	<head>
 		<title>Client Side (Metawidget GWT Example)</title>		
+		<link rel="stylesheet" type="text/css" href="org.metawidget.example.gwt.clientside.GwtClientSide/css/ext-all.css" media="all"/>		
+		<link rel="stylesheet" type="text/css" href="org.metawidget.example.gwt.clientside.GwtClientSide/css/xtheme-gray.css" media="all"/>		
 		<link rel="stylesheet" type="text/css" href="css/clientside.css" media="all"/>		
 	</head>	
 	<body>
@@ -11,7 +13,7 @@
 		<h1>Take a walk on the client side...</h1>
 
 		<h2>
-			By default, <strong>GwtMetawidget</strong> inspects business objects server-side. This is because client-side
+			By default, <strong>GwtMetawidget</strong> inspects business objects on the server-side. This is because client-side
 			JavaScript does not support reflections or annotations.
 		</h2>
 		
@@ -30,8 +32,7 @@
 							<h3>Inspection Results</h3>
 							<p>
 								Edit the inspection results here, or use the buttons to load some samples.
-								Then click Generate to see the UI. Note the
-								inspection result must be well-formed.
+								Then click Generate to see the UI. Note the XML must be well-formed.
 							</p>
 						</div>
 					</td>
@@ -42,7 +43,7 @@
 							<h3>Generated Metawidget</h3>
 							<p>
 								The UI is generated here using pure client-side JavaScript. Click the Save
-								button to display the values retrieved from the UI 
+								button to display the values retrieved from the UI.
 							</p>
 						</div>
 					</td>

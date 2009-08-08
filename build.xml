@@ -856,6 +856,7 @@
 			<fileset dir="${build.dir}/classes">
 				<include name="org/metawidget/*.class"/>
 				<include name="org/metawidget/android/**"/>
+				<include name="org/metawidget/iface/**"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/composite/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
@@ -2440,6 +2441,7 @@
 			<fileset dir="${build.dir}/classes">
 				<include name="org/metawidget/*.class"/>				
 				<include name="org/metawidget/android/**"/>
+				<include name="org/metawidget/iface/**"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
 				<include name="org/metawidget/inspector/composite/**"/>
@@ -2496,7 +2498,7 @@
 
 		<copy todir="${build.dir}/examples/android" file="examples/src/java/org/metawidget/example/android/readme.txt"/>
 
-		<delete dir="${build.dir}/examples/android/addressbook/**" failonerror="true"/>
+		<delete dir="${build.dir}/examples/android/addressbook" failonerror="true"/>
 		<delete file="${build.dir}/examples/android/addressbook-android.ap_" failonerror="true"/>
 
 	</target>

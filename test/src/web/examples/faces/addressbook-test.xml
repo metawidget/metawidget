@@ -116,10 +116,21 @@
 		
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[@class='table-component-column']/span[@class='inline-error']" text="Date of Birth: 'bad date' could not be understood as a date. Example: .*" regex="true"/>
 				<setInputField name="form:contactCurrentDateOfBirth" value="5/12/57"/>
+				<setInputField name="form:contactCurrentAddressStreet" value="742 Evergreen Terrace #2"/>
+				<setInputField name="form:contactCurrentAddressCity" value="Springfield #2"/>
+				<setSelectField name="form:contactCurrentAddressState" value="Cyberton"/>
+				<setInputField name="form:contactCurrentAddressPostcode" value="90701 #2"/>
 				<clickButton label="Save"/>
 
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a" text="Mr Homer Jay Simpson"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[2]" text="E-mail: homer@simpsons.com, Fax: (939) 555-0114"/>
+				
+				<clickLink label="Mr Homer Jay Simpson"/>				
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[1]/td[1]" text="742 Evergreen Terrace #2"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[2]/td[1]" text="Springfield #2"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[3]/td[1]" text="Cyberton"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[7]/td[1]/table/tbody/tr[4]/td[1]" text="90701 #2"/>
+				<clickButton label="Back"/>
 				
 				<clickLink label="Mrs Marjorie Simpson"/>
 				

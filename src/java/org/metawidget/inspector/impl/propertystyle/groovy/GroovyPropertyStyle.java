@@ -92,14 +92,14 @@ public class GroovyPropertyStyle
 
 			// Exclude based on criteria
 
-			String declaringClass;
+			Class<?> declaringClass;
 
 			if ( metaBeanProperty.getGetter() != null )
-				declaringClass = metaBeanProperty.getGetter().getDeclaringClass().getName();
+				declaringClass = metaBeanProperty.getGetter().getDeclaringClass().getTheClass();
 			else if ( metaBeanProperty.getSetter() != null )
-				declaringClass = metaBeanProperty.getSetter().getDeclaringClass().getName();
+				declaringClass = metaBeanProperty.getSetter().getDeclaringClass().getTheClass();
 			else
-				declaringClass = clazz.getName();
+				declaringClass = clazz;
 
 			if ( isExcluded( declaringClass, name, type ))
 				continue;
@@ -123,12 +123,14 @@ public class GroovyPropertyStyle
 	 */
 
 	@Override
-	protected boolean isExcludedBaseType( String className )
+	protected boolean isExcludedBaseType( Class<?> classToExclude )
 	{
+		String className = classToExclude.getName();
+
 		if ( className.startsWith( "org.groovy." ))
 			return true;
 
-		return super.isExcludedBaseType( className );
+		return super.isExcludedBaseType( classToExclude );
 	}
 
 	/**

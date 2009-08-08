@@ -180,7 +180,7 @@ public class XmlUtils
 			{
 				// We've seen this throw a NullPointerException from
 				// com.sun.org.apache.xerces.internal.dom.ParentNode.nodeListItem(ParentNode.java:780)
-				// under GWT 1.6
+				// under GWT 1.6. Doesn't seem to under GWT 1.7+
 
 				continue;
 			}

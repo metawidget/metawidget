@@ -102,7 +102,7 @@ public class JavaBeanPropertyStyle
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( field.getDeclaringClass().getName(), fieldName, type ) )
+			if ( isExcluded( field.getDeclaringClass(), fieldName, type ) )
 				continue;
 
 			properties.put( fieldName, new FieldProperty( fieldName, field ) );
@@ -144,7 +144,7 @@ public class JavaBeanPropertyStyle
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( method.getDeclaringClass().getName(), propertyName, type ) )
+			if ( isExcluded( method.getDeclaringClass(), propertyName, type ) )
 				continue;
 
 			// Already found via its field?
@@ -225,7 +225,7 @@ public class JavaBeanPropertyStyle
 
 			// Exclude based on other criteria
 
-			if ( isExcluded( method.getDeclaringClass().getName(), propertyName, type ) )
+			if ( isExcluded( method.getDeclaringClass(), propertyName, type ) )
 				continue;
 
 			// Already found via its field?
