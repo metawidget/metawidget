@@ -34,6 +34,7 @@ import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -77,7 +78,7 @@ public class GroovyPropertyStyle
 		{
 			// Not CachedField, MetaArrayLengthProperty, or MetaExpandoProperty
 
-			if ( !( property instanceof MetaBeanProperty ))
+			if ( !( property instanceof MetaBeanProperty ) )
 				continue;
 
 			MetaBeanProperty metaBeanProperty = (MetaBeanProperty) property;
@@ -87,23 +88,25 @@ public class GroovyPropertyStyle
 
 			// Only public properties
 
-			if ( !Modifier.isPublic( metaBeanProperty.getModifiers() ))
+			if ( !Modifier.isPublic( metaBeanProperty.getModifiers() ) )
 				continue;
 
 			// Exclude based on criteria
 			//
-			// Note: using 'getTheClass()' requires Groovy 1.6+
+			// Note: it would be nice to use 'getTheClass()' here, instead of Class.forName(
+			// getName() ), but that requires Groovy 1.6+ and as of Seam 2.2.0.GA it ships with
+			// Groovy 1.5
 
 			Class<?> declaringClass;
 
 			if ( metaBeanProperty.getGetter() != null )
-				declaringClass = metaBeanProperty.getGetter().getDeclaringClass().getTheClass();
+				declaringClass = ClassUtils.niceForName( metaBeanProperty.getGetter().getDeclaringClass().getName() );
 			else if ( metaBeanProperty.getSetter() != null )
-				declaringClass = metaBeanProperty.getSetter().getDeclaringClass().getTheClass();
+				declaringClass = ClassUtils.niceForName( metaBeanProperty.getSetter().getDeclaringClass().getName() );
 			else
 				declaringClass = clazz;
 
-			if ( isExcluded( declaringClass, name, type ))
+			if ( isExcluded( declaringClass, name, type ) )
 				continue;
 
 			propertiesToReturn.put( name, new GroovyProperty( (MetaBeanProperty) property, clazz ) );
@@ -118,8 +121,8 @@ public class GroovyPropertyStyle
 	 * This can be useful when the convention or base class define properties that are
 	 * framework-specific, and should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, excludes any base types from the <code>org.groovy.*</code> packages, as
-	 * well as those excluded by <code>BasePropertyStyle</code>.
+	 * By default, excludes any base types from the <code>org.groovy.*</code> packages, as well as
+	 * those excluded by <code>BasePropertyStyle</code>.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
@@ -129,7 +132,7 @@ public class GroovyPropertyStyle
 	{
 		String className = classToExclude.getName();
 
-		if ( className.startsWith( "org.groovy." ))
+		if ( className.startsWith( "org.groovy." ) )
 			return true;
 
 		return super.isExcludedBaseType( classToExclude );

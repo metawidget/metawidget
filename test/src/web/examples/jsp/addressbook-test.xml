@@ -22,21 +22,21 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[@class='required']"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tfoot/tr/td[@class='buttons']"/>
 
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Mr Charles Montgomery Burns' )"/>
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mr Homer Simpson' )"/>
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[3]/td[1]/a, 'Mrs Marjorie Simpson' )"/>
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[4]/td[1]/a, 'Mrs Maude Flanders' )"/>
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[5]/td[1]/a, 'Mr Nedward Flanders' )"/>
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[6]/td[1]/a, 'Mr Waylon Smithers' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Mr Charles Montgomery Burns' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mr Homer Simpson' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[3]/td[1]/a, 'Mrs Marjorie Simpson' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[4]/td[1]/a, 'Mrs Maude Flanders' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[5]/td[1]/a, 'Mr Nedward Flanders' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[6]/td[1]/a, 'Mr Waylon Smithers' )"/>
 				<setInputField name="contactSearch.surname" value="Simpson"/>
 				<clickButton label="Search"/>
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Mr Homer Simpson' )"/>
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mrs Marjorie Simpson' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Mr Homer Simpson' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mrs Marjorie Simpson' )"/>
 				<setInputField name="contactSearch.surname" value=""/>
 				<setSelectField name="contactSearch.type" value="BUSINESS"/>
 				<clickButton label="Search"/>
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Mr Charles Montgomery Burns' )"/>
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mr Waylon Smithers' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Mr Charles Montgomery Burns' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mr Waylon Smithers' )"/>
 			</steps>
 		</webtest>
 	</target>
@@ -118,7 +118,7 @@
 				<setInputField name="contact.address.postcode" value="90701 #2"/>
 				<clickButton label="Save"/>
 
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mr Homer Jay Simpson' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mr Homer Jay Simpson' )"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[2]/td[2]" text="E-mail: homer@simpsons.com, Fax: (939) 555-0114"/>
 
 				<clickLink label="Mr Homer Jay Simpson"/>				
@@ -192,9 +192,9 @@
 
 				<clickButton label="Save"/>
 				
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Miss Business Contact' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Miss Business Contact' )"/>
 				<verifyXPath xpath="/html/body/div[@id='content']/table/tbody/tr[1]/td[2]" text="E-mail: miss@business.contact.com, Mobile: (0402) 456 123"/>
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mr Charles Montgomery Burns' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a, 'Mr Charles Montgomery Burns' )"/>
 				<clickLink label="Miss Business Contact"/>
 				<clickButton label="Back"/>
 				<clickLink label="Miss Business Contact"/>
@@ -206,7 +206,7 @@
 			
 				<clickButton label="Delete" fieldIndex="0"/>
 				
-				<verifyXPath xpath="contains(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Mr Charles Montgomery Burns' )"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[1]/td[1]/a, 'Mr Charles Montgomery Burns' )"/>
 			</steps>
 		</webtest>
 	</target>

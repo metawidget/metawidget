@@ -1648,8 +1648,8 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 	
 				<para>
 					The Seam Booking Example demonstrates updating an existing Seam application to use Metawidget, reducing
-					boilerplate code. The example requires you to have previously downloaded <ulink url="http://seamframework.org/Download">Seam 2.1.2</ulink>
-					and <ulink url="http://jboss.org/jbossas/downloads">JBoss 4.2.3.GA</ulink>, and you should be <ulink url="http://docs.jboss.com/seam/latest/reference/en-US/html/tutorial.html">familiar with the existing Seam Booking application</ulink>.
+					boilerplate code. The example requires you to have previously downloaded <ulink url="http://seamframework.org/Download">Seam 2.2.0.GA</ulink>
+					and <ulink url="http://jboss.org/jbossas/downloads">JBoss 5.1.0.GA</ulink>, and you should be <ulink url="http://docs.jboss.com/seam/latest/reference/en-US/html/tutorial.html">familiar with the existing Seam Booking application</ulink>.
 				</para>
 				
 				<para>
@@ -1664,7 +1664,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 					To run it, type:
 				</para>
 
-				<programlisting language="shell">cd \Applications\jboss-4.2.3.GA
+				<programlisting language="shell">cd \Applications\jboss-5.1.0.GA
 bin\run</programlisting>
 
 				<para>
@@ -1718,7 +1718,7 @@ bin\run</programlisting>
 					To run it, type:
 				</para>
 
-				<programlisting language="shell">cd \Applications\jboss-4.2.3.GA
+				<programlisting language="shell">cd \Applications\jboss-5.1.0.GA
 bin\run</programlisting>
 
 				<para>
@@ -1750,8 +1750,8 @@ bin\run</programlisting>
 		
 				<para>
 					The Seam DVD Store Example demonstrates updating an existing Seam jBPM application to use Metawidget, reducing
-					boilerplate code. The example requires you to have previously downloaded Seam 2.1.2
-					and JBoss 4.2.3.GA, and you should be familiar with the existing Seam DVD Store application.
+					boilerplate code. The example requires you to have previously downloaded Seam 2.2.0.GA
+					and JBoss 5.1.0.GA, and you should be familiar with the existing Seam DVD Store application.
 				</para>
 
 				<para>
@@ -1766,7 +1766,7 @@ bin\run</programlisting>
 					To run it, type:
 				</para>
 
-				<programlisting language="shell">cd \Applications\jboss-4.2.3.GA
+				<programlisting language="shell">cd \Applications\jboss-5.1.0.GA
 bin\run</programlisting>
 
 				<para>
