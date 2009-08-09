@@ -1775,6 +1775,7 @@
 				<include name="jstl-*.jar"/>
 				<include name="spring.jar"/>
 				<include name="spring-*.jar"/>
+				<include name="standard.jar"/>
 				<include name="metawidget.jar"/>
 			</lib>
 		</war>

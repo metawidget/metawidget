@@ -3,8 +3,8 @@
 	<property file="../../../../build.properties" />
 	<import file="${webtest.dir}/webtest.xml" />
 
-	<target name="test-all" depends="wt.defineTasks">
-		<webtest name="test-all">
+	<target name="test-lookup" depends="wt.defineTasks">
+		<webtest name="test-lookup">
 			<config resultpath="../../../../${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/quirks-spring" />
@@ -31,4 +31,21 @@
 		</webtest>
 	</target>
 
+	<target name="test-jstl" depends="wt.defineTasks">
+		<webtest name="test-jstl">
+			<config resultpath="../../../../${build.dir}"/>
+			<steps>
+				<invoke url="${webtest.url}/quirks-spring?stubbed=true" />
+				
+				<verifyXPath xpath="/html/body/form/table[@id='table-quirksCommand']"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Lookup:"/>
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[1]/td[1])" text="Stubbed!"/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="1"/>
+				
+			</steps>
+		</webtest>
+	</target>
+
+	<target name="test-all" depends="test-lookup,test-jstl"/>
+	
 </project>

@@ -91,6 +91,8 @@ public class GroovyPropertyStyle
 				continue;
 
 			// Exclude based on criteria
+			//
+			// Note: using 'getTheClass()' requires Groovy 1.6+
 
 			Class<?> declaringClass;
 
