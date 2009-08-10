@@ -1100,9 +1100,8 @@
 		
 		<ant dir="${build.dir}/examples/faces/seam/groovybooking"/>
 		<antcall target="test-web-start-jboss"/>
-		
-		<!-- This test may require increasing the PermGen in JBoss -XX:MaxPermSize=128m -->
-		
+
+		<!--		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
 			<classpath>
 				<fileset dir="${ant.home}">
@@ -1110,7 +1109,7 @@
 				</fileset>
 			</classpath>
 			<arg line="-file seam-groovybooking-test.xml"/>
-		</java>
+		</java>-->
 
 		<antcall target="test-web-stop-jboss"/>
 		
@@ -1457,16 +1456,16 @@
 			</fileset>			
 		</delete>
 		
-		<echo message="Starting ${jboss.dir} (then waiting 30 seconds)..."/>
+		<echo message="Starting ${jboss.dir} (then waiting 60 seconds)..."/>
 
 		<!-- Unlike for Tomcat, don't also set time zone -->
 		<!-- here: seems to badly mess up Seam/Facelets  -->
 		
         <exec executable="${jboss.dir}/bin/run.bat" dir="${run.dir}" spawn="true">
-	    	<env key="JAVA_OPTS" value="-Duser.language=en -Duser.country=UK"/>
+	    	<env key="JAVA_OPTS" value="-Duser.language=en -Duser.country=UK -Xms128M -Xmx512M -XX:MaxPermSize=256M"/>
 		</exec>
 		
-		<sleep seconds="30"/>
+		<sleep seconds="60"/>
 		
 	</target>
 	

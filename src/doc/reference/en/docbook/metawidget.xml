@@ -2085,10 +2085,12 @@ public PenguinCondition getCondition() { ...}</programlisting>
 ant</programlisting>
 								
 				<para>
-					You will need to either configure <parameter>GWT_HOME</parameter> and <parameter>METAWIDGET_HOME</parameter>
-					environment variables or pass <parameter>-Dgwt.home</parameter> and <parameter>-Dmetawidget.home</parameter>
+					You will need to either configure <parameter>GWT_HOME</parameter>, <parameter>METAWIDGET_HOME</parameter>
+					and <parameter>METAWIDGET_SRC_HOME</parameter> environment variables or pass <parameter>-Dgwt.home</parameter>,
+					<parameter>-Dmetawidget.home</parameter> and <parameter>-Dmetawidget.src.home</parameter>
 					arguments to Ant. GWT_HOME should point to a GWT 1.7 installation. METAWIDGET_HOME should point to the binary
-					Metawidget distribution. The build will create Eclipse projects which can be imported by using Eclipse's File -> Import menu and choosing
+					Metawidget distribution. METAWIDGET_SRC_HOME should point to the source Metawidget distribution. The build will
+					create Eclipse projects which can be imported by using Eclipse's File -> Import menu and choosing
 					"Existing Projects into Workspace" (as described in the <ulink url="http://code.google.com/webtoolkit/gettingstarted.html">GWT Getting Started Guide</ulink>).
 				</para>
 				

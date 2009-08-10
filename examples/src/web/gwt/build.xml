@@ -32,6 +32,7 @@
 		<fail message="Cannot find METAWIDGET_HOME. It must point to the binary Metawidget distribution. Please define the METAWIDGET_HOME environment variable or use: ant -Dmetawidget.home=&lt;metawidget home dir> &lt;target>" unless="metawidget.home" />
 		<fail message="Cannot find metawidget.jar at ${metawidget.home}. Is that the location of the binary distribution?" unless="metawidget-exists" />
 		<fail message="Cannot find /examples/gwt/metawidget-gwt-client.jar at ${metawidget.home}. Is that the location of the binary distribution?" unless="metawidget-gwt-client-exists" />
+		<fail message="Cannot find METAWIDGET_SRC_HOME. It must point to the source Metawidget distribution. Please define the METAWIDGET_SRC_HOME environment variable or use: ant -Dmetawidget.src.home=&lt;metawidget source home dir> &lt;target>" unless="metawidget.src.home" />
 		<fail message="Cannot find /lib/gxt.jar at ${metawidget.src.home}. Is that the location of the source distribution?" unless="gxt-exists" />
 		<echo message="Building using gwt.home = ${gwt.home}, metawidget.home = ${metawidget.home}, metawidget.src.home = ${metawidget.src.home}" />
 	</target>
@@ -80,9 +81,7 @@
 			</fileset>
 		</copy>
 		<copy todir="${gwt.project.dir}/${addressbook.dir}/war" failonerror="false">
-			<fileset dir="../shared" >
-				<exclude name="**/*.tag"/>
-			</fileset>
+			<fileset dir="../shared/addressbook"/>
 		</copy>
 		<copy tofile="${gwt.project.dir}/${addressbook.dir}/war/index.jsp" file="addressbook/index-hosted.jsp"/>
 
