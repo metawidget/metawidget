@@ -2807,6 +2807,8 @@
 			<fileset dir="${build.dir}">
 				<include name="${metawidget.name}/**"/>
 
+				<exclude name="${metawidget.name}/build.xml"/>
+				<exclude name="${metawidget.name}/build.properties"/>
 				<exclude name="${metawidget.name}/examples/src/**"/>
 				<exclude name="${metawidget.name}/lib/**"/>
 				<exclude name="${metawidget.name}/src/**"/>
