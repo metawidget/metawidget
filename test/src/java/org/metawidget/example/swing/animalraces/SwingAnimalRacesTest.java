@@ -30,7 +30,6 @@ import junit.framework.TestCase;
 import net.miginfocom.layout.CC;
 import net.miginfocom.swing.MigLayout;
 
-import org.metawidget.example.swing.animalraces.AnimalRaces;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
@@ -104,7 +103,7 @@ public class SwingAnimalRacesTest
 		assertTrue( "Start race".equals( ((JButton) statusbar.getComponent( 0 )).getText() ));
 		((JButton) statusbar.getComponent( 0 )).doClick();
 
-		Thread.sleep( 1000 );
+		Thread.sleep( 2000 );
 		assertTrue( "Eddie1".equals( ((JLabel) racetrack.getComponent( 0 )).getText() ));
 		assertTrue( ((JLabel) racetrack.getComponent( 0 )).getLocation().x > 20 );
 		assertTrue( 0 == ((JLabel) racetrack.getComponent( 0 )).getLocation().y );
