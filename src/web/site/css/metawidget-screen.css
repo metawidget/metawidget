@@ -288,9 +288,12 @@ a {
 /*
  * Content
  */
+#content-spacer-for-ie {
+	height: 110px;
+}
+
 #content {
 	width: 100%;
-	margin-top: 110px;
 }
  
 #content-text {

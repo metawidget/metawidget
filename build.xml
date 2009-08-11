@@ -2551,7 +2551,7 @@
 
 	<!-- http://www.metawidget.org -->
 
-	<target name="live-demo"><!-- depends="pack,compile-examples">-->
+	<target name="live-demo" depends="pack,compile-examples">
 		
 		<delete failonerror="false">
 			<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
@@ -2625,7 +2625,7 @@
 		
 	</target>
 
-	<target name="web-site">
+	<target name="web-site" depends="init">
 
 		<delete dir="${tomcat.dir}/webapps"/>
 
@@ -2720,11 +2720,11 @@
 
 		<!-- Live demo -->
 
-		<!--<antcall target="live-demo"/>-->
+		<antcall target="live-demo"/>
 		
 		<!-- m2repo -->
 		
-		<antcall target="m2repo"/>
+		<!--<antcall target="m2repo"/>-->
 		
 		<!-- Test console applet -->
 

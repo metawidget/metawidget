@@ -17,6 +17,8 @@
 		</ul>
 	</div>
 	
+	<div id="content-spacer-for-ie"></div>
+	
 	<table id="content">
 		<tr>			
 			<td id="left-bar">			
@@ -76,7 +78,7 @@
 					<a href="http://springframework.org/" target="_blank" style="top: 245px; left: 110px">
 						<img src="/media/logos/logo-spring.gif" alt="Spring" style="border: 0px" />
 					</a>
-					<a href="http://struts.apache.org" target="_blank" style="top: 287px; left: 95px">
+					<a href="http://struts.apache.org" target="_blank" style="top: 290px; left: 95px">
 						<img src="/media/logos/logo-struts.gif" alt="Struts" style="border: 0px" />
 					</a>
 					<a href="http://java.sun.com/javase/technologies/desktop" target="_blank" style="top: 250px; left: 53px">

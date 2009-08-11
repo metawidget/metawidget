@@ -130,6 +130,12 @@ public class GroovyPropertyStyle
 	@Override
 	protected boolean isExcludedBaseType( Class<?> classToExclude )
 	{
+		// (classToExclude might be null in the Groovy Console applet. We won't need this
+		// after we can use .getTheClass)
+
+		if ( classToExclude == null )
+			return false;
+
 		String className = classToExclude.getName();
 
 		if ( className.startsWith( "org.groovy." ) )
