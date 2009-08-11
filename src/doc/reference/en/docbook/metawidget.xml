@@ -2779,7 +2779,7 @@ ant</programlisting>
 						</listitem>
 						<listitem>
 							<para>
-								Add an <filename>metawidget.xml</filename> to your <parameter>CLASSPATH</parameter> (or you may prefer
+								Add a <filename>metawidget.xml</filename> to your <parameter>CLASSPATH</parameter> (or you may prefer
 								to configure the Metawidget programmatically, as detailed in <xref linkend="section-introduction-part1"/>).
 							</para>
 						</listitem>
@@ -2914,8 +2914,8 @@ ant</programlisting>
 						</listitem>
 						<listitem>
 							<para>
-								Add an <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>. Or, if you're running under the
-								GWT Development Shell, add an <filename>metawidget.xml</filename> to the root of a <parameter>CLASSPATH</parameter> entry.
+								Add a <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>. Or, if you're running under the
+								GWT Development Shell, add a <filename>metawidget.xml</filename> to the root of a <parameter>CLASSPATH</parameter> entry.
 							</para>
 						</listitem>
 					</orderedlist>
@@ -3110,16 +3110,9 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					</para>
 					
 					<para>
-						That's it! Of course, JavaScript-based inspection is severely limited compared to Java-based inspection, but you may
-						be able to find tricks that work for your environment. For example, you can try...
+						For an example of this technique see <xref linkend="section-introduction-part3-gwt-clientside"/>.
 					</para>
 					
-					<programlisting language="java">for( var property in myObject ) { alert( myObject[property] ); }</programlisting>					
-
-					<para>
-						...or perhaps you already have the XML you need available somewhere else in your client-side code.
-					</para>
-
 				</section>
 				
 			</section>
@@ -3148,7 +3141,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						</listitem>
 						<listitem>
 							<para>
-								Add an <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>.
+								Add a <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>.
 							</para>
 						</listitem>
 						<listitem>
@@ -3296,7 +3289,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						</listitem>
 						<listitem>
 							<para>
-								Add an <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>.
+								Add a <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>.
 							</para>
 						</listitem>
 						<listitem>
@@ -3360,7 +3353,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 						</listitem>
 						<listitem>
 							<para>
-								Add an <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>.
+								Add a <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>.
 							</para>
 						</listitem>
 						<listitem>

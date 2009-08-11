@@ -2720,13 +2720,13 @@
 
 		<!-- Live demo -->
 
-		<antcall target="live-demo"/>
+		<!--<antcall target="live-demo"/>-->
 		
 		<!-- m2repo -->
 		
 		<!--<antcall target="m2repo"/>-->
 		
-		<!-- Test console applet -->
+		<!-- Test console applet
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${run.dir}">
 			<classpath>
@@ -2735,7 +2735,7 @@
 				</fileset>
 			</classpath>
 			<arg line="-file '${basedir}/test/src/web/examples/swing/console-test.xml'"/>
-		</java>
+		</java> -->
 
 		<!-- Test HTML links -->
 

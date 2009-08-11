@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * <strong>JSP support, including technologies based on JSP</strong>
+ * <strong>JSP support, including technologies based on JSP</strong>.
  *
  * @author Richard Kennard
  */
