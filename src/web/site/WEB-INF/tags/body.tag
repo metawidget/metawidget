@@ -45,10 +45,10 @@
 						<li <c:if test="${path == '/coverage.html'}">class="active"</c:if>><a href="${context}/coverage.html">Code Coverage</a></li>
 					</ul>
 				</div>
-				<div class="badges" style="height: 295px">
+				<div class="badges" style="height: 330px; padding-top: 5px; border: 1px solid #dddddd; background-color: #eeeeee">
 					<span>Metawidget integrates with:</span>
-	
-					<a href="http://java.sun.com/javaee" target="_blank" style="top: 30px; left: 0px">
+
+					<a href="http://java.sun.com/javaee" target="_blank" style="top: 30px; left: 2px">
 						<img src="/media/logos/logo-java.gif" alt="Java" style="border: 0px" />
 					</a>
 					<a href="http://code.google.com/android" target="_blank" style="top: 40px; left: 70px">
@@ -60,34 +60,33 @@
 					<a href="http://groovy.codehaus.org" target="_blank" style="top: 70px; left: 100px">
 						<img src="/media/logos/logo-groovy.gif" alt="Groovy" style="border: 0px" />
 					</a>
-					<a href="http://hibernate.org" target="_blank" style="top: 130px; left: 0px">
+					<a href="http://hibernate.org" target="_blank" style="top: 130px; left: 2px">
 						<img src="/media/logos/logo-hibernate.gif" alt="Hibernate" style="border: 0px" />
 					</a>
-					<a href="http://icefaces.org" target="_blank" style="top: 155px; left: 25px">
+					<a href="http://icefaces.org" target="_blank" style="top: 175px; left: 2px">
 						<img src="/media/logos/logo-icefaces.gif" alt="ICEfaces" style="border: 0px" />
 					</a>
-					<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 165px; left: 115px">
+					<a href="http://java.sun.com/javaee/javaserverfaces" target="_blank" style="top: 153px; left: 110px">
 						<img src="/media/logos/logo-jsf.gif" alt="Java Server Faces" style="border: 0px" />
 					</a>
-					<a href="http://oval.sourceforge.net" target="_blank" style="top: 210px; left: 5px">
+					<a href="http://oval.sourceforge.net" target="_blank" style="top: 215px; left: 5px">
 						<img src="/media/logos/logo-oval.gif" alt="OVal" style="border: 0px" />
 					</a>
-					<a href="http://jboss.org/jbossrichfaces" target="_blank" style="top: 200px; left: 70px">
+					<a href="http://jboss.org/jbossrichfaces" target="_blank" style="top: 208px; left: 70px">
 						<img src="/media/logos/logo-richfaces.gif" alt="RichFaces" style="border: 0px" />
 					</a>
-					<a href="http://springframework.org/" target="_blank" style="top: 245px; left: 110px">
+					<a href="http://springframework.org/" target="_blank" style="top: 250px; left: 110px">
 						<img src="/media/logos/logo-spring.gif" alt="Spring" style="border: 0px" />
 					</a>
-					<a href="http://struts.apache.org" target="_blank" style="top: 290px; left: 95px">
+					<a href="http://struts.apache.org" target="_blank" style="top: 295px; left: 95px">
 						<img src="/media/logos/logo-struts.gif" alt="Struts" style="border: 0px" />
 					</a>
-					<a href="http://java.sun.com/javase/technologies/desktop" target="_blank" style="top: 250px; left: 53px">
+					<a href="http://java.sun.com/javase/technologies/desktop" target="_blank" style="top: 253px; left: 55px">
 						<img src="/media/logos/logo-swing.gif" alt="Swing" style="border: 0px" />
 					</a>
-					<a href="http://myfaces.apache.org/tomahawk/index.html" target="_blank" style="top: 280px; left: 0px">
+					<a href="http://myfaces.apache.org/tomahawk/index.html" target="_blank" style="top: 285px; left: 2px">
 						<img src="/media/logos/logo-tomahawk.gif" alt="Tomahawk" style="border: 0px" />
 					</a>
-					
 				</div>
 				<div class="badges" style="height: 150px">
 					<span>Metawidget is proudly:</span>

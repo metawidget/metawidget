@@ -62,8 +62,8 @@ import org.w3c.dom.NodeList;
  * ...as output.
  * <p>
  * This class does not support schema validation. It is not that useful in practice for two reasons.
- * First, Inspectors like <code>HibernateInspector</code> and <code>JbpmInspector</code> cannot
- * use it because they can be pointed at different kinds of files (eg. hibernate.cfg.xml or
+ * First, Inspectors like <code>HibernateInspector</code> and <code>JbpmInspector</code> cannot use
+ * it because they can be pointed at different kinds of files (eg. hibernate.cfg.xml or
  * hibernate-mapping.hbm.xml). Second, Inspectors that are intended for Android environments (eg.
  * <code>XmlInspector</code>) cannot use it because Android's Dalvik preprocessor balks at the
  * unsupported schema classes (even if they're wrapped in a <code>ClassNotFoundException</code>).
@@ -151,13 +151,16 @@ public abstract class BaseXmlInspector
 
 				String typeAttribute = getTypeAttribute();
 
-				// If the parent has no @type, then we cannot traverse to the child. Even if we
-				// wanted to just return the parent attributes, we have no @type to attach to
-				// the top-level 'entity' node. So we must fail hard here. If we just return 'null',
-				// we may silently ignore parent attributes (such as a lookup)
+				// If the property in the parent has no @type, then we cannot traverse to the child.
+				// Even if we wanted to just return the parent attributes, we have no @type to
+				// attach to the top-level 'entity' node. So we must fail hard here. If we just
+				// return 'null', we may silently ignore parent attributes (such as a lookup)
+				//
+				// Note: this rule does not make much sense if the property is defined as
+				// 'dont-expand', but the Inspector has no understanding of such attributes
 
 				if ( !propertyInParent.hasAttribute( typeAttribute ) )
-					throw InspectorException.newException( "Parent property of " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) + " has no @" + typeAttribute );
+					throw InspectorException.newException( "Property " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) + " has no @" + typeAttribute );
 
 				elementToInspect = traverse( propertyInParent.getAttribute( typeAttribute ), false );
 			}

@@ -812,10 +812,6 @@
 		<fail message="JBoss not installed at 'jboss.dir' (as indicated in build.properties)" unless="jboss-exists"/>
 		<copy todir="${jboss.dir}/server/default/lib" file="lib/emma.jar"/>
 
-		<available property="jboss4-exists" file="${jboss4.dir}/bin/run.bat"/>
-		<fail message="JBoss4 not installed at 'jboss4.dir' (as indicated in build.properties)" unless="jboss4-exists"/>
-		<copy todir="${jboss4.dir}/server/default/lib" file="lib/emma.jar"/>
-
 		<available property="glassfish-exists" file="${glassfish.dir}/bin/asadmin.bat"/>
 		<fail message="GlassFish not installed at 'glassfish.dir' (as indicated in build.properties)" unless="glassfish-exists"/>
 		<copy todir="${glassfish.dir}/domains/${glassfish.domain}/lib" file="lib/emma.jar"/>
@@ -1103,7 +1099,7 @@
 	<target name="test-faces-seam-groovybooking" depends="example-faces-seam-groovybooking,compile-test">
 		
 		<ant dir="${build.dir}/examples/faces/seam/groovybooking"/>
-		<antcall target="test-web-start-jboss4"/>
+		<antcall target="test-web-start-jboss"/>
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/examples/faces">
 			<classpath>
@@ -1114,7 +1110,7 @@
 			<arg line="-file seam-groovybooking-test.xml"/>
 		</java>
 
-		<antcall target="test-web-stop-jboss4"/>
+		<antcall target="test-web-stop-jboss"/>
 		
 	</target>
 
@@ -1476,45 +1472,6 @@
 		
 		<echo message="Stopping ${jboss.dir} (then waiting 30 seconds)..."/>
         <exec executable="${jboss.dir}/bin/shutdown.bat" dir="${run.dir}">
-        	<arg value="-S"/>
-		</exec>
-		<sleep seconds="30"/>
-
-	</target>
-
-	<!-- JBoss 4 hack. Can be removed once Groovy Booking supports Seam 2.2 -->
-	
-	<target name="test-web-start-jboss4">
-
-		<available property="jboss4-exists" file="${jboss4.dir}/bin/run.bat"/>
-		<fail message="JBoss not installed at 'jboss4.dir' (as indicated in build.properties)" unless="jboss4-exists"/>
-		
-		<delete includeemptydirs="true" failonerror="false">
-			<fileset dir="${jboss4.dir}/server/default/tmp">
-				<include name="**/*"/>
-			</fileset>
-			<fileset dir="${jboss4.dir}/server/default/work">
-				<include name="**/*"/>
-			</fileset>			
-		</delete>
-		
-		<echo message="Starting ${jboss4.dir} (then waiting 60 seconds)..."/>
-
-		<!-- Unlike for Tomcat, don't also set time zone -->
-		<!-- here: seems to badly mess up Seam/Facelets  -->
-		
-        <exec executable="${jboss4.dir}/bin/run.bat" dir="${run.dir}" spawn="true">
-	    	<env key="JAVA_OPTS" value="-Duser.language=en -Duser.country=UK -Xms128M -Xmx512M -XX:MaxPermSize=256M"/>
-		</exec>
-		
-		<sleep seconds="60"/>
-		
-	</target>
-	
-	<target name="test-web-stop-jboss4">
-		
-		<echo message="Stopping ${jboss4.dir} (then waiting 30 seconds)..."/>
-        <exec executable="${jboss4.dir}/bin/shutdown.bat" dir="${run.dir}">
         	<arg value="-S"/>
 		</exec>
 		<sleep seconds="30"/>

@@ -23,8 +23,6 @@ import java.io.ByteArrayInputStream;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.xml.XmlInspector;
-import org.metawidget.inspector.xml.XmlInspectorConfig;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -155,7 +153,7 @@ public class XmlInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Parent property of org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz has no @type" ));
+			assertTrue( e.getMessage().endsWith( "Property org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz has no @type" ));
 		}
 
 		try
