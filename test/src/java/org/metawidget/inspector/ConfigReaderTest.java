@@ -33,7 +33,6 @@ import javax.xml.validation.SchemaFactory;
 
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.faces.FacesInspector;
@@ -285,7 +284,7 @@ public class ConfigReaderTest
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget>";
-		xml += "	<Class xmlns=\"java:java.lang\"/>";
+		xml += "	<class xmlns=\"java:java.lang\"/>";
 		xml += "</metawidget>";
 
 		try
@@ -577,6 +576,24 @@ public class ConfigReaderTest
 		// (4 because each metawidget.xml contains a metawidget-metadata.xml)
 
 		assertTrue( 4 == configReader.getOpenedResource() );
+	}
+
+	public void testUppercase()
+	{
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<BadInspector xmlns=\"java:org.metawidget.inspector\"/>";
+		xml += "</metawidget>";
+
+		try
+		{
+			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
+			assertTrue( false );
+		}
+		catch ( InspectorException e )
+		{
+			assertTrue( "XML node 'BadInspector' should start with a lowercase letter".equals( e.getMessage() ) );
+		}
 	}
 
 	//

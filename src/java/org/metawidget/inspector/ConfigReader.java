@@ -597,6 +597,9 @@ public class ConfigReader
 			if ( mIgnoreAfterDepth != -1 && mDepth > mIgnoreAfterDepth )
 				return;
 
+			if ( Character.isUpperCase( localName.charAt( 0 )))
+				throw InspectorException.newException( "XML node '" + localName + "' should start with a lowercase letter" );
+
 			try
 			{
 				// Note: we rely on our schema-validating parser to enforce the correct
