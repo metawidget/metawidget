@@ -96,6 +96,8 @@ public class ExtGwtWidgetBuilder
 		if ( Date.class.getName().equals( type ) )
 			return new DateField();
 
+		// TODO: Slider
+
 		// Not for ExtGWT
 
 		return null;

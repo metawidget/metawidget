@@ -20,6 +20,8 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.inspector.InspectionResultConstants;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Element;
@@ -71,7 +73,21 @@ public class XmlInspector
 	protected Map<String, String> inspectProperty( Element toInspect )
 	{
 		if ( PROPERTY.equals( toInspect.getNodeName() ) )
-			return XmlUtils.getAttributesAsMap( toInspect );
+		{
+			Map<String, String> attributes = XmlUtils.getAttributesAsMap( toInspect );
+
+			// Warn about some common typos
+
+			if ( attributes.containsKey( "readonly" ))
+				throw InspectorException.newException( "Attribute named 'readonly' should be '" + InspectionResultConstants.READ_ONLY + "'" );
+
+			if ( attributes.containsKey( "dontexpand" ))
+				throw InspectorException.newException( "Attribute named 'dontexpand' should be '" + InspectionResultConstants.DONT_EXPAND + "'" );
+
+			// All good
+
+			return attributes;
+		}
 
 		return null;
 	}

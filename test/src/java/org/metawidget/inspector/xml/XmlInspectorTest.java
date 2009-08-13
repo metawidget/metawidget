@@ -64,7 +64,14 @@ public class XmlInspectorTest
 		xml += "<property name=\"baz\"/>";
 		xml += "<action name=\"doAction\"/>";
 		xml += "<some-junk name=\"ignoreMe\"/>";
-		xml += "</entity></inspection-result>";
+		xml += "</entity>";
+		xml += "<entity type=\"Typo1\">";
+		xml += "<property name=\"foo\" readonly=\"true\"/>";
+		xml += "</entity>";
+		xml += "<entity type=\"Typo2\">";
+		xml += "<property name=\"foo\" dontexpand=\"true\"/>";
+		xml += "</entity>";
+		xml += "</inspection-result>";
 
 		XmlInspectorConfig config = new XmlInspectorConfig();
 		config.setInputStream( new ByteArrayInputStream( xml.getBytes() ) );
@@ -153,7 +160,7 @@ public class XmlInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Property org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz has no @type" ));
+			assertTrue( e.getMessage().endsWith( "Property baz has no @type attribute, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz" ));
 		}
 
 		try
@@ -163,7 +170,7 @@ public class XmlInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( e.getMessage().endsWith( "Property baz of org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz.abc has no @type" ));
+			assertTrue( e.getMessage().endsWith( "Property baz in entity Bar has no @type attribute, so cannot navigate to org.metawidget.inspector.xml.XmlInspectorTest$SubFoo.bar.baz.abc" ));
 		}
 	}
 
@@ -189,6 +196,29 @@ public class XmlInspectorTest
 		catch( InspectorException e )
 		{
 			assertTrue( "Unable to locate metawidget-metadata.xml on CLASSPATH".equals( e.getMessage() ));
+		}
+	}
+
+	public void testTypos()
+	{
+		try
+		{
+			mInspector.inspect( null, "Typo1" );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "Attribute named 'readonly' should be 'read-only'".equals( e.getMessage() ) );
+		}
+
+		try
+		{
+			mInspector.inspect( null, "Typo2" );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "Attribute named 'dontexpand' should be 'dont-expand'".equals( e.getMessage() ) );
 		}
 	}
 }

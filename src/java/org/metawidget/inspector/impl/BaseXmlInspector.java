@@ -156,11 +156,11 @@ public abstract class BaseXmlInspector
 				// attach to the top-level 'entity' node. So we must fail hard here. If we just
 				// return 'null', we may silently ignore parent attributes (such as a lookup)
 				//
-				// Note: this rule does not make much sense if the property is defined as
-				// 'dont-expand', but the Inspector has no understanding of such attributes
+				// Note: this rule should never be triggered if the property has the 'dont-expand'
+				// attribute set, because we should never try to traverse the child
 
 				if ( !propertyInParent.hasAttribute( typeAttribute ) )
-					throw InspectorException.newException( "Property " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) + " has no @" + typeAttribute );
+					throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ));
 
 				elementToInspect = traverse( propertyInParent.getAttribute( typeAttribute ), false );
 			}
@@ -413,7 +413,7 @@ public abstract class BaseXmlInspector
 				return property;
 
 			if ( !property.hasAttribute( typeAttribute ) )
-				throw InspectorException.newException( "Property " + name + " of " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) + " has no @" + typeAttribute );
+				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ));
 
 			String propertyType = property.getAttribute( typeAttribute );
 			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, propertyType );

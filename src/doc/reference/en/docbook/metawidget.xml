@@ -5059,11 +5059,11 @@ public class PersonController {
 							<td><classname>@UiComesAfter</classname></td>
 						</tr>
 						<tr>
-							<td>action</td>
+							<td><parameter>action</parameter></td>
 							<td><classname>@UiAction</classname></td>
 						</tr>
 						<tr>
-							<td>dont-expand</td>
+							<td><parameter>dont-expand</parameter></td>
 							<td>
 								<classname>@UiDontExpand</classname> - denotes a value should not be inspected and expanded into sub-widgets. This
 								can be useful if, say, you have a read-only field and just want to display its top-level <function>toString()</function>
