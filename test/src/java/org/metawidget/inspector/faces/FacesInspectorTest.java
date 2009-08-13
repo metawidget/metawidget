@@ -22,13 +22,6 @@ import junit.framework.TestCase;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.annotation.UiAction;
-import org.metawidget.inspector.faces.FacesInspector;
-import org.metawidget.inspector.faces.UiFacesAttribute;
-import org.metawidget.inspector.faces.UiFacesComponent;
-import org.metawidget.inspector.faces.UiFacesConverter;
-import org.metawidget.inspector.faces.UiFacesDateTimeConverter;
-import org.metawidget.inspector.faces.UiFacesLookup;
-import org.metawidget.inspector.faces.UiFacesNumberConverter;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -64,8 +57,10 @@ public class FacesInspectorTest
 		Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object1" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( "#{foo.bar}".equals( property.getAttribute( FACES_LOOKUP ) ) );
+		assertTrue( "#{foo.suggest}".equals( property.getAttribute( FACES_SUGGEST) ) );
 		assertTrue( "foo.component".equals( property.getAttribute( FACES_COMPONENT ) ) );
 		assertTrue( "foo.converter".equals( property.getAttribute( FACES_CONVERTER_ID ) ) );
+		assertTrue( property.getAttributes().getLength() == 5 );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "object2" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
@@ -135,6 +130,7 @@ public class FacesInspectorTest
 	public static class Foo
 	{
 		@UiFacesLookup( "#{foo.bar}" )
+		@UiFacesSuggest( "#{foo.suggest}" )
 		@UiFacesComponent( "foo.component" )
 		@UiFacesConverter( "foo.converter" )
 		public Object	object1;

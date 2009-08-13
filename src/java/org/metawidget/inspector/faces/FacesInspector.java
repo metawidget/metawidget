@@ -74,6 +74,11 @@ public class FacesInspector
 		if ( expressionLookup != null )
 			attributes.put( FACES_LOOKUP, expressionLookup.value() );
 
+		UiFacesSuggest expressionSuggest = property.getAnnotation( UiFacesSuggest.class );
+
+		if ( expressionSuggest != null )
+			attributes.put( FACES_SUGGEST, expressionSuggest.value() );
+
 		// Component
 
 		UiFacesComponent component = property.getAnnotation( UiFacesComponent.class );

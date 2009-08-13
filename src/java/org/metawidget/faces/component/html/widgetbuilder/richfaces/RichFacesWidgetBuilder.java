@@ -27,8 +27,12 @@ import java.util.Map;
 import java.util.TimeZone;
 
 import javax.faces.application.Application;
+import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
+import javax.faces.el.MethodBinding;
+import javax.faces.el.ValueBinding;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.HtmlMetawidget;
@@ -38,6 +42,7 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.UIInputNumberSlider;
 import org.richfaces.component.UIInputNumberSpinner;
+import org.richfaces.component.UISuggestionBox;
 import org.richfaces.component.html.HtmlInputNumberSpinner;
 
 /**
@@ -49,6 +54,7 @@ import org.richfaces.component.html.HtmlInputNumberSpinner;
  * @author Richard Kennard
  */
 
+@SuppressWarnings( "deprecation" )
 public class RichFacesWidgetBuilder
 	extends BaseWidgetBuilder<UIComponent, UIMetawidget>
 {
@@ -70,7 +76,7 @@ public class RichFacesWidgetBuilder
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
-		if ( type == null)
+		if ( type == null )
 			return null;
 
 		Class<?> clazz = ClassUtils.niceForName( type );
@@ -80,7 +86,7 @@ public class RichFacesWidgetBuilder
 
 		// Color
 
-		if ( Color.class.isAssignableFrom( clazz ))
+		if ( Color.class.isAssignableFrom( clazz ) )
 			return createReadOnlyComponent( attributes, metawidget );
 
 		// Not for RichFaces
@@ -100,10 +106,11 @@ public class RichFacesWidgetBuilder
 		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) )
 			return null;
 
-		Application application = FacesContext.getCurrentInstance().getApplication();
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
-		if ( type == null)
+		if ( type == null )
 			return null;
 
 		Class<?> clazz = ClassUtils.niceForName( type );
@@ -236,8 +243,55 @@ public class RichFacesWidgetBuilder
 
 		// Colors (as of RichFaces 3.3.1)
 
-		if ( Color.class.isAssignableFrom( clazz ))
+		if ( Color.class.isAssignableFrom( clazz ) )
 			return application.createComponent( "org.richfaces.ColorPicker" );
+
+		// Suggestion box
+
+		if ( String.class.equals( clazz ) )
+		{
+			String facesSuggest = attributes.get( FACES_SUGGEST );
+
+			if ( facesSuggest != null )
+			{
+				UIComponent componentStub = application.createComponent( "org.metawidget.Stub" );
+				List<UIComponent> children = componentStub.getChildren();
+
+				UIViewRoot viewRoot = context.getViewRoot();
+
+				// Standard text box
+
+				UIComponent inputText = application.createComponent( "javax.faces.HtmlInputText" );
+				inputText.setId( viewRoot.createUniqueId() );
+				children.add( inputText );
+
+				// Suggestion box
+
+				UISuggestionBox suggestionBox = (UISuggestionBox) application.createComponent( "org.richfaces.SuggestionBox" );
+
+				MethodBinding methodBinding = application.createMethodBinding( facesSuggest, null );
+				suggestionBox.setFor( inputText.getId() );
+				suggestionBox.setSuggestionAction( methodBinding );
+				suggestionBox.setVar( "_internal" );
+				children.add( suggestionBox );
+
+				// Column
+
+				UIColumn column = (UIColumn) application.createComponent( "javax.faces.Column" );
+				column.setId( viewRoot.createUniqueId() );
+				suggestionBox.getChildren().add( column );
+
+				// Output text box
+
+				UIComponent columnText = application.createComponent( "javax.faces.HtmlOutputText" );
+				columnText.setId( viewRoot.createUniqueId() );
+				ValueBinding valueBinding = application.createValueBinding( "#{_internal}" );
+				columnText.setValueBinding( "value", valueBinding );
+				column.getChildren().add( columnText );
+
+				return componentStub;
+			}
+		}
 
 		// Not for RichFaces
 

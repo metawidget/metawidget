@@ -16,37 +16,25 @@
 
 package org.metawidget.inspector.faces;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
- * Faces-specific element and attribute names appearing in DOMs conforming to
- * inspection-result-1.0.xsd.
+ * Annotates the value in the field should be 'suggested' (ie. using a pop-up box) using the set
+ * returned by the given EL expression.
  *
  * @author Richard Kennard
  */
 
-public final class FacesInspectionResultConstants
+@Retention( RetentionPolicy.RUNTIME )
+@Target( { ElementType.FIELD, ElementType.METHOD } )
+public @interface UiFacesSuggest
 {
-	//
-	// Public statics
-	//
+	/**
+	 * An EL expression for the suggest, of the form <code>#{...}</code>.
+	 */
 
-	public final static String	FACES_LOOKUP					= "faces-lookup";
-
-	public final static String	FACES_SUGGEST					= "faces-suggest";
-
-	public final static String	FACES_EXPRESSION				= "faces-expression";
-
-	public final static String	FACES_COMPONENT					= "faces-component";
-
-	public final static String	FACES_CONVERTER_ID				= "faces-converter-id";
-
-	public final static String	FACES_IMMEDIATE					= "faces-immediate";
-
-	//
-	// Private constructor
-	//
-
-	private FacesInspectionResultConstants()
-	{
-		// Can never be called
-	}
+	String value();
 }
