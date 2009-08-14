@@ -39,6 +39,8 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
+// TODO: add documentation for FacesInspector
+
 @SuppressWarnings( "deprecation" )
 public class FacesInspector
 	extends BaseObjectInspector

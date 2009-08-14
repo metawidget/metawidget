@@ -248,6 +248,8 @@ public class RichFacesWidgetBuilder
 
 		// Suggestion box
 
+		// TODO: does not work in table facets because of https://jira.jboss.org/jira/browse/RF-7700
+
 		if ( String.class.equals( clazz ) )
 		{
 			String facesSuggest = attributes.get( FACES_SUGGEST );
@@ -255,6 +257,7 @@ public class RichFacesWidgetBuilder
 			if ( facesSuggest != null )
 			{
 				UIComponent componentStub = application.createComponent( "org.metawidget.Stub" );
+				componentStub.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE, true );
 				List<UIComponent> children = componentStub.getChildren();
 
 				UIViewRoot viewRoot = context.getViewRoot();
@@ -268,12 +271,28 @@ public class RichFacesWidgetBuilder
 				// Suggestion box
 
 				UISuggestionBox suggestionBox = (UISuggestionBox) application.createComponent( "org.richfaces.SuggestionBox" );
-
-				MethodBinding methodBinding = application.createMethodBinding( facesSuggest, null );
 				suggestionBox.setFor( inputText.getId() );
-				suggestionBox.setSuggestionAction( methodBinding );
 				suggestionBox.setVar( "_internal" );
 				children.add( suggestionBox );
+
+				try
+				{
+					// RichFaces 3.2/JSF 1.2 mode
+					//
+					// Note: we wrap the MethodExpression as an Object[] to stop link-time
+					// dependencies on javax.el.MethodExpression, so that we still work with
+					// JSF 1.1
+
+					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, null, ClassUtils.NO_CLASSES  ) };
+					ClassUtils.setProperty( suggestionBox, "suggestionAction", methodExpression[0] );
+				}
+				catch ( Exception e )
+				{
+					// RichFaces 3.1/JSF 1.1 mode
+
+					MethodBinding methodBinding = application.createMethodBinding( facesSuggest, null );
+					suggestionBox.setSuggestionAction( methodBinding );
+				}
 
 				// Column
 
