@@ -399,7 +399,8 @@ public abstract class UIMetawidget
 	{
 		try
 		{
-			// Validation error? Do not rebuild, as we will lose the invalid values in the components.
+			// Validation error? Do not rebuild, as we will lose the invalid values in the
+			// components.
 			// Instead, just move along to our renderer
 
 			if ( context.getMaximumSeverity() != null )
@@ -860,6 +861,9 @@ public abstract class UIMetawidget
 	/**
 	 * Unlike <code>UIViewRoot.createUniqueId</code>, tries to make the Id human readable, both for
 	 * debugging purposes and for when running unit tests (using, say, WebTest).
+	 * <p>
+	 * This method is not separated out into, say, FacesUtils because we want subclasses to be able
+	 * to override it.
 	 * <p>
 	 * Subclasses can override this method to use <code>UIViewRoot.createUniqueId</code> if
 	 * preferred. They can even override it to assign a different, random id to a component each

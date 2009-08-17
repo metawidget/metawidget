@@ -39,8 +39,6 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-// TODO: add documentation for FacesInspector
-
 @SuppressWarnings( "deprecation" )
 public class FacesInspector
 	extends BaseObjectInspector
@@ -107,9 +105,6 @@ public class FacesInspector
 
 			if ( numberConverter.groupingUsed() )
 				attributes.put( NUMBER_USES_GROUPING_SEPARATORS, TRUE );
-
-			if ( !"".equals( numberConverter.currencyCode() ))
-				attributes.put( CURRENCY_CODE, numberConverter.currencyCode() );
 
 			if ( numberConverter.minIntegerDigits() != -1 )
 				attributes.put( MINIMUM_INTEGER_DIGITS, String.valueOf( numberConverter.minIntegerDigits() ));

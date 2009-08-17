@@ -4891,6 +4891,123 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 
 			</section>
 
+			<section id="section-inspectors-faces">
+				<title>FacesInspector</title>
+				
+				<para>
+					<classname>FacesInspector</classname> inspects Java Server Faces-specific annotations. It returns the following
+					attributes for the following business properties:
+				</para>
+				
+				<table>
+					<colgroup>
+						<col width="40%"/>
+						<col width="60%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Metawidget Attribute</th>
+							<th align="left">Annotation</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>(any)</td>
+							<td>
+								<classname>@UiFacesAttributes</classname> and <classname>@UiFacesAttribute</classname> -  annotates
+								an arbitrary Metawidget attribute, based on a Java Server Faces EL expression.
+								<para>
+									Unlike <classname>@UiFacesLookup</classname>, which fits into a well-defined place within the JSF
+									framework (ie. <parameter>f:selectItems</parameter>), the <classname>@UiFacesAttribute</classname> expression is
+									evaluated by the <classname>Inspector</classname>, not by the <classname>Metawidget</classname>. This means the
+									<classname>Inspector</classname> must be able access to <classname>FacesContext</classname>. In practice this
+									usually happens automatically, but in some cases it may be necessary to 'combine remote
+									inspections' (see <xref linkend="section-howto-combine-remote"/>).
+								</para>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<parameter>currency-code</parameter>,
+								<parameter>currency-symbol</parameter>, 
+								<parameter>number-uses-grouping-separators</parameter>, 
+								<parameter>minimum-integer-digits</parameter>, 
+								<parameter>maximum-integer-digits</parameter>, 
+								<parameter>minimum-fractional-digits</parameter>, 
+								<parameter>maximum-fractional-digits</parameter>, 
+								<parameter>locale</parameter>,  
+								<parameter>number-pattern</parameter> and  
+								<parameter>number-type</parameter>
+							</td>
+							<td>
+								<classname>@UiFacesNumberConverter</classname> - annotates the field should use the standard Faces
+								<classname>NumberConverter</classname>.
+								<para>
+									Note: the <classname>NumberConverter</classname> property <parameter>integerOnly</parameter> is not specified
+									using this annotation, as it can be inferred from the property's type
+								</para>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<parameter>date-style</parameter>,
+								<parameter>locale</parameter>, 
+								<parameter>datetime-pattern</parameter>, 
+								<parameter>time-style</parameter>, 
+								<parameter>time-zone</parameter> and
+								<parameter>datetime-type</parameter> 
+							</td>
+							<td><classname>@UiFacesDateTimeConverter</classname> - annotates the field should use the standard Faces <classname>DateTimeConverter</classname></td>
+						</tr>												
+						<tr>
+							<td><parameter>faces-component</parameter></td>
+							<td>
+								<classname>@UiFacesComponent</classname> - annotates the field should be rendered using the
+								given Faces <classname>UIComponent</classname> in the UI.
+								<para>
+									Use of this annotation does not bind the business class to the UI quite as tightly
+									as it may appear, because JSF has a loosely coupled relationship between
+									<parameter>&lt;component-name&gt;</parameter> and <parameter>&lt;component-class&gt;</parameter>, and
+									a further loose coupling between <parameter>&lt;component&gt;</parameter> and <parameter>&lt;render-kit&gt;</parameter> - as
+									defined in <filename>faces-config.xml</filename>
+								</para>
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>faces-converter-id</parameter></td>
+							<td>
+								<classname>UiFacesConverter</classname> - annotates the field should use the given Faces converter
+								in the UI.
+								<para>
+									This annotation uses the converter <emphasis>Id</emphasis>, not the class. Whilst it is possible to
+									specify the class through the XML (see
+									<parameter>FacesInspectionResultConstants.FACES_CONVERTER_CLASS</parameter>), this does not work well
+									for the annotations because they are applied to domain objects, whereas converters are UI-object.
+									Using an annotation value of type <classname>Class</classname> would introduce dependencies in the wrong
+									direction. Using a value of type <classname>String</classname> that contains a fully-qualified classname
+									would work, but is brittle to refactoring
+								</para>
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>faces-lookup</parameter></td>
+							<td>
+								<classname>@UiFacesLookup</classname> - annotates the value in the field should
+								belong to the set returned by the given EL expression
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>faces-suggest</parameter></td>
+							<td>
+								<classname>@UiFacesSuggest</classname> - annotates the value in the field should
+								be 'suggested' (ie. using a pop-up box) using the set returned by the given EL expression
+							</td>
+						</tr>
+					</tbody>
+				</table>
+
+			</section>
+
 			<section id="section-inspectors-hibernatevalidator">
 				<title>HibernateValidatorInspector</title>
 				
