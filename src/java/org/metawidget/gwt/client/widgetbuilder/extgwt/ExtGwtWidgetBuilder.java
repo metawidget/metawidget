@@ -68,9 +68,7 @@ public class ExtGwtWidgetBuilder
 
 		if ( widget instanceof Slider )
 		{
-			// (this is an internal call, so use supressEvent)
-
-			((Slider) widget).setValue( (Integer) value, true );
+			((Slider) widget).setValue( (Integer) value );
 			return true;
 		}
 
