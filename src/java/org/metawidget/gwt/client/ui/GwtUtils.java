@@ -54,10 +54,7 @@ public final class GwtUtils
 
 	public static boolean isPrimitive( String className )
 	{
-		if ( "byte".equals( className ) || "short".equals( className ) )
-			return true;
-
-		if ( "int".equals( className ) || "long".equals( className ) )
+		if ( GwtUtils.isIntegerPrimitive( className ))
 			return true;
 
 		if ( "float".equals( className ) || "double".equals( className ) )
@@ -67,6 +64,23 @@ public final class GwtUtils
 			return true;
 
 		if ( "char".equals( className ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Returns <code>true</code> if the type
+	 */
+
+	// HIGH: text!
+
+	public static boolean isIntegerPrimitive( String className )
+	{
+		if ( "byte".equals( className ) || "short".equals( className ) )
+			return true;
+
+		if ( "int".equals( className ) || "long".equals( className ) )
 			return true;
 
 		return false;

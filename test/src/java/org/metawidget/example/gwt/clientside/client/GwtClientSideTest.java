@@ -82,9 +82,9 @@ public class GwtClientSideTest
 				// Save before populating
 
 				FlexTable flexTable1 = (FlexTable) metawidget.getWidget( 0 );
-				final Button saveButton = (Button) ( (Facet) flexTable1.getWidget( 6, 0 ) ).getWidget();
+				final Button saveButton = (Button) ( (Facet) flexTable1.getWidget( 7, 0 ) ).getWidget();
 				fireClickEvent( saveButton );
-				assertTrue( "{album=, artist=, genre=, notes=, releaseDate=null}".equals( metawidget.getToInspect().toString() ) );
+				assertTrue( "{album=, artist=, genre=, notes=, rating=1, releaseDate=null}".equals( metawidget.getToInspect().toString() ) );
 
 				// Populate
 
@@ -104,7 +104,7 @@ public class GwtClientSideTest
 				Date releaseDate = new Date( 101, 0, 1 );
 				( (DateField) flexTable1.getWidget( 4, 1 ) ).setValue( releaseDate );
 				assertTrue( "Rating:".equals( flexTable1.getText( 5, 0 ) ) );
-				assertTrue( 5 == ( (Slider) flexTable1.getWidget( 5, 1 ) ).getMaxValue() );
+				assertTrue( 10 == ( (Slider) flexTable1.getWidget( 5, 1 ) ).getMaxValue() );
 				assertTrue( 1 == ( (Slider) flexTable1.getWidget( 5, 1 ) ).getMinValue() );
 				( (Slider) flexTable1.getWidget( 5, 1 ) ).setValue( 4 );
 				assertTrue( "Notes:".equals( flexTable1.getText( 6, 0 ) ) );
@@ -114,7 +114,7 @@ public class GwtClientSideTest
 				// Save after populating
 
 				fireClickEvent( saveButton );
-				assertTrue( metawidget.getToInspect().toString().startsWith( "{addTracks=clicked, album=Bar, artist=Foo, genre=Art rock, notes=Baz, releaseDate=" ));
+				assertTrue( metawidget.getToInspect().toString().startsWith( "{addTracks=clicked, album=Bar, artist=Foo, genre=Art rock, notes=Baz, rating=4, releaseDate=" ));
 				assertTrue( releaseDate.equals( ((Map<String, Object>) metawidget.getToInspect()).get( "releaseDate" )));
 
 				fireClickEvent( sampleButton2 );

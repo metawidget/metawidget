@@ -16,10 +16,16 @@
 
 package org.metawidget.gwt.client.widgetbuilder.extgwt;
 
-import java.util.Date;
+import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.extjs.gxt.ui.client.widget.Slider;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.google.gwt.junit.client.GWTTestCase;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -42,19 +48,78 @@ public class ExtGwtWidgetBuilderTest
 	public void testWidgetBuilder()
 		throws Exception
 	{
-		// TODO: test it!
+		ExtGwtWidgetBuilder widgetBuilder = new ExtGwtWidgetBuilder();
+
+		Map<String, String> attributes = new HashMap<String, String>();
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+
+		// DateField
+
+		attributes.put( TYPE, "java.util.Date" );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof DateField );
+
+		// Slider
+
+		attributes.put( TYPE, "long" );
+		attributes.put( MINIMUM_VALUE, "2" );
+		attributes.put( MAXIMUM_VALUE, "99" );
+		Slider slider = (Slider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( 2 == slider.getMinValue() );
+		assertTrue( 99 == slider.getMaxValue() );
+
+		attributes.remove( MAXIMUM_VALUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
 	}
 
 	public void testValueAccessor()
 		throws Exception
 	{
-		ExtGwtWidgetBuilder widgetBuilder = new ExtGwtWidgetBuilder();
+		final ExtGwtWidgetBuilder widgetBuilder = new ExtGwtWidgetBuilder();
 
 		assertTrue( false == widgetBuilder.setValue( new TextBox(), null ) );
+
+		// DateField
 
 		DateField dateField = new DateField();
 		Date date = new Date();
 		assertTrue( true == widgetBuilder.setValue( dateField, date ) );
 		assertTrue( date == dateField.getValue() );
+		assertTrue( date.equals( widgetBuilder.getValue( dateField ) ));
+
+		// Slider
+
+		final Slider slider = new Slider();
+		slider.setMinValue( 1 );
+		slider.setValue( 1 );
+		slider.setMaxValue( 99 );
+		assertTrue( true == widgetBuilder.setValue( slider, 2 ) );
+
+		Timer timer = new Timer()
+		{
+			@Override
+			public void run()
+			{
+				assertTrue( 2 == slider.getValue() );
+				assertTrue( 2 == (Integer) widgetBuilder.getValue( slider ) );
+
+				finish();
+			}
+		};
+
+		delayTestFinish( 2000 );
+		timer.schedule( 1000 );
+	}
+
+	//
+	// Private methods
+	//
+
+	/**
+	 * Wrapped to avoid 'synthetic access' warning
+	 */
+
+	/*package private*/void finish()
+	{
+		super.finishTest();
 	}
 }

@@ -66,6 +66,12 @@ public class ExtGwtWidgetBuilder
 			return true;
 		}
 
+		if ( widget instanceof Slider )
+		{
+			((Slider) widget).setValue( (Integer) value );
+			return true;
+		}
+
 		// Not for us
 
 		return false;
@@ -102,7 +108,7 @@ public class ExtGwtWidgetBuilder
 
 		// Slider
 
-		if ( GwtUtils.isPrimitive( type ))
+		if ( GwtUtils.isIntegerPrimitive( type ) )
 		{
 			// Ranged
 
