@@ -62,6 +62,7 @@ public class ClientSideModule
 		sample1 += "\r\n\t\t<action name=\"addTracks\"/>";
 		sample1 += "\r\n\t\t<property name=\"genre\" lookup=\"Art rock, Disco, Experimental rock, Glam rock, Protopunk, Punk, Rock\"/>";
 		sample1 += "\r\n\t\t<property name=\"releaseDate\" type=\"java.util.Date\"/>";
+		sample1 += "\r\n\t\t<property name=\"rating\" type=\"int\" minimum-value=\"1\" maximum-value=\"10\"/>";
 		sample1 += "\r\n\t\t<property name=\"notes\" large=\"true\"/>";
 		sample1 += "\r\n\t</entity>\r\n\r\n</metawidget-metadata>";
 

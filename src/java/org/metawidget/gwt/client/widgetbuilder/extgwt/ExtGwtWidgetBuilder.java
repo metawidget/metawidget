@@ -26,6 +26,7 @@ import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.GwtValueAccessor;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
+import com.extjs.gxt.ui.client.widget.Slider;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -50,6 +51,9 @@ public class ExtGwtWidgetBuilder
 	{
 		if ( widget instanceof DateField )
 			return ((DateField) widget).getValue();
+
+		if ( widget instanceof Slider )
+			return ((Slider) widget).getValue();
 
 		return null;
 	}
@@ -96,7 +100,29 @@ public class ExtGwtWidgetBuilder
 		if ( Date.class.getName().equals( type ) )
 			return new DateField();
 
-		// TODO: Slider
+		// Slider
+
+		if ( GwtUtils.isPrimitive( type ))
+		{
+			// Ranged
+
+			String minimumValue = attributes.get( MINIMUM_VALUE );
+			String maximumValue = attributes.get( MAXIMUM_VALUE );
+
+			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
+			{
+				Slider slider = new Slider();
+				slider.setMinValue( Integer.parseInt( minimumValue ) );
+				slider.setMaxValue( Integer.parseInt( maximumValue ) );
+
+				// (these seem needed in order for the slider to work correctly)
+
+				slider.setValue( slider.getMinValue() );
+				slider.setIncrement( 1 );
+
+				return slider;
+			}
+		}
 
 		// Not for ExtGWT
 

@@ -23,6 +23,7 @@ import org.metawidget.example.gwt.clientside.client.ui.ClientSideModule;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 
+import com.extjs.gxt.ui.client.widget.Slider;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -102,9 +103,13 @@ public class GwtClientSideTest
 				assertTrue( "Release date:".equals( flexTable1.getText( 4, 0 ) ) );
 				Date releaseDate = new Date( 101, 0, 1 );
 				( (DateField) flexTable1.getWidget( 4, 1 ) ).setValue( releaseDate );
-				assertTrue( "Notes:".equals( flexTable1.getText( 5, 0 ) ) );
-				( (TextArea) flexTable1.getWidget( 5, 1 ) ).setText( "Baz" );
-				assertTrue( flexTable1.getWidget( 6, 0 ) instanceof Facet );
+				assertTrue( "Rating:".equals( flexTable1.getText( 5, 0 ) ) );
+				assertTrue( 5 == ( (Slider) flexTable1.getWidget( 5, 1 ) ).getMaxValue() );
+				assertTrue( 1 == ( (Slider) flexTable1.getWidget( 5, 1 ) ).getMinValue() );
+				( (Slider) flexTable1.getWidget( 5, 1 ) ).setValue( 4 );
+				assertTrue( "Notes:".equals( flexTable1.getText( 6, 0 ) ) );
+				( (TextArea) flexTable1.getWidget( 6, 1 ) ).setText( "Baz" );
+				assertTrue( flexTable1.getWidget( 7, 0 ) instanceof Facet );
 
 				// Save after populating
 

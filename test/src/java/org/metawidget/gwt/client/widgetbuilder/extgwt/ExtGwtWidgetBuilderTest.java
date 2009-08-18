@@ -18,8 +18,6 @@ package org.metawidget.gwt.client.widgetbuilder.extgwt;
 
 import java.util.Date;
 
-import org.metawidget.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilder;
-
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.TextBox;
@@ -44,13 +42,19 @@ public class ExtGwtWidgetBuilderTest
 	public void testWidgetBuilder()
 		throws Exception
 	{
+		// TODO: test it!
+	}
+
+	public void testValueAccessor()
+		throws Exception
+	{
 		ExtGwtWidgetBuilder widgetBuilder = new ExtGwtWidgetBuilder();
 
-		assertTrue( false == widgetBuilder.setValue( new TextBox(), null ));
+		assertTrue( false == widgetBuilder.setValue( new TextBox(), null ) );
 
 		DateField dateField = new DateField();
 		Date date = new Date();
-		assertTrue( true == widgetBuilder.setValue( dateField, date ));
+		assertTrue( true == widgetBuilder.setValue( dateField, date ) );
 		assertTrue( date == dateField.getValue() );
 	}
 }
