@@ -25,7 +25,6 @@ import java.util.Map;
 import com.extjs.gxt.ui.client.widget.Slider;
 import com.extjs.gxt.ui.client.widget.form.DateField;
 import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.TextBox;
 
 /**
@@ -65,6 +64,8 @@ public class ExtGwtWidgetBuilderTest
 		attributes.put( MAXIMUM_VALUE, "99" );
 		Slider slider = (Slider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 2 == slider.getMinValue() );
+		assertTrue( 2 == slider.getValue() );
+		assertTrue( 1 == slider.getIncrement() );
 		assertTrue( 99 == slider.getMaxValue() );
 
 		attributes.remove( MAXIMUM_VALUE );
@@ -91,23 +92,11 @@ public class ExtGwtWidgetBuilderTest
 		final Slider slider = new Slider();
 		slider.setMinValue( 1 );
 		slider.setValue( 1 );
+		slider.setIncrement( 1 );
 		slider.setMaxValue( 99 );
 		assertTrue( true == widgetBuilder.setValue( slider, 2 ) );
-
-		Timer timer = new Timer()
-		{
-			@Override
-			public void run()
-			{
-				assertTrue( 2 == slider.getValue() );
-				assertTrue( 2 == (Integer) widgetBuilder.getValue( slider ) );
-
-				finish();
-			}
-		};
-
-		delayTestFinish( 2000 );
-		timer.schedule( 1000 );
+		assertTrue( 2 == slider.getValue() );
+		assertTrue( 2 == (Integer) widgetBuilder.getValue( slider ) );
 	}
 
 	//

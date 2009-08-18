@@ -68,7 +68,9 @@ public class ExtGwtWidgetBuilder
 
 		if ( widget instanceof Slider )
 		{
-			((Slider) widget).setValue( (Integer) value );
+			// (this is an internal call, so use supressEvent)
+
+			((Slider) widget).setValue( (Integer) value, true );
 			return true;
 		}
 
@@ -121,9 +123,12 @@ public class ExtGwtWidgetBuilder
 				slider.setMinValue( Integer.parseInt( minimumValue ) );
 				slider.setMaxValue( Integer.parseInt( maximumValue ) );
 
-				// (these seem needed in order for the slider to work correctly)
+				// (do this for sanity)
 
 				slider.setValue( slider.getMinValue() );
+
+				// (default increment is 10)
+
 				slider.setIncrement( 1 );
 
 				return slider;

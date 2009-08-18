@@ -31,10 +31,10 @@ import com.google.gwt.user.client.ui.ListBox;
 /**
  * Utilities for working with Google Web Toolkit.
  * <p>
- * These utility methods are copies of those defined in <code>org.metawidget.util</code>, but
- * they either are 'GWT flavoured' (eg. they use <code>com.google.gwt.xml</code> instead of
- * <code>org.w3c.dom</code>) or they are free encumberances (eg. <code>java.util.regex</code>)
- * that GWT doesn't support.
+ * These utility methods are copies of those defined in <code>org.metawidget.util</code>, but they
+ * either are 'GWT flavoured' (eg. they use <code>com.google.gwt.xml</code> instead of
+ * <code>org.w3c.dom</code>) or they are free encumberances (eg. <code>java.util.regex</code>) that
+ * GWT doesn't support.
  *
  * @author Richard Kennard
  */
@@ -54,7 +54,7 @@ public final class GwtUtils
 
 	public static boolean isPrimitive( String className )
 	{
-		if ( GwtUtils.isIntegerPrimitive( className ))
+		if ( GwtUtils.isIntegerPrimitive( className ) )
 			return true;
 
 		if ( "float".equals( className ) || "double".equals( className ) )
@@ -70,10 +70,12 @@ public final class GwtUtils
 	}
 
 	/**
-	 * Returns <code>true</code> if the type
+	 * Returns <code>true</code> if the type is an integer primitive.
+	 * <p>
+	 * We mean 'integer' in the mathematical sense (ie. a whole number), not the Java sense, so
+	 * byte, short, int and long all return <code>true</code>. Determining whether a type is
+	 * 'whole number compatible' is useful for widgets like sliders and spinners.
 	 */
-
-	// HIGH: text!
 
 	public static boolean isIntegerPrimitive( String className )
 	{
@@ -245,7 +247,7 @@ public final class GwtUtils
 	 * Returns true if the lookup is nullable, not required, or has a forced empty choice.
 	 */
 
-	public static boolean needsEmptyLookupItem( Map<String, String> attributes)
+	public static boolean needsEmptyLookupItem( Map<String, String> attributes )
 	{
 		if ( TRUE.equals( attributes.get( LOOKUP_HAS_EMPTY_CHOICE ) ) )
 			return true;
@@ -261,7 +263,7 @@ public final class GwtUtils
 		// Note: there's an extra caveat for Groovy dynamic types: if we can't load
 		// the class, assume it is non-primitive and therefore add a null choice
 
-		if ( type != null && isPrimitive( type ))
+		if ( type != null && isPrimitive( type ) )
 			return false;
 
 		return true;
