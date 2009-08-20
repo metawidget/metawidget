@@ -110,6 +110,7 @@ public class GwtClientSideTest
 				assertTrue( "Notes:".equals( flexTable1.getText( 6, 0 ) ) );
 				( (TextArea) flexTable1.getWidget( 6, 1 ) ).setText( "Baz" );
 				assertTrue( flexTable1.getWidget( 7, 0 ) instanceof Facet );
+				assertTrue( flexTable1.getRowCount() == 8 );
 
 				// Save after populating
 

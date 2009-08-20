@@ -48,8 +48,8 @@ public final class GwtUtils
 	/**
 	 * GWT-ified <code>Class.isPrimitive</code>.
 	 * <p>
-	 * This version takes a String argument, because we won't have been able to use Class.forName to
-	 * create a Class.
+	 * This version takes a String argument, not a Class argument, because we won't have been able
+	 * to use Class.forName to create a Class.
 	 */
 
 	public static boolean isPrimitive( String className )
@@ -73,8 +73,8 @@ public final class GwtUtils
 	 * Returns <code>true</code> if the type is an integer primitive.
 	 * <p>
 	 * We mean 'integer' in the mathematical sense (ie. a whole number), not the Java sense, so
-	 * byte, short, int and long all return <code>true</code>. Determining whether a type is
-	 * 'whole number compatible' is useful for widgets like sliders and spinners.
+	 * byte, short, int and long all return <code>true</code>. Determining whether a type is 'whole
+	 * number compatible' is useful for widgets like sliders and spinners.
 	 */
 
 	public static boolean isIntegerPrimitive( String className )
@@ -91,7 +91,8 @@ public final class GwtUtils
 	/**
 	 * GWT-ified <code>ClassUtils.isPrimitiveWrapper</code>.
 	 * <p>
-	 * This version takes a String argument, not a Class argument.
+	 * This version takes a String argument, not a Class argument, because we won't have been able
+	 * to use Class.forName to create a Class.
 	 */
 
 	public static boolean isPrimitiveWrapper( String className )
