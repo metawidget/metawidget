@@ -14,11 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.validator.jgoodies;
+package org.metawidget.swing.widgetprocessor.validator.jgoodies;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.awt.Component;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Map;
@@ -26,16 +25,17 @@ import java.util.Map;
 import javax.swing.JComponent;
 
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.validator.BaseValidator;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
+import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.Validator;
 import com.jgoodies.validation.view.ValidationComponentUtils;
 
 /**
- * Validator to add JGoodies validators to a Component.
+ * Processor to add JGoodies Validators to a Component.
  * <p>
  * Out of the box, JGoodies does not provide any Validator implementations, so by default this class
  * only calls JGoodies' <code>setMandatory</code> and <code>updateComponentTreeMandatory</code>
@@ -45,58 +45,29 @@ import com.jgoodies.validation.view.ValidationComponentUtils;
  * @author Richard Kennard, Stefan Ackermann
  */
 
-public class JGoodiesValidator
-	extends BaseValidator
+public class JGoodiesValidatorProcessor
+	extends BaseWidgetProcessor<JComponent, SwingMetawidget>
 {
-	//
-	// Protected members
-	//
-
-	/**
-	 * JGoodies' API concentrates on bulk updates of sub-components in a component tree. For example
-	 * the <code>ValidationComponentUtils.updateComponentTreeXXX</code> and
-	 * <code>ValidationComponentUtils.visitComponentTree</code> methods take a top-level component
-	 * and traverse it setting all validation messages for all sub-components.
-	 * <p>
-	 * Because of this, when updating it is important to retain previous validation results, or
-	 * their messages will be lost during the bulk update of new validation results.
-	 */
-
-	protected Map<JComponent, ValidationResult>	mValidationResults	= CollectionUtils.newHashMap();
-
-	//
-	// Constructor
-	//
-
-	public JGoodiesValidator( SwingMetawidget metawidget )
-	{
-		super( metawidget );
-	}
-
 	//
 	// Public methods
 	//
 
 	@Override
-	public void addValidator( final Component component, Map<String, String> attributes, String path )
+	public void onAdd( final JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
-		// JGoodies only supports JComponents
-
-		if ( !( component instanceof JComponent ) )
-			return;
-
-		JComponent jcomponent = (JComponent) component;
-
 		// Required?
 
 		boolean required = ( TRUE.equals( attributes.get( REQUIRED ) ) );
 
 		if ( required )
-			ValidationComponentUtils.setMandatory( jcomponent, true );
+			ValidationComponentUtils.setMandatory( component, true );
 
 		// Custom validator?
 
-		Validator<?> validator = getValidator( jcomponent, attributes, path );
+		String name = attributes.get( NAME );
+		// TODO: sloppy to concatenate this string
+		String path = metawidget.getPath() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
+		Validator<?> validator = getValidator( component, attributes, path );
 
 		if ( validator == null )
 		{
@@ -107,21 +78,19 @@ public class JGoodiesValidator
 		}
 		else
 		{
-			ValidationComponentUtils.setMessageKey( jcomponent, attributes.get( NAME ) );
+			ValidationComponentUtils.setMessageKey( component, name );
 		}
 
 		// Attach
 
-		attachValidator( jcomponent, validator, path );
+		attachValidator( component, validator, path, metawidget );
 	}
 
 	@Override
-	public void initializeValidators()
+	public void onEndBuild( SwingMetawidget metawidget )
 	{
-		super.initializeValidators();
-
-		ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground( getMetawidget() );
-		ValidationComponentUtils.updateComponentTreeMandatoryBorder( getMetawidget() );
+		ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground( metawidget );
+		ValidationComponentUtils.updateComponentTreeMandatoryBorder( metawidget );
 	}
 
 	//
@@ -141,15 +110,32 @@ public class JGoodiesValidator
 	 * Attach the given Validator to the given JComponent.
 	 */
 
-	protected void attachValidator( final JComponent component, final Validator<?> validator, String path )
+	protected void attachValidator( final JComponent component, final Validator<?> validator, String path, final SwingMetawidget metawidget )
 	{
-		final SwingMetawidget metawidget = getMetawidget();
 		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
 		component.addKeyListener( new KeyAdapter()
 		{
 			@Override
 			public void keyReleased( KeyEvent event )
 			{
+				// JGoodies' API concentrates on bulk updates of sub-components in a component tree.
+				// For example the <code>ValidationComponentUtils.updateComponentTreeXXX</code> and
+				// <code>ValidationComponentUtils.visitComponentTree</code> methods take a top-level
+				// component and traverse it setting all validation messages for all sub-components.
+				//
+				// Because of this, when updating it is important to retain previous validation
+				// results, or their messages will be lost during the bulk update of new validation
+				// results
+
+				@SuppressWarnings( "unchecked" )
+				Map<JComponent, ValidationResult> validationResults = (Map<JComponent, ValidationResult>) metawidget.getClientProperty( JGoodiesValidatorProcessor.class );
+
+				if ( validationResults == null )
+				{
+					validationResults = CollectionUtils.newHashMap();
+					metawidget.putClientProperty( JGoodiesValidatorProcessor.class, validationResults );
+				}
+
 				// Fetch the value...
 
 				Object value = metawidget.getValue( names );
@@ -163,22 +149,22 @@ public class JGoodiesValidator
 					ValidationResult validationResult = objectValidator.validate( value );
 
 					if ( validationResult == null )
-						mValidationResults.remove( component );
+						validationResults.remove( component );
 					else
-						mValidationResults.put( component, validationResult );
+						validationResults.put( component, validationResult );
 				}
 
 				// ...collate all ValidationResults...
 
 				ValidationResult validationResult = new ValidationResult();
-				for ( ValidationResult previousValidationResult : mValidationResults.values() )
+				for ( ValidationResult previousValidationResult : validationResults.values() )
 				{
 					validationResult.addAllFrom( previousValidationResult );
 				}
 
 				// ...and update the UI
 
-				updateComponent( component, validationResult );
+				updateComponent( component, validationResult, metawidget );
 			}
 		} );
 	}
@@ -198,7 +184,7 @@ public class JGoodiesValidator
 	 *            components (so can be used correctly with updateComponentTreeXXX)
 	 */
 
-	protected void updateComponent( JComponent component, ValidationResult validationResult )
+	protected void updateComponent( JComponent component, ValidationResult validationResult, SwingMetawidget metawidget )
 	{
 		// Note: it may be nicer to only update the JComponent, not revisit the entire
 		// tree, but JGoodies' built-in (private) MandatoryAndBlankBackgroundVisitor uses
@@ -206,11 +192,11 @@ public class JGoodiesValidator
 		// to do it
 
 		if ( ValidationComponentUtils.isMandatory( component ) )
-			ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground( getMetawidget() );
+			ValidationComponentUtils.updateComponentTreeMandatoryAndBlankBackground( metawidget );
 
 		// Do the severity background after the mandatory background, as presumably it
 		// has precedence
 
-		ValidationComponentUtils.updateComponentTreeSeverityBackground( getMetawidget(), validationResult );
+		ValidationComponentUtils.updateComponentTreeSeverityBackground( metawidget, validationResult );
 	}
 }

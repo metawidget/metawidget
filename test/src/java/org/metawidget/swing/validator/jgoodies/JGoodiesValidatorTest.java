@@ -31,7 +31,7 @@ import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.validator.jgoodies.JGoodiesValidator;
+import org.metawidget.swing.widgetprocessor.validator.jgoodies.JGoodiesValidatorProcessor;
 
 import com.jgoodies.validation.Severity;
 import com.jgoodies.validation.ValidationMessage;
@@ -57,20 +57,20 @@ public class JGoodiesValidatorTest
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setValidatorClass( JGoodiesValidator.class );
 		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() ) ) );
 		metawidget.setToInspect( new Foo() );
+		metawidget.addWidgetProcessor( new JGoodiesValidatorProcessor() );
 
 		// Initial validation
 
 		JTextField textField1 = (JTextField) metawidget.getComponent( 1 );
-		assertTrue( null == ValidationComponentUtils.getMessageKeys( textField1 ));
+		assertTrue( null == ValidationComponentUtils.getMessageKeys( textField1 ) );
 		assertTrue( ValidationComponentUtils.isMandatory( textField1 ) );
 		assertTrue( ValidationComponentUtils.getMandatoryBorder().equals( textField1.getBorder() ) );
 		assertTrue( ValidationComponentUtils.getMandatoryBackground().equals( textField1.getBackground() ) );
 
 		JTextField textField2 = (JTextField) metawidget.getComponent( 3 );
-		assertTrue( null == ValidationComponentUtils.getMessageKeys( textField2 ));
+		assertTrue( null == ValidationComponentUtils.getMessageKeys( textField2 ) );
 		assertTrue( !ValidationComponentUtils.isMandatory( textField2 ) );
 
 		// Validation after a keypress
@@ -91,22 +91,59 @@ public class JGoodiesValidatorTest
 
 		// Custom validator
 
-		metawidget.setValidatorClass( MyJGoodiesValidator.class );
+		// TODO: dodgy to have to recreate the metawidget?
+
+		metawidget = new SwingMetawidget();
+		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() ) ) );
+		metawidget.setToInspect( new Foo() );
+		metawidget.addWidgetProcessor( new JGoodiesValidatorProcessor()
+		{
+			@Override
+			protected Validator<?> getValidator( final JComponent component, final Map<String, String> attributes, String path )
+			{
+				return new Validator<String>()
+				{
+					@Override
+					public ValidationResult validate( String validationTarget )
+					{
+						if ( "error".equals( validationTarget ) )
+						{
+							ValidationMessage message = new SimpleValidationMessage( "MyJGoodiesValidator error", Severity.ERROR, attributes.get( NAME ) );
+							ValidationResult validationResult = new ValidationResult();
+							validationResult.add( message );
+
+							return validationResult;
+						}
+
+						if ( "warning".equals( validationTarget ) )
+						{
+							ValidationMessage message = new SimpleValidationMessage( "MyJGoodiesValidator warning", Severity.WARNING, attributes.get( NAME ) );
+							ValidationResult validationResult = new ValidationResult();
+							validationResult.add( message );
+
+							return validationResult;
+						}
+
+						return null;
+					}
+				};
+			}
+		} );
 		textField1 = (JTextField) metawidget.getComponent( 1 );
-		assertTrue( "bar".equals( ValidationComponentUtils.getMessageKeys( textField1 )[0] ));
+		assertTrue( "bar".equals( ValidationComponentUtils.getMessageKeys( textField1 )[0] ) );
 
 		textField1.setText( "error" );
 		textField1.getKeyListeners()[0].keyReleased( null );
-		assertTrue( ValidationComponentUtils.getErrorBackground().equals( textField1.getBackground() ));
+		assertTrue( ValidationComponentUtils.getErrorBackground().equals( textField1.getBackground() ) );
 
 		textField1.setText( "warning" );
 		textField1.getKeyListeners()[0].keyReleased( null );
-		assertTrue( ValidationComponentUtils.getWarningBackground().equals( textField1.getBackground() ));
+		assertTrue( ValidationComponentUtils.getWarningBackground().equals( textField1.getBackground() ) );
 
 		textField1.setText( "all good" );
 		textField1.getKeyListeners()[0].keyReleased( null );
-		assertTrue( !ValidationComponentUtils.getErrorBackground().equals( textField1.getBackground() ));
-		assertTrue( !ValidationComponentUtils.getWarningBackground().equals( textField1.getBackground() ));
+		assertTrue( !ValidationComponentUtils.getErrorBackground().equals( textField1.getBackground() ) );
+		assertTrue( !ValidationComponentUtils.getWarningBackground().equals( textField1.getBackground() ) );
 		assertTrue( !ValidationComponentUtils.getMandatoryBackground().equals( textField1.getBackground() ) );
 	}
 
@@ -149,54 +186,6 @@ public class JGoodiesValidatorTest
 		public void setNotValidated( String notValidated )
 		{
 			// Do nothing
-		}
-	}
-
-	protected static class MyJGoodiesValidator
-		extends JGoodiesValidator
-	{
-		//
-		// Constructor
-		//
-
-		public MyJGoodiesValidator( SwingMetawidget metawidget )
-		{
-			super( metawidget );
-		}
-
-		//
-		// Protected methods
-		//
-
-		@Override
-		protected Validator<?> getValidator( final JComponent component, final Map<String, String> attributes, String path )
-		{
-			return new Validator<String>()
-			{
-				@Override
-				public ValidationResult validate( String validationTarget )
-				{
-					if ( "error".equals( validationTarget ))
-					{
-						ValidationMessage message = new SimpleValidationMessage( "MyJGoodiesValidator error", Severity.ERROR, attributes.get( NAME ));
-						ValidationResult validationResult = new ValidationResult();
-						validationResult.add( message );
-
-						return validationResult;
-					}
-
-					if ( "warning".equals( validationTarget ))
-					{
-						ValidationMessage message = new SimpleValidationMessage( "MyJGoodiesValidator warning", Severity.WARNING, attributes.get( NAME ));
-						ValidationResult validationResult = new ValidationResult();
-						validationResult.add( message );
-
-						return validationResult;
-					}
-
-					return null;
-				}
-			};
 		}
 	}
 }

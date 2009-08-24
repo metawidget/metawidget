@@ -1088,24 +1088,24 @@ public class GwtMetawidget
 		return new GwtMetawidget();
 	}
 
-	protected void initNestedMetawidget( GwtMetawidget metawidget, Map<String, String> attributes )
+	protected void initNestedMetawidget( GwtMetawidget nestedMetawidget, Map<String, String> attributes )
 		throws Exception
 	{
-		metawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 
-		metawidget.setInspector( mMetawidgetMixin.getInspector() );
-		metawidget.setLayoutClass( mLayoutClass );
-		metawidget.setPropertyBindingClass( mPropertyBindingClass );
-		metawidget.setActionBindingClass( mActionBindingClass );
-		metawidget.setDictionaryName( mDictionaryName );
+		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+		nestedMetawidget.setLayoutClass( mLayoutClass );
+		nestedMetawidget.setPropertyBindingClass( mPropertyBindingClass );
+		nestedMetawidget.setActionBindingClass( mActionBindingClass );
+		nestedMetawidget.setDictionaryName( mDictionaryName );
 
 		if ( mParameters != null )
 		{
-			metawidget.mParameters = new HashMap<String, Object>( mParameters );
-			metawidget.mParameters.remove( "numberOfColumns" );
+			nestedMetawidget.mParameters = new HashMap<String, Object>( mParameters );
+			nestedMetawidget.mParameters.remove( "numberOfColumns" );
 		}
 
-		metawidget.setToInspect( mToInspect );
+		nestedMetawidget.setToInspect( mToInspect );
 	}
 
 	protected void endBuild()
@@ -1214,8 +1214,6 @@ public class GwtMetawidget
 			throws Exception
 		{
 			GwtMetawidget nestedMetawidget = GwtMetawidget.this.buildNestedMetawidget();
-			nestedMetawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
-			nestedMetawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 			GwtMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
 			return nestedMetawidget;

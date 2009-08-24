@@ -14,40 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.validator;
-
-import java.awt.Component;
-import java.util.Map;
-
 /**
- * Interface for Swing validators.
- * <p>
- * Implementations need not be Thread-safe.
+ * Swing support: automatic validation.
  *
  * @author Richard Kennard
  */
 
-public abstract interface Validator
-{
-	//
-	// Methods
-	//
-
-	void addValidator( Component component, Map<String, String> attributes, String path );
-
-	/**
-	 * Called after all components, and validators, have been created, but before the
-	 * SwingMetawidget is displayed.
-	 */
-
-	void initializeValidators();
-
-	/**
-	 * Called in response to <code>SwingMetawidget.validateValues</code>.
-	 * <p>
-	 * Some validation implementations will use immediate validation (ie. based on
-	 * <code>keyReleased</code>). Others may prefer deferred, explicit validation.
-	 */
-
-	void validate();
-}
+package org.metawidget.swing.widgetprocessor.validator.inputverifier;

@@ -45,7 +45,6 @@ import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
 import org.metawidget.swing.layout.GridBagLayout;
 import org.metawidget.swing.layout.Layout;
 import org.metawidget.swing.propertybinding.PropertyBinding;
-import org.metawidget.swing.validator.Validator;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -54,6 +53,7 @@ import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * Metawidget for Swing environments.
@@ -114,10 +114,6 @@ public class SwingMetawidget
 	private Class<? extends ActionBinding>					mActionBindingClass	= ReflectionBinding.class;
 
 	private ActionBinding									mActionBinding;
-
-	private Class<? extends Validator>						mValidatorClass;
-
-	private Validator										mValidator;
 
 	private ResourceBundle									mBundle;
 
@@ -242,6 +238,12 @@ public class SwingMetawidget
 		invalidateInspection();
 	}
 
+	public void addWidgetProcessor( WidgetProcessor<JComponent, SwingMetawidget> widgetProcessor )
+	{
+		mMetawidgetMixin.addWidgetProcessor( widgetProcessor );
+		invalidateInspection();
+	}
+
 	/**
 	 * @param layoutClass
 	 *            may be null
@@ -272,12 +274,6 @@ public class SwingMetawidget
 	public void setActionBindingClass( Class<? extends ActionBinding> actionBindingClass )
 	{
 		mActionBindingClass = actionBindingClass;
-		invalidateWidgets();
-	}
-
-	public void setValidatorClass( Class<? extends Validator> validatorClass )
-	{
-		mValidatorClass = validatorClass;
 		invalidateWidgets();
 	}
 
@@ -513,12 +509,15 @@ public class SwingMetawidget
 
 		buildWidgets();
 
-		if ( mPropertyBinding == null )
-			throw MetawidgetException.newException( "No property binding configured. Use SwingMetawidget.setPropertyBindingClass" );
+		mMetawidgetMixin.processorSave();
+
+		//if ( mPropertyBinding == null )
+			//TODO:throw MetawidgetException.newException( "No property binding configured. Use SwingMetawidget.setPropertyBindingClass" );
 
 		// (use getPropertyBinding(), not mPropertyBinding, just to make sure that code's okay)
 
-		getPropertyBinding().saveProperties();
+		if ( mPropertyBinding != null )
+			getPropertyBinding().saveProperties();
 
 		// Having a save() method avoids having to expose a getPropertyBinding() method, which is
 		// handy because we can worry about nested Metawidgets here, not in the PropertyBinding
@@ -539,41 +538,6 @@ public class SwingMetawidget
 			return mPropertyBinding.convertFromString( value, type );
 
 		return value;
-	}
-
-	/**
-	 * Validates all component values using the current Validator (as set by
-	 * <code>setValidatorClass</code>).
-	 * <p>
-	 * Some validation implementations will use immediate validation (ie. based on
-	 * <code>keyReleased</code>). Others may prefer deferred, explicit validation. Clients may
-	 * wish to call <code>validateValues</code> immediately before calling <code>save</code>.
-	 *
-	 * @throws MetawidgetException
-	 *             if no binding configured
-	 */
-
-	public void validateValues()
-	{
-		// buildWidgets() so that mValidator is initialized
-
-		buildWidgets();
-
-		if ( mValidator == null )
-			throw MetawidgetException.newException( "No validator configured. Use SwingMetawidget.setValidatorClass" );
-
-		mValidator.validate();
-
-		// Having a validateValues() method avoids having to expose a getValidator() method, which
-		// is handy because we can worry about nested Metawidgets here, not in the Validator class
-
-		for ( Component component : getComponents() )
-		{
-			if ( component instanceof SwingMetawidget )
-			{
-				( (SwingMetawidget) component ).validateValues();
-			}
-		}
 	}
 
 	/**
@@ -939,7 +903,6 @@ public class SwingMetawidget
 		}
 
 		mActionBinding = null;
-		mValidator = null;
 
 		// Call repaint here, rather than just 'invalidate', for scenarios like doing
 		// a 'remove' of a button that masks a Metawidget
@@ -1067,11 +1030,6 @@ public class SwingMetawidget
 
 		if ( mActionBindingClass != null )
 			mActionBinding = mActionBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
-
-		// Validator
-
-		if ( mValidatorClass != null )
-			mValidator = mValidatorClass.getConstructor( SwingMetawidget.class ).newInstance( this );
 	}
 
 	protected void addWidget( Component component, String elementName, Map<String, String> attributes )
@@ -1106,9 +1064,6 @@ public class SwingMetawidget
 		{
 			if ( mPropertyBinding != null )
 				mPropertyBinding.bindProperty( actualComponent, attributes, path );
-
-			if ( mValidator != null )
-				mValidator.addValidator( actualComponent, attributes, path );
 		}
 
 		// Set the name of the component.
@@ -1190,9 +1145,6 @@ public class SwingMetawidget
 			mLayout.layoutEnd();
 		}
 
-		if ( mValidator != null )
-			mValidator.initializeValidators();
-
 		// Call validate because Components have been added/removed, and
 		// Component layout information has changed
 
@@ -1216,13 +1168,11 @@ public class SwingMetawidget
 
 		// ...instead, copy runtime values
 
+		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-		nestedMetawidget.setInspector( mMetawidgetMixin.getInspector() );
-		nestedMetawidget.setWidgetBuilder( mMetawidgetMixin.getWidgetBuilder() );
 		nestedMetawidget.setLayoutClass( mLayoutClass );
 		nestedMetawidget.setPropertyBindingClass( mPropertyBindingClass );
 		nestedMetawidget.setActionBindingClass( mActionBindingClass );
-		nestedMetawidget.setValidatorClass( mValidatorClass );
 		nestedMetawidget.setBundle( mBundle );
 		nestedMetawidget.setOpaque( isOpaque() );
 
@@ -1320,8 +1270,6 @@ public class SwingMetawidget
 			throws Exception
 		{
 			SwingMetawidget nestedMetawidget = SwingMetawidget.this.getClass().newInstance();
-			nestedMetawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
-			nestedMetawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 			SwingMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
 			return nestedMetawidget;

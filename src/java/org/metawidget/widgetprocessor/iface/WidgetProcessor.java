@@ -14,10 +14,31 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
+package org.metawidget.widgetprocessor.iface;
+
+import java.util.Map;
+
 /**
- * Swing support: automatic validation.
+ * Common interface implemented by all WidgetProcessors. WidgetProcessors allow arbitrary
+ * processing of a widget at key points in its lifecycle.
+ * <p>
+ * WidgetProcessors must be threadsafe and immutable (or, at least, appear that way to clients. They
+ * can have caches or configuration settings internally).
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.swing.validator;
+public interface WidgetProcessor<W, M extends W>
+{
+	//
+	// Methods
+	//
+
+	void onStartBuild( M metawidget );
+
+	void onAdd( W widget, Map<String, String> attributes, M metawidget );
+
+	void onEndBuild( M metawidget );
+
+	void onSave( M metawidget );
+}

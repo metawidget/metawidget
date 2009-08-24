@@ -14,15 +14,15 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.widgetbuilder.iface;
+package org.metawidget.widgetprocessor.iface;
 
 import org.metawidget.iface.MetawidgetException;
 
 /**
- * Any exception that occurs during widget building.
+ * Any exception that occurs during widget processing.
  */
 
-public class WidgetBuilderException
+public class WidgetProcessorException
 	extends MetawidgetException
 {
 	//
@@ -38,39 +38,39 @@ public class WidgetBuilderException
 	/**
 	 * Static constructor.
 	 * <p>
-	 * Using static constructor methods prevents unnecessarily nesting WidgetBuilderExceptions within
-	 * WidgetBuilderExceptions.
+	 * Using static constructor methods prevents unnecessarily nesting WidgetProcessorExceptions within
+	 * WidgetProcessorExceptions.
 	 */
 
-	public static WidgetBuilderException newException( Throwable cause )
+	public static WidgetProcessorException newException( Throwable cause )
 	{
-		if ( cause instanceof WidgetBuilderException )
-			return (WidgetBuilderException) cause;
+		if ( cause instanceof WidgetProcessorException )
+			return (WidgetProcessorException) cause;
 
-		return new WidgetBuilderException( cause );
+		return new WidgetProcessorException( cause );
 	}
 
 	/**
 	 * Static constructor.
 	 * <p>
-	 * For consistency with <code>WidgetBuilderException.newException( Throwable )</code>.
+	 * For consistency with <code>WidgetProcessorException.newException( Throwable )</code>.
 	 */
 
-	public static WidgetBuilderException newException( String message )
+	public static WidgetProcessorException newException( String message )
 	{
-		return new WidgetBuilderException( message );
+		return new WidgetProcessorException( message );
 	}
 
 	//
 	// Constructor
 	//
 
-	private WidgetBuilderException( String message )
+	private WidgetProcessorException( String message )
 	{
 		super( message );
 	}
 
-	private WidgetBuilderException( Throwable cause )
+	private WidgetProcessorException( Throwable cause )
 	{
 		super( cause );
 	}

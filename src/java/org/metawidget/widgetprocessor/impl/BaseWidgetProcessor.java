@@ -14,10 +14,36 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-/**
- * Swing support: JGoodies Validator.
- *
- * @author Richard Kennard
- */
+package org.metawidget.widgetprocessor.impl;
 
-package org.metawidget.swing.validator.jgoodies;
+import java.util.Map;
+
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+
+public abstract class BaseWidgetProcessor<W, M extends W>
+	implements WidgetProcessor<W, M>
+{
+	//
+	// Public methods
+	//
+
+	public void onStartBuild( M metawidget )
+	{
+		// Do nothing
+	}
+
+	public void onAdd( W widget, Map<String, String> attributes, M metawidget )
+	{
+		// Do nothing
+	}
+
+	public void onEndBuild( M metawidget )
+	{
+		// Do nothing
+	}
+
+	public void onSave( M metawidget )
+	{
+		// Do nothing
+	}
+}

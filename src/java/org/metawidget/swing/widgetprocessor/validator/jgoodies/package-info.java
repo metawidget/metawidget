@@ -14,54 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.validator;
-
-import org.metawidget.swing.SwingMetawidget;
-
 /**
- * Convenience implementation.
+ * Swing support: JGoodies Validator.
  *
  * @author Richard Kennard
  */
 
-public abstract class BaseValidator
-	implements Validator
-{
-	//
-	// Private members
-	//
-
-	private SwingMetawidget	mMetawidget;
-
-	//
-	// Constructor
-	//
-
-	protected BaseValidator( SwingMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
-	//
-	// Public methods
-	//
-
-	public void initializeValidators()
-	{
-		// Do nothing by default
-	}
-
-	public void validate()
-	{
-		// Do nothing by default
-	}
-
-	//
-	// Protected methods
-	//
-
-	protected SwingMetawidget getMetawidget()
-	{
-		return mMetawidget;
-	}
-}
+package org.metawidget.swing.widgetprocessor.validator.jgoodies;

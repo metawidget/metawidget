@@ -14,19 +14,18 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.validator.inputverifier;
+package org.metawidget.swing.widgetprocessor.validator.inputverifier;
 
-import java.awt.Component;
 import java.util.Map;
 
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.validator.BaseValidator;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
- * Validator to add Swing InputVerifiers to a Component.
+ * Processor to add Swing InputVerifiers to a Component.
  * <p>
  * This class is abstract, because Swing does not provide any implemented InputVerifiers out of the
  * box. Clients must extend this class and implement <code>getInputVerifier</code> to integrate
@@ -35,36 +34,22 @@ import org.metawidget.swing.validator.BaseValidator;
  * @author Richard Kennard
  */
 
-public abstract class InputVerifierValidator
-	extends BaseValidator
+public abstract class InputVerifierProcessor
+	extends BaseWidgetProcessor<JComponent, SwingMetawidget>
 {
-	//
-	// Constructor
-	//
-
-	public InputVerifierValidator( SwingMetawidget metawidget )
-	{
-		super( metawidget );
-	}
-
 	//
 	// Public methods
 	//
 
 	@Override
-	public void addValidator( Component component, Map<String, String> attributes, String path )
+	public void onAdd( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
-		if ( !( component instanceof JComponent ) )
-			return;
-
-		JComponent jcomponent = (JComponent) component;
-
-		InputVerifier verifier = getInputVerifier( jcomponent, attributes, path );
+		InputVerifier verifier = getInputVerifier( component, attributes, metawidget.getPath() );
 
 		if ( verifier == null )
 			return;
 
-		jcomponent.setInputVerifier( verifier );
+		component.setInputVerifier( verifier );
 	}
 
 	//

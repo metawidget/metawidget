@@ -422,16 +422,17 @@ public abstract class MetawidgetTag
 		}
 	}
 
-	protected void initNestedMetawidget( MetawidgetTag metawidget, Map<String, String> attributes )
+	protected void initNestedMetawidget( MetawidgetTag nestedMetawidget, Map<String, String> attributes )
 	{
-		metawidget.mPath = mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 
-		metawidget.setConfig( mConfig );
-		metawidget.setLayoutClass( mLayoutClass );
-		metawidget.setBundle( mBundle );
+		nestedMetawidget.setPathInternal( mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ));
+		nestedMetawidget.setConfig( mConfig );
+		nestedMetawidget.setLayoutClass( mLayoutClass );
+		nestedMetawidget.setBundle( mBundle );
 
 		if ( mParameters != null )
-			metawidget.mParameters = CollectionUtils.newHashMap( mParameters );
+			nestedMetawidget.mParameters = CollectionUtils.newHashMap( mParameters );
 	}
 
 	protected String inspect()
@@ -619,7 +620,6 @@ public abstract class MetawidgetTag
 		{
 			MetawidgetTag metawidget = MetawidgetTag.this.getClass().newInstance();
 			MetawidgetTag.this.initNestedMetawidget( metawidget, attributes );
-			metawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
 
 			return JspUtils.writeTag( pageContext, metawidget, MetawidgetTag.this, null );
 		}

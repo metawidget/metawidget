@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Swing support: automatic validation.
+ * Widget Processors: convenience implementations.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.swing.validator.inputverifier;
+package org.metawidget.widgetprocessor.impl;

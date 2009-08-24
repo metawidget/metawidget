@@ -18,10 +18,13 @@ package org.metawidget.mixin.base;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * Mixin to help build Metawidgets.
@@ -42,8 +45,8 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  * <code>org.w3c.dom</code>.
  * <p>
  * Note: this class is located in <code>org.metawidget.mixin.base</code>, as opposed to just
- * <code>org.metawidget.mixin</code>, to make it easier to integrate GWT (which is bad at
- * ignoring sub-packages such as <code>org.metawidget.mixin.w3c</code>).
+ * <code>org.metawidget.mixin</code>, to make it easier to integrate GWT (which is bad at ignoring
+ * sub-packages such as <code>org.metawidget.mixin.w3c</code>).
  *
  * @author Richard Kennard
  */
@@ -54,21 +57,23 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	// Private statics
 	//
 
-	private final static int	DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
+	private final static int			DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
 
 	//
 	// Private members
 	//
 
-	private boolean				mReadOnly;
+	private boolean						mReadOnly;
 
-	private boolean				mCompoundWidget;
+	private boolean						mCompoundWidget;
 
-	private int					mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
+	private int							mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
-	private Inspector			mInspector;
+	private Inspector					mInspector;
 
-	private WidgetBuilder<W, M>	mWidgetBuilder;
+	private WidgetBuilder<W, M>			mWidgetBuilder;
+
+	private List<WidgetProcessor<W, M>>	mWidgetProcessors;
 
 	//
 	// Public methods
@@ -102,8 +107,8 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	 * <p>
 	 * This can be useful in detecing cyclic references. Although <code>BaseObjectInspector</code>
 	 * -derived Inspectors are capable of detecting cyclic references, other Inspectors may not be.
-	 * For example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only
-	 * test types, not actual objects.
+	 * For example, <code>BaseXmlInspector</code>-derived Inspectors cannot because they only test
+	 * types, not actual objects.
 	 *
 	 * @param maximumInspectionDepth
 	 *            0 for top-level only, 1 for 1 level deep etc.
@@ -134,6 +139,14 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		return mWidgetBuilder;
 	}
 
+	public void addWidgetProcessor( WidgetProcessor<W, M> widgetProcessor )
+	{
+		if ( mWidgetProcessors == null )
+			mWidgetProcessors = CollectionUtils.newArrayList();
+
+		mWidgetProcessors.add( widgetProcessor );
+	}
+
 	/**
 	 * Inspect the given Object according to the given path, and return the result as a String
 	 * conforming to inspection-result-1.0.xsd.
@@ -154,8 +167,8 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	/**
 	 * Build widgets from the given XML inspection result.
 	 * <p>
-	 * Note: the <code>BaseMetawidgetMixin</code> expects the XML to be passed in internally,
-	 * rather than fetching it itself, because some XML inspections may be asynchronous.
+	 * Note: the <code>BaseMetawidgetMixin</code> expects the XML to be passed in internally, rather
+	 * than fetching it itself, because some XML inspections may be asynchronous.
 	 */
 
 	public void buildWidgets( String xml )
@@ -164,8 +177,9 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		mCompoundWidget = false;
 
 		startBuild();
+		processorStartBuild();
 
-		if ( xml != null && !"".equals( xml ))
+		if ( xml != null && !"".equals( xml ) )
 		{
 			// Build simple widget (from the top-level element)
 
@@ -196,6 +210,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			}
 			else
 			{
+				processorAdd( widget, attributes );
 				addWidget( widget, elementName, attributes );
 			}
 		}
@@ -206,6 +221,48 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		// 2. you can use a Metawidget purely for layout, with no inspection
 
 		endBuild();
+		processorEndBuild();
+	}
+
+	public void processorSave()
+	{
+		if ( mWidgetProcessors == null )
+			return;
+
+		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
+		{
+			widgetProcessor.onSave( getMixinOwner() );
+		}
+	}
+
+	/**
+	 * Copies this mixin's values into another mixin. Useful for when a Metawidget creates a nested
+	 * Metawidget.
+	 * <p>
+	 * Special behaviour is:
+	 * <ul>
+	 * <li>the given mixin is initialised with a maximumInspectionDepth of 1 less than the current
+	 * maximumInspectionDepth. This is so that, as nesting continues, eventually the
+	 * maximumInspectionDepth reaches zero</li>
+	 * <li>the given mixin has setReadOnly if the current mixin has setReadOnly <em>or</em> if the
+	 * attributes map contains <code>READ_ONLY</code></li>
+	 * <li>the given mixin is initialised with the same Inspectors, WidgetBuilders and
+	 * WidgetProcessors as the current mixin. This is safe because they are all immutable and
+	 * threadsafe</li>
+	 * </ul>
+	 */
+
+	public void initNestedMixin( BaseMetawidgetMixin<W, E, M> nestedMixin, Map<String, String> attributes )
+	{
+		nestedMixin.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
+		nestedMixin.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
+
+		// Inspectors, WidgetBuilders and WidgetProcessors can be shared because they are immutable
+		// and threadsafe
+
+		nestedMixin.setInspector( getInspector() );
+		nestedMixin.setWidgetBuilder( getWidgetBuilder() );
+		nestedMixin.mWidgetProcessors = mWidgetProcessors;
 	}
 
 	//
@@ -272,7 +329,41 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 				attributes.putAll( getStubAttributes( widget ) );
 			}
 
+			processorAdd( widget, attributes );
 			addWidget( widget, elementName, attributes );
+		}
+	}
+
+	protected void processorStartBuild()
+	{
+		if ( mWidgetProcessors == null )
+			return;
+
+		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
+		{
+			widgetProcessor.onStartBuild( getMixinOwner() );
+		}
+	}
+
+	protected void processorAdd( W widget, Map<String, String> attributes )
+	{
+		if ( mWidgetProcessors == null )
+			return;
+
+		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
+		{
+			widgetProcessor.onAdd( widget, attributes, getMixinOwner() );
+		}
+	}
+
+	protected void processorEndBuild()
+	{
+		if ( mWidgetProcessors == null )
+			return;
+
+		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
+		{
+			widgetProcessor.onEndBuild( getMixinOwner() );
 		}
 	}
 

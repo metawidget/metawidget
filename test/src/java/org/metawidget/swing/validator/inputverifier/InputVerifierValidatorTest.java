@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.validator.inputverifier.InputVerifierValidator;
+import org.metawidget.swing.widgetprocessor.validator.inputverifier.InputVerifierProcessor;
 
 /**
  * @author Richard Kennard
@@ -49,90 +49,83 @@ public class InputVerifierValidatorTest
 		Foo foo2 = new Foo();
 		foo1.setNestedFoo( foo2 );
 
+		SwingMetawidget metawidget = new SwingMetawidget();
+
 		// Inspect
 
-		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( foo1 );
 
 		JSpinner spinner = (JSpinner) metawidget.getComponent( 1 );
 		assertTrue( null == spinner.getInputVerifier() );
 
+		// Setup
+
+		metawidget.addWidgetProcessor( new InputVerifierProcessor()
+		{
+			//
+			// Public methods
+			//
+
+			@Override
+			public void onStartBuild( SwingMetawidget theMetawidget )
+			{
+				theMetawidget.putClientProperty( "onStartBuild", Boolean.TRUE );
+			}
+
+			@Override
+			public void onSave( SwingMetawidget theMetawidget )
+			{
+				theMetawidget.putClientProperty( "onSave", Boolean.TRUE );
+			}
+
+			//
+			// Protected methods
+			//
+
+			@Override
+			protected InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, String path )
+			{
+				if ( component instanceof SwingMetawidget )
+					return null;
+
+				return new InputVerifier()
+				{
+					@Override
+					public boolean verify( JComponent input )
+					{
+						return false;
+					}
+				};
+			}
+		} );
+
 		// Validate
 
-		metawidget.setValidatorClass( MyInputVerifierValidator.class );
-		assertTrue( null == metawidget.getClientProperty( "initializeValidators" ));
+		assertTrue( null == metawidget.getClientProperty( "onStartBuild" ) );
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		assertTrue( !spinner.getInputVerifier().verify( spinner ) );
-		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "initializeValidators" )));
+		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "onStartBuild" ) ) );
 
 		SwingMetawidget nestedMetawidget = (SwingMetawidget) metawidget.getComponent( 3 );
 		assertTrue( null == nestedMetawidget.getInputVerifier() );
+
 		JSpinner nestedSpinner = (JSpinner) nestedMetawidget.getComponent( 1 );
 		assertTrue( !nestedSpinner.getInputVerifier().verify( spinner ) );
-		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "initializeValidators" )));
+		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "onStartBuild" ) ) );
 
 		// ValidateValues
 
-		assertTrue( null == metawidget.getClientProperty( "validateValues" ));
-		assertTrue( null == nestedMetawidget.getClientProperty( "validateValues" ));
-		metawidget.validateValues();
-		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "validateValues" )));
-		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "validateValues" )));
+		assertTrue( null == metawidget.getClientProperty( "onSave" ) );
+		assertTrue( null == nestedMetawidget.getClientProperty( "onSave" ) );
+		metawidget.save();
+		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "onSave" ) ) );
+		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "onSave" ) ) );
 	}
 
 	//
 	// Inner class
 	//
-
-	protected static class MyInputVerifierValidator
-		extends InputVerifierValidator
-	{
-		//
-		// Constructor
-		//
-
-		public MyInputVerifierValidator( SwingMetawidget metawidget )
-		{
-			super( metawidget );
-		}
-
-		//
-		// Public methods
-		//
-
-		@Override
-		public void initializeValidators()
-		{
-			getMetawidget().putClientProperty( "initializeValidators", Boolean.TRUE );
-		}
-
-		@Override
-		public void validate()
-		{
-			getMetawidget().putClientProperty( "validateValues", Boolean.TRUE );
-		}
-
-		//
-		// Protected methods
-		//
-
-		@Override
-		protected InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, String path )
-		{
-			if ( component instanceof SwingMetawidget )
-				return null;
-
-			return new InputVerifier()
-			{
-				@Override
-				public boolean verify( JComponent input )
-				{
-					return false;
-				}
-			};
-		}
-	}
 
 	protected static class Foo
 	{

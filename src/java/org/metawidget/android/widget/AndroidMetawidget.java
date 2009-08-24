@@ -686,9 +686,8 @@ public class AndroidMetawidget
 
 	protected void initNestedMetawidget( AndroidMetawidget nestedMetawidget, Map<String, String> attributes )
 	{
+		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-		nestedMetawidget.setInspector( mMetawidgetMixin.getInspector() );
-		nestedMetawidget.setWidgetBuilder( mMetawidgetMixin.getWidgetBuilder() );
 		nestedMetawidget.setLayoutClass( mLayoutClass );
 
 		if ( mParameters != null )
@@ -888,8 +887,6 @@ public class AndroidMetawidget
 		{
 			Constructor<?> constructor = AndroidMetawidget.this.getClass().getConstructor( Context.class );
 			AndroidMetawidget nestedMetawidget = (AndroidMetawidget) constructor.newInstance( getContext() );
-			nestedMetawidget.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
-			nestedMetawidget.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 
 			AndroidMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 

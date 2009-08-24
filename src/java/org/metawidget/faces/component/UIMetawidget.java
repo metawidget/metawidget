@@ -816,21 +816,15 @@ public abstract class UIMetawidget
 
 		// Read-only
 		//
-		// Note: this isn't just the read-only setting of the parent Metawidget, it must also
-		// take into account any property-level attributes
+		// Note: BaseMetawidgetMixin takes care of property-level attributes. This is concerned
+		// with the value binding
 
-		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
-		{
-			nestedMetawidget.setReadOnly( true );
-		}
-		else
+		if ( !TRUE.equals( attributes.get( READ_ONLY ) ) )
 		{
 			ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
 
 			if ( bindingReadOnly != null )
 				nestedMetawidget.setValueBinding( "readOnly", bindingReadOnly );
-			else
-				nestedMetawidget.setReadOnly( mReadOnly );
 		}
 
 		// Bundle
