@@ -46,14 +46,10 @@ import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.example.swing.addressbook.AddressBook;
-import org.metawidget.example.swing.addressbook.ContactDialog;
-import org.metawidget.example.swing.addressbook.ImagePanel;
-import org.metawidget.example.swing.addressbook.ListTableModel;
-import org.metawidget.example.swing.addressbook.MainFrame;
 import org.metawidget.example.swing.addressbook.converter.DateConverter;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -191,7 +187,7 @@ public class SwingAddressBookTest
 
 		try
 		{
-			metawidgetContact.save();
+			metawidgetContact.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidgetContact );
 			assertTrue( false );
 		}
 		catch ( Exception e )
@@ -283,7 +279,7 @@ public class SwingAddressBookTest
 
 		// Check saving doesn't error on null date
 
-		metawidgetContact.save();
+		metawidgetContact.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidgetContact );
 
 		// Check adding
 

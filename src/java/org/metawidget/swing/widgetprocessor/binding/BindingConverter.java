@@ -14,29 +14,24 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.widgetprocessor.iface;
-
-import java.util.Map;
+package org.metawidget.swing.widgetprocessor.binding;
 
 /**
- * Common interface implemented by all WidgetProcessors. WidgetProcessors allow arbitrary
- * processing of a widget at key points in its lifecycle.
- * <p>
- * WidgetProcessors must be threadsafe and immutable (or, at least, appear that way to clients. They
- * can have caches or configuration settings internally).
+ * Swing support: binding
  *
  * @author Richard Kennard
  */
 
-public interface WidgetProcessor<W, M extends W>
+public interface BindingConverter
 {
 	//
 	// Methods
 	//
 
-	void onStartBuild( M metawidget );
+	/**
+	 * Convert the given String to the given expected type, if possible. If not possible, just
+	 * return the original String.
+	 */
 
-	void onAdd( W widget, Map<String, String> attributes, M metawidget );
-
-	void onEndBuild( M metawidget );
+	Object convertFromString( String value, Class<?> expectedType );
 }

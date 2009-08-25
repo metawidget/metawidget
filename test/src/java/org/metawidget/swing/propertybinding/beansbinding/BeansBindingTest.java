@@ -31,8 +31,7 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
-import org.metawidget.swing.propertybinding.beansbinding.ReadOnlyToStringConverter;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -57,7 +56,7 @@ public class BeansBindingTest
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setPropertyBindingClass( BeansBinding.class );
+		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( foo );
 
@@ -79,7 +78,7 @@ public class BeansBindingTest
 		assertTrue( 43 == (Long) spinner.getValue() );
 		spinner.setValue( 44l );
 		assertTrue( 43 == foo.getBar() );
-		metawidget.save();
+		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
 		assertTrue( 44 == foo.getBar() );
 
 		// Test UpdateStrategy.READ_WRITE
@@ -92,7 +91,7 @@ public class BeansBindingTest
 
 		// Test unbind
 
-		metawidget.setPropertyBindingClass( null );
+		// TODO: metawidget.setPropertyBindingClass( null );
 	}
 
 	public void testSingleComponentBinding()
@@ -106,7 +105,7 @@ public class BeansBindingTest
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setPropertyBindingClass( BeansBinding.class );
+		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setParameter( UpdateStrategy.class, UpdateStrategy.READ_WRITE );
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setLayoutClass( null );
@@ -175,7 +174,7 @@ public class BeansBindingTest
 		throws Exception
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setPropertyBindingClass( BeansBinding.class );
+		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setToInspect( new NoGetSetFoo() );
 
@@ -194,7 +193,7 @@ public class BeansBindingTest
 		throws Exception
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setPropertyBindingClass( BeansBinding.class );
+		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setInspector( new PropertyTypeInspector() );
 
 		// Clear out any DateConverters registered by previous unit tests
@@ -209,7 +208,7 @@ public class BeansBindingTest
 		try
 		{
 			metawidget.setValue( "1/1/2001", "bar" );
-			metawidget.save();
+			metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
 			assertTrue( false );
 		}
 		catch ( MetawidgetException e )

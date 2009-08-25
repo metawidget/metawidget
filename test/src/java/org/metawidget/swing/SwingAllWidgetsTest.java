@@ -27,6 +27,7 @@ import java.util.TimeZone;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -46,11 +47,9 @@ import org.metawidget.iface.MetawidgetException;
 import org.metawidget.shared.allwidgets.model.AllWidgets;
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
-import org.metawidget.swing.Stub;
-import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
-import org.metawidget.swing.propertybinding.PropertyBinding;
-import org.metawidget.swing.propertybinding.beanutils.BeanUtilsBinding;
+import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * @author Richard Kennard
@@ -96,14 +95,15 @@ public class SwingAllWidgetsTest
 
 		ConvertUtils.register( new org.metawidget.swing.allwidgets.converter.beanutils.DateConverter( DATE_FORMAT ), Date.class );
 		ConvertUtils.register( new org.metawidget.swing.allwidgets.converter.beanutils.NestedWidgetsConverter(), NestedWidgets.class );
-		runTest( BeanUtilsBinding.class );
+		runTest( new BeanUtilsBindingProcessor() );
 	}
 
 	//
 	// Protected methods
 	//
 
-	protected void runTest( Class<? extends PropertyBinding> bindingClass )
+	protected void runTest( WidgetProcessor<JComponent, SwingMetawidget> processor )
+		throws Exception
 	{
 		// Model
 
@@ -112,7 +112,7 @@ public class SwingAllWidgetsTest
 		// App
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setPropertyBindingClass( bindingClass );
+		metawidget.addWidgetProcessor( processor );
 		metawidget.setActionBindingClass( ReflectionBinding.class );
 		metawidget.setConfig( "org/metawidget/swing/allwidgets/metawidget.xml" );
 		metawidget.setParameter( "numberOfColumns", 2 );
@@ -476,7 +476,7 @@ public class SwingAllWidgetsTest
 
 		try
 		{
-			metawidget.save();
+			processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
 			assertTrue( false );
 		}
 		catch ( MetawidgetException e )
@@ -488,7 +488,7 @@ public class SwingAllWidgetsTest
 
 		String now = dateFormat.format( new GregorianCalendar().getTime() );
 		( (JTextField) metawidget.getComponent( 57 ) ).setText( now );
-		metawidget.save();
+		processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
 
 		// Check read-only
 
@@ -570,9 +570,5 @@ public class SwingAllWidgetsTest
 		assertTrue( "Read Only".equals( ( (JLabel) metawidget.getComponent( 60 ) ).getText() ) );
 
 		assertTrue( metawidget.getComponentCount() == 61 );
-
-		// Test unbind
-
-		metawidget.setPropertyBindingClass( null );
 	}
 }

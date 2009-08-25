@@ -56,6 +56,7 @@ import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.FlowLayout;
 import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -160,7 +161,6 @@ public class ContactDialog
 		mContactMetawidget = new SwingMetawidget();
 		mContactMetawidget.setBorder( BorderFactory.createEmptyBorder( COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING, COMPONENT_SPACING ) );
 		mContactMetawidget.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
-		mContactMetawidget.setPropertyBindingClass( BeansBinding.class );
 		mContactMetawidget.setToInspect( contact );
 		mContactMetawidget.setReadOnly( contact.getId() != 0 );
 		panelBackground.add( mContactMetawidget, BorderLayout.CENTER );
@@ -271,7 +271,7 @@ public class ContactDialog
 	{
 		try
 		{
-			mContactMetawidget.save();
+			mContactMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( mContactMetawidget );
 			Contact contact = mContactMetawidget.getToInspect();
 			contact.setCommunications( CollectionUtils.newHashSet( mCommunicationsModel.exportList() ) );
 			mProvider.getContactsController().save( contact );

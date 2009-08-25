@@ -28,9 +28,8 @@ import junit.framework.TestCase;
 import org.jdesktop.swingx.JXDatePicker;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
-import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilder;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
@@ -71,7 +70,7 @@ public class SwingXWidgetBuilderTest
 		DateHolder dateHolder = new DateHolder();
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( new SwingXWidgetBuilder(), new SwingWidgetBuilder() ) ) );
-		metawidget.setPropertyBindingClass( BeansBinding.class );
+		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setToInspect( dateHolder );
 
 		Date date = new Date();
@@ -81,7 +80,7 @@ public class SwingXWidgetBuilderTest
 		assertTrue( date.getDay() == dateFromMetawidget.getDay() );
 		assertTrue( date.getMonth() == dateFromMetawidget.getMonth() );
 		assertTrue( date.getYear() == dateFromMetawidget.getYear() );
-		metawidget.save();
+		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
 
 		assertTrue( dateFromMetawidget.equals( dateHolder.getDate() ) );
 

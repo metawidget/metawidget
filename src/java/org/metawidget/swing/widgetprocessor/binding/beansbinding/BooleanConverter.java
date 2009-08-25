@@ -14,29 +14,30 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.widgetprocessor.iface;
+package org.metawidget.swing.widgetprocessor.binding.beansbinding;
 
-import java.util.Map;
+import org.jdesktop.beansbinding.Converter;
 
 /**
- * Common interface implemented by all WidgetProcessors. WidgetProcessors allow arbitrary
- * processing of a widget at key points in its lifecycle.
- * <p>
- * WidgetProcessors must be threadsafe and immutable (or, at least, appear that way to clients. They
- * can have caches or configuration settings internally).
- *
  * @author Richard Kennard
  */
 
-public interface WidgetProcessor<W, M extends W>
+public class BooleanConverter
+	extends Converter<Boolean, String>
 {
 	//
-	// Methods
+	// Public methods
 	//
 
-	void onStartBuild( M metawidget );
+	@Override
+	public String convertForward( Boolean value )
+	{
+		return String.valueOf( value );
+	}
 
-	void onAdd( W widget, Map<String, String> attributes, M metawidget );
-
-	void onEndBuild( M metawidget );
+	@Override
+	public Boolean convertReverse( String value )
+	{
+		return Boolean.valueOf( value );
+	}
 }

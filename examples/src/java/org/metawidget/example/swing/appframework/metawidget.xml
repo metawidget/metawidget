@@ -24,6 +24,11 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<widgetProcessors>
+			<list>
+				<beansBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.beansbinding"/>
+			</list>
+		</widgetProcessors>
 	</swingMetawidget>
 
 </metawidget>

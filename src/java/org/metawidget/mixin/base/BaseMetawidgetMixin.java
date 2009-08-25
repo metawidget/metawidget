@@ -139,12 +139,49 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		return mWidgetBuilder;
 	}
 
+	public void setWidgetProcessors( List<WidgetProcessor<W, M>> widgetProcessors )
+	{
+		if ( widgetProcessors == null )
+		{
+			mWidgetProcessors = null;
+			return;
+		}
+
+		// Defensive copy: the WidgetProcessors are immutable, but the List is not
+
+		mWidgetProcessors = CollectionUtils.newArrayList( widgetProcessors );
+	}
+
 	public void addWidgetProcessor( WidgetProcessor<W, M> widgetProcessor )
 	{
 		if ( mWidgetProcessors == null )
 			mWidgetProcessors = CollectionUtils.newArrayList();
 
 		mWidgetProcessors.add( widgetProcessor );
+	}
+
+	/**
+	 * Returns the first WidgetProcessor in this mixin's list of WidgetProcessors (ie. as added by
+	 * <code>addWidgetProcessor</code>) that <code>isAssignableFrom</code> the given class.
+	 *
+	 * @param widgetProcessorClass
+	 *            the class, or interface or superclass, to find. Returns <code>null</code> if no
+	 *            such WidgetProcessor
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
+	{
+		if ( mWidgetProcessors == null )
+			return null;
+
+		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
+		{
+			if ( widgetProcessor.getClass().isAssignableFrom( widgetProcessorClass ) )
+				return (T) widgetProcessor;
+		}
+
+		return null;
 	}
 
 	/**
@@ -224,17 +261,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		processorEndBuild();
 	}
 
-	public void processorSave()
-	{
-		if ( mWidgetProcessors == null )
-			return;
-
-		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
-		{
-			widgetProcessor.onSave( getMixinOwner() );
-		}
-	}
-
 	/**
 	 * Copies this mixin's values into another mixin. Useful for when a Metawidget creates a nested
 	 * Metawidget.
@@ -262,7 +288,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 		nestedMixin.setInspector( getInspector() );
 		nestedMixin.setWidgetBuilder( getWidgetBuilder() );
-		nestedMixin.mWidgetProcessors = mWidgetProcessors;
+		nestedMixin.setWidgetProcessors( mWidgetProcessors );
 	}
 
 	//

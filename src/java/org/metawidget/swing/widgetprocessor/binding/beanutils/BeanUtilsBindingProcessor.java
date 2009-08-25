@@ -14,24 +14,29 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.propertybinding.beanutils;
+package org.metawidget.swing.widgetprocessor.binding.beanutils;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.awt.Component;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
+
+import javax.swing.JComponent;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.propertybinding.BasePropertyBinding;
+import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
  * Property binding implementation based on BeansUtils.
@@ -47,8 +52,9 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard, Stefan Ackermann
  */
 
-public class BeanUtilsBinding
-	extends BasePropertyBinding
+public class BeanUtilsBindingProcessor
+	extends BaseWidgetProcessor<JComponent, SwingMetawidget>
+	implements BindingConverter
 {
 	//
 	// Private statics
@@ -65,40 +71,18 @@ public class BeanUtilsBinding
 	public final static int		PROPERTYSTYLE_SCALA		= 1;
 
 	//
-	// Private members
-	//
-
-	private Set<SavedBinding>	mBindings;
-
-	private int					mPropertyStyle			= PROPERTYSTYLE_JAVABEAN;
-
-	//
-	// Constructor
-	//
-
-	public BeanUtilsBinding( SwingMetawidget metawidget )
-	{
-		super( metawidget );
-
-		// Read parameters
-
-		Integer propertyStyle = metawidget.getParameter( "propertyStyle" );
-
-		if ( propertyStyle != null )
-			mPropertyStyle = propertyStyle;
-	}
-
-	//
 	// Public methods
 	//
 
 	@Override
-	public void bindProperty( Component component, Map<String, String> attributes, String path )
+	public void onAdd( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
-		String componentProperty = getMetawidget().getValueProperty( component );
+		String componentProperty = metawidget.getValueProperty( component );
 
 		if ( componentProperty == null )
 			return;
+
+		String path = metawidget.getPath() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 
 		try
 		{
@@ -110,7 +94,7 @@ public class BeanUtilsBinding
 
 			try
 			{
-				sourceValue = retrieveValueFromObject( getMetawidget().getToInspect(), names );
+				sourceValue = retrieveValueFromObject( metawidget, names );
 			}
 			catch ( NoSuchMethodException e )
 			{
@@ -120,10 +104,16 @@ public class BeanUtilsBinding
 			SavedBinding binding = new SavedBinding( component, componentProperty, names, TRUE.equals( attributes.get( NO_SETTER ) ) );
 			saveValueToWidget( binding, sourceValue );
 
-			if ( mBindings == null )
-				mBindings = CollectionUtils.newHashSet();
+			@SuppressWarnings("unchecked")
+			Set<SavedBinding> bindings = (Set<SavedBinding>) metawidget.getClientProperty( BeanUtilsBindingProcessor.class );
 
-			mBindings.add( binding );
+			if ( bindings == null )
+			{
+				bindings = CollectionUtils.newHashSet();
+				metawidget.putClientProperty( BeanUtilsBindingProcessor.class, bindings );
+			}
+
+			bindings.add( binding );
 		}
 		catch ( Exception e )
 		{
@@ -131,69 +121,100 @@ public class BeanUtilsBinding
 		}
 	}
 
-	@Override
-	public void rebindProperties()
+	public void rebind( SwingMetawidget metawidget, Object toRebind )
 	{
-		if ( mBindings == null )
-			return;
+		// TODO: hack
 
 		try
 		{
-			Object sourceObject = getMetawidget().getToInspect();
+			Field field = metawidget.getClass().getDeclaredField( "mToInspect" );
+			field.setAccessible( true );
+			field.set( metawidget, toRebind );
+		}
+		catch( Exception e )
+		{
+			throw WidgetProcessorException.newException( e );
+		}
 
-			for ( SavedBinding binding : mBindings )
+		// Our bindings
+
+		@SuppressWarnings("unchecked")
+		Set<SavedBinding> bindings = (Set<SavedBinding>) metawidget.getClientProperty( BeanUtilsBindingProcessor.class );
+
+		if ( bindings != null )
+		{
+			try
 			{
-				Object sourceValue;
-				String names = binding.getNames();
-
-				try
+				for ( SavedBinding binding : bindings )
 				{
-					sourceValue = retrieveValueFromObject( sourceObject, names );
-				}
-				catch ( NoSuchMethodException e )
-				{
-					throw MetawidgetException.newException( "Property '" + names + "' has no getter" );
-				}
+					Object sourceValue;
+					String names = binding.getNames();
 
-				saveValueToWidget( binding, sourceValue );
+					try
+					{
+						sourceValue = retrieveValueFromObject( metawidget, names );
+					}
+					catch ( NoSuchMethodException e )
+					{
+						throw MetawidgetException.newException( "Property '" + names + "' has no getter" );
+					}
+
+					saveValueToWidget( binding, sourceValue );
+				}
+			}
+			catch ( Exception e )
+			{
+				throw MetawidgetException.newException( e );
 			}
 		}
-		catch ( Exception e )
+
+		// Nested bindings
+
+		for ( Component component : metawidget.getComponents() )
 		{
-			throw MetawidgetException.newException( e );
+			if ( component instanceof SwingMetawidget )
+				rebind( (SwingMetawidget) component, toRebind );
 		}
 	}
 
-	@Override
-	public void saveProperties()
+	public void save( SwingMetawidget metawidget )
 	{
-		if ( mBindings == null )
-			return;
+		// Our bindings
 
-		try
+		@SuppressWarnings("unchecked")
+		Set<SavedBinding> bindings = (Set<SavedBinding>) metawidget.getClientProperty( BeanUtilsBindingProcessor.class );
+
+		if ( bindings != null )
 		{
-			Object source = getMetawidget().getToInspect();
-
-			for ( SavedBinding binding : mBindings )
+			try
 			{
-				if ( !binding.isSettable() )
-					continue;
+				for ( SavedBinding binding : bindings )
+				{
+					if ( !binding.isSettable() )
+						continue;
 
-				Object componentValue = retrieveValueFromWidget( binding );
-				saveValueToObject( source, binding.getNames(), componentValue );
+					Object componentValue = retrieveValueFromWidget( binding );
+					saveValueToObject( metawidget, binding.getNames(), componentValue );
+				}
+			}
+			catch ( Exception e )
+			{
+				throw MetawidgetException.newException( e );
 			}
 		}
-		catch ( Exception e )
+
+		// Nested bindings
+
+		for ( Component component : metawidget.getComponents() )
 		{
-			throw MetawidgetException.newException( e );
+			if ( component instanceof SwingMetawidget )
+				save( (SwingMetawidget) component );
 		}
 	}
 
-	@Override
-	@SuppressWarnings( "unchecked" )
-	public <T> T convertFromString( String value, Class<T> type )
+	public Object convertFromString( String value, Class<?> expectedType )
 	{
-		return (T) ConvertUtils.convert( value, type );
+		return ConvertUtils.convert( value, expectedType );
 	}
 
 	//
@@ -206,10 +227,12 @@ public class BeanUtilsBinding
 	 * Clients may override this method to incorporate their own getter convention.
 	 */
 
-	protected Object retrieveValueFromObject( Object source, String names )
+	protected Object retrieveValueFromObject( SwingMetawidget metawidget, String names )
 		throws Exception
 	{
-		switch ( mPropertyStyle )
+		Object source = metawidget.getToInspect();
+
+		switch ( getPropertyStyle( metawidget ) )
 		{
 			case PROPERTYSTYLE_SCALA:
 				return scalaTraverse( source, false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ) );
@@ -228,10 +251,12 @@ public class BeanUtilsBinding
 	 *            the raw value from the <code>JComponent</code>
 	 */
 
-	protected void saveValueToObject( Object source, String names, Object componentValue )
+	protected void saveValueToObject( SwingMetawidget metawidget, String names, Object componentValue )
 		throws Exception
 	{
-		switch ( mPropertyStyle )
+		Object source = metawidget.getToInspect();
+
+		switch ( getPropertyStyle( metawidget ))
 		{
 			case PROPERTYSTYLE_SCALA:
 
@@ -279,6 +304,18 @@ public class BeanUtilsBinding
 	//
 	// Private methods
 	//
+
+	private int getPropertyStyle( SwingMetawidget metawidget )
+	{
+		// Read parameters
+
+		Integer propertyStyle = metawidget.getParameter( "propertyStyle" );
+
+		if ( propertyStyle != null )
+			return propertyStyle;
+
+		return PROPERTYSTYLE_JAVABEAN;
+	}
 
 	private Object scalaTraverse( Object toTraverse, boolean onlyToParent, String... names )
 		throws Exception

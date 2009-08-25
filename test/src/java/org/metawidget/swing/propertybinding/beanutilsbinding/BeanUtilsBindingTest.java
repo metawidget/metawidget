@@ -32,7 +32,7 @@ import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.propertybinding.beanutils.BeanUtilsBinding;
+import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 
 /**
  * @author Richard Kennard
@@ -73,8 +73,8 @@ public class BeanUtilsBindingTest
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setPropertyBindingClass( BeanUtilsBinding.class );
-		metawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA );
+		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor() );
+		metawidget.setParameter( "propertyStyle", BeanUtilsBindingProcessor.PROPERTYSTYLE_SCALA );
 		BaseObjectInspectorConfig config = new BaseObjectInspectorConfig().setPropertyStyle( ScalaPropertyStyle.class );
 		metawidget.setInspector( new PropertyTypeInspector( config ) );
 		metawidget.setToInspect( scalaFoo );
@@ -98,7 +98,7 @@ public class BeanUtilsBindingTest
 		Date dateSecond = new GregorianCalendar( 1976, Calendar.MAY, 10 ).getTime();
 		textField.setText( dateFormat.format( dateSecond ));
 		nestedNestedTextField.setText( dateFormat.format( new GregorianCalendar( 1977, Calendar.JUNE, 17 ).getTime() ));
-		metawidget.save();
+		metawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).save( metawidget );
 
 		GregorianCalendar calendar = new GregorianCalendar();
 		calendar.setTime( scalaFoo.bar() );
@@ -113,7 +113,7 @@ public class BeanUtilsBindingTest
 		assertTrue( dateFormat.format( dateSecond ).equals( textField.getText() ) );
 
 		scalaFoo.bar_$eq( dateFirst );
-		metawidget.rebind( scalaFoo );
+		metawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).rebind( metawidget, scalaFoo );
 
 		textField = (JTextField) metawidget.getComponent( 1 );
 		assertTrue( dateFormat.format( dateFirst ).equals( textField.getText() ) );

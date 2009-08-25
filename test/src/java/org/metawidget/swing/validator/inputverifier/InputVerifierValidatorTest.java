@@ -73,12 +73,6 @@ public class InputVerifierValidatorTest
 				theMetawidget.putClientProperty( "onStartBuild", Boolean.TRUE );
 			}
 
-			@Override
-			public void onSave( SwingMetawidget theMetawidget )
-			{
-				theMetawidget.putClientProperty( "onSave", Boolean.TRUE );
-			}
-
 			//
 			// Protected methods
 			//
@@ -113,14 +107,6 @@ public class InputVerifierValidatorTest
 		JSpinner nestedSpinner = (JSpinner) nestedMetawidget.getComponent( 1 );
 		assertTrue( !nestedSpinner.getInputVerifier().verify( spinner ) );
 		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "onStartBuild" ) ) );
-
-		// ValidateValues
-
-		assertTrue( null == metawidget.getClientProperty( "onSave" ) );
-		assertTrue( null == nestedMetawidget.getClientProperty( "onSave" ) );
-		metawidget.save();
-		assertTrue( Boolean.TRUE.equals( metawidget.getClientProperty( "onSave" ) ) );
-		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "onSave" ) ) );
 	}
 
 	//

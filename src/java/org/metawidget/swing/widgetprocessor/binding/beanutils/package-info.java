@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Swing support: Beans PropertyBinding (JSR 295).
+ * Swing support: Commons BeanUtils.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.swing.propertybinding.beanutils;
+package org.metawidget.swing.widgetprocessor.binding.beanutils;

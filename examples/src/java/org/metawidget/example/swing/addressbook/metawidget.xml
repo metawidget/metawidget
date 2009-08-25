@@ -10,9 +10,6 @@
 		<opaque>
 			<boolean>false</boolean>
 		</opaque>
-		<widgetBuilder>
-			<swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/>
-		</widgetBuilder>
 		<inspector>			
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
@@ -30,6 +27,14 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<widgetBuilder>
+			<swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/>
+		</widgetBuilder>
+		<widgetProcessors>
+			<list>
+				<beansBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.beansbinding"/>
+			</list>
+		</widgetProcessors>		
 	</swingMetawidget>
 
 </metawidget>

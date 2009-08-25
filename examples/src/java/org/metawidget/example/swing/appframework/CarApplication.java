@@ -33,7 +33,7 @@ import org.jdesktop.application.SingleFrameApplication;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.FlowLayout;
-import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 
 /**
  * @author Richard Kennard
@@ -66,7 +66,7 @@ public class CarApplication
 	@Action
 	public void save( ActionEvent event )
 	{
-		mMetawidget.save();
+		mMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( mMetawidget );
 		JOptionPane.showMessageDialog( getMainFrame(), "Saved " + mCar );
 	}
 
@@ -112,7 +112,6 @@ public class CarApplication
 		mMetawidget.setConfig( "org/metawidget/example/swing/appframework/metawidget.xml" );
 		mMetawidget.setBundle( bundle );
 		mMetawidget.setToInspect( mCar );
-		mMetawidget.setPropertyBindingClass( BeansBinding.class );
 		mMetawidget.setBorder( BorderFactory.createEmptyBorder( 5, 5, 0, 5 ) );
 
 		// Set our default size. After first run, this will be overridden by the value
@@ -143,7 +142,7 @@ public class CarApplication
 			{
 				// Save in case changed make/type
 
-				mMetawidget.save();
+				mMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( mMetawidget );
 
 				// Re-inspect to create Owner section
 

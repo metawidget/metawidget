@@ -46,6 +46,7 @@ import javax.swing.text.JTextComponent;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingValuePropertyProvider;
+import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -240,10 +241,18 @@ public class SwingWidgetBuilder
 				comboBox.addItem( null );
 
 			List<String> values = CollectionUtils.fromString( lookup );
+			BindingConverter converter = metawidget.getWidgetProcessor( BindingConverter.class );
 
 			for ( String value : values )
 			{
-				Object convertedValue = metawidget.convertFromString( value, clazz );
+				// Convert (if supported)
+
+				Object convertedValue;
+
+				if ( converter == null )
+					convertedValue = value;
+				else
+					convertedValue = converter.convertFromString( value, clazz );
 
 				comboBox.addItem( convertedValue );
 			}

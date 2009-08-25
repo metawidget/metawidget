@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 import junit.framework.TestCase;
 
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 
 /**
  * @author Richard Kennard
@@ -76,7 +77,7 @@ public class SwingAppFrameworkTest
 		SwingMetawidget metawidgetOwner = (SwingMetawidget) metawidget.getComponent( 5 );
 		( (JTextField) metawidgetOwner.getComponent( 1 ) ).setText( "Richard" );
 		( (JTextField) metawidgetOwner.getComponent( 3 ) ).setText( "Kennard" );
-		metawidget.save();
+		metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
 
 		assertTrue( "Ford Sport, owned by Richard Kennard".equals( car.toString() ) );
 	}

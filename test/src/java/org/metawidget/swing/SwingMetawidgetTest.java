@@ -42,14 +42,12 @@ import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
-import org.metawidget.swing.Facet;
-import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.actionbinding.BaseActionBinding;
-import org.metawidget.swing.propertybinding.PropertyBinding;
-import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
-import org.metawidget.swing.propertybinding.beanutils.BeanUtilsBinding;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
+import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * @author Richard Kennard
@@ -122,7 +120,7 @@ public class SwingMetawidgetTest
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setPropertyBindingClass( BeanUtilsBinding.class );
+		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor() );
 		Foo foo1 = new Foo();
 		Foo foo2 = new Foo();
 		foo1.setFoo( foo2 );
@@ -187,9 +185,10 @@ public class SwingMetawidgetTest
 	}
 
 	public void testRebind()
+		throws Exception
 	{
-		_testRebind( BeansBinding.class, org.jdesktop.beansbinding.Binding.SyncFailureType.SOURCE_UNREADABLE.toString() );
-		_testRebind( BeanUtilsBinding.class, "Property 'name' has no getter" );
+		_testRebind( new BeansBindingProcessor(), org.jdesktop.beansbinding.Binding.SyncFailureType.SOURCE_UNREADABLE.toString() );
+		_testRebind( new BeanUtilsBindingProcessor(), "Property 'name' has no getter" );
 	}
 
 	public void testGroovy()
@@ -282,7 +281,8 @@ public class SwingMetawidgetTest
 	// Private methods
 	//
 
-	private void _testRebind( Class<? extends PropertyBinding> bindingClass, String errorMessage )
+	private void _testRebind( WidgetProcessor<JComponent, SwingMetawidget> processor, String errorMessage )
+		throws Exception
 	{
 		// Bind
 
@@ -294,7 +294,7 @@ public class SwingMetawidgetTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setPropertyBindingClass( bindingClass );
+		metawidget.addWidgetProcessor( processor );
 		metawidget.setToInspect( foo1 );
 
 		JTextField textField = metawidget.getComponent( "name" );
@@ -310,7 +310,7 @@ public class SwingMetawidgetTest
 		foo2.setFoo( nestedFoo2 );
 		nestedFoo2.setName( "Richard" );
 
-		metawidget.rebind( foo2 );
+		processor.getClass().getMethod( "rebind", SwingMetawidget.class, Object.class ).invoke( processor, metawidget, foo2 );
 		assertTrue( "Julianne".equals( textField.getText() ) );
 		assertTrue( "Richard".equals( nestedTextField.getText() ) );
 
@@ -333,12 +333,12 @@ public class SwingMetawidgetTest
 
 		try
 		{
-			metawidget.rebind( new Object() );
+			processor.getClass().getMethod( "rebind", SwingMetawidget.class, Object.class ).invoke( processor, metawidget, new Object() );
 			assertTrue( false );
 		}
 		catch ( Exception e )
 		{
-			assertTrue( errorMessage.equals( e.getMessage() ) );
+			assertTrue( errorMessage.equals( e.getCause().getMessage() ) );
 		}
 	}
 

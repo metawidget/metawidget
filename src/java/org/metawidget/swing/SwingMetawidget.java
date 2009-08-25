@@ -44,7 +44,6 @@ import org.metawidget.swing.actionbinding.ActionBinding;
 import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
 import org.metawidget.swing.layout.GridBagLayout;
 import org.metawidget.swing.layout.Layout;
-import org.metawidget.swing.propertybinding.PropertyBinding;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -95,17 +94,6 @@ public class SwingMetawidget
 	private Class<? extends Layout>							mLayoutClass		= GridBagLayout.class;
 
 	private Layout											mLayout;
-
-	/**
-	 * The PropertyBinding class.
-	 * <p>
-	 * PropertyBinding class is <code>null</code> by default, to avoid default dependencies on
-	 * third-party JARs
-	 */
-
-	private Class<? extends PropertyBinding>				mPropertyBindingClass;
-
-	private PropertyBinding									mPropertyBinding;
 
 	/**
 	 * The ActionBinding class.
@@ -244,6 +232,16 @@ public class SwingMetawidget
 		invalidateInspection();
 	}
 
+	public void setWidgetProcessors( List<WidgetProcessor<JComponent, SwingMetawidget>> widgetProcessors )
+	{
+		mMetawidgetMixin.setWidgetProcessors( widgetProcessors );
+	}
+
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
+	{
+		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
+	}
+
 	/**
 	 * @param layoutClass
 	 *            may be null
@@ -253,21 +251,6 @@ public class SwingMetawidget
 	{
 		mLayoutClass = layoutClass;
 		mLayout = null;
-		invalidateWidgets();
-	}
-
-	/**
-	 * Sets the PropertyBinding implementation to use for automatic, two-way Component-to-Object
-	 * data binding. Current implementations include <code>BeansBinding</code> and
-	 * <code>BeanUtilsBinding</code>.
-	 *
-	 * @param propertyBindingClass
-	 *            may be null
-	 */
-
-	public void setPropertyBindingClass( Class<? extends PropertyBinding> propertyBindingClass )
-	{
-		mPropertyBindingClass = propertyBindingClass;
 		invalidateWidgets();
 	}
 
@@ -451,94 +434,6 @@ public class SwingMetawidget
 	//
 	// The following methods all kick off buildWidgets() if necessary
 	//
-
-	/**
-	 * Rebinds the values in the UI to the given Object.
-	 * <p>
-	 * <code>rebind</code> can be thought of as a lightweight version of <code>setToInspect</code>.
-	 * Unlike <code>setToInspect</code>, <code>rebind</code> does <em>not</em> reinspect the
-	 * Object or recreate any <code>Components</code>. Rather, <code>rebind</code> applies only
-	 * at the binding level, and updates the binding with values from the given Object.
-	 * <p>
-	 * This is more performant, and allows the Metawidget to be created 'in advance' and reused many
-	 * times with different Objects, but it is the caller's responsibility that the Object passed to
-	 * <code>rebind</code> is of the same type as the one previously passed to
-	 * <code>setToInspect</code>.
-	 * <p>
-	 * For client's not using a PropertyBinding implementation, there is no need to call
-	 * <code>rebind</code>. They can simply use <code>setValue</code> to update existing values
-	 * in the UI.
-	 * <p>
-	 * In many ways, <code>rebind</code> can be thought of as the opposite of <code>save</code>.
-	 *
-	 * @throws MetawidgetException
-	 *             if no binding configured
-	 */
-
-	public void rebind( Object toRebind )
-	{
-		// buildWidgets() so that mPropertyBinding is initialized
-
-		buildWidgets();
-
-		if ( mPropertyBinding == null )
-			throw MetawidgetException.newException( "No property binding configured. Use SwingMetawidget.setPropertyBindingClass" );
-
-		mToInspect = toRebind;
-		mPropertyBinding.rebindProperties();
-
-		for ( Component component : getComponents() )
-		{
-			if ( component instanceof SwingMetawidget )
-			{
-				( (SwingMetawidget) component ).rebind( toRebind );
-			}
-		}
-	}
-
-	/**
-	 * Saves the values from the binding back to the Object being inspected.
-	 *
-	 * @throws MetawidgetException
-	 *             if no binding configured
-	 */
-
-	public void save()
-	{
-		// buildWidgets() so that mPropertyBinding is initialized
-
-		buildWidgets();
-
-		mMetawidgetMixin.processorSave();
-
-		//if ( mPropertyBinding == null )
-			//TODO:throw MetawidgetException.newException( "No property binding configured. Use SwingMetawidget.setPropertyBindingClass" );
-
-		// (use getPropertyBinding(), not mPropertyBinding, just to make sure that code's okay)
-
-		if ( mPropertyBinding != null )
-			getPropertyBinding().saveProperties();
-
-		// Having a save() method avoids having to expose a getPropertyBinding() method, which is
-		// handy because we can worry about nested Metawidgets here, not in the PropertyBinding
-		// class
-
-		for ( Component component : getComponents() )
-		{
-			if ( component instanceof SwingMetawidget )
-			{
-				( (SwingMetawidget) component ).save();
-			}
-		}
-	}
-
-	public Object convertFromString( String value, Class<?> type )
-	{
-		if ( mPropertyBinding != null )
-			return mPropertyBinding.convertFromString( value, type );
-
-		return value;
-	}
 
 	/**
 	 * Overridden to build widgets just-in-time.
@@ -895,13 +790,6 @@ public class SwingMetawidget
 		// Prepare to build widgets
 
 		mNeedToBuildWidgets = true;
-
-		if ( mPropertyBinding != null )
-		{
-			mPropertyBinding.unbindProperties();
-			mPropertyBinding = null;
-		}
-
 		mActionBinding = null;
 
 		// Call repaint here, rather than just 'invalidate', for scenarios like doing
@@ -1025,9 +913,6 @@ public class SwingMetawidget
 
 		// Start binding
 
-		if ( mPropertyBindingClass != null )
-			mPropertyBinding = mPropertyBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
-
 		if ( mActionBindingClass != null )
 			mActionBinding = mActionBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
 	}
@@ -1062,8 +947,6 @@ public class SwingMetawidget
 
 		else
 		{
-			if ( mPropertyBinding != null )
-				mPropertyBinding.bindProperty( actualComponent, attributes, path );
 		}
 
 		// Set the name of the component.
@@ -1171,7 +1054,6 @@ public class SwingMetawidget
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setLayoutClass( mLayoutClass );
-		nestedMetawidget.setPropertyBindingClass( mPropertyBindingClass );
 		nestedMetawidget.setActionBindingClass( mActionBindingClass );
 		nestedMetawidget.setBundle( mBundle );
 		nestedMetawidget.setOpaque( isOpaque() );
@@ -1180,17 +1062,6 @@ public class SwingMetawidget
 			nestedMetawidget.setParameters( CollectionUtils.newHashMap( mParameters ) );
 
 		nestedMetawidget.setToInspect( mToInspect );
-	}
-
-	/**
-	 * Hook for subclasses.
-	 * <p>
-	 * As requested here: https://sourceforge.net/forum/message.php?msg_id=7386511
-	 */
-
-	protected PropertyBinding getPropertyBinding()
-	{
-		return mPropertyBinding;
 	}
 
 	//
