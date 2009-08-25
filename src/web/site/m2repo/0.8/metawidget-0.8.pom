@@ -4,7 +4,7 @@
 	<groupId>org.metawidget</groupId>
 	<artifactId>metawidget</artifactId>
 	<name>Metawidget</name>
-	<version>0.8</version>
+	<version>0.85</version>
 	<description>Metawidget is a 'smart User Interface widget' that populates itself, at runtime, with UI components to match the properties of your business objects.</description>
 	<url>http://www.metawidget.org</url>
 	<issueManagement>

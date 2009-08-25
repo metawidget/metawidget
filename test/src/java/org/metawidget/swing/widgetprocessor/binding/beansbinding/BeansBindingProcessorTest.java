@@ -87,10 +87,6 @@ public class BeansBindingProcessorTest
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		spinner.setValue( spinner.getModel().getNextValue() );
 		assertTrue( 45 == foo.getBar() );
-
-		// Test unbind
-
-		// TODO: metawidget.setPropertyBindingClass( null );
 	}
 
 	public void testSingleComponentBinding()

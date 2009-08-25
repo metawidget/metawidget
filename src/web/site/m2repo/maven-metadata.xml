@@ -3,10 +3,10 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <groupId>org.metawidget</groupId>
   <artifactId>metawidget</artifactId>
-  <version>0.8</version>
+  <version>0.85</version>
   <versioning>
     <versions>
-      <version>0.8</version>
+      <version>0.85</version>
     </versions>
     <lastUpdated>20090513024536</lastUpdated>
   </versioning>

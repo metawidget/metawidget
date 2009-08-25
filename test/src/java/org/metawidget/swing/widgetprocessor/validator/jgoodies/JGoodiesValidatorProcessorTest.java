@@ -90,11 +90,9 @@ public class JGoodiesValidatorProcessorTest
 
 		// Custom validator
 
-		// TODO: dodgy to have to recreate the metawidget?
-
-		metawidget = new SwingMetawidget();
 		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() ) ) );
 		metawidget.setToInspect( new Foo() );
+		metawidget.setWidgetProcessors( null );
 		metawidget.addWidgetProcessor( new JGoodiesValidatorProcessor()
 		{
 			@Override
