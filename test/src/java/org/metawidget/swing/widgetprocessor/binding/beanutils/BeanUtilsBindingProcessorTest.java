@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.propertybinding.beanutilsbinding;
+package org.metawidget.swing.widgetprocessor.binding.beanutils;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -32,13 +32,12 @@ import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 
 /**
  * @author Richard Kennard
  */
 
-public class BeanUtilsBindingTest
+public class BeanUtilsBindingProcessorTest
 	extends TestCase
 {
 	//

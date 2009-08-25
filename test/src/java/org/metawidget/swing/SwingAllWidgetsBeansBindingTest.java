@@ -20,7 +20,6 @@ import java.util.Date;
 import java.util.TimeZone;
 
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
-import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 
 /**
@@ -42,8 +41,8 @@ public class SwingAllWidgetsBeansBindingTest
 
 		// BeansBinding
 
-		BeansBinding.registerConverter( Date.class, String.class, new org.metawidget.swing.allwidgets.converter.beansbinding.DateConverter( DATE_FORMAT ) );
-		BeansBinding.registerConverter( NestedWidgets.class, String.class, new org.metawidget.swing.allwidgets.converter.beansbinding.NestedWidgetsConverter() );
+		BeansBindingProcessor.registerConverter( Date.class, String.class, new org.metawidget.swing.allwidgets.converter.beansbinding.DateConverter( DATE_FORMAT ) );
+		BeansBindingProcessor.registerConverter( NestedWidgets.class, String.class, new org.metawidget.swing.allwidgets.converter.beansbinding.NestedWidgetsConverter() );
 		runTest( new BeansBindingProcessor() );
 	}
 }

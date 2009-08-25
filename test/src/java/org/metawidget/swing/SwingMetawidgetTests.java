@@ -24,11 +24,11 @@ import org.metawidget.swing.actionbinding.reflection.ReflectionBindingTest;
 import org.metawidget.swing.layout.GridBagLayoutTest;
 import org.metawidget.swing.layout.GroupLayoutTest;
 import org.metawidget.swing.layout.MigLayoutTest;
-import org.metawidget.swing.propertybinding.beansbinding.BeansBindingTest;
-import org.metawidget.swing.propertybinding.beanutilsbinding.BeanUtilsBindingTest;
 import org.metawidget.swing.validator.inputverifier.InputVerifierValidatorTest;
 import org.metawidget.swing.validator.jgoodies.JGoodiesValidatorTest;
 import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilderTest;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest;
+import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessorTest;
 
 /**
  * @author Richard Kennard
@@ -44,8 +44,8 @@ public class SwingMetawidgetTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "SwingMetawidget Tests" );
-		suite.addTestSuite( BeansBindingTest.class );
-		suite.addTestSuite( BeanUtilsBindingTest.class );
+		suite.addTestSuite( BeansBindingProcessorTest.class );
+		suite.addTestSuite( BeanUtilsBindingProcessorTest.class );
 		suite.addTestSuite( JGoodiesValidatorTest.class );
 		suite.addTestSuite( InputVerifierValidatorTest.class );
 		suite.addTestSuite( ReflectionBindingTest.class );

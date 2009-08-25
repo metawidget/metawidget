@@ -55,7 +55,6 @@ import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.FlowLayout;
-import org.metawidget.swing.propertybinding.beansbinding.BeansBinding;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -153,8 +152,8 @@ public class ContactDialog
 
 		// BeansBinding
 
-		BeansBinding.registerConverter( Date.class, String.class, new DateConverter() );
-		BeansBinding.registerConverter( Gender.class, Object.class, new EnumConverter<Gender>( Gender.class ) );
+		BeansBindingProcessor.registerConverter( Date.class, String.class, new DateConverter() );
+		BeansBindingProcessor.registerConverter( Gender.class, Object.class, new EnumConverter<Gender>( Gender.class ) );
 
 		// Metawidget
 

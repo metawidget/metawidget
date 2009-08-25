@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.propertybinding.beansbinding;
+package org.metawidget.swing.widgetprocessor.binding.beansbinding;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
@@ -31,14 +31,13 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
  */
 
-public class BeansBindingTest
+public class BeansBindingProcessorTest
 	extends TestCase
 {
 	//
@@ -143,14 +142,14 @@ public class BeansBindingTest
 	{
 		// convertReverse with built in Converter
 
-		BeansBinding binding = new BeansBinding( new SwingMetawidget() );
+		BeansBindingProcessor binding = new BeansBindingProcessor();
 		assertTrue( 1 == (Integer) binding.convertFromString( "1", int.class ) );
 
 		// convertForward with given Converter
 
 		final StringBuilder builder = new StringBuilder();
 
-		BeansBinding.registerConverter( String.class, Integer.class, new Converter<String, Integer>()
+		BeansBindingProcessor.registerConverter( String.class, Integer.class, new Converter<String, Integer>()
 		{
 			@Override
 			public Integer convertForward( String value )
@@ -198,7 +197,7 @@ public class BeansBindingTest
 
 		// Clear out any DateConverters registered by previous unit tests
 
-		BeansBinding.unregisterConverter( Date.class, String.class );
+		BeansBindingProcessor.unregisterConverter( Date.class, String.class );
 
 		// Saving
 
