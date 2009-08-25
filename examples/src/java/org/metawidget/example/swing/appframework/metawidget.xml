@@ -27,6 +27,7 @@
 		<widgetProcessors>
 			<list>
 				<beansBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.beansbinding"/>
+				<reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/>
 			</list>
 		</widgetProcessors>
 	</swingMetawidget>

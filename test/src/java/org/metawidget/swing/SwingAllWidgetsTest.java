@@ -47,7 +47,6 @@ import org.metawidget.iface.MetawidgetException;
 import org.metawidget.shared.allwidgets.model.AllWidgets;
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
-import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
@@ -113,7 +112,6 @@ public class SwingAllWidgetsTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.addWidgetProcessor( processor );
-		metawidget.setActionBindingClass( ReflectionBinding.class );
 		metawidget.setConfig( "org/metawidget/swing/allwidgets/metawidget.xml" );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( allWidgets );

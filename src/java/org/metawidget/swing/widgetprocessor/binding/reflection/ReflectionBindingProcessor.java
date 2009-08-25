@@ -14,22 +14,23 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.actionbinding.reflection;
+package org.metawidget.swing.widgetprocessor.binding.reflection;
 
-import java.awt.Component;
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.awt.event.ActionEvent;
 import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
+import javax.swing.JComponent;
 
 import org.metawidget.iface.MetawidgetException;
-import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.actionbinding.BaseActionBinding;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.PathUtils;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
  * Action binding implementation based on reflection.
@@ -42,46 +43,37 @@ import org.metawidget.util.simple.PathUtils;
  * @author Richard Kennard
  */
 
-public class ReflectionBinding
-	extends BaseActionBinding
+public class ReflectionBindingProcessor
+	extends BaseWidgetProcessor<JComponent,SwingMetawidget>
 {
-	//
-	// Constructor
-	//
-
-	public ReflectionBinding( SwingMetawidget metawidget )
-	{
-		super( metawidget );
-	}
-
 	//
 	// Public methods
 	//
 
+	@Override
 	@SuppressWarnings( "serial" )
-	public void bindAction( Component component, Map<String, String> attributes, String path )
+	public void onAdd( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
-		if ( component instanceof Stub )
+		if ( !( component instanceof AbstractButton ))
 			return;
 
-		if ( !( component instanceof AbstractButton ))
-			throw MetawidgetException.newException( "ReflectionBinding only supports binding actions to AbstractButtons" );
+		if ( metawidget == null )
+			return;
 
-		AbstractButton button = (AbstractButton) component;
-
-		Object toInspect = getMetawidget().getToInspect();
+		Object toInspect = metawidget.getToInspect();
 
 		if ( toInspect == null )
 			return;
 
+		AbstractButton button = (AbstractButton) component;
+
 		// Traverse to the last Object...
 
-		String[] names = PathUtils.parsePath( path ).getNamesAsArray();
-		int last = names.length - 1;
+		String[] names = PathUtils.parsePath( metawidget.getPath() ).getNamesAsArray();
 
-		for( int loop = 0; loop < last; loop++ )
+		for( String name : names )
 		{
-			toInspect = ClassUtils.getProperty( toInspect, names[loop] );
+			toInspect = ClassUtils.getProperty( toInspect, name );
 
 			if ( toInspect == null )
 				return;
@@ -91,7 +83,7 @@ public class ReflectionBinding
 
 		final Object fireActionOn = toInspect;
 		final Class<?> fireActionOnClass = fireActionOn.getClass();
-		final String actionName = names[last];
+		final String actionName = attributes.get( NAME );
 
 		button.setAction( new AbstractAction( button.getText() )
 		{

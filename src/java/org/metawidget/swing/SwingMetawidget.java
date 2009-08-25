@@ -40,8 +40,6 @@ import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
-import org.metawidget.swing.actionbinding.ActionBinding;
-import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
 import org.metawidget.swing.layout.GridBagLayout;
 import org.metawidget.swing.layout.Layout;
 import org.metawidget.util.ArrayUtils;
@@ -94,14 +92,6 @@ public class SwingMetawidget
 	private Class<? extends Layout>							mLayoutClass		= GridBagLayout.class;
 
 	private Layout											mLayout;
-
-	/**
-	 * The ActionBinding class.
-	 */
-
-	private Class<? extends ActionBinding>					mActionBindingClass	= ReflectionBinding.class;
-
-	private ActionBinding									mActionBinding;
 
 	private ResourceBundle									mBundle;
 
@@ -251,12 +241,6 @@ public class SwingMetawidget
 	{
 		mLayoutClass = layoutClass;
 		mLayout = null;
-		invalidateWidgets();
-	}
-
-	public void setActionBindingClass( Class<? extends ActionBinding> actionBindingClass )
-	{
-		mActionBindingClass = actionBindingClass;
 		invalidateWidgets();
 	}
 
@@ -790,7 +774,6 @@ public class SwingMetawidget
 		// Prepare to build widgets
 
 		mNeedToBuildWidgets = true;
-		mActionBinding = null;
 
 		// Call repaint here, rather than just 'invalidate', for scenarios like doing
 		// a 'remove' of a button that masks a Metawidget
@@ -822,7 +805,6 @@ public class SwingMetawidget
 		super.addImpl( component, constraints, index );
 	}
 
-	@SuppressWarnings( "unchecked" )
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
@@ -842,11 +824,19 @@ public class SwingMetawidget
 
 			// Sensible defaults
 
-			if ( mMetawidgetMixin.getWidgetBuilder() == null )
-				mMetawidgetMixin.setWidgetBuilder( CONFIG_READER.configure( DEFAULT_CONFIG, WidgetBuilder.class ) );
+			if ( mMetawidgetMixin.getInspector() == null || mMetawidgetMixin.getWidgetBuilder() == null || mMetawidgetMixin.getWidgetProcessors() == null )
+			{
+				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class );
 
-			if ( mMetawidgetMixin.getInspector() == null )
-				mMetawidgetMixin.setInspector( CONFIG_READER.configure( DEFAULT_CONFIG, Inspector.class ) );
+				if ( mMetawidgetMixin.getInspector() == null )
+					mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
+
+				if ( mMetawidgetMixin.getWidgetBuilder() == null )
+					mMetawidgetMixin.setWidgetBuilder( dummyMetawidget.mMetawidgetMixin.getWidgetBuilder() );
+
+				if ( mMetawidgetMixin.getWidgetProcessors() == null )
+					mMetawidgetMixin.setWidgetProcessors( dummyMetawidget.mMetawidgetMixin.getWidgetProcessors() );
+			}
 		}
 		catch ( Exception e )
 		{
@@ -910,11 +900,6 @@ public class SwingMetawidget
 
 			setLayout( new BoxLayout( this, BoxLayout.LINE_AXIS ) );
 		}
-
-		// Start binding
-
-		if ( mActionBindingClass != null )
-			mActionBinding = mActionBindingClass.getConstructor( SwingMetawidget.class ).newInstance( this );
 	}
 
 	protected void addWidget( Component component, String elementName, Map<String, String> attributes )
@@ -934,20 +919,6 @@ public class SwingMetawidget
 
 		if ( mMetawidgetMixin.isCompoundWidget() )
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
-
-		// Bind actions
-
-		if ( ACTION.equals( elementName ) )
-		{
-			if ( mActionBinding != null )
-				mActionBinding.bindAction( actualComponent, attributes, path );
-		}
-
-		// Bind properties
-
-		else
-		{
-		}
 
 		// Set the name of the component.
 		//
@@ -1054,7 +1025,6 @@ public class SwingMetawidget
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setLayoutClass( mLayoutClass );
-		nestedMetawidget.setActionBindingClass( mActionBindingClass );
 		nestedMetawidget.setBundle( mBundle );
 		nestedMetawidget.setOpaque( isOpaque() );
 

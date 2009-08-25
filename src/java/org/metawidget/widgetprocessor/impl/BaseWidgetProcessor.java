@@ -41,9 +41,4 @@ public abstract class BaseWidgetProcessor<W, M extends W>
 	{
 		// Do nothing
 	}
-
-	public void onSave( M metawidget )
-	{
-		// Do nothing
-	}
 }

@@ -18,7 +18,6 @@ package org.metawidget.swing;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
@@ -42,12 +41,12 @@ import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
-import org.metawidget.swing.actionbinding.BaseActionBinding;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
  * @author Richard Kennard
@@ -180,7 +179,7 @@ public class SwingMetawidgetTest
 		// Metawidget
 
 		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo" ) instanceof SwingMetawidget );
-		assertTrue( 1 == ((SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" )).getComponentCount() );
+		assertTrue( 1 == ( (SwingMetawidget) metawidget.getComponent( "foo", "foo", "foo", "foo" ) ).getComponentCount() );
 		assertTrue( metawidget.getComponent( "foo", "foo", "foo", "foo", "foo" ) == null );
 	}
 
@@ -243,15 +242,15 @@ public class SwingMetawidgetTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setActionBindingClass( FooActionBinding.class );
+		metawidget.addWidgetProcessor( new FooActionBindingProcessor() );
 		metawidget.setToInspect( foo1 );
 
 		( (JButton) metawidget.getComponent( 0 ) ).doClick();
 		( (JButton) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 0 ) ).doClick();
 
-		assertTrue( "FooActionBinding fired".equals( ( (JTextField) metawidget.getComponent( 4 ) ).getText() ) );
+		assertTrue( "FooActionBindingProcessor fired".equals( ( (JTextField) metawidget.getComponent( 4 ) ).getText() ) );
 		assertTrue( "".equals( ( (JTextField) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 4 ) ).getText() ) );
-		assertTrue( "FooActionBinding fired".equals( ( (JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 4 ) ).getText() ) );
+		assertTrue( "FooActionBindingProcessor fired".equals( ( (JTextField) ( (SwingMetawidget) ( (SwingMetawidget) metawidget.getComponent( 2 ) ).getComponent( 2 ) ).getComponent( 4 ) ).getText() ) );
 	}
 
 	public void testFacet()
@@ -391,34 +390,28 @@ public class SwingMetawidgetTest
 		}
 	}
 
-	public static class FooActionBinding
-		extends BaseActionBinding
+	public static class FooActionBindingProcessor
+		extends BaseWidgetProcessor<JComponent, SwingMetawidget>
 	{
-		//
-		// Constructor
-		//
-
-		public FooActionBinding( SwingMetawidget metawidget )
-		{
-			super( metawidget );
-		}
-
 		//
 		// Public methods
 		//
 
+		@Override
 		@SuppressWarnings( "serial" )
-		public void bindAction( Component component, Map<String, String> attributes, String path )
+		public void onAdd( JComponent component, Map<String, String> attributes, final SwingMetawidget metawidget )
 		{
+			if ( !( component instanceof JButton ))
+				return;
+
 			JButton button = (JButton) component;
-			final SwingMetawidget metawidget = getMetawidget();
 
 			button.setAction( new AbstractAction( button.getText() )
 			{
 				@Override
 				public void actionPerformed( ActionEvent e )
 				{
-					metawidget.setValue( "FooActionBinding fired", "name" );
+					metawidget.setValue( "FooActionBindingProcessor fired", "name" );
 				}
 			} );
 		}

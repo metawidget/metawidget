@@ -32,6 +32,7 @@
 		</widgetBuilder>
 		<widgetProcessors>
 			<list>
+				<reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/>			
 				<beansBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.beansbinding"/>
 			</list>
 		</widgetProcessors>		

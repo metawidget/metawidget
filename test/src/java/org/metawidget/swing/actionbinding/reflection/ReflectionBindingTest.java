@@ -30,7 +30,7 @@ import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionSt
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.swing.SwingAppFrameworkInspector;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.actionbinding.reflection.ReflectionBinding;
+import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 
 /**
  * @author Richard Kennard
@@ -74,12 +74,12 @@ public class ReflectionBindingTest
 	public void testNullBinding()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		ReflectionBinding binding = new ReflectionBinding( metawidget );
+		ReflectionBindingProcessor binding = new ReflectionBindingProcessor();
 
 		// Null object
 
 		JButton button = new JButton();
-		binding.bindAction( button, null, null );
+		binding.onAdd( button, null, null );
 
 		assertTrue( button.getAction() == null );
 
@@ -89,18 +89,19 @@ public class ReflectionBindingTest
 		foo.setNestedFoo( null );
 
 		metawidget.setToInspect( foo );
-		binding.bindAction( button, null, "foo/nestedFoo/doAction" );
+		metawidget.setPath( "foo/nestedFoo/doAction" );
+		binding.onAdd( button, null, metawidget );
 
 		assertTrue( button.getAction() == null );
 	}
 
 	public void testBadBinding()
 	{
-		ReflectionBinding binding = new ReflectionBinding( null );
+		ReflectionBindingProcessor binding = new ReflectionBindingProcessor();
 
 		try
 		{
-			binding.bindAction( new JTextField(), null, null );
+			binding.onAdd( new JTextField(), null, null );
 		}
 		catch( MetawidgetException e )
 		{

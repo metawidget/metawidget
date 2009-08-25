@@ -139,6 +139,11 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		return mWidgetBuilder;
 	}
 
+	public List<WidgetProcessor<W, M>> getWidgetProcessors()
+	{
+		return mWidgetProcessors;
+	}
+
 	public void setWidgetProcessors( List<WidgetProcessor<W, M>> widgetProcessors )
 	{
 		if ( widgetProcessors == null )

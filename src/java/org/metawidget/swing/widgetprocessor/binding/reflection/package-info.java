@@ -14,40 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.actionbinding;
-
-import org.metawidget.swing.SwingMetawidget;
-
 /**
- * Convenience implementation.
+ * Swing support: Swing support: reflection-based action binding.
  *
  * @author Richard Kennard
  */
 
-public abstract class BaseActionBinding
-	implements ActionBinding
-{
-	//
-	// Private members
-	//
-
-	private SwingMetawidget	mMetawidget;
-
-	//
-	// Constructor
-	//
-
-	protected BaseActionBinding( SwingMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
-	//
-	// Protected methods
-	//
-
-	protected SwingMetawidget getMetawidget()
-	{
-		return mMetawidget;
-	}
-}
+package org.metawidget.swing.widgetprocessor.binding.reflection;

@@ -3,15 +3,29 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
 
-	<swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/>
-
-	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
-		<inspectors>
+	<swingMetawidget xmlns="java:org.metawidget.swing">
+	
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<list>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+					</list>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+		
+		<widgetBuilder>
+			<swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/>
+		</widgetBuilder>
+		
+		<widgetProcessors>
 			<list>
-				<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
-				<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+				<reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/>
 			</list>
-		</inspectors>
-	</compositeInspector>
+		</widgetProcessors>
+		
+	</swingMetawidget>
 
 </metawidget>
