@@ -20,13 +20,13 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.metawidget.swing.actionbinding.reflection.ReflectionBindingTest;
 import org.metawidget.swing.layout.GridBagLayoutTest;
 import org.metawidget.swing.layout.GroupLayoutTest;
 import org.metawidget.swing.layout.MigLayoutTest;
 import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilderTest;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessorTest;
+import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessorTest;
 import org.metawidget.swing.widgetprocessor.validator.inputverifier.InputVerifierProcessorTest;
 import org.metawidget.swing.widgetprocessor.validator.jgoodies.JGoodiesValidatorProcessorTest;
 
@@ -48,7 +48,7 @@ public class SwingMetawidgetTests
 		suite.addTestSuite( BeanUtilsBindingProcessorTest.class );
 		suite.addTestSuite( JGoodiesValidatorProcessorTest.class );
 		suite.addTestSuite( InputVerifierProcessorTest.class );
-		suite.addTestSuite( ReflectionBindingTest.class );
+		suite.addTestSuite( ReflectionBindingProcessorTest.class );
 		// Not: suite.addTestSuite( SwingAllWidgetsTest.class ) - run separately as JDK 1.4
 		suite.addTestSuite( SwingAllWidgetsBeansBindingTest.class );
 		suite.addTestSuite( SwingMetawidgetTest.class );
