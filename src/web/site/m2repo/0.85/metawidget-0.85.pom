@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.metawidget</groupId>
+	<artifactId>metawidget</artifactId>
+	<name>Metawidget</name>
+	<version>0.85</version>
+	<description>Metawidget is a 'smart User Interface widget' that populates itself, at runtime, with UI components to match the properties of your business objects.</description>
+	<url>http://www.metawidget.org</url>
+	<issueManagement>
+		<system>Tracker Sourceforge</system>
+		<url>https://sourceforge.net/tracker/?group_id=208482</url>
+	</issueManagement>
+	<scm>
+		<url>https://metawidget.svn.sourceforge.net/svnroot/metawidget</url>
+	</scm>
+	<licenses>
+		<license>
+			<name>GNU Library or Lesser General Public License (LGPL)</name>
+			<url>http://www.gnu.org/licenses/lgpl.html</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+</project>
