@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.validator.jgoodies;
+package org.metawidget.swing.widgetprocessor.validator.jgoodies;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -31,7 +31,6 @@ import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.widgetprocessor.validator.jgoodies.JGoodiesValidatorProcessor;
 
 import com.jgoodies.validation.Severity;
 import com.jgoodies.validation.ValidationMessage;
@@ -44,7 +43,7 @@ import com.jgoodies.validation.view.ValidationComponentUtils;
  * @author Richard Kennard
  */
 
-public class JGoodiesValidatorTest
+public class JGoodiesValidatorProcessorTest
 	extends TestCase
 {
 	//

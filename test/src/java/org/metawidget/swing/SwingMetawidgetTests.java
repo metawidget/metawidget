@@ -24,11 +24,11 @@ import org.metawidget.swing.actionbinding.reflection.ReflectionBindingTest;
 import org.metawidget.swing.layout.GridBagLayoutTest;
 import org.metawidget.swing.layout.GroupLayoutTest;
 import org.metawidget.swing.layout.MigLayoutTest;
-import org.metawidget.swing.validator.inputverifier.InputVerifierValidatorTest;
-import org.metawidget.swing.validator.jgoodies.JGoodiesValidatorTest;
 import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilderTest;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessorTest;
+import org.metawidget.swing.widgetprocessor.validator.inputverifier.InputVerifierProcessorTest;
+import org.metawidget.swing.widgetprocessor.validator.jgoodies.JGoodiesValidatorProcessorTest;
 
 /**
  * @author Richard Kennard
@@ -46,8 +46,8 @@ public class SwingMetawidgetTests
 		TestSuite suite = new TestSuite( "SwingMetawidget Tests" );
 		suite.addTestSuite( BeansBindingProcessorTest.class );
 		suite.addTestSuite( BeanUtilsBindingProcessorTest.class );
-		suite.addTestSuite( JGoodiesValidatorTest.class );
-		suite.addTestSuite( InputVerifierValidatorTest.class );
+		suite.addTestSuite( JGoodiesValidatorProcessorTest.class );
+		suite.addTestSuite( InputVerifierProcessorTest.class );
 		suite.addTestSuite( ReflectionBindingTest.class );
 		// Not: suite.addTestSuite( SwingAllWidgetsTest.class ) - run separately as JDK 1.4
 		suite.addTestSuite( SwingAllWidgetsBeansBindingTest.class );

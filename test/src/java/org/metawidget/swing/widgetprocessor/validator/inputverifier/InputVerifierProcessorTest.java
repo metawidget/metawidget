@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.validator.inputverifier;
+package org.metawidget.swing.widgetprocessor.validator.inputverifier;
 
 import java.util.Map;
 
@@ -26,13 +26,12 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.widgetprocessor.validator.inputverifier.InputVerifierProcessor;
 
 /**
  * @author Richard Kennard
  */
 
-public class InputVerifierValidatorTest
+public class InputVerifierProcessorTest
 	extends TestCase
 {
 	//
