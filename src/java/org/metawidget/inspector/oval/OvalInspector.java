@@ -92,8 +92,8 @@ public class OvalInspector
 
 		if ( range != null )
 		{
-			attributes.put( MAXIMUM_VALUE, String.valueOf( Math.round( range.max() ) ) );
-			attributes.put( MINIMUM_VALUE, String.valueOf( Math.round( range.min() ) ) );
+			attributes.put( MAXIMUM_VALUE, String.valueOf( range.max() ) );
+			attributes.put( MINIMUM_VALUE, String.valueOf( range.min() ) );
 		}
 
 		// Min

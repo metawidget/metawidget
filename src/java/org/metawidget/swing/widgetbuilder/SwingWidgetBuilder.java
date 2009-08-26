@@ -296,8 +296,8 @@ public class SwingWidgetBuilder
 				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
 				{
 					JSlider slider = new JSlider();
-					slider.setMinimum( Integer.parseInt( minimumValue ) );
-					slider.setMaximum( Integer.parseInt( maximumValue ) );
+					slider.setMinimum( (int) Math.ceil( Double.parseDouble( minimumValue ) ));
+					slider.setMaximum( (int) Math.floor( Double.parseDouble( maximumValue ) ));
 
 					return slider;
 				}

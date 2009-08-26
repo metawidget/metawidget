@@ -60,8 +60,8 @@ public class ExtGwtWidgetBuilderTest
 		// Slider
 
 		attributes.put( TYPE, "long" );
-		attributes.put( MINIMUM_VALUE, "2" );
-		attributes.put( MAXIMUM_VALUE, "99" );
+		attributes.put( MINIMUM_VALUE, "1.6" );
+		attributes.put( MAXIMUM_VALUE, "99.5" );
 		Slider slider = (Slider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 2 == slider.getMinValue() );
 		assertTrue( 2 == slider.getValue() );

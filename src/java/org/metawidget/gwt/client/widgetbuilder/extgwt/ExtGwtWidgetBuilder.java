@@ -118,8 +118,8 @@ public class ExtGwtWidgetBuilder
 			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
 			{
 				Slider slider = new Slider();
-				slider.setMinValue( Integer.parseInt( minimumValue ) );
-				slider.setMaxValue( Integer.parseInt( maximumValue ) );
+				slider.setMinValue( (int) Math.ceil( Double.parseDouble( minimumValue ) ));
+				slider.setMaxValue( (int) Math.floor( Double.parseDouble( maximumValue ) ));
 
 				// (do this for sanity)
 

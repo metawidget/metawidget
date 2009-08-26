@@ -28,7 +28,6 @@ import net.sf.oval.constraint.NotEmpty;
 import net.sf.oval.constraint.NotNull;
 import net.sf.oval.constraint.Range;
 
-import org.metawidget.inspector.oval.OvalInspector;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -72,8 +71,8 @@ public class OvalInspectorTest
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "range" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
-		assertTrue( "1.0".equals( property.getAttribute( MINIMUM_VALUE ) ) );
-		assertTrue( "99.0".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
+		assertTrue( "1.5".equals( property.getAttribute( MINIMUM_VALUE ) ) );
+		assertTrue( "99.25".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
 		assertTrue( "2".equals( property.getAttribute( MINIMUM_LENGTH ) ) );
 		assertTrue( "25".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
 		assertTrue( 5 == property.getAttributes().getLength() );
@@ -81,8 +80,8 @@ public class OvalInspectorTest
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "forcedRange" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
-		assertTrue( "3".equals( property.getAttribute( MINIMUM_VALUE ) ) );
-		assertTrue( "24".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
+		assertTrue( "3.1".equals( property.getAttribute( MINIMUM_VALUE ) ) );
+		assertTrue( "24.8".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
 		assertTrue( "4".equals( property.getAttribute( MINIMUM_LENGTH ) ) );
 		assertTrue( "23".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
 		assertTrue( 6 == property.getAttributes().getLength() );
@@ -100,12 +99,12 @@ public class OvalInspectorTest
 		@NotEmpty
 		public String	baz;
 
-		@Min( 1 )
-		@Max( 99 )
+		@Min( 1.5 )
+		@Max( 99.25 )
 		@Length( min = 2, max = 25 )
 		public int		range;
 
-		@Range( min = 3, max = 24 )
+		@Range( min = 3.1, max = 24.8 )
 		@MinLength( 4 )
 		@MaxLength( 23 )
 		@NotBlank

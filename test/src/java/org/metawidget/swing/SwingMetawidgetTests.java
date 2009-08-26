@@ -23,6 +23,7 @@ import junit.framework.TestSuite;
 import org.metawidget.swing.layout.GridBagLayoutTest;
 import org.metawidget.swing.layout.GroupLayoutTest;
 import org.metawidget.swing.layout.MigLayoutTest;
+import org.metawidget.swing.widgetbuilder.SwingWidgetBuilderTest;
 import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilderTest;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessorTest;
@@ -53,6 +54,7 @@ public class SwingMetawidgetTests
 		suite.addTestSuite( SwingAllWidgetsBeansBindingTest.class );
 		suite.addTestSuite( SwingMetawidgetTest.class );
 		suite.addTestSuite( SwingXWidgetBuilderTest.class );
+		suite.addTestSuite( SwingWidgetBuilderTest.class );
 		suite.addTestSuite( GridBagLayoutTest.class );
 		suite.addTestSuite( GroupLayoutTest.class );
 		suite.addTestSuite( GroupLayoutTest.class );

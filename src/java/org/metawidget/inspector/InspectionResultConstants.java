@@ -172,13 +172,13 @@ public final class InspectionResultConstants
 	public final static String	LARGE						= "large";
 
 	/**
-	 * The minimum value this field can contain.
+	 * The minimum value this field can contain. May be a floating point number.
 	 */
 
 	public final static String	MINIMUM_VALUE				= "minimum-value";
 
 	/**
-	 * The maximum value this field can contain.
+	 * The maximum value this field can contain. May be a floating point number.
 	 */
 
 	public final static String	MAXIMUM_VALUE				= "maximum-value";
