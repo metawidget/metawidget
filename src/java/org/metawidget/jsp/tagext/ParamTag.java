@@ -70,12 +70,4 @@ public class ParamTag
 
 		return super.doEndTag();
 	}
-
-	@Override
-	public void release()
-	{
-		super.release();
-
-		mName = null;
-	}
 }

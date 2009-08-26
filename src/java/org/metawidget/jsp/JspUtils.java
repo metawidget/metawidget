@@ -141,7 +141,7 @@ public final class JspUtils
 	 * that has children, the <code>doStartTag</code> and <code>doInitBody</code> methods of the
 	 * various parents and children must be called in the correct order.
 	 * <p>
-	 * To make this easier, <code>writeTagToString</code> takes a callback method for preparing
+	 * To make this easier, <code>writeTag</code> takes a callback method for preparing
 	 * body content after the tag's <code>doStartTag</code> but before its <code>doInitBody</code>.
 	 */
 

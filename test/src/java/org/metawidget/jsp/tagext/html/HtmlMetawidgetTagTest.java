@@ -16,9 +16,13 @@
 
 package org.metawidget.jsp.tagext.html;
 
+import java.lang.reflect.Field;
+
 import junit.framework.TestCase;
 
-import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
+import org.metawidget.jsp.tagext.MetawidgetTag;
+import org.metawidget.jsp.tagext.FacetTag.FacetContent;
+import org.metawidget.jsp.tagext.StubTag.StubContent;
 
 /**
  * HtmlMetawidgetTag test cases.
@@ -55,5 +59,40 @@ public class HtmlMetawidgetTagTest
 		metawidget.setValue( "foo.bar.baz" );
 		assertTrue( "foo.bar.baz".equals( metawidget.getPath() ));
 		assertTrue( "foo.bar.".equals( metawidget.getPathPrefix() ));
+	}
+
+	public void testLifecyle()
+		throws Exception
+	{
+		// We must use doStartTag(), not rely on super.release()
+
+		HtmlMetawidgetTag metawidget = new HtmlMetawidgetTag();
+		metawidget.setFacet( "foo", new FacetContent( "abc", null ) );
+		metawidget.setParameter( "bar", "def" );
+		metawidget.setStub( "baz", new StubContent( "ghi", null ) );
+
+		Field facets = MetawidgetTag.class.getDeclaredField( "mFacets" );
+		facets.setAccessible( true );
+		Field parameters = MetawidgetTag.class.getDeclaredField( "mParameters" );
+		parameters.setAccessible( true );
+		Field stubs = MetawidgetTag.class.getDeclaredField( "mStubs" );
+		stubs.setAccessible( true );
+		Field needsConfiguring = MetawidgetTag.class.getDeclaredField( "mNeedsConfiguring" );
+		needsConfiguring.setAccessible( true );
+		needsConfiguring.set( metawidget, false );
+
+		assertTrue( null != facets.get( metawidget ));
+		assertTrue( null != parameters.get( metawidget ));
+		assertTrue( null != stubs.get( metawidget ));
+		assertTrue( false == (Boolean) needsConfiguring.get( metawidget ));
+
+		metawidget.doStartTag();
+
+		// Should have reset
+
+		assertTrue( null == facets.get( metawidget ));
+		assertTrue( null == parameters.get( metawidget ));
+		assertTrue( null == stubs.get( metawidget ));
+		assertTrue( false != (Boolean) needsConfiguring.get( metawidget ));
 	}
 }

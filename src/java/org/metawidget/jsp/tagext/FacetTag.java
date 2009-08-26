@@ -74,14 +74,6 @@ public class FacetTag
 		return super.doEndTag();
 	}
 
-	@Override
-	public void release()
-	{
-		super.release();
-
-		mName = null;
-	}
-
 	//
 	// Protected methods
 	//

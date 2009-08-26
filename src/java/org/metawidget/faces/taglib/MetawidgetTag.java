@@ -109,20 +109,6 @@ public abstract class MetawidgetTag
 		mValidatorClass = validatorClass;
 	}
 
-	@Override
-	public void release()
-	{
-		super.release();
-
-		mValue = null;
-		mRendererType = null;
-		mConfig = null;
-		mInspectFromParent = false;
-		mReadOnly = null;
-		mBundle = null;
-		mValidatorClass = StandardValidator.class.getName();
-	}
-
 	//
 	// Protected methods
 	//

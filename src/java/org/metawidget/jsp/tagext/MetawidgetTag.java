@@ -25,6 +25,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import javax.servlet.ServletContext;
+import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
@@ -73,8 +74,8 @@ public abstract class MetawidgetTag
 	/**
 	 * Path to inspect.
 	 * <p>
-	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for
-	 * Struts, <code>property</code> for Spring). Read by <code>WidgetBuilders</code>.
+	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for Struts,
+	 * <code>property</code> for Spring). Read by <code>WidgetBuilders</code>.
 	 */
 
 	private String							mPath;
@@ -287,7 +288,33 @@ public abstract class MetawidgetTag
 	}
 
 	@Override
+	public int doStartTag()
+		throws JspException
+	{
+		// According to this bug report https://issues.apache.org/bugzilla/show_bug.cgi?id=16001 and
+		// this article http://onjava.com/pub/a/onjava/2001/11/07/jsp12.html?page=3, we do not need
+		// to worry about overriding super.release() for member variables associated with a property
+		// getter/setter (nor can we ever rely on super.release() being called). We just need to
+		// reset some internal variables during doStartTag
+
+		mFacets = null;
+		mParameters = null;
+		mStubs = null;
+
+		// Needs configuring again in case metawidget.xml calls setParameter
+
+		mNeedsConfiguring = true;
+
+		// TODO: can remove this when layouts are immutable
+
+		mLayout = null;
+
+		return super.doStartTag();
+	}
+
+	@Override
 	public int doEndTag()
+		throws JspException
 	{
 		configure();
 
@@ -300,27 +327,7 @@ public abstract class MetawidgetTag
 			throw MetawidgetException.newException( e );
 		}
 
-		// In the case of, say, clicking 'Edit' in the Address Book sample application, the
-		// container will not call release(). However we must use a new Layout, else
-		// layout state such as mCurrentSection will not be cleared
-
-		mLayout = null;
-
-		return EVAL_PAGE;
-	}
-
-	@Override
-	public void release()
-	{
-		super.release();
-
-		mPath = null;
-		mPathPrefix = null;
-		mConfig = "metawidget.xml";
-		mLayoutClass = null;
-		mBundle = null;
-		mParameters = null;
-		mStubs = null;
+		return super.doEndTag();
 	}
 
 	//
@@ -330,13 +337,17 @@ public abstract class MetawidgetTag
 	/**
 	 * Sets the path.
 	 * <p>
-	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for
-	 * Struts, <code>property</code> for Spring).
+	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for Struts,
+	 * <code>property</code> for Spring).
 	 */
 
 	protected void setPathInternal( String path )
 	{
 		mPath = path;
+
+		// If changed the path, all bets are off what the prefix is
+
+		mPathPrefix = null;
 	}
 
 	protected void setPathPrefix( String pathPrefix )
@@ -426,7 +437,7 @@ public abstract class MetawidgetTag
 	{
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 
-		nestedMetawidget.setPathInternal( mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ));
+		nestedMetawidget.setPathInternal( mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setConfig( mConfig );
 		nestedMetawidget.setLayoutClass( mLayoutClass );
 		nestedMetawidget.setBundle( mBundle );
@@ -474,7 +485,7 @@ public abstract class MetawidgetTag
 		return xml;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings( "unchecked" )
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
@@ -615,13 +626,22 @@ public abstract class MetawidgetTag
 
 		@SuppressWarnings( "synthetic-access" )
 		@Override
-		protected Object buildNestedMetawidget( Map<String, String> attributes )
+		protected Object buildNestedMetawidget( final Map<String, String> attributes )
 			throws Exception
 		{
-			MetawidgetTag metawidget = MetawidgetTag.this.getClass().newInstance();
-			MetawidgetTag.this.initNestedMetawidget( metawidget, attributes );
+			final MetawidgetTag metawidget = MetawidgetTag.this.getClass().newInstance();
 
-			return JspUtils.writeTag( pageContext, metawidget, MetawidgetTag.this, null );
+			return JspUtils.writeTag( pageContext, metawidget, MetawidgetTag.this, new JspUtils.BodyPreparer()
+			{
+				@Override
+				public void prepareBody( PageContext delegateContext )
+				{
+					// mParameters gets cleared during doStartTag, so we can't set
+					// mParameters until the body (ie. thereby simulating ParamTags)
+
+					MetawidgetTag.this.initNestedMetawidget( metawidget, attributes );
+				}
+			} );
 		}
 
 		@Override

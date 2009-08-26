@@ -106,15 +106,6 @@ public abstract class StubTag
 		return super.doEndTag();
 	}
 
-	@Override
-	public void release()
-	{
-		super.release();
-
-		mPath = null;
-		mAttributes = null;
-	}
-
 	//
 	// Inner class
 	//

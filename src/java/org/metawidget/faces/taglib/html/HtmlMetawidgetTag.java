@@ -75,16 +75,6 @@ public class HtmlMetawidgetTag
 		mCreateHiddenFields = createHiddenFields;
 	}
 
-	@Override
-	public void release()
-	{
-		super.release();
-
-		mStyle = null;
-		mStyleClass = null;
-		mCreateHiddenFields = false;
-	}
-
 	//
 	// Protected methods
 	//
