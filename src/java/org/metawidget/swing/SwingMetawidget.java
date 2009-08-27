@@ -232,6 +232,11 @@ public class SwingMetawidget
 		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
 	}
 
+	public boolean isCompoundWidget()
+	{
+		return mMetawidgetMixin.isCompoundWidget();
+	}
+
 	/**
 	 * @param layoutClass
 	 *            may be null

@@ -27,6 +27,7 @@ import java.util.Set;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JScrollPane;
 
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.Bindings;
@@ -122,7 +123,14 @@ public class BeansBindingProcessor
 	@Override
 	public void onAdd( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
-		typesafeAdd( component, attributes, metawidget );
+		// Unwrap JScrollPanes (for JTextAreas etc)
+
+		JComponent componentToBind = component;
+
+		if ( componentToBind instanceof JScrollPane )
+			componentToBind = (JComponent) ((JScrollPane) componentToBind).getViewport().getView();
+
+		typesafeAdd( componentToBind, attributes, metawidget );
 	}
 
 	public void rebind( SwingMetawidget metawidget, Object toRebind )
@@ -263,10 +271,15 @@ public class BeansBindingProcessor
 
 		SS source = (SS) metawidget.getToInspect();
 		String sourceProperty = PathUtils.parsePath( metawidget.getPath() ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
-		if ( !sourceProperty.isEmpty() )
-			sourceProperty += StringUtils.SEPARATOR_DOT_CHAR;
 
-		sourceProperty += attributes.get( NAME );
+		if ( metawidget.isCompoundWidget() )
+		{
+			if ( sourceProperty.length() > 0 )
+				sourceProperty += StringUtils.SEPARATOR_DOT_CHAR;
+
+			sourceProperty += attributes.get( NAME );
+		}
+
 		BeanProperty<SS, SV> propertySource = BeanProperty.create( sourceProperty );
 
 		Class<TV> target;

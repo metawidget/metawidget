@@ -223,7 +223,7 @@ public class BeansBindingProcessorTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "When binding org.metawidget.swing.propertybinding.beansbinding.BeansBindingTest$CantLoadSaveFoo/bar to class javax.swing.JTextField.text (have you used BeansBinding.registerConverter?)".equals( e.getMessage() ) );
+			assertTrue( "When binding org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest$CantLoadSaveFoo/bar to class javax.swing.JTextField.text (have you used BeansBinding.registerConverter?)".equals( e.getMessage() ) );
 		}
 	}
 

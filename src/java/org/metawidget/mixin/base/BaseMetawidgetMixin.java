@@ -89,6 +89,18 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		return mReadOnly;
 	}
 
+	/**
+	 * Returns true if the Metawidget is a 'compound' widget. That is, it is being represented by
+	 * more than one child widget.
+	 * <p>
+	 * If an appropriate widget can be found to match the given path, the Metawidget will render as
+	 * a single 'top-level' widget. Otherwise, Metawidget will drill down into the business object
+	 * and render it using multiple child widgets.
+	 * <p>
+	 * This distinction can be important for <code>WidgetProcessors</code> who need to determine
+	 * what path to use - either the 'top level' path or path + attribute name.
+	 */
+
 	public boolean isCompoundWidget()
 	{
 		return mCompoundWidget;
@@ -167,7 +179,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	/**
 	 * Returns the first WidgetProcessor in this mixin's list of WidgetProcessors (ie. as added by
-	 * <code>addWidgetProcessor</code>) that <code>isAssignableFrom</code> the given class.
+	 * <code>addWidgetProcessor</code>) that the given class <code>isAssignableFrom</code>.
 	 *
 	 * @param widgetProcessorClass
 	 *            the class, or interface or superclass, to find. Returns <code>null</code> if no
@@ -182,7 +194,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 		{
-			if ( widgetProcessor.getClass().isAssignableFrom( widgetProcessorClass ) )
+			if ( widgetProcessorClass.isAssignableFrom( widgetProcessor.getClass() ) )
 				return (T) widgetProcessor;
 		}
 

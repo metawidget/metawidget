@@ -24,7 +24,7 @@ import javax.swing.border._
 
 import org.metawidget.swing._
 import org.metawidget.swing.layout._
-import org.metawidget.swing.propertybinding.beanutils._
+import org.metawidget.swing.widgetprocessor.binding.beanutils._
 import org.metawidget.inspector.annotation._
 
 /**
@@ -77,8 +77,8 @@ object AnimalRaces
 	{
 		val metawidget = new SwingMetawidget()
 		metawidget.setConfig( "org/metawidget/example/swing/animalraces/metawidget.xml" )
-		metawidget.setPropertyBindingClass( classOf[ BeanUtilsBinding ])
-		metawidget.setParameter( "propertyStyle", BeanUtilsBinding.PROPERTYSTYLE_SCALA )
+		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor() )
+		metawidget.setParameter( "propertyStyle", BeanUtilsBindingProcessor.PROPERTYSTYLE_SCALA )
 		metawidget.setLayoutClass( classOf[ MigLayout ])
 		metawidget.setToInspect( animal )
 		metawidget.getLayout().asInstanceOf[net.miginfocom.swing.MigLayout].setLayoutConstraints( new net.miginfocom.layout.LC().insets( "10" ));
@@ -175,7 +175,7 @@ object AnimalRaces
 
 		private def startRace( metawidget:SwingMetawidget, label:JLabel, timer:Timer )
 		{
-			metawidget.save()
+			metawidget.getWidgetProcessor( classOf[ BeanUtilsBindingProcessor ] ).save( metawidget )
 			val animal = metawidget.getToInspect().asInstanceOf[Animal]
 			label.setText( animal.name )
 			label.setIcon( images.get( animal.animal ))				

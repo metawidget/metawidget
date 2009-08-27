@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JComponent;
+import javax.swing.JScrollPane;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
@@ -77,12 +78,24 @@ public class BeanUtilsBindingProcessor
 	@Override
 	public void onAdd( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
-		String componentProperty = metawidget.getValueProperty( component );
+		// Unwrap JScrollPanes (for JTextAreas etc)
+
+		JComponent componentToBind = component;
+
+		if ( componentToBind instanceof JScrollPane )
+			componentToBind = (JComponent) ((JScrollPane) componentToBind).getViewport().getView();
+
+		// Determine value property
+
+		String componentProperty = metawidget.getValueProperty( componentToBind );
 
 		if ( componentProperty == null )
 			return;
 
-		String path = metawidget.getPath() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
+		String path = metawidget.getPath();
+
+		if ( metawidget.isCompoundWidget() )
+			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 
 		try
 		{
@@ -101,7 +114,7 @@ public class BeanUtilsBindingProcessor
 				throw MetawidgetException.newException( "Property '" + names + "' has no getter" );
 			}
 
-			SavedBinding binding = new SavedBinding( component, componentProperty, names, TRUE.equals( attributes.get( NO_SETTER ) ) );
+			SavedBinding binding = new SavedBinding( componentToBind, componentProperty, names, TRUE.equals( attributes.get( NO_SETTER ) ) );
 			saveValueToWidget( binding, sourceValue );
 
 			@SuppressWarnings("unchecked")

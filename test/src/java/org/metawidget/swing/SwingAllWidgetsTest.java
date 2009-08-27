@@ -48,6 +48,7 @@ import org.metawidget.shared.allwidgets.model.AllWidgets;
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
+import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
@@ -112,6 +113,7 @@ public class SwingAllWidgetsTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.addWidgetProcessor( processor );
+		metawidget.addWidgetProcessor( new ReflectionBindingProcessor() );
 		metawidget.setConfig( "org/metawidget/swing/allwidgets/metawidget.xml" );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setToInspect( allWidgets );
@@ -477,9 +479,9 @@ public class SwingAllWidgetsTest
 			processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
 			assertTrue( false );
 		}
-		catch ( MetawidgetException e )
+		catch ( Exception e )
 		{
-			assertTrue( "Could not parse 'bad date'".equals( e.getMessage() ) );
+			assertTrue( "Could not parse 'bad date'".equals( e.getCause().getMessage() ) );
 		}
 
 		// Check saving
