@@ -33,6 +33,7 @@ import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.impl.WidgetBuilderFactory;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
@@ -81,10 +82,10 @@ public class GwtMetawidget
 	 * Delay before rebuilding widgets (in milliseconds).
 	 * <p>
 	 * GWT does not define a good 'paint' method to override, so we must call
-	 * <code>buildWidgets</code> after every <code>invalidateWidgets</code>. Many methods (eg.
-	 * most setters) trigger <code>invalidateWidgets</code>, however, so we impose a short delay
-	 * to try and 'batch' multiple <code>buildWidgets</code> requests (and their associated AJAX
-	 * calls) into one.
+	 * <code>buildWidgets</code> after every <code>invalidateWidgets</code>. Many methods (eg. most
+	 * setters) trigger <code>invalidateWidgets</code>, however, so we impose a short delay to try
+	 * and 'batch' multiple <code>buildWidgets</code> requests (and their associated AJAX calls)
+	 * into one.
 	 */
 
 	private final static int										BUILD_DELAY				= 50;
@@ -97,8 +98,7 @@ public class GwtMetawidget
 	 * <p>
 	 * <code>GWTMetawidget</code> cannot use our <code>ConfigReader</code>, because that relies
 	 * heavily on reflection which is not available client-side. Note
-	 * <code>GwtRemoteInspectorProxy</code>
-	 * <em>does</em> use <code>ConfigReader</code>.
+	 * <code>GwtRemoteInspectorProxy</code> <em>does</em> use <code>ConfigReader</code>.
 	 */
 
 	private final static Map<Class<? extends Inspector>, Inspector>	INSPECTORS				= new HashMap<Class<? extends Inspector>, Inspector>();
@@ -140,32 +140,34 @@ public class GwtMetawidget
 
 	private Timer													mBuildWidgets;
 
+	private Map<Object, Object>										mClientProperties;
+
 	//
-	// Package-level members
+	// Package-private members
 	//
 
-	String															mPath;
+	/* package private */String										mPath;
 
 	/**
-	 * Name used to implement <code>HasName</code>. Subtly different from <code>mPath</code>
-	 * and <code>mNamesPrefix</code>.
+	 * Name used to implement <code>HasName</code>. Subtly different from <code>mPath</code> and
+	 * <code>mNamesPrefix</code>.
 	 */
 
-	String															mName;
+	/* package private */String										mName;
 
-	int																mNeedToBuildWidgets;
+	/* package private */int										mNeedToBuildWidgets;
 
-	String															mLastInspection;
+	/* package private */String										mLastInspection;
 
-	boolean															mIgnoreAddRemove;
+	/* package private */boolean									mIgnoreAddRemove;
 
 	/**
 	 * For unit tests.
 	 */
 
-	Timer															mExecuteAfterBuildWidgets;
+	/* package private */Timer										mExecuteAfterBuildWidgets;
 
-	GwtMetawidgetMixin<Widget, GwtMetawidget>						mMetawidgetMixin;
+	/* package private */GwtMetawidgetMixin<Widget, GwtMetawidget>	mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -225,10 +227,10 @@ public class GwtMetawidget
 	 * Sets the path to be inspected.
 	 * <p>
 	 * Note <code>setPath</code> is quite different to
-	 * <code>com.google.gwt.user.client.ui.HasName.setName</code>. <code>setPath</code> is
-	 * always in relation to <code>setToInspect</code>, so must include the type name and any
-	 * subsequent sub-names (eg. type/name/name). Conversely, <code>setName</code> is a single
-	 * name relative to our immediate parent.
+	 * <code>com.google.gwt.user.client.ui.HasName.setName</code>. <code>setPath</code> is always in
+	 * relation to <code>setToInspect</code>, so must include the type name and any subsequent
+	 * sub-names (eg. type/name/name). Conversely, <code>setName</code> is a single name relative to
+	 * our immediate parent.
 	 */
 
 	public void setPath( String path )
@@ -279,6 +281,11 @@ public class GwtMetawidget
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
 	{
 		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
+	}
+
+	public boolean isCompoundWidget()
+	{
+		return mMetawidgetMixin.isCompoundWidget();
 	}
 
 	public void setLayoutClass( Class<? extends Layout> layoutClass )
@@ -529,6 +536,31 @@ public class GwtMetawidget
 	public Facet getFacet( String name )
 	{
 		return mFacets.get( name );
+	}
+
+	/**
+	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
+	 */
+
+	public void putClientProperty( Object key, Object value )
+	{
+		if ( mClientProperties == null )
+			mClientProperties = CollectionUtils.newHashMap();
+
+		mClientProperties.put( key, value );
+	}
+
+	/**
+	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T getClientProperty( Object key )
+	{
+		if ( mClientProperties == null )
+			return null;
+
+		return (T) mClientProperties.get( key );
 	}
 
 	@Override

@@ -36,16 +36,6 @@
 		<when-type-assignable class="org.metawidget.gwt.client.widgetprocessor.WidgetProcessorFactory"/>
 	</generate-with>
 
-	<!-- Binding -->
-	
-  	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
-		<when-type-assignable class="org.metawidget.gwt.client.propertybinding.PropertyBindingFactory"/>
-	</generate-with>
-
-  	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
-		<when-type-assignable class="org.metawidget.gwt.client.actionbinding.ActionBindingFactory"/>
-	</generate-with>
-
 	<!-- Layout -->
 
   	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">

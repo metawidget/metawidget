@@ -19,7 +19,6 @@ package org.metawidget.swing.widgetprocessor.binding.beansbinding;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.awt.Component;
-import java.lang.reflect.Field;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -41,7 +40,6 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
@@ -135,19 +133,6 @@ public class BeansBindingProcessor
 
 	public void rebind( SwingMetawidget metawidget, Object toRebind )
 	{
-		// TODO: hack
-
-		try
-		{
-			Field field = metawidget.getClass().getDeclaredField( "mToInspect" );
-			field.setAccessible( true );
-			field.set( metawidget, toRebind );
-		}
-		catch ( Exception e )
-		{
-			throw WidgetProcessorException.newException( e );
-		}
-
 		// Our bindings
 
 		@SuppressWarnings( "unchecked" )
@@ -155,7 +140,7 @@ public class BeansBindingProcessor
 
 		if ( bindings != null )
 		{
-			Object sourceObject = metawidget.getToInspect();
+			Object sourceObject = toRebind;
 
 			for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : bindings )
 			{

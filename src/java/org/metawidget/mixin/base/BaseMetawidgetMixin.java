@@ -178,30 +178,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	}
 
 	/**
-	 * Returns the first WidgetProcessor in this mixin's list of WidgetProcessors (ie. as added by
-	 * <code>addWidgetProcessor</code>) that the given class <code>isAssignableFrom</code>.
-	 *
-	 * @param widgetProcessorClass
-	 *            the class, or interface or superclass, to find. Returns <code>null</code> if no
-	 *            such WidgetProcessor
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
-	{
-		if ( mWidgetProcessors == null )
-			return null;
-
-		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
-		{
-			if ( widgetProcessorClass.isAssignableFrom( widgetProcessor.getClass() ) )
-				return (T) widgetProcessor;
-		}
-
-		return null;
-	}
-
-	/**
 	 * Inspect the given Object according to the given path, and return the result as a String
 	 * conforming to inspection-result-1.0.xsd.
 	 * <p>

@@ -72,7 +72,7 @@ public class HtmlTableLayout
 	public String layoutBegin( String value, MetawidgetTag metawidgetTag )
 	{
 		State state = new State();
-		metawidgetTag.setClientProperty( HtmlTableLayout.class, state );
+		metawidgetTag.putClientProperty( HtmlTableLayout.class, state );
 
 		// Table styles
 

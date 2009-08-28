@@ -19,7 +19,6 @@ package org.metawidget.swing.widgetprocessor.binding.beanutils;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.awt.Component;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Map;
 import java.util.Set;
@@ -36,7 +35,6 @@ import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
@@ -107,7 +105,7 @@ public class BeanUtilsBindingProcessor
 
 			try
 			{
-				sourceValue = retrieveValueFromObject( metawidget, names );
+				sourceValue = retrieveValueFromObject( metawidget, metawidget.getToInspect(), names );
 			}
 			catch ( NoSuchMethodException e )
 			{
@@ -136,19 +134,6 @@ public class BeanUtilsBindingProcessor
 
 	public void rebind( SwingMetawidget metawidget, Object toRebind )
 	{
-		// TODO: hack
-
-		try
-		{
-			Field field = metawidget.getClass().getDeclaredField( "mToInspect" );
-			field.setAccessible( true );
-			field.set( metawidget, toRebind );
-		}
-		catch( Exception e )
-		{
-			throw WidgetProcessorException.newException( e );
-		}
-
 		// Our bindings
 
 		@SuppressWarnings("unchecked")
@@ -165,7 +150,7 @@ public class BeanUtilsBindingProcessor
 
 					try
 					{
-						sourceValue = retrieveValueFromObject( metawidget, names );
+						sourceValue = retrieveValueFromObject( metawidget, toRebind, names );
 					}
 					catch ( NoSuchMethodException e )
 					{
@@ -240,11 +225,9 @@ public class BeanUtilsBindingProcessor
 	 * Clients may override this method to incorporate their own getter convention.
 	 */
 
-	protected Object retrieveValueFromObject( SwingMetawidget metawidget, String names )
+	protected Object retrieveValueFromObject( SwingMetawidget metawidget, Object source, String names )
 		throws Exception
 	{
-		Object source = metawidget.getToInspect();
-
 		switch ( getPropertyStyle( metawidget ) )
 		{
 			case PROPERTYSTYLE_SCALA:

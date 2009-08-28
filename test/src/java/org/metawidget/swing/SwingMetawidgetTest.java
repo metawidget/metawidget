@@ -318,6 +318,12 @@ public class SwingMetawidgetTest
 		assertTrue( textField == metawidget.getComponent( "name" ) );
 		assertTrue( nestedTextField == metawidget.getComponent( "foo", "name" ) );
 
+		// Check saves back to the correct place (ie. rebind updated .toInspect)
+
+		processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
+		assertTrue( "Charlotte".equals( foo1.getName() ) );
+		assertTrue( "Julianne".equals( foo2.getName() ) );
+
 		// Check different component
 
 		metawidget.setToInspect( foo2 );

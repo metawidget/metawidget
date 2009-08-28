@@ -293,7 +293,7 @@ public abstract class MetawidgetTag
 	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
 	 */
 
-	public void setClientProperty( Object key, Object value )
+	public void putClientProperty( Object key, Object value )
 	{
 		if ( mClientProperties == null )
 			mClientProperties = CollectionUtils.newHashMap();

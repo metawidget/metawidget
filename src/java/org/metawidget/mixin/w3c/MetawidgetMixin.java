@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.metawidget.mixin.base.BaseMetawidgetMixin;
 import org.metawidget.util.XmlUtils;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -32,6 +33,38 @@ import org.w3c.dom.Element;
 public abstract class MetawidgetMixin<W, M extends W>
 	extends BaseMetawidgetMixin<W, Element, M>
 {
+	//
+	// Public methods
+	//
+
+	/**
+	 * Returns the first WidgetProcessor in this mixin's list of WidgetProcessors (ie. as added by
+	 * <code>addWidgetProcessor</code>) that the given class <code>isAssignableFrom</code>.
+	 * <p>
+	 * This method is here, rather than in <code>BaseMetawidgetMixin</code>, because even though
+	 * <code>GwtMetawidgetMixin</code> overrides it the GWT compiler still chokes on the
+	 * <code>isAssignableFrom</code>.
+	 *
+	 * @param widgetProcessorClass
+	 *            the class, or interface or superclass, to find. Returns <code>null</code> if no
+	 *            such WidgetProcessor
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
+	{
+		if ( getWidgetProcessors() == null )
+			return null;
+
+		for ( WidgetProcessor<W, M> widgetProcessor : getWidgetProcessors() )
+		{
+			if ( widgetProcessorClass.isAssignableFrom( widgetProcessor.getClass() ) )
+				return (T) widgetProcessor;
+		}
+
+		return null;
+	}
+
 	//
 	// Protected methods
 	//

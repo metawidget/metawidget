@@ -21,6 +21,7 @@ import java.util.Date;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleConverter;
 import org.metawidget.gwt.quirks.client.ui.QuirksModule;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
@@ -121,8 +122,8 @@ public class GwtQuirksTest
 
 						// Save and refresh
 
-						metawidget.save();
-						metawidget.rebind( metawidget.getToInspect() );
+						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
+						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( metawidget.getToInspect(), metawidget );
 
 						// Test checkbox was still checked (ie. HasText didn't get hit
 						// first in GwtMetawidget.setValue)

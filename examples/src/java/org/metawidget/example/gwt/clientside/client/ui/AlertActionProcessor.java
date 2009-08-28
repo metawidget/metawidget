@@ -20,14 +20,15 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import org.metawidget.gwt.client.actionbinding.BaseActionBinding;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
-import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.util.simple.PathUtils;
+import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -36,33 +37,24 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Richard Kennard
  */
 
-public class AlertActionBinding
-	extends BaseActionBinding
+public class AlertActionProcessor
+	extends BaseWidgetProcessor<Widget, GwtMetawidget>
 {
-	//
-	// Constructor
-	//
-
-	public AlertActionBinding( GwtMetawidget metawidget )
-	{
-		super( metawidget );
-	}
-
 	//
 	// Public methods
 	//
 
 	@Override
-	public void bindAction( Widget widget, Map<String, String> attributes, final String path )
+	public void onAdd( Widget widget, final Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
-		// How can we bind without addClickListener?
+		// Only bind to Buttons
 
-		if ( !( widget instanceof FocusWidget ) )
-			throw new RuntimeException( "DialogBoxActionBinding only supports binding actions to FocusWidgets - '" + attributes.get( NAME ) + "' is using a " + widget.getClass().getName() );
+		if ( !( widget instanceof Button ) )
+			return;
 
 		@SuppressWarnings( "unchecked" )
-		final Map<String, Object> model = (Map<String, Object>) getMetawidget().getToInspect();
-		final Widget parent = getMetawidget().getParent();
+		final Map<String, Object> model = (Map<String, Object>) metawidget.getToInspect();
+		final Widget parent = metawidget.getParent();
 
 		// Bind the action
 
@@ -71,15 +63,22 @@ public class AlertActionBinding
 		{
 			public void onClick( ClickEvent event )
 			{
-				String[] namesAsArray = PathUtils.parsePath( path ).getNamesAsArray();
-				String names = GwtUtils.toString( namesAsArray, '.' );
+				String names = PathUtils.parsePath( metawidget.getPath() ).getNames();
+
+				if ( metawidget.isCompoundWidget() )
+				{
+					if ( names.length() > 0 )
+						names += StringUtils.SEPARATOR_DOT_CHAR;
+
+					names += attributes.get( NAME );
+				}
 
 				model.put( names, "clicked" );
 
 				// (do not Window.alert during unit tests)
 
 				if ( parent instanceof RootPanel )
-					Window.alert( "AlertActionBinding detected button click for: " + names );
+					Window.alert( "AlertActionProcessor detected button click for: " + names );
 			}
 		} );
 	}

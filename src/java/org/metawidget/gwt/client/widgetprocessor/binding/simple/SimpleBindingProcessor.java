@@ -103,12 +103,6 @@ public class SimpleBindingProcessor
 	}
 
 	//
-	// Private members
-	//
-
-	private Set<Object[]>	mBindings;
-
-	//
 	// Public methods
 	//
 
@@ -120,7 +114,8 @@ public class SimpleBindingProcessor
 		if ( widget instanceof Stub || widget instanceof FlexTable )
 			return;
 
-		final String[] names = PathUtils.parsePath( metawidget.getPath() ).getNamesAsArray();
+		String path = metawidget.getPath();
+		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
 
 		// Bind actions to FocusWidgets
 
@@ -189,10 +184,15 @@ public class SimpleBindingProcessor
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return;
 
-			if ( mBindings == null )
-				mBindings = new HashSet<Object[]>();
+			Set<Object[]> bindings = metawidget.getClientProperty( SimpleBindingProcessor.class );
 
-			mBindings.add( new Object[] { widget, names, converter, propertyType } );
+			if ( bindings == null )
+			{
+				bindings = new HashSet<Object[]>();
+				metawidget.putClientProperty( SimpleBindingProcessor.class, bindings );
+			}
+
+			bindings.add( new Object[] { widget, names, converter, propertyType } );
 		}
 		catch ( Exception e )
 		{
@@ -200,27 +200,24 @@ public class SimpleBindingProcessor
 		}
 	}
 
-	public void rebind( GwtMetawidget metawidget )
+	public void rebind( Object toRebind, GwtMetawidget metawidget )
 	{
-		if ( mBindings == null )
-			return;
+		Set<Object[]> bindings = metawidget.getClientProperty( SimpleBindingProcessor.class );
 
-		Object toInspect = metawidget.getToInspect();
-
-		if ( toInspect == null )
+		if ( bindings == null )
 			return;
 
 		// From the adapter...
 
-		Class<?> classToBindTo = toInspect.getClass();
-		SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
+		Class<?> classToRebind = toRebind.getClass();
+		SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToRebind );
 
 		if ( adapter == null )
-			throw new RuntimeException( "Don't know how to rebind to a " + classToBindTo );
+			throw new RuntimeException( "Don't know how to rebind to a " + classToRebind );
 
 		// ...for each bound property...
 
-		for ( Object[] binding : mBindings )
+		for ( Object[] binding : bindings )
 		{
 			Widget widget = (Widget) binding[0];
 			String[] names = (String[]) binding[1];
@@ -229,7 +226,7 @@ public class SimpleBindingProcessor
 
 			// ...fetch the value...
 
-			Object value = adapter.getProperty( toInspect, names );
+			Object value = adapter.getProperty( toRebind, names );
 
 			// ...convert it (if necessary)...
 
@@ -244,7 +241,9 @@ public class SimpleBindingProcessor
 
 	public void save( GwtMetawidget metawidget )
 	{
-		if ( mBindings == null )
+		Set<Object[]> bindings = metawidget.getClientProperty( SimpleBindingProcessor.class );
+
+		if ( bindings == null )
 			return;
 
 		Object toInspect = metawidget.getToInspect();
@@ -262,7 +261,7 @@ public class SimpleBindingProcessor
 
 		// ...for each bound property...
 
-		for ( Object[] binding : mBindings )
+		for ( Object[] binding : bindings )
 		{
 			Widget widget = (Widget) binding[0];
 			String[] names = (String[]) binding[1];

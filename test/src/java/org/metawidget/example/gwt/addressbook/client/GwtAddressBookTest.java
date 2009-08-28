@@ -25,6 +25,7 @@ import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.NativeEvent;
@@ -209,7 +210,7 @@ public class GwtAddressBookTest
 
 												try
 												{
-													contactMetawidget.save();
+													contactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( contactMetawidget );
 													assertTrue( false );
 												}
 												catch ( IllegalArgumentException e )

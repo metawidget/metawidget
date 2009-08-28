@@ -168,8 +168,8 @@ public class ClientSideModule
 		@SuppressWarnings( "unchecked" )
 		CompositeWidgetBuilderConfig<Widget, GwtMetawidget> config = new CompositeWidgetBuilderConfig<Widget, GwtMetawidget>().setWidgetBuilders( new ExtGwtWidgetBuilder(), new GwtWidgetBuilder() );
 		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<Widget, GwtMetawidget>( config ) );
-		metawidget.setPropertyBindingClass( MapPropertyBinding.class );
-		metawidget.setActionBindingClass( AlertActionBinding.class );
+		metawidget.addWidgetProcessor( new MapBindingProcessor() );
+		metawidget.addWidgetProcessor( new AlertActionProcessor() );
 		metawidget.setPath( "sample" );
 
 		// Model
@@ -190,7 +190,7 @@ public class ClientSideModule
 			@Override
 			public void onClick( ClickEvent event )
 			{
-				metawidget.save();
+				metawidget.getWidgetProcessor( MapBindingProcessor.class ).save( metawidget );
 
 				// (do not Window.alert during unit tests)
 

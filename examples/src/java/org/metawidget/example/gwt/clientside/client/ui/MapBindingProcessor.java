@@ -26,8 +26,11 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.util.simple.PathUtils;
+import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -35,44 +38,40 @@ import com.google.gwt.user.client.ui.Widget;
  * @author Richard Kennard
  */
 
-public class MapPropertyBinding
-	extends BasePropertyBinding
+public class MapBindingProcessor
+	extends BaseWidgetProcessor<Widget, GwtMetawidget>
 {
-	//
-	// Private members
-	//
-
-	private Set<String[]>	mBindings;
-
-	//
-	// Constructor
-	//
-
-	public MapPropertyBinding( GwtMetawidget metawidget )
-	{
-		super( metawidget );
-	}
-
 	//
 	// Public methods
 	//
 
-	public void bindProperty( Widget widget, Map<String, String> attributes, String path )
+	@Override
+	public void onAdd( Widget widget, Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
-		// Doesn't bind to Stubs or FlexTables
+		// Doesn't bind to Stubs or FlexTables or Buttons
 
-		if ( widget instanceof Stub || widget instanceof FlexTable )
+		if ( widget instanceof Stub || widget instanceof FlexTable || widget instanceof Button )
 			return;
+
+		String path = metawidget.getPath();
+
+		if ( metawidget.isCompoundWidget() )
+			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 
 		try
 		{
 			if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
 				return;
 
-			if ( mBindings == null )
-				mBindings = new HashSet<String[]>();
+			Set<String[]> bindings = metawidget.getClientProperty( MapBindingProcessor.class );
 
-			mBindings.add( PathUtils.parsePath( path ).getNamesAsArray() );
+			if ( bindings == null )
+			{
+				bindings = new HashSet<String[]>();
+				metawidget.putClientProperty( MapBindingProcessor.class, bindings );
+			}
+
+			bindings.add( PathUtils.parsePath( path ).getNamesAsArray() );
 		}
 		catch ( Exception e )
 		{
@@ -80,27 +79,23 @@ public class MapPropertyBinding
 		}
 	}
 
-	public void rebindProperties()
+	public void save( GwtMetawidget metawidget )
 	{
-		// Not implemented
-	}
+		Set<String[]> bindings = metawidget.getClientProperty( MapBindingProcessor.class );
 
-	public void saveProperties()
-	{
-		if ( mBindings == null )
+		if ( bindings == null )
 			return;
 
-		GwtMetawidget metawidget = getMetawidget();
-		@SuppressWarnings("unchecked")
+		@SuppressWarnings( "unchecked" )
 		Map<String, Object> model = (Map<String, Object>) metawidget.getToInspect();
 
 		// For each bound property...
 
-		for ( String[] binding : mBindings )
+		for ( String[] binding : bindings )
 		{
 			// ...fetch the value...
 
-			Object value = metawidget.getValue( binding[ binding.length - 1 ] );
+			Object value = metawidget.getValue( binding[binding.length - 1] );
 
 			// ...and set it back to the model
 
