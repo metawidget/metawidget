@@ -29,7 +29,6 @@ import org.metawidget.example.shared.addressbook.model.Address;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -377,6 +376,41 @@ public class PropertyTypeInspectorTest
 		assertTrue( !entity.hasAttribute( LOOKUP ) );
 		assertTrue( !entity.hasAttribute( LOOKUP_LABELS ) );
 		assertTrue( 2 == entity.getAttributes().getLength() );
+	}
+
+	public void testTraverseActualTypes()
+	{
+		DeclaredTypeTester test = new DeclaredTypeTester();
+		test.foo = new DeclaredTypeTester();
+		((DeclaredTypeTester) test.foo).foo = new DeclaredTypeTester();
+
+		// Traversal from foo to foo.foo will fail if PropertyTypeInspector is using
+		// the declared type (java.lang.Object) instead of the actual type (DeclaredTypeTester)
+
+		Document document = XmlUtils.documentFromString( mInspector.inspect( test, test.getClass().getName(), "foo", "foo" ) );
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+
+		Element entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertTrue( "foo".equals( entity.getAttribute( NAME ) ) );
+		assertTrue( Object.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertTrue( DeclaredTypeTester.class.getName().equals( entity.getAttribute( ACTUAL_CLASS ) ) );
+
+		// Traversal to a null property can still return information about the properties type
+
+		document = XmlUtils.documentFromString( mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo" ) );
+		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
+
+		entity = (Element) document.getFirstChild().getFirstChild();
+		assertTrue( ENTITY.equals( entity.getNodeName() ) );
+		assertTrue( "foo".equals( entity.getAttribute( NAME ) ) );
+		assertTrue( Object.class.getName().equals( entity.getAttribute( TYPE ) ) );
+		assertTrue( !entity.hasAttribute( ACTUAL_CLASS ) );
+
+		// Traversal any further should fail gracefully (ie. not NullPointerException)
+
+		assertTrue( null == mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo" ));
+		assertTrue( null == mInspector.inspect( test, test.getClass().getName(), "foo", "foo", "foo", "foo", "foo" ));
 	}
 
 	//

@@ -812,12 +812,18 @@ public abstract class UIMetawidget
 	protected void initNestedMetawidget( UIMetawidget nestedMetawidget, Map<String, String> attributes )
 		throws Exception
 	{
-		nestedMetawidget.setConfig( mConfig );
+		// Don't reconfigure...
+
+		nestedMetawidget.setConfig( null );
+
+		// ...instead, copy runtime values
+
+		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 
 		// Read-only
 		//
-		// Note: BaseMetawidgetMixin takes care of property-level attributes. This is concerned
-		// with the value binding
+		// Note: initNestedMixin takes care of literal values. This is concerned with the value
+		// binding
 
 		if ( !TRUE.equals( attributes.get( READ_ONLY ) ) )
 		{
@@ -1370,12 +1376,20 @@ public abstract class UIMetawidget
 		// Public methods
 		//
 
+		/**
+		 * Overriden to just-in-time evaluate EL binding.
+		 */
+
 		@Override
 		public boolean isReadOnly()
 		{
-			// Check read-only value binding
-
 			return UIMetawidget.this.isReadOnly();
+		}
+
+		@Override
+		public void setReadOnly( boolean readOnly )
+		{
+			UIMetawidget.this.setReadOnly( readOnly );
 		}
 
 		//

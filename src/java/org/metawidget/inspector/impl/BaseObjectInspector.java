@@ -155,7 +155,11 @@ public abstract class BaseObjectInspector
 					return null;
 
 				childName = names[names.length - 1];
-				Class<?> parentType = (Class<?>) tuple[1];
+
+				// Use the actual, runtime class (tuple[0].getClass()) not the declared class
+				// (tuple[1]), in case the declared class is an interface or subclass
+
+				Class<?> parentType = tuple[0].getClass();
 
 				Property propertyInParent = mPropertyStyle.getProperties( parentType ).get( childName );
 
@@ -303,8 +307,8 @@ public abstract class BaseObjectInspector
 	}
 
 	/**
-	 * Inspect the given entity's class (<em>not</em> its child properties/actions) and return a
-	 * Map of attributes.
+	 * Inspect the given entity's class (<em>not</em> its child properties/actions) and return a Map
+	 * of attributes.
 	 * <p>
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
@@ -353,8 +357,8 @@ public abstract class BaseObjectInspector
 	}
 
 	/**
-	 * Whether to additionally inspect each child property using <code>inspectEntity</code> from
-	 * its class level.
+	 * Whether to additionally inspect each child property using <code>inspectEntity</code> from its
+	 * class level.
 	 * <p>
 	 * This can be useful if the property's value defines useful class-level annotations, but it is
 	 * expensive (as it requires invoking the property's getter to retrieve the value) so is
@@ -461,9 +465,9 @@ public abstract class BaseObjectInspector
 
 	/**
 	 * Returns true if the inspection returned nothing of consequence. This is an optimization that
-	 * allows our <code>Inspector</code> to return <code>null</code> overall, rather than
-	 * creating and serializing an XML document, which <code>CompositeInspector</code> then
-	 * deserializes and merges, all for no meaningful content.
+	 * allows our <code>Inspector</code> to return <code>null</code> overall, rather than creating
+	 * and serializing an XML document, which <code>CompositeInspector</code> then deserializes and
+	 * merges, all for no meaningful content.
 	 *
 	 * @return true if the inspection is 'empty'
 	 */
@@ -515,26 +519,21 @@ public abstract class BaseObjectInspector
 
 		if ( names != null && names.length > 0 )
 		{
-			Object parentTraverse = null;
-			Object parentTraverseDeclaredType = null;
-
 			Set<Object> traversed = CollectionUtils.newHashSet();
 			traversed.add( traverse );
 
-			for ( String name : names )
+			int length = names.length;
+
+			for ( int loop = 0; loop < length; loop++ )
 			{
+				String name = names[loop];
 				Property property = mPropertyStyle.getProperties( traverse.getClass() ).get( name );
 
 				if ( property == null || !property.isReadable() )
 					return null;
 
-				parentTraverse = traverse;
-				parentTraverseDeclaredType = traverseDeclaredType;
+				Object parentTraverse = traverse;
 				traverse = property.read( traverse );
-				traverseDeclaredType = property.getType();
-
-				if ( traverse == null )
-					break;
 
 				// Unlike BaseXmlInspector (which can never be certain it has detected a
 				// cyclic reference because it only looks at types, not objects),
@@ -545,10 +544,18 @@ public abstract class BaseObjectInspector
 					LogUtils.getLog( getClass() ).warn( ClassUtils.getSimpleName( getClass() ) + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating " + name + " as @UiHidden" );
 					return null;
 				}
-			}
 
-			if ( onlyToParent )
-				return new Object[] { parentTraverse, parentTraverseDeclaredType };
+				// Always come in this loop once, even if onlyToParent, because we
+				// want to do the recursion check
+
+				if ( onlyToParent && loop >= length - 1 )
+					return new Object[] { parentTraverse, traverseDeclaredType };
+
+				if ( traverse == null )
+					return null;
+
+				traverseDeclaredType = property.getType();
+			}
 		}
 
 		return new Object[] { traverse, traverseDeclaredType };
