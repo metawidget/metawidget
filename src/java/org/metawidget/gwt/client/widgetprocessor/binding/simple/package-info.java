@@ -14,52 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.jsp.tagext;
-
 /**
- * Convenience implementation.
+ * GWT support: Generator-based property binding.
  *
  * @author Richard Kennard
  */
 
-public abstract class BaseLayout
-	implements Layout
-{
-	//
-	// Private members
-	//
-
-	private MetawidgetTag	mMetawidgetTag;
-
-	//
-	// Constructor
-	//
-
-	public BaseLayout( MetawidgetTag metawidgetTag )
-	{
-		mMetawidgetTag = metawidgetTag;
-	}
-
-	//
-	// Public methods
-	//
-
-	public String layoutBegin( String value )
-	{
-		return null;
-	}
-
-	public String layoutEnd()
-	{
-		return null;
-	}
-
-	//
-	// Protected methods
-	//
-
-	protected MetawidgetTag getMetawidgetTag()
-	{
-		return mMetawidgetTag;
-	}
-}
+package org.metawidget.gwt.client.widgetprocessor.binding.simple;

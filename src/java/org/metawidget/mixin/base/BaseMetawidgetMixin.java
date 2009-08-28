@@ -18,11 +18,11 @@ package org.metawidget.mixin.base;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
@@ -166,13 +166,13 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 		// Defensive copy: the WidgetProcessors are immutable, but the List is not
 
-		mWidgetProcessors = CollectionUtils.newArrayList( widgetProcessors );
+		mWidgetProcessors = new ArrayList<WidgetProcessor<W, M>>( widgetProcessors );
 	}
 
 	public void addWidgetProcessor( WidgetProcessor<W, M> widgetProcessor )
 	{
 		if ( mWidgetProcessors == null )
-			mWidgetProcessors = CollectionUtils.newArrayList();
+			mWidgetProcessors = new ArrayList<WidgetProcessor<W, M>>();
 
 		mWidgetProcessors.add( widgetProcessor );
 	}

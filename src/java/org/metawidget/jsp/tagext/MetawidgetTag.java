@@ -104,6 +104,8 @@ public abstract class MetawidgetTag
 
 	private MetawidgetMixin<Object, Object>	mMetawidgetMixin;
 
+	private Map<Object, Object>				mClientProperties;
+
 	//
 	// Constructor
 	//
@@ -270,7 +272,7 @@ public abstract class MetawidgetTag
 	}
 
 	/**
-	 * Exposed for WidgetBuilders.
+	 * This method is public for use by WidgetBuilders.
 	 */
 
 	public PageContext getPageContext()
@@ -285,6 +287,31 @@ public abstract class MetawidgetTag
 	public String inspect( Object toInspect, String type, String... names )
 	{
 		return mMetawidgetMixin.inspect( toInspect, type, names );
+	}
+
+	/**
+	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
+	 */
+
+	public void setClientProperty( Object key, Object value )
+	{
+		if ( mClientProperties == null )
+			mClientProperties = CollectionUtils.newHashMap();
+
+		mClientProperties.put( key, value );
+	}
+
+	/**
+	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T getClientProperty( Object key )
+	{
+		if ( mClientProperties == null )
+			return null;
+
+		return (T) mClientProperties.get( key );
 	}
 
 	@Override
@@ -304,10 +331,6 @@ public abstract class MetawidgetTag
 		// Needs configuring again in case metawidget.xml calls setParameter
 
 		mNeedsConfiguring = true;
-
-		// TODO: can remove this when layouts are immutable
-
-		mLayout = null;
 
 		return super.doStartTag();
 	}
@@ -401,7 +424,7 @@ public abstract class MetawidgetTag
 
 		if ( mLayout != null )
 		{
-			writer.write( mLayout.layoutBegin( mPath ) );
+			writer.write( mLayout.layoutBegin( mPath, this ) );
 		}
 	}
 
@@ -412,7 +435,7 @@ public abstract class MetawidgetTag
 
 		if ( mLayout != null )
 		{
-			writer.write( mLayout.layoutEnd() );
+			writer.write( mLayout.layoutEnd( this ) );
 		}
 	}
 
@@ -425,7 +448,7 @@ public abstract class MetawidgetTag
 
 		if ( mLayout != null )
 		{
-			writer.write( mLayout.layoutChild( widget, attributes ) );
+			writer.write( mLayout.layoutChild( widget, attributes, this ) );
 		}
 		else
 		{
@@ -439,7 +462,7 @@ public abstract class MetawidgetTag
 
 		nestedMetawidget.setPathInternal( mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setConfig( mConfig );
-		nestedMetawidget.setLayoutClass( mLayoutClass );
+		nestedMetawidget.mLayout = mLayout;
 		nestedMetawidget.setBundle( mBundle );
 
 		if ( mParameters != null )

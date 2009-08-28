@@ -20,11 +20,11 @@ import java.util.Date;
 
 import org.metawidget.gwt.allwidgets.client.converter.DateConverter;
 import org.metawidget.gwt.allwidgets.client.converter.NestedWidgetsConverter;
-import org.metawidget.gwt.client.propertybinding.simple.SimpleBinding;
-import org.metawidget.gwt.client.propertybinding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.shared.allwidgets.model.AllWidgets;
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
@@ -72,19 +72,15 @@ public class AllWidgetsModule
 		metawidget.setInspector( new GwtRemoteInspectorProxy( "/metawidget-inspector-allwidgets" ) );
 		metawidget.setToInspect( new AllWidgets() );
 
-		// PropertyBinding
+		// Binding
 
-		metawidget.setPropertyBindingClass( SimpleBinding.class );
+		metawidget.addWidgetProcessor( new SimpleBindingProcessor() );
 
 		@SuppressWarnings( "unchecked" )
-		SimpleBindingAdapter<AllWidgets> allWidgetsAdapter = (SimpleBindingAdapter<AllWidgets>) GWT.create( AllWidgets.class );
-		SimpleBinding.registerAdapter( AllWidgets.class, allWidgetsAdapter );
-		SimpleBinding.registerConverter( Date.class, new DateConverter() );
-		SimpleBinding.registerConverter( NestedWidgets.class, new NestedWidgetsConverter() );
-
-		// ActionBinding
-
-		metawidget.setActionBindingClass( SimpleBinding.class );
+		SimpleBindingProcessorAdapter<AllWidgets> allWidgetsAdapter = (SimpleBindingProcessorAdapter<AllWidgets>) GWT.create( AllWidgets.class );
+		SimpleBindingProcessor.registerAdapter( AllWidgets.class, allWidgetsAdapter );
+		SimpleBindingProcessor.registerConverter( Date.class, new DateConverter() );
+		SimpleBindingProcessor.registerConverter( NestedWidgets.class, new NestedWidgetsConverter() );
 
 		// Stubs
 
@@ -101,7 +97,7 @@ public class AllWidgetsModule
 		{
 			public void onClick( ClickEvent event )
 			{
-				metawidget.save();
+				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 				metawidget.setReadOnly( true );
 				metawidget.setParameter( "numberOfColumns", 0 );
 				metawidget.setDictionaryName( "bundle" );

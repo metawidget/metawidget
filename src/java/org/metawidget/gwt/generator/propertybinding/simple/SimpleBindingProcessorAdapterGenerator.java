@@ -18,7 +18,7 @@ package org.metawidget.gwt.generator.propertybinding.simple;
 
 import java.io.PrintWriter;
 
-import org.metawidget.gwt.client.propertybinding.simple.SimpleBindingAdapter;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -75,7 +75,7 @@ import com.google.gwt.user.rebind.SourceWriter;
 // because whereas all Layouts extend a well defined base class and therefore discovering them a
 // well-constrained process, bindings are associated with domain objects so we need the user to
 // specify the base class in their own application.gwt.xml
-public class SimpleBindingAdapterGenerator
+public class SimpleBindingProcessorAdapterGenerator
 	extends Generator
 {
 	//
@@ -151,7 +151,7 @@ public class SimpleBindingAdapterGenerator
 		// Start the BindingAdapter subclass
 
 		ClassSourceFileComposerFactory composer = new ClassSourceFileComposerFactory( packageName, bindingClassName );
-		composer.addImplementedInterface( SimpleBindingAdapter.class.getName() + "<" + classType.getQualifiedSourceName() + ">" );
+		composer.addImplementedInterface( SimpleBindingProcessorAdapter.class.getName() + "<" + classType.getQualifiedSourceName() + ">" );
 		SourceWriter sourceWriter = composer.createSourceWriter( context, printWriter );
 
 		if ( sourceWriter != null )

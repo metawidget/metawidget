@@ -29,7 +29,9 @@ import java.util.Map;
  * (specifically, tags cannot iterate over their children). Interesting comparisons can be made
  * between this class and <code>javax.faces.render.Renderer</code>.
  * <p>
- * Implementations need not be Thread-safe.
+ * Layouts must be threadsafe and immutable (or, at least, appear that way to clients. They can have
+ * caches or configuration settings internally). If they need to store state, they should use the
+ * Metawidget passed to each method.
  *
  * @author Richard Kennard
  */
@@ -40,9 +42,9 @@ public interface Layout
 	// Methods
 	//
 
-	String layoutBegin( String value );
+	String layoutBegin( String value, MetawidgetTag metawidgetTag );
 
-	String layoutChild( String child, Map<String, String> attributes );
+	String layoutChild( String child, Map<String, String> attributes, MetawidgetTag metawidgetTag );
 
-	String layoutEnd();
+	String layoutEnd( MetawidgetTag metawidgetTag );
 }

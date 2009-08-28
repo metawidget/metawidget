@@ -25,11 +25,7 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
 
-import org.metawidget.gwt.client.actionbinding.ActionBinding;
-import org.metawidget.gwt.client.actionbinding.ActionBindingFactory;
 import org.metawidget.gwt.client.inspector.InspectorFactory;
-import org.metawidget.gwt.client.propertybinding.PropertyBinding;
-import org.metawidget.gwt.client.propertybinding.PropertyBindingFactory;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.ui.layout.LayoutFactory;
@@ -42,6 +38,7 @@ import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
@@ -117,28 +114,6 @@ public class GwtMetawidget
 	private Layout													mLayout;
 
 	private Class<? extends Inspector>								mInspectorClass			= GwtRemoteInspectorProxy.class;
-
-	/**
-	 * The PropertyBinding class.
-	 * <p>
-	 * PropertyBinding class is <code>null</code> by default, because setting up PropertyBinding
-	 * is non-trivial (eg. you have to generate some SimpleBindingAdapters)
-	 */
-
-	private Class<? extends PropertyBinding>						mPropertyBindingClass;
-
-	private PropertyBinding											mPropertyBinding;
-
-	/**
-	 * The ActionBinding class.
-	 * <p>
-	 * ActionBinding class is <code>null</code> by default, because setting up ActionBinding is
-	 * non-trivial (eg. you have to generate some SimpleBindingAdapters)
-	 */
-
-	private Class<? extends ActionBinding>							mActionBindingClass;
-
-	private ActionBinding											mActionBinding;
 
 	private String													mDictionaryName;
 
@@ -295,31 +270,20 @@ public class GwtMetawidget
 		invalidateInspection();
 	}
 
+	public void addWidgetProcessor( WidgetProcessor<Widget, GwtMetawidget> widgetProcessor )
+	{
+		mMetawidgetMixin.addWidgetProcessor( widgetProcessor );
+		invalidateInspection();
+	}
+
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
+	{
+		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
+	}
+
 	public void setLayoutClass( Class<? extends Layout> layoutClass )
 	{
 		mLayoutClass = layoutClass;
-		invalidateWidgets();
-	}
-
-	/**
-	 * @param propertyBindingClass
-	 *            may be null
-	 */
-
-	public void setPropertyBindingClass( Class<? extends PropertyBinding> propertyBindingClass )
-	{
-		mPropertyBindingClass = propertyBindingClass;
-		invalidateWidgets();
-	}
-
-	/**
-	 * @param actionBindingClass
-	 *            may be null
-	 */
-
-	public void setActionBindingClass( Class<? extends ActionBinding> actionBindingClass )
-	{
-		mActionBindingClass = actionBindingClass;
 		invalidateWidgets();
 	}
 
@@ -562,78 +526,6 @@ public class GwtMetawidget
 			throw new RuntimeException( "Don't know how to setValue of a " + widget.getClass().getName() );
 	}
 
-	/**
-	 * Rebinds the values in the UI to the given Object.
-	 * <p>
-	 * <code>rebind</code> can be thought of as a lightweight version of <code>setToInspect</code>.
-	 * Unlike <code>setToInspect</code>, <code>rebind</code> does <em>not</em> reinspect the
-	 * Object or recreate any <code>Widgets</code>. Rather, <code>rebind</code> applies only at
-	 * the binding level, and updates the binding with values from the given Object.
-	 * <p>
-	 * This is more performant, and allows the Metawidget to be created 'in advance' and reused many
-	 * times with different Objects, but it is the caller's responsibility that the Object passed to
-	 * <code>rebind</code> is of the same type as the one previously passed to
-	 * <code>setToInspect</code>.
-	 * <p>
-	 * For client's not using a PropertyBinding implementation, there is no need to call
-	 * <code>rebind</code>. They can simply use <code>setValue</code> to update existing values
-	 * in the UI.
-	 * <p>
-	 * In many ways, <code>rebind</code> can be thought of as the opposite of <code>save</code>.
-	 *
-	 * @throws RuntimeException
-	 *             if no binding configured
-	 */
-
-	public void rebind( Object toRebind )
-	{
-		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
-			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling rebind()" );
-
-		if ( mPropertyBinding == null )
-			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setPropertyBindingClass" );
-
-		mToInspect = toRebind;
-		mPropertyBinding.rebindProperties();
-
-		for ( Widget widget : mAddedWidgets.values() )
-		{
-			if ( widget instanceof GwtMetawidget )
-			{
-				( (GwtMetawidget) widget ).rebind( toRebind );
-			}
-		}
-	}
-
-	/**
-	 * Saves the values from the binding back to the Object being inspected.
-	 *
-	 * @throws RuntimeException
-	 *             if no binding configured
-	 */
-
-	public void save()
-	{
-		if ( mNeedToBuildWidgets != BUILDING_COMPLETE )
-			throw new RuntimeException( "Widgets still building asynchronously: need to complete before calling save()" );
-
-		if ( mPropertyBinding == null )
-			throw new RuntimeException( "No binding configured. Use GwtMetawidget.setPropertyBindingClass" );
-
-		mPropertyBinding.saveProperties();
-
-		// Having a save() method avoids having to expose a getBinding() method, which is handy
-		// because we can worry about nested Metawidgets here, not in the PropertyBinding class
-
-		for ( Widget widget : mAddedWidgets.values() )
-		{
-			if ( widget instanceof GwtMetawidget )
-			{
-				( (GwtMetawidget) widget ).save();
-			}
-		}
-	}
-
 	public Facet getFacet( String name )
 	{
 		return mFacets.get( name );
@@ -806,14 +698,6 @@ public class GwtMetawidget
 
 			super.clear();
 			mAddedWidgets.clear();
-
-			if ( mPropertyBinding != null )
-			{
-				mPropertyBinding.unbindProperties();
-				mPropertyBinding = null;
-			}
-
-			mActionBinding = null;
 		}
 
 		// Schedule a new build
@@ -989,14 +873,6 @@ public class GwtMetawidget
 
 		mLayout = ( (LayoutFactory) GWT.create( LayoutFactory.class ) ).newLayout( mLayoutClass, this );
 		mLayout.layoutBegin();
-
-		// Start binding
-
-		if ( mPropertyBindingClass != null )
-			mPropertyBinding = ( (PropertyBindingFactory) GWT.create( PropertyBindingFactory.class ) ).newBinding( mPropertyBindingClass, this );
-
-		if ( mActionBindingClass != null )
-			mActionBinding = ( (ActionBindingFactory) GWT.create( ActionBindingFactory.class ) ).newBinding( mActionBindingClass, this );
 	}
 
 	protected Widget getOverriddenWidget( String elementName, Map<String, String> attributes )
@@ -1053,22 +929,6 @@ public class GwtMetawidget
 		if ( mMetawidgetMixin.isCompoundWidget() )
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
 
-		// Bind actions
-
-		if ( ACTION.equals( elementName ) )
-		{
-			if ( mActionBinding != null )
-				mActionBinding.bindAction( widget, attributes, path );
-		}
-
-		// Bind properties
-
-		else
-		{
-			if ( mPropertyBinding != null && !( widget instanceof GwtMetawidget ) )
-				mPropertyBinding.bindProperty( widget, attributes, path );
-		}
-
 		// Add to layout
 
 		mAddedWidgets.put( name, widget );
@@ -1094,9 +954,9 @@ public class GwtMetawidget
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+
+		// TODO: Layout can be immutable
 		nestedMetawidget.setLayoutClass( mLayoutClass );
-		nestedMetawidget.setPropertyBindingClass( mPropertyBindingClass );
-		nestedMetawidget.setActionBindingClass( mActionBindingClass );
 		nestedMetawidget.setDictionaryName( mDictionaryName );
 
 		if ( mParameters != null )

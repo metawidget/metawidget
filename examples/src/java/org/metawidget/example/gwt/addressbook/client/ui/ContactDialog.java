@@ -25,12 +25,12 @@ import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.gwt.client.propertybinding.simple.SimpleBinding;
-import org.metawidget.gwt.client.propertybinding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.gwt.client.ui.layout.FlowLayout;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
 import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.core.client.GWT;
@@ -139,10 +139,10 @@ public class ContactDialog
 		// SimpleBinding
 
 		@SuppressWarnings( "unchecked" )
-		SimpleBindingAdapter<Contact> contactAdapter = (SimpleBindingAdapter<Contact>) GWT.create( Contact.class );
-		SimpleBinding.registerAdapter( Contact.class, contactAdapter );
-		SimpleBinding.registerConverter( Date.class, new DateConverter() );
-		SimpleBinding.registerConverter( Gender.class, new EnumConverter<Gender>( Gender.class ) );
+		SimpleBindingProcessorAdapter<Contact> contactAdapter = (SimpleBindingProcessorAdapter<Contact>) GWT.create( Contact.class );
+		SimpleBindingProcessor.registerAdapter( Contact.class, contactAdapter );
+		SimpleBindingProcessor.registerConverter( Date.class, new DateConverter() );
+		SimpleBindingProcessor.registerConverter( Gender.class, new EnumConverter<Gender>( Gender.class ) );
 
 		// Metawidget
 
@@ -153,7 +153,7 @@ public class ContactDialog
 		mMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column,required" );
 		mMetawidget.setParameter( "sectionStyleName", "section-heading" );
 		mMetawidget.setParameter( "footerStyleName", "buttons" );
-		mMetawidget.setPropertyBindingClass( SimpleBinding.class );
+		mMetawidget.addWidgetProcessor( new SimpleBindingProcessor() );
 		mMetawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, mMetawidget );
 
@@ -169,7 +169,7 @@ public class ContactDialog
 		mAddressMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column,required" );
 		mAddressMetawidget.setParameter( "sectionStyleName", "section-heading" );
 		mAddressMetawidget.setParameter( "footerStyleName", "buttons" );
-		mAddressMetawidget.setPropertyBindingClass( SimpleBinding.class );
+		mAddressMetawidget.addWidgetProcessor( new SimpleBindingProcessor() );
 		mAddressMetawidget.setToInspect( contact );
 		mAddressMetawidget.setPath( Contact.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + "address" );
 
@@ -257,7 +257,7 @@ public class ContactDialog
 			{
 				try
 				{
-					mMetawidget.save();
+					mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( mMetawidget );
 				}
 				catch( Exception e )
 				{
@@ -341,7 +341,7 @@ public class ContactDialog
 
 	public void rebind( Contact contact )
 	{
-		mMetawidget.rebind( contact );
+		mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( contact, mMetawidget );
 		mMetawidget.setReadOnly( contact.getId() != 0 );
 
 		setVisibility();

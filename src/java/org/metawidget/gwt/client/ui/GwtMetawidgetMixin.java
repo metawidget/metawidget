@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.metawidget.mixin.base.BaseMetawidgetMixin;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
@@ -38,6 +39,35 @@ import com.google.gwt.xml.client.XMLParser;
 public abstract class GwtMetawidgetMixin<W, M extends W>
 	extends BaseMetawidgetMixin<W, Element, M>
 {
+	//
+	// Public methods
+	//
+
+	/**
+	 * Returns the first WidgetProcessor in this mixin's list of WidgetProcessors (ie. as added by
+	 * <code>addWidgetProcessor</code>) that equals the given class. Note this implementation does not
+	 * use <code>isAssignableFrom</code>, because GWT does not support it.
+	 *
+	 * @param widgetProcessorClass
+	 *            the class to find. Returns <code>null</code> if no
+	 *            such WidgetProcessor
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
+	{
+		if ( getWidgetProcessors() == null )
+			return null;
+
+		for ( WidgetProcessor<W, M> widgetProcessor : getWidgetProcessors() )
+		{
+			if ( widgetProcessorClass.equals( widgetProcessor.getClass() ) )
+				return (T) widgetProcessor;
+		}
+
+		return null;
+	}
+
 	//
 	// Protected methods
 	//

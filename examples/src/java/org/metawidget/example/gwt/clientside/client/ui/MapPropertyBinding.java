@@ -22,7 +22,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.metawidget.gwt.client.propertybinding.BasePropertyBinding;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;

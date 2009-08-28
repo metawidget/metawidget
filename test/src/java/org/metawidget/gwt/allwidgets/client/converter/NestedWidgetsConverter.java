@@ -18,8 +18,8 @@ package org.metawidget.gwt.allwidgets.client.converter;
 
 import java.util.List;
 
-import org.metawidget.gwt.client.propertybinding.simple.BaseConverter;
 import org.metawidget.gwt.client.ui.GwtUtils;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.BaseConverter;
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.util.simple.StringUtils;
 

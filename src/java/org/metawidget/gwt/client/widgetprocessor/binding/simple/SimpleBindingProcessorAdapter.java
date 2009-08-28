@@ -14,30 +14,29 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.widgetprocessor.iface;
-
-import java.util.Map;
+package org.metawidget.gwt.client.widgetprocessor.binding.simple;
 
 /**
- * Common interface implemented by all WidgetProcessors. WidgetProcessors allow arbitrary processing
- * of a widget at key points in its lifecycle.
+ * Adapter around business objects to support <code>SimpleBindingProcessor</code>.
  * <p>
- * WidgetProcessors must be threadsafe and immutable (or, at least, appear that way to clients. They
- * can have caches or configuration settings internally). If they need to store state, they should
- * use the Metawidget passed to each method.
+ * All business objects used by <code>SimpleBindingProcessor</code> must be wrapped by a
+ * <code>SimpleBindingProcessorAdapter</code>. The supplied <code>SimpleBindingProcessorAdapterGenerator</code>
+ * automates the creation of adapters.
  *
  * @author Richard Kennard
  */
 
-public interface WidgetProcessor<W, M extends W>
+public interface SimpleBindingProcessorAdapter<T>
 {
 	//
 	// Methods
 	//
 
-	void onStartBuild( M metawidget );
+	Object getProperty( T object, String... property );
 
-	void onAdd( W widget, Map<String, String> attributes, M metawidget );
+	Class<?> getPropertyType( T object, String... property );
 
-	void onEndBuild( M metawidget );
+	void setProperty( T object, Object value, String... property );
+
+	void invokeAction( T object, String... action );
 }

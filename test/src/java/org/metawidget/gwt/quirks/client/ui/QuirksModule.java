@@ -16,10 +16,10 @@
 
 package org.metawidget.gwt.quirks.client.ui;
 
-import org.metawidget.gwt.client.propertybinding.simple.SimpleBinding;
-import org.metawidget.gwt.client.propertybinding.simple.SimpleBindingAdapter;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
 import org.metawidget.gwt.quirks.client.model.GwtQuirks;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -62,17 +62,13 @@ public class QuirksModule
 		metawidget.setParameter( "sectionStyleName", "aSectionStyleName" );
 		metawidget.setToInspect( new GwtQuirks() );
 
-		// PropertyBinding
+		// Binding
 
-		metawidget.setPropertyBindingClass( SimpleBinding.class );
+		metawidget.addWidgetProcessor( new SimpleBindingProcessor() );
 
 		@SuppressWarnings( "unchecked" )
-		SimpleBindingAdapter<GwtQuirks> quirksAdapter = (SimpleBindingAdapter<GwtQuirks>) GWT.create( GwtQuirks.class );
-		SimpleBinding.registerAdapter( GwtQuirks.class, quirksAdapter );
-
-		// ActionBinding
-
-		metawidget.setActionBindingClass( SimpleBinding.class );
+		SimpleBindingProcessorAdapter<GwtQuirks> quirksAdapter = (SimpleBindingProcessorAdapter<GwtQuirks>) GWT.create( GwtQuirks.class );
+		SimpleBindingProcessor.registerAdapter( GwtQuirks.class, quirksAdapter );
 
 		// Arbitrary stub
 

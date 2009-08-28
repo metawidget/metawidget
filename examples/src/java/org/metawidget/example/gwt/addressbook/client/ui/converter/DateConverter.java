@@ -18,7 +18,7 @@ package org.metawidget.example.gwt.addressbook.client.ui.converter;
 
 import java.util.Date;
 
-import org.metawidget.gwt.client.propertybinding.simple.BaseConverter;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.BaseConverter;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.ui.Widget;

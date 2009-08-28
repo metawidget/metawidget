@@ -15,6 +15,7 @@
 	<source path="mixin/base"/>
 	<source path="mixin/gwt"/>
 	<source path="util/simple"/>
+	<source path="widgetprocessor"/>
 	<source path="widgetbuilder"/>
 	
 	<!-- Inspectors -->

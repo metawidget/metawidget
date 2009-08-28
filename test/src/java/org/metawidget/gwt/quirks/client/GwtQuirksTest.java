@@ -18,10 +18,10 @@ package org.metawidget.gwt.quirks.client;
 
 import java.util.Date;
 
-import org.metawidget.gwt.client.propertybinding.simple.SimpleConverter;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleConverter;
 import org.metawidget.gwt.quirks.client.ui.QuirksModule;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 

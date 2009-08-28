@@ -66,6 +66,4 @@ public abstract class MetawidgetMixin<W, M extends W>
 	{
 		return XmlUtils.getAttributesAsMap( element );
 	}
-
-
 }

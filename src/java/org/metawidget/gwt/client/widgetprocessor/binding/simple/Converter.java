@@ -14,56 +14,33 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.gwt.addressbook.client.ui.converter;
+package org.metawidget.gwt.client.widgetprocessor.binding.simple;
 
-import org.metawidget.gwt.client.widgetprocessor.binding.simple.BaseConverter;
-
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
+ * Interface for <code>SimpleBinding</code> Converters.
+ *
  * @author Richard Kennard
  */
 
-public class EnumConverter<T extends Enum<T>>
-	extends BaseConverter<T>
+public interface Converter<T>
 {
 	//
-	// Private members
+	// Methods
 	//
 
-	private Class<T>	mEnum;
+	/**
+	 * Convert the given value (as returned by the given Widget) into the given class
+	 *
+	 * @param intoClass	the class to convert into. Useful for handling subclasses (eg. see NumberConverter)
+	 */
 
-	//
-	// Constructor
-	//
+	T convertFromWidget( Widget widget, Object value, Class<?> intoClass );
 
-	public EnumConverter( Class<T> anEnum )
-	{
-		mEnum = anEnum;
-	}
+	/**
+	 * Convert the given value to a form that can be displayed by the given Widget.
+	 */
 
-	//
-	// Public methods
-	//
-
-	public T convertFromWidget( Widget widget, Object value, Class<?> type )
-	{
-		if ( value == null || "".equals( value ))
-			return null;
-
-		return Enum.valueOf( mEnum, (String) value );
-	}
-
-	@Override
-	public Object convertForWidget( Widget widget, T value )
-	{
-		if ( value == null )
-			return null;
-
-		if ( widget instanceof Label )
-			return value.toString();
-
-		return value.name();
-	}
+	Object convertForWidget( Widget widget, T value );
 }
