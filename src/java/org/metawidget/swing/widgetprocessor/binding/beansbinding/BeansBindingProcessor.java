@@ -104,18 +104,17 @@ public class BeansBindingProcessor
 	@Override
 	public void onStartBuild( SwingMetawidget metawidget )
 	{
-		@SuppressWarnings( "unchecked" )
-		Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>> bindings = (Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>) metawidget.getClientProperty( BeansBindingProcessor.class );
+		State state = getState( metawidget );
 
-		if ( bindings == null )
+		if ( state.bindings == null )
 			return;
 
-		for ( org.jdesktop.beansbinding.Binding<?, ?, ? extends Component, ?> binding : bindings )
+		for ( org.jdesktop.beansbinding.Binding<?, ?, ? extends Component, ?> binding : state.bindings )
 		{
 			binding.unbind();
 		}
 
-		metawidget.putClientProperty( BeansBindingProcessor.class, null );
+		state.bindings = null;
 	}
 
 	@Override
@@ -126,26 +125,36 @@ public class BeansBindingProcessor
 		JComponent componentToBind = component;
 
 		if ( componentToBind instanceof JScrollPane )
-			componentToBind = (JComponent) ((JScrollPane) componentToBind).getViewport().getView();
+			componentToBind = (JComponent) ( (JScrollPane) componentToBind ).getViewport().getView();
 
 		typesafeAdd( componentToBind, attributes, metawidget );
 	}
 
-	public void rebind( SwingMetawidget metawidget, Object toRebind )
+	/**
+	 * Rebinds the Metawidget to the given Object.
+	 * <p>
+	 * This method is an optimization that allows clients to load a new object into the binding
+	 * <em>without</em> calling setToInspect, and therefore without reinspecting the object or
+	 * recreating the components. It is the client's responsbility to ensure the setToRebind object
+	 * is compatible with the original setToInspect.
+	 * <p>
+	 * Note this method does not call <code>setToInspect</code>, so the rebound object cannot
+	 * be retrieved using <code>getToInspect</code>. Rather, clients should use <code>getToRebind</code>.
+	 */
+
+	public void setToRebind( Object toRebind, SwingMetawidget metawidget )
 	{
+		State state = getState( metawidget );
+		state.toRebind = toRebind;
+
 		// Our bindings
 
-		@SuppressWarnings( "unchecked" )
-		Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>> bindings = (Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>) metawidget.getClientProperty( BeansBindingProcessor.class );
-
-		if ( bindings != null )
+		if ( state.bindings != null )
 		{
-			Object sourceObject = toRebind;
-
-			for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : bindings )
+			for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : state.bindings )
 			{
 				binding.unbind();
-				binding.setSourceObject( sourceObject );
+				binding.setSourceObject( toRebind );
 				binding.bind();
 
 				SyncFailure failure = binding.refresh();
@@ -160,20 +169,24 @@ public class BeansBindingProcessor
 		for ( Component component : metawidget.getComponents() )
 		{
 			if ( component instanceof SwingMetawidget )
-				rebind( (SwingMetawidget) component, toRebind );
+				setToRebind( toRebind, (SwingMetawidget) component );
 		}
+	}
+
+	public Object getToRebind( SwingMetawidget metawidget )
+	{
+		return getState( metawidget ).toRebind;
 	}
 
 	public void save( SwingMetawidget metawidget )
 	{
+		State state = getState( metawidget );
+
 		// Our bindings
 
-		@SuppressWarnings( "unchecked" )
-		Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>> bindings = (Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>) metawidget.getClientProperty( BeansBindingProcessor.class );
-
-		if ( bindings != null )
+		if ( state.bindings != null )
 		{
-			for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : bindings )
+			for ( org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?> binding : state.bindings )
 			{
 				Object sourceObject = binding.getSourceObject();
 				@SuppressWarnings( "unchecked" )
@@ -245,7 +258,7 @@ public class BeansBindingProcessor
 	}
 
 	@SuppressWarnings( "unchecked" )
-	private <SS, SV, TS extends Component, TV> void typesafeAdd( TS component,  Map<String, String> attributes, SwingMetawidget metawidget )
+	private <SS, SV, TS extends Component, TV> void typesafeAdd( TS component, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		String componentProperty = metawidget.getValueProperty( component );
 
@@ -322,15 +335,12 @@ public class BeansBindingProcessor
 
 		// Save the binding
 
-		Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>> bindings = (Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>) metawidget.getClientProperty( BeansBindingProcessor.class );
+		State state = getState( metawidget );
 
-		if ( bindings == null )
-		{
-			bindings = CollectionUtils.newHashSet();
-			metawidget.putClientProperty( BeansBindingProcessor.class, bindings );
-		}
+		if ( state.bindings == null )
+			state.bindings = CollectionUtils.newHashSet();
 
-		bindings.add( (org.jdesktop.beansbinding.Binding<Object, SV, TS, TV>) binding );
+		state.bindings.add( (org.jdesktop.beansbinding.Binding<Object, SV, TS, TV>) binding );
 	}
 
 	/**
@@ -371,16 +381,38 @@ public class BeansBindingProcessor
 		return null;
 	}
 
+	private State getState( SwingMetawidget metawidget )
+	{
+		State state = (State) metawidget.getClientProperty( BeansBindingProcessor.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			metawidget.putClientProperty( BeansBindingProcessor.class, state );
+		}
+
+		return state;
+	}
+
 	//
 	// Inner class
 	//
 
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/*package private*/ class State
+	{
+		public Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
+
+		public Object																		toRebind;
+	}
+
 	private final static class ConvertFromTo<S, T>
 	{
 		//
-		//
 		// Private members
-		//
 		//
 
 		private Class<S>	mSource;
@@ -388,9 +420,7 @@ public class BeansBindingProcessor
 		private Class<T>	mTarget;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public ConvertFromTo( Class<S> source, Class<T> target )
@@ -400,9 +430,7 @@ public class BeansBindingProcessor
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		@Override

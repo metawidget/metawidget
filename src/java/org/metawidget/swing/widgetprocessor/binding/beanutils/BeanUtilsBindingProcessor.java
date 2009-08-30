@@ -81,7 +81,7 @@ public class BeanUtilsBindingProcessor
 		JComponent componentToBind = component;
 
 		if ( componentToBind instanceof JScrollPane )
-			componentToBind = (JComponent) ((JScrollPane) componentToBind).getViewport().getView();
+			componentToBind = (JComponent) ( (JScrollPane) componentToBind ).getViewport().getView();
 
 		// Determine value property
 
@@ -115,16 +115,12 @@ public class BeanUtilsBindingProcessor
 			SavedBinding binding = new SavedBinding( componentToBind, componentProperty, names, TRUE.equals( attributes.get( NO_SETTER ) ) );
 			saveValueToWidget( binding, sourceValue );
 
-			@SuppressWarnings("unchecked")
-			Set<SavedBinding> bindings = (Set<SavedBinding>) metawidget.getClientProperty( BeanUtilsBindingProcessor.class );
+			State state = getState( metawidget );
 
-			if ( bindings == null )
-			{
-				bindings = CollectionUtils.newHashSet();
-				metawidget.putClientProperty( BeanUtilsBindingProcessor.class, bindings );
-			}
+			if ( state.bindings == null )
+				state.bindings = CollectionUtils.newHashSet();
 
-			bindings.add( binding );
+			state.bindings.add( binding );
 		}
 		catch ( Exception e )
 		{
@@ -132,18 +128,30 @@ public class BeanUtilsBindingProcessor
 		}
 	}
 
-	public void rebind( SwingMetawidget metawidget, Object toRebind )
+	/**
+	 * Rebinds the Metawidget to the given Object.
+	 * <p>
+	 * This method is an optimization that allows clients to load a new object into the binding
+	 * <em>without</em> calling setToInspect, and therefore without reinspecting the object or
+	 * recreating the components. It is the client's responsbility to ensure the setToRebind object
+	 * is compatible with the original setToInspect.
+	 * <p>
+	 * Note this method does not call <code>setToInspect</code>, so the rebound object cannot
+	 * be retrieved using <code>getToInspect</code>. Rather, clients should use <code>getToRebind</code>.
+	 */
+
+	public void setToRebind( Object toRebind, SwingMetawidget metawidget )
 	{
+		State state = getState( metawidget );
+		state.toRebind = toRebind;
+
 		// Our bindings
 
-		@SuppressWarnings("unchecked")
-		Set<SavedBinding> bindings = (Set<SavedBinding>) metawidget.getClientProperty( BeanUtilsBindingProcessor.class );
-
-		if ( bindings != null )
+		if ( state.bindings != null )
 		{
 			try
 			{
-				for ( SavedBinding binding : bindings )
+				for ( SavedBinding binding : state.bindings )
 				{
 					Object sourceValue;
 					String names = binding.getNames();
@@ -171,22 +179,26 @@ public class BeanUtilsBindingProcessor
 		for ( Component component : metawidget.getComponents() )
 		{
 			if ( component instanceof SwingMetawidget )
-				rebind( (SwingMetawidget) component, toRebind );
+				setToRebind( toRebind, (SwingMetawidget) component );
 		}
+	}
+
+	public Object getToRebind( SwingMetawidget metawidget )
+	{
+		return getState( metawidget ).toRebind;
 	}
 
 	public void save( SwingMetawidget metawidget )
 	{
+		State state = getState( metawidget );
+
 		// Our bindings
 
-		@SuppressWarnings("unchecked")
-		Set<SavedBinding> bindings = (Set<SavedBinding>) metawidget.getClientProperty( BeanUtilsBindingProcessor.class );
-
-		if ( bindings != null )
+		if ( state.bindings != null )
 		{
 			try
 			{
-				for ( SavedBinding binding : bindings )
+				for ( SavedBinding binding : state.bindings )
 				{
 					if ( !binding.isSettable() )
 						continue;
@@ -250,9 +262,13 @@ public class BeanUtilsBindingProcessor
 	protected void saveValueToObject( SwingMetawidget metawidget, String names, Object componentValue )
 		throws Exception
 	{
-		Object source = metawidget.getToInspect();
+		State state = getState( metawidget );
+		Object source = state.toRebind;
 
-		switch ( getPropertyStyle( metawidget ))
+		if ( source == null )
+			source = metawidget.getToInspect();
+
+		switch ( getPropertyStyle( metawidget ) )
 		{
 			case PROPERTYSTYLE_SCALA:
 
@@ -356,11 +372,35 @@ public class BeanUtilsBindingProcessor
 		return traverse;
 	}
 
+	private State getState( SwingMetawidget metawidget )
+	{
+		State state = (State) metawidget.getClientProperty( BeanUtilsBindingProcessor.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			metawidget.putClientProperty( BeanUtilsBindingProcessor.class, state );
+		}
+
+		return state;
+	}
+
 	//
 	// Inner class
 	//
 
-	protected class SavedBinding
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */class State
+	{
+		public Set<SavedBinding>	bindings;
+
+		public Object				toRebind;
+	}
+
+	class SavedBinding
 	{
 		//
 		//

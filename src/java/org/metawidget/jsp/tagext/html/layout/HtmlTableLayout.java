@@ -76,28 +76,28 @@ public class HtmlTableLayout
 
 		// Table styles
 
-		state.mTableStyle = metawidgetTag.getParameter( "tableStyle" );
-		state.mTableStyleClass = metawidgetTag.getParameter( "tableStyleClass" );
+		state.tableStyle = metawidgetTag.getParameter( "tableStyle" );
+		state.tableStyleClass = metawidgetTag.getParameter( "tableStyleClass" );
 
 		// Inner styles
 
 		String columnStyleClasses = metawidgetTag.getParameter( "columnStyleClasses" );
 
 		if ( columnStyleClasses != null )
-			state.mColumnStyleClasses = columnStyleClasses.split( StringUtils.SEPARATOR_COMMA );
+			state.columnStyleClasses = columnStyleClasses.split( StringUtils.SEPARATOR_COMMA );
 
 		// Section styles
 
-		state.mSectionStyleClass = metawidgetTag.getParameter( "sectionStyleClass" );
+		state.sectionStyleClass = metawidgetTag.getParameter( "sectionStyleClass" );
 
 		// Number of columns
 
 		String numberOfColumns = metawidgetTag.getParameter( "numberOfColumns" );
 
 		if ( numberOfColumns == null )
-			state.mNumberOfColumns = 1;
+			state.numberOfColumns = 1;
 		else
-			state.mNumberOfColumns = Integer.parseInt( numberOfColumns );
+			state.numberOfColumns = Integer.parseInt( numberOfColumns );
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -111,23 +111,23 @@ public class HtmlTableLayout
 
 		buffer.append( " id=\"" );
 		buffer.append( TABLE_PREFIX );
-		state.mTableType = StringUtils.camelCase( value, StringUtils.SEPARATOR_DOT_CHAR );
-		buffer.append( state.mTableType );
+		state.tableType = StringUtils.camelCase( value, StringUtils.SEPARATOR_DOT_CHAR );
+		buffer.append( state.tableType );
 		buffer.append( "\"" );
 
 		// Styles
 
-		if ( state.mTableStyle != null )
+		if ( state.tableStyle != null )
 		{
 			buffer.append( " style=\"" );
-			buffer.append( state.mTableStyle );
+			buffer.append( state.tableStyle );
 			buffer.append( "\"" );
 		}
 
-		if ( state.mTableStyleClass != null )
+		if ( state.tableStyleClass != null )
 		{
 			buffer.append( " class=\"" );
-			buffer.append( state.mTableStyleClass );
+			buffer.append( state.tableStyleClass );
 			buffer.append( "\"" );
 		}
 
@@ -145,7 +145,7 @@ public class HtmlTableLayout
 
 			// Footer spans multiples of label/component/required
 
-			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 			buffer.append( String.valueOf( colspan ) );
 			buffer.append( "\"" );
 
@@ -196,10 +196,10 @@ public class HtmlTableLayout
 
 			State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
 
-			if ( state.mHiddenFields == null )
-				state.mHiddenFields = CollectionUtils.newHashSet();
+			if ( state.hiddenFields == null )
+				state.hiddenFields = CollectionUtils.newHashSet();
 
-			state.mHiddenFields.add( child );
+			state.hiddenFields.add( child );
 
 			return "";
 		}
@@ -229,9 +229,9 @@ public class HtmlTableLayout
 
 		State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
 
-		if ( state.mHiddenFields != null )
+		if ( state.hiddenFields != null )
 		{
-			for ( String hiddenField : state.mHiddenFields )
+			for ( String hiddenField : state.hiddenFields )
 			{
 				buffer.append( "\r\n" );
 				buffer.append( hiddenField );
@@ -248,7 +248,7 @@ public class HtmlTableLayout
 	protected String layoutBeforeChild( Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
 		State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
-		state.mCurrentColumn++;
+		state.currentColumn++;
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -265,9 +265,9 @@ public class HtmlTableLayout
 		{
 			String section = attributes.get( SECTION );
 
-			if ( section != null && !section.equals( state.mCurrentSection ) )
+			if ( section != null && !section.equals( state.currentSection ) )
 			{
-				state.mCurrentSection = section;
+				state.currentSection = section;
 				buffer.append( layoutSection( section, metawidgetTag ) );
 			}
 
@@ -276,18 +276,18 @@ public class HtmlTableLayout
 			if ( id != null )
 				id = StringUtils.uppercaseFirstLetter( StringUtils.camelCase( id ) );
 
-			if ( TRUE.equals( attributes.get( LARGE ) ) && state.mCurrentColumn != 1 )
+			if ( TRUE.equals( attributes.get( LARGE ) ) && state.currentColumn != 1 )
 			{
 				buffer.append( "</tr>" );
-				state.mCurrentColumn = 1;
+				state.currentColumn = 1;
 			}
 		}
 
 		// Start a new row, if necessary
 
-		if ( state.mCurrentColumn == 1 || state.mCurrentColumn > state.mNumberOfColumns )
+		if ( state.currentColumn == 1 || state.currentColumn > state.numberOfColumns )
 		{
-			state.mCurrentColumn = 1;
+			state.currentColumn = 1;
 
 			buffer.append( "\r\n<tr" );
 
@@ -295,7 +295,7 @@ public class HtmlTableLayout
 			{
 				buffer.append( " id=\"" );
 				buffer.append( TABLE_PREFIX );
-				buffer.append( state.mTableType );
+				buffer.append( state.tableType );
 				buffer.append( id );
 				buffer.append( ROW_SUFFIX );
 				buffer.append( "\"" );
@@ -311,7 +311,7 @@ public class HtmlTableLayout
 
 		// Zero-column layouts need an extra row
 
-		if ( state.mNumberOfColumns == 0 )
+		if ( state.numberOfColumns == 0 )
 		{
 			buffer.append( "</tr>\r\n<tr" );
 
@@ -319,7 +319,7 @@ public class HtmlTableLayout
 			{
 				buffer.append( " id=\"" );
 				buffer.append( TABLE_PREFIX );
-				buffer.append( state.mTableType );
+				buffer.append( state.tableType );
 				buffer.append( id );
 				buffer.append( ROW_SUFFIX );
 				buffer.append( "2\"" );
@@ -336,7 +336,7 @@ public class HtmlTableLayout
 		{
 			buffer.append( " id=\"" );
 			buffer.append( TABLE_PREFIX );
-			buffer.append( state.mTableType );
+			buffer.append( state.tableType );
 			buffer.append( id );
 			buffer.append( CELL_SUFFIX );
 			buffer.append( "\"" );
@@ -355,10 +355,10 @@ public class HtmlTableLayout
 		// because JSP lacks a true component model such that we can ask which sort of component we
 		// are rendering
 
-		if ( state.mNumberOfColumns > 1 && attributes != null && TRUE.equals( attributes.get( "large" ) ) )
+		if ( state.numberOfColumns > 1 && attributes != null && TRUE.equals( attributes.get( "large" ) ) )
 		{
-			colspan = ( ( state.mNumberOfColumns - 1 ) * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1;
-			state.mCurrentColumn = state.mNumberOfColumns;
+			colspan = ( ( state.numberOfColumns - 1 ) * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1;
+			state.currentColumn = state.numberOfColumns;
 		}
 
 		if ( colspan > 1 )
@@ -396,9 +396,9 @@ public class HtmlTableLayout
 
 		// End the row, if necessary
 
-		if ( state.mCurrentColumn >= state.mNumberOfColumns )
+		if ( state.currentColumn >= state.numberOfColumns )
 		{
-			state.mCurrentColumn = 0;
+			state.currentColumn = 0;
 			buffer.append( "</tr>" );
 		}
 
@@ -451,15 +451,15 @@ public class HtmlTableLayout
 		// Sections span multiples of label/component/required
 
 		State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
-		int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+		int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 		buffer.append( String.valueOf( colspan ) );
 
 		buffer.append( "\"" );
 
-		if ( state.mSectionStyleClass != null )
+		if ( state.sectionStyleClass != null )
 		{
 			buffer.append( " class=\"" );
-			buffer.append( state.mSectionStyleClass );
+			buffer.append( state.sectionStyleClass );
 			buffer.append( "\"" );
 		}
 
@@ -496,10 +496,10 @@ public class HtmlTableLayout
 
 	protected String getStyleClass( int styleClass, State state )
 	{
-		if ( state.mColumnStyleClasses == null || state.mColumnStyleClasses.length <= styleClass )
+		if ( state.columnStyleClasses == null || state.columnStyleClasses.length <= styleClass )
 			return "";
 
-		String columnClass = state.mColumnStyleClasses[styleClass];
+		String columnClass = state.columnStyleClasses[styleClass];
 
 		if ( columnClass.length() == 0 )
 			return "";
@@ -519,24 +519,24 @@ public class HtmlTableLayout
 	// Inner class
 	//
 
-	class State
+	/*package private*/ class State
 	{
-		public int			mNumberOfColumns;
+		public int			numberOfColumns;
 
-		public String		mTableStyle;
+		public String		tableStyle;
 
-		public String		mTableStyleClass;
+		public String		tableStyleClass;
 
-		public String[]		mColumnStyleClasses;
+		public String[]		columnStyleClasses;
 
-		public String		mSectionStyleClass;
+		public String		sectionStyleClass;
 
-		public int			mCurrentColumn;
+		public int			currentColumn;
 
-		public String		mCurrentSection;
+		public String		currentSection;
 
-		public Set<String>	mHiddenFields;
+		public Set<String>	hiddenFields;
 
-		public String		mTableType;
+		public String		tableType;
 	}
 }

@@ -112,7 +112,7 @@ public class BeanUtilsBindingProcessorTest
 		assertTrue( dateFormat.format( dateSecond ).equals( textField.getText() ) );
 
 		scalaFoo.bar_$eq( dateFirst );
-		metawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).rebind( metawidget, scalaFoo );
+		metawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).setToRebind( scalaFoo, metawidget );
 
 		textField = (JTextField) metawidget.getComponent( 1 );
 		assertTrue( dateFormat.format( dateFirst ).equals( textField.getText() ) );

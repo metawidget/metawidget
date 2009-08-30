@@ -123,7 +123,10 @@ public class GwtQuirksTest
 						// Save and refresh
 
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
-						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( metawidget.getToInspect(), metawidget );
+
+						assertTrue( null == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
+						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( metawidget.getToInspect(), metawidget );
+						assertTrue( metawidget.getToInspect() == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
 
 						// Test checkbox was still checked (ie. HasText didn't get hit
 						// first in GwtMetawidget.setValue)

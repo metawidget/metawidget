@@ -184,15 +184,12 @@ public class SimpleBindingProcessor
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return;
 
-			Set<Object[]> bindings = metawidget.getClientProperty( SimpleBindingProcessor.class );
+			State state = getState( metawidget );
 
-			if ( bindings == null )
-			{
-				bindings = new HashSet<Object[]>();
-				metawidget.putClientProperty( SimpleBindingProcessor.class, bindings );
-			}
+			if ( state.bindings == null )
+				state.bindings = new HashSet<Object[]>();
 
-			bindings.add( new Object[] { widget, names, converter, propertyType } );
+			state.bindings.add( new Object[] { widget, names, converter, propertyType } );
 		}
 		catch ( Exception e )
 		{
@@ -200,12 +197,27 @@ public class SimpleBindingProcessor
 		}
 	}
 
-	public void rebind( Object toRebind, GwtMetawidget metawidget )
-	{
-		Set<Object[]> bindings = metawidget.getClientProperty( SimpleBindingProcessor.class );
+	/**
+	 * Rebinds the Metawidget to the given Object.
+	 * <p>
+	 * This method is an optimization that allows clients to load a new object into the binding
+	 * <em>without</em> calling setToInspect, and therefore without reinspecting the object or
+	 * recreating the components. It is the client's responsbility to ensure the setToRebind object
+	 * is compatible with the original setToInspect.
+	 * <p>
+	 * Note this method does not call <code>setToInspect</code>, so the rebound object cannot be
+	 * retrieved using <code>getToInspect</code>. Rather, clients should use
+	 * <code>getToRebind</code>.
+	 */
 
-		if ( bindings == null )
+	public void setToRebind( Object toRebind, GwtMetawidget metawidget )
+	{
+		State state = getState( metawidget );
+
+		if ( state.bindings == null )
 			return;
+
+		state.toRebind = toRebind;
 
 		// From the adapter...
 
@@ -217,7 +229,7 @@ public class SimpleBindingProcessor
 
 		// ...for each bound property...
 
-		for ( Object[] binding : bindings )
+		for ( Object[] binding : state.bindings )
 		{
 			Widget widget = (Widget) binding[0];
 			String[] names = (String[]) binding[1];
@@ -239,21 +251,33 @@ public class SimpleBindingProcessor
 		}
 	}
 
+	public Object getToRebind( GwtMetawidget metawidget )
+	{
+		return getState( metawidget ).toRebind;
+	}
+
 	public void save( GwtMetawidget metawidget )
 	{
-		Set<Object[]> bindings = metawidget.getClientProperty( SimpleBindingProcessor.class );
+		// TODO: test this
 
-		if ( bindings == null )
+		State state = getState( metawidget );
+
+		if ( state.bindings == null )
 			return;
 
-		Object toInspect = metawidget.getToInspect();
+		Object toSave = state.toRebind;
 
-		if ( toInspect == null )
-			return;
+		if ( toSave == null )
+		{
+			toSave = metawidget.getToInspect();
+
+			if ( toSave == null )
+				return;
+		}
 
 		// From the adapter...
 
-		Class<?> classToBindTo = toInspect.getClass();
+		Class<?> classToBindTo = toSave.getClass();
 		SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
 
 		if ( adapter == null )
@@ -261,7 +285,7 @@ public class SimpleBindingProcessor
 
 		// ...for each bound property...
 
-		for ( Object[] binding : bindings )
+		for ( Object[] binding : state.bindings )
 		{
 			Widget widget = (Widget) binding[0];
 			String[] names = (String[]) binding[1];
@@ -280,7 +304,7 @@ public class SimpleBindingProcessor
 
 			// ...and set it
 
-			adapter.setProperty( toInspect, value, names );
+			adapter.setProperty( toSave, value, names );
 		}
 	}
 
@@ -343,5 +367,33 @@ public class SimpleBindingProcessor
 		}
 
 		return null;
+	}
+
+	private State getState( GwtMetawidget metawidget )
+	{
+		State state = (State) metawidget.getClientProperty( SimpleBindingProcessor.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			metawidget.putClientProperty( SimpleBindingProcessor.class, state );
+		}
+
+		return state;
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */class State
+	{
+		public Set<Object[]>	bindings;
+
+		public Object			toRebind;
 	}
 }

@@ -309,7 +309,7 @@ public class SwingMetawidgetTest
 		foo2.setFoo( nestedFoo2 );
 		nestedFoo2.setName( "Richard" );
 
-		processor.getClass().getMethod( "rebind", SwingMetawidget.class, Object.class ).invoke( processor, metawidget, foo2 );
+		processor.getClass().getMethod( "setToRebind", Object.class, SwingMetawidget.class ).invoke( processor, foo2, metawidget );
 		assertTrue( "Julianne".equals( textField.getText() ) );
 		assertTrue( "Richard".equals( nestedTextField.getText() ) );
 
@@ -318,11 +318,14 @@ public class SwingMetawidgetTest
 		assertTrue( textField == metawidget.getComponent( "name" ) );
 		assertTrue( nestedTextField == metawidget.getComponent( "foo", "name" ) );
 
-		// Check saves back to the correct place (ie. rebind updated .toInspect)
+		// Check saves back to the correct place (ie. rebind uses .getToRebind, doesn't update .setToInspect)
 
 		processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
 		assertTrue( "Charlotte".equals( foo1.getName() ) );
+		assertTrue( foo1 == metawidget.getToInspect() );
 		assertTrue( "Julianne".equals( foo2.getName() ) );
+		assertTrue( foo2 != metawidget.getToInspect() );
+		assertTrue( foo2 == processor.getClass().getMethod( "getToRebind", SwingMetawidget.class ).invoke( processor, metawidget ));
 
 		// Check different component
 
@@ -338,7 +341,7 @@ public class SwingMetawidgetTest
 
 		try
 		{
-			processor.getClass().getMethod( "rebind", SwingMetawidget.class, Object.class ).invoke( processor, metawidget, new Object() );
+			processor.getClass().getMethod( "setToRebind", Object.class, SwingMetawidget.class ).invoke( processor, new Object(), metawidget );
 			assertTrue( false );
 		}
 		catch ( Exception e )

@@ -51,7 +51,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 /**
  * Dialog box for Address Book Contacts.
  * <p>
- * Note: for performance, this example is optimized to use <code>GwtMetawidget.rebind</code> (see
+ * Note: for performance, this example is optimized to use <code>setToRebind</code> (see
  * 'rebinding' in the Reference Documentation). This results in slightly more complex code. For a
  * more straightforward example, see
  * <code>org.metawidget.example.swing.addressbook.ContactDialog</code>.
@@ -341,7 +341,7 @@ public class ContactDialog
 
 	public void rebind( Contact contact )
 	{
-		mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( contact, mMetawidget );
+		mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( contact, mMetawidget );
 		mMetawidget.setReadOnly( contact.getId() != 0 );
 
 		setVisibility();
