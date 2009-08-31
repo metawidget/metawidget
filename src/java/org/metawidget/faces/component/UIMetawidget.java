@@ -20,7 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -48,8 +47,6 @@ import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
 import org.metawidget.faces.FacesUtils;
-import org.metawidget.faces.component.validator.StandardValidator;
-import org.metawidget.faces.component.validator.Validator;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
@@ -60,6 +57,7 @@ import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -147,10 +145,6 @@ public abstract class UIMetawidget
 
 	private Boolean				mReadOnly;
 
-	private String				mValidatorClass								= StandardValidator.class.getName();
-
-	private Validator			mValidator;
-
 	private String				mBindingPrefix;
 
 	private UIMetawidgetMixin	mMetawidgetMixin;
@@ -236,6 +230,11 @@ public abstract class UIMetawidget
 		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
 	}
 
+	public void setWidgetProcessors( List<WidgetProcessor<UIComponent, UIMetawidget>> widgetProcessors )
+	{
+		mMetawidgetMixin.setWidgetProcessors( widgetProcessors );
+	}
+
 	/**
 	 * Instructs the Metawidget to inspect the value binding from the parent.
 	 * <p>
@@ -254,12 +253,6 @@ public abstract class UIMetawidget
 	public void setInspectFromParent( boolean inspectFromParent )
 	{
 		mInspectFromParent = inspectFromParent;
-	}
-
-	public void setValidatorClass( String validatorClass )
-	{
-		mValidatorClass = validatorClass;
-		mValidator = null;
 	}
 
 	/**
@@ -462,13 +455,12 @@ public abstract class UIMetawidget
 	@Override
 	public Object saveState( FacesContext context )
 	{
-		Object values[] = new Object[6];
+		Object values[] = new Object[5];
 		values[0] = super.saveState( context );
 		values[1] = mValue;
 		values[2] = mReadOnly;
 		values[3] = mConfig;
-		values[4] = mValidatorClass;
-		values[5] = mInspectFromParent;
+		values[4] = mInspectFromParent;
 
 		return values;
 	}
@@ -482,8 +474,7 @@ public abstract class UIMetawidget
 		mValue = values[1];
 		mReadOnly = (Boolean) values[2];
 		mConfig = (String) values[3];
-		mValidatorClass = (String) values[4];
-		mInspectFromParent = (Boolean) values[5];
+		mInspectFromParent = (Boolean) values[4];
 	}
 
 	//
@@ -569,7 +560,6 @@ public abstract class UIMetawidget
 		return null;
 	}
 
-	@SuppressWarnings( "unchecked" )
 	protected void configure()
 		throws Exception
 	{
@@ -593,11 +583,19 @@ public abstract class UIMetawidget
 
 		// Sensible defaults
 
-		if ( mMetawidgetMixin.getWidgetBuilder() == null )
-			mMetawidgetMixin.setWidgetBuilder( configReader.configure( getDefaultConfiguration(), WidgetBuilder.class ) );
+		if ( mMetawidgetMixin.getInspector() == null || mMetawidgetMixin.getWidgetBuilder() == null || mMetawidgetMixin.getWidgetProcessors() == null )
+		{
+			UIMetawidget dummyMetawidget = configReader.configure( getDefaultConfiguration(), UIMetawidget.class );
 
-		if ( mMetawidgetMixin.getInspector() == null )
-			mMetawidgetMixin.setInspector( configReader.configure( getDefaultConfiguration(), Inspector.class ) );
+			if ( mMetawidgetMixin.getInspector() == null )
+				mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
+
+			if ( mMetawidgetMixin.getWidgetBuilder() == null )
+				mMetawidgetMixin.setWidgetBuilder( dummyMetawidget.mMetawidgetMixin.getWidgetBuilder() );
+
+			if ( mMetawidgetMixin.getWidgetProcessors() == null )
+				mMetawidgetMixin.setWidgetProcessors( dummyMetawidget.mMetawidgetMixin.getWidgetProcessors() );
+		}
 	}
 
 	protected abstract String getDefaultConfiguration();
@@ -635,22 +633,6 @@ public abstract class UIMetawidget
 
 		mClientIds = null;
 		mBindingPrefix = null;
-
-		// Validator
-
-		if ( mValidator == null && mValidatorClass != null && !"".equals( mValidatorClass ) )
-		{
-			try
-			{
-				@SuppressWarnings( "unchecked" )
-				Constructor<? extends Validator> constructor = ( (Class<? extends Validator>) ClassUtils.niceForName( mValidatorClass ) ).getConstructor( UIMetawidget.class );
-				mValidator = constructor.newInstance( this );
-			}
-			catch ( Exception e )
-			{
-				throw MetawidgetException.newException( e );
-			}
-		}
 	}
 
 	protected UIComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
@@ -845,8 +827,6 @@ public abstract class UIMetawidget
 
 		FacesUtils.copyParameters( this, nestedMetawidget, "columns" );
 
-		// Attributes
-		//
 		// Note: it is very dangerous to do, say...
 		//
 		// to.getAttributes().putAll( from.getAttributes() );
@@ -854,8 +834,6 @@ public abstract class UIMetawidget
 		// ...in order to copy all arbitary attributes, because some frameworks (eg. Facelets) use
 		// the attributes map as a storage area for special flags (eg.
 		// ComponentSupport.MARK_CREATED) that should not get copied from component to component!
-
-		nestedMetawidget.setValidatorClass( mValidatorClass );
 	}
 
 	/**
@@ -1329,9 +1307,6 @@ public abstract class UIMetawidget
 			}
 
 			setConverter( widget, attributes );
-
-			if ( mValidator != null && widget instanceof EditableValueHolder )
-				mValidator.addValidators( context, (EditableValueHolder) widget, attributes );
 		}
 
 		// Add to layout

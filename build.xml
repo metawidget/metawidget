@@ -42,7 +42,7 @@
 
 		<!-- Now downgrade some files to J2SE 1.4 (the source is still Java 5, to take advantage -->
 		<!-- of cleaner source code, but we compile down to jsr14. We can do this using plain    -->
-		<!-- javac, without needing retroweaver or similar tools)                                -->
+		<!-- javac, without needing Retroweaver or similar tools)                                -->
 
 		<javac sourcepath="" srcdir="src/java" destdir="${build.dir}/java4-classes" debug="${build.debug}" optimize="on" source="1.5" target="jsr14">
 			<include name="**/*InspectionResultConstants.java"/>
@@ -71,7 +71,6 @@
 			<include name="org/metawidget/util/**"/>
 			<include name="org/metawidget/widgetbuilder/**"/>
 			<include name="org/metawidget/widgetprocessor/**"/>
-			<include name="org/metawidget/*.java"/>
 			<classpath>
 				<fileset dir="lib"/>
 				<pathelement path="${build.dir}/java5-classes"/>
@@ -747,7 +746,7 @@
 	
 	</target>
 
-	<target name="test-unit-14" depends="compile-test">
+	<target name="test-unit-14" depends="compile-test, pack">
 
 		<available property="java4-exists" file="${java4.dir}/bin"/>
 		<fail message="JDK 1.4 not installed at 'java4.dir' (as indicated in build.properties)" unless="java4-exists"/>

@@ -21,7 +21,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.webapp.UIComponentTag;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.faces.component.validator.StandardValidator;
 import org.metawidget.iface.MetawidgetException;
 
 /**
@@ -49,8 +48,6 @@ public abstract class MetawidgetTag
 	private String	mReadOnly;
 
 	private String	mBundle;
-
-	private String	mValidatorClass			= StandardValidator.class.getName();
 
 	//
 	// Public methods
@@ -102,11 +99,6 @@ public abstract class MetawidgetTag
 	public void setBundle( String bundle )
 	{
 		mBundle = bundle;
-	}
-
-	public void setValidatorClass( String validatorClass )
-	{
-		mValidatorClass = validatorClass;
 	}
 
 	//
@@ -178,9 +170,5 @@ public abstract class MetawidgetTag
 
 			metawidetComponent.setValueBinding( "bundle", application.createValueBinding( mBundle ) );
 		}
-
-		// Validator
-
-		metawidetComponent.setValidatorClass( mValidatorClass );
 	}
 }

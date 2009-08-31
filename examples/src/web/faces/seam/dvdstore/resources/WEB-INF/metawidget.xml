@@ -11,7 +11,8 @@
 		<parameter>
 			<string>messageStyleClass</string>
 			<string>cntError</string>
-		</parameter>	
+		</parameter>
+		
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
@@ -33,6 +34,7 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		
 	</htmlMetawidget>
 
 </metawidget>

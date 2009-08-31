@@ -36,9 +36,6 @@
 			<name>inspectFromParent</name>
 		</attribute>
 		<attribute>
-			<name>validatorClass</name>
-		</attribute>		
-		<attribute>
 			<name>readOnly</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>

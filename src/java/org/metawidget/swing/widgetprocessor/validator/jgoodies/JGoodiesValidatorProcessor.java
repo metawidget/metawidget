@@ -64,9 +64,12 @@ public class JGoodiesValidatorProcessor
 
 		// Custom validator?
 
+		String path = metawidget.getPath();
 		String name = attributes.get( NAME );
-		// TODO: sloppy to concatenate this string
-		String path = metawidget.getPath() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
+
+		if ( PROPERTY.equals( elementName ) )
+			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
+
 		Validator<?> validator = getValidator( component, attributes, path );
 
 		if ( validator == null )

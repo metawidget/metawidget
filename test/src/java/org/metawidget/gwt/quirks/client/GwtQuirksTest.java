@@ -126,12 +126,15 @@ public class GwtQuirksTest
 
 						assertTrue( null == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( metawidget.getToInspect(), metawidget );
-						assertTrue( metawidget.getToInspect() == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
 
 						// Test checkbox was still checked (ie. HasText didn't get hit
 						// first in GwtMetawidget.setValue)
 
 						assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );
+
+						// Test rebind binds to new object
+
+						assertTrue( metawidget.getToInspect() == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
 
 						// All done
 

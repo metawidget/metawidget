@@ -25,7 +25,7 @@
             
             <h:form id="NewAccountForm">
                 <s:validateAll id="ValidateAll">
-	                <m:metawidget value="#{customer}" validatorClass="org.metawidget.faces.component.validator.RequiredValidator">
+	                <m:metawidget value="#{customer}" config="metawidget-no-validators.xml">
 	
 	                	<m:stub value="#{customer.userName}"/>
 	                	<m:stub value="#{customer.password}"/>

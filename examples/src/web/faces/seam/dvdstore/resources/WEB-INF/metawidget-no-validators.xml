@@ -4,15 +4,16 @@
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
 
 	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
-		<rendererType>
-			<string>div</string>
-		</rendererType>
 		<parameter>
-			<string>divStyleClasses</string>
-			<string>entry,label,required,input,error errors</string>
+			<string>labelStyle</string>
+			<string>text-align: left; font-weight: normal</string>
+		</parameter>	
+		<parameter>
+			<string>messageStyleClass</string>
+			<string>cntError</string>
 		</parameter>
-
-		<inspector>		
+		
+		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<list>
@@ -21,21 +22,18 @@
 						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
 						<jpaInspector xmlns="java:org.metawidget.inspector.jpa"/>
 						<hibernateValidatorInspector xmlns="java:org.metawidget.inspector.hibernate.validator"/>
+						<jbpmInspector xmlns="java:org.metawidget.inspector.jbpm" config="JbpmInspectorConfig">
+							<inputStreams>
+								<list>
+									<resource>checkout.jpdl.xml</resource>
+									<resource>newuser.jpdl.xml</resource>
+								</list>
+							</inputStreams>
+						</jbpmInspector>
 					</list>
 				</inspectors>
 			</compositeInspector>
 		</inspector>
-
-		<widgetBuilder>
-			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
-				<widgetBuilders>
-					<list>
-						<richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/>
-						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
-					</list>
-				</widgetBuilders>
-			</compositeWidgetBuilder>
-		</widgetBuilder>
 		
 		<widgetProcessors>
 			<list>
