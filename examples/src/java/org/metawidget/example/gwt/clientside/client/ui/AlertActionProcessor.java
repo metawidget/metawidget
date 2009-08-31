@@ -67,7 +67,13 @@ public class AlertActionProcessor
 		{
 			public void onClick( ClickEvent event )
 			{
-				String names = PathUtils.parsePath( metawidget.getPath() ).getNames() + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
+				String names = PathUtils.parsePath( metawidget.getPath() ).getNames();
+
+				if ( !names.isEmpty() )
+					names += StringUtils.SEPARATOR_DOT_CHAR;
+
+				names += attributes.get( NAME );
+
 				model.put( names, "clicked" );
 
 				// (do not Window.alert during unit tests)

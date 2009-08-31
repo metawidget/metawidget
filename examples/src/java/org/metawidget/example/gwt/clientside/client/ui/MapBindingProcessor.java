@@ -47,6 +47,8 @@ public class MapBindingProcessor
 	@Override
 	public void onStartBuild( GwtMetawidget metawidget )
 	{
+		// Clear our state
+
 		metawidget.putClientProperty( MapBindingProcessor.class, null );
 	}
 
@@ -55,17 +57,30 @@ public class MapBindingProcessor
 	{
 		// Don't bind to Actions
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return;
 
-		// Doesn't bind to Stubs or FlexTables
+		// Nested Metawidgets are not bound, only remembered
+
+		if ( widget instanceof GwtMetawidget )
+		{
+			State state = getState( metawidget );
+
+			if ( state.nestedMetawidgets == null )
+				state.nestedMetawidgets = new HashSet<GwtMetawidget>();
+
+			state.nestedMetawidgets.add( (GwtMetawidget) widget );
+			return;
+		}
+
+		// MapBindingProcessor doesn't bind to Stubs or FlexTables
 
 		if ( widget instanceof Stub || widget instanceof FlexTable )
 			return;
 
 		String path = metawidget.getPath();
 
-		if ( PROPERTY.equals( elementName ))
+		if ( PROPERTY.equals( elementName ) )
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 
 		try
@@ -73,15 +88,12 @@ public class MapBindingProcessor
 			if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
 				return;
 
-			Set<String[]> bindings = metawidget.getClientProperty( MapBindingProcessor.class );
+			State state = getState( metawidget );
 
-			if ( bindings == null )
-			{
-				bindings = new HashSet<String[]>();
-				metawidget.putClientProperty( MapBindingProcessor.class, bindings );
-			}
+			if ( state.bindings == null )
+				state.bindings = new HashSet<String[]>();
 
-			bindings.add( PathUtils.parsePath( path ).getNamesAsArray() );
+			state.bindings.add( PathUtils.parsePath( path ).getNamesAsArray() );
 		}
 		catch ( Exception e )
 		{
@@ -91,25 +103,65 @@ public class MapBindingProcessor
 
 	public void save( GwtMetawidget metawidget )
 	{
-		Set<String[]> bindings = metawidget.getClientProperty( MapBindingProcessor.class );
+		State state = getState( metawidget );
 
-		if ( bindings == null )
-			return;
+		// Our bindings
 
-		@SuppressWarnings( "unchecked" )
-		Map<String, Object> model = (Map<String, Object>) metawidget.getToInspect();
-
-		// For each bound property...
-
-		for ( String[] binding : bindings )
+		if ( state.bindings != null )
 		{
-			// ...fetch the value...
+			@SuppressWarnings( "unchecked" )
+			Map<String, Object> model = (Map<String, Object>) metawidget.getToInspect();
 
-			Object value = metawidget.getValue( binding[binding.length - 1] );
+			// For each bound property...
 
-			// ...and set it back to the model
+			for ( String[] binding : state.bindings )
+			{
+				// ...fetch the value...
 
-			model.put( GwtUtils.toString( binding, '.' ), value );
+				Object value = metawidget.getValue( binding[binding.length - 1] );
+
+				// ...and set it back to the model
+
+				model.put( GwtUtils.toString( binding, '.' ), value );
+			}
 		}
+
+		// Nested bindings
+
+		if ( state.nestedMetawidgets != null )
+		{
+			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets )
+			{
+				save( nestedMetawidget );
+			}
+		}
+	}
+
+	private State getState( GwtMetawidget metawidget )
+	{
+		State state = (State) metawidget.getClientProperty( MapBindingProcessor.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			metawidget.putClientProperty( MapBindingProcessor.class, state );
+		}
+
+		return state;
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */class State
+	{
+		public Set<String[]>		bindings;
+
+		public Set<GwtMetawidget>	nestedMetawidgets;
 	}
 }

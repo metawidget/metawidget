@@ -26,6 +26,7 @@ import java.util.Set;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.util.simple.PathUtils;
+import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -107,14 +108,39 @@ public class SimpleBindingProcessor
 	//
 
 	@Override
+	public void onStartBuild( GwtMetawidget metawidget )
+	{
+		// Clear our state
+
+		metawidget.putClientProperty( SimpleBindingProcessor.class, null );
+	}
+
+	@Override
 	public void onAdd( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
-		// SimpleBinding doesn't bind to Stubs or FlexTables
+		// Nested Metawidgets are not bound, only remembered
+
+		if ( widget instanceof GwtMetawidget )
+		{
+			State state = getState( metawidget );
+
+			if ( state.nestedMetawidgets == null )
+				state.nestedMetawidgets = new HashSet<GwtMetawidget>();
+
+			state.nestedMetawidgets.add( (GwtMetawidget) widget );
+			return;
+		}
+
+		// SimpleBindingProcessor doesn't bind to Stubs or FlexTables
 
 		if ( widget instanceof Stub || widget instanceof FlexTable )
 			return;
 
 		String path = metawidget.getPath();
+
+		if ( PROPERTY.equals( elementName ) )
+			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
+
 		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
 
 		// Bind actions
@@ -261,53 +287,65 @@ public class SimpleBindingProcessor
 
 	public void save( GwtMetawidget metawidget )
 	{
-		// TODO: test this
+		// TODO: test toRebind
 
 		State state = getState( metawidget );
 
-		if ( state.bindings == null )
-			return;
+		// Our bindings
 
-		Object toSave = state.toRebind;
-
-		if ( toSave == null )
+		if ( state.bindings != null )
 		{
-			toSave = metawidget.getToInspect();
+			Object toSave = state.toRebind;
 
 			if ( toSave == null )
-				return;
+			{
+				toSave = metawidget.getToInspect();
+
+				if ( toSave == null )
+					return;
+			}
+
+			// From the adapter...
+
+			Class<?> classToBindTo = toSave.getClass();
+			SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
+
+			if ( adapter == null )
+				throw new RuntimeException( "Don't know how to save to a " + classToBindTo );
+
+			// ...for each bound property...
+
+			for ( Object[] binding : state.bindings )
+			{
+				Widget widget = (Widget) binding[0];
+				String[] names = (String[]) binding[1];
+				@SuppressWarnings( "unchecked" )
+				Converter<Object> converter = (Converter<Object>) binding[2];
+				Class<?> type = (Class<?>) binding[3];
+
+				// ...fetch the value...
+
+				Object value = metawidget.getValue( widget );
+
+				// ...convert it (if necessary)...
+
+				if ( value != null && converter != null )
+					value = converter.convertFromWidget( widget, value, type );
+
+				// ...and set it
+
+				adapter.setProperty( toSave, value, names );
+			}
 		}
 
-		// From the adapter...
+		// Nested bindings
 
-		Class<?> classToBindTo = toSave.getClass();
-		SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
-
-		if ( adapter == null )
-			throw new RuntimeException( "Don't know how to save to a " + classToBindTo );
-
-		// ...for each bound property...
-
-		for ( Object[] binding : state.bindings )
+		if ( state.nestedMetawidgets != null )
 		{
-			Widget widget = (Widget) binding[0];
-			String[] names = (String[]) binding[1];
-			@SuppressWarnings( "unchecked" )
-			Converter<Object> converter = (Converter<Object>) binding[2];
-			Class<?> type = (Class<?>) binding[3];
-
-			// ...fetch the value...
-
-			Object value = metawidget.getValue( widget );
-
-			// ...convert it (if necessary)...
-
-			if ( value != null && converter != null )
-				value = converter.convertFromWidget( widget, value, type );
-
-			// ...and set it
-
-			adapter.setProperty( toSave, value, names );
+			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets )
+			{
+				save( nestedMetawidget );
+			}
 		}
 	}
 
@@ -395,8 +433,10 @@ public class SimpleBindingProcessor
 
 	/* package private */class State
 	{
-		public Set<Object[]>	bindings;
+		public Set<Object[]>		bindings;
 
-		public Object			toRebind;
+		public Set<GwtMetawidget>	nestedMetawidgets;
+
+		public Object				toRebind;
 	}
 }
