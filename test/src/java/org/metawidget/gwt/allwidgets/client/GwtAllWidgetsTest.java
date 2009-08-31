@@ -360,6 +360,7 @@ public class GwtAllWidgetsTest
 														}
 														catch ( Exception e )
 														{
+															e.printStackTrace();
 															assertTrue( "doAction called".equals( e.getMessage() ) );
 														}
 

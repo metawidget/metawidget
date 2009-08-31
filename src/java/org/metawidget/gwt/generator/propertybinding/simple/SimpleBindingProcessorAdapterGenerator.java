@@ -43,7 +43,7 @@ import com.google.gwt.user.rebind.SourceWriter;
  * as a secondary class. First, they modify their <code>.gwt.xml</code> file to include...
  * <p>
  * <code>
- * &lt;generate-with class="org.metawidget.gwt.generator.propertybinding.simple.BindingAdapterGenerator"&gt;
+ * &lt;generate-with class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingProcessorAdapterGenerator"&gt;
  * 		&lt;when-type-assignable class="com.foo.BusinessClass"/&gt;
  * &lt;/generate-with&gt;
  * </code>
@@ -51,9 +51,9 @@ import com.google.gwt.user.rebind.SourceWriter;
  * ...then they call...
  * <p>
  * <code>
- * BindingAdapter&lt;BusinessClass&gt; bindingAdapter = (BindingAdapter&lt;BusinessClass&gt;) GWT.create( BusinessClass.class );
- * bindingAdapter.setAdaptee( (BusinessClass) businessClass );
- * metawidget.setPropertyBinding( bindingAdapter );
+ * SimpleBindingProcessorAdapter&lt;BusinessClass&gt; bindingAdapter = (SimpleBindingProcessorAdapter&lt;BusinessClass&gt;) GWT.create( BusinessClass.class );
+ * SimpleBindingProcessor.registerAdapter( BusinessClass.class, bindingAdapter );
+ * metawidget.addWidgetProcessor( new SimpleBindingProcessor() );
  * </code>
  * <p>
  * This generator <em>statically</em> generates code for all levels of all possible properties (eg.
@@ -163,7 +163,7 @@ public class SimpleBindingProcessorAdapterGenerator
 			// getProperty method
 
 			sourceWriter.println();
-			sourceWriter.println( "public Object getProperty( " + classType.getQualifiedSourceName() + " " + variableName + ", String... property ) {" );
+			sourceWriter.println( "public Object getProperty( " + classType.getQualifiedSourceName() + " " + variableName + ", String... names ) {" );
 			sourceWriter.indent();
 			writeMethod( sourceWriter, classType, variableName, WRITE_GETTER );
 			sourceWriter.outdent();
@@ -172,7 +172,7 @@ public class SimpleBindingProcessorAdapterGenerator
 			// getPropertyType method
 
 			sourceWriter.println();
-			sourceWriter.println( "public Class<?> getPropertyType( " + classType.getQualifiedSourceName() + " " + variableName + ", String... property ) {" );
+			sourceWriter.println( "public Class<?> getPropertyType( " + classType.getQualifiedSourceName() + " " + variableName + ", String... names ) {" );
 			sourceWriter.indent();
 			writeMethod( sourceWriter, classType, variableName, WRITE_TYPE_GETTER );
 			sourceWriter.outdent();
@@ -181,7 +181,7 @@ public class SimpleBindingProcessorAdapterGenerator
 			// setProperty method
 
 			sourceWriter.println();
-			sourceWriter.println( "public void setProperty( " + classType.getQualifiedSourceName() + " " + variableName + ", Object value, String... property ) {" );
+			sourceWriter.println( "public void setProperty( " + classType.getQualifiedSourceName() + " " + variableName + ", Object value, String... names ) {" );
 			sourceWriter.indent();
 			writeMethod( sourceWriter, classType, variableName, WRITE_SETTER );
 			sourceWriter.outdent();
@@ -190,7 +190,7 @@ public class SimpleBindingProcessorAdapterGenerator
 			// invokeAction method
 
 			sourceWriter.println();
-			sourceWriter.println( "public void invokeAction( " + classType.getQualifiedSourceName() + " " + variableName + ", String... property ) {" );
+			sourceWriter.println( "public void invokeAction( " + classType.getQualifiedSourceName() + " " + variableName + ", String... names ) {" );
 			sourceWriter.indent();
 			writeMethod( sourceWriter, classType, variableName, WRITE_ACTION );
 			sourceWriter.outdent();
@@ -215,12 +215,12 @@ public class SimpleBindingProcessorAdapterGenerator
 		sourceWriter.println();
 		sourceWriter.println( "// Sanity check" );
 		sourceWriter.println();
-		sourceWriter.println( "if ( property == null || property.length == 0 ) throw new RuntimeException( \"No property specified\" );" );
+		sourceWriter.println( "if ( names == null || names.length == 0 ) throw new RuntimeException( \"No names specified\" );" );
 
 		writeSubtypes( sourceWriter, classType, variableName, 0, writeType, 0 );
 	}
 
-	private void writeSubtypes( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, int writeType, int depth )
+	private void writeSubtypes( SourceWriter sourceWriter, JClassType classType, String variableName, int nameIndex, int writeType, int depth )
 	{
 		// Avoid going too deep
 
@@ -233,7 +233,7 @@ public class SimpleBindingProcessorAdapterGenerator
 		{
 			// ...write its subclass-level properties...
 
-			writeProperties( sourceWriter, subtype, variableName, propertyIndex, true, classType, writeType, depth );
+			writeProperties( sourceWriter, subtype, variableName, nameIndex, true, classType, writeType, depth );
 		}
 
 		// ...and for the base class write every superclass
@@ -242,7 +242,7 @@ public class SimpleBindingProcessorAdapterGenerator
 
 		while ( typeTraversal != null )
 		{
-			writeProperties( sourceWriter, typeTraversal, variableName, propertyIndex, false, classType, writeType, depth );
+			writeProperties( sourceWriter, typeTraversal, variableName, nameIndex, false, classType, writeType, depth );
 
 			typeTraversal = typeTraversal.getSuperclass();
 		}
@@ -252,10 +252,10 @@ public class SimpleBindingProcessorAdapterGenerator
 		sourceWriter.println();
 		sourceWriter.println( "// Unknown" );
 		sourceWriter.println();
-		sourceWriter.println( "throw new RuntimeException( \"Unknown property '\" + property[" + propertyIndex + "] + \"' of " + classType.getParameterizedQualifiedSourceName() + "\" );" );
+		sourceWriter.println( "throw new RuntimeException( \"Unknown property '\" + names[" + nameIndex + "] + \"' of " + classType.getParameterizedQualifiedSourceName() + "\" );" );
 	}
 
-	private void writeProperties( SourceWriter sourceWriter, JClassType classType, String variableName, int propertyIndex, boolean writeInstanceOf, JClassType parentType, int writeType, int depth )
+	private void writeProperties( SourceWriter sourceWriter, JClassType classType, String variableName, int nameIndex, boolean writeInstanceOf, JClassType parentType, int writeType, int depth )
 	{
 		String currentVariableName = variableName;
 		boolean writtenAProperty = false;
@@ -277,7 +277,7 @@ public class SimpleBindingProcessorAdapterGenerator
 				if ( writeType == WRITE_ACTION )
 				{
 					if ( method.getParameters().length == 0 )
-						sourceWriter.println( "if ( \"" + methodName + "\".equals( property[" + propertyIndex + "] )) { " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "(); return; }" );
+						sourceWriter.println( "if ( \"" + methodName + "\".equals( names[" + nameIndex + "] )) { " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + methodName + "(); return; }" );
 				}
 
 				continue;
@@ -324,10 +324,10 @@ public class SimpleBindingProcessorAdapterGenerator
 
 			// ...call our adaptee...
 
-			sourceWriter.println( "if ( \"" + lowercasedPropertyName + "\".equals( property[" + propertyIndex + "] )) {" );
+			sourceWriter.println( "if ( \"" + lowercasedPropertyName + "\".equals( names[" + nameIndex + "] )) {" );
 			sourceWriter.indent();
 
-			int nextPropertyIndex = propertyIndex + 1;
+			int nextNameIndex = nameIndex + 1;
 
 			// ...recursively if the return type is within our own package...
 
@@ -345,11 +345,11 @@ public class SimpleBindingProcessorAdapterGenerator
 				switch ( writeType )
 				{
 					case WRITE_GETTER:
-						sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return " + nestedVariableName + ";" );
+						sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) return " + nestedVariableName + ";" );
 						break;
 
 					case WRITE_TYPE_GETTER:
-						sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) return " + getWrapperType( returnType ).getQualifiedSourceName() + ".class;" );
+						sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) return " + getWrapperType( returnType ).getQualifiedSourceName() + ".class;" );
 						break;
 
 					case WRITE_SETTER:
@@ -357,16 +357,16 @@ public class SimpleBindingProcessorAdapterGenerator
 						{
 							String setterMethodName = "set" + propertyName;
 							classType.getMethod( setterMethodName, new JType[] { returnType } );
-							sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) { " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + setterMethodName + "( (" + getWrapperType( returnType ).getParameterizedQualifiedSourceName() + ") value ); return; }" );
+							sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) { " + currentVariableName + StringUtils.SEPARATOR_DOT_CHAR + setterMethodName + "( (" + getWrapperType( returnType ).getParameterizedQualifiedSourceName() + ") value ); return; }" );
 						}
 						catch ( NotFoundException e )
 						{
-							sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) throw new RuntimeException( \"No setter for property '" + lowercasedPropertyName + "'\" );" );
+							sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) throw new RuntimeException( \"No setter for name '" + lowercasedPropertyName + "'\" );" );
 						}
 						break;
 				}
 
-				writeSubtypes( sourceWriter, nestedClassType, nestedVariableName, nextPropertyIndex, writeType, depth + 1 );
+				writeSubtypes( sourceWriter, nestedClassType, nestedVariableName, nextNameIndex, writeType, depth + 1 );
 				sourceWriter.outdent();
 				sourceWriter.println( "}" );
 				continue;
@@ -374,7 +374,7 @@ public class SimpleBindingProcessorAdapterGenerator
 
 			// ...or non-recursively for other types (eg. boolean, Date, Class)
 
-			sourceWriter.println( "if ( property.length > " + nextPropertyIndex + " ) throw new RuntimeException( \"Cannot traverse into property '" + lowercasedPropertyName + ".\" + property[" + nextPropertyIndex + "] + \"'\" );" );
+			sourceWriter.println( "if ( names.length > " + nextNameIndex + " ) throw new RuntimeException( \"Cannot traverse into property '" + lowercasedPropertyName + ".\" + names[" + nextNameIndex + "] + \"'\" );" );
 
 			switch ( writeType )
 			{
@@ -401,7 +401,7 @@ public class SimpleBindingProcessorAdapterGenerator
 					break;
 
 				case WRITE_ACTION:
-					sourceWriter.println( "if ( property.length == " + nextPropertyIndex + " ) throw new RuntimeException( \"Cannot execute '" + lowercasedPropertyName + "' - is a property, not an action\" );" );
+					sourceWriter.println( "if ( names.length == " + nextNameIndex + " ) throw new RuntimeException( \"Cannot execute '" + lowercasedPropertyName + "' - is a property, not an action\" );" );
 					break;
 			}
 

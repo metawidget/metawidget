@@ -138,7 +138,7 @@ public class SimpleBindingProcessor
 
 		String path = metawidget.getPath();
 
-		if ( PROPERTY.equals( elementName ) )
+		if ( PROPERTY.equals( elementName ) || ACTION.equals( elementName ))
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 
 		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
@@ -159,12 +159,17 @@ public class SimpleBindingProcessor
 				{
 					// Use the adapter...
 
-					Object toInspect = metawidget.getToInspect();
+					Object toInvokeOn = getState( metawidget ).toRebind;
 
-					if ( toInspect == null )
-						return;
+					if ( toInvokeOn == null )
+					{
+						toInvokeOn = metawidget.getToInspect();
 
-					Class<?> classToBindTo = toInspect.getClass();
+						if ( toInvokeOn == null )
+							return;
+					}
+
+					Class<?> classToBindTo = toInvokeOn.getClass();
 					SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
 
 					if ( adapter == null )
@@ -172,7 +177,7 @@ public class SimpleBindingProcessor
 
 					// ...to invoke the action
 
-					adapter.invokeAction( toInspect, names );
+					adapter.invokeAction( toInvokeOn, names );
 				}
 			} );
 
@@ -410,7 +415,7 @@ public class SimpleBindingProcessor
 		return null;
 	}
 
-	private State getState( GwtMetawidget metawidget )
+	/*package private*/ State getState( GwtMetawidget metawidget )
 	{
 		State state = (State) metawidget.getClientProperty( SimpleBindingProcessor.class );
 
