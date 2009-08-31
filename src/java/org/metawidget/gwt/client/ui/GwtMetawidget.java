@@ -33,7 +33,6 @@ import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.impl.WidgetBuilderFactory;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
@@ -545,7 +544,7 @@ public class GwtMetawidget
 	public void putClientProperty( Object key, Object value )
 	{
 		if ( mClientProperties == null )
-			mClientProperties = CollectionUtils.newHashMap();
+			mClientProperties = new HashMap<Object, Object>();
 
 		mClientProperties.put( key, value );
 	}

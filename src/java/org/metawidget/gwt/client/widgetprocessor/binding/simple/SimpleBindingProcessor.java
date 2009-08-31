@@ -76,7 +76,7 @@ public class SimpleBindingProcessor
 	//
 
 	/**
-	 * Registers the given SimpleBindingAdapter for the given Class.
+	 * Registers the given SimpleBindingProcessorAdapter for the given Class.
 	 * <p>
 	 * Adapters also apply to subclasses of the given Class. So for example registering an Adapter
 	 * for <code>Contact.class</code> will match <code>PersonalContact.class</code>,

@@ -3029,13 +3029,13 @@ ant</programlisting>
 					</para>
 					
 					<para>
-						<classname>SimpleBinding</classname> expects every domain object to be wrapped with a <classname>SimpleBindingAdapter</classname>.
-						The supplied <classname>SimpleBindingAdapterGenerator</classname> automates this process. To configure it, add the following
+						<classname>SimpleBindingProcessor</classname> expects every domain object to be wrapped with a <classname>SimpleBindingProcessorAdapter</classname>.
+						The supplied <classname>SimpleBindingProcessorAdapterGenerator</classname> automates this process. To configure it, add the following
 						to the <filename>application-name.gwt.xml</filename> file...
 					</para>
 					
 					<programlisting language="xml">&lt;generate-with
-	class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingAdapterGenerator"&gt;
+	class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingProcessorAdapterGenerator"&gt;
 	&lt;when-type-assignable class="org.metawidget.example.shared.addressbook.model.Contact"/&gt;
 &lt;/generate-with&gt;</programlisting>
 
@@ -3044,7 +3044,7 @@ ant</programlisting>
 					</para>
 					
 					<programlisting language="java">metawidget.setPropertyBindingClass(SimpleBinding.class);
-SimpleBindingAdapter&lt;Contact&gt; adp = (SimpleBindingAdapter&lt;Contact&gt;) GWT.create(Contact.class);
+SimpleBindingProcessorAdapter&lt;Contact&gt; adp = (SimpleBindingProcessorAdapter&lt;Contact&gt;) GWT.create(Contact.class);
 SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>					
 					
 				</section>

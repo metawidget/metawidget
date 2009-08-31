@@ -35,11 +35,11 @@ import com.google.gwt.user.rebind.ClassSourceFileComposerFactory;
 import com.google.gwt.user.rebind.SourceWriter;
 
 /**
- * Generator for <code>SimpleBindingAdapters</code>.
+ * Generator for <code>SimpleBindingProcessorAdapters</code>.
  * <p>
- * <code>SimpleBinding</code> requires clients to supply an explicit
- * <code>SimpleBindingAdapter</code> interface through which to execute binding calls. In most
- * cases, clients can use <code>SimpleBindingAdapterGenerator</code> to automatically generate this
+ * <code>SimpleBindingProcessor</code> requires clients to supply an explicit
+ * <code>SimpleBindingProcessorAdapter</code> interface through which to execute binding calls. In most
+ * cases, clients can use <code>SimpleBindingProcessorAdapterGenerator</code> to automatically generate this
  * as a secondary class. First, they modify their <code>.gwt.xml</code> file to include...
  * <p>
  * <code>
@@ -64,7 +64,7 @@ import com.google.gwt.user.rebind.SourceWriter;
  * are traversed into</li>
  * </ul>
  * Clients needing to avoid such restrictions must write their own class that implements
- * <code>SimpleBindingAdapter</code> or, more drastically, their own binding implementation that
+ * <code>SimpleBindingProcessorAdapter</code> or, more drastically, their own binding implementation that
  * implements <code>PropertyBinding</code>.
  *
  * @author Richard Kennard
@@ -103,7 +103,7 @@ public class SimpleBindingProcessorAdapterGenerator
 	 * Maximum depth of recursion to avoid infinite recursion.
 	 * <p>
 	 * It is not possible to detect infinite recursion (caused by cyclic references) in advance
-	 * because SimpleBindingAdapterGenerator operates at compile-time, where the values of objects
+	 * because SimpleBindingProcessorAdapterGenerator operates at compile-time, where the values of objects
 	 * are not known.
 	 */
 

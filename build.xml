@@ -70,6 +70,7 @@
 			<include name="org/metawidget/swing/**"/>
 			<include name="org/metawidget/util/**"/>
 			<include name="org/metawidget/widgetbuilder/**"/>
+			<include name="org/metawidget/widgetprocessor/**"/>
 			<include name="org/metawidget/*.java"/>
 			<classpath>
 				<fileset dir="lib"/>
@@ -363,6 +364,7 @@
 				<include name="org/metawidget/gwt/client/propertybinding/**"/>
 				<include name="org/metawidget/gwt/client/ui/**"/>
 				<include name="org/metawidget/gwt/client/widgetbuilder/impl/**"/>
+				<include name="org/metawidget/gwt/client/widgetprocessor/**"/>
 				<include name="org/metawidget/gwt/generator/**"/>
 				<include name="org/metawidget/iface/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
@@ -382,6 +384,7 @@
 				<include name="org/metawidget/gwt/client/propertybinding/**"/>
 				<include name="org/metawidget/gwt/client/ui/**"/>
 				<include name="org/metawidget/gwt/client/widgetbuilder/impl/**"/>
+				<include name="org/metawidget/gwt/client/widgetprocessor/**"/>
 				<include name="org/metawidget/gwt/generator/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/iface/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
@@ -869,6 +872,7 @@
 				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
 				<include name="org/metawidget/widgetbuilder/**"/>
+				<include name="org/metawidget/widgetprocessor/**"/>
 			</fileset>			
 			<fileset dir="${build.dir}/test-classes">
 				<include name="org/metawidget/android/allwidgets/**"/>
@@ -1949,6 +1953,7 @@
 				<include name="org/metawidget/swing/propertybinding/beansbinding/*.class"/>
 				<include name="org/metawidget/swing/layout/*.class"/>
 				<include name="org/metawidget/swing/widgetbuilder/*.class"/>
+				<include name="org/metawidget/swing/widgetprocessor/*.class"/>
 				<include name="org/metawidget/iface/**"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
@@ -1967,6 +1972,7 @@
 				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
 				<include name="org/metawidget/widgetbuilder/**"/>
+				<include name="org/metawidget/widgetprocessor/**"/>
 			</fileset>
 			<fileset dir="src/java">			
 				<include name="**/*.xsd"/>
@@ -2454,6 +2460,7 @@
 				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
 				<include name="org/metawidget/widgetbuilder/**"/>				
+				<include name="org/metawidget/widgetprocessor/**"/>				
 			</fileset>
 			<fileset dir="${build.dir}/example-classes">
 				<include name="org/metawidget/example/android/addressbook/**"/>

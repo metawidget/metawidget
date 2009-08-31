@@ -13,7 +13,7 @@
 	
 	<!-- Binding -->
 	
-  	<generate-with class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingAdapterGenerator">
+  	<generate-with class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingProcessorAdapterGenerator">
 		<when-type-assignable class="org.metawidget.example.shared.addressbook.model.Contact"/>
 	</generate-with>
 	
