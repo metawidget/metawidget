@@ -118,7 +118,7 @@ public class BeansBindingProcessor
 	}
 
 	@Override
-	public void onAdd( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Unwrap JScrollPanes (for JTextAreas etc)
 
@@ -127,7 +127,7 @@ public class BeansBindingProcessor
 		if ( componentToBind instanceof JScrollPane )
 			componentToBind = (JComponent) ( (JScrollPane) componentToBind ).getViewport().getView();
 
-		typesafeAdd( componentToBind, attributes, metawidget );
+		typesafeAdd( componentToBind, elementName, attributes, metawidget );
 	}
 
 	/**
@@ -258,7 +258,7 @@ public class BeansBindingProcessor
 	}
 
 	@SuppressWarnings( "unchecked" )
-	private <SS, SV, TS extends Component, TV> void typesafeAdd( TS component, Map<String, String> attributes, SwingMetawidget metawidget )
+	private <SS, SV, TS extends Component, TV> void typesafeAdd( TS component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		String componentProperty = metawidget.getValueProperty( component );
 
@@ -270,7 +270,7 @@ public class BeansBindingProcessor
 		SS source = (SS) metawidget.getToInspect();
 		String sourceProperty = PathUtils.parsePath( metawidget.getPath() ).getNames().replace( StringUtils.SEPARATOR_FORWARD_SLASH_CHAR, StringUtils.SEPARATOR_DOT_CHAR );
 
-		if ( metawidget.isCompoundWidget() )
+		if ( PROPERTY.equals( elementName ) )
 		{
 			if ( sourceProperty.length() > 0 )
 				sourceProperty += StringUtils.SEPARATOR_DOT_CHAR;

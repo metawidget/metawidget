@@ -65,8 +65,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	private boolean						mReadOnly;
 
-	private boolean						mCompoundWidget;
-
 	private int							mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
 	private Inspector					mInspector;
@@ -87,23 +85,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	public boolean isReadOnly()
 	{
 		return mReadOnly;
-	}
-
-	/**
-	 * Returns true if the Metawidget is a 'compound' widget. That is, it is being represented by
-	 * more than one child widget.
-	 * <p>
-	 * If an appropriate widget can be found to match the given path, the Metawidget will render as
-	 * a single 'top-level' widget. Otherwise, Metawidget will drill down into the business object
-	 * and render it using multiple child widgets.
-	 * <p>
-	 * This distinction can be important for <code>WidgetProcessors</code> who need to determine
-	 * what path to use - either the 'top level' path or path + attribute name.
-	 */
-
-	public boolean isCompoundWidget()
-	{
-		return mCompoundWidget;
 	}
 
 	public int getMaximumInspectionDepth()
@@ -204,8 +185,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	public void buildWidgets( String xml )
 		throws Exception
 	{
-		mCompoundWidget = false;
-
 		startBuild();
 		processorStartBuild();
 
@@ -240,7 +219,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			}
 			else
 			{
-				processorAdd( widget, attributes );
+				processorAdd( widget, elementName, attributes );
 				addWidget( widget, elementName, attributes );
 			}
 		}
@@ -296,8 +275,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	protected void buildCompoundWidget( E element )
 		throws Exception
 	{
-		mCompoundWidget = true;
-
 		for ( int loop = 0, length = getChildCount( element ); loop < length; loop++ )
 		{
 			E child = getChildAt( element, loop );
@@ -348,7 +325,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 				attributes.putAll( getStubAttributes( widget ) );
 			}
 
-			processorAdd( widget, attributes );
+			processorAdd( widget, elementName, attributes );
 			addWidget( widget, elementName, attributes );
 		}
 	}
@@ -364,14 +341,14 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		}
 	}
 
-	protected void processorAdd( W widget, Map<String, String> attributes )
+	protected void processorAdd( W widget, String elementName, Map<String, String> attributes )
 	{
 		if ( mWidgetProcessors == null )
 			return;
 
 		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 		{
-			widgetProcessor.onAdd( widget, attributes, getMixinOwner() );
+			widgetProcessor.onAdd( widget, elementName, attributes, getMixinOwner() );
 		}
 	}
 

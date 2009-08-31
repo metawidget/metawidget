@@ -74,7 +74,7 @@ public class BeanUtilsBindingProcessor
 	//
 
 	@Override
-	public void onAdd( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Unwrap JScrollPanes (for JTextAreas etc)
 
@@ -92,7 +92,7 @@ public class BeanUtilsBindingProcessor
 
 		String path = metawidget.getPath();
 
-		if ( metawidget.isCompoundWidget() )
+		if ( PROPERTY.equals( elementName ) )
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 
 		try

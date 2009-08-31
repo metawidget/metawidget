@@ -16,12 +16,15 @@
 
 package org.metawidget.swing.widgetprocessor.validator.inputverifier;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import javax.swing.InputVerifier;
 import javax.swing.JComponent;
 
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
@@ -42,9 +45,14 @@ public abstract class InputVerifierProcessor
 	//
 
 	@Override
-	public void onAdd( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
-		InputVerifier verifier = getInputVerifier( component, attributes, metawidget.getPath() );
+		String path = metawidget.getPath();
+
+		if ( PROPERTY.equals( elementName ) )
+			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
+
+		InputVerifier verifier = getInputVerifier( component, attributes, path );
 
 		if ( verifier == null )
 			return;

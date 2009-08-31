@@ -408,9 +408,9 @@ public class SwingMetawidgetTest
 
 		@Override
 		@SuppressWarnings( "serial" )
-		public void onAdd( JComponent component, Map<String, String> attributes, final SwingMetawidget metawidget )
+		public void onAdd( JComponent component, String elementName, Map<String, String> attributes, final SwingMetawidget metawidget )
 		{
-			if ( !( component instanceof JButton ))
+			if ( !ACTION.equals( elementName ))
 				return;
 
 			JButton button = (JButton) component;

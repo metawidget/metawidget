@@ -48,7 +48,7 @@ public class InputVerifierProcessorTest
 		Foo foo2 = new Foo();
 		foo1.setNestedFoo( foo2 );
 
-		SwingMetawidget metawidget = new SwingMetawidget();
+		final SwingMetawidget metawidget = new SwingMetawidget();
 
 		// Inspect
 
@@ -77,7 +77,7 @@ public class InputVerifierProcessorTest
 			//
 
 			@Override
-			protected InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, String path )
+			protected InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, final String path )
 			{
 				if ( component instanceof SwingMetawidget )
 					return null;
@@ -87,6 +87,7 @@ public class InputVerifierProcessorTest
 					@Override
 					public boolean verify( JComponent input )
 					{
+						metawidget.putClientProperty( "onVerify", path );
 						return false;
 					}
 				};
@@ -106,6 +107,7 @@ public class InputVerifierProcessorTest
 		JSpinner nestedSpinner = (JSpinner) nestedMetawidget.getComponent( 1 );
 		assertTrue( !nestedSpinner.getInputVerifier().verify( spinner ) );
 		assertTrue( Boolean.TRUE.equals( nestedMetawidget.getClientProperty( "onStartBuild" ) ) );
+		assertTrue( ( Foo.class.getName() + "/nestedFoo/bar" ).equals( metawidget.getClientProperty( "onVerify" ) ) );
 	}
 
 	//

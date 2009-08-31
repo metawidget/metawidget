@@ -37,7 +37,7 @@ public interface WidgetProcessor<W, M extends W>
 
 	void onStartBuild( M metawidget );
 
-	void onAdd( W widget, Map<String, String> attributes, M metawidget );
+	void onAdd( W widget, String elementName, Map<String, String> attributes, M metawidget );
 
 	void onEndBuild( M metawidget );
 }

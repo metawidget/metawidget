@@ -30,7 +30,6 @@ import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -46,16 +45,27 @@ public class MapBindingProcessor
 	//
 
 	@Override
-	public void onAdd( Widget widget, Map<String, String> attributes, final GwtMetawidget metawidget )
+	public void onStartBuild( GwtMetawidget metawidget )
 	{
-		// Doesn't bind to Stubs or FlexTables or Buttons
+		metawidget.putClientProperty( MapBindingProcessor.class, null );
+	}
 
-		if ( widget instanceof Stub || widget instanceof FlexTable || widget instanceof Button )
+	@Override
+	public void onAdd( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
+	{
+		// Don't bind to Actions
+
+		if ( ACTION.equals( elementName ))
+			return;
+
+		// Doesn't bind to Stubs or FlexTables
+
+		if ( widget instanceof Stub || widget instanceof FlexTable )
 			return;
 
 		String path = metawidget.getPath();
 
-		if ( metawidget.isCompoundWidget() )
+		if ( PROPERTY.equals( elementName ))
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 
 		try

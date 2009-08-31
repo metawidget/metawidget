@@ -27,6 +27,7 @@ import javax.swing.AbstractButton;
 import javax.swing.JComponent;
 
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.PathUtils;
@@ -52,10 +53,18 @@ public class ReflectionBindingProcessor
 
 	@Override
 	@SuppressWarnings( "serial" )
-	public void onAdd( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
-		if ( !( component instanceof AbstractButton ))
+		// Only bind to Actions
+
+		if ( !ACTION.equals( elementName ))
 			return;
+
+		if ( component instanceof Stub )
+			return;
+
+		if ( !( component instanceof AbstractButton ))
+			throw MetawidgetException.newException( "ReflectionBinding only supports binding actions to AbstractButtons" );
 
 		if ( metawidget == null )
 			return;

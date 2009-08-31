@@ -28,7 +28,6 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusWidget;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.Widget;
@@ -45,12 +44,17 @@ public class AlertActionProcessor
 	//
 
 	@Override
-	public void onAdd( Widget widget, final Map<String, String> attributes, final GwtMetawidget metawidget )
+	public void onAdd( Widget widget, final String elementName, final Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
-		// Only bind to Buttons
+		// Only bind to Actions
 
-		if ( !( widget instanceof Button ) )
+		if ( !ACTION.equals( elementName ))
 			return;
+
+		// How can we bind without addClickListener?
+
+		if ( !( widget instanceof FocusWidget ) )
+			throw new RuntimeException( "AlertActionProcessor only supports binding actions to FocusWidgets - '" + attributes.get( NAME ) + "' is using a " + widget.getClass().getName() );
 
 		@SuppressWarnings( "unchecked" )
 		final Map<String, Object> model = (Map<String, Object>) metawidget.getToInspect();
@@ -63,16 +67,7 @@ public class AlertActionProcessor
 		{
 			public void onClick( ClickEvent event )
 			{
-				String names = PathUtils.parsePath( metawidget.getPath() ).getNames();
-
-				if ( metawidget.isCompoundWidget() )
-				{
-					if ( names.length() > 0 )
-						names += StringUtils.SEPARATOR_DOT_CHAR;
-
-					names += attributes.get( NAME );
-				}
-
+				String names = PathUtils.parsePath( metawidget.getPath() ).getNames() + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME );
 				model.put( names, "clicked" );
 
 				// (do not Window.alert during unit tests)

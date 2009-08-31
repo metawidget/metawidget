@@ -232,11 +232,6 @@ public class SwingMetawidget
 		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
 	}
 
-	public boolean isCompoundWidget()
-	{
-		return mMetawidgetMixin.isCompoundWidget();
-	}
-
 	/**
 	 * @param layoutClass
 	 *            may be null
@@ -917,21 +912,13 @@ public class SwingMetawidget
 		if ( actualComponent instanceof JScrollPane )
 			actualComponent = ( (JScrollPane) actualComponent ).getViewport().getView();
 
-		// Construct path
-
-		final String name = attributes.get( NAME );
-		String path = mPath;
-
-		if ( mMetawidgetMixin.isCompoundWidget() )
-			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
-
 		// Set the name of the component.
 		//
 		// If this is a JScrollPane, set the name of the top-level JScrollPane. Don't do this before
 		// now, as we don't want binding/validation implementations accidentally relying on the
 		// name being set (which it won't be for actualComponent)
 
-		component.setName( name );
+		component.setName( attributes.get( NAME ));
 
 		// Add to layout
 

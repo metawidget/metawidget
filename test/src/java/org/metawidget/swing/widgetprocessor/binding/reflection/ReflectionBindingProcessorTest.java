@@ -16,6 +16,8 @@
 
 package org.metawidget.swing.widgetprocessor.binding.reflection;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
@@ -78,7 +80,7 @@ public class ReflectionBindingProcessorTest
 		// Null object
 
 		JButton button = new JButton();
-		binding.onAdd( button, null, null );
+		binding.onAdd( button, ACTION, null, null );
 
 		assertTrue( button.getAction() == null );
 
@@ -89,7 +91,7 @@ public class ReflectionBindingProcessorTest
 
 		metawidget.setToInspect( foo );
 		metawidget.setPath( "foo/nestedFoo/doAction" );
-		binding.onAdd( button, null, metawidget );
+		binding.onAdd( button, ACTION, null, metawidget );
 
 		assertTrue( button.getAction() == null );
 	}
@@ -100,7 +102,7 @@ public class ReflectionBindingProcessorTest
 
 		try
 		{
-			binding.onAdd( new JTextField(), null, null );
+			binding.onAdd( new JTextField(), ACTION, null, null );
 		}
 		catch( MetawidgetException e )
 		{

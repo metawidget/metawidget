@@ -282,11 +282,6 @@ public class GwtMetawidget
 		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
 	}
 
-	public boolean isCompoundWidget()
-	{
-		return mMetawidgetMixin.isCompoundWidget();
-	}
-
 	public void setLayoutClass( Class<? extends Layout> layoutClass )
 	{
 		mLayoutClass = layoutClass;
@@ -951,17 +946,7 @@ public class GwtMetawidget
 	protected void addWidget( Widget widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		final String name = attributes.get( "name" );
-
-		// Construct path
-
-		String path = mPath;
-
-		if ( mMetawidgetMixin.isCompoundWidget() )
-			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + name;
-
-		// Add to layout
-
+		String name = attributes.get( "name" );
 		mAddedWidgets.put( name, widget );
 
 		if ( widget instanceof HasName )

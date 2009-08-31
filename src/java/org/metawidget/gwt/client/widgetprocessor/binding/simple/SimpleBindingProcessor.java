@@ -107,7 +107,7 @@ public class SimpleBindingProcessor
 	//
 
 	@Override
-	public void onAdd( Widget widget, Map<String, String> attributes, final GwtMetawidget metawidget )
+	public void onAdd( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
 		// SimpleBinding doesn't bind to Stubs or FlexTables
 
@@ -117,10 +117,13 @@ public class SimpleBindingProcessor
 		String path = metawidget.getPath();
 		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
 
-		// Bind actions to FocusWidgets
+		// Bind actions
 
-		if ( widget instanceof FocusWidget )
+		if ( ACTION.equals( elementName ) )
 		{
+			if ( !( widget instanceof FocusWidget ) )
+				throw new RuntimeException( "SimpleBindingProcessor only supports binding actions to FocusWidgets - '" + attributes.get( NAME ) + "' is using a " + widget.getClass().getName() );
+
 			// Bind the action
 
 			FocusWidget focusWidget = (FocusWidget) widget;

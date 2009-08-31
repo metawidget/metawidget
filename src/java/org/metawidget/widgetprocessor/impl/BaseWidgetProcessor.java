@@ -32,7 +32,7 @@ public abstract class BaseWidgetProcessor<W, M extends W>
 		// Do nothing
 	}
 
-	public void onAdd( W widget, Map<String, String> attributes, M metawidget )
+	public void onAdd( W widget, String elementName, Map<String, String> attributes, M metawidget )
 	{
 		// Do nothing
 	}
