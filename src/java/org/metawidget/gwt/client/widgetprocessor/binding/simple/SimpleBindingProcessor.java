@@ -247,41 +247,52 @@ public class SimpleBindingProcessor
 	public void setToRebind( Object toRebind, GwtMetawidget metawidget )
 	{
 		State state = getState( metawidget );
-
-		if ( state.bindings == null )
-			return;
-
 		state.toRebind = toRebind;
 
-		// From the adapter...
+		// Our bindings
 
-		Class<?> classToRebind = toRebind.getClass();
-		SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToRebind );
-
-		if ( adapter == null )
-			throw new RuntimeException( "Don't know how to rebind to a " + classToRebind );
-
-		// ...for each bound property...
-
-		for ( Object[] binding : state.bindings )
+		if ( state.bindings != null )
 		{
-			Widget widget = (Widget) binding[0];
-			String[] names = (String[]) binding[1];
-			@SuppressWarnings( "unchecked" )
-			Converter<Object> converter = (Converter<Object>) binding[2];
+			// From the adapter...
 
-			// ...fetch the value...
+			Class<?> classToRebind = toRebind.getClass();
+			SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToRebind );
 
-			Object value = adapter.getProperty( toRebind, names );
+			if ( adapter == null )
+				throw new RuntimeException( "Don't know how to rebind to a " + classToRebind );
 
-			// ...convert it (if necessary)...
+			// ...for each bound property...
 
-			if ( converter != null )
-				value = converter.convertForWidget( widget, value );
+			for ( Object[] binding : state.bindings )
+			{
+				Widget widget = (Widget) binding[0];
+				String[] names = (String[]) binding[1];
+				@SuppressWarnings( "unchecked" )
+				Converter<Object> converter = (Converter<Object>) binding[2];
 
-			// ...and set it
+				// ...fetch the value...
 
-			metawidget.setValue( value, widget );
+				Object value = adapter.getProperty( toRebind, names );
+
+				// ...convert it (if necessary)...
+
+				if ( converter != null )
+					value = converter.convertForWidget( widget, value );
+
+				// ...and set it
+
+				metawidget.setValue( value, widget );
+			}
+		}
+
+		// Nested bindings
+
+		if ( state.nestedMetawidgets != null )
+		{
+			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets )
+			{
+				setToRebind( toRebind, nestedMetawidget );
+			}
 		}
 	}
 
@@ -292,8 +303,6 @@ public class SimpleBindingProcessor
 
 	public void save( GwtMetawidget metawidget )
 	{
-		// TODO: test toRebind
-
 		State state = getState( metawidget );
 
 		// Our bindings

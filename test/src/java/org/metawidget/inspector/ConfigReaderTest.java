@@ -471,6 +471,25 @@ public class ConfigReaderTest
 		}
 	}
 
+	public void testEmptyCollection()
+	{
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\">";
+		xml += "<list>";
+		xml += "<list/>";
+		xml += "</list>";
+		xml += "<set>";
+		xml += "<set/>";
+		xml += "</set>";
+		xml += "</badInspector>";
+		xml += "</metawidget>";
+
+		BadInspector inspector = new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
+		assertTrue( inspector.getList().isEmpty() );
+		assertTrue( inspector.getSet().isEmpty() );
+	}
+
 	public void testInspectorExceptionDuringConstruction()
 	{
 		String xml = "<?xml version=\"1.0\"?>";

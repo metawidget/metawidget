@@ -23,6 +23,7 @@ import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleConverter;
+import org.metawidget.gwt.quirks.client.model.GwtQuirks;
 import org.metawidget.gwt.quirks.client.ui.QuirksModule;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 
@@ -84,10 +85,11 @@ public class GwtQuirksTest
 				// Check what created
 
 				assertTrue( "Boolean:".equals( flexTable.getText( 0, 0 ) ) );
-				assertTrue( flexTable.getWidget( 0, 1 ) instanceof CheckBox );
+				final CheckBox checkbox = (CheckBox) flexTable.getWidget( 0, 1 );
+				assertTrue( false == checkbox.getValue() );
 				assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
-				( (CheckBox) flexTable.getWidget( 0, 1 ) ).setValue( true );
-				assertTrue( "componentStyleName".equals( ( (CheckBox) flexTable.getWidget( 0, 1 ) ).getStyleName() ));
+				checkbox.setValue( true );
+				assertTrue( "componentStyleName".equals( checkbox.getStyleName() ));
 
 				assertTrue( "Foo:".equals( flexTable.getText( 2, 0 ) ) );
 				Stub stub = (Stub) flexTable.getWidget( 2, 1 );
@@ -126,15 +128,29 @@ public class GwtQuirksTest
 
 						assertTrue( null == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( metawidget.getToInspect(), metawidget );
+						assertTrue( metawidget.getToInspect() == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
 
 						// Test checkbox was still checked (ie. HasText didn't get hit
 						// first in GwtMetawidget.setValue)
 
+						assertTrue( true == checkbox.getValue() );
 						assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );
 
 						// Test rebind binds to new object
 
-						assertTrue( metawidget.getToInspect() == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
+						((GwtQuirks) metawidget.getToInspect()).setBoolean( false );
+
+						GwtQuirks quirks2 = new GwtQuirks();
+						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( quirks2, metawidget );
+						assertTrue( quirks2 == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
+						assertTrue( quirks2 != metawidget.getToInspect() );
+						assertTrue( false == checkbox.getValue() );
+						checkbox.setValue( true );
+						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
+
+						assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );
+						assertTrue( quirks2.isBoolean() );
+						assertTrue( !((GwtQuirks) metawidget.getToInspect()).isBoolean() );
 
 						// All done
 

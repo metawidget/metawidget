@@ -275,6 +275,8 @@ public class GwtAddressBookTest
 																		assertTrue( "743 Evergreen Terrace".equals( personalContact.getAddress().getStreet() ) );
 																		assertTrue( "Lostville".equals( personalContact.getAddress().getState() ) );
 																		finish();
+
+																		// TODO: test nested binding in SimpleBindingProcessor
 																	}
 																};
 
