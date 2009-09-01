@@ -164,7 +164,7 @@ public class ConfigReaderTest
 		// New Point
 
 		ConfigReader configReader = new ValidatingConfigReader();
-		Point point = (Point) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Point.class );
+		Point point = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Point.class );
 		assertTrue( 10 == point.x );
 		assertTrue( 20 == point.y );
 
@@ -182,10 +182,31 @@ public class ConfigReaderTest
 		assertTrue( !metawidget1.isOpaque() );
 		assertTrue( null == metawidget1.getParameter( "a parameter" ) );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1 );
-
-		// Test
-
 		assertTrue( "foo".equals( metawidget1.getName() ) );
+		assertTrue( metawidget1.isOpaque() );
+		assertTrue( 1 == (Integer) metawidget1.getParameter( "a parameter" ) );
+		assertTrue( 5 == (Integer) metawidget1.getParameter( "another parameter" ) );
+
+		// New SwingMetawidget with names
+
+		metawidget1 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), SwingMetawidget.class, "name" );
+		assertTrue( "foo".equals( metawidget1.getName() ) );
+		assertTrue( !metawidget1.isOpaque() );
+		assertTrue( null == metawidget1.getParameter( "a parameter" ) );
+
+		// Existing SwingMetawidget with names
+
+		metawidget1.setName( "newFoo" );
+		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "opaque" );
+		assertTrue( "newFoo".equals( metawidget1.getName() ) );
+		assertTrue( metawidget1.isOpaque() );
+		assertTrue( null == metawidget1.getParameter( "a parameter" ) );
+
+		// Existing SwingMetawidget with parameters
+
+		metawidget1.setName( "newFoo" );
+		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "parameter" );
+		assertTrue( "newFoo".equals( metawidget1.getName() ) );
 		assertTrue( metawidget1.isOpaque() );
 		assertTrue( 1 == (Integer) metawidget1.getParameter( "a parameter" ) );
 		assertTrue( 5 == (Integer) metawidget1.getParameter( "another parameter" ) );
@@ -208,6 +229,10 @@ public class ConfigReaderTest
 
 		Field widgetBuilderField = BaseMetawidgetMixin.class.getDeclaredField( "mWidgetBuilder" );
 		widgetBuilderField.setAccessible( true );
+
+		assertTrue( null == widgetBuilderField.get( mixin1 ));
+		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "widgetBuilder" );
+
 		@SuppressWarnings( "unchecked" )
 		CompositeWidgetBuilder<JComponent, SwingMetawidget> compositeWidgetBuilder1 = (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilderField.get( mixin1 );
 		@SuppressWarnings( "unchecked" )
@@ -224,6 +249,10 @@ public class ConfigReaderTest
 
 		Field inspectorField = BaseMetawidgetMixin.class.getDeclaredField( "mInspector" );
 		inspectorField.setAccessible( true );
+
+		assertTrue( null == inspectorField.get( mixin1 ));
+		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "inspector" );
+
 		CompositeInspector compositeInspector1 = (CompositeInspector) inspectorField.get( mixin1 );
 		CompositeInspector compositeInspector2 = (CompositeInspector) inspectorField.get( mixin1 );
 
@@ -250,10 +279,10 @@ public class ConfigReaderTest
 
 		// Inspector
 
-		Inspector inspector1 = (Inspector) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		Inspector inspector1 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 		assertTrue( inspector1 instanceof CompositeInspector );
 
-		Inspector inspector2 = (Inspector) configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+		Inspector inspector2 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 		assertTrue( inspector2 instanceof CompositeInspector );
 		assertTrue( inspector1 == inspector2 );
 	}
@@ -397,7 +426,7 @@ public class ConfigReaderTest
 		xml += "</badInspector>";
 		xml += "</metawidget>";
 
-		BadInspector inspector = (BadInspector) new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
+		BadInspector inspector = new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 		assertTrue( 3 == inspector.getInt() );
 
 		List<Object> list = inspector.getList();

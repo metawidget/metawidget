@@ -583,18 +583,22 @@ public abstract class UIMetawidget
 
 		// Sensible defaults
 
-		if ( mMetawidgetMixin.getInspector() == null || mMetawidgetMixin.getWidgetBuilder() == null || mMetawidgetMixin.getWidgetProcessors() == null )
+		if ( mMetawidgetMixin.getInspector() == null )
 		{
-			UIMetawidget dummyMetawidget = configReader.configure( getDefaultConfiguration(), UIMetawidget.class );
+			UIMetawidget dummyMetawidget = configReader.configure( getDefaultConfiguration(), UIMetawidget.class, "inspector" );
+			mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
+		}
 
-			if ( mMetawidgetMixin.getInspector() == null )
-				mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
+		if ( mMetawidgetMixin.getWidgetBuilder() == null )
+		{
+			UIMetawidget dummyMetawidget = configReader.configure( getDefaultConfiguration(), UIMetawidget.class, "widgetBuilder" );
+			mMetawidgetMixin.setWidgetBuilder( dummyMetawidget.mMetawidgetMixin.getWidgetBuilder() );
+		}
 
-			if ( mMetawidgetMixin.getWidgetBuilder() == null )
-				mMetawidgetMixin.setWidgetBuilder( dummyMetawidget.mMetawidgetMixin.getWidgetBuilder() );
-
-			if ( mMetawidgetMixin.getWidgetProcessors() == null )
-				mMetawidgetMixin.setWidgetProcessors( dummyMetawidget.mMetawidgetMixin.getWidgetProcessors() );
+		if ( mMetawidgetMixin.getWidgetProcessors() == null )
+		{
+			UIMetawidget dummyMetawidget = configReader.configure( getDefaultConfiguration(), UIMetawidget.class, "widgetProcessors" );
+			mMetawidgetMixin.setWidgetProcessors( dummyMetawidget.mMetawidgetMixin.getWidgetProcessors() );
 		}
 	}
 

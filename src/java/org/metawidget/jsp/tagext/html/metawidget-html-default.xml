@@ -3,15 +3,23 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
 
-	<htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
+	<htmlMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html">
+	
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<list>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+					</list>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+		
+		<widgetBuilder>
+			<htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
+		</widgetBuilder>
 
-	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
-		<inspectors>
-			<list>
-				<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
-				<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
-			</list>
-		</inspectors>
-	</compositeInspector>
+	</htmlMetawidgetTag>			
 
 </metawidget>

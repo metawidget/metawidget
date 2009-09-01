@@ -824,18 +824,22 @@ public class SwingMetawidget
 
 			// Sensible defaults
 
-			if ( mMetawidgetMixin.getInspector() == null || mMetawidgetMixin.getWidgetBuilder() == null || mMetawidgetMixin.getWidgetProcessors() == null )
+			if ( mMetawidgetMixin.getInspector() == null )
 			{
-				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class );
+				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class, "inspector" );
+				mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
+			}
 
-				if ( mMetawidgetMixin.getInspector() == null )
-					mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
+			if ( mMetawidgetMixin.getWidgetBuilder() == null )
+			{
+				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class, "widgetBuilder" );
+				mMetawidgetMixin.setWidgetBuilder( dummyMetawidget.mMetawidgetMixin.getWidgetBuilder() );
+			}
 
-				if ( mMetawidgetMixin.getWidgetBuilder() == null )
-					mMetawidgetMixin.setWidgetBuilder( dummyMetawidget.mMetawidgetMixin.getWidgetBuilder() );
-
-				if ( mMetawidgetMixin.getWidgetProcessors() == null )
-					mMetawidgetMixin.setWidgetProcessors( dummyMetawidget.mMetawidgetMixin.getWidgetProcessors() );
+			if ( mMetawidgetMixin.getWidgetProcessors() == null )
+			{
+				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class, "widgetProcessors" );
+				mMetawidgetMixin.setWidgetProcessors( dummyMetawidget.mMetawidgetMixin.getWidgetProcessors() );
 			}
 		}
 		catch ( Exception e )

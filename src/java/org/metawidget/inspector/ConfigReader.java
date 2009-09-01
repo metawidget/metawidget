@@ -120,20 +120,20 @@ public class ConfigReader
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public <T> T configure( String resource, Class<T> toConfigure )
+	public <T> T configure( String resource, Class<T> toConfigure, String... names )
 	{
-		return (T) configure( resource, (Object) toConfigure );
+		return (T) configure( resource, (Object) toConfigure, names );
 	}
 
 	/**
 	 * Read configuration from an application resource.
 	 * <p>
-	 * This version of <code>configure</code> uses <code>openResource</code> to open the
-	 * specified resource, then caches the contents against the resource name. It then calls
+	 * This version of <code>configure</code> uses <code>openResource</code> to open the specified
+	 * resource, then caches the contents against the resource name. It then calls
 	 * <code>configure( InputStream, Object )</code>.
 	 */
 
-	public Object configure( String resource, Object toConfigure )
+	public Object configure( String resource, Object toConfigure, String... names )
 	{
 		byte[] bytes = RESOURCE_CACHE.get( resource );
 
@@ -146,15 +146,28 @@ public class ConfigReader
 			RESOURCE_CACHE.put( resource, bytes );
 		}
 
-		return configure( bytes, toConfigure );
+		return configure( bytes, toConfigure, names );
+	}
+
+	/**
+	 * Read configuration from an application resource.
+	 * <p>
+	 * This is a convenience method for <code>configure( InputStream, Object )</code> that casts the
+	 * returned Object to an instance of the given <code>toConfigure</code> class.
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T configure( InputStream stream, Class<T> toConfigure, String... names )
+	{
+		return (T) configure( stream, (Object) toConfigure, names );
 	}
 
 	/**
 	 * Read configuration from an input stream.
 	 * <p>
 	 * This version of <code>configure</code> caches any immutable and threadsafe objects (as
-	 * determined by <code>isImmutableThreadsafe</code>) and reuses them for subsequent calls.
-	 * This helps ensure there is only ever one instance of a, say, <code>Inspector</code> or
+	 * determined by <code>isImmutableThreadsafe</code>) and reuses them for subsequent calls. This
+	 * helps ensure there is only ever one instance of a, say, <code>Inspector</code> or
 	 * <code>WidgetBuilder</code>.
 	 * <p>
 	 * If the Object to configure is a <code>Class</code>, this method will create and return an
@@ -198,7 +211,7 @@ public class ConfigReader
 	 * ...will call <code>setOpaque</code> on the given <code>JPanel</code>.
 	 */
 
-	public Object configure( InputStream stream, Object toConfigure )
+	public Object configure( InputStream stream, Object toConfigure, String... names )
 	{
 		if ( stream == null )
 			throw InspectorException.newException( "No input stream specified" );
@@ -209,7 +222,7 @@ public class ConfigReader
 			streamBetween( stream, streamOut );
 			byte[] bytes = streamOut.toByteArray();
 
-			return configure( bytes, toConfigure );
+			return configure( bytes, toConfigure, names );
 		}
 		catch ( Exception e )
 		{
@@ -257,11 +270,11 @@ public class ConfigReader
 	// Protected methods
 	//
 
-	protected Object configure( byte[] bytes, Object toConfigure )
+	protected Object configure( byte[] bytes, Object toConfigure, String... names )
 	{
 		try
 		{
-			ConfigHandler configHandler = new ConfigHandler( toConfigure );
+			ConfigHandler configHandler = new ConfigHandler( toConfigure, names );
 			configHandler.setXml( new String( bytes ) );
 			mFactory.newSAXParser().parse( new ByteArrayInputStream( bytes ), configHandler );
 
@@ -467,6 +480,8 @@ public class ConfigReader
 
 		private final static int		ENCOUNTERED_WRONG_TYPE				= 6;
 
+		private final static int		ENCOUNTERED_WRONG_NAME				= 7;
+
 		/**
 		 * Possible 'expecting' states.
 		 * <p>
@@ -490,6 +505,12 @@ public class ConfigReader
 		 */
 
 		private Object					mToConfigure;
+
+		/**
+		 * Path within object to configure (if specified, siblings to the path will be ignored).
+		 */
+
+		private String[]				mNames;
 
 		/**
 		 * XML document. Used purely as a key into IMMUTABLE_THREADSAFE_OBJECTS.
@@ -518,10 +539,16 @@ public class ConfigReader
 		private int						mDepth;
 
 		/**
-		 * Depth after which to skip processing, so as to ignore chunks of the XML tree.
+		 * Depth after which to skip type processing, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreAfterDepth					= -1;
+		private int						mIgnoreTypeAfterDepth				= -1;
+
+		/**
+		 * Depth after which to skip name processing, so as to ignore chunks of the XML tree.
+		 */
+
+		private int						mIgnoreNameAfterDepth				= -1;
 
 		/**
 		 * Element number where this element starts.
@@ -562,9 +589,10 @@ public class ConfigReader
 		// Constructor
 		//
 
-		public ConfigHandler( Object toConfigure )
+		public ConfigHandler( Object toConfigure, String... names )
 		{
 			mToConfigure = toConfigure;
+			mNames = names;
 		}
 
 		//
@@ -594,10 +622,13 @@ public class ConfigReader
 			mElement++;
 			mDepth++;
 
-			if ( mIgnoreAfterDepth != -1 && mDepth > mIgnoreAfterDepth )
+			if ( mIgnoreTypeAfterDepth != -1 && mDepth > mIgnoreTypeAfterDepth )
 				return;
 
-			if ( Character.isUpperCase( localName.charAt( 0 )))
+			if ( mIgnoreNameAfterDepth != -1 && mDepth > mIgnoreNameAfterDepth )
+				return;
+
+			if ( Character.isUpperCase( localName.charAt( 0 ) ) )
 				throw InspectorException.newException( "XML node '" + localName + "' should start with a lowercase letter" );
 
 			try
@@ -631,7 +662,7 @@ public class ConfigReader
 							if ( !( (Class<?>) mToConfigure ).isAssignableFrom( toConfigureClass ) )
 							{
 								mEncountered.push( ENCOUNTERED_WRONG_TYPE );
-								mIgnoreAfterDepth = 2;
+								mIgnoreTypeAfterDepth = 2;
 								return;
 							}
 
@@ -648,7 +679,7 @@ public class ConfigReader
 							if ( !toConfigureClass.isAssignableFrom( mToConfigure.getClass() ) )
 							{
 								mEncountered.push( ENCOUNTERED_WRONG_TYPE );
-								mIgnoreAfterDepth = 2;
+								mIgnoreTypeAfterDepth = 2;
 								return;
 							}
 
@@ -697,6 +728,31 @@ public class ConfigReader
 
 					case EXPECTING_METHOD:
 					{
+						// Screen names
+
+						if ( mNames != null )
+						{
+							// Initial elements are at depth == 2
+
+							int nameIndex = mDepth - 3;
+
+							if ( nameIndex < mNames.length )
+							{
+								String expectingName = mNames[nameIndex];
+
+								// Skip wrong names
+
+								if ( !localName.equals( expectingName ) )
+								{
+									mEncountered.push( ENCOUNTERED_WRONG_NAME );
+									mIgnoreNameAfterDepth = mDepth;
+									return;
+								}
+							}
+						}
+
+						// Process method
+
 						mConstructing.push( new ArrayList<Object>() );
 						mEncountered.push( ENCOUNTERED_METHOD );
 
@@ -743,12 +799,20 @@ public class ConfigReader
 		{
 			mDepth--;
 
-			if ( mIgnoreAfterDepth != -1 )
+			if ( mIgnoreTypeAfterDepth != -1 )
 			{
-				if ( mDepth >= mIgnoreAfterDepth )
+				if ( mDepth >= mIgnoreTypeAfterDepth )
 					return;
 
-				mIgnoreAfterDepth = -1;
+				mIgnoreTypeAfterDepth = -1;
+			}
+
+			if ( mIgnoreNameAfterDepth != -1 )
+			{
+				if ( mDepth >= mIgnoreNameAfterDepth )
+					return;
+
+				mIgnoreNameAfterDepth = -1;
 			}
 
 			// All done?
@@ -838,6 +902,9 @@ public class ConfigReader
 
 					case ENCOUNTERED_WRONG_TYPE:
 						return;
+
+					case ENCOUNTERED_WRONG_NAME:
+						return;
 				}
 			}
 			catch ( RuntimeException e )
@@ -886,7 +953,7 @@ public class ConfigReader
 				{
 					mConstructing.push( immutableThreadsafe );
 					mEncountered.push( ENCOUNTERED_IMMUTABLE_THREADSAFE );
-					mIgnoreAfterDepth = mDepth;
+					mIgnoreTypeAfterDepth = mDepth;
 
 					return;
 				}
@@ -1001,10 +1068,9 @@ public class ConfigReader
 		/**
 		 * Finds a method with the specified parameter types.
 		 * <p>
-		 * Like <code>Class.getMethod</code>, but works based on <code>isInstance</code> rather
-		 * than an exact match of parameter types. This is essentially a crude and partial
-		 * implementation of
-		 * http://java.sun.com/docs/books/jls/second_edition/html/expressions.doc.html#20448. In
+		 * Like <code>Class.getMethod</code>, but works based on <code>isInstance</code> rather than
+		 * an exact match of parameter types. This is essentially a crude and partial implementation
+		 * of http://java.sun.com/docs/books/jls/second_edition/html/expressions.doc.html#20448. In
 		 * particular, no attempt at 'closest matching' is implemented.
 		 */
 

@@ -508,7 +508,6 @@ public abstract class MetawidgetTag
 		return xml;
 	}
 
-	@SuppressWarnings( "unchecked" )
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
@@ -533,10 +532,16 @@ public abstract class MetawidgetTag
 			// Sensible defaults
 
 			if ( mMetawidgetMixin.getWidgetBuilder() == null )
-				mMetawidgetMixin.setWidgetBuilder( configReader.configure( getDefaultConfiguration(), WidgetBuilder.class ) );
+			{
+				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "widgetBuilder" );
+				mMetawidgetMixin.setWidgetBuilder( dummyMetawidget.mMetawidgetMixin.getWidgetBuilder() );
+			}
 
 			if ( mMetawidgetMixin.getInspector() == null )
-				mMetawidgetMixin.setInspector( configReader.configure( getDefaultConfiguration(), Inspector.class ) );
+			{
+				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "inspector" );
+				mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
+			}
 		}
 		catch ( Exception e )
 		{
