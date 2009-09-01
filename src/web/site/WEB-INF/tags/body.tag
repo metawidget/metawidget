@@ -45,7 +45,7 @@
 						<li <c:if test="${path == '/coverage.html'}">class="active"</c:if>><a href="${context}/coverage.html">Code Coverage</a></li>
 					</ul>
 				</div>
-				<div class="badges" style="height: 330px; padding-top: 5px; border: 1px solid #dddddd; background-color: #eeeeee">
+				<div class="badges" style="height: 370px; padding-top: 5px; border: 1px solid #dddddd; background-color: #eeeeee">
 					<span>Metawidget integrates with:</span>
 
 					<a href="http://java.sun.com/javaee" target="_blank" style="top: 30px; left: 2px">
@@ -75,16 +75,19 @@
 					<a href="http://jboss.org/jbossrichfaces" target="_blank" style="top: 208px; left: 70px">
 						<img src="/media/logos/logo-richfaces.gif" alt="RichFaces" style="border: 0px" />
 					</a>
-					<a href="http://springframework.org/" target="_blank" style="top: 250px; left: 110px">
+					<a href="http://www.scala-lang.org" target="_blank" style="top: 250px; left: 110px">
+						<img src="/media/logos/logo-scala.gif" alt="Scala" style="border: 0px" />
+					</a>
+					<a href="http://springframework.org" target="_blank" style="top: 295px; left: 110px">
 						<img src="/media/logos/logo-spring.gif" alt="Spring" style="border: 0px" />
 					</a>
-					<a href="http://struts.apache.org" target="_blank" style="top: 295px; left: 95px">
+					<a href="http://struts.apache.org" target="_blank" style="top: 340px; left: 95px">
 						<img src="/media/logos/logo-struts.gif" alt="Struts" style="border: 0px" />
 					</a>
-					<a href="http://java.sun.com/javase/technologies/desktop" target="_blank" style="top: 253px; left: 55px">
+					<a href="http://java.sun.com/javase/technologies/desktop" target="_blank" style="top: 297px; left: 55px">
 						<img src="/media/logos/logo-swing.gif" alt="Swing" style="border: 0px" />
 					</a>
-					<a href="http://myfaces.apache.org/tomahawk/index.html" target="_blank" style="top: 285px; left: 2px">
+					<a href="http://myfaces.apache.org/tomahawk/index.html" target="_blank" style="top: 310px; left: 2px">
 						<img src="/media/logos/logo-tomahawk.gif" alt="Tomahawk" style="border: 0px" />
 					</a>
 				</div>

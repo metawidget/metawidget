@@ -16,7 +16,6 @@
 
 package org.metawidget.util;
 
-import java.util.Stack;
 
 /**
  * Utilities for working with Threads
@@ -37,98 +36,5 @@ public final class ThreadUtils
 	public static final <K> ThreadLocal<K> newThreadLocal()
 	{
 		return new ThreadLocal<K>();
-	}
-
-	/**
-	 * Type-safe initializer.
-	 */
-
-	public static final <K> ReentrantThreadLocal<K> newReentrantThreadLocal()
-	{
-		return new ReentrantThreadLocal<K>();
-	}
-
-	//
-	// Inner class
-	//
-
-	/**
-	 * Variant of ThreadLocal that maintains a Stack for supporting re-entrant code.
-	 * <p>
-	 * Useful for giving code that is both stateless <em>and</em> re-entrant (eg. JSF Renderers),
-	 * an ability to have state.
-	 *
-	 * @author Richard Kennard
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public static class ReentrantThreadLocal<T>
-	{
-		//
-		// Private members
-		//
-
-		private final static ThreadLocal<Stack>	LOCAL	= new ThreadLocal<Stack>()
-														{
-															@Override
-															protected Stack initialValue()
-															{
-																return new Stack();
-															}
-														};
-
-		//
-		// Public methods
-		//
-
-		public void push()
-		{
-			LOCAL.get().push( initialValue() );
-		}
-
-		public T get()
-		{
-			Stack<T> stack = LOCAL.get();
-
-			if ( stack.isEmpty() )
-				stack.push( initialValue() );
-
-			return stack.peek();
-		}
-
-		public void set( T t )
-		{
-			Stack<T> stack = LOCAL.get();
-
-			if ( !stack.isEmpty() )
-				stack.pop();
-
-			stack.push( t );
-		}
-
-		public void pop()
-		{
-			LOCAL.get().pop();
-		}
-
-		//
-		//
-		// Protected methods
-		//
-		//
-
-		protected T initialValue()
-		{
-			return null;
-		}
-	}
-
-	//
-	// Private constructor
-	//
-
-	private ThreadUtils()
-	{
-		// Can never be called
 	}
 }

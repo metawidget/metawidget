@@ -29,10 +29,11 @@ import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlMessage;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
+import javax.faces.context.ResponseWriter;
+import javax.faces.render.Renderer;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.faces.renderkit.LayoutRenderer;
 
 /**
  * Base class for all JSF HTML layout renderers. This implementation recognizes the following
@@ -50,7 +51,7 @@ import org.metawidget.faces.renderkit.LayoutRenderer;
  */
 
 public class HtmlLayoutRenderer
-	extends LayoutRenderer
+	extends Renderer
 {
 	//
 	// Private statics
@@ -69,17 +70,29 @@ public class HtmlLayoutRenderer
 	//
 
 	@Override
-	public void reentrantEncodeBegin( FacesContext context, UIComponent component )
+	public void encodeBegin( FacesContext context, UIComponent metawidget )
 		throws IOException
 	{
-		super.reentrantEncodeBegin( context, component );
+		super.encodeBegin( context, metawidget );
 
 		// Determine label suffix
 
-		UIParameter parameterLabelSuffix = FacesUtils.findParameterWithName( component, KEY_LABEL_SUFFIX );
+		Map<String, Object> attributes = metawidget.getAttributes();
+		UIParameter parameterLabelSuffix = FacesUtils.findParameterWithName( metawidget, KEY_LABEL_SUFFIX );
 
 		if ( parameterLabelSuffix != null )
-			putState( KEY_LABEL_SUFFIX, parameterLabelSuffix.getValue() );
+			attributes.put( KEY_LABEL_SUFFIX, parameterLabelSuffix.getValue() );
+	}
+
+	/**
+	 * Denotes that this Renderer renders its own children (eg. JSF should not call
+	 * <code>encodeBegin</code> on each child for us)
+	 */
+
+	@Override
+	public boolean getRendersChildren()
+	{
+		return true;
 	}
 
 	//
@@ -88,18 +101,19 @@ public class HtmlLayoutRenderer
 
 	/**
 	 * Render the label text. Rendering is done via a <code>HtmlOutputText</code> renderer, so that
-	 * the label may contain value expressions, such as <code>UiLabel( "#{foo.name}'s name" )</code>.
+	 * the label may contain value expressions, such as <code>UiLabel( "#{foo.name}'s name" )</code>
+	 * .
 	 *
 	 * @return whether a label was written
 	 */
 
 	@SuppressWarnings( "deprecation" )
-	protected boolean layoutLabel( FacesContext context, UIComponent component, UIComponent componentNeedingLabel )
+	protected boolean layoutLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel )
 		throws IOException
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<String, String> attributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
-		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( context, attributes );
+		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( context, metadataAttributes );
 
 		if ( label == null )
 			return false;
@@ -108,7 +122,8 @@ public class HtmlLayoutRenderer
 		{
 			HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
 
-			String labelSuffix =  getState( KEY_LABEL_SUFFIX );
+			Map<String, Object> attributes = metawidget.getAttributes();
+			String labelSuffix = (String) attributes.get( KEY_LABEL_SUFFIX );
 
 			if ( labelSuffix == null )
 				labelSuffix = ":";
@@ -124,7 +139,7 @@ public class HtmlLayoutRenderer
 		return true;
 	}
 
-	protected void layoutChild( FacesContext context, UIComponent component, UIComponent childComponent )
+	protected void layoutChild( FacesContext context, UIComponent metawidget, UIComponent childComponent )
 		throws IOException
 	{
 		FacesUtils.render( context, childComponent );
@@ -142,7 +157,7 @@ public class HtmlLayoutRenderer
 
 			UIComponent childOfChild = null;
 
-			for( UIComponent child : childComponent.getChildren() )
+			for ( UIComponent child : childComponent.getChildren() )
 			{
 				if ( child instanceof UIParameter )
 					continue;
@@ -162,28 +177,29 @@ public class HtmlLayoutRenderer
 			return;
 
 		@SuppressWarnings( "unchecked" )
-		Map<String, String> attributes = (Map<String, String>) childComponent.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+		Map<String, String> metadataAttributes = (Map<String, String>) childComponent.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
 
-		if ( attributes != null )
+		if ( metadataAttributes != null )
 		{
-			if ( TRUE.equals( attributes.get( READ_ONLY ) ) || ( (UIMetawidget) component ).isReadOnly() )
+			if ( TRUE.equals( metadataAttributes.get( READ_ONLY ) ) || ( (UIMetawidget) metawidget ).isReadOnly() )
 				return;
 		}
 
 		// Not using inline messages?
 
-		Boolean useInlineMessages = getState( KEY_USE_INLINE_MESSAGES );
+		Map<String, Object> attributes = metawidget.getAttributes();
+		Boolean useInlineMessages = (Boolean) attributes.get( KEY_USE_INLINE_MESSAGES );
 
 		if ( useInlineMessages == null )
 		{
-			UIParameter useInlineMessagesParameter = FacesUtils.findParameterWithName( component, KEY_USE_INLINE_MESSAGES );
+			UIParameter useInlineMessagesParameter = FacesUtils.findParameterWithName( metawidget, KEY_USE_INLINE_MESSAGES );
 
 			if ( useInlineMessagesParameter == null )
 				useInlineMessages = Boolean.TRUE;
 			else
 				useInlineMessages = Boolean.valueOf( (String) useInlineMessagesParameter.getValue() );
 
-			putState( KEY_USE_INLINE_MESSAGES, useInlineMessages );
+			attributes.put( KEY_USE_INLINE_MESSAGES, useInlineMessages );
 		}
 
 		if ( !useInlineMessages )
@@ -191,44 +207,45 @@ public class HtmlLayoutRenderer
 
 		// Render inline message
 
-		FacesUtils.render( context, createMessage( context, component, messageFor ) );
+		FacesUtils.render( context, createMessage( context, metawidget, messageFor ) );
 	}
 
-	protected HtmlMessage createMessage( FacesContext context, UIComponent component, String messageFor )
+	protected HtmlMessage createMessage( FacesContext context, UIComponent metawidget, String messageFor )
 	{
 		HtmlMessage message = (HtmlMessage) context.getApplication().createComponent( "javax.faces.HtmlMessage" );
-		message.setParent( component );
+		message.setParent( metawidget );
 		message.setId( context.getViewRoot().createUniqueId() );
 		message.setFor( messageFor );
 
 		// Parse styles
 
-		String messageStyle = getState( KEY_MESSAGE_STYLE );
+		Map<String, Object> attributes = metawidget.getAttributes();
+		String messageStyle = (String) attributes.get( KEY_MESSAGE_STYLE );
 
 		if ( messageStyle == null )
 		{
-			UIParameter messageStyleParameter = FacesUtils.findParameterWithName( component, KEY_MESSAGE_STYLE );
+			UIParameter messageStyleParameter = FacesUtils.findParameterWithName( metawidget, KEY_MESSAGE_STYLE );
 
 			if ( messageStyleParameter == null )
 				messageStyle = "";
 			else
 				messageStyle = (String) messageStyleParameter.getValue();
 
-			putState( KEY_MESSAGE_STYLE, messageStyle );
+			attributes.put( KEY_MESSAGE_STYLE, messageStyle );
 		}
 
-		String messageStyleClass = getState( KEY_MESSAGE_STYLE_CLASS );
+		String messageStyleClass = (String) attributes.get( KEY_MESSAGE_STYLE_CLASS );
 
 		if ( messageStyleClass == null )
 		{
-			UIParameter messageStyleClassParameter = FacesUtils.findParameterWithName( component, KEY_MESSAGE_STYLE_CLASS );
+			UIParameter messageStyleClassParameter = FacesUtils.findParameterWithName( metawidget, KEY_MESSAGE_STYLE_CLASS );
 
 			if ( messageStyleClassParameter == null )
 				messageStyleClass = "";
 			else
 				messageStyleClass = (String) messageStyleClassParameter.getValue();
 
-			putState( KEY_MESSAGE_STYLE_CLASS, messageStyleClass );
+			attributes.put( KEY_MESSAGE_STYLE_CLASS, messageStyleClass );
 		}
 
 		if ( !"".equals( messageStyle ) )
@@ -238,5 +255,19 @@ public class HtmlLayoutRenderer
 			message.setStyleClass( messageStyleClass );
 
 		return message;
+	}
+
+	protected void writeStyleAndClass( UIComponent metawidget, ResponseWriter writer, String style )
+		throws IOException
+	{
+		UIParameter parameterStyle = FacesUtils.findParameterWithName( metawidget, style + "Style" );
+
+		if ( parameterStyle != null )
+			writer.writeAttribute( "style", parameterStyle.getValue(), "style" );
+
+		UIParameter parameterStyleClass = FacesUtils.findParameterWithName( metawidget, style + "StyleClass" );
+
+		if ( parameterStyleClass != null )
+			writer.writeAttribute( "class", parameterStyleClass.getValue(), "class" );
 	}
 }

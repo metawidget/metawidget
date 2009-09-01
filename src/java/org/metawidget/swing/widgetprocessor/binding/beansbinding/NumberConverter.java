@@ -17,7 +17,7 @@
 package org.metawidget.swing.widgetprocessor.binding.beansbinding;
 
 import org.jdesktop.beansbinding.Converter;
-import org.metawidget.iface.MetawidgetException;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
  * @author Richard Kennard
@@ -73,6 +73,6 @@ public class NumberConverter<T extends Number>
 		if ( mNumberClass.equals( Double.class ) )
 			return (T) Double.valueOf( value );
 
-		throw MetawidgetException.newException( "Unknown type " + mNumberClass );
+		throw WidgetProcessorException.newException( "Unknown type " + mNumberClass );
 	}
 }

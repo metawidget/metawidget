@@ -24,7 +24,6 @@ import javax.swing.JTextField;
 import junit.framework.TestCase;
 
 import org.jdesktop.application.Action;
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
@@ -32,6 +31,7 @@ import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionSt
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.swing.SwingAppFrameworkInspector;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
  * @author Richard Kennard
@@ -104,7 +104,7 @@ public class ReflectionBindingProcessorTest
 		{
 			binding.onAdd( new JTextField(), ACTION, null, null );
 		}
-		catch( MetawidgetException e )
+		catch( WidgetProcessorException e )
 		{
 			assertTrue( "ReflectionBinding only supports binding actions to AbstractButtons".equals( e.getMessage() ));
 		}

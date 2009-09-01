@@ -33,13 +33,13 @@ import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.Binding.SyncFailure;
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
@@ -160,7 +160,7 @@ public class BeansBindingProcessor
 				SyncFailure failure = binding.refresh();
 
 				if ( failure != null )
-					throw MetawidgetException.newException( failure.getType().toString() );
+					throw WidgetProcessorException.newException( failure.getType().toString() );
 			}
 		}
 
@@ -203,11 +203,11 @@ public class BeansBindingProcessor
 					SyncFailure failure = binding.save();
 
 					if ( failure != null )
-						throw MetawidgetException.newException( failure.getConversionException() );
+						throw WidgetProcessorException.newException( failure.getConversionException() );
 				}
 				catch ( ClassCastException e )
 				{
-					throw MetawidgetException.newException( "When saving from " + binding.getTargetObject().getClass().getName() + " to " + sourceProperty + " (have you used BeansBinding.registerConverter?)", e );
+					throw WidgetProcessorException.newException( "When saving from " + binding.getTargetObject().getClass().getName() + " to " + sourceProperty + " (have you used BeansBinding.registerConverter?)", e );
 				}
 			}
 		}
@@ -312,7 +312,7 @@ public class BeansBindingProcessor
 		}
 		else
 		{
-			throw MetawidgetException.newException( "Property '" + sourceProperty + "' has no getter and no setter" );
+			throw WidgetProcessorException.newException( "Property '" + sourceProperty + "' has no getter and no setter" );
 		}
 
 		// Convenience converter for labels
@@ -330,7 +330,7 @@ public class BeansBindingProcessor
 		}
 		catch ( ClassCastException e )
 		{
-			throw MetawidgetException.newException( "When binding " + metawidget.getPath() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + sourceProperty + " to " + component.getClass() + "." + componentProperty + " (have you used BeansBinding.registerConverter?)", e );
+			throw WidgetProcessorException.newException( "When binding " + metawidget.getPath() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + sourceProperty + " to " + component.getClass() + "." + componentProperty + " (have you used BeansBinding.registerConverter?)", e );
 		}
 
 		// Save the binding

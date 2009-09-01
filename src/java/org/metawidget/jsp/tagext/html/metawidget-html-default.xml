@@ -20,6 +20,10 @@
 			<htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
 		</widgetBuilder>
 
+		<layout>
+			<htmlTableLayout xmlns="urn:java:org.metawidget.jsp.tagext.html.layout"/>
+		</layout>
+
 	</htmlMetawidgetTag>			
 
 </metawidget>

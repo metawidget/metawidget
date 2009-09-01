@@ -85,68 +85,69 @@ public class HtmlDivLayoutRenderer
 	//
 
 	@Override
-	public void reentrantEncodeBegin( FacesContext context, UIComponent component )
+	public void encodeBegin( FacesContext context, UIComponent metawidget )
 		throws IOException
 	{
-		super.reentrantEncodeBegin( context, component );
+		super.encodeBegin( context, metawidget );
 
 		// Determine outer styles
 
-		UIParameter parameterOuterStyle = FacesUtils.findParameterWithName( component, KEY_OUTER_STYLE );
+		Map<String, Object> attributes = metawidget.getAttributes();
+		UIParameter parameterOuterStyle = FacesUtils.findParameterWithName( metawidget, KEY_OUTER_STYLE );
 
 		if ( parameterOuterStyle != null )
-			putState( KEY_OUTER_STYLE, parameterOuterStyle.getValue() );
+			attributes.put( KEY_OUTER_STYLE, parameterOuterStyle.getValue() );
 
 		// Determine label styles
 
-		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( component, KEY_LABEL_STYLE );
+		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( metawidget, KEY_LABEL_STYLE );
 
 		if ( parameterLabelStyle != null )
-			putState( KEY_LABEL_STYLE, parameterLabelStyle.getValue() );
+			attributes.put( KEY_LABEL_STYLE, parameterLabelStyle.getValue() );
 
 		// Determine label styles
 
-		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( component, KEY_REQUIRED_STYLE );
+		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( metawidget, KEY_REQUIRED_STYLE );
 
 		if ( parameterRequiredStyle != null )
-			putState( KEY_REQUIRED_STYLE, parameterRequiredStyle.getValue() );
+			attributes.put( KEY_REQUIRED_STYLE, parameterRequiredStyle.getValue() );
 
 		// Determine component styles
 
-		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( component, KEY_COMPONENT_STYLE );
+		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( metawidget, KEY_COMPONENT_STYLE );
 
 		if ( parameterComponentStyle != null )
-			putState( KEY_COMPONENT_STYLE, parameterComponentStyle.getValue() );
+			attributes.put( KEY_COMPONENT_STYLE, parameterComponentStyle.getValue() );
 
 		// Determine style classes
 
-		String[] styleClasses = getState( KEY_STYLE_CLASSES );
+		String[] styleClasses = (String[]) attributes.get( KEY_STYLE_CLASSES );
 
 		if ( styleClasses == null )
 		{
-			UIParameter parameterStyleClasses = FacesUtils.findParameterWithName( component, KEY_STYLE_CLASSES );
+			UIParameter parameterStyleClasses = FacesUtils.findParameterWithName( metawidget, KEY_STYLE_CLASSES );
 
 			if ( parameterStyleClasses != null )
-				putState( KEY_STYLE_CLASSES, ( (String) parameterStyleClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA ) );
+				attributes.put( KEY_STYLE_CLASSES, ( (String) parameterStyleClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA ) );
 		}
 
 		// Determine section styles
 
-		UIParameter parameterSectionStyle = FacesUtils.findParameterWithName( component, KEY_SECTION_STYLE );
+		UIParameter parameterSectionStyle = FacesUtils.findParameterWithName( metawidget, KEY_SECTION_STYLE );
 
 		if ( parameterSectionStyle != null )
-			putState( KEY_SECTION_STYLE, parameterSectionStyle.getValue() );
+			attributes.put( KEY_SECTION_STYLE, parameterSectionStyle.getValue() );
 
-		UIParameter parameterSectionStyleClass = FacesUtils.findParameterWithName( component, KEY_SECTION_STYLE_CLASS );
+		UIParameter parameterSectionStyleClass = FacesUtils.findParameterWithName( metawidget, KEY_SECTION_STYLE_CLASS );
 
 		if ( parameterSectionStyleClass != null )
-			putState( KEY_SECTION_STYLE_CLASS, parameterSectionStyleClass.getValue() );
+			attributes.put( KEY_SECTION_STYLE_CLASS, parameterSectionStyleClass.getValue() );
 
 		// Start component
 
 		ResponseWriter writer = context.getResponseWriter();
-		writer.startElement( "div", component );
-		writer.writeAttribute( "id", component.getClientId( context ), "id" );
+		writer.startElement( "div", metawidget );
+		writer.writeAttribute( "id", metawidget.getClientId( context ), "id" );
 	}
 
 	@Override
@@ -190,19 +191,21 @@ public class HtmlDivLayoutRenderer
 	}
 
 	@Override
-	public void reentrantEncodeEnd( FacesContext context, UIComponent component )
+	public void encodeEnd( FacesContext context, UIComponent metawidget )
 		throws IOException
 	{
+		super.encodeEnd( context, metawidget );
+
 		ResponseWriter writer = context.getResponseWriter();
 
 		// Footer facet
 
-		UIComponent componentFooter = component.getFacet( "footer" );
+		UIComponent componentFooter = metawidget.getFacet( "footer" );
 
 		if ( componentFooter != null )
 		{
-			writer.startElement( "div", component );
-			writeStyleAndClass( component, writer, "footer" );
+			writer.startElement( "div", metawidget );
+			writeStyleAndClass( metawidget, writer, "footer" );
 
 			// Render facet
 
@@ -217,15 +220,16 @@ public class HtmlDivLayoutRenderer
 	}
 
 	@Override
-	protected HtmlMessage createMessage( FacesContext context, UIComponent component, String messageFor )
+	protected HtmlMessage createMessage( FacesContext context, UIComponent metawidget, String messageFor )
 	{
-		HtmlMessage message = super.createMessage( context, component, messageFor );
+		HtmlMessage message = super.createMessage( context, metawidget, messageFor );
 
 		// Apply alternate style class (if any)
 
 		if ( message.getStyleClass() == null )
 		{
-			String[] styleClasses = getState( KEY_STYLE_CLASSES );
+			Map<String, Object> attributes = metawidget.getAttributes();
+			String[] styleClasses = (String[]) attributes.get( KEY_STYLE_CLASSES );
 
 			if ( styleClasses != null && styleClasses.length > 4 )
 				message.setStyleClass( styleClasses[4] );
@@ -238,56 +242,57 @@ public class HtmlDivLayoutRenderer
 	// Protected methods
 	//
 
-	protected void layoutBeforeChild( FacesContext context, UIComponent component, UIComponent componentChild )
+	protected void layoutBeforeChild( FacesContext context, UIComponent metawidget, UIComponent componentChild )
 		throws IOException
 	{
 		ResponseWriter writer = context.getResponseWriter();
 
 		// Section headings
 
-		String currentSection = getState( KEY_CURRENT_SECTION );
+		Map<String, Object> attributes = metawidget.getAttributes();
+		String currentSection = (String) attributes.get( KEY_CURRENT_SECTION );
 
 		@SuppressWarnings( "unchecked" )
-		Map<String, String> attributes = (Map<String, String>) componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+		Map<String, String> metadataAttributes = (Map<String, String>) componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
 
 		// (layoutBeforeChild may get called even if layoutBegin crashed. Try
 		// to fail gracefully)
 
-		if ( attributes != null )
+		if ( metadataAttributes != null )
 		{
-			String section = attributes.get( SECTION );
+			String section = metadataAttributes.get( SECTION );
 
 			if ( section != null && !section.equals( currentSection ) )
 			{
-				putState( KEY_CURRENT_SECTION, section );
-				layoutSection( context, component, section, componentChild );
+				attributes.put( KEY_CURRENT_SECTION, section );
+				layoutSection( context, metawidget, section, componentChild );
 			}
 		}
 		// Outer
 
-		writer.startElement( "div", component );
+		writer.startElement( "div", metawidget );
 
-		String outerStyle = getState( KEY_OUTER_STYLE );
+		String outerStyle = (String) attributes.get( KEY_OUTER_STYLE );
 
 		if ( outerStyle != null )
 			writer.writeAttribute( "style", outerStyle, null );
 
-		writeStyleClass( writer, 0 );
+		writeStyleClass( metawidget, writer, 0 );
 
 		// Label
 
-		layoutLabel( context, component, componentChild );
+		layoutLabel( context, metawidget, componentChild );
 
 		// Component
 
-		writer.startElement( "div", component );
+		writer.startElement( "div", metawidget );
 
-		String componentStyle = getState( KEY_COMPONENT_STYLE );
+		String componentStyle = (String) attributes.get( KEY_COMPONENT_STYLE );
 
 		if ( componentStyle != null )
 			writer.writeAttribute( "style", componentStyle, null );
 
-		writeStyleClass( writer, 3 );
+		writeStyleClass( metawidget, writer, 3 );
 	}
 
 	/**
@@ -295,63 +300,64 @@ public class HtmlDivLayoutRenderer
 	 */
 
 	@Override
-	protected boolean layoutLabel( FacesContext context, UIComponent component, UIComponent componentNeedingLabel )
+	protected boolean layoutLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel )
 		throws IOException
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<String, String> attributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
-		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( context, attributes );
+		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( context, metadataAttributes );
 
 		if ( label == null )
 			return false;
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		writer.startElement( "div", component );
+		writer.startElement( "div", metawidget );
 
-		String labelStyle = getState( KEY_LABEL_STYLE );
+		Map<String, Object> attributes = metawidget.getAttributes();
+		String labelStyle = (String) attributes.get( KEY_LABEL_STYLE );
 
 		if ( labelStyle != null )
 			writer.writeAttribute( "style", labelStyle, null );
 
-		writeStyleClass( writer, 1 );
+		writeStyleClass( metawidget, writer, 1 );
 
-		super.layoutLabel( context, component, componentNeedingLabel );
+		super.layoutLabel( context, metawidget, componentNeedingLabel );
 
-		layoutRequired( context, component, componentNeedingLabel );
+		layoutRequired( context, metawidget, componentNeedingLabel );
 
 		writer.endElement( "div" );
 
 		return true;
 	}
 
-	protected void layoutRequired( FacesContext context, UIComponent component, UIComponent child )
+	protected void layoutRequired( FacesContext context, UIComponent metawidget, UIComponent child )
 		throws IOException
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<String, String> attributes = (Map<String, String>) child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+		Map<String, String> metadataAttributes = (Map<String, String>) child.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
 
-		if ( attributes == null )
+		if ( metadataAttributes == null )
 			return;
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !( (UIMetawidget) component ).isReadOnly() )
+		if ( TRUE.equals( metadataAttributes.get( REQUIRED ) ) && !TRUE.equals( metadataAttributes.get( READ_ONLY ) ) && !( (UIMetawidget) metawidget ).isReadOnly() )
 		{
-			writer.startElement( "span", component );
+			writer.startElement( "span", metawidget );
 
-			String requiredStyle = getState( KEY_REQUIRED_STYLE );
+			String requiredStyle = metadataAttributes.get( KEY_REQUIRED_STYLE );
 
 			if ( requiredStyle != null )
 				writer.writeAttribute( "style", requiredStyle, null );
 
-			writeStyleClass( writer, 2 );
+			writeStyleClass( metawidget, writer, 2 );
 			writer.write( "*" );
 			writer.endElement( "span" );
 		}
 	}
 
-	protected void layoutSection( FacesContext context, UIComponent component, String section, UIComponent childComponent )
+	protected void layoutSection( FacesContext context, UIComponent metawidget, String section, UIComponent childComponent )
 		throws IOException
 	{
 		// Blank section?
@@ -361,14 +367,15 @@ public class HtmlDivLayoutRenderer
 
 		ResponseWriter writer = context.getResponseWriter();
 
-		writer.startElement( "div", component );
+		writer.startElement( "div", metawidget );
 
-		String sectionStyle = getState( KEY_SECTION_STYLE );
+		Map<String, Object> attributes = metawidget.getAttributes();
+		String sectionStyle = (String) attributes.get( KEY_SECTION_STYLE );
 
 		if ( sectionStyle != null )
 			writer.writeAttribute( "style", sectionStyle, null );
 
-		String sectionStyleClass = getState( KEY_SECTION_STYLE_CLASS );
+		String sectionStyleClass = (String) attributes.get( KEY_SECTION_STYLE_CLASS );
 
 		if ( sectionStyleClass != null )
 			writer.writeAttribute( "class", sectionStyleClass, null );
@@ -398,10 +405,11 @@ public class HtmlDivLayoutRenderer
 		writer.endElement( "div" );
 	}
 
-	protected void writeStyleClass( ResponseWriter writer, int styleClass )
+	protected void writeStyleClass( UIComponent metawidget, ResponseWriter writer, int styleClass )
 		throws IOException
 	{
-		String[] styleClasses = getState( KEY_STYLE_CLASSES );
+		Map<String, Object> attributes = metawidget.getAttributes();
+		String[] styleClasses = (String[]) attributes.get( KEY_STYLE_CLASSES );
 
 		if ( styleClasses == null || styleClasses.length <= styleClass )
 			return;

@@ -19,7 +19,6 @@ package org.metawidget.jsp.tagext;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -38,7 +37,6 @@ import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.jsp.tagext.StubTag.StubContent;
-import org.metawidget.jsp.tagext.html.layout.HtmlTableLayout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -90,8 +88,6 @@ public abstract class MetawidgetTag
 
 	private boolean							mNeedsConfiguring		= true;
 
-	private String							mLayoutClass			= HtmlTableLayout.class.getName();
-
 	private Layout							mLayout;
 
 	private ResourceBundle					mBundle;
@@ -133,12 +129,6 @@ public abstract class MetawidgetTag
 	{
 		mConfig = config;
 		mNeedsConfiguring = true;
-	}
-
-	public void setLayoutClass( String layoutClass )
-	{
-		mLayoutClass = layoutClass;
-		mLayout = null;
 	}
 
 	public String getLabelString( Map<String, String> attributes )
@@ -269,6 +259,21 @@ public abstract class MetawidgetTag
 	public void setWidgetBuilder( WidgetBuilder<Object, ? extends MetawidgetTag> widgetBuilder )
 	{
 		mMetawidgetMixin.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
+	}
+
+	public void setLayoutClass( String layoutClass )
+		throws Exception
+	{
+		if ( layoutClass == null || "".equals( layoutClass ))
+			mLayout = null;
+		else
+			// TODO: immutable?
+			mLayout = (Layout) ClassUtils.niceForName( layoutClass ).newInstance();
+	}
+
+	public void setLayout( Layout layout )
+	{
+		mLayout = layout;
 	}
 
 	/**
@@ -411,15 +416,6 @@ public abstract class MetawidgetTag
 	protected void startBuild()
 		throws Exception
 	{
-		if ( mLayout == null && mLayoutClass != null && !"".equals( mLayoutClass ) )
-		{
-			@SuppressWarnings( "unchecked" )
-			Class<? extends Layout> layout = (Class<? extends Layout>) ClassUtils.niceForName( mLayoutClass );
-
-			Constructor<? extends Layout> constructor = layout.getConstructor( MetawidgetTag.class );
-			mLayout = constructor.newInstance( this );
-		}
-
 		JspWriter writer = pageContext.getOut();
 
 		if ( mLayout != null )
@@ -462,7 +458,7 @@ public abstract class MetawidgetTag
 
 		nestedMetawidget.setPathInternal( mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setConfig( mConfig );
-		nestedMetawidget.mLayout = mLayout;
+		nestedMetawidget.setLayout( mLayout );
 		nestedMetawidget.setBundle( mBundle );
 
 		if ( mParameters != null )
@@ -541,6 +537,12 @@ public abstract class MetawidgetTag
 			{
 				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "inspector" );
 				mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
+			}
+
+			if ( mLayout == null )
+			{
+				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "layout" );
+				setLayout( dummyMetawidget.mLayout );
 			}
 		}
 		catch ( Exception e )

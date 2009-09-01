@@ -61,6 +61,17 @@ public class WidgetProcessorException
 		return new WidgetProcessorException( message );
 	}
 
+	/**
+	 * Static constructor.
+	 * <p>
+	 * For consistency with <code>WidgetProcessorException.newException( Throwable )</code>.
+	 */
+
+	public static WidgetProcessorException newException( String message, Throwable cause )
+	{
+		return new WidgetProcessorException( message, cause );
+	}
+
 	//
 	// Constructor
 	//
@@ -73,5 +84,10 @@ public class WidgetProcessorException
 	private WidgetProcessorException( Throwable cause )
 	{
 		super( cause );
+	}
+
+	private WidgetProcessorException( String message, Throwable cause )
+	{
+		super( message, cause );
 	}
 }

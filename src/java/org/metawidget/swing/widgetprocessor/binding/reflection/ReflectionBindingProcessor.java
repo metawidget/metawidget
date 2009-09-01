@@ -26,11 +26,11 @@ import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
 import javax.swing.JComponent;
 
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.PathUtils;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
@@ -64,7 +64,7 @@ public class ReflectionBindingProcessor
 			return;
 
 		if ( !( component instanceof AbstractButton ))
-			throw MetawidgetException.newException( "ReflectionBinding only supports binding actions to AbstractButtons" );
+			throw WidgetProcessorException.newException( "ReflectionBinding only supports binding actions to AbstractButtons" );
 
 		if ( metawidget == null )
 			return;
@@ -118,7 +118,7 @@ public class ReflectionBindingProcessor
 				}
 				catch ( Exception exception2 )
 				{
-					throw MetawidgetException.newException( exception2 );
+					throw WidgetProcessorException.newException( exception2 );
 				}
 			}
 		} );

@@ -14,44 +14,35 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.util;
+package org.metawidget.widgetprocessor.impl;
+
+import javax.swing.JComponent;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.ThreadUtils;
-import org.metawidget.util.ThreadUtils.ReentrantThreadLocal;
+import org.metawidget.swing.SwingMetawidget;
 
 /**
  * @author Richard Kennard
  */
 
-public class ThreadUtilsTest
+public class BaseWidgetProcessorTest
 	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	public void testThreadUtils()
+	public void testBaseWidgetBuilder()
 		throws Exception
 	{
-		ReentrantThreadLocal<Integer> reentrant = ThreadUtils.newReentrantThreadLocal();
+		BaseWidgetProcessor<?, ?> widgetProcessor = new BaseWidgetProcessor<JComponent, SwingMetawidget>()
+		{
+			// Should be instantiatable without overriding anything
+		};
 
-		assertTrue( reentrant.get() == null );
+		// Should do nothing
 
-		reentrant.push();
-		assertTrue( reentrant.get() == null );
-		reentrant.set( Integer.valueOf( 42 ) );
-
-		reentrant.push();
-		assertTrue( reentrant.get() == null );
-		reentrant.set( Integer.valueOf( 43 ) );
-		assertTrue( Integer.valueOf( 43 ).equals( reentrant.get() ) );
-		reentrant.pop();
-
-		assertTrue( Integer.valueOf( 42 ).equals( reentrant.get() ) );
-		reentrant.pop();
-
-		assertTrue( reentrant.get() == null );
+		widgetProcessor.onAdd( null, null, null, null );
 	}
 }

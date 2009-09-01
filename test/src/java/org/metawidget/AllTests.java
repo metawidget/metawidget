@@ -29,6 +29,8 @@ import org.metawidget.swing.SwingMetawidgetTests;
 import org.metawidget.util.UtilTests;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderExceptionTest;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilderTest;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorExceptionTest;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessorTest;
 
 /**
  * @author Richard Kennard
@@ -50,6 +52,7 @@ public class AllTests
 
 		TestSuite suite = new TestSuite( "Metawidget Tests" );
 		suite.addTestSuite( BaseWidgetBuilderTest.class );
+		suite.addTestSuite( BaseWidgetProcessorTest.class );
 		suite.addTest( ExampleTests.suite() );
 		suite.addTest( FacesMetawidgetTests.suite() );
 		suite.addTest( InspectorTests.suite() );
@@ -58,6 +61,7 @@ public class AllTests
 		suite.addTest( SwingMetawidgetTests.suite() );
 		suite.addTest( UtilTests.suite() );
 		suite.addTestSuite( WidgetBuilderExceptionTest.class );
+		suite.addTestSuite( WidgetProcessorExceptionTest.class );
 
 		return suite;
 	}

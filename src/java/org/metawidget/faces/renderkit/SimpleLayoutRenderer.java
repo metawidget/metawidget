@@ -20,6 +20,7 @@ import java.io.IOException;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.render.Renderer;
 
 import org.metawidget.faces.FacesUtils;
 
@@ -38,7 +39,7 @@ import org.metawidget.faces.FacesUtils;
  */
 
 public class SimpleLayoutRenderer
-	extends LayoutRenderer
+	extends Renderer
 {
 	//
 	// Private statics
@@ -51,7 +52,7 @@ public class SimpleLayoutRenderer
 	//
 
 	@Override
-	public void reentrantEncodeEnd( FacesContext context, UIComponent component )
+	public void encodeEnd( FacesContext context, UIComponent component )
 		throws IOException
 	{
 		// After facet

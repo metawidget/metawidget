@@ -28,10 +28,10 @@ import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
  * @author Richard Kennard
@@ -178,7 +178,7 @@ public class BeansBindingProcessorTest
 			metawidget.getComponent( 0 );
 			assertTrue( false );
 		}
-		catch ( MetawidgetException e )
+		catch ( WidgetProcessorException e )
 		{
 			assertTrue( "Property 'bar' has no getter and no setter".equals( e.getMessage() ) );
 		}
@@ -206,7 +206,7 @@ public class BeansBindingProcessorTest
 			metawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( metawidget );
 			assertTrue( false );
 		}
-		catch ( MetawidgetException e )
+		catch ( WidgetProcessorException e )
 		{
 			assertTrue( "When saving from javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBinding.registerConverter?)".equals( e.getMessage() ) );
 		}
@@ -221,7 +221,7 @@ public class BeansBindingProcessorTest
 			metawidget.getComponent( 0 );
 			assertTrue( false );
 		}
-		catch ( MetawidgetException e )
+		catch ( WidgetProcessorException e )
 		{
 			assertTrue( "When binding org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest$CantLoadSaveFoo/bar to class javax.swing.JTextField.text (have you used BeansBinding.registerConverter?)".equals( e.getMessage() ) );
 		}

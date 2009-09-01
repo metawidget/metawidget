@@ -29,12 +29,12 @@ import javax.swing.JScrollPane;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.ConvertUtils;
 import org.apache.commons.beanutils.PropertyUtils;
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
@@ -109,7 +109,7 @@ public class BeanUtilsBindingProcessor
 			}
 			catch ( NoSuchMethodException e )
 			{
-				throw MetawidgetException.newException( "Property '" + names + "' has no getter" );
+				throw WidgetProcessorException.newException( "Property '" + names + "' has no getter" );
 			}
 
 			SavedBinding binding = new SavedBinding( componentToBind, componentProperty, names, TRUE.equals( attributes.get( NO_SETTER ) ) );
@@ -124,7 +124,7 @@ public class BeanUtilsBindingProcessor
 		}
 		catch ( Exception e )
 		{
-			throw MetawidgetException.newException( e );
+			throw WidgetProcessorException.newException( e );
 		}
 	}
 
@@ -162,7 +162,7 @@ public class BeanUtilsBindingProcessor
 					}
 					catch ( NoSuchMethodException e )
 					{
-						throw MetawidgetException.newException( "Property '" + names + "' has no getter" );
+						throw WidgetProcessorException.newException( "Property '" + names + "' has no getter" );
 					}
 
 					saveValueToWidget( binding, sourceValue );
@@ -170,7 +170,7 @@ public class BeanUtilsBindingProcessor
 			}
 			catch ( Exception e )
 			{
-				throw MetawidgetException.newException( e );
+				throw WidgetProcessorException.newException( e );
 			}
 		}
 
@@ -209,7 +209,7 @@ public class BeanUtilsBindingProcessor
 			}
 			catch ( Exception e )
 			{
-				throw MetawidgetException.newException( e );
+				throw WidgetProcessorException.newException( e );
 			}
 		}
 

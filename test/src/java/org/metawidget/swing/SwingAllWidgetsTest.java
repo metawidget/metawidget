@@ -481,7 +481,7 @@ public class SwingAllWidgetsTest
 		}
 		catch ( Exception e )
 		{
-			assertTrue( "Could not parse 'bad date'".equals( e.getCause().getMessage() ) );
+			assertTrue( "Could not parse 'bad date'".equals( e.getCause().getCause().getMessage() ) );
 		}
 
 		// Check saving

@@ -27,6 +27,10 @@
 			</compositeWidgetBuilder>
 		</widgetBuilder>
 
+		<layout>
+			<htmlTableLayout xmlns="urn:java:org.metawidget.jsp.tagext.html.layout"/>
+		</layout>
+		
 	</strutsMetawidgetTag>	
 
 </metawidget>
