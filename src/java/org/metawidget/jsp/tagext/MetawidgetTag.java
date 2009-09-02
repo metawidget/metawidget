@@ -37,6 +37,7 @@ import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.jsp.tagext.StubTag.StubContent;
+import org.metawidget.jsp.tagext.html.layout.HtmlTableLayout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -259,6 +260,60 @@ public abstract class MetawidgetTag
 	public void setWidgetBuilder( WidgetBuilder<Object, ? extends MetawidgetTag> widgetBuilder )
 	{
 		mMetawidgetMixin.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
+	}
+
+	/**
+	 * Set the layout as a Class.
+	 * <p>
+	 * Generally Metawidgets provide a <code>setLayout</code> method, as opposed to
+	 * <code>setLayoutClass</code>. However, instantiation of objects is cumbersome in JSPs, so this
+	 * method is provided as a convenience. It instantiates the <code>Layout</code> given its
+	 * fully-qualified class name.
+	 */
+
+	public void setLayoutClass( String layoutClass )
+	{
+		// Null layout?
+
+		if ( layoutClass == null || "".equals( layoutClass ))
+		{
+			setLayout( null );
+			return;
+		}
+
+		// Layouts are immutable and threadsafe, so cache them at the application level
+
+		ServletContext servletContext = this.getPageContext().getServletContext();
+		@SuppressWarnings("unchecked")
+		Map<String, Layout> cachedLayouts = (Map<String, Layout>) servletContext.getAttribute( MetawidgetTag.class.getName() );
+
+		if ( cachedLayouts == null )
+		{
+			cachedLayouts = CollectionUtils.newHashMap();
+			servletContext.setAttribute( MetawidgetTag.class.getName(), cachedLayouts );
+		}
+
+		// Instantiate the Layout
+
+		Layout layout = cachedLayouts.get( layoutClass );
+
+		if ( layout == null )
+		{
+			try
+			{
+				layout = (Layout) Class.forName( layoutClass ).newInstance();
+			}
+			catch( Exception e )
+			{
+				throw MetawidgetException.newException( e );
+			}
+
+			cachedLayouts.put( layoutClass, layout );
+		}
+
+		// Set the Layout
+
+		setLayout( layout );
 	}
 
 	public void setLayout( Layout layout )
@@ -530,10 +585,7 @@ public abstract class MetawidgetTag
 			}
 
 			if ( mLayout == null )
-			{
-				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "layout" );
-				setLayout( dummyMetawidget.mLayout );
-			}
+				setLayoutClass( HtmlTableLayout.class.getName() );
 		}
 		catch ( Exception e )
 		{

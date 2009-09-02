@@ -170,8 +170,8 @@
 						<c:if test="${!contactController.readOnly}">
 							<tfoot>
 								<tr>
-									<td class="column-half"><m:metawidget value="communication.type" style="width: 100%" layout="${null}"/></td>
-									<td class="column-half"><m:metawidget value="communication.value" style="width: 100%" layout="${null}"/></td>
+									<td class="column-half"><m:metawidget value="communication.type" style="width: 100%" layoutClass=""/></td>
+									<td class="column-half"><m:metawidget value="communication.value" style="width: 100%" layoutClass=""/></td>
 									<td class="column-tiny, table-buttons"><input type="submit" name="addCommunication" value="Add"/></td>
 								</tr>
 							</tfoot>
@@ -193,7 +193,7 @@
 				</m:stub>
 
 				<m:facet name="footer" styleClass="buttons">
-					<m:metawidget value="contactController" layout="${null}"/>
+					<m:metawidget value="contactController" layoutClass=""/>
 				</m:facet>
 
 			</m:metawidget>
