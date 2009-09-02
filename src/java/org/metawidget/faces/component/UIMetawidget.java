@@ -20,34 +20,23 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.TimeZone;
 
 import javax.faces.application.Application;
 import javax.faces.component.ActionSource;
-import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIParameter;
-import javax.faces.component.UISelectMany;
-import javax.faces.component.UISelectOne;
-import javax.faces.component.ValueHolder;
 import javax.faces.context.FacesContext;
-import javax.faces.convert.Converter;
-import javax.faces.convert.DateTimeConverter;
-import javax.faces.convert.NumberConverter;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
 import org.metawidget.faces.FacesUtils;
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
@@ -233,6 +222,11 @@ public abstract class UIMetawidget
 	public void setWidgetProcessors( List<WidgetProcessor<UIComponent, UIMetawidget>> widgetProcessors )
 	{
 		mMetawidgetMixin.setWidgetProcessors( widgetProcessors );
+	}
+
+	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
+	{
+		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
 	}
 
 	/**
@@ -768,31 +762,6 @@ public abstract class UIMetawidget
 		mBindingPrefix = FacesUtils.unwrapExpression( valueBinding.getExpressionString() ) + StringUtils.SEPARATOR_DOT_CHAR;
 	}
 
-	protected UIComponent afterBuildWidget( UIComponent component, Map<String, String> attributes )
-		throws Exception
-	{
-		if ( component == null )
-			return null;
-
-		// Immediate
-
-		String immediateString = attributes.get( FACES_IMMEDIATE );
-
-		if ( immediateString != null )
-		{
-			boolean immediate = Boolean.parseBoolean( immediateString );
-
-			if ( component instanceof ActionSource )
-				( (ActionSource) component ).setImmediate( immediate );
-			else if ( component instanceof EditableValueHolder )
-				( (EditableValueHolder) component ).setImmediate( immediate );
-			else
-				throw new Exception( "'Immediate' cannot be applied to " + component.getClass() );
-		}
-
-		return component;
-	}
-
 	protected abstract UIMetawidget buildNestedMetawidget( Map<String, String> attributes );
 
 	protected void initNestedMetawidget( UIMetawidget nestedMetawidget, Map<String, String> attributes )
@@ -982,187 +951,6 @@ public abstract class UIMetawidget
 		componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
 	}
 
-	/**
-	 * Attach converter for renderer.
-	 *
-	 * @param component
-	 *            the component to attach the converter to. Need not be a ValueHolder (eg. might be
-	 *            a UIStub, in which case the converter is attached to its children)
-	 * @return the converter that was attached
-	 */
-
-	public Converter setConverter( UIComponent component, Map<String, String> attributes )
-	{
-		// Recurse into stubs
-
-		if ( component instanceof UIStub )
-		{
-			List<UIComponent> children = component.getChildren();
-
-			for ( UIComponent componentChild : children )
-			{
-				setConverter( componentChild, attributes );
-			}
-
-			return null;
-		}
-
-		// Ignore components that cannot have Converters
-
-		if ( !( component instanceof ValueHolder ) )
-			return null;
-
-		// Apply the converter
-
-		try
-		{
-			ValueHolder valueHolder = (ValueHolder) component;
-
-			// Do not override existing Converter (if any)
-
-			Converter converter = valueHolder.getConverter();
-
-			if ( converter != null )
-				return converter;
-
-			// Create from id
-
-			String converterId = attributes.get( FACES_CONVERTER_ID );
-
-			if ( converterId != null )
-			{
-				converter = getFacesContext().getApplication().createConverter( converterId );
-			}
-
-			// Create from parameterized type (eg. a Date converter for List<Date>)
-
-			else if ( component instanceof UISelectOne || component instanceof UISelectMany )
-			{
-				String parameterizedType = attributes.get( PARAMETERIZED_TYPE );
-
-				if ( parameterizedType != null )
-				{
-					Class<?> parameterizedClass = ClassUtils.niceForName( parameterizedType );
-
-					// The parameterized type might be null, or might not be concrete
-					// enough to be instantiatable (eg. List<? extends Foo>)
-
-					if ( parameterizedClass != null )
-						converter = getFacesContext().getApplication().createConverter( parameterizedClass );
-				}
-			}
-
-			// Native support for DateTimeConverter
-
-			if ( attributes.containsKey( DATE_STYLE ) )
-			{
-				converter = getDateTimeConverter( converter );
-				( (DateTimeConverter) converter ).setDateStyle( attributes.get( DATE_STYLE ) );
-			}
-
-			if ( attributes.containsKey( LOCALE ) )
-			{
-				converter = getDateTimeConverter( converter );
-				( (DateTimeConverter) converter ).setLocale( new Locale( attributes.get( LOCALE ) ) );
-			}
-
-			if ( attributes.containsKey( DATETIME_PATTERN ) )
-			{
-				converter = getDateTimeConverter( converter );
-				( (DateTimeConverter) converter ).setPattern( attributes.get( DATETIME_PATTERN ) );
-			}
-
-			if ( attributes.containsKey( TIME_STYLE ) )
-			{
-				converter = getDateTimeConverter( converter );
-				( (DateTimeConverter) converter ).setTimeStyle( attributes.get( TIME_STYLE ) );
-			}
-
-			if ( attributes.containsKey( TIME_ZONE ) )
-			{
-				converter = getDateTimeConverter( converter );
-				( (DateTimeConverter) converter ).setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
-			}
-
-			if ( attributes.containsKey( DATETIME_TYPE ) )
-			{
-				converter = getDateTimeConverter( converter );
-				( (DateTimeConverter) converter ).setType( attributes.get( DATETIME_TYPE ) );
-			}
-
-			// Native support for NumberConverter
-
-			if ( attributes.containsKey( CURRENCY_CODE ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setCurrencyCode( attributes.get( CURRENCY_CODE ) );
-			}
-
-			if ( attributes.containsKey( CURRENCY_SYMBOL ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setCurrencySymbol( attributes.get( CURRENCY_SYMBOL ) );
-			}
-
-			if ( attributes.containsKey( NUMBER_USES_GROUPING_SEPARATORS ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setGroupingUsed( Boolean.parseBoolean( attributes.get( NUMBER_USES_GROUPING_SEPARATORS ) ) );
-			}
-
-			if ( attributes.containsKey( MINIMUM_INTEGER_DIGITS ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setMinIntegerDigits( Integer.parseInt( attributes.get( MINIMUM_INTEGER_DIGITS ) ) );
-			}
-
-			if ( attributes.containsKey( MAXIMUM_INTEGER_DIGITS ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setMaxIntegerDigits( Integer.parseInt( attributes.get( MAXIMUM_INTEGER_DIGITS ) ) );
-			}
-
-			if ( attributes.containsKey( MINIMUM_FRACTIONAL_DIGITS ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setMinFractionDigits( Integer.parseInt( attributes.get( MINIMUM_FRACTIONAL_DIGITS ) ) );
-			}
-
-			if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setMaxFractionDigits( Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
-			}
-
-			if ( attributes.containsKey( LOCALE ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setLocale( new Locale( attributes.get( LOCALE ) ) );
-			}
-
-			if ( attributes.containsKey( NUMBER_PATTERN ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setPattern( attributes.get( NUMBER_PATTERN ) );
-			}
-
-			if ( attributes.containsKey( NUMBER_TYPE ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setType( attributes.get( NUMBER_TYPE ) );
-			}
-
-			// Set it and return it
-
-			valueHolder.setConverter( converter );
-			return converter;
-		}
-		catch ( Exception e )
-		{
-			throw MetawidgetException.newException( e );
-		}
-	}
-
 	protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
@@ -1309,8 +1097,6 @@ public abstract class UIMetawidget
 						setUniqueId( context, widget, valueBinding );
 				}
 			}
-
-			setConverter( widget, attributes );
 		}
 
 		// Add to layout
@@ -1416,14 +1202,6 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected UIComponent buildWidget( String type, Map<String, String> attributes )
-			throws Exception
-		{
-			UIComponent component = super.buildWidget( type, attributes );
-			return UIMetawidget.this.afterBuildWidget( component, attributes );
-		}
-
-		@Override
 		protected UIMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
@@ -1463,44 +1241,5 @@ public abstract class UIMetawidget
 
 			gatherClientIds( component.getFacetsAndChildren() );
 		}
-	}
-
-	private DateTimeConverter getDateTimeConverter( Converter existingConverter )
-	{
-		if ( existingConverter != null && !( existingConverter instanceof DateTimeConverter ) )
-			throw MetawidgetException.newException( "Unable to set date/time attributes on a " + existingConverter.getClass() );
-
-		// In case the application defines its own one
-
-		DateTimeConverter dateTimeConverter = (DateTimeConverter) getFacesContext().getApplication().createConverter( Date.class );
-
-		if ( dateTimeConverter != null )
-			return dateTimeConverter;
-
-		// The JSF default
-
-		return new DateTimeConverter();
-	}
-
-	private NumberConverter getNumberConverter( Converter existingConverter )
-	{
-		if ( existingConverter != null )
-		{
-			if ( !( existingConverter instanceof NumberConverter ) )
-				throw MetawidgetException.newException( "Unable to set number attributes on a " + existingConverter.getClass() );
-
-			return (NumberConverter) existingConverter;
-		}
-
-		// In case the application defines its own one
-
-		NumberConverter numberConverter = (NumberConverter) getFacesContext().getApplication().createConverter( Number.class );
-
-		if ( numberConverter != null )
-			return numberConverter;
-
-		// The JSF default
-
-		return new NumberConverter();
 	}
 }

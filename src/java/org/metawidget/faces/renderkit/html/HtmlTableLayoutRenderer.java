@@ -494,8 +494,8 @@ public class HtmlTableLayoutRenderer
 		throws IOException
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<String, String> attributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
-		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( context, attributes );
+		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( context, metadataAttributes );
 
 		if ( label == null )
 			return false;
@@ -509,7 +509,8 @@ public class HtmlTableLayoutRenderer
 
 		// CSS
 
-		String labelStyle = attributes.get( KEY_LABEL_STYLE );
+		Map<String, Object> attributes = metawidget.getAttributes();
+		String labelStyle = (String) attributes.get( KEY_LABEL_STYLE );
 
 		if ( labelStyle != null )
 			writer.writeAttribute( "style", labelStyle, null );

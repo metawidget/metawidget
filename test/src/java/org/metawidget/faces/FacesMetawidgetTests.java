@@ -72,6 +72,7 @@ import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.icefaces.IceFacesWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.richfaces.RichFacesWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.tomahawk.TomahawkWidgetBuilderTest;
+import org.metawidget.faces.widgetprocessor.StandardConverterProcessorTest;
 
 /**
  * @author Richard Kennard
@@ -91,6 +92,7 @@ public class FacesMetawidgetTests
 		suite.addTestSuite( HtmlWidgetBuilderTest.class );
 		suite.addTestSuite( IceFacesWidgetBuilderTest.class );
 		suite.addTestSuite( RichFacesWidgetBuilderTest.class );
+		suite.addTestSuite( StandardConverterProcessorTest.class );
 		suite.addTestSuite( TomahawkWidgetBuilderTest.class );
 		suite.addTestSuite( UIMetawidgetTest.class );
 
