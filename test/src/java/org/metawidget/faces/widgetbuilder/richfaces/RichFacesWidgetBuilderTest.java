@@ -219,7 +219,6 @@ public class RichFacesWidgetBuilderTest
 		metawidget.setCreateHiddenFields( true );
 		stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertTrue( 2 == stub.getChildCount() );
-		System.err.println( stub.getChildren().get( 0 ) );
 		assertTrue( stub.getChildren().get( 0 ) instanceof HtmlInputHidden );
 		assertTrue( stub.getChildren().get( 1 ) instanceof HtmlOutputText );
 

@@ -88,20 +88,20 @@ public class GwtWidgetBuilder
 
 	public boolean setValue( Widget widget, Object value )
 	{
-		// HasText
-
-		if ( widget instanceof HasText )
-		{
-			( (HasText) widget ).setText( StringUtils.quietValueOf( value ) );
-			return true;
-		}
-
 		// CheckBox (must come before HasText, because CheckBox extends
 		// ButtonBase which implements HasHTML which extends HasText)
 
 		if ( widget instanceof CheckBox )
 		{
 			( (CheckBox) widget ).setValue( (Boolean) value );
+			return true;
+		}
+
+		// HasText
+
+		if ( widget instanceof HasText )
+		{
+			( (HasText) widget ).setText( StringUtils.quietValueOf( value ) );
 			return true;
 		}
 

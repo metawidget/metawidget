@@ -130,9 +130,10 @@ public class GwtQuirksTest
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( metawidget.getToInspect(), metawidget );
 						assertTrue( metawidget.getToInspect() == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
 
-						// Test checkbox was still checked (ie. HasText didn't get hit
+						// Test checkbox was still checked and has no text (ie. HasText didn't get hit
 						// first in GwtMetawidget.setValue)
 
+						assertTrue( "".equals( checkbox.getText() ));
 						assertTrue( true == checkbox.getValue() );
 						assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );
 
@@ -144,6 +145,7 @@ public class GwtQuirksTest
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( quirks2, metawidget );
 						assertTrue( quirks2 == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
 						assertTrue( quirks2 != metawidget.getToInspect() );
+						assertTrue( "".equals( checkbox.getText() ));
 						assertTrue( false == checkbox.getValue() );
 						checkbox.setValue( true );
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
