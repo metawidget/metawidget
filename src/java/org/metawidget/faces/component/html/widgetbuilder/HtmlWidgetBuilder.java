@@ -463,12 +463,12 @@ public class HtmlWidgetBuilder
 
 		if ( component instanceof ValueHolder )
 		{
-			ValueHolder valueHolder = (ValueHolder) component;
-
 			// ...using the specified converter (call setConverter prematurely so
 			// we can find out what Converter to use)...
 
 			ConverterProcessor processor = metawidget.getWidgetProcessor( ConverterProcessor.class );
+
+			ValueHolder valueHolder = (ValueHolder) component;
 
 			if ( processor != null )
 				processor.setConverter( valueHolder, attributes );
