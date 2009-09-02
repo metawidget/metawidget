@@ -20,7 +20,7 @@
 			<rtexprvalue>true</rtexprvalue>			
 		</attribute>
 		<attribute>
-			<name>layoutClass</name>
+			<name>layout</name>
 			<rtexprvalue>true</rtexprvalue>			
 		</attribute>
 		<attribute>

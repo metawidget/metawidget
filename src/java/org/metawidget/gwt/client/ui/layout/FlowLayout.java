@@ -29,23 +29,27 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class FlowLayout
-	extends BaseLayout
+	implements Layout
 {
-	//
-	// Constructor
-	//
-
-	public FlowLayout( GwtMetawidget metawidget )
-	{
-		super( metawidget );
-	}
-
 	//
 	// Public methods
 	//
 
-	public void layoutChild( Widget widget, Map<String, String> attributes )
+	@Override
+	public void layoutBegin( GwtMetawidget metawidget )
 	{
-		getMetawidget().add( widget );
+		// Do nothing
+	}
+
+	@Override
+	public void layoutChild( Widget widget, Map<String, String> attributes, GwtMetawidget metawidget )
+	{
+		metawidget.add( widget );
+	}
+
+	@Override
+	public void layoutEnd( GwtMetawidget metawidget )
+	{
+		// Do nothing
 	}
 }

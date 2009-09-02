@@ -18,28 +18,4 @@
 	<source path="widgetprocessor"/>
 	<source path="widgetbuilder"/>
 	
-	<!-- Inspectors -->
-	
-  	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
-		<when-type-assignable class="org.metawidget.gwt.client.inspector.InspectorFactory"/>
-	</generate-with>
-
-	<!-- WidgetBuilders -->
-	
-  	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
-		<when-type-assignable class="org.metawidget.gwt.client.widgetbuilder.impl.WidgetBuilderFactory"/>
-	</generate-with>
-
-	<!-- WidgetProcessors -->
-	
-  	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
-		<when-type-assignable class="org.metawidget.gwt.client.widgetprocessor.WidgetProcessorFactory"/>
-	</generate-with>
-
-	<!-- Layout -->
-
-  	<generate-with class="org.metawidget.gwt.generator.FactoryGenerator">
-		<when-type-assignable class="org.metawidget.gwt.client.ui.layout.LayoutFactory"/>
-	</generate-with>
-
 </module>

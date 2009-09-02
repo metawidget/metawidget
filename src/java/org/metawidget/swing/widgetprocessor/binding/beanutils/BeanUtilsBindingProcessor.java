@@ -395,9 +395,9 @@ public class BeanUtilsBindingProcessor
 
 	/* package private */class State
 	{
-		public Set<SavedBinding>	bindings;
+		/* package private */ Set<SavedBinding>	bindings;
 
-		public Object				toRebind;
+		/* package private */ Object				toRebind;
 	}
 
 	class SavedBinding

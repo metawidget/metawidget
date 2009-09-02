@@ -160,8 +160,8 @@ public class MapBindingProcessor
 
 	/* package private */class State
 	{
-		public Set<String[]>		bindings;
+		/* package private */ Set<String[]>		bindings;
 
-		public Set<GwtMetawidget>	nestedMetawidgets;
+		/* package private */ Set<GwtMetawidget>	nestedMetawidgets;
 	}
 }

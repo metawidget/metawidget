@@ -25,12 +25,9 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
 
-import org.metawidget.gwt.client.inspector.InspectorFactory;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.Layout;
-import org.metawidget.gwt.client.ui.layout.LayoutFactory;
 import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
-import org.metawidget.gwt.client.widgetbuilder.impl.WidgetBuilderFactory;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.util.simple.PathUtils;
@@ -40,7 +37,6 @@ import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.Dictionary;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -90,17 +86,20 @@ public class GwtMetawidget
 	private final static int										BUILD_DELAY				= 50;
 
 	/**
-	 * Static cache of Inspectors.
+	 * Static cache of the default Inspector.
 	 * <p>
-	 * Note this needn't be <code>synchronized</code> like the SwingMetawidget one, because
-	 * JavaScript is not multi-threaded.
+	 * Note this needn't be <code>synchronized</code> because JavaScript is not multi-threaded.
 	 * <p>
 	 * <code>GWTMetawidget</code> cannot use our <code>ConfigReader</code>, because that relies
 	 * heavily on reflection which is not available client-side. Note
 	 * <code>GwtRemoteInspectorProxy</code> <em>does</em> use <code>ConfigReader</code>.
 	 */
 
-	private final static Map<Class<? extends Inspector>, Inspector>	INSPECTORS				= new HashMap<Class<? extends Inspector>, Inspector>();
+	private static Inspector										DEFAULT_INSPECTOR;
+
+	private static WidgetBuilder<Widget, GwtMetawidget>				DEFAULT_WIDGET_BUILDER;
+
+	private static Layout											DEFAULT_LAYOUT;
 
 	//
 	// Private members
@@ -108,11 +107,7 @@ public class GwtMetawidget
 
 	private Object													mToInspect;
 
-	private Class<? extends Layout>									mLayoutClass			= FlexTableLayout.class;
-
 	private Layout													mLayout;
-
-	private Class<? extends Inspector>								mInspectorClass			= GwtRemoteInspectorProxy.class;
 
 	private String													mDictionaryName;
 
@@ -253,12 +248,6 @@ public class GwtMetawidget
 		return mName;
 	}
 
-	public void setInspectorClass( Class<? extends Inspector> inspectorClass )
-	{
-		mInspectorClass = inspectorClass;
-		invalidateInspection();
-	}
-
 	public void setInspector( Inspector inspector )
 	{
 		mMetawidgetMixin.setInspector( inspector );
@@ -282,9 +271,9 @@ public class GwtMetawidget
 		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
 	}
 
-	public void setLayoutClass( Class<? extends Layout> layoutClass )
+	public void setLayout( Layout layout )
 	{
-		mLayoutClass = layoutClass;
+		mLayout = layout;
 		invalidateWidgets();
 	}
 
@@ -776,7 +765,10 @@ public class GwtMetawidget
 
 		if ( mMetawidgetMixin.getWidgetBuilder() == null )
 		{
-			mMetawidgetMixin.setWidgetBuilder( ( (WidgetBuilderFactory) GWT.create( WidgetBuilderFactory.class ) ).newWidgetBuilder( GwtWidgetBuilder.class ) );
+			if ( DEFAULT_WIDGET_BUILDER == null )
+				DEFAULT_WIDGET_BUILDER = new GwtWidgetBuilder();
+
+			mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGET_BUILDER );
 		}
 
 		if ( mToInspect != null )
@@ -787,17 +779,13 @@ public class GwtMetawidget
 
 			if ( inspector == null )
 			{
-				// ...otherwise, if this config has already been created, use it...
+				// ...otherwise use the default Inspector
 
-				inspector = INSPECTORS.get( mInspectorClass );
+				if ( DEFAULT_INSPECTOR == null )
+					DEFAULT_INSPECTOR = new GwtRemoteInspectorProxy();
 
-				// ...otherwise, initialize the Inspector
-
-				if ( inspector == null )
-				{
-					inspector = ( (InspectorFactory) GWT.create( InspectorFactory.class ) ).newInspector( mInspectorClass );
-					INSPECTORS.put( mInspectorClass, inspector );
-				}
+				mMetawidgetMixin.setInspector( DEFAULT_INSPECTOR );
+				inspector = mMetawidgetMixin.getInspector();
 			}
 
 			if ( mLastInspection == null )
@@ -893,12 +881,16 @@ public class GwtMetawidget
 		mExistingWidgetsUnused = new HashSet<Widget>( mExistingWidgets );
 
 		// Start layout
-		//
-		// (we start a new layout each time, rather than complicating the Layouts with a
-		// layoutCleanup method)
 
-		mLayout = ( (LayoutFactory) GWT.create( LayoutFactory.class ) ).newLayout( mLayoutClass, this );
-		mLayout.layoutBegin();
+		if ( mLayout == null )
+		{
+			if ( DEFAULT_LAYOUT == null )
+				DEFAULT_LAYOUT = new FlexTableLayout();
+
+			mLayout = DEFAULT_LAYOUT;
+		}
+
+		mLayout.layoutBegin( this );
 	}
 
 	protected Widget getOverriddenWidget( String elementName, Map<String, String> attributes )
@@ -952,7 +944,7 @@ public class GwtMetawidget
 		if ( widget instanceof HasName )
 			( (HasName) widget ).setName( name );
 
-		mLayout.layoutChild( widget, attributes );
+		mLayout.layoutChild( widget, attributes, this );
 	}
 
 	/**
@@ -970,9 +962,7 @@ public class GwtMetawidget
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-
-		// TODO: Layout can be immutable
-		nestedMetawidget.setLayoutClass( mLayoutClass );
+		nestedMetawidget.setLayout( mLayout );
 		nestedMetawidget.setDictionaryName( mDictionaryName );
 
 		if ( mParameters != null )
@@ -1000,11 +990,11 @@ public class GwtMetawidget
 				if ( widgetExisting instanceof Stub )
 					miscAttributes.putAll( ( (Stub) widgetExisting ).getAttributes() );
 
-				mLayout.layoutChild( widgetExisting, miscAttributes );
+				mLayout.layoutChild( widgetExisting, miscAttributes, this );
 			}
 		}
 
-		mLayout.layoutEnd();
+		mLayout.layoutEnd( this );
 	}
 
 	//

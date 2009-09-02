@@ -18,12 +18,16 @@ package org.metawidget.gwt.client.ui.layout;
 
 import java.util.Map;
 
+import org.metawidget.gwt.client.ui.GwtMetawidget;
+
 import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Interface for GWT-based layouts.
  * <p>
- * Implementations need not be Thread-safe.
+ * Layouts must be threadsafe and immutable (or, at least, appear that way to clients. They can have
+ * caches or configuration settings internally). If they need to store state, they should use the
+ * Metawidget passed to each method and <code>GwtMetawidget.putClientProperty</code>.
  *
  * @author Richard Kennard
  */
@@ -34,9 +38,9 @@ public interface Layout
 	// Methods
 	//
 
-	void layoutBegin();
+	void layoutBegin( GwtMetawidget metawidget );
 
-	void layoutChild( Widget widget, Map<String, String> attributes );
+	void layoutChild( Widget widget, Map<String, String> attributes, GwtMetawidget metawidget );
 
-	void layoutEnd();
+	void layoutEnd( GwtMetawidget metawidget );
 }

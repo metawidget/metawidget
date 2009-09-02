@@ -404,9 +404,9 @@ public class BeansBindingProcessor
 
 	/*package private*/ class State
 	{
-		public Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
+		/* package private */ Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
 
-		public Object																		toRebind;
+		/* package private */ Object																		toRebind;
 	}
 
 	private final static class ConvertFromTo<S, T>

@@ -261,16 +261,6 @@ public abstract class MetawidgetTag
 		mMetawidgetMixin.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
 	}
 
-	public void setLayoutClass( String layoutClass )
-		throws Exception
-	{
-		if ( layoutClass == null || "".equals( layoutClass ))
-			mLayout = null;
-		else
-			// TODO: immutable?
-			mLayout = (Layout) ClassUtils.niceForName( layoutClass ).newInstance();
-	}
-
 	public void setLayout( Layout layout )
 	{
 		mLayout = layout;

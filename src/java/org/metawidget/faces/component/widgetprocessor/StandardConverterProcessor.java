@@ -73,6 +73,8 @@ public class StandardConverterProcessor
 			{
 				onAdd( componentChild, elementName, attributes, metawidget );
 			}
+
+			return;
 		}
 
 		// Ignore components that cannot have Converters

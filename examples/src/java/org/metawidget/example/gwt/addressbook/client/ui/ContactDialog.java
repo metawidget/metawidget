@@ -201,13 +201,14 @@ public class ContactDialog
 		Communication communication = new Communication();
 
 		final GwtMetawidget typeMetawidget = new GwtMetawidget();
-		typeMetawidget.setLayoutClass( FlowLayout.class );
+		FlowLayout flowLayout = new FlowLayout();
+		typeMetawidget.setLayout( flowLayout );
 		typeMetawidget.setToInspect( communication );
 		typeMetawidget.setPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + "type" );
 		mCommunications.setWidget( 1, 0, typeMetawidget );
 
 		final GwtMetawidget valueMetawidget = new GwtMetawidget();
-		valueMetawidget.setLayoutClass( FlowLayout.class );
+		valueMetawidget.setLayout( flowLayout );
 		valueMetawidget.setToInspect( communication );
 		valueMetawidget.setPath( Communication.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + "value" );
 		mCommunications.setWidget( 1, 1, valueMetawidget );

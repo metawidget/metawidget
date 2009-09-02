@@ -22,7 +22,9 @@ import java.util.Map;
 /**
  * Interface for Swing-based layouts.
  * <p>
- * Implementations need not be Thread-safe.
+ * Layouts must be threadsafe and immutable (or, at least, appear that way to clients. They can have
+ * caches or configuration settings internally). If they need to store state, they should use the
+ * Metawidget passed to each method and <code>SwingMetawidget.putClientProperty</code>.
  *
  * @author Richard Kennard
  */
