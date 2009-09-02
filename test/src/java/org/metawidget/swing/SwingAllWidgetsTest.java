@@ -570,5 +570,7 @@ public class SwingAllWidgetsTest
 		assertTrue( "Read Only".equals( ( (JLabel) metawidget.getComponent( 60 ) ).getText() ) );
 
 		assertTrue( metawidget.getComponentCount() == 61 );
+
+		// TODO: check Binding.onStartBuild
 	}
 }

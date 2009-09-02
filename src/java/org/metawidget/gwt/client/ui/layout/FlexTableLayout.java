@@ -62,6 +62,8 @@ public class FlexTableLayout
 	@Override
 	public void layoutBegin( GwtMetawidget metawidget )
 	{
+		metawidget.putClientProperty( FlexTableLayout.class, null );
+
 		State state = getState( metawidget );
 		state.layout = new FlexTable();
 		state.formatter = state.layout.getFlexCellFormatter();

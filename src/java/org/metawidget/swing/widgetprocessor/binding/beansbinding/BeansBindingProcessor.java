@@ -106,15 +106,15 @@ public class BeansBindingProcessor
 	{
 		State state = getState( metawidget );
 
-		if ( state.bindings == null )
-			return;
-
-		for ( org.jdesktop.beansbinding.Binding<?, ?, ? extends Component, ?> binding : state.bindings )
+		if ( state.bindings != null )
 		{
-			binding.unbind();
+			for ( org.jdesktop.beansbinding.Binding<?, ?, ? extends Component, ?> binding : state.bindings )
+			{
+				binding.unbind();
+			}
 		}
 
-		state.bindings = null;
+		metawidget.putClientProperty( BeansBindingProcessor.class, null );
 	}
 
 	@Override

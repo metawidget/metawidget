@@ -74,6 +74,12 @@ public class BeanUtilsBindingProcessor
 	//
 
 	@Override
+	public void onStartBuild( SwingMetawidget metawidget )
+	{
+		metawidget.putClientProperty( BeanUtilsBindingProcessor.class, null );
+	}
+
+	@Override
 	public void onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Unwrap JScrollPanes (for JTextAreas etc)
@@ -136,8 +142,9 @@ public class BeanUtilsBindingProcessor
 	 * recreating the components. It is the client's responsbility to ensure the setToRebind object
 	 * is compatible with the original setToInspect.
 	 * <p>
-	 * Note this method does not call <code>setToInspect</code>, so the rebound object cannot
-	 * be retrieved using <code>getToInspect</code>. Rather, clients should use <code>getToRebind</code>.
+	 * Note this method does not call <code>setToInspect</code>, so the rebound object cannot be
+	 * retrieved using <code>getToInspect</code>. Rather, clients should use
+	 * <code>getToRebind</code>.
 	 */
 
 	public void setToRebind( Object toRebind, SwingMetawidget metawidget )
@@ -395,9 +402,9 @@ public class BeanUtilsBindingProcessor
 
 	/* package private */class State
 	{
-		/* package private */ Set<SavedBinding>	bindings;
+		/* package private */Set<SavedBinding>	bindings;
 
-		/* package private */ Object				toRebind;
+		/* package private */Object				toRebind;
 	}
 
 	class SavedBinding

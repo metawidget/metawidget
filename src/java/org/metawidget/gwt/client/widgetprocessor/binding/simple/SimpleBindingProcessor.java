@@ -110,8 +110,6 @@ public class SimpleBindingProcessor
 	@Override
 	public void onStartBuild( GwtMetawidget metawidget )
 	{
-		// Clear our state
-
 		metawidget.putClientProperty( SimpleBindingProcessor.class, null );
 	}
 

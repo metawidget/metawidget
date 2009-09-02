@@ -43,6 +43,7 @@ import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -406,6 +407,11 @@ public class ConfigReader
 
 		if ( WidgetBuilder.class.isAssignableFrom( clazz ) )
 			return true;
+
+		if ( WidgetProcessor.class.isAssignableFrom( clazz ) )
+			return true;
+
+		// TODO: layouts are too?
 
 		return false;
 	}
