@@ -32,16 +32,14 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
-import org.metawidget.swing.layout.GridBagLayout;
-import org.metawidget.swing.layout.Layout;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -89,10 +87,6 @@ public class SwingMetawidget
 
 	private boolean											mNeedsConfiguring	= true;
 
-	private Class<? extends Layout>							mLayoutClass		= GridBagLayout.class;
-
-	private Layout											mLayout;
-
 	private ResourceBundle									mBundle;
 
 	private Map<String, Object>								mParameters;
@@ -109,7 +103,7 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<Component>									mExistingComponents	= CollectionUtils.newArrayList();
+	private List<JComponent>								mExistingComponents	= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -117,7 +111,7 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<Component>									mExistingComponentsUnused;
+	private List<JComponent>								mExistingComponentsUnused;
 
 	private Map<String, Facet>								mFacets				= CollectionUtils.newHashMap();
 
@@ -181,9 +175,9 @@ public class SwingMetawidget
 	 * Sets the path to be inspected.
 	 * <p>
 	 * Note <code>setPath</code> is quite different to <code>java.awt.Component.setName</code>.
-	 * <code>setPath</code> is always in relation to <code>setToInspect</code>, so must include
-	 * the type name and any subsequent sub-names (eg. type/name/name). Conversely,
-	 * <code>setName</code> is a single name relative to our immediate parent.
+	 * <code>setPath</code> is always in relation to <code>setToInspect</code>, so must include the
+	 * type name and any subsequent sub-names (eg. type/name/name). Conversely, <code>setName</code>
+	 * is a single name relative to our immediate parent.
 	 */
 
 	public void setPath( String path )
@@ -225,6 +219,7 @@ public class SwingMetawidget
 	public void setWidgetProcessors( List<WidgetProcessor<JComponent, SwingMetawidget>> widgetProcessors )
 	{
 		mMetawidgetMixin.setWidgetProcessors( widgetProcessors );
+		invalidateInspection();
 	}
 
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
@@ -233,15 +228,18 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * @param layoutClass
-	 *            may be null
+	 * Set the layout for this Metawidget.
+	 * <p>
+	 * Named <code>setMetawidgetLayout</code>, rather than the usual <code>setLayout</code>, because
+	 * Swing already defines a <code>setLayout</code>. Overloading Swing's <code>setLayout</code> was
+	 * considered cute, but ultimately confusing and dangerous. For example, what should
+	 * <code>setLayout( null )</code> do?
 	 */
 
-	public void setLayoutClass( Class<? extends Layout> layoutClass )
+	public void setMetawidgetLayout( Layout<JComponent, SwingMetawidget> layout )
 	{
-		mLayoutClass = layoutClass;
-		mLayout = null;
-		invalidateWidgets();
+		mMetawidgetMixin.setLayout( layout );
+		invalidateInspection();
 	}
 
 	public void setBundle( ResourceBundle bundle )
@@ -571,8 +569,8 @@ public class SwingMetawidget
 	/**
 	 * Returns the property used to get/set the value of the component.
 	 * <p>
-	 * If the component is not known, returns <code>null</code>. Does not throw an Exception, as
-	 * we want to fail gracefully if, say, someone tries to bind to a JPanel.
+	 * If the component is not known, returns <code>null</code>. Does not throw an Exception, as we
+	 * want to fail gracefully if, say, someone tries to bind to a JPanel.
 	 */
 
 	public String getValueProperty( Component component )
@@ -799,7 +797,8 @@ public class SwingMetawidget
 				return;
 			}
 
-			mExistingComponents.add( component );
+			if ( component instanceof JComponent )
+				mExistingComponents.add( (JComponent) component );
 		}
 
 		super.addImpl( component, constraints, index );
@@ -840,6 +839,12 @@ public class SwingMetawidget
 			{
 				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class, "widgetProcessors" );
 				mMetawidgetMixin.setWidgetProcessors( dummyMetawidget.mMetawidgetMixin.getWidgetProcessors() );
+			}
+
+			if ( mMetawidgetMixin.getLayout() == null )
+			{
+				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class, "metawidgetLayout" );
+				mMetawidgetMixin.setLayout( dummyMetawidget.mMetawidgetMixin.getLayout() );
 			}
 		}
 		catch ( Exception e )
@@ -886,24 +891,6 @@ public class SwingMetawidget
 		throws Exception
 	{
 		mExistingComponentsUnused = CollectionUtils.newArrayList( mExistingComponents );
-
-		// Start layout
-		//
-		// (we start a new layout each time, rather than complicating the Layouts with a
-		// layoutCleanup method)
-
-		if ( mLayoutClass != null )
-		{
-			mLayout = mLayoutClass.getConstructor( SwingMetawidget.class ).newInstance( this );
-			mLayout.layoutBegin();
-		}
-		else
-		{
-			// Default to BoxLayout, which is like FlowLayout except it fills width. This
-			// is useful for JTable CellEditors
-
-			setLayout( new BoxLayout( this, BoxLayout.LINE_AXIS ) );
-		}
 	}
 
 	protected void addWidget( Component component, String elementName, Map<String, String> attributes )
@@ -922,24 +909,25 @@ public class SwingMetawidget
 		// now, as we don't want binding/validation implementations accidentally relying on the
 		// name being set (which it won't be for actualComponent)
 
-		component.setName( attributes.get( NAME ));
+		component.setName( attributes.get( NAME ) );
 
-		// Add to layout
+		// Remove, then re-add to layout (to re-order the component)
 
 		remove( component );
 
-		if ( mLayout == null )
+		if ( mMetawidgetMixin.getLayout() == null )
 		{
+			// Support null layouts
+
 			add( component );
 		}
 		else
 		{
 			if ( component instanceof Stub )
 				attributes.putAll( ( (Stub) component ).getAttributes() );
-
-			mLayout.layoutChild( component, attributes );
 		}
 
+		// MetawidgetMixin will call .layoutChild
 	}
 
 	protected JComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
@@ -968,11 +956,13 @@ public class SwingMetawidget
 
 	protected void endBuild()
 	{
-		if ( mLayout != null )
+		Layout<JComponent, SwingMetawidget> layout = mMetawidgetMixin.getLayout();
+
+		if ( layout != null )
 		{
 			if ( mExistingComponentsUnused != null )
 			{
-				for ( Component componentExisting : mExistingComponentsUnused )
+				for ( JComponent componentExisting : mExistingComponentsUnused )
 				{
 					// Unused facets don't count
 
@@ -988,11 +978,9 @@ public class SwingMetawidget
 					if ( componentExisting instanceof Stub )
 						miscAttributes.putAll( ( (Stub) componentExisting ).getAttributes() );
 
-					mLayout.layoutChild( componentExisting, miscAttributes );
+					layout.layoutChild( componentExisting, miscAttributes, this );
 				}
 			}
-
-			mLayout.layoutEnd();
 		}
 
 		// Call validate because Components have been added/removed, and
@@ -1020,7 +1008,6 @@ public class SwingMetawidget
 
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-		nestedMetawidget.setLayoutClass( mLayoutClass );
 		nestedMetawidget.setBundle( mBundle );
 		nestedMetawidget.setOpaque( isOpaque() );
 
@@ -1054,7 +1041,7 @@ public class SwingMetawidget
 		// Interrogate ValuePropertyProviders
 
 		if ( widgetBuilder instanceof SwingValuePropertyProvider )
-			return ((SwingValuePropertyProvider) widgetBuilder).getValueProperty( component );
+			return ( (SwingValuePropertyProvider) widgetBuilder ).getValueProperty( component );
 
 		return null;
 	}
@@ -1074,6 +1061,7 @@ public class SwingMetawidget
 		protected void startBuild()
 			throws Exception
 		{
+			super.startBuild();
 			SwingMetawidget.this.startBuild();
 		}
 
@@ -1082,6 +1070,7 @@ public class SwingMetawidget
 			throws Exception
 		{
 			SwingMetawidget.this.addWidget( component, elementName, attributes );
+			super.addWidget( component, elementName, attributes );
 		}
 
 		@Override
@@ -1114,7 +1103,9 @@ public class SwingMetawidget
 
 		@Override
 		protected void endBuild()
+			throws Exception
 		{
+			super.endBuild();
 			SwingMetawidget.this.endBuild();
 		}
 

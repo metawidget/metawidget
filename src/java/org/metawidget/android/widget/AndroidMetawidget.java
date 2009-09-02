@@ -22,8 +22,6 @@ import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.Set;
 
-import org.metawidget.android.widget.layout.Layout;
-import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
@@ -31,6 +29,7 @@ import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
@@ -86,10 +85,6 @@ public class AndroidMetawidget
 
 	private boolean											mNeedsConfiguring;
 
-	private Class<? extends Layout>							mLayoutClass	= TableLayout.class;
-
-	private Layout											mLayout;
-
 	private Map<String, Object>								mParameters;
 
 	private boolean											mNeedToBuildWidgets;
@@ -101,6 +96,8 @@ public class AndroidMetawidget
 	private Set<View>										mExistingViewsUnused;
 
 	private Map<String, Facet>								mFacets;
+
+	private Map<Object, Object>								mClientProperties;
 
 	private AndroidMetawidgetMixin							mMetawidgetMixin;
 
@@ -116,7 +113,6 @@ public class AndroidMetawidget
 		setOrientation( LinearLayout.VERTICAL );
 	}
 
-	@SuppressWarnings( "unchecked" )
 	public AndroidMetawidget( Context context, AttributeSet attributes )
 	{
 		super( context, attributes );
@@ -161,15 +157,6 @@ public class AndroidMetawidget
 
 		if ( mConfig != 0 )
 			mNeedsConfiguring = true;
-
-		// Support configuring layouts in the XML
-
-		String layoutClass = attributes.getAttributeValue( null, "layout" );
-
-		if ( layoutClass != null && !"".equals( layoutClass ) )
-		{
-			mLayoutClass = (Class<? extends Layout>) ClassUtils.niceForName( layoutClass );
-		}
 
 		// Support readOnly in the XML
 
@@ -254,18 +241,6 @@ public class AndroidMetawidget
 	{
 		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
 		invalidateInspection();
-	}
-
-	/**
-	 * @param layoutClass
-	 *            may be null
-	 */
-
-	public void setLayoutClass( Class<? extends Layout> layoutClass )
-	{
-		mLayoutClass = layoutClass;
-		mLayout = null;
-		invalidateWidgets();
 	}
 
 	public String getLabelString( Map<String, String> attributes )
@@ -375,6 +350,31 @@ public class AndroidMetawidget
 	{
 		mMetawidgetMixin.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
+	}
+
+	/**
+	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
+	 */
+
+	public void putClientProperty( Object key, Object value )
+	{
+		if ( mClientProperties == null )
+			mClientProperties = CollectionUtils.newHashMap();
+
+		mClientProperties.put( key, value );
+	}
+
+	/**
+	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T getClientProperty( Object key )
+	{
+		if ( mClientProperties == null )
+			return null;
+
+		return (T) mClientProperties.get( key );
 	}
 
 	//
@@ -613,11 +613,6 @@ public class AndroidMetawidget
 		removeAllViews();
 
 		mExistingViewsUnused = CollectionUtils.newHashSet( mExistingViews );
-
-		// Start layout
-
-		mLayout = mLayoutClass.getConstructor( AndroidMetawidget.class ).newInstance( this );
-		mLayout.layoutBegin();
 	}
 
 	protected void addWidget( View view, String elementName, Map<String, String> attributes )
@@ -625,11 +620,12 @@ public class AndroidMetawidget
 		String childName = attributes.get( NAME );
 		view.setTag( childName );
 
-		if ( mLayout != null )
+		// Remove, then re-add to layout (to re-order the component)
+
+		if ( mMetawidgetMixin.getLayout() != null )
 		{
 			if ( view.getParent() != null )
 				( (ViewGroup) view.getParent() ).removeView( view );
-			mLayout.layoutChild( view, attributes );
 		}
 	}
 
@@ -660,14 +656,14 @@ public class AndroidMetawidget
 	{
 		// End layout
 
-		if ( mLayout != null )
+		Layout<View, AndroidMetawidget> layout = mMetawidgetMixin.getLayout();
+
+		if ( layout != null )
 		{
 			for ( View viewExisting : mExistingViewsUnused )
 			{
-				mLayout.layoutChild( viewExisting, null );
+				layout.layoutChild( viewExisting, null, this );
 			}
-
-			mLayout.layoutEnd();
 		}
 
 		Log.d( getClass().getSimpleName(), "Build complete" );
@@ -688,7 +684,6 @@ public class AndroidMetawidget
 	{
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-		nestedMetawidget.setLayoutClass( mLayoutClass );
 
 		if ( mParameters != null )
 			nestedMetawidget.mParameters = CollectionUtils.newHashMap( mParameters );

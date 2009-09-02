@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
@@ -72,6 +73,8 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	private WidgetBuilder<W, M>			mWidgetBuilder;
 
 	private List<WidgetProcessor<W, M>>	mWidgetProcessors;
+
+	private Layout<W, M>				mLayout;
 
 	//
 	// Public methods
@@ -158,6 +161,24 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		mWidgetProcessors.add( widgetProcessor );
 	}
 
+	public Layout<W, M> getLayout()
+	{
+		return mLayout;
+	}
+
+	/**
+	 * Set the Layout to use for the Metawidget.
+	 * <p>
+	 * Not all Metawidgets will use MetawidgetMixin's implemention of Layout (for example,
+	 * UIMetawidget uses the standard JSF Renderer), so it is safe to leave this as
+	 * <code>null</code>.
+	 */
+
+	public void setLayout( Layout<W, M> layout )
+	{
+		mLayout = layout;
+	}
+
 	/**
 	 * Inspect the given Object according to the given path, and return the result as a String
 	 * conforming to inspection-result-1.0.xsd.
@@ -186,7 +207,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		throws Exception
 	{
 		startBuild();
-		processorStartBuild();
 
 		if ( xml != null && !"".equals( xml ) )
 		{
@@ -219,7 +239,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			}
 			else
 			{
-				processorAdd( widget, elementName, attributes );
 				addWidget( widget, elementName, attributes );
 			}
 		}
@@ -230,7 +249,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		// 2. you can use a Metawidget purely for layout, with no inspection
 
 		endBuild();
-		processorEndBuild();
 	}
 
 	/**
@@ -260,7 +278,8 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 		nestedMixin.setInspector( getInspector() );
 		nestedMixin.setWidgetBuilder( getWidgetBuilder() );
-		nestedMixin.setWidgetProcessors( mWidgetProcessors );
+		nestedMixin.setWidgetProcessors( getWidgetProcessors() );
+		nestedMixin.setLayout( getLayout() );
 	}
 
 	//
@@ -325,41 +344,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 				attributes.putAll( getStubAttributes( widget ) );
 			}
 
-			processorAdd( widget, elementName, attributes );
 			addWidget( widget, elementName, attributes );
-		}
-	}
-
-	protected void processorStartBuild()
-	{
-		if ( mWidgetProcessors == null )
-			return;
-
-		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
-		{
-			widgetProcessor.onStartBuild( getMixinOwner() );
-		}
-	}
-
-	protected void processorAdd( W widget, String elementName, Map<String, String> attributes )
-	{
-		if ( mWidgetProcessors == null )
-			return;
-
-		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
-		{
-			widgetProcessor.onAdd( widget, elementName, attributes, getMixinOwner() );
-		}
-	}
-
-	protected void processorEndBuild()
-	{
-		if ( mWidgetProcessors == null )
-			return;
-
-		for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
-		{
-			widgetProcessor.onEndBuild( getMixinOwner() );
 		}
 	}
 
@@ -381,8 +366,20 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	protected abstract Map<String, String> getAttributesAsMap( E element );
 
-	protected abstract void startBuild()
-		throws Exception;
+	protected void startBuild()
+		throws Exception
+	{
+		if ( mWidgetProcessors != null )
+		{
+			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
+			{
+				widgetProcessor.onStartBuild( getMixinOwner() );
+			}
+		}
+
+		if ( mLayout != null )
+			mLayout.layoutBegin( getMixinOwner() );
+	}
 
 	protected abstract W getOverriddenWidget( String elementName, Map<String, String> attributes );
 
@@ -393,9 +390,10 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	/**
 	 * Builds the widget using our <code>WidgetBuilder</code>.
 	 * <p>
-	 * Subclasses can override this method to perform post-initalization on the built widget. Those
-	 * looking to perform post-initialization on any widget (whether built or overridden) should
-	 * override <code>addWidget</code>.
+	 * Subclasses can override this method to substitute the built widget for another. To perform
+	 * post-processing, they should instead use a <code>WidgetProcessor</code>. Those looking to
+	 * perform post-processing on any widget (whether built or overridden) should override
+	 * <code>addWidget</code>.
 	 */
 
 	protected W buildWidget( String elementName, Map<String, String> attributes )
@@ -409,9 +407,33 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	protected abstract M getMixinOwner();
 
-	protected abstract void addWidget( W widget, String elementName, Map<String, String> attributes )
-		throws Exception;
+	protected void addWidget( W widget, String elementName, Map<String, String> attributes )
+		throws Exception
+	{
+		if ( mWidgetProcessors != null )
+		{
+			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
+			{
+				widgetProcessor.onAdd( widget, elementName, attributes, getMixinOwner() );
+			}
+		}
 
-	protected abstract void endBuild()
-		throws Exception;
+		if ( mLayout != null )
+			mLayout.layoutChild( widget, attributes, getMixinOwner() );
+	}
+
+	protected void endBuild()
+		throws Exception
+	{
+		if ( mWidgetProcessors != null )
+		{
+			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
+			{
+				widgetProcessor.onEndBuild( getMixinOwner() );
+			}
+		}
+
+		if ( mLayout != null )
+			mLayout.layoutEnd( getMixinOwner() );
+	}
 }

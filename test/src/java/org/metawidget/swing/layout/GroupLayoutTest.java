@@ -33,7 +33,6 @@ import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.layout.GroupLayout;
 
 /**
  * @author Richard Kennard
@@ -53,7 +52,7 @@ public class GroupLayoutTest
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setLayoutClass( GroupLayout.class );
+		metawidget.setMetawidgetLayout( new GroupLayout() );
 		metawidget.setToInspect( new Person() );
 
 		// Check what created

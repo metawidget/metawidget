@@ -26,10 +26,10 @@ import java.util.MissingResourceException;
 import java.util.Set;
 
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
-import org.metawidget.gwt.client.ui.layout.Layout;
 import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
@@ -99,15 +99,13 @@ public class GwtMetawidget
 
 	private static WidgetBuilder<Widget, GwtMetawidget>				DEFAULT_WIDGET_BUILDER;
 
-	private static Layout											DEFAULT_LAYOUT;
+	private static Layout<Widget, GwtMetawidget>					DEFAULT_LAYOUT;
 
 	//
 	// Private members
 	//
 
 	private Object													mToInspect;
-
-	private Layout													mLayout;
 
 	private String													mDictionaryName;
 
@@ -271,9 +269,9 @@ public class GwtMetawidget
 		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
 	}
 
-	public void setLayout( Layout layout )
+	public void setLayout( Layout<Widget, GwtMetawidget> layout )
 	{
-		mLayout = layout;
+		mMetawidgetMixin.setLayout( layout );
 		invalidateWidgets();
 	}
 
@@ -729,6 +727,37 @@ public class GwtMetawidget
 		mBuildWidgets.schedule( BUILD_DELAY );
 	}
 
+	protected void configure()
+	{
+		// Sensible defaults
+		//
+		// We cannot use ConfigReader, because GWT's client-side JavaScript is not up to it
+
+		if ( mMetawidgetMixin.getInspector() == null )
+		{
+			if ( DEFAULT_INSPECTOR == null )
+				DEFAULT_INSPECTOR = new GwtRemoteInspectorProxy();
+
+			mMetawidgetMixin.setInspector( DEFAULT_INSPECTOR );
+		}
+
+		if ( mMetawidgetMixin.getWidgetBuilder() == null )
+		{
+			if ( DEFAULT_WIDGET_BUILDER == null )
+				DEFAULT_WIDGET_BUILDER = new GwtWidgetBuilder();
+
+			mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGET_BUILDER );
+		}
+
+		if ( mMetawidgetMixin.getLayout() == null )
+		{
+			if ( DEFAULT_LAYOUT == null )
+				DEFAULT_LAYOUT = new FlexTableLayout();
+
+			mMetawidgetMixin.setLayout( DEFAULT_LAYOUT );
+		}
+	}
+
 	/**
 	 * Builds the widgets.
 	 * <p>
@@ -761,32 +790,11 @@ public class GwtMetawidget
 
 		mNeedToBuildWidgets = BUILDING_IN_PROGRESS;
 
-		// Sensible WidgetBuilder default
-
-		if ( mMetawidgetMixin.getWidgetBuilder() == null )
-		{
-			if ( DEFAULT_WIDGET_BUILDER == null )
-				DEFAULT_WIDGET_BUILDER = new GwtWidgetBuilder();
-
-			mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGET_BUILDER );
-		}
+		configure();
 
 		if ( mToInspect != null )
 		{
 			Inspector inspector = mMetawidgetMixin.getInspector();
-
-			// If this Inspector has been set externally, use it...
-
-			if ( inspector == null )
-			{
-				// ...otherwise use the default Inspector
-
-				if ( DEFAULT_INSPECTOR == null )
-					DEFAULT_INSPECTOR = new GwtRemoteInspectorProxy();
-
-				mMetawidgetMixin.setInspector( DEFAULT_INSPECTOR );
-				inspector = mMetawidgetMixin.getInspector();
-			}
 
 			if ( mLastInspection == null )
 			{
@@ -879,18 +887,6 @@ public class GwtMetawidget
 		throws Exception
 	{
 		mExistingWidgetsUnused = new HashSet<Widget>( mExistingWidgets );
-
-		// Start layout
-
-		if ( mLayout == null )
-		{
-			if ( DEFAULT_LAYOUT == null )
-				DEFAULT_LAYOUT = new FlexTableLayout();
-
-			mLayout = DEFAULT_LAYOUT;
-		}
-
-		mLayout.layoutBegin( this );
 	}
 
 	protected Widget getOverriddenWidget( String elementName, Map<String, String> attributes )
@@ -943,8 +939,6 @@ public class GwtMetawidget
 
 		if ( widget instanceof HasName )
 			( (HasName) widget ).setName( name );
-
-		mLayout.layoutChild( widget, attributes, this );
 	}
 
 	/**
@@ -962,7 +956,6 @@ public class GwtMetawidget
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-		nestedMetawidget.setLayout( mLayout );
 		nestedMetawidget.setDictionaryName( mDictionaryName );
 
 		if ( mParameters != null )
@@ -979,6 +972,7 @@ public class GwtMetawidget
 	{
 		if ( mExistingWidgetsUnused != null )
 		{
+			Layout<Widget, GwtMetawidget> layout = mMetawidgetMixin.getLayout();
 			for ( Widget widgetExisting : mExistingWidgetsUnused )
 			{
 				Map<String, String> miscAttributes = new HashMap<String, String>();
@@ -990,11 +984,9 @@ public class GwtMetawidget
 				if ( widgetExisting instanceof Stub )
 					miscAttributes.putAll( ( (Stub) widgetExisting ).getAttributes() );
 
-				mLayout.layoutChild( widgetExisting, miscAttributes, this );
+				layout.layoutChild( widgetExisting, miscAttributes, this );
 			}
 		}
-
-		mLayout.layoutEnd( this );
 	}
 
 	//

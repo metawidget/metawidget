@@ -126,7 +126,7 @@ public class CarApplication
 		buttonsMetawidget.setConfig( "org/metawidget/example/swing/appframework/metawidget-action.xml" );
 		buttonsMetawidget.setBundle( bundle );
 		buttonsMetawidget.setToInspect( this );
-		buttonsMetawidget.setLayoutClass( FlowLayout.class );
+		buttonsMetawidget.setMetawidgetLayout( new FlowLayout() );
 
 		Facet facet = new Facet();
 		facet.setName( "buttons" );

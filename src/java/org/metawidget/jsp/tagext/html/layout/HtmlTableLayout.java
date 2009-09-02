@@ -18,13 +18,15 @@ package org.metawidget.jsp.tagext.html.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.jsp.JspUtils;
-import org.metawidget.jsp.tagext.Layout;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
+import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -48,7 +50,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HtmlTableLayout
-	implements Layout
+	implements Layout<Object,MetawidgetTag>
 {
 	//
 	// Private statics
@@ -68,8 +70,7 @@ public class HtmlTableLayout
 	// Public methods
 	//
 
-	@Override
-	public String layoutBegin( String value, MetawidgetTag metawidgetTag )
+	public void layoutBegin( MetawidgetTag metawidgetTag )
 	{
 		State state = new State();
 		metawidgetTag.putClientProperty( HtmlTableLayout.class, state );
@@ -111,7 +112,7 @@ public class HtmlTableLayout
 
 		buffer.append( " id=\"" );
 		buffer.append( TABLE_PREFIX );
-		state.tableType = StringUtils.camelCase( value, StringUtils.SEPARATOR_DOT_CHAR );
+		state.tableType = StringUtils.camelCase( metawidgetTag.getPath(), StringUtils.SEPARATOR_DOT_CHAR );
 		buffer.append( state.tableType );
 		buffer.append( "\"" );
 
@@ -178,18 +179,28 @@ public class HtmlTableLayout
 
 		buffer.append( "<tbody>" );
 
-		return buffer.toString();
+		// Write it out
+
+		try
+		{
+			metawidgetTag.getPageContext().getOut().write( buffer.toString() );
+		}
+		catch ( IOException e )
+		{
+			throw LayoutException.newException( e );
+		}
 	}
 
-	@Override
-	public String layoutChild( String child, Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	public void layoutChild( Object child, Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
 		if ( child == null )
-			return "";
+			return;
 
 		// If the String is just hidden fields...
 
-		if ( JspUtils.isJustHiddenFields( child ) )
+		String stringChild = (String) child;
+
+		if ( JspUtils.isJustHiddenFields( stringChild ) )
 		{
 			// ...store it up for later (eg. don't render a row in the table
 			// and a label)
@@ -199,9 +210,9 @@ public class HtmlTableLayout
 			if ( state.hiddenFields == null )
 				state.hiddenFields = CollectionUtils.newHashSet();
 
-			state.hiddenFields.add( child );
+			state.hiddenFields.add( stringChild );
 
-			return "";
+			return;
 		}
 
 		// Write child normally
@@ -213,11 +224,20 @@ public class HtmlTableLayout
 		buffer.append( child );
 		buffer.append( layoutAfterChild( attributes, metawidgetTag ) );
 
-		return buffer.toString();
+		// Write it out
+
+		try
+		{
+			metawidgetTag.getPageContext().getOut().write( buffer.toString() );
+		}
+		catch ( IOException e )
+		{
+			throw LayoutException.newException( e );
+		}
 	}
 
 	@Override
-	public String layoutEnd( MetawidgetTag metawidgetTag )
+	public void layoutEnd( MetawidgetTag metawidgetTag )
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -238,7 +258,16 @@ public class HtmlTableLayout
 			}
 		}
 
-		return buffer.toString();
+		// Write it out
+
+		try
+		{
+			metawidgetTag.getPageContext().getOut().write( buffer.toString() );
+		}
+		catch ( IOException e )
+		{
+			throw LayoutException.newException( e );
+		}
 	}
 
 	//

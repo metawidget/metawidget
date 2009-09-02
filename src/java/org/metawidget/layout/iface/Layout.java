@@ -14,37 +14,31 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.jsp.tagext;
+package org.metawidget.layout.iface;
 
 import java.util.Map;
 
 /**
- * Interface for all JSP-based layouts.
- * <p>
- * JSP Layouts are shared across all JSP-based Metawidgets, including <code>HtmlMetawidgetTag</code>
- * and <code>StrutsMetawidgetTag</code>.
- * <p>
- * Whilst the Metawidgets themselves use JSP taglibs, by the time the result is passed to the Layout
- * we deal with simple Strings of HTML. This is because JSP does not define a robust widget model
- * (specifically, tags cannot iterate over their children). Interesting comparisons can be made
- * between this class and <code>javax.faces.render.Renderer</code>.
+ * Interface for Layouts.
  * <p>
  * Layouts must be threadsafe and immutable (or, at least, appear that way to clients. They can have
  * caches or configuration settings internally). If they need to store state, they should use the
- * Metawidget passed to each method and <code>MetawidgetTag.putClientProperty</code>.
+ * Metawidget passed to each method.
  *
  * @author Richard Kennard
  */
 
-public interface Layout
+public interface Layout<W, M extends W>
 {
 	//
 	// Methods
 	//
 
-	String layoutBegin( String value, MetawidgetTag metawidgetTag );
+	// TODO: when no errors, rename this to startLayout like startBuild
 
-	String layoutChild( String child, Map<String, String> attributes, MetawidgetTag metawidgetTag );
+	void layoutBegin( M metawidget );
 
-	String layoutEnd( MetawidgetTag metawidgetTag );
+	void layoutChild( W widget, Map<String, String> attributes, M metawidget );
+
+	void layoutEnd( M metawidget );
 }

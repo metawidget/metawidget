@@ -16,8 +16,6 @@
 
 package org.metawidget.widgetprocessor.impl;
 
-import java.util.Map;
-
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 public abstract class BaseWidgetProcessor<W, M extends W>
@@ -28,11 +26,6 @@ public abstract class BaseWidgetProcessor<W, M extends W>
 	//
 
 	public void onStartBuild( M metawidget )
-	{
-		// Do nothing
-	}
-
-	public void onAdd( W widget, String elementName, Map<String, String> attributes, M metawidget )
 	{
 		// Do nothing
 	}

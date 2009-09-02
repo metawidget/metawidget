@@ -16,9 +16,11 @@
 
 package org.metawidget.swing.layout;
 
-import java.awt.Component;
 import java.util.Map;
 
+import javax.swing.JComponent;
+
+import org.metawidget.layout.impl.BaseLayout;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 
@@ -30,35 +32,19 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class FlowLayout
-	extends BaseLayout
+	extends BaseLayout<JComponent,SwingMetawidget>
 {
-	//
-	// Private members
-	//
-
-	private java.awt.FlowLayout		mLayout;
-
-	//
-	// Constructor
-	//
-
-	public FlowLayout( SwingMetawidget metawidget )
-	{
-		super( metawidget );
-	}
-
 	//
 	// Public methods
 	//
 
 	@Override
-	public void layoutBegin()
+	public void layoutBegin( SwingMetawidget metawidget )
 	{
-		mLayout = new java.awt.FlowLayout();
-		getMetawidget().setLayout( mLayout );
+		metawidget.setLayout( new java.awt.FlowLayout() );
 	}
 
-	public void layoutChild( Component component, Map<String, String> attributes )
+	public void layoutChild( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
@@ -67,6 +53,6 @@ public class FlowLayout
 
 		// Add to the Metawidget
 
-		getMetawidget().add( component );
+		metawidget.add( component );
 	}
 }

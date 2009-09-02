@@ -18,13 +18,13 @@ package org.metawidget.swing.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,6 +35,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -60,7 +61,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class GridBagLayout
-	extends BaseLayout
+	implements Layout<JComponent, SwingMetawidget>
 {
 	//
 	// Public statics
@@ -87,56 +88,13 @@ public class GridBagLayout
 	private final static Border	BORDER_TAB				= BorderFactory.createEmptyBorder( SMALL_GAP, SMALL_GAP, SMALL_GAP, SMALL_GAP );
 
 	//
-	// Private members
+	// Public methods
 	//
 
-	private String				mCurrentSection;
-
-	private int					mLabelAlignment;
-
-	private int					mSectionStyle;
-
-	private int					mNumberOfColumns;
-
-	private int					mCurrentColumn;
-
-	private int					mCurrentRow;
-
-	private int					mPanelInsertedRow;
-
-	private JPanel				mPanelCurrent;
-
-	private Insets				mDefaultLabelInsetsFirstColumn;
-
-	private Insets				mDefaultLabelInsetsRemainderColumns;
-
-	/**
-	 * Whether a spacer row is required on the last row of the layout.
-	 * <p>
-	 * By default, GridBagLayouts expand to fill their vertical space, and 'align middle' their
-	 * group of components. To make them 'align top' at least one of the components must have a
-	 * vertical constraint weighting &gt; 0.
-	 */
-
-	private boolean				mNeedParentSpacerRow	= true;
-
-	/**
-	 * Whether a spacer row is required on the last row of the current panel.
-	 * <p>
-	 * By default, GridBagLayouts expand to fill their vertical space, and 'align middle' their
-	 * group of components. To make them 'align top' at least one of the components must have a
-	 * vertical constraint weighting &gt; 0.
-	 */
-
-	private boolean				mNeedPanelSpacerRow;
-
-	//
-	// Constructor
-	//
-
-	public GridBagLayout( SwingMetawidget metawidget )
+	public void layoutBegin( SwingMetawidget metawidget )
 	{
-		super( metawidget );
+		metawidget.putClientProperty( GridBagLayout.class, null );
+		State state = getState( metawidget );
 
 		// Read parameters
 
@@ -144,40 +102,32 @@ public class GridBagLayout
 
 		if ( numberOfColumns == null || metawidget.getParent() instanceof SwingMetawidget )
 		{
-			mNumberOfColumns = 1;
+			state.numberOfColumns = 1;
 		}
 		else
 		{
-			mNumberOfColumns = (Integer) numberOfColumns;
+			state.numberOfColumns = (Integer) numberOfColumns;
 
-			if ( mNumberOfColumns < 1 )
+			if ( state.numberOfColumns < 1 )
 				throw MetawidgetException.newException( "numberOfColumns must be >= 1" );
 		}
 
 		Object labelAlignment = metawidget.getParameter( "labelAlignment" );
 
 		if ( labelAlignment == null )
-			mLabelAlignment = SwingConstants.LEFT;
+			state.labelAlignment = SwingConstants.LEFT;
 		else
-			mLabelAlignment = (Integer) labelAlignment;
+			state.labelAlignment = (Integer) labelAlignment;
 
 		Object sectionStyle = metawidget.getParameter( "sectionStyle" );
 
 		if ( sectionStyle == null )
-			mSectionStyle = SECTION_AS_HEADING;
+			state.sectionStyle = SECTION_AS_HEADING;
 		else
-			mSectionStyle = (Integer) sectionStyle;
-	}
+			state.sectionStyle = (Integer) sectionStyle;
 
-	//
-	// Public methods
-	//
-
-	@Override
-	public void layoutBegin()
-	{
 		java.awt.GridBagLayout layoutManager = new java.awt.GridBagLayout();
-		getMetawidget().setLayout( layoutManager );
+		metawidget.setLayout( layoutManager );
 
 		// Calculate default label inset
 		//
@@ -195,11 +145,11 @@ public class GridBagLayout
 		double dummyLabelHeight = dummyLabel.getPreferredSize().getHeight();
 
 		int defaultLabelVerticalPadding = (int) Math.max( 0, Math.floor( ( dummyTextFieldHeight - dummyLabelHeight ) / 2 ) );
-		mDefaultLabelInsetsFirstColumn = new Insets( defaultLabelVerticalPadding, 0, defaultLabelVerticalPadding, SMALL_GAP );
-		mDefaultLabelInsetsRemainderColumns = new Insets( defaultLabelVerticalPadding, SMALL_GAP, defaultLabelVerticalPadding, SMALL_GAP );
+		state.defaultLabelInsetsFirstColumn = new Insets( defaultLabelVerticalPadding, 0, defaultLabelVerticalPadding, SMALL_GAP );
+		state.defaultLabelInsetsRemainderColumns = new Insets( defaultLabelVerticalPadding, SMALL_GAP, defaultLabelVerticalPadding, SMALL_GAP );
 	}
 
-	public void layoutChild( Component component, Map<String, String> attributes )
+	public void layoutChild( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
@@ -208,12 +158,13 @@ public class GridBagLayout
 
 		// Special support for large components
 
+		State state = getState( metawidget );
 		boolean largeComponent = ( component instanceof JScrollPane || component instanceof SwingMetawidget || ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) );
 
-		if ( largeComponent && mCurrentColumn > 0 )
+		if ( largeComponent && state.currentColumn > 0 )
 		{
-			mCurrentColumn = 0;
-			mCurrentRow++;
+			state.currentColumn = 0;
+			state.currentRow++;
 		}
 
 		// Layout a label...
@@ -221,9 +172,9 @@ public class GridBagLayout
 		String labelText = null;
 
 		if ( attributes != null )
-			labelText = getMetawidget().getLabelString( attributes );
+			labelText = metawidget.getLabelString( attributes );
 
-		layoutBeforeChild( component, labelText, attributes );
+		layoutBeforeChild( component, labelText, attributes, metawidget );
 
 		// ...and layout the component
 
@@ -236,105 +187,105 @@ public class GridBagLayout
 
 		if ( labelText != null )
 		{
-			componentConstraints.gridx = ( mCurrentColumn * 2 ) + 1;
+			componentConstraints.gridx = ( state.currentColumn * 2 ) + 1;
 		}
 		else
 		{
-			componentConstraints.gridx = mCurrentColumn * 2;
+			componentConstraints.gridx = state.currentColumn * 2;
 			componentConstraints.gridwidth = 2;
 		}
 
-		componentConstraints.gridy = mCurrentRow;
-		componentConstraints.weightx = 1.0f / mNumberOfColumns;
+		componentConstraints.gridy = state.currentRow;
+		componentConstraints.weightx = 1.0f / state.numberOfColumns;
 		componentConstraints.insets = INSETS_COMPONENT;
 
 		if ( largeComponent )
 		{
 			componentConstraints.gridwidth = GridBagConstraints.REMAINDER;
-			mCurrentColumn = mNumberOfColumns;
+			state.currentColumn = state.numberOfColumns;
 		}
 
-		// Hack for spacer row (see JavaDoc for mNeedSpacerRow): assume components
+		// Hack for spacer row (see JavaDoc for state.mNeedSpacerRow): assume components
 		// embedded in a JScrollPane are their own spacer row
 
 		if ( component instanceof JScrollPane )
 		{
 			componentConstraints.weighty = 1.0f;
 
-			if ( mPanelCurrent == null )
-				mNeedParentSpacerRow = false;
+			if ( state.panelCurrent == null )
+				state.needParentSpacerRow = false;
 			else
-				mNeedPanelSpacerRow = false;
+				state.needPanelSpacerRow = false;
 		}
 
 		// Add to either current panel or direct to the Metawidget
 
-		if ( mPanelCurrent == null )
-			getMetawidget().add( component, componentConstraints );
+		if ( state.panelCurrent == null )
+			metawidget.add( component, componentConstraints );
 		else
-			mPanelCurrent.add( component, componentConstraints );
+			state.panelCurrent.add( component, componentConstraints );
 
-		mCurrentColumn++;
+		state.currentColumn++;
 
-		if ( mCurrentColumn >= mNumberOfColumns )
+		if ( state.currentColumn >= state.numberOfColumns )
 		{
-			mCurrentColumn = 0;
-			mCurrentRow++;
+			state.currentColumn = 0;
+			state.currentRow++;
 		}
 	}
 
-	@Override
-	public void layoutEnd()
+	public void layoutEnd( SwingMetawidget metawidget )
 	{
-		sectionEnd();
+		sectionEnd( metawidget );
 
 		// Buttons
 
-		Facet buttonsFacet = getMetawidget().getFacet( "buttons" );
+		State state = getState( metawidget );
+		Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
 		if ( buttonsFacet != null )
 		{
-			if ( mCurrentColumn > 0 )
+			if ( state.currentColumn > 0 )
 			{
-				mCurrentColumn = 0;
-				mCurrentRow++;
+				state.currentColumn = 0;
+				state.currentRow++;
 			}
 
 			GridBagConstraints buttonConstraints = new GridBagConstraints();
 			buttonConstraints.fill = GridBagConstraints.BOTH;
 			buttonConstraints.anchor = GridBagConstraints.WEST;
-			buttonConstraints.gridy = mCurrentRow;
+			buttonConstraints.gridy = state.currentRow;
 			buttonConstraints.gridwidth = GridBagConstraints.REMAINDER;
 
 			// (buttons facet can act as the spacer row)
 
-			if ( mNeedParentSpacerRow )
+			if ( state.needParentSpacerRow )
 			{
 				buttonConstraints.weighty = 1.0f;
-				mNeedParentSpacerRow = false;
+				state.needParentSpacerRow = false;
 			}
 
-			getMetawidget().add( buttonsFacet, buttonConstraints );
+			metawidget.add( buttonsFacet, buttonConstraints );
 
-			mCurrentRow++;
+			state.currentRow++;
 		}
 
-		// Spacer row: see JavaDoc for mNeedParentSpacerRow
+		// Spacer row: see JavaDoc for state.mNeedParentSpacerRow
 
-		if ( mNeedParentSpacerRow )
+		if ( state.needParentSpacerRow )
 		{
-			if ( mCurrentColumn > 0 )
+			if ( state.currentColumn > 0 )
 			{
-				mCurrentColumn = 0;
-				mCurrentRow++;
+				state.currentColumn = 0;
+				state.currentRow++;
 			}
 
 			JPanel panelSpacer = new JPanel();
 			panelSpacer.setOpaque( false );
 			GridBagConstraints constraintsSpacer = new GridBagConstraints();
-			constraintsSpacer.gridy = mCurrentRow;
+			constraintsSpacer.gridy = state.currentRow;
 			constraintsSpacer.weighty = 1.0f;
-			getMetawidget().add( panelSpacer, constraintsSpacer );
+			metawidget.add( panelSpacer, constraintsSpacer );
 		}
 	}
 
@@ -342,18 +293,20 @@ public class GridBagLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Component component, String labelText, Map<String, String> attributes )
+	protected String layoutBeforeChild( JComponent component, String labelText, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
+		State state = getState( metawidget );
+
 		if ( attributes != null )
 		{
 			// Section headings
 
 			String section = attributes.get( SECTION );
 
-			if ( section != null && !section.equals( mCurrentSection ) )
+			if ( section != null && !section.equals( state.currentSection ) )
 			{
-				mCurrentSection = section;
-				layoutSection( section );
+				state.currentSection = section;
+				layoutSection( section, metawidget );
 			}
 		}
 
@@ -362,20 +315,20 @@ public class GridBagLayout
 		if ( labelText != null && !"".equals( labelText ) && !( component instanceof JButton ) )
 		{
 			JLabel label = new JLabel();
-			label.setHorizontalAlignment( mLabelAlignment );
+			label.setHorizontalAlignment( state.labelAlignment );
 
 			// Required
 
-			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
+			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 				label.setText( labelText + "*:" );
 			else
 				label.setText( labelText + ":" );
 
 			GridBagConstraints labelConstraints = new GridBagConstraints();
-			labelConstraints.gridx = mCurrentColumn * 2;
-			labelConstraints.gridy = mCurrentRow;
+			labelConstraints.gridx = state.currentColumn * 2;
+			labelConstraints.gridy = state.currentRow;
 			labelConstraints.fill = GridBagConstraints.HORIZONTAL;
-			labelConstraints.weightx = 0.1f / mNumberOfColumns;
+			labelConstraints.weightx = 0.1f / state.numberOfColumns;
 
 			// Top align all labels, not just those belonging to 'tall' components,
 			// so that tall components, regular components and nested Metawidget
@@ -386,86 +339,87 @@ public class GridBagLayout
 			// Apply some vertical padding, and some left padding on everything but the
 			// first column, so the label lines up with the component nicely
 
-			if ( mCurrentColumn == 0 )
-				labelConstraints.insets = mDefaultLabelInsetsFirstColumn;
+			if ( state.currentColumn == 0 )
+				labelConstraints.insets = state.defaultLabelInsetsFirstColumn;
 			else
-				labelConstraints.insets = mDefaultLabelInsetsRemainderColumns;
+				labelConstraints.insets = state.defaultLabelInsetsRemainderColumns;
 
 			// Add to either current panel or direct to the Metawidget
 
-			if ( mPanelCurrent == null )
-				getMetawidget().add( label, labelConstraints );
+			if ( state.panelCurrent == null )
+				metawidget.add( label, labelConstraints );
 			else
-				mPanelCurrent.add( label, labelConstraints );
+				state.panelCurrent.add( label, labelConstraints );
 		}
 
 		return labelText;
 	}
 
-	protected void layoutSection( String section )
+	protected void layoutSection( String section, SwingMetawidget metawidget )
 	{
 		if ( "".equals( section ) )
 		{
-			sectionEnd();
+			sectionEnd( metawidget );
 			return;
 		}
 
 		// Section name (possibly localized)
 
-		String localizedSection = getMetawidget().getLocalizedKey( StringUtils.camelCase( section ) );
+		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
 			localizedSection = section;
 
 		// Start a new row
 
-		if ( mCurrentColumn > 0 )
+		State state = getState( metawidget );
+		if ( state.currentColumn > 0 )
 		{
-			mCurrentColumn = 0;
-			mCurrentRow++;
+			state.currentColumn = 0;
+			state.currentRow++;
 		}
 
 		// Insert the section
 
-		switch ( mSectionStyle )
+		switch ( state.sectionStyle )
 		{
 			case SECTION_AS_TAB:
 
 				JTabbedPane tabbedPane;
 
-				if ( mPanelCurrent == null )
+				if ( state.panelCurrent == null )
 				{
 					tabbedPane = new JTabbedPane();
 					tabbedPane.setBorder( BORDER_SECTION );
 
-					mPanelInsertedRow = mCurrentRow;
+					state.panelInsertedRow = state.currentRow;
 
 					GridBagConstraints constraintsTabbedPane = new GridBagConstraints();
 					constraintsTabbedPane.fill = GridBagConstraints.BOTH;
 					constraintsTabbedPane.anchor = GridBagConstraints.WEST;
-					constraintsTabbedPane.gridy = mPanelInsertedRow;
+					constraintsTabbedPane.gridy = state.panelInsertedRow;
 					constraintsTabbedPane.gridwidth = GridBagConstraints.REMAINDER;
 					constraintsTabbedPane.weighty = 1.0f;
-					mNeedParentSpacerRow = false;
+					state.needParentSpacerRow = false;
 
-					getMetawidget().add( tabbedPane, constraintsTabbedPane );
+					metawidget.add( tabbedPane, constraintsTabbedPane );
 				}
 				else
 				{
-					tabbedPane = (JTabbedPane) mPanelCurrent.getParent();
-					sectionEnd();
+					tabbedPane = (JTabbedPane) state.panelCurrent.getParent();
+					sectionEnd( metawidget );
 				}
 
-				mPanelCurrent = new JPanel();
-				mPanelCurrent.setBorder( BORDER_TAB );
-				mPanelCurrent.setName( localizedSection );
-				mPanelCurrent.setLayout( new java.awt.GridBagLayout() );
-				mNeedPanelSpacerRow = true;
+				state.panelCurrent = new JPanel();
+				state.panelCurrent.setBorder( BORDER_TAB );
+				state.panelCurrent.setName( localizedSection );
+				state.panelCurrent.setLayout( new java.awt.GridBagLayout() );
+				state.needPanelSpacerRow = true;
 
-				tabbedPane.add( mPanelCurrent );
+				tabbedPane.add( state.panelCurrent );
 
-				mCurrentRow = 0;
-				mCurrentColumn = 0;
+				state.currentRow = 0;
+				state.currentColumn = 0;
 				break;
 
 			default:
@@ -490,41 +444,111 @@ public class GridBagLayout
 
 				GridBagConstraints constraintsSection = new GridBagConstraints();
 				constraintsSection.fill = GridBagConstraints.HORIZONTAL;
-				constraintsSection.gridy = mCurrentRow;
+				constraintsSection.gridy = state.currentRow;
 				constraintsSection.gridwidth = GridBagConstraints.REMAINDER;
-				getMetawidget().add( panelSection, constraintsSection );
+				metawidget.add( panelSection, constraintsSection );
 
-				mCurrentRow++;
+				state.currentRow++;
 				break;
 		}
 	}
 
-	protected void sectionEnd()
+	protected void sectionEnd( SwingMetawidget metawidget )
 	{
-		if ( mPanelCurrent == null )
+		State state = getState( metawidget );
+
+		if ( state.panelCurrent == null )
 			return;
 
-		// Spacer row: see JavaDoc for mNeedParentSpacerRow
+		// Spacer row: see JavaDoc for state.mNeedParentSpacerRow
 
-		if ( mNeedPanelSpacerRow )
+		if ( state.needPanelSpacerRow )
 		{
-			if ( mCurrentColumn > 0 )
+			if ( state.currentColumn > 0 )
 			{
-				mCurrentColumn = 0;
-				mCurrentRow++;
+				state.currentColumn = 0;
+				state.currentRow++;
 			}
 
 			JPanel panelSpacer = new JPanel();
 			panelSpacer.setOpaque( false );
 			GridBagConstraints constraintsSpacer = new GridBagConstraints();
-			constraintsSpacer.gridy = mCurrentRow;
+			constraintsSpacer.gridy = state.currentRow;
 			constraintsSpacer.weighty = 1.0f;
-			mPanelCurrent.add( panelSpacer, constraintsSpacer );
+			state.panelCurrent.add( panelSpacer, constraintsSpacer );
 		}
 
-		mCurrentRow = mPanelInsertedRow + 1;
-		mCurrentColumn = 0;
+		state.currentRow = state.panelInsertedRow + 1;
+		state.currentColumn = 0;
 
-		mPanelCurrent = null;
+		state.panelCurrent = null;
+	}
+
+	//
+	// Private methods
+	//
+
+	private State getState( SwingMetawidget metawidget )
+	{
+		State state = (State) metawidget.getClientProperty( GridBagLayout.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			metawidget.putClientProperty( GridBagLayout.class, state );
+		}
+
+		return state;
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */class State
+	{
+		/* package private */String		currentSection;
+
+		/* package private */int		labelAlignment;
+
+		/* package private */int		sectionStyle;
+
+		/* package private */int		numberOfColumns;
+
+		/* package private */int		currentColumn;
+
+		/* package private */int		currentRow;
+
+		/* package private */int		panelInsertedRow;
+
+		/* package private */JPanel		panelCurrent;
+
+		/* package private */Insets		defaultLabelInsetsFirstColumn;
+
+		/* package private */Insets		defaultLabelInsetsRemainderColumns;
+
+		/**
+		 * Whether a spacer row is required on the last row of the layout.
+		 * <p>
+		 * By default, GridBagLayouts expand to fill their vertical space, and 'align middle' their
+		 * group of components. To make them 'align top' at least one of the components must have a
+		 * vertical constraint weighting &gt; 0.
+		 */
+
+		/* package private */boolean	needParentSpacerRow	= true;
+
+		/**
+		 * Whether a spacer row is required on the last row of the current panel.
+		 * <p>
+		 * By default, GridBagLayouts expand to fill their vertical space, and 'align middle' their
+		 * group of components. To make them 'align top' at least one of the components must have a
+		 * vertical constraint weighting &gt; 0.
+		 */
+
+		/* package private */boolean	needPanelSpacerRow;
 	}
 }

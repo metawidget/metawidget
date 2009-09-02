@@ -222,7 +222,7 @@ public class ContactDialog
 
 		mButtonsMetawidget = new SwingMetawidget();
 		mButtonsMetawidget.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
-		mButtonsMetawidget.setLayoutClass( FlowLayout.class );
+		mButtonsMetawidget.setMetawidgetLayout( new FlowLayout() );
 		mButtonsMetawidget.setToInspect( this );
 		facetButtons.add( mButtonsMetawidget );
 	}
@@ -343,7 +343,7 @@ public class ContactDialog
 		public CommunicationEditor()
 		{
 			mEditor = new SwingMetawidget();
-			mEditor.setLayoutClass( null );
+			mEditor.setMetawidgetLayout( new org.metawidget.swing.layout.BoxLayout() );
 			mEditor.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
 		}
 

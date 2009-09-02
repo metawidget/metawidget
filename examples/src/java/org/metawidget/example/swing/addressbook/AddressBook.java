@@ -217,7 +217,7 @@ public class AddressBook
 		SwingMetawidget buttonsMetawidget = new SwingMetawidget();
 		buttonsMetawidget.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
 		buttonsMetawidget.setToInspect( this );
-		buttonsMetawidget.setLayoutClass( FlowLayout.class );
+		buttonsMetawidget.setMetawidgetLayout( new FlowLayout() );
 		facetButtons.add( buttonsMetawidget );
 
 		return mSearchMetawidget;

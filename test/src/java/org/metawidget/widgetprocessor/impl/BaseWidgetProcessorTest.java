@@ -16,6 +16,8 @@
 
 package org.metawidget.widgetprocessor.impl;
 
+import java.util.Map;
+
 import javax.swing.JComponent;
 
 import junit.framework.TestCase;
@@ -38,11 +40,16 @@ public class BaseWidgetProcessorTest
 	{
 		BaseWidgetProcessor<?, ?> widgetProcessor = new BaseWidgetProcessor<JComponent, SwingMetawidget>()
 		{
-			// Should be instantiatable without overriding anything
+			@Override
+			public void onAdd( JComponent widget, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+			{
+				// Do nothing
+			}
 		};
 
 		// Should do nothing
 
-		widgetProcessor.onAdd( null, null, null, null );
+		widgetProcessor.onStartBuild( null );
+		widgetProcessor.onEndBuild( null );
 	}
 }

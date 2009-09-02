@@ -23,6 +23,7 @@ import java.util.Map;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.user.client.ui.Button;
@@ -47,7 +48,7 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  */
 
 public class FlexTableLayout
-	implements Layout
+	implements Layout<Widget, GwtMetawidget>
 {
 	//
 	// Private statics
@@ -65,15 +66,14 @@ public class FlexTableLayout
 		metawidget.putClientProperty( FlexTableLayout.class, null );
 
 		State state = getState( metawidget );
-		state.layout = new FlexTable();
-		state.formatter = state.layout.getFlexCellFormatter();
+		FlexTable flexTable = new FlexTable();
+		metawidget.add( flexTable );
+		state.formatter = flexTable.getFlexCellFormatter();
 
 		String styleName = metawidget.getParameter( "tableStyleName" );
 
 		if ( styleName != null )
-			state.layout.setStyleName( styleName );
-
-		metawidget.add( state.layout );
+			flexTable.setStyleName( styleName );
 
 		// Parse column style names
 		//
@@ -145,12 +145,13 @@ public class FlexTableLayout
 		// is
 
 		int actualColumn;
-		int row = state.layout.getRowCount();
+		FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
+		int row = flexTable.getRowCount();
 
 		if ( state.currentColumn < state.numberOfColumns && row > 0 )
 		{
 			row--;
-			actualColumn = state.layout.getCellCount( row );
+			actualColumn = flexTable.getCellCount( row );
 		}
 		else
 		{
@@ -171,7 +172,7 @@ public class FlexTableLayout
 			if ( styleName != null )
 				state.formatter.setStyleName( row, actualColumn, styleName );
 
-			state.layout.setWidget( row, actualColumn, label );
+			flexTable.setWidget( row, actualColumn, label );
 		}
 
 		// Widget
@@ -199,7 +200,7 @@ public class FlexTableLayout
 		if ( styleName != null )
 			state.formatter.setStyleName( row, actualColumn, styleName );
 
-		state.layout.setWidget( row, actualColumn, widget );
+		flexTable.setWidget( row, actualColumn, widget );
 
 		// Colspan
 
@@ -254,7 +255,8 @@ public class FlexTableLayout
 		if ( facet != null )
 		{
 			State state = getState( metawidget );
-			int row = state.layout.getRowCount();
+			FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
+			int row = flexTable.getRowCount();
 
 			if ( state.numberOfColumns > 0 )
 				state.formatter.setColSpan( row, 0, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
@@ -264,7 +266,7 @@ public class FlexTableLayout
 			if ( styleName != null )
 				state.formatter.setStyleName( row, 0, styleName );
 
-			state.layout.setWidget( row, 0, facet );
+			flexTable.setWidget( row, 0, facet );
 		}
 	}
 
@@ -275,14 +277,15 @@ public class FlexTableLayout
 	protected void layoutRequired( Map<String, String> attributes, GwtMetawidget metawidget )
 	{
 		State state = getState( metawidget );
-		int row = state.layout.getRowCount() - 1;
-		int column = state.layout.getCellCount( row );
+		FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
+		int row = flexTable.getRowCount() - 1;
+		int column = flexTable.getCellCount( row );
 
 		state.formatter.setStyleName( row, column, getStyleName( ( state.currentColumn * LABEL_AND_COMPONENT_AND_REQUIRED ) + 2, metawidget ) );
 
 		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 		{
-			state.layout.setText( row, column, "*" );
+			flexTable.setText( row, column, "*" );
 			return;
 		}
 
@@ -292,7 +295,7 @@ public class FlexTableLayout
 		//
 		// Note: don't do <div/>, as we may not be XHTML
 
-		state.layout.setHTML( row, column, "<div></div>" );
+		flexTable.setHTML( row, column, "<div></div>" );
 	}
 
 	protected void layoutSection( String section, GwtMetawidget metawidget )
@@ -303,16 +306,17 @@ public class FlexTableLayout
 			return;
 
 		State state = getState( metawidget );
-		int row = state.layout.getRowCount();
+		FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
+		int row = flexTable.getRowCount();
 
 		// Section name (possibly localized)
 
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection != null )
-			state.layout.setText( row, 0, localizedSection );
+			flexTable.setText( row, 0, localizedSection );
 		else
-			state.layout.setText( row, 0, section );
+			flexTable.setText( row, 0, section );
 
 		// Span and style
 
@@ -362,8 +366,6 @@ public class FlexTableLayout
 
 	/* package private */class State
 	{
-		/* package private */FlexTable			layout;
-
 		/* package private */FlexCellFormatter	formatter;
 
 		/* package private */int				numberOfColumns;

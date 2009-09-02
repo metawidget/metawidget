@@ -19,6 +19,7 @@ package org.metawidget.gwt.client.ui.layout;
 import java.util.Map;
 
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.layout.impl.BaseLayout;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -29,27 +30,15 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class FlowLayout
-	implements Layout
+	extends BaseLayout<Widget,GwtMetawidget>
 {
 	//
 	// Public methods
 	//
 
 	@Override
-	public void layoutBegin( GwtMetawidget metawidget )
-	{
-		// Do nothing
-	}
-
-	@Override
 	public void layoutChild( Widget widget, Map<String, String> attributes, GwtMetawidget metawidget )
 	{
 		metawidget.add( widget );
-	}
-
-	@Override
-	public void layoutEnd( GwtMetawidget metawidget )
-	{
-		// Do nothing
 	}
 }

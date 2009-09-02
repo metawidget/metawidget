@@ -20,9 +20,12 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.layout.iface.Layout;
+import org.metawidget.swing.layout.GroupLayout;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +42,7 @@ import android.widget.TextView;
  */
 
 public class TableLayout
-	extends BaseLayout
+	implements Layout<View, AndroidMetawidget>
 {
 	//
 	// Private statics
@@ -53,21 +56,14 @@ public class TableLayout
 
 	private android.widget.TableLayout	mLayout;
 
-	private String						mCurrentSection;
-
-	private int							mNumberOfColumns	= 1;
-
-	private int							mLabelStyle;
-
-	private int							mSectionStyle;
-
 	//
 	// Constructor
 	//
 
-	public TableLayout( AndroidMetawidget metawidget )
+	public void layoutBegin( AndroidMetawidget metawidget )
 	{
-		super( metawidget );
+		metawidget.putClientProperty( GroupLayout.class, null );
+		State state = getState( metawidget );
 
 		// Number of columns
 
@@ -76,11 +72,11 @@ public class TableLayout
 		if ( numberOfColumns != null )
 		{
 			if ( numberOfColumns instanceof String )
-				mNumberOfColumns = Integer.parseInt( (String) numberOfColumns );
+				state.mNumberOfColumns = Integer.parseInt( (String) numberOfColumns );
 			else
-				mNumberOfColumns = (Integer) numberOfColumns;
+				state.mNumberOfColumns = (Integer) numberOfColumns;
 
-			if ( mNumberOfColumns < 1 )
+			if ( state.mNumberOfColumns < 1 )
 				throw MetawidgetException.newException( "numberOfColumns must be >= 1. Use LinearLayout for zero columns" );
 		}
 
@@ -89,31 +85,25 @@ public class TableLayout
 		Object labelStyle = metawidget.getParameter( "labelStyle" );
 
 		if ( labelStyle != null )
-			mLabelStyle = (Integer) labelStyle;
+			state.mLabelStyle = (Integer) labelStyle;
 
 		// Section style
 
 		Object sectionStyle = metawidget.getParameter( "sectionStyle" );
 
 		if ( sectionStyle != null )
-			mSectionStyle = (Integer) sectionStyle;
+			state.mSectionStyle = (Integer) sectionStyle;
 	}
 
-	//
-	// Public methods
-	//
-
-	@Override
-	public void layoutChild( View view, Map<String, String> attributes )
+	public void layoutChild( View view, Map<String, String> attributes, AndroidMetawidget metawidget )
 	{
 		// Ignore empty Stubs
 
-		if ( view instanceof Stub && ((Stub) view).getChildCount() == 0 )
+		if ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 )
 			return;
 
-		initLayout();
+		initLayout( metawidget );
 
-		AndroidMetawidget metawidget = getMetawidget();
 		TableRow tableRow = new TableRow( metawidget.getContext() );
 
 		String label = null;
@@ -122,17 +112,18 @@ public class TableLayout
 
 		if ( attributes != null )
 		{
+			State state = getState( metawidget );
 			String section = attributes.get( SECTION );
 
-			if ( section != null && !section.equals( mCurrentSection ) )
+			if ( section != null && !section.equals( state.mCurrentSection ) )
 			{
-				mCurrentSection = section;
-				layoutSection( section );
+				state.mCurrentSection = section;
+				layoutSection( section, metawidget );
 			}
 
 			// Labels
 
-			label = getMetawidget().getLabelString( attributes );
+			label = metawidget.getLabelString( attributes );
 
 			if ( label != null )
 			{
@@ -141,7 +132,7 @@ public class TableLayout
 				if ( !"".equals( label ) )
 					textView.setText( label + ": " );
 
-				applyStyle( textView, mLabelStyle );
+				AndroidUtils.applyStyle( textView, state.mLabelStyle, metawidget );
 
 				tableRow.addView( textView );
 			}
@@ -179,38 +170,36 @@ public class TableLayout
 		mLayout.addView( tableRow, new android.widget.TableLayout.LayoutParams() );
 	}
 
-	@Override
-	public void layoutEnd()
+	public void layoutEnd( AndroidMetawidget metawidget )
 	{
-		View viewButtons = getMetawidget().getFacet( "buttons" );
+		View viewButtons = metawidget.getFacet( "buttons" );
 
 		if ( viewButtons != null )
 		{
-			initLayout();
+			initLayout( metawidget );
 			mLayout.addView( viewButtons, new android.widget.TableLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 		}
 
 		// If the Layout was never used, just put an empty space
 
 		if ( mLayout == null )
-			getMetawidget().addView( new TextView( getMetawidget().getContext() ), new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+			metawidget.addView( new TextView( metawidget.getContext() ), new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 	}
 
 	//
 	// Protected methods
 	//
 
-	protected void layoutSection( String section )
+	protected void layoutSection( String section, AndroidMetawidget metawidget )
 	{
 		if ( "".equals( section ) )
 			return;
 
 		// Section name (possibly localized)
 
-		AndroidMetawidget metawidget = getMetawidget();
 		TextView textView = new TextView( metawidget.getContext() );
 
-		String localizedSection = getMetawidget().getLocalizedKey( section );
+		String localizedSection = metawidget.getLocalizedKey( section );
 
 		if ( localizedSection != null )
 			textView.setText( localizedSection );
@@ -219,7 +208,8 @@ public class TableLayout
 
 		// Apply style (if any)
 
-		applyStyle( textView, mSectionStyle );
+		State state = getState( metawidget );
+		AndroidUtils.applyStyle( textView, state.mSectionStyle, metawidget );
 
 		// Add it as a separate layout, to save horizontal space where possible
 		// (eg. the labels in this new section might be smaller than the old section)
@@ -232,7 +222,7 @@ public class TableLayout
 		mLayout.setOrientation( LinearLayout.VERTICAL );
 		mLayout.setColumnStretchable( 1, true );
 
-		getMetawidget().addView( mLayout, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		metawidget.addView( mLayout, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 	}
 
 	//
@@ -246,16 +236,47 @@ public class TableLayout
 	 * Android doesn't like empty TableLayouts.
 	 */
 
-	private void initLayout()
+	private void initLayout( AndroidMetawidget metawidget )
 	{
 		if ( mLayout != null )
 			return;
 
-		AndroidMetawidget metawidget = getMetawidget();
 		mLayout = new android.widget.TableLayout( metawidget.getContext() );
 		mLayout.setOrientation( LinearLayout.VERTICAL );
 		mLayout.setColumnStretchable( 1, true );
 
 		metawidget.addView( mLayout, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+	}
+
+	private State getState( AndroidMetawidget metawidget )
+	{
+		State state = (State) metawidget.getClientProperty( TableLayout.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			metawidget.putClientProperty( TableLayout.class, state );
+		}
+
+		return state;
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */class State
+	{
+		/* package private */String	mCurrentSection;
+
+		/* package private */int	mNumberOfColumns	= 1;
+
+		/* package private */int	mLabelStyle;
+
+		/* package private */int	mSectionStyle;
 	}
 }

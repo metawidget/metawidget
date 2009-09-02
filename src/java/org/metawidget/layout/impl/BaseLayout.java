@@ -14,29 +14,24 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.android.widget.layout;
+package org.metawidget.layout.impl;
 
-import java.util.Map;
+import org.metawidget.layout.iface.Layout;
 
-import android.view.View;
-
-/**
- * Interface for Android-based layouts.
- * <p>
- * Implementations need not be Thread-safe.
- *
- * @author Richard Kennard
- */
-
-public interface Layout
+public abstract class BaseLayout<W, M extends W>
+	implements Layout<W, M>
 {
 	//
-	// Methods
+	// Public methods
 	//
 
-	void layoutBegin();
+	public void layoutBegin( M metawidget )
+	{
+		// Do nothing
+	}
 
-	void layoutChild( View view, Map<String, String> attributes );
-
-	void layoutEnd();
+	public void layoutEnd( M metawidget )
+	{
+		// Do nothing
+	}
 }

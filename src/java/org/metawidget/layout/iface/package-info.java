@@ -14,33 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.ui.layout;
-
-import java.util.Map;
-
-import org.metawidget.gwt.client.ui.GwtMetawidget;
-
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Interface for GWT-based layouts.
- * <p>
- * Layouts must be threadsafe and immutable (or, at least, appear that way to clients. They can have
- * caches or configuration settings internally). If they need to store state, they should use the
- * Metawidget passed to each method and <code>GwtMetawidget.putClientProperty</code>.
+ * Layout: Root interface.
  *
  * @author Richard Kennard
  */
 
-public interface Layout
-{
-	//
-	// Methods
-	//
-
-	void layoutBegin( GwtMetawidget metawidget );
-
-	void layoutChild( Widget widget, Map<String, String> attributes, GwtMetawidget metawidget );
-
-	void layoutEnd( GwtMetawidget metawidget );
-}
+package org.metawidget.layout.iface;

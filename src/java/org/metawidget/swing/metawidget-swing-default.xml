@@ -26,6 +26,10 @@
 			</list>
 		</widgetProcessors>
 		
+		<metawidgetLayout>
+			<gridBagLayout xmlns="java:org.metawidget.swing.layout"/>
+		</metawidgetLayout>
+		
 	</swingMetawidget>
 
 </metawidget>

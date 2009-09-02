@@ -81,7 +81,7 @@ public class MigLayoutTest
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 0 );
 		metawidget.setParameter( "sectionStyle", org.metawidget.swing.layout.MigLayout.SECTION_AS_TAB );
-		metawidget.setLayoutClass( org.metawidget.swing.layout.MigLayout.class );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout() );
 		metawidget.setToInspect( new Foo() );
 
 		try
@@ -233,7 +233,7 @@ public class MigLayoutTest
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() ) ) );
-		metawidget.setLayoutClass( org.metawidget.swing.layout.MigLayout.class );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout() );
 		metawidget.setToInspect( new Foo() );
 
 		// Heading
@@ -255,7 +255,7 @@ public class MigLayoutTest
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setParameter( "numberOfColumns", 2 );
-		metawidget.setLayoutClass( org.metawidget.swing.layout.MigLayout.class );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout() );
 		metawidget.add( new JTextField() );
 		Facet buttons = new Facet();
 		buttons.setName( "buttons" );
@@ -280,7 +280,7 @@ public class MigLayoutTest
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setParameter( "sectionStyle", org.metawidget.swing.layout.MigLayout.SECTION_AS_TAB );
-		metawidget.setLayoutClass( org.metawidget.swing.layout.MigLayout.class );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout() );
 		metawidget.setToInspect( new NastyNestingTop() );
 
 		// JFrame

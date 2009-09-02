@@ -22,6 +22,7 @@ import java.awt.Component;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -34,6 +35,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -56,7 +58,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class MigLayout
-	extends BaseLayout
+	implements Layout<JComponent, SwingMetawidget>
 {
 	//
 	// Public statics
@@ -67,30 +69,13 @@ public class MigLayout
 	public final static int	SECTION_AS_TAB		= 1;
 
 	//
-	// Private members
+	// Public methods
 	//
 
-	private String			mCurrentSection;
-
-	private int				mNumberOfColumns;
-
-	private int				mCurrentColumn;
-
-	private int				mCurrentRow;
-
-	private int				mSectionStyle;
-
-	private JPanel			mPanelCurrent;
-
-	private int				mDefaultLabelVerticalPadding;
-
-	//
-	// Constructor
-	//
-
-	public MigLayout( SwingMetawidget metawidget )
+	public void layoutBegin( SwingMetawidget metawidget )
 	{
-		super( metawidget );
+		metawidget.putClientProperty( GridBagLayout.class, null );
+		State state = getState( metawidget );
 
 		// Read parameters
 
@@ -98,31 +83,23 @@ public class MigLayout
 
 		if ( numberOfColumns == null || metawidget.getParent() instanceof SwingMetawidget )
 		{
-			mNumberOfColumns = 1;
+			state.numberOfColumns = 1;
 		}
 		else
 		{
-			mNumberOfColumns = (Integer) numberOfColumns;
+			state.numberOfColumns = (Integer) numberOfColumns;
 
-			if ( mNumberOfColumns < 1 )
+			if ( state.numberOfColumns < 1 )
 				throw MetawidgetException.newException( "numberOfColumns must be >= 1" );
 		}
 
 		Object sectionStyle = metawidget.getParameter( "sectionStyle" );
 
 		if ( sectionStyle == null )
-			mSectionStyle = SECTION_AS_HEADING;
+			state.sectionStyle = SECTION_AS_HEADING;
 		else
-			mSectionStyle = (Integer) sectionStyle;
-	}
+			state.sectionStyle = (Integer) sectionStyle;
 
-	//
-	// Public methods
-	//
-
-	@Override
-	public void layoutBegin()
-	{
 		// The entire layout should fill both horizontally and vertically,
 		// with no insets. This allows us to be properly nested, as well as
 		// embedded within existing UIs, without alignment problems
@@ -139,7 +116,7 @@ public class MigLayout
 		// what the components will be in advance. Rather, we use 'cell' and 'push'
 
 		java.awt.LayoutManager layoutManager = new net.miginfocom.swing.MigLayout( layoutConstraints );
-		getMetawidget().setLayout( layoutManager );
+		metawidget.setLayout( layoutManager );
 
 		// Calculate default label inset
 		//
@@ -156,10 +133,10 @@ public class MigLayout
 		dummyLabel.setLayout( layoutManager );
 		double dummyLabelHeight = dummyLabel.getPreferredSize().getHeight();
 
-		mDefaultLabelVerticalPadding = (int) Math.max( 0, Math.floor(( dummyTextFieldHeight - dummyLabelHeight ) / 2 ));
+		state.defaultLabelVerticalPadding = (int) Math.max( 0, Math.floor( ( dummyTextFieldHeight - dummyLabelHeight ) / 2 ) );
 	}
 
-	public void layoutChild( Component component, Map<String, String> attributes )
+	public void layoutChild( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
@@ -168,12 +145,13 @@ public class MigLayout
 
 		// Special support for large components
 
+		State state = getState( metawidget );
 		boolean largeComponent = ( component instanceof JScrollPane || component instanceof SwingMetawidget || ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) );
 
-		if ( largeComponent && mCurrentColumn > 0 )
+		if ( largeComponent && state.currentColumn > 0 )
 		{
-			mCurrentColumn = 0;
-			mCurrentRow++;
+			state.currentColumn = 0;
+			state.currentRow++;
 		}
 
 		// Layout a label...
@@ -181,9 +159,9 @@ public class MigLayout
 		String labelText = null;
 
 		if ( attributes != null )
-			labelText = getMetawidget().getLabelString( attributes );
+			labelText = metawidget.getLabelString( attributes );
 
-		layoutBeforeChild( component, labelText, attributes );
+		layoutBeforeChild( component, labelText, attributes, metawidget );
 
 		// ...and layout the component
 
@@ -191,11 +169,11 @@ public class MigLayout
 
 		if ( labelText != null )
 		{
-			componentConstraints.cell( ( mCurrentColumn * 2 ) + 1, mCurrentRow );
+			componentConstraints.cell( ( state.currentColumn * 2 ) + 1, state.currentRow );
 		}
 		else
 		{
-			componentConstraints.cell( mCurrentColumn * 2, mCurrentRow );
+			componentConstraints.cell( state.currentColumn * 2, state.currentRow );
 			componentConstraints.spanX( 2 );
 		}
 
@@ -204,7 +182,7 @@ public class MigLayout
 		if ( largeComponent )
 		{
 			componentConstraints.spanX();
-			mCurrentColumn = mNumberOfColumns;
+			state.currentColumn = state.numberOfColumns;
 		}
 
 		// Assume JScrollPanes should grow vertically
@@ -213,46 +191,47 @@ public class MigLayout
 		{
 			componentConstraints.growY();
 
-			if ( mPanelCurrent == null )
-				( (LC) ( (net.miginfocom.swing.MigLayout) getMetawidget().getLayout() ).getLayoutConstraints() ).fill();
+			if ( state.panelCurrent == null )
+				( (LC) ( (net.miginfocom.swing.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).fill();
 			else
-				( (LC) ( (net.miginfocom.swing.MigLayout) mPanelCurrent.getLayout() ).getLayoutConstraints() ).fill();
+				( (LC) ( (net.miginfocom.swing.MigLayout) state.panelCurrent.getLayout() ).getLayoutConstraints() ).fill();
 		}
 
 		// Add to either current panel or direct to the Metawidget
 
-		if ( mPanelCurrent == null )
-			getMetawidget().add( component, componentConstraints );
+		if ( state.panelCurrent == null )
+			metawidget.add( component, componentConstraints );
 		else
-			mPanelCurrent.add( component, componentConstraints );
+			state.panelCurrent.add( component, componentConstraints );
 
-		mCurrentColumn++;
+		state.currentColumn++;
 
-		if ( mCurrentColumn >= mNumberOfColumns )
+		if ( state.currentColumn >= state.numberOfColumns )
 		{
-			mCurrentColumn = 0;
-			mCurrentRow++;
+			state.currentColumn = 0;
+			state.currentRow++;
 		}
 	}
 
-	@Override
-	public void layoutEnd()
+	public void layoutEnd( SwingMetawidget metawidget )
 	{
-		sectionEnd();
+		sectionEnd( metawidget );
 
 		// Buttons
 
-		Facet buttonsFacet = getMetawidget().getFacet( "buttons" );
+		Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
 		if ( buttonsFacet != null )
 		{
-			if ( mCurrentColumn > 0 )
+			State state = getState( metawidget );
+
+			if ( state.currentColumn > 0 )
 			{
-				mCurrentColumn = 0;
-				mCurrentRow++;
+				state.currentColumn = 0;
+				state.currentRow++;
 			}
 
-			getMetawidget().add( buttonsFacet, new CC().cell( 0, mCurrentRow ).spanX().growX() );
+			metawidget.add( buttonsFacet, new CC().cell( 0, state.currentRow ).spanX().growX() );
 		}
 	}
 
@@ -260,18 +239,20 @@ public class MigLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Component component, String labelText, Map<String, String> attributes )
+	protected String layoutBeforeChild( Component component, String labelText, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
+		State state = getState( metawidget );
+
 		if ( attributes != null )
 		{
 			// Section headings
 
 			String section = attributes.get( SECTION );
 
-			if ( section != null && !section.equals( mCurrentSection ) )
+			if ( section != null && !section.equals( state.currentSection ) )
 			{
-				mCurrentSection = section;
-				layoutSection( section );
+				state.currentSection = section;
+				layoutSection( section, metawidget );
 			}
 		}
 
@@ -283,13 +264,13 @@ public class MigLayout
 
 			// Required
 
-			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !getMetawidget().isReadOnly() )
+			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 				label.setText( labelText + "*:" );
 			else
 				label.setText( labelText + ":" );
 
 			CC labelConstraints = new CC();
-			labelConstraints.cell( mCurrentColumn * 2, mCurrentRow );
+			labelConstraints.cell( state.currentColumn * 2, state.currentRow );
 			labelConstraints.growX();
 
 			// Top align all labels, not just those belonging to 'tall' components,
@@ -300,67 +281,69 @@ public class MigLayout
 
 			// Apply some vertical padding so the label lines up with the component nicely
 
-			labelConstraints.pad( mDefaultLabelVerticalPadding, 0, mDefaultLabelVerticalPadding, 0 );
+			labelConstraints.pad( state.defaultLabelVerticalPadding, 0, state.defaultLabelVerticalPadding, 0 );
 
 			// Add to either current panel or direct to the Metawidget
 
-			if ( mPanelCurrent == null )
-				getMetawidget().add( label, labelConstraints );
+			if ( state.panelCurrent == null )
+				metawidget.add( label, labelConstraints );
 			else
-				mPanelCurrent.add( label, labelConstraints );
+				state.panelCurrent.add( label, labelConstraints );
 		}
 
 		return labelText;
 	}
 
-	protected void layoutSection( String section )
+	protected void layoutSection( String section, SwingMetawidget metawidget )
 	{
 		if ( "".equals( section ) )
 		{
-			sectionEnd();
+			sectionEnd( metawidget );
 			return;
 		}
 
 		// Section name (possibly localized)
 
-		String localizedSection = getMetawidget().getLocalizedKey( StringUtils.camelCase( section ) );
+		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
 			localizedSection = section;
 
 		// Start a new row
 
-		if ( mCurrentColumn > 0 )
+		State state = getState( metawidget );
+
+		if ( state.currentColumn > 0 )
 		{
-			mCurrentColumn = 0;
-			mCurrentRow++;
+			state.currentColumn = 0;
+			state.currentRow++;
 		}
 
 		// Insert the section
 
-		switch ( mSectionStyle )
+		switch ( state.sectionStyle )
 		{
 			case SECTION_AS_TAB:
 
 				JTabbedPane tabbedPane;
 
-				if ( mPanelCurrent == null )
+				if ( state.panelCurrent == null )
 				{
 					tabbedPane = new JTabbedPane();
-					getMetawidget().add( tabbedPane, new CC().cell( mCurrentColumn, mCurrentRow ).spanX().grow() );
-					( (LC) ( (net.miginfocom.swing.MigLayout) getMetawidget().getLayout() ).getLayoutConstraints() ).fill();
+					metawidget.add( tabbedPane, new CC().cell( state.currentColumn, state.currentRow ).spanX().grow() );
+					( (LC) ( (net.miginfocom.swing.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).fill();
 				}
 				else
 				{
-					tabbedPane = (JTabbedPane) mPanelCurrent.getParent();
-					sectionEnd();
+					tabbedPane = (JTabbedPane) state.panelCurrent.getParent();
+					sectionEnd(metawidget);
 				}
 
-				mPanelCurrent = new JPanel();
-				mPanelCurrent.setName( localizedSection );
-				mPanelCurrent.setLayout( new net.miginfocom.swing.MigLayout( new LC() ) );
+				state.panelCurrent = new JPanel();
+				state.panelCurrent.setName( localizedSection );
+				state.panelCurrent.setLayout( new net.miginfocom.swing.MigLayout( new LC() ) );
 
-				tabbedPane.add( mPanelCurrent );
+				tabbedPane.add( state.panelCurrent );
 				break;
 
 			default:
@@ -368,21 +351,65 @@ public class MigLayout
 				// Compared to GridBagLayout, we can achieve the heading without a nested JPanel
 
 				JLabel label = new JLabel( localizedSection );
-				getMetawidget().add( label, new CC().cell( mCurrentColumn, mCurrentRow ).spanX() );
+				metawidget.add( label, new CC().cell( state.currentColumn, state.currentRow ).spanX() );
 				JSeparator separator = new JSeparator( SwingConstants.HORIZONTAL );
-				getMetawidget().add( separator, new CC().cell( mCurrentColumn, mCurrentRow ).growX() );
+				metawidget.add( separator, new CC().cell( state.currentColumn, state.currentRow ).growX() );
 
-				mCurrentRow++;
+				state.currentRow++;
 				break;
 		}
 	}
 
-	protected void sectionEnd()
+	protected void sectionEnd( SwingMetawidget metawidget )
 	{
-		if ( mPanelCurrent == null )
+		State state = getState( metawidget );
+
+		if ( state.panelCurrent == null )
 			return;
 
-		mCurrentColumn = 0;
-		mPanelCurrent = null;
+		state.currentColumn = 0;
+		state.panelCurrent = null;
+	}
+
+	//
+	// Private methods
+	//
+
+	private State getState( SwingMetawidget metawidget )
+	{
+		State state = (State) metawidget.getClientProperty( MigLayout.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			metawidget.putClientProperty( MigLayout.class, state );
+		}
+
+		return state;
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */class State
+	{
+		/* package private */String	currentSection;
+
+		/* package private */int	numberOfColumns;
+
+		/* package private */int	currentColumn;
+
+		/* package private */int	currentRow;
+
+		/* package private */int	sectionStyle;
+
+		/* package private */JPanel	panelCurrent;
+
+		/* package private */int	defaultLabelVerticalPadding;
 	}
 }

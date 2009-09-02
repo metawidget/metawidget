@@ -20,8 +20,10 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
@@ -30,61 +32,46 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 /**
- * Layout to arrange widgets vertically, with one row for the label and
- * the next for the widget.
+ * Layout to arrange widgets vertically, with one row for the label and the next for the widget.
  *
  * @author Richard Kennard
  */
 
 public class LinearLayout
-	extends BaseLayout
+	implements Layout<View, AndroidMetawidget>
 {
 	//
-	// Private members
+	// Public methods
 	//
 
-	private String						mCurrentSection;
 
-	private int							mLabelStyle;
-
-	private int							mSectionStyle;
-
-	//
-	// Constructor
-	//
-
-	public LinearLayout( AndroidMetawidget metawidget )
+	public void layoutBegin( AndroidMetawidget metawidget )
 	{
-		super( metawidget );
+		metawidget.putClientProperty( LinearLayout.class, null );
+		State state = getState( metawidget );
 
 		// Label style
 
 		Object labelStyle = metawidget.getParameter( "labelStyle" );
 
 		if ( labelStyle != null )
-			mLabelStyle = (Integer) labelStyle;
+			state.labelStyle = (Integer) labelStyle;
 
 		// Section style
 
 		Object sectionStyle = metawidget.getParameter( "sectionStyle" );
 
 		if ( sectionStyle != null )
-			mSectionStyle = (Integer) sectionStyle;
+			state.sectionStyle = (Integer) sectionStyle;
 	}
 
-	//
-	// Public methods
-	//
-
 	@Override
-	public void layoutChild( View view, Map<String, String> attributes )
+	public void layoutChild( View view, Map<String, String> attributes, AndroidMetawidget metawidget )
 	{
 		// Ignore empty Stubs
 
-		if ( view instanceof Stub && ((Stub) view).getChildCount() == 0 )
+		if ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 )
 			return;
-
-		AndroidMetawidget metawidget = getMetawidget();
 
 		String label = null;
 
@@ -92,25 +79,26 @@ public class LinearLayout
 
 		if ( attributes != null )
 		{
+			State state = getState( metawidget );
 			String section = attributes.get( SECTION );
 
-			if ( section != null && !section.equals( mCurrentSection ) )
+			if ( section != null && !section.equals( state.currentSection ) )
 			{
-				mCurrentSection = section;
-				layoutSection( section );
+				state.currentSection = section;
+				layoutSection( section, metawidget );
 			}
 
 			// Labels
 
-			label = getMetawidget().getLabelString( attributes );
+			label = metawidget.getLabelString( attributes );
 
 			if ( label != null && !"".equals( label.trim() ) )
 			{
 				TextView textView = new TextView( metawidget.getContext() );
 				textView.setText( label + ":" );
-				applyStyle( textView, mLabelStyle );
+				AndroidUtils.applyStyle( textView, state.labelStyle, metawidget );
 
-				getMetawidget().addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+				metawidget.addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 			}
 		}
 
@@ -128,13 +116,12 @@ public class LinearLayout
 				params = new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT );
 		}
 
-		getMetawidget().addView( view, params );
+		metawidget.addView( view, params );
 	}
 
 	@Override
-	public void layoutEnd()
+	public void layoutEnd( AndroidMetawidget metawidget )
 	{
-		AndroidMetawidget metawidget = getMetawidget();
 		View viewButtons = metawidget.getFacet( "buttons" );
 
 		if ( viewButtons != null )
@@ -147,17 +134,16 @@ public class LinearLayout
 	// Protected methods
 	//
 
-	protected void layoutSection( String section )
+	protected void layoutSection( String section, AndroidMetawidget metawidget )
 	{
 		if ( "".equals( section ) )
 			return;
 
 		// Section name (possibly localized)
 
-		AndroidMetawidget metawidget = getMetawidget();
 		TextView textView = new TextView( metawidget.getContext() );
 
-		String localizedSection = getMetawidget().getLocalizedKey( StringUtils.camelCase( section ));
+		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection != null )
 			textView.setText( localizedSection, TextView.BufferType.SPANNABLE );
@@ -166,10 +152,45 @@ public class LinearLayout
 
 		// Apply style (if any)
 
-		applyStyle( textView, mSectionStyle );
+		State state = getState( metawidget );
+		AndroidUtils.applyStyle( textView, state.sectionStyle, metawidget );
 
 		// Add it to our layout
 
-		getMetawidget().addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		metawidget.addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+	}
+
+	//
+	// Private methods
+	//
+
+	private State getState( AndroidMetawidget metawidget )
+	{
+		State state = (State) metawidget.getClientProperty( LinearLayout.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			metawidget.putClientProperty( LinearLayout.class, state );
+		}
+
+		return state;
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */class State
+	{
+		/* package private */String	currentSection;
+
+		/* package private */int	labelStyle;
+
+		/* package private */int	sectionStyle;
 	}
 }

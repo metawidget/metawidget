@@ -103,7 +103,7 @@ public class BeansBindingProcessorTest
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setParameter( UpdateStrategy.class, UpdateStrategy.READ_WRITE );
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setLayoutClass( null );
+		metawidget.setMetawidgetLayout( null );
 		metawidget.setToInspect( foo );
 		metawidget.setPath( Foo.class.getName() + "/bar" );
 

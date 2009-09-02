@@ -37,6 +37,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
@@ -411,7 +412,8 @@ public class ConfigReader
 		if ( WidgetProcessor.class.isAssignableFrom( clazz ) )
 			return true;
 
-		// TODO: layouts are too?
+		if ( Layout.class.isAssignableFrom( clazz ) )
+			return true;
 
 		return false;
 	}

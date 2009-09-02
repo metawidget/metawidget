@@ -37,7 +37,7 @@ import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
 import org.metawidget.jsp.tagext.StubTag.StubContent;
-import org.metawidget.jsp.tagext.html.layout.HtmlTableLayout;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -89,8 +89,6 @@ public abstract class MetawidgetTag
 
 	private boolean							mNeedsConfiguring		= true;
 
-	private Layout							mLayout;
-
 	private ResourceBundle					mBundle;
 
 	private Map<String, String>				mParameters;
@@ -99,9 +97,9 @@ public abstract class MetawidgetTag
 
 	private Map<String, StubContent>		mStubs;
 
-	private MetawidgetMixin<Object, Object>	mMetawidgetMixin;
-
 	private Map<Object, Object>				mClientProperties;
+
+	private MetawidgetMixin<Object, Object>	mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -271,11 +269,12 @@ public abstract class MetawidgetTag
 	 * fully-qualified class name.
 	 */
 
+	@SuppressWarnings( "unchecked" )
 	public void setLayoutClass( String layoutClass )
 	{
 		// Null layout?
 
-		if ( layoutClass == null || "".equals( layoutClass ))
+		if ( layoutClass == null || "".equals( layoutClass ) )
 		{
 			setLayout( null );
 			return;
@@ -284,8 +283,7 @@ public abstract class MetawidgetTag
 		// Layouts are immutable and threadsafe, so cache them at the application level
 
 		ServletContext servletContext = this.getPageContext().getServletContext();
-		@SuppressWarnings("unchecked")
-		Map<String, Layout> cachedLayouts = (Map<String, Layout>) servletContext.getAttribute( MetawidgetTag.class.getName() );
+		Map<String, Layout<Object, Object>> cachedLayouts = (Map<String, Layout<Object, Object>>) servletContext.getAttribute( MetawidgetTag.class.getName() );
 
 		if ( cachedLayouts == null )
 		{
@@ -295,15 +293,15 @@ public abstract class MetawidgetTag
 
 		// Instantiate the Layout
 
-		Layout layout = cachedLayouts.get( layoutClass );
+		Layout<Object, Object> layout = cachedLayouts.get( layoutClass );
 
 		if ( layout == null )
 		{
 			try
 			{
-				layout = (Layout) Class.forName( layoutClass ).newInstance();
+				layout = (Layout<Object, Object>) Class.forName( layoutClass ).newInstance();
 			}
-			catch( Exception e )
+			catch ( Exception e )
 			{
 				throw MetawidgetException.newException( e );
 			}
@@ -316,9 +314,9 @@ public abstract class MetawidgetTag
 		setLayout( layout );
 	}
 
-	public void setLayout( Layout layout )
+	public void setLayout( Layout<Object, Object> layout )
 	{
-		mLayout = layout;
+		mMetawidgetMixin.setLayout( layout );
 	}
 
 	/**
@@ -458,41 +456,14 @@ public abstract class MetawidgetTag
 		return mMetawidgetMixin;
 	}
 
-	protected void startBuild()
-		throws Exception
-	{
-		JspWriter writer = pageContext.getOut();
-
-		if ( mLayout != null )
-		{
-			writer.write( mLayout.layoutBegin( mPath, this ) );
-		}
-	}
-
-	protected void endBuild()
-		throws Exception
-	{
-		JspWriter writer = pageContext.getOut();
-
-		if ( mLayout != null )
-		{
-			writer.write( mLayout.layoutEnd( this ) );
-		}
-	}
-
 	protected abstract void beforeBuildCompoundWidget( Element element );
 
 	protected void addWidget( String widget, String elementName, Map<String, String> attributes )
 		throws IOException
 	{
-		JspWriter writer = pageContext.getOut();
-
-		if ( mLayout != null )
+		if ( mMetawidgetMixin.getLayout() != null )
 		{
-			writer.write( mLayout.layoutChild( widget, attributes, this ) );
-		}
-		else
-		{
+			JspWriter writer = pageContext.getOut();
 			writer.write( widget );
 		}
 	}
@@ -503,7 +474,6 @@ public abstract class MetawidgetTag
 
 		nestedMetawidget.setPathInternal( mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setConfig( mConfig );
-		nestedMetawidget.setLayout( mLayout );
 		nestedMetawidget.setBundle( mBundle );
 
 		if ( mParameters != null )
@@ -583,9 +553,6 @@ public abstract class MetawidgetTag
 				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "inspector" );
 				mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
 			}
-
-			if ( mLayout == null )
-				setLayoutClass( HtmlTableLayout.class.getName() );
 		}
 		catch ( Exception e )
 		{
@@ -641,13 +608,6 @@ public abstract class MetawidgetTag
 		//
 		// Protected methods
 		//
-
-		@Override
-		protected void startBuild()
-			throws Exception
-		{
-			MetawidgetTag.this.startBuild();
-		}
 
 		@Override
 		protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
@@ -714,13 +674,6 @@ public abstract class MetawidgetTag
 					MetawidgetTag.this.initNestedMetawidget( metawidget, attributes );
 				}
 			} );
-		}
-
-		@Override
-		protected void endBuild()
-			throws Exception
-		{
-			MetawidgetTag.this.endBuild();
 		}
 
 		@Override

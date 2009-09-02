@@ -14,30 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.layout;
-
-import java.awt.Component;
-import java.util.Map;
-
 /**
- * Interface for Swing-based layouts.
- * <p>
- * Layouts must be threadsafe and immutable (or, at least, appear that way to clients. They can have
- * caches or configuration settings internally). If they need to store state, they should use the
- * Metawidget passed to each method and <code>SwingMetawidget.putClientProperty</code>.
+ * Layout: convenience implementations.
  *
  * @author Richard Kennard
  */
 
-public interface Layout
-{
-	//
-	// Methods
-	//
-
-	void layoutBegin();
-
-	void layoutChild( Component component, Map<String, String> attributes );
-
-	void layoutEnd();
-}
+package org.metawidget.layout.impl;

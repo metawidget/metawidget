@@ -16,52 +16,46 @@
 
 package org.metawidget.swing.layout;
 
+import java.util.Map;
+
+import javax.swing.JComponent;
+
+import org.metawidget.layout.impl.BaseLayout;
+import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
- * Convenience implementation.
+ * Layout to simply output components one after another, with no labels and no structure, using
+ * <code>javax.swing.BoxLayout</code>.
+ * <p>
+ * This is like <code>FlowLayout</code>, except it fills width. It can be useful for JTable
+ * CellEditors.
  *
  * @author Richard Kennard
  */
 
-public abstract class BaseLayout
-	implements Layout
+public class BoxLayout
+	extends BaseLayout<JComponent, SwingMetawidget>
 {
-	//
-	// Private members
-	//
-
-	private SwingMetawidget				mMetawidget;
-
-	//
-	// Constructor
-	//
-
-	protected BaseLayout( SwingMetawidget metawidget )
-	{
-		mMetawidget = metawidget;
-	}
-
 	//
 	// Public methods
 	//
 
-	public void layoutBegin()
+	@Override
+	public void layoutBegin( SwingMetawidget metawidget )
 	{
-		// Do nothing by default
+		metawidget.setLayout( new javax.swing.BoxLayout( metawidget, javax.swing.BoxLayout.LINE_AXIS ) );
 	}
 
-	public void layoutEnd()
+	public void layoutChild( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
-		// Do nothing by default
-	}
+		// Do not render empty stubs
 
-	//
-	// Protected methods
-	//
+		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
+			return;
 
-	protected SwingMetawidget getMetawidget()
-	{
-		return mMetawidget;
+		// Add to the Metawidget
+
+		metawidget.add( component );
 	}
 }
