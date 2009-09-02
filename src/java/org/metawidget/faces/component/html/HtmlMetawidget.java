@@ -19,7 +19,6 @@ package org.metawidget.faces.component.html;
 import java.util.Map;
 
 import javax.faces.application.Application;
-import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
@@ -116,44 +115,6 @@ public class HtmlMetawidget
 	protected String getDefaultConfiguration()
 	{
 		return "org/metawidget/faces/component/html/metawidget-html-default.xml";
-	}
-
-	@Override
-	protected UIComponent afterBuildWidget( UIComponent component, Map<String, String> attributes )
-		throws Exception
-	{
-		// Apply CSS attributes
-
-		if ( component != null )
-		{
-			// Note: this applies the styles to UIStubs too. In practice, this seemed to give
-			// more 'expected' behaviour than drilling into the UIStubs and applying the styles
-			// to all their subcomponents
-
-			Map<String, Object> componentAttributes = component.getAttributes();
-
-			if ( mStyle != null )
-			{
-				String existingStyle = (String) componentAttributes.get( "style" );
-
-				if ( existingStyle == null || "".equals( existingStyle ))
-					componentAttributes.put( "style", mStyle );
-				else
-					componentAttributes.put( "style", existingStyle + " " + mStyle );
-			}
-
-			if ( mStyleClass != null )
-			{
-				String existingStyleClass = (String) componentAttributes.get( "styleClass" );
-
-				if ( existingStyleClass == null || "".equals( existingStyleClass ))
-					componentAttributes.put( "styleClass", mStyleClass );
-				else
-					componentAttributes.put( "styleClass", existingStyleClass + " " + mStyleClass );
-			}
-		}
-
-		return super.afterBuildWidget( component, attributes );
 	}
 
 	/**
