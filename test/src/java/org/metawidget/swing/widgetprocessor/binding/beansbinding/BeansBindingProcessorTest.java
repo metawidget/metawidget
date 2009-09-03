@@ -30,6 +30,7 @@ import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.layout.BoxLayout;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
@@ -103,7 +104,7 @@ public class BeansBindingProcessorTest
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setParameter( UpdateStrategy.class, UpdateStrategy.READ_WRITE );
 		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setMetawidgetLayout( null );
+		metawidget.setMetawidgetLayout( new BoxLayout() );
 		metawidget.setToInspect( foo );
 		metawidget.setPath( Foo.class.getName() + "/bar" );
 

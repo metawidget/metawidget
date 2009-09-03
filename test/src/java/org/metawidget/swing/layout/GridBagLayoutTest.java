@@ -33,7 +33,6 @@ import javax.swing.UIManager;
 
 import junit.framework.TestCase;
 
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
@@ -46,6 +45,7 @@ import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 
@@ -78,9 +78,9 @@ public class GridBagLayoutTest
 			metawidget.getComponent( 0 );
 			assertTrue( false );
 		}
-		catch ( MetawidgetException e )
+		catch ( LayoutException e )
 		{
-			assertTrue( "numberOfColumns must be >= 1".equals( e.getCause().getCause().getMessage() ) );
+			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
 		metawidget.setParameter( "numberOfColumns", 2 );

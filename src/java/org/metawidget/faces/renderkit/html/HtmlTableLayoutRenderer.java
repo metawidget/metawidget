@@ -35,7 +35,7 @@ import javax.faces.el.ValueBinding;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
-import org.metawidget.iface.MetawidgetException;
+import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -198,7 +198,7 @@ public class HtmlTableLayoutRenderer
 			columns = Integer.parseInt( (String) parameterColumns.getValue() );
 
 			if ( columns < 0 )
-				throw MetawidgetException.newException( "columns must be >= 0" );
+				throw LayoutException.newException( "columns must be >= 0" );
 		}
 
 		attributes.put( KEY_NUMBER_OF_COLUMNS, columns );
@@ -295,6 +295,7 @@ public class HtmlTableLayoutRenderer
 
 		attributes.put( KEY_CURRENT_COLUMN, 0 );
 		attributes.put( KEY_CURRENT_ROW, 0 );
+		attributes.put( KEY_CURRENT_SECTION, "" );
 
 		for ( UIComponent componentChild : children )
 		{

@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
+import javax.servlet.jsp.JspWriter;
+
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.FacetTag.FacetContent;
@@ -50,7 +52,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HtmlTableLayout
-	implements Layout<Object,MetawidgetTag>
+	implements Layout<Object, MetawidgetTag>
 {
 	//
 	// Private statics
@@ -100,90 +102,83 @@ public class HtmlTableLayout
 		else
 			state.numberOfColumns = Integer.parseInt( numberOfColumns );
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
-		// Start table
-
-		buffer.append( "<table" );
-
-		// Id
-
-		buffer.append( " id=\"" );
-		buffer.append( TABLE_PREFIX );
-		state.tableType = StringUtils.camelCase( metawidgetTag.getPath(), StringUtils.SEPARATOR_DOT_CHAR );
-		buffer.append( state.tableType );
-		buffer.append( "\"" );
-
-		// Styles
-
-		if ( state.tableStyle != null )
-		{
-			buffer.append( " style=\"" );
-			buffer.append( state.tableStyle );
-			buffer.append( "\"" );
-		}
-
-		if ( state.tableStyleClass != null )
-		{
-			buffer.append( " class=\"" );
-			buffer.append( state.tableStyleClass );
-			buffer.append( "\"" );
-		}
-
-		buffer.append( ">" );
-
-		// Footer parameter (XHTML requires TFOOT to come before TBODY)
-
-		FacetContent facetFooter = metawidgetTag.getFacet( "footer" );
-
-		if ( facetFooter != null )
-		{
-			buffer.append( "\r\n<tfoot>" );
-			buffer.append( "<tr>" );
-			buffer.append( "<td colspan=\"" );
-
-			// Footer spans multiples of label/component/required
-
-			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
-			buffer.append( String.valueOf( colspan ) );
-			buffer.append( "\"" );
-
-			// CSS styles
-
-			String footerStyle = facetFooter.getAttribute( "style" );
-
-			if ( footerStyle != null )
-			{
-				buffer.append( " style=\"" );
-				buffer.append( footerStyle );
-				buffer.append( "\"" );
-			}
-
-			String footerStyleClass = facetFooter.getAttribute( "styleClass" );
-
-			if ( footerStyleClass != null )
-			{
-				buffer.append( " class=\"" );
-				buffer.append( footerStyleClass );
-				buffer.append( "\"" );
-			}
-
-			buffer.append( ">" );
-			buffer.append( facetFooter.getContent() );
-			buffer.append( "</td>" );
-			buffer.append( "</tr>" );
-			buffer.append( "</tfoot>" );
-		}
-
-		buffer.append( "<tbody>" );
-
-		// Write it out
-
 		try
 		{
-			metawidgetTag.getPageContext().getOut().write( buffer.toString() );
+			// Start table
+
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
+			writer.write( "<table" );
+
+			// Id
+
+			writer.write( " id=\"" );
+			writer.write( TABLE_PREFIX );
+			state.tableType = StringUtils.camelCase( metawidgetTag.getPath(), StringUtils.SEPARATOR_DOT_CHAR );
+			writer.write( state.tableType );
+			writer.write( "\"" );
+
+			// Styles
+
+			if ( state.tableStyle != null )
+			{
+				writer.write( " style=\"" );
+				writer.write( state.tableStyle );
+				writer.write( "\"" );
+			}
+
+			if ( state.tableStyleClass != null )
+			{
+				writer.write( " class=\"" );
+				writer.write( state.tableStyleClass );
+				writer.write( "\"" );
+			}
+
+			writer.write( ">" );
+
+			// Footer parameter (XHTML requires TFOOT to come before TBODY)
+
+			FacetContent facetFooter = metawidgetTag.getFacet( "footer" );
+
+			if ( facetFooter != null )
+			{
+				writer.write( "\r\n<tfoot>" );
+				writer.write( "<tr>" );
+				writer.write( "<td colspan=\"" );
+
+				// Footer spans multiples of label/component/required
+
+				int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+				writer.write( String.valueOf( colspan ) );
+				writer.write( "\"" );
+
+				// CSS styles
+
+				String footerStyle = facetFooter.getAttribute( "style" );
+
+				if ( footerStyle != null )
+				{
+					writer.write( " style=\"" );
+					writer.write( footerStyle );
+					writer.write( "\"" );
+				}
+
+				String footerStyleClass = facetFooter.getAttribute( "styleClass" );
+
+				if ( footerStyleClass != null )
+				{
+					writer.write( " class=\"" );
+					writer.write( footerStyleClass );
+					writer.write( "\"" );
+				}
+
+				writer.write( ">" );
+				writer.write( facetFooter.getContent() );
+				writer.write( "</td>" );
+				writer.write( "</tr>" );
+				writer.write( "</tfoot>" );
+			}
+
+			writer.write( "<tbody>" );
 		}
 		catch ( IOException e )
 		{
@@ -219,16 +214,12 @@ public class HtmlTableLayout
 		//
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
-		StringBuffer buffer = new StringBuffer();
-		buffer.append( layoutBeforeChild( attributes, metawidgetTag ) );
-		buffer.append( child );
-		buffer.append( layoutAfterChild( attributes, metawidgetTag ) );
-
-		// Write it out
-
 		try
 		{
-			metawidgetTag.getPageContext().getOut().write( buffer.toString() );
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
+			layoutBeforeChild( attributes, metawidgetTag );
+			writer.write( stringChild );
+			layoutAfterChild( attributes, metawidgetTag );
 		}
 		catch ( IOException e )
 		{
@@ -239,30 +230,24 @@ public class HtmlTableLayout
 	@Override
 	public void layoutEnd( MetawidgetTag metawidgetTag )
 	{
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-		buffer.append( "</tbody>" );
-		buffer.append( "</table>" );
-
-		// Output any hidden fields
-
-		State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
-
-		if ( state.hiddenFields != null )
-		{
-			for ( String hiddenField : state.hiddenFields )
-			{
-				buffer.append( "\r\n" );
-				buffer.append( hiddenField );
-			}
-		}
-
-		// Write it out
-
 		try
 		{
-			metawidgetTag.getPageContext().getOut().write( buffer.toString() );
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
+			writer.write( "</tbody>" );
+			writer.write( "</table>" );
+
+			// Output any hidden fields
+
+			State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
+
+			if ( state.hiddenFields != null )
+			{
+				for ( String hiddenField : state.hiddenFields )
+				{
+					writer.write( "\r\n" );
+					writer.write( hiddenField );
+				}
+			}
 		}
 		catch ( IOException e )
 		{
@@ -274,239 +259,257 @@ public class HtmlTableLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	protected void layoutBeforeChild( Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
 		State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
 		state.currentColumn++;
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
-		// Section headings
-
-		// (layoutBeforeChild may get called even if layoutBegin crashed. Try
-		// to fail gracefully)
-
-		String id = null;
-
-		if ( attributes != null )
+		try
 		{
-			String section = attributes.get( SECTION );
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
 
-			if ( section != null && !section.equals( state.currentSection ) )
+			// Section headings
+
+			// (layoutBeforeChild may get called even if layoutBegin crashed. Try
+			// to fail gracefully)
+
+			String id = null;
+
+			if ( attributes != null )
 			{
-				state.currentSection = section;
-				buffer.append( layoutSection( section, metawidgetTag ) );
+				String section = attributes.get( SECTION );
+
+				if ( section != null && !section.equals( state.currentSection ) )
+				{
+					state.currentSection = section;
+					layoutSection( section, metawidgetTag );
+				}
+
+				id = attributes.get( NAME );
+
+				if ( id != null )
+					id = StringUtils.uppercaseFirstLetter( StringUtils.camelCase( id ) );
+
+				if ( TRUE.equals( attributes.get( LARGE ) ) && state.currentColumn != 1 )
+				{
+					writer.write( "</tr>" );
+					state.currentColumn = 1;
+				}
 			}
 
-			id = attributes.get( NAME );
+			// Start a new row, if necessary
 
-			if ( id != null )
-				id = StringUtils.uppercaseFirstLetter( StringUtils.camelCase( id ) );
-
-			if ( TRUE.equals( attributes.get( LARGE ) ) && state.currentColumn != 1 )
+			if ( state.currentColumn == 1 || state.currentColumn > state.numberOfColumns )
 			{
-				buffer.append( "</tr>" );
 				state.currentColumn = 1;
+
+				writer.write( "\r\n<tr" );
+
+				if ( id != null )
+				{
+					writer.write( " id=\"" );
+					writer.write( TABLE_PREFIX );
+					writer.write( state.tableType );
+					writer.write( id );
+					writer.write( ROW_SUFFIX );
+					writer.write( "\"" );
+				}
+
+				writer.write( ">" );
 			}
-		}
 
-		// Start a new row, if necessary
+			// Start the label column
 
-		if ( state.currentColumn == 1 || state.currentColumn > state.numberOfColumns )
-		{
-			state.currentColumn = 1;
+			boolean labelRendered = layoutLabel( attributes, metawidgetTag );
 
-			buffer.append( "\r\n<tr" );
+			// Zero-column layouts need an extra row
+
+			if ( state.numberOfColumns == 0 )
+			{
+				writer.write( "</tr>\r\n<tr" );
+
+				if ( id != null )
+				{
+					writer.write( " id=\"" );
+					writer.write( TABLE_PREFIX );
+					writer.write( state.tableType );
+					writer.write( id );
+					writer.write( ROW_SUFFIX );
+					writer.write( "2\"" );
+				}
+
+				writer.write( ">" );
+			}
+
+			// Start the component column
+
+			writer.write( "<td" );
 
 			if ( id != null )
 			{
-				buffer.append( " id=\"" );
-				buffer.append( TABLE_PREFIX );
-				buffer.append( state.tableType );
-				buffer.append( id );
-				buffer.append( ROW_SUFFIX );
-				buffer.append( "\"" );
+				writer.write( " id=\"" );
+				writer.write( TABLE_PREFIX );
+				writer.write( state.tableType );
+				writer.write( id );
+				writer.write( CELL_SUFFIX );
+				writer.write( "\"" );
 			}
 
-			buffer.append( ">" );
-		}
+			writeStyleClass( 1, state, metawidgetTag );
 
-		// Start the label column
+			int colspan = 1;
 
-		String labelColumn = layoutLabel( attributes, metawidgetTag );
-		buffer.append( labelColumn );
+			if ( !labelRendered )
+				colspan = 2;
 
-		// Zero-column layouts need an extra row
+			// Large components span all columns
+			//
+			// Note: we cannot span all columns for Metawidgets, as we do in
+			// HtmlTableLayoutRenderer,
+			// because JSP lacks a true component model such that we can ask which sort of component
+			// we are rendering
 
-		if ( state.numberOfColumns == 0 )
-		{
-			buffer.append( "</tr>\r\n<tr" );
-
-			if ( id != null )
+			if ( state.numberOfColumns > 1 && attributes != null && TRUE.equals( attributes.get( "large" ) ) )
 			{
-				buffer.append( " id=\"" );
-				buffer.append( TABLE_PREFIX );
-				buffer.append( state.tableType );
-				buffer.append( id );
-				buffer.append( ROW_SUFFIX );
-				buffer.append( "2\"" );
+				colspan = ( ( state.numberOfColumns - 1 ) * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1;
+				state.currentColumn = state.numberOfColumns;
 			}
 
-			buffer.append( ">" );
+			if ( colspan > 1 )
+			{
+				writer.write( " colspan=\"" );
+				writer.write( String.valueOf( colspan ));
+				writer.write( "\"" );
+			}
+
+			writer.write( ">" );
 		}
-
-		// Start the component column
-
-		buffer.append( "<td" );
-
-		if ( id != null )
+		catch ( IOException e )
 		{
-			buffer.append( " id=\"" );
-			buffer.append( TABLE_PREFIX );
-			buffer.append( state.tableType );
-			buffer.append( id );
-			buffer.append( CELL_SUFFIX );
-			buffer.append( "\"" );
+			throw LayoutException.newException( e );
 		}
-
-		buffer.append( getStyleClass( 1, state ) );
-
-		int colspan = 1;
-
-		if ( "".equals( labelColumn ) )
-			colspan = 2;
-
-		// Large components span all columns
-		//
-		// Note: we cannot span all columns for Metawidgets, as we do in HtmlTableLayoutRenderer,
-		// because JSP lacks a true component model such that we can ask which sort of component we
-		// are rendering
-
-		if ( state.numberOfColumns > 1 && attributes != null && TRUE.equals( attributes.get( "large" ) ) )
-		{
-			colspan = ( ( state.numberOfColumns - 1 ) * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1;
-			state.currentColumn = state.numberOfColumns;
-		}
-
-		if ( colspan > 1 )
-		{
-			buffer.append( " colspan=\"" );
-			buffer.append( colspan );
-			buffer.append( "\"" );
-		}
-
-		buffer.append( ">" );
-
-		return buffer.toString();
 	}
 
-	protected String layoutAfterChild( Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	protected void layoutAfterChild( Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
-		// End the component column
-
-		buffer.append( "</td>" );
-
-		// Render the 'required' column
-
-		buffer.append( "<td" );
-		State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
-		buffer.append( getStyleClass( 2, state ) );
-		buffer.append( ">" );
-
-		buffer.append( layoutRequired( attributes, metawidgetTag ) );
-
-		buffer.append( "</td>" );
-
-		// End the row, if necessary
-
-		if ( state.currentColumn >= state.numberOfColumns )
+		try
 		{
-			state.currentColumn = 0;
-			buffer.append( "</tr>" );
-		}
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
 
-		return buffer.toString();
+			// End the component column
+
+			writer.write( "</td>" );
+
+			// Render the 'required' column
+
+			writer.write( "<td" );
+			State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
+			writeStyleClass( 2, state, metawidgetTag );
+			writer.write( ">" );
+
+			writer.write( layoutRequired( attributes, metawidgetTag ) );
+
+			writer.write( "</td>" );
+
+			// End the row, if necessary
+
+			if ( state.currentColumn >= state.numberOfColumns )
+			{
+				state.currentColumn = 0;
+				writer.write( "</tr>" );
+			}
+		}
+		catch ( IOException e )
+		{
+			throw LayoutException.newException( e );
+		}
 	}
 
-	protected String layoutLabel( Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	/**
+	 * @return	true if a label was rendered
+	 */
+
+	protected boolean layoutLabel( Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
 		String label = metawidgetTag.getLabelString( attributes );
 
 		if ( label == null )
-			return "";
+			return false;
 
-		// Output a (possibly localized) label
-
-		buffer.append( "<th" );
-		State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
-		buffer.append( getStyleClass( 0, state ) );
-		buffer.append( ">" );
-
-		if ( !"".equals( label ) )
+		try
 		{
-			buffer.append( label );
-			buffer.append( ":" );
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
+
+			// Output a (possibly localized) label
+
+			writer.write( "<th" );
+			State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
+			writeStyleClass( 0, state, metawidgetTag );
+			writer.write( ">" );
+
+			if ( !"".equals( label ) )
+			{
+				writer.write( label );
+				writer.write( ":" );
+			}
+
+			writer.write( "</th>" );
+
+			return true;
 		}
-
-		buffer.append( "</th>" );
-
-		return buffer.toString();
+		catch ( IOException e )
+		{
+			throw LayoutException.newException( e );
+		}
 	}
 
-	protected String layoutSection( String section, MetawidgetTag metawidgetTag )
+	protected void layoutSection( String section, MetawidgetTag metawidgetTag )
 	{
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
 		// No section?
 
 		if ( "".equals( section ) )
-			return "";
+			return;
 
-		buffer.append( "\r\n<tr>" );
-		buffer.append( "<th colspan=\"" );
-
-		// Sections span multiples of label/component/required
-
-		State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
-		int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
-		buffer.append( String.valueOf( colspan ) );
-
-		buffer.append( "\"" );
-
-		if ( state.sectionStyleClass != null )
+		try
 		{
-			buffer.append( " class=\"" );
-			buffer.append( state.sectionStyleClass );
-			buffer.append( "\"" );
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
+
+			writer.write( "\r\n<tr>" );
+			writer.write( "<th colspan=\"" );
+
+			// Sections span multiples of label/component/required
+
+			State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
+			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			writer.write( String.valueOf( colspan ) );
+
+			writer.write( "\"" );
+
+			if ( state.sectionStyleClass != null )
+			{
+				writer.write( " class=\"" );
+				writer.write( state.sectionStyleClass );
+				writer.write( "\"" );
+			}
+
+			writer.write( ">" );
+
+			// Section name (possibly localized)
+
+			String localizedSection = metawidgetTag.getLocalizedKey( StringUtils.camelCase( section ) );
+
+			if ( localizedSection != null )
+				writer.write( localizedSection );
+			else
+				writer.write( section );
+
+			writer.write( "</th>" );
+			writer.write( "</tr>" );
 		}
-
-		buffer.append( ">" );
-
-		// Section name (possibly localized)
-
-		String localizedSection = metawidgetTag.getLocalizedKey( StringUtils.camelCase( section ) );
-
-		if ( localizedSection != null )
-			buffer.append( localizedSection );
-		else
-			buffer.append( section );
-
-		buffer.append( "</th>" );
-		buffer.append( "</tr>" );
-
-		return buffer.toString();
+		catch ( IOException e )
+		{
+			throw LayoutException.newException( e );
+		}
 	}
 
 	protected String layoutRequired( Map<String, String> attributes, MetawidgetTag metawidgetTag )
@@ -523,32 +526,35 @@ public class HtmlTableLayout
 		return "<div></div>";
 	}
 
-	protected String getStyleClass( int styleClass, State state )
+	protected void writeStyleClass( int styleClass, State state, MetawidgetTag metawidgetTag )
 	{
 		if ( state.columnStyleClasses == null || state.columnStyleClasses.length <= styleClass )
-			return "";
+			return;
 
 		String columnClass = state.columnStyleClasses[styleClass];
 
 		if ( columnClass.length() == 0 )
-			return "";
+			return;
 
-		// (use StringBuffer for J2SE 1.4 compatibility)
+		try
+		{
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
 
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( " class=\"" );
-		buffer.append( columnClass.trim() );
-		buffer.append( "\"" );
-
-		return buffer.toString();
+			writer.write( " class=\"" );
+			writer.write( columnClass.trim() );
+			writer.write( "\"" );
+		}
+		catch ( IOException e )
+		{
+			throw LayoutException.newException( e );
+		}
 	}
 
 	//
 	// Inner class
 	//
 
-	/*package private*/ class State
+	/* package private */class State
 	{
 		public int			numberOfColumns;
 

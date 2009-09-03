@@ -34,8 +34,8 @@ import javax.swing.SwingConstants;
 import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -74,7 +74,7 @@ public class MigLayout
 
 	public void layoutBegin( SwingMetawidget metawidget )
 	{
-		metawidget.putClientProperty( GridBagLayout.class, null );
+		metawidget.putClientProperty( MigLayout.class, null );
 		State state = getState( metawidget );
 
 		// Read parameters
@@ -90,7 +90,7 @@ public class MigLayout
 			state.numberOfColumns = (Integer) numberOfColumns;
 
 			if ( state.numberOfColumns < 1 )
-				throw MetawidgetException.newException( "numberOfColumns must be >= 1" );
+				throw LayoutException.newException( "numberOfColumns must be >= 1" );
 		}
 
 		Object sectionStyle = metawidget.getParameter( "sectionStyle" );

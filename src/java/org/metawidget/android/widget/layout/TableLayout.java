@@ -23,8 +23,8 @@ import java.util.Map;
 import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.layout.GroupLayout;
 
 import android.view.View;
@@ -77,7 +77,7 @@ public class TableLayout
 				state.mNumberOfColumns = (Integer) numberOfColumns;
 
 			if ( state.mNumberOfColumns < 1 )
-				throw MetawidgetException.newException( "numberOfColumns must be >= 1. Use LinearLayout for zero columns" );
+				throw LayoutException.newException( "numberOfColumns must be >= 1. Use LinearLayout for zero columns" );
 		}
 
 		// Label style

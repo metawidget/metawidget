@@ -1166,6 +1166,7 @@ public abstract class UIMetawidget
 			throws Exception
 		{
 			UIMetawidget.this.startBuild();
+			super.startBuild();
 		}
 
 		@Override
@@ -1181,6 +1182,7 @@ public abstract class UIMetawidget
 			throws Exception
 		{
 			UIMetawidget.this.addWidget( widget, elementName, attributes );
+			super.addWidget( widget, elementName, attributes );
 		}
 
 		@Override
@@ -1216,6 +1218,7 @@ public abstract class UIMetawidget
 			throws Exception
 		{
 			UIMetawidget.this.endBuild();
+			super.endBuild();
 		}
 
 		@Override

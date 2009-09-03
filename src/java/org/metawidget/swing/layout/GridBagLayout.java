@@ -34,8 +34,8 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -109,7 +109,7 @@ public class GridBagLayout
 			state.numberOfColumns = (Integer) numberOfColumns;
 
 			if ( state.numberOfColumns < 1 )
-				throw MetawidgetException.newException( "numberOfColumns must be >= 1" );
+				throw LayoutException.newException( "numberOfColumns must be >= 1" );
 		}
 
 		Object labelAlignment = metawidget.getParameter( "labelAlignment" );

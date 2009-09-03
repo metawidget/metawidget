@@ -36,7 +36,6 @@ import javax.faces.convert.NumberConverter;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
-import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
@@ -249,7 +248,7 @@ public class StandardConverterProcessor
 		if ( existingConverter != null )
 		{
 			if ( !( existingConverter instanceof DateTimeConverter ) )
-				throw MetawidgetException.newException( "Unable to set date/time attributes on a " + existingConverter.getClass() );
+				throw WidgetProcessorException.newException( "Unable to set date/time attributes on a " + existingConverter.getClass() );
 
 			return (DateTimeConverter) existingConverter;
 		}
@@ -272,7 +271,7 @@ public class StandardConverterProcessor
 		if ( existingConverter != null )
 		{
 			if ( !( existingConverter instanceof NumberConverter ) )
-				throw MetawidgetException.newException( "Unable to set number attributes on a " + existingConverter.getClass() );
+				throw WidgetProcessorException.newException( "Unable to set number attributes on a " + existingConverter.getClass() );
 
 			return (NumberConverter) existingConverter;
 		}

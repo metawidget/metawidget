@@ -64,6 +64,7 @@
 			<exclude name="org/metawidget/inspector/struts/UiStrutsLookup.java"/>
 			<include name="org/metawidget/inspector/xml/**"/>
 			<include name="org/metawidget/jsp/**"/>
+			<include name="org/metawidget/layout/**"/>
 			<include name="org/metawidget/mixin/**"/>
 			<include name="org/metawidget/spring/**"/>
 			<include name="org/metawidget/struts/**"/>

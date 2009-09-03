@@ -68,6 +68,7 @@ import junit.framework.TestSuite;
 
 import org.metawidget.faces.component.UIMetawidgetTest;
 import org.metawidget.faces.component.UIStub;
+import org.metawidget.faces.renderkit.html.HtmlTableLayoutRendererTest;
 import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.icefaces.IceFacesWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.richfaces.RichFacesWidgetBuilderTest;
@@ -90,6 +91,7 @@ public class FacesMetawidgetTests
 	{
 		TestSuite suite = new TestSuite( "Faces Metawidget Tests" );
 		suite.addTestSuite( HtmlWidgetBuilderTest.class );
+		suite.addTestSuite( HtmlTableLayoutRendererTest.class );
 		suite.addTestSuite( IceFacesWidgetBuilderTest.class );
 		suite.addTestSuite( RichFacesWidgetBuilderTest.class );
 		suite.addTestSuite( StandardConverterProcessorTest.class );

@@ -25,7 +25,6 @@ import java.util.ResourceBundle;
 
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
@@ -461,11 +460,8 @@ public abstract class MetawidgetTag
 	protected void addWidget( String widget, String elementName, Map<String, String> attributes )
 		throws IOException
 	{
-		if ( mMetawidgetMixin.getLayout() != null )
-		{
-			JspWriter writer = pageContext.getOut();
-			writer.write( widget );
-		}
+		if ( mMetawidgetMixin.getLayout() == null )
+			pageContext.getOut().write( widget );
 	}
 
 	protected void initNestedMetawidget( MetawidgetTag nestedMetawidget, Map<String, String> attributes )
@@ -542,16 +538,22 @@ public abstract class MetawidgetTag
 
 			// Sensible defaults
 
+			if ( mMetawidgetMixin.getInspector() == null )
+			{
+				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "inspector" );
+				mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
+			}
+
 			if ( mMetawidgetMixin.getWidgetBuilder() == null )
 			{
 				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "widgetBuilder" );
 				mMetawidgetMixin.setWidgetBuilder( dummyMetawidget.mMetawidgetMixin.getWidgetBuilder() );
 			}
 
-			if ( mMetawidgetMixin.getInspector() == null )
+			if ( mMetawidgetMixin.getLayout() == null )
 			{
-				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "inspector" );
-				mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
+				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "layout" );
+				mMetawidgetMixin.setLayout( dummyMetawidget.mMetawidgetMixin.getLayout() );
 			}
 		}
 		catch ( Exception e )
@@ -623,10 +625,12 @@ public abstract class MetawidgetTag
 					return;
 
 				MetawidgetTag.this.addWidget( stubContent, elementName, attributes );
+				super.addWidget( stubContent, elementName, attributes );
 			}
 			else
 			{
 				MetawidgetTag.this.addWidget( (String) widget, elementName, attributes );
+				super.addWidget( widget, elementName, attributes );
 			}
 		}
 
