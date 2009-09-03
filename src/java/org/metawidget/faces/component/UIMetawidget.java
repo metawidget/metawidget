@@ -983,7 +983,7 @@ public abstract class UIMetawidget
 		componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
 	}
 
-	protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
+	protected UIComponent addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		FacesContext context = getFacesContext();
@@ -1135,6 +1135,8 @@ public abstract class UIMetawidget
 
 		putMetadata( widget, attributes );
 		addWidget( widget );
+
+		return widget;
 	}
 
 	/**
@@ -1197,8 +1199,8 @@ public abstract class UIMetawidget
 		protected void startBuild()
 			throws Exception
 		{
-			UIMetawidget.this.startBuild();
 			super.startBuild();
+			UIMetawidget.this.startBuild();
 		}
 
 		@Override
@@ -1213,8 +1215,8 @@ public abstract class UIMetawidget
 		protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			UIMetawidget.this.addWidget( widget, elementName, attributes );
-			super.addWidget( widget, elementName, attributes );
+			UIComponent widgetToAdd = UIMetawidget.this.addWidget( widget, elementName, attributes );
+			super.addWidget( widgetToAdd, elementName, attributes );
 		}
 
 		@Override
@@ -1249,8 +1251,8 @@ public abstract class UIMetawidget
 		protected void endBuild()
 			throws Exception
 		{
-			UIMetawidget.this.endBuild();
 			super.endBuild();
+			UIMetawidget.this.endBuild();
 		}
 
 		@Override

@@ -35,9 +35,22 @@ public interface WidgetProcessor<W, M extends W>
 	// Methods
 	//
 
+	/**
+	 * Called at the start of the widget building process, before any widgets have been built.
+	 */
+
 	void onStartBuild( M metawidget );
 
+	/**
+	 * Called after a widget has been built by the <code>WidgetBuilder</code>, and it is being
+	 * added to the Metawidget.
+	 */
+
 	void onAdd( W widget, String elementName, Map<String, String> attributes, M metawidget );
+
+	/**
+	 * Called at the end of widget building, after all widgets have been built and added to the Metawidget.
+	 */
 
 	void onEndBuild( M metawidget );
 }
