@@ -35,12 +35,12 @@ public class HtmlTableLayoutRendererTest
 		throws Exception
 	{
 		HtmlMetawidget metawidget = new HtmlMetawidget();
-		metawidget.getAttributes().put( "columns", 1 );
-		metawidget.getAttributes().put( "currentSection", "Foo" );
-
 		HtmlTableLayoutRenderer renderer = new HtmlTableLayoutRenderer();
+		HtmlTableLayoutRenderer.State state = renderer.getState( metawidget );
+		state.columns = 1;
+		state.currentSection = "Foo";
 		renderer.encodeChildren( null, metawidget );
 
-		assertTrue( "".equals( metawidget.getAttributes().get( "currentSection" )));
+		assertTrue( null == state.currentSection );
 	}
 }

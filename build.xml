@@ -370,6 +370,7 @@
 				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/iface/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
+				<include name="org/metawidget/layout/**"/>
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/gwt/**"/>
 				<include name="org/metawidget/util/simple/**"/>
@@ -381,6 +382,7 @@
 			<fileset dir="${build.dir}/classes">
 				<include name="org/metawidget/gwt/client/actionbinding/**"/>
 				<include name="org/metawidget/gwt/client/inspector/**"/>
+				<include name="org/metawidget/gwt/client/layout/**"/>
 				<include name="org/metawidget/gwt/client/propertybinding/**"/>
 				<include name="org/metawidget/gwt/client/ui/**"/>
 				<include name="org/metawidget/gwt/client/widgetbuilder/impl/**"/>

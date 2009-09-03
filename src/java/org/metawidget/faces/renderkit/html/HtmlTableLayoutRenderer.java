@@ -93,28 +93,6 @@ public class HtmlTableLayoutRenderer
 
 	private final static String	COMPONENT_CELL_SUFFIX				= "-cell";
 
-	private final static String	KEY_CURRENT_COLUMN					= "currentColumn";
-
-	private final static String	KEY_NUMBER_OF_COLUMNS				= "columns";
-
-	private final static String	KEY_CURRENT_ROW						= "currentRow";
-
-	private final static String	KEY_CURRENT_SECTION					= "currentSection";
-
-	private final static String	KEY_LABEL_STYLE						= "labelStyle";
-
-	private final static String	KEY_COMPONENT_STYLE					= "componentStyle";
-
-	private final static String	KEY_REQUIRED_STYLE					= "requiredStyle";
-
-	private final static String	KEY_SECTION_STYLE					= "sectionStyle";
-
-	private final static String	KEY_SECTION_STYLE_CLASS				= "sectionStyleClass";
-
-	private final static String	KEY_COLUMN_CLASSES					= "columnClasses";
-
-	private final static String	KEY_ROW_CLASSES						= "rowClasses";
-
 	private final static int	JUST_COMPONENT_AND_REQUIRED			= 2;
 
 	private final static int	LABEL_AND_COMPONENT_AND_REQUIRED	= 3;
@@ -127,6 +105,7 @@ public class HtmlTableLayoutRenderer
 	public void encodeBegin( FacesContext context, UIComponent metawidget )
 		throws IOException
 	{
+		( (UIMetawidget) metawidget ).putClientProperty( HtmlTableLayoutRenderer.class, null );
 		super.encodeBegin( context, metawidget );
 
 		ResponseWriter writer = context.getResponseWriter();
@@ -144,64 +123,57 @@ public class HtmlTableLayoutRenderer
 
 		// Determine label, component, required styles
 
-		Map<String, Object> attributes = metawidget.getAttributes();
-		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( metawidget, KEY_LABEL_STYLE );
+		State state = getState( metawidget );
+		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( metawidget, "labelStyle" );
 
 		if ( parameterLabelStyle != null )
-			attributes.put( KEY_LABEL_STYLE, parameterLabelStyle.getValue() );
+			state.labelStyle = (String) parameterLabelStyle.getValue();
 
-		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( metawidget, KEY_COMPONENT_STYLE );
+		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( metawidget, "componentStyle" );
 
 		if ( parameterComponentStyle != null )
-			attributes.put( KEY_COMPONENT_STYLE, parameterComponentStyle.getValue() );
+			state.componentStyle = (String) parameterComponentStyle.getValue();
 
-		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( metawidget, KEY_REQUIRED_STYLE );
+		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( metawidget, "requiredStyle" );
 
 		if ( parameterRequiredStyle != null )
-			attributes.put( KEY_REQUIRED_STYLE, parameterRequiredStyle.getValue() );
+			state.requiredStyle = (String) parameterRequiredStyle.getValue();
 
 		// Determine section styles
 
-		UIParameter parameterSectionStyle = FacesUtils.findParameterWithName( metawidget, KEY_SECTION_STYLE );
+		UIParameter parameterSectionStyle = FacesUtils.findParameterWithName( metawidget, "sectionStyle" );
 
 		if ( parameterSectionStyle != null )
-			attributes.put( KEY_SECTION_STYLE, parameterSectionStyle.getValue() );
+			state.sectionStyle = (String) parameterSectionStyle.getValue();
 
-		UIParameter parameterSectionStyleClass = FacesUtils.findParameterWithName( metawidget, KEY_SECTION_STYLE_CLASS );
+		UIParameter parameterSectionStyleClass = FacesUtils.findParameterWithName( metawidget, "sectionStyleClass" );
 
 		if ( parameterSectionStyleClass != null )
-			attributes.put( KEY_SECTION_STYLE_CLASS, parameterSectionStyleClass.getValue() );
+			state.sectionStyleClass = (String) parameterSectionStyleClass.getValue();
 
 		// Determine inner styles
 
-		UIParameter parameterColumnClasses = FacesUtils.findParameterWithName( metawidget, KEY_COLUMN_CLASSES );
+		UIParameter parameterColumnClasses = FacesUtils.findParameterWithName( metawidget, "columnClasses" );
 
 		if ( parameterColumnClasses != null )
-			attributes.put( KEY_COLUMN_CLASSES, ( (String) parameterColumnClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA ) );
+			state.columnClasses = ( (String) parameterColumnClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
 
-		UIParameter parameterRowClasses = FacesUtils.findParameterWithName( metawidget, KEY_ROW_CLASSES );
+		UIParameter parameterRowClasses = FacesUtils.findParameterWithName( metawidget, "rowClasses" );
 
 		if ( parameterRowClasses != null )
-			attributes.put( KEY_ROW_CLASSES, ( (String) parameterRowClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA ) );
+			state.rowClasses = ( (String) parameterRowClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
 
 		// Determine number of columns
 
-		UIParameter parameterColumns = FacesUtils.findParameterWithName( metawidget, KEY_NUMBER_OF_COLUMNS );
-		int columns;
+		UIParameter parameterColumns = FacesUtils.findParameterWithName( metawidget, "columns" );
 
-		if ( parameterColumns == null )
+		if ( parameterColumns != null )
 		{
-			columns = 1;
-		}
-		else
-		{
-			columns = Integer.parseInt( (String) parameterColumns.getValue() );
+			state.columns = Integer.parseInt( (String) parameterColumns.getValue() );
 
-			if ( columns < 0 )
+			if ( state.columns < 0 )
 				throw LayoutException.newException( "columns must be >= 0" );
 		}
-
-		attributes.put( KEY_NUMBER_OF_COLUMNS, columns );
 
 		// Render header facet
 
@@ -215,7 +187,7 @@ public class HtmlTableLayoutRenderer
 
 			// Header spans multiples of label/component/required
 
-			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, columns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.columns * LABEL_AND_COMPONENT_AND_REQUIRED );
 			writer.writeAttribute( "colspan", String.valueOf( colspan ), null );
 
 			writeStyleAndClass( metawidget, writer, "header" );
@@ -241,7 +213,7 @@ public class HtmlTableLayoutRenderer
 
 			// Footer spans multiples of label/component/required
 
-			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, columns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.columns * LABEL_AND_COMPONENT_AND_REQUIRED );
 			writer.writeAttribute( "colspan", String.valueOf( colspan ), null );
 
 			writeStyleAndClass( metawidget, writer, "footer" );
@@ -280,22 +252,21 @@ public class HtmlTableLayoutRenderer
 	public void encodeChildren( FacesContext context, UIComponent metawidget )
 		throws IOException
 	{
-		Map<String, Object> attributes = metawidget.getAttributes();
-		Integer numberOfColumns = (Integer) attributes.get( KEY_NUMBER_OF_COLUMNS );
+		State state = getState( metawidget );
 
 		// (layoutChildren may get called even if layoutBegin crashed. Try
 		// to fail gracefully)
 
-		if ( numberOfColumns == null )
+		if ( state == null )
 			return;
 
 		List<UIComponent> children = metawidget.getChildren();
 
 		// Next, for each child component...
 
-		attributes.put( KEY_CURRENT_COLUMN, 0 );
-		attributes.put( KEY_CURRENT_ROW, 0 );
-		attributes.put( KEY_CURRENT_SECTION, "" );
+		state.currentColumn = 0;
+		state.currentRow = 0;
+		state.currentSection = null;
 
 		for ( UIComponent componentChild : children )
 		{
@@ -329,7 +300,7 @@ public class HtmlTableLayoutRenderer
 
 			// ...count columns...
 
-			attributes.put( KEY_CURRENT_COLUMN, ( (Integer) attributes.get( KEY_CURRENT_COLUMN ) ) + 1 );
+			state.currentColumn++;
 
 			// ...render a label...
 
@@ -360,15 +331,9 @@ public class HtmlTableLayoutRenderer
 	{
 		ResponseWriter writer = context.getResponseWriter();
 
-		Map<String, Object> attributes = metawidget.getAttributes();
-		int currentColumn = (Integer) attributes.get( KEY_CURRENT_COLUMN );
-		int numberOfColumns = (Integer) attributes.get( KEY_NUMBER_OF_COLUMNS );
-		int currentRow = (Integer) attributes.get( KEY_CURRENT_ROW );
 		String cssId = getCssId( childComponent );
 
 		// Section headings
-
-		String currentSection = (String) attributes.get( KEY_CURRENT_SECTION );
 
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> metadataAttributes = (Map<String, String>) childComponent.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
@@ -376,41 +341,43 @@ public class HtmlTableLayoutRenderer
 		// (layoutBeforeChild may get called even if layoutBegin crashed. Try
 		// to fail gracefully)
 
+		State state = getState( metawidget );
+
 		if ( metadataAttributes != null )
 		{
 			String section = metadataAttributes.get( SECTION );
 
-			if ( section != null && !section.equals( currentSection ) )
+			if ( section != null && !section.equals( state.currentSection ) )
 			{
-				attributes.put( KEY_CURRENT_SECTION, section );
+				state.currentSection = section;
 				layoutSection( context, metawidget, section, childComponent );
-				attributes.put( KEY_CURRENT_COLUMN, 1 );
+				state.currentColumn = 1;
 			}
 
 			// Large components get a whole row
 
 			boolean largeComponent = ( metawidget instanceof UIData || TRUE.equals( metadataAttributes.get( LARGE ) ) );
 
-			if ( largeComponent && currentColumn != 1 )
+			if ( largeComponent && state.currentColumn != 1 )
 			{
 				writer.endElement( "tr" );
-				currentColumn = 1;
+				state.currentColumn = 1;
 			}
 		}
 
 		// Start a new row, if necessary
 
-		if ( currentColumn == 1 || currentColumn > numberOfColumns )
+		if ( state.currentColumn == 1 || state.currentColumn > state.columns )
 		{
-			attributes.put( KEY_CURRENT_COLUMN, 1 );
+			state.currentColumn = 1;
 
 			writer.startElement( "tr", metawidget );
 
 			if ( cssId != null )
 				writer.writeAttribute( "id", TABLE_PREFIX + cssId + ROW_SUFFIX, null );
 
-			writeRowStyleClass( metawidget, writer, currentRow );
-			attributes.put( KEY_CURRENT_ROW, currentRow + 1 );
+			writeRowStyleClass( metawidget, writer, state.currentRow );
+			state.currentRow++;
 		}
 
 		// Start the label column
@@ -420,7 +387,7 @@ public class HtmlTableLayoutRenderer
 		// Zero-column layouts need an extra row
 		// (though we colour it the same from a CSS perspective)
 
-		if ( labelWritten && numberOfColumns == 0 )
+		if ( labelWritten && state.columns == 0 )
 		{
 			writer.endElement( "tr" );
 			writer.startElement( "tr", metawidget );
@@ -428,7 +395,7 @@ public class HtmlTableLayoutRenderer
 			if ( cssId != null )
 				writer.writeAttribute( "id", TABLE_PREFIX + cssId + ROW_SUFFIX + "2", null );
 
-			writeRowStyleClass( metawidget, writer, currentRow );
+			writeRowStyleClass( metawidget, writer, state.currentRow );
 		}
 
 		// Start the component column
@@ -440,10 +407,8 @@ public class HtmlTableLayoutRenderer
 
 		// CSS
 
-		String componentStyle = (String) attributes.get( KEY_COMPONENT_STYLE );
-
-		if ( componentStyle != null )
-			writer.writeAttribute( "style", componentStyle, null );
+		if ( state.componentStyle != null )
+			writer.writeAttribute( "style", state.componentStyle, null );
 
 		writeColumnStyleClass( metawidget, writer, 1 );
 
@@ -455,8 +420,8 @@ public class HtmlTableLayoutRenderer
 
 		if ( childComponent instanceof UIMetawidget || childComponent instanceof UIData || ( metadataAttributes != null && TRUE.equals( metadataAttributes.get( LARGE ) ) ) )
 		{
-			colspan = ( numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
-			attributes.put( KEY_CURRENT_COLUMN, numberOfColumns );
+			colspan = ( state.columns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
+			state.currentColumn = state.columns;
 
 			if ( !labelWritten )
 				colspan++;
@@ -510,11 +475,10 @@ public class HtmlTableLayoutRenderer
 
 		// CSS
 
-		Map<String, Object> attributes = metawidget.getAttributes();
-		String labelStyle = (String) attributes.get( KEY_LABEL_STYLE );
+		State state = getState( metawidget );
 
-		if ( labelStyle != null )
-			writer.writeAttribute( "style", labelStyle, null );
+		if ( state.labelStyle != null )
+			writer.writeAttribute( "style", state.labelStyle, null );
 
 		writeColumnStyleClass( metawidget, writer, 0 );
 
@@ -540,21 +504,17 @@ public class HtmlTableLayoutRenderer
 
 		// Sections span multiples of label/component/required
 
-		Map<String, Object> attributes = metawidget.getAttributes();
-		int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, ( (Integer) attributes.get( KEY_NUMBER_OF_COLUMNS ) ) * LABEL_AND_COMPONENT_AND_REQUIRED );
+		State state = getState( metawidget );
+		int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.columns * LABEL_AND_COMPONENT_AND_REQUIRED );
 		writer.writeAttribute( "colspan", String.valueOf( colspan ), null );
 
 		// CSS
 
-		String sectionStyle = (String) attributes.get( KEY_SECTION_STYLE );
+		if ( state.sectionStyle != null )
+			writer.writeAttribute( "style", state.sectionStyle, null );
 
-		if ( sectionStyle != null )
-			writer.writeAttribute( "style", sectionStyle, null );
-
-		String sectionStyleClass = (String) attributes.get( KEY_SECTION_STYLE_CLASS );
-
-		if ( sectionStyleClass != null )
-			writer.writeAttribute( "class", sectionStyleClass, null );
+		if ( state.sectionStyleClass != null )
+			writer.writeAttribute( "class", state.sectionStyleClass, null );
 
 		// Section name (possibly localized)
 
@@ -584,7 +544,7 @@ public class HtmlTableLayoutRenderer
 
 		// Render the 'required' column
 
-		Map<String, Object> attributes = metawidget.getAttributes();
+		State state = getState( metawidget );
 
 		if ( ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) ) || !childComponent.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) )
 		{
@@ -597,10 +557,8 @@ public class HtmlTableLayoutRenderer
 
 			// CSS
 
-			String requiredStyle = (String) attributes.get( KEY_REQUIRED_STYLE );
-
-			if ( requiredStyle != null )
-				writer.writeAttribute( "style", requiredStyle, null );
+			if ( state.requiredStyle != null )
+				writer.writeAttribute( "style", state.requiredStyle, null );
 
 			writeColumnStyleClass( metawidget, writer, 2 );
 
@@ -611,9 +569,9 @@ public class HtmlTableLayoutRenderer
 
 		// End the row, if necessary
 
-		if ( ( (Integer) attributes.get( KEY_CURRENT_COLUMN ) ).intValue() >= ( (Integer) attributes.get( KEY_NUMBER_OF_COLUMNS ) ).intValue() )
+		if ( state.currentColumn >= state.columns )
 		{
-			attributes.put( KEY_CURRENT_COLUMN, 0 );
+			state.currentColumn = 0;
 			writer.endElement( "tr" );
 		}
 	}
@@ -661,8 +619,7 @@ public class HtmlTableLayoutRenderer
 	protected void writeColumnStyleClass( UIComponent metawidget, ResponseWriter writer, int columnStyleClass )
 		throws IOException
 	{
-		Map<String, Object> attributes = metawidget.getAttributes();
-		String[] columnClasses = (String[]) attributes.get( KEY_COLUMN_CLASSES );
+		State state = getState( metawidget );
 
 		// Note: As per the JSF spec, columnClasses do not repeat like rowClasses do. See...
 		//
@@ -672,10 +629,10 @@ public class HtmlTableLayoutRenderer
 		// columns specified in the "columns" attribute, no "class" attribute is output for each
 		// column greater than the number of [styleClasses]'
 
-		if ( columnClasses == null || columnClasses.length <= columnStyleClass )
+		if ( state.columnClasses == null || state.columnClasses.length <= columnStyleClass )
 			return;
 
-		String columnClass = columnClasses[columnStyleClass];
+		String columnClass = state.columnClasses[columnStyleClass];
 
 		if ( columnClass.length() == 0 )
 			return;
@@ -686,17 +643,66 @@ public class HtmlTableLayoutRenderer
 	protected void writeRowStyleClass( UIComponent metawidget, ResponseWriter writer, int rowStyleClass )
 		throws IOException
 	{
-		Map<String, Object> attributes = metawidget.getAttributes();
-		String[] rowClasses = (String[]) attributes.get( KEY_ROW_CLASSES );
+		State state = getState( metawidget );
 
-		if ( rowClasses == null )
+		if ( state.rowClasses == null )
 			return;
 
-		String rowClass = rowClasses[rowStyleClass % rowClasses.length];
+		String rowClass = state.rowClasses[rowStyleClass % state.rowClasses.length];
 
 		if ( rowClass.length() == 0 )
 			return;
 
 		writer.writeAttribute( "class", rowClass.trim(), null );
+	}
+
+	//
+	// Private methods
+	//
+
+	/* package private */State getState( UIComponent metawidget )
+	{
+		State state = (State) ( (UIMetawidget) metawidget ).getClientProperty( HtmlTableLayoutRenderer.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			( (UIMetawidget) metawidget ).putClientProperty( HtmlTableLayoutRenderer.class, state );
+		}
+
+		return state;
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */class State
+	{
+		/* package private */int		currentColumn;
+
+		/* package private */int		columns	= 1;
+
+		/* package private */int		currentRow;
+
+		/* package private */String		currentSection;
+
+		/* package private */String		labelStyle;
+
+		/* package private */String		componentStyle;
+
+		/* package private */String		requiredStyle;
+
+		/* package private */String		sectionStyle;
+
+		/* package private */String		sectionStyleClass;
+
+		/* package private */String[]	columnClasses;
+
+		/* package private */String[]	rowClasses;
 	}
 }

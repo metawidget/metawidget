@@ -12,6 +12,7 @@
 	<source path="inspector/gwt/remote/iface"/>
 	<source path="inspector/gwt/remote/client"/>
 	<source path="inspector/iface"/>
+	<source path="layout"/>
 	<source path="mixin/base"/>
 	<source path="mixin/gwt"/>
 	<source path="util/simple"/>

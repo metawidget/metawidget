@@ -136,6 +136,8 @@ public abstract class UIMetawidget
 
 	private String				mBindingPrefix;
 
+	private Map<Object, Object>	mClientProperties;
+
 	private UIMetawidgetMixin	mMetawidgetMixin;
 
 	//
@@ -378,6 +380,35 @@ public abstract class UIMetawidget
 		parameter.setName( name );
 		parameter.setValue( value );
 		getChildren().add( parameter );
+	}
+
+	/**
+	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
+	 * <p>
+	 * Unlike <code>.setAttribute</code>, these values are not serialized by <code>ResponseStateManagerImpl</code>.
+	 */
+
+	public void putClientProperty( Object key, Object value )
+	{
+		if ( mClientProperties == null )
+			mClientProperties = CollectionUtils.newHashMap();
+
+		mClientProperties.put( key, value );
+	}
+
+	/**
+	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
+	 * <p>
+	 * Unlike <code>.getAttribute</code>, these values are not serialized by <code>ResponseStateManagerImpl</code>.
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public <T> T getClientProperty( Object key )
+	{
+		if ( mClientProperties == null )
+			return null;
+
+		return (T) mClientProperties.get( key );
 	}
 
 	@Override
@@ -806,7 +837,8 @@ public abstract class UIMetawidget
 		//
 		// ...in order to copy all arbitary attributes, because some frameworks (eg. Facelets) use
 		// the attributes map as a storage area for special flags (eg.
-		// ComponentSupport.MARK_CREATED) that should not get copied from component to component!
+		// ComponentSupport.MARK_CREATED) that should not get copied down from component to
+		// component!
 	}
 
 	/**

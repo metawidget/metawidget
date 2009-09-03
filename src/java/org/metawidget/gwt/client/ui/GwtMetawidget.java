@@ -1057,6 +1057,7 @@ public class GwtMetawidget
 			throws Exception
 		{
 			GwtMetawidget.this.startBuild();
+			super.startBuild();
 		}
 
 		@Override
@@ -1094,6 +1095,7 @@ public class GwtMetawidget
 			throws Exception
 		{
 			GwtMetawidget.this.addWidget( widget, elementName, attributes );
+			super.addWidget( widget, elementName, attributes );
 		}
 
 		@Override
@@ -1107,6 +1109,7 @@ public class GwtMetawidget
 			throws Exception
 		{
 			GwtMetawidget.this.endBuild();
+			super.endBuild();
 		}
 
 		@Override

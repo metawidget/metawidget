@@ -64,22 +64,6 @@ public class HtmlDivLayoutRenderer
 	// Private statics
 	//
 
-	private final static String	KEY_OUTER_STYLE			= "outerStyle";
-
-	private final static String	KEY_LABEL_STYLE			= "labelStyle";
-
-	private final static String	KEY_REQUIRED_STYLE		= "requiredStyle";
-
-	private final static String	KEY_COMPONENT_STYLE		= "componentStyle";
-
-	private final static String	KEY_STYLE_CLASSES		= "divStyleClasses";
-
-	private final static String	KEY_SECTION_STYLE		= "sectionStyle";
-
-	private final static String	KEY_SECTION_STYLE_CLASS	= "sectionStyleClass";
-
-	private final static String	KEY_CURRENT_SECTION		= "currentSection";
-
 	//
 	// Public methods
 	//
@@ -88,60 +72,56 @@ public class HtmlDivLayoutRenderer
 	public void encodeBegin( FacesContext context, UIComponent metawidget )
 		throws IOException
 	{
+		( (UIMetawidget) metawidget ).putClientProperty( HtmlDivLayoutRenderer.class, null );
 		super.encodeBegin( context, metawidget );
 
 		// Determine outer styles
 
-		Map<String, Object> attributes = metawidget.getAttributes();
-		UIParameter parameterOuterStyle = FacesUtils.findParameterWithName( metawidget, KEY_OUTER_STYLE );
+		State state = getState( metawidget );
+		UIParameter parameterOuterStyle = FacesUtils.findParameterWithName( metawidget, "outerStyle" );
 
 		if ( parameterOuterStyle != null )
-			attributes.put( KEY_OUTER_STYLE, parameterOuterStyle.getValue() );
+			state.outerStyle = (String) parameterOuterStyle.getValue();
 
 		// Determine label styles
 
-		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( metawidget, KEY_LABEL_STYLE );
+		UIParameter parameterLabelStyle = FacesUtils.findParameterWithName( metawidget, "labelStyle" );
 
 		if ( parameterLabelStyle != null )
-			attributes.put( KEY_LABEL_STYLE, parameterLabelStyle.getValue() );
+			state.labelStyle = (String) parameterLabelStyle.getValue();
 
 		// Determine label styles
 
-		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( metawidget, KEY_REQUIRED_STYLE );
+		UIParameter parameterRequiredStyle = FacesUtils.findParameterWithName( metawidget, "requiredStyle" );
 
 		if ( parameterRequiredStyle != null )
-			attributes.put( KEY_REQUIRED_STYLE, parameterRequiredStyle.getValue() );
+			state.requiredStyle = (String) parameterRequiredStyle.getValue();
 
 		// Determine component styles
 
-		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( metawidget, KEY_COMPONENT_STYLE );
+		UIParameter parameterComponentStyle = FacesUtils.findParameterWithName( metawidget, "componentStyle" );
 
 		if ( parameterComponentStyle != null )
-			attributes.put( KEY_COMPONENT_STYLE, parameterComponentStyle.getValue() );
+			state.componentStyle = (String) parameterComponentStyle.getValue();
 
 		// Determine style classes
 
-		String[] styleClasses = (String[]) attributes.get( KEY_STYLE_CLASSES );
+		UIParameter parameterStyleClasses = FacesUtils.findParameterWithName( metawidget, "divStyleClasses" );
 
-		if ( styleClasses == null )
-		{
-			UIParameter parameterStyleClasses = FacesUtils.findParameterWithName( metawidget, KEY_STYLE_CLASSES );
-
-			if ( parameterStyleClasses != null )
-				attributes.put( KEY_STYLE_CLASSES, ( (String) parameterStyleClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA ) );
-		}
+		if ( parameterStyleClasses != null )
+			state.divStyleClasses = ( (String) parameterStyleClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
 
 		// Determine section styles
 
-		UIParameter parameterSectionStyle = FacesUtils.findParameterWithName( metawidget, KEY_SECTION_STYLE );
+		UIParameter parameterSectionStyle = FacesUtils.findParameterWithName( metawidget, "sectionStyle" );
 
 		if ( parameterSectionStyle != null )
-			attributes.put( KEY_SECTION_STYLE, parameterSectionStyle.getValue() );
+			state.sectionStyle = (String) parameterSectionStyle.getValue();
 
-		UIParameter parameterSectionStyleClass = FacesUtils.findParameterWithName( metawidget, KEY_SECTION_STYLE_CLASS );
+		UIParameter parameterSectionStyleClass = FacesUtils.findParameterWithName( metawidget, "sectionStyleClass" );
 
 		if ( parameterSectionStyleClass != null )
-			attributes.put( KEY_SECTION_STYLE_CLASS, parameterSectionStyleClass.getValue() );
+			state.sectionStyleClass = (String) parameterSectionStyleClass.getValue();
 
 		// Start component
 
@@ -228,11 +208,10 @@ public class HtmlDivLayoutRenderer
 
 		if ( message.getStyleClass() == null )
 		{
-			Map<String, Object> attributes = metawidget.getAttributes();
-			String[] styleClasses = (String[]) attributes.get( KEY_STYLE_CLASSES );
+			State state = getState( metawidget );
 
-			if ( styleClasses != null && styleClasses.length > 4 )
-				message.setStyleClass( styleClasses[4] );
+			if ( state.divStyleClasses != null && state.divStyleClasses.length > 4 )
+				message.setStyleClass( state.divStyleClasses[4] );
 		}
 
 		return message;
@@ -249,22 +228,21 @@ public class HtmlDivLayoutRenderer
 
 		// Section headings
 
-		Map<String, Object> attributes = metawidget.getAttributes();
-		String currentSection = (String) attributes.get( KEY_CURRENT_SECTION );
-
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> metadataAttributes = (Map<String, String>) componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
 
 		// (layoutBeforeChild may get called even if layoutBegin crashed. Try
 		// to fail gracefully)
 
+		State state = getState( metawidget );
+
 		if ( metadataAttributes != null )
 		{
 			String section = metadataAttributes.get( SECTION );
 
-			if ( section != null && !section.equals( currentSection ) )
+			if ( section != null && !section.equals( state.currentSection ) )
 			{
-				attributes.put( KEY_CURRENT_SECTION, section );
+				state.currentSection = section;
 				layoutSection( context, metawidget, section, componentChild );
 			}
 		}
@@ -272,10 +250,8 @@ public class HtmlDivLayoutRenderer
 
 		writer.startElement( "div", metawidget );
 
-		String outerStyle = (String) attributes.get( KEY_OUTER_STYLE );
-
-		if ( outerStyle != null )
-			writer.writeAttribute( "style", outerStyle, null );
+		if ( state.outerStyle != null )
+			writer.writeAttribute( "style", state.outerStyle, null );
 
 		writeStyleClass( metawidget, writer, 0 );
 
@@ -287,10 +263,8 @@ public class HtmlDivLayoutRenderer
 
 		writer.startElement( "div", metawidget );
 
-		String componentStyle = (String) attributes.get( KEY_COMPONENT_STYLE );
-
-		if ( componentStyle != null )
-			writer.writeAttribute( "style", componentStyle, null );
+		if ( state.componentStyle != null )
+			writer.writeAttribute( "style", state.componentStyle, null );
 
 		writeStyleClass( metawidget, writer, 3 );
 	}
@@ -314,11 +288,10 @@ public class HtmlDivLayoutRenderer
 
 		writer.startElement( "div", metawidget );
 
-		Map<String, Object> attributes = metawidget.getAttributes();
-		String labelStyle = (String) attributes.get( KEY_LABEL_STYLE );
+		State state = getState( metawidget );
 
-		if ( labelStyle != null )
-			writer.writeAttribute( "style", labelStyle, null );
+		if ( state.labelStyle != null )
+			writer.writeAttribute( "style", state.labelStyle, null );
 
 		writeStyleClass( metawidget, writer, 1 );
 
@@ -346,7 +319,8 @@ public class HtmlDivLayoutRenderer
 		{
 			writer.startElement( "span", metawidget );
 
-			String requiredStyle = metadataAttributes.get( KEY_REQUIRED_STYLE );
+			State state = getState( metawidget );
+			String requiredStyle = metadataAttributes.get( state.requiredStyle );
 
 			if ( requiredStyle != null )
 				writer.writeAttribute( "style", requiredStyle, null );
@@ -369,16 +343,13 @@ public class HtmlDivLayoutRenderer
 
 		writer.startElement( "div", metawidget );
 
-		Map<String, Object> attributes = metawidget.getAttributes();
-		String sectionStyle = (String) attributes.get( KEY_SECTION_STYLE );
+		State state = getState( metawidget );
 
-		if ( sectionStyle != null )
-			writer.writeAttribute( "style", sectionStyle, null );
+		if ( state.sectionStyle != null )
+			writer.writeAttribute( "style", state.sectionStyle, null );
 
-		String sectionStyleClass = (String) attributes.get( KEY_SECTION_STYLE_CLASS );
-
-		if ( sectionStyleClass != null )
-			writer.writeAttribute( "class", sectionStyleClass, null );
+		if ( state.sectionStyleClass != null )
+			writer.writeAttribute( "class", state.sectionStyleClass, null );
 
 		// Section name (possibly localized)
 
@@ -408,13 +379,12 @@ public class HtmlDivLayoutRenderer
 	protected void writeStyleClass( UIComponent metawidget, ResponseWriter writer, int styleClass )
 		throws IOException
 	{
-		Map<String, Object> attributes = metawidget.getAttributes();
-		String[] styleClasses = (String[]) attributes.get( KEY_STYLE_CLASSES );
+		State state = getState( metawidget );
 
-		if ( styleClasses == null || styleClasses.length <= styleClass )
+		if ( state.divStyleClasses == null || state.divStyleClasses.length <= styleClass )
 			return;
 
-		String columnClass = styleClasses[styleClass];
+		String columnClass = state.divStyleClasses[styleClass];
 
 		if ( columnClass.length() == 0 )
 			return;
@@ -422,4 +392,47 @@ public class HtmlDivLayoutRenderer
 		writer.writeAttribute( "class", columnClass.trim(), null );
 	}
 
+	//
+	// Private methods
+	//
+
+	private State getState( UIComponent metawidget )
+	{
+		State state = (State) ( (UIMetawidget) metawidget ).getClientProperty( HtmlDivLayoutRenderer.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			( (UIMetawidget) metawidget ).putClientProperty( HtmlDivLayoutRenderer.class, state );
+		}
+
+		return state;
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */class State
+	{
+		/* package private */String		outerStyle;
+
+		/* package private */String		labelStyle;
+
+		/* package private */String		requiredStyle;
+
+		/* package private */String		componentStyle;
+
+		/* package private */String[]	divStyleClasses;
+
+		/* package private */String		sectionStyle;
+
+		/* package private */String		sectionStyleClass;
+
+		/* package private */String		currentSection;
+	}
 }

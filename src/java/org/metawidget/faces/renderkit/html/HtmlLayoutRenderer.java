@@ -54,18 +54,6 @@ public class HtmlLayoutRenderer
 	extends Renderer
 {
 	//
-	// Private statics
-	//
-
-	private final static String	KEY_USE_INLINE_MESSAGES	= "inlineMessages";
-
-	private final static String	KEY_MESSAGE_STYLE		= "messageStyle";
-
-	private final static String	KEY_MESSAGE_STYLE_CLASS	= "messageStyleClass";
-
-	private final static String	KEY_LABEL_SUFFIX		= "labelSuffix";
-
-	//
 	// Public methods
 	//
 
@@ -73,15 +61,35 @@ public class HtmlLayoutRenderer
 	public void encodeBegin( FacesContext context, UIComponent metawidget )
 		throws IOException
 	{
+		( (UIMetawidget) metawidget ).putClientProperty( HtmlLayoutRenderer.class, null );
 		super.encodeBegin( context, metawidget );
 
 		// Determine label suffix
 
-		Map<String, Object> attributes = metawidget.getAttributes();
-		UIParameter parameterLabelSuffix = FacesUtils.findParameterWithName( metawidget, KEY_LABEL_SUFFIX );
+		State state = getState( metawidget );
+		UIParameter parameterLabelSuffix = FacesUtils.findParameterWithName( metawidget, "labelSuffix" );
 
 		if ( parameterLabelSuffix != null )
-			attributes.put( KEY_LABEL_SUFFIX, parameterLabelSuffix.getValue() );
+			state.labelSuffix = (String) parameterLabelSuffix.getValue();
+
+		// Using inline messages?
+
+		UIParameter useInlineMessagesParameter = FacesUtils.findParameterWithName( metawidget, "useInlineMessages" );
+
+		if ( useInlineMessagesParameter != null )
+			state.useInlineMessages = Boolean.valueOf( (String) useInlineMessagesParameter.getValue() );
+
+		// Message styles
+
+		UIParameter messageStyleParameter = FacesUtils.findParameterWithName( metawidget, "messageStyle" );
+
+		if ( messageStyleParameter != null )
+			state.messageStyle = (String) messageStyleParameter.getValue();
+
+		UIParameter messageStyleClassParameter = FacesUtils.findParameterWithName( metawidget, "messageStyleClass" );
+
+		if ( messageStyleClassParameter != null )
+			state.messageStyleClass = (String) messageStyleClassParameter.getValue();
 	}
 
 	/**
@@ -122,16 +130,15 @@ public class HtmlLayoutRenderer
 		{
 			HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
 
-			Map<String, Object> attributes = metawidget.getAttributes();
-			String labelSuffix = (String) attributes.get( KEY_LABEL_SUFFIX );
+			State state = getState( metawidget );
 
-			if ( labelSuffix == null )
-				labelSuffix = ":";
+			if ( state.labelSuffix == null )
+				state.labelSuffix = ":";
 
 			if ( label.indexOf( "#{" ) != -1 )
-				componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( label + labelSuffix ) );
+				componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( label + state.labelSuffix ) );
 			else
-				componentLabel.setValue( label + labelSuffix );
+				componentLabel.setValue( label + state.labelSuffix );
 
 			FacesUtils.render( context, componentLabel );
 		}
@@ -187,22 +194,9 @@ public class HtmlLayoutRenderer
 
 		// Not using inline messages?
 
-		Map<String, Object> attributes = metawidget.getAttributes();
-		Boolean useInlineMessages = (Boolean) attributes.get( KEY_USE_INLINE_MESSAGES );
+		State state = getState( metawidget );
 
-		if ( useInlineMessages == null )
-		{
-			UIParameter useInlineMessagesParameter = FacesUtils.findParameterWithName( metawidget, KEY_USE_INLINE_MESSAGES );
-
-			if ( useInlineMessagesParameter == null )
-				useInlineMessages = Boolean.TRUE;
-			else
-				useInlineMessages = Boolean.valueOf( (String) useInlineMessagesParameter.getValue() );
-
-			attributes.put( KEY_USE_INLINE_MESSAGES, useInlineMessages );
-		}
-
-		if ( !useInlineMessages )
+		if ( !state.useInlineMessages )
 			return;
 
 		// Render inline message
@@ -219,40 +213,13 @@ public class HtmlLayoutRenderer
 
 		// Parse styles
 
-		Map<String, Object> attributes = metawidget.getAttributes();
-		String messageStyle = (String) attributes.get( KEY_MESSAGE_STYLE );
+		State state = getState( metawidget );
 
-		if ( messageStyle == null )
-		{
-			UIParameter messageStyleParameter = FacesUtils.findParameterWithName( metawidget, KEY_MESSAGE_STYLE );
+		if ( !"".equals( state.messageStyle ) )
+			message.setStyle( state.messageStyle );
 
-			if ( messageStyleParameter == null )
-				messageStyle = "";
-			else
-				messageStyle = (String) messageStyleParameter.getValue();
-
-			attributes.put( KEY_MESSAGE_STYLE, messageStyle );
-		}
-
-		String messageStyleClass = (String) attributes.get( KEY_MESSAGE_STYLE_CLASS );
-
-		if ( messageStyleClass == null )
-		{
-			UIParameter messageStyleClassParameter = FacesUtils.findParameterWithName( metawidget, KEY_MESSAGE_STYLE_CLASS );
-
-			if ( messageStyleClassParameter == null )
-				messageStyleClass = "";
-			else
-				messageStyleClass = (String) messageStyleClassParameter.getValue();
-
-			attributes.put( KEY_MESSAGE_STYLE_CLASS, messageStyleClass );
-		}
-
-		if ( !"".equals( messageStyle ) )
-			message.setStyle( messageStyle );
-
-		if ( !"".equals( messageStyleClass ) )
-			message.setStyleClass( messageStyleClass );
+		if ( !"".equals( state.messageStyleClass ) )
+			message.setStyleClass( state.messageStyleClass );
 
 		return message;
 	}
@@ -269,5 +236,43 @@ public class HtmlLayoutRenderer
 
 		if ( parameterStyleClass != null )
 			writer.writeAttribute( "class", parameterStyleClass.getValue(), "class" );
+	}
+
+	//
+	// Private methods
+	//
+
+	private State getState( UIComponent metawidget )
+	{
+		State state = (State) ( (UIMetawidget) metawidget ).getClientProperty( HtmlLayoutRenderer.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			( (UIMetawidget) metawidget ).putClientProperty( HtmlLayoutRenderer.class, state );
+		}
+
+		return state;
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */class State
+	{
+		/* package private */boolean	useInlineMessages	= true;
+
+		/* package private */String		inlineMessages;
+
+		/* package private */String		messageStyle;
+
+		/* package private */String		messageStyleClass;
+
+		/* package private */String		labelSuffix;
 	}
 }
