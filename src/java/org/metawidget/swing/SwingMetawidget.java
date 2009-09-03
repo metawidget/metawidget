@@ -956,30 +956,30 @@ public class SwingMetawidget
 
 	protected void endBuild()
 	{
-		Layout<JComponent, SwingMetawidget> layout = mMetawidgetMixin.getLayout();
-
-		if ( layout != null )
+		if ( mExistingComponentsUnused != null )
 		{
-			if ( mExistingComponentsUnused != null )
+			Layout<JComponent, SwingMetawidget> layout = mMetawidgetMixin.getLayout();
+
+			for ( JComponent componentExisting : mExistingComponentsUnused )
 			{
-				for ( JComponent componentExisting : mExistingComponentsUnused )
-				{
-					// Unused facets don't count
+				// Unused facets don't count
 
-					if ( componentExisting instanceof Facet )
-						continue;
+				if ( componentExisting instanceof Facet )
+					continue;
 
-					Map<String, String> miscAttributes = CollectionUtils.newHashMap();
+				Map<String, String> miscAttributes = CollectionUtils.newHashMap();
 
-					// Manually created components default to no section
+				// Manually created components default to no section
 
-					miscAttributes.put( SECTION, "" );
+				miscAttributes.put( SECTION, "" );
 
-					if ( componentExisting instanceof Stub )
-						miscAttributes.putAll( ( (Stub) componentExisting ).getAttributes() );
+				if ( componentExisting instanceof Stub )
+					miscAttributes.putAll( ( (Stub) componentExisting ).getAttributes() );
 
+				if ( layout == null )
+					add( componentExisting );
+				else
 					layout.layoutChild( componentExisting, miscAttributes, this );
-				}
 			}
 		}
 
@@ -1105,8 +1105,8 @@ public class SwingMetawidget
 		protected void endBuild()
 			throws Exception
 		{
-			super.endBuild();
 			SwingMetawidget.this.endBuild();
+			super.endBuild();
 		}
 
 		@Override

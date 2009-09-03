@@ -29,6 +29,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -256,15 +257,25 @@ public class SwingMetawidgetTest
 	public void testFacet()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-
-		// Facets shouldn't get added directly...
-
 		metawidget.add( new Facet() );
+
+		// Without a path, should be no layout
+
 		assertTrue( metawidget.getComponentCount() == 0 );
 
-		// ...but adding a component will cause a layout
+		// With a path, GridBagLayout spacer panel should appear (but not facet)
+
+		metawidget.setPath( "Foo" );
+		assertTrue( metawidget.getComponentCount() == 1 );
+
+		assertTrue( metawidget.getComponent( 0 ) instanceof JPanel );
+		assertTrue( metawidget.getComponentCount() == 1 );
+
+		// Normal component should appear (but still not facet)
 
 		metawidget.add( new JTextField() );
+		assertTrue( metawidget.getComponent( 0 ) instanceof JTextField );
+		assertTrue( metawidget.getComponent( 1 ) instanceof JPanel );
 		assertTrue( metawidget.getComponentCount() == 2 );
 	}
 
@@ -318,14 +329,15 @@ public class SwingMetawidgetTest
 		assertTrue( textField == metawidget.getComponent( "name" ) );
 		assertTrue( nestedTextField == metawidget.getComponent( "foo", "name" ) );
 
-		// Check saves back to the correct place (ie. rebind uses .getToRebind, doesn't update .setToInspect)
+		// Check saves back to the correct place (ie. rebind uses .getToRebind, doesn't update
+		// .setToInspect)
 
 		processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
 		assertTrue( "Charlotte".equals( foo1.getName() ) );
 		assertTrue( foo1 == metawidget.getToInspect() );
 		assertTrue( "Julianne".equals( foo2.getName() ) );
 		assertTrue( foo2 != metawidget.getToInspect() );
-		assertTrue( foo2 == processor.getClass().getMethod( "getToRebind", SwingMetawidget.class ).invoke( processor, metawidget ));
+		assertTrue( foo2 == processor.getClass().getMethod( "getToRebind", SwingMetawidget.class ).invoke( processor, metawidget ) );
 
 		// Check different component
 
@@ -410,7 +422,7 @@ public class SwingMetawidgetTest
 		@SuppressWarnings( "serial" )
 		public void onAdd( JComponent component, String elementName, Map<String, String> attributes, final SwingMetawidget metawidget )
 		{
-			if ( !ACTION.equals( elementName ))
+			if ( !ACTION.equals( elementName ) )
 				return;
 
 			JButton button = (JButton) component;
