@@ -10,9 +10,6 @@
 		<styleClass>
 			<string>aStyleClass</string>
 		</styleClass>
-		<createHiddenFields>
-			<boolean>true</boolean>
-		</createHiddenFields> 	
 		<inspector>		
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
@@ -27,6 +24,11 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<widgetProcessors>
+			<list>
+				<hiddenFieldProcessor xmlns="java:org.metawidget.faces.component.html.widgetprocessor"/>
+			</list>
+		</widgetProcessors>
 	</htmlMetawidget>
 
 </metawidget>

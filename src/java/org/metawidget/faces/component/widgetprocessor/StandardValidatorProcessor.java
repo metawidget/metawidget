@@ -48,12 +48,12 @@ public class StandardValidatorProcessor
 	//
 
 	@Override
-	public void onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public UIComponent onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		// Only validate EditableValueHolders
 
 		if ( !( component instanceof EditableValueHolder ))
-			return;
+			return component;
 
 		EditableValueHolder editableValueHolder = (EditableValueHolder) component;
 
@@ -135,6 +135,8 @@ public class StandardValidatorProcessor
 				editableValueHolder.addValidator( validator );
 			}
 		}
+
+		return component;
 	}
 
 	//

@@ -27,9 +27,6 @@
 			<name>rendererType</name>
 		</attribute>
 		<attribute>
-			<name>createHiddenFields</name>
-		</attribute>		
-		<attribute>
 			<name>config</name>
 		</attribute>
 		<attribute>

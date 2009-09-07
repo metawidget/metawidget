@@ -80,7 +80,7 @@ public class BeanUtilsBindingProcessor
 	}
 
 	@Override
-	public void onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public JComponent onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Unwrap JScrollPanes (for JTextAreas etc)
 
@@ -94,7 +94,7 @@ public class BeanUtilsBindingProcessor
 		String componentProperty = metawidget.getValueProperty( componentToBind );
 
 		if ( componentProperty == null )
-			return;
+			return component;
 
 		String path = metawidget.getPath();
 
@@ -132,6 +132,8 @@ public class BeanUtilsBindingProcessor
 		{
 			throw WidgetProcessorException.newException( e );
 		}
+
+		return component;
 	}
 
 	/**

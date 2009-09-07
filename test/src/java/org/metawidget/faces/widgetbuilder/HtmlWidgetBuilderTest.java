@@ -78,41 +78,24 @@ public class HtmlWidgetBuilderTest
 		throws Exception
 	{
 		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
-
-		HtmlMetawidget dummyMetawdgetWithoutHiddenFields = new HtmlMetawidget()
-		{
-			@Override
-			public boolean isCreateHiddenFields()
-			{
-				return false;
-			}
-		};
-
-		HtmlMetawidget dummyMetawdgetWithHiddenFields = new HtmlMetawidget()
-		{
-			@Override
-			public boolean isCreateHiddenFields()
-			{
-				return true;
-			}
-		};
+		HtmlMetawidget dummyMetawdget = new HtmlMetawidget();
 
 		// Read only
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( READ_ONLY, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
 
 		// Hidden
 
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof UIStub );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof UIStub );
 		attributes.remove( HIDDEN );
 
 		// Masked
 
 		attributes.put( MASKED, TRUE );
-		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields );
+		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget );
 		assertTrue( 1 == stub.getChildCount() );
 		assertTrue( stub.getChildren().get( 0 ) instanceof UIStub );
 		attributes.remove( MASKED );
@@ -120,18 +103,18 @@ public class HtmlWidgetBuilderTest
 		// Lookups
 
 		attributes.put( LOOKUP, "foo" );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
 
 		attributes.put( LOOKUP_LABELS, "Foo" );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlLookupOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlLookupOutputText );
 		attributes.remove( LOOKUP_LABELS );
 		attributes.remove( LOOKUP );
 
 		// Faces lookup
 
 		attributes.put( FACES_LOOKUP, "#{foo.bar}" );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
-		stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithHiddenFields );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
+		stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget );
 		assertTrue( 2 == stub.getChildCount() );
 		assertTrue( stub.getChildren().get( 1 ) instanceof HtmlOutputText );
 		assertTrue( stub.getChildren().get( 0 ) instanceof HtmlInputHidden );
@@ -139,19 +122,19 @@ public class HtmlWidgetBuilderTest
 
 		// Other types
 
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
 		attributes.put( TYPE, int.class.getName() );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
 		attributes.put( TYPE, Integer.class.getName() );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
 		attributes.put( TYPE, Date.class.getName() );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
 
 		// Arrays
 
 		attributes.put( TYPE, Foo[].class.getName() );
-		dummyMetawdgetWithoutHiddenFields.setInspector( new PropertyTypeInspector() );
-		HtmlDataTable htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields );
+		dummyMetawdget.setInspector( new PropertyTypeInspector() );
+		HtmlDataTable htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget );
 		assertTrue( 3 == htmlDataTable.getChildCount() );
 		HtmlColumn htmlColumn = (HtmlColumn) htmlDataTable.getChildren().get( 0 );
 		assertTrue( 1 == htmlColumn.getChildCount() );
@@ -170,8 +153,8 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, List.class.getName() );
 		attributes.put( NAME, "bar" );
-		dummyMetawdgetWithoutHiddenFields.setParameter( "dataTableRowEditAction", "#{foo.action}" );
-		htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields );
+		dummyMetawdget.setParameter( "dataTableRowEditAction", "#{foo.action}" );
+		htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget );
 		assertTrue( 2 == htmlDataTable.getChildCount() );
 		htmlColumn = (HtmlColumn) htmlDataTable.getChildren().get( 0 );
 		assertTrue( 1 == htmlColumn.getChildCount() );
@@ -188,17 +171,17 @@ public class HtmlWidgetBuilderTest
 		// Other collections
 
 		attributes.put( TYPE, Set.class.getName() );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithHiddenFields ) instanceof HtmlInputHidden );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlInputHidden );
 
 		// Unsupport types
 
 		attributes.put( TYPE, Color.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
 
 		// Don't expand
 
 		attributes.put( DONT_EXPAND, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlOutputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
 		attributes.remove( DONT_EXPAND );
 
 		// Non-read only
@@ -208,7 +191,7 @@ public class HtmlWidgetBuilderTest
 		// Hidden
 
 		attributes.put( HIDDEN, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof UIStub );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof UIStub );
 		attributes.remove( HIDDEN );
 
 		// Masked
@@ -226,12 +209,12 @@ public class HtmlWidgetBuilderTest
 		// Unsupport types
 
 		attributes.put( TYPE, Color.class.getName() );
-		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) );
 
 		// Don't expand
 
 		attributes.put( DONT_EXPAND, TRUE );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdgetWithoutHiddenFields ) instanceof HtmlInputText );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlInputText );
 		attributes.remove( DONT_EXPAND );
 	}
 

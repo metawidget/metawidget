@@ -55,12 +55,12 @@ public class StandardConverterProcessor
 	//
 
 	@Override
-	public void onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public UIComponent onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		// Actions don't get converters
 
 		if ( ACTION.equals( elementName ))
-			return;
+			return component;
 
 		// Recurse into stubs
 
@@ -73,15 +73,16 @@ public class StandardConverterProcessor
 				onAdd( componentChild, elementName, attributes, metawidget );
 			}
 
-			return;
+			return component;
 		}
 
 		// Ignore components that cannot have Converters
 
 		if ( !( component instanceof ValueHolder ) )
-			return;
+			return component;
 
 		setConverter( (ValueHolder) component, attributes );
+		return component;
 	}
 
 	public void setConverter( ValueHolder valueHolder, Map<String, String> attributes )

@@ -11,9 +11,33 @@
 	
 	<div id="top-tabs">
 		<ul>
-			<li class="wide<c:if test="${fn:startsWith(path, '/live-demo')}"> wide-active</c:if>"><a href="http://metawidget.sourceforge.net/live-demo/" onclick="pageTracker._link(this.href); return false;">Live Demo!</a></li>
-			<li class="wide<c:if test="${path == '/screenshots.html'}"> wide-active</c:if>"><a href="${context}/screenshots.html">Screenshots</a></li>
-			<li class="wide<c:if test="${path == '/download.html'}"> wide-active</c:if>"><a href="${context}/download.html">Download v0.85</a></li>
+			<li class="wide<c:if test="${fn:startsWith(path, '/live-demo')}"> wide-active</c:if>">
+				<a href="http://metawidget.sourceforge.net/live-demo/" onclick="pageTracker._link(this.href); return false;"
+					<c:if test="${!fn:startsWith(path, '/live-demo')}">
+						id="demo"
+						onmouseover="bounceInQueue( this, -7 )" onmouseout="bounceInQueue( this, 0 )"
+					</c:if>>
+					Live Demo!
+				</a>
+			</li>
+			<li class="wide<c:if test="${path == '/screenshots.html'}"> wide-active</c:if>">
+				<a href="${context}/screenshots.html"
+					<c:if test="${path != '/screenshots.html'}">
+						id="screenshots"
+						onmouseover="bounceInQueue( this, -7 )" onmouseout="bounceInQueue( this, 0 )"
+					</c:if>>
+					Screenshots
+				</a>
+			</li>
+			<li class="wide<c:if test="${path == '/download.html'}"> wide-active</c:if>">				
+				<a href="${context}/download.html"
+					<c:if test="${path != '/download.html'}">
+						id="download"
+						onmouseover="bounceInQueue( this, -7 )" onmouseout="bounceInQueue( this, 0 )"
+					</c:if>>
+					Download v0.85
+				</a>
+			</li>
 		</ul>
 	</div>
 	

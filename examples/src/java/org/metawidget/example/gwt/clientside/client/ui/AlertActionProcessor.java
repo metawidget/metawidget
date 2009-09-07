@@ -44,12 +44,12 @@ public class AlertActionProcessor
 	//
 
 	@Override
-	public void onAdd( Widget widget, final String elementName, final Map<String, String> attributes, final GwtMetawidget metawidget )
+	public Widget onAdd( Widget widget, final String elementName, final Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
 		// Only bind to Actions
 
 		if ( !ACTION.equals( elementName ))
-			return;
+			return widget;
 
 		// How can we bind without addClickListener?
 
@@ -82,5 +82,7 @@ public class AlertActionProcessor
 					Window.alert( "AlertActionProcessor detected button click for: " + names );
 			}
 		} );
+
+		return widget;
 	}
 }

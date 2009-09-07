@@ -89,9 +89,9 @@ a {
 #top-tabs {
 	position: absolute;
 	right: 0px;
-	top: 12px;
+	top: 32px;
 	overflow: hidden;
-	height: 90px;
+	height: 58px;
 }
 
 #top-tabs ul {
@@ -110,8 +110,8 @@ a {
 	display: block;
 	float: left;
 	width: 120px;
-	height: 43px;
-	padding-top: 28px;
+	height: 55px;
+	padding-top: 8px;
 	background: url(../media/tab-inactive.gif) no-repeat;
 	text-align: center;
 	text-decoration: none;
@@ -125,6 +125,8 @@ a {
 #top-tabs .active a {
 	background-image: url(../media/tab-active.gif);
 	color: white;
+	position: relative;
+	top: -7px;
 }
 
 #top-tabs .wide a {
@@ -135,6 +137,8 @@ a {
 #top-tabs .wide-active a {
 	background-image: url(../media/tab-wide-active.gif);
 	color: white;
+	position: relative;
+	top: -7px;
 }
 
 /*

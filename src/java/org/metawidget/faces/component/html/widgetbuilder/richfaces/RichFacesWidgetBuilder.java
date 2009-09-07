@@ -35,7 +35,6 @@ import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
@@ -58,6 +57,8 @@ import org.richfaces.component.html.HtmlInputNumberSpinner;
 public class RichFacesWidgetBuilder
 	extends BaseWidgetBuilder<UIComponent, UIMetawidget>
 {
+	// TODO: implements Layout?
+
 	//
 	// Protected methods
 	//
@@ -87,7 +88,7 @@ public class RichFacesWidgetBuilder
 		// Color
 
 		if ( Color.class.isAssignableFrom( clazz ) )
-			return createReadOnlyComponent( attributes, metawidget );
+			return FacesContext.getCurrentInstance().getApplication().createComponent( "javax.faces.HtmlOutputText" );
 
 		// Not for RichFaces
 
@@ -315,33 +316,5 @@ public class RichFacesWidgetBuilder
 		// Not for RichFaces
 
 		return null;
-	}
-
-	//
-	// Private methods
-	//
-
-	private UIComponent createReadOnlyComponent( Map<String, String> attributes, UIMetawidget metawidget )
-	{
-		Application application = FacesContext.getCurrentInstance().getApplication();
-
-		// Note: it is important to use 'javax.faces.HtmlOutputText', not just 'javax.faces.Output',
-		// because the latter is not HTML escaped (according to the JSF 1.2 spec)
-
-		UIComponent readOnlyComponent = application.createComponent( "javax.faces.HtmlOutputText" );
-
-		if ( !( (HtmlMetawidget) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
-			return readOnlyComponent;
-
-		// If using hidden fields, create both a label and a hidden field
-
-		UIComponent componentStub = application.createComponent( "org.metawidget.Stub" );
-
-		List<UIComponent> children = componentStub.getChildren();
-
-		children.add( application.createComponent( "javax.faces.HtmlInputHidden" ) );
-		children.add( readOnlyComponent );
-
-		return componentStub;
 	}
 }

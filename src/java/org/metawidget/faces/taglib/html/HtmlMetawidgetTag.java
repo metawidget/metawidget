@@ -40,8 +40,6 @@ public class HtmlMetawidgetTag
 
 	private String	mStyleClass;
 
-	private boolean	mCreateHiddenFields;
-
 	//
 	// Public methods
 	//
@@ -62,19 +60,6 @@ public class HtmlMetawidgetTag
 		mStyleClass = styleClass;
 	}
 
-	/**
-	 * Whether to create hidden HTML input fields for hidden values.
-	 * <p>
-	 * Defaults to <code>false</code>, as passing values via
-	 * <code>&lt;input type="hidden"&gt;</code> tags is a potential security risk: they can be
-	 * modified by malicious clients before being returned to the server.
-	 */
-
-	public void setCreateHiddenFields( boolean createHiddenFields )
-	{
-		mCreateHiddenFields = createHiddenFields;
-	}
-
 	//
 	// Protected methods
 	//
@@ -90,9 +75,5 @@ public class HtmlMetawidgetTag
 
 		metawidget.setStyle( mStyle );
 		metawidget.setStyleClass( mStyleClass );
-
-		// Other
-
-		metawidget.setCreateHiddenFields( mCreateHiddenFields );
 	}
 }

@@ -420,10 +420,10 @@ public class SwingMetawidgetTest
 
 		@Override
 		@SuppressWarnings( "serial" )
-		public void onAdd( JComponent component, String elementName, Map<String, String> attributes, final SwingMetawidget metawidget )
+		public JComponent onAdd( JComponent component, String elementName, Map<String, String> attributes, final SwingMetawidget metawidget )
 		{
 			if ( !ACTION.equals( elementName ) )
-				return;
+				return component;
 
 			JButton button = (JButton) component;
 
@@ -435,6 +435,8 @@ public class SwingMetawidgetTest
 					metawidget.setValue( "FooActionBindingProcessor fired", "name" );
 				}
 			} );
+
+			return component;
 		}
 	}
 

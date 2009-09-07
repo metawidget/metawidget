@@ -53,7 +53,7 @@ public class JGoodiesValidatorProcessor
 	//
 
 	@Override
-	public void onAdd( final JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public JComponent onAdd( final JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Required?
 
@@ -77,7 +77,7 @@ public class JGoodiesValidatorProcessor
 			// Do not attachValidator if no validator and not required
 
 			if ( !required )
-				return;
+				return component;
 		}
 		else
 		{
@@ -87,6 +87,8 @@ public class JGoodiesValidatorProcessor
 		// Attach
 
 		attachValidator( component, validator, path, metawidget );
+
+		return component;
 	}
 
 	@Override

@@ -14,7 +14,7 @@
 
 				<h:messages />
 
-				<m:metawidget value="#{allWidgets}" style="aStyle" styleClass="aStyleClass" createHiddenFields="true" config="config/metawidget-richfaces.xml" bundle="#{bundle}">
+				<m:metawidget value="#{allWidgets}" style="aStyle" styleClass="aStyleClass" config="config/metawidget-richfaces.xml" bundle="#{bundle}">
 					<f:param name="tableStyle" value="aTableStyle"/>
 					<f:param name="tableStyleClass" value="aTableStyleClass"/>
 					<f:param name="columnClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>

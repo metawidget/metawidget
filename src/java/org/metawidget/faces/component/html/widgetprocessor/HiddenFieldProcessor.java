@@ -14,32 +14,32 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.faces.component.widgetprocessor;
+package org.metawidget.faces.component.html.widgetprocessor;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 
-import javax.faces.component.EditableValueHolder;
+import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
- * WidgetProcessor that sets the <code>required</code> attribute.
+ * WidgetProcessor that adds a hidden input field for hidden values.
  * <p>
- * Seam applications that use the <code>s:validateAll</code> tag should use this WidgetProcessor
- * <em>without</em> combining it with <code>StandardValidatorProcessor</code>. This is because
- * Seam's <code>s:validateAll</code> handles the validation process using Hibernate Validator and
- * does not work if the standard JSF validators are defined.
+ * Note: passing values via <code>&lt;input type="hidden"&gt;</code> tags is a potential security
+ * risk: they can be modified by malicious clients before being returned to the server.
  *
  * @author Richard Kennard
  */
 
-public class RequiredAttributeProcessor
+public class HiddenFieldProcessor
 	extends BaseWidgetProcessor<UIComponent, UIMetawidget>
 {
 	//
@@ -49,33 +49,32 @@ public class RequiredAttributeProcessor
 	@Override
 	public UIComponent onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
-		// Only validate EditableValueHolders
+		// Attributes without setters cannot use a hidden field
 
-		if ( !( component instanceof EditableValueHolder ))
+		if ( TRUE.equals( attributes.get( NO_SETTER )))
 			return component;
 
-		if ( !TRUE.equals( attributes.get( REQUIRED ) ) )
+		// UIInputs do not need a hidden field (they already POST back)
+
+		if ( component instanceof UIInput )
 			return component;
 
-		EditableValueHolder editableValueHolder = (EditableValueHolder) component;
+		Application application = FacesContext.getCurrentInstance().getApplication();
 
-		// JSF 1.2 support
+		// Empty stubs become hidden fields directly
 
-		FacesContext context = FacesContext.getCurrentInstance();
+		if ( component instanceof UIStub && component.getChildCount() == 0 )
+			return application.createComponent( "javax.faces.HtmlInputHidden" );
 
-		try
-		{
-			Method method = editableValueHolder.getClass().getMethod( "setLabel", String.class );
-			method.invoke( editableValueHolder, metawidget.getLabelString( context, attributes ) );
-		}
-		catch ( Exception e )
-		{
-			// Fail gracefully
-		}
+		// Other components get wrapped in a Stub
 
-		// Required
+		UIComponent componentStub = application.createComponent( "org.metawidget.Stub" );
 
-		editableValueHolder.setRequired( true );
-		return component;
+		List<UIComponent> children = componentStub.getChildren();
+
+		children.add( application.createComponent( "javax.faces.HtmlInputHidden" ) );
+		children.add( component );
+
+		return componentStub;
 	}
 }

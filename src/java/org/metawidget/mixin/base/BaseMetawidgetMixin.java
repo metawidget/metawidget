@@ -410,16 +410,18 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	protected void addWidget( W widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
+		W widgetToAdd = widget;
+
 		if ( mWidgetProcessors != null )
 		{
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				widgetProcessor.onAdd( widget, elementName, attributes, getMixinOwner() );
+				widgetToAdd = widgetProcessor.onAdd( widgetToAdd, elementName, attributes, getMixinOwner() );
 			}
 		}
 
 		if ( mLayout != null )
-			mLayout.layoutChild( widget, attributes, getMixinOwner() );
+			mLayout.layoutChild( widgetToAdd, attributes, getMixinOwner() );
 	}
 
 	protected void endBuild()

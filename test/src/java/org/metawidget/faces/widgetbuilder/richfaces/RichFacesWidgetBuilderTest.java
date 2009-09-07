@@ -28,7 +28,6 @@ import java.util.TimeZone;
 import javax.faces.FacesException;
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
-import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
@@ -214,15 +213,6 @@ public class RichFacesWidgetBuilderTest
 
 		attributes.put( READ_ONLY, TRUE );
 		HtmlMetawidget metawidget = new HtmlMetawidget();
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof HtmlOutputText );
-
-		metawidget.setCreateHiddenFields( true );
-		stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
-		assertTrue( 2 == stub.getChildCount() );
-		assertTrue( stub.getChildren().get( 0 ) instanceof HtmlInputHidden );
-		assertTrue( stub.getChildren().get( 1 ) instanceof HtmlOutputText );
-
-		attributes.put( NO_SETTER, TRUE );
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof HtmlOutputText );
 	}
 

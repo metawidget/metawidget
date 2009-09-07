@@ -38,7 +38,7 @@ public class CssStyleProcessor
 	//
 
 	@Override
-	public void onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public UIComponent onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		// Note: this also applies the styles to UIStubs at the top-level. In practice, this seemed
 		// to give more 'expected' behaviour than drilling into the UIStubs and applying the styles
@@ -67,5 +67,7 @@ public class CssStyleProcessor
 			else
 				componentAttributes.put( "styleClass", existingStyleClass + " " + styleClass );
 		}
+
+		return component;
 	}
 }

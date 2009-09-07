@@ -42,25 +42,25 @@ public class ImmediateAttributeProcessor
 	//
 
 	@Override
-	public void onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public UIComponent onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		String immediateString = attributes.get( FACES_IMMEDIATE );
 
 		if ( immediateString == null )
-			return;
+			return component;
 
 		boolean immediate = Boolean.parseBoolean( immediateString );
 
 		if ( component instanceof ActionSource )
 		{
 			( (ActionSource) component ).setImmediate( immediate );
-			return;
+			return component;
 		}
 
 		if ( component instanceof EditableValueHolder )
 		{
 			( (EditableValueHolder) component ).setImmediate( immediate );
-			return;
+			return component;
 		}
 
 		throw WidgetProcessorException.newException( "'Immediate' cannot be applied to " + component.getClass() );

@@ -53,26 +53,26 @@ public class ReflectionBindingProcessor
 
 	@Override
 	@SuppressWarnings( "serial" )
-	public void onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public JComponent onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Only bind to Actions
 
 		if ( !ACTION.equals( elementName ))
-			return;
+			return component;
 
 		if ( component instanceof Stub )
-			return;
+			return component;
 
 		if ( !( component instanceof AbstractButton ))
 			throw WidgetProcessorException.newException( "ReflectionBinding only supports binding actions to AbstractButtons" );
 
 		if ( metawidget == null )
-			return;
+			return component;
 
 		Object toInspect = metawidget.getToInspect();
 
 		if ( toInspect == null )
-			return;
+			return component;
 
 		AbstractButton button = (AbstractButton) component;
 
@@ -85,7 +85,7 @@ public class ReflectionBindingProcessor
 			toInspect = ClassUtils.getProperty( toInspect, name );
 
 			if ( toInspect == null )
-				return;
+				return component;
 		}
 
 		// ...and wire it up
@@ -122,5 +122,7 @@ public class ReflectionBindingProcessor
 				}
 			}
 		} );
+
+		return component;
 	}
 }

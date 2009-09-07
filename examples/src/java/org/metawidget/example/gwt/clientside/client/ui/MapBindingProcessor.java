@@ -53,12 +53,12 @@ public class MapBindingProcessor
 	}
 
 	@Override
-	public void onAdd( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
+	public Widget onAdd( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
 		// Don't bind to Actions
 
 		if ( ACTION.equals( elementName ) )
-			return;
+			return widget;
 
 		// Nested Metawidgets are not bound, only remembered
 
@@ -70,13 +70,13 @@ public class MapBindingProcessor
 				state.nestedMetawidgets = new HashSet<GwtMetawidget>();
 
 			state.nestedMetawidgets.add( (GwtMetawidget) widget );
-			return;
+			return widget;
 		}
 
 		// MapBindingProcessor doesn't bind to Stubs or FlexTables
 
 		if ( widget instanceof Stub || widget instanceof FlexTable )
-			return;
+			return widget;
 
 		String path = metawidget.getPath();
 
@@ -86,7 +86,7 @@ public class MapBindingProcessor
 		try
 		{
 			if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
-				return;
+				return widget;
 
 			State state = getState( metawidget );
 
@@ -99,6 +99,8 @@ public class MapBindingProcessor
 		{
 			Window.alert( path + ": " + e.getMessage() );
 		}
+
+		return widget;
 	}
 
 	public void save( GwtMetawidget metawidget )

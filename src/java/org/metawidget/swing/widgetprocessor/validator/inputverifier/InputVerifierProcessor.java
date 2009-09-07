@@ -45,7 +45,7 @@ public abstract class InputVerifierProcessor
 	//
 
 	@Override
-	public void onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public JComponent onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		String path = metawidget.getPath();
 
@@ -55,9 +55,11 @@ public abstract class InputVerifierProcessor
 		InputVerifier verifier = getInputVerifier( component, attributes, path );
 
 		if ( verifier == null )
-			return;
+			return component;
 
 		component.setInputVerifier( verifier );
+
+		return component;
 	}
 
 	//

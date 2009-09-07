@@ -114,7 +114,7 @@ public class SimpleBindingProcessor
 	}
 
 	@Override
-	public void onAdd( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
+	public Widget onAdd( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
 		// Nested Metawidgets are not bound, only remembered
 
@@ -126,13 +126,13 @@ public class SimpleBindingProcessor
 				state.nestedMetawidgets = new HashSet<GwtMetawidget>();
 
 			state.nestedMetawidgets.add( (GwtMetawidget) widget );
-			return;
+			return widget;
 		}
 
 		// SimpleBindingProcessor doesn't bind to Stubs or FlexTables
 
 		if ( widget instanceof Stub || widget instanceof FlexTable )
-			return;
+			return widget;
 
 		String path = metawidget.getPath();
 
@@ -179,7 +179,7 @@ public class SimpleBindingProcessor
 				}
 			} );
 
-			return;
+			return widget;
 		}
 
 		// From the adapter...
@@ -187,7 +187,7 @@ public class SimpleBindingProcessor
 		Object toInspect = metawidget.getToInspect();
 
 		if ( toInspect == null )
-			return;
+			return widget;
 
 		Class<?> classToBindTo = toInspect.getClass();
 		SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
@@ -214,7 +214,7 @@ public class SimpleBindingProcessor
 			metawidget.setValue( value, widget );
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return;
+				return widget;
 
 			State state = getState( metawidget );
 
@@ -227,6 +227,8 @@ public class SimpleBindingProcessor
 		{
 			Window.alert( path + ": " + e.getMessage() );
 		}
+
+		return widget;
 	}
 
 	/**

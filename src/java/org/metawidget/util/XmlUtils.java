@@ -179,7 +179,7 @@ public class XmlUtils
 			catch( NullPointerException e )
 			{
 				// We've seen this throw a NullPointerException from
-				// com.sun.org.apache.xerces.internal.dom.ParentNode.nodeListItem(ParentNode.java:780)
+				// com.sun.org.apache.xerces.internal.dom.ParentNode.nodeListGetLength(ParentNode.java:696)
 				// under GWT 1.7
 
 				continue;

@@ -36,8 +36,6 @@ public class HtmlMetawidget
 	// Private members
 	//
 
-	private boolean	mCreateHiddenFields;
-
 	private String	mStyle;
 
 	private String	mStyleClass;
@@ -45,24 +43,6 @@ public class HtmlMetawidget
 	//
 	// Public methods
 	//
-
-	/**
-	 * Whether to create hidden HTML input fields for hidden values.
-	 * <p>
-	 * Defaults to <code>false</code>, as passing values via
-	 * <code>&lt;input type="hidden"&gt;</code> tags is a potential security risk: they can be
-	 * modified by malicious clients before being returned to the server.
-	 */
-
-	public void setCreateHiddenFields( boolean createHiddenFields )
-	{
-		mCreateHiddenFields = createHiddenFields;
-	}
-
-	public boolean isCreateHiddenFields()
-	{
-		return mCreateHiddenFields;
-	}
 
 	public String getStyle()
 	{
@@ -87,11 +67,10 @@ public class HtmlMetawidget
 	@Override
 	public Object saveState( FacesContext context )
 	{
-		Object values[] = new Object[4];
+		Object values[] = new Object[3];
 		values[0] = super.saveState( context );
-		values[1] = mCreateHiddenFields;
-		values[2] = mStyle;
-		values[3] = mStyleClass;
+		values[1] = mStyle;
+		values[2] = mStyleClass;
 
 		return values;
 	}
@@ -102,9 +81,8 @@ public class HtmlMetawidget
 		Object values[] = (Object[]) state;
 		super.restoreState( context, values[0] );
 
-		mCreateHiddenFields = (Boolean) values[1];
-		mStyle = (String) values[2];
-		mStyleClass = (String) values[3];
+		mStyle = (String) values[1];
+		mStyleClass = (String) values[2];
 	}
 
 	//
@@ -147,7 +125,6 @@ public class HtmlMetawidget
 
 		HtmlMetawidget htmlMetawidget = (HtmlMetawidget) metawidget;
 
-		htmlMetawidget.setCreateHiddenFields( mCreateHiddenFields );
 		htmlMetawidget.setStyle( mStyle );
 		htmlMetawidget.setStyleClass( mStyleClass );
 	}

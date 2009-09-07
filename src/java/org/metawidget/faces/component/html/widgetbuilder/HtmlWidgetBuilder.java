@@ -52,7 +52,6 @@ import javax.faces.model.SelectItem;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.widgetprocessor.ConverterProcessor;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -128,14 +127,15 @@ public class HtmlWidgetBuilder
 	protected UIComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 		throws Exception
 	{
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return createHiddenComponent( attributes, metawidget );
+			return application.createComponent( "org.metawidget.Stub" );
 
 		// Masked (return a couple of nested Stubs, so that we DO still render a label)
-
-		Application application = FacesContext.getCurrentInstance().getApplication();
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
 		{
@@ -160,25 +160,25 @@ public class HtmlWidgetBuilder
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels == null )
-				return createReadOnlyComponent( attributes, metawidget );
+				return application.createComponent( "javax.faces.HtmlOutputText" );
 
 			// Special support for read-only lookups with labels
 
 			List<String> labels = CollectionUtils.fromString( lookupLabels );
 
 			if ( labels.isEmpty() )
-				return createReadOnlyComponent( attributes, metawidget );
+				return application.createComponent( "javax.faces.HtmlOutputText" );
 
 			HtmlLookupOutputText lookupOutputText = (HtmlLookupOutputText) application.createComponent( "org.metawidget.HtmlLookupOutputText" );
 			lookupOutputText.setLabels( CollectionUtils.fromString( lookup ), labels );
 
-			return createReadOnlyComponent( attributes, lookupOutputText, metawidget );
+			return lookupOutputText;
 		}
 
 		String facesLookup = attributes.get( FACES_LOOKUP );
 
 		if ( facesLookup != null && !"".equals( facesLookup ) )
-			return createReadOnlyComponent( attributes, metawidget );
+			return application.createComponent( "javax.faces.HtmlOutputText" );
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
@@ -194,22 +194,22 @@ public class HtmlWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() )
-				return createReadOnlyComponent( attributes, metawidget );
+				return application.createComponent( "javax.faces.HtmlOutputText" );
 
 			// Object primitives
 
 			if ( ClassUtils.isPrimitiveWrapper( clazz ) )
-				return createReadOnlyComponent( attributes, metawidget );
+				return application.createComponent( "javax.faces.HtmlOutputText" );
 
 			// Dates
 
 			if ( Date.class.isAssignableFrom( clazz ) )
-				return createReadOnlyComponent( attributes, metawidget );
+				return application.createComponent( "javax.faces.HtmlOutputText" );
 
 			// Strings
 
 			if ( String.class.equals( clazz ) )
-				return createReadOnlyComponent( attributes, metawidget );
+				return application.createComponent( "javax.faces.HtmlOutputText" );
 
 			// Supported Collections
 
@@ -219,13 +219,13 @@ public class HtmlWidgetBuilder
 			// Other Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return createHiddenComponent( attributes, metawidget );
+				return application.createComponent( "javax.faces.HtmlOutputText" );
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return createReadOnlyComponent( attributes, metawidget );
+			return application.createComponent( "javax.faces.HtmlOutputText" );
 
 		// Nested Metawidget
 
@@ -243,15 +243,15 @@ public class HtmlWidgetBuilder
 	protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 		throws Exception
 	{
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return createHiddenComponent( attributes, metawidget );
+			return application.createComponent( "org.metawidget.Stub" );
 
 		// Overridden component
-
-		FacesContext context = FacesContext.getCurrentInstance();
-		Application application = context.getApplication();
 
 		UIComponent component = null;
 		String componentName = attributes.get( FACES_COMPONENT );
@@ -401,7 +401,7 @@ public class HtmlWidgetBuilder
 				// Other Collections
 
 				else if ( Collection.class.isAssignableFrom( clazz ) )
-					return createHiddenComponent( attributes, metawidget );
+					return application.createComponent( "org.metawidget.Stub" );
 			}
 
 			setMaximumLength( component, attributes );
@@ -646,48 +646,6 @@ public class HtmlWidgetBuilder
 		selectItems.setValueBinding( "value", application.createValueBinding( binding ) );
 	}
 
-	private UIComponent createHiddenComponent( Map<String, String> attributes, UIMetawidget metawidget )
-	{
-		Application application = FacesContext.getCurrentInstance().getApplication();
-
-		if ( !( (HtmlMetawidget) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
-			return application.createComponent( "org.metawidget.Stub" );
-
-		// If using hidden fields, create a hidden field to POST back
-
-		return application.createComponent( "javax.faces.HtmlInputHidden" );
-	}
-
-	private UIComponent createReadOnlyComponent( Map<String, String> attributes, UIMetawidget metawidget )
-	{
-		Application application = FacesContext.getCurrentInstance().getApplication();
-
-		// Note: it is important to use 'javax.faces.HtmlOutputText', not just 'javax.faces.Output',
-		// because the latter is not HTML escaped (according to the JSF 1.2 spec)
-
-		UIComponent readOnlyComponent = application.createComponent( "javax.faces.HtmlOutputText" );
-		return createReadOnlyComponent( attributes, readOnlyComponent, metawidget );
-	}
-
-	private UIComponent createReadOnlyComponent( Map<String, String> attributes, UIComponent readOnlyComponent, UIMetawidget metawidget )
-	{
-		Application application = FacesContext.getCurrentInstance().getApplication();
-
-		if ( !( (HtmlMetawidget) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
-			return readOnlyComponent;
-
-		// If using hidden fields, create both a label and a hidden field
-
-		UIComponent componentStub = application.createComponent( "org.metawidget.Stub" );
-
-		List<UIComponent> children = componentStub.getChildren();
-
-		children.add( application.createComponent( "javax.faces.HtmlInputHidden" ) );
-		children.add( readOnlyComponent );
-
-		return componentStub;
-	}
-
 	private UIComponent createDataTableComponent( Class<?> clazz, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -803,7 +761,7 @@ public class HtmlWidgetBuilder
 			column.setHeader( headerText );
 		}
 
-		return createReadOnlyComponent( attributes, dataTable, metawidget );
+		return dataTable;
 	}
 
 	private void createColumnComponents( NodeList elements, List<UIComponent> dataChildren, UIMetawidget metawidget, boolean onlyRequired )
