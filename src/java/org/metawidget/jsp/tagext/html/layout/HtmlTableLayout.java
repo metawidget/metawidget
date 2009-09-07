@@ -72,7 +72,7 @@ public class HtmlTableLayout
 	// Public methods
 	//
 
-	public void layoutBegin( MetawidgetTag metawidgetTag )
+	public void startLayout( MetawidgetTag metawidgetTag )
 	{
 		State state = new State();
 		metawidgetTag.putClientProperty( HtmlTableLayout.class, state );
@@ -228,7 +228,7 @@ public class HtmlTableLayout
 	}
 
 	@Override
-	public void layoutEnd( MetawidgetTag metawidgetTag )
+	public void endLayout( MetawidgetTag metawidgetTag )
 	{
 		try
 		{

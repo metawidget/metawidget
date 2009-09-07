@@ -53,7 +53,7 @@ public class MapBindingProcessor
 	}
 
 	@Override
-	public Widget onAdd( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
+	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
 		// Don't bind to Actions
 

@@ -36,24 +36,26 @@ public interface WidgetProcessor<W, M extends W>
 	//
 
 	/**
-	 * Called at the start of the widget building process, before any widgets have been built.
+	 * Called at the start of the widget building process, before the <code>WidgetBuilder</code> is
+	 * called.
 	 */
 
 	void onStartBuild( M metawidget );
 
 	/**
-	 * Called after a widget has been built by the <code>WidgetBuilder</code>, and it is being added
-	 * to the Metawidget.
+	 * Process the given widget. Called after a widget has been built by the
+	 * <code>WidgetBuilder</code>, and before it is added to the <code>Layout</code>.
 	 *
-	 * @return generally the same widget as was passed in to the first argument. Can be a different
-	 *         widget if the WidgetProcessor wishes to do a substitution
+	 * @return generally the original widget (as was passed in to the first argument). Can be a
+	 *         different widget if the WidgetProcessor wishes to do substitute the original widget
+	 *         for another
 	 */
 
-	W onAdd( W widget, String elementName, Map<String, String> attributes, M metawidget );
+	W processWidget( W widget, String elementName, Map<String, String> attributes, M metawidget );
 
 	/**
 	 * Called at the end of widget building, after all widgets have been built and added to the
-	 * Metawidget.
+	 * <code>Layout</code>.
 	 */
 
 	void onEndBuild( M metawidget );

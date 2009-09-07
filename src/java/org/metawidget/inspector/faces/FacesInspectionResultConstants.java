@@ -29,17 +29,23 @@ public final class FacesInspectionResultConstants
 	// Public statics
 	//
 
-	public final static String	FACES_LOOKUP					= "faces-lookup";
+	public final static String	FACES_LOOKUP		= "faces-lookup";
 
-	public final static String	FACES_SUGGEST					= "faces-suggest";
+	public final static String	FACES_SUGGEST		= "faces-suggest";
 
-	public final static String	FACES_EXPRESSION				= "faces-expression";
+	public final static String	FACES_EXPRESSION	= "faces-expression";
 
-	public final static String	FACES_COMPONENT					= "faces-component";
+	public final static String	FACES_COMPONENT		= "faces-component";
 
-	public final static String	FACES_CONVERTER_ID				= "faces-converter-id";
+	public final static String	FACES_CONVERTER_ID	= "faces-converter-id";
 
-	public final static String	FACES_IMMEDIATE					= "faces-immediate";
+	/**
+	 * Attribute indicated the UIComponent should have its <code>immediate</code> flag set.
+	 * <p>
+	 * Should be used in conjunction with <code>ImmediateAttributeWidgetProcessor</code>.
+	 */
+
+	public final static String	FACES_IMMEDIATE		= "faces-immediate";
 
 	//
 	// Private constructor

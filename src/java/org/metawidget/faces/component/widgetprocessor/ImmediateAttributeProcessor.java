@@ -42,7 +42,7 @@ public class ImmediateAttributeProcessor
 	//
 
 	@Override
-	public UIComponent onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		String immediateString = attributes.get( FACES_IMMEDIATE );
 

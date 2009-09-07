@@ -48,7 +48,7 @@ public class StandardValidatorProcessor
 	//
 
 	@Override
-	public UIComponent onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		// Only validate EditableValueHolders
 

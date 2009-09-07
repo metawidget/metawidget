@@ -73,6 +73,9 @@ import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.icefaces.IceFacesWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.richfaces.RichFacesWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.tomahawk.TomahawkWidgetBuilderTest;
+import org.metawidget.faces.widgetprocessor.HiddenFieldProcessorTest;
+import org.metawidget.faces.widgetprocessor.ImmediateAttributeProcessorTest;
+import org.metawidget.faces.widgetprocessor.RequiredAttributeProcessorTest;
 import org.metawidget.faces.widgetprocessor.StandardConverterProcessorTest;
 
 /**
@@ -90,9 +93,12 @@ public class FacesMetawidgetTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Faces Metawidget Tests" );
+		suite.addTestSuite( HiddenFieldProcessorTest.class );
 		suite.addTestSuite( HtmlWidgetBuilderTest.class );
 		suite.addTestSuite( HtmlTableLayoutRendererTest.class );
 		suite.addTestSuite( IceFacesWidgetBuilderTest.class );
+		suite.addTestSuite( ImmediateAttributeProcessorTest.class );
+		suite.addTestSuite( RequiredAttributeProcessorTest.class );
 		suite.addTestSuite( RichFacesWidgetBuilderTest.class );
 		suite.addTestSuite( StandardConverterProcessorTest.class );
 		suite.addTestSuite( TomahawkWidgetBuilderTest.class );

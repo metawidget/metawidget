@@ -62,13 +62,13 @@ public class StandardConverterProcessorTest
 
 		// Actions get no Converters
 
-		processor.onAdd( component, ACTION, null, null );
+		processor.processWidget( component, ACTION, null, null );
 		assertTrue( null == valueHolder.getConverter() );
 
 		// Empty attributes get no Converters
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		processor.onAdd( component, PROPERTY, attributes, null );
+		processor.processWidget( component, PROPERTY, attributes, null );
 		assertTrue( null == valueHolder.getConverter() );
 
 		// DateTimeConverter
@@ -79,7 +79,7 @@ public class StandardConverterProcessorTest
 		attributes.put( DATETIME_PATTERN, "dd/MM/yyyy" );
 		attributes.put( TIME_ZONE, "Australia/Sydney" );
 		attributes.put( DATETIME_TYPE, "date" );
-		processor.onAdd( component, PROPERTY, attributes, null );
+		processor.processWidget( component, PROPERTY, attributes, null );
 
 		DateTimeConverter dateTimeConverter = (DateTimeConverter) valueHolder.getConverter();
 		assertTrue( "full".equals( dateTimeConverter.getDateStyle() ));
@@ -105,10 +105,10 @@ public class StandardConverterProcessorTest
 
 		// (should not overwrite existing Converter)
 
-		processor.onAdd( component, PROPERTY, attributes, null );
+		processor.processWidget( component, PROPERTY, attributes, null );
 		assertTrue( dateTimeConverter == valueHolder.getConverter() );
 		valueHolder.setConverter( null );
-		processor.onAdd( component, PROPERTY, attributes, null );
+		processor.processWidget( component, PROPERTY, attributes, null );
 
 		NumberConverter numberConverter = (NumberConverter) valueHolder.getConverter();
 		assertTrue( "AUD".equals( numberConverter.getCurrencyCode() ));

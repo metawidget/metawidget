@@ -38,7 +38,7 @@ public class CssStyleProcessor
 	//
 
 	@Override
-	public UIComponent onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		// Note: this also applies the styles to UIStubs at the top-level. In practice, this seemed
 		// to give more 'expected' behaviour than drilling into the UIStubs and applying the styles

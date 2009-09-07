@@ -80,7 +80,7 @@ public class ReflectionBindingProcessorTest
 		// Null object
 
 		JButton button = new JButton();
-		binding.onAdd( button, ACTION, null, null );
+		binding.processWidget( button, ACTION, null, null );
 
 		assertTrue( button.getAction() == null );
 
@@ -91,7 +91,7 @@ public class ReflectionBindingProcessorTest
 
 		metawidget.setToInspect( foo );
 		metawidget.setPath( "foo/nestedFoo/doAction" );
-		binding.onAdd( button, ACTION, null, metawidget );
+		binding.processWidget( button, ACTION, null, metawidget );
 
 		assertTrue( button.getAction() == null );
 	}
@@ -102,7 +102,7 @@ public class ReflectionBindingProcessorTest
 
 		try
 		{
-			binding.onAdd( new JTextField(), ACTION, null, null );
+			binding.processWidget( new JTextField(), ACTION, null, null );
 		}
 		catch( WidgetProcessorException e )
 		{

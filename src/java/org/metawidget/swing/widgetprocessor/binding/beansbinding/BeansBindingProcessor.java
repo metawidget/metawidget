@@ -118,7 +118,7 @@ public class BeansBindingProcessor
 	}
 
 	@Override
-	public JComponent onAdd( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Unwrap JScrollPanes (for JTextAreas etc)
 

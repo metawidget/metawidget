@@ -45,7 +45,7 @@ public class LinearLayout
 	//
 
 
-	public void layoutBegin( AndroidMetawidget metawidget )
+	public void startLayout( AndroidMetawidget metawidget )
 	{
 		metawidget.putClientProperty( LinearLayout.class, null );
 		State state = getState( metawidget );
@@ -120,7 +120,7 @@ public class LinearLayout
 	}
 
 	@Override
-	public void layoutEnd( AndroidMetawidget metawidget )
+	public void endLayout( AndroidMetawidget metawidget )
 	{
 		View viewButtons = metawidget.getFacet( "buttons" );
 

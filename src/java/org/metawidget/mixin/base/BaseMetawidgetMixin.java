@@ -378,7 +378,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		}
 
 		if ( mLayout != null )
-			mLayout.layoutBegin( getMixinOwner() );
+			mLayout.startLayout( getMixinOwner() );
 	}
 
 	protected abstract W getOverriddenWidget( String elementName, Map<String, String> attributes );
@@ -416,7 +416,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		{
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				widgetToAdd = widgetProcessor.onAdd( widgetToAdd, elementName, attributes, getMixinOwner() );
+				widgetToAdd = widgetProcessor.processWidget( widgetToAdd, elementName, attributes, getMixinOwner() );
 			}
 		}
 
@@ -436,6 +436,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		}
 
 		if ( mLayout != null )
-			mLayout.layoutEnd( getMixinOwner() );
+			mLayout.endLayout( getMixinOwner() );
 	}
 }

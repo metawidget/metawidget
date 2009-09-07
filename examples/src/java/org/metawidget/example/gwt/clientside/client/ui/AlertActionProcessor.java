@@ -44,7 +44,7 @@ public class AlertActionProcessor
 	//
 
 	@Override
-	public Widget onAdd( Widget widget, final String elementName, final Map<String, String> attributes, final GwtMetawidget metawidget )
+	public Widget processWidget( Widget widget, final String elementName, final Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
 		// Only bind to Actions
 

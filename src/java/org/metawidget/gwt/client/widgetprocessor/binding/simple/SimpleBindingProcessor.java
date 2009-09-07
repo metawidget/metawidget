@@ -114,7 +114,7 @@ public class SimpleBindingProcessor
 	}
 
 	@Override
-	public Widget onAdd( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
+	public Widget processWidget( Widget widget, String elementName, Map<String, String> attributes, final GwtMetawidget metawidget )
 	{
 		// Nested Metawidgets are not bound, only remembered
 

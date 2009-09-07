@@ -66,7 +66,7 @@ public class GroupLayout
 	// Public methods
 	//
 
-	public void layoutBegin( SwingMetawidget metawidget )
+	public void startLayout( SwingMetawidget metawidget )
 	{
 		javax.swing.GroupLayout groupLayout = new javax.swing.GroupLayout( metawidget );
 		metawidget.setLayout( groupLayout );
@@ -134,7 +134,7 @@ public class GroupLayout
 		state.labels.add( label );
 	}
 
-	public void layoutEnd( SwingMetawidget metawidget )
+	public void endLayout( SwingMetawidget metawidget )
 	{
 		// Make all labels the same width
 

@@ -72,7 +72,7 @@ public class MigLayout
 	// Public methods
 	//
 
-	public void layoutBegin( SwingMetawidget metawidget )
+	public void startLayout( SwingMetawidget metawidget )
 	{
 		metawidget.putClientProperty( MigLayout.class, null );
 		State state = getState( metawidget );
@@ -213,7 +213,7 @@ public class MigLayout
 		}
 	}
 
-	public void layoutEnd( SwingMetawidget metawidget )
+	public void endLayout( SwingMetawidget metawidget )
 	{
 		sectionEnd( metawidget );
 

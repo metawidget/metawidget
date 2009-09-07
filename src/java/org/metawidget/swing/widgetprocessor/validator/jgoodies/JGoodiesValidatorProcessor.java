@@ -53,7 +53,7 @@ public class JGoodiesValidatorProcessor
 	//
 
 	@Override
-	public JComponent onAdd( final JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public JComponent processWidget( final JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Required?
 

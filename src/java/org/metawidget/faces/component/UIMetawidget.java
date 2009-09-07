@@ -25,15 +25,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javax.faces.application.Application;
-import javax.faces.component.ActionSource;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIComponentBase;
 import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
-import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
 import org.metawidget.faces.FacesUtils;
@@ -48,7 +45,6 @@ import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * Base Metawidget for Java Server Faces environments.
@@ -130,11 +126,7 @@ public abstract class UIMetawidget
 
 	private boolean				mInspectFromParent;
 
-	private Set<String>			mClientIds;
-
 	private Boolean				mReadOnly;
-
-	private String				mBindingPrefix;
 
 	private Map<Object, Object>	mClientProperties;
 
@@ -659,41 +651,27 @@ public abstract class UIMetawidget
 
 			attributes.remove( COMPONENT_ATTRIBUTE_METADATA );
 		}
-
-		mClientIds = null;
-		mBindingPrefix = null;
 	}
 
 	protected UIComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
 	{
-		String binding = attributes.get( FACES_EXPRESSION );
+		// Metawidget has no valueBinding? Not overridable, then
+
+		ValueBinding metawidgetValueBinding = getValueBinding( "value" );
+
+		if ( metawidgetValueBinding == null )
+			return null;
 
 		// Actions
+
+		String binding = attributes.get( FACES_EXPRESSION );
 
 		if ( ACTION.equals( elementName ) )
 		{
 			if ( binding == null )
 			{
-				if ( mBindingPrefix == null )
-				{
-					ValueBinding methodBinding = getValueBinding( "value" );
-
-					if ( methodBinding != null )
-					{
-						binding = FacesUtils.unwrapExpression( methodBinding.getExpressionString() );
-					}
-
-					// Not using a valueBinding? Using a raw value (eg. for jBPM)?
-
-					else
-					{
-						binding = attributes.get( NAME );
-					}
-				}
-				else
-				{
-					binding = FacesUtils.wrapExpression( mBindingPrefix + attributes.get( NAME ) );
-				}
+				String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
+				binding = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 			}
 
 			return FacesUtils.findRenderedComponentWithMethodBinding( UIMetawidget.this, binding );
@@ -701,23 +679,14 @@ public abstract class UIMetawidget
 
 		// Properties
 
-		if ( binding == null )
+		if ( ENTITY.equals( elementName ) )
 		{
-			if ( mBindingPrefix == null )
-			{
-				ValueBinding valueBindingChild = getValueBinding( "value" );
-
-				// Metawidget has no valueBinding? Not overridable, then
-
-				if ( valueBindingChild == null )
-					return null;
-
-				binding = valueBindingChild.getExpressionString();
-			}
-			else
-			{
-				binding = FacesUtils.wrapExpression( mBindingPrefix + attributes.get( NAME ) );
-			}
+			binding = metawidgetValueBinding.getExpressionString();
+		}
+		else
+		{
+			String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
+			binding = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 		}
 
 		return FacesUtils.findRenderedComponentWithValueBinding( UIMetawidget.this, binding );
@@ -781,18 +750,6 @@ public abstract class UIMetawidget
 		}
 	}
 
-	protected void beforeBuildCompoundWidget( Element element )
-	{
-		ValueBinding valueBinding = getValueBinding( "value" );
-
-		// Not using a valueBinding? Using a raw value (eg. for jBPM)?
-
-		if ( valueBinding == null )
-			return;
-
-		mBindingPrefix = FacesUtils.unwrapExpression( valueBinding.getExpressionString() ) + StringUtils.SEPARATOR_DOT_CHAR;
-	}
-
 	protected abstract UIMetawidget buildNestedMetawidget( Map<String, String> attributes );
 
 	protected void initNestedMetawidget( UIMetawidget nestedMetawidget, Map<String, String> attributes )
@@ -841,85 +798,10 @@ public abstract class UIMetawidget
 		// component!
 	}
 
-	/**
-	 * Unlike <code>UIViewRoot.createUniqueId</code>, tries to make the Id human readable, both for
-	 * debugging purposes and for when running unit tests (using, say, WebTest).
-	 * <p>
-	 * This method is not separated out into, say, FacesUtils because we want subclasses to be able
-	 * to override it.
-	 * <p>
-	 * Subclasses can override this method to use <code>UIViewRoot.createUniqueId</code> if
-	 * preferred. They can even override it to assign a different, random id to a component each
-	 * time it is generated. This is a great way to fox hackers who are trying to POST back
-	 * pre-generated payloads of HTTP fields (ie. CSRF attacks).
-	 */
-
-	protected void setUniqueId( FacesContext context, UIComponent component, String expressionString )
+	protected void putMetadata( UIComponent widget, Map<String, String> attributes )
 	{
-		// Avoid duplicates
-
-		if ( mClientIds == null )
-		{
-			mClientIds = CollectionUtils.newHashSet();
-
-			Iterator<UIComponent> iteratorFacetsAndChildren = context.getViewRoot().getFacetsAndChildren();
-			gatherClientIds( iteratorFacetsAndChildren );
-		}
-
-		// Create our ideal Id
-
-		Map<String, Object> attributes = component.getAttributes();
-		attributes.put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
-
-		String idealId = StringUtils.camelCase( FacesUtils.unwrapExpression( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
-
-		// Suffix nested Metawidgets, because otherwise if they only expand to a single child they
-		// will give that child component a '_2' suffixed id
-
-		if ( component instanceof UIMetawidget )
-			idealId += "_Metawidget";
-
-		// Convert to an actual, valid id (avoid conflicts)
-
-		String actualId = idealId;
-		int duplicateId = 1;
-
-		while ( true )
-		{
-			if ( mClientIds.add( actualId ) )
-				break;
-
-			duplicateId++;
-			actualId = idealId + '_' + duplicateId;
-		}
-
-		// Support stubs
-
-		if ( component instanceof UIStub )
-		{
-			List<UIComponent> children = component.getChildren();
-
-			if ( !children.isEmpty() )
-			{
-				int childId = 1;
-
-				for ( UIComponent componentChild : children )
-				{
-					if ( childId > 1 )
-						componentChild.setId( actualId + '_' + childId );
-					else
-						componentChild.setId( actualId );
-
-					childId++;
-				}
-
-				return;
-			}
-		}
-
-		// Set Id
-
-		component.setId( actualId );
+		Map<String, Object> componentAttributes = widget.getAttributes();
+		componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
 	}
 
 	/**
@@ -977,158 +859,13 @@ public abstract class UIMetawidget
 	 * Attach metadata for renderer. We do this even for manually created components.
 	 */
 
-	protected void putMetadata( UIComponent widget, Map<String, String> attributes )
-	{
-		Map<String, Object> componentAttributes = widget.getAttributes();
-		componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
-	}
-
 	protected UIComponent addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		FacesContext context = getFacesContext();
-		Application application = context.getApplication();
-
-		// Bind actions
-
-		if ( ACTION.equals( elementName ) )
+		if ( widget.getId() == null )
 		{
-			ActionSource actionSource = (ActionSource) widget;
-			MethodBinding binding = actionSource.getAction();
-
-			if ( binding == null )
-			{
-				// If there is a faces-expression, use it...
-
-				String methodBinding = attributes.get( FACES_EXPRESSION );
-
-				if ( methodBinding != null )
-				{
-					binding = application.createMethodBinding( methodBinding, null );
-				}
-				else
-				{
-					// ...if there is no binding prefix yet, we must be at
-					// the top level...
-
-					if ( mBindingPrefix == null )
-					{
-						ValueBinding valueBinding = getValueBinding( "value" );
-
-						// ...or just invoke the expression
-
-						if ( valueBinding != null )
-						{
-							methodBinding = FacesUtils.unwrapExpression( valueBinding.getExpressionString() );
-							binding = application.createMethodBinding( methodBinding, null );
-						}
-
-						// ...or just the raw value (for jBPM)
-
-						else
-						{
-							binding = application.createMethodBinding( attributes.get( NAME ), null );
-						}
-					}
-
-					// ...if there is a prefix and a name, try and construct the binding
-
-					else
-					{
-						String name = attributes.get( NAME );
-
-						if ( name != null && !"".equals( name ) )
-						{
-							methodBinding = FacesUtils.wrapExpression( mBindingPrefix + name );
-							binding = application.createMethodBinding( methodBinding, null );
-						}
-					}
-				}
-
-				if ( binding != null )
-				{
-					actionSource.setAction( binding );
-
-					// Does widget need an id?
-					//
-					// Note: it is very dangerous to reassign an id if the widget already has one,
-					// as it will create duplicates in the child component list
-
-					if ( widget.getId() == null )
-						setUniqueId( context, widget, binding.getExpressionString() );
-				}
-			}
-		}
-
-		// Bind properties
-
-		else
-		{
-			ValueBinding binding = widget.getValueBinding( "value" );
-
-			if ( binding == null )
-			{
-				// If there is a faces-expression, use it...
-
-				String valueBinding = attributes.get( FACES_EXPRESSION );
-
-				if ( valueBinding == null )
-				{
-					// ...if there is no binding prefix yet, we must be at
-					// the top level...
-
-					if ( mBindingPrefix == null )
-					{
-						binding = getValueBinding( "value" );
-
-						if ( binding != null )
-							valueBinding = binding.getExpressionString();
-					}
-
-					// ...if there is a prefix and a name, try and construct the binding
-
-					else
-					{
-						String name = attributes.get( NAME );
-
-						if ( name != null && !"".equals( name ) )
-						{
-							valueBinding = FacesUtils.wrapExpression( mBindingPrefix + name );
-						}
-					}
-				}
-
-				if ( valueBinding != null )
-				{
-					try
-					{
-						// JSF 1.2 mode: some components (such as
-						// org.jboss.seam.core.Validators.validate()) expect ValueExpressions and do
-						// not work with ValueBindings (see JBSEAM-3252)
-						//
-						// Note: we wrap the ValueExpression as an Object[] to stop link-time
-						// dependencies on javax.el.ValueExpression, so that we still work with
-						// JSF 1.1
-
-						Object[] valueExpression = new Object[] { application.getExpressionFactory().createValueExpression( context.getELContext(), valueBinding, Object.class ) };
-						attachValueExpression( widget, valueExpression[0], attributes );
-					}
-					catch ( NoSuchMethodError e )
-					{
-						// JSF 1.1 mode
-
-						attachValueBinding( widget, application.createValueBinding( valueBinding ), attributes );
-					}
-
-					// Does widget need an id?
-					//
-					// Note: it is very dangerous to reassign an id if the widget already has one,
-					// as it will create duplicates in the child component list
-
-					if ( widget.getId() == null )
-						setUniqueId( context, widget, valueBinding );
-				}
-			}
+			Map<String, Object> componentAttributes = widget.getAttributes();
+			componentAttributes.put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
 		}
 
 		// Add to layout
@@ -1204,14 +941,6 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected void buildCompoundWidget( Element element )
-			throws Exception
-		{
-			UIMetawidget.this.beforeBuildCompoundWidget( element );
-			super.buildCompoundWidget( element );
-		}
-
-		@Override
 		protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
 			throws Exception
 		{
@@ -1259,24 +988,6 @@ public abstract class UIMetawidget
 		protected UIMetawidget getMixinOwner()
 		{
 			return UIMetawidget.this;
-		}
-	}
-
-	//
-	// Private members
-	//
-
-	private void gatherClientIds( Iterator<UIComponent> iteratorFacetsAndChildren )
-	{
-		for ( ; iteratorFacetsAndChildren.hasNext(); )
-		{
-			UIComponent component = iteratorFacetsAndChildren.next();
-			String id = component.getId();
-
-			if ( id != null )
-				mClientIds.add( id );
-
-			gatherClientIds( component.getFacetsAndChildren() );
 		}
 	}
 }

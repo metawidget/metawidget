@@ -42,7 +42,7 @@ public class BoxLayout
 	//
 
 	@Override
-	public void layoutBegin( SwingMetawidget metawidget )
+	public void startLayout( SwingMetawidget metawidget )
 	{
 		metawidget.setLayout( new javax.swing.BoxLayout( metawidget, javax.swing.BoxLayout.LINE_AXIS ) );
 	}

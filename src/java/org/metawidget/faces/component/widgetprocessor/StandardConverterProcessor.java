@@ -55,7 +55,7 @@ public class StandardConverterProcessor
 	//
 
 	@Override
-	public UIComponent onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		// Actions don't get converters
 
@@ -70,7 +70,7 @@ public class StandardConverterProcessor
 
 			for ( UIComponent componentChild : children )
 			{
-				onAdd( componentChild, elementName, attributes, metawidget );
+				processWidget( componentChild, elementName, attributes, metawidget );
 			}
 
 			return component;

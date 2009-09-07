@@ -33,7 +33,6 @@ import javax.faces.component.html.HtmlColumn;
 import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlCommandLink;
 import javax.faces.component.html.HtmlDataTable;
-import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
@@ -114,10 +113,6 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( FACES_LOOKUP, "#{foo.bar}" );
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
-		stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget );
-		assertTrue( 2 == stub.getChildCount() );
-		assertTrue( stub.getChildren().get( 1 ) instanceof HtmlOutputText );
-		assertTrue( stub.getChildren().get( 0 ) instanceof HtmlInputHidden );
 		attributes.remove( FACES_LOOKUP );
 
 		// Other types
@@ -171,7 +166,7 @@ public class HtmlWidgetBuilderTest
 		// Other collections
 
 		attributes.put( TYPE, Set.class.getName() );
-		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlInputHidden );
+		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ) instanceof HtmlOutputText );
 
 		// Unsupport types
 

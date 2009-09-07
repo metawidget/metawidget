@@ -34,11 +34,9 @@ public interface Layout<W, M extends W>
 	// Methods
 	//
 
-	// TODO: when no errors, rename this to startLayout like startBuild
-
-	void layoutBegin( M metawidget );
+	void startLayout( M metawidget );
 
 	void layoutChild( W widget, Map<String, String> attributes, M metawidget );
 
-	void layoutEnd( M metawidget );
+	void endLayout( M metawidget );
 }

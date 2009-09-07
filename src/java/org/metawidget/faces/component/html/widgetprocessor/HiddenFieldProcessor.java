@@ -31,10 +31,11 @@ import org.metawidget.faces.component.UIStub;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
- * WidgetProcessor that adds a hidden input field for hidden values.
+ * WidgetProcessor that adds HTML <code>&lt;input type="hidden"&gt;</code> tags to hidden and
+ * read-only values, so that they POST back.
  * <p>
- * Note: passing values via <code>&lt;input type="hidden"&gt;</code> tags is a potential security
- * risk: they can be modified by malicious clients before being returned to the server.
+ * Note: passing values via hidden tags is a potential security risk: they can be modified by
+ * malicious clients before being returned to the server.
  *
  * @author Richard Kennard
  */
@@ -47,16 +48,21 @@ public class HiddenFieldProcessor
 	//
 
 	@Override
-	public UIComponent onAdd( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
-		// Attributes without setters cannot use a hidden field
+		// Ignore nested Metawidgets
 
-		if ( TRUE.equals( attributes.get( NO_SETTER )))
+		if ( component instanceof UIMetawidget )
 			return component;
 
 		// UIInputs do not need a hidden field (they already POST back)
 
 		if ( component instanceof UIInput )
+			return component;
+
+		// Attributes without setters cannot use a hidden field
+
+		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
 			return component;
 
 		Application application = FacesContext.getCurrentInstance().getApplication();

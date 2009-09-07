@@ -61,7 +61,7 @@ public class FlexTableLayout
 	//
 
 	@Override
-	public void layoutBegin( GwtMetawidget metawidget )
+	public void startLayout( GwtMetawidget metawidget )
 	{
 		metawidget.putClientProperty( FlexTableLayout.class, null );
 
@@ -248,7 +248,7 @@ public class FlexTableLayout
 	}
 
 	@Override
-	public void layoutEnd( GwtMetawidget metawidget )
+	public void endLayout( GwtMetawidget metawidget )
 	{
 		Facet facet = metawidget.getFacet( "buttons" );
 

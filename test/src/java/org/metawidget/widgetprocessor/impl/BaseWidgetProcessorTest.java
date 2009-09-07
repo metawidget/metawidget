@@ -41,7 +41,7 @@ public class BaseWidgetProcessorTest
 		BaseWidgetProcessor<?, ?> widgetProcessor = new BaseWidgetProcessor<JComponent, SwingMetawidget>()
 		{
 			@Override
-			public JComponent onAdd( JComponent widget, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+			public JComponent processWidget( JComponent widget, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 			{
 				return widget;
 			}
