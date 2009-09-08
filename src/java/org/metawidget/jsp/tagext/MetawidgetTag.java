@@ -515,6 +515,7 @@ public abstract class MetawidgetTag
 		return xml;
 	}
 
+	@SuppressWarnings( "unchecked" )
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
@@ -536,7 +537,7 @@ public abstract class MetawidgetTag
 			if ( mConfig != null )
 				configReader.configure( mConfig, this );
 
-			mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration() );
+			mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration(), (Class) MetawidgetTag.class );
 		}
 		catch ( Exception e )
 		{
@@ -671,7 +672,7 @@ public abstract class MetawidgetTag
 		@Override
 		protected MetawidgetMixin<Object, Object> getNestedMixin( Object metawidget )
 		{
-			return ((MetawidgetTag) metawidget).getMetawidgetMixin();
+			return ( (MetawidgetTag) metawidget ).getMetawidgetMixin();
 		}
 	}
 }

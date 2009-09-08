@@ -68,36 +68,37 @@ public abstract class MetawidgetMixin<W, M extends W>
 
 	/**
 	 * Uses the given <code>ConfigReader</code> to configure a default Inspector (
-	 * <code>setInspector</code>), WidgetBuilder (<code>setWidgetBuilder</code>), list of WidgetProcessors
-	 * (<code>setWidgetProcessors</code>) and a Layout (<code>setLayout</code>).
+	 * <code>setInspector</code>), WidgetBuilder (<code>setWidgetBuilder</code>), list of
+	 * WidgetProcessors (<code>setWidgetProcessors</code>) and a Layout (<code>setLayout</code>).
+	 *
+	 * @param metawidgetClass
+	 *            the base class of the Metawidget. This is different from
+	 *            getMixinOwner().getClass(), as that will return the instance (and therefore potentially a subclass)
 	 */
 
-	public void configureDefaults( ConfigReader configReader, String configuration )
+	public void configureDefaults( ConfigReader configReader, String configuration, Class<M> metawidgetClass )
 	{
-		@SuppressWarnings( "unchecked" )
-		Class<M> mixinOwnerClass = (Class<M>) getMixinOwner().getClass();
-
 		if ( getInspector() == null )
 		{
-			M dummyMetawidget = configReader.configure( configuration, mixinOwnerClass, "inspector" );
+			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "inspector" );
 			setInspector( getNestedMixin( dummyMetawidget ).getInspector() );
 		}
 
 		if ( getWidgetBuilder() == null )
 		{
-			M dummyMetawidget = configReader.configure( configuration, mixinOwnerClass, "widgetBuilder" );
+			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "widgetBuilder" );
 			setWidgetBuilder( getNestedMixin( dummyMetawidget ).getWidgetBuilder() );
 		}
 
 		if ( getWidgetProcessors() == null )
 		{
-			M dummyMetawidget = configReader.configure( configuration, mixinOwnerClass, "widgetProcessors" );
+			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "widgetProcessors" );
 			setWidgetProcessors( getNestedMixin( dummyMetawidget ).getWidgetProcessors() );
 		}
 
 		if ( getLayout() == null )
 		{
-			M dummyMetawidget = configReader.configure( configuration, mixinOwnerClass, "layout" );
+			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "layout" );
 			setLayout( getNestedMixin( dummyMetawidget ).getLayout() );
 		}
 	}

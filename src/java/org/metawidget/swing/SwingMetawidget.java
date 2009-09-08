@@ -826,7 +826,7 @@ public class SwingMetawidget
 			if ( mConfig != null )
 				CONFIG_READER.configure( mConfig, this );
 
-			mMetawidgetMixin.configureDefaults( CONFIG_READER, DEFAULT_CONFIG );
+			mMetawidgetMixin.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwingMetawidget.class );
 
 			// SwingMetawidget uses setMetawidgetLayout, not setLayout
 

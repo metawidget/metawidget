@@ -25,6 +25,7 @@
 				<requiredAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 				<immediateAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 				<standardBindingProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
+				<readableIdProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 				<standardValidatorProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 				<standardConverterProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 				<cssStyleProcessor xmlns="java:org.metawidget.faces.component.html.widgetprocessor"/>

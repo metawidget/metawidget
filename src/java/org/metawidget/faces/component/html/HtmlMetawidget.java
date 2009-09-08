@@ -112,7 +112,7 @@ public class HtmlMetawidget
 	}
 
 	/**
-	 * Overriden to carry the hidden fields flag and other attributes into the nested Metawidget.
+	 * Overriden to carry style attributes into the nested Metawidget.
 	 */
 
 	@Override

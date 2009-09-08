@@ -19,10 +19,8 @@ package org.metawidget.faces.component.widgetprocessor;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.faces.application.Application;
 import javax.faces.component.ActionSource;
@@ -34,7 +32,6 @@ import javax.faces.el.ValueBinding;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
@@ -51,12 +48,6 @@ public class StandardBindingProcessor
 	//
 	// Public methods
 	//
-
-	@Override
-	public void onStartBuild( UIMetawidget metawidget )
-	{
-		metawidget.getClientProperty( StandardBindingProcessor.class );
-	}
 
 	@Override
 	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
@@ -104,17 +95,7 @@ public class StandardBindingProcessor
 				}
 
 				if ( methodBinding != null )
-				{
 					actionSource.setAction( methodBinding );
-
-					// Does widget need an id?
-					//
-					// Note: it is very dangerous to reassign an id if the widget already has one,
-					// as it will create duplicates in the child component list
-
-					if ( component.getId() == null )
-						setUniqueId( context, component, methodBinding.getExpressionString(), metawidget );
-				}
 			}
 
 			return component;
@@ -170,14 +151,6 @@ public class StandardBindingProcessor
 
 					attachValueBinding( component, application.createValueBinding( valueBindingExpression ), attributes );
 				}
-
-				// Does widget need an id?
-				//
-				// Note: it is very dangerous to reassign an id if the widget already has one,
-				// as it will create duplicates in the child component list
-
-				if ( component.getId() == null )
-					setUniqueId( context, component, valueBindingExpression, metawidget );
 			}
 		}
 
@@ -187,86 +160,6 @@ public class StandardBindingProcessor
 	//
 	// Private methods
 	//
-
-	/**
-	 * Unlike <code>UIViewRoot.createUniqueId</code>, tries to make the Id human readable, both for
-	 * debugging purposes and for when running unit tests (using, say, WebTest).
-	 * <p>
-	 * This method is not separated out into, say, FacesUtils because we want subclasses to be able
-	 * to override it.
-	 * <p>
-	 * Subclasses can override this method to use <code>UIViewRoot.createUniqueId</code> if
-	 * preferred. They can even override it to assign a different, random id to a component each
-	 * time it is generated. This is a great way to fox hackers who are trying to POST back
-	 * pre-generated payloads of HTTP fields (ie. CSRF attacks).
-	 */
-
-	protected void setUniqueId( FacesContext context, UIComponent component, String expressionString, UIMetawidget metawidget )
-	{
-		// Avoid duplicates
-
-		Set<String> clientIds = metawidget.getClientProperty( StandardBindingProcessor.class );
-
-		if ( clientIds == null )
-		{
-			clientIds = CollectionUtils.newHashSet();
-
-			Iterator<UIComponent> iteratorFacetsAndChildren = context.getViewRoot().getFacetsAndChildren();
-			gatherClientIds( iteratorFacetsAndChildren, clientIds );
-		}
-
-		// Create our ideal Id
-
-		String idealId = StringUtils.camelCase( FacesUtils.unwrapExpression( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
-
-		// Suffix nested Metawidgets, because otherwise if they only expand to a single child they
-		// will give that child component a '_2' suffixed id
-
-		if ( component instanceof UIMetawidget )
-			idealId += "_Metawidget";
-
-		// Convert to an actual, valid id (avoid conflicts)
-
-		String actualId = idealId;
-		int duplicateId = 1;
-
-		while ( true )
-		{
-			if ( clientIds.add( actualId ) )
-				break;
-
-			duplicateId++;
-			actualId = idealId + '_' + duplicateId;
-		}
-
-		// Support stubs
-
-		if ( component instanceof UIStub )
-		{
-			List<UIComponent> children = component.getChildren();
-
-			if ( !children.isEmpty() )
-			{
-				int childId = 1;
-
-				for ( UIComponent componentChild : children )
-				{
-					if ( childId > 1 )
-						componentChild.setId( actualId + '_' + childId );
-					else
-						componentChild.setId( actualId );
-
-					childId++;
-				}
-
-				return;
-			}
-		}
-
-		// Set Id
-
-		component.setId( actualId );
-	}
 
 	/**
 	 * Attach value binding for component.
@@ -317,23 +210,5 @@ public class StandardBindingProcessor
 		// Set binding
 
 		widget.setValueExpression( "value", (javax.el.ValueExpression) valueExpression );
-	}
-
-	/**
-	 * Gathers client ids of existing children, so as to avoid naming clashes.
-	 */
-
-	private void gatherClientIds( Iterator<UIComponent> iteratorFacetsAndChildren, Set<String> clientIds )
-	{
-		for ( ; iteratorFacetsAndChildren.hasNext(); )
-		{
-			UIComponent component = iteratorFacetsAndChildren.next();
-			String id = component.getId();
-
-			if ( id != null )
-				clientIds.add( id );
-
-			gatherClientIds( component.getFacetsAndChildren(), clientIds );
-		}
 	}
 }

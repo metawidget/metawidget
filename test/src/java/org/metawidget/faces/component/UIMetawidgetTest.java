@@ -135,12 +135,12 @@ public class UIMetawidgetTest
 	{
 		UIMetawidget metawidget = new HtmlMetawidget();
 		HtmlOutputText recreatableComponent1 = new HtmlOutputText();
-		recreatableComponent1.getAttributes().put( "metawidget-created-by", "true" );
+		recreatableComponent1.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, "something" );
 		HtmlOutputText notRecreatableComponent = new HtmlOutputText();
-		notRecreatableComponent.getAttributes().put( "metawidget-created-by", "true" );
+		notRecreatableComponent.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, "something" );
 		notRecreatableComponent.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE, "true" );
 		HtmlOutputText recreatableComponent2 = new HtmlOutputText();
-		recreatableComponent2.getAttributes().put( "metawidget-created-by", "true" );
+		recreatableComponent2.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, "something" );
 
 		metawidget.getChildren().add( recreatableComponent1 );
 		metawidget.getChildren().add( notRecreatableComponent );

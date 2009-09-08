@@ -74,7 +74,7 @@ public abstract class UIMetawidget
 	 * Component-level attribute used to store metadata.
 	 */
 
-	public final static String	COMPONENT_ATTRIBUTE_METADATA				= "metawidget-metadata";
+	public final static String	COMPONENT_ATTRIBUTE_METADATA		= "metawidget-metadata";
 
 	/**
 	 * Component-level attribute used to prevent recreation.
@@ -94,15 +94,13 @@ public abstract class UIMetawidget
 	 * prevent their destruction and recreation. Of course, this somewhat impacts their flexibility.
 	 * For example, a <code>SelectInputDate</code> could not change its date format in response to
 	 * another component on the form.
+	 * <p>
+	 * <code>COMPONENT_ATTRIBUTE_NOT_RECREATABLE</code> is also used to mark components that
+	 * override default component generation, such as a <code>UIStub</code> used to suppress a
+	 * field.
 	 */
 
-	public final static String	COMPONENT_ATTRIBUTE_NOT_RECREATABLE			= "metawidget-not-recreatable";
-
-	/**
-	 * Component-level attribute used to tag components as being created by Metawidget.
-	 */
-
-	public final static String	COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET	= "metawidget-created-by";
+	public final static String	COMPONENT_ATTRIBUTE_NOT_RECREATABLE	= "metawidget-not-recreatable";
 
 	//
 	// Private statics
@@ -112,7 +110,7 @@ public abstract class UIMetawidget
 	 * Application-level attribute used to cache ConfigReader.
 	 */
 
-	private final static String	APPLICATION_ATTRIBUTE_CONFIG_READER			= "metawidget-config-reader";
+	private final static String	APPLICATION_ATTRIBUTE_CONFIG_READER	= "metawidget-config-reader";
 
 	//
 	// Private members
@@ -120,9 +118,9 @@ public abstract class UIMetawidget
 
 	private Object				mValue;
 
-	private String				mConfig										= "metawidget.xml";
+	private String				mConfig								= "metawidget.xml";
 
-	private boolean				mNeedsConfiguring							= true;
+	private boolean				mNeedsConfiguring					= true;
 
 	private boolean				mInspectFromParent;
 
@@ -412,8 +410,7 @@ public abstract class UIMetawidget
 		try
 		{
 			// Validation error? Do not rebuild, as we will lose the invalid values in the
-			// components.
-			// Instead, just move along to our renderer
+			// components. Instead, just move along to our renderer
 
 			if ( context.getMaximumSeverity() != null )
 			{
@@ -600,7 +597,7 @@ public abstract class UIMetawidget
 		if ( mConfig != null )
 			configReader.configure( mConfig, this );
 
-		mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration() );
+		mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration(), UIMetawidget.class );
 	}
 
 	protected abstract String getDefaultConfiguration();
@@ -620,20 +617,29 @@ public abstract class UIMetawidget
 		for ( Iterator<UIComponent> i = children.iterator(); i.hasNext(); )
 		{
 			UIComponent componentChild = i.next();
-
 			Map<String, Object> attributes = componentChild.getAttributes();
 
-			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) && !attributes.containsKey( COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) )
+			// The first time in, children will have no metadata attached. Use this opportunity
+			// to tag the initial children so that we never recreate them
+
+			if ( !attributes.containsKey( COMPONENT_ATTRIBUTE_METADATA ) )
 			{
-				i.remove();
+				attributes.put( COMPONENT_ATTRIBUTE_NOT_RECREATABLE, true );
 				continue;
 			}
 
-			// If we did not create the component at least remove its metadata. This is important as
-			// otherwise ad-hoc components (ie. those not directly descended from our value binding)
-			// are not removed/re-added (and therefore re-ordered) upon POSTback
+			// Do not remove locked or overridden components...
 
-			attributes.remove( COMPONENT_ATTRIBUTE_METADATA );
+			if ( attributes.containsKey( COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) )
+			{
+				// ...but always remove their metadata, otherwise
+				// they will not be removed/re-added (and therefore re-ordered) upon POSTback
+
+				attributes.remove( COMPONENT_ATTRIBUTE_METADATA );
+				continue;
+			}
+
+			i.remove();
 		}
 	}
 
@@ -719,10 +725,12 @@ public abstract class UIMetawidget
 			}
 			else
 			{
-				// Manually created components with no found metadata default to no section
+				// If no found metadata, default to no section.
+				//
+				// This is so if a user puts, say, a <t:div/> in the component tree, it doesn't appear inside
+				// an existing section
 
-				if ( !miscAttributes.containsKey( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) )
-					childAttributes.put( SECTION, "" );
+				childAttributes.put( SECTION, "" );
 			}
 
 			// Stubs
@@ -780,12 +788,6 @@ public abstract class UIMetawidget
 		// the attributes map as a storage area for special flags (eg.
 		// ComponentSupport.MARK_CREATED) that should not get copied down from component to
 		// component!
-	}
-
-	protected void putMetadata( UIComponent widget, Map<String, String> attributes )
-	{
-		Map<String, Object> componentAttributes = widget.getAttributes();
-		componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
 	}
 
 	/**
@@ -870,21 +872,6 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected UIComponent buildWidget( String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			UIComponent component = super.buildWidget( elementName, attributes );
-
-			if ( component != null )
-			{
-				Map<String, Object> componentAttributes = component.getAttributes();
-				componentAttributes.put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
-			}
-
-			return component;
-		}
-
-		@Override
 		protected UIMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
@@ -898,7 +885,9 @@ public abstract class UIMetawidget
 		protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
 			throws Exception
 		{
-			putMetadata( widget, attributes );
+			Map<String, Object> componentAttributes = widget.getAttributes();
+			componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
+
 			UIMetawidget.this.addWidget( widget );
 		}
 

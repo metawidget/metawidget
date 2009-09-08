@@ -39,6 +39,7 @@
 			<list>
 				<requiredAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 				<standardBindingProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
+				<readableIdProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 			</list>
 		</widgetProcessors>
 		

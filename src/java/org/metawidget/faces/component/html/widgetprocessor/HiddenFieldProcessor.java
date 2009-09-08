@@ -60,16 +60,30 @@ public class HiddenFieldProcessor
 		if ( component instanceof UIInput )
 			return component;
 
+		// Ignore nested Metawidgets
+
+		if ( component instanceof UIMetawidget )
+			return component;
+
 		// Attributes without setters cannot use a hidden field
 
 		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
 			return component;
 
-		// Ignore manually overridden components (and nested Metawidgets)
+		// Ignore manually overridden components
 
-		if ( !component.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) )
+		if ( component.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE ) )
 			return component;
 
+		return wrapWithHiddenField( component, attributes );
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected UIComponent wrapWithHiddenField( UIComponent component, Map<String, String> attributes )
+	{
 		Application application = FacesContext.getCurrentInstance().getApplication();
 
 		// Empty stubs become hidden fields directly

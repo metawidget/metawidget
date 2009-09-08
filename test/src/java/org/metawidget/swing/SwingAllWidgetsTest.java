@@ -571,6 +571,10 @@ public class SwingAllWidgetsTest
 
 		assertTrue( metawidget.getComponentCount() == 61 );
 
-		// TODO: check Binding.onStartBuild
+		// Test Binding.onStartBuild clears the state
+
+		assertTrue( null != metawidget.getClientProperty( processor.getClass() ));
+		processor.onStartBuild( metawidget );
+		assertTrue( null == metawidget.getClientProperty( processor.getClass() ));
 	}
 }
