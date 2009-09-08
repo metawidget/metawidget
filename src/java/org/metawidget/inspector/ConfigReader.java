@@ -951,7 +951,7 @@ public class ConfigReader
 		{
 			Class<?> classToConstruct = classForName( uri, localName );
 
-			// Immutable and Threadsafe?
+			// Immutable and Threadsafe? Don't re-parse
 
 			if ( mStoreAsElement == -1 && isImmutableThreadsafe( classToConstruct ) )
 			{

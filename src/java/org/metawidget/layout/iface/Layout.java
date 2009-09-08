@@ -34,9 +34,28 @@ public interface Layout<W, M extends W>
 	// Methods
 	//
 
+	/**
+	 * @param metawidget
+	 *            the parent Metawidget. Never null
+	 */
+
 	void startLayout( M metawidget );
 
+	/**
+	 * @param widget
+	 *            the widget to layout. Never null
+	 * @param attributes
+	 *            attributes of the widget to layout. Never null
+	 * @param metawidget
+	 *            the parent Metawidget. Never null
+	 */
+
 	void layoutChild( W widget, Map<String, String> attributes, M metawidget );
+
+	/**
+	 * @param metawidget
+	 *            the parent Metawidget. Never null
+	 */
 
 	void endLayout( M metawidget );
 }

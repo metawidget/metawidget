@@ -18,6 +18,7 @@ package org.metawidget.mixin.w3c;
 
 import java.util.Map;
 
+import org.metawidget.inspector.ConfigReader;
 import org.metawidget.mixin.base.BaseMetawidgetMixin;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -65,6 +66,42 @@ public abstract class MetawidgetMixin<W, M extends W>
 		return null;
 	}
 
+	/**
+	 * Uses the given <code>ConfigReader</code> to configure a default Inspector (
+	 * <code>setInspector</code>), WidgetBuilder (<code>setWidgetBuilder</code>), list of WidgetProcessors
+	 * (<code>setWidgetProcessors</code>) and a Layout (<code>setLayout</code>).
+	 */
+
+	public void configureDefaults( ConfigReader configReader, String configuration )
+	{
+		@SuppressWarnings( "unchecked" )
+		Class<M> mixinOwnerClass = (Class<M>) getMixinOwner().getClass();
+
+		if ( getInspector() == null )
+		{
+			M dummyMetawidget = configReader.configure( configuration, mixinOwnerClass, "inspector" );
+			setInspector( getNestedMixin( dummyMetawidget ).getInspector() );
+		}
+
+		if ( getWidgetBuilder() == null )
+		{
+			M dummyMetawidget = configReader.configure( configuration, mixinOwnerClass, "widgetBuilder" );
+			setWidgetBuilder( getNestedMixin( dummyMetawidget ).getWidgetBuilder() );
+		}
+
+		if ( getWidgetProcessors() == null )
+		{
+			M dummyMetawidget = configReader.configure( configuration, mixinOwnerClass, "widgetProcessors" );
+			setWidgetProcessors( getNestedMixin( dummyMetawidget ).getWidgetProcessors() );
+		}
+
+		if ( getLayout() == null )
+		{
+			M dummyMetawidget = configReader.configure( configuration, mixinOwnerClass, "layout" );
+			setLayout( getNestedMixin( dummyMetawidget ).getLayout() );
+		}
+	}
+
 	//
 	// Protected methods
 	//
@@ -99,4 +136,6 @@ public abstract class MetawidgetMixin<W, M extends W>
 	{
 		return XmlUtils.getAttributesAsMap( element );
 	}
+
+	protected abstract MetawidgetMixin<W, M> getNestedMixin( M metawidget );
 }

@@ -50,9 +50,9 @@ public class HiddenFieldProcessor
 	@Override
 	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
-		// Ignore nested Metawidgets
+		// Ignore actions
 
-		if ( component instanceof UIMetawidget )
+		if ( ACTION.equals( elementName ) )
 			return component;
 
 		// UIInputs do not need a hidden field (they already POST back)
@@ -63,6 +63,11 @@ public class HiddenFieldProcessor
 		// Attributes without setters cannot use a hidden field
 
 		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+			return component;
+
+		// Ignore manually overridden components (and nested Metawidgets)
+
+		if ( !component.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET ) )
 			return component;
 
 		Application application = FacesContext.getCurrentInstance().getApplication();

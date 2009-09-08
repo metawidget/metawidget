@@ -34,5 +34,14 @@ public interface WidgetBuilder<W, M extends W>
 	// Methods
 	//
 
+	/**
+	 * @param elementName
+	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'. Never null
+	 * @param attributes
+	 *            attributes of the business field to build a widget for. Never null
+	 * @param metawidget
+	 *            the parent Metawidget. Never null
+	 */
+
 	W buildWidget( String elementName, Map<String, String> attributes, M metawidget );
 }

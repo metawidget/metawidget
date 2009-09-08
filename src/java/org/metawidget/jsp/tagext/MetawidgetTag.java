@@ -536,25 +536,7 @@ public abstract class MetawidgetTag
 			if ( mConfig != null )
 				configReader.configure( mConfig, this );
 
-			// Sensible defaults
-
-			if ( mMetawidgetMixin.getInspector() == null )
-			{
-				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "inspector" );
-				mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
-			}
-
-			if ( mMetawidgetMixin.getWidgetBuilder() == null )
-			{
-				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "widgetBuilder" );
-				mMetawidgetMixin.setWidgetBuilder( dummyMetawidget.mMetawidgetMixin.getWidgetBuilder() );
-			}
-
-			if ( mMetawidgetMixin.getLayout() == null )
-			{
-				MetawidgetTag dummyMetawidget = configReader.configure( getDefaultConfiguration(), MetawidgetTag.class, "layout" );
-				mMetawidgetMixin.setLayout( dummyMetawidget.mMetawidgetMixin.getLayout() );
-			}
+			mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration() );
 		}
 		catch ( Exception e )
 		{
@@ -625,13 +607,13 @@ public abstract class MetawidgetTag
 					return;
 
 				MetawidgetTag.this.addWidget( stubContent, elementName, attributes );
-				super.addWidget( stubContent, elementName, attributes );
 			}
 			else
 			{
 				MetawidgetTag.this.addWidget( (String) widget, elementName, attributes );
-				super.addWidget( widget, elementName, attributes );
 			}
+
+			super.addWidget( widget, elementName, attributes );
 		}
 
 		@Override
@@ -684,6 +666,12 @@ public abstract class MetawidgetTag
 		protected MetawidgetTag getMixinOwner()
 		{
 			return MetawidgetTag.this;
+		}
+
+		@Override
+		protected MetawidgetMixin<Object, Object> getNestedMixin( Object metawidget )
+		{
+			return ((MetawidgetTag) metawidget).getMetawidgetMixin();
 		}
 	}
 }

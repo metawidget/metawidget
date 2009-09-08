@@ -63,11 +63,12 @@ public class StandardBindingProcessor
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
+		String name = attributes.get( NAME );
 
-		// Bind actions
-
-		ValueBinding metawidgetValueBinding = component.getValueBinding( "value" );
+		ValueBinding metawidgetValueBinding = metawidget.getValueBinding( "value" );
 		String facesExpression = attributes.get( FACES_EXPRESSION );
+
+		// Bind actions (if no action binding already)
 
 		if ( ACTION.equals( elementName ) )
 		{
@@ -83,17 +84,22 @@ public class StandardBindingProcessor
 					methodBinding = application.createMethodBinding( facesExpression, null );
 				}
 
-				// ...otherwise try and construct the binding
+				// ...otherwise try and construct a binding...
 
-				else
+				else if ( name != null && !"".equals( name ) )
 				{
-					String name = attributes.get( NAME );
-
-					if ( metawidgetValueBinding != null && name != null && !"".equals( name ) )
+					if ( metawidgetValueBinding != null )
 					{
 						String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
 						facesExpression = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + name );
 						methodBinding = application.createMethodBinding( facesExpression, null );
+					}
+
+					// ...or just use the raw value (for jBPM)
+
+					else
+					{
+						methodBinding = application.createMethodBinding( name, null );
 					}
 				}
 
@@ -114,67 +120,65 @@ public class StandardBindingProcessor
 			return component;
 		}
 
-		// Bind properties
+		// Bind properties (if no value binding already)
 
-		// If there is a faces-expression, use it...
+		ValueBinding valueBinding = component.getValueBinding( "value" );
 
-		String valueBindingExpression = facesExpression;
-
-		if ( valueBindingExpression == null )
+		if ( valueBinding == null )
 		{
-			ValueBinding valueBinding = component.getValueBinding( "value" );
+			// If there is a faces-expression, use it...
 
-			// ...if we are at the top level...
+			String valueBindingExpression = facesExpression;
 
-			if ( ENTITY.equals( elementName ) )
+			if ( valueBindingExpression == null )
 			{
-				if ( valueBinding != null )
-					valueBindingExpression = valueBinding.getExpressionString();
-			}
+				// ...if we are at the top level...
 
-			// ...if we are not at the top level, try and construct the binding
-
-			else
-			{
-				String name = attributes.get( NAME );
-
-				if ( name != null && !"".equals( name ) )
+				if ( ENTITY.equals( elementName ) )
 				{
-					String facesExpressionPrefix = FacesUtils.unwrapExpression( valueBinding.getExpressionString() );
-					facesExpression = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + name );
+					if ( metawidgetValueBinding != null )
+						valueBindingExpression = metawidgetValueBinding.getExpressionString();
+				}
+
+				// ...if we are not at the top level, try and construct the binding
+
+				else if ( metawidgetValueBinding != null && name != null && !"".equals( name ) )
+				{
+					String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
+					valueBindingExpression = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + name );
 				}
 			}
-		}
 
-		if ( valueBindingExpression != null )
-		{
-			try
+			if ( valueBindingExpression != null )
 			{
-				// JSF 1.2 mode: some components (such as
-				// org.jboss.seam.core.Validators.validate()) expect ValueExpressions and do
-				// not work with ValueBindings (see JBSEAM-3252)
+				try
+				{
+					// JSF 1.2 mode: some components (such as
+					// org.jboss.seam.core.Validators.validate()) expect ValueExpressions and do
+					// not work with ValueBindings (see JBSEAM-3252)
+					//
+					// Note: we wrap the ValueExpression as an Object[] to stop link-time
+					// dependencies on javax.el.ValueExpression, so that we still work with
+					// JSF 1.1
+
+					Object[] valueExpression = new Object[] { application.getExpressionFactory().createValueExpression( context.getELContext(), valueBindingExpression, Object.class ) };
+					attachValueExpression( component, valueExpression[0], attributes );
+				}
+				catch ( NoSuchMethodError e )
+				{
+					// JSF 1.1 mode
+
+					attachValueBinding( component, application.createValueBinding( valueBindingExpression ), attributes );
+				}
+
+				// Does widget need an id?
 				//
-				// Note: we wrap the ValueExpression as an Object[] to stop link-time
-				// dependencies on javax.el.ValueExpression, so that we still work with
-				// JSF 1.1
+				// Note: it is very dangerous to reassign an id if the widget already has one,
+				// as it will create duplicates in the child component list
 
-				Object[] valueExpression = new Object[] { application.getExpressionFactory().createValueExpression( context.getELContext(), valueBindingExpression, Object.class ) };
-				attachValueExpression( component, valueExpression[0], attributes );
+				if ( component.getId() == null )
+					setUniqueId( context, component, valueBindingExpression, metawidget );
 			}
-			catch ( NoSuchMethodError e )
-			{
-				// JSF 1.1 mode
-
-				attachValueBinding( component, application.createValueBinding( valueBindingExpression ), attributes );
-			}
-
-			// Does widget need an id?
-			//
-			// Note: it is very dangerous to reassign an id if the widget already has one,
-			// as it will create duplicates in the child component list
-
-			if ( component.getId() == null )
-				setUniqueId( context, component, valueBindingExpression, metawidget );
 		}
 
 		return component;

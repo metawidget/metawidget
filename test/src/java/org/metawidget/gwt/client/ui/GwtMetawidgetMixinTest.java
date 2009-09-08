@@ -18,9 +18,6 @@ package org.metawidget.gwt.client.ui;
 
 import java.util.Map;
 
-import org.metawidget.gwt.client.ui.GwtMetawidget;
-import org.metawidget.gwt.client.ui.GwtMetawidgetMixin;
-
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.xml.client.Element;
 

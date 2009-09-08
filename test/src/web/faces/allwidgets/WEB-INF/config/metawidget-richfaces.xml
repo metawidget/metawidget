@@ -28,6 +28,13 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<widgetProcessors>
+			<list>
+				<hiddenFieldProcessor xmlns="java:org.metawidget.faces.component.html.widgetprocessor"/>
+				<standardBindingProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
+				<cssStyleProcessor xmlns="java:org.metawidget.faces.component.html.widgetprocessor"/>
+			</list>
+		</widgetProcessors>		
 	</htmlMetawidget>
 
 </metawidget>

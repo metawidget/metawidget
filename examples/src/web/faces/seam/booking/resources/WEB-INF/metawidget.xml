@@ -40,6 +40,7 @@
 		<widgetProcessors>
 			<list>
 				<requiredAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
+				<standardBindingProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>			
 				<standardConverterProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 			</list>
 		</widgetProcessors>

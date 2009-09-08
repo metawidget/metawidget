@@ -67,35 +67,35 @@ public class SwingMetawidget
 	// Private statics
 	//
 
-	private final static long								serialVersionUID	= 1l;
+	private final static long			serialVersionUID	= 1l;
 
-	private final static ConfigReader						CONFIG_READER		= new ConfigReader();
+	private final static ConfigReader	CONFIG_READER		= new ConfigReader();
 
-	private final static String								DEFAULT_CONFIG		= "org/metawidget/swing/metawidget-swing-default.xml";
+	private final static String			DEFAULT_CONFIG		= "org/metawidget/swing/metawidget-swing-default.xml";
 
-	private final static Stroke								STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
+	private final static Stroke			STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
 	// Private members
 	//
 
-	private Object											mToInspect;
+	private Object						mToInspect;
 
-	private String											mPath;
+	private String						mPath;
 
-	private String											mConfig;
+	private String						mConfig;
 
-	private boolean											mNeedsConfiguring	= true;
+	private boolean						mNeedsConfiguring	= true;
 
-	private ResourceBundle									mBundle;
+	private ResourceBundle				mBundle;
 
-	private Map<String, Object>								mParameters;
+	private Map<String, Object>			mParameters;
 
-	private boolean											mNeedToBuildWidgets;
+	private boolean						mNeedToBuildWidgets;
 
-	private String											mLastInspection;
+	private String						mLastInspection;
 
-	private boolean											mIgnoreAddRemove;
+	private boolean						mIgnoreAddRemove;
 
 	/**
 	 * List of existing, manually added components.
@@ -103,7 +103,7 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<JComponent>								mExistingComponents	= CollectionUtils.newArrayList();
+	private List<JComponent>			mExistingComponents	= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -111,11 +111,11 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<JComponent>								mExistingComponentsUnused;
+	private List<JComponent>			mExistingComponentsUnused;
 
-	private Map<String, Facet>								mFacets				= CollectionUtils.newHashMap();
+	private Map<String, Facet>			mFacets				= CollectionUtils.newHashMap();
 
-	private MetawidgetMixin<JComponent, SwingMetawidget>	mMetawidgetMixin;
+	private SwingMetawidgetMixin		mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -231,8 +231,8 @@ public class SwingMetawidget
 	 * Set the layout for this Metawidget.
 	 * <p>
 	 * Named <code>setMetawidgetLayout</code>, rather than the usual <code>setLayout</code>, because
-	 * Swing already defines a <code>setLayout</code>. Overloading Swing's <code>setLayout</code> was
-	 * considered cute, but ultimately confusing and dangerous. For example, what should
+	 * Swing already defines a <code>setLayout</code>. Overloading Swing's <code>setLayout</code>
+	 * was considered cute, but ultimately confusing and dangerous. For example, what should
 	 * <code>setLayout( null )</code> do?
 	 */
 
@@ -707,9 +707,14 @@ public class SwingMetawidget
 	 * instantiate their version.
 	 */
 
-	protected MetawidgetMixin<JComponent, SwingMetawidget> newMetawidgetMixin()
+	protected SwingMetawidgetMixin newMetawidgetMixin()
 	{
 		return new SwingMetawidgetMixin();
+	}
+
+	protected SwingMetawidgetMixin getMetawidgetMixin()
+	{
+		return mMetawidgetMixin;
 	}
 
 	@Override
@@ -821,31 +826,16 @@ public class SwingMetawidget
 			if ( mConfig != null )
 				CONFIG_READER.configure( mConfig, this );
 
-			// Sensible defaults
+			mMetawidgetMixin.configureDefaults( CONFIG_READER, DEFAULT_CONFIG );
 
-			if ( mMetawidgetMixin.getInspector() == null )
-			{
-				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class, "inspector" );
-				mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
-			}
-
-			if ( mMetawidgetMixin.getWidgetBuilder() == null )
-			{
-				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class, "widgetBuilder" );
-				mMetawidgetMixin.setWidgetBuilder( dummyMetawidget.mMetawidgetMixin.getWidgetBuilder() );
-			}
-
-			if ( mMetawidgetMixin.getWidgetProcessors() == null )
-			{
-				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class, "widgetProcessors" );
-				mMetawidgetMixin.setWidgetProcessors( dummyMetawidget.mMetawidgetMixin.getWidgetProcessors() );
-			}
+			// SwingMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( mMetawidgetMixin.getLayout() == null )
 			{
 				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class, "metawidgetLayout" );
-				mMetawidgetMixin.setLayout( dummyMetawidget.mMetawidgetMixin.getLayout() );
+				mMetawidgetMixin.setLayout( dummyMetawidget.getMetawidgetMixin().getLayout() );
 			}
+
 		}
 		catch ( Exception e )
 		{
@@ -1113,6 +1103,12 @@ public class SwingMetawidget
 		protected SwingMetawidget getMixinOwner()
 		{
 			return SwingMetawidget.this;
+		}
+
+		@Override
+		protected MetawidgetMixin<JComponent, SwingMetawidget> getNestedMixin( SwingMetawidget metawidget )
+		{
+			return metawidget.getMetawidgetMixin();
 		}
 	}
 }

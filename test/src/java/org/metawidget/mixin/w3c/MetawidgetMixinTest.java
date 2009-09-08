@@ -20,7 +20,6 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.w3c.dom.Element;
 
 /**
@@ -116,6 +115,12 @@ public class MetawidgetMixinTest
 
 		@Override
 		protected Object getMixinOwner()
+		{
+			return null;
+		}
+
+		@Override
+		protected MetawidgetMixin<Object, Object> getNestedMixin( Object metawidget )
 		{
 			return null;
 		}

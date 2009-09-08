@@ -239,7 +239,10 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			}
 			else
 			{
-				addWidget( widget, elementName, attributes );
+				widget = processWidget( widget, elementName, attributes );
+
+				if ( widget != null )
+					addWidget( widget, elementName, attributes );
 			}
 		}
 
@@ -344,6 +347,15 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 				attributes.putAll( getStubAttributes( widget ) );
 			}
 
+			widget = processWidget( widget, elementName, attributes );
+
+			// A WidgetProcessor could return null to cancel the widget
+
+			// TODO: test this
+
+			if ( widget == null )
+				continue;
+
 			addWidget( widget, elementName, attributes );
 		}
 	}
@@ -387,19 +399,42 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	protected abstract Map<String, String> getStubAttributes( W stub );
 
-	/**
-	 * Builds the widget using our <code>WidgetBuilder</code>.
-	 * <p>
-	 * Subclasses can override this method to substitute the built widget for another. To perform
-	 * post-processing, they should instead use a <code>WidgetProcessor</code>. Those looking to
-	 * perform post-processing on any widget (whether built or overridden) should override
-	 * <code>addWidget</code>.
-	 */
-
 	protected W buildWidget( String elementName, Map<String, String> attributes )
 		throws Exception
 	{
 		return mWidgetBuilder.buildWidget( elementName, attributes, getMixinOwner() );
+	}
+
+	/**
+	 * Process the built widget.
+	 * <p>
+	 * Note: <code>processWidget</code> is called for both widgets returned by
+	 * <code>buildWidget</code> <em>and</em> for manually overridden widgets. This allows widgets to
+	 * be overridden in a 'bare bones' way (ie. just manually specifying the widget itself, without
+	 * having to re-specify bindings, validation etc). Where this causes problems, clients can set a
+	 * flag on the widget to differentiate built ones from overridden ones (for an example, see
+	 * HiddenFieldProcessor).
+	 */
+
+	protected W processWidget( W widget, String elementName, Map<String, String> attributes )
+		throws Exception
+	{
+		W processedWidget = widget;
+
+		if ( mWidgetProcessors != null )
+		{
+			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
+			{
+				processedWidget = widgetProcessor.processWidget( processedWidget, elementName, attributes, getMixinOwner() );
+
+				// A WidgetProcessor could return null to cancel the widget
+
+				if ( processedWidget == null )
+					return null;
+			}
+		}
+
+		return processedWidget;
 	}
 
 	protected abstract M buildNestedMetawidget( Map<String, String> attributes )
@@ -410,18 +445,8 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	protected void addWidget( W widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		W widgetToAdd = widget;
-
-		if ( mWidgetProcessors != null )
-		{
-			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
-			{
-				widgetToAdd = widgetProcessor.processWidget( widgetToAdd, elementName, attributes, getMixinOwner() );
-			}
-		}
-
 		if ( mLayout != null )
-			mLayout.layoutChild( widgetToAdd, attributes, getMixinOwner() );
+			mLayout.layoutChild( widget, attributes, getMixinOwner() );
 	}
 
 	protected void endBuild()

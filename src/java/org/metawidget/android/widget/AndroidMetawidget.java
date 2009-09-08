@@ -474,6 +474,11 @@ public class AndroidMetawidget
 		return new AndroidMetawidgetMixin();
 	}
 
+	protected AndroidMetawidgetMixin getMetawidgetMixin()
+	{
+		return mMetawidgetMixin;
+	}
+
 	@Override
 	protected void onMeasure( int widthMeasureSpec, int heightMeasureSpec )
 	{
@@ -898,6 +903,12 @@ public class AndroidMetawidget
 		protected AndroidMetawidget getMixinOwner()
 		{
 			return AndroidMetawidget.this;
+		}
+
+		@Override
+		protected MetawidgetMixin<View, AndroidMetawidget> getNestedMixin( AndroidMetawidget metawidget )
+		{
+			return metawidget.getMetawidgetMixin();
 		}
 	}
 }

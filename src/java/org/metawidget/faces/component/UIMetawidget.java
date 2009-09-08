@@ -98,15 +98,15 @@ public abstract class UIMetawidget
 
 	public final static String	COMPONENT_ATTRIBUTE_NOT_RECREATABLE			= "metawidget-not-recreatable";
 
-	//
-	// Private statics
-	//
-
 	/**
 	 * Component-level attribute used to tag components as being created by Metawidget.
 	 */
 
-	private final static String	COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET	= "metawidget-created-by";
+	public final static String	COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET	= "metawidget-created-by";
+
+	//
+	// Private statics
+	//
 
 	/**
 	 * Application-level attribute used to cache ConfigReader.
@@ -377,7 +377,8 @@ public abstract class UIMetawidget
 	/**
 	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
 	 * <p>
-	 * Unlike <code>.setAttribute</code>, these values are not serialized by <code>ResponseStateManagerImpl</code>.
+	 * Unlike <code>.setAttribute</code>, these values are not serialized by
+	 * <code>ResponseStateManagerImpl</code>.
 	 */
 
 	public void putClientProperty( Object key, Object value )
@@ -391,7 +392,8 @@ public abstract class UIMetawidget
 	/**
 	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
 	 * <p>
-	 * Unlike <code>.getAttribute</code>, these values are not serialized by <code>ResponseStateManagerImpl</code>.
+	 * Unlike <code>.getAttribute</code>, these values are not serialized by
+	 * <code>ResponseStateManagerImpl</code>.
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -598,25 +600,7 @@ public abstract class UIMetawidget
 		if ( mConfig != null )
 			configReader.configure( mConfig, this );
 
-		// Sensible defaults
-
-		if ( mMetawidgetMixin.getInspector() == null )
-		{
-			UIMetawidget dummyMetawidget = configReader.configure( getDefaultConfiguration(), UIMetawidget.class, "inspector" );
-			mMetawidgetMixin.setInspector( dummyMetawidget.mMetawidgetMixin.getInspector() );
-		}
-
-		if ( mMetawidgetMixin.getWidgetBuilder() == null )
-		{
-			UIMetawidget dummyMetawidget = configReader.configure( getDefaultConfiguration(), UIMetawidget.class, "widgetBuilder" );
-			mMetawidgetMixin.setWidgetBuilder( dummyMetawidget.mMetawidgetMixin.getWidgetBuilder() );
-		}
-
-		if ( mMetawidgetMixin.getWidgetProcessors() == null )
-		{
-			UIMetawidget dummyMetawidget = configReader.configure( getDefaultConfiguration(), UIMetawidget.class, "widgetProcessors" );
-			mMetawidgetMixin.setWidgetProcessors( dummyMetawidget.mMetawidgetMixin.getWidgetProcessors() );
-		}
+		mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration() );
 	}
 
 	protected abstract String getDefaultConfiguration();
@@ -805,78 +789,6 @@ public abstract class UIMetawidget
 	}
 
 	/**
-	 * Attach value binding for component. We only do this for created components.
-	 * <p>
-	 * In addition, if the created component is a <code>UIStub</code>, we set the same value binding
-	 * on <em>all</em> its children (as well as the <code>UIStub</code> itself). This allows us to
-	 * build compound components, such as a <code>HtmlOutputText</code> combined with a
-	 * <code>HtmlInputHidden</code>.
-	 */
-
-	protected void attachValueBinding( UIComponent widget, ValueBinding valueBinding, Map<String, String> attributes )
-	{
-		// Support stubs
-
-		if ( widget instanceof UIStub )
-		{
-			List<UIComponent> children = widget.getChildren();
-
-			for ( UIComponent componentChild : children )
-			{
-				attachValueBinding( componentChild, valueBinding, attributes );
-			}
-		}
-
-		// Set binding
-
-		widget.setValueBinding( "value", valueBinding );
-	}
-
-	/**
-	 * JSF 1.2 version of attachValueBinding.
-	 */
-
-	protected void attachValueExpression( UIComponent widget, Object valueExpression, Map<String, String> attributes )
-	{
-		// Support stubs
-
-		if ( widget instanceof UIStub )
-		{
-			List<UIComponent> children = widget.getChildren();
-
-			for ( UIComponent componentChild : children )
-			{
-				attachValueExpression( componentChild, valueExpression, attributes );
-			}
-		}
-
-		// Set binding
-
-		widget.setValueExpression( "value", (javax.el.ValueExpression) valueExpression );
-	}
-
-	/**
-	 * Attach metadata for renderer. We do this even for manually created components.
-	 */
-
-	protected UIComponent addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
-		throws Exception
-	{
-		if ( widget.getId() == null )
-		{
-			Map<String, Object> componentAttributes = widget.getAttributes();
-			componentAttributes.put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
-		}
-
-		// Add to layout
-
-		putMetadata( widget, attributes );
-		addWidget( widget );
-
-		return widget;
-	}
-
-	/**
 	 * Adds the given widget.
 	 * <p>
 	 * This method does not attach metadata, validators, etc. because it is used for adding both
@@ -885,7 +797,6 @@ public abstract class UIMetawidget
 	 */
 
 	protected void addWidget( UIComponent widget )
-		throws Exception
 	{
 		List<UIComponent> children = getChildren();
 
@@ -941,14 +852,6 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			UIComponent widgetToAdd = UIMetawidget.this.addWidget( widget, elementName, attributes );
-			super.addWidget( widgetToAdd, elementName, attributes );
-		}
-
-		@Override
 		protected UIComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
 		{
 			return UIMetawidget.this.getOverriddenWidget( elementName, attributes );
@@ -967,6 +870,21 @@ public abstract class UIMetawidget
 		}
 
 		@Override
+		protected UIComponent buildWidget( String elementName, Map<String, String> attributes )
+			throws Exception
+		{
+			UIComponent component = super.buildWidget( elementName, attributes );
+
+			if ( component != null )
+			{
+				Map<String, Object> componentAttributes = component.getAttributes();
+				componentAttributes.put( COMPONENT_ATTRIBUTE_CREATED_BY_METAWIDGET, Boolean.TRUE );
+			}
+
+			return component;
+		}
+
+		@Override
 		protected UIMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
@@ -974,6 +892,14 @@ public abstract class UIMetawidget
 			UIMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
 			return nestedMetawidget;
+		}
+
+		@Override
+		protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
+			throws Exception
+		{
+			putMetadata( widget, attributes );
+			UIMetawidget.this.addWidget( widget );
 		}
 
 		@Override
@@ -988,6 +914,12 @@ public abstract class UIMetawidget
 		protected UIMetawidget getMixinOwner()
 		{
 			return UIMetawidget.this;
+		}
+
+		@Override
+		protected MetawidgetMixin<UIComponent, UIMetawidget> getNestedMixin( UIMetawidget metawidget )
+		{
+			return metawidget.getMetawidgetMixin();
 		}
 	}
 }

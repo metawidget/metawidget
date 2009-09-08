@@ -38,6 +38,9 @@ public interface WidgetProcessor<W, M extends W>
 	/**
 	 * Called at the start of the widget building process, before the <code>WidgetBuilder</code> is
 	 * called.
+	 *
+	 * @param metawidget
+	 *            the parent Metawidget. Never null
 	 */
 
 	void onStartBuild( M metawidget );
@@ -46,7 +49,13 @@ public interface WidgetProcessor<W, M extends W>
 	 * Process the given widget. Called after a widget has been built by the
 	 * <code>WidgetBuilder</code>, and before it is added to the <code>Layout</code>.
 	 *
-	 * @return generally the original widget (as was passed in to the first argument). Can be a
+	 * @param widget
+	 *            the widget to process. Never null
+	 * @param attributes
+	 *            attributes of the widget to layout. Never null
+	 * @param metawidget
+	 *            the parent Metawidget. Never null
+	 * @return generally the original widget (as passed in to the first argument). Can be a
 	 *         different widget if the WidgetProcessor wishes to do substitute the original widget
 	 *         for another
 	 */
@@ -56,6 +65,9 @@ public interface WidgetProcessor<W, M extends W>
 	/**
 	 * Called at the end of widget building, after all widgets have been built and added to the
 	 * <code>Layout</code>.
+	 *
+	 * @param metawidget
+	 *            the parent Metawidget. Never null
 	 */
 
 	void onEndBuild( M metawidget );
