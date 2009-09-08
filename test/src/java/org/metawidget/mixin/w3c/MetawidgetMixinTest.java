@@ -16,10 +16,14 @@
 
 package org.metawidget.mixin.w3c;
 
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 import org.w3c.dom.Element;
 
 /**
@@ -33,10 +37,91 @@ public class MetawidgetMixinTest
 	// Public methods
 	//
 
-	public void testMixin()
+	public void testIndentation()
 		throws Exception
 	{
 		new TestMixin().testIndentation();
+	}
+
+	/**
+	 * Returning null from a WidgetProcessor should cancel things gracefully.
+	 */
+
+	public void testWidgetProcessorReturningNull()
+		throws Exception
+	{
+		final List<String> called = CollectionUtils.newArrayList();
+
+		// This little test harness reinforces the minimal relationship between Inspectors
+		// and WidgetBuilders. Here, we are returning Strings not real GUI widgets.
+
+		TestMixin mixin = new TestMixin()
+		{
+			@Override
+			protected void buildCompoundWidget( Element element )
+				throws Exception
+			{
+				called.add( "buildCompoundWidget" );
+				super.buildCompoundWidget( element );
+			}
+
+			@Override
+			protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
+				throws Exception
+			{
+				called.add( "addWidget" );
+				super.addWidget( widget, elementName, attributes );
+			}
+		};
+
+		mixin.setWidgetBuilder( new WidgetBuilder<Object, Object>()
+		{
+
+			@Override
+			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget )
+			{
+				return attributes.get( "type" );
+			}
+		} );
+
+		mixin.addWidgetProcessor( new BaseWidgetProcessor<Object, Object>()
+		{
+
+			@Override
+			public Object processWidget( Object widget, String elementName, Map<String, String> attributes, Object metawidget )
+			{
+				called.add( "WidgetProcessor #1" );
+				return null;
+			}
+		} );
+		mixin.addWidgetProcessor( new BaseWidgetProcessor<Object, Object>()
+		{
+
+			@Override
+			public Object processWidget( Object widget, String elementName, Map<String, String> attributes, Object metawidget )
+			{
+				called.add( "WidgetProcessor #2" );
+				return null;
+			}
+		} );
+
+		// Top-level widget
+
+		mixin.buildWidgets( "<inspection-result><entity type=\"foo\"/></inspection-result>" );
+
+		assertTrue( called.size() == 1 );
+		assertTrue( "WidgetProcessor #1".equals( called.get( 0 ) ) );
+		assertTrue( !called.contains( "WidgetProcessor #2" ) );
+
+		// Property-level widget
+
+		called.clear();
+		mixin.buildWidgets( "<inspection-result><entity><property name=\"foo\" type=\"foo\"/></entity></inspection-result>" );
+
+		assertTrue( called.size() == 2 );
+		assertTrue( "buildCompoundWidget".equals( called.get( 0 ) ) );
+		assertTrue( "WidgetProcessor #1".equals( called.get( 1 ) ) );
+		assertTrue( !called.contains( "WidgetProcessor #2" ) );
 	}
 
 	//
@@ -44,7 +129,7 @@ public class MetawidgetMixinTest
 	//
 
 	static class TestMixin
-		extends MetawidgetMixin<Object,Object>
+		extends MetawidgetMixin<Object, Object>
 	{
 		//
 		// Public methods

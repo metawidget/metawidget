@@ -351,8 +351,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 			// A WidgetProcessor could return null to cancel the widget
 
-			// TODO: test this
-
 			if ( widget == null )
 				continue;
 
