@@ -47,7 +47,7 @@
 
 	<div id="content">
 		
-		<form action="index.jsp" method="POST">
+		<form action="index.jsp" method="post">
 
 			<m:metawidget value="contactSearch" bundle="${bundle}">
 				<m:facet name="footer" styleClass="buttons">

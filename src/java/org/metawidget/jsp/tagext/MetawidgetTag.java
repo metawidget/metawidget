@@ -27,15 +27,13 @@ import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
+import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
-import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.ServletConfigReader;
-import org.metawidget.jsp.tagext.FacetTag.FacetContent;
-import org.metawidget.jsp.tagext.StubTag.StubContent;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
@@ -61,9 +59,9 @@ public abstract class MetawidgetTag
 	// Private statics
 	//
 
-	private final static long				serialVersionUID		= 1l;
+	private final static long					serialVersionUID		= 1l;
 
-	private final static String				CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
+	private final static String					CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
 
 	//
 	// Private members
@@ -76,29 +74,29 @@ public abstract class MetawidgetTag
 	 * <code>property</code> for Spring). Read by <code>WidgetBuilders</code>.
 	 */
 
-	private String							mPath;
+	private String								mPath;
 
 	/**
 	 * Prefix of path to inspect, to support nesting.
 	 */
 
-	private String							mPathPrefix;
+	private String								mPathPrefix;
 
-	private String							mConfig					= "metawidget.xml";
+	private String								mConfig					= "metawidget.xml";
 
-	private boolean							mNeedsConfiguring		= true;
+	private boolean								mNeedsConfiguring		= true;
 
-	private ResourceBundle					mBundle;
+	private ResourceBundle						mBundle;
 
-	private Map<String, String>				mParameters;
+	private Map<String, String>					mParameters;
 
-	private Map<String, FacetContent>		mFacets;
+	private Map<String, FacetTag>				mFacets;
 
-	private Map<String, StubContent>		mStubs;
+	private Map<String, StubTag>				mStubs;
 
-	private Map<Object, Object>				mClientProperties;
+	private Map<Object, Object>					mClientProperties;
 
-	private MetawidgetMixin<Object, Object>	mMetawidgetMixin;
+	private MetawidgetMixin<Tag, MetawidgetTag>	mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -214,7 +212,7 @@ public abstract class MetawidgetTag
 		return mParameters.get( name );
 	}
 
-	public FacetContent getFacet( String name )
+	public FacetTag getFacet( String name )
 	{
 		if ( mFacets == null )
 			return null;
@@ -222,20 +220,20 @@ public abstract class MetawidgetTag
 		return mFacets.get( name );
 	}
 
-	public void setFacet( String name, FacetContent facetContent )
+	public void setFacet( String name, FacetTag facetTag )
 	{
 		if ( mFacets == null )
 			mFacets = CollectionUtils.newHashMap();
 
-		mFacets.put( name, facetContent );
+		mFacets.put( name, facetTag );
 	}
 
-	public void setStub( String path, StubContent stubContent )
+	public void setStub( String path, StubTag stubTag )
 	{
 		if ( mStubs == null )
 			mStubs = CollectionUtils.newHashMap();
 
-		mStubs.put( path, stubContent );
+		mStubs.put( path, stubTag );
 	}
 
 	public boolean isReadOnly()
@@ -271,18 +269,10 @@ public abstract class MetawidgetTag
 	@SuppressWarnings( "unchecked" )
 	public void setLayoutClass( String layoutClass )
 	{
-		// Null layout?
-
-		if ( layoutClass == null || "".equals( layoutClass ) )
-		{
-			setLayout( null );
-			return;
-		}
-
 		// Layouts are immutable and threadsafe, so cache them at the application level
 
 		ServletContext servletContext = this.getPageContext().getServletContext();
-		Map<String, Layout<Object, Object>> cachedLayouts = (Map<String, Layout<Object, Object>>) servletContext.getAttribute( MetawidgetTag.class.getName() );
+		Map<String, Layout<Tag, MetawidgetTag>> cachedLayouts = (Map<String, Layout<Tag, MetawidgetTag>>) servletContext.getAttribute( MetawidgetTag.class.getName() );
 
 		if ( cachedLayouts == null )
 		{
@@ -292,13 +282,13 @@ public abstract class MetawidgetTag
 
 		// Instantiate the Layout
 
-		Layout<Object, Object> layout = cachedLayouts.get( layoutClass );
+		Layout<Tag, MetawidgetTag> layout = cachedLayouts.get( layoutClass );
 
 		if ( layout == null )
 		{
 			try
 			{
-				layout = (Layout<Object, Object>) Class.forName( layoutClass ).newInstance();
+				layout = (Layout<Tag, MetawidgetTag>) Class.forName( layoutClass ).newInstance();
 			}
 			catch ( Exception e )
 			{
@@ -313,7 +303,7 @@ public abstract class MetawidgetTag
 		setLayout( layout );
 	}
 
-	public void setLayout( Layout<Object, Object> layout )
+	public void setLayout( Layout<Tag, MetawidgetTag> layout )
 	{
 		mMetawidgetMixin.setLayout( layout );
 	}
@@ -445,12 +435,12 @@ public abstract class MetawidgetTag
 	 * instantiate their version.
 	 */
 
-	protected MetawidgetMixin<Object, Object> newMetawidgetMixin()
+	protected MetawidgetMixin<Tag, MetawidgetTag> newMetawidgetMixin()
 	{
 		return new MetawidgetTagMixin();
 	}
 
-	protected MetawidgetMixin<Object, Object> getMetawidgetMixin()
+	protected MetawidgetMixin<Tag, MetawidgetTag> getMetawidgetMixin()
 	{
 		return mMetawidgetMixin;
 	}
@@ -469,6 +459,7 @@ public abstract class MetawidgetTag
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 
 		nestedMetawidget.setPathInternal( mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+		// TODO: lose this?
 		nestedMetawidget.setConfig( mConfig );
 		nestedMetawidget.setBundle( mBundle );
 
@@ -515,7 +506,6 @@ public abstract class MetawidgetTag
 		return xml;
 	}
 
-	@SuppressWarnings( "unchecked" )
 	protected void configure()
 	{
 		if ( !mNeedsConfiguring )
@@ -537,7 +527,7 @@ public abstract class MetawidgetTag
 			if ( mConfig != null )
 				configReader.configure( mConfig, this );
 
-			mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration(), (Class) MetawidgetTag.class );
+			mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration(), MetawidgetTag.class );
 		}
 		catch ( Exception e )
 		{
@@ -547,7 +537,7 @@ public abstract class MetawidgetTag
 
 	protected abstract String getDefaultConfiguration();
 
-	protected StubContent getStub( String path )
+	protected StubTag getStub( String path )
 	{
 		if ( mStubs == null )
 			return null;
@@ -588,51 +578,28 @@ public abstract class MetawidgetTag
 	//
 
 	protected class MetawidgetTagMixin
-		extends MetawidgetMixin<Object, Object>
+		extends MetawidgetMixin<Tag, MetawidgetTag>
 	{
 		//
 		// Protected methods
 		//
 
 		@Override
-		protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
-			throws Exception
-		{
-			if ( widget instanceof StubContent )
-			{
-				String stubContent = ( (StubContent) widget ).getContent();
-
-				// Ignore empty stubs
-
-				if ( stubContent == null || stubContent.length() == 0 )
-					return;
-
-				MetawidgetTag.this.addWidget( stubContent, elementName, attributes );
-			}
-			else
-			{
-				MetawidgetTag.this.addWidget( (String) widget, elementName, attributes );
-			}
-
-			super.addWidget( widget, elementName, attributes );
-		}
-
-		@Override
-		protected StubContent getOverriddenWidget( String elementName, Map<String, String> attributes )
+		protected Tag getOverriddenWidget( String elementName, Map<String, String> attributes )
 		{
 			return MetawidgetTag.this.getStub( attributes.get( NAME ) );
 		}
 
 		@Override
-		protected boolean isStub( Object widget )
+		protected boolean isStub( Tag widget )
 		{
-			return ( widget instanceof StubContent );
+			return ( widget instanceof StubTag );
 		}
 
 		@Override
-		protected Map<String, String> getStubAttributes( Object stub )
+		protected Map<String, String> getStubAttributes( Tag stub )
 		{
-			return ( (StubContent) stub ).getAttributes();
+			return ( (StubTag) stub ).getAttributesMap();
 		}
 
 		@Override
@@ -643,24 +610,14 @@ public abstract class MetawidgetTag
 			super.buildCompoundWidget( element );
 		}
 
-		@SuppressWarnings( "synthetic-access" )
 		@Override
-		protected Object buildNestedMetawidget( final Map<String, String> attributes )
+		protected MetawidgetTag buildNestedMetawidget( final Map<String, String> attributes )
 			throws Exception
 		{
-			final MetawidgetTag metawidget = MetawidgetTag.this.getClass().newInstance();
+			final MetawidgetTag metawidgetTag = MetawidgetTag.this.getClass().newInstance();
+			MetawidgetTag.this.initNestedMetawidget( metawidgetTag, attributes );
 
-			return JspUtils.writeTag( pageContext, metawidget, MetawidgetTag.this, new JspUtils.BodyPreparer()
-			{
-				@Override
-				public void prepareBody( PageContext delegateContext )
-				{
-					// mParameters gets cleared during doStartTag, so we can't set
-					// mParameters until the body (ie. thereby simulating ParamTags)
-
-					MetawidgetTag.this.initNestedMetawidget( metawidget, attributes );
-				}
-			} );
+			return metawidgetTag;
 		}
 
 		@Override
@@ -670,9 +627,9 @@ public abstract class MetawidgetTag
 		}
 
 		@Override
-		protected MetawidgetMixin<Object, Object> getNestedMixin( Object metawidget )
+		protected MetawidgetMixin<Tag, MetawidgetTag> getNestedMixin( MetawidgetTag metawidget )
 		{
-			return ( (MetawidgetTag) metawidget ).getMetawidgetMixin();
+			return metawidget.getMetawidgetMixin();
 		}
 	}
 }

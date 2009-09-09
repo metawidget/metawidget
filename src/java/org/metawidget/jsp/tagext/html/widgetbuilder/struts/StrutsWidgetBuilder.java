@@ -42,8 +42,10 @@ import org.apache.struts.taglib.html.TextTag;
 import org.apache.struts.taglib.html.TextareaTag;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
-import org.metawidget.jsp.tagext.StubTag;
-import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTag;
+import org.metawidget.jsp.tagext.LiteralTag;
+import org.metawidget.jsp.tagext.MetawidgetTag;
+import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
+import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -60,7 +62,7 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
  */
 
 public class StrutsWidgetBuilder
-	extends BaseWidgetBuilder<Object, StrutsMetawidgetTag>
+	extends BaseWidgetBuilder<Tag, MetawidgetTag>
 {
 	//
 	// Private statics
@@ -73,15 +75,15 @@ public class StrutsWidgetBuilder
 	//
 
 	@Override
-	protected Object buildReadOnlyWidget( String elementName, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
+	protected Tag buildReadOnlyWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// Not for us?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return writeStrutsTag( HiddenTag.class, attributes, metawidget );
+			if ( ((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return initStrutsTag( new HiddenTag(), attributes, metawidget );
 
 			return null;
 		}
@@ -138,7 +140,7 @@ public class StrutsWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new StubTag.StubContent();
+				return new HtmlStubTag();
 		}
 
 		// Not simple, but don't expand
@@ -152,15 +154,15 @@ public class StrutsWidgetBuilder
 	}
 
 	@Override
-	protected Object buildActiveWidget( String elementName, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
+	protected Tag buildActiveWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// Not for us?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return writeStrutsTag( HiddenTag.class, attributes, metawidget );
+			if ( ((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+				return initStrutsTag( new HiddenTag(), attributes, metawidget );
 
 			return null;
 		}
@@ -168,7 +170,7 @@ public class StrutsWidgetBuilder
 		// Actions (ignored)
 
 		if ( ACTION.equals( elementName ) )
-			return new StubTag.StubContent();
+			return new HtmlStubTag();
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
@@ -185,7 +187,7 @@ public class StrutsWidgetBuilder
 		// Lookup)
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
-			return writeStrutsTag( CheckboxTag.class, attributes, metawidget );
+			return initStrutsTag( new CheckboxTag(), attributes, metawidget );
 
 		// Struts Lookups
 
@@ -208,9 +210,9 @@ public class StrutsWidgetBuilder
 			if ( clazz.isPrimitive() )
 			{
 				if ( boolean.class.equals( clazz ) )
-					return writeStrutsTag( CheckboxTag.class, attributes, metawidget );
+					return initStrutsTag( new CheckboxTag(), attributes, metawidget );
 
-				return writeStrutsTag( TextTag.class, attributes, metawidget );
+				return initStrutsTag( new TextTag(), attributes, metawidget );
 			}
 
 			// Strings
@@ -218,18 +220,18 @@ public class StrutsWidgetBuilder
 			if ( String.class.equals( clazz ) )
 			{
 				if ( TRUE.equals( attributes.get( MASKED ) ) )
-					return writeStrutsTag( PasswordTag.class, attributes, metawidget );
+					return initStrutsTag( new PasswordTag(), attributes, metawidget );
 
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
-					return writeStrutsTag( TextareaTag.class, attributes, metawidget );
+					return initStrutsTag( new TextareaTag(), attributes, metawidget );
 
-				return writeStrutsTag( TextTag.class, attributes, metawidget );
+				return initStrutsTag( new TextTag(), attributes, metawidget );
 			}
 
 			// Dates
 
 			if ( Date.class.equals( clazz ) )
-				return writeStrutsTag( TextTag.class, attributes, metawidget );
+				return initStrutsTag( new TextTag(), attributes, metawidget );
 
 			// Booleans (are tri-state)
 
@@ -239,13 +241,13 @@ public class StrutsWidgetBuilder
 			// Numbers
 
 			if ( Number.class.isAssignableFrom( clazz ) )
-				return writeStrutsTag( TextTag.class, attributes, metawidget );
+				return initStrutsTag( new TextTag(), attributes, metawidget );
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return writeStrutsTag( TextTag.class, attributes, metawidget );
+			return initStrutsTag( new TextTag(), attributes, metawidget );
 
 		// Nested Metawidget
 
@@ -256,23 +258,11 @@ public class StrutsWidgetBuilder
 	// Private methods
 	//
 
-	private String writeStrutsTag( Class<? extends Tag> tagClass, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
-		throws Exception
-	{
-		Tag tag = tagClass.newInstance();
-		initStrutsTag( tag, attributes, metawidget );
-
-		return JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget, null );
-	}
-
 	/**
 	 * Initialize the Struts Tag with various attributes, CSS settings etc.
-	 * <p>
-	 * In other Metawidgets, this step is done after the widget has been built. However, because JSP
-	 * lacks a 'true' component model (eg. buildActiveWidget returns a String) we must do it here.
 	 */
 
-	private void initStrutsTag( Tag tag, Map<String, String> attributes, StrutsMetawidgetTag metawidget )
+	private Tag initStrutsTag( Tag tag, Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// Property
@@ -317,12 +307,15 @@ public class StrutsWidgetBuilder
 		if ( tag instanceof BaseHandlerTag )
 		{
 			BaseHandlerTag tagBaseHandler = (BaseHandlerTag) tag;
-			tagBaseHandler.setStyle( metawidget.getStyle() );
-			tagBaseHandler.setStyleClass( metawidget.getStyleClass() );
+			BaseHtmlMetawidgetTag htmlMetawidgetTag = (BaseHtmlMetawidgetTag) metawidget;
+			tagBaseHandler.setStyle( htmlMetawidgetTag.getStyle() );
+			tagBaseHandler.setStyleClass( htmlMetawidgetTag.getStyleClass() );
 		}
+
+		return tag;
 	}
 
-	private String writeReadOnlyTag( Map<String, String> attributes, StrutsMetawidgetTag metawidget )
+	private Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		HiddenTag tag = HiddenTag.class.newInstance();
@@ -332,23 +325,13 @@ public class StrutsWidgetBuilder
 		// Note: according to STR-1305 we'll get a proper html:label tag
 		// with Struts 1.4.0, so we can use it instead of .setDisabled( true )
 
-		if ( !metawidget.isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
+		if ( !((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
 			tag.setDisabled( true );
 
-		String toReturn = JspUtils.writeTag( metawidget.getPageContext(), tag, metawidget, null );
-
-		// If the String is just a hidden field, output a SPAN tag to
-		// stop the whole thing vanishing under HtmlTableLayout. This is
-		// a bit hacky, unfortunately, but it's because JSP doesn't have
-		// a 'real' component model
-
-		if ( JspUtils.isJustHiddenFields( toReturn ) )
-			toReturn += "<span></span>";
-
-		return toReturn;
+		return tag;
 	}
 
-	private String writeSelectTag( final String name, final String property, final Map<String, String> attributes, StrutsMetawidgetTag metawidget )
+	private Tag writeSelectTag( final String name, final String property, final Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// Write the SELECT tag
@@ -356,7 +339,7 @@ public class StrutsWidgetBuilder
 		final SelectTag tagSelect = new SelectTag();
 		initStrutsTag( tagSelect, attributes, metawidget );
 
-		return JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
+		String literal = JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 		{
 			// Within the SELECT tag, write the OPTION tags
 
@@ -395,9 +378,11 @@ public class StrutsWidgetBuilder
 				bodyContentSelect.write( JspUtils.writeTag( delgateContext, tagOptions, tagSelect, null ) );
 			}
 		} );
+
+		return new LiteralTag( literal );
 	}
 
-	private String writeSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes, StrutsMetawidgetTag metawidget )
+	private Tag writeSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// Write the SELECT tag
@@ -405,7 +390,7 @@ public class StrutsWidgetBuilder
 		final SelectTag tagSelect = new SelectTag();
 		initStrutsTag( tagSelect, attributes, metawidget );
 
-		return JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
+		String literal = JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 		{
 			// Within the SELECT tag, write the OPTION tags
 
@@ -454,5 +439,7 @@ public class StrutsWidgetBuilder
 				}
 			}
 		} );
+
+		return new LiteralTag( literal );
 	}
 }

@@ -1342,9 +1342,9 @@ public class Person {
 			&lt;jsp:useBean id="communication"
 			class="org.metawidget.example.shared.addressbook.model.Communication"/&gt;						
 			&lt;td&gt;<emphasis role="bold">&lt;mh:metawidget value="communication.type"
-				style="width: 100%" layoutClass=""/&gt;</emphasis>&lt;/td&gt;
+				style="width: 100%" layoutClass="org.metawidget.jsp.tagext.html.layout.SimpleLayout"/&gt;</emphasis>&lt;/td&gt;
 			&lt;td&gt;<emphasis role="bold">&lt;mh:metawidget value="communication.value"
-				style="width: 100%" layoutClass=""/&gt;</emphasis>&lt;/td&gt;
+				style="width: 100%" layoutClass="org.metawidget.jsp.tagext.html.layout.SimpleLayout"/&gt;</emphasis>&lt;/td&gt;
 		&lt;/tr&gt;
 		...
 		&lt;/table&gt;
@@ -1356,7 +1356,7 @@ public class Person {
 						The two different tag prefixes <parameter>m:</parameter> and <parameter>mh:</parameter> denote different tag libraries. 
 						<classname>HtmlMetawidget</classname> is very similiar to <classname>StrutsMetawidget</classname>, but has to use
 						<parameter>jsp:useBean</parameter> to manually instantiate the bean (rather than letting Struts do it). 
-						The default layout has been changed using <parameter>layoutClass=""</parameter> from a <classname>TableLayout</classname> to
+						The default layout has been changed using <parameter>layoutClass="org.metawidget.jsp.tagext.html.layout.SimpleLayout"</parameter> from a <classname>TableLayout</classname> to
 						a plain layout (eg. one without a label column).
 					</para>
 					

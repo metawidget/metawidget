@@ -23,10 +23,12 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.jsp.JspUtils;
+import org.metawidget.jsp.tagext.FacetTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.jsp.tagext.FacetTag.FacetContent;
+import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.util.CollectionUtils;
@@ -52,7 +54,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HtmlTableLayout
-	implements Layout<Object, MetawidgetTag>
+	implements Layout<Tag, MetawidgetTag>
 {
 	//
 	// Private statics
@@ -74,8 +76,8 @@ public class HtmlTableLayout
 
 	public void startLayout( MetawidgetTag metawidgetTag )
 	{
-		State state = new State();
-		metawidgetTag.putClientProperty( HtmlTableLayout.class, state );
+		metawidgetTag.putClientProperty( HtmlTableLayout.class, null );
+		State state = getState( metawidgetTag );
 
 		// Table styles
 
@@ -137,7 +139,7 @@ public class HtmlTableLayout
 
 			// Footer parameter (XHTML requires TFOOT to come before TBODY)
 
-			FacetContent facetFooter = metawidgetTag.getFacet( "footer" );
+			FacetTag facetFooter = metawidgetTag.getFacet( "footer" );
 
 			if ( facetFooter != null )
 			{
@@ -153,26 +155,31 @@ public class HtmlTableLayout
 
 				// CSS styles
 
-				String footerStyle = facetFooter.getAttribute( "style" );
+				Map<String, String> facetAttributes = facetFooter.getComponentAttributes();
 
-				if ( footerStyle != null )
+				if ( facetAttributes != null )
 				{
-					writer.write( " style=\"" );
-					writer.write( footerStyle );
-					writer.write( "\"" );
-				}
+					String footerStyle = facetAttributes.get( "style" );
 
-				String footerStyleClass = facetFooter.getAttribute( "styleClass" );
+					if ( footerStyle != null )
+					{
+						writer.write( " style=\"" );
+						writer.write( footerStyle );
+						writer.write( "\"" );
+					}
 
-				if ( footerStyleClass != null )
-				{
-					writer.write( " class=\"" );
-					writer.write( footerStyleClass );
-					writer.write( "\"" );
+					String footerStyleClass = facetAttributes.get( "styleClass" );
+
+					if ( footerStyleClass != null )
+					{
+						writer.write( " class=\"" );
+						writer.write( footerStyleClass );
+						writer.write( "\"" );
+					}
 				}
 
 				writer.write( ">" );
-				writer.write( facetFooter.getContent() );
+				writer.write( facetFooter.getSavedBodyContent() );
 				writer.write( "</td>" );
 				writer.write( "</tr>" );
 				writer.write( "</tfoot>" );
@@ -180,48 +187,57 @@ public class HtmlTableLayout
 
 			writer.write( "<tbody>" );
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			throw LayoutException.newException( e );
 		}
 	}
 
-	public void layoutChild( Object child, Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	public void layoutChild( Tag tag, Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
-		if ( child == null )
-			return;
-
-		// If the String is just hidden fields...
-
-		String stringChild = (String) child;
-
-		if ( JspUtils.isJustHiddenFields( stringChild ) )
-		{
-			// ...store it up for later (eg. don't render a row in the table
-			// and a label)
-
-			State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
-
-			if ( state.hiddenFields == null )
-				state.hiddenFields = CollectionUtils.newHashSet();
-
-			state.hiddenFields.add( stringChild );
-
-			return;
-		}
-
-		// Write child normally
-		//
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
 		try
 		{
+			String literal = null;
+
+			if ( tag instanceof StubTag )
+			{
+				literal = ( (StubTag) tag ).getSavedBodyContent();
+
+				// Ignore empty stubs
+
+				if ( literal == null || literal.isEmpty() )
+					return;
+			}
+			else
+			{
+				literal = JspUtils.writeTag( metawidgetTag.getPageContext(), tag, metawidgetTag, null );
+			}
+
+			// If the String is just hidden fields...
+
+			if ( JspUtils.isJustHiddenFields( literal ) )
+			{
+				// ...store it up for later (eg. don't render a row in the table
+				// and a label)
+
+				State state = getState( metawidgetTag );
+
+				if ( state.hiddenFields == null )
+					state.hiddenFields = CollectionUtils.newHashSet();
+
+				state.hiddenFields.add( literal );
+
+				return;
+			}
+
+			// Write child normally
+
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 			layoutBeforeChild( attributes, metawidgetTag );
-			writer.write( stringChild );
+			writer.write( literal );
 			layoutAfterChild( attributes, metawidgetTag );
 		}
-		catch ( IOException e )
+		catch ( Exception e )
 		{
 			throw LayoutException.newException( e );
 		}
@@ -238,7 +254,7 @@ public class HtmlTableLayout
 
 			// Output any hidden fields
 
-			State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
+			State state = getState( metawidgetTag );
 
 			if ( state.hiddenFields != null )
 			{
@@ -261,7 +277,7 @@ public class HtmlTableLayout
 
 	protected void layoutBeforeChild( Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
-		State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
+		State state = getState( metawidgetTag );
 		state.currentColumn++;
 
 		try
@@ -378,7 +394,7 @@ public class HtmlTableLayout
 			if ( colspan > 1 )
 			{
 				writer.write( " colspan=\"" );
-				writer.write( String.valueOf( colspan ));
+				writer.write( String.valueOf( colspan ) );
 				writer.write( "\"" );
 			}
 
@@ -403,7 +419,7 @@ public class HtmlTableLayout
 			// Render the 'required' column
 
 			writer.write( "<td" );
-			State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
+			State state = getState( metawidgetTag );
 			writeStyleClass( 2, state, metawidgetTag );
 			writer.write( ">" );
 
@@ -426,7 +442,7 @@ public class HtmlTableLayout
 	}
 
 	/**
-	 * @return	true if a label was rendered
+	 * @return true if a label was rendered
 	 */
 
 	protected boolean layoutLabel( Map<String, String> attributes, MetawidgetTag metawidgetTag )
@@ -443,7 +459,7 @@ public class HtmlTableLayout
 			// Output a (possibly localized) label
 
 			writer.write( "<th" );
-			State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
+			State state = getState( metawidgetTag );
 			writeStyleClass( 0, state, metawidgetTag );
 			writer.write( ">" );
 
@@ -479,7 +495,7 @@ public class HtmlTableLayout
 
 			// Sections span multiples of label/component/required
 
-			State state = metawidgetTag.getClientProperty( HtmlTableLayout.class );
+			State state = getState( metawidgetTag );
 			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 			writer.write( String.valueOf( colspan ) );
 
@@ -548,6 +564,23 @@ public class HtmlTableLayout
 		{
 			throw LayoutException.newException( e );
 		}
+	}
+
+	//
+	// Private methods
+	//
+
+	private State getState( MetawidgetTag metawidget )
+	{
+		State state = (State) metawidget.getClientProperty( HtmlTableLayout.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			metawidget.putClientProperty( HtmlTableLayout.class, state );
+		}
+
+		return state;
 	}
 
 	//

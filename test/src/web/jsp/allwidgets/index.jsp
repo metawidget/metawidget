@@ -5,7 +5,7 @@
 <html>
 	<body>
 
-		<form action="saved.jsp" method="POST">
+		<form action="saved.jsp" method="post">
 
 			<jsp:useBean id="allWidgets" class="org.metawidget.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234"/>
 			<fmt:setBundle basename="org.metawidget.shared.allwidgets.resource.Resources" var="bundle"/>

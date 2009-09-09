@@ -49,7 +49,9 @@ public class FacetTag
 
 	private String				mName;
 
-	private Map<String, String>	mAttributes;
+	private String				mSavedBodyContent;
+
+	private Map<String, String>	mComponentAttributes;
 
 	//
 	// Public methods
@@ -58,6 +60,31 @@ public class FacetTag
 	public void setName( String name )
 	{
 		mName = name;
+	}
+
+	/**
+	 * Gets component attributes.
+	 * <p>
+	 * JSP 'component' attributes as in 'style' and 'styleClass', not Metawidget 'metadata' attributes
+	 * as in 'label' and 'section'.
+	 */
+
+	public Map<String, String> getComponentAttributes()
+	{
+		return mComponentAttributes;
+	}
+
+	/**
+	 * Get the body content as saved during <code>doEndTag</code>.
+	 * <p>
+	 * It seems <code>getBodyContent().toString</code> only returns a meaningful result
+	 * while we are in the <code>doEndTag</code> method. We capture it there for use
+	 * later.
+	 */
+
+	public String getSavedBodyContent()
+	{
+		return mSavedBodyContent;
 	}
 
 	@Override
@@ -69,7 +96,8 @@ public class FacetTag
 		if ( tagMetawidget == null )
 			throw new JspTagException( getClass() + " must be used within " + MetawidgetTag.class );
 
-		tagMetawidget.setFacet( mName, new FacetContent( bodyContent.getString(), mAttributes ) );
+		mSavedBodyContent = bodyContent.getString();
+		tagMetawidget.setFacet( mName, this );
 
 		return super.doEndTag();
 	}
@@ -78,59 +106,11 @@ public class FacetTag
 	// Protected methods
 	//
 
-	protected void setAttribute( String name, String value )
+	protected void setComponentAttribute( String name, String value )
 	{
-		if ( mAttributes == null )
-			mAttributes = CollectionUtils.newHashMap();
+		if ( mComponentAttributes == null )
+			mComponentAttributes = CollectionUtils.newHashMap();
 
-		mAttributes.put( name, value );
-	}
-
-	//
-	// Inner class
-	//
-
-	public static class FacetContent
-	{
-		//
-		//
-		// Private members
-		//
-		//
-
-		private String				mContent;
-
-		private Map<String, String>	mAttributes;
-
-		//
-		//
-		// Constructor
-		//
-		//
-
-		public FacetContent( String content, Map<String, String> attributes )
-		{
-			mContent = content;
-			mAttributes = attributes;
-		}
-
-		//
-		//
-		// Public methods
-		//
-		//
-
-		public String getContent()
-		{
-			return mContent;
-		}
-
-		public String getAttribute( String name )
-		{
-			if ( mAttributes == null )
-				return null;
-
-			return mAttributes.get( name );
-		}
+		mComponentAttributes.put( name, value );
 	}
 }

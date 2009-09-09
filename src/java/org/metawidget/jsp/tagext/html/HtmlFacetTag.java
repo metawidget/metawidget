@@ -39,11 +39,12 @@ public class HtmlFacetTag
 
 	public void setStyle( String style )
 	{
-		setAttribute( "style", style );
+		// TODO: yuck! Use mStyle instead
+		setComponentAttribute( "style", style );
 	}
 
 	public void setStyleClass( String styleClass )
 	{
-		setAttribute( "styleClass", styleClass );
+		setComponentAttribute( "styleClass", styleClass );
 	}
 }

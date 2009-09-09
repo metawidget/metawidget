@@ -20,9 +20,9 @@ import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
 
+import org.metawidget.jsp.tagext.FacetTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
-import org.metawidget.jsp.tagext.FacetTag.FacetContent;
-import org.metawidget.jsp.tagext.StubTag.StubContent;
+import org.metawidget.jsp.tagext.StubTag;
 
 /**
  * HtmlMetawidgetTag test cases.
@@ -67,9 +67,13 @@ public class HtmlMetawidgetTagTest
 		// We must use doStartTag(), not rely on super.release()
 
 		HtmlMetawidgetTag metawidget = new HtmlMetawidgetTag();
-		metawidget.setFacet( "foo", new FacetContent( "abc", null ) );
+		FacetTag facetTag = new FacetTag();
+		facetTag.getBodyContent().write( "abc" );
+		metawidget.setFacet( "foo", facetTag );
 		metawidget.setParameter( "bar", "def" );
-		metawidget.setStub( "baz", new StubContent( "ghi", null ) );
+		StubTag stubTag = new HtmlStubTag();
+		stubTag.getBodyContent().write( "ghi" );
+		metawidget.setStub( "baz", stubTag );
 
 		Field facets = MetawidgetTag.class.getDeclaredField( "mFacets" );
 		facets.setAccessible( true );

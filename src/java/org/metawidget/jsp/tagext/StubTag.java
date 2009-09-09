@@ -16,13 +16,11 @@
 
 package org.metawidget.jsp.tagext;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
-import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 
 import org.metawidget.util.CollectionUtils;
@@ -58,6 +56,8 @@ public abstract class StubTag
 	// Private members
 	//
 
+	private String				mSavedBodyContent;
+
 	private Map<String, String>	mAttributes;
 
 	//
@@ -81,10 +81,21 @@ public abstract class StubTag
 		}
 	}
 
-	@Override
-	public int doStartTag()
+	public Map<String, String> getAttributesMap()
 	{
-		return BodyTag.EVAL_BODY_BUFFERED;
+		return mAttributes;
+	}
+
+	/**
+	 * Get the body content as saved during <code>doEndTag</code>.
+	 * <p>
+	 * It seems <code>getBodyContent().toString</code> only returns a meaningful result while we are
+	 * in the <code>doEndTag</code> method. We capture it there for use later.
+	 */
+
+	public String getSavedBodyContent()
+	{
+		return mSavedBodyContent;
 	}
 
 	@Override
@@ -96,73 +107,13 @@ public abstract class StubTag
 		if ( tagMetawidget == null )
 			throw new JspTagException( getClass() + " must be used within " + MetawidgetTag.class );
 
-		String stubContent = null;
+		if ( bodyContent == null )
+			mSavedBodyContent = null;
+		else
+			mSavedBodyContent = bodyContent.getString();
 
-		if ( bodyContent != null )
-			stubContent = bodyContent.getString();
-
-		tagMetawidget.setStub( mPath, new StubContent( stubContent, mAttributes ) );
+		tagMetawidget.setStub( mPath, this );
 
 		return super.doEndTag();
-	}
-
-	//
-	// Inner class
-	//
-
-	public static class StubContent
-	{
-		//
-		//
-		// Private members
-		//
-		//
-
-		private String				mContent;
-
-		private Map<String, String>	mAttributes;
-
-		//
-		//
-		// Constructor
-		//
-		//
-
-		public StubContent()
-		{
-			mContent = "";
-		}
-
-		public StubContent( String content, Map<String, String> attributes )
-		{
-			mContent = content;
-			mAttributes = attributes;
-		}
-
-		//
-		//
-		// Public methods
-		//
-		//
-
-		public String getContent()
-		{
-			return mContent;
-		}
-
-		public Map<String, String> getAttributes()
-		{
-			if ( mAttributes == null )
-			{
-				// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4
-				// compatible)
-
-				@SuppressWarnings( "unchecked" )
-				Map<String, String> empty = Collections.EMPTY_MAP;
-				return empty;
-			}
-
-			return mAttributes;
-		}
 	}
 }

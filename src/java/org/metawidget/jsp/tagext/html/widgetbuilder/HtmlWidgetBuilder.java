@@ -27,9 +27,13 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.Tag;
 
-import org.metawidget.jsp.tagext.StubTag;
+import org.metawidget.jsp.JspUtils;
+import org.metawidget.jsp.tagext.LiteralTag;
+import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
+import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -50,25 +54,25 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
  */
 
 public class HtmlWidgetBuilder
-	extends BaseWidgetBuilder<Object, BaseHtmlMetawidgetTag>
+	extends BaseWidgetBuilder<Tag, MetawidgetTag>
 {
 	//
 	// Protected methods
 	//
 
 	@Override
-	protected Object buildReadOnlyWidget( String elementName, Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	protected Tag buildReadOnlyWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !metawidget.isCreateHiddenFields() )
-				return new StubTag.StubContent();
+			if ( !((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() )
+				return new HtmlStubTag();
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return new StubTag.StubContent();
+				return new HtmlStubTag();
 
 			return writeHiddenTag( attributes, metawidget );
 		}
@@ -76,12 +80,12 @@ public class HtmlWidgetBuilder
 		// Action (read-only actions ignored)
 
 		if ( ACTION.equals( elementName ) )
-			return new StubTag.StubContent();
+			return new HtmlStubTag();
 
 		// Masked (return an empty String, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
-			return "";
+			return new LiteralTag( "" );
 
 		// Lookups
 
@@ -129,7 +133,7 @@ public class HtmlWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new StubTag.StubContent();
+				return new HtmlStubTag();
 		}
 
 		// Not simple, but don't expand
@@ -143,18 +147,18 @@ public class HtmlWidgetBuilder
 	}
 
 	@Override
-	protected Object buildActiveWidget( String elementName, Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	protected Tag buildActiveWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !metawidget.isCreateHiddenFields() )
-				return new StubTag.StubContent();
+			if ( !((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() )
+				return new HtmlStubTag();
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return new StubTag.StubContent();
+				return new HtmlStubTag();
 
 			return writeHiddenTag( attributes, metawidget );
 		}
@@ -220,7 +224,7 @@ public class HtmlWidgetBuilder
 					buffer.append( evaluateAsText( attributes, metawidget ) );
 					buffer.append( "</textarea>" );
 
-					return buffer.toString();
+					return new LiteralTag( buffer.toString() );
 				}
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) )
@@ -242,7 +246,7 @@ public class HtmlWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new StubTag.StubContent();
+				return new HtmlStubTag();
 		}
 
 		// Not simple, but don't expand
@@ -259,7 +263,7 @@ public class HtmlWidgetBuilder
 	// Private methods
 	//
 
-	private String writeReadOnlyTag( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -287,9 +291,10 @@ public class HtmlWidgetBuilder
 
 		buffer.append( value );
 
-		if ( metawidget.isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+		if ( ((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 		{
-			buffer.append( writeHiddenTag( attributes, metawidget ) );
+			Tag hiddenTag = writeHiddenTag( attributes, metawidget );
+			buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null ) );
 
 			// If value is empty, output an &nbsp; to stop this field being treated
 			// as 'just a hidden field'
@@ -298,10 +303,10 @@ public class HtmlWidgetBuilder
 				buffer.append( "&nbsp;" );
 		}
 
-		return buffer.toString();
+		return new LiteralTag( buffer.toString() );
 	}
 
-	private String writeHiddenTag( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private Tag writeHiddenTag( Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -310,12 +315,12 @@ public class HtmlWidgetBuilder
 		buffer.append( "<input type=\"hidden\"" );
 		buffer.append( writeValueAttribute( attributes, metawidget ) );
 		buffer.append( writeAttributes( attributes, metawidget ) );
-		buffer.append( ">" );
+		buffer.append( "/>" );
 
-		return buffer.toString();
+		return new LiteralTag( buffer.toString() );
 	}
 
-	private String writeCheckboxTag( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private Tag writeCheckboxTag( Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -324,18 +329,18 @@ public class HtmlWidgetBuilder
 		buffer.append( "<input type=\"checkbox\"" );
 		buffer.append( writeAttributes( attributes, metawidget ) );
 		buffer.append( writeCheckedAttribute( attributes, metawidget ) );
-		buffer.append( ">" );
+		buffer.append( "/>" );
 
-		return buffer.toString();
+		return new LiteralTag( buffer.toString() );
 	}
 
-	private String writeTextTag( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private Tag writeTextTag( Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		return writeTextTag( "text", attributes, metawidget );
 	}
 
-	private String writeTextTag( String textTag, Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private Tag writeTextTag( String textTag, Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -366,12 +371,12 @@ public class HtmlWidgetBuilder
 			}
 		}
 
-		buffer.append( ">" );
+		buffer.append( "/>" );
 
-		return buffer.toString();
+		return new LiteralTag( buffer.toString() );
 	}
 
-	private String writeSubmitTag( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private Tag writeSubmitTag( Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
@@ -382,12 +387,12 @@ public class HtmlWidgetBuilder
 		buffer.append( metawidget.getLabelString( attributes ) );
 		buffer.append( "\"" );
 		buffer.append( writeAttributes( attributes, metawidget ) );
-		buffer.append( ">" );
+		buffer.append( "/>" );
 
-		return buffer.toString();
+		return new LiteralTag( buffer.toString() );
 	}
 
-	private String writeValueAttribute( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private String writeValueAttribute( Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		String result = evaluateAsText( attributes, metawidget );
@@ -406,7 +411,7 @@ public class HtmlWidgetBuilder
 		return buffer.toString();
 	}
 
-	private String writeCheckedAttribute( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private String writeCheckedAttribute( Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		Object result = evaluate( attributes, metawidget );
@@ -424,7 +429,7 @@ public class HtmlWidgetBuilder
 	 * lacks a 'true' component model (eg. buildActiveWidget returns a String) we must do it here.
 	 */
 
-	private String writeAttributes( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private String writeAttributes( Map<String, String> attributes, MetawidgetTag metawidget )
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -442,17 +447,19 @@ public class HtmlWidgetBuilder
 
 		// CSS
 
-		if ( metawidget.getStyle() != null )
+		BaseHtmlMetawidgetTag htmlMetawidgetTag = (BaseHtmlMetawidgetTag) metawidget;
+
+		if ( htmlMetawidgetTag.getStyle() != null )
 		{
 			buffer.append( " style=\"" );
-			buffer.append( metawidget.getStyle() );
+			buffer.append( htmlMetawidgetTag.getStyle() );
 			buffer.append( "\"" );
 		}
 
-		if ( metawidget.getStyleClass() != null )
+		if ( htmlMetawidgetTag.getStyleClass() != null )
 		{
 			buffer.append( " class=\"" );
-			buffer.append( metawidget.getStyleClass() );
+			buffer.append( htmlMetawidgetTag.getStyleClass() );
 			buffer.append( "\"" );
 		}
 
@@ -460,7 +467,7 @@ public class HtmlWidgetBuilder
 	}
 
 	@SuppressWarnings( "unchecked" )
-	private String writeSelectTag( final String expression, final Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private Tag writeSelectTag( final String expression, final Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		Object collection = evaluate( expression, metawidget );
@@ -477,7 +484,7 @@ public class HtmlWidgetBuilder
 		return writeSelectTag( (List<?>) collection, null, attributes, metawidget );
 	}
 
-	private String writeSelectTag( final List<?> values, final List<String> labels, Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private Tag writeSelectTag( final List<?> values, final List<String> labels, Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		// See if we're using labels
@@ -537,14 +544,14 @@ public class HtmlWidgetBuilder
 
 		buffer.append( "</select>" );
 
-		return buffer.toString();
+		return new LiteralTag( buffer.toString() );
 	}
 
 	/**
 	 * Evaluate to text (via a PropertyEditor if available).
 	 */
 
-	private String evaluateAsText( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private String evaluateAsText( Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		Object evaluated = evaluate( attributes, metawidget );
@@ -570,7 +577,7 @@ public class HtmlWidgetBuilder
 		return StringUtils.quietValueOf( evaluated );
 	}
 
-	private Object evaluate( Map<String, String> attributes, BaseHtmlMetawidgetTag metawidget )
+	private Object evaluate( Map<String, String> attributes, MetawidgetTag metawidget )
 		throws Exception
 	{
 		if ( metawidget.getPathPrefix() == null )
@@ -579,7 +586,7 @@ public class HtmlWidgetBuilder
 		return evaluate( "${" + metawidget.getPathPrefix() + attributes.get( NAME ) + "}", metawidget );
 	}
 
-	private Object evaluate( String expression, BaseHtmlMetawidgetTag metawidget )
+	private Object evaluate( String expression, MetawidgetTag metawidget )
 		throws Exception
 	{
 		try

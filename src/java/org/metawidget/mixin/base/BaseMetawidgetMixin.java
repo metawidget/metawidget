@@ -344,7 +344,12 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			}
 			else if ( isStub( widget ) )
 			{
-				attributes.putAll( getStubAttributes( widget ) );
+				// TODO: test null stub attributes
+
+				Map<String, String> stubAttributes = getStubAttributes( widget );
+
+				if ( stubAttributes != null )
+					attributes.putAll( stubAttributes );
 			}
 
 			widget = processWidget( widget, elementName, attributes );

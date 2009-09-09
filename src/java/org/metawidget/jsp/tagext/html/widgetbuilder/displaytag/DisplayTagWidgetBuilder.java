@@ -23,11 +23,13 @@ import java.util.Map;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.Tag;
 
 import org.displaytag.tags.ColumnTag;
 import org.displaytag.tags.TableTag;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.JspUtils.BodyPreparer;
+import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.XmlUtils;
@@ -49,14 +51,14 @@ import org.w3c.dom.NodeList;
  */
 
 public class DisplayTagWidgetBuilder
-	implements WidgetBuilder<Object, MetawidgetTag>
+	implements WidgetBuilder<Tag, MetawidgetTag>
 {
 	//
 	// Public methods
 	//
 
 	@Override
-	public Object buildWidget( String elementName, final Map<String, String> attributes, final MetawidgetTag metawidgetTag )
+	public Tag buildWidget( String elementName, final Map<String, String> attributes, final MetawidgetTag metawidgetTag )
 	{
 		try
 		{
@@ -94,7 +96,7 @@ public class DisplayTagWidgetBuilder
 
 			// Write the DisplayTag
 
-			return JspUtils.writeTag( metawidgetTag.getPageContext(), displayTag, metawidgetTag, new BodyPreparer()
+			String literal = JspUtils.writeTag( metawidgetTag.getPageContext(), displayTag, metawidgetTag, new BodyPreparer()
 			{
 				// After DisplayTag.doStartTag, can add columns
 
@@ -148,6 +150,8 @@ public class DisplayTagWidgetBuilder
 					}
 				}
 			} );
+
+			return new LiteralTag( literal );
 		}
 		catch( Exception e )
 		{
