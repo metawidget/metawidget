@@ -954,7 +954,6 @@ public class GwtMetawidget
 		throws Exception
 	{
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
-
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setDictionaryName( mDictionaryName );
 

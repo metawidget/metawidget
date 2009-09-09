@@ -990,11 +990,7 @@ public class SwingMetawidget
 
 	protected void initNestedMetawidget( SwingMetawidget nestedMetawidget, Map<String, String> attributes )
 	{
-		// Don't reconfigure...
-
-		nestedMetawidget.setConfig( null );
-
-		// ...instead, copy runtime values
+		// Don't copy setConfig(). Instead, copy runtime values
 
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );

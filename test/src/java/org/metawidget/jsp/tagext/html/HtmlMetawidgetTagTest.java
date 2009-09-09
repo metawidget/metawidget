@@ -20,6 +20,7 @@ import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.jsp.tagext.FacetTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.StubTag;
@@ -67,12 +68,18 @@ public class HtmlMetawidgetTagTest
 		// We must use doStartTag(), not rely on super.release()
 
 		HtmlMetawidgetTag metawidget = new HtmlMetawidgetTag();
-		FacetTag facetTag = new FacetTag();
-		facetTag.getBodyContent().write( "abc" );
-		metawidget.setFacet( "foo", facetTag );
 		metawidget.setParameter( "bar", "def" );
+
+		FacetTag facetTag = new FacetTag();
+		Field savedBodyContentField = FacetTag.class.getDeclaredField( "mSavedBodyContent" );
+		savedBodyContentField.setAccessible( true );
+		savedBodyContentField.set( facetTag, "abc" );
+		metawidget.setFacet( "foo", facetTag );
+
 		StubTag stubTag = new HtmlStubTag();
-		stubTag.getBodyContent().write( "ghi" );
+		savedBodyContentField = StubTag.class.getDeclaredField( "mSavedBodyContent" );
+		savedBodyContentField.setAccessible( true );
+		savedBodyContentField.set( stubTag, "ghi" );
 		metawidget.setStub( "baz", stubTag );
 
 		Field facets = MetawidgetTag.class.getDeclaredField( "mFacets" );
@@ -90,13 +97,20 @@ public class HtmlMetawidgetTagTest
 		assertTrue( null != stubs.get( metawidget ));
 		assertTrue( false == (Boolean) needsConfiguring.get( metawidget ));
 
+		// Should reset facets and stubs
+
 		metawidget.doStartTag();
-
-		// Should have reset
-
 		assertTrue( null == facets.get( metawidget ));
-		assertTrue( null == parameters.get( metawidget ));
 		assertTrue( null == stubs.get( metawidget ));
+		assertTrue( null != parameters.get( metawidget ));
+		assertTrue( false == (Boolean) needsConfiguring.get( metawidget ));
+
+		// Should reset parameters and needConfiguring
+
+		metawidget.setInspector( new PropertyTypeInspector() );
+		metawidget.setValue( "bad-path" );
+		metawidget.doEndTag();
+		assertTrue( null == parameters.get( metawidget ));
 		assertTrue( false != (Boolean) needsConfiguring.get( metawidget ));
 	}
 }

@@ -47,14 +47,17 @@ public abstract class StubTag
 	private final static long	serialVersionUID	= 1l;
 
 	//
-	// Protected members
-	//
-
-	protected String			mPath;
-
-	//
 	// Private members
 	//
+
+	/**
+	 * Path to stub out.
+	 * <p>
+	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for Struts,
+	 * <code>property</code> for Spring).
+	 */
+
+	private String				mPath;
 
 	private String				mSavedBodyContent;
 
@@ -115,5 +118,21 @@ public abstract class StubTag
 		tagMetawidget.setStub( mPath, this );
 
 		return super.doEndTag();
+	}
+
+	//
+	// Protected members
+	//
+
+	/**
+	 * Sets the path.
+	 * <p>
+	 * Set by subclasses according to what they prefer to call it (eg. <code>name</code> for Struts,
+	 * <code>property</code> for Spring).
+	 */
+
+	protected void setPathInternal( String path )
+	{
+		mPath = path;
 	}
 }

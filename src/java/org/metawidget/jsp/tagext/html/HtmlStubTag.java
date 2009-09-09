@@ -39,6 +39,6 @@ public class HtmlStubTag
 
 	public void setValue( String value )
 	{
-		mPath = value;
+		setPathInternal( value );
 	}
 }

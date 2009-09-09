@@ -29,6 +29,7 @@ import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.FacetTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.StubTag;
+import org.metawidget.jsp.tagext.html.HtmlFacetTag;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.util.CollectionUtils;
@@ -155,11 +156,9 @@ public class HtmlTableLayout
 
 				// CSS styles
 
-				Map<String, String> facetAttributes = facetFooter.getComponentAttributes();
-
-				if ( facetAttributes != null )
+				if ( facetFooter instanceof HtmlFacetTag )
 				{
-					String footerStyle = facetAttributes.get( "style" );
+					String footerStyle = ((HtmlFacetTag) facetFooter).getStyle();
 
 					if ( footerStyle != null )
 					{
@@ -168,7 +167,7 @@ public class HtmlTableLayout
 						writer.write( "\"" );
 					}
 
-					String footerStyleClass = facetAttributes.get( "styleClass" );
+					String footerStyleClass = ((HtmlFacetTag) facetFooter).getStyleClass();
 
 					if ( footerStyleClass != null )
 					{

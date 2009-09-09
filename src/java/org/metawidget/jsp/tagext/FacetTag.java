@@ -16,13 +16,9 @@
 
 package org.metawidget.jsp.tagext;
 
-import java.util.Map;
-
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspTagException;
 import javax.servlet.jsp.tagext.BodyTagSupport;
-
-import org.metawidget.util.CollectionUtils;
 
 /**
  * Facet for JSP environments.
@@ -51,8 +47,6 @@ public class FacetTag
 
 	private String				mSavedBodyContent;
 
-	private Map<String, String>	mComponentAttributes;
-
 	//
 	// Public methods
 	//
@@ -60,18 +54,6 @@ public class FacetTag
 	public void setName( String name )
 	{
 		mName = name;
-	}
-
-	/**
-	 * Gets component attributes.
-	 * <p>
-	 * JSP 'component' attributes as in 'style' and 'styleClass', not Metawidget 'metadata' attributes
-	 * as in 'label' and 'section'.
-	 */
-
-	public Map<String, String> getComponentAttributes()
-	{
-		return mComponentAttributes;
 	}
 
 	/**
@@ -100,17 +82,5 @@ public class FacetTag
 		tagMetawidget.setFacet( mName, this );
 
 		return super.doEndTag();
-	}
-
-	//
-	// Protected methods
-	//
-
-	protected void setComponentAttribute( String name, String value )
-	{
-		if ( mComponentAttributes == null )
-			mComponentAttributes = CollectionUtils.newHashMap();
-
-		mComponentAttributes.put( name, value );
 	}
 }

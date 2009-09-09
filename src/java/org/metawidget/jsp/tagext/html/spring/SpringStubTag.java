@@ -39,6 +39,6 @@ public class SpringStubTag
 
 	public void setPath( String path )
 	{
-		mPath = path;
+		setPathInternal( path );
 	}
 }

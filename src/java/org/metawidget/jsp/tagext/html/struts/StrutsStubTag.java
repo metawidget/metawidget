@@ -39,6 +39,6 @@ public class StrutsStubTag
 
 	public void setProperty( String property )
 	{
-		mPath = property;
+		setPathInternal( property );
 	}
 }

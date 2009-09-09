@@ -18,7 +18,6 @@ package org.metawidget.jsp.tagext;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.io.IOException;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -362,12 +361,7 @@ public abstract class MetawidgetTag
 		// reset some internal variables during doStartTag
 
 		mFacets = null;
-		mParameters = null;
 		mStubs = null;
-
-		// Needs configuring again in case metawidget.xml calls setParameter
-
-		mNeedsConfiguring = true;
 
 		return super.doStartTag();
 	}
@@ -386,6 +380,12 @@ public abstract class MetawidgetTag
 		{
 			throw MetawidgetException.newException( e );
 		}
+
+		// Reset parameters. We cannot do this in doStartTag because then it will
+		// overwrite parameters set by metawidget.xml and/or by initNestedMetawidget
+
+		mParameters = null;
+		mNeedsConfiguring = true;
 
 		return super.doEndTag();
 	}
@@ -447,20 +447,16 @@ public abstract class MetawidgetTag
 
 	protected abstract void beforeBuildCompoundWidget( Element element );
 
-	protected void addWidget( String widget, String elementName, Map<String, String> attributes )
-		throws IOException
-	{
-		if ( mMetawidgetMixin.getLayout() == null )
-			pageContext.getOut().write( widget );
-	}
-
 	protected void initNestedMetawidget( MetawidgetTag nestedMetawidget, Map<String, String> attributes )
 	{
-		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
+		// Don't reconfigure...
 
+		nestedMetawidget.setConfig( null );
+
+		// ...instead, copy runtime values
+
+		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPathInternal( mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
-		// TODO: lose this?
-		nestedMetawidget.setConfig( mConfig );
 		nestedMetawidget.setBundle( mBundle );
 
 		if ( mParameters != null )
@@ -491,16 +487,21 @@ public abstract class MetawidgetTag
 
 		String xml = inspect( null, type, typeAndNames.getNamesAsArray() );
 
-		// Try to locate the runtime bean. This allows some Inspectors
-		// to act on it polymorphically.
+		// (pageContext may be null in unit tests)
 
-		Object obj = pageContext.findAttribute( type );
-
-		if ( obj != null )
+		if ( pageContext != null )
 		{
-			type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
-			String additionalXml = inspect( obj, type, typeAndNames.getNamesAsArray() );
-			xml = combineSubtrees( xml, additionalXml );
+			// Try to locate the runtime bean. This allows some Inspectors
+			// to act on it polymorphically.
+
+			Object obj = pageContext.findAttribute( type );
+
+			if ( obj != null )
+			{
+				type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
+				String additionalXml = inspect( obj, type, typeAndNames.getNamesAsArray() );
+				xml = combineSubtrees( xml, additionalXml );
+			}
 		}
 
 		return xml;

@@ -668,15 +668,19 @@ public abstract class UIMetawidget
 		}
 
 		// Properties
+		// TODO: test binding == null
 
-		if ( ENTITY.equals( elementName ) )
+		if ( binding == null )
 		{
-			binding = metawidgetValueBinding.getExpressionString();
-		}
-		else
-		{
-			String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
-			binding = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+			if ( ENTITY.equals( elementName ) )
+			{
+				binding = metawidgetValueBinding.getExpressionString();
+			}
+			else
+			{
+				String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
+				binding = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
+			}
 		}
 
 		return FacesUtils.findRenderedComponentWithValueBinding( UIMetawidget.this, binding );

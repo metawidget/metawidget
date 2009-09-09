@@ -135,6 +135,28 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		return mWidgetBuilder;
 	}
 
+	/**
+	 * Gets the List of WidgetProcessors.
+	 * <p>
+	 * This mixin only references a single Inspector and single WidgetBuilder. It relies on
+	 * CompositeInspector and CompositeWidgetBuilder to support multiples, which allows the
+	 * combination algorithm itself to be pluggable.
+	 * <p>
+	 * We cannot use this same approach for WidgetProcessors, however, because we want to support
+	 * event handling. We want to allow, for example:
+	 * <p>
+	 * <code>
+	 * metawidget.addWidgetProcessor( new WidgetProcessor() {<br/>
+	 * ...handle event...<br/>
+	 * }
+	 * </code>
+	 * <p>
+	 * This mechanism cannot be delegated to a CompositeWidgetProcessor, because WidgetProcessors must be
+	 * immutable, and we want to allow event handlers that are non-static anonymous inner classes.
+	 * <p>
+	 * There, we use a List of WidgetProcessors. Note ordering of WidgetProcessors is significant.
+	 */
+
 	public List<WidgetProcessor<W, M>> getWidgetProcessors()
 	{
 		return mWidgetProcessors;

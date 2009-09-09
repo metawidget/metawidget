@@ -34,17 +34,34 @@ public class HtmlFacetTag
 	private final static long	serialVersionUID	= 1l;
 
 	//
+	// Private members
+	//
+
+	private String				mStyle;
+
+	private String				mStyleClass;
+
+	//
 	// Public methods
 	//
 
+	public String getStyle()
+	{
+		return mStyle;
+	}
+
 	public void setStyle( String style )
 	{
-		// TODO: yuck! Use mStyle instead
-		setComponentAttribute( "style", style );
+		mStyle = style;
+	}
+
+	public String getStyleClass()
+	{
+		return mStyleClass;
 	}
 
 	public void setStyleClass( String styleClass )
 	{
-		setComponentAttribute( "styleClass", styleClass );
+		mStyleClass = styleClass;
 	}
 }
