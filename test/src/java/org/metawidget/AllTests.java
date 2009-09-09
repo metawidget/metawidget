@@ -24,6 +24,7 @@ import org.metawidget.example.ExampleTests;
 import org.metawidget.faces.FacesMetawidgetTests;
 import org.metawidget.inspector.InspectorTests;
 import org.metawidget.jsp.JspMetawidgetTests;
+import org.metawidget.layout.iface.LayoutExceptionTest;
 import org.metawidget.mixin.MixinTests;
 import org.metawidget.swing.SwingMetawidgetTests;
 import org.metawidget.util.UtilTests;
@@ -57,6 +58,7 @@ public class AllTests
 		suite.addTest( FacesMetawidgetTests.suite() );
 		suite.addTest( InspectorTests.suite() );
 		suite.addTest( JspMetawidgetTests.suite() );
+		suite.addTestSuite( LayoutExceptionTest.class );
 		suite.addTest( MixinTests.suite() );
 		suite.addTest( SwingMetawidgetTests.suite() );
 		suite.addTest( UtilTests.suite() );

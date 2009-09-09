@@ -103,7 +103,28 @@ public class ReadableIdProcessor
 	// Protected methods
 	//
 
-	protected void setUniqueId( UIComponent component, String expressionString, UIMetawidget metawidget )
+	protected Set<String> getClientIds( UIMetawidget metawidget )
+	{
+		Set<String> clientIds = metawidget.getClientProperty( ReadableIdProcessor.class );
+
+		if ( clientIds == null )
+		{
+			clientIds = CollectionUtils.newHashSet();
+			metawidget.putClientProperty( ReadableIdProcessor.class, clientIds );
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			Iterator<UIComponent> iteratorFacetsAndChildren = context.getViewRoot().getFacetsAndChildren();
+			gatherClientIds( iteratorFacetsAndChildren, clientIds );
+		}
+
+		return clientIds;
+	}
+
+	//
+	// Private methods
+	//
+
+	private void setUniqueId( UIComponent component, String expressionString, UIMetawidget metawidget )
 	{
 		String idealId = StringUtils.camelCase( FacesUtils.unwrapExpression( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
 
@@ -156,27 +177,6 @@ public class ReadableIdProcessor
 
 		component.setId( actualId );
 	}
-
-	protected Set<String> getClientIds( UIMetawidget metawidget )
-	{
-		Set<String> clientIds = metawidget.getClientProperty( ReadableIdProcessor.class );
-
-		if ( clientIds == null )
-		{
-			clientIds = CollectionUtils.newHashSet();
-			metawidget.putClientProperty( ReadableIdProcessor.class, clientIds );
-
-			FacesContext context = FacesContext.getCurrentInstance();
-			Iterator<UIComponent> iteratorFacetsAndChildren = context.getViewRoot().getFacetsAndChildren();
-			gatherClientIds( iteratorFacetsAndChildren, clientIds );
-		}
-
-		return clientIds;
-	}
-
-	//
-	// Private methods
-	//
 
 	/**
 	 * Gathers client ids of existing children, so as to avoid naming clashes.

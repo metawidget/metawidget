@@ -59,7 +59,7 @@ public class StandardConverterProcessor
 	{
 		// Actions don't get converters
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return component;
 
 		// Recurse into stubs
@@ -81,168 +81,159 @@ public class StandardConverterProcessor
 		if ( !( component instanceof ValueHolder ) )
 			return component;
 
-		setConverter( (ValueHolder) component, attributes );
+		ValueHolder valueHolder = (ValueHolder) component;
+		valueHolder.setConverter( getConverter( valueHolder, attributes ) );
 		return component;
 	}
 
-	public void setConverter( ValueHolder valueHolder, Map<String, String> attributes )
+	public Converter getConverter( ValueHolder valueHolder, Map<String, String> attributes )
 	{
-		// Apply the converter
+		// Use existing Converter (if any)
 
-		try
+		Converter converter = valueHolder.getConverter();
+
+		if ( converter != null )
+			return converter;
+
+		// Create from id
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		String converterId = attributes.get( FACES_CONVERTER_ID );
+
+		if ( converterId != null )
 		{
-			// Do not override existing Converter (if any)
-
-			Converter converter = valueHolder.getConverter();
-
-			if ( converter != null )
-				return;
-
-			// Create from id
-
-			FacesContext context = FacesContext.getCurrentInstance();
-			String converterId = attributes.get( FACES_CONVERTER_ID );
-
-			if ( converterId != null )
-			{
-				converter = context.getApplication().createConverter( converterId );
-			}
-
-			// Create from parameterized type (eg. a Date converter for List<Date>)
-
-			else if ( valueHolder instanceof UISelectOne || valueHolder instanceof UISelectMany )
-			{
-				String parameterizedType = attributes.get( PARAMETERIZED_TYPE );
-
-				if ( parameterizedType != null )
-				{
-					Class<?> parameterizedClass = ClassUtils.niceForName( parameterizedType );
-
-					// The parameterized type might be null, or might not be concrete
-					// enough to be instantiatable (eg. List<? extends Foo>)
-
-					if ( parameterizedClass != null )
-						converter = context.getApplication().createConverter( parameterizedClass );
-				}
-			}
-
-			// Native support for DateTimeConverter
-
-			if ( attributes.containsKey( DATE_STYLE ) )
-			{
-				converter = getDateTimeConverter( converter );
-				( (DateTimeConverter) converter ).setDateStyle( attributes.get( DATE_STYLE ) );
-			}
-
-			if ( attributes.containsKey( DATETIME_PATTERN ) )
-			{
-				converter = getDateTimeConverter( converter );
-				( (DateTimeConverter) converter ).setPattern( attributes.get( DATETIME_PATTERN ) );
-			}
-
-			if ( attributes.containsKey( TIME_STYLE ) )
-			{
-				converter = getDateTimeConverter( converter );
-				( (DateTimeConverter) converter ).setTimeStyle( attributes.get( TIME_STYLE ) );
-			}
-
-			if ( attributes.containsKey( TIME_ZONE ) )
-			{
-				converter = getDateTimeConverter( converter );
-				( (DateTimeConverter) converter ).setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
-			}
-
-			if ( attributes.containsKey( DATETIME_TYPE ) )
-			{
-				converter = getDateTimeConverter( converter );
-				( (DateTimeConverter) converter ).setType( attributes.get( DATETIME_TYPE ) );
-			}
-
-			// Native support for NumberConverter
-
-			if ( attributes.containsKey( CURRENCY_CODE ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setCurrencyCode( attributes.get( CURRENCY_CODE ) );
-			}
-
-			if ( attributes.containsKey( CURRENCY_SYMBOL ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setCurrencySymbol( attributes.get( CURRENCY_SYMBOL ) );
-			}
-
-			if ( attributes.containsKey( NUMBER_USES_GROUPING_SEPARATORS ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setGroupingUsed( Boolean.parseBoolean( attributes.get( NUMBER_USES_GROUPING_SEPARATORS ) ) );
-			}
-
-			if ( attributes.containsKey( MINIMUM_INTEGER_DIGITS ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setMinIntegerDigits( Integer.parseInt( attributes.get( MINIMUM_INTEGER_DIGITS ) ) );
-			}
-
-			if ( attributes.containsKey( MAXIMUM_INTEGER_DIGITS ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setMaxIntegerDigits( Integer.parseInt( attributes.get( MAXIMUM_INTEGER_DIGITS ) ) );
-			}
-
-			if ( attributes.containsKey( MINIMUM_FRACTIONAL_DIGITS ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setMinFractionDigits( Integer.parseInt( attributes.get( MINIMUM_FRACTIONAL_DIGITS ) ) );
-			}
-
-			if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setMaxFractionDigits( Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
-			}
-
-			if ( attributes.containsKey( NUMBER_PATTERN ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setPattern( attributes.get( NUMBER_PATTERN ) );
-			}
-
-			if ( attributes.containsKey( NUMBER_TYPE ) )
-			{
-				converter = getNumberConverter( converter );
-				( (NumberConverter) converter ).setType( attributes.get( NUMBER_TYPE ) );
-			}
-
-			// Locale (applies to both DateTimeConverter and NumberConverter)
-
-			if ( attributes.containsKey( LOCALE ) )
-			{
-				if ( converter instanceof NumberConverter )
-				{
-					( (NumberConverter) converter ).setLocale( new Locale( attributes.get( LOCALE ) ) );
-				}
-				else
-				{
-					converter = getDateTimeConverter( converter );
-					( (DateTimeConverter) converter ).setLocale( new Locale( attributes.get( LOCALE ) ) );
-				}
-			}
-
-			// Set it and return it
-
-			valueHolder.setConverter( converter );
+			converter = context.getApplication().createConverter( converterId );
 		}
-		catch ( Exception e )
+
+		// Create from parameterized type (eg. a Date converter for List<Date>)
+
+		else if ( valueHolder instanceof UISelectOne || valueHolder instanceof UISelectMany )
 		{
-			throw WidgetProcessorException.newException( e );
+			String parameterizedType = attributes.get( PARAMETERIZED_TYPE );
+
+			if ( parameterizedType != null )
+			{
+				Class<?> parameterizedClass = ClassUtils.niceForName( parameterizedType );
+
+				// The parameterized type might be null, or might not be concrete
+				// enough to be instantiatable (eg. List<? extends Foo>)
+
+				if ( parameterizedClass != null )
+					converter = context.getApplication().createConverter( parameterizedClass );
+			}
 		}
+
+		// Support for DateTimeConverter
+
+		if ( attributes.containsKey( DATE_STYLE ) )
+		{
+			converter = getDateTimeConverter( converter );
+			( (DateTimeConverter) converter ).setDateStyle( attributes.get( DATE_STYLE ) );
+		}
+
+		if ( attributes.containsKey( DATETIME_PATTERN ) )
+		{
+			converter = getDateTimeConverter( converter );
+			( (DateTimeConverter) converter ).setPattern( attributes.get( DATETIME_PATTERN ) );
+		}
+
+		if ( attributes.containsKey( TIME_STYLE ) )
+		{
+			converter = getDateTimeConverter( converter );
+			( (DateTimeConverter) converter ).setTimeStyle( attributes.get( TIME_STYLE ) );
+		}
+
+		if ( attributes.containsKey( TIME_ZONE ) )
+		{
+			converter = getDateTimeConverter( converter );
+			( (DateTimeConverter) converter ).setTimeZone( TimeZone.getTimeZone( attributes.get( TIME_ZONE ) ) );
+		}
+
+		if ( attributes.containsKey( DATETIME_TYPE ) )
+		{
+			converter = getDateTimeConverter( converter );
+			( (DateTimeConverter) converter ).setType( attributes.get( DATETIME_TYPE ) );
+		}
+
+		// Support for NumberConverter
+
+		if ( attributes.containsKey( CURRENCY_CODE ) )
+		{
+			converter = getNumberConverter( converter );
+			( (NumberConverter) converter ).setCurrencyCode( attributes.get( CURRENCY_CODE ) );
+		}
+
+		if ( attributes.containsKey( CURRENCY_SYMBOL ) )
+		{
+			converter = getNumberConverter( converter );
+			( (NumberConverter) converter ).setCurrencySymbol( attributes.get( CURRENCY_SYMBOL ) );
+		}
+
+		if ( attributes.containsKey( NUMBER_USES_GROUPING_SEPARATORS ) )
+		{
+			converter = getNumberConverter( converter );
+			( (NumberConverter) converter ).setGroupingUsed( Boolean.parseBoolean( attributes.get( NUMBER_USES_GROUPING_SEPARATORS ) ) );
+		}
+
+		if ( attributes.containsKey( MINIMUM_INTEGER_DIGITS ) )
+		{
+			converter = getNumberConverter( converter );
+			( (NumberConverter) converter ).setMinIntegerDigits( Integer.parseInt( attributes.get( MINIMUM_INTEGER_DIGITS ) ) );
+		}
+
+		if ( attributes.containsKey( MAXIMUM_INTEGER_DIGITS ) )
+		{
+			converter = getNumberConverter( converter );
+			( (NumberConverter) converter ).setMaxIntegerDigits( Integer.parseInt( attributes.get( MAXIMUM_INTEGER_DIGITS ) ) );
+		}
+
+		if ( attributes.containsKey( MINIMUM_FRACTIONAL_DIGITS ) )
+		{
+			converter = getNumberConverter( converter );
+			( (NumberConverter) converter ).setMinFractionDigits( Integer.parseInt( attributes.get( MINIMUM_FRACTIONAL_DIGITS ) ) );
+		}
+
+		if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) )
+		{
+			converter = getNumberConverter( converter );
+			( (NumberConverter) converter ).setMaxFractionDigits( Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
+		}
+
+		if ( attributes.containsKey( NUMBER_PATTERN ) )
+		{
+			converter = getNumberConverter( converter );
+			( (NumberConverter) converter ).setPattern( attributes.get( NUMBER_PATTERN ) );
+		}
+
+		if ( attributes.containsKey( NUMBER_TYPE ) )
+		{
+			converter = getNumberConverter( converter );
+			( (NumberConverter) converter ).setType( attributes.get( NUMBER_TYPE ) );
+		}
+
+		// Locale (applies to both DateTimeConverter and NumberConverter)
+
+		if ( attributes.containsKey( LOCALE ) )
+		{
+			if ( converter instanceof NumberConverter )
+			{
+				( (NumberConverter) converter ).setLocale( new Locale( attributes.get( LOCALE ) ) );
+			}
+			else
+			{
+				converter = getDateTimeConverter( converter );
+				( (DateTimeConverter) converter ).setLocale( new Locale( attributes.get( LOCALE ) ) );
+			}
+		}
+
+		// Return it
+
+		return converter;
 	}
 
 	//
 	// Private methods
 	//
-
 
 	private DateTimeConverter getDateTimeConverter( Converter existingConverter )
 	{

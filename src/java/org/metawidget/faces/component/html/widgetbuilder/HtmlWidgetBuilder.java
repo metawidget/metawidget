@@ -466,14 +466,11 @@ public class HtmlWidgetBuilder
 			// ...using the specified converter (call setConverter prematurely so
 			// we can find out what Converter to use)...
 
+			Converter converter = null;
 			ConverterProcessor processor = metawidget.getWidgetProcessor( ConverterProcessor.class );
 
-			ValueHolder valueHolder = (ValueHolder) component;
-
 			if ( processor != null )
-				processor.setConverter( valueHolder, attributes );
-
-			Converter converter = valueHolder.getConverter();
+				converter = processor.getConverter( (ValueHolder) component, attributes );
 
 			// ...(setConverter doesn't do application-wide converters)...
 

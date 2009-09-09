@@ -14,33 +14,29 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.faces.component.widgetprocessor;
+package org.metawidget.layout.iface;
 
-import java.util.Map;
-
-import javax.faces.component.ValueHolder;
-import javax.faces.convert.Converter;
+import junit.framework.TestCase;
 
 /**
- * Java Server Faces support: Converters
- * <p>
- * This interface should be implemented by any WidgetProcessors that set Converters (eg.
- * StandardConverterProcessor). It is used by WidgetBuilders who need early access to the Converter
- * in order to convert child elements (eg. HtmlWidgetBuilder needs to convert the options it adds to
- * a UISelect).
- *
  * @author Richard Kennard
  */
 
-public interface ConverterProcessor
+public class LayoutExceptionTest
+	extends TestCase
 {
 	//
-	// Methods
+	// Public methods
 	//
 
-	/**
-	 * Get the appropriate Converter for this ValueHolder.
-	 */
+	public void testLayoutException()
+		throws Exception
+	{
+		Throwable throwable = new Throwable();
+		assertTrue( throwable == LayoutException.newException( throwable ).getCause() );
 
-	Converter getConverter( ValueHolder valueHolder, Map<String, String> attributes );
+		throwable = LayoutException.newException( "Foo" );
+		assertTrue( "Foo".equals( throwable.getMessage() ));
+		assertTrue( throwable == LayoutException.newException( throwable ) );
+	}
 }

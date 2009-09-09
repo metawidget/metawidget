@@ -22,6 +22,8 @@ import org.metawidget.iface.MetawidgetException;
  * Any exception that occurs during layout.
  */
 
+// TODO: LayoutException test
+
 public class LayoutException
 	extends MetawidgetException
 {

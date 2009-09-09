@@ -20,6 +20,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
 
+import javax.el.ExpressionFactory;
 import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.application.FacesMessage;
@@ -68,14 +69,17 @@ import junit.framework.TestSuite;
 
 import org.metawidget.faces.component.UIMetawidgetTest;
 import org.metawidget.faces.component.UIStub;
+import org.metawidget.faces.component.html.widgetprocessor.CssStyleProcessorTest;
+import org.metawidget.faces.component.html.widgetprocessor.HiddenFieldProcessorTest;
 import org.metawidget.faces.renderkit.html.HtmlTableLayoutRendererTest;
 import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.icefaces.IceFacesWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.richfaces.RichFacesWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.tomahawk.TomahawkWidgetBuilderTest;
-import org.metawidget.faces.widgetprocessor.HiddenFieldProcessorTest;
 import org.metawidget.faces.widgetprocessor.ImmediateAttributeProcessorTest;
+import org.metawidget.faces.widgetprocessor.ReadableIdProcessorTest;
 import org.metawidget.faces.widgetprocessor.RequiredAttributeProcessorTest;
+import org.metawidget.faces.widgetprocessor.StandardBindingProcessorTest;
 import org.metawidget.faces.widgetprocessor.StandardConverterProcessorTest;
 
 /**
@@ -93,13 +97,16 @@ public class FacesMetawidgetTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Faces Metawidget Tests" );
+		suite.addTestSuite( CssStyleProcessorTest.class );
 		suite.addTestSuite( HiddenFieldProcessorTest.class );
 		suite.addTestSuite( HtmlWidgetBuilderTest.class );
 		suite.addTestSuite( HtmlTableLayoutRendererTest.class );
 		suite.addTestSuite( IceFacesWidgetBuilderTest.class );
 		suite.addTestSuite( ImmediateAttributeProcessorTest.class );
+		suite.addTestSuite( ReadableIdProcessorTest.class );
 		suite.addTestSuite( RequiredAttributeProcessorTest.class );
 		suite.addTestSuite( RichFacesWidgetBuilderTest.class );
+		suite.addTestSuite( StandardBindingProcessorTest.class );
 		suite.addTestSuite( StandardConverterProcessorTest.class );
 		suite.addTestSuite( TomahawkWidgetBuilderTest.class );
 		suite.addTestSuite( UIMetawidgetTest.class );
@@ -167,6 +174,12 @@ public class FacesMetawidgetTests
 				public void addComponent( String s, String s1 )
 				{
 					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public ExpressionFactory getExpressionFactory()
+				{
+					throw new NoSuchMethodError( "MockFacesContext mimics JSF 1.1" );
 				}
 
 				@Override
