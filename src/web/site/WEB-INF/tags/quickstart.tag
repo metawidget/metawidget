@@ -8,6 +8,9 @@
 		</thead>
 		<tbody>
 			<tr>
+				<td><a href="${context}/elevator.html">Elevator Pitch</a></td>
+			</tr>
+			<tr>
 				<td><a href="${context}/gettingstarted.html">Getting Started</a></td>
 			</tr>
 			<tr>

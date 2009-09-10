@@ -61,6 +61,9 @@ import javax.faces.el.ValueBinding;
 import javax.faces.el.VariableResolver;
 import javax.faces.event.ActionListener;
 import javax.faces.render.RenderKit;
+import javax.faces.validator.DoubleRangeValidator;
+import javax.faces.validator.LengthValidator;
+import javax.faces.validator.LongRangeValidator;
 import javax.faces.validator.Validator;
 
 import junit.framework.Test;
@@ -81,6 +84,7 @@ import org.metawidget.faces.widgetprocessor.ReadableIdProcessorTest;
 import org.metawidget.faces.widgetprocessor.RequiredAttributeProcessorTest;
 import org.metawidget.faces.widgetprocessor.StandardBindingProcessorTest;
 import org.metawidget.faces.widgetprocessor.StandardConverterProcessorTest;
+import org.metawidget.faces.widgetprocessor.StandardValidatorProcessorTest;
 
 /**
  * @author Richard Kennard
@@ -108,6 +112,7 @@ public class FacesMetawidgetTests
 		suite.addTestSuite( RichFacesWidgetBuilderTest.class );
 		suite.addTestSuite( StandardBindingProcessorTest.class );
 		suite.addTestSuite( StandardConverterProcessorTest.class );
+		suite.addTestSuite( StandardValidatorProcessorTest.class );
 		suite.addTestSuite( TomahawkWidgetBuilderTest.class );
 		suite.addTestSuite( UIMetawidgetTest.class );
 
@@ -164,6 +169,22 @@ public class FacesMetawidgetTests
 					throws ReferenceSyntaxException
 				{
 					return new MockValueBinding( expressionString );
+				}
+
+				@Override
+				public Validator createValidator( String validatorName )
+					throws FacesException
+				{
+					if ( "javax.faces.LongRange".equals( validatorName ) )
+						return new LongRangeValidator();
+
+					if ( "javax.faces.DoubleRange".equals( validatorName ) )
+						return new DoubleRangeValidator();
+
+					if ( "javax.faces.Length".equals( validatorName ) )
+						return new LengthValidator();
+
+					throw new UnsupportedOperationException( "Unknown validator '" + validatorName + "'" );
 				}
 
 				//
@@ -224,13 +245,6 @@ public class FacesMetawidgetTests
 					throws ReferenceSyntaxException
 				{
 					return new MockMethodBinding( expression, null );
-				}
-
-				@Override
-				public Validator createValidator( String s )
-					throws FacesException
-				{
-					throw new UnsupportedOperationException();
 				}
 
 				@Override

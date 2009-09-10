@@ -131,12 +131,14 @@
 		</tr>
 	</table>
 	
-	<div id="footer">
+	<div id="footer-links">
 		<a href="/gettingstarted.html">Quick Start</a> |
 		<a href="/download.html">Download</a> |
 		<a href="/documentation.html">Documentation</a> |
 		<a href="/support.html">Support</a>
-		<br/><br/>
+	</div>
+
+	<div id="footer">
 		Artwork by <a href="http://susiewalkerdesign.com" target="_blank">Susie Walker Design</a>.
 		Template by <a href="http://freecsstemplates.org/" target="_blank">Free CSS Templates</a>.
 		Additional artwork by <a href="http://visualpharm.com" target="_blank">Visual Pharm</a><br/>

@@ -239,7 +239,7 @@ a {
 
 .badges {
 	margin-left: 18px;
-	margin-top: 20px;
+	margin-top: 25px;
 	text-align: center;
 	position: relative;
 }
@@ -260,10 +260,18 @@ a {
 	display: inline;
 }
 
-#footer {
+#footer-links {
 	margin-left: 218px;
 	text-align: center;
 	color: #888888;
+}
+
+#footer {
+	margin-top: 20px;
+	margin-left: 218px;
+	text-align: center;
+	color: #888888;
+	font-size: 6pt;
 }
 
 /*

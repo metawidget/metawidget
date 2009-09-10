@@ -934,7 +934,7 @@ public class GwtMetawidget
 	protected void addWidget( Widget widget, String elementName, Map<String, String> attributes )
 		throws Exception
 	{
-		String name = attributes.get( "name" );
+		String name = attributes.get( NAME );
 		mAddedWidgets.put( name, widget );
 
 		if ( widget instanceof HasName )

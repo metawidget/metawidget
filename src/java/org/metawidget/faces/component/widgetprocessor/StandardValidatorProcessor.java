@@ -57,20 +57,7 @@ public class StandardValidatorProcessor
 
 		EditableValueHolder editableValueHolder = (EditableValueHolder) component;
 
-		// JSF 1.2 support
-
 		FacesContext context = FacesContext.getCurrentInstance();
-
-		try
-		{
-			Method method = editableValueHolder.getClass().getMethod( "setLabel", String.class );
-			method.invoke( editableValueHolder, metawidget.getLabelString( context, attributes ) );
-		}
-		catch( Exception e )
-		{
-			// Fail gracefully
-		}
-
 		Application application = context.getApplication();
 
 		// Range
@@ -85,7 +72,7 @@ public class StandardValidatorProcessor
 			if ( type == null )
 				type = attributes.get( TYPE );
 
-			if ( "double".equals( type ) || Double.class.getName().equals( type ) )
+			if ( double.class.getName().equals( type ) || Double.class.getName().equals( type ) )
 			{
 				if ( !hasExistingValidator( editableValueHolder, DoubleRangeValidator.class ))
 				{
@@ -133,6 +120,21 @@ public class StandardValidatorProcessor
 					validator.setMaximum( Integer.parseInt( maximumLength ) );
 
 				editableValueHolder.addValidator( validator );
+			}
+		}
+
+		// JSF 1.2 support
+
+		if ( editableValueHolder.getValidators().length > 0 )
+		{
+			try
+			{
+				Method method = editableValueHolder.getClass().getMethod( "setLabel", String.class );
+				method.invoke( editableValueHolder, metawidget.getLabelString( context, attributes ) );
+			}
+			catch( Exception e )
+			{
+				// Fail gracefully
 			}
 		}
 
