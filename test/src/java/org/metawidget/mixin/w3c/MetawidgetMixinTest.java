@@ -16,6 +16,8 @@
 
 package org.metawidget.mixin.w3c;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.List;
 import java.util.Map;
 
@@ -76,11 +78,12 @@ public class MetawidgetMixinTest
 
 		mixin.setWidgetBuilder( new WidgetBuilder<Object, Object>()
 		{
-
 			@Override
 			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget )
 			{
-				return attributes.get( "type" );
+				// Return null if no type (this will kick us into buildCompoundWidget)
+
+				return attributes.get( TYPE );
 			}
 		} );
 
@@ -122,6 +125,76 @@ public class MetawidgetMixinTest
 		assertTrue( "buildCompoundWidget".equals( called.get( 0 ) ) );
 		assertTrue( "WidgetProcessor #1".equals( called.get( 1 ) ) );
 		assertTrue( !called.contains( "WidgetProcessor #2" ) );
+	}
+
+	/**
+	 * Stubs with null attributes should not error
+	 */
+
+	public void testStubWithNullAttributes()
+		throws Exception
+	{
+		final List<String> called = CollectionUtils.newArrayList();
+
+		TestMixin mixin = new TestMixin()
+		{
+			@Override
+			protected void buildCompoundWidget( Element element )
+				throws Exception
+			{
+				called.add( "buildCompoundWidget" );
+				super.buildCompoundWidget( element );
+			}
+
+			@Override
+			protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
+				throws Exception
+			{
+				called.add( "addWidget" );
+				super.addWidget( widget, elementName, attributes );
+			}
+
+			@Override
+			protected Object getOverriddenWidget( String elementName, Map<String, String> attributes )
+			{
+				// Return null for entity, non-null for property (with a name)
+
+				return attributes.get( NAME );
+			}
+
+			@Override
+			protected Map<String, String> getStubAttributes( Object stub )
+			{
+				called.add( "nullAttributes" );
+				return null;
+			}
+
+			@Override
+			protected boolean isStub( Object widget )
+			{
+				called.add( "wasStub" );
+				return true;
+			}
+		};
+
+		mixin.setWidgetBuilder( new WidgetBuilder<Object, Object>()
+		{
+			@Override
+			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget )
+			{
+				return attributes.get( TYPE );
+			}
+		} );
+
+		// Top-level widget
+
+		mixin.buildWidgets( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" );
+
+		assertTrue( called.size() == 4 );
+		assertTrue( "buildCompoundWidget".equals( called.get( 0 ) ) );
+		assertTrue( "wasStub".equals( called.get( 1 ) ) );
+		assertTrue( "nullAttributes".equals( called.get( 2 ) ) );
+		assertTrue( "addWidget".equals( called.get( 3 ) ) );
 	}
 
 	//
