@@ -686,7 +686,6 @@ public abstract class UIMetawidget
 		}
 
 		// Properties
-		// TODO: test binding == null
 
 		if ( binding == null )
 		{

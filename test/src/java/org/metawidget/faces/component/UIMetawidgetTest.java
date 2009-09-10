@@ -16,11 +16,17 @@
 
 package org.metawidget.faces.component;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
+
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
+import javax.faces.component.html.HtmlCommandButton;
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.render.RenderKit;
@@ -42,6 +48,12 @@ import org.metawidget.util.CollectionUtils;
 public class UIMetawidgetTest
 	extends TestCase
 {
+	//
+	// Private members
+	//
+
+	private FacesContext	mContext;
+
 	//
 	// Public methods
 	//
@@ -186,11 +198,92 @@ public class UIMetawidgetTest
 
 		stub.setStubAttributes( "rendered: true" );
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		attributes.put( "rendered", "true" );
+		attributes.put( "rendered", TRUE );
 		assertTrue( attributes.equals( stub.getStubAttributes() ) );
 
 		stub.setStubAttributes( "rendered: false;" );
-		attributes.put( "rendered", "false" );
+		attributes.put( "rendered", FALSE );
 		assertTrue( attributes.equals( stub.getStubAttributes() ) );
+	}
+
+	@SuppressWarnings( "deprecation" )
+	public void testOverriddenWidget()
+		throws Exception
+	{
+		Method getOverriddenWidget = UIMetawidget.class.getDeclaredMethod( "getOverriddenWidget", new Class[] { String.class, Map.class } );
+		getOverriddenWidget.setAccessible( true );
+
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{root}" ) );
+		HtmlInputText htmlInputText1 = new HtmlInputText();
+		htmlInputText1.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo}" ) );
+		metawidget.getChildren().add( htmlInputText1 );
+		HtmlInputText htmlInputText2 = new HtmlInputText();
+		htmlInputText2.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{root.bar}" ) );
+		metawidget.getChildren().add( htmlInputText2 );
+		HtmlInputText htmlInputText3 = new HtmlInputText();
+		htmlInputText3.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{root}" ) );
+		metawidget.getChildren().add( htmlInputText3 );
+		HtmlCommandButton htmlCommandButton1 = new HtmlCommandButton();
+		htmlCommandButton1.setAction( mContext.getApplication().createMethodBinding( "#{root.baz}", null ) );
+		metawidget.getChildren().add( htmlCommandButton1 );
+		HtmlCommandButton htmlCommandButton2 = new HtmlCommandButton();
+		htmlCommandButton2.setAction( mContext.getApplication().createMethodBinding( "#{abc}", null ) );
+		metawidget.getChildren().add( htmlCommandButton2 );
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+
+		// Pass through
+
+		assertTrue( null == getOverriddenWidget.invoke( metawidget, new Object[] { PROPERTY, attributes } ) );
+
+		// Test Faces Expression overrides property name
+
+		attributes.put( FACES_EXPRESSION, "#{foo}" );
+		attributes.put( NAME, "bar" );
+		assertTrue( htmlInputText1 == getOverriddenWidget.invoke( metawidget, new Object[] { PROPERTY, attributes } ) );
+
+		// Test name
+
+		attributes.remove( FACES_EXPRESSION );
+		assertTrue( htmlInputText2 == getOverriddenWidget.invoke( metawidget, new Object[] { PROPERTY, attributes } ) );
+
+		// Test action
+
+		attributes.put( NAME, "baz" );
+		assertTrue( htmlCommandButton1 == getOverriddenWidget.invoke( metawidget, new Object[] { ACTION, attributes } ) );
+
+		// Test Faces Expression overrides action name
+
+		attributes.put( FACES_EXPRESSION, "#{abc}" );
+		assertTrue( htmlCommandButton2 == getOverriddenWidget.invoke( metawidget, new Object[] { ACTION, attributes } ) );
+
+		// Test ENTITY looks for overrides at the top level (ie. the single widget scenario, where
+		// the top-level type can be represented by a single widget, and then it gets POSTed back)
+
+		attributes.remove( FACES_EXPRESSION );
+		assertTrue( htmlInputText3 == getOverriddenWidget.invoke( metawidget, new Object[] { ENTITY, attributes } ) );
+	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected final void setUp()
+		throws Exception
+	{
+		super.setUp();
+
+		mContext = new MockFacesContext();
+	}
+
+	@Override
+	protected final void tearDown()
+		throws Exception
+	{
+		super.tearDown();
+
+		mContext.release();
 	}
 }
