@@ -57,8 +57,6 @@ import org.richfaces.component.html.HtmlInputNumberSpinner;
 public class RichFacesWidgetBuilder
 	extends BaseWidgetBuilder<UIComponent, UIMetawidget>
 {
-	// TODO: implements Layout?
-
 	//
 	// Protected methods
 	//

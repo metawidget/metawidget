@@ -80,6 +80,7 @@ import org.metawidget.faces.widgetbuilder.icefaces.IceFacesWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.richfaces.RichFacesWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.tomahawk.TomahawkWidgetBuilderTest;
 import org.metawidget.faces.widgetprocessor.ImmediateAttributeProcessorTest;
+import org.metawidget.faces.widgetprocessor.LabelProcessorTest;
 import org.metawidget.faces.widgetprocessor.ReadableIdProcessorTest;
 import org.metawidget.faces.widgetprocessor.RequiredAttributeProcessorTest;
 import org.metawidget.faces.widgetprocessor.StandardBindingProcessorTest;
@@ -105,6 +106,7 @@ public class FacesMetawidgetTests
 		suite.addTestSuite( HiddenFieldProcessorTest.class );
 		suite.addTestSuite( HtmlWidgetBuilderTest.class );
 		suite.addTestSuite( HtmlTableLayoutRendererTest.class );
+		suite.addTestSuite( LabelProcessorTest.class );
 		suite.addTestSuite( IceFacesWidgetBuilderTest.class );
 		suite.addTestSuite( ImmediateAttributeProcessorTest.class );
 		suite.addTestSuite( ReadableIdProcessorTest.class );

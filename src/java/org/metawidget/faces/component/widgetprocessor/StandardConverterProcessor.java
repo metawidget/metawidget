@@ -82,7 +82,8 @@ public class StandardConverterProcessor
 			return component;
 
 		ValueHolder valueHolder = (ValueHolder) component;
-		valueHolder.setConverter( getConverter( valueHolder, attributes ) );
+		valueHolder.setConverter( getConverter( valueHolder, attributes ));
+
 		return component;
 	}
 

@@ -19,7 +19,6 @@ package org.metawidget.faces.component.widgetprocessor;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResultConstants.*;
 
-import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.faces.application.Application;
@@ -120,21 +119,6 @@ public class StandardValidatorProcessor
 					validator.setMaximum( Integer.parseInt( maximumLength ) );
 
 				editableValueHolder.addValidator( validator );
-			}
-		}
-
-		// JSF 1.2 support
-
-		if ( editableValueHolder.getValidators().length > 0 )
-		{
-			try
-			{
-				Method method = editableValueHolder.getClass().getMethod( "setLabel", String.class );
-				method.invoke( editableValueHolder, metawidget.getLabelString( context, attributes ) );
-			}
-			catch( Exception e )
-			{
-				// Fail gracefully
 			}
 		}
 

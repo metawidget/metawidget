@@ -192,7 +192,7 @@ h4 {
 	font-weight: bold;
 	letter-spacing: -0.5pt;
 	border: 2px solid black;
-	width: 250px;
+	width: 240px;
 	padding: 5px;
 	opacity: .75;
 	filter: alpha( opacity = 75 );
@@ -233,6 +233,13 @@ h4 {
 	left: 260px;
 }
 
+#elevator #frame2 .john-bubble {
+	position: absolute;
+	top: 10px;
+	left: 70px;
+	width: 150px;
+}
+
 #elevator #frame3 {
 	position: absolute;
 	top: 340px;
@@ -242,8 +249,8 @@ h4 {
 #elevator #frame3 .john-bubble {
 	top: 100px;
 	left: 130px;
-	width: 100px;
-	text-align: right;
+	width: 80px;
+	text-align: center;
 }
 
 #elevator #frame4 {
@@ -277,16 +284,17 @@ h4 {
 }
 
 #elevator #frame7 .john-bubble {
-	top: 80px;
+	top: 100px;
 	left: 100px;
-	width: 150px;
-	text-align: right;
+	width: 140px;
+	text-align: center;
 }
 
 #elevator #frame7 .bob-bubble2 {
-	top: 100px;
+	top: 140px;
 	left: 10px;
-	width: 100px;
+	width: 60px;
+	text-align: center;
 }
 
 #elevator #frame8 {
@@ -295,7 +303,13 @@ h4 {
 	left: 310px;
 }
 
+#elevator #frame8 .john-bubble {
+	top: 10px;
+	left: 50px;	
+	width: 180px;
+}
+
 #elevator #frame8 .bob-bubble {
-	top: 80px;
+	top: 65px;
 	width: 150px;
 }

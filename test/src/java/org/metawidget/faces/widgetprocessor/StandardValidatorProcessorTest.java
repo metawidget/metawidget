@@ -82,7 +82,7 @@ public class StandardValidatorProcessorTest
 		assertTrue( 1 == htmlInputText.getValidators().length );
 		assertTrue( 2 == ((LongRangeValidator) htmlInputText.getValidators()[0]).getMinimum() );
 		assertTrue( 0 == ((LongRangeValidator) htmlInputText.getValidators()[0]).getMaximum() );
-		assertTrue( "Foo".equals( htmlInputText.getLabel() ));
+		assertTrue( null == htmlInputText.getLabel() );
 
 		// Should not touch existing validators
 

@@ -22,7 +22,6 @@ import java.util.Map;
 
 import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
-import javax.faces.component.ValueHolder;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.DateTimeConverter;
@@ -31,6 +30,7 @@ import javax.faces.convert.NumberConverter;
 import junit.framework.TestCase;
 
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
+import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlLookupOutputText;
 import org.metawidget.faces.component.widgetprocessor.StandardConverterProcessor;
 import org.metawidget.util.CollectionUtils;
@@ -57,19 +57,20 @@ public class StandardConverterProcessorTest
 	{
 		StandardConverterProcessor processor = new StandardConverterProcessor();
 
-		UIComponent component = new HtmlInputText();
-		ValueHolder valueHolder = (ValueHolder) component;
+		HtmlInputText htmlInputText = new HtmlInputText();
 
 		// Actions get no Converters
 
-		processor.processWidget( component, ACTION, null, null );
-		assertTrue( null == valueHolder.getConverter() );
+		processor.processWidget( htmlInputText, ACTION, null, null );
+		assertTrue( null == htmlInputText.getConverter() );
 
 		// Empty attributes get no Converters
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
-		processor.processWidget( component, PROPERTY, attributes, null );
-		assertTrue( null == valueHolder.getConverter() );
+		attributes.put( NAME, "foo" );
+		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
+		assertTrue( null == htmlInputText.getConverter() );
+		assertTrue( null == htmlInputText.getLabel() );
 
 		// DateTimeConverter
 
@@ -79,9 +80,10 @@ public class StandardConverterProcessorTest
 		attributes.put( DATETIME_PATTERN, "dd/MM/yyyy" );
 		attributes.put( TIME_ZONE, "Australia/Sydney" );
 		attributes.put( DATETIME_TYPE, "date" );
-		processor.processWidget( component, PROPERTY, attributes, null );
+		processor.processWidget( htmlInputText, PROPERTY, attributes, new HtmlMetawidget() );
+		assertTrue( null == htmlInputText.getLabel() );
 
-		DateTimeConverter dateTimeConverter = (DateTimeConverter) valueHolder.getConverter();
+		DateTimeConverter dateTimeConverter = (DateTimeConverter) htmlInputText.getConverter();
 		assertTrue( "full".equals( dateTimeConverter.getDateStyle() ));
 		assertTrue( "medium".equals( dateTimeConverter.getTimeStyle() ));
 		assertTrue( "uk".equals( dateTimeConverter.getLocale().getLanguage() ));
@@ -105,12 +107,12 @@ public class StandardConverterProcessorTest
 
 		// (should not overwrite existing Converter)
 
-		processor.processWidget( component, PROPERTY, attributes, null );
-		assertTrue( dateTimeConverter == valueHolder.getConverter() );
-		valueHolder.setConverter( null );
-		processor.processWidget( component, PROPERTY, attributes, null );
+		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
+		assertTrue( dateTimeConverter == htmlInputText.getConverter() );
+		htmlInputText.setConverter( null );
+		processor.processWidget( htmlInputText, PROPERTY, attributes, null );
 
-		NumberConverter numberConverter = (NumberConverter) valueHolder.getConverter();
+		NumberConverter numberConverter = (NumberConverter) htmlInputText.getConverter();
 		assertTrue( "AUD".equals( numberConverter.getCurrencyCode() ));
 		assertTrue( "$".equals( numberConverter.getCurrencySymbol() ));
 		assertTrue( numberConverter.isGroupingUsed() );
