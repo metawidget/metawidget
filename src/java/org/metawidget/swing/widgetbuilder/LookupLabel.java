@@ -14,30 +14,43 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.example.swing.addressbook.converter;
+package org.metawidget.swing.widgetbuilder;
 
-import org.jdesktop.beansbinding.Converter;
+import java.util.Map;
+
+import javax.swing.JLabel;
 
 /**
+ * Label whose values use a lookup.
+ *
  * @author Richard Kennard
  */
 
-public class EnumConverter<T extends Enum<T>>
-	extends Converter<T, String>
+public class LookupLabel
+	extends JLabel
 {
+	//
+	// Private statics
+	//
+
+	private static final long	serialVersionUID	= 1l;
+
 	//
 	// Private members
 	//
 
-	private Class<T>	mEnum;
+	private Map<String, String>	mLookup;
 
 	//
 	// Constructor
 	//
 
-	public EnumConverter( Class<T> anEnum )
+	public LookupLabel( Map<String, String> lookup )
 	{
-		mEnum = anEnum;
+		if ( lookup == null )
+			throw new NullPointerException( "lookup" );
+
+		mLookup = lookup;
 	}
 
 	//
@@ -45,21 +58,14 @@ public class EnumConverter<T extends Enum<T>>
 	//
 
 	@Override
-	public String convertForward( T anEnum )
+	public void setText( String text )
 	{
-		// The enum will have been converted to its '.name' by Java5Inspector when
-		// it creates lookup values and labels. This means we must also convert the
-		// enum to its '.name' during binding.
-		//
-		// The alternative to this is to have the Metawidgets deal with enums directly, but
-		// that is less desirable because it ties the Metawidgets to a Java 5 platform
+		String lookup = text;
 
-		return anEnum.name();
-	}
+		if ( lookup != null && mLookup != null )
+			lookup = mLookup.get( lookup );
 
-	@Override
-	public T convertReverse( String name )
-	{
-		return Enum.valueOf( mEnum, name );
+		super.setText( lookup );
 	}
 }
+

@@ -38,7 +38,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingConstants;
 import javax.swing.plaf.basic.BasicComboBoxEditor;
 import javax.swing.plaf.basic.BasicComboBoxRenderer;
 import javax.swing.text.JTextComponent;
@@ -56,8 +55,8 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 /**
  * WidgetBuilder for Swing environments.
  * <p>
- * Automatically creates native Swing <code>JComponents</code>, such as <code>JTextField</code>
- * and <code>JComboBox</code>, to suit the inspected fields.
+ * Automatically creates native Swing <code>JComponents</code>, such as <code>JTextField</code> and
+ * <code>JComboBox</code>, to suit the inspected fields.
  *
  * @author Richard Kennard
  */
@@ -154,17 +153,26 @@ public class SwingWidgetBuilder
 			{
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
 				{
-					// Avoid just using a JLabel, in case the contents are
-					// really large. This also helps the layout of this field
-					// be consistent with its activated, JTextArea version
+					// Do not use a JLabel: JLabels do not support carriage returns like JTextAreas
+					// do, so a multi-line JTextArea formats to a single line JLabel. Instead use
+					// a non-editable JTextArea within a borderless JScrollPane
 
-					JLabel label = new JLabel();
-					label.setVerticalAlignment( SwingConstants.TOP );
+					JTextArea textarea = new JTextArea();
 
-					JScrollPane scrollPane = new JScrollPane( label );
-					scrollPane.setOpaque( false );
-					scrollPane.getViewport().setOpaque( false );
+					// Since we know we are dealing with Strings, we consider
+					// word-wrapping a sensible default
+
+					textarea.setLineWrap( true );
+					textarea.setWrapStyleWord( true );
+					textarea.setEditable( false );
+
+					// We also consider 2 rows a sensible default, so that the
+					// read-only JTextArea is always distinguishable from a JLabel
+
+					textarea.setRows( 2 );
+					JScrollPane scrollPane = new JScrollPane( textarea );
 					scrollPane.setBorder( null );
+
 					return scrollPane;
 				}
 
@@ -237,7 +245,7 @@ public class SwingWidgetBuilder
 
 			// Add an empty choice (if nullable, and not required)
 
-			if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+			if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
 				comboBox.addItem( null );
 
 			List<String> values = CollectionUtils.fromString( lookup );
@@ -296,8 +304,8 @@ public class SwingWidgetBuilder
 				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
 				{
 					JSlider slider = new JSlider();
-					slider.setMinimum( (int) Math.ceil( Double.parseDouble( minimumValue ) ));
-					slider.setMaximum( (int) Math.floor( Double.parseDouble( maximumValue ) ));
+					slider.setMinimum( (int) Math.ceil( Double.parseDouble( minimumValue ) ) );
+					slider.setMaximum( (int) Math.floor( Double.parseDouble( maximumValue ) ) );
 
 					return slider;
 				}
@@ -454,9 +462,9 @@ public class SwingWidgetBuilder
 	/**
 	 * Sets the JSpinner model.
 	 * <p>
-	 * By default, a JSpinner calls <code>setColumns</code> upon <code>setModel</code>. For
-	 * numbers like <code>Integer.MAX_VALUE</code> and <code>Double.MAX_VALUE</code>, this can
-	 * be very large and mess up the layout. Here, we reset <code>setColumns</code> to 0.
+	 * By default, a JSpinner calls <code>setColumns</code> upon <code>setModel</code>. For numbers
+	 * like <code>Integer.MAX_VALUE</code> and <code>Double.MAX_VALUE</code>, this can be very large
+	 * and mess up the layout. Here, we reset <code>setColumns</code> to 0.
 	 * <p>
 	 * Note it is very important we set the initial value of the <code>JSpinner</code> to the same
 	 * type as the property it maps to (eg. float or double, int or long).
@@ -486,61 +494,6 @@ public class SwingWidgetBuilder
 	//
 	// Inner class
 	//
-
-	/**
-	 * Label whose values use a lookup
-	 */
-
-	public static class LookupLabel
-		extends JLabel
-	{
-		//
-		//
-		// Private statics
-		//
-		//
-
-		private static final long	serialVersionUID	= 1l;
-
-		//
-		//
-		// Private members
-		//
-		//
-
-		private Map<String, String>	mLookup;
-
-		//
-		//
-		// Constructor
-		//
-		//
-
-		public LookupLabel( Map<String, String> lookup )
-		{
-			if ( lookup == null )
-				throw new NullPointerException( "lookup" );
-
-			mLookup = lookup;
-		}
-
-		//
-		//
-		// Public methods
-		//
-		//
-
-		@Override
-		public void setText( String text )
-		{
-			String lookup = null;
-
-			if ( text != null && mLookup != null )
-				lookup = mLookup.get( text );
-
-			super.setText( lookup );
-		}
-	}
 
 	/**
 	 * Editor for ComboBox whose values use a lookup.

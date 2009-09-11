@@ -153,7 +153,7 @@ public class ContactDialog
 		// BeansBinding
 
 		BeansBindingProcessor.registerConverter( Date.class, String.class, new DateConverter() );
-		BeansBindingProcessor.registerConverter( Gender.class, Object.class, new EnumConverter<Gender>( Gender.class ) );
+		BeansBindingProcessor.registerConverter( Gender.class, String.class, new EnumConverter<Gender>( Gender.class ) );
 
 		// Metawidget
 

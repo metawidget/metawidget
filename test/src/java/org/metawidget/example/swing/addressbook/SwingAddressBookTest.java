@@ -45,6 +45,7 @@ import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
+import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.example.swing.addressbook.converter.DateConverter;
 import org.metawidget.iface.MetawidgetException;
@@ -93,6 +94,8 @@ public class SwingAddressBookTest
 		assertTrue( "Search".equals( buttonSearch.getText() ) );
 
 		buttonSearch.getAction().actionPerformed( null );
+		assertTrue( ContactType.PERSONAL == ((JComboBox) metawidgetSearch.getComponent( "type" )).getSelectedItem() );
+
 		ContactsController contactsController = addressBook.getContactsController();
 		assertTrue( contactsController.getAllByExample( (ContactSearch) metawidgetSearch.getToInspect() ).size() == 2 );
 
@@ -117,6 +120,7 @@ public class SwingAddressBookTest
 		SwingMetawidget metawidgetContact = (SwingMetawidget) ( (Container) dialog.getContentPane().getComponent( 0 ) ).getComponent( 1 );
 		assertTrue( "Homer".equals( metawidgetContact.getValue( "firstname" ) ) );
 		assertTrue( metawidgetContact.getComponent( "firstname" ) instanceof JLabel );
+		assertTrue( "Male".equals( ((JLabel) metawidgetContact.getComponent( "gender" )).getText() ));
 		assertTrue( "12/05/56".equals( metawidgetContact.getValue( "dateOfBirth" ) ) );
 
 		try
@@ -149,6 +153,7 @@ public class SwingAddressBookTest
 		assertTrue( "Edit".equals( buttonEdit.getText() ) );
 		buttonEdit.getAction().actionPerformed( null );
 
+		assertTrue( Gender.MALE == ((JComboBox) metawidgetContact.getComponent( "gender" )).getSelectedItem() );
 		metawidgetContact.setValue( "Sapien", "surname" );
 		assertTrue( metawidgetContact.getComponentCount() == 19 );
 
@@ -242,7 +247,7 @@ public class SwingAddressBookTest
 		assertTrue( "Edit".equals( buttonEdit.getText() ) );
 		buttonEdit.getAction().actionPerformed( null );
 		assertTrue( "Charles Montgomery".equals( metawidgetContact.getValue( "firstname" ) ) );
-		assertTrue( "MALE".equals( metawidgetContact.getValue( "gender" ) ) );
+		assertTrue( Gender.MALE == metawidgetContact.getValue( "gender" ) );
 		assertTrue( 0 == (Integer) metawidgetContact.getValue( "numberOfStaff" ) );
 
 		// Check saving
@@ -288,11 +293,25 @@ public class SwingAddressBookTest
 		metawidgetContact.setValue( "Miss", "title" );
 		metawidgetContact.setValue( "Business", "firstname" );
 		metawidgetContact.setValue( "Contact", "surname" );
+		assertTrue( 3 == ((JComboBox) metawidgetContact.getComponent( "gender" )).getItemCount() );
+		assertTrue( null == ((JComboBox) metawidgetContact.getComponent( "gender" )).getSelectedItem() );
+		((JComboBox) metawidgetContact.getComponent( "gender" )).setSelectedItem( Gender.FEMALE );
 
 		buttonSave = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		assertTrue( "Save".equals( buttonSave.getText() ) );
 		buttonSave.getAction().actionPerformed( null );
 		assertTrue( contactsTable.getRowCount() == 6 );
+
+		// Check viewing
+
+		contact = contactsController.load( 7 );
+		assertTrue( "Miss Business Contact".equals( contact.getFullname() ) );
+		assertTrue( Gender.FEMALE == contact.getGender() );
+		metawidgetContact.setReadOnly( true );
+		assertTrue( "Female".equals( ((JLabel) metawidgetContact.getComponent( "gender" )).getText() ));
+
+		metawidgetContact.setReadOnly( false );
+		assertTrue( Gender.FEMALE == ((JComboBox) metawidgetContact.getComponent( "gender" )).getSelectedItem() );
 	}
 
 	public void testListTableModel()

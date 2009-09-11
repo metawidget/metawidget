@@ -826,8 +826,6 @@ public class SwingMetawidget
 			if ( mConfig != null )
 				CONFIG_READER.configure( mConfig, this );
 
-			mMetawidgetMixin.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwingMetawidget.class );
-
 			// SwingMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( mMetawidgetMixin.getLayout() == null )
@@ -836,6 +834,7 @@ public class SwingMetawidget
 				mMetawidgetMixin.setLayout( dummyMetawidget.getMetawidgetMixin().getLayout() );
 			}
 
+			mMetawidgetMixin.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwingMetawidget.class );
 		}
 		catch ( Exception e )
 		{

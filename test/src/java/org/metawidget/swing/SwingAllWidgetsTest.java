@@ -499,7 +499,7 @@ public class SwingAllWidgetsTest
 		assertTrue( "Limited textbox:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( "Limited Textbox1".equals( ( (JLabel) metawidget.getComponent( 3 ) ).getText() ) );
 		assertTrue( "Textarea:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
-		assertTrue( "Textarea1".equals( ( (JLabel) ( (JScrollPane) metawidget.getComponent( 5 ) ).getViewport().getView() ).getText() ) );
+		assertTrue( "Textarea1".equals( ( (JTextArea) ( (JScrollPane) metawidget.getComponent( 5 ) ).getViewport().getView() ).getText() ) );
 		assertTrue( "Password:".equals( ( (JLabel) metawidget.getComponent( 6 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JPanel );
 		assertTrue( "Byte:".equals( ( (JLabel) metawidget.getComponent( 8 ) ).getText() ) );

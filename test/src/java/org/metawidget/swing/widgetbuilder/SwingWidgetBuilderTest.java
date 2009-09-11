@@ -20,7 +20,9 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JTextArea;
 
 import junit.framework.TestCase;
 
@@ -52,5 +54,32 @@ public class SwingWidgetBuilderTest
 		JSlider slider = (JSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 2 == slider.getMinimum() );
 		assertTrue( 99 == slider.getMaximum() );
+
+		// JTextArea
+
+		attributes.put( TYPE, String.class.getName() );
+		attributes.put( LARGE, TRUE );
+
+		JScrollPane scrollPane = (JScrollPane) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( null != scrollPane.getBorder() );
+		JTextArea textarea = (JTextArea) scrollPane.getViewport().getView();
+		assertTrue( true == textarea.getLineWrap() );
+		assertTrue( true == textarea.getWrapStyleWord() );
+		assertTrue( true == textarea.isEditable() );
+		assertTrue( 2 == textarea.getRows() );
+
+		// Read-only JTextArea
+
+		attributes.put( TYPE, String.class.getName() );
+		attributes.put( READ_ONLY, TRUE );
+		attributes.put( LARGE, TRUE );
+
+		scrollPane = (JScrollPane) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( null == scrollPane.getBorder() );
+		textarea = (JTextArea) scrollPane.getViewport().getView();
+		assertTrue( true == textarea.getLineWrap() );
+		assertTrue( true == textarea.getWrapStyleWord() );
+		assertTrue( false == textarea.isEditable() );
+		assertTrue( 2 == textarea.getRows() );
 	}
 }
