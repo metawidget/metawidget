@@ -20,7 +20,6 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -40,6 +39,7 @@ import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.IOUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.simple.StringUtils;
@@ -71,12 +71,6 @@ public class ConfigReader
 	//
 
 	final static Log					LOG								= LogUtils.getLog( ConfigReader.class );
-
-	//
-	// Private statics
-	//
-
-	private final static int			BUFFER_SIZE						= 1024 * 64;
 
 	//
 	// Protected members
@@ -119,6 +113,15 @@ public class ConfigReader
 	 * <p>
 	 * This is a convenience method for <code>configure( String, Object )</code> that casts the
 	 * returned Object to an instance of the given <code>toConfigure</code> class.
+	 *
+	 * @param resource
+	 *            resource name that will be looked up using openResource
+	 * @param toConfigure
+	 *            class to instantiate. Can be a superclass of the one actually in the resource
+	 * @param names
+	 *            path to a property within the object. If specified, siblings to this path will be
+	 *            ignored. This allows ConfigReader to be used to initialise only a specific part of
+	 *            an object
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -133,6 +136,15 @@ public class ConfigReader
 	 * This version of <code>configure</code> uses <code>openResource</code> to open the specified
 	 * resource, then caches the contents against the resource name. It then calls
 	 * <code>configure( InputStream, Object )</code>.
+	 *
+	 * @param resource
+	 *            resource name that will be looked up using openResource
+	 * @param toConfigure
+	 *            object to configure. Can be a subclass of the one actually in the resource
+	 * @param names
+	 *            path to a property within the object. If specified, siblings to this path will be
+	 *            ignored. This allows ConfigReader to be used to initialise only a specific part of
+	 *            an object
 	 */
 
 	public Object configure( String resource, Object toConfigure, String... names )
@@ -142,7 +154,7 @@ public class ConfigReader
 		if ( bytes == null )
 		{
 			ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
-			streamBetween( openResource( resource ), streamOut );
+			IOUtils.streamBetween( openResource( resource ), streamOut );
 			bytes = streamOut.toByteArray();
 
 			RESOURCE_CACHE.put( resource, bytes );
@@ -156,6 +168,15 @@ public class ConfigReader
 	 * <p>
 	 * This is a convenience method for <code>configure( InputStream, Object )</code> that casts the
 	 * returned Object to an instance of the given <code>toConfigure</code> class.
+	 *
+	 * @param stream
+	 *            XML input as a stream
+	 * @param toConfigure
+	 *            class to instantiate. Can be a superclass of the one actually in the resource
+	 * @param names
+	 *            path to a property within the object. If specified, siblings to this path will be
+	 *            ignored. This allows ConfigReader to be used to initialise only a specific part of
+	 *            an object
 	 */
 
 	@SuppressWarnings( "unchecked" )
@@ -211,6 +232,15 @@ public class ConfigReader
 	 * </code>
 	 * <p>
 	 * ...will call <code>setOpaque</code> on the given <code>JPanel</code>.
+	 *
+	 * @param stream
+	 *            XML input as a stream
+	 * @param toConfigure
+	 *            object to configure. Can be a subclass of the one actually in the resource
+	 * @param names
+	 *            path to a property within the object. If specified, siblings to this path will be
+	 *            ignored. This allows ConfigReader to be used to initialise only a specific part of
+	 *            an object
 	 */
 
 	public Object configure( InputStream stream, Object toConfigure, String... names )
@@ -221,7 +251,7 @@ public class ConfigReader
 		try
 		{
 			ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
-			streamBetween( stream, streamOut );
+			IOUtils.streamBetween( stream, streamOut );
 			byte[] bytes = streamOut.toByteArray();
 
 			return configure( bytes, toConfigure, names );
@@ -271,6 +301,17 @@ public class ConfigReader
 	//
 	// Protected methods
 	//
+
+	/**
+	 * @param bytes
+	 *            byte array containing the XML input
+	 * @param toConfigure
+	 *            object to configure. Can be a subclass of the one actually in the resource
+	 * @param names
+	 *            path to a property within the object. If specified, siblings to this path will be
+	 *            ignored. This allows ConfigReader to be used to initialise only a specific part of
+	 *            an object
+	 */
 
 	protected Object configure( byte[] bytes, Object toConfigure, String... names )
 	{
@@ -416,43 +457,6 @@ public class ConfigReader
 			return true;
 
 		return false;
-	}
-
-	//
-	// Private methods
-	//
-
-	private void streamBetween( InputStream in, OutputStream out )
-	{
-		try
-		{
-			int iCount;
-
-			// (must create a local buffer for Thread-safety)
-
-			byte[] byteData = new byte[BUFFER_SIZE];
-
-			while ( ( iCount = in.read( byteData, 0, BUFFER_SIZE ) ) != -1 )
-			{
-				out.write( byteData, 0, iCount );
-			}
-		}
-		catch ( Exception e )
-		{
-			throw new RuntimeException( e );
-		}
-		finally
-		{
-			try
-			{
-				out.close();
-				in.close();
-			}
-			catch ( Exception e )
-			{
-				throw new RuntimeException( e );
-			}
-		}
 	}
 
 	//

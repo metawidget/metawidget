@@ -522,13 +522,13 @@
 		
 	</target>
 	
-	<!-- Reference Documentation -->
+	<!-- User Guide and Reference Documentation -->
 	
 	<available property="docbook-available" file="${docbook.dir}/build-docbook.xml"/>
 
 	<target name="docbook-skip" unless="docbook-available">
 
-		<echo level="warning" message="DocBook not installed at 'docbook.dir' in 'build.properties'. Not building reference documentation"/>
+		<echo level="warning" message="DocBook not installed at 'docbook.dir' in 'build.properties'. Not building User Guide and Reference Documentation"/>
 
 	</target>
 

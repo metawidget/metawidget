@@ -20,7 +20,6 @@ import java.awt.Point;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +49,7 @@ import org.metawidget.mixin.base.BaseMetawidgetMixin;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
+import org.metawidget.util.IOUtils;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.xml.sax.SAXException;
@@ -61,12 +61,6 @@ import org.xml.sax.SAXException;
 public class ConfigReaderTest
 	extends TestCase
 {
-	//
-	// Private statics
-	//
-
-	private final static int	BUFFER_SIZE	= 1024 * 64;
-
 	//
 	// Public methods
 	//
@@ -445,7 +439,7 @@ public class ConfigReaderTest
 		assertTrue( ".*?".equals( inspector.getPattern().toString() ) );
 
 		ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
-		streamBetween( inspector.getInputStream(), streamOut );
+		IOUtils.streamBetween( inspector.getInputStream(), streamOut );
 		assertTrue( streamOut.toString().contains( "<metawidget xmlns=\"http://metawidget.org\"" ) );
 
 		assertTrue( "Limited textbox (i18n)".equals( inspector.getResourceBundle().getString( "limitedTextbox" ) ) );
@@ -641,43 +635,6 @@ public class ConfigReaderTest
 		catch ( InspectorException e )
 		{
 			assertTrue( "XML node 'BadInspector' should start with a lowercase letter".equals( e.getMessage() ) );
-		}
-	}
-
-	//
-	// Private methods
-	//
-
-	private void streamBetween( InputStream in, OutputStream out )
-	{
-		try
-		{
-			int iCount;
-
-			// (must create a local buffer for Thread-safety)
-
-			byte[] byteData = new byte[BUFFER_SIZE];
-
-			while ( ( iCount = in.read( byteData, 0, BUFFER_SIZE ) ) != -1 )
-			{
-				out.write( byteData, 0, iCount );
-			}
-		}
-		catch ( Exception e )
-		{
-			throw new RuntimeException( e );
-		}
-		finally
-		{
-			try
-			{
-				out.close();
-				in.close();
-			}
-			catch ( Exception e )
-			{
-				throw new RuntimeException( e );
-			}
 		}
 	}
 

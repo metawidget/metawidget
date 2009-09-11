@@ -23,6 +23,12 @@ import java.util.Map;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
+/**
+ * Convenience implementation.
+ *
+ * @author Richard Kennard
+ */
+
 public abstract class BaseWidgetBuilder<W, M extends W>
 	implements WidgetBuilder<W, M>
 {

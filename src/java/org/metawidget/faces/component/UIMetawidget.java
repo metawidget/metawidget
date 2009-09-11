@@ -588,7 +588,6 @@ public abstract class UIMetawidget
 	}
 
 	protected void configure()
-		throws Exception
 	{
 		if ( !mNeedsConfiguring )
 			return;

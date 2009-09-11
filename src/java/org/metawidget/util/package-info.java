@@ -16,6 +16,10 @@
 
 /**
  * Utility classes.
+ * <p>
+ * <strong>WARNING: contents of this package are subject to change. This package should be
+ * considered private to the org.metawidget namespace, not part of the Metawidget public
+ * API.</strong>
  *
  * @author Richard Kennard
  */

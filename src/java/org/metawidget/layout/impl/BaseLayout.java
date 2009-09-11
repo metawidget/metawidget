@@ -18,6 +18,12 @@ package org.metawidget.layout.impl;
 
 import org.metawidget.layout.iface.Layout;
 
+/**
+ * Convenience implementation.
+ *
+ * @author Richard Kennard
+ */
+
 public abstract class BaseLayout<W, M extends W>
 	implements Layout<W, M>
 {

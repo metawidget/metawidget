@@ -18,6 +18,12 @@ package org.metawidget.widgetprocessor.impl;
 
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
+/**
+ * Convenience implementation.
+ *
+ * @author Richard Kennard
+ */
+
 public abstract class BaseWidgetProcessor<W, M extends W>
 	implements WidgetProcessor<W, M>
 {
