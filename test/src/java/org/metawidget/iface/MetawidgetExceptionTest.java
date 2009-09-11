@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.layout.iface;
+package org.metawidget.iface;
 
 import junit.framework.TestCase;
 
@@ -22,23 +22,23 @@ import junit.framework.TestCase;
  * @author Richard Kennard
  */
 
-public class LayoutExceptionTest
+public class MetawidgetExceptionTest
 	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	public void testLayoutException()
+	public void testWidgetBuilderException()
 		throws Exception
 	{
 		Throwable throwable = new Throwable();
-		assertTrue( throwable == LayoutException.newException( throwable ).getCause() );
+		assertTrue( throwable == MetawidgetException.newException( throwable ).getCause() );
 
-		throwable = LayoutException.newException( "Foo" );
+		throwable = MetawidgetException.newException( "Foo" );
 		assertTrue( "Foo".equals( throwable.getMessage() ));
-		assertTrue( throwable == LayoutException.newException( throwable ) );
-		assertTrue( "Foo".equals( LayoutException.newException( "Foo", throwable ).getMessage() ));
-		assertTrue( throwable == LayoutException.newException( "Foo", throwable ).getCause() );
+		assertTrue( throwable == MetawidgetException.newException( throwable ) );
+		assertTrue( "Foo".equals( MetawidgetException.newException( "Foo", throwable ).getMessage() ));
+		assertTrue( throwable == MetawidgetException.newException( "Foo", throwable ).getCause() );
 	}
 }

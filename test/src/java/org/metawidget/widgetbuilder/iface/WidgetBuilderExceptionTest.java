@@ -18,8 +18,6 @@ package org.metawidget.widgetbuilder.iface;
 
 import junit.framework.TestCase;
 
-import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
-
 /**
  * @author Richard Kennard
  */
@@ -40,5 +38,7 @@ public class WidgetBuilderExceptionTest
 		throwable = WidgetBuilderException.newException( "Foo" );
 		assertTrue( "Foo".equals( throwable.getMessage() ));
 		assertTrue( throwable == WidgetBuilderException.newException( throwable ) );
+		assertTrue( "Foo".equals( WidgetBuilderException.newException( "Foo", throwable ).getMessage() ));
+		assertTrue( throwable == WidgetBuilderException.newException( "Foo", throwable ).getCause() );
 	}
 }

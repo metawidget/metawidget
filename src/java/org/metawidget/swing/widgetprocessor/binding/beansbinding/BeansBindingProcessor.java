@@ -140,8 +140,9 @@ public class BeansBindingProcessor
 	 * recreating the components. It is the client's responsbility to ensure the setToRebind object
 	 * is compatible with the original setToInspect.
 	 * <p>
-	 * Note this method does not call <code>setToInspect</code>, so the rebound object cannot
-	 * be retrieved using <code>getToInspect</code>. Rather, clients should use <code>getToRebind</code>.
+	 * Note this method does not call <code>setToInspect</code>, so the rebound object cannot be
+	 * retrieved using <code>getToInspect</code>. Rather, clients should use
+	 * <code>getToRebind</code>.
 	 */
 
 	public void setToRebind( Object toRebind, SwingMetawidget metawidget )
@@ -404,11 +405,11 @@ public class BeansBindingProcessor
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/*package private*/ class State
+	/* package private */class State
 	{
-		/* package private */ Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
+		/* package private */Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
 
-		/* package private */ Object																		toRebind;
+		/* package private */Object																		toRebind;
 	}
 
 	private final static class ConvertFromTo<S, T>

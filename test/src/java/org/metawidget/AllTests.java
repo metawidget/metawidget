@@ -22,6 +22,7 @@ import junit.framework.TestSuite;
 
 import org.metawidget.example.ExampleTests;
 import org.metawidget.faces.FacesMetawidgetTests;
+import org.metawidget.iface.MetawidgetExceptionTest;
 import org.metawidget.inspector.InspectorTests;
 import org.metawidget.jsp.JspMetawidgetTests;
 import org.metawidget.layout.iface.LayoutExceptionTest;
@@ -59,6 +60,7 @@ public class AllTests
 		suite.addTest( InspectorTests.suite() );
 		suite.addTest( JspMetawidgetTests.suite() );
 		suite.addTestSuite( LayoutExceptionTest.class );
+		suite.addTestSuite( MetawidgetExceptionTest.class );
 		suite.addTest( MixinTests.suite() );
 		suite.addTest( SwingMetawidgetTests.suite() );
 		suite.addTest( UtilTests.suite() );

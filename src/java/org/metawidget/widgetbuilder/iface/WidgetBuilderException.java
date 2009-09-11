@@ -61,6 +61,17 @@ public class WidgetBuilderException
 		return new WidgetBuilderException( message );
 	}
 
+	/**
+	 * Static constructor.
+	 * <p>
+	 * For consistency with <code>WidgetBuilderException.newException( Throwable )</code>.
+	 */
+
+	public static WidgetBuilderException newException( String message, Throwable cause )
+	{
+		return new WidgetBuilderException( message, cause );
+	}
+
 	//
 	// Constructor
 	//
@@ -73,5 +84,10 @@ public class WidgetBuilderException
 	private WidgetBuilderException( Throwable cause )
 	{
 		super( cause );
+	}
+
+	private WidgetBuilderException( String message, Throwable cause )
+	{
+		super( message, cause );
 	}
 }
