@@ -106,7 +106,8 @@
 				<setInputField name="communication.value" value="(939) 555-0114"/>
 				<clickButton label="Add"/>
 				
-				<verifyText text="(939) 555-0114"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactFormCommunications-cell']/table[@class='data-table']/tbody/tr[1]/td[2]" text="(939) 555-0114"/>				
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[8]/td[@id='table-contactFormCommunications-cell']/table[@class='data-table']/tbody/tr[2]/td[2]" text="(939) 555-0113"/>				
 				<verifyInputField name="communication.value" value=""/>								
 				<setSelectField name="communication.type" value="E-mail"/>
 				<setInputField name="communication.value" value="homer@simpsons.com"/>
@@ -181,7 +182,7 @@
 				<setSelectField name="communication.type" value="E-mail"/>
 				<setInputField name="communication.value" value="miss@business.contact.com"/>
 				<expectDialog dialogType="alert" saveProperty="simpleDialog" />
-				<clickButton label="Add"/>	
+				<clickButton label="Add"/>
 		        <verifyProperty name="simpleDialog" regex="true" text="Firstname is required\nSurname is required"/>
 		
 				<verifySelectField name="title" value="Mr"/>

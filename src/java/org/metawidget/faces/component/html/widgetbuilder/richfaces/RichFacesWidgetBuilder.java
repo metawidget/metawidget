@@ -247,8 +247,6 @@ public class RichFacesWidgetBuilder
 
 		// Suggestion box
 
-		// TODO: does not work in table facets because of https://jira.jboss.org/jira/browse/RF-7700
-
 		if ( String.class.equals( clazz ) )
 		{
 			String facesSuggest = attributes.get( FACES_SUGGEST );
