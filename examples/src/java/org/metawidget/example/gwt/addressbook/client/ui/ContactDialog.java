@@ -51,10 +51,9 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 /**
  * Dialog box for Address Book Contacts.
  * <p>
- * Note: for performance, this example is optimized to use <code>setToRebind</code> (see
- * 'rebinding' in the Reference Documentation). This results in slightly more complex code. For a
- * more straightforward example, see
- * <code>org.metawidget.example.swing.addressbook.ContactDialog</code>.
+ * Note: for performance, this example is optimized to use <code>setToRebind</code> (see 'rebinding'
+ * in the Reference Documentation). This results in slightly more complex code. For a more
+ * straightforward example, see <code>org.metawidget.example.swing.addressbook.ContactDialog</code>.
  *
  * @author Richard Kennard
  */
@@ -173,7 +172,6 @@ public class ContactDialog
 		mAddressMetawidget.setToInspect( contact );
 		mAddressMetawidget.setPath( Contact.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + "address" );
 
-
 		// Communications override
 
 		Stub communicationsStub = new Stub( "communications" );
@@ -260,7 +258,7 @@ public class ContactDialog
 				{
 					mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( mMetawidget );
 				}
-				catch( Exception e )
+				catch ( Exception e )
 				{
 					Window.alert( e.getMessage() );
 				}
@@ -342,10 +340,20 @@ public class ContactDialog
 
 	public void rebind( Contact contact )
 	{
-		// TODO: this is broken. Rebinding is nullified by .setReadOnly, and uses .getToInspect which is dangerous
+		// Reset the Metawidget to either readOnly (for existing contacts) or not readOnly (for new
+		// contacts). If the Metawidget is ALREADY readOnly/not readOnly, then this method
+		// does nothing. Otherwise it recreates all the child widgets based on the existing
+		// setToInspect. It does NOT perform a full server-side re-inspection though
+
+		mMetawidget.setReadOnly( contact.getId() != 0 );
+
+		// Having recreated all child widgets (as readOnly/not readOnly), or done nothing (if the
+		// child widgets were already in the desired state), update their values to the new contact.
+		// We
+		// use setToRebind (as opposed to setToInspect) to rebind the widget values without a full
+		// server-side re-inspection
 
 		mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( contact, mMetawidget );
-		mMetawidget.setReadOnly( contact.getId() != 0 );
 
 		setVisibility();
 	}
@@ -354,7 +362,7 @@ public class ContactDialog
 	// Private methods
 	//
 
-	/*package private*/void setVisibility()
+	/* package private */void setVisibility()
 	{
 		boolean readOnly = mMetawidget.isReadOnly();
 		loadCommunications();
@@ -362,9 +370,9 @@ public class ContactDialog
 		Dictionary dictionary = Dictionary.getDictionary( "bundle" );
 
 		if ( readOnly )
-			mCancelButton.setText( dictionary.get( "back" ));
+			mCancelButton.setText( dictionary.get( "back" ) );
 		else
-			mCancelButton.setText( dictionary.get( "cancel" ));
+			mCancelButton.setText( dictionary.get( "cancel" ) );
 
 		mEditButton.setVisible( readOnly );
 		mSaveButton.setVisible( !readOnly );
@@ -373,7 +381,7 @@ public class ContactDialog
 		mCommunications.getRowFormatter().setVisible( mCommunications.getRowCount() - 1, !readOnly );
 	}
 
-	/*package private*/void loadCommunications()
+	/* package private */void loadCommunications()
 	{
 		CellFormatter cellFormatter = mCommunications.getCellFormatter();
 		final Contact contact = mMetawidget.getToInspect();
