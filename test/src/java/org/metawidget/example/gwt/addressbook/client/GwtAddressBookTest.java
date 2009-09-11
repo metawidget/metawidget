@@ -270,13 +270,19 @@ public class GwtAddressBookTest
 																		assertTrue( "Mr Homer Sapien".equals( contacts.getText( 1, 0 ) ) );
 																		assertTrue( "".equals( contacts.getText( 1, 1 ) ) );
 
-																		// Check address change
+																		// Check address was changed (ie. exercises the nested bindings in SimpleBindingProcessor.save)
 
 																		assertTrue( "743 Evergreen Terrace".equals( personalContact.getAddress().getStreet() ) );
 																		assertTrue( "Lostville".equals( personalContact.getAddress().getState() ) );
-																		finish();
 
-																		// TODO: test nested binding in SimpleBindingProcessor
+																		// Check rebinding works (ie. exercises the nested bindings in SimpleBindingProcessor.setToRebind)
+
+																		contactMetawidget.setValue( "Foo", "address", "street" );
+																		assertTrue( "Foo".equals( contactMetawidget.getValue( "address", "street" )));
+																		contactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( personalContact, contactMetawidget );
+																		assertTrue( "743 Evergreen Terrace".equals( contactMetawidget.getValue( "address", "street" )));
+
+																		finish();
 																	}
 																};
 

@@ -342,6 +342,8 @@ public class ContactDialog
 
 	public void rebind( Contact contact )
 	{
+		// TODO: this is broken. Rebinding is nullified by .setReadOnly, and uses .getToInspect which is dangerous
+
 		mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( contact, mMetawidget );
 		mMetawidget.setReadOnly( contact.getId() != 0 );
 

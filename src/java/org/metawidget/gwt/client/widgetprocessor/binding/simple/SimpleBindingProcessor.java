@@ -24,6 +24,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -281,6 +282,7 @@ public class SimpleBindingProcessor
 
 				// ...and set it
 
+				System.err.println( "Rebind " + GwtUtils.toString( names, '.' ) + " to " + value );
 				metawidget.setValue( value, widget );
 			}
 		}
