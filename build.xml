@@ -359,9 +359,7 @@
 
 		<jar destfile="${build.dir}/metawidget-gwt-client.jar" manifest="src/java/META-INF/MANIFEST.MF">
 			<fileset dir="src/java">
-				<include name="org/metawidget/gwt/client/actionbinding/**"/>
 				<include name="org/metawidget/gwt/client/inspector/**"/>
-				<include name="org/metawidget/gwt/client/propertybinding/**"/>
 				<include name="org/metawidget/gwt/client/ui/**"/>
 				<include name="org/metawidget/gwt/client/widgetbuilder/impl/**"/>
 				<include name="org/metawidget/gwt/client/widgetprocessor/**"/>
@@ -380,10 +378,8 @@
 				<exclude name="**/package-info.java"/>
 			</fileset>
 			<fileset dir="${build.dir}/classes">
-				<include name="org/metawidget/gwt/client/actionbinding/**"/>
 				<include name="org/metawidget/gwt/client/inspector/**"/>
 				<include name="org/metawidget/gwt/client/layout/**"/>
-				<include name="org/metawidget/gwt/client/propertybinding/**"/>
 				<include name="org/metawidget/gwt/client/ui/**"/>
 				<include name="org/metawidget/gwt/client/widgetbuilder/impl/**"/>
 				<include name="org/metawidget/gwt/client/widgetprocessor/**"/>
@@ -1949,13 +1945,9 @@
 			<fileset dir="${build.dir}/classes">
 				<include name="org/metawidget/*.class"/>
 				<include name="org/metawidget/swing/*.class"/>
-				<include name="org/metawidget/swing/actionbinding/*.class"/>
-				<include name="org/metawidget/swing/actionbinding/reflection/*.class"/>
-				<include name="org/metawidget/swing/propertybinding/*.class"/>
-				<include name="org/metawidget/swing/propertybinding/beansbinding/*.class"/>
 				<include name="org/metawidget/swing/layout/*.class"/>
 				<include name="org/metawidget/swing/widgetbuilder/*.class"/>
-				<include name="org/metawidget/swing/widgetprocessor/*.class"/>
+				<include name="org/metawidget/swing/widgetprocessor/**"/>
 				<include name="org/metawidget/iface/**"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
