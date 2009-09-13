@@ -20,20 +20,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
 import org.metawidget.example.shared.addressbook.model.Address;
-import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
-import org.metawidget.inspector.annotation.UiAction;
-import org.metawidget.inspector.annotation.UiAttribute;
-import org.metawidget.inspector.annotation.UiAttributes;
-import org.metawidget.inspector.annotation.UiComesAfter;
-import org.metawidget.inspector.annotation.UiDontExpand;
-import org.metawidget.inspector.annotation.UiHidden;
-import org.metawidget.inspector.annotation.UiLabel;
-import org.metawidget.inspector.annotation.UiLarge;
-import org.metawidget.inspector.annotation.UiLookup;
-import org.metawidget.inspector.annotation.UiMasked;
-import org.metawidget.inspector.annotation.UiReadOnly;
-import org.metawidget.inspector.annotation.UiRequired;
-import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
@@ -148,7 +134,8 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( "object1".equals( property.getAttribute( NAME ) ));
 		assertTrue( "foo\\,,bar".equals( property.getAttribute( LOOKUP ) ));
 		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ));
-		assertTrue( property.getAttributes().getLength() == 3 );
+		assertTrue( TRUE.equals( property.getAttribute( WIDE ) ));
+		assertTrue( property.getAttributes().getLength() == 4 );
 
 		property = (Element) property.getNextSibling();
 		assertTrue( "string1".equals( property.getAttribute( NAME ) ));
@@ -230,6 +217,7 @@ public class MetawidgetAnnotationInspectorTest
 	{
 		@UiRequired
 		@UiLookup( value = { "foo,", "bar" } )
+		@UiWide
 		public Object	object1;
 
 		@UiLabel( "bar" )

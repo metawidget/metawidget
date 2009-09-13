@@ -277,6 +277,11 @@ public class MetawidgetAnnotationInspector
 		if ( property.isAnnotationPresent( UiLarge.class ) )
 			attributes.put( LARGE, TRUE );
 
+		// UiWide
+
+		if ( property.isAnnotationPresent( UiWide.class ) )
+			attributes.put( WIDE, TRUE );
+
 		// UiReadOnly
 
 		UiReadOnly readOnly = property.getAnnotation( UiReadOnly.class );

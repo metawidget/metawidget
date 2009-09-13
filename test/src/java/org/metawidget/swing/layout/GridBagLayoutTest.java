@@ -42,6 +42,7 @@ import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.inspector.annotation.UiWide;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -86,14 +87,14 @@ public class GridBagLayoutTest
 		metawidget.setParameter( "numberOfColumns", 2 );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
-		Insets insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
+		Insets insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
 		assertTrue( insets.left == 0 );
 		assertTrue( insets.right == 3 );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridx );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridy );
 		assertTrue( "Def*:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
-		insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 2 ) ) ).insets;
+		insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 2 ) ) ).insets;
 		assertTrue( insets.left == 3 );
 		assertTrue( insets.right == 3 );
 
@@ -185,7 +186,7 @@ public class GridBagLayoutTest
 		// (insets.top == 6 for Nimbus, 2 for Metal - depends on what
 		// UIManger.setLookAndFeel has been called by other tests)
 
-		insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
+		insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
 		assertTrue( insets.top == ( "Nimbus".equals( UIManager.getLookAndFeel().getName() ) ? 6 : 2 ) );
 		assertTrue( insets.left == 0 );
 		assertTrue( insets.bottom == insets.top );
@@ -193,7 +194,7 @@ public class GridBagLayoutTest
 
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridx );
-		insets = (( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ) ).insets;
+		insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ) ).insets;
 		assertTrue( insets.top == 0 );
 		assertTrue( insets.left == 0 );
 		assertTrue( insets.bottom == 3 );
@@ -218,6 +219,53 @@ public class GridBagLayoutTest
 
 		metawidget.setReadOnly( true );
 		assertTrue( "Def:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+	}
+
+	public void testWide()
+		throws Exception
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		CompositeInspectorConfig config = new CompositeInspectorConfig();
+		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
+		metawidget.setInspector( new CompositeInspector( config ) );
+		metawidget.setParameter( "numberOfColumns", 2 );
+		metawidget.setToInspect( new WideFoo() );
+
+		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ).gridx );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ).gridy );
+		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridx );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridy );
+
+		assertTrue( "Def:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 2 ) ).gridx );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 2 ) ).gridy );
+		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
+		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 3 ) ).gridx );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 3 ) ).gridy );
+
+		assertTrue( "Ghi:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 4 ) ).gridx );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 4 ) ).gridy );
+		assertTrue( metawidget.getComponent( 5 ) instanceof JTextField );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 5 ) ).gridx );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 5 ) ).gridy );
+		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 5 ) ).gridwidth );
+
+		assertTrue( "Jkl:".equals( ( (JLabel) metawidget.getComponent( 6 ) ).getText() ) );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 6 ) ).gridx );
+		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 6 ) ).gridy );
+		assertTrue( metawidget.getComponent( 7 ) instanceof JCheckBox );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 7 ) ).gridx );
+		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 7 ) ).gridy );
+
+		assertTrue( "Mno:".equals( ( (JLabel) metawidget.getComponent( 8 ) ).getText() ) );
+		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 8 ) ).gridx );
+		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 8 ) ).gridy );
+		assertTrue( metawidget.getComponent( 9 ) instanceof JTextField );
+		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 9 ) ).gridx );
+		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 9 ) ).gridy );
 	}
 
 	public static void main( String[] args )
@@ -288,6 +336,24 @@ public class GridBagLayoutTest
 
 		@UiSection( "" )
 		@UiComesAfter( "tab3_pqr" )
+		public String	mno;
+	}
+
+	public static class WideFoo
+	{
+		public String	abc;
+
+		@UiComesAfter( "abc" )
+		public int		def;
+
+		@UiWide
+		@UiComesAfter( "def" )
+		public String	ghi;
+
+		@UiComesAfter( "ghi" )
+		public boolean	jkl;
+
+		@UiComesAfter( "jkl" )
 		public String	mno;
 	}
 }

@@ -24,6 +24,7 @@ import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.user.client.ui.Button;
@@ -208,7 +209,7 @@ public class FlexTableLayout
 
 		// Metawidgets and large components span all columns
 
-		if ( widget instanceof GwtMetawidget || ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) )
+		if ( widget instanceof GwtMetawidget || LayoutUtils.isSpanAllColumns( attributes ) )
 		{
 			colspan = ( state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 			state.currentColumn = state.numberOfColumns;

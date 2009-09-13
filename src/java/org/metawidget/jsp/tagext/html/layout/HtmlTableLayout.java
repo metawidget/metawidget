@@ -32,6 +32,7 @@ import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.HtmlFacetTag;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -305,7 +306,7 @@ public class HtmlTableLayout
 				if ( id != null )
 					id = StringUtils.uppercaseFirstLetter( StringUtils.camelCase( id ) );
 
-				if ( TRUE.equals( attributes.get( LARGE ) ) && state.currentColumn != 1 )
+				if ( LayoutUtils.isSpanAllColumns( attributes ) && state.currentColumn != 1 )
 				{
 					writer.write( "</tr>" );
 					state.currentColumn = 1;

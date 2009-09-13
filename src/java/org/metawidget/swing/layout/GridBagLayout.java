@@ -36,6 +36,7 @@ import javax.swing.border.Border;
 
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -159,9 +160,9 @@ public class GridBagLayout
 		// Special support for large components
 
 		State state = getState( metawidget );
-		boolean largeComponent = ( component instanceof JScrollPane || component instanceof SwingMetawidget || ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ) );
+		boolean spanAllColumns = ( component instanceof JScrollPane || component instanceof SwingMetawidget || LayoutUtils.isSpanAllColumns( attributes ) );
 
-		if ( largeComponent && state.currentColumn > 0 )
+		if ( spanAllColumns && state.currentColumn > 0 )
 		{
 			state.currentColumn = 0;
 			state.currentRow++;
@@ -199,7 +200,7 @@ public class GridBagLayout
 		componentConstraints.weightx = 1.0f / state.numberOfColumns;
 		componentConstraints.insets = INSETS_COMPONENT;
 
-		if ( largeComponent )
+		if ( spanAllColumns )
 		{
 			componentConstraints.gridwidth = GridBagConstraints.REMAINDER;
 			state.currentColumn = state.numberOfColumns;

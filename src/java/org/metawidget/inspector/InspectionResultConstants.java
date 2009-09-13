@@ -41,17 +41,17 @@ public final class InspectionResultConstants
 	// Public statics
 	//
 
-	public final static String	NAMESPACE					= "http://metawidget.org/inspection-result";
+	public final static String	NAMESPACE						= "http://metawidget.org/inspection-result";
 
-	public final static String	ROOT						= "inspection-result";
+	public final static String	ROOT							= "inspection-result";
 
-	public final static String	VERSION						= "version";
+	public final static String	VERSION							= "version";
 
-	public final static String	ENTITY						= "entity";
+	public final static String	ENTITY							= "entity";
 
-	public final static String	PROPERTY					= "property";
+	public final static String	PROPERTY						= "property";
 
-	public final static String	ACTION						= "action";
+	public final static String	ACTION							= "action";
 
 	/**
 	 * Name attribute.
@@ -61,7 +61,7 @@ public final class InspectionResultConstants
 	 * considered. For this reason, all names within any branch of the DOM-subtree must be unique.
 	 */
 
-	public final static String	NAME						= "name";
+	public final static String	NAME							= "name";
 
 	/**
 	 * Type attribute.
@@ -72,7 +72,7 @@ public final class InspectionResultConstants
 	 * For more abstract concepts, this can be any unique identifier (eg. 'Login Screen').
 	 */
 
-	public final static String	TYPE						= "type";
+	public final static String	TYPE							= "type";
 
 	/**
 	 * Parameterized type arguments, for example the type of elements in a Set.
@@ -81,13 +81,13 @@ public final class InspectionResultConstants
 	 * mapping files).
 	 */
 
-	public final static String	PARAMETERIZED_TYPE			= "parameterized-type";
+	public final static String	PARAMETERIZED_TYPE				= "parameterized-type";
 
 	/**
 	 * Read-only field attribute.
 	 */
 
-	public final static String	READ_ONLY					= "read-only";
+	public final static String	READ_ONLY						= "read-only";
 
 	/**
 	 * Whether the property has no setter method.
@@ -97,13 +97,13 @@ public final class InspectionResultConstants
 	 * nested primitives (eg. Street, City, etc).
 	 */
 
-	public final static String	NO_SETTER					= "no-setter";
+	public final static String	NO_SETTER						= "no-setter";
 
 	/**
 	 * Write-only field attribute.
 	 */
 
-	public final static String	WRITE_ONLY					= "write-only";
+	public final static String	WRITE_ONLY						= "write-only";
 
 	/**
 	 * Required field attribute.
@@ -112,7 +112,7 @@ public final class InspectionResultConstants
 	 * <code>javax.persistence.Column( nullable = false )</code>.
 	 */
 
-	public final static String	REQUIRED					= "required";
+	public final static String	REQUIRED						= "required";
 
 	/**
 	 * Hidden field attribute.
@@ -126,26 +126,26 @@ public final class InspectionResultConstants
 	 * back in.
 	 */
 
-	public final static String	HIDDEN						= "hidden";
+	public final static String	HIDDEN							= "hidden";
 
 	/**
 	 * Possible field values are to be looked up through the given set of Strings.
 	 */
 
-	public final static String	LOOKUP						= "lookup";
+	public final static String	LOOKUP							= "lookup";
 
 	/**
 	 * Possible field values are to be presented as the given set of Strings.
 	 */
 
-	public final static String	LOOKUP_LABELS				= "lookup-labels";
+	public final static String	LOOKUP_LABELS					= "lookup-labels";
 
 	/**
 	 * Force the lookup to have an empty choice in cases where it would normally be suppressed (eg.
 	 * on primitive or required fields)
 	 */
 
-	public final static String	LOOKUP_HAS_EMPTY_CHOICE		= "lookup-has-empty-choice";
+	public final static String	LOOKUP_HAS_EMPTY_CHOICE			= "lookup-has-empty-choice";
 
 	/**
 	 * Masked field attribute.
@@ -155,39 +155,50 @@ public final class InspectionResultConstants
 	 * format or a number format.
 	 */
 
-	public final static String	MASKED						= "masked";
+	public final static String	MASKED							= "masked";
 
 	/**
 	 * Label field attribute.
 	 */
 
-	public final static String	LABEL						= "label";
+	public final static String	LABEL							= "label";
 
-	public final static String	SECTION						= "section";
+	public final static String	SECTION							= "section";
 
 	/**
 	 * Field is a 'large' field, such as a BLOB or a CLOB.
 	 */
 
-	public final static String	LARGE						= "large";
+	public final static String	LARGE							= "large";
+
+	/**
+	 * Field is a 'wide' field, spanning all columns in a multi-column layout.
+	 * <p>
+	 *'Wide' is different to 'large', because 'large' implies a data size (ie. BLOB or CLOB)
+	 * whereas 'wide' refers purely to spanning columns. Generally all 'large' fields are implicitly
+	 * 'wide', but not all 'wide' fields are 'large'. For example, you may want a normal text field
+	 * (not a text area) to span all columns.
+	 */
+
+	public final static String	WIDE							= "wide";
 
 	/**
 	 * The minimum value this field can contain. May be a floating point number.
 	 */
 
-	public final static String	MINIMUM_VALUE				= "minimum-value";
+	public final static String	MINIMUM_VALUE					= "minimum-value";
 
 	/**
 	 * The maximum value this field can contain. May be a floating point number.
 	 */
 
-	public final static String	MAXIMUM_VALUE				= "maximum-value";
+	public final static String	MAXIMUM_VALUE					= "maximum-value";
 
 	/**
 	 * The minimum length of this field (eg. number of characters)
 	 */
 
-	public final static String	MINIMUM_LENGTH				= "minimum-length";
+	public final static String	MINIMUM_LENGTH					= "minimum-length";
 
 	/**
 	 * The maximum length of this field (eg. number of characters)
@@ -196,37 +207,37 @@ public final class InspectionResultConstants
 	 * <code>javax.persistence.Column( length )</code>.
 	 */
 
-	public final static String	MAXIMUM_LENGTH				= "maximum-length";
+	public final static String	MAXIMUM_LENGTH					= "maximum-length";
 
 	/**
 	 * The minimum number of integer digits in this field
 	 */
 
-	public final static String	MINIMUM_INTEGER_DIGITS		= "minimum-integer-digits";
+	public final static String	MINIMUM_INTEGER_DIGITS			= "minimum-integer-digits";
 
 	/**
 	 * The maximum number of integer digits in this field
 	 */
 
-	public final static String	MAXIMUM_INTEGER_DIGITS		= "maximum-integer-digits";
+	public final static String	MAXIMUM_INTEGER_DIGITS			= "maximum-integer-digits";
 
 	/**
 	 * The minimum number of fractional digits in this field
 	 */
 
-	public final static String	MINIMUM_FRACTIONAL_DIGITS	= "minimum-fractional-digits";
+	public final static String	MINIMUM_FRACTIONAL_DIGITS		= "minimum-fractional-digits";
 
 	/**
 	 * The maximum number of fractional digits in this field
 	 */
 
-	public final static String	MAXIMUM_FRACTIONAL_DIGITS	= "maximum-fractional-digits";
+	public final static String	MAXIMUM_FRACTIONAL_DIGITS		= "maximum-fractional-digits";
 
 	/**
 	 * Don't expand field attribute.
 	 */
 
-	public final static String	DONT_EXPAND					= "dont-expand";
+	public final static String	DONT_EXPAND						= "dont-expand";
 
 	/**
 	 * When a true/false attribute is true.
@@ -234,13 +245,13 @@ public final class InspectionResultConstants
 	 * This stops ambiguity around using 'true', 't', 'yes', etc.
 	 */
 
-	public final static String	TRUE						= "true";
+	public final static String	TRUE							= "true";
 
 	/**
 	 * When a true/false attribute is false.
 	 */
 
-	public final static String	FALSE						= "false";
+	public final static String	FALSE							= "false";
 
 	//
 	// Rarer fields (only used by Faces components so far)
