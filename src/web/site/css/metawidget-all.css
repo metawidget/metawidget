@@ -235,8 +235,8 @@ h4 {
 
 #elevator #frame2 .john-bubble {
 	position: absolute;
-	top: 10px;
-	left: 70px;
+	top: 30px;
+	left: 80px;
 	width: 150px;
 }
 
@@ -285,15 +285,15 @@ h4 {
 
 #elevator #frame7 .john-bubble {
 	top: 100px;
-	left: 100px;
-	width: 140px;
+	left: 180px;
+	width: 50px;
 	text-align: center;
 }
 
 #elevator #frame7 .bob-bubble2 {
-	top: 140px;
-	left: 10px;
-	width: 60px;
+	top: 170px;
+	left: 180px;
+	width: 50px;
 	text-align: center;
 }
 
