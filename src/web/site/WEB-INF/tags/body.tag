@@ -69,7 +69,7 @@
 						<li <c:if test="${path == '/coverage.html'}">class="active"</c:if>><a href="${context}/coverage.html">Code Coverage</a></li>
 					</ul>
 				</div>
-				<div class="badges" style="height: 370px; padding-top: 5px; border: 1px solid #dddddd; background-color: #eeeeee">
+				<div class="badges" style="height: 360px; padding-top: 5px; border: 1px solid #dddddd; background-color: #eeeeee">
 					<span>Metawidget integrates with:</span>
 
 					<a href="http://java.sun.com/javaee" target="_blank" style="top: 30px; left: 2px">
