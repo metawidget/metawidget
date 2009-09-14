@@ -6,3 +6,11 @@ a {
 	color: black;
 	text-decoration: none;
 }
+
+#elevator .frame .bob-arrow-down, #elevator .frame .bob-arrow-left {
+	display: none;
+}
+
+#elevator .frame .john-arrow-down, #elevator .frame .john-arrow-right {
+	display: none;
+}

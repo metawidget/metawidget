@@ -4418,6 +4418,10 @@ public class PersonController {
 							<td><classname>@UiLarge</classname> - denotes the field should be 'large' in the UI (ie. a multi-line textbox)</td>
 						</tr>
 						<tr>
+							<td><parameter>lookup</parameter></td>
+							<td><classname>@UiLookup</classname> - denotes the value in the field should belong to the given set of Strings</td>
+						</tr>
+						<tr>
 							<td><parameter>masked</parameter></td>
 							<td><classname>@UiMasked</classname> - denotes a value should be masked in the UI (eg. a password field)</td>
 						</tr>
@@ -4426,12 +4430,21 @@ public class PersonController {
 							<td><classname>@UiReadOnly</classname> - denotes a value should be read-only in the UI</td>
 						</tr>
 						<tr>
-							<td><parameter>required</parameter></td>
-							<td><classname>@UiRequired</classname> - denotes a value should be required in the UI</td>
+							<td><parameter>read-only</parameter></td>
+							<td><classname>@UiReadOnly</classname> - denotes a value should be read-only in the UI</td>
 						</tr>
 						<tr>
 							<td><parameter>section</parameter></td>
 							<td><classname>@UiSection</classname> - denotes the start of a logical grouping in the UI</td>
+						</tr>
+						<tr>
+							<td><parameter>wide</parameter></td>
+							<td>
+								<classname>@UiWide</classname> - denotes the field should be 'wide' in the UI, spanning all columns in a multi-column layout.
+ 								'Wide' is different to 'large', because 'large' implies a data size (ie. BLOB or CLOB) whereas 'wide' refers purely to spanning
+ 								columns. Generally all 'large' fields are implicitly 'wide', but not all 'wide' fields are 'large'. For example, you may want
+ 								a normal text field (not a text area) to span all columns.
+ 							</td>
 						</tr>
 					</tbody>
 				</table>
