@@ -29,8 +29,9 @@
 
 	<xsl:param name="page.margin.top" select="'1cm'" />
 	<xsl:param name="region.before.extent" select="'1cm'" />
-	<xsl:param name="body.margin.top" select="'1.5cm'" />
+	<xsl:param name="body.margin.top" select="'0.75cm'" />
 
+	<xsl:param name="body.font.master" select="10" />
 	<xsl:param name="body.margin.bottom" select="'1.5cm'" />
 	<xsl:param name="region.after.extent" select="'1cm'" />
 	<xsl:param name="page.margin.bottom" select="'1cm'" />
@@ -176,9 +177,87 @@
 		<xsl:attribute name="text-align">left</xsl:attribute>
 	</xsl:attribute-set>
 
+	<xsl:attribute-set name="normal.para.spacing">
+		<xsl:attribute name="space-before.optimum">1mm</xsl:attribute>
+		<xsl:attribute name="space-before.minimum">1mm</xsl:attribute>
+		<xsl:attribute name="space-before.maximum">1mm</xsl:attribute>
+		<xsl:attribute name="space-after.optimum">1mm</xsl:attribute>
+		<xsl:attribute name="space-after.minimum">1mm</xsl:attribute>
+		<xsl:attribute name="space-after.maximum">1mm</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:attribute-set name="component.title.properties">
+	  <xsl:attribute name="font-size">24pt</xsl:attribute>
+	  <xsl:attribute name="keep-with-next">always</xsl:attribute>
+	  <xsl:attribute name="border-bottom">1mm solid black</xsl:attribute>
+	  <xsl:attribute name="padding-top">15mm</xsl:attribute>
+	  <xsl:attribute name="space-after.optimum">2mm</xsl:attribute>
+	  <xsl:attribute name="space-after.minimum">2mm</xsl:attribute>
+	  <xsl:attribute name="space-after.maximum">2mm</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:attribute-set name="section.title.level1.properties">
+	  <xsl:attribute name="font-size">14pt</xsl:attribute>
+	  <xsl:attribute name="border-bottom">0.5mm solid black</xsl:attribute>
+	  <xsl:attribute name="keep-with-next">always</xsl:attribute>
+	  <xsl:attribute name="space-before">10mm</xsl:attribute>
+	  <xsl:attribute name="space-after.optimum">2mm</xsl:attribute>
+	  <xsl:attribute name="space-after.minimum">2mm</xsl:attribute>
+	  <xsl:attribute name="space-after.maximum">2mm</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:attribute-set name="section.title.level2.properties">
+	  <xsl:attribute name="font-size">12pt</xsl:attribute>
+	  <xsl:attribute name="border-bottom">0.25mm solid black</xsl:attribute>
+	  <xsl:attribute name="keep-with-next">always</xsl:attribute>
+	  <xsl:attribute name="space-before">5mm</xsl:attribute>
+	  <xsl:attribute name="space-after.optimum">2mm</xsl:attribute>
+	  <xsl:attribute name="space-after.minimum">2mm</xsl:attribute>
+	  <xsl:attribute name="space-after.maximum">2mm</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:attribute-set name="section.title.level3.properties">
+	  <xsl:attribute name="font-size">10pt</xsl:attribute>
+	  <xsl:attribute name="border-bottom">0.25mm solid black</xsl:attribute>
+	  <xsl:attribute name="keep-with-next">always</xsl:attribute>
+	  <xsl:attribute name="space-before">5mm</xsl:attribute>
+	  <xsl:attribute name="space-after.optimum">2mm</xsl:attribute>
+	  <xsl:attribute name="space-after.minimum">2mm</xsl:attribute>
+	  <xsl:attribute name="space-after.maximum">2mm</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:attribute-set name="section.title.level4.properties">
+	  <xsl:attribute name="font-size">10pt</xsl:attribute>
+	  <xsl:attribute name="border-bottom">0.25mm dashed black</xsl:attribute>
+	  <xsl:attribute name="keep-with-next">always</xsl:attribute>
+	  <xsl:attribute name="space-before">5mm</xsl:attribute>
+	  <xsl:attribute name="space-after.optimum">2mm</xsl:attribute>
+	  <xsl:attribute name="space-after.minimum">2mm</xsl:attribute>
+	  <xsl:attribute name="space-after.maximum">2mm</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:attribute-set name="admonition.title.properties">
+	  <xsl:attribute name="font-size">10pt</xsl:attribute>
+	  <xsl:attribute name="padding-top">1mm</xsl:attribute>
+	</xsl:attribute-set>
+
+	<xsl:template match="filename|classname|uri|function|guibutton">
+		<fo:inline font-family="monospace" font-size="9pt">
+			<xsl:call-template name="inline.charseq"/>
+		</fo:inline>
+	</xsl:template>
+		
+	<xsl:template match="parameter">
+		<fo:inline font-family="monospace" font-size="9pt">
+			<xsl:call-template name="inline.italicseq"/>
+		</fo:inline>
+	</xsl:template>
+
 	<!--###################################################
 		Tables
 		################################################### -->
+
+	<xsl:param name="default.table.frame">all</xsl:param>
 
 	<!-- Some padding inside tables -->
 	<xsl:attribute-set name="table.cell.padding">
@@ -199,7 +278,7 @@
 	<!-- Label Chapters and Sections (numbering) -->
 	<xsl:param name="chapter.autolabel" select="1" />
 	<xsl:param name="section.autolabel" select="1" />
-	<xsl:param name="section.autolabel.max.depth" select="1" />
+	<xsl:param name="section.autolabel.max.depth" select="2" />
 
 	<xsl:param name="section.label.includes.component.label" select="1" />
 	<xsl:param name="table.footnote.number.format" select="'1'" />
@@ -209,16 +288,7 @@
 		################################################### -->
 
 	<xsl:attribute-set name="verbatim.properties">
-		<xsl:attribute name="space-before.minimum">1em</xsl:attribute>
-		<xsl:attribute name="space-before.minimum">1em</xsl:attribute>
-		<xsl:attribute name="space-before.optimum">1em</xsl:attribute>
-		<xsl:attribute name="space-before.maximum">1em</xsl:attribute>
-		<!-- alef: commented out because footnotes were screwed because of it -->
-		<!--<xsl:attribute name="space-after.minimum">0.1em</xsl:attribute>
-			<xsl:attribute name="space-after.optimum">0.1em</xsl:attribute>
-			<xsl:attribute name="space-after.maximum">0.1em</xsl:attribute>-->
-
-		<xsl:attribute name="border-color">#444444</xsl:attribute>
+		<xsl:attribute name="border-color">#cccccc</xsl:attribute>
 		<xsl:attribute name="border-style">solid</xsl:attribute>
 		<xsl:attribute name="border-width">0.1pt</xsl:attribute>
 		<xsl:attribute name="padding-top">0.5em</xsl:attribute>

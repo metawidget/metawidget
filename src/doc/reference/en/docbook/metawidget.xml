@@ -95,9 +95,9 @@
 		
 		<para>
 			The next chapter presents a tutorial covering using Metawidget with a variety of front-ends and
-			back-ends. Chapter 2 then follows with a more in-depth architectual overview. Chapters 3, 4 and
-			5 explore each supported front-end and back-end technology in detail. Finally, chapters
-			6 and 7 offer general advice and performance tips.
+			back-ends. Chapter 2 then follows with a more in-depth architectual overview. Chapters 3-7
+			explore each supported front-end and back-end technology in detail. Finally, chapters
+			8 and 9 offer general advice and performance tips.
 		</para>
 		
 	</preface>
@@ -2152,29 +2152,34 @@ ant</programlisting>
 		
 		<para>
 			There is a large diversity of front-end and back-end technologies. Metawidget strives to unify this
-			diversity with a pipeline, as in <xref linkend="chapter-architecture-overall"/>. This
-			pipeline is co-ordinated by a platform-specific Metawidget class (eg. <classname>SwingMetawidget</classname>, <classname>StrutsMetawidget</classname> etc). 
+			diversity with a four-stage pipeline, as shown on the right of <xref linkend="chapter-architecture-overall"/>. This
+			pipeline is co-ordinated by a platform-specific Metawidget class
+			(eg. <classname>SwingMetawidget</classname>, <classname>StrutsMetawidget</classname> etc) as shown on the left. 
 		</para>
 		
 		<!--
 			http://www.websequencediagrams.com
 			
+			Metawidget->Inspector: asks for inspection
 			Inspector->Inspector: inspects\nbusiness object
-			Inspector->WidgetBuilder: XML of inspection results
+			Inspector->Metawidget: returns inspection result
+			Metawidget->WidgetBuilder: asks for widget
 			WidgetBuilder->WidgetBuilder: chooses\nbest widget
-			WidgetBuilder->WidgetProcessors: chosen widget
-			WidgetProcessors->WidgetProcessors: attach binding,\nvalidation\nhandlers etc
-			WidgetProcessors->Layout: final widget
-			Layout->Layout: lays out widgets
+			WidgetBuilder->Metawidget: returns chosen widget
+			Metawidget->WidgetProcessors: asks to process
+			WidgetProcessors->WidgetProcessors: attach binding
+			WidgetProcessors->WidgetProcessors: attach validation
+			WidgetProcessors->WidgetProcessors: ...etc
+			WidgetProcessors->Metawidget: returns final widget
+			Metawidget->Layout: asks to layout
+			Layout->Layout: lays out widget
 		-->
 		
 		<figure id="chapter-architecture-overall">
-			<title>Metawidget uses a pipeline</title>			
-			<mediaobject>
-				<imageobject>
-					<imagedata fileref="../shared/images/activitydiagrams/architecture.png"/>
-				</imageobject>
-			</mediaobject>
+			<title>Metawidget uses a pipeline</title>
+			<screenshot>
+				<graphic fileref="../shared/images/activitydiagrams/architecture.png" width="140mm"/>
+			</screenshot>			
 		</figure>
 		
 		<para>
@@ -2453,8 +2458,36 @@ ant</programlisting>
 				</para>
 				
 				<para>
-					To achieve this, use <classname>CompositeInspector</classname>:
+					To achieve this, use <classname>CompositeInspector</classname>.
 				</para>
+				
+			</section>
+			
+			<section id="section-architecture-compositeinspectors">
+				<title>CompositeInspector</title>
+				
+				<!--
+					http://www.websequencediagrams.com:
+					
+					Metawidget->CompositeInspector: asks for inspection
+					CompositeInspector->Inspector #1: asks for inspection
+					Inspector #1->CompositeInspector: returns inspection result
+					CompositeInspector->CompositeInspector: stores as\nfirst result
+					CompositeInspector->Inspector #2: asks for inspection
+					Inspector #2->CompositeInspector: returns inspection result
+					CompositeInspector->CompositeInspector: combines with\nfirst result
+					CompositeInspector->Inspector #3: asks for inspection
+					Inspector #3->CompositeInspector: returns inspection result
+					CompositeInspector->CompositeInspector: combines with\nfirst two results
+					CompositeInspector->Metawidget: returns combined inspection result
+				-->
+				
+				<figure id="section-architecture-compositeinspector-chain">
+					<title>CompositeInspector composes multiple Inspectors into one</title>
+					<screenshot>
+						<graphic fileref="../shared/images/activitydiagrams/architecture-compositeinspector.png" width="140mm"/>
+					</screenshot>			
+				</figure>				
 				
 				<programlisting language="java">metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig()
 	.setWidgetBuilders(
@@ -2601,8 +2634,36 @@ ant</programlisting>
 				</para>
 				
 				<para>
-					To achieve this, use <classname>CompositeWidgetBuilder</classname>:
+					To achieve this, use <classname>CompositeWidgetBuilder</classname>.
 				</para>
+				
+			</section>
+			
+			<section id="section-architecture-compositewidgetbuilder">
+				<title>CompositeWidgetBuilder</title>
+				
+				<!--
+					http://www.websequencediagrams.com:
+					
+					participant Metawidget
+					participant CompositeWidgetBuilder
+					participant "WidgetBuilder #1"
+					participant "WidgetBuilder #2"
+					participant "WidgetBuilder #3"
+					Metawidget->CompositeWidgetBuilder: asks for widget
+					CompositeWidgetBuilder->WidgetBuilder #1: asks for widget
+					WidgetBuilder #1->CompositeWidgetBuilder: returns null
+					CompositeWidgetBuilder->WidgetBuilder #2: asks for widget
+					WidgetBuilder #2->CompositeWidgetBuilder: returns widget
+					CompositeWidgetBuilder->Metawidget: returns widget
+				-->
+				
+				<figure id="section-architecture-compositewidgetbuilder-chain">
+					<title>CompositeWidgetBuilder composes multiple WidgetBuilders into one</title>
+					<screenshot>
+						<graphic fileref="../shared/images/activitydiagrams/architecture-compositewidgetbuilder.png" width="140mm"/>
+					</screenshot>			
+				</figure>
 				
 				<programlisting language="java">metawidget.setWidgetBuilder( new CompositeWidetBuilder( new CompositeWidgetBuilderConfig()
 	.setWidgetBuilders(
@@ -2646,7 +2707,7 @@ ant</programlisting>
 		</section>
 
 		<section id="section-architecture-widgetprocessors">
-			<title>WidgetProcessors</title>
+			<title>Widget Processors</title>
 
 			<para>
 				<classname>WidgetProcessor</classname>s allow arbitrary processing of a widget following
@@ -2674,24 +2735,22 @@ void onEndBuild( M metawidget );</programlisting>
 			<!--
 				http://www.websequencediagrams.com:
 				
-				Metawidget->BindingProcessor: gives for processing
+				Metawidget->BindingProcessor: asks to process
 				BindingProcessor->BindingProcessor: adds data binding
 				BindingProcessor->Metawidget: returns bound widget
-				Metawidget->ConverterProcessor: gives for processing
+				Metawidget->ConverterProcessor: asks to process
 				ConverterProcessor->ConverterProcessor: adds converter
 				ConverterProcessor->Metawidget: returns widget with converter
-				Metawidget->ValidatorProcessor: gives for processing
+				Metawidget->ValidatorProcessor: asks to process
 				ValidatorProcessor->ValidatorProcessor: adds validator
 				ValidatorProcessor->Metawidget: returns widget with validator
 			-->
 			
 			<figure id="section-architecture-widgetprocessors-typical">
-				<title>Typical WidgetProcessor pipeline</title>			
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="../shared/images/activitydiagrams/architecture-widgetprocessors.png"/>
-					</imageobject>
-				</mediaobject>
+				<title>Typical WidgetProcessor pipeline</title>
+				<screenshot>
+					<graphic fileref="../shared/images/activitydiagrams/architecture-widgetprocessors.png" width="140mm"/>
+				</screenshot>							
 			</figure>
 			
 			<!--
@@ -2705,11 +2764,9 @@ void onEndBuild( M metawidget );</programlisting>
 			 
 			<figure id="section-architecture-widgetprocessors-substitute">
 				<title>WidgetProcessors can substitute widgets</title>			
-				<mediaobject>
-					<imageobject>
-						<imagedata fileref="../shared/images/activitydiagrams/architecture-widgetprocessors-substitute.png"/>
-					</imageobject>
-				</mediaobject>
+				<screenshot>
+					<graphic fileref="../shared/images/activitydiagrams/architecture-widgetprocessors-substitute.png" width="100mm"/>
+				</screenshot>							
 			</figure>
 
 		</section>
@@ -3095,12 +3152,10 @@ void onEndBuild( M metawidget );</programlisting>
 					 -->
 					 
 					<figure id="section-metawidgets-web-gwt-inspection">
-						<title>GwtMetawidget uses AJAX to perform server-side inspection</title>			
-						<mediaobject>
-							<imageobject>
-								<imagedata fileref="../shared/images/activitydiagrams/gwt-inspection.png"/>
-							</imageobject>
-						</mediaobject>
+						<title>GwtMetawidget uses AJAX to perform server-side inspection</title>
+						<screenshot>
+							<graphic fileref="../shared/images/activitydiagrams/gwt-inspection.png" width="140mm"/>
+						</screenshot>							
 					</figure>
 					
 					<para>
