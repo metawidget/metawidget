@@ -16,21 +16,6 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-<!--
- Copyright 2006 The Apache Software Foundation.
-
- Licensed under the Apache License, Version 2.0 (the "License")
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
--->
 
 html {
     padding:        0pt;
@@ -40,10 +25,11 @@ html {
 body {
     margin-top:     1em;
     margin-bottom:  1em;
-    margin-left:    10%;
-    margin-right:   10%;
+    margin-right:   15px;
+    margin-left:    15px;
     
-    font-family:    Times, Times New Roman, serif;
+    font-family:    verdana,arial,helvetica,lucida-sans,sans-serif;
+    font-size:      12px;
 }
 
 div {
@@ -51,8 +37,10 @@ div {
 }
 
 p {
+    text-align:     justify;
     margin-bottom:  .6em;
     line-height:    1.2;
+    font-size:      12px;
 }
 
 hr {
@@ -60,28 +48,29 @@ hr {
     margin-bottom:  .6em;
     margin-left:    0pt;
     margin-right:   0pt;
-    border:         1px solid gray;
-    background:     gray;
+    border-top:   1px solid #c0c0c0;
+    height: 0px;
 }
 
 h1,h2,h3,h4,h5 {
-    color:          #525D76;
+    color:          #000000;
 }
 
 a {
    text-decoration: underline;
-   color: black;
 }
 
 a:hover {
    text-decoration: underline;
-   color: black;
+}
+
+a:visited {
+  color: blue;
 }
 
 h1,h2,h3,h4,h5 {
     line-height:    1.3;
     margin-top:     1.5em;
-    font-family:    Arial, Sans-serif;
 }
 
 h1.title {
@@ -91,6 +80,7 @@ h1.title {
     margin-bottom:  2em;
     margin-left:    0pt;
     margin-right:   0pt;
+    color:          #000080;
 }
 
 h2.subtitle, h3.subtitle {
@@ -114,7 +104,6 @@ div.titlepage {
 div.section {
 }
 
-
 div.authorgroup
 {
     text-align:     left;
@@ -126,6 +115,9 @@ div.toc, div.list-of-examples, div.list-of-figures {
     margin-bottom:  3em;
 }
 
+.toc dt {
+    padding-bottom: 4px;
+}
 
 div.itemizedlist {
     margin-top:     0.5em;
@@ -146,9 +138,10 @@ pre {
 
 pre.programlisting {
     font-size:      9pt;
-    padding:        5pt 2pt 5pt;
-    border:         1pt solid #888888;
+    padding:        5pt 2pt;
+    border:         1pt solid black;
     background:     #eeeeee;
+    font-family:    "Courier New",courier;
 }
 
 div.table {
@@ -179,7 +172,11 @@ p.releaseinfo, .copyright {
     padding:        0px;
 }
 
-div.note, div.important, div.example, div.informalexample, div.tip, div.caution {
+div.example {
+
+}
+
+div.note, div.important, div.informalexample, div.tip, div.caution {
     margin:         1em;
     padding:        0.5em;
     border:         1px solid gray;
@@ -200,25 +197,23 @@ div.navfooter, div.navfooter table {
     font-family:    sans-serif;
     font-size:      12px;
 }
+div.navfooter {
+    margin-top: 1em;
+}
 
 div.figure {
-    text-align:     center;
+    text-align:     left;
     margin-top:     1em;
     margin-bottom:  1em;
 }
 
 div.figure p.title {
-    text-align:     center;
-    margin-left:    15%;
-    margin-right:   15%;
+    text-align:     left;
+    margin:         0.5em;
+    padding:        0.5em;
 }
 
 div.example p.title {
-    margin-top:     0em;
-    margin-bottom:  0.6em;
-    text-align:     left;
-    padding-bottom: 0.4em;
-    border-bottom:  solid 1px gray;
 }
 
 div.figure img {
@@ -237,7 +232,7 @@ div.revhistory {
 div.revhistory table {
     font-family:    sans-serif;
     font-size:      12px;
-	border-collapse: collapse;
+	  border-collapse: collapse;
 }
 
 div.revhistory table tr {
@@ -248,6 +243,121 @@ div.revhistory table th {
 	border: none;
 }
 
-guibutton {
-	font-weight: bold;
+div.literallayout {
+    background-color: #EEEEEE;
+    border: 1px solid #AAAAAA;
+    padding: 5pt 1em;
+    line-height: normal;
+    font-family: "Courier New",courier;
 }
+
+code.filename, code.filename span.pln {
+}
+
+code.varname, code.varname span.pln, code.varname span.atv, code.varname span.atn {
+    color: blue;
+    font-weight: normal;
+}
+
+span.symbol, span.symbol span.pln, span.symbol span.atn, span.symbol span.tag,
+span.symbol span.atv {
+    color: red;
+    font-weight: normal;
+}
+
+span.command, span.command span.pln {
+    color: #7F0055;
+}
+
+span.token, span.token span.pln, span.token span.atv {
+    color: maroon;
+}
+
+span.package {
+    font-family: monospace;
+}
+
+code.computeroutput {
+    background-color: #FFFFC0;
+    border: 1px solid #A7BCD6;
+    margin: 0.5em;
+    padding: 0.5em;
+}
+
+div.informaltable table {
+  border: 1px solid black;
+}
+
+div.informaltable th {
+    padding: 6px 10px 2px;
+    background-color: navy;
+    color: white;
+}
+
+div.calloutlist td {
+    padding-right: 10px;
+}
+
+span.bold {
+    font-weight: bold;
+}
+
+a.external {
+  background: url(../images/external.png) center right no-repeat;
+  padding-right: 14px;
+}
+
+div.screenshot {
+  /* Clear the float using overflow: hidden*/
+	overflow: hidden;
+  /* IE6 doesn't clear float unless we set width*/
+	width: 100%;
+}
+
+div.screenshot div {
+  border: 1px solid gray;
+  padding: 1em;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  float: left;
+}
+
+/* Syntax highlighting styles start */
+.str{color:#2A00FF;}
+.kwd{color:#7F0055;
+    font-weight:bold;}
+.com{color:#3F7F5F;}
+.typ{color:#000;}
+.lit{color:#066;}
+.pun{color:#660;}
+.pln{color:#000;}
+.tag{color:#000099;
+    font-weight:bold;}
+.atn{color:#009900;}
+.atv{color:#000;}
+.dec{color:#606;}
+
+pre.programlisting{
+    padding:1em;
+    border:1px solid #888;
+    text-align: left;
+    line-height: normal;
+}
+
+@media print{
+    .str{color:#2A00FF;}
+    .kwd{color:#7F0055;
+        font-weight:bold;}
+    .com{color:#3F7F5F;
+        font-style:italic;}
+    .typ{color:#000;
+        font-weight:bold;}
+    .lit{color:#044;}
+    .pun{color:#440;}
+    .pln{color:#000;}
+    .tag{color:#000099;
+        font-weight:bold;}
+    .atn{color:#009900;}
+    .atv{color:#000;}
+}
+/* Syntax highlighting styles end */
