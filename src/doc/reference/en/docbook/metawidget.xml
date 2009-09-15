@@ -2180,7 +2180,7 @@ ant</programlisting>
 		-->
 		
 		<figure id="chapter-architecture-overall">
-			<title>Metawidget uses a pipeline</title>
+			<title>Metawidget uses a four-stage pipeline</title>
 			<screenshot>
 				<graphic fileref="images/activitydiagrams/architecture.png" width="140mm"/>
 			</screenshot>			
@@ -2227,6 +2227,10 @@ ant</programlisting>
 			</listitem>
 		</orderedlist>
 		
+		<para>
+			The following sections discuss each of the four stages in detail.
+		</para>
+		
 		<section id="section-architecture-metawidgets">
 			<title>Metawidgets</title>
 
@@ -2240,9 +2244,13 @@ ant</programlisting>
 				<title>Interface</title>
 				
 				<para>
-					Most UI frameworks require widgets inherit one of their base classes, such as <classname>javax.swing.JComponent</classname>
-					or <classname>javax.faces.UIComponent</classname>. As Java does not support multiple inheritance, this means there cannot be
-					a common 'Metawidget Java base class' per se.
+					Metawidgets are not required to extend any Java base class or implement any Java interface.					
+				</para>
+				
+				<para>
+					This is because most UI frameworks require widgets inherit one of <emphasis>their</emphasis> base classes,
+					such as <classname>javax.swing.JComponent</classname> or <classname>javax.faces.UIComponent</classname>, and
+					Java does not support multiple inheritance.
 				</para>
 				
 				<para>
@@ -2253,19 +2261,21 @@ ant</programlisting>
 				</para>
 				
 				<para>
-					Therefore, Metawidgets are not required to extend any Java base class or implement any Java interface. However, they all follow roughly the
+					However, despite not extending any common base class or interface, all Metawidgets follow roughly the
 					same design, with roughly the same method names:
 				</para>
 				
 				<orderedlist>
 					<listitem>
 						<para>
-							<function>setToInspect</function> is called to set the Object for inspection
+							<function>setToInspect</function> is called to set the Object for inspection. The user typically calls
+							this method, either directly or through some intermediate language (eg. using a JSP attribute).
 						</para>
 					</listitem>
 					<listitem>
 						<para>
-							<function>buildWidgets</function> is called to begin the process. It first calls <function>Inspector.inspect</function> to return
+							Internally, <function>buildWidgets</function> is called to begin the process.
+							It first calls <function>Inspector.inspect</function> to return
 							a DOM of inspection results
 						</para>
 					</listitem>
@@ -2309,7 +2319,7 @@ ant</programlisting>
 				
 				<para>
 					For those looking to write their own Metawidget (say, for a currently unsupported platform) there is a
-					<classname>MetawidgetMixin</classname> class that implements the above steps 2-7 for you, see
+					<classname>MetawidgetMixin</classname> class that implements the above steps 2-8 for you, see
 					<xref linkend="section-metawidgets-implementing-your-own-mixin"/>.
 					All of the supplied Metawidgets are implemented using this class.
 				</para>
@@ -2331,8 +2341,8 @@ ant</programlisting>
 				</para>
 				
 				<para>
-					Metawidgets come with different <classname>Layout</classname> classes (<classname>LayoutRenderer</classname> classes
-					for JSF) that can arrange the widgets in different ways, and these are set on the Metawidget in a framework-specific
+					Metawidgets come with different <classname>Layout</classname> classes that can arrange the widgets in different ways, and
+					these are set on the Metawidget in a framework-specific
 					way. For example, JSF uses <parameter>&lt;m:metawidget rendererType=""&gt;</parameter> whereas <classname>SwingMetawidget</classname>
 					uses <function>setMetawidgetLayout</function>. Where possible, the layout classes defer back to the capabilities
 					of the native framework. For example, Swing's <classname>GroupLayout</classname> or Android's <classname>TableLayout</classname>.
@@ -2398,8 +2408,8 @@ ant</programlisting>
 			<title>Inspectors</title>
 
 			<para>
-				Inspectors decouple the process of generating inspection results from back-end metadata. This section
-				covers Inspectors in general. For in-depth documentation of individual Inspectors
+				Inspectors decouple the process of examining back-end metadata and generating inspection results. This section
+				covers inspectors in general. For in-depth documentation of individual inspectors
 				see <xref linkend="chapter-inspectors"/>.
 			</para>
 
@@ -2407,14 +2417,14 @@ ant</programlisting>
 				<title>Interface</title>
 
 				<para>
-					All Inspectors must implement the <classname>Inspector</classname> interface. This is a simple
+					All inspectors must implement the <classname>Inspector</classname> interface. This is a simple
 					interface that defines only one method:
 				</para>
 				
 				<programlisting language="java">String inspect( Object toInspect, String type, String... names );</programlisting>
 				
 				<para>
-					Each Inspector must look to the <parameter>type</parameter> parameter and the <parameter>names</parameter> array. These
+					Each inspector must look to the <parameter>type</parameter> parameter and the <parameter>names</parameter> array. These
 					form a path into the business object domain model. For example the <parameter>type</parameter> may be 'com.myapp.Person'
 					and the <parameter>names</parameter> may be 'address' and 'street'. This would form a path into the domain model of
 					<parameter>com.myapp.Person/address/street</parameter> (ie. return information on the 'street' property within the
@@ -2422,9 +2432,9 @@ ant</programlisting>
 				</para>
 				
 				<para>
-					Depending on the type of Inspector, it may use the given <classname>toInspect</classname> to access the runtime
-					object of the given <classname>type</classname>. Or it may ignore the <classname>toInspect</classname> and look up
-					information on the given <classname>type</classname> from an XML file or a database schema. 
+					Depending on the type of inspector, it may use the given <classname>toInspect</classname> to access the runtime
+					object for the given <classname>type</classname>. Or it may ignore the <classname>toInspect</classname> and look up
+					information for the given <classname>type</classname> from an XML file or a database schema. 
 				</para>
 				
 			</section>
@@ -2433,7 +2443,7 @@ ant</programlisting>
 				<title>Usage</title>
 				
 				<para>
-					Unless explicitly specified, each Metawidget will instantiate a default Inspector. Typically this
+					Unless explicitly specified, each Metawidget will instantiate a default inspector. Typically this
 					will be a <classname>CompositeInspector</classname> composed of a <classname>MetawidgetAnnotationInspector</classname>
 					and a <classname>PropertyTypeInspector</classname>.
 				</para>
@@ -2459,7 +2469,7 @@ ant</programlisting>
 					means the default is no longer instantiated. In the example above, this would mean <classname>MyInspector</classname>
 					is used but <classname>MetawidgetAnnotationInspector</classname> and <classname>PropertyTypeInspector</classname>
 					are not. This is usually not what you want,
-					because <classname>MyInspector</classname> will be focussed on a particular type of metadata and
+					because <classname>MyInspector</classname> will be focussed on a particular type of back-end metadata and
 					will want to leave other metadata to other inspectors.
 				</para>
 				
@@ -2471,6 +2481,13 @@ ant</programlisting>
 			
 			<section id="section-architecture-compositeinspectors">
 				<title>CompositeInspector</title>
+				
+				<para>
+					<classname>CompositeInspector</classname> composes the results of several inspectors into one and
+					returns a single, combined inspection result. As shown in <xref linkend="section-architecture-compositeinspector-chain"/>
+					<classname>CompositeInspector</classname> works by calling each inspector in turn, combining the
+					inspection result as it goes. 
+				</para>
 				
 				<!--
 					http://www.websequencediagrams.com:
@@ -2494,6 +2511,12 @@ ant</programlisting>
 						<graphic fileref="images/activitydiagrams/architecture-compositeinspector.png" width="140mm"/>
 					</screenshot>			
 				</figure>				
+				
+				<para>
+					All inspectors are required to be threadsafe and immutable (see later). Therefore, although <classname>CompositeInspector</classname>
+					maintains a list of inspectors this must not be changeable. To enforce this, the list is set at instantation
+					time using <classname>CompositeInspectorConfig</classname>. This can either be set in code:
+				</para>
 				
 				<programlisting language="java">metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig()
 	.setWidgetBuilders(
@@ -2782,7 +2805,7 @@ void onEndBuild( M metawidget );</programlisting>
 		</section>
 
 		<section id="section-architecture-xml">
-			<title>metawidget.xml</title>
+			<title>metawidget.xml and ConfigReader</title>
 
 			<para>
 				<filename>metawidget.xml</filename> is used to configure a Metawidget without writing Java code. This
@@ -2794,14 +2817,14 @@ void onEndBuild( M metawidget );</programlisting>
 			<para>
 				The <filename>metawidget.xml</filename> format, as parsed by <classname>org.metawidget.inspector.ConfigReader</classname>,
 				is specialised for configuring Metawidget instances. The following sections explore some of the features of the
-				XML format.
+				XML format and <classname>ConfigReader</classname>.
 			</para>
 			
 			<section id="section-architecture-xml-construct-objects">
-				<title>Construct New Objects</title>
+				<title>Constructing New Objects</title>
 				
 				<para>
-					The XML format can be used to construct new instances of objects. The XML element name is the Java class name
+					<classname>ConfigReader</classname> can construct new instances of objects. The XML element name is the Java class name
 					and the XML namespace is the Java package. The following example constructs a <classname>org.metawidget.swing.SwingMetawidget</classname>. 
 				</para>
 
@@ -2814,13 +2837,18 @@ void onEndBuild( M metawidget );</programlisting>
 &lt;/metawidget&gt;			
 </programlisting>
 
+				<para>
+					Using the XML namespace to denote the Java package allows the plugging in of XML Schema validation on
+					a per-package basis.
+				</para>
+
 			</section>
 
 			<section id="section-architecture-xml-call-setters">
-				<title>Call Setter Methods</title>
+				<title>Calling Setter Methods</title>
 				
 				<para>
-					Within an object, the XML format can call <function>setXXX</function> methods. These are generally single-parameter, but
+					Within an object, <classname>ConfigReader</classname> can call <function>setXXX</function> methods. These are generally single-parameter, but
 					multi-parameter methods are also supported. The following example calls the <function>setOpaque</function> and
 					<function>setParameter</function> methods of <classname>SwingMetawidget</classname>. The latter takes two arguments:
 				</para>
@@ -2845,11 +2873,11 @@ void onEndBuild( M metawidget );</programlisting>
 			</section>
 			
 			<section id="section-architecture-xml-construct-primitives">
-				<title>Construct Primitive Types</title>
+				<title>Constructing Primitive Types</title>
 				
 				<para>
 					As alluded to in the previous section, when calling <function>setXXX</function> methods the XML format can
-					construct and pass simple types. The previous example used <classname>boolean</classname>, <classname>string</classname>
+					specify simple types. The previous example used <classname>boolean</classname>, <classname>string</classname>
 					and <classname>int</classname>. Also supported are: 
 				</para>
 
@@ -2871,7 +2899,9 @@ void onEndBuild( M metawidget );</programlisting>
 						</tr>
 						<tr>
 							<td><classname>&lt;bundle&gt;</classname></td>
-							<td>uses <classname>ResourceBundle.getBundle</classname> to construct a <classname>ResourceBundle</classname></td>
+							<td>
+								uses <classname>ResourceBundle.getBundle</classname> to construct a <classname>ResourceBundle</classname>
+							</td>
 						</tr>
 						<tr>
 							<td><classname>&lt;class&gt;</classname></td>
@@ -2879,7 +2909,9 @@ void onEndBuild( M metawidget );</programlisting>
 						</tr>
 						<tr>
 							<td><classname>&lt;file&gt;</classname></td>
-							<td>uses <classname>FileInputStream</classname> to open the file as an <classname>InputStream</classname></td>
+							<td>
+								uses <classname>FileInputStream</classname> to open a file as an <classname>InputStream</classname>
+							</td>
 						</tr>
 						<tr>
 							<td><classname>&lt;int&gt;</classname></td>
@@ -2895,7 +2927,7 @@ void onEndBuild( M metawidget );</programlisting>
 						</tr>
 						<tr>
 							<td><classname>&lt;resource&gt;</classname></td>
-							<td>uses <classname>Class.getResourceAsStream</classname> to open the resource as an <classname>InputStream</classname></td>
+							<td>uses <classname>Class.getResourceAsStream</classname> to open a resource as an <classname>InputStream</classname></td>
 						</tr>
 						<tr>
 							<td><classname>&lt;string&gt;</classname></td>
@@ -2903,26 +2935,28 @@ void onEndBuild( M metawidget );</programlisting>
 						</tr>
 						<tr>
 							<td><classname>&lt;url&gt;</classname></td>
-							<td>uses <classname>URL.openStream</classname> to open the URL as an <classname>InputStream</classname></td>
+							<td>uses <classname>URL.openStream</classname> to open a URL as an <classname>InputStream</classname></td>
 						</tr>
 					</tbody>
 				</informaltable>
 			</section>
 
 			<section id="section-architecture-xml-understand-immutability">
-				<title>Understand Immutability</title>
+				<title>Understanding Immutability</title>
 				
 				<para>
-					Metawidget dictates all Inspectors and WidgetBuilders be threadsafe and immutable. This is an important design decision as
-					it means a single instance of an Inspector or WidgetBuilder can be reused across an entire application. Immutabilty
-					is enforced by not having any <function>setXXX</function> methods on the Inspectors or WidgetBuilders themselves.
+					Metawidget dictates all <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
+					and <classname>Layout</classname>s be threadsafe and immutable. This is an important design decision as
+					it means a single instance can be reused across an entire application. Immutabilty
+					is enforced by not having any <function>setXXX</function> methods on the objects themselves.
 					Rather, the <function>setXXX</function> methods are called on <classname>Config</classname> objects, which are then passed
-					to the Inspector or WidgetBuilder's constructor. Once constructed, the Inspector/WidgetBuilder cannot be changed.
+					to the object's constructor. Once constructed, the object cannot be changed.
 				</para>
 				
 				<para>
-					The XML format understands this distinction by way of a <parameter>config</parameter> attribute. The following example
-					configures an immutable Inspector. The <function>setInspectors</function> method is called on <classname>org.metawidget.inspector.composite.CompositeInspectorConfig</classname>
+					<classname>ConfigReader</classname> understands this distinction by way of a <parameter>config</parameter> attribute. The following example
+					configures an immutable <classname>Inspector</classname>. The <function>setInspectors</function> method is called
+					on <classname>org.metawidget.inspector.composite.CompositeInspectorConfig</classname>
 					and then passed to <classname>CompositeInspector</classname>:
 				</para>
 
@@ -2939,7 +2973,7 @@ void onEndBuild( M metawidget );</programlisting>
 &lt;/compositeInspector&gt;</programlisting>
 
 				<para>
-					Having constructed an immutable object, the XML format can reliably cache the instance and reuse it.
+					Having constructed an immutable object, <classname>ConfigReader</classname> can reliably cache the instance and reuse it.
 				</para>
 								
 			</section>
@@ -2998,7 +3032,7 @@ void onEndBuild( M metawidget );</programlisting>
 					<para>
 	 					Since inception, Swing has had built-in, and extensive, Look and Feel support. Metawidget
 						does not overlap this. For layouts, Swing supports a multitude of <classname>LayoutManagers</classname>.
-						Metawidget leverages these, but automates them to construct UIs automatically.
+						Metawidget leverages these, and automates them to construct UIs automatically.
 					</para>
 					
 				</section>
@@ -3009,23 +3043,12 @@ void onEndBuild( M metawidget );</programlisting>
 		<section id="section-metawidgets-web">
 			<title>Web Metawidgets</title>
 		
-			<section id="section-metawidgets-web-hidden">
-				<title>Hidden Fields</title>
-				
-				<para>
-					Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
-					<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
-					kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However, Web
-					Metawidgets support that approach for those that need it through <function>setCreateHiddenFields( true )</function>.
-				</para>
-			</section>
-								
 			<section id="section-metawidgets-web-gwt">
 				<title>GwtMetawidget</title>
 	
 				<para>
 					<classname>GwtMetawidget</classname> is a client-side, JavaScript widget for GWT. Despite the limitations of the
-					JavaScript environment, it supports reflection, annotations, pluggable layouts and data binding. For an introduction
+					JavaScript environment, <classname>GwtMetawidget</classname> supports reflection, annotations, pluggable layouts and data binding. For an introduction
 					to <classname>GwtMetawidget</classname>, see <xref linkend="section-introduction-part2-web"/> and 
 					<xref linkend="section-introduction-part3-gwt-hosted"/>.
 				</para>
@@ -3233,6 +3256,22 @@ void onEndBuild( M metawidget );</programlisting>
 				
 			</section>
 
+			<section id="section-metawidgets-web-jsp">
+				<title>HtmlMetawidget (JSP)</title>
+				
+				<section id="section-metawidgets-web-hidden">
+					<title>Hidden Fields</title>
+					
+					<para>
+						Many Web applications store their data at the <classname>HttpServletRequest</classname> level, not at the
+						<classname>HttpSession</classname> level. Using session-level state (or, ideally, a UI framework that supports some
+						kind of 'conversation'-level state) is safer than passing variables to and from the client in hidden HTML fields. However, Web
+						Metawidgets support that approach for those that need it through <function>setCreateHiddenFields( true )</function>.
+					</para>
+				</section>
+
+			</section>
+			
 			<section id="section-metawidgets-web-faces">
 				<title>UIMetawidget (JSF)</title>
 	
@@ -4940,10 +4979,12 @@ public class PersonController {
 					<title>HtmlWidgetBuilder</title>
 					
 					<para>
-						HtmlWidgetBuilder is the default WidgetBuilder for the JSP HtmlMetawidgetTag. Since JSP has
-						only a light component model (ie. HTML tags such as &lt;input&gt; and &lt;select&gt; are just
-						Strings, not modelled as JSP tags), HtmlWidgetBuilder simply returns String-based fragments
-						of HTML. It returns the following fragments for the following types of fields: 
+						<classname>HtmlWidgetBuilder</classname> is the default WidgetBuilder for the JSP HtmlMetawidgetTag. Since JSP has
+						only a light component model (ie. HTML tags such as <parameter>&lt;input&gt;</parameter> and
+						<parameter>&lt;select&gt;</parameter> are just
+						strings, not modelled as JSP tags), <classname>HtmlWidgetBuilder</classname> uses
+						<classname>org.metawidget.jsp.tagext.LiteralTag</classname>
+						to wrap string-based fragments. It returns the following literals for the following types of fields: 
 					</para>
 					
 					<informaltable>
@@ -5827,8 +5868,13 @@ public class PersonController {
 			<section id="section-widgetprocessors-web-faces">
 				<title>JSF Widget Processors</title>
 			
-				<section id="section-metawidgets-web-faces-validation">
-					<title>Validation</title>
+				<section id="section-widgetprocessors-web-faces-hidden">
+					<title>HiddenFieldProcessor</title>
+					
+				</section>
+
+				<section id="section-widgetprocessors-web-faces-validation">
+					<title>StandardValidationProcessor</title>
 					
 					<para>
 						By default, <classname>UIMetawidget</classname> uses <classname>StandardValidator</classname>, which adds <parameter>required</parameter>,

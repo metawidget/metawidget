@@ -19,28 +19,23 @@
 
 html {
     padding:        0pt;
-    margin:         0pt;
 }
 
 body {
     margin-top:     1em;
     margin-bottom:  1em;
-    margin-right:   15px;
-    margin-left:    15px;
     
-    font-family:    verdana,arial,helvetica,lucida-sans,sans-serif;
-    font-size:      12px;
+    font-family:    arial,helvetica,lucida-sans,sans-serif;
+    font-size:      10pt;
+}
+
+div.book {
+    margin: auto;
+    width: 800px;
 }
 
 div {
     margin:         0pt;
-}
-
-p {
-    text-align:     justify;
-    margin-bottom:  .6em;
-    line-height:    1.2;
-    font-size:      12px;
 }
 
 hr {
@@ -69,8 +64,19 @@ a:visited {
 }
 
 h1,h2,h3,h4,h5 {
-    line-height:    1.3;
     margin-top:     1.5em;
+}
+
+h1 {
+    border-bottom: 3px solid black;
+}
+
+h2 {
+    border-bottom: 2px solid black;
+}
+
+h3 {
+    border-bottom: 1px solid black;
 }
 
 h1.title {
@@ -132,14 +138,13 @@ li {
 
 pre {
     margin:         .75em 0;
-    line-height:    1.0;
     color:          black;
 }
 
 pre.programlisting {
     font-size:      9pt;
-    padding:        5pt 2pt;
-    border:         1pt solid black;
+    padding:        5pt;
+    border:         1pt solid #cccccc;
     background:     #eeeeee;
     font-family:    "Courier New",courier;
 }
@@ -183,19 +188,28 @@ div.note, div.important, div.informalexample, div.tip, div.caution {
     background-color: #f8f8e0;
 }
 
+div.important img, div.note img, div.tip img {
+ 	display: block;
+    padding-right: 10px;
+}
+
 div.important th, div.note th, div.tip th {
     text-align:     left;
     border-bottom:  solid 1px gray;
 }
 
+div.important td, div.note td, div.tip td {
+    font-size: 10pt;
+}
+
 div.navheader, div.navheader table {
     font-family:    sans-serif;
-    font-size:      12px;
+    font-size:      10pt;
 }
 
 div.navfooter, div.navfooter table {
     font-family:    sans-serif;
-    font-size:      12px;
+    font-size:      10pt;
 }
 div.navfooter {
     margin-top: 1em;
@@ -204,21 +218,23 @@ div.navfooter {
 div.figure {
     text-align:     left;
     margin-top:     1em;
-    margin-bottom:  1em;
+    margin-bottom:  1em;    
 }
 
 div.figure p.title {
-    text-align:     left;
-    margin:         0.5em;
-    padding:        0.5em;
+    text-align:     center;
 }
 
 div.example p.title {
 }
 
+div.figure {
+	text-align: center;
+}
+
 div.figure img {
-    padding:        0.5em;
-    margin:         0.5em;
+    margin:         auto;
+    display: block;
 }
 
 div.revhistory {
@@ -231,8 +247,8 @@ div.revhistory {
 
 div.revhistory table {
     font-family:    sans-serif;
-    font-size:      12px;
-	  border-collapse: collapse;
+    font-size:      10pt;
+    border-collapse: collapse;
 }
 
 div.revhistory table tr {
@@ -247,7 +263,6 @@ div.literallayout {
     background-color: #EEEEEE;
     border: 1px solid #AAAAAA;
     padding: 5pt 1em;
-    line-height: normal;
     font-family: "Courier New",courier;
 }
 
@@ -296,6 +311,7 @@ div.informaltable th {
 
 div.calloutlist td {
     padding-right: 10px;
+    font-size: 10pt;
 }
 
 span.bold {
@@ -303,7 +319,9 @@ span.bold {
 }
 
 a.external {
-  background: url(../images/external.png) center right no-repeat;
+  background-image: url(../../shared/images/external.png);
+  background-position: center right;
+  background-repeat: no-repeat;
   padding-right: 14px;
 }
 
@@ -314,12 +332,44 @@ div.screenshot {
 	width: 100%;
 }
 
-div.screenshot div {
-  border: 1px solid gray;
-  padding: 1em;
-  margin-top: 1em;
-  margin-bottom: 1em;
-  float: left;
+div.section table {
+	border: 1px solid #888888;
+	width: 100%;
+}
+
+div.important table, div.note table, div.tip table {
+	border: 0;
+}
+
+div.section table thead {
+	background-color: black;
+}
+
+div.section table tbody th {
+	background-color:#888888;
+}
+
+div.important table tbody th, div.note table tbody th, div.tip table tbody th {
+	background-color:transparent;
+}
+
+div.section table tbody tr:nth-child(odd) {
+	background-color:#f0f0f0;
+}
+
+div.important table tbody tr:nth-child(odd), div.note table tbody tr:nth-child(odd), div.tip table tbody tr:nth-child(odd) {
+	background-color: transparent;
+}
+
+div.section table thead th {
+	color: white;
+	font-size: 10pt;
+	padding: 2px;
+}
+
+div.section table th, div.section table td {
+	vertical-align: top;
+	font-size: 10pt;
 }
 
 /* Syntax highlighting styles start */
@@ -336,13 +386,6 @@ div.screenshot div {
 .atn{color:#009900;}
 .atv{color:#000;}
 .dec{color:#606;}
-
-pre.programlisting{
-    padding:1em;
-    border:1px solid #888;
-    text-align: left;
-    line-height: normal;
-}
 
 @media print{
     .str{color:#2A00FF;}
