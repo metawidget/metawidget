@@ -29,8 +29,8 @@
 			As much as possible, Metawidget does this without introducing
 			new technologies. As shown in <xref linkend="preface-diagram"/>,
 			Metawidget inspects an application's
-			<emphasis>existing</emphasis> back-end architecture (such as JavaBeans, annotations,
-			XML configuration files) and creates widgets native to its
+			<emphasis>existing</emphasis> back-end architecture (such as JavaBeans, XML configuration files,
+			annotations) and creates widgets native to its
 			<emphasis>existing</emphasis> front-end framework (such as Swing, Java Server Faces, Struts or Android).
 		</para>
 	
@@ -124,7 +124,7 @@
 				This tutorial should take around 20 minutes. We recommend you use your preferred Java
 				development environment. If you use an Integrated Development Environment (IDE), you will
 				need to start a new Java project and add <filename>metawidget.jar</filename> to it. Otherwise,
-				you just need to ensure <filename>metawidget.jar</filename> is on your classpath.					
+				you just need to ensure <filename>metawidget.jar</filename> is on your <parameter>CLASSPATH</parameter>.					
 			</para>
 				
 			<section id="section-introduction-part1-object">
@@ -279,17 +279,21 @@ public class Main {
 public class Person {
 	public String name;
 	
-	<symbol>@UiComesAfter( "name" )</symbol>
+	<symbol>@UiComesAfter( "name" )</symbol> <co id="co-introduction-part1-annotations" linkends="ca-introduction-part1-annotations"/>
 	public int age;
 	
 	<symbol>@UiComesAfter( "age" )</symbol>
 	public boolean retired;
 }</programlisting>
 	
-				<para>
-					Again, such annotations can (and should) be applied to getter methods, but for brevity here they
-					are applied directly to the member variable.
-				</para>
+				<calloutlist>
+					<callout arearefs="co-introduction-part1-annotations" id="ca-introduction-part1-annotations">
+						<para>		
+							Again, such annotations can (and should) be applied to getter methods, but for brevity here they
+							are applied directly to the member variable.
+						</para>
+					</callout>
+				</calloutlist>
 				
 				<para>
 					Run the code again. This time the fields appear in the correct order:
@@ -351,7 +355,7 @@ public class Person {
 				</para>
 				
 				<para>
-					To recognise the enum, Metawidget needs to use a different <emphasis>Inspector</emphasis>. Metawidget comes with multiple Inspectors, each
+					To recognise the enum, Metawidget needs to use a different <emphasis>Inspector</emphasis>. Metawidget comes with multiple inspectors, each
 					targeting different sources of information. Change the Main class to use a <classname>Java5Inspector</classname>
 					(line to add is highlighted):
 				</para>
@@ -392,7 +396,7 @@ public class Main {
 				</figure>
 
 				<para>
-					Metawidget Inspectors are very targeted in what they inspect. <classname>Java5Inspector</classname>
+					Metawidget inspectors are very targeted in what they inspect. <classname>Java5Inspector</classname>
 					looks for Java 5 language features - such as enums - but it does <emphasis>not</emphasis>
 					look for anything else - such as JavaBean properties. Before we explicitly specified a <classname>Java5Inspector</classname>, Metawidget
 					had been implictly using 2 inspectors for us, called <classname>MetawidgetAnnotationInspector</classname> and
@@ -454,8 +458,8 @@ public class Main {
 				</figure>
 
 				<para>
-					This idea of combining multiple Inspectors to inspect different characteristics of your
-					existing application is very powerful. Metawidget comes with many pre-written Inspectors
+					This idea of combining multiple inspectors to inspect different characteristics of your
+					existing application is very powerful. Metawidget comes with many pre-written inspectors
 					for many different architectures - from JPA and Hibernate Validator annotations,
 					to <filename>struts-config.xml</filename> configuration files, to Groovy and Scala objects - Metawidget
 					will gather and combine UI information from wherever it can find it.
@@ -731,8 +735,8 @@ public class Person {
 				<title>Configuring Inspectors Externally</title>
 
 				<para>
-					So far we have been instantiating our Inspectors in Java code. Whilst this approach is possible
-					for all Inspectors, many UI frameworks employ visual UI builders or intermediate languages (such as JSPs) that
+					So far we have been instantiating our inspectors in Java code. Whilst this approach is possible
+					for all inspectors, many UI frameworks employ visual UI builders or intermediate languages (such as JSPs) that
 					make getting to the Java code cumbersome (ie. you have to derive custom widgets).
 				</para>
 				
@@ -817,7 +821,7 @@ public class Main {
 				
 				<para>
 					However, for those needing a different approach Metawidget can use
-					different Inspectors to gather information from almost any source. One example is to
+					different inspectors to gather information from almost any source. One example is to
 					use <classname>XmlInspector</classname>. Create a file called <filename>metawidget-metadata.xml</filename> in the same
 					folder as your <classname>Main</classname> class:
 				</para>
@@ -919,10 +923,10 @@ public class Person {
 				</para>
 				
 				<para>
-					Metawidget comes with a range of Inspectors, and it is straightforward
+					Metawidget comes with a range of inspectors, and it is straightforward
 					to write your own to inspect anything from XML configuration files to database schemas
 					to annotations. The inspection process is loosely coupled from the
-					widget creation process, so the same Inspector can supply information to multiple
+					widget creation process, so the same inspector can supply information to multiple
 					UI frameworks.
 				</para>
 				
@@ -1402,7 +1406,7 @@ public class Person {
 					</para>
 					
 					<para>
-						Metawidget factors all widget creation into <emphasis>Widget Builders</emphasis>. Like Inspectors, multiple Widget
+						Metawidget factors all widget creation into <emphasis>Widget Builders</emphasis>. Like inspectors, multiple Widget
 						Builders can be combined using a <classname>CompositeWidgetBuilder</classname> to support third-party component
 						libraries. In this section we will override Metawidget's default and introduce a <classname>richFacesWidgetBuilder</classname>
 						alongside the standard JSF <classname>htmlWidgetbuilder</classname>. 
@@ -1642,7 +1646,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 				<para>
 					The notable feature of the example is how the applet is packaged. Metawidget is highly modular and has no
 					mandatory third-party JAR dependencies. The <filename>example-swing-addressbook-applet</filename> Ant task
-					builds only those Inspectors necessary for the Address Book application. The resulting <filename>metawidget-applet.jar</filename> is
+					builds only those inspectors necessary for the Address Book application. The resulting <filename>metawidget-applet.jar</filename> is
 					then further compressed using <filename>pack200</filename> to around 50KB. This small download size
 					makes Metawidget very viable for Applet-based environments.
 				</para>
@@ -1732,7 +1736,7 @@ bin\run</programlisting>
 					section, the updated Metawidget Seam Groovy Booking Example looks very similar to the original, but
 					uses significantly less	boilerplate code. Also, this time we are using Groovy to define
 					our business classes. The biggest impact this has is in <code>metawidget.xml</code>,
-					where the Inspectors have been configured to use a Groovy property style instead of a JavaBean
+					where the inspectors have been configured to use a Groovy property style instead of a JavaBean
 					property style.
 				</para>
 				
@@ -1970,7 +1974,7 @@ metawidget.setToInspect( animal )</programlisting>
 				<para>
 					By default, <classname>GwtMetawidget</classname> inspects business objects server-side using <classname>GwtRemoteInspector</classname>. This
 					is because client-side JavaScript does not support reflections or annotations. However if you don't need reflections or annotations, and
-					have your own way of retrieving inspection results, you can plug in your own Inspector and keep everything client-side. This
+					have your own way of retrieving inspection results, you can plug in your own inspector and keep everything client-side. This
 					example implements a <classname>TextAreaInspector</classname> that retrieves inspection results from a textarea and generates the UI. 
 				</para>
 
@@ -2465,7 +2469,7 @@ ant</programlisting>
 &lt;/swingMetawidget&gt;</programlisting>
 	
 				<para>
-					This allows easy plugging in of alternate Inspectors. Note that overriding the default
+					This allows easy plugging in of alternate inspectors. Note that overriding the default
 					means the default is no longer instantiated. In the example above, this would mean <classname>MyInspector</classname>
 					is used but <classname>MetawidgetAnnotationInspector</classname> and <classname>PropertyTypeInspector</classname>
 					are not. This is usually not what you want,
@@ -2506,7 +2510,7 @@ ant</programlisting>
 				-->
 				
 				<figure id="section-architecture-compositeinspector-chain">
-					<title>CompositeInspector composes multiple Inspectors into one</title>
+					<title>CompositeInspector composes multiple inspectors into one</title>
 					<screenshot>
 						<graphic fileref="images/activitydiagrams/architecture-compositeinspector.png" width="140mm"/>
 					</screenshot>			
@@ -2553,7 +2557,7 @@ ant</programlisting>
 				<title>Immutability</title>
 				
 				<para>
-					All Inspectors are required to be threadsafe and immutable. This means you only
+					All inspectors are required to be threadsafe and immutable. This means you only
 					need a single instance of an <classname>Inspector</classname> for your entire application. If you are using
 					<filename>metawidget.xml</filename> (see later) then <classname>ConfigReader</classname> takes care
 					of this for you, but if you are instantiating <classname>Inspector</classname>s in Java code you should
@@ -2586,7 +2590,7 @@ ant</programlisting>
 					Only a handful of XML attributes are mandatory (see <filename>inspection-result-1.0.xsd</filename>). Most, such as <parameter>retired</parameter>
 					and <parameter>minimum-value</parameter>, are provided at the discretion of the <classname>Inspector</classname>
 					and recognised at the discretion of the <classname>WidgetBuilder</classname>. This loose coupling
-					allows Inspectors to evolve independently for new types of metadata, and WidgetBuilders
+					allows inspectors to evolve independently for new types of metadata, and WidgetBuilders
 					to evolve independently with new types of widgets.
 				</para>
 				
@@ -3216,7 +3220,7 @@ void onEndBuild( M metawidget );</programlisting>
 					
 					<para>
 						As noted in <xref linkend="section-metawidgets-web-gwt-reflection"/> by default <classname>GwtMetawidget</classname> uses
-						server-side Inspectors. This allows the full power of Java-based reflection but carries the performance cost of an AJAX call.
+						server-side inspectors. This allows the full power of Java-based reflection but carries the performance cost of an AJAX call.
 						This cost can be mitigated by using rebinding (see <xref linkend="section-performance-rebind"/>), but there is
 						another way: inspection can be performed <emphasis>client-side</emphasis>, with no AJAX calls.
 					</para>
@@ -3569,7 +3573,7 @@ void onEndBuild( M metawidget );</programlisting>
 
 			<para>
 				Metawidget creates widgets native to a particular UI framework. Having to implement your own
-				Metawidget should be far less common than having to implement your own Inspector or
+				Metawidget should be far less common than having to implement your own inspector or
 				WidgetBuilder, but if your chosen UI framework is not supported 'out of the box' you may
 				need to implement your own. 
 			</para>
@@ -3657,7 +3661,7 @@ void onEndBuild( M metawidget );</programlisting>
 		<title>Inspectors</title>
 		
 		<para>
-			This chapter covers each Inspector in detail. For an explanation of how Inspectors
+			This chapter covers each inspector in detail. For an explanation of how inspectors
 			fit into the overall architecture of Metawidget, see <xref linkend="chapter-architecture"/>
 		</para>
 
@@ -3888,8 +3892,8 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 
 					<para>
 						Note these action styles only apply to <classname>BaseObjectInspector</classname> and its subclasses. This covers
-						most annotation-recognising Inspectors (eg. <classname>JpaInspector</classname>, <classname>HibernateValidatorInspector</classname>)
-						but <emphasis>not</emphasis> XML-based Inspectors. For example, <classname>JbpmInspector</classname> recognizes actions in
+						most annotation-recognising inspectors (eg. <classname>JpaInspector</classname>, <classname>HibernateValidatorInspector</classname>)
+						but <emphasis>not</emphasis> XML-based inspectors. For example, <classname>JbpmInspector</classname> recognizes actions in
 						JBoss jBPM files without any concept of an 'action style'.
 					</para>
 					
@@ -4503,7 +4507,7 @@ public class PersonController {
 					</para>
 					
 					<para>
-						If this is the cause, either add the appropriate JAR to the tier, or consider implementing a remote Inspector
+						If this is the cause, either add the appropriate JAR to the tier, or consider implementing a remote inspector
 						(see <xref linkend="section-howto-order"/>).
 					</para>
 				</section>
@@ -4521,7 +4525,7 @@ public class PersonController {
 			
 			<para>
 				Once nice feature of XML is that ordering of child elements (such as <parameter>&lt;property name=""&gt;</parameter>) is
-				explicit, so XML-based Inspectors make great 'first Inspectors' for use within <classname>CompositeInspector</classname> (eg. you
+				explicit, so XML-based inspectors make great 'first inspectors' for use within <classname>CompositeInspector</classname> (eg. you
 				don't need to also use <classname>@UiComesAfter</classname>).
 			</para>
 			
@@ -4688,7 +4692,7 @@ public class PersonController {
 				
 				<para>
 					<classname>XmlInspector</classname> inspects files in <filename>inspection-result-1.0.xsd</filename> format. It can
-					be used when no other Inspector is available for the given attribute.
+					be used when no other inspector is available for the given attribute.
 				</para>
 				
 				<para>
@@ -4706,11 +4710,11 @@ public class PersonController {
 
 			<para>
 				Metawidget inspects a wide variety of back-end architectures. If your chosen back-end
-				architecture is not supported 'out of the box', you may need to implement your own Inspector. 
+				architecture is not supported 'out of the box', you may need to implement your own inspector. 
 			</para>
 			
 			<para>
-				All Inspectors must implement the <classname>org.metawidget.inspector.Inspector</classname> interface:
+				All inspectors must implement the <classname>org.metawidget.inspector.Inspector</classname> interface:
 			</para>
 			
 			<programlisting language="java">public interface Inspector {
@@ -4725,7 +4729,7 @@ public class PersonController {
 			<itemizedlist>
 				<listitem>
 					<para>
-						an <classname>Object</classname> to inspect. This may be <parameter>null</parameter>, or can be ignored for Inspectors working off static metadata (such as config files)
+						an <classname>Object</classname> to inspect. This may be <parameter>null</parameter>, or can be ignored for inspectors working off static metadata (such as config files)
 					</para>
 				</listitem>
 				<listitem>
@@ -4748,12 +4752,12 @@ public class PersonController {
 			
 			<para>
 				The returned String must be an XML document conforming to <filename>inspection-result-1.0.xsd</filename>. To assist
-				development, deploy your Inspector within <classname>CompositeInspector</classname> and use <function>CompositeInspectorConfig.setValidating(true)</function> to
+				development, deploy your inspector within <classname>CompositeInspector</classname> and use <function>CompositeInspectorConfig.setValidating(true)</function> to
 				automatically validate the returned DOM during testing.
 			</para>
 			
 			<para>
-				A number of convenience base classes are provided for different Inspectors: 
+				A number of convenience base classes are provided for different inspectors: 
 			</para>
 			
 			<itemizedlist>
@@ -4772,7 +4776,7 @@ public class PersonController {
 			</itemizedlist>
 
 			<para>
-				When implementing your own Inspector, try to avoid technology-specific XML attribute names. For example, <classname>FacesInspector</classname>
+				When implementing your own inspector, try to avoid technology-specific XML attribute names. For example, <classname>FacesInspector</classname>
 				has an annotation <classname>@UiFacesNumberConverter</classname>. This annotation certainly has technology-specific parts to it, as
 				it names a JSF <classname>Converter</classname> that only applies in JSF environments, so
 				it is reasonable to name the XML attribute <code>faces-converter-class</code>. However, <classname>NumberConverter</classname>s also
@@ -4795,8 +4799,8 @@ public class PersonController {
 
 		<para>
 			Throughout this chapter when we refer to, say, 'fields with a maximum value' this is a shorthand way
-			of saying 'fields for which the Inspectors returned a <parameter>maximum-value</parameter> attribute'. Quite
-			which Inspector returned the value, and based on what, is covered in <xref linkend="chapter-inspectors"/>: it could be
+			of saying 'fields for which the inspectors returned a <parameter>maximum-value</parameter> attribute'. Quite
+			which inspector returned the value, and based on what, is covered in <xref linkend="chapter-inspectors"/>: it could be
 			based on a Hibernate Validator <classname>@Max</classname> annotation, or an <parameter>intRange</parameter>
 			block in a Commons Validator XML file, or some other source.
 		</para>
@@ -5966,7 +5970,7 @@ public class PersonController {
 			
 			<para>
 				Metawidget supports these situations. Because each remoting environment is different, however, you will
-				need to add a little code yourself. Every Inspector returns an XML string, which is inherently serializable and safe
+				need to add a little code yourself. Every inspector returns an XML string, which is inherently serializable and safe
 				to pass across tiers. Therefore, to run inspection remotely:
 			</para>
 			
@@ -5974,7 +5978,7 @@ public class PersonController {
 				<listitem>
 					<para>
 						create a back-end class suited to your environment, such as an EJB Session Bean. Have the back-end class instantiate
-						an Inspector - either programmatically:
+						an inspector - either programmatically:
 					</para>
 					
 					<programlisting language="java">XmlInspectorConfig config = new XmlInspectorConfig();
@@ -6013,7 +6017,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			</para>
 			
 			<tip>
-				All Inspectors are both thread-safe and immutable. Therefore you only need one Inspector for your
+				All inspectors are both thread-safe and immutable. Therefore you only need one inspector for your
 				<emphasis>entire</emphasis> application. Some remoting architectures support 'singletons' or 'service beans' well suited
 				to this.
 			</tip>
@@ -6091,10 +6095,11 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			<title>Memory Usage</title>
 			
 			<para>
-				All Inspectors and WidgetBuilders are threadsafe and immutable. This means you only
-				need a single instance of a given Inspector or WidgetBuilder for your entire application.
+				All <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
+				and <classname>Layout</classname>s are threadsafe and immutable. This means you only
+				need a single instance of them for your entire application.
 				If you are using <filename>metawidget.xml</filename> then <classname>ConfigReader</classname>
-				takes care of this for you, but if you are instantiating Inspectors and WidgetBuilders in Java
+				takes care of this for you, but if you are instantiating yourself them in Java
 				code you should reuse instances to save memory.
 			</para>
 			

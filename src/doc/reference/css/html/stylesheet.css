@@ -318,13 +318,6 @@ span.bold {
     font-weight: bold;
 }
 
-a.external {
-  background-image: url(../../shared/images/external.png);
-  background-position: center right;
-  background-repeat: no-repeat;
-  padding-right: 14px;
-}
-
 div.screenshot {
   /* Clear the float using overflow: hidden*/
 	overflow: hidden;
@@ -337,7 +330,7 @@ div.section table {
 	width: 100%;
 }
 
-div.important table, div.note table, div.tip table {
+div.important table, div.note table, div.tip table, div.calloutlist table {
 	border: 0;
 }
 
@@ -353,7 +346,7 @@ div.important table tbody th, div.note table tbody th, div.tip table tbody th {
 	background-color:transparent;
 }
 
-div.section table tbody tr:nth-child(odd) {
+div.section table tbody tr:nth-child(even) {
 	background-color:#f0f0f0;
 }
 
