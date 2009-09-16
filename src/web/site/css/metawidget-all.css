@@ -193,7 +193,7 @@ h4 {
 	font-family: Comic Sans MS, Arial;
 	font-size: 8pt;
 	font-weight: bold;
-	letter-spacing: -0.5pt;
+	letter-spacing: -1pt;
 	border: 2px solid black;
 	width: 240px;
 	padding: 5px;
@@ -292,19 +292,19 @@ h4 {
 
 #elevator #frame3 .bob-arrow-down {
 	top: 92px;
-	left: 40px;
+	left: 60px;
 }
 
 #elevator #frame3 .john-bubble {
-	top: 100px;
-	left: 130px;
+	top: 97px;
+	left: 156px;
 	width: 80px;
 	text-align: center;
 }
 
 #elevator #frame3 .john-arrow-down {
-	top: 128px;
-	left: 160px;
+	top: 125px;
+	left: 210px;
 }
 
 #elevator #frame4 {
@@ -312,9 +312,15 @@ h4 {
 	left: 310px;
 }
 
-#elevator #frame4 .bob-arrow-down {
-	top: 92px;
-	left: 40px;
+#elevator #frame4 .bob-bubble {	
+	top: 10px;
+	left: 20px;
+	width: 200px;
+}
+
+#elevator #frame4 .bob-arrow-left {
+	top: 50px;
+	left: 9px;
 }
 
 #elevator #frame5 {
@@ -328,14 +334,14 @@ h4 {
 }
 
 #elevator #frame5 .bob-bubble {
-	top: 70px;
-	left: 10px;
-	width: 150px;
+	top: 65px;
+	left: 5px;
+	width: 180px;
 }
 
 #elevator #frame5 .bob-arrow-down {
-	top: 130px;
-	left: 60px;
+	top: 109px;
+	left: 40px;
 }
 
 #elevator #frame6 {
@@ -359,26 +365,26 @@ h4 {
 }
 
 #elevator #frame7 .john-bubble {
-	top: 100px;
+	top: 97px;
 	left: 175px;
 	width: 50px;
 	text-align: center;
 }
 
 #elevator #frame7 .john-arrow-right {
-	top: 110px;
+	top: 115px;
 	left: 237px;
 }
 
 #elevator #frame7 .bob-bubble2 {
-	top: 170px;
+	top: 163px;
 	left: 185px;
 	width: 50px;
 	text-align: center;
 }
 
 #elevator #frame7 .bob-arrow-left {
-	top: 173px;
+	top: 166px;
 	left: 174px;
 }
 

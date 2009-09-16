@@ -27,11 +27,15 @@ body {
     
     font-family:    arial,helvetica,lucida-sans,sans-serif;
     font-size:      10pt;
+	background-color:	#cccccc;
 }
 
 div.book {
     margin: auto;
-    width: 800px;
+    width: 950px;
+	border: 1px solid #888888;
+	background-color: white;
+	padding: 20px;
 }
 
 div {
@@ -322,7 +326,7 @@ div.screenshot {
   /* Clear the float using overflow: hidden*/
 	overflow: hidden;
   /* IE6 doesn't clear float unless we set width*/
-	width: 100%;
+	width: 900px;
 }
 
 div.section table {
@@ -332,6 +336,7 @@ div.section table {
 
 div.important table, div.note table, div.tip table, div.calloutlist table {
 	border: 0;
+	width: auto;
 }
 
 div.section table thead {
@@ -350,7 +355,7 @@ div.section table tbody tr:nth-child(even) {
 	background-color:#f0f0f0;
 }
 
-div.important table tbody tr:nth-child(odd), div.note table tbody tr:nth-child(odd), div.tip table tbody tr:nth-child(odd) {
+div.important table tbody tr:nth-child(even), div.note table tbody tr:nth-child(even), div.tip table tbody tr:nth-child(even) {
 	background-color: transparent;
 }
 

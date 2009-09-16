@@ -37,7 +37,8 @@ public interface WidgetProcessor<W, M extends W>
 
 	/**
 	 * Called at the start of the widget building process, before the <code>WidgetBuilder</code> is
-	 * called.
+	 * called. <code>WidgetProcessor</code>s may wish to act on this event to initialize themselves
+	 * ready for processing.
 	 *
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
@@ -57,8 +58,8 @@ public interface WidgetProcessor<W, M extends W>
 	 *            the parent Metawidget. Never null
 	 * @return generally the original widget (as passed in to the first argument). Can be a
 	 *         different widget if the WidgetProcessor wishes to do substitute the original widget
-	 *         for another. Can be null if the WidgetProcessor wishes to cancel all processing
-	 *         of this widget
+	 *         for another. Can be null if the WidgetProcessor wishes to cancel all processing of
+	 *         this widget
 	 */
 
 	W processWidget( W widget, String elementName, Map<String, String> attributes, M metawidget );
