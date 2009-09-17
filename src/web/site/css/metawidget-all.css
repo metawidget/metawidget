@@ -189,51 +189,55 @@ h4 {
 	position: absolute;
 }
 
-#elevator .frame .bob-bubble, #elevator .frame .john-bubble {
+#elevator .bob-bubble, #elevator .john-bubble {
+	position: absolute;
+	width: 240px;
+}
+
+#elevator .frame .bob-bubble .bubble, #elevator .frame .john-bubble .bubble {
 	font-family: Comic Sans MS, Arial;
 	font-size: 8pt;
 	font-weight: bold;
 	letter-spacing: -1pt;
 	border: 2px solid black;
-	width: 240px;
 	padding: 5px;
 	opacity: .75;
 	filter: alpha( opacity = 75 );
 	text-transform: uppercase;
+	width: 100%;
 }
 
-#elevator .bob-bubble {
-	position: absolute;
+#elevator .bob-bubble .bubble {
 	background-color: #FFFFC0;
 }
 
-#elevator .bob-arrow-down {
-	position: absolute;
-	background: url(../media/elevator/arrow-bob-down.gif) no-repeat;
-	width: 24px;
-	height: 13px;
+#elevator .john-bubble .bubble {
+	background-color: #C0FFC0;
 }
 
-#elevator .bob-arrow-left {
+#elevator .arrow-down {
+	width: 24px;
+	height: 13px;
+	position: relative;
+	top: -2px;
+}
+
+#elevator .bob-bubble .arrow-down {
+	background: url(../media/elevator/arrow-bob-down.gif) no-repeat;
+}
+
+#elevator .john-bubble .arrow-down {
+	background: url(../media/elevator/arrow-john-down.gif) no-repeat;
+}
+
+#elevator .bob-bubble .arrow-left {
 	position: absolute;
 	background: url(../media/elevator/arrow-bob-left.gif) no-repeat;
 	width: 13px;
 	height: 24px;
 }
 
-#elevator .john-bubble {
-	position: absolute;
-	background-color: #C0FFC0;
-}
-
-#elevator .john-arrow-down {
-	position: absolute;
-	background: url(../media/elevator/arrow-john-down.gif) no-repeat;
-	width: 24px;
-	height: 13px;
-}
-
-#elevator .john-arrow-right {
+#elevator .john-bubble .arrow-right {
 	position: absolute;
 	background: url(../media/elevator/arrow-john-right.gif) no-repeat;
 	width: 13px;
@@ -252,9 +256,8 @@ h4 {
 	text-align: center;
 }
 
-#elevator #frame1 .bob-arrow-down {
-	top: 38px;
-	left: 40px;
+#elevator #frame1 .bob-bubble .arrow-down {
+	left: 30px;
 }
 
 #elevator #frame1 .john-bubble {
@@ -264,9 +267,8 @@ h4 {
 	text-align: center;
 }
 
-#elevator #frame1 .john-arrow-down {
-	top: 98px;
-	left: 200px;
+#elevator #frame1 .john-bubble .arrow-down {
+	left: 70px;
 }
 
 #elevator #frame2 {
@@ -280,9 +282,8 @@ h4 {
 	width: 150px;
 }
 
-#elevator #frame2 .john-arrow-down {
-	top: 90px;
-	left: 200px;
+#elevator #frame2 .john-bubble .arrow-down {
+	left: 120px;
 }
 
 #elevator #frame3 {
@@ -290,8 +291,7 @@ h4 {
 	left: 50px;
 }
 
-#elevator #frame3 .bob-arrow-down {
-	top: 92px;
+#elevator #frame3 .bob-bubble .arrow-down {
 	left: 60px;
 }
 
@@ -302,9 +302,8 @@ h4 {
 	text-align: center;
 }
 
-#elevator #frame3 .john-arrow-down {
-	top: 125px;
-	left: 210px;
+#elevator #frame3 .john-bubble .arrow-down {
+	left: 50px;
 }
 
 #elevator #frame4 {
@@ -314,13 +313,16 @@ h4 {
 
 #elevator #frame4 .bob-bubble {	
 	top: 10px;
-	left: 20px;
+	left: 10px;
 	width: 200px;
 }
 
-#elevator #frame4 .bob-arrow-left {
-	top: 50px;
-	left: 9px;
+#elevator #frame4 .bob-bubble .bubble {	
+	margin-left: 11px;
+}
+
+#elevator #frame4 .bob-bubble .arrow-left {
+	top: 40px;
 }
 
 #elevator #frame5 {
@@ -328,8 +330,7 @@ h4 {
 	left: 0px;
 }
 
-#elevator #frame5 .john-arrow-down {
-	top: 60px;
+#elevator #frame5 .john-bubble .arrow-down {
 	left: 210px;
 }
 
@@ -339,8 +340,7 @@ h4 {
 	width: 180px;
 }
 
-#elevator #frame5 .bob-arrow-down {
-	top: 109px;
+#elevator #frame5 .bob-bubble .arrow-down {
 	left: 40px;
 }
 
@@ -349,8 +349,7 @@ h4 {
 	left: 260px;
 }
 
-#elevator #frame6 .bob-arrow-down {
-	top: 108px;
+#elevator #frame6 .bob-bubble .arrow-down {
 	left: 20px;
 }
 
@@ -359,8 +358,7 @@ h4 {
 	left: 50px;
 }
 
-#elevator #frame7 .bob-arrow-down {
-	top: 92px;
+#elevator #frame7 .bob-bubble .arrow-down {
 	left: 10px;
 }
 
@@ -371,21 +369,28 @@ h4 {
 	text-align: center;
 }
 
-#elevator #frame7 .john-arrow-right {
-	top: 115px;
-	left: 237px;
+#elevator #frame7 .john-bubble .bubble {
+	margin-right: 11px;
+}
+
+#elevator #frame7 .john-bubble .arrow-right {
+	top: 20px;
+	left: 62px;
 }
 
 #elevator #frame7 .bob-bubble2 {
 	top: 163px;
-	left: 185px;
+	left: 175px;
 	width: 50px;
 	text-align: center;
 }
 
-#elevator #frame7 .bob-arrow-left {
-	top: 166px;
-	left: 174px;
+#elevator #frame7 .bob-bubble2 .bubble {
+	margin-left: 11px;
+}
+
+#elevator #frame7 .bob-bubble2 .arrow-left {
+	top: 3px;
 }
 
 #elevator #frame8 {
@@ -399,9 +404,8 @@ h4 {
 	width: 180px;
 }
 
-#elevator #frame8 .john-arrow-down {
-	top: 54px;
-	left: 170px;
+#elevator #frame8 .john-bubble .arrow-down {
+	left: 130px;
 }
 
 #elevator #frame8 .bob-bubble {
@@ -409,7 +413,6 @@ h4 {
 	width: 145px;
 }
 
-#elevator #frame8 .bob-arrow-down {
-	top: 141px;
+#elevator #frame8 .bob-bubble .arrow-down {
 	left: 10px;
 }
