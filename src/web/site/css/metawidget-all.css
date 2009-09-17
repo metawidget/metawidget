@@ -198,7 +198,6 @@ h4 {
 	font-family: Comic Sans MS, Arial;
 	font-size: 8pt;
 	font-weight: bold;
-	letter-spacing: -1pt;
 	border: 2px solid black;
 	padding: 5px;
 	opacity: .75;
@@ -235,6 +234,7 @@ h4 {
 	background: url(../media/elevator/arrow-bob-left.gif) no-repeat;
 	width: 13px;
 	height: 24px;
+	left: 0px;
 }
 
 #elevator .john-bubble .arrow-right {
@@ -268,7 +268,7 @@ h4 {
 }
 
 #elevator #frame1 .john-bubble .arrow-down {
-	left: 70px;
+	left: 40px;
 }
 
 #elevator #frame2 {
@@ -303,7 +303,7 @@ h4 {
 }
 
 #elevator #frame3 .john-bubble .arrow-down {
-	left: 50px;
+	left: 35px;
 }
 
 #elevator #frame4 {
@@ -363,7 +363,7 @@ h4 {
 }
 
 #elevator #frame7 .john-bubble {
-	top: 97px;
+	top: 115px;
 	left: 175px;
 	width: 50px;
 	text-align: center;
@@ -379,7 +379,7 @@ h4 {
 }
 
 #elevator #frame7 .bob-bubble2 {
-	top: 163px;
+	top: 183px;
 	left: 175px;
 	width: 50px;
 	text-align: center;
@@ -400,8 +400,8 @@ h4 {
 
 #elevator #frame8 .john-bubble {
 	top: 10px;
-	left: 40px;	
-	width: 180px;
+	left: 30px;	
+	width: 200px;
 }
 
 #elevator #frame8 .john-bubble .arrow-down {

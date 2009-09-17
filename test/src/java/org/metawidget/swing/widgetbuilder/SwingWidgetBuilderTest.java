@@ -22,7 +22,9 @@ import java.util.Map;
 
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
+import javax.swing.JSpinner;
 import javax.swing.JTextArea;
+import javax.swing.SpinnerNumberModel;
 
 import junit.framework.TestCase;
 
@@ -53,6 +55,7 @@ public class SwingWidgetBuilderTest
 
 		JSlider slider = (JSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 2 == slider.getMinimum() );
+		assertTrue( 2 == slider.getValue() );
 		assertTrue( 99 == slider.getMaximum() );
 
 		// JTextArea
@@ -81,5 +84,48 @@ public class SwingWidgetBuilderTest
 		assertTrue( true == textarea.getWrapStyleWord() );
 		assertTrue( false == textarea.isEditable() );
 		assertTrue( 2 == textarea.getRows() );
+
+		// JSpinner
+
+		// floats
+
+		attributes.remove( READ_ONLY );
+		attributes.remove( MAXIMUM_VALUE );
+		attributes.put( TYPE, float.class.getName() );
+
+		JSpinner spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( 1.6f == (Float) spinner.getValue() );
+		assertTrue( 0.1f == (Float) ((SpinnerNumberModel) spinner.getModel()).getStepSize() );
+
+		attributes.put( MAXIMUM_FRACTIONAL_DIGITS, "3" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( 0.001f == (Float) ((SpinnerNumberModel) spinner.getModel()).getStepSize() );
+
+		attributes.put( MINIMUM_VALUE, "-1.6" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( 0f == (Float) spinner.getValue() );
+
+		attributes.remove( MINIMUM_VALUE );
+		attributes.put( MAXIMUM_VALUE, "-1" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( -1f == (Float) spinner.getValue() );
+
+		// doubles
+
+		attributes.put( TYPE, double.class.getName() );
+		attributes.remove( MAXIMUM_VALUE );
+		attributes.put( MINIMUM_VALUE, "1.6" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( 1.6d == (Double) spinner.getValue() );
+		assertTrue( 1000 == Math.round( ((Double) ((SpinnerNumberModel) spinner.getModel()).getStepSize()) * 1000000 ));
+
+		attributes.put( MINIMUM_VALUE, "-1.6" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( 0d == (Double) spinner.getValue() );
+
+		attributes.remove( MINIMUM_VALUE );
+		attributes.put( MAXIMUM_VALUE, "-1" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( -1d == (Double) spinner.getValue() );
 	}
 }

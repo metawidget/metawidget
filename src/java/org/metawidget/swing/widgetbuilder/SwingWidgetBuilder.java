@@ -305,6 +305,7 @@ public class SwingWidgetBuilder
 				{
 					JSlider slider = new JSlider();
 					slider.setMinimum( (int) Math.ceil( Double.parseDouble( minimumValue ) ) );
+					slider.setValue( slider.getMinimum() );
 					slider.setMaximum( (int) Math.floor( Double.parseDouble( maximumValue ) ) );
 
 					return slider;
@@ -370,29 +371,61 @@ public class SwingWidgetBuilder
 				}
 				else if ( float.class.equals( clazz ) )
 				{
+					float value = 0;
 					float minimum = -Float.MAX_VALUE;
 					float maximum = Float.MAX_VALUE;
 
 					if ( minimumValue != null && !"".equals( minimumValue ) )
+					{
 						minimum = Float.parseFloat( minimumValue );
+						value = Math.max( value, minimum );
+					}
 
 					if ( maximumValue != null && !"".equals( maximumValue ) )
+					{
 						maximum = Float.parseFloat( maximumValue );
+						value = Math.min( value, maximum );
+					}
 
-					setSpinnerModel( spinner, (float) 0, minimum, maximum, (float) 0.1 );
+					// Configurable step
+
+					float stepSize;
+
+					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ))
+						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS) ));
+					else
+						stepSize = 0.1f;
+
+					setSpinnerModel( spinner, value, minimum, maximum, stepSize );
 				}
 				else if ( double.class.equals( clazz ) )
 				{
+					double value = 0;
 					double minimum = -Double.MAX_VALUE;
 					double maximum = Double.MAX_VALUE;
 
 					if ( minimumValue != null && !"".equals( minimumValue ) )
+					{
 						minimum = Double.parseDouble( minimumValue );
+						value = Math.max( value, minimum );
+					}
 
 					if ( maximumValue != null && !"".equals( maximumValue ) )
+					{
 						maximum = Double.parseDouble( maximumValue );
+						value = Math.min( value, maximum );
+					}
 
-					setSpinnerModel( spinner, (double) 0, minimum, maximum, 0.1 );
+					// Configurable step
+
+					double stepSize;
+
+					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ))
+						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS) ));
+					else
+						stepSize = 0.1d;
+
+					setSpinnerModel( spinner, value, minimum, maximum, stepSize );
 				}
 
 				return spinner;
