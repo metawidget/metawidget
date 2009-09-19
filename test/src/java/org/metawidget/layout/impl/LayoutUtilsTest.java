@@ -20,47 +20,35 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import junit.framework.TestCase;
+
+import org.metawidget.util.CollectionUtils;
+
 /**
- * Utilities for working with Layouts.
- * <p>
- * Some of the logic behind Layouts decisions can be a little involved, so we refactor it
- * here.
- *
  * @author Richard Kennard
  */
 
-public final class LayoutUtils
+public class LayoutUtilsTest
+	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	/**
-	 * Returns true if the field is 'large' or 'wide'.
-	 */
-
-	public static boolean isSpanAllColumns( Map<String, String> attributes )
+	public void testLayoutException()
+		throws Exception
 	{
-		// HIGH: test isSpanAllColumns attributes false
+		assertTrue( false == LayoutUtils.isSpanAllColumns( null ));
 
-		if ( attributes == null )
-			return false;
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( LARGE, TRUE );
+		assertTrue( true == LayoutUtils.isSpanAllColumns( attributes ));
 
-		if ( TRUE.equals( attributes.get( LARGE ) ) )
-			return true;
+		attributes.clear();
+		attributes.put( WIDE, TRUE );
+		assertTrue( true == LayoutUtils.isSpanAllColumns( attributes ));
 
-		if ( TRUE.equals( attributes.get( WIDE ) ) )
-			return true;
-
-		return false;
-	}
-
-	//
-	// Private constructor
-	//
-
-	private LayoutUtils()
-	{
-		// Can never be called
+		attributes.clear();
+		assertTrue( false == LayoutUtils.isSpanAllColumns( attributes ));
 	}
 }

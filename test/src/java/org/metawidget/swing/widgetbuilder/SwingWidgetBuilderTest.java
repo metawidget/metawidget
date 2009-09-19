@@ -87,13 +87,44 @@ public class SwingWidgetBuilderTest
 
 		// JSpinner
 
+		// bytes
+
+		attributes.remove( READ_ONLY );
+		attributes.remove( MINIMUM_VALUE );
+		attributes.put( TYPE, byte.class.getName() );
+
+		JSpinner spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( ((byte) 99) == (Byte) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
+
+		// shorts
+
+		attributes.put( TYPE, short.class.getName() );
+
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( ((short) 99) == (Short) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
+
+		// ints
+
+		attributes.put( TYPE, int.class.getName() );
+
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( (99) == (Integer) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
+
+		// longs
+
+		attributes.put( TYPE, long.class.getName() );
+
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( ((long) 99) == (Long) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
+
 		// floats
 
 		attributes.remove( READ_ONLY );
 		attributes.remove( MAXIMUM_VALUE );
+		attributes.put( MINIMUM_VALUE, "1.6" );
 		attributes.put( TYPE, float.class.getName() );
 
-		JSpinner spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 1.6f == (Float) spinner.getValue() );
 		assertTrue( 0.1f == (Float) ((SpinnerNumberModel) spinner.getModel()).getStepSize() );
 

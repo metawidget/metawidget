@@ -297,8 +297,8 @@ h4 {
 
 #elevator #frame3 .john-bubble {
 	top: 97px;
-	left: 156px;
-	width: 80px;
+	left: 136px;
+	width: 100px;
 	text-align: center;
 }
 
@@ -314,7 +314,7 @@ h4 {
 #elevator #frame4 .bob-bubble {	
 	top: 10px;
 	left: 10px;
-	width: 200px;
+	width: 210px;
 }
 
 #elevator #frame4 .bob-bubble .bubble {	

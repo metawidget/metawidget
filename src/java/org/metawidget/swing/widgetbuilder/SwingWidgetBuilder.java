@@ -323,10 +323,10 @@ public class SwingWidgetBuilder
 					byte maximum = Byte.MAX_VALUE;
 
 					if ( minimumValue != null && !"".equals( minimumValue ) )
-						minimum = Byte.parseByte( minimumValue );
+						minimum = (byte) Math.ceil( Double.parseDouble( minimumValue ));
 
 					if ( maximumValue != null && !"".equals( maximumValue ) )
-						maximum = Byte.parseByte( maximumValue );
+						maximum = (byte) Math.floor( Double.parseDouble( maximumValue ));
 
 					setSpinnerModel( spinner, (byte) 0, minimum, maximum, (byte) 1 );
 				}
@@ -336,10 +336,10 @@ public class SwingWidgetBuilder
 					short maximum = Short.MAX_VALUE;
 
 					if ( minimumValue != null && !"".equals( minimumValue ) )
-						minimum = Short.parseShort( minimumValue );
+						minimum = (short) Math.ceil( Double.parseDouble( minimumValue ));
 
 					if ( maximumValue != null && !"".equals( maximumValue ) )
-						maximum = Short.parseShort( maximumValue );
+						maximum = (short) Math.floor( Double.parseDouble( maximumValue ));
 
 					setSpinnerModel( spinner, (short) 0, minimum, maximum, (short) 1 );
 				}
@@ -349,10 +349,10 @@ public class SwingWidgetBuilder
 					int maximum = Integer.MAX_VALUE;
 
 					if ( minimumValue != null && !"".equals( minimumValue ) )
-						minimum = Integer.parseInt( minimumValue );
+						minimum = (int) Math.ceil( Double.parseDouble( minimumValue ));
 
 					if ( maximumValue != null && !"".equals( maximumValue ) )
-						maximum = Integer.parseInt( maximumValue );
+						maximum = (int) Math.floor( Double.parseDouble( maximumValue ));
 
 					setSpinnerModel( spinner, 0, minimum, maximum, 1 );
 				}
@@ -362,10 +362,10 @@ public class SwingWidgetBuilder
 					long maximum = Long.MAX_VALUE;
 
 					if ( minimumValue != null && !"".equals( minimumValue ) )
-						minimum = Long.parseLong( minimumValue );
+						minimum = (long) Math.ceil( Double.parseDouble( minimumValue ));
 
 					if ( maximumValue != null && !"".equals( maximumValue ) )
-						maximum = Long.parseLong( maximumValue );
+						maximum = (long) Math.floor( Double.parseDouble( maximumValue ));
 
 					setSpinnerModel( spinner, (long) 0, minimum, maximum, (long) 1 );
 				}
@@ -391,8 +391,8 @@ public class SwingWidgetBuilder
 
 					float stepSize;
 
-					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ))
-						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS) ));
+					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) )
+						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
 					else
 						stepSize = 0.1f;
 
@@ -420,8 +420,8 @@ public class SwingWidgetBuilder
 
 					double stepSize;
 
-					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ))
-						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS) ));
+					if ( attributes.containsKey( MAXIMUM_FRACTIONAL_DIGITS ) )
+						stepSize = (float) Math.pow( 10, -Integer.parseInt( attributes.get( MAXIMUM_FRACTIONAL_DIGITS ) ) );
 					else
 						stepSize = 0.1d;
 

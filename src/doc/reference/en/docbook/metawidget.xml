@@ -4894,7 +4894,10 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>JSpinner</classname></td>
-								<td>Primitives (except boolean and char) that have only one or neither minimum/maximum value</td>
+								<td>
+									Primitives (except boolean and char) that have only one, or neither, of minimum/maximum value.
+									For floats and doubles, the step size is governed by <parameter>maximum-fractional-digits</parameter>
+								</td>
 							</tr>
 							<tr>
 								<td></td>
