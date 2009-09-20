@@ -14,24 +14,24 @@
 				<clickLink label="Create Account" />
 				<clickButton label="Next" />
 					
-				<verifyText text="User name: Validation Error: Value is required." />
-				<verifyText text="Password: Validation Error: Value is required." />
-				<verifyText text="Password verify: Validation Error: Value is required." />
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerUserName-cell']/span)" text="User name: Validation Error: Value is required."/>
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerPassword-cell']/span)" text="Password: Validation Error: Value is required."/>
+				<verifyXPath xpath="normalize-space(//*[@id='table-editCustomerPasswordVerify-cell']/span)" text="Password verify: Validation Error: Value is required."/>
 				<setInputField name="NewAccountForm:customerUserName" value="NewUser" />
 				<setInputField name="NewAccountForm:customerPassword" value="New" />
 				<clickButton label="Next" />
 				
-				<verifyText text="Password: Validation Error: Value is less than allowable minimum of '6'" />
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerPassword-cell']/span)" text="Password: Validation Error: Value is less than allowable minimum of '6'"/>
 				<setInputField name="NewAccountForm:customerPassword" value="New Password" />
 				<setInputField name="NewAccountForm:editCustomerPasswordVerify" value="New Password" />
 				<clickButton label="Next" />
 				<clickButton label="Next" />
 
-				<verifyText text="Address 1: Validation Error: Value is required." />
-				<verifyText text="Address 2: Validation Error: Value is required." />
-				<verifyText text="City: Validation Error: Value is required." />
-				<verifyText text="State: Validation Error: Value is required." />
-				<verifyText text="Zip: Validation Error: Value is required." />
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerAddress1-cell'])" text="Address 1: Validation Error: Value is required."/>
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerAddress2-cell'])" text="Address 2: Validation Error: Value is required."/>
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerCity-cell'])" text="City: Validation Error: Value is required."/>
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerState-cell'])" text="State: Validation Error: Value is required."/>
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerZip-cell'])" text="Zip: Validation Error: Value is required."/>
 				<setInputField name="NewAccountForm:customerFirstName" value="New" />
 				<setInputField name="NewAccountForm:customerLastName" value="User" />
 				<setInputField name="NewAccountForm:customerAddress1" value="Apt 2" />
@@ -44,9 +44,10 @@
 
 				<!-- E-mail validation only works the second time you press 'Next', because of JBSEAM-3251 -->
 				
-				<verifyText text="length must be between 2 and 2" />
-				<verifyText text="length must be between 5 and 10" />				
-				<verifyText text="not a well-formed email address"/>				
+								
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerState-cell'])" text="length must be between 2 and 2"/>
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerZip-cell'])" text="length must be between 5 and 10"/>
+				<verifyXPath xpath="normalize-space(//*[@id='table-customerEmail-cell'])" text="not a well-formed email address"/>
 				<clickButton label="Next" />
 				
 				<setInputField name="NewAccountForm:customerState" value="UR" />
@@ -70,9 +71,9 @@
 				<clickButton label="Checkout" />
 				<clickButton label="Purchase" />
 				<clickButton label="Purchase" />
-				<verifyText text="Thank you for ordering."/>
-				<verifyText text="$16.23"/>
-				<verifyText text="Visa"/>
+				<verifyXPath xpath="contains(/html/body/div/div[3]/div[3]/p, 'Thank you for ordering.')"/>				
+				<verifyXPath xpath="normalize-space(//*[@id='orderdetail:TotalAmountValue'])" text="$16.23"/>
+				<verifyXPath xpath="normalize-space(//*[@id='orderdetail:CreditCartType'])" text="Visa"/>
 				
 			</steps>
 		</webtest>

@@ -41,8 +41,6 @@ public final class LayoutUtils
 
 	public static boolean isSpanAllColumns( Map<String, String> attributes )
 	{
-		// HIGH: test isSpanAllColumns attributes false
-
 		if ( attributes == null )
 			return false;
 

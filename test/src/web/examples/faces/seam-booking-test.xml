@@ -19,7 +19,7 @@
 				<setInputField name="registration:verifyDecorate:verify" value="New Password"/>
 				<clickButton label="Register"/>
 				
-				<verifyText text="Successfully registered as NewUser"/>
+				<verifyXPath xpath="normalize-space(//*[@id='login:messages'])" text="Successfully registered as NewUser"/>
 				<setInputField name="login:username" value="NewUser"/>
 				<setInputField name="login:password" value="New Password"/>
 				<clickButton label="Account Login"/>
@@ -145,7 +145,7 @@
 				<verifyXPath xpath="count(/html/body/div[@id='document']/div[@id='container']/div[@id='content']/div[2]/div[2]/div[@class='entry'])" text="7"/>
 				
 				<clickButton label="Confirm"/>
-				<verifyText text="Thank you, New User Real Name, your confimation number for Marriott Courtyard is 1"/>
+				<verifyXPath xpath="normalize-space(//*[@id='messages'])" text="Thank you, New User Real Name, your confimation number for Marriott Courtyard is 1"/>
 			</steps>
 		</webtest>
 	</target>
