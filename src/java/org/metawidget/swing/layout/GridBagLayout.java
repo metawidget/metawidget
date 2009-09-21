@@ -219,8 +219,8 @@ public class GridBagLayout
 
 		if ( spanAllColumns )
 		{
-			componentConstraints.gridwidth = GridBagConstraints.REMAINDER;
-			state.currentColumn = state.numberOfColumns;
+			componentConstraints.gridwidth = ( state.starAlignment == SwingConstants.RIGHT ? ( state.numberOfColumns * 3 - componentConstraints.gridx - 1 ) : GridBagConstraints.REMAINDER );
+			state.currentColumn = state.numberOfColumns - 1;
 		}
 
 		// Hack for spacer row (see JavaDoc for state.mNeedSpacerRow): assume components
@@ -495,7 +495,7 @@ public class GridBagLayout
 		star.setText( "*" );
 
 		GridBagConstraints starConstraints = new GridBagConstraints();
-		starConstraints.gridx = state.currentColumn + 2;
+		starConstraints.gridx = ( state.currentColumn * 3 ) + 2;
 		starConstraints.gridy = state.currentRow;
 		starConstraints.anchor = GridBagConstraints.NORTHWEST;
 
