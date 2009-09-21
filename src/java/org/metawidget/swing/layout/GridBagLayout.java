@@ -57,8 +57,9 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>sectionStyle</code> - either <code>SECTION_AS_HEADING</code> (the default) or
  * <code>SECTION_AS_TAB</code> (render sections as tabs in a <code>JTabbedPane</code>)
  * <li><code>labelSuffix</code> - defaults to ':'
- * <li><code>starAlignment</code> - one of <code>SwingConstants.LEFT</code>,
+ * <li><code>requiredAlignment</code> - one of <code>SwingConstants.LEFT</code>,
  * <code>SwingConstants.CENTER</code> or <code>SwingConstants.RIGHT</code>.
+ * <li><code>requiredText</code> - defaults to '*'. Can use HTML markup (eg. to render a red star)
  * </ul>
  *
  * @author Richard Kennard
@@ -137,12 +138,19 @@ public class GridBagLayout
 		else
 			state.labelSuffix = (String) labelSuffix;
 
-		Object starAlignment = metawidget.getParameter( "starAlignment" );
+		Object requiredAlignment = metawidget.getParameter( "requiredAlignment" );
 
-		if ( starAlignment == null )
-			state.starAlignment = SwingConstants.CENTER;
+		if ( requiredAlignment == null )
+			state.requiredAlignment = SwingConstants.CENTER;
 		else
-			state.starAlignment = (Integer) starAlignment;
+			state.requiredAlignment = (Integer) requiredAlignment;
+
+		Object requiredText = metawidget.getParameter( "requiredText" );
+
+		if ( requiredText == null )
+			state.requiredText = "*";
+		else
+			state.requiredText = (String) requiredText;
 
 		// Calculate default label inset
 		//
@@ -202,7 +210,7 @@ public class GridBagLayout
 			componentConstraints.fill = GridBagConstraints.BOTH;
 
 		componentConstraints.anchor = GridBagConstraints.WEST;
-		componentConstraints.gridx = state.currentColumn * ( state.starAlignment == SwingConstants.RIGHT ? 3 : 2 );
+		componentConstraints.gridx = state.currentColumn * ( state.requiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
 
 		if ( labelText != null )
 		{
@@ -219,7 +227,7 @@ public class GridBagLayout
 
 		if ( spanAllColumns )
 		{
-			componentConstraints.gridwidth = ( state.starAlignment == SwingConstants.RIGHT ? ( state.numberOfColumns * 3 - componentConstraints.gridx - 1 ) : GridBagConstraints.REMAINDER );
+			componentConstraints.gridwidth = ( state.requiredAlignment == SwingConstants.RIGHT ? ( state.numberOfColumns * 3 - componentConstraints.gridx - 1 ) : GridBagConstraints.REMAINDER );
 			state.currentColumn = state.numberOfColumns - 1;
 		}
 
@@ -343,17 +351,17 @@ public class GridBagLayout
 
 			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 			{
-				if ( state.starAlignment == SwingConstants.CENTER )
-					labelTextToUse += "*";
-				else if ( state.starAlignment == SwingConstants.LEFT )
-					labelTextToUse = "*" + labelTextToUse;
+				if ( state.requiredAlignment == SwingConstants.CENTER )
+					labelTextToUse += state.requiredText;
+				else if ( state.requiredAlignment == SwingConstants.LEFT )
+					labelTextToUse = state.requiredText + labelTextToUse;
 			}
 
 			labelTextToUse += state.labelSuffix;
 			label.setText( labelTextToUse );
 
 			GridBagConstraints labelConstraints = new GridBagConstraints();
-			labelConstraints.gridx = state.currentColumn * ( state.starAlignment == SwingConstants.RIGHT ? 3 : 2 );
+			labelConstraints.gridx = state.currentColumn * ( state.requiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
 			labelConstraints.gridy = state.currentRow;
 			labelConstraints.fill = GridBagConstraints.HORIZONTAL;
 			labelConstraints.weightx = 0.1f / state.numberOfColumns;
@@ -485,14 +493,14 @@ public class GridBagLayout
 	{
 		State state = getState( metawidget );
 
-		if ( state.starAlignment != SwingConstants.RIGHT )
+		if ( state.requiredAlignment != SwingConstants.RIGHT )
 			return;
 
 		if ( attributes == null || !TRUE.equals( attributes.get( REQUIRED ) ) || TRUE.equals( attributes.get( READ_ONLY ) ) || metawidget.isReadOnly() )
 			return;
 
 		JLabel star = new JLabel();
-		star.setText( "*" );
+		star.setText( state.requiredText );
 
 		GridBagConstraints starConstraints = new GridBagConstraints();
 		starConstraints.gridx = ( state.currentColumn * 3 ) + 2;
@@ -580,7 +588,9 @@ public class GridBagLayout
 
 		/* package private */String		labelSuffix;
 
-		/* package private */int		starAlignment;
+		/* package private */int		requiredAlignment;
+
+		/* package private */String		requiredText;
 
 		/* package private */int		currentColumn;
 

@@ -275,25 +275,28 @@ public class GridBagLayoutTest
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setToInspect( new RequiredFoo() );
 
-		// Different suffix
+		// Different label suffix
 
 		metawidget.setParameter( "labelSuffix", "#" );
 		assertTrue( "Abc*#".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 
 		// Align left
 
-		metawidget.setParameter( "starAlignment", SwingConstants.LEFT );
-		assertTrue( "*Abc#".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		metawidget.setParameter( "requiredAlignment", SwingConstants.LEFT );
+		metawidget.setParameter( "requiredText", "?" );
+		assertTrue( "?Abc#".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 
 		// No suffix
 
 		metawidget.setParameter( "labelSuffix", "" );
+		metawidget.setParameter( "requiredText", "*" );
 		assertTrue( "*Abc".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 
 		// Align right
 
 		metawidget.setParameter( "numberOfColumns", 2 );
-		metawidget.setParameter( "starAlignment", SwingConstants.RIGHT );
+		metawidget.setParameter( "requiredText", "<html><font color=\"red\">*</font></html>" );
+		metawidget.setParameter( "requiredAlignment", SwingConstants.RIGHT );
 
 		assertTrue( "Abc".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ).gridx );
@@ -301,7 +304,7 @@ public class GridBagLayoutTest
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridx );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 1 ) ).gridy );
-		assertTrue( "*".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertTrue( "<html><font color=\"red\">*</font></html>".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 2 ) ).gridx );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 2 ) ).gridy );
 
@@ -311,7 +314,7 @@ public class GridBagLayoutTest
 		assertTrue( metawidget.getComponent( 4 ) instanceof JSpinner );
 		assertTrue( 4 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 4 ) ).gridx );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 4 ) ).gridy );
-		assertTrue( "*".equals( ( (JLabel) metawidget.getComponent( 5 ) ).getText() ) );
+		assertTrue( "<html><font color=\"red\">*</font></html>".equals( ( (JLabel) metawidget.getComponent( 5 ) ).getText() ) );
 		assertTrue( 5 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 5 ) ).gridx );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 5 ) ).gridy );
 
@@ -322,7 +325,7 @@ public class GridBagLayoutTest
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 7 ) ).gridx );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 7 ) ).gridy );
 		assertTrue( 4 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 7 ) ).gridwidth );
-		assertTrue( "*".equals( ( (JLabel) metawidget.getComponent( 8 ) ).getText() ) );
+		assertTrue( "<html><font color=\"red\">*</font></html>".equals( ( (JLabel) metawidget.getComponent( 8 ) ).getText() ) );
 		assertTrue( 5 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 8 ) ).gridx );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 8 ) ).gridy );
 
@@ -332,7 +335,7 @@ public class GridBagLayoutTest
 		assertTrue( metawidget.getComponent( 10 ) instanceof JTextField );
 		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 10 ) ).gridx );
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 10 ) ).gridy );
-		assertTrue( "*".equals( ( (JLabel) metawidget.getComponent( 11 ) ).getText() ) );
+		assertTrue( "<html><font color=\"red\">*</font></html>".equals( ( (JLabel) metawidget.getComponent( 11 ) ).getText() ) );
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 11 ) ).gridx );
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 11 ) ).gridy );
 
@@ -340,7 +343,7 @@ public class GridBagLayoutTest
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 12 ) ).gridx );
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 12 ) ).gridwidth );
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 12 ) ).gridy );
-		assertTrue( "*".equals( ( (JLabel) metawidget.getComponent( 13 ) ).getText() ) );
+		assertTrue( "<html><font color=\"red\">*</font></html>".equals( ( (JLabel) metawidget.getComponent( 13 ) ).getText() ) );
 		assertTrue( 5 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 13 ) ).gridx );
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 13 ) ).gridy );
 	}
@@ -354,7 +357,8 @@ public class GridBagLayoutTest
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 2 );
-		metawidget.setParameter( "starAlignment", SwingConstants.RIGHT );
+		metawidget.setParameter( "requiredAlignment", SwingConstants.RIGHT );
+		metawidget.setParameter( "requiredText", "<html><font color=\"red\">*</font></html>" );
 		metawidget.setToInspect( new RequiredFoo() );
 
 		// JFrame
