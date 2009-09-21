@@ -56,6 +56,9 @@ import org.metawidget.util.simple.StringUtils;
  * <code>SwingConstants.LEADING</code> or <code>SwingConstants.TRAILING</code>
  * <li><code>sectionStyle</code> - either <code>SECTION_AS_HEADING</code> (the default) or
  * <code>SECTION_AS_TAB</code> (render sections as tabs in a <code>JTabbedPane</code>)
+ * <li><code>labelSuffix</code> - defaults to ':'
+ * <li><code>starAlignment</code> - one of <code>SwingConstants.LEFT</code>,
+ * <code>SwingConstants.CENTER</code> or <code>SwingConstants.RIGHT</code>.
  * </ul>
  *
  * @author Richard Kennard
@@ -127,8 +130,19 @@ public class GridBagLayout
 		else
 			state.sectionStyle = (Integer) sectionStyle;
 
-		java.awt.GridBagLayout layoutManager = new java.awt.GridBagLayout();
-		metawidget.setLayout( layoutManager );
+		Object labelSuffix = metawidget.getParameter( "labelSuffix" );
+
+		if ( labelSuffix == null )
+			state.labelSuffix = ":";
+		else
+			state.labelSuffix = (String) labelSuffix;
+
+		Object starAlignment = metawidget.getParameter( "starAlignment" );
+
+		if ( starAlignment == null )
+			state.starAlignment = SwingConstants.CENTER;
+		else
+			state.starAlignment = (Integer) starAlignment;
 
 		// Calculate default label inset
 		//
@@ -136,6 +150,9 @@ public class GridBagLayout
 		// so that tall components, regular components and nested Metawidget components all line up.
 		// However, we still want the JLabels to be middle aligned for one-line components (such as
 		// JTextFields), so we top inset them a bit
+
+		java.awt.GridBagLayout layoutManager = new java.awt.GridBagLayout();
+		metawidget.setLayout( layoutManager );
 
 		JTextField dummyTextField = new JTextField();
 		dummyTextField.setLayout( layoutManager );
@@ -185,14 +202,14 @@ public class GridBagLayout
 			componentConstraints.fill = GridBagConstraints.BOTH;
 
 		componentConstraints.anchor = GridBagConstraints.WEST;
+		componentConstraints.gridx = state.currentColumn * ( state.starAlignment == SwingConstants.RIGHT ? 3 : 2 );
 
 		if ( labelText != null )
 		{
-			componentConstraints.gridx = ( state.currentColumn * 2 ) + 1;
+			componentConstraints.gridx++;
 		}
 		else
 		{
-			componentConstraints.gridx = state.currentColumn * 2;
 			componentConstraints.gridwidth = 2;
 		}
 
@@ -225,6 +242,8 @@ public class GridBagLayout
 			metawidget.add( component, componentConstraints );
 		else
 			state.panelCurrent.add( component, componentConstraints );
+
+		layoutAfterChild( component, attributes, metawidget );
 
 		state.currentColumn++;
 
@@ -320,13 +339,21 @@ public class GridBagLayout
 
 			// Required
 
+			String labelTextToUse = labelText;
+
 			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
-				label.setText( labelText + "*:" );
-			else
-				label.setText( labelText + ":" );
+			{
+				if ( state.starAlignment == SwingConstants.CENTER )
+					labelTextToUse += "*";
+				else if ( state.starAlignment == SwingConstants.LEFT )
+					labelTextToUse = "*" + labelTextToUse;
+			}
+
+			labelTextToUse += state.labelSuffix;
+			label.setText( labelTextToUse );
 
 			GridBagConstraints labelConstraints = new GridBagConstraints();
-			labelConstraints.gridx = state.currentColumn * 2;
+			labelConstraints.gridx = state.currentColumn * ( state.starAlignment == SwingConstants.RIGHT ? 3 : 2 );
 			labelConstraints.gridy = state.currentRow;
 			labelConstraints.fill = GridBagConstraints.HORIZONTAL;
 			labelConstraints.weightx = 0.1f / state.numberOfColumns;
@@ -454,6 +481,37 @@ public class GridBagLayout
 		}
 	}
 
+	protected void layoutAfterChild( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
+	{
+		State state = getState( metawidget );
+
+		if ( state.starAlignment != SwingConstants.RIGHT )
+			return;
+
+		if ( attributes == null || !TRUE.equals( attributes.get( REQUIRED ) ) || TRUE.equals( attributes.get( READ_ONLY ) ) || metawidget.isReadOnly() )
+			return;
+
+		JLabel star = new JLabel();
+		star.setText( "*" );
+
+		GridBagConstraints starConstraints = new GridBagConstraints();
+		starConstraints.gridx = state.currentColumn + 2;
+		starConstraints.gridy = state.currentRow;
+		starConstraints.anchor = GridBagConstraints.NORTHWEST;
+
+		if ( state.currentColumn == 0 )
+			starConstraints.insets = state.defaultLabelInsetsFirstColumn;
+		else
+			starConstraints.insets = state.defaultLabelInsetsRemainderColumns;
+
+		// Add to either current panel or direct to the Metawidget
+
+		if ( state.panelCurrent == null )
+			metawidget.add( star, starConstraints );
+		else
+			state.panelCurrent.add( star, starConstraints );
+	}
+
 	protected void sectionEnd( SwingMetawidget metawidget )
 	{
 		State state = getState( metawidget );
@@ -519,6 +577,10 @@ public class GridBagLayout
 		/* package private */int		sectionStyle;
 
 		/* package private */int		numberOfColumns;
+
+		/* package private */String		labelSuffix;
+
+		/* package private */int		starAlignment;
 
 		/* package private */int		currentColumn;
 

@@ -1342,6 +1342,7 @@ public class Person {
 		&lt;table class="data-table"&gt;
 		...
 		&lt;tr&gt;
+			<jsp:useBean id="communication" class="org.metawidget.example.shared.addressbook.model.Communication"/>		
 			&lt;td&gt;<symbol>&lt;mh:metawidget value="communication.type" style="width: 100%"
 				layoutClass="org.metawidget.jsp.tagext.html.layout.SimpleLayout"/&gt;</symbol>&lt;/td&gt;
 			&lt;td&gt;<symbol>&lt;mh:metawidget value="communication.value" style="width: 100%"

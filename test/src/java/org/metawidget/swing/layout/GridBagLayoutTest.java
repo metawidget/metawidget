@@ -29,6 +29,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 
 import junit.framework.TestCase;
@@ -229,6 +230,7 @@ public class GridBagLayoutTest
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
 		metawidget.setParameter( "numberOfColumns", 2 );
+		metawidget.setParameter( "labelSuffix", ":" );
 		metawidget.setToInspect( new WideFoo() );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -266,6 +268,26 @@ public class GridBagLayoutTest
 		assertTrue( metawidget.getComponent( 9 ) instanceof JTextField );
 		assertTrue( 3 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 9 ) ).gridx );
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 9 ) ).gridy );
+	}
+
+	public static void testLabelSuffix()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setParameter( "labelSuffix", "#" );
+		metawidget.setToInspect( new Foo() );
+		assertTrue( "Def*#".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+
+		metawidget.setParameter( "starAlignment", SwingConstants.LEFT );
+		assertTrue( "*Def#".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+
+		metawidget.setParameter( "labelSuffix", "" );
+		assertTrue( "*Def".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+
+		metawidget.setParameter( "starAlignment", SwingConstants.RIGHT );
+		assertTrue( "Def".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertTrue( "*".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
+		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 4 ) ).gridx );
+		assertTrue( 1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 4 ) ).gridy );
 	}
 
 	public static void main( String[] args )
