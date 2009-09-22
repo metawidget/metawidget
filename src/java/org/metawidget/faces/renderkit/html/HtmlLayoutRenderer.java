@@ -121,7 +121,7 @@ public class HtmlLayoutRenderer
 	{
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
-		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( context, metadataAttributes );
+		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( metadataAttributes );
 
 		if ( label == null )
 			return false;

@@ -461,7 +461,7 @@ public class HtmlTableLayoutRenderer
 	{
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
-		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( context, metadataAttributes );
+		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( metadataAttributes );
 
 		if ( label == null )
 			return false;
@@ -520,7 +520,7 @@ public class HtmlTableLayoutRenderer
 
 		HtmlOutputText output = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
 
-		String localizedSection = ( (UIMetawidget) childComponent.getParent() ).getLocalizedKey( context, StringUtils.camelCase( section ) );
+		String localizedSection = ( (UIMetawidget) childComponent.getParent() ).getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection != null )
 			output.setValue( localizedSection );

@@ -23,7 +23,6 @@ import java.util.Map;
 
 import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
@@ -61,12 +60,10 @@ public class RequiredAttributeProcessor
 
 		// JSF 1.2 support
 
-		FacesContext context = FacesContext.getCurrentInstance();
-
 		try
 		{
 			Method method = editableValueHolder.getClass().getMethod( "setLabel", String.class );
-			method.invoke( editableValueHolder, metawidget.getLabelString( context, attributes ) );
+			method.invoke( editableValueHolder, metawidget.getLabelString( attributes ) );
 		}
 		catch ( Exception e )
 		{

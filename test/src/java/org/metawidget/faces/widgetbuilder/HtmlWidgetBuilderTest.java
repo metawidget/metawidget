@@ -225,7 +225,7 @@ public class HtmlWidgetBuilderTest
 		HtmlCommandButton htmlCommandButton = (HtmlCommandButton) widgetBuilder.buildWidget( ACTION, attributes, new HtmlMetawidget()
 		{
 			@Override
-			public String getLabelString( FacesContext context, Map<String, String> passedAttributes )
+			public String getLabelString( Map<String, String> passedAttributes )
 			{
 				return "foo";
 			}

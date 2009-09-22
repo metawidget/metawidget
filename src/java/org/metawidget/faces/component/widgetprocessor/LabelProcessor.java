@@ -20,7 +20,6 @@ import java.lang.reflect.Method;
 import java.util.Map;
 
 import javax.faces.component.UIComponent;
-import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
@@ -61,7 +60,7 @@ public class LabelProcessor
 
 		try
 		{
-			method.invoke( component, metawidget.getLabelString( FacesContext.getCurrentInstance(), attributes ) );
+			method.invoke( component, metawidget.getLabelString( attributes ) );
 			return component;
 		}
 		catch ( Exception e )

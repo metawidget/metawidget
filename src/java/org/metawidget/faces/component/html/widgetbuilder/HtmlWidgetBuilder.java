@@ -266,7 +266,7 @@ public class HtmlWidgetBuilder
 			if ( component == null )
 				component = application.createComponent( "javax.faces.HtmlCommandButton" );
 
-			( (UICommand) component ).setValue( metawidget.getLabelString( context, attributes ) );
+			( (UICommand) component ).setValue( metawidget.getLabelString( attributes ) );
 
 			return component;
 		}
@@ -606,7 +606,7 @@ public class HtmlWidgetBuilder
 			{
 				// Label may be localized
 
-				String localizedLabel = metawidget.getLocalizedKey( context, StringUtils.camelCase( label ) );
+				String localizedLabel = metawidget.getLocalizedKey( StringUtils.camelCase( label ) );
 
 				if ( localizedLabel != null )
 					selectItem.setItemLabel( localizedLabel );
@@ -705,7 +705,7 @@ public class HtmlWidgetBuilder
 
 			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
 			headerText.setId( viewRoot.createUniqueId() );
-			headerText.setValue( metawidget.getLabelString( context, attributes ) );
+			headerText.setValue( metawidget.getLabelString( attributes ) );
 			column.setHeader( headerText );
 		}
 
@@ -734,7 +734,7 @@ public class HtmlWidgetBuilder
 		{
 			HtmlCommandLink rowAction = (HtmlCommandLink) application.createComponent( "javax.faces.HtmlCommandLink" );
 			rowAction.setId( viewRoot.createUniqueId() );
-			String localizedKey = metawidget.getLocalizedKey( context, "edit" );
+			String localizedKey = metawidget.getLocalizedKey( "edit" );
 
 			if ( localizedKey == null )
 				rowAction.setValue( "Edit" );
@@ -817,7 +817,7 @@ public class HtmlWidgetBuilder
 
 			HtmlOutputText headerText = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
 			headerText.setId( viewRoot.createUniqueId() );
-			headerText.setValue( metawidget.getLabelString( context, XmlUtils.getAttributesAsMap( element ) ) );
+			headerText.setValue( metawidget.getLabelString( XmlUtils.getAttributesAsMap( element ) ) );
 			column.setHeader( headerText );
 		}
 	}

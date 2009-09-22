@@ -246,7 +246,7 @@ public abstract class UIMetawidget
 	 *         <code>UiLabel( "#{foo.name}'s name" )</code>
 	 */
 
-	public String getLabelString( FacesContext context, Map<String, String> attributes )
+	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
 			return "";
@@ -264,7 +264,7 @@ public abstract class UIMetawidget
 
 			// (localize if possible)
 
-			String localized = getLocalizedKey( context, StringUtils.camelCase( label ) );
+			String localized = getLocalizedKey( StringUtils.camelCase( label ) );
 
 			if ( localized != null )
 				return localized.trim();
@@ -280,7 +280,7 @@ public abstract class UIMetawidget
 		{
 			// (localize if possible)
 
-			String localized = getLocalizedKey( context, name );
+			String localized = getLocalizedKey( name );
 
 			if ( localized != null )
 				return localized.trim();
@@ -295,9 +295,10 @@ public abstract class UIMetawidget
 	 * @return null if no bundle, ???key??? if bundle is missing a key
 	 */
 
-	public String getLocalizedKey( FacesContext context, String key )
+	public String getLocalizedKey( String key )
 	{
 		String localizedKey = null;
+		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		String appBundle = application.getMessageBundle();
 

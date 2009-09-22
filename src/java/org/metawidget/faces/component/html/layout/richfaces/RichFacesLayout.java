@@ -16,13 +16,20 @@
 
 package org.metawidget.faces.component.html.layout.richfaces;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.List;
 import java.util.Map;
 
+import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.layout.impl.BaseLayout;
+import org.metawidget.util.simple.StringUtils;
+import org.richfaces.component.html.HtmlTab;
+import org.richfaces.component.html.HtmlTabPanel;
 
 /**
  * RichFaces layout.
@@ -38,24 +45,99 @@ public class RichFacesLayout
 	//
 
 	@Override
+	public void startLayout( UIMetawidget metawidget )
+	{
+		metawidget.putClientProperty( RichFacesLayout.class, null );
+	}
+
+	@Override
 	public void layoutChild( UIComponent widget, Map<String, String> attributes, UIMetawidget metawidget )
 	{
-		List<UIComponent> children = metawidget.getChildren();
+		State state = getState( metawidget );
 
-		// If this component already exists in the list, remove it and re-add it. This
-		// enables us to sort existing, manually created components in the correct order
+		// Change of section?
+
+		String section = attributes.get( SECTION );
+
+		if ( section != null && !section.equals( state.section ))
+		{
+			// Section name (possibly localized)
+
+			String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
+
+			if ( localizedSection == null )
+				localizedSection = section;
+
+			FacesContext context = FacesContext.getCurrentInstance();
+			Application application = context.getApplication();
+
+			// Create parent tab panel
+
+			HtmlTabPanel htmlTabPanel;
+
+			if ( state.sectionComponent == null )
+			{
+				htmlTabPanel = (HtmlTabPanel) application.createComponent( "org.richfaces.tabPanel" );
+				metawidget.getChildren().add( htmlTabPanel );
+			}
+			else
+			{
+				htmlTabPanel = (HtmlTabPanel) state.sectionComponent.getParent();
+			}
+
+			// Create tab for section
+
+			HtmlTab htmlTab = (HtmlTab) application.createComponent( "org.richfaces.tabPanel" );
+			htmlTab.setLabel( localizedSection );
+			htmlTabPanel.getChildren().add( htmlTab );
+
+			// Use this panel from now on
+
+			state.sectionComponent = htmlTab;
+		}
+
+		// Normal remove/re-add
+
+		List<UIComponent> children;
+
+		if ( state.sectionComponent == null )
+			children = metawidget.getChildren();
+		else
+			children = state.sectionComponent.getChildren();
 
 		children.remove( widget );
-
-		// Note: delegating to the Renderer to do the adding, such that it can decorate
-		// the UIComponent if necessary (eg. adding a UIMessage) doesn't work out too well.
-		// Specifically, the Renderer should not care whether a UIComponent is manually created
-		// or overridden, but if it wraps a UIComponent with a UIStub then it needs to specify
-		// whether the UIStub is for a manually created component or an overridden one, so that
-		// UIMetawidget will clean it up again during startBuild. This just smells wrong,
-		// because
-		// Renderers should render, not manipulate the UIComponent tree.
-
 		children.add( widget );
+	}
+
+	//
+	// Private methods
+	//
+
+	private State getState( UIMetawidget metawidget )
+	{
+		State state = (State) metawidget.getClientProperty( RichFacesLayout.class );
+
+		if ( state == null )
+		{
+			state = new State();
+			metawidget.putClientProperty( RichFacesLayout.class, state );
+		}
+
+		return state;
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Simple, lightweight structure for saving state.
+	 */
+
+	/* package private */class State
+	{
+		public String		section;
+
+		public UIComponent	sectionComponent;
 	}
 }

@@ -104,7 +104,7 @@ public class IceFacesWidgetBuilder
 		if ( ACTION.equals( elementName ) )
 		{
 			HtmlCommandButton button = (HtmlCommandButton) application.createComponent( "com.icesoft.faces.HtmlCommandButton" );
-			button.setValue( metawidget.getLabelString( context, attributes ) );
+			button.setValue( metawidget.getLabelString( attributes ) );
 			button.setPartialSubmit( true );
 
 			return button;
