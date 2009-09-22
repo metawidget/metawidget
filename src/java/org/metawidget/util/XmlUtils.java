@@ -19,6 +19,7 @@ package org.metawidget.util;
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
@@ -33,8 +34,14 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
+import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Utilities for working with XML.
@@ -81,9 +88,9 @@ public class XmlUtils
 	/**
 	 * Sets the Map as DOM attributes on the given Element.
 	 * <p>
-	 * This implementation uses <code>element.setAttribute</code>. Therefore if the element
-	 * already has attributes, the new attributes are added amongst them. If attributes with the
-	 * same name already exist, they are overwritten.
+	 * This implementation uses <code>element.setAttribute</code>. Therefore if the element already
+	 * has attributes, the new attributes are added amongst them. If attributes with the same name
+	 * already exist, they are overwritten.
 	 */
 
 	public static void setMapAsAttributes( Element element, Map<String, String> attributes )
@@ -176,7 +183,7 @@ public class XmlUtils
 			{
 				node = children.item( loop );
 			}
-			catch( NullPointerException e )
+			catch ( NullPointerException e )
 			{
 				// We've seen this throw a NullPointerException from
 				// com.sun.org.apache.xerces.internal.dom.ParentNode.nodeListGetLength(ParentNode.java:696)
@@ -458,6 +465,224 @@ public class XmlUtils
 			// ...or simply at the end
 
 			master.appendChild( XmlUtils.importElement( master.getOwnerDocument(), childToAdd ) );
+		}
+	}
+
+	//
+	// Inner class
+	//
+
+	/**
+	 * Allows clients to cache SAX events directly rather than, say, caching an XML String and then
+	 * instantiating a new SAX Parser each time to parse it.
+	 * <p>
+	 * <code>CachingContentHandler</code> operates in two modes. In the first mode it is constructed
+	 * and passed a delegate <code>ContentHandler</code>. It then proceeds to route all SAX events
+	 * to the delegate as normal, recording them as it does so. Following <code>endDocument</code>,
+	 * it sets the delegate to <code>null</code>.
+	 * <p>
+	 * In the second mode, clients can call <code>replay</code> to replay the recorded SAX events on
+	 * a new <code>ContentHandler</code>.
+	 */
+
+	public static class CachingContentHandler
+		extends DefaultHandler
+	{
+		//
+		// Private statics
+		//
+
+		private final static int	PROCESSING_INSTRUCTION	= 0;
+
+		private final static int	SKIPPED_ENTITY			= 1;
+
+		private final static int	START_PREFIX_MAPPING	= 2;
+
+		private final static int	END_PREFIX_MAPPING		= 3;
+
+		private final static int	START_ELEMENT			= 4;
+
+		private final static int	CHARACTERS				= 5;
+
+		private final static int	IGNORABLE_WHITESPACE	= 6;
+
+		private final static int	END_ELEMENT				= 7;
+
+		//
+		// Private members
+		//
+
+		private ContentHandler		mDelegate;
+
+		private List<Object[]>		mCache;
+
+		//
+		// Constructor
+		//
+
+		public CachingContentHandler( ContentHandler delegate )
+		{
+			mDelegate = delegate;
+		}
+
+		//
+		// Public methods
+		//
+
+		public void replay( ContentHandler replayTo )
+			throws SAXException
+		{
+			if ( mCache == null )
+				throw new SAXException( "Not cached any SAX events to replay" );
+
+			// First event
+
+			replayTo.startDocument();
+
+			// Cached events
+
+			for ( Object[] cached : mCache )
+			{
+				int code = (Integer) cached[0];
+
+				switch ( code )
+				{
+					case PROCESSING_INSTRUCTION:
+						replayTo.processingInstruction( (String) cached[1], (String) cached[2] );
+						break;
+
+					case SKIPPED_ENTITY:
+						replayTo.skippedEntity( (String) cached[1] );
+						break;
+
+					case START_PREFIX_MAPPING:
+						replayTo.startPrefixMapping( (String) cached[1], (String) cached[2] );
+						break;
+
+					case END_PREFIX_MAPPING:
+						replayTo.endPrefixMapping( (String) cached[1] );
+						break;
+
+					case START_ELEMENT:
+						replayTo.startElement( (String) cached[1], (String) cached[2], (String) cached[3], (Attributes) cached[4] );
+						break;
+
+					case CHARACTERS:
+						replayTo.characters( (char[]) cached[1], (Integer) cached[2], (Integer) cached[3] );
+						break;
+
+					case IGNORABLE_WHITESPACE:
+						replayTo.ignorableWhitespace( (char[]) cached[1], (Integer) cached[2], (Integer) cached[3] );
+						break;
+
+					case END_ELEMENT:
+						replayTo.endElement( (String) cached[1], (String) cached[2], (String) cached[3] );
+						break;
+
+					default:
+						throw new SAXException( "Unknown cache code: " + code );
+				}
+			}
+
+			// Last event
+
+			replayTo.endDocument();
+		}
+
+		//
+		// ContentHandler implementation
+		//
+
+		@Override
+		public void startDocument()
+			throws SAXException
+		{
+			if ( mCache != null )
+				throw new SAXException( "Already cached SAX events. CachingContentHandler can only cache SAX events once" );
+
+			mCache = CollectionUtils.newArrayList();
+			mDelegate.startDocument();
+		}
+
+		@Override
+		public void processingInstruction( String target, String data )
+			throws SAXException
+		{
+			mCache.add( new Object[] { PROCESSING_INSTRUCTION, target, data } );
+			mDelegate.processingInstruction( target, data );
+		}
+
+		@Override
+		public void setDocumentLocator( Locator locator )
+		{
+			mDelegate.setDocumentLocator( locator );
+		}
+
+		@Override
+		public void skippedEntity( String name )
+			throws SAXException
+		{
+			mCache.add( new Object[] { SKIPPED_ENTITY, name } );
+			mDelegate.skippedEntity( name );
+		}
+
+		@Override
+		public void startPrefixMapping( String prefix, String uri )
+			throws SAXException
+		{
+			mCache.add( new Object[] { START_PREFIX_MAPPING, prefix, uri } );
+			mDelegate.startPrefixMapping( prefix, uri );
+		}
+
+		@Override
+		public void endPrefixMapping( String prefix )
+			throws SAXException
+		{
+			mCache.add( new Object[] { END_PREFIX_MAPPING, prefix } );
+			mDelegate.endPrefixMapping( prefix );
+		}
+
+		@Override
+		public void startElement( String uri, String localName, String name, Attributes attributes )
+			throws SAXException
+		{
+			mCache.add( new Object[] { START_ELEMENT, uri, localName, name, new AttributesImpl( attributes ) } );
+			mDelegate.startElement( uri, localName, name, attributes );
+		}
+
+		@Override
+		public void characters( char[] characters, int start, int length )
+			throws SAXException
+		{
+			mCache.add( new Object[] { CHARACTERS, characters, start, length } );
+			mDelegate.characters( characters, start, length );
+		}
+
+		@Override
+		public void ignorableWhitespace( char[] characters, int start, int length )
+			throws SAXException
+		{
+			mCache.add( new Object[] { IGNORABLE_WHITESPACE, characters, start, length } );
+			mDelegate.ignorableWhitespace( characters, start, length );
+		}
+
+		@Override
+		public void endElement( String uri, String localName, String name )
+			throws SAXException
+		{
+			mCache.add( new Object[] { END_ELEMENT, uri, localName, name } );
+			mDelegate.endElement( uri, localName, name );
+		}
+
+		@Override
+		public void endDocument()
+			throws SAXException
+		{
+			mDelegate.endDocument();
+
+			// Free up resources
+
+			mDelegate = null;
 		}
 	}
 

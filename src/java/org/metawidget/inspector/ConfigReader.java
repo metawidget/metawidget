@@ -42,6 +42,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.IOUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
+import org.metawidget.util.XmlUtils.CachingContentHandler;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -86,7 +87,7 @@ public class ConfigReader
 	 * Cache of resource content based on resource name
 	 */
 
-	Map<String, byte[]>					RESOURCE_CACHE					= CollectionUtils.newHashMap();
+	Map<String, CachingContentHandler>	RESOURCE_CACHE					= CollectionUtils.newHashMap();
 
 	/**
 	 * Certain objects are both immutable and threadsafe
@@ -134,8 +135,12 @@ public class ConfigReader
 	 * Read configuration from an application resource.
 	 * <p>
 	 * This version of <code>configure</code> uses <code>openResource</code> to open the specified
-	 * resource, then caches the contents against the resource name. It then calls
-	 * <code>configure( InputStream, Object )</code>.
+	 * resource. It assumes the resource name is a unique key, so subsequent calls do not need to
+	 * re-open the resource, or re-parse it, making this verison of <code>configure</code> much
+	 * faster than <code>configure( InputStream, Object )</code>.
+	 * <p>
+	 * This version further caches any immutable and threadsafe objects, in the same way as
+	 * <code>configure( InputStream, Object )</code> (see the JavaDoc for that method).
 	 *
 	 * @param resource
 	 *            resource name that will be looked up using openResource
@@ -149,22 +154,39 @@ public class ConfigReader
 
 	public Object configure( String resource, Object toConfigure, String... names )
 	{
-		byte[] bytes = RESOURCE_CACHE.get( resource );
+		ConfigHandler configHandler = new ConfigHandler( toConfigure, names );
+		configHandler.setImmutableThreadsafeKey( resource );
 
-		if ( bytes == null )
+		try
 		{
-			ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
-			IOUtils.streamBetween( openResource( resource ), streamOut );
-			bytes = streamOut.toByteArray();
+			// Replay the existing cache...
 
-			RESOURCE_CACHE.put( resource, bytes );
+			CachingContentHandler cachingContentHandler = RESOURCE_CACHE.get( resource );
+
+			if ( cachingContentHandler != null )
+			{
+				cachingContentHandler.replay( configHandler );
+			}
+
+			// ...or cache a new one
+
+			else
+			{
+				cachingContentHandler = new CachingContentHandler( configHandler );
+				mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
+				RESOURCE_CACHE.put( resource, cachingContentHandler );
+			}
+
+			return configHandler.getConfigured();
 		}
-
-		return configure( bytes, toConfigure, names );
+		catch ( Exception e )
+		{
+			throw InspectorException.newException( e );
+		}
 	}
 
 	/**
-	 * Read configuration from an application resource.
+	 * Read configuration from an input stream.
 	 * <p>
 	 * This is a convenience method for <code>configure( InputStream, Object )</code> that casts the
 	 * returned Object to an instance of the given <code>toConfigure</code> class.
@@ -254,7 +276,11 @@ public class ConfigReader
 			IOUtils.streamBetween( stream, streamOut );
 			byte[] bytes = streamOut.toByteArray();
 
-			return configure( bytes, toConfigure, names );
+			ConfigHandler configHandler = new ConfigHandler( toConfigure, names );
+			configHandler.setImmutableThreadsafeKey( new String( bytes ) );
+			mFactory.newSAXParser().parse( new ByteArrayInputStream( bytes ), configHandler );
+
+			return configHandler.getConfigured();
 		}
 		catch ( Exception e )
 		{
@@ -301,33 +327,6 @@ public class ConfigReader
 	//
 	// Protected methods
 	//
-
-	/**
-	 * @param bytes
-	 *            byte array containing the XML input
-	 * @param toConfigure
-	 *            object to configure. Can be a subclass of the one actually in the resource
-	 * @param names
-	 *            path to a property within the object. If specified, siblings to this path will be
-	 *            ignored. This allows ConfigReader to be used to initialise only a specific part of
-	 *            an object
-	 */
-
-	protected Object configure( byte[] bytes, Object toConfigure, String... names )
-	{
-		try
-		{
-			ConfigHandler configHandler = new ConfigHandler( toConfigure, names );
-			configHandler.setXml( new String( bytes ) );
-			mFactory.newSAXParser().parse( new ByteArrayInputStream( bytes ), configHandler );
-
-			return configHandler.getConfigured();
-		}
-		catch ( Exception e )
-		{
-			throw InspectorException.newException( e );
-		}
-	}
 
 	/**
 	 * Certain XML tags are supported 'natively' by the reader.
@@ -525,10 +524,10 @@ public class ConfigReader
 		private String[]				mNames;
 
 		/**
-		 * XML document. Used purely as a key into IMMUTABLE_THREADSAFE_OBJECTS.
+		 * Key under which to cache IMMUTABLE_THREADSAFE_OBJECTS.
 		 */
 
-		private String					mXml;
+		private String					mImmutableThreadsafeKey;
 
 		/**
 		 * Number of elements encountered so far. Used as a simple way to get a unique 'row/column'
@@ -611,9 +610,9 @@ public class ConfigReader
 		// Public methods
 		//
 
-		public void setXml( String xml )
+		public void setImmutableThreadsafeKey( String immutableThreadsafeKey )
 		{
-			mXml = xml;
+			mImmutableThreadsafeKey = immutableThreadsafeKey;
 		}
 
 		public Object getConfigured()
@@ -1029,7 +1028,7 @@ public class ConfigReader
 		{
 			if ( mImmutableThreadsafe == null )
 			{
-				mImmutableThreadsafe = IMMUTABLE_THREADSAFE_OBJECTS.get( mXml );
+				mImmutableThreadsafe = IMMUTABLE_THREADSAFE_OBJECTS.get( mImmutableThreadsafeKey );
 
 				if ( mImmutableThreadsafe == null )
 					return null;
@@ -1042,12 +1041,12 @@ public class ConfigReader
 		{
 			if ( mImmutableThreadsafe == null )
 			{
-				mImmutableThreadsafe = IMMUTABLE_THREADSAFE_OBJECTS.get( mXml );
+				mImmutableThreadsafe = IMMUTABLE_THREADSAFE_OBJECTS.get( mImmutableThreadsafeKey );
 
 				if ( mImmutableThreadsafe == null )
 				{
 					mImmutableThreadsafe = CollectionUtils.newHashMap();
-					IMMUTABLE_THREADSAFE_OBJECTS.put( mXml, mImmutableThreadsafe );
+					IMMUTABLE_THREADSAFE_OBJECTS.put( mImmutableThreadsafeKey, mImmutableThreadsafe );
 				}
 			}
 

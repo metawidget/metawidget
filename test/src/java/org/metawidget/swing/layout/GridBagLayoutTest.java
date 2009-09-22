@@ -289,7 +289,7 @@ public class GridBagLayoutTest
 		// No suffix
 
 		metawidget.setParameter( "labelSuffix", "" );
-		metawidget.setParameter( "requiredText", "*" );
+		metawidget.setParameter( "requiredText", null );
 		assertTrue( "*Abc".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 
 		// Align right

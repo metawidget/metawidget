@@ -45,6 +45,7 @@ public class UtilTests
 		suite.addTestSuite( PathUtilsTest.class );
 		suite.addTestSuite( StringUtilsTest.class );
 		suite.addTestSuite( WidgetBuilderUtilsTest.class );
+		suite.addTestSuite( XmlUtilsTest.class );
 
 		return suite;
 	}

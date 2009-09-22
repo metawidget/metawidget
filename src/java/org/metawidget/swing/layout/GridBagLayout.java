@@ -59,7 +59,8 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>labelSuffix</code> - defaults to ':'
  * <li><code>requiredAlignment</code> - one of <code>SwingConstants.LEFT</code>,
  * <code>SwingConstants.CENTER</code> or <code>SwingConstants.RIGHT</code>.
- * <li><code>requiredText</code> - defaults to '*'. Can use HTML markup (eg. to render a red star)
+ * <li><code>requiredText</code> - defaults to '*'. When used with a <code>requiredAlignment</code> of
+ * <code>SwingConstants.RIGHT</code>, can use HTML markup (eg. to render a red star)
  * </ul>
  *
  * @author Richard Kennard
