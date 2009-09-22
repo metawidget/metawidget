@@ -56,10 +56,10 @@ import org.xml.sax.helpers.DefaultHandler;
  * <p>
  * In spirit, <code>metadata.xml</code> is a general-purpose mechanism for configuring JavaBeans
  * based on XML files. In practice, there are some Metawidget-specific features such as support for
- * immutable objects.
+ * immutable objects, and caching based on resource name.
  * <p>
- * This class is not just a collection of static methods, because ConfigReaders need to be able to
- * be subclassed.
+ * This class is not just static methods, because ConfigReaders need to be able to be subclassed
+ * (eg. see <code>ServletConfigReader</code>)
  *
  * @author Richard Kennard
  */
@@ -90,7 +90,7 @@ public class ConfigReader
 	Map<String, CachingContentHandler>	RESOURCE_CACHE					= CollectionUtils.newHashMap();
 
 	/**
-	 * Certain objects are both immutable and threadsafe
+	 * Cache of objects that are both immutable and threadsafe
 	 */
 
 	Map<String, Map<Integer, Object>>	IMMUTABLE_THREADSAFE_OBJECTS	= CollectionUtils.newHashMap();
@@ -438,7 +438,7 @@ public class ConfigReader
 
 	/**
 	 * Certain classes are both immutable and threadsafe. We only ever need one instance of such
-	 * classes.
+	 * classes for an entire application.
 	 */
 
 	protected boolean isImmutableThreadsafe( Class<?> clazz )

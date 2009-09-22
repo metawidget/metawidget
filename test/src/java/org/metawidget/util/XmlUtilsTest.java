@@ -16,13 +16,13 @@
 
 package org.metawidget.util;
 
-import java.lang.reflect.Field;
 import java.util.List;
 
 import junit.framework.TestCase;
 
 import org.metawidget.util.XmlUtils.CachingContentHandler;
 import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -43,11 +43,19 @@ public class XmlUtilsTest
 		SimpleContentHandler simpleContentHandler = new SimpleContentHandler();
 		CachingContentHandler cachingContentHandler = new CachingContentHandler( simpleContentHandler );
 
+		try
+		{
+			cachingContentHandler.replay( simpleContentHandler );
+			assertTrue( false );
+		}
+		catch ( SAXException e )
+		{
+			assertTrue( "Nothing to replay. Not cached any SAX events".equals( e.getMessage() ) );
+		}
+
 		// Check delegate ready
 
-		Field delegateField = CachingContentHandler.class.getDeclaredField( "mDelegate" );
-		delegateField.setAccessible( true );
-		assertTrue( simpleContentHandler == delegateField.get( cachingContentHandler ));
+		assertTrue( simpleContentHandler == cachingContentHandler.getDelegate() );
 
 		// Fire events
 
@@ -59,18 +67,44 @@ public class XmlUtilsTest
 		AttributesImpl attributes = new AttributesImpl();
 		attributes.addAttribute( "a-uri", "a-localName", "a-qName", "a-type", "a-value" );
 		cachingContentHandler.startElement( "se-uri", "se-localName", "se-name", attributes );
-		cachingContentHandler.characters( "c-characters".toCharArray(), 2, 98 );
-		cachingContentHandler.ignorableWhitespace( "iw-characters".toCharArray(), 3, 97 );
+		char[] characters = "c-characters".toCharArray();
+		cachingContentHandler.characters( characters, 0, 12 );
+		char[] ignorableWhitespaceCharacters = "iw-characters".toCharArray();
+		cachingContentHandler.ignorableWhitespace( ignorableWhitespaceCharacters, 0, 13 );
 		cachingContentHandler.endElement( "ee-uri", "ee-localName", "ee-name" );
 		cachingContentHandler.endDocument();
 
 		// Check delegate field was released
 
-		assertTrue( null == delegateField.get( cachingContentHandler ));
+		assertTrue( null == cachingContentHandler.getDelegate() );
+
+		try
+		{
+			cachingContentHandler.startDocument();
+			assertTrue( false );
+		}
+		catch ( SAXException e )
+		{
+			assertTrue( "Already cached SAX events. CachingContentHandler can only cache SAX events once".equals( e.getMessage() ) );
+		}
 
 		// Check they got delegated
 
 		assertSimpleContentHandler( simpleContentHandler );
+
+		// Check defensive copy
+
+		attributes.clear();
+
+		for( int loop = 0, length = characters.length; loop < length; loop++ )
+		{
+			characters[loop] = '_';
+		}
+
+		for( int loop = 0, length = ignorableWhitespaceCharacters.length; loop < length; loop++ )
+		{
+			ignorableWhitespaceCharacters[loop] = '_';
+		}
 
 		// Replay
 
@@ -79,11 +113,34 @@ public class XmlUtilsTest
 
 		// Check delegate field was not used
 
-		assertTrue( null == delegateField.get( cachingContentHandler ));
+		assertTrue( null == cachingContentHandler.getDelegate() );
 
 		// Check they got replayed
 
 		assertSimpleContentHandler( newSimpleContentHandler );
+	}
+
+	public void testCachingContentHandlerFragment()
+		throws Exception
+	{
+		SimpleContentHandler simpleContentHandler = new SimpleContentHandler();
+		CachingContentHandler cachingContentHandler = new CachingContentHandler( simpleContentHandler );
+		cachingContentHandler.startElement( "se-uri", "se-localName", "se-name", new AttributesImpl() );
+		cachingContentHandler.endElement( "ee-uri", "ee-localName", "ee-name" );
+
+		SimpleContentHandler newSimpleContentHandler = new SimpleContentHandler();
+		cachingContentHandler.replay( newSimpleContentHandler );
+
+		assertTrue( newSimpleContentHandler.mEvents.size() == 2 );
+		assertTrue( "startElement".equals( simpleContentHandler.mEvents.get( 0 )[0] ) );
+		assertTrue( "se-uri".equals( simpleContentHandler.mEvents.get( 0 )[1] ) );
+		assertTrue( "se-localName".equals( simpleContentHandler.mEvents.get( 0 )[2] ) );
+		assertTrue( "se-name".equals( simpleContentHandler.mEvents.get( 0 )[3] ) );
+		assertTrue( 0 == ( (Attributes) simpleContentHandler.mEvents.get( 0 )[4] ).getLength() );
+		assertTrue( "endElement".equals( simpleContentHandler.mEvents.get( 1 )[0] ) );
+		assertTrue( "ee-uri".equals( simpleContentHandler.mEvents.get( 1 )[1] ) );
+		assertTrue( "ee-localName".equals( simpleContentHandler.mEvents.get( 1 )[2] ) );
+		assertTrue( "ee-name".equals( simpleContentHandler.mEvents.get( 1 )[3] ) );
 	}
 
 	//
@@ -113,12 +170,12 @@ public class XmlUtilsTest
 		assertTrue( 1 == ( (Attributes) simpleContentHandler.mEvents.get( 5 )[4] ).getLength() );
 		assertTrue( "characters".equals( simpleContentHandler.mEvents.get( 6 )[0] ) );
 		assertTrue( "c-characters".equals( String.valueOf( (char[]) simpleContentHandler.mEvents.get( 6 )[1] ) ) );
-		assertTrue( 2 == (Integer) simpleContentHandler.mEvents.get( 6 )[2] );
-		assertTrue( 98 == (Integer) simpleContentHandler.mEvents.get( 6 )[3] );
+		assertTrue( 0 == (Integer) simpleContentHandler.mEvents.get( 6 )[2] );
+		assertTrue( 12 == (Integer) simpleContentHandler.mEvents.get( 6 )[3] );
 		assertTrue( "ignorableWhitespace".equals( simpleContentHandler.mEvents.get( 7 )[0] ) );
 		assertTrue( "iw-characters".equals( String.valueOf( (char[]) simpleContentHandler.mEvents.get( 7 )[1] ) ) );
-		assertTrue( 3 == (Integer) simpleContentHandler.mEvents.get( 7 )[2] );
-		assertTrue( 97 == (Integer) simpleContentHandler.mEvents.get( 7 )[3] );
+		assertTrue( 0 == (Integer) simpleContentHandler.mEvents.get( 7 )[2] );
+		assertTrue( 13 == (Integer) simpleContentHandler.mEvents.get( 7 )[3] );
 		assertTrue( "endElement".equals( simpleContentHandler.mEvents.get( 8 )[0] ) );
 		assertTrue( "ee-uri".equals( simpleContentHandler.mEvents.get( 8 )[1] ) );
 		assertTrue( "ee-localName".equals( simpleContentHandler.mEvents.get( 8 )[2] ) );

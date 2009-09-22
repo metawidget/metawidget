@@ -492,21 +492,25 @@ public class XmlUtils
 		// Private statics
 		//
 
-		private final static int	PROCESSING_INSTRUCTION	= 0;
+		private final static int	START_DOCUMENT			= 0;
 
-		private final static int	SKIPPED_ENTITY			= 1;
+		private final static int	PROCESSING_INSTRUCTION	= 1;
 
-		private final static int	START_PREFIX_MAPPING	= 2;
+		private final static int	SKIPPED_ENTITY			= 2;
 
-		private final static int	END_PREFIX_MAPPING		= 3;
+		private final static int	START_PREFIX_MAPPING	= 3;
 
-		private final static int	START_ELEMENT			= 4;
+		private final static int	END_PREFIX_MAPPING		= 4;
 
-		private final static int	CHARACTERS				= 5;
+		private final static int	START_ELEMENT			= 5;
 
-		private final static int	IGNORABLE_WHITESPACE	= 6;
+		private final static int	CHARACTERS				= 6;
 
-		private final static int	END_ELEMENT				= 7;
+		private final static int	IGNORABLE_WHITESPACE	= 7;
+
+		private final static int	END_ELEMENT				= 8;
+
+		private final static int	END_DOCUMENT			= 9;
 
 		//
 		// Private members
@@ -514,7 +518,7 @@ public class XmlUtils
 
 		private ContentHandler		mDelegate;
 
-		private List<Object[]>		mCache;
+		private List<Object[]>		mCache					= CollectionUtils.newArrayList();
 
 		//
 		// Constructor
@@ -529,17 +533,20 @@ public class XmlUtils
 		// Public methods
 		//
 
+		/**
+		 * Replay the cached events.
+		 * <p>
+		 * Note: <code>replay</code> does necessarily trigger <code>startDocument</code> and
+		 * <code>endDocument</code> (ie. it does not assume the original recording contained them).
+		 * Because of this, <code>CachingContentHandler</code> can be used to cache
+		 * <em>fragments</em> of SAX events.
+		 */
+
 		public void replay( ContentHandler replayTo )
 			throws SAXException
 		{
-			if ( mCache == null )
-				throw new SAXException( "Not cached any SAX events to replay" );
-
-			// First event
-
-			replayTo.startDocument();
-
-			// Cached events
+			if ( mCache.isEmpty() )
+				throw new SAXException( "Nothing to replay. Not cached any SAX events" );
 
 			for ( Object[] cached : mCache )
 			{
@@ -547,6 +554,10 @@ public class XmlUtils
 
 				switch ( code )
 				{
+					case START_DOCUMENT:
+						replayTo.startDocument();
+						break;
+
 					case PROCESSING_INSTRUCTION:
 						replayTo.processingInstruction( (String) cached[1], (String) cached[2] );
 						break;
@@ -579,14 +590,19 @@ public class XmlUtils
 						replayTo.endElement( (String) cached[1], (String) cached[2], (String) cached[3] );
 						break;
 
+					case END_DOCUMENT:
+						replayTo.endDocument();
+						break;
+
 					default:
 						throw new SAXException( "Unknown cache code: " + code );
 				}
 			}
+		}
 
-			// Last event
-
-			replayTo.endDocument();
+		public ContentHandler getDelegate()
+		{
+			return mDelegate;
 		}
 
 		//
@@ -597,10 +613,10 @@ public class XmlUtils
 		public void startDocument()
 			throws SAXException
 		{
-			if ( mCache != null )
+			if ( !mCache.isEmpty() )
 				throw new SAXException( "Already cached SAX events. CachingContentHandler can only cache SAX events once" );
 
-			mCache = CollectionUtils.newArrayList();
+			mCache.add( new Object[] { START_DOCUMENT } );
 			mDelegate.startDocument();
 		}
 
@@ -646,6 +662,8 @@ public class XmlUtils
 		public void startElement( String uri, String localName, String name, Attributes attributes )
 			throws SAXException
 		{
+			// Defensive copy - SAX implementations may reuse the Attributes
+
 			mCache.add( new Object[] { START_ELEMENT, uri, localName, name, new AttributesImpl( attributes ) } );
 			mDelegate.startElement( uri, localName, name, attributes );
 		}
@@ -654,7 +672,12 @@ public class XmlUtils
 		public void characters( char[] characters, int start, int length )
 			throws SAXException
 		{
-			mCache.add( new Object[] { CHARACTERS, characters, start, length } );
+			// Defensive copy - SAX implementations may reuse the array
+
+			char[] newCharacters = new char[length];
+			System.arraycopy( characters, start, newCharacters, 0, length );
+
+			mCache.add( new Object[] { CHARACTERS, newCharacters, 0, length } );
 			mDelegate.characters( characters, start, length );
 		}
 
@@ -662,7 +685,12 @@ public class XmlUtils
 		public void ignorableWhitespace( char[] characters, int start, int length )
 			throws SAXException
 		{
-			mCache.add( new Object[] { IGNORABLE_WHITESPACE, characters, start, length } );
+			// Defensive copy - SAX implementations may reuse the array
+
+			char[] newCharacters = new char[length];
+			System.arraycopy( characters, start, newCharacters, 0, length );
+
+			mCache.add( new Object[] { IGNORABLE_WHITESPACE, newCharacters, start, length } );
 			mDelegate.ignorableWhitespace( characters, start, length );
 		}
 
@@ -678,6 +706,7 @@ public class XmlUtils
 		public void endDocument()
 			throws SAXException
 		{
+			mCache.add( new Object[] { END_DOCUMENT } );
 			mDelegate.endDocument();
 
 			// Free up resources
