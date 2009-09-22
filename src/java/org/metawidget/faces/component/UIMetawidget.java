@@ -36,8 +36,6 @@ import javax.faces.el.ValueBinding;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.impl.BaseLayout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -113,15 +111,6 @@ public abstract class UIMetawidget
 	 */
 
 	private final static String								APPLICATION_ATTRIBUTE_CONFIG_READER	= "metawidget-config-reader";
-
-	/**
-	 * Dummy layout.
-	 * <p>
-	 * In general we use the JSF Renderer to do the layout, but this allows us to hook the
-	 * 'layoutChild' at the correct place.
-	 */
-
-	private final static Layout<UIComponent, UIMetawidget>	DUMMY_LAYOUT						= new DummyLayout();
 
 	//
 	// Private members
@@ -607,13 +596,6 @@ public abstract class UIMetawidget
 		if ( mConfig != null )
 			configReader.configure( mConfig, this );
 
-		// Optimisation: set the Layout, even though in general we use the JSF Renderer, so that
-		// mMetawidgetMixin.configureDefaults does not keep finding it null and keep re-parsing
-		// the XML of the default config
-
-		if ( mMetawidgetMixin.getLayout() == null )
-			mMetawidgetMixin.setLayout( DUMMY_LAYOUT );
-
 		mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration(), UIMetawidget.class );
 	}
 
@@ -906,36 +888,6 @@ public abstract class UIMetawidget
 		protected MetawidgetMixin<UIComponent, UIMetawidget> getNestedMixin( UIMetawidget metawidget )
 		{
 			return metawidget.getMetawidgetMixin();
-		}
-	}
-
-	/* package private */static class DummyLayout
-		extends BaseLayout<UIComponent, UIMetawidget>
-	{
-		//
-		// Public methods
-		//
-
-		@Override
-		public void layoutChild( UIComponent widget, Map<String, String> attributes, UIMetawidget metawidget )
-		{
-			List<UIComponent> children = metawidget.getChildren();
-
-			// If this component already exists in the list, remove it and re-add it. This
-			// enables us to sort existing, manually created components in the correct order
-
-			children.remove( widget );
-
-			// Note: delegating to the Renderer to do the adding, such that it can decorate
-			// the UIComponent if necessary (eg. adding a UIMessage) doesn't work out too well.
-			// Specifically, the Renderer should not care whether a UIComponent is manually created
-			// or overridden, but if it wraps a UIComponent with a UIStub then it needs to specify
-			// whether the UIStub is for a manually created component or an overridden one, so that
-			// UIMetawidget will clean it up again during startBuild. This just smells wrong,
-			// because
-			// Renderers should render, not manipulate the UIComponent tree.
-
-			children.add( widget );
 		}
 	}
 }

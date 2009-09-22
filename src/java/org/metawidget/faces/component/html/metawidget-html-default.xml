@@ -32,6 +32,10 @@
 				<cssStyleProcessor xmlns="java:org.metawidget.faces.component.html.widgetprocessor"/>
 			</list>
 		</widgetProcessors>
+		
+		<layout>
+			<simpleLayout xmlns="java:org.metawidget.faces.layout"/>
+		</layout>
 	
 	</htmlMetawidget>
 
