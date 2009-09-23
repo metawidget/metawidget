@@ -1650,6 +1650,7 @@
 				<include name="jstl-*.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-1.2*.jar"/>
+				<include name="richfaces-*.jar"/>
 				<include name="standard.jar"/>
 			</lib>
 		</war>

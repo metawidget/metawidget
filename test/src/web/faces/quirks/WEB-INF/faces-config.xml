@@ -17,6 +17,14 @@
 		<managed-bean-scope>request</managed-bean-scope>
 	</managed-bean>
 	
+	<!-- Session-Level Managed Beans -->
+
+	<managed-bean>
+		<managed-bean-name>richQuirks</managed-bean-name>
+		<managed-bean-class>org.metawidget.faces.quirks.model.RichFacesQuirks</managed-bean-class>
+		<managed-bean-scope>session</managed-bean-scope>
+	</managed-bean>
+
 	<!-- Converters -->
 	
 	<!-- Test if (!( component instanceof UISelectMany )) check in HtmlWidgetBuilder:345 -->

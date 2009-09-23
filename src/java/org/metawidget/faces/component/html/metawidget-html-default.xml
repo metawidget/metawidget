@@ -34,7 +34,7 @@
 		</widgetProcessors>
 		
 		<layout>
-			<simpleLayout xmlns="java:org.metawidget.faces.layout"/>
+			<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
 		</layout>
 	
 	</htmlMetawidget>

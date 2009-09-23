@@ -23,11 +23,15 @@ import java.util.Map;
 
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
+import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.layout.impl.BaseLayout;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.richfaces.component.UITab;
+import org.richfaces.component.UITabPanel;
 import org.richfaces.component.html.HtmlTab;
 import org.richfaces.component.html.HtmlTabPanel;
 
@@ -61,40 +65,70 @@ public class RichFacesLayout
 
 		if ( section != null && !section.equals( state.section ))
 		{
-			// Section name (possibly localized)
+			state.section = section;
 
-			String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
+			// End of sections?
 
-			if ( localizedSection == null )
-				localizedSection = section;
-
-			FacesContext context = FacesContext.getCurrentInstance();
-			Application application = context.getApplication();
-
-			// Create parent tab panel
-
-			HtmlTabPanel htmlTabPanel;
-
-			if ( state.sectionComponent == null )
+			if ( "".equals( section ))
 			{
-				htmlTabPanel = (HtmlTabPanel) application.createComponent( "org.richfaces.tabPanel" );
-				metawidget.getChildren().add( htmlTabPanel );
+				state.sectionComponent = null;
 			}
 			else
 			{
-				htmlTabPanel = (HtmlTabPanel) state.sectionComponent.getParent();
+				FacesContext context = FacesContext.getCurrentInstance();
+				Application application = context.getApplication();
+				UIViewRoot viewRoot = context.getViewRoot();
+
+				// Create parent tab panel
+
+				UITabPanel tabPanel;
+
+				if ( state.sectionComponent == null )
+				{
+					tabPanel = (HtmlTabPanel) application.createComponent( "org.richfaces.TabPanel" );
+					tabPanel.setId( viewRoot.createUniqueId() );
+					tabPanel.setSwitchType( "client" );
+					metawidget.getChildren().add( tabPanel );
+
+					Map<String, String> metadata = CollectionUtils.newHashMap();
+					metadata.put( LABEL, "" );
+					tabPanel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, metadata );
+				}
+				else
+				{
+					tabPanel = (HtmlTabPanel) state.sectionComponent.getParent().getParent();
+				}
+
+				// Section name (possibly localized)
+
+				String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
+
+				if ( localizedSection == null )
+					localizedSection = section;
+
+				// Create tab for section
+
+				UITab tab = (HtmlTab) application.createComponent( "org.richfaces.Tab" );
+				tab.setId( viewRoot.createUniqueId() );
+				tab.setLabel( localizedSection );
+				tabPanel.getChildren().add( tab );
+
+				// Create nested panel (use a Metawidget for layout)
+
+				UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( "org.metawidget.HtmlMetawidget" );
+				nestedMetawidget.setId( viewRoot.createUniqueId() );
+				tab.getChildren().add( nestedMetawidget );
+
+				// Use this nested panel from now on
+
+				state.sectionComponent = nestedMetawidget;
 			}
-
-			// Create tab for section
-
-			HtmlTab htmlTab = (HtmlTab) application.createComponent( "org.richfaces.tabPanel" );
-			htmlTab.setLabel( localizedSection );
-			htmlTabPanel.getChildren().add( htmlTab );
-
-			// Use this panel from now on
-
-			state.sectionComponent = htmlTab;
 		}
+
+		// The tab is the section header, so remove section header for the widget
+		// before the HtmlTableLayoutRenderer (or HtmlDivLayoutRenderer etc) sees it
+
+		attributes.remove( SECTION );
 
 		// Normal remove/re-add
 

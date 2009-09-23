@@ -36,6 +36,7 @@ import javax.faces.el.ValueBinding;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -219,6 +220,11 @@ public abstract class UIMetawidget
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
 	{
 		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
+	}
+
+	public void setLayout( Layout<UIComponent, UIMetawidget> layout )
+	{
+		mMetawidgetMixin.setLayout( layout );
 	}
 
 	/**
@@ -469,6 +475,54 @@ public abstract class UIMetawidget
 		return mMetawidgetMixin.inspect( toInspect, type, names );
 	}
 
+	protected abstract UIMetawidget buildNestedMetawidget( Map<String, String> attributes );
+
+	protected void initNestedMetawidget( UIMetawidget nestedMetawidget, Map<String, String> attributes )
+		throws Exception
+	{
+		// Don't reconfigure...
+
+		nestedMetawidget.setConfig( null );
+
+		// ...instead, copy runtime values
+
+		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
+
+		// Read-only
+		//
+		// Note: initNestedMixin takes care of literal values. This is concerned with the value
+		// binding
+
+		if ( !TRUE.equals( attributes.get( READ_ONLY ) ) )
+		{
+			ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
+
+			if ( bindingReadOnly != null )
+				nestedMetawidget.setValueBinding( "readOnly", bindingReadOnly );
+		}
+
+		// Bundle
+
+		nestedMetawidget.setValueBinding( "bundle", getValueBinding( "bundle" ) );
+
+		// Renderer type
+
+		nestedMetawidget.setRendererType( getRendererType() );
+
+		// Parameters
+
+		FacesUtils.copyParameters( this, nestedMetawidget, "columns" );
+
+		// Note: it is very dangerous to do, say...
+		//
+		// to.getAttributes().putAll( from.getAttributes() );
+		//
+		// ...in order to copy all arbitary attributes, because some frameworks (eg. Facelets) use
+		// the attributes map as a storage area for special flags (eg.
+		// ComponentSupport.MARK_CREATED) that should not get copied down from component to
+		// component!
+	}
+
 	@Override
 	public Object saveState( FacesContext context )
 	{
@@ -608,6 +662,9 @@ public abstract class UIMetawidget
 
 	protected void startBuild()
 	{
+		if ( getValueBinding( "value" ) == null )
+			return;
+
 		// Remove any components we created previously (this is
 		// important for polymorphic controls, which may change from
 		// refresh to refresh)
@@ -731,8 +788,7 @@ public abstract class UIMetawidget
 				// If no found metadata, default to no section.
 				//
 				// This is so if a user puts, say, a <t:div/> in the component tree, it doesn't
-				// appear inside
-				// an existing section
+				// appear inside an existing section
 
 				childAttributes.put( SECTION, "" );
 			}
@@ -744,54 +800,6 @@ public abstract class UIMetawidget
 
 			mMetawidgetMixin.getLayout().layoutChild( component, childAttributes, this );
 		}
-	}
-
-	protected abstract UIMetawidget buildNestedMetawidget( Map<String, String> attributes );
-
-	protected void initNestedMetawidget( UIMetawidget nestedMetawidget, Map<String, String> attributes )
-		throws Exception
-	{
-		// Don't reconfigure...
-
-		nestedMetawidget.setConfig( null );
-
-		// ...instead, copy runtime values
-
-		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
-
-		// Read-only
-		//
-		// Note: initNestedMixin takes care of literal values. This is concerned with the value
-		// binding
-
-		if ( !TRUE.equals( attributes.get( READ_ONLY ) ) )
-		{
-			ValueBinding bindingReadOnly = getValueBinding( "readOnly" );
-
-			if ( bindingReadOnly != null )
-				nestedMetawidget.setValueBinding( "readOnly", bindingReadOnly );
-		}
-
-		// Bundle
-
-		nestedMetawidget.setValueBinding( "bundle", getValueBinding( "bundle" ) );
-
-		// Renderer type
-
-		nestedMetawidget.setRendererType( getRendererType() );
-
-		// Parameters
-
-		FacesUtils.copyParameters( this, nestedMetawidget, "columns" );
-
-		// Note: it is very dangerous to do, say...
-		//
-		// to.getAttributes().putAll( from.getAttributes() );
-		//
-		// ...in order to copy all arbitary attributes, because some frameworks (eg. Facelets) use
-		// the attributes map as a storage area for special flags (eg.
-		// ComponentSupport.MARK_CREATED) that should not get copied down from component to
-		// component!
 	}
 
 	//
