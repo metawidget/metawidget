@@ -3084,7 +3084,7 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 				<para>
 					Note that although individual <classname>WidgetProcessor</classname> are immutable, the <classname>List</classname> they
 					are contained in can be changed. Methods such as <function>addWidgetProcessor</function> allows clients to dynamically
-					add <classname>WidgetProcessor</classname> at runtime (see <xref linkend="section-architecture-widgetprocessors-interface"/>).
+					add <classname>WidgetProcessor</classname>s at runtime (see <xref linkend="section-architecture-widgetprocessors-interface"/>).
 				</para>
 				
 			</section>
@@ -3093,6 +3093,50 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 		
 		<section id="section-architecture-layouts">
 			<title>Layouts</title>
+
+			<para>
+				<classname>Layout</classname>s arrange widgets on the screen, following their
+				building by a <classname>WidgetBuilder</classname> and processing by any <classname>WidgetProcessor</classname>s.
+				This section covers <classname>Layout</classname>s in general. For in-depth documentation of individual
+				<classname>Layout</classname>s see <xref linkend="chapter-layouts"/>.
+			</para>
+
+			<section id="section-architecture-layouts-interface">
+				<title>Interface</title>
+
+				<para>
+					All <classname>Layout</classname>s must implement the <classname>Layout</classname> interface.
+					This interface defines three methods:
+				</para>
+				
+				<programlisting language="java">onStartBuild( M metawidget );
+				
+void layoutChild( W widget, Map&lt;String, String&gt; attributes, M metawidget );
+
+void onEndBuild( M metawidget );</programlisting>
+				
+				<para>
+					The first method, <function>onStartBuild</function>, is called at the start of the widget building process,
+					before the <code>WidgetBuilder</code> is called. <classname>Layout</classname>s may wish to act
+					on this event to initialize themselves ready for processing. However it is acceptable to do nothing. A
+					convenience base class, <classname>BaseLayout</classname>, is provided with a dummy implementation
+					so that subclasses don't have to override this method.					
+				</para>
+				<para>
+					The last method, <function>onEndBuild</function>, is called at the end of the widget building process,
+					after all widgets have been built and added to the <code>Layout</code>. <classname>Layout</classname>s may wish to act
+					on this event to clean themselves up following processing. However it is acceptable to do nothing. The
+					convenience base class, <classname>BaseLayout</classname>, has a dummy implementation
+					so that subclasses don't have to override this method.
+				</para>
+				<para>
+					The middle method, <function>layoutChild</function> is the most important. <classname>Layout</classname>s
+					should add the given <parameter>widget</parameter> (as built by the <classname>WidgetBuilder</classname>, and
+					processed by any <classname>WidgetProcessor</classname>s) as a child of the given <parameter>metawidget</parameter>,
+					according to the given <parameter>attributes</parameter>.
+				</para>
+				
+			</section>
 
 			<section id="section-architecture-layouts-defaults">
 				<title>Defaults</title>
@@ -6270,10 +6314,59 @@ public class PersonController {
 			<section id="section-layouts-web-faces">
 				<title>JSF Layouts</title>
 				
+				<para>
+					<classname>Layout</classname>s in JSF behave a little differently to those for other Metawidgets. By and
+					large, JSF already provides a pluggable mechanism (<classname>javax.faces.render.Renderer</classname>s)
+					that can be used for displaying a component in different ways. Metawidget leverages this mechanism
+					via its <classname>xxxLayoutRenderer</classname> classes (see below).
+				</para>
+				
+				<para>
+					However, JSF <classname>Renderer</classname>s are not well suited to <emphasis>modifying</emphasis>
+					the component tree (say, to wrap a group of components into a tabbed panel). For those cases,
+					Metawidget employs its usual <classname>Layout</classname> mechanism. Separating <classname>xxxLayout</classname>
+					and <classname>xxxLayoutRenderer</classname> classes in this way has the advantage they
+					can be mix-and-matched. For example, you can combine a <classname>RichFacesLayout</classname> (for
+					wrapping components in tabs) with either a <classname>HtmlTableLayoutRenderer</classname> (to render
+					the inside of the tabs as a table) or a <classname>HtmlDivLayoutRenderer</classname> (to render
+					the inside of the tabs using <parameter>div</parameter>s).
+				</para>
+				
+				<section id="section-layouts-web-faces-table">
+					<title>HtmlDivLayoutRenderer</title>
+					
+				</section>
+
+				<section id="section-layouts-web-faces-div">
+					<title>HtmlTableLayoutRenderer</title>
+					
+				</section>
+
 				<section id="section-layouts-web-faces-richfaces">
 					<title>RichFacesLayout</title>
+					
+					<para>
+						For components outside a section, <classname>RichFacesLayout</classname> simply adds them
+						to the parent Metawidget in the same way as <classname>SimpleLayout</classname>. For components
+						with a section heading, it wraps them in tabs within a RichFaces <classname>TabPanel</classname>.
+					</para>
+					
+					<para>
+						The body of the tab is itself a nested Metawidget, and so uses the same <classname>Renderer</classname>
+						as the parent Metawidget. This gives you the choice of either <parameter>table</parameter> or
+						<parameter>div</parameter>-based HTML.
+					</para>
 				</section>
 				
+				<section id="section-layouts-web-faces-simple">
+					<title>SimpleLayout</title>
+					
+					<para>
+						<classname>SimpleLayout</classname> is the default JSF <classname>Layout</classname>. It simply adds
+						the widget as a child of the Metawidget, leaving everything up to the <classname>Renderer</classname>.
+					</para>
+				</section>
+
 			</section>
 		</section>
 		

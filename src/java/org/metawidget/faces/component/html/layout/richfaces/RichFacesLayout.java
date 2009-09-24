@@ -33,8 +33,6 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.richfaces.component.UITab;
 import org.richfaces.component.UITabPanel;
-import org.richfaces.component.html.HtmlTab;
-import org.richfaces.component.html.HtmlTabPanel;
 
 /**
  * RichFaces layout.
@@ -93,7 +91,7 @@ public class RichFacesLayout
 
 					if ( state.sectionComponent == null )
 					{
-						tabPanel = (HtmlTabPanel) application.createComponent( "org.richfaces.TabPanel" );
+						tabPanel = (UITabPanel) application.createComponent( "org.richfaces.TabPanel" );
 						tabPanel.setId( viewRoot.createUniqueId() );
 						tabPanel.setSwitchType( "client" );
 						metawidget.getChildren().add( tabPanel );
@@ -106,7 +104,7 @@ public class RichFacesLayout
 					}
 					else
 					{
-						tabPanel = (HtmlTabPanel) state.sectionComponent.getParent().getParent();
+						tabPanel = (UITabPanel) state.sectionComponent.getParent().getParent();
 					}
 
 					// Section name (possibly localized)
@@ -118,7 +116,7 @@ public class RichFacesLayout
 
 					// Create tab for section
 
-					UITab tab = (HtmlTab) application.createComponent( "org.richfaces.Tab" );
+					UITab tab = (UITab) application.createComponent( "org.richfaces.Tab" );
 					tab.setId( viewRoot.createUniqueId() );
 					tab.setLabel( localizedSection );
 					tabPanel.getChildren().add( tab );
