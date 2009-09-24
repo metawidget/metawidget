@@ -172,7 +172,7 @@ public class ConfigReader
 
 			else
 			{
-				LOG.debug( "Reading resource from '" + resource + "'" );
+				LOG.debug( "Reading resource from " + resource );
 				cachingContentHandler = new CachingContentHandler( configHandler );
 				mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
 				RESOURCE_CACHE.put( resource, cachingContentHandler );

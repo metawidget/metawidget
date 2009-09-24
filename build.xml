@@ -546,6 +546,8 @@
 
 		<!-- DocBook EN -->
 
+		<mkdir dir="${build.dir}/doc/reference/en/pdf"/>
+		
 		<ant antfile="${docbook.dir}/build-docbook.xml" target="all">
 			<property name="dbf.basedir" value="${docbook.dir}"/>
 			<property name="src.dir" value="src/doc/reference/en"/>

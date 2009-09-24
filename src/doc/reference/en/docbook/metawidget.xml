@@ -2586,7 +2586,8 @@ ant</programlisting>
 				<para>
 					All Metawidgets have default <classname>Inspector</classname>s. Overriding the default means the default is no
 					longer instantiated. Usually this is not what you want, so you should consider instantiating
-					the defaults along with your new <classname>Inspector</classname>. You can see all the defaults by looking in the
+					the default along with your new <classname>Inspector</classname> (ie. use <classname>CompositeInspector</classname>).
+					You can see the default by looking in the
 					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
 					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
 				</para>
@@ -2786,13 +2787,14 @@ ant</programlisting>
 				<para>
 					All Metawidgets have default <classname>WidgetBuilder</classname>s. Overriding the default means the default is no
 					longer instantiated. Usually this is not what you want, so you should consider instantiating
-					the defaults along with your new <classname>WidgetBuilder</classname>. You can see all the defaults by looking in the
+					the default along with your new <classname>WidgetBuilder</classname> (ie. use <classname>CompositeWidgetBuilder</classname>).
+					You can see the default by looking in the
 					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
 					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
 				</para>
 				
 				<para>
-					For reference, the default is generally:
+					For reference, the defaults are:
 				</para>
 				
 				<informaltable>
@@ -2809,31 +2811,31 @@ ant</programlisting>
 					<tbody>
 						<tr>
 							<td>Android</td>
-							<td><classname>org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder</classname></td>
+							<td><classname>...android.widget.widgetbuilder.AndroidWidgetBuilder</classname></td>
 						</tr>
 						<tr>
 							<td>GWT</td>
-							<td><classname>org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder</classname></td>
+							<td><classname>...gwt.client.widgetbuilder.impl.GwtWidgetBuilder</classname></td>
 						</tr>
 						<tr>
 							<td>JSF</td>
-							<td><programlisting language="xml">&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;</programlisting></td>
+							<td><classname>...faces.component.html.widgetbuilder.HtmlWidgetBuilder</classname></td>
 						</tr>
 						<tr>
 							<td>JSP</td>
-							<td><programlisting language="xml">&lt;htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/&gt;</programlisting></td>
+							<td><classname>...jsp.tagext.html.widgetbuilder.HtmlWidgetBuilder</classname></td>
 						</tr>
 						<tr>
 							<td>Spring</td>
-							<td><programlisting language="xml">&lt;springWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.spring"/&gt;</programlisting></td>
+							<td><classname>...jsp.tagext.html.widgetbuilder.spring.SpringWidgetBuilder</classname></td>
 						</tr>
 						<tr>
 							<td>Struts</td>
-							<td><programlisting language="xml">&lt;strutsWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.struts"/&gt;</programlisting></td>
+							<td><classname>...jsp.tagext.html.widgetbuilder.struts.StrutsWidgetBuilder</classname></td>
 						</tr>
 						<tr>
 							<td>Swing</td>
-							<td><programlisting language="xml">&lt;swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/&gt;</programlisting></td>
+							<td><classname>...swing.widgetbuilder.SwingWidgetBuilder</classname></td>
 						</tr>
 					</tbody>
 				</informaltable>
@@ -2958,18 +2960,16 @@ void onEndBuild( M metawidget );</programlisting>
 					as inner classes that have connections to their parent class:					
 				</para>
 				
-				<programlisting language="java">final int foo = 3;
+				<programlisting language="java">final Object someObject = ...;
 				
 metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 	JComponent processWidget( JComponent widget, String elementName, Map&lt;String, String&gt; attributes,
 								SwingMetawidget metawidget ) {
 		...decide whether to attach event handler...
 		
-		widget.add( new AbstractAction()
-		{
-			public void actionPerformed( ActionEvent event )
-			{
-				foo++;
+		widget.add( new AbstractAction() {
+			public void actionPerformed( ActionEvent event ) {
+				someObject.doSomething();
 			}
 		}	
 	}
@@ -2982,13 +2982,13 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 				<para>
 					Most Metawidgets have default <classname>WidgetProcessor</classname>s. Overriding the default means the default is no
 					longer instantiated. Usually this is not what you want, so you should consider instantiating
-					the defaults along with your new <classname>WidgetProcessor</classname>. You can see all the defaults by looking in the
+					the default along with your new <classname>WidgetProcessor</classname>. You can see the default by looking in the
 					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
 					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
 				</para>
 				
 				<para>
-					For reference, the default is generally:
+					For reference, the defaults are:
 				</para>
 				
 				<informaltable>
@@ -3014,14 +3014,14 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 						<tr>
 							<td>JSF</td>
 							<td><programlisting language="xml">&lt;list&gt;
-	&lt;requiredAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
-	&lt;immediateAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
-	&lt;standardBindingProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
-	&lt;readableIdProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
-	&lt;labelProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
-	&lt;standardValidatorProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
-	&lt;standardConverterProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
-	&lt;cssStyleProcessor xmlns="java:org.metawidget.faces.component.html.widgetprocessor"/&gt;							
+	&lt;requiredAttributeProcessor /&gt;
+	&lt;immediateAttributeProcessor /&gt;
+	&lt;standardBindingProcessor /&gt;
+	&lt;readableIdProcessor /&gt;
+	&lt;labelProcessor /&gt;
+	&lt;standardValidatorProcessor /&gt;
+	&lt;standardConverterProcessor /&gt;
+	&lt;cssStyleProcessor /&gt;							
 &lt;/list&gt;</programlisting></td>
 						</tr>
 						<tr>
@@ -3039,7 +3039,7 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 						<tr>
 							<td>Swing</td>
 							<td><programlisting language="xml">&lt;list&gt;
-	&lt;reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/&gt;
+	&lt;reflectionBindingProcessor /&gt;
 &lt;/list&gt;</programlisting></td>
 						</tr>
 					</tbody>
@@ -3068,8 +3068,81 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 
 		</section>
 		
-		<section id="section-architecture-layout">
+		<section id="section-architecture-layouts">
 			<title>Layouts</title>
+
+			<section id="section-architecture-layouts-defaults">
+				<title>Defaults</title>
+				
+				<para>
+					All Metawidgets have default <classname>Layout</classname>s.
+					You can see the default by looking in the
+					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
+					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
+				</para>
+				
+				<para>
+					For reference, the defaults are:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="30%"/>
+						<col width="70%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Platform</th>
+							<th align="left">Default</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Android</td>
+							<td><classname>...android.widget.layout.TableLayout</classname></td>
+						</tr>
+						<tr>
+							<td>GWT</td>
+							<td><classname>...gwt.client.ui.layout.FlexTableLayout</classname></td>
+						</tr>
+						<tr>
+							<td>JSF</td>
+							<td><classname>...faces.component.layout.SimpleLayout</classname> with <classname>faces.renderkit.html.HtmlTableLayoutRenderer</classname></td>
+						</tr>
+						<tr>
+							<td>JSP</td>
+							<td><classname>...jsp.tagext.html.layout.HtmlTableLayout</classname></td>
+						</tr>
+						<tr>
+							<td>Spring</td>
+							<td><classname>...jsp.tagext.html.layout.HtmlTableLayout</classname></td>
+						</tr>
+						<tr>
+							<td>Struts</td>
+							<td><classname>...jsp.tagext.html.layout.HtmlTableLayout</classname></td>
+						</tr>
+						<tr>
+							<td>Swing</td>
+							<td><classname>...swing.layout.GridBagLayout</classname></td>
+						</tr>
+					</tbody>
+				</informaltable>
+				
+			</section>
+
+			<section id="section-architecture-layouts-immutability">
+				<title>Immutability</title>
+				
+				<para>
+					All <classname>Layout</classname>s are required to be threadsafe and immutable. This means you only
+					need a single instance of a <classname>Layout</classname> for your entire application. If you are using
+					<filename>metawidget.xml</filename> then <classname>ConfigReader</classname> takes care
+					of this for you, but if you are instantiating <classname>Layout</classname>s in Java code you should
+					reuse instances.
+				</para>
+				
+			</section>
+
 		</section>
 
 		<section id="section-architecture-xml">
