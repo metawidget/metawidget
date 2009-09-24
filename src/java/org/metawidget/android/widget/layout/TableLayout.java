@@ -60,7 +60,7 @@ public class TableLayout
 	// Constructor
 	//
 
-	public void startLayout( AndroidMetawidget metawidget )
+	public void onStartBuild( AndroidMetawidget metawidget )
 	{
 		metawidget.putClientProperty( GroupLayout.class, null );
 		State state = getState( metawidget );
@@ -170,7 +170,7 @@ public class TableLayout
 		mLayout.addView( tableRow, new android.widget.TableLayout.LayoutParams() );
 	}
 
-	public void endLayout( AndroidMetawidget metawidget )
+	public void onEndBuild( AndroidMetawidget metawidget )
 	{
 		View viewButtons = metawidget.getFacet( "buttons" );
 

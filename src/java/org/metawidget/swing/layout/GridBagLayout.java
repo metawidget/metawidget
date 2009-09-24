@@ -97,7 +97,7 @@ public class GridBagLayout
 	// Public methods
 	//
 
-	public void startLayout( SwingMetawidget metawidget )
+	public void onStartBuild( SwingMetawidget metawidget )
 	{
 		metawidget.putClientProperty( GridBagLayout.class, null );
 		State state = getState( metawidget );
@@ -263,7 +263,7 @@ public class GridBagLayout
 		}
 	}
 
-	public void endLayout( SwingMetawidget metawidget )
+	public void onEndBuild( SwingMetawidget metawidget )
 	{
 		sectionEnd( metawidget );
 

@@ -50,7 +50,7 @@ public class RichFacesLayout
 	//
 
 	@Override
-	public void startLayout( UIMetawidget metawidget )
+	public void onStartBuild( UIMetawidget metawidget )
 	{
 		metawidget.putClientProperty( RichFacesLayout.class, null );
 	}

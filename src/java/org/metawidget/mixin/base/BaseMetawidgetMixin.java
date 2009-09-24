@@ -413,7 +413,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		}
 
 		if ( mLayout != null )
-			mLayout.startLayout( getMixinOwner() );
+			mLayout.onStartBuild( getMixinOwner() );
 	}
 
 	protected abstract W getOverriddenWidget( String elementName, Map<String, String> attributes );
@@ -484,6 +484,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		}
 
 		if ( mLayout != null )
-			mLayout.endLayout( getMixinOwner() );
+			mLayout.onEndBuild( getMixinOwner() );
 	}
 }

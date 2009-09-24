@@ -35,11 +35,15 @@ public interface Layout<W, M extends W>
 	//
 
 	/**
+	 * Event called at the start of the widget building process, before the
+	 * <code>WidgetBuilder</code> is called. <code>Layout</code>s may wish to act on this event to
+	 * initialize themselves ready for processing.
+	 *
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
 	 */
 
-	void startLayout( M metawidget );
+	void onStartBuild( M metawidget );
 
 	/**
 	 * @param widget
@@ -53,9 +57,13 @@ public interface Layout<W, M extends W>
 	void layoutChild( W widget, Map<String, String> attributes, M metawidget );
 
 	/**
+	 * Event called at the end of widget building, after all widgets have been built and added to
+	 * the <code>Layout</code>. <code>Layout</code>s may wish to act on this event to clean
+	 * themselves up after processing.
+	 *
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
 	 */
 
-	void endLayout( M metawidget );
+	void onEndBuild( M metawidget );
 }

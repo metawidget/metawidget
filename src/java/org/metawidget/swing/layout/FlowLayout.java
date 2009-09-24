@@ -39,7 +39,7 @@ public class FlowLayout
 	//
 
 	@Override
-	public void startLayout( SwingMetawidget metawidget )
+	public void onStartBuild( SwingMetawidget metawidget )
 	{
 		metawidget.setLayout( new java.awt.FlowLayout() );
 	}

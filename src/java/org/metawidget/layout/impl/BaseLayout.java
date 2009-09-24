@@ -31,12 +31,12 @@ public abstract class BaseLayout<W, M extends W>
 	// Public methods
 	//
 
-	public void startLayout( M metawidget )
+	public void onStartBuild( M metawidget )
 	{
 		// Do nothing
 	}
 
-	public void endLayout( M metawidget )
+	public void onEndBuild( M metawidget )
 	{
 		// Do nothing
 	}

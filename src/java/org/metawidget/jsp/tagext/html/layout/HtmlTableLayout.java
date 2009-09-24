@@ -76,7 +76,7 @@ public class HtmlTableLayout
 	// Public methods
 	//
 
-	public void startLayout( MetawidgetTag metawidgetTag )
+	public void onStartBuild( MetawidgetTag metawidgetTag )
 	{
 		metawidgetTag.putClientProperty( HtmlTableLayout.class, null );
 		State state = getState( metawidgetTag );
@@ -244,7 +244,7 @@ public class HtmlTableLayout
 	}
 
 	@Override
-	public void endLayout( MetawidgetTag metawidgetTag )
+	public void onEndBuild( MetawidgetTag metawidgetTag )
 	{
 		try
 		{
