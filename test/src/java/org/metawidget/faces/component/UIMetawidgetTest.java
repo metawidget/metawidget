@@ -142,6 +142,7 @@ public class UIMetawidgetTest
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public void testNotRecreatable()
 		throws Exception
 	{
@@ -159,6 +160,7 @@ public class UIMetawidgetTest
 		metawidget.getChildren().add( recreatableComponent2 );
 
 		assertTrue( 3 == metawidget.getChildCount() );
+		metawidget.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo}" ));
 		metawidget.startBuild();
 		assertTrue( 1 == metawidget.getChildCount() );
 		assertTrue( notRecreatableComponent == metawidget.getChildren().get( 0 ) );

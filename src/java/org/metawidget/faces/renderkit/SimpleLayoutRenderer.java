@@ -55,13 +55,6 @@ public class SimpleLayoutRenderer
 	public void encodeEnd( FacesContext context, UIComponent component )
 		throws IOException
 	{
-		// After facet
-
-		UIComponent afterFacet = component.getFacet( AFTER_FACET );
-
-		if ( afterFacet != null )
-		{
-			FacesUtils.render( context, afterFacet );
-		}
+		FacesUtils.render( context, component.getFacet( AFTER_FACET ));
 	}
 }

@@ -16,16 +16,6 @@
 			<string>footerStyleClass</string>
 			<string>buttons</string>
 		</parameter>	
-		<widgetBuilder>
-			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
-				<widgetBuilders>
-					<list>
-						<richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/>
-						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
-					</list>
-				</widgetBuilders>
-			</compositeWidgetBuilder>
-		</widgetBuilder>
 		<inspector>		
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
@@ -39,6 +29,26 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		
+		<!-- Prefer RichFaces components (eg. Calendar, InputSlider, etc) -->
+		
+		<widgetBuilder>
+			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<list>
+						<richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/>
+						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
+					</list>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
+		</widgetBuilder>
+		
+		<!-- Use RichFaces TabPanel -->
+		
+		<layout>
+			<richFacesLayout xmlns="java:org.metawidget.faces.component.html.layout.richfaces"/>
+		</layout>
+		
 	</htmlMetawidget>
 
 </metawidget>

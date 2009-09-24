@@ -180,7 +180,7 @@ public final class FacesUtils
 	public static void render( FacesContext context, UIComponent component )
 		throws IOException
 	{
-		if ( !component.isRendered() )
+		if ( component == null || !component.isRendered() )
 			return;
 
 		component.encodeBegin( context );

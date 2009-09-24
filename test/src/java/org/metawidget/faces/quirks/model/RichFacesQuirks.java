@@ -16,13 +16,18 @@
 
 package org.metawidget.faces.quirks.model;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
+
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiSection;
-
+import org.metawidget.inspector.faces.UiFacesAttribute;
 
 /**
  * Models an entity that tests some RichFaces-specific quirks.
+ * <p>
+ * This mainly for testing <code>RichFacesLayout</code>.
  *
  * @author Richard Kennard
  */
@@ -52,6 +57,14 @@ public class RichFacesQuirks
 	private String	mDef1;
 
 	private String	mDef2;
+
+	private boolean	mShowGhi;
+
+	private boolean	mDynamicallyChangeDef1;
+
+	private String	mGhi1;
+
+	private String	mGhi2;
 
 	//
 	// Public methods
@@ -149,6 +162,7 @@ public class RichFacesQuirks
 
 	@UiComesAfter( "abc" )
 	@UiSection( "dEf" )
+	@UiFacesAttribute( name = FACES_COMPONENT, expression = "#{richQuirks.dynamicallyChangeDef1 ? 'javax.faces.HtmlInputTextarea': null}" )
 	public String getDef1()
 	{
 		return mDef1;
@@ -170,11 +184,57 @@ public class RichFacesQuirks
 		mDef2 = def2;
 	}
 
-	@UiAction
 	@UiComesAfter( "def2" )
+	public boolean isShowGhi()
+	{
+		return mShowGhi;
+	}
+
+	public void setShowGhi( boolean showGhi )
+	{
+		mShowGhi = showGhi;
+	}
+
+	@UiComesAfter( "showGhi" )
+	public boolean isDynamicallyChangeDef1()
+	{
+		return mDynamicallyChangeDef1;
+	}
+
+	public void setDynamicallyChangeDef1( boolean dynamicallyChangeDef1 )
+	{
+		mDynamicallyChangeDef1 = dynamicallyChangeDef1;
+	}
+
+	@UiComesAfter( "dynamicallyChangeDef1" )
+	@UiSection( "ghI" )
+	@UiFacesAttribute( name = HIDDEN, expression = "#{!richQuirks.showGhi}" )
+	public String getGhi1()
+	{
+		return mGhi1;
+	}
+
+	public void setGhi1( String ghi1 )
+	{
+		mGhi1 = ghi1;
+	}
+
+	@UiFacesAttribute( name = HIDDEN, expression = "#{!richQuirks.showGhi}" )
+	public String getGhi2()
+	{
+		return mGhi2;
+	}
+
+	public void setGhi2( String ghi2 )
+	{
+		mGhi2 = ghi2;
+	}
+
+	@UiAction
+	@UiComesAfter
 	@UiSection( "" )
 	public void save()
 	{
-		// Will save in session
+		// Saves in session
 	}
 }

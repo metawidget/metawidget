@@ -9,14 +9,14 @@
 
 		<f:view>
 		
-			<h1>Quirks</h1>
+			<h1>Quirks 2</h1>
 
 			<m:metawidget value="#{quirks}">
 				<f:param name="columns" value="0"/>
 				<m:stub action="#{quirks.refresh}"/>
 			</m:metawidget>
 
-			<h1>Quirks (Again)</h1>
+			<h1>Quirks 2 (Again)</h1>
 
 			<m:metawidget value="#{quirks}">
 				<m:stub action="#{quirks.refresh}">
@@ -26,7 +26,7 @@
 				</m:stub>
 			</m:metawidget>
 
-			<h1>Quirks (Yet Again)</h1>
+			<h1>Quirks 2 (Yet Again)</h1>
 
 			<m:metawidget value="#{quirks}">
 				<m:metawidget value="#{quirks.boolean}" rendererType="simple"/>

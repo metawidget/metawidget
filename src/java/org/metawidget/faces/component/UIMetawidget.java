@@ -75,7 +75,7 @@ public abstract class UIMetawidget
 	 * Component-level attribute used to store metadata.
 	 */
 
-	public final static String								COMPONENT_ATTRIBUTE_METADATA		= "metawidget-metadata";
+	public final static String	COMPONENT_ATTRIBUTE_METADATA		= "metawidget-metadata";
 
 	/**
 	 * Component-level attribute used to prevent recreation.
@@ -101,7 +101,7 @@ public abstract class UIMetawidget
 	 * field.
 	 */
 
-	public final static String								COMPONENT_ATTRIBUTE_NOT_RECREATABLE	= "metawidget-not-recreatable";
+	public final static String	COMPONENT_ATTRIBUTE_NOT_RECREATABLE	= "metawidget-not-recreatable";
 
 	//
 	// Private statics
@@ -111,25 +111,25 @@ public abstract class UIMetawidget
 	 * Application-level attribute used to cache ConfigReader.
 	 */
 
-	private final static String								APPLICATION_ATTRIBUTE_CONFIG_READER	= "metawidget-config-reader";
+	private final static String	APPLICATION_ATTRIBUTE_CONFIG_READER	= "metawidget-config-reader";
 
 	//
 	// Private members
 	//
 
-	private Object											mValue;
+	private Object				mValue;
 
-	private String											mConfig								= "metawidget.xml";
+	private String				mConfig								= "metawidget.xml";
 
-	private boolean											mNeedsConfiguring					= true;
+	private boolean				mNeedsConfiguring					= true;
 
-	private boolean											mInspectFromParent;
+	private boolean				mInspectFromParent;
 
-	private Boolean											mReadOnly;
+	private Boolean				mReadOnly;
 
-	private Map<Object, Object>								mClientProperties;
+	private Map<Object, Object>	mClientProperties;
 
-	private UIMetawidgetMixin								mMetawidgetMixin;
+	private UIMetawidgetMixin	mMetawidgetMixin;
 
 	//
 	// Constructor
@@ -225,6 +225,11 @@ public abstract class UIMetawidget
 	public void setLayout( Layout<UIComponent, UIMetawidget> layout )
 	{
 		mMetawidgetMixin.setLayout( layout );
+	}
+
+	public Layout<UIComponent, UIMetawidget> getLayout()
+	{
+		return mMetawidgetMixin.getLayout();
 	}
 
 	/**
@@ -662,6 +667,13 @@ public abstract class UIMetawidget
 
 	protected void startBuild()
 	{
+		// Metawidget has no valueBinding? Won't be destroying/recreating any components, then.
+		//
+		// This is an optimisation, but is also important for cases like RichFacesLayout, which
+		// use nested Metawidgets (without a value binding) purely for layout. They populate a new
+		// Metawidget with previously inspected components, and we don't want them destroyed
+		// here and/or unnecessarily re-inspected in endBuild
+
 		if ( getValueBinding( "value" ) == null )
 			return;
 
@@ -755,6 +767,10 @@ public abstract class UIMetawidget
 
 			// If this component has already been processed by the inspection (ie. contains
 			// metadata), is not rendered, or is a UIParameter, skip it
+			//
+			// This is also handy for RichFacesLayout, which uses a nested Metawidget purely as a
+			// layout tool: it populates a new Metawidget with some previously inspected components.
+			// This check makes sure they aren't unnecessarily re-inspected here
 
 			Map<String, Object> miscAttributes = component.getAttributes();
 

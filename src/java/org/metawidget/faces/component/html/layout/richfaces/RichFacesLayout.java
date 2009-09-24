@@ -27,6 +27,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.layout.impl.BaseLayout;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -65,63 +66,75 @@ public class RichFacesLayout
 
 		if ( section != null && !section.equals( state.section ))
 		{
-			state.section = section;
-
-			// End of sections?
-
-			if ( "".equals( section ))
+			if ( widget instanceof UIStub && widget.getChildren().isEmpty() )
 			{
-				state.sectionComponent = null;
+				// Ignore empty stubs. Do not create a new tab in case it ends
+				// up being an empty tab
 			}
 			else
 			{
-				FacesContext context = FacesContext.getCurrentInstance();
-				Application application = context.getApplication();
-				UIViewRoot viewRoot = context.getViewRoot();
+				state.section = section;
 
-				// Create parent tab panel
+				// End of sections?
 
-				UITabPanel tabPanel;
-
-				if ( state.sectionComponent == null )
+				if ( "".equals( section ))
 				{
-					tabPanel = (HtmlTabPanel) application.createComponent( "org.richfaces.TabPanel" );
-					tabPanel.setId( viewRoot.createUniqueId() );
-					tabPanel.setSwitchType( "client" );
-					metawidget.getChildren().add( tabPanel );
-
-					Map<String, String> metadata = CollectionUtils.newHashMap();
-					metadata.put( LABEL, "" );
-					tabPanel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, metadata );
+					state.sectionComponent = null;
 				}
 				else
 				{
-					tabPanel = (HtmlTabPanel) state.sectionComponent.getParent().getParent();
+					FacesContext context = FacesContext.getCurrentInstance();
+					Application application = context.getApplication();
+					UIViewRoot viewRoot = context.getViewRoot();
+
+					// Create parent tab panel
+
+					UITabPanel tabPanel;
+
+					if ( state.sectionComponent == null )
+					{
+						tabPanel = (HtmlTabPanel) application.createComponent( "org.richfaces.TabPanel" );
+						tabPanel.setId( viewRoot.createUniqueId() );
+						tabPanel.setSwitchType( "client" );
+						metawidget.getChildren().add( tabPanel );
+
+						// Suppress label
+
+						Map<String, String> metadata = CollectionUtils.newHashMap();
+						metadata.put( LABEL, "" );
+						tabPanel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, metadata );
+					}
+					else
+					{
+						tabPanel = (HtmlTabPanel) state.sectionComponent.getParent().getParent();
+					}
+
+					// Section name (possibly localized)
+
+					String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
+
+					if ( localizedSection == null )
+						localizedSection = section;
+
+					// Create tab for section
+
+					UITab tab = (HtmlTab) application.createComponent( "org.richfaces.Tab" );
+					tab.setId( viewRoot.createUniqueId() );
+					tab.setLabel( localizedSection );
+					tabPanel.getChildren().add( tab );
+
+					// Create nested panel (use a Metawidget for layout)
+
+					UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( "org.metawidget.HtmlMetawidget" );
+					// Maybe if we support nested tabs: nestedMetawidget.setLayout( metawidget.getLayout() );
+					nestedMetawidget.setRendererType( metawidget.getRendererType() );
+					nestedMetawidget.setId( viewRoot.createUniqueId() );
+					tab.getChildren().add( nestedMetawidget );
+
+					// Use this nested panel from now on
+
+					state.sectionComponent = nestedMetawidget;
 				}
-
-				// Section name (possibly localized)
-
-				String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
-
-				if ( localizedSection == null )
-					localizedSection = section;
-
-				// Create tab for section
-
-				UITab tab = (HtmlTab) application.createComponent( "org.richfaces.Tab" );
-				tab.setId( viewRoot.createUniqueId() );
-				tab.setLabel( localizedSection );
-				tabPanel.getChildren().add( tab );
-
-				// Create nested panel (use a Metawidget for layout)
-
-				UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( "org.metawidget.HtmlMetawidget" );
-				nestedMetawidget.setId( viewRoot.createUniqueId() );
-				tab.getChildren().add( nestedMetawidget );
-
-				// Use this nested panel from now on
-
-				state.sectionComponent = nestedMetawidget;
 			}
 		}
 

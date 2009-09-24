@@ -1452,9 +1452,63 @@ public class Person {
 						Now restart Tomcat, refresh your Web browser and click on Homer Simpson. Notice how the
 						<parameter>Date of Birth</parameter> field for Personal Contacts is now a RichFaces date picker
 						widget, and the <parameter>Number of Staff</parameter> field for Business Contacts is a RichFaces slider widget.
+					</para>
+					
+					<para>
+						Going futher, Metawidget's pluggable layouts make it easy to support third-party layout components.
+						Edit <filename>WEB-INF/metawidget.xml</filename> again:
+					</para>
+					
+					<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	version="1.0"
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
+
+&lt;htmlMetawidget xmlns="java:org.metawidget.faces.component.html"&gt;
+	...
+	&lt;inspector&gt;		
+		&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig"&gt;
+			&lt;inspectors&gt;
+			&lt;list&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/&gt;
+				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+				&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"/&gt;
+				&lt;facesInspector xmlns="java:org.metawidget.inspector.faces"/&gt;			
+				&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/&gt;
+			&lt;/list&gt;
+			&lt;/inspectors&gt;
+		&lt;/compositeInspector&gt;
+	&lt;/inspector&gt;
+	&lt;widgetBuilder&gt;
+		&lt;compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite"
+			config="CompositeWidgetBuilderConfig"&gt;
+			&lt;widgetBuilders&gt;
+				&lt;list&gt;
+					&lt;richFacesWidgetBuilder
+					xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
+					&lt;htmlWidgetBuilder
+					xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
+				&lt;/list&gt;
+			&lt;/widgetBuilders&gt;
+		&lt;/compositeWidgetBuilder&gt;
+	&lt;/widgetBuilder&gt;
+	<symbol>&lt;layout&gt;
+		&lt;richFacesLayout xmlns="java:org.metawidget.faces.component.html.layout.richfaces"/&gt;
+	&lt;/layout&gt;</symbol>
+&lt;/htmlMetawidget&gt;
+
+&lt;/metawidget&gt;</programlisting>
+
+					<para>
+						Restart Tomcat, refresh your Web browser and click on Homer Simpson again. Notice how the
+						<parameter>Contact Details</parameter> and <parameter>Other</parameter> sections are now
+						laid out as tabs within a RichFaces <classname>TabPanel</classname>.
+					</para>
+
+					<para>
 						This demonstrates how easy it is to leverage widget libraries with Metawidget
 						(this example cheats a bit, as we've pre-added the RichFaces JARs into <filename>WEB-INF\lib</filename> and some
-						lines into <filename>web.xml</filename>, but you get the idea).
+						lines into <filename>web.xml</filename>, but you get the idea).					
 					</para>
 					
 				</section>
