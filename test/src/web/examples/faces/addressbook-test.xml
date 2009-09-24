@@ -151,14 +151,28 @@
 			<config resultpath="../../../../../${build.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces/contact-richfaces.jsf?contact.load=1" />
-
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="Contact Details"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/th)" text="Address:"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/th)" text="Street:"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td)" text="742 Evergreen Terrace #2"/>				
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr)" text="Other"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr/th)" text="Notes:"/>				
+				
 				<clickButton label="Edit"/>	
 				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
 				<verifyInputField name="form:contactCurrentFirstname" value="Homer Jay"/>
 				<verifyInputField name="form:contactCurrentSurname" value="Simpson"/>
 				<verifySelectField name="form:contactCurrentGender" value="MALE"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td[1]/span[@id='form:contactCurrentDateOfBirthPopup']"/>
+				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[4]/td/span[@id='form:contactCurrentDateOfBirthPopup']"/>
 				<verifyInputField name="form:contactCurrentDateOfBirthInputDate" value="(May 12|Dec 5), 1957" regex="true"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="Contact Details"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/th)" text="Address:"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/th)" text="Street:"/>
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/input/@type" text="text"/>				
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/input/@value" text="742 Evergreen Terrace #2"/>				
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr/td/table/tbody/tr/td[4]/table/tbody/tr/td[2]/table/tbody/tr)" text="Other"/>
+				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr/th)" text="Notes:"/>				
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr/td/textarea"/>				
 
 				<invoke url="${webtest.url}/addressbook-faces/contact-richfaces.jsf?contact.load=5" />
 
@@ -166,14 +180,14 @@
 				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
 				<verifyInputField name="form:contactCurrentFirstname" value="Charles Montgomery"/>
 				<verifyInputField name="form:contactCurrentSurname" value="Burns"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[10]/td[1]/table[@class='dr-insldr rich-slider ']"/>	
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr/td/table[@class='dr-insldr rich-slider ']"/>	
 				<setInputField name="form:contactCurrentNumberOfStaff" value="2"/>
 				<clickButton label="Save"/>
 	
 				<invoke url="${webtest.url}/addressbook-faces/contact-richfaces.jsf?contact.load=5" />
 	
 				<clickButton label="Edit"/>
-				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[10]/td[1]/table[@class='dr-insldr rich-slider ']"/>
+				<verifyXPath xpath="/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr[2]/td[2]/table/tbody/tr/td/table/tbody/tr/td/table[@class='dr-insldr rich-slider ']"/>	
 				<verifyInputField name="form:contactCurrentNumberOfStaff" value="2"/>
 
 			</steps>

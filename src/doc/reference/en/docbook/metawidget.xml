@@ -2501,8 +2501,7 @@ ant</programlisting>
 				<para>
 					This allows easy plugging in of alternate inspectors. Note that overriding the default
 					means the default is no longer instantiated. In the example above, this would mean <classname>MyInspector</classname>
-					is used but <classname>MetawidgetAnnotationInspector</classname> and <classname>PropertyTypeInspector</classname>
-					are not. This is usually not what you want,
+					is used but the default inspectors are not. This is usually not what you want,
 					because <classname>MyInspector</classname> will be focussed on a particular type of back-end metadata and
 					will want to leave other metadata to other inspectors.
 				</para>
@@ -2513,7 +2512,7 @@ ant</programlisting>
 				
 			</section>
 			
-			<section id="section-architecture-compositeinspectors">
+			<section id="section-architecture-inspectors-compositeinspector">
 				<title>CompositeInspector</title>
 				
 				<para>
@@ -2579,6 +2578,35 @@ ant</programlisting>
 &lt;/inspector&gt;
 &lt;/swingMetawidget&gt;</programlisting>
 
+			</section>
+
+			<section id="section-architecture-inspectors-defaults">
+				<title>Defaults</title>
+				
+				<para>
+					All Metawidgets have default <classname>Inspector</classname>s. Overriding the default means the default is no
+					longer instantiated. Usually this is not what you want, so you should consider instantiating
+					the defaults along with your new <classname>Inspector</classname>. You can see all the defaults by looking in the
+					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
+					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
+				</para>
+				
+				<para>
+					For reference, the default is generally:
+				</para>
+				
+				<programlisting language="xml">&lt;inspector&gt;
+	&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+		config="CompositeInspectorConfig"&gt;
+		&lt;inspectors&gt;
+			&lt;list&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
+				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+			&lt;/list&gt;
+		&lt;/inspectors&gt;
+	&lt;/compositeInspector&gt;
+&lt;/inspector&gt;</programlisting>
+				
 			</section>
 
 			<section id="section-architecture-inspectors-immutability">
@@ -2752,6 +2780,66 @@ ant</programlisting>
 
 			</section>
 
+			<section id="section-architecture-widgetbuilders-defaults">
+				<title>Defaults</title>
+				
+				<para>
+					All Metawidgets have default <classname>WidgetBuilder</classname>s. Overriding the default means the default is no
+					longer instantiated. Usually this is not what you want, so you should consider instantiating
+					the defaults along with your new <classname>WidgetBuilder</classname>. You can see all the defaults by looking in the
+					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
+					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
+				</para>
+				
+				<para>
+					For reference, the default is generally:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="30%"/>
+						<col width="70%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Platform</th>
+							<th align="left">Default</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Android</td>
+							<td><classname>org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder</classname></td>
+						</tr>
+						<tr>
+							<td>GWT</td>
+							<td><classname>org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder</classname></td>
+						</tr>
+						<tr>
+							<td>JSF</td>
+							<td><programlisting language="xml">&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>JSP</td>
+							<td><programlisting language="xml">&lt;htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>Spring</td>
+							<td><programlisting language="xml">&lt;springWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.spring"/&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>Struts</td>
+							<td><programlisting language="xml">&lt;strutsWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.struts"/&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>Swing</td>
+							<td><programlisting language="xml">&lt;swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/&gt;</programlisting></td>
+						</tr>
+					</tbody>
+				</informaltable>
+				
+			</section>
+
 			<section id="section-architecture-widgetbuilders-immutability">
 				<title>Immutability</title>
 				
@@ -2818,65 +2906,165 @@ void onEndBuild( M metawidget );</programlisting>
 					in the list as show in <xref linkend="section-architecture-widgetprocessors-typical"/>.
 				</para>
 
-			</section>
-		
-			<!--
-				http://www.websequencediagrams.com:
+				<!--
+					http://www.websequencediagrams.com:
+					
+					Metawidget->BindingProcessor: asks to process
+					BindingProcessor->BindingProcessor: adds data binding
+					BindingProcessor->Metawidget: returns bound widget
+					Metawidget->ConverterProcessor: asks to process
+					ConverterProcessor->ConverterProcessor: adds converter
+					ConverterProcessor->Metawidget: returns widget with converter
+					Metawidget->ValidatorProcessor: asks to process
+					ValidatorProcessor->ValidatorProcessor: adds validator
+					ValidatorProcessor->Metawidget: returns widget with validator
+				-->
 				
-				Metawidget->BindingProcessor: asks to process
-				BindingProcessor->BindingProcessor: adds data binding
-				BindingProcessor->Metawidget: returns bound widget
-				Metawidget->ConverterProcessor: asks to process
-				ConverterProcessor->ConverterProcessor: adds converter
-				ConverterProcessor->Metawidget: returns widget with converter
-				Metawidget->ValidatorProcessor: asks to process
-				ValidatorProcessor->ValidatorProcessor: adds validator
-				ValidatorProcessor->Metawidget: returns widget with validator
-			-->
-			
-			<figure id="section-architecture-widgetprocessors-typical">
-				<title>Typical WidgetProcessor list</title>
-				<screenshot>
-					<graphic fileref="images/activitydiagrams/architecture-widgetprocessors.png" width="140mm"/>
-				</screenshot>							
-			</figure>
-			
-			<para>
-				In most cases the <classname>WidgetProcessor</classname> will simply be modifying the given <parameter>widget</parameter>
-				(adding validators, changing styling and so on). However it can decide to swap the widget out by returning a different
-				widget entirely. This new widget will then be passed down the list as show in
-				<xref linkend="section-architecture-widgetprocessors-substitute"/>. For an example use of this capability, see
-				<classname>HiddenFieldProcessor</classname>.
-			</para>
-			
-			<!--
-				http://www.websequencediagrams.com:
+				<figure id="section-architecture-widgetprocessors-typical">
+					<title>Typical WidgetProcessor list</title>
+					<screenshot>
+						<graphic fileref="images/activitydiagrams/architecture-widgetprocessors.png" width="140mm"/>
+					</screenshot>							
+				</figure>
 				
-				Metawidget->HiddenFieldProcessor: gives stub for processing
-				HiddenFieldProcessor->HiddenFieldProcessor: substitutes stub\nfor hidden field
-				HiddenFieldProcessor->Metawidget: returns hidden field
-				Metawidget->WidgetProcessor #2: gives hidden field for processing			 
-			 -->
-			 
-			<figure id="section-architecture-widgetprocessors-substitute">
-				<title>WidgetProcessors can substitute widgets</title>			
-				<screenshot>
-					<graphic fileref="images/activitydiagrams/architecture-widgetprocessors-substitute.png" width="100mm"/>
-				</screenshot>							
-			</figure>
-			
-			<para>
-				The list of <classname>WidgetProcessors</classname> is maintained by the parent Metawidget, and is changeable (this
-				is different to say, <classname>CompositeInspector</classname> or <classname>CompositeWidgetBuilder</classname> whose
-				lists are immutable). This capability is designed to allow easy attaching of event handlers:
-			</para>
-			
-			<programlisting language="java">metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
+				<para>
+					In most cases the <classname>WidgetProcessor</classname> will simply be modifying the given <parameter>widget</parameter>
+					(adding validators, changing styling and so on). However it can decide to swap the widget out by returning a different
+					widget entirely. This new widget will then be passed down the list as show in
+					<xref linkend="section-architecture-widgetprocessors-substitute"/>. For an example use of this capability, see
+					<classname>HiddenFieldProcessor</classname>.
+				</para>
+				
+				<!--
+					http://www.websequencediagrams.com:
+					
+					Metawidget->HiddenFieldProcessor: gives stub for processing
+					HiddenFieldProcessor->HiddenFieldProcessor: substitutes stub\nfor hidden field
+					HiddenFieldProcessor->Metawidget: returns hidden field
+					Metawidget->WidgetProcessor #2: gives hidden field for processing			 
+				 -->
+				 
+				<figure id="section-architecture-widgetprocessors-substitute">
+					<title>WidgetProcessors can substitute widgets</title>			
+					<screenshot>
+						<graphic fileref="images/activitydiagrams/architecture-widgetprocessors-substitute.png" width="100mm"/>
+					</screenshot>							
+				</figure>
+				
+				<para>
+					The list of <classname>WidgetProcessors</classname> is maintained by the parent Metawidget, and is changeable (this
+					is different to say, <classname>CompositeInspector</classname> or <classname>CompositeWidgetBuilder</classname> whose
+					lists are immutable). This capability is designed to allow easy attaching of event handlers, and scenarios such
+					as inner classes that have connections to their parent class:					
+				</para>
+				
+				<programlisting language="java">final int foo = 3;
+				
+metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 	JComponent processWidget( JComponent widget, String elementName, Map&lt;String, String&gt; attributes,
 								SwingMetawidget metawidget ) {
-		...attach event handler to widget here...
+		...decide whether to attach event handler...
+		
+		widget.add( new AbstractAction()
+		{
+			public void actionPerformed( ActionEvent event )
+			{
+				foo++;
+			}
+		}	
 	}
 }</programlisting>
+			</section>
+			
+			<section id="section-architecture-widgetprocessors-defaults">
+				<title>Defaults</title>
+				
+				<para>
+					Most Metawidgets have default <classname>WidgetProcessor</classname>s. Overriding the default means the default is no
+					longer instantiated. Usually this is not what you want, so you should consider instantiating
+					the defaults along with your new <classname>WidgetProcessor</classname>. You can see all the defaults by looking in the
+					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
+					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
+				</para>
+				
+				<para>
+					For reference, the default is generally:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="30%"/>
+						<col width="70%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Platform</th>
+							<th align="left">Default</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Android</td>
+							<td>(none)</td>
+						</tr>
+						<tr>
+							<td>GWT</td>
+							<td>(none)</td>
+						</tr>
+						<tr>
+							<td>JSF</td>
+							<td><programlisting language="xml">&lt;list&gt;
+	&lt;requiredAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
+	&lt;immediateAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
+	&lt;standardBindingProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
+	&lt;readableIdProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
+	&lt;labelProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
+	&lt;standardValidatorProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
+	&lt;standardConverterProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/&gt;
+	&lt;cssStyleProcessor xmlns="java:org.metawidget.faces.component.html.widgetprocessor"/&gt;							
+&lt;/list&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>JSP</td>
+							<td>(none)</td>
+						</tr>
+						<tr>
+							<td>Spring</td>
+							<td>(none)</td>
+						</tr>
+						<tr>
+							<td>Struts</td>
+							<td>(none)</td>
+						</tr>
+						<tr>
+							<td>Swing</td>
+							<td><programlisting language="xml">&lt;list&gt;
+	&lt;reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/&gt;
+&lt;/list&gt;</programlisting></td>
+						</tr>
+					</tbody>
+				</informaltable>
+				
+			</section>			
+
+			<section id="section-architecture-widgetprocessors-immutability">
+				<title>Immutability</title>
+				
+				<para>
+					All <classname>WidgetProcessor</classname>s are required to be threadsafe and immutable. This means you only
+					need a single instance of a <classname>WidgetProcessor</classname> for your entire application. If you are using
+					<filename>metawidget.xml</filename> then <classname>ConfigReader</classname> takes care
+					of this for you, but if you are instantiating <classname>WidgetProcessor</classname>s in Java code you should
+					reuse instances.
+				</para>
+				
+				<para>
+					Note that although individual <classname>WidgetProcessor</classname> are immutable, the <classname>List</classname> they
+					are contained in can be changed. Methods such as <function>addWidgetProcessor</function> allows clients to dynamically
+					add <classname>WidgetProcessor</classname> at runtime (see <xref linkend="section-architecture-widgetprocessors-interface"/>).
+				</para>
+				
+			</section>
 
 		</section>
 		
@@ -5979,6 +6167,19 @@ public class PersonController {
 			how <classname>Layout</classname>s fit into the overall architecture of Metawidget, see
 			<xref linkend="chapter-architecture"/>.
 		</para>
+		
+		<section id="section-layouts-web">
+			<title>Web Layouts</title>
+
+			<section id="section-layouts-web-faces">
+				<title>JSF Layouts</title>
+				
+				<section id="section-layouts-web-faces-richfaces">
+					<title>RichFacesLayout</title>
+				</section>
+				
+			</section>
+		</section>
 		
 	</chapter>
 

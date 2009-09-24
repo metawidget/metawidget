@@ -71,7 +71,7 @@ public class ConfigReader
 	// Package-level statics
 	//
 
-	final static Log					LOG								= LogUtils.getLog( ConfigReader.class );
+	final static Log					LOG									= LogUtils.getLog( ConfigReader.class );
 
 	//
 	// Protected members
@@ -87,13 +87,13 @@ public class ConfigReader
 	 * Cache of resource content based on resource name
 	 */
 
-	Map<String, CachingContentHandler>	RESOURCE_CACHE					= CollectionUtils.newHashMap();
+	Map<String, CachingContentHandler>	RESOURCE_CACHE						= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are both immutable and threadsafe
 	 */
 
-	Map<String, Map<Integer, Object>>	IMMUTABLE_THREADSAFE_OBJECTS	= CollectionUtils.newHashMap();
+	Map<String, Map<Integer, Object>>	IMMUTABLE_THREADSAFE_OBJECTS_CACHE	= CollectionUtils.newHashMap();
 
 	//
 	// Constructor
@@ -172,6 +172,7 @@ public class ConfigReader
 
 			else
 			{
+				LOG.debug( "Reading resource from '" + resource + "'" );
 				cachingContentHandler = new CachingContentHandler( configHandler );
 				mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
 				RESOURCE_CACHE.put( resource, cachingContentHandler );
@@ -1028,7 +1029,7 @@ public class ConfigReader
 		{
 			if ( mImmutableThreadsafe == null )
 			{
-				mImmutableThreadsafe = IMMUTABLE_THREADSAFE_OBJECTS.get( mImmutableThreadsafeKey );
+				mImmutableThreadsafe = IMMUTABLE_THREADSAFE_OBJECTS_CACHE.get( mImmutableThreadsafeKey );
 
 				if ( mImmutableThreadsafe == null )
 					return null;
@@ -1041,15 +1042,16 @@ public class ConfigReader
 		{
 			if ( mImmutableThreadsafe == null )
 			{
-				mImmutableThreadsafe = IMMUTABLE_THREADSAFE_OBJECTS.get( mImmutableThreadsafeKey );
+				mImmutableThreadsafe = IMMUTABLE_THREADSAFE_OBJECTS_CACHE.get( mImmutableThreadsafeKey );
 
 				if ( mImmutableThreadsafe == null )
 				{
 					mImmutableThreadsafe = CollectionUtils.newHashMap();
-					IMMUTABLE_THREADSAFE_OBJECTS.put( mImmutableThreadsafeKey, mImmutableThreadsafe );
+					IMMUTABLE_THREADSAFE_OBJECTS_CACHE.put( mImmutableThreadsafeKey, mImmutableThreadsafe );
 				}
 			}
 
+			LOG.debug( "Instantiated immutable threadsafe " + immutableThreadsafe.getClass() );
 			mImmutableThreadsafe.put( mStoreAsElement, immutableThreadsafe );
 			mStoreAsElement = -1;
 		}

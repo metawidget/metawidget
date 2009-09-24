@@ -95,6 +95,16 @@ h1, .section-heading
 	vertical-align: top;
 }
 
+.table-component-column .rich-tabpanel
+{
+	margin-top: 20px;
+}
+
+.table-component-column .rich-tabpanel td
+{
+	font-size: 10pt;
+}
+
 .table-component-column input, .rich-slider
 {
 	width: 99%;
