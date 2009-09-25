@@ -2616,11 +2616,24 @@ ant</programlisting>
 				</para>
 				
 				<para>
-					For reference, the default is generally:
+					For reference, the defaults are:
 				</para>
-				
-				<programlisting language="xml">&lt;inspector&gt;
-	&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+
+				<informaltable>
+					<colgroup>
+						<col width="30%"/>
+						<col width="70%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Platform</th>
+							<th align="left">Default</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Android</td>
+							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;list&gt;
@@ -2628,8 +2641,87 @@ ant</programlisting>
 				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
 			&lt;/list&gt;
 		&lt;/inspectors&gt;
-	&lt;/compositeInspector&gt;
-&lt;/inspector&gt;</programlisting>
+	&lt;/compositeInspector&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>GWT</td>
+							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+		config="CompositeInspectorConfig"&gt;
+		&lt;inspectors&gt;
+			&lt;list&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
+				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+			&lt;/list&gt;
+		&lt;/inspectors&gt;
+	&lt;/compositeInspector&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>JSF</td>
+							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+		config="CompositeInspectorConfig"&gt;
+		&lt;inspectors&gt;
+			&lt;list&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
+				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+				&lt;facesInspector xmlns="java:org.metawidget.inspector.faces"/&gt;
+			&lt;/list&gt;
+		&lt;/inspectors&gt;
+	&lt;/compositeInspector&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>JSP</td>
+							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+		config="CompositeInspectorConfig"&gt;
+		&lt;inspectors&gt;
+			&lt;list&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
+				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+				&lt;jspAnnotationInspector xmlns="java:org.metawidget.inspector.jsp"/&gt;				
+			&lt;/list&gt;
+		&lt;/inspectors&gt;
+	&lt;/compositeInspector&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>Spring</td>
+							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+		config="CompositeInspectorConfig"&gt;
+		&lt;inspectors&gt;
+			&lt;list&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
+				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+				&lt;springAnnotationInspector xmlns="java:org.metawidget.inspector.spring"/&gt;
+			&lt;/list&gt;
+		&lt;/inspectors&gt;
+	&lt;/compositeInspector&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>Struts</td>
+							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+		config="CompositeInspectorConfig"&gt;
+		&lt;inspectors&gt;
+			&lt;list&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
+				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+				&lt;strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/&gt;
+				&lt;commonsValidatorInspector xmlns="java:org.metawidget.inspector.commons.validator" config="CommonsValidatorInspectorConfig"/&gt;
+			&lt;/list&gt;
+		&lt;/inspectors&gt;
+	&lt;/compositeInspector&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>Swing</td>
+							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
+		config="CompositeInspectorConfig"&gt;
+		&lt;inspectors&gt;
+			&lt;list&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
+				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+			&lt;/list&gt;
+		&lt;/inspectors&gt;
+	&lt;/compositeInspector&gt;</programlisting></td>
+						</tr>
+					</tbody>
+				</informaltable>				
 				
 			</section>
 
@@ -3216,9 +3308,10 @@ void onEndBuild( M metawidget );</programlisting>
 			<title>metawidget.xml and ConfigReader</title>
 
 			<para>
-				<filename>metawidget.xml</filename> is used to configure a Metawidget without writing Java code. This
+				<filename>metawidget.xml</filename> is an alternate (and optional) way to configure Metawidget.
+				It allows you to configure a Metawidget without writing any Java code. This
 				can be useful in environments with intermediate languages that shield the developer from the
-				raw code, such as JSPs or Facelets. It can also be useful as a single place for configuring multiple Metawidgets,
+				raw Java, such as JSPs or Facelets. It can also be useful as a single place for configuring multiple Metawidgets,
 				such as on multiple pages of a Web application.
 			</para>
 			
@@ -3426,8 +3519,8 @@ void onEndBuild( M metawidget );</programlisting>
 						</listitem>
 						<listitem>
 							<para>
-								Add a <filename>metawidget.xml</filename> to your <parameter>CLASSPATH</parameter> (or you may prefer
-								to configure the Metawidget programmatically, as detailed in <xref linkend="section-introduction-part1"/>).
+								You can (optionally) configure the Metawidget, either programmatically (as detailed in <xref linkend="section-introduction-part1-inspectors"/>)
+								or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-inspector-config"/>).
 							</para>
 						</listitem>
 					</orderedlist>
@@ -3510,9 +3603,16 @@ void onEndBuild( M metawidget );</programlisting>
 						</listitem>
 						<listitem>
 							<para>
-								Add a <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>. Or, if you're running under the
-								GWT Development Shell, add a <filename>metawidget.xml</filename> to the root of a <parameter>CLASSPATH</parameter> entry.
+								You can (optionally) configure the default <classname>Inspector</classname>. To do this, add a
+								<filename>metawidget.xml</filename> file into <filename>WEB-INF</filename>, and an
+								<parameter>init-param</parameter> to your <filename>web.xml</filename>:								
 							</para>
+							
+							<programlisting language="xml">&lt;init-param&gt;
+	&lt;param-name>config&lt;/param-name&gt;
+	&lt;param-value>metawidget.xml&lt;/param-value&gt;
+&lt;/init-param&gt;</programlisting>
+							
 						</listitem>
 					</orderedlist>
 					
@@ -3704,11 +3804,6 @@ void onEndBuild( M metawidget );</programlisting>
 						</listitem>
 						<listitem>
 							<para>
-								Add a <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>.
-							</para>
-						</listitem>
-						<listitem>
-							<para>
 								Add a tag library descriptor to the top of your JSP page...
 							</para>
 							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/faces" prefix="m" %&gt;
@@ -3724,6 +3819,11 @@ void onEndBuild( M metawidget );</programlisting>
 	...
 	&lt;m:metawidget value="#{foo}"/&gt;
 	...</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								You can (optionally) configure the Metawidget by adding a <filename>metawidget.xml</filename> file into <filename>WEB-INF</filename>.
+							</para>
 						</listitem>
 					</orderedlist>
 					
@@ -3837,17 +3937,17 @@ void onEndBuild( M metawidget );</programlisting>
 						</listitem>
 						<listitem>
 							<para>
-								Add a <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>.
-							</para>
-						</listitem>
-						<listitem>
-							<para>
 								Add a tag library descriptor to the top of your JSP page:
 							</para>
 							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/spring" prefix="m" %&gt;
 	...
 	&lt;m:metawidget value="#{foo}"/&gt;
 	...</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								You can (optionally) configure the Metawidget by adding a <filename>metawidget.xml</filename> file into <filename>WEB-INF</filename>.
+							</para>
 						</listitem>
 					</orderedlist>
 				</section>
@@ -3901,17 +4001,17 @@ void onEndBuild( M metawidget );</programlisting>
 						</listitem>
 						<listitem>
 							<para>
-								Add a <filename>metawidget.xml</filename> into <filename>WEB-INF</filename>.
-							</para>
-						</listitem>
-						<listitem>
-							<para>
 								Add a tag library descriptor to the top of your JSP page:
 							</para>
 							<programlisting language="xml">&lt;%@ taglib uri="http://metawidget.org/struts" prefix="m" %&gt;
 	...
 	&lt;m:metawidget value="#{foo}"/&gt;
 	...</programlisting>
+						</listitem>
+						<listitem>
+							<para>
+								You can (optionally) configure the Metawidget by adding a <filename>metawidget.xml</filename> file into <filename>WEB-INF</filename>.
+							</para>
 						</listitem>
 					</orderedlist>
 				</section>
@@ -6339,6 +6439,86 @@ public class PersonController {
 
 				<section id="section-layouts-web-faces-div">
 					<title>HtmlTableLayoutRenderer</title>
+					
+					<para>
+						This <classname>Layout</classname> recognizes the following parameters (passed either as
+						<parameter>&lt;f:param&gt;</parameter> tags or in <filename>metawidget.xml</filename>):
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Parameter</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>tableStyle</parameter></td>
+								<td>CSS styles to apply to outer table tag</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyleClass</parameter></td>
+								<td>CSS style class to apply to outer table tag</td>
+							</tr>
+							<tr>
+								<td><parameter>columns</parameter></td>
+								<td>number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>columnClasses</parameter></td>
+								<td>comma delimited string of CSS style classes to apply to table columns in order of: label, component, required</td>
+							</tr>
+							<tr>
+								<td><parameter>labelStyle</parameter></td>
+								<td>CSS styles to apply to label column</td>
+							</tr>
+							<tr>
+								<td><parameter>componentStyle</parameter></td>
+								<td>CSS styles to apply to required column</td>
+							</tr>
+							<tr>
+								<td><parameter>requiredStyle</parameter></td>
+								<td>CSS styles to apply to required column (ie. the star)</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyle</parameter></td>
+								<td>CSS styles to apply to section break</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyleClass</parameter></td>
+								<td>CSS style class to apply to section break</td>
+							</tr>
+							<tr>
+								<td><parameter>headerStyle</parameter></td>
+								<td>CSS styles to apply to table header</td>
+							</tr>
+							<tr>
+								<td><parameter>headerStyleClass</parameter></td>
+								<td>CSS style class to apply to table header</td>
+							</tr>
+							<tr>
+								<td><parameter>footerStyle</parameter></td>
+								<td>CSS styles to apply to table footer</td>
+							</tr>
+							<tr>
+								<td><parameter>footerStyleClass</parameter></td>
+								<td>CSS style class to apply to table footer</td>
+							</tr>
+							<tr>
+								<td><parameter>rowClasses</parameter></td>
+								<td>comma delimited string of CSS style classes to apply to alternating table rows</td>
+							</tr>
+							<tr>
+								<td><parameter>labelSuffix</parameter></td>
+								<td>suffix to put after the label name. Defaults to a colon (ie. 'Name:')</td>
+							</tr>
+						</tbody>						
+					</informaltable>
 					
 				</section>
 

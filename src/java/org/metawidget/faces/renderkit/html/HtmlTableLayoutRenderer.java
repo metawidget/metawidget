@@ -52,22 +52,22 @@ import org.metawidget.util.simple.StringUtils;
  * This implementation recognizes the following <code>&lt;f:param&gt;</code> parameters:
  * <p>
  * <ul>
- * <li><code>tableStyle</code>
- * <li><code>tableStyleClass</code>
+ * <li><code>tableStyle</code> - CSS styles to apply to outer table tag
+ * <li><code>tableStyleClass</code> - CSS style class to apply to outer table tag
  * <li><code>columns<code> - number of columns. Each label/component pair is considered one column
  * <li><code>columnClasses</code> - comma delimited string of CSS style classes to apply to table
  * columns in order of: label, component, required
  * <li><code>labelStyle</code> - CSS styles to apply to label column
  * <li><code>componentStyle</code> - CSS styles to apply to component column
- * <li><code>requiredStyle</code> - CSS styles to apply to required column
- * <li><code>sectionStyle</code>
- * <li><code>sectionStyleClass</code>
- * <li><code>headerStyle</code>
- * <li><code>headerStyleClass</code>
- * <li><code>footerStyle</code>
- * <li><code>footerStyleClass</code>
- * <li><code>rowClasses</code>
- * <li><code>labelSuffix</code> - defaults to a colon
+ * <li><code>requiredStyle</code> - CSS styles to apply to required column (ie. the star)
+ * <li><code>sectionStyle</code> - CSS styles to apply to section break
+ * <li><code>sectionStyleClass</code> - CSS style class to apply to section break
+ * <li><code>headerStyle</code> - CSS styles to apply to table header
+ * <li><code>headerStyleClass</code> - CSS style class to apply to table header
+ * <li><code>footerStyle</code> - CSS styles to apply to table footer
+ * <li><code>footerStyleClass</code> - CSS style class to apply to table footer
+ * <li><code>rowClasses</code> - comma delimited string of CSS style classes to apply to alternating table rows
+ * <li><code>labelSuffix</code> - suffix to put after the label name. Defaults to a colon (ie. 'Name:')
  * </ul>
  * <p>
  * The parameters <code>columns</code> and <code>columnClasses</code> might more properly be named

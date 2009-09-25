@@ -11,6 +11,7 @@
 					<list>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+						<jspAnnotationInspector xmlns="java:org.metawidget.inspector.jsp"/>
 					</list>
 				</inspectors>
 			</compositeInspector>

@@ -19,6 +19,7 @@ package org.metawidget.inspector;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -322,7 +323,7 @@ public class ConfigReader
 		if ( stream != null )
 			return stream;
 
-		throw InspectorException.newException( "Unable to locate " + resource + " on CLASSPATH" );
+		throw InspectorException.newException( new FileNotFoundException( "Unable to locate " + resource + " on CLASSPATH" ));
 	}
 
 	//

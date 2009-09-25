@@ -19,6 +19,7 @@ package org.metawidget.faces.component;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -36,6 +37,8 @@ import javax.faces.el.ValueBinding;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
@@ -113,13 +116,15 @@ public abstract class UIMetawidget
 
 	private final static String	APPLICATION_ATTRIBUTE_CONFIG_READER	= "metawidget-config-reader";
 
+	private final static String	DEFAULT_USER_CONFIG					= "metawidget.xml";
+
 	//
 	// Private members
 	//
 
 	private Object				mValue;
 
-	private String				mConfig								= "metawidget.xml";
+	private String				mConfig								= DEFAULT_USER_CONFIG;
 
 	private boolean				mNeedsConfiguring					= true;
 
@@ -654,7 +659,20 @@ public abstract class UIMetawidget
 		}
 
 		if ( mConfig != null )
-			configReader.configure( mConfig, this );
+		{
+			try
+			{
+				configReader.configure( mConfig, this );
+			}
+			catch( InspectorException e )
+			{
+				if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ))
+					throw e;
+
+				LogUtils.getLog( MetawidgetTag.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
+			}
+		}
+
 
 		mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration(), UIMetawidget.class );
 	}

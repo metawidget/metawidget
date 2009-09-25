@@ -45,6 +45,17 @@ import org.w3c.dom.Element;
  * Handles iterating over an Object for properties and actions, and supporting pluggable property
  * and action conventions. Also handles unwrapping an Object wrapped by a proxy library (such as
  * CGLIB or Javassist).
+ * <p>
+ * <h2>Inspecting classes</h2> In general <code>BaseObjectInspector</code> inspects <em>objects</em>
+ * , not classes. It will return null if the object value is null, rather than returning the
+ * properties of its class. This is generally what is expected. In particular,
+ * <code>WidgetProcessor</code>s such as binding implementations would not expect to be given a
+ * list of properties and asked to bind to a null object.
+ * <p>
+ * However, there is a special concession. If <code>BaseObjectInspector</code> is pointed
+ * <em>directly</em> at a type (ie. names == null), it will return properties even if the actual
+ * value is null. This is important so we can inspect parameterized types of Collections without
+ * having to iterate over and grab the first element in that Collection.
  *
  * @author Richard Kennard
  */

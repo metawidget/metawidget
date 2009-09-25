@@ -26,7 +26,7 @@ import java.io.InputStream;
  * <code>ClassLoader</code>. For example, Web environments have <code>/WEB-INF/</code> which
  * can only be accessed through <code>ServletContext</code>. Similarly, Android environments must
  * resolve resources using <code>Context.getResources</code>.
- * 
+ *
  * @author Richard Kennard
  */
 

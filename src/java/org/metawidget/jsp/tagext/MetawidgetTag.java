@@ -18,6 +18,7 @@ package org.metawidget.jsp.tagext;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.io.FileNotFoundException;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -31,12 +32,14 @@ import javax.servlet.jsp.tagext.Tag;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -62,6 +65,8 @@ public abstract class MetawidgetTag
 
 	private final static String					CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
 
+	private final static String					DEFAULT_USER_CONFIG		= "metawidget.xml";
+
 	//
 	// Private members
 	//
@@ -81,7 +86,7 @@ public abstract class MetawidgetTag
 
 	private String								mPathPrefix;
 
-	private String								mConfig					= "metawidget.xml";
+	private String								mConfig					= DEFAULT_USER_CONFIG;
 
 	private boolean								mNeedsConfiguring		= true;
 
@@ -526,7 +531,19 @@ public abstract class MetawidgetTag
 			}
 
 			if ( mConfig != null )
-				configReader.configure( mConfig, this );
+			{
+				try
+				{
+					configReader.configure( mConfig, this );
+				}
+				catch( InspectorException e )
+				{
+					if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ))
+						throw e;
+
+					LogUtils.getLog( MetawidgetTag.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
+				}
+			}
 
 			mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration(), MetawidgetTag.class );
 		}

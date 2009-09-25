@@ -32,9 +32,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * <p>
  * This servlet recognizes the following &lt;init-param&gt;'s:
  * <ul>
- * <li><code>config</code> - fully qualified path to <code>metawidget.xml</code>,
- * for example <code>com/foo/metawidget.xml</code>. Defaults to simply
- * <code>metawidget.xml</code>.
+ * <li><code>config</code> - fully qualified path to (optional) <code>metawidget.xml</code>,
+ * for example <code>com/foo/metawidget.xml</code>.
  * </ul>
  *
  * @author Richard Kennard
@@ -66,18 +65,28 @@ public class GwtRemoteInspectorImpl
 	{
 		super.init( servletConfig );
 
-		// Locate metawidget.xml
+		// Locate metawidget.xml (if any)
 
+		ServletConfigReader servletConfigReader = new ServletConfigReader( servletConfig.getServletContext() );
 		String config = servletConfig.getInitParameter( "config" );
 
-		if ( config == null )
-			config = "metawidget.xml";
-
-		mInspector = new ServletConfigReader( servletConfig.getServletContext() ).configure( config, Inspector.class );
+		if ( config != null )
+			mInspector = servletConfigReader.configure( config, Inspector.class );
+		else
+			mInspector = servletConfigReader.configure( getDefaultConfiguration(), Inspector.class );
 	}
 
 	public String inspect( Serializable toInspect, String type, String[] names )
 	{
 		return mInspector.inspect( toInspect, type, names );
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected String getDefaultConfiguration()
+	{
+		return "org/metawidget/inspector/gwt/remote/server/metawidget-gwt-default.xml";
 	}
 }
