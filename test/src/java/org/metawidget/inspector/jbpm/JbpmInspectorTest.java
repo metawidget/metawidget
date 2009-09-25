@@ -25,8 +25,6 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.inspector.jbpm.JbpmInspector;
-import org.metawidget.inspector.jbpm.JbpmInspectorConfig;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -65,7 +63,7 @@ public class JbpmInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Unable to locate components.xml on CLASSPATH".equals( e.getMessage() ));
+			assertTrue( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH".equals( e.getMessage() ));
 		}
 
 		try

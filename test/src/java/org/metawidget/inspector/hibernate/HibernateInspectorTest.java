@@ -23,8 +23,6 @@ import java.io.ByteArrayInputStream;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.hibernate.HibernateInspector;
-import org.metawidget.inspector.hibernate.HibernateInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.XmlUtils;
@@ -65,7 +63,7 @@ public class HibernateInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Unable to locate hibernate.cfg.xml on CLASSPATH".equals( e.getMessage() ));
+			assertTrue( "java.io.FileNotFoundException: Unable to locate hibernate.cfg.xml on CLASSPATH".equals( e.getMessage() ));
 		}
 
 		try

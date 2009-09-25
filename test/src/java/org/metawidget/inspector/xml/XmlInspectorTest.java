@@ -195,7 +195,7 @@ public class XmlInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "Unable to locate metawidget-metadata.xml on CLASSPATH".equals( e.getMessage() ));
+			assertTrue( "java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH".equals( e.getMessage() ));
 		}
 	}
 

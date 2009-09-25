@@ -601,7 +601,7 @@ public class ConfigReaderTest
 		}
 		catch ( InspectorException e )
 		{
-			assertTrue( "Unable to locate  foo on CLASSPATH".equals( e.getMessage() ) );
+			assertTrue( "java.io.FileNotFoundException: Unable to locate  foo on CLASSPATH".equals( e.getMessage() ) );
 		}
 	}
 
