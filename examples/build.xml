@@ -34,6 +34,9 @@
 				<fileset dir="${relative.dir}/lib">
 					<include name="scala-*.jar"/>
 				</fileset>
+				<fileset dir="${relative.dir}/examples/lib">
+					<include name="scala-*.jar"/>
+				</fileset>
 			</classpath>
 		</taskdef>
 
@@ -41,6 +44,7 @@
 			<include name="**/*.scala"/>
 			<classpath>
 				<fileset dir="${relative.dir}/lib"/>
+				<fileset dir="${relative.dir}/examples/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/classes"/>
 				<fileset dir="${relative.dir}/examples/src/scala/org/metawidget/example/swing/animalraces"/>
 			</classpath>
@@ -54,13 +58,9 @@
 		
 		<copy todir="${relative.dir}/${build.dir}/lib" flatten="true" includeemptydirs="false">
 			<fileset dir="${relative.dir}/lib"/>
-			<fileset dir="${relative.dir}/examples/src/web">
-				<include name="**/lib/**"/>
-			</fileset>
+			<fileset dir="${relative.dir}/examples/lib"/>
 		</copy>
 
-		<delete dir="${relative.dir}/${build.dir}/lib/lib" quiet="true"/>
-				
 		<copy todir="${relative.dir}/${build.dir}/lib" file="${relative.dir}/${build.dir}/metawidget.jar"/>
 	</target>
 				
@@ -144,7 +144,7 @@
 			</fileset>
 		</jar>		
 
-		<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="${relative.dir}/lib/Pack200Task.jar"/>
+		<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="${relative.dir}/examples/lib/Pack200Task.jar"/>
 		<pack200 src="${relative.dir}/${build.dir}/examples/swing/applet/addressbook/metawidget-applet.jar" destfile="${relative.dir}/${build.dir}/examples/swing/applet/addressbook/metawidget-applet.jar.pack"/>		
 		<pack200 src="${relative.dir}/${build.dir}/examples/swing/applet/addressbook/addressbook-swing-applet.jar" destfile="${relative.dir}/${build.dir}/examples/swing/applet/addressbook/addressbook-swing-applet.jar.pack"/>		
 		
@@ -623,9 +623,9 @@
 		
         <exec executable="${android.tools.dir}/dx.bat" failonerror="true">
             <arg value="--dex" />
-            <arg value="--output=${basedir}/${build.dir}/examples/android/addressbook/classes.dex" />
+            <arg value="--output=${basedir}/${relative.dir}/${build.dir}/examples/android/addressbook/classes.dex" />
             <arg value="--positions=lines" />
-            <arg path="${basedir}/${build.dir}/examples/android/addressbook/dex-classes" />
+            <arg path="${basedir}/${relative.dir}/${build.dir}/examples/android/addressbook/dex-classes" />
         </exec>
 
 		<!-- Put the project's resources into the output package file -->
@@ -640,17 +640,17 @@
             <arg value="-I" />
             <arg value="${android.dir}/android.jar" />
             <arg value="-F" />
-            <arg value="${basedir}/${build.dir}/examples/android/addressbook-android.ap_" />
+            <arg value="${basedir}/${relative.dir}/${build.dir}/examples/android/addressbook-android.ap_" />
         </exec>
 
 	    <!-- Put the project's .dex files into the APK -->
 		
         <exec executable="${android.tools.dir}/apkbuilder.bat" failonerror="true">        
-            <arg value="${basedir}/${build.dir}/examples/android/addressbook-android.apk" />
+            <arg value="${basedir}/${relative.dir}/${build.dir}/examples/android/addressbook-android.apk" />
             <arg value="-z" />
-            <arg value="${basedir}/${build.dir}/examples/android/addressbook-android.ap_" />
+            <arg value="${basedir}/${relative.dir}/${build.dir}/examples/android/addressbook-android.ap_" />
             <arg value="-f" />
-            <arg value="${basedir}/${build.dir}/examples/android/addressbook/classes.dex" />
+            <arg value="${basedir}/${relative.dir}/${build.dir}/examples/android/addressbook/classes.dex" />
         </exec>
 
 		<copy todir="${relative.dir}/${build.dir}/examples/android" file="${relative.dir}/examples/src/java/org/metawidget/example/android/readme.txt"/>

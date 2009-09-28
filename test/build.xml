@@ -1,4 +1,4 @@
-<project name="metawidget-test" default="test">
+<project name="metawidget-test" default="test-coverage">
 
 	<!-- Properties -->
 	
@@ -303,7 +303,7 @@
 					<exclude name="android.jar"/>
 					<exclude name="junit*.jar"/>
 				</fileset>
-				<pathelement location="test/lib-1.4/junit.jar"/>
+				<pathelement location="test/lib/junit.jar"/>
 				<pathelement location="${relative.dir}/${build.dir}/metawidget.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
 				<pathelement path="${relative.dir}/test/src/java"/>
