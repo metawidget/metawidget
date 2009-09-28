@@ -71,7 +71,8 @@ public class BeansBindingProcessorTest
 
 		// Test UpdateStrategy.READ
 
-		metawidget.setParameter( UpdateStrategy.class, UpdateStrategy.READ );
+		metawidget.removeWidgetProcessor( metawidget.getWidgetProcessor( BeansBindingProcessor.class ) );
+		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ )));
 
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		foo.setBar( 43 );
@@ -83,7 +84,8 @@ public class BeansBindingProcessorTest
 
 		// Test UpdateStrategy.READ_WRITE
 
-		metawidget.setParameter( UpdateStrategy.class, UpdateStrategy.READ_WRITE );
+		metawidget.removeWidgetProcessor( metawidget.getWidgetProcessor( BeansBindingProcessor.class ) );
+		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ_WRITE )));
 
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		spinner.setValue( spinner.getModel().getNextValue() );
@@ -101,8 +103,7 @@ public class BeansBindingProcessorTest
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
-		metawidget.setParameter( UpdateStrategy.class, UpdateStrategy.READ_WRITE );
+		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ_WRITE )) );
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setMetawidgetLayout( new BoxLayout() );
 		metawidget.setToInspect( foo );

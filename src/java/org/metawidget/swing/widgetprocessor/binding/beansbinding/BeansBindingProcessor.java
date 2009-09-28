@@ -98,6 +98,26 @@ public class BeansBindingProcessor
 	}
 
 	//
+	// Private members
+	//
+
+	private	UpdateStrategy	mUpdateStrategy;
+
+	//
+	// Constructor
+	//
+
+	public BeansBindingProcessor()
+	{
+		this( new BeansBindingProcessorConfig() );
+	}
+
+	public BeansBindingProcessor( BeansBindingProcessorConfig config )
+	{
+		mUpdateStrategy = config.getUpdateStrategy();
+	}
+
+	//
 	// Public methods
 	//
 
@@ -250,16 +270,6 @@ public class BeansBindingProcessor
 	// Private members
 	//
 
-	private UpdateStrategy getUpdateStrategy( SwingMetawidget metawidget )
-	{
-		UpdateStrategy updateStrategy = (UpdateStrategy) metawidget.getParameter( UpdateStrategy.class );
-
-		if ( updateStrategy != null )
-			return updateStrategy;
-
-		return UpdateStrategy.READ_ONCE;
-	}
-
 	@SuppressWarnings( "unchecked" )
 	private <SS, SV, TS extends Component, TV> void typesafeAdd( TS component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
@@ -288,7 +298,7 @@ public class BeansBindingProcessor
 		// Create binding
 
 		BeanProperty<TS, TV> propertyTarget = BeanProperty.create( componentProperty );
-		org.jdesktop.beansbinding.Binding<SS, SV, TS, TV> binding = Bindings.createAutoBinding( getUpdateStrategy( metawidget ), source, propertySource, component, propertyTarget );
+		org.jdesktop.beansbinding.Binding<SS, SV, TS, TV> binding = Bindings.createAutoBinding( mUpdateStrategy, source, propertySource, component, propertyTarget );
 		target = (Class<TV>) propertyTarget.getWriteType( component );
 
 		// Add a converter

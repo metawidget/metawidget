@@ -35,7 +35,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
@@ -59,8 +58,8 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>labelSuffix</code> - defaults to ':'
  * <li><code>requiredAlignment</code> - one of <code>SwingConstants.LEFT</code>,
  * <code>SwingConstants.CENTER</code> or <code>SwingConstants.RIGHT</code>.
- * <li><code>requiredText</code> - defaults to '*'. When used with a <code>requiredAlignment</code> of
- * <code>SwingConstants.RIGHT</code>, can use HTML markup (eg. to render a red star)
+ * <li><code>requiredText</code> - defaults to '*'. When used with a <code>requiredAlignment</code>
+ * of <code>SwingConstants.RIGHT</code>, can use HTML markup (eg. to render a red star)
  * </ul>
  *
  * @author Richard Kennard
@@ -69,14 +68,6 @@ import org.metawidget.util.simple.StringUtils;
 public class GridBagLayout
 	implements Layout<JComponent, SwingMetawidget>
 {
-	//
-	// Public statics
-	//
-
-	public final static int		SECTION_AS_HEADING		= 0;
-
-	public final static int		SECTION_AS_TAB			= 1;
-
 	//
 	// Private statics
 	//
@@ -94,6 +85,41 @@ public class GridBagLayout
 	private final static Border	BORDER_TAB				= BorderFactory.createEmptyBorder( SMALL_GAP, SMALL_GAP, SMALL_GAP, SMALL_GAP );
 
 	//
+	// Private members
+	//
+
+	private int					mNumberOfColumns;
+
+	private int					mLabelAlignment;
+
+	private int					mSectionStyle;
+
+	private String				mLabelSuffix;
+
+	private int					mRequiredAlignment;
+
+	private String				mRequiredText;
+
+	//
+	// Constructor
+	//
+
+	public GridBagLayout()
+	{
+		this( new GridBagLayoutConfig() );
+	}
+
+	public GridBagLayout( GridBagLayoutConfig config )
+	{
+		mNumberOfColumns = config.getNumberOfColumns();
+		mLabelAlignment = config.getLabelAlignment();
+		mSectionStyle = config.getSectionStyle();
+		mLabelSuffix = config.getLabelSuffix();
+		mRequiredAlignment = config.getRequiredAlignment();
+		mRequiredText = config.getRequiredText();
+	}
+
+	//
 	// Public methods
 	//
 
@@ -101,57 +127,6 @@ public class GridBagLayout
 	{
 		metawidget.putClientProperty( GridBagLayout.class, null );
 		State state = getState( metawidget );
-
-		// Read parameters
-
-		Object numberOfColumns = metawidget.getParameter( "numberOfColumns" );
-
-		if ( numberOfColumns == null || metawidget.getParent() instanceof SwingMetawidget )
-		{
-			state.numberOfColumns = 1;
-		}
-		else
-		{
-			state.numberOfColumns = (Integer) numberOfColumns;
-
-			if ( state.numberOfColumns < 1 )
-				throw LayoutException.newException( "numberOfColumns must be >= 1" );
-		}
-
-		Object labelAlignment = metawidget.getParameter( "labelAlignment" );
-
-		if ( labelAlignment == null )
-			state.labelAlignment = SwingConstants.LEFT;
-		else
-			state.labelAlignment = (Integer) labelAlignment;
-
-		Object sectionStyle = metawidget.getParameter( "sectionStyle" );
-
-		if ( sectionStyle == null )
-			state.sectionStyle = SECTION_AS_HEADING;
-		else
-			state.sectionStyle = (Integer) sectionStyle;
-
-		Object labelSuffix = metawidget.getParameter( "labelSuffix" );
-
-		if ( labelSuffix == null )
-			state.labelSuffix = ":";
-		else
-			state.labelSuffix = (String) labelSuffix;
-
-		Object requiredAlignment = metawidget.getParameter( "requiredAlignment" );
-
-		if ( requiredAlignment == null )
-			state.requiredAlignment = SwingConstants.CENTER;
-		else
-			state.requiredAlignment = (Integer) requiredAlignment;
-
-		Object requiredText = metawidget.getParameter( "requiredText" );
-
-		if ( requiredText == null )
-			state.requiredText = "*";
-		else
-			state.requiredText = (String) requiredText;
 
 		// Calculate default label inset
 		//
@@ -211,7 +186,7 @@ public class GridBagLayout
 			componentConstraints.fill = GridBagConstraints.BOTH;
 
 		componentConstraints.anchor = GridBagConstraints.WEST;
-		componentConstraints.gridx = state.currentColumn * ( state.requiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
+		componentConstraints.gridx = state.currentColumn * ( mRequiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
 
 		if ( labelText != null )
 		{
@@ -223,13 +198,13 @@ public class GridBagLayout
 		}
 
 		componentConstraints.gridy = state.currentRow;
-		componentConstraints.weightx = 1.0f / state.numberOfColumns;
+		componentConstraints.weightx = 1.0f / mNumberOfColumns;
 		componentConstraints.insets = INSETS_COMPONENT;
 
 		if ( spanAllColumns )
 		{
-			componentConstraints.gridwidth = ( state.requiredAlignment == SwingConstants.RIGHT ? ( state.numberOfColumns * 3 - componentConstraints.gridx - 1 ) : GridBagConstraints.REMAINDER );
-			state.currentColumn = state.numberOfColumns - 1;
+			componentConstraints.gridwidth = ( mRequiredAlignment == SwingConstants.RIGHT ? ( mNumberOfColumns * 3 - componentConstraints.gridx - 1 ) : GridBagConstraints.REMAINDER );
+			state.currentColumn = mNumberOfColumns - 1;
 		}
 
 		// Hack for spacer row (see JavaDoc for state.mNeedSpacerRow): assume components
@@ -256,7 +231,7 @@ public class GridBagLayout
 
 		state.currentColumn++;
 
-		if ( state.currentColumn >= state.numberOfColumns )
+		if ( state.currentColumn >= mNumberOfColumns )
 		{
 			state.currentColumn = 0;
 			state.currentRow++;
@@ -344,28 +319,30 @@ public class GridBagLayout
 		if ( labelText != null && !"".equals( labelText ) && !( component instanceof JButton ) )
 		{
 			JLabel label = new JLabel();
-			label.setHorizontalAlignment( state.labelAlignment );
+			label.setHorizontalAlignment( mLabelAlignment );
 
 			// Required
 
 			String labelTextToUse = labelText;
 
-			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
+			if ( attributes != null && mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 			{
-				if ( state.requiredAlignment == SwingConstants.CENTER )
-					labelTextToUse += state.requiredText;
-				else if ( state.requiredAlignment == SwingConstants.LEFT )
-					labelTextToUse = state.requiredText + labelTextToUse;
+				if ( mRequiredAlignment == SwingConstants.CENTER )
+					labelTextToUse += mRequiredText;
+				else if ( mRequiredAlignment == SwingConstants.LEFT )
+					labelTextToUse = mRequiredText + labelTextToUse;
 			}
 
-			labelTextToUse += state.labelSuffix;
+			if ( mLabelSuffix != null )
+				labelTextToUse += mLabelSuffix;
+
 			label.setText( labelTextToUse );
 
 			GridBagConstraints labelConstraints = new GridBagConstraints();
-			labelConstraints.gridx = state.currentColumn * ( state.requiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
+			labelConstraints.gridx = state.currentColumn * ( mRequiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
 			labelConstraints.gridy = state.currentRow;
 			labelConstraints.fill = GridBagConstraints.HORIZONTAL;
-			labelConstraints.weightx = 0.1f / state.numberOfColumns;
+			labelConstraints.weightx = 0.1f / mNumberOfColumns;
 
 			// Top align all labels, not just those belonging to 'tall' components,
 			// so that tall components, regular components and nested Metawidget
@@ -418,9 +395,9 @@ public class GridBagLayout
 
 		// Insert the section
 
-		switch ( state.sectionStyle )
+		switch ( mSectionStyle )
 		{
-			case SECTION_AS_TAB:
+			case GridBagLayoutConfig.SECTION_AS_TAB:
 
 				JTabbedPane tabbedPane;
 
@@ -494,14 +471,14 @@ public class GridBagLayout
 	{
 		State state = getState( metawidget );
 
-		if ( state.requiredAlignment != SwingConstants.RIGHT )
+		if ( mRequiredAlignment != SwingConstants.RIGHT )
 			return;
 
 		if ( attributes == null || !TRUE.equals( attributes.get( REQUIRED ) ) || TRUE.equals( attributes.get( READ_ONLY ) ) || metawidget.isReadOnly() )
 			return;
 
 		JLabel star = new JLabel();
-		star.setText( state.requiredText );
+		star.setText( mRequiredText );
 
 		GridBagConstraints starConstraints = new GridBagConstraints();
 		starConstraints.gridx = ( state.currentColumn * 3 ) + 2;
@@ -580,18 +557,6 @@ public class GridBagLayout
 	/* package private */class State
 	{
 		/* package private */String		currentSection;
-
-		/* package private */int		labelAlignment;
-
-		/* package private */int		sectionStyle;
-
-		/* package private */int		numberOfColumns;
-
-		/* package private */String		labelSuffix;
-
-		/* package private */int		requiredAlignment;
-
-		/* package private */String		requiredText;
 
 		/* package private */int		currentColumn;
 

@@ -135,14 +135,6 @@ public class ConfigReaderTest
 		xml += "		<opaque>";
 		xml += "			<boolean>true</boolean>";
 		xml += "		</opaque>";
-		xml += "		<parameter>";
-		xml += "			<string>a parameter</string>";
-		xml += "			<int>1</int>";
-		xml += "		</parameter>";
-		xml += "		<parameter>";
-		xml += "			<string>another parameter</string>";
-		xml += "			<int>5</int>";
-		xml += "		</parameter>";
 		xml += "	</swingMetawidget>";
 		xml += "	<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
 		xml += "		<inspectors>";
@@ -174,19 +166,15 @@ public class ConfigReaderTest
 		SwingMetawidget metawidget1 = new SwingMetawidget();
 		assertTrue( null == metawidget1.getName() );
 		assertTrue( !metawidget1.isOpaque() );
-		assertTrue( null == metawidget1.getParameter( "a parameter" ) );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1 );
 		assertTrue( "foo".equals( metawidget1.getName() ) );
 		assertTrue( metawidget1.isOpaque() );
-		assertTrue( 1 == (Integer) metawidget1.getParameter( "a parameter" ) );
-		assertTrue( 5 == (Integer) metawidget1.getParameter( "another parameter" ) );
 
 		// New SwingMetawidget with names
 
 		metawidget1 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), SwingMetawidget.class, "name" );
 		assertTrue( "foo".equals( metawidget1.getName() ) );
 		assertTrue( !metawidget1.isOpaque() );
-		assertTrue( null == metawidget1.getParameter( "a parameter" ) );
 
 		// Existing SwingMetawidget with names
 
@@ -194,16 +182,6 @@ public class ConfigReaderTest
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "opaque" );
 		assertTrue( "newFoo".equals( metawidget1.getName() ) );
 		assertTrue( metawidget1.isOpaque() );
-		assertTrue( null == metawidget1.getParameter( "a parameter" ) );
-
-		// Existing SwingMetawidget with parameters
-
-		metawidget1.setName( "newFoo" );
-		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "parameter" );
-		assertTrue( "newFoo".equals( metawidget1.getName() ) );
-		assertTrue( metawidget1.isOpaque() );
-		assertTrue( 1 == (Integer) metawidget1.getParameter( "a parameter" ) );
-		assertTrue( 5 == (Integer) metawidget1.getParameter( "another parameter" ) );
 
 		// SwingMetawidget2
 

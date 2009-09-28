@@ -29,12 +29,12 @@ import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
-import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.layout.GridBagLayoutConfig;
 
 /**
  * @author Richard Kennard
@@ -69,7 +69,7 @@ public class SwingTutorialTest
 		stub.setName( "retired" );
 		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
-		metawidget.setParameter( "numberOfColumns", 2 );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ));
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );

@@ -72,8 +72,7 @@ public class BeanUtilsBindingProcessorTest
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor() );
-		metawidget.setParameter( "propertyStyle", BeanUtilsBindingProcessor.PROPERTYSTYLE_SCALA );
+		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor( new BeanUtilsBindingProcessorConfig().setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA )) );
 		BaseObjectInspectorConfig config = new BaseObjectInspectorConfig().setPropertyStyle( ScalaPropertyStyle.class );
 		metawidget.setInspector( new PropertyTypeInspector( config ) );
 		metawidget.setToInspect( scalaFoo );

@@ -62,12 +62,24 @@ public class BeanUtilsBindingProcessor
 	private final static String	SCALA_SET_SUFFIX		= "_$eq";
 
 	//
-	// Public statics
+	// Private members
 	//
 
-	public final static int		PROPERTYSTYLE_JAVABEAN	= 0;
+	private int	mPropertyStyle;
 
-	public final static int		PROPERTYSTYLE_SCALA		= 1;
+	//
+	// Constructor
+	//
+
+	public BeanUtilsBindingProcessor()
+	{
+		this( new BeanUtilsBindingProcessorConfig() );
+	}
+
+	public BeanUtilsBindingProcessor( BeanUtilsBindingProcessorConfig config )
+	{
+		mPropertyStyle = config.getPropertyStyle();
+	}
 
 	//
 	// Public methods
@@ -249,9 +261,9 @@ public class BeanUtilsBindingProcessor
 	protected Object retrieveValueFromObject( SwingMetawidget metawidget, Object source, String names )
 		throws Exception
 	{
-		switch ( getPropertyStyle( metawidget ) )
+		switch ( mPropertyStyle )
 		{
-			case PROPERTYSTYLE_SCALA:
+			case BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA:
 				return scalaTraverse( source, false, names.split( "\\" + StringUtils.SEPARATOR_DOT_CHAR ) );
 
 			default:
@@ -277,9 +289,9 @@ public class BeanUtilsBindingProcessor
 		if ( source == null )
 			source = metawidget.getToInspect();
 
-		switch ( getPropertyStyle( metawidget ) )
+		switch ( mPropertyStyle )
 		{
-			case PROPERTYSTYLE_SCALA:
+			case BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA:
 
 				// Traverse to the setter...
 
@@ -325,18 +337,6 @@ public class BeanUtilsBindingProcessor
 	//
 	// Private methods
 	//
-
-	private int getPropertyStyle( SwingMetawidget metawidget )
-	{
-		// Read parameters
-
-		Integer propertyStyle = metawidget.getParameter( "propertyStyle" );
-
-		if ( propertyStyle != null )
-			return propertyStyle;
-
-		return PROPERTYSTYLE_JAVABEAN;
-	}
 
 	private Object scalaTraverse( Object toTraverse, boolean onlyToParent, String... names )
 		throws Exception

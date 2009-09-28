@@ -79,9 +79,7 @@ public class MigLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setParameter( "numberOfColumns", 0 );
-		metawidget.setParameter( "sectionStyle", org.metawidget.swing.layout.MigLayout.SECTION_AS_TAB );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout() );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 0 ).setSectionStyle( MigLayoutConfig.SECTION_AS_TAB )) );
 		metawidget.setToInspect( new Foo() );
 
 		try
@@ -94,7 +92,7 @@ public class MigLayoutTest
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
-		metawidget.setParameter( "numberOfColumns", 2 );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ).setSectionStyle( MigLayoutConfig.SECTION_AS_TAB )) );
 
 		UnitValue[] insets = ( (LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getInsets();
 		assertTrue( 0 == insets[0].getValue() );
@@ -254,8 +252,7 @@ public class MigLayoutTest
 		throws Exception
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setParameter( "numberOfColumns", 2 );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout() );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) );
 		metawidget.add( new JTextField() );
 		Facet buttons = new Facet();
 		buttons.setName( "buttons" );
@@ -278,9 +275,7 @@ public class MigLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setParameter( "numberOfColumns", 2 );
-		metawidget.setParameter( "sectionStyle", org.metawidget.swing.layout.MigLayout.SECTION_AS_TAB );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout() );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ).setSectionStyle( MigLayoutConfig.SECTION_AS_TAB ) ) );
 		metawidget.setToInspect( new NastyNestingTop() );
 
 		// JFrame

@@ -35,7 +35,6 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
@@ -62,12 +61,27 @@ public class MigLayout
 	implements Layout<JComponent, SwingMetawidget>
 {
 	//
-	// Public statics
+	// Private members
 	//
 
-	public final static int	SECTION_AS_HEADING	= 0;
+	private int					mNumberOfColumns;
 
-	public final static int	SECTION_AS_TAB		= 1;
+	private int					mSectionStyle;
+
+	//
+	// Constructor
+	//
+
+	public MigLayout()
+	{
+		this( new MigLayoutConfig() );
+	}
+
+	public MigLayout( MigLayoutConfig config )
+	{
+		mNumberOfColumns = config.getNumberOfColumns();
+		mSectionStyle = config.getSectionStyle();
+	}
 
 	//
 	// Public methods
@@ -77,29 +91,6 @@ public class MigLayout
 	{
 		metawidget.putClientProperty( MigLayout.class, null );
 		State state = getState( metawidget );
-
-		// Read parameters
-
-		Object numberOfColumns = metawidget.getParameter( "numberOfColumns" );
-
-		if ( numberOfColumns == null || metawidget.getParent() instanceof SwingMetawidget )
-		{
-			state.numberOfColumns = 1;
-		}
-		else
-		{
-			state.numberOfColumns = (Integer) numberOfColumns;
-
-			if ( state.numberOfColumns < 1 )
-				throw LayoutException.newException( "numberOfColumns must be >= 1" );
-		}
-
-		Object sectionStyle = metawidget.getParameter( "sectionStyle" );
-
-		if ( sectionStyle == null )
-			state.sectionStyle = SECTION_AS_HEADING;
-		else
-			state.sectionStyle = (Integer) sectionStyle;
 
 		// The entire layout should fill both horizontally and vertically,
 		// with no insets. This allows us to be properly nested, as well as
@@ -183,7 +174,7 @@ public class MigLayout
 		if ( spanAllColumns )
 		{
 			componentConstraints.spanX();
-			state.currentColumn = state.numberOfColumns;
+			state.currentColumn = mNumberOfColumns;
 		}
 
 		// Assume JScrollPanes should grow vertically
@@ -207,7 +198,7 @@ public class MigLayout
 
 		state.currentColumn++;
 
-		if ( state.currentColumn >= state.numberOfColumns )
+		if ( state.currentColumn >= mNumberOfColumns )
 		{
 			state.currentColumn = 0;
 			state.currentRow++;
@@ -322,9 +313,9 @@ public class MigLayout
 
 		// Insert the section
 
-		switch ( state.sectionStyle )
+		switch ( mSectionStyle )
 		{
-			case SECTION_AS_TAB:
+			case MigLayoutConfig.SECTION_AS_TAB:
 
 				JTabbedPane tabbedPane;
 
@@ -401,13 +392,9 @@ public class MigLayout
 	{
 		/* package private */String	currentSection;
 
-		/* package private */int	numberOfColumns;
-
 		/* package private */int	currentColumn;
 
 		/* package private */int	currentRow;
-
-		/* package private */int	sectionStyle;
 
 		/* package private */JPanel	panelCurrent;
 

@@ -183,6 +183,14 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		mWidgetProcessors.add( widgetProcessor );
 	}
 
+	public void removeWidgetProcessor( WidgetProcessor<W, M> widgetProcessor )
+	{
+		if ( mWidgetProcessors == null )
+			return;
+
+		mWidgetProcessors.remove( widgetProcessor );
+	}
+
 	public Layout<W, M> getLayout()
 	{
 		return mLayout;

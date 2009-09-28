@@ -42,6 +42,7 @@ import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspectorTest.RecursiveFoo;
+import org.metawidget.swing.layout.GridBagLayoutConfig;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
@@ -342,7 +343,7 @@ public class SwingMetawidgetTest
 		// Check different component
 
 		metawidget.setToInspect( foo2 );
-		metawidget.setParameter( "labelAlignment", SwingConstants.RIGHT );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelAlignment( SwingConstants.RIGHT ) ));
 		assertTrue( textField != metawidget.getComponent( "name" ) );
 		assertTrue( nestedTextField != metawidget.getComponent( "foo", "name" ) );
 		assertTrue( SwingConstants.RIGHT == ( (JLabel) metawidget.getComponent( 0 ) ).getHorizontalAlignment() );

@@ -89,8 +89,6 @@ public class SwingMetawidget
 
 	private ResourceBundle				mBundle;
 
-	private Map<String, Object>			mParameters;
-
 	private boolean						mNeedToBuildWidgets;
 
 	private String						mLastInspection;
@@ -216,6 +214,12 @@ public class SwingMetawidget
 		invalidateInspection();
 	}
 
+	public void removeWidgetProcessor( WidgetProcessor<JComponent, SwingMetawidget> widgetProcessor )
+	{
+		mMetawidgetMixin.removeWidgetProcessor( widgetProcessor );
+		invalidateInspection();
+	}
+
 	public void setWidgetProcessors( List<WidgetProcessor<JComponent, SwingMetawidget>> widgetProcessors )
 	{
 		mMetawidgetMixin.setWidgetProcessors( widgetProcessors );
@@ -310,82 +314,6 @@ public class SwingMetawidget
 		{
 			return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
 		}
-	}
-
-	public Map<String, Object> getParameters()
-	{
-		return mParameters;
-	}
-
-	/**
-	 * Sets parameters to pass to Layout/PropertyBinding implementations.
-	 * <p>
-	 * Exposed for GUI builders.
-	 */
-
-	public void setParameters( Map<String, Object> parameters )
-	{
-		mParameters = parameters;
-	}
-
-	/**
-	 * Gets the parameter value. Used by the chosen <code>Layout</code> or
-	 * <code>PropertyBinding</code> implementation.
-	 *
-	 * @return the value. Note this return type uses generics, so as to not require a cast by the
-	 *         caller (eg. <code>String s = getParameter(name)</code>)
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public <T> T getParameter( String name )
-	{
-		if ( mParameters == null )
-			return null;
-
-		return (T) mParameters.get( name );
-	}
-
-	/**
-	 * Gets the parameter value. Used by the chosen <code>Layout</code> or
-	 * <code>PropertyBinding</code> implementation.
-	 * <p>
-	 * Convenience method. Equivalent to <code>getParameter( clazz.getName() )</code>
-	 *
-	 * @return the value. Note this return type uses generics, so as to not require a cast by the
-	 *         caller (eg. <code>String s = getParameter(clazz)</code>)
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public <T> T getParameter( Class<?> clazz )
-	{
-		return (T) getParameter( clazz.getName() );
-	}
-
-	/**
-	 * Sets the parameter value. Parameters are passed to the chosen <code>Layout</code> or
-	 * <code>PropertyBinding</code> implementation.
-	 */
-
-	public void setParameter( String name, Object value )
-	{
-		if ( mParameters == null )
-			mParameters = CollectionUtils.newHashMap();
-
-		mParameters.put( name, value );
-
-		invalidateWidgets();
-	}
-
-	/**
-	 * Sets the parameter value. Parameters are passed to the chosen <code>Layout</code> or
-	 * <code>PropertyBinding</code> implementation.
-	 * <p>
-	 * Convenience method. Equivalent to <code>setParameter( clazz.getName(), value )</code>
-	 */
-
-	public void setParameter( Class<?> clazz, Object value )
-	{
-		setParameter( clazz.getName(), value );
 	}
 
 	public boolean isReadOnly()
@@ -995,9 +923,6 @@ public class SwingMetawidget
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setBundle( mBundle );
 		nestedMetawidget.setOpaque( isOpaque() );
-
-		if ( mParameters != null )
-			nestedMetawidget.setParameters( CollectionUtils.newHashMap( mParameters ) );
 
 		nestedMetawidget.setToInspect( mToInspect );
 	}

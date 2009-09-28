@@ -71,8 +71,7 @@ public class GridBagLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setParameter( "numberOfColumns", 0 );
-		metawidget.setParameter( "sectionStyle", org.metawidget.swing.layout.GridBagLayout.SECTION_AS_TAB );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 0 ).setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB )));
 		metawidget.setToInspect( new Foo() );
 
 		try
@@ -85,7 +84,7 @@ public class GridBagLayoutTest
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
-		metawidget.setParameter( "numberOfColumns", 2 );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB )));
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		Insets insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
@@ -229,8 +228,7 @@ public class GridBagLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setParameter( "numberOfColumns", 2 );
-		metawidget.setParameter( "labelSuffix", ":" );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( ":" )));
 		metawidget.setToInspect( new WideFoo() );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -277,26 +275,22 @@ public class GridBagLayoutTest
 
 		// Different label suffix
 
-		metawidget.setParameter( "labelSuffix", "#" );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelSuffix( "#" )));
 		assertTrue( "Abc*#".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 
 		// Align left
 
-		metawidget.setParameter( "requiredAlignment", SwingConstants.LEFT );
-		metawidget.setParameter( "requiredText", "?" );
-		assertTrue( "?Abc#".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setRequiredAlignment( SwingConstants.LEFT ).setRequiredText( "?" )));
+		assertTrue( "?Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 
 		// No suffix
 
-		metawidget.setParameter( "labelSuffix", "" );
-		metawidget.setParameter( "requiredText", null );
-		assertTrue( "*Abc".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelSuffix( null ).setRequiredText( null )));
+		assertTrue( "Abc".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 
 		// Align right
 
-		metawidget.setParameter( "numberOfColumns", 2 );
-		metawidget.setParameter( "requiredText", "<html><font color=\"red\">*</font></html>" );
-		metawidget.setParameter( "requiredAlignment", SwingConstants.RIGHT );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( "" ).setRequiredText( "<html><font color=\"red\">*</font></html>" ).setRequiredAlignment( SwingConstants.RIGHT )));
 
 		assertTrue( "Abc".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ).gridx );
@@ -356,9 +350,7 @@ public class GridBagLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setParameter( "numberOfColumns", 2 );
-		metawidget.setParameter( "requiredAlignment", SwingConstants.RIGHT );
-		metawidget.setParameter( "requiredText", "<html><font color=\"red\">*</font></html>" );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setRequiredText( "<html><font color=\"red\">*</font></html>" ).setRequiredAlignment( SwingConstants.RIGHT )));
 		metawidget.setToInspect( new RequiredFoo() );
 
 		// JFrame
