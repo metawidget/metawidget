@@ -18,6 +18,8 @@ package org.metawidget.swing.layout;
 
 import javax.swing.SwingConstants;
 
+import org.metawidget.layout.iface.LayoutException;
+
 /**
  * Configures a GridBagLayout prior to use. Once instantiated, Layouts are immutable.
  *
@@ -65,6 +67,9 @@ public class GridBagLayoutConfig
 
 	public GridBagLayoutConfig setNumberOfColumns( int numberOfColumns )
 	{
+		if ( numberOfColumns < 1 )
+			throw LayoutException.newException( "numberOfColumns must be >= 1" );
+
 		mNumberOfColumns = numberOfColumns;
 
 		return this;

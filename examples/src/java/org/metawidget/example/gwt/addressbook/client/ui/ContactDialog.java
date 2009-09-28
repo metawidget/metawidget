@@ -28,6 +28,8 @@ import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
+import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
 import org.metawidget.gwt.client.ui.layout.FlowLayout;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
@@ -148,11 +150,17 @@ public class ContactDialog
 		mMetawidget = new GwtMetawidget();
 		mMetawidget.setReadOnly( contact.getId() != 0 );
 		mMetawidget.setDictionaryName( "bundle" );
-		mMetawidget.setParameter( "tableStyleName", "table-form" );
-		mMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column,required" );
-		mMetawidget.setParameter( "sectionStyleName", "section-heading" );
-		mMetawidget.setParameter( "footerStyleName", "buttons" );
-		mMetawidget.addWidgetProcessor( new SimpleBindingProcessor() );
+
+		FlexTableLayoutConfig layoutConfig = new FlexTableLayoutConfig();
+		layoutConfig.setTableStyleName( "table-form" );
+		layoutConfig.setColumnStyleNames( new String[]{ "table-label-column,table-component-column,table-required-column" } );
+		layoutConfig.setSectionStyleName( "section-heading" );
+		layoutConfig.setFooterStyleName( "buttons" );
+		FlexTableLayout layout = new FlexTableLayout( layoutConfig );
+		mMetawidget.setLayout( layout );
+
+		SimpleBindingProcessor bindingProcessor = new SimpleBindingProcessor();
+		mMetawidget.addWidgetProcessor( bindingProcessor );
 		mMetawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, mMetawidget );
 
@@ -164,11 +172,8 @@ public class ContactDialog
 
 		mAddressMetawidget.setReadOnly( contact.getId() != 0 );
 		mAddressMetawidget.setDictionaryName( "bundle" );
-		mAddressMetawidget.setParameter( "tableStyleName", "table-form" );
-		mAddressMetawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column,required" );
-		mAddressMetawidget.setParameter( "sectionStyleName", "section-heading" );
-		mAddressMetawidget.setParameter( "footerStyleName", "buttons" );
-		mAddressMetawidget.addWidgetProcessor( new SimpleBindingProcessor() );
+		mAddressMetawidget.addWidgetProcessor( bindingProcessor );
+		mAddressMetawidget.setLayout( layout );
 		mAddressMetawidget.setToInspect( contact );
 		mAddressMetawidget.setPath( Contact.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + "address" );
 

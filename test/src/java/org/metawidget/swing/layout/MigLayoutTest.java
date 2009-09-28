@@ -79,12 +79,11 @@ public class MigLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 0 ).setSectionStyle( MigLayoutConfig.SECTION_AS_TAB )) );
 		metawidget.setToInspect( new Foo() );
 
 		try
 		{
-			metawidget.getComponent( 0 );
+			metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 0 ).setSectionStyle( MigLayoutConfig.SECTION_AS_TAB )) );
 			assertTrue( false );
 		}
 		catch ( LayoutException e )

@@ -16,6 +16,8 @@
 
 package org.metawidget.swing.layout;
 
+import org.metawidget.layout.iface.LayoutException;
+
 
 /**
  * Configures a MigLayout prior to use. Once instantiated, Layouts are immutable.
@@ -56,6 +58,9 @@ public class MigLayoutConfig
 
 	public MigLayoutConfig setNumberOfColumns( int numberOfColumns )
 	{
+		if ( numberOfColumns < 1 )
+			throw LayoutException.newException( "numberOfColumns must be >= 1" );
+
 		mNumberOfColumns = numberOfColumns;
 
 		return this;

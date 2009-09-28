@@ -21,6 +21,8 @@ import java.util.TreeMap;
 
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
+import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
 import org.metawidget.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
@@ -201,9 +203,12 @@ public class ClientSideModule
 
 		buttonsFacet.add( saveButton );
 		metawidget.add( buttonsFacet );
-		metawidget.setParameter( "tableStyleName", "table-form" );
-		metawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column,table-required-column" );
-		metawidget.setParameter( "footerStyleName", "buttons" );
+
+		FlexTableLayoutConfig layoutConfig = new FlexTableLayoutConfig();
+		layoutConfig.setTableStyleName( "table-form" );
+		layoutConfig.setColumnStyleNames( new String[]{ "table-label-column,table-component-column,table-required-column" } );
+		layoutConfig.setFooterStyleName( "buttons" );
+		metawidget.setLayout( new FlexTableLayout( layoutConfig ));
 
 		// Load button
 

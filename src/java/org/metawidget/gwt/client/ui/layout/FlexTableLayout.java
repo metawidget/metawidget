@@ -58,6 +58,38 @@ public class FlexTableLayout
 	private final static int	LABEL_AND_COMPONENT_AND_REQUIRED	= 3;
 
 	//
+	// Private members
+	//
+
+	private int					mNumberOfColumns;
+
+	private String				mTableStyleName;
+
+	private String[]			mColumnStyleNames;
+
+	private String				mSectionStyleName;
+
+	private String				mFooterStyleName;
+
+	//
+	// Constructor
+	//
+
+	public FlexTableLayout()
+	{
+		this( new FlexTableLayoutConfig() );
+	}
+
+	public FlexTableLayout( FlexTableLayoutConfig config )
+	{
+		mNumberOfColumns = config.getNumberOfColumns();
+		mTableStyleName = config.getTableStyleName();
+		mColumnStyleNames = config.getColumnStyleNames();
+		mSectionStyleName = config.getSectionStyleName();
+		mFooterStyleName = config.getFooterStyleName();
+	}
+
+	//
 	// Public methods
 	//
 
@@ -68,42 +100,10 @@ public class FlexTableLayout
 
 		State state = getState( metawidget );
 		FlexTable flexTable = new FlexTable();
+		flexTable.setStyleName( mTableStyleName );
 		metawidget.add( flexTable );
+
 		state.formatter = flexTable.getFlexCellFormatter();
-
-		String styleName = metawidget.getParameter( "tableStyleName" );
-
-		if ( styleName != null )
-			flexTable.setStyleName( styleName );
-
-		// Parse column style names
-		//
-		// (note: ColumnFormatter uses COL elements, so is not suitable for this)
-
-		String columnStyleNames = metawidget.getParameter( "columnStyleNames" );
-
-		if ( columnStyleNames != null )
-			state.columnStyleNames = columnStyleNames.split( "," );
-
-		// Section style name
-
-		state.sectionStyleName = (String) metawidget.getParameter( "sectionStyleName" );
-
-		// Number of columns
-
-		Integer numberOfColumns = metawidget.getParameter( "numberOfColumns" );
-
-		if ( numberOfColumns == null )
-		{
-			state.numberOfColumns = 1;
-		}
-		else
-		{
-			state.numberOfColumns = numberOfColumns;
-
-			if ( numberOfColumns < 0 )
-				throw new RuntimeException( "columns must be >= 0" );
-		}
 	}
 
 	public void layoutChild( Widget widget, Map<String, String> attributes, GwtMetawidget metawidget )
@@ -149,7 +149,7 @@ public class FlexTableLayout
 		FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
 		int row = flexTable.getRowCount();
 
-		if ( state.currentColumn < state.numberOfColumns && row > 0 )
+		if ( state.currentColumn < mNumberOfColumns && row > 0 )
 		{
 			row--;
 			actualColumn = flexTable.getCellCount( row );
@@ -184,7 +184,7 @@ public class FlexTableLayout
 		{
 			// Zero-column layouts need an extra row
 
-			if ( state.numberOfColumns == 0 )
+			if ( mNumberOfColumns == 0 )
 			{
 				state.currentColumn = 0;
 				actualColumn = 0;
@@ -211,8 +211,8 @@ public class FlexTableLayout
 
 		if ( widget instanceof GwtMetawidget || LayoutUtils.isSpanAllColumns( attributes ) )
 		{
-			colspan = ( state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
-			state.currentColumn = state.numberOfColumns;
+			colspan = ( mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
+			state.currentColumn = mNumberOfColumns;
 
 			if ( labelText == null )
 				colspan++;
@@ -259,13 +259,11 @@ public class FlexTableLayout
 			FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
 			int row = flexTable.getRowCount();
 
-			if ( state.numberOfColumns > 0 )
-				state.formatter.setColSpan( row, 0, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			if ( mNumberOfColumns > 0 )
+				state.formatter.setColSpan( row, 0, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 
-			String styleName = metawidget.getParameter( "footerStyleName" );
-
-			if ( styleName != null )
-				state.formatter.setStyleName( row, 0, styleName );
+			if ( mFooterStyleName != null )
+				state.formatter.setStyleName( row, 0, mFooterStyleName );
 
 			flexTable.setWidget( row, 0, facet );
 		}
@@ -321,23 +319,21 @@ public class FlexTableLayout
 
 		// Span and style
 
-		if ( state.numberOfColumns > 0 )
-			state.formatter.setColSpan( row, 0, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+		if ( mNumberOfColumns > 0 )
+			state.formatter.setColSpan( row, 0, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 
-		if ( state.sectionStyleName != null )
-			state.formatter.setStyleName( row, 0, state.sectionStyleName );
+		if ( mSectionStyleName != null )
+			state.formatter.setStyleName( row, 0, mSectionStyleName );
 
-		state.currentColumn = state.numberOfColumns;
+		state.currentColumn = mNumberOfColumns;
 	}
 
 	protected String getStyleName( int styleName, GwtMetawidget metawidget )
 	{
-		State state = getState( metawidget );
-
-		if ( state.columnStyleNames == null || state.columnStyleNames.length <= styleName )
+		if ( mColumnStyleNames == null || mColumnStyleNames.length <= styleName )
 			return null;
 
-		return state.columnStyleNames[styleName];
+		return mColumnStyleNames[styleName];
 	}
 
 	//
@@ -368,12 +364,6 @@ public class FlexTableLayout
 	/* package private */class State
 	{
 		/* package private */FlexCellFormatter	formatter;
-
-		/* package private */int				numberOfColumns;
-
-		/* package private */String[]			columnStyleNames;
-
-		/* package private */String				sectionStyleName;
 
 		/* package private */int				currentColumn;
 

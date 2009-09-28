@@ -23,6 +23,8 @@ import org.metawidget.gwt.allwidgets.client.converter.NestedWidgetsConverter;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
+import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
@@ -67,9 +69,8 @@ public class AllWidgetsModule
 		// Metawidget
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
-		metawidget.setParameter( "sectionStyleName", "aSectionStyleName" );
-		metawidget.setParameter( "numberOfColumns", 2 );
 		metawidget.setInspector( new GwtRemoteInspectorProxy( "/metawidget-inspector-allwidgets" ) );
+		metawidget.setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 2 ).setSectionStyleName( "aSectionStyleName" )) );
 		metawidget.setToInspect( new AllWidgets() );
 
 		// Binding
@@ -99,7 +100,7 @@ public class AllWidgetsModule
 			{
 				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 				metawidget.setReadOnly( true );
-				metawidget.setParameter( "numberOfColumns", 0 );
+				metawidget.setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 0 ).setSectionStyleName( "aSectionStyleName" )) );
 				metawidget.setDictionaryName( "bundle" );
 			}
 		} );

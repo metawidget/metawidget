@@ -71,12 +71,11 @@ public class GridBagLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 0 ).setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB )));
 		metawidget.setToInspect( new Foo() );
 
 		try
 		{
-			metawidget.getComponent( 0 );
+			metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 0 ).setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB )));
 			assertTrue( false );
 		}
 		catch ( LayoutException e )

@@ -28,6 +28,8 @@ import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
+import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
+import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -140,9 +142,13 @@ public class AddressBookModule
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setDictionaryName( "bundle" );
-		metawidget.setParameter( "tableStyleName", "table-form" );
-		metawidget.setParameter( "columnStyleNames", "table-label-column,table-component-column" );
-		metawidget.setParameter( "footerStyleName", "buttons" );
+
+		FlexTableLayoutConfig layoutConfig = new FlexTableLayoutConfig();
+		layoutConfig.setTableStyleName( "table-form" );
+		layoutConfig.setColumnStyleNames( new String[]{ "table-label-column,table-component-column" } );
+		layoutConfig.setFooterStyleName( "buttons" );
+		metawidget.setLayout( new FlexTableLayout( layoutConfig ));
+
 		metawidget.setToInspect( mContactSearch );
 
 		// Embedded buttons

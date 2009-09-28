@@ -111,8 +111,6 @@ public class GwtMetawidget
 
 	private Dictionary												mDictionary;
 
-	private Map<String, Object>										mParameters;
-
 	private Map<String, Facet>										mFacets					= new HashMap<String, Facet>();
 
 	private Set<Widget>												mExistingWidgets		= new HashSet<Widget>();
@@ -285,38 +283,6 @@ public class GwtMetawidget
 	{
 		mDictionaryName = dictionaryName;
 		mDictionary = null;
-		invalidateWidgets();
-	}
-
-	/**
-	 * Gets the parameter value. Used by the chosen <code>Layout</code> or
-	 * <code>PropertyBinding</code> implementation.
-	 *
-	 * @return the value. Note this return type uses generics, so as to not require a cast by the
-	 *         caller (eg. <code>String s = getParameter(name)</code>)
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public <T> T getParameter( String name )
-	{
-		if ( mParameters == null )
-			return null;
-
-		return (T) mParameters.get( name );
-	}
-
-	/**
-	 * Sets the parameter value. Parameters are passed to the chosen <code>Layout</code> or
-	 * <code>PropertyBinding</code> implementation.
-	 */
-
-	public void setParameter( String name, Object value )
-	{
-		if ( mParameters == null )
-			mParameters = new HashMap<String, Object>();
-
-		mParameters.put( name, value );
-
 		invalidateWidgets();
 	}
 
@@ -956,13 +922,6 @@ public class GwtMetawidget
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setDictionaryName( mDictionaryName );
-
-		if ( mParameters != null )
-		{
-			nestedMetawidget.mParameters = new HashMap<String, Object>( mParameters );
-			nestedMetawidget.mParameters.remove( "numberOfColumns" );
-		}
-
 		nestedMetawidget.setToInspect( mToInspect );
 	}
 

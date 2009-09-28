@@ -923,7 +923,6 @@ public class SwingMetawidget
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setBundle( mBundle );
 		nestedMetawidget.setOpaque( isOpaque() );
-
 		nestedMetawidget.setToInspect( mToInspect );
 	}
 

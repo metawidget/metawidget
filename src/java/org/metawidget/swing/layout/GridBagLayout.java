@@ -197,14 +197,16 @@ public class GridBagLayout
 			componentConstraints.gridwidth = 2;
 		}
 
+		int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
+
 		componentConstraints.gridy = state.currentRow;
-		componentConstraints.weightx = 1.0f / mNumberOfColumns;
+		componentConstraints.weightx = 1.0f / numberOfColumns;
 		componentConstraints.insets = INSETS_COMPONENT;
 
 		if ( spanAllColumns )
 		{
-			componentConstraints.gridwidth = ( mRequiredAlignment == SwingConstants.RIGHT ? ( mNumberOfColumns * 3 - componentConstraints.gridx - 1 ) : GridBagConstraints.REMAINDER );
-			state.currentColumn = mNumberOfColumns - 1;
+			componentConstraints.gridwidth = ( mRequiredAlignment == SwingConstants.RIGHT ? ( numberOfColumns * 3 - componentConstraints.gridx - 1 ) : GridBagConstraints.REMAINDER );
+			state.currentColumn = numberOfColumns - 1;
 		}
 
 		// Hack for spacer row (see JavaDoc for state.mNeedSpacerRow): assume components
@@ -231,7 +233,7 @@ public class GridBagLayout
 
 		state.currentColumn++;
 
-		if ( state.currentColumn >= mNumberOfColumns )
+		if ( state.currentColumn >= numberOfColumns )
 		{
 			state.currentColumn = 0;
 			state.currentRow++;
@@ -342,7 +344,7 @@ public class GridBagLayout
 			labelConstraints.gridx = state.currentColumn * ( mRequiredAlignment == SwingConstants.RIGHT ? 3 : 2 );
 			labelConstraints.gridy = state.currentRow;
 			labelConstraints.fill = GridBagConstraints.HORIZONTAL;
-			labelConstraints.weightx = 0.1f / mNumberOfColumns;
+			labelConstraints.weightx = 0.1f / getEffectiveNumberOfColumns( metawidget );
 
 			// Top align all labels, not just those belonging to 'tall' components,
 			// so that tall components, regular components and nested Metawidget
@@ -532,6 +534,20 @@ public class GridBagLayout
 	//
 	// Private methods
 	//
+
+	/**
+	 * Get the number of columns to use in the layout.
+	 * <p>
+	 * Nested Metawidgets are always just single column.
+	 */
+
+	private int getEffectiveNumberOfColumns( SwingMetawidget metawidget )
+	{
+		if ( metawidget.getParent() instanceof SwingMetawidget )
+			return 1;
+
+		return mNumberOfColumns;
+	}
 
 	private State getState( SwingMetawidget metawidget )
 	{

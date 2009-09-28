@@ -18,6 +18,8 @@ package org.metawidget.gwt.quirks.client.ui;
 
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
+import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
 import org.metawidget.gwt.quirks.client.model.GwtQuirks;
@@ -59,7 +61,7 @@ public class QuirksModule
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setStyleName( "componentStyleName" );
-		metawidget.setParameter( "sectionStyleName", "aSectionStyleName" );
+		metawidget.setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setSectionStyleName( "aSectionStyleName" )) );
 		metawidget.setToInspect( new GwtQuirks() );
 
 		// Binding
