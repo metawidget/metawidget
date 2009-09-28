@@ -1,0 +1,196 @@
+<project name="metawidget" default="dist">
+
+	<target name="web-site" depends="init">
+
+		<delete dir="${tomcat.dir}/webapps"/>
+
+		<!-- JSP version -->
+
+		<copy todir="${build.dir}/lib" flatten="true" includeemptydirs="false">
+			<fileset dir="lib"/>
+			<fileset dir="examples/src/web">
+				<include name="**/lib/**"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${tomcat.dir}/webapps/ROOT">
+			<fileset dir="src/web/site"/>
+		</copy>
+			
+		<copy todir="${tomcat.dir}/webapps/ROOT/WEB-INF/lib">
+			<fileset dir="${build.dir}/lib">
+				<include name="jstl-*.jar"/>
+				<include name="standard.jar"/>
+			</fileset>
+		</copy>
+
+		<!-- Extract HTML -->
+
+		<available property="httrack-exists" file="${httrack.dir}/httrack.exe"/>
+		<fail message="HTTrack not installed at 'httrack.dir' (as indicated in build.properties)" unless="httrack-exists"/>
+
+		<antcall target="test-web-start-tomcat"/>
+		<sleep seconds="30"/>
+		<delete dir="${build.dir}/website"/>
+		
+		<exec executable="${httrack.dir}/httrack.exe" failonerror="false" failifexecutionfails="false" >
+			<arg value="${webtest.url}"/>
+			<arg value="--path"/>
+			<arg value="${build.dir}/website"/>
+			<arg value="--keep-links=4"/>
+			<arg value="--footer"/>
+			<arg value="&quot;&quot;"/>
+		</exec>
+
+		<antcall target="test-web-stop-tomcat"/>
+		<delete dir="${tomcat.dir}/webapps"/>		
+
+		<move todir="${tomcat.dir}/webapps/ROOT">
+			<fileset dir="${build.dir}/website/localhost_8080"/>
+		</move>
+	
+		<!-- Doco -->
+
+		<antcall target="docbook"/>
+		<antcall target="javadoc"/>
+		<antcall target="tlddoc"/>
+
+		<copy todir="${tomcat.dir}/webapps/ROOT" overwrite="true">			
+			<fileset dir="${build.dir}">
+				<include name="doc/api/**"/>
+				<include name="doc/coverage/**"/>
+				<include name="doc/taglib/**"/>
+				<include name="doc/reference/**/html*/*.html"/>
+				<include name="doc/reference/**/pdf/*.pdf"/>
+				<include name="doc/**/shared/**"/>
+			</fileset>
+		</copy>
+
+		<!-- Try to have something at the XSD and TLD URIs -->
+		
+		<copy file="src/java/org/metawidget/inspector/metawidget-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT"/>
+		<copy file="src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT"/>
+		<copy file="src/java/META-INF/metawidget-faces.tld" tofile="${tomcat.dir}/webapps/ROOT/faces/index.html"/>
+		<copy file="src/java/META-INF/metawidget-faces.tld" todir="${tomcat.dir}/webapps/ROOT/faces"/>
+		<copy file="src/java/META-INF/metawidget-html.tld" tofile="${tomcat.dir}/webapps/ROOT/html/index.html"/>
+		<copy file="src/java/META-INF/metawidget-html.tld" todir="${tomcat.dir}/webapps/ROOT/html"/>
+		<copy file="src/java/META-INF/metawidget-spring.tld" tofile="${tomcat.dir}/webapps/ROOT/spring/index.html"/>
+		<copy file="src/java/META-INF/metawidget-spring.tld" todir="${tomcat.dir}/webapps/ROOT/spring"/>
+		<copy file="src/java/META-INF/metawidget-struts.tld" tofile="${tomcat.dir}/webapps/ROOT/struts/index.html"/>
+		<copy file="src/java/META-INF/metawidget-struts.tld" todir="${tomcat.dir}/webapps/ROOT/struts"/>
+
+		<!-- (SourceForge runs on UNIX, and we want to keep file sizes the same for easy diffs) -->
+
+		<fixcrlf srcdir="${tomcat.dir}/webapps/ROOT" eol="unix">
+			<include name="**/*.css"/>
+			<include name="**/*.html"/>
+			<include name="**/*.js"/>
+		</fixcrlf>
+		
+		<!-- JavaScript images tend to get missed by httrack -->
+			
+		<copy todir="${tomcat.dir}/webapps/ROOT/media">
+			<fileset dir="src/web/site/media"/>
+		</copy>
+
+		<!-- Live demo -->
+
+		<!--<antcall target="live-demo"/>-->
+		
+		<!-- m2repo -->
+		
+		<!--<antcall target="m2repo"/>-->
+		
+		<!-- Test console applet
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${run.dir}">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file '${basedir}/test/src/web/examples/swing/console-test.xml'"/>
+		</java> -->
+
+		<!-- Test HTML links -->
+
+		<antcall target="test-web-start-tomcat"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="test/src/web/site">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file test.xml"/>
+		</java>
+		
+		<antcall target="test-web-stop-tomcat"/>
+
+	</target>
+	
+	<!-- Dist -->
+
+	<target name="dist" depends="clean, pack, javadoc, tlddoc, docbook, examples">
+
+		<!-- Source -->
+		
+		<mkdir dir="${build.dir}/${metawidget.name}"/>
+
+		<copy todir="${build.dir}/${metawidget.name}">
+			<fileset dir=".">				
+				<exclude name=".*"/>
+				<exclude name="bin/**"/>
+				<exclude name="build/**"/>
+				<exclude name="**/WEB-INF/classes/**"/>
+				<exclude name="**/Thumbs.db"/>
+				<exclude name="**/.p4ignore"/>
+				<exclude name="**/.svn"/>
+			</fileset>
+		</copy>
+	
+		<zip zipfile="${build.dir}/${metawidget.name}-src.zip">
+			<fileset dir="${build.dir}">				
+				<include name="${metawidget.name}/**"/>
+			</fileset>				
+		</zip>
+		
+		<!-- Binaries -->
+			
+		<antcall target="pack-debug"/>
+		<copy todir="${build.dir}/${metawidget.name}">
+			<fileset dir="${build.dir}">
+				<include name="debug/**"/>
+			</fileset>
+		</copy>
+
+		<copy todir="${build.dir}/${metawidget.name}">
+			<fileset dir="${build.dir}">
+				<include name="debug/**"/>
+				<include name="doc/api/**"/>
+				<include name="doc/coverage/**"/>
+				<include name="doc/taglib/**"/>
+				<include name="doc/reference/**/html*/*.html"/>
+				<include name="doc/reference/**/pdf/*.pdf"/>
+				<include name="doc/**/shared/**"/>
+				<include name="examples/**"/>
+				<include name="metawidget.jar"/>
+			</fileset>
+		</copy>
+
+		<zip zipfile="${build.dir}/${metawidget.name}.zip">
+			<fileset dir="${build.dir}">
+				<include name="${metawidget.name}/**"/>
+
+				<exclude name="${metawidget.name}/build.xml"/>
+				<exclude name="${metawidget.name}/build.properties"/>
+				<exclude name="${metawidget.name}/examples/src/**"/>
+				<exclude name="${metawidget.name}/lib/**"/>
+				<exclude name="${metawidget.name}/src/**"/>
+				<exclude name="${metawidget.name}/test/**"/>									
+			</fileset>				
+		</zip>
+
+	</target>
+
+</project>

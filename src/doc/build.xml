@@ -1,0 +1,137 @@
+<project name="metawidget-doc" default="doc">
+
+	<!-- Properties -->
+	
+	<property file="build.properties"/>
+	<property file="${relative.dir}/build.properties"/>
+	<import file="${relative.dir}/build.xml" />
+
+	<!-- JavaDoc -->
+		
+	<available property="ydoc-available" file="${ydoc.dir}/lib/ydoc.jar"/>
+	
+	<target name="javadoc-ydoc" depends="compile-main" if="ydoc-available">
+
+		<javadoc destdir="${relative.dir}/${build.dir}/doc/api"
+			author="true" version="true" use="true"
+			protected="true"
+			windowtitle="Metawidget API Documentation"
+			overview="${relative.dir}/src/doc/api/overview.html">
+			
+			<arg value="-notimestamp"/>
+
+			<packageset dir="${relative.dir}/src/java">
+				<include name="org/metawidget/**"/>
+				<exclude name="org/metawidget/example/**"/>
+			</packageset>
+
+			<classpath>
+				<fileset dir="${relative.dir}/lib">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+	
+			<doclet name="ydoc.doclets.YStandard"
+					path="${ydoc.dir}/lib/ydoc.jar:${ydoc.dir}/resources:${ydoc.dir}/lib/class2svg.jar:${relative.dir}/${build.dir}/classes">
+					<param name="-umlautogen"/>
+					<param name="-umlstyle" value="theBlues"/>
+			</doclet>
+	
+		</javadoc>
+		
+	</target>
+	
+	<target name="javadoc-plain" depends="compile-main" unless="ydoc-available">
+		
+		<echo level="warning" message="YDoc not installed at 'ydoc.dir' in 'build.properties'. Building JavaDoc without YDoc"/>
+		
+		<javadoc destdir="${relative.dir}/${build.dir}/doc/api"
+			author="true" version="true" use="true"
+			protected="true"
+			windowtitle="Metawidget API Documentation"
+			overview="api/overview.html">
+
+			<arg value="-notimestamp"/>
+
+			<packageset dir="src/java">
+				<include name="org/metawidget/**"/>
+				<exclude name="org/metawidget/example/**"/>
+			</packageset>
+
+			<classpath>
+				<fileset dir="lib">
+					<include name="*.jar"/>
+				</fileset>
+			</classpath>
+	
+		</javadoc>
+		
+	</target>
+
+	<target name="javadoc" depends="javadoc-plain, javadoc-ydoc" />
+
+	<target name="tlddoc">
+
+		<java jar="${relative.dir}/lib/tlddoc.jar" fork="true" failonerror="true">
+	        <arg line="-d ${relative.dir}/${build.dir}/doc/taglib"/>
+	        <arg value="${relative.dir}/src/java/META-INF/*.tld"/>
+      	</java>
+		
+	</target>
+	
+	<!-- User Guide and Reference Documentation -->
+	
+	<available property="docbook-available" file="${docbook.dir}/build-docbook.xml"/>
+
+	<target name="docbook-skip" unless="docbook-available">
+
+		<echo level="warning" message="DocBook not installed at 'docbook.dir' in 'build.properties'. Not building User Guide and Reference Documentation"/>
+
+	</target>
+
+	<target name="docbook-ok" if="docbook-available">
+		
+		<!-- Copy shared CSS -->
+		
+		<copy todir="${relative.dir}/${build.dir}/doc/reference/en/shared/css">
+			<fileset dir="reference/css/html"/>
+		</copy>
+
+		<!-- Copy shared images -->
+		
+		<copy todir="${relative.dir}/${build.dir}/doc/reference/en/shared">
+			<fileset dir="reference/en">
+				<include name="images/**"/>
+			</fileset>
+		</copy>
+
+		<!-- DocBook EN -->
+
+		<mkdir dir="${relative.dir}/${build.dir}/doc/reference/en/pdf"/>
+		
+		<ant antfile="${docbook.dir}/build-docbook.xml" target="all">
+			<property name="dbf.basedir" value="${docbook.dir}"/>
+			<property name="src.dir" value="reference/en"/>
+			<property name="docbook.dir" value="."/>
+			<property name="docbook.file" value="metawidget"/>
+			<property name="images.src.dir" value="reference/en/images"/>
+			<property name="css.src.dir" value="reference/css"/>
+			<property name="styles.src.dir" value="reference/styles"/>
+			<property name="target.dir" value="${relative.dir}/${build.dir}/doc/reference/en"/>
+		</ant>
+		
+		<!-- Copy docbook images -->
+		
+		<copy todir="${relative.dir}/${build.dir}/doc/reference/en/shared">
+			<fileset dir="${relative.dir}/${build.dir}/doc/reference/en/html">
+				<include name="images/*.gif"/>
+			</fileset>
+		</copy>
+
+	</target>
+
+	<target name="docbook" depends="docbook-ok, docbook-skip" />
+
+	<target name="doc" depends="javadoc, tlddoc, docbook" />
+
+</project>
