@@ -64,16 +64,7 @@ public class GwtRemoteInspectorImpl
 		throws ServletException
 	{
 		super.init( servletConfig );
-
-		// Locate metawidget.xml (if any)
-
-		ServletConfigReader servletConfigReader = new ServletConfigReader( servletConfig.getServletContext() );
-		String config = servletConfig.getInitParameter( "config" );
-
-		if ( config != null )
-			mInspector = servletConfigReader.configure( config, Inspector.class );
-		else
-			mInspector = servletConfigReader.configure( getDefaultConfiguration(), Inspector.class );
+		configure( servletConfig );
 	}
 
 	public String inspect( Serializable toInspect, String type, String[] names )
@@ -85,8 +76,33 @@ public class GwtRemoteInspectorImpl
 	// Protected methods
 	//
 
+	protected void setInspector( Inspector inspector )
+	{
+		mInspector = inspector;
+	}
+
 	protected String getDefaultConfiguration()
 	{
 		return "org/metawidget/inspector/gwt/remote/server/metawidget-gwt-default.xml";
+	}
+
+	/**
+	 * Refactored to support <code>GwtRemoteInspectorTestImpl</code>.
+	 */
+
+	protected void configure( ServletConfig servletConfig )
+	{
+		// Locate metawidget.xml (if any)
+
+		ServletConfigReader servletConfigReader = new ServletConfigReader( servletConfig.getServletContext() );
+		String config = servletConfig.getInitParameter( "config" );
+
+		if ( config != null )
+		{
+			setInspector( servletConfigReader.configure( config, Inspector.class ));
+			return;
+		}
+
+		setInspector( servletConfigReader.configure( getDefaultConfiguration(), Inspector.class ));
 	}
 }

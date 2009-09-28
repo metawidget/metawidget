@@ -5,7 +5,7 @@
 
 	<target name="test-site" depends="wt.defineTasks">		
 		<webtest name="test-site">
-			<config resultpath="../../../../${build.dir}" haltonfailure="false"/>
+			<config resultpath="../../../../${build.dir}/${run.dir}" haltonfailure="false"/>
 			<steps>
 				<invoke url="${webtest.url}"/>
 				<verifyLinks onsiteonly="true" ignoreforeignjserrors="true"/>

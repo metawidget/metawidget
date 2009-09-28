@@ -1,11 +1,11 @@
 <project name="spring-quirks-test" default="test-all">
 
-	<property file="../../../../build.properties" />
+	<property file="../../../build.properties" />
 	<import file="${webtest.dir}/webtest.xml" />
 
 	<target name="test-lookup" depends="wt.defineTasks">
 		<webtest name="test-lookup">
-			<config resultpath="../../../../${build.dir}"/>
+			<config resultpath="../../../../${build.dir}/${run.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/quirks-spring" />
 				
@@ -33,7 +33,7 @@
 
 	<target name="test-jstl" depends="wt.defineTasks">
 		<webtest name="test-jstl">
-			<config resultpath="../../../../${build.dir}"/>
+			<config resultpath="../../../../${build.dir}/${run.dir}"/>
 			<steps>
 				<invoke url="${webtest.url}/quirks-spring?stubbed=true" />
 				

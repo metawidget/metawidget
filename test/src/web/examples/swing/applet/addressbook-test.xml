@@ -1,12 +1,13 @@
 <project name="swing-applet-addressbook-test" default="test-all">
 
 	<property file="../../../../../../build.properties" />
+	<property file="../../../../../build.properties" />
 
 	<path id="webtest.path.id">
 		<pathelement location="${webtest.dir}/lib"/>
 		<fileset dir="${webtest.dir}/lib" includes="*.jar"/>
 		<fileset dir="../../../../../../${build.dir}/examples/swing/applet/addressbook" includes="*.jar"/>
-		<fileset dir="../../../../../../lib" includes="emma.jar"/>
+		<fileset dir="../../../../../lib" includes="emma.jar"/>
 	</path>
 	
     <taskdef resource="webtest.taskdef" loaderref="webtest.loader" classpathref="webtest.path.id"/>

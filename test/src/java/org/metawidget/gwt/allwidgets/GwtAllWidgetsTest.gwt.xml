@@ -3,6 +3,6 @@
 	<inherits name="com.google.gwt.user.User"/>
 	<inherits name="org.metawidget.GwtAllWidgets" />
 
-	<servlet path="/metawidget-inspector-allwidgets" class="org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl"/>
+	<servlet path="/metawidget-inspector-allwidgets" class="org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorTestImpl"/>
 
 </module>
