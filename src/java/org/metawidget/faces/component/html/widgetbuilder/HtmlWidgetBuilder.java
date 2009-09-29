@@ -53,6 +53,7 @@ import javax.faces.model.SelectItem;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.widgetprocessor.ConverterProcessor;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -90,12 +91,6 @@ public class HtmlWidgetBuilder
 	// Private statics
 	//
 
-	private final static String	DATATABLE_STYLE_CLASS		= "dataTableStyleClass";
-
-	private final static String	DATATABLE_COLUMN_CLASSES	= "dataTableColumnClasses";
-
-	private final static String	DATATABLE_ROW_CLASSES		= "dataTableRowClasses";
-
 	private final static String	DATATABLE_ROW_ACTION		= "dataTableRowEditAction";
 
 	/**
@@ -111,6 +106,32 @@ public class HtmlWidgetBuilder
 	 */
 
 	private final static String	DATA_TABLE_VAR_NAME			= "_internal";
+
+	//
+	// Private members
+	//
+
+	private String		mDataTableStyleClass;
+
+	private String[]	mDataTableColumnClasses;
+
+	private String[]	mDataTableRowClasses;
+
+	//
+	// Constructor
+	//
+
+	public HtmlWidgetBuilder()
+	{
+		this( new HtmlWidgetBuilderConfig() );
+	}
+
+	public HtmlWidgetBuilder( HtmlWidgetBuilderConfig config )
+	{
+		mDataTableStyleClass = config.getDataTableStyleClass();
+		mDataTableColumnClasses = config.getDataTableColumnClasses();
+		mDataTableRowClasses = config.getDataTableRowClasses();
+	}
 
 	//
 	// Protected methods
@@ -654,20 +675,9 @@ public class HtmlWidgetBuilder
 
 		// CSS
 
-		UIParameter parameter = FacesUtils.findParameterWithName( metawidget, DATATABLE_STYLE_CLASS );
-
-		if ( parameter != null )
-			dataTable.setStyleClass( (String) parameter.getValue() );
-
-		parameter = FacesUtils.findParameterWithName( metawidget, DATATABLE_COLUMN_CLASSES );
-
-		if ( parameter != null )
-			dataTable.setColumnClasses( (String) parameter.getValue() );
-
-		parameter = FacesUtils.findParameterWithName( metawidget, DATATABLE_ROW_CLASSES );
-
-		if ( parameter != null )
-			dataTable.setRowClasses( (String) parameter.getValue() );
+		dataTable.setStyleClass( mDataTableStyleClass );
+		dataTable.setColumnClasses( ArrayUtils.toString( mDataTableColumnClasses ));
+		dataTable.setRowClasses( ArrayUtils.toString( mDataTableRowClasses ));
 
 		// Inspect component type
 
@@ -728,7 +738,7 @@ public class HtmlWidgetBuilder
 
 		// Add an 'edit action' column (if requested)
 
-		parameter = FacesUtils.findParameterWithName( metawidget, DATATABLE_ROW_ACTION );
+		UIParameter parameter = FacesUtils.findParameterWithName( metawidget, DATATABLE_ROW_ACTION );
 
 		if ( parameter != null )
 		{

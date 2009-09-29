@@ -16,18 +16,6 @@
 			<string>footerStyleClass</string>
 			<string>buttons</string>
 		</parameter>
-		<parameter>
-			<string>dataTableStyleClass</string>
-			<string>data-table</string>
-		</parameter>
-		<parameter>
-			<string>dataTableColumnClasses</string>
-			<string>column-half, column-half</string>
-		</parameter>
-		<parameter>
-			<string>dataTableRowClasses</string>
-			<string>row-odd, row-even</string>
-		</parameter>
 		<inspector>		
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
@@ -41,6 +29,25 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<widgetBuilder>
+			<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig">
+				<dataTableStyleClass>
+					<string>data-table</string>
+				</dataTableStyleClass>
+				<dataTableColumnClasses>
+					<array>
+						<string>column-half</string>
+						<string>column-half</string>
+					</array>
+				</dataTableColumnClasses>
+				<dataTableRowClasses>
+					<array>
+						<string>row-odd</string>
+						<string>row-even</string>
+					</array>
+				</dataTableRowClasses>
+			</htmlWidgetBuilder>
+		</widgetBuilder>
 	</htmlMetawidget>
 
 </metawidget>
