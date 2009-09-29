@@ -188,22 +188,24 @@ public class XmlUtils
 			return null;
 		}
 
-		for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
+		int length;
+
+		try
 		{
-			Node node;
+			length = children.getLength();
+		}
+		catch ( NullPointerException e )
+		{
+			// We've seen this throw a NullPointerException from
+			// com.sun.org.apache.xerces.internal.dom.ParentNode.nodeListGetLength(ParentNode.java:696)
+			// under GWT 1.7
 
-			try
-			{
-				node = children.item( loop );
-			}
-			catch ( NullPointerException e )
-			{
-				// We've seen this throw a NullPointerException from
-				// com.sun.org.apache.xerces.internal.dom.ParentNode.nodeListGetLength(ParentNode.java:696)
-				// under GWT 1.7
+			return null;
+		}
 
-				continue;
-			}
+		for ( int loop = 0; loop < length; loop++ )
+		{
+			Node node = children.item( loop );
 
 			if ( !( node instanceof Element ) )
 				continue;

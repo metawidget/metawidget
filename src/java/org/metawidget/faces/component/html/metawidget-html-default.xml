@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:processor="java:org.metawidget.faces.component.widgetprocessor"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
 
 	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
@@ -23,13 +24,13 @@
 	
 		<widgetProcessors>
 			<list>
-				<requiredAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
-				<immediateAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
-				<standardBindingProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
-				<readableIdProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
-				<labelProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
-				<standardValidatorProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
-				<standardConverterProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
+				<processor:requiredAttributeProcessor />
+				<processor:immediateAttributeProcessor />
+				<processor:standardBindingProcessor />
+				<processor:readableIdProcessor />
+				<processor:labelProcessor />
+				<processor:standardValidatorProcessor />
+				<processor:standardConverterProcessor />
 				<cssStyleProcessor xmlns="java:org.metawidget.faces.component.html.widgetprocessor"/>
 			</list>
 		</widgetProcessors>

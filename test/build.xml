@@ -307,6 +307,9 @@
 					<exclude name="android.jar"/>
 					<exclude name="junit*.jar"/>
 				</fileset>
+				<fileset dir="${relative.dir}/test/lib">
+					<include name="emma.jar"/>
+				</fileset>
 				<pathelement location="${relative.dir}/test/lib-1.4/junit.jar"/>
 				<pathelement location="${relative.dir}/${build.dir}/metawidget.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
@@ -336,16 +339,16 @@
 		<taskdef resource="emma_ant.properties" classpathref="emma.lib" />
 		
 		<emma>
-			<instr instrpath="${relative.dir}/${build.dir}/classes" destdir="${relative.dir}/${build.dir}/classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
+			<instr instrpath="${relative.dir}/${build.dir}/classes" destdir="${relative.dir}/${build.dir}/classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="*Constants, org.metawidget.android.*, org.metawidget.example.android.*"/>				
 			</instr>
-			<instr instrpath="${relative.dir}/${build.dir}/example-classes" destdir="${relative.dir}/${build.dir}/example-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
+			<instr instrpath="${relative.dir}/${build.dir}/example-classes" destdir="${relative.dir}/${build.dir}/example-classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.swing.console.*"/>				
 			</instr>
-			<instr instrpath="${relative.dir}/${build.dir}/tutorial-classes" destdir="${relative.dir}/${build.dir}/tutorial-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
+			<instr instrpath="${relative.dir}/${build.dir}/tutorial-classes" destdir="${relative.dir}/${build.dir}/tutorial-classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="org.metawidget.example.swing.tutorial.Main"/>
 			</instr>
-			<!--<instr instrpath="${relative.dir}/${build.dir}/test-classes" destdir="${relative.dir}/${build.dir}/test-classes" metadatafile="${run.dir}/metadata.emma" merge="true" mode="overwrite">
+			<!--<instr instrpath="${relative.dir}/${build.dir}/test-classes" destdir="${relative.dir}/${build.dir}/test-classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="*DebugOffTest*"/>
 			</instr>-->
 		</emma>
@@ -354,23 +357,23 @@
 		
 		<available property="tomcat-exists" file="${tomcat.dir}/bin/bootstrap.jar"/>
 		<fail message="Apache Tomcat not installed at 'tomcat.dir' (as indicated in build.properties)" unless="tomcat-exists"/>
-		<copy todir="${tomcat.dir}/lib" file="lib/emma.jar"/>
+		<copy todir="${tomcat.dir}/lib" file="${relative.dir}/test/lib/emma.jar"/>
 
 		<available property="tomcat4-exists" file="${tomcat4.dir}/bin/bootstrap.jar"/>
 		<fail message="Apache Tomcat 4 not installed at 'tomcat4.dir' (as indicated in build.properties)" unless="tomcat4-exists"/>
-		<copy todir="${tomcat4.dir}/shared/lib" file="lib/emma.jar"/>
+		<copy todir="${tomcat4.dir}/shared/lib" file="${relative.dir}/test/lib/emma.jar"/>
 
 		<available property="jboss-exists" file="${jboss.dir}/bin/run.bat"/>
 		<fail message="JBoss not installed at 'jboss.dir' (as indicated in build.properties)" unless="jboss-exists"/>
-		<copy todir="${jboss.dir}/server/default/lib" file="lib/emma.jar"/>
+		<copy todir="${jboss.dir}/server/default/lib" file="${relative.dir}/test/lib/emma.jar"/>
 
 		<available property="glassfish-exists" file="${glassfish.dir}/bin/asadmin.bat"/>
 		<fail message="GlassFish not installed at 'glassfish.dir' (as indicated in build.properties)" unless="glassfish-exists"/>
-		<copy todir="${glassfish.dir}/domains/${glassfish.domain}/lib" file="lib/emma.jar"/>
+		<copy todir="${glassfish.dir}/domains/${glassfish.domain}/lib" file="${relative.dir}/test/lib/emma.jar"/>
 
 		<available property="jetty-exists" file="${jetty.dir}/start.jar"/>
 		<fail message="Jetty not installed at 'jetty.dir' (as indicated in build.properties)" unless="jetty-exists"/>
-		<copy todir="${jetty.dir}/lib" file="lib/emma.jar"/>
+		<copy todir="${jetty.dir}/lib" file="${relative.dir}/test/lib/emma.jar"/>
 
 		<!-- Run tests as normal -->
 
