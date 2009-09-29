@@ -92,8 +92,6 @@ public abstract class MetawidgetTag
 
 	private ResourceBundle						mBundle;
 
-	private Map<String, String>					mParameters;
-
 	private Map<String, FacetTag>				mFacets;
 
 	private Map<String, StubTag>				mStubs;
@@ -198,22 +196,6 @@ public abstract class MetawidgetTag
 		}
 
 		return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
-	}
-
-	public void setParameter( String name, String value )
-	{
-		if ( mParameters == null )
-			mParameters = CollectionUtils.newHashMap();
-
-		mParameters.put( name, value );
-	}
-
-	public String getParameter( String name )
-	{
-		if ( mParameters == null )
-			return null;
-
-		return mParameters.get( name );
 	}
 
 	public FacetTag getFacet( String name )
@@ -386,12 +368,6 @@ public abstract class MetawidgetTag
 			throw MetawidgetException.newException( e );
 		}
 
-		// Reset parameters. We cannot do this in doStartTag because then it will
-		// overwrite parameters set by metawidget.xml and/or by initNestedMetawidget
-
-		mParameters = null;
-		mNeedsConfiguring = true;
-
 		return super.doEndTag();
 	}
 
@@ -463,9 +439,6 @@ public abstract class MetawidgetTag
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPathInternal( mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setBundle( mBundle );
-
-		if ( mParameters != null )
-			nestedMetawidget.mParameters = CollectionUtils.newHashMap( mParameters );
 	}
 
 	protected String inspect()

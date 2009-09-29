@@ -14,17 +14,17 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.ui.layout;
+package org.metawidget.jsp.tagext.html.layout;
 
 import org.metawidget.layout.iface.LayoutException;
 
 /**
- * Configures a FlexTableLayout prior to use. Once instantiated, Layouts are immutable.
+ * Configures a HtmlTableLayout prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class FlexTableLayoutConfig
+public class HtmlTableLayoutConfig
 {
 	//
 	// Private members
@@ -32,13 +32,13 @@ public class FlexTableLayoutConfig
 
 	private int			mNumberOfColumns	= 1;
 
-	private String		mTableStyleName;
+	private String		mTableStyle;
 
-	private String[]	mColumnStyleNames;
+	private String		mTableStyleClass;
 
-	private String		mSectionStyleName;
+	private String[]	mColumnStyleClasses;
 
-	private String		mFooterStyleName;
+	private String		mSectionStyleClass;
 
 	//
 	// Public methods
@@ -53,7 +53,7 @@ public class FlexTableLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public FlexTableLayoutConfig setNumberOfColumns( int numberOfColumns )
+	public HtmlTableLayoutConfig setNumberOfColumns( int numberOfColumns )
 	{
 		if ( numberOfColumns < 0 )
 			throw LayoutException.newException( "numberOfColumns must be >= 0" );
@@ -63,66 +63,66 @@ public class FlexTableLayoutConfig
 		return this;
 	}
 
-	public String getTableStyleName()
+	public String getTableStyle()
 	{
-		return mTableStyleName;
+		return mTableStyle;
 	}
 
 	/**
 	 * @return this, as part of a fluent interface
 	 */
 
-	public FlexTableLayoutConfig setTableStyleName( String tableStyleName )
+	public HtmlTableLayoutConfig setTableStyle( String tableStyle )
 	{
-		mTableStyleName = tableStyleName;
+		mTableStyle = tableStyle;
 
 		return this;
 	}
 
-	public String[] getColumnStyleNames()
+	public String getTableStyleClass()
 	{
-		return mColumnStyleNames;
+		return mTableStyleClass;
 	}
 
 	/**
 	 * @return this, as part of a fluent interface
 	 */
 
-	public FlexTableLayoutConfig setColumnStyleNames( String... columnStyleNames )
+	public HtmlTableLayoutConfig setTableStyleClass( String tableStyleClass )
 	{
-		mColumnStyleNames = columnStyleNames;
+		mTableStyleClass = tableStyleClass;
 
 		return this;
 	}
 
-	public String getSectionStyleName()
+	public String[] getColumnStyleClasses()
 	{
-		return mSectionStyleName;
+		return mColumnStyleClasses;
 	}
 
 	/**
 	 * @return this, as part of a fluent interface
 	 */
 
-	public FlexTableLayoutConfig setSectionStyleName( String sectionStyleName )
+	public HtmlTableLayoutConfig setColumnStyleClasses( String... columnStyleClasses )
 	{
-		mSectionStyleName = sectionStyleName;
+		mColumnStyleClasses = columnStyleClasses;
 
 		return this;
 	}
 
-	public String getFooterStyleName()
+	public String getSectionStyleClass()
 	{
-		return mFooterStyleName;
+		return mSectionStyleClass;
 	}
 
 	/**
 	 * @return this, as part of a fluent interface
 	 */
 
-	public FlexTableLayoutConfig setFooterStyleName( String footerStyleName )
+	public HtmlTableLayoutConfig setSectionStyleClass( String sectionStyleClass )
 	{
-		mFooterStyleName = footerStyleName;
+		mSectionStyleClass = sectionStyleClass;
 
 		return this;
 	}

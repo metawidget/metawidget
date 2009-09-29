@@ -47,6 +47,8 @@ public class BadInspectorConfig
 
 	private ResourceBundle	mResourceBundle;
 
+	private String[]		mStringArray;
+
 	private boolean			mFailDuringConstruction;
 
 	//
@@ -121,6 +123,16 @@ public class BadInspectorConfig
 	public void setResourceBundle( ResourceBundle resourceBundle )
 	{
 		mResourceBundle = resourceBundle;
+	}
+
+	public String[] getStringArray()
+	{
+		return mStringArray;
+	}
+
+	public void setStringArray( String[] stringArray )
+	{
+		mStringArray = stringArray;
 	}
 
 	public void setFailDuringConstruction( boolean failDuringConstruction )

@@ -149,7 +149,9 @@ public class FlexTableLayout
 		FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
 		int row = flexTable.getRowCount();
 
-		if ( state.currentColumn < mNumberOfColumns && row > 0 )
+		int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
+
+		if ( state.currentColumn < numberOfColumns && row > 0 )
 		{
 			row--;
 			actualColumn = flexTable.getCellCount( row );
@@ -184,7 +186,7 @@ public class FlexTableLayout
 		{
 			// Zero-column layouts need an extra row
 
-			if ( mNumberOfColumns == 0 )
+			if ( numberOfColumns == 0 )
 			{
 				state.currentColumn = 0;
 				actualColumn = 0;
@@ -211,8 +213,8 @@ public class FlexTableLayout
 
 		if ( widget instanceof GwtMetawidget || LayoutUtils.isSpanAllColumns( attributes ) )
 		{
-			colspan = ( mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
-			state.currentColumn = mNumberOfColumns;
+			colspan = ( numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
+			state.currentColumn = numberOfColumns;
 
 			if ( labelText == null )
 				colspan++;
@@ -259,8 +261,10 @@ public class FlexTableLayout
 			FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
 			int row = flexTable.getRowCount();
 
-			if ( mNumberOfColumns > 0 )
-				state.formatter.setColSpan( row, 0, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
+
+			if ( numberOfColumns > 0 )
+				state.formatter.setColSpan( row, 0, numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 
 			if ( mFooterStyleName != null )
 				state.formatter.setStyleName( row, 0, mFooterStyleName );
@@ -319,13 +323,15 @@ public class FlexTableLayout
 
 		// Span and style
 
-		if ( mNumberOfColumns > 0 )
-			state.formatter.setColSpan( row, 0, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+		int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
+
+		if ( numberOfColumns > 0 )
+			state.formatter.setColSpan( row, 0, numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 
 		if ( mSectionStyleName != null )
 			state.formatter.setStyleName( row, 0, mSectionStyleName );
 
-		state.currentColumn = mNumberOfColumns;
+		state.currentColumn = numberOfColumns;
 	}
 
 	protected String getStyleName( int styleName, GwtMetawidget metawidget )
@@ -339,6 +345,20 @@ public class FlexTableLayout
 	//
 	// Private methods
 	//
+
+	/**
+	 * Get the number of columns to use in the layout.
+	 * <p>
+	 * Nested Metawidgets are always just single column.
+	 */
+
+	private int getEffectiveNumberOfColumns( GwtMetawidget metawidget )
+	{
+		if ( metawidget.getParent() instanceof FlexTable && metawidget.getParent().getParent() instanceof GwtMetawidget )
+			return 1;
+
+		return mNumberOfColumns;
+	}
 
 	private State getState( GwtMetawidget metawidget )
 	{

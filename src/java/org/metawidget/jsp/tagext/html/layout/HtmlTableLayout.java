@@ -73,6 +73,38 @@ public class HtmlTableLayout
 	private final static int	LABEL_AND_COMPONENT_AND_REQUIRED	= 3;
 
 	//
+	// Private members
+	//
+
+	private int					mNumberOfColumns;
+
+	private String				mTableStyle;
+
+	private String				mTableStyleClass;
+
+	private String[]			mColumnStyleClasses;
+
+	private String				mSectionStyleClass;
+
+	//
+	// Constructor
+	//
+
+	public HtmlTableLayout()
+	{
+		this( new HtmlTableLayoutConfig() );
+	}
+
+	public HtmlTableLayout( HtmlTableLayoutConfig config )
+	{
+		mNumberOfColumns = config.getNumberOfColumns();
+		mTableStyle = config.getTableStyle();
+		mTableStyleClass = config.getTableStyleClass();
+		mColumnStyleClasses = config.getColumnStyleClasses();
+		mSectionStyleClass = config.getSectionStyleClass();
+	}
+
+	//
 	// Public methods
 	//
 
@@ -80,31 +112,6 @@ public class HtmlTableLayout
 	{
 		metawidgetTag.putClientProperty( HtmlTableLayout.class, null );
 		State state = getState( metawidgetTag );
-
-		// Table styles
-
-		state.tableStyle = metawidgetTag.getParameter( "tableStyle" );
-		state.tableStyleClass = metawidgetTag.getParameter( "tableStyleClass" );
-
-		// Inner styles
-
-		String columnStyleClasses = metawidgetTag.getParameter( "columnStyleClasses" );
-
-		if ( columnStyleClasses != null )
-			state.columnStyleClasses = columnStyleClasses.split( StringUtils.SEPARATOR_COMMA );
-
-		// Section styles
-
-		state.sectionStyleClass = metawidgetTag.getParameter( "sectionStyleClass" );
-
-		// Number of columns
-
-		String numberOfColumns = metawidgetTag.getParameter( "numberOfColumns" );
-
-		if ( numberOfColumns == null )
-			state.numberOfColumns = 1;
-		else
-			state.numberOfColumns = Integer.parseInt( numberOfColumns );
 
 		try
 		{
@@ -123,17 +130,17 @@ public class HtmlTableLayout
 
 			// Styles
 
-			if ( state.tableStyle != null )
+			if ( mTableStyle != null )
 			{
 				writer.write( " style=\"" );
-				writer.write( state.tableStyle );
+				writer.write( mTableStyle );
 				writer.write( "\"" );
 			}
 
-			if ( state.tableStyleClass != null )
+			if ( mTableStyleClass != null )
 			{
 				writer.write( " class=\"" );
-				writer.write( state.tableStyleClass );
+				writer.write( mTableStyleClass );
 				writer.write( "\"" );
 			}
 
@@ -151,7 +158,7 @@ public class HtmlTableLayout
 
 				// Footer spans multiples of label/component/required
 
-				int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+				int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 				writer.write( String.valueOf( colspan ) );
 				writer.write( "\"" );
 
@@ -159,7 +166,7 @@ public class HtmlTableLayout
 
 				if ( facetFooter instanceof HtmlFacetTag )
 				{
-					String footerStyle = ((HtmlFacetTag) facetFooter).getStyle();
+					String footerStyle = ( (HtmlFacetTag) facetFooter ).getStyle();
 
 					if ( footerStyle != null )
 					{
@@ -168,7 +175,7 @@ public class HtmlTableLayout
 						writer.write( "\"" );
 					}
 
-					String footerStyleClass = ((HtmlFacetTag) facetFooter).getStyleClass();
+					String footerStyleClass = ( (HtmlFacetTag) facetFooter ).getStyleClass();
 
 					if ( footerStyleClass != null )
 					{
@@ -315,7 +322,7 @@ public class HtmlTableLayout
 
 			// Start a new row, if necessary
 
-			if ( state.currentColumn == 1 || state.currentColumn > state.numberOfColumns )
+			if ( state.currentColumn == 1 || state.currentColumn > mNumberOfColumns )
 			{
 				state.currentColumn = 1;
 
@@ -340,7 +347,7 @@ public class HtmlTableLayout
 
 			// Zero-column layouts need an extra row
 
-			if ( state.numberOfColumns == 0 )
+			if ( mNumberOfColumns == 0 )
 			{
 				writer.write( "</tr>\r\n<tr" );
 
@@ -371,7 +378,7 @@ public class HtmlTableLayout
 				writer.write( "\"" );
 			}
 
-			writeStyleClass( 1, state, metawidgetTag );
+			writeStyleClass( 1, metawidgetTag );
 
 			int colspan = 1;
 
@@ -385,10 +392,10 @@ public class HtmlTableLayout
 			// because JSP lacks a true component model such that we can ask which sort of component
 			// we are rendering
 
-			if ( state.numberOfColumns > 1 && attributes != null && TRUE.equals( attributes.get( "large" ) ) )
+			if ( mNumberOfColumns > 1 && attributes != null && TRUE.equals( attributes.get( "large" ) ) )
 			{
-				colspan = ( ( state.numberOfColumns - 1 ) * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1;
-				state.currentColumn = state.numberOfColumns;
+				colspan = ( ( mNumberOfColumns - 1 ) * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1;
+				state.currentColumn = mNumberOfColumns;
 			}
 
 			if ( colspan > 1 )
@@ -420,7 +427,7 @@ public class HtmlTableLayout
 
 			writer.write( "<td" );
 			State state = getState( metawidgetTag );
-			writeStyleClass( 2, state, metawidgetTag );
+			writeStyleClass( 2, metawidgetTag );
 			writer.write( ">" );
 
 			writer.write( layoutRequired( attributes, metawidgetTag ) );
@@ -429,7 +436,7 @@ public class HtmlTableLayout
 
 			// End the row, if necessary
 
-			if ( state.currentColumn >= state.numberOfColumns )
+			if ( state.currentColumn >= mNumberOfColumns )
 			{
 				state.currentColumn = 0;
 				writer.write( "</tr>" );
@@ -459,8 +466,7 @@ public class HtmlTableLayout
 			// Output a (possibly localized) label
 
 			writer.write( "<th" );
-			State state = getState( metawidgetTag );
-			writeStyleClass( 0, state, metawidgetTag );
+			writeStyleClass( 0, metawidgetTag );
 			writer.write( ">" );
 
 			if ( !"".equals( label ) )
@@ -495,16 +501,15 @@ public class HtmlTableLayout
 
 			// Sections span multiples of label/component/required
 
-			State state = getState( metawidgetTag );
-			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 			writer.write( String.valueOf( colspan ) );
 
 			writer.write( "\"" );
 
-			if ( state.sectionStyleClass != null )
+			if ( mSectionStyleClass != null )
 			{
 				writer.write( " class=\"" );
-				writer.write( state.sectionStyleClass );
+				writer.write( mSectionStyleClass );
 				writer.write( "\"" );
 			}
 
@@ -542,12 +547,12 @@ public class HtmlTableLayout
 		return "<div></div>";
 	}
 
-	protected void writeStyleClass( int styleClass, State state, MetawidgetTag metawidgetTag )
+	protected void writeStyleClass( int styleClass, MetawidgetTag metawidgetTag )
 	{
-		if ( state.columnStyleClasses == null || state.columnStyleClasses.length <= styleClass )
+		if ( mColumnStyleClasses == null || mColumnStyleClasses.length <= styleClass )
 			return;
 
-		String columnClass = state.columnStyleClasses[styleClass];
+		String columnClass = mColumnStyleClasses[styleClass];
 
 		if ( columnClass.length() == 0 )
 			return;
@@ -589,16 +594,6 @@ public class HtmlTableLayout
 
 	/* package private */class State
 	{
-		public int			numberOfColumns;
-
-		public String		tableStyle;
-
-		public String		tableStyleClass;
-
-		public String[]		columnStyleClasses;
-
-		public String		sectionStyleClass;
-
 		public int			currentColumn;
 
 		public String		currentSection;

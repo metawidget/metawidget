@@ -173,7 +173,20 @@ public class XmlUtils
 		if ( element == null )
 			return null;
 
-		NodeList children = element.getChildNodes();
+		NodeList children;
+
+		try
+		{
+			children = element.getChildNodes();
+		}
+		catch ( IllegalArgumentException e )
+		{
+			// We've seen this throw a IllegalArgumentException from
+			// com.sun.org.apache.xerces.internal.dom.DeferredDocumentImpl.getNodeObject(DeferredDocumentImpl.java:1081)
+			// under GWT 1.7
+
+			return null;
+		}
 
 		for ( int loop = 0, length = children.getLength(); loop < length; loop++ )
 		{

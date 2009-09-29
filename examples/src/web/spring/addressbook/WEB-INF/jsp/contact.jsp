@@ -33,7 +33,6 @@
 			<form:errors cssClass="errors"/>
 		
 			<m:metawidget path="contactCommand" readOnly="${readOnly}">
-				<m:param name="sectionStyleClass" value="section-heading"/>
 
 				<m:stub path="communications">
 					<input type="hidden" name="deleteCommunicationId" id="deleteCommunicationId"/>

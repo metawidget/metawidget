@@ -68,7 +68,6 @@ public class HtmlMetawidgetTagTest
 		// We must use doStartTag(), not rely on super.release()
 
 		HtmlMetawidgetTag metawidget = new HtmlMetawidgetTag();
-		metawidget.setParameter( "bar", "def" );
 
 		FacetTag facetTag = new FacetTag();
 		Field savedBodyContentField = FacetTag.class.getDeclaredField( "mSavedBodyContent" );

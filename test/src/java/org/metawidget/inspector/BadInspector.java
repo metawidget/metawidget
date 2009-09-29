@@ -49,6 +49,8 @@ public class BadInspector
 
 	private ResourceBundle	mResourceBundle;
 
+	private String[]		mStringArray;
+
 	//
 	// Constructor
 	//
@@ -65,6 +67,7 @@ public class BadInspector
 		mPattern = config.getPattern();
 		mInputStream = config.getInputStream();
 		mResourceBundle = config.getResourceBundle();
+		mStringArray = config.getStringArray();
 	}
 
 	//
@@ -109,5 +112,10 @@ public class BadInspector
 	public ResourceBundle getResourceBundle()
 	{
 		return mResourceBundle;
+	}
+
+	public String[] getStringArray()
+	{
+		return mStringArray;
 	}
 }

@@ -202,7 +202,7 @@ public class ConfigReaderTest
 		Field widgetBuilderField = BaseMetawidgetMixin.class.getDeclaredField( "mWidgetBuilder" );
 		widgetBuilderField.setAccessible( true );
 
-		assertTrue( null == widgetBuilderField.get( mixin1 ));
+		assertTrue( null == widgetBuilderField.get( mixin1 ) );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "widgetBuilder" );
 
 		@SuppressWarnings( "unchecked" )
@@ -222,7 +222,7 @@ public class ConfigReaderTest
 		Field inspectorField = BaseMetawidgetMixin.class.getDeclaredField( "mInspector" );
 		inspectorField.setAccessible( true );
 
-		assertTrue( null == inspectorField.get( mixin1 ));
+		assertTrue( null == inspectorField.get( mixin1 ) );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "inspector" );
 
 		CompositeInspector compositeInspector1 = (CompositeInspector) inspectorField.get( mixin1 );
@@ -395,6 +395,7 @@ public class ConfigReaderTest
 		xml += "<pattern><pattern>.*?</pattern></pattern>";
 		xml += "<inputStream><resource>org/metawidget/swing/allwidgets/metawidget.xml</resource></inputStream>";
 		xml += "<resourceBundle><bundle>org.metawidget.shared.allwidgets.resource.Resources</bundle></resourceBundle>";
+		xml += "<stringArray><array><string>foo</string><string>bar</string></array></stringArray>";
 		xml += "</badInspector>";
 		xml += "</metawidget>";
 
@@ -421,6 +422,10 @@ public class ConfigReaderTest
 		assertTrue( streamOut.toString().contains( "<metawidget xmlns=\"http://metawidget.org\"" ) );
 
 		assertTrue( "Limited textbox (i18n)".equals( inspector.getResourceBundle().getString( "limitedTextbox" ) ) );
+
+		assertTrue( 2 == inspector.getStringArray().length );
+		assertTrue( "foo".equals( inspector.getStringArray()[0] ));
+		assertTrue( "bar".equals( inspector.getStringArray()[1] ));
 	}
 
 	public void testUnsupportedType()

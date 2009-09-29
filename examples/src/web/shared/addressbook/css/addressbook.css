@@ -126,7 +126,7 @@ h1, .section-heading
 	width: auto;
 }
 
-.required
+.table-required-column
 {
 	width: 1%;
 	color: red;	

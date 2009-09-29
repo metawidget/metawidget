@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -323,7 +324,7 @@ public class ConfigReader
 		if ( stream != null )
 			return stream;
 
-		throw InspectorException.newException( new FileNotFoundException( "Unable to locate " + resource + " on CLASSPATH" ));
+		throw InspectorException.newException( new FileNotFoundException( "Unable to locate " + resource + " on CLASSPATH" ) );
 	}
 
 	//
@@ -427,13 +428,28 @@ public class ConfigReader
 	 * Certain XML tags are supported 'natively' as collections by the reader.
 	 */
 
-	protected Collection<Object> createNativeCollection( String name )
+	protected Object createNativeCollection( String name )
 	{
 		if ( "list".equals( name ) )
 			return CollectionUtils.newArrayList();
 
 		if ( "set".equals( name ) )
 			return CollectionUtils.newHashSet();
+
+		if ( "array".equals( name ) )
+			return new Object[0];
+
+		return null;
+	}
+
+	/**
+	 * Certain XML tags are supported 'natively' as arrays by the reader.
+	 */
+
+	protected Object[] createNativeArray( String name )
+	{
+		if ( "array".equals( name ) )
+			return new String[0];
 
 		return null;
 	}
@@ -722,7 +738,7 @@ public class ConfigReader
 
 						// Native collection types
 
-						Collection<Object> collection = createNativeCollection( localName );
+						Object collection = createNativeCollection( localName );
 
 						if ( collection != null )
 						{
@@ -848,21 +864,51 @@ public class ConfigReader
 				{
 					case ENCOUNTERED_NATIVE_TYPE:
 					{
-						@SuppressWarnings( "unchecked" )
-						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
-						parameters.add( createNative( localName, endRecording() ) );
+						Object parameters = mConstructing.peek();
+						Object nativeType = createNative( localName, endRecording() );
+
+						if ( parameters instanceof Collection )
+						{
+							@SuppressWarnings( "unchecked" )
+							Collection<Object> collection = (Collection<Object>) parameters;
+							collection.add( nativeType );
+						}
+
+						// Special support for Arrays
+
+						else if ( parameters.getClass().isArray() )
+						{
+							Object[] array = (Object[]) mConstructing.pop();
+							Object newArray;
+
+							if ( nativeType == null )
+								newArray = Array.newInstance( array.getClass().getComponentType(), array.length + 1 );
+							else
+								newArray = Array.newInstance( nativeType.getClass(), array.length + 1 );
+
+							System.arraycopy( array, 0, newArray, 0, array.length );
+
+							((Object[]) newArray)[array.length] = nativeType;
+							mConstructing.push( newArray );
+						}
+						else
+						{
+							// TODO: move ConfigReader, not just for inspectors!
+
+							throw InspectorException.newException( "Don't know how to add to a " + parameters.getClass() );
+						}
+
 						mExpecting = EXPECTING_OBJECT;
 						return;
 					}
 
 					case ENCOUNTERED_NATIVE_COLLECTION_TYPE:
 					{
-						@SuppressWarnings( "unchecked" )
-						Collection<Object> collection = (Collection<Object>) mConstructing.pop();
+						Object nativeCollectionType = mConstructing.pop();
 
 						@SuppressWarnings( "unchecked" )
 						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
-						parameters.add( collection );
+						parameters.add( nativeCollectionType );
 
 						mExpecting = EXPECTING_OBJECT;
 						return;

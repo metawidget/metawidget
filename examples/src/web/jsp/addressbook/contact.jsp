@@ -155,7 +155,6 @@
 			</c:if>
 		
 			<m:metawidget value="contact" bundle="${bundle}" readOnly="${contactController.readOnly}">
-				<m:param name="sectionStyleClass" value="section-heading"/>
 
 				<m:stub value="communications">
 					<input type="hidden" name="deleteCommunicationId" id="deleteCommunicationId"/>

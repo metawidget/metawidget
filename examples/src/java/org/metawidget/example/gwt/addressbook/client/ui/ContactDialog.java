@@ -153,7 +153,7 @@ public class ContactDialog
 
 		FlexTableLayoutConfig layoutConfig = new FlexTableLayoutConfig();
 		layoutConfig.setTableStyleName( "table-form" );
-		layoutConfig.setColumnStyleNames( new String[]{ "table-label-column,table-component-column,table-required-column" } );
+		layoutConfig.setColumnStyleNames( "table-label-column", "table-component-column", "table-required-column" );
 		layoutConfig.setSectionStyleName( "section-heading" );
 		layoutConfig.setFooterStyleName( "buttons" );
 		FlexTableLayout layout = new FlexTableLayout( layoutConfig );

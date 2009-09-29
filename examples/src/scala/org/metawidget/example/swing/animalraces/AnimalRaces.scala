@@ -77,8 +77,7 @@ object AnimalRaces
 	{
 		val metawidget = new SwingMetawidget()
 		metawidget.setConfig( "org/metawidget/example/swing/animalraces/metawidget.xml" )
-		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor() )
-		metawidget.setParameter( "propertyStyle", BeanUtilsBindingProcessor.PROPERTYSTYLE_SCALA )
+		metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor( new BeanUtilsBindingProcessorConfig().setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA )))
 		metawidget.setMetawidgetLayout( new MigLayout() )
 		metawidget.setToInspect( animal )
 		metawidget.getLayout().asInstanceOf[net.miginfocom.swing.MigLayout].setLayoutConstraints( new net.miginfocom.layout.LC().insets( "10" ));

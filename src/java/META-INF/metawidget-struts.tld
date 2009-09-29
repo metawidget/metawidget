@@ -46,23 +46,6 @@
 	</tag>
 	
 	<tag>
-		<name>param</name>
-		<tagclass>org.metawidget.jsp.tagext.ParamTag</tagclass>
-		<bodycontent>empty</bodycontent>
-		<info>Parameter for JSP environments</info>		
-		<attribute>
-			<name>name</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>			
-		</attribute>
-		<attribute>
-			<name>value</name>
-			<required>true</required>
-			<rtexprvalue>true</rtexprvalue>
-		</attribute>
-	</tag>
-
-	<tag>
 		<name>facet</name>
 		<tagclass>org.metawidget.jsp.tagext.html.HtmlFacetTag</tagclass>
 		<bodycontent>jsp</bodycontent>

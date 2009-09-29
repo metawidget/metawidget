@@ -145,7 +145,7 @@ public class AddressBookModule
 
 		FlexTableLayoutConfig layoutConfig = new FlexTableLayoutConfig();
 		layoutConfig.setTableStyleName( "table-form" );
-		layoutConfig.setColumnStyleNames( new String[]{ "table-label-column,table-component-column" } );
+		layoutConfig.setColumnStyleNames( "table-label-column", "table-component-column" );
 		layoutConfig.setFooterStyleName( "buttons" );
 		metawidget.setLayout( new FlexTableLayout( layoutConfig ));
 

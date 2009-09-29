@@ -4,14 +4,6 @@
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
 
 	<springMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html.spring">
-		<parameter>
-			<string>tableStyleClass</string>
-			<string>table-form</string>
-		</parameter>
-		<parameter>
-			<string>columnStyleClasses</string>
-			<string>table-label-column,table-component-column,required</string>
-		</parameter>	
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
@@ -24,6 +16,23 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<layout>
+			<htmlTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HtmlTableLayoutConfig">
+				<tableStyleClass>
+					<string>table-form</string>
+				</tableStyleClass>
+				<columnStyleClasses>
+					<array>
+						<string>table-label-column</string>
+						<string>table-component-column</string>
+						<string>table-required-column</string>
+					</array>
+				</columnStyleClasses>
+				<sectionStyleClass>
+					<string>section-heading</string>
+				</sectionStyleClass>
+			</htmlTableLayout>
+		</layout>
 	</springMetawidgetTag>
 
 	<htmlMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html">

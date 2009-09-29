@@ -38,7 +38,6 @@
 			</c:if>
 		
 			<m:metawidget property="contactForm" readOnly="${contactForm.readOnly}">
-				<m:param name="sectionStyleClass" value="section-heading"/>
 
 				<m:stub property="communications">
 					<input type="hidden" name="deleteCommunicationId" id="deleteCommunicationId"/>
