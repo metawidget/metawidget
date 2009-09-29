@@ -68,7 +68,7 @@
 
 		<!-- Try to have something at the XSD and TLD URIs -->
 		
-		<copy file="src/java/org/metawidget/inspector/metawidget-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT"/>
+		<copy file="src/java/org/metawidget/config/metawidget-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT"/>
 		<copy file="src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT"/>
 		<copy file="src/java/META-INF/metawidget-faces.tld" tofile="${tomcat.dir}/webapps/ROOT/faces/index.html"/>
 		<copy file="src/java/META-INF/metawidget-faces.tld" todir="${tomcat.dir}/webapps/ROOT/faces"/>

@@ -19,9 +19,9 @@ package org.metawidget.inspector.impl;
 import java.io.InputStream;
 import java.util.List;
 
-import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.NeedsResourceResolver;
-import org.metawidget.inspector.ResourceResolver;
+import org.metawidget.config.ConfigReader;
+import org.metawidget.config.NeedsResourceResolver;
+import org.metawidget.config.ResourceResolver;
 
 /**
  * Base class for BaseXmlInspectorConfig configurations.

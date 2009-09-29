@@ -19,7 +19,7 @@ package org.metawidget.inspector.struts;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.ConfigReader;
+import org.metawidget.config.ConfigReader;
 import org.metawidget.inspector.struts.StrutsInspector;
 import org.metawidget.inspector.struts.StrutsInspectorConfig;
 import org.metawidget.util.XmlUtils;

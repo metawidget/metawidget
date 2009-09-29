@@ -35,8 +35,8 @@ import java.util.ResourceBundle;
 import javax.swing.JComponent;
 import javax.swing.JScrollPane;
 
+import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
-import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;

@@ -34,8 +34,8 @@ import javax.faces.component.UIParameter;
 import javax.faces.context.FacesContext;
 import javax.faces.el.ValueBinding;
 
+import org.metawidget.config.ConfigReader;
 import org.metawidget.faces.FacesUtils;
-import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.jsp.tagext.MetawidgetTag;

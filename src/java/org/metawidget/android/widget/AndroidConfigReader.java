@@ -18,7 +18,7 @@ package org.metawidget.android.widget;
 
 import java.io.InputStream;
 
-import org.metawidget.inspector.ConfigReader;
+import org.metawidget.config.ConfigReader;
 import org.metawidget.inspector.iface.InspectorException;
 
 import android.content.Context;

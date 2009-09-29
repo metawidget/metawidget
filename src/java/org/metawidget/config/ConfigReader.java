@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector;
+package org.metawidget.config;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -36,8 +36,8 @@ import java.util.regex.Pattern;
 
 import javax.xml.parsers.SAXParserFactory;
 
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -184,7 +184,7 @@ public class ConfigReader
 		}
 		catch ( Exception e )
 		{
-			throw InspectorException.newException( e );
+			throw MetawidgetException.newException( e );
 		}
 	}
 
@@ -271,7 +271,7 @@ public class ConfigReader
 	public Object configure( InputStream stream, Object toConfigure, String... names )
 	{
 		if ( stream == null )
-			throw InspectorException.newException( "No input stream specified" );
+			throw MetawidgetException.newException( "No input stream specified" );
 
 		try
 		{
@@ -287,7 +287,7 @@ public class ConfigReader
 		}
 		catch ( Exception e )
 		{
-			throw InspectorException.newException( e );
+			throw MetawidgetException.newException( e );
 		}
 	}
 
@@ -303,7 +303,7 @@ public class ConfigReader
 	public InputStream openResource( String resource )
 	{
 		if ( resource == null || "".equals( resource.trim() ) )
-			throw InspectorException.newException( "No resource specified" );
+			throw MetawidgetException.newException( "No resource specified" );
 
 		// Thread's ClassLoader
 
@@ -324,7 +324,7 @@ public class ConfigReader
 		if ( stream != null )
 			return stream;
 
-		throw InspectorException.newException( new FileNotFoundException( "Unable to locate " + resource + " on CLASSPATH" ) );
+		throw MetawidgetException.newException( new FileNotFoundException( "Unable to locate " + resource + " on CLASSPATH" ) );
 	}
 
 	//
@@ -421,7 +421,7 @@ public class ConfigReader
 		if ( "bundle".equals( name ) )
 			return ResourceBundle.getBundle( recordedText );
 
-		throw InspectorException.newException( "Don't know how to convert '" + recordedText + "' to a " + name );
+		throw MetawidgetException.newException( "Don't know how to convert '" + recordedText + "' to a " + name );
 	}
 
 	/**
@@ -636,10 +636,10 @@ public class ConfigReader
 		public Object getConfigured()
 		{
 			if ( mConstructing.isEmpty() )
-				throw InspectorException.newException( "No match for " + mToConfigure + " within config" );
+				throw MetawidgetException.newException( "No match for " + mToConfigure + " within config" );
 
 			if ( mConstructing.size() > 1 )
-				throw InspectorException.newException( "Config still processing" );
+				throw MetawidgetException.newException( "Config still processing" );
 
 			return mConstructing.peek();
 		}
@@ -658,7 +658,7 @@ public class ConfigReader
 				return;
 
 			if ( Character.isUpperCase( localName.charAt( 0 ) ) )
-				throw InspectorException.newException( "XML node '" + localName + "' should start with a lowercase letter" );
+				throw MetawidgetException.newException( "XML node '" + localName + "' should start with a lowercase letter" );
 
 			try
 			{
@@ -696,7 +696,7 @@ public class ConfigReader
 							}
 
 							if ( !mConstructing.isEmpty() )
-								throw InspectorException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
+								throw MetawidgetException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
 
 							handleNonNativeObject( uri, localName, attributes );
 						}
@@ -713,7 +713,7 @@ public class ConfigReader
 							}
 
 							if ( !mConstructing.isEmpty() )
-								throw InspectorException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
+								throw MetawidgetException.newException( "Already configured a " + mConstructing.peek().getClass() + ", ambiguous match with " + toConfigureClass );
 
 							mConstructing.push( mToConfigure );
 							mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
@@ -895,7 +895,7 @@ public class ConfigReader
 						{
 							// TODO: move ConfigReader, not just for inspectors!
 
-							throw InspectorException.newException( "Don't know how to add to a " + parameters.getClass() );
+							throw MetawidgetException.newException( "Don't know how to add to a " + parameters.getClass() );
 						}
 
 						mExpecting = EXPECTING_OBJECT;
@@ -990,7 +990,7 @@ public class ConfigReader
 		@Override
 		public void error( SAXParseException exception )
 		{
-			throw InspectorException.newException( exception );
+			throw MetawidgetException.newException( exception );
 		}
 
 		//
@@ -1036,7 +1036,7 @@ public class ConfigReader
 
 				Class<?> configClass = ClassUtils.niceForName( configToConstruct );
 				if ( configClass == null )
-					throw InspectorException.newException( "No such configuration class " + configToConstruct );
+					throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
 
 				Object config = configClass.newInstance();
 
@@ -1064,9 +1064,9 @@ public class ConfigReader
 				Constructor<?>[] constructors = classToConstruct.getConstructors();
 
 				if ( constructors.length == 1 && constructors[0].getParameterTypes().length == 1 )
-					throw InspectorException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + ClassUtils.getSimpleName( constructors[0].getParameterTypes()[0] ) + "\"?" );
+					throw MetawidgetException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + ClassUtils.getSimpleName( constructors[0].getParameterTypes()[0] ) + "\"?" );
 
-				throw InspectorException.newException( classToConstruct + " does not have a default constructor" );
+				throw MetawidgetException.newException( classToConstruct + " does not have a default constructor" );
 			}
 
 			mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
@@ -1120,7 +1120,7 @@ public class ConfigReader
 			Class<?> clazz = ClassUtils.niceForName( toConstruct );
 
 			if ( clazz == null )
-				throw InspectorException.newException( "No such class " + toConstruct + " or supported tag <" + localName + ">" );
+				throw MetawidgetException.newException( "No such class " + toConstruct + " or supported tag <" + localName + ">" );
 
 			return clazz;
 		}

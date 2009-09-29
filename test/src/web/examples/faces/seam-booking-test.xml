@@ -8,7 +8,7 @@
 				
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
-			<config resultpath="../../../../../${build.dir}"/>
+			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
 				<invoke url="${webtest.url}/seam-booking/home.seam" />
 				<verifyTitle text="JBoss Suites: Seam Framework" />

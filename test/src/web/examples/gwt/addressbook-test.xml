@@ -6,7 +6,7 @@
 
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
-			<config resultpath="../../../../../${build.dir}"/>
+			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-gwt" />
 				<verifyTitle text="Address Book (Metawidget GWT Example)" />

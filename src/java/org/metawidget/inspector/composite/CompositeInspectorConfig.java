@@ -19,9 +19,9 @@ package org.metawidget.inspector.composite;
 import java.util.Arrays;
 import java.util.List;
 
-import org.metawidget.inspector.ConfigReader;
-import org.metawidget.inspector.NeedsResourceResolver;
-import org.metawidget.inspector.ResourceResolver;
+import org.metawidget.config.ConfigReader;
+import org.metawidget.config.NeedsResourceResolver;
+import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 
 /**

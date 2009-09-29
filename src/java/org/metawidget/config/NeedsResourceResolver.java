@@ -14,27 +14,17 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector;
-
-import java.io.InputStream;
+package org.metawidget.config;
 
 /**
- * Interface for resolving references to resources.
- * <p>
- * Most resources can be resolved using standard <code>ClassLoader.getResource</code> code.
- * However some environments have specialized resource areas which are inaccessible to
- * <code>ClassLoader</code>. For example, Web environments have <code>/WEB-INF/</code> which
- * can only be accessed through <code>ServletContext</code>. Similarly, Android environments must
- * resolve resources using <code>Context.getResources</code>.
- *
  * @author Richard Kennard
  */
 
-public interface ResourceResolver
+public interface NeedsResourceResolver
 {
 	//
 	// Methods
 	//
 
-	InputStream openResource( String resource );
+	void setResourceResolver( ResourceResolver resourceResolver );
 }

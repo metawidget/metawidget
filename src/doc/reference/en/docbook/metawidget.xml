@@ -3316,7 +3316,7 @@ void onEndBuild( M metawidget );</programlisting>
 			</para>
 			
 			<para>
-				The <filename>metawidget.xml</filename> format, as parsed by <classname>org.metawidget.inspector.ConfigReader</classname>,
+				The <filename>metawidget.xml</filename> format, as parsed by <classname>org.metawidget.config.ConfigReader</classname>,
 				is specialised for configuring Metawidget instances. The following sections explore some of the features of the
 				XML format and <classname>ConfigReader</classname>.
 			</para>

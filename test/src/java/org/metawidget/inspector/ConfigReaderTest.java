@@ -32,12 +32,13 @@ import javax.xml.validation.SchemaFactory;
 
 import junit.framework.TestCase;
 
+import org.metawidget.config.ConfigReader;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.faces.FacesInspector;
 import org.metawidget.inspector.hibernate.validator.HibernateValidatorInspector;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.jpa.JpaInspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -276,7 +277,7 @@ public class ConfigReaderTest
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "class org.metawidget.inspector.xml.XmlInspector does not have a default constructor. Did you mean config=\"XmlInspectorConfig\"?".equals( e.getMessage() ) );
 		}
@@ -293,7 +294,7 @@ public class ConfigReaderTest
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Class.class );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "class java.lang.Class does not have a default constructor".equals( e.getMessage() ) );
 		}
@@ -318,7 +319,7 @@ public class ConfigReaderTest
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "java.net.UnknownHostException: foo.nowhere".equals( e.getMessage() ) );
 		}
@@ -343,7 +344,7 @@ public class ConfigReaderTest
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( e.getMessage().startsWith( "java.io.FileNotFoundException:" ) );
 		}
@@ -364,7 +365,7 @@ public class ConfigReaderTest
 			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle( class java.lang.Class )".equals( e.getMessage() ) );
 		}
@@ -442,7 +443,7 @@ public class ConfigReaderTest
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( e.getMessage().endsWith( "No such class org.metawidget.inspector.Date or supported tag <date>" ) );
 		}
@@ -467,7 +468,7 @@ public class ConfigReaderTest
 		assertTrue( inspector.getSet().isEmpty() );
 	}
 
-	public void testInspectorExceptionDuringConstruction()
+	public void testMetawidgetExceptionDuringConstruction()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -481,7 +482,7 @@ public class ConfigReaderTest
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "Failed during construction".equals( e.getCause().getMessage() ) );
 		}
@@ -501,7 +502,7 @@ public class ConfigReaderTest
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "java.lang.UnsupportedOperationException: Called setNoParameters".equals( e.getMessage() ) );
 		}
@@ -518,7 +519,7 @@ public class ConfigReaderTest
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "No match for class org.metawidget.inspector.BadInspector within config".equals( e.getMessage() ) );
 		}
@@ -537,7 +538,7 @@ public class ConfigReaderTest
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "Already configured a class org.metawidget.inspector.BadInspector, ambiguous match with class org.metawidget.inspector.BadInspector".equals( e.getMessage() ) );
 		}
@@ -552,7 +553,7 @@ public class ConfigReaderTest
 			configReader.configure( (String) null, null );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "No resource specified".equals( e.getMessage() ) );
 		}
@@ -562,7 +563,7 @@ public class ConfigReaderTest
 			configReader.configure( "", null );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "No resource specified".equals( e.getMessage() ) );
 		}
@@ -572,7 +573,7 @@ public class ConfigReaderTest
 			configReader.configure( " ", null );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "No resource specified".equals( e.getMessage() ) );
 		}
@@ -582,7 +583,7 @@ public class ConfigReaderTest
 			configReader.configure( " foo", null );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "java.io.FileNotFoundException: Unable to locate  foo on CLASSPATH".equals( e.getMessage() ) );
 		}
@@ -615,7 +616,7 @@ public class ConfigReaderTest
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BadInspector.class );
 			assertTrue( false );
 		}
-		catch ( InspectorException e )
+		catch ( MetawidgetException e )
 		{
 			assertTrue( "XML node 'BadInspector' should start with a lowercase letter".equals( e.getMessage() ) );
 		}
@@ -641,7 +642,7 @@ public class ConfigReaderTest
 		public ValidatingConfigReader()
 		{
 			SchemaFactory factory = SchemaFactory.newInstance( XMLConstants.W3C_XML_SCHEMA_NS_URI );
-			InputStream in = super.openResource( "org/metawidget/inspector/metawidget-1.0.xsd" );
+			InputStream in = super.openResource( "org/metawidget/config/metawidget-1.0.xsd" );
 
 			try
 			{
@@ -649,7 +650,7 @@ public class ConfigReaderTest
 			}
 			catch ( SAXException e )
 			{
-				throw InspectorException.newException( e );
+				throw MetawidgetException.newException( e );
 			}
 		}
 

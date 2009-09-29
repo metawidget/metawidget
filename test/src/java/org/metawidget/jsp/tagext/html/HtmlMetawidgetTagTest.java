@@ -20,7 +20,6 @@ import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.jsp.tagext.FacetTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.StubTag;
@@ -83,8 +82,6 @@ public class HtmlMetawidgetTagTest
 
 		Field facets = MetawidgetTag.class.getDeclaredField( "mFacets" );
 		facets.setAccessible( true );
-		Field parameters = MetawidgetTag.class.getDeclaredField( "mParameters" );
-		parameters.setAccessible( true );
 		Field stubs = MetawidgetTag.class.getDeclaredField( "mStubs" );
 		stubs.setAccessible( true );
 		Field needsConfiguring = MetawidgetTag.class.getDeclaredField( "mNeedsConfiguring" );
@@ -92,7 +89,6 @@ public class HtmlMetawidgetTagTest
 		needsConfiguring.set( metawidget, false );
 
 		assertTrue( null != facets.get( metawidget ));
-		assertTrue( null != parameters.get( metawidget ));
 		assertTrue( null != stubs.get( metawidget ));
 		assertTrue( false == (Boolean) needsConfiguring.get( metawidget ));
 
@@ -101,15 +97,6 @@ public class HtmlMetawidgetTagTest
 		metawidget.doStartTag();
 		assertTrue( null == facets.get( metawidget ));
 		assertTrue( null == stubs.get( metawidget ));
-		assertTrue( null != parameters.get( metawidget ));
-		assertTrue( false == (Boolean) needsConfiguring.get( metawidget ));
-
-		// Should reset parameters and needConfiguring
-
-		metawidget.setInspector( new PropertyTypeInspector() );
-		metawidget.setValue( "bad-path" );
-		metawidget.doEndTag();
-		assertTrue( null == parameters.get( metawidget ));
-		assertTrue( false != (Boolean) needsConfiguring.get( metawidget ));
+		assertTrue( true == (Boolean) needsConfiguring.get( metawidget ));
 	}
 }

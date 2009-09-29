@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
+import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
-import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;

@@ -18,7 +18,7 @@ package org.metawidget.mixin.w3c;
 
 import java.util.Map;
 
-import org.metawidget.inspector.ConfigReader;
+import org.metawidget.config.ConfigReader;
 import org.metawidget.mixin.base.BaseMetawidgetMixin;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;

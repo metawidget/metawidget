@@ -23,7 +23,7 @@ import java.util.Map;
 
 import javax.xml.parsers.DocumentBuilder;
 
-import org.metawidget.inspector.ResourceResolver;
+import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;

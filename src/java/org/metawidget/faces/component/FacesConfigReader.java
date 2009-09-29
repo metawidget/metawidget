@@ -21,7 +21,7 @@ import java.net.URL;
 
 import javax.faces.context.FacesContext;
 
-import org.metawidget.inspector.ConfigReader;
+import org.metawidget.config.ConfigReader;
 import org.metawidget.inspector.iface.InspectorException;
 
 /**

@@ -19,7 +19,7 @@ package org.metawidget.inspector.commons.validator;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.ConfigReader;
+import org.metawidget.config.ConfigReader;
 import org.metawidget.inspector.commons.validator.CommonsValidatorInspector;
 import org.metawidget.inspector.commons.validator.CommonsValidatorInspectorConfig;
 import org.metawidget.inspector.iface.InspectorException;

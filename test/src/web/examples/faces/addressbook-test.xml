@@ -8,7 +8,7 @@
 				
 	<target name="test-search">
 		<webtest name="test-search">
-			<config resultpath="../../../../../${build.dir}"/>
+			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces" />
 				<verifyTitle text="Address Book (Metawidget Java Server Faces Example)" />
@@ -43,7 +43,7 @@
 
 	<target name="test-existing-personal">
 		<webtest name="test-existing-personal">
-			<config resultpath="../../../../../${build.dir}"/>
+			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces" />
 				<clickLink label="Mr Homer Simpson"/>
@@ -149,7 +149,7 @@
 
 	<target name="test-richfaces">
 		<webtest name="test-richfaces">
-			<config resultpath="../../../../../${build.dir}"/>
+			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces/contact-richfaces.jsf?contact.load=1" />
 				<verifyXPath xpath="normalize-space(/html/body/div[2]/form/table/tbody/tr[6]/td/table/tbody/tr/td/table/tbody/tr/td[2]/table/tbody/tr/td[2]/table/tbody/tr/td)" text="Contact Details"/>
@@ -197,7 +197,7 @@
 
 	<target name="test-new-business">
 		<webtest name="test-new-business">
-			<config resultpath="../../../../../${build.dir}"/>
+			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
 				<invoke url="${webtest.url}/addressbook-faces" />
 				<clickButton label="Add Personal Contact"/>

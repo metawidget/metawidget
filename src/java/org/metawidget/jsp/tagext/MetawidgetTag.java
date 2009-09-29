@@ -29,8 +29,8 @@ import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
 
+import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
-import org.metawidget.inspector.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
@@ -349,6 +349,7 @@ public abstract class MetawidgetTag
 
 		mFacets = null;
 		mStubs = null;
+		mNeedsConfiguring = true;
 
 		return super.doStartTag();
 	}

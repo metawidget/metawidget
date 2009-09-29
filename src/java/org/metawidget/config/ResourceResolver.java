@@ -14,32 +14,27 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.gwt.remote.server;
+package org.metawidget.config;
 
-import javax.servlet.ServletConfig;
-
-import org.metawidget.config.ConfigReader;
-import org.metawidget.inspector.iface.Inspector;
+import java.io.InputStream;
 
 /**
- * Version of <code>GwtRemoteInspectorTestImpl</code> for running unit tests.
+ * Interface for resolving references to resources.
  * <p>
- * This code can be removed once GWT's &lt;servlet&gt; module element supports &lt;init-param&gt;
- * (see http://code.google.com/p/google-web-toolkit/issues/detail?id=4079)
+ * Most resources can be resolved using standard <code>ClassLoader.getResource</code> code.
+ * However some environments have specialized resource areas which are inaccessible to
+ * <code>ClassLoader</code>. For example, Web environments have <code>/WEB-INF/</code> which
+ * can only be accessed through <code>ServletContext</code>. Similarly, Android environments must
+ * resolve resources using <code>Context.getResources</code>.
  *
  * @author Richard Kennard
  */
 
-public class GwtRemoteInspectorTestImpl
-	extends GwtRemoteInspectorImpl
+public interface ResourceResolver
 {
 	//
-	// Protected methods
+	// Methods
 	//
 
-	@Override
-	protected void configure( ServletConfig servletConfig )
-	{
-		setInspector( new ConfigReader().configure( "metawidget.xml", Inspector.class ));
-	}
+	InputStream openResource( String resource );
 }
