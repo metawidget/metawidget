@@ -68,7 +68,7 @@ public class CompositeInspectorTest
 
 		XmlInspector inspectorXml = new XmlInspector( configXml );
 
-		CompositeInspectorConfig config = new CompositeInspectorConfig();
+		ValidatingCompositeInspectorConfig config = new ValidatingCompositeInspectorConfig();
 		config.setInspectors( inspectorXml, new PropertyTypeInspector() );
 
 		ValidatingCompositeInspector inspector = new ValidatingCompositeInspector( config );

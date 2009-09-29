@@ -63,7 +63,7 @@ public class JbpmInspectorTest
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH".equals( e.getCause().getMessage() ));
+			assertTrue( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH".equals( e.getMessage() ));
 		}
 
 		try

@@ -19,9 +19,6 @@ package org.metawidget.inspector.composite;
 import java.util.Arrays;
 import java.util.List;
 
-import org.metawidget.config.ConfigReader;
-import org.metawidget.config.NeedsResourceResolver;
-import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 
 /**
@@ -31,15 +28,12 @@ import org.metawidget.inspector.iface.Inspector;
  */
 
 public class CompositeInspectorConfig
-	implements NeedsResourceResolver
 {
 	//
 	// Private members
 	//
 
 	private List<Inspector>		mInspectors;
-
-	private ResourceResolver	mResourceResolver;
 
 	//
 	// Public methods
@@ -82,19 +76,5 @@ public class CompositeInspectorConfig
 		// Fluent interface
 
 		return this;
-	}
-
-	public ResourceResolver getResourceResolver()
-	{
-		if ( mResourceResolver == null )
-			mResourceResolver = new ConfigReader();
-
-		return mResourceResolver;
-	}
-
-	@Override
-	public void setResourceResolver( ResourceResolver resourceResolver )
-	{
-		mResourceResolver = resourceResolver;
 	}
 }

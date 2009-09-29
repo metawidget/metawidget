@@ -369,6 +369,27 @@ public abstract class UIMetawidget
 	}
 
 	/**
+	 * Convenience method for <code>metawidget.xml</code>.
+	 * <p>
+	 * This method will not override existing, manually specified <code>&lt;f:param /&gt;</code>
+	 */
+
+	public void setParameter( String name, Object value )
+	{
+		UIParameter parameter = FacesUtils.findParameterWithName( this, name );
+
+		if ( parameter != null )
+			return;
+
+		FacesContext context = getFacesContext();
+		parameter = (UIParameter) context.getApplication().createComponent( "javax.faces.Parameter" );
+		parameter.setId( context.getViewRoot().createUniqueId() );
+		parameter.setName( name );
+		parameter.setValue( value );
+		getChildren().add( parameter );
+	}
+
+	/**
 	 * Storage area for WidgetProcessors, Layouts, and other stateless clients.
 	 * <p>
 	 * Unlike <code>.setAttribute</code>, these values are not serialized by

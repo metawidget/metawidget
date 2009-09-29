@@ -25,7 +25,7 @@
 		<html:form action="/search">
 
 			<m:metawidget property="contactSearchForm">
-				<m:facet name="footer" styleClass="buttons">
+				<m:facet name="footer">
 					<html:submit property="search">
 						<bean:message key="search"/>
  					</html:submit>

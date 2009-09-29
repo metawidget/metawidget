@@ -32,7 +32,6 @@ import javax.servlet.jsp.tagext.Tag;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.layout.iface.Layout;
@@ -510,9 +509,9 @@ public abstract class MetawidgetTag
 				{
 					configReader.configure( mConfig, this );
 				}
-				catch( InspectorException e )
+				catch ( MetawidgetException e )
 				{
-					if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ))
+					if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) )
 						throw e;
 
 					LogUtils.getLog( MetawidgetTag.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );

@@ -70,7 +70,7 @@
 					</table>
 				</m:stub>
 
-				<m:facet name="footer" styleClass="buttons">
+				<m:facet name="footer">
 					<c:choose>
 						<c:when test="${readOnly}">
 							<input type="submit" name="edit" value="<spring:message code="edit"/>"/>

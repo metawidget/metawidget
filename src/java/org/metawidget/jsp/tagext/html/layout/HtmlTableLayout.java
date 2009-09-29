@@ -29,7 +29,6 @@ import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.FacetTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.StubTag;
-import org.metawidget.jsp.tagext.html.HtmlFacetTag;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.layout.impl.LayoutUtils;
@@ -38,9 +37,6 @@ import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets in a table, with one column for labels and another for the widget.
- * <p>
- * Styles and style classes can be applied to any facets (such as the 'footer' facet) by specifying
- * them on the <code>&lt;m:facet&gt;</code> tag.
  *
  * @author Richard Kennard
  */
@@ -76,6 +72,10 @@ public class HtmlTableLayout
 
 	private String				mSectionStyleClass;
 
+	private String				mFooterStyle;
+
+	private String				mFooterStyleClass;
+
 	//
 	// Constructor
 	//
@@ -92,6 +92,8 @@ public class HtmlTableLayout
 		mTableStyleClass = config.getTableStyleClass();
 		mColumnStyleClasses = config.getColumnStyleClasses();
 		mSectionStyleClass = config.getSectionStyleClass();
+		mFooterStyle = config.getFooterStyle();
+		mFooterStyleClass = config.getFooterStyleClass();
 	}
 
 	//
@@ -154,25 +156,18 @@ public class HtmlTableLayout
 
 				// CSS styles
 
-				if ( facetFooter instanceof HtmlFacetTag )
+				if ( mFooterStyle != null )
 				{
-					String footerStyle = ( (HtmlFacetTag) facetFooter ).getStyle();
+					writer.write( " style=\"" );
+					writer.write( mFooterStyle );
+					writer.write( "\"" );
+				}
 
-					if ( footerStyle != null )
-					{
-						writer.write( " style=\"" );
-						writer.write( footerStyle );
-						writer.write( "\"" );
-					}
-
-					String footerStyleClass = ( (HtmlFacetTag) facetFooter ).getStyleClass();
-
-					if ( footerStyleClass != null )
-					{
-						writer.write( " class=\"" );
-						writer.write( footerStyleClass );
-						writer.write( "\"" );
-					}
+				if ( mFooterStyleClass != null )
+				{
+					writer.write( " class=\"" );
+					writer.write( mFooterStyleClass );
+					writer.write( "\"" );
 				}
 
 				writer.write( ">" );

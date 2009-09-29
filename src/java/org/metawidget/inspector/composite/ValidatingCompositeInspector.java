@@ -53,7 +53,7 @@ public class ValidatingCompositeInspector
 	// Constructor
 	//
 
-	public ValidatingCompositeInspector( CompositeInspectorConfig config )
+	public ValidatingCompositeInspector( ValidatingCompositeInspectorConfig config )
 	{
 		super( config );
 

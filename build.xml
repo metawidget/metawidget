@@ -43,6 +43,7 @@
 
 		<javac sourcepath="" srcdir="${relative.dir}/src/java" destdir="${relative.dir}/${build.dir}/java4-classes" debug="${build.debug}" optimize="on" source="1.5" target="jsr14">
 			<include name="**/*InspectionResultConstants.java"/>
+			<include name="org/metawidget/config/**"/>
 			<include name="org/metawidget/faces/**"/>
 			<include name="org/metawidget/gwt/**"/>
 			<include name="org/metawidget/iface/**"/>			
@@ -163,7 +164,7 @@
 			</fileset>
 		</jar>
 		
-		<!-- OSGI headers -->
+		<!-- OSGI headers
 
 		<taskdef resource="aQute/bnd/ant/taskdef.properties">
 			<classpath>
@@ -173,7 +174,7 @@
 			</classpath>
 		</taskdef>
 		<bndwrap jars="${relative.dir}/${build.dir}/pack/metawidget.jar" output="${relative.dir}/${build.dir}/pack/metawidget.jar" definitions="${relative.dir}/src/java/META-INF" />
-		
+		 -->
 	</target>
 
 	<target name="pack-as-frontend-backend-internal" depends="compile-main">

@@ -14,7 +14,7 @@
 				<m:stub property="mystery" attributes="dummy-attribute: dummy-value"/>
 				<m:stub property="collection"/>
 				
-				<m:facet name="footer" style="aHeaderStyle" styleClass="aHeaderStyleClass">
+				<m:facet name="footer">
 					<html:submit value="Save"/>
 				</m:facet>
 			</m:metawidget>

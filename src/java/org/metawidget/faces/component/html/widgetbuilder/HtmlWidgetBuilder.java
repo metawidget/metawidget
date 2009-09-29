@@ -71,14 +71,6 @@ import org.w3c.dom.NodeList;
  * <p>
  * Automatically creates native JSF HTML UIComponents, such as <code>HtmlInputText</code> and
  * <code>HtmlSelectOneListbox</code>, to suit the inspected fields.
- * <p>
- * This implementation recognizes the following <code>&lt;f:param&gt;</code> parameters:
- * <p>
- * <ul>
- * <li><code>dataTableStyleClass</code>
- * <li><code>dataTableColumnClasses</code>
- * <li><code>dataTableRowClasses</code>
- * </ul>
  *
  * @author Richard Kennard
  */

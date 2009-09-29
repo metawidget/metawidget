@@ -19,9 +19,10 @@ package org.metawidget.inspector.impl;
 import java.io.InputStream;
 import java.util.List;
 
-import org.metawidget.config.ConfigReader;
-import org.metawidget.config.NeedsResourceResolver;
-import org.metawidget.config.ResourceResolver;
+import org.metawidget.inspector.NeedsResourceResolver;
+import org.metawidget.inspector.ResourceResolver;
+import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.util.ClassUtils;
 
 /**
  * Base class for BaseXmlInspectorConfig configurations.
@@ -51,7 +52,19 @@ public class BaseXmlInspectorConfig
 	public InputStream[] getInputStreams()
 	{
 		if ( mFileStreams == null && mDefaultFile != null )
-			return new InputStream[]{ getResourceResolver().openResource( mDefaultFile ) };
+		{
+			if ( mResourceResolver != null )
+				return new InputStream[]{ mResourceResolver.openResource( mDefaultFile ) };
+
+			try
+			{
+				return new InputStream[]{ ClassUtils.openResource( mDefaultFile ) };
+			}
+			catch( Exception e )
+			{
+				throw InspectorException.newException( e );
+			}
+		}
 
 		return mFileStreams;
 	}
@@ -102,7 +115,23 @@ public class BaseXmlInspectorConfig
 	public ResourceResolver getResourceResolver()
 	{
 		if ( mResourceResolver == null )
-			mResourceResolver = new ConfigReader();
+		{
+			return new ResourceResolver()
+			{
+				@Override
+				public InputStream openResource( String resource )
+				{
+					try
+					{
+						return ClassUtils.openResource( resource );
+					}
+					catch( Exception e )
+					{
+						throw InspectorException.newException( e );
+					}
+				}
+			};
+		}
 
 		return mResourceResolver;
 	}

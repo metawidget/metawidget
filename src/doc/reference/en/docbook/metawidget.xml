@@ -429,12 +429,12 @@ public class Main {
 		Person person = new Person();
 	
 		SwingMetawidget metawidget = new SwingMetawidget();
-		<symbol>CompositeInspectorConfig config = new CompositeInspectorConfig()
+		<symbol>CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig()
 			.setInspectors( 
 				new MetawidgetAnnotationInspector(),
 				new PropertyTypeInspector(),
 				new Java5Inspector() );
-		metawidget.setInspector( new CompositeInspector( config ) );</symbol>
+		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );</symbol>
 		metawidget.setToInspect( person );
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
@@ -527,8 +527,7 @@ public class Person {
 				<para>
 					By default, <classname>SwingMetawidget</classname> lays out <classname>JComponents</classname>
 					using <classname>org.metawidget.swing.layout.GridBagLayout</classname>.
-					You can swap this for a different layout using <function>SwingMetawidget.setLayoutClass</function>, or you can fine-tune the existing
-					one using <function>SwingMetawidget.setParameter</function>:
+					You can swap this for a different layout using <function>SwingMetawidget.setMetawidgetLayout</function>:
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -545,13 +544,15 @@ public class Main {
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		CompositeInspectorConfig config = new CompositeInspectorConfig()
+		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig()
 			.setInspectors(
 				new MetawidgetAnnotationInspector(),
 				new PropertyTypeInspector(),
 				new Java5Inspector() );
-		metawidget.setInspector( new CompositeInspector( config ) );
-		<symbol>metawidget.setParameter( "numberOfColumns", 2 );</symbol>
+		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
+		<symbol>GridBagLayoutConfig layoutConfig = new GridBagLayoutConfig()
+			.setNumberOfColumns( 2 );
+		metawidget.setMetawidgetLayout( new GridBagLayout( layoutConfig ));</symbol>
 		metawidget.setToInspect( person );
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
@@ -607,13 +608,15 @@ public class Main {
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		CompositeInspectorConfig config = new CompositeInspectorConfig()
+		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig()
 			.setInspectors(
 				new MetawidgetAnnotationInspector(),
 				new PropertyTypeInspector(),
 				new Java5Inspector() );
-		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setParameter( "numberOfColumns", 2 );		
+		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
+		GridBagLayoutConfig layoutConfig = new GridBagLayoutConfig()
+			.setNumberOfColumns( 2 );
+		metawidget.setMetawidgetLayout( new GridBagLayout( layoutConfig ));
 		metawidget.setToInspect( person );
 		<symbol>JComboBox combo = new JComboBox();
 		combo.setName( "retired" );
@@ -659,13 +662,15 @@ public class Main {
 		Person person = new Person();
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		CompositeInspectorConfig config = new CompositeInspectorConfig()
+		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig()
 			.setInspectors(
 				new MetawidgetAnnotationInspector(),
 				new PropertyTypeInspector(),
 				new Java5Inspector() );
-		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setParameter( "numberOfColumns", 2 );
+		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
+		GridBagLayoutConfig layoutConfig = new GridBagLayoutConfig()
+			.setNumberOfColumns( 2 );
+		metawidget.setMetawidgetLayout( new GridBagLayout( layoutConfig ));
 		metawidget.setToInspect( person );
 		<symbol>metawidget.add( new Stub( "retired" ));</symbol>
 
@@ -782,7 +787,9 @@ public class Main {
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		<symbol>metawidget.setConfig( "com/myapp/metawidget.xml" );</symbol>
-		metawidget.setParameter( "numberOfColumns", 2 );
+		GridBagLayoutConfig layoutConfig = new GridBagLayoutConfig()
+			.setNumberOfColumns( 2 );
+		metawidget.setMetawidgetLayout( new GridBagLayout( layoutConfig ));
 		metawidget.setToInspect( person );
 		metawidget.add( new Stub( "retired" ));
 
@@ -2008,13 +2015,12 @@ metawidget.setToInspect( animal );
 	&lt;/metawidgetAnnotationInspector&gt;</programlisting>
 
 				<para>
-					In addition, it uses <classname>BeanUtilsBindingProcessor.PROPERTYSTYLE_SCALA</classname> to bind <classname>JComponents</classname>
+					In addition, it uses <classname>BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA</classname> to bind <classname>JComponents</classname>
 					to Scala-based business objects:
 				</para>
 					
 				<programlisting language="scala">val metawidget = new SwingMetawidget()
-metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor() )
-<symbol>metawidget.setParameter( "propertyStyle", BeanUtilsBindingProcessor.PROPERTYSTYLE_SCALA )</symbol>
+<symbol>metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor().setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA ))</symbol>
 metawidget.setToInspect( animal )</programlisting>
 
 			</section>
@@ -2407,9 +2413,8 @@ ant</programlisting>
 				
 				<para>
 					Some layouts will add localized labels and section headings to the widgets, whereas other layouts may leave them unadorned. Different
-					Layouts may support different parameters (for example, a <classname>TableLayout</classname> may support <parameter>numberOfColumns</parameter>)
-					and these are passed from the Metawidget to the layout in a framework-specific way. For example, JSF uses <parameter>&lt;f:param name="" value=""&gt;</parameter>
-					tags, whereas <classname>SwingMetawidget</classname> has a <function>setParameter(name, value)</function> method.
+					Layouts may support different parameters (for example, a <classname>TableLayout</classname> may support <parameter>numberOfColumns</parameter>).
+					These are initialized on the Layout at construction time using a <classname>xxxLayoutConfig</classname>.
 				</para>
 				
 			</section>
@@ -2430,18 +2435,6 @@ ant</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							<emphasis role="bold">layouts</emphasis> are pluggable.
-						</para>
-					</listitem>
-					<listitem>
-						<para>
-							<emphasis role="bold">parameters</emphasis> set on a Metawidget pass through to the chosen
-							<classname>WidgetProcessor</classname>s and <classname>Layout</classname> to configure settings such
-							as <parameter>sectionStyle</parameter> and <parameter>numberOfColumns</parameter>.
-						</para>
-					</listitem>
-					<listitem>
-						<para>
 							<emphasis role="bold">facet</emphasis> child widgets pass through to the chosen layout
 							as decorations (such as button bars).
 						</para>
@@ -2449,11 +2442,19 @@ ant</programlisting>
 					<listitem>
 						<para>
 							<emphasis role="bold">WidgetBuilders</emphasis> can be plugged in to the pipeline to control widget creation.
+							They can be configured through <classname>xxxWidgetBuilderConfig</classname> classes.
 						</para>
 					</listitem>
 					<listitem>
 						<para>
 							<emphasis role="bold">WidgetProcessors</emphasis> can be plugged in to the pipeline to fine-tune widget properties.
+							They can be configured through <classname>xxxWidgetProcessorConfig</classname> classes.
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							<emphasis role="bold">Layouts</emphasis> can be plugged in to the pipeline to control layout.
+							They can be configured through <classname>xxxLayoutConfig</classname> classes.
 						</para>
 					</listitem>
 				</itemizedlist>
@@ -3880,35 +3881,6 @@ void onEndBuild( M metawidget );</programlisting>
 						the JavaDoc, and the <filename>META-INF/faces-config.xml</filename> in <filename>metawidget.jar</filename> for a
 						complete list).
 					</para>
-					
-				</section>
-				
-				<section id="section-metawidgets-web-faces-defaults">
-					<title>Setting Global Defaults</title>
-					
-					<para>
-						If you find yourself setting the same attributes and parameters on every Metawidget tag, consider subclassing
-						<classname>HtmlMetawidget</classname> and setting the defaults there:
-					</para>
-					
-					<programlisting language="java">public class MyDefaultedMetawidget extends HtmlMetawidget {
-	...
-	public MyDefaultedMetawidget() {
-		getAttributes().put( "styleClass", "myStyleClass" );
-		setValidatorClass( ... );
-	}
-
-	public void encodeBegin( FacesContext context )	{
-		if ( FacesUtils.findParameterWithName( this, "tableStyleClass" ) == null ) {
-			UIParameter parameter = new UIParameter();
-			parameter.setName( "tableStyleClass" );
-			parameter.setValue( "table-style" );
-			getChildren().add( parameter );
-		}
-		
-		super.encodeBegin( context );
-	}
-}</programlisting>
 					
 				</section>
 				
@@ -6278,7 +6250,14 @@ public class PersonController {
 						
 						<para>
 							<classname>org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor</classname> supports the various Beans Binding
-							update strategies by calling <function>metawidget.setParameter( UpdateStrategy.class, UpdateStrategy.READ_WRITE )</function>.
+							update strategies:
+						</para>
+						
+						<programlisting language="java">myMetawidget.addWidgetProcessor( new BeansBindingProcessor(
+	new BeansBindingProcessorConfig()
+		.setUpdateStrategy( UpdateStrategy.READ )) );</programlisting>
+		
+						<para>
 							If set to <parameter>READ</parameter> or <parameter>READ_WRITE</parameter>, the object being inspected must
 							provide <classname>PropertyChangeSupport</classname>.
 						</para>

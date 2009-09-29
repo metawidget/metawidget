@@ -16,6 +16,10 @@
 
 /**
  * Root interface.
+ * <p>
+ * This package is factored into a separate <code>iface</code> subpackage, as opposed to being in
+ * the root, because some technologies (ie. GWT) are not good at including classes while filtering
+ * out subpackages.
  *
  * @author Richard Kennard
  */

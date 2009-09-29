@@ -191,7 +191,7 @@
 					</table>
 				</m:stub>
 
-				<m:facet name="footer" styleClass="buttons">
+				<m:facet name="footer">
 					<m:metawidget value="contactController" layoutClass="org.metawidget.jsp.tagext.html.layout.SimpleLayout"/>
 				</m:facet>
 

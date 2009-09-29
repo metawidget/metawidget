@@ -13,7 +13,7 @@
 				
 				<m:stub path="mystery" attributes="dummy-attribute: dummy-value"/>
 				
-				<m:facet name="footer" style="aHeaderStyle" styleClass="aHeaderStyleClass">
+				<m:facet name="footer">
 					<input type="submit" name="save" value="Save"/>
 				</m:facet>				
 			</m:metawidget>

@@ -25,10 +25,6 @@ import org.metawidget.iface.MetawidgetException;
 
 /**
  * JSP tag for UIStub widget.
- * <p>
- * Note there are no equivalent <code>ParamTag</code> and <code>FacetTag</code>s,
- * as there are for other environments, because Java Server Faces itself already
- * supplies <code>f:param</code> and <code>f:facet</code>.
  *
  * @author Richard Kennard
  */

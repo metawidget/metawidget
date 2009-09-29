@@ -47,9 +47,9 @@
 	
 	<tag>
 		<name>facet</name>
-		<tagclass>org.metawidget.jsp.tagext.html.HtmlFacetTag</tagclass>
+		<tagclass>org.metawidget.jsp.tagext.FacetTag</tagclass>
 		<bodycontent>jsp</bodycontent>
-		<info>Facet for JSP environments that output HTML</info>
+		<info>Facet for JSP environments</info>
 		<attribute>
 			<name>name</name>
 			<required>true</required>

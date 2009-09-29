@@ -14,54 +14,27 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.jsp.tagext.html;
+package org.metawidget.inspector;
 
-import org.metawidget.jsp.tagext.FacetTag;
+import java.io.InputStream;
 
 /**
- * Facet for JSP environments that output HTML.
+ * Interface for resolving references to resources.
+ * <p>
+ * Most resources can be resolved using standard <code>ClassLoader.getResource</code> code.
+ * However some environments have specialized resource areas which are inaccessible to
+ * <code>ClassLoader</code>. For example, Web environments have <code>/WEB-INF/</code> which
+ * can only be accessed through <code>ServletContext</code>. Similarly, Android environments must
+ * resolve resources using <code>Context.getResources</code>.
  *
  * @author Richard Kennard
  */
 
-public class HtmlFacetTag
-	extends FacetTag
+public interface ResourceResolver
 {
 	//
-	// Private statics
+	// Methods
 	//
 
-	private final static long	serialVersionUID	= 1l;
-
-	//
-	// Private members
-	//
-
-	private String				mStyle;
-
-	private String				mStyleClass;
-
-	//
-	// Public methods
-	//
-
-	public String getStyle()
-	{
-		return mStyle;
-	}
-
-	public void setStyle( String style )
-	{
-		mStyle = style;
-	}
-
-	public String getStyleClass()
-	{
-		return mStyleClass;
-	}
-
-	public void setStyleClass( String styleClass )
-	{
-		mStyleClass = styleClass;
-	}
+	InputStream openResource( String resource );
 }

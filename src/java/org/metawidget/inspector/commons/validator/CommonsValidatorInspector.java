@@ -24,7 +24,7 @@ import java.util.StringTokenizer;
 
 import javax.xml.parsers.DocumentBuilder;
 
-import org.metawidget.config.ResourceResolver;
+import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspector;
 import org.metawidget.util.CollectionUtils;

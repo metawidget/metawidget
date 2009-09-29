@@ -555,7 +555,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "No resource specified".equals( e.getMessage() ) );
+			assertTrue( "java.io.FileNotFoundException: No resource specified".equals( e.getMessage() ) );
 		}
 
 		try
@@ -565,7 +565,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "No resource specified".equals( e.getMessage() ) );
+			assertTrue( "java.io.FileNotFoundException: No resource specified".equals( e.getMessage() ) );
 		}
 
 		try
@@ -575,7 +575,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "No resource specified".equals( e.getMessage() ) );
+			assertTrue( "java.io.FileNotFoundException: No resource specified".equals( e.getMessage() ) );
 		}
 
 		try

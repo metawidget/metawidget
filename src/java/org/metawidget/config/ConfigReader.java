@@ -19,7 +19,6 @@ package org.metawidget.config;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
@@ -37,6 +36,8 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.inspector.NeedsResourceResolver;
+import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.ClassUtils;
@@ -296,35 +297,20 @@ public class ConfigReader
 	 * <p>
 	 * <ul>
 	 * <li>the current thread's context classloader, if any
-	 * <li>the classloader that loaded ConfigReader
+	 * <li>the classloader that loaded ClassUtils
 	 * </ul>
 	 */
 
 	public InputStream openResource( String resource )
 	{
-		if ( resource == null || "".equals( resource.trim() ) )
-			throw MetawidgetException.newException( "No resource specified" );
-
-		// Thread's ClassLoader
-
-		ClassLoader loaderContext = Thread.currentThread().getContextClassLoader();
-
-		if ( loaderContext != null )
+		try
 		{
-			InputStream stream = loaderContext.getResourceAsStream( resource );
-
-			if ( stream != null )
-				return stream;
+			return ClassUtils.openResource( resource );
 		}
-
-		// ConfigReader's ClassLoader
-
-		InputStream stream = ConfigReader.class.getResourceAsStream( resource );
-
-		if ( stream != null )
-			return stream;
-
-		throw MetawidgetException.newException( new FileNotFoundException( "Unable to locate " + resource + " on CLASSPATH" ) );
+		catch( Exception e )
+		{
+			throw MetawidgetException.newException( e );
+		}
 	}
 
 	//
@@ -893,8 +879,6 @@ public class ConfigReader
 						}
 						else
 						{
-							// TODO: move ConfigReader, not just for inspectors!
-
 							throw MetawidgetException.newException( "Don't know how to add to a " + parameters.getClass() );
 						}
 

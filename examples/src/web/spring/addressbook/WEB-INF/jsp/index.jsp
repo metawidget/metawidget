@@ -27,7 +27,7 @@
 		<form:form commandName="contactSearchCommand">
 		
 			<m:metawidget path="contactSearchCommand">
-				<m:facet name="footer" styleClass="buttons">
+				<m:facet name="footer">
 					<input type="submit" name="search" value="<spring:message code="search"/>"/>
 					<input type="submit" name="addPersonal" value="<spring:message code="addPersonal"/>"/>
 					<input type="submit" name="addBusiness" value="<spring:message code="addBusiness"/>"/>

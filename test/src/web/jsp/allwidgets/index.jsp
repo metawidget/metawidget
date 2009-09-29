@@ -14,7 +14,7 @@
 				
 				<m:stub value="longObject" attributes="dummy-attribute: dummy-value"/>
 				
-				<m:facet name="footer" style="aHeaderStyle" styleClass="aHeaderStyleClass">
+				<m:facet name="footer">
 					<input type="submit" value="Save"/>
 				</m:facet>
 				

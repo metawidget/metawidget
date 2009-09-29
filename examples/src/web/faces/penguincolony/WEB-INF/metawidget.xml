@@ -16,20 +16,22 @@
 			<string>footerStyleClass</string>
 			<string>buttons</string>
 		</parameter>
-		<parameter>
-			<string>dataTableStyleClass</string>
-			<string>data-table</string>
-		</parameter>	
-		<parameter>
-			<string>dataTableRowClasses</string>
-			<string>row-odd,row-even</string>
-		</parameter>	
 		<widgetBuilder>
 			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<list>
 						<iceFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.icefaces"/>
-						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
+						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig">
+							<dataTableStyleClass>
+								<string>data-table</string>
+							</dataTableStyleClass>
+							<dataTableRowClasses>
+								<array>
+									<string>row-odd</string>
+									<string>row-even</string>
+								</array>
+							</dataTableRowClasses>
+						</htmlWidgetBuilder>
 					</list>
 				</widgetBuilders>
 			</compositeWidgetBuilder>

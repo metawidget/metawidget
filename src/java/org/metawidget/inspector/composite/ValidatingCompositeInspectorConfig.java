@@ -14,17 +14,43 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.config;
+package org.metawidget.inspector.composite;
+
+import org.metawidget.config.ConfigReader;
+import org.metawidget.inspector.NeedsResourceResolver;
+import org.metawidget.inspector.ResourceResolver;
 
 /**
+ * Configures a CompositeInspector prior to use. Once instantiated, Inspectors are immutable.
+ *
  * @author Richard Kennard
  */
 
-public interface NeedsResourceResolver
+public class ValidatingCompositeInspectorConfig
+	extends CompositeInspectorConfig
+	implements NeedsResourceResolver
 {
 	//
-	// Methods
+	// Private members
 	//
 
-	void setResourceResolver( ResourceResolver resourceResolver );
+	private ResourceResolver	mResourceResolver;
+
+	//
+	// Public methods
+	//
+
+	public ResourceResolver getResourceResolver()
+	{
+		if ( mResourceResolver == null )
+			mResourceResolver = new ConfigReader();
+
+		return mResourceResolver;
+	}
+
+	@Override
+	public void setResourceResolver( ResourceResolver resourceResolver )
+	{
+		mResourceResolver = resourceResolver;
+	}
 }

@@ -31,6 +31,9 @@
 				<sectionStyleClass>
 					<string>section-heading</string>
 				</sectionStyleClass>
+				<footerStyleClass>
+					<string>buttons</string>
+				</footerStyleClass>				
 			</htmlTableLayout>
 		</layout>
 	</springMetawidgetTag>

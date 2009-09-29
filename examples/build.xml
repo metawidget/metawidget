@@ -99,10 +99,7 @@
 		<jar destfile="${relative.dir}/${build.dir}/examples/swing/applet/addressbook/metawidget-applet.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${relative.dir}/${build.dir}/classes">
 				<include name="org/metawidget/*.class"/>
-				<include name="org/metawidget/swing/*.class"/>
-				<include name="org/metawidget/swing/layout/*.class"/>
-				<include name="org/metawidget/swing/widgetbuilder/*.class"/>
-				<include name="org/metawidget/swing/widgetprocessor/**"/>
+				<include name="org/metawidget/config/**"/>
 				<include name="org/metawidget/iface/**"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
@@ -120,6 +117,10 @@
 				<include name="org/metawidget/layout/**"/>				
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/w3c/**"/>
+				<include name="org/metawidget/swing/*.class"/>
+				<include name="org/metawidget/swing/layout/*.class"/>
+				<include name="org/metawidget/swing/widgetbuilder/*.class"/>
+				<include name="org/metawidget/swing/widgetprocessor/**"/>
 				<include name="org/metawidget/util/**"/>
 				<include name="org/metawidget/widgetbuilder/**"/>
 				<include name="org/metawidget/widgetprocessor/**"/>
@@ -485,6 +486,7 @@
 			<classpath>
 				<dirset dir="${relative.dir}/${build.dir}/gwt-example/addressbook/src"/>
 				<fileset dir="${relative.dir}/lib"/>
+				<fileset dir="${relative.dir}/test/lib"/>
 				<fileset dir="${relative.dir}/${build.dir}">
 					<include name="metawidget.jar"/>
 				</fileset>

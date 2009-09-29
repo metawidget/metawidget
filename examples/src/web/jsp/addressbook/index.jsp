@@ -50,7 +50,7 @@
 		<form action="index.jsp" method="post">
 
 			<m:metawidget value="contactSearch" bundle="${bundle}">
-				<m:facet name="footer" styleClass="buttons">
+				<m:facet name="footer">
 					<input type="submit" name="search" value="<fmt:message key="search" bundle="${bundle}"/>"/>
 					<input type="submit" name="addPersonal" value="<fmt:message key="addPersonal" bundle="${bundle}"/>"/>
 					<input type="submit" name="addBusiness" value="<fmt:message key="addBusiness" bundle="${bundle}"/>"/>

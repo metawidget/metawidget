@@ -4,18 +4,6 @@
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
 
 	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
-		<parameter>
-			<string>dataTableStyleClass</string>
-			<string>aDataTableStyleClass</string>
-		</parameter>
-		<parameter>
-			<string>dataTableColumnClasses</string>
-			<string>aDataTableColumnClass1,aDataTableColumnClass2</string>
-		</parameter>
-		<parameter>
-			<string>dataTableRowClasses</string>
-			<string>aDataTableRowClass1,aDataTableRowClass2</string>
-		</parameter>
 		<inspector>		
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
@@ -33,7 +21,23 @@
 				<widgetBuilders>
 					<list>
 						<richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/>
-						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
+						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig">
+							<dataTableStyleClass>
+								<string>aDataTableStyleClass</string>
+							</dataTableStyleClass>
+							<dataTableColumnClasses>
+								<array>
+									<string>aDataTableColumnClass1</string>
+									<string>aDataTableColumnClass2</string>
+								</array>
+							</dataTableColumnClasses>						
+							<dataTableRowClasses>
+								<array>
+									<string>aDataTableRowClass1</string>
+									<string>aDataTableRowClass2</string>
+								</array>
+							</dataTableRowClasses>						
+						</htmlWidgetBuilder>
 					</list>
 				</widgetBuilders>
 			</compositeWidgetBuilder>

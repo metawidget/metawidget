@@ -215,8 +215,8 @@
 				<verifyXPath xpath="/html/body/form/input[@type='hidden']/@value" text="Hidden"/>
 				<forceHiddenInputField name="hidden" value="Hidden1"/>
 
-				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aHeaderStyle"/>
-				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aHeaderStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@style" text="aFooterStyle"/>
+				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@class" text="aFooterStyleClass"/>
 				<verifyXPath xpath="/html/body/form/table/tfoot/tr/td/@colspan" text="3"/>
 	
 				<clickButton label="Save"/>

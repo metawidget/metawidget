@@ -40,6 +40,10 @@ public class HtmlTableLayoutConfig
 
 	private String		mSectionStyleClass;
 
+	private String		mFooterStyle;
+
+	private String		mFooterStyleClass;
+
 	//
 	// Public methods
 	//
@@ -125,6 +129,32 @@ public class HtmlTableLayoutConfig
 	public HtmlTableLayoutConfig setSectionStyleClass( String sectionStyleClass )
 	{
 		mSectionStyleClass = sectionStyleClass;
+
+		return this;
+	}
+
+	public String getFooterStyle()
+	{
+		return mFooterStyle;
+	}
+
+	public void setFooterStyle( String footerStyle )
+	{
+		mFooterStyle = footerStyle;
+	}
+
+	public String getFooterStyleClass()
+	{
+		return mFooterStyleClass;
+	}
+
+	/**
+	 * @return this, as part of a fluent interface
+	 */
+
+	public HtmlTableLayoutConfig setFooterStyleClass( String footerStyleClass )
+	{
+		mFooterStyleClass = footerStyleClass;
 
 		return this;
 	}
