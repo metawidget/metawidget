@@ -132,8 +132,7 @@
 
 		<fmt:setBundle basename="org.metawidget.shared.allwidgets.resource.Resources" var="bundle"/>
 		
-		<m:metawidget value="allWidgets" bundle="${bundle}" createHiddenFields="true" readOnly="true" config="config/metawidget.xml">
-			<m:param name="numberOfColumns" value="2"/>
+		<m:metawidget value="allWidgets" bundle="${bundle}" createHiddenFields="true" readOnly="true" config="config/metawidget-2-columns.xml">
 			<m:stub value="longObject"/>				
 		</m:metawidget>
 		

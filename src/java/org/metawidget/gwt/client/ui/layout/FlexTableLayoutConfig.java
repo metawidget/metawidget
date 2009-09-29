@@ -85,6 +85,8 @@ public class FlexTableLayoutConfig
 	}
 
 	/**
+	 * Array of CSS style classes to apply to table columns in order of: label column, component column, required column.
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 

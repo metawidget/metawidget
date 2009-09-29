@@ -37,17 +37,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Layout to arrange widgets in a table, with one column for labels and another for the widget. This
- * implementation recognizes the following <code>&lt;m:param&gt;</code> parameters:
- * <p>
- * <ul>
- * <li><code>tableStyle</code>
- * <li><code>tableStyleClass</code>
- * <li><code>numberOfColumns</code>
- * <li><code>columnStyleClasses</code> - comma delimited string of CSS style classes to apply to
- * table columns in order of: label, component, required
- * <li><code>sectionStyleClass</code>
- * </ul>
+ * Layout to arrange widgets in a table, with one column for labels and another for the widget.
  * <p>
  * Styles and style classes can be applied to any facets (such as the 'footer' facet) by specifying
  * them on the <code>&lt;m:facet&gt;</code> tag.

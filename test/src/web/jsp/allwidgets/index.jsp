@@ -11,9 +11,6 @@
 			<fmt:setBundle basename="org.metawidget.shared.allwidgets.resource.Resources" var="bundle"/>
 			
 			<m:metawidget value="allWidgets" bundle="${bundle}" style="aStyle" styleClass="aStyleClass" createHiddenFields="true" config="config/metawidget.xml">
-				<m:param name="tableStyle" value="aTableStyle"/>
-				<m:param name="tableStyleClass" value="aTableStyleClass"/>
-				<m:param name="columnStyleClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>
 				
 				<m:stub value="longObject" attributes="dummy-attribute: dummy-value"/>
 				

@@ -23,6 +23,26 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<layout>
+			<htmlTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HtmlTableLayoutConfig">
+				<tableStyle>
+					<string>aTableStyle</string>
+				</tableStyle>
+				<tableStyleClass>
+					<string>aTableStyleClass</string>
+				</tableStyleClass>
+				<columnStyleClasses>
+					<array>
+						<string>aLabelClass</string>
+						<string>aComponentClass</string>
+						<string>aRequiredClass</string>
+					</array>
+				</columnStyleClasses>
+				<sectionStyleClass>
+					<string>section-heading</string>
+				</sectionStyleClass>
+			</htmlTableLayout>
+		</layout>		
 	</strutsMetawidgetTag>
 
 </metawidget>

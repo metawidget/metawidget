@@ -10,9 +10,6 @@
 			<html:errors />
 			
 			<m:metawidget property="allWidgetsForm.allWidgets" style="aStyle" styleClass="aStyleClass" createHiddenFields="true" config="config/metawidget.xml">
-				<m:param name="tableStyle" value="aTableStyle"/>
-				<m:param name="tableStyleClass" value="aTableStyleClass"/>
-				<m:param name="columnStyleClasses" value="aLabelClass, aComponentClass, aRequiredClass"/>
 				
 				<m:stub property="mystery" attributes="dummy-attribute: dummy-value"/>
 				<m:stub property="collection"/>

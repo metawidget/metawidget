@@ -3,7 +3,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
 
-	<springMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html.spring">
+	<htmlMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html">
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
@@ -20,24 +20,11 @@
 		</inspector>
 		<layout>
 			<htmlTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HtmlTableLayoutConfig">
-				<tableStyle>
-					<string>aTableStyle</string>
-				</tableStyle>
-				<tableStyleClass>
-					<string>aTableStyleClass</string>
-				</tableStyleClass>
-				<columnStyleClasses>
-					<array>
-						<string>aLabelClass</string>
-						<string>aComponentClass</string>
-						<string>aRequiredClass</string>
-					</array>
-				</columnStyleClasses>
-				<sectionStyleClass>
-					<string>section-heading</string>
-				</sectionStyleClass>
+				<numberOfColumns>
+					<int>2</int>
+				</numberOfColumns>
 			</htmlTableLayout>
-		</layout>		
-	</springMetawidgetTag>
+		</layout>
+	</htmlMetawidgetTag>
 
 </metawidget>
