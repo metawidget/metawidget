@@ -6,7 +6,7 @@
 	
 	<jspversion>2.0</jspversion>
 	<shortname>mf</shortname>
-	<uri>http://metawidget.org/tld/faces</uri>
+	<uri>http://metawidget.org/faces</uri>
 	<info>Java Server Faces Support</info>
 
 	<tag>

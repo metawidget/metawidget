@@ -3,7 +3,7 @@
 	<tlibversion>1.2</tlibversion>
 	<jspversion>1.1</jspversion>
 	<shortname>ms</shortname>
-	<uri>http://metawidget.org/tld/struts</uri>
+	<uri>http://metawidget.org/struts</uri>
 	<info>Struts Support</info>
 
 	<tag>

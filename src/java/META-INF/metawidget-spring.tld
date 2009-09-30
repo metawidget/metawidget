@@ -3,7 +3,7 @@
 	<tlibversion>1.2</tlibversion>
 	<jspversion>1.1</jspversion>
 	<shortname>msp</shortname>
-	<uri>http://metawidget.org/tld/spring</uri>
+	<uri>http://metawidget.org/spring</uri>
 	<info>Spring Support</info>
 
 	<tag>

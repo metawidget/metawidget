@@ -138,14 +138,14 @@
 		
 		<copy file="${relative.dir}/src/java/org/metawidget/config/metawidget-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
 		<copy file="${relative.dir}/src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
-		<copy file="${relative.dir}/src/java/META-INF/metawidget-faces.tld" tofile="${tomcat.dir}/webapps/ROOT/tld/faces/index.html"/>
-		<copy file="${relative.dir}/src/java/META-INF/metawidget-faces.tld" todir="${tomcat.dir}/webapps/ROOT/tld/faces"/>
-		<copy file="${relative.dir}/src/java/META-INF/metawidget-html.tld" tofile="${tomcat.dir}/webapps/ROOT/tld/html/index.html"/>
-		<copy file="${relative.dir}/src/java/META-INF/metawidget-html.tld" todir="${tomcat.dir}/webapps/ROOT/tld/html"/>
-		<copy file="${relative.dir}/src/java/META-INF/metawidget-spring.tld" tofile="${tomcat.dir}/webapps/ROOT/tld/spring/index.html"/>
-		<copy file="${relative.dir}/src/java/META-INF/metawidget-spring.tld" todir="${tomcat.dir}/webapps/ROOT/tld/spring"/>
-		<copy file="${relative.dir}/src/java/META-INF/metawidget-struts.tld" tofile="${tomcat.dir}/webapps/ROOT/tld/struts/index.html"/>
-		<copy file="${relative.dir}/src/java/META-INF/metawidget-struts.tld" todir="${tomcat.dir}/webapps/ROOT/tld/struts"/>
+		<copy file="${relative.dir}/src/java/META-INF/metawidget-faces.tld" tofile="${tomcat.dir}/webapps/ROOT/faces/index.html"/>
+		<copy file="${relative.dir}/src/java/META-INF/metawidget-faces.tld" todir="${tomcat.dir}/webapps/ROOT/faces"/>
+		<copy file="${relative.dir}/src/java/META-INF/metawidget-html.tld" tofile="${tomcat.dir}/webapps/ROOT/html/index.html"/>
+		<copy file="${relative.dir}/src/java/META-INF/metawidget-html.tld" todir="${tomcat.dir}/webapps/ROOT/html"/>
+		<copy file="${relative.dir}/src/java/META-INF/metawidget-spring.tld" tofile="${tomcat.dir}/webapps/ROOT/spring/index.html"/>
+		<copy file="${relative.dir}/src/java/META-INF/metawidget-spring.tld" todir="${tomcat.dir}/webapps/ROOT/spring"/>
+		<copy file="${relative.dir}/src/java/META-INF/metawidget-struts.tld" tofile="${tomcat.dir}/webapps/ROOT/struts/index.html"/>
+		<copy file="${relative.dir}/src/java/META-INF/metawidget-struts.tld" todir="${tomcat.dir}/webapps/ROOT/struts"/>
 
 		<!-- (SourceForge runs on UNIX, and we want to keep file sizes the same for easy diffs) -->
 
