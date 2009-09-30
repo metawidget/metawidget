@@ -72,7 +72,7 @@
 
 	<target name="tlddoc">
 
-		<java jar="${relative.dir}/lib/tlddoc.jar" fork="true" failonerror="true">
+		<java jar="${relative.dir}/src/doc/lib/tlddoc.jar" fork="true" failonerror="true">
 	        <arg line="-d ${relative.dir}/${build.dir}/doc/taglib"/>
 	        <arg value="${relative.dir}/src/java/META-INF/*.tld"/>
       	</java>
@@ -94,13 +94,13 @@
 		<!-- Copy shared CSS -->
 		
 		<copy todir="${relative.dir}/${build.dir}/doc/reference/en/shared/css">
-			<fileset dir="reference/css/html"/>
+			<fileset dir="${relative.dir}/src/doc/reference/css/html"/>
 		</copy>
 
 		<!-- Copy shared images -->
 		
 		<copy todir="${relative.dir}/${build.dir}/doc/reference/en/shared">
-			<fileset dir="reference/en">
+			<fileset dir="${relative.dir}/src/doc/reference/en">
 				<include name="images/**"/>
 			</fileset>
 		</copy>
@@ -111,12 +111,12 @@
 		
 		<ant antfile="${docbook.dir}/build-docbook.xml" target="all">
 			<property name="dbf.basedir" value="${docbook.dir}"/>
-			<property name="src.dir" value="reference/en"/>
+			<property name="src.dir" value="${relative.dir}/src/doc/reference/en"/>
 			<property name="docbook.dir" value="."/>
 			<property name="docbook.file" value="metawidget"/>
-			<property name="images.src.dir" value="reference/en/images"/>
-			<property name="css.src.dir" value="reference/css"/>
-			<property name="styles.src.dir" value="reference/styles"/>
+			<property name="images.src.dir" value="${relative.dir}/src/doc/reference/en/images"/>
+			<property name="css.src.dir" value="${relative.dir}/src/doc/reference/css"/>
+			<property name="styles.src.dir" value="${relative.dir}/src/doc/reference/styles"/>
 			<property name="target.dir" value="${relative.dir}/${build.dir}/doc/reference/en"/>
 		</ant>
 		

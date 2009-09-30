@@ -4,7 +4,7 @@
 	
 	<property file="build.properties"/>
 	<property file="${relative.dir}/examples/build.properties"/>
-	<import file="${relative.dir}/examples/build.xml" />
+	<import file="../examples/build.xml" />
 
 	<!-- Init -->
 

@@ -6,7 +6,7 @@
 
 	<target name="test-lookup" depends="wt.defineTasks">
 		<webtest name="test-lookup">
-			<config resultpath="../../../../${build.dir}/${run.dir}"/>
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
 				<invoke url="${webtest.url}/quirks-spring" />
 				
@@ -34,7 +34,7 @@
 
 	<target name="test-jstl" depends="wt.defineTasks">
 		<webtest name="test-jstl">
-			<config resultpath="../../../../${build.dir}/${run.dir}"/>
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
 				<invoke url="${webtest.url}/quirks-spring?stubbed=true" />
 				

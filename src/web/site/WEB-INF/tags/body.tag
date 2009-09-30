@@ -145,5 +145,5 @@
 		and <a href="http://everaldo.com/crystal" target="_blank">Crystal Project</a>
 		All trademarks are the property of their respective owners<br/><br/>
 		<a href="http://sourceforge.net/projects/metawidget" target="_blank" style="position: relative; top: -10px; left: -5px"><img src="/media/logos/logo-sourceforge.gif" alt="Hosted on SourceForge.net" style="border: 0px"/></a>
-		<a href="http://validator.w3.org/check?uri=referer" target="_blank" ><img src="/media/logos/logo-xhtml.gif" alt="Valid XHTML 1.0 Transitional" style="border: 0px" /></a>
+		<a href="http://validator.w3.org" target="_blank" ><img src="/media/logos/logo-xhtml.gif" alt="Valid XHTML 1.0 Transitional" style="border: 0px" /></a>
 	</div>

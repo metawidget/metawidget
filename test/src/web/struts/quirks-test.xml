@@ -6,7 +6,7 @@
 
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-all">
-			<config resultpath="../../../../${build.dir}/${run.dir}"/>
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
 				<invoke url="${webtest.url}/quirks-struts" />
 				

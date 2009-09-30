@@ -1,11 +1,12 @@
 <project name="site-test" default="test-site">
 
 	<property file="../../../../build.properties" />
+	<property file="../../../build.properties" />
 	<import file="${webtest.dir}/webtest.xml" />
 
 	<target name="test-site" depends="wt.defineTasks">		
 		<webtest name="test-site">
-			<config resultpath="../../../../${build.dir}/${run.dir}" haltonfailure="false"/>
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
 				<invoke url="${webtest.url}"/>
 				<verifyLinks onsiteonly="true" ignoreforeignjserrors="true"/>
