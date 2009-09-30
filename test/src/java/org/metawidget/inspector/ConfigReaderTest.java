@@ -72,7 +72,9 @@ public class ConfigReaderTest
 		// Configure
 
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget xmlns=\"http://metawidget.org\" version=\"1.0\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"";
+		xml += "	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
+		xml += "	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "	<point xmlns=\"urn:java:java.awt\">";
 		xml += "		<location>";
 		xml += "			<int>10</int>";
@@ -90,7 +92,9 @@ public class ConfigReaderTest
 		xml += "			</compositeWidgetBuilder>";
 		xml += "		</widgetBuilder>";
 		xml += "		<inspector>";
-		xml += "			<compositeInspector xmlns=\"urn:java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
+		xml += "			<compositeInspector xmlns=\"urn:java:org.metawidget.inspector.composite\"";
+		xml += "					xsi:schemaLocation=\"java:org.metawidget.inspector.composite http://metawidget.org/xsd/org/metawidget/inspector/composite/compositeInspector-1.0.xsd\"";
+		xml += "					config=\"CompositeInspectorConfig\">";
 		xml += "				<inspectors>";
 		xml += "					<list>";
 		xml += "						<metawidgetAnnotationInspector xmlns=\"urn:java:org.metawidget.inspector.annotation\"/>";

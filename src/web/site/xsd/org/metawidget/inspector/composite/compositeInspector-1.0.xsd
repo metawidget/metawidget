@@ -4,11 +4,11 @@
 	
 	<xs:element name="compositeInspector">
 		<xs:complexType>
-			<xs:sequence>
-				<xs:element name="inspectors" minOccurs="0" maxOccurs="1">
+			<xs:all>
+				<xs:element name="inspectors">
 					<xs:complexType>
 						<xs:sequence>
-							<xs:element name="list" minOccurs="1" maxOccurs="1">
+							<xs:element name="list">
 								<xs:complexType>
 									<xs:sequence>
 										<xs:any minOccurs="1" maxOccurs="unbounded" processContents="lax"/>
@@ -18,8 +18,8 @@
 						</xs:sequence>
 					</xs:complexType>
 				</xs:element>
-			</xs:sequence>
-			<xs:attribute name="config" type="xs:string" use="optional"/>
+			</xs:all>
+			<xs:attribute name="config" type="xs:string" use="required"/>
 		</xs:complexType>
 	</xs:element>
 	

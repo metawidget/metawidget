@@ -7,7 +7,9 @@
 	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
 	
 		<inspector>
-			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite"
+								xsi:schemaLocation="java:org.metawidget.inspector.composite http://metawidget.org/xsd/org/metawidget/inspector/composite/compositeInspector-1.0.xsd"
+								config="CompositeInspectorConfig">
 				<inspectors>
 					<list>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>

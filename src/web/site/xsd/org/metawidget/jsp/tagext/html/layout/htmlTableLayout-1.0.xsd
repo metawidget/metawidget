@@ -1,0 +1,68 @@
+<?xml version="1.0" ?>
+<xs:schema targetNamespace="java:org.metawidget.jsp.tagext.html.layout" xmlns="java:org.metawidget.jsp.tagext.html.layout"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.0">
+	
+	<xs:element name="htmlTableLayout">
+		<xs:complexType>
+			<xs:all>
+				<xs:element name="numberOfColumns" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="int" type="xs:int"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="tableStyle" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="string" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="tableStyleClass" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="string" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="columnStyleClasses" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="array">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:any maxOccurs="unbounded" processContents="lax"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="sectionStyleClass" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="string" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="footerStyle" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="string" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="footerStyleClass" minOccurs="0">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="string" type="xs:string"/>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:all>
+			<xs:attribute name="config" type="xs:string" use="required"/>
+		</xs:complexType>		
+	</xs:element>
+	
+</xs:schema>
