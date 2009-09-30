@@ -384,8 +384,8 @@
 		<emma>
 			<report>
 				<sourcepath>
-					<dirset dir="examples/src/java"/>
-					<dirset dir="src/java"/>
+					<dirset dir="${relative.dir}/examples/src/java"/>
+					<dirset dir="${relative.dir}/src/java"/>
 					<dirset dir="${relative.dir}/test/src/java"/>
 		        </sourcepath>				
 				<fileset dir="${relative.dir}/${build.dir}/${run.dir}">

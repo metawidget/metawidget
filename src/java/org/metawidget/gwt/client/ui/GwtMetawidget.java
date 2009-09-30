@@ -942,7 +942,7 @@ public class GwtMetawidget
 				if ( widgetExisting instanceof Stub )
 					miscAttributes.putAll( ( (Stub) widgetExisting ).getAttributes() );
 
-				layout.layoutChild( widgetExisting, miscAttributes, this );
+				layout.layoutChild( widgetExisting, PROPERTY, miscAttributes, this );
 			}
 		}
 	}

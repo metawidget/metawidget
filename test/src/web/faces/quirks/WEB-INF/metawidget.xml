@@ -1,11 +1,13 @@
 <?xml version="1.0"?>
 <metawidget xmlns="http://metawidget.org"
+	xmlns:composite="java:org.metawidget.inspector.composite"
+	composite:schemaLocation="java:org.metawidget.inspector.composite http://metawidget.org/xsd/org/metawidget/inspector/composite/compositeInspector-1.0.xsd"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd" version="1.0">
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
 
 	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
 		<inspector>		
-			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+			<composite:compositeInspector config="CompositeInspectorConfig">
 				<inspectors>
 					<list>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
@@ -14,7 +16,7 @@
 						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>			
 					</list>
 				</inspectors>
-			</compositeInspector>
+			</composite:compositeInspector>
 		</inspector>
 		<widgetBuilder>
 			<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig">

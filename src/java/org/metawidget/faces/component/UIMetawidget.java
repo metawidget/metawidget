@@ -669,6 +669,8 @@ public abstract class UIMetawidget
 				if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ))
 					throw e;
 
+				// TODO: unit test this line
+
 				LogUtils.getLog( MetawidgetTag.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
 			}
 		}
@@ -832,7 +834,7 @@ public abstract class UIMetawidget
 			if ( component instanceof UIStub )
 				childAttributes.putAll( ( mMetawidgetMixin ).getStubAttributes( component ) );
 
-			mMetawidgetMixin.getLayout().layoutChild( component, childAttributes, this );
+			mMetawidgetMixin.getLayout().layoutChild( component, PROPERTY, childAttributes, this );
 		}
 	}
 

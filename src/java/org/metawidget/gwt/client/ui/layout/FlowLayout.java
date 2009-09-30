@@ -37,7 +37,7 @@ public class FlowLayout
 	//
 
 	@Override
-	public void layoutChild( Widget widget, Map<String, String> attributes, GwtMetawidget metawidget )
+	public void layoutChild( Widget widget, String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
 	{
 		metawidget.add( widget );
 	}

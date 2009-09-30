@@ -128,7 +128,7 @@ public class MigLayout
 		state.defaultLabelVerticalPadding = (int) Math.max( 0, Math.floor( ( dummyTextFieldHeight - dummyLabelHeight ) / 2 ) );
 	}
 
-	public void layoutChild( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 

@@ -66,7 +66,7 @@ public class LinearLayout
 	}
 
 	@Override
-	public void layoutChild( View view, Map<String, String> attributes, AndroidMetawidget metawidget )
+	public void layoutChild( View view, String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
 	{
 		// Ignore empty Stubs
 

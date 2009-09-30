@@ -896,7 +896,7 @@ public class SwingMetawidget
 				if ( layout == null )
 					add( componentExisting );
 				else
-					layout.layoutChild( componentExisting, miscAttributes, this );
+					layout.layoutChild( componentExisting, PROPERTY, miscAttributes, this );
 			}
 		}
 

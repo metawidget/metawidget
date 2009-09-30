@@ -665,9 +665,11 @@ public class AndroidMetawidget
 
 		if ( layout != null )
 		{
+			Map<String, String> noAttributes = CollectionUtils.newHashMap();
+
 			for ( View viewExisting : mExistingViewsUnused )
 			{
-				layout.layoutChild( viewExisting, null, this );
+				layout.layoutChild( viewExisting, PROPERTY, noAttributes, this );
 			}
 		}
 

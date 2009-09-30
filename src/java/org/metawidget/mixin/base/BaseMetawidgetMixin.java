@@ -477,7 +477,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		throws Exception
 	{
 		if ( mLayout != null )
-			mLayout.layoutChild( widget, attributes, getMixinOwner() );
+			mLayout.layoutChild( widget, elementName, attributes, getMixinOwner() );
 	}
 
 	protected void endBuild()

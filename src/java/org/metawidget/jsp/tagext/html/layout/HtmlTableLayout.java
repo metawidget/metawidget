@@ -185,7 +185,7 @@ public class HtmlTableLayout
 		}
 	}
 
-	public void layoutChild( Tag tag, Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	public void layoutChild( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
 		try
 		{

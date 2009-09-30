@@ -753,7 +753,7 @@ public class Person {
 				<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="1.0"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd"&gt;
 
 &lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;		
 	&lt;inspector&gt;
@@ -834,7 +834,7 @@ public class Main {
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="1.0"	
 	xsi:schemaLocation="http://metawidget.org/inspection-result
-		http://metawidget.org/inspection-result-1.0.xsd"&gt;
+		http://metawidget.org/xsd/inspection-result-1.0.xsd"&gt;
 
 	&lt;entity type="com.myapp.Person"&gt;
 		&lt;property name="name" /&gt;
@@ -862,7 +862,7 @@ public class Main {
 				<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="1.0"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd"&gt;
 
 	&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;		
 		&lt;inspector&gt;
@@ -1436,7 +1436,7 @@ public class Person {
 					<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="1.0"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd"&gt;
 
 &lt;htmlMetawidget xmlns="java:org.metawidget.faces.component.html"&gt;
 	...
@@ -1484,7 +1484,7 @@ public class Person {
 					<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	version="1.0"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd"&gt;
 
 &lt;htmlMetawidget xmlns="java:org.metawidget.faces.component.html"&gt;
 	...
@@ -2383,7 +2383,7 @@ ant</programlisting>
 				<para>
 					For those looking to write their own Metawidget (say, for a currently unsupported platform) there is a
 					<classname>MetawidgetMixin</classname> class that implements the above steps 2-8 for you, see
-					<xref linkend="section-metawidgets-implementing-your-own-mixin"/>.
+					<xref linkend="section-architecture-metawidgets-implementing-your-own-mixin"/>.
 					All of the supplied Metawidgets are implemented using this class.
 				</para>
 				
@@ -2460,6 +2460,94 @@ ant</programlisting>
 				</itemizedlist>
 				
 			</section>
+
+			<section id="section-architecture-metawidgets-implementing-your-own">
+				<title>Implementing Your Own Metawidget</title>
+	
+				<para>
+					Metawidget creates widgets native to a particular UI framework. Having to implement your own
+					Metawidget should be far less common than having to implement your own inspector or
+					WidgetBuilder, but if your chosen UI framework is not supported 'out of the box' you may
+					need to implement your own. 
+				</para>
+				
+				<para>
+					Metawidgets are not required to extend any base class or implement any interface. However,
+					it is recommended developers familiarize themselves with existing
+					Metawidgets (such as <classname>UIMetawidget</classname>) to make their API similar.
+					Whilst there is no one Metawidget base class, a number of convenience classes are provided:
+				</para>
+					
+				<section id="section-architecture-metawidgets-implementing-your-own-mixin">
+					<title>MetawidgetMixin</title>
+					
+					<para>
+						Mixins are a frequently used workaround for multiple inheritance in Java. Classes extend the
+						mixin as an inner class and override its methods as needed.
+					</para>
+						
+					<para>
+						All the built-in Metawidgets use <classname>MetawidgetMixin</classname> to ease their implementation. The
+						mixin provides pre-built functionality such as deciding when to use single versus compound widgets, support
+						for overriding widgets, incorporating stubs, and changing between read-only and active modes.
+					</para>
+					
+				</section>
+	
+				<section id="section-architecture-metawidgets-implementing-your-own-android">
+					<title>Android</title>
+					
+					<para>
+						Android already defines a separation between <classname>Views</classname> and <classname>ViewGroups</classname>.
+						<classname>org.metawidget.android.widget.layout.Layout</classname> and its subclasses automate the use
+						of existing Android <classname>ViewGroups</classname>.					
+					</para>
+					
+				</section>
+	
+				<section id="section-architecture-metawidgets-implementing-your-own-faces">
+					<title>Java Server Faces</title>
+					
+					<para>
+						For frameworks based on JSF, <classname>org.metawidget.faces.component.UIMetawidget</classname>
+						provides base widget functionality. See <classname>org.metawidget.faces.component.html.HtmlMetawidget</classname> for example usage.
+					</para>
+					
+					<para>
+						JSF already defines a clean separation between widgets and their renderers.
+						<classname>org.metawidget.faces.renderkit.LayoutRenderer</classname> and its subclasses leverage this to
+						support different layouts.
+					</para>
+				</section>
+				
+				<section id="section-architecture-metawidgets-implementing-your-own-jsp">
+					<title>Java Server Pages</title>
+					
+					<para>
+						For frameworks based on JSP, <classname>org.metawidget.jsp.tagext.MetawidgetTag</classname> and the more
+						commonly used <classname>org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag</classname> provide base
+						taglib functionality. See <classname>StrutsMetawidgetTag</classname> for example usage.
+					</para>
+					
+					<para>
+						<classname>MetawidgetTag</classname> also defines a clean separation between choosing widgets and laying them out.
+						<classname>org.metawidget.jsp.tagext.Layout</classname> and its subclasses can perform the layout for
+						<emphasis>all</emphasis> JSP-based frameworks.
+					</para>
+				</section>
+	
+				<section id="section-architecture-metawidgets-implementing-your-own-swing">
+					<title>Swing</title>
+					
+					<para>
+						Swing already defines a clean separation between widgets and layout managers.
+						<classname>org.metawidget.swing.layout.Layout</classname> and its subclasses automate the use
+						of existing Swing <classname>LayoutManagers</classname>.
+					</para>
+				</section>
+	
+			</section>
+
 		</section>
 		
 		<section id="section-architecture-inspectors">
@@ -2769,6 +2857,88 @@ ant</programlisting>
 				
 			</section>
 		
+			<section id="section-architecture-inspectors-implementing-your-own">
+				<title>Implementing Your Own Inspector</title>
+	
+				<para>
+					Metawidget inspects a wide variety of back-end architectures. If your chosen back-end
+					architecture is not supported 'out of the box', you may need to implement your own inspector. 
+				</para>
+				
+				<para>
+					All inspectors must implement the <classname>org.metawidget.inspector.Inspector</classname> interface:
+				</para>
+				
+				<programlisting language="java">public interface Inspector {
+		String inspect( Object toInspect, String type, String... names )
+			throws InspectionException;
+	}</programlisting>
+				
+				<para>
+					The interface has only one method: <function>inspect</function>. Its parameters are:
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							an <classname>Object</classname> to inspect. This may be <parameter>null</parameter>, or can be ignored for inspectors working off static metadata (such as config files)
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							a <parameter>type</parameter>. This must match the given <classname>Object</classname>, or some attribute in the inspected config file
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							a list of <parameter>names</parameter> to be traversed beneath the type
+						</para>
+					</listitem>
+				</itemizedlist>				
+	
+				<para>
+					At a high level, the inspect parameters can be thought of as an XPath <filename>type/name/name</filename>
+					into the object graph of the given <classname>Object</classname> (Metawidget doesn't use <emphasis>actual</emphasis> XPaths, though, for reasons
+					discussed in the developer blogs).
+				</para>
+				
+				<para>
+					The returned String must be an XML document conforming to <filename>inspection-result-1.0.xsd</filename>. To assist
+					development, deploy your inspector within <classname>CompositeInspector</classname> and use <function>CompositeInspectorConfig.setValidating(true)</function> to
+					automatically validate the returned DOM during testing.
+				</para>
+				
+				<para>
+					A number of convenience base classes are provided for different inspectors: 
+				</para>
+				
+				<itemizedlist>
+					<listitem>
+						<para>
+							For inspecting annotations and properties, <classname>BaseObjectInspector</classname> assists
+							in iterating over public member variables, getter/setter methods and GroovyBean properties. See
+							<classname>PropertyTypeInspector</classname> or <classname>JpaInspector</classname> for example usage.
+						</para>				
+						<para>
+							For inspecting XML files, <classname>BaseXmlInspector</classname> assists
+							in opening and traversing through XML. See
+							<classname>StrutsInspector</classname> for example usage.
+						</para>
+					</listitem>
+				</itemizedlist>
+	
+				<para>
+					When implementing your own inspector, try to avoid technology-specific XML attribute names. For example, <classname>FacesInspector</classname>
+					has an annotation <classname>@UiFacesNumberConverter</classname>. This annotation certainly has technology-specific parts to it, as
+					it names a JSF <classname>Converter</classname> that only applies in JSF environments, so
+					it is reasonable to name the XML attribute <code>faces-converter-class</code>. However, <classname>NumberConverter</classname>s also
+					use other properties about the field, such as the maximum number of integer digits. Such properties are not JSF-specific (eg. we can
+					source the same property from Hibernate Validator's <classname>@Digits</classname> annotation), so are better named 'neutrally'
+					(eg. <classname>maximum-integer-digits</classname>). 
+				</para>
+				
+			</section>
+
 		</section>
 
 		<section id="section-architecture-widgetbuilders">
@@ -2970,6 +3140,27 @@ ant</programlisting>
 				</para>
 				
 			</section>
+			
+			<section id="section-architecture-widgetbuilders-implementing-your-own">
+				<title>Implementing Your Own WidgetBuilder</title>
+	
+				<para>
+					The pluggable nature of WidgetBuilders makes it easy to add your own. Because <classname>CompositeWidgetBuilder</classname> can
+					be used to chain WidgetBuilders together, you only need worry about supporting your particular component library's widgets. You
+					can simply return null for all other types of fields and rely on another WidgetBuilder further down the chain to instantiate
+					one of the usual widgets.
+				</para>
+				
+				<para>
+					For example, <classname>RichFacesWidgetBuilder</classname> only instantiates the 3 RichFaces components, and returns null
+					for everything else.
+				</para>
+				
+				<para>
+					A convenience base class, <classname>BaseWidgetBuilder</classname>, is provided.
+				</para>
+				
+			</section>			
 			
 		</section>
 
@@ -3177,11 +3368,58 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 				<para>
 					Note that although individual <classname>WidgetProcessor</classname> are immutable, the <classname>List</classname> they
 					are contained in can be changed. Methods such as <function>addWidgetProcessor</function> allows clients to dynamically
-					add <classname>WidgetProcessor</classname>s at runtime (see <xref linkend="section-architecture-widgetprocessors-interface"/>).
+					add <classname>WidgetProcessor</classname>s at runtime. This is useful for adding event handlers (see
+					<xref linkend="section-architecture-widgetprocessors-interface"/>).
 				</para>
 				
 			</section>
 
+			<section id="section-architecture-widgetprocessors-implementing-your-own">
+				<title>Implementing Your Own WidgetProcessor</title>
+			
+				<para>
+					Here is a simple example of a custom <classname>WidgetProcessor</classname> to add tooltips to
+					add <classname>JComponents</classname>. It extends the code from the tutorial
+					(see <xref linkend="section-introduction-part1"/>).
+				</para>
+				
+				<programlisting language="java">package com.myapp;
+	
+<symbol>import static org.metawidget.inspector.InspectionResultConstants.*;</symbol>
+
+import java.util.Map;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+
+public class Main {
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		<symbol>metawidget.addWidgetProcessor( new TooltipProcessor() );</symbol>
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 210 );
+		frame.setVisible( true );
+	}
+
+	<symbol>static class TooltipProcessor
+		extends BaseWidgetProcessor&lt;JComponent, SwingMetawidget&gt;
+	{
+		public JComponent processWidget( JComponent widget, String elementName,
+										 Map&lt;String, String&gt; attributes, SwingMetawidget metawidget ) {
+			widget.setToolTipText( attributes.get( NAME ) );
+			return widget;
+		}
+	}</symbol>
+}</programlisting>
+
+			</section>
 		</section>
 		
 		<section id="section-architecture-layouts">
@@ -3332,7 +3570,7 @@ void onEndBuild( M metawidget );</programlisting>
 
 				<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd"&gt;
 
 	&lt;swingMetawidget xmlns="java:org.metawidget.swing"/&gt;
 	
@@ -3357,7 +3595,7 @@ void onEndBuild( M metawidget );</programlisting>
 
 				<programlisting language="xml">&lt;metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/metawidget-1.0.xsd"&gt;
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd"&gt;
 
 	&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
 		&lt;opaque&gt;
@@ -4042,93 +4280,6 @@ void onEndBuild( M metawidget );</programlisting>
 
 			</section>
 			
-		</section>
-
-		<section id="section-metawidgets-implementing-your-own">
-			<title>Implementing Your Own Metawidget</title>
-
-			<para>
-				Metawidget creates widgets native to a particular UI framework. Having to implement your own
-				Metawidget should be far less common than having to implement your own inspector or
-				WidgetBuilder, but if your chosen UI framework is not supported 'out of the box' you may
-				need to implement your own. 
-			</para>
-			
-			<para>
-				Metawidgets are not required to extend any base class or implement any interface. However,
-				it is recommended developers familiarize themselves with existing
-				Metawidgets (such as <classname>UIMetawidget</classname>) to make their API similar.
-				Whilst there is no one Metawidget base class, a number of convenience classes are provided:
-			</para>
-				
-			<section id="section-metawidgets-implementing-your-own-mixin">
-				<title>MetawidgetMixin</title>
-				
-				<para>
-					Mixins are a frequently used workaround for multiple inheritance in Java. Classes extend the
-					mixin as an inner class and override its methods as needed.
-				</para>
-					
-				<para>
-					All the built-in Metawidgets use <classname>MetawidgetMixin</classname> to ease their implementation. The
-					mixin provides pre-built functionality such as deciding when to use single versus compound widgets, support
-					for overriding widgets, incorporating stubs, and changing between read-only and active modes.
-				</para>
-				
-			</section>
-
-			<section id="section-metawidgets-implementing-your-own-android">
-				<title>Android</title>
-				
-				<para>
-					Android already defines a separation between <classname>Views</classname> and <classname>ViewGroups</classname>.
-					<classname>org.metawidget.android.widget.layout.Layout</classname> and its subclasses automate the use
-					of existing Android <classname>ViewGroups</classname>.					
-				</para>
-				
-			</section>
-
-			<section id="section-metawidgets-implementing-your-own-faces">
-				<title>Java Server Faces</title>
-				
-				<para>
-					For frameworks based on JSF, <classname>org.metawidget.faces.component.UIMetawidget</classname>
-					provides base widget functionality. See <classname>org.metawidget.faces.component.html.HtmlMetawidget</classname> for example usage.
-				</para>
-				
-				<para>
-					JSF already defines a clean separation between widgets and their renderers.
-					<classname>org.metawidget.faces.renderkit.LayoutRenderer</classname> and its subclasses leverage this to
-					support different layouts.
-				</para>
-			</section>
-			
-			<section id="section-metawidgets-implementing-your-own-jsp">
-				<title>Java Server Pages</title>
-				
-				<para>
-					For frameworks based on JSP, <classname>org.metawidget.jsp.tagext.MetawidgetTag</classname> and the more
-					commonly used <classname>org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag</classname> provide base
-					taglib functionality. See <classname>StrutsMetawidgetTag</classname> for example usage.
-				</para>
-				
-				<para>
-					<classname>MetawidgetTag</classname> also defines a clean separation between choosing widgets and laying them out.
-					<classname>org.metawidget.jsp.tagext.Layout</classname> and its subclasses can perform the layout for
-					<emphasis>all</emphasis> JSP-based frameworks.
-				</para>
-			</section>
-
-			<section id="section-metawidgets-implementing-your-own-swing">
-				<title>Swing</title>
-				
-				<para>
-					Swing already defines a clean separation between widgets and layout managers.
-					<classname>org.metawidget.swing.layout.Layout</classname> and its subclasses automate the use
-					of existing Swing <classname>LayoutManagers</classname>.
-				</para>
-			</section>
-
 		</section>
 
 	</chapter>
@@ -5181,88 +5332,6 @@ public class PersonController {
 
 		</section>
 
-		<section id="section-inspectors-implementing-your-own">
-			<title>Implementing Your Own Inspector</title>
-
-			<para>
-				Metawidget inspects a wide variety of back-end architectures. If your chosen back-end
-				architecture is not supported 'out of the box', you may need to implement your own inspector. 
-			</para>
-			
-			<para>
-				All inspectors must implement the <classname>org.metawidget.inspector.Inspector</classname> interface:
-			</para>
-			
-			<programlisting language="java">public interface Inspector {
-	String inspect( Object toInspect, String type, String... names )
-		throws InspectionException;
-}</programlisting>
-			
-			<para>
-				The interface has only one method: <function>inspect</function>. Its parameters are:
-			</para>
-			
-			<itemizedlist>
-				<listitem>
-					<para>
-						an <classname>Object</classname> to inspect. This may be <parameter>null</parameter>, or can be ignored for inspectors working off static metadata (such as config files)
-					</para>
-				</listitem>
-				<listitem>
-					<para>
-						a <parameter>type</parameter>. This must match the given <classname>Object</classname>, or some attribute in the inspected config file
-					</para>
-				</listitem>
-				<listitem>
-					<para>
-						a list of <parameter>names</parameter> to be traversed beneath the type
-					</para>
-				</listitem>
-			</itemizedlist>				
-
-			<para>
-				At a high level, the inspect parameters can be thought of as an XPath <filename>type/name/name</filename>
-				into the object graph of the given <classname>Object</classname> (Metawidget doesn't use <emphasis>actual</emphasis> XPaths, though, for reasons
-				discussed in the developer blogs).
-			</para>
-			
-			<para>
-				The returned String must be an XML document conforming to <filename>inspection-result-1.0.xsd</filename>. To assist
-				development, deploy your inspector within <classname>CompositeInspector</classname> and use <function>CompositeInspectorConfig.setValidating(true)</function> to
-				automatically validate the returned DOM during testing.
-			</para>
-			
-			<para>
-				A number of convenience base classes are provided for different inspectors: 
-			</para>
-			
-			<itemizedlist>
-				<listitem>
-					<para>
-						For inspecting annotations and properties, <classname>BaseObjectInspector</classname> assists
-						in iterating over public member variables, getter/setter methods and GroovyBean properties. See
-						<classname>PropertyTypeInspector</classname> or <classname>JpaInspector</classname> for example usage.
-					</para>				
-					<para>
-						For inspecting XML files, <classname>BaseXmlInspector</classname> assists
-						in opening and traversing through XML. See
-						<classname>StrutsInspector</classname> for example usage.
-					</para>
-				</listitem>
-			</itemizedlist>
-
-			<para>
-				When implementing your own inspector, try to avoid technology-specific XML attribute names. For example, <classname>FacesInspector</classname>
-				has an annotation <classname>@UiFacesNumberConverter</classname>. This annotation certainly has technology-specific parts to it, as
-				it names a JSF <classname>Converter</classname> that only applies in JSF environments, so
-				it is reasonable to name the XML attribute <code>faces-converter-class</code>. However, <classname>NumberConverter</classname>s also
-				use other properties about the field, such as the maximum number of integer digits. Such properties are not JSF-specific (eg. we can
-				source the same property from Hibernate Validator's <classname>@Digits</classname> annotation), so are better named 'neutrally'
-				(eg. <classname>maximum-integer-digits</classname>). 
-			</para>
-			
-		</section>
-
 	</chapter>
 
 	<chapter id="chapter-widgetbuilders">
@@ -6199,27 +6268,6 @@ public class PersonController {
 			</section>
 		</section>
 					
-		<section id="section-widgetbuilders-implementing-your-own">
-			<title>Implementing Your Own WidgetBuilder</title>
-
-			<para>
-				The pluggable nature of WidgetBuilders makes it easy to add your own. Because <classname>CompositeWidgetBuilder</classname> can
-				be used to chain WidgetBuilders together, you only need worry about supporting your particular component library's widgets. You
-				can simply return null for all other types of fields and rely on another WidgetBuilder further down the chain to instantiate
-				one of the usual widgets.
-			</para>
-			
-			<para>
-				For example, <classname>RichFacesWidgetBuilder</classname> only instantiates the 3 RichFaces components, and returns null
-				for everything else.
-			</para>
-			
-			<para>
-				A convenience base class, <classname>BaseWidgetBuilder</classname>, is provided.
-			</para>
-			
-		</section>
-		
 	</chapter>
 	
 	<chapter id="chapter-widgetprocessors">

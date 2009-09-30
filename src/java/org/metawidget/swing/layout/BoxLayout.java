@@ -47,7 +47,7 @@ public class BoxLayout
 		metawidget.setLayout( new javax.swing.BoxLayout( metawidget, javax.swing.BoxLayout.LINE_AXIS ) );
 	}
 
-	public void layoutChild( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 

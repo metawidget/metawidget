@@ -106,7 +106,7 @@ public class FlexTableLayout
 		state.formatter = flexTable.getFlexCellFormatter();
 	}
 
-	public void layoutChild( Widget widget, Map<String, String> attributes, GwtMetawidget metawidget )
+	public void layoutChild( Widget widget, String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
 	{
 		// Do not render empty stubs
 

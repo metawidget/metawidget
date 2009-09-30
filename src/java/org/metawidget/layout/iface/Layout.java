@@ -48,13 +48,14 @@ public interface Layout<W, M extends W>
 	/**
 	 * @param widget
 	 *            the widget to layout. Never null
+	 * @param elementName TODO
 	 * @param attributes
 	 *            attributes of the widget to layout. Never null
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
 	 */
 
-	void layoutChild( W widget, Map<String, String> attributes, M metawidget );
+	void layoutChild( W widget, String elementName, Map<String, String> attributes, M metawidget );
 
 	/**
 	 * Event called at the end of widget building, after all widgets have been built and added to

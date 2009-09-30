@@ -354,7 +354,7 @@ public class ConfigReaderTest
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\">";
 		xml += "<propertyStyle><class>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</class></propertyStyle>";
 		xml += "</propertyTypeInspector></metawidget>";
@@ -374,7 +374,7 @@ public class ConfigReaderTest
 	public void testSupportedTypes()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\">";
 		xml += "<int><int>3</int></int>";
 		xml += "<list>";
@@ -432,7 +432,7 @@ public class ConfigReaderTest
 	public void testUnsupportedType()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\">";
 		xml += "<date><date>1/1/2001</date></date>";
 		xml += "</badInspector>";
@@ -452,7 +452,7 @@ public class ConfigReaderTest
 	public void testEmptyCollection()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\">";
 		xml += "<list>";
 		xml += "<list/>";
@@ -471,7 +471,7 @@ public class ConfigReaderTest
 	public void testMetawidgetExceptionDuringConstruction()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\">";
 		xml += "<failDuringConstruction><boolean>true</boolean></failDuringConstruction>";
 		xml += "</badInspector>";
@@ -491,7 +491,7 @@ public class ConfigReaderTest
 	public void testSetterWithNoParameters()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\">";
 		xml += "<noParameters/>";
 		xml += "</badInspector>";
@@ -511,7 +511,7 @@ public class ConfigReaderTest
 	public void testNoInspector()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "</metawidget>";
 
 		try
@@ -528,7 +528,7 @@ public class ConfigReaderTest
 	public void testMultipleInspectors()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\"/>";
 		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\"/>";
 		xml += "</metawidget>";
@@ -607,7 +607,7 @@ public class ConfigReaderTest
 	public void testUppercase()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<BadInspector xmlns=\"java:org.metawidget.inspector\"/>";
 		xml += "</metawidget>";
 

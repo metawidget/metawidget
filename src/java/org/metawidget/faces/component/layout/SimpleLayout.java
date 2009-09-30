@@ -40,7 +40,7 @@ public class SimpleLayout
 	//
 
 	@Override
-	public void layoutChild( UIComponent widget, Map<String, String> attributes, UIMetawidget metawidget )
+	public void layoutChild( UIComponent widget, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		List<UIComponent> children = metawidget.getChildren();
 

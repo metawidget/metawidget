@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<xs:schema targetNamespace="java:org.metawidget.inspector.composite" xmlns="java:org.metawidget.inspector.composite"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" version="1.0">
+	
+	<xs:element name="compositeInspector">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="inspectors" minOccurs="0" maxOccurs="1">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="list" minOccurs="1" maxOccurs="1">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:any minOccurs="1" maxOccurs="unbounded" processContents="lax"/>
+									</xs:sequence>
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:attribute name="config" type="xs:string" use="optional"/>
+		</xs:complexType>
+	</xs:element>
+	
+</xs:schema>

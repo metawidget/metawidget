@@ -3,7 +3,7 @@
 	<tlibversion>1.2</tlibversion>
 	<jspversion>1.1</jspversion>
 	<shortname>mh</shortname>
-	<uri>http://metawidget.org/html</uri>
+	<uri>http://metawidget.org/tld/html</uri>
 	<info>JSP Support</info>
 
 	<tag>
