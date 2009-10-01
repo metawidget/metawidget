@@ -42,11 +42,14 @@ import org.metawidget.util.IOUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Ant task to generate the XML Schemas for the JavaBeans used in <code>metawidget.xml</code>.
+ * Ant task to generate the XML Schemas for the <code>Inspector</code>s, <code>WidgetBuilder</code>
+ * s, <code>WidgetProcessor</code>s, <code>Layout</code>s and other JavaBeans used in
+ * <code>metawidget.xml</code>.
  * <p>
- * Note: automated schema generation is inherently brittle. The goal of this Ant task is only
- * to generate schemas for the classes included in the standard Metawidget distribution. Use of
- * this task to generate schemas for your own classes may give unexpected results.
+ * Note: automated schema generation is inherently brittle. The goal of this Ant task is only to be
+ * robust enough to generate schemas for the classes included in the standard Metawidget
+ * distribution. Use of this task to generate schemas for your own classes may give unexpected
+ * results.
  *
  * @author Richard Kennard
  */
@@ -146,7 +149,7 @@ public class XmlSchemaGeneratorTask
 
 				// ...ignore inner classes...
 
-				if ( className.contains( "$" ))
+				if ( className.contains( "$" ) )
 					continue;
 
 				String packageName = qualifiedClassName.substring( 0, lastIndexOf );
@@ -221,7 +224,7 @@ public class XmlSchemaGeneratorTask
 		builder.append( " -->\r\n" );
 		builder.append( "\r\n" );
 		builder.append( "\t<xs:element name=\"" );
-		builder.append( StringUtils.lowercaseFirstLetter( className ));
+		builder.append( StringUtils.lowercaseFirstLetter( className ) );
 		builder.append( "\">\r\n" );
 
 		builder.append( "\t\t<xs:complexType>\r\n" );
@@ -230,12 +233,12 @@ public class XmlSchemaGeneratorTask
 
 		Class<?> clazz = Class.forName( packageName + '.' + className );
 
-		if ( clazz.isInterface() || Modifier.isAbstract( clazz.getModifiers() ))
+		if ( clazz.isInterface() || Modifier.isAbstract( clazz.getModifiers() ) )
 			return null;
 
 		// Config?
 
-		if ( className.endsWith( "Config" ))
+		if ( className.endsWith( "Config" ) )
 			return null;
 
 		// Configurable?
@@ -243,7 +246,7 @@ public class XmlSchemaGeneratorTask
 		boolean configurable = false;
 		boolean optionallyConfigurable = false;
 
-		for( Constructor<?> constructor : clazz.getConstructors() )
+		for ( Constructor<?> constructor : clazz.getConstructors() )
 		{
 			if ( constructor.getParameterTypes().length == 0 )
 			{
@@ -256,7 +259,7 @@ public class XmlSchemaGeneratorTask
 
 			Class<?> parameterType = constructor.getParameterTypes()[0];
 
-			if ( !parameterType.getName().endsWith( "Config" ))
+			if ( !parameterType.getName().endsWith( "Config" ) )
 				continue;
 
 			clazz = parameterType;
@@ -265,7 +268,7 @@ public class XmlSchemaGeneratorTask
 
 		// Not configurable and not a Metawidget?
 
-		if ( !configurable && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ))
+		if ( !configurable && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ) )
 			return null;
 
 		// Iterate through each JavaBean property
@@ -309,19 +312,19 @@ public class XmlSchemaGeneratorTask
 			clazz.getMethod( "setParameter", String.class, Object.class );
 			supportSetParameter = true;
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			// Okay to fail
 		}
 
 		if ( supportSetParameter )
 		{
-			// A restriction of XML Schema is that if you want to support multiples of
+			// A limitation of XML Schema is that if you want to support multiples of
 			// an element (ie. xs:sequence, maxOccurs='unbounded') then you can't also
 			// support arbitrary order (ie. xs:all). You can't mix the two :(
 
 			builder.append( "\t\t\t<xs:sequence>\r\n" );
-			builder.append( generatePropertyBlock( "parameter", true, String.class, Object.class ));
+			builder.append( generatePropertyBlock( "parameter", true, String.class, Object.class ) );
 		}
 		else
 		{
@@ -333,12 +336,12 @@ public class XmlSchemaGeneratorTask
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( clazz );
 
-		for( Property property : properties.values() )
+		for ( Property property : properties.values() )
 		{
 			if ( !property.isWritable() )
 				continue;
 
-			if ( "config".equals( property.getName() ))
+			if ( "config".equals( property.getName() ) )
 				continue;
 
 			String propertyBlock = generatePropertyBlock( property.getName(), false, property.getType() );
@@ -380,7 +383,7 @@ public class XmlSchemaGeneratorTask
 
 		// Types
 
-		for( Class<?> type : types )
+		for ( Class<?> type : types )
 		{
 			String typeBlock = generateTypeBlock( type );
 
@@ -403,26 +406,26 @@ public class XmlSchemaGeneratorTask
 	{
 		// Properties to ignore (should never be set via metawidget.xml)
 
-		if ( ResourceResolver.class.equals( type ))
+		if ( ResourceResolver.class.equals( type ) )
 			return null;
 
 		// Primitives
 
-		if ( boolean.class.equals( type ))
+		if ( boolean.class.equals( type ) )
 			return "\t\t\t\t\t\t\t<xs:element name=\"boolean\" type=\"xs:boolean\"/>\r\n";
 
-		if ( int.class.equals( type ))
+		if ( int.class.equals( type ) )
 			return "\t\t\t\t\t\t\t<xs:element name=\"int\" type=\"xs:int\"/>\r\n";
 
-		if ( ResourceBundle.class.equals( type ))
+		if ( ResourceBundle.class.equals( type ) )
 			return "\t\t\t\t\t\t\t<xs:element name=\"bundle\" type=\"xs:string\"/>\r\n";
 
-		if ( String.class.equals( type ))
+		if ( String.class.equals( type ) )
 			return "\t\t\t\t\t\t\t<xs:element name=\"string\" type=\"xs:string\"/>\r\n";
 
 		// InputStreams
 
-		if ( InputStream.class.equals( type ))
+		if ( InputStream.class.equals( type ) )
 		{
 			StringBuilder builder = new StringBuilder();
 
@@ -437,7 +440,7 @@ public class XmlSchemaGeneratorTask
 
 		// Collections
 
-		if ( type.isArray() || List.class.equals( type ) || Set.class.equals( type ))
+		if ( type.isArray() || List.class.equals( type ) || Set.class.equals( type ) )
 		{
 			StringBuilder builder = new StringBuilder();
 
@@ -445,9 +448,9 @@ public class XmlSchemaGeneratorTask
 
 			if ( type.isArray() )
 				builder.append( "array" );
-			else if ( List.class.equals( type ))
+			else if ( List.class.equals( type ) )
 				builder.append( "list" );
-			else if ( Set.class.equals( type ))
+			else if ( Set.class.equals( type ) )
 				builder.append( "set" );
 
 			builder.append( "\">\r\n" );

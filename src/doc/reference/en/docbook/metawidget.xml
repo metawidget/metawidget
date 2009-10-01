@@ -2937,6 +2937,14 @@ ant</programlisting>
 					(eg. <classname>maximum-integer-digits</classname>). 
 				</para>
 				
+				<para>
+					If you intend your <classname>Inspector</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
+					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>Inspector</classname> in their
+					<filename>metawidget.xml</filename> at development time. There is an Ant task,
+					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
+					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
+				</para>
+				
 			</section>
 
 		</section>
@@ -3179,6 +3187,14 @@ ant</programlisting>
 					Custom <classname>WidgetBuilder</classname>s will typically only want to override the latter, because the former will
 					usually be handled by some kind of label.
 				</para>
+				
+				<para>
+					If you intend your <classname>WidgetBuilder</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
+					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>WidgetBuilder</classname> in their
+					<filename>metawidget.xml</filename> at development time. There is an Ant task,
+					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
+					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
+				</para>				
 				
 			</section>			
 			
@@ -3439,6 +3455,14 @@ public class Main {
 	}</symbol>
 }</programlisting>
 
+				<para>
+					If you intend your <classname>WidgetProcessor</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
+					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>WidgetProcessor</classname> in their
+					<filename>metawidget.xml</filename> at development time. There is an Ant task,
+					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
+					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
+				</para>				
+
 			</section>
 		</section>
 		
@@ -3638,6 +3662,14 @@ void onEndBuild( M metawidget );</programlisting>
 					</listitem>
 				</orderedlist>
 				
+				<para>
+					If you intend your <classname>Layout</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
+					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>Layout</classname> in their
+					<filename>metawidget.xml</filename> at development time. There is an Ant task,
+					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
+					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
+				</para>
+								
 			</section>
 			
 		</section>
