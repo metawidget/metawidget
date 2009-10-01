@@ -375,7 +375,7 @@ public class ConfigReaderTest
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\">";
+		xml += "<badInspector xmlns=\"java:org.metawidget.config\" config=\"BadInspectorConfig\">";
 		xml += "<int><int>3</int></int>";
 		xml += "<list>";
 		xml += "<list>";
@@ -433,7 +433,7 @@ public class ConfigReaderTest
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\">";
+		xml += "<badInspector xmlns=\"java:org.metawidget.config\" config=\"BadInspectorConfig\">";
 		xml += "<date><date>1/1/2001</date></date>";
 		xml += "</badInspector>";
 		xml += "</metawidget>";
@@ -445,7 +445,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( e.getMessage().endsWith( "No such class org.metawidget.inspector.Date or supported tag <date>" ) );
+			assertTrue( e.getMessage().endsWith( "No such class org.metawidget.config.Date or supported tag <date>" ) );
 		}
 	}
 
@@ -453,7 +453,7 @@ public class ConfigReaderTest
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\">";
+		xml += "<badInspector xmlns=\"java:org.metawidget.config\" config=\"BadInspectorConfig\">";
 		xml += "<list>";
 		xml += "<list/>";
 		xml += "</list>";
@@ -472,7 +472,7 @@ public class ConfigReaderTest
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\">";
+		xml += "<badInspector xmlns=\"java:org.metawidget.config\" config=\"BadInspectorConfig\">";
 		xml += "<failDuringConstruction><boolean>true</boolean></failDuringConstruction>";
 		xml += "</badInspector>";
 		xml += "</metawidget>";
@@ -492,7 +492,7 @@ public class ConfigReaderTest
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\">";
+		xml += "<badInspector xmlns=\"java:org.metawidget.config\" config=\"BadInspectorConfig\">";
 		xml += "<noParameters/>";
 		xml += "</badInspector>";
 		xml += "</metawidget>";
@@ -521,7 +521,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "No match for class org.metawidget.inspector.BadInspector within config".equals( e.getMessage() ) );
+			assertTrue( "No match for class org.metawidget.config.BadInspector within config".equals( e.getMessage() ) );
 		}
 	}
 
@@ -529,8 +529,8 @@ public class ConfigReaderTest
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\"/>";
-		xml += "<badInspector xmlns=\"java:org.metawidget.inspector\" config=\"BadInspectorConfig\"/>";
+		xml += "<badInspector xmlns=\"java:org.metawidget.config\" config=\"BadInspectorConfig\"/>";
+		xml += "<badInspector xmlns=\"java:org.metawidget.config\" config=\"BadInspectorConfig\"/>";
 		xml += "</metawidget>";
 
 		try
@@ -540,7 +540,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "Already configured a class org.metawidget.inspector.BadInspector, ambiguous match with class org.metawidget.inspector.BadInspector".equals( e.getMessage() ) );
+			assertTrue( "Already configured a class org.metawidget.config.BadInspector, ambiguous match with class org.metawidget.config.BadInspector".equals( e.getMessage() ) );
 		}
 	}
 
@@ -608,7 +608,7 @@ public class ConfigReaderTest
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "<BadInspector xmlns=\"java:org.metawidget.inspector\"/>";
+		xml += "<BadInspector xmlns=\"java:org.metawidget.config\"/>";
 		xml += "</metawidget>";
 
 		try

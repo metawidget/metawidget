@@ -16,9 +16,16 @@
 
 package org.metawidget.jsp.tagext;
 
+import java.lang.reflect.Field;
+
+import javax.servlet.jsp.tagext.TagSupport;
+
 import junit.framework.TestCase;
 
+import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.jsp.JspMetawidgetTests.MockPageContext;
+import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
 
 /**
  * MetawidgetTag test cases.
@@ -36,31 +43,36 @@ public class MetawidgetTagTest
 	//
 
 	public void testMissingDefaultConfig()
+		throws Exception
 	{
-		// TODO: MockPageContext
+		MockPageContext pageContext = new MockPageContext();
+		Field field = TagSupport.class.getDeclaredField( "pageContext" );
+		field.setAccessible( true );
 
-		//MetawidgetTag metawidget = new HtmlMetawidgetTag();
-		//assertTrue( null == metawidget.getPageContext().getServletContext().getAttribute( "metawidget-config-reader" ));
+		MetawidgetTag metawidget = new HtmlMetawidgetTag();
+		field.set( metawidget, pageContext );
+
+		assertTrue( null == pageContext.getServletContext().getAttribute( "metawidget-config-reader" ));
 
 		// Should not error (just log)
 
-		//metawidget.configure();
+		metawidget.configure();
 
 		// Should have done something
 
-		//assertTrue( metawidget.getPageContext().getServletContext().getAttribute( "metawidget-config-reader" ) instanceof ConfigReader );
+		assertTrue( metawidget.getPageContext().getServletContext().getAttribute( "metawidget-config-reader" ) instanceof ConfigReader );
 
 		// Should error
 
 		try
 		{
-			//metawidget.setConfig( "does-not-exist.xml" );
-			//metawidget.configure();
-			//assertTrue( false );
+			metawidget.setConfig( "does-not-exist.xml" );
+			metawidget.configure();
+			assertTrue( false );
 		}
 		catch( MetawidgetException e )
 		{
-			//assertTrue( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH".equals( e.getMessage()));
+			assertTrue( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH".equals( e.getMessage()));
 		}
 	}
 }
