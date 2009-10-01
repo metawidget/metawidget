@@ -16,9 +16,16 @@
 
 package org.metawidget.faces;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.security.Principal;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import javax.el.ExpressionFactory;
 import javax.faces.FacesException;
@@ -86,6 +93,7 @@ import org.metawidget.faces.widgetprocessor.RequiredAttributeProcessorTest;
 import org.metawidget.faces.widgetprocessor.StandardBindingProcessorTest;
 import org.metawidget.faces.widgetprocessor.StandardConverterProcessorTest;
 import org.metawidget.faces.widgetprocessor.StandardValidatorProcessorTest;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * @author Richard Kennard
@@ -128,6 +136,12 @@ public class FacesMetawidgetTests
 	public static class MockFacesContext
 		extends FacesContext
 	{
+		//
+		// Protected members
+		//
+
+		protected Map<String, Object>	mApplicationMap = CollectionUtils.newHashMap();
+
 		//
 		// Constructor
 		//
@@ -428,7 +442,227 @@ public class FacesMetawidgetTests
 		@Override
 		public ExternalContext getExternalContext()
 		{
-			throw new UnsupportedOperationException();
+			return new ExternalContext()
+			{
+				//
+				// Supported public methods
+				//
+
+				@Override
+				public Map<String, Object> getApplicationMap()
+				{
+					return MockFacesContext.this.mApplicationMap;
+				}
+
+				@Override
+				public URL getResource( String arg0 )
+					throws MalformedURLException
+				{
+					return null;
+				}
+
+				//
+				// Unsupported public methods
+				//
+
+				@Override
+				public void dispatch( String arg0 )
+					throws IOException
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public String encodeActionURL( String arg0 )
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public String encodeNamespace( String arg0 )
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public String encodeResourceURL( String arg0 )
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public String getAuthType()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Object getContext()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public String getInitParameter( String arg0 )
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Map getInitParameterMap()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public String getRemoteUser()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Object getRequest()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public String getRequestContextPath()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Map<String, Object> getRequestCookieMap()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Map<String, String> getRequestHeaderMap()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Map<String, String[]> getRequestHeaderValuesMap()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Locale getRequestLocale()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Iterator<Locale> getRequestLocales()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Map<String, Object> getRequestMap()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Map<String, String> getRequestParameterMap()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Iterator<String> getRequestParameterNames()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Map<String, String[]> getRequestParameterValuesMap()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public String getRequestPathInfo()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public String getRequestServletPath()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public InputStream getResourceAsStream( String arg0 )
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Set<String> getResourcePaths( String arg0 )
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Object getResponse()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Object getSession( boolean arg0 )
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Map<String, Object> getSessionMap()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public Principal getUserPrincipal()
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public boolean isUserInRole( String arg0 )
+				{
+					throw new UnsupportedOperationException();
+				}
+
+				@Override
+				public void log( String arg0 )
+				{
+					throw new UnsupportedOperationException();
+
+				}
+
+				@Override
+				public void log( String arg0, Throwable arg1 )
+				{
+					throw new UnsupportedOperationException();
+
+				}
+
+				@Override
+				public void redirect( String arg0 )
+					throws IOException
+				{
+					throw new UnsupportedOperationException();
+
+				}
+
+			};
 		}
 
 		@Override

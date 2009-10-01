@@ -48,7 +48,8 @@ public interface Layout<W, M extends W>
 	/**
 	 * @param widget
 	 *            the widget to layout. Never null
-	 * @param elementName TODO
+	 * @param elementName
+	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'. Never null
 	 * @param attributes
 	 *            attributes of the widget to layout. Never null
 	 * @param metawidget

@@ -20,6 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.jsp.tagext.MetawidgetTagTest;
 import org.metawidget.jsp.tagext.html.HtmlMetawidgetTagTest;
 import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTagTest;
 import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTagTest;
@@ -41,6 +42,7 @@ public class JspMetawidgetTests
 		TestSuite suite = new TestSuite( "JSP Metawidget Tests" );
 		suite.addTestSuite( DisplayTagWidgetBuilderTest.class );
 		suite.addTestSuite( HtmlMetawidgetTagTest.class );
+		suite.addTestSuite( MetawidgetTagTest.class );
 		suite.addTestSuite( SpringMetawidgetTagTest.class );
 		suite.addTestSuite( StrutsMetawidgetTagTest.class );
 

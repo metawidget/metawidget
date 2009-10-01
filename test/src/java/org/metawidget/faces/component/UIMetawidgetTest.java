@@ -33,8 +33,10 @@ import javax.faces.render.RenderKit;
 
 import junit.framework.TestCase;
 
+import org.metawidget.config.ConfigReader;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.html.HtmlMetawidget;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -265,6 +267,33 @@ public class UIMetawidgetTest
 
 		attributes.remove( FACES_EXPRESSION );
 		assertTrue( htmlInputText3 == getOverriddenWidget.invoke( metawidget, new Object[] { ENTITY, attributes } ) );
+	}
+
+	public void testMissingDefaultConfig()
+	{
+		assertTrue( null == FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get( "metawidget-config-reader" ));
+
+		// Should not error (just log)
+
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.configure();
+
+		// Should have done something
+
+		assertTrue( FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get( "metawidget-config-reader" ) instanceof ConfigReader );
+
+		// Should error
+
+		try
+		{
+			metawidget.setConfig( "does-not-exist.xml" );
+			metawidget.configure();
+			assertTrue( false );
+		}
+		catch( MetawidgetException e )
+		{
+			assertTrue( "java.io.FileNotFoundException: Unable to locate does-not-exist.xml on CLASSPATH".equals( e.getMessage()));
+		}
 	}
 
 	//

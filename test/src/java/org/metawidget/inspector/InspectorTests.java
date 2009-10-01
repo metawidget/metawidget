@@ -66,7 +66,6 @@ public class InspectorTests
 		TestSuite suite = new TestSuite( "Inspector Tests" );
 		suite.addTestSuite( BeanValidationInspectorTest.class );
 		suite.addTestSuite( CommonsValidatorInspectorTest.class );
-		suite.addTestSuite( ConfigReaderTest.class );
 		suite.addTestSuite( FacesInspectorTest.class );
 		suite.addTestSuite( GroovyPropertyStyleTest.class );
 		suite.addTestSuite( HibernateInspectorTest.class );

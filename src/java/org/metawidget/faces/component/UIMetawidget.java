@@ -36,9 +36,8 @@ import javax.faces.el.ValueBinding;
 
 import org.metawidget.config.ConfigReader;
 import org.metawidget.faces.FacesUtils;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.iface.InspectorException;
-import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.util.ClassUtils;
@@ -664,14 +663,12 @@ public abstract class UIMetawidget
 			{
 				configReader.configure( mConfig, this );
 			}
-			catch( InspectorException e )
+			catch( MetawidgetException e )
 			{
 				if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ))
 					throw e;
 
-				// TODO: unit test this line
-
-				LogUtils.getLog( MetawidgetTag.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
+				LogUtils.getLog( UIMetawidget.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
 			}
 		}
 

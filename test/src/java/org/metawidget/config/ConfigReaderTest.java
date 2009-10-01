@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector;
+package org.metawidget.config;
 
 import java.awt.Point;
 import java.io.ByteArrayInputStream;
@@ -32,7 +32,6 @@ import javax.xml.validation.SchemaFactory;
 
 import junit.framework.TestCase;
 
-import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
@@ -250,8 +249,6 @@ public class ConfigReaderTest
 		assertTrue( inspectors[ 8 ] instanceof StrutsAnnotationInspector );
 		assertTrue( inspectors[ 9 ] instanceof XmlInspector );
 		assertTrue( inspectors[ 10 ] instanceof XmlInspector );
-
-		// TODO: test defensive copy
 
 		// Inspector
 

@@ -20,6 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.config.ConfigReaderTest;
 import org.metawidget.example.ExampleTests;
 import org.metawidget.faces.FacesMetawidgetTests;
 import org.metawidget.iface.MetawidgetExceptionTest;
@@ -30,6 +31,7 @@ import org.metawidget.layout.impl.LayoutUtilsTest;
 import org.metawidget.mixin.MixinTests;
 import org.metawidget.swing.SwingMetawidgetTests;
 import org.metawidget.util.UtilTests;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderTest;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderExceptionTest;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilderTest;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorExceptionTest;
@@ -56,6 +58,8 @@ public class AllTests
 		TestSuite suite = new TestSuite( "Metawidget Tests" );
 		suite.addTestSuite( BaseWidgetBuilderTest.class );
 		suite.addTestSuite( BaseWidgetProcessorTest.class );
+		suite.addTestSuite( CompositeWidgetBuilderTest.class );
+		suite.addTestSuite( ConfigReaderTest.class );
 		suite.addTest( ExampleTests.suite() );
 		suite.addTest( FacesMetawidgetTests.suite() );
 		suite.addTest( InspectorTests.suite() );

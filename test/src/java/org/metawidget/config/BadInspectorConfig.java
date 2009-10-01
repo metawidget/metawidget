@@ -14,22 +14,20 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector;
+package org.metawidget.config;
 
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.metawidget.inspector.iface.Inspector;
-
 /**
  * @author Richard Kennard
  */
 
-public class BadInspector
-	implements Inspector
+public class BadInspectorConfig
 {
 	//
 	// Private members
@@ -51,32 +49,15 @@ public class BadInspector
 
 	private String[]		mStringArray;
 
-	//
-	// Constructor
-	//
-
-	public BadInspector( BadInspectorConfig config )
-	{
-		if ( config.isFailDuringConstruction() )
-			throw new RuntimeException( "Failed during construction" );
-
-		mList = config.getList();
-		mSet = config.getSet();
-		mInt = config.getInt();
-		mBoolean = config.isBoolean();
-		mPattern = config.getPattern();
-		mInputStream = config.getInputStream();
-		mResourceBundle = config.getResourceBundle();
-		mStringArray = config.getStringArray();
-	}
+	private boolean			mFailDuringConstruction;
 
 	//
 	// Public methods
 	//
 
-	public String inspect( Object toInspect, String type, String... names )
+	public void setList( List<Object> list )
 	{
-		return null;
+		mList = list;
 	}
 
 	public List<Object> getList()
@@ -84,9 +65,19 @@ public class BadInspector
 		return mList;
 	}
 
+	public void setSet( Set<Object> set )
+	{
+		mSet = set;
+	}
+
 	public Set<Object> getSet()
 	{
 		return mSet;
+	}
+
+	public void setInt( int anInt )
+	{
+		mInt = anInt;
 	}
 
 	public int getInt()
@@ -99,9 +90,19 @@ public class BadInspector
 		return mBoolean;
 	}
 
+	public void setBoolean( boolean aBoolean )
+	{
+		mBoolean = aBoolean;
+	}
+
 	public Pattern getPattern()
 	{
 		return mPattern;
+	}
+
+	public void setPattern( Pattern pattern )
+	{
+		mPattern = pattern;
 	}
 
 	public InputStream getInputStream()
@@ -109,13 +110,48 @@ public class BadInspector
 		return mInputStream;
 	}
 
+	public void setInputStream( InputStream inputStream )
+	{
+		mInputStream = inputStream;
+	}
+
 	public ResourceBundle getResourceBundle()
 	{
 		return mResourceBundle;
 	}
 
+	public void setResourceBundle( ResourceBundle resourceBundle )
+	{
+		mResourceBundle = resourceBundle;
+	}
+
 	public String[] getStringArray()
 	{
 		return mStringArray;
+	}
+
+	public void setStringArray( String[] stringArray )
+	{
+		mStringArray = stringArray;
+	}
+
+	public void setFailDuringConstruction( boolean failDuringConstruction )
+	{
+		mFailDuringConstruction = true;
+	}
+
+	public boolean isFailDuringConstruction()
+	{
+		return mFailDuringConstruction;
+	}
+
+	public void setDate( Date date )
+	{
+		// Test unsupported types
+	}
+
+	public void setNoParameters()
+	{
+		throw new UnsupportedOperationException( "Called setNoParameters" );
 	}
 }
