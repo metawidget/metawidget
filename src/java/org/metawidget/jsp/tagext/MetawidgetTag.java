@@ -242,52 +242,6 @@ public abstract class MetawidgetTag
 		mMetawidgetMixin.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
 	}
 
-	/**
-	 * Set the layout as a Class.
-	 * <p>
-	 * Generally Metawidgets provide a <code>setLayout</code> method, as opposed to
-	 * <code>setLayoutClass</code>. However, instantiation of objects is cumbersome in JSPs, so this
-	 * method is provided as a convenience. It instantiates the <code>Layout</code> given its
-	 * fully-qualified class name.
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public void setLayoutClass( String layoutClass )
-	{
-		// Layouts are immutable and threadsafe, so cache them at the application level
-
-		ServletContext servletContext = this.getPageContext().getServletContext();
-		Map<String, Layout<Tag, MetawidgetTag>> cachedLayouts = (Map<String, Layout<Tag, MetawidgetTag>>) servletContext.getAttribute( MetawidgetTag.class.getName() );
-
-		if ( cachedLayouts == null )
-		{
-			cachedLayouts = CollectionUtils.newHashMap();
-			servletContext.setAttribute( MetawidgetTag.class.getName(), cachedLayouts );
-		}
-
-		// Instantiate the Layout
-
-		Layout<Tag, MetawidgetTag> layout = cachedLayouts.get( layoutClass );
-
-		if ( layout == null )
-		{
-			try
-			{
-				layout = (Layout<Tag, MetawidgetTag>) Class.forName( layoutClass ).newInstance();
-			}
-			catch ( Exception e )
-			{
-				throw MetawidgetException.newException( e );
-			}
-
-			cachedLayouts.put( layoutClass, layout );
-		}
-
-		// Set the Layout
-
-		setLayout( layout );
-	}
-
 	public void setLayout( Layout<Tag, MetawidgetTag> layout )
 	{
 		mMetawidgetMixin.setLayout( layout );

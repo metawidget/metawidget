@@ -13,14 +13,14 @@
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
 								<null/>
 							</propertyStyle>
 						</metawidgetAnnotationInspector>
 						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>			
 		</inspector>

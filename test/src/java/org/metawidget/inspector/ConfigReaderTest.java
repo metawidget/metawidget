@@ -85,18 +85,18 @@ public class ConfigReaderTest
 		xml += "		<widgetBuilder>";
 		xml += "			<compositeWidgetBuilder xmlns=\"urn:java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
 		xml += "				<widgetBuilders>";
-		xml += "					<list>";
+		xml += "					<array>";
 		xml += "						<swingWidgetBuilder xmlns=\"urn:java:org.metawidget.swing.widgetbuilder\"/>";
-		xml += "					</list>";
+		xml += "					</array>";
 		xml += "				</widgetBuilders>";
 		xml += "			</compositeWidgetBuilder>";
 		xml += "		</widgetBuilder>";
 		xml += "		<inspector>";
 		xml += "			<compositeInspector xmlns=\"urn:java:org.metawidget.inspector.composite\"";
-		xml += "					xsi:schemaLocation=\"java:org.metawidget.inspector.composite http://metawidget.org/xsd/org/metawidget/inspector/composite/compositeInspector-1.0.xsd\"";
+		xml += "					xsi:schemaLocation=\"java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd\"";
 		xml += "					config=\"CompositeInspectorConfig\">";
 		xml += "				<inspectors>";
-		xml += "					<list>";
+		xml += "					<array>";
 		xml += "						<metawidgetAnnotationInspector xmlns=\"urn:java:org.metawidget.inspector.annotation\"/>";
 		xml += "						<facesInspector xmlns=\"java:org.metawidget.inspector.faces\"/>";
 		xml += "						<hibernateValidatorInspector xmlns=\"java:org.metawidget.inspector.hibernate.validator\"/>";
@@ -113,10 +113,10 @@ public class ConfigReaderTest
 		xml += "						<springAnnotationInspector xmlns=\"java:org.metawidget.inspector.spring\"/>";
 		xml += "						<strutsInspector xmlns=\"java:org.metawidget.inspector.struts\" config=\"StrutsInspectorConfig\">";
 		xml += "							<inputStreams>";
-		xml += "								<list>";
+		xml += "								<array>";
 		xml += "									<resource>org/metawidget/inspector/struts/test-struts-config1.xml</resource>";
 		xml += "									<resource>org/metawidget/inspector/struts/test-struts-config2.xml</resource>";
-		xml += "								</list>";
+		xml += "								</array>";
 		xml += "							</inputStreams>";
 		xml += "						</strutsInspector>";
 		xml += "						<strutsAnnotationInspector xmlns=\"java:org.metawidget.inspector.struts\"/>";
@@ -130,7 +130,7 @@ public class ConfigReaderTest
 		xml += "								<resource>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</resource>";
 		xml += "							</inputStream>";
 		xml += "						</xmlInspector>";
-		xml += "					</list>";
+		xml += "					</array>";
 		xml += "				</inspectors>";
 		xml += "			</compositeInspector>";
 		xml += "		</inspector>";
@@ -143,11 +143,11 @@ public class ConfigReaderTest
 		xml += "	</swingMetawidget>";
 		xml += "	<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
 		xml += "		<inspectors>";
-		xml += "			<list>";
+		xml += "			<array>";
 		xml += "				<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\"/>";
 		xml += "				<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\"/>";
 		xml += "				<java5Inspector xmlns=\"java:org.metawidget.inspector.java5\"/>";
-		xml += "			</list>";
+		xml += "			</array>";
 		xml += "		</inspectors>";
 		xml += "	</compositeInspector>";
 		xml += "</metawidget>";
@@ -216,11 +216,10 @@ public class ConfigReaderTest
 		CompositeWidgetBuilder<JComponent, SwingMetawidget> compositeWidgetBuilder2 = (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilderField.get( mixin2 );
 
 		assertTrue( compositeWidgetBuilder1 == compositeWidgetBuilder2 );
-		List<WidgetBuilder<JComponent, SwingMetawidget>> widgetBuilders = compositeWidgetBuilder1.getWidgetBuilders();
+		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuilders = compositeWidgetBuilder1.getWidgetBuilders();
 
-		assertTrue( widgetBuilders.size() == 1 );
-		assertTrue( widgetBuilders.get( 0 ) instanceof SwingWidgetBuilder );
-		assertTrue( widgetBuilders.getClass().getName().contains( "Unmodifiable" ) );
+		assertTrue( widgetBuilders.length == 1 );
+		assertTrue( widgetBuilders[0] instanceof SwingWidgetBuilder );
 
 		// Test Inspector
 
@@ -237,22 +236,22 @@ public class ConfigReaderTest
 
 		Field inspectorsField = CompositeInspector.class.getDeclaredField( "mInspectors" );
 		inspectorsField.setAccessible( true );
-		@SuppressWarnings( "unchecked" )
-		List<Inspector> inspectors = (List<Inspector>) inspectorsField.get( compositeInspector1 );
+		Inspector[] inspectors = (Inspector[]) inspectorsField.get( compositeInspector1 );
 
-		assertTrue( inspectors.size() == 11 );
-		assertTrue( inspectors.get( 0 ) instanceof MetawidgetAnnotationInspector );
-		assertTrue( inspectors.get( 1 ) instanceof FacesInspector );
-		assertTrue( inspectors.get( 2 ) instanceof HibernateValidatorInspector );
-		assertTrue( inspectors.get( 3 ) instanceof PropertyTypeInspector );
-		assertTrue( inspectors.get( 4 ) instanceof JpaInspector );
-		assertTrue( inspectors.get( 5 ) instanceof JspAnnotationInspector );
-		assertTrue( inspectors.get( 6 ) instanceof SpringAnnotationInspector );
-		assertTrue( inspectors.get( 7 ) instanceof StrutsInspector );
-		assertTrue( inspectors.get( 8 ) instanceof StrutsAnnotationInspector );
-		assertTrue( inspectors.get( 9 ) instanceof XmlInspector );
-		assertTrue( inspectors.get( 10 ) instanceof XmlInspector );
-		assertTrue( inspectors.getClass().getName().contains( "Unmodifiable" ) );
+		assertTrue( inspectors.length == 11 );
+		assertTrue( inspectors[ 0 ] instanceof MetawidgetAnnotationInspector );
+		assertTrue( inspectors[ 1 ] instanceof FacesInspector );
+		assertTrue( inspectors[ 2 ] instanceof HibernateValidatorInspector );
+		assertTrue( inspectors[ 3 ] instanceof PropertyTypeInspector );
+		assertTrue( inspectors[ 4 ] instanceof JpaInspector );
+		assertTrue( inspectors[ 5 ] instanceof JspAnnotationInspector );
+		assertTrue( inspectors[ 6 ] instanceof SpringAnnotationInspector );
+		assertTrue( inspectors[ 7 ] instanceof StrutsInspector );
+		assertTrue( inspectors[ 8 ] instanceof StrutsAnnotationInspector );
+		assertTrue( inspectors[ 9 ] instanceof XmlInspector );
+		assertTrue( inspectors[ 10 ] instanceof XmlInspector );
+
+		// TODO: test defensive copy
 
 		// Inspector
 
@@ -429,8 +428,8 @@ public class ConfigReaderTest
 		assertTrue( "Limited textbox (i18n)".equals( inspector.getResourceBundle().getString( "limitedTextbox" ) ) );
 
 		assertTrue( 2 == inspector.getStringArray().length );
-		assertTrue( "foo".equals( inspector.getStringArray()[0] ));
-		assertTrue( "bar".equals( inspector.getStringArray()[1] ));
+		assertTrue( "foo".equals( inspector.getStringArray()[0] ) );
+		assertTrue( "bar".equals( inspector.getStringArray()[1] ) );
 	}
 
 	public void testUnsupportedType()

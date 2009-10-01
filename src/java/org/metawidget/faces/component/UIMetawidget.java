@@ -217,9 +217,9 @@ public abstract class UIMetawidget
 		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
 	}
 
-	public void setWidgetProcessors( List<WidgetProcessor<UIComponent, UIMetawidget>> widgetProcessors )
+	public void setWidgetProcessors( WidgetProcessor<UIComponent, UIMetawidget>... widgetProcessors )
 	{
-		mMetawidgetMixin.setWidgetProcessors( widgetProcessors );
+		mMetawidgetMixin.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ));
 	}
 
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )

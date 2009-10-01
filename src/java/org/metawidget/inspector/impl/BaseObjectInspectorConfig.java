@@ -46,6 +46,8 @@ public class BaseObjectInspectorConfig
 	// Private members
 	//
 
+	// TODO: set as object, not class
+
 	private Class<? extends PropertyStyle>	mPropertyStyle;
 
 	private Class<? extends ActionStyle>	mActionStyle;

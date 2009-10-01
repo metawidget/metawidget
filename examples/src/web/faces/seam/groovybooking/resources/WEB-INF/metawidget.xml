@@ -15,7 +15,7 @@
 		<inspector>		
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
 								<class>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</class>
@@ -41,7 +41,7 @@
 								<class>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</class>
 							</propertyStyle>			
 						</hibernateValidatorInspector>
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>
@@ -49,21 +49,21 @@
 		<widgetBuilder>
 			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
-					<list>
+					<array>
 						<richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/>
 						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
-					</list>
+					</array>
 				</widgetBuilders>
 			</compositeWidgetBuilder>
 		</widgetBuilder>
 		
 		<widgetProcessors>
-			<list>
+			<array>
 				<requiredAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 				<standardBindingProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 				<readableIdProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>				
 				<standardConverterProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>				
-			</list>
+			</array>
 		</widgetProcessors>
 		
 	</htmlMetawidget>

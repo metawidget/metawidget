@@ -1,19 +1,21 @@
 <?xml version="1.0"?>
 <metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
+						java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd
+						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd
+						java:org.metawidget.swing.layout http://metawidget.org/xsd/org.metawidget.swing.layout-1.0.xsd"
+	version="1.0">
 
 	<swingMetawidget xmlns="java:org.metawidget.swing">
 	
 		<inspector>
-			<compositeInspector xmlns="java:org.metawidget.inspector.composite"
-								xsi:schemaLocation="java:org.metawidget.inspector.composite http://metawidget.org/xsd/org/metawidget/inspector/composite/compositeInspector-1.0.xsd"
-								config="CompositeInspectorConfig">
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>
@@ -23,9 +25,9 @@
 		</widgetBuilder>
 		
 		<widgetProcessors>
-			<list>
+			<array>
 				<reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/>
-			</list>
+			</array>
 		</widgetProcessors>
 		
 		<metawidgetLayout>

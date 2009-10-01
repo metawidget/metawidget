@@ -17,7 +17,6 @@
 package org.metawidget.inspector.impl;
 
 import java.io.InputStream;
-import java.util.List;
 
 import org.metawidget.inspector.NeedsResourceResolver;
 import org.metawidget.inspector.ResourceResolver;
@@ -54,13 +53,13 @@ public class BaseXmlInspectorConfig
 		if ( mFileStreams == null && mDefaultFile != null )
 		{
 			if ( mResourceResolver != null )
-				return new InputStream[]{ mResourceResolver.openResource( mDefaultFile ) };
+				return new InputStream[] { mResourceResolver.openResource( mDefaultFile ) };
 
 			try
 			{
-				return new InputStream[]{ ClassUtils.openResource( mDefaultFile ) };
+				return new InputStream[] { ClassUtils.openResource( mDefaultFile ) };
 			}
-			catch( Exception e )
+			catch ( Exception e )
 			{
 				throw InspectorException.newException( e );
 			}
@@ -71,6 +70,9 @@ public class BaseXmlInspectorConfig
 
 	/**
 	 * Sets the InputStreams of multiple XML files.
+	 * <p>
+	 * This method is more advanced than <code>setInputStream</code>, as it combines multiple files,
+	 * but it is slightly more cumbersome to configure in <code>metawidget.xml</code>.
 	 *
 	 * @return this, as part of a fluent interface
 	 */
@@ -80,20 +82,6 @@ public class BaseXmlInspectorConfig
 		mFileStreams = streams;
 
 		return this;
-	}
-
-	/**
-	 * Sets the InputStreams of multiple XML files.
-	 * <p>
-	 * This overloaded form of the setter is useful for <code>metawidget.xml</code>.
-	 *
-	 * @return this, as part of a fluent interface
-	 */
-
-	public BaseXmlInspectorConfig setInputStreams( List<InputStream> inputStreams )
-	{
-		InputStream[] inputStreamsArray = new InputStream[inputStreams.size()];
-		return setInputStreams( inputStreams.toArray( inputStreamsArray ) );
 	}
 
 	/**
@@ -125,7 +113,7 @@ public class BaseXmlInspectorConfig
 					{
 						return ClassUtils.openResource( resource );
 					}
-					catch( Exception e )
+					catch ( Exception e )
 					{
 						throw InspectorException.newException( e );
 					}

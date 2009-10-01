@@ -43,6 +43,7 @@
 
 		<javac sourcepath="" srcdir="${relative.dir}/src/java" destdir="${relative.dir}/${build.dir}/java4-classes" debug="${build.debug}" optimize="on" source="1.5" target="jsr14">
 			<include name="**/*InspectionResultConstants.java"/>
+			<include name="org/metawidget/ant/**"/>
 			<include name="org/metawidget/config/**"/>
 			<include name="org/metawidget/faces/**"/>
 			<include name="org/metawidget/gwt/**"/>
@@ -149,6 +150,7 @@
 		<jar destfile="${relative.dir}/${build.dir}/pack/metawidget.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${relative.dir}/${build.dir}/classes">
 				<include name="org/**"/>
+				<exclude name="org/metawidget/config/XmlSchemaGeneratorTask.class"/>
 				<exclude name="org/metawidget/gwt/**"/>
 				<exclude name="org/metawidget/inspector/gwt/remote/client/**"/>
 			</fileset>

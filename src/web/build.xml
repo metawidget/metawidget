@@ -72,6 +72,19 @@
 
 	</target>
 
+	<target name="xsd" depends="pack">
+	
+		<taskdef name="xmlSchemaGenerator" classname="org.metawidget.config.XmlSchemaGeneratorTask">
+			<classpath>
+				<pathelement path="${relative.dir}/${build.dir}/classes"/>
+				<fileset dir="${relative.dir}/lib"/>
+			</classpath>
+		</taskdef>
+		
+		<xmlSchemaGenerator jar="${relative.dir}/${build.dir}/metawidget.jar" destdir="${tomcat.dir}/webapps/ROOT/xsd"/>
+	
+	</target>	
+
 	<target name="website" depends="test-init">
 
 		<delete dir="${tomcat.dir}/webapps"/>
@@ -134,10 +147,14 @@
 			</fileset>
 		</copy>
 
-		<!-- Try to have something at the XSD and TLD URIs -->
+		<!-- XSDs -->
 		
 		<copy file="${relative.dir}/src/java/org/metawidget/config/metawidget-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
 		<copy file="${relative.dir}/src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
+		<antcall target="xsd"/>
+
+		<!-- Try to have something at TLD URIs -->
+
 		<copy file="${relative.dir}/src/java/META-INF/metawidget-faces.tld" tofile="${tomcat.dir}/webapps/ROOT/faces/index.html"/>
 		<copy file="${relative.dir}/src/java/META-INF/metawidget-faces.tld" todir="${tomcat.dir}/webapps/ROOT/faces"/>
 		<copy file="${relative.dir}/src/java/META-INF/metawidget-html.tld" tofile="${tomcat.dir}/webapps/ROOT/html/index.html"/>

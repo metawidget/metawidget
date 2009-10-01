@@ -1,25 +1,30 @@
 <?xml version="1.0"?>
 <metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
+						java:org.metawidget.jsp.tagext.html.struts http://metawidget.org/xsd/org.metawidget.jsp.tagext.html.struts-1.0.xsd
+						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd
+						java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd
+						java:org.metawidget.jsp.tagext.html.layout http://metawidget.org/xsd/org.metawidget.jsp.tagext.html.layout-1.0.xsd"
+	version="1.0">
 
 	<strutsMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html.struts">
 		<inspector>	
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<!-- strutsInspector is not actually needed here, but this tests it loads under J2SE 1.4 -->
 						<strutsInspector xmlns="java:org.metawidget.inspector.struts" config="StrutsInspectorConfig"/>
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
-							<inputStreams>
-								<list>
+							<inputStreams>							
+								<array>								
 									<resource>metawidget-metadata.xml</resource>
 									<resource>org/metawidget/shared/allwidgets/model/metawidget-metadata.xml</resource>
-								</list>
+								</array>
 							</inputStreams>
 						</xmlInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>

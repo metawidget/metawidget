@@ -416,14 +416,14 @@ public class ConfigReader
 
 	protected Object createNativeCollection( String name )
 	{
+		if ( "array".equals( name ) )
+			return new Object[0];
+
 		if ( "list".equals( name ) )
 			return CollectionUtils.newArrayList();
 
 		if ( "set".equals( name ) )
 			return CollectionUtils.newHashSet();
-
-		if ( "array".equals( name ) )
-			return new Object[0];
 
 		return null;
 	}
@@ -850,37 +850,7 @@ public class ConfigReader
 				{
 					case ENCOUNTERED_NATIVE_TYPE:
 					{
-						Object parameters = mConstructing.peek();
-						Object nativeType = createNative( localName, endRecording() );
-
-						if ( parameters instanceof Collection )
-						{
-							@SuppressWarnings( "unchecked" )
-							Collection<Object> collection = (Collection<Object>) parameters;
-							collection.add( nativeType );
-						}
-
-						// Special support for Arrays
-
-						else if ( parameters.getClass().isArray() )
-						{
-							Object[] array = (Object[]) mConstructing.pop();
-							Object newArray;
-
-							if ( nativeType == null )
-								newArray = Array.newInstance( array.getClass().getComponentType(), array.length + 1 );
-							else
-								newArray = Array.newInstance( nativeType.getClass(), array.length + 1 );
-
-							System.arraycopy( array, 0, newArray, 0, array.length );
-
-							((Object[]) newArray)[array.length] = nativeType;
-							mConstructing.push( newArray );
-						}
-						else
-						{
-							throw MetawidgetException.newException( "Don't know how to add to a " + parameters.getClass() );
-						}
+						addToConstructing( createNative( localName, endRecording() ));
 
 						mExpecting = EXPECTING_OBJECT;
 						return;
@@ -923,9 +893,7 @@ public class ConfigReader
 							return;
 						}
 
-						@SuppressWarnings( "unchecked" )
-						Collection<Object> parameters = (Collection<Object>) mConstructing.peek();
-						parameters.add( object );
+						addToConstructing( object );
 
 						mExpecting = EXPECTING_OBJECT;
 						return;
@@ -959,7 +927,16 @@ public class ConfigReader
 				// Prevent InvocationTargetException 'masking' the error
 
 				if ( e instanceof InvocationTargetException )
-					e = (Exception) ( (InvocationTargetException) e ).getTargetException();
+				{
+					Throwable t = ( (InvocationTargetException) e ).getTargetException();
+
+					// getTargetException may return a StackOverflowError
+
+					if ( !( t instanceof Exception ))
+						throw new RuntimeException( t );
+
+					e = (Exception) t;
+				}
 
 				throw new SAXException( e );
 			}
@@ -1054,6 +1031,38 @@ public class ConfigReader
 			}
 
 			mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
+		}
+
+		private void addToConstructing( Object toAdd )
+		{
+			Object parameters = mConstructing.peek();
+
+			// Collections
+
+			if ( parameters instanceof Collection )
+			{
+				@SuppressWarnings( "unchecked" )
+				Collection<Object> collection = (Collection<Object>) parameters;
+				collection.add( toAdd );
+				return;
+			}
+
+			// Arrays
+
+			if ( parameters.getClass().isArray() )
+			{
+				Object[] array = (Object[]) mConstructing.pop();
+				Object[] newArray = new Object[array.length + 1];
+				System.arraycopy( array, 0, newArray, 0, array.length );
+
+				newArray[array.length] = toAdd;
+				mConstructing.push( newArray );
+				return;
+			}
+
+			// Unknown
+
+			throw MetawidgetException.newException( "Don't know how to add to a " + parameters.getClass() );
 		}
 
 		private Object getImmutableThreadsafe( Class<?> clazz )
@@ -1152,7 +1161,26 @@ public class ConfigReader
 						continue;
 
 					if ( !parameterType.isInstance( arg ) )
-						continue methods;
+					{
+						if ( !parameterType.isArray() || !arg.getClass().isArray() )
+							continue methods;
+
+						Object[] array = (Object[]) arg;
+						Object[] compatibleArray = (Object[]) Array.newInstance( parameterType.getComponentType(), array.length );
+
+						try
+						{
+							System.arraycopy( array, 0, compatibleArray, 0, array.length );
+							args.remove( loop );
+							args.add( loop, compatibleArray );
+						}
+						catch( ArrayStoreException e )
+						{
+							// Not compatible
+
+							continue;
+						}
+					}
 				}
 
 				// ...return it. Note we make no attempt to find the 'closest match'

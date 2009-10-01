@@ -19,7 +19,6 @@ package org.metawidget.inspector.composite;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.io.ByteArrayInputStream;
-import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -118,10 +117,10 @@ public class CompositeInspectorTest
 		config.setInspectors( inspectors );
 
 		CompositeInspector inspectorComposite = new CompositeInspector( config );
-		List<Inspector> inspectorsCopied = inspectorComposite.mInspectors;
-		assertTrue( inspectorsCopied.get( 0 ) == inspector );
+		Inspector[] inspectorsCopied = inspectorComposite.mInspectors;
+		assertTrue( inspectorsCopied[0] == inspector );
 		inspectors[0] = null;
-		assertTrue( inspectorsCopied.get( 0 ) != null );
+		assertTrue( inspectorsCopied[0] != null );
 	}
 
 	//

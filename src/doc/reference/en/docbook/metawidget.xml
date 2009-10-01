@@ -3677,9 +3677,12 @@ void onEndBuild( M metawidget );</programlisting>
 </programlisting>
 
 				<para>
-					Using the XML namespace to denote the Java package allows the plugging in of XML Schema validation on
-					a per-package basis.
+					Using the XML namespace to denote the Java package allows the (optional) plugging in of XML Schema validation on
+					a per-package basis. For example:
 				</para>
+
+				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"
+	xsi:schemaLocation=\"java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd\";/&gt;</programlisting>
 
 			</section>
 

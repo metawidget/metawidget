@@ -164,15 +164,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	public void setWidgetProcessors( List<WidgetProcessor<W, M>> widgetProcessors )
 	{
-		if ( widgetProcessors == null )
-		{
-			mWidgetProcessors = null;
-			return;
-		}
-
-		// Defensive copy: the WidgetProcessors are immutable, but the List is not
-
-		mWidgetProcessors = new ArrayList<WidgetProcessor<W, M>>( widgetProcessors );
+		mWidgetProcessors = widgetProcessors;
 	}
 
 	public void addWidgetProcessor( WidgetProcessor<W, M> widgetProcessor )

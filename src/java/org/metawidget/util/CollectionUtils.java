@@ -78,6 +78,9 @@ public final class CollectionUtils
 
 	public static final <T> ArrayList<T> newArrayList( T... array )
 	{
+		if ( array == null )
+			return new ArrayList<T>();
+
 		return new ArrayList<T>( Arrays.asList( array ) );
 	}
 

@@ -220,9 +220,9 @@ public class SwingMetawidget
 		invalidateInspection();
 	}
 
-	public void setWidgetProcessors( List<WidgetProcessor<JComponent, SwingMetawidget>> widgetProcessors )
+	public void setWidgetProcessors( WidgetProcessor<JComponent, SwingMetawidget>... widgetProcessors )
 	{
-		mMetawidgetMixin.setWidgetProcessors( widgetProcessors );
+		mMetawidgetMixin.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ));
 		invalidateInspection();
 	}
 

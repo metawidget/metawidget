@@ -16,9 +16,6 @@
 
 package org.metawidget.widgetbuilder.composite;
 
-import java.util.Arrays;
-import java.util.List;
-
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
@@ -34,13 +31,13 @@ public class CompositeWidgetBuilderConfig<W, M extends W>
 	// Private members
 	//
 
-	private List<WidgetBuilder<W, M>>	mWidgetBuilders;
+	private WidgetBuilder<W, M>[]	mWidgetBuilders;
 
 	//
 	// Public methods
 	//
 
-	public List<WidgetBuilder<W, M>> getWidgetBuilders()
+	public WidgetBuilder<W, M>[] getWidgetBuilders()
 	{
 		return mWidgetBuilders;
 	}
@@ -55,25 +52,7 @@ public class CompositeWidgetBuilderConfig<W, M extends W>
 
 	public CompositeWidgetBuilderConfig<W, M> setWidgetBuilders( WidgetBuilder<W, M>... widgetBuilders )
 	{
-		return setWidgetBuilders( Arrays.asList( widgetBuilders ));
-	}
-
-	/**
-	 * Sets the sub-Inspectors the CompositeInspector will call.
-	 * <p>
-	 * Inspectors will be called in order. CompositeInspector's merging algorithm preserves the
-	 * element ordering of the first DOMs as new DOMs are merged in.
-	 * <p>
-	 * This overloaded form of the setter is useful for <code>metawidget.xml</code>.
-	 *
-	 * @return this, as part of a fluent interface
-	 */
-
-	public CompositeWidgetBuilderConfig<W, M> setWidgetBuilders( List<WidgetBuilder<W, M>> widgetBuilders )
-	{
 		mWidgetBuilders = widgetBuilders;
-
-		// Fluent interface
 
 		return this;
 	}

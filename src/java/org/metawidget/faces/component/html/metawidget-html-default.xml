@@ -2,20 +2,21 @@
 <metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:processor="java:org.metawidget.faces.component.widgetprocessor"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
+						java:org.metawidget.faces.component.html http://metawidget.org/xsd/org.metawidget.faces.component.html-1.0.xsd
+						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd"
+	version="1.0">
 
 	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
 	
 		<inspector>
-			<compositeInspector xmlns="java:org.metawidget.inspector.composite"
-								xsi:schemaLocation="java:org.metawidget.inspector.composite http://metawidget.org/xsd/org/metawidget/inspector/composite/compositeInspector-1.0.xsd"
-								config="CompositeInspectorConfig">
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>
@@ -25,7 +26,7 @@
 		</widgetBuilder>
 	
 		<widgetProcessors>
-			<list>
+			<array>
 				<processor:requiredAttributeProcessor />
 				<processor:immediateAttributeProcessor />
 				<processor:standardBindingProcessor />
@@ -34,7 +35,7 @@
 				<processor:standardValidatorProcessor />
 				<processor:standardConverterProcessor />
 				<cssStyleProcessor xmlns="java:org.metawidget.faces.component.html.widgetprocessor"/>
-			</list>
+			</array>
 		</widgetProcessors>
 		
 		<layout>

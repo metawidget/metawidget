@@ -1,24 +1,18 @@
 <?xml version="1.0"?>
 <metawidget xmlns="http://metawidget.org"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
+	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd
+						java:org.metawidget.jsp.tagext.html.struts http://metawidget.org/xsd/org.metawidget.jsp.tagext.html.struts-1.0.xsd
+						java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd
+						java:org.metawidget.inspector.propertytype http://metawidget.org/xsd/org.metawidget.inspector.propertytype-1.0.xsd
+						java:org.metawidget.widgetbuilder.composite http://metawidget.org/xsd/org.metawidget.widgetbuilder.composite-1.0.xsd"
+	version="1.0">
 
 	<strutsMetawidgetTag xmlns="java:org.metawidget.jsp.tagext.html.struts">
-		<widgetBuilder>
-			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
-				<widgetBuilders>
-					<list>
-						<displayTagWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.displaytag"/>
-						<strutsWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.struts"/>
-						<htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
-					</list>
-				</widgetBuilders>
-			</compositeWidgetBuilder>
-		</widgetBuilder>		
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>					
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
@@ -27,10 +21,21 @@
 						</propertyTypeInspector>
 						<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/>
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<widgetBuilder>
+			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<array>
+						<displayTagWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.displaytag"/>
+						<strutsWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.struts"/>
+						<htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
+					</array>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
+		</widgetBuilder>		
 	</strutsMetawidgetTag>			
 
 </metawidget>

@@ -7,14 +7,14 @@
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<swingAppFrameworkInspector xmlns="java:org.metawidget.inspector.swing"/>
 						<jexlInspector xmlns="java:org.metawidget.inspector.commons.jexl" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<actionStyle>
 								<class>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</class>
 							</actionStyle>
 						</jexlInspector>
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>

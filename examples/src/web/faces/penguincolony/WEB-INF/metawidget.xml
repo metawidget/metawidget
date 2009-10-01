@@ -19,7 +19,7 @@
 		<widgetBuilder>
 			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
-					<list>
+					<array>
 						<iceFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.icefaces"/>
 						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig">
 							<dataTableStyleClass>
@@ -32,19 +32,19 @@
 								</array>
 							</dataTableRowClasses>
 						</htmlWidgetBuilder>
-					</list>
+					</array>
 				</widgetBuilders>
 			</compositeWidgetBuilder>
 		</widgetBuilder>
 		<inspector>		
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>			
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>

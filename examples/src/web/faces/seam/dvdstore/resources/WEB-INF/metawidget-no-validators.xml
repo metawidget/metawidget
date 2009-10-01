@@ -16,7 +16,7 @@
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
@@ -24,23 +24,23 @@
 						<hibernateValidatorInspector xmlns="java:org.metawidget.inspector.hibernate.validator"/>
 						<jbpmInspector xmlns="java:org.metawidget.inspector.jbpm" config="JbpmInspectorConfig">
 							<inputStreams>
-								<list>
+								<array>
 									<resource>checkout.jpdl.xml</resource>
 									<resource>newuser.jpdl.xml</resource>
-								</list>
+								</array>
 							</inputStreams>
 						</jbpmInspector>
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>
 		
 		<widgetProcessors>
-			<list>
+			<array>
 				<requiredAttributeProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 				<standardBindingProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
 				<readableIdProcessor xmlns="java:org.metawidget.faces.component.widgetprocessor"/>
-			</list>
+			</array>
 		</widgetProcessors>
 		
 	</htmlMetawidget>

@@ -31,6 +31,7 @@ import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 import com.jgoodies.validation.Severity;
 import com.jgoodies.validation.ValidationMessage;
@@ -92,7 +93,7 @@ public class JGoodiesValidatorProcessorTest
 
 		metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig().setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() ) ) );
 		metawidget.setToInspect( new Foo() );
-		metawidget.setWidgetProcessors( null );
+		metawidget.setWidgetProcessors( (WidgetProcessor<JComponent, SwingMetawidget>[]) null );
 		metawidget.addWidgetProcessor( new JGoodiesValidatorProcessor()
 		{
 			@Override

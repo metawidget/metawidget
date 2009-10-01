@@ -7,7 +7,7 @@
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<strutsInspector xmlns="java:org.metawidget.inspector.struts" config="StrutsInspectorConfig"/>
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
@@ -19,7 +19,7 @@
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 						<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/>
 						<commonsValidatorInspector xmlns="java:org.metawidget.inspector.commons.validator" config="CommonsValidatorInspectorConfig"/>
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>
@@ -49,13 +49,13 @@
 		<inspector>		
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/>
 						<jspAnnotationInspector xmlns="java:org.metawidget.inspector.jsp"/>
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>

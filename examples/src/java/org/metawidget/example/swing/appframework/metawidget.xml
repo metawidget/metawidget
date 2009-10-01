@@ -7,7 +7,7 @@
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
-					<list>
+					<array>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<actionStyle>
 								<class>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</class>
@@ -20,15 +20,15 @@
 								<class>org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle</class>
 							</actionStyle>
 						</jexlInspector>
-					</list>
+					</array>
 				</inspectors>
 			</compositeInspector>
 		</inspector>
 		<widgetProcessors>
-			<list>
+			<array>
 				<beansBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.beansbinding"/>
 				<reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/>
-			</list>
+			</array>
 		</widgetProcessors>
 	</swingMetawidget>
 

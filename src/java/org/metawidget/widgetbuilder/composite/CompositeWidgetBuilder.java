@@ -16,9 +16,6 @@
 
 package org.metawidget.widgetbuilder.composite;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspector.iface.InspectorException;
@@ -43,25 +40,27 @@ public class CompositeWidgetBuilder<W, M extends W>
 	// Private members
 	//
 
-	private List<WidgetBuilder<W, M>>	mWidgetBuilders;
+	private WidgetBuilder<W, M>[]	mWidgetBuilders;
 
 	//
 	// Constructor
 	//
 
+	@SuppressWarnings( "unchecked" )
 	public CompositeWidgetBuilder( CompositeWidgetBuilderConfig<W, M> config )
 	{
-		List<WidgetBuilder<W, M>> widgetBuilders = config.getWidgetBuilders();
+		WidgetBuilder<W, M>[] widgetBuilders = config.getWidgetBuilders();
 
 		// Must have at least one WidgetBuilder. At least two, really, but one can be useful
 		// if we want to validate what the sub-WidgetBuilder is returning
 
-		if ( widgetBuilders == null || widgetBuilders.size() == 0 )
+		if ( widgetBuilders == null || widgetBuilders.length == 0 )
 			throw InspectorException.newException( "CompositeWidgetBuilder needs at least one WidgetBuilder" );
 
 		// Defensive copy
 
-		mWidgetBuilders = Collections.unmodifiableList( new ArrayList<WidgetBuilder<W, M>>( widgetBuilders ) );
+		mWidgetBuilders = new WidgetBuilder[widgetBuilders.length];
+		System.arraycopy( widgetBuilders, 0, mWidgetBuilders, 0, widgetBuilders.length );
 	}
 
 	//
@@ -81,10 +80,14 @@ public class CompositeWidgetBuilder<W, M extends W>
 		return null;
 	}
 
-	public List<WidgetBuilder<W, M>> getWidgetBuilders()
+	public WidgetBuilder<W, M>[] getWidgetBuilders()
 	{
-		// List is unmodifiable
+		// Defensive copy
 
-		return mWidgetBuilders;
+		@SuppressWarnings( "unchecked" )
+		WidgetBuilder<W, M>[] widgetBuilders = new WidgetBuilder[mWidgetBuilders.length];
+		System.arraycopy( mWidgetBuilders, 0, widgetBuilders, 0, mWidgetBuilders.length );
+
+		return widgetBuilders;
 	}
 }

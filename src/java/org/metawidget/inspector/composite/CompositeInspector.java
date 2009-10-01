@@ -18,10 +18,6 @@ package org.metawidget.inspector.composite;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ArrayUtils;
@@ -59,13 +55,13 @@ public class CompositeInspector
 	// Private statics
 	//
 
-	private final static Log				LOG	= LogUtils.getLog( CompositeInspector.class );
+	private final static Log			LOG	= LogUtils.getLog( CompositeInspector.class );
 
 	//
 	// Private members
 	//
 
-	/* package private */List<Inspector>	mInspectors;
+	/* package private */Inspector[]	mInspectors;
 
 	//
 	// Constructor
@@ -73,17 +69,18 @@ public class CompositeInspector
 
 	public CompositeInspector( CompositeInspectorConfig config )
 	{
-		List<Inspector> inspectors = config.getInspectors();
+		Inspector[] inspectors = config.getInspectors();
 
 		// Must have at least one Inspector. At least two, really, but one can be useful
 		// if we want to validate what the sub-Inspector is returning
 
-		if ( inspectors == null || inspectors.size() == 0 )
+		if ( inspectors == null || inspectors.length == 0 )
 			throw InspectorException.newException( "CompositeInspector needs at least one Inspector" );
 
 		// Defensive copy
 
-		mInspectors = Collections.unmodifiableList( new ArrayList<Inspector>( inspectors ) );
+		mInspectors = new Inspector[inspectors.length];
+		System.arraycopy( inspectors, 0, mInspectors, 0, inspectors.length );
 	}
 
 	//

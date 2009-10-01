@@ -5,12 +5,12 @@
 
 	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 		<inspectors>
-			<list>
+			<array>
 				<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 				<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/>
 				<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 				<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
-			</list>
+			</array>
 		</inspectors>
 	</compositeInspector>
 
