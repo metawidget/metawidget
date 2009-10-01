@@ -55,7 +55,7 @@ public class ReflectionBindingProcessorTest
 	{
 		// Configure
 
-		BaseObjectInspectorConfig actionConfig = new BaseObjectInspectorConfig().setActionStyle( SwingAppFrameworkActionStyle.class );
+		BaseObjectInspectorConfig actionConfig = new BaseObjectInspectorConfig().setActionStyle( new SwingAppFrameworkActionStyle() );
 		CompositeInspectorConfig compositeConfig = new CompositeInspectorConfig();
 		compositeConfig.setInspectors( new PropertyTypeInspector( actionConfig ), new SwingAppFrameworkInspector( actionConfig ) );
 

@@ -23,13 +23,12 @@ import java.util.Map;
  * <p>
  * Different environments have different approaches to defining what constitutes a 'property'. For
  * example, JavaBean-properties are convention-based, whereas Groovy has explicit property support.
- * Equally, some environments may have framework-specific, base class properties that should be filtered out
- * and excluded from the list of 'real' business model properties (see <code>StrutsActionFormPropertyStyle</code>).
+ * Equally, some environments may have framework-specific, base class properties that should be
+ * filtered out and excluded from the list of 'real' business model properties (see
+ * <code>StrutsActionFormPropertyStyle</code>).
  * <p>
- * <code>PropertyStyles</code> must be immutable, thread-safe <em>and</em> non-configurable, so
- * that a single instance can be safely shared amongst all <code>Inspectors</code>. This is enforced by
- * <code>BaseObjectInspector</code> only calling a no-args constructor on its given
- * <code>PropertyStyle</code> class.
+ * <code>PropertyStyle</code>s must be threadsafe and immutable (or, at least, appear that way to clients. They can
+ * have caches or configuration settings internally).
  *
  * @author Richard Kennard
  */

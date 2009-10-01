@@ -1454,7 +1454,7 @@ public class Person {
 		&lt;/compositeInspector&gt;
 	&lt;/inspector&gt;
 	<symbol>&lt;widgetBuilder&gt;
-		&lt;compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite"
+		&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
 				&lt;list&gt;
@@ -1502,7 +1502,7 @@ public class Person {
 		&lt;/compositeInspector&gt;
 	&lt;/inspector&gt;
 	&lt;widgetBuilder&gt;
-		&lt;compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite"
+		&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
 				&lt;list&gt;
@@ -2676,7 +2676,7 @@ ant</programlisting>
 				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
 &lt;inspector&gt;
 	&lt;compositeInspector
-		xmlns="urn:java:org.metawidget.inspector.composite"
+		xmlns="java:org.metawidget.inspector.composite"
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;list&gt;
@@ -3078,7 +3078,7 @@ ant</programlisting>
 				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
 	&lt;widgetBuilder&gt;
 		&lt;compositeWidgetBuilder
-			xmlns="urn:java:org.metawidget.widgetbuilder.composite"
+			xmlns="java:org.metawidget.widgetbuilder.composite"
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
 				&lt;list&gt;

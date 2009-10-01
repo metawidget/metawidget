@@ -18,27 +18,27 @@
 					<array>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
-								<class>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</class>
+								<groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/>
 							</propertyStyle>			
 						</metawidgetAnnotationInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
-								<class>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</class>
+								<groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/>
 							</propertyStyle>			
 						</propertyTypeInspector>
 						<facesInspector xmlns="java:org.metawidget.inspector.faces" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
-								<class>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</class>
+								<groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/>
 							</propertyStyle>			
 						</facesInspector>
 						<jpaInspector xmlns="java:org.metawidget.inspector.jpa" config="JpaInspectorConfig">
 							<propertyStyle>
-								<class>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</class>
+								<groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/>
 							</propertyStyle>			
 						</jpaInspector>
 						<hibernateValidatorInspector xmlns="java:org.metawidget.inspector.hibernate.validator" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
-								<class>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</class>
+								<groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/>
 							</propertyStyle>			
 						</hibernateValidatorInspector>
 					</array>
@@ -47,7 +47,7 @@
 		</inspector>
 
 		<widgetBuilder>
-			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<array>
 						<richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/>

@@ -16,7 +16,7 @@
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>					
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
-								<class>org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle</class>
+								<strutsActionFormPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle"/>
 							</propertyStyle>
 						</propertyTypeInspector>
 						<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/>
@@ -26,7 +26,7 @@
 			</compositeInspector>
 		</inspector>
 		<widgetBuilder>
-			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<array>
 						<displayTagWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.displaytag"/>

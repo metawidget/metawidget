@@ -17,7 +17,7 @@
 			<string>buttons</string>
 		</parameter>
 		<widgetBuilder>
-			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<array>
 						<iceFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.icefaces"/>

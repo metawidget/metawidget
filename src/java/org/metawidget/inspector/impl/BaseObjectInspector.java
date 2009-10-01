@@ -27,8 +27,10 @@ import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
+import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -49,8 +51,8 @@ import org.w3c.dom.Element;
  * <h2>Inspecting classes</h2> In general <code>BaseObjectInspector</code> inspects <em>objects</em>
  * , not classes. It will return null if the object value is null, rather than returning the
  * properties of its class. This is generally what is expected. In particular,
- * <code>WidgetProcessor</code>s such as binding implementations would not expect to be given a
- * list of properties and asked to bind to a null object.
+ * <code>WidgetProcessor</code>s such as binding implementations would not expect to be given a list
+ * of properties and asked to bind to a null object.
  * <p>
  * However, there is a special concession. If <code>BaseObjectInspector</code> is pointed
  * <em>directly</em> at a type (ie. names == null), it will return properties even if the actual
@@ -67,23 +69,23 @@ public abstract class BaseObjectInspector
 	// Private statics
 	//
 
-	private final static Map<Class<? extends PropertyStyle>, PropertyStyle>	PROPERTY_STYLE_CACHE	= CollectionUtils.newHashMap();
+	private static PropertyStyle	DEFAULT_PROPERTY_STYLE;
 
-	private final static Map<Class<? extends ActionStyle>, ActionStyle>		ACTION_STYLE_CACHE		= CollectionUtils.newHashMap();
+	private static ActionStyle		DEFAULT_ACTION_STYLE;
 
 	//
 	// Private members
 	//
 
-	private PropertyStyle													mPropertyStyle;
+	private PropertyStyle			mPropertyStyle;
 
-	private ActionStyle														mActionStyle;
+	private ActionStyle				mActionStyle;
 
 	//
 	// Protected members
 	//
 
-	protected Log															mLog					= LogUtils.getLog( getClass() );
+	protected Log					mLog	= LogUtils.getLog( getClass() );
 
 	//
 	// Constructors
@@ -98,41 +100,41 @@ public abstract class BaseObjectInspector
 
 	protected BaseObjectInspector( BaseObjectInspectorConfig config )
 	{
-		try
+		// Property style
+
+		mPropertyStyle = config.getPropertyStyle();
+
+		if ( mPropertyStyle == null )
 		{
-			// Property
+			// Do not initialise unless needed, so that we can be shipped without
 
-			Class<? extends PropertyStyle> propertyStyle = config.getPropertyStyle();
+			if ( DEFAULT_PROPERTY_STYLE == null )
+				DEFAULT_PROPERTY_STYLE = new JavaBeanPropertyStyle();
 
-			if ( propertyStyle != null )
-			{
-				mPropertyStyle = PROPERTY_STYLE_CACHE.get( propertyStyle );
-
-				if ( mPropertyStyle == null )
-				{
-					mPropertyStyle = propertyStyle.newInstance();
-					PROPERTY_STYLE_CACHE.put( propertyStyle, mPropertyStyle );
-				}
-			}
-
-			// Action
-
-			Class<? extends ActionStyle> actionStyle = config.getActionStyle();
-
-			if ( actionStyle != null )
-			{
-				mActionStyle = ACTION_STYLE_CACHE.get( actionStyle );
-
-				if ( mActionStyle == null )
-				{
-					mActionStyle = actionStyle.newInstance();
-					ACTION_STYLE_CACHE.put( actionStyle, mActionStyle );
-				}
-			}
+			mPropertyStyle = DEFAULT_PROPERTY_STYLE;
 		}
-		catch ( Exception e )
+
+		// Action style
+
+		mActionStyle = config.getActionStyle();
+
+		if ( mActionStyle == null )
 		{
-			throw InspectorException.newException( e );
+			// Do not initialise unless needed, so that we can be shipped without
+
+			if ( DEFAULT_ACTION_STYLE == null )
+			{
+				try
+				{
+					DEFAULT_ACTION_STYLE = new MetawidgetActionStyle();
+				}
+				catch( Throwable t )
+				{
+					// MetawidgetActionStyle is unsupported on JDK 1.4
+				}
+			}
+
+			mActionStyle = DEFAULT_ACTION_STYLE;
 		}
 	}
 

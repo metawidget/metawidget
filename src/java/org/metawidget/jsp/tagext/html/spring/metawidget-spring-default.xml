@@ -23,7 +23,7 @@
 		</inspector>
 
 		<widgetBuilder>
-			<compositeWidgetBuilder xmlns="urn:java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<array>
 						<springWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.spring"/>

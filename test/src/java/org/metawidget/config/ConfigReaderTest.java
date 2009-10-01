@@ -74,37 +74,37 @@ public class ConfigReaderTest
 		xml += "<metawidget xmlns=\"http://metawidget.org\"";
 		xml += "	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
 		xml += "	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "	<point xmlns=\"urn:java:java.awt\">";
+		xml += "	<point xmlns=\"java:java.awt\">";
 		xml += "		<location>";
 		xml += "			<int>10</int>";
 		xml += "			<int>20</int>";
 		xml += "		</location>";
 		xml += "	</point>";
-		xml += "	<swingMetawidget xmlns=\"urn:java:org.metawidget.swing\">";
+		xml += "	<swingMetawidget xmlns=\"java:org.metawidget.swing\">";
 		xml += "		<widgetBuilder>";
-		xml += "			<compositeWidgetBuilder xmlns=\"urn:java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
+		xml += "			<compositeWidgetBuilder xmlns=\"java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
 		xml += "				<widgetBuilders>";
 		xml += "					<array>";
-		xml += "						<swingWidgetBuilder xmlns=\"urn:java:org.metawidget.swing.widgetbuilder\"/>";
+		xml += "						<swingWidgetBuilder xmlns=\"java:org.metawidget.swing.widgetbuilder\"/>";
 		xml += "					</array>";
 		xml += "				</widgetBuilders>";
 		xml += "			</compositeWidgetBuilder>";
 		xml += "		</widgetBuilder>";
 		xml += "		<inspector>";
-		xml += "			<compositeInspector xmlns=\"urn:java:org.metawidget.inspector.composite\"";
+		xml += "			<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\"";
 		xml += "					xsi:schemaLocation=\"java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd\"";
 		xml += "					config=\"CompositeInspectorConfig\">";
 		xml += "				<inspectors>";
 		xml += "					<array>";
-		xml += "						<metawidgetAnnotationInspector xmlns=\"urn:java:org.metawidget.inspector.annotation\"/>";
+		xml += "						<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\"/>";
 		xml += "						<facesInspector xmlns=\"java:org.metawidget.inspector.faces\"/>";
 		xml += "						<hibernateValidatorInspector xmlns=\"java:org.metawidget.inspector.hibernate.validator\"/>";
 		xml += "						<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
 		xml += "							<propertyStyle>";
-		xml += "								<class>org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle</class>";
+		xml += "								<javaBeanPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.javabean\"/>";
 		xml += "							</propertyStyle>";
 		xml += "							<actionStyle>";
-		xml += "								<class>org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle</class>";
+		xml += "								<metawidgetActionStyle xmlns=\"java:org.metawidget.inspector.impl.actionstyle.metawidget\"/>";
 		xml += "							</actionStyle>";
 		xml += "						</propertyTypeInspector>";
 		xml += "						<jpaInspector xmlns=\"java:org.metawidget.inspector.jpa\"/>";
@@ -356,7 +356,7 @@ public class ConfigReaderTest
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\">";
-		xml += "<propertyStyle><class>org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle</class></propertyStyle>";
+		xml += "<propertyStyle><groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\"/></propertyStyle>";
 		xml += "</propertyTypeInspector></metawidget>";
 
 		try
@@ -367,7 +367,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle( class java.lang.Class )".equals( e.getMessage() ) );
+			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle( class org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle )".equals( e.getMessage() ) );
 		}
 	}
 
@@ -603,6 +603,8 @@ public class ConfigReaderTest
 
 		assertTrue( 4 == configReader.getOpenedResource() );
 	}
+
+	// TODO: test immutablethreadsafe
 
 	public void testUppercase()
 	{

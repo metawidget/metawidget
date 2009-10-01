@@ -40,7 +40,7 @@ public class SwingAppFrameworkInspectorConfig
 	{
 		try
 		{
-			setActionStyle( SwingAppFrameworkActionStyle.class );
+			setActionStyle( new SwingAppFrameworkActionStyle() );
 		}
 		catch ( Throwable t )
 		{

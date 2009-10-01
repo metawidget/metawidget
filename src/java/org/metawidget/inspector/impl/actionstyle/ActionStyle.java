@@ -25,10 +25,8 @@ import java.util.Map;
  * example, Metawidget supplies a <code>UiAction</code> annotation and the Spring AppFramework supplies
  * an <code>Action</code> annotation.
  * <p>
- * <code>ActionStyles</code> must be immutable, thread-safe <em>and</em> non-configurable, so
- * that a single instance can be safely shared amongst all <code>Inspectors</code>. This is enforced by
- * <code>BaseObjectInspector</code> only calling a no-args constructor on its given
- * <code>ActionStyle</code> class.
+ * <code>ActionStyle</code>s must be threadsafe and immutable (or, at least, appear that way to clients. They can
+ * have caches or configuration settings internally).
  *
  * @author Richard Kennard
  */

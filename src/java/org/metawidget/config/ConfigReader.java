@@ -39,6 +39,8 @@ import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.NeedsResourceResolver;
 import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.inspector.impl.actionstyle.ActionStyle;
+import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -448,6 +450,12 @@ public class ConfigReader
 	protected boolean isImmutableThreadsafe( Class<?> clazz )
 	{
 		if ( Inspector.class.isAssignableFrom( clazz ) )
+			return true;
+
+		if ( PropertyStyle.class.isAssignableFrom( clazz ) )
+			return true;
+
+		if ( ActionStyle.class.isAssignableFrom( clazz ) )
 			return true;
 
 		if ( WidgetBuilder.class.isAssignableFrom( clazz ) )
@@ -1103,12 +1111,10 @@ public class ConfigReader
 		private Class<?> classForName( String uri, String localName )
 			throws SAXException
 		{
-			int indexOf = uri.indexOf( JAVA_NAMESPACE_PREFIX );
+			if ( !uri.startsWith( JAVA_NAMESPACE_PREFIX ))
+				throw new SAXException( "Namespace '" + uri + "' of element <" + localName + "> must start with " + JAVA_NAMESPACE_PREFIX );
 
-			if ( indexOf == -1 )
-				throw new SAXException( "Namespace '" + uri + "' of element <" + localName + "> must contain " + JAVA_NAMESPACE_PREFIX );
-
-			String packagePrefix = uri.substring( indexOf + JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
+			String packagePrefix = uri.substring( JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
 			String toConstruct = packagePrefix + StringUtils.uppercaseFirstLetter( localName );
 			Class<?> clazz = ClassUtils.niceForName( toConstruct );
 

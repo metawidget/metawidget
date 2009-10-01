@@ -17,9 +17,7 @@
 package org.metawidget.inspector.impl;
 
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
-import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 
 /**
  * Base class for BaseObjectInspector configurations.
@@ -46,48 +44,21 @@ public class BaseObjectInspectorConfig
 	// Private members
 	//
 
-	// TODO: set as object, not class
+	private PropertyStyle	mPropertyStyle;
 
-	private Class<? extends PropertyStyle>	mPropertyStyle;
-
-	private Class<? extends ActionStyle>	mActionStyle;
-
-	//
-	// Constructor
-	//
-
-	public BaseObjectInspectorConfig()
-	{
-		try
-		{
-			mPropertyStyle = JavaBeanPropertyStyle.class;
-		}
-		catch ( Throwable t )
-		{
-			// Fail gracefully if shipping with some other style
-		}
-
-		try
-		{
-			mActionStyle = MetawidgetActionStyle.class;
-		}
-		catch ( Throwable t )
-		{
-			// Fail gracefully if shipping with some other style, or running on JDK 1.4
-		}
-	}
+	private ActionStyle		mActionStyle;
 
 	//
 	// Public methods
 	//
 
 	/**
-	 * Sets the style used to recognize properties. Defaults to <code>JavaBeanPropertyStyle</code>.
+	 * Sets the style used to recognize properties.
 	 *
-	 * @return	this, as part of a fluent interface
+	 * @return this, as part of a fluent interface
 	 */
 
-	public BaseObjectInspectorConfig setPropertyStyle( Class<? extends PropertyStyle> propertyStyle )
+	public BaseObjectInspectorConfig setPropertyStyle( PropertyStyle propertyStyle )
 	{
 		mPropertyStyle = propertyStyle;
 
@@ -98,23 +69,20 @@ public class BaseObjectInspectorConfig
 
 	/**
 	 * Gets the style used to recognize properties.
-	 * <p>
-	 * The style is specified as a class, not an object, because <code>PropertyStyles</code>
-	 * should be immutable.
 	 */
 
-	Class<? extends PropertyStyle> getPropertyStyle()
+	PropertyStyle getPropertyStyle()
 	{
 		return mPropertyStyle;
 	}
 
 	/**
-	 * Sets the style used to recognize actions. Defaults to <code>MetawidgetActionStyle</code>.
+	 * Sets the style used to recognize actions.
 	 *
-	 * @return	this, as part of a fluent interface
+	 * @return this, as part of a fluent interface
 	 */
 
-	public BaseObjectInspectorConfig setActionStyle( Class<? extends ActionStyle> actionStyle )
+	public BaseObjectInspectorConfig setActionStyle( ActionStyle actionStyle )
 	{
 		mActionStyle = actionStyle;
 
@@ -125,12 +93,9 @@ public class BaseObjectInspectorConfig
 
 	/**
 	 * Gets the style used to recognize actions.
-	 * <p>
-	 * The style is specified as a class, not an object, because <code>ActionStyles</code> should
-	 * be immutable.
 	 */
 
-	Class<? extends ActionStyle> getActionStyle()
+	ActionStyle getActionStyle()
 	{
 		return mActionStyle;
 	}
