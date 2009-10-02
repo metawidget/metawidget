@@ -17,6 +17,7 @@
 package org.metawidget.inspector.hibernate;
 
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
+import org.metawidget.util.ClassUtils;
 
 /**
  * Configures a HibernateInspector prior to use. Once instantiated,
@@ -71,5 +72,26 @@ public class HibernateInspectorConfig
 		// Fluent interface
 
 		return this;
+	}
+
+	@Override
+	public boolean equals( Object that )
+	{
+		if ( !( that instanceof HibernateInspectorConfig ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mHideIds, ((HibernateInspectorConfig) that).mHideIds ))
+			return false;
+
+		return super.equals( that );
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hashCode = super.hashCode();
+		hashCode ^= ClassUtils.nullSafeHashCode( mHideIds );
+
+		return hashCode;
 	}
 }

@@ -19,6 +19,7 @@ package org.metawidget.swing.layout;
 import javax.swing.SwingConstants;
 
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.util.ClassUtils;
 
 /**
  * Configures a GridBagLayout prior to use. Once instantiated, Layouts are immutable.
@@ -155,4 +156,44 @@ public class GridBagLayoutConfig
 		return this;
 	}
 
+	@Override
+	public boolean equals( Object that )
+	{
+		if ( !( that instanceof GridBagLayoutConfig ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mNumberOfColumns, ((GridBagLayoutConfig) that).mNumberOfColumns ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mLabelAlignment, ((GridBagLayoutConfig) that).mLabelAlignment ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mSectionStyle, ((GridBagLayoutConfig) that).mSectionStyle ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mLabelSuffix, ((GridBagLayoutConfig) that).mLabelSuffix ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mRequiredAlignment, ((GridBagLayoutConfig) that).mRequiredAlignment ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mRequiredText, ((GridBagLayoutConfig) that).mRequiredText ))
+			return false;
+
+		return super.equals( that );
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hashCode = super.hashCode();
+		hashCode ^= ClassUtils.nullSafeHashCode( mNumberOfColumns );
+		hashCode ^= ClassUtils.nullSafeHashCode( mLabelAlignment );
+		hashCode ^= ClassUtils.nullSafeHashCode( mSectionStyle );
+		hashCode ^= ClassUtils.nullSafeHashCode( mLabelSuffix );
+		hashCode ^= ClassUtils.nullSafeHashCode( mRequiredAlignment );
+		hashCode ^= ClassUtils.nullSafeHashCode( mRequiredText );
+
+		return hashCode;
+	}
 }

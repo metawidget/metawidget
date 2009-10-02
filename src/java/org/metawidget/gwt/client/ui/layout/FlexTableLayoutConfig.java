@@ -17,6 +17,7 @@
 package org.metawidget.gwt.client.ui.layout;
 
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.util.ClassUtils;
 
 /**
  * Configures a FlexTableLayout prior to use. Once instantiated, Layouts are immutable.
@@ -127,5 +128,42 @@ public class FlexTableLayoutConfig
 		mFooterStyleName = footerStyleName;
 
 		return this;
+	}
+
+	@Override
+	public boolean equals( Object that )
+	{
+		if ( !( that instanceof FlexTableLayoutConfig ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mNumberOfColumns, ((FlexTableLayoutConfig) that).mNumberOfColumns ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mTableStyleName, ((FlexTableLayoutConfig) that).mTableStyleName ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mColumnStyleNames, ((FlexTableLayoutConfig) that).mColumnStyleNames ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mSectionStyleName, ((FlexTableLayoutConfig) that).mSectionStyleName ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mFooterStyleName, ((FlexTableLayoutConfig) that).mFooterStyleName ))
+			return false;
+
+		return super.equals( that );
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hashCode = super.hashCode();
+		hashCode ^= ClassUtils.nullSafeHashCode( mNumberOfColumns );
+		hashCode ^= ClassUtils.nullSafeHashCode( mTableStyleName );
+		hashCode ^= ClassUtils.nullSafeHashCode( mColumnStyleNames );
+		hashCode ^= ClassUtils.nullSafeHashCode( mSectionStyleName );
+		hashCode ^= ClassUtils.nullSafeHashCode( mFooterStyleName );
+
+		return hashCode;
 	}
 }

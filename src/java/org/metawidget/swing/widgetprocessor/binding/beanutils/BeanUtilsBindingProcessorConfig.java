@@ -16,6 +16,8 @@
 
 package org.metawidget.swing.widgetprocessor.binding.beanutils;
 
+import org.metawidget.util.ClassUtils;
+
 /**
  * Configures a BeanUtilsBindingProcessor prior to use. Once instantiated, WidgetProcessors are
  * immutable.
@@ -59,5 +61,26 @@ public class BeanUtilsBindingProcessorConfig
 		mPropertyStyle = propertyStyle;
 
 		return this;
+	}
+
+	@Override
+	public boolean equals( Object that )
+	{
+		if ( !( that instanceof BeanUtilsBindingProcessorConfig ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mPropertyStyle, ((BeanUtilsBindingProcessorConfig) that).mPropertyStyle ))
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hashCode = super.hashCode();
+		hashCode ^= ClassUtils.nullSafeHashCode( mPropertyStyle );
+
+		return hashCode;
 	}
 }

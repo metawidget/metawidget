@@ -452,26 +452,10 @@ public class BeansBindingProcessor
 			if ( !( that instanceof ConvertFromTo ) )
 				return false;
 
-			ConvertFromTo<?, ?> convertThat = (ConvertFromTo<?, ?>) that;
-
-			// Source
-
-			if ( mSource == null )
-			{
-				if ( convertThat.mSource != null )
-					return false;
-			}
-			else if ( !mSource.equals( convertThat.mSource ) )
+			if ( !ClassUtils.nullSafeEquals( mSource, ((ConvertFromTo<?, ?>) that).mSource ))
 				return false;
 
-			// Target
-
-			if ( mTarget == null )
-			{
-				if ( convertThat.mTarget != null )
-					return false;
-			}
-			else if ( !mTarget.equals( convertThat.mTarget ) )
+			if ( !ClassUtils.nullSafeEquals( mTarget, ((ConvertFromTo<?, ?>) that).mTarget ))
 				return false;
 
 			return true;
@@ -482,11 +466,8 @@ public class BeansBindingProcessor
 		{
 			int hashCode = 0;
 
-			if ( mSource != null )
-				hashCode ^= mSource.hashCode();
-
-			if ( mTarget != null )
-				hashCode ^= mTarget.hashCode();
+			hashCode ^= ClassUtils.nullSafeHashCode( mSource.hashCode() );
+			hashCode ^= ClassUtils.nullSafeHashCode( mTarget.hashCode() );
 
 			return hashCode;
 		}

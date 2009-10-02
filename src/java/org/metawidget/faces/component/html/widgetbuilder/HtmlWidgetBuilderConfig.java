@@ -16,6 +16,8 @@
 
 package org.metawidget.faces.component.html.widgetbuilder;
 
+import org.metawidget.util.ClassUtils;
+
 
 /**
  * Configures a HtmlWidgetBuilder prior to use. Once instantiated, WidgetBuilders are immutable.
@@ -85,5 +87,34 @@ public class HtmlWidgetBuilderConfig
 		mDataTableRowClasses = dataTableRowClasses;
 
 		return this;
+	}
+
+	@Override
+	public boolean equals( Object that )
+	{
+		if ( !( that instanceof HtmlWidgetBuilderConfig ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mDataTableStyleClass, ((HtmlWidgetBuilderConfig) that).mDataTableStyleClass ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mDataTableColumnClasses, ((HtmlWidgetBuilderConfig) that).mDataTableColumnClasses ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mDataTableRowClasses, ((HtmlWidgetBuilderConfig) that).mDataTableRowClasses ))
+			return false;
+
+		return super.equals( that );
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hashCode = super.hashCode();
+		hashCode ^= ClassUtils.nullSafeHashCode( mDataTableStyleClass );
+		hashCode ^= ClassUtils.nullSafeHashCode( mDataTableColumnClasses );
+		hashCode ^= ClassUtils.nullSafeHashCode( mDataTableRowClasses );
+
+		return hashCode;
 	}
 }

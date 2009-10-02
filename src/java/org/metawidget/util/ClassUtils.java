@@ -20,6 +20,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.security.AccessControlException;
+import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import org.metawidget.util.simple.StringUtils;
@@ -392,6 +393,33 @@ public final class ClassUtils
 			return stream;
 
 		throw new FileNotFoundException( "Unable to locate " + resource + " on CLASSPATH" );
+	}
+
+	public static int nullSafeHashCode( Object toHash )
+	{
+		if ( toHash == null )
+			return 0;
+
+		if ( toHash.getClass().isArray() )
+			return Arrays.deepHashCode( (Object[]) toHash );
+
+		return toHash.hashCode();
+	}
+
+	public static boolean nullSafeEquals( Object object1, Object object2 )
+	{
+		if ( object1 == null )
+			return ( object2 == null );
+
+		if ( object1.getClass().isArray() )
+		{
+			if ( object2 == null || !object2.getClass().isArray() )
+				return false;
+
+			return Arrays.deepEquals( (Object[]) object1, (Object[]) object2 );
+		}
+
+		return object1.equals( object2 );
 	}
 
 	//

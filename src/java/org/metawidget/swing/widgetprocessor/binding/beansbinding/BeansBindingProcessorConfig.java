@@ -17,6 +17,7 @@
 package org.metawidget.swing.widgetprocessor.binding.beansbinding;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.metawidget.util.ClassUtils;
 
 /**
  * Configures a BeansBindingProcessor prior to use. Once instantiated, WidgetProcessors are immutable.
@@ -52,5 +53,26 @@ public class BeansBindingProcessorConfig
 		mUpdateStrategy = updateStrategy;
 
 		return this;
+	}
+
+	@Override
+	public boolean equals( Object that )
+	{
+		if ( !( that instanceof BeansBindingProcessorConfig ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mUpdateStrategy, ((BeansBindingProcessorConfig) that).mUpdateStrategy ))
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hashCode = super.hashCode();
+		hashCode ^= ClassUtils.nullSafeHashCode( mUpdateStrategy );
+
+		return hashCode;
 	}
 }

@@ -18,6 +18,7 @@ package org.metawidget.inspector.impl;
 
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.util.ClassUtils;
 
 /**
  * Base class for BaseObjectInspector configurations.
@@ -98,5 +99,29 @@ public class BaseObjectInspectorConfig
 	ActionStyle getActionStyle()
 	{
 		return mActionStyle;
+	}
+
+	@Override
+	public boolean equals( Object that )
+	{
+		if ( !( that instanceof BaseObjectInspectorConfig ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mPropertyStyle, ((BaseObjectInspectorConfig) that).mPropertyStyle ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mActionStyle, ((BaseObjectInspectorConfig) that).mActionStyle ))
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hashCode = ClassUtils.nullSafeHashCode( mPropertyStyle );
+		hashCode ^= ClassUtils.nullSafeHashCode( mActionStyle );
+
+		return hashCode;
 	}
 }

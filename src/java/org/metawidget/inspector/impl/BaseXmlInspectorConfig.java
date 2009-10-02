@@ -130,6 +130,34 @@ public class BaseXmlInspectorConfig
 		mResourceResolver = resourceResolver;
 	}
 
+	@Override
+	public boolean equals( Object that )
+	{
+		if ( !( that instanceof BaseXmlInspectorConfig ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mDefaultFile, ((BaseXmlInspectorConfig) that).mDefaultFile ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mResourceResolver, ((BaseXmlInspectorConfig) that).mResourceResolver ))
+			return false;
+
+		if ( !ClassUtils.nullSafeEquals( mResourceResolver, ((BaseXmlInspectorConfig) that).mFileStreams ))
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hashCode = ClassUtils.nullSafeHashCode( mDefaultFile );
+		hashCode ^= ClassUtils.nullSafeHashCode( mResourceResolver );
+		hashCode ^= ClassUtils.nullSafeHashCode( mFileStreams );
+
+		return hashCode;
+	}
+
 	//
 	// Protected methods
 	//
