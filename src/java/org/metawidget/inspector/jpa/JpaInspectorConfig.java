@@ -17,7 +17,7 @@
 package org.metawidget.inspector.jpa;
 
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
-import org.metawidget.util.ClassUtils;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a JpaInspector prior to use. Once instantiated, Inspectors are immutable.
@@ -69,7 +69,7 @@ public class JpaInspectorConfig
 		if ( !( that instanceof JpaInspectorConfig ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mHideIds, ((JpaInspectorConfig) that).mHideIds ))
+		if ( !ObjectUtils.nullSafeEquals( mHideIds, ((JpaInspectorConfig) that).mHideIds ))
 			return false;
 
 		return super.equals( that );
@@ -79,7 +79,7 @@ public class JpaInspectorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ClassUtils.nullSafeHashCode( mHideIds );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mHideIds );
 
 		return hashCode;
 	}

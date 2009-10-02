@@ -22,6 +22,7 @@ import org.metawidget.inspector.NeedsResourceResolver;
 import org.metawidget.inspector.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Base class for BaseXmlInspectorConfig configurations.
@@ -136,13 +137,13 @@ public class BaseXmlInspectorConfig
 		if ( !( that instanceof BaseXmlInspectorConfig ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mDefaultFile, ((BaseXmlInspectorConfig) that).mDefaultFile ))
+		if ( !ObjectUtils.nullSafeEquals( mDefaultFile, ((BaseXmlInspectorConfig) that).mDefaultFile ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mResourceResolver, ((BaseXmlInspectorConfig) that).mResourceResolver ))
+		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ((BaseXmlInspectorConfig) that).mResourceResolver ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mResourceResolver, ((BaseXmlInspectorConfig) that).mFileStreams ))
+		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ((BaseXmlInspectorConfig) that).mFileStreams ))
 			return false;
 
 		return true;
@@ -151,9 +152,9 @@ public class BaseXmlInspectorConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = ClassUtils.nullSafeHashCode( mDefaultFile );
-		hashCode ^= ClassUtils.nullSafeHashCode( mResourceResolver );
-		hashCode ^= ClassUtils.nullSafeHashCode( mFileStreams );
+		int hashCode = ObjectUtils.nullSafeHashCode( mDefaultFile );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mResourceResolver );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mFileStreams );
 
 		return hashCode;
 	}

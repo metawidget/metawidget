@@ -37,6 +37,7 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.ObjectUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
@@ -452,10 +453,10 @@ public class BeansBindingProcessor
 			if ( !( that instanceof ConvertFromTo ) )
 				return false;
 
-			if ( !ClassUtils.nullSafeEquals( mSource, ((ConvertFromTo<?, ?>) that).mSource ))
+			if ( !ObjectUtils.nullSafeEquals( mSource, ((ConvertFromTo<?, ?>) that).mSource ))
 				return false;
 
-			if ( !ClassUtils.nullSafeEquals( mTarget, ((ConvertFromTo<?, ?>) that).mTarget ))
+			if ( !ObjectUtils.nullSafeEquals( mTarget, ((ConvertFromTo<?, ?>) that).mTarget ))
 				return false;
 
 			return true;
@@ -466,8 +467,8 @@ public class BeansBindingProcessor
 		{
 			int hashCode = 0;
 
-			hashCode ^= ClassUtils.nullSafeHashCode( mSource.hashCode() );
-			hashCode ^= ClassUtils.nullSafeHashCode( mTarget.hashCode() );
+			hashCode ^= ObjectUtils.nullSafeHashCode( mSource.hashCode() );
+			hashCode ^= ObjectUtils.nullSafeHashCode( mTarget.hashCode() );
 
 			return hashCode;
 		}

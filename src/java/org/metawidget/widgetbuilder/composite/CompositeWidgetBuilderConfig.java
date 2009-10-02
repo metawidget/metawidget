@@ -16,7 +16,7 @@
 
 package org.metawidget.widgetbuilder.composite;
 
-import org.metawidget.util.ClassUtils;
+import org.metawidget.util.simple.ObjectUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
@@ -64,7 +64,7 @@ public class CompositeWidgetBuilderConfig<W, M extends W>
 		if ( !( that instanceof CompositeWidgetBuilderConfig ) )
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mWidgetBuilders, ( (CompositeWidgetBuilderConfig<?, ?>) that ).mWidgetBuilders ) )
+		if ( !ObjectUtils.nullSafeEquals( mWidgetBuilders, ( (CompositeWidgetBuilderConfig<?, ?>) that ).mWidgetBuilders ) )
 			return false;
 
 		return true;
@@ -73,6 +73,6 @@ public class CompositeWidgetBuilderConfig<W, M extends W>
 	@Override
 	public int hashCode()
 	{
-		return ClassUtils.nullSafeHashCode( mWidgetBuilders );
+		return ObjectUtils.nullSafeHashCode( mWidgetBuilders );
 	}
 }

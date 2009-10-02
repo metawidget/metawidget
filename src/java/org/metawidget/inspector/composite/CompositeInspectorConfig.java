@@ -17,7 +17,7 @@
 package org.metawidget.inspector.composite;
 
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.util.ClassUtils;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a CompositeInspector prior to use. Once instantiated, Inspectors are immutable.
@@ -64,7 +64,7 @@ public class CompositeInspectorConfig
 		if ( !( that instanceof CompositeInspectorConfig ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mInspectors, ((CompositeInspectorConfig) that).mInspectors ))
+		if ( !ObjectUtils.nullSafeEquals( mInspectors, ((CompositeInspectorConfig) that).mInspectors ))
 			return false;
 
 		return true;
@@ -73,6 +73,6 @@ public class CompositeInspectorConfig
 	@Override
 	public int hashCode()
 	{
-		return ClassUtils.nullSafeHashCode( mInspectors );
+		return ObjectUtils.nullSafeHashCode( mInspectors );
 	}
 }

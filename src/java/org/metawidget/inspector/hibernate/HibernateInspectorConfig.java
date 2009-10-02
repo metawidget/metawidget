@@ -17,7 +17,7 @@
 package org.metawidget.inspector.hibernate;
 
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
-import org.metawidget.util.ClassUtils;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a HibernateInspector prior to use. Once instantiated,
@@ -80,7 +80,7 @@ public class HibernateInspectorConfig
 		if ( !( that instanceof HibernateInspectorConfig ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mHideIds, ((HibernateInspectorConfig) that).mHideIds ))
+		if ( !ObjectUtils.nullSafeEquals( mHideIds, ((HibernateInspectorConfig) that).mHideIds ))
 			return false;
 
 		return super.equals( that );
@@ -90,7 +90,7 @@ public class HibernateInspectorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ClassUtils.nullSafeHashCode( mHideIds );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mHideIds );
 
 		return hashCode;
 	}

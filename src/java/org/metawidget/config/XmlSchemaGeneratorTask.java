@@ -266,9 +266,9 @@ public class XmlSchemaGeneratorTask
 			configurable = true;
 		}
 
-		// Not configurable and not a Metawidget?
+		// Not immutable/threadsafe and not a Metawidget?
 
-		if ( !configurable && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ) )
+		if ( !new ConfigReader().isImmutableThreadsafe( clazz ) && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ) )
 			return null;
 
 		// Iterate through each JavaBean property

@@ -19,7 +19,7 @@ package org.metawidget.inspector.composite;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.inspector.NeedsResourceResolver;
 import org.metawidget.inspector.ResourceResolver;
-import org.metawidget.util.ClassUtils;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a CompositeInspector prior to use. Once instantiated, Inspectors are immutable.
@@ -61,7 +61,7 @@ public class ValidatingCompositeInspectorConfig
 		if ( !( that instanceof ValidatingCompositeInspectorConfig ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mResourceResolver, ((ValidatingCompositeInspectorConfig) that).mResourceResolver ))
+		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ((ValidatingCompositeInspectorConfig) that).mResourceResolver ))
 			return false;
 
 		return super.equals( that );
@@ -71,7 +71,7 @@ public class ValidatingCompositeInspectorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ClassUtils.nullSafeHashCode( mResourceResolver );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mResourceResolver );
 
 		return hashCode;
 	}

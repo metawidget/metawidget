@@ -23,11 +23,13 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.metawidget.util.simple.ObjectUtils;
+
 /**
  * @author Richard Kennard
  */
 
-public class BadInspectorConfig
+public class TestInspectorConfig
 {
 	//
 	// Private members
@@ -153,5 +155,57 @@ public class BadInspectorConfig
 	public void setNoParameters()
 	{
 		throw new UnsupportedOperationException( "Called setNoParameters" );
+	}
+
+	@Override
+	public boolean equals( Object that )
+	{
+		if ( !( that instanceof TestInspectorConfig ))
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mList, ((TestInspectorConfig) that).mList ))
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mSet, ((TestInspectorConfig) that).mSet ))
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mInt, ((TestInspectorConfig) that).mInt ))
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mBoolean, ((TestInspectorConfig) that).mBoolean ))
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mPattern, ((TestInspectorConfig) that).mPattern ))
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mInputStream, ((TestInspectorConfig) that).mInputStream ))
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mResourceBundle, ((TestInspectorConfig) that).mResourceBundle ))
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mStringArray, ((TestInspectorConfig) that).mStringArray ))
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mFailDuringConstruction, ((TestInspectorConfig) that).mFailDuringConstruction ))
+			return false;
+
+		return true;
+	}
+
+	@Override
+	public int hashCode()
+	{
+		int hashCode = ObjectUtils.nullSafeHashCode( mList );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mSet );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mInt );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mBoolean );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mPattern );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mInputStream );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mResourceBundle );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mStringArray );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mFailDuringConstruction );
+
+		return hashCode;
 	}
 }

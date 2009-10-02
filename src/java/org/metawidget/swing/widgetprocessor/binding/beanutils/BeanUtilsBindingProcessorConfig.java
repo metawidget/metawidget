@@ -16,7 +16,7 @@
 
 package org.metawidget.swing.widgetprocessor.binding.beanutils;
 
-import org.metawidget.util.ClassUtils;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a BeanUtilsBindingProcessor prior to use. Once instantiated, WidgetProcessors are
@@ -69,7 +69,7 @@ public class BeanUtilsBindingProcessorConfig
 		if ( !( that instanceof BeanUtilsBindingProcessorConfig ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mPropertyStyle, ((BeanUtilsBindingProcessorConfig) that).mPropertyStyle ))
+		if ( !ObjectUtils.nullSafeEquals( mPropertyStyle, ((BeanUtilsBindingProcessorConfig) that).mPropertyStyle ))
 			return false;
 
 		return true;
@@ -79,7 +79,7 @@ public class BeanUtilsBindingProcessorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ClassUtils.nullSafeHashCode( mPropertyStyle );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mPropertyStyle );
 
 		return hashCode;
 	}

@@ -17,7 +17,7 @@
 package org.metawidget.jsp.tagext.html.layout;
 
 import org.metawidget.layout.iface.LayoutException;
-import org.metawidget.util.ClassUtils;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Configures a HtmlTableLayout prior to use. Once instantiated, Layouts are immutable.
@@ -166,25 +166,25 @@ public class HtmlTableLayoutConfig
 		if ( !( that instanceof HtmlTableLayoutConfig ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mNumberOfColumns, ((HtmlTableLayoutConfig) that).mNumberOfColumns ))
+		if ( !ObjectUtils.nullSafeEquals( mNumberOfColumns, ((HtmlTableLayoutConfig) that).mNumberOfColumns ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mTableStyle, ((HtmlTableLayoutConfig) that).mTableStyle ))
+		if ( !ObjectUtils.nullSafeEquals( mTableStyle, ((HtmlTableLayoutConfig) that).mTableStyle ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mTableStyleClass, ((HtmlTableLayoutConfig) that).mTableStyleClass ))
+		if ( !ObjectUtils.nullSafeEquals( mTableStyleClass, ((HtmlTableLayoutConfig) that).mTableStyleClass ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mColumnStyleClasses, ((HtmlTableLayoutConfig) that).mColumnStyleClasses ))
+		if ( !ObjectUtils.nullSafeEquals( mColumnStyleClasses, ((HtmlTableLayoutConfig) that).mColumnStyleClasses ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mSectionStyleClass, ((HtmlTableLayoutConfig) that).mSectionStyleClass ))
+		if ( !ObjectUtils.nullSafeEquals( mSectionStyleClass, ((HtmlTableLayoutConfig) that).mSectionStyleClass ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mFooterStyle, ((HtmlTableLayoutConfig) that).mFooterStyle ))
+		if ( !ObjectUtils.nullSafeEquals( mFooterStyle, ((HtmlTableLayoutConfig) that).mFooterStyle ))
 			return false;
 
-		if ( !ClassUtils.nullSafeEquals( mFooterStyleClass, ((HtmlTableLayoutConfig) that).mFooterStyleClass ))
+		if ( !ObjectUtils.nullSafeEquals( mFooterStyleClass, ((HtmlTableLayoutConfig) that).mFooterStyleClass ))
 			return false;
 
 		return super.equals( that );
@@ -194,13 +194,13 @@ public class HtmlTableLayoutConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ClassUtils.nullSafeHashCode( mNumberOfColumns );
-		hashCode ^= ClassUtils.nullSafeHashCode( mTableStyle );
-		hashCode ^= ClassUtils.nullSafeHashCode( mTableStyleClass );
-		hashCode ^= ClassUtils.nullSafeHashCode( mColumnStyleClasses );
-		hashCode ^= ClassUtils.nullSafeHashCode( mSectionStyleClass );
-		hashCode ^= ClassUtils.nullSafeHashCode( mFooterStyle );
-		hashCode ^= ClassUtils.nullSafeHashCode( mFooterStyleClass );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mNumberOfColumns );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mTableStyle );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mTableStyleClass );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mColumnStyleClasses );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mSectionStyleClass );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mFooterStyle );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mFooterStyleClass );
 
 		return hashCode;
 	}

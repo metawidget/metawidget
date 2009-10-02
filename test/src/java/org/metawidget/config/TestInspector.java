@@ -28,7 +28,7 @@ import org.metawidget.inspector.iface.Inspector;
  * @author Richard Kennard
  */
 
-public class BadInspector
+public class TestInspector
 	implements Inspector
 {
 	//
@@ -55,7 +55,7 @@ public class BadInspector
 	// Constructor
 	//
 
-	public BadInspector( BadInspectorConfig config )
+	public TestInspector( TestInspectorConfig config )
 	{
 		if ( config.isFailDuringConstruction() )
 			throw new RuntimeException( "Failed during construction" );
@@ -68,6 +68,26 @@ public class BadInspector
 		mInputStream = config.getInputStream();
 		mResourceBundle = config.getResourceBundle();
 		mStringArray = config.getStringArray();
+	}
+
+	public TestInspector( TestNoEqualsInspectorConfig config )
+	{
+		// Do nothing
+	}
+
+	public TestInspector( TestNoHashCodeInspectorConfig config )
+	{
+		// Do nothing
+	}
+
+	public TestInspector( TestUnbalancedEqualsInspectorConfig config )
+	{
+		// Do nothing
+	}
+
+	public TestInspector( TestNoEqualsSubclassInspectorConfig config )
+	{
+		// Do nothing
 	}
 
 	//

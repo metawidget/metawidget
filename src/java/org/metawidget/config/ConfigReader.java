@@ -1226,18 +1226,46 @@ public class ConfigReader
 			{
 				// Sanity check
 
-				Class<?> configClass = configToStoreUnder.getClass();
-
 				try
 				{
-					Object dummyConfig1 = configClass.newInstance();
-					Object dummyConfig2 = configClass.newInstance();
+					Class<?> configClass = configToStoreUnder.getClass();
 
-					if ( !dummyConfig1.equals( dummyConfig2 ) )
-						throw MetawidgetException.newException( configClass + " does not override .equals(), so cannot be reliably cached" );
+					// equals
 
-					if ( dummyConfig1.hashCode() != dummyConfig2.hashCode() )
-						throw MetawidgetException.newException( configClass + " does not override .hashCode(), so cannot be reliably cached" );
+					Class<?> equalsDeclaringClass = configClass.getMethod( "equals", Object.class ).getDeclaringClass();
+
+					if ( !configClass.equals( equalsDeclaringClass ))
+					{
+						// Hard warning
+
+						if ( Object.class.equals( equalsDeclaringClass ))
+							throw MetawidgetException.newException( configClass + " does not override .equals(), so cannot cache reliably" );
+
+						// Soft warning
+
+						LOG.warn( configClass + " does not override .equals() (only its super" + equalsDeclaringClass + " does), so may not be cached reliably" );
+					}
+
+					// hashCode
+
+					Class<?> hashCodeDeclaringClass = configClass.getMethod( "hashCode" ).getDeclaringClass();
+
+					if ( !configClass.equals( hashCodeDeclaringClass ))
+					{
+						// Hard warning
+
+						if ( Object.class.equals( hashCodeDeclaringClass ))
+							throw MetawidgetException.newException( configClass + " does not override .hashCode(), so cannot cache reliably" );
+
+						// Soft warning
+
+						LOG.warn( configClass + " does not override .hashCode() (only its super" + hashCodeDeclaringClass + " does), so may not be cached reliably" );
+					}
+
+					// Hard warning
+
+					if ( !equalsDeclaringClass.equals( hashCodeDeclaringClass ))
+						throw MetawidgetException.newException( equalsDeclaringClass + " implements .equals(), but .hashCode() is implemented by " + hashCodeDeclaringClass + ", so cannot cache reliably" );
 				}
 				catch ( Exception e )
 				{
