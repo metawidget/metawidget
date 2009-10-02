@@ -105,6 +105,8 @@ public class XmlSchemaGeneratorTask
 	public void execute()
 		throws BuildException
 	{
+		// TODO: Unit test XmlSchemaGeneratorTask
+
 		try
 		{
 			// Create/clear the dest dir
@@ -236,9 +238,9 @@ public class XmlSchemaGeneratorTask
 		if ( clazz.isInterface() || Modifier.isAbstract( clazz.getModifiers() ) )
 			return null;
 
-		// Config?
+		// Not immutable/threadsafe and not a Metawidget?
 
-		if ( className.endsWith( "Config" ) )
+		if ( !new ConfigReader().isImmutableThreadsafe( clazz ) && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ) )
 			return null;
 
 		// Configurable?
@@ -266,19 +268,12 @@ public class XmlSchemaGeneratorTask
 			configurable = true;
 		}
 
-		// Not immutable/threadsafe and not a Metawidget?
-
-		if ( !new ConfigReader().isImmutableThreadsafe( clazz ) && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ) )
-			return null;
-
 		// Iterate through each JavaBean property
 
 		String propertiesBlock = generatePropertiesBlock( clazz );
 
-		if ( propertiesBlock == null )
-			return null;
-
-		builder.append( propertiesBlock );
+		if ( propertiesBlock != null )
+			builder.append( propertiesBlock );
 
 		// Configurable?
 

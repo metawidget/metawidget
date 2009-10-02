@@ -765,7 +765,7 @@ public class ConfigReaderTest
 
 		// Superclass does, but subclass doesn't
 
-		// TODO: how to test logging output?
+		// TODO: Test the logging output
 
 		ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
 		System.setErr( new PrintStream( streamOut ) );

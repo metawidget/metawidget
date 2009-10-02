@@ -278,6 +278,8 @@ public class UIMetawidgetTest
 		HtmlMetawidget metawidget = new HtmlMetawidget();
 		metawidget.configure();
 
+		// TODO: Test the logging output
+
 		// Should have done something
 
 		assertTrue( FacesContext.getCurrentInstance().getExternalContext().getApplicationMap().get( "metawidget-config-reader" ) instanceof ConfigReader );

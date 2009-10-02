@@ -54,6 +54,8 @@ public class MetawidgetTagTest
 
 		assertTrue( null == pageContext.getServletContext().getAttribute( "metawidget-config-reader" ));
 
+		// TODO: Test the logging output
+
 		// Should not error (just log)
 
 		metawidget.configure();
