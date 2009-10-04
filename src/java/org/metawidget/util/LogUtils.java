@@ -45,8 +45,8 @@ public final class LogUtils
 	 * In general, Commons Logging is the better choice. However, that introduces a mandatory JAR
 	 * dependency which we want to avoid.
 	 * <p>
-	 * Note: we're not trying to create <em>another</em> logging framework here! We're just trying to
-	 * use Commons Logging where available, and java.util Logging where it's not. Most web
+	 * Note: we're not trying to create <em>another</em> logging framework here! We're just trying
+	 * to use Commons Logging where available, and java.util Logging where it's not. Most web
 	 * containers will prefer Commons Logging, but we don't want to have to ship commons-logging.jar
 	 * with, say, a Swing applet.
 	 */
@@ -64,6 +64,36 @@ public final class LogUtils
 	}
 
 	/**
+	 * Lightweight field that stores the last message sent to <code>Log.trace</code>. Intended for unit tests.
+	 */
+
+	public static String	LAST_TRACE_MESSAGE;
+
+	/**
+	 * Lightweight field that stores the last message sent to <code>Log.debug</code>. Intended for unit tests.
+	 */
+
+	public static String	LAST_DEBUG_MESSAGE;
+
+	/**
+	 * Lightweight field that stores the last message sent to <code>Log.info</code>. Intended for unit tests.
+	 */
+
+	public static String	LAST_INFO_MESSAGE;
+
+	/**
+	 * Lightweight field that stores the last message sent to <code>Log.warn</code>. Intended for unit tests.
+	 */
+
+	public static String	LAST_WARN_MESSAGE;
+
+	/**
+	 * Lightweight field that stores the last message sent to <code>Log.error</code>. Intended for unit tests.
+	 */
+
+	public static String	LAST_ERROR_MESSAGE;
+
+	/**
 	 * Common logging interface.
 	 * <p>
 	 * Note: we're not trying to create <em>another</em> logging framework here! We're just trying
@@ -75,9 +105,7 @@ public final class LogUtils
 	public interface Log
 	{
 		//
-		//
 		// Methods
-		//
 		//
 
 		boolean isTraceEnabled();
@@ -123,17 +151,13 @@ public final class LogUtils
 		implements Log
 	{
 		//
-		//
 		// Private members
 		//
-		//
 
-		private Logger	mLogger;
+		private Logger			mLogger;
 
-		//
 		//
 		// Constructor
-		//
 		//
 
 		public UtilLog( String logger )
@@ -142,9 +166,7 @@ public final class LogUtils
 		}
 
 		//
-		//
 		// Methods
-		//
 		//
 
 		public boolean isTraceEnabled()
@@ -154,6 +176,8 @@ public final class LogUtils
 
 		public void trace( String trace )
 		{
+			LAST_TRACE_MESSAGE = trace;
+
 			mLogger.finer( trace );
 		}
 
@@ -169,6 +193,8 @@ public final class LogUtils
 
 		public void debug( String debug )
 		{
+			LAST_DEBUG_MESSAGE = debug;
+
 			mLogger.fine( debug );
 		}
 
@@ -184,6 +210,8 @@ public final class LogUtils
 
 		public void info( String info )
 		{
+			LAST_INFO_MESSAGE = info;
+
 			mLogger.info( info );
 		}
 
@@ -199,6 +227,8 @@ public final class LogUtils
 
 		public void warn( String warning )
 		{
+			LAST_WARN_MESSAGE = warning;
+
 			mLogger.warning( warning );
 		}
 
@@ -214,11 +244,15 @@ public final class LogUtils
 
 		public void error( String error )
 		{
+			LAST_ERROR_MESSAGE = error;
+
 			mLogger.log( Level.SEVERE, error );
 		}
 
 		public void error( String error, Throwable throwable )
 		{
+			LAST_ERROR_MESSAGE = error;
+
 			mLogger.log( Level.SEVERE, error, throwable );
 		}
 	}
@@ -231,17 +265,13 @@ public final class LogUtils
 		implements Log
 	{
 		//
-		//
 		// Private members
-		//
 		//
 
 		private org.apache.commons.logging.Log	mLog;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public CommonsLog( Class<?> clazz )
@@ -250,9 +280,7 @@ public final class LogUtils
 		}
 
 		//
-		//
 		// Methods
-		//
 		//
 
 		public boolean isTraceEnabled()
@@ -262,11 +290,15 @@ public final class LogUtils
 
 		public void trace( String trace )
 		{
+			LAST_TRACE_MESSAGE = trace;
+
 			mLog.trace( trace );
 		}
 
 		public void trace( String trace, Throwable throwable )
 		{
+			LAST_TRACE_MESSAGE = trace;
+
 			mLog.trace( trace, throwable );
 		}
 
@@ -277,11 +309,15 @@ public final class LogUtils
 
 		public void debug( String debug )
 		{
+			LAST_DEBUG_MESSAGE = debug;
+
 			mLog.debug( debug );
 		}
 
 		public void debug( String debug, Throwable throwable )
 		{
+			LAST_DEBUG_MESSAGE = debug;
+
 			mLog.debug( debug, throwable );
 		}
 
@@ -292,11 +328,15 @@ public final class LogUtils
 
 		public void info( String info )
 		{
+			LAST_INFO_MESSAGE = info;
+
 			mLog.info( info );
 		}
 
 		public void info( String info, Throwable throwable )
 		{
+			LAST_INFO_MESSAGE = info;
+
 			mLog.info( info, throwable );
 		}
 
@@ -307,11 +347,15 @@ public final class LogUtils
 
 		public void warn( String warning )
 		{
+			LAST_WARN_MESSAGE = warning;
+
 			mLog.warn( warning );
 		}
 
 		public void warn( String warning, Throwable throwable )
 		{
+			LAST_WARN_MESSAGE = warning;
+
 			mLog.warn( warning, throwable );
 		}
 
@@ -322,11 +366,15 @@ public final class LogUtils
 
 		public void error( String error )
 		{
+			LAST_ERROR_MESSAGE = error;
+
 			mLog.error( error );
 		}
 
 		public void error( String error, Throwable throwable )
 		{
+			LAST_ERROR_MESSAGE = error;
+
 			mLog.error( error, throwable );
 		}
 	}

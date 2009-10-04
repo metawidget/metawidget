@@ -26,6 +26,7 @@ import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.jsp.JspMetawidgetTests.MockPageContext;
 import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
+import org.metawidget.util.LogUtils;
 
 /**
  * MetawidgetTag test cases.
@@ -54,11 +55,10 @@ public class MetawidgetTagTest
 
 		assertTrue( null == pageContext.getServletContext().getAttribute( "metawidget-config-reader" ));
 
-		// TODO: Test the logging output
-
 		// Should not error (just log)
 
 		metawidget.configure();
+		assertTrue( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtils.LAST_INFO_MESSAGE ));
 
 		// Should have done something
 

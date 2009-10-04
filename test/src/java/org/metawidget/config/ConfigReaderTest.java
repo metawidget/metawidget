@@ -20,7 +20,6 @@ import java.awt.Point;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
-import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +51,7 @@ import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.util.IOUtils;
+import org.metawidget.util.LogUtils;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.xml.sax.SAXException;
@@ -765,11 +765,6 @@ public class ConfigReaderTest
 
 		// Superclass does, but subclass doesn't
 
-		// TODO: Test the logging output
-
-		ByteArrayOutputStream streamOut = new ByteArrayOutputStream();
-		System.setErr( new PrintStream( streamOut ) );
-
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestNoEqualsSubclassInspectorConfig\"/>";
@@ -777,7 +772,7 @@ public class ConfigReaderTest
 
 		new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
-		assert( "foo".equals( streamOut.toString() ));
+		assertTrue( "class org.metawidget.config.TestNoEqualsSubclassInspectorConfig does not override .hashCode() (only its superclass org.metawidget.config.TestInspectorConfig does), so may not be cached reliably".equals( LogUtils.LAST_INFO_MESSAGE ));
 	}
 
 	//

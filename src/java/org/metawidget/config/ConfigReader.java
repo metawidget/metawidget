@@ -1241,9 +1241,11 @@ public class ConfigReader
 						if ( Object.class.equals( equalsDeclaringClass ))
 							throw MetawidgetException.newException( configClass + " does not override .equals(), so cannot cache reliably" );
 
-						// Soft warning
-
-						LOG.warn( configClass + " does not override .equals() (only its super" + equalsDeclaringClass + " does), so may not be cached reliably" );
+						// Soft warning...
+						//
+						// LOG.info( configClass + " does not override .equals() (only its super" + equalsDeclaringClass + " does), so may not be cached reliably" );
+						//
+						// ...can never happen on its own. Will either soft warning below, or hard warning below
 					}
 
 					// hashCode
@@ -1259,7 +1261,7 @@ public class ConfigReader
 
 						// Soft warning
 
-						LOG.warn( configClass + " does not override .hashCode() (only its super" + hashCodeDeclaringClass + " does), so may not be cached reliably" );
+						LOG.info( configClass + " does not override .hashCode() (only its super" + hashCodeDeclaringClass + " does), so may not be cached reliably" );
 					}
 
 					// Hard warning
