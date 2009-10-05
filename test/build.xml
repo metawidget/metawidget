@@ -125,8 +125,14 @@
 		<!-- Note: run the unit tests against the actual metawiget.jar and   -->
 		<!--       addressbook-swing.jar, to make sure they packed correctly -->
 
-		<!-- Note: network access is disabled for Unit Tests, to make sure Metawidget isn't trying external DTDs -->
+		<!-- Note: network access is disabled for Unit Tests, to make sure Metawidget isn't trying external DTDs/XSDs -->
 
+		<copy todir="${relative.dir}/${build.dir}/ant-classes">
+			<fileset dir="${relative.dir}/${build.dir}/classes">
+				<include name="org/metawidget/config/XmlSchemaGeneratorTask.class"/>
+			</fileset>
+		</copy>
+		
 		<junit showoutput="true" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Djava.util.logging.config.file=${basedir}/${relative.dir}/test/src/java/logging.properties"/>
 			<jvmarg value="-Dhttp.proxyHost=prevent.all.network.access"/>
@@ -146,6 +152,7 @@
 				<pathelement location="${relative.dir}/${build.dir}/examples/swing/addressbook-swing.jar"/>
 				<pathelement location="${relative.dir}/${build.dir}/examples/swing/animalraces-swing.jar"/>
 				<pathelement location="${relative.dir}/${build.dir}/examples/swing/appframework-swing.jar"/>
+				<pathelement path="${relative.dir}/${build.dir}/ant-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/groovy-test-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/scala-test-classes"/>

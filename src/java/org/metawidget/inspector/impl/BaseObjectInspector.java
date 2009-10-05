@@ -92,8 +92,6 @@ public abstract class BaseObjectInspector
 	{
 		mPropertyStyle = config.getPropertyStyle();
 		mActionStyle = config.getActionStyle();
-
-		// TODO: test null propertystyle/actionstyle
 	}
 
 	//

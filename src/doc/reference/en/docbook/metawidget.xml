@@ -1797,7 +1797,7 @@ bin\run</programlisting>
 				</para>
 				
 				<para>
-					Metawidget supports pluggable 'property styles' for JavaBean and Groovy property styles.
+					Metawidget supports pluggable 'property styles' for JavaBean, Groovy and other property styles.
 					Groovy properties differ from JavaBean properties in that their annotations are tied to
 					the private member variable, rather than the getters and setters. The use of Groovy is configured
 					per <classname>Inspector</classname>, as in <filename>examples\faces\seam\groovybooking\resources\WEB-INF\metawidget.xml</filename>:
@@ -1805,7 +1805,7 @@ bin\run</programlisting>
 
 				<programlisting language="xml">&lt;propertyTypeInspector config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 	&lt;propertyStyle&gt;
-		org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle
+		&lt;groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/&gt;
 	&lt;/propertyStyle&gt;
 &lt;/propertyTypeInspector&gt;</programlisting>
 
@@ -1916,7 +1916,7 @@ bin\run</programlisting>
 				<programlisting language="xml">&lt;metawidgetAnnotationInspector
 	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 	&lt;actionStyle&gt;
-		org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle
+		&lt;swingAppFrameworkActionStyle xmlns="java:org.metawidget.inspector.impl.actionstyle.swing"&gt;
 	&lt;/actionStyle&gt;
 &lt;/metawidgetAnnotationInspector&gt;</programlisting>
 
@@ -2008,7 +2008,7 @@ metawidget.setToInspect( animal );
 				<programlisting language="xml">&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"
 		config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 		&lt;propertyStyle&gt;
-			<symbol>org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyle</symbol>
+			<symbol>&lt;scalaPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.scala"/&gt;</symbol>
 		&lt;/propertyStyle&gt;			
 	&lt;/metawidgetAnnotationInspector&gt;</programlisting>
 
@@ -2789,7 +2789,8 @@ ant</programlisting>
 				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
 				&lt;strutsAnnotationInspector /&gt;
-				&lt;commonsValidatorInspector config="CommonsValidatorInspectorConfig"/&gt;
+				&lt;commonsValidatorInspector
+					config="CommonsValidatorInspectorConfig"/&gt;
 			&lt;/list&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
@@ -2821,6 +2822,26 @@ ant</programlisting>
 					of this for you, but if you are instantiating <classname>Inspector</classname>s in Java code you should
 					reuse instances.
 				</para>
+				
+				<para>
+					Note that immutable only means <classname>Inspector</classname>s cannot be changed once instantiated - it does not
+					mean they cannot be configured. Many <classname>Inspector</classname>s have corresponding <classname>xxxConfig</classname>
+					classes that allow them to be configured prior to instantation in a type-safe way. For example, a
+					<classname>JpaInspector</classname> can be configured in code:
+				<para>
+
+				<programlisting language="java">metawidget.setInspector( new JpaInspector( new JpaInspectorConfig().setHideIds( false ));</programlisting>
+				
+				<para>
+					Or in <filename>metawidget.xml</filename>:
+				</para>
+				
+				<programlisting language="xml">&lt;jpaInspector xmlns="java:org.metawidget.inspector.jpa"
+	config="JpaInspectorConfig"&gt;
+	&lt;hideIds&gt;
+		&lt;boolean&gt;true&lt;/boolean&gt;
+	&lt;/hideIds&gt;
+&lt;/jpaInspector&gt;</programlisting>
 				
 			</section>
 
@@ -3162,6 +3183,26 @@ ant</programlisting>
 					reuse instances.
 				</para>
 				
+				<para>
+					Note that immutable only means <classname>WidgetBuilder</classname>s cannot be changed once instantiated - it does not
+					mean they cannot be configured. Many <classname>WidgetBuilder</classname>s have corresponding <classname>xxxConfig</classname>
+					classes that allow them to be configured prior to instantation in a type-safe way. For example, a
+					<classname>HtmlWidgetBuilder</classname> can be configured in code:
+				<para>
+
+				<programlisting language="java">metawidget.setWidgetBuilder( new HtmlWidgetBuilder( new HtmlWidgetBuilderConfig().setDataTableStyleClass( "data-table" ));</programlisting>
+				
+				<para>
+					Or in <filename>metawidget.xml</filename>:
+				</para>
+				
+				<programlisting language="xml">&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"
+	config="HtmlWidgetBuilderConfig"&gt;
+	&lt;dataTableStyleClass&gt;
+		&lt;boolean&gt;data-table&lt;/boolean&gt;
+	&lt;/dataTableStyleClass&gt;
+&lt;/htmlWidgetBuilder&gt;</programlisting>				
+				
 			</section>
 			
 			<section id="section-architecture-widgetbuilders-implementing-your-own">
@@ -3201,17 +3242,19 @@ ant</programlisting>
 						When developing <classname>WidgetBuilders</classname> for JSF component libraries, be aware that Metawidget integrates
 						with the JSF lifecycle in a slightly unorthodox way. Upon POSTback, Metawidget first decodes, processes validators
 						and updates the business model as usual. Upon <function>encodeBegin</function>, however, Metawidget
-						<emphasis>destroys and recreates</emphasis>	all previously generated components. This is so the components can adapt
-						to updates to the business model.
+						<emphasis>destroys and recreates</emphasis>	all previously generated <classname>UIComponent</classname>s. This is so
+						the <classname>UIComponent</classname>s can adapt to updates to the business model. For example, they might need to be changed
+						from a <classname>UIOutputText</classname> to a <classname>UIInputText</classname> if the user clicks an
+						<parameter>Edit</parameter> button.
 					</para>
 					
 					<para>
-						In most cases this works well, but on occasion a component may not be expecting to be recreated, and may not function properly.
+						In most cases such recreation works well, but on occasion a component may not be expecting to be recreated, and may not function properly.
 						For example, the ICEfaces <classname>SelectInputDate</classname> component stores the state of its date popup internally. If
 						it is recreated, this state is lost and the popup never appears. For such components, <classname>WidgetBuilder</classname>
-						writers can set the attribute <classname>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</classname> on the component
+						authors can set the attribute <classname>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</classname> on the component
 						to prevent its destruction and recreation. Of course, this somewhat impacts its flexibility. For example, a
-						<classname>SelectInputDate</classname> could not change its date format in response to another component on the form.
+						<classname>SelectInputDate</classname> would not be able to change its date format in response to another component on the form.
 					</para>
 				</section>
 				
@@ -3421,11 +3464,31 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 				</para>
 				
 				<para>
-					Note that although individual <classname>WidgetProcessor</classname> are immutable, the <classname>List</classname> they
+					Although individual <classname>WidgetProcessor</classname> are immutable, the <classname>List</classname> they
 					are contained in can be changed. Methods such as <function>addWidgetProcessor</function> allows clients to dynamically
 					add <classname>WidgetProcessor</classname>s at runtime. This is useful for adding event handlers (see
 					<xref linkend="section-architecture-widgetprocessors-interface"/>).
 				</para>
+				
+				<para>
+					Note that immutable only means <classname>WidgetProcessor</classname>s cannot be changed once instantiated - it does not
+					mean they cannot be configured. Many <classname>WidgetProcessor</classname>s have corresponding <classname>xxxConfig</classname>
+					classes that allow them to be configured prior to instantation in a type-safe way. For example, a
+					<classname>BeansBindingProcessor</classname> can be configured in code:
+				<para>
+
+				<programlisting language="java">metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ_WRITE ));</programlisting>
+				
+				<para>
+					Or in <filename>metawidget.xml</filename>:
+				</para>
+				
+				<programlisting language="xml">&lt;beansBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.beansbinding"
+	config="BeansBindingProcessorConfig"&gt;
+	&lt;updateStrategy&gt;
+		&lt;string&gt;READ_WRITE&lt;/string&gt;
+	&lt;/updateStrategy&gt;
+&lt;/beansBindingProcessor&gt;</programlisting>				
 				
 			</section>
 
@@ -3602,6 +3665,25 @@ void onEndBuild( M metawidget );</programlisting>
 					reuse instances.
 				</para>
 				
+				<para>
+					Note that immutable only means <classname>Layout</classname>s cannot be changed once instantiated - it does not
+					mean they cannot be configured. Many <classname>Layout</classname>s have corresponding <classname>xxxConfig</classname>
+					classes that allow them to be configured prior to instantation in a type-safe way. For example, a
+					<classname>HtmlTableLayout</classname> can be configured in code:
+				<para>
+
+				<programlisting language="java">metawidget.setLayout( new HtmlTableLayout( new HtmlTableLayoutConfig().setNumberOfColumns( 2 ));</programlisting>
+				
+				<para>
+					Or in <filename>metawidget.xml</filename>:
+				</para>
+				
+				<programlisting language="xml">&lt;htmlTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout"
+	config="HtmlTableLayoutConfig"&gt;
+	&lt;numberOfColumns&gt;
+		&lt;int&gt;2&lt;/int&gt;
+	&lt;/numberOfColumns&gt;
+&lt;/htmlTableLayout&gt;</programlisting>				
 			</section>
 
 			<section id="section-architecture-layouts-implementing-your-own">
@@ -3676,8 +3758,30 @@ void onEndBuild( M metawidget );</programlisting>
 					</listitem>
 					<listitem>
 						<para>
-							For state that will change during laying out...
+							For state that will change during laying out, such as tracking the current row, store it in the
+							Metawidget that is passed in to <function>onStartBuild</function>, <function>layoutChild</function>
+							and <function>onEndBuild</function>. You may want to further wrap the state in a small helper
+							class, for example:
 						</para>
+						
+						<programlisting language="java">public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+	getState( metawidget ).currentRow++;
+}
+						private State getState( SwingMetawidget metawidget ) {
+	State state = (State) metawidget.getClientProperty( GridBagLayout.class );
+
+	if ( state == null ) {
+		state = new State();
+		metawidget.putClientProperty( GridBagLayout.class, state );
+	}
+
+	return state;
+}
+
+/* package private */class State {
+	/* package private */int currentRow;
+}</programlisting>
+
 					</listitem>
 				</orderedlist>
 				
@@ -3890,7 +3994,10 @@ void onEndBuild( M metawidget );</programlisting>
 &lt;/compositeInspector&gt;</programlisting>
 
 				<para>
-					Having constructed an immutable object, <classname>ConfigReader</classname> will cache the instance and reuse it.
+					Having constructed an immutable object, <classname>ConfigReader</classname> will cache the instance and reuse it. The
+					<parameter>config</parameter> attribute defaults to using the same package as the <parameter>xmlns</parameter> (ie.
+					<classname>org.metawidget.inspector.composite</classname> in the example above). This can be overridden if a fully
+					qualified classname is provided.					
 				</para>
 				
 				<tip>
@@ -4515,7 +4622,7 @@ void onEndBuild( M metawidget );</programlisting>
 					<programlisting language="xml">&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
 	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 	&lt;propertyStyle&gt;
-	org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle
+		&lt;strutsActionFormPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.struts"/&gt;
 	&lt;/propertyStyle&gt;
 &lt;/propertyTypeInspector&gt;</programlisting>
 					
@@ -4575,7 +4682,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					
 					<para>
 						Groovy tries hard to make its GroovyBean properties compatible with JavaBean getters/setters, and indeed
-						one can almost use <classname>JavaBeanPropertyStyle</classname> to read them. Unfortunately, GroovyBeans
+						one can almost use the default <classname>JavaBeanPropertyStyle</classname> to read them. Unfortunately, GroovyBeans
 						differ in that:
 					</para>
 					
@@ -4687,7 +4794,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					
 				<programlisting language="xml">&lt;metawidgetAnnotationInspector config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 	&lt;actionStyle&gt;
-		org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle
+		&lt;swingAppFrameworkActionStyle xmlns="java:org.metawidget.inspector.impl.actionstyle.swing"&gt;
 	&lt;/actionStyle&gt;
 &lt;/metawidgetAnnotationInspector&gt;</programlisting>
 					
