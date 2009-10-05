@@ -17,7 +17,9 @@
 package org.metawidget.inspector.impl;
 
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
+import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -42,12 +44,24 @@ import org.metawidget.util.simple.ObjectUtils;
 public class BaseObjectInspectorConfig
 {
 	//
+	// Private statics
+	//
+
+	private static PropertyStyle	DEFAULT_PROPERTY_STYLE;
+
+	private static ActionStyle		DEFAULT_ACTION_STYLE;
+
+	//
 	// Private members
 	//
 
-	private PropertyStyle	mPropertyStyle;
+	protected PropertyStyle			mPropertyStyle;
 
-	private ActionStyle		mActionStyle;
+	protected boolean				mNullPropertyStyle;
+
+	protected ActionStyle			mActionStyle;
+
+	protected boolean				mNullActionStyle;
 
 	//
 	// Public methods
@@ -63,18 +77,12 @@ public class BaseObjectInspectorConfig
 	{
 		mPropertyStyle = propertyStyle;
 
+		if ( propertyStyle == null )
+			mNullPropertyStyle = true;
+
 		// Fluent interface
 
 		return this;
-	}
-
-	/**
-	 * Gets the style used to recognize properties.
-	 */
-
-	PropertyStyle getPropertyStyle()
-	{
-		return mPropertyStyle;
 	}
 
 	/**
@@ -87,30 +95,24 @@ public class BaseObjectInspectorConfig
 	{
 		mActionStyle = actionStyle;
 
+		if ( actionStyle == null )
+			mNullActionStyle = true;
+
 		// Fluent interface
 
 		return this;
 	}
 
-	/**
-	 * Gets the style used to recognize actions.
-	 */
-
-	ActionStyle getActionStyle()
-	{
-		return mActionStyle;
-	}
-
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof BaseObjectInspectorConfig ))
+		if ( !( that instanceof BaseObjectInspectorConfig ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mPropertyStyle, ((BaseObjectInspectorConfig) that).mPropertyStyle ))
+		if ( !ObjectUtils.nullSafeEquals( mPropertyStyle, ( (BaseObjectInspectorConfig) that ).mPropertyStyle ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mActionStyle, ((BaseObjectInspectorConfig) that).mActionStyle ))
+		if ( !ObjectUtils.nullSafeEquals( mActionStyle, ( (BaseObjectInspectorConfig) that ).mActionStyle ) )
 			return false;
 
 		return true;
@@ -123,5 +125,76 @@ public class BaseObjectInspectorConfig
 		hashCode ^= ObjectUtils.nullSafeHashCode( mActionStyle );
 
 		return hashCode;
+	}
+
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Gets the style used to recognize properties.
+	 */
+
+	protected PropertyStyle getPropertyStyle()
+	{
+		if ( mPropertyStyle == null && !mNullPropertyStyle )
+		{
+			// Do not initialise unless needed, so that we can be shipped without
+
+			if ( DEFAULT_PROPERTY_STYLE == null )
+				DEFAULT_PROPERTY_STYLE = new JavaBeanPropertyStyle();
+
+			return DEFAULT_PROPERTY_STYLE;
+		}
+
+		return mPropertyStyle;
+	}
+
+	/**
+	 * Whether the <code>PropertyStyle</code> was explicitly set to <code>null</code> (as opposed to
+	 * being left as the default).
+	 */
+
+	protected boolean isNullPropertyStyle()
+	{
+		return mNullPropertyStyle;
+	}
+
+	/**
+	 * Gets the style used to recognize actions.
+	 */
+
+	protected ActionStyle getActionStyle()
+	{
+		if ( mActionStyle == null && !mNullActionStyle )
+		{
+			// Do not initialise unless needed, so that we can be shipped without
+
+			if ( DEFAULT_ACTION_STYLE == null )
+			{
+				try
+				{
+					DEFAULT_ACTION_STYLE = new MetawidgetActionStyle();
+				}
+				catch ( Throwable t )
+				{
+					// MetawidgetActionStyle is unsupported on JDK 1.4
+				}
+			}
+
+			return DEFAULT_ACTION_STYLE;
+		}
+
+		return mActionStyle;
+	}
+
+	/**
+	 * Whether the <code>ActionStyle</code> was explicitly set to <code>null</code> (as opposed to
+	 * being left as the default).
+	 */
+
+	protected boolean isNullActionStyle()
+	{
+		return mNullActionStyle;
 	}
 }

@@ -1266,7 +1266,7 @@ public class ConfigReader
 				{
 					Class<?> configClass = configToStoreUnder.getClass();
 
-					// Hard warning
+					// Hard error
 
 					// equals
 

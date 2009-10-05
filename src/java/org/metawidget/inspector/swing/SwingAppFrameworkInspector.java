@@ -21,18 +21,12 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.util.Map;
 
 import org.metawidget.inspector.impl.BaseObjectInspector;
-import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
 /**
- * Inspects annotations defined by Metawidget (declared in this same package).
- * <p>
- * Note: the name of this class is longwinded for extra clarity. It is not just a
- * 'MetawidgetInspector', because of course there are lots of different Metawidget Inspectors.
- * Equally, it is not just an 'AnnotationInspector', because it doesn't generically scan all
- * possible annotations.
+ * Inspects annotations defined by Swing AppFramework.
  *
  * @author Richard Kennard
  */
@@ -49,7 +43,7 @@ public class SwingAppFrameworkInspector
 		this( new SwingAppFrameworkInspectorConfig() );
 	}
 
-	public SwingAppFrameworkInspector( BaseObjectInspectorConfig config )
+	public SwingAppFrameworkInspector( SwingAppFrameworkInspectorConfig config )
 	{
 		super( config );
 	}
@@ -71,7 +65,7 @@ public class SwingAppFrameworkInspector
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
-		// Action (this is kind of a given)
+		// org.jdesktop.application.Action (this is kind of a given)
 
 		org.jdesktop.application.Action actionAnnotation = action.getAnnotation( org.jdesktop.application.Action.class );
 

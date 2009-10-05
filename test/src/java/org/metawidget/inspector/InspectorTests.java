@@ -29,6 +29,7 @@ import org.metawidget.inspector.composite.CompositeInspectorTest;
 import org.metawidget.inspector.faces.FacesInspectorTest;
 import org.metawidget.inspector.hibernate.HibernateInspectorTest;
 import org.metawidget.inspector.hibernate.validator.HibernateValidatorInspectorTest;
+import org.metawidget.inspector.impl.BaseObjectInspectorTest;
 import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyleTest;
 import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest;
 import org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyleTest;
@@ -64,6 +65,7 @@ public class InspectorTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Inspector Tests" );
+		suite.addTestSuite( BaseObjectInspectorTest.class );
 		suite.addTestSuite( BeanValidationInspectorTest.class );
 		suite.addTestSuite( CommonsValidatorInspectorTest.class );
 		suite.addTestSuite( FacesInspectorTest.class );

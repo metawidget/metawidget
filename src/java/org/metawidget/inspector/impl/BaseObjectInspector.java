@@ -27,10 +27,8 @@ import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
-import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -66,14 +64,6 @@ public abstract class BaseObjectInspector
 	implements Inspector
 {
 	//
-	// Private statics
-	//
-
-	private static PropertyStyle	DEFAULT_PROPERTY_STYLE;
-
-	private static ActionStyle		DEFAULT_ACTION_STYLE;
-
-	//
 	// Private members
 	//
 
@@ -95,47 +85,15 @@ public abstract class BaseObjectInspector
 	 * Config-based constructor.
 	 * <p>
 	 * All BaseObjectInspector-derived inspectors must be configurable, to allow configuring
-	 * property styles and proxy patterns.
+	 * property styles and action styles.
 	 */
 
 	protected BaseObjectInspector( BaseObjectInspectorConfig config )
 	{
-		// Property style
-
 		mPropertyStyle = config.getPropertyStyle();
-
-		if ( mPropertyStyle == null )
-		{
-			// Do not initialise unless needed, so that we can be shipped without
-
-			if ( DEFAULT_PROPERTY_STYLE == null )
-				DEFAULT_PROPERTY_STYLE = new JavaBeanPropertyStyle();
-
-			mPropertyStyle = DEFAULT_PROPERTY_STYLE;
-		}
-
-		// Action style
-
 		mActionStyle = config.getActionStyle();
 
-		if ( mActionStyle == null )
-		{
-			// Do not initialise unless needed, so that we can be shipped without
-
-			if ( DEFAULT_ACTION_STYLE == null )
-			{
-				try
-				{
-					DEFAULT_ACTION_STYLE = new MetawidgetActionStyle();
-				}
-				catch( Throwable t )
-				{
-					// MetawidgetActionStyle is unsupported on JDK 1.4
-				}
-			}
-
-			mActionStyle = DEFAULT_ACTION_STYLE;
-		}
+		// TODO: test null propertystyle/actionstyle
 	}
 
 	//

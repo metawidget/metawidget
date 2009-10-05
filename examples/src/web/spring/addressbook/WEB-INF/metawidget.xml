@@ -51,6 +51,9 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<layout>
+			<simpleLayout xmlns="java:org.metawidget.jsp.tagext.html.layout"/>
+		</layout>		
 	</htmlMetawidgetTag>
 
 </metawidget>

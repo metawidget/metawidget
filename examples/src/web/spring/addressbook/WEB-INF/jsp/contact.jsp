@@ -61,8 +61,8 @@
 							<tfoot>
 								<tr>						
 									<jsp:useBean id="communication" class="org.metawidget.example.shared.addressbook.model.Communication"/>
-									<td class="column-half"><mh:metawidget value="communication.type" style="width: 100%" layoutClass="org.metawidget.jsp.tagext.html.layout.SimpleLayout"/></td>
-									<td class="column-half"><mh:metawidget value="communication.value" style="width: 100%" layoutClass="org.metawidget.jsp.tagext.html.layout.SimpleLayout"/></td>
+									<td class="column-half"><mh:metawidget value="communication.type" style="width: 100%" /></td>
+									<td class="column-half"><mh:metawidget value="communication.value" style="width: 100%" /></td>
 									<td class="column-tiny, table-buttons"><input type="submit" name="addCommunication" value="Add"/></td>
 								</tr>
 							</foot>

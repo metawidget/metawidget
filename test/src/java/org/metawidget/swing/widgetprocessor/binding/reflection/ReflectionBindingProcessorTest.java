@@ -26,8 +26,6 @@ import junit.framework.TestCase;
 import org.jdesktop.application.Action;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
-import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
-import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.swing.SwingAppFrameworkInspector;
 import org.metawidget.swing.SwingMetawidget;
@@ -55,9 +53,8 @@ public class ReflectionBindingProcessorTest
 	{
 		// Configure
 
-		BaseObjectInspectorConfig actionConfig = new BaseObjectInspectorConfig().setActionStyle( new SwingAppFrameworkActionStyle() );
 		CompositeInspectorConfig compositeConfig = new CompositeInspectorConfig();
-		compositeConfig.setInspectors( new PropertyTypeInspector( actionConfig ), new SwingAppFrameworkInspector( actionConfig ) );
+		compositeConfig.setInspectors( new PropertyTypeInspector(), new SwingAppFrameworkInspector() );
 
 		// Inspect
 

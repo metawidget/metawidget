@@ -20,10 +20,6 @@
 			<rtexprvalue>true</rtexprvalue>			
 		</attribute>
 		<attribute>
-			<name>layoutClass</name>
-			<rtexprvalue>true</rtexprvalue>			
-		</attribute>
-		<attribute>
 			<name>bundle</name>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>		

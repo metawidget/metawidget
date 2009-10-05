@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.metawidget.config.ConfigReaderTest;
+import org.metawidget.config.XmlSchemaGeneratorTaskTest;
 import org.metawidget.example.ExampleTests;
 import org.metawidget.faces.FacesMetawidgetTests;
 import org.metawidget.iface.MetawidgetExceptionTest;
@@ -72,6 +73,7 @@ public class AllTests
 		suite.addTest( UtilTests.suite() );
 		suite.addTestSuite( WidgetBuilderExceptionTest.class );
 		suite.addTestSuite( WidgetProcessorExceptionTest.class );
+		suite.addTestSuite( XmlSchemaGeneratorTaskTest.class );
 
 		return suite;
 	}

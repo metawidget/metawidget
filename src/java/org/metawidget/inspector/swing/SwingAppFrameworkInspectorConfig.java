@@ -17,6 +17,7 @@
 package org.metawidget.inspector.swing;
 
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyle;
 
 /**
@@ -33,18 +34,26 @@ public class SwingAppFrameworkInspectorConfig
 	extends BaseObjectInspectorConfig
 {
 	//
-	// Constructor
+	// Private statics
 	//
 
-	public SwingAppFrameworkInspectorConfig()
+	private static ActionStyle DEFAULT_APPFRAMEWORK_ACTION_STYLE;
+
+	//
+	// Package private methods
+	//
+
+	@Override
+	protected ActionStyle getActionStyle()
 	{
-		try
+		if ( mActionStyle == null && !mNullActionStyle )
 		{
-			setActionStyle( new SwingAppFrameworkActionStyle() );
+			if ( DEFAULT_APPFRAMEWORK_ACTION_STYLE == null )
+				DEFAULT_APPFRAMEWORK_ACTION_STYLE = new SwingAppFrameworkActionStyle();
+
+			mActionStyle = DEFAULT_APPFRAMEWORK_ACTION_STYLE;
 		}
-		catch ( Throwable t )
-		{
-			// Fail gracefully if shipping with some other style
-		}
+
+		return mActionStyle;
 	}
 }

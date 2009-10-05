@@ -169,8 +169,8 @@
 						<c:if test="${!contactController.readOnly}">
 							<tfoot>
 								<tr>
-									<td class="column-half"><m:metawidget value="communication.type" style="width: 100%" layoutClass="org.metawidget.jsp.tagext.html.layout.SimpleLayout"/></td>
-									<td class="column-half"><m:metawidget value="communication.value" style="width: 100%" layoutClass="org.metawidget.jsp.tagext.html.layout.SimpleLayout"/></td>
+									<td class="column-half"><m:metawidget value="communication.type" style="width: 100%" config="metawidget-simple.xml"/></td>
+									<td class="column-half"><m:metawidget value="communication.value" style="width: 100%" config="metawidget-simple.xml"/></td>
 									<td class="column-tiny, table-buttons"><input type="submit" name="addCommunication" value="Add"/></td>
 								</tr>
 							</tfoot>
@@ -192,7 +192,7 @@
 				</m:stub>
 
 				<m:facet name="footer">
-					<m:metawidget value="contactController" layoutClass="org.metawidget.jsp.tagext.html.layout.SimpleLayout"/>
+					<m:metawidget value="contactController" config="metawidget-simple.xml"/>
 				</m:facet>
 
 			</m:metawidget>

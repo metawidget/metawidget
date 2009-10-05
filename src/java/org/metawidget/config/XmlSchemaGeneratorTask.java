@@ -58,18 +58,6 @@ public class XmlSchemaGeneratorTask
 	extends Task
 {
 	//
-	// Public statics
-	//
-
-	public static void main( String[] args )
-	{
-		XmlSchemaGeneratorTask task = new XmlSchemaGeneratorTask();
-		task.setJar( "N:\\My Documents\\Kennard Consulting\\Perforce\\Generation 02\\Development\\metawidget\\build\\metawidget.jar" );
-		task.setDestDir( "C:\\deleteme\\xsd" );
-		task.execute();
-	}
-
-	//
 	// Private statics
 	//
 
@@ -105,8 +93,6 @@ public class XmlSchemaGeneratorTask
 	public void execute()
 		throws BuildException
 	{
-		// TODO: Unit test XmlSchemaGeneratorTask
-
 		try
 		{
 			// Create/clear the dest dir
@@ -211,10 +197,10 @@ public class XmlSchemaGeneratorTask
 	}
 
 	//
-	// Private methods
+	// Package private methods
 	//
 
-	private String generateClassBlock( String packageName, String className )
+	/*package private*/ String generateClassBlock( String packageName, String className )
 		throws Exception
 	{
 		StringBuilder builder = new StringBuilder();
@@ -293,6 +279,10 @@ public class XmlSchemaGeneratorTask
 
 		return builder.toString();
 	}
+
+	//
+	// Private methods
+	//
 
 	private String generatePropertiesBlock( Class<?> clazz )
 	{
