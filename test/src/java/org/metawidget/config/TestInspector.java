@@ -90,6 +90,11 @@ public class TestInspector
 		// Do nothing
 	}
 
+	public TestInspector( TestNoEqualsHasMethodsSubclassInspectorConfig config )
+	{
+		// Do nothing
+	}
+
 	//
 	// Public methods
 	//

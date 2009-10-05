@@ -38,7 +38,7 @@ import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.LogUtils;
+import org.metawidget.util.LogUtilsTest;
 
 /**
  * UIMetawidget test cases.
@@ -279,7 +279,7 @@ public class UIMetawidgetTest
 		HtmlMetawidget metawidget = new HtmlMetawidget();
 		metawidget.configure();
 
-		assertTrue( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtils.LAST_INFO_MESSAGE ));
+		assertTrue( "Could not locate metawidget.xml. This file is optional, but if you HAVE created one then Metawidget isn't finding it!".equals( LogUtilsTest.getLastInfoMessage() ));
 
 		// Should have done something
 

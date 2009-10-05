@@ -51,7 +51,7 @@ import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.util.IOUtils;
-import org.metawidget.util.LogUtils;
+import org.metawidget.util.LogUtilsTest;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.xml.sax.SAXException;
@@ -763,16 +763,46 @@ public class ConfigReaderTest
 			assertTrue( "class org.metawidget.config.TestNoHashCodeInspectorConfig implements .equals(), but .hashCode() is implemented by class org.metawidget.config.TestUnbalancedEqualsInspectorConfig, so cannot cache reliably".equals( e.getMessage() ) );
 		}
 
-		// Superclass does, but subclass doesn't
+		// No such constructor
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"java.lang.String\"/>";
+		xml += "</metawidget>";
+
+		try
+		{
+			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
+			assertTrue( false );
+		}
+		catch ( MetawidgetException e )
+		{
+			assertTrue( "class org.metawidget.config.TestInspector does not have a constructor that takes a class java.lang.String, as specified by the config attribute".equals( e.getMessage() ) );
+		}
+
+		// Superclass does, but subclass doesn't, but no methods
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestNoEqualsSubclassInspectorConfig\"/>";
 		xml += "</metawidget>";
 
+		LogUtilsTest.clearLastWarnMessage();
+
 		new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
-		assertTrue( "class org.metawidget.config.TestNoEqualsSubclassInspectorConfig does not override .hashCode() (only its superclass org.metawidget.config.TestInspectorConfig does), so may not be cached reliably".equals( LogUtils.LAST_INFO_MESSAGE ));
+		assertTrue( null == LogUtilsTest.getLastWarnMessage() );
+
+		// Superclass does, but subclass doesn't, and has methods
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestNoEqualsHasMethodsSubclassInspectorConfig\"/>";
+		xml += "</metawidget>";
+
+		new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+
+		assertTrue( "class org.metawidget.config.TestNoEqualsHasMethodsSubclassInspectorConfig does not override .equals() (only its superclass org.metawidget.config.TestInspectorConfig does), so may not be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ));
 	}
 
 	//

@@ -3196,6 +3196,27 @@ ant</programlisting>
 					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
 				</para>				
 				
+				<section id="section-architecture-widgetbuilders-implementing-your-own-faces">
+					<title>Special considerations for Java Server Faces</title>
+					
+					<para>
+						When developing <classname>WidgetBuilders</classname> for JSF component libraries, be aware that Metawidget integrates
+						with the JSF lifecycle in a slightly unorthodox way. Upon POSTback, Metawidget first decodes, processes validators
+						and updates the business model as usual. Upon <function>encodeBegin</function>, however, Metawidget
+						<emphasis>destroys and recreates</emphasis>	all previously generated components. This is so the components can adapt
+						to updates to the business model.
+					</para>
+					
+					<para>
+						In most cases this works well, but on occasion a component may not be expecting to be recreated, and may not function properly.
+						For example, the ICEfaces <classname>SelectInputDate</classname> component stores the state of its date popup internally. If
+						it is recreated, this state is lost and the popup never appears. For such components, <classname>WidgetBuilder</classname>
+						writers can set the attribute <classname>UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE</classname> on the component
+						to prevent its destruction and recreation. Of course, this somewhat impacts its flexibility. For example, a
+						<classname>SelectInputDate</classname> could not change its date format in response to another component on the form.
+					</para>
+				</section>
+				
 			</section>			
 			
 		</section>
@@ -3873,6 +3894,13 @@ void onEndBuild( M metawidget );</programlisting>
 				<para>
 					Having constructed an immutable object, <classname>ConfigReader</classname> will cache the instance and reuse it.
 				</para>
+				
+				<tip>
+					<title>Note</title>
+					In order to reliably cache and reuse an immutable object that uses a <parameter>config</parameter> attribute, the
+					<classname>xxxConfig</classname> class <emphasis>must</emphasis> override <function>equals</function>
+					and <function>hashCode</function>. This is important to bear in mind when implementing your own custom objects.
+				</tip>				
 								
 			</section>
 			

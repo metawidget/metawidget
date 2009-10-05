@@ -60,7 +60,8 @@ import org.xml.sax.helpers.DefaultHandler;
  * based on XML files. In practice, there are some Metawidget-specific features such as:
  * <p>
  * <ul>
- * <li>support for reusing immutable, threadsafe objects (as defined by <code>isImmutableThreadsafe</code>)</li>
+ * <li>support for reusing immutable, threadsafe objects (as defined by
+ * <code>isImmutableThreadsafe</code>)</li>
  * <li>caching XML input based on resource name (uses <code>XmlUtils.CachingContextHandler</code>)</li>
  * </ul>
  * <p>
@@ -918,8 +919,17 @@ public class ConfigReader
 
 							if ( configuredObject == null )
 							{
-								Constructor<?> constructor = classToConstruct.getConstructor( object.getClass() );
-								configuredObject = constructor.newInstance( object );
+								try
+								{
+									Constructor<?> constructor = classToConstruct.getConstructor( object.getClass() );
+									configuredObject = constructor.newInstance( object );
+								}
+								catch ( NoSuchMethodException e )
+								{
+									// Hint for config-based constructors
+
+									throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by the config attribute" );
+								}
 							}
 
 							// Immutable and threadsafe? Cache it going forward
@@ -966,8 +976,34 @@ public class ConfigReader
 						@SuppressWarnings( "unchecked" )
 						List<Object> parameters = (List<Object>) mConstructing.pop();
 						Object constructing = mConstructing.peek();
-						Method method = classGetMethod( constructing.getClass(), "set" + StringUtils.uppercaseFirstLetter( localName ), parameters );
-						method.invoke( constructing, parameters.toArray() );
+
+						Class<?> constructingClass = constructing.getClass();
+						String methodName = "set" + StringUtils.uppercaseFirstLetter( localName );
+
+						try
+						{
+							Method method = classGetMethod( constructingClass, methodName, parameters );
+							method.invoke( constructing, parameters.toArray() );
+						}
+						catch ( NoSuchMethodException e )
+						{
+							// Hint for config-based constructors
+
+							for ( Constructor<?> constructor : constructingClass.getConstructors() )
+							{
+								Class<?>[] parameterTypes = constructor.getParameterTypes();
+
+								if ( parameterTypes.length != 1 )
+									continue;
+
+								String parameterClassName = ClassUtils.getSimpleName( parameterTypes[0].getClass() );
+
+								if ( parameterClassName.endsWith( "Config" ) )
+									throw MetawidgetException.newException( "No such method " + methodName + " on " + constructingClass + ". Did you forget config=\"" + parameterClassName + "\"?" );
+							}
+
+							throw e;
+						}
 
 						mExpecting = EXPECTING_METHOD;
 						return;
@@ -1230,44 +1266,44 @@ public class ConfigReader
 				{
 					Class<?> configClass = configToStoreUnder.getClass();
 
+					// Hard warning
+
 					// equals
 
 					Class<?> equalsDeclaringClass = configClass.getMethod( "equals", Object.class ).getDeclaringClass();
 
-					if ( !configClass.equals( equalsDeclaringClass ))
-					{
-						// Hard warning
-
-						if ( Object.class.equals( equalsDeclaringClass ))
-							throw MetawidgetException.newException( configClass + " does not override .equals(), so cannot cache reliably" );
-
-						// Soft warning...
-						//
-						// LOG.info( configClass + " does not override .equals() (only its super" + equalsDeclaringClass + " does), so may not be cached reliably" );
-						//
-						// ...can never happen on its own. Will either soft warning below, or hard warning below
-					}
+					if ( Object.class.equals( equalsDeclaringClass ) )
+						throw MetawidgetException.newException( configClass + " does not override .equals(), so cannot cache reliably" );
 
 					// hashCode
 
 					Class<?> hashCodeDeclaringClass = configClass.getMethod( "hashCode" ).getDeclaringClass();
 
-					if ( !configClass.equals( hashCodeDeclaringClass ))
-					{
-						// Hard warning
+					if ( Object.class.equals( hashCodeDeclaringClass ) )
+						throw MetawidgetException.newException( configClass + " does not override .hashCode(), so cannot cache reliably" );
 
-						if ( Object.class.equals( hashCodeDeclaringClass ))
-							throw MetawidgetException.newException( configClass + " does not override .hashCode(), so cannot cache reliably" );
-
-						// Soft warning
-
-						LOG.info( configClass + " does not override .hashCode() (only its super" + hashCodeDeclaringClass + " does), so may not be cached reliably" );
-					}
-
-					// Hard warning
-
-					if ( !equalsDeclaringClass.equals( hashCodeDeclaringClass ))
+					if ( !equalsDeclaringClass.equals( hashCodeDeclaringClass ) )
 						throw MetawidgetException.newException( equalsDeclaringClass + " implements .equals(), but .hashCode() is implemented by " + hashCodeDeclaringClass + ", so cannot cache reliably" );
+
+					if ( !configClass.equals( equalsDeclaringClass ) )
+					{
+						// Soft warning
+						//
+						// Note: only show this if the configClass appears to have its own 'state'.
+						// Base this assumption on whether it declares any methods. We don't want to
+						// use .getDeclaredFields because that requires a security manager
+						// check of checkMemberAccess(Member.DECLARED), whereas we may only have
+						// checkMemberAccess(Member.PUBLIC) permission
+
+						for( Method declaredMethod : configClass.getMethods() )
+						{
+							if ( configClass.equals( declaredMethod.getDeclaringClass() ))
+							{
+								LOG.warn( configClass + " does not override .equals() (only its super" + equalsDeclaringClass + " does), so may not be cached reliably" );
+								break;
+							}
+						}
+					}
 				}
 				catch ( Exception e )
 				{

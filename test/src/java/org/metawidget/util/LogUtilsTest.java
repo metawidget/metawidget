@@ -18,7 +18,6 @@ package org.metawidget.util;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 
 /**
@@ -28,6 +27,25 @@ import org.metawidget.util.LogUtils.Log;
 public class LogUtilsTest
 	extends TestCase
 {
+	//
+	// Public statics
+	//
+
+	public static String getLastInfoMessage()
+	{
+		return LogUtils.LAST_INFO_MESSAGE;
+	}
+
+	public static void clearLastWarnMessage()
+	{
+		LogUtils.LAST_WARN_MESSAGE = null;
+	}
+
+	public static String getLastWarnMessage()
+	{
+		return LogUtils.LAST_WARN_MESSAGE;
+	}
+
 	//
 	// Public methods
 	//
