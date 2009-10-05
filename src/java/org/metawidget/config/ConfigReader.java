@@ -1295,14 +1295,18 @@ public class ConfigReader
 						// check of checkMemberAccess(Member.DECLARED), whereas we may only have
 						// checkMemberAccess(Member.PUBLIC) permission
 
-						for( Method declaredMethod : configClass.getMethods() )
+						for ( Method declaredMethod : configClass.getMethods() )
 						{
-							if ( configClass.equals( declaredMethod.getDeclaringClass() ))
+							if ( configClass.equals( declaredMethod.getDeclaringClass() ) )
 							{
 								LOG.warn( configClass + " does not override .equals() (only its super" + equalsDeclaringClass + " does), so may not be cached reliably" );
 								break;
 							}
 						}
+
+						// Note: not necessary to do !configClass.equals( hashCodeDeclaringClass ),
+						// as will already have thrown an Exception from
+						// !equalsDeclaringClass.equals( hashCodeDeclaringClass ) if that's the case
 					}
 				}
 				catch ( Exception e )
