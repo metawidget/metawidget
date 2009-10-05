@@ -25,8 +25,6 @@ import javax.persistence.ManyToOne;
 
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.jpa.JpaInspector;
-import org.metawidget.inspector.jpa.JpaInspectorConfig;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -107,6 +105,27 @@ public class JpaInspectorTest
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ) );
 		assertTrue( property.getAttributes().getLength() == 2 );
+	}
+
+	public void testConfig()
+	{
+		JpaInspectorConfig config1 = new JpaInspectorConfig();
+		JpaInspectorConfig config2 = new JpaInspectorConfig();
+
+		assertTrue( !config1.equals( "foo" ));
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// hideIds
+
+		config1.setHideIds( false );
+		assertTrue( !config1.isHideIds() );
+		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setHideIds( false );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 
 	//

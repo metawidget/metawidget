@@ -69,7 +69,7 @@ public class JpaInspectorConfig
 		if ( !( that instanceof JpaInspectorConfig ))
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mHideIds, ((JpaInspectorConfig) that).mHideIds ))
+		if ( mHideIds != ((JpaInspectorConfig) that).mHideIds )
 			return false;
 
 		return super.equals( that );

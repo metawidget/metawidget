@@ -23,6 +23,7 @@ import java.io.ByteArrayInputStream;
 import junit.framework.TestCase;
 
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
+import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.inspector.xml.XmlInspector;
@@ -121,6 +122,37 @@ public class CompositeInspectorTest
 		assertTrue( inspectorsCopied[0] == inspector );
 		inspectors[0] = null;
 		assertTrue( inspectorsCopied[0] != null );
+	}
+
+	public void testConfig()
+	{
+		CompositeInspectorConfig config1 = new CompositeInspectorConfig();
+		CompositeInspectorConfig config2 = new CompositeInspectorConfig();
+
+		assertTrue( !config1.equals( "foo" ));
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// inspectors
+		//
+		// Note: we're not too worried about non-configurable Inspectors implementing equals just
+		// so that two CompositeInspectorConfigs with the same inspectors will also be equal, because
+		// sub-Inspectors of CompositeInspectorConfig will be cached separately by ConfigReader
+
+		Inspector[] inspectors = new Inspector[]{ new PropertyTypeInspector(), new MetawidgetAnnotationInspector() };
+		config1.setInspectors( inspectors );
+		assertTrue( config1.getInspectors()[0] instanceof PropertyTypeInspector );
+		assertTrue( config1.getInspectors()[1] instanceof MetawidgetAnnotationInspector );
+		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
+		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setInspectors( inspectors );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 
 	//

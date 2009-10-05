@@ -181,4 +181,25 @@ public class HibernateInspectorTest
 		assertTrue( TRUE.equals( property.getAttribute( LARGE ) ) );
 		assertTrue( "15".equals( property.getAttribute( MAXIMUM_LENGTH ) ) );
 	}
+
+	public void testConfig()
+	{
+		HibernateInspectorConfig config1 = new HibernateInspectorConfig();
+		HibernateInspectorConfig config2 = new HibernateInspectorConfig();
+
+		assertTrue( !config1.equals( "foo" ));
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// hideIds
+
+		config1.setHideIds( false );
+		assertTrue( !config1.isHideIds() );
+		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setHideIds( false );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+	}
 }

@@ -166,7 +166,7 @@ public class HtmlTableLayoutConfig
 		if ( !( that instanceof HtmlTableLayoutConfig ))
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mNumberOfColumns, ((HtmlTableLayoutConfig) that).mNumberOfColumns ))
+		if ( mNumberOfColumns != ((HtmlTableLayoutConfig) that).mNumberOfColumns )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mTableStyle, ((HtmlTableLayoutConfig) that).mTableStyle ))
@@ -187,14 +187,13 @@ public class HtmlTableLayoutConfig
 		if ( !ObjectUtils.nullSafeEquals( mFooterStyleClass, ((HtmlTableLayoutConfig) that).mFooterStyleClass ))
 			return false;
 
-		return super.equals( that );
+		return true;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mNumberOfColumns );
+		int hashCode = mNumberOfColumns;
 		hashCode ^= ObjectUtils.nullSafeHashCode( mTableStyle );
 		hashCode ^= ObjectUtils.nullSafeHashCode( mTableStyleClass );
 		hashCode ^= ObjectUtils.nullSafeHashCode( mColumnStyleClasses );

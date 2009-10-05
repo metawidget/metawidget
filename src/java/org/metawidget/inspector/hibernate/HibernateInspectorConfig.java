@@ -80,7 +80,7 @@ public class HibernateInspectorConfig
 		if ( !( that instanceof HibernateInspectorConfig ))
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mHideIds, ((HibernateInspectorConfig) that).mHideIds ))
+		if ( mHideIds != ((HibernateInspectorConfig) that).mHideIds )
 			return false;
 
 		return super.equals( that );

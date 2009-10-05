@@ -51,6 +51,7 @@ import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlLookupOutputText;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
+import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilderConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -339,6 +340,52 @@ public class HtmlWidgetBuilderTest
 		assertTrue( 20 == htmlInputTextarea.getCols() );
 		assertTrue( 2 == htmlInputTextarea.getRows() );
 		furtherAssert( htmlInputTextarea );
+	}
+
+	public void testConfig()
+	{
+		HtmlWidgetBuilderConfig config1 = new HtmlWidgetBuilderConfig();
+		HtmlWidgetBuilderConfig config2 = new HtmlWidgetBuilderConfig();
+
+		assertTrue( !config1.equals( "foo" ));
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// dataTableStyleClass
+
+		config1.setDataTableStyleClass( "data-table-style-class" );
+		assertTrue( "data-table-style-class".equals( config1.getDataTableStyleClass() ));
+		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setDataTableStyleClass( "data-table-style-class" );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// dataTableColumnClasses
+
+		config1.setDataTableColumnClasses( "data-table-column-class1", "data-table-column-class2" );
+		assertTrue( "data-table-column-class1".equals( config1.getDataTableColumnClasses()[0] ));
+		assertTrue( "data-table-column-class2".equals( config1.getDataTableColumnClasses()[1] ));
+		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setDataTableColumnClasses( "data-table-column-class1", "data-table-column-class2" );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// dataTableRowClasses
+
+		config1.setDataTableRowClasses( "data-table-row-class1", "data-table-row-class2", "data-table-row-class3" );
+		assertTrue( "data-table-row-class1".equals( config1.getDataTableRowClasses()[0] ));
+		assertTrue( "data-table-row-class2".equals( config1.getDataTableRowClasses()[1] ));
+		assertTrue( "data-table-row-class3".equals( config1.getDataTableRowClasses()[2] ));
+		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setDataTableRowClasses( "data-table-row-class1", "data-table-row-class2", "data-table-row-class3" );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 
 	//

@@ -43,7 +43,7 @@ public class BaseXmlInspectorConfig
 
 	private ResourceResolver	mResourceResolver;
 
-	private InputStream[]		mFileStreams;
+	private InputStream[]		mInputStreams;
 
 	//
 	// Public methods
@@ -51,7 +51,7 @@ public class BaseXmlInspectorConfig
 
 	public InputStream[] getInputStreams()
 	{
-		if ( mFileStreams == null && mDefaultFile != null )
+		if ( mInputStreams == null && mDefaultFile != null )
 		{
 			if ( mResourceResolver != null )
 				return new InputStream[] { mResourceResolver.openResource( mDefaultFile ) };
@@ -66,7 +66,7 @@ public class BaseXmlInspectorConfig
 			}
 		}
 
-		return mFileStreams;
+		return mInputStreams;
 	}
 
 	/**
@@ -80,7 +80,7 @@ public class BaseXmlInspectorConfig
 
 	public BaseXmlInspectorConfig setInputStreams( InputStream... streams )
 	{
-		mFileStreams = streams;
+		mInputStreams = streams;
 
 		return this;
 	}
@@ -94,7 +94,7 @@ public class BaseXmlInspectorConfig
 	public BaseXmlInspectorConfig setInputStream( InputStream stream )
 	{
 		mDefaultFile = null;
-		mFileStreams = new InputStream[] { stream };
+		mInputStreams = new InputStream[] { stream };
 
 		// Fluent interface
 
@@ -143,7 +143,7 @@ public class BaseXmlInspectorConfig
 		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ((BaseXmlInspectorConfig) that).mResourceResolver ))
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mResourceResolver, ((BaseXmlInspectorConfig) that).mFileStreams ))
+		if ( !ObjectUtils.nullSafeEquals( mInputStreams, ((BaseXmlInspectorConfig) that).mInputStreams ))
 			return false;
 
 		return true;
@@ -154,7 +154,7 @@ public class BaseXmlInspectorConfig
 	{
 		int hashCode = ObjectUtils.nullSafeHashCode( mDefaultFile );
 		hashCode ^= ObjectUtils.nullSafeHashCode( mResourceResolver );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mFileStreams );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mInputStreams );
 
 		return hashCode;
 	}

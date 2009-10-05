@@ -104,14 +104,13 @@ public class HtmlWidgetBuilderConfig
 		if ( !ObjectUtils.nullSafeEquals( mDataTableRowClasses, ((HtmlWidgetBuilderConfig) that).mDataTableRowClasses ))
 			return false;
 
-		return super.equals( that );
+		return true;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mDataTableStyleClass );
+		int hashCode = ObjectUtils.nullSafeHashCode( mDataTableStyleClass );
 		hashCode ^= ObjectUtils.nullSafeHashCode( mDataTableColumnClasses );
 		hashCode ^= ObjectUtils.nullSafeHashCode( mDataTableRowClasses );
 

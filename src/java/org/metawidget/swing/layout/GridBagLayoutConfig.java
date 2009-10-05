@@ -162,36 +162,35 @@ public class GridBagLayoutConfig
 		if ( !( that instanceof GridBagLayoutConfig ))
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mNumberOfColumns, ((GridBagLayoutConfig) that).mNumberOfColumns ))
+		if ( mNumberOfColumns != ((GridBagLayoutConfig) that).mNumberOfColumns )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mLabelAlignment, ((GridBagLayoutConfig) that).mLabelAlignment ))
+		if ( mLabelAlignment != ((GridBagLayoutConfig) that).mLabelAlignment )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mSectionStyle, ((GridBagLayoutConfig) that).mSectionStyle ))
+		if ( mSectionStyle != ((GridBagLayoutConfig) that).mSectionStyle )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mLabelSuffix, ((GridBagLayoutConfig) that).mLabelSuffix ))
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mRequiredAlignment, ((GridBagLayoutConfig) that).mRequiredAlignment ))
+		if ( mRequiredAlignment != ((GridBagLayoutConfig) that).mRequiredAlignment )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mRequiredText, ((GridBagLayoutConfig) that).mRequiredText ))
 			return false;
 
-		return super.equals( that );
+		return true;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mNumberOfColumns );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mLabelAlignment );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mSectionStyle );
+		int hashCode = mNumberOfColumns;
+		hashCode ^= mLabelAlignment;
+		hashCode ^= mSectionStyle;
 		hashCode ^= ObjectUtils.nullSafeHashCode( mLabelSuffix );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mRequiredAlignment );
+		hashCode ^= mRequiredAlignment;
 		hashCode ^= ObjectUtils.nullSafeHashCode( mRequiredText );
 
 		return hashCode;

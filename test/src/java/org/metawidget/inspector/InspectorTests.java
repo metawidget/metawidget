@@ -26,10 +26,12 @@ import org.metawidget.inspector.commons.jexl.JexlInspectorTest;
 import org.metawidget.inspector.commons.jexl.JexlXmlInspectorTest;
 import org.metawidget.inspector.commons.validator.CommonsValidatorInspectorTest;
 import org.metawidget.inspector.composite.CompositeInspectorTest;
+import org.metawidget.inspector.composite.ValidatingCompositeInspectorTest;
 import org.metawidget.inspector.faces.FacesInspectorTest;
 import org.metawidget.inspector.hibernate.HibernateInspectorTest;
 import org.metawidget.inspector.hibernate.validator.HibernateValidatorInspectorTest;
 import org.metawidget.inspector.impl.BaseObjectInspectorTest;
+import org.metawidget.inspector.impl.BaseXmlInspectorTest;
 import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyleTest;
 import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest;
 import org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyleTest;
@@ -67,7 +69,9 @@ public class InspectorTests
 		TestSuite suite = new TestSuite( "Inspector Tests" );
 		suite.addTestSuite( BaseObjectInspectorTest.class );
 		suite.addTestSuite( BeanValidationInspectorTest.class );
+		suite.addTestSuite( BaseXmlInspectorTest.class );
 		suite.addTestSuite( CommonsValidatorInspectorTest.class );
+		suite.addTestSuite( CompositeInspectorTest.class );
 		suite.addTestSuite( FacesInspectorTest.class );
 		suite.addTestSuite( GroovyPropertyStyleTest.class );
 		suite.addTestSuite( HibernateInspectorTest.class );
@@ -81,7 +85,6 @@ public class InspectorTests
 		suite.addTestSuite( JexlXmlInspectorTest.class );
 		suite.addTestSuite( JpaInspectorTest.class );
 		suite.addTestSuite( JspAnnotationInspectorTest.class );
-		suite.addTestSuite( CompositeInspectorTest.class );
 		suite.addTestSuite( MetawidgetAnnotationInspectorTest.class );
 		suite.addTestSuite( MetawidgetActionStyleTest.class );
 		suite.addTestSuite( OvalInspectorTest.class );
@@ -94,6 +97,7 @@ public class InspectorTests
 		suite.addTestSuite( StrutsActionFormPropertyStyleTest.class );
 		suite.addTestSuite( SwingAppFrameworkInspectorTest.class );
 		suite.addTestSuite( SwingAppFrameworkActionStyleTest.class );
+		suite.addTestSuite( ValidatingCompositeInspectorTest.class );
 		suite.addTestSuite( XmlInspectorTest.class );
 
 		return suite;

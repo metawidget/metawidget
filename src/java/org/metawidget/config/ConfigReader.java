@@ -1294,6 +1294,10 @@ public class ConfigReader
 						// use .getDeclaredFields because that requires a security manager
 						// check of checkMemberAccess(Member.DECLARED), whereas we may only have
 						// checkMemberAccess(Member.PUBLIC) permission
+						//
+						// This check may seem overkill, but given that we are encouraging people to
+						// extend their xxxConfigs from BaseObjectInspectorConfig and
+						// BaseXmlInspectorConfig, it is actually the most likely scenario
 
 						for ( Method declaredMethod : configClass.getMethods() )
 						{

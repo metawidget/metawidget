@@ -17,7 +17,6 @@
 package org.metawidget.swing.layout;
 
 import org.metawidget.layout.iface.LayoutException;
-import org.metawidget.util.simple.ObjectUtils;
 
 
 /**
@@ -89,21 +88,20 @@ public class MigLayoutConfig
 		if ( !( that instanceof MigLayoutConfig ))
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mNumberOfColumns, ((MigLayoutConfig) that).mNumberOfColumns ))
+		if ( mNumberOfColumns != ((MigLayoutConfig) that).mNumberOfColumns )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mSectionStyle, ((MigLayoutConfig) that).mSectionStyle ))
+		if ( mSectionStyle != ((MigLayoutConfig) that).mSectionStyle )
 			return false;
 
-		return super.equals( that );
+		return true;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mNumberOfColumns );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mSectionStyle );
+		int hashCode = mNumberOfColumns;
+		hashCode ^= mSectionStyle;
 
 		return hashCode;
 	}

@@ -266,6 +266,42 @@ public class MigLayoutTest
 		assertTrue( GROW_ALL == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( facet ) ).getHorizontal().getGrow() );
 	}
 
+	public void testConfig()
+	{
+		MigLayoutConfig config1 = new MigLayoutConfig();
+		MigLayoutConfig config2 = new MigLayoutConfig();
+
+		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// numberOfColumns
+
+		config1.setNumberOfColumns( 2 );
+		assertTrue( 2 == config1.getNumberOfColumns() );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setNumberOfColumns( 2 );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// sectionStyle
+
+		config1.setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB );
+		assertTrue( GridBagLayoutConfig.SECTION_AS_TAB == config1.getSectionStyle() );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+	}
+
+	//
+	// Public statics
+	//
+
 	public static void main( String[] args )
 	{
 		// Metawidget

@@ -136,7 +136,7 @@ public class FlexTableLayoutConfig
 		if ( !( that instanceof FlexTableLayoutConfig ))
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mNumberOfColumns, ((FlexTableLayoutConfig) that).mNumberOfColumns ))
+		if ( mNumberOfColumns  != ((FlexTableLayoutConfig) that).mNumberOfColumns )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mTableStyleName, ((FlexTableLayoutConfig) that).mTableStyleName ))
@@ -151,14 +151,13 @@ public class FlexTableLayoutConfig
 		if ( !ObjectUtils.nullSafeEquals( mFooterStyleName, ((FlexTableLayoutConfig) that).mFooterStyleName ))
 			return false;
 
-		return super.equals( that );
+		return true;
 	}
 
 	@Override
 	public int hashCode()
 	{
-		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mNumberOfColumns );
+		int hashCode = mNumberOfColumns;
 		hashCode ^= ObjectUtils.nullSafeHashCode( mTableStyleName );
 		hashCode ^= ObjectUtils.nullSafeHashCode( mColumnStyleNames );
 		hashCode ^= ObjectUtils.nullSafeHashCode( mSectionStyleName );
