@@ -2828,16 +2828,15 @@ ant</programlisting>
 					mean they cannot be configured. Many <classname>Inspector</classname>s have corresponding <classname>xxxConfig</classname>
 					classes that allow them to be configured prior to instantation in a type-safe way. For example, a
 					<classname>JpaInspector</classname> can be configured in code:
-				<para>
+				</para>
 
-				<programlisting language="java">metawidget.setInspector( new JpaInspector( new JpaInspectorConfig().setHideIds( false ));</programlisting>
+				<programlisting language="java">metawidget.setInspector( new JpaInspector( new JpaInspectorConfig().setHideIds( false )));</programlisting>
 				
 				<para>
 					Or in <filename>metawidget.xml</filename>:
 				</para>
 				
-				<programlisting language="xml">&lt;jpaInspector xmlns="java:org.metawidget.inspector.jpa"
-	config="JpaInspectorConfig"&gt;
+				<programlisting language="xml">&lt;jpaInspector xmlns="java:org.metawidget.inspector.jpa" config="JpaInspectorConfig"&gt;
 	&lt;hideIds&gt;
 		&lt;boolean&gt;true&lt;/boolean&gt;
 	&lt;/hideIds&gt;
@@ -3188,9 +3187,10 @@ ant</programlisting>
 					mean they cannot be configured. Many <classname>WidgetBuilder</classname>s have corresponding <classname>xxxConfig</classname>
 					classes that allow them to be configured prior to instantation in a type-safe way. For example, a
 					<classname>HtmlWidgetBuilder</classname> can be configured in code:
-				<para>
+				</para>
 
-				<programlisting language="java">metawidget.setWidgetBuilder( new HtmlWidgetBuilder( new HtmlWidgetBuilderConfig().setDataTableStyleClass( "data-table" ));</programlisting>
+				<programlisting language="java">metawidget.setWidgetBuilder( new HtmlWidgetBuilder( new HtmlWidgetBuilderConfig()
+			.setDataTableStyleClass( "data-table" )));</programlisting>
 				
 				<para>
 					Or in <filename>metawidget.xml</filename>:
@@ -3475,9 +3475,10 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 					mean they cannot be configured. Many <classname>WidgetProcessor</classname>s have corresponding <classname>xxxConfig</classname>
 					classes that allow them to be configured prior to instantation in a type-safe way. For example, a
 					<classname>BeansBindingProcessor</classname> can be configured in code:
-				<para>
+				</para>
 
-				<programlisting language="java">metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ_WRITE ));</programlisting>
+				<programlisting language="java">metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig()
+			.setUpdateStrategy( UpdateStrategy.READ_WRITE )));</programlisting>
 				
 				<para>
 					Or in <filename>metawidget.xml</filename>:
@@ -3536,6 +3537,61 @@ public class Main {
 		}
 	}</symbol>
 }</programlisting>
+
+				<para>
+					Like <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s and
+					<classname>Layout</classname>s, <classname>WidgetProcessor</classname>s are required to be threadsafe
+					and immutable. However you can still make them configurable by using
+					<classname>xxxWidgetProcessorConfig</classname> classes. For example: 
+				</para>
+						
+				<programlisting language="java">public class TooltipProcessorConfig {
+	private String mPrefix;
+	
+	public TooltipProcessorConfig setPrefix( String prefix ) {
+		mPrefix = prefix;
+		return this;
+	}
+
+	public String getPrefix() {
+		return mPrefix;
+	}
+}</programlisting>
+				<para>
+					These <classname>xxxWidgetProcessorConfig</classname> classes are then passed to the <classname>WidgetProcessor</classname>
+					at construction time, and stored internally:
+				</para>
+				
+				<programlisting language="java">public class TooltipProcessor
+{
+	private String mPrefix;
+	
+	public TooltipProcessor()
+	{
+		this( new TooltipProcessorConfig() );
+	}
+
+	public TooltipProcessor( TooltipProcessorConfig config )
+	{
+		mPrefix = config.getPrefix();
+	}
+}</programlisting>
+
+				<para>
+					This mechanism can then be controlled either programmatically:
+				</para>
+				
+				<programlisting language="java">metawidget.addWidgetProcessor( new TooltipProcessor( new TooltipProcessorConfig().setPrefix("Tip:")));</programlisting>
+					
+				<para>
+					Or through metawidget.xml:
+				</para>
+					
+				<programlisting language="xml">&lt;tooltipProcessor xmlns="java:com.foo" config="TooltipProcessorConfig"&gt;
+		&lt;prefix&gt;
+			&lt;string&gt;Tip:&lt;/string&gt;
+		&lt;/prefix&gt;
+	&lt;/tooltipProcessor&gt;</programlisting>
 
 				<para>
 					If you intend your <classname>WidgetProcessor</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
@@ -3670,7 +3726,7 @@ void onEndBuild( M metawidget );</programlisting>
 					mean they cannot be configured. Many <classname>Layout</classname>s have corresponding <classname>xxxConfig</classname>
 					classes that allow them to be configured prior to instantation in a type-safe way. For example, a
 					<classname>HtmlTableLayout</classname> can be configured in code:
-				<para>
+				</para>
 
 				<programlisting language="java">metawidget.setLayout( new HtmlTableLayout( new HtmlTableLayoutConfig().setNumberOfColumns( 2 ));</programlisting>
 				
@@ -3704,8 +3760,7 @@ void onEndBuild( M metawidget );</programlisting>
 							For example: 
 						</para>
 						
-						<programlisting language="java">public class HtmlTableLayoutConfig
-{
+						<programlisting language="java">public class HtmlTableLayoutConfig {
 	private String mTableStyle;
 	
 	public HtmlTableLayoutConfig setTableStyle( String tableStyle )	{
@@ -3741,19 +3796,17 @@ void onEndBuild( M metawidget );</programlisting>
 							This mechanism can then be controlled either programmatically:
 						</para>
 						
-						<programlisting language="java">metawidget.setLayout( new HtmlTableLayout( new HtmlTableLayoutConfig().setTableStyleClass( "foo" )));</programlisting>
+						<programlisting language="java">metawidget.setLayout( new HtmlTableLayout( new HtmlTableLayoutConfig().setTableStyleClass("foo")));</programlisting>
 						
 						<para>
 							Or through metawidget.xml:
 						</para>
 						
-						<programlisting lanaguge="xml">&lt;layout&gt;
-	&lt;htmlTableLayout config="HtmlTableLayoutConfig"&gt;
+						<programlisting language="xml">&lt;htmlTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HtmlTableLayoutConfig"&gt;
 		&lt;tableStyleClass&gt;
 			&lt;string&gt;foo&lt;/string&gt;
 		&lt;/tableStyleClass&gt;
-	&lt;/htmlTableLayout&gt;
-&lt;/layout&gt;</programlisting>
+	&lt;/htmlTableLayout&gt;</programlisting>
 
 					</listitem>
 					<listitem>
@@ -3764,10 +3817,12 @@ void onEndBuild( M metawidget );</programlisting>
 							class, for example:
 						</para>
 						
-						<programlisting language="java">public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget ) {
+						<programlisting language="java">public void layoutChild( JComponent component, String elementName, Map&lt;String, String&gt; attributes,
+						SwingMetawidget metawidget ) {
 	getState( metawidget ).currentRow++;
 }
-						private State getState( SwingMetawidget metawidget ) {
+
+private State getState( SwingMetawidget metawidget ) {
 	State state = (State) metawidget.getClientProperty( GridBagLayout.class );
 
 	if ( state == null ) {

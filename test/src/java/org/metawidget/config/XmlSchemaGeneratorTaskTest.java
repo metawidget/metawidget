@@ -38,9 +38,19 @@ public class XmlSchemaGeneratorTaskTest
 	public void testSchemaGenerator()
 		throws Exception
 	{
+		// Not concrete
+
+		String schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.inspector.impl", "BaseObjectInspector" );
+		assertTrue( null == schema );
+
+		// Not immutable
+
+		schema = mXmlSchemaGeneratorTask.generateClassBlock( "java.lang", "String" );
+		assertTrue( null == schema );
+
 		// No config
 
-		String schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.swing.widgetbuilder", "SwingWidgetBuilder" );
+		schema = mXmlSchemaGeneratorTask.generateClassBlock( "org.metawidget.swing.widgetbuilder", "SwingWidgetBuilder" );
 
 		assertTrue( schema.contains( "\r\n\t<!-- SwingWidgetBuilder -->\r\n" ));
 		assertTrue( schema.contains( "\t<xs:element name=\"swingWidgetBuilder\">\r\n" ));

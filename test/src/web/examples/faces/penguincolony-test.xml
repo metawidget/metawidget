@@ -6,7 +6,9 @@
 
 	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-search">
-			<config resultpath="../../../../../${build.dir}/run/logs"/>
+			<config resultpath="../../../../../${build.dir}/run/logs">
+				<option name="ThrowExceptionOnScriptError" value="false"/>			
+			</config>
 			<steps>
 				<groovy>
 				        import com.gargoylesoftware.htmlunit.NicelyResynchronizingAjaxController
@@ -52,22 +54,54 @@
 				<setSelectField name="form:penguinCurrentSpecies" value="Crested penguin"/>
 				<verifyXPath xpath="//td[@id='table-penguinCurrentName-cell']/span[@class='inline-error']" text="Name is required"/>
 				<setInputField name="form:penguinCurrentName" value="Tux 2"/>
-				<not>
-					<verifyXPath xpath="//textarea[@name='form:allWidgetsTextarea']"/>
-					<verifyXPath xpath="//select[@name='form:penguinCurrentConditionBeak']"/>
-				</not>
-				<clickButton label="Add condition"/>
-				<setSelectField name="form:penguinCurrentConditionBeak" value="Good"/>
-				<setSelectField name="form:penguinCurrentConditionWings" value="Fair"/>
-				<setSelectField name="form:penguinCurrentConditionFeet" value="Poor"/>
+				
+				<!-- Date of Birth popup -->
+				
 				<not>
 					<verifyXPath xpath="//td[@id='table-penguinCurrentName-cell']/span"/>
 					<verifyXPath xpath="//a[@id='form:penguinCurrentDateOfBirth_c_50']"/>
 				</not>
 				<clickButton htmlId="form:penguinCurrentDateOfBirth_cb"/>
 				<verifyXPath xpath="//a[@id='form:penguinCurrentDateOfBirth_c_50']"/>
-				<clickButton label="Back"/>
 				
+				<!-- Condition popup -->
+				
+				<not>
+					<verifyXPath xpath="//select[@name='form:penguinCurrentConditionBeak']"/>
+				</not>
+				<clickButton label="Add condition"/>
+				<setSelectField name="form:penguinCurrentConditionBeak" value="Good"/>
+				<setSelectField name="form:penguinCurrentConditionWings" value="Fair"/>
+				<setSelectField name="form:penguinCurrentConditionFeet" value="Poor"/>
+				
+				<!-- Describe Hobbies popup -->
+				
+				<not>
+					<verifyXPath xpath="//textarea[@name='form:penguinCurrentDescribeHobby']"/>
+				</not>
+				<verifyCheckbox name="form:penguinCurrentHobbies" value="Other" checked="false"/>
+				<setCheckbox name="form:penguinCurrentHobbies" value="Other" checked="true"/>
+				
+				<!-- Begin hack until JavaScript support improves -->
+
+				<clickButton label="Back"/>
+				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>
+				
+				<!-- End hack until JavaScript support improves -->
+				
+				<setInputField name="form:penguinCurrentDescribeHobby" value="Foo bar baz"/>				
+				<clickButton label="Back"/>
+
+				<!-- Test it all saved -->
+								
+				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>
+				<verifyInputField name="form:penguinCurrentName" value="Tux 2"/>
+				<verifySelectField name="form:penguinCurrentConditionBeak" value="Good"/>				
+				<verifySelectField name="form:penguinCurrentConditionWings" value="Fair"/>				
+				<verifySelectField name="form:penguinCurrentConditionFeet" value="Poor"/>				
+				<verifyCheckbox name="form:penguinCurrentHobbies" value="Other" checked="true"/>				
+				<verifyTextarea name="form:penguinCurrentDescribeHobby" text="Foo bar baz"/>
+
 			</steps>
 		</webtest>
 	</target>

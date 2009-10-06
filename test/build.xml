@@ -130,6 +130,7 @@
 		<copy todir="${relative.dir}/${build.dir}/ant-classes">
 			<fileset dir="${relative.dir}/${build.dir}/classes">
 				<include name="org/metawidget/config/XmlSchemaGeneratorTask.class"/>
+				<include name="**/FlexTableLayoutConfig.class"/>
 			</fileset>
 		</copy>
 		
