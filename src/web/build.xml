@@ -17,14 +17,13 @@
 		<mkdir dir="${relative.dir}/${build.dir}/${metawidget.name}"/>
 
 		<copy todir="${relative.dir}/${build.dir}/${metawidget.name}">
-			<fileset dir=".">				
-				<exclude name=".*"/>
+			<fileset dir="${relative.dir}">				
+				<exclude name="**/.*/**"/>
 				<exclude name="bin/**"/>
 				<exclude name="build/**"/>
 				<exclude name="**/WEB-INF/classes/**"/>
 				<exclude name="**/Thumbs.db"/>
-				<exclude name="**/.p4ignore"/>
-				<exclude name="**/.svn"/>
+				<exclude name="**/junit*.properties"/>
 			</fileset>
 		</copy>
 	
@@ -60,14 +59,19 @@
 		<zip zipfile="${relative.dir}/${build.dir}/${metawidget.name}.zip">
 			<fileset dir="${relative.dir}/${build.dir}">
 				<include name="${metawidget.name}/**"/>
-
-				<exclude name="${metawidget.name}/build.xml"/>
-				<exclude name="${metawidget.name}/build.properties"/>
+				<exclude name="${metawidget.name}/**/build.xml"/>
+				<exclude name="${metawidget.name}/**/build.properties"/>
+				<exclude name="${metawidget.name}/**/lib/**"/>
 				<exclude name="${metawidget.name}/examples/src/**"/>
-				<exclude name="${metawidget.name}/lib/**"/>
 				<exclude name="${metawidget.name}/src/**"/>
-				<exclude name="${metawidget.name}/test/**"/>									
-			</fileset>				
+				<exclude name="${metawidget.name}/test/**"/>
+			</fileset>
+			<fileset dir="${relative.dir}/${build.dir}">
+				<include name="${metawidget.name}/examples/faces/**/build.xml"/>
+				<include name="${metawidget.name}/examples/faces/**/build.properties"/>				
+				<include name="${metawidget.name}/examples/faces/**/lib/**"/>
+				<include name="${metawidget.name}/examples/swing/lib/**"/>
+			</fileset>
 		</zip>
 
 	</target>

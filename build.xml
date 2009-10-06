@@ -3,7 +3,7 @@
 	<!-- Properties -->
 		
 	<property file="build.properties"/>
-	<property name="metawidget.name" value="${ant.project.name}-${metawidget.version}"/>
+	<property name="metawidget.name" value="metawidget-${metawidget.version}"/>
 	
 	<!-- Clean -->
 
