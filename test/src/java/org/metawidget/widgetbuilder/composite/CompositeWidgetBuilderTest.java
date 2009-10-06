@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
+import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
@@ -49,5 +50,38 @@ public class CompositeWidgetBuilderTest
 		assertTrue( widgetBuildersCopied[0] == widgetBuilder );
 		widgetBuilders[0] = null;
 		assertTrue( widgetBuildersCopied[0] != null );
+	}
+
+	@SuppressWarnings( "unchecked" )
+	public void testConfig()
+	{
+		CompositeWidgetBuilderConfig<JComponent, SwingMetawidget> config1 = new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>();
+		CompositeWidgetBuilderConfig<JComponent, SwingMetawidget> config2 = new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>();
+
+		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// inspectors
+		//
+		// Note: we're not too worried about non-configurable WidgetBuilders implementing equals
+		// just so that two CompositeWidgetBuilderConfigs with the same widget builders will also be
+		// equal, because sub-WidgetBuilders of CompositeWidgetBuilderConfig will be cached
+		// separately by ConfigReader
+
+		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuilders = new WidgetBuilder[] { new SwingXWidgetBuilder(), new SwingWidgetBuilder() };
+		config1.setWidgetBuilders( widgetBuilders );
+		assertTrue( config1.getWidgetBuilders()[0] instanceof SwingXWidgetBuilder );
+		assertTrue( config1.getWidgetBuilders()[1] instanceof SwingWidgetBuilder );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setWidgetBuilders( new SwingWidgetBuilder(), new SwingXWidgetBuilder() );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setWidgetBuilders( widgetBuilders );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 }

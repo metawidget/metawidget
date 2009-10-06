@@ -70,8 +70,7 @@ public class BeansBindingProcessorConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mUpdateStrategy );
+		int hashCode = ObjectUtils.nullSafeHashCode( mUpdateStrategy );
 
 		return hashCode;
 	}

@@ -229,6 +229,27 @@ public class BeansBindingProcessorTest
 		}
 	}
 
+	public void testConfig()
+	{
+		BeansBindingProcessorConfig config1 = new BeansBindingProcessorConfig();
+		BeansBindingProcessorConfig config2 = new BeansBindingProcessorConfig();
+
+		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// updateStrategy
+
+		config1.setUpdateStrategy( UpdateStrategy.READ_WRITE );
+		assertTrue( UpdateStrategy.READ_WRITE.equals( config1.getUpdateStrategy() ));
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setUpdateStrategy( UpdateStrategy.READ_WRITE );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+	}
+
 	//
 	// Inner class
 	//

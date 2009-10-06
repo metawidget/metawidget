@@ -117,6 +117,27 @@ public class BeanUtilsBindingProcessorTest
 		assertTrue( dateFormat.format( dateFirst ).equals( textField.getText() ) );
 	}
 
+	public void testConfig()
+	{
+		BeanUtilsBindingProcessorConfig config1 = new BeanUtilsBindingProcessorConfig();
+		BeanUtilsBindingProcessorConfig config2 = new BeanUtilsBindingProcessorConfig();
+
+		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// propertyStyle
+
+		config1.setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA );
+		assertTrue( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA == config1.getPropertyStyle() );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+	}
+
 	//
 	// Inner class
 	//
