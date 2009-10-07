@@ -472,6 +472,9 @@ public class AndroidMetawidget
 			}
 
 			// Sensible defaults
+			//
+			// Unlike the other Metawidgets, we don't handle these via ConfigReader because we
+			// couldn't figure out how to read a metawidget-android-default.xml file from the JAR
 
 			if ( mMetawidgetMixin.getInspector() == null )
 			{

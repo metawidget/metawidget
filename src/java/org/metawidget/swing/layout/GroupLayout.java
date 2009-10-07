@@ -40,7 +40,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Layout to arrange widgets using <code>javax.swing.GroupLayout</code>.
  * <p>
- * Widgets are arranged in a table, with one column for labels and another for the widget,
+ * Widgets are arranged in a table, with one column for labels and another for the widget.
  *
  * @author Richard Kennard
  */

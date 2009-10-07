@@ -25,6 +25,9 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Layout to simply output components one after another, with no labels and no structure.
+ * <p>
+ * This Layout is suited to rendering single components, or for rendering components whose
+ * layout relies entirely on CSS.
  *
  * @author Richard Kennard
  */

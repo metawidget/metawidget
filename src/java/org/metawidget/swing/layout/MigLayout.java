@@ -44,15 +44,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Layout to arrange widgets using <code>net.miginfocom.swing.MigLayout</code>.
  * <p>
- * Widgets are arranged in a table, with one column for labels and another for the widget,
- * <p>
- * This implementation recognizes the following parameters:
- * <p>
- * <ul>
- * <li><code>numberOfColumns</code>
- * <li><code>sectionStyle</code> - either <code>SECTION_AS_HEADING</code> (the default) or
- * <code>SECTION_AS_TAB</code> (render sections as tabs in a <code>JTabbedPane</code>)
- * </ul>
+ * Widgets are arranged in a table, with one column for labels and another for the widget.
  *
  * @author Stefan Ackerman
  */

@@ -1792,7 +1792,7 @@ bin\run</programlisting>
 					Open a Web browser to <ulink url="http://localhost:8080/jboss-seam-groovybooking">http://localhost:8080/jboss-seam-groovybooking</ulink>. As with the previous
 					section, the updated Metawidget Seam Groovy Booking Example looks very similar to the original, but
 					uses significantly less	boilerplate code. Also, this time we are using Groovy to define
-					our business classes. The biggest impact this has is in <code>metawidget.xml</code>,
+					our business classes. The biggest impact this has is in <filename>metawidget.xml</filename>,
 					where the inspectors have been configured to use a Groovy property style instead of a JavaBean
 					property style.
 				</para>
@@ -2970,7 +2970,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 					When implementing your own inspector, try to avoid technology-specific XML attribute names. For example, <classname>FacesInspector</classname>
 					has an annotation <classname>@UiFacesNumberConverter</classname>. This annotation certainly has technology-specific parts to it, as
 					it names a JSF <classname>Converter</classname> that only applies in JSF environments, so
-					it is reasonable to name the XML attribute <code>faces-converter-class</code>. However, <classname>NumberConverter</classname>s also
+					it is reasonable to name the XML attribute <parameter>faces-converter-class</parameter>. However, <classname>NumberConverter</classname>s also
 					use other properties about the field, such as the maximum number of integer digits. Such properties are not JSF-specific (eg. we can
 					source the same property from Hibernate Validator's <classname>@Digits</classname> annotation), so are better named 'neutrally'
 					(eg. <classname>maximum-integer-digits</classname>). 
@@ -2986,7 +2986,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				
 				<tip>
 					<title>Generate an XML Schema</title>
-					If you intend your <classname>Inspector</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
+					If you intend your <classname>Inspector</classname> to be configurable via <filename>metawidget.xml</filename>, consider
 					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>Inspector</classname> in their
 					<filename>metawidget.xml</filename> at development time. There is an Ant task,
 					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
@@ -3259,12 +3259,12 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				
 				<tip>
 					<title>Generate an XML Schema</title>
-					If you intend your <classname>WidgetBuilder</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
+					If you intend your <classname>WidgetBuilder</classname> to be configurable via <filename>metawidget.xml</filename>, consider
 					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>WidgetBuilder</classname> in their
 					<filename>metawidget.xml</filename> at development time. There is an Ant task,
 					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
 					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
-				</tip>				
+				</tip>
 								
 				<section id="section-architecture-widgetbuilders-implementing-your-own-faces">
 					<title>Special considerations for Java Server Faces</title>
@@ -3319,14 +3319,14 @@ void onEndBuild( M metawidget );</programlisting>
 				
 				<para>
 					The first method, <function>onStartBuild</function>, is called at the start of the widget building process,
-					before the <code>WidgetBuilder</code> is called. <classname>WidgetProcessor</classname>s may wish to act
+					before the <classname>WidgetBuilder</classname> is called. <classname>WidgetProcessor</classname>s may wish to act
 					on this event to initialize themselves ready for processing. However it is acceptable to do nothing. A
 					convenience base class, <classname>BaseWidgetProcessor</classname>, is provided with a dummy implementation
 					so that subclasses don't have to override this method.					
 				</para>
 				<para>
 					The last method, <function>onEndBuild</function>, is called at the end of the widget building process,
-					after all widgets have been built and added to the <code>Layout</code>. <classname>WidgetProcessor</classname>s may wish to act
+					after all widgets have been built and added to the <classname>Layout</classname>. <classname>WidgetProcessor</classname>s may wish to act
 					on this event to clean themselves up following processing. However it is acceptable to do nothing. The
 					convenience base class, <classname>BaseWidgetProcessor</classname>, has a dummy implementation
 					so that subclasses don't have to override this method.
@@ -3400,7 +3400,7 @@ void onEndBuild( M metawidget );</programlisting>
 				
 metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 	JComponent processWidget( JComponent widget, String elementName, Map&lt;String, String&gt; attributes,
-								SwingMetawidget metawidget ) {
+											SwingMetawidget metawidget ) {
 		...decide whether to attach event handler...
 		
 		widget.add( new AbstractAction() {
@@ -3630,7 +3630,7 @@ public class Main {
 
 				<tip>
 					<title>Generate an XML Schema</title>
-					If you intend your <classname>WidgetProcessor</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
+					If you intend your <classname>WidgetProcessor</classname> to be configurable via <filename>metawidget.xml</filename>, consider
 					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>WidgetProcessor</classname> in their
 					<filename>metawidget.xml</filename> at development time. There is an Ant task,
 					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
@@ -3666,14 +3666,14 @@ void onEndBuild( M metawidget );</programlisting>
 				
 				<para>
 					The first method, <function>onStartBuild</function>, is called at the start of the widget building process,
-					before the <code>WidgetBuilder</code> is called. <classname>Layout</classname>s may wish to act
+					before the <classname>WidgetBuilder</classname> is called. <classname>Layout</classname>s may wish to act
 					on this event to initialize themselves ready for processing. However it is acceptable to do nothing. A
 					convenience base class, <classname>BaseLayout</classname>, is provided with a dummy implementation
 					so that subclasses don't have to override this method.					
 				</para>
 				<para>
 					The last method, <function>onEndBuild</function>, is called at the end of the widget building process,
-					after all widgets have been built and added to the <code>Layout</code>. <classname>Layout</classname>s may wish to act
+					after all widgets have been built and added to the <classname>Layout</classname>. <classname>Layout</classname>s may wish to act
 					on this event to clean themselves up following processing. However it is acceptable to do nothing. The
 					convenience base class, <classname>BaseLayout</classname>, has a dummy implementation
 					so that subclasses don't have to override this method.
@@ -3848,6 +3848,15 @@ void onEndBuild( M metawidget );</programlisting>
 							class <emphasis>must</emphasis> override <function>equals</function> and <function>hashCode</function>.
 						</important>
 
+						<tip>
+							<title>Generate an XML Schema</title>
+							If you intend your <classname>Layout</classname> to be configurable via <filename>metawidget.xml</filename>, consider
+							defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>Layout</classname> in their
+							<filename>metawidget.xml</filename> at development time. There is an Ant task,
+							<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
+							by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
+						</tip>				
+				
 					</listitem>
 					<listitem>
 						<para>
@@ -3858,7 +3867,7 @@ void onEndBuild( M metawidget );</programlisting>
 						</para>
 						
 						<programlisting language="java">public void layoutChild( JComponent component, String elementName, Map&lt;String, String&gt; attributes,
-						SwingMetawidget metawidget ) {
+											SwingMetawidget metawidget ) {
 	getState( metawidget ).currentRow++;
 }
 
@@ -3879,15 +3888,6 @@ private State getState( SwingMetawidget metawidget ) {
 
 					</listitem>
 				</orderedlist>
-				
-				<tip>
-					<title>Generate an XML Schema</title>
-					If you intend your <classname>Layout</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
-					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>Layout</classname> in their
-					<filename>metawidget.xml</filename> at development time. There is an Ant task,
-					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
-					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
-				</tip>				
 				
 			</section>
 			
@@ -6702,7 +6702,7 @@ public class PersonController {
 					<title>Action Binding</title>
 					
 					<para>
-						Swing supplies <code>javax.swing.Action</code> for binding <classname>JButtons</classname> to backing classes, and this is
+						Swing supplies <classname>javax.swing.Action</classname> for binding <classname>JButtons</classname> to backing classes, and this is
 						typically combined with Java-based reflection to support runtime binding. This is exactly what the default action binding,
 						<classname>ReflectionBinding</classname>, does.
 					</para>
@@ -6766,7 +6766,7 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					<title>Action Binding</title>
 						
 					<para>
-						GWT supplies <code>com.google.gwt.user.client.ui.ClickListener</code> for binding <classname>Buttons</classname> to backing
+						GWT supplies <classname>com.google.gwt.user.client.ui.ClickListener</classname> for binding <classname>Buttons</classname> to backing
 						classes. It is futher possible to combine this with a generator to support runtime binding. This is exactly what
 						the default action binding, <classname>SimpleBindingProcessor</classname>, does.
 					</para>
@@ -6821,8 +6821,192 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 			<xref linkend="chapter-architecture"/>.
 		</para>
 		
+		<section id="section-layouts-desktop">
+			<title>Desktop Layouts</title>
+
+			<section id="section-layouts-desktop-swing">
+				<title>Swing Layouts</title>
+
+				<section id="section-layouts-desktop-swing-box">
+					<title>BoxLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure, using
+ 						<classname>javax.swing.BoxLayout</classname>. This is like <classname>FlowLayout</classname> (below), except it fills width.
+ 						It can be useful for <classname>JTable</classname> <classname>CellEditor</classname>s.										
+					</para>
+
+				</section>				
+
+				<section id="section-layouts-desktop-swing-flow">
+					<title>FlowLayout</title>
+					
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure,
+ 						using <classname>javax.awt.FlowLayout</classname>.										
+					</para>
+
+				</section>				
+
+				<section id="section-layouts-desktop-swing-gridbag">
+					<title>GridBagLayout</title>
+					
+					<para>
+						Layout to arrange widgets using <classname>javax.awt.GridBagLayout</classname>. Widgets are arranged in a table,
+						with one column for labels and another for the widget.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>GridBagLayoutConfig</classname>:											
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>labelAlignment</parameter></td>
+								<td>Such as <classname>SwingConstants.LEFT</classname> or <classname>SwingConstants.RIGHT</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyle</parameter></td>
+								<td>Either <classname>GridBagLayoutConfig.SECTION_AS_HEADING</classname> or <classname>GridBagLayoutConfig.SECTION_AS_TAB</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>labelSuffix</parameter></td>
+								<td>Text to display after label text. Defaults to a colon (:)</td>
+							</tr>
+							<tr>
+								<td><parameter>requiredAlignment</parameter></td>
+								<td>Such as <classname>SwingConstants.LEFT</classname> or <classname>SwingConstants.RIGHT</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>requiredText</parameter></td>
+								<td>Text to display for required fields. Defaults to a star (*)</td>
+							</tr>
+						</tbody>						
+					</informaltable>					
+				</section>
+				
+				<section id="section-layouts-desktop-swing-group">
+					<title>GroupLayout</title>
+					
+					<para>
+						Layout to arrange widgets using <classname>javax.swing.GroupLayout</classname>.
+						Widgets are arranged in a table, with one column for labels and another for the widget.										
+					</para>
+					
+				</section>
+
+				<section id="section-layouts-desktop-swing-mig">
+					<title>MigLayout</title>
+					
+					<para>
+						Layout to arrange widgets using <classname>net.miginfocom.swing.MigLayout</classname>. Widgets are arranged in a table,
+						with one column for labels and another for the widget.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>MigLayoutConfig</classname>:											
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyle</parameter></td>
+								<td>Either <classname>MigLayoutConfig.SECTION_AS_HEADING</classname> or <classname>MigLayoutConfig.SECTION_AS_TAB</classname></td>
+							</tr>
+						</tbody>						
+					</informaltable>					
+				</section>				
+			</section>
+			
+		</section>
+
 		<section id="section-layouts-web">
 			<title>Web Layouts</title>
+
+			<section id="section-layouts-web-gwt">
+				<title>GWT Layouts</title>
+				
+				<section id="section-layouts-web-gwt-flextable">
+					<title>FlexTableLayout</title>
+					
+					<para>
+						Layout to arrange widgets in a table, with one column for labels and another for the widget.					
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>FlexTableLayoutConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>tableStyleName</parameter></td>
+								<td>CSS style class to apply to outer table tag</td>
+							</tr>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>columnStyleNames</parameter></td>
+								<td>comma delimited string of CSS style classes to apply to table columns in order of: label, component, required</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyleName</parameter></td>
+								<td>CSS style class to apply to section break</td>
+							</tr>
+							<tr>
+								<td><parameter>footerStyleName</parameter></td>
+								<td>CSS style class to apply to table footer</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+				
+				<section id="section-layouts-web-gwt-flow">
+					<title>FlowLayout</title>
+				
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure. This
+						<classname>Layout</classname> is suited to rendering single components, or for rendering components whose
+ 						layout relies entirely on CSS.
+					</para>
+				</section>
+				
+			</section>
 
 			<section id="section-layouts-web-faces">
 				<title>JSF Layouts</title>
@@ -6848,14 +7032,72 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 				<section id="section-layouts-web-faces-table">
 					<title>HtmlDivLayoutRenderer</title>
 					
+					<para>
+						Layout to arrange widgets in HTML <parameter>DIV</parameter> tags, with one <parameter>DIV</parameter> per label and
+						per widget, and an outer <parameter>DIV</parameter> around both.
+						This <classname>Layout</classname> recognizes the following parameters (passed either as
+						<parameter>&lt;f:param&gt;</parameter> tags or set via &lt;parameter&gt; in
+						<filename>metawidget.xml</filename>):
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Parameter</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>divStyleClasses</parameter></td>
+								<td>comma separated list of style classes to apply to the DIVs, in order of outer, label, required, component, errors</td>
+							</tr>
+							<tr>
+								<td><parameter>outerStyle</parameter></td>
+								<td>CSS styles to apply to the outer DIV</td>
+							</tr>
+							<tr>
+								<td><parameter>labelStyle</parameter></td>
+								<td>CSS styles to apply to the label DIV</td>
+							</tr>
+							<tr>
+								<td><parameter>componentStyle</parameter></td>
+								<td>
+									CSS styles to apply to the component DIV. This is the style applied to the DIV <emphasis>around</emphasis> the
+ 									component, not to the component itself. The widget component can be styled using the <parameter>style</parameter>
+ 									attribute on the Metawidget tag
+ 								</td>
+							</tr>
+							<tr>
+								<td><parameter>requiredStyle</parameter></td>
+								<td>CSS styles to apply to the required DIV</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyle</parameter></td>
+								<td>CSS styles to apply to the section DIV</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyleClass</parameter></td>
+								<td>CSS style class to apply to the section DIV</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+
 				</section>
 
 				<section id="section-layouts-web-faces-div">
 					<title>HtmlTableLayoutRenderer</title>
 					
 					<para>
+						Layout to arrange components in a table, with one column for labels and another for the
+ 						component.					
 						This <classname>Layout</classname> recognizes the following parameters (passed either as
-						<parameter>&lt;f:param&gt;</parameter> tags or in <filename>metawidget.xml</filename>):
+						<parameter>&lt;f:param&gt;</parameter> tags or set via &lt;parameter&gt; in
+						<filename>metawidget.xml</filename>):
 					</para>
 					
 					<informaltable>
@@ -6961,6 +7203,80 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 				</section>
 
 			</section>
+
+			<section id="section-layouts-web-jsp">
+				<title>JSP Layouts</title>
+				
+				<para>
+					All of the supported JSP-based technologies (ie. 'pure' JSP, Spring and Struts) share the same
+					<classname>Layout</classname>s.
+				</para>
+				
+				<section id="section-layouts-web-jsp-htmltable">
+					<title>HtmlTableLayout</title>
+					
+					<para>
+						Layout to arrange widgets in a table, with one column for labels and another for the widget.					
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>HtmlTableLayoutConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>tableStyle</parameter></td>
+								<td>CSS styles to apply to outer table tag</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyleClass</parameter></td>
+								<td>CSS style class to apply to outer table tag</td>
+							</tr>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>columnStyleClasses</parameter></td>
+								<td>comma delimited string of CSS style classes to apply to table columns in order of: label, component, required</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyleClass</parameter></td>
+								<td>CSS style class to apply to section break</td>
+							</tr>
+							<tr>
+								<td><parameter>footerStyle</parameter></td>
+								<td>CSS styles to apply to table footer</td>
+							</tr>
+							<tr>
+								<td><parameter>footerStyleClass</parameter></td>
+								<td>CSS style class to apply to table footer</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+				
+				<section id="section-layouts-web-jsp-simple">
+					<title>SimpleLayout</title>
+				
+					<para>
+						<classname>Layout</classname> to simply output components one after another, with no labels and no structure. This
+						<classname>Layout</classname> is suited to rendering single components, or for rendering components whose
+ 						layout relies entirely on CSS.
+					</para>
+				</section>
+
+			</section>
+			
 		</section>
 		
 	</chapter>
@@ -7174,7 +7490,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			
 			<para>
 				For Metawidgets that <emphasis>do</emphasis> use automatic binding, however, <function>setValue</function> is never used. Setting
-				new values requires re-calling <code>setToInspect</code> (and re-running generation) for every new source object. 
+				new values requires re-calling <parameter>setToInspect</parameter> (and re-running generation) for every new source object. 
 			</para>
 			
 			<para>

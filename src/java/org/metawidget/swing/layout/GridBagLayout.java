@@ -44,23 +44,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Layout to arrange widgets using <code>javax.awt.GridBagLayout</code>.
  * <p>
- * Widgets are arranged in a table, with one column for labels and another for the widget,
- * <p>
- * This implementation recognizes the following parameters:
- * <p>
- * <ul>
- * <li><code>numberOfColumns</code>
- * <li><code>labelAlignment</code> - one of <code>SwingConstants.LEFT</code>,
- * <code>SwingConstants.CENTER</code>, <code>SwingConstants.RIGHT</code>,
- * <code>SwingConstants.LEADING</code> or <code>SwingConstants.TRAILING</code>
- * <li><code>sectionStyle</code> - either <code>SECTION_AS_HEADING</code> (the default) or
- * <code>SECTION_AS_TAB</code> (render sections as tabs in a <code>JTabbedPane</code>)
- * <li><code>labelSuffix</code> - defaults to ':'
- * <li><code>requiredAlignment</code> - one of <code>SwingConstants.LEFT</code>,
- * <code>SwingConstants.CENTER</code> or <code>SwingConstants.RIGHT</code>.
- * <li><code>requiredText</code> - defaults to '*'. When used with a <code>requiredAlignment</code>
- * of <code>SwingConstants.RIGHT</code>, can use HTML markup (eg. to render a red star)
- * </ul>
+ * Widgets are arranged in a table, with one column for labels and another for the widget.
  *
  * @author Richard Kennard
  */

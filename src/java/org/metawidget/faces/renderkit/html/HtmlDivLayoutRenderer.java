@@ -42,15 +42,16 @@ import org.metawidget.util.simple.StringUtils;
  * This implementation recognizes the following <code>&lt;f:param&gt;</code> parameters:
  * <p>
  * <ul>
- * <li><code>outerStyle</code>
- * <li><code>labelStyle</code>
- * <li><code>componentStyle</code> - this is the style applied to the DIV <em>around</em> the
- * widget, not to the widget itself. The widget itself can be styled using the <code>style</code>
- * attribute on the Metawidget tag
  * <li><code>divStyleClasses</code> - comma separated list of style classes to apply to the DIVs, in
- * order of outer, label, required, widget, errors
- * <li><code>footerStyle</code>
- * <li><code>footerStyleClass</code>
+ * order of outer, label, required, component, errors
+ * <li><code>outerStyle</code> - CSS styles to apply to the outer DIV
+ * <li><code>labelStyle</code> - CSS styles to apply to the label DIV
+ * <li><code>componentStyle</code> - this is the style applied to the DIV <em>around</em> the
+ * component, not to the component itself. The component itself can be styled using the <code>style</code>
+ * attribute on the Metawidget tag
+ * <li><code>requiredStyle</code> - CSS styles to apply to the required DIV
+ * <li><code>sectionStyle</code> - CSS styles to apply to the section DIV
+ * <li><code>sectionStyleClass</code> - CSS style class to apply to the section DIV
  * </ul>
  * <p>
  *

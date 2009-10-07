@@ -348,7 +348,10 @@
 		
 		<emma>
 			<instr instrpath="${relative.dir}/${build.dir}/classes" destdir="${relative.dir}/${build.dir}/classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="*Constants, org.metawidget.android.*, org.metawidget.example.android.*"/>				
+				<filter excludes="*Constants, org.metawidget.android.*"/>				
+			</instr>
+			<instr instrpath="${relative.dir}/${build.dir}/classes" destdir="${relative.dir}/${build.dir}/classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
+				<filter includes="org.metawidget.android.widget.layout.LinearLayoutConfig, org.metawidget.android.widget.layout.TableLayoutConfig"/>				
 			</instr>
 			<instr instrpath="${relative.dir}/${build.dir}/example-classes" destdir="${relative.dir}/${build.dir}/example-classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.swing.console.*"/>				
