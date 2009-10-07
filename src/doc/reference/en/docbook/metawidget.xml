@@ -214,8 +214,8 @@ public class Main {
 					widgets based on the types of the properties of the <classname>Person</classname> class. This is the First Goal Of Metawidget:
 				</para>
 				
-			<important>
-				<title>First Goal Of Metawidget</title>
+				<important>
+					<title>First Goal Of Metawidget</title>
 					Metawidget creates UI widgets by inspecting existing back-end architectures 
 				</important>
 
@@ -257,8 +257,8 @@ public class Main {
 				
 				<para>
 					To correct this, Metawidget needs to gather additional information. There are several ways to
-					do this, but the simplest for now is to use the built-in Metawidget annotation
-					<classname>@UiComesAfter</classname>.
+					do this (ie. you don't have to use annotations), but the simplest for now is to use the built-in
+					Metawidget annotation <classname>@UiComesAfter</classname>.
 				</para>
 				
 				<tip>
@@ -313,7 +313,8 @@ public class Person {
 				<para>
 					Introducing new annotations to improve the UI is not really in the spirit of
 					the First Goal Of Metawidget. We'd much rather improve it by gathering 
-					information from <emphasis>existing</emphasis> sources. To demonstrate,	add
+					information from <emphasis>existing</emphasis> sources. To demonstrate how Metawidget
+					can adapt to different sources of metadata, add
 					the following lines to <classname>Person</classname> (lines to add are highlighted):
 				</para>
 				
@@ -2214,11 +2215,11 @@ ant</programlisting>
 		<title>Architecture</title>
 		
 		<para>
-			The first goal of Metawidget is to inspect your existing back-end architecture. The second goal is to
-			work with your existing front-end architecture. However, there is a large diversity of such front-end
-			and back-end technologies. Metawidget manages this diversity with a four-stage pipeline, as shown
-			on the right of <xref linkend="chapter-architecture-overall"/>. This
-			pipeline is co-ordinated by a platform-specific Metawidget class
+			There are a large variety of system architectures, and many different types of UI. Metawidget's approach
+			to managing this diversity is not to define lots of little 'flags' to tweak variables, but to
+			establish a pipeline with plug-in points along the way for your own custom classes.
+			This four-stage pipeline is shown on the right of <xref linkend="chapter-architecture-overall"/>. It
+			is co-ordinated by a platform-specific Metawidget class
 			(eg. <classname>SwingMetawidget</classname>, <classname>StrutsMetawidget</classname> etc) as shown on the left. 
 		</para>
 		
@@ -2568,18 +2569,38 @@ ant</programlisting>
 				
 				<para>
 					Each inspector must look to the <parameter>type</parameter> parameter and the <parameter>names</parameter> array. These
-					form a path into the business object domain model. For example the <parameter>type</parameter> may be 'com.myapp.Person'
-					and the <parameter>names</parameter> may be 'address' and 'street'. This would form a path into the domain model of
-					<parameter>com.myapp.Person/address/street</parameter> (ie. return information on the 'street' property within the
-					'address' property of the 'Person' type).
+					form a path into the business object domain model. For example the <parameter>type</parameter> may be <parameter>com.myapp.Person</parameter>
+					and the <parameter>names</parameter> may be <parameter>address</parameter> and <parameter>street</parameter>.
+					This would form a path into the domain model of	<parameter>com.myapp.Person/address/street</parameter> (ie. return information
+					on the <parameter>street</parameter> property within the <parameter>address</parameter> property of the <parameter>Person</parameter> type).
 				</para>
 				
 				<para>
 					Depending on the type of inspector, it may use the given <classname>toInspect</classname> to access the runtime
 					object for the given <classname>type</classname>. Or it may ignore the <classname>toInspect</classname> and look up
-					information for the given <classname>type</classname> from an XML file or a database schema. 
+					information for the given <classname>type</classname> from an XML file or a database schema. This allows Metawidget
+					to inspect types that have no corresponding Java object. For example: 
+				</para>
+
+				<programlisting language="java">metawidget.setToInspect( null );	// No setToInspect
+metawidget.setPath( "Login Form" );</programlisting>
+
+				<para>
+					This could be combined with, say, an <classname>XmlInspector</classname> and a <filename>metawidget-metadata.xml</filename>:
 				</para>
 				
+				<programlisting language="xml">&lt;entity type="Login Form"&gt;
+	&lt;property name="username"/&gt;
+	&lt;property name="password"/&gt;
+&lt;/entity&gt;</programlisting>
+
+				<para>
+					This approach also allows Metawidget to inspect abstract classes:
+				</para>
+
+				<programlisting language="java">metawidget.setToInspect( null );	// No setToInspect
+metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
+
 			</section>
 			
 			<section id="section-architecture-inspectors-usage">
@@ -2677,11 +2698,11 @@ ant</programlisting>
 		xmlns="java:org.metawidget.inspector.composite"
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
-			&lt;list&gt;
+			&lt;array&gt;
 				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
 				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
 				&lt;myInspector xmlns="java:com.myapp"/&gt;
-			&lt;/list&gt;
+			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;
 &lt;/inspector&gt;
@@ -2722,10 +2743,10 @@ ant</programlisting>
 							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
-			&lt;list&gt;
+			&lt;array&gt;
 				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
-			&lt;/list&gt;
+			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
 						</tr>
@@ -2734,10 +2755,10 @@ ant</programlisting>
 							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
-			&lt;list&gt;
+			&lt;array&gt;
 				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
-			&lt;/list&gt;
+			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
 						</tr>
@@ -2746,11 +2767,11 @@ ant</programlisting>
 							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
-			&lt;list&gt;
+			&lt;array&gt;
 				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
 				&lt;facesInspector /&gt;
-			&lt;/list&gt;
+			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
 						</tr>
@@ -2759,11 +2780,11 @@ ant</programlisting>
 							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
-			&lt;list&gt;
+			&lt;array&gt;
 				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
 				&lt;jspAnnotationInspector /&gt;				
-			&lt;/list&gt;
+			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
 						</tr>
@@ -2772,11 +2793,11 @@ ant</programlisting>
 							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
-			&lt;list&gt;
+			&lt;array&gt;
 				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
 				&lt;springAnnotationInspector /&gt;
-			&lt;/list&gt;
+			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
 						</tr>
@@ -2785,13 +2806,13 @@ ant</programlisting>
 							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
-			&lt;list&gt;
+			&lt;array&gt;
 				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
 				&lt;strutsAnnotationInspector /&gt;
 				&lt;commonsValidatorInspector
 					config="CommonsValidatorInspectorConfig"/&gt;
-			&lt;/list&gt;
+			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
 						</tr>
@@ -2800,10 +2821,10 @@ ant</programlisting>
 							<td><programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
-			&lt;list&gt;
+			&lt;array&gt;
 				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
-			&lt;/list&gt;
+			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
 						</tr>
@@ -2955,13 +2976,22 @@ ant</programlisting>
 					(eg. <classname>maximum-integer-digits</classname>). 
 				</para>
 				
-				<para>
+				<important>
+					<title>Config classes must override equals and hashCode</title>
+					If you want your <classname>Inspector</classname> has a <classname>xxxInspectorConfig</classname> class, and you want
+					it to be cacheable and reusable by
+					<classname>ConfigReader</classname> and <filename>metawidget.xml</filename>,  the <classname>xxxInspectorConfig</classname>
+					class <emphasis>must</emphasis> override <function>equals</function> and <function>hashCode</function>.
+				</important>				
+				
+				<tip>
+					<title>Generate an XML Schema</title>
 					If you intend your <classname>Inspector</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
 					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>Inspector</classname> in their
 					<filename>metawidget.xml</filename> at development time. There is an Ant task,
 					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
 					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
-				</para>
+				</tip>				
 				
 			</section>
 
@@ -3099,10 +3129,10 @@ ant</programlisting>
 			xmlns="java:org.metawidget.widgetbuilder.composite"
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
-				&lt;list&gt;
+				&lt;array&gt;
 					&lt;myWidgetBuilder xmlns="java:com.myapp"/&gt;
 					&lt;swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/&gt;
-				&lt;/list&gt;
+				&lt;/array&gt;
 			&lt;/widgetBuilders&gt;
 		&lt;/compositeWidgetBuilder&gt;
 	&lt;/widgetBuilders&gt;
@@ -3227,14 +3257,15 @@ ant</programlisting>
 					usually be handled by some kind of label.
 				</para>
 				
-				<para>
+				<tip>
+					<title>Generate an XML Schema</title>
 					If you intend your <classname>WidgetBuilder</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
 					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>WidgetBuilder</classname> in their
 					<filename>metawidget.xml</filename> at development time. There is an Ant task,
 					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
 					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
-				</para>				
-				
+				</tip>				
+								
 				<section id="section-architecture-widgetbuilders-implementing-your-own-faces">
 					<title>Special considerations for Java Server Faces</title>
 					
@@ -3418,7 +3449,7 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 						</tr>
 						<tr>
 							<td>JSF</td>
-							<td><programlisting language="xml">&lt;list&gt;
+							<td><programlisting language="xml">&lt;array&gt;
 	&lt;requiredAttributeProcessor /&gt;
 	&lt;immediateAttributeProcessor /&gt;
 	&lt;standardBindingProcessor /&gt;
@@ -3427,7 +3458,7 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 	&lt;standardValidatorProcessor /&gt;
 	&lt;standardConverterProcessor /&gt;
 	&lt;cssStyleProcessor /&gt;							
-&lt;/list&gt;</programlisting></td>
+&lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>JSP</td>
@@ -3443,9 +3474,9 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 						</tr>
 						<tr>
 							<td>Swing</td>
-							<td><programlisting language="xml">&lt;list&gt;
+							<td><programlisting language="xml">&lt;array&gt;
 	&lt;reflectionBindingProcessor /&gt;
-&lt;/list&gt;</programlisting></td>
+&lt;/array&gt;</programlisting></td>
 						</tr>
 					</tbody>
 				</informaltable>
@@ -3562,17 +3593,14 @@ public class Main {
 					at construction time, and stored internally:
 				</para>
 				
-				<programlisting language="java">public class TooltipProcessor
-{
+				<programlisting language="java">public class TooltipProcessor {
 	private String mPrefix;
 	
-	public TooltipProcessor()
-	{
+	public TooltipProcessor() {
 		this( new TooltipProcessorConfig() );
 	}
 
-	public TooltipProcessor( TooltipProcessorConfig config )
-	{
+	public TooltipProcessor( TooltipProcessorConfig config ) {
 		mPrefix = config.getPrefix();
 	}
 }</programlisting>
@@ -3593,13 +3621,21 @@ public class Main {
 		&lt;/prefix&gt;
 	&lt;/tooltipProcessor&gt;</programlisting>
 
-				<para>
+				<important>
+					<title>Config classes must override equals and hashCode</title>
+					If you want your configurable <classname>WidgetProcessor</classname> to be cacheable and reusable by
+					<classname>ConfigReader</classname> and <filename>metawidget.xml</filename>,  the <classname>xxxWidgetProcessorConfig</classname>
+					class <emphasis>must</emphasis> override <function>equals</function> and <function>hashCode</function>.
+				</important>
+
+				<tip>
+					<title>Generate an XML Schema</title>
 					If you intend your <classname>WidgetProcessor</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
 					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>WidgetProcessor</classname> in their
 					<filename>metawidget.xml</filename> at development time. There is an Ant task,
 					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
 					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
-				</para>				
+				</tip>				
 
 			</section>
 		</section>
@@ -3777,17 +3813,14 @@ void onEndBuild( M metawidget );</programlisting>
 							at construction time, and stored internally:
 						</para>
 						
-						<programlisting language="java">public class HtmlTableLayout
-{
+						<programlisting language="java">public class HtmlTableLayout {
 	private String mTableStyle;
 	
-	public HtmlTableLayout()
-	{
+	public HtmlTableLayout() {
 		this( new HtmlTableLayoutConfig() );
 	}
 
-	public HtmlTableLayout( HtmlTableLayoutConfig config )
-	{
+	public HtmlTableLayout( HtmlTableLayoutConfig config ) {
 		mTableStyle = config.getTableStyle();
 	}
 }</programlisting>
@@ -3807,6 +3840,13 @@ void onEndBuild( M metawidget );</programlisting>
 			&lt;string&gt;foo&lt;/string&gt;
 		&lt;/tableStyleClass&gt;
 	&lt;/htmlTableLayout&gt;</programlisting>
+
+						<important>
+							<title>Config classes must override equals and hashCode</title>
+							If you want your configurable <classname>Layout</classname> to be cacheable and reusable by
+							<classname>ConfigReader</classname> and <filename>metawidget.xml</filename>,  the <classname>xxxLayoutConfig</classname>
+							class <emphasis>must</emphasis> override <function>equals</function> and <function>hashCode</function>.
+						</important>
 
 					</listitem>
 					<listitem>
@@ -3840,14 +3880,15 @@ private State getState( SwingMetawidget metawidget ) {
 					</listitem>
 				</orderedlist>
 				
-				<para>
+				<tip>
+					<title>Generate an XML Schema</title>
 					If you intend your <classname>Layout</classname> to be configurable via <filename>metawidget.xml</filename>, you may consider
 					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>Layout</classname> in their
 					<filename>metawidget.xml</filename> at development time. There is an Ant task,
 					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
 					by auto-generating the schema. All the existing Metawidget schemas are generated using this Ant task.
-				</para>
-								
+				</tip>				
+				
 			</section>
 			
 		</section>
@@ -3961,7 +4002,7 @@ private State getState( SwingMetawidget metawidget ) {
 							<td><parameter>&lt;array&gt;</parameter></td>
 							<td>
 								constructs a Java array. The array's component type (ie. <classname>String[]</classname>, <classname>int[]</classname> etc)
-								is based on the children of the <parameter>&lt;array&gt;</parameter> element
+								is based on the signature of the method being invoked (ie. <function>setInspectors( Inspector... )</function>)
 							</td>
 						</tr>					
 						<tr>
@@ -4052,15 +4093,15 @@ private State getState( SwingMetawidget metawidget ) {
 					Having constructed an immutable object, <classname>ConfigReader</classname> will cache the instance and reuse it. The
 					<parameter>config</parameter> attribute defaults to using the same package as the <parameter>xmlns</parameter> (ie.
 					<classname>org.metawidget.inspector.composite</classname> in the example above). This can be overridden if a fully
-					qualified classname is provided.					
+					qualified classname is provided.
 				</para>
-				
-				<tip>
-					<title>Note</title>
+
+				<important>
+					<title>Config classes must override equals and hashCode</title>
 					In order to reliably cache and reuse an immutable object that uses a <parameter>config</parameter> attribute, the
 					<classname>xxxConfig</classname> class <emphasis>must</emphasis> override <function>equals</function>
 					and <function>hashCode</function>. This is important to bear in mind when implementing your own custom objects.
-				</tip>				
+				</important>				
 								
 			</section>
 			

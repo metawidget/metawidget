@@ -5,7 +5,6 @@
 
 	<view class="org.metawidget.android.widget.AndroidMetawidget" android:id="@+id/metawidget"		
 		config="@raw/metawidget"
-		paramSectionStyle="@style/section"
 		readOnly="true"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

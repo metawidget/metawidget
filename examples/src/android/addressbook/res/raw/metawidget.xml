@@ -20,6 +20,13 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<layout>
+			<tableLayout xmlns="java:org.metawidget.android.widget.layout" config="TableLayoutConfig">
+				<sectionStyle>
+					<int>@org.metawidget.example.android.addressbook:style/section</int>
+				</sectionStyle>
+			</tableLayout>
+		</layout>
 	</androidMetawidget>
 
 </metawidget>

@@ -402,7 +402,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	protected abstract Map<String, String> getAttributesAsMap( E element );
 
 	protected void startBuild()
-		throws Exception
 	{
 		if ( mWidgetProcessors != null )
 		{
@@ -423,7 +422,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	protected abstract Map<String, String> getStubAttributes( W stub );
 
 	protected W buildWidget( String elementName, Map<String, String> attributes )
-		throws Exception
 	{
 		return mWidgetBuilder.buildWidget( elementName, attributes, getMixinOwner() );
 	}
@@ -440,7 +438,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	 */
 
 	protected W processWidget( W widget, String elementName, Map<String, String> attributes )
-		throws Exception
 	{
 		W processedWidget = widget;
 
@@ -466,14 +463,12 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	protected abstract M getMixinOwner();
 
 	protected void addWidget( W widget, String elementName, Map<String, String> attributes )
-		throws Exception
 	{
 		if ( mLayout != null )
 			mLayout.layoutChild( widget, elementName, attributes, getMixinOwner() );
 	}
 
 	protected void endBuild()
-		throws Exception
 	{
 		if ( mWidgetProcessors != null )
 		{

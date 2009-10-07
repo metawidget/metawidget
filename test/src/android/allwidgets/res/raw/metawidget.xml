@@ -22,6 +22,9 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<layout>
+			<linearLayout xmlns="java:org.metawidget.android.widget.layout"/>
+		</layout>		
 	</androidMetawidget>
 
 </metawidget>

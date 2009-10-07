@@ -80,18 +80,14 @@ public class ConfigReader
 	implements ResourceResolver
 {
 	//
-	// Private statics
+	// Package private statics
 	//
 
 	/**
 	 * Dummy config to cache by if immutable threadsafe has no Config.
 	 */
 
-	private final static String								IMMUTABLE_THREADSAFE_NO_CONFIG		= "no-config";
-
-	//
-	// Package private statics
-	//
+	/* package private */final static String				IMMUTABLE_THREADSAFE_NO_CONFIG		= "no-config";
 
 	/* package private */final static Log					LOG									= LogUtils.getLog( ConfigReader.class );
 
@@ -109,7 +105,7 @@ public class ConfigReader
 	 * Cache of resource content based on resource name
 	 */
 
-	/* package private */Map<String, CachingContentHandler>	RESOURCE_CACHE						= CollectionUtils.newHashMap();
+	/* package private */Map<String, CachingContentHandler>	mResourceCache						= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are both immutable and threadsafe, indexed by a unique key (ie. the
@@ -119,16 +115,16 @@ public class ConfigReader
 	 * <code>xxxConfig</code>s.
 	 */
 
-	/* package private */Map<String, Map<Integer, Object>>	IMMUTABLE_THREADSAFE_BY_KEY_CACHE	= CollectionUtils.newHashMap();
+	/* package private */Map<String, Map<Integer, Object>>	mImmutableThreadsafeByKeyCache		= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are both immutable and threadsafe, indexed by their Class (and within
-	 * that their Config). This is a slower cache than IMMUTABLE_THREADSAFE_OBJECTS_BY_KEY_CACHE,
-	 * but is more widely applicable. For example, it can cache the same <code>PropertyStyle</code>
-	 * across multiple different <code>Inspector</code>s.
+	 * that their Config). This is a slower cache than mImmutableThreadsafeByKeyCache, but is more
+	 * widely applicable. For example, it can cache the same <code>PropertyStyle</code> across
+	 * multiple different <code>Inspector</code>s.
 	 */
 
-	/* package private */Map<Class<?>, Map<Object, Object>>	IMMUTABLE_THREADSAFE_BY_CLASS_CACHE	= CollectionUtils.newHashMap();
+	/* package private */Map<Class<?>, Map<Object, Object>>	mImmutableThreadsafeByClassCache	= CollectionUtils.newHashMap();
 
 	//
 	// Constructor
@@ -196,7 +192,7 @@ public class ConfigReader
 		{
 			// Replay the existing cache...
 
-			CachingContentHandler cachingContentHandler = RESOURCE_CACHE.get( resource );
+			CachingContentHandler cachingContentHandler = mResourceCache.get( resource );
 
 			if ( cachingContentHandler != null )
 			{
@@ -210,7 +206,7 @@ public class ConfigReader
 				LOG.debug( "Reading resource from " + resource );
 				cachingContentHandler = new CachingContentHandler( configHandler );
 				mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
-				RESOURCE_CACHE.put( resource, cachingContentHandler );
+				mResourceCache.put( resource, cachingContentHandler );
 			}
 
 			return configHandler.getConfigured();
@@ -936,6 +932,7 @@ public class ConfigReader
 
 							if ( isImmutableThreadsafe( classToConstruct ) )
 							{
+								LOG.debug( "Instantiated immutable threadsafe " + classToConstruct );
 								putImmutableThreadsafeByClass( configuredObject, object );
 
 								if ( mDepth == ( mStoreImmutableThreadsafeByKeyAtDepth - 1 ) )
@@ -1141,7 +1138,10 @@ public class ConfigReader
 			// Immutable and Threadsafe by class (with no config)? Cache for next time
 
 			if ( isImmutableThreadsafe( classToConstruct ) )
-				putImmutableThreadsafeByClass( classToConstruct, null );
+			{
+				LOG.debug( "Instantiated immutable threadsafe " + classToConstruct );
+				putImmutableThreadsafeByClass( object, null );
+			}
 
 			mConstructing.push( object );
 			mEncountered.push( ENCOUNTERED_JAVA_OBJECT );
@@ -1190,7 +1190,7 @@ public class ConfigReader
 
 			if ( mImmutableThreadsafeByKey == null )
 			{
-				mImmutableThreadsafeByKey = IMMUTABLE_THREADSAFE_BY_KEY_CACHE.get( mImmutableThreadsafeKey );
+				mImmutableThreadsafeByKey = mImmutableThreadsafeByKeyCache.get( mImmutableThreadsafeKey );
 
 				if ( mImmutableThreadsafeByKey == null )
 					return null;
@@ -1210,23 +1210,22 @@ public class ConfigReader
 
 			if ( mImmutableThreadsafeByKey == null )
 			{
-				mImmutableThreadsafeByKey = IMMUTABLE_THREADSAFE_BY_KEY_CACHE.get( mImmutableThreadsafeKey );
+				mImmutableThreadsafeByKey = mImmutableThreadsafeByKeyCache.get( mImmutableThreadsafeKey );
 
 				if ( mImmutableThreadsafeByKey == null )
 				{
 					mImmutableThreadsafeByKey = CollectionUtils.newHashMap();
-					IMMUTABLE_THREADSAFE_BY_KEY_CACHE.put( mImmutableThreadsafeKey, mImmutableThreadsafeByKey );
+					mImmutableThreadsafeByKeyCache.put( mImmutableThreadsafeKey, mImmutableThreadsafeByKey );
 				}
 			}
 
 			mImmutableThreadsafeByKey.put( mStoreAsElement, immutableThreadsafe );
 			mStoreAsElement = -1;
-			LOG.debug( "Instantiated immutable threadsafe " + immutableThreadsafe.getClass() );
 		}
 
 		private Object getImmutableThreadsafeByClass( Class<?> clazz, Object config )
 		{
-			Map<Object, Object> configs = IMMUTABLE_THREADSAFE_BY_CLASS_CACHE.get( clazz );
+			Map<Object, Object> configs = mImmutableThreadsafeByClassCache.get( clazz );
 
 			if ( configs == null )
 				return null;
@@ -1244,12 +1243,12 @@ public class ConfigReader
 		private void putImmutableThreadsafeByClass( Object immutableThreadsafe, Object config )
 		{
 			Class<?> clazz = immutableThreadsafe.getClass();
-			Map<Object, Object> configs = IMMUTABLE_THREADSAFE_BY_CLASS_CACHE.get( clazz );
+			Map<Object, Object> configs = mImmutableThreadsafeByClassCache.get( clazz );
 
 			if ( configs == null )
 			{
 				configs = CollectionUtils.newHashMap();
-				IMMUTABLE_THREADSAFE_BY_CLASS_CACHE.put( clazz, configs );
+				mImmutableThreadsafeByClassCache.put( clazz, configs );
 			}
 
 			Object configToStoreUnder = config;
@@ -1320,7 +1319,6 @@ public class ConfigReader
 			}
 
 			configs.put( configToStoreUnder, immutableThreadsafe );
-			LOG.debug( "Instantiated immutable threadsafe " + immutableThreadsafe.getClass() );
 		}
 
 		/**
@@ -1390,6 +1388,8 @@ public class ConfigReader
 						if ( !parameterType.isArray() || !arg.getClass().isArray() )
 							continue methods;
 
+						// ...hack for compatible arrays (ie. converted Object[] into String[])...
+
 						Object[] array = (Object[]) arg;
 						Object[] compatibleArray = (Object[]) Array.newInstance( parameterType.getComponentType(), array.length );
 
@@ -1401,7 +1401,7 @@ public class ConfigReader
 						}
 						catch ( ArrayStoreException e )
 						{
-							// Not compatible
+							// Could not be converted, is not compatible
 
 							continue;
 						}

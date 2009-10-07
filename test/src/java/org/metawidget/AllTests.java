@@ -20,6 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.android.AndroidMetawidgetTests;
 import org.metawidget.config.ConfigReaderTest;
 import org.metawidget.config.XmlSchemaGeneratorTaskTest;
 import org.metawidget.example.ExampleTests;
@@ -58,6 +59,7 @@ public class AllTests
 		// To fix, place the junit-4.5.jar first on your CLASSPATH
 
 		TestSuite suite = new TestSuite( "Metawidget Tests" );
+		suite.addTest( AndroidMetawidgetTests.suite() );
 		suite.addTestSuite( BaseWidgetBuilderTest.class );
 		suite.addTestSuite( BaseWidgetProcessorTest.class );
 		suite.addTestSuite( CompositeWidgetBuilderTest.class );

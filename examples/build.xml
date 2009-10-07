@@ -606,6 +606,7 @@
 			<fileset dir="${relative.dir}/${build.dir}/classes">
 				<include name="org/metawidget/*.class"/>				
 				<include name="org/metawidget/android/**"/>
+				<include name="org/metawidget/config/**"/>
 				<include name="org/metawidget/iface/**"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/annotation/**"/>
@@ -615,6 +616,7 @@
 				<include name="org/metawidget/inspector/propertytype/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>
 				<include name="org/metawidget/inspector/xml/**"/>
+				<include name="org/metawidget/layout/**"/>
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>

@@ -772,7 +772,6 @@ public abstract class UIMetawidget
 	}
 
 	protected void endBuild()
-		throws Exception
 	{
 		List<UIComponent> children = getChildren();
 
@@ -868,7 +867,6 @@ public abstract class UIMetawidget
 
 		@Override
 		protected void startBuild()
-			throws Exception
 		{
 			super.startBuild();
 			UIMetawidget.this.startBuild();
@@ -904,7 +902,6 @@ public abstract class UIMetawidget
 
 		@Override
 		protected void addWidget( UIComponent widget, String elementName, Map<String, String> attributes )
-			throws Exception
 		{
 			Map<String, Object> componentAttributes = widget.getAttributes();
 			componentAttributes.put( COMPONENT_ATTRIBUTE_METADATA, attributes );
@@ -914,7 +911,6 @@ public abstract class UIMetawidget
 
 		@Override
 		protected void endBuild()
-			throws Exception
 		{
 			super.endBuild();
 			UIMetawidget.this.endBuild();

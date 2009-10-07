@@ -805,13 +805,11 @@ public class SwingMetawidget
 	}
 
 	protected void startBuild()
-		throws Exception
 	{
 		mExistingComponentsUnused = CollectionUtils.newArrayList( mExistingComponents );
 	}
 
 	protected void addWidget( Component component, String elementName, Map<String, String> attributes )
-		throws Exception
 	{
 		// Drill into JScrollPanes
 
@@ -968,7 +966,6 @@ public class SwingMetawidget
 
 		@Override
 		protected void startBuild()
-			throws Exception
 		{
 			super.startBuild();
 			SwingMetawidget.this.startBuild();
@@ -976,7 +973,6 @@ public class SwingMetawidget
 
 		@Override
 		protected void addWidget( JComponent component, String elementName, Map<String, String> attributes )
-			throws Exception
 		{
 			SwingMetawidget.this.addWidget( component, elementName, attributes );
 			super.addWidget( component, elementName, attributes );
@@ -1012,7 +1008,6 @@ public class SwingMetawidget
 
 		@Override
 		protected void endBuild()
-			throws Exception
 		{
 			SwingMetawidget.this.endBuild();
 			super.endBuild();

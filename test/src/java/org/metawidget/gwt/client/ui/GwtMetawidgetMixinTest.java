@@ -74,14 +74,12 @@ public class GwtMetawidgetMixinTest
 
 		@Override
 		protected void startBuild()
-			throws Exception
 		{
 			// Do nothing
 		}
 
 		@Override
 		protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
-			throws Exception
 		{
 			// Do nothing
 		}
@@ -113,7 +111,6 @@ public class GwtMetawidgetMixinTest
 
 		@Override
 		protected void endBuild()
-			throws Exception
 		{
 			// Do nothing
 		}

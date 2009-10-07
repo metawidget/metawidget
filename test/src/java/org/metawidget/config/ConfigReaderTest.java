@@ -23,6 +23,7 @@ import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JComponent;
@@ -39,6 +40,7 @@ import org.metawidget.inspector.faces.FacesInspector;
 import org.metawidget.inspector.hibernate.validator.HibernateValidatorInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.impl.BaseObjectInspector;
+import org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyle;
 import org.metawidget.inspector.jpa.JpaInspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -628,7 +630,8 @@ public class ConfigReaderTest
 		Inspector inspector1 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 		Inspector inspector2 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
-		// Inspectors should be the same, even though InputStreams are not cached, because cached at Config level
+		// Inspectors should be the same, even though InputStreams are not cached, because cached at
+		// Config level
 
 		assertTrue( inspector1 == inspector2 );
 
@@ -641,7 +644,8 @@ public class ConfigReaderTest
 		inspector1 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 		inspector2 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
-		// Inspectors should not be the same, because caching at Config level should be thwarted by InputStream
+		// Inspectors should not be the same, because caching at Config level should be thwarted by
+		// InputStream
 
 		assertTrue( inspector1 != inspector2 );
 
@@ -687,9 +691,50 @@ public class ConfigReaderTest
 		MetawidgetMixin<JComponent, SwingMetawidget> mixin2 = (MetawidgetMixin<JComponent, SwingMetawidget>) mixinField.get( metawidget2 );
 		assertTrue( mixin1 != mixin2 );
 
-		// Inspectors should be the same, because resources are cached even though it contains InputStreams
+		// Inspectors should be the same, because resources are cached even though it contains
+		// InputStreams
 
 		assertTrue( mixin1.getInspector() == mixin2.getInspector() );
+
+		// Test what got cached
+
+		Map<Class<?>, Map<Object, Object>> immutableThreadsafeByClassCache = configReader.mImmutableThreadsafeByClassCache;
+		assertTrue( !immutableThreadsafeByClassCache.containsKey( Class.class ) );
+
+		Map<Object, Object> immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( CompositeInspector.class );
+		assertTrue( !immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+		assertTrue( 4 == immutableThreadsafeByConfigCache.size() );
+
+		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( StrutsAnnotationInspector.class );
+		assertTrue( !immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+		assertTrue( 1 == immutableThreadsafeByConfigCache.size() );
+		assertTrue( inspectors1[2] == immutableThreadsafeByConfigCache.values().iterator().next() );
+
+		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( XmlInspector.class );
+		assertTrue( !immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+		assertTrue( 3 == immutableThreadsafeByConfigCache.size() );
+
+		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( MetawidgetAnnotationInspector.class );
+		assertTrue( immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+		assertTrue( 1 == immutableThreadsafeByConfigCache.size() );
+		assertTrue( inspectors1[1] == immutableThreadsafeByConfigCache.get( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+
+		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( SpringAnnotationInspector.class );
+		assertTrue( !immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+		assertTrue( 1 == immutableThreadsafeByConfigCache.size() );
+		assertTrue( inspectors1[3] == immutableThreadsafeByConfigCache.values().iterator().next() );
+
+		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( PropertyTypeInspector.class );
+		assertTrue( immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+		assertTrue( 1 == immutableThreadsafeByConfigCache.size() );
+		assertTrue( inspectors1[0] == immutableThreadsafeByConfigCache.get( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+
+		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( StrutsActionFormPropertyStyle.class );
+		assertTrue( immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+		assertTrue( 1 == immutableThreadsafeByConfigCache.size() );
+		assertTrue( propertyStyleField.get( inspectors1[2] ) == immutableThreadsafeByConfigCache.get( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+
+		assertTrue( 7 == immutableThreadsafeByClassCache.size() );
 	}
 
 	public void testUppercase()
@@ -802,7 +847,7 @@ public class ConfigReaderTest
 
 		new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
-		assertTrue( "class org.metawidget.config.TestNoEqualsHasMethodsSubclassInspectorConfig does not override .equals() (only its superclass org.metawidget.config.TestInspectorConfig does), so may not be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ));
+		assertTrue( "class org.metawidget.config.TestNoEqualsHasMethodsSubclassInspectorConfig does not override .equals() (only its superclass org.metawidget.config.TestInspectorConfig does), so may not be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ) );
 	}
 
 	//

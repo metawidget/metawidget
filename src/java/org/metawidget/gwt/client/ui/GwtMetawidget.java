@@ -850,7 +850,6 @@ public class GwtMetawidget
 	}
 
 	protected void startBuild()
-		throws Exception
 	{
 		mExistingWidgetsUnused = new HashSet<Widget>( mExistingWidgets );
 	}
@@ -898,7 +897,6 @@ public class GwtMetawidget
 	}
 
 	protected void addWidget( Widget widget, String elementName, Map<String, String> attributes )
-		throws Exception
 	{
 		String name = attributes.get( NAME );
 		mAddedWidgets.put( name, widget );
@@ -926,7 +924,6 @@ public class GwtMetawidget
 	}
 
 	protected void endBuild()
-		throws Exception
 	{
 		if ( mExistingWidgetsUnused != null )
 		{
@@ -1012,7 +1009,6 @@ public class GwtMetawidget
 
 		@Override
 		protected void startBuild()
-			throws Exception
 		{
 			GwtMetawidget.this.startBuild();
 			super.startBuild();
@@ -1020,7 +1016,6 @@ public class GwtMetawidget
 
 		@Override
 		protected Widget buildWidget( String elementName, Map<String, String> attributes )
-			throws Exception
 		{
 			Widget widget = super.buildWidget( elementName, attributes );
 			return GwtMetawidget.this.afterBuildWidget( widget, attributes );
@@ -1050,7 +1045,6 @@ public class GwtMetawidget
 
 		@Override
 		protected void addWidget( Widget widget, String elementName, Map<String, String> attributes )
-			throws Exception
 		{
 			GwtMetawidget.this.addWidget( widget, elementName, attributes );
 			super.addWidget( widget, elementName, attributes );
@@ -1064,7 +1058,6 @@ public class GwtMetawidget
 
 		@Override
 		protected void endBuild()
-			throws Exception
 		{
 			GwtMetawidget.this.endBuild();
 			super.endBuild();

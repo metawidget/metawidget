@@ -19,7 +19,7 @@ package org.metawidget.android.widget;
 import java.io.InputStream;
 
 import org.metawidget.config.ConfigReader;
-import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.iface.MetawidgetException;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -27,8 +27,8 @@ import android.content.res.Resources;
 /**
  * Specialized ConfigReader for Android.
  * <p>
- * Resolves references by using <code>Context.getResources</code> first. Resource strings should
- * be of the form <code>@com.foo:raw/metawidget_metadata</code>.
+ * Resolves references by using <code>Context.getResources</code> first. Resource strings should be
+ * of the form <code>@com.foo:raw/metawidget_metadata</code>.
  *
  * @author Richard Kennard
  */
@@ -65,15 +65,42 @@ public class AndroidConfigReader
 	public InputStream openResource( String resource )
 	{
 		if ( !resource.startsWith( "@" ) )
-			throw InspectorException.newException( "Resource name does not start with '@': " + resource );
+			throw MetawidgetException.newException( "Resource name does not start with '@': " + resource );
 
 		Resources resources = mContext.getResources();
 		int id = resources.getIdentifier( resource, null, null );
 
 		if ( id == 0 )
-			throw InspectorException.newException( "Resource.getIdentifier returns 0 for " + resource );
+			throw MetawidgetException.newException( "Resource.getIdentifier returns 0 for " + resource );
 
 		return resources.openRawResource( id );
+	}
 
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Overridden to process <code>int</code>s using <code>Resources.getIdentifier</code>
+	 * <p>
+	 * Resource strings should be of the form <code>@style/section</code>.
+	 */
+
+	@Override
+	protected Object createNative( String name, String recordedText )
+		throws Exception
+	{
+		if ( "int".equals( name ) && recordedText.startsWith( "@" ))
+		{
+			Resources resources = mContext.getResources();
+			int id = resources.getIdentifier( recordedText, null, null );
+
+			if ( id == 0 )
+				throw MetawidgetException.newException( "Resource.getIdentifier returns 0 for " + recordedText );
+
+			return id;
+		}
+
+		return super.createNative( name, recordedText );
 	}
 }

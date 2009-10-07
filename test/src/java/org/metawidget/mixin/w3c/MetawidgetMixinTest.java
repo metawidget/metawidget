@@ -69,7 +69,6 @@ public class MetawidgetMixinTest
 
 			@Override
 			protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
-				throws Exception
 			{
 				called.add( "addWidget" );
 				super.addWidget( widget, elementName, attributes );
@@ -148,7 +147,6 @@ public class MetawidgetMixinTest
 
 			@Override
 			protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
-				throws Exception
 			{
 				called.add( "addWidget" );
 				super.addWidget( widget, elementName, attributes );
@@ -227,14 +225,12 @@ public class MetawidgetMixinTest
 
 		@Override
 		protected void startBuild()
-			throws Exception
 		{
 			// Do nothing
 		}
 
 		@Override
 		protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
-			throws Exception
 		{
 			// Do nothing
 		}
@@ -266,7 +262,6 @@ public class MetawidgetMixinTest
 
 		@Override
 		protected void endBuild()
-			throws Exception
 		{
 			// Do nothing
 		}

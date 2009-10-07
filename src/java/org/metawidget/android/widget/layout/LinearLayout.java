@@ -41,28 +41,35 @@ public class LinearLayout
 	implements Layout<View, AndroidMetawidget>
 {
 	//
-	// Public methods
+	// Private members
 	//
 
+	private int	mLabelStyle;
+
+	private int	mSectionStyle;
+
+	//
+	// Constructor
+	//
+
+	public LinearLayout()
+	{
+		this( new LinearLayoutConfig() );
+	}
+
+	public LinearLayout( LinearLayoutConfig config )
+	{
+		mLabelStyle = config.getLabelStyle();
+		mSectionStyle = config.getSectionStyle();
+	}
+
+	//
+	// Public methods
+	//
 
 	public void onStartBuild( AndroidMetawidget metawidget )
 	{
 		metawidget.putClientProperty( LinearLayout.class, null );
-		State state = getState( metawidget );
-
-		// Label style
-
-		Object labelStyle = metawidget.getParameter( "labelStyle" );
-
-		if ( labelStyle != null )
-			state.labelStyle = (Integer) labelStyle;
-
-		// Section style
-
-		Object sectionStyle = metawidget.getParameter( "sectionStyle" );
-
-		if ( sectionStyle != null )
-			state.sectionStyle = (Integer) sectionStyle;
 	}
 
 	@Override
@@ -96,7 +103,7 @@ public class LinearLayout
 			{
 				TextView textView = new TextView( metawidget.getContext() );
 				textView.setText( label + ":" );
-				AndroidUtils.applyStyle( textView, state.labelStyle, metawidget );
+				AndroidUtils.applyStyle( textView, mLabelStyle, metawidget );
 
 				metawidget.addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 			}
@@ -152,8 +159,7 @@ public class LinearLayout
 
 		// Apply style (if any)
 
-		State state = getState( metawidget );
-		AndroidUtils.applyStyle( textView, state.sectionStyle, metawidget );
+		AndroidUtils.applyStyle( textView, mSectionStyle, metawidget );
 
 		// Add it to our layout
 
@@ -188,9 +194,5 @@ public class LinearLayout
 	/* package private */class State
 	{
 		/* package private */String	currentSection;
-
-		/* package private */int	labelStyle;
-
-		/* package private */int	sectionStyle;
 	}
 }

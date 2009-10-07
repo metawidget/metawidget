@@ -22,6 +22,7 @@ import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.Set;
 
+import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
@@ -69,9 +70,9 @@ public class AndroidMetawidget
 
 	private static WidgetBuilder<View, AndroidMetawidget>	DEFAULT_WIDGETBUILDER;
 
-	private static ConfigReader								CONFIG_READER;
+	private static Layout<View, AndroidMetawidget>			DEFAULT_LAYOUT;
 
-	private final static String								PARAM_PREFIX	= "param";
+	private static ConfigReader								CONFIG_READER;
 
 	//
 	// Private members
@@ -84,8 +85,6 @@ public class AndroidMetawidget
 	private int												mConfig;
 
 	private boolean											mNeedsConfiguring;
-
-	private Map<String, Object>								mParameters;
 
 	private boolean											mNeedToBuildWidgets;
 
@@ -120,38 +119,7 @@ public class AndroidMetawidget
 
 		setOrientation( LinearLayout.VERTICAL );
 
-		// For each attribute...
-
-		for ( int loop = 0, length = attributes.getAttributeCount(); loop < length; loop++ )
-		{
-			// ...that looks like a parameter...
-
-			String name = attributes.getAttributeName( loop );
-
-			if ( !name.startsWith( PARAM_PREFIX ) )
-				continue;
-
-			name = name.substring( PARAM_PREFIX.length() );
-
-			if ( !StringUtils.isFirstLetterUppercase( name ) )
-				continue;
-
-			// ...remember it
-
-			String value = attributes.getAttributeValue( loop );
-
-			// (process resource lookups)
-
-			if ( value.startsWith( "@" ) )
-			{
-				setParameter( StringUtils.lowercaseFirstLetter( name ), attributes.getAttributeResourceValue( loop, 0 ) );
-				continue;
-			}
-
-			setParameter( StringUtils.lowercaseFirstLetter( name ), value );
-		}
-
-		// Support configuring inspectors in the XML
+		// Support overriding config in the XML
 
 		mConfig = attributes.getAttributeResourceValue( null, "config", 0 );
 
@@ -163,9 +131,7 @@ public class AndroidMetawidget
 		String readOnly = attributes.getAttributeValue( null, "readOnly" );
 
 		if ( readOnly != null && !"".equals( readOnly ) )
-		{
 			mMetawidgetMixin.setReadOnly( Boolean.parseBoolean( readOnly ) );
-		}
 	}
 
 	//
@@ -243,6 +209,12 @@ public class AndroidMetawidget
 		invalidateInspection();
 	}
 
+	public void setLayout( Layout<View, AndroidMetawidget> layout )
+	{
+		mMetawidgetMixin.setLayout( layout );
+		invalidateInspection();
+	}
+
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
@@ -297,34 +269,6 @@ public class AndroidMetawidget
 		// Android doesn't support i18n yet
 
 		return null;
-	}
-
-	/**
-	 * Gets the parameter with the given name.
-	 *
-	 * @return the value of the parameter. Note this return type uses generics, so as to not require
-	 *         a cast by the caller (eg. <code>String s = getParameter(name)</code>)
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	public <T> T getParameter( String name )
-	{
-		if ( mParameters == null )
-			return null;
-
-		return (T) mParameters.get( name );
-	}
-
-	/**
-	 * Sets a parameter value.
-	 */
-
-	public void setParameter( String name, Object value )
-	{
-		if ( mParameters == null )
-			mParameters = CollectionUtils.newHashMap();
-
-		mParameters.put( name, value );
 	}
 
 	public boolean isReadOnly()
@@ -529,14 +473,6 @@ public class AndroidMetawidget
 
 			// Sensible defaults
 
-			if ( mMetawidgetMixin.getWidgetBuilder() == null )
-			{
-				if ( DEFAULT_WIDGETBUILDER == null )
-					DEFAULT_WIDGETBUILDER = new AndroidWidgetBuilder();
-
-				mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
-			}
-
 			if ( mMetawidgetMixin.getInspector() == null )
 			{
 				if ( DEFAULT_INSPECTOR == null )
@@ -550,6 +486,22 @@ public class AndroidMetawidget
 				}
 
 				mMetawidgetMixin.setInspector( DEFAULT_INSPECTOR );
+			}
+
+			if ( mMetawidgetMixin.getWidgetBuilder() == null )
+			{
+				if ( DEFAULT_WIDGETBUILDER == null )
+					DEFAULT_WIDGETBUILDER = new AndroidWidgetBuilder();
+
+				mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
+			}
+
+			if ( mMetawidgetMixin.getLayout() == null )
+			{
+				if ( DEFAULT_LAYOUT == null )
+					DEFAULT_LAYOUT = new TableLayout();
+
+				mMetawidgetMixin.setLayout( DEFAULT_LAYOUT );
 			}
 		}
 		catch ( Exception e )
@@ -590,7 +542,6 @@ public class AndroidMetawidget
 	}
 
 	protected void startBuild()
-		throws Exception
 	{
 		Log.d( getClass().getSimpleName(), "Starting build" );
 
@@ -691,10 +642,6 @@ public class AndroidMetawidget
 	{
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
-
-		if ( mParameters != null )
-			nestedMetawidget.mParameters = CollectionUtils.newHashMap( mParameters );
-
 		nestedMetawidget.setToInspect( mToInspect );
 	}
 
@@ -854,8 +801,8 @@ public class AndroidMetawidget
 
 		@Override
 		protected void startBuild()
-			throws Exception
 		{
+			super.startBuild();
 			AndroidMetawidget.this.startBuild();
 		}
 
@@ -863,6 +810,7 @@ public class AndroidMetawidget
 		protected void addWidget( View view, String elementName, Map<String, String> attributes )
 		{
 			AndroidMetawidget.this.addWidget( view, elementName, attributes );
+			super.addWidget( view, elementName, attributes );
 		}
 
 		@Override
@@ -889,7 +837,6 @@ public class AndroidMetawidget
 		{
 			Constructor<?> constructor = AndroidMetawidget.this.getClass().getConstructor( Context.class );
 			AndroidMetawidget nestedMetawidget = (AndroidMetawidget) constructor.newInstance( getContext() );
-
 			AndroidMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
 			return nestedMetawidget;
@@ -899,6 +846,7 @@ public class AndroidMetawidget
 		protected void endBuild()
 		{
 			AndroidMetawidget.this.endBuild();
+			super.endBuild();
 		}
 
 		@Override
