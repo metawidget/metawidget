@@ -7225,14 +7225,37 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 					<para>
 						For components outside a section, <classname>RichFacesLayout</classname> simply adds them
 						to the parent Metawidget in the same way as <classname>SimpleLayout</classname>. For components
-						with a section heading, it wraps them in tabs within a RichFaces <classname>TabPanel</classname>.
-					</para>
-					
-					<para>
-						The body of the tab is itself a nested Metawidget, and so uses the same <classname>Renderer</classname>
+						with a section heading, it wraps them in either RichFaces <classname>UIPanel</classname>
+						or RichFaces <classname>UITab</classname>.
+						The body of the panel/tab is itself a nested Metawidget, and so uses the same <classname>Renderer</classname>
 						as the parent Metawidget. This gives you the choice of either <parameter>table</parameter> or
 						<parameter>div</parameter>-based HTML.
 					</para>
+					
+					<para>
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>RichFacesLayoutConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>sectionStyle</parameter></td>
+								<td>either <classname>RichFacesLayoutConfig.SECTION_AS_PANEL</classname> or <classname>RichFacesLayoutConfig.SECTION_AS_TAB</classname></td>
+							</tr>
+						</tbody>						
+					</informaltable>
+					
 				</section>
 				
 				<section id="section-layouts-web-faces-simple">
