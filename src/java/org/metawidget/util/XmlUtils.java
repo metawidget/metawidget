@@ -212,8 +212,19 @@ public class XmlUtils
 
 			Element child = (Element) node;
 
-			if ( attributeValue.equals( child.getAttribute( attributeName ) ) )
-				return child;
+			try
+			{
+				if ( attributeValue.equals( child.getAttribute( attributeName ) ) )
+					return child;
+			}
+			catch ( IllegalArgumentException e )
+			{
+				// We've seen this throw a IllegalArgumentException from
+				// com.sun.org.apache.xerces.internal.dom.DeferredDocumentImpl.getNodeObject(DeferredDocumentImpl.java:1081)
+				// under GWT 1.7
+
+				continue;
+			}
 		}
 
 		return null;

@@ -14,34 +14,39 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.android;
+package org.metawidget.faces.component.html.layout.richfaces;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.metawidget.android.widget.layout.LinearLayoutTest;
-import org.metawidget.android.widget.layout.TableLayoutTest;
-import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilderTest;
 
 /**
  * @author Richard Kennard
  */
 
-public class AndroidMetawidgetTests
+public class RichFacesLayoutTest
 	extends TestCase
 {
 	//
-	// Public statics
+	// Public methods
 	//
 
-	public static Test suite()
+	public void testConfig()
 	{
-		TestSuite suite = new TestSuite( "Android Metawidget Tests" );
-		suite.addTestSuite( AndroidWidgetBuilderTest.class );
-		suite.addTestSuite( TableLayoutTest.class );
-		suite.addTestSuite( LinearLayoutTest.class );
+		RichFacesLayoutConfig config1 = new RichFacesLayoutConfig();
+		RichFacesLayoutConfig config2 = new RichFacesLayoutConfig();
 
-		return suite;
+		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// sectionStyle
+
+		config1.setSectionStyle( RichFacesLayoutConfig.SECTION_AS_TAB );
+		assertTrue( RichFacesLayoutConfig.SECTION_AS_TAB == config1.getSectionStyle() );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setSectionStyle( RichFacesLayoutConfig.SECTION_AS_TAB );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 }

@@ -167,19 +167,19 @@ public class AndroidWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return new Stub( metawidget.getContext() );
+			return newStub( metawidget );
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return new Stub( metawidget.getContext() );
+			return newStub( metawidget );
 
 		// Masked (return an invisible View, so that we DO still
 		// render a label and reserve some blank space)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
 		{
-			TextView view = new TextView( metawidget.getContext() );
+			TextView view = newTextView( metawidget );
 			view.setVisibility( View.INVISIBLE );
 
 			return view;
@@ -190,7 +190,7 @@ public class AndroidWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
-			return new TextView( metawidget.getContext() );
+			return newTextView( metawidget );
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
@@ -206,30 +206,30 @@ public class AndroidWidgetBuilder
 		if ( clazz != null )
 		{
 			if ( clazz.isPrimitive() )
-				return new TextView( metawidget.getContext() );
+				return newTextView( metawidget );
 
 			if ( String.class.equals( clazz ) )
-				return new TextView( metawidget.getContext() );
+				return newTextView( metawidget );
 
 			if ( Date.class.equals( clazz ) )
-				return new TextView( metawidget.getContext() );
+				return newTextView( metawidget );
 
 			if ( Boolean.class.equals( clazz ) )
-				return new TextView( metawidget.getContext() );
+				return newTextView( metawidget );
 
 			if ( Number.class.isAssignableFrom( clazz ) )
-				return new TextView( metawidget.getContext() );
+				return newTextView( metawidget );
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new Stub( metawidget.getContext() );
+				return newStub( metawidget );
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new TextView( metawidget.getContext() );
+			return newTextView( metawidget );
 
 		// Nested Metawidget
 
@@ -243,12 +243,12 @@ public class AndroidWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return new Stub( metawidget.getContext() );
+			return newStub( metawidget );
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return new Stub( metawidget.getContext() );
+			return newStub( metawidget );
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
@@ -265,7 +265,7 @@ public class AndroidWidgetBuilder
 		// Lookup)
 
 		if ( Boolean.class.equals( clazz ) && TRUE.equals( attributes.get( REQUIRED ) ) )
-			return new CheckBox( metawidget.getContext() );
+			return newCheckBox( metawidget );
 
 		if ( clazz != null )
 		{
@@ -306,9 +306,9 @@ public class AndroidWidgetBuilder
 				// booleans
 
 				if ( boolean.class.equals( clazz ) )
-					return new CheckBox( metawidget.getContext() );
+					return newCheckBox( metawidget );
 
-				EditText editText = new EditText( metawidget.getContext() );
+				EditText editText = newEditText( metawidget );
 
 				// DigitsInputMethod is 0-9 and +
 
@@ -322,7 +322,7 @@ public class AndroidWidgetBuilder
 
 			if ( String.class.equals( clazz ) )
 			{
-				EditText editText = new EditText( metawidget.getContext() );
+				EditText editText = newEditText( metawidget );
 
 				if ( TRUE.equals( attributes.get( MASKED ) ) )
 					editText.setTransformationMethod( PasswordTransformationMethod.getInstance() );
@@ -345,11 +345,11 @@ public class AndroidWidgetBuilder
 				// Not-nullable dates can use a DatePicker...
 
 				if ( TRUE.equals( attributes.get( REQUIRED ) ) )
-					return new DatePicker( metawidget.getContext() );
+					return newDatePicker( metawidget );
 
 				// ...but nullable ones need a TextBox
 
-				EditText editText = new EditText( metawidget.getContext() );
+				EditText editText = newEditText( metawidget );
 				editText.setFilters( new InputFilter[] { new DateKeyListener() } );
 
 				return editText;
@@ -360,7 +360,7 @@ public class AndroidWidgetBuilder
 
 			if ( Number.class.isAssignableFrom( clazz ) )
 			{
-				EditText editText = new EditText( metawidget.getContext() );
+				EditText editText = newEditText( metawidget );
 
 				// DigitsInputMethod is 0-9 and +
 
@@ -373,16 +373,65 @@ public class AndroidWidgetBuilder
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new Stub( metawidget.getContext() );
+				return newStub( metawidget );
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new EditText( metawidget.getContext() );
+			return newEditText( metawidget );
 
 		// Nested Metawidget
 
 		return null;
+	}
+
+	//
+	// Package private methods
+	//
+
+	/**
+	 * Refactored so unit tests can override.
+	 */
+
+	/*package private*/ Stub newStub( AndroidMetawidget metawidget )
+	{
+		return new Stub( metawidget.getContext() );
+	}
+
+	/**
+	 * Refactored so unit tests can override.
+	 */
+
+	/*package private*/ TextView newTextView( AndroidMetawidget metawidget )
+	{
+		return new TextView( metawidget.getContext() );
+	}
+
+	/**
+	 * Refactored so unit tests can override.
+	 */
+
+	/*package private*/ CheckBox newCheckBox( AndroidMetawidget metawidget )
+	{
+		return new CheckBox( metawidget.getContext() );
+	}
+
+	/**
+	 * Refactored so unit tests can override.
+	 */
+
+	/*package private*/ DatePicker newDatePicker( AndroidMetawidget metawidget )
+	{
+		return new DatePicker( metawidget.getContext() );
+	}
+
+	/**
+	 * Refactored so unit tests can override.
+	 */
+
+	/*package private*/ EditText newEditText( AndroidMetawidget metawidget )
+	{
+		return new EditText( metawidget.getContext() );
 	}
 }

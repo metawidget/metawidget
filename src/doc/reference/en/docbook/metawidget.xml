@@ -1219,7 +1219,7 @@ public class Person {
 	&lt;/parameter&gt;
 	&lt;parameter&gt;
 		&lt;string&gt;columnClasses&lt;/string&gt;
-		&lt;string&gt;table-label-column,table-component-column,required&lt;/string&gt;
+		&lt;string&gt;table-label-column,table-component-column,table-required-column&lt;/string&gt;
 	&lt;/parameter&gt;
 	...</programlisting>
 	
@@ -1230,7 +1230,7 @@ public class Person {
 				<programlisting language="jsp">&lt;m:metawidget value="#{contact.search}"&gt;
 	<symbol>&lt;f:param name="tableStyleClass" value="table-form"/&gt;
 	&lt;f:param name="columnClasses"
-		value="table-label-column,table-component-column,required" /&gt;</symbol>
+		value="table-label-column,table-component-column,table-required-column" /&gt;</symbol>
 	...
 &lt;/m:metawidget&gt;</programlisting>
 				
@@ -3317,6 +3317,23 @@ W processWidget( W widget, String elementName, Map&lt;String, String&gt; attribu
 
 void onEndBuild( M metawidget );</programlisting>
 				
+				<!--
+					http://www.websequencediagrams.com
+					
+					Metawidget->WidgetProcessor: onStartBuild
+					loop widget
+					   Metawidget->WidgetProcessor: processWidget
+					end
+					Metawidget->WidgetProcessor: onEndBuild
+				-->
+				
+				<figure id="section-architecture-widgetprocessors-loop">
+					<title>onStartBuild and onEndBuild are called once, processWidget is called for each widget</title>
+					<screenshot>
+						<graphic fileref="images/activitydiagrams/architecture-widgetprocessors-loop.png" width="50mm"/>
+					</screenshot>			
+				</figure>
+				
 				<para>
 					The first method, <function>onStartBuild</function>, is called at the start of the widget building process,
 					before the <classname>WidgetBuilder</classname> is called. <classname>WidgetProcessor</classname>s may wish to act
@@ -3332,8 +3349,8 @@ void onEndBuild( M metawidget );</programlisting>
 					so that subclasses don't have to override this method.
 				</para>
 				<para>
-					The middle method, <function>processWidget</function> is the most important. <classname>WidgetProcessor</classname>s
-					can modify the given <parameter>widget</parameter> (as built by the <classname>WidgetBuilder</classname>) according
+					The middle method, <function>processWidget</function> is the most important. It is called for
+					each widget. <classname>WidgetProcessor</classname>s can modify the given <parameter>widget</parameter> according
 					to the given <parameter>elementName</parameter> and various <parameter>attributes</parameter>. They can use
 					the given <parameter>metawidget</parameter> to help them if needed (for example, to access a UI context with which
 					to create validators).
@@ -3587,6 +3604,8 @@ public class Main {
 	public String getPrefix() {
 		return mPrefix;
 	}
+	
+	// ...must override equals and hashCode too...
 }</programlisting>
 				<para>
 					These <classname>xxxWidgetProcessorConfig</classname> classes are then passed to the <classname>WidgetProcessor</classname>
@@ -3664,6 +3683,23 @@ void layoutChild( W widget, String elementName, Map&lt;String, String&gt; attrib
 
 void onEndBuild( M metawidget );</programlisting>
 				
+				<!--
+					http://www.websequencediagrams.com
+					
+					Metawidget->Layout: onStartBuild
+					loop widget
+					   Metawidget->Layout: processWidget
+					end
+					Metawidget->Layout: onEndBuild
+				-->
+				
+				<figure id="section-architecture-layouts-loop">
+					<title>onStartBuild and onEndBuild are called once, layoutChild is called for each widget</title>
+					<screenshot>
+						<graphic fileref="images/activitydiagrams/architecture-layouts-loop.png" width="50mm"/>
+					</screenshot>			
+				</figure>
+				
 				<para>
 					The first method, <function>onStartBuild</function>, is called at the start of the widget building process,
 					before the <classname>WidgetBuilder</classname> is called. <classname>Layout</classname>s may wish to act
@@ -3679,10 +3715,10 @@ void onEndBuild( M metawidget );</programlisting>
 					so that subclasses don't have to override this method.
 				</para>
 				<para>
-					The middle method, <function>layoutChild</function> is the most important. <classname>Layout</classname>s
-					should add the given <parameter>widget</parameter> (as built by the <classname>WidgetBuilder</classname>, and
-					processed by any <classname>WidgetProcessor</classname>s) as a child of the given <parameter>metawidget</parameter>,
-					according to the given <parameter>attributes</parameter>.
+					The middle method, <function>layoutChild</function> is the most important. It is called for
+					each widget. <classname>Layout</classname>s	should add the given <parameter>widget</parameter>
+					as a child of the given <parameter>metawidget</parameter>, according to the given
+					<parameter>elementName</parameter> and <parameter>attributes</parameter>.
 				</para>
 				
 			</section>
@@ -3807,6 +3843,8 @@ void onEndBuild( M metawidget );</programlisting>
 	public String getTableStyleClass() {
 		return mTableStyleClass;
 	}
+	
+	// ...must override equals and hashCode too...
 }</programlisting>
 						<para>
 							These <classname>xxxLayoutConfig</classname> classes are then passed to the <classname>Layout</classname>
@@ -7279,6 +7317,100 @@ SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>
 			
 		</section>
 		
+		<section id="section-layouts-mobile">
+			<title>Mobile Layouts</title>
+
+			<section id="section-layouts-mobile-android">
+				<title>Android Layouts</title>
+				
+				<section id="section-layouts-web-android-table">
+					<title>TableLayout</title>
+					
+					<para>
+						Layout to arrange widgets in a table, with one column for labels and another for the widget,
+						using <classname>android.widget.TableLayout</classname>.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>TableLayoutConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>labelStyle</parameter></td>
+								<td>
+									Android style (ie. <parameter>@com.myapp:style/label</parameter>) to apply to labels. The
+									style should be defined within <filename>res/values/styles.xml</filename> along the lines of:
+									<programlisting language="xml">&lt;style name="label"&gt;
+	&lt;item name="android:textSize"&gt;20sp&lt;/item&gt;
+	&lt;item name="android:paddingTop"&gt;10px&lt;/item&gt;
+	&lt;item name="android:paddingBottom"&gt;5px&lt;/item&gt;
+&lt;/style&gt;</programlisting>
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyle</parameter></td>
+								<td>Android style (ie. <parameter>@com.myapp:style/section</parameter>) to apply to section breaks</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+					
+				</section>
+				
+				<section id="section-layouts-web-android-linear">
+					<title>LinearLayout</title>
+					
+					<para>
+						Layout to arrange widgets vertically, using <classname>android.widget.LinearLayout</classname>.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>LinearLayoutConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>labelStyle</parameter></td>
+								<td>
+									Android style (ie. <parameter>@com.myapp:style/label</parameter>) to apply to labels. The
+									style should be defined within <filename>res/values/styles.xml</filename> along the lines of:
+									<programlisting language="xml">&lt;style name="section"&gt;
+	&lt;item name="android:textSize"&gt;20sp&lt;/item&gt;
+	&lt;item name="android:paddingTop"&gt;10px&lt;/item&gt;
+	&lt;item name="android:paddingBottom"&gt;5px&lt;/item&gt;
+&lt;/style&gt;</programlisting>
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyle</parameter></td>
+								<td>Android style (ie. <parameter>@com.myapp:style/section</parameter>) to apply to section breaks</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+					
+				</section>				
+				
+			</section>
+		</section>
+		
 	</chapter>
 
 	<chapter id="chapter-howto">
@@ -7407,8 +7539,8 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			
 			<para>
 				For this, <classname>CompositeInspector</classname> supplies an overloaded method outside the normal <classname>Inspector</classname>
-				interface. The overloaded <function>CompositeInspector.inspect</function> method takes an additional XML string
-				parameter, which it uses as a starting point for meta-inspection.
+				interface. The overloaded <function>CompositeInspector.inspect</function> method takes an additional XML string of inspection results,
+				and merges forthcoming inspection results with it.
 			</para>
 			
 			<para>
@@ -7483,14 +7615,14 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			<para>
 				For Metawidgets that do not use automatic binding, the general approach is to call <function>setToInspect</function>
 				and then <function>setValue</function> to populate the generated widgets with values. This technique has an implicit side
-				effect: the values can also be <emphasis>re</emphasis>populated as many times as required with new source objects, without re-calling
+				effect: the values can also be <emphasis>re</emphasis>populated as many times as required from different objects, without re-calling
 				<function>setToInspect</function>. This allows the Metawidget to be generated once and reused many times, mitigating the
 				performance cost of generation.
 			</para>
 			
 			<para>
 				For Metawidgets that <emphasis>do</emphasis> use automatic binding, however, <function>setValue</function> is never used. Setting
-				new values requires re-calling <parameter>setToInspect</parameter> (and re-running generation) for every new source object. 
+				new values requires re-calling <parameter>setToInspect</parameter> (and re-running generation) for every different object. 
 			</para>
 			
 			<para>
@@ -7501,7 +7633,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			</para>
 			
 			<para>
-				The downside of <function>setToRebind</function> is that the rebound source object must have exactly the same set of field names
+				The downside of <function>setToRebind</function> is that the rebound object must have exactly the same set of field names
 				as the original object. It becomes the responsibility of the caller to ensure this consistency.
 			</para>
 			

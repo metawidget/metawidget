@@ -31,6 +31,7 @@ import org.metawidget.faces.component.UIStub;
 import org.metawidget.layout.impl.BaseLayout;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.richfaces.component.UIPanel;
 import org.richfaces.component.UITab;
 import org.richfaces.component.UITabPanel;
 
@@ -43,6 +44,26 @@ import org.richfaces.component.UITabPanel;
 public class RichFacesLayout
 	extends BaseLayout<UIComponent, UIMetawidget>
 {
+	//
+	// Private members
+	//
+
+	private int	mSectionStyle;
+
+	//
+	// Constructor
+	//
+
+	public RichFacesLayout()
+	{
+		this( new RichFacesLayoutConfig() );
+	}
+
+	public RichFacesLayout( RichFacesLayoutConfig config )
+	{
+		mSectionStyle = config.getSectionStyle();
+	}
+
 	//
 	// Public methods
 	//
@@ -62,7 +83,7 @@ public class RichFacesLayout
 
 		String section = attributes.get( SECTION );
 
-		if ( section != null && !section.equals( state.section ))
+		if ( section != null && !section.equals( state.section ) )
 		{
 			if ( widget instanceof UIStub && widget.getChildren().isEmpty() )
 			{
@@ -75,7 +96,7 @@ public class RichFacesLayout
 
 				// End of sections?
 
-				if ( "".equals( section ))
+				if ( "".equals( section ) )
 				{
 					state.sectionComponent = null;
 				}
@@ -85,28 +106,6 @@ public class RichFacesLayout
 					Application application = context.getApplication();
 					UIViewRoot viewRoot = context.getViewRoot();
 
-					// Create parent tab panel
-
-					UITabPanel tabPanel;
-
-					if ( state.sectionComponent == null )
-					{
-						tabPanel = (UITabPanel) application.createComponent( "org.richfaces.TabPanel" );
-						tabPanel.setId( viewRoot.createUniqueId() );
-						tabPanel.setSwitchType( "client" );
-						metawidget.getChildren().add( tabPanel );
-
-						// Suppress label
-
-						Map<String, String> metadata = CollectionUtils.newHashMap();
-						metadata.put( LABEL, "" );
-						tabPanel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, metadata );
-					}
-					else
-					{
-						tabPanel = (UITabPanel) state.sectionComponent.getParent().getParent();
-					}
-
 					// Section name (possibly localized)
 
 					String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
@@ -114,20 +113,73 @@ public class RichFacesLayout
 					if ( localizedSection == null )
 						localizedSection = section;
 
-					// Create tab for section
+					// Create panel for section
 
-					UITab tab = (UITab) application.createComponent( "org.richfaces.Tab" );
-					tab.setId( viewRoot.createUniqueId() );
-					tab.setLabel( localizedSection );
-					tabPanel.getChildren().add( tab );
+					UIComponent panel;
+
+					switch ( mSectionStyle )
+					{
+						case RichFacesLayoutConfig.SECTION_AS_TAB:
+						{
+							UITabPanel tabPanel;
+
+							// Create parent tab panel
+
+							if ( state.sectionComponent == null )
+							{
+								tabPanel = (UITabPanel) application.createComponent( "org.richfaces.TabPanel" );
+								tabPanel.setId( viewRoot.createUniqueId() );
+								tabPanel.setSwitchType( "client" );
+								metawidget.getChildren().add( tabPanel );
+
+								// Suppress label on parent tab panel (make it go the whole width of the form)
+
+								Map<String, String> metadata = CollectionUtils.newHashMap();
+								metadata.put( LABEL, "" );
+								tabPanel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, metadata );
+							}
+							else
+							{
+								tabPanel = (UITabPanel) state.sectionComponent.getParent().getParent();
+							}
+
+							// Create tab for section
+
+							panel = application.createComponent( "org.richfaces.Tab" );
+							( (UITab) panel ).setLabel( localizedSection );
+							tabPanel.getChildren().add( panel );
+						}
+							break;
+
+						default:
+						{
+							// Create panel for section
+
+							panel = application.createComponent( "org.richfaces.panel" );
+							( (UIPanel) panel ).setHeader( localizedSection );
+							metawidget.getChildren().add( panel );
+
+							// Suppress label on section panel (make it go the whole width of the form)
+
+							Map<String, String> metadata = CollectionUtils.newHashMap();
+							metadata.put( LABEL, "" );
+							panel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, metadata );
+						}
+							break;
+					}
+
+					// Initialize section panel
+
+					panel.setId( viewRoot.createUniqueId() );
 
 					// Create nested panel (use a Metawidget for layout)
 
 					UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( "org.metawidget.HtmlMetawidget" );
-					// Maybe if we support nested tabs: nestedMetawidget.setLayout( metawidget.getLayout() );
 					nestedMetawidget.setRendererType( metawidget.getRendererType() );
 					nestedMetawidget.setId( viewRoot.createUniqueId() );
-					tab.getChildren().add( nestedMetawidget );
+					// Maybe if we support nested sections:
+					// nestedMetawidget.setLayout( metawidget.getLayout() );
+					panel.getChildren().add( nestedMetawidget );
 
 					// Use this nested panel from now on
 

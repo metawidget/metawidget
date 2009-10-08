@@ -62,7 +62,7 @@ h1
 	vertical-align: top;
 }
 
-.required
+.table-required-column
 {
 	width: 1%;
 	color: red;

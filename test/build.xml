@@ -160,6 +160,12 @@
 				<pathelement path="${relative.dir}/${build.dir}/tutorial-classes"/>
 				<pathelement path="${relative.dir}/examples/src/java"/>
 				<pathelement path="${relative.dir}/test/src/java"/>
+				
+				<!-- Put Android last, so its JUnit implementation doesn't clash -->
+				
+				<fileset dir="${relative.dir}/lib">
+					<include name="android.jar"/>
+				</fileset>
 			</classpath>
 		</junit>
 		
@@ -351,7 +357,7 @@
 				<filter excludes="*Constants, org.metawidget.android.*"/>				
 			</instr>
 			<instr instrpath="${relative.dir}/${build.dir}/classes" destdir="${relative.dir}/${build.dir}/classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter includes="org.metawidget.android.widget.layout.LinearLayoutConfig, org.metawidget.android.widget.layout.TableLayoutConfig"/>				
+				<filter includes="org.metawidget.android.widget.widgetbuilder.*, org.metawidget.android.widget.layout.LinearLayoutConfig, org.metawidget.android.widget.layout.TableLayoutConfig"/>				
 			</instr>
 			<instr instrpath="${relative.dir}/${build.dir}/example-classes" destdir="${relative.dir}/${build.dir}/example-classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.swing.console.*"/>				

@@ -92,6 +92,16 @@ public class CompositeInspector
 		return inspect( null, toInspect, type, names );
 	}
 
+	/**
+	 * If your architecture is strongly separated, some metadata may only be available in one tier
+	 * (eg. JPA annotations in the backend) and some only available in another tier (eg.
+	 * struts-config.xml in the front-end).
+	 * <p>
+	 * For this, <code>CompositeInspector</code> supplies this overloaded method outside the normal
+	 * <code>Inspector</code> interface. It takes an additional XML string of inspection results,
+	 * and merges forthcoming inspection results with it.
+	 */
+
 	public String inspect( String master, Object toInspect, String type, String... names )
 	{
 		try

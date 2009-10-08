@@ -6,7 +6,7 @@
 	<htmlMetawidget xmlns="java:org.metawidget.faces.component.html">
 		<parameter>
 			<string>columnClasses</string>
-			<string>table-label-column,table-component-column,required</string>
+			<string>table-label-column,table-component-column,table-required-column</string>
 		</parameter>
 		<parameter>
 			<string>messageStyleClass</string>
