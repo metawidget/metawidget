@@ -1514,7 +1514,11 @@ public class Person {
 		&lt;/compositeWidgetBuilder&gt;
 	&lt;/widgetBuilder&gt;
 	<symbol>&lt;layout&gt;
-		&lt;richFacesLayout xmlns="java:org.metawidget.faces.component.html.layout.richfaces"/&gt;
+		&lt;richFacesLayout xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="RichFacesLayoutConfig"&gt;
+			&lt;sectionStyle&gt;
+				&lt;int&gt;1&lt;/int&gt;	&lt;!-- RichFacesLayoutConfig.SECTION_AS_TAB --&gt;
+			&lt;/sectionStyle&gt;
+		&lt;/richFacesLayout&gt;		
 	&lt;/layout&gt;</symbol>
 &lt;/htmlMetawidget&gt;
 
