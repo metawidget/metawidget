@@ -120,8 +120,9 @@ public class ConfigReader
 	/**
 	 * Cache of objects that are both immutable and threadsafe, indexed by their Class (and within
 	 * that their Config). This is a slower cache than mImmutableThreadsafeByKeyCache, but is more
-	 * widely applicable. For example, it can cache the same <code>PropertyStyle</code> across
-	 * multiple different <code>Inspector</code>s.
+	 * widely applicable. For example, it can cache the same <code>Inspector</code> between
+	 * different XMLs from different <code>InputStream</code>s, and the same
+	 * <code>PropertyStyle</code> across multiple different <code>Inspector</code>s.
 	 */
 
 	/* package private */Map<Class<?>, Map<Object, Object>>	mImmutableThreadsafeByClassCache	= CollectionUtils.newHashMap();
