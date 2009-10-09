@@ -29,13 +29,11 @@ import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
-import org.metawidget.util.simple.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -67,15 +65,15 @@ public abstract class BaseObjectInspector
 	// Private members
 	//
 
-	private PropertyStyle			mPropertyStyle;
+	private PropertyStyle	mPropertyStyle;
 
-	private ActionStyle				mActionStyle;
+	private ActionStyle		mActionStyle;
 
 	//
 	// Protected members
 	//
 
-	protected Log					mLog	= LogUtils.getLog( getClass() );
+	protected Log			mLog	= LogUtils.getLog( getClass() );
 
 	//
 	// Constructors
@@ -510,7 +508,12 @@ public abstract class BaseObjectInspector
 
 				if ( !traversed.add( traverse ) )
 				{
-					LogUtils.getLog( getClass() ).warn( ClassUtils.getSimpleName( getClass() ) + " prevented infinite recursion on " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating " + name + " as @UiHidden" );
+					// Fail silently, rather than do
+					// LogUtils.getLog( getClass() ).debug( ClassUtils.getSimpleName( getClass() ) +
+					// " prevented infinite recursion on " + type + ArrayUtils.toString( names,
+					// StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating "
+					// + name + " as @UiHidden" );
+
 					return null;
 				}
 
