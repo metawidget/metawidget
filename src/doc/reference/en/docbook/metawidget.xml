@@ -198,7 +198,7 @@ public class Main {
 	
 			<section id="section-introduction-part1-output">
 				<title>The Output</title>
-				
+
 				<para>
 					Run the code. You should see the screen in <xref linkend="section-introduction-part1-screenshot1"/>.
 				</para>
@@ -209,7 +209,19 @@ public class Main {
 						<graphic fileref="images/screenshots/swing-tutorial1.jpg" width="100mm"/>
 					</screenshot>
 				</figure>				
-				
+
+				<para>
+					If you're using an IDE, such as <ulink url="http://netbeans.org">NetBeans</ulink>, your project should look
+					something like pictured in <xref linkend="section-introduction-part1-screenshot-ide"/>
+				</para>
+						
+				<figure id="section-introduction-part1-screenshot-ide">
+					<title>NetBeans IDE running Metawidget tutorial</title>			
+					<screenshot>
+						<graphic fileref="images/screenshots/swing-tutorial-ide.jpg" width="150mm"/>
+					</screenshot>
+				</figure>				
+
 				<para>
 					The <classname>SwingMetawidget</classname> has automatically populated itself with child widgets at
 					runtime. It has chosen <classname>JSpinner</classname>, <classname>JTextField</classname> and <classname>JCheckBox</classname>
