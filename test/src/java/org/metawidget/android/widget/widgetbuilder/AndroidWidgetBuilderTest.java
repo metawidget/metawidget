@@ -46,213 +46,139 @@ public class AndroidWidgetBuilderTest
 
 	public void testReadOnly()
 	{
-		MockAndroidWidgetBuilder androidWidgetBuilder = new MockAndroidWidgetBuilder();
+		AndroidMetawidget metawidget = new AndroidMetawidget( null );
+		AndroidWidgetBuilder androidWidgetBuilder = new AndroidWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( READ_ONLY, TRUE );
 
 		// Hidden
 
 		attributes.put( HIDDEN, TRUE );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "Stub".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof Stub );
 		attributes.remove( HIDDEN );
 
 		// Action
 
-		androidWidgetBuilder.buildWidget( ACTION, attributes, null );
-		assertTrue( "Stub".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( ACTION, attributes, metawidget ) instanceof Stub );
 
 		// Lookup
 
 		attributes.put( LOOKUP, "foo, bar, baz" );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "TextView".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof TextView );
 		attributes.remove( LOOKUP );
 
 		// No type
 
 		attributes.remove( TYPE );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "TextView".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof TextView );
 
 		// Primitive
 
 		attributes.put( TYPE, int.class.getName() );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "TextView".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof TextView );
 
 		// Date
 
 		attributes.put( TYPE, Date.class.getName() );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "TextView".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof TextView );
 
 		// Boolean
 
 		attributes.put( TYPE, Boolean.class.getName() );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "TextView".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof TextView );
 
 		// Number
 
 		attributes.put( TYPE, Number.class.getName() );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "TextView".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof TextView );
 
 		// Collection
 
 		attributes.put( TYPE, Collection.class.getName() );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "Stub".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof Stub );
 
 		// Metawidget
 
 		attributes.put( TYPE, "unknown-type" );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( null == androidWidgetBuilder.getLastCreated() );
+		assertTrue( null == androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
 
 		// Don't expand
 
 		attributes.put( DONT_EXPAND, TRUE );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "TextView".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof TextView );
 	}
 
 	public void testActive()
 	{
-		MockAndroidWidgetBuilder androidWidgetBuilder = new MockAndroidWidgetBuilder();
+		AndroidMetawidget metawidget = new AndroidMetawidget( null );
+		AndroidWidgetBuilder androidWidgetBuilder = new AndroidWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// Hidden
 
 		attributes.put( HIDDEN, TRUE );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "Stub".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof Stub );
 		attributes.remove( HIDDEN );
 
 		// Action
 
-		androidWidgetBuilder.buildWidget( ACTION, attributes, null );
-		assertTrue( "Stub".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( ACTION, attributes, metawidget ) instanceof Stub );
 
 		// No type
 
 		attributes.remove( TYPE );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "EditText".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof EditText );
 
 		// Primitive
 
 		attributes.put( TYPE, float.class.getName() );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "EditText".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof EditText );
 
 		// Float
 
 		attributes.put( TYPE, Float.class.getName() );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "EditText".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof EditText );
 
 		// boolean (little B)
 
 		attributes.put( TYPE, boolean.class.getName() );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "CheckBox".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof CheckBox );
 
 		// Boolean (big B)
 
 		attributes.put( TYPE, Boolean.class.getName() );
 		attributes.put( REQUIRED, TRUE );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "CheckBox".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof CheckBox );
 
 		// Date
 
 		attributes.put( TYPE, Date.class.getName() );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "DatePicker".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof DatePicker );
 
 		// Collection
 
 		attributes.put( TYPE, Collection.class.getName() );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "Stub".equals( androidWidgetBuilder.getLastCreated() ) );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof Stub );
+
+		// Large
+
+		attributes.put( TYPE, String.class.getName() );
+		attributes.put( LARGE, TRUE );
+		assertTrue( 3 == ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getMinLines() );
+
+		// Limited length
+
+		//attributes.put( MAXIMUM_LENGTH, "10" );
+		//assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getFilters()[0] instanceof InputFilter.LengthFilter );
 
 		// Metawidget
 
 		attributes.put( TYPE, "unknown-type" );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( null == androidWidgetBuilder.getLastCreated() );
+		assertTrue( null == androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
 
 		// Don't expand
 
 		attributes.put( DONT_EXPAND, TRUE );
-		androidWidgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( "EditText".equals( androidWidgetBuilder.getLastCreated() ) );
-	}
-
-	//
-	// Inner class
-	//
-
-	/* package private */static class MockAndroidWidgetBuilder
-		extends AndroidWidgetBuilder
-	{
-		//
-		// Private members
-		//
-
-		private String	mLastCreated;
-
-		//
-		// Public methods
-		//
-
-		public String getLastCreated()
-		{
-			String lastCreated = mLastCreated;
-			mLastCreated = null;
-
-			return lastCreated;
-		}
-
-		//
-		// Protected methods
-		//
-
-		@Override
-		CheckBox newCheckBox( AndroidMetawidget metawidget )
-		{
-			mLastCreated = "CheckBox";
-			return null;
-		}
-
-		@Override
-		DatePicker newDatePicker( AndroidMetawidget metawidget )
-		{
-			mLastCreated = "DatePicker";
-			return null;
-		}
-
-		@Override
-		EditText newEditText( AndroidMetawidget metawidget )
-		{
-			mLastCreated = "EditText";
-			return null;
-		}
-
-		@Override
-		Stub newStub( AndroidMetawidget metawidget )
-		{
-			mLastCreated = "Stub";
-			return null;
-		}
-
-		@Override
-		TextView newTextView( AndroidMetawidget metawidget )
-		{
-			mLastCreated = "TextView";
-			return null;
-		}
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof EditText );
 	}
 }
