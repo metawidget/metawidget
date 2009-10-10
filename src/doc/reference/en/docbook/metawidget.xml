@@ -200,6 +200,18 @@ public class Main {
 				<title>The Output</title>
 
 				<para>
+					If you're using an IDE, such as <ulink url="http://netbeans.org">NetBeans</ulink>, your project should by
+					now look something like pictured in <xref linkend="section-introduction-part1-screenshot-ide"/>.
+				</para>
+						
+				<figure id="section-introduction-part1-screenshot-ide">
+					<title>NetBeans IDE running Metawidget tutorial</title>			
+					<screenshot>
+						<graphic fileref="images/screenshots/swing-tutorial-ide.jpg" width="150mm"/>
+					</screenshot>
+				</figure>				
+
+				<para>
 					Run the code. You should see the screen in <xref linkend="section-introduction-part1-screenshot1"/>.
 				</para>
 				
@@ -207,18 +219,6 @@ public class Main {
 					<title>SwingMetawidget rendering of Person class</title>			
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial1.jpg" width="100mm"/>
-					</screenshot>
-				</figure>				
-
-				<para>
-					If you're using an IDE, such as <ulink url="http://netbeans.org">NetBeans</ulink>, your project should look
-					something like pictured in <xref linkend="section-introduction-part1-screenshot-ide"/>
-				</para>
-						
-				<figure id="section-introduction-part1-screenshot-ide">
-					<title>NetBeans IDE running Metawidget tutorial</title>			
-					<screenshot>
-						<graphic fileref="images/screenshots/swing-tutorial-ide.jpg" width="150mm"/>
 					</screenshot>
 				</figure>				
 
@@ -872,7 +872,7 @@ public class Main {
 					The XML does not need a <parameter>comes-after</parameter> attribute: XML nodes are
 					inherently ordered, and <classname>CompositeInspector</classname> combines inspection results so that later results
 					respect the ordering of earlier results.
-				</para>
+				</tip>
 	
 				<tip>
 					<title>Note</title>
@@ -880,7 +880,7 @@ public class Main {
 					attribute: we will still be using <classname>PropertyTypeInspector</classname> to look up the type. It also
 					does not need to specify a <parameter>lookup</parameter> attribute: we will still be using
 					<classname>Java5Inspector</classname> to determine possible enum values.
-				</para>
+				</tip>
 
 				<para>
 					Update your <filename>metawidget.xml</filename> to use <classname>XmlInspector</classname> instead of
@@ -3417,8 +3417,8 @@ void onEndBuild( M metawidget );</programlisting>
 				
 				<para>
 					In most cases the <classname>WidgetProcessor</classname> will simply be modifying the given <parameter>widget</parameter>
-					(adding validators, changing styling and so on). However it can decide to swap the widget out by returning a different
-					widget entirely. This new widget will then be passed down the list as show in
+					(adding validators, changing styles and so on). However it can decide to swap the widget out by returning a different
+					widget. This new widget will then be passed down the list as shown in
 					<xref linkend="section-architecture-widgetprocessors-substitute"/>. For an example use of this capability, see
 					<classname>HiddenFieldProcessor</classname>.
 				</para>
@@ -3439,6 +3439,31 @@ void onEndBuild( M metawidget );</programlisting>
 					</screenshot>							
 				</figure>
 				
+				<para>
+					Alternatively, the <classname>WidgetProcessor</classname> can decide to exclude the widget entirely by
+					returning null. Subsequent <classname>WidgetProcessor</classname>s will not be called, as
+					shown in <xref linkend="section-architecture-widgetprocessors-exclude"/>, and no
+					widget will be added to the <classname>Layout</classname>.
+				</para>
+				
+				<!--
+					http://www.websequencediagrams.com:
+					
+					participant Metawidget
+					participant "WidgetProcessor #1"
+					participant "WidgetProcessor #2"
+					Metawidget->WidgetProcessor #1: gives widget for processing
+					WidgetProcessor #1->WidgetProcessor #1: decides to\nexclude widget
+					WidgetProcessor #1->Metawidget: returns null
+				 -->
+				 
+				<figure id="section-architecture-widgetprocessors-exclude">
+					<title>WidgetProcessors can exclude widgets</title>			
+					<screenshot>
+						<graphic fileref="images/activitydiagrams/architecture-widgetprocessors-exclude.png" width="100mm"/>
+					</screenshot>							
+				</figure>
+
 				<para>
 					The list of <classname>WidgetProcessors</classname> is maintained by the parent Metawidget, and is changeable (this
 					is different to say, <classname>CompositeInspector</classname> or <classname>CompositeWidgetBuilder</classname> whose

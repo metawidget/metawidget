@@ -18,6 +18,7 @@ package org.metawidget.example.swing.tutorial;
 
 import javax.swing.JFrame;
 
+import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
@@ -36,6 +37,7 @@ public class Main
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setToInspect( person );
+		metawidget.add( new Stub( "retired" ));
 
 		// JFrame
 

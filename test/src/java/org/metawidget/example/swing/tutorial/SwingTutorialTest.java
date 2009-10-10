@@ -20,6 +20,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -69,20 +70,20 @@ public class SwingTutorialTest
 		stub.setName( "retired" );
 		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) );
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( "Age:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
-		assertTrue( 2 == ((GridBagLayout) metawidget.getLayout()).getConstraints( (metawidget.getComponent( 2 )) ).gridx );
+		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 2 ) ) ).gridx );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
 		assertTrue( "Gender:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
-		assertTrue( 0 == ((GridBagLayout) metawidget.getLayout()).getConstraints( (metawidget.getComponent( 4 )) ).gridx );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 4 ) ) ).gridx );
 		assertTrue( metawidget.getComponent( 5 ) instanceof JComboBox );
-		assertTrue( 3 == ((JComboBox) metawidget.getComponent( 5 )).getModel().getSize() );
+		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 5 ) ).getModel().getSize() );
 		assertTrue( "Notes:".equals( ( (JLabel) metawidget.getComponent( 6 ) ).getText() ) );
-		assertTrue( 0 == ((GridBagLayout) metawidget.getLayout()).getConstraints( (metawidget.getComponent( 6 )) ).gridx );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 6 ) ) ).gridx );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JScrollPane );
 
 		JPanel panel = (JPanel) metawidget.getComponent( 8 );
@@ -96,6 +97,33 @@ public class SwingTutorialTest
 		assertTrue( metawidget.getComponent( 12 ) instanceof JTextField );
 
 		assertTrue( 13 == metawidget.getComponentCount() );
+	}
+
+	/**
+	 * Check JFrame.addNotify bug (only see this if the JFrame actually tries to display)
+	 */
+
+	public void testAddNotify()
+	{
+		// Data model
+
+		Person person = new Person();
+
+		// Metawidget
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setToInspect( person );
+		Stub stub = new Stub();
+		stub.setName( "retired" );
+		metawidget.add( stub );
+
+		// JFrame
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 210 );
+		frame.addNotify();
 	}
 
 	//

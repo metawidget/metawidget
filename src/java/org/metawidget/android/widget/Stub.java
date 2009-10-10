@@ -16,7 +16,6 @@
 
 package org.metawidget.android.widget;
 
-import java.util.Collections;
 import java.util.Map;
 
 import org.metawidget.util.CollectionUtils;
@@ -37,7 +36,7 @@ import android.widget.LinearLayout;
  * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>, because
  * <code>FrameLayout</code> would <em>always</em> need to have another <code>Layout</code> embedded
  * within it, whereas <code>LinearLayout</code> is occasionally useful directly.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -108,15 +107,6 @@ public class Stub
 
 	public Map<String, String> getAttributes()
 	{
-		if ( mAttributes == null )
-		{
-			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
-
-			@SuppressWarnings( "unchecked" )
-			Map<String, String> empty = Collections.EMPTY_MAP;
-			return empty;
-		}
-
 		return mAttributes;
 	}
 }

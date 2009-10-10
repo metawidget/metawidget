@@ -222,7 +222,7 @@ public class SwingMetawidget
 
 	public void setWidgetProcessors( WidgetProcessor<JComponent, SwingMetawidget>... widgetProcessors )
 	{
-		mMetawidgetMixin.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ));
+		mMetawidgetMixin.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
 		invalidateInspection();
 	}
 
@@ -431,6 +431,22 @@ public class SwingMetawidget
 		buildWidgets();
 
 		return super.getLayout();
+	}
+
+	/**
+	 * Overridden to build widgets just-in-time.
+	 * <p>
+	 * When adding a Stub that immediately stubs out a widget and therefore disappears from
+	 * the component list, we must override <code>addNotify</code> to build widgets or
+	 * else Swing gets confused trying to addNotify a component that isn't there.
+	 */
+
+	@Override
+	public void addNotify()
+	{
+		buildWidgets();
+
+		super.addNotify();
 	}
 
 	/**
@@ -836,13 +852,15 @@ public class SwingMetawidget
 
 			add( component );
 		}
-		else
+		else if ( component instanceof Stub )
 		{
-			if ( component instanceof Stub )
-				attributes.putAll( ( (Stub) component ).getAttributes() );
+			Map<String, String> stubAttributes = ( (Stub) component ).getAttributes();
+
+			if ( stubAttributes != null )
+				attributes.putAll( stubAttributes );
 		}
 
-		// MetawidgetMixin will call .layoutChild
+		// BaseMetawidgetMixin will call .layoutChild
 	}
 
 	protected JComponent getOverriddenWidget( String elementName, Map<String, String> attributes )

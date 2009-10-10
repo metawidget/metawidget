@@ -16,7 +16,6 @@
 
 package org.metawidget.swing;
 
-import java.util.Collections;
 import java.util.Map;
 
 import javax.swing.JPanel;
@@ -83,15 +82,6 @@ public class Stub
 
 	public Map<String, String> getAttributes()
 	{
-		if ( mAttributes == null )
-		{
-			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
-
-			@SuppressWarnings( "unchecked" )
-			Map<String, String> empty = Collections.EMPTY_MAP;
-			return empty;
-		}
-
 		return mAttributes;
 	}
 }
