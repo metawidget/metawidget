@@ -205,7 +205,7 @@ public class Main {
 				</para>
 						
 				<figure id="section-introduction-part1-screenshot-ide">
-					<title>NetBeans IDE running Metawidget tutorial</title>			
+					<title>Metawidget tutorial in NetBeans IDE</title>			
 					<screenshot>
 						<graphic fileref="images/screenshots/swing-tutorial-ide.jpg" width="150mm"/>
 					</screenshot>
@@ -534,8 +534,7 @@ public class Person {
 				</figure>
 
 				<tip>
-					<title>Tip</title>
-				
+					<title>Note</title>				
 					For a list of all the annotations <classname>MetawidgetAnnotationInspector</classname> recognises,
 					see <xref linkend="section-inspectors-metawidgetannotation"/>.
 				</tip>				
@@ -1029,7 +1028,7 @@ public class Person {
 				</para>
 				
 				<tip>
-					<title>Tip</title>
+					<title>Note</title>
 					To view the source code for the examples, such as the code for the <classname>ContactSearch</classname>,
 					<classname>ContactType</classname> and <classname>ContactDialog</classname> classes, download the Metawidget
 					source code distribution or browse it online at
@@ -1188,7 +1187,7 @@ public class Person {
 				</para>
 
 				<tip>
-					<title>Tip</title>
+					<title>Note</title>
 					For most web environments, deploying Metawidget is as simple as adding <filename>metawidget.jar</filename> to
 					<filename>WEB-INF\lib</filename>. For GWT, you'll also need to include <filename>metawidget.jar</filename>
 					and <filename>examples\gwt\metawidget-gwt-client.jar</filename> in the <parameter>CLASSPATH</parameter>
@@ -1228,7 +1227,7 @@ public class Person {
 				</para>
 								
 				<tip>
-					<title>Tip</title>
+					<title>Note</title>
 					As with the Desktop Address Book, all source code for the examples can be found in the
 					source code distribution under
 					<filename>examples/src/java/org/metawidget/example</filename>.
@@ -1634,7 +1633,7 @@ public class Person {
 				</para>
 
 				<tip>
-					<title>Tip</title>
+					<title>Note</title>
 					As with the Desktop Address Book, all source code for the examples can be found in the
 					source code distribution under
 					<filename>examples/src/java/org/metawidget/example</filename>.
@@ -2052,7 +2051,8 @@ metawidget.setToInspect( animal );
 				</para>
 					
 				<programlisting language="scala">val metawidget = new SwingMetawidget()
-<symbol>metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor().setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA ))</symbol>
+<symbol>metawidget.addWidgetProcessor( new BeanUtilsBindingProcessor()
+			.setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA ))</symbol>
 metawidget.setToInspect( animal )</programlisting>
 
 			</section>
