@@ -160,7 +160,7 @@ public class GridBagLayout
 		if ( attributes != null )
 			labelText = metawidget.getLabelString( attributes );
 
-		layoutBeforeChild( component, labelText, attributes, metawidget );
+		layoutBeforeChild( component, labelText, elementName, attributes, metawidget );
 
 		// ...and layout the component
 
@@ -283,7 +283,7 @@ public class GridBagLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( JComponent component, String labelText, Map<String, String> attributes, SwingMetawidget metawidget )
+	protected String layoutBeforeChild( JComponent component, String labelText, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		State state = getState( metawidget );
 
@@ -302,7 +302,7 @@ public class GridBagLayout
 
 		// Add label
 
-		if ( labelText != null && !"".equals( labelText ) && !( component instanceof JButton ) )
+		if ( labelText != null && !"".equals( labelText ) && !ACTION.equals( elementName ))
 		{
 			JLabel label = new JLabel();
 			label.setHorizontalAlignment( mLabelAlignment );

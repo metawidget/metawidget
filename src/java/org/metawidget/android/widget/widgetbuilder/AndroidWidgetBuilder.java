@@ -350,7 +350,7 @@ public class AndroidWidgetBuilder
 				// ...but nullable ones need a TextBox
 
 				EditText editText = new EditText( metawidget.getContext() );
-				editText.setFilters( new InputFilter[] { new DateKeyListener() } );
+				editText.setKeyListener( new DateKeyListener() );
 
 				return editText;
 

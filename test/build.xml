@@ -32,6 +32,13 @@
 			</classpath>
 		</javac>
 		
+		<javac sourcepath="" srcdir="${relative.dir}/test/src/android/mock/src" destdir="${relative.dir}/${build.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
+			<classpath>
+				<fileset dir="${relative.dir}/lib"/>
+				<pathelement path="${relative.dir}/${build.dir}/classes"/>
+			</classpath>
+		</javac>
+
 		<copy todir="${relative.dir}/${build.dir}/test-classes">
 			<fileset dir="${relative.dir}/test/src/java">
 				<include name="**/*.properties"/>
@@ -120,6 +127,29 @@
 
 	<!-- Unit Tests -->
 	
+	<target name="test-unit-android" depends="pack,compile-test">
+
+		<junit showoutput="true" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}" haltonfailure="true" haltonerror="true">
+			<formatter type="brief" usefile="false"/>
+			<test name="org.metawidget.android.AndroidMetawidgetTests"/>
+			<classpath>
+				<fileset dir="${relative.dir}/lib">
+					<exclude name="android.jar"/>
+				</fileset>
+				<fileset dir="${relative.dir}/test/lib"/>				
+				<pathelement location="${relative.dir}/${build.dir}/metawidget.jar"/>
+				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
+				
+				<!-- Put Android last, so its JUnit implementation doesn't clash -->
+				
+				<fileset dir="${relative.dir}/lib">
+					<include name="android.jar"/>
+				</fileset>
+			</classpath>
+		</junit>
+		
+	</target>
+
 	<target name="test-unit-desktop" depends="examples-desktop,compile-test">
 
 		<!-- Note: run the unit tests against the actual metawiget.jar and   -->
@@ -333,7 +363,7 @@
 
 	</target>
 
-	<target name="test-unit" depends="test-unit-desktop, test-unit-gwt, test-unit-14"/>
+	<target name="test-unit" depends="test-unit-android, test-unit-desktop, test-unit-gwt, test-unit-14"/>
 
 	<target name="test-coverage" depends="clean">
 
@@ -354,10 +384,7 @@
 		
 		<emma>
 			<instr instrpath="${relative.dir}/${build.dir}/classes" destdir="${relative.dir}/${build.dir}/classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="*Constants, org.metawidget.android.*"/>				
-			</instr>
-			<instr instrpath="${relative.dir}/${build.dir}/classes" destdir="${relative.dir}/${build.dir}/classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter includes="org.metawidget.android.widget.widgetbuilder.*, org.metawidget.android.widget.layout.LinearLayoutConfig, org.metawidget.android.widget.layout.TableLayoutConfig"/>				
+				<filter excludes="*Constants"/>				
 			</instr>
 			<instr instrpath="${relative.dir}/${build.dir}/example-classes" destdir="${relative.dir}/${build.dir}/example-classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.swing.console.*"/>				

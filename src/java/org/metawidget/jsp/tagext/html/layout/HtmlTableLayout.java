@@ -372,12 +372,15 @@ public class HtmlTableLayout
 
 			// Large components span all columns
 			//
+			// TODO: can we span all columns?
+			// TODO: can we check for buttons?
+			//
 			// Note: we cannot span all columns for Metawidgets, as we do in
 			// HtmlTableLayoutRenderer,
 			// because JSP lacks a true component model such that we can ask which sort of component
 			// we are rendering
 
-			if ( mNumberOfColumns > 1 && attributes != null && TRUE.equals( attributes.get( "large" ) ) )
+			if ( mNumberOfColumns > 1 && attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
 			{
 				colspan = ( ( mNumberOfColumns - 1 ) * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1;
 				state.currentColumn = mNumberOfColumns;

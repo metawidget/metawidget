@@ -21,7 +21,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.awt.Component;
 import java.util.Map;
 
-import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -145,7 +144,7 @@ public class MigLayout
 		if ( attributes != null )
 			labelText = metawidget.getLabelString( attributes );
 
-		layoutBeforeChild( component, labelText, attributes, metawidget );
+		layoutBeforeChild( component, labelText, elementName, attributes, metawidget );
 
 		// ...and layout the component
 
@@ -223,7 +222,7 @@ public class MigLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Component component, String labelText, Map<String, String> attributes, SwingMetawidget metawidget )
+	protected String layoutBeforeChild( Component component, String labelText, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		State state = getState( metawidget );
 
@@ -242,7 +241,7 @@ public class MigLayout
 
 		// Add label
 
-		if ( labelText != null && !"".equals( labelText ) && !( component instanceof JButton ) )
+		if ( labelText != null && !"".equals( labelText ) && !ACTION.equals( elementName ) )
 		{
 			JLabel label = new JLabel();
 

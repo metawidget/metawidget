@@ -28,6 +28,10 @@ import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
 import org.metawidget.util.CollectionUtils;
 
+import android.text.InputFilter;
+import android.text.method.DateKeyListener;
+import android.text.method.DigitsKeyListener;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -129,15 +133,26 @@ public class AndroidWidgetBuilderTest
 		attributes.remove( TYPE );
 		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof EditText );
 
-		// Primitive
+		// float
 
 		attributes.put( TYPE, float.class.getName() );
 		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof EditText );
 
+		// int
+
+		assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getKeyListener() == null );
+		attributes.put( TYPE, int.class.getName() );
+		assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getKeyListener() instanceof DigitsKeyListener );
+
 		// Float
 
 		attributes.put( TYPE, Float.class.getName() );
-		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof EditText );
+		assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getKeyListener() == null );
+
+		// Int
+
+		attributes.put( TYPE, Integer.class.getName() );
+		assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getKeyListener() instanceof DigitsKeyListener );
 
 		// boolean (little B)
 
@@ -154,6 +169,8 @@ public class AndroidWidgetBuilderTest
 
 		attributes.put( TYPE, Date.class.getName() );
 		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof DatePicker );
+		attributes.remove( REQUIRED );
+		assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getKeyListener() instanceof DateKeyListener );
 
 		// Collection
 
@@ -168,8 +185,8 @@ public class AndroidWidgetBuilderTest
 
 		// Limited length
 
-		//attributes.put( MAXIMUM_LENGTH, "10" );
-		//assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getFilters()[0] instanceof InputFilter.LengthFilter );
+		attributes.put( MAXIMUM_LENGTH, "12" );
+		assertTrue( 12 == ((InputFilter.LengthFilter) ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getFilters()[0]).getLength() );
 
 		// Metawidget
 
@@ -180,5 +197,22 @@ public class AndroidWidgetBuilderTest
 
 		attributes.put( DONT_EXPAND, TRUE );
 		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof EditText );
+	}
+
+	public void testGetValue()
+	{
+		AndroidWidgetBuilder androidWidgetBuilder = new AndroidWidgetBuilder();
+
+		// Pass through
+
+		assertTrue( null == androidWidgetBuilder.getValue( null ));
+		assertTrue( null == androidWidgetBuilder.getValue( new View( null ) ));
+
+		// CheckBox
+
+		CheckBox checkBox = new CheckBox( null );
+		assertTrue( false == (Boolean) androidWidgetBuilder.getValue( checkBox ));
+		checkBox.setChecked( true );
+		assertTrue( true == (Boolean) androidWidgetBuilder.getValue( checkBox ));
 	}
 }
