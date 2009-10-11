@@ -20,6 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.android.widget.FacetTest;
 import org.metawidget.android.widget.layout.LinearLayoutTest;
 import org.metawidget.android.widget.layout.TableLayoutTest;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilderTest;
@@ -39,8 +40,9 @@ public class AndroidMetawidgetTests
 	{
 		TestSuite suite = new TestSuite( "Android Metawidget Tests" );
 		suite.addTestSuite( AndroidWidgetBuilderTest.class );
-		suite.addTestSuite( TableLayoutTest.class );
+		suite.addTestSuite( FacetTest.class );
 		suite.addTestSuite( LinearLayoutTest.class );
+		suite.addTestSuite( TableLayoutTest.class );
 
 		return suite;
 	}
