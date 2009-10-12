@@ -18,6 +18,7 @@ package org.metawidget.android.widget;
 
 import junit.framework.TestCase;
 import android.util.AttributeSet;
+import android.util.AttributeSetImpl;
 
 /**
  * @author Richard Kennard
@@ -36,7 +37,7 @@ public class FacetTest
 		facet.setName( "foo" );
 		assertTrue( "foo".equals( facet.getName() ));
 
-		AttributeSet attributeSet = new AttributeSet();
+		AttributeSet attributeSet = new AttributeSetImpl();
 		attributeSet.setAttributeValue( "name", "bar" );
 		facet = new Facet( null, attributeSet );
 		assertTrue( "bar".equals( facet.getName() ));

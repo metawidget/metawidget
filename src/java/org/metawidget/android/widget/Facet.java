@@ -29,7 +29,7 @@ import android.widget.LinearLayout;
  * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>, because
  * <code>FrameLayout</code> would <em>always</em> need to have another <code>Layout</code> embedded
  * within it, whereas <code>LinearLayout</code> is occasionally useful directly.
- * 
+ *
  * @author Richard Kennard
  */
 

@@ -217,10 +217,10 @@ public class XmlUtils
 				if ( attributeValue.equals( child.getAttribute( attributeName ) ) )
 					return child;
 			}
-			catch ( IllegalArgumentException e )
+			catch ( NullPointerException e )
 			{
-				// We've seen this throw a IllegalArgumentException from
-				// com.sun.org.apache.xerces.internal.dom.DeferredDocumentImpl.getNodeObject(DeferredDocumentImpl.java:1081)
+				// We've seen this throw a NullPointerException from
+				// com.sun.org.apache.xerces.internal.dom.DeferredAttrNSImpl.synchronizeData(DeferredAttrNSImpl.java:97)
 				// under GWT 1.7
 
 				continue;

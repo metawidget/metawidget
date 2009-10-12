@@ -16,69 +16,27 @@
 
 package android.util;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-
-
 /**
  * Dummy implementation for unit testing.
  *
  * @author Richard Kennard
  */
 
-public class AttributeSet
+public interface AttributeSet
 {
 	//
-	// Private members
+	// Methods
 	//
 
-	private	LinkedHashMap<String, String> mAttributes = new LinkedHashMap<String, String>();
+	void setAttributeValue( String key, String value );
 
-	//
-	// Public methods
-	//
+	String getAttributeValue( String namespace, String key );
 
-	public void setAttributeValue( String key, String value )
-	{
-		mAttributes.put( key, value );
-	}
+	int getAttributeCount();
 
-	public String getAttributeValue( Object object, String key )
-	{
-		return mAttributes.get( key );
-	}
+	String getAttributeValue( int index );
 
-	public int getAttributeCount()
-	{
-		return mAttributes.size();
-	}
+	String getAttributeName( int index );
 
-	public String getAttributeValue( int index )
-	{
-		Iterator<String> iterator = mAttributes.values().iterator();
-
-		for( int loop = 0; loop < index - 1; loop++ )
-		{
-			iterator.next();
-		}
-
-		return iterator.next();
-	}
-
-	public String getAttributeName( int index )
-	{
-		Iterator<String> iterator = mAttributes.keySet().iterator();
-
-		for( int loop = 0; loop < index - 1; loop++ )
-		{
-			iterator.next();
-		}
-
-		return iterator.next();
-	}
-
-	public int getAttributeResourceValue( Object object, String string, int i )
-	{
-		return 0;
-	}
+	int getAttributeResourceValue( Object object, String string, int i );
 }
