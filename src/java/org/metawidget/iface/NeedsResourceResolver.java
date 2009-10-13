@@ -14,10 +14,11 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector;
+package org.metawidget.iface;
 
 /**
- * Interface to indicate this <code>Inspector</code> needs a ResourceResolver.
+ * Interface to indicate a <code>xxxConfig</code> class (ie. an <code>InspectorConfig</code>, a
+ * <code>LayoutConfig</code> etc) needs a ResourceResolver.
  *
  * @author Richard Kennard
  */

@@ -19,7 +19,7 @@ package org.metawidget.inspector.seam;
 import java.io.InputStream;
 import java.util.List;
 
-import org.metawidget.inspector.ResourceResolver;
+import org.metawidget.iface.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseXmlInspectorConfig;

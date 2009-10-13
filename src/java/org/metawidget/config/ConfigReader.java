@@ -34,8 +34,8 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.metawidget.iface.MetawidgetException;
-import org.metawidget.inspector.NeedsResourceResolver;
-import org.metawidget.inspector.ResourceResolver;
+import org.metawidget.iface.NeedsResourceResolver;
+import org.metawidget.iface.ResourceResolver;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;

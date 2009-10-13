@@ -34,7 +34,7 @@ import java.util.jar.JarFile;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-import org.metawidget.inspector.ResourceResolver;
+import org.metawidget.iface.ResourceResolver;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.jsp.tagext.MetawidgetTag;

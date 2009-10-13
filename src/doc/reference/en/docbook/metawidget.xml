@@ -953,9 +953,7 @@
 
 				<para>
 					As an alternative, Metawidget supports external XML configuration. Create a file called
-					<filename>metawidget.xml</filename>
-					in the same folder as your
-					<classname>Main</classname>
+					<filename>metawidget.xml</filename> in the same folder as your <classname>Main</classname>
 					class:
 				</para>
 
@@ -4349,6 +4347,28 @@ private State getState( SwingMetawidget metawidget ) {
 						</tr>
 					</tbody>
 				</informaltable>
+			</section>
+
+			<section id="section-architecture-xml-resolving-resources">
+				<title>Resolving Resources</title>
+				
+				<para>
+					Some environments store their resources in specialized locations that are inaccessible
+					by normal means (ie. <classname>ClassLoader.getResource</classname>). For example, Web
+					environments use a <filename>WEB-INF</filename> folder that must be accessed through
+					<classname>ServletContext.getResource</classname>. Simiarly, Android environments must resolve
+					resources using <classname>Context.getResources</classname>. 
+				</para>
+				
+				<para>
+					<classname>ConfigReader</classname> and its specialized subclasses, such as
+					<classname>ServletConfigReader</classname> and <classname>AndroidConfigReader</classname>
+					understand this distinction and provide resource resolving capability to all the
+					objects they create. Specifically, <classname>ConfigReader</classname> implements
+					<classname>ResourceResolver</classname> and passes itself to any <classname>xxxConfig</classname>
+					classes that implement <classname>NeedsResourceResolver</classname>.					
+				</para>
+				
 			</section>
 
 			<section id="section-architecture-xml-understand-immutability">
