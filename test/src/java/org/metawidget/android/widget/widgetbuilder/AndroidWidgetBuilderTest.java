@@ -65,6 +65,13 @@ public class AndroidWidgetBuilderTest
 
 		assertTrue( androidWidgetBuilder.buildWidget( ACTION, attributes, metawidget ) instanceof Stub );
 
+		// Masked
+
+		assertTrue( View.VISIBLE == ( (TextView) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getVisibility() );
+		attributes.put( MASKED, TRUE );
+		assertTrue( View.INVISIBLE == ( (TextView) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getVisibility() );
+		attributes.remove( MASKED );
+
 		// Lookup
 
 		attributes.put( LOOKUP, "foo, bar, baz" );
@@ -104,7 +111,7 @@ public class AndroidWidgetBuilderTest
 		// Metawidget
 
 		attributes.put( TYPE, "unknown-type" );
-		assertTrue( null == androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
+		assertTrue( null == androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
 
 		// Don't expand
 
@@ -140,19 +147,19 @@ public class AndroidWidgetBuilderTest
 
 		// int
 
-		assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getKeyListener() == null );
+		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener() == null );
 		attributes.put( TYPE, int.class.getName() );
-		assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getKeyListener() instanceof DigitsKeyListener );
+		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener() instanceof DigitsKeyListener );
 
 		// Float
 
 		attributes.put( TYPE, Float.class.getName() );
-		assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getKeyListener() == null );
+		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener() == null );
 
 		// Int
 
 		attributes.put( TYPE, Integer.class.getName() );
-		assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getKeyListener() instanceof DigitsKeyListener );
+		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener() instanceof DigitsKeyListener );
 
 		// boolean (little B)
 
@@ -170,7 +177,7 @@ public class AndroidWidgetBuilderTest
 		attributes.put( TYPE, Date.class.getName() );
 		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof DatePicker );
 		attributes.remove( REQUIRED );
-		assertTrue( ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getKeyListener() instanceof DateKeyListener );
+		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener() instanceof DateKeyListener );
 
 		// Collection
 
@@ -181,17 +188,17 @@ public class AndroidWidgetBuilderTest
 
 		attributes.put( TYPE, String.class.getName() );
 		attributes.put( LARGE, TRUE );
-		assertTrue( 3 == ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getMinLines() );
+		assertTrue( 3 == ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getMinLines() );
 
 		// Limited length
 
 		attributes.put( MAXIMUM_LENGTH, "12" );
-		assertTrue( 12 == ((InputFilter.LengthFilter) ((EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget )).getFilters()[0]).getLength() );
+		assertTrue( 12 == ( (InputFilter.LengthFilter) ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getFilters()[0] ).getLength() );
 
 		// Metawidget
 
 		attributes.put( TYPE, "unknown-type" );
-		assertTrue( null == androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ));
+		assertTrue( null == androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) );
 
 		// Don't expand
 
@@ -199,20 +206,42 @@ public class AndroidWidgetBuilderTest
 		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof EditText );
 	}
 
-	public void testGetValue()
+	@SuppressWarnings( "deprecation" )
+	public void testGetSetValue()
 	{
 		AndroidWidgetBuilder androidWidgetBuilder = new AndroidWidgetBuilder();
 
 		// Pass through
 
-		assertTrue( null == androidWidgetBuilder.getValue( null ));
-		assertTrue( null == androidWidgetBuilder.getValue( new View( null ) ));
+		assertTrue( null == androidWidgetBuilder.getValue( null ) );
+		assertTrue( null == androidWidgetBuilder.getValue( new View( null ) ) );
 
 		// CheckBox
 
 		CheckBox checkBox = new CheckBox( null );
-		assertTrue( false == (Boolean) androidWidgetBuilder.getValue( checkBox ));
-		checkBox.setChecked( true );
-		assertTrue( true == (Boolean) androidWidgetBuilder.getValue( checkBox ));
+		assertTrue( false == (Boolean) androidWidgetBuilder.getValue( checkBox ) );
+		androidWidgetBuilder.setValue( true, checkBox );
+		assertTrue( checkBox.isChecked() );
+		assertTrue( true == (Boolean) androidWidgetBuilder.getValue( checkBox ) );
+
+		// TextView
+
+		TextView textView = new TextView( null );
+		assertTrue( null == androidWidgetBuilder.getValue( textView ) );
+		androidWidgetBuilder.setValue( "foo", textView );
+		assertTrue( "foo".equals( textView.getText() ));
+		assertTrue( "foo".equals( androidWidgetBuilder.getValue( textView ) ) );
+
+		// DatePicker
+
+		DatePicker datePicker = new DatePicker( null );
+		Date date = new Date( 75, 4, 9 );
+		androidWidgetBuilder.setValue( date, datePicker );
+		assertTrue( 1975 == datePicker.getYear() );
+		assertTrue( 4 == datePicker.getMonth() );
+		assertTrue( 9 == datePicker.getDayOfMonth() );
+		assertTrue( 75 == ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getYear() );
+		assertTrue( 4 == ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getMonth() );
+		assertTrue( 9 == ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getDate() );
 	}
 }

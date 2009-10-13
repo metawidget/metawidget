@@ -18,6 +18,9 @@ package android.widget;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.text.InputFilter;
+import android.text.method.KeyListener;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 
 /**
@@ -29,6 +32,18 @@ import android.view.View;
 public class TextView
 	extends View
 {
+	//
+	// Private members
+	//
+
+	private CharSequence	mText;
+
+	private int				mMinLines;
+
+	private InputFilter[]	mInputFilters;
+
+	private KeyListener		mKeyListener;
+
 	//
 	// Constructor
 	//
@@ -42,24 +57,19 @@ public class TextView
 	// Public methods
 	//
 
-	public String getText()
+	public CharSequence getText()
 	{
-		return null;
+		return mText;
 	}
 
-	public void setText( String text )
+	public void setText( CharSequence text )
 	{
-		// Do nothing
+		mText = text;
 	}
 
-	public void setText( String text, BufferType bufferType  )
+	public void setText( String text, BufferType bufferType )
 	{
-		// Do nothing
-	}
-
-	public void setVisibility( int visibility )
-	{
-		// Ignore
+		mText = text;
 	}
 
 	public void setTextSize( int textSize )
@@ -70,6 +80,41 @@ public class TextView
 	public void setTextColor( ColorStateList colors )
 	{
 		// Ignore
+	}
+
+	public void setTransformationMethod( PasswordTransformationMethod instance )
+	{
+		// Do nothing
+	}
+
+	public void setMinLines( int minLines )
+	{
+		mMinLines = minLines;
+	}
+
+	public void setFilters( InputFilter[] inputFilters )
+	{
+		mInputFilters = inputFilters;
+	}
+
+	public InputFilter[] getFilters()
+	{
+		return mInputFilters;
+	}
+
+	public void setKeyListener( KeyListener keyListener )
+	{
+		mKeyListener = keyListener;
+	}
+
+	public KeyListener getKeyListener()
+	{
+		return mKeyListener;
+	}
+
+	public int getMinLines()
+	{
+		return mMinLines;
 	}
 
 	//

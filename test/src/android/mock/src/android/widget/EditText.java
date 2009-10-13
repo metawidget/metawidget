@@ -17,10 +17,6 @@
 package android.widget;
 
 import android.content.Context;
-import android.text.InputFilter;
-import android.text.method.KeyListener;
-import android.text.method.PasswordTransformationMethod;
-import android.view.View;
 
 /**
  * Dummy implementation for unit testing.
@@ -29,18 +25,8 @@ import android.view.View;
  */
 
 public class EditText
-	extends View
+	extends TextView
 {
-	//
-	// Private members
-	//
-
-	private int				mMinLines;
-
-	private InputFilter[]	mInputFilters;
-
-	private KeyListener		mKeyListener;
-
 	//
 	// Constructor
 	//
@@ -48,49 +34,5 @@ public class EditText
 	public EditText( Context context )
 	{
 		super( context );
-	}
-
-	//
-	// Public methods
-	//
-
-	public void setTransformationMethod( PasswordTransformationMethod instance )
-	{
-		// Do nothing
-	}
-
-	public void setMinLines( int minLines )
-	{
-		mMinLines = minLines;
-	}
-
-	public void setFilters( InputFilter[] inputFilters )
-	{
-		mInputFilters = inputFilters;
-	}
-
-	public InputFilter[] getFilters()
-	{
-		return mInputFilters;
-	}
-
-	public void setKeyListener( KeyListener keyListener )
-	{
-		mKeyListener = keyListener;
-	}
-
-	public KeyListener getKeyListener()
-	{
-		return mKeyListener;
-	}
-
-	public Object getText()
-	{
-		return null;
-	}
-
-	public int getMinLines()
-	{
-		return mMinLines;
 	}
 }

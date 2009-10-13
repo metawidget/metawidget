@@ -32,9 +32,19 @@ public class View
 	// Public statics
 	//
 
-	public static final int	INVISIBLE	= 0;
+	public static final int	VISIBLE		= 0;
 
-	public static final int	FOCUS_UP	= 0;
+	public static final int	INVISIBLE	= 4;
+
+	public static final int	FOCUS_UP	= 33;
+
+	//
+	// Private members
+	//
+
+	private String			mTag;
+
+	private int				mVisibility	= View.VISIBLE;
 
 	//
 	// Constructor
@@ -76,7 +86,17 @@ public class View
 
 	public String getTag()
 	{
-		return null;
+		return mTag;
+	}
+
+	public void setVisibility( int visibility )
+	{
+		mVisibility = visibility;
+	}
+
+	public int getVisibility()
+	{
+		return mVisibility;
 	}
 
 	public View findViewWithTag( String string )
@@ -120,7 +140,7 @@ public class View
 
 	public void setTag( String tag )
 	{
-		// Do nothing
+		mTag = tag;
 	}
 
 	public void setLayoutParams( LayoutParams layoutParams )

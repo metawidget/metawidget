@@ -508,11 +508,14 @@ public abstract class BaseObjectInspector
 
 				if ( !traversed.add( traverse ) )
 				{
-					// Fail silently, rather than do
+					// Fail silently, rather than do...
+					//
 					// LogUtils.getLog( getClass() ).debug( ClassUtils.getSimpleName( getClass() ) +
 					// " prevented infinite recursion on " + type + ArrayUtils.toString( names,
 					// StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) + ". Consider annotating "
 					// + name + " as @UiHidden" );
+					//
+					// ...because it makes for a nicer 'out of the box' experience
 
 					return null;
 				}

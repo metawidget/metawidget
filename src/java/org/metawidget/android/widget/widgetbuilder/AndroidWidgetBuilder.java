@@ -71,15 +71,19 @@ public class AndroidWidgetBuilder
 		if ( view instanceof CheckBox )
 			return Boolean.valueOf( ( (CheckBox) view ).isChecked() );
 
-		// EditText
-
-		if ( view instanceof EditText )
-			return ( (EditText) view ).getText().toString();
-
-		// TextView
+		// TextView/EditText
 
 		if ( view instanceof TextView )
-			return ( (TextView) view ).getText();
+		{
+			CharSequence charSequence = ( (TextView) view ).getText();
+
+			if ( charSequence == null )
+				return charSequence;
+
+			// (may not be a String)
+
+			return charSequence.toString();
+		}
 
 		// DatePicker
 
@@ -108,7 +112,7 @@ public class AndroidWidgetBuilder
 			return true;
 		}
 
-		// EditView/TextView
+		// TextView/EditText
 
 		if ( view instanceof TextView )
 		{

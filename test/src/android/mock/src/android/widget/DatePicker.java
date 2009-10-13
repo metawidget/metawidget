@@ -29,6 +29,16 @@ public class DatePicker
 	extends View
 {
 	//
+	// Private members
+	//
+
+	private int	mDayOfMonth;
+
+	private int mMonth;
+
+	private int mYear;
+
+	//
 	// Constructor
 	//
 
@@ -43,21 +53,23 @@ public class DatePicker
 
 	public int getDayOfMonth()
 	{
-		return 0;
-	}
-
-	public int getYear()
-	{
-		return 0;
+		return mDayOfMonth;
 	}
 
 	public int getMonth()
 	{
-		return 0;
+		return mMonth;
 	}
 
-	public void updateDate( int i, int month, int date )
+	public int getYear()
 	{
-		// Do nothing
+		return mYear;
+	}
+
+	public void updateDate( int year, int month, int dayOfMonth )
+	{
+		mYear = year;
+		mMonth = month;
+		mDayOfMonth = dayOfMonth;
 	}
 }

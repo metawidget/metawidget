@@ -33,6 +33,11 @@ import android.widget.LinearLayout;
  * that Facets are simply 'decorations' (such as button bars) to be recognized and arranged at the
  * discretion of the Layout.
  * <p>
+ * This class supports setting additional metadata attributes (such as 'label') either
+ * programmatically (<code>setAttribute</code>) or through the Android XML. For the latter, the XML
+ * attribute name must begin with the prefix <code>attrib</code>, with the following letter
+ * uppercased (ie. <code>attribLabel</code>).
+ * <p>
  * Note: this class extends <code>LinearLayout</code> rather than <code>FrameLayout</code>, because
  * <code>FrameLayout</code> would <em>always</em> need to have another <code>Layout</code> embedded
  * within it, whereas <code>LinearLayout</code> is occasionally useful directly.
