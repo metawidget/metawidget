@@ -296,7 +296,7 @@ div.screenshot {
   /* Clear the float using overflow: hidden*/
 	overflow: hidden;
   /* IE6 doesn't clear float unless we set width*/
-	width: 900px;
+	width: 950px;
 }
 
 div.section table {

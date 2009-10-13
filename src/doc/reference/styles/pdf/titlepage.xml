@@ -38,7 +38,7 @@
              xmlns:fo="http://www.w3.org/1999/XSL/Format"
              xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-  <t:titlepage t:element="book" t:wrapper="fo:block">
+  <t:titlepage t:element="book" t:wrapper="fo:block" border="1mm solid black" padding="10mm">
     <t:titlepage-content t:side="recto">
       <title
 	     t:named-template="division.title"
@@ -63,7 +63,7 @@
 
     <othercredit space-before="0.5em"/>
     <mediaobject space-before="2em" space-after="2em"/>   
-    <releaseinfo space-before="5em"/>
+    <releaseinfo space-before="5em" space-after="75mm"/>
     <copyright space-before="0.5em"/>
     <legalnotice text-align="start"
                  margin-left="0.5in"

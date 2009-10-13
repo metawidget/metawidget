@@ -200,14 +200,14 @@ public class Main {
 				<title>The Output</title>
 
 				<para>
-					If you're using an IDE, such as <ulink url="http://netbeans.org">NetBeans</ulink>, your project should by
-					now look something like pictured in <xref linkend="section-introduction-part1-screenshot-ide"/>.
+					If you're using an IDE, such as <ulink url="http://netbeans.org">NetBeans</ulink>, your project should
+					look something like pictured in <xref linkend="section-introduction-part1-screenshot-ide"/>.
 				</para>
 						
 				<figure id="section-introduction-part1-screenshot-ide">
 					<title>Metawidget tutorial in NetBeans IDE</title>			
 					<screenshot>
-						<graphic fileref="images/screenshots/swing-tutorial-ide.jpg" width="150mm"/>
+						<graphic fileref="images/screenshots/swing-tutorial-ide.jpg" width="170mm"/>
 					</screenshot>
 				</figure>				
 
@@ -303,7 +303,7 @@ public class Person {
 				<calloutlist>
 					<callout arearefs="co-introduction-part1-annotations" id="ca-introduction-part1-annotations">
 						<para>		
-							Again, such annotations can (and should) be applied to getter methods, but for brevity here they
+							Such annotations can (and should) be applied to getter methods, but for brevity here they
 							are applied directly to the member variable.
 						</para>
 					</callout>
@@ -2102,8 +2102,8 @@ metawidget.setToInspect( animal )</programlisting>
 								
 			</section>
 
-			<section id="section-introduction-part3-penguincolony">
-				<title>Penguin Colony Example</title>
+			<section id="section-introduction-part3-icefaces">
+				<title>ICEfaces Example</title>
 	
 				<para>
 					<ulink url="http://icefaces.org">ICEfaces</ulink> is an AJAX component library for Java Server Faces. This example
@@ -2116,7 +2116,7 @@ metawidget.setToInspect( animal )</programlisting>
 					to <ulink url="http://localhost:8080/penguincolony-faces">http://localhost:8080/penguincolony-faces</ulink>:
 				</para>
 
-				<figure id="section-introduction-part3-penguincolony-screenshot">
+				<figure id="section-introduction-part3-icefaces-screenshot">
 					<title>ICEfaces with Metawidget</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/web-penguincolony.jpg" width="100mm" />
@@ -6492,7 +6492,7 @@ public class PersonController {
 					<para>
 						IceFacesWidgetBuilder is a pluggable WidgetBuilder for the JSF UIMetawidget. It is intended
 						to be used in conjunction with the default JSF <classname>HtmlWidgetBuilder</classname>. For an
-						example, see <xref linkend="section-introduction-part3-penguincolony"/>.
+						example, see <xref linkend="section-introduction-part3-icefaces"/>.
 						IceFacesWidgetBuilder instantiates the following widgets for the following types of fields: 
 					</para>
 					
