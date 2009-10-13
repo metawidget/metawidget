@@ -56,6 +56,12 @@ public class BaseXmlInspectorConfig
 			if ( mResourceResolver != null )
 				return new InputStream[] { mResourceResolver.openResource( mDefaultFile ) };
 
+			// TODO: talk about this in manual
+
+			// Support programmatic configuration (ie. mResourceResolver is specified automatically
+			// by ConfigReader when using metawidget.xml, but is generally not set manually when
+			// people are creating Inspectors by hand)
+
 			try
 			{
 				return new InputStream[] { ClassUtils.openResource( mDefaultFile ) };

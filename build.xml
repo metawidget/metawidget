@@ -58,6 +58,7 @@
 			<include name="org/metawidget/inspector/impl/propertystyle/**"/>
 			<include name="org/metawidget/inspector/jbpm/**"/>
 			<include name="org/metawidget/inspector/propertytype/**"/>
+			<include name="org/metawidget/inspector/seam/**"/>
 			<include name="org/metawidget/inspector/struts/**"/>
 			<exclude name="org/metawidget/inspector/struts/StrutsAnnotationInspector.java"/>
 			<exclude name="org/metawidget/inspector/struts/UiStrutsLookup.java"/>

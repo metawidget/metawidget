@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.jbpm.jpdl;
+package org.metawidget.inspector.jbpm;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -30,19 +30,19 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
- * Inspector to look for relevant settings in JBoss jBPM jPDL XML files.
+ * Inspector to look for relevant settings in JBoss jBPM pageflow jPDL files.
  *
  * @author Richard Kennard
  */
 
-public class JpdlInspector
+public class PageflowInspector
 	extends BaseXmlInspector
 {
 	//
 	// Constructor
 	//
 
-	public JpdlInspector( BaseXmlInspectorConfig config )
+	public PageflowInspector( BaseXmlInspectorConfig config )
 	{
 		super( config );
 	}

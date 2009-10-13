@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.jbpm.jpdl;
+package org.metawidget.inspector.jbpm;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import junit.framework.TestCase;
@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public class JpdlInspectorTest
+public class PageflowInspectorTest
 	extends TestCase
 {
 	//
@@ -49,7 +49,7 @@ public class JpdlInspectorTest
 		BaseXmlInspectorConfig config = new BaseXmlInspectorConfig();
 		ConfigReader reader = new ConfigReader();
 		config.setInputStreams( reader.openResource( "org/metawidget/inspector/jbpm/jpdl/test-pageflow1.jpdl.xml" ), reader.openResource( "org/metawidget/inspector/jbpm/jpdl/test-pageflow2.jpdl.xml" ));
-		mInspector = new JpdlInspector( config );
+		mInspector = new PageflowInspector( config );
 	}
 
 	public void testProperties()

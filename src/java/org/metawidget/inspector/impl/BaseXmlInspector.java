@@ -62,11 +62,11 @@ import org.w3c.dom.NodeList;
  * ...as output.
  * <p>
  * This class does not support schema validation. It is not that useful in practice for two reasons.
- * First, Inspectors like <code>HibernateInspector</code> and <code>JbpmInspector</code> cannot use
- * it because they can be pointed at different kinds of files (eg. hibernate.cfg.xml or
- * hibernate-mapping.hbm.xml). Second, Inspectors that are intended for Android environments (eg.
- * <code>XmlInspector</code>) cannot use it because Android's Dalvik preprocessor balks at the
- * unsupported schema classes (even if they're wrapped in a <code>ClassNotFoundException</code>).
+ * First, Inspectors like <code>HibernateInspector</code> cannot use it because they can be pointed
+ * at different kinds of files (eg. hibernate.cfg.xml or hibernate-mapping.hbm.xml). Second,
+ * Inspectors that are intended for Android environments (eg. <code>XmlInspector</code>) cannot use
+ * it because Android's Dalvik preprocessor balks at the unsupported schema classes (even if they're
+ * wrapped in a <code>ClassNotFoundException</code>).
  *
  * @author Richard Kennard
  */
@@ -160,7 +160,7 @@ public abstract class BaseXmlInspector
 				// attribute set, because we should never try to traverse the child
 
 				if ( !propertyInParent.hasAttribute( typeAttribute ) )
-					throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ));
+					throw InspectorException.newException( "Property " + names[names.length - 1] + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
 
 				elementToInspect = traverse( propertyInParent.getAttribute( typeAttribute ), false );
 			}
@@ -413,7 +413,7 @@ public abstract class BaseXmlInspector
 				return property;
 
 			if ( !property.hasAttribute( typeAttribute ) )
-				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ));
+				throw InspectorException.newException( "Property " + name + " in entity " + entityElement.getAttribute( typeAttribute ) + " has no @" + typeAttribute + " attribute, so cannot navigate to " + type + ArrayUtils.toString( names, StringUtils.SEPARATOR_DOT, true, false ) );
 
 			String propertyType = property.getAttribute( typeAttribute );
 			entityElement = XmlUtils.getChildWithAttributeValue( mRoot, topLevelTypeAttribute, propertyType );

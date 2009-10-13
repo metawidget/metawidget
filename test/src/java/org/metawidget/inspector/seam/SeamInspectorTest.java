@@ -16,7 +16,19 @@
 
 package org.metawidget.inspector.seam;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+
 import junit.framework.TestCase;
+
+import org.metawidget.inspector.ResourceResolver;
+import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.util.ClassUtils;
+import org.metawidget.util.XmlUtils;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * @author Richard Kennard
@@ -29,43 +41,30 @@ public class SeamInspectorTest
 	// Public methods
 	//
 
-	/*
-	@Override
-	public void setUp()
+	public void testSeamInspector()
 	{
-		JbpmInspectorConfig config = new JbpmInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/jbpm/test-components.xml" ));
-		mInspector = new JbpmInspector( config );
-	}
+		SeamInspectorConfig config = new SeamInspectorConfig();
+		config.setResourceResolver( new ResourceResolver()
+		{
+			@Override
+			public InputStream openResource( String resource )
+			{
+				try
+				{
+					if ( "components.xml".equals( resource ))
+						return ClassUtils.openResource( "org/metawidget/inspector/seam/test-components.xml" );
 
-	public void testMissingFile()
-	{
-		try
-		{
-			new JbpmInspector( new JbpmInspectorConfig() );
-			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
-			assertTrue( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH".equals( e.getMessage() ));
-		}
+					return ClassUtils.openResource( resource );
+				}
+				catch( Exception e )
+				{
+					throw InspectorException.newException( e );
+				}
+			}
+		} );
 
-		try
-		{
-			JbpmInspectorConfig config = new JbpmInspectorConfig();
-			config.setInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
-			new JbpmInspector( config );
-			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
-			assertTrue( "Expected an XML document starting with 'components' or 'pageflow-definition', but got 'foo'".equals( e.getMessage() ));
-		}
-	}
-
-	public void testProperties()
-	{
-		String xml = mInspector.inspect( null, "newuser.contact" );
+		SeamInspector inspector = new SeamInspector( config );
+		String xml = inspector.inspect( null, "newuser.contact" );
 		Document document = XmlUtils.documentFromString( xml );
 
 		assertTrue( "inspection-result".equals( document.getFirstChild().getNodeName() ) );
@@ -89,5 +88,29 @@ public class SeamInspectorTest
 
 		assertTrue( property.getNextSibling() == null );
 	}
-	*/
+
+	public void testMissingFile()
+	{
+		try
+		{
+			new SeamInspector( new SeamInspectorConfig() );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "No ResourceResolver specified".equals( e.getMessage() ));
+		}
+
+		try
+		{
+			SeamInspectorConfig config = new SeamInspectorConfig();
+			config.setComponentsInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
+			new SeamInspector( config );
+			assertTrue( false );
+		}
+		catch( InspectorException e )
+		{
+			assertTrue( "Expected an XML document starting with 'components', but got 'foo'".equals( e.getMessage() ));
+		}
+	}
 }

@@ -63,6 +63,8 @@ import org.xml.sax.helpers.DefaultHandler;
  * <li>support for reusing immutable, threadsafe objects (as defined by
  * <code>isImmutableThreadsafe</code>)</li>
  * <li>caching XML input based on resource name (uses <code>XmlUtils.CachingContextHandler</code>)</li>
+ * <li>resolving resources from specialized locations, such as under <code>WEB-INF</code> using
+ * <code>ServletContext.getResource</code> (<code>ConfigReader</code> implements <code>ResourceResolver</code>)</li>
  * </ul>
  * <p>
  * This class is not just static methods, because ConfigReaders need to be able to be subclassed

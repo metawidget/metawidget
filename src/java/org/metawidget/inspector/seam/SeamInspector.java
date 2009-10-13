@@ -19,26 +19,28 @@ package org.metawidget.inspector.seam;
 import java.io.InputStream;
 import java.util.List;
 
-import javax.xml.parsers.DocumentBuilder;
-
 import org.metawidget.inspector.ResourceResolver;
+import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
+import org.metawidget.inspector.jbpm.PageflowInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Inspector to look for relevant settings in Seam <code>components.xml</code> files. Specifically:
+ * Inspector to look for relevant settings in Seam XML files. Specifically:
  * <p>
  * <ul>
- * <li>Delegates <code>jbpm:pageflow-definitions</code> elements to <code>JpdlInspector</code>.
+ * <li>Delegates <code>jbpm:pageflow-definitions</code> elements in <code>components.xml</code> to <code>PageflowInspector</code>.
  * </ul>
  *
  * @author Richard Kennard
  */
 
 public class SeamInspector
+	implements Inspector
 {
 	//
 	// Private statics
@@ -48,92 +50,85 @@ public class SeamInspector
 	 * In Seam, pageflows can be defined in <code>components.xml</code> in a
 	 * <code>pageflow-definitions.xml</code> block.
 	 * <p>
-	 * They can also be scanned for automatically on startup (see
+	 * Of course, this will not work if they are set to be scanned for automatically on startup (see
 	 * https://jira.jboss.org/jira/browse/JBSEAM-979).
 	 */
 
-	private final static String			SEAM_COMPONENTS_ELEMENT	= "components";
+	private final static String			COMPONENTS_ELEMENT		= "components";
 
-	private final static String			SEAM_PAGEFLOWS_ELEMENT	= "pageflow-definitions";
+	private final static String			JBPM_ELEMENT			= "jbpm";
 
-	private final static String			JBPM_NAMESPACE			= "jbpm";
-
-	private final static String			JBPM_PAGEFLOW_ELEMENT	= "pageflow-definition";
-
-	private final static InputStream[]	EMPTY_INPUTSTREAM_ARRAY	= new InputStream[0];
+	private final static String			PAGEFLOW_DEFINITIONS_ELEMENT		= "pageflow-definitions";
 
 	//
-	// Protected methods
+	// Private members
 	//
 
-	/**
-	 * Overridden to automatically drill into Seam <code>components.xml</code> files.
-	 */
+	private PageflowInspector				mPageflowInspector;
 
-	protected Element getDocumentElement( DocumentBuilder builder, ResourceResolver resolver, InputStream... files )
-		throws Exception
+	//
+	// Constructors
+	//
+
+	public SeamInspector()
 	{
-		Document documentMaster = null;
+		this( new SeamInspectorConfig() );
+	}
 
-		for ( InputStream file : files )
+	public SeamInspector( SeamInspectorConfig config )
+	{
+		// components.xml
+
+		Element root;
+
+		try
 		{
-			Document documentParsed = builder.parse( file );
-
-			if ( !documentParsed.hasChildNodes() )
-				continue;
-
-			// If the document is a components.xml file...
-
-			Element parsed = documentParsed.getDocumentElement();
-			String nodeName = parsed.getNodeName();
-
-			if ( SEAM_COMPONENTS_ELEMENT.equals( nodeName ) )
-			{
-				// ...look up each pageflow...
-
-				Element value = XmlUtils.getChildNamed( documentParsed.getDocumentElement(), JBPM_NAMESPACE, SEAM_PAGEFLOWS_ELEMENT, "value" );
-
-				if ( value == null )
-					throw InspectorException.newException( "No " + SEAM_PAGEFLOWS_ELEMENT + " defined" );
-
-				List<InputStream> inputStreamList = CollectionUtils.newArrayList();
-
-				while ( value != null )
-				{
-					inputStreamList.add( resolver.openResource( value.getTextContent() ));
-					value = XmlUtils.getSiblingNamed( value, "value" );
-				}
-
-				// ...and combine them
-
-				parsed = getDocumentElement( builder, resolver, inputStreamList.toArray( EMPTY_INPUTSTREAM_ARRAY ) );
-
-				if ( documentMaster == null || !documentMaster.hasChildNodes() )
-				{
-					documentMaster = parsed.getOwnerDocument();
-					continue;
-				}
-			}
-
-			// ...otherwise, read pageflow-definition files
-
-			else if ( JBPM_PAGEFLOW_ELEMENT.equals( nodeName ) )
-			{
-				if ( documentMaster == null || !documentMaster.hasChildNodes() )
-				{
-					documentMaster = documentParsed;
-					continue;
-				}
-			}
-			else
-			{
-				throw InspectorException.newException( "Expected an XML document starting with '" + SEAM_COMPONENTS_ELEMENT + "' or '" + JBPM_PAGEFLOW_ELEMENT + "', but got '" + nodeName + "'" );
-			}
+			Document documentParsed = XmlUtils.newDocumentBuilder().parse( config.getComponentsInputStream() );
+			root = documentParsed.getDocumentElement();
+		}
+		catch( Exception e )
+		{
+			throw InspectorException.newException( e );
 		}
 
-		if ( documentMaster == null )
-			return null;
+		String nodeName = root.getNodeName();
 
-		return documentMaster.getDocumentElement();
+		if ( !COMPONENTS_ELEMENT.equals( nodeName ) )
+			throw InspectorException.newException( "Expected an XML document starting with '" + COMPONENTS_ELEMENT + "', but got '" + nodeName + "'" );
+
+		ResourceResolver resolver = config.getResourceResolver();
+
+		// <pageflow-definitions />
+
+		List<InputStream> pageflowDefinitionStreams = CollectionUtils.newArrayList();
+		Element pageflowValue = XmlUtils.getChildNamed( root, JBPM_ELEMENT, PAGEFLOW_DEFINITIONS_ELEMENT, "value" );
+
+		while ( pageflowValue != null )
+		{
+			pageflowDefinitionStreams.add( resolver.openResource( pageflowValue.getTextContent() ) );
+			pageflowValue = XmlUtils.getSiblingNamed( pageflowValue, "value" );
+		}
+
+		if ( !pageflowDefinitionStreams.isEmpty() )
+		{
+			BaseXmlInspectorConfig jpdlConfig = new BaseXmlInspectorConfig();
+			jpdlConfig.setInputStreams( pageflowDefinitionStreams.toArray( new InputStream[pageflowDefinitionStreams.size()] ) );
+			mPageflowInspector = new PageflowInspector( jpdlConfig );
+		}
+	}
+
+	//
+	// Public methods
+	//
+
+	@Override
+	public String inspect( Object toInspect, String type, String... names )
+	{
+		// Pageflow
+
+		if ( mPageflowInspector != null )
+			return mPageflowInspector.inspect( toInspect, type, names );
+
+		return null;
 	}
 }

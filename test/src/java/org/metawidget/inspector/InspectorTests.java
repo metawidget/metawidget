@@ -41,12 +41,13 @@ import org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertySt
 import org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyleTest;
 import org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyleTest;
 import org.metawidget.inspector.java5.Java5InspectorTest;
-import org.metawidget.inspector.jbpm.jpdl.JpdlInspectorTest;
+import org.metawidget.inspector.jbpm.PageflowInspectorTest;
 import org.metawidget.inspector.jpa.JpaInspectorTest;
 import org.metawidget.inspector.jsp.JspAnnotationInspectorTest;
 import org.metawidget.inspector.oval.OvalInspectorTest;
 import org.metawidget.inspector.propertytype.PropertyTypeInspectorTest;
 import org.metawidget.inspector.remote.RemoteInspectorTest;
+import org.metawidget.inspector.seam.SeamInspectorTest;
 import org.metawidget.inspector.spring.SpringAnnotationInspectorTest;
 import org.metawidget.inspector.struts.StrutsAnnotationInspectorTest;
 import org.metawidget.inspector.struts.StrutsInspectorTest;
@@ -80,7 +81,6 @@ public class InspectorTests
 		suite.addTestSuite( JavaBeanPropertyStyleTest.class );
 		suite.addTestSuite( JavassistPropertyStyleTest.class );
 		suite.addTestSuite( JavassistPropertyStyleDebugOffTest.class );
-		suite.addTestSuite( JpdlInspectorTest.class );
 		suite.addTestSuite( JexlInspectorTest.class );
 		suite.addTestSuite( JexlXmlInspectorTest.class );
 		suite.addTestSuite( JpaInspectorTest.class );
@@ -88,8 +88,10 @@ public class InspectorTests
 		suite.addTestSuite( MetawidgetAnnotationInspectorTest.class );
 		suite.addTestSuite( MetawidgetActionStyleTest.class );
 		suite.addTestSuite( OvalInspectorTest.class );
+		suite.addTestSuite( PageflowInspectorTest.class );
 		suite.addTestSuite( PropertyTypeInspectorTest.class );
 		suite.addTestSuite( RemoteInspectorTest.class );
+		suite.addTestSuite( SeamInspectorTest.class );
 		suite.addTestSuite( ScalaPropertyStyleTest.class );
 		suite.addTestSuite( SpringAnnotationInspectorTest.class );
 		suite.addTestSuite( StrutsInspectorTest.class );
