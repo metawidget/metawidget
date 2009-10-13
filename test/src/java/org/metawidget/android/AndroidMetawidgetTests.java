@@ -20,6 +20,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.android.widget.AndroidConfigReaderTest;
+import org.metawidget.android.widget.AndroidMetawidgetTest;
 import org.metawidget.android.widget.FacetTest;
 import org.metawidget.android.widget.StubTest;
 import org.metawidget.android.widget.layout.LinearLayoutTest;
@@ -40,6 +42,9 @@ public class AndroidMetawidgetTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Android Metawidget Tests" );
+
+		suite.addTestSuite( AndroidConfigReaderTest.class );
+		suite.addTestSuite( AndroidMetawidgetTest.class );
 		suite.addTestSuite( AndroidWidgetBuilderTest.class );
 		suite.addTestSuite( FacetTest.class );
 		suite.addTestSuite( LinearLayoutTest.class );

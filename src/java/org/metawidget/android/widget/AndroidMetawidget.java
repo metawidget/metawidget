@@ -342,7 +342,7 @@ public class AndroidMetawidget
 	/**
 	 * Gets the value from the View with the given name.
 	 * <p>
-	 * The value is returned as it is stored in the View (eg. String for EditText) so may need some
+	 * The value is returned as it is stored in the View (eg. Editable for EditText) so may need some
 	 * conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
 	 *

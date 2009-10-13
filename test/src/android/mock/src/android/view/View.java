@@ -42,7 +42,7 @@ public class View
 	// Private members
 	//
 
-	private String			mTag;
+	private Object			mTag;
 
 	private int				mVisibility	= View.VISIBLE;
 
@@ -84,9 +84,19 @@ public class View
 		return null;
 	}
 
-	public String getTag()
+	public Object getTag()
 	{
 		return mTag;
+	}
+
+	public void setTag( Object tag )
+	{
+		mTag = tag;
+	}
+
+	public void setLayoutParams( LayoutParams layoutParams )
+	{
+		// Do nothing
 	}
 
 	public void setVisibility( int visibility )
@@ -134,16 +144,6 @@ public class View
 	}
 
 	protected void postInvalidate()
-	{
-		// Do nothing
-	}
-
-	public void setTag( String tag )
-	{
-		mTag = tag;
-	}
-
-	public void setLayoutParams( LayoutParams layoutParams )
 	{
 		// Do nothing
 	}

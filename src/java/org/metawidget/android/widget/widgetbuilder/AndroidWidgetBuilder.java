@@ -74,16 +74,7 @@ public class AndroidWidgetBuilder
 		// TextView/EditText
 
 		if ( view instanceof TextView )
-		{
-			CharSequence charSequence = ( (TextView) view ).getText();
-
-			if ( charSequence == null )
-				return charSequence;
-
-			// (may not be a String)
-
-			return charSequence.toString();
-		}
+			return ( (TextView) view ).getText();
 
 		// DatePicker
 
@@ -295,7 +286,7 @@ public class AndroidWidgetBuilder
 
 					// (CollectionUtils.fromString returns unmodifiable EMPTY_LIST if empty)
 
-					if ( !lookupLabelsList.isEmpty() )
+					if ( !lookupLabelsList.isEmpty() && WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
 						lookupLabelsList.add( 0, null );
 				}
 

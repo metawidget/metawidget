@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Inspectors: JBoss jBPM support.
+ * Inspectors: JBoss jBPM jPDL support.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.inspector.jbpm;
+package org.metawidget.inspector.jbpm.jpdl;

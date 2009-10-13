@@ -24,6 +24,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.metawidget.android.AndroidUtils.ResourcelessArrayAdapter;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
 import org.metawidget.util.CollectionUtils;
@@ -31,10 +32,12 @@ import org.metawidget.util.CollectionUtils;
 import android.text.InputFilter;
 import android.text.method.DateKeyListener;
 import android.text.method.DigitsKeyListener;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 /**
@@ -140,6 +143,47 @@ public class AndroidWidgetBuilderTest
 		attributes.remove( TYPE );
 		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof EditText );
 
+		// Boolean (big B)
+
+		attributes.put( TYPE, Boolean.class.getName() );
+		attributes.put( REQUIRED, TRUE );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof CheckBox );
+
+		// Lookups
+
+		attributes.remove( TYPE );
+		attributes.put( LOOKUP, "foo, bar,baz" );
+		attributes.put( LOOKUP_LABELS, "Foo #1, Bar #2, Baz #3" );
+		Spinner spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		@SuppressWarnings( "unchecked" )
+		ResourcelessArrayAdapter<String> adapter1 = (ResourcelessArrayAdapter<String>) spinner.getAdapter();
+		assertTrue( "foo".equals( adapter1.getItem( 0 )));
+		assertTrue( "Foo #1".equals( ((TextView) adapter1.getView( 0, null, null )).getText() ));
+		assertTrue( "bar".equals( adapter1.getItem( 1 )));
+		assertTrue( "Bar #2".equals( ((TextView) adapter1.getView( 1, null, null )).getText() ));
+		assertTrue( "baz".equals( adapter1.getItem( 2 )));
+		assertTrue( "Baz #3".equals( ((TextView) adapter1.getView( 2, null, null )).getText() ));
+
+		attributes.remove( REQUIRED );
+		attributes.put( TYPE, String.class.getName() );
+		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		@SuppressWarnings( "unchecked" )
+		ResourcelessArrayAdapter<String> adapter2 = (ResourcelessArrayAdapter<String>) spinner.getAdapter();
+		assertTrue( null == adapter2.getItem( 0 ));
+		assertTrue( "".equals( ((TextView) adapter2.getView( 0, null, null )).getText() ));
+		assertTrue( "foo".equals( adapter2.getItem( 1 )));
+		assertTrue( "Foo #1".equals( ((TextView) adapter2.getView( 1, null, null )).getText() ));
+		assertTrue( "bar".equals( adapter2.getItem( 2 )));
+		assertTrue( "Bar #2".equals( ((TextView) adapter2.getView( 2, null, null )).getText() ));
+		assertTrue( "baz".equals( adapter2.getItem( 3 )));
+		assertTrue( "Baz #3".equals( ((TextView) adapter2.getView( 3, null, null )).getText() ));
+
+		// boolean (little B)
+
+		attributes.remove( LOOKUP );
+		attributes.put( TYPE, boolean.class.getName() );
+		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof CheckBox );
+
 		// float
 
 		attributes.put( TYPE, float.class.getName() );
@@ -151,6 +195,12 @@ public class AndroidWidgetBuilderTest
 		attributes.put( TYPE, int.class.getName() );
 		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener() instanceof DigitsKeyListener );
 
+		// Masked
+
+		attributes.put( TYPE, String.class.getName() );
+		attributes.put( MASKED, TRUE );
+		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getTransformationMethod() instanceof PasswordTransformationMethod );
+
 		// Float
 
 		attributes.put( TYPE, Float.class.getName() );
@@ -161,19 +211,9 @@ public class AndroidWidgetBuilderTest
 		attributes.put( TYPE, Integer.class.getName() );
 		assertTrue( ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getKeyListener() instanceof DigitsKeyListener );
 
-		// boolean (little B)
-
-		attributes.put( TYPE, boolean.class.getName() );
-		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof CheckBox );
-
-		// Boolean (big B)
-
-		attributes.put( TYPE, Boolean.class.getName() );
-		attributes.put( REQUIRED, TRUE );
-		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof CheckBox );
-
 		// Date
 
+		attributes.put( REQUIRED, TRUE );
 		attributes.put( TYPE, Date.class.getName() );
 		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof DatePicker );
 		attributes.remove( REQUIRED );
@@ -229,7 +269,7 @@ public class AndroidWidgetBuilderTest
 		TextView textView = new TextView( null );
 		assertTrue( null == androidWidgetBuilder.getValue( textView ) );
 		androidWidgetBuilder.setValue( "foo", textView );
-		assertTrue( "foo".equals( textView.getText() ));
+		assertTrue( "foo".equals( textView.getText() ) );
 		assertTrue( "foo".equals( androidWidgetBuilder.getValue( textView ) ) );
 
 		// DatePicker

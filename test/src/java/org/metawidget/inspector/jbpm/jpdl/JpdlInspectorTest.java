@@ -14,17 +14,14 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.jbpm;
+package org.metawidget.inspector.jbpm.jpdl;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-
-import java.io.ByteArrayInputStream;
-
 import junit.framework.TestCase;
 
 import org.metawidget.config.ConfigReader;
 import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.iface.InspectorException;
+import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -33,7 +30,7 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public class JbpmInspectorTest
+public class JpdlInspectorTest
 	extends TestCase
 {
 	//
@@ -49,34 +46,10 @@ public class JbpmInspectorTest
 	@Override
 	public void setUp()
 	{
-		JbpmInspectorConfig config = new JbpmInspectorConfig();
-		config.setInputStream( new ConfigReader().openResource( "org/metawidget/inspector/jbpm/test-components.xml" ));
-		mInspector = new JbpmInspector( config );
-	}
-
-	public void testMissingFile()
-	{
-		try
-		{
-			new JbpmInspector( new JbpmInspectorConfig() );
-			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
-			assertTrue( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH".equals( e.getMessage() ));
-		}
-
-		try
-		{
-			JbpmInspectorConfig config = new JbpmInspectorConfig();
-			config.setInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
-			new JbpmInspector( config );
-			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
-			assertTrue( "Expected an XML document starting with 'components' or 'pageflow-definition', but got 'foo'".equals( e.getMessage() ));
-		}
+		BaseXmlInspectorConfig config = new BaseXmlInspectorConfig();
+		ConfigReader reader = new ConfigReader();
+		config.setInputStreams( reader.openResource( "org/metawidget/inspector/jbpm/jpdl/test-pageflow1.jpdl.xml" ), reader.openResource( "org/metawidget/inspector/jbpm/jpdl/test-pageflow2.jpdl.xml" ));
+		mInspector = new JpdlInspector( config );
 	}
 
 	public void testProperties()

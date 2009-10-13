@@ -20,7 +20,7 @@ import android.content.Context;
 import android.content.res.ColorStateList;
 import android.text.InputFilter;
 import android.text.method.KeyListener;
-import android.text.method.PasswordTransformationMethod;
+import android.text.method.TransformationMethod;
 import android.view.View;
 
 /**
@@ -36,13 +36,15 @@ public class TextView
 	// Private members
 	//
 
-	private CharSequence	mText;
+	private CharSequence			mText;
 
-	private int				mMinLines;
+	private int						mMinLines;
 
-	private InputFilter[]	mInputFilters;
+	private InputFilter[]			mInputFilters;
 
-	private KeyListener		mKeyListener;
+	private KeyListener				mKeyListener;
+
+	private TransformationMethod	mTransformationMethod;
 
 	//
 	// Constructor
@@ -82,9 +84,14 @@ public class TextView
 		// Ignore
 	}
 
-	public void setTransformationMethod( PasswordTransformationMethod instance )
+	public void setTransformationMethod( TransformationMethod transformationMethod )
 	{
-		// Do nothing
+		mTransformationMethod = transformationMethod;
+	}
+
+	public TransformationMethod getTransformationMethod()
+	{
+		return mTransformationMethod;
 	}
 
 	public void setMinLines( int minLines )

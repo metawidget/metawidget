@@ -14,25 +14,42 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.jbpm;
+package android.text.method;
 
-import org.metawidget.inspector.impl.BaseXmlInspectorConfig;
+import android.graphics.Rect;
+import android.view.View;
 
 /**
- * Configures a JbpmInspector prior to use. Once instantiated, Inspectors are immutable.
+ * Dummy implementation for unit testing.
  *
  * @author Richard Kennard
  */
 
-public class JbpmInspectorConfig
-	extends BaseXmlInspectorConfig
+public class PasswordTransformationMethod
+	implements TransformationMethod
 {
 	//
-	// Constructor
+	// Public statics
 	//
 
-	public JbpmInspectorConfig()
+	public static PasswordTransformationMethod getInstance()
 	{
-		setDefaultFile( "components.xml" );
+		return new PasswordTransformationMethod();
+	}
+
+	//
+	// Public methods
+	//
+
+	@Override
+	public CharSequence getTransformation( CharSequence arg0, View arg1 )
+	{
+		return null;
+	}
+
+	@Override
+	public void onFocusChanged( View arg0, CharSequence arg1, boolean arg2, int arg3, Rect arg4 )
+	{
+		// Do nothing
 	}
 }
