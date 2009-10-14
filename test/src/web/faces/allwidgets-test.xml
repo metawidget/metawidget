@@ -281,8 +281,7 @@
 				<verifyXPath xpath="/html/body/div[1]/div[12]/div[2]" text="34"/>
 				<verifyXPath xpath="/html/body/div[1]/div[13]/div[1]" text="Long:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[13]/div[2]" text="43"/>
-				<verifyXPath xpath="/html/body/div[1]/div[14]/div[1]" text=""/>
-				<verifyXPath xpath="/html/body/div[1]/div[14]/div[2]" text="44"/>
+				<verifyXPath xpath="/html/body/div[1]/div[14]/div[1]" text="44"/>
 				<verifyXPath xpath="/html/body/div[1]/div[15]/div[1]" text="Float:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[15]/div[2]" text="5.3"/>
 				<verifyXPath xpath="/html/body/div[1]/div[16]/div[1]" text="nullInBundle:"/>
@@ -622,8 +621,7 @@
 				<verifyXPath xpath="/html/body/div[1]/div[12]/div[2]" text="34"/>
 				<verifyXPath xpath="/html/body/div[1]/div[13]/div[1]" text="Long:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[13]/div[2]" text="43"/>
-				<verifyXPath xpath="/html/body/div[1]/div[14]/div[1]" text=""/>
-				<verifyXPath xpath="/html/body/div[1]/div[14]/div[2]" text="44"/>
+				<verifyXPath xpath="/html/body/div[1]/div[14]/div[1]" text="44"/>
 				<verifyXPath xpath="/html/body/div[1]/div[15]/div[1]" text="Float:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[15]/div[2]" text="5.3"/>
 				<verifyXPath xpath="/html/body/div[1]/div[16]/div[1]" text="nullInBundle:"/>

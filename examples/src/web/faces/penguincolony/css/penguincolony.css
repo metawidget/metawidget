@@ -44,7 +44,12 @@ h1
 /*
  * Input forms
  */
- 
+
+.icePnlPopHdr
+{
+	width: 100%;
+}
+
 .table-label-column
 {
 	width: 110px;
@@ -141,5 +146,5 @@ textarea
 .table-component-column input[type='submit']
 {
 	position: relative;
-	left: 2px;
+	left: 116px;
 }

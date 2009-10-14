@@ -206,7 +206,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]/input[@type='text']"/>
 				<setInputField name="allWidgets.mystery" value="Goes nowhere"/>
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/th" text="Action (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/th" text=""/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input/@type" text="submit"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input/@name" text="allWidgets.doAction"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input/@value" text="Action (i18n)"/>

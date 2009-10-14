@@ -22,14 +22,14 @@
 						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
 						<jpaInspector xmlns="java:org.metawidget.inspector.jpa"/>
 						<hibernateValidatorInspector xmlns="java:org.metawidget.inspector.hibernate.validator"/>
-						<jpdlInspector xmlns="java:org.metawidget.inspector.jbpm.jpdl" config="org.metawidget.inspector.impl.BaseXmlInspectorConfig">
+						<pageflowInspector xmlns="java:org.metawidget.inspector.jbpm" config="org.metawidget.inspector.impl.BaseXmlInspectorConfig">
 							<inputStreams>
 								<array>
 									<resource>checkout.jpdl.xml</resource>
 									<resource>newuser.jpdl.xml</resource>
 								</array>
 							</inputStreams>
-						</jpdlInspector>
+						</pageflowInspector>
 					</array>
 				</inspectors>
 			</compositeInspector>
