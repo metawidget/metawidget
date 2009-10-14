@@ -20,6 +20,7 @@
 		<mkdir dir="${relative.dir}/${build.dir}/tutorial-classes"/>
 
 		<javac sourcepath="" srcdir="${relative.dir}/test/src/java" destdir="${relative.dir}/${build.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
+			<include name="org/metawidget/android/allwidgets/**"/>
 			<include name="org/metawidget/faces/allwidgets/**"/>
 			<include name="org/metawidget/shared/allwidgets/**"/>
 			<include name="org/metawidget/spring/allwidgets/**"/>
@@ -107,6 +108,7 @@
 		</javac>
 		
 		<javac sourcepath="" srcdir="${relative.dir}/test/src/java" destdir="${relative.dir}/${build.dir}/test-classes" debug="on" target="1.5" fork="yes">
+			<exclude name="org/metawidget/android/allwidgets/**"/>
 			<exclude name="org/metawidget/faces/allwidgets/**"/>
 			<exclude name="org/metawidget/inspector/impl/propertystyle/javassist/JavassistPropertyStyleDebugOffTest.java"/>
 			<exclude name="org/metawidget/shared/allwidgets/**"/>

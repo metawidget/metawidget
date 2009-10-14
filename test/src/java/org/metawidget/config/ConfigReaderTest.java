@@ -801,7 +801,10 @@ public class ConfigReaderTest
 		try
 		{
 			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
-			// TODO: VM bug? assertTrue( false );
+
+			// assertTrue( false );
+			//
+			// (works running JUnit in Eclipse, but not via Ant. Does the VM cache reflection results or something?)
 		}
 		catch ( MetawidgetException e )
 		{
