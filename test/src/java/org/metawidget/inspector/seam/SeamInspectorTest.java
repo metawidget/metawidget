@@ -18,10 +18,12 @@ package org.metawidget.inspector.seam;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import junit.framework.TestCase;
 
+import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ClassUtils;
@@ -63,6 +65,8 @@ public class SeamInspectorTest
 		} );
 
 		SeamInspector inspector = new SeamInspector( config );
+		assertTrue( null == inspector.inspect( null, "newuser1.contact" ));
+
 		String xml = inspector.inspect( null, "newuser.contact" );
 		Document document = XmlUtils.documentFromString( xml );
 
@@ -88,16 +92,47 @@ public class SeamInspectorTest
 		assertTrue( property.getNextSibling() == null );
 	}
 
+	public void testNoPageflow()
+	{
+		SeamInspectorConfig config = new SeamInspectorConfig();
+		config.setComponentsInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
+
+		SeamInspector inspector = new SeamInspector( config );
+		assertTrue( null == inspector.inspect( null, "newuser.contact" ));
+	}
+
 	public void testMissingFile()
 	{
 		try
 		{
-			new SeamInspector( new SeamInspectorConfig() );
+			new SeamInspector();
 			assertTrue( false );
 		}
 		catch( InspectorException e )
 		{
-			assertTrue( "No ResourceResolver specified".equals( e.getMessage() ));
+			assertTrue( "java.io.FileNotFoundException: Unable to locate components.xml on CLASSPATH".equals( e.getMessage() ) );
 		}
+	}
+
+	public void testConfig()
+	{
+		SeamInspectorConfig config1 = new SeamInspectorConfig();
+		SeamInspectorConfig config2 = new SeamInspectorConfig();
+
+		assertTrue( !config1.equals( "foo" ));
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// resourceResolver
+
+		ResourceResolver resourceResolver = new ConfigReader();
+		config1.setResourceResolver( resourceResolver );
+		assertTrue( resourceResolver == config1.getResourceResolver() );
+		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setResourceResolver( resourceResolver );
+		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 }

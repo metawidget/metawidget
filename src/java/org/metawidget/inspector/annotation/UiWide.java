@@ -26,8 +26,8 @@ import java.lang.annotation.Target;
  * <p>
  *'Wide' is different to 'large', because 'large' implies a data size (ie. BLOB or CLOB) whereas
  * 'wide' refers purely to spanning columns. Generally all 'large' fields are implicitly 'wide', but
- * not all 'wide' fields are 'large'. For example, you may want a normal text field (not a text
- * area) to span all columns.
+ * not all 'wide' fields are 'large'. For example, you may want a normal text field (not a textarea)
+ * to span all columns.
  *
  * @author Illya Yalovyy
  */

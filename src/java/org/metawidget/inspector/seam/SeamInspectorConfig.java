@@ -52,10 +52,7 @@ public class SeamInspectorConfig
 		if ( mComponentsInputStream != null )
 			return mComponentsInputStream;
 
-		if ( mResourceResolver == null )
-			throw InspectorException.newException( "No ResourceResolver specified" );
-
-		return mResourceResolver.openResource( "components.xml" );
+		return getResourceResolver().openResource( "components.xml" );
 	}
 
 	/**
