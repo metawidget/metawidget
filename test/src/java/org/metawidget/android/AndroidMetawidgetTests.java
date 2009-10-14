@@ -112,7 +112,7 @@ public class AndroidMetawidgetTests
 			return iterator.next();
 		}
 
-		public int getAttributeResourceValue( Object object, String string, int i )
+		public int getAttributeResourceValue( String object, String string, int i )
 		{
 			return 0;
 		}
@@ -177,12 +177,6 @@ public class AndroidMetawidgetTests
 
 		@Override
 		public int getAttributeResourceValue( int arg0, int arg1 )
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		public int getAttributeResourceValue( String arg0, String arg1, int arg2 )
 		{
 			throw new UnsupportedOperationException();
 		}

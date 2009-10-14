@@ -14,10 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package android.widget;
-
-import android.content.Context;
-import android.util.AttributeSet;
+package android.util;
 
 /**
  * Dummy implementation for unit testing.
@@ -25,44 +22,14 @@ import android.util.AttributeSet;
  * @author Richard Kennard
  */
 
-public class TableLayout
-	extends LinearLayout
+public class Log
 {
-	//
-	// Constructor
-	//
-
-	public TableLayout( Context context )
-	{
-		super( context );
-	}
-
-	public TableLayout( Context context, AttributeSet attributeSet )
-	{
-		super( context, attributeSet );
-	}
-
-	public TableLayout( Context context, AttributeSet attributeSet, int index )
-	{
-		super( context, attributeSet, index );
-	}
-
 	//
 	// Public methods
 	//
 
-	public void setColumnStretchable( int column, boolean stretchable )
+	public static int d( String tag, String message )
 	{
-		// Do nothing
-	}
-
-	//
-	// Inner class
-	//
-
-	public static class LayoutParams
-		extends android.widget.LinearLayout.LayoutParams
-	{
-		// Do nothing
+		return 0;
 	}
 }

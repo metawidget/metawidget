@@ -85,7 +85,7 @@ public class AndroidMetawidget
 
 	private int												mConfig;
 
-	private boolean											mNeedsConfiguring;
+	private boolean											mNeedsConfiguring = true;
 
 	private boolean											mNeedToBuildWidgets;
 
@@ -326,6 +326,8 @@ public class AndroidMetawidget
 	// The following methods all kick off a buildWidgets()
 	//
 
+	// TODO: addView
+
 	@Override
 	public int getChildCount()
 	{
@@ -360,7 +362,7 @@ public class AndroidMetawidget
 		View view = findViewWithTags( names );
 
 		if ( view == null )
-			throw MetawidgetException.newException( "No view with tag " + ArrayUtils.toString( names ) );
+			throw MetawidgetException.newException( "No View with tag " + ArrayUtils.toString( names ) );
 
 		return (T) getValue( view, mMetawidgetMixin.getWidgetBuilder() );
 	}
@@ -381,7 +383,7 @@ public class AndroidMetawidget
 		View view = findViewWithTags( names );
 
 		if ( view == null )
-			throw MetawidgetException.newException( "No view with tag " + ArrayUtils.toString( names ) );
+			throw MetawidgetException.newException( "No View with tag " + ArrayUtils.toString( names ) );
 
 		if ( !setValue( value, view, mMetawidgetMixin.getWidgetBuilder() ) )
 			throw MetawidgetException.newException( "Don't know how to setValue of a " + view.getClass().getName() );

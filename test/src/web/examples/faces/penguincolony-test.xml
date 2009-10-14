@@ -1,4 +1,4 @@
-<project name="faces-addressbook-test" default="test-all">
+<project name="faces-penguincolony-test" default="test-all">
 
 	<property file="../../../../../build.properties" />
 	<property file="../../../../build.properties" />
@@ -28,6 +28,42 @@
 				<!-- Edit penguin #1 -->
 
 				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[1]/td[3]/a"/>				
+
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/th[1]/@class" text="table-label-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/th[1]" text="Name:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/td[1]/@class" text="table-component-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/td[1]/input[@type='text']/@value" text="Mumble"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/td[2]/@class" text="table-required-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[1]/td[2]" text="*"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/th[1]/@class" text="table-label-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/th[1]" text="Species:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td[1]/@class" text="table-component-column"/>
+				<verifyXPath xpath="count(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td[1]/select/option)" text="5"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]/@class" text="table-required-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[2]/td[2]" text="*"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[3]/th[1]/@class" text="table-label-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[3]/th[1]" text="Date of birth:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[3]/td[1]/@class" text="table-component-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[3]/td[1]/div/@class" text="iceSelInpDatePopup"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[3]/td[2]/@class" text="table-required-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[3]/td[2]" text=""/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/th[1]" text=""/>
+				<verifyXPath xpath="count(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/th)" text="1"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td[1]/input[@type='submit']/@value" text="Add condition"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td[2]/@class" text="table-required-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td[2]" text=""/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[5]/th[1]/@class" text="table-label-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[5]/th[1]" text="Hobbies:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[5]/td[1]/@class" text="table-component-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[5]/td[1]/fieldset/@class" text="iceSelMnyCb"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[5]/td[2]/@class" text="table-required-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[5]/td[2]" text=""/>
+				<verifyXPath xpath="count(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr)" text="5"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tfoot/tr/td/@class" text="buttons"/>				
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tfoot/tr/td/@colspan" text="3"/>				
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tfoot/tr/td/input[1]/@value" text="Back"/>				
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tfoot/tr/td/input[2]/@value" text="Delete"/>				
+
 				<verifyInputField name="form:penguinCurrentName" value="Mumble"/>
 				<verifySelectField name="form:penguinCurrentSpecies" value="Great penguin"/>
 				<setInputField name="form:penguinCurrentName" value="Mumbles"/>
@@ -70,6 +106,27 @@
 					<verifyXPath xpath="//select[@name='form:penguinCurrentConditionBeak']"/>
 				</not>
 				<clickButton label="Add condition"/>
+				
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[1]/th[1]/@class" text="table-label-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[1]/th[1]" text="Beak:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[1]/td[1]/@class" text="table-component-column"/>
+				<verifyXPath xpath="count(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[1]/td[1]/select/option)" text="4"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[1]/td[2]/@class" text="table-required-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[1]/td[2]" text=""/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[2]/th[1]/@class" text="table-label-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[2]/th[1]" text="Wings:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[2]/td[1]/@class" text="table-component-column"/>
+				<verifyXPath xpath="count(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[2]/td[1]/select/option)" text="4"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]/@class" text="table-required-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[2]/td[2]" text=""/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[3]/th[1]/@class" text="table-label-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[3]/th[1]" text="Feet:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[3]/td[1]/@class" text="table-component-column"/>
+				<verifyXPath xpath="count(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[3]/td[1]/select/option)" text="4"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[3]/td[2]/@class" text="table-required-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr[3]/td[2]" text=""/>
+				<verifyXPath xpath="count(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[4]/td/table/tbody/tr)" text="3"/>
+								
 				<setSelectField name="form:penguinCurrentConditionBeak" value="Good"/>
 				<setSelectField name="form:penguinCurrentConditionWings" value="Fair"/>
 				<setSelectField name="form:penguinCurrentConditionFeet" value="Poor"/>
@@ -82,12 +139,20 @@
 				<verifyCheckbox name="form:penguinCurrentHobbies" value="Other" checked="false"/>
 				<setCheckbox name="form:penguinCurrentHobbies" value="Other" checked="true"/>
 				
-				<!-- Begin hack until JavaScript support improves -->
+				<!-- Begin hack until WebTest JavaScript support improves -->
 
 				<clickButton label="Back"/>
 				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>
 				
-				<!-- End hack until JavaScript support improves -->
+				<!-- End hack until WebTest JavaScript support improves -->
+				
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[6]/th[1]/@class" text="table-label-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[6]/th[1]" text="Describe hobby:"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[6]/td[1]/@class" text="table-component-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[6]/td[1]/textarea"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[6]/td[2]/@class" text="table-required-column"/>
+				<verifyXPath xpath="/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr[6]/td[2]" text=""/>
+				<verifyXPath xpath="count(/html/body/div/form/div[3]/table/tbody/tr[2]/td/table/tbody/tr)" text="6"/>
 				
 				<setInputField name="form:penguinCurrentDescribeHobby" value="Foo bar baz"/>				
 				<clickButton label="Back"/>

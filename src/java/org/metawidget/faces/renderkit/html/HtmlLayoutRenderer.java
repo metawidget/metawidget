@@ -108,20 +108,11 @@ public abstract class HtmlLayoutRenderer
 	// Protected methods
 	//
 
-	/**
-	 * Version of LayoutUtils.needsLabel that uses UIComponent type instead of elementName.
-	 */
-
-	protected boolean needsLabel( UIComponent componentNeedingLabel )
+	protected String getLabelText( UIComponent componentNeedingLabel )
 	{
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
-		String labelText = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( metadataAttributes );
-
-		if ( componentNeedingLabel instanceof UICommand )
-			return false;
-
-		return LayoutUtils.needsLabel( labelText, null );
+		return ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( metadataAttributes );
 	}
 
 	/**
@@ -135,6 +126,14 @@ public abstract class HtmlLayoutRenderer
 	protected boolean layoutLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel )
 		throws IOException
 	{
+		if ( componentNeedingLabel instanceof UICommand )
+			return false;
+
+		String labelText = getLabelText( componentNeedingLabel );
+
+		if ( !LayoutUtils.needsLabel( labelText, null ))
+			return false;
+
 		// Render the label
 
 		HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
@@ -143,10 +142,6 @@ public abstract class HtmlLayoutRenderer
 
 		if ( state.labelSuffix == null )
 			state.labelSuffix = ":";
-
-		@SuppressWarnings( "unchecked" )
-		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
-		String labelText = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( metadataAttributes );
 
 		if ( labelText.indexOf( "#{" ) != -1 )
 			componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( labelText + state.labelSuffix ) );

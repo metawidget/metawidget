@@ -15,7 +15,9 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/th" text="Lookup:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select[@name='lookup']"/>
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[1]/td[1]/select/option)" text="4"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[1]/@value"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[1]/@value" text=""/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[1]"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[1]" text=""/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[2]/@value" text="value1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[1]/td[1]/select/option[2]" text="label1"/>

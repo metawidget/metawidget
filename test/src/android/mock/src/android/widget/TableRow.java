@@ -17,7 +17,6 @@
 package android.widget;
 
 import android.content.Context;
-import android.util.AttributeSet;
 import android.view.ViewGroup;
 
 /**
@@ -26,41 +25,16 @@ import android.view.ViewGroup;
  * @author Richard Kennard
  */
 
-public class LinearLayout
+public class TableRow
 	extends ViewGroup
 {
 	//
-	// Public statics
+	// Constructors
 	//
 
-	public static final int	VERTICAL	= 0;
-
-	//
-	// Constructor
-	//
-
-	public LinearLayout( Context context )
+	public TableRow( Context context )
 	{
 		super( context );
-	}
-
-	public LinearLayout( Context context, AttributeSet attributeSet )
-	{
-		super( context, attributeSet );
-	}
-
-	public LinearLayout( Context context, AttributeSet attributeSet, int index )
-	{
-		super( context, attributeSet, index );
-	}
-
-	//
-	// Public methods
-	//
-
-	public void setOrientation( int orientation )
-	{
-		// Ignore
 	}
 
 	//
@@ -68,25 +42,12 @@ public class LinearLayout
 	//
 
 	public static class LayoutParams
-		extends MarginLayoutParams
+		extends ViewGroup.LayoutParams
 	{
 		//
-		// Constructor
+		// Public members
 		//
 
-		public LayoutParams()
-		{
-			// Default constructor
-		}
-
-		public LayoutParams( int int1, int int2 )
-		{
-			super( int1, int2 );
-		}
-
-		public LayoutParams( MarginLayoutParams toCopy )
-		{
-			super( toCopy );
-		}
+		public int span;
 	}
 }

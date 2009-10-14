@@ -98,6 +98,7 @@
 				<setInputField name="allWidgets.float" value="5.3"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/th" text=""/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[16]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/td[1]/input[@type='text']"/>
 				<verifyInputField name="allWidgets.floatObject" value="4.3"/>
 				<setInputField name="allWidgets.floatObject" value="5.4"/>
@@ -229,6 +230,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/th" text="Textarea (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]" text="Textarea1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/th" text="Password (i18n):"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]" text=""/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/th" text="Byte (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td[1]" text="126"/>
@@ -252,7 +254,9 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/td[1]" text="44"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/th" text="Float (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/td[1]" text="5.3"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/th"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/th" text=""/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[16]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/td[1]" text="5.4"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[17]/th" text="Double (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[17]/td[1]" text="53.3"/>

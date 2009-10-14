@@ -100,6 +100,7 @@
 				<setInputField name="form:allWidgetsLong" value="43"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/th" text=""/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[14]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsLongObject" value="43"/>
 				<setInputField name="form:allWidgetsLongObject" value="44"/>
@@ -231,6 +232,7 @@
 				<forceHiddenInputField name="form:allWidgetsCollection" value="element1,element2,element3"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/th" text=""/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[34]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/td[1]/input[@type='submit']/@value" text="Do action"/>
 
 				<verifyXPath xpath="count(/html/body/form/table/tbody/tr)" text="34"/>
@@ -251,7 +253,9 @@
 				<verifyXPath xpath="/html/body/div[1]/div[1]/@class" text="anOuterClass"/>
 				<verifyXPath xpath="/html/body/div[1]/div[1]/div[1]/@style" text="aLabelStyle"/>
 				<verifyXPath xpath="/html/body/div[1]/div[1]/div[1]/@class" text="aLabelClass"/>
-				<verifyXPath xpath="/html/body/div[1]/div[1]/div[1]/span" text=""/>
+				<not>
+					<verifyXPath xpath="/html/body/div[1]/div[1]/div[1]/span"/>
+				</not>
 				<verifyXPath xpath="/html/body/div[1]/div[1]/div[2]/@style" text="aComponentStyle"/>
 				<verifyXPath xpath="/html/body/div[1]/div[1]/div[2]/@class" text="aComponentClass"/>
 				
@@ -262,6 +266,7 @@
 				<verifyXPath xpath="/html/body/div[1]/div[3]/div[1]" text="Textarea:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[3]/div[2]" text="Textarea1"/>
 				<verifyXPath xpath="/html/body/div[1]/div[4]/div[1]" text="Password:"/>
+				<verifyXPath xpath="/html/body/div[1]/div[4]/div[2]"/>
 				<verifyXPath xpath="/html/body/div[1]/div[4]/div[2]" text=""/>
 				<verifyXPath xpath="/html/body/div[1]/div[5]/div[1]" text="Byte:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[5]/div[2]" text="126"/>
@@ -281,7 +286,9 @@
 				<verifyXPath xpath="/html/body/div[1]/div[12]/div[2]" text="34"/>
 				<verifyXPath xpath="/html/body/div[1]/div[13]/div[1]" text="Long:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[13]/div[2]" text="43"/>
-				<verifyXPath xpath="/html/body/div[1]/div[14]/div[1]" text="44"/>
+				<verifyXPath xpath="/html/body/div[1]/div[14]/div[1]"/>
+				<verifyXPath xpath="/html/body/div[1]/div[14]/div[1]" text=""/>
+				<verifyXPath xpath="/html/body/div[1]/div[14]/div[2]" text="44"/>
 				<verifyXPath xpath="/html/body/div[1]/div[15]/div[1]" text="Float:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[15]/div[2]" text="5.3"/>
 				<verifyXPath xpath="/html/body/div[1]/div[16]/div[1]" text="nullInBundle:"/>
@@ -438,6 +445,7 @@
 				<setInputField name="form:allWidgetsLong" value="43"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/th" text=""/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[14]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsLongObject" value="43"/>
 				<setInputField name="form:allWidgetsLongObject" value="44"/>
@@ -450,6 +458,7 @@
 				<setInputField name="form:allWidgetsFloat" value="5.3"/>
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/th" text=""/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[16]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[16]/td[1]/input[@type='text']"/>
 				<verifyInputField name="form:allWidgetsFloatObject" value="4.3"/>
 				<setInputField name="form:allWidgetsFloatObject" value="5.4"/>
@@ -571,6 +580,7 @@
 				<forceHiddenInputField name="form:allWidgetsCollection" value="element1,element2,element3"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/th" text=""/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[34]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[34]/td[1]/input[@type='submit']/@value" text="Action (i18n)"/>
 
 				<!-- Should be nothing else! -->
@@ -591,7 +601,9 @@
 				<verifyXPath xpath="/html/body/div[1]/div[1]/@class" text="anOuterClass"/>
 				<verifyXPath xpath="/html/body/div[1]/div[1]/div[1]/@style" text="aLabelStyle"/>
 				<verifyXPath xpath="/html/body/div[1]/div[1]/div[1]/@class" text="aLabelClass"/>
-				<verifyXPath xpath="/html/body/div[1]/div[1]/div[1]/span" text=""/>
+				<not>
+					<verifyXPath xpath="/html/body/div[1]/div[1]/div[1]/span"/>
+				</not>
 				<verifyXPath xpath="/html/body/div[1]/div[1]/div[2]/@style" text="aComponentStyle"/>
 				<verifyXPath xpath="/html/body/div[1]/div[1]/div[2]/@class" text="aComponentClass"/>
 				
@@ -602,6 +614,7 @@
 				<verifyXPath xpath="/html/body/div[1]/div[3]/div[1]" text="Textarea:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[3]/div[2]" text="Textarea1"/>
 				<verifyXPath xpath="/html/body/div[1]/div[4]/div[1]" text="Password:"/>
+				<verifyXPath xpath="/html/body/div[1]/div[4]/div[2]"/>
 				<verifyXPath xpath="/html/body/div[1]/div[4]/div[2]" text=""/>
 				<verifyXPath xpath="/html/body/div[1]/div[5]/div[1]" text="Byte:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[5]/div[2]" text="126"/>
@@ -621,7 +634,9 @@
 				<verifyXPath xpath="/html/body/div[1]/div[12]/div[2]" text="34"/>
 				<verifyXPath xpath="/html/body/div[1]/div[13]/div[1]" text="Long:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[13]/div[2]" text="43"/>
-				<verifyXPath xpath="/html/body/div[1]/div[14]/div[1]" text="44"/>
+				<verifyXPath xpath="/html/body/div[1]/div[14]/div[1]"/>
+				<verifyXPath xpath="/html/body/div[1]/div[14]/div[1]" text=""/>
+				<verifyXPath xpath="/html/body/div[1]/div[14]/div[2]" text="44"/>
 				<verifyXPath xpath="/html/body/div[1]/div[15]/div[1]" text="Float:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[15]/div[2]" text="5.3"/>
 				<verifyXPath xpath="/html/body/div[1]/div[16]/div[1]" text="nullInBundle:"/>

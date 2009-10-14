@@ -93,6 +93,7 @@
 				<setInputField name="allWidgets.float" value="5.3"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/th" text=""/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[15]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/td[1]/input[@type='text']"/>
 				<verifyInputField name="allWidgets.floatObject" value="4.3"/>
 				<setInputField name="allWidgets.floatObject" value="5.4"/>
@@ -207,6 +208,7 @@
 				<setInputField name="allWidgets.mystery" value="Goes nowhere"/>
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/th" text=""/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[33]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input/@type" text="submit"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input/@name" text="allWidgets.doAction"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[33]/td[1]/input/@value" text="Action (i18n)"/>
@@ -232,6 +234,7 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[2]/th[1]" text="Textarea (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[2]/td[1]" text="Textarea1"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/th[1]" text="Password (i18n):"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[3]/td[1]"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/td[1]" text=""/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/th[2]" text="Byte (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[3]/td[3]" text="126"/>
@@ -253,6 +256,7 @@
 				<verifyXPath xpath="/html/body/table/tbody/tr[7]/td[3]" text="43"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[8]/th[1]" text="Float (i18n):"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td[1]" text="5.3"/>
+				<verifyXPath xpath="/html/body/table/tbody/tr[8]/th[2]"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[8]/th[2]" text=""/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[8]/td[3]" text="5.4"/>
 				<verifyXPath xpath="/html/body/table/tbody/tr[9]/th[1]" text="Double (i18n):"/>

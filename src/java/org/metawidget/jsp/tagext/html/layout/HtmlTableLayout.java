@@ -444,7 +444,7 @@ public class HtmlTableLayout
 	{
 		String labelText = metawidgetTag.getLabelString( attributes );
 
-		if ( !LayoutUtils.needsLabel( labelText, elementName ))
+		if ( labelText == null )
 			return false;
 
 		try
@@ -457,7 +457,7 @@ public class HtmlTableLayout
 			writeStyleClass( 0, metawidgetTag );
 			writer.write( ">" );
 
-			if ( !"".equals( labelText ) )
+			if ( LayoutUtils.needsLabel( labelText, elementName ) )
 			{
 				writer.write( labelText );
 				writer.write( ":" );

@@ -47,6 +47,7 @@
 		<javac sourcepath="" srcdir="${relative.dir}/test/src/android/mock/src" destdir="${relative.dir}/${build.dir}/test-android-mock-classes" debug="on" optimize="on" source="1.5" target="jsr14">
 			<classpath>
 				<fileset dir="${relative.dir}/lib"/>
+				<pathelement path="${relative.dir}/${build.dir}/classes"/>
 			</classpath>
 		</javac>
 				

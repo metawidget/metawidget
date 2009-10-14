@@ -129,7 +129,9 @@
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[2]/input/@type" text="radio"/>
 				<verifyXPath xpath="contains(/html/body/table[1]/tbody/tr[2]/td[1]/table/tbody/tr/td[2]/label, 'No (i18n)' )"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/textarea/@id" text="quirksLarge"/>
-				<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/@colspan" text=""/>
+				<not>
+					<verifyXPath xpath="/html/body/table[1]/tbody/tr[3]/td[1]/@colspan"/>
+				</not>
 				
 				<!-- Test duplicated controls -->
 				

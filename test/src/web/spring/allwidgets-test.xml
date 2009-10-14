@@ -91,6 +91,7 @@
 				<setInputField name="long" value="43"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/th" text=""/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[14]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/td[1]/input[@type='text']"/>
 				<verifyInputField name="longObject" value="43"/>
 				<setInputField name="longObject" value="44"/>
@@ -232,6 +233,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/th" text="Textarea:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]" text="Textarea1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/th" text="Password:"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]" text=""/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/th" text="Byte:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td[1]" text="126"/>
@@ -251,7 +253,9 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[12]/td[1]" text="34"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[13]/th" text="Long:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[13]/td[1]" text="43"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/th"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/th" text=""/>
+				<verifyXPath xpath="count(/html/body/form/table/tbody/tr[14]/th)" text="1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[14]/td[1]" text="44"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/th" text="Float:"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[15]/td[1]" text="5.3"/>

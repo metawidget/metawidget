@@ -278,7 +278,7 @@ public class HtmlDivLayoutRenderer
 	protected boolean layoutLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel )
 		throws IOException
 	{
-		if ( !needsLabel( componentNeedingLabel ))
+		if ( getLabelText( componentNeedingLabel ) == null )
 			return false;
 
 		ResponseWriter writer = context.getResponseWriter();

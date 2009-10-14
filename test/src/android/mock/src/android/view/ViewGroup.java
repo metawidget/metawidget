@@ -16,6 +16,10 @@
 
 package android.view;
 
+import java.util.List;
+
+import org.metawidget.util.CollectionUtils;
+
 import android.content.Context;
 import android.util.AttributeSet;
 
@@ -28,6 +32,12 @@ import android.util.AttributeSet;
 public class ViewGroup
 	extends View
 {
+	//
+	// Private members
+	//
+
+	private List<View>	mChildren	= CollectionUtils.newArrayList();
+
 	//
 	// Constructor
 	//
@@ -53,32 +63,32 @@ public class ViewGroup
 
 	public void addView( View child )
 	{
-		// Do nothing
+		mChildren.add( child );
 	}
 
 	public void addView( View child, ViewGroup.LayoutParams params )
 	{
-		// Do nothing
+		mChildren.add( child );
 	}
 
 	public void removeView( View view )
 	{
-		// Do nothing
+		mChildren.remove( view );
 	}
 
 	public void removeAllViews()
 	{
-		// Do nothing
+		mChildren.clear();
 	}
 
-	public View getChildAt( int childLoop )
+	public View getChildAt( int childIndex )
 	{
-		return null;
+		return mChildren.get( childIndex );
 	}
 
 	public int getChildCount()
 	{
-		return 0;
+		return mChildren.size();
 	}
 
 	//
@@ -112,6 +122,34 @@ public class ViewGroup
 		public LayoutParams( int int1, int int2 )
 		{
 			// Ignore
+		}
+
+		public LayoutParams( LayoutParams toCopy )
+		{
+			// Ignore
+		}
+	}
+
+	public static class MarginLayoutParams
+		extends LayoutParams
+	{
+		//
+		// Constructor
+		//
+
+		public MarginLayoutParams()
+		{
+			// Default constructor
+		}
+
+		public MarginLayoutParams( int int1, int int2 )
+		{
+			super( int1, int2 );
+		}
+
+		public MarginLayoutParams( MarginLayoutParams toCopy )
+		{
+			super( toCopy );
 		}
 	}
 }

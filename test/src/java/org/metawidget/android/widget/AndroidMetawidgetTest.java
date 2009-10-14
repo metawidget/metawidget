@@ -16,9 +16,19 @@
 
 package org.metawidget.android.widget;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Date;
+import java.util.Map;
 
 import junit.framework.TestCase;
+
+import org.metawidget.android.AndroidMetawidgetTests.MockAttributeSet;
+import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
+import org.metawidget.iface.MetawidgetException;
+import org.metawidget.util.CollectionUtils;
+
+import android.widget.EditText;
 
 /**
  * @author Richard Kennard
@@ -31,10 +41,89 @@ public class AndroidMetawidgetTest
 	// Public methods
 	//
 
-	public void testAndroidMetawidget()
+	public void testGettersAndSetters()
 	{
+		// setToInspect and getPath
+
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
 		androidMetawidget.setToInspect( new Date() );
-		assertTrue( "java.util.Date".equals( androidMetawidget.getPath() ));
+		assertTrue( "java.util.Date".equals( androidMetawidget.getPath() ) );
+		androidMetawidget.setPath( "foo" );
+		assertTrue( "foo".equals( androidMetawidget.getPath() ) );
+
+		// getLabelString and getLocalizedKey
+
+		assertTrue( "".equals( androidMetawidget.getLabelString( null ) ) );
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( LABEL, "camelCase" );
+		assertTrue( "camelCase".equals( androidMetawidget.getLabelString( attributes ) ) );
+		attributes.put( NAME, "foo" );
+		assertTrue( "camelCase".equals( androidMetawidget.getLabelString( attributes ) ) );
+		attributes.remove( LABEL );
+		assertTrue( "Foo".equals( androidMetawidget.getLabelString( attributes ) ) );
+		attributes.put( NAME, "fooBar" );
+		assertTrue( "Foo bar".equals( androidMetawidget.getLabelString( attributes ) ) );
+		attributes.put( LABEL, "" );
+		assertTrue( null == androidMetawidget.getLabelString( attributes ) );
+
+		assertTrue( null == androidMetawidget.getLocalizedKey( null ) );
+
+		// clientProperties
+
+		assertTrue( null == androidMetawidget.getClientProperty( "foo" ) );
+		androidMetawidget.putClientProperty( "foo", "bar" );
+		assertTrue( "bar".equals( androidMetawidget.getClientProperty( "foo" ) ) );
+
+		// maximumInspectionDepth
+
+		assertTrue( 10 == androidMetawidget.getMaximumInspectionDepth() );
+		androidMetawidget.setMaximumInspectionDepth( 2 );
+		assertTrue( 2 == androidMetawidget.getMaximumInspectionDepth() );
+
+		// readOnly
+
+		assertTrue( !androidMetawidget.isReadOnly() );
+		androidMetawidget.setReadOnly( true );
+		assertTrue( androidMetawidget.isReadOnly() );
+
+		MockAttributeSet mockAttributeSet = new MockAttributeSet();
+		androidMetawidget = new AndroidMetawidget( null, mockAttributeSet );
+		assertTrue( !androidMetawidget.isReadOnly() );
+
+		mockAttributeSet.setAttributeValue( "readOnly", "false" );
+		androidMetawidget = new AndroidMetawidget( null, mockAttributeSet );
+		assertTrue( !androidMetawidget.isReadOnly() );
+
+		mockAttributeSet.setAttributeValue( "readOnly", "true" );
+		androidMetawidget = new AndroidMetawidget( null, mockAttributeSet );
+		assertTrue( androidMetawidget.isReadOnly() );
+	}
+
+	public void testGetSetValue()
+	{
+		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
+
+		try
+		{
+			androidMetawidget.getValue( "foo" );
+			assertTrue( false );
+		}
+		catch( MetawidgetException e )
+		{
+			assertTrue( "No View with tag foo".equals( e.getMessage() ) );
+		}
+
+		EditText editText = new EditText( null );
+		editText.setTag( "foo" );
+		editText.setText( "Bar" );
+		androidMetawidget.addView( editText );
+		assertTrue( null == androidMetawidget.getValue( "foo" ));
+		// TODO: remove this once .addView overridden
+		androidMetawidget.setWidgetBuilder( new AndroidWidgetBuilder() );
+
+		assertTrue( "Bar".equals( androidMetawidget.getValue( "foo" )));
+		androidMetawidget.setValue( "Baz", "foo" );
+		assertTrue( "Baz".equals( androidMetawidget.getValue( "foo" )));
 	}
 }
