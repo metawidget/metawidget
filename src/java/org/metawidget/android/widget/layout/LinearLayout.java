@@ -24,6 +24,7 @@ import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
@@ -44,9 +45,9 @@ public class LinearLayout
 	// Private members
 	//
 
-	private int	mLabelStyle;
+	private int					mLabelStyle;
 
-	private int	mSectionStyle;
+	private int					mSectionStyle;
 
 	//
 	// Constructor
@@ -72,7 +73,6 @@ public class LinearLayout
 		metawidget.putClientProperty( LinearLayout.class, null );
 	}
 
-	@Override
 	public void layoutChild( View view, String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
 	{
 		// Ignore empty Stubs
@@ -80,12 +80,15 @@ public class LinearLayout
 		if ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 )
 			return;
 
-		String label = null;
+		ViewGroup viewToAddTo = getViewToAddTo( metawidget );
 
-		// Section headings
+		String labelText = metawidget.getLabelString( attributes );
+		boolean needsLabel = LayoutUtils.needsLabel( labelText, elementName );
 
 		if ( attributes != null )
 		{
+			// Section headings
+
 			State state = getState( metawidget );
 			String section = attributes.get( SECTION );
 
@@ -94,23 +97,46 @@ public class LinearLayout
 				state.currentSection = section;
 				layoutSection( section, metawidget );
 			}
+		}
 
-			// Labels
+		// Labels
 
-			label = metawidget.getLabelString( attributes );
+		if ( needsLabel )
+		{
+			TextView textView = new TextView( metawidget.getContext() );
+			textView.setText( labelText + ": " );
 
-			if ( label != null && !"".equals( label.trim() ) )
-			{
-				TextView textView = new TextView( metawidget.getContext() );
-				textView.setText( label + ":" );
-				AndroidUtils.applyStyle( textView, mLabelStyle, metawidget );
+			AndroidUtils.applyStyle( textView, mLabelStyle, metawidget );
 
-				metawidget.addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
-			}
+			viewToAddTo.addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 		}
 
 		// View
 
+		layoutView( view, metawidget, needsLabel );
+	}
+
+	public void onEndBuild( AndroidMetawidget metawidget )
+	{
+		View viewButtons = metawidget.getFacet( "buttons" );
+
+		if ( viewButtons != null )
+		{
+			getLayout( metawidget ).addView( viewButtons, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		}
+
+		// If the Layout was never used, just put an empty space
+
+		if ( metawidget.getChildCount() == 0 )
+			metawidget.addView( new TextView( metawidget.getContext() ), new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected void layoutView( View view, ViewGroup viewToAddTo, boolean needsLabel )
+	{
 		android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
 
 		if ( params == null )
@@ -123,23 +149,8 @@ public class LinearLayout
 				params = new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT );
 		}
 
-		metawidget.addView( view, params );
+		viewToAddTo.addView( view, params );
 	}
-
-	@Override
-	public void onEndBuild( AndroidMetawidget metawidget )
-	{
-		View viewButtons = metawidget.getFacet( "buttons" );
-
-		if ( viewButtons != null )
-		{
-			metawidget.addView( viewButtons, new android.widget.TableLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
-		}
-	}
-
-	//
-	// Protected methods
-	//
 
 	protected void layoutSection( String section, AndroidMetawidget metawidget )
 	{
@@ -161,9 +172,37 @@ public class LinearLayout
 
 		AndroidUtils.applyStyle( textView, mSectionStyle, metawidget );
 
-		// Add it to our layout
+		// Start a new layout, to save horizontal space where possible
+		// (eg. the labels in this new section might be smaller than the old section)
 
-		metawidget.addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		startNewLayout( metawidget );
+
+		// Add it to the Layout
+
+		getLayout( metawidget ).addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected ViewGroup getViewToAddTo( AndroidMetawidget metawidget )
+	{
+		// AndroidMetawidget is already a LinearLayout
+
+		return metawidget;
+	}
+
+	protected android.widget.LinearLayout getLayout( AndroidMetawidget metawidget )
+	{
+		// AndroidMetawidget is already a LinearLayout
+
+		return metawidget;
+	}
+
+	protected void startNewLayout( AndroidMetawidget metawidget )
+	{
+		// Do nothing
 	}
 
 	//
@@ -172,12 +211,12 @@ public class LinearLayout
 
 	private State getState( AndroidMetawidget metawidget )
 	{
-		State state = (State) metawidget.getClientProperty( LinearLayout.class );
+		State state = (State) metawidget.getClientProperty( TableLayout.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( LinearLayout.class, state );
+			metawidget.putClientProperty( TableLayout.class, state );
 		}
 
 		return state;

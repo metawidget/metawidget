@@ -157,7 +157,7 @@ public class FlexTableLayout
 
 		String labelText = metawidget.getLabelString( attributes );
 
-		if ( labelText != null && !"".equals( labelText.trim() ) && !ACTION.equals( elementName ) )
+		if ( LayoutUtils.needsLabel( labelText, elementName ))
 		{
 			Label label = new Label( labelText + ":" );
 

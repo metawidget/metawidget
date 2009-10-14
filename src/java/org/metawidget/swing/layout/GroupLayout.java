@@ -31,6 +31,7 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -113,10 +114,10 @@ public class GroupLayout
 
 			String labelText = metawidget.getLabelString( attributes );
 
-			// Required
-
-			if ( labelText != null && !"".equals( labelText ) )
+			if ( LayoutUtils.needsLabel( labelText, elementName ))
 			{
+				// Required
+
 				if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 					labelText += "*";
 

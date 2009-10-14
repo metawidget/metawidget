@@ -33,7 +33,8 @@ import org.w3c.dom.Element;
  * Inspector to look for relevant settings in Seam XML files. Specifically:
  * <p>
  * <ul>
- * <li>Delegates <code>jbpm:pageflow-definitions</code> elements in <code>components.xml</code> to <code>PageflowInspector</code>.
+ * <li>Delegates <code>jbpm:pageflow-definitions</code> elements in <code>components.xml</code> to
+ * <code>PageflowInspector</code>.
  * </ul>
  *
  * @author Richard Kennard
@@ -46,25 +47,20 @@ public class SeamInspector
 	// Private statics
 	//
 
+	private final static String	JBPM_ELEMENT					= "jbpm";
+
 	/**
 	 * In Seam, pageflows can be defined in <code>components.xml</code> in a
-	 * <code>pageflow-definitions.xml</code> block.
-	 * <p>
-	 * Of course, this will not work if they are set to be scanned for automatically on startup (see
-	 * https://jira.jboss.org/jira/browse/JBSEAM-979).
+	 * <code>pageflow-definitions/code> block.
 	 */
 
-	private final static String			COMPONENTS_ELEMENT		= "components";
-
-	private final static String			JBPM_ELEMENT			= "jbpm";
-
-	private final static String			PAGEFLOW_DEFINITIONS_ELEMENT		= "pageflow-definitions";
+	private final static String	PAGEFLOW_DEFINITIONS_ELEMENT	= "pageflow-definitions";
 
 	//
 	// Private members
 	//
 
-	private PageflowInspector				mPageflowInspector;
+	private PageflowInspector	mPageflowInspector;
 
 	//
 	// Constructors
@@ -86,15 +82,10 @@ public class SeamInspector
 			Document documentParsed = XmlUtils.newDocumentBuilder().parse( config.getComponentsInputStream() );
 			root = documentParsed.getDocumentElement();
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
 			throw InspectorException.newException( e );
 		}
-
-		String nodeName = root.getNodeName();
-
-		if ( !COMPONENTS_ELEMENT.equals( nodeName ) )
-			throw InspectorException.newException( "Expected an XML document starting with '" + COMPONENTS_ELEMENT + "', but got '" + nodeName + "'" );
 
 		ResourceResolver resolver = config.getResourceResolver();
 

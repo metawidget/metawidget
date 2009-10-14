@@ -48,7 +48,7 @@ public class PageflowInspectorTest
 	{
 		BaseXmlInspectorConfig config = new BaseXmlInspectorConfig();
 		ConfigReader reader = new ConfigReader();
-		config.setInputStreams( reader.openResource( "org/metawidget/inspector/jbpm/jpdl/test-pageflow1.jpdl.xml" ), reader.openResource( "org/metawidget/inspector/jbpm/jpdl/test-pageflow2.jpdl.xml" ));
+		config.setInputStreams( reader.openResource( "org/metawidget/inspector/jbpm/test-pageflow1.jpdl.xml" ), reader.openResource( "org/metawidget/inspector/jbpm/test-pageflow2.jpdl.xml" ));
 		mInspector = new PageflowInspector( config );
 	}
 

@@ -241,7 +241,7 @@ public class MigLayout
 
 		// Add label
 
-		if ( labelText != null && !"".equals( labelText ) && !ACTION.equals( elementName ) )
+		if ( LayoutUtils.needsLabel( labelText, elementName ))
 		{
 			JLabel label = new JLabel();
 

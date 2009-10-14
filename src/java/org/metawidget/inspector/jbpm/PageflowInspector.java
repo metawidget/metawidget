@@ -61,6 +61,10 @@ public class PageflowInspector
 		return NAME;
 	}
 
+	/**
+	 * Overridden to use <code>to=</code>, not <code>type=</code>.
+	 */
+
 	@Override
 	protected String getTypeAttribute()
 	{

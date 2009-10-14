@@ -121,28 +121,28 @@ public class HtmlLayoutRenderer
 	{
 		@SuppressWarnings( "unchecked" )
 		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
-		String label = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( metadataAttributes );
+		String labelText = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( metadataAttributes );
 
-		if ( label == null )
+		// Note: this can't use LayoutUtils.needsLabel because JSF doesn't get access to the elementName
+
+		if ( labelText == null || "".equals( labelText.trim() ) || componentNeedingLabel instanceof UICommand )
 			return false;
 
-		if ( !"".equals( label.trim() ) && !( componentNeedingLabel instanceof UICommand ) )
-		{
-			HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
+		// Render the label
 
-			State state = getState( metawidget );
+		HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
 
-			if ( state.labelSuffix == null )
-				state.labelSuffix = ":";
+		State state = getState( metawidget );
 
-			if ( label.indexOf( "#{" ) != -1 )
-				componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( label + state.labelSuffix ) );
-			else
-				componentLabel.setValue( label + state.labelSuffix );
+		if ( state.labelSuffix == null )
+			state.labelSuffix = ":";
 
-			FacesUtils.render( context, componentLabel );
-		}
+		if ( labelText.indexOf( "#{" ) != -1 )
+			componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( labelText + state.labelSuffix ) );
+		else
+			componentLabel.setValue( labelText + state.labelSuffix );
 
+		FacesUtils.render( context, componentLabel );
 		return true;
 	}
 

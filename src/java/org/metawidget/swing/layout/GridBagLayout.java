@@ -302,7 +302,7 @@ public class GridBagLayout
 
 		// Add label
 
-		if ( labelText != null && !"".equals( labelText ) && !ACTION.equals( elementName ))
+		if ( LayoutUtils.needsLabel( labelText, elementName ))
 		{
 			JLabel label = new JLabel();
 			label.setHorizontalAlignment( mLabelAlignment );

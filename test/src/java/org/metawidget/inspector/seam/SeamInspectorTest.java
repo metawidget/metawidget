@@ -18,7 +18,6 @@ package org.metawidget.inspector.seam;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 import junit.framework.TestCase;
@@ -99,18 +98,6 @@ public class SeamInspectorTest
 		catch( InspectorException e )
 		{
 			assertTrue( "No ResourceResolver specified".equals( e.getMessage() ));
-		}
-
-		try
-		{
-			SeamInspectorConfig config = new SeamInspectorConfig();
-			config.setComponentsInputStream( new ByteArrayInputStream( "<foo></foo>".getBytes() ) );
-			new SeamInspector( config );
-			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
-			assertTrue( "Expected an XML document starting with 'components', but got 'foo'".equals( e.getMessage() ));
 		}
 	}
 }

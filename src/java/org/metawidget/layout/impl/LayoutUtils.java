@@ -53,6 +53,24 @@ public final class LayoutUtils
 		return false;
 	}
 
+	/**
+	 * Returns true if the label is blank or if the element is an 'action'.
+	 */
+
+	public static boolean needsLabel( String labelText, String elementName )
+	{
+		if ( labelText == null )
+			return false;
+
+		if ( labelText.trim().length() == 0 )
+			return false;
+
+		if ( ACTION.equals( elementName ))
+			return false;
+
+		return true;
+ 	}
+
 	//
 	// Private constructor
 	//
