@@ -108,12 +108,12 @@ public class LinearLayout
 
 			AndroidUtils.applyStyle( textView, mLabelStyle, metawidget );
 
-			viewToAddTo.addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+			viewToAddTo.addView( textView );//, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 		}
 
 		// View
 
-		layoutView( view, metawidget, needsLabel );
+		layoutView( view, viewToAddTo, metawidget, needsLabel );
 	}
 
 	public void onEndBuild( AndroidMetawidget metawidget )
@@ -135,7 +135,7 @@ public class LinearLayout
 	// Protected methods
 	//
 
-	protected void layoutView( View view, ViewGroup viewToAddTo, boolean needsLabel )
+	protected void layoutView( View view, ViewGroup viewToAddTo, AndroidMetawidget metawidget, boolean needsLabel )
 	{
 		android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
 
@@ -211,12 +211,12 @@ public class LinearLayout
 
 	private State getState( AndroidMetawidget metawidget )
 	{
-		State state = (State) metawidget.getClientProperty( TableLayout.class );
+		State state = (State) metawidget.getClientProperty( LinearLayout.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( TableLayout.class, state );
+			metawidget.putClientProperty( LinearLayout.class, state );
 		}
 
 		return state;

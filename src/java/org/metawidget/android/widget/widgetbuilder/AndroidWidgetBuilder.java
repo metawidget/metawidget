@@ -34,6 +34,7 @@ import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 import android.text.InputFilter;
+import android.text.SpannableStringBuilder;
 import android.text.method.DateKeyListener;
 import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
@@ -74,7 +75,19 @@ public class AndroidWidgetBuilder
 		// TextView/EditText
 
 		if ( view instanceof TextView )
-			return ( (TextView) view ).getText();
+		{
+			CharSequence text = ( (TextView) view ).getText();
+
+			// Convert SpannableStringBuilder to Strings
+			//
+			// This is a little controversial, but it's painful to handle SpannableStringBuilder
+			// everywhere in client code
+
+			if ( text instanceof SpannableStringBuilder )
+				text = text.toString();
+
+			return text;
+		}
 
 		// DatePicker
 
@@ -274,7 +287,7 @@ public class AndroidWidgetBuilder
 
 				// Empty option
 
-				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
 					lookupList.add( 0, null );
 
 				List<String> lookupLabelsList = null;
@@ -286,7 +299,7 @@ public class AndroidWidgetBuilder
 
 					// (CollectionUtils.fromString returns unmodifiable EMPTY_LIST if empty)
 
-					if ( !lookupLabelsList.isEmpty() && WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+					if ( !lookupLabelsList.isEmpty() && WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
 						lookupLabelsList.add( 0, null );
 				}
 

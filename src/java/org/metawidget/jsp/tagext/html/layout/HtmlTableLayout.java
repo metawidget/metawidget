@@ -225,7 +225,7 @@ public class HtmlTableLayout
 			// Write child normally
 
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
-			layoutBeforeChild( attributes, metawidgetTag );
+			layoutBeforeChild( elementName, attributes, metawidgetTag );
 			writer.write( literal );
 			layoutAfterChild( attributes, metawidgetTag );
 		}
@@ -267,7 +267,7 @@ public class HtmlTableLayout
 	// Protected methods
 	//
 
-	protected void layoutBeforeChild( Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	protected void layoutBeforeChild( String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
 		State state = getState( metawidgetTag );
 		state.currentColumn++;
@@ -328,7 +328,7 @@ public class HtmlTableLayout
 
 			// Start the label column
 
-			boolean labelRendered = layoutLabel( attributes, metawidgetTag );
+			boolean labelRendered = layoutLabel( elementName, attributes, metawidgetTag );
 
 			// Zero-column layouts need an extra row
 
@@ -440,11 +440,11 @@ public class HtmlTableLayout
 	 * @return true if a label was rendered
 	 */
 
-	protected boolean layoutLabel( Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	protected boolean layoutLabel( String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
-		String label = metawidgetTag.getLabelString( attributes );
+		String labelText = metawidgetTag.getLabelString( attributes );
 
-		if ( label == null )
+		if ( !LayoutUtils.needsLabel( labelText, elementName ))
 			return false;
 
 		try
@@ -457,9 +457,9 @@ public class HtmlTableLayout
 			writeStyleClass( 0, metawidgetTag );
 			writer.write( ">" );
 
-			if ( !"".equals( label ) )
+			if ( !"".equals( labelText ) )
 			{
-				writer.write( label );
+				writer.write( labelText );
 				writer.write( ":" );
 			}
 

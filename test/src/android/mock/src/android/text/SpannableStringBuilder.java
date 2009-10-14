@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package android.util;
+package android.text;
 
 /**
  * Dummy implementation for unit testing.
@@ -22,21 +22,53 @@ package android.util;
  * @author Richard Kennard
  */
 
-public interface AttributeSet
+public class SpannableStringBuilder
+	implements CharSequence
 {
 	//
-	// Methods
+	// Private members
 	//
 
-	void setAttributeValue( String key, String value );
+	private CharSequence	mString;
 
-	String getAttributeValue( String namespace, String key );
+	//
+	// Constructor
+	//
 
-	int getAttributeCount();
+	public SpannableStringBuilder( CharSequence string )
+	{
+		mString = string;
+	}
 
-	String getAttributeValue( int index );
+	//
+	// Supported public methods
+	//
 
-	String getAttributeName( int index );
+	@Override
+	public String toString()
+	{
+		return mString.toString();
+	}
 
-	int getAttributeResourceValue( Object object, String string, int i );
+	//
+	// Unsupported public methods
+	//
+
+	@Override
+	public char charAt( int index )
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public int length()
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	@Override
+	public CharSequence subSequence( int start, int end )
+	{
+		throw new UnsupportedOperationException();
+	}
 }

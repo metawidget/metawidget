@@ -74,7 +74,7 @@ public class TableLayout
 	//
 
 	@Override
-	protected void layoutView( View view, ViewGroup tableRow, boolean needsLabel )
+	protected void layoutView( View view, ViewGroup tableRow, AndroidMetawidget metawidget, boolean needsLabel )
 	{
 		// View
 
@@ -104,7 +104,7 @@ public class TableLayout
 		// Add it to our layout
 
 		tableRow.addView( viewToAdd, params );
-		( (android.widget.TableLayout) tableRow.getParent() ).addView( tableRow, new android.widget.TableLayout.LayoutParams() );
+		getLayout( metawidget ).addView( tableRow, new android.widget.TableLayout.LayoutParams() );
 	}
 
 	@Override

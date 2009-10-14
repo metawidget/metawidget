@@ -22,6 +22,7 @@ import java.lang.reflect.Constructor;
 import java.util.Map;
 import java.util.Set;
 
+import org.metawidget.android.AndroidConfigReader;
 import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.config.ConfigReader;

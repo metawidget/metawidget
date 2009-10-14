@@ -34,6 +34,7 @@ import javax.faces.render.Renderer;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.layout.impl.LayoutUtils;
 
 /**
  * Base class for all JSF HTML layout renderers. This implementation recognizes the following
@@ -50,7 +51,7 @@ import org.metawidget.faces.component.UIMetawidget;
  * @author Richard Kennard
  */
 
-public class HtmlLayoutRenderer
+public abstract class HtmlLayoutRenderer
 	extends Renderer
 {
 	//
@@ -108,9 +109,24 @@ public class HtmlLayoutRenderer
 	//
 
 	/**
+	 * Version of LayoutUtils.needsLabel that uses UIComponent type instead of elementName.
+	 */
+
+	protected boolean needsLabel( UIComponent componentNeedingLabel )
+	{
+		@SuppressWarnings( "unchecked" )
+		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+		String labelText = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( metadataAttributes );
+
+		if ( componentNeedingLabel instanceof UICommand )
+			return false;
+
+		return LayoutUtils.needsLabel( labelText, null );
+	}
+
+	/**
 	 * Render the label text. Rendering is done via a <code>HtmlOutputText</code> renderer, so that
-	 * the label may contain value expressions, such as <code>UiLabel( "#{foo.name}'s name" )</code>
-	 * .
+	 * the label may contain value expressions, such as <code>UiLabel( "#{foo.name}'s name" )</code>.
 	 *
 	 * @return whether a label was written
 	 */
@@ -119,15 +135,6 @@ public class HtmlLayoutRenderer
 	protected boolean layoutLabel( FacesContext context, UIComponent metawidget, UIComponent componentNeedingLabel )
 		throws IOException
 	{
-		@SuppressWarnings( "unchecked" )
-		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
-		String labelText = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( metadataAttributes );
-
-		// Note: this can't use LayoutUtils.needsLabel because JSF doesn't get access to the elementName
-
-		if ( labelText == null || "".equals( labelText.trim() ) || componentNeedingLabel instanceof UICommand )
-			return false;
-
 		// Render the label
 
 		HtmlOutputText componentLabel = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
@@ -136,6 +143,10 @@ public class HtmlLayoutRenderer
 
 		if ( state.labelSuffix == null )
 			state.labelSuffix = ":";
+
+		@SuppressWarnings( "unchecked" )
+		Map<String, String> metadataAttributes = (Map<String, String>) componentNeedingLabel.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
+		String labelText = ( (UIMetawidget) componentNeedingLabel.getParent() ).getLabelString( metadataAttributes );
 
 		if ( labelText.indexOf( "#{" ) != -1 )
 			componentLabel.setValueBinding( "value", context.getApplication().createValueBinding( labelText + state.labelSuffix ) );

@@ -17,8 +17,8 @@
 package org.metawidget.android.widget;
 
 import junit.framework.TestCase;
-import android.util.AttributeSet;
-import android.util.AttributeSetImpl;
+
+import org.metawidget.android.AndroidMetawidgetTests.MockAttributeSet;
 
 /**
  * @author Richard Kennard
@@ -40,7 +40,7 @@ public class StubTest
 		assertTrue( "bar".equals( stub.getAttributes().get( "foo" )));
 		assertTrue( null == stub.getTag() );
 
-		AttributeSet attributeSet = new AttributeSetImpl();
+		MockAttributeSet attributeSet = new MockAttributeSet();
 		attributeSet.setAttributeValue( "foo", "should-not-appear" );
 		attributeSet.setAttributeValue( "attribfoo", "should-not-appear-either" );
 		attributeSet.setAttributeValue( "attribName", "bar" );

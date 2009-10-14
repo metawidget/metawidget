@@ -30,6 +30,7 @@ import org.metawidget.android.widget.Stub;
 import org.metawidget.util.CollectionUtils;
 
 import android.text.InputFilter;
+import android.text.SpannableStringBuilder;
 import android.text.method.DateKeyListener;
 import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
@@ -123,6 +124,7 @@ public class AndroidWidgetBuilderTest
 	}
 
 	public void testActive()
+		throws Exception
 	{
 		AndroidMetawidget metawidget = new AndroidMetawidget( null );
 		AndroidWidgetBuilder androidWidgetBuilder = new AndroidWidgetBuilder();
@@ -228,12 +230,14 @@ public class AndroidWidgetBuilderTest
 
 		attributes.put( TYPE, String.class.getName() );
 		attributes.put( LARGE, TRUE );
-		assertTrue( 3 == ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getMinLines() );
+		EditText editText = (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		assertTrue( 3 == (Integer) editText.getClass().getMethod( "getMinLines", (Class[]) null ).invoke( editText, (Object[]) null ) );
 
 		// Limited length
 
 		attributes.put( MAXIMUM_LENGTH, "12" );
-		assertTrue( 12 == ( (InputFilter.LengthFilter) ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getFilters()[0] ).getLength() );
+		InputFilter filter = ( (EditText) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) ).getFilters()[0];
+		assertTrue( 12 == (Integer) filter.getClass().getMethod( "getLength", (Class[]) null ).invoke( filter, (Object[]) null ) );
 
 		// Metawidget
 
@@ -270,6 +274,9 @@ public class AndroidWidgetBuilderTest
 		assertTrue( null == androidWidgetBuilder.getValue( textView ) );
 		androidWidgetBuilder.setValue( "foo", textView );
 		assertTrue( "foo".equals( textView.getText() ) );
+		assertTrue( "foo".equals( androidWidgetBuilder.getValue( textView ) ) );
+
+		textView.setText( new SpannableStringBuilder( "foo" ) );
 		assertTrue( "foo".equals( androidWidgetBuilder.getValue( textView ) ) );
 
 		// DatePicker

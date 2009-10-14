@@ -32,19 +32,23 @@
 			</classpath>
 		</javac>
 		
-		<javac sourcepath="" srcdir="${relative.dir}/test/src/android/mock/src" destdir="${relative.dir}/${build.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
-			<classpath>
-				<fileset dir="${relative.dir}/lib"/>
-				<pathelement path="${relative.dir}/${build.dir}/classes"/>
-			</classpath>
-		</javac>
-
 		<copy todir="${relative.dir}/${build.dir}/test-classes">
 			<fileset dir="${relative.dir}/test/src/java">
 				<include name="**/*.properties"/>
 			</fileset>
 		</copy>
 		
+		<!-- Special mock files. Don't build these into /test-classes, because we -->
+		<!-- want allwidgets-android to compile against the real Android libs     -->
+		
+		<mkdir dir="${relative.dir}/${build.dir}/test-android-mock-classes"/>
+		
+		<javac sourcepath="" srcdir="${relative.dir}/test/src/android/mock/src" destdir="${relative.dir}/${build.dir}/test-android-mock-classes" debug="on" optimize="on" source="1.5" target="jsr14">
+			<classpath>
+				<fileset dir="${relative.dir}/lib"/>
+			</classpath>
+		</javac>
+				
 		<!-- Build tutorial files (which are neither 'src/test' files, nor should -->
 		<!-- end up as examples in the finished distribution                      -->
 		
@@ -111,13 +115,14 @@
 			<exclude name="org/metawidget/swing/allwidgets/**"/>
 			<exclude name="org/metawidget/swing/SwingAllWidgetsTest.java"/>
 			<classpath>
-				<fileset dir="${relative.dir}/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/classes"/>				
 				<pathelement path="${relative.dir}/${build.dir}/example-classes"/>				
 				<pathelement path="${relative.dir}/${build.dir}/tutorial-classes"/>				
 				<pathelement path="${relative.dir}/${build.dir}/groovy-test-classes"/>				
 				<pathelement path="${relative.dir}/${build.dir}/scala-test-classes"/>				
 				<pathelement path="${relative.dir}/${build.dir}/scala-example-classes"/>
+				<pathelement path="${relative.dir}/${build.dir}/test-android-mock-classes"/>				
+				<fileset dir="${relative.dir}/lib"/>
 			</classpath>
 		</javac>
 		
@@ -139,6 +144,7 @@
 				<fileset dir="${relative.dir}/test/lib"/>				
 				<pathelement location="${relative.dir}/${build.dir}/metawidget.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
+				<pathelement path="${relative.dir}/${build.dir}/test-android-mock-classes"/>
 				
 				<!-- Put Android last, so its JUnit implementation doesn't clash -->
 				
@@ -455,6 +461,7 @@
 			<fileset dir="${relative.dir}/${build.dir}/classes">
 				<include name="org/metawidget/*.class"/>
 				<include name="org/metawidget/android/**"/>
+				<include name="org/metawidget/config/**"/>
 				<include name="org/metawidget/iface/**"/>
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/composite/**"/>
@@ -468,6 +475,7 @@
 				<include name="org/metawidget/util/**"/>
 				<include name="org/metawidget/widgetbuilder/**"/>
 				<include name="org/metawidget/widgetprocessor/**"/>
+				<include name="org/metawidget/layout/**"/>
 			</fileset>			
 			<fileset dir="${relative.dir}/${build.dir}/test-classes">
 				<include name="org/metawidget/android/allwidgets/**"/>
