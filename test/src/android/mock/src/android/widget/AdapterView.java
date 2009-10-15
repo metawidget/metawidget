@@ -26,16 +26,16 @@ import android.view.ViewGroup;
  * @author Richard Kennard
  */
 
-public class AdapterView<T extends Object>
+public class AdapterView<T extends Adapter>
 	extends ViewGroup
 {
 	//
 	// Private members
 	//
 
-	private Object	mAdapter;
+	private T	mAdapter;
 
-	private int		mPosition;
+	private int	mPosition;
 
 	//
 	// Constructor
@@ -50,20 +50,15 @@ public class AdapterView<T extends Object>
 	// Public methods
 	//
 
-	@SuppressWarnings( "unchecked" )
-	public ArrayAdapter getAdapter()
+	public T getAdapter()
 	{
-		return (ArrayAdapter) mAdapter;
+		return mAdapter;
 	}
 
+	@SuppressWarnings( "unchecked" )
 	public void setAdapter( Object adapter )
 	{
-		mAdapter = adapter;
-	}
-
-	public void setAdapter( SpinnerAdapter adapter )
-	{
-		mAdapter = adapter;
+		mAdapter = (T) adapter;
 	}
 
 	public void setSelection( int position )
@@ -73,7 +68,7 @@ public class AdapterView<T extends Object>
 
 	public Object getSelectedItem()
 	{
-		return ( (Adapter) mAdapter ).getItem( mPosition );
+		return ( mAdapter ).getItem( mPosition );
 	}
 
 	//

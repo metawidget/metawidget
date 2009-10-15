@@ -124,7 +124,6 @@
 				<pathelement path="${relative.dir}/${build.dir}/groovy-test-classes"/>				
 				<pathelement path="${relative.dir}/${build.dir}/scala-test-classes"/>				
 				<pathelement path="${relative.dir}/${build.dir}/scala-example-classes"/>
-				<pathelement path="${relative.dir}/${build.dir}/test-android-mock-classes"/>				
 				<fileset dir="${relative.dir}/lib"/>
 			</classpath>
 		</javac>

@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -259,6 +260,7 @@ public class AndroidWidgetBuilderTest
 
 		assertTrue( null == androidWidgetBuilder.getValue( null ) );
 		assertTrue( null == androidWidgetBuilder.getValue( new View( null ) ) );
+		assertTrue( !androidWidgetBuilder.setValue( null, null ) );
 
 		// CheckBox
 
@@ -290,5 +292,14 @@ public class AndroidWidgetBuilderTest
 		assertTrue( 75 == ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getYear() );
 		assertTrue( 4 == ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getMonth() );
 		assertTrue( 9 == ( (Date) androidWidgetBuilder.getValue( datePicker ) ).getDate() );
+
+		// Spinner
+
+		Spinner spinner = new Spinner( null );
+		List<String> lookupList = CollectionUtils.newArrayList( "foo", "bar", "baz" );
+		spinner.setAdapter( new ResourcelessArrayAdapter<String>( null, lookupList, null ) );
+		assertTrue( "foo".equals( androidWidgetBuilder.getValue( spinner ) ));
+		androidWidgetBuilder.setValue( "bar", spinner );
+		assertTrue( "bar".equals( androidWidgetBuilder.getValue( spinner ) ));
 	}
 }

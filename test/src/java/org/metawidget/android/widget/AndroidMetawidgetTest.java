@@ -106,7 +106,37 @@ public class AndroidMetawidgetTest
 
 		try
 		{
+			androidMetawidget.getValue();
+			assertTrue( false );
+		}
+		catch( MetawidgetException e )
+		{
+			assertTrue( "No names specified".equals( e.getMessage() ) );
+		}
+
+		try
+		{
 			androidMetawidget.getValue( "foo" );
+			assertTrue( false );
+		}
+		catch( MetawidgetException e )
+		{
+			assertTrue( "No View with tag foo".equals( e.getMessage() ) );
+		}
+
+		try
+		{
+			androidMetawidget.setValue( 2 );
+			assertTrue( false );
+		}
+		catch( MetawidgetException e )
+		{
+			assertTrue( "No names specified".equals( e.getMessage() ) );
+		}
+
+		try
+		{
+			androidMetawidget.setValue( 2, "foo" );
 			assertTrue( false );
 		}
 		catch( MetawidgetException e )

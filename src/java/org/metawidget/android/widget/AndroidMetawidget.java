@@ -85,7 +85,7 @@ public class AndroidMetawidget
 
 	private int												mConfig;
 
-	private boolean											mNeedsConfiguring = true;
+	private boolean											mNeedsConfiguring	= true;
 
 	private boolean											mNeedToBuildWidgets;
 
@@ -345,8 +345,8 @@ public class AndroidMetawidget
 	/**
 	 * Gets the value from the View with the given name.
 	 * <p>
-	 * The value is returned as it is stored in the View (eg. Editable for EditText) so may need some
-	 * conversion before being reapplied to the object being inspected. This obviously requires
+	 * The value is returned as it is stored in the View (eg. Editable for EditText) so may need
+	 * some conversion before being reapplied to the object being inspected. This obviously requires
 	 * knowledge of which View AndroidMetawidget created, which is not ideal.
 	 *
 	 * @return the value from the View. Note this return type uses generics, so as to not require a
@@ -356,7 +356,7 @@ public class AndroidMetawidget
 	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( String... names )
 	{
-		if ( names == null )
+		if ( names == null || names.length == 0 )
 			throw MetawidgetException.newException( "No names specified" );
 
 		View view = findViewWithTags( names );
@@ -377,7 +377,7 @@ public class AndroidMetawidget
 
 	public void setValue( Object value, String... names )
 	{
-		if ( names == null )
+		if ( names == null || names.length == 0 )
 			throw MetawidgetException.newException( "No names specified" );
 
 		View view = findViewWithTags( names );

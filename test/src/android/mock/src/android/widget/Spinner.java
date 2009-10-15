@@ -25,7 +25,7 @@ import android.content.Context;
  */
 
 public class Spinner
-	extends AdapterView<ArrayAdapter<?>>
+	extends AdapterView<SpinnerAdapter>
 {
 	//
 	// Constructor
@@ -34,5 +34,20 @@ public class Spinner
 	public Spinner( Context context )
 	{
 		super( context );
+	}
+
+	//
+	// Public methods
+	//
+
+	@Override
+	public SpinnerAdapter getAdapter()
+	{
+		return super.getAdapter();
+	}
+
+	public void setAdapter( SpinnerAdapter adapter )
+	{
+		super.setAdapter( adapter );
 	}
 }

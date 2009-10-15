@@ -19,6 +19,7 @@ package android.widget;
 import java.util.List;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -29,6 +30,7 @@ import android.view.ViewGroup;
  */
 
 public class ArrayAdapter<T>
+	implements Adapter
 {
 	//
 	// Private members
@@ -51,7 +53,7 @@ public class ArrayAdapter<T>
 	}
 
 	//
-	// Public methods
+	// Supported public methods
 	//
 
 	public View getView( int position, View convertView, ViewGroup parentView )
@@ -64,12 +66,13 @@ public class ArrayAdapter<T>
 		return null;
 	}
 
+	@Override
 	public T getItem( int position )
 	{
 		return mValues.get( position );
 	}
 
-	public int getPosition( T value )
+	public int getPosition( Object value )
 	{
 		return mValues.indexOf( value );
 	}
@@ -77,5 +80,49 @@ public class ArrayAdapter<T>
 	public Context getContext()
 	{
 		return null;
+	}
+
+	//
+	// Unsupported public methods
+	//
+
+	public int getCount()
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public long getItemId( int arg0 )
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public int getItemViewType( int arg0 )
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public int getViewTypeCount()
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean hasStableIds()
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public boolean isEmpty()
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public void registerDataSetObserver( DataSetObserver arg0 )
+	{
+		throw new UnsupportedOperationException();
+	}
+
+	public void unregisterDataSetObserver( DataSetObserver arg0 )
+	{
+		throw new UnsupportedOperationException();
 	}
 }

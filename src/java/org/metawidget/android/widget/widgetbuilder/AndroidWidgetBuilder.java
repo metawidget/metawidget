@@ -39,7 +39,6 @@ import android.text.method.DateKeyListener;
 import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -97,10 +96,10 @@ public class AndroidWidgetBuilder
 			return new Date( datePicker.getYear() - 1900, datePicker.getMonth(), datePicker.getDayOfMonth() );
 		}
 
-		// AdapterView
+		// Spinner
 
-		if ( view instanceof AdapterView )
-			return ( (AdapterView<?>) view ).getSelectedItem();
+		if ( view instanceof Spinner )
+			return ( (Spinner) view ).getSelectedItem();
 
 		return null;
 	}
@@ -133,28 +132,15 @@ public class AndroidWidgetBuilder
 			return true;
 		}
 
-		// AdapterView
+		// Spinner
 
-		if ( view instanceof AdapterView )
+		if ( view instanceof Spinner )
 		{
+			Spinner spinner = (Spinner) view;
+
 			@SuppressWarnings( "unchecked" )
-			AdapterView<ArrayAdapter<Object>> adapterView = (AdapterView<ArrayAdapter<Object>>) view;
-
-			// Set the backing collection
-
-			if ( value instanceof Collection )
-			{
-				@SuppressWarnings( "unchecked" )
-				Collection<Object> collection = (Collection<Object>) value;
-				adapterView.setAdapter( new ResourcelessArrayAdapter<Object>( view.getContext(), collection ) );
-			}
-
-			// Set the selected value
-
-			else
-			{
-				adapterView.setSelection( adapterView.getAdapter().getPosition( value ) );
-			}
+			ArrayAdapter<Object> adapter = (ArrayAdapter<Object>) spinner.getAdapter();
+			spinner.setSelection( adapter.getPosition( value ) );
 
 			return true;
 		}
