@@ -66,7 +66,7 @@ public class ViewGroup
 		mChildren.add( child );
 	}
 
-	public void addView( View child, ViewGroup.LayoutParams params )
+	public void addView( View child, LayoutParams params )
 	{
 		mChildren.add( child );
 	}

@@ -24,7 +24,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.metawidget.android.AndroidMetawidgetTests.MockAttributeSet;
-import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.CollectionUtils;
 
@@ -148,10 +147,6 @@ public class AndroidMetawidgetTest
 		editText.setTag( "foo" );
 		editText.setText( "Bar" );
 		androidMetawidget.addView( editText );
-		assertTrue( null == androidMetawidget.getValue( "foo" ));
-		// TODO: remove this once .addView overridden
-		androidMetawidget.setWidgetBuilder( new AndroidWidgetBuilder() );
-
 		assertTrue( "Bar".equals( androidMetawidget.getValue( "foo" )));
 		androidMetawidget.setValue( "Baz", "foo" );
 		assertTrue( "Baz".equals( androidMetawidget.getValue( "foo" )));

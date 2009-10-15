@@ -91,6 +91,8 @@ public class AndroidMetawidget
 
 	String													mLastInspection;
 
+	private boolean											mIgnoreAddRemove;
+
 	private Set<View>										mExistingViews;
 
 	private Set<View>										mExistingViewsUnused;
@@ -326,13 +328,46 @@ public class AndroidMetawidget
 	// The following methods all kick off a buildWidgets()
 	//
 
-	// TODO: addView
-
 	@Override
 	public int getChildCount()
 	{
 		buildWidgets();
 		return super.getChildCount();
+	}
+
+	public void addView( View child, LayoutParams params )
+	{
+		if ( !mIgnoreAddRemove )
+			invalidateWidgets();
+
+		super.addView( child, params );
+	}
+
+	@Override
+	public void addView( View child )
+	{
+		if ( !mIgnoreAddRemove )
+			invalidateWidgets();
+
+		super.addView( child );
+	}
+
+	@Override
+	public void removeAllViews()
+	{
+		if ( !mIgnoreAddRemove )
+			invalidateWidgets();
+
+		super.removeAllViews();
+	}
+
+	@Override
+	public void removeView( View view )
+	{
+		if ( !mIgnoreAddRemove )
+			invalidateWidgets();
+
+		super.removeView( view );
 	}
 
 	@Override
@@ -526,6 +561,7 @@ public class AndroidMetawidget
 		configure();
 
 		mNeedToBuildWidgets = false;
+		mIgnoreAddRemove = true;
 
 		try
 		{
@@ -544,6 +580,10 @@ public class AndroidMetawidget
 		catch ( Exception e )
 		{
 			throw MetawidgetException.newException( e );
+		}
+		finally
+		{
+			mIgnoreAddRemove = false;
 		}
 	}
 
