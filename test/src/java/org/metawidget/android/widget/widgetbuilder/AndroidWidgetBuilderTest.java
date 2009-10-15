@@ -36,6 +36,7 @@ import android.text.method.DateKeyListener;
 import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -159,7 +160,7 @@ public class AndroidWidgetBuilderTest
 		attributes.put( LOOKUP_LABELS, "Foo #1, Bar #2, Baz #3" );
 		Spinner spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ResourcelessArrayAdapter<String> adapter1 = (ResourcelessArrayAdapter<String>) spinner.getAdapter();
+		ResourcelessArrayAdapter<String> adapter1 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
 		assertTrue( "foo".equals( adapter1.getItem( 0 )));
 		assertTrue( "Foo #1".equals( ((TextView) adapter1.getView( 0, null, null )).getText() ));
 		assertTrue( "bar".equals( adapter1.getItem( 1 )));
@@ -171,7 +172,7 @@ public class AndroidWidgetBuilderTest
 		attributes.put( TYPE, String.class.getName() );
 		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ResourcelessArrayAdapter<String> adapter2 = (ResourcelessArrayAdapter<String>) spinner.getAdapter();
+		ResourcelessArrayAdapter<String> adapter2 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
 		assertTrue( null == adapter2.getItem( 0 ));
 		assertTrue( "".equals( ((TextView) adapter2.getView( 0, null, null )).getText() ));
 		assertTrue( "foo".equals( adapter2.getItem( 1 )));

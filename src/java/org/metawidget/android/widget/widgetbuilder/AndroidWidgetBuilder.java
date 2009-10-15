@@ -39,6 +39,7 @@ import android.text.method.DateKeyListener;
 import android.text.method.DigitsKeyListener;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -136,11 +137,11 @@ public class AndroidWidgetBuilder
 
 		if ( view instanceof Spinner )
 		{
-			Spinner spinner = (Spinner) view;
-
 			@SuppressWarnings( "unchecked" )
-			ArrayAdapter<Object> adapter = (ArrayAdapter<Object>) spinner.getAdapter();
-			spinner.setSelection( adapter.getPosition( value ) );
+			AdapterView adapterView = (AdapterView) view;
+			@SuppressWarnings( "unchecked" )
+			ArrayAdapter<Object> adapter = (ArrayAdapter<Object>) adapterView.getAdapter();
+			adapterView.setSelection( adapter.getPosition( value ) );
 
 			return true;
 		}

@@ -25,6 +25,7 @@ import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiSection;
 
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -90,7 +91,7 @@ public class TableLayoutTest
 		assertTrue( "Foo Section".equals( ( (TextView) tableLayout.getChildAt( 0 ) ).getText() ) );
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
 		assertTrue( "Abc: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
-		Spinner spinner = (Spinner) tableRow.getChildAt( 1 );
+		AdapterView<?> adapterView = (Spinner) tableRow.getChildAt( 1 );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof Spinner );
 		tableRow = (TableRow) tableLayout.getChildAt( 2 );
 		assertTrue( "Stub me: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
@@ -110,13 +111,13 @@ public class TableLayoutTest
 
 		// Get/set nested value
 
-		assertTrue( null == spinner.getSelectedItem() );
-		assertTrue( null == spinner.getAdapter().getItem( 0 ) );
-		assertTrue( "one".equals( spinner.getAdapter().getItem( 1 ) ) );
-		assertTrue( "two".equals( spinner.getAdapter().getItem( 2 ) ) );
-		assertTrue( "three".equals( spinner.getAdapter().getItem( 3 ) ) );
+		assertTrue( null == adapterView.getSelectedItem() );
+		assertTrue( null == adapterView.getAdapter().getItem( 0 ) );
+		assertTrue( "one".equals( adapterView.getAdapter().getItem( 1 ) ) );
+		assertTrue( "two".equals( adapterView.getAdapter().getItem( 2 ) ) );
+		assertTrue( "three".equals( adapterView.getAdapter().getItem( 3 ) ) );
 		androidMetawidget.setValue( "two", "nestedFoo", "abc" );
-		assertTrue( "two".equals( spinner.getSelectedItem() ) );
+		assertTrue( "two".equals( adapterView.getSelectedItem() ) );
 		assertTrue( "two".equals( androidMetawidget.getValue( "nestedFoo", "abc" ) ) );
 	}
 

@@ -40,12 +40,6 @@ public class Spinner
 	// Public methods
 	//
 
-	@Override
-	public SpinnerAdapter getAdapter()
-	{
-		return super.getAdapter();
-	}
-
 	public void setAdapter( SpinnerAdapter adapter )
 	{
 		super.setAdapter( adapter );
