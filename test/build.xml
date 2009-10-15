@@ -392,7 +392,7 @@
 		
 		<emma>
 			<instr instrpath="${relative.dir}/${build.dir}/classes" destdir="${relative.dir}/${build.dir}/classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
-				<filter excludes="*Constants"/>				
+				<filter excludes="org.metawidget.android.AndroidConfigReader, org.metawidget.android.AndroidUtils, *Constants"/>				
 			</instr>
 			<instr instrpath="${relative.dir}/${build.dir}/example-classes" destdir="${relative.dir}/${build.dir}/example-classes" metadatafile="${relative.dir}/${build.dir}/${run.dir}/metadata.emma" merge="true" mode="overwrite">
 				<filter excludes="org.metawidget.example.android.*, org.metawidget.example.swing.console.*"/>				

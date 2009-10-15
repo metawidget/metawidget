@@ -125,7 +125,7 @@
 				<include name="org/metawidget/widgetbuilder/**"/>
 				<include name="org/metawidget/widgetprocessor/**"/>
 			</fileset>
-			<fileset dir="${relative.dir}/examples/src/java">			
+			<fileset dir="${relative.dir}/src/java">			
 				<include name="**/*.xsd"/>
 				<include name="**/metawidget-swing-default.xml"/>
 			</fileset>

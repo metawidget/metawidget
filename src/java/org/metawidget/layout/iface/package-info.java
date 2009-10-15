@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Layout: Root interface.
+ * Layout: root interface.
  * <p>
  * This package is factored into a separate <code>iface</code> subpackage, as opposed to being in
  * the root, because some technologies (ie. GWT) are not good at including classes while filtering

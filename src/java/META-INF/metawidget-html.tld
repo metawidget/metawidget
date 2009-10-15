@@ -51,14 +51,6 @@
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>			
 		</attribute>
-		<attribute>
-			<name>style</name>			
-			<rtexprvalue>true</rtexprvalue>			
-		</attribute>
-		<attribute>
-			<name>styleClass</name>			
-			<rtexprvalue>true</rtexprvalue>			
-		</attribute>
 	</tag>
 
 	<tag>

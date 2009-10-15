@@ -27,17 +27,29 @@
 				
 				<groovy>
 					def applet = new org.metawidget.example.swing.applet.AddressBookApplet();
+					def label = applet.getComponent( 0 );
+					step.setWebtestProperty( 'labelClass', label.getClass().getName());
 					def panel = applet.getComponent( 1 );
 					step.setWebtestProperty( 'backgroundOpaque', String.valueOf( panel.isOpaque() ));
 					step.setWebtestProperty( 'backgroundRed', String.valueOf( panel.getBackground().getRed() ));
 					step.setWebtestProperty( 'backgroundGreen', String.valueOf( panel.getBackground().getGreen() ));
 					step.setWebtestProperty( 'backgroundBlue', String.valueOf( panel.getBackground().getBlue() ));
-					step.setWebtestProperty( 'contacts', String.valueOf( panel.getComponent( 1 ).getViewport().getView().getRowCount() ));
+					def metawidget = panel.getComponent( 0 );
+					step.setWebtestProperty( 'metawidgetClass', metawidget.getClass().getName());
+					
+					// We would love to be able to do metawidget.getComponentCount(), but we cannot work out the CLASSPATH issues
+					
+					def contacts = panel.getComponent( 1 );
+					step.setWebtestProperty( 'contactsClass', contacts.getClass().getName() );
+					step.setWebtestProperty( 'contacts', String.valueOf( contacts.getViewport().getView().getRowCount() ));
 				</groovy>
+				<verifyProperty name="labelClass" text="javax.swing.JLabel"/>
+				<verifyProperty name="metawidgetClass" text="org.metawidget.swing.SwingMetawidget"/>
 				<verifyProperty name="backgroundOpaque" text="true"/>
 				<verifyProperty name="backgroundRed" text="255"/>
 				<verifyProperty name="backgroundGreen" text="255"/>
 				<verifyProperty name="backgroundBlue" text="255"/>
+				<verifyProperty name="contactsClass" text="javax.swing.JScrollPane"/>
 				<verifyProperty name="contacts" text="6"/>
 			</steps>
 		</webtest>

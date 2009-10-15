@@ -205,7 +205,20 @@ public class XmlUtils
 
 		for ( int loop = 0; loop < length; loop++ )
 		{
-			Node node = children.item( loop );
+			Node node;
+
+			try
+			{
+				node = children.item( loop );
+			}
+			catch ( NullPointerException e )
+			{
+				// We've seen this throw a NullPointerException from
+				// com.sun.org.apache.xerces.internal.dom.ParentNode.nodeListItem(ParentNode.java:780)
+				// under GWT 1.7
+
+				continue;
+			}
 
 			if ( !( node instanceof Element ) )
 				continue;

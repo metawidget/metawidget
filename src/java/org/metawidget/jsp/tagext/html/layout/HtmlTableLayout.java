@@ -225,7 +225,7 @@ public class HtmlTableLayout
 			// Write child normally
 
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
-			layoutBeforeChild( elementName, attributes, metawidgetTag );
+			layoutBeforeChild( tag, elementName, attributes, metawidgetTag );
 			writer.write( literal );
 			layoutAfterChild( attributes, metawidgetTag );
 		}
@@ -267,7 +267,7 @@ public class HtmlTableLayout
 	// Protected methods
 	//
 
-	protected void layoutBeforeChild( String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	protected void layoutBeforeChild( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
 		State state = getState( metawidgetTag );
 		state.currentColumn++;
@@ -370,17 +370,9 @@ public class HtmlTableLayout
 			if ( !labelRendered )
 				colspan = 2;
 
-			// Large components span all columns
-			//
-			// TODO: can we span all columns?
-			// TODO: can we check for buttons?
-			//
-			// Note: we cannot span all columns for Metawidgets, as we do in
-			// HtmlTableLayoutRenderer,
-			// because JSP lacks a true component model such that we can ask which sort of component
-			// we are rendering
+			// Metawidgets and large components span all columns
 
-			if ( mNumberOfColumns > 1 && attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
+			if ( tag instanceof MetawidgetTag || ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ))
 			{
 				colspan = ( ( mNumberOfColumns - 1 ) * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1;
 				state.currentColumn = mNumberOfColumns;
@@ -514,6 +506,10 @@ public class HtmlTableLayout
 
 			writer.write( "</th>" );
 			writer.write( "</tr>" );
+
+			// Reset to first column
+
+			getState( metawidgetTag ).currentColumn = 1;
 		}
 		catch ( IOException e )
 		{
