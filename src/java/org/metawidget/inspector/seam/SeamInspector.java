@@ -33,7 +33,7 @@ import org.w3c.dom.Element;
  * Inspector to look for relevant settings in Seam XML files. Specifically:
  * <p>
  * <ul>
- * <li>Delegates <code>jbpm:pageflow-definitions</code> elements in <code>components.xml</code> to
+ * <li>Delegates <code>jbpm:pageflow-definitions</code> elements from <code>components.xml</code> to
  * <code>PageflowInspector</code>.
  * </ul>
  *
