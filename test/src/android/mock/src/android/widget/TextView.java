@@ -69,7 +69,7 @@ public class TextView
 		mText = text;
 	}
 
-	public void setText( String text, BufferType bufferType )
+	public void setText( CharSequence text, BufferType bufferType )
 	{
 		mText = text;
 	}

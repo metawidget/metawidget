@@ -108,7 +108,7 @@ public class LinearLayout
 
 			AndroidUtils.applyStyle( textView, mLabelStyle, metawidget );
 
-			viewToAddTo.addView( textView );//, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+			viewToAddTo.addView( textView );
 		}
 
 		// View
@@ -124,11 +124,6 @@ public class LinearLayout
 		{
 			getLayout( metawidget ).addView( viewButtons, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 		}
-
-		// If the Layout was never used, just put an empty space
-
-		if ( metawidget.getChildCount() == 0 )
-			metawidget.addView( new TextView( metawidget.getContext() ), new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 	}
 
 	//

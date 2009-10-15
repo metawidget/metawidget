@@ -28,23 +28,24 @@ import org.metawidget.inspector.annotation.UiSection;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 /**
  * @author Richard Kennard
  */
 
-public class LinearLayoutTest
+public class TableLayoutTest
 	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	public void testLinearLayout()
+	public void testTableLayout()
 	{
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new LinearLayout() );
+		androidMetawidget.setLayout( new TableLayout() );
 
 		Stub stub = new Stub( null );
 		stub.setTag( "stubMe" );
@@ -56,48 +57,21 @@ public class LinearLayoutTest
 
 		androidMetawidget.setToInspect( new Foo() );
 
-		assertTrue( "Bar: ".equals( ((TextView) androidMetawidget.getChildAt( 0 )).getText() ));
-		assertTrue( androidMetawidget.getChildAt( 1 ) instanceof EditText );
-		assertTrue( "Baz: ".equals( ((TextView) androidMetawidget.getChildAt( 2 )).getText() ));
-		assertTrue( androidMetawidget.getChildAt( 3 ) instanceof CheckBox );
-		assertTrue( "Foo Section".equals( ((TextView) androidMetawidget.getChildAt( 4 )).getText() ));
-		assertTrue( "Abc: ".equals( ((TextView) androidMetawidget.getChildAt( 5 )).getText() ));
-		assertTrue( androidMetawidget.getChildAt( 6 ) instanceof Spinner );
-		assertTrue( buttonsFacet == androidMetawidget.getChildAt( 7 ) );
+		android.widget.TableLayout tableLayout = (android.widget.TableLayout) androidMetawidget.getChildAt( 0 );
+		TableRow tableRow = (TableRow) tableLayout.getChildAt( 0 );
+		assertTrue( "Bar: ".equals( ((TextView) tableRow.getChildAt( 0 )).getText() ));
+		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
+		tableRow = (TableRow) tableLayout.getChildAt( 1 );
+		assertTrue( "Baz: ".equals( ((TextView) tableRow.getChildAt( 0 )).getText() ));
+		assertTrue( tableRow.getChildAt( 1 ) instanceof CheckBox );
+		tableLayout = (android.widget.TableLayout) androidMetawidget.getChildAt( 1 );
+		assertTrue( "Foo Section".equals( ((TextView) tableLayout.getChildAt( 0 )).getText() ));
+		tableRow = (TableRow) tableLayout.getChildAt( 1 );
+		assertTrue( "Abc: ".equals( ((TextView) tableRow.getChildAt( 0 )).getText() ));
+		assertTrue( tableRow.getChildAt( 1 ) instanceof Spinner );
+		assertTrue( buttonsFacet == tableLayout.getChildAt( 2 ) );
 
-		assertTrue( androidMetawidget.getChildCount() == 8 );
-	}
-
-	public void testConfig()
-	{
-		LinearLayoutConfig config1 = new LinearLayoutConfig();
-		LinearLayoutConfig config2 = new LinearLayoutConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// labelStyle
-
-		config1.setLabelStyle( 100 );
-		assertTrue( 100 == config1.getLabelStyle() );
-		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
-
-		config2.setLabelStyle( 100 );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// sectionStyle
-
-		config1.setSectionStyle( 100 );
-		assertTrue( 100 == config1.getSectionStyle() );
-		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
-
-		config2.setSectionStyle( 100 );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		assertTrue( androidMetawidget.getChildCount() == 2 );
 	}
 
 	//

@@ -27,6 +27,7 @@ import org.metawidget.android.widget.AndroidMetawidgetTest;
 import org.metawidget.android.widget.FacetTest;
 import org.metawidget.android.widget.StubTest;
 import org.metawidget.android.widget.layout.LinearLayoutTest;
+import org.metawidget.android.widget.layout.TableLayoutTest;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilderTest;
 
 import android.util.AttributeSet;
@@ -52,6 +53,7 @@ public class AndroidMetawidgetTests
 		suite.addTestSuite( FacetTest.class );
 		suite.addTestSuite( LinearLayoutTest.class );
 		suite.addTestSuite( StubTest.class );
+		suite.addTestSuite( TableLayoutTest.class );
 
 		return suite;
 	}

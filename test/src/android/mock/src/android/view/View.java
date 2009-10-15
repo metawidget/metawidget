@@ -74,7 +74,7 @@ public class View
 		return null;
 	}
 
-	public Object getParent()
+	public ViewParent getParent()
 	{
 		return null;
 	}
