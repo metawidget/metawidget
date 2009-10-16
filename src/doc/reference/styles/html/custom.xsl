@@ -14,15 +14,12 @@
 
 	<!-- Activate Graphics -->
 	<xsl:param name="admon.graphics" select="1" />
-	<xsl:param name="admon.graphics.path">images/</xsl:param>
+	<xsl:param name="admon.graphics.path">../shared/images/</xsl:param>
 	<xsl:param name="admon.graphics.extension">.gif</xsl:param>
-	<xsl:param name="callout.graphics" select="1" />
-	<xsl:param name="callout.graphics.path">images/callouts/</xsl:param>
-	<xsl:param name="callout.graphics.extension">.gif</xsl:param>
 	<xsl:param name="ignore.image.scaling" select="1"></xsl:param>
 
 	<xsl:param name="table.borders.with.css" select="1" />
-	<xsl:param name="html.stylesheet">css/stylesheet.css</xsl:param>
+	<xsl:param name="html.stylesheet">../shared/css/stylesheet.css</xsl:param>
 	<xsl:param name="html.stylesheet.type">text/css</xsl:param>
 	<xsl:param name="generate.toc">book toc</xsl:param>
 	<xsl:param name="toc.section.depth">5</xsl:param>

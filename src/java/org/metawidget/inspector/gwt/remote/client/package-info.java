@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Inspectors: GWT asynchronous AJAX support.
+ * Inspectors: GWT remote inspection support (client-side).
  *
  * @author Richard Kennard
  */

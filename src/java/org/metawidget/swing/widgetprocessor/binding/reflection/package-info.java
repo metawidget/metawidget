@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Swing support: Swing support: reflection-based action binding.
+ * Swing support: reflection-based action binding.
  *
  * @author Richard Kennard
  */
