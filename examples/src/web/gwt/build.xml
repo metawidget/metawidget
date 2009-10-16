@@ -86,7 +86,6 @@
 		<copy tofile="${gwt.project.dir}/${addressbook.dir}/war/index.jsp" file="addressbook/index-hosted.jsp"/>
 
 		<copy todir="${gwt.project.dir}/${addressbook.dir}/war/WEB-INF/lib">
-			<fileset dir="../../../../lib" includes="ejb3-persistence.jar,hibernate-validator.jar"/>
 			<fileset dir="${metawidget.home}" includes="metawidget.jar" />
 		</copy>
 		
@@ -106,9 +105,7 @@
 		<!-- Classpath -->
 			
 		<replace file="${gwt.project.dir}/${addressbook.dir}/.classpath" token='&lt;classpathentry kind="src" path="src"/>' value='&lt;classpathentry kind="src" path="src"/>&lt;classpathentry kind="src" path="test"/>'/>
-		<replace file="${gwt.project.dir}/${addressbook.dir}/.classpath" token="&lt;/classpath>" value='&lt;classpathentry kind="lib" path="war/WEB-INF/lib/ejb3-persistence.jar"/>
-			&lt;classpathentry kind="lib" path="war/WEB-INF/lib/hibernate-validator.jar"/>
-			&lt;classpathentry kind="lib" path="war/WEB-INF/lib/metawidget.jar"/>
+		<replace file="${gwt.project.dir}/${addressbook.dir}/.classpath" token="&lt;/classpath>" value='&lt;classpathentry kind="lib" path="war/WEB-INF/lib/metawidget.jar"/>
 			&lt;classpathentry kind="lib" path="lib/metawidget-gwt-client.jar"/>
 			&lt;/classpath>' />
 		

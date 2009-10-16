@@ -1722,6 +1722,35 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 				</figure>
 
 			</section>
+
+			<section>
+				<title>Conclusion</title>
+				
+				<para>
+					That concludes the introductory tutorial. In summary, we now:
+				</para>
+	
+				<itemizedlist>
+					<listitem>
+						<para>
+							have seen how to build an application whose UI is largely dictated by its business classes, not by hand-written UI code
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							significantly reduced the amount of UI code needed in our applications
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							have seen how to build an application that targets multiple platforms. If we were to add a new field to one of the business classes
+							(say, <parameter>numberOfChildren</parameter> to <classname>PersonalContact</classname>), it would automatically appear
+							and be functional on every platform.
+						</para>
+					</listitem>
+				</itemizedlist>
+			</section>
+
 		</section>
 			
 		<section id="section-introduction-part3-other-examples">
@@ -1729,9 +1758,8 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 			
 			<para>
 				The Metawidget distribution includes other examples showcasing particular features
-				on particular platforms. These additional examples are not a required part of the tutorial
-				and may be skipped. However, you may find them useful depending on which platform you
-				use.
+				on particular platforms. These additional examples are not a required part of the tutorial,
+				but you may find them useful depending on which platform you use.
 			</para>
 	
 			<section id="section-introduction-part3-applet">
@@ -1912,6 +1940,62 @@ bin\run</programlisting>
 
 			</section>
 			
+			<section id="section-introduction-part3-icefaces">
+				<title>ICEfaces Example</title>
+	
+				<para>
+					<ulink url="http://icefaces.org">ICEfaces</ulink> is an AJAX component library for Java Server Faces. This example
+					showcases how Metawidget can work with ICEfaces (1.8.2 and above) to deliver rich AJAX applications.
+				</para>
+
+				<para>
+					The example is pre-built for you in <filename>examples\faces\penguincolony-faces.war</filename>. Copy the WAR into
+					Tomcat's <filename>webapps</filename> folder, start Tomcat, and open a Web browser
+					to <ulink url="http://localhost:8080/penguincolony-faces">http://localhost:8080/penguincolony-faces</ulink>:
+				</para>
+
+				<figure id="section-introduction-part3-icefaces-screenshot">
+					<title>ICEfaces with Metawidget</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/web-penguincolony.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+
+				<para>
+					The application manages details of penguins in a colony. To begin, click the <guibutton>Edit</guibutton> link in the first row of the table:
+					ICEfaces and Metawidget work together to pop up an AJAX form without refreshing the page. Next, clear the form's
+					<parameter>Name</parameter> box and tab to the next field: an AJAX call is made and a validation error appears. Try
+					entering a new name and tabbing again: the validation error disappears and the new name is immediately reflected in
+					the table behind the popup box.
+				</para>
+				
+				<para>
+					The example also makes use of the <classname>@UiFacesAttribute</classname> annotation. For example, the Java code is
+					annotated:
+				</para>
+				
+				<programlisting language="java">@UiAction
+@UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
+	expression = "#{!empty penguin.current.condition}" )
+public void addCondition() { ... }
+
+@UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
+	expression = "#{empty penguin.current.condition}" )
+public PenguinCondition getCondition() { ...}</programlisting>
+				
+				<para>
+					Clicking the <guibutton>Add Condition</guibutton> button, or checking one of the <parameter>Hobbies</parameter> checkboxes,
+					triggers an AJAX call that re-evaluates the	<classname>@UiFacesAttribute</classname> annotations and dynamically reconstructs the
+					form without requiring a page refresh. This includes removing existing buttons, creating new dropdown boxes and creating
+					new labels.
+				</para>
+				
+				<para>
+					For more details on ICEfaces support, see <xref linkend="section-widgetbuilders-icefaces"/>.
+				</para>
+								
+			</section>
+
 			<section id="section-introduction-part3-swingappframework">
 				<title>Swing AppFramework Example</title>
 	
@@ -2123,62 +2207,6 @@ metawidget.setToInspect( animal )</programlisting>
 								
 			</section>
 
-			<section id="section-introduction-part3-icefaces">
-				<title>ICEfaces Example</title>
-	
-				<para>
-					<ulink url="http://icefaces.org">ICEfaces</ulink> is an AJAX component library for Java Server Faces. This example
-					showcases how Metawidget can work with ICEfaces (1.8.2 and above) to deliver rich AJAX applications.
-				</para>
-
-				<para>
-					The example is pre-built for you in <filename>examples\faces\penguincolony-faces.war</filename>. Copy the WAR into
-					Tomcat's <filename>webapps</filename> folder, start Tomcat, and open a Web browser
-					to <ulink url="http://localhost:8080/penguincolony-faces">http://localhost:8080/penguincolony-faces</ulink>:
-				</para>
-
-				<figure id="section-introduction-part3-icefaces-screenshot">
-					<title>ICEfaces with Metawidget</title>
-					<screenshot>
-						<graphic fileref="images/screenshots/web-penguincolony.jpg" width="100mm" />
-					</screenshot>
-				</figure>
-
-				<para>
-					The application manages details of penguins in a colony. To begin, click the <guibutton>Edit</guibutton> link in the first row of the table:
-					ICEfaces and Metawidget work together to pop up an AJAX form without refreshing the page. Next, clear the form's
-					<parameter>Name</parameter> box and tab to the next field: an AJAX call is made and a validation error appears. Try
-					entering a new name and tabbing again: the validation error disappears and the new name is immediately reflected in
-					the table behind the popup box.
-				</para>
-				
-				<para>
-					The example also makes use of the <classname>@UiFacesAttribute</classname> annotation. For example, the Java code is
-					annotated:
-				</para>
-				
-				<programlisting language="java">@UiAction
-@UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
-	expression = "#{!empty penguin.current.condition}" )
-public void addCondition() { ... }
-
-@UiFacesAttribute( name = InspectionResultConstants.HIDDEN,
-	expression = "#{empty penguin.current.condition}" )
-public PenguinCondition getCondition() { ...}</programlisting>
-				
-				<para>
-					Clicking the <guibutton>Add Condition</guibutton> button, or checking one of the <parameter>Hobbies</parameter> checkboxes,
-					triggers an AJAX call that re-evaluates the	<classname>@UiFacesAttribute</classname> annotations and dynamically reconstructs the
-					form without requiring a page refresh. This includes removing existing buttons, creating new dropdown boxes and creating
-					new labels.
-				</para>
-				
-				<para>
-					For more details on ICEfaces support, see <xref linkend="section-widgetbuilders-icefaces"/>.
-				</para>
-								
-			</section>
-
 			<section id="section-introduction-part3-gwt-hosted">
 				<title>GWT Hosted Mode Examples</title>
 	
@@ -2204,62 +2232,116 @@ public PenguinCondition getCondition() { ...}</programlisting>
 				<programlisting language="shell">cd examples\src\web\gwt
 ant</programlisting>
 								
-				<para>
+				<tip>
+					<title>Note</title>
 					You will need to either configure <parameter>GWT_HOME</parameter>, <parameter>METAWIDGET_HOME</parameter>
 					and <parameter>METAWIDGET_SRC_HOME</parameter> environment variables or pass <parameter>-Dgwt.home</parameter>,
 					<parameter>-Dmetawidget.home</parameter> and <parameter>-Dmetawidget.src.home</parameter>
 					arguments to Ant. GWT_HOME should point to a GWT 1.7 installation. METAWIDGET_HOME should point to the binary
-					Metawidget distribution. METAWIDGET_SRC_HOME should point to the source Metawidget distribution. The build will
-					create Eclipse projects which can be imported by using Eclipse's File -> Import menu and choosing
-					"Existing Projects into Workspace" (as described in the <ulink url="http://code.google.com/webtoolkit/gettingstarted.html">GWT Getting Started Guide</ulink>).
+					Metawidget distribution. METAWIDGET_SRC_HOME should point to the source Metawidget distribution.
+				</tip>
+				
+				<para>
+					The build will create Eclipse projects which can be imported by using Eclipse's
+					<parameter>File->Import</parameter> menu and choosing
+					<parameter>Existing Projects into Workspace</parameter>
+					(as described in the <ulink url="http://code.google.com/webtoolkit/gettingstarted.html">GWT Getting Started Guide</ulink>).
+					You should now be able to run the sample applications in hosted mode, including running their unit tests.
 				</para>
 				
 				<para>
-					Alternatively, to set up the hosted mode projects manually: 
+					Alternatively, you can set up the hosted mode projects manually. Here are the steps for the Address Book example
+					(for other examples, replace the phrase <classname>AddressBook</classname> as appropriate): 
 				</para>
 
 				<itemizedlist>
 					<listitem>
 						<para>
-							##TODO##
+							Run the GWT <filename>webAppCreator</filename> (as described in the
+							<ulink url="http://code.google.com/webtoolkit/gettingstarted.html">GWT Getting Started Guide</ulink>). Here
+							we assume GWT is installed at <filename>\gwt-windows-1.7.0</filename> and you want to create a hosted
+							mode project at <filename>\gwt-addressbook</filename>:
 						</para>
+						
+						<programlisting language="shell">\gwt-windows-1.7.0\webAppCreator -out
+						\gwt-addressbook org.metawidget.example.gwt.addressbook.client.AddressBook</programlisting>
+					</listitem>
+					<listitem>
+						<para>
+							Delete the default generated Java source files:
+						</para>
+						
+						<programlisting language="shell">del \gwt-addressbook\src\org\metawidget\example</programlisting>
+					</listitem>
+					<listitem>
+						<para>
+							Copy over the Address Book example's Java source files. Here we assume the Metawidget source distribution is installed
+							at <filename>\metawidget-src</filename> and you are using the Windows <filename>xcopy</filename> command:
+						</para>
+						
+						<programlisting language="shell">xcopy /s /i \metawidget-src\examples\src\java\org\metawidget\example\gwt\addressbook
+						\gwt-addressbook\src\org\metawidget\example\gwt\addressbook
+xcopy /s /i \metawidget-src\examples\src\java\org\metawidget\example\shared\addressbook
+						\gwt-addressbook\src\org\metawidget\example\shared\addressbook
+copy \metawidget-src\examples\src\java\org\metawidget\example\GwtAddressBook.gwt.xml
+						\gwt-addressbook\src\org\metawidget\example</programlisting>
+					</listitem>
+					<listitem>
+						<para>
+							Delete the default generated Web source files:
+						</para>
+						
+						<programlisting language="shell">del \gwt-addressbook\war</programlisting>
+					</listitem>
+					<listitem>
+						<para>
+							Copy over the Address Book example's Web source files:
+						</para>
+						
+						<programlisting language="shell">xcopy /s /i \metawidget-src\examples\src\web\gwt\addressbook \gwt-addressbook\war
+xcopy /s /i \metawidget-src\examples\src\web\shared\addressbook \gwt-addressbook\war
+copy \metawidget-src\examples\src\java\org\metawidget\example\GwtAddressBook.gwt.xml
+						\gwt-addressbook\src\org\metawidget\example</programlisting>
+					</listitem>
+					<listitem>
+						<para>
+							Copy over Metawidget itself. Here we assume the Metawidget binary distribution is installed
+							at <filename>\metawidget-bin</filename>:
+						</para>
+						
+						<programlisting language="shell">copy \metawidget-bin\metawidget.jar \gwt-addressbook\war\WEB-INF\lib
+mkdir \gwt-addressbook\lib
+copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
+			\gwt-addressbook\lib\metawidget-gwt-client.jar</programlisting>
+					</listitem>
+					<listitem>
+						<para>
+							Import <filename>\gwt-addressbook</filename> into Eclipse by using <parameter>File->Import</parameter> and choosing
+							<parameter>Existing Projects into Workspace</parameter>
+							(as described in the <ulink url="http://code.google.com/webtoolkit/gettingstarted.html">GWT Getting Started Guide</ulink>).
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							Use Eclipse's <parameter>Project->Properties->Java Build Path</parameter> dialog and its
+							<parameter>Libraries</parameter> tab to add the JARs <filename>lib/metawidget-gwt-client.jar</filename> and
+							<filename>WEB-INF/lib/metawidget.jar</filename> into the project.
+						</para>
+					</listitem>
+					<listitem>
+						<para>
+							Finally, edit the <filename>AddressBook.launch</filename> file to replace...
+						</para>
+						<programlisting language="xml">-startupUrl AddressBook.html org.metawidget.example.gwt.addressbook.client.AddressBook</programlisting>
+						<para>
+							...with...
+						</para>
+						<programlisting language="xml">-startupUrl index-hosted.jsp org.metawidget.example.GwtAddressBook</programlisting>
+						You should now be able to run the sample applications in hosted mode.
 					</listitem>
 				</itemizedlist>					
 				
-				<para>
-					You should now be able to run the sample applications in hosted mode, including running their unit tests.
-				</para>
-				
 			</section>
-			
-		</section>
-
-		<section id="section-introduction-part4-conclusion">
-			<title>Conclusion</title>
-			
-			<para>
-				That concludes the introductory tutorial. In summary, we now:
-			</para>
-
-			<itemizedlist>
-				<listitem>
-					<para>
-						have seen how to build an application whose UI is largely dictated by its business classes, not by hand-written UI code
-					</para>
-				</listitem>
-				<listitem>
-					<para>
-						significantly reduced the amount of UI code needed in our applications
-					</para>
-				</listitem>
-				<listitem>
-					<para>
-						have seen how to build an application that targets multiple platforms. If we were to add a new field to one of the business classes
-						(say, <parameter>numberOfChildren</parameter> to <classname>PersonalContact</classname>), it would automatically appear
-						and be functional on every platform.
-					</para>
-				</listitem>
-			</itemizedlist>
 			
 		</section>
 

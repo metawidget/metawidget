@@ -268,7 +268,6 @@
 				<include name="commons-digester-*.jar"/>
 				<include name="commons-discovery-*.jar"/>
 				<include name="commons-logging-*.jar"/>
-				<include name="hibernate-validator*.jar"/>
 				<include name="jstl-*.jar"/>
 				<include name="metawidget.jar"/>
 				<include name="myfaces-*-1.2*.jar"/>
