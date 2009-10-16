@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
@@ -180,15 +181,33 @@ public final class CollectionUtils
 	}
 
 	/**
+	 * Sorts the given Collection.
+	 * <p>
+	 * If collection is null, returns null. If collection is a List, sorts using
+	 * <code>Collections.sort</code> and returns the same Collection. If collection is not a
+	 * List (eg. a Set), creates a new List out of the Collection, sorts it and returns it.
+	 *
+	 * @return the sorted Collection. null if the given Collection was null
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	public static <T extends Comparable> List<T> sort( Collection<T> collection )
+	{
+		return sort( collection, null );
+	}
+
+	/**
 	 * Sorts the given Collection. Fails gracefully.
 	 * <p>
 	 * If collection is null, returns null. If collection is a List, sorts using
 	 * <code>Collections.sort</code> and returns the same Collection. If collection is not a
 	 * List (eg. a Set), creates a new List out of the Collection, sorts it and returns it.
+	 *
+	 * @return the sorted Collection. null if the given Collection was null
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	public static <T extends Comparable> List<T> sort( Collection<T> collection )
+	public static <T extends Comparable> List<T> sort( Collection<T> collection, Comparator<T> comparator )
 	{
 		if ( collection == null )
 			return null;
@@ -212,7 +231,7 @@ public final class CollectionUtils
 			list = newArrayList( collection );
 		}
 
-		Collections.sort( (List<Comparable>) list );
+		Collections.sort( list, comparator );
 		return list;
 	}
 

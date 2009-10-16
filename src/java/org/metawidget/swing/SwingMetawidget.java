@@ -950,17 +950,24 @@ public class SwingMetawidget
 	{
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder )
+		try
 		{
-			for ( WidgetBuilder<JComponent, SwingMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilder ).getWidgetBuilders() )
+			if ( widgetBuilder instanceof CompositeWidgetBuilder )
 			{
-				String valueProperty = getValueProperty( component, widgetBuilderChild );
+				for ( WidgetBuilder<JComponent, SwingMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilder ).getWidgetBuilders() )
+				{
+					String valueProperty = getValueProperty( component, widgetBuilderChild );
 
-				if ( valueProperty != null )
-					return valueProperty;
+					if ( valueProperty != null )
+						return valueProperty;
+				}
+
+				return null;
 			}
-
-			return null;
+		}
+		catch( NoClassDefFoundError e )
+		{
+			// May not be shipping with CompositeWidgetBuilder
 		}
 
 		// Interrogate ValuePropertyProviders
