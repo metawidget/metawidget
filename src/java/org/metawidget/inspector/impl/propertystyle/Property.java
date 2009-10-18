@@ -42,7 +42,7 @@ public interface Property
 	 * Read the given property for the given object.
 	 * <p>
 	 * Used by PropertyInspector to determine subtypes, and by BaseObjectInspector to traverse
-	 * the objects graph.
+	 * the object graph.
 	 */
 
 	Object read( Object obj );

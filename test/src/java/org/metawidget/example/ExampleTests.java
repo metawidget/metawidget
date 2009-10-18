@@ -25,6 +25,7 @@ import org.metawidget.example.swing.animalraces.SwingAnimalRacesTest;
 import org.metawidget.example.swing.appframework.SwingAppFrameworkTest;
 import org.metawidget.example.swing.tutorial.SwingTutorialTest;
 import org.metawidget.example.swing.userguide.InspectorExampleTest;
+import org.metawidget.example.swing.userguide.PropertyStyleExampleTest;
 import org.metawidget.example.swing.userguide.WidgetBuilderExampleTest;
 import org.metawidget.example.swing.userguide.WidgetProcessorExampleTest;
 
@@ -42,6 +43,7 @@ public class ExampleTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Example Tests" );
+		suite.addTestSuite( PropertyStyleExampleTest.class );
 		suite.addTestSuite( SwingAddressBookTest.class );
 		suite.addTestSuite( SwingAnimalRacesTest.class );
 		suite.addTestSuite( SwingAppFrameworkTest.class );

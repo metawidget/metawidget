@@ -29,6 +29,7 @@ import org.metawidget.android.AndroidUtils.ResourcelessArrayAdapter;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
@@ -153,34 +154,62 @@ public class AndroidWidgetBuilderTest
 		attributes.put( REQUIRED, TRUE );
 		assertTrue( androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof CheckBox );
 
-		// Lookups
+		// Lookups (without labels)
 
 		attributes.remove( TYPE );
 		attributes.put( LOOKUP, "foo, bar,baz" );
-		attributes.put( LOOKUP_LABELS, "Foo #1, Bar #2, Baz #3" );
 		Spinner spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
 		ResourcelessArrayAdapter<String> adapter1 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
 		assertTrue( "foo".equals( adapter1.getItem( 0 )));
-		assertTrue( "Foo #1".equals( ((TextView) adapter1.getView( 0, null, null )).getText() ));
+		assertTrue( "foo".equals( ((TextView) adapter1.getView( 0, null, null )).getText() ));
 		assertTrue( "bar".equals( adapter1.getItem( 1 )));
-		assertTrue( "Bar #2".equals( ((TextView) adapter1.getView( 1, null, null )).getText() ));
+		assertTrue( "bar".equals( ((TextView) adapter1.getView( 1, null, null )).getText() ));
 		assertTrue( "baz".equals( adapter1.getItem( 2 )));
-		assertTrue( "Baz #3".equals( ((TextView) adapter1.getView( 2, null, null )).getText() ));
+		assertTrue( "baz".equals( ((TextView) adapter1.getView( 2, null, null )).getText() ));
+
+		// Lookups (with labels)
+
+		attributes.put( LOOKUP_LABELS, "Foo #1, Bar #2" );
+
+		try
+		{
+			spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+			assertTrue( false );
+		}
+		catch( WidgetBuilderException e )
+		{
+			assertTrue( "org.metawidget.iface.MetawidgetException: Labels list must be same size as values list".equals( e.getMessage() ));
+		}
+
+		// Lookups (with labels)
+
+		attributes.put( LOOKUP_LABELS, "Foo #1, Bar #2, Baz #3" );
+		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
+		@SuppressWarnings( "unchecked" )
+		ResourcelessArrayAdapter<String> adapter2 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
+		assertTrue( "foo".equals( adapter2.getItem( 0 )));
+		assertTrue( "Foo #1".equals( ((TextView) adapter2.getView( 0, null, null )).getText() ));
+		assertTrue( "bar".equals( adapter2.getItem( 1 )));
+		assertTrue( "Bar #2".equals( ((TextView) adapter2.getView( 1, null, null )).getText() ));
+		assertTrue( "baz".equals( adapter2.getItem( 2 )));
+		assertTrue( "Baz #3".equals( ((TextView) adapter2.getView( 2, null, null )).getText() ));
+
+		// Lookups (with required)
 
 		attributes.remove( REQUIRED );
 		attributes.put( TYPE, String.class.getName() );
 		spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		@SuppressWarnings( "unchecked" )
-		ResourcelessArrayAdapter<String> adapter2 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
-		assertTrue( null == adapter2.getItem( 0 ));
-		assertTrue( "".equals( ((TextView) adapter2.getView( 0, null, null )).getText() ));
-		assertTrue( "foo".equals( adapter2.getItem( 1 )));
-		assertTrue( "Foo #1".equals( ((TextView) adapter2.getView( 1, null, null )).getText() ));
-		assertTrue( "bar".equals( adapter2.getItem( 2 )));
-		assertTrue( "Bar #2".equals( ((TextView) adapter2.getView( 2, null, null )).getText() ));
-		assertTrue( "baz".equals( adapter2.getItem( 3 )));
-		assertTrue( "Baz #3".equals( ((TextView) adapter2.getView( 3, null, null )).getText() ));
+		ResourcelessArrayAdapter<String> adapter3 = (ResourcelessArrayAdapter<String>) ((AdapterView) spinner).getAdapter();
+		assertTrue( null == adapter3.getItem( 0 ));
+		assertTrue( "".equals( ((TextView) adapter3.getView( 0, null, null )).getText() ));
+		assertTrue( "foo".equals( adapter3.getItem( 1 )));
+		assertTrue( "Foo #1".equals( ((TextView) adapter3.getView( 1, null, null )).getText() ));
+		assertTrue( "bar".equals( adapter3.getItem( 2 )));
+		assertTrue( "Bar #2".equals( ((TextView) adapter3.getView( 2, null, null )).getText() ));
+		assertTrue( "baz".equals( adapter3.getItem( 3 )));
+		assertTrue( "Baz #3".equals( ((TextView) adapter3.getView( 3, null, null )).getText() ));
 
 		// boolean (little B)
 

@@ -3037,16 +3037,15 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 	
 				<para>
 					Metawidget inspects a wide variety of back-end architectures. If your chosen back-end
-					architecture is not supported 'out of the box', you may need to implement your own inspector. 
+					architecture is not supported 'out of the box', you may need to implement your own <classname>Inspector</classname>. 
 				</para>
 				
 				<para>
-					All inspectors must implement the <classname>org.metawidget.inspector.Inspector</classname> interface:
+					All <classname>Inspector</classname>s must implement the <classname>org.metawidget.inspector.Inspector</classname> interface:
 				</para>
 				
 				<programlisting language="java">public interface Inspector {
-		String inspect( Object toInspect, String type, String... names )
-			throws InspectionException;
+		String inspect( Object toInspect, String type, String... names );
 	}</programlisting>
 				
 				<para>
@@ -3071,12 +3070,6 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 					</listitem>
 				</itemizedlist>				
 	
-				<para>
-					At a high level, the inspect parameters can be thought of as an XPath <filename>type/name/name</filename>
-					into the object graph of the given <classname>Object</classname> (Metawidget doesn't use <emphasis>actual</emphasis> XPaths, though, for reasons
-					discussed in the developer blogs).
-				</para>
-				
 				<para>
 					The returned String must be an XML document conforming to <filename>inspection-result-1.0.xsd</filename>. To assist
 					development, deploy your inspector within <classname>ValidatingCompositeInspector</classname> to
@@ -3161,7 +3154,7 @@ public class Main {
 
 						<para>
 							...and <classname>TooltipInspector</classname> would pick up the custom <classname>@Tooltip</classname>
-							annotation and feed it into the Metawidget metadata.
+							annotation and feed it into the Metawidget pipeline.
 						</para>
 						
 						<tip>
@@ -3455,27 +3448,27 @@ public class Main {
 				<title>Implementing Your Own WidgetBuilder</title>
 	
 				<para>
-					The pluggable nature of WidgetBuilders makes it easy to add your own. Because <classname>CompositeWidgetBuilder</classname> can
-					be used to chain WidgetBuilders together, you only need worry about supporting your particular component library's widgets. You
-					can simply return null for all other types of fields and rely on another WidgetBuilder further down the chain to instantiate
-					one of the usual widgets.
+					The pluggable nature of <classname>WidgetBuilder</classname>s makes it easy to add your own. Because <classname>CompositeWidgetBuilder</classname> can
+					be used to chain <classname>WidgetBuilder</classname>s together, you only need worry about supporting your particular component library's widgets. You
+					can simply return <parameter>null</parameter> for all other types of fields and rely on another <classname>WidgetBuilder</classname>
+					further down the chain to instantiate one of the usual widgets.
 				</para>
 				
 				<para>
-					For example, <classname>RichFacesWidgetBuilder</classname> only instantiates the RichFaces components, and returns null
+					For example, <classname>RichFacesWidgetBuilder</classname> only instantiates the RichFaces components, and returns <parameter>null</parameter>
 					for everything else.
 				</para>
 				
 				<para>
 					A convenience base class <classname>BaseWidgetBuilder</classname> is provided that separates widget building between
-					read-only widgets (<function>buildReadOnlyWidget</function>) and non-read-only (or 'active') widgets (<function>buildActiveWidget</function>).
+					read-only widgets (<function>buildReadOnlyWidget</function>) and non-read-only, or 'active', widgets (<function>buildActiveWidget</function>).
 					Custom <classname>WidgetBuilder</classname>s will typically only want to override the latter, because the former will
 					usually be handled by some kind of label.
 				</para>
 				
 				<para>
 					Here is an example of a custom <classname>WidgetBuilder</classname> that uses two <classname>JRadioButton</classname>s,
-					instead of the usual <classname>JCheckBox</classname>, for <classname>boolean</classname> properties. It extends the code
+					instead of the usual <classname>JCheckBox</classname>, to represent <classname>boolean</classname> properties. It extends the code
 					from the tutorial (see <xref linkend="section-introduction-part1"/>).
 				</para>
 				
@@ -5058,10 +5051,7 @@ private State getState( SwingMetawidget metawidget ) {
 					<title>PropertyStyle</title>
 					
 					<para>
-						The <classname>PropertyStyle</classname> interface allows pluggable, fine-grained control over what is considered a 'property'					
-					</para>
-					
-					<para>
+						The <classname>PropertyStyle</classname> interface allows pluggable, fine-grained control over what is considered a 'property'.					
 						Different environments may have different approaches to defining what constitutes a property. For
 						example, JavaBean-properties are convention-based, whereas Groovy has explicit property support.
  						Equally, some environments may have framework-specific, base class properties that should be filtered out
@@ -5088,7 +5078,7 @@ config.setPropertyStyle( StrutsActionFormPropertyStyle.class );
 metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 				</section>
 
-				<section id="section-inspectors-base-object-javabean">
+				<section id="section-inspectors-base-object-propertystyle-javabean">
 					<title>JavaBeanPropertyStyle</title>
 				
 					<para>
@@ -5110,7 +5100,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 
 				</section>
 				
-				<section id="section-inspectors-base-object-struts">
+				<section id="section-inspectors-base-object-propertystyle-struts">
 					<title>StrutsActionFormPropertyStyle</title>
 				
 					<para>
@@ -5126,7 +5116,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					
 				</section>
 
-				<section id="section-inspectors-base-object-groovy">
+				<section id="section-inspectors-base-object-propertystyle-groovy">
 					<title>GroovyPropertyStyle</title>
 				
 					<para>
@@ -5156,7 +5146,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 
 				</section>
 				
-				<section id="section-inspectors-base-object-javassist">
+				<section id="section-inspectors-base-object-propertystyle-javassist">
 					<title>JavassistPropertyStyle</title>
 						
 					<para>
@@ -5214,7 +5204,7 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 						
 				</section>
 
-				<section id="section-inspectors-base-object-scala">
+				<section id="section-inspectors-base-object-propertystyle-scala">
 					<title>ScalaPropertyStyle</title>
 				
 					<para>
@@ -5229,6 +5219,73 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 					
 				</section>
 
+				<section id="section-inspectors-base-object-propertystyle-implementing-your-own">
+					<title>Implementing Your Own PropertyStyle</title>
+					<para>
+						All property styles must implement the <classname>PropertyStyle</classname> interface. <classname>BasePropertyStyle</classname>
+						assists in caching properties per class (looking them up is often expensive, involving reflection or similar
+						techniques) and in excluding properties based on name, type or base class. Here
+						is an example of a custom <classname>PropertyStyle</classname> that identifies fields based
+						on <classname>ResourceBundle</classname> i18n entries. It extends the code from the tutorial
+						(see <xref linkend="section-introduction-part1"/>).
+					</para>
+				
+					<programlisting language="java">package com.myapp;
+			
+import java.util.Map;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+
+public class Main {
+
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		<symbol>metawidget.setInspector( new PropertyTypeInspector( new BaseObjectInspectorConfig()
+			.setPropertyStyle( new BundlePropertyStyle() ) ) );</symbol>
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 210 );
+		frame.setVisible( true );
+	}
+	
+	<symbol>static class BundlePropertyStyle
+		extends JavaBeanPropertyStyle {
+
+		protected Map&lt;String, Property&gt; inspectProperties( Class&lt;?&gt; clazz ) {
+			try {
+				Map&lt;String, Property&gt; properties = CollectionUtils.newHashMap();
+				ResourceBundle bundle = ResourceBundle.getBundle( "MyBundle" );
+
+				for ( Enumeration&lt;String&gt; e = bundle.getKeys(); e.hasMoreElements(); ) {
+					String key = e.nextElement();
+					properties.put( key, new FieldProperty( key, clazz.getField( key ) ) );
+				}
+
+				return properties;
+			}
+			catch ( Exception ex ) {
+				throw InspectorException.newException( ex );
+			}
+		}
+	}</symbol>
+}</programlisting>
+				
+					<para>
+						For brevity, this example extends <classname>JavaBeanPropertyStyle</classname>. Normally, you would
+						want to extend <classname>BasePropertyStyle</classname> and, as well as overriding <function>inspectProperties</function>
+						to locate the properties, implement the <classname>Property</classname> interface with mechanisms
+						for interrogating the property.
+					</para>
+					
+				</section>
+				
 				<section id="section-inspectors-base-object-actionstyle">
 					<title>ActionStyle</title>
 					
@@ -7076,8 +7133,8 @@ public class PersonController {
 						<title>BeansBindingProcessor</title>
 						
 						<para>
-							<classname>org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor</classname> supports the various Beans Binding
-							update strategies:
+							<classname>BeansBindingProcessor</classname> binds properties using Beans Binding (JSR 295). It supports the various
+							Beans Binding update strategies:
 						</para>
 						
 						<programlisting language="java">myMetawidget.addWidgetProcessor( new BeansBindingProcessor(
@@ -7090,6 +7147,21 @@ public class PersonController {
 						</para>
 					</section>
 				
+					<section id="section-widgetprocessors-desktop-swing-binding-beanutilsbinding">
+						<title>BeanUtilsProcessor</title>
+						
+						<para>
+							<classname>BeanUtilsProcessor</classname> binds properties using
+							<ulink url="http://commons.apache.org/beanutils">Apache BeanUtils</ulink>. It supports JavaBean
+							and Scala property styles:
+						</para>
+						
+						<programlisting language="java">myMetawidget.addWidgetProcessor( new BeanUtilsBindingProcessor(
+	new BeanUtilsBindingProcessorConfig()
+		.setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA )) );</programlisting>
+		
+					</section>
+
 				</section>
 	
 				<section id="section-widgetprocessors-desktop-swing-actionbinding">
