@@ -3093,11 +3093,15 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				
 						<programlisting language="java">package com.myapp;
 			
+<symbol>import java.lang.annotation.*;</symbol>
 import java.util.Map;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
+<symbol>import org.metawidget.inspector.composite.*;
+import org.metawidget.inspector.impl.BaseObjectInspector;
+import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.util.CollectionUtils;</symbol>
 
 public class Main {
 
@@ -3145,7 +3149,11 @@ public class Main {
 							You could then annotate the <classname>Person</classname> class...
 						</para>
 						
-						<programlisting language="java">public class Person {
+						<programlisting language="java">package com.myapp;
+
+<symbol>import com.myapp.Main.Tooltip;</symbol>
+
+public class Person {
 	<symbol>@Tooltip("Person's full name")</symbol>
 	public String name;
 	<symbol>@Tooltip("Age in years")</symbol>
