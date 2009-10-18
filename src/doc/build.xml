@@ -125,6 +125,7 @@
 		<copy todir="${relative.dir}/${build.dir}/doc/reference/en/shared">
 			<fileset dir="${relative.dir}/${build.dir}/doc/reference/en/html">
 				<include name="images/*.gif"/>
+				<include name="images/callouts/1.png"/>
 			</fileset>
 		</copy>
 

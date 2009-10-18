@@ -3056,7 +3056,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				<itemizedlist>
 					<listitem>
 						<para>
-							an <classname>Object</classname> to inspect. This may be <parameter>null</parameter>, or can be ignored for inspectors working off static metadata (such as config files)
+							an <classname>Object</classname> to inspect. This may be <parameter>null</parameter>, or can be ignored for inspectors inspecting static metadata (such as XML files)
 						</para>
 					</listitem>
 					<listitem>
@@ -3090,10 +3090,90 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				<itemizedlist>
 					<listitem>
 						<para>
-							For inspecting annotations and properties, <classname>BaseObjectInspector</classname> assists
-							in iterating over public member variables, getter/setter methods and GroovyBean properties. See
-							<classname>PropertyTypeInspector</classname> or <classname>JpaInspector</classname> for example usage.
-						</para>				
+							<classname>BaseObjectInspector</classname> assists in inspecting annotations and properties (including
+							support for different property styles, such as JavaBean properties or Groovy properties). Here
+							is an example of a custom <classname>Inspector</classname> to inspect tooltip metadata from
+							a custom annotation. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
+						</para>
+				
+						<programlisting language="java">package com.myapp;
+			
+import java.util.Map;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+
+public class Main {
+
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(							
+					<symbol>new PropertyTypeInspector(),
+					new TooltipInspector() );</symbol>
+		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 210 );
+		frame.setVisible( true );
+	}
+	
+	<symbol>@Retention( RetentionPolicy.RUNTIME )
+	@Target( { ElementType.FIELD, ElementType.METHOD } )
+	static @interface Tooltip {
+		String value();
+	}
+
+	static class TooltipInspector
+		extends BaseObjectInspector {
+
+		protected Map&lt;String, String&gt; inspectProperty( Property property )
+			throws Exception {
+			
+			Map&lt;String, String&gt; attributes = CollectionUtils.newHashMap();
+
+			Tooltip tooltip = property.getAnnotation( Tooltip.class );
+
+			if ( tooltip != null )
+				attributes.put( "tooltip", tooltip.value() );
+
+			return attributes;
+		}
+	}</symbol>
+}</programlisting>
+						<para>
+							You could then annotate the <classname>Person</classname> class...
+						</para>
+						
+						<programlisting language="java">public class Person {
+	<symbol>@Tooltip("Person's full name")</symbol>
+	public String name;
+	<symbol>@Tooltip("Age in years")</symbol>
+	public int age;
+	<symbol>@Tooltip("Whether person is retired")</symbol>
+	public boolean retired;
+}</programlisting>
+
+						<para>
+							...and <classname>TooltipInspector</classname> would pick up the custom <classname>@Tooltip</classname>
+							annotation and feed it into the Metawidget metadata.
+						</para>
+						
+						<tip>
+							<title>Note</title>							
+							Because Metawidget decouples inspection from widget creation, by default <classname>SwingMetawidget</classname>
+							will not be expecting this new <parameter>tooltip</parameter> attribute and will ignore it. You will
+							need to further combine this example with a <classname>TooltipProcessor</classname>, see
+							<xref linkend="section-architecture-widgetprocessors-implementing-your-own"/>.
+						</tip>
+						
+					</listitem>
+					<listitem>				
 						<para>
 							For inspecting XML files, <classname>BaseXmlInspector</classname> assists
 							in opening and traversing through XML. See
@@ -3114,7 +3194,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				
 				<important>
 					<title>Config classes must override equals and hashCode</title>
-					If you want your <classname>Inspector</classname> has a <classname>xxxInspectorConfig</classname> class, and you want
+					If your <classname>Inspector</classname> has a <classname>xxxInspectorConfig</classname> class, and you want
 					it to be cacheable and reusable by
 					<classname>ConfigReader</classname> and <filename>metawidget.xml</filename>,  the <classname>xxxInspectorConfig</classname>
 					class <emphasis>must</emphasis> override <function>equals</function> and <function>hashCode</function>.
@@ -3122,7 +3202,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				
 				<tip>
 					<title>Generate an XML Schema</title>
-					If you intend your <classname>Inspector</classname> to be configurable via <filename>metawidget.xml</filename>, consider
+					If your <classname>Inspector</classname> has an <classname>xxxInspectorConfig</classname> class, consider
 					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>Inspector</classname> in their
 					<filename>metawidget.xml</filename> at development time. There is an Ant task,
 					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
@@ -3393,9 +3473,68 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 					usually be handled by some kind of label.
 				</para>
 				
+				<para>
+					Here is an example of a custom <classname>WidgetBuilder</classname> that uses two <classname>JRadioButton</classname>s,
+					instead of the usual <classname>JCheckBox</classname>, for <classname>boolean</classname> properties. It extends the code
+					from the tutorial (see <xref linkend="section-introduction-part1"/>).
+				</para>
+				
+				<programlisting language="java">package com.myapp;
+			
+import java.util.Map;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+
+public class Main {
+
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		<symbol>metawidget.setWidgetBuilder( new CompositeWidgetBuilder&lt;JComponent, SwingMetawidget&gt;(
+			new CompositeWidgetBuilderConfig&lt;JComponent, SwingMetawidget&gt;().setWidgetBuilders(
+				new JRadioButtonWidgetBuilder(),
+				new SwingWidgetBuilder() ) ) );</symbol>
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 210 );
+		frame.setVisible( true );
+	}
+	
+	<symbol>static class JRadioButtonWidgetBuilder
+		extends BaseWidgetBuilder&lt;JComponent, SwingMetawidget&gt; {
+
+		protected JComponent buildActiveWidget( String elementName, Map&lt;String, String&gt; attributes,
+			SwingMetawidget metawidget )
+			throws Exception {
+			
+			if ( !"boolean".equals( attributes.get( TYPE ) ) )
+				return null;
+
+			JRadioButton trueButton = new JRadioButton( "True" );
+			JRadioButton falseButton = new JRadioButton( "False" );
+			JPanel panel = new JPanel();
+			panel.setLayout( new GridLayout( 2, 1 ) );
+			panel.add( trueButton );
+			panel.add( falseButton );
+
+			ButtonGroup buttonGroup = new ButtonGroup();
+			buttonGroup.add( trueButton );
+			buttonGroup.add( falseButton );
+
+			return panel;
+		}
+	}</symbol>
+}</programlisting>
+
 				<tip>
 					<title>Generate an XML Schema</title>
-					If you intend your <classname>WidgetBuilder</classname> to be configurable via <filename>metawidget.xml</filename>, consider
+					If your <classname>WidgetBuilder</classname> has an <classname>xxxWidgetBuilderConfig</classname> class, consider
 					defining an XML Schema for it. This is optional, but allows users to validate their use of your <classname>WidgetBuilder</classname> in their
 					<filename>metawidget.xml</filename> at development time. There is an Ant task,
 					<classname>org.metawidget.config.XmlSchemaGeneratorTask</classname>, provided in the source distribution that can help with this
@@ -3738,8 +3877,8 @@ public class Main {
 	}
 
 	<symbol>static class TooltipProcessor
-		extends BaseWidgetProcessor&lt;JComponent, SwingMetawidget&gt;
-	{
+		extends BaseWidgetProcessor&lt;JComponent, SwingMetawidget&gt; {
+		
 		public JComponent processWidget( JComponent widget, String elementName,
 										 Map&lt;String, String&gt; attributes, SwingMetawidget metawidget ) {
 			widget.setToolTipText( attributes.get( NAME ) );
@@ -3777,10 +3916,6 @@ public class Main {
 				<programlisting language="java">public class TooltipProcessor {
 	private String mPrefix;
 	
-	public TooltipProcessor() {
-		this( new TooltipProcessorConfig() );
-	}
-
 	public TooltipProcessor( TooltipProcessorConfig config ) {
 		mPrefix = config.getPrefix();
 	}
@@ -3797,10 +3932,10 @@ public class Main {
 				</para>
 					
 				<programlisting language="xml">&lt;tooltipProcessor xmlns="java:com.foo" config="TooltipProcessorConfig"&gt;
-		&lt;prefix&gt;
-			&lt;string&gt;Tip:&lt;/string&gt;
-		&lt;/prefix&gt;
-	&lt;/tooltipProcessor&gt;</programlisting>
+	&lt;prefix&gt;
+		&lt;string&gt;Tip:&lt;/string&gt;
+	&lt;/prefix&gt;
+&lt;/tooltipProcessor&gt;</programlisting>
 
 				<important>
 					<title>Config classes must override equals and hashCode</title>

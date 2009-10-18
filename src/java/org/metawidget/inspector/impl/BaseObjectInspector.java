@@ -79,11 +79,16 @@ public abstract class BaseObjectInspector
 	// Constructors
 	//
 
+	protected BaseObjectInspector()
+	{
+		this( new BaseObjectInspectorConfig() );
+	}
+
 	/**
 	 * Config-based constructor.
 	 * <p>
-	 * All BaseObjectInspector-derived inspectors must be configurable, to allow configuring
-	 * property styles and action styles.
+	 * BaseObjectInspector-derived inspectors should generally support configuration, to allow
+	 * configuring property styles and action styles.
 	 */
 
 	protected BaseObjectInspector( BaseObjectInspectorConfig config )

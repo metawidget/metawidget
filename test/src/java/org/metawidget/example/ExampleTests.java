@@ -24,6 +24,9 @@ import org.metawidget.example.swing.addressbook.SwingAddressBookTest;
 import org.metawidget.example.swing.animalraces.SwingAnimalRacesTest;
 import org.metawidget.example.swing.appframework.SwingAppFrameworkTest;
 import org.metawidget.example.swing.tutorial.SwingTutorialTest;
+import org.metawidget.example.swing.userguide.InspectorExampleTest;
+import org.metawidget.example.swing.userguide.WidgetBuilderExampleTest;
+import org.metawidget.example.swing.userguide.WidgetProcessorExampleTest;
 
 /**
  * @author Richard Kennard
@@ -43,6 +46,9 @@ public class ExampleTests
 		suite.addTestSuite( SwingAnimalRacesTest.class );
 		suite.addTestSuite( SwingAppFrameworkTest.class );
 		suite.addTestSuite( SwingTutorialTest.class );
+		suite.addTestSuite( InspectorExampleTest.class );
+		suite.addTestSuite( WidgetBuilderExampleTest.class );
+		suite.addTestSuite( WidgetProcessorExampleTest.class );
 
 		// Note: GwtAddressBookTest is performed separately
 

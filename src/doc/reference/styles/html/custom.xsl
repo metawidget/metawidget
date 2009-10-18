@@ -17,6 +17,7 @@
 	<xsl:param name="admon.graphics.path">../shared/images/</xsl:param>
 	<xsl:param name="admon.graphics.extension">.gif</xsl:param>
 	<xsl:param name="ignore.image.scaling" select="1"></xsl:param>
+	<xsl:param name="img.src.path">../shared/</xsl:param>
 
 	<xsl:param name="table.borders.with.css" select="1" />
 	<xsl:param name="html.stylesheet">../shared/css/stylesheet.css</xsl:param>
