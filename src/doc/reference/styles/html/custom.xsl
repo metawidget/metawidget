@@ -16,6 +16,9 @@
 	<xsl:param name="admon.graphics" select="1" />
 	<xsl:param name="admon.graphics.path">../shared/images/</xsl:param>
 	<xsl:param name="admon.graphics.extension">.gif</xsl:param>
+	<xsl:param name="callout.graphics" select="1" />
+	<xsl:param name="callout.graphics.path">../shared/images/callouts/</xsl:param>
+	<xsl:param name="callout.graphics.extension">.gif</xsl:param>
 	<xsl:param name="ignore.image.scaling" select="1"></xsl:param>
 	<xsl:param name="img.src.path">../shared/</xsl:param>
 

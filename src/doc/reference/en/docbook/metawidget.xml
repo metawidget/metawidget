@@ -427,7 +427,7 @@ public class Main {
 					Metawidget <classname>Inspector</classname>s are very targeted in what they inspect.
 					<classname>Java5Inspector</classname> looks for Java 5 language features - such as enums - but it does
 					<emphasis>not</emphasis> look for anything else - such as JavaBean properties. Before we explicitly specified a
-					<classname>Java5Inspector</classname>, Metawidget had been implictly using 2
+					<classname>Java5Inspector</classname>, Metawidget had been implictly using two
 					<classname>Inspector</classname>s for us, called <classname>MetawidgetAnnotationInspector</classname>
 					and	<classname>PropertyTypeInspector</classname>.
 				</para>
@@ -793,16 +793,18 @@ public class Person {
 			config="CompositeInspectorConfig"&gt;
 			&lt;inspectors&gt;
 				&lt;array&gt;
-				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
-				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
-				&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"/&gt;
+					&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
+					&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+					&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"/&gt;
 				&lt;/array&gt;
 			&lt;/inspectors&gt;
 		&lt;/compositeInspector&gt;
 	&lt;/inspector&gt;
 	&lt;metawidgetLayout&gt;
 		&lt;gridBagLayout xmlns="java:org.metawidget.swing.layout" config="GridBagLayoutConfig"&gt;
-			&lt;numberOfColumns&gt;&lt;int&gt;2&lt;/int&gt;&lt;/numberOfColumns&gt;
+			&lt;numberOfColumns&gt;
+				&lt;int&gt;2&lt;/int&gt;
+			&lt;/numberOfColumns&gt;
 		&lt;/gridBagLayout&gt;
 	&lt;/metawidgetLayout&gt;	
 &lt;/swingMetawidget&gt;
@@ -872,10 +874,10 @@ public class Main {
 		http://metawidget.org/xsd/inspection-result-1.0.xsd"&gt;
 
 	&lt;entity type="com.myapp.Person"&gt;
-		&lt;property name="name" /&gt;
-		&lt;property name="age" /&gt;
-		&lt;property name="retired" /&gt;
-		&lt;property name="gender" /&gt;
+		&lt;property name="name"/&gt;
+		&lt;property name="age"/&gt;
+		&lt;property name="retired" hidden="true"/&gt;
+		&lt;property name="gender"/&gt;
 		&lt;property name="notes" large="true"/&gt;
 		&lt;property name="employer" section="Work"/&gt;
 		&lt;property name="department"/&gt;
@@ -7142,7 +7144,8 @@ public class PersonController {
 		.setUpdateStrategy( UpdateStrategy.READ )) );</programlisting>
 		
 						<para>
-							If set to <parameter>READ</parameter> or <parameter>READ_WRITE</parameter>, the object being inspected must
+							If set to <parameter>READ</parameter> or <parameter>READ_WRITE</parameter> (the default is
+							<parameter>READ_ONCE</parameter>), the object being inspected must
 							provide <classname>PropertyChangeSupport</classname>.
 						</para>
 					</section>
