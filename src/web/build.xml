@@ -56,18 +56,6 @@
 			</fileset>
 		</copy>
 
-		<!-- OSGI headers (we kept getting OutOfMemoryError from bndwrap   -->
-		<!-- when it was in pack-internal and we were doing test-coverage) -->
-
-		<taskdef resource="aQute/bnd/ant/taskdef.properties">
-			<classpath>
-				<fileset dir="${relative.dir}/lib">
-					<include name="bnd-*.jar"/>
-				</fileset>
-			</classpath>
-		</taskdef>
-		<bndwrap jars="${relative.dir}/${build.dir}/${metawidget.name}/metawidget.jar" output="${relative.dir}/${build.dir}/${metawidget.name}/metawidget.jar" definitions="${relative.dir}/src/java/META-INF" />
-		
 		<zip zipfile="${relative.dir}/${build.dir}/${metawidget.name}.zip">
 			<fileset dir="${relative.dir}/${build.dir}">
 				<include name="${metawidget.name}/**"/>
