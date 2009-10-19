@@ -436,9 +436,9 @@ public class SwingMetawidget
 	/**
 	 * Overridden to build widgets just-in-time.
 	 * <p>
-	 * When adding a Stub that immediately stubs out a widget and therefore disappears from
-	 * the component list, we must override <code>addNotify</code> to build widgets or
-	 * else Swing gets confused trying to addNotify a component that isn't there.
+	 * When adding a Stub that immediately stubs out a widget and therefore disappears from the
+	 * component list, we must override <code>addNotify</code> to build widgets or else Swing gets
+	 * confused trying to addNotify a component that isn't there.
 	 */
 
 	@Override
@@ -915,11 +915,6 @@ public class SwingMetawidget
 					layout.layoutChild( componentExisting, PROPERTY, miscAttributes, this );
 			}
 		}
-
-		// Call validate because Components have been added/removed, and
-		// Component layout information has changed
-
-		validate();
 	}
 
 	protected String inspect()
@@ -965,7 +960,7 @@ public class SwingMetawidget
 				return null;
 			}
 		}
-		catch( NoClassDefFoundError e )
+		catch ( NoClassDefFoundError e )
 		{
 			// May not be shipping with CompositeWidgetBuilder
 		}
@@ -1036,6 +1031,12 @@ public class SwingMetawidget
 		{
 			SwingMetawidget.this.endBuild();
 			super.endBuild();
+
+			// Call validate because Components have been added/removed, and
+			// Component layout information has changed. Must do this after
+			// super.endBuild, because that is what calls layout.endBuild
+
+			validate();
 		}
 
 		@Override

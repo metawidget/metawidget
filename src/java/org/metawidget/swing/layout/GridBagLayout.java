@@ -256,8 +256,6 @@ public class GridBagLayout
 			}
 
 			metawidget.add( buttonsFacet, buttonConstraints );
-
-			state.currentRow++;
 		}
 
 		// Spacer row: see JavaDoc for state.mNeedParentSpacerRow

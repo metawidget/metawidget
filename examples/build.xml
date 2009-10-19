@@ -188,13 +188,11 @@
 			<fileset dir="${relative.dir}/examples/src/java/org/metawidget/example/swing">
 				<include name="readme.txt"/>
 			</fileset>
-			<fileset dir="${relative.dir}/examples/src/java/org/metawidget/example/swing/appframework">
-				<include name="lib/swing-worker.jar"/>
-			</fileset>
 			<fileset dir="${relative.dir}">
 				<include name="lib/AppFramework.jar"/>
 				<include name="lib/beansbinding*.jar"/>
 				<include name="lib/commons-jexl-*.jar"/>
+				<include name="lib/swing-worker.jar"/>
 			</fileset>
 			<fileset dir="${relative.dir}/examples">
 				<include name="lib/commons-logging-*.jar"/>
@@ -256,6 +254,8 @@
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
 				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="contact-richfaces.jsp"/>
+				<exclude name="WEB-INF/metawidget-richfaces.xml"/>				
 			</fileset>
 			<fileset dir="${relative.dir}/examples/src/web/shared/addressbook">
 				<include name="css/**"/>

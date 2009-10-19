@@ -21,6 +21,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.awt.event.ActionEvent;
 import java.beans.BeanInfo;
 import java.beans.Introspector;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.AbstractAction;
@@ -288,6 +289,34 @@ public class SwingMetawidgetTest
 		assertTrue( metawidget.getComponent( 1 ) instanceof JCheckBox );
 	}
 
+	public void testValidate()
+	{
+		final List<String> called = CollectionUtils.newArrayList();
+
+		SwingMetawidget metawidget = new SwingMetawidget()
+		{
+			@Override
+			public void validate()
+			{
+				called.add( "validate" );
+			}
+
+			@Override
+			protected void endBuild()
+			{
+				called.add( "endBuild" );
+			}
+		};
+
+		metawidget.getMetawidgetMixin().endBuild();
+
+		// validate should be called after super.endBuild in SwingMetawidget
+
+		assertTrue( "endBuild".equals( called.get( 0 )));
+		assertTrue( "validate".equals( called.get( 1 )));
+		assertTrue( 2 == called.size() );
+	}
+
 	//
 	// Private methods
 	//
@@ -315,6 +344,8 @@ public class SwingMetawidgetTest
 
 		// Rebind
 
+		assertTrue( foo1 == processor.getClass().getMethod( "getToRebindOrToInspect", SwingMetawidget.class ).invoke( processor, metawidget ) );
+
 		Foo foo2 = new Foo();
 		foo2.setName( "Julianne" );
 		Foo nestedFoo2 = new Foo();
@@ -339,6 +370,7 @@ public class SwingMetawidgetTest
 		assertTrue( "Julianne".equals( foo2.getName() ) );
 		assertTrue( foo2 != metawidget.getToInspect() );
 		assertTrue( foo2 == processor.getClass().getMethod( "getToRebind", SwingMetawidget.class ).invoke( processor, metawidget ) );
+		assertTrue( foo2 == processor.getClass().getMethod( "getToRebindOrToInspect", SwingMetawidget.class ).invoke( processor, metawidget ) );
 
 		// Check different component
 

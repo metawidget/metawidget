@@ -136,7 +136,7 @@ public class SimpleBindingProcessor
 
 		String path = metawidget.getPath();
 
-		if ( PROPERTY.equals( elementName ) || ACTION.equals( elementName ))
+		if ( PROPERTY.equals( elementName ) || ACTION.equals( elementName ) )
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 
 		final String[] names = PathUtils.parsePath( path ).getNamesAsArray();
@@ -248,6 +248,7 @@ public class SimpleBindingProcessor
 	{
 		State state = getState( metawidget );
 		state.toRebind = toRebind;
+		state.rebound = true;
 
 		// Our bindings
 
@@ -299,6 +300,21 @@ public class SimpleBindingProcessor
 	public Object getToRebind( GwtMetawidget metawidget )
 	{
 		return getState( metawidget ).toRebind;
+	}
+
+	/**
+	 * @return same as getToRebind, if setToRebind has been called. Otherwise, same as
+	 *         metawidget.getToInspect
+	 */
+
+	public Object getToRebindOrToInspect( GwtMetawidget metawidget )
+	{
+		State state = getState( metawidget );
+
+		if ( state.rebound )
+			return state.toRebind;
+
+		return metawidget.getToInspect();
 	}
 
 	public void save( GwtMetawidget metawidget )
@@ -424,7 +440,7 @@ public class SimpleBindingProcessor
 		return null;
 	}
 
-	/*package private*/ State getState( GwtMetawidget metawidget )
+	/* package private */State getState( GwtMetawidget metawidget )
 	{
 		State state = (State) metawidget.getClientProperty( SimpleBindingProcessor.class );
 
@@ -447,10 +463,12 @@ public class SimpleBindingProcessor
 
 	/* package private */class State
 	{
-		public Set<Object[]>		bindings;
+		/* package private */Set<Object[]>		bindings;
 
-		public Set<GwtMetawidget>	nestedMetawidgets;
+		/* package private */Set<GwtMetawidget>	nestedMetawidgets;
 
-		public Object				toRebind;
+		/* package private */Object				toRebind;
+
+		/* package private */boolean			rebound;
 	}
 }

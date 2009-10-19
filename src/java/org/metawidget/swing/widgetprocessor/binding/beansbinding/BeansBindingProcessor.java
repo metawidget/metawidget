@@ -102,7 +102,7 @@ public class BeansBindingProcessor
 	// Private members
 	//
 
-	private	UpdateStrategy	mUpdateStrategy;
+	private UpdateStrategy	mUpdateStrategy;
 
 	//
 	// Constructor
@@ -170,6 +170,7 @@ public class BeansBindingProcessor
 	{
 		State state = getState( metawidget );
 		state.toRebind = toRebind;
+		state.rebound = true;
 
 		// Our bindings
 
@@ -200,6 +201,21 @@ public class BeansBindingProcessor
 	public Object getToRebind( SwingMetawidget metawidget )
 	{
 		return getState( metawidget ).toRebind;
+	}
+
+	/**
+	 * @return same as getToRebind, if setToRebind has been called. Otherwise, same as
+	 *         metawidget.getToInspect
+	 */
+
+	public Object getToRebindOrToInspect( SwingMetawidget metawidget )
+	{
+		State state = getState( metawidget );
+
+		if ( state.rebound )
+			return state.toRebind;
+
+		return metawidget.getToInspect();
 	}
 
 	public void save( SwingMetawidget metawidget )
@@ -421,6 +437,8 @@ public class BeansBindingProcessor
 		/* package private */Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
 
 		/* package private */Object																		toRebind;
+
+		/* package private */boolean																	rebound;
 	}
 
 	private final static class ConvertFromTo<S, T>
@@ -453,10 +471,10 @@ public class BeansBindingProcessor
 			if ( !( that instanceof ConvertFromTo ) )
 				return false;
 
-			if ( !ObjectUtils.nullSafeEquals( mSource, ((ConvertFromTo<?, ?>) that).mSource ))
+			if ( !ObjectUtils.nullSafeEquals( mSource, ( (ConvertFromTo<?, ?>) that ).mSource ) )
 				return false;
 
-			if ( !ObjectUtils.nullSafeEquals( mTarget, ((ConvertFromTo<?, ?>) that).mTarget ))
+			if ( !ObjectUtils.nullSafeEquals( mTarget, ( (ConvertFromTo<?, ?>) that ).mTarget ) )
 				return false;
 
 			return true;

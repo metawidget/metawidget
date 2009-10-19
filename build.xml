@@ -167,16 +167,16 @@
 			</fileset>
 		</jar>
 		
-		<!-- OSGI headers (gives OutOfMemoryError?)
+		<!-- OSGI headers -->
 
 		<taskdef resource="aQute/bnd/ant/taskdef.properties">
 			<classpath>
-				<fileset dir="lib">
+				<fileset dir="${relative.dir}/lib">
 					<include name="bnd-*.jar"/>
 				</fileset>
 			</classpath>
 		</taskdef>
-		<bndwrap jars="${build.dir}/pack/metawidget.jar" output="${build.dir}/pack/metawidget.jar" definitions="src/java/META-INF" /> -->
+		<bndwrap jars="${build.dir}/pack/metawidget.jar" output="${build.dir}/pack/metawidget.jar" definitions="src/java/META-INF" />
 		
 	</target>
 

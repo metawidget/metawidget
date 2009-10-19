@@ -225,7 +225,7 @@ public class ContactDialog
 				communicationToAdd.setType( (String) typeMetawidget.getValue( "type" ) );
 				communicationToAdd.setValue( (String) valueMetawidget.getValue( "value" ) );
 
-				Contact currentContact = mMetawidget.getToInspect();
+				Contact currentContact = (Contact) mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebindOrToInspect( mMetawidget );
 
 				try
 				{
@@ -268,7 +268,8 @@ public class ContactDialog
 					Window.alert( e.getMessage() );
 				}
 
-				mAddressBookModule.getContactsService().save( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Object>()
+				Contact contactToSave = (Contact) mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebindOrToInspect( mMetawidget );
+				mAddressBookModule.getContactsService().save( contactToSave, new AsyncCallback<Object>()
 				{
 					public void onFailure( Throwable caught )
 					{
@@ -296,7 +297,8 @@ public class ContactDialog
 						return;
 				}
 
-				mAddressBookModule.getContactsService().delete( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Boolean>()
+				Contact contactToDelete = (Contact) mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebindOrToInspect( mMetawidget );
+				mAddressBookModule.getContactsService().delete( contactToDelete, new AsyncCallback<Boolean>()
 				{
 					public void onFailure( Throwable caught )
 					{
@@ -354,9 +356,8 @@ public class ContactDialog
 
 		// Having recreated all child widgets (as readOnly/not readOnly), or done nothing (if the
 		// child widgets were already in the desired state), update their values to the new contact.
-		// We
-		// use setToRebind (as opposed to setToInspect) to rebind the widget values without a full
-		// server-side re-inspection
+		// We use setToRebind (as opposed to setToInspect) to rebind the widget values without a
+		// full server-side re-inspection
 
 		mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( contact, mMetawidget );
 
@@ -389,7 +390,7 @@ public class ContactDialog
 	/* package private */void loadCommunications()
 	{
 		CellFormatter cellFormatter = mCommunications.getCellFormatter();
-		final Contact contact = mMetawidget.getToInspect();
+		final Contact contact = (Contact) mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebindOrToInspect( mMetawidget );
 		Set<Communication> communications = contact.getCommunications();
 		final boolean readOnly = mMetawidget.isReadOnly();
 		final boolean confirm = ( mAddressBookModule.getPanel() instanceof RootPanel );

@@ -59,13 +59,13 @@ public class BeanUtilsBindingProcessor
 	// Private statics
 	//
 
-	private final static String	SCALA_SET_SUFFIX		= "_$eq";
+	private final static String	SCALA_SET_SUFFIX	= "_$eq";
 
 	//
 	// Private members
 	//
 
-	private int	mPropertyStyle;
+	private int					mPropertyStyle;
 
 	//
 	// Constructor
@@ -165,6 +165,7 @@ public class BeanUtilsBindingProcessor
 	{
 		State state = getState( metawidget );
 		state.toRebind = toRebind;
+		state.rebound = true;
 
 		// Our bindings
 
@@ -207,6 +208,21 @@ public class BeanUtilsBindingProcessor
 	public Object getToRebind( SwingMetawidget metawidget )
 	{
 		return getState( metawidget ).toRebind;
+	}
+
+	/**
+	 * @return same as getToRebind, if setToRebind has been called. Otherwise, same as
+	 *         metawidget.getToInspect
+	 */
+
+	public Object getToRebindOrToInspect( SwingMetawidget metawidget )
+	{
+		State state = getState( metawidget );
+
+		if ( state.rebound )
+			return state.toRebind;
+
+		return metawidget.getToInspect();
 	}
 
 	public void save( SwingMetawidget metawidget )
@@ -407,6 +423,8 @@ public class BeanUtilsBindingProcessor
 		/* package private */Set<SavedBinding>	bindings;
 
 		/* package private */Object				toRebind;
+
+		/* package private */boolean			rebound;
 	}
 
 	class SavedBinding

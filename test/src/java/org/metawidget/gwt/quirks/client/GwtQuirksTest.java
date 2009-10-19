@@ -127,6 +127,7 @@ public class GwtQuirksTest
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 
 						assertTrue( null == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
+						assertTrue( metawidget.getToInspect() == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebindOrToInspect( metawidget ));
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( metawidget.getToInspect(), metawidget );
 						assertTrue( metawidget.getToInspect() == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
 
