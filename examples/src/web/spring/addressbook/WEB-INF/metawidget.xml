@@ -52,7 +52,7 @@
 			</compositeInspector>
 		</inspector>
 		<layout>
-			<simpleLayout xmlns="java:org.metawidget.jsp.tagext.html.layout"/>
+			<simpleLayout xmlns="java:org.metawidget.jsp.tagext.layout"/>
 		</layout>		
 	</htmlMetawidgetTag>
 

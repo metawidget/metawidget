@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * JSP support: HTML layouts.
+ * JSP support: layouts.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.jsp.tagext.html.layout;
+package org.metawidget.jsp.tagext.layout;

@@ -1427,7 +1427,7 @@ public class Person {
 						<classname>HtmlMetawidget</classname> is very similiar to <classname>StrutsMetawidget</classname>, but has to use
 						<parameter>jsp:useBean</parameter> to manually instantiate the bean (rather than letting Struts do it). 
 						Within <filename>metawidget.xml</filename>, the default layout for <classname>HtmlMetawidget</classname> has been
-						set to <classname>org.metawidget.jsp.tagext.html.layout.SimpleLayout</classname> (ie. a plain layout, without a label column)
+						set to <classname>org.metawidget.jsp.tagext.layout.SimpleLayout</classname> (ie. a plain layout, without a label column)
 					</para>
 					
 				</section>				
@@ -3093,15 +3093,15 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				
 						<programlisting language="java">package com.myapp;
 			
-<symbol>import java.lang.annotation.*;</symbol>
-import java.util.Map;
+<symbol>import java.lang.annotation.*;
+import java.util.*;</symbol>
 import javax.swing.JFrame;
 <symbol>import org.metawidget.inspector.composite.*;
-import org.metawidget.inspector.impl.BaseObjectInspector;
-import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.inspector.propertytype.PropertyTypeInspector;
-import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.CollectionUtils;</symbol>
+import org.metawidget.inspector.impl.*;
+import org.metawidget.inspector.impl.propertystyle.*;
+import org.metawidget.inspector.propertytype.*;</symbol>
+import org.metawidget.swing.*;
+<symbol>import org.metawidget.util.*;</symbol>
 
 public class Main {
 
@@ -3484,11 +3484,13 @@ public class Person {
 				
 				<programlisting language="java">package com.myapp;
 			
-import java.util.Map;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+<symbol>import java.awt.*;
+import java.util.*;</symbol>
+import javax.swing.*;
+import org.metawidget.swing.*;
+<symbol>import org.metawidget.swing.widgetbuilder.*;
+import org.metawidget.widgetbuilder.composite.*;
+import org.metawidget.widgetbuilder.impl.*;</symbol>
 
 public class Main {
 
@@ -3855,13 +3857,11 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 				
 				<programlisting language="java">package com.myapp;
 	
-<symbol>import static org.metawidget.inspector.InspectionResultConstants.*;</symbol>
-
-import java.util.Map;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+<symbol>import static org.metawidget.inspector.InspectionResultConstants.*;
+import java.util.*;</symbol>
+import javax.swing.*;
+import org.metawidget.swing.*;
+<symbol>import org.metawidget.widgetprocessor.impl.*;</symbol>
 
 public class Main {
 
@@ -4118,10 +4118,59 @@ void onEndBuild( M metawidget );</programlisting>
 				<title>Implementing Your Own Layout</title>
 			
 				<para>
+					Here is an example of a custom <classname>Layout</classname> that arranges components
+					in a bulleted HTML list. It could be useful for, say, arranging <parameter>action</parameter>
+					elements that were represented by HTML anchor tags:
+				</para>
+				
+				<programlisting language="java">package com.myapp;
+
+import java.util.*;
+import javax.servlet.jsp.*;
+import javax.servlet.jsp.tagext.*;
+import org.metawidget.jsp.*;
+import org.metawidget.jsp.tagext.*;
+import org.metawidget.layout.iface.*;
+
+public class HtmlListLayout
+	implements Layout&lt;Tag, MetawidgetTag&gt; {
+	
+	public void onStartBuild( MetawidgetTag metawidgetTag ) {
+		try	{
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
+			writer.write( "&lt;ul&gt;" );
+		} catch ( Exception e ) {
+			throw LayoutException.newException( e );
+		}
+	}
+
+	public void layoutChild( Tag tag, String elementName, Map&lt;String, String&gt; attributes,
+		MetawidgetTag metawidgetTag ) {
+		try {
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
+			writer.write( "&lt;li&gt;" );
+			writer.write( JspUtils.writeTag( metawidgetTag.getPageContext(), tag, metawidgetTag, null ) );
+			writer.write( "&lt;/li&gt;" );
+		} catch ( Exception e ) {
+			throw LayoutException.newException( e );
+		}
+	}
+
+	public void onEndBuild( MetawidgetTag metawidgetTag ) {
+		try {
+			JspWriter writer = metawidgetTag.getPageContext().getOut();
+			writer.write( "&lt;/ul&gt;" );
+		} catch ( Exception e ) {
+			throw LayoutException.newException( e );
+		}
+	}
+}</programlisting>
+				
+				<para>
 					Like <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s and
 					<classname>WidgetProcessor</classname>s, <classname>Layout</classname>s are required to be threadsafe
 					and immutable. However they will generally need to use some internal state, such as tracking
-					the current row. This can be achieved in two ways:
+					the current row in a table layout. This can be achieved in two ways:
 				</para>
 				
 				<orderedlist>
@@ -5242,11 +5291,15 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 				
 					<programlisting language="java">package com.myapp;
 			
-import java.util.Map;
-import javax.swing.JComponent;
-import javax.swing.JFrame;
-import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+<symbol>import java.util.*;</symbol>
+import javax.swing.*;
+<symbol>import org.metawidget.inspector.iface.*;
+import org.metawidget.inspector.impl.*;
+import org.metawidget.inspector.impl.propertystyle.*;
+import org.metawidget.inspector.impl.propertystyle.javabean.*;
+import org.metawidget.inspector.propertytype.*;</symbol>
+import org.metawidget.swing.*;
+<symbol>import org.metawidget.util.*;</symbol>
 
 public class Main {
 
@@ -5293,6 +5346,15 @@ public class Main {
 						to locate the properties, implement the <classname>Property</classname> interface with mechanisms
 						for interrogating the property.
 					</para>
+					
+					<tip>
+						<title>Note</title>
+						In this particular example, it may be useful to give <classname>BundlePropertyStyle</classname> a
+						<classname>xxxPropertyStyleConfig</classname> class that implements
+						<classname>NeedsResourceResolver</classname> (see <xref linkend="section-architecture-xml-resolving-resources"/>).
+						Then it could use <classname>ResourceResolver.openResource</classname> to locate the bundle in case it
+						was under a specialized location (such as <filename>WEB-INF/</filename>).
+					</tip>
 					
 				</section>
 				
@@ -7983,6 +8045,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			</para>
 			
 			<tip>
+				<title>Note</title>
 				All inspectors are both thread-safe and immutable. Therefore you only need one inspector for your
 				<emphasis>entire</emphasis> application. Some remoting architectures support 'singletons' or 'service beans' well suited
 				to this.
