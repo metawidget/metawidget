@@ -56,6 +56,18 @@
 			</fileset>
 		</copy>
 
+		<!-- OSGI headers (we kept getting OutOfMemoryError from bndwrap   -->
+		<!-- when it was in pack-internal and we were doing test-coverage) -->
+
+		<taskdef resource="aQute/bnd/ant/taskdef.properties">
+			<classpath>
+				<fileset dir="${relative.dir}/lib">
+					<include name="bnd-*.jar"/>
+				</fileset>
+			</classpath>
+		</taskdef>
+		<bndwrap jars="${relative.dir}/${build.dir}/${metawidget.name}/metawidget.jar" output="${relative.dir}/${build.dir}/${metawidget.name}/metawidget.jar" definitions="${relative.dir}/src/java/META-INF" />
+		
 		<zip zipfile="${relative.dir}/${build.dir}/${metawidget.name}.zip">
 			<fileset dir="${relative.dir}/${build.dir}">
 				<include name="${metawidget.name}/**"/>
@@ -74,6 +86,80 @@
 			</fileset>
 		</zip>
 
+	</target>
+
+	<target name="live-demo" depends="pack,compile-examples">
+		
+		<delete failonerror="false">
+			<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
+				<include name="*.jar"/>
+				<include name="*.jar.pack"/>
+			</fileset>			
+		</delete>
+		<mkdir dir="${tomcat.dir}/webapps/ROOT/live-demo"/>
+		<mkdir dir="${relative.dir}/${build.dir}/website"/>
+		
+		<jar destfile="${relative.dir}/${build.dir}/website/console-applet.jar">
+			<fileset dir="${relative.dir}/${build.dir}/example-classes">
+				<include name="org/metawidget/example/swing/console/**"/>
+			</fileset>
+		</jar>
+		
+		<taskdef name="pack200" classname="com.sun.tools.apache.ant.pack200.Pack200Task" classpath="${relative.dir}/examples/lib/Pack200Task.jar"/>
+		<pack200 repack="true" src="${relative.dir}/${build.dir}/website/console-applet.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar"/>		
+		<pack200 repack="true" src="${relative.dir}/${build.dir}/metawidget.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/metawidget.jar"/>		
+		<copy todir="${tomcat.dir}/webapps/ROOT/live-demo">
+			<fileset dir="${relative.dir}/lib">
+				<include name="ejb3-persistence.jar"/>
+				<include name="groovy*.jar"/>
+				<include name="hibernate-validator.jar"/>
+			</fileset>
+		</copy>		
+
+		<signjar alias="Metawidget" keystore="${relative.dir}/examples/src/java/org/metawidget/example/swing/console/metawidget.keystore" storepass="m3t4w1dg3t">
+			<path>
+				<fileset dir="${tomcat.dir}/webapps/ROOT/live-demo">
+					<include name="console-applet.jar*"/>
+					<include name="metawidget.jar*"/>
+					<include name="groovy*.jar*"/>
+				</fileset>				
+			</path>
+		</signjar>
+
+		<pack200 src="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/console-applet.jar.pack"/>		
+		<pack200 src="${tomcat.dir}/webapps/ROOT/live-demo/metawidget.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/metawidget.jar.pack"/>		
+		<pack200 src="${tomcat.dir}/webapps/ROOT/live-demo/ejb3-persistence.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/ejb3-persistence.jar.pack"/>		
+		<pack200 src="${tomcat.dir}/webapps/ROOT/live-demo/hibernate-validator.jar" destfile="${tomcat.dir}/webapps/ROOT/live-demo/hibernate-validator.jar.pack"/>		
+
+	</target>
+	
+	<target name="m2repo" depends="pack">
+		
+		<copy todir="${tomcat.dir}/webapps/ROOT">
+			<fileset dir="${relative.dir}/src/web/site">
+				<include name="m2repo/**"/>
+			</fileset>
+		</copy>
+
+		<!-- JARs -->
+			
+		<copy file="${relative.dir}/${build.dir}/metawidget.jar" tofile="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}.jar"/>
+		
+		<jar destfile="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}-sources.jar">
+			<fileset dir="${relative.dir}/src/java"/>
+		</jar>
+		
+		<!-- Checksums -->
+	
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/maven-metadata.xml"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/maven-metadata.xml" algorithm="SHA1"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}.jar"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}.jar" algorithm="SHA1"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}.pom"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}.pom" algorithm="SHA1"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}-sources.jar"/>
+		<checksum file="${tomcat.dir}/webapps/ROOT/m2repo/${metawidget.version}/metawidget-${metawidget.version}-sources.jar" algorithm="SHA1"/>
+		
 	</target>
 
 	<target name="xsd" depends="pack">
@@ -184,13 +270,13 @@
 
 		<!-- Live demo -->
 
-		<!--<antcall target="live-demo"/>-->
+		<antcall target="live-demo"/>
 		
 		<!-- m2repo -->
 		
-		<!--<antcall target="m2repo"/>-->
+		<antcall target="m2repo"/>
 		
-		<!-- Test console applet
+		<!-- Test console applet -->
 
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}">
 			<classpath>
@@ -199,7 +285,7 @@
 				</fileset>
 			</classpath>
 			<arg line="-file '${basedir}/test/src/web/examples/swing/console-test.xml'"/>
-		</java> -->
+		</java>
 
 		<!-- Test HTML links -->
 

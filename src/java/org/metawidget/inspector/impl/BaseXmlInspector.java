@@ -61,7 +61,7 @@ import org.w3c.dom.NodeList;
  * <p>
  * ...as output.
  * <p>
- * This class does not support schema validation. It is not that useful in practice for two reasons.
+ * This class does not support schema validation - it is not that useful in practice for two reasons.
  * First, Inspectors like <code>HibernateInspector</code> cannot use it because they can be pointed
  * at different kinds of files (eg. hibernate.cfg.xml or hibernate-mapping.hbm.xml). Second,
  * Inspectors that are intended for Android environments (eg. <code>XmlInspector</code>) cannot use

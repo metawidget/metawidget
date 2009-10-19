@@ -318,7 +318,8 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "java.net.UnknownHostException: foo.nowhere".equals( e.getMessage() ) );
+			//assertTrue( "java.net.UnknownHostException: foo.nowhere".equals( e.getMessage() ) );
+			assertTrue( "java.io.FileNotFoundException: http://foo.nowhere".equals( e.getMessage() ) );
 		}
 	}
 

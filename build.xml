@@ -167,17 +167,6 @@
 			</fileset>
 		</jar>
 		
-		<!-- OSGI headers
-
-		<taskdef resource="aQute/bnd/ant/taskdef.properties">
-			<classpath>
-				<fileset dir="${relative.dir}/lib">
-					<include name="bnd-*.jar"/>
-				</fileset>
-			</classpath>
-		</taskdef>
-		<bndwrap jars="${relative.dir}/${build.dir}/pack/metawidget.jar" output="${relative.dir}/${build.dir}/pack/metawidget.jar" definitions="${relative.dir}/src/java/META-INF" />
-		 -->
 	</target>
 
 	<target name="pack-as-frontend-backend-internal" depends="compile-main">
