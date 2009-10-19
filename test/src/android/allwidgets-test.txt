@@ -6,7 +6,7 @@ This process needs to be upgraded once Android has unit testing support.
 For Android AllWidgets, test:
 
 * The layout is a LinearLayout (including the nested layouts)
-* All values are populated (including 'Nested Textbox 1' twice and again in 'Nested Textbox 1, Nested Textbox 2')
+* All values are populated (including 'Nested Textbox 1' twice and again in 'Nested Textbox 1, Nested Textbox 2', not counting read-only labels)
 * Textarea field is large
 * Password field is masked
 * Numeric fields do not accept alpha characters (incl primitive/object types. Note floats must accept alpha so that you can enter a dot)

@@ -11,6 +11,7 @@ test-search:
 2. Test 6 contacts appear
 3. Test searching for surname 'Simpson'. Homer and Marjorie Simpson should appear
 4. Clear Surname and test searching by type 'Business'. Charles Montgomery Burns and Waylon Smithers should appear
+5. Clear search filters and search again. 6 contacts should appear
 
 test-existing-personal:
 
@@ -30,6 +31,7 @@ test-existing-personal:
 14. Click Mrs Marjorie Simpson
 15. Click Edit
 16. Check Notes is populated
+17. Click Back button
 
 test-new-business:
 
