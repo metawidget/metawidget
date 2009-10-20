@@ -21,6 +21,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
@@ -105,9 +106,28 @@ public class XmlSchemaGeneratorTask
 					file.delete();
 			}
 
+			// Start index.html
+
+			FileWriter indexWriter = new FileWriter( new File( destDir, "index.html" ) );
+			indexWriter.write( "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\r\n" );
+			indexWriter.write( "<html xmlns=\"http://www.w3.org/1999/xhtml\" lang=\"en\" xml:lang=\"en\">\r\n" );
+			indexWriter.write( "\t<head>\r\n" );
+			indexWriter.write( "\t\t<title>Metawidget XML Schemas</title>" );
+			indexWriter.write( "\t</head>\r\n" );
+			indexWriter.write( "\t<body>\r\n" );
+			indexWriter.write( "\t\t<h1>Metawidget XML Schemas</h1>\r\n" );
+			indexWriter.write( "\t\t<h2>General</h2>\r\n" );
+			indexWriter.write( "\t\t<ul>\r\n" );
+			indexWriter.write( "\t\t\t<li><a href=\"metawidget-1.0.xsd\">metawidget-1.0.xsd</a></li>\r\n" );
+			indexWriter.write( "\t\t\t<li><a href=\"inspection-result-1.0.xsd\">inspection-result-1.0.xsd</a></li>\r\n" );
+			indexWriter.write( "\t\t</ul>\r\n" );
+			indexWriter.write( "\t\t<h2>By Package</h2>\r\n" );
+			indexWriter.write( "\t\t<ul>\r\n" );
+
 			// For each entry in the JAR file...
 
 			JarFile jarFile = new JarFile( mJar );
+			String lastXsdFilename = null;
 
 			for ( Enumeration<JarEntry> e = jarFile.entries(); e.hasMoreElements(); )
 			{
@@ -187,9 +207,22 @@ public class XmlSchemaGeneratorTask
 				// ...and write it out
 
 				IOUtils.streamBetween( new ByteArrayInputStream( xsdBuilder.toString().getBytes() ), new FileOutputStream( xsdFile ) );
+
+				String xsdFilename = xsdFile.getName();
+
+				if ( !xsdFilename.equals( lastXsdFilename ))
+				{
+					indexWriter.write( "\t\t\t<li><a href=\"" + xsdFilename + "\">" + xsdFilename + "</a></li>\r\n" );
+					lastXsdFilename = xsdFilename;
+				}
 			}
 
 			jarFile.close();
+
+			// End index.html
+
+			indexWriter.write( "\t\t</ul>\r\n\t</body>\r\n</html>" );
+			indexWriter.close();
 		}
 		catch ( Exception e )
 		{
@@ -201,7 +234,7 @@ public class XmlSchemaGeneratorTask
 	// Package private methods
 	//
 
-	/*package private*/ String generateClassBlock( String packageName, String className )
+	/* package private */String generateClassBlock( String packageName, String className )
 		throws Exception
 	{
 		StringBuilder builder = new StringBuilder();
