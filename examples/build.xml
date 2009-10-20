@@ -254,8 +254,6 @@
 				<exclude name="**/lib/**"/>
 				<exclude name="**/.*"/>
 				<exclude name="WEB-INF/web.xml"/>
-				<!-- Do not <exclude name="contact-richfaces.jsp"/>
-				<exclude name="WEB-INF/metawidget-richfaces.xml"/>, unit tests use them -->				
 			</fileset>
 			<fileset dir="${relative.dir}/examples/src/web/shared/addressbook">
 				<include name="css/**"/>

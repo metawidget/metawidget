@@ -564,7 +564,7 @@
 	
 	<target name="test-faces-addressbook" depends="example-faces-addressbook,compile-test">
 		
-		<!-- Test on Tomcat -->
+		<!-- Test on Tomcat
 
 		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/addressbook-faces"/>
@@ -579,9 +579,9 @@
 			<arg line="-file addressbook-test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/>
+		<antcall target="test-web-stop-tomcat"/> -->
 		
-		<!-- Test on GlassFish -->
+		<!-- Test on GlassFish 
 
 		<delete>
 			<fileset dir="${glassfish.dir}/domains/${glassfish.domain}/autodeploy">
@@ -600,9 +600,9 @@
 			<arg line="-file addressbook-test.xml"/>
 		</java>
 
-		<antcall target="test-web-stop-glassfish"/>
+		<antcall target="test-web-stop-glassfish"/>-->
 
-		<!-- Test on Jetty -->
+		<!-- Test on Jetty
 
 		<copy file="${relative.dir}/${build.dir}/examples/faces/addressbook-faces.war" todir="${jetty.dir}/webapps" overwrite="true"/>
 		<antcall target="test-web-start-jetty"/>
@@ -616,7 +616,61 @@
 			<arg line="-file addressbook-test.xml"/>
 		</java>
 
-		<antcall target="test-web-stop-jetty"/>
+		<antcall target="test-web-stop-jetty"/> -->
+
+		<!-- Test RichFaces -->
+		
+		<copy file="${relative.dir}/test/src/web/examples/faces/metawidget-addressbook-richfaces.xml" tofile="${relative.dir}/${build.dir}/test/examples/faces/WEB-INF/metawidget.xml"/>
+		
+		<war warfile="${relative.dir}/${build.dir}/test/examples/faces/addressbook-faces.war" webxml="${relative.dir}/examples/src/web/faces/addressbook/WEB-INF/web.xml">
+			<fileset dir="${relative.dir}/examples/src/web/faces/addressbook">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+				<exclude name="WEB-INF/metawidget.xml"/>
+			</fileset>
+			<fileset dir="${relative.dir}/${build.dir}/test/examples/faces">
+				<include name="WEB-INF/metawidget.xml"/>
+			</fileset>
+			<fileset dir="${relative.dir}/examples/src/web/shared/addressbook">
+				<include name="css/**"/>
+				<include name="media/**"/>
+				<include name="WEB-INF/tags/**"/>
+			</fileset>
+			<classes dir="${relative.dir}/${build.dir}/example-classes">
+				<include name="org/metawidget/example/faces/addressbook/**"/>
+				<include name="org/metawidget/example/shared/addressbook/**"/>
+			</classes>
+			<lib dir="${relative.dir}/${build.dir}/lib">
+				<include name="commons-beanutils-*.jar"/>
+				<include name="commons-codec-*.jar"/>
+				<include name="commons-collections-*.jar"/>
+				<include name="commons-digester-*.jar"/>
+				<include name="commons-discovery-*.jar"/>
+				<include name="commons-logging-*.jar"/>
+				<include name="jstl-*.jar"/>
+				<include name="metawidget.jar"/>
+				<include name="myfaces-*-1.2*.jar"/>
+				<include name="richfaces-*.jar"/>
+				<include name="standard.jar"/>
+			</lib>
+		</war>
+		
+		<copy file="${relative.dir}/${build.dir}/test/examples/faces/addressbook-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/addressbook-faces"/>
+		<antcall target="test-web-start-tomcat"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/examples/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file addressbook-richfaces-test.xml"/>
+		</java>
+		
+		<antcall target="test-web-stop-tomcat"/>		
 
 	</target>
 
