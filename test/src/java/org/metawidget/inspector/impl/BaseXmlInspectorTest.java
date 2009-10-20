@@ -22,7 +22,7 @@ import java.io.InputStream;
 import junit.framework.TestCase;
 
 import org.metawidget.config.ConfigReader;
-import org.metawidget.iface.ResourceResolver;
+import org.metawidget.config.ResourceResolver;
 
 /**
  * @author Richard Kennard

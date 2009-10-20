@@ -153,19 +153,14 @@ public class BeanUtilsBindingProcessor
 	 * <p>
 	 * This method is an optimization that allows clients to load a new object into the binding
 	 * <em>without</em> calling setToInspect, and therefore without reinspecting the object or
-	 * recreating the components. It is the client's responsbility to ensure the setToRebind object
+	 * recreating the components. It is the client's responsbility to ensure the rebound object
 	 * is compatible with the original setToInspect.
-	 * <p>
-	 * Note this method does not call <code>setToInspect</code>, so the rebound object cannot be
-	 * retrieved using <code>getToInspect</code>. Rather, clients should use
-	 * <code>getToRebind</code>.
 	 */
 
-	public void setToRebind( Object toRebind, SwingMetawidget metawidget )
+	public void rebind( Object toRebind, SwingMetawidget metawidget )
 	{
+		metawidget.setToInspectWithoutInvalidate( toRebind );
 		State state = getState( metawidget );
-		state.toRebind = toRebind;
-		state.rebound = true;
 
 		// Our bindings
 
@@ -201,28 +196,8 @@ public class BeanUtilsBindingProcessor
 		for ( Component component : metawidget.getComponents() )
 		{
 			if ( component instanceof SwingMetawidget )
-				setToRebind( toRebind, (SwingMetawidget) component );
+				rebind( toRebind, (SwingMetawidget) component );
 		}
-	}
-
-	public Object getToRebind( SwingMetawidget metawidget )
-	{
-		return getState( metawidget ).toRebind;
-	}
-
-	/**
-	 * @return same as getToRebind, if setToRebind has been called. Otherwise, same as
-	 *         metawidget.getToInspect
-	 */
-
-	public Object getToRebindOrToInspect( SwingMetawidget metawidget )
-	{
-		State state = getState( metawidget );
-
-		if ( state.rebound )
-			return state.toRebind;
-
-		return metawidget.getToInspect();
 	}
 
 	public void save( SwingMetawidget metawidget )
@@ -299,11 +274,7 @@ public class BeanUtilsBindingProcessor
 	protected void saveValueToObject( SwingMetawidget metawidget, String names, Object componentValue )
 		throws Exception
 	{
-		State state = getState( metawidget );
-		Object source = state.toRebind;
-
-		if ( source == null )
-			source = metawidget.getToInspect();
+		Object source = metawidget.getToInspect();
 
 		switch ( mPropertyStyle )
 		{
@@ -421,10 +392,6 @@ public class BeanUtilsBindingProcessor
 	/* package private */class State
 	{
 		/* package private */Set<SavedBinding>	bindings;
-
-		/* package private */Object				toRebind;
-
-		/* package private */boolean			rebound;
 	}
 
 	class SavedBinding
