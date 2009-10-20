@@ -53,7 +53,7 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 /**
  * Dialog box for Address Book Contacts.
  * <p>
- * Note: for performance, this example is optimized to use <code>setToRebind</code> (see 'rebinding'
+ * Note: for performance, this example is optimized to use <code>rebind</code> (see 'rebinding'
  * in the Reference Documentation). This results in slightly more complex code. For a more
  * straightforward example, see <code>org.metawidget.example.swing.addressbook.ContactDialog</code>.
  *
@@ -225,7 +225,7 @@ public class ContactDialog
 				communicationToAdd.setType( (String) typeMetawidget.getValue( "type" ) );
 				communicationToAdd.setValue( (String) valueMetawidget.getValue( "value" ) );
 
-				Contact currentContact = (Contact) mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebindOrToInspect( mMetawidget );
+				Contact currentContact = mMetawidget.getToInspect();
 
 				try
 				{
@@ -268,8 +268,7 @@ public class ContactDialog
 					Window.alert( e.getMessage() );
 				}
 
-				Contact contactToSave = (Contact) mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebindOrToInspect( mMetawidget );
-				mAddressBookModule.getContactsService().save( contactToSave, new AsyncCallback<Object>()
+				mAddressBookModule.getContactsService().save( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Object>()
 				{
 					public void onFailure( Throwable caught )
 					{
@@ -297,8 +296,7 @@ public class ContactDialog
 						return;
 				}
 
-				Contact contactToDelete = (Contact) mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebindOrToInspect( mMetawidget );
-				mAddressBookModule.getContactsService().delete( contactToDelete, new AsyncCallback<Boolean>()
+				mAddressBookModule.getContactsService().delete( (Contact) mMetawidget.getToInspect(), new AsyncCallback<Boolean>()
 				{
 					public void onFailure( Throwable caught )
 					{
@@ -356,10 +354,10 @@ public class ContactDialog
 
 		// Having recreated all child widgets (as readOnly/not readOnly), or done nothing (if the
 		// child widgets were already in the desired state), update their values to the new contact.
-		// We use setToRebind (as opposed to setToInspect) to rebind the widget values without a
-		// full server-side re-inspection
+		// We use rebind (as opposed to setToInspect) to rebind the widget values without a full
+		// server-side re-inspection
 
-		mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( contact, mMetawidget );
+		mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( contact, mMetawidget );
 
 		setVisibility();
 	}
@@ -390,7 +388,7 @@ public class ContactDialog
 	/* package private */void loadCommunications()
 	{
 		CellFormatter cellFormatter = mCommunications.getCellFormatter();
-		final Contact contact = (Contact) mMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebindOrToInspect( mMetawidget );
+		final Contact contact = mMetawidget.getToInspect();
 		Set<Communication> communications = contact.getCommunications();
 		final boolean readOnly = mMetawidget.isReadOnly();
 		final boolean confirm = ( mAddressBookModule.getPanel() instanceof RootPanel );

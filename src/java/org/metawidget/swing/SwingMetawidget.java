@@ -137,6 +137,19 @@ public class SwingMetawidget
 
 	public void setToInspect( Object toInspect )
 	{
+		setToInspectWithoutInvalidate( toInspect );
+		invalidateInspection();
+	}
+
+	/**
+	 * Sets the Object to inspect, without invalidating the previous inspection results.
+	 * <p>
+	 * <strong>This is an internal API exposed for WidgetProcessor rebinding support. Clients should
+	 * not call it directly.</strong>
+	 */
+
+	public void setToInspectWithoutInvalidate( Object toInspect )
+	{
 		if ( mToInspect == null )
 		{
 			if ( mPath == null && toInspect != null )
@@ -151,7 +164,6 @@ public class SwingMetawidget
 		}
 
 		mToInspect = toInspect;
-		invalidateInspection();
 	}
 
 	/**
@@ -205,25 +217,25 @@ public class SwingMetawidget
 	public void setWidgetBuilder( WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder )
 	{
 		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
-		invalidateInspection();
+		invalidateWidgets();
 	}
 
 	public void addWidgetProcessor( WidgetProcessor<JComponent, SwingMetawidget> widgetProcessor )
 	{
 		mMetawidgetMixin.addWidgetProcessor( widgetProcessor );
-		invalidateInspection();
+		invalidateWidgets();
 	}
 
 	public void removeWidgetProcessor( WidgetProcessor<JComponent, SwingMetawidget> widgetProcessor )
 	{
 		mMetawidgetMixin.removeWidgetProcessor( widgetProcessor );
-		invalidateInspection();
+		invalidateWidgets();
 	}
 
 	public void setWidgetProcessors( WidgetProcessor<JComponent, SwingMetawidget>... widgetProcessors )
 	{
 		mMetawidgetMixin.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
-		invalidateInspection();
+		invalidateWidgets();
 	}
 
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
@@ -243,7 +255,7 @@ public class SwingMetawidget
 	public void setMetawidgetLayout( Layout<JComponent, SwingMetawidget> layout )
 	{
 		mMetawidgetMixin.setLayout( layout );
-		invalidateInspection();
+		invalidateWidgets();
 	}
 
 	public void setBundle( ResourceBundle bundle )

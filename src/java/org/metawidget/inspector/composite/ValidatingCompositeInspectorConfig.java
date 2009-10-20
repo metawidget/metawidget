@@ -17,8 +17,8 @@
 package org.metawidget.inspector.composite;
 
 import org.metawidget.config.ConfigReader;
-import org.metawidget.iface.NeedsResourceResolver;
-import org.metawidget.iface.ResourceResolver;
+import org.metawidget.config.NeedsResourceResolver;
+import org.metawidget.config.ResourceResolver;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**

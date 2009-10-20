@@ -192,10 +192,10 @@
 				<include name="lib/AppFramework.jar"/>
 				<include name="lib/beansbinding*.jar"/>
 				<include name="lib/commons-jexl-*.jar"/>
-				<include name="lib/swing-worker.jar"/>
 			</fileset>
 			<fileset dir="${relative.dir}/examples">
 				<include name="lib/commons-logging-*.jar"/>
+				<include name="lib/swing-worker.jar"/>
 			</fileset>			
 		</copy>
 		

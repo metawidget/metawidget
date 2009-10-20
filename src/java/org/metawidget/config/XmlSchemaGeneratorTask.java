@@ -34,7 +34,6 @@ import java.util.jar.JarFile;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
-import org.metawidget.iface.ResourceResolver;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.jsp.tagext.MetawidgetTag;
@@ -189,6 +188,8 @@ public class XmlSchemaGeneratorTask
 
 				IOUtils.streamBetween( new ByteArrayInputStream( xsdBuilder.toString().getBytes() ), new FileOutputStream( xsdFile ) );
 			}
+
+			jarFile.close();
 		}
 		catch ( Exception e )
 		{

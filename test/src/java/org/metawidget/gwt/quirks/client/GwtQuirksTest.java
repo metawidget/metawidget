@@ -126,10 +126,7 @@ public class GwtQuirksTest
 
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 
-						assertTrue( null == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
-						assertTrue( metawidget.getToInspect() == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebindOrToInspect( metawidget ));
-						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( metawidget.getToInspect(), metawidget );
-						assertTrue( metawidget.getToInspect() == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
+						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( metawidget.getToInspect(), metawidget );
 
 						// Test checkbox was still checked and has no text (ie. HasText didn't get hit
 						// first in GwtMetawidget.setValue)
@@ -143,9 +140,8 @@ public class GwtQuirksTest
 						((GwtQuirks) metawidget.getToInspect()).setBoolean( false );
 
 						GwtQuirks quirks2 = new GwtQuirks();
-						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( quirks2, metawidget );
-						assertTrue( quirks2 == metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).getToRebind( metawidget ));
-						assertTrue( quirks2 != metawidget.getToInspect() );
+						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( quirks2, metawidget );
+						assertTrue( quirks2 == metawidget.getToInspect() );
 						assertTrue( "".equals( checkbox.getText() ));
 						assertTrue( false == checkbox.getValue() );
 						checkbox.setValue( true );
@@ -153,7 +149,7 @@ public class GwtQuirksTest
 
 						assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );
 						assertTrue( quirks2.isBoolean() );
-						assertTrue( !((GwtQuirks) metawidget.getToInspect()).isBoolean() );
+						assertTrue( ((GwtQuirks) metawidget.getToInspect()).isBoolean() );
 
 						// All done
 

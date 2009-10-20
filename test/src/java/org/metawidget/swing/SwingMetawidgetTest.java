@@ -344,15 +344,13 @@ public class SwingMetawidgetTest
 
 		// Rebind
 
-		assertTrue( foo1 == processor.getClass().getMethod( "getToRebindOrToInspect", SwingMetawidget.class ).invoke( processor, metawidget ) );
-
 		Foo foo2 = new Foo();
 		foo2.setName( "Julianne" );
 		Foo nestedFoo2 = new Foo();
 		foo2.setFoo( nestedFoo2 );
 		nestedFoo2.setName( "Richard" );
 
-		processor.getClass().getMethod( "setToRebind", Object.class, SwingMetawidget.class ).invoke( processor, foo2, metawidget );
+		processor.getClass().getMethod( "rebind", Object.class, SwingMetawidget.class ).invoke( processor, foo2, metawidget );
 		assertTrue( "Julianne".equals( textField.getText() ) );
 		assertTrue( "Richard".equals( nestedTextField.getText() ) );
 
@@ -361,16 +359,12 @@ public class SwingMetawidgetTest
 		assertTrue( textField == metawidget.getComponent( "name" ) );
 		assertTrue( nestedTextField == metawidget.getComponent( "foo", "name" ) );
 
-		// Check saves back to the correct place (ie. rebind uses .getToRebind, doesn't update
-		// .setToInspect)
+		// Check saves back to the correct place
 
 		processor.getClass().getMethod( "save", SwingMetawidget.class ).invoke( processor, metawidget );
 		assertTrue( "Charlotte".equals( foo1.getName() ) );
-		assertTrue( foo1 == metawidget.getToInspect() );
+		assertTrue( foo2 == metawidget.getToInspect() );
 		assertTrue( "Julianne".equals( foo2.getName() ) );
-		assertTrue( foo2 != metawidget.getToInspect() );
-		assertTrue( foo2 == processor.getClass().getMethod( "getToRebind", SwingMetawidget.class ).invoke( processor, metawidget ) );
-		assertTrue( foo2 == processor.getClass().getMethod( "getToRebindOrToInspect", SwingMetawidget.class ).invoke( processor, metawidget ) );
 
 		// Check different component
 
@@ -386,7 +380,7 @@ public class SwingMetawidgetTest
 
 		try
 		{
-			processor.getClass().getMethod( "setToRebind", Object.class, SwingMetawidget.class ).invoke( processor, new Object(), metawidget );
+			processor.getClass().getMethod( "rebind", Object.class, SwingMetawidget.class ).invoke( processor, new Object(), metawidget );
 			assertTrue( false );
 		}
 		catch ( Exception e )

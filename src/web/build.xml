@@ -151,7 +151,7 @@
 	</target>
 
 	<target name="xsd" depends="pack">
-	
+				
 		<taskdef name="xmlSchemaGenerator" classname="org.metawidget.config.XmlSchemaGeneratorTask">
 			<classpath>
 				<pathelement path="${relative.dir}/${build.dir}/classes"/>
@@ -214,6 +214,10 @@
 	
 		<!-- Doco -->
 
+		<antcall target="docbook"/>
+		<antcall target="javadoc"/>
+		<antcall target="tlddoc"/>
+
 		<copy todir="${tomcat.dir}/webapps/ROOT" overwrite="true">			
 			<fileset dir="${relative.dir}/${build.dir}">
 				<include name="doc/api/**"/>
@@ -227,9 +231,9 @@
 
 		<!-- XSDs -->
 		
+		<antcall target="xsd"/>
 		<copy file="${relative.dir}/src/java/org/metawidget/config/metawidget-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
 		<copy file="${relative.dir}/src/java/org/metawidget/inspector/inspection-result-1.0.xsd" todir="${tomcat.dir}/webapps/ROOT/xsd"/>
-		<antcall target="xsd"/>
 
 		<!-- Try to have something at TLD URIs -->
 
@@ -272,10 +276,10 @@
 					<include name="lib/*.jar"/>
 				</fileset>
 			</classpath>
-			<arg line="-file '${basedir}/test/src/web/examples/swing/console-test.xml'"/>
+			<arg line="-file '${relative.dir}/test/src/web/examples/swing/console-test.xml'"/>
 		</java>
 
-		<!-- Test HTML links -->
+		<!-- Test HTML links
 
 		<antcall target="test-web-start-tomcat"/>
 
@@ -288,7 +292,7 @@
 			<arg line="-file test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/>
+		<antcall target="test-web-stop-tomcat"/> -->
 
 	</target>
 	

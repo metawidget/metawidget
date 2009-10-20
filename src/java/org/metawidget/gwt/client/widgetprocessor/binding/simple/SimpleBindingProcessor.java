@@ -157,15 +157,10 @@ public class SimpleBindingProcessor
 				{
 					// Use the adapter...
 
-					Object toInvokeOn = getState( metawidget ).toRebind;
+					Object toInvokeOn = metawidget.getToInspect();
 
 					if ( toInvokeOn == null )
-					{
-						toInvokeOn = metawidget.getToInspect();
-
-						if ( toInvokeOn == null )
-							return;
-					}
+						return;
 
 					Class<?> classToBindTo = toInvokeOn.getClass();
 					SimpleBindingProcessorAdapter<Object> adapter = getAdapter( classToBindTo );
@@ -236,19 +231,15 @@ public class SimpleBindingProcessor
 	 * <p>
 	 * This method is an optimization that allows clients to load a new object into the binding
 	 * <em>without</em> calling setToInspect, and therefore without reinspecting the object or
-	 * recreating the components. It is the client's responsbility to ensure the setToRebind object
+	 * recreating the components. It is the client's responsbility to ensure the rebound object
 	 * is compatible with the original setToInspect.
-	 * <p>
-	 * Note this method does not call <code>setToInspect</code>, so the rebound object cannot be
-	 * retrieved using <code>getToInspect</code>. Rather, clients should use
-	 * <code>getToRebind</code>.
 	 */
 
-	public void setToRebind( Object toRebind, GwtMetawidget metawidget )
+	public void rebind( Object toRebind, GwtMetawidget metawidget )
 	{
+		metawidget.setToInspectWithoutInvalidate( toRebind );
+
 		State state = getState( metawidget );
-		state.toRebind = toRebind;
-		state.rebound = true;
 
 		// Our bindings
 
@@ -292,29 +283,9 @@ public class SimpleBindingProcessor
 		{
 			for ( GwtMetawidget nestedMetawidget : state.nestedMetawidgets )
 			{
-				setToRebind( toRebind, nestedMetawidget );
+				rebind( toRebind, nestedMetawidget );
 			}
 		}
-	}
-
-	public Object getToRebind( GwtMetawidget metawidget )
-	{
-		return getState( metawidget ).toRebind;
-	}
-
-	/**
-	 * @return same as getToRebind, if setToRebind has been called. Otherwise, same as
-	 *         metawidget.getToInspect
-	 */
-
-	public Object getToRebindOrToInspect( GwtMetawidget metawidget )
-	{
-		State state = getState( metawidget );
-
-		if ( state.rebound )
-			return state.toRebind;
-
-		return metawidget.getToInspect();
 	}
 
 	public void save( GwtMetawidget metawidget )
@@ -325,15 +296,10 @@ public class SimpleBindingProcessor
 
 		if ( state.bindings != null )
 		{
-			Object toSave = state.toRebind;
+			Object toSave = metawidget.getToInspect();
 
 			if ( toSave == null )
-			{
-				toSave = metawidget.getToInspect();
-
-				if ( toSave == null )
-					return;
-			}
+				return;
 
 			// From the adapter...
 
@@ -466,9 +432,5 @@ public class SimpleBindingProcessor
 		/* package private */Set<Object[]>		bindings;
 
 		/* package private */Set<GwtMetawidget>	nestedMetawidgets;
-
-		/* package private */Object				toRebind;
-
-		/* package private */boolean			rebound;
 	}
 }

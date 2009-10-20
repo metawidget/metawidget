@@ -1494,10 +1494,8 @@ public class Person {
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
 				&lt;array&gt;
-					&lt;richFacesWidgetBuilder
-					xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
-					&lt;htmlWidgetBuilder
-					xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
+					&lt;richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
+					&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 				&lt;/array&gt;
 			&lt;/widgetBuilders&gt;
 		&lt;/compositeWidgetBuilder&gt;
@@ -1543,10 +1541,8 @@ public class Person {
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
 				&lt;array&gt;
-					&lt;richFacesWidgetBuilder
-					xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
-					&lt;htmlWidgetBuilder
-					xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
+					&lt;richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
+					&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 				&lt;/array&gt;
 			&lt;/widgetBuilders&gt;
 		&lt;/compositeWidgetBuilder&gt;
@@ -3475,7 +3471,9 @@ public class Person {
 				
 				<programlisting language="java">package com.myapp;
 			
-<symbol>import java.awt.*;
+<symbol>import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.awt.*;
 import java.util.*;</symbol>
 import javax.swing.*;
 import org.metawidget.swing.*;
@@ -8142,13 +8140,13 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			
 			<para>
 				To avoid this some <classname>WidgetProcessor</classname>s support a second, lightweight version of <function>setToInspect</function>
-				called <function>setToRebind</function>. Using <function>setToRebind</function>, a <classname>WidgetProcessor</classname> can update the values in
+				called <function>rebind</function>. Using <function>rebind</function>, a <classname>WidgetProcessor</classname> can update the values in
 				the generated widgets <emphasis>without</emphasis> re-running generation. This allows the Metawidget to be generated once and reused
 				many times.
 			</para>
 			
 			<para>
-				The downside of <function>setToRebind</function> is that the rebound object must have exactly the same set of field names
+				The downside of <function>rebind</function> is that the rebound object must have exactly the same set of field names
 				as the original object. It becomes the responsibility of the caller to ensure this consistency.
 			</para>
 			

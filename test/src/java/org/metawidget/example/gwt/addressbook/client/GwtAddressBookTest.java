@@ -275,11 +275,11 @@ public class GwtAddressBookTest
 																		assertTrue( "743 Evergreen Terrace".equals( personalContact.getAddress().getStreet() ) );
 																		assertTrue( "Lostville".equals( personalContact.getAddress().getState() ) );
 
-																		// Check rebinding works (ie. exercises the nested bindings in SimpleBindingProcessor.setToRebind)
+																		// Check rebinding works (ie. exercises the nested bindings in SimpleBindingProcessor.rebind)
 
 																		contactMetawidget.setValue( "Foo", "address", "street" );
 																		assertTrue( "Foo".equals( contactMetawidget.getValue( "address", "street" )));
-																		contactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).setToRebind( personalContact, contactMetawidget );
+																		contactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( personalContact, contactMetawidget );
 																		assertTrue( "743 Evergreen Terrace".equals( contactMetawidget.getValue( "address", "street" )));
 
 																		finish();

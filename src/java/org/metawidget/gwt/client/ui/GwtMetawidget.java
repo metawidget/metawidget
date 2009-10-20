@@ -196,6 +196,19 @@ public class GwtMetawidget
 
 	public void setToInspect( Object toInspect )
 	{
+		setToInspectWithoutInvalidate( toInspect );
+		invalidateInspection();
+	}
+
+	/**
+	 * Sets the Object to inspect, without invalidating the previous inspection results.
+	 * <p>
+	 * <strong>This is an internal API exposed for WidgetProcessor rebinding support. Clients should
+	 * not call it directly.</strong>
+	 */
+
+	public void setToInspectWithoutInvalidate( Object toInspect )
+	{
 		if ( mToInspect == null )
 		{
 			if ( mPath == null && toInspect != null )
@@ -210,7 +223,6 @@ public class GwtMetawidget
 		}
 
 		mToInspect = toInspect;
-		invalidateInspection();
 	}
 
 	/**

@@ -30,23 +30,7 @@
 			</compositeInspector>
 		</inspector>
 		<widgetBuilder>
-			<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig">
-				<dataTableStyleClass>
-					<string>data-table</string>
-				</dataTableStyleClass>
-				<dataTableColumnClasses>
-					<array>
-						<string>column-half</string>
-						<string>column-half</string>
-					</array>
-				</dataTableColumnClasses>
-				<dataTableRowClasses>
-					<array>
-						<string>row-odd</string>
-						<string>row-even</string>
-					</array>
-				</dataTableRowClasses>
-			</htmlWidgetBuilder>
+			<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig"/>
 		</widgetBuilder>
 	</htmlMetawidget>
 

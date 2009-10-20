@@ -73,7 +73,8 @@ public abstract class MetawidgetMixin<W, M extends W>
 	 *
 	 * @param metawidgetClass
 	 *            the base class of the Metawidget. This is different from
-	 *            getMixinOwner().getClass(), as that will return the instance (and therefore potentially a subclass)
+	 *            getMixinOwner().getClass(), as that will return the instance (and therefore
+	 *            potentially a subclass)
 	 */
 
 	public void configureDefaults( ConfigReader configReader, String configuration, Class<M> metawidgetClass )
@@ -137,6 +138,12 @@ public abstract class MetawidgetMixin<W, M extends W>
 	{
 		return XmlUtils.getAttributesAsMap( element );
 	}
+
+	/**
+	 * @return the mixin instance within the given Metwidget. Used by <code>configureDefaults</code>
+	 *         so that it can a) configure a dummy Metawidget instance, then b) copy settings from
+	 *         that dummy Metawidget instance's mixin into itself.
+	 */
 
 	protected abstract MetawidgetMixin<W, M> getNestedMixin( M metawidget );
 }

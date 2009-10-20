@@ -18,8 +18,8 @@ package org.metawidget.inspector.seam;
 
 import java.io.InputStream;
 
-import org.metawidget.iface.NeedsResourceResolver;
-import org.metawidget.iface.ResourceResolver;
+import org.metawidget.config.NeedsResourceResolver;
+import org.metawidget.config.ResourceResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.ObjectUtils;

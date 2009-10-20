@@ -62,7 +62,7 @@ import org.metawidget.util.simple.StringUtils;
 /**
  * Dialog box for Address Book Contacts.
  * <p>
- * Note: for brevity, this example is not optimized to use <code>setToRebind</code>
+ * Note: for brevity, this example is not optimized to use <code>rebind</code>
  * (see 'rebinding' in the Reference Documentation). For an example using rebinding, see
  * <code>org.metawidget.example.gwt.addressbook.client.ui.ContactDialog</code>.
  *
