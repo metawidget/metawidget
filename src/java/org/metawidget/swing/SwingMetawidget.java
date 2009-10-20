@@ -137,18 +137,18 @@ public class SwingMetawidget
 
 	public void setToInspect( Object toInspect )
 	{
-		setToInspectWithoutInvalidate( toInspect );
+		updateToInspectWithoutInvalidate( toInspect );
 		invalidateInspection();
 	}
 
 	/**
-	 * Sets the Object to inspect, without invalidating the previous inspection results.
+	 * Updates the Object to inspect, without invalidating the previous inspection results.
 	 * <p>
 	 * <strong>This is an internal API exposed for WidgetProcessor rebinding support. Clients should
 	 * not call it directly.</strong>
 	 */
 
-	public void setToInspectWithoutInvalidate( Object toInspect )
+	public void updateToInspectWithoutInvalidate( Object toInspect )
 	{
 		if ( mToInspect == null )
 		{

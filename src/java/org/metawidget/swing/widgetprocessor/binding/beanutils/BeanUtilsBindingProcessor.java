@@ -159,7 +159,7 @@ public class BeanUtilsBindingProcessor
 
 	public void rebind( Object toRebind, SwingMetawidget metawidget )
 	{
-		metawidget.setToInspectWithoutInvalidate( toRebind );
+		metawidget.updateToInspectWithoutInvalidate( toRebind );
 		State state = getState( metawidget );
 
 		// Our bindings

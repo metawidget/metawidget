@@ -237,7 +237,7 @@ public class SimpleBindingProcessor
 
 	public void rebind( Object toRebind, GwtMetawidget metawidget )
 	{
-		metawidget.setToInspectWithoutInvalidate( toRebind );
+		metawidget.updateToInspectWithoutInvalidate( toRebind );
 
 		State state = getState( metawidget );
 
