@@ -26,6 +26,9 @@ import java.io.InputStream;
  * <code>ClassLoader</code>. For example, Web environments have <code>/WEB-INF/</code> which
  * can only be accessed through <code>ServletContext</code>. Similarly, Android environments must
  * resolve resources using <code>Context.getResources</code>.
+ * <p>
+ * Note: this class is not located under <code>org.metawidget.iface</code>, because GWT does not
+ * like <code>java.io.InputStream</code>.
  *
  * @author Richard Kennard
  */

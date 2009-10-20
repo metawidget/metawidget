@@ -1489,8 +1489,8 @@ public class Person {
 			&lt;/inspectors&gt;
 		&lt;/compositeInspector&gt;
 	&lt;/inspector&gt;
-	<symbol>&lt;widgetBuilder&gt;
-		&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
+	&lt;widgetBuilder&gt;
+		<symbol>&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
 				&lt;array&gt;
@@ -1498,8 +1498,8 @@ public class Person {
 					&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 				&lt;/array&gt;
 			&lt;/widgetBuilders&gt;
-		&lt;/compositeWidgetBuilder&gt;
-	&lt;/widgetBuilder&gt;</symbol>
+		&lt;/compositeWidgetBuilder&gt;</symbol>
+	&lt;/widgetBuilder&gt;
 &lt;/htmlMetawidget&gt;
 
 &lt;/metawidget&gt;</programlisting>
@@ -7036,6 +7036,11 @@ public class PersonController {
 								<td></td>
 								<td><classname>HtmlInputNumberSpinner</classname></td>
 								<td>Primitives (except boolean and char) and Numbers that have only one or neither minimum/maximum value</td>
+							</tr>
+							<tr>
+								<td></td>
+								<td><classname>HtmlSuggestionBox</classname></td>
+								<td>Fields with <parameter>faces-suggest</parameter> lookups</td>
 							</tr>
 						</tbody>
 					</informaltable>

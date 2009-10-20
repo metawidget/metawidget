@@ -16,10 +16,12 @@
 
 package org.metawidget.config;
 
-
 /**
  * Interface to indicate a <code>xxxConfig</code> class (ie. an <code>InspectorConfig</code>, a
  * <code>LayoutConfig</code> etc) needs a ResourceResolver.
+ * <p>
+ * Note: this class is not located under <code>org.metawidget.iface</code>, because GWT does not
+ * like <code>ResourceResolver</code>'s <code>java.io.InputStream</code>.
  *
  * @author Richard Kennard
  */
