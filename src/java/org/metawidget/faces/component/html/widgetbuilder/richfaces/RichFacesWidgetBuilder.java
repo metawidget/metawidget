@@ -102,6 +102,8 @@ public class RichFacesWidgetBuilder
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 			return null;
 
+		// TODO: for lookups, use RichComboBox?
+
 		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) )
 			return null;
 

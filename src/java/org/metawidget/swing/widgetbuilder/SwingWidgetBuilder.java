@@ -345,6 +345,8 @@ public class SwingWidgetBuilder
 				}
 				else if ( int.class.equals( clazz ) )
 				{
+					// TODO: (minimum <= value <= maximum) is false
+
 					int minimum = Integer.MIN_VALUE;
 					int maximum = Integer.MAX_VALUE;
 
