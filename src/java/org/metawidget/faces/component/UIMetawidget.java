@@ -218,7 +218,7 @@ public abstract class UIMetawidget
 
 	public void setWidgetProcessors( WidgetProcessor<UIComponent, UIMetawidget>... widgetProcessors )
 	{
-		mMetawidgetMixin.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ));
+		mMetawidgetMixin.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
 	}
 
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
@@ -419,6 +419,16 @@ public abstract class UIMetawidget
 		return (T) mClientProperties.get( key );
 	}
 
+	private List<UIComponent>	mChildrenAfterRestoreState;
+
+	@Override
+	public void processRestoreState( FacesContext context, Object state )
+	{
+		super.processRestoreState( context, state );
+
+		mChildrenAfterRestoreState = CollectionUtils.newArrayList( getChildren() );
+	}
+
 	@Override
 	public void encodeBegin( FacesContext context )
 		throws IOException
@@ -430,6 +440,18 @@ public abstract class UIMetawidget
 
 			if ( context.getMaximumSeverity() != null )
 			{
+				// Hack: remove any components that have been remerged into the component
+				// tree after processRestoreState. This takes care of Stubs that have
+				// since been moved to other containers (ie. into a RichFaces Tab). We wouldn't
+				// need this if we could figure out how to do .buildWidgets BEFORE the
+				// component tree gets serialized (ie. before encodeBegin)
+
+				if ( mChildrenAfterRestoreState != null )
+				{
+					getChildren().clear();
+					getChildren().addAll( mChildrenAfterRestoreState );
+				}
+
 				super.encodeBegin( context );
 				return;
 			}
@@ -663,15 +685,14 @@ public abstract class UIMetawidget
 			{
 				configReader.configure( mConfig, this );
 			}
-			catch( MetawidgetException e )
+			catch ( MetawidgetException e )
 			{
-				if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ))
+				if ( !DEFAULT_USER_CONFIG.equals( mConfig ) || !( e.getCause() instanceof FileNotFoundException ) )
 					throw e;
 
 				LogUtils.getLog( UIMetawidget.class ).info( "Could not locate " + DEFAULT_USER_CONFIG + ". This file is optional, but if you HAVE created one then Metawidget isn't finding it!" );
 			}
 		}
-
 
 		mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration(), UIMetawidget.class );
 	}
