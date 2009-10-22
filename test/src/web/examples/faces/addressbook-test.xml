@@ -231,6 +231,6 @@
 		</webtest>
 	</target>
 
-	<target name="test-all" depends="wt.defineTasks, test-search, test-new-business, test-existing-personal, test-richfaces"/>
+	<target name="test-all" depends="wt.defineTasks, test-search, test-new-business, test-existing-personal"/>
 
 </project>
