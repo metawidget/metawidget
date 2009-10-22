@@ -933,7 +933,7 @@ public class ConfigReader
 
 							if ( isImmutableThreadsafe( classToConstruct ) )
 							{
-								LOG.debug( "Instantiated immutable threadsafe " + classToConstruct );
+								LOG.debug( "\tInstantiated immutable threadsafe " + classToConstruct + " (config hashCode " + object.hashCode() + ")" );
 								putImmutableThreadsafeByClass( configuredObject, object );
 
 								if ( mDepth == ( mStoreImmutableThreadsafeByKeyAtDepth - 1 ) )
@@ -1140,7 +1140,7 @@ public class ConfigReader
 
 			if ( isImmutableThreadsafe( classToConstruct ) )
 			{
-				LOG.debug( "Instantiated immutable threadsafe " + classToConstruct );
+				LOG.debug( "\tInstantiated immutable threadsafe " + classToConstruct + " (no config)" );
 				putImmutableThreadsafeByClass( object, null );
 			}
 

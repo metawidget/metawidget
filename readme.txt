@@ -20,14 +20,6 @@ Quick Start
 2. run 'java -jar addressbook-swing.jar'
 3. see 'documentation.html' and follow the tutorial
 
-Building From Source
---------------------
-
-1. 'ant' (builds entire distribution)
-2. 'ant test' (runs unit tests and web tests)
-3. 'ant test-coverage' (runs unit tests and web tests with coverage report)
-4. 'ant web-site' (builds web site)
-
 Other Stuff
 -----------
 

@@ -133,6 +133,8 @@ public abstract class UIMetawidget
 
 	private Map<Object, Object>	mClientProperties;
 
+	private List<UIComponent>	mChildrenAfterRestoreState;
+
 	private UIMetawidgetMixin	mMetawidgetMixin;
 
 	//
@@ -419,8 +421,6 @@ public abstract class UIMetawidget
 		return (T) mClientProperties.get( key );
 	}
 
-	private List<UIComponent>	mChildrenAfterRestoreState;
-
 	@Override
 	public void processRestoreState( FacesContext context, Object state )
 	{
@@ -433,68 +433,55 @@ public abstract class UIMetawidget
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		try
+		// Validation error? Do not rebuild, as we will lose the invalid values in the
+		// components. Instead, just move along to our renderer
+
+		if ( context.getMaximumSeverity() != null )
 		{
-			// Validation error? Do not rebuild, as we will lose the invalid values in the
-			// components. Instead, just move along to our renderer
+			// Hack: remove any components that have been re-merged into the component
+			// tree after processRestoreState. This takes care of Stubs that have
+			// since been moved to other containers (ie. into a RichFaces Tab). We wouldn't
+			// need this if we could figure out how to do .buildWidgets BEFORE the
+			// component tree gets serialized (ie. before encodeBegin)
+			//
+			// For background on this hack, see:
+			// http://osdir.com/ml/java.facelets.user/2008-06/msg00050.html
+			//
+			// Jacob Hookum: "What's actually needed in [JSF 1.2] is post component tree creation or
+			// post component creation hooks, providing the ability to then modify the component
+			// tree"
+			// Ken Paulsen: "This hasn't been resolved in the 2.0 EG yet"
 
-			if ( context.getMaximumSeverity() != null )
+			if ( mChildrenAfterRestoreState != null )
 			{
-				// Hack: remove any components that have been remerged into the component
-				// tree after processRestoreState. This takes care of Stubs that have
-				// since been moved to other containers (ie. into a RichFaces Tab). We wouldn't
-				// need this if we could figure out how to do .buildWidgets BEFORE the
-				// component tree gets serialized (ie. before encodeBegin)
-
-				if ( mChildrenAfterRestoreState != null )
-				{
-					getChildren().clear();
-					getChildren().addAll( mChildrenAfterRestoreState );
-				}
-
-				super.encodeBegin( context );
-				return;
+				getChildren().clear();
+				getChildren().addAll( mChildrenAfterRestoreState );
 			}
-
-			configure();
-
-			// Inspect from the value binding...
-
-			ValueBinding valueBinding = getValueBinding( "value" );
-
-			if ( valueBinding != null )
-			{
-				mMetawidgetMixin.buildWidgets( inspect( valueBinding, mInspectFromParent ) );
-				super.encodeBegin( context );
-				return;
-			}
-
-			// ...or from a raw value (for jBPM)...
-
-			if ( mValue != null )
-			{
-				mMetawidgetMixin.buildWidgets( inspect( null, (String) mValue ) );
-				super.encodeBegin( context );
-				return;
-			}
-
-			// ...or run without inspection (eg. using the Metawidget purely for layout)
-
-			mMetawidgetMixin.buildWidgets( null );
-			super.encodeBegin( context );
 		}
-		catch ( Exception e )
+
+		// Build widgets as normal
+
+		else
 		{
-			// IOException does not take a Throwable 'cause' argument until Java 6, so
-			// as we need to stay 1.4 compatible we output the trace here
+			try
+			{
+				buildWidgets();
+			}
+			catch ( Exception e )
+			{
+				// IOException does not take a Throwable 'cause' argument until Java 6, so
+				// as we need to stay 1.4 compatible we output the trace here
 
-			LogUtils.getLog( getClass() ).error( "Unable to encodeBegin", e );
+				LogUtils.getLog( getClass() ).error( "Unable to encodeBegin", e );
 
-			// At this top level, it is more 'proper' to throw an IOException than
-			// a MetawidgetException, as that is what the layers above are expecting
+				// At this top level, it is more 'proper' to throw an IOException than
+				// a MetawidgetException, as that is what the layers above are expecting
 
-			throw new IOException( e.getMessage() );
+				throw new IOException( e.getMessage() );
+			}
 		}
+
+		super.encodeBegin( context );
 	}
 
 	/**
@@ -504,6 +491,80 @@ public abstract class UIMetawidget
 	public String inspect( Object toInspect, String type, String... names )
 	{
 		return mMetawidgetMixin.inspect( toInspect, type, names );
+	}
+
+	@Override
+	public Object saveState( FacesContext context )
+	{
+		Object values[] = new Object[5];
+		values[0] = super.saveState( context );
+		values[1] = mValue;
+		values[2] = mReadOnly;
+		values[3] = mConfig;
+		values[4] = mInspectFromParent;
+
+		return values;
+	}
+
+	@Override
+	public void restoreState( FacesContext context, Object state )
+	{
+		Object values[] = (Object[]) state;
+		super.restoreState( context, values[0] );
+
+		mValue = values[1];
+		mReadOnly = (Boolean) values[2];
+		mConfig = (String) values[3];
+		mInspectFromParent = (Boolean) values[4];
+	}
+
+	//
+	// Protected methods
+	//
+
+	/**
+	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * <p>
+	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
+	 * instantiate their version.
+	 */
+
+	protected UIMetawidgetMixin newMetawidgetMixin()
+	{
+		return new UIMetawidgetMixin();
+	}
+
+	protected UIMetawidgetMixin getMetawidgetMixin()
+	{
+		return mMetawidgetMixin;
+	}
+
+	protected void buildWidgets()
+		throws Exception
+	{
+		configure();
+
+		// Inspect from the value binding...
+
+		ValueBinding valueBinding = getValueBinding( "value" );
+
+		if ( valueBinding != null )
+		{
+			mMetawidgetMixin.buildWidgets( inspect( valueBinding, mInspectFromParent ) );
+			return;
+		}
+
+		// ...or from a raw value (for jBPM)...
+
+		if ( mValue != null )
+		{
+			mMetawidgetMixin.buildWidgets( inspect( null, (String) mValue ) );
+			return;
+		}
+
+		// ...or run without inspection (eg. using the Metawidget purely for layout)
+
+		mMetawidgetMixin.buildWidgets( null );
 	}
 
 	protected abstract UIMetawidget buildNestedMetawidget( Map<String, String> attributes );
@@ -552,52 +613,6 @@ public abstract class UIMetawidget
 		// the attributes map as a storage area for special flags (eg.
 		// ComponentSupport.MARK_CREATED) that should not get copied down from component to
 		// component!
-	}
-
-	@Override
-	public Object saveState( FacesContext context )
-	{
-		Object values[] = new Object[5];
-		values[0] = super.saveState( context );
-		values[1] = mValue;
-		values[2] = mReadOnly;
-		values[3] = mConfig;
-		values[4] = mInspectFromParent;
-
-		return values;
-	}
-
-	@Override
-	public void restoreState( FacesContext context, Object state )
-	{
-		Object values[] = (Object[]) state;
-		super.restoreState( context, values[0] );
-
-		mValue = values[1];
-		mReadOnly = (Boolean) values[2];
-		mConfig = (String) values[3];
-		mInspectFromParent = (Boolean) values[4];
-	}
-
-	//
-	// Protected methods
-	//
-
-	/**
-	 * Instantiate the MetawidgetMixin used by this Metawidget.
-	 * <p>
-	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
-	 * instantiate their version.
-	 */
-
-	protected UIMetawidgetMixin newMetawidgetMixin()
-	{
-		return new UIMetawidgetMixin();
-	}
-
-	protected UIMetawidgetMixin getMetawidgetMixin()
-	{
-		return mMetawidgetMixin;
 	}
 
 	/**
