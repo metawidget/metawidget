@@ -55,6 +55,8 @@
 
 				<clickButton label="Cancel"/>
 				
+				<!-- Test validation error with a Stub doesn't break the page -->
+				
 				<clickButton label="Add Business Contact"/>
 				<verifySelectField name="form:contactCurrentTitle" value="Mr"/>
 				<verifyInputField name="form:contactCurrentFirstname" value=""/>

@@ -433,55 +433,61 @@ public abstract class UIMetawidget
 	public void encodeBegin( FacesContext context )
 		throws IOException
 	{
-		// Validation error? Do not rebuild, as we will lose the invalid values in the
-		// components. Instead, just move along to our renderer
-
-		if ( context.getMaximumSeverity() != null )
+		try
 		{
-			// Hack: remove any components that have been re-merged into the component
-			// tree after processRestoreState. This takes care of Stubs that have
-			// since been moved to other containers (ie. into a RichFaces Tab). We wouldn't
-			// need this if we could figure out how to do .buildWidgets BEFORE the
-			// component tree gets serialized (ie. before encodeBegin)
-			//
-			// For background on this hack, see:
-			// http://osdir.com/ml/java.facelets.user/2008-06/msg00050.html
-			//
-			// Jacob Hookum: "What's actually needed in [JSF 1.2] is post component tree creation or
-			// post component creation hooks, providing the ability to then modify the component
-			// tree"
-			// Ken Paulsen: "This hasn't been resolved in the 2.0 EG yet"
+			// Validation error? Do not rebuild, as we will lose the invalid values in the
+			// components. Instead, just move along to our renderer
 
-			if ( mChildrenAfterRestoreState != null )
+			if ( context.getMaximumSeverity() != null )
 			{
-				getChildren().clear();
-				getChildren().addAll( mChildrenAfterRestoreState );
+				// Hack: remove any components that have been re-merged into the component
+				// tree after processRestoreState. This takes care of overridden components that
+				// have since been moved to other containers (ie. into a RichFaces Tab). We wouldn't
+				// need this if we could figure out how to do .buildWidgets BEFORE the component
+				// tree gets serialized (ie. before encodeBegin)
+				//
+				// For background on this hack, see:
+				// http://osdir.com/ml/java.facelets.user/2008-06/msg00050.html
+				//
+				// Jacob Hookum: "What's actually needed in [JSF 1.2] is post component tree
+				// creation or post component creation hooks, providing the ability to then modify
+				// the component tree"
+				// Ken Paulsen: "This hasn't been resolved in the 2.0 EG yet"
+
+				if ( mChildrenAfterRestoreState != null )
+				{
+					getChildren().clear();
+					getChildren().addAll( mChildrenAfterRestoreState );
+				}
 			}
-		}
 
-		// Build widgets as normal
+			// Build widgets as normal
+			//
+			// Note: calling buildWidgets here means we are modifying the component tree during
+			// the Renderer phase, which is dangerous. The ideal fix would be to .buildWidgets
+			// BEFORE the component tree gets serialized (see above)
 
-		else
-		{
-			try
+			else
 			{
 				buildWidgets();
 			}
-			catch ( Exception e )
-			{
-				// IOException does not take a Throwable 'cause' argument until Java 6, so
-				// as we need to stay 1.4 compatible we output the trace here
 
-				LogUtils.getLog( getClass() ).error( "Unable to encodeBegin", e );
+			// Delegate to renderer
 
-				// At this top level, it is more 'proper' to throw an IOException than
-				// a MetawidgetException, as that is what the layers above are expecting
-
-				throw new IOException( e.getMessage() );
-			}
+			super.encodeBegin( context );
 		}
+		catch ( Exception e )
+		{
+			// IOException does not take a Throwable 'cause' argument until Java 6, so
+			// as we need to stay 1.4 compatible we output the trace here
 
-		super.encodeBegin( context );
+			LogUtils.getLog( getClass() ).error( "Unable to encodeBegin", e );
+
+			// At this top level, it is more 'proper' to throw an IOException than
+			// a MetawidgetException, as that is what the layers above are expecting
+
+			throw new IOException( e.getMessage() );
+		}
 	}
 
 	/**

@@ -44,7 +44,7 @@ public class RichFacesQuirks
 
 	private String	mBar1;
 
-	private String	mBar2;
+	private Integer	mInteger;
 
 	private String	mBaz1;
 
@@ -104,17 +104,17 @@ public class RichFacesQuirks
 	}
 
 	@UiComesAfter( "bar1" )
-	public String getBar2()
+	public Integer getInteger()
 	{
-		return mBar2;
+		return mInteger;
 	}
 
-	public void setBar2( String bar2 )
+	public void setInteger( Integer integer )
 	{
-		mBar2 = bar2;
+		mInteger = integer;
 	}
 
-	@UiComesAfter( "bar2" )
+	@UiComesAfter( "integer" )
 	@UiSection( "baz" )
 	public String getBaz1()
 	{

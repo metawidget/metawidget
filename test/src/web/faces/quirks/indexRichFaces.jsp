@@ -11,8 +11,12 @@
 		
 			<h1>RichFaces Quirks</h1>
 
+			<h:messages/>
+			
 			<h:form>
-				<m:metawidget value="#{richQuirks}" config="metawidget-richfaces.xml"/>
+				<m:metawidget value="#{richQuirks}" config="metawidget-richfaces.xml">
+					<h:inputText value="#{richQuirks.integer}" style="background-color: red"/>
+				</m:metawidget>
 			</h:form>
 
 		</f:view>
