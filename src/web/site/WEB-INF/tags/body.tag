@@ -35,7 +35,7 @@
 						id="download"
 						onmouseover="bounceInQueue( this, -7 )" onmouseout="bounceInQueue( this, 0 )"
 					</c:if>>
-					Download v0.85
+					Download v0.9
 				</a>
 			</li>
 		</ul>

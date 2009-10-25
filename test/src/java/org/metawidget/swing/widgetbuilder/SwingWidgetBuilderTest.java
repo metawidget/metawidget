@@ -29,6 +29,7 @@ import javax.swing.SpinnerNumberModel;
 import junit.framework.TestCase;
 
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * @author Richard Kennard
@@ -50,13 +51,24 @@ public class SwingWidgetBuilderTest
 		// JSlider
 
 		attributes.put( TYPE, int.class.getName() );
-		attributes.put( MINIMUM_VALUE, "1.6" );
-		attributes.put( MAXIMUM_VALUE, "99.1" );
+		attributes.put( MINIMUM_VALUE, "2" );
+		attributes.put( MAXIMUM_VALUE, "99" );
 
 		JSlider slider = (JSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( 2 == slider.getMinimum() );
 		assertTrue( 2 == slider.getValue() );
 		assertTrue( 99 == slider.getMaximum() );
+
+		try
+		{
+			attributes.put( MINIMUM_VALUE, "1.5" );
+			slider = (JSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+			assertTrue( false );
+		}
+		catch( WidgetBuilderException e )
+		{
+			assertTrue( "java.lang.NumberFormatException: For input string: \"1.5\"".equals( e.getMessage() ) );
+		}
 
 		// JTextArea
 
@@ -90,32 +102,63 @@ public class SwingWidgetBuilderTest
 		// bytes
 
 		attributes.remove( READ_ONLY );
-		attributes.remove( MINIMUM_VALUE );
+		attributes.remove( MAXIMUM_VALUE );
+		attributes.put( MINIMUM_VALUE, "2" );
 		attributes.put( TYPE, byte.class.getName() );
 
 		JSpinner spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( ((byte) 2) == (Byte) ((SpinnerNumberModel) spinner.getModel()).getMinimum() );
+		assertTrue( ((byte) 2) == (Byte) spinner.getValue() );
+
+		attributes.remove( MINIMUM_VALUE );
+		attributes.put( MAXIMUM_VALUE, "99" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 		assertTrue( ((byte) 99) == (Byte) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
 
 		// shorts
 
+		attributes.remove( MAXIMUM_VALUE );
+		attributes.put( MINIMUM_VALUE, "3" );
 		attributes.put( TYPE, short.class.getName() );
 
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( ((short) 99) == (Short) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
+		assertTrue( ((short) 3) == (Short) ((SpinnerNumberModel) spinner.getModel()).getMinimum() );
+		assertTrue( ((short) 3) == (Short) spinner.getValue() );
+
+		attributes.remove( MINIMUM_VALUE );
+		attributes.put( MAXIMUM_VALUE, "98" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( ((short) 98) == (Short) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
 
 		// ints
 
+		attributes.remove( MAXIMUM_VALUE );
+		attributes.put( MINIMUM_VALUE, "4" );
 		attributes.put( TYPE, int.class.getName() );
 
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( (99) == (Integer) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
+		assertTrue( 4 == (Integer) ((SpinnerNumberModel) spinner.getModel()).getMinimum() );
+		assertTrue( 4 == (Integer) spinner.getValue() );
+
+		attributes.remove( MINIMUM_VALUE );
+		attributes.put( MAXIMUM_VALUE, "97" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( 97 == (Integer) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
 
 		// longs
 
+		attributes.remove( MAXIMUM_VALUE );
+		attributes.put( MINIMUM_VALUE, "5" );
 		attributes.put( TYPE, long.class.getName() );
 
 		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( ((long) 99) == (Long) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
+		assertTrue( ((long) 5) == (Long) ((SpinnerNumberModel) spinner.getModel()).getMinimum() );
+		assertTrue( ((long) 5) == (Long) spinner.getValue() );
+
+		attributes.remove( MINIMUM_VALUE );
+		attributes.put( MAXIMUM_VALUE, "96" );
+		spinner = (JSpinner) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( ((long) 96) == (Long) ((SpinnerNumberModel) spinner.getModel()).getMaximum() );
 
 		// floats
 

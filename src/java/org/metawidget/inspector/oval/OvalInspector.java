@@ -92,8 +92,8 @@ public class OvalInspector
 
 		if ( range != null )
 		{
-			attributes.put( MAXIMUM_VALUE, String.valueOf( range.max() ) );
-			attributes.put( MINIMUM_VALUE, String.valueOf( range.min() ) );
+			attributes.put( MAXIMUM_VALUE, niceValueOf( range.max() ) );
+			attributes.put( MINIMUM_VALUE, niceValueOf( range.min() ) );
 		}
 
 		// Min
@@ -101,14 +101,14 @@ public class OvalInspector
 		Min min = property.getAnnotation( Min.class );
 
 		if ( min != null )
-			attributes.put( MINIMUM_VALUE, String.valueOf( min.value() ) );
+			attributes.put( MINIMUM_VALUE, niceValueOf( min.value() ) );
 
 		// Max
 
 		Max max = property.getAnnotation( Max.class );
 
 		if ( max != null )
-			attributes.put( MAXIMUM_VALUE, String.valueOf( max.value() ) );
+			attributes.put( MAXIMUM_VALUE, niceValueOf( max.value() ) );
 
 		// Length
 
@@ -138,5 +138,23 @@ public class OvalInspector
 			attributes.put( MAXIMUM_LENGTH, String.valueOf( maxLength.value() ) );
 
 		return attributes;
+	}
+
+	//
+	// Private members
+	//
+
+	/**
+	 * @return the given double as a String. If the double is a whole number (ie. value % 1 == 0)
+	 *         then the String does not contain a decimal place (ie. no '.0'). This allows it to be
+	 *         parsed back again as an integer/long.
+	 */
+
+	private String niceValueOf( double value )
+	{
+		if ( value % 1 == 0 )
+			return String.valueOf( Double.valueOf( value ).intValue() );
+
+		return String.valueOf( value );
 	}
 }

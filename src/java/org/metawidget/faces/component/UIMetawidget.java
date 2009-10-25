@@ -453,6 +453,15 @@ public abstract class UIMetawidget
 				// creation or post component creation hooks, providing the ability to then modify
 				// the component tree"
 				// Ken Paulsen: "This hasn't been resolved in the 2.0 EG yet"
+				//
+				// What we've tried:
+				//
+				// 1. Triggering buildWidgets on getChildCount/getChildren. This does not work
+				// because those methods get called at all sorts of other times
+				// 2. Doing it in super.encodeBegin for a GET, in processUpdates for a POST. This
+				// does not work because the GET still records the bad components
+				// 3. A PhaseListener before PhaseId.RENDER_RESPONSE to trigger buildWidgets. This
+				// does not work because UIViewRoot has no children at that stage in the lifecycle
 
 				if ( mChildrenAfterRestoreState != null )
 				{

@@ -67,7 +67,9 @@ public class OvalInspectorTest
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "baz" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
 		assertTrue( TRUE.equals( property.getAttribute( REQUIRED ) ) );
-		assertTrue( 2 == property.getAttributes().getLength() );
+		assertTrue( "3".equals( property.getAttribute( MINIMUM_VALUE ) ) );
+		assertTrue( "24".equals( property.getAttribute( MAXIMUM_VALUE ) ) );
+		assertTrue( 4 == property.getAttributes().getLength() );
 
 		property = XmlUtils.getChildWithAttributeValue( entity, NAME, "range" );
 		assertTrue( PROPERTY.equals( property.getNodeName() ) );
@@ -97,6 +99,7 @@ public class OvalInspectorTest
 		public String	bar;
 
 		@NotEmpty
+		@Range( min = 3, max = 24 )
 		public String	baz;
 
 		@Min( 1.5 )

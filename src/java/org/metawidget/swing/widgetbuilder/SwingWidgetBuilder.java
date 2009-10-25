@@ -304,9 +304,9 @@ public class SwingWidgetBuilder
 				if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
 				{
 					JSlider slider = new JSlider();
-					slider.setMinimum( (int) Math.ceil( Double.parseDouble( minimumValue ) ) );
+					slider.setMinimum( Integer.parseInt( minimumValue ) );
 					slider.setValue( slider.getMinimum() );
-					slider.setMaximum( (int) Math.floor( Double.parseDouble( maximumValue ) ) );
+					slider.setMaximum( Integer.parseInt( maximumValue ) );
 
 					return slider;
 				}
@@ -319,57 +319,83 @@ public class SwingWidgetBuilder
 
 				if ( byte.class.equals( clazz ) )
 				{
+					byte value = 0;
 					byte minimum = Byte.MIN_VALUE;
 					byte maximum = Byte.MAX_VALUE;
 
 					if ( minimumValue != null && !"".equals( minimumValue ) )
-						minimum = (byte) Math.ceil( Double.parseDouble( minimumValue ));
+					{
+						minimum = Byte.parseByte( minimumValue );
+						value = (byte) Math.max( value, minimum );
+					}
 
 					if ( maximumValue != null && !"".equals( maximumValue ) )
-						maximum = (byte) Math.floor( Double.parseDouble( maximumValue ));
+					{
+						maximum = Byte.parseByte( maximumValue );
+						value = (byte) Math.min( value, maximum );
+					}
 
-					setSpinnerModel( spinner, (byte) 0, minimum, maximum, (byte) 1 );
+					setSpinnerModel( spinner, value, minimum, maximum, (byte) 1 );
 				}
 				else if ( short.class.equals( clazz ) )
 				{
+					short value = 0;
 					short minimum = Short.MIN_VALUE;
 					short maximum = Short.MAX_VALUE;
 
 					if ( minimumValue != null && !"".equals( minimumValue ) )
-						minimum = (short) Math.ceil( Double.parseDouble( minimumValue ));
+					{
+						minimum = Short.parseShort( minimumValue );
+						value = (short) Math.max( value, minimum );
+					}
 
 					if ( maximumValue != null && !"".equals( maximumValue ) )
-						maximum = (short) Math.floor( Double.parseDouble( maximumValue ));
+					{
+						maximum = Short.parseShort( maximumValue );
+						value = (short) Math.min( value, maximum );
+					}
 
-					setSpinnerModel( spinner, (short) 0, minimum, maximum, (short) 1 );
+					setSpinnerModel( spinner, value, minimum, maximum, (short) 1 );
 				}
 				else if ( int.class.equals( clazz ) )
 				{
-					// TODO: (minimum <= value <= maximum) is false
-
+					int value = 0;
 					int minimum = Integer.MIN_VALUE;
 					int maximum = Integer.MAX_VALUE;
 
 					if ( minimumValue != null && !"".equals( minimumValue ) )
-						minimum = (int) Math.ceil( Double.parseDouble( minimumValue ));
+					{
+						minimum = Integer.parseInt( minimumValue );
+						value = Math.max( value, minimum );
+					}
 
 					if ( maximumValue != null && !"".equals( maximumValue ) )
-						maximum = (int) Math.floor( Double.parseDouble( maximumValue ));
+					{
+						maximum = Integer.parseInt( maximumValue );
+						value = Math.min( value, maximum );
+					}
 
-					setSpinnerModel( spinner, 0, minimum, maximum, 1 );
+					setSpinnerModel( spinner, value, minimum, maximum, 1 );
 				}
 				else if ( long.class.equals( clazz ) )
 				{
+					long value = 0;
 					long minimum = Long.MIN_VALUE;
 					long maximum = Long.MAX_VALUE;
 
 					if ( minimumValue != null && !"".equals( minimumValue ) )
-						minimum = (long) Math.ceil( Double.parseDouble( minimumValue ));
+					{
+						minimum = Long.parseLong( minimumValue );
+						value = Math.max( value, minimum );
+					}
 
 					if ( maximumValue != null && !"".equals( maximumValue ) )
-						maximum = (long) Math.floor( Double.parseDouble( maximumValue ));
+					{
+						maximum = Long.parseLong( maximumValue );
+						value = Math.min( value, maximum );
+					}
 
-					setSpinnerModel( spinner, (long) 0, minimum, maximum, (long) 1 );
+					setSpinnerModel( spinner, value, minimum, maximum, (long) 1 );
 				}
 				else if ( float.class.equals( clazz ) )
 				{
