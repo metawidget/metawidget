@@ -55,6 +55,15 @@ public class NumberConverter<T extends Number>
 	@Override
 	public T convertReverse( String value )
 	{
+		// Empty Strings?
+		//
+		// See: https://sourceforge.net/projects/metawidget/forums/forum/747624/topic/3438867
+
+		if ( value == null || value.trim().length() == 0 )
+			return null;
+
+		// Other values
+
 		if ( mNumberClass.equals( Byte.class ) )
 			return (T) Byte.valueOf( value );
 

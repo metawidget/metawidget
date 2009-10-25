@@ -250,6 +250,16 @@ public class BeansBindingProcessorTest
 		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 
+	public void testNumberConverter()
+	{
+		NumberConverter<Integer> numberConverter = new NumberConverter<Integer>( Integer.class );
+
+		assertTrue( null == numberConverter.convertReverse( null ));
+		assertTrue( null == numberConverter.convertReverse( "" ));
+		assertTrue( null == numberConverter.convertReverse( "   " ));
+		assertTrue( 3 == numberConverter.convertReverse( "3" ));
+	}
+
 	//
 	// Inner class
 	//
