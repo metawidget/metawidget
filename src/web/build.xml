@@ -156,6 +156,9 @@
 			<classpath>
 				<pathelement path="${relative.dir}/${build.dir}/classes"/>
 				<fileset dir="${relative.dir}/lib"/>
+				<fileset dir="${relative.dir}/test/lib">
+					<include name="emma.jar"/>
+				</fileset>
 			</classpath>
 		</taskdef>
 		

@@ -116,13 +116,21 @@ public class XmlSchemaGeneratorTask
 			indexWriter.write( "\t</head>\r\n" );
 			indexWriter.write( "\t<body>\r\n" );
 			indexWriter.write( "\t\t<h1>Metawidget XML Schemas</h1>\r\n" );
-			indexWriter.write( "\t\t<h2>General</h2>\r\n" );
+			indexWriter.write( "\t\t<h2>Inspection Results</h2>\r\n" );
+			indexWriter.write( "\t\t<p>This schema is used for inspection results returned by <a href=\"http://metawidget.org/doc/api/org/metawidget/inspector/iface/Inspector.html\">Inspectors</a>:</p>\r\n" );
 			indexWriter.write( "\t\t<ul>\r\n" );
-			indexWriter.write( "\t\t\t<li><a href=\"metawidget-1.0.xsd\">metawidget-1.0.xsd</a></li>\r\n" );
 			indexWriter.write( "\t\t\t<li><a href=\"inspection-result-1.0.xsd\">inspection-result-1.0.xsd</a></li>\r\n" );
 			indexWriter.write( "\t\t</ul>\r\n" );
-			indexWriter.write( "\t\t<h2>By Package</h2>\r\n" );
+			indexWriter.write( "\t\t<h2>External Configuration</h2>\r\n" );
+			indexWriter.write( "\t\t<p>These schemas are (optionally) used when externally configuring Metawidget via <tt>metawidget.xml</tt>. For example</p>\r\n" );
+			indexWriter.write( "<div style=\"background-color: #eeeeee; border: 1px solid #cccccc; padding: 5px\"><tt>&lt;metawidget xmlns=\"<strong>http://metawidget.org</strong>\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"<br/>" );
+			indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xsi:schemaLocation=\"<strong>http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd<br/>" );
+			indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;java:org.metawidget.jsp.tagext.html.spring http://metawidget.org/xsd/org.metawidget.jsp.tagext.html.spring-1.0.xsd</strong>\"<br/>" );
+			indexWriter.write( "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;version=\"1.0\"&gt;<br/>" );
+			indexWriter.write( "&nbsp;&nbsp;&nbsp;&lt;springMetawidgetTag xmlns=\"<strong>java:org.metawidget.jsp.tagext.html.spring</strong>\"/&gt;<br/>" );
+			indexWriter.write( "&lt;/metawidget&gt;</tt></div>\r\n" );
 			indexWriter.write( "\t\t<ul>\r\n" );
+			indexWriter.write( "\t\t\t<li><a href=\"metawidget-1.0.xsd\">metawidget-1.0.xsd</a></li>\r\n" );
 
 			// For each entry in the JAR file...
 
