@@ -40,7 +40,7 @@ public class PenguinBean
 	// Private statics
 	//
 
-	private ListDataModel	mAll;
+	private ListDataModel<Penguin>	mAll;
 
 	private Penguin			mPenguinCurrent;
 
@@ -56,7 +56,7 @@ public class PenguinBean
 		all.add( new Penguin( "Mumble", "Great penguin" ) );
 		all.add( new Penguin( "Tux", "Little penguin" ) );
 
-		mAll = new ListDataModel( all );
+		mAll = new ListDataModel<Penguin>( all );
 	}
 
 	//
@@ -64,7 +64,7 @@ public class PenguinBean
 	//
 
 	@UiAttribute( name = PARAMETERIZED_TYPE, value = "org.metawidget.example.faces.penguincolony.model.Penguin" )
-	public ListDataModel getAll()
+	public ListDataModel<Penguin> getAll()
 	{
 		return mAll;
 	}
@@ -81,7 +81,7 @@ public class PenguinBean
 
 	public void edit()
 	{
-		mPenguinCurrent = (Penguin) mAll.getRowData();
+		mPenguinCurrent = mAll.getRowData();
 		mPopupVisible = true;
 	}
 

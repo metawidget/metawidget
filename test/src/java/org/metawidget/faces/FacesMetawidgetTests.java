@@ -284,7 +284,7 @@ public class FacesMetawidgetTests
 				}
 
 				@Override
-				public Iterator<Class> getConverterTypes()
+				public Iterator<Class<?>> getConverterTypes()
 				{
 					throw new UnsupportedOperationException();
 				}
