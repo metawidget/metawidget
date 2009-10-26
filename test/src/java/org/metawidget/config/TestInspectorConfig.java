@@ -23,6 +23,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -50,6 +51,8 @@ public class TestInspectorConfig
 	private ResourceBundle	mResourceBundle;
 
 	private String[]		mStringArray;
+
+	private Gender			mGender;
 
 	private boolean			mFailDuringConstruction;
 
@@ -137,6 +140,16 @@ public class TestInspectorConfig
 		mStringArray = stringArray;
 	}
 
+	public Gender getGender()
+	{
+		return mGender;
+	}
+
+	public void setGender( Gender gender )
+	{
+		mGender = gender;
+	}
+
 	public void setFailDuringConstruction( boolean failDuringConstruction )
 	{
 		mFailDuringConstruction = true;
@@ -160,34 +173,34 @@ public class TestInspectorConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof TestInspectorConfig ))
+		if ( !( that instanceof TestInspectorConfig ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mList, ((TestInspectorConfig) that).mList ))
+		if ( !ObjectUtils.nullSafeEquals( mList, ( (TestInspectorConfig) that ).mList ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mSet, ((TestInspectorConfig) that).mSet ))
+		if ( !ObjectUtils.nullSafeEquals( mSet, ( (TestInspectorConfig) that ).mSet ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mInt, ((TestInspectorConfig) that).mInt ))
+		if ( !ObjectUtils.nullSafeEquals( mInt, ( (TestInspectorConfig) that ).mInt ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mBoolean, ((TestInspectorConfig) that).mBoolean ))
+		if ( !ObjectUtils.nullSafeEquals( mBoolean, ( (TestInspectorConfig) that ).mBoolean ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mPattern, ((TestInspectorConfig) that).mPattern ))
+		if ( !ObjectUtils.nullSafeEquals( mPattern, ( (TestInspectorConfig) that ).mPattern ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mInputStream, ((TestInspectorConfig) that).mInputStream ))
+		if ( !ObjectUtils.nullSafeEquals( mInputStream, ( (TestInspectorConfig) that ).mInputStream ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mResourceBundle, ((TestInspectorConfig) that).mResourceBundle ))
+		if ( !ObjectUtils.nullSafeEquals( mResourceBundle, ( (TestInspectorConfig) that ).mResourceBundle ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mStringArray, ((TestInspectorConfig) that).mStringArray ))
+		if ( !ObjectUtils.nullSafeEquals( mStringArray, ( (TestInspectorConfig) that ).mStringArray ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mFailDuringConstruction, ((TestInspectorConfig) that).mFailDuringConstruction ))
+		if ( !ObjectUtils.nullSafeEquals( mFailDuringConstruction, ( (TestInspectorConfig) that ).mFailDuringConstruction ) )
 			return false;
 
 		return true;

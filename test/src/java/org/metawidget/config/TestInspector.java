@@ -22,6 +22,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.inspector.iface.Inspector;
 
 /**
@@ -51,6 +52,8 @@ public class TestInspector
 
 	private String[]		mStringArray;
 
+	private Gender			mGender;
+
 	//
 	// Constructor
 	//
@@ -68,6 +71,7 @@ public class TestInspector
 		mInputStream = config.getInputStream();
 		mResourceBundle = config.getResourceBundle();
 		mStringArray = config.getStringArray();
+		mGender = config.getGender();
 	}
 
 	public TestInspector( TestNoEqualsInspectorConfig config )
@@ -142,5 +146,10 @@ public class TestInspector
 	public String[] getStringArray()
 	{
 		return mStringArray;
+	}
+
+	public Gender getGender()
+	{
+		return mGender;
 	}
 }

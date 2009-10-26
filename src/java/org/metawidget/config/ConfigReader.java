@@ -62,7 +62,8 @@ import org.xml.sax.helpers.DefaultHandler;
  * <code>isImmutableThreadsafe</code>)</li>
  * <li>caching XML input based on resource name (uses <code>XmlUtils.CachingContextHandler</code>)</li>
  * <li>resolving resources from specialized locations, such as under <code>WEB-INF</code> using
- * <code>ServletContext.getResource</code> (<code>ConfigReader</code> implements <code>ResourceResolver</code>)</li>
+ * <code>ServletContext.getResource</code> (<code>ConfigReader</code> implements
+ * <code>ResourceResolver</code>)</li>
  * </ul>
  * <p>
  * This class is not just static methods, because ConfigReaders need to be able to be subclassed
@@ -381,6 +382,9 @@ public class ConfigReader
 		if ( "bundle".equals( name ) )
 			return true;
 
+		if ( "enum".equals( name ) )
+			return true;
+
 		return false;
 	}
 
@@ -431,6 +435,9 @@ public class ConfigReader
 		if ( "bundle".equals( name ) )
 			return ResourceBundle.getBundle( recordedText );
 
+		if ( "enum".equals( name ) )
+			return recordedText;
+
 		throw MetawidgetException.newException( "Don't know how to convert '" + recordedText + "' to a " + name );
 	}
 
@@ -460,6 +467,62 @@ public class ConfigReader
 	{
 		if ( "array".equals( name ) )
 			return new String[0];
+
+		return null;
+	}
+
+	/**
+	 * Create a native that is 'lazily resolved' based on the method it is being applied to. Most
+	 * natives are explicitly typed (ie. boolean, int etc.) but it is too onerous to do that
+	 * for everything (ie. we support array instead of string-array, int-array etc.)
+	 *
+	 * @param nativeValue
+	 *            never null
+	 * @param toResolveTo
+	 * @return the resolved native, or null if no resolution was possible
+	 */
+
+	protected Object createLazyResolvingNative( Object nativeValue, Class<?> toResolveTo )
+	{
+		// Arrays (ie. convert Object[] into String[])
+
+		if ( toResolveTo.isArray() && nativeValue.getClass().isArray() )
+		{
+			Object[] array = (Object[]) nativeValue;
+			Object[] compatibleArray = (Object[]) Array.newInstance( toResolveTo.getComponentType(), array.length );
+
+			try
+			{
+				System.arraycopy( array, 0, compatibleArray, 0, array.length );
+				return compatibleArray;
+			}
+			catch ( ArrayStoreException e )
+			{
+				// Could not be converted, is not compatible
+
+				return null;
+			}
+		}
+
+		// Enums
+
+		else if ( toResolveTo.isEnum() && nativeValue instanceof String )
+		{
+			try
+			{
+				@SuppressWarnings( "unchecked" )
+				Object enumValue = Enum.valueOf( (Class<? extends Enum>) toResolveTo, (String) nativeValue );
+				return enumValue;
+			}
+			catch ( IllegalArgumentException e )
+			{
+				// Could not be converted, is not compatible
+
+				return null;
+			}
+		}
+
+		// Could not be converted
 
 		return null;
 	}
@@ -1372,42 +1435,43 @@ public class ConfigReader
 				if ( methodParameterTypes.length != numberOfParameterTypes )
 					continue;
 
+				// Array/enum compatibility handling mangles the args, so take a copy
+
+				List<Object> compatibleArgs = CollectionUtils.newArrayList( args );
+
+				// ...test each parameter for compatibility...
+
 				for ( int loop = 0; loop < numberOfParameterTypes; loop++ )
 				{
+					Object arg = compatibleArgs.get( loop );
 					Class<?> parameterType = methodParameterTypes[loop];
+
+					// ...primitives...
 
 					if ( parameterType.isPrimitive() )
 						parameterType = ClassUtils.getWrapperClass( parameterType );
 
-					Object arg = args.get( loop );
+					// ...nulls...
 
-					if ( arg == null )
+					else if ( arg == null )
 						continue;
 
 					if ( !parameterType.isInstance( arg ) )
 					{
-						if ( !parameterType.isArray() || !arg.getClass().isArray() )
+						// ...lazy resolvers...
+
+						Object resolvedValue = createLazyResolvingNative( arg, parameterType );
+
+						if ( resolvedValue == null )
 							continue methods;
 
-						// ...hack for compatible arrays (ie. converted Object[] into String[])...
-
-						Object[] array = (Object[]) arg;
-						Object[] compatibleArray = (Object[]) Array.newInstance( parameterType.getComponentType(), array.length );
-
-						try
-						{
-							System.arraycopy( array, 0, compatibleArray, 0, array.length );
-							args.remove( loop );
-							args.add( loop, compatibleArray );
-						}
-						catch ( ArrayStoreException e )
-						{
-							// Could not be converted, is not compatible
-
-							continue;
-						}
+						compatibleArgs.remove( loop );
+						compatibleArgs.add( loop, resolvedValue );
 					}
 				}
+
+				args.clear();
+				args.addAll( compatibleArgs );
 
 				// ...return it. Note we make no attempt to find the 'closest match'
 

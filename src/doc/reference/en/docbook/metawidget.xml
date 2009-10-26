@@ -3839,7 +3839,7 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 				<programlisting language="xml">&lt;beansBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.beansbinding"
 	config="BeansBindingProcessorConfig"&gt;
 	&lt;updateStrategy&gt;
-		&lt;string&gt;READ_WRITE&lt;/string&gt;
+		&lt;enum&gt;READ_WRITE&lt;/enum&gt;
 	&lt;/updateStrategy&gt;
 &lt;/beansBindingProcessor&gt;</programlisting>				
 				

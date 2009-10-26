@@ -33,6 +33,8 @@ import javax.xml.validation.SchemaFactory;
 
 import junit.framework.TestCase;
 
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
@@ -52,6 +54,7 @@ import org.metawidget.mixin.base.BaseMetawidgetMixin;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.IOUtils;
 import org.metawidget.util.LogUtilsTest;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
@@ -323,7 +326,7 @@ public class ConfigReaderTest
 			// If, bizzarely, the host actually does resolve (maybe your ISP puts in a special
 			// page), you'll get a FileNotFoundException
 
-			assertTrue( "java.net.UnknownHostException: foo.nowhere".equals( message ) || "java.io.FileNotFoundException: http://foo.nowhere".equals( message ));
+			assertTrue( "java.net.UnknownHostException: foo.nowhere".equals( message ) || "java.io.FileNotFoundException: http://foo.nowhere".equals( message ) );
 		}
 	}
 
@@ -399,6 +402,7 @@ public class ConfigReaderTest
 		xml += "<inputStream><resource>org/metawidget/swing/allwidgets/metawidget.xml</resource></inputStream>";
 		xml += "<resourceBundle><bundle>org.metawidget.shared.allwidgets.resource.Resources</bundle></resourceBundle>";
 		xml += "<stringArray><array><string>foo</string><string>bar</string></array></stringArray>";
+		xml += "<gender><enum>MALE</enum></gender>";
 		xml += "</testInspector>";
 		xml += "</metawidget>";
 
@@ -429,6 +433,8 @@ public class ConfigReaderTest
 		assertTrue( 2 == inspector.getStringArray().length );
 		assertTrue( "foo".equals( inspector.getStringArray()[0] ) );
 		assertTrue( "bar".equals( inspector.getStringArray()[1] ) );
+
+		assertTrue( Gender.MALE.equals( inspector.getGender() ) );
 	}
 
 	public void testUnsupportedType()
@@ -809,7 +815,8 @@ public class ConfigReaderTest
 
 			// assertTrue( false );
 			//
-			// (works running JUnit in Eclipse, but not via Ant. Does the VM cache reflection results or something?)
+			// (works running JUnit in Eclipse, but not via Ant. Does the VM cache reflection
+			// results or something?)
 		}
 		catch ( MetawidgetException e )
 		{
@@ -856,6 +863,22 @@ public class ConfigReaderTest
 		new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
 		assertTrue( "class org.metawidget.config.TestNoEqualsHasMethodsSubclassInspectorConfig does not override .equals() (only its superclass org.metawidget.config.TestInspectorConfig does), so may not be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ) );
+	}
+
+	public void testEnum()
+		throws Exception
+	{
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<beansBindingProcessor xmlns=\"java:org.metawidget.swing.widgetprocessor.binding.beansbinding\" config=\"BeansBindingProcessorConfig\">";
+		xml += "	<updateStrategy><enum>READ_WRITE</enum></updateStrategy>";
+		xml += "</beansBindingProcessor>";
+		xml += "</metawidget>";
+
+		BeansBindingProcessor processor = new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BeansBindingProcessor.class );
+		Field updateStrategyField = BeansBindingProcessor.class.getDeclaredField( "mUpdateStrategy" );
+		updateStrategyField.setAccessible( true );
+		assertTrue( UpdateStrategy.READ_WRITE.equals( updateStrategyField.get( processor )));
 	}
 
 	//
