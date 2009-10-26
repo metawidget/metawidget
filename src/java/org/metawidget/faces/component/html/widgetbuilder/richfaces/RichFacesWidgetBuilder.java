@@ -102,7 +102,9 @@ public class RichFacesWidgetBuilder
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 			return null;
 
-		// TODO: for lookups, use RichComboBox?
+		// Note: we tried implementing lookups using org.richfaces.ComboBox, but that
+		// allows manual input and if you set enableManualInput=false it behaves a
+		// bit screwy for our liking (ie. if you hit backspace the browser goes back)
 
 		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) )
 			return null;
