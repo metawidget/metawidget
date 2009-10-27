@@ -29,6 +29,7 @@ import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
+import javax.faces.render.RenderKit;
 
 import junit.framework.TestCase;
 
@@ -120,6 +121,12 @@ public class UIMetawidgetTest
 				return FacesMessage.SEVERITY_INFO;
 			}
 
+			@Override
+			public RenderKit getRenderKit()
+			{
+				result.append( "getRenderKit called;" );
+				return null;
+			}
 
 			@Override
 			public Map<Object, Object> getAttributes()
@@ -139,9 +146,9 @@ public class UIMetawidgetTest
 		}
 		catch ( IOException e )
 		{
-			// Should go straight to pushComponentToEL, because validation error
+			// Should go straight to getRenderKit or pushComponentToEL, because validation error
 
-			assertTrue( "encodeBegin called;getAttributes called;".equals( result.toString() ) );
+			assertTrue( "encodeBegin called;getRenderKit called;".equals( result.toString() ) || "encodeBegin called;getAttributes called;".equals( result.toString() ));
 		}
 		finally
 		{
