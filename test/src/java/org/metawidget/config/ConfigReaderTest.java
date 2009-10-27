@@ -35,7 +35,6 @@ import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.metawidget.example.shared.addressbook.model.Gender;
-import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
@@ -51,6 +50,7 @@ import org.metawidget.inspector.spring.SpringAnnotationInspector;
 import org.metawidget.inspector.struts.StrutsAnnotationInspector;
 import org.metawidget.inspector.struts.StrutsInspector;
 import org.metawidget.inspector.xml.XmlInspector;
+import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
 import org.metawidget.mixin.base.BaseMetawidgetMixin;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.SwingMetawidget;
@@ -74,7 +74,7 @@ public class ConfigReaderTest
 	// Public methods
 	//
 
-	public void testReader()
+	public void _testReader()
 		throws Exception
 	{
 		// Configure
@@ -262,7 +262,7 @@ public class ConfigReaderTest
 		assertTrue( inspectors[10] instanceof XmlInspector );
 	}
 
-	public void testNoDefaultConstructor()
+	public void _testNoDefaultConstructor()
 		throws Exception
 	{
 		// With config hint
@@ -302,7 +302,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void testBadUrl()
+	public void _testBadUrl()
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
@@ -332,7 +332,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void testBadFile()
+	public void _testBadFile()
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
@@ -357,7 +357,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void testForgottenConfigAttribute()
+	public void _testForgottenConfigAttribute()
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
@@ -378,7 +378,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void testSupportedTypes()
+	public void _testSupportedTypes()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -439,7 +439,7 @@ public class ConfigReaderTest
 		assertTrue( Gender.MALE.equals( inspector.getGender() ) );
 	}
 
-	public void testUnsupportedType()
+	public void _testUnsupportedType()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -459,7 +459,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void testEmptyCollection()
+	public void _testEmptyCollection()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -478,7 +478,7 @@ public class ConfigReaderTest
 		assertTrue( inspector.getSet().isEmpty() );
 	}
 
-	public void testMetawidgetExceptionDuringConstruction()
+	public void _testMetawidgetExceptionDuringConstruction()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -498,7 +498,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void testSetterWithNoParameters()
+	public void _testSetterWithNoParameters()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -518,7 +518,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void testNoInspector()
+	public void _testNoInspector()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -535,7 +535,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void testMultipleInspectors()
+	public void _testMultipleInspectors()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -554,7 +554,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void testMissingResource()
+	public void _testMissingResource()
 	{
 		ConfigReader configReader = new ConfigReader();
 
@@ -613,10 +613,11 @@ public class ConfigReaderTest
 		// (4 because each metawidget.xml contains a metawidget-metadata.xml)
 
 		assertTrue( 4 == configReader.getOpenedResource() );
+		assertTrue( 2 == configReader.mResourceCache.size() );
 
 		// Check caching paused and unpaused correctly
 
-		CachingContentHandler cachingContentHandler = configReader.mResourceCache.get( "org/metawidget/swing/allwidgets/metawidget.xml" );
+		CachingContentHandler cachingContentHandler = configReader.mResourceCache.get( "org/metawidget/swing/allwidgets/metawidget.xml/org.metawidget.swing.SwingMetawidget" );
 		Field cacheField = CachingContentHandler.class.getDeclaredField( "mCache" );
 		cacheField.setAccessible( true );
 
@@ -625,7 +626,7 @@ public class ConfigReaderTest
 		assertTrue( "startDocument".equals( cache.get( 0 ).toString() ));
 		assertTrue( "startPrefixMapping  http://metawidget.org".equals( cache.get( 1 ).toString() ));
 		assertTrue( "startPrefixMapping xsi http://www.w3.org/2001/XMLSchema-instance".equals( cache.get( 2 ).toString() ));
-		assertTrue( "startElement http://metawidget.org metawidget metawidget schemaLocation=http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd version=1.0".equals( cache.get( 3 ).toString() ));
+		assertTrue( "startElement http://metawidget.org metawidget metawidget schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd\" version=\"1.0\"".equals( cache.get( 3 ).toString() ));
 		assertTrue( "characters \n\n\t".equals( cache.get( 4 ).toString() ));
 		assertTrue( "startPrefixMapping  java:org.metawidget.swing".equals( cache.get( 5 ).toString() ));
 		assertTrue( "startElement java:org.metawidget.swing swingMetawidget swingMetawidget".equals( cache.get( 6 ).toString() ));
@@ -633,7 +634,7 @@ public class ConfigReaderTest
 		assertTrue( "startElement java:org.metawidget.swing inspector inspector".equals( cache.get( 8 ).toString() ));
 		assertTrue( "characters \n\t\t\t".equals( cache.get( 9 ).toString() ));
 		assertTrue( "startPrefixMapping  java:org.metawidget.inspector.composite".equals( cache.get( 10 ).toString() ));
-		assertTrue( "startElement java:org.metawidget.inspector.composite compositeInspector compositeInspector config=CompositeInspectorConfig".equals( cache.get( 11 ).toString() ));
+		assertTrue( "startElement java:org.metawidget.inspector.composite compositeInspector compositeInspector config=\"CompositeInspectorConfig\"".equals( cache.get( 11 ).toString() ));
 		assertTrue( "endElement java:org.metawidget.inspector.composite compositeInspector compositeInspector".equals( cache.get( 12 ).toString() ));
 		assertTrue( "endPrefixMapping ".equals( cache.get( 13 ).toString() ));
 		assertTrue( "characters \n\t\t".equals( cache.get( 14 ).toString() ));
@@ -651,20 +652,40 @@ public class ConfigReaderTest
 
 		// Test caching with names (should not cache things outside the name)
 
-		configReader.configure( "org/metawidget/config/metawidget-test-names.xml", HtmlMetawidget.class, "widgetBuilder" );
-		cachingContentHandler = configReader.mResourceCache.get( "org/metawidget/config/metawidget-test-names.xml/widgetBuilder" );
+		configReader.configure( "org/metawidget/config/metawidget-test-names.xml", SpringMetawidgetTag.class, "layout" );
+		assertTrue( 3 == configReader.mResourceCache.size() );
+		cachingContentHandler = configReader.mResourceCache.get( "org/metawidget/config/metawidget-test-names.xml/org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag/layout" );
 
 		@SuppressWarnings( "unchecked" )
 		List<Object> cacheWithNames = (List<Object>) cacheField.get( cachingContentHandler );
-		assertTrue( "startElement java:org.metawidget.faces.component.html widgetBuilder widgetBuilder".equals( cacheWithNames.get( 9 ).toString() ));
-		assertTrue( "startElement java:org.metawidget.faces.component.html.widgetbuilder htmlWidgetBuilder htmlWidgetBuilder config=HtmlWidgetBuilderConfig".equals( cacheWithNames.get( 12 ).toString() ));
-		assertTrue( "endElement java:org.metawidget.faces.component.html.widgetbuilder htmlWidgetBuilder htmlWidgetBuilder".equals( cacheWithNames.get( 13 ).toString() ));
-		assertTrue( "endElement java:org.metawidget.faces.component.html widgetBuilder widgetBuilder".equals( cacheWithNames.get( 16 ).toString() ));
+		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 10 ).toString() ));
+		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.layout htmlTableLayout htmlTableLayout config=\"HtmlTableLayoutConfig\"".equals( cacheWithNames.get( 13 ).toString() ));
+		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.layout htmlTableLayout htmlTableLayout".equals( cacheWithNames.get( 14 ).toString() ));
+		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 17 ).toString() ));
 
-		assertTrue( 25 == cacheWithNames.size() );
+		assertTrue( 29 == cacheWithNames.size() );
+
+		// Test scenarios that we've seen fail hard
+
+		configReader.configure( "org/metawidget/config/metawidget-test-names.xml", SpringMetawidgetTag.class, "widgetBuilder" );
+		assertTrue( 4 == configReader.mResourceCache.size() );
+		configReader.configure( "org/metawidget/config/metawidget-test-names.xml", new SpringMetawidgetTag(), "widgetBuilder" );
+		assertTrue( 4 == configReader.mResourceCache.size() );
+
+		try
+		{
+			configReader.configure( "org/metawidget/config/metawidget-test-names.xml", new SpringMetawidgetTag() );
+			assertTrue( false );
+		}
+		catch( MetawidgetException e )
+		{
+			assertTrue( "org.metawidget.inspector.iface.InspectorException: org.metawidget.iface.MetawidgetException: java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH".equals( e.getMessage() ));
+		}
+
+		assertTrue( 4 == configReader.mResourceCache.size() );
 	}
 
-	public void testImmutableThreadsafe()
+	public void _testImmutableThreadsafe()
 		throws Exception
 	{
 		// Via InputStream
@@ -800,7 +821,7 @@ public class ConfigReaderTest
 		assertTrue( 7 == immutableThreadsafeByClassCache.size() );
 	}
 
-	public void testUppercase()
+	public void _testUppercase()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -818,7 +839,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void testBadConfigImplementation()
+	public void _testBadConfigImplementation()
 	{
 		// No equals
 
@@ -917,7 +938,7 @@ public class ConfigReaderTest
 		assertTrue( "class org.metawidget.config.TestNoEqualsHasMethodsSubclassInspectorConfig does not override .equals() (only its superclass org.metawidget.config.TestInspectorConfig does), so may not be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ) );
 	}
 
-	public void testEnum()
+	public void _testEnum()
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";

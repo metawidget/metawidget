@@ -110,14 +110,14 @@ public class ConfigReader
 	/* package private */Map<String, CachingContentHandler>	mResourceCache						= CollectionUtils.newHashMap();
 
 	/**
-	 * Cache of objects that are both immutable and threadsafe, indexed by a unique key (ie. the
-	 * resource name) and element number. This is a fast, broadbrush cache that can prune off large
-	 * portions of the tree. For example, it can cache a <code>CompositeInspector</code> at the
-	 * top-level, including all child <code>Inspector</code>s and their various
+	 * Cache of objects that are both immutable and threadsafe, indexed by a unique location (ie.
+	 * the resource name) and element number. This is a fast, broadbrush cache that can prune off
+	 * large portions of the tree. For example, it can cache a <code>CompositeInspector</code> at
+	 * the top-level, including all child <code>Inspector</code>s and their various
 	 * <code>xxxConfig</code>s.
 	 */
 
-	/* package private */Map<String, Map<Integer, Object>>	mImmutableThreadsafeByKeyCache		= CollectionUtils.newHashMap();
+	/* package private */Map<String, Map<Integer, Object>>	mImmutableThreadsafeByLocationCache	= CollectionUtils.newHashMap();
 
 	/**
 	 * Cache of objects that are both immutable and threadsafe, indexed by their Class (and within
@@ -189,14 +189,21 @@ public class ConfigReader
 	public Object configure( String resource, Object toConfigure, String... names )
 	{
 		ConfigHandler configHandler = new ConfigHandler( toConfigure, names );
-		String key = resource + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false );
-		configHandler.setImmutableThreadsafeKey( key );
+		String locationKey = resource + StringUtils.SEPARATOR_FORWARD_SLASH;
+
+		if ( toConfigure instanceof Class )
+			locationKey += ((Class<?>) toConfigure).getName();
+		else if ( toConfigure != null )
+			locationKey += toConfigure.getClass().getName();
+
+		locationKey += ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false );
+		configHandler.setImmutableThreadsafeByLocationKey( locationKey );
 
 		try
 		{
 			// Replay the existing cache...
 
-			CachingContentHandler cachingContentHandler = mResourceCache.get( key );
+			CachingContentHandler cachingContentHandler = mResourceCache.get( locationKey );
 
 			if ( cachingContentHandler != null )
 			{
@@ -211,7 +218,7 @@ public class ConfigReader
 				cachingContentHandler = new CachingContentHandler( configHandler );
 				configHandler.setCachingContentHandler( cachingContentHandler );
 				mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
-				mResourceCache.put( key, cachingContentHandler );
+				mResourceCache.put( locationKey, cachingContentHandler );
 			}
 
 			return configHandler.getConfigured();
@@ -637,24 +644,24 @@ public class ConfigReader
 		private String[]				mNames;
 
 		/**
-		 * Key under which to cache IMMUTABLE_THREADSAFE_OBJECTS.
+		 * Key into mImmutableThreadsafeByLocationCache.
 		 */
 
-		private String					mImmutableThreadsafeKey;
+		private String					mImmutableThreadsafeByLocationKey;
 
 		/**
 		 * Number of elements encountered so far. Used as a simple way to get a unique 'row/column'
-		 * reference into the XML tree.
+		 * location into the XML tree.
 		 */
 
-		private int						mElement;
+		private int						mLocationIndex;
 
 		/**
-		 * Map of objects that are immutable and threadsafe for this XML document. Keyed by element
-		 * number.
+		 * Map of objects that are immutable and threadsafe for this XML document. Keyed by location
+		 * index.
 		 */
 
-		private Map<Integer, Object>	mImmutableThreadsafeByKey;
+		private Map<Integer, Object>	mImmutableThreadsafeForThisLocation;
 
 		/**
 		 * Track our depth in the XML tree.
@@ -675,17 +682,11 @@ public class ConfigReader
 		private int						mIgnoreNameAfterDepth							= -1;
 
 		/**
-		 * Element number where this element starts.
+		 * Depth after which to skip immutable threadsafe caching, so as to ignore chunks of the XML
+		 * tree.
 		 */
 
-		private int						mStoreAsElement									= -1;
-
-		/**
-		 * Depth after which to ignore 'immutable threadsafe caching, so that we only consider the
-		 * 'top-level' of an object that itself contains immutable and threadsafe objects.
-		 */
-
-		private int						mStoreImmutableThreadsafeByKeyAtDepth			= -1;
+		private int						mIgnoreImmutableThreadsafeAfterDepth			= -1;
 
 		/**
 		 * Stack of Objects constructed so far.
@@ -725,9 +726,9 @@ public class ConfigReader
 		// Public methods
 		//
 
-		public void setImmutableThreadsafeKey( String immutableThreadsafeKey )
+		public void setImmutableThreadsafeByLocationKey( String immutableThreadsafeByLocationKey )
 		{
-			mImmutableThreadsafeKey = immutableThreadsafeKey;
+			mImmutableThreadsafeByLocationKey = immutableThreadsafeByLocationKey;
 		}
 
 		public void setCachingContentHandler( CachingContentHandler cachingContentHandler )
@@ -750,18 +751,10 @@ public class ConfigReader
 		public void startElement( String uri, String localName, String name, Attributes attributes )
 			throws SAXException
 		{
-			mElement++;
 			mDepth++;
 
 			if ( mIgnoreTypeAfterDepth != -1 && mDepth > mIgnoreTypeAfterDepth )
-			{
-				// Pause caching (if any)
-
-				if ( mCachingContentHandler != null )
-					mCachingContentHandler.pause( true );
-
 				return;
-			}
 
 			if ( mIgnoreNameAfterDepth != -1 && mDepth > mIgnoreNameAfterDepth )
 				return;
@@ -801,6 +794,12 @@ public class ConfigReader
 							{
 								mEncountered.push( ENCOUNTERED_WRONG_TYPE );
 								mIgnoreTypeAfterDepth = 2;
+
+								// Pause caching (if any)
+
+								if ( mCachingContentHandler != null )
+									mCachingContentHandler.pause( false );
+
 								return;
 							}
 
@@ -818,6 +817,12 @@ public class ConfigReader
 							{
 								mEncountered.push( ENCOUNTERED_WRONG_TYPE );
 								mIgnoreTypeAfterDepth = 2;
+
+								// Pause caching (if any)
+
+								if ( mCachingContentHandler != null )
+									mCachingContentHandler.pause( false );
+
 								return;
 							}
 
@@ -834,9 +839,12 @@ public class ConfigReader
 
 					case EXPECTING_OBJECT:
 					{
+						if ( mCachingContentHandler == null || !mCachingContentHandler.isPaused() )
+							mLocationIndex++;
+
 						// Native types
 
-						if ( isNative( localName ) || isLazyResolvingNative( localName ))
+						if ( isNative( localName ) || isLazyResolvingNative( localName ) )
 						{
 							mEncountered.push( ENCOUNTERED_NATIVE_TYPE );
 							startRecording();
@@ -953,7 +961,7 @@ public class ConfigReader
 				// Unpause caching (if any)
 
 				if ( mCachingContentHandler != null )
-					mCachingContentHandler.unpause( true );
+					mCachingContentHandler.unpause( false );
 			}
 
 			if ( mIgnoreNameAfterDepth != -1 )
@@ -1044,23 +1052,12 @@ public class ConfigReader
 							{
 								LOG.debug( "\tInstantiated immutable threadsafe " + classToConstruct + " (config hashCode " + object.hashCode() + ")" );
 								putImmutableThreadsafeByClass( configuredObject, object );
-
-								if ( mDepth == ( mStoreImmutableThreadsafeByKeyAtDepth - 1 ) )
-									putImmutableThreadsafeByKey( configuredObject );
 							}
 
 							// Use the configured object (not its config) as the 'object' from now
 							// on
 
 							object = configuredObject;
-						}
-
-						else if ( encountered != ENCOUNTERED_ALREADY_CACHED_IMMUTABLE_THREADSAFE && isImmutableThreadsafe( object.getClass() ) )
-						{
-							putImmutableThreadsafeByClass( object, null );
-
-							if ( mDepth == ( mStoreImmutableThreadsafeByKeyAtDepth - 1 ) )
-								putImmutableThreadsafeByKey( object );
 						}
 
 						// Back at root? Expect another TO_CONFIGURE
@@ -1168,64 +1165,56 @@ public class ConfigReader
 		{
 			Class<?> classToConstruct = classForName( uri, localName );
 
-			// Immutable and Threadsafe by key? Don't re-parse
-
-			if ( mStoreAsElement == -1 && isImmutableThreadsafe( classToConstruct ) )
-			{
-				Object immutableThreadsafeByKey = getImmutableThreadsafeByKey( classToConstruct );
-
-				if ( immutableThreadsafeByKey != null )
-				{
-					mConstructing.push( immutableThreadsafeByKey );
-					mEncountered.push( ENCOUNTERED_ALREADY_CACHED_IMMUTABLE_THREADSAFE );
-					mIgnoreTypeAfterDepth = mDepth;
-
-					return;
-				}
-
-				mStoreAsElement = mElement;
-				mStoreImmutableThreadsafeByKeyAtDepth = mDepth;
-
-				// Pause caching (if any)
-
-				if ( mCachingContentHandler != null )
-					mCachingContentHandler.pause( true );
-			}
-
-			// Configured types
-
-			String configClassName = attributes.getValue( "config" );
-
-			if ( configClassName != null )
-			{
-				String configToConstruct;
-
-				if ( configClassName.indexOf( '.' ) == -1 )
-					configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
-				else
-					configToConstruct = configClassName;
-
-				Class<?> configClass = ClassUtils.niceForName( configToConstruct );
-				if ( configClass == null )
-					throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
-
-				Object config = configClass.newInstance();
-
-				if ( config instanceof NeedsResourceResolver )
-					( (NeedsResourceResolver) config ).setResourceResolver( ConfigReader.this );
-
-				mConstructing.push( config );
-				mEncountered.push( ENCOUNTERED_CONFIGURED_TYPE );
-
-				mExpecting = EXPECTING_METHOD;
-				return;
-			}
+			// Already cached (by location)?
 
 			Object object = null;
 
-			// Immutable and Threadsafe by class (with no config)? Don't re-instantiate
-
 			if ( isImmutableThreadsafe( classToConstruct ) )
+				object = getImmutableThreadsafeByLocation( classToConstruct );
+
+			// Configured types
+
+			if ( object == null )
+			{
+				String configClassName = attributes.getValue( "config" );
+
+				if ( configClassName != null )
+				{
+					String configToConstruct;
+
+					if ( configClassName.indexOf( '.' ) == -1 )
+						configToConstruct = classToConstruct.getPackage().getName() + '.' + configClassName;
+					else
+						configToConstruct = configClassName;
+
+					Class<?> configClass = ClassUtils.niceForName( configToConstruct );
+					if ( configClass == null )
+						throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
+
+					Object config = configClass.newInstance();
+
+					if ( config instanceof NeedsResourceResolver )
+						( (NeedsResourceResolver) config ).setResourceResolver( ConfigReader.this );
+
+					mConstructing.push( config );
+					mEncountered.push( ENCOUNTERED_CONFIGURED_TYPE );
+
+					// Pause caching (if any)
+
+					if ( mIgnoreImmutableThreadsafeAfterDepth == -1 && mCachingContentHandler != null && isImmutableThreadsafe( classToConstruct ) )
+					{
+						mCachingContentHandler.pause( true );
+						mIgnoreImmutableThreadsafeAfterDepth = mDepth;
+					}
+
+					mExpecting = EXPECTING_METHOD;
+					return;
+				}
+			}
+
+			// Already cached (without config)?
+
+			if ( object == null && isImmutableThreadsafe( classToConstruct ) )
 				object = getImmutableThreadsafeByClass( classToConstruct, IMMUTABLE_THREADSAFE_NO_CONFIG );
 
 			// Java objects
@@ -1248,14 +1237,14 @@ public class ConfigReader
 
 					throw MetawidgetException.newException( classToConstruct + " does not have a default constructor" );
 				}
-			}
 
-			// Immutable and Threadsafe by class (with no config)? Cache for next time
+				// Immutable and Threadsafe by class (with no config)? Cache for next time
 
-			if ( isImmutableThreadsafe( classToConstruct ) )
-			{
-				LOG.debug( "\tInstantiated immutable threadsafe " + classToConstruct + " (no config)" );
-				putImmutableThreadsafeByClass( object, null );
+				if ( isImmutableThreadsafe( classToConstruct ) )
+				{
+					LOG.debug( "\tInstantiated immutable threadsafe " + classToConstruct + " (no config)" );
+					putImmutableThreadsafeByClass( object, null );
+				}
 			}
 
 			mConstructing.push( object );
@@ -1294,53 +1283,47 @@ public class ConfigReader
 			throw MetawidgetException.newException( "Don't know how to add to a " + parameters.getClass() );
 		}
 
-		private Object getImmutableThreadsafeByKey( Class<?> clazz )
+		private Object getImmutableThreadsafeByLocation( Class<?> clazz )
 		{
 			// No key to cache by (ie. XML coming from a nameless InputStream)?
 
-			if ( mImmutableThreadsafeKey == null )
+			if ( mImmutableThreadsafeByLocationKey == null )
 				return null;
 
 			// Look up existing
 
-			if ( mImmutableThreadsafeByKey == null )
+			if ( mImmutableThreadsafeForThisLocation == null )
 			{
-				mImmutableThreadsafeByKey = mImmutableThreadsafeByKeyCache.get( mImmutableThreadsafeKey );
+				mImmutableThreadsafeForThisLocation = mImmutableThreadsafeByLocationCache.get( mImmutableThreadsafeByLocationKey );
 
-				if ( mImmutableThreadsafeByKey == null )
+				if ( mImmutableThreadsafeForThisLocation == null )
 					return null;
 			}
 
-			return mImmutableThreadsafeByKey.get( mElement );
+			return mImmutableThreadsafeForThisLocation.get( mLocationIndex );
 		}
 
-		private void putImmutableThreadsafeByKey( Object immutableThreadsafe )
+		private void putImmutableThreadsafeByLocation( Object immutableThreadsafe )
 		{
 			// No key to cache by (ie. XML coming from a nameless InputStream)?
 
-			if ( mImmutableThreadsafeKey == null )
+			if ( mImmutableThreadsafeByLocationKey == null )
 				return;
 
 			// Look up existing
 
-			if ( mImmutableThreadsafeByKey == null )
+			if ( mImmutableThreadsafeForThisLocation == null )
 			{
-				mImmutableThreadsafeByKey = mImmutableThreadsafeByKeyCache.get( mImmutableThreadsafeKey );
+				mImmutableThreadsafeForThisLocation = mImmutableThreadsafeByLocationCache.get( mImmutableThreadsafeByLocationKey );
 
-				if ( mImmutableThreadsafeByKey == null )
+				if ( mImmutableThreadsafeForThisLocation == null )
 				{
-					mImmutableThreadsafeByKey = CollectionUtils.newHashMap();
-					mImmutableThreadsafeByKeyCache.put( mImmutableThreadsafeKey, mImmutableThreadsafeByKey );
+					mImmutableThreadsafeForThisLocation = CollectionUtils.newHashMap();
+					mImmutableThreadsafeByLocationCache.put( mImmutableThreadsafeByLocationKey, mImmutableThreadsafeForThisLocation );
 				}
 			}
 
-			mImmutableThreadsafeByKey.put( mStoreAsElement, immutableThreadsafe );
-			mStoreAsElement = -1;
-
-			// Unpause caching (if any)
-
-			if ( mCachingContentHandler != null )
-				mCachingContentHandler.unpause( true );
+			mImmutableThreadsafeForThisLocation.put( mLocationIndex, immutableThreadsafe );
 		}
 
 		private Object getImmutableThreadsafeByClass( Class<?> clazz, Object config )
@@ -1439,6 +1422,17 @@ public class ConfigReader
 			}
 
 			configs.put( configToStoreUnder, immutableThreadsafe );
+
+			// Unpause caching (if any)
+
+			if ( mCachingContentHandler != null && mDepth < mIgnoreImmutableThreadsafeAfterDepth )
+			{
+				mCachingContentHandler.unpause( true );
+				mIgnoreImmutableThreadsafeAfterDepth = -1;
+
+				if ( config != null )
+					putImmutableThreadsafeByLocation( immutableThreadsafe );
+			}
 		}
 
 		/**

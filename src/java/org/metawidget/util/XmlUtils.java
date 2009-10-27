@@ -507,6 +507,24 @@ public class XmlUtils
 		}
 	}
 
+	public static String attributesToString( Attributes attributes )
+	{
+		// (use StringBuffer for J2SE 1.4 compatibility)
+
+		StringBuffer buffer = new StringBuffer();
+
+		for ( int loop = 0, length = attributes.getLength(); loop < length; loop++ )
+		{
+			buffer.append( " " );
+			buffer.append( attributes.getLocalName( loop ));
+			buffer.append( "=\"" );
+			buffer.append( attributes.getValue( loop ));
+			buffer.append( "\"" );
+		}
+
+		return buffer.toString();
+
+	}
 	//
 	// Inner class
 	//
@@ -552,9 +570,12 @@ public class XmlUtils
 		// Public methods
 		//
 
+		public boolean isPaused()
+		{
+			return mCachingPaused;
+		}
+
 		/**
-		 * Pausing is idempotent.
-		 *
 		 * @param includeLastEvent
 		 *            whether to include the most recent SAX event in the cache (ie. the one that
 		 *            led us to call pause)
@@ -562,8 +583,8 @@ public class XmlUtils
 
 		public void pause( boolean includeLastEvent )
 		{
-			if ( mCachingPaused )
-				return;
+			if ( isPaused() )
+				throw new RuntimeException( "CachingContentHandler already paused" );
 
 			mCachingPaused = true;
 
@@ -572,8 +593,6 @@ public class XmlUtils
 		}
 
 		/**
-		 * Unpausing is idempotent.
-		 *
 		 * @param includeLastEvent
 		 *            whether to include the most recent SAX event in the cache (ie. the one that
 		 *            led us to call unpause)
@@ -581,8 +600,8 @@ public class XmlUtils
 
 		public void unpause( boolean includeLastEvent )
 		{
-			if ( !mCachingPaused )
-				return;
+			if ( !isPaused() )
+				throw new RuntimeException( "CachingContentHandler not paused" );
 
 			mCachingPaused = false;
 
@@ -988,14 +1007,7 @@ public class XmlUtils
 			@Override
 			public String toString()
 			{
-				String toReturn = "startElement " + mUri + " " + mLocalName + " " + mQName;
-
-				for ( int loop = 0, length = mAttributes.getLength(); loop < length; loop++ )
-				{
-					toReturn += " " + mAttributes.getLocalName( loop ) + "=" + mAttributes.getValue( loop );
-				}
-
-				return toReturn;
+				return "startElement " + mUri + " " + mLocalName + " " + mQName + attributesToString( mAttributes );
 			}
 		}
 
