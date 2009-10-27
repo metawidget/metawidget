@@ -483,18 +483,6 @@ public class ConfigReader
 	}
 
 	/**
-	 * Certain XML tags are supported 'natively' as arrays by the reader.
-	 */
-
-	protected Object[] createNativeArray( String name )
-	{
-		if ( "array".equals( name ) )
-			return new String[0];
-
-		return null;
-	}
-
-	/**
 	 * Create a native that is 'lazily resolved' based on the method it is being applied to. Most
 	 * natives are explicitly typed (ie. boolean, int etc.) but it is too onerous to do that for
 	 * everything (ie. we support array instead of string-array, int-array etc.)

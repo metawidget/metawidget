@@ -74,7 +74,7 @@ public class ConfigReaderTest
 	// Public methods
 	//
 
-	public void _testReader()
+	public void testReader()
 		throws Exception
 	{
 		// Configure
@@ -262,7 +262,7 @@ public class ConfigReaderTest
 		assertTrue( inspectors[10] instanceof XmlInspector );
 	}
 
-	public void _testNoDefaultConstructor()
+	public void testNoDefaultConstructor()
 		throws Exception
 	{
 		// With config hint
@@ -302,7 +302,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void _testBadUrl()
+	public void testBadUrl()
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
@@ -332,7 +332,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void _testBadFile()
+	public void testBadFile()
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
@@ -357,7 +357,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void _testForgottenConfigAttribute()
+	public void testForgottenConfigAttribute()
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
@@ -378,7 +378,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void _testSupportedTypes()
+	public void testSupportedTypes()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -439,7 +439,7 @@ public class ConfigReaderTest
 		assertTrue( Gender.MALE.equals( inspector.getGender() ) );
 	}
 
-	public void _testUnsupportedType()
+	public void testUnsupportedType()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -459,7 +459,27 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void _testEmptyCollection()
+	public void testBadNamesapce()
+	{
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<testInspector xmlns=\"org.metawidget.config\" config=\"TestInspectorConfig\">";
+		xml += "<date><date>1/1/2001</date></date>";
+		xml += "</testInspector>";
+		xml += "</metawidget>";
+
+		try
+		{
+			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
+			assertTrue( false );
+		}
+		catch ( MetawidgetException e )
+		{
+			assertTrue( "org.xml.sax.SAXException: Namespace 'org.metawidget.config' of element <testInspector> must start with java:".equals( e.getMessage() ));
+		}
+	}
+
+	public void testEmptyCollection()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -478,7 +498,7 @@ public class ConfigReaderTest
 		assertTrue( inspector.getSet().isEmpty() );
 	}
 
-	public void _testMetawidgetExceptionDuringConstruction()
+	public void testMetawidgetExceptionDuringConstruction()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -498,7 +518,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void _testSetterWithNoParameters()
+	public void testSetterWithNoParameters()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -518,7 +538,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void _testNoInspector()
+	public void testNoInspector()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -535,7 +555,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void _testMultipleInspectors()
+	public void testMultipleInspectors()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -554,7 +574,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void _testMissingResource()
+	public void testMissingResource()
 	{
 		ConfigReader configReader = new ConfigReader();
 
@@ -685,7 +705,7 @@ public class ConfigReaderTest
 		assertTrue( 4 == configReader.mResourceCache.size() );
 	}
 
-	public void _testImmutableThreadsafe()
+	public void testImmutableThreadsafe()
 		throws Exception
 	{
 		// Via InputStream
@@ -821,7 +841,7 @@ public class ConfigReaderTest
 		assertTrue( 7 == immutableThreadsafeByClassCache.size() );
 	}
 
-	public void _testUppercase()
+	public void testUppercase()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
@@ -839,7 +859,7 @@ public class ConfigReaderTest
 		}
 	}
 
-	public void _testBadConfigImplementation()
+	public void testBadConfigImplementation()
 	{
 		// No equals
 
@@ -938,7 +958,7 @@ public class ConfigReaderTest
 		assertTrue( "class org.metawidget.config.TestNoEqualsHasMethodsSubclassInspectorConfig does not override .equals() (only its superclass org.metawidget.config.TestInspectorConfig does), so may not be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ) );
 	}
 
-	public void _testEnum()
+	public void testEnum()
 		throws Exception
 	{
 		String xml = "<?xml version=\"1.0\"?>";
