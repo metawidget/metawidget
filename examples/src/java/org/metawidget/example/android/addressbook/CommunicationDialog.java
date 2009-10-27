@@ -67,7 +67,7 @@ public class CommunicationDialog
 		mListener = listener;
 
 		mMetawidget = new AndroidMetawidget( activity );
-		mMetawidget.setConfig( R.raw.inspector_config );
+		mMetawidget.setConfig( R.raw.metawidget );
 		Context context = getContext();
 
 		if ( mCommunication == null )
