@@ -35,6 +35,7 @@ import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.metawidget.example.shared.addressbook.model.Gender;
+import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
@@ -57,6 +58,7 @@ import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.IOUtils;
 import org.metawidget.util.LogUtilsTest;
+import org.metawidget.util.XmlUtils.CachingContentHandler;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.xml.sax.SAXException;
@@ -598,6 +600,7 @@ public class ConfigReaderTest
 	}
 
 	public void testCaching()
+		throws Exception
 	{
 		ValidatingConfigReader configReader = new ValidatingConfigReader();
 		configReader.configure( "org/metawidget/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
@@ -610,6 +613,55 @@ public class ConfigReaderTest
 		// (4 because each metawidget.xml contains a metawidget-metadata.xml)
 
 		assertTrue( 4 == configReader.getOpenedResource() );
+
+		// Check caching paused and unpaused correctly
+
+		CachingContentHandler cachingContentHandler = configReader.mResourceCache.get( "org/metawidget/swing/allwidgets/metawidget.xml" );
+		Field cacheField = CachingContentHandler.class.getDeclaredField( "mCache" );
+		cacheField.setAccessible( true );
+
+		@SuppressWarnings( "unchecked" )
+		List<Object> cache = (List<Object>) cacheField.get( cachingContentHandler );
+		assertTrue( "startDocument".equals( cache.get( 0 ).toString() ));
+		assertTrue( "startPrefixMapping  http://metawidget.org".equals( cache.get( 1 ).toString() ));
+		assertTrue( "startPrefixMapping xsi http://www.w3.org/2001/XMLSchema-instance".equals( cache.get( 2 ).toString() ));
+		assertTrue( "startElement http://metawidget.org metawidget metawidget schemaLocation=http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd version=1.0".equals( cache.get( 3 ).toString() ));
+		assertTrue( "characters \n\n\t".equals( cache.get( 4 ).toString() ));
+		assertTrue( "startPrefixMapping  java:org.metawidget.swing".equals( cache.get( 5 ).toString() ));
+		assertTrue( "startElement java:org.metawidget.swing swingMetawidget swingMetawidget".equals( cache.get( 6 ).toString() ));
+		assertTrue( "characters \n\t\t".equals( cache.get( 7 ).toString() ));
+		assertTrue( "startElement java:org.metawidget.swing inspector inspector".equals( cache.get( 8 ).toString() ));
+		assertTrue( "characters \n\t\t\t".equals( cache.get( 9 ).toString() ));
+		assertTrue( "startPrefixMapping  java:org.metawidget.inspector.composite".equals( cache.get( 10 ).toString() ));
+		assertTrue( "startElement java:org.metawidget.inspector.composite compositeInspector compositeInspector config=CompositeInspectorConfig".equals( cache.get( 11 ).toString() ));
+		assertTrue( "endElement java:org.metawidget.inspector.composite compositeInspector compositeInspector".equals( cache.get( 12 ).toString() ));
+		assertTrue( "endPrefixMapping ".equals( cache.get( 13 ).toString() ));
+		assertTrue( "characters \n\t\t".equals( cache.get( 14 ).toString() ));
+		assertTrue( "endElement java:org.metawidget.swing inspector inspector".equals( cache.get( 15 ).toString() ));
+		assertTrue( "characters \n\t".equals( cache.get( 16 ).toString() ));
+		assertTrue( "endElement java:org.metawidget.swing swingMetawidget swingMetawidget".equals( cache.get( 17 ).toString() ));
+		assertTrue( "endPrefixMapping ".equals( cache.get( 18 ).toString() ));
+		assertTrue( "characters \n\n".equals( cache.get( 19 ).toString() ));
+		assertTrue( "endElement http://metawidget.org metawidget metawidget".equals( cache.get( 20 ).toString() ));
+		assertTrue( "endPrefixMapping ".equals( cache.get( 21 ).toString() ));
+		assertTrue( "endPrefixMapping xsi".equals( cache.get( 22 ).toString() ));
+		assertTrue( "endDocument".equals( cache.get( 23 ).toString() ));
+
+		assertTrue( 24 == cache.size() );
+
+		// Test caching with names (should not cache things outside the name)
+
+		configReader.configure( "org/metawidget/config/metawidget-test-names.xml", HtmlMetawidget.class, "widgetBuilder" );
+		cachingContentHandler = configReader.mResourceCache.get( "org/metawidget/config/metawidget-test-names.xml/widgetBuilder" );
+
+		@SuppressWarnings( "unchecked" )
+		List<Object> cacheWithNames = (List<Object>) cacheField.get( cachingContentHandler );
+		assertTrue( "startElement java:org.metawidget.faces.component.html widgetBuilder widgetBuilder".equals( cacheWithNames.get( 9 ).toString() ));
+		assertTrue( "startElement java:org.metawidget.faces.component.html.widgetbuilder htmlWidgetBuilder htmlWidgetBuilder config=HtmlWidgetBuilderConfig".equals( cacheWithNames.get( 12 ).toString() ));
+		assertTrue( "endElement java:org.metawidget.faces.component.html.widgetbuilder htmlWidgetBuilder htmlWidgetBuilder".equals( cacheWithNames.get( 13 ).toString() ));
+		assertTrue( "endElement java:org.metawidget.faces.component.html widgetBuilder widgetBuilder".equals( cacheWithNames.get( 16 ).toString() ));
+
+		assertTrue( 25 == cacheWithNames.size() );
 	}
 
 	public void testImmutableThreadsafe()
@@ -878,7 +930,7 @@ public class ConfigReaderTest
 		BeansBindingProcessor processor = new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), BeansBindingProcessor.class );
 		Field updateStrategyField = BeansBindingProcessor.class.getDeclaredField( "mUpdateStrategy" );
 		updateStrategyField.setAccessible( true );
-		assertTrue( UpdateStrategy.READ_WRITE.equals( updateStrategyField.get( processor )));
+		assertTrue( UpdateStrategy.READ_WRITE.equals( updateStrategyField.get( processor ) ) );
 	}
 
 	//

@@ -34,13 +34,17 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard
  */
 
+// Note: we SuppressWarnings( "unchecked" ) in a few places so that we can compile against JSF 2.0
+// but still run against JSF 1.2
+//
 public class PenguinBean
 {
 	//
 	// Private statics
 	//
 
-	private ListDataModel<Penguin>	mAll;
+	@SuppressWarnings( "unchecked" )
+	private ListDataModel	mAll;
 
 	private Penguin			mPenguinCurrent;
 
@@ -50,21 +54,23 @@ public class PenguinBean
 	// Constructor
 	//
 
+	@SuppressWarnings( "unchecked" )
 	public PenguinBean()
 	{
 		List<Penguin> all = CollectionUtils.newArrayList();
 		all.add( new Penguin( "Mumble", "Great penguin" ) );
 		all.add( new Penguin( "Tux", "Little penguin" ) );
 
-		mAll = new ListDataModel<Penguin>( all );
+		mAll = new ListDataModel( all );
 	}
 
 	//
 	// Public methods
 	//
 
+	@SuppressWarnings( "unchecked" )
 	@UiAttribute( name = PARAMETERIZED_TYPE, value = "org.metawidget.example.faces.penguincolony.model.Penguin" )
-	public ListDataModel<Penguin> getAll()
+	public ListDataModel getAll()
 	{
 		return mAll;
 	}
@@ -81,7 +87,7 @@ public class PenguinBean
 
 	public void edit()
 	{
-		mPenguinCurrent = mAll.getRowData();
+		mPenguinCurrent = (Penguin) mAll.getRowData();
 		mPopupVisible = true;
 	}
 

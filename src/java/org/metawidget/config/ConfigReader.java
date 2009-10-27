@@ -38,6 +38,7 @@ import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
@@ -188,13 +189,14 @@ public class ConfigReader
 	public Object configure( String resource, Object toConfigure, String... names )
 	{
 		ConfigHandler configHandler = new ConfigHandler( toConfigure, names );
-		configHandler.setImmutableThreadsafeKey( resource );
+		String key = resource + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false );
+		configHandler.setImmutableThreadsafeKey( key );
 
 		try
 		{
 			// Replay the existing cache...
 
-			CachingContentHandler cachingContentHandler = mResourceCache.get( resource );
+			CachingContentHandler cachingContentHandler = mResourceCache.get( key );
 
 			if ( cachingContentHandler != null )
 			{
@@ -207,8 +209,9 @@ public class ConfigReader
 			{
 				LOG.debug( "Reading resource from " + resource );
 				cachingContentHandler = new CachingContentHandler( configHandler );
+				configHandler.setCachingContentHandler( cachingContentHandler );
 				mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
-				mResourceCache.put( resource, cachingContentHandler );
+				mResourceCache.put( key, cachingContentHandler );
 			}
 
 			return configHandler.getConfigured();
@@ -382,6 +385,19 @@ public class ConfigReader
 		if ( "bundle".equals( name ) )
 			return true;
 
+		return false;
+	}
+
+	/**
+	 * Certain XML tags are supported 'natively' by the reader.
+	 * <p>
+	 * Certain tags are indicative of a broader type, but it would be too onerous to specify them
+	 * differently for their exact type (ie. <code>array</code> or <code>enum</code>). Therefore
+	 * they are lazily resolved at time of method call.
+	 */
+
+	protected boolean isLazyResolvingNative( String name )
+	{
 		if ( "enum".equals( name ) )
 			return true;
 
@@ -473,8 +489,8 @@ public class ConfigReader
 
 	/**
 	 * Create a native that is 'lazily resolved' based on the method it is being applied to. Most
-	 * natives are explicitly typed (ie. boolean, int etc.) but it is too onerous to do that
-	 * for everything (ie. we support array instead of string-array, int-array etc.)
+	 * natives are explicitly typed (ie. boolean, int etc.) but it is too onerous to do that for
+	 * everything (ie. we support array instead of string-array, int-array etc.)
 	 *
 	 * @param nativeValue
 	 *            never null
@@ -693,6 +709,8 @@ public class ConfigReader
 
 		private StringBuffer			mBufferValue;
 
+		private CachingContentHandler	mCachingContentHandler;
+
 		//
 		// Constructor
 		//
@@ -710,6 +728,11 @@ public class ConfigReader
 		public void setImmutableThreadsafeKey( String immutableThreadsafeKey )
 		{
 			mImmutableThreadsafeKey = immutableThreadsafeKey;
+		}
+
+		public void setCachingContentHandler( CachingContentHandler cachingContentHandler )
+		{
+			mCachingContentHandler = cachingContentHandler;
 		}
 
 		public Object getConfigured()
@@ -731,7 +754,14 @@ public class ConfigReader
 			mDepth++;
 
 			if ( mIgnoreTypeAfterDepth != -1 && mDepth > mIgnoreTypeAfterDepth )
+			{
+				// Pause caching (if any)
+
+				if ( mCachingContentHandler != null )
+					mCachingContentHandler.pause( true );
+
 				return;
+			}
 
 			if ( mIgnoreNameAfterDepth != -1 && mDepth > mIgnoreNameAfterDepth )
 				return;
@@ -806,7 +836,7 @@ public class ConfigReader
 					{
 						// Native types
 
-						if ( isNative( localName ) )
+						if ( isNative( localName ) || isLazyResolvingNative( localName ))
 						{
 							mEncountered.push( ENCOUNTERED_NATIVE_TYPE );
 							startRecording();
@@ -854,6 +884,12 @@ public class ConfigReader
 								{
 									mEncountered.push( ENCOUNTERED_WRONG_NAME );
 									mIgnoreNameAfterDepth = mDepth;
+
+									// Pause caching (if any)
+
+									if ( mCachingContentHandler != null )
+										mCachingContentHandler.pause( false );
+
 									return;
 								}
 							}
@@ -913,6 +949,11 @@ public class ConfigReader
 					return;
 
 				mIgnoreTypeAfterDepth = -1;
+
+				// Unpause caching (if any)
+
+				if ( mCachingContentHandler != null )
+					mCachingContentHandler.unpause( true );
 			}
 
 			if ( mIgnoreNameAfterDepth != -1 )
@@ -921,6 +962,11 @@ public class ConfigReader
 					return;
 
 				mIgnoreNameAfterDepth = -1;
+
+				// Unpause caching (if any)
+
+				if ( mCachingContentHandler != null )
+					mCachingContentHandler.unpause( false );
 			}
 
 			// All done?
@@ -1139,6 +1185,11 @@ public class ConfigReader
 
 				mStoreAsElement = mElement;
 				mStoreImmutableThreadsafeByKeyAtDepth = mDepth;
+
+				// Pause caching (if any)
+
+				if ( mCachingContentHandler != null )
+					mCachingContentHandler.pause( true );
 			}
 
 			// Configured types
@@ -1285,6 +1336,11 @@ public class ConfigReader
 
 			mImmutableThreadsafeByKey.put( mStoreAsElement, immutableThreadsafe );
 			mStoreAsElement = -1;
+
+			// Unpause caching (if any)
+
+			if ( mCachingContentHandler != null )
+				mCachingContentHandler.unpause( true );
 		}
 
 		private Object getImmutableThreadsafeByClass( Class<?> clazz, Object config )

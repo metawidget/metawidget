@@ -66,6 +66,7 @@ import org.w3c.dom.Document;
  */
 
 @SuppressWarnings( "deprecation" )
+//@ListenerFor( systemEventClass = PostAddToViewEvent.class )
 public abstract class UIMetawidget
 	extends UIComponentBase
 {
@@ -421,6 +422,36 @@ public abstract class UIMetawidget
 		return (T) mClientProperties.get( key );
 	}
 
+	/*
+	@Override
+	public void processEvent( ComponentSystemEvent event )
+		throws AbortProcessingException
+	{
+		if ( event instanceof PostAddToViewEvent )
+		{
+			// Validation error? Do not rebuild, as we will lose the invalid values in the
+			// components. Instead, just move along to our renderer
+
+			if ( getFacesContext().getMaximumSeverity() != null )
+				return;
+
+			// Build widgets as normal
+
+			try
+			{
+				buildWidgets();
+			}
+			catch ( Exception e )
+			{
+				// At this level, it is more 'proper' to throw an AbortProcessingException than
+				// a MetawidgetException, as that is what the layers above are expecting
+
+				throw new AbortProcessingException( e );
+			}
+		}
+	}
+	*/
+
 	@Override
 	public void processRestoreState( FacesContext context, Object state )
 	{
@@ -492,7 +523,7 @@ public abstract class UIMetawidget
 
 			LogUtils.getLog( getClass() ).error( "Unable to encodeBegin", e );
 
-			// At this top level, it is more 'proper' to throw an IOException than
+			// At this level, it is more 'proper' to throw an IOException than
 			// a MetawidgetException, as that is what the layers above are expecting
 
 			throw new IOException( e.getMessage() );

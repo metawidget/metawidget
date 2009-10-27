@@ -16,6 +16,7 @@
 
 package org.metawidget.util;
 
+import java.lang.reflect.Field;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -55,7 +56,9 @@ public class XmlUtilsTest
 
 		// Check delegate ready
 
-		assertTrue( simpleContentHandler == cachingContentHandler.getDelegate() );
+		Field delegateField = CachingContentHandler.class.getDeclaredField( "mDelegate" );
+		delegateField.setAccessible( true );
+		assertTrue( simpleContentHandler == delegateField.get( cachingContentHandler ));
 
 		// Fire events
 
@@ -76,7 +79,7 @@ public class XmlUtilsTest
 
 		// Check delegate field was released
 
-		assertTrue( null == cachingContentHandler.getDelegate() );
+		assertTrue( null == delegateField.get( cachingContentHandler ) );
 
 		try
 		{
@@ -113,7 +116,7 @@ public class XmlUtilsTest
 
 		// Check delegate field was not used
 
-		assertTrue( null == cachingContentHandler.getDelegate() );
+		assertTrue( null == delegateField.get( cachingContentHandler ) );
 
 		// Check they got replayed
 

@@ -528,36 +528,16 @@ public class XmlUtils
 		extends DefaultHandler
 	{
 		//
-		// Private statics
-		//
-
-		private final static int	START_DOCUMENT			= 0;
-
-		private final static int	PROCESSING_INSTRUCTION	= 1;
-
-		private final static int	SKIPPED_ENTITY			= 2;
-
-		private final static int	START_PREFIX_MAPPING	= 3;
-
-		private final static int	END_PREFIX_MAPPING		= 4;
-
-		private final static int	START_ELEMENT			= 5;
-
-		private final static int	CHARACTERS				= 6;
-
-		private final static int	IGNORABLE_WHITESPACE	= 7;
-
-		private final static int	END_ELEMENT				= 8;
-
-		private final static int	END_DOCUMENT			= 9;
-
-		//
 		// Private members
 		//
 
 		private ContentHandler		mDelegate;
 
-		private List<Object[]>		mCache					= CollectionUtils.newArrayList();
+		private CachedCommand		mLastCommand;
+
+		private List<CachedCommand>	mCache	= CollectionUtils.newArrayList();
+
+		private boolean				mCachingPaused;
 
 		//
 		// Constructor
@@ -571,6 +551,44 @@ public class XmlUtils
 		//
 		// Public methods
 		//
+
+		/**
+		 * Pausing is idempotent.
+		 *
+		 * @param includeLastEvent
+		 *            whether to include the most recent SAX event in the cache (ie. the one that
+		 *            led us to call pause)
+		 */
+
+		public void pause( boolean includeLastEvent )
+		{
+			if ( mCachingPaused )
+				return;
+
+			mCachingPaused = true;
+
+			if ( !includeLastEvent )
+				mCache.remove( mCache.size() - 1 );
+		}
+
+		/**
+		 * Unpausing is idempotent.
+		 *
+		 * @param includeLastEvent
+		 *            whether to include the most recent SAX event in the cache (ie. the one that
+		 *            led us to call unpause)
+		 */
+
+		public void unpause( boolean includeLastEvent )
+		{
+			if ( !mCachingPaused )
+				return;
+
+			mCachingPaused = false;
+
+			if ( includeLastEvent )
+				mCache.add( mLastCommand );
+		}
 
 		/**
 		 * Replay the cached events.
@@ -587,61 +605,10 @@ public class XmlUtils
 			if ( mCache.isEmpty() )
 				throw new SAXException( "Nothing to replay. Not cached any SAX events" );
 
-			for ( Object[] cached : mCache )
+			for ( CachedCommand cachedEvent : mCache )
 			{
-				int code = (Integer) cached[0];
-
-				switch ( code )
-				{
-					case START_DOCUMENT:
-						replayTo.startDocument();
-						break;
-
-					case PROCESSING_INSTRUCTION:
-						replayTo.processingInstruction( (String) cached[1], (String) cached[2] );
-						break;
-
-					case SKIPPED_ENTITY:
-						replayTo.skippedEntity( (String) cached[1] );
-						break;
-
-					case START_PREFIX_MAPPING:
-						replayTo.startPrefixMapping( (String) cached[1], (String) cached[2] );
-						break;
-
-					case END_PREFIX_MAPPING:
-						replayTo.endPrefixMapping( (String) cached[1] );
-						break;
-
-					case START_ELEMENT:
-						replayTo.startElement( (String) cached[1], (String) cached[2], (String) cached[3], (Attributes) cached[4] );
-						break;
-
-					case CHARACTERS:
-						replayTo.characters( (char[]) cached[1], (Integer) cached[2], (Integer) cached[3] );
-						break;
-
-					case IGNORABLE_WHITESPACE:
-						replayTo.ignorableWhitespace( (char[]) cached[1], (Integer) cached[2], (Integer) cached[3] );
-						break;
-
-					case END_ELEMENT:
-						replayTo.endElement( (String) cached[1], (String) cached[2], (String) cached[3] );
-						break;
-
-					case END_DOCUMENT:
-						replayTo.endDocument();
-						break;
-
-					default:
-						throw new SAXException( "Unknown cache code: " + code );
-				}
+				cachedEvent.replay( replayTo );
 			}
-		}
-
-		public ContentHandler getDelegate()
-		{
-			return mDelegate;
 		}
 
 		//
@@ -652,19 +619,29 @@ public class XmlUtils
 		public void startDocument()
 			throws SAXException
 		{
-			if ( !mCache.isEmpty() )
-				throw new SAXException( "Already cached SAX events. CachingContentHandler can only cache SAX events once" );
+			mLastCommand = new StartDocumentCommand();
 
-			mCache.add( new Object[] { START_DOCUMENT } );
-			mDelegate.startDocument();
+			if ( !mCachingPaused )
+			{
+				if ( !mCache.isEmpty() )
+					throw new SAXException( "Already cached SAX events. CachingContentHandler can only cache SAX events once" );
+
+				mCache.add( mLastCommand );
+			}
+
+			mLastCommand.replay( mDelegate );
 		}
 
 		@Override
 		public void processingInstruction( String target, String data )
 			throws SAXException
 		{
-			mCache.add( new Object[] { PROCESSING_INSTRUCTION, target, data } );
-			mDelegate.processingInstruction( target, data );
+			mLastCommand = new ProcessingInstructionCommand( target, data );
+
+			if ( !mCachingPaused )
+				mCache.add( mLastCommand );
+
+			mLastCommand.replay( mDelegate );
 		}
 
 		@Override
@@ -677,80 +654,495 @@ public class XmlUtils
 		public void skippedEntity( String name )
 			throws SAXException
 		{
-			mCache.add( new Object[] { SKIPPED_ENTITY, name } );
-			mDelegate.skippedEntity( name );
+			mLastCommand = new SkippedEntityCommand( name );
+
+			if ( !mCachingPaused )
+				mCache.add( mLastCommand );
+
+			mLastCommand.replay( mDelegate );
 		}
 
 		@Override
 		public void startPrefixMapping( String prefix, String uri )
 			throws SAXException
 		{
-			mCache.add( new Object[] { START_PREFIX_MAPPING, prefix, uri } );
-			mDelegate.startPrefixMapping( prefix, uri );
+			mLastCommand = new StartPrefixMappingCommand( prefix, uri );
+
+			if ( !mCachingPaused )
+				mCache.add( mLastCommand );
+
+			mLastCommand.replay( mDelegate );
 		}
 
 		@Override
 		public void endPrefixMapping( String prefix )
 			throws SAXException
 		{
-			mCache.add( new Object[] { END_PREFIX_MAPPING, prefix } );
-			mDelegate.endPrefixMapping( prefix );
+			mLastCommand = new EndPrefixMappingCommand( prefix );
+
+			if ( !mCachingPaused )
+				mCache.add( mLastCommand );
+
+			mLastCommand.replay( mDelegate );
 		}
 
 		@Override
 		public void startElement( String uri, String localName, String name, Attributes attributes )
 			throws SAXException
 		{
-			// Defensive copy - SAX implementations may reuse the Attributes
+			mLastCommand = new StartElementCommand( uri, localName, name, attributes );
 
-			mCache.add( new Object[] { START_ELEMENT, uri, localName, name, new AttributesImpl( attributes ) } );
-			mDelegate.startElement( uri, localName, name, attributes );
+			if ( !mCachingPaused )
+				mCache.add( mLastCommand );
+
+			mLastCommand.replay( mDelegate );
 		}
 
 		@Override
 		public void characters( char[] characters, int start, int length )
 			throws SAXException
 		{
-			// Defensive copy - SAX implementations may reuse the array
+			mLastCommand = new CharactersCommand( characters, start, length );
 
-			char[] newCharacters = new char[length];
-			System.arraycopy( characters, start, newCharacters, 0, length );
+			if ( !mCachingPaused )
+				mCache.add( mLastCommand );
 
-			mCache.add( new Object[] { CHARACTERS, newCharacters, 0, length } );
-			mDelegate.characters( characters, start, length );
+			mLastCommand.replay( mDelegate );
 		}
 
 		@Override
 		public void ignorableWhitespace( char[] characters, int start, int length )
 			throws SAXException
 		{
-			// Defensive copy - SAX implementations may reuse the array
+			mLastCommand = new IgnorableWhitespaceCommand( characters, start, length );
 
-			char[] newCharacters = new char[length];
-			System.arraycopy( characters, start, newCharacters, 0, length );
+			if ( !mCachingPaused )
+				mCache.add( mLastCommand );
 
-			mCache.add( new Object[] { IGNORABLE_WHITESPACE, newCharacters, start, length } );
-			mDelegate.ignorableWhitespace( characters, start, length );
+			mLastCommand.replay( mDelegate );
 		}
 
 		@Override
 		public void endElement( String uri, String localName, String name )
 			throws SAXException
 		{
-			mCache.add( new Object[] { END_ELEMENT, uri, localName, name } );
-			mDelegate.endElement( uri, localName, name );
+			mLastCommand = new EndElementCommand( uri, localName, name );
+
+			if ( !mCachingPaused )
+				mCache.add( mLastCommand );
+
+			mLastCommand.replay( mDelegate );
 		}
 
 		@Override
 		public void endDocument()
 			throws SAXException
 		{
-			mCache.add( new Object[] { END_DOCUMENT } );
-			mDelegate.endDocument();
+			mLastCommand = new EndDocumentCommand();
+
+			if ( !mCachingPaused )
+				mCache.add( mLastCommand );
+
+			mLastCommand.replay( mDelegate );
 
 			// Free up resources
 
 			mDelegate = null;
+		}
+
+		//
+		// Inner class
+		//
+
+		/**
+		 * Encapsulates a cached SAX event.
+		 * <p>
+		 * The term <code>Command</code> refers to the Command Design Pattern.
+		 */
+
+		private static interface CachedCommand
+		{
+			//
+			// Methods
+			//
+
+			void replay( ContentHandler replayTo )
+				throws SAXException;
+		}
+
+		private static class StartDocumentCommand
+			implements CachedCommand
+		{
+			//
+			// Constructor
+			//
+
+			public StartDocumentCommand()
+			{
+				// Public for better performance
+			}
+
+			//
+			// Public methods
+			//
+
+			public void replay( ContentHandler replayTo )
+				throws SAXException
+			{
+				replayTo.startDocument();
+			}
+
+			@Override
+			public String toString()
+			{
+				return "startDocument";
+			}
+		}
+
+		private static class ProcessingInstructionCommand
+			implements CachedCommand
+		{
+			//
+			// Private members
+			//
+
+			private String	mTarget;
+
+			private String	mData;
+
+			//
+			// Constructor
+			//
+
+			public ProcessingInstructionCommand( String target, String data )
+			{
+				mTarget = target;
+				mData = data;
+			}
+
+			//
+			// Public methods
+			//
+
+			public void replay( ContentHandler replayTo )
+				throws SAXException
+			{
+				replayTo.processingInstruction( mTarget, mData );
+			}
+
+			@Override
+			public String toString()
+			{
+				return "processInstruction " + mTarget + " " + mData;
+			}
+		}
+
+		private static class SkippedEntityCommand
+			implements CachedCommand
+		{
+			//
+			// Private members
+			//
+
+			private String	mName;
+
+			//
+			// Constructor
+			//
+
+			public SkippedEntityCommand( String name )
+			{
+				mName = name;
+			}
+
+			//
+			// Public methods
+			//
+
+			public void replay( ContentHandler replayTo )
+				throws SAXException
+			{
+				replayTo.skippedEntity( mName );
+			}
+
+			@Override
+			public String toString()
+			{
+				return "skippedEntity " + mName;
+			}
+		}
+
+		private static class StartPrefixMappingCommand
+			implements CachedCommand
+		{
+			//
+			// Private members
+			//
+
+			private String	mPrefix;
+
+			private String	mUri;
+
+			//
+			// Constructor
+			//
+
+			public StartPrefixMappingCommand( String prefix, String uri )
+			{
+				mPrefix = prefix;
+				mUri = uri;
+			}
+
+			//
+			// Public methods
+			//
+
+			public void replay( ContentHandler replayTo )
+				throws SAXException
+			{
+				replayTo.startPrefixMapping( mPrefix, mUri );
+			}
+
+			@Override
+			public String toString()
+			{
+				return "startPrefixMapping " + mPrefix + " " + mUri;
+			}
+		}
+
+		private static class EndPrefixMappingCommand
+			implements CachedCommand
+		{
+			//
+			// Private members
+			//
+
+			private String	mPrefix;
+
+			//
+			// Constructor
+			//
+
+			public EndPrefixMappingCommand( String prefix )
+			{
+				mPrefix = prefix;
+			}
+
+			//
+			// Public methods
+			//
+
+			public void replay( ContentHandler replayTo )
+				throws SAXException
+			{
+				replayTo.endPrefixMapping( mPrefix );
+			}
+
+			@Override
+			public String toString()
+			{
+				return "endPrefixMapping " + mPrefix;
+			}
+		}
+
+		private static class StartElementCommand
+			implements CachedCommand
+		{
+			//
+			// Private members
+			//
+
+			private String		mUri;
+
+			private String		mLocalName;
+
+			private String		mQName;
+
+			private Attributes	mAttributes;
+
+			//
+			// Constructor
+			//
+
+			public StartElementCommand( String uri, String localName, String qName, Attributes attributes )
+			{
+				mUri = uri;
+				mLocalName = localName;
+				mQName = qName;
+
+				// Defensive copy - SAX implementations may reuse the Attributes
+
+				mAttributes = new AttributesImpl( attributes );
+			}
+
+			//
+			// Public methods
+			//
+
+			public void replay( ContentHandler replayTo )
+				throws SAXException
+			{
+				replayTo.startElement( mUri, mLocalName, mQName, mAttributes );
+			}
+
+			@Override
+			public String toString()
+			{
+				String toReturn = "startElement " + mUri + " " + mLocalName + " " + mQName;
+
+				for ( int loop = 0, length = mAttributes.getLength(); loop < length; loop++ )
+				{
+					toReturn += " " + mAttributes.getLocalName( loop ) + "=" + mAttributes.getValue( loop );
+				}
+
+				return toReturn;
+			}
+		}
+
+		private static class CharactersCommand
+			implements CachedCommand
+		{
+			//
+			// Private members
+			//
+
+			private char[]	mCharacters;
+
+			//
+			// Constructor
+			//
+
+			public CharactersCommand( char[] characters, int start, int length )
+			{
+				// Defensive copy - SAX implementations may reuse the array
+
+				mCharacters = new char[length];
+				System.arraycopy( characters, start, mCharacters, 0, length );
+			}
+
+			//
+			// Public methods
+			//
+
+			public void replay( ContentHandler replayTo )
+				throws SAXException
+			{
+				replayTo.characters( mCharacters, 0, mCharacters.length );
+			}
+
+			@Override
+			public String toString()
+			{
+				return "characters " + String.valueOf( mCharacters );
+			}
+		}
+
+		private static class IgnorableWhitespaceCommand
+			implements CachedCommand
+		{
+			//
+			// Private members
+			//
+
+			private char[]	mCharacters;
+
+			//
+			// Constructor
+			//
+
+			public IgnorableWhitespaceCommand( char[] characters, int start, int length )
+			{
+				// Defensive copy - SAX implementations may reuse the array
+
+				mCharacters = new char[length];
+				System.arraycopy( characters, start, mCharacters, 0, length );
+			}
+
+			//
+			// Public methods
+			//
+
+			public void replay( ContentHandler replayTo )
+				throws SAXException
+			{
+				replayTo.ignorableWhitespace( mCharacters, 0, mCharacters.length );
+			}
+
+			@Override
+			public String toString()
+			{
+				return "ignorableWhitespace " + String.valueOf( mCharacters );
+			}
+		}
+
+		private static class EndElementCommand
+			implements CachedCommand
+		{
+			//
+			// Private members
+			//
+
+			private String	mUri;
+
+			private String	mLocalName;
+
+			private String	mQName;
+
+			//
+			// Constructor
+			//
+
+			public EndElementCommand( String uri, String localName, String qName )
+			{
+				mUri = uri;
+				mLocalName = localName;
+				mQName = qName;
+			}
+
+			//
+			// Public methods
+			//
+
+			public void replay( ContentHandler replayTo )
+				throws SAXException
+			{
+				replayTo.endElement( mUri, mLocalName, mQName );
+			}
+
+			@Override
+			public String toString()
+			{
+				return "endElement " + mUri + " " + mLocalName + " " + mQName;
+			}
+		}
+
+		private static class EndDocumentCommand
+			implements CachedCommand
+		{
+			//
+			// Constructor
+			//
+
+			public EndDocumentCommand()
+			{
+				// Public for better performance
+			}
+
+			//
+			// Public methods
+			//
+
+			public void replay( ContentHandler replayTo )
+				throws SAXException
+			{
+				replayTo.endDocument();
+			}
+
+			@Override
+			public String toString()
+			{
+				return "endDocument";
+			}
 		}
 	}
 

@@ -29,7 +29,6 @@ import javax.faces.component.html.HtmlCommandButton;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
-import javax.faces.render.RenderKit;
 
 import junit.framework.TestCase;
 
@@ -109,6 +108,8 @@ public class UIMetawidgetTest
 
 				result.append( "startBuild called;" );
 			}
+
+
 		};
 
 		MockFacesContext context = new MockFacesContext()
@@ -119,10 +120,11 @@ public class UIMetawidgetTest
 				return FacesMessage.SEVERITY_INFO;
 			}
 
+
 			@Override
-			public RenderKit getRenderKit()
+			public Map<Object, Object> getAttributes()
 			{
-				result.append( "getRenderKit called;" );
+				result.append( "getAttributes called;" );
 				return null;
 			}
 		};
@@ -137,7 +139,9 @@ public class UIMetawidgetTest
 		}
 		catch ( IOException e )
 		{
-			assertTrue( "encodeBegin called;getRenderKit called;".equals( result.toString() ) );
+			// Should go straight to pushComponentToEL, because validation error
+
+			assertTrue( "encodeBegin called;getAttributes called;".equals( result.toString() ) );
 		}
 		finally
 		{

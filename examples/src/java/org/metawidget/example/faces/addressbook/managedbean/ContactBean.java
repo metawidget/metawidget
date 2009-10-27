@@ -42,6 +42,9 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
+// Note: we SuppressWarnings( "unchecked" ) in a few places so that we can compile against JSF 2.0
+// but still run against JSF 1.2
+//
 @SuppressWarnings( "deprecation" )
 public class ContactBean
 {
@@ -49,11 +52,12 @@ public class ContactBean
 	// Private members
 	//
 
-	private boolean							mReadOnly;
+	private boolean			mReadOnly;
 
-	private Contact							mCurrent;
+	private Contact			mCurrent;
 
-	private ListDataModel<Communication>	mModelCommunications;
+	@SuppressWarnings( "unchecked" )
+	private ListDataModel	mModelCommunications;
 
 	//
 	// Public methods
@@ -85,7 +89,8 @@ public class ContactBean
 	}
 
 	@UiHidden
-	public ListDataModel<Communication> getCurrentCommunications()
+	@SuppressWarnings( "unchecked" )
+	public ListDataModel getCurrentCommunications()
 	{
 		if ( mModelCommunications == null )
 		{
@@ -93,7 +98,7 @@ public class ContactBean
 
 			if ( contact == null )
 			{
-				mModelCommunications = new ListDataModel<Communication>();
+				mModelCommunications = new ListDataModel();
 			}
 			else
 			{
@@ -101,7 +106,7 @@ public class ContactBean
 
 				if ( communications == null )
 				{
-					mModelCommunications = new ListDataModel<Communication>();
+					mModelCommunications = new ListDataModel();
 				}
 				else
 				{
@@ -110,7 +115,7 @@ public class ContactBean
 					List<Communication> sortedCommunications = CollectionUtils.newArrayList( communications );
 					Collections.sort( sortedCommunications );
 
-					mModelCommunications = new ListDataModel<Communication>( sortedCommunications );
+					mModelCommunications = new ListDataModel( sortedCommunications );
 				}
 			}
 		}
@@ -184,7 +189,7 @@ public class ContactBean
 
 	public void deleteCommunication()
 	{
-		Communication communication = mModelCommunications.getRowData();
+		Communication communication = (Communication) mModelCommunications.getRowData();
 		getCurrent().removeCommunication( communication );
 
 		mModelCommunications = null;
