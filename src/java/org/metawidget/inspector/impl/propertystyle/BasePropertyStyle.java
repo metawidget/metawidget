@@ -219,7 +219,8 @@ public abstract class BasePropertyStyle
 	 * Inspect the given Classes and merge their results.
 	 * <p>
 	 * This version of <code>inspectProperties</code> is used when inspecting the interfaces of a
-	 * proxied class.
+	 * proxied class. For each interface, it delegates to the single-class version of this method
+	 * (ie. <code>inspectProperties( Class )</code>).
 	 */
 
 	protected Map<String, Property> inspectProperties( Class<?>[] classes )

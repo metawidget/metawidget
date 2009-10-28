@@ -44,7 +44,9 @@ public interface PropertyStyle
 	 * <p>
 	 * Properties must be returned using a consistent ordering, so that both unit tests and
 	 * <code>CompositeInspector</code> merging is consistent. If the underlying platform does not
-	 * define an ordering, one must be imposed (eg. sorted alphabetically by name).
+	 * define an ordering, one must be imposed (eg. sorted alphabetically by name), even though this
+	 * may later be overridden by other mechanisms (eg. <code>PropertyTypeInspector</code> sorts by
+	 * <code>UiComesAfter</code>).
 	 *
 	 * @return the properties for the given Class. Never null.
 	 */

@@ -112,7 +112,7 @@ public class JavaBeanPropertyStyle
 	/**
 	 * Lookup getter-based properties.
 	 * <p>
-	 * This method will be called after <code>lookupGetters</code> but before
+	 * This method will be called after <code>lookupFields</code> but before
 	 * <code>lookupSetters</code>.
 	 */
 
@@ -200,7 +200,7 @@ public class JavaBeanPropertyStyle
 	/**
 	 * Lookup setter-based properties.
 	 * <p>
-	 * This method will be called after <code>lookupGetters</code> and <code>lookupSetters</code>.
+	 * This method will be called after <code>lookupFields</code> and <code>lookupGetters</code>.
 	 */
 
 	protected void lookupSetters( Map<String, Property> properties, Class<?> clazz )
