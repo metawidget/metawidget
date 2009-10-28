@@ -2731,6 +2731,12 @@ metawidget.setPath( "Login Form" );</programlisting>
 				<programlisting language="java">metawidget.setToInspect( null );	// No setToInspect
 metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 
+				<tip>
+					<title>Note</title>							
+					In general, a non-null <function>setToInspect</function> is a preferrable, as
+					many binding and validation technologies (see later) will be expecting a concrete object.
+				</tip>
+				
 			</section>
 			
 			<section id="section-architecture-inspectors-usage">
@@ -2749,7 +2755,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				<programlisting language="java">metawidget.setInspector( new MyInspector() );</programlisting>
 				
 				<para>
-					Or via <filename>metawidget.xml</filename>
+					Or via <filename>metawidget.xml</filename>:
 				</para>
 				
 				<programlisting language="xml">&lt;swingMetawidget xmlns="java:org.metawidget.swing"&gt;
