@@ -22,9 +22,9 @@ import java.util.Map;
  * Common interface implemented by all WidgetProcessors. WidgetProcessors allow arbitrary processing
  * of a widget at key points in its lifecycle.
  * <p>
- * WidgetProcessors must be threadsafe and immutable (or, at least, appear that way to clients. They
- * can have caches or configuration settings internally). If they need to store state, they should
- * use the Metawidget passed to each method.
+ * WidgetProcessors must be immutable (or, at least, appear that way to clients. They can have
+ * caches or configuration settings internally, as long as they are threadsafe). If they need to
+ * store state, they should use the Metawidget passed to each method.
  *
  * @author Richard Kennard
  */
@@ -53,7 +53,8 @@ public interface WidgetProcessor<W, M extends W>
 	 * @param widget
 	 *            the widget to process. Never null
 	 * @param elementName
-	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'. Never null
+	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
+	 *            Never null
 	 * @param attributes
 	 *            attributes of the widget to layout. Never null
 	 * @param metawidget

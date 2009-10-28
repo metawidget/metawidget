@@ -705,7 +705,7 @@ public class ConfigReaderTest
 		assertTrue( 4 == configReader.mResourceCache.size() );
 	}
 
-	public void testImmutableThreadsafe()
+	public void testImmutable()
 		throws Exception
 	{
 		// Via InputStream
@@ -802,43 +802,43 @@ public class ConfigReaderTest
 
 		// Test what got cached
 
-		Map<Class<?>, Map<Object, Object>> immutableThreadsafeByClassCache = configReader.mImmutableThreadsafeByClassCache;
-		assertTrue( !immutableThreadsafeByClassCache.containsKey( Class.class ) );
+		Map<Class<?>, Map<Object, Object>> immutableByClassCache = configReader.mImmutableByClassCache;
+		assertTrue( !immutableByClassCache.containsKey( Class.class ) );
 
-		Map<Object, Object> immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( CompositeInspector.class );
-		assertTrue( !immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
-		assertTrue( 4 == immutableThreadsafeByConfigCache.size() );
+		Map<Object, Object> immutableByConfigCache = immutableByClassCache.get( CompositeInspector.class );
+		assertTrue( !immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( 4 == immutableByConfigCache.size() );
 
-		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( StrutsAnnotationInspector.class );
-		assertTrue( !immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
-		assertTrue( 1 == immutableThreadsafeByConfigCache.size() );
-		assertTrue( inspectors1[2] == immutableThreadsafeByConfigCache.values().iterator().next() );
+		immutableByConfigCache = immutableByClassCache.get( StrutsAnnotationInspector.class );
+		assertTrue( !immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( 1 == immutableByConfigCache.size() );
+		assertTrue( inspectors1[2] == immutableByConfigCache.values().iterator().next() );
 
-		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( XmlInspector.class );
-		assertTrue( !immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
-		assertTrue( 3 == immutableThreadsafeByConfigCache.size() );
+		immutableByConfigCache = immutableByClassCache.get( XmlInspector.class );
+		assertTrue( !immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( 3 == immutableByConfigCache.size() );
 
-		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( MetawidgetAnnotationInspector.class );
-		assertTrue( immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
-		assertTrue( 1 == immutableThreadsafeByConfigCache.size() );
-		assertTrue( inspectors1[1] == immutableThreadsafeByConfigCache.get( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+		immutableByConfigCache = immutableByClassCache.get( MetawidgetAnnotationInspector.class );
+		assertTrue( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( 1 == immutableByConfigCache.size() );
+		assertTrue( inspectors1[1] == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 
-		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( SpringAnnotationInspector.class );
-		assertTrue( !immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
-		assertTrue( 1 == immutableThreadsafeByConfigCache.size() );
-		assertTrue( inspectors1[3] == immutableThreadsafeByConfigCache.values().iterator().next() );
+		immutableByConfigCache = immutableByClassCache.get( SpringAnnotationInspector.class );
+		assertTrue( !immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( 1 == immutableByConfigCache.size() );
+		assertTrue( inspectors1[3] == immutableByConfigCache.values().iterator().next() );
 
-		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( PropertyTypeInspector.class );
-		assertTrue( immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
-		assertTrue( 1 == immutableThreadsafeByConfigCache.size() );
-		assertTrue( inspectors1[0] == immutableThreadsafeByConfigCache.get( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+		immutableByConfigCache = immutableByClassCache.get( PropertyTypeInspector.class );
+		assertTrue( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( 1 == immutableByConfigCache.size() );
+		assertTrue( inspectors1[0] == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 
-		immutableThreadsafeByConfigCache = immutableThreadsafeByClassCache.get( StrutsActionFormPropertyStyle.class );
-		assertTrue( immutableThreadsafeByConfigCache.containsKey( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
-		assertTrue( 1 == immutableThreadsafeByConfigCache.size() );
-		assertTrue( propertyStyleField.get( inspectors1[2] ) == immutableThreadsafeByConfigCache.get( ConfigReader.IMMUTABLE_THREADSAFE_NO_CONFIG ) );
+		immutableByConfigCache = immutableByClassCache.get( StrutsActionFormPropertyStyle.class );
+		assertTrue( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( 1 == immutableByConfigCache.size() );
+		assertTrue( propertyStyleField.get( inspectors1[2] ) == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 
-		assertTrue( 7 == immutableThreadsafeByClassCache.size() );
+		assertTrue( 7 == immutableByClassCache.size() );
 	}
 
 	public void testUppercase()

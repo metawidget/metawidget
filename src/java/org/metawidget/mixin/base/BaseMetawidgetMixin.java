@@ -151,8 +151,9 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	 * }
 	 * </code>
 	 * <p>
-	 * This mechanism cannot be delegated to a CompositeWidgetProcessor, because WidgetProcessors must be
-	 * immutable, and we want to allow event handlers that are non-static anonymous inner classes.
+	 * This mechanism cannot be delegated to a CompositeWidgetProcessor, because WidgetProcessors
+	 * must be immutable, and we want to allow event handlers that are non-static anonymous inner
+	 * classes.
 	 * <p>
 	 * There, we use a List of WidgetProcessors. Note ordering of WidgetProcessors is significant.
 	 */
@@ -287,9 +288,8 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	 * maximumInspectionDepth reaches zero</li>
 	 * <li>the given mixin has setReadOnly if the current mixin has setReadOnly <em>or</em> if the
 	 * attributes map contains <code>READ_ONLY</code></li>
-	 * <li>the given mixin is initialised with the same Inspectors, WidgetBuilders and
-	 * WidgetProcessors as the current mixin. This is safe because they are all immutable and
-	 * threadsafe</li>
+	 * <li>the given mixin is initialised with the same Inspectors, WidgetBuilders, WidgetProcessors
+	 * and Layouts as the current mixin. This is safe because they are all immutable</li>
 	 * </ul>
 	 */
 
@@ -298,8 +298,8 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		nestedMixin.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
 		nestedMixin.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 
-		// Inspectors, WidgetBuilders and WidgetProcessors can be shared because they are immutable
-		// and threadsafe
+		// Inspectors, WidgetBuilders, WidgetProcessors and Layouts can be shared because they are
+		// immutable
 
 		nestedMixin.setInspector( getInspector() );
 		nestedMixin.setWidgetBuilder( getWidgetBuilder() );

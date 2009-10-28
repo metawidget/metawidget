@@ -22,8 +22,8 @@ import java.util.Map;
  * Common interface implemented by all WidgetBuilders. WidgetBuilders decouple the process of
  * choosing widgets based on inspection results.
  * <p>
- * WidgetBuilders must be threadsafe and immutable (or, at least, appear that way to clients. They
- * can have caches or configuration settings internally).
+ * WidgetBuilders must be immutable (or, at least, appear that way to clients. They can have caches
+ * or configuration settings internally, as long as they are threadsafe).
  *
  * @author Richard Kennard
  */
@@ -36,7 +36,8 @@ public interface WidgetBuilder<W, M extends W>
 
 	/**
 	 * @param elementName
-	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'. Never null
+	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
+	 *            Never null
 	 * @param attributes
 	 *            attributes of the business field to build a widget for. Never null
 	 * @param metawidget

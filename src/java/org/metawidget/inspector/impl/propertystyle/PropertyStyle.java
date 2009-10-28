@@ -27,8 +27,8 @@ import java.util.Map;
  * filtered out and excluded from the list of 'real' business model properties (see
  * <code>StrutsActionFormPropertyStyle</code>).
  * <p>
- * <code>PropertyStyle</code>s must be threadsafe and immutable (or, at least, appear that way to clients. They can
- * have caches or configuration settings internally).
+ * <code>PropertyStyle</code>s must be immutable (or, at least, appear that way to clients. They can
+ * have caches or configuration settings internally, as long as they are threadsafe).
  *
  * @author Richard Kennard
  */

@@ -22,11 +22,11 @@ import java.util.Map;
  * Abstraction layer for retrieving actions from Classes.
  * <p>
  * Different environments have different approaches to defining what constitutes an 'action'. For
- * example, Metawidget supplies a <code>UiAction</code> annotation and the Spring AppFramework supplies
- * an <code>Action</code> annotation.
+ * example, Metawidget supplies a <code>UiAction</code> annotation and the Spring AppFramework
+ * supplies an <code>Action</code> annotation.
  * <p>
- * <code>ActionStyle</code>s must be threadsafe and immutable (or, at least, appear that way to clients. They can
- * have caches or configuration settings internally).
+ * <code>ActionStyle</code>s must be immutable (or, at least, appear that way to clients. They can
+ * have caches or configuration settings internally, as long as they are threadsafe).
  *
  * @author Richard Kennard
  */

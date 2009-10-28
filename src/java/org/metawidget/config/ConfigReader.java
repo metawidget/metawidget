@@ -59,8 +59,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * based on XML files. In practice, there are some Metawidget-specific features such as:
  * <p>
  * <ul>
- * <li>support for reusing immutable, threadsafe objects (as defined by
- * <code>isImmutableThreadsafe</code>)</li>
+ * <li>support for reusing immutable objects (as defined by <code>isImmutable</code>)</li>
  * <li>caching XML input based on resource name (uses <code>XmlUtils.CachingContextHandler</code>)</li>
  * <li>resolving resources from specialized locations, such as under <code>WEB-INF</code> using
  * <code>ServletContext.getResource</code> (<code>ConfigReader</code> implements
@@ -86,12 +85,12 @@ public class ConfigReader
 	//
 
 	/**
-	 * Dummy config to cache by if immutable threadsafe has no Config.
+	 * Dummy config to cache by if immutable has no Config.
 	 */
 
-	/* package private */final static String				IMMUTABLE_THREADSAFE_NO_CONFIG		= "no-config";
+	/* package private */final static String				IMMUTABLE_NO_CONFIG			= "no-config";
 
-	/* package private */final static Log					LOG									= LogUtils.getLog( ConfigReader.class );
+	/* package private */final static Log					LOG							= LogUtils.getLog( ConfigReader.class );
 
 	//
 	// Protected members
@@ -107,27 +106,26 @@ public class ConfigReader
 	 * Cache of resource content based on resource name
 	 */
 
-	/* package private */Map<String, CachingContentHandler>	mResourceCache						= CollectionUtils.newHashMap();
+	/* package private */Map<String, CachingContentHandler>	mResourceCache				= CollectionUtils.newHashMap();
 
 	/**
-	 * Cache of objects that are both immutable and threadsafe, indexed by a unique location (ie.
-	 * the resource name) and element number. This is a fast, broadbrush cache that can prune off
-	 * large portions of the tree. For example, it can cache a <code>CompositeInspector</code> at
-	 * the top-level, including all child <code>Inspector</code>s and their various
-	 * <code>xxxConfig</code>s.
+	 * Cache of objects that are immutable, indexed by a unique location (ie. the resource name) and
+	 * element number. This is a fast, broadbrush cache that can prune off large portions of the
+	 * tree. For example, it can cache a <code>CompositeInspector</code> at the top-level, including
+	 * all child <code>Inspector</code>s and their various <code>xxxConfig</code>s.
 	 */
 
-	/* package private */Map<String, Map<Integer, Object>>	mImmutableThreadsafeByLocationCache	= CollectionUtils.newHashMap();
+	/* package private */Map<String, Map<Integer, Object>>	mImmutableByLocationCache	= CollectionUtils.newHashMap();
 
 	/**
-	 * Cache of objects that are both immutable and threadsafe, indexed by their Class (and within
-	 * that their Config). This is a slower cache than mImmutableThreadsafeByKeyCache, but is more
-	 * widely applicable. For example, it can cache the same <code>Inspector</code> between
-	 * different XMLs from different <code>InputStream</code>s, and the same
-	 * <code>PropertyStyle</code> across multiple different <code>Inspector</code>s.
+	 * Cache of objects that are immutable, indexed by their Class (and within that their Config).
+	 * This is a slower cache than mImmutableByLocationCache, but is more widely applicable. For
+	 * example, it can cache the same <code>Inspector</code> between different XMLs from different
+	 * <code>InputStream</code>s, and the same <code>PropertyStyle</code> across multiple different
+	 * <code>Inspector</code>s.
 	 */
 
-	/* package private */Map<Class<?>, Map<Object, Object>>	mImmutableThreadsafeByClassCache	= CollectionUtils.newHashMap();
+	/* package private */Map<Class<?>, Map<Object, Object>>	mImmutableByClassCache		= CollectionUtils.newHashMap();
 
 	//
 	// Constructor
@@ -173,7 +171,7 @@ public class ConfigReader
 	 * re-open the resource, or re-parse it, making this verison of <code>configure</code> much
 	 * faster than <code>configure( InputStream, Object )</code>.
 	 * <p>
-	 * This version further caches any immutable and threadsafe objects, in the same way as
+	 * This version further caches any immutable objects, in the same way as
 	 * <code>configure( InputStream, Object )</code> (see the JavaDoc for that method).
 	 *
 	 * @param resource
@@ -192,12 +190,12 @@ public class ConfigReader
 		String locationKey = resource + StringUtils.SEPARATOR_FORWARD_SLASH;
 
 		if ( toConfigure instanceof Class )
-			locationKey += ((Class<?>) toConfigure).getName();
+			locationKey += ( (Class<?>) toConfigure ).getName();
 		else if ( toConfigure != null )
 			locationKey += toConfigure.getClass().getName();
 
 		locationKey += ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false );
-		configHandler.setImmutableThreadsafeByLocationKey( locationKey );
+		configHandler.setImmutableByLocationKey( locationKey );
 
 		try
 		{
@@ -254,10 +252,9 @@ public class ConfigReader
 	/**
 	 * Read configuration from an input stream.
 	 * <p>
-	 * This version of <code>configure</code> caches any immutable and threadsafe objects (as
-	 * determined by <code>isImmutableThreadsafe</code>) and reuses them for subsequent calls. This
-	 * helps ensure there is only ever one instance of a, say, <code>Inspector</code> or
-	 * <code>WidgetBuilder</code>.
+	 * This version of <code>configure</code> caches any immutable objects (as determined by
+	 * <code>isImmutable</code>) and reuses them for subsequent calls. This helps ensure there is
+	 * only ever one instance of a, say, <code>Inspector</code> or <code>WidgetBuilder</code>.
 	 * <p>
 	 * If the Object to configure is a <code>Class</code>, this method will create and return an
 	 * instance of that class based on the configuration file. For example, if the configuration
@@ -539,11 +536,11 @@ public class ConfigReader
 	}
 
 	/**
-	 * Certain classes are both immutable and threadsafe. We only ever need one instance of such
-	 * classes for an entire application.
+	 * Certain classes are both immutable. We only ever need one instance of such classes for an
+	 * entire application.
 	 */
 
-	protected boolean isImmutableThreadsafe( Class<?> clazz )
+	protected boolean isImmutable( Class<?> clazz )
 	{
 		if ( Inspector.class.isAssignableFrom( clazz ) )
 			return true;
@@ -577,7 +574,7 @@ public class ConfigReader
 		// Private statics
 		//
 
-		private final static String		JAVA_NAMESPACE_PREFIX							= "java:";
+		private final static String		JAVA_NAMESPACE_PREFIX					= "java:";
 
 		/**
 		 * Possible 'encountered' states.
@@ -585,21 +582,21 @@ public class ConfigReader
 		 * Note: not using enum, for JDK 1.4 compatibility.
 		 */
 
-		private final static int		ENCOUNTERED_METHOD								= 0;
+		private final static int		ENCOUNTERED_METHOD						= 0;
 
-		private final static int		ENCOUNTERED_NATIVE_TYPE							= 1;
+		private final static int		ENCOUNTERED_NATIVE_TYPE					= 1;
 
-		private final static int		ENCOUNTERED_NATIVE_COLLECTION_TYPE				= 2;
+		private final static int		ENCOUNTERED_NATIVE_COLLECTION_TYPE		= 2;
 
-		private final static int		ENCOUNTERED_CONFIGURED_TYPE						= 3;
+		private final static int		ENCOUNTERED_CONFIGURED_TYPE				= 3;
 
-		private final static int		ENCOUNTERED_JAVA_OBJECT							= 4;
+		private final static int		ENCOUNTERED_JAVA_OBJECT					= 4;
 
-		private final static int		ENCOUNTERED_ALREADY_CACHED_IMMUTABLE_THREADSAFE	= 5;
+		private final static int		ENCOUNTERED_ALREADY_CACHED_IMMUTABLE	= 5;
 
-		private final static int		ENCOUNTERED_WRONG_TYPE							= 6;
+		private final static int		ENCOUNTERED_WRONG_TYPE					= 6;
 
-		private final static int		ENCOUNTERED_WRONG_NAME							= 7;
+		private final static int		ENCOUNTERED_WRONG_NAME					= 7;
 
 		/**
 		 * Possible 'expecting' states.
@@ -607,13 +604,13 @@ public class ConfigReader
 		 * Note: not using enum, for JDK 1.4 compatibility.
 		 */
 
-		private final static int		EXPECTING_ROOT									= 0;
+		private final static int		EXPECTING_ROOT							= 0;
 
-		private final static int		EXPECTING_TO_CONFIGURE							= 1;
+		private final static int		EXPECTING_TO_CONFIGURE					= 1;
 
-		private final static int		EXPECTING_OBJECT								= 2;
+		private final static int		EXPECTING_OBJECT						= 2;
 
-		private final static int		EXPECTING_METHOD								= 3;
+		private final static int		EXPECTING_METHOD						= 3;
 
 		//
 		// Private members
@@ -632,10 +629,10 @@ public class ConfigReader
 		private String[]				mNames;
 
 		/**
-		 * Key into mImmutableThreadsafeByLocationCache.
+		 * Key into mImmutableByLocationCache.
 		 */
 
-		private String					mImmutableThreadsafeByLocationKey;
+		private String					mImmutableByLocationKey;
 
 		/**
 		 * Number of elements encountered so far. Used as a simple way to get a unique 'row/column'
@@ -645,11 +642,10 @@ public class ConfigReader
 		private int						mLocationIndex;
 
 		/**
-		 * Map of objects that are immutable and threadsafe for this XML document. Keyed by location
-		 * index.
+		 * Map of objects that are immutable for this XML document. Keyed by location index.
 		 */
 
-		private Map<Integer, Object>	mImmutableThreadsafeForThisLocation;
+		private Map<Integer, Object>	mImmutableForThisLocation;
 
 		/**
 		 * Track our depth in the XML tree.
@@ -661,38 +657,37 @@ public class ConfigReader
 		 * Depth after which to skip type processing, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreTypeAfterDepth							= -1;
+		private int						mIgnoreTypeAfterDepth					= -1;
 
 		/**
 		 * Depth after which to skip name processing, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreNameAfterDepth							= -1;
+		private int						mIgnoreNameAfterDepth					= -1;
 
 		/**
-		 * Depth after which to skip immutable threadsafe caching, so as to ignore chunks of the XML
-		 * tree.
+		 * Depth after which to skip immutable caching, so as to ignore chunks of the XML tree.
 		 */
 
-		private int						mIgnoreImmutableThreadsafeAfterDepth			= -1;
+		private int						mIgnoreImmutableAfterDepth				= -1;
 
 		/**
 		 * Stack of Objects constructed so far.
 		 */
 
-		private Stack<Object>			mConstructing									= CollectionUtils.newStack();
+		private Stack<Object>			mConstructing							= CollectionUtils.newStack();
 
 		/**
 		 * Next expected state in the XML tree.
 		 */
 
-		private int						mExpecting										= EXPECTING_ROOT;
+		private int						mExpecting								= EXPECTING_ROOT;
 
 		/**
 		 * Stack of encountered states in the XML tree.
 		 */
 
-		private Stack<Integer>			mEncountered									= CollectionUtils.newStack();
+		private Stack<Integer>			mEncountered							= CollectionUtils.newStack();
 
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -714,9 +709,9 @@ public class ConfigReader
 		// Public methods
 		//
 
-		public void setImmutableThreadsafeByLocationKey( String immutableThreadsafeByLocationKey )
+		public void setImmutableByLocationKey( String immutableByLocationKey )
 		{
-			mImmutableThreadsafeByLocationKey = immutableThreadsafeByLocationKey;
+			mImmutableByLocationKey = immutableByLocationKey;
 		}
 
 		public void setCachingContentHandler( CachingContentHandler cachingContentHandler )
@@ -1005,7 +1000,7 @@ public class ConfigReader
 
 					case ENCOUNTERED_CONFIGURED_TYPE:
 					case ENCOUNTERED_JAVA_OBJECT:
-					case ENCOUNTERED_ALREADY_CACHED_IMMUTABLE_THREADSAFE:
+					case ENCOUNTERED_ALREADY_CACHED_IMMUTABLE:
 					{
 						Object object = mConstructing.pop();
 
@@ -1014,10 +1009,10 @@ public class ConfigReader
 							Class<?> classToConstruct = classForName( uri, localName );
 							Object configuredObject = null;
 
-							// Immutable and Threadsafe by class (and config)? Don't re-instantiate
+							// Immutable by class (and config)? Don't re-instantiate
 
-							if ( isImmutableThreadsafe( classToConstruct ) )
-								configuredObject = getImmutableThreadsafeByClass( classToConstruct, object );
+							if ( isImmutable( classToConstruct ) )
+								configuredObject = getImmutableByClass( classToConstruct, object );
 
 							if ( configuredObject == null )
 							{
@@ -1034,12 +1029,12 @@ public class ConfigReader
 								}
 							}
 
-							// Immutable and threadsafe? Cache it going forward
+							// Immutable? Cache it going forward
 
-							if ( isImmutableThreadsafe( classToConstruct ) )
+							if ( isImmutable( classToConstruct ) )
 							{
-								LOG.debug( "\tInstantiated immutable threadsafe " + classToConstruct + " (config hashCode " + object.hashCode() + ")" );
-								putImmutableThreadsafeByClass( configuredObject, object );
+								LOG.debug( "\tInstantiated immutable " + classToConstruct + " (config hashCode " + object.hashCode() + ")" );
+								putImmutableByClass( configuredObject, object );
 							}
 
 							// Use the configured object (not its config) as the 'object' from now
@@ -1157,8 +1152,8 @@ public class ConfigReader
 
 			Object object = null;
 
-			if ( isImmutableThreadsafe( classToConstruct ) )
-				object = getImmutableThreadsafeByLocation( classToConstruct );
+			if ( isImmutable( classToConstruct ) )
+				object = getImmutableByLocation( classToConstruct );
 
 			// Configured types
 
@@ -1189,10 +1184,10 @@ public class ConfigReader
 
 					// Pause caching (if any)
 
-					if ( mIgnoreImmutableThreadsafeAfterDepth == -1 && mCachingContentHandler != null && isImmutableThreadsafe( classToConstruct ) )
+					if ( mIgnoreImmutableAfterDepth == -1 && mCachingContentHandler != null && isImmutable( classToConstruct ) )
 					{
 						mCachingContentHandler.pause( true );
-						mIgnoreImmutableThreadsafeAfterDepth = mDepth;
+						mIgnoreImmutableAfterDepth = mDepth;
 					}
 
 					mExpecting = EXPECTING_METHOD;
@@ -1202,8 +1197,8 @@ public class ConfigReader
 
 			// Already cached (without config)?
 
-			if ( object == null && isImmutableThreadsafe( classToConstruct ) )
-				object = getImmutableThreadsafeByClass( classToConstruct, IMMUTABLE_THREADSAFE_NO_CONFIG );
+			if ( object == null && isImmutable( classToConstruct ) )
+				object = getImmutableByClass( classToConstruct, IMMUTABLE_NO_CONFIG );
 
 			// Java objects
 
@@ -1226,12 +1221,12 @@ public class ConfigReader
 					throw MetawidgetException.newException( classToConstruct + " does not have a default constructor" );
 				}
 
-				// Immutable and Threadsafe by class (with no config)? Cache for next time
+				// Immutable by class (with no config)? Cache for next time
 
-				if ( isImmutableThreadsafe( classToConstruct ) )
+				if ( isImmutable( classToConstruct ) )
 				{
-					LOG.debug( "\tInstantiated immutable threadsafe " + classToConstruct + " (no config)" );
-					putImmutableThreadsafeByClass( object, null );
+					LOG.debug( "\tInstantiated immutable " + classToConstruct + " (no config)" );
+					putImmutableByClass( object, null );
 				}
 			}
 
@@ -1271,52 +1266,52 @@ public class ConfigReader
 			throw MetawidgetException.newException( "Don't know how to add to a " + parameters.getClass() );
 		}
 
-		private Object getImmutableThreadsafeByLocation( Class<?> clazz )
+		private Object getImmutableByLocation( Class<?> clazz )
 		{
 			// No key to cache by (ie. XML coming from a nameless InputStream)?
 
-			if ( mImmutableThreadsafeByLocationKey == null )
+			if ( mImmutableByLocationKey == null )
 				return null;
 
 			// Look up existing
 
-			if ( mImmutableThreadsafeForThisLocation == null )
+			if ( mImmutableForThisLocation == null )
 			{
-				mImmutableThreadsafeForThisLocation = mImmutableThreadsafeByLocationCache.get( mImmutableThreadsafeByLocationKey );
+				mImmutableForThisLocation = mImmutableByLocationCache.get( mImmutableByLocationKey );
 
-				if ( mImmutableThreadsafeForThisLocation == null )
+				if ( mImmutableForThisLocation == null )
 					return null;
 			}
 
-			return mImmutableThreadsafeForThisLocation.get( mLocationIndex );
+			return mImmutableForThisLocation.get( mLocationIndex );
 		}
 
-		private void putImmutableThreadsafeByLocation( Object immutableThreadsafe )
+		private void putImmutableByLocation( Object immutable )
 		{
 			// No key to cache by (ie. XML coming from a nameless InputStream)?
 
-			if ( mImmutableThreadsafeByLocationKey == null )
+			if ( mImmutableByLocationKey == null )
 				return;
 
 			// Look up existing
 
-			if ( mImmutableThreadsafeForThisLocation == null )
+			if ( mImmutableForThisLocation == null )
 			{
-				mImmutableThreadsafeForThisLocation = mImmutableThreadsafeByLocationCache.get( mImmutableThreadsafeByLocationKey );
+				mImmutableForThisLocation = mImmutableByLocationCache.get( mImmutableByLocationKey );
 
-				if ( mImmutableThreadsafeForThisLocation == null )
+				if ( mImmutableForThisLocation == null )
 				{
-					mImmutableThreadsafeForThisLocation = CollectionUtils.newHashMap();
-					mImmutableThreadsafeByLocationCache.put( mImmutableThreadsafeByLocationKey, mImmutableThreadsafeForThisLocation );
+					mImmutableForThisLocation = CollectionUtils.newHashMap();
+					mImmutableByLocationCache.put( mImmutableByLocationKey, mImmutableForThisLocation );
 				}
 			}
 
-			mImmutableThreadsafeForThisLocation.put( mLocationIndex, immutableThreadsafe );
+			mImmutableForThisLocation.put( mLocationIndex, immutable );
 		}
 
-		private Object getImmutableThreadsafeByClass( Class<?> clazz, Object config )
+		private Object getImmutableByClass( Class<?> clazz, Object config )
 		{
-			Map<Object, Object> configs = mImmutableThreadsafeByClassCache.get( clazz );
+			Map<Object, Object> configs = mImmutableByClassCache.get( clazz );
 
 			if ( configs == null )
 				return null;
@@ -1324,29 +1319,29 @@ public class ConfigReader
 			Object configToLookup = config;
 
 			if ( configToLookup == null )
-				configToLookup = IMMUTABLE_THREADSAFE_NO_CONFIG;
+				configToLookup = IMMUTABLE_NO_CONFIG;
 
 			// Config must have implemented its .hashCode() and .equals() properly for this to work!
 
 			return configs.get( configToLookup );
 		}
 
-		private void putImmutableThreadsafeByClass( Object immutableThreadsafe, Object config )
+		private void putImmutableByClass( Object immutable, Object config )
 		{
-			Class<?> clazz = immutableThreadsafe.getClass();
-			Map<Object, Object> configs = mImmutableThreadsafeByClassCache.get( clazz );
+			Class<?> clazz = immutable.getClass();
+			Map<Object, Object> configs = mImmutableByClassCache.get( clazz );
 
 			if ( configs == null )
 			{
 				configs = CollectionUtils.newHashMap();
-				mImmutableThreadsafeByClassCache.put( clazz, configs );
+				mImmutableByClassCache.put( clazz, configs );
 			}
 
 			Object configToStoreUnder = config;
 
 			if ( configToStoreUnder == null )
 			{
-				configToStoreUnder = IMMUTABLE_THREADSAFE_NO_CONFIG;
+				configToStoreUnder = IMMUTABLE_NO_CONFIG;
 			}
 			else
 			{
@@ -1409,17 +1404,17 @@ public class ConfigReader
 				}
 			}
 
-			configs.put( configToStoreUnder, immutableThreadsafe );
+			configs.put( configToStoreUnder, immutable );
 
 			// Unpause caching (if any)
 
-			if ( mCachingContentHandler != null && mDepth < mIgnoreImmutableThreadsafeAfterDepth )
+			if ( mCachingContentHandler != null && mDepth < mIgnoreImmutableAfterDepth )
 			{
 				mCachingContentHandler.unpause( true );
-				mIgnoreImmutableThreadsafeAfterDepth = -1;
+				mIgnoreImmutableAfterDepth = -1;
 
 				if ( config != null )
-					putImmutableThreadsafeByLocation( immutableThreadsafe );
+					putImmutableByLocation( immutable );
 			}
 		}
 

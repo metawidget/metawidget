@@ -2413,9 +2413,9 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 		</orderedlist>
 
 		<tip>
-			<title>Threadsafe and immutable</title>
+			<title>Immutable</title>
 			All <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
-			and <classname>Layout</classname>s are required to be threadsafe and immutable. This means you only
+			and <classname>Layout</classname>s are required to be immutable. This means you only
 			need a single instance of them for your entire application. If you are using
 			<filename>metawidget.xml</filename> (see later) then <classname>ConfigReader</classname> takes care
 			of this for you, but if you are instantiating them in Java code you should
@@ -2812,7 +2812,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				</figure>				
 				
 				<para>
-					All inspectors are required to be threadsafe and immutable (see later). Therefore, although <classname>CompositeInspector</classname>
+					All inspectors are required to be immutable (see later). Therefore, although <classname>CompositeInspector</classname>
 					maintains a list of inspectors this must not be changeable. To enforce this, the list is set at instantation
 					time using <classname>CompositeInspectorConfig</classname>. This can either be set in code:
 				</para>
@@ -2973,7 +2973,7 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				<title>Immutability</title>
 				
 				<para>
-					All inspectors are required to be threadsafe and immutable. This means you only
+					All inspectors are required to be immutable. This means you only
 					need a single instance of an <classname>Inspector</classname> for your entire application. If you are using
 					<filename>metawidget.xml</filename> (see later) then <classname>ConfigReader</classname> takes care
 					of this for you, but if you are instantiating <classname>Inspector</classname>s in Java code you should
@@ -3427,7 +3427,7 @@ public class Person {
 				<title>Immutability</title>
 				
 				<para>
-					All WidgetBuilders are required to be threadsafe and immutable. This means you only
+					All WidgetBuilders are required to be immutable. This means you only
 					need a single instance of a WidgetBuilder for your entire application. If you are using
 					<filename>metawidget.xml</filename> then <classname>ConfigReader</classname> takes care
 					of this for you, but if you are instantiating WidgetBuilders in Java code you should
@@ -3814,7 +3814,7 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 				<title>Immutability</title>
 				
 				<para>
-					All <classname>WidgetProcessor</classname>s are required to be threadsafe and immutable. This means you only
+					All <classname>WidgetProcessor</classname>s are required to be immutable. This means you only
 					need a single instance of a <classname>WidgetProcessor</classname> for your entire application. If you are using
 					<filename>metawidget.xml</filename> then <classname>ConfigReader</classname> takes care
 					of this for you, but if you are instantiating <classname>WidgetProcessor</classname>s in Java code you should
@@ -3897,8 +3897,8 @@ public class Main {
 
 				<para>
 					Like <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s and
-					<classname>Layout</classname>s, <classname>WidgetProcessor</classname>s are required to be threadsafe
-					and immutable. However you can still make them configurable by using
+					<classname>Layout</classname>s, <classname>WidgetProcessor</classname>s are required to be immutable.
+					However you can still make them configurable by using
 					<classname>xxxWidgetProcessorConfig</classname> classes. For example: 
 				</para>
 						
@@ -4091,7 +4091,7 @@ void onEndBuild( M metawidget );</programlisting>
 				<title>Immutability</title>
 				
 				<para>
-					All <classname>Layout</classname>s are required to be threadsafe and immutable. This means you only
+					All <classname>Layout</classname>s are required to be immutable. This means you only
 					need a single instance of a <classname>Layout</classname> for your entire application. If you are using
 					<filename>metawidget.xml</filename> then <classname>ConfigReader</classname> takes care
 					of this for you, but if you are instantiating <classname>Layout</classname>s in Java code you should
@@ -4173,8 +4173,8 @@ public class HtmlListLayout
 				
 				<para>
 					Like <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s and
-					<classname>WidgetProcessor</classname>s, <classname>Layout</classname>s are required to be threadsafe
-					and immutable. However they will generally need to use some internal state, such as tracking
+					<classname>WidgetProcessor</classname>s, <classname>Layout</classname>s are required to be
+					immutable. However they will generally need to use some internal state, such as tracking
 					the current row in a table layout. This can be achieved in two ways:
 				</para>
 				
@@ -4480,7 +4480,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 				
 				<para>
 					Metawidget dictates all <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
-					and <classname>Layout</classname>s be threadsafe and immutable. This is an important design decision as
+					and <classname>Layout</classname>s be immutable. This is an important design decision as
 					it means a single instance can be reused across an entire application. Immutabilty
 					is enforced by not having any <function>setXXX</function> methods on the objects themselves.
 					Rather, the <function>setXXX</function> methods are called on <classname>Config</classname> objects, which are then passed
@@ -8140,7 +8140,7 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			
 			<para>
 				All <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s, <classname>WidgetProcessor</classname>s
-				and <classname>Layout</classname>s are threadsafe and immutable. This means you only
+				and <classname>Layout</classname>s are immutable. This means you only
 				need a single instance of them for your entire application.
 				If you are using <filename>metawidget.xml</filename> then <classname>ConfigReader</classname>
 				takes care of this for you, but if you are instantiating them yourself in Java

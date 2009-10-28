@@ -266,9 +266,9 @@ public class XmlSchemaGeneratorTask
 		if ( clazz.isInterface() || Modifier.isAbstract( clazz.getModifiers() ) )
 			return null;
 
-		// Not immutable/threadsafe and not a Metawidget?
+		// Not immutable and not a Metawidget?
 
-		if ( !new ConfigReader().isImmutableThreadsafe( clazz ) && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ) )
+		if ( !new ConfigReader().isImmutable( clazz ) && !className.endsWith( "Metawidget" ) && !MetawidgetTag.class.isAssignableFrom( clazz ) )
 			return null;
 
 		// Configurable?

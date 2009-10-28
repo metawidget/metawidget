@@ -21,9 +21,9 @@ import java.util.Map;
 /**
  * Interface for Layouts.
  * <p>
- * Layouts must be threadsafe and immutable (or, at least, appear that way to clients. They can have
- * caches or configuration settings internally). If they need to store state, they should use the
- * Metawidget passed to each method.
+ * Layouts must be immutable (or, at least, appear that way to clients. They can have caches or
+ * configuration settings internally, as long as they are threadsafe). If they need to store state,
+ * they should use the Metawidget passed to each method.
  *
  * @author Richard Kennard
  */
@@ -49,7 +49,8 @@ public interface Layout<W, M extends W>
 	 * @param widget
 	 *            the widget to layout. Never null
 	 * @param elementName
-	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'. Never null
+	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
+	 *            Never null
 	 * @param attributes
 	 *            attributes of the widget to layout. Never null
 	 * @param metawidget
