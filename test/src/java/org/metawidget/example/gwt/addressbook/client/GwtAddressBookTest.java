@@ -22,6 +22,7 @@ import org.metawidget.example.gwt.addressbook.client.ui.ContactDialog;
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
 import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactType;
+import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
@@ -268,21 +269,63 @@ public class GwtAddressBookTest
 																	public void run()
 																	{
 																		assertTrue( "Mr Homer Sapien".equals( contacts.getText( 1, 0 ) ) );
+
+																		// Check communication was
+																		// deleted
+
 																		assertTrue( "".equals( contacts.getText( 1, 1 ) ) );
 
-																		// Check address was changed (ie. exercises the nested bindings in SimpleBindingProcessor.save)
+																		// Check address was
+																		// changed (ie.
+																		// exercises the
+																		// nested bindings
+																		// in
+																		// SimpleBindingProcessor.save)
 
 																		assertTrue( "743 Evergreen Terrace".equals( personalContact.getAddress().getStreet() ) );
 																		assertTrue( "Lostville".equals( personalContact.getAddress().getState() ) );
 
-																		// Check rebinding works (ie. exercises the nested bindings in SimpleBindingProcessor.rebind)
+																		final ContactDialog newDialog = new ContactDialog( addressBookModule, personalContact );
+																		final GwtMetawidget newContactMetawidget = (GwtMetawidget) ( (Grid) newDialog.getWidget() ).getWidget( 0, 1 );
 
-																		contactMetawidget.setValue( "Foo", "address", "street" );
-																		assertTrue( "Foo".equals( contactMetawidget.getValue( "address", "street" )));
-																		contactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( personalContact, contactMetawidget );
-																		assertTrue( "743 Evergreen Terrace".equals( contactMetawidget.getValue( "address", "street" )));
+																		executeAfterBuildWidgets( newContactMetawidget, new Timer()
+																		{
+																			@Override
+																			public void run()
+																			{
+																				final GwtMetawidget newAddressMetawidget = (GwtMetawidget) ( (FlexTable) newContactMetawidget.getWidget( 0 ) ).getWidget( 6, 1 );
 
-																		finish();
+																				executeAfterBuildWidgets( newAddressMetawidget, new Timer()
+																				{
+																					@Override
+																					public void run()
+																					{
+																						assertTrue( "743 Evergreen Terrace".equals( newContactMetawidget.getValue( "address", "street" )));
+																						Label streetLabel = (Label) ( (FlexTable) newAddressMetawidget.getWidget( 0 ) ).getWidget( 0, 1 );
+																						newContactMetawidget.setValue( "Foo", "address", "street" );
+																						assertTrue( "Foo".equals( newContactMetawidget.getValue( "address", "street" ) ) );
+																						assertTrue( "Foo".equals( streetLabel.getText() ) );
+
+																						// Check rebinding
+																						// works (ie.
+																						// exercises the
+																						// nested bindings
+																						// in
+																						// SimpleBindingProcessor.rebind)
+
+																						PersonalContact reboundPersonalContact = new PersonalContact();
+																						reboundPersonalContact.getAddress().setStreet( "Bar" );
+
+																						newContactMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( reboundPersonalContact, newContactMetawidget );
+																						assertTrue( "Bar".equals( newContactMetawidget.getValue( "address", "street" ) ) );
+																						assertTrue( "Bar".equals( streetLabel.getText() ) );
+																						assertTrue( reboundPersonalContact.equals( newContactMetawidget.getToInspect() ) );
+
+																						finish();
+																					}
+																				} );
+																			}
+																		} );
 																	}
 																};
 
@@ -637,12 +680,12 @@ public class GwtAddressBookTest
 	 * Wrapped to avoid 'synthetic access' warning
 	 */
 
-	/*package private*/void finish()
+	/* package private */void finish()
 	{
 		super.finishTest();
 	}
 
-	/*package private*/void fireClickEvent( HasHandlers widget )
+	/* package private */void fireClickEvent( HasHandlers widget )
 	{
 		Document document = Document.get();
 		NativeEvent nativeEvent = document.createClickEvent( 0, 0, 0, 0, 0, false, false, false, false );

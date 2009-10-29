@@ -12,7 +12,7 @@
 
 	<!-- Binding -->
 	
-  	<generate-with class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingProcessorAdapterGenerator">
+  	<generate-with class="org.metawidget.gwt.generator.widgetprocessor.binding.simple.SimpleBindingProcessorAdapterGenerator">
 		<when-type-assignable class="org.metawidget.shared.allwidgets.model.AllWidgets"/>
 	</generate-with>
 

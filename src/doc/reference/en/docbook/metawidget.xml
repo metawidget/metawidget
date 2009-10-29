@@ -7301,7 +7301,7 @@ public class PersonController {
 					</para>
 						
 					<programlisting language="xml">&lt;generate-with
-		class="org.metawidget.gwt.generator.propertybinding.simple.SimpleBindingProcessorAdapterGenerator"&gt;
+		class="org.metawidget.gwt.generator.widgetprocessor.binding.simple.SimpleBindingProcessorAdapterGenerator"&gt;
 		&lt;when-type-assignable class="org.metawidget.example.shared.addressbook.model.Contact"/&gt;
 	&lt;/generate-with&gt;</programlisting>
 	
@@ -7310,9 +7310,8 @@ public class PersonController {
 					</para>
 						
 					<programlisting language="java">metawidget.addWidgetProcessor( new SimpleBindingProcessor() );
-SimpleBindingProcessorAdapter&lt;Contact&gt; adp =
-	(SimpleBindingProcessorAdapter&lt;Contact&gt;) GWT.create(Contact.class);
-SimpleBinding.registerAdapter( Contact.class, adp );</programlisting>					
+SimpleBinding.registerAdapter( Contact.class,
+	(SimpleBindingProcessorAdapter&lt;Contact&gt;) GWT.create(Contact.class));</programlisting>					
 						
 				</section>
 					
