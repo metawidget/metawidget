@@ -7,9 +7,6 @@
 		<rendererType>
 			<string>simple</string>
 		</rendererType>
-		<widgetBuilder>
-			<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
-		</widgetBuilder>
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>

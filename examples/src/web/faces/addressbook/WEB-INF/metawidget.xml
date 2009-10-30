@@ -29,9 +29,6 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
-		<widgetBuilder>
-			<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig"/>
-		</widgetBuilder>
 	</htmlMetawidget>
 
 </metawidget>

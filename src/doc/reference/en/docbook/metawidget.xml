@@ -1494,6 +1494,7 @@ public class Person {
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
 				&lt;array&gt;
+					&lt;overridenWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 					&lt;richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
 					&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 				&lt;/array&gt;
@@ -1541,6 +1542,7 @@ public class Person {
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
 				&lt;array&gt;
+					&lt;overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 					&lt;richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
 					&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 				&lt;/array&gt;
@@ -2492,11 +2494,6 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 					</listitem>
 					<listitem>
 						<para>
-							widget creation can be overridden if there are existing child widgets with suitably matching attributes.
-						</para>
-					</listitem>
-					<listitem>
-						<para>
 							the created widgets are passed through a series of <classname>WidgetProcessor</classname>s. These can apply binding mechanisms,
 							validators and so on.
 						</para>
@@ -2510,7 +2507,7 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 				
 				<para>
 					For those looking to write their own Metawidget (say, for a currently unsupported platform) there is a
-					<classname>MetawidgetMixin</classname> class that implements the above steps 2-8 for you, see
+					<classname>MetawidgetMixin</classname> class that implements the above steps 2-7 for you, see
 					<xref linkend="section-architecture-metawidgets-implementing-your-own-mixin"/>.
 					All of the supplied Metawidgets are implemented using this class.
 				</para>
@@ -3260,7 +3257,8 @@ public class Person {
 				<para>
 					Unless explicitly specified, each Metawidget will instantiate a default WidgetBuilder to match
 					the target platform. For example, <classname>SwingMetawidget</classname> will by default
-					instantiate a <classname>SwingWidgetBuilder</classname>.
+					instantiate a <classname>CompositeWidgetBuilder</classname> with a
+					<classname>OverriddenWidgetBuilder</classname> and a <classname>SwingWidgetBuilder</classname>.
 				</para>
 				
 				<para>
@@ -3282,9 +3280,10 @@ public class Person {
 				<para>
 					This allows easy plugging in of third-party widget libraries. Note that overriding the default
 					means the default is no longer instantiated. In the example above, this would mean <classname>MyWidgetBuilder</classname>
-					is used but <classname>SwingWidgetBuilder</classname> is not. This is usually not what you want,
+					is used but <classname>OverriddenWidgetBuilder</classname> and <classname>SwingWidgetBuilder</classname> are not. This is usually not what you want,
 					because <classname>MyWidgetBuilder</classname> will be focussed on a particular third party library and
-					will want to leave standard widgets to <classname>SwingWidgetBuilder</classname>.
+					will want to leave widget overriding to <classname>OverriddenWidgetBuilder</classname> and
+					standard widgets to <classname>SwingWidgetBuilder</classname>.
 				</para>
 				
 				<para>
@@ -3352,6 +3351,7 @@ public class Person {
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
 				&lt;array&gt;
+					&lt;overriddenWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/&gt;
 					&lt;myWidgetBuilder xmlns="java:com.myapp"/&gt;
 					&lt;swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/&gt;
 				&lt;/array&gt;
@@ -3362,6 +3362,27 @@ public class Person {
 
 			</section>
 
+			<section id="section-architecture-overriddenwidgetbuilder">
+				<title>OverriddenWidgetBuilder</title>
+				
+				<para>
+					The first <classname>WidgetBuilder</classname> in the <classname>CompositeWidgetBuilder</classname>
+					chain should generally be an <classname>OverriddenWidgetBuilder</classname>. This looks for existing
+					child widgets that override default generation. What consitutes an 'overriden widget' varies from
+					platform to platform. For example, for Swing any child widget with the same <parameter>name</parameter>
+					will be taken as the override (see <xref linkend="section-introduction-part1-creation"/>). Android
+					uses the <parameter>tag</parameter> attribute, JSF uses the value binding, and so on. For details
+					on the <classname>OverriddenWidgetBuilder</classname> for your platform see <xref linkend="chapter-widgetbuilders"/>.
+				</para>
+				
+				<para>
+					You can also choose to plug-in your own <classname>WidgetBuilder</classname> to detect 'overriden widgets', based
+					on your own criteria. For example, you could create a <classname>WidgetBuilder</classname> that only displayed
+					certain fields based on a client property:
+				</para>
+				
+			</section>
+			
 			<section id="section-architecture-widgetbuilders-defaults">
 				<title>Defaults</title>
 				
@@ -3392,31 +3413,89 @@ public class Person {
 					<tbody>
 						<tr>
 							<td>Android</td>
-							<td><classname>...android.widget.widgetbuilder.AndroidWidgetBuilder</classname></td>
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
+	config="CompositeWidgetBuilderConfig"&gt;
+	&lt;widgetBuilders&gt;
+		&lt;array&gt;
+			&lt;overriddenWidgetBuilder /&gt;
+			&lt;androidWidgetBuilder /&gt;
+		&lt;/array&gt;
+	&lt;/widgetBuilders&gt;
+&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
 						</tr>
 						<tr>
 							<td>GWT</td>
-							<td><classname>...gwt.client.widgetbuilder.impl.GwtWidgetBuilder</classname></td>
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
+	config="CompositeWidgetBuilderConfig"&gt;
+	&lt;widgetBuilders&gt;
+		&lt;array&gt;
+			&lt;overriddenWidgetBuilder /&gt;
+			&lt;gwtWidgetBuilder /&gt;
+		&lt;/array&gt;
+	&lt;/widgetBuilders&gt;
+&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
 						</tr>
 						<tr>
 							<td>JSF</td>
-							<td><classname>...faces.component.html.widgetbuilder.HtmlWidgetBuilder</classname></td>
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
+	config="CompositeWidgetBuilderConfig"&gt;
+	&lt;widgetBuilders&gt;
+		&lt;array&gt;
+			&lt;overriddenWidgetBuilder /&gt;
+			&lt;htmlWidgetBuilder /&gt;
+		&lt;/array&gt;
+	&lt;/widgetBuilders&gt;
+&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
 						</tr>
 						<tr>
 							<td>JSP</td>
-							<td><classname>...jsp.tagext.html.widgetbuilder.HtmlWidgetBuilder</classname></td>
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
+	config="CompositeWidgetBuilderConfig"&gt;
+	&lt;widgetBuilders&gt;
+		&lt;array&gt;
+			&lt;overriddenWidgetBuilder /&gt;
+			&lt;htmlWidgetBuilder /&gt;
+		&lt;/array&gt;
+	&lt;/widgetBuilders&gt;
+&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
 						</tr>
 						<tr>
 							<td>Spring</td>
-							<td><classname>...jsp.tagext.html.widgetbuilder.spring.SpringWidgetBuilder</classname></td>
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
+	config="CompositeWidgetBuilderConfig"&gt;
+	&lt;widgetBuilders&gt;
+		&lt;array&gt;
+			&lt;overriddenWidgetBuilder /&gt;
+			&lt;springWidgetBuilder /&gt;
+			&lt;htmlWidgetBuilder /&gt;
+		&lt;/array&gt;
+	&lt;/widgetBuilders&gt;
+&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
 						</tr>
 						<tr>
 							<td>Struts</td>
-							<td><classname>...jsp.tagext.html.widgetbuilder.struts.StrutsWidgetBuilder</classname></td>
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
+	config="CompositeWidgetBuilderConfig"&gt;
+	&lt;widgetBuilders&gt;
+		&lt;array&gt;
+			&lt;overriddenWidgetBuilder /&gt;
+			&lt;strutsWidgetBuilder /&gt;
+			&lt;htmlWidgetBuilder /&gt;
+		&lt;/array&gt;
+	&lt;/widgetBuilders&gt;
+&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
 						</tr>
 						<tr>
 							<td>Swing</td>
-							<td><classname>...swing.widgetbuilder.SwingWidgetBuilder</classname></td>
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
+	config="CompositeWidgetBuilderConfig"&gt;
+	&lt;widgetBuilders&gt;
+		&lt;array&gt;
+			&lt;overriddenWidgetBuilder /&gt;
+			&lt;swingWidgetBuilder /&gt;
+		&lt;/array&gt;
+	&lt;/widgetBuilders&gt;
+&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
 						</tr>
 					</tbody>
 				</informaltable>
