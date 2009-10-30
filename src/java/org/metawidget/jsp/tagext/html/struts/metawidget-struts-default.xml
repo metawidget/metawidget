@@ -28,6 +28,7 @@
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<array>
+						<overriddenWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>					
 						<strutsWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.struts"/>
 						<htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
 					</array>

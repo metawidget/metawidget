@@ -325,6 +325,21 @@ public abstract class MetawidgetTag
 		return super.doEndTag();
 	}
 
+	/**
+	 * Fetch a <code>StubTag</code> with the given path.
+	 * <p>
+	 * <strong>This is an internal API exposed for OverriddenWidgetBuilder. Clients should not call
+	 * it directly.</strong>
+	 */
+
+	public StubTag getStub( String path )
+	{
+		if ( mStubs == null )
+			return null;
+
+		return mStubs.get( path );
+	}
+
 	//
 	// Protected methods
 	//
@@ -482,14 +497,6 @@ public abstract class MetawidgetTag
 
 	protected abstract String getDefaultConfiguration();
 
-	protected StubTag getStub( String path )
-	{
-		if ( mStubs == null )
-			return null;
-
-		return mStubs.get( path );
-	}
-
 	//
 	// Private methods
 	//
@@ -502,7 +509,7 @@ public abstract class MetawidgetTag
 	 * org.metawidget.example.struts.addressbook.form.BusinessContactForm)
 	 */
 
-	public static String combineSubtrees( String master, String toAdd )
+	private static String combineSubtrees( String master, String toAdd )
 	{
 		if ( master == null )
 			return toAdd;
@@ -528,12 +535,6 @@ public abstract class MetawidgetTag
 		//
 		// Protected methods
 		//
-
-		@Override
-		protected Tag getOverriddenWidget( String elementName, Map<String, String> attributes )
-		{
-			return MetawidgetTag.this.getStub( attributes.get( NAME ) );
-		}
 
 		@Override
 		protected boolean isStub( Tag widget )

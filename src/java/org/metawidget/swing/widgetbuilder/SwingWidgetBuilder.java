@@ -55,7 +55,7 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 /**
  * WidgetBuilder for Swing environments.
  * <p>
- * Automatically creates native Swing <code>JComponents</code>, such as <code>JTextField</code> and
+ * Creates native Swing <code>JComponents</code>, such as <code>JTextField</code> and
  * <code>JComboBox</code>, to suit the inspected fields.
  *
  * @author Richard Kennard

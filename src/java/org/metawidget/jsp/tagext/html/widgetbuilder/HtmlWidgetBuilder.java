@@ -45,7 +45,7 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
  * WidgetBuilder for 'plain' JSP environment (eg. just a servlet-based backend, no Struts/Spring
  * etc) that outputs HTML.
  * <p>
- * Automatically creates native HTML tags, such as <code>&lt;input type="text"&gt;</code> and
+ * Creates native HTML tags, such as <code>&lt;input type="text"&gt;</code> and
  * <code>&lt;select&gt;</code>, to suit the inspected fields.
  * <p>
  * When used in a JSP 2.0 environment, automatically initializes tags using JSP EL.
@@ -68,7 +68,7 @@ public class HtmlWidgetBuilder
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() )
+			if ( !( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() )
 				return new HtmlStubTag();
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
@@ -154,7 +154,7 @@ public class HtmlWidgetBuilder
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( !((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() )
+			if ( !( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() )
 				return new HtmlStubTag();
 
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
@@ -291,7 +291,7 @@ public class HtmlWidgetBuilder
 
 		buffer.append( value );
 
-		if ( ((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+		if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 		{
 			Tag hiddenTag = writeHiddenTag( attributes, metawidget );
 			buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null ) );
@@ -363,7 +363,7 @@ public class HtmlWidgetBuilder
 		{
 			String maximumLength = attributes.get( MAXIMUM_LENGTH );
 
-			if ( maximumLength != null && !"".equals( maximumLength ))
+			if ( maximumLength != null && !"".equals( maximumLength ) )
 			{
 				buffer.append( " maxlength=\"" );
 				buffer.append( maximumLength );
@@ -505,7 +505,7 @@ public class HtmlWidgetBuilder
 
 		// Empty option
 
-		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+		if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
 			buffer.append( "<option value=\"\"></option>" );
 
 		// Evaluate the expression

@@ -48,8 +48,8 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * WidgetBuilder for GWT environments.
  * <p>
- * Automatically creates native GWT Widgets, such as <code>TextBox</code> and <code>ListBox</code>,
- * to suit the inspected fields.
+ * Creates native GWT Widgets, such as <code>TextBox</code> and <code>ListBox</code>, to suit the
+ * inspected fields.
  *
  * @author Richard Kennard
  */
@@ -206,7 +206,7 @@ public class GwtWidgetBuilder
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
 
-		if ( "Boolean".equals( type ) && TRUE.equals( attributes.get( REQUIRED )))
+		if ( "Boolean".equals( type ) && TRUE.equals( attributes.get( REQUIRED ) ) )
 			return new CheckBox();
 
 		// Lookups
@@ -226,7 +226,7 @@ public class GwtWidgetBuilder
 		{
 			// booleans
 
-			if ( "boolean".equals( type ))
+			if ( "boolean".equals( type ) )
 				return new CheckBox();
 
 			// chars
@@ -342,7 +342,7 @@ public class GwtWidgetBuilder
 		// Note: GWT doesn't seem to be able to set null for the
 		// value. It always comes back as String "null"
 
-		if ( GwtUtils.needsEmptyLookupItem( attributes ))
+		if ( GwtUtils.needsEmptyLookupItem( attributes ) )
 			addListBoxItem( listBox, "", null );
 
 		// See if we're using labels

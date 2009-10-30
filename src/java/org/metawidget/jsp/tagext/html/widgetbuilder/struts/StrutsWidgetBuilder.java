@@ -55,8 +55,8 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 /**
  * WidgetBuilder for Struts environments.
  * <p>
- * Automatically creates native Struts tags, such as <code>&lt;h:text&gt;</code> and
- * <code>&lt;h:select&gt;</code>, to suit the inspected fields.
+ * Creates native Struts tags, such as <code>&lt;h:text&gt;</code> and <code>&lt;h:select&gt;</code>
+ * , to suit the inspected fields.
  *
  * @author Richard Kennard
  */
@@ -82,7 +82,7 @@ public class StrutsWidgetBuilder
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( ((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+			if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return initStrutsTag( new HiddenTag(), attributes, metawidget );
 
 			return null;
@@ -161,7 +161,7 @@ public class StrutsWidgetBuilder
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( ((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+			if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return initStrutsTag( new HiddenTag(), attributes, metawidget );
 
 			return null;
@@ -325,7 +325,7 @@ public class StrutsWidgetBuilder
 		// Note: according to STR-1305 we'll get a proper html:label tag
 		// with Struts 1.4.0, so we can use it instead of .setDisabled( true )
 
-		if ( !((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
+		if ( !( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() || TRUE.equals( attributes.get( NO_SETTER ) ) )
 			tag.setDisabled( true );
 
 		// If the String is just a hidden field, output a SPAN tag to
@@ -359,7 +359,7 @@ public class StrutsWidgetBuilder
 
 				// Empty option
 
-				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );
@@ -415,7 +415,7 @@ public class StrutsWidgetBuilder
 
 				// Empty option
 
-				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );

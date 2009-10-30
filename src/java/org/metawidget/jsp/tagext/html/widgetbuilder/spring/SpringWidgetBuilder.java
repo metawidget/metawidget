@@ -56,7 +56,7 @@ import org.springframework.web.servlet.tags.form.TextareaTag;
 /**
  * WidgetBuilder for Spring environments.
  * <p>
- * Automatically creates native Spring form tags, such as <code>&lt;form:input&gt;</code> and
+ * Creates native Spring form tags, such as <code>&lt;form:input&gt;</code> and
  * <code>&lt;form:select&gt;</code>, to suit the inspected fields.
  *
  * @author Richard Kennard
@@ -83,7 +83,7 @@ public class SpringWidgetBuilder
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( ((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+			if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return initSpringTag( new HiddenInputTag(), attributes, metawidget );
 
 			return null;
@@ -157,7 +157,7 @@ public class SpringWidgetBuilder
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
-			if ( ((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+			if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return initSpringTag( new HiddenInputTag(), attributes, metawidget );
 
 			return null;
@@ -338,7 +338,7 @@ public class SpringWidgetBuilder
 
 		// May need a hidden input tag too
 
-		if ( ((BaseHtmlMetawidgetTag) metawidget).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+		if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 		{
 			Tag hiddenTag = initSpringTag( new HiddenInputTag(), attributes, metawidget );
 			buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null ) );
@@ -364,7 +364,7 @@ public class SpringWidgetBuilder
 			{
 				// Empty option
 
-				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );
@@ -417,7 +417,7 @@ public class SpringWidgetBuilder
 
 				// Empty option
 
-				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
 				{
 					OptionTag tagOptionEmpty = new OptionTag();
 					tagOptionEmpty.setValue( "" );

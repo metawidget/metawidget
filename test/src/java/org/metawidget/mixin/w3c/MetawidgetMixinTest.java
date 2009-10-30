@@ -153,14 +153,6 @@ public class MetawidgetMixinTest
 			}
 
 			@Override
-			protected Object getOverriddenWidget( String elementName, Map<String, String> attributes )
-			{
-				// Return null for entity, non-null for property (with a name)
-
-				return attributes.get( NAME );
-			}
-
-			@Override
 			protected Map<String, String> getStubAttributes( Object stub )
 			{
 				called.add( "nullAttributes" );
@@ -233,12 +225,6 @@ public class MetawidgetMixinTest
 		protected void addWidget( Object widget, String elementName, Map<String, String> attributes )
 		{
 			// Do nothing
-		}
-
-		@Override
-		protected Object getOverriddenWidget( String elementName, Map<String, String> attributes )
-		{
-			return null;
 		}
 
 		@Override

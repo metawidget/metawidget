@@ -44,8 +44,8 @@ import com.icesoft.faces.component.selectinputdate.SelectInputDate;
 /**
  * WidgetBuilder for ICEfaces environments.
  * <p>
- * Automatically creates native ICEfaces UIComponents, such as <code>SelectInputDate</code>, to suit
- * the inspected fields.
+ * Creates native ICEfaces UIComponents, such as <code>SelectInputDate</code>, to suit the inspected
+ * fields.
  * <p>
  * <code>IceFacesWidgetBuilder</code> extends <code>HtmlWidgetBuilder</code>, which is a little
  * unusual for a widget builder (they normally extend <code>BaseWidgetBuilder</code>), but in this

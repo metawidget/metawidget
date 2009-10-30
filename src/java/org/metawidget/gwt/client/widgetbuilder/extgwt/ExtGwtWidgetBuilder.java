@@ -33,8 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
 /**
  * WidgetBuilder for RichFaces environments.
  * <p>
- * Automatically creates native ExtGWT widgets, such as <code>DateField</code>, to suit the
- * inspected fields.
+ * Creates native ExtGWT widgets, such as <code>DateField</code>, to suit the inspected fields.
  *
  * @author Richard Kennard
  */
@@ -50,10 +49,10 @@ public class ExtGwtWidgetBuilder
 	public Object getValue( Widget widget )
 	{
 		if ( widget instanceof DateField )
-			return ((DateField) widget).getValue();
+			return ( (DateField) widget ).getValue();
 
 		if ( widget instanceof Slider )
-			return ((Slider) widget).getValue();
+			return ( (Slider) widget ).getValue();
 
 		return null;
 	}
@@ -62,13 +61,13 @@ public class ExtGwtWidgetBuilder
 	{
 		if ( widget instanceof DateField )
 		{
-			((DateField) widget).setValue( (Date) value );
+			( (DateField) widget ).setValue( (Date) value );
 			return true;
 		}
 
 		if ( widget instanceof Slider )
 		{
-			((Slider) widget).setValue( (Integer) value );
+			( (Slider) widget ).setValue( (Integer) value );
 			return true;
 		}
 
@@ -118,8 +117,8 @@ public class ExtGwtWidgetBuilder
 			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
 			{
 				Slider slider = new Slider();
-				slider.setMinValue( (int) Math.ceil( Double.parseDouble( minimumValue ) ));
-				slider.setMaxValue( (int) Math.floor( Double.parseDouble( maximumValue ) ));
+				slider.setMinValue( (int) Math.ceil( Double.parseDouble( minimumValue ) ) );
+				slider.setMaxValue( (int) Math.floor( Double.parseDouble( maximumValue ) ) );
 
 				// (do this for sanity)
 

@@ -34,8 +34,8 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 /**
  * WidgetBuilder for Tomahawk environments.
  * <p>
- * Automatically creates native Tomahawk UIComponents, such as <code>HtmlInputFileUpload</code>, to
- * suit the inspected fields.
+ * Creates native Tomahawk UIComponents, such as <code>HtmlInputFileUpload</code>, to suit the
+ * inspected fields.
  *
  * @author Richard Kennard
  */

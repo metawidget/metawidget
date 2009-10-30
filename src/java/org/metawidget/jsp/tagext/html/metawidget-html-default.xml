@@ -22,7 +22,14 @@
 		</inspector>
 		
 		<widgetBuilder>
-			<htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<array>
+						<overriddenWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
+						<htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
+					</array>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
 		</widgetBuilder>
 
 		<layout>

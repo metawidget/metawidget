@@ -69,7 +69,7 @@ import org.w3c.dom.NodeList;
 /**
  * WidgetBuilder for Java Server Faces environments.
  * <p>
- * Automatically creates native JSF HTML UIComponents, such as <code>HtmlInputText</code> and
+ * Creates native JSF HTML UIComponents, such as <code>HtmlInputText</code> and
  * <code>HtmlSelectOneListbox</code>, to suit the inspected fields.
  *
  * @author Richard Kennard
@@ -83,7 +83,7 @@ public class HtmlWidgetBuilder
 	// Private statics
 	//
 
-	private final static String	DATATABLE_ROW_ACTION		= "dataTableRowEditAction";
+	private final static String	DATATABLE_ROW_ACTION	= "dataTableRowEditAction";
 
 	/**
 	 * The number of items in a multi-select lookup at which it should change from being a
@@ -91,23 +91,23 @@ public class HtmlWidgetBuilder
 	 * stops the Metawidget blowing out horizontally.
 	 */
 
-	private final static int	SHORT_LOOKUP_SIZE			= 3;
+	private final static int	SHORT_LOOKUP_SIZE		= 3;
 
 	/**
 	 * The 'var' name to use for generated <code>dataTable</code>s.
 	 */
 
-	private final static String	DATA_TABLE_VAR_NAME			= "_internal";
+	private final static String	DATA_TABLE_VAR_NAME		= "_internal";
 
 	//
 	// Private members
 	//
 
-	private String		mDataTableStyleClass;
+	private String				mDataTableStyleClass;
 
-	private String[]	mDataTableColumnClasses;
+	private String[]			mDataTableColumnClasses;
 
-	private String[]	mDataTableRowClasses;
+	private String[]			mDataTableRowClasses;
 
 	//
 	// Constructor
@@ -547,7 +547,7 @@ public class HtmlWidgetBuilder
 
 		// Empty option
 
-		if ( component instanceof HtmlSelectOneListbox && WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+		if ( component instanceof HtmlSelectOneListbox && WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
 			addSelectItem( component, null, null, metawidget );
 
 		// See if we're using labels
@@ -643,7 +643,7 @@ public class HtmlWidgetBuilder
 
 		// Empty option
 
-		if ( component instanceof HtmlSelectOneListbox && WidgetBuilderUtils.needsEmptyLookupItem( attributes ))
+		if ( component instanceof HtmlSelectOneListbox && WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
 			addSelectItem( component, null, null, metawidget );
 
 		UISelectItems selectItems = (UISelectItems) application.createComponent( "javax.faces.SelectItems" );
@@ -668,8 +668,8 @@ public class HtmlWidgetBuilder
 		// CSS
 
 		dataTable.setStyleClass( mDataTableStyleClass );
-		dataTable.setColumnClasses( ArrayUtils.toString( mDataTableColumnClasses ));
-		dataTable.setRowClasses( ArrayUtils.toString( mDataTableRowClasses ));
+		dataTable.setColumnClasses( ArrayUtils.toString( mDataTableColumnClasses ) );
+		dataTable.setRowClasses( ArrayUtils.toString( mDataTableRowClasses ) );
 
 		// Inspect component type
 

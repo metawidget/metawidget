@@ -50,8 +50,8 @@ import android.widget.TextView;
 /**
  * WidgetBuilder for Android environments.
  * <p>
- * Automatically creates native Android Views, such as <code>EditText</code> and
- * <code>Spinner</code>, to suit the inspected fields.
+ * Creates native Android Views, such as <code>EditText</code> and <code>Spinner</code>, to suit the
+ * inspected fields.
  *
  * @author Richard Kennard
  */

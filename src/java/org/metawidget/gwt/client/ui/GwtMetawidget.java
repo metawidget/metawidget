@@ -115,7 +115,7 @@ public class GwtMetawidget
 
 	private Set<Widget>												mExistingWidgets		= new HashSet<Widget>();
 
-	private Set<Widget>												mExistingWidgetsUnused	= new HashSet<Widget>();
+	private Set<Widget>												mExistingUnusedWidgets	= new HashSet<Widget>();
 
 	/**
 	 * Map of widgets added to this Metawidget.
@@ -578,6 +578,18 @@ public class GwtMetawidget
 		}
 	}
 
+	/**
+	 * Fetch a list of <code>Widgets</code> that were added manually, and have so far not been used.
+	 * <p>
+	 * <strong>This is an internal API exposed for OverriddenWidgetBuilder. Clients should not call
+	 * it directly.</strong>
+	 */
+
+	public Set<Widget> fetchExistingUnusedWidgets()
+	{
+		return mExistingUnusedWidgets;
+	}
+
 	//
 	// Protected methods
 	//
@@ -863,34 +875,7 @@ public class GwtMetawidget
 
 	protected void startBuild()
 	{
-		mExistingWidgetsUnused = new HashSet<Widget>( mExistingWidgets );
-	}
-
-	protected Widget getOverriddenWidget( String elementName, Map<String, String> attributes )
-	{
-		String name = attributes.get( NAME );
-
-		if ( name == null )
-			return null;
-
-		Widget widget = null;
-
-		for ( Widget widgetExisting : mExistingWidgetsUnused )
-		{
-			if ( !( widgetExisting instanceof HasName ) )
-				continue;
-
-			if ( name.equals( ( (HasName) widgetExisting ).getName() ) )
-			{
-				widget = widgetExisting;
-				break;
-			}
-		}
-
-		if ( widget != null )
-			mExistingWidgetsUnused.remove( widget );
-
-		return widget;
+		mExistingUnusedWidgets = new HashSet<Widget>( mExistingWidgets );
 	}
 
 	protected Widget afterBuildWidget( Widget widget, Map<String, String> attributes )
@@ -937,10 +922,10 @@ public class GwtMetawidget
 
 	protected void endBuild()
 	{
-		if ( mExistingWidgetsUnused != null )
+		if ( mExistingUnusedWidgets != null )
 		{
 			Layout<Widget, GwtMetawidget> layout = mMetawidgetMixin.getLayout();
-			for ( Widget widgetExisting : mExistingWidgetsUnused )
+			for ( Widget widgetExisting : mExistingUnusedWidgets )
 			{
 				Map<String, String> miscAttributes = new HashMap<String, String>();
 
@@ -1041,12 +1026,6 @@ public class GwtMetawidget
 			GwtMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
 			return nestedMetawidget;
-		}
-
-		@Override
-		protected Widget getOverriddenWidget( String elementName, Map<String, String> attributes )
-		{
-			return GwtMetawidget.this.getOverriddenWidget( elementName, attributes );
 		}
 
 		@Override

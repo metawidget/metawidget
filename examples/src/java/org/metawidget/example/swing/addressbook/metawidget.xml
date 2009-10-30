@@ -27,9 +27,6 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
-		<widgetBuilder>
-			<swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/>
-		</widgetBuilder>
 		<widgetProcessors>
 			<array>
 				<reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/>			

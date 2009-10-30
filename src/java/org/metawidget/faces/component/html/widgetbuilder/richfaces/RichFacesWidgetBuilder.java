@@ -47,7 +47,7 @@ import org.richfaces.component.html.HtmlInputNumberSpinner;
 /**
  * WidgetBuilder for RichFaces environments.
  * <p>
- * Automatically creates native RichFaces UIComponents, such as <code>HtmlCalendar</code> and
+ * Creates native RichFaces UIComponents, such as <code>HtmlCalendar</code> and
  * <code>HtmlInputNumberSlider</code>, to suit the inspected fields.
  *
  * @author Richard Kennard
@@ -284,7 +284,7 @@ public class RichFacesWidgetBuilder
 					// dependencies on javax.el.MethodExpression, so that we still work with
 					// JSF 1.1
 
-					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, null, ClassUtils.NO_CLASSES  ) };
+					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, null, ClassUtils.NO_CLASSES ) };
 					ClassUtils.setProperty( suggestionBox, "suggestionAction", methodExpression[0] );
 				}
 				catch ( NoSuchMethodError e )

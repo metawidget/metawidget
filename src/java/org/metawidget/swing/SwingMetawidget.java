@@ -109,7 +109,7 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<JComponent>			mExistingComponentsUnused;
+	private List<JComponent>			mExistingUnusedComponents;
 
 	private Map<String, Facet>			mFacets				= CollectionUtils.newHashMap();
 
@@ -351,6 +351,18 @@ public class SwingMetawidget
 	{
 		mMetawidgetMixin.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
+	}
+
+	/**
+	 * Fetch a list of <code>JComponents</code> that were added manually, and have so far not been used.
+	 * <p>
+	 * <strong>This is an internal API exposed for OverriddenWidgetBuilder. Clients should not call
+	 * it directly.</strong>
+	 */
+
+	public List<JComponent> fetchExistingUnusedComponents()
+	{
+		return mExistingUnusedComponents;
 	}
 
 	//
@@ -834,7 +846,7 @@ public class SwingMetawidget
 
 	protected void startBuild()
 	{
-		mExistingComponentsUnused = CollectionUtils.newArrayList( mExistingComponents );
+		mExistingUnusedComponents = CollectionUtils.newArrayList( mExistingComponents );
 	}
 
 	protected void addWidget( Component component, String elementName, Map<String, String> attributes )
@@ -875,37 +887,13 @@ public class SwingMetawidget
 		// BaseMetawidgetMixin will call .layoutChild
 	}
 
-	protected JComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
-	{
-		String name = attributes.get( NAME );
-
-		if ( name == null )
-			return null;
-
-		Component component = null;
-
-		for ( Component componentExisting : mExistingComponentsUnused )
-		{
-			if ( name.equals( componentExisting.getName() ) )
-			{
-				component = componentExisting;
-				break;
-			}
-		}
-
-		if ( component != null )
-			mExistingComponentsUnused.remove( component );
-
-		return (JComponent) component;
-	}
-
 	protected void endBuild()
 	{
-		if ( mExistingComponentsUnused != null )
+		if ( mExistingUnusedComponents != null )
 		{
 			Layout<JComponent, SwingMetawidget> layout = mMetawidgetMixin.getLayout();
 
-			for ( JComponent componentExisting : mExistingComponentsUnused )
+			for ( JComponent componentExisting : mExistingUnusedComponents )
 			{
 				// Unused facets don't count
 
@@ -1008,12 +996,6 @@ public class SwingMetawidget
 		{
 			SwingMetawidget.this.addWidget( component, elementName, attributes );
 			super.addWidget( component, elementName, attributes );
-		}
-
-		@Override
-		protected JComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
-		{
-			return SwingMetawidget.this.getOverriddenWidget( elementName, attributes );
 		}
 
 		@Override

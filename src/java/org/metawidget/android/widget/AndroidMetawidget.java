@@ -95,7 +95,7 @@ public class AndroidMetawidget
 
 	private Set<View>										mExistingViews;
 
-	private Set<View>										mExistingViewsUnused;
+	private Set<View>										mExistingUnusedViewsUnused;
 
 	private Map<String, Facet>								mFacets;
 
@@ -440,6 +440,18 @@ public class AndroidMetawidget
 		return mMetawidgetMixin.inspect( toInspect, type, names );
 	}
 
+	/**
+	 * Fetch a list of <code>Views</code> that were added manually, and have so far not been used.
+	 * <p>
+	 * <strong>This is an internal API exposed for OverriddenWidgetBuilder. Clients should not call
+	 * it directly.</strong>
+	 */
+
+	public Set<View> fetchExistingUnusedViews()
+	{
+		return mExistingUnusedViewsUnused;
+	}
+
 	//
 	// Protected methods
 	//
@@ -614,7 +626,7 @@ public class AndroidMetawidget
 
 		removeAllViews();
 
-		mExistingViewsUnused = CollectionUtils.newHashSet( mExistingViews );
+		mExistingUnusedViewsUnused = CollectionUtils.newHashSet( mExistingViews );
 	}
 
 	protected void addWidget( View view, String elementName, Map<String, String> attributes )
@@ -631,29 +643,6 @@ public class AndroidMetawidget
 		}
 	}
 
-	protected View getOverriddenWidget( String elementName, Map<String, String> attributes )
-	{
-		View view = null;
-		String childName = attributes.get( NAME );
-
-		if ( childName == null )
-			return null;
-
-		for ( View viewExisting : mExistingViewsUnused )
-		{
-			if ( childName.equals( viewExisting.getTag() ) )
-			{
-				view = viewExisting;
-				break;
-			}
-		}
-
-		if ( view != null )
-			mExistingViewsUnused.remove( view );
-
-		return view;
-	}
-
 	protected void endBuild()
 	{
 		// End layout
@@ -664,7 +653,7 @@ public class AndroidMetawidget
 		{
 			Map<String, String> noAttributes = CollectionUtils.newHashMap();
 
-			for ( View viewExisting : mExistingViewsUnused )
+			for ( View viewExisting : mExistingUnusedViewsUnused )
 			{
 				layout.layoutChild( viewExisting, PROPERTY, noAttributes, this );
 			}
@@ -857,12 +846,6 @@ public class AndroidMetawidget
 		{
 			AndroidMetawidget.this.addWidget( view, elementName, attributes );
 			super.addWidget( view, elementName, attributes );
-		}
-
-		@Override
-		protected View getOverriddenWidget( String elementName, Map<String, String> attributes )
-		{
-			return AndroidMetawidget.this.getOverriddenWidget( elementName, attributes );
 		}
 
 		@Override

@@ -196,6 +196,8 @@ public class XmlSchemaGeneratorTask
 					xsdBuilder.append( "\"" );
 					xsdBuilder.append( " xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\" version=\"1.0\">\r\n" );
 					xsdBuilder.append( SCHEMA_END );
+
+					// TODO: This schema does not seem to stop XML elements that haven't been defined
 				}
 
 				// ...add our element block...

@@ -17,7 +17,6 @@
 package org.metawidget.faces.component;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -811,48 +810,6 @@ public abstract class UIMetawidget
 		}
 	}
 
-	protected UIComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
-	{
-		// Metawidget has no valueBinding? Not overridable, then
-
-		ValueBinding metawidgetValueBinding = getValueBinding( "value" );
-
-		if ( metawidgetValueBinding == null )
-			return null;
-
-		// Actions
-
-		String binding = attributes.get( FACES_EXPRESSION );
-
-		if ( ACTION.equals( elementName ) )
-		{
-			if ( binding == null )
-			{
-				String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
-				binding = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
-			}
-
-			return FacesUtils.findRenderedComponentWithMethodBinding( UIMetawidget.this, binding );
-		}
-
-		// Properties
-
-		if ( binding == null )
-		{
-			if ( ENTITY.equals( elementName ) )
-			{
-				binding = metawidgetValueBinding.getExpressionString();
-			}
-			else
-			{
-				String facesExpressionPrefix = FacesUtils.unwrapExpression( metawidgetValueBinding.getExpressionString() );
-				binding = FacesUtils.wrapExpression( facesExpressionPrefix + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
-			}
-		}
-
-		return FacesUtils.findRenderedComponentWithValueBinding( UIMetawidget.this, binding );
-	}
-
 	protected void endBuild()
 	{
 		List<UIComponent> children = getChildren();
@@ -952,12 +909,6 @@ public abstract class UIMetawidget
 		{
 			super.startBuild();
 			UIMetawidget.this.startBuild();
-		}
-
-		@Override
-		protected UIComponent getOverriddenWidget( String elementName, Map<String, String> attributes )
-		{
-			return UIMetawidget.this.getOverriddenWidget( elementName, attributes );
 		}
 
 		@Override

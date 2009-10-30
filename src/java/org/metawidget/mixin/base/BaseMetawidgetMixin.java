@@ -248,10 +248,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			// Java Server Faces POST backs) where we need to re-identify that
 
 			String elementName = getElementName( element );
-			W widget = getOverriddenWidget( elementName, attributes );
-
-			if ( widget == null )
-				widget = buildWidget( elementName, attributes );
+			W widget = buildWidget( elementName, attributes );
 
 			// If mWidgetBuilder.buildWidget returns null, try buildCompoundWidget (from our child
 			// elements)
@@ -344,25 +341,20 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			}
 
 			String elementName = getElementName( child );
-			W widget = getOverriddenWidget( elementName, attributes );
+			W widget = buildWidget( elementName, attributes );
 
 			if ( widget == null )
 			{
-				widget = buildWidget( elementName, attributes );
+				if ( mMaximumInspectionDepth <= 0 )
+					continue;
 
-				if ( widget == null )
-				{
-					if ( mMaximumInspectionDepth <= 0 )
-						continue;
+				// If setReadOnly( true ), remove our forced attribute so the nestedMetawidget
+				// can differentiate whether it was forced or in the inspector XML
 
-					// If setReadOnly( true ), remove our forced attribute so the nestedMetawidget
-					// can differentiate whether it was forced or in the inspector XML
+				if ( forcedReadOnly )
+					attributes.remove( READ_ONLY );
 
-					if ( forcedReadOnly )
-						attributes.remove( READ_ONLY );
-
-					widget = buildNestedMetawidget( attributes );
-				}
+				widget = buildNestedMetawidget( attributes );
 			}
 			else if ( isStub( widget ) )
 			{
@@ -414,8 +406,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		if ( mLayout != null )
 			mLayout.onStartBuild( getMixinOwner() );
 	}
-
-	protected abstract W getOverriddenWidget( String elementName, Map<String, String> attributes );
 
 	protected abstract boolean isStub( W widget );
 
