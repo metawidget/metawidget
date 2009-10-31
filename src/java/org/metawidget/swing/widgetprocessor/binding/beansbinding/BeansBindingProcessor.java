@@ -19,8 +19,6 @@ package org.metawidget.swing.widgetprocessor.binding.beansbinding;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.awt.Component;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -66,43 +64,12 @@ public class BeansBindingProcessor
 	implements BindingConverter
 {
 	//
-	// Private statics
-	//
-
-	private final static Map<ConvertFromTo<?, ?>, Converter<?, ?>>	CONVERTERS	= Collections.synchronizedMap( new HashMap<ConvertFromTo<?, ?>, Converter<?, ?>>() );
-
-	static
-	{
-		// Register default converters
-
-		registerConverter( Byte.class, String.class, new NumberConverter<Byte>( Byte.class ) );
-		registerConverter( Short.class, String.class, new NumberConverter<Short>( Short.class ) );
-		registerConverter( Integer.class, String.class, new NumberConverter<Integer>( Integer.class ) );
-		registerConverter( Long.class, String.class, new NumberConverter<Long>( Long.class ) );
-		registerConverter( Float.class, String.class, new NumberConverter<Float>( Float.class ) );
-		registerConverter( Double.class, String.class, new NumberConverter<Double>( Double.class ) );
-		registerConverter( Boolean.class, String.class, new BooleanConverter() );
-	}
-
-	//
-	// Public statics
-	//
-
-	public static <S, T> void registerConverter( Class<S> source, Class<T> target, Converter<S, T> converter )
-	{
-		CONVERTERS.put( new ConvertFromTo<S, T>( source, target ), converter );
-	}
-
-	public static <S, T> void unregisterConverter( Class<S> source, Class<T> target )
-	{
-		CONVERTERS.remove( new ConvertFromTo<S, T>( source, target ) );
-	}
-
-	//
 	// Private members
 	//
 
-	private UpdateStrategy	mUpdateStrategy;
+	private UpdateStrategy								mUpdateStrategy;
+
+	private Map<ConvertFromTo<?, ?>, Converter<?, ?>>	mConverters	= CollectionUtils.newHashMap();
 
 	//
 	// Constructor
@@ -115,12 +82,37 @@ public class BeansBindingProcessor
 
 	public BeansBindingProcessor( BeansBindingProcessorConfig config )
 	{
+		// Register default converters
+
+		registerConverter( Byte.class, String.class, new NumberConverter<Byte>( Byte.class ) );
+		registerConverter( Short.class, String.class, new NumberConverter<Short>( Short.class ) );
+		registerConverter( Integer.class, String.class, new NumberConverter<Integer>( Integer.class ) );
+		registerConverter( Long.class, String.class, new NumberConverter<Long>( Long.class ) );
+		registerConverter( Float.class, String.class, new NumberConverter<Float>( Float.class ) );
+		registerConverter( Double.class, String.class, new NumberConverter<Double>( Double.class ) );
+		registerConverter( Boolean.class, String.class, new BooleanConverter() );
+
+		// From config
+
 		mUpdateStrategy = config.getUpdateStrategy();
+
+		if ( config.getConverters() != null )
+			mConverters.putAll( config.getConverters() );
 	}
 
 	//
 	// Public methods
 	//
+
+	public <S, T> void registerConverter( Class<S> source, Class<T> target, Converter<S, T> converter )
+	{
+		mConverters.put( new ConvertFromTo<S, T>( source, target ), converter );
+	}
+
+	public <S, T> void unregisterConverter( Class<S> source, Class<T> target )
+	{
+		mConverters.remove( new ConvertFromTo<S, T>( source, target ) );
+	}
 
 	@Override
 	public void onStartBuild( SwingMetawidget metawidget )
@@ -158,8 +150,8 @@ public class BeansBindingProcessor
 	 * <p>
 	 * This method is an optimization that allows clients to load a new object into the binding
 	 * <em>without</em> calling setToInspect, and therefore without reinspecting the object or
-	 * recreating the components. It is the client's responsbility to ensure the rebound object
-	 * is compatible with the original setToInspect.
+	 * recreating the components. It is the client's responsbility to ensure the rebound object is
+	 * compatible with the original setToInspect.
 	 */
 
 	public void rebind( Object toRebind, SwingMetawidget metawidget )
@@ -362,7 +354,7 @@ public class BeansBindingProcessor
 	 */
 
 	@SuppressWarnings( "unchecked" )
-	private static <SV, TV> Converter<SV, TV> getConverter( Class<SV> sourceClass, Class<TV> targetClass )
+	private <SV, TV> Converter<SV, TV> getConverter( Class<SV> sourceClass, Class<TV> targetClass )
 	{
 		Class<SV> sourceClassTraversal = sourceClass;
 		Class<TV> targetClassTraversal = targetClass;
@@ -375,7 +367,7 @@ public class BeansBindingProcessor
 
 		while ( sourceClassTraversal != null )
 		{
-			Converter<SV, TV> converter = (Converter<SV, TV>) CONVERTERS.get( new ConvertFromTo<SV, TV>( sourceClassTraversal, targetClassTraversal ) );
+			Converter<SV, TV> converter = (Converter<SV, TV>) mConverters.get( new ConvertFromTo<SV, TV>( sourceClassTraversal, targetClassTraversal ) );
 
 			if ( converter != null )
 				return converter;
@@ -412,7 +404,7 @@ public class BeansBindingProcessor
 		/* package private */Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
 	}
 
-	private final static class ConvertFromTo<S, T>
+	/* package private */final static class ConvertFromTo<S, T>
 	{
 		//
 		// Private members

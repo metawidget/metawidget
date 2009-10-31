@@ -16,50 +16,21 @@
 
 package org.metawidget.example.swing.addressbook.converter;
 
-import org.jdesktop.beansbinding.Converter;
+import org.metawidget.example.shared.addressbook.model.ContactType;
 
 /**
  * @author Richard Kennard
  */
 
-public abstract class EnumConverter<T extends Enum<T>>
-	extends Converter<T, String>
+public class ContactTypeConverter
+	extends EnumConverter<ContactType>
 {
-	//
-	// Private members
-	//
-
-	private Class<T>	mEnum;
-
 	//
 	// Constructor
 	//
 
-	protected EnumConverter( Class<T> anEnum )
+	public ContactTypeConverter()
 	{
-		mEnum = anEnum;
-	}
-
-	//
-	// Public methods
-	//
-
-	@Override
-	public String convertForward( T anEnum )
-	{
-		// The enum will have been converted to its '.name' by Java5Inspector when
-		// it creates lookup values and labels. This means we must also convert the
-		// enum to its '.name' during binding.
-		//
-		// The alternative to this is to have the Metawidgets deal with enums directly, but
-		// that is less desirable because it ties the Metawidgets to a Java 5 platform
-
-		return anEnum.name();
-	}
-
-	@Override
-	public T convertReverse( String name )
-	{
-		return Enum.valueOf( mEnum, name );
+		super( ContactType.class );
 	}
 }

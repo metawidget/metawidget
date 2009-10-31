@@ -42,14 +42,12 @@ import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.example.swing.addressbook.converter.EnumConverter;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.FlowLayout;
-import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -197,8 +195,6 @@ public class AddressBook
 
 	private JComponent createSearchSection()
 	{
-		BeansBindingProcessor.registerConverter( ContactType.class, String.class, new EnumConverter<ContactType>( ContactType.class ) );
-
 		// Metawidget
 
 		mSearchMetawidget = new SwingMetawidget();

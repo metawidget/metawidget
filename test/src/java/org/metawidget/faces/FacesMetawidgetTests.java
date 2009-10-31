@@ -82,6 +82,7 @@ import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.layout.richfaces.RichFacesLayoutTest;
 import org.metawidget.faces.component.html.widgetprocessor.CssStyleProcessorTest;
 import org.metawidget.faces.component.html.widgetprocessor.HiddenFieldProcessorTest;
+import org.metawidget.faces.component.widgetbuilder.OverriddenWidgetBuilderTest;
 import org.metawidget.faces.renderkit.html.HtmlTableLayoutRendererTest;
 import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.icefaces.IceFacesWidgetBuilderTest;
@@ -118,6 +119,7 @@ public class FacesMetawidgetTests
 		suite.addTestSuite( LabelProcessorTest.class );
 		suite.addTestSuite( IceFacesWidgetBuilderTest.class );
 		suite.addTestSuite( ImmediateAttributeProcessorTest.class );
+		suite.addTestSuite( OverriddenWidgetBuilderTest.class );
 		suite.addTestSuite( ReadableIdProcessorTest.class );
 		suite.addTestSuite( RequiredAttributeProcessorTest.class );
 		suite.addTestSuite( RichFacesWidgetBuilderTest.class );

@@ -21,6 +21,7 @@ import java.util.TimeZone;
 
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorConfig;
 
 /**
  * @author Richard Kennard
@@ -41,8 +42,9 @@ public class SwingAllWidgetsBeansBindingTest
 
 		// BeansBinding
 
-		BeansBindingProcessor.registerConverter( Date.class, String.class, new org.metawidget.swing.allwidgets.converter.beansbinding.DateConverter( DATE_FORMAT ) );
-		BeansBindingProcessor.registerConverter( NestedWidgets.class, String.class, new org.metawidget.swing.allwidgets.converter.beansbinding.NestedWidgetsConverter() );
-		runTest( new BeansBindingProcessor() );
+		BeansBindingProcessorConfig config = new BeansBindingProcessorConfig();
+		config.setConverter( Date.class, String.class, new org.metawidget.swing.allwidgets.converter.beansbinding.DateConverter( DATE_FORMAT ) );
+		config.setConverter( NestedWidgets.class, String.class, new org.metawidget.swing.allwidgets.converter.beansbinding.NestedWidgetsConverter() );
+		runTest( new BeansBindingProcessor( config ) );
 	}
 }

@@ -30,7 +30,23 @@
 		<widgetProcessors>
 			<array>
 				<reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/>			
-				<beansBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.beansbinding"/>
+				<beansBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.beansbinding" config="BeansBindingProcessorConfig">
+					<converter>
+						<class>org.metawidget.example.shared.addressbook.model.ContactType</class>
+						<class>java.lang.String</class>
+						<contactTypeConverter xmlns="java:org.metawidget.example.swing.addressbook.converter"/>
+					</converter>
+					<converter>
+						<class>java.util.Date</class>
+						<class>java.lang.String</class>
+						<dateConverter xmlns="java:org.metawidget.example.swing.addressbook.converter"/>
+					</converter>
+					<converter>
+						<class>org.metawidget.example.shared.addressbook.model.Gender</class>
+						<class>java.lang.String</class>
+						<genderConverter xmlns="java:org.metawidget.example.swing.addressbook.converter"/>
+					</converter>
+				</beansBindingProcessor>
 			</array>
 		</widgetProcessors>		
 	</swingMetawidget>

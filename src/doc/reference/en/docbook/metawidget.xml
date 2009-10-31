@@ -2421,7 +2421,8 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 			need a single instance of them for your entire application. If you are using
 			<filename>metawidget.xml</filename> (see later) then <classname>ConfigReader</classname> takes care
 			of this for you, but if you are instantiating them in Java code you should
-			reuse instances.
+			reuse instances. Keeping everything immutable allows Metawidget to be very performant at the
+			same time as being very pluggable.
 		</tip>
 
 		<para>
@@ -7651,10 +7652,16 @@ SimpleBinding.registerAdapter( Contact.class,
 				</para>
 				
 				<para>
-					However, JSF <classname>Renderer</classname>s are not well suited to <emphasis>modifying</emphasis>
+					However, JSF <classname>Renderer</classname>s are not supposed to <emphasis>modify</emphasis>
 					the component tree (say, to wrap a group of components into a tabbed panel). For those cases,
-					Metawidget employs its usual <classname>Layout</classname> mechanism. Separating <classname>xxxLayout</classname>
-					and <classname>xxxLayoutRenderer</classname> classes in this way has the advantage they
+					Metawidget employs its usual <classname>Layout</classname> mechanism. <classname>Layout</classname>s
+					are executed at component-building-time, which is before <classname>Renderer</classname>-time
+					so can safely modify the component tree.
+				</para>
+				
+				<para>
+					Separating <classname>xxxLayout</classname>
+					and <classname>xxxLayoutRenderer</classname> classes in this way has the added advantage they
 					can be mix-and-matched. For example, you can combine a <classname>RichFacesLayout</classname> (for
 					wrapping components in tabs) with either a <classname>HtmlTableLayoutRenderer</classname> (to render
 					the inside of the tabs as a table) or a <classname>HtmlDivLayoutRenderer</classname> (to render

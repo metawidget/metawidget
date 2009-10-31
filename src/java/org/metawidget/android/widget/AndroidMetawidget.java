@@ -25,6 +25,7 @@ import java.util.Set;
 import org.metawidget.android.AndroidConfigReader;
 import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
+import org.metawidget.android.widget.widgetbuilder.OverriddenWidgetBuilder;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.composite.CompositeInspector;
@@ -40,6 +41,7 @@ import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.w3c.dom.Element;
 
@@ -544,7 +546,11 @@ public class AndroidMetawidget
 			if ( mMetawidgetMixin.getWidgetBuilder() == null )
 			{
 				if ( DEFAULT_WIDGETBUILDER == null )
-					DEFAULT_WIDGETBUILDER = new AndroidWidgetBuilder();
+				{
+					@SuppressWarnings( "unchecked" )
+					CompositeWidgetBuilderConfig<View, AndroidMetawidget> config = new CompositeWidgetBuilderConfig<View, AndroidMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new AndroidWidgetBuilder() );
+					DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<View, AndroidMetawidget>( config );
+				}
 
 				mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
 			}

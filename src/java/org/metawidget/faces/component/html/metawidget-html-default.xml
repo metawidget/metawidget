@@ -25,7 +25,7 @@
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<array>
-						<overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
+						<overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.widgetbuilder"/>
 						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>						
 					</array>
 				</widgetBuilders>

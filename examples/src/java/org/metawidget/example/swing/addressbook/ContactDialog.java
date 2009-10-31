@@ -25,7 +25,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.swing.AbstractAction;
@@ -44,10 +43,7 @@ import javax.swing.table.TableCellEditor;
 
 import org.metawidget.example.shared.addressbook.model.Communication;
 import org.metawidget.example.shared.addressbook.model.Contact;
-import org.metawidget.example.shared.addressbook.model.Gender;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
-import org.metawidget.example.swing.addressbook.converter.DateConverter;
-import org.metawidget.example.swing.addressbook.converter.EnumConverter;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiHidden;
@@ -149,11 +145,6 @@ public class ContactDialog
 		}
 
 		setTitle( builder.toString() );
-
-		// BeansBinding
-
-		BeansBindingProcessor.registerConverter( Date.class, String.class, new DateConverter() );
-		BeansBindingProcessor.registerConverter( Gender.class, String.class, new EnumConverter<Gender>( Gender.class ) );
 
 		// Metawidget
 

@@ -27,6 +27,7 @@ import java.util.Set;
 
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
+import org.metawidget.gwt.client.widgetbuilder.impl.OverriddenWidgetBuilder;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
@@ -34,6 +35,7 @@ import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
+import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
@@ -734,7 +736,11 @@ public class GwtMetawidget
 		if ( mMetawidgetMixin.getWidgetBuilder() == null )
 		{
 			if ( DEFAULT_WIDGET_BUILDER == null )
-				DEFAULT_WIDGET_BUILDER = new GwtWidgetBuilder();
+			{
+				@SuppressWarnings( "unchecked" )
+				CompositeWidgetBuilderConfig<Widget, GwtMetawidget> config = new CompositeWidgetBuilderConfig<Widget, GwtMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new GwtWidgetBuilder() );
+				DEFAULT_WIDGET_BUILDER = new CompositeWidgetBuilder<Widget, GwtMetawidget>( config );
+			}
 
 			mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGET_BUILDER );
 		}
@@ -934,7 +940,12 @@ public class GwtMetawidget
 				miscAttributes.put( SECTION, "" );
 
 				if ( widgetExisting instanceof Stub )
-					miscAttributes.putAll( ( (Stub) widgetExisting ).getAttributes() );
+				{
+					Map<String, String> stubAttributes = ( (Stub) widgetExisting ).getAttributes();
+
+					if ( stubAttributes != null )
+						miscAttributes.putAll( stubAttributes );
+				}
 
 				layout.layoutChild( widgetExisting, PROPERTY, miscAttributes, this );
 			}

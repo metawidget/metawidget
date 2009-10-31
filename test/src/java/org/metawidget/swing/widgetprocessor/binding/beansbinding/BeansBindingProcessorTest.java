@@ -147,7 +147,8 @@ public class BeansBindingProcessorTest
 
 		final StringBuilder builder = new StringBuilder();
 
-		BeansBindingProcessor.registerConverter( String.class, Integer.class, new Converter<String, Integer>()
+		BeansBindingProcessorConfig config = new BeansBindingProcessorConfig();
+		config.setConverter( String.class, Integer.class, new Converter<String, Integer>()
 		{
 			@Override
 			public Integer convertForward( String value )
@@ -163,6 +164,7 @@ public class BeansBindingProcessorTest
 			}
 		} );
 
+		binding = new BeansBindingProcessor( config );
 		assertTrue( 1 == (Integer) binding.convertFromString( "1", int.class ) );
 		assertTrue( "convertedForward".equals( builder.toString() ) );
 	}
@@ -192,10 +194,6 @@ public class BeansBindingProcessorTest
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setInspector( new PropertyTypeInspector() );
-
-		// Clear out any DateConverters registered by previous unit tests
-
-		BeansBindingProcessor.unregisterConverter( Date.class, String.class );
 
 		// Saving
 

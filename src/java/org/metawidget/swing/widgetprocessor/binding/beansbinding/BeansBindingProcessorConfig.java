@@ -16,11 +16,17 @@
 
 package org.metawidget.swing.widgetprocessor.binding.beansbinding;
 
+import java.util.Map;
+
+import org.jdesktop.beansbinding.Converter;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor.ConvertFromTo;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a BeansBindingProcessor prior to use. Once instantiated, WidgetProcessors are immutable.
+ * Configures a BeansBindingProcessor prior to use. Once instantiated, WidgetProcessors are
+ * immutable.
  *
  * @author Richard Kennard
  */
@@ -31,7 +37,9 @@ public class BeansBindingProcessorConfig
 	// Private members
 	//
 
-	private UpdateStrategy	mUpdateStrategy = UpdateStrategy.READ_ONCE;
+	private UpdateStrategy								mUpdateStrategy	= UpdateStrategy.READ_ONCE;
+
+	private Map<ConvertFromTo<?, ?>, Converter<?, ?>>	mConverters;
 
 	//
 	// Public methods
@@ -43,7 +51,7 @@ public class BeansBindingProcessorConfig
 	}
 
 	/**
-	 * Sets the UpdateStrategy for this BeansBinding.
+	 * Sets the UpdateStrategy for this BeansBindingProcessor.
 	 *
 	 * @return this, as part of a fluent interface
 	 */
@@ -55,13 +63,40 @@ public class BeansBindingProcessorConfig
 		return this;
 	}
 
+	public Map<ConvertFromTo<?, ?>, Converter<?, ?>> getConverters()
+	{
+		return mConverters;
+	}
+
+	/**
+	 * Sets a Converter for this BeansBindingProcessor.
+	 * <p>
+	 * Note: this is not a JavaBean 'setter': multiple different Converters can be set by calling
+	 * <code>setConverter</code> multiple times with different source and target classes.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public <S, T> BeansBindingProcessorConfig setConverter( Class<S> source, Class<T> target, Converter<S, T> converter )
+	{
+		if ( mConverters == null )
+			mConverters = CollectionUtils.newHashMap();
+
+		mConverters.put( new ConvertFromTo<S, T>( source, target ), converter );
+
+		return this;
+	}
+
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof BeansBindingProcessorConfig ))
+		if ( !( that instanceof BeansBindingProcessorConfig ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mUpdateStrategy, ((BeansBindingProcessorConfig) that).mUpdateStrategy ))
+		if ( !ObjectUtils.nullSafeEquals( mUpdateStrategy, ( (BeansBindingProcessorConfig) that ).mUpdateStrategy ) )
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mConverters, ( (BeansBindingProcessorConfig) that ).mConverters ) )
 			return false;
 
 		return true;
@@ -71,6 +106,7 @@ public class BeansBindingProcessorConfig
 	public int hashCode()
 	{
 		int hashCode = ObjectUtils.nullSafeHashCode( mUpdateStrategy );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mConverters );
 
 		return hashCode;
 	}

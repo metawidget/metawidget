@@ -172,7 +172,11 @@ public class MetawidgetMixinTest
 			@Override
 			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget )
 			{
-				return attributes.get( TYPE );
+				// Will return null for the top-level (because no NAME), which will trigger
+				// buildCompoundWidget, and will return not-null for first property (because has a
+				// NAME)
+
+				return attributes.get( NAME );
 			}
 		} );
 
