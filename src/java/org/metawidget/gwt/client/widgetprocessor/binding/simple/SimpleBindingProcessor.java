@@ -49,6 +49,8 @@ public class SimpleBindingProcessor
 	// Private statics
 	//
 
+	// TODO: make non-static, move to a config
+
 	private final static Map<Class<?>, SimpleBindingProcessorAdapter<?>>	ADAPTERS	= new HashMap<Class<?>, SimpleBindingProcessorAdapter<?>>();
 
 	private final static Map<Class<?>, Converter<?>>						CONVERTERS	= new HashMap<Class<?>, Converter<?>>();

@@ -1494,7 +1494,7 @@ public class Person {
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
 				&lt;array&gt;
-					&lt;overridenWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
+					&lt;overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.widgetbuilder"/&gt;
 					&lt;richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
 					&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 				&lt;/array&gt;

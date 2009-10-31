@@ -21,23 +21,30 @@
 			</compositeInspector>
 		</inspector>
 		<widgetBuilder>
-			<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig">
-				<dataTableStyleClass>
-					<string>aDataTableStyleClass</string>
-				</dataTableStyleClass>
-				<dataTableColumnClasses>
-					<array>
-						<string>aDataTableColumnClass1</string>
-						<string>aDataTableColumnClass2</string>
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<array>		
+						<overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.widgetbuilder"/>		
+						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig">
+							<dataTableStyleClass>
+								<string>aDataTableStyleClass</string>
+							</dataTableStyleClass>
+							<dataTableColumnClasses>
+								<array>
+									<string>aDataTableColumnClass1</string>
+									<string>aDataTableColumnClass2</string>
+								</array>
+							</dataTableColumnClasses>						
+							<dataTableRowClasses>
+								<array>
+									<string>aDataTableRowClass1</string>
+									<string>aDataTableRowClass2</string>
+								</array>
+							</dataTableRowClasses>						
+						</htmlWidgetBuilder>
 					</array>
-				</dataTableColumnClasses>						
-				<dataTableRowClasses>
-					<array>
-						<string>aDataTableRowClass1</string>
-						<string>aDataTableRowClass2</string>
-					</array>
-				</dataTableRowClasses>						
-			</htmlWidgetBuilder>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
 		</widgetBuilder>		
 	</htmlMetawidget>
 
