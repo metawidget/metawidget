@@ -670,6 +670,12 @@ public class Main {
 					</screenshot>
 				</figure>
 
+				<tip>
+					<title>Note</title>
+					The default algorithm looks for child controls with the same name, but you can plug in your own implementation
+					if you need to. See <xref linkend="section-architecture-overriddenwidgetbuilder"/>.
+				</tip>
+				
 				<para>
 					To suppress a widget's creation entirely, simply supplying an empty
 					<classname>JPanel</classname> named 'retired' will not work as Metawidget
@@ -3377,11 +3383,62 @@ public class Person {
 				</para>
 				
 				<para>
-					You can also choose to plug-in your own <classname>WidgetBuilder</classname> to detect 'overriden widgets', based
-					on your own criteria. For example, you could create a <classname>WidgetBuilder</classname> that only displayed
-					certain fields based on a client property:
+					You can also choose to plug-in your own <classname>WidgetBuilder</classname> that detects 'overriden widgets' based
+					on your own criteria. Here is an example of a custom <classname>WidgetBuilder</classname> that excludes widgets
+					based on given names. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
 				</para>
 				
+				<programlisting language="java">package com.myapp;
+			
+<symbol>import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.*;</symbol>
+
+import javax.swing.*;
+import org.metawidget.swing.*;
+<symbol>import org.metawidget.swing.widgetbuilder.*;
+import org.metawidget.widgetbuilder.composite.*;
+import org.metawidget.widgetbuilder.iface.*;
+import org.metawidget.util.*;</symbol>
+
+public class Main {
+
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		<symbol>metawidget.setWidgetBuilder( new CompositeWidgetBuilder&lt;JComponent, SwingMetawidget&gt;(
+			new CompositeWidgetBuilderConfig&lt;JComponent, SwingMetawidget&gt;().setWidgetBuilders(
+				new ExcludingWidgetBuilder(),
+				new SwingWidgetBuilder() ) ) );
+		metawidget.putClientProperty( "exclude", new String[]{ "age", "retired" } );</symbol>
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 210 );
+		frame.setVisible( true );
+	}
+	
+	<symbol>static class ExcludingWidgetBuilder
+		implements WidgetBuilder&lt;JComponent, SwingMetawidget&gt; {
+		public JComponent buildWidget( String elementName, Map&lt;String, String&gt; attributes,
+										SwingMetawidget metawidget ) {
+			String[] exclude = (String[]) metawidget.getClientProperty( "exclude" );
+
+			if ( ArrayUtils.contains( exclude, attributes.get( NAME )))
+				return new Stub();
+
+			return null;
+		}
+	}</symbol>
+}</programlisting>
+
+				<tip>
+					<title>Note</title>
+					We don't necessarily recommend this approach, as it requires hard-coding business property names and won't refactor well.
+				</tip>
 			</section>
 			
 			<section id="section-architecture-widgetbuilders-defaults">
@@ -3414,32 +3471,15 @@ public class Person {
 					<tbody>
 						<tr>
 							<td>Android</td>
-							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
-	config="CompositeWidgetBuilderConfig"&gt;
-	&lt;widgetBuilders&gt;
-		&lt;array&gt;
-			&lt;overriddenWidgetBuilder /&gt;
-			&lt;androidWidgetBuilder /&gt;
-		&lt;/array&gt;
-	&lt;/widgetBuilders&gt;
-&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
+							<td>...TODO...</td>
 						</tr>
 						<tr>
 							<td>GWT</td>
-							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
-	config="CompositeWidgetBuilderConfig"&gt;
-	&lt;widgetBuilders&gt;
-		&lt;array&gt;
-			&lt;overriddenWidgetBuilder /&gt;
-			&lt;gwtWidgetBuilder /&gt;
-		&lt;/array&gt;
-	&lt;/widgetBuilders&gt;
-&lt;/compositeWidgetBuilder&gt;</programlisting></td>							
+							<td>...TODO...</td>							
 						</tr>
 						<tr>
 							<td>JSF</td>
-							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
-	config="CompositeWidgetBuilderConfig"&gt;
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder config="CompositeWidgetBuilderConfig"&gt;
 	&lt;widgetBuilders&gt;
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
@@ -3450,8 +3490,7 @@ public class Person {
 						</tr>
 						<tr>
 							<td>JSP</td>
-							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
-	config="CompositeWidgetBuilderConfig"&gt;
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder config="CompositeWidgetBuilderConfig"&gt;
 	&lt;widgetBuilders&gt;
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
@@ -3462,8 +3501,7 @@ public class Person {
 						</tr>
 						<tr>
 							<td>Spring</td>
-							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
-	config="CompositeWidgetBuilderConfig"&gt;
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder config="CompositeWidgetBuilderConfig"&gt;
 	&lt;widgetBuilders&gt;
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
@@ -3475,8 +3513,7 @@ public class Person {
 						</tr>
 						<tr>
 							<td>Struts</td>
-							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
-	config="CompositeWidgetBuilderConfig"&gt;
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder config="CompositeWidgetBuilderConfig"&gt;
 	&lt;widgetBuilders&gt;
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
@@ -3488,8 +3525,7 @@ public class Person {
 						</tr>
 						<tr>
 							<td>Swing</td>
-							<td><programlisting language="xml">&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
-	config="CompositeWidgetBuilderConfig"&gt;
+							<td><programlisting language="xml">&lt;compositeWidgetBuilder config="CompositeWidgetBuilderConfig"&gt;
 	&lt;widgetBuilders&gt;
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
