@@ -214,7 +214,7 @@ public class BeansBindingProcessor
 				}
 				catch ( ClassCastException e )
 				{
-					throw WidgetProcessorException.newException( "When saving from " + binding.getTargetObject().getClass().getName() + " to " + sourceProperty + " (have you used BeansBinding.registerConverter?)", e );
+					throw WidgetProcessorException.newException( "When saving from " + binding.getTargetObject().getClass().getName() + " to " + sourceProperty + " (have you used BeansBindingProcessorConfig.setConverter?)", e );
 				}
 			}
 		}
@@ -327,7 +327,7 @@ public class BeansBindingProcessor
 		}
 		catch ( ClassCastException e )
 		{
-			throw WidgetProcessorException.newException( "When binding " + metawidget.getPath() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + sourceProperty + " to " + component.getClass() + "." + componentProperty + " (have you used BeansBinding.registerConverter?)", e );
+			throw WidgetProcessorException.newException( "When binding " + metawidget.getPath() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + sourceProperty + " to " + component.getClass() + "." + componentProperty + " (have you used BeansBindingProcessorConfig.setConverter?)", e );
 		}
 
 		// Save the binding

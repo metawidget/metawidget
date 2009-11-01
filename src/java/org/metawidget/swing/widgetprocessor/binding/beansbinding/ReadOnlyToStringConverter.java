@@ -49,6 +49,6 @@ public class ReadOnlyToStringConverter<SV>
 		if ( value == null )
 			return null;
 
-		throw new UnsupportedOperationException( "ReadOnlyConverter cannot convertReverse( " + value.getClass().getName() + " ). Use BeansBinding.registerConverter to register a custom Converter" );
+		throw new UnsupportedOperationException( "ReadOnlyConverter cannot convertReverse( " + value.getClass().getName() + " ). Use BeansBindingProcessorConfig.setConverter to register a custom Converter" );
 	}
 }

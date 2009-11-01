@@ -208,7 +208,7 @@ public class BeansBindingProcessorTest
 		}
 		catch ( WidgetProcessorException e )
 		{
-			assertTrue( "When saving from javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBinding.registerConverter?)".equals( e.getMessage() ) );
+			assertTrue( "When saving from javax.swing.JTextField to org.jdesktop.beansbinding.BeanProperty[bar] (have you used BeansBindingProcessorConfig.setConverter?)".equals( e.getMessage() ) );
 		}
 
 		// Loading
@@ -223,7 +223,7 @@ public class BeansBindingProcessorTest
 		}
 		catch ( WidgetProcessorException e )
 		{
-			assertTrue( "When binding org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest$CantLoadSaveFoo/bar to class javax.swing.JTextField.text (have you used BeansBinding.registerConverter?)".equals( e.getMessage() ) );
+			assertTrue( "When binding org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessorTest$CantLoadSaveFoo/bar to class javax.swing.JTextField.text (have you used BeansBindingProcessorConfig.setConverter?)".equals( e.getMessage() ) );
 		}
 	}
 
