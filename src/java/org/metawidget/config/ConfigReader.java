@@ -34,6 +34,7 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.impl.actionstyle.ActionStyle;
 import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
@@ -549,6 +550,9 @@ public class ConfigReader
 			return true;
 
 		if ( ActionStyle.class.isAssignableFrom( clazz ) )
+			return true;
+
+		if ( InspectionResultProcessor.class.isAssignableFrom( clazz ) )
 			return true;
 
 		if ( WidgetBuilder.class.isAssignableFrom( clazz ) )

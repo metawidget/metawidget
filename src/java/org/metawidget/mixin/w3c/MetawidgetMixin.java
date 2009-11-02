@@ -85,6 +85,12 @@ public abstract class MetawidgetMixin<W, M extends W>
 			setInspector( getNestedMixin( dummyMetawidget ).getInspector() );
 		}
 
+		if ( getInspectionResultProcessors() == null )
+		{
+			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "inspectionResultProcessors" );
+			setInspectionResultProcessors( getNestedMixin( dummyMetawidget ).getInspectionResultProcessors() );
+		}
+
 		if ( getWidgetBuilder() == null )
 		{
 			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "widgetBuilder" );

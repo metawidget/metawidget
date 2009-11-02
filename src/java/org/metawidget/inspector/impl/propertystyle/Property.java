@@ -26,6 +26,8 @@ import java.lang.reflect.Type;
  * @author Richard Kennard
  */
 
+// TODO: extends AnnotatedElement?
+
 public interface Property
 {
 	//

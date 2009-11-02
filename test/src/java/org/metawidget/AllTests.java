@@ -26,6 +26,7 @@ import org.metawidget.example.ExampleTests;
 import org.metawidget.faces.FacesMetawidgetTests;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayoutTest;
 import org.metawidget.iface.MetawidgetExceptionTest;
+import org.metawidget.inspectionresultprocessor.InspectionResultProcessorTests;
 import org.metawidget.inspector.InspectorTests;
 import org.metawidget.jsp.JspMetawidgetTests;
 import org.metawidget.layout.iface.LayoutExceptionTest;
@@ -66,6 +67,7 @@ public class AllTests
 		suite.addTest( FacesMetawidgetTests.suite() );
 		suite.addTestSuite( FlexTableLayoutTest.class );
 		suite.addTest( InspectorTests.suite() );
+		suite.addTest( InspectionResultProcessorTests.suite() );
 		suite.addTest( JspMetawidgetTests.suite() );
 		suite.addTestSuite( LayoutExceptionTest.class );
 		suite.addTestSuite( LayoutUtilsTest.class );

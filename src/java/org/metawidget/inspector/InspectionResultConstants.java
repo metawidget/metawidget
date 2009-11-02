@@ -74,6 +74,8 @@ public final class InspectionResultConstants
 
 	public final static String	TYPE							= "type";
 
+	public final static String	COMES_AFTER						= "comes-after";
+
 	/**
 	 * Parameterized type arguments, for example the type of elements in a Set.
 	 * <p>
@@ -174,10 +176,10 @@ public final class InspectionResultConstants
 	/**
 	 * Field is a 'wide' field, spanning all columns in a multi-column layout.
 	 * <p>
-	 * Wide is different to 'large', because 'large' implies a data size (ie. BLOB or CLOB)
-	 * whereas 'wide' refers purely to spanning columns. Generally all 'large' fields are implicitly
-	 * 'wide', but not all 'wide' fields are 'large'. For example, you may want a normal text field
-	 * (not a text area) to span all columns.
+	 * Wide is different to 'large', because 'large' implies a data size (ie. BLOB or CLOB) whereas
+	 * 'wide' refers purely to spanning columns. Generally all 'large' fields are implicitly 'wide',
+	 * but not all 'wide' fields are 'large'. For example, you may want a normal text field (not a
+	 * text area) to span all columns.
 	 */
 
 	public final static String	WIDE							= "wide";

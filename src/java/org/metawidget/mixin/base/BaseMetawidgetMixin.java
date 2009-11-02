@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -58,23 +59,25 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	// Private statics
 	//
 
-	private final static int			DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
+	private final static int						DEFAULT_MAXIMUM_INSPECTION_DEPTH	= 10;
 
 	//
 	// Private members
 	//
 
-	private boolean						mReadOnly;
+	private boolean									mReadOnly;
 
-	private int							mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
+	private int										mMaximumInspectionDepth				= DEFAULT_MAXIMUM_INSPECTION_DEPTH;
 
-	private Inspector					mInspector;
+	private Inspector								mInspector;
 
-	private WidgetBuilder<W, M>			mWidgetBuilder;
+	private List<InspectionResultProcessor<E, M>>	mInspectionResultProcessors;
 
-	private List<WidgetProcessor<W, M>>	mWidgetProcessors;
+	private WidgetBuilder<W, M>						mWidgetBuilder;
 
-	private Layout<W, M>				mLayout;
+	private List<WidgetProcessor<W, M>>				mWidgetProcessors;
+
+	private Layout<W, M>							mLayout;
 
 	//
 	// Public methods
@@ -123,6 +126,43 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	public Inspector getInspector()
 	{
 		return mInspector;
+	}
+
+	/**
+	 * Gets the List of InspectionResultProcessors.
+	 * <p>
+	 * This mixin only references a single Inspector and single WidgetBuilder. It relies on
+	 * CompositeInspector and CompositeWidgetBuilder to support multiples, which allows the
+	 * combination algorithm itself to be pluggable.
+	 * <p>
+	 * We use a List of InspectionResultProcessors, however, so as to be consistent
+	 * with WidgetProcessors. Note ordering of InspectionResultProcessors is significant.
+	 */
+
+	public List<InspectionResultProcessor<E, M>> getInspectionResultProcessors()
+	{
+		return mInspectionResultProcessors;
+	}
+
+	public void setInspectionResultProcessors( List<InspectionResultProcessor<E, M>> inspectionResultProcessors )
+	{
+		mInspectionResultProcessors = inspectionResultProcessors;
+	}
+
+	public void addInspectionResultProcessor( InspectionResultProcessor<E, M> inspectionResultProcessors )
+	{
+		if ( mInspectionResultProcessors == null )
+			mInspectionResultProcessors = new ArrayList<InspectionResultProcessor<E, M>>();
+
+		mInspectionResultProcessors.add( inspectionResultProcessors );
+	}
+
+	public void removeInspectionResultProcessor( InspectionResultProcessor<E, M> inspectionResultProcessors )
+	{
+		if ( mInspectionResultProcessors == null )
+			return;
+
+		mInspectionResultProcessors.remove( inspectionResultProcessors );
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<W, M> widgetBuilder )
@@ -233,36 +273,42 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 		if ( xml != null && !"".equals( xml ) )
 		{
-			// Build simple widget (from the top-level element)
+			E inspectionResult = getDocumentElement( xml );
+			inspectionResult = processInspectionResult( inspectionResult );
 
-			E element = getChildAt( getDocumentElement( xml ), 0 );
-			Map<String, String> attributes = getAttributesAsMap( element );
-
-			if ( isReadOnly() )
-				attributes.put( READ_ONLY, TRUE );
-
-			// It is a little counter-intuitive that there can ever be an override
-			// of the top-level element. However, if we go down the path that builds
-			// a single widget (eg. doesn't invoke buildCompoundWidget), then our
-			// child is at the same top-level as us, and there are some scenarios (like
-			// Java Server Faces POST backs) where we need to re-identify that
-
-			String elementName = getElementName( element );
-			W widget = buildWidget( elementName, attributes );
-
-			// If mWidgetBuilder.buildWidget returns null, try buildCompoundWidget (from our child
-			// elements)
-
-			if ( widget == null )
+			if ( inspectionResult != null )
 			{
-				buildCompoundWidget( element );
-			}
-			else
-			{
-				widget = processWidget( widget, elementName, attributes );
+				// Build simple widget (from the top-level element)
 
-				if ( widget != null )
-					addWidget( widget, elementName, attributes );
+				E element = getChildAt( inspectionResult, 0 );
+				Map<String, String> attributes = getAttributesAsMap( element );
+
+				if ( isReadOnly() )
+					attributes.put( READ_ONLY, TRUE );
+
+				// It is a little counter-intuitive that there can ever be an override
+				// of the top-level element. However, if we go down the path that builds
+				// a single widget (eg. doesn't invoke buildCompoundWidget), then our
+				// child is at the same top-level as us, and there are some scenarios (like
+				// Java Server Faces POST backs) where we need to re-identify that
+
+				String elementName = getElementName( element );
+				W widget = buildWidget( elementName, attributes );
+
+				// If mWidgetBuilder.buildWidget returns null, try buildCompoundWidget (from our child
+				// elements)
+
+				if ( widget == null )
+				{
+					buildCompoundWidget( element );
+				}
+				else
+				{
+					widget = processWidget( widget, elementName, attributes );
+
+					if ( widget != null )
+						addWidget( widget, elementName, attributes );
+				}
 			}
 		}
 
@@ -405,6 +451,26 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 		if ( mLayout != null )
 			mLayout.onStartBuild( getMixinOwner() );
+	}
+
+	protected E processInspectionResult( E inspectionResult )
+	{
+		E processedInspectionResult = inspectionResult;
+
+		if ( mInspectionResultProcessors != null )
+		{
+			for ( InspectionResultProcessor<E, M> inspectionResultProcessor : mInspectionResultProcessors )
+			{
+				processedInspectionResult = inspectionResultProcessor.processInspectionResult( processedInspectionResult, getMixinOwner() );
+
+				// An InspectionResultProcessor could return null to cancel the inspection
+
+				if ( processedInspectionResult == null )
+					return null;
+			}
+		}
+
+		return processedInspectionResult;
 	}
 
 	protected abstract boolean isStub( W widget );

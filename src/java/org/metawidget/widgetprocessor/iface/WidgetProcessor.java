@@ -20,7 +20,7 @@ import java.util.Map;
 
 /**
  * Common interface implemented by all WidgetProcessors. WidgetProcessors allow arbitrary processing
- * of a widget at key points in its lifecycle.
+ * of a widget following its building by the WidgetBuilder and before adding to the Layout.
  * <p>
  * WidgetProcessors must be immutable (or, at least, appear that way to clients. They can have
  * caches or configuration settings internally, as long as they are threadsafe). If they need to
@@ -60,7 +60,7 @@ public interface WidgetProcessor<W, M extends W>
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
 	 * @return generally the original widget (as passed in to the first argument). Can be a
-	 *         different widget if the WidgetProcessor wishes to do substitute the original widget
+	 *         different widget if the WidgetProcessor wishes to substitute the original widget
 	 *         for another. Can be null if the WidgetProcessor wishes to cancel all processing of
 	 *         this widget
 	 */

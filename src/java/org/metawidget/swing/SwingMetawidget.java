@@ -37,6 +37,7 @@ import javax.swing.JScrollPane;
 
 import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
@@ -49,6 +50,7 @@ import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.w3c.dom.Element;
 
 /**
  * Metawidget for Swing environments.
@@ -214,6 +216,24 @@ public class SwingMetawidget
 		invalidateInspection();
 	}
 
+	public void addInspectionResultProcessor( InspectionResultProcessor<Element, SwingMetawidget> inspectionResultProcessor )
+	{
+		mMetawidgetMixin.addInspectionResultProcessor( inspectionResultProcessor );
+		invalidateWidgets();
+	}
+
+	public void removeInspectionResultProcessor( InspectionResultProcessor<Element, SwingMetawidget> inspectionResultProcessor )
+	{
+		mMetawidgetMixin.removeInspectionResultProcessor( inspectionResultProcessor );
+		invalidateWidgets();
+	}
+
+	public void setInspectionResultProcessors( InspectionResultProcessor<Element, SwingMetawidget>... inspectionResultProcessor )
+	{
+		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessor ) );
+		invalidateWidgets();
+	}
+
 	public void setWidgetBuilder( WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder )
 	{
 		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
@@ -356,7 +376,8 @@ public class SwingMetawidget
 	}
 
 	/**
-	 * Fetch a list of <code>JComponents</code> that were added manually, and have so far not been used.
+	 * Fetch a list of <code>JComponents</code> that were added manually, and have so far not been
+	 * used.
 	 * <p>
 	 * <strong>This is an internal API exposed for OverriddenWidgetBuilder. Clients should not call
 	 * it directly.</strong>

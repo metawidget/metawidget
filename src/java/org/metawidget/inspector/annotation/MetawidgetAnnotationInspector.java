@@ -18,19 +18,14 @@ package org.metawidget.inspector.annotation;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.util.Iterator;
 import java.util.Map;
 
-import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
 import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.XmlUtils;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 
 /**
  * Inspects annotations defined by Metawidget (declared in this same package).
@@ -63,178 +58,6 @@ public class MetawidgetAnnotationInspector
 	//
 	// Protected methods
 	//
-
-	@Override
-	protected void inspect( Object toInspect, Class<?> classToInspect, Element toAddTo )
-		throws Exception
-	{
-		Document document = toAddTo.getOwnerDocument();
-		Map<String, ElementWithComesAfter> elementsWithComesAfter = CollectionUtils.newHashMap();
-
-		// For each property...
-
-		Map<String, Property> properties = getProperties( classToInspect );
-
-		for ( Property property : properties.values() )
-		{
-			// ...inspect its attributes...
-
-			Map<String, String> attributes = inspectProperty( property );
-
-			// ...(defer the UiComesAfter ones)...
-
-			String name = property.getName();
-			UiComesAfter uiComesAfter = property.getAnnotation( UiComesAfter.class );
-
-			if ( uiComesAfter != null )
-			{
-				Element element = document.createElementNS( NAMESPACE, PROPERTY );
-				element.setAttribute( NAME, name );
-
-				XmlUtils.setMapAsAttributes( element, attributes );
-				elementsWithComesAfter.put( name, new ElementWithComesAfter( element, uiComesAfter.value() ) );
-				continue;
-			}
-
-			if ( attributes == null || attributes.isEmpty() )
-				continue;
-
-			// ...and add it
-
-			Element element = document.createElementNS( NAMESPACE, PROPERTY );
-			element.setAttribute( NAME, name );
-			XmlUtils.setMapAsAttributes( element, attributes );
-
-			toAddTo.appendChild( element );
-		}
-
-		// For each action...
-
-		Map<String, Action> actions = getActions( classToInspect );
-
-		for( Action action : actions.values() )
-		{
-			// ...inspect its attributes...
-
-			Map<String, String> attributes = inspectAction( action );
-
-			// ...(defer the UiComesAfter ones)...
-
-			String name = action.getName();
-			UiComesAfter uiComesAfter = action.getAnnotation( UiComesAfter.class );
-
-			if ( uiComesAfter != null )
-			{
-				Element element = document.createElementNS( NAMESPACE, ACTION );
-				element.setAttribute( NAME, name );
-
-				XmlUtils.setMapAsAttributes( element, attributes );
-				elementsWithComesAfter.put( name, new ElementWithComesAfter( element, uiComesAfter.value() ) );
-				continue;
-			}
-
-			if ( attributes == null || attributes.isEmpty() )
-				continue;
-
-			// ...and add it
-
-			Element element = document.createElementNS( NAMESPACE, ACTION );
-			element.setAttribute( NAME, name );
-			XmlUtils.setMapAsAttributes( element, attributes );
-
-			toAddTo.appendChild( element );
-		}
-
-		// If there are any UiComeAfters...
-
-		int size = elementsWithComesAfter.size();
-
-		if ( size > 0 )
-		{
-			// ...sort them by...
-
-			int infiniteLoop = elementsWithComesAfter.size();
-			infiniteLoop *= infiniteLoop;
-
-			while ( !elementsWithComesAfter.isEmpty() )
-			{
-				infiniteLoop--;
-
-				if ( infiniteLoop < 0 )
-					throw InspectorException.newException( "Infinite loop detected when sorting @UiComesAfter" );
-
-				// ...looking at each entry in the Map, and...
-
-				outer: for ( Iterator<Map.Entry<String, ElementWithComesAfter>> i = elementsWithComesAfter.entrySet().iterator(); i.hasNext(); )
-				{
-					Map.Entry<String, ElementWithComesAfter> entry = i.next();
-					ElementWithComesAfter elementWithComesAfter = entry.getValue();
-					String[] comesAfters = elementWithComesAfter.getComesAfter();
-
-					// ...if it 'Comes After everything', make sure there are only
-					// other 'Comes After everything's left...
-
-					if ( comesAfters.length == 0 )
-					{
-						for ( ElementWithComesAfter elementWithComesAfterExisting : elementsWithComesAfter.values() )
-						{
-							if ( elementWithComesAfterExisting.getComesAfter().length > 0 )
-								continue outer;
-						}
-					}
-
-					// ...or, if it 'Comes After' something, make sure none of those
-					// somethings are left...
-
-					else
-					{
-						String name = entry.getKey();
-
-						for ( String comesAfter : comesAfters )
-						{
-							if ( name.equals( comesAfter ) )
-								throw InspectorException.newException( "'" + comesAfter + "' is annotated to @UiComesAfter itself" );
-
-							if ( elementsWithComesAfter.keySet().contains( comesAfter ) )
-								continue outer;
-
-							// ...(if it has 'Comes Afters' not already in the list, because they don't
-							// have any annotations we're interested in, add them just-in-time)...
-
-							Element existing = XmlUtils.getChildWithAttributeValue( toAddTo, NAME, comesAfter );
-
-							if ( existing == null )
-							{
-								if ( properties.containsKey( comesAfter ) )
-								{
-									Element element = document.createElementNS( NAMESPACE, PROPERTY );
-									element.setAttribute( NAME, comesAfter );
-
-									toAddTo.appendChild( element );
-									continue;
-								}
-
-								if ( actions.containsKey( comesAfter ) )
-								{
-									Element element = document.createElementNS( NAMESPACE, ACTION );
-									element.setAttribute( NAME, comesAfter );
-
-									toAddTo.appendChild( element );
-									continue;
-								}
-							}
-						}
-					}
-
-					// ...and add the element
-
-					toAddTo.appendChild( elementWithComesAfter.getElement() );
-
-					i.remove();
-				}
-			}
-		}
-	}
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
@@ -281,6 +104,13 @@ public class MetawidgetAnnotationInspector
 
 		if ( property.isAnnotationPresent( UiWide.class ) )
 			attributes.put( WIDE, TRUE );
+
+		// UiComesAfter
+
+		UiComesAfter comesAfter = property.getAnnotation( UiComesAfter.class );
+
+		if ( comesAfter != null )
+			attributes.put( COMES_AFTER, ArrayUtils.toString( comesAfter.value() ));
 
 		// UiReadOnly
 
@@ -350,6 +180,13 @@ public class MetawidgetAnnotationInspector
 		if ( action.isAnnotationPresent( UiHidden.class ) )
 			attributes.put( HIDDEN, TRUE );
 
+		// UiComesAfter
+
+		UiComesAfter comesAfter = action.getAnnotation( UiComesAfter.class );
+
+		if ( comesAfter != null )
+			attributes.put( COMES_AFTER, ArrayUtils.toString( comesAfter.value() ));
+
 		// UiReadOnly
 
 		UiReadOnly readOnly = action.getAnnotation( UiReadOnly.class );
@@ -393,50 +230,5 @@ public class MetawidgetAnnotationInspector
 		}
 
 		return attributes;
-	}
-
-	//
-	// Inner class
-	//
-
-	private static class ElementWithComesAfter
-	{
-		//
-		//
-		// Private members
-		//
-		//
-
-		private Element		mElement;
-
-		private String[]	mComesAfter;
-
-		//
-		//
-		// Constructor
-		//
-		//
-
-		public ElementWithComesAfter( Element element, String[] comesAfter )
-		{
-			mElement = element;
-			mComesAfter = comesAfter;
-		}
-
-		//
-		//
-		// Public methods
-		//
-		//
-
-		public Element getElement()
-		{
-			return mElement;
-		}
-
-		public String[] getComesAfter()
-		{
-			return mComesAfter;
-		}
 	}
 }
