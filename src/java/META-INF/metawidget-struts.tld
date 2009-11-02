@@ -13,7 +13,6 @@
 		<info>Metawidget for Struts environments</info>
 		<attribute>
 			<name>property</name>
-			<rtexprvalue>true</rtexprvalue>			
 		</attribute>
 		<attribute>
 			<name>config</name>

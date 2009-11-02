@@ -13,7 +13,6 @@
 		<info>Metawidget for 'plain' HTML (eg. a servlet-based backend, with no Struts, Spring etc) environments</info>
 		<attribute>
 			<name>value</name>
-			<rtexprvalue>true</rtexprvalue>			
 		</attribute>
 		<attribute>
 			<name>config</name>

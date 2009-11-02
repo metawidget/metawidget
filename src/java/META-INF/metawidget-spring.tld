@@ -13,7 +13,6 @@
 		<info>Metawidget for Spring environments</info>
 		<attribute>
 			<name>path</name>
-			<rtexprvalue>true</rtexprvalue>
 		</attribute>
 		<attribute>
 			<name>config</name>
