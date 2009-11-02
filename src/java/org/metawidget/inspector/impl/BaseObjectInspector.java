@@ -146,7 +146,18 @@ public abstract class BaseObjectInspector
 
 				if ( propertyInParent.isReadable() )
 				{
-					parentAttributes = inspectProperty( propertyInParent );
+					parentAttributes = inspectTrait( propertyInParent );
+
+					Map<String, String> parentPropertyAttributes = inspectProperty( propertyInParent );
+
+					if ( parentPropertyAttributes != null )
+					{
+						if ( parentAttributes == null )
+							parentAttributes = parentPropertyAttributes;
+						else
+							parentPropertyAttributes.putAll( parentAttributes );
+					}
+
 					childToInspect = propertyInParent.read( tuple[0] );
 				}
 			}
@@ -247,34 +258,38 @@ public abstract class BaseObjectInspector
 
 		for ( Property property : getProperties( classToInspect ).values() )
 		{
+			Map<String, String> traitAttributes = inspectTrait( property );
 			Map<String, String> propertyAttributes = inspectProperty( property );
 			Map<String, String> entityAttributes = inspectPropertyAsEntity( property, toInspect );
 
-			if ( ( propertyAttributes != null && !propertyAttributes.isEmpty() ) || ( entityAttributes != null && !entityAttributes.isEmpty() ) )
-			{
-				Element element = document.createElementNS( NAMESPACE, PROPERTY );
-				element.setAttribute( NAME, property.getName() );
+			if ( ( traitAttributes == null || traitAttributes.isEmpty() ) && ( propertyAttributes == null || propertyAttributes.isEmpty() ) && ( entityAttributes == null || entityAttributes.isEmpty() ) )
+				continue;
 
-				XmlUtils.setMapAsAttributes( element, propertyAttributes );
-				XmlUtils.setMapAsAttributes( element, entityAttributes );
+			Element element = document.createElementNS( NAMESPACE, PROPERTY );
+			element.setAttribute( NAME, property.getName() );
 
-				toAddTo.appendChild( element );
-			}
+			XmlUtils.setMapAsAttributes( element, traitAttributes );
+			XmlUtils.setMapAsAttributes( element, propertyAttributes );
+			XmlUtils.setMapAsAttributes( element, entityAttributes );
+
+			toAddTo.appendChild( element );
 		}
 
 		// Inspect actions
 
 		for ( Action action : getActions( classToInspect ).values() )
 		{
-			Map<String, String> attributes = inspectAction( action );
+			Map<String, String> traitAttributes = inspectTrait( action );
+			Map<String, String> actionAttributes = inspectAction( action );
 
-			if ( attributes == null || attributes.isEmpty() )
+			if ( ( traitAttributes == null || traitAttributes.isEmpty() ) && ( actionAttributes == null || actionAttributes.isEmpty() ) )
 				continue;
 
 			Element element = document.createElementNS( NAMESPACE, ACTION );
 			element.setAttribute( NAME, action.getName() );
 
-			XmlUtils.setMapAsAttributes( element, attributes );
+			XmlUtils.setMapAsAttributes( element, traitAttributes );
+			XmlUtils.setMapAsAttributes( element, actionAttributes );
 
 			toAddTo.appendChild( element );
 		}
@@ -288,14 +303,28 @@ public abstract class BaseObjectInspector
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
 	 * <p>
-	 * Note: unlike <code>inspectProperty</code>, this method has a default implementation that
-	 * returns <code>null</code>. This is because most Inspectors will not implement
-	 * <code>inspectEntity</code>.
-	 * <p>
 	 * For example usage, see <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
 	 */
 
 	protected Map<String, String> inspectEntity( Class<?> declaredClass, Class<?> actualClass )
+		throws Exception
+	{
+		return null;
+	}
+
+	/**
+	 * Inspect the given trait and return a Map of attributes.
+	 * <p>
+	 * A 'trait' is an interface common to both <code>Property</code> and <code>Action</code>, so
+	 * you can override this single method if your annotation is applicable to both. For example,
+	 * <code>UiLabel</code>.
+	 * <p>
+	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
+	 * Those subclasses wanting more control over these features should override methods higher in
+	 * the call stack instead.
+	 */
+
+	protected Map<String, String> inspectTrait( Trait trait )
 		throws Exception
 	{
 		return null;
@@ -309,8 +338,11 @@ public abstract class BaseObjectInspector
 	 * the call stack instead.
 	 */
 
-	protected abstract Map<String, String> inspectProperty( Property property )
-		throws Exception;
+	protected Map<String, String> inspectProperty( Property property )
+		throws Exception
+	{
+		return null;
+	}
 
 	/**
 	 * Inspect the given action and return a Map of attributes.
@@ -318,10 +350,6 @@ public abstract class BaseObjectInspector
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.
-	 * <p>
-	 * Note: unlike <code>inspectProperty</code>, this method has a default implementation that
-	 * returns <code>null</code>. This is because most Inspectors will not implement
-	 * <code>inspectAction</code>.
 	 */
 
 	protected Map<String, String> inspectAction( Action action )

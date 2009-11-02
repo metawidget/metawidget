@@ -65,21 +65,25 @@ public class MetawidgetAnnotationInspectorTest
 
 		Element property = (Element) entity.getFirstChild();
 		assertTrue( PROPERTY.equals( property.getNodeName() ));
+		assertTrue( "city".equals( property.getAttribute( NAME ) ));
+
+		property = (Element) property.getNextSibling();
+		assertTrue( PROPERTY.equals( property.getNodeName() ));
 		assertTrue( "owner".equals( property.getAttribute( NAME ) ));
 		assertTrue( TRUE.equals( property.getAttribute( HIDDEN ) ));
 
 		property = (Element) property.getNextSibling();
 		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "street".equals( property.getAttribute( NAME ) ));
-
-		property = (Element) property.getNextSibling();
-		assertTrue( PROPERTY.equals( property.getNodeName() ));
-		assertTrue( "city".equals( property.getAttribute( NAME ) ));
+		assertTrue( "postcode".equals( property.getAttribute( NAME ) ));
 
 		property = (Element) property.getNextSibling();
 		assertTrue( PROPERTY.equals( property.getNodeName() ));
 		assertTrue( "state".equals( property.getAttribute( NAME ) ));
 		assertTrue( "Anytown,Cyberton,Lostville,Whereverton".equals( property.getAttribute( LOOKUP ) ));
+
+		property = (Element) property.getNextSibling();
+		assertTrue( PROPERTY.equals( property.getNodeName() ));
+		assertTrue( "street".equals( property.getAttribute( NAME ) ));
 
 		// Made-up Entity
 
@@ -102,13 +106,15 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( TRUE.equals( property.getAttribute( MASKED ) ));
 		assertTrue( TRUE.equals( property.getAttribute( DONT_EXPAND ) ));
 		assertTrue( TRUE.equals( property.getAttribute( LARGE ) ));
-		assertTrue( 10 == property.getAttributes().getLength() );
+		assertTrue( "object1".equals( property.getAttribute( COMES_AFTER ) ));
+		assertTrue( 11 == property.getAttributes().getLength() );
 
 		Element action = (Element) property.getNextSibling();
 		assertTrue( ACTION.equals( action.getNodeName() ));
 		assertTrue( "doNothing".equals( action.getAttribute( NAME ) ));
 		assertTrue( "Bar".equals( action.getAttribute( SECTION ) ));
-		assertTrue( 2 == action.getAttributes().getLength() );
+		assertTrue( "string1".equals( action.getAttribute( COMES_AFTER ) ));
+		assertTrue( 3 == action.getAttributes().getLength() );
 
 		assertTrue( null == action.getNextSibling() );
 	}
@@ -148,21 +154,9 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( "Foo".equals( property.getAttribute( SECTION ) ));
 		assertTrue( TRUE.equals( property.getAttribute( MASKED ) ));
 		assertTrue( TRUE.equals( property.getAttribute( LARGE ) ));
+		assertTrue( "object1".equals( property.getAttribute( COMES_AFTER ) ));
 
-		assertTrue( property.getAttributes().getLength() == 10 );
-	}
-
-	public void testInfiniteLoop()
-	{
-		try
-		{
-			mInspector.inspect( new InfiniteFoo(), InfiniteFoo.class.getName() );
-			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
-			assertTrue( "Infinite loop detected when sorting @UiComesAfter".equals( e.getMessage() ));
-		}
+		assertTrue( property.getAttributes().getLength() == 11 );
 	}
 
 	public void testBadAction()
@@ -196,19 +190,6 @@ public class MetawidgetAnnotationInspectorTest
 		assertTrue( "bar".equals( entity.getAttribute( LABEL ) ));
 	}
 
-	public void testComesAfterItself()
-	{
-		try
-		{
-			mInspector.inspect( new ComesAfterItself(), ComesAfterItself.class.getName() );
-			assertTrue( false );
-		}
-		catch( InspectorException e )
-		{
-			assertTrue( "'foo' is annotated to @UiComesAfter itself".equals( e.getMessage() ));
-		}
-	}
-
 	//
 	// Inner class
 	//
@@ -240,15 +221,6 @@ public class MetawidgetAnnotationInspectorTest
 		}
 	}
 
-	public static class InfiniteFoo
-	{
-		@UiComesAfter( "object2" )
-		public Object object1;
-
-		@UiComesAfter( "object1" )
-		public Object object2;
-	}
-
 	public static class BadAction1
 	{
 		@UiAction
@@ -256,11 +228,5 @@ public class MetawidgetAnnotationInspectorTest
 		{
 			// Do nothing
 		}
-	}
-
-	public static class ComesAfterItself
-	{
-		@UiComesAfter( "foo" )
-		public String foo;
 	}
 }

@@ -127,12 +127,6 @@ public class PageflowInspector
 	}
 
 	@Override
-	protected Map<String, String> inspectProperty( Element toInspect )
-	{
-		return null;
-	}
-
-	@Override
 	protected Map<String, String> inspectAction( Element toInspect )
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();

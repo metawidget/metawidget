@@ -31,6 +31,7 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.jsp.ServletConfigReader;
@@ -44,7 +45,7 @@ import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
-import org.w3c.dom.Document;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
 
 /**
@@ -236,10 +237,20 @@ public abstract class MetawidgetTag
 		mMetawidgetMixin.setInspector( inspector );
 	}
 
+	public void setInspectionResultProcessors( InspectionResultProcessor<Element, MetawidgetTag>... inspectionResultProcessors )
+	{
+		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
+	}
+
 	@SuppressWarnings( "unchecked" )
 	public void setWidgetBuilder( WidgetBuilder<Object, ? extends MetawidgetTag> widgetBuilder )
 	{
 		mMetawidgetMixin.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
+	}
+
+	public void setWidgetProcessors( WidgetProcessor<Tag, MetawidgetTag>... WidgetProcessors )
+	{
+		mMetawidgetMixin.setWidgetProcessors( CollectionUtils.newArrayList( WidgetProcessors ) );
 	}
 
 	public void setLayout( Layout<Tag, MetawidgetTag> layout )
@@ -260,7 +271,7 @@ public abstract class MetawidgetTag
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
+	public Element inspect( Object toInspect, String type, String... names )
 	{
 		return mMetawidgetMixin.inspect( toInspect, type, names );
 	}
@@ -410,7 +421,7 @@ public abstract class MetawidgetTag
 		nestedMetawidget.setBundle( mBundle );
 	}
 
-	protected String inspect()
+	protected Element inspect()
 	{
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath, '.' );
 		String type = typeAndNames.getType();
@@ -432,7 +443,7 @@ public abstract class MetawidgetTag
 
 		// Inspect using the 'raw' type (eg. contactForm)
 
-		String xml = inspect( null, type, typeAndNames.getNamesAsArray() );
+		Element inspectionResult = inspect( null, type, typeAndNames.getNamesAsArray() );
 
 		// (pageContext may be null in unit tests)
 
@@ -446,12 +457,27 @@ public abstract class MetawidgetTag
 			if ( obj != null )
 			{
 				type = ClassUtils.getUnproxiedClass( obj.getClass() ).getName();
-				String additionalXml = inspect( obj, type, typeAndNames.getNamesAsArray() );
-				xml = combineSubtrees( xml, additionalXml );
+				Element additionalInspectionResult = inspect( obj, type, typeAndNames.getNamesAsArray() );
+
+				// Combine the subtrees.
+				//
+				// Note the top-level types attribute will be different, because one is the 'raw' type (eg.
+				// contactForm) and one the runtime bean (eg. org.metawidget.example.struts.addressbook.form.BusinessContactForm)
+
+				if ( inspectionResult == null )
+				{
+					inspectionResult = additionalInspectionResult;
+				}
+				else if ( additionalInspectionResult != null )
+				{
+					Element inspectionResultElement = XmlUtils.getElementAt( inspectionResult, 0 );
+					Element additionalInspectionResultElement = XmlUtils.getElementAt( additionalInspectionResult, 0 );
+					XmlUtils.combineElements( inspectionResultElement, additionalInspectionResultElement, NAME, null );
+				}
 			}
 		}
 
-		return xml;
+		return inspectionResult;
 	}
 
 	protected void configure()
@@ -496,34 +522,6 @@ public abstract class MetawidgetTag
 	}
 
 	protected abstract String getDefaultConfiguration();
-
-	//
-	// Private methods
-	//
-
-	/**
-	 * Combine the subtrees.
-	 * <p>
-	 * Note the top-level types attribute will be different, because one is the 'raw' type (eg.
-	 * contactForm) and one the runtime bean (eg.
-	 * org.metawidget.example.struts.addressbook.form.BusinessContactForm)
-	 */
-
-	private static String combineSubtrees( String master, String toAdd )
-	{
-		if ( master == null )
-			return toAdd;
-
-		if ( toAdd == null )
-			return master;
-
-		Document document = XmlUtils.documentFromString( master );
-		Element masterElement = XmlUtils.getElementAt( document.getDocumentElement(), 0 );
-		Element toAddElement = XmlUtils.getElementAt( XmlUtils.documentFromString( toAdd ).getDocumentElement(), 0 );
-		XmlUtils.combineElements( masterElement, toAddElement, NAME, null );
-
-		return XmlUtils.documentToString( document, false );
-	}
 
 	//
 	// Inner class

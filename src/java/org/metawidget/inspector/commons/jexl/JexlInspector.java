@@ -24,8 +24,7 @@ import org.apache.commons.jexl.JexlHelper;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
-import org.metawidget.inspector.impl.actionstyle.Action;
-import org.metawidget.inspector.impl.propertystyle.Property;
+import org.metawidget.inspector.impl.Trait;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.ThreadUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -95,27 +94,14 @@ public class JexlInspector
 	//
 
 	@Override
-	protected Map<String, String> inspectProperty( Property property )
+	protected Map<String, String> inspectTrait( Trait trait )
 		throws Exception
 	{
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		// UiJexlAttributes/UiJexlAttribute
 
-		putJexlAttributes( attributes, property.getAnnotation( UiJexlAttributes.class ), property.getAnnotation( UiJexlAttribute.class ) );
-
-		return attributes;
-	}
-
-	@Override
-	protected Map<String, String> inspectAction( Action action )
-		throws Exception
-	{
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-
-		// UiJexlAttributes/UiJexlAttribute
-
-		putJexlAttributes( attributes, action.getAnnotation( UiJexlAttributes.class ), action.getAnnotation( UiJexlAttribute.class ) );
+		putJexlAttributes( attributes, trait.getAnnotation( UiJexlAttributes.class ), trait.getAnnotation( UiJexlAttribute.class ) );
 
 		return attributes;
 	}

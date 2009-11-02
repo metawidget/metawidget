@@ -3385,7 +3385,7 @@ public class Person {
 				<para>
 					You can also choose to plug-in your own <classname>WidgetBuilder</classname> that detects 'overriden widgets' based
 					on your own criteria. Here is an example of a custom <classname>WidgetBuilder</classname> that excludes widgets
-					based on given names. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
+					based on a client property. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -3438,6 +3438,13 @@ public class Main {
 				<tip>
 					<title>Note</title>
 					We don't necessarily recommend this approach, as it requires hard-coding business property names and won't refactor well.
+				</tip>
+
+				<tip>
+					<title>Note</title>
+					Although you could adapt this approach to only include (instead of exclude) certain fields, you could not adapt it
+					to include fields <emphasis>in the order given in the client property</emphasis>. This is because <classname>WidgetBuilder</classname>s
+					only operate on single widgets at a time. Instead, see <xref linkend="section-architecture-inspectionresultprocessors"/> 
 				</tip>
 			</section>
 			

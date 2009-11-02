@@ -335,14 +335,13 @@ public abstract class BaseXmlInspector
 	 * Inspect the given Element and return a Map of attributes if it is a property.
 	 */
 
-	protected abstract Map<String, String> inspectProperty( Element toInspect );
+	protected Map<String, String> inspectProperty( Element toInspect )
+	{
+		return null;
+	}
 
 	/**
 	 * Inspect the given Element and return a Map of attributes if it is an action.
-	 * <p>
-	 * Note: unlike <code>inspectProperty</code>, this method has a default implementation that
-	 * returns <code>null</code>. This is because most Inspectors will not implement
-	 * <code>inspectAction</code>.
 	 */
 
 	protected Map<String, String> inspectAction( Element toInspect )

@@ -28,9 +28,11 @@ import java.util.Set;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.impl.OverriddenWidgetBuilder;
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
@@ -45,6 +47,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasName;
 import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.xml.client.Element;
 
 /**
  * Metawidget for GWT environments.
@@ -149,7 +152,7 @@ public class GwtMetawidget
 
 	/* package private */int										mNeedToBuildWidgets;
 
-	/* package private */String										mLastInspection;
+	/* package private */Element									mLastInspection;
 
 	/* package private */boolean									mIgnoreAddRemove;
 
@@ -262,6 +265,24 @@ public class GwtMetawidget
 	{
 		mMetawidgetMixin.setInspector( inspector );
 		invalidateInspection();
+	}
+
+	public void addInspectionResultProcessor( InspectionResultProcessor<Element, GwtMetawidget> inspectionResultProcessor )
+	{
+		mMetawidgetMixin.addInspectionResultProcessor( inspectionResultProcessor );
+		invalidateWidgets();
+	}
+
+	public void removeInspectionResultProcessor( InspectionResultProcessor<Element, GwtMetawidget> inspectionResultProcessor )
+	{
+		mMetawidgetMixin.removeInspectionResultProcessor( inspectionResultProcessor );
+		invalidateWidgets();
+	}
+
+	public void setInspectionResultProcessors( InspectionResultProcessor<Element, GwtMetawidget>... inspectionResultProcessors )
+	{
+		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
+		invalidateWidgets();
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<Widget, GwtMetawidget> widgetBuilder )
@@ -799,7 +820,7 @@ public class GwtMetawidget
 				if ( inspector instanceof GwtRemoteInspectorProxy )
 				{
 					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-					( (GwtRemoteInspectorProxy) inspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray(), new AsyncCallback<String>()
+					( (GwtRemoteInspectorProxy) inspector ).inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray(), new AsyncCallback<Element>()
 					{
 						public void onFailure( Throwable caught )
 						{
@@ -808,9 +829,9 @@ public class GwtMetawidget
 							mNeedToBuildWidgets = BUILDING_COMPLETE;
 						}
 
-						public void onSuccess( String xml )
+						public void onSuccess( Element inspectionResult )
 						{
-							mLastInspection = xml;
+							mLastInspection = inspectionResult;
 
 							try
 							{

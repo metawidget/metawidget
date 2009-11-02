@@ -25,6 +25,8 @@ import org.metawidget.inspector.iface.Inspector;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.XMLParser;
 
 /**
  * GwtInspector that sends its objects to the server for inspection.
@@ -90,7 +92,7 @@ public class GwtRemoteInspectorProxy
 		throw new UnsupportedOperationException( "Use async inspection instead" );
 	}
 
-	public void inspect( Object toInspect, String type, String[] names, final AsyncCallback<String> callback )
+	public void inspect( Object toInspect, String type, String[] names, final AsyncCallback<Element> callback )
 	{
 		if ( !( toInspect instanceof Serializable ) )
 			throw new RuntimeException( "Objects passed to GwtRemoteInspector must be Serializable" );
@@ -104,7 +106,7 @@ public class GwtRemoteInspectorProxy
 
 			public void onSuccess( String xml )
 			{
-				callback.onSuccess( xml );
+				callback.onSuccess( XMLParser.parse( xml ).getDocumentElement() );
 			}
 		} );
 

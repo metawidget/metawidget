@@ -14,40 +14,30 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl.propertystyle;
+package org.metawidget.inspector.impl;
 
-import java.lang.reflect.Type;
-
-import org.metawidget.inspector.impl.Trait;
+import java.lang.annotation.Annotation;
 
 /**
- * Interface over getter/setter-based, field-based, or Groovy-based properties, so that
- * <code>Inspectors</code> can treat them all the same.
+ * Interface common to both <code>org.metawidget.inspector.impl.propertystyle.Property</code>
+ * (business object properties) and <code>org.metawidget.inspector.impl.actionstyle.Action</code>
+ * (business object actions).
+ * <p>
+ * This is essentially <code>java.lang.reflect.AnnotatedElement</code> from Java 5, but simplified
+ * with fewer methods and duplicated so that we don't get a <code>NoClassDefError</code> under 1.4.
  *
  * @author Richard Kennard
  */
 
-public interface Property
-	extends Trait
+public interface Trait
 {
 	//
 	// Methods
 	//
 
-	Class<?> getType();
+	String getName();
 
-	boolean isReadable();
+	<T extends Annotation> T getAnnotation( Class<T> annotation );
 
-	/**
-	 * Read the given property for the given object.
-	 * <p>
-	 * Used by PropertyInspector to determine subtypes, and by BaseObjectInspector to traverse
-	 * the object graph.
-	 */
-
-	Object read( Object obj );
-
-	boolean isWritable();
-
-	Type getGenericType();
+	boolean isAnnotationPresent( Class<? extends Annotation> annotation );
 }

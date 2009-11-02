@@ -28,7 +28,7 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
-import org.metawidget.inspector.impl.actionstyle.Action;
+import org.metawidget.inspector.impl.Trait;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -60,6 +60,46 @@ public class FacesInspector
 	//
 	// Protected methods
 	//
+
+	@Override
+	protected Map<String, String> inspectTrait( Trait trait )
+		throws Exception
+	{
+		// UiFacesAttributes/UiFacesAttribute
+
+		UiFacesAttributes facesAttributes = trait.getAnnotation( UiFacesAttributes.class );
+		UiFacesAttribute facesAttribute = trait.getAnnotation( UiFacesAttribute.class );
+
+		if ( facesAttributes == null && facesAttribute == null )
+			return null;
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		FacesContext context = FacesContext.getCurrentInstance();
+
+		if ( context == null )
+			throw InspectorException.newException( "FacesContext not available to FacesInspector" );
+
+		Application application = context.getApplication();
+
+		// UiFacesAttribute
+
+		if ( facesAttribute != null )
+		{
+			putFacesAttribute( context, application, attributes, facesAttribute );
+		}
+
+		// UiFacesAttributes
+
+		if ( facesAttributes != null )
+		{
+			for ( UiFacesAttribute nestedFacesAttribute : facesAttributes.value() )
+			{
+				putFacesAttribute( context, application, attributes, nestedFacesAttribute );
+			}
+		}
+
+		return attributes;
+	}
 
 	@Override
 	protected Map<String, String> inspectProperty( Property property )
@@ -151,56 +191,7 @@ public class FacesInspector
 				attributes.put( DATETIME_TYPE, dateTimeConverter.type() );
 		}
 
-		// UiFacesAttributes/UiFacesAttribute
-
-		putFacesAttributes( attributes, property.getAnnotation( UiFacesAttributes.class ), property.getAnnotation( UiFacesAttribute.class ));
-
 		return attributes;
-	}
-
-	@Override
-	protected Map<String, String> inspectAction( Action property )
-		throws Exception
-	{
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-
-		// UiFacesAttributes/UiFacesAttribute
-
-		putFacesAttributes( attributes, property.getAnnotation( UiFacesAttributes.class ), property.getAnnotation( UiFacesAttribute.class ));
-
-		return attributes;
-	}
-
-	protected void putFacesAttributes( Map<String, String> attributes, UiFacesAttributes facesAttributes, UiFacesAttribute facesAttribute )
-	{
-		// Nothing to do?
-
-		if ( facesAttributes == null && facesAttribute == null )
-			return;
-
-		FacesContext context = FacesContext.getCurrentInstance();
-
-		if ( context == null )
-			throw InspectorException.newException( "FacesContext not available to FacesInspector" );
-
-		Application application = context.getApplication();
-
-		// UiFacesAttribute
-
-		if ( facesAttribute != null )
-		{
-			putFacesAttribute( context, application, attributes, facesAttribute );
-		}
-
-		// UiFacesAttributes
-
-		if ( facesAttributes != null )
-		{
-			for ( UiFacesAttribute nestedFacesAttribute : facesAttributes.value() )
-			{
-				putFacesAttribute( context, application, attributes, nestedFacesAttribute );
-			}
-		}
 	}
 
 	protected void putFacesAttribute( FacesContext context, Application application, Map<String, String> attributes, UiFacesAttribute facesAttribute )

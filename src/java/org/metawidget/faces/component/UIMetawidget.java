@@ -36,6 +36,7 @@ import javax.faces.el.ValueBinding;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
@@ -46,7 +47,7 @@ import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
-import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Base Metawidget for Java Server Faces environments.
@@ -211,6 +212,21 @@ public abstract class UIMetawidget
 	public void setInspector( Inspector inspector )
 	{
 		mMetawidgetMixin.setInspector( inspector );
+	}
+
+	public void addInspectionResultProcessor( InspectionResultProcessor<Element, UIMetawidget> inspectionResultProcessor )
+	{
+		mMetawidgetMixin.addInspectionResultProcessor( inspectionResultProcessor );
+	}
+
+	public void removeInspectionResultProcessor( InspectionResultProcessor<Element, UIMetawidget> inspectionResultProcessor )
+	{
+		mMetawidgetMixin.removeInspectionResultProcessor( inspectionResultProcessor );
+	}
+
+	public void setInspectionResultProcessors( InspectionResultProcessor<Element, UIMetawidget>... inspectionResultProcessors )
+	{
+		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder )
@@ -533,7 +549,7 @@ public abstract class UIMetawidget
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
+	public Element inspect( Object toInspect, String type, String... names )
 	{
 		return mMetawidgetMixin.inspect( toInspect, type, names );
 	}
@@ -667,7 +683,7 @@ public abstract class UIMetawidget
 	 * components
 	 */
 
-	protected String inspect( ValueBinding valueBinding, boolean inspectFromParent )
+	protected Element inspect( ValueBinding valueBinding, boolean inspectFromParent )
 	{
 		if ( valueBinding == null )
 			return null;
@@ -846,13 +862,10 @@ public abstract class UIMetawidget
 
 			if ( binding != null )
 			{
-				String xml = inspect( binding, true );
+				Element inspectionResult = inspect( binding, true );
 
-				if ( xml != null )
-				{
-					Document document = XmlUtils.documentFromString( xml );
-					childAttributes.putAll( XmlUtils.getAttributesAsMap( document.getDocumentElement().getFirstChild() ) );
-				}
+				if ( inspectionResult != null )
+					childAttributes.putAll( XmlUtils.getAttributesAsMap( inspectionResult.getFirstChild() ) );
 			}
 			else
 			{

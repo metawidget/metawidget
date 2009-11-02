@@ -61,7 +61,6 @@ import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -680,7 +679,7 @@ public class HtmlWidgetBuilder
 		else
 			componentType = attributes.get( PARAMETERIZED_TYPE );
 
-		String inspectedType = null;
+		Element inspectedType = null;
 
 		if ( componentType != null )
 			inspectedType = metawidget.inspect( null, componentType, (String[]) null );
@@ -715,8 +714,7 @@ public class HtmlWidgetBuilder
 
 		else
 		{
-			Document document = XmlUtils.documentFromString( inspectedType );
-			NodeList elements = document.getDocumentElement().getFirstChild().getChildNodes();
+			NodeList elements = inspectedType.getFirstChild().getChildNodes();
 
 			// ...and try to create columns for just the 'required' fields...
 

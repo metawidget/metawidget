@@ -22,6 +22,12 @@
 			</compositeInspector>
 		</inspector>
 
+		<inspectionResultProcessors>
+			<array>
+				<sortByComesAfterInspectionResultProcessor xmlns="java:org.metawidget.inspectionresultprocessor.comesafter"/>
+			</array>
+		</inspectionResultProcessors>
+
 		<widgetBuilder>
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>

@@ -22,7 +22,6 @@ import java.util.Map;
 
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.actionstyle.Action;
-import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.CollectionUtils;
 
 /**
@@ -51,13 +50,6 @@ public class SwingAppFrameworkInspector
 	//
 	// Protected methods
 	//
-
-	@Override
-	protected Map<String, String> inspectProperty( Property property )
-		throws Exception
-	{
-		return null;
-	}
 
 	@Override
 	protected Map<String, String> inspectAction( Action action )

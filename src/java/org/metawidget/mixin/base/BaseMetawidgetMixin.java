@@ -251,12 +251,18 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	 * using our same <code>Inspector</code>.
 	 */
 
-	public String inspect( Object toInspect, String type, String... names )
+	public E inspect( Object toInspect, String type, String... names )
 	{
 		if ( mInspector == null )
 			throw new NullPointerException( "No inspector configured" );
 
-		return mInspector.inspect( toInspect, type, names );
+		String xml = mInspector.inspect( toInspect, type, names );
+
+		if ( xml == null )
+			return null;
+
+		E inspectionResult = getDocumentElement( xml );
+		return processInspectionResult( inspectionResult );
 	}
 
 	/**
@@ -266,49 +272,43 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	 * than fetching it itself, because some XML inspections may be asynchronous.
 	 */
 
-	public void buildWidgets( String xml )
+	public void buildWidgets( E inspectionResult )
 		throws Exception
 	{
 		startBuild();
 
-		if ( xml != null && !"".equals( xml ) )
+		if ( inspectionResult != null )
 		{
-			E inspectionResult = getDocumentElement( xml );
-			inspectionResult = processInspectionResult( inspectionResult );
+			// Build simple widget (from the top-level element)
 
-			if ( inspectionResult != null )
+			E element = getChildAt( inspectionResult, 0 );
+			Map<String, String> attributes = getAttributesAsMap( element );
+
+			if ( isReadOnly() )
+				attributes.put( READ_ONLY, TRUE );
+
+			// It is a little counter-intuitive that there can ever be an override
+			// of the top-level element. However, if we go down the path that builds
+			// a single widget (eg. doesn't invoke buildCompoundWidget), then our
+			// child is at the same top-level as us, and there are some scenarios (like
+			// Java Server Faces POST backs) where we need to re-identify that
+
+			String elementName = getElementName( element );
+			W widget = buildWidget( elementName, attributes );
+
+			// If mWidgetBuilder.buildWidget returns null, try buildCompoundWidget (from our child
+			// elements)
+
+			if ( widget == null )
 			{
-				// Build simple widget (from the top-level element)
+				buildCompoundWidget( element );
+			}
+			else
+			{
+				widget = processWidget( widget, elementName, attributes );
 
-				E element = getChildAt( inspectionResult, 0 );
-				Map<String, String> attributes = getAttributesAsMap( element );
-
-				if ( isReadOnly() )
-					attributes.put( READ_ONLY, TRUE );
-
-				// It is a little counter-intuitive that there can ever be an override
-				// of the top-level element. However, if we go down the path that builds
-				// a single widget (eg. doesn't invoke buildCompoundWidget), then our
-				// child is at the same top-level as us, and there are some scenarios (like
-				// Java Server Faces POST backs) where we need to re-identify that
-
-				String elementName = getElementName( element );
-				W widget = buildWidget( elementName, attributes );
-
-				// If mWidgetBuilder.buildWidget returns null, try buildCompoundWidget (from our child
-				// elements)
-
-				if ( widget == null )
-				{
-					buildCompoundWidget( element );
-				}
-				else
-				{
-					widget = processWidget( widget, elementName, attributes );
-
-					if ( widget != null )
-						addWidget( widget, elementName, attributes );
-				}
+				if ( widget != null )
+					addWidget( widget, elementName, attributes );
 			}
 		}
 

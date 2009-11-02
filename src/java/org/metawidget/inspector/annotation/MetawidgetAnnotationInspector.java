@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
+import org.metawidget.inspector.impl.Trait;
 import org.metawidget.inspector.impl.actionstyle.Action;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ArrayUtils;
@@ -60,6 +61,69 @@ public class MetawidgetAnnotationInspector
 	//
 
 	@Override
+	protected Map<String, String> inspectTrait( Trait trait )
+		throws Exception
+	{
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+
+		// UiHidden
+
+		if ( trait.isAnnotationPresent( UiHidden.class ) )
+			attributes.put( HIDDEN, TRUE );
+
+		// UiComesAfter
+
+		UiComesAfter comesAfter = trait.getAnnotation( UiComesAfter.class );
+
+		if ( comesAfter != null )
+			attributes.put( COMES_AFTER, ArrayUtils.toString( comesAfter.value() ));
+
+		// UiReadOnly
+
+		UiReadOnly readOnly = trait.getAnnotation( UiReadOnly.class );
+
+		if ( readOnly != null )
+			attributes.put( READ_ONLY, TRUE );
+
+		// UiSection
+
+		UiSection uiSection = trait.getAnnotation( UiSection.class );
+
+		if ( uiSection != null )
+			attributes.put( SECTION, uiSection.value() );
+
+		// UiLabel
+
+		UiLabel label = trait.getAnnotation( UiLabel.class );
+
+		if ( label != null )
+			attributes.put( LABEL, label.value() );
+
+		// UiAttribute
+
+		UiAttribute attribute = trait.getAnnotation( UiAttribute.class );
+
+		if ( attribute != null )
+		{
+			attributes.put( attribute.name(), attribute.value() );
+		}
+
+		// UiAttributes
+
+		UiAttributes uiAttributes = trait.getAnnotation( UiAttributes.class );
+
+		if ( uiAttributes != null )
+		{
+			for ( UiAttribute nestedAttribute : uiAttributes.value() )
+			{
+				attributes.put( nestedAttribute.name(), nestedAttribute.value() );
+			}
+		}
+
+		return attributes;
+	}
+
+	@Override
 	protected Map<String, String> inspectProperty( Property property )
 		throws Exception
 	{
@@ -90,11 +154,6 @@ public class MetawidgetAnnotationInspector
 		if ( property.isAnnotationPresent( UiMasked.class ) )
 			attributes.put( MASKED, TRUE );
 
-		// UiHidden
-
-		if ( property.isAnnotationPresent( UiHidden.class ) )
-			attributes.put( HIDDEN, TRUE );
-
 		// UiLarge
 
 		if ( property.isAnnotationPresent( UiLarge.class ) )
@@ -105,61 +164,12 @@ public class MetawidgetAnnotationInspector
 		if ( property.isAnnotationPresent( UiWide.class ) )
 			attributes.put( WIDE, TRUE );
 
-		// UiComesAfter
-
-		UiComesAfter comesAfter = property.getAnnotation( UiComesAfter.class );
-
-		if ( comesAfter != null )
-			attributes.put( COMES_AFTER, ArrayUtils.toString( comesAfter.value() ));
-
-		// UiReadOnly
-
-		UiReadOnly readOnly = property.getAnnotation( UiReadOnly.class );
-
-		if ( readOnly != null )
-			attributes.put( READ_ONLY, TRUE );
-
 		// UiDontExpand
 
 		UiDontExpand dontExpand = property.getAnnotation( UiDontExpand.class );
 
 		if ( dontExpand != null )
 			attributes.put( DONT_EXPAND, TRUE );
-
-		// UiSection
-
-		UiSection uiSection = property.getAnnotation( UiSection.class );
-
-		if ( uiSection != null )
-			attributes.put( SECTION, uiSection.value() );
-
-		// UiLabel
-
-		UiLabel label = property.getAnnotation( UiLabel.class );
-
-		if ( label != null )
-			attributes.put( LABEL, label.value() );
-
-		// UiAttribute
-
-		UiAttribute attribute = property.getAnnotation( UiAttribute.class );
-
-		if ( attribute != null )
-		{
-			attributes.put( attribute.name(), attribute.value() );
-		}
-
-		// UiAttributes
-
-		UiAttributes uiAttributes = property.getAnnotation( UiAttributes.class );
-
-		if ( uiAttributes != null )
-		{
-			for ( UiAttribute nestedAttribute : uiAttributes.value() )
-			{
-				attributes.put( nestedAttribute.name(), nestedAttribute.value() );
-			}
-		}
 
 		return attributes;
 	}
@@ -174,60 +184,6 @@ public class MetawidgetAnnotationInspector
 
 		if ( action.isAnnotationPresent( UiAction.class ) )
 			attributes.put( NAME, action.getName() );
-
-		// UiHidden
-
-		if ( action.isAnnotationPresent( UiHidden.class ) )
-			attributes.put( HIDDEN, TRUE );
-
-		// UiComesAfter
-
-		UiComesAfter comesAfter = action.getAnnotation( UiComesAfter.class );
-
-		if ( comesAfter != null )
-			attributes.put( COMES_AFTER, ArrayUtils.toString( comesAfter.value() ));
-
-		// UiReadOnly
-
-		UiReadOnly readOnly = action.getAnnotation( UiReadOnly.class );
-
-		if ( readOnly != null )
-			attributes.put( READ_ONLY, TRUE );
-
-		// UiSection
-
-		UiSection uiSection = action.getAnnotation( UiSection.class );
-
-		if ( uiSection != null )
-			attributes.put( SECTION, uiSection.value() );
-
-		// UiLabel
-
-		UiLabel label = action.getAnnotation( UiLabel.class );
-
-		if ( label != null )
-			attributes.put( LABEL, label.value() );
-
-		// UiAttribute
-
-		UiAttribute attribute = action.getAnnotation( UiAttribute.class );
-
-		if ( attribute != null )
-		{
-			attributes.put( attribute.name(), attribute.value() );
-		}
-
-		// UiAttributes
-
-		UiAttributes uiAttributes = action.getAnnotation( UiAttributes.class );
-
-		if ( uiAttributes != null )
-		{
-			for ( UiAttribute nestedAttribute : uiAttributes.value() )
-			{
-				attributes.put( nestedAttribute.name(), nestedAttribute.value() );
-			}
-		}
 
 		return attributes;
 	}

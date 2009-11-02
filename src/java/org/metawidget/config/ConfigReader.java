@@ -390,6 +390,8 @@ public class ConfigReader
 		if ( "bundle".equals( name ) )
 			return true;
 
+		// TODO: constant
+
 		return false;
 	}
 

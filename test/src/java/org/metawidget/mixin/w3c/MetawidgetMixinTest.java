@@ -24,6 +24,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 import org.w3c.dom.Element;
@@ -109,7 +110,7 @@ public class MetawidgetMixinTest
 
 		// Top-level widget
 
-		mixin.buildWidgets( "<inspection-result><entity type=\"foo\"/></inspection-result>" );
+		mixin.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity type=\"foo\"/></inspection-result>" ).getFirstChild() );
 
 		assertTrue( called.size() == 1 );
 		assertTrue( "WidgetProcessor #1".equals( called.get( 0 ) ) );
@@ -118,7 +119,7 @@ public class MetawidgetMixinTest
 		// Property-level widget
 
 		called.clear();
-		mixin.buildWidgets( "<inspection-result><entity><property name=\"foo\" type=\"foo\"/></entity></inspection-result>" );
+		mixin.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" type=\"foo\"/></entity></inspection-result>" ).getFirstChild() );
 
 		assertTrue( called.size() == 2 );
 		assertTrue( "buildCompoundWidget".equals( called.get( 0 ) ) );
@@ -182,7 +183,7 @@ public class MetawidgetMixinTest
 
 		// Top-level widget
 
-		mixin.buildWidgets( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" );
+		mixin.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" ).getFirstChild() );
 
 		assertTrue( called.size() == 4 );
 		assertTrue( "buildCompoundWidget".equals( called.get( 0 ) ) );

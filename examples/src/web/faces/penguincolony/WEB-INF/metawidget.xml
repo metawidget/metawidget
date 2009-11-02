@@ -16,6 +16,18 @@
 			<string>footerStyleClass</string>
 			<string>buttons</string>
 		</parameter>
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
+						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>			
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
 		<widgetBuilder>
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
@@ -37,18 +49,6 @@
 				</widgetBuilders>
 			</compositeWidgetBuilder>
 		</widgetBuilder>
-		<inspector>		
-			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
-				<inspectors>
-					<array>
-						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
-						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
-						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
-						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>			
-					</array>
-				</inspectors>
-			</compositeInspector>
-		</inspector>
 	</htmlMetawidget>
 
 </metawidget>

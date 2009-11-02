@@ -93,7 +93,7 @@ public class SwingMetawidget
 
 	private boolean						mNeedToBuildWidgets;
 
-	private String						mLastInspection;
+	private Element						mLastInspection;
 
 	private boolean						mIgnoreAddRemove;
 
@@ -228,9 +228,9 @@ public class SwingMetawidget
 		invalidateWidgets();
 	}
 
-	public void setInspectionResultProcessors( InspectionResultProcessor<Element, SwingMetawidget>... inspectionResultProcessor )
+	public void setInspectionResultProcessors( InspectionResultProcessor<Element, SwingMetawidget>... inspectionResultProcessors )
 	{
-		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessor ) );
+		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 		invalidateWidgets();
 	}
 
@@ -940,7 +940,7 @@ public class SwingMetawidget
 		}
 	}
 
-	protected String inspect()
+	protected Element inspect()
 	{
 		if ( mPath == null )
 			return null;

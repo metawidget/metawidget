@@ -36,7 +36,6 @@ import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
-import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -112,7 +111,7 @@ public class DisplayTagWidgetBuilder
 					else
 						componentType = attributes.get( PARAMETERIZED_TYPE );
 
-					String inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
+					Element inspectedType = metawidgetTag.inspect( null, componentType, (String[]) null );
 
 					// If there is a type...
 
@@ -120,8 +119,7 @@ public class DisplayTagWidgetBuilder
 					{
 						// ...iterate over it...
 
-						Document document = XmlUtils.documentFromString( inspectedType );
-						NodeList elements = document.getDocumentElement().getFirstChild().getChildNodes();
+						NodeList elements = inspectedType.getFirstChild().getChildNodes();
 
 						// ...and for each property...
 

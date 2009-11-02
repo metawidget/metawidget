@@ -28,7 +28,7 @@ import javax.servlet.jsp.el.VariableResolver;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.BaseObjectInspector;
 import org.metawidget.inspector.impl.BaseObjectInspectorConfig;
-import org.metawidget.inspector.impl.actionstyle.Action;
+import org.metawidget.inspector.impl.Trait;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.util.ArrayUtils;
@@ -91,46 +91,18 @@ public class JspAnnotationInspector
 	//
 
 	@Override
-	protected Map<String, String> inspectProperty( Property property )
+	protected Map<String, String> inspectTrait( Trait trait )
 		throws Exception
 	{
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-
-		// UiJspLookup
-
-		UiJspLookup jspLookup = property.getAnnotation( UiJspLookup.class );
-
-		if ( jspLookup != null )
-			attributes.put( JSP_LOOKUP, jspLookup.value() );
-
 		// UiJspAttributes/UiJspAttribute
 
-		putJspAttributes( attributes, property.getAnnotation( UiJspAttributes.class ), property.getAnnotation( UiJspAttribute.class ) );
-
-		return attributes;
-	}
-
-	@Override
-	protected Map<String, String> inspectAction( Action action )
-		throws Exception
-	{
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-
-		// UiJspAttributes/UiJspAttribute
-
-		putJspAttributes( attributes, action.getAnnotation( UiJspAttributes.class ), action.getAnnotation( UiJspAttribute.class ) );
-
-		return attributes;
-	}
-
-	protected void putJspAttributes( Map<String, String> attributes, UiJspAttributes jspAttributes, UiJspAttribute jspAttribute )
-		throws Exception
-	{
-		// Nothing to do?
+		UiJspAttributes jspAttributes = trait.getAnnotation( UiJspAttributes.class );
+		UiJspAttribute jspAttribute = trait.getAnnotation( UiJspAttribute.class );
 
 		if ( jspAttributes == null && jspAttribute == null )
-			return;
+			return null;
 
+		Map<String, String> attributes = CollectionUtils.newHashMap();
 		PageContext pageContext = LOCAL_PAGE_CONTEXT.get();
 
 		if ( pageContext == null )
@@ -165,6 +137,24 @@ public class JspAnnotationInspector
 				putJspAttribute( expressionEvaluator, variableResolver, attributes, nestedJspAttribute );
 			}
 		}
+
+		return attributes;
+	}
+
+	@Override
+	protected Map<String, String> inspectProperty( Property property )
+		throws Exception
+	{
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+
+		// UiJspLookup
+
+		UiJspLookup jspLookup = property.getAnnotation( UiJspLookup.class );
+
+		if ( jspLookup != null )
+			attributes.put( JSP_LOOKUP, jspLookup.value() );
+
+		return attributes;
 	}
 
 	protected void putJspAttribute( ExpressionEvaluator expressionEvaluator, VariableResolver variableResolver, Map<String, String> attributes, UiJspAttribute jspAttribute )
