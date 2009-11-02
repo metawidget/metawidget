@@ -3223,6 +3223,15 @@ public class Person {
 
 		</section>
 
+		<section id="section-architecture-inspectionresultprocessors">
+			<title>Inspection Result Processors</title>
+
+			<para>
+				<classname>InspectionResultProcessor</classname>s allow arbitrary processing of the inspection result
+				returned by the <classname>Inspector</classname>, before it is passed to the <classname>WidgetBuilder</classname>.
+			</para>
+		</section>
+
 		<section id="section-architecture-widgetbuilders">
 			<title>Widget Builders</title>
 			

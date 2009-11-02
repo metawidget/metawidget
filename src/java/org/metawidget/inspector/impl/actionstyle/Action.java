@@ -16,7 +16,7 @@
 
 package org.metawidget.inspector.impl.actionstyle;
 
-import java.lang.annotation.Annotation;
+import org.metawidget.inspector.impl.Trait;
 
 /**
  * Interface over actions, in case we want to support non-method based actions in the future.
@@ -25,14 +25,7 @@ import java.lang.annotation.Annotation;
  */
 
 public interface Action
+	extends Trait
 {
-	//
-	// Methods
-	//
-
-	String getName();
-
-	<T extends Annotation> T getAnnotation( Class<T> annotation );
-
-	boolean isAnnotationPresent( Class<? extends Annotation> annotation );
+	// Same methods as Trait
 }

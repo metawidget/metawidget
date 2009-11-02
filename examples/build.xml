@@ -113,7 +113,8 @@
 				<include name="org/metawidget/inspector/impl/propertystyle/javabean/*.class"/>
 				<include name="org/metawidget/inspector/propertytype/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>				
-				<include name="org/metawidget/inspector/xml/**"/>				
+				<include name="org/metawidget/inspector/xml/**"/>
+				<include name="org/metawidget/inspectionresultprocessor/**"/>				
 				<include name="org/metawidget/layout/**"/>				
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/w3c/**"/>
@@ -618,6 +619,7 @@
 				<include name="org/metawidget/inspector/propertytype/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>
 				<include name="org/metawidget/inspector/xml/**"/>
+				<include name="org/metawidget/inspectionresultprocessor/**"/>
 				<include name="org/metawidget/layout/**"/>
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/w3c/**"/>

@@ -226,6 +226,7 @@
 				<include name="org/metawidget/inspector/iface/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/iface/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
+				<include name="org/metawidget/inspectionresultprocessor/iface/**"/>
 				<include name="org/metawidget/layout/**"/>
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/gwt/**"/>

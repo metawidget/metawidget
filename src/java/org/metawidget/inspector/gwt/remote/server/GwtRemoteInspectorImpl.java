@@ -103,6 +103,8 @@ public class GwtRemoteInspectorImpl
 			return;
 		}
 
+		// TODO: init dummy
+
 		setInspector( servletConfigReader.configure( getDefaultConfiguration(), Inspector.class ));
 	}
 }

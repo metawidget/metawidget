@@ -32,7 +32,6 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
@@ -270,18 +269,6 @@ public class GwtMetawidget
 	public void addInspectionResultProcessor( InspectionResultProcessor<Element, GwtMetawidget> inspectionResultProcessor )
 	{
 		mMetawidgetMixin.addInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
-	}
-
-	public void removeInspectionResultProcessor( InspectionResultProcessor<Element, GwtMetawidget> inspectionResultProcessor )
-	{
-		mMetawidgetMixin.removeInspectionResultProcessor( inspectionResultProcessor );
-		invalidateWidgets();
-	}
-
-	public void setInspectionResultProcessors( InspectionResultProcessor<Element, GwtMetawidget>... inspectionResultProcessors )
-	{
-		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 		invalidateWidgets();
 	}
 
