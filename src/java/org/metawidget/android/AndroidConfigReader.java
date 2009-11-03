@@ -87,7 +87,7 @@ public class AndroidConfigReader
 	 */
 
 	@Override
-	protected Object createNative( String name, String recordedText )
+	protected Object createNative( String name, Class<?> namespace, String recordedText )
 		throws Exception
 	{
 		if ( "int".equals( name ) && recordedText.startsWith( "@" ))
@@ -101,6 +101,6 @@ public class AndroidConfigReader
 			return id;
 		}
 
-		return super.createNative( name, recordedText );
+		return super.createNative( name, namespace, recordedText );
 	}
 }

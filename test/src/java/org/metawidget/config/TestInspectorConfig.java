@@ -33,6 +33,12 @@ import org.metawidget.util.simple.ObjectUtils;
 public class TestInspectorConfig
 {
 	//
+	// Public statics
+	//
+
+	public final static int	CONSTANT_VALUE	= 42;
+
+	//
 	// Private members
 	//
 
@@ -41,6 +47,10 @@ public class TestInspectorConfig
 	private Set<Object>		mSet;
 
 	private int				mInt;
+
+	private int				mConstant;
+
+	private int				mExternalConstant;
 
 	private boolean			mBoolean;
 
@@ -83,6 +93,26 @@ public class TestInspectorConfig
 	public void setInt( int anInt )
 	{
 		mInt = anInt;
+	}
+
+	public int getConstant()
+	{
+		return mConstant;
+	}
+
+	public void setConstant( int constant )
+	{
+		mConstant = constant;
+	}
+
+	public int getExternalConstant()
+	{
+		return mExternalConstant;
+	}
+
+	public void setExternalConstant( int externalConstant )
+	{
+		mExternalConstant = externalConstant;
 	}
 
 	public int getInt()

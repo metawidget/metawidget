@@ -390,7 +390,8 @@ public class ConfigReader
 		if ( "bundle".equals( name ) )
 			return true;
 
-		// TODO: constant
+		if ( "constant".equals( name ) )
+			return true;
 
 		return false;
 	}
@@ -414,9 +415,12 @@ public class ConfigReader
 	/**
 	 * Create the given native type based on the recorded text (as returned by
 	 * <code>SAX.endRecording</code>)
+	 *
+	 * @param namespace
+	 *            the Class of the object under construction
 	 */
 
-	protected Object createNative( String name, String recordedText )
+	protected Object createNative( String name, Class<?> namespace, String recordedText )
 		throws Exception
 	{
 		if ( "null".equals( name ) )
@@ -460,6 +464,20 @@ public class ConfigReader
 
 		if ( "enum".equals( name ) )
 			return recordedText;
+
+		if ( "constant".equals( name ) )
+		{
+			// External constant
+
+			int lastIndexOf = recordedText.lastIndexOf( '.' );
+
+			if ( lastIndexOf != -1 )
+				return Class.forName( recordedText.substring( 0, lastIndexOf ) ).getDeclaredField( recordedText.substring( lastIndexOf + 1 ) ).get( null );
+
+			// Relative to current namespace
+
+			return namespace.getDeclaredField( recordedText ).get( null );
+		}
 
 		throw MetawidgetException.newException( "Don't know how to convert '" + recordedText + "' to a " + name );
 	}
@@ -986,7 +1004,15 @@ public class ConfigReader
 				{
 					case ENCOUNTERED_NATIVE_TYPE:
 					{
-						addToConstructing( createNative( localName, endRecording() ) );
+						// Pop/push to peek at namespace
+
+						Object methodParameters = mConstructing.pop();
+						Object constructing = mConstructing.peek();
+						mConstructing.push( methodParameters );
+
+						// Create native
+
+						addToConstructing( createNative( localName, constructing.getClass(), endRecording() ) );
 
 						mExpecting = EXPECTING_OBJECT;
 						return;

@@ -35,8 +35,8 @@ public class AndroidConfigReaderTest
 		throws Exception
 	{
 		AndroidConfigReader androidConfigReader = new AndroidConfigReader( null );
-		assertTrue( true == (Boolean) androidConfigReader.createNative( "boolean", "true" ));
-		assertTrue( 123 == (Integer) androidConfigReader.createNative( "int", "123" ));
+		assertTrue( true == (Boolean) androidConfigReader.createNative( "boolean", null, "true" ));
+		assertTrue( 123 == (Integer) androidConfigReader.createNative( "int", null, "123" ));
 
 		try
 		{

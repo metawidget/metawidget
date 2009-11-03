@@ -42,6 +42,10 @@ public class TestInspector
 
 	private int				mInt;
 
+	private int				mConstant;
+
+	private int				mExternalConstant;
+
 	private boolean			mBoolean;
 
 	private Pattern			mPattern;
@@ -66,6 +70,8 @@ public class TestInspector
 		mList = config.getList();
 		mSet = config.getSet();
 		mInt = config.getInt();
+		mConstant = config.getConstant();
+		mExternalConstant = config.getExternalConstant();
 		mBoolean = config.isBoolean();
 		mPattern = config.getPattern();
 		mInputStream = config.getInputStream();
@@ -121,6 +127,16 @@ public class TestInspector
 	public int getInt()
 	{
 		return mInt;
+	}
+
+	public int getConstant()
+	{
+		return mConstant;
+	}
+
+	public int getExternalConstant()
+	{
+		return mExternalConstant;
 	}
 
 	public boolean isBoolean()

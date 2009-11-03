@@ -72,8 +72,6 @@ public abstract class GwtMetawidgetMixin<W, M extends W>
 	// Protected methods
 	//
 
-	// TODO: needed anymore?
-
 	@Override
 	protected Element getDocumentElement( String xml )
 	{

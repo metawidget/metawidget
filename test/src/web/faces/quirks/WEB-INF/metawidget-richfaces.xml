@@ -46,7 +46,7 @@
 		<layout>
 			<richFacesLayout xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="RichFacesLayoutConfig">
 				<sectionStyle>
-					<int>1</int>	<!-- RichFacesLayoutConfig.SECTION_AS_TAB -->
+					<constant>SECTION_AS_TAB</constant>
 				</sectionStyle>
 			</richFacesLayout>
 		</layout>

@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JComponent;
+import javax.swing.SwingConstants;
 import javax.xml.XMLConstants;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.SchemaFactory;
@@ -385,6 +386,8 @@ public class ConfigReaderTest
 		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
 		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestInspectorConfig\">";
 		xml += "<int><int>3</int></int>";
+		xml += "<constant><constant>CONSTANT_VALUE</constant></constant>";
+		xml += "<externalConstant><constant>javax.swing.SwingConstants.LEFT</constant></externalConstant>";
 		xml += "<list>";
 		xml += "<list>";
 		xml += "<string>foo</string>";
@@ -411,6 +414,8 @@ public class ConfigReaderTest
 
 		TestInspector inspector = new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), TestInspector.class );
 		assertTrue( 3 == inspector.getInt() );
+		assertTrue( TestInspectorConfig.CONSTANT_VALUE == inspector.getConstant() );
+		assertTrue( SwingConstants.LEFT == inspector.getExternalConstant() );
 
 		List<Object> list = inspector.getList();
 		assertTrue( "foo".equals( list.get( 0 ) ) );
