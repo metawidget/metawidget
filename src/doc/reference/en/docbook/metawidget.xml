@@ -2349,7 +2349,7 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 			There are a large variety of system architectures, and many different types of UI. Metawidget's approach
 			to managing this diversity is not to define lots of 'flags' to tweak lots of little variables, but to
 			establish a pipeline with plug-in points along the way for your own custom classes.
-			This four-stage pipeline is shown on the right of <xref linkend="chapter-architecture-overall"/>. It
+			This five-stage pipeline is shown on the right of <xref linkend="chapter-architecture-overall"/>. It
 			is co-ordinated by a platform-specific Metawidget class
 			(eg. <classname>SwingMetawidget</classname>, <classname>StrutsMetawidget</classname> etc) as shown on the left. 
 		</para>
@@ -2360,27 +2360,32 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 			Metawidget->Inspector: asks for inspection
 			Inspector->Inspector: inspects\nbusiness object
 			Inspector->Metawidget: returns inspection result
-			Metawidget->WidgetBuilder: asks for widget
-			WidgetBuilder->WidgetBuilder: chooses\nbest widget
-			WidgetBuilder->Metawidget: returns chosen widget
-			Metawidget->WidgetProcessors: asks to process
-			WidgetProcessors->WidgetProcessors: attach binding
-			WidgetProcessors->WidgetProcessors: attach validation
-			WidgetProcessors->WidgetProcessors: ...etc
-			WidgetProcessors->Metawidget: returns final widget
-			Metawidget->Layout: asks to layout
-			Layout->Layout: lays out widget
+			Metawidget->InspectionResultProcessor: asks to process
+			InspectionResultProcessor->InspectionResultProcessor: sorts result
+			InspectionResultProcessor->Metawidget: returns sorted result
+			loop for each widget
+			   Metawidget->WidgetBuilder: asks for widget
+			   WidgetBuilder->WidgetBuilder: chooses\nbest widget
+			   WidgetBuilder->Metawidget: returns chosen widget
+			   Metawidget->WidgetProcessors: asks to process
+			   WidgetProcessors->WidgetProcessors: attach binding
+			   WidgetProcessors->WidgetProcessors: attach validation
+			   WidgetProcessors->WidgetProcessors: ...etc
+			   WidgetProcessors->Metawidget: returns final widget
+			   Metawidget->Layout: asks to layout
+			   Layout->Layout: lays out widget
+			end
 		-->
 		
 		<figure id="chapter-architecture-overall">
-			<title>Metawidget uses a four-stage pipeline</title>
+			<title>Metawidget uses a five-stage pipeline</title>
 			<screenshot>
 				<graphic fileref="images/activitydiagrams/architecture.png" width="140mm"/>
 			</screenshot>			
 		</figure>
 		
 		<para>
-			The four stages of the pipeline are:
+			The five stages of the pipeline are:
 		</para>
 		
 		<orderedlist>
@@ -2390,6 +2395,12 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 					a list of multiple <classname>Inspector</classname>s (eg. <classname>PropertyTypeInspector</classname>, <classname>JpaInspector</classname> etc)
 					by using <classname>CompositeInspector</classname> (see <xref linkend="section-introduction-part1-compositeinspector"/>). In the latter case,
 					the multiple inspection results are all combined into a single result. 
+				</para>
+			</listitem>
+			<listitem>
+				<para>
+					a list of <classname>InspectionResultProcessor</classname>s that can modify the inspection result. These can be used to
+					sort the result, exclude certain fields, and so on.
 				</para>
 			</listitem>
 			<listitem>
@@ -2432,7 +2443,7 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 		</tip>
 
 		<para>
-			The following sections discuss each of the four stages of the pipeline in detail.
+			The following sections discuss each of the five stages of the pipeline in detail.
 		</para>
 		
 		<section id="section-architecture-metawidgets">
@@ -3120,7 +3131,7 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 210 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 	
@@ -3231,6 +3242,22 @@ public class Person {
 				returned by the <classname>Inspector</classname>, before it is passed to the <classname>WidgetBuilder</classname>.
 			</para>
 
+			<section id="section-architecture-inspectionresultprocessors-interface">
+				<title>Interface</title>
+
+				<para>
+					All inspectors must implement the <classname>InspectionResultProcessor</classname> interface. This is a simple
+					interface that defines only one method:
+				</para>
+				
+				<programlisting language="java">E processInspectionResult( E inspectionResult, M metawidget );</programlisting>
+				
+				<para>
+					Where <parameter>E</parameter> is a DOM Element (typically <classname>org.w3c.dom.Element</classname>) and
+					M is a Metawidget class (ie. <classname>SwingMetawidget</classname>, <classname>UIMetawidget</classname> etc).					
+				</para>
+			</section>
+
 			<section id="section-architecture-inspectionresultprocessors-implementing-your-own">
 				<title>Implementing Your Own InspectionResultProcessor</title>
 
@@ -3242,14 +3269,13 @@ public class Person {
 				
 				<programlisting language="java">package com.myapp;
 			
-<symbol>import static org.metawidget.inspector.InspectionResultConstants.*;
-
-import java.util.*;</symbol>
+<symbol>import static org.metawidget.inspector.InspectionResultConstants.*;</symbol>
 
 import javax.swing.*;
 import org.metawidget.swing.*;
-<symbol>import org.metawidget.inspectionresultprocessor.composite.*;
-import org.metawidget.util.*;</symbol>
+<symbol>import org.metawidget.inspectionresultprocessor.iface.*;
+import org.metawidget.util.*;
+import org.w3c.dom.*;</symbol>
 
 public class Main {
 
@@ -3264,7 +3290,7 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 210 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 	
@@ -3290,9 +3316,9 @@ public class Main {
 				propertiesToCleanup--;
 			}
 
-			// Cleanup the rest
+			// Remove the rest
 
-			for( int loop = 0; loop < propertiesToCleanup; loop++ ) {
+			for( int loop = 0; loop &lt; propertiesToCleanup; loop++ ) {
 				entity.removeChild( entity.getFirstChild() );
 			}
 
@@ -3305,13 +3331,8 @@ public class Main {
 					<title>Note</title>
 					We don't necessarily recommend this approach, as it requires hard-coding business property names and won't refactor well.
 				</tip>
+			</section>
 
-				<tip>
-					<title>Note</title>
-					Although you could adapt this approach to only include (instead of exclude) certain fields, you could not adapt it
-					to include fields <emphasis>in the order given in the client property</emphasis>. This is because <classname>WidgetBuilder</classname>s
-					only operate on single widgets at a time. Instead, see <xref linkend="section-architecture-inspectionresultprocessors"/> 
-				</tip>
 		</section>
 
 		<section id="section-architecture-widgetbuilders">
@@ -3508,7 +3529,7 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 210 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 	
@@ -3726,7 +3747,7 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 210 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 	
@@ -4094,7 +4115,7 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 210 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 
@@ -4624,6 +4645,21 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 						<tr>
 							<td><parameter>&lt;class&gt;</parameter></td>
 							<td>Java <classname>Class</classname></td>
+						</tr>
+						<tr>
+							<td><parameter>&lt;constant&gt;</parameter></td>
+							<td>
+								Static field. This can either be fully qualified (eg. <parameter>javax.swing.SwingConstants.LEFT</parameter>) or
+								just the field name (eg. <parameter>SECTION_AS_TAB</parameter>). In the latter case, the field is expected to
+								be defined by the class represented by the parent XML node. For an example, see <xref linkend="section-introduction-part2-web-richfaces"/>.
+							</td>
+						</tr>
+						<tr>
+							<td><parameter>&lt;enum&gt;</parameter></td>
+							<td>
+								Java <classname>enum</classname> primitive. The enum type is based on the signature of the
+								method being invoked
+							</td>
 						</tr>
 						<tr>
 							<td><parameter>&lt;file&gt;</parameter></td>
@@ -5532,7 +5568,7 @@ public class Main {
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
 		frame.getContentPane().add( metawidget );
-		frame.setSize( 400, 210 );
+		frame.setSize( 400, 250 );
 		frame.setVisible( true );
 	}
 	
