@@ -14,32 +14,31 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspectionresultprocessor;
+package org.metawidget.inspectionresultprocessor.iface;
 
-import junit.framework.Test;
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.metawidget.inspectionresultprocessor.comesafter.SortByComesAfterInspectionResultProcessorTest;
-import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorExceptionTest;
 
 /**
  * @author Richard Kennard
  */
 
-public class InspectionResultProcessorTests
+public class InspectionResultProcessorExceptionTest
 	extends TestCase
 {
 	//
-	// Public statics
+	// Public methods
 	//
 
-	public static Test suite()
+	public void testInspectionResultProcessorException()
+		throws Exception
 	{
-		TestSuite suite = new TestSuite( "InspectionResultProcessor Tests" );
-		suite.addTestSuite( InspectionResultProcessorExceptionTest.class );
-		suite.addTestSuite( SortByComesAfterInspectionResultProcessorTest.class );
+		Throwable throwable = new Throwable();
+		assertTrue( throwable == InspectionResultProcessorException.newException( throwable ).getCause() );
 
-		return suite;
+		throwable = InspectionResultProcessorException.newException( "Foo" );
+		assertTrue( "Foo".equals( throwable.getMessage() ));
+		assertTrue( throwable == InspectionResultProcessorException.newException( throwable ) );
+		assertTrue( "Foo".equals( InspectionResultProcessorException.newException( "Foo", throwable ).getMessage() ));
+		assertTrue( throwable == InspectionResultProcessorException.newException( "Foo", throwable ).getCause() );
 	}
 }
