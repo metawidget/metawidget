@@ -51,8 +51,9 @@ import com.google.gwt.user.rebind.SourceWriter;
  * ...then they call...
  * <p>
  * <code>
- * SimpleBindingProcessor.registerAdapter( BusinessClass.class, (SimpleBindingProcessorAdapter&lt;BusinessClass&gt;) GWT.create( BusinessClass.class ));
- * metawidget.addWidgetProcessor( new SimpleBindingProcessor() );
+ * SimpleBindingProcessorConfig config = SimpleBindingProcessorConfig();
+ * config.setAdapter(BusinessClass.class, (SimpleBindingProcessorAdapter&lt;BusinessClass&gt;) GWT.create( BusinessClass.class ));
+ * metawidget.addWidgetProcessor(new SimpleBindingProcessor(config));
  * </code>
  * <p>
  * This generator <em>statically</em> generates code for all levels of all possible properties (eg.

@@ -101,7 +101,7 @@ public class GwtMetawidget
 
 	private static Inspector										DEFAULT_INSPECTOR;
 
-	private static WidgetBuilder<Widget, GwtMetawidget>				DEFAULT_WIDGET_BUILDER;
+	private static WidgetBuilder<Widget, GwtMetawidget>				DEFAULT_WIDGETBUILDER;
 
 	private static Layout<Widget, GwtMetawidget>					DEFAULT_LAYOUT;
 
@@ -743,14 +743,14 @@ public class GwtMetawidget
 
 		if ( mMetawidgetMixin.getWidgetBuilder() == null )
 		{
-			if ( DEFAULT_WIDGET_BUILDER == null )
+			if ( DEFAULT_WIDGETBUILDER == null )
 			{
 				@SuppressWarnings( "unchecked" )
 				CompositeWidgetBuilderConfig<Widget, GwtMetawidget> config = new CompositeWidgetBuilderConfig<Widget, GwtMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new GwtWidgetBuilder() );
-				DEFAULT_WIDGET_BUILDER = new CompositeWidgetBuilder<Widget, GwtMetawidget>( config );
+				DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<Widget, GwtMetawidget>( config );
 			}
 
-			mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGET_BUILDER );
+			mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
 		}
 
 		if ( mMetawidgetMixin.getLayout() == null )

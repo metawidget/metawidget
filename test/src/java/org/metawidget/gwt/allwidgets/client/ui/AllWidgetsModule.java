@@ -27,6 +27,7 @@ import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorConfig;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.shared.allwidgets.model.AllWidgets;
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
@@ -75,13 +76,15 @@ public class AllWidgetsModule
 
 		// Binding
 
-		metawidget.addWidgetProcessor( new SimpleBindingProcessor() );
+		SimpleBindingProcessorConfig config = new SimpleBindingProcessorConfig();
 
 		@SuppressWarnings( "unchecked" )
 		SimpleBindingProcessorAdapter<AllWidgets> allWidgetsAdapter = (SimpleBindingProcessorAdapter<AllWidgets>) GWT.create( AllWidgets.class );
-		SimpleBindingProcessor.registerAdapter( AllWidgets.class, allWidgetsAdapter );
-		SimpleBindingProcessor.registerConverter( Date.class, new DateConverter() );
-		SimpleBindingProcessor.registerConverter( NestedWidgets.class, new NestedWidgetsConverter() );
+		config.setAdapter( AllWidgets.class, allWidgetsAdapter );
+		config.setConverter( Date.class, new DateConverter() );
+		config.setConverter( NestedWidgets.class, new NestedWidgetsConverter() );
+
+		metawidget.addWidgetProcessor( new SimpleBindingProcessor( config ) );
 
 		// Stubs
 

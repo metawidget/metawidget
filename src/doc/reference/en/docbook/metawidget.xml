@@ -3230,6 +3230,88 @@ public class Person {
 				<classname>InspectionResultProcessor</classname>s allow arbitrary processing of the inspection result
 				returned by the <classname>Inspector</classname>, before it is passed to the <classname>WidgetBuilder</classname>.
 			</para>
+
+			<section id="section-architecture-inspectionresultprocessors-implementing-your-own">
+				<title>Implementing Your Own InspectionResultProcessor</title>
+
+				<para>
+					Here is an example of a custom <classname>InspectionResultProcessor</classname> that chooses,
+					and sorts, business object fields based on a client property. It extends the code from the tutorial
+					(see <xref linkend="section-introduction-part1"/>).
+				</para>
+				
+				<programlisting language="java">package com.myapp;
+			
+<symbol>import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.*;</symbol>
+
+import javax.swing.*;
+import org.metawidget.swing.*;
+<symbol>import org.metawidget.inspectionresultprocessor.composite.*;
+import org.metawidget.util.*;</symbol>
+
+public class Main {
+
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		<symbol>metawidget.addInspectionResultProcessor( new IncludingInspectionResultProcessor() );
+		metawidget.putClientProperty( "include", new String[]{ "age", "retired" } );</symbol>
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 210 );
+		frame.setVisible( true );
+	}
+	
+	<symbol>static class IncludingInspectionResultProcessor
+		implements InspectionResultProcessor&lt;Element, SwingMetawidget&gt; {
+		
+		public Element processInspectionResult( Element inspectionResult, SwingMetawidget metawidget ) {
+		
+			String[] includes = (String[]) metawidget.getClientProperty( "include" );
+			Element entity = (Element) inspectionResult.getFirstChild();
+			int propertiesToCleanup = entity.getChildNodes().getLength();
+
+			// Pull out the names in order
+
+			for( String include : includes ) {
+			
+				Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, include );
+
+				if ( property == null )
+					continue;
+
+				entity.appendChild( property );
+				propertiesToCleanup--;
+			}
+
+			// Cleanup the rest
+
+			for( int loop = 0; loop < propertiesToCleanup; loop++ ) {
+				entity.removeChild( entity.getFirstChild() );
+			}
+
+			return inspectionResult;
+		}
+	}</symbol>
+}</programlisting>
+
+				<tip>
+					<title>Note</title>
+					We don't necessarily recommend this approach, as it requires hard-coding business property names and won't refactor well.
+				</tip>
+
+				<tip>
+					<title>Note</title>
+					Although you could adapt this approach to only include (instead of exclude) certain fields, you could not adapt it
+					to include fields <emphasis>in the order given in the client property</emphasis>. This is because <classname>WidgetBuilder</classname>s
+					only operate on single widgets at a time. Instead, see <xref linkend="section-architecture-inspectionresultprocessors"/> 
+				</tip>
 		</section>
 
 		<section id="section-architecture-widgetbuilders">
@@ -7441,9 +7523,9 @@ public class PersonController {
 						...and in the application code...
 					</para>
 						
-					<programlisting language="java">metawidget.addWidgetProcessor( new SimpleBindingProcessor() );
-SimpleBinding.registerAdapter( Contact.class,
-	(SimpleBindingProcessorAdapter&lt;Contact&gt;) GWT.create(Contact.class));</programlisting>					
+					<programlisting language="java">metawidget.addWidgetProcessor( new SimpleBindingProcessor(
+new SimpleBindingProcessorConfig().setAdapter( Contact.class,
+	(SimpleBindingProcessorAdapter&lt;Contact&gt;) GWT.create(Contact.class)));</programlisting>					
 						
 				</section>
 					

@@ -39,6 +39,7 @@ import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.faces.FacesInspector;
+import org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl;
 import org.metawidget.inspector.hibernate.validator.HibernateValidatorInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.impl.BaseObjectInspector;
@@ -626,9 +627,9 @@ public class ConfigReaderTest
 		configReader.configure( "org/metawidget/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
 		configReader.configure( "org/metawidget/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
 		configReader.configure( "org/metawidget/swing/allwidgets/metawidget.xml", SwingMetawidget.class );
-		configReader.configure( "org/metawidget/gwt/allwidgets/metawidget.xml", Inspector.class );
-		configReader.configure( "org/metawidget/gwt/allwidgets/metawidget.xml", Inspector.class );
-		configReader.configure( "org/metawidget/gwt/allwidgets/metawidget.xml", Inspector.class );
+		configReader.configure( "org/metawidget/gwt/allwidgets/metawidget.xml", GwtRemoteInspectorImpl.class );
+		configReader.configure( "org/metawidget/gwt/allwidgets/metawidget.xml", GwtRemoteInspectorImpl.class );
+		configReader.configure( "org/metawidget/gwt/allwidgets/metawidget.xml", GwtRemoteInspectorImpl.class );
 
 		// (4 because each metawidget.xml contains a metawidget-metadata.xml)
 

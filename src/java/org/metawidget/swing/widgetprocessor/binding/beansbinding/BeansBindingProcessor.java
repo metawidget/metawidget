@@ -82,7 +82,9 @@ public class BeansBindingProcessor
 
 	public BeansBindingProcessor( BeansBindingProcessorConfig config )
 	{
-		// Register default converters
+		mUpdateStrategy = config.getUpdateStrategy();
+
+		// Default converters
 
 		registerConverter( Byte.class, String.class, new NumberConverter<Byte>( Byte.class ) );
 		registerConverter( Short.class, String.class, new NumberConverter<Short>( Short.class ) );
@@ -92,9 +94,7 @@ public class BeansBindingProcessor
 		registerConverter( Double.class, String.class, new NumberConverter<Double>( Double.class ) );
 		registerConverter( Boolean.class, String.class, new BooleanConverter() );
 
-		// From config
-
-		mUpdateStrategy = config.getUpdateStrategy();
+		// Custom converters
 
 		if ( config.getConverters() != null )
 			mConverters.putAll( config.getConverters() );

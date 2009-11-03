@@ -28,10 +28,8 @@ import junit.framework.TestCase;
 import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 
 /**
  * @author Richard Kennard
@@ -74,26 +72,28 @@ public class IncludingInspectionResultProcessorExampleTest
 		@Override
 		public Element processInspectionResult( Element inspectionResult, SwingMetawidget metawidget )
 		{
-			String[] include = (String[]) metawidget.getClientProperty( "include" );
+			String[] includes = (String[]) metawidget.getClientProperty( "include" );
 			Element entity = (Element) inspectionResult.getFirstChild();
-			NodeList properties = entity.getChildNodes();
+			int propertiesToCleanup = entity.getChildNodes().getLength();
 
-			for( int loop = 0, length = properties.getLength(); loop < length; )
+			// Pull out the names in order
+
+			for( String include : includes )
 			{
-				Node node = properties.item( loop );
+				Element property = XmlUtils.getChildWithAttributeValue( entity, NAME, include );
 
-				if ( node instanceof Element )
-				{
-					Element element = (Element) node;
+				if ( property == null )
+					continue;
 
-					if ( !ArrayUtils.contains( include, element.getAttribute( NAME )))
-					{
-						entity.removeChild( node );
-						continue;
-					}
-				}
+				entity.appendChild( property );
+				propertiesToCleanup--;
+			}
 
-				loop++;
+			// Cleanup the rest
+
+			for( int loop = 0; loop < propertiesToCleanup; loop++ )
+			{
+				entity.removeChild( entity.getFirstChild() );
 			}
 
 			return inspectionResult;

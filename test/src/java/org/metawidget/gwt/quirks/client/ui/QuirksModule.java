@@ -22,6 +22,7 @@ import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorConfig;
 import org.metawidget.gwt.quirks.client.model.GwtQuirks;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -66,11 +67,11 @@ public class QuirksModule
 
 		// Binding
 
-		metawidget.addWidgetProcessor( new SimpleBindingProcessor() );
-
 		@SuppressWarnings( "unchecked" )
 		SimpleBindingProcessorAdapter<GwtQuirks> quirksAdapter = (SimpleBindingProcessorAdapter<GwtQuirks>) GWT.create( GwtQuirks.class );
-		SimpleBindingProcessor.registerAdapter( GwtQuirks.class, quirksAdapter );
+		SimpleBindingProcessorConfig config = new SimpleBindingProcessorConfig().setAdapter( GwtQuirks.class, quirksAdapter );
+
+		metawidget.addWidgetProcessor( new SimpleBindingProcessor( config ) );
 
 		// Arbitrary stub
 

@@ -6,17 +6,23 @@
 						java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd"
 	version="1.0">
 
-	<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
-		<inspectors>
-			<array>
-				<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
-					<inputStream>
-						<resource>org/metawidget/shared/allwidgets/model/metawidget-metadata.xml</resource>
-					</inputStream>
-				</xmlInspector>
-				<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
-			</array>
-		</inspectors>
-	</compositeInspector>
+	<gwtRemoteInspectorImpl xmlns="java:org.metawidget.inspector.gwt.remote.server">
+	
+		<inspector>
+			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
+				<inspectors>
+					<array>
+						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
+							<inputStream>
+								<resource>org/metawidget/shared/allwidgets/model/metawidget-metadata.xml</resource>
+							</inputStream>
+						</xmlInspector>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+					</array>
+				</inspectors>
+			</compositeInspector>
+		</inspector>
+	
+	</gwtRemoteInspectorImpl>
 
 </metawidget>

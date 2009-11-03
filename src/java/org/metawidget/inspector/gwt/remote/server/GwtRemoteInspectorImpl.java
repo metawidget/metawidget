@@ -17,13 +17,19 @@
 package org.metawidget.inspector.gwt.remote.server;
 
 import java.io.Serializable;
+import java.util.Map;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.gwt.remote.iface.GwtRemoteInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.jsp.ServletConfigReader;
+import org.metawidget.mixin.w3c.MetawidgetMixin;
+import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.XmlUtils;
+import org.w3c.dom.Element;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -32,8 +38,8 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
  * <p>
  * This servlet recognizes the following &lt;init-param&gt;'s:
  * <ul>
- * <li><code>config</code> - fully qualified path to (optional) <code>metawidget.xml</code>,
- * for example <code>com/foo/metawidget.xml</code>.
+ * <li><code>config</code> - fully qualified path to (optional) <code>metawidget.xml</code>, for
+ * example <code>com/foo/metawidget.xml</code>.
  * </ul>
  *
  * @author Richard Kennard
@@ -47,13 +53,22 @@ public class GwtRemoteInspectorImpl
 	// Private statics
 	//
 
-	private static final long	serialVersionUID	= 1l;
+	private static final long			serialVersionUID	= 1l;
 
 	//
 	// Private members
 	//
 
-	private Inspector			mInspector;
+	private GwtRemoteInspectorImplMixin	mMetawidgetMixin;
+
+	//
+	// Constructor
+	//
+
+	public GwtRemoteInspectorImpl()
+	{
+		mMetawidgetMixin = newMetawidgetMixin();
+	}
 
 	//
 	// Public methods
@@ -64,21 +79,59 @@ public class GwtRemoteInspectorImpl
 		throws ServletException
 	{
 		super.init( servletConfig );
-		configure( servletConfig );
+
+		// Locate metawidget.xml (if any)
+
+		ServletConfigReader servletConfigReader = new ServletConfigReader( servletConfig.getServletContext() );
+		String config = getConfigInitParameter( servletConfig );
+
+		if ( config != null )
+			servletConfigReader.configure( config, this );
+
+		// Use default configuration
+
+		mMetawidgetMixin.configureDefaults( servletConfigReader, getDefaultConfiguration(), GwtRemoteInspectorImpl.class );
 	}
 
 	public String inspect( Serializable toInspect, String type, String[] names )
 	{
-		return mInspector.inspect( toInspect, type, names );
+		Element inspectionResult = mMetawidgetMixin.inspect( toInspect, type, names );
+
+		if ( inspectionResult == null )
+			return null;
+
+		return XmlUtils.documentToString( inspectionResult.getOwnerDocument(), false );
+	}
+
+	public void setInspector( Inspector inspector )
+	{
+		mMetawidgetMixin.setInspector( inspector );
+	}
+
+	public void setInspectionResultProcessors( InspectionResultProcessor<Element, GwtRemoteInspectorImpl>... inspectionResultProcessors )
+	{
+		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ));
 	}
 
 	//
 	// Protected methods
 	//
 
-	protected void setInspector( Inspector inspector )
+	/**
+	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * <p>
+	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
+	 * instantiate their version.
+	 */
+
+	protected GwtRemoteInspectorImplMixin newMetawidgetMixin()
 	{
-		mInspector = inspector;
+		return new GwtRemoteInspectorImplMixin();
+	}
+
+	protected GwtRemoteInspectorImplMixin getMetawidgetMixin()
+	{
+		return mMetawidgetMixin;
 	}
 
 	protected String getDefaultConfiguration()
@@ -90,21 +143,63 @@ public class GwtRemoteInspectorImpl
 	 * Refactored to support <code>GwtRemoteInspectorTestImpl</code>.
 	 */
 
-	protected void configure( ServletConfig servletConfig )
+	protected String getConfigInitParameter( ServletConfig servletConfig )
 	{
-		// Locate metawidget.xml (if any)
+		return servletConfig.getInitParameter( "config" );
+	}
 
-		ServletConfigReader servletConfigReader = new ServletConfigReader( servletConfig.getServletContext() );
-		String config = servletConfig.getInitParameter( "config" );
+	//
+	// Inner class
+	//
 
-		if ( config != null )
+	/**
+	 * Use the Mixin for its Inspector/InpsectionResultProcessor support.
+	 */
+
+	protected class GwtRemoteInspectorImplMixin
+		extends MetawidgetMixin<Object, GwtRemoteInspectorImpl>
+	{
+		//
+		// Protected methods
+		//
+
+		@Override
+		protected MetawidgetMixin<Object, GwtRemoteInspectorImpl> getNestedMixin( GwtRemoteInspectorImpl metawidget )
 		{
-			setInspector( servletConfigReader.configure( config, Inspector.class ));
-			return;
+			// For configureDefaults
+
+			return metawidget.getMetawidgetMixin();
 		}
 
-		// TODO: init dummy
+		@Override
+		protected GwtRemoteInspectorImpl getMixinOwner()
+		{
+			// For passing to processInspectionResult
 
-		setInspector( servletConfigReader.configure( getDefaultConfiguration(), Inspector.class ));
+			return GwtRemoteInspectorImpl.this;
+		}
+
+		//
+		// Unsupported protected methods (these are for client-side)
+		//
+
+		@Override
+		protected Map<String, String> getStubAttributes( Object stub )
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		protected boolean isStub( Object widget )
+		{
+			throw new UnsupportedOperationException();
+		}
+
+		@Override
+		protected GwtRemoteInspectorImpl buildNestedMetawidget( Map<String, String> attributes )
+			throws Exception
+		{
+			throw new UnsupportedOperationException();
+		}
 	}
 }

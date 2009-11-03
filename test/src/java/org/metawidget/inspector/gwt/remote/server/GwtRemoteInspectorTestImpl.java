@@ -18,9 +18,6 @@ package org.metawidget.inspector.gwt.remote.server;
 
 import javax.servlet.ServletConfig;
 
-import org.metawidget.config.ConfigReader;
-import org.metawidget.inspector.iface.Inspector;
-
 /**
  * Version of <code>GwtRemoteInspectorTestImpl</code> for running unit tests.
  * <p>
@@ -38,8 +35,8 @@ public class GwtRemoteInspectorTestImpl
 	//
 
 	@Override
-	protected void configure( ServletConfig servletConfig )
+	protected String getConfigInitParameter( ServletConfig servletConfig )
 	{
-		setInspector( new ConfigReader().configure( "metawidget.xml", Inspector.class ));
+		return "metawidget.xml";
 	}
 }

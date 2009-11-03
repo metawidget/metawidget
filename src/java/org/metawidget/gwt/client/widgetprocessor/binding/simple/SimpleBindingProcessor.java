@@ -46,63 +46,51 @@ public class SimpleBindingProcessor
 	extends BaseWidgetProcessor<Widget, GwtMetawidget>
 {
 	//
-	// Private statics
+	// Private members
 	//
 
-	// TODO: make non-static, move to a config
+	private Map<Class<?>, SimpleBindingProcessorAdapter<?>>	mAdapters;
 
-	private final static Map<Class<?>, SimpleBindingProcessorAdapter<?>>	ADAPTERS	= new HashMap<Class<?>, SimpleBindingProcessorAdapter<?>>();
+	private Map<Class<?>, Converter<?>>						mConverters;
 
-	private final static Map<Class<?>, Converter<?>>						CONVERTERS	= new HashMap<Class<?>, Converter<?>>();
+	//
+	// Constructor
+	//
 
-	static
+	public SimpleBindingProcessor()
 	{
-		// Register default converters
+		this( new SimpleBindingProcessorConfig() );
+	}
+
+	public SimpleBindingProcessor( SimpleBindingProcessorConfig config )
+	{
+		// Custom adapters
+
+		if ( config.getAdapters() != null )
+			mAdapters = new HashMap<Class<?>, SimpleBindingProcessorAdapter<?>>( config.getAdapters() );
+
+		// Default converters
+
+		mConverters = new HashMap<Class<?>, Converter<?>>();
 
 		Converter<?> simpleConverter = new SimpleConverter();
 
 		@SuppressWarnings( "unchecked" )
 		Converter<Boolean> booleanConverter = (Converter<Boolean>) simpleConverter;
-		registerConverter( Boolean.class, booleanConverter );
+		mConverters.put( Boolean.class, booleanConverter );
 
 		@SuppressWarnings( "unchecked" )
 		Converter<Character> characterConverter = (Converter<Character>) simpleConverter;
-		registerConverter( Character.class, characterConverter );
+		mConverters.put( Character.class, characterConverter );
 
 		@SuppressWarnings( "unchecked" )
 		Converter<Number> numberConverter = (Converter<Number>) simpleConverter;
-		registerConverter( Number.class, numberConverter );
-	}
+		mConverters.put( Number.class, numberConverter );
 
-	//
-	// Public statics
-	//
+		// Custom converters
 
-	/**
-	 * Registers the given SimpleBindingProcessorAdapter for the given Class.
-	 * <p>
-	 * Adapters also apply to subclasses of the given Class. So for example registering an Adapter
-	 * for <code>Contact.class</code> will match <code>PersonalContact.class</code>,
-	 * <code>BusinessContact.class</code> etc., unless a more subclass-specific Adapter is also
-	 * registered
-	 */
-
-	public static <T> void registerAdapter( Class<T> forClass, SimpleBindingProcessorAdapter<T> adapter )
-	{
-		ADAPTERS.put( forClass, adapter );
-	}
-
-	/**
-	 * Registers the given Converter for the given Class.
-	 * <p>
-	 * Converters also apply to subclasses of the given Class. So for example registering a
-	 * Converter for <code>Number.class</code> will match <code>Integer.class</code>,
-	 * <code>Double.class</code> etc., unless a more subclass-specific Converter is also registered.
-	 */
-
-	public static <T> void registerConverter( Class<T> forClass, Converter<T> converter )
-	{
-		CONVERTERS.put( forClass, converter );
+		if ( config.getConverters() != null )
+			mConverters.putAll( config.getConverters() );
 	}
 
 	//
@@ -233,8 +221,8 @@ public class SimpleBindingProcessor
 	 * <p>
 	 * This method is an optimization that allows clients to load a new object into the binding
 	 * <em>without</em> calling setToInspect, and therefore without reinspecting the object or
-	 * recreating the components. It is the client's responsbility to ensure the rebound object
-	 * is compatible with the original setToInspect.
+	 * recreating the components. It is the client's responsbility to ensure the rebound object is
+	 * compatible with the original setToInspect.
 	 */
 
 	public void rebind( Object toRebind, GwtMetawidget metawidget )
@@ -362,12 +350,15 @@ public class SimpleBindingProcessor
 
 	protected <T extends SimpleBindingProcessorAdapter<?>> T getAdapter( Class<?> classToBindTo )
 	{
+		if ( mAdapters == null )
+			return null;
+
 		Class<?> classTraversal = classToBindTo;
 
 		while ( classTraversal != null )
 		{
 			@SuppressWarnings( "unchecked" )
-			T adapter = (T) ADAPTERS.get( classTraversal );
+			T adapter = (T) mAdapters.get( classTraversal );
 
 			if ( adapter != null )
 				return adapter;
@@ -397,7 +388,7 @@ public class SimpleBindingProcessor
 		while ( classTraversal != null )
 		{
 			@SuppressWarnings( "unchecked" )
-			T converter = (T) CONVERTERS.get( classTraversal );
+			T converter = (T) mConverters.get( classTraversal );
 
 			if ( converter != null )
 				return converter;

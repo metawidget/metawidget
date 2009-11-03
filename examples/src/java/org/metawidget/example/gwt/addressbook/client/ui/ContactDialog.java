@@ -33,6 +33,7 @@ import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
 import org.metawidget.gwt.client.ui.layout.FlowLayout;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
+import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorConfig;
 import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.core.client.GWT;
@@ -137,14 +138,6 @@ public class ContactDialog
 
 		setText( builder.toString() );
 
-		// SimpleBinding
-
-		@SuppressWarnings( "unchecked" )
-		SimpleBindingProcessorAdapter<Contact> contactAdapter = (SimpleBindingProcessorAdapter<Contact>) GWT.create( Contact.class );
-		SimpleBindingProcessor.registerAdapter( Contact.class, contactAdapter );
-		SimpleBindingProcessor.registerConverter( Date.class, new DateConverter() );
-		SimpleBindingProcessor.registerConverter( Gender.class, new EnumConverter<Gender>( Gender.class ) );
-
 		// Metawidget
 
 		mMetawidget = new GwtMetawidget();
@@ -158,11 +151,21 @@ public class ContactDialog
 		layoutConfig.setFooterStyleName( "buttons" );
 		FlexTableLayout layout = new FlexTableLayout( layoutConfig );
 		mMetawidget.setLayout( layout );
-
-		SimpleBindingProcessor bindingProcessor = new SimpleBindingProcessor();
-		mMetawidget.addWidgetProcessor( bindingProcessor );
 		mMetawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, mMetawidget );
+
+		// Binding
+
+		SimpleBindingProcessorConfig config = new SimpleBindingProcessorConfig();
+
+		@SuppressWarnings( "unchecked" )
+		SimpleBindingProcessorAdapter<Contact> contactAdapter = (SimpleBindingProcessorAdapter<Contact>) GWT.create( Contact.class );
+		config.setAdapter( Contact.class, contactAdapter );
+		config.setConverter( Date.class, new DateConverter() );
+		config.setConverter( Gender.class, new EnumConverter<Gender>( Gender.class ) );
+
+		SimpleBindingProcessor processor = new SimpleBindingProcessor( config );
+		mMetawidget.addWidgetProcessor( processor );
 
 		// Address override
 
@@ -172,7 +175,7 @@ public class ContactDialog
 
 		mAddressMetawidget.setReadOnly( contact.getId() != 0 );
 		mAddressMetawidget.setDictionaryName( "bundle" );
-		mAddressMetawidget.addWidgetProcessor( bindingProcessor );
+		mAddressMetawidget.addWidgetProcessor( processor );
 		mAddressMetawidget.setLayout( layout );
 		mAddressMetawidget.setToInspect( contact );
 		mAddressMetawidget.setPath( Contact.class.getName() + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + "address" );
