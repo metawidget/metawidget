@@ -19,6 +19,7 @@ package org.metawidget.example.shared.addressbook.model;
 import java.io.Serializable;
 
 import org.metawidget.inspector.annotation.UiHidden;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Models a Communication of a Contact.
@@ -112,23 +113,10 @@ public class Communication
 
 		// Compare types
 
-		String thisType = getType();
-		String thatType = that.getType();
+		int compareTypes = ObjectUtils.nullSafeCompareTo( getType(), that.getType() );
 
-		if ( thisType == null )
-		{
-			if ( thatType != null )
-				return -1;
-
-			return 0;
-		}
-		else if ( thatType == null )
-			return 1;
-
-		int compareTo = thisType.compareTo( thatType );
-
-		if ( compareTo != 0 )
-			return compareTo;
+		if ( compareTypes != 0 )
+			return compareTypes;
 
 		// If types are the same, compare ids
 

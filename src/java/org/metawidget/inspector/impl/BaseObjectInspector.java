@@ -155,7 +155,7 @@ public abstract class BaseObjectInspector
 						if ( parentAttributes == null )
 							parentAttributes = parentPropertyAttributes;
 						else
-							parentPropertyAttributes.putAll( parentAttributes );
+							parentAttributes.putAll( parentPropertyAttributes );
 					}
 
 					childToInspect = propertyInParent.read( tuple[0] );

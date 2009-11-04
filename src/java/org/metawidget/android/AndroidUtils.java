@@ -50,8 +50,7 @@ public final class AndroidUtils
 
 	// It isn't clear in SDK 1.0 R2 how one is meant to generically and programmatically apply
 	// styles. It seems like the 'new View( Context, AttributeSet, styleId )' constructor would do
-	// the
-	// trick, but how to create the AttributeSet for the styleId? This comment...
+	// the trick, but how to create the AttributeSet for the styleId? This comment...
 	//
 	// http://markmail.org/message/ogskv4frewsxghlp
 	//

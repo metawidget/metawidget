@@ -60,6 +60,7 @@ import com.google.gwt.user.rebind.SourceWriter;
  * <code>contact.address.street</code>), including subtypes of properties. Because this could
  * quickly become very large, we impose the following restriction:
  * <ul>
+ * <li>only public getters/setters are recognised (not public member fields)</li>
  * <li>only properties whose return type is in the same package, or a subpackage, of the parent type
  * are traversed into</li>
  * </ul>

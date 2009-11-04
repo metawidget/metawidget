@@ -112,7 +112,13 @@ public class BaseObjectInspectorConfig
 		if ( !ObjectUtils.nullSafeEquals( mPropertyStyle, ( (BaseObjectInspectorConfig) that ).mPropertyStyle ) )
 			return false;
 
+		if ( mNullPropertyStyle != ( (BaseObjectInspectorConfig) that ).mNullPropertyStyle )
+			return false;
+
 		if ( !ObjectUtils.nullSafeEquals( mActionStyle, ( (BaseObjectInspectorConfig) that ).mActionStyle ) )
+			return false;
+
+		if ( mNullActionStyle != ( (BaseObjectInspectorConfig) that ).mNullActionStyle )
 			return false;
 
 		return true;
@@ -151,16 +157,6 @@ public class BaseObjectInspectorConfig
 	}
 
 	/**
-	 * Whether the <code>PropertyStyle</code> was explicitly set to <code>null</code> (as opposed to
-	 * being left as the default).
-	 */
-
-	protected boolean isNullPropertyStyle()
-	{
-		return mNullPropertyStyle;
-	}
-
-	/**
 	 * Gets the style used to recognize actions.
 	 */
 
@@ -186,15 +182,5 @@ public class BaseObjectInspectorConfig
 		}
 
 		return mActionStyle;
-	}
-
-	/**
-	 * Whether the <code>ActionStyle</code> was explicitly set to <code>null</code> (as opposed to
-	 * being left as the default).
-	 */
-
-	protected boolean isNullActionStyle()
-	{
-		return mNullActionStyle;
 	}
 }

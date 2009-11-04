@@ -246,6 +246,9 @@ public class BeansBindingProcessorTest
 		config2.setUpdateStrategy( UpdateStrategy.READ_WRITE );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// TODO: converters
+		// TODO: SimpleBindingProcessorTest.testConfig
 	}
 
 	public void testNumberConverter()

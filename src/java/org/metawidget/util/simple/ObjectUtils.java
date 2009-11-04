@@ -16,7 +16,6 @@
 
 package org.metawidget.util.simple;
 
-
 /**
  * Utilities for working with Objects.
  *
@@ -29,6 +28,10 @@ public final class ObjectUtils
 	// Public statics
 	//
 
+	/**
+	 * @return 0 if toHash is null, otherwise returns toHash.hashCode()
+	 */
+
 	public static int nullSafeHashCode( Object toHash )
 	{
 		if ( toHash == null )
@@ -39,6 +42,18 @@ public final class ObjectUtils
 
 		return toHash.hashCode();
 	}
+
+	/**
+	 * Performs an equals() check on two Objects, either (or both) of which may be null.
+	 * <p>
+	 * This method returns <code>true</code> if both Objects are null. Whether, strictly speaking,
+	 * null == null is debatable, but this approach is useful for comparing two parent Objects who
+	 * have both left certain properties as null. Generally we want those two parent Objects to be
+	 * considered equal.
+	 *
+	 * @return true if both object1 and object2 are null, false if one is null and the other is not,
+	 *         otherwise returns object1.equals( object2 )
+	 */
 
 	public static boolean nullSafeEquals( Object object1, Object object2 )
 	{
@@ -56,15 +71,37 @@ public final class ObjectUtils
 		return object1.equals( object2 );
 	}
 
+	/**
+	 * @return 0 if both object1 and object2 are null, -1 if object1 is null but object2 is not
+	 *         (sorts nulls to the top), 1 if object2 is null but object1 is not, otherwise returns
+	 *         object1.compareTo( object2 )
+	 */
+
+	public static <T> int nullSafeCompareTo( Comparable<T> object1, T object2 )
+	{
+		if ( object1 == null )
+		{
+			if ( object2 == null )
+				return 0;
+
+			return -1;
+		}
+		else if ( object2 == null )
+			return 1;
+
+		return object1.compareTo( object2 );
+	}
+
 	//
 	// Private methods
 	//
 
 	/**
-	 * Copied from <code>Arrays.deepHashCode</code>. <code>Arrays.deepHashCode</code> not supported by GWT 1.7.
+	 * Copied from <code>Arrays.deepHashCode</code>. <code>Arrays.deepHashCode</code> not supported
+	 * by GWT 1.7.
 	 */
 
-	public static int deepHashCode( Object a[] )
+	private static int deepHashCode( Object a[] )
 	{
 		if ( a == null )
 			return 0;
@@ -86,10 +123,11 @@ public final class ObjectUtils
 	}
 
 	/**
-	 * Copied from <code>Arrays.deepEquals</code>. <code>Arrays.deepEquals</code> not supported by GWT 1.7.
+	 * Copied from <code>Arrays.deepEquals</code>. <code>Arrays.deepEquals</code> not supported by
+	 * GWT 1.7.
 	 */
 
-	public static boolean deepEquals( Object[] a1, Object[] a2 )
+	private static boolean deepEquals( Object[] a1, Object[] a2 )
 	{
 		if ( a1 == a2 )
 			return true;

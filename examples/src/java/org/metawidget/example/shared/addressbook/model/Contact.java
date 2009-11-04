@@ -29,6 +29,7 @@ import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiRequired;
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
  * Models a Contact in the Address Book
@@ -314,18 +315,7 @@ public abstract class Contact
 		if ( that == null )
 			return -1;
 
-		String thisFirstname = getFirstname();
-		String thatFirstname = that.getFirstname();
-
-		if ( thisFirstname == null )
-		{
-			if ( thatFirstname != null )
-				return -1;
-
-			return 0;
-		}
-
-		return thisFirstname.compareTo( thatFirstname );
+		return ObjectUtils.nullSafeCompareTo( getFirstname(), that.getFirstname() );
 	}
 
 	@Override

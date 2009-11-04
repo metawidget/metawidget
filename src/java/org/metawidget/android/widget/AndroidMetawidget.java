@@ -275,7 +275,11 @@ public class AndroidMetawidget
 
 	public String getLocalizedKey( String key )
 	{
-		// Android doesn't support i18n yet
+		// Android doesn't support i18n yet. This page...
+		//
+		// http://developer.android.com/guide/topics/resources/resources-i18n.html
+		//
+		// ...says 'Coming Soon' as of 4/11/2009
 
 		return null;
 	}
