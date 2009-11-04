@@ -213,7 +213,7 @@ public class ConfigReader
 
 			else
 			{
-				LOG.debug( "Reading resource from " + resource );
+				LOG.debug( "Reading resource from " + resource + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ));
 				cachingContentHandler = new CachingContentHandler( configHandler );
 				configHandler.setCachingContentHandler( cachingContentHandler );
 				mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );

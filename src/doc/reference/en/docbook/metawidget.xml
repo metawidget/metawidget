@@ -893,7 +893,7 @@ public class Main {
 	
 				<tip>
 					<title>Note</title>
-					The XML does not need a <parameter>comes-after</parameter> attribute: XML nodes are
+					In XML, the <parameter>comes-after</parameter> attribute is optional: XML nodes are
 					inherently ordered, and <classname>CompositeInspector</classname> combines inspection results so that later results
 					respect the ordering of earlier results.
 				</tip>
@@ -7551,9 +7551,9 @@ public class PersonController {
 					</para>
 						
 					<programlisting language="xml">&lt;generate-with
-		class="org.metawidget.gwt.generator.widgetprocessor.binding.simple.SimpleBindingProcessorAdapterGenerator"&gt;
-		&lt;when-type-assignable class="org.metawidget.example.shared.addressbook.model.Contact"/&gt;
-	&lt;/generate-with&gt;</programlisting>
+	class="org.metawidget.gwt.generator.widgetprocessor.binding.simple.SimpleBindingProcessorAdapterGenerator"&gt;
+	&lt;when-type-assignable class="org.metawidget.example.shared.addressbook.model.Contact"/&gt;
+&lt;/generate-with&gt;</programlisting>
 	
 					<para>
 						...and in the application code...
