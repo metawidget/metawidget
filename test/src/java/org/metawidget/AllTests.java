@@ -29,16 +29,12 @@ import org.metawidget.iface.MetawidgetExceptionTest;
 import org.metawidget.inspectionresultprocessor.InspectionResultProcessorTests;
 import org.metawidget.inspector.InspectorTests;
 import org.metawidget.jsp.JspMetawidgetTests;
-import org.metawidget.layout.iface.LayoutExceptionTest;
-import org.metawidget.layout.impl.LayoutUtilsTest;
+import org.metawidget.layout.LayoutTests;
 import org.metawidget.mixin.MixinTests;
 import org.metawidget.swing.SwingMetawidgetTests;
 import org.metawidget.util.UtilTests;
-import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderTest;
-import org.metawidget.widgetbuilder.iface.WidgetBuilderExceptionTest;
-import org.metawidget.widgetbuilder.impl.BaseWidgetBuilderTest;
-import org.metawidget.widgetprocessor.iface.WidgetProcessorExceptionTest;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessorTest;
+import org.metawidget.widgetbuilder.WidgetBuilderTests;
+import org.metawidget.widgetprocessor.WidgetProcessorTests;
 
 /**
  * @author Richard Kennard
@@ -59,9 +55,6 @@ public class AllTests
 		// To fix, place the junit-4.5.jar first on your CLASSPATH
 
 		TestSuite suite = new TestSuite( "Metawidget Tests" );
-		suite.addTestSuite( BaseWidgetBuilderTest.class );
-		suite.addTestSuite( BaseWidgetProcessorTest.class );
-		suite.addTestSuite( CompositeWidgetBuilderTest.class );
 		suite.addTestSuite( ConfigReaderTest.class );
 		suite.addTest( ExampleTests.suite() );
 		suite.addTest( FacesMetawidgetTests.suite() );
@@ -69,14 +62,13 @@ public class AllTests
 		suite.addTest( InspectorTests.suite() );
 		suite.addTest( InspectionResultProcessorTests.suite() );
 		suite.addTest( JspMetawidgetTests.suite() );
-		suite.addTestSuite( LayoutExceptionTest.class );
-		suite.addTestSuite( LayoutUtilsTest.class );
+		suite.addTest( LayoutTests.suite() );
 		suite.addTestSuite( MetawidgetExceptionTest.class );
 		suite.addTest( MixinTests.suite() );
 		suite.addTest( SwingMetawidgetTests.suite() );
 		suite.addTest( UtilTests.suite() );
-		suite.addTestSuite( WidgetBuilderExceptionTest.class );
-		suite.addTestSuite( WidgetProcessorExceptionTest.class );
+		suite.addTest( WidgetBuilderTests.suite() );
+		suite.addTest( WidgetProcessorTests.suite() );
 		suite.addTestSuite( XmlSchemaGeneratorTaskTest.class );
 
 		return suite;
