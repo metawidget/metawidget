@@ -24,12 +24,27 @@ import java.lang.annotation.Target;
 /**
  * Annotates an arbitrary Metawidget attribute, based on a Java Server Faces EL expression.
  * <p>
- * Unlike <code>UiFacesLookup</code>, which fits into a well-defined place within the JSF
- * framework (ie. <code>f:selectItems</code>), the <code>UiFacesAttribute</code> expression is
- * evaluated by the <code>Inspector</code>, not by the <code>Metawidget</code>. This means the
- * <code>Inspector</code> must be able access to <code>FacesContext</code>. In practice this
- * usually happens automatically, but in some cases it may be necessary to 'combine remote
- * inspections' (see the Reference Documentation).
+ * Unlike <code>UiFacesLookup</code>, which fits into a well-defined place within the JSF framework
+ * (ie. <code>f:selectItems</code>), the <code>UiFacesAttribute</code> expression is evaluated by
+ * the <code>Inspector</code>, not by the <code>Metawidget</code>. This means the
+ * <code>Inspector</code> must be able access to <code>FacesContext</code>. In practice this usually
+ * happens automatically, but in some cases it may be necessary to 'combine remote inspections' (see
+ * the Reference Documentation).
+ * <p>
+ * Note in the event <code>UiFacesAttribute</code> uses an attribute name overlapping with another
+ * <code>UiFacesxxx</code> annotation (eg. <code>UiFacesLookup</code>) the latter will get
+ * precedence. For example...
+ * <p>
+ * <code>
+ * @UiFacesLookup( "#{foo}" )<br/>
+ * @UiFacesAttribute( name = FacesInspectionResultConstants.FACES_LOOKUP, expression = "#{!empty bar ? '' : null}" )
+ * </code>
+ * <p>
+ * ...in general, you should avoid such ambiguous situations. For example, you could instead use...
+ * <p>
+ * <code>
+ * @UiFacesAttribute( name = FacesInspectionResultConstants.FACES_LOOKUP, expression = "#{!empty bar ? '' : '#{foo}'}" )
+ * </code>
  *
  * @author Richard Kennard
  */

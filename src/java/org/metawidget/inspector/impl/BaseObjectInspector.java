@@ -319,6 +319,10 @@ public abstract class BaseObjectInspector
 	 * you can override this single method if your annotation is applicable to both. For example,
 	 * <code>UiLabel</code>.
 	 * <p>
+	 * In the event of an overlap between the attributes set by <code>inspectTrait</code> and
+	 * those set by <code>inspectProperty</code>/<code>inspectAction</code>, the latter will
+	 * receive precedence.
+	 * <p>
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
 	 * the call stack instead.

@@ -113,6 +113,7 @@ public class FacesMetawidgetTests
 	{
 		TestSuite suite = new TestSuite( "Faces Metawidget Tests" );
 		suite.addTestSuite( CssStyleProcessorTest.class );
+		suite.addTestSuite( FacesUtilsTest.class );
 		suite.addTestSuite( HiddenFieldProcessorTest.class );
 		suite.addTestSuite( HtmlWidgetBuilderTest.class );
 		suite.addTestSuite( HtmlTableLayoutRendererTest.class );

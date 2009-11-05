@@ -240,7 +240,20 @@ public final class FacesUtils
 		}
 	}
 
-	private final static Pattern	PATTERN_EXPRESSION	= Pattern.compile( "((#|\\$)\\{)([^}]*)(\\})" );
+	/**
+	 * Match #{...} and ${...}. This mirrors the approach in
+	 * <code>UIComponentTag.isValueReference</code>, but that one is deprecated so may be removed in
+	 * the future.
+	 * <p>
+	 * Like <code>UIComponentTag.isValueReference</code> we allow nested #{...} blocks, because
+	 * this can still be a legitimate value reference:
+	 * <p>
+	 * <code>
+	 * #{!empty bar ? '' : '#{foo}'}
+	 * </code>
+	 */
+
+	private final static Pattern	PATTERN_EXPRESSION	= Pattern.compile( "((#|\\$)\\{)(.*)(\\})" );
 
 	private final static String		EXPRESSION_START	= "#{";
 
