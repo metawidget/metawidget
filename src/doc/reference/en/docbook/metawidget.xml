@@ -3365,7 +3365,8 @@ public class Main {
 					to the various <parameter>attributes</parameter> and instantiate an appropriate widget. WidgetBuilders can use
 					the given <parameter>metawidget</parameter> to help them if needed (for example, to access a UI context with which
 					to instantiate widgets). Typically the WidgetBuilders do not need to configure the widget beyond simply instantiating it: the job
-					of setting <parameter>id</parameter>s, attaching validators, configuring bindings and so forth is done by the widget processors.
+					of setting <parameter>id</parameter>s, attaching validators, configuring bindings and so forth is done by the
+					<classname>WidgetProcessor</classname>s (see <xref linkid="section-architecture-widgetprocessors"/>).
 				</para>
 				
 			</section>

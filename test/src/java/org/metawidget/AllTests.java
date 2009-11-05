@@ -24,7 +24,7 @@ import org.metawidget.config.ConfigReaderTest;
 import org.metawidget.config.XmlSchemaGeneratorTaskTest;
 import org.metawidget.example.ExampleTests;
 import org.metawidget.faces.FacesMetawidgetTests;
-import org.metawidget.gwt.client.ui.layout.FlexTableLayoutTest;
+import org.metawidget.gwt.GwtMetawidgetTests;
 import org.metawidget.iface.MetawidgetExceptionTest;
 import org.metawidget.inspectionresultprocessor.InspectionResultProcessorTests;
 import org.metawidget.inspector.InspectorTests;
@@ -65,7 +65,7 @@ public class AllTests
 		suite.addTestSuite( ConfigReaderTest.class );
 		suite.addTest( ExampleTests.suite() );
 		suite.addTest( FacesMetawidgetTests.suite() );
-		suite.addTestSuite( FlexTableLayoutTest.class );
+		suite.addTest( GwtMetawidgetTests.suite() );
 		suite.addTest( InspectorTests.suite() );
 		suite.addTest( InspectionResultProcessorTests.suite() );
 		suite.addTest( JspMetawidgetTests.suite() );

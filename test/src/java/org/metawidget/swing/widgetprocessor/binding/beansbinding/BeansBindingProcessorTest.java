@@ -72,7 +72,7 @@ public class BeansBindingProcessorTest
 		// Test UpdateStrategy.READ
 
 		metawidget.removeWidgetProcessor( metawidget.getWidgetProcessor( BeansBindingProcessor.class ) );
-		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ )));
+		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ ) ) );
 
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		foo.setBar( 43 );
@@ -85,7 +85,7 @@ public class BeansBindingProcessorTest
 		// Test UpdateStrategy.READ_WRITE
 
 		metawidget.removeWidgetProcessor( metawidget.getWidgetProcessor( BeansBindingProcessor.class ) );
-		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ_WRITE )));
+		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ_WRITE ) ) );
 
 		spinner = (JSpinner) metawidget.getComponent( 1 );
 		spinner.setValue( spinner.getModel().getNextValue() );
@@ -103,7 +103,7 @@ public class BeansBindingProcessorTest
 		// Inspect
 
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ_WRITE )) );
+		metawidget.addWidgetProcessor( new BeansBindingProcessor( new BeansBindingProcessorConfig().setUpdateStrategy( UpdateStrategy.READ_WRITE ) ) );
 		metawidget.setInspector( new PropertyTypeInspector() );
 		metawidget.setMetawidgetLayout( new BoxLayout() );
 		metawidget.setToInspect( foo );
@@ -239,7 +239,7 @@ public class BeansBindingProcessorTest
 		// updateStrategy
 
 		config1.setUpdateStrategy( UpdateStrategy.READ_WRITE );
-		assertTrue( UpdateStrategy.READ_WRITE.equals( config1.getUpdateStrategy() ));
+		assertTrue( UpdateStrategy.READ_WRITE.equals( config1.getUpdateStrategy() ) );
 		assertTrue( !config1.equals( config2 ) );
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
@@ -247,18 +247,44 @@ public class BeansBindingProcessorTest
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
-		// TODO: converters
-		// TODO: SimpleBindingProcessorTest.testConfig
+		// converter
+
+		Converter<Date, String> converter = new Converter<Date, String>()
+		{
+
+			@Override
+			public String convertForward( Date arg0 )
+			{
+				return null;
+			}
+
+			@Override
+			public Date convertReverse( String arg0 )
+			{
+				return null;
+			}
+		};
+
+		assertTrue( null == config1.getConverters() );
+		config1.setConverter( Date.class, String.class, converter );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+		config2.setConverter( Date.class, String.class, converter );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		assertTrue( 1 == config1.getConverters().size() );
+		assertTrue( converter == config1.getConverters().values().iterator().next() );
 	}
 
 	public void testNumberConverter()
 	{
 		NumberConverter<Integer> numberConverter = new NumberConverter<Integer>( Integer.class );
 
-		assertTrue( null == numberConverter.convertReverse( null ));
-		assertTrue( null == numberConverter.convertReverse( "" ));
-		assertTrue( null == numberConverter.convertReverse( "   " ));
-		assertTrue( 3 == numberConverter.convertReverse( "3" ));
+		assertTrue( null == numberConverter.convertReverse( null ) );
+		assertTrue( null == numberConverter.convertReverse( "" ) );
+		assertTrue( null == numberConverter.convertReverse( "   " ) );
+		assertTrue( 3 == numberConverter.convertReverse( "3" ) );
 	}
 
 	//
