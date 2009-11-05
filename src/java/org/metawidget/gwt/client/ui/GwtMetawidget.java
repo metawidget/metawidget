@@ -600,6 +600,15 @@ public class GwtMetawidget
 		return mExistingUnusedWidgets;
 	}
 
+	/**
+	 * This method is public for use by WidgetBuilders.
+	 */
+
+	public Element inspect( Object toInspect, String type, String... names )
+	{
+		return mMetawidgetMixin.inspect( toInspect, type, names );
+	}
+
 	//
 	// Protected methods
 	//

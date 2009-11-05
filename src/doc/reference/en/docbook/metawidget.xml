@@ -4987,26 +4987,6 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 
 				</section>
 				
-				<section id="section-metawidgets-web-gwt-pluggability">
-					<title>Pluggability</title>
-					
-					<para>
-						Like other Metawidgets, <classname>GwtMetawidget</classname> supports pluggable inspectors, layout managers and binding
-						implementations. However, the other Metawidgets do this using <function>Class.newInstance</function>, which
-						JavaScript does not support.						
-					</para>
-					
-					<para>
-						Instead, <classname>GwtMetawidget</classname> supplies GWT <classname>Generators</classname> in the form of
-						<classname>org.metawidget.gwt.generator.FactoryGenerator</classname>. At compile-time, each generator scans all the classes included in the
-						application and statically generates code to instantiate them. This is transparent to the application code,
-						which can simply do:
-					</para>
-					
-					<programlisting language="java">metawidget.setLayout( new FlexTableLayout() )</programlisting>
-					
-				</section>
-				
 				<section id="section-metawidgets-web-gwt-client-side-inspection">
 					<title>Client-Side Inspection</title>
 					
@@ -5036,16 +5016,11 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 						so that it is compiled by the GWTCompiler into JavaScript. Use this <classname>Inspector</classname> by doing...
 					</para>
 
-					<programlisting language="java">myGWTMetawidget.setInspectorClass( MyClientSideInspector.class )</programlisting>
+					<programlisting language="java">myGWTMetawidget.setInspector( new MyClientSideInspector() )</programlisting>
 					
 					<para>
-						...which overrides the default <classname>GwtRemoteInspectorProxy</classname>. Behind the scenes, <classname>GwtMetawidget</classname>
-						has a <classname>FactoryGenerator</classname> which takes care of generating JavaScript code to
-						instantiate your inspector.
-					</para>
-					
-					<para>
-						For an example of this technique see <xref linkend="section-introduction-part3-gwt-clientside"/>.
+						...which overrides the default <classname>GwtRemoteInspectorProxy</classname>. For an example of this technique
+						see <xref linkend="section-introduction-part3-gwt-clientside"/>.
 					</para>
 					
 				</section>
@@ -7561,7 +7536,14 @@ public class PersonController {
 						
 					<programlisting language="java">metawidget.addWidgetProcessor( new SimpleBindingProcessor(
 new SimpleBindingProcessorConfig().setAdapter( Contact.class,
-	(SimpleBindingProcessorAdapter&lt;Contact&gt;) GWT.create(Contact.class)));</programlisting>					
+	(SimpleBindingProcessorAdapter&lt;Contact&gt;) GWT.create(Contact.class)));</programlisting>
+	
+					<important>
+						<title>ClassCastException</title>
+						If this line throws a <classname>ClassCastException</classname> casting to <classname>SimpleBindingProcessorAdapter</classname>,
+						it means GWT is not applying the <classname>SimpleBindingProcessorAdapterGenerator</classname>. Check you've
+						specified the correct class in your <parameter>generate-with</parameter> block.
+					</important>						
 						
 				</section>
 					

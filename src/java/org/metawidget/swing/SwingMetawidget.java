@@ -687,6 +687,15 @@ public class SwingMetawidget
 		}
 	}
 
+	/**
+	 * This method is public for use by WidgetBuilders.
+	 */
+
+	public Element inspect( Object toInspect, String type, String... names )
+	{
+		return mMetawidgetMixin.inspect( toInspect, type, names );
+	}
+
 	//
 	// Protected methods
 	//
@@ -946,7 +955,7 @@ public class SwingMetawidget
 			return null;
 
 		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-		return mMetawidgetMixin.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
 	protected void initNestedMetawidget( SwingMetawidget nestedMetawidget, Map<String, String> attributes )
