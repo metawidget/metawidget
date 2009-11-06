@@ -1014,7 +1014,8 @@ public class Person {
 				
 				<para>
 					The application is pre-built for you in <filename>examples\swing\addressbook-swing.jar</filename> or, if you've downloaded
-					the source code distribution, you can build it yourself by changing to the root folder of the source distribution and typing:
+					the source code distribution, you can build it yourself by changing to the <filename>examples</filename> folder of the
+					source distribution and typing:
 				</para>
 				
 				<programlisting language="shell">ant example-swing-addressbook</programlisting>
@@ -1612,7 +1613,7 @@ public class Person {
 				<para>
 					The emulator may take a little while to start. Once finished, it will display the phone's desktop. The Address Book APK
 					is pre-built for you in <filename>examples\android\addressbook-android.apk</filename>. If you've downloaded the source code distribution, you
-					can build it yourself by changing to the root folder of the source distribution and typing:
+					can build it yourself by changing to the <filename>examples</filename> folder of the source distribution and typing:
 				</para>
 				
 				<programlisting language="shell">ant example-android-addressbook</programlisting>
@@ -1763,7 +1764,7 @@ mMetawidget.setToInspect( mCommunication );</programlisting>
 				<para>
 					The Swing Applet Address Book Example demonstrates using Metawidget in applets. The example is pre-built for you in
 					<filename>examples\swing\applet\addressbook</filename>. If you've downloaded the source code distribution, you can build it
-					yourself by changing to the root folder of the source distribution and typing:
+					yourself by changing to the <filename>examples</filename> folder of the source distribution and typing:
 				</para>
 				
 				<programlisting language="shell">ant example-swing-addressbook-applet</programlisting>
@@ -2004,7 +2005,8 @@ public PenguinCondition getCondition() { ...}</programlisting>
 	
 				<para>
 					The application is pre-built for you in <filename>examples\swing\appframework-swing.jar</filename> or, if you've downloaded
-					the source code distribution, you can build it yourself by changing to the root folder of the source distribution and typing:
+					the source code distribution, you can build it yourself by changing to the <filename>examples</filename> folder of the source
+					distribution and typing:
 				</para>
 				
 				<programlisting language="shell">ant example-swing-appframework</programlisting>
@@ -2083,7 +2085,8 @@ public void addOwner() {
 	
 				<para>
 					The application is pre-built for you in <filename>examples\swing\animalraces-swing.jar</filename> or, if you've downloaded
-					the source code distribution, you can build it yourself by changing to the root folder of the source distribution and typing:
+					the source code distribution, you can build it yourself by changing to the <filename>examples</filenmae> folder of the source
+					distribution and typing:
 				</para>
 				
 				<programlisting language="shell">ant example-swing-animalraces</programlisting>

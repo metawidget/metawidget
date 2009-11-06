@@ -139,7 +139,7 @@
 				<verifyCheckbox name="form:penguinCurrentHobbies" value="Other" checked="false"/>
 				<setCheckbox name="form:penguinCurrentHobbies" value="Other" checked="true"/>
 				
-				<!-- Begin hack until WebTest JavaScript support improves -->
+				<!-- Begin hack until WebTest JavaScript support improves (http://webtest-community.canoo.com/jira/browse/WT-544) -->
 
 				<clickButton label="Back"/>
 				<clickLink xpath="/html/body/div[@id='content']/form/table/tbody/tr[2]/td[3]/a"/>
