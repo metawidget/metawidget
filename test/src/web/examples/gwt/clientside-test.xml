@@ -24,8 +24,7 @@
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/div[@class='samples']/button[3]" text="Sample #3"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='textarea-column']/textarea"/>
 				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='generate-column']/button" text="Generate"/>
-				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div"/> 				
-				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div/table[@class='table-form']/tbody/tr[1]/td[1]/div" text="Artist:"/> 				
+				<verifyXPath xpath="/html/body/table[@id='content']/tbody/tr/td[@id='metawidget-column']/div[@id='metawidget']/div/table[@class='table-form']/tbody/tr[1]/td[1]/div" text="Artist:"/>
 			</steps>
 		</webtest>
 	</target>
