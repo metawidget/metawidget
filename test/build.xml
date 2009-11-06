@@ -169,6 +169,7 @@
 			<fileset dir="${relative.dir}/${build.dir}/classes">
 				<include name="org/metawidget/config/XmlSchemaGeneratorTask.class"/>
 				<include name="**/FlexTableLayoutConfig.class"/>
+				<include name="org/metawidget/gwt/client/widgetprocessor/binding/simple/**"/>
 			</fileset>
 		</copy>
 		
