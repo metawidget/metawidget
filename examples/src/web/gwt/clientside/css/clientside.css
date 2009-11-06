@@ -101,9 +101,16 @@ h2 strong
 	border: 1px dashed #888888;
 }
 
+#metawidget
+{
+	padding: 5px;
+}
+
 .table-form
 {
 	width: 100%;
+	border-collapse: collapse;
+
 }
 
 .table-label-column
@@ -117,7 +124,7 @@ h2 strong
 
 .table-component-column
 {
-	width: 75%;
+	width: 100%;
 	text-align: left;
 	vertical-align: top;
 }
@@ -144,11 +151,13 @@ h2 strong
 	text-align: right;
 	line-height: 10pt;
 	padding-top: 10px;
+	line-height: 15px;
 }
 
 .table-required-column div
 {
-	width: 15px;
+	width: 20px;
+	height: 15px;
 }
 
 .buttons
@@ -165,8 +174,8 @@ button
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
 	font-weight: bold;
-	margin-left: 1px;
 	margin-right: 1px;
+	margin-bottom: 5px;
 	padding-left: 10px;
 	padding-right: 10px;
 	color: white;

@@ -230,7 +230,7 @@ public class ClientSideModule
 			RootPanel.get( "textarea-column" ).add( sampleButtons );
 			RootPanel.get( "textarea-column" ).add( textarea );
 			RootPanel.get( "generate-column" ).add( generateButton );
-			RootPanel.get( "metawidget-column" ).add( metawidget );
+			RootPanel.get( "metawidget" ).add( metawidget );
 		}
 		else
 		{

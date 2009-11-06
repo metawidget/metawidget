@@ -119,9 +119,16 @@ public class AddressBookModule
 			@Override
 			public void onClick( ClickEvent event )
 			{
+				int rowIndex = mContacts.getCellForEvent( event ).getRowIndex();
+
+				// Ignore clicks on the header row
+
+				if ( rowIndex == 0 )
+					return;
+
 				// Load the id at the clicked row
 
-				long contactId = mContactsList.get( mContacts.getCellForEvent( event ).getRowIndex() - 1 ).getId();
+				long contactId = mContactsList.get( rowIndex - 1 ).getId();
 
 				mContactsService.load( contactId, new AsyncCallback<Contact>()
 				{
