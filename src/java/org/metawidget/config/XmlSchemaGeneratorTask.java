@@ -197,7 +197,14 @@ public class XmlSchemaGeneratorTask
 					xsdBuilder.append( " xmlns:xs=\"http://www.w3.org/2001/XMLSchema\" elementFormDefault=\"qualified\" version=\"1.0\">\r\n" );
 					xsdBuilder.append( SCHEMA_END );
 
-					// TODO: This schema does not seem to stop XML elements that haven't been defined
+					// Note: as determined in this thread...
+					//
+					// http://old.nabble.com/Possible-to-restrict-top-level-xs%3Aelement-names--ts26227610.html
+					//
+					// ..."The [XML Schema] spec doesn't provide a mechanism by which a schema can
+					// constrain the document element of schema-valid documents". So we can't flag
+					// an error if someone tries to declare <siwngMetawidget> (ie.
+					// siwng instead of swing). This is unfortunate.
 				}
 
 				// ...add our element block...
@@ -220,7 +227,7 @@ public class XmlSchemaGeneratorTask
 
 				String xsdFilename = xsdFile.getName();
 
-				if ( !xsdFilename.equals( lastXsdFilename ))
+				if ( !xsdFilename.equals( lastXsdFilename ) )
 				{
 					indexWriter.write( "\t\t\t<li><a href=\"" + xsdFilename + "\">" + xsdFilename + "</a></li>\r\n" );
 					lastXsdFilename = xsdFilename;
