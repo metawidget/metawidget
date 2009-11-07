@@ -243,7 +243,7 @@ public class Main {
 					By default, <classname>SwingMetawidget</classname> has laid out the	<classname>JComponents</classname>
 					using <classname>java.awt.GridBagLayout</classname>. Try resizing the window, and the
 					<classname>JComponents</classname> will resize with it. If you've ever tried using
-					<classname>GridBagLayout</classname> yourself, either
+					<classname>java.awt.GridBagLayout</classname> yourself, either
 					through code or a visual UI builder, you'll know how fiddly it can be. Having Metawidget do it for you is a real time-saver.
 				</para>
 
@@ -581,7 +581,7 @@ public class Main {
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		<symbol>GridBagLayoutConfig layoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 );
-		metawidget.setMetawidgetLayout( new GridBagLayout( layoutConfig ));</symbol>
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( layoutConfig ));</symbol>
 		metawidget.setToInspect( person );
 		
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
@@ -643,7 +643,7 @@ public class Main {
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig layoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 );
-		metawidget.setMetawidgetLayout( new GridBagLayout( layoutConfig ));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( layoutConfig ));
 		metawidget.setToInspect( person );
 		<symbol>JComboBox combo = new JComboBox();
 		combo.setName( "retired" );
@@ -704,7 +704,7 @@ public class Main {
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig layoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 );
-		metawidget.setMetawidgetLayout( new GridBagLayout( layoutConfig ));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( layoutConfig ));
 		metawidget.setToInspect( person );
 		<symbol>metawidget.add( new Stub( "retired" ));</symbol>
 		
