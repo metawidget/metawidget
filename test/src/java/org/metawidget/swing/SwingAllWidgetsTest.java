@@ -43,6 +43,7 @@ import javax.swing.SpinnerNumberModel;
 import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.ConvertUtils;
+import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.shared.allwidgets.model.AllWidgets;
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
@@ -50,6 +51,7 @@ import org.metawidget.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
+import org.metawidget.util.LogUtilsTest;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
@@ -97,6 +99,26 @@ public class SwingAllWidgetsTest
 		ConvertUtils.register( new org.metawidget.swing.allwidgets.converter.beanutils.DateConverter( DATE_FORMAT ), Date.class );
 		ConvertUtils.register( new org.metawidget.swing.allwidgets.converter.beanutils.NestedWidgetsConverter(), NestedWidgets.class );
 		runTest( new BeanUtilsBindingProcessor() );
+	}
+
+	public void testJdk14()
+	{
+		// Check works 'out of the box' on JDK 1.4
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setToInspect( new Person() );
+		assertTrue( "Age:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
+		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 3 ) instanceof JTextField );
+		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
+		assertTrue( metawidget.getComponent( 6 ) instanceof JPanel );
+		assertTrue( 7 == metawidget.getComponentCount() );
+
+		// Check warning
+
+		assertTrue( "foo".equals( LogUtilsTest.getLastDebugMessage() ) );
 	}
 
 	//

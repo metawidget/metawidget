@@ -921,7 +921,7 @@ public class Main {
 			&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite"
 				config="CompositeInspectorConfig"&gt;
 				&lt;inspectors&gt;
-					&lt;array&gt;
+				&lt;array&gt;
 					<symbol>&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml"
 						config="XmlInspectorConfig"&gt;
 						&lt;inputStream&gt;
@@ -965,7 +965,7 @@ public class Person {
 				<programlisting language="java">public class Person {
 	private String name;
 	
-	public String getName()	{
+	public String getName() {
 		return this.name;
 	}
 	
@@ -5337,7 +5337,26 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 				
 				<para>
 					<classname>BaseObjectInspector</classname> underlies many of the Inspectors that inspect objects (as opposed to, say,
-					config files). It supports pluggable PropertyStyles and ActionStyles.
+					XML files). It provides easy-to-override methods such as...
+				</para>
+				
+				<programlisting language="java">protected Map<String, String> inspectProperty( Property property )</programlisting>
+				
+				<para>
+					...for inspecting properties, and...
+				</para>
+
+				<programlisting language="java">protected Map<String, String> inspectAction( Action action )</programlisting>
+				
+				<para>
+					...for inspecting actions, and finally...
+				</para>
+
+				<programlisting language="java">protected Map<String, String> inspectTrait( Trait trait )</programlisting>
+				
+				<para>
+					...for inspecting things that apply to both properties and actions (eg. <classname>@UiLabel</classname>). What
+					constitutes a 'property' or an 'action' is decoupled into pluggable PropertyStyles and ActionStyles.
 				</para>
 				
 				<section id="section-inspectors-base-object-propertystyle">

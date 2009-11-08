@@ -31,6 +31,11 @@ public class LogUtilsTest
 	// Public statics
 	//
 
+	public static String getLastDebugMessage()
+	{
+		return LogUtils.LAST_DEBUG_MESSAGE;
+	}
+
 	public static String getLastInfoMessage()
 	{
 		return LogUtils.LAST_INFO_MESSAGE;

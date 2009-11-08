@@ -319,9 +319,9 @@ public abstract class BaseObjectInspector
 	 * you can override this single method if your annotation is applicable to both. For example,
 	 * <code>UiLabel</code>.
 	 * <p>
-	 * In the event of an overlap between the attributes set by <code>inspectTrait</code> and
-	 * those set by <code>inspectProperty</code>/<code>inspectAction</code>, the latter will
-	 * receive precedence.
+	 * In the event of an overlap between the attributes set by <code>inspectTrait</code> and those
+	 * set by <code>inspectProperty</code>/<code>inspectAction</code>, the latter will receive
+	 * precedence.
 	 * <p>
 	 * Note: for convenience, this method does not expect subclasses to deal with DOMs and Elements.
 	 * Those subclasses wanting more control over these features should override methods higher in
@@ -364,11 +364,11 @@ public abstract class BaseObjectInspector
 
 	/**
 	 * Whether to additionally inspect each child property using <code>inspectEntity</code> from its
-	 * class level.
+	 * object level.
 	 * <p>
-	 * This can be useful if the property's value defines useful class-level annotations, but it is
-	 * expensive (as it requires invoking the property's getter to retrieve the value) so is
-	 * <code>false</code> by default.
+	 * This can be useful if the property's value defines useful class-level semantics (eg.
+	 * <classname>TYPE</classname>), but it is expensive (as it requires invoking the property's
+	 * getter to retrieve the value) so is <code>false</code> by default.
 	 * <p>
 	 * For example usage, see <code>PropertyTypeInspector</code> and <code>Java5Inspector</code>.
 	 */

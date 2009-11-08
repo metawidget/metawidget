@@ -19,6 +19,19 @@
 		<mkdir dir="${relative.dir}/${build.dir}/scala-test-classes"/>
 		<mkdir dir="${relative.dir}/${build.dir}/tutorial-classes"/>
 
+		<!-- Build tutorial files (which are neither 'src/test' files, nor should -->
+		<!-- end up as examples in the finished distribution                      -->
+		
+		<javac sourcepath="" srcdir="${relative.dir}/examples/src/java" destdir="${relative.dir}/${build.dir}/tutorial-classes" debug="on" optimize="on" source="1.5" target="jsr14">
+			<include name="org/metawidget/example/**/tutorial/**"/>
+			<classpath>
+				<fileset dir="${relative.dir}/lib"/>
+				<pathelement path="${relative.dir}/${build.dir}/classes"/>
+			</classpath>
+		</javac>
+
+		<!-- JDK 1.4 test files -->
+		
 		<javac sourcepath="" srcdir="${relative.dir}/test/src/java" destdir="${relative.dir}/${build.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
 			<include name="org/metawidget/android/allwidgets/**"/>
 			<include name="org/metawidget/faces/allwidgets/**"/>
@@ -27,9 +40,11 @@
 			<include name="org/metawidget/struts/allwidgets/**"/>
 			<include name="org/metawidget/swing/allwidgets/**"/>
 			<include name="org/metawidget/swing/SwingAllWidgetsTest.java"/>
+			<include name="org/metawidget/util/**"/>
 			<classpath>
 				<fileset dir="${relative.dir}/lib"/>
 				<pathelement path="${relative.dir}/${build.dir}/classes"/>
+				<pathelement path="${relative.dir}/${build.dir}/tutorial-classes"/>
 			</classpath>
 		</javac>
 		
@@ -51,17 +66,6 @@
 			</classpath>
 		</javac>
 				
-		<!-- Build tutorial files (which are neither 'src/test' files, nor should -->
-		<!-- end up as examples in the finished distribution                      -->
-		
-		<javac sourcepath="" srcdir="${relative.dir}/examples/src/java" destdir="${relative.dir}/${build.dir}/tutorial-classes" debug="on" optimize="on" target="1.5">
-			<include name="org/metawidget/example/**/tutorial/**"/>
-			<classpath>
-				<fileset dir="${relative.dir}/lib"/>
-				<pathelement path="${relative.dir}/${build.dir}/classes"/>
-			</classpath>
-		</javac>
-
 		<!-- Build Groovy files -->
 
 		<taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc">
@@ -117,6 +121,7 @@
 			<exclude name="org/metawidget/struts/allwidgets/**"/>
 			<exclude name="org/metawidget/swing/allwidgets/**"/>
 			<exclude name="org/metawidget/swing/SwingAllWidgetsTest.java"/>
+			<exclude name="org/metawidget/util/**"/>
 			<classpath>
 				<pathelement path="${relative.dir}/${build.dir}/classes"/>				
 				<pathelement path="${relative.dir}/${build.dir}/example-classes"/>				
@@ -366,6 +371,7 @@
 				<pathelement location="${relative.dir}/test/lib-1.4/junit.jar"/>
 				<pathelement location="${relative.dir}/${build.dir}/metawidget.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
+				<pathelement path="${relative.dir}/${build.dir}/tutorial-classes"/>
 				<pathelement path="${relative.dir}/test/src/java"/>
 			</classpath>
 		</java>

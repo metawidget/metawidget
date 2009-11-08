@@ -114,6 +114,13 @@ public final class LogUtils
 	//
 
 	/**
+	 * Lightweight field that stores the last message sent to <code>Log.debug</code>. Intended for
+	 * unit tests.
+	 */
+
+	/* package private */static String	LAST_DEBUG_MESSAGE;
+
+	/**
 	 * Lightweight field that stores the last message sent to <code>Log.info</code>. Intended for
 	 * unit tests.
 	 */
@@ -175,6 +182,8 @@ public final class LogUtils
 
 		public void debug( String debug )
 		{
+			LAST_DEBUG_MESSAGE = debug;
+
 			mLogger.fine( debug );
 		}
 
@@ -283,11 +292,15 @@ public final class LogUtils
 
 		public void debug( String debug )
 		{
+			LAST_DEBUG_MESSAGE = debug;
+
 			mLog.debug( debug );
 		}
 
 		public void debug( String debug, Throwable throwable )
 		{
+			LAST_DEBUG_MESSAGE = debug;
+
 			mLog.debug( debug, throwable );
 		}
 
