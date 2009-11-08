@@ -7460,8 +7460,24 @@ public class PersonController {
 						<para>
 							If set to <parameter>READ</parameter> or <parameter>READ_WRITE</parameter> (the default is
 							<parameter>READ_ONCE</parameter>), the object being inspected must
-							provide <classname>PropertyChangeSupport</classname>.
+							provide <classname>PropertyChangeSupport</classname>. If set to <parameter>READ_WRITE</parameter>, updates
+							to the UI are automatically sync'ed back to the <function>setToInspect</function>, otherwise the
+							client must manually call <function>save</function>:
 						</para>
+
+						<programlisting language="java">myMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).save( myMetawidget )</programlisting>
+						
+						<para>
+							After <classname>JComponent</classname>s have been generated for the initial <function>setToInspect</function>, clients
+							can update their values to a new Object without a full re-inspection by using <function>rebind</function>: 
+						</para>
+						
+						<programlisting language="java">myMetawidget.getWidgetProcessor( BeansBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
+						
+						<para>
+							For more details, see <xref linkend="section-performance-rebind"/>.
+						</para>
+
 					</section>
 				
 					<section id="section-widgetprocessors-desktop-swing-binding-beanutilsbinding">
@@ -7477,6 +7493,23 @@ public class PersonController {
 	new BeanUtilsBindingProcessorConfig()
 		.setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA )) );</programlisting>
 		
+						<para>
+							Updates to the UI can be saved back to the <function>setToInspect</function> by calling <function>save</function>:
+						</para>
+
+						<programlisting language="java">myMetawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).save( myMetawidget )</programlisting>
+						
+						<para>
+							After <classname>JComponent</classname>s have been generated for the initial <function>setToInspect</function>, clients
+							can update their values to a new Object without a full re-inspection by using <function>rebind</function>: 
+						</para>
+						
+						<programlisting language="java">myMetawidget.getWidgetProcessor( BeanUtilsBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
+						
+						<para>
+							For more details, see <xref linkend="section-performance-rebind"/>.
+						</para>
+
 					</section>
 
 				</section>
@@ -7549,6 +7582,22 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						specified the correct class in your <parameter>generate-with</parameter> block.
 					</important>						
 						
+					<para>
+						Updates to the UI can be saved back to the <function>setToInspect</function> by calling <function>save</function>:
+					</para>
+
+					<programlisting language="java">myMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( myMetawidget )</programlisting>
+					
+					<para>
+						After <classname>Widget</classname>s have been generated for the initial <function>setToInspect</function>, clients
+						can update their values to a new Object without a full re-inspection by using <function>rebind</function>: 
+					</para>
+					
+					<programlisting language="java">myMetawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( newObject, myMetawidget )</programlisting>
+					
+					<para>
+						For more details, see <xref linkend="section-performance-rebind"/>.
+					</para>
 				</section>
 					
 				<section id="section-widgetprocessors-web-gwt-actionbinding">

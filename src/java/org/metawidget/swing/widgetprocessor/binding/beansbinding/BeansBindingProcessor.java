@@ -52,8 +52,8 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  * <code>org.jdesktop.beansbinding.AutoBinding.UpdateStrategy</code>. Defaults to
  * <code>READ_ONCE</code>. If set to <code>READ</code> or <code>READ_WRITE</code>, the object being
  * inspected must provide <code>PropertyChangeSupport</code>. If set to <code>READ</code>, there is
- * no need to call <code>SwingMetawidget.rebind</code>. If set to <code>READ_WRITE</code>, there is
- * no need to call <code>SwingMetawidget.save</code>.
+ * no need to call <code>BeansBindingProcessor.rebind</code>. If set to <code>READ_WRITE</code>, there is
+ * no need to call <code>BeansBindingProcessor.save</code>.
  * </ul>
  *
  * @author Richard Kennard

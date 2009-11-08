@@ -604,9 +604,9 @@ public class GwtMetawidget
 	 * This method is public for use by WidgetBuilders.
 	 */
 
-	public Element inspect( Object toInspect, String type, String... names )
+	public Inspector getInspector()
 	{
-		return mMetawidgetMixin.inspect( toInspect, type, names );
+		return mMetawidgetMixin.getInspector();
 	}
 
 	//
@@ -807,7 +807,7 @@ public class GwtMetawidget
 
 		if ( mToInspect != null )
 		{
-			Inspector inspector = mMetawidgetMixin.getInspector();
+			Inspector inspector = getInspector();
 
 			if ( mLastInspection == null )
 			{
