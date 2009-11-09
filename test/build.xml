@@ -40,6 +40,7 @@
 			<include name="org/metawidget/struts/allwidgets/**"/>
 			<include name="org/metawidget/swing/allwidgets/**"/>
 			<include name="org/metawidget/swing/SwingAllWidgetsTest.java"/>
+			<include name="org/metawidget/swing/SwingJdk14Test.java"/>
 			<include name="org/metawidget/util/**"/>
 			<classpath>
 				<fileset dir="${relative.dir}/lib"/>
@@ -121,6 +122,7 @@
 			<exclude name="org/metawidget/struts/allwidgets/**"/>
 			<exclude name="org/metawidget/swing/allwidgets/**"/>
 			<exclude name="org/metawidget/swing/SwingAllWidgetsTest.java"/>
+			<exclude name="org/metawidget/swing/SwingJdk14Test.java"/>
 			<exclude name="org/metawidget/util/**"/>
 			<classpath>
 				<pathelement path="${relative.dir}/${build.dir}/classes"/>				
@@ -359,7 +361,7 @@
 		<fail message="JDK 1.4 not installed at 'java4.dir' (as indicated in build.properties)" unless="java4-exists"/>
 
 		<java classname="junit.textui.TestRunner" fork="true" jvm="${java4.dir}/bin/java" dir="${relative.dir}/${build.dir}/${run.dir}">
-			<arg line="org.metawidget.swing.SwingAllWidgetsTest"/>
+			<arg line="org.metawidget.swing.SwingAllWidgetsTest org.metawidget.swing.SwingJdk14Test"/>
 			<classpath>
 				<fileset dir="${relative.dir}/lib">
 					<exclude name="android.jar"/>

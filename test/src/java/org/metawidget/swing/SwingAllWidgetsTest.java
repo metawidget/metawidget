@@ -18,7 +18,6 @@ package org.metawidget.swing;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.io.ByteArrayInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -44,8 +43,6 @@ import javax.swing.SpinnerNumberModel;
 import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.ConvertUtils;
-import org.metawidget.config.ConfigReader;
-import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.shared.allwidgets.model.AllWidgets;
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
@@ -53,7 +50,6 @@ import org.metawidget.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
-import org.metawidget.util.LogUtilsTest;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
@@ -101,49 +97,6 @@ public class SwingAllWidgetsTest
 		ConvertUtils.register( new org.metawidget.swing.allwidgets.converter.beanutils.DateConverter( DATE_FORMAT ), Date.class );
 		ConvertUtils.register( new org.metawidget.swing.allwidgets.converter.beanutils.NestedWidgetsConverter(), NestedWidgets.class );
 		runTest( new BeanUtilsBindingProcessor() );
-	}
-
-	public void testJdk14()
-	{
-		// Check works 'out of the box' on JDK 1.4
-
-		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setToInspect( new Person() );
-		assertTrue( "Age:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
-		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 3 ) instanceof JTextField );
-		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
-		assertTrue( metawidget.getComponent( 6 ) instanceof JPanel );
-		assertTrue( 7 == metawidget.getComponentCount() );
-
-		assertTrue( "\tInstantiated immutable class org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor (no config)".equals( LogUtilsTest.getLastDebugMessage() ) );
-
-		// Check warning
-
-		String xml = "<?xml version=\"1.0\"?>";
-		xml += "<metawidget xmlns=\"http://metawidget.org\"";
-		xml += "	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
-		xml += "	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
-		xml += "	<swingMetawidget xmlns=\"java:org.metawidget.swing\">";
-		xml += "		<inspector>";
-		xml += "			<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\" />";
-		xml += "		</inspector>";
-		xml += "	</swingMetawidget>";
-		xml += "</metawidget>";
-
-		try
-		{
-			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), SwingMetawidget.class );
-			assertTrue( false );
-		}
-		catch( MetawidgetException e )
-		{
-			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.swing.SwingMetawidget.setInspector()".equals( e.getMessage() ));
-		}
-
-		assertTrue( "\tNot instantiating org.metawidget.inspector.annotation.MetawidgetAnnotationInspector - wrong Java version".equals( LogUtilsTest.getLastDebugMessage() ) );
 	}
 
 	//

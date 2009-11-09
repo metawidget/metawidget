@@ -372,11 +372,10 @@ public class Person {
 				</figure>
 
 				<para>
-					Metawidget finds the new <function>gender</function>
-					property, and renders a <classname>JLabel</classname>
+					Metawidget finds the new <function>gender</function> property, and renders a <classname>JLabel</classname>
 					for it on the left, but doesn't know what <classname>JComponent</classname>
-					to put on the right. This is because, by default, Metawidget inspects only JDK 1.4-compatible features, and JDK 1.4 doesn't include
-					enums.
+					to put on the right. This is because, by default, Metawidget does not inspect Java 5 language features
+					such as enums and generics.
 				</para>
 
 				<para>

@@ -376,7 +376,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle( class org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle )".equals( e.getMessage() ) );
+			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle(class org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle)".equals( e.getMessage() ) );
 		}
 	}
 

@@ -875,7 +875,7 @@ public class ConfigReader
 
 						// JDK 1.4 hack
 
-						if ( isJdkHack( uri, localName ) )
+						if ( isJdk14Hack( uri, localName ) )
 						{
 							mEncountered.push( ENCOUNTERED_WRONG_TYPE );
 							mExpecting = EXPECTING_OBJECT;
@@ -1464,15 +1464,16 @@ public class ConfigReader
 		 * <p>
 		 * We want Metawidget to be useful 'out of the box' (ie. without configuring) on Java 5.
 		 * This means we need to include <code>MetawidgetAnnotationInspector</code> in the default
-		 * config. But this <em>also</em> means we will get an
+		 * config. But this <em>also</em> means we will fail with an
 		 * <code>UnsupportedClassVersionError</code> on JDK 1.4, and we want to run 'out of the box'
 		 * on JDK 1.4.
 		 * <p>
-		 * Therefore we fail gracefully if we encounter an <code>UnsupportedClassVersionError</code>
-		 * when trying to instantiate a <code>MetawidgetAnnotationInspector</code>.
+		 * Therefore we allow ourselves this hack: we do not fail if we encounter an
+		 * <code>UnsupportedClassVersionError</code> when trying to instantiate a
+		 * <code>MetawidgetAnnotationInspector</code>.
 		 */
 
-		protected boolean isJdkHack( String uri, String localName )
+		protected boolean isJdk14Hack( String uri, String localName )
 		{
 			if ( !( JAVA_NAMESPACE_PREFIX + "org.metawidget.inspector.annotation" ).equals( uri ) )
 				return false;
