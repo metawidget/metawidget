@@ -18,6 +18,7 @@ package org.metawidget.swing;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.io.ByteArrayInputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,6 +44,7 @@ import javax.swing.SpinnerNumberModel;
 import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.ConvertUtils;
+import org.metawidget.config.ConfigReader;
 import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.shared.allwidgets.model.AllWidgets;
@@ -116,9 +118,32 @@ public class SwingAllWidgetsTest
 		assertTrue( metawidget.getComponent( 6 ) instanceof JPanel );
 		assertTrue( 7 == metawidget.getComponentCount() );
 
+		assertTrue( "\tInstantiated immutable class org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor (no config)".equals( LogUtilsTest.getLastDebugMessage() ) );
+
 		// Check warning
 
-		assertTrue( "foo".equals( LogUtilsTest.getLastDebugMessage() ) );
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"";
+		xml += "	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"";
+		xml += "	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "	<swingMetawidget xmlns=\"java:org.metawidget.swing\">";
+		xml += "		<inspector>";
+		xml += "			<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\" />";
+		xml += "		</inspector>";
+		xml += "	</swingMetawidget>";
+		xml += "</metawidget>";
+
+		try
+		{
+			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), SwingMetawidget.class );
+			assertTrue( false );
+		}
+		catch( MetawidgetException e )
+		{
+			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.swing.SwingMetawidget.setInspector()".equals( e.getMessage() ));
+		}
+
+		assertTrue( "\tNot instantiating org.metawidget.inspector.annotation.MetawidgetAnnotationInspector - wrong Java version".equals( LogUtilsTest.getLastDebugMessage() ) );
 	}
 
 	//
@@ -138,7 +163,7 @@ public class SwingAllWidgetsTest
 		metawidget.addWidgetProcessor( processor );
 		metawidget.addWidgetProcessor( new ReflectionBindingProcessor() );
 		metawidget.setConfig( "org/metawidget/swing/allwidgets/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) );
 		metawidget.setToInspect( allWidgets );
 
 		metawidget.add( new Stub( "mystery" ) );
@@ -596,8 +621,8 @@ public class SwingAllWidgetsTest
 
 		// Test Binding.onStartBuild clears the state
 
-		assertTrue( null != metawidget.getClientProperty( processor.getClass() ));
+		assertTrue( null != metawidget.getClientProperty( processor.getClass() ) );
 		processor.onStartBuild( metawidget );
-		assertTrue( null == metawidget.getClientProperty( processor.getClass() ));
+		assertTrue( null == metawidget.getClientProperty( processor.getClass() ) );
 	}
 }
