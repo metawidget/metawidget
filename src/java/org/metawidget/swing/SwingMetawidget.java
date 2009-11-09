@@ -260,8 +260,7 @@ public class SwingMetawidget
 
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
 	{
-		// TODO: configure?
-
+		buildWidgets();
 		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
 	}
 

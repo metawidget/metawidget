@@ -36,6 +36,7 @@ import javax.swing.SwingConstants;
 
 import junit.framework.TestCase;
 
+import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiRequired;
@@ -315,6 +316,14 @@ public class SwingMetawidgetTest
 		assertTrue( "endBuild".equals( called.get( 0 )));
 		assertTrue( "validate".equals( called.get( 1 )));
 		assertTrue( 2 == called.size() );
+	}
+
+	public void testGetWidgetProcessor()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setConfig( "org/metawidget/example/swing/addressbook/metawidget.xml" );
+		metawidget.setToInspect( new PersonalContact() );
+		assertTrue( null != metawidget.getWidgetProcessor( BeansBindingProcessor.class ));
 	}
 
 	//
