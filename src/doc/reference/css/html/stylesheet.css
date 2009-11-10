@@ -321,6 +321,10 @@ div.important table tbody th, div.note table tbody th, div.tip table tbody th {
 	background-color:transparent;
 }
 
+div.section table tbody td {
+	border-bottom: 1px solid #dddddd;
+}
+
 div.section table tbody tr:nth-child(even) {
 	background-color:#f0f0f0;
 }

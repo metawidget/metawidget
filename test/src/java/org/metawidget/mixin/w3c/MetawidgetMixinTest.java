@@ -23,6 +23,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -44,6 +45,51 @@ public class MetawidgetMixinTest
 		throws Exception
 	{
 		new TestMixin().testIndentation();
+	}
+
+	/**
+	 * Returning null from an InspectionResultProcessor should cancel things gracefully.
+	 */
+
+	public void testInspectionResultProcessorReturningNull()
+		throws Exception
+	{
+		final List<String> called = CollectionUtils.newArrayList();
+
+		TestMixin mixin = new TestMixin()
+		{
+			@Override
+			public Element inspect( Object toInspect, String type, String... names )
+			{
+				return super.processInspectionResult( null );
+			}
+		};
+
+		mixin.addInspectionResultProcessor( new InspectionResultProcessor<Element, Object>()
+		{
+
+			@Override
+			public Element processInspectionResult( Element element, Object metawidget )
+			{
+				called.add( "InspectionResultProcessor #1" );
+				return null;
+			}
+		} );
+		mixin.addInspectionResultProcessor( new InspectionResultProcessor<Element, Object>()
+		{
+
+			@Override
+			public Element processInspectionResult( Element element, Object metawidget )
+			{
+				called.add( "InspectionResultProcessor #2" );
+				return null;
+			}
+		} );
+
+		assertTrue( null == mixin.inspect( null, null ));
+		assertTrue( called.size() == 1 );
+		assertTrue( "InspectionResultProcessor #1".equals( called.get( 0 ) ) );
+		assertTrue( !called.contains( "InspectionResultProcessor #2" ) );
 	}
 
 	/**

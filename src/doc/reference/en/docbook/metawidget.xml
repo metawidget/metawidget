@@ -2084,7 +2084,7 @@ public void addOwner() {
 	
 				<para>
 					The application is pre-built for you in <filename>examples\swing\animalraces-swing.jar</filename> or, if you've downloaded
-					the source code distribution, you can build it yourself by changing to the <filename>examples</filenmae> folder of the source
+					the source code distribution, you can build it yourself by changing to the <filename>examples</filename> folder of the source
 					distribution and typing:
 				</para>
 				
@@ -3248,16 +3248,150 @@ public class Person {
 				<title>Interface</title>
 
 				<para>
-					All inspectors must implement the <classname>InspectionResultProcessor</classname> interface. This is a simple
+					All <classname>InspectionResultProcessor</classname>s must implement the <classname>InspectionResultProcessor</classname> interface. This is a simple
 					interface that defines only one method:
 				</para>
 				
 				<programlisting language="java">E processInspectionResult( E inspectionResult, M metawidget );</programlisting>
 				
 				<para>
-					Where <parameter>E</parameter> is a DOM Element (typically <classname>org.w3c.dom.Element</classname>) and
-					M is a Metawidget class (ie. <classname>SwingMetawidget</classname>, <classname>UIMetawidget</classname> etc).					
+					Where <parameter>E</parameter> is a DOM Element (typically <classname>org.w3c.dom.Element</classname>) containing
+					the inspection result, and M is a Metawidget class (ie. <classname>SwingMetawidget</classname>, <classname>UIMetawidget</classname> etc).					
 				</para>
+				
+				<para>
+					The <classname>InspectionResultProcessor</classname> must returned the processed inspection result's DOM Element. This is typically
+					the same as the given <parameter>inspectionResult</parameter>. The parent Metwidget then passes this to the next
+					<classname>InspectionResultProcessor</classname> in the list as show in <xref linkend="section-architecture-inspectionresultprocessors-typical"/>.
+				</para>
+				
+				<!--
+					http://www.websequencediagrams.com:
+					
+					Metawidget->InspectionResultProcessor #1: asks to process
+					InspectionResultProcessor #1->InspectionResultProcessor #1: processes\nresult
+					InspectionResultProcessor #1->Metawidget: returns processed result
+					Metawidget->InspectionResultProcessor #2: asks to process
+					InspectionResultProcessor #2->InspectionResultProcessor #2: processes\nresult
+					InspectionResultProcessor #2->Metawidget: returns processed result
+				-->
+				
+				<figure id="section-architecture-inspectionresultprocessors-typical">
+					<title>Typical InspectionResultProcessor list</title>
+					<screenshot>
+						<graphic fileref="images/activitydiagrams/architecture-inspectionresultprocessors.png" width="100mm"/>
+					</screenshot>							
+				</figure>
+				
+				<para>
+					In most cases the <classname>InspectionResultProcessor</classname> will simply be modifying the given <parameter>inspectionResult</parameter>.
+					However it can decide to swap it out by returning a different DOM. This new DOM will then be passed down the list. Alternatively,
+					the <classname>InspectionResultProcessor</classname> can return <parameter>null</parameter> to cancel inspection entirely. No further
+					<classname>InspectionResultProcessor</classname>s will be called, as shown in <xref linkend="section-architecture-inspectionresultprocessors-abort"/>.
+				</para>
+
+				<!--
+					http://www.websequencediagrams.com:
+					
+					participant Metawidget
+					participant "InspectionResultProcessor #1"
+					participant "InspectionResultProcessor #2"					
+					Metawidget->InspectionResultProcessor #1: asks to process
+					InspectionResultProcessor #1->InspectionResultProcessor #1: aborts\ninspection
+					InspectionResultProcessor #1->Metawidget: returns null
+				-->
+				
+				<figure id="section-architecture-inspectionresultprocessors-abort">
+					<title>An InspectionResultProcessor can abort the inspection</title>
+					<screenshot>
+						<graphic fileref="images/activitydiagrams/architecture-inspectionresultprocessors-abort.png" width="100mm"/>
+					</screenshot>							
+				</figure>
+				
+			</section>
+
+			<section id="section-architecture-inspectionresultprocessors-defaults">
+				<title>Defaults</title>
+				
+				<para>
+					Most Metawidgets have default <classname>InspectionResultProcessor</classname>s. You can see the default by looking in the
+					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
+					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
+				</para>
+				
+				<para>
+					For reference, the defaults are:
+				</para>
+				
+				<informaltable>
+					<colgroup>
+						<col width="30%"/>
+						<col width="70%"/>
+					</colgroup>
+					<thead>
+						<tr>
+							<th align="left">Platform</th>
+							<th align="left">Default</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Android</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+&lt;/array&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>GWT</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+&lt;/array&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>JSF</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+&lt;/array&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>JSP</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+&lt;/array&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>Spring</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+&lt;/array&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>Struts</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+&lt;/array&gt;</programlisting></td>
+						</tr>
+						<tr>
+							<td>Swing</td>
+							<td><programlisting language="xml">&lt;array&gt;
+	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+&lt;/array&gt;</programlisting></td>
+						</tr>
+					</tbody>
+				</informaltable>
+			</section>
+
+			<section id="section-architecture-inspectionresultprocessors-immutability">
+				<title>Immutability</title>
+				
+				<para>
+					All <classname>InspectionResultProcessor</classname>s are required to be immutable. This means you only
+					need a single instance of a <classname>InspectionResultProcessor</classname> for your entire application. If you are using
+					<filename>metawidget.xml</filename> then <classname>ConfigReader</classname> takes care
+					of this for you, but if you are instantiating <classname>InspectionResultProcessor</classname>s in Java code you should
+					reuse instances.
+				</para>
+				
 			</section>
 
 			<section id="section-architecture-inspectionresultprocessors-implementing-your-own">
@@ -3901,7 +4035,7 @@ void onEndBuild( M metawidget );</programlisting>
 				<figure id="section-architecture-widgetprocessors-typical">
 					<title>Typical WidgetProcessor list</title>
 					<screenshot>
-						<graphic fileref="images/activitydiagrams/architecture-widgetprocessors.png" width="140mm"/>
+						<graphic fileref="images/activitydiagrams/architecture-widgetprocessors.png" width="100mm"/>
 					</screenshot>							
 				</figure>
 				
@@ -3981,9 +4115,7 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 				<title>Defaults</title>
 				
 				<para>
-					Most Metawidgets have default <classname>WidgetProcessor</classname>s. Overriding the default means the default is no
-					longer instantiated. Usually this is not what you want, so you should consider instantiating
-					the default along with your new <classname>WidgetProcessor</classname>. You can see the default by looking in the
+					Most Metawidgets have default <classname>WidgetProcessor</classname>s. You can see the default by looking in the
 					Metawidget JAR for the file <filename>metawidget-xxx-default.xml</filename> (where <filename>xxx</filename>
 					is your target platform, such as <filename>swing</filename> or <filename>struts</filename>). 
 				</para>
@@ -5315,7 +5447,8 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 		<title>Inspectors</title>
 		
 		<para>
-			This chapter covers each inspector in detail. For an explanation of how inspectors
+			This chapter covers each <classname>Inspector</classname> in detail. For an explanation of how
+			<classname>Inspector</classname>s
 			fit into the overall architecture of Metawidget, see <xref linkend="chapter-architecture"/>
 		</para>
 
@@ -5339,23 +5472,24 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					XML files). It provides easy-to-override methods such as...
 				</para>
 				
-				<programlisting language="java">protected Map<String, String> inspectProperty( Property property )</programlisting>
+				<programlisting language="java">protected Map&lt;String, String&gt; inspectProperty( Property property )</programlisting>
 				
 				<para>
 					...for inspecting properties, and...
 				</para>
 
-				<programlisting language="java">protected Map<String, String> inspectAction( Action action )</programlisting>
+				<programlisting language="java">protected Map&lt;String, String&gt; inspectAction( Action action )</programlisting>
 				
 				<para>
 					...for inspecting actions, and finally...
 				</para>
 
-				<programlisting language="java">protected Map<String, String> inspectTrait( Trait trait )</programlisting>
+				<programlisting language="java">protected Map&lt;String, String&gt; inspectTrait( Trait trait )</programlisting>
 				
 				<para>
-					...for inspecting things that apply to both properties and actions (eg. <classname>@UiLabel</classname>). What
-					constitutes a 'property' or an 'action' is decoupled into pluggable PropertyStyles and ActionStyles.
+					...for inspecting things that apply to both properties and actions (eg. <classname>@UiLabel</classname>). Quite what
+					constitutes a 'property' or an 'action' is decoupled into pluggable <classname>PropertyStyle</classname>s
+					and <classname>ActionStyle</classname>s.
 				</para>
 				
 				<section id="section-inspectors-base-object-propertystyle">
@@ -6493,6 +6627,52 @@ public class PersonController {
 
 	</chapter>
 
+	<chapter id="chapter-inspectionresultprocessors">
+		<title>InspectionResultProcessors</title>
+		
+		<para>
+			This chapter covers each <classname>InspectionResultProcessor</classname> in detail. For an explanation of how
+			<classname>InspectionResultProcessor</classname>s
+			fit into the overall architecture of Metawidget, see <xref linkend="chapter-architecture"/>
+		</para>
+		
+		<section id="section-inspectionresultprocessors-sortbycomesafter">
+			<title>SortByComesAfterInspectionResultProcessor</title>
+			
+			<para>
+				<classname>SortByComesAfterInspectionResultProcessor</classname> sorts inspection results according
+				to the <parameter>comes-after</parameter> attribute. This attribute can be created using the
+				<classname>@UiComesAfter</classname> annotation (among other ways). For example, the following inspection result...
+			</para>
+			
+			<programlisting language="xml">&lt;entity type="Address Screen"&gt;
+	&lt;property name="city" comes-after="street"&gt;
+	&lt;action name="save" comes-after="state"&gt;
+	&lt;property name="state" comes-after="city"&gt;
+	&lt;property name="street"&gt;
+&lt;/entity&gt;</programlisting>
+
+			<para>
+				...would be sorted into...
+			</para>
+			
+			<programlisting language="xml">&lt;entity type="Address Screen"&gt;
+	&lt;property name="street"&gt;
+	&lt;property name="city" comes-after="street"&gt;
+	&lt;property name="state" comes-after="city"&gt;
+	&lt;action name="save" comes-after="state"&gt;
+&lt;/entity&gt;</programlisting>
+
+			<para>
+				The <parameter>comes-after</parameter> attribute can contain multiple names (comma separated) in which
+				case the field will be sorted to come after all the named fields. Alternatively the attribute can be empty, in
+				which case the field will come after every other field in the <parameter>entity</parameter>.
+			</para>
+			
+		</section>
+		
+	</chapter>
+
 	<chapter id="chapter-widgetbuilders">
 		<title>Widget Builders</title>
 		
@@ -6971,7 +7151,7 @@ public class PersonController {
 								<td></td>
 								<td><classname>Slider</classname></td>
 								<td><classname>byte</classname>, <classname>short</classname>, <classname>int</classname> and <classname>long</classname>
-								fields that have a <parameter>minimum-value</parameter> and a <parametr>maximum-value</parametr></td>
+								fields that have a <parameter>minimum-value</parameter> and a <parameter>maximum-value</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>

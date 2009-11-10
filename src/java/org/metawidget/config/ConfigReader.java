@@ -1598,7 +1598,7 @@ public class ConfigReader
 				if ( obj == null )
 					buffer.append( "null" );
 				else
-					buffer.append( obj.getClass() );
+					buffer.append( obj.getClass().getName() );
 			}
 
 			buffer.insert( 0, "(" );
