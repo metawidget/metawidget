@@ -9,6 +9,7 @@
 				<widgetBuilders>
 					<array>
 						<overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.widgetbuilder"/>
+						<readOnlyWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
 						<richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/>
 						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
 					</array>

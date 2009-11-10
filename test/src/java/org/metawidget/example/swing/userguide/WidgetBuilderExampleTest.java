@@ -35,7 +35,7 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderConfig;
-import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * @author Richard Kennard
@@ -70,11 +70,9 @@ public class WidgetBuilderExampleTest
 	//
 
 	static class JRadioButtonWidgetBuilder
-		extends BaseWidgetBuilder<JComponent, SwingMetawidget>
+		implements WidgetBuilder<JComponent, SwingMetawidget>
 	{
-		@Override
-		protected JComponent buildActiveWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-			throws Exception
+		public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 		{
 			if ( !"boolean".equals( attributes.get( TYPE ) ) )
 				return null;

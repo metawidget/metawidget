@@ -3889,11 +3889,10 @@ public class Main {
 	}
 	
 	<symbol>static class JRadioButtonWidgetBuilder
-		extends BaseWidgetBuilder&lt;JComponent, SwingMetawidget&gt; {
+		implements WidgetBuilder&lt;JComponent, SwingMetawidget&gt; {
 
-		protected JComponent buildActiveWidget( String elementName, Map&lt;String, String&gt; attributes,
-			SwingMetawidget metawidget )
-			throws Exception {
+		public JComponent buildWidget( String elementName, Map&lt;String, String&gt; attributes,
+			SwingMetawidget metawidget ) {
 			
 			if ( !"boolean".equals( attributes.get( TYPE ) ) )
 				return null;

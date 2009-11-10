@@ -37,7 +37,7 @@ import javax.faces.el.ValueBinding;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
-import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.richfaces.component.UICalendar;
 import org.richfaces.component.UIInputNumberSlider;
 import org.richfaces.component.UIInputNumberSpinner;
@@ -55,47 +55,13 @@ import org.richfaces.component.html.HtmlInputNumberSpinner;
 
 @SuppressWarnings( "deprecation" )
 public class RichFacesWidgetBuilder
-	extends BaseWidgetBuilder<UIComponent, UIMetawidget>
+	implements WidgetBuilder<UIComponent, UIMetawidget>
 {
 	//
-	// Protected methods
+	// Public methods
 	//
 
-	@Override
-	protected UIComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-		throws Exception
-	{
-		// Not for RichFaces?
-
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return null;
-
-		if ( attributes.containsKey( FACES_LOOKUP ) || attributes.containsKey( LOOKUP ) )
-			return null;
-
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		if ( type == null )
-			return null;
-
-		Class<?> clazz = ClassUtils.niceForName( type );
-
-		if ( clazz == null )
-			return null;
-
-		// Color
-
-		if ( Color.class.isAssignableFrom( clazz ) )
-			return FacesContext.getCurrentInstance().getApplication().createComponent( "javax.faces.HtmlOutputText" );
-
-		// Not for RichFaces
-
-		return null;
-	}
-
-	@Override
-	protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-		throws Exception
+	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		// Not for RichFaces?
 
@@ -247,7 +213,12 @@ public class RichFacesWidgetBuilder
 		// Colors (as of RichFaces 3.3.1)
 
 		if ( Color.class.isAssignableFrom( clazz ) )
+		{
+			if ( WidgetBuilderUtils.isReadOnly( attributes ))
+				return FacesContext.getCurrentInstance().getApplication().createComponent( "javax.faces.HtmlOutputText" );
+
 			return application.createComponent( "org.richfaces.ColorPicker" );
+		}
 
 		// Suggestion box
 

@@ -60,21 +60,6 @@ import com.icesoft.faces.component.selectinputdate.SelectInputDate;
 public class IceFacesWidgetBuilder
 	extends HtmlWidgetBuilder
 {
-	//
-	// Protected methods
-	//
-
-	/**
-	 * Overridden to always return null, thereby deferring to another widget builder in the chain.
-	 */
-
-	@Override
-	protected UIComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-		throws Exception
-	{
-		return null;
-	}
-
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
 	 * preparing metadata for the renderer.
@@ -83,8 +68,7 @@ public class IceFacesWidgetBuilder
 	 */
 
 	@Override
-	protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-		throws Exception
+	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		// Not for ICEfaces?
 

@@ -30,7 +30,6 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JSlider;
@@ -49,8 +48,8 @@ import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
-import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 
 /**
  * WidgetBuilder for Swing environments.
@@ -62,8 +61,7 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
  */
 
 public class SwingWidgetBuilder
-	extends BaseWidgetBuilder<JComponent, SwingMetawidget>
-	implements SwingValuePropertyProvider
+	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider
 {
 	//
 	// Public methods
@@ -73,9 +71,6 @@ public class SwingWidgetBuilder
 	{
 		if ( component instanceof JComboBox )
 			return "selectedItem";
-
-		if ( component instanceof JLabel )
-			return "text";
 
 		if ( component instanceof JTextComponent )
 			return "text";
@@ -92,121 +87,7 @@ public class SwingWidgetBuilder
 		return null;
 	}
 
-	//
-	// Protected methods
-	//
-
-	@Override
-	protected JComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-		throws Exception
-	{
-		// Hidden
-
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return new Stub();
-
-		// Action
-
-		if ( ACTION.equals( elementName ) )
-			return new Stub();
-
-		// Masked (return a JPanel, so that we DO still render a label)
-
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-			return new JPanel();
-
-		// Lookups
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) )
-		{
-			// May have alternate labels
-
-			String lookupLabels = attributes.get( LOOKUP_LABELS );
-
-			if ( lookupLabels != null && !"".equals( lookupLabels ) )
-				return new LookupLabel( getLabelsMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
-
-			return new JLabel();
-		}
-
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null )
-			type = String.class.getName();
-
-		// Lookup the Class
-
-		Class<?> clazz = ClassUtils.niceForName( type );
-
-		if ( clazz != null )
-		{
-			// Primitives
-
-			if ( clazz.isPrimitive() )
-				return new JLabel();
-
-			if ( String.class.equals( clazz ) )
-			{
-				if ( TRUE.equals( attributes.get( LARGE ) ) )
-				{
-					// Do not use a JLabel: JLabels do not support carriage returns like JTextAreas
-					// do, so a multi-line JTextArea formats to a single line JLabel. Instead use
-					// a non-editable JTextArea within a borderless JScrollPane
-
-					JTextArea textarea = new JTextArea();
-
-					// Since we know we are dealing with Strings, we consider
-					// word-wrapping a sensible default
-
-					textarea.setLineWrap( true );
-					textarea.setWrapStyleWord( true );
-					textarea.setEditable( false );
-
-					// We also consider 2 rows a sensible default, so that the
-					// read-only JTextArea is always distinguishable from a JLabel
-
-					textarea.setRows( 2 );
-					JScrollPane scrollPane = new JScrollPane( textarea );
-					scrollPane.setBorder( null );
-
-					return scrollPane;
-				}
-
-				return new JLabel();
-			}
-
-			if ( Date.class.equals( clazz ) )
-				return new JLabel();
-
-			if ( Boolean.class.equals( clazz ) )
-				return new JLabel();
-
-			if ( Number.class.isAssignableFrom( clazz ) )
-				return new JLabel();
-
-			// Collections
-
-			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new Stub();
-		}
-
-		// Not simple, but don't expand
-
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new JLabel();
-
-		// Nested Metawidget
-
-		return null;
-	}
-
-	@Override
-	protected JComponent buildActiveWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-		throws Exception
+	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Hidden
 

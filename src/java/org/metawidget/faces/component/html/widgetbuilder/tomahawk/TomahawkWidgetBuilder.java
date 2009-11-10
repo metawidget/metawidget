@@ -29,7 +29,7 @@ import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
-import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * WidgetBuilder for Tomahawk environments.
@@ -41,15 +41,13 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
  */
 
 public class TomahawkWidgetBuilder
-	extends BaseWidgetBuilder<UIComponent, UIMetawidget>
+	implements WidgetBuilder<UIComponent, UIMetawidget>
 {
 	//
-	// Protected methods
+	// Public methods
 	//
 
-	@Override
-	protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-		throws Exception
+	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		// Not for Tomahawk?
 

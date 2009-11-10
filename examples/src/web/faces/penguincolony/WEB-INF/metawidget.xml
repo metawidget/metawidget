@@ -33,6 +33,7 @@
 				<widgetBuilders>
 					<array>
 						<overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.widgetbuilder"/>
+						<readOnlyWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
 						<iceFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.icefaces"/>
 						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig">
 							<dataTableStyleClass>

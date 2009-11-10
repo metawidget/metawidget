@@ -59,8 +59,8 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
-import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -76,7 +76,7 @@ import org.w3c.dom.NodeList;
 
 @SuppressWarnings( "deprecation" )
 public class HtmlWidgetBuilder
-	extends BaseWidgetBuilder<UIComponent, UIMetawidget>
+	implements WidgetBuilder<UIComponent, UIMetawidget>
 {
 	//
 	// Private statics
@@ -125,124 +125,8 @@ public class HtmlWidgetBuilder
 	}
 
 	//
-	// Protected methods
+	// Public methods
 	//
-
-	/**
-	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
-	 * preparing metadata for the renderer.
-	 *
-	 * @return the widget to use in read-only scenarios
-	 */
-
-	@Override
-	protected UIComponent buildReadOnlyWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-		throws Exception
-	{
-		FacesContext context = FacesContext.getCurrentInstance();
-		Application application = context.getApplication();
-
-		// Hidden
-
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return application.createComponent( "org.metawidget.Stub" );
-
-		// Masked (return a couple of nested Stubs, so that we DO still render a label)
-
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-		{
-			UIComponent component = application.createComponent( "org.metawidget.Stub" );
-			List<UIComponent> listChildren = component.getChildren();
-			listChildren.add( application.createComponent( "org.metawidget.Stub" ) );
-
-			return component;
-		}
-
-		// Action
-
-		if ( ACTION.equals( elementName ) )
-			return application.createComponent( "org.metawidget.Stub" );
-
-		// Lookups
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) )
-		{
-			String lookupLabels = attributes.get( LOOKUP_LABELS );
-
-			if ( lookupLabels == null )
-				return application.createComponent( "javax.faces.HtmlOutputText" );
-
-			// Special support for read-only lookups with labels
-
-			List<String> labels = CollectionUtils.fromString( lookupLabels );
-
-			if ( labels.isEmpty() )
-				return application.createComponent( "javax.faces.HtmlOutputText" );
-
-			HtmlLookupOutputText lookupOutputText = (HtmlLookupOutputText) application.createComponent( "org.metawidget.HtmlLookupOutputText" );
-			lookupOutputText.setLabels( CollectionUtils.fromString( lookup ), labels );
-
-			return lookupOutputText;
-		}
-
-		String facesLookup = attributes.get( FACES_LOOKUP );
-
-		if ( facesLookup != null && !"".equals( facesLookup ) )
-			return application.createComponent( "javax.faces.HtmlOutputText" );
-
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null )
-			type = String.class.getName();
-
-		Class<?> clazz = ClassUtils.niceForName( type );
-
-		if ( clazz != null )
-		{
-			// Primitives
-
-			if ( clazz.isPrimitive() )
-				return application.createComponent( "javax.faces.HtmlOutputText" );
-
-			// Object primitives
-
-			if ( ClassUtils.isPrimitiveWrapper( clazz ) )
-				return application.createComponent( "javax.faces.HtmlOutputText" );
-
-			// Dates
-
-			if ( Date.class.isAssignableFrom( clazz ) )
-				return application.createComponent( "javax.faces.HtmlOutputText" );
-
-			// Strings
-
-			if ( String.class.equals( clazz ) )
-				return application.createComponent( "javax.faces.HtmlOutputText" );
-
-			// Supported Collections
-
-			if ( List.class.isAssignableFrom( clazz ) || DataModel.class.isAssignableFrom( clazz ) || clazz.isArray() )
-				return createDataTableComponent( clazz, attributes, metawidget );
-
-			// Other Collections
-
-			if ( Collection.class.isAssignableFrom( clazz ) )
-				return application.createComponent( "javax.faces.HtmlOutputText" );
-		}
-
-		// Not simple, but don't expand
-
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return application.createComponent( "javax.faces.HtmlOutputText" );
-
-		// Nested Metawidget
-
-		return null;
-	}
 
 	/**
 	 * Purely creates the widget. Does not concern itself with the widget's id, value binding or
@@ -251,9 +135,7 @@ public class HtmlWidgetBuilder
 	 * @return the widget to use in non-read-only scenarios
 	 */
 
-	@Override
-	protected UIComponent buildActiveWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
-		throws Exception
+	public UIComponent buildWidget( String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();

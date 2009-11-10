@@ -40,11 +40,11 @@ public abstract class BaseWidgetBuilder<W, M extends W>
 	{
 		try
 		{
-			// Note: we tried further refining this to buildReadOnlyFieldWidget,
-			// buildReadOnlyActionWidget, buildActiveFieldWidget, buildActiveActionWidget, but it wasn't
-			// really better because we still had to pass 'elementName' to other methods (such as
-			// UIMetawidget.getOverriddenWidget) and so it seemed simpler and more symmetrical to also
-			// pass it here
+			// Split buildWidget into buildReadOnlyWidget/buildActiveWidget. It could be argued this
+			// split should be done by a ReadOnlyWidgetBuilder. Here are our thoughts around that:
+			//
+			// 1.
+
 
 			if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
 				return buildReadOnlyWidget( elementName, attributes, metawidget );
