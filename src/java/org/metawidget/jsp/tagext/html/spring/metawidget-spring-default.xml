@@ -33,7 +33,6 @@
 				<widgetBuilders>
 					<array>
 						<overriddenWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.widgetbuilder"/>
-						<readOnlyWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/>
 						<springWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.spring"/>
 						<htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
 					</array>

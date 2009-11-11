@@ -3845,13 +3845,6 @@ public class Main {
 				</para>
 				
 				<para>
-					A convenience base class <classname>BaseWidgetBuilder</classname> is provided that separates widget building between
-					read-only widgets (<function>buildReadOnlyWidget</function>) and non-read-only, or 'active', widgets (<function>buildActiveWidget</function>).
-					Custom <classname>WidgetBuilder</classname>s will typically only want to override the latter, because read-only widgets will
-					usually be handled by some kind of label.
-				</para>
-				
-				<para>
 					Here is an example of a custom <classname>WidgetBuilder</classname> that uses two <classname>JRadioButton</classname>s,
 					instead of the usual <classname>JCheckBox</classname>, to represent <classname>boolean</classname> properties. It extends the code
 					from the tutorial (see <xref linkend="section-introduction-part1"/>).

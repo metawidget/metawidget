@@ -35,6 +35,8 @@ import javax.servlet.jsp.tagext.TagSupport;
  * returned as Tags. <code>LiteralTag</code> wraps a String as a Tag so that the component model
  * remains intact, and we can genericize our WidgetBuilders, WidgetProcessors and Layouts as
  * &lt;Tag, MetawidgetTag&gt;.
+ * <p>
+ * The output of a LiteralTag is the original String, without escaping.
  *
  * @author Richard Kennard
  */

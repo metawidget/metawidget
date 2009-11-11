@@ -179,6 +179,8 @@ public class ReadOnlyWidgetBuilder
 	// Private methods
 	//
 
+	// TODO: duplicated function
+
 	private Map<String, String> getLabelsMap( List<String> values, List<String> labels )
 	{
 		Map<String, String> labelsMap = CollectionUtils.newHashMap();

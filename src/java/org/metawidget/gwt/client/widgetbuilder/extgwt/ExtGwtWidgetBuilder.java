@@ -24,7 +24,7 @@ import java.util.Map;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.GwtValueAccessor;
-import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 import com.extjs.gxt.ui.client.widget.Slider;
 import com.extjs.gxt.ui.client.widget.form.DateField;
@@ -39,8 +39,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class ExtGwtWidgetBuilder
-	extends BaseWidgetBuilder<Widget, GwtMetawidget>
-	implements GwtValueAccessor
+	implements WidgetBuilder<Widget, GwtMetawidget>, GwtValueAccessor
 {
 	//
 	// Public methods
@@ -76,13 +75,8 @@ public class ExtGwtWidgetBuilder
 		return false;
 	}
 
-	//
-	// Protected methods
-	//
-
 	@Override
-	protected Widget buildActiveWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
-		throws Exception
+	public Widget buildWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
 	{
 		// Not for ExtGWT?
 

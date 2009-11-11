@@ -48,7 +48,7 @@ import com.icesoft.faces.component.selectinputdate.SelectInputDate;
  * fields.
  * <p>
  * <code>IceFacesWidgetBuilder</code> extends <code>HtmlWidgetBuilder</code>, which is a little
- * unusual for a widget builder (they normally extend <code>BaseWidgetBuilder</code>), but in this
+ * unusual for a widget builder (they normally implement <code>WidgetBuilder</code> directly), but in this
  * case most of the components we create are ICEfaces-extended versions of regular components, and
  * we want to reuse a lot of <code>HtmlWidgetBuilder</code>'s secondary methods. Note that whilst we
  * extend <code>HtmlWidgetBuilder</code> we only create ICEfaces components, not any regular

@@ -31,7 +31,7 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
@@ -57,8 +57,7 @@ import android.widget.TextView;
  */
 
 public class AndroidWidgetBuilder
-	extends BaseWidgetBuilder<View, AndroidMetawidget>
-	implements AndroidValueAccessor
+	implements WidgetBuilder<View, AndroidMetawidget>, AndroidValueAccessor
 {
 	//
 	// Public methods
@@ -151,89 +150,7 @@ public class AndroidWidgetBuilder
 		return false;
 	}
 
-	//
-	// Protected methods
-	//
-
-	@Override
-	protected View buildReadOnlyWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
-		throws Exception
-	{
-		// Hidden
-
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return new Stub( metawidget.getContext() );
-
-		// Action
-
-		if ( ACTION.equals( elementName ) )
-			return new Stub( metawidget.getContext() );
-
-		// Masked (return an invisible View, so that we DO still
-		// render a label and reserve some blank space)
-
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-		{
-			TextView view = new TextView( metawidget.getContext() );
-			view.setVisibility( View.INVISIBLE );
-
-			return view;
-		}
-
-		// Lookups
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) )
-			return new TextView( metawidget.getContext() );
-
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null )
-			type = String.class.getName();
-
-		// Lookup the Class
-
-		Class<?> clazz = ClassUtils.niceForName( type );
-
-		if ( clazz != null )
-		{
-			if ( clazz.isPrimitive() )
-				return new TextView( metawidget.getContext() );
-
-			if ( String.class.equals( clazz ) )
-				return new TextView( metawidget.getContext() );
-
-			if ( Date.class.equals( clazz ) )
-				return new TextView( metawidget.getContext() );
-
-			if ( Boolean.class.equals( clazz ) )
-				return new TextView( metawidget.getContext() );
-
-			if ( Number.class.isAssignableFrom( clazz ) )
-				return new TextView( metawidget.getContext() );
-
-			// Collections
-
-			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new Stub( metawidget.getContext() );
-		}
-
-		// Not simple, but don't expand
-
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new TextView( metawidget.getContext() );
-
-		// Nested Metawidget
-
-		return null;
-	}
-
-	@Override
-	protected View buildActiveWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
-		throws Exception
+	public View buildWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
 	{
 		// Hidden
 

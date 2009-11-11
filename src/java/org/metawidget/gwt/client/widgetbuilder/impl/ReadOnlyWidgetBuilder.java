@@ -31,28 +31,23 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.GwtValueAccessor;
 import org.metawidget.gwt.client.ui.Stub;
+import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
-import com.google.gwt.user.client.ui.Button;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.HasText;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
-import com.google.gwt.user.client.ui.PasswordTextBox;
-import com.google.gwt.user.client.ui.TextArea;
-import com.google.gwt.user.client.ui.TextBox;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
- * WidgetBuilder for GWT environments.
- * <p>
- * Creates native GWT Widgets, such as <code>TextBox</code> and <code>ListBox</code>, to suit the
- * inspected fields.
+ * WidgetBuilder for read-only widgets in GWT environments.
  *
  * @author Richard Kennard
  */
 
-public class GwtWidgetBuilder
+public class ReadOnlyWidgetBuilder
 	implements WidgetBuilder<Widget, GwtMetawidget>, GwtValueAccessor
 {
 	//
@@ -61,39 +56,16 @@ public class GwtWidgetBuilder
 
 	public Object getValue( Widget widget )
 	{
-		// CheckBox (must come before HasText, because CheckBox extends
-		// ButtonBase which implements HasHTML which extends HasText)
-
-		if ( widget instanceof CheckBox )
-			return ( (CheckBox) widget ).getValue();
-
 		// HasText
 
 		if ( widget instanceof HasText )
 			return ( (HasText) widget ).getText();
-
-		// ListBox
-
-		if ( widget instanceof ListBox )
-		{
-			ListBox listBox = (ListBox) widget;
-			return listBox.getValue( listBox.getSelectedIndex() );
-		}
 
 		return null;
 	}
 
 	public boolean setValue( Widget widget, Object value )
 	{
-		// CheckBox (must come before HasText, because CheckBox extends
-		// ButtonBase which implements HasHTML which extends HasText)
-
-		if ( widget instanceof CheckBox )
-		{
-			( (CheckBox) widget ).setValue( (Boolean) value );
-			return true;
-		}
-
 		// HasText
 
 		if ( widget instanceof HasText )
@@ -110,14 +82,23 @@ public class GwtWidgetBuilder
 			return true;
 		}
 
+		// Panel (fail gracefully for MASKED fields)
+
+		if ( widget instanceof SimplePanel )
+			return true;
+
 		// Not for us
 
 		return false;
 	}
 
-	@Override
 	public Widget buildWidget( String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
 	{
+		// Not read-only?
+
+		if ( !WidgetBuilderUtils.isReadOnly( attributes ))
+			return null;
+
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
@@ -126,7 +107,12 @@ public class GwtWidgetBuilder
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return new Button( metawidget.getLabelString( attributes ) );
+			return new Stub();
+
+		// Masked (return a Panel, so that we DO still render a label)
+
+		if ( TRUE.equals( attributes.get( MASKED ) ) )
+			return new SimplePanel();
 
 		String type = GwtUtils.getActualClassOrType( attributes );
 
@@ -135,88 +121,19 @@ public class GwtWidgetBuilder
 		if ( type == null )
 			type = String.class.getName();
 
-		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
-		// Lookup)
-
-		if ( "Boolean".equals( type ) && TRUE.equals( attributes.get( REQUIRED ) ) )
-			return new CheckBox();
-
-		// Lookups
-
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
-		{
-			ListBox listBox = new ListBox();
-			listBox.setVisibleItemCount( 1 );
+			return new Label();
 
-			addListBoxItems( listBox, GwtUtils.fromString( lookup, StringUtils.SEPARATOR_COMMA_CHAR ), GwtUtils.fromString( attributes.get( LOOKUP_LABELS ), StringUtils.SEPARATOR_COMMA_CHAR ), attributes );
-			return listBox;
-		}
-
-		if ( GwtUtils.isPrimitive( type ) )
-		{
-			// booleans
-
-			if ( "boolean".equals( type ) )
-				return new CheckBox();
-
-			// chars
-
-			if ( "char".equals( type ) )
-			{
-				TextBox textbox = new TextBox();
-				textbox.setMaxLength( 1 );
-
-				return textbox;
-			}
-
-			// Everything else
-
-			return new TextBox();
-		}
-
-		// Strings
+		if ( GwtUtils.isPrimitive( type ) || GwtUtils.isPrimitiveWrapper( type ) )
+			return new Label();
 
 		if ( String.class.getName().equals( type ) )
-		{
-			if ( TRUE.equals( attributes.get( MASKED ) ) )
-				return new PasswordTextBox();
-
-			if ( TRUE.equals( attributes.get( LARGE ) ) )
-				return new TextArea();
-
-			TextBox textBox = new TextBox();
-
-			String maximumLength = attributes.get( MAXIMUM_LENGTH );
-
-			if ( maximumLength != null && !"".equals( maximumLength ) )
-				textBox.setMaxLength( Integer.parseInt( maximumLength ) );
-
-			return textBox;
-		}
-
-		// Dates
+			return new Label();
 
 		if ( Date.class.getName().equals( type ) )
-			return new TextBox();
-
-		if ( GwtUtils.isPrimitiveWrapper( type ) )
-		{
-			// Characters
-
-			if ( Character.class.getName().equals( type ) )
-			{
-				TextBox textbox = new TextBox();
-				textbox.setMaxLength( 1 );
-
-				return textbox;
-			}
-
-			// Numbers
-
-			return new TextBox();
-		}
+			return new Label();
 
 		// Collections
 
@@ -226,7 +143,7 @@ public class GwtWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new TextBox();
+			return new Label();
 
 		// Nested Metawidget
 
@@ -262,48 +179,5 @@ public class GwtWidgetBuilder
 			return true;
 
 		return false;
-	}
-
-	private void addListBoxItems( ListBox listBox, List<String> values, List<String> labels, Map<String, String> attributes )
-	{
-		if ( values == null )
-			return;
-
-		// Empty option
-		//
-		// Note: GWT doesn't seem to be able to set null for the
-		// value. It always comes back as String "null"
-
-		if ( GwtUtils.needsEmptyLookupItem( attributes ) )
-			addListBoxItem( listBox, "", null );
-
-		// See if we're using labels
-
-		if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
-			throw new RuntimeException( "Labels list must be same size as values list" );
-
-		// Add the select items
-
-		for ( int loop = 0, length = values.size(); loop < length; loop++ )
-		{
-			String value = values.get( loop );
-			String label = null;
-
-			if ( labels != null && !labels.isEmpty() )
-				label = labels.get( loop );
-
-			addListBoxItem( listBox, value, label );
-		}
-	}
-
-	private void addListBoxItem( ListBox listBox, String value, String label )
-	{
-		if ( label != null )
-		{
-			listBox.addItem( label, value );
-			return;
-		}
-
-		listBox.addItem( value );
 	}
 }

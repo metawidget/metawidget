@@ -28,6 +28,7 @@ import java.util.Set;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.impl.OverriddenWidgetBuilder;
+import org.metawidget.gwt.client.widgetbuilder.impl.ReadOnlyWidgetBuilder;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.gwt.remote.client.GwtRemoteInspectorProxy;
 import org.metawidget.inspector.iface.Inspector;
@@ -755,7 +756,7 @@ public class GwtMetawidget
 			if ( DEFAULT_WIDGETBUILDER == null )
 			{
 				@SuppressWarnings( "unchecked" )
-				CompositeWidgetBuilderConfig<Widget, GwtMetawidget> config = new CompositeWidgetBuilderConfig<Widget, GwtMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new GwtWidgetBuilder() );
+				CompositeWidgetBuilderConfig<Widget, GwtMetawidget> config = new CompositeWidgetBuilderConfig<Widget, GwtMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new ReadOnlyWidgetBuilder(), new GwtWidgetBuilder() );
 				DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<Widget, GwtMetawidget>( config );
 			}
 

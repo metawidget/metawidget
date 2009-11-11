@@ -38,8 +38,8 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
-import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
 import org.springframework.web.servlet.support.RequestContext;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 import org.springframework.web.servlet.tags.form.AbstractDataBoundFormElementTag;
@@ -63,7 +63,7 @@ import org.springframework.web.servlet.tags.form.TextareaTag;
  */
 
 public class SpringWidgetBuilder
-	extends BaseWidgetBuilder<Tag, MetawidgetTag>
+	implements WidgetBuilder<Tag, MetawidgetTag>
 {
 	//
 	// Private statics
@@ -72,88 +72,84 @@ public class SpringWidgetBuilder
 	private final static List<Boolean>	LIST_BOOLEAN_VALUES	= CollectionUtils.unmodifiableList( Boolean.TRUE, Boolean.FALSE );
 
 	//
-	// Protected methods
+	// Public methods
 	//
 
-	@Override
-	protected Tag buildReadOnlyWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget )
-		throws Exception
+	public Tag buildWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget )
 	{
-		// Not for us?
+		// Read-only?
 
-		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+		if ( WidgetBuilderUtils.isReadOnly( attributes ) )
 		{
-			if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
-				return initSpringTag( new HiddenInputTag(), attributes, metawidget );
+			if ( TRUE.equals( attributes.get( HIDDEN ) ) )
+			{
+				if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
+					return initSpringTag( new HiddenInputTag(), attributes, metawidget );
+
+				return null;
+			}
+
+			if ( ACTION.equals( elementName ) )
+				return null;
+
+			if ( TRUE.equals( attributes.get( MASKED ) ) )
+				return null;
+
+			// Lookups
+
+			String lookup = attributes.get( LOOKUP );
+
+			if ( lookup != null && !"".equals( lookup ) )
+				return writeReadOnlyTag( attributes, metawidget );
+
+			String springLookup = attributes.get( SPRING_LOOKUP );
+
+			if ( springLookup != null && !"".equals( springLookup ) )
+				return writeReadOnlyTag( attributes, metawidget );
+
+			String type = WidgetBuilderUtils.getActualClassOrType( attributes );
+
+			// If no type, assume a String
+
+			if ( type == null )
+				type = String.class.getName();
+
+			Class<?> clazz = ClassUtils.niceForName( type );
+
+			if ( clazz != null )
+			{
+				// Primitives
+
+				if ( clazz.isPrimitive() )
+					return writeReadOnlyTag( attributes, metawidget );
+
+				// Object primitives
+
+				if ( ClassUtils.isPrimitiveWrapper( clazz ) )
+					return writeReadOnlyTag( attributes, metawidget );
+
+				// Dates
+
+				if ( Date.class.isAssignableFrom( clazz ) )
+					return writeReadOnlyTag( attributes, metawidget );
+
+				// Strings
+
+				if ( String.class.equals( clazz ) )
+					return writeReadOnlyTag( attributes, metawidget );
+			}
+
+			// Not simple, but don't expand
+
+			if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
+				return writeReadOnlyTag( attributes, metawidget );
+
+			// Nested Metawidget
 
 			return null;
 		}
 
-		if ( ACTION.equals( elementName ) )
-			return null;
-
-		if ( TRUE.equals( attributes.get( MASKED ) ) )
-			return null;
-
-		// Lookups
-
-		String lookup = attributes.get( LOOKUP );
-
-		if ( lookup != null && !"".equals( lookup ) )
-			return writeReadOnlyTag( attributes, metawidget );
-
-		String springLookup = attributes.get( SPRING_LOOKUP );
-
-		if ( springLookup != null && !"".equals( springLookup ) )
-			return writeReadOnlyTag( attributes, metawidget );
-
-		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
-
-		// If no type, assume a String
-
-		if ( type == null )
-			type = String.class.getName();
-
-		Class<?> clazz = ClassUtils.niceForName( type );
-
-		if ( clazz != null )
-		{
-			// Primitives
-
-			if ( clazz.isPrimitive() )
-				return writeReadOnlyTag( attributes, metawidget );
-
-			// Object primitives
-
-			if ( ClassUtils.isPrimitiveWrapper( clazz ) )
-				return writeReadOnlyTag( attributes, metawidget );
-
-			// Dates
-
-			if ( Date.class.isAssignableFrom( clazz ) )
-				return writeReadOnlyTag( attributes, metawidget );
-
-			// Strings
-
-			if ( String.class.equals( clazz ) )
-				return writeReadOnlyTag( attributes, metawidget );
-		}
-
-		// Not simple, but don't expand
-
-		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return writeReadOnlyTag( attributes, metawidget );
-
-		// Nested Metawidget
-
-		return null;
-	}
-
-	@Override
-	protected Tag buildActiveWidget( String elementName, Map<String, String> attributes, MetawidgetTag metawidget )
-		throws Exception
-	{
-		// Not for us?
+		// Hidden?
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
 		{
@@ -259,7 +255,6 @@ public class SpringWidgetBuilder
 	 */
 
 	private Tag initSpringTag( Tag tag, Map<String, String> attributes, MetawidgetTag metawidget )
-		throws Exception
 	{
 		// Path
 
@@ -304,7 +299,6 @@ public class SpringWidgetBuilder
 	}
 
 	private Tag writeReadOnlyTag( Map<String, String> attributes, MetawidgetTag metawidget )
-		throws Exception
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
@@ -341,104 +335,124 @@ public class SpringWidgetBuilder
 		if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 		{
 			Tag hiddenTag = initSpringTag( new HiddenInputTag(), attributes, metawidget );
-			buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null ) );
+
+			try
+			{
+				buffer.append( JspUtils.writeTag( metawidget.getPageContext(), hiddenTag, metawidget, null ) );
+			}
+			catch ( JspException e )
+			{
+				throw WidgetBuilderException.newException( e );
+			}
 		}
 
 		return new LiteralTag( buffer.toString() );
 	}
 
 	private Tag writeSelectTag( final String expression, final Map<String, String> attributes, MetawidgetTag metawidget )
-		throws Exception
 	{
 		// Write the SELECT tag
 
 		final SelectTag tagSelect = new SelectTag();
 		initSpringTag( tagSelect, attributes, metawidget );
 
-		String literal = JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
+		try
 		{
-			// Within the SELECT tag, write the OPTION tags
-
-			public void prepareBody( PageContext delgateContext )
-				throws JspException, IOException
+			String literal = JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 			{
-				// Empty option
+				// Within the SELECT tag, write the OPTION tags
 
-				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+				public void prepareBody( PageContext delgateContext )
+					throws JspException, IOException
 				{
-					OptionTag tagOptionEmpty = new OptionTag();
-					tagOptionEmpty.setValue( "" );
-					delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
+					// Empty option
+
+					if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+					{
+						OptionTag tagOptionEmpty = new OptionTag();
+						tagOptionEmpty.setValue( "" );
+						delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
+					}
+
+					// Options tag
+
+					OptionsTag tagOptions = new OptionsTag();
+					tagOptions.setItems( expression );
+
+					// Optional itemValue and itemLabel
+
+					String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
+
+					if ( itemValue != null )
+						tagOptions.setItemValue( itemValue );
+
+					String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
+
+					if ( itemLabel != null )
+						tagOptions.setItemLabel( itemLabel );
+
+					delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptions, tagSelect, null ) );
 				}
+			} );
 
-				// Options tag
-
-				OptionsTag tagOptions = new OptionsTag();
-				tagOptions.setItems( expression );
-
-				// Optional itemValue and itemLabel
-
-				String itemValue = attributes.get( SPRING_LOOKUP_ITEM_VALUE );
-
-				if ( itemValue != null )
-					tagOptions.setItemValue( itemValue );
-
-				String itemLabel = attributes.get( SPRING_LOOKUP_ITEM_LABEL );
-
-				if ( itemLabel != null )
-					tagOptions.setItemLabel( itemLabel );
-
-				delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptions, tagSelect, null ) );
-			}
-		} );
-
-		return new LiteralTag( literal );
+			return new LiteralTag( literal );
+		}
+		catch ( JspException e )
+		{
+			throw WidgetBuilderException.newException( e );
+		}
 	}
 
 	private Tag writeSelectTag( final List<?> values, final List<String> labels, final Map<String, String> attributes, MetawidgetTag metawidget )
-		throws Exception
 	{
 		// Write the SELECT tag
 
 		final SelectTag tagSelect = new SelectTag();
 		initSpringTag( tagSelect, attributes, metawidget );
 
-		String literal = JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
+		try
 		{
-			// Within the SELECT tag, write the OPTION tags
-
-			public void prepareBody( PageContext delgateContext )
-				throws JspException, IOException
+			String literal = JspUtils.writeTag( metawidget.getPageContext(), tagSelect, metawidget, new BodyPreparer()
 			{
-				// See if we're using labels
+				// Within the SELECT tag, write the OPTION tags
 
-				if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
-					throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
-
-				// Empty option
-
-				if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+				public void prepareBody( PageContext delgateContext )
+					throws JspException, IOException
 				{
-					OptionTag tagOptionEmpty = new OptionTag();
-					tagOptionEmpty.setValue( "" );
-					delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
+					// See if we're using labels
+
+					if ( labels != null && !labels.isEmpty() && labels.size() != values.size() )
+						throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
+
+					// Empty option
+
+					if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
+					{
+						OptionTag tagOptionEmpty = new OptionTag();
+						tagOptionEmpty.setValue( "" );
+						delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOptionEmpty, tagSelect, null ) );
+					}
+
+					// Add the options
+
+					for ( int loop = 0, length = values.size(); loop < length; loop++ )
+					{
+						final OptionTag tagOption = new OptionTag();
+						tagOption.setValue( values.get( loop ) );
+
+						if ( labels != null && !labels.isEmpty() )
+							tagOption.setLabel( labels.get( loop ) );
+
+						delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOption, tagSelect, null ) );
+					}
 				}
+			} );
 
-				// Add the options
-
-				for ( int loop = 0, length = values.size(); loop < length; loop++ )
-				{
-					final OptionTag tagOption = new OptionTag();
-					tagOption.setValue( values.get( loop ) );
-
-					if ( labels != null && !labels.isEmpty() )
-						tagOption.setLabel( labels.get( loop ) );
-
-					delgateContext.getOut().write( JspUtils.writeTag( delgateContext, tagOption, tagSelect, null ) );
-				}
-			}
-		} );
-
-		return new LiteralTag( literal );
+			return new LiteralTag( literal );
+		}
+		catch ( JspException e )
+		{
+			throw WidgetBuilderException.newException( e );
+		}
 	}
 }

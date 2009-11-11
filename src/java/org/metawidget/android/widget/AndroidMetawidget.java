@@ -26,6 +26,7 @@ import org.metawidget.android.AndroidConfigReader;
 import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.OverriddenWidgetBuilder;
+import org.metawidget.android.widget.widgetbuilder.ReadOnlyWidgetBuilder;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.comesafter.SortByComesAfterInspectionResultProcessor;
@@ -564,7 +565,7 @@ public class AndroidMetawidget
 				if ( DEFAULT_WIDGETBUILDER == null )
 				{
 					@SuppressWarnings( "unchecked" )
-					CompositeWidgetBuilderConfig<View, AndroidMetawidget> config = new CompositeWidgetBuilderConfig<View, AndroidMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new AndroidWidgetBuilder() );
+					CompositeWidgetBuilderConfig<View, AndroidMetawidget> config = new CompositeWidgetBuilderConfig<View, AndroidMetawidget>().setWidgetBuilders( new OverriddenWidgetBuilder(), new ReadOnlyWidgetBuilder(), new AndroidWidgetBuilder() );
 					DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<View, AndroidMetawidget>( config );
 				}
 

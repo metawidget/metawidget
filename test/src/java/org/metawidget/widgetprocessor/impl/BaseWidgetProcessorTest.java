@@ -35,7 +35,7 @@ public class BaseWidgetProcessorTest
 	// Public methods
 	//
 
-	public void testBaseWidgetBuilder()
+	public void testBaseWidgetProcessor()
 		throws Exception
 	{
 		BaseWidgetProcessor<?, ?> widgetProcessor = new BaseWidgetProcessor<JComponent, SwingMetawidget>()

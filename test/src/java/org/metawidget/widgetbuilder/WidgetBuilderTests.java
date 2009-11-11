@@ -22,7 +22,6 @@ import junit.framework.TestSuite;
 
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderTest;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderExceptionTest;
-import org.metawidget.widgetbuilder.impl.BaseWidgetBuilderTest;
 
 /**
  * @author Richard Kennard
@@ -38,7 +37,6 @@ public class WidgetBuilderTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "WidgetBuilder Tests" );
-		suite.addTestSuite( BaseWidgetBuilderTest.class );
 		suite.addTestSuite( CompositeWidgetBuilderTest.class );
 		suite.addTestSuite( WidgetBuilderExceptionTest.class );
 

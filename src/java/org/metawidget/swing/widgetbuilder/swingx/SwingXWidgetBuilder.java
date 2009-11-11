@@ -30,7 +30,7 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.SwingValuePropertyProvider;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
-import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
  * WidgetBuilder for the SwingX library.
@@ -42,8 +42,7 @@ import org.metawidget.widgetbuilder.impl.BaseWidgetBuilder;
  */
 
 public class SwingXWidgetBuilder
-	extends BaseWidgetBuilder<JComponent, SwingMetawidget>
-	implements SwingValuePropertyProvider
+	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider
 {
 	//
 	// Public methods
@@ -58,12 +57,10 @@ public class SwingXWidgetBuilder
 	}
 
 	//
-	// Protected methods
+	// Public methods
 	//
 
-	@Override
-	protected JComponent buildActiveWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
-		throws Exception
+	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Not for us?
 
