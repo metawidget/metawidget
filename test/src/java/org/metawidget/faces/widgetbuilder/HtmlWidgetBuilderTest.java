@@ -71,7 +71,6 @@ public class HtmlWidgetBuilderTest
 	// Public methods
 	//
 
-	@SuppressWarnings( "deprecation" )
 	public void testWidgetBuilder()
 		throws Exception
 	{

@@ -1501,6 +1501,7 @@ public class Person {
 			&lt;widgetBuilders&gt;
 				&lt;array&gt;
 					&lt;overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.widgetbuilder"/&gt;
+					&lt;readOnlyWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 					&lt;richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
 					&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 				&lt;/array&gt;
@@ -1549,6 +1550,7 @@ public class Person {
 			&lt;widgetBuilders&gt;
 				&lt;array&gt;
 					&lt;overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
+					&lt;readOnlyWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 					&lt;richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/&gt;
 					&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 				&lt;/array&gt;
@@ -3514,7 +3516,7 @@ public class Main {
 					Unless explicitly specified, each Metawidget will instantiate a default WidgetBuilder to match
 					the target platform. For example, <classname>SwingMetawidget</classname> will by default
 					instantiate a <classname>CompositeWidgetBuilder</classname> with a
-					<classname>OverriddenWidgetBuilder</classname> and a <classname>SwingWidgetBuilder</classname>.
+					<classname>OverriddenWidgetBuilder</classname>, <classname>ReadOnlyWidgetBuilder</classname> and <classname>SwingWidgetBuilder</classname>.
 				</para>
 				
 				<para>
@@ -3536,9 +3538,11 @@ public class Main {
 				<para>
 					This allows easy plugging in of third-party widget libraries. Note that overriding the default
 					means the default is no longer instantiated. In the example above, this would mean <classname>MyWidgetBuilder</classname>
-					is used but <classname>OverriddenWidgetBuilder</classname> and <classname>SwingWidgetBuilder</classname> are not. This is usually not what you want,
+					is used but <classname>OverriddenWidgetBuilder</classname>, <classname>ReadOnlyWidgetBuilder</classname>
+					and <classname>SwingWidgetBuilder</classname> are not. This is usually not what you want,
 					because <classname>MyWidgetBuilder</classname> will be focussed on a particular third party library and
-					will want to leave widget overriding to <classname>OverriddenWidgetBuilder</classname> and
+					will want to leave widget overriding to <classname>OverriddenWidgetBuilder</classname>, read-only
+					widgets (ie. labels) to <classname>ReadOnlyWidgetBuilder</classname> and
 					standard widgets to <classname>SwingWidgetBuilder</classname>.
 				</para>
 				
@@ -3608,6 +3612,7 @@ public class Main {
 			&lt;widgetBuilders&gt;
 				&lt;array&gt;
 					&lt;overriddenWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/&gt;
+					&lt;readOnlyWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/&gt;
 					&lt;myWidgetBuilder xmlns="java:com.myapp"/&gt;
 					&lt;swingWidgetBuilder xmlns="java:org.metawidget.swing.widgetbuilder"/&gt;
 				&lt;/array&gt;
@@ -3697,6 +3702,22 @@ public class Main {
 				</tip>
 			</section>
 			
+			<section id="section-architecture-readonlywidgetbuilder">
+				<title>ReadOnlyWidgetBuilder</title>
+				
+				<para>
+					The second <classname>WidgetBuilder</classname> in the <classname>CompositeWidgetBuilder</classname>
+					chain should generally be a <classname>ReadOnlyWidgetBuilder</classname>. This builds standard
+					platform widgets (ie. labels) for fields with <parameter>read-only="true"</parameter>.
+				</para>
+				
+				<para>
+					The exception to this rule would be if you wanted to add a custom <classname>WidgetBuilder</classname> that
+					had its own read only components.
+				</para>
+				
+			</section>
+
 			<section id="section-architecture-widgetbuilders-defaults">
 				<title>Defaults</title>
 				
@@ -3739,6 +3760,7 @@ public class Main {
 	&lt;widgetBuilders&gt;
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
+			&lt;readOnlyWidgetBuilder /&gt;
 			&lt;htmlWidgetBuilder /&gt;
 		&lt;/array&gt;
 	&lt;/widgetBuilders&gt;
@@ -3750,6 +3772,7 @@ public class Main {
 	&lt;widgetBuilders&gt;
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
+			&lt;readOnlyWidgetBuilder /&gt;
 			&lt;htmlWidgetBuilder /&gt;
 		&lt;/array&gt;
 	&lt;/widgetBuilders&gt;
@@ -3762,6 +3785,7 @@ public class Main {
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
 			&lt;springWidgetBuilder /&gt;
+			&lt;readOnlyWidgetBuilder /&gt;
 			&lt;htmlWidgetBuilder /&gt;
 		&lt;/array&gt;
 	&lt;/widgetBuilders&gt;
@@ -3774,6 +3798,7 @@ public class Main {
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
 			&lt;strutsWidgetBuilder /&gt;
+			&lt;readOnlyWidgetBuilder /&gt;
 			&lt;htmlWidgetBuilder /&gt;
 		&lt;/array&gt;
 	&lt;/widgetBuilders&gt;
@@ -3785,6 +3810,7 @@ public class Main {
 	&lt;widgetBuilders&gt;
 		&lt;array&gt;
 			&lt;overriddenWidgetBuilder /&gt;
+			&lt;readOnlyWidgetBuilder /&gt;
 			&lt;swingWidgetBuilder /&gt;
 		&lt;/array&gt;
 	&lt;/widgetBuilders&gt;
