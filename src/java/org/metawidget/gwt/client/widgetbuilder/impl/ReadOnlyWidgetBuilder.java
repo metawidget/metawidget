@@ -36,7 +36,6 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 import com.google.gwt.user.client.ui.HasText;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -55,9 +54,9 @@ public class ReadOnlyWidgetBuilder
 
 	public Object getValue( Widget widget )
 	{
-		// HasText
+		// Label (not HasText, because CheckBox is a HasText)
 
-		if ( widget instanceof HasText )
+		if ( widget instanceof Label )
 			return ( (HasText) widget ).getText();
 
 		return null;
@@ -65,19 +64,11 @@ public class ReadOnlyWidgetBuilder
 
 	public boolean setValue( Widget widget, Object value )
 	{
-		// HasText
+		// Label (not HasText, because CheckBox is a HasText)
 
-		if ( widget instanceof HasText )
+		if ( widget instanceof Label )
 		{
 			( (HasText) widget ).setText( StringUtils.quietValueOf( value ) );
-			return true;
-		}
-
-		// ListBox
-
-		if ( widget instanceof ListBox )
-		{
-			GwtUtils.setListBoxSelectedItem( (ListBox) widget, StringUtils.quietValueOf( value ) );
 			return true;
 		}
 

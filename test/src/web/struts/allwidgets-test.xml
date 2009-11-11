@@ -231,6 +231,9 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td[1]" text="Textarea1"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/th" text="Password (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]"/>
+				<not>
+					<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]/input"/>
+				</not>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[4]/td[1]" text=""/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/th" text="Byte (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[5]/td[1]" text="126"/>

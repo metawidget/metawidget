@@ -29,10 +29,7 @@ import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UISelectItem;
 import javax.faces.component.UISelectItems;
-import javax.faces.component.html.HtmlColumn;
 import javax.faces.component.html.HtmlCommandButton;
-import javax.faces.component.html.HtmlCommandLink;
-import javax.faces.component.html.HtmlDataTable;
 import javax.faces.component.html.HtmlInputSecret;
 import javax.faces.component.html.HtmlInputText;
 import javax.faces.component.html.HtmlInputTextarea;
@@ -52,6 +49,7 @@ import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlLookupOutputText;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilder;
 import org.metawidget.faces.component.html.widgetbuilder.HtmlWidgetBuilderConfig;
+import org.metawidget.faces.component.html.widgetbuilder.ReadOnlyWidgetBuilder;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -77,7 +75,7 @@ public class HtmlWidgetBuilderTest
 	public void testWidgetBuilder()
 		throws Exception
 	{
-		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = newWidgetBuilder();
+		WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder = new ReadOnlyWidgetBuilder();
 		HtmlMetawidget dummyMetawdget = new HtmlMetawidget();
 
 		// Read only
@@ -130,39 +128,14 @@ public class HtmlWidgetBuilderTest
 
 		attributes.put( TYPE, Foo[].class.getName() );
 		dummyMetawdget.setInspector( new PropertyTypeInspector() );
-		HtmlDataTable htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget );
-		assertTrue( 3 == htmlDataTable.getChildCount() );
-		HtmlColumn htmlColumn = (HtmlColumn) htmlDataTable.getChildren().get( 0 );
-		assertTrue( 1 == htmlColumn.getChildCount() );
-		assertTrue( "#{_internal.abc}".equals( htmlColumn.getChildren().get( 0 ).getValueBinding( "value" ).getExpressionString() ) );
-		assertTrue( "Abc".equals( ((HtmlOutputText) htmlColumn.getFacet( "header" )).getValue() ));
-		htmlColumn = (HtmlColumn) htmlDataTable.getChildren().get( 1 );
-		assertTrue( 1 == htmlColumn.getChildCount() );
-		assertTrue( "#{_internal.bar}".equals( htmlColumn.getChildren().get( 0 ).getValueBinding( "value" ).getExpressionString() ) );
-		assertTrue( "Bar".equals( ((HtmlOutputText) htmlColumn.getFacet( "header" )).getValue() ));
-		htmlColumn = (HtmlColumn) htmlDataTable.getChildren().get( 2 );
-		assertTrue( 1 == htmlColumn.getChildCount() );
-		assertTrue( "#{_internal.baz}".equals( htmlColumn.getChildren().get( 0 ).getValueBinding( "value" ).getExpressionString() ) );
-		assertTrue( "Baz".equals( ((HtmlOutputText) htmlColumn.getFacet( "header" )).getValue() ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ));
 
 		// Lists
 
 		attributes.put( TYPE, List.class.getName() );
 		attributes.put( NAME, "bar" );
 		dummyMetawdget.setParameter( "dataTableRowEditAction", "#{foo.action}" );
-		htmlDataTable = (HtmlDataTable) widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget );
-		assertTrue( 2 == htmlDataTable.getChildCount() );
-		htmlColumn = (HtmlColumn) htmlDataTable.getChildren().get( 0 );
-		assertTrue( 1 == htmlColumn.getChildCount() );
-		assertTrue( "#{_internal}".equals( htmlColumn.getChildren().get( 0 ).getValueBinding( "value" ).getExpressionString() ) );
-		assertTrue( "Bar".equals( ((HtmlOutputText) htmlColumn.getFacet( "header" )).getValue() ));
-
-		// Action column
-
-		htmlColumn = (HtmlColumn) htmlDataTable.getChildren().get( 1 );
-		assertTrue( 1 == htmlColumn.getChildCount() );
-		assertTrue( "#{foo.action}".equals( ((HtmlCommandLink) htmlColumn.getChildren().get( 0 )).getAction().getExpressionString() ) );
-		assertTrue( "<div></div>".equals( ((HtmlOutputText) htmlColumn.getFacet( "header" )).getValue() ));
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, dummyMetawdget ));
 
 		// Other collections
 
@@ -182,7 +155,7 @@ public class HtmlWidgetBuilderTest
 
 		// Non-read only
 
-		attributes.remove( READ_ONLY );
+		widgetBuilder = new HtmlWidgetBuilder();
 
 		// Hidden
 

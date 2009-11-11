@@ -36,6 +36,7 @@
 					<array>
 						<overriddenWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.widgetbuilder"/>
 						<strutsWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder.struts"/>
+						<readOnlyWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
 						<htmlWidgetBuilder xmlns="java:org.metawidget.jsp.tagext.html.widgetbuilder"/>
 					</array>
 				</widgetBuilders>

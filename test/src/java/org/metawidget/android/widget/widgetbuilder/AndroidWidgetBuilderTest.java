@@ -28,8 +28,8 @@ import junit.framework.TestCase;
 import org.metawidget.android.AndroidUtils.ResourcelessArrayAdapter;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
+import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 import android.text.InputFilter;
 import android.text.SpannableStringBuilder;
@@ -58,7 +58,7 @@ public class AndroidWidgetBuilderTest
 	public void testReadOnly()
 	{
 		AndroidMetawidget metawidget = new AndroidMetawidget( null );
-		AndroidWidgetBuilder androidWidgetBuilder = new AndroidWidgetBuilder();
+		ReadOnlyWidgetBuilder androidWidgetBuilder = new ReadOnlyWidgetBuilder();
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( READ_ONLY, TRUE );
 
@@ -177,9 +177,9 @@ public class AndroidWidgetBuilderTest
 			spinner = (Spinner) androidWidgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 			assertTrue( false );
 		}
-		catch( WidgetBuilderException e )
+		catch( MetawidgetException e )
 		{
-			assertTrue( "org.metawidget.iface.MetawidgetException: Labels list must be same size as values list".equals( e.getMessage() ));
+			assertTrue( "Labels list must be same size as values list".equals( e.getMessage() ));
 		}
 
 		// Lookups (with labels)

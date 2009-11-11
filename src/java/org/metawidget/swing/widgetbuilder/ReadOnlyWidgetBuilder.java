@@ -179,7 +179,7 @@ public class ReadOnlyWidgetBuilder
 	// Private methods
 	//
 
-	// TODO: duplicated function
+	// TODO: duplicated functions all the way through ReadOnlyWidgetBuilders
 
 	private Map<String, String> getLabelsMap( List<String> values, List<String> labels )
 	{

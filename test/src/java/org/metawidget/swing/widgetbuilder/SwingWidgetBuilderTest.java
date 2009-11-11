@@ -29,7 +29,6 @@ import javax.swing.SpinnerNumberModel;
 import junit.framework.TestCase;
 
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * @author Richard Kennard
@@ -65,9 +64,9 @@ public class SwingWidgetBuilderTest
 			slider = (JSlider) widgetBuilder.buildWidget( PROPERTY, attributes, null );
 			assertTrue( false );
 		}
-		catch( WidgetBuilderException e )
+		catch( NumberFormatException e )
 		{
-			assertTrue( "java.lang.NumberFormatException: For input string: \"1.5\"".equals( e.getMessage() ) );
+			assertTrue( "For input string: \"1.5\"".equals( e.getMessage() ) );
 		}
 
 		// JTextArea
@@ -83,25 +82,10 @@ public class SwingWidgetBuilderTest
 		assertTrue( true == textarea.isEditable() );
 		assertTrue( 2 == textarea.getRows() );
 
-		// Read-only JTextArea
-
-		attributes.put( TYPE, String.class.getName() );
-		attributes.put( READ_ONLY, TRUE );
-		attributes.put( LARGE, TRUE );
-
-		scrollPane = (JScrollPane) widgetBuilder.buildWidget( PROPERTY, attributes, null );
-		assertTrue( null == scrollPane.getBorder() );
-		textarea = (JTextArea) scrollPane.getViewport().getView();
-		assertTrue( true == textarea.getLineWrap() );
-		assertTrue( true == textarea.getWrapStyleWord() );
-		assertTrue( false == textarea.isEditable() );
-		assertTrue( 2 == textarea.getRows() );
-
 		// JSpinner
 
 		// bytes
 
-		attributes.remove( READ_ONLY );
 		attributes.remove( MAXIMUM_VALUE );
 		attributes.put( MINIMUM_VALUE, "2" );
 		attributes.put( TYPE, byte.class.getName() );
@@ -162,7 +146,6 @@ public class SwingWidgetBuilderTest
 
 		// floats
 
-		attributes.remove( READ_ONLY );
 		attributes.remove( MAXIMUM_VALUE );
 		attributes.put( MINIMUM_VALUE, "1.6" );
 		attributes.put( TYPE, float.class.getName() );
