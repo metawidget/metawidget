@@ -224,6 +224,32 @@ public final class GwtUtils
 	}
 
 	/**
+	 * Returns whether the attributes have READ_ONLY or NO_SETTER set to TRUE.
+	 * <p>
+	 * The latter case relies on complex attributes being rendered by nested Metawidgets: the nested
+	 * Metawidgets will <em>not</em> have setReadOnly set on them, which gets us the desired result.
+	 * Namely, primitive types without a setter are rendered as read-only, complex types without a
+	 * setter are rendered as writeable (because their nested primitives are writeable).
+	 * <p>
+	 * Furthermore, what is considered 'primitive' is up to the platform. Some platforms may
+	 * consider, say, an Address as 'primitive', using a dedicated Address widget. Other platforms
+	 * may consider an Address as complex, using a nested Metawidget.
+	 *
+	 * @return true if the attributes have READ_ONLY set to TRUE, or NO_SETTER set to true.
+	 */
+
+	public static boolean isReadOnly( Map<String, String> attributes )
+	{
+		if ( TRUE.equals( attributes.get( READ_ONLY ) ) )
+			return true;
+
+		if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
+			return true;
+
+		return false;
+	}
+
+	/**
 	 * Looks up the TYPE attribute, but first checks the ACTUAL_CLASS attribute.
 	 *
 	 * @return ACTUAL_CLASS of, if none, TYPE or, if none, null. Never an empty String.

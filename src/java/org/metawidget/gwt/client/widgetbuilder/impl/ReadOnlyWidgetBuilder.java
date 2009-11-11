@@ -31,7 +31,6 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.GwtValueAccessor;
 import org.metawidget.gwt.client.ui.Stub;
-import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
@@ -96,7 +95,7 @@ public class ReadOnlyWidgetBuilder
 	{
 		// Not read-only?
 
-		if ( !WidgetBuilderUtils.isReadOnly( attributes ))
+		if ( !GwtUtils.isReadOnly( attributes ))
 			return null;
 
 		// Hidden
