@@ -33,6 +33,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.metawidget.config.ConfigReader;
@@ -62,8 +63,11 @@ import org.w3c.dom.Element;
 // SwingMetawidget to extend JComponent for various Swing-specific features like setBorder and
 // setOpaque
 //
+// Note: we extends JPanel, not JComponent, so that we look better when dropped directly into
+// a JTabbedPane via .addTab
+//
 public class SwingMetawidget
-	extends JComponent
+	extends JPanel
 {
 	//
 	// Private statics
@@ -277,6 +281,11 @@ public class SwingMetawidget
 	{
 		mMetawidgetMixin.setLayout( layout );
 		invalidateWidgets();
+	}
+
+	public Layout<JComponent, SwingMetawidget> getMetawidgetLayout()
+	{
+		return mMetawidgetMixin.getLayout();
 	}
 
 	public void setBundle( ResourceBundle bundle )
