@@ -14,6 +14,7 @@
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<array>
+						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<jexlInspector xmlns="java:org.metawidget.inspector.commons.jexl"/>
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig">
@@ -21,7 +22,6 @@
 								<resource>org/metawidget/example/swing/addressbook/metawidget-metadata.xml</resource>
 							</inputStream>
 						</xmlInspector>
-						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 					</array>
 				</inspectors>

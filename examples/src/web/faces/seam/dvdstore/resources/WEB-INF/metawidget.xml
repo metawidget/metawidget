@@ -17,8 +17,8 @@
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<array>
-						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<facesInspector xmlns="java:org.metawidget.inspector.faces"/>
 						<jpaInspector xmlns="java:org.metawidget.inspector.jpa"/>
 						<hibernateValidatorInspector xmlns="java:org.metawidget.inspector.hibernate.validator"/>

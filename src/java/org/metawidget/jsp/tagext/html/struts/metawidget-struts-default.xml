@@ -15,8 +15,8 @@
 				<inspectors>
 					<array>
 						<strutsInspector xmlns="java:org.metawidget.inspector.struts" config="StrutsInspectorConfig"/>					
-						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/>
 						<commonsValidatorInspector xmlns="java:org.metawidget.inspector.commons.validator" config="CommonsValidatorInspectorConfig"/>
 					</array>

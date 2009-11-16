@@ -16,16 +16,16 @@
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<array>
-						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
-							<propertyStyle>
-								<groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/>
-							</propertyStyle>			
-						</metawidgetAnnotationInspector>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
 								<groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/>
 							</propertyStyle>			
 						</propertyTypeInspector>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
+							<propertyStyle>
+								<groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/>
+							</propertyStyle>			
+						</metawidgetAnnotationInspector>
 						<facesInspector xmlns="java:org.metawidget.inspector.faces" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
 								<groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/>

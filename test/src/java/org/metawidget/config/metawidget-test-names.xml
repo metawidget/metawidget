@@ -8,8 +8,8 @@
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<array>
-						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/>
 					</array>
@@ -53,8 +53,8 @@
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<array>
-						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/>
 					</array>

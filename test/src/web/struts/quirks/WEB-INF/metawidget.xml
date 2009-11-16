@@ -13,12 +13,12 @@
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
 					<array>
-						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>					
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
 								<strutsActionFormPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.struts"/>
 							</propertyStyle>
 						</propertyTypeInspector>
+						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>					
 						<strutsAnnotationInspector xmlns="java:org.metawidget.inspector.struts"/>
 						<java5Inspector xmlns="java:org.metawidget.inspector.java5"/>
 					</array>
