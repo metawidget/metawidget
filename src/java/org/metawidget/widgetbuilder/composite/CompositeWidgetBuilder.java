@@ -51,11 +51,10 @@ public class CompositeWidgetBuilder<W, M extends W>
 	{
 		WidgetBuilder<W, M>[] widgetBuilders = config.getWidgetBuilders();
 
-		// Must have at least one WidgetBuilder. At least two, really, but one can be useful
-		// if we want to validate what the sub-WidgetBuilder is returning
+		// Must have at least two WidgetBuilders
 
 		if ( widgetBuilders == null || widgetBuilders.length == 0 )
-			throw InspectorException.newException( "CompositeWidgetBuilder needs at least one WidgetBuilder" );
+			throw InspectorException.newException( "CompositeWidgetBuilder needs at least two WidgetBuilders" );
 
 		// Defensive copy
 
@@ -79,6 +78,10 @@ public class CompositeWidgetBuilder<W, M extends W>
 
 		return null;
 	}
+
+	/**
+	 * Exposed for <code>getValue</code> calls.
+	 */
 
 	public WidgetBuilder<W, M>[] getWidgetBuilders()
 	{

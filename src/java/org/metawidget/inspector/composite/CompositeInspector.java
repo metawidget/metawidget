@@ -72,7 +72,7 @@ public class CompositeInspector
 		Inspector[] inspectors = config.getInspectors();
 
 		// Must have at least one Inspector. At least two, really, but one can be useful
-		// if we want to validate what the sub-Inspector is returning
+		// if we want to validate what the sub-Inspector is returning (ie. using LOG.debug)
 
 		if ( inspectors == null || inspectors.length == 0 )
 			throw InspectorException.newException( "CompositeInspector needs at least one Inspector" );
