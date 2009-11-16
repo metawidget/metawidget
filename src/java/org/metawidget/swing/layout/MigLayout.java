@@ -26,7 +26,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
@@ -57,8 +56,6 @@ public class MigLayout
 
 	private int					mNumberOfColumns;
 
-	private int					mSectionStyle;
-
 	//
 	// Constructor
 	//
@@ -71,7 +68,6 @@ public class MigLayout
 	public MigLayout( MigLayoutConfig config )
 	{
 		mNumberOfColumns = config.getNumberOfColumns();
-		mSectionStyle = config.getSectionStyle();
 	}
 
 	//
@@ -119,12 +115,12 @@ public class MigLayout
 		state.defaultLabelVerticalPadding = (int) Math.max( 0, Math.floor( ( dummyTextFieldHeight - dummyLabelHeight ) / 2 ) );
 	}
 
-	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public JComponent layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
-			return;
+			return null;
 
 		// Special support for large components
 
@@ -194,6 +190,8 @@ public class MigLayout
 			state.currentColumn = 0;
 			state.currentRow++;
 		}
+
+		return null;
 	}
 
 	public void onEndBuild( SwingMetawidget metawidget )
@@ -303,44 +301,15 @@ public class MigLayout
 		}
 
 		// Insert the section
+		//
+		// Compared to GridBagLayout, we can achieve the heading without a nested JPanel
 
-		switch ( mSectionStyle )
-		{
-			case MigLayoutConfig.SECTION_AS_TAB:
+		JLabel label = new JLabel( localizedSection );
+		metawidget.add( label, new CC().cell( state.currentColumn, state.currentRow ).spanX() );
+		JSeparator separator = new JSeparator( SwingConstants.HORIZONTAL );
+		metawidget.add( separator, new CC().cell( state.currentColumn, state.currentRow ).growX() );
 
-				JTabbedPane tabbedPane;
-
-				if ( state.panelCurrent == null )
-				{
-					tabbedPane = new JTabbedPane();
-					metawidget.add( tabbedPane, new CC().cell( state.currentColumn, state.currentRow ).spanX().grow() );
-					( (LC) ( (net.miginfocom.swing.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).fill();
-				}
-				else
-				{
-					tabbedPane = (JTabbedPane) state.panelCurrent.getParent();
-					sectionEnd(metawidget);
-				}
-
-				state.panelCurrent = new JPanel();
-				state.panelCurrent.setName( localizedSection );
-				state.panelCurrent.setLayout( new net.miginfocom.swing.MigLayout( new LC() ) );
-
-				tabbedPane.add( state.panelCurrent );
-				break;
-
-			default:
-
-				// Compared to GridBagLayout, we can achieve the heading without a nested JPanel
-
-				JLabel label = new JLabel( localizedSection );
-				metawidget.add( label, new CC().cell( state.currentColumn, state.currentRow ).spanX() );
-				JSeparator separator = new JSeparator( SwingConstants.HORIZONTAL );
-				metawidget.add( separator, new CC().cell( state.currentColumn, state.currentRow ).growX() );
-
-				state.currentRow++;
-				break;
-		}
+		state.currentRow++;
 	}
 
 	protected void sectionEnd( SwingMetawidget metawidget )

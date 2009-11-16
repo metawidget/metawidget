@@ -18,6 +18,7 @@ package org.metawidget.swing.layout;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -46,6 +47,8 @@ import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.layout.composite.CompositeLayout;
+import org.metawidget.layout.composite.CompositeLayoutConfig;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
@@ -70,6 +73,7 @@ public class MigLayoutTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "unchecked" )
 	public void testTabLayout()
 		throws Exception
 	{
@@ -83,7 +87,7 @@ public class MigLayoutTest
 
 		try
 		{
-			metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 0 ).setSectionStyle( MigLayoutConfig.SECTION_AS_TAB )) );
+			metawidget.setMetawidgetLayout( new CompositeLayout<JComponent, SwingMetawidget>( new CompositeLayoutConfig<JComponent, SwingMetawidget>().setLayouts( new JTabbedPaneLayout(), new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 0 ) ) ) ) );
 			assertTrue( false );
 		}
 		catch ( LayoutException e )
@@ -91,7 +95,7 @@ public class MigLayoutTest
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ).setSectionStyle( MigLayoutConfig.SECTION_AS_TAB )) );
+		metawidget.setMetawidgetLayout( new CompositeLayout<JComponent, SwingMetawidget>( new CompositeLayoutConfig<JComponent, SwingMetawidget>().setLayouts( new JTabbedPaneLayout(), new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
 		UnitValue[] insets = ( (LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getInsets();
 		assertTrue( 0 == insets[0].getValue() );
@@ -285,23 +289,13 @@ public class MigLayoutTest
 		config2.setNumberOfColumns( 2 );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// sectionStyle
-
-		config1.setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB );
-		assertTrue( GridBagLayoutConfig.SECTION_AS_TAB == config1.getSectionStyle() );
-		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
-
-		config2.setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 
 	//
 	// Public statics
 	//
 
+	@SuppressWarnings( "unchecked" )
 	public static void main( String[] args )
 	{
 		// Metawidget
@@ -310,7 +304,7 @@ public class MigLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ).setSectionStyle( MigLayoutConfig.SECTION_AS_TAB ) ) );
+		metawidget.setMetawidgetLayout( new CompositeLayout<JComponent, SwingMetawidget>( new CompositeLayoutConfig<JComponent, SwingMetawidget>().setLayouts( new JTabbedPaneLayout(), new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 		metawidget.setToInspect( new NastyNestingTop() );
 
 		// JFrame

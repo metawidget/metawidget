@@ -75,7 +75,7 @@ public class RichFacesLayout
 	}
 
 	@Override
-	public void layoutChild( UIComponent widget, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public UIComponent layoutChild( UIComponent widget, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		State state = getState( metawidget );
 
@@ -201,6 +201,8 @@ public class RichFacesLayout
 
 		children.remove( widget );
 		children.add( widget );
+
+		return null;
 	}
 
 	//

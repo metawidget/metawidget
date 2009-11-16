@@ -40,7 +40,7 @@ public class SimpleLayout
 	//
 
 	@Override
-	public void layoutChild( UIComponent widget, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public UIComponent layoutChild( UIComponent widget, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		List<UIComponent> children = metawidget.getChildren();
 
@@ -55,9 +55,10 @@ public class SimpleLayout
 		// or overridden, but if it wraps a UIComponent with a UIStub then it needs to specify
 		// whether the UIStub is for a manually created component or an overridden one, so that
 		// UIMetawidget will clean it up again during startBuild. This just smells wrong,
-		// because
-		// Renderers should render, not manipulate the UIComponent tree.
+		// because Renderers should render, not manipulate the UIComponent tree.
 
 		children.add( widget );
+
+		return widget;
 	}
 }

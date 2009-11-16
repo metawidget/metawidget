@@ -22,6 +22,7 @@ import java.awt.Insets;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,6 +48,8 @@ import org.metawidget.inspector.annotation.UiWide;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.layout.composite.CompositeLayout;
+import org.metawidget.layout.composite.CompositeLayoutConfig;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -62,6 +65,7 @@ public class GridBagLayoutTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "unchecked" )
 	public void testLayout()
 		throws Exception
 	{
@@ -75,7 +79,7 @@ public class GridBagLayoutTest
 
 		try
 		{
-			metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 0 ).setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB )));
+			metawidget.setMetawidgetLayout( new CompositeLayout<JComponent, SwingMetawidget>( new CompositeLayoutConfig<JComponent, SwingMetawidget>().setLayouts( new JTabbedPaneLayout(), new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 0 ) ) ) ) );
 			assertTrue( false );
 		}
 		catch ( LayoutException e )
@@ -83,7 +87,7 @@ public class GridBagLayoutTest
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB )));
+		metawidget.setMetawidgetLayout( new CompositeLayout<JComponent, SwingMetawidget>( new CompositeLayoutConfig<JComponent, SwingMetawidget>().setLayouts( new JTabbedPaneLayout(), new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		Insets insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
@@ -107,7 +111,7 @@ public class GridBagLayoutTest
 
 		JTabbedPane tabbedPane = (JTabbedPane) metawidget.getComponent( 6 );
 		assertTrue( 3 == tabbedPane.getComponentCount() );
-		assertTrue( -1 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).gridx );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).gridx );
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).gridy );
 		assertTrue( GridBagConstraints.BOTH == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).fill );
 		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).gridwidth );
@@ -227,7 +231,7 @@ public class GridBagLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( ":" )));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( ":" ) ) );
 		metawidget.setToInspect( new WideFoo() );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -274,22 +278,22 @@ public class GridBagLayoutTest
 
 		// Different label suffix
 
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelSuffix( "#" )));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelSuffix( "#" ) ) );
 		assertTrue( "Abc*#".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 
 		// Align left
 
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setRequiredAlignment( SwingConstants.LEFT ).setRequiredText( "?" )));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setRequiredAlignment( SwingConstants.LEFT ).setRequiredText( "?" ) ) );
 		assertTrue( "?Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 
 		// No suffix
 
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelSuffix( null ).setRequiredText( null )));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelSuffix( null ).setRequiredText( null ) ) );
 		assertTrue( "Abc".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 
 		// Align right
 
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( "" ).setRequiredText( "<html><font color=\"red\">*</font></html>" ).setRequiredAlignment( SwingConstants.RIGHT )));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setLabelSuffix( "" ).setRequiredText( "<html><font color=\"red\">*</font></html>" ).setRequiredAlignment( SwingConstants.RIGHT ) ) );
 
 		assertTrue( "Abc".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ).gridx );
@@ -372,21 +376,10 @@ public class GridBagLayoutTest
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
-		// sectionStyle
-
-		config1.setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB );
-		assertTrue( GridBagLayoutConfig.SECTION_AS_TAB == config1.getSectionStyle() );
-		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
-
-		config2.setSectionStyle( GridBagLayoutConfig.SECTION_AS_TAB );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
 		// labelSuffix
 
 		config1.setLabelSuffix( "#" );
-		assertTrue( "#".equals( config1.getLabelSuffix() ));
+		assertTrue( "#".equals( config1.getLabelSuffix() ) );
 		assertTrue( !config1.equals( config2 ) );
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
@@ -408,7 +401,7 @@ public class GridBagLayoutTest
 		// requiredText
 
 		config1.setRequiredText( "!" );
-		assertTrue( "!".equals( config1.getRequiredText() ));
+		assertTrue( "!".equals( config1.getRequiredText() ) );
 		assertTrue( !config1.equals( config2 ) );
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
@@ -429,7 +422,7 @@ public class GridBagLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setRequiredText( "<html><font color=\"red\">*</font></html>" ).setRequiredAlignment( SwingConstants.RIGHT )));
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setRequiredText( "<html><font color=\"red\">*</font></html>" ).setRequiredAlignment( SwingConstants.RIGHT ) ) );
 		metawidget.setToInspect( new RequiredFoo() );
 
 		// JFrame

@@ -55,9 +55,12 @@ public interface Layout<W, M extends W>
 	 *            attributes of the widget to layout. Never null
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
+	 * @return generally the original widget (as passed in to the first argument). Can be a
+	 *         different widget if the Layout wishes to substitute the original widget for another.
+	 *         Can be null if the Layout wishes to cancel all further laying out of this widget
 	 */
 
-	void layoutChild( W widget, String elementName, Map<String, String> attributes, M metawidget );
+	W layoutChild( W widget, String elementName, Map<String, String> attributes, M metawidget );
 
 	/**
 	 * Event called at the end of widget building, after all widgets have been built and added to

@@ -14,36 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.ui.layout;
-
-import java.util.Map;
-
-import org.metawidget.gwt.client.ui.GwtMetawidget;
-import org.metawidget.layout.impl.BaseLayout;
-
-import com.google.gwt.user.client.ui.Widget;
-
 /**
- * Layout to simply output components one after another, with no labels and no structure.
- * <p>
- * This Layout is suited to rendering single components, or for rendering components whose
- * layout relies entirely on CSS.
+ * Layouts: composite Layout support.
  *
  * @author Richard Kennard
  */
 
-public class FlowLayout
-	extends BaseLayout<Widget,GwtMetawidget>
-{
-	//
-	// Public methods
-	//
-
-	@Override
-	public Widget layoutChild( Widget widget, String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
-	{
-		metawidget.add( widget );
-
-		return null;
-	}
-}
+package org.metawidget.layout.composite;

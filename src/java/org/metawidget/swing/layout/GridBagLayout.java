@@ -29,7 +29,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
@@ -66,8 +65,6 @@ public class GridBagLayout
 
 	private final static Border	BORDER_SECTION			= BorderFactory.createEmptyBorder( MEDIUM_GAP, 0, MEDIUM_GAP, 0 );
 
-	private final static Border	BORDER_TAB				= BorderFactory.createEmptyBorder( SMALL_GAP, SMALL_GAP, SMALL_GAP, SMALL_GAP );
-
 	//
 	// Private members
 	//
@@ -75,8 +72,6 @@ public class GridBagLayout
 	private int					mNumberOfColumns;
 
 	private int					mLabelAlignment;
-
-	private int					mSectionStyle;
 
 	private String				mLabelSuffix;
 
@@ -97,7 +92,6 @@ public class GridBagLayout
 	{
 		mNumberOfColumns = config.getNumberOfColumns();
 		mLabelAlignment = config.getLabelAlignment();
-		mSectionStyle = config.getSectionStyle();
 		mLabelSuffix = config.getLabelSuffix();
 		mRequiredAlignment = config.getRequiredAlignment();
 		mRequiredText = config.getRequiredText();
@@ -135,12 +129,12 @@ public class GridBagLayout
 		state.defaultLabelInsetsRemainderColumns = new Insets( defaultLabelVerticalPadding, SMALL_GAP, defaultLabelVerticalPadding, SMALL_GAP );
 	}
 
-	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public JComponent layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
-			return;
+			return null;
 
 		// Special support for large components
 
@@ -222,6 +216,8 @@ public class GridBagLayout
 			state.currentColumn = 0;
 			state.currentRow++;
 		}
+
+		return null;
 	}
 
 	public void onEndBuild( SwingMetawidget metawidget )
@@ -377,78 +373,31 @@ public class GridBagLayout
 			state.currentRow++;
 		}
 
-		// Insert the section
+		// Section separator panel (a GridBagLayout within a GridBagLayout)
 
-		switch ( mSectionStyle )
-		{
-			case GridBagLayoutConfig.SECTION_AS_TAB:
+		JPanel panelSection = new JPanel();
+		panelSection.setBorder( BORDER_SECTION );
+		panelSection.setLayout( new java.awt.GridBagLayout() );
+		panelSection.setOpaque( false );
 
-				JTabbedPane tabbedPane;
+		GridBagConstraints constraintsLabel = new GridBagConstraints();
+		constraintsLabel.insets = INSETS_SECTION_LABEL;
+		JLabel labelSection = new JLabel( localizedSection );
+		panelSection.add( labelSection, constraintsLabel );
 
-				if ( state.panelCurrent == null )
-				{
-					tabbedPane = new JTabbedPane();
-					tabbedPane.setBorder( BORDER_SECTION );
+		GridBagConstraints constraintsSeparator = new GridBagConstraints();
+		constraintsSeparator.fill = GridBagConstraints.HORIZONTAL;
+		constraintsSeparator.weightx = 1.0;
+		constraintsSeparator.anchor = GridBagConstraints.EAST;
+		panelSection.add( new JSeparator( SwingConstants.HORIZONTAL ), constraintsSeparator );
 
-					state.panelInsertedRow = state.currentRow;
+		GridBagConstraints constraintsSection = new GridBagConstraints();
+		constraintsSection.fill = GridBagConstraints.HORIZONTAL;
+		constraintsSection.gridy = state.currentRow;
+		constraintsSection.gridwidth = GridBagConstraints.REMAINDER;
+		metawidget.add( panelSection, constraintsSection );
 
-					GridBagConstraints constraintsTabbedPane = new GridBagConstraints();
-					constraintsTabbedPane.fill = GridBagConstraints.BOTH;
-					constraintsTabbedPane.anchor = GridBagConstraints.WEST;
-					constraintsTabbedPane.gridy = state.panelInsertedRow;
-					constraintsTabbedPane.gridwidth = GridBagConstraints.REMAINDER;
-					constraintsTabbedPane.weighty = 1.0f;
-					state.needParentSpacerRow = false;
-
-					metawidget.add( tabbedPane, constraintsTabbedPane );
-				}
-				else
-				{
-					tabbedPane = (JTabbedPane) state.panelCurrent.getParent();
-					sectionEnd( metawidget );
-				}
-
-				state.panelCurrent = new JPanel();
-				state.panelCurrent.setBorder( BORDER_TAB );
-				state.panelCurrent.setName( localizedSection );
-				state.panelCurrent.setLayout( new java.awt.GridBagLayout() );
-				state.needPanelSpacerRow = true;
-
-				tabbedPane.add( state.panelCurrent );
-
-				state.currentRow = 0;
-				state.currentColumn = 0;
-				break;
-
-			default:
-
-				// Separator panel (a GridBagLayout within a GridBagLayout)
-
-				JPanel panelSection = new JPanel();
-				panelSection.setBorder( BORDER_SECTION );
-				panelSection.setLayout( new java.awt.GridBagLayout() );
-				panelSection.setOpaque( false );
-
-				GridBagConstraints constraintsLabel = new GridBagConstraints();
-				constraintsLabel.insets = INSETS_SECTION_LABEL;
-				JLabel labelSection = new JLabel( localizedSection );
-				panelSection.add( labelSection, constraintsLabel );
-
-				GridBagConstraints constraintsSeparator = new GridBagConstraints();
-				constraintsSeparator.fill = GridBagConstraints.HORIZONTAL;
-				constraintsSeparator.weightx = 1.0;
-				constraintsSeparator.anchor = GridBagConstraints.EAST;
-				panelSection.add( new JSeparator( SwingConstants.HORIZONTAL ), constraintsSeparator );
-
-				GridBagConstraints constraintsSection = new GridBagConstraints();
-				constraintsSection.fill = GridBagConstraints.HORIZONTAL;
-				constraintsSection.gridy = state.currentRow;
-				constraintsSection.gridwidth = GridBagConstraints.REMAINDER;
-				metawidget.add( panelSection, constraintsSection );
-
-				state.currentRow++;
-				break;
-		}
+		state.currentRow++;
 	}
 
 	protected void layoutAfterChild( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )

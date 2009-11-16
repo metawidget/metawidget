@@ -30,22 +30,12 @@ import org.metawidget.util.simple.ObjectUtils;
 public class GridBagLayoutConfig
 {
 	//
-	// Public statics
-	//
-
-	public final static int	SECTION_AS_HEADING	= 0;
-
-	public final static int	SECTION_AS_TAB		= 1;
-
-	//
 	// Private members
 	//
 
 	private int				mNumberOfColumns	= 1;
 
 	private int				mLabelAlignment		= SwingConstants.LEFT;
-
-	private int				mSectionStyle		= SECTION_AS_HEADING;
 
 	private String			mLabelSuffix		= ":";
 
@@ -88,22 +78,6 @@ public class GridBagLayoutConfig
 	public GridBagLayoutConfig setLabelAlignment( int labelAlignment )
 	{
 		mLabelAlignment = labelAlignment;
-
-		return this;
-	}
-
-	public int getSectionStyle()
-	{
-		return mSectionStyle;
-	}
-
-	/**
-	 * @return this, as part of a fluent interface
-	 */
-
-	public GridBagLayoutConfig setSectionStyle( int sectionStyle )
-	{
-		mSectionStyle = sectionStyle;
 
 		return this;
 	}
@@ -168,9 +142,6 @@ public class GridBagLayoutConfig
 		if ( mLabelAlignment != ((GridBagLayoutConfig) that).mLabelAlignment )
 			return false;
 
-		if ( mSectionStyle != ((GridBagLayoutConfig) that).mSectionStyle )
-			return false;
-
 		if ( !ObjectUtils.nullSafeEquals( mLabelSuffix, ((GridBagLayoutConfig) that).mLabelSuffix ))
 			return false;
 
@@ -188,7 +159,6 @@ public class GridBagLayoutConfig
 	{
 		int hashCode = mNumberOfColumns;
 		hashCode ^= mLabelAlignment;
-		hashCode ^= mSectionStyle;
 		hashCode ^= ObjectUtils.nullSafeHashCode( mLabelSuffix );
 		hashCode ^= mRequiredAlignment;
 		hashCode ^= ObjectUtils.nullSafeHashCode( mRequiredText );

@@ -18,6 +18,7 @@ package org.metawidget.swing;
 
 import java.util.Map;
 
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 import org.metawidget.util.CollectionUtils;
@@ -54,13 +55,17 @@ public class Stub
 
 	public Stub()
 	{
-		// Default constructor
+		// Default to BoxLayout, so that the controls fill the Stub width-ways. This
+		// is important for things like JTabbedPaneLayout
+
+		setLayout( new BoxLayout( this, BoxLayout.PAGE_AXIS ) );
 	}
 
 	/**
 	 * Convenience constructor.
 	 * <p>
-	 * Useful for creating stubs that will otherwise be empty, such as <code>metawidget.add( new Stub( "foo" ))</code>
+	 * Useful for creating stubs that will otherwise be empty, such as
+	 * <code>metawidget.add( new Stub( "foo" ))</code>
 	 */
 
 	public Stub( String name )
@@ -78,6 +83,11 @@ public class Stub
 			mAttributes = CollectionUtils.newHashMap();
 
 		mAttributes.put( name, value );
+	}
+
+	public void setAttributes( Map<String, String> attributes )
+	{
+		mAttributes = attributes;
 	}
 
 	public Map<String, String> getAttributes()

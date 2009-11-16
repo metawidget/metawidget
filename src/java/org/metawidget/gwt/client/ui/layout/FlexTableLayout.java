@@ -97,12 +97,12 @@ public class FlexTableLayout
 		state.formatter = flexTable.getFlexCellFormatter();
 	}
 
-	public void layoutChild( Widget widget, String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
+	public Widget layoutChild( Widget widget, String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
 		if ( widget instanceof Stub && ( (Stub) widget ).getWidget() == null )
-			return;
+			return null;
 
 		// Section headings
 
@@ -239,6 +239,8 @@ public class FlexTableLayout
 			layoutRequired( attributes, metawidget );
 
 		state.currentColumn++;
+
+		return null;
 	}
 
 	@Override

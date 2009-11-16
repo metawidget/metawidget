@@ -14,44 +14,48 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.layout;
+package org.metawidget.layout.composite;
 
-import org.metawidget.layout.iface.LayoutException;
-
+import org.metawidget.layout.iface.Layout;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a MigLayout prior to use. Once instantiated, Layouts are immutable.
+ * Configures a CompositeLayout prior to use. Once instantiated, Layouts are
+ * immutable.
  *
  * @author Richard Kennard
  */
 
-public class MigLayoutConfig
+public class CompositeLayoutConfig<W, M extends W>
 {
 	//
 	// Private members
 	//
 
-	private int				mNumberOfColumns	= 1;
+	private Layout<W, M>[]	mLayouts;
 
 	//
 	// Public methods
 	//
 
-	public int getNumberOfColumns()
+	public Layout<W, M>[] getLayouts()
 	{
-		return mNumberOfColumns;
+		return mLayouts;
 	}
 
 	/**
+	 * Sets the sub-Layouts the CompositeLayout will call.
+	 * <p>
+	 * Layouts will be called in order.
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
-	public MigLayoutConfig setNumberOfColumns( int numberOfColumns )
+	// Note: in Java 7 we can probably put @SuppressWarnings( "unchecked" ) here
+	//
+	public CompositeLayoutConfig<W, M> setLayouts( Layout<W, M>... Layouts )
 	{
-		if ( numberOfColumns < 1 )
-			throw LayoutException.newException( "numberOfColumns must be >= 1" );
-
-		mNumberOfColumns = numberOfColumns;
+		mLayouts = Layouts;
 
 		return this;
 	}
@@ -59,10 +63,10 @@ public class MigLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof MigLayoutConfig ))
+		if ( !( that instanceof CompositeLayoutConfig ) )
 			return false;
 
-		if ( mNumberOfColumns != ((MigLayoutConfig) that).mNumberOfColumns )
+		if ( !ObjectUtils.nullSafeEquals( mLayouts, ( (CompositeLayoutConfig<?, ?>) that ).mLayouts ) )
 			return false;
 
 		return true;
@@ -71,6 +75,6 @@ public class MigLayoutConfig
 	@Override
 	public int hashCode()
 	{
-		return mNumberOfColumns;
+		return ObjectUtils.nullSafeHashCode( mLayouts );
 	}
 }

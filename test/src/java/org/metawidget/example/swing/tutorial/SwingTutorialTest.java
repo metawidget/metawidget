@@ -97,6 +97,8 @@ public class SwingTutorialTest
 		assertTrue( metawidget.getComponent( 12 ) instanceof JTextField );
 
 		assertTrue( 13 == metawidget.getComponentCount() );
+
+		// TODO: test just adding @UiSection to 'retired'
 	}
 
 	/**

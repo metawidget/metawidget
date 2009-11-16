@@ -87,12 +87,12 @@ public class GroupLayout
 		groupLayout.setVerticalGroup( state.groupVertical );
 	}
 
-	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public JComponent layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
-			return;
+			return null;
 
 		JLabel label = new JLabel();
 
@@ -133,6 +133,8 @@ public class GroupLayout
 		state.groupVertical.addGroup( groupLayout.createParallelGroup( Alignment.BASELINE ).addComponent( label ).addComponent( component ) );
 
 		state.labels.add( label );
+
+		return null;
 	}
 
 	public void onEndBuild( SwingMetawidget metawidget )
