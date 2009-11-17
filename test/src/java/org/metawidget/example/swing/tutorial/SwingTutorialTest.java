@@ -20,6 +20,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,9 +34,12 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.layout.composite.CompositeLayout;
+import org.metawidget.layout.composite.CompositeLayoutConfig;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
+import org.metawidget.swing.layout.SectionHeadingLayout;
 
 /**
  * @author Richard Kennard
@@ -48,6 +52,7 @@ public class SwingTutorialTest
 	// Public methods
 	//
 
+	@SuppressWarnings( "unchecked" )
 	public void testTutorial()
 		throws Exception
 	{
@@ -66,11 +71,13 @@ public class SwingTutorialTest
 
 		// Check end of tutorial
 
+		// TODO: tutorial needs changing because of CompositeLayout, maybe Java5Inspector too
+
 		Stub stub = new Stub();
 		stub.setName( "retired" );
 		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) );
+		metawidget.setMetawidgetLayout( new CompositeLayout<JComponent, SwingMetawidget>( new CompositeLayoutConfig<JComponent, SwingMetawidget>().setLayouts( new SectionHeadingLayout(), new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -89,16 +96,37 @@ public class SwingTutorialTest
 		JPanel panel = (JPanel) metawidget.getComponent( 8 );
 		assertTrue( "Work".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
 		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
-		assertTrue( panel.getComponentCount() == 2 );
+		SwingMetawidget nestedMetawidget = (SwingMetawidget) panel.getComponent( 2 );
+		assertTrue( panel.getComponentCount() == 3 );
 
-		assertTrue( "Employer:".equals( ( (JLabel) metawidget.getComponent( 9 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 10 ) instanceof JTextField );
-		assertTrue( "Department:".equals( ( (JLabel) metawidget.getComponent( 11 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 12 ) instanceof JTextField );
+		assertTrue( "Employer:".equals( ( (JLabel) nestedMetawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( ((Stub) nestedMetawidget.getComponent( 1 )).getComponent( 0 ) instanceof JTextField );
+		assertTrue( "Department:".equals( ( (JLabel) nestedMetawidget.getComponent( 2 ) ).getText() ) );
+		assertTrue( ((Stub) nestedMetawidget.getComponent( 3 )).getComponent( 0 ) instanceof JTextField );
+		assertTrue( nestedMetawidget.getComponent( 4 ) instanceof JPanel );
+		assertTrue( 5 == nestedMetawidget.getComponentCount() );
 
-		assertTrue( 13 == metawidget.getComponentCount() );
+		assertTrue( 9 == metawidget.getComponentCount() );
+	}
 
-		// TODO: test just adding @UiSection to 'retired'
+	public void testSectionAtEnd()
+		throws Exception
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setToInspect( new PersonWithSectionAtEnd() );
+		assertTrue( "Age:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
+		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 3 ) instanceof JTextField );
+
+		assertTrue( "foo".equals( ( (JLabel) ( (JPanel) metawidget.getComponent( 4 ) ).getComponent( 0 ) ).getText() ) );
+		assertTrue( ( (JPanel) metawidget.getComponent( 4 ) ).getComponent( 1 ) instanceof JSeparator );
+		SwingMetawidget nestedMetawidget = (SwingMetawidget) ( (JPanel) metawidget.getComponent( 4 ) ).getComponent( 2 );
+
+		assertTrue( "Retired:".equals( ( (JLabel) nestedMetawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( ( (Stub) nestedMetawidget.getComponent( 1 ) ).getComponent( 0 ) instanceof JCheckBox );
+		assertTrue( nestedMetawidget.getComponent( 2 ) instanceof JPanel );
+		assertTrue( 5 == metawidget.getComponentCount() );
 	}
 
 	/**
@@ -132,7 +160,17 @@ public class SwingTutorialTest
 	// Inner class
 	//
 
-	static class PersonAtTutorialEnd
+	static class PersonWithSectionAtEnd
+	{
+		public String	name;
+
+		public int		age;
+
+		@UiSection( "foo" )
+		public boolean	retired;
+	}
+
+	public static class PersonAtTutorialEnd
 	{
 		public String	name;
 

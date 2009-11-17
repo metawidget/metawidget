@@ -47,7 +47,14 @@
 		</widgetProcessors>
 		
 		<metawidgetLayout>
-			<gridBagLayout xmlns="java:org.metawidget.swing.layout"/>
+			<compositeLayout xmlns="java:org.metawidget.layout.composite" config="CompositeLayoutConfig">
+				<layouts>
+					<array>
+						<sectionHeadingLayout xmlns="java:org.metawidget.swing.layout"/>
+						<gridBagLayout xmlns="java:org.metawidget.swing.layout"/>
+					</array>
+				</layouts>
+			</compositeLayout>
 		</metawidgetLayout>
 		
 	</swingMetawidget>

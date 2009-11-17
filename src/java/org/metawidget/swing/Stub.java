@@ -19,7 +19,7 @@ package org.metawidget.swing;
 import java.util.Map;
 
 import javax.swing.BoxLayout;
-import javax.swing.JPanel;
+import javax.swing.JComponent;
 
 import org.metawidget.util.CollectionUtils;
 
@@ -34,8 +34,10 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
+// Note: Stub extends JComponent, not JPanel, because in general it should not be opaque
+//
 public class Stub
-	extends JPanel
+	extends JComponent
 {
 	//
 	// Private statics
@@ -87,7 +89,7 @@ public class Stub
 
 	public void setAttributes( Map<String, String> attributes )
 	{
-		mAttributes = attributes;
+		mAttributes = CollectionUtils.newHashMap( attributes );
 	}
 
 	public Map<String, String> getAttributes()

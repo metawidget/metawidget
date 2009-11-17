@@ -22,23 +22,19 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.Map;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets using <code>javax.awt.GridBagLayout</code>.
@@ -55,15 +51,9 @@ public class GridBagLayout
 	// Private statics
 	//
 
-	private final static int	SMALL_GAP				= 3;
+	private final static int	SMALL_GAP			= 3;
 
-	private final static int	MEDIUM_GAP				= 5;
-
-	private final static Insets	INSETS_COMPONENT		= new Insets( 0, 0, SMALL_GAP, 0 );
-
-	private final static Insets	INSETS_SECTION_LABEL	= new Insets( 0, 0, 0, MEDIUM_GAP );
-
-	private final static Border	BORDER_SECTION			= BorderFactory.createEmptyBorder( MEDIUM_GAP, 0, MEDIUM_GAP, 0 );
+	private final static Insets	INSETS_COMPONENT	= new Insets( 0, 0, SMALL_GAP, 0 );
 
 	//
 	// Private members
@@ -190,22 +180,15 @@ public class GridBagLayout
 		// Hack for spacer row (see JavaDoc for state.mNeedSpacerRow): assume components
 		// embedded in a JScrollPane are their own spacer row
 
-		if ( component instanceof JScrollPane )
+		if ( willFillVertically( component, attributes ))
 		{
 			componentConstraints.weighty = 1.0f;
-
-			if ( state.panelCurrent == null )
-				state.needParentSpacerRow = false;
-			else
-				state.needPanelSpacerRow = false;
+			state.needSpacerRow = false;
 		}
 
-		// Add to either current panel or direct to the Metawidget
+		// Add it
 
-		if ( state.panelCurrent == null )
-			metawidget.add( component, componentConstraints );
-		else
-			state.panelCurrent.add( component, componentConstraints );
+		metawidget.add( component, componentConstraints );
 
 		layoutAfterChild( component, attributes, metawidget );
 
@@ -222,8 +205,6 @@ public class GridBagLayout
 
 	public void onEndBuild( SwingMetawidget metawidget )
 	{
-		sectionEnd( metawidget );
-
 		// Buttons
 
 		State state = getState( metawidget );
@@ -245,18 +226,18 @@ public class GridBagLayout
 
 			// (buttons facet can act as the spacer row)
 
-			if ( state.needParentSpacerRow )
+			if ( state.needSpacerRow )
 			{
 				buttonConstraints.weighty = 1.0f;
-				state.needParentSpacerRow = false;
+				state.needSpacerRow = false;
 			}
 
 			metawidget.add( buttonsFacet, buttonConstraints );
 		}
 
-		// Spacer row: see JavaDoc for state.mNeedParentSpacerRow
+		// Spacer row: see JavaDoc for state.needSpacerRow
 
-		if ( state.needParentSpacerRow )
+		if ( state.needSpacerRow )
 		{
 			if ( state.currentColumn > 0 )
 			{
@@ -264,12 +245,12 @@ public class GridBagLayout
 				state.currentRow++;
 			}
 
-			JPanel panelSpacer = new JPanel();
-			panelSpacer.setOpaque( false );
-			GridBagConstraints constraintsSpacer = new GridBagConstraints();
-			constraintsSpacer.gridy = state.currentRow;
-			constraintsSpacer.weighty = 1.0f;
-			metawidget.add( panelSpacer, constraintsSpacer );
+			JPanel spacerPanel = new JPanel();
+			spacerPanel.setOpaque( false );
+			GridBagConstraints spacerConstraints = new GridBagConstraints();
+			spacerConstraints.gridy = state.currentRow;
+			spacerConstraints.weighty = 1.0f;
+			metawidget.add( spacerPanel, spacerConstraints );
 		}
 	}
 
@@ -281,22 +262,9 @@ public class GridBagLayout
 	{
 		State state = getState( metawidget );
 
-		if ( attributes != null )
-		{
-			// Section headings
-
-			String section = attributes.get( SECTION );
-
-			if ( section != null && !section.equals( state.currentSection ) )
-			{
-				state.currentSection = section;
-				layoutSection( section, metawidget );
-			}
-		}
-
 		// Add label
 
-		if ( LayoutUtils.needsLabel( labelText, elementName ))
+		if ( LayoutUtils.needsLabel( labelText, elementName ) )
 		{
 			JLabel label = new JLabel();
 			label.setHorizontalAlignment( mLabelAlignment );
@@ -338,66 +306,10 @@ public class GridBagLayout
 			else
 				labelConstraints.insets = state.defaultLabelInsetsRemainderColumns;
 
-			// Add to either current panel or direct to the Metawidget
-
-			if ( state.panelCurrent == null )
-				metawidget.add( label, labelConstraints );
-			else
-				state.panelCurrent.add( label, labelConstraints );
+			metawidget.add( label, labelConstraints );
 		}
 
 		return labelText;
-	}
-
-	protected void layoutSection( String section, SwingMetawidget metawidget )
-	{
-		if ( "".equals( section ) )
-		{
-			sectionEnd( metawidget );
-			return;
-		}
-
-		// Section name (possibly localized)
-
-		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
-
-		if ( localizedSection == null )
-			localizedSection = section;
-
-		// Start a new row
-
-		State state = getState( metawidget );
-		if ( state.currentColumn > 0 )
-		{
-			state.currentColumn = 0;
-			state.currentRow++;
-		}
-
-		// Section separator panel (a GridBagLayout within a GridBagLayout)
-
-		JPanel panelSection = new JPanel();
-		panelSection.setBorder( BORDER_SECTION );
-		panelSection.setLayout( new java.awt.GridBagLayout() );
-		panelSection.setOpaque( false );
-
-		GridBagConstraints constraintsLabel = new GridBagConstraints();
-		constraintsLabel.insets = INSETS_SECTION_LABEL;
-		JLabel labelSection = new JLabel( localizedSection );
-		panelSection.add( labelSection, constraintsLabel );
-
-		GridBagConstraints constraintsSeparator = new GridBagConstraints();
-		constraintsSeparator.fill = GridBagConstraints.HORIZONTAL;
-		constraintsSeparator.weightx = 1.0;
-		constraintsSeparator.anchor = GridBagConstraints.EAST;
-		panelSection.add( new JSeparator( SwingConstants.HORIZONTAL ), constraintsSeparator );
-
-		GridBagConstraints constraintsSection = new GridBagConstraints();
-		constraintsSection.fill = GridBagConstraints.HORIZONTAL;
-		constraintsSection.gridy = state.currentRow;
-		constraintsSection.gridwidth = GridBagConstraints.REMAINDER;
-		metawidget.add( panelSection, constraintsSection );
-
-		state.currentRow++;
 	}
 
 	protected void layoutAfterChild( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
@@ -423,43 +335,23 @@ public class GridBagLayout
 		else
 			starConstraints.insets = state.defaultLabelInsetsRemainderColumns;
 
-		// Add to either current panel or direct to the Metawidget
-
-		if ( state.panelCurrent == null )
-			metawidget.add( star, starConstraints );
-		else
-			state.panelCurrent.add( star, starConstraints );
+		metawidget.add( star, starConstraints );
 	}
 
-	protected void sectionEnd( SwingMetawidget metawidget )
+	protected boolean willFillVertically( JComponent component, Map<String, String> attributes )
 	{
-		State state = getState( metawidget );
+		if ( attributes != null && TRUE.equals( attributes.get( LARGE )))
+			return true;
 
-		if ( state.panelCurrent == null )
-			return;
+		if ( component instanceof JScrollPane )
+			return true;
 
-		// Spacer row: see JavaDoc for state.mNeedParentSpacerRow
+		// Stub with a JScrollPane? (ie. overrriding communications with a JTable)
 
-		if ( state.needPanelSpacerRow )
-		{
-			if ( state.currentColumn > 0 )
-			{
-				state.currentColumn = 0;
-				state.currentRow++;
-			}
+		if ( component instanceof Stub && component.getComponentCount() == 1 )
+			return willFillVertically( (JComponent) component.getComponent( 0 ), attributes );
 
-			JPanel panelSpacer = new JPanel();
-			panelSpacer.setOpaque( false );
-			GridBagConstraints constraintsSpacer = new GridBagConstraints();
-			constraintsSpacer.gridy = state.currentRow;
-			constraintsSpacer.weighty = 1.0f;
-			state.panelCurrent.add( panelSpacer, constraintsSpacer );
-		}
-
-		state.currentRow = state.panelInsertedRow + 1;
-		state.currentColumn = 0;
-
-		state.panelCurrent = null;
+		return false;
 	}
 
 	//
@@ -503,15 +395,9 @@ public class GridBagLayout
 
 	/* package private */class State
 	{
-		/* package private */String		currentSection;
-
 		/* package private */int		currentColumn;
 
 		/* package private */int		currentRow;
-
-		/* package private */int		panelInsertedRow;
-
-		/* package private */JPanel		panelCurrent;
 
 		/* package private */Insets		defaultLabelInsetsFirstColumn;
 
@@ -525,16 +411,6 @@ public class GridBagLayout
 		 * vertical constraint weighting &gt; 0.
 		 */
 
-		/* package private */boolean	needParentSpacerRow	= true;
-
-		/**
-		 * Whether a spacer row is required on the last row of the current panel.
-		 * <p>
-		 * By default, GridBagLayouts expand to fill their vertical space, and 'align middle' their
-		 * group of components. To make them 'align top' at least one of the components must have a
-		 * vertical constraint weighting &gt; 0.
-		 */
-
-		/* package private */boolean	needPanelSpacerRow;
+		/* package private */boolean	needSpacerRow	= true;
 	}
 }

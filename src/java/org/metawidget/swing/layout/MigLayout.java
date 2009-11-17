@@ -23,11 +23,8 @@ import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
 
 import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
@@ -37,7 +34,6 @@ import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets using <code>net.miginfocom.swing.MigLayout</code>.
@@ -169,19 +165,12 @@ public class MigLayout
 		if ( component instanceof JScrollPane )
 		{
 			componentConstraints.growY();
-
-			if ( state.panelCurrent == null )
-				( (LC) ( (net.miginfocom.swing.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).fill();
-			else
-				( (LC) ( (net.miginfocom.swing.MigLayout) state.panelCurrent.getLayout() ).getLayoutConstraints() ).fill();
+			( (LC) ( (net.miginfocom.swing.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).fill();
 		}
 
-		// Add to either current panel or direct to the Metawidget
+		// Add it
 
-		if ( state.panelCurrent == null )
-			metawidget.add( component, componentConstraints );
-		else
-			state.panelCurrent.add( component, componentConstraints );
+		metawidget.add( component, componentConstraints );
 
 		state.currentColumn++;
 
@@ -196,8 +185,6 @@ public class MigLayout
 
 	public void onEndBuild( SwingMetawidget metawidget )
 	{
-		sectionEnd( metawidget );
-
 		// Buttons
 
 		Facet buttonsFacet = metawidget.getFacet( "buttons" );
@@ -223,19 +210,6 @@ public class MigLayout
 	protected String layoutBeforeChild( Component component, String labelText, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		State state = getState( metawidget );
-
-		if ( attributes != null )
-		{
-			// Section headings
-
-			String section = attributes.get( SECTION );
-
-			if ( section != null && !section.equals( state.currentSection ) )
-			{
-				state.currentSection = section;
-				layoutSection( section, metawidget );
-			}
-		}
 
 		// Add label
 
@@ -264,63 +238,12 @@ public class MigLayout
 
 			labelConstraints.pad( state.defaultLabelVerticalPadding, 0, state.defaultLabelVerticalPadding, 0 );
 
-			// Add to either current panel or direct to the Metawidget
+			// Add it
 
-			if ( state.panelCurrent == null )
-				metawidget.add( label, labelConstraints );
-			else
-				state.panelCurrent.add( label, labelConstraints );
+			metawidget.add( label, labelConstraints );
 		}
 
 		return labelText;
-	}
-
-	protected void layoutSection( String section, SwingMetawidget metawidget )
-	{
-		if ( "".equals( section ) )
-		{
-			sectionEnd( metawidget );
-			return;
-		}
-
-		// Section name (possibly localized)
-
-		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
-
-		if ( localizedSection == null )
-			localizedSection = section;
-
-		// Start a new row
-
-		State state = getState( metawidget );
-
-		if ( state.currentColumn > 0 )
-		{
-			state.currentColumn = 0;
-			state.currentRow++;
-		}
-
-		// Insert the section
-		//
-		// Compared to GridBagLayout, we can achieve the heading without a nested JPanel
-
-		JLabel label = new JLabel( localizedSection );
-		metawidget.add( label, new CC().cell( state.currentColumn, state.currentRow ).spanX() );
-		JSeparator separator = new JSeparator( SwingConstants.HORIZONTAL );
-		metawidget.add( separator, new CC().cell( state.currentColumn, state.currentRow ).growX() );
-
-		state.currentRow++;
-	}
-
-	protected void sectionEnd( SwingMetawidget metawidget )
-	{
-		State state = getState( metawidget );
-
-		if ( state.panelCurrent == null )
-			return;
-
-		state.currentColumn = 0;
-		state.panelCurrent = null;
 	}
 
 	//
@@ -350,13 +273,9 @@ public class MigLayout
 
 	/* package private */class State
 	{
-		/* package private */String	currentSection;
-
 		/* package private */int	currentColumn;
 
 		/* package private */int	currentRow;
-
-		/* package private */JPanel	panelCurrent;
 
 		/* package private */int	defaultLabelVerticalPadding;
 	}

@@ -18,7 +18,6 @@ package org.metawidget.swing.layout;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
-import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 
@@ -29,7 +28,6 @@ import org.metawidget.inspector.annotation.UiAttribute;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiReadOnly;
 import org.metawidget.inspector.annotation.UiRequired;
-import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -90,10 +88,8 @@ public class GroupLayoutTest
 		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
 		assertTrue( "Hobbies:".equals( ( (JLabel) metawidget.getComponent( 6 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JTextField );
-		assertTrue( "Work".equals( ( (JLabel) metawidget.getComponent( 8 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 9 ) instanceof JSeparator );
-		assertTrue( "Employer:".equals( ( (JLabel) metawidget.getComponent( 10 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 11 ) instanceof JTextField );
+		assertTrue( "Employer:".equals( ( (JLabel) metawidget.getComponent( 8 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 9 ) instanceof JTextField );
 
 		// Check required fields
 
@@ -122,7 +118,6 @@ public class GroupLayoutTest
 		@UiComesAfter( "retired" )
 		public String	hobbies;
 
-		@UiSection( "Work" )
 		@UiComesAfter( "hobbies" )
 		public String	employer;
 	}

@@ -91,32 +91,36 @@ public class SwingMetawidgetTest
 			}
 		};
 
+		// Will see some 'repaint's because of the JPanel
+
+		String panelRepaints = builder.toString();
+
 		// Should see 'repaint' because of the add
 
 		JTextField component = new JTextField();
 		metawidget.add( component );
-		assertTrue( "repaint\n".equals( builder.toString() ) );
+		assertTrue( ( panelRepaints + "repaint\n" ).equals( builder.toString() ) );
 
 		// Should see another 'repaint' because of remove called .getComponent, which built the
 		// widgets
 
 		metawidget.remove( component );
-		assertTrue( "repaint\nrepaint\n".equals( builder.toString() ) );
+		assertTrue( ( panelRepaints + "repaint\nrepaint\n" ).equals( builder.toString() ) );
 
 		// Should not see another repaint, because widgets already need repainting
 
 		metawidget.add( component );
-		assertTrue( "repaint\nrepaint\n".equals( builder.toString() ) );
+		assertTrue( ( panelRepaints + "repaint\nrepaint\n" ).equals( builder.toString() ) );
 
 		// Should see another repaint, because .remove will build the widgets
 
 		metawidget.remove( 0 );
-		assertTrue( "repaint\nrepaint\nrepaint\n".equals( builder.toString() ) );
+		assertTrue( ( panelRepaints + "repaint\nrepaint\nrepaint\n" ).equals( builder.toString() ) );
 
 		// Should not see another repaint, because widgets already need repainting
 
 		metawidget.removeAll();
-		assertTrue( "repaint\nrepaint\nrepaint\n".equals( builder.toString() ) );
+		assertTrue( ( panelRepaints + "repaint\nrepaint\nrepaint\n" ).equals( builder.toString() ) );
 	}
 
 	public void testNestedWithManualInspector()

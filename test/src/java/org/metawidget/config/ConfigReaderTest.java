@@ -148,7 +148,7 @@ public class ConfigReaderTest
 		xml += "			<string>foo</string>";
 		xml += "		</name>";
 		xml += "		<opaque>";
-		xml += "			<boolean>false</boolean>";
+		xml += "			<boolean>true</boolean>";
 		xml += "		</opaque>";
 		xml += "	</swingMetawidget>";
 		xml += "	<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
@@ -180,29 +180,29 @@ public class ConfigReaderTest
 
 		SwingMetawidget metawidget1 = new SwingMetawidget();
 		assertTrue( null == metawidget1.getName() );
-		assertTrue( metawidget1.isOpaque() );
+		assertTrue( !metawidget1.isOpaque() );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1 );
 		assertTrue( "foo".equals( metawidget1.getName() ) );
-		assertTrue( !metawidget1.isOpaque() );
+		assertTrue( metawidget1.isOpaque() );
 
 		// New SwingMetawidget with names
 
 		metawidget1 = configReader.configure( new ByteArrayInputStream( xml.getBytes() ), SwingMetawidget.class, "name" );
 		assertTrue( "foo".equals( metawidget1.getName() ) );
-		assertTrue( metawidget1.isOpaque() );
+		assertTrue( !metawidget1.isOpaque() );
 
 		// Existing SwingMetawidget with names
 
 		metawidget1.setName( "newFoo" );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "opaque" );
 		assertTrue( "newFoo".equals( metawidget1.getName() ) );
-		assertTrue( !metawidget1.isOpaque() );
+		assertTrue( metawidget1.isOpaque() );
 
 		// SwingMetawidget2
 
 		SwingMetawidget metawidget2 = new SwingMetawidget();
 		assertTrue( null == metawidget2.getName() );
-		assertTrue( metawidget2.isOpaque() );
+		assertTrue( !metawidget2.isOpaque() );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget2 );
 
 		// Test WidgetBuilder

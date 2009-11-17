@@ -18,11 +18,17 @@ package org.metawidget.swing.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 import java.util.Map;
 
+import javax.swing.BorderFactory;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTabbedPane;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 import org.metawidget.layout.impl.BaseLayout;
 import org.metawidget.swing.Stub;
@@ -33,9 +39,19 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public class JTabbedPaneLayout
+public class SectionHeadingLayout
 	extends BaseLayout<JComponent, SwingMetawidget>
 {
+	//
+	// Private statics
+	//
+
+	private final static int	MEDIUM_GAP				= 5;
+
+	private final static Insets	INSETS_SECTION_LABEL	= new Insets( 0, 0, 0, MEDIUM_GAP );
+
+	private final static Border	BORDER_SECTION			= BorderFactory.createEmptyBorder( MEDIUM_GAP, 0, MEDIUM_GAP, 0 );
+
 	//
 	// Public methods
 	//
@@ -43,7 +59,7 @@ public class JTabbedPaneLayout
 	@Override
 	public void onStartBuild( SwingMetawidget metawidget )
 	{
-		metawidget.putClientProperty( JTabbedPaneLayout.class, null );
+		metawidget.putClientProperty( SectionHeadingLayout.class, null );
 	}
 
 	public JComponent layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
@@ -63,6 +79,8 @@ public class JTabbedPaneLayout
 			return null;
 		}
 
+		state.currentSection = section;
+
 		// End current section?
 
 		if ( "".equals( section ) )
@@ -73,22 +91,7 @@ public class JTabbedPaneLayout
 			return component;
 		}
 
-		boolean newTabbedPane = ( state.nestedMetawidget == null );
-		JTabbedPane tabbedPane;
-
-		// Whole new tabbed pane?
-
-		if ( newTabbedPane )
-		{
-			tabbedPane = new JTabbedPane();
-		}
-
-		// New tab in an existing tab pane
-
-		else
-		{
-			tabbedPane = (JTabbedPane) state.nestedMetawidget.getParent().getParent();
-		}
+		// New section
 
 		state.nestedMetawidget = new SwingMetawidget();
 		state.nestedMetawidget.setMetawidgetLayout( metawidget.getMetawidgetLayout() );
@@ -100,24 +103,42 @@ public class JTabbedPaneLayout
 		if ( localizedSection == null )
 			localizedSection = section;
 
-		JPanel opaqueBackground = new JPanel();
-		opaqueBackground.setLayout( new javax.swing.BoxLayout( opaqueBackground, javax.swing.BoxLayout.PAGE_AXIS ) );
-		opaqueBackground.add( state.nestedMetawidget );
+		JLabel labelSection = new JLabel( localizedSection );
 
-		tabbedPane.addTab( localizedSection, opaqueBackground );
+		// Section panel
+
+		JPanel sectionPanel = new JPanel();
+		sectionPanel.setBorder( BORDER_SECTION );
+		sectionPanel.setLayout( new java.awt.GridBagLayout() );
+		sectionPanel.setOpaque( false );
+
+		GridBagConstraints labelConstraints = new GridBagConstraints();
+		labelConstraints.insets = INSETS_SECTION_LABEL;
+		sectionPanel.add( labelSection, labelConstraints );
+
+		GridBagConstraints separatorConstraints = new GridBagConstraints();
+		separatorConstraints.fill = GridBagConstraints.HORIZONTAL;
+		separatorConstraints.gridx = 1;
+		separatorConstraints.weightx = 1.0;
+		separatorConstraints.anchor = GridBagConstraints.EAST;
+		sectionPanel.add( new JSeparator( SwingConstants.HORIZONTAL ), separatorConstraints );
+
+		GridBagConstraints sectionConstraints = new GridBagConstraints();
+		sectionConstraints.gridy = 1;
+		sectionConstraints.gridwidth = GridBagConstraints.REMAINDER;
+		sectionConstraints.fill = GridBagConstraints.BOTH;
+		sectionConstraints.weighty = 1.0f;
+		sectionPanel.add( state.nestedMetawidget, sectionConstraints );
 
 		// Push the given component into the nested Metawidget
 
 		addNestedComponent( component, attributes, metawidget );
 
-		// Return the JTabbedPane for adding
-
-		if ( !newTabbedPane )
-			return null;
+		// Return the JPanel for adding
 
 		attributes.put( LABEL, "" );
-		attributes.put( WIDE, TRUE );
-		return tabbedPane;
+		attributes.put( LARGE, TRUE );
+		return sectionPanel;
 	}
 
 	//
@@ -126,12 +147,12 @@ public class JTabbedPaneLayout
 
 	private State getState( SwingMetawidget metawidget )
 	{
-		State state = (State) metawidget.getClientProperty( JTabbedPaneLayout.class );
+		State state = (State) metawidget.getClientProperty( SectionHeadingLayout.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( JTabbedPaneLayout.class, state );
+			metawidget.putClientProperty( SectionHeadingLayout.class, state );
 		}
 
 		return state;
@@ -148,9 +169,7 @@ public class JTabbedPaneLayout
 		stub.setAttributes( attributes );
 		stub.add( component );
 
-		// TODO: maybe use client props instead of stub wrapping?
-
-		State state = (State) metawidget.getClientProperty( JTabbedPaneLayout.class );
+		State state = (State) metawidget.getClientProperty( SectionHeadingLayout.class );
 		state.nestedMetawidget.add( stub );
 	}
 

@@ -24,7 +24,6 @@ import java.util.Map;
 
 import javax.swing.JComponent;
 import javax.swing.JLabel;
-import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
@@ -36,7 +35,6 @@ import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.simple.StringUtils;
 
 /**
  * Layout to arrange widgets using <code>javax.swing.GroupLayout</code>.
@@ -56,12 +54,6 @@ public class GroupLayout
 	private final static Component[]	EMPTY_COMPONENTS_ARRAY		= new Component[] {};
 
 	private final static int			COMPONENT_GAP				= 3;
-
-	private final static int			SEPARATOR_ADDITIONAL_GAP	= 8;
-
-	private final static int			SEPARATOR_TEXT_GAP			= 3;
-
-	private final static int			SEPARATOR_HEIGHT			= 2;
 
 	//
 	// Public methods
@@ -102,14 +94,6 @@ public class GroupLayout
 
 		if ( attributes != null )
 		{
-			String section = attributes.get( SECTION );
-
-			if ( section != null && !section.equals( state.currentSection ) )
-			{
-				state.currentSection = section;
-				layoutSection( section, metawidget );
-			}
-
 			// Labels
 
 			String labelText = metawidget.getLabelString( attributes );
@@ -163,33 +147,6 @@ public class GroupLayout
 	// Protected methods
 	//
 
-	protected void layoutSection( String section, SwingMetawidget metawidget )
-	{
-		if ( "".equals( section ) )
-			return;
-
-		// Section name (possibly localized)
-
-		JLabel labelSection = new JLabel();
-
-		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
-
-		if ( localizedSection != null )
-			labelSection.setText( localizedSection );
-		else
-			labelSection.setText( section );
-
-		JSeparator separator = new JSeparator( SwingConstants.CENTER );
-
-		State state = getState( metawidget );
-		javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) metawidget.getLayout();
-
-		state.groupHorizontal.addGroup( groupLayout.createSequentialGroup().addComponent( labelSection ).addGap( SEPARATOR_TEXT_GAP, SEPARATOR_TEXT_GAP, SEPARATOR_TEXT_GAP ).addComponent( separator ) );
-		state.groupVertical.addGap( COMPONENT_GAP + SEPARATOR_ADDITIONAL_GAP, COMPONENT_GAP + SEPARATOR_ADDITIONAL_GAP, COMPONENT_GAP + SEPARATOR_ADDITIONAL_GAP );
-		state.groupVertical.addGroup( groupLayout.createParallelGroup( Alignment.CENTER ).addGroup( groupLayout.createSequentialGroup().addComponent( labelSection ) ).addGroup( groupLayout.createSequentialGroup().addGap( SEPARATOR_TEXT_GAP, SEPARATOR_TEXT_GAP, SEPARATOR_TEXT_GAP ).addComponent( separator, javax.swing.GroupLayout.PREFERRED_SIZE, SEPARATOR_HEIGHT, javax.swing.GroupLayout.PREFERRED_SIZE ) ) );
-		state.groupVertical.addGap( SEPARATOR_ADDITIONAL_GAP, SEPARATOR_ADDITIONAL_GAP, SEPARATOR_ADDITIONAL_GAP );
-	}
-
 	//
 	// Private methods
 	//
@@ -220,8 +177,6 @@ public class GroupLayout
 		/* package private */ParallelGroup		groupHorizontal;
 
 		/* package private */SequentialGroup	groupVertical;
-
-		/* package private */String				currentSection;
 
 		/* package private */List<JLabel>		labels;
 	}
