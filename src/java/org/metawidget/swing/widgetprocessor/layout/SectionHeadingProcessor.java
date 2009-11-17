@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.layout;
+package org.metawidget.swing.widgetprocessor.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -30,17 +30,17 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import org.metawidget.layout.impl.BaseLayout;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
  * @author Richard Kennard
  */
 
-public class SectionHeadingLayout
-	extends BaseLayout<JComponent, SwingMetawidget>
+public class SectionHeadingProcessor
+	extends BaseWidgetProcessor<JComponent, SwingMetawidget>
 {
 	//
 	// Private statics
@@ -59,10 +59,10 @@ public class SectionHeadingLayout
 	@Override
 	public void onStartBuild( SwingMetawidget metawidget )
 	{
-		metawidget.putClientProperty( SectionHeadingLayout.class, null );
+		metawidget.putClientProperty( SectionHeadingProcessor.class, null );
 	}
 
-	public JComponent layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		String section = attributes.remove( SECTION );
 
@@ -147,12 +147,12 @@ public class SectionHeadingLayout
 
 	private State getState( SwingMetawidget metawidget )
 	{
-		State state = (State) metawidget.getClientProperty( SectionHeadingLayout.class );
+		State state = (State) metawidget.getClientProperty( SectionHeadingProcessor.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( SectionHeadingLayout.class, state );
+			metawidget.putClientProperty( SectionHeadingProcessor.class, state );
 		}
 
 		return state;
@@ -169,7 +169,7 @@ public class SectionHeadingLayout
 		stub.setAttributes( attributes );
 		stub.add( component );
 
-		State state = (State) metawidget.getClientProperty( SectionHeadingLayout.class );
+		State state = (State) metawidget.getClientProperty( SectionHeadingProcessor.class );
 		state.nestedMetawidget.add( stub );
 	}
 

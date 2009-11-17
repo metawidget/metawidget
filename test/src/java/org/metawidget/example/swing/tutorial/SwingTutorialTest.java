@@ -20,7 +20,6 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,12 +33,9 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.layout.composite.CompositeLayout;
-import org.metawidget.layout.composite.CompositeLayoutConfig;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
-import org.metawidget.swing.layout.SectionHeadingLayout;
 
 /**
  * @author Richard Kennard
@@ -52,7 +48,6 @@ public class SwingTutorialTest
 	// Public methods
 	//
 
-	@SuppressWarnings( "unchecked" )
 	public void testTutorial()
 		throws Exception
 	{
@@ -71,13 +66,11 @@ public class SwingTutorialTest
 
 		// Check end of tutorial
 
-		// TODO: tutorial needs changing because of CompositeLayout, maybe Java5Inspector too
-
 		Stub stub = new Stub();
 		stub.setName( "retired" );
 		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new CompositeLayout<JComponent, SwingMetawidget>( new CompositeLayoutConfig<JComponent, SwingMetawidget>().setLayouts( new SectionHeadingLayout(), new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) );
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );

@@ -40,7 +40,7 @@ public class SimpleLayout
 	//
 
 	@Override
-	public UIComponent layoutChild( UIComponent widget, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public void layoutChild( UIComponent widget, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
 		List<UIComponent> children = metawidget.getChildren();
 
@@ -58,7 +58,5 @@ public class SimpleLayout
 		// because Renderers should render, not manipulate the UIComponent tree.
 
 		children.add( widget );
-
-		return widget;
 	}
 }

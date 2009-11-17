@@ -119,12 +119,12 @@ public class GridBagLayout
 		state.defaultLabelInsetsRemainderColumns = new Insets( defaultLabelVerticalPadding, SMALL_GAP, defaultLabelVerticalPadding, SMALL_GAP );
 	}
 
-	public JComponent layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
-			return null;
+			return;
 
 		// Special support for large components
 
@@ -199,8 +199,6 @@ public class GridBagLayout
 			state.currentColumn = 0;
 			state.currentRow++;
 		}
-
-		return null;
 	}
 
 	public void onEndBuild( SwingMetawidget metawidget )

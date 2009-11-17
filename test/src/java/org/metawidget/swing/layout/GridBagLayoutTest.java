@@ -22,7 +22,6 @@ import java.awt.Insets;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -48,8 +47,6 @@ import org.metawidget.inspector.annotation.UiWide;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
-import org.metawidget.layout.composite.CompositeLayout;
-import org.metawidget.layout.composite.CompositeLayoutConfig;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -65,7 +62,6 @@ public class GridBagLayoutTest
 	// Public methods
 	//
 
-	@SuppressWarnings( "unchecked" )
 	public void testLayout()
 		throws Exception
 	{
@@ -79,7 +75,7 @@ public class GridBagLayoutTest
 
 		try
 		{
-			metawidget.setMetawidgetLayout( new CompositeLayout<JComponent, SwingMetawidget>( new CompositeLayoutConfig<JComponent, SwingMetawidget>().setLayouts( new JTabbedPaneLayout(), new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 0 ) ) ) ) );
+			metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 0 ) ) );
 			assertTrue( false );
 		}
 		catch ( LayoutException e )
@@ -87,7 +83,7 @@ public class GridBagLayoutTest
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
-		metawidget.setMetawidgetLayout( new CompositeLayout<JComponent, SwingMetawidget>( new CompositeLayoutConfig<JComponent, SwingMetawidget>().setLayouts( new JTabbedPaneLayout(), new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		Insets insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;

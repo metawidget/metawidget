@@ -43,18 +43,12 @@
 		<widgetProcessors>
 			<array>
 				<reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/>
+				<tabbedPaneProcessor xmlns="java:org.metawidget.swing.widgetprocessor.layout"/>
 			</array>
 		</widgetProcessors>
 		
 		<metawidgetLayout>
-			<compositeLayout xmlns="java:org.metawidget.layout.composite" config="CompositeLayoutConfig">
-				<layouts>
-					<array>
-						<sectionHeadingLayout xmlns="java:org.metawidget.swing.layout"/>
-						<gridBagLayout xmlns="java:org.metawidget.swing.layout"/>
-					</array>
-				</layouts>
-			</compositeLayout>
+			<gridBagLayout xmlns="java:org.metawidget.swing.layout"/>
 		</metawidgetLayout>
 		
 	</swingMetawidget>

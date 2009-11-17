@@ -185,7 +185,7 @@ public class HtmlTableLayout
 		}
 	}
 
-	public Tag layoutChild( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	public void layoutChild( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
 		try
 		{
@@ -198,7 +198,7 @@ public class HtmlTableLayout
 				// Ignore empty stubs
 
 				if ( literal == null || literal.isEmpty() )
-					return null;
+					return;
 			}
 			else
 			{
@@ -219,7 +219,7 @@ public class HtmlTableLayout
 
 				state.hiddenFields.add( literal );
 
-				return null;
+				return;
 			}
 
 			// Write child normally
@@ -228,8 +228,6 @@ public class HtmlTableLayout
 			layoutBeforeChild( tag, elementName, attributes, metawidgetTag );
 			writer.write( literal );
 			layoutAfterChild( attributes, metawidgetTag );
-
-			return null;
 		}
 		catch ( Exception e )
 		{

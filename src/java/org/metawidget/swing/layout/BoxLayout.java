@@ -47,17 +47,15 @@ public class BoxLayout
 		metawidget.setLayout( new javax.swing.BoxLayout( metawidget, javax.swing.BoxLayout.PAGE_AXIS ) );
 	}
 
-	public JComponent layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
-			return null;
+			return;
 
 		// Add to the Metawidget
 
 		metawidget.add( component );
-
-		return null;
 	}
 }

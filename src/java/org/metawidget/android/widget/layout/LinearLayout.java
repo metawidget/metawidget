@@ -73,12 +73,12 @@ public class LinearLayout
 		metawidget.putClientProperty( LinearLayout.class, null );
 	}
 
-	public View layoutChild( View view, String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
+	public void layoutChild( View view, String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
 	{
 		// Ignore empty Stubs
 
 		if ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 )
-			return null;
+			return;
 
 		ViewGroup viewToAddTo = getViewToAddTo( metawidget );
 
@@ -114,8 +114,6 @@ public class LinearLayout
 		// View
 
 		layoutView( view, viewToAddTo, metawidget, needsLabel );
-
-		return null;
 	}
 
 	public void onEndBuild( AndroidMetawidget metawidget )

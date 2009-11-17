@@ -62,7 +62,7 @@ public interface WidgetProcessor<W, M extends W>
 	 * @return generally the original widget (as passed in to the first argument). Can be a
 	 *         different widget if the WidgetProcessor wishes to substitute the original widget for
 	 *         another. Can be null if the WidgetProcessor wishes to cancel all further processing
-	 *         of this widget
+	 *         of this widget (including laying out)
 	 */
 
 	W processWidget( W widget, String elementName, Map<String, String> attributes, M metawidget );

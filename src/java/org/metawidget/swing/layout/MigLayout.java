@@ -111,12 +111,12 @@ public class MigLayout
 		state.defaultLabelVerticalPadding = (int) Math.max( 0, Math.floor( ( dummyTextFieldHeight - dummyLabelHeight ) / 2 ) );
 	}
 
-	public JComponent layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
-			return null;
+			return;
 
 		// Special support for large components
 
@@ -179,8 +179,6 @@ public class MigLayout
 			state.currentColumn = 0;
 			state.currentRow++;
 		}
-
-		return null;
 	}
 
 	public void onEndBuild( SwingMetawidget metawidget )

@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.layout;
+package org.metawidget.swing.widgetprocessor.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -24,17 +24,17 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.metawidget.layout.impl.BaseLayout;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
  * @author Richard Kennard
  */
 
-public class JTabbedPaneLayout
-	extends BaseLayout<JComponent, SwingMetawidget>
+public class TabbedPaneProcessor
+	extends BaseWidgetProcessor<JComponent, SwingMetawidget>
 {
 	//
 	// Public methods
@@ -43,10 +43,10 @@ public class JTabbedPaneLayout
 	@Override
 	public void onStartBuild( SwingMetawidget metawidget )
 	{
-		metawidget.putClientProperty( JTabbedPaneLayout.class, null );
+		metawidget.putClientProperty( TabbedPaneProcessor.class, null );
 	}
 
-	public JComponent layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public JComponent processWidget( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 	{
 		String section = attributes.remove( SECTION );
 
@@ -126,12 +126,12 @@ public class JTabbedPaneLayout
 
 	private State getState( SwingMetawidget metawidget )
 	{
-		State state = (State) metawidget.getClientProperty( JTabbedPaneLayout.class );
+		State state = (State) metawidget.getClientProperty( TabbedPaneProcessor.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( JTabbedPaneLayout.class, state );
+			metawidget.putClientProperty( TabbedPaneProcessor.class, state );
 		}
 
 		return state;
@@ -150,7 +150,7 @@ public class JTabbedPaneLayout
 
 		// TODO: maybe use client props instead of stub wrapping?
 
-		State state = (State) metawidget.getClientProperty( JTabbedPaneLayout.class );
+		State state = (State) metawidget.getClientProperty( TabbedPaneProcessor.class );
 		state.nestedMetawidget.add( stub );
 	}
 

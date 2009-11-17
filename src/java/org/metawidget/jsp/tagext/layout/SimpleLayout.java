@@ -42,14 +42,12 @@ public class SimpleLayout
 	// Public methods
 	//
 
-	public Tag layoutChild( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	public void layoutChild( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
 		try
 		{
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 			writer.write( JspUtils.writeTag( metawidgetTag.getPageContext(), tag, metawidgetTag, null ));
-
-			return null;
 		}
 		catch ( Exception e )
 		{

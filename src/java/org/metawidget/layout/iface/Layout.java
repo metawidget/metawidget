@@ -55,12 +55,20 @@ public interface Layout<W, M extends W>
 	 *            attributes of the widget to layout. Never null
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
-	 * @return generally the original widget (as passed in to the first argument). Can be a
-	 *         different widget if the Layout wishes to substitute the original widget for another.
-	 *         Can be null if the Layout wishes to cancel all further laying out of this widget
 	 */
 
-	W layoutChild( W widget, String elementName, Map<String, String> attributes, M metawidget );
+	// Note: we explored having layoutChild return W (see SVN), and then having a CompositeLayout
+	// class which could combine multiple Layouts such as a TabbedPaneLayout and a GridBagLayout.
+	// This was problematic because:
+	//
+	// 1. Layouts tend to have side effects (ie. they add widgets to themselves) so it wasn't
+	// clear what should happen if someone tries to combine, say, a GridBagLayout with a MigLayout.
+	// 2. each Layout generally expects itself to be the 'end point' of the pipeline.
+	// 3. returning W makes the Layout interface identical to the WidgetProcessor interface.
+	//
+	// So instead we simply made TabbedPaneLayout into TabbedPaneProcessor
+	//
+	void layoutChild( W widget, String elementName, Map<String, String> attributes, M metawidget );
 
 	/**
 	 * Event called at the end of widget building, after all widgets have been built and added to

@@ -593,6 +593,8 @@ public class SwingMetawidget
 			// immediately after a 'setToInspect'. See
 			// SwingMetawidgetTest.testNestedWithManualInspector
 
+			// TODO: still work after JTabbedPaneLayout?
+
 			if ( topComponent instanceof SwingMetawidget )
 				( (SwingMetawidget) topComponent ).buildWidgets();
 
