@@ -879,10 +879,12 @@ public abstract class UIMetawidget
 
 			// Stubs
 
-			if ( component instanceof UIStub )
-				childAttributes.putAll( ( mMetawidgetMixin ).getStubAttributes( component ) );
+			Map<String, String> additionalAttributes = mMetawidgetMixin.getAdditionalAttributes( component );
 
-			mMetawidgetMixin.getLayout().layoutChild( component, PROPERTY, childAttributes, this );
+			if ( additionalAttributes != null )
+				childAttributes.putAll( additionalAttributes );
+
+			mMetawidgetMixin.getLayout().layoutWidget( component, PROPERTY, childAttributes, this, this );
 		}
 	}
 
@@ -925,15 +927,12 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected boolean isStub( UIComponent widget )
+		protected Map<String, String> getAdditionalAttributes( UIComponent widget )
 		{
-			return ( widget instanceof UIStub );
-		}
+			if ( widget instanceof UIStub )
+				return ( (UIStub) widget ).getStubAttributes();
 
-		@Override
-		protected Map<String, String> getStubAttributes( UIComponent stub )
-		{
-			return ( (UIStub) stub ).getStubAttributes();
+			return null;
 		}
 
 		@Override

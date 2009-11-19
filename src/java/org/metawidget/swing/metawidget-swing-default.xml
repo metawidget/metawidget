@@ -43,12 +43,15 @@
 		<widgetProcessors>
 			<array>
 				<reflectionBindingProcessor xmlns="java:org.metawidget.swing.widgetprocessor.binding.reflection"/>
-				<tabbedPaneProcessor xmlns="java:org.metawidget.swing.widgetprocessor.layout"/>
 			</array>
 		</widgetProcessors>
 		
 		<metawidgetLayout>
-			<gridBagLayout xmlns="java:org.metawidget.swing.layout"/>
+			<separatorSectionLayout xmlns="java:org.metawidget.swing.layout" config="org.metawidget.layout.delegate.DelegateLayoutConfig">
+				<layout>
+					<gridBagLayout />
+				</layout>
+			</separatorSectionLayout>			
 		</metawidgetLayout>
 		
 	</swingMetawidget>

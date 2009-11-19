@@ -69,13 +69,13 @@ public class RichFacesLayout
 	//
 
 	@Override
-	public void onStartBuild( UIMetawidget metawidget )
+	public void startLayout( UIComponent container, UIMetawidget metawidget )
 	{
 		metawidget.putClientProperty( RichFacesLayout.class, null );
 	}
 
 	@Override
-	public void layoutChild( UIComponent widget, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
+	public void layoutWidget( UIComponent widget, String elementName, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget )
 	{
 		State state = getState( metawidget );
 

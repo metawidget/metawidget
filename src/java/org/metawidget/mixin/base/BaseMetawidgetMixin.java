@@ -135,8 +135,8 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	 * CompositeInspector and CompositeWidgetBuilder to support multiples, which allows the
 	 * combination algorithm itself to be pluggable.
 	 * <p>
-	 * We use a List of InspectionResultProcessors, however, so as to be consistent
-	 * with WidgetProcessors. Note ordering of InspectionResultProcessors is significant.
+	 * We use a List of InspectionResultProcessors, however, so as to be consistent with
+	 * WidgetProcessors. Note ordering of InspectionResultProcessors is significant.
 	 */
 
 	public List<InspectionResultProcessor<E, M>> getInspectionResultProcessors()
@@ -402,13 +402,11 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 				widget = buildNestedMetawidget( attributes );
 			}
-			else if ( isStub( widget ) )
-			{
-				Map<String, String> stubAttributes = getStubAttributes( widget );
 
-				if ( stubAttributes != null )
-					attributes.putAll( stubAttributes );
-			}
+			Map<String, String> additionalAttributes = getAdditionalAttributes( widget );
+
+			if ( additionalAttributes != null )
+				attributes.putAll( additionalAttributes );
 
 			widget = processWidget( widget, elementName, attributes );
 
@@ -441,16 +439,18 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	protected void startBuild()
 	{
+		M mixinOwner = getMixinOwner();
+
 		if ( mWidgetProcessors != null )
 		{
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				widgetProcessor.onStartBuild( getMixinOwner() );
+				widgetProcessor.onStartBuild( mixinOwner );
 			}
 		}
 
 		if ( mLayout != null )
-			mLayout.onStartBuild( getMixinOwner() );
+			mLayout.startLayout( mixinOwner, mixinOwner );
 	}
 
 	protected E processInspectionResult( E inspectionResult )
@@ -459,9 +459,11 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 		if ( mInspectionResultProcessors != null )
 		{
+			M mixinOwner = getMixinOwner();
+
 			for ( InspectionResultProcessor<E, M> inspectionResultProcessor : mInspectionResultProcessors )
 			{
-				processedInspectionResult = inspectionResultProcessor.processInspectionResult( processedInspectionResult, getMixinOwner() );
+				processedInspectionResult = inspectionResultProcessor.processInspectionResult( processedInspectionResult, mixinOwner );
 
 				// An InspectionResultProcessor could return null to cancel the inspection
 
@@ -473,9 +475,16 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 		return processedInspectionResult;
 	}
 
-	protected abstract boolean isStub( W widget );
+	/**
+	 * Returns additional attributes associated with the widget.
+	 * <p>
+	 * At the very least, this method should be implemented to support returning additional
+	 * attributes from stubs.
+	 *
+	 * @return the additional attributes. May be null
+	 */
 
-	protected abstract Map<String, String> getStubAttributes( W stub );
+	protected abstract Map<String, String> getAdditionalAttributes( W widget );
 
 	protected W buildWidget( String elementName, Map<String, String> attributes )
 	{
@@ -499,9 +508,11 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 		if ( mWidgetProcessors != null )
 		{
+			M mixinOwner = getMixinOwner();
+
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				processedWidget = widgetProcessor.processWidget( processedWidget, elementName, attributes, getMixinOwner() );
+				processedWidget = widgetProcessor.processWidget( processedWidget, elementName, attributes, mixinOwner );
 
 				// A WidgetProcessor could return null to cancel the widget
 
@@ -521,20 +532,25 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	protected void addWidget( W widget, String elementName, Map<String, String> attributes )
 	{
 		if ( mLayout != null )
-			mLayout.layoutChild( widget, elementName, attributes, getMixinOwner() );
+		{
+			M mixinOwner = getMixinOwner();
+			mLayout.layoutWidget( widget, elementName, attributes, mixinOwner, mixinOwner );
+		}
 	}
 
 	protected void endBuild()
 	{
+		M mixinOwner = getMixinOwner();
+
 		if ( mWidgetProcessors != null )
 		{
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				widgetProcessor.onEndBuild( getMixinOwner() );
+				widgetProcessor.onEndBuild( mixinOwner );
 			}
 		}
 
 		if ( mLayout != null )
-			mLayout.onEndBuild( getMixinOwner() );
+			mLayout.endLayout( mixinOwner, mixinOwner );
 	}
 }

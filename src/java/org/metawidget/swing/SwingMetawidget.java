@@ -69,13 +69,13 @@ public class SwingMetawidget
 	// Private statics
 	//
 
-	private final static long			serialVersionUID	= 1l;
+	private final static long			serialVersionUID			= 1l;
 
-	private final static ConfigReader	CONFIG_READER		= new ConfigReader();
+	private final static ConfigReader	CONFIG_READER				= new ConfigReader();
 
-	private final static String			DEFAULT_CONFIG		= "org/metawidget/swing/metawidget-swing-default.xml";
+	private final static String			DEFAULT_CONFIG				= "org/metawidget/swing/metawidget-swing-default.xml";
 
-	private final static Stroke			STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
+	private final static Stroke			STROKE_DOTTED				= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
 	// Private members
@@ -87,7 +87,7 @@ public class SwingMetawidget
 
 	private String						mConfig;
 
-	private boolean						mNeedsConfiguring	= true;
+	private boolean						mNeedsConfiguring			= true;
 
 	private ResourceBundle				mBundle;
 
@@ -103,7 +103,7 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<JComponent>			mExistingComponents	= CollectionUtils.newArrayList();
+	private List<JComponent>			mExistingComponents			= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -113,7 +113,7 @@ public class SwingMetawidget
 
 	private List<JComponent>			mExistingUnusedComponents;
 
-	private Map<String, Facet>			mFacets				= CollectionUtils.newHashMap();
+	private Map<String, Facet>			mFacets						= CollectionUtils.newHashMap();
 
 	private SwingMetawidgetMixin		mMetawidgetMixin;
 
@@ -593,8 +593,6 @@ public class SwingMetawidget
 			// immediately after a 'setToInspect'. See
 			// SwingMetawidgetTest.testNestedWithManualInspector
 
-			// TODO: still work after JTabbedPaneLayout?
-
 			if ( topComponent instanceof SwingMetawidget )
 				( (SwingMetawidget) topComponent ).buildWidgets();
 
@@ -619,9 +617,6 @@ public class SwingMetawidget
 
 			if ( topComponent == null )
 				throw MetawidgetException.newException( "No such component '" + name + "' of '" + ArrayUtils.toString( names, "', '" ) + "'" );
-
-			if ( !( topComponent instanceof Container ) )
-				throw MetawidgetException.newException( "'" + name + "' is not a Container" );
 		}
 
 		return (T) topComponent;
@@ -914,13 +909,11 @@ public class SwingMetawidget
 
 			add( component );
 		}
-		else if ( component instanceof Stub )
-		{
-			Map<String, String> stubAttributes = ( (Stub) component ).getAttributes();
 
-			if ( stubAttributes != null )
-				attributes.putAll( stubAttributes );
-		}
+		Map<String, String> additionalAttributes = mMetawidgetMixin.getAdditionalAttributes( (JComponent) component );
+
+		if ( additionalAttributes != null )
+			attributes.putAll( additionalAttributes );
 
 		// BaseMetawidgetMixin will call .layoutChild
 	}
@@ -938,19 +931,24 @@ public class SwingMetawidget
 				if ( componentExisting instanceof Facet )
 					continue;
 
-				Map<String, String> miscAttributes = CollectionUtils.newHashMap();
-
 				// Manually created components default to no section
 
-				miscAttributes.put( SECTION, "" );
+				Map<String, String> attributes = CollectionUtils.newHashMap();
+				attributes.put( SECTION, "" );
 
-				if ( componentExisting instanceof Stub )
-					miscAttributes.putAll( ( (Stub) componentExisting ).getAttributes() );
+				// May have other attributes too
+
+				Map<String, String> additionalAttributes = mMetawidgetMixin.getAdditionalAttributes( componentExisting );
+
+				if ( additionalAttributes != null )
+					attributes.putAll( additionalAttributes );
+
+				// Support null layouts
 
 				if ( layout == null )
 					add( componentExisting );
 				else
-					layout.layoutChild( componentExisting, PROPERTY, miscAttributes, this );
+					layout.layoutWidget( componentExisting, PROPERTY, attributes, this, this );
 			}
 		}
 	}
@@ -1037,15 +1035,12 @@ public class SwingMetawidget
 		}
 
 		@Override
-		protected boolean isStub( JComponent component )
+		protected Map<String, String> getAdditionalAttributes( JComponent component )
 		{
-			return ( component instanceof Stub );
-		}
+			if ( component instanceof Stub )
+				return ( (Stub) component ).getAttributes();
 
-		@Override
-		protected Map<String, String> getStubAttributes( JComponent stub )
-		{
-			return ( (Stub) stub ).getAttributes();
+			return null;
 		}
 
 		@Override

@@ -47,7 +47,6 @@
 						<genderConverter xmlns="java:org.metawidget.example.swing.addressbook.converter"/>
 					</converter>
 				</beansBindingProcessor>
-				<tabbedPaneProcessor xmlns="java:org.metawidget.swing.widgetprocessor.layout"/>
 			</array>
 		</widgetProcessors>		
 	</swingMetawidget>

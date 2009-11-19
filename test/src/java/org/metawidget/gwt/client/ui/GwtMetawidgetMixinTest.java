@@ -85,13 +85,7 @@ public class GwtMetawidgetMixinTest
 		}
 
 		@Override
-		protected boolean isStub( Object widget )
-		{
-			return false;
-		}
-
-		@Override
-		protected Map<String, String> getStubAttributes( Object stub )
+		protected Map<String, String> getAdditionalAttributes( Object stub )
 		{
 			return null;
 		}

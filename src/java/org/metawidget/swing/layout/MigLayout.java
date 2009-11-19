@@ -70,10 +70,10 @@ public class MigLayout
 	// Public methods
 	//
 
-	public void onStartBuild( SwingMetawidget metawidget )
+	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		metawidget.putClientProperty( MigLayout.class, null );
-		State state = getState( metawidget );
+		container.putClientProperty( MigLayout.class, null );
+		State state = getState( container );
 
 		// The entire layout should fill both horizontally and vertically,
 		// with no insets. This allows us to be properly nested, as well as
@@ -91,7 +91,7 @@ public class MigLayout
 		// what the components will be in advance. Rather, we use 'cell' and 'push'
 
 		java.awt.LayoutManager layoutManager = new net.miginfocom.swing.MigLayout( layoutConstraints );
-		metawidget.setLayout( layoutManager );
+		container.setLayout( layoutManager );
 
 		// Calculate default label inset
 		//
@@ -111,7 +111,7 @@ public class MigLayout
 		state.defaultLabelVerticalPadding = (int) Math.max( 0, Math.floor( ( dummyTextFieldHeight - dummyLabelHeight ) / 2 ) );
 	}
 
-	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
@@ -120,7 +120,7 @@ public class MigLayout
 
 		// Special support for large components
 
-		State state = getState( metawidget );
+		State state = getState( container );
 		boolean spanAllColumns = ( component instanceof JScrollPane || component instanceof SwingMetawidget || LayoutUtils.isSpanAllColumns( attributes ) );
 
 		if ( spanAllColumns && state.currentColumn > 0 )
@@ -136,7 +136,7 @@ public class MigLayout
 		if ( attributes != null )
 			labelText = metawidget.getLabelString( attributes );
 
-		layoutBeforeChild( component, labelText, elementName, attributes, metawidget );
+		layoutBeforeChild( component, labelText, elementName, attributes, container, metawidget );
 
 		// ...and layout the component
 
@@ -162,15 +162,15 @@ public class MigLayout
 
 		// Assume JScrollPanes should grow vertically
 
-		if ( component instanceof JScrollPane )
+		if ( willFillVertically( component, attributes ) )
 		{
 			componentConstraints.growY();
-			( (LC) ( (net.miginfocom.swing.MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).fill();
+			( (LC) ( (net.miginfocom.swing.MigLayout) container.getLayout() ).getLayoutConstraints() ).fill();
 		}
 
 		// Add it
 
-		metawidget.add( component, componentConstraints );
+		container.add( component, componentConstraints );
 
 		state.currentColumn++;
 
@@ -181,23 +181,26 @@ public class MigLayout
 		}
 	}
 
-	public void onEndBuild( SwingMetawidget metawidget )
+	public void endLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		// Buttons
 
-		Facet buttonsFacet = metawidget.getFacet( "buttons" );
-
-		if ( buttonsFacet != null )
+		if ( container.equals( metawidget ))
 		{
-			State state = getState( metawidget );
+			Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
-			if ( state.currentColumn > 0 )
+			if ( buttonsFacet != null )
 			{
-				state.currentColumn = 0;
-				state.currentRow++;
-			}
+				State state = getState( metawidget );
 
-			metawidget.add( buttonsFacet, new CC().cell( 0, state.currentRow ).spanX().growX() );
+				if ( state.currentColumn > 0 )
+				{
+					state.currentColumn = 0;
+					state.currentRow++;
+				}
+
+				metawidget.add( buttonsFacet, new CC().cell( 0, state.currentRow ).spanX().growX() );
+			}
 		}
 	}
 
@@ -205,9 +208,9 @@ public class MigLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Component component, String labelText, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	protected String layoutBeforeChild( Component component, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
-		State state = getState( metawidget );
+		State state = getState( container );
 
 		// Add label
 
@@ -238,24 +241,35 @@ public class MigLayout
 
 			// Add it
 
-			metawidget.add( label, labelConstraints );
+			container.add( label, labelConstraints );
 		}
 
 		return labelText;
+	}
+
+	protected boolean willFillVertically( JComponent component, Map<String, String> attributes )
+	{
+		if ( attributes != null && TRUE.equals( attributes.get( LARGE )))
+			return true;
+
+		if ( component instanceof JScrollPane )
+			return true;
+
+		return false;
 	}
 
 	//
 	// Private methods
 	//
 
-	private State getState( SwingMetawidget metawidget )
+	private State getState( JComponent container )
 	{
-		State state = (State) metawidget.getClientProperty( MigLayout.class );
+		State state = (State) container.getClientProperty( MigLayout.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( MigLayout.class, state );
+			container.putClientProperty( MigLayout.class, state );
 		}
 
 		return state;

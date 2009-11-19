@@ -35,17 +35,24 @@ public interface Layout<W, M extends W>
 	//
 
 	/**
+	 * Initialise the given container, using the given Metawidget to access additional services if needed (such as state saving)
+	 * <p>
 	 * Event called at the start of the widget building process, before the
 	 * <code>WidgetBuilder</code> is called. <code>Layout</code>s may wish to act on this event to
 	 * initialize themselves ready for processing.
 	 *
+	 * @param container
+	 *            the container to layout. This is often the same as the given Metawidget
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
 	 */
 
-	void onStartBuild( M metawidget );
+	void startLayout( W container, M metawidget );
 
 	/**
+	 * Layout the given widget within the given container, using the given elementName and attributes
+	 * as a guide and the given Metawidget to access additional services if needed (such as state saving)
+	 *
 	 * @param widget
 	 *            the widget to layout. Never null
 	 * @param elementName
@@ -53,8 +60,10 @@ public interface Layout<W, M extends W>
 	 *            Never null
 	 * @param attributes
 	 *            attributes of the widget to layout. Never null
+	 * @param container
+	 *            the container to layout. This is often the same as the given Metawidget
 	 * @param metawidget
-	 *            the parent Metawidget. Never null
+	 *            the Metawidget to use to access additional services. Never null
 	 */
 
 	// Note: we explored having layoutChild return W (see SVN), and then having a CompositeLayout
@@ -66,18 +75,25 @@ public interface Layout<W, M extends W>
 	// 2. each Layout generally expects itself to be the 'end point' of the pipeline.
 	// 3. returning W makes the Layout interface identical to the WidgetProcessor interface.
 	//
-	// So instead we simply made TabbedPaneLayout into TabbedPaneProcessor
+	// We tried instead making TabbedPaneLayout into TabbedPaneProcessor (see SVN). This was also
+	// problematic because:
 	//
-	void layoutChild( W widget, String elementName, Map<String, String> attributes, M metawidget );
+	// 1. Nested sections had to be handled as nested, partially-initalised Metawidgets which could
+	// then use their chosen Layout (eg. GridBagLayout)
+	// 2. Attributes for the components had to be attached somehow (ie. putClientProperty)
+	// 3. elementNames for the components had to be attached somehow
+	// 4. It 'felt' weird having a WidgetProcessor doing Layout stuff
+	//
+	void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget );
 
 	/**
-	 * Event called at the end of widget building, after all widgets have been built and added to
-	 * the <code>Layout</code>. <code>Layout</code>s may wish to act on this event to clean
-	 * themselves up after processing.
+	 * Finish the given container, using the given Metawidget to access additional services if needed (such as state saving)
 	 *
+	 * @param container
+	 *            the container to layout. This is often the same as the given Metawidget
 	 * @param metawidget
-	 *            the parent Metawidget. Never null
+	 *            the Metawidget to use to access additional services. Never null
 	 */
 
-	void onEndBuild( M metawidget );
+	void endLayout( W container, M metawidget );
 }

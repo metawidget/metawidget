@@ -1257,7 +1257,17 @@ public class ConfigReader
 					Constructor<?>[] constructors = classToConstruct.getConstructors();
 
 					if ( constructors.length == 1 && constructors[0].getParameterTypes().length == 1 )
-						throw MetawidgetException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + ClassUtils.getSimpleName( constructors[0].getParameterTypes()[0] ) + "\"?" );
+					{
+						Class<?> likelyConfigClass = constructors[0].getParameterTypes()[0];
+						String likelyConfig;
+
+						if ( likelyConfigClass.getPackage().equals( classToConstruct.getPackage() ) )
+							likelyConfig = ClassUtils.getSimpleName( likelyConfigClass );
+						else
+							likelyConfig = likelyConfigClass.getName();
+
+						throw MetawidgetException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + likelyConfig + "\"?" );
+					}
 
 					throw MetawidgetException.newException( classToConstruct + " does not have a default constructor" );
 				}
@@ -1598,7 +1608,7 @@ public class ConfigReader
 				if ( obj == null )
 					buffer.append( "null" );
 				else
-					buffer.append( obj.getClass().getName() );
+					buffer.append( ClassUtils.getSimpleName( obj.getClass() ));
 			}
 
 			buffer.insert( 0, "(" );

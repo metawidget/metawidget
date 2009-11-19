@@ -678,7 +678,7 @@ public class AndroidMetawidget
 
 			for ( View viewExisting : mExistingUnusedViewsUnused )
 			{
-				layout.layoutChild( viewExisting, PROPERTY, noAttributes, this );
+				layout.layoutWidget( viewExisting, PROPERTY, noAttributes, this, this );
 			}
 		}
 
@@ -872,15 +872,12 @@ public class AndroidMetawidget
 		}
 
 		@Override
-		protected boolean isStub( View view )
+		protected Map<String, String> getAdditionalAttributes( View view )
 		{
-			return ( view instanceof Stub );
-		}
+			if ( view instanceof Stub )
+				return ( (Stub) view ).getAttributes();
 
-		@Override
-		protected Map<String, String> getStubAttributes( View stub )
-		{
-			return ( (Stub) stub ).getAttributes();
+			return null;
 		}
 
 		@Override

@@ -200,17 +200,10 @@ public class MetawidgetMixinTest
 			}
 
 			@Override
-			protected Map<String, String> getStubAttributes( Object stub )
+			protected Map<String, String> getAdditionalAttributes( Object widget )
 			{
 				called.add( "nullAttributes" );
 				return null;
-			}
-
-			@Override
-			protected boolean isStub( Object widget )
-			{
-				called.add( "wasStub" );
-				return true;
 			}
 		};
 
@@ -231,11 +224,10 @@ public class MetawidgetMixinTest
 
 		mixin.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" ).getFirstChild() );
 
-		assertTrue( called.size() == 4 );
+		assertTrue( called.size() == 3 );
 		assertTrue( "buildCompoundWidget".equals( called.get( 0 ) ) );
-		assertTrue( "wasStub".equals( called.get( 1 ) ) );
-		assertTrue( "nullAttributes".equals( called.get( 2 ) ) );
-		assertTrue( "addWidget".equals( called.get( 3 ) ) );
+		assertTrue( "nullAttributes".equals( called.get( 1 ) ) );
+		assertTrue( "addWidget".equals( called.get( 2 ) ) );
 	}
 
 	//
@@ -279,13 +271,7 @@ public class MetawidgetMixinTest
 		}
 
 		@Override
-		protected boolean isStub( Object widget )
-		{
-			return false;
-		}
-
-		@Override
-		protected Map<String, String> getStubAttributes( Object stub )
+		protected Map<String, String> getAdditionalAttributes( Object widget )
 		{
 			return null;
 		}

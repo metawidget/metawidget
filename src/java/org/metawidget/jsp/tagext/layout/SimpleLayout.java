@@ -42,7 +42,7 @@ public class SimpleLayout
 	// Public methods
 	//
 
-	public void layoutChild( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, Tag container, MetawidgetTag metawidgetTag )
 	{
 		try
 		{

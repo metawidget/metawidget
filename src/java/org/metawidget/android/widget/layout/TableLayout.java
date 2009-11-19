@@ -59,9 +59,9 @@ public class TableLayout
 	//
 
 	@Override
-	public void onEndBuild( AndroidMetawidget metawidget )
+	public void endLayout( View container, AndroidMetawidget metawidget )
 	{
-		super.onEndBuild( metawidget );
+		super.endLayout( container, metawidget );
 
 		// If the TableLayout was never used, just put an empty space
 

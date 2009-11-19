@@ -85,7 +85,7 @@ public class FlexTableLayout
 	//
 
 	@Override
-	public void onStartBuild( GwtMetawidget metawidget )
+	public void startLayout( Widget widget, GwtMetawidget metawidget )
 	{
 		metawidget.putClientProperty( FlexTableLayout.class, null );
 
@@ -97,7 +97,7 @@ public class FlexTableLayout
 		state.formatter = flexTable.getFlexCellFormatter();
 	}
 
-	public void layoutChild( Widget widget, String elementName, Map<String, String> attributes, GwtMetawidget metawidget )
+	public void layoutWidget( Widget widget, String elementName, Map<String, String> attributes, Widget container, GwtMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
@@ -242,7 +242,7 @@ public class FlexTableLayout
 	}
 
 	@Override
-	public void onEndBuild( GwtMetawidget metawidget )
+	public void endLayout( Widget widget, GwtMetawidget metawidget )
 	{
 		Facet facet = metawidget.getFacet( "buttons" );
 

@@ -14,30 +14,58 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.layout.impl;
+package org.metawidget.layout.delegate;
 
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Convenience implementation.
+ * Configures a DelegateLayout prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public abstract class BaseLayout<W, M extends W>
-	implements Layout<W, M>
+public class DelegateLayoutConfig<W, M extends W>
 {
+	//
+	// Private members
+	//
+
+	private Layout<W, M>	mLayout;
+
 	//
 	// Public methods
 	//
 
-	public void startLayout( W conainer, M metawidget )
+	public Layout<W, M> getLayout()
 	{
-		// Do nothing
+		return mLayout;
 	}
 
-	public void endLayout( W conainer, M metawidget )
+	/**
+	 * @return this, as part of a fluent interface
+	 */
+
+	public DelegateLayoutConfig<W, M> setLayout( Layout<W, M> layout )
 	{
-		// Do nothing
+		mLayout = layout;
+
+		return this;
+	}
+
+	@SuppressWarnings( "unchecked" )
+	@Override
+	public boolean equals( Object that )
+	{
+		if ( !( that instanceof DelegateLayoutConfig ) )
+			return false;
+
+		return ( ObjectUtils.nullSafeEquals( mLayout, ( (DelegateLayoutConfig<W, M>) that ).mLayout ) );
+	}
+
+	@Override
+	public int hashCode()
+	{
+		return ObjectUtils.nullSafeHashCode( mLayout );
 	}
 }

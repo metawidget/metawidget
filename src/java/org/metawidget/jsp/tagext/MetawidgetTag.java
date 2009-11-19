@@ -535,15 +535,12 @@ public abstract class MetawidgetTag
 		//
 
 		@Override
-		protected boolean isStub( Tag widget )
+		protected Map<String, String> getAdditionalAttributes( Tag tag )
 		{
-			return ( widget instanceof StubTag );
-		}
+			if ( tag instanceof StubTag )
+				return ( (StubTag) tag ).getAttributesMap();
 
-		@Override
-		protected Map<String, String> getStubAttributes( Tag stub )
-		{
-			return ( (StubTag) stub ).getAttributesMap();
+			return null;
 		}
 
 		@Override

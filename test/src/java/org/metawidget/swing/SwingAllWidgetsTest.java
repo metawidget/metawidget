@@ -34,6 +34,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSlider;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
@@ -44,10 +45,12 @@ import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.metawidget.iface.MetawidgetException;
+import org.metawidget.layout.delegate.DelegateLayoutConfig;
 import org.metawidget.shared.allwidgets.model.AllWidgets;
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
+import org.metawidget.swing.layout.SeparatorSectionLayout;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -116,7 +119,8 @@ public class SwingAllWidgetsTest
 		metawidget.addWidgetProcessor( processor );
 		metawidget.addWidgetProcessor( new ReflectionBindingProcessor() );
 		metawidget.setConfig( "org/metawidget/swing/allwidgets/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) );
+		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new DelegateLayoutConfig<JComponent, SwingMetawidget>().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
+
 		metawidget.setToInspect( allWidgets );
 
 		metawidget.add( new Stub( "mystery" ) );
@@ -441,11 +445,10 @@ public class SwingAllWidgetsTest
 		assertTrue( dateFormat.format( allWidgets.getDate() ).equals( metawidget.getValue( "date" ) ) );
 		( (JTextField) metawidget.getComponent( 57 ) ).setText( "bad date" );
 
-		assertTrue( metawidget.getComponent( 58 ) instanceof JPanel );
-		assertTrue( GridBagConstraints.CENTER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).anchor );
-		assertTrue( GridBagConstraints.HORIZONTAL == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).fill );
+		JPanel separatorPanel = (JPanel) metawidget.getComponent( 58 );
+		assertTrue( "Section Break".equals( ((JLabel) separatorPanel.getComponent( 0 )).getText() ) );
 		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 58 ) ).gridwidth );
-		assertTrue( "Section Break".equals( ( (JLabel) ( (JPanel) metawidget.getComponent( 58 ) ).getComponent( 0 ) ).getText() ) );
+		assertTrue( separatorPanel.getComponent( 1 ) instanceof JSeparator );
 
 		assertTrue( "Read only:".equals( ( (JLabel) metawidget.getComponent( 59 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 60 ) instanceof JLabel );

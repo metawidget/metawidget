@@ -68,12 +68,12 @@ public class LinearLayout
 	// Public methods
 	//
 
-	public void onStartBuild( AndroidMetawidget metawidget )
+	public void startLayout( View container, AndroidMetawidget metawidget )
 	{
 		metawidget.putClientProperty( LinearLayout.class, null );
 	}
 
-	public void layoutChild( View view, String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
+	public void layoutWidget( View view, String elementName, Map<String, String> attributes, View container, AndroidMetawidget metawidget )
 	{
 		// Ignore empty Stubs
 
@@ -116,7 +116,7 @@ public class LinearLayout
 		layoutView( view, viewToAddTo, metawidget, needsLabel );
 	}
 
-	public void onEndBuild( AndroidMetawidget metawidget )
+	public void endLayout( View container, AndroidMetawidget metawidget )
 	{
 		View viewButtons = metawidget.getFacet( "buttons" );
 

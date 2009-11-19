@@ -38,7 +38,8 @@ public interface WidgetProcessor<W, M extends W>
 	/**
 	 * Event called at the start of the widget building process, before the
 	 * <code>WidgetBuilder</code> is called. <code>WidgetProcessor</code>s may wish to act on this
-	 * event to initialize themselves ready for processing.
+	 * event to initialize themselves ready for processing. This event is only called once per
+	 * inspection, not once per widget built.
 	 *
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
@@ -56,7 +57,8 @@ public interface WidgetProcessor<W, M extends W>
 	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
 	 *            Never null
 	 * @param attributes
-	 *            attributes of the widget to layout. Never null
+	 *            attributes of the widget to layout. Never null. This Map is modifiable - changes
+	 *            with be passed to subsequent WidgetProcessors and Layouts
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
 	 * @return generally the original widget (as passed in to the first argument). Can be a
@@ -70,7 +72,8 @@ public interface WidgetProcessor<W, M extends W>
 	/**
 	 * Event called at the end of widget building, after all widgets have been built and added to
 	 * the <code>Layout</code>. <code>WidgetProcessor</code>s may wish to act on this event to clean
-	 * themselves up after processing.
+	 * themselves up after processing. This event is only called once per inspection, not once per
+	 * widget built.
 	 *
 	 * @param metawidget
 	 *            the parent Metawidget. Never null

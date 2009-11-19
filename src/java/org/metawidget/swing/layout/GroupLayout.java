@@ -59,15 +59,15 @@ public class GroupLayout
 	// Public methods
 	//
 
-	public void onStartBuild( SwingMetawidget metawidget )
+	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		javax.swing.GroupLayout groupLayout = new javax.swing.GroupLayout( metawidget );
-		metawidget.setLayout( groupLayout );
+		container.setLayout( groupLayout );
 
 		// Horizontal group
 
-		metawidget.putClientProperty( GroupLayout.class, null );
-		State state = getState( metawidget );
+		container.putClientProperty( GroupLayout.class, null );
+		State state = getState( container );
 		state.groupHorizontal = groupLayout.createParallelGroup();
 		groupLayout.setHorizontalGroup( state.groupHorizontal );
 
@@ -79,7 +79,7 @@ public class GroupLayout
 		groupLayout.setVerticalGroup( state.groupVertical );
 	}
 
-	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
@@ -90,7 +90,7 @@ public class GroupLayout
 
 		// Section headings
 
-		State state = getState( metawidget );
+		State state = getState( container );
 
 		if ( attributes != null )
 		{
@@ -111,7 +111,7 @@ public class GroupLayout
 
 		// Add components
 
-		javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) metawidget.getLayout();
+		javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) container.getLayout();
 		state.groupHorizontal.addGroup( groupLayout.createSequentialGroup().addComponent( label ).addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP ).addComponent( component ) );
 		state.groupVertical.addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );
 		state.groupVertical.addGroup( groupLayout.createParallelGroup( Alignment.BASELINE ).addComponent( label ).addComponent( component ) );
@@ -119,44 +119,43 @@ public class GroupLayout
 		state.labels.add( label );
 	}
 
-	public void onEndBuild( SwingMetawidget metawidget )
+	public void endLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		// Make all labels the same width
 
-		State state = getState( metawidget );
-		javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) metawidget.getLayout();
+		State state = getState( container );
+		javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) container.getLayout();
 
 		if ( !state.labels.isEmpty() )
 			groupLayout.linkSize( SwingConstants.HORIZONTAL, state.labels.toArray( EMPTY_COMPONENTS_ARRAY ) );
 
 		// Buttons
 
-		Facet facetButtons = metawidget.getFacet( "buttons" );
-
-		if ( facetButtons != null )
+		if ( container.equals( metawidget ))
 		{
-			state.groupHorizontal.addGroup( groupLayout.createSequentialGroup().addComponent( facetButtons ) );
-			state.groupVertical.addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );
-			state.groupVertical.addGroup( groupLayout.createParallelGroup( Alignment.BASELINE ).addComponent( facetButtons ) );
+			Facet facetButtons = metawidget.getFacet( "buttons" );
+
+			if ( facetButtons != null )
+			{
+				state.groupHorizontal.addGroup( groupLayout.createSequentialGroup().addComponent( facetButtons ) );
+				state.groupVertical.addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );
+				state.groupVertical.addGroup( groupLayout.createParallelGroup( Alignment.BASELINE ).addComponent( facetButtons ) );
+			}
 		}
 	}
-
-	//
-	// Protected methods
-	//
 
 	//
 	// Private methods
 	//
 
-	private State getState( SwingMetawidget metawidget )
+	private State getState( JComponent container )
 	{
-		State state = (State) metawidget.getClientProperty( GroupLayout.class );
+		State state = (State) container.getClientProperty( GroupLayout.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( GroupLayout.class, state );
+			container.putClientProperty( GroupLayout.class, state );
 		}
 
 		return state;

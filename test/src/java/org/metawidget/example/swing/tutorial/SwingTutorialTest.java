@@ -20,6 +20,7 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -33,9 +34,11 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.layout.delegate.DelegateLayoutConfig;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
+import org.metawidget.swing.layout.SeparatorSectionLayout;
 
 /**
  * @author Richard Kennard
@@ -70,7 +73,8 @@ public class SwingTutorialTest
 		stub.setName( "retired" );
 		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) );
+		// TODO: tutorial will need updating
+		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new DelegateLayoutConfig<JComponent, SwingMetawidget>().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -85,21 +89,18 @@ public class SwingTutorialTest
 		assertTrue( "Notes:".equals( ( (JLabel) metawidget.getComponent( 6 ) ).getText() ) );
 		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 6 ) ) ).gridx );
 		assertTrue( metawidget.getComponent( 7 ) instanceof JScrollPane );
+		assertTrue( 1.0f == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 7 ) ) ).weighty );
 
-		JPanel panel = (JPanel) metawidget.getComponent( 8 );
-		assertTrue( "Work".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
-		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
-		SwingMetawidget nestedMetawidget = (SwingMetawidget) panel.getComponent( 2 );
-		assertTrue( panel.getComponentCount() == 3 );
+		JPanel separatorPanel = (JPanel) metawidget.getComponent( 8 );
+		assertTrue( "Work".equals( ((JLabel) separatorPanel.getComponent( 0 )).getText() ) );
+		assertTrue( separatorPanel.getComponent( 1 ) instanceof JSeparator );
 
-		assertTrue( "Employer:".equals( ( (JLabel) nestedMetawidget.getComponent( 0 ) ).getText() ) );
-		assertTrue( ((Stub) nestedMetawidget.getComponent( 1 )).getComponent( 0 ) instanceof JTextField );
-		assertTrue( "Department:".equals( ( (JLabel) nestedMetawidget.getComponent( 2 ) ).getText() ) );
-		assertTrue( ((Stub) nestedMetawidget.getComponent( 3 )).getComponent( 0 ) instanceof JTextField );
-		assertTrue( nestedMetawidget.getComponent( 4 ) instanceof JPanel );
-		assertTrue( 5 == nestedMetawidget.getComponentCount() );
+		assertTrue( "Employer:".equals( ( (JLabel) metawidget.getComponent( 9 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 10 ) instanceof JTextField );
+		assertTrue( "Department:".equals( ( (JLabel) metawidget.getComponent( 11 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 12 ) instanceof JTextField );
 
-		assertTrue( 9 == metawidget.getComponentCount() );
+		assertTrue( 13 == metawidget.getComponentCount() );
 	}
 
 	public void testSectionAtEnd()
@@ -112,14 +113,14 @@ public class SwingTutorialTest
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JTextField );
 
-		assertTrue( "foo".equals( ( (JLabel) ( (JPanel) metawidget.getComponent( 4 ) ).getComponent( 0 ) ).getText() ) );
-		assertTrue( ( (JPanel) metawidget.getComponent( 4 ) ).getComponent( 1 ) instanceof JSeparator );
-		SwingMetawidget nestedMetawidget = (SwingMetawidget) ( (JPanel) metawidget.getComponent( 4 ) ).getComponent( 2 );
+		JPanel separatorPanel = (JPanel) metawidget.getComponent( 4 );
+		assertTrue( "foo".equals( ((JLabel) separatorPanel.getComponent( 0 )).getText() ) );
+		assertTrue( separatorPanel.getComponent( 1 ) instanceof JSeparator );
 
-		assertTrue( "Retired:".equals( ( (JLabel) nestedMetawidget.getComponent( 0 ) ).getText() ) );
-		assertTrue( ( (Stub) nestedMetawidget.getComponent( 1 ) ).getComponent( 0 ) instanceof JCheckBox );
-		assertTrue( nestedMetawidget.getComponent( 2 ) instanceof JPanel );
-		assertTrue( 5 == metawidget.getComponentCount() );
+		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 5 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 6 ) instanceof JCheckBox );
+		assertTrue( metawidget.getComponent( 7 ) instanceof JPanel );
+		assertTrue( 8 == metawidget.getComponentCount() );
 	}
 
 	/**

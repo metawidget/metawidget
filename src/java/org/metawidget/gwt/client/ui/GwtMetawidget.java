@@ -965,7 +965,7 @@ public class GwtMetawidget
 						miscAttributes.putAll( stubAttributes );
 				}
 
-				layout.layoutChild( widgetExisting, PROPERTY, miscAttributes, this );
+				layout.layoutWidget( widgetExisting, PROPERTY, miscAttributes, this, this );
 			}
 		}
 	}
@@ -1058,9 +1058,12 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected Map<String, String> getStubAttributes( Widget stub )
+		protected Map<String, String> getAdditionalAttributes( Widget widget )
 		{
-			return ( (Stub) stub ).getAttributes();
+			if ( widget instanceof Stub )
+				return ( (Stub) widget ).getAttributes();
+
+			return null;
 		}
 
 		@Override
@@ -1068,12 +1071,6 @@ public class GwtMetawidget
 		{
 			GwtMetawidget.this.addWidget( widget, elementName, attributes );
 			super.addWidget( widget, elementName, attributes );
-		}
-
-		@Override
-		protected boolean isStub( Widget widget )
-		{
-			return ( widget instanceof Stub );
 		}
 
 		@Override

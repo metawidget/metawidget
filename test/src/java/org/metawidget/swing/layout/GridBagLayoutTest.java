@@ -22,6 +22,7 @@ import java.awt.Insets;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,6 +48,7 @@ import org.metawidget.inspector.annotation.UiWide;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
+import org.metawidget.layout.delegate.DelegateLayoutConfig;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -83,7 +85,7 @@ public class GridBagLayoutTest
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) );
+		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( new DelegateLayoutConfig<JComponent, SwingMetawidget>().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		Insets insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
@@ -113,43 +115,43 @@ public class GridBagLayoutTest
 		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).gridwidth );
 		assertTrue( 1.0f == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).weighty );
 
-		JPanel panelTab = (JPanel) tabbedPane.getComponent( 0 );
-		assertTrue( panelTab.isOpaque() );
-		assertTrue( "tab1".equals( panelTab.getName() ) );
-		assertTrue( "Tab 1_jkl:".equals( ( (JLabel) panelTab.getComponent( 0 ) ).getText() ) );
-		assertTrue( panelTab.getComponent( 1 ) instanceof JLabel );
-		assertTrue( 1 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 1 ) ).gridx );
-		assertTrue( "Tab 1_mno:".equals( ( (JLabel) panelTab.getComponent( 2 ) ).getText() ) );
-		assertTrue( panelTab.getComponent( 3 ) instanceof JComboBox );
-		assertTrue( 3 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 3 ) ).gridx );
-		assertTrue( "Tab 1_pqr:".equals( ( (JLabel) panelTab.getComponent( 4 ) ).getText() ) );
-		assertTrue( panelTab.getComponent( 5 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 5 ) ).gridx );
-		assertTrue( panelTab.getComponent( 6 ) instanceof JPanel );
-		assertTrue( 1.0f == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 6 ) ).weighty );
-		assertTrue( 7 == panelTab.getComponentCount() );
+		assertTrue( "tab1".equals( tabbedPane.getTitleAt( 0 )));
+		JPanel tabPanel = (JPanel) tabbedPane.getComponent( 0 );
+		assertTrue( tabPanel.isOpaque() );
+		assertTrue( "Tab 1_jkl:".equals( ( (JLabel) tabPanel.getComponent( 0 ) ).getText() ) );
+		assertTrue( tabPanel.getComponent( 1 ) instanceof JLabel );
+		assertTrue( 1 == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 1 ) ).gridx );
+		assertTrue( "Tab 1_mno:".equals( ( (JLabel) tabPanel.getComponent( 2 ) ).getText() ) );
+		assertTrue( tabPanel.getComponent( 3 ) instanceof JComboBox );
+		assertTrue( 3 == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 3 ) ).gridx );
+		assertTrue( "Tab 1_pqr:".equals( ( (JLabel) tabPanel.getComponent( 4 ) ).getText() ) );
+		assertTrue( tabPanel.getComponent( 5 ) instanceof JTextField );
+		assertTrue( 1 == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 5 ) ).gridx );
+		assertTrue( tabPanel.getComponent( 6 ) instanceof JPanel );
+		assertTrue( 1.0f == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 6 ) ).weighty );
+		assertTrue( 7 == tabPanel.getComponentCount() );
 
-		panelTab = (JPanel) tabbedPane.getComponent( 1 );
-		assertTrue( "tab2".equals( panelTab.getName() ) );
-		assertTrue( panelTab.getComponent( 0 ) instanceof JScrollPane );
-		assertTrue( 0 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 0 ) ).gridx );
-		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 0 ) ).gridwidth );
-		assertTrue( 1 == panelTab.getComponentCount() );
+		assertTrue( "tab2".equals( tabbedPane.getTitleAt( 1 )));
+		tabPanel = (JPanel) tabbedPane.getComponent( 1 );
+		assertTrue( tabPanel.getComponent( 0 ) instanceof JScrollPane );
+		assertTrue( 0 == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 0 ) ).gridx );
+		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 0 ) ).gridwidth );
+		assertTrue( 1 == tabPanel.getComponentCount() );
 
-		panelTab = (JPanel) tabbedPane.getComponent( 2 );
-		assertTrue( "tab3".equals( panelTab.getName() ) );
-		assertTrue( panelTab.getComponent( 0 ) instanceof JTextField );
-		assertTrue( 0 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 0 ) ).gridx );
-		assertTrue( 2 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 0 ) ).gridwidth );
-		assertTrue( "Tab 3_mno:".equals( ( (JLabel) panelTab.getComponent( 1 ) ).getText() ) );
-		assertTrue( panelTab.getComponent( 2 ) instanceof JTextField );
-		assertTrue( 3 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 2 ) ).gridx );
-		assertTrue( "Tab 3_pqr:".equals( ( (JLabel) panelTab.getComponent( 3 ) ).getText() ) );
-		assertTrue( panelTab.getComponent( 4 ) instanceof JTextField );
-		assertTrue( 1 == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 4 ) ).gridx );
-		assertTrue( panelTab.getComponent( 5 ) instanceof JPanel );
-		assertTrue( 1.0f == ( (GridBagLayout) panelTab.getLayout() ).getConstraints( panelTab.getComponent( 5 ) ).weighty );
-		assertTrue( 6 == panelTab.getComponentCount() );
+		assertTrue( "tab3".equals( tabbedPane.getTitleAt( 2 )));
+		tabPanel = (JPanel) tabbedPane.getComponent( 2 );
+		assertTrue( tabPanel.getComponent( 0 ) instanceof JTextField );
+		assertTrue( 0 == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 0 ) ).gridx );
+		assertTrue( 2 == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 0 ) ).gridwidth );
+		assertTrue( "Tab 3_mno:".equals( ( (JLabel) tabPanel.getComponent( 1 ) ).getText() ) );
+		assertTrue( tabPanel.getComponent( 2 ) instanceof JTextField );
+		assertTrue( 3 == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 2 ) ).gridx );
+		assertTrue( "Tab 3_pqr:".equals( ( (JLabel) tabPanel.getComponent( 3 ) ).getText() ) );
+		assertTrue( tabPanel.getComponent( 4 ) instanceof JTextField );
+		assertTrue( 1 == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 4 ) ).gridx );
+		assertTrue( tabPanel.getComponent( 5 ) instanceof JPanel );
+		assertTrue( 1.0f == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 5 ) ).weighty );
+		assertTrue( 6 == tabPanel.getComponentCount() );
 
 		assertTrue( "Mno:".equals( ( (JLabel) metawidget.getComponent( 7 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 8 ) instanceof JTextField );

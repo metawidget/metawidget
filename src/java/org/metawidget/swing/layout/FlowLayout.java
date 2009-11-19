@@ -39,12 +39,12 @@ public class FlowLayout
 	//
 
 	@Override
-	public void onStartBuild( SwingMetawidget metawidget )
+	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		metawidget.setLayout( new java.awt.FlowLayout() );
+		container.setLayout( new java.awt.FlowLayout() );
 	}
 
-	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
@@ -53,6 +53,6 @@ public class FlowLayout
 
 		// Add to the Metawidget
 
-		metawidget.add( component );
+		container.add( component );
 	}
 }

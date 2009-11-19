@@ -53,6 +53,7 @@ import org.metawidget.inspector.struts.StrutsAnnotationInspector;
 import org.metawidget.inspector.struts.StrutsInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.mixin.base.BaseMetawidgetMixin;
 import org.metawidget.mixin.w3c.MetawidgetMixin;
 import org.metawidget.swing.SwingMetawidget;
@@ -286,6 +287,23 @@ public class ConfigReaderTest
 			assertTrue( "class org.metawidget.inspector.xml.XmlInspector does not have a default constructor. Did you mean config=\"XmlInspectorConfig\"?".equals( e.getMessage() ) );
 		}
 
+		// With redirected config hint
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget>";
+		xml += "	<separatorSectionLayout xmlns=\"java:org.metawidget.swing.layout\"/>";
+		xml += "</metawidget>";
+
+		try
+		{
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Layout.class );
+			assertTrue( false );
+		}
+		catch ( MetawidgetException e )
+		{
+			assertTrue( "class org.metawidget.swing.layout.SeparatorSectionLayout does not have a default constructor. Did you mean config=\"org.metawidget.layout.delegate.DelegateLayoutConfig\"?".equals( e.getMessage() ) );
+		}
+
 		// Without config hint
 
 		xml = "<?xml version=\"1.0\"?>";
@@ -376,7 +394,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle(org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle)".equals( e.getMessage() ) );
+			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.propertytype.PropertyTypeInspector.setPropertyStyle(GroovyPropertyStyle)".equals( e.getMessage() ) );
 		}
 	}
 

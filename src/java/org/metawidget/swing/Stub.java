@@ -87,11 +87,6 @@ public class Stub
 		mAttributes.put( name, value );
 	}
 
-	public void setAttributes( Map<String, String> attributes )
-	{
-		mAttributes = CollectionUtils.newHashMap( attributes );
-	}
-
 	public Map<String, String> getAttributes()
 	{
 		return mAttributes;

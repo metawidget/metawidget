@@ -100,7 +100,7 @@ public class HtmlTableLayout
 	// Public methods
 	//
 
-	public void onStartBuild( MetawidgetTag metawidgetTag )
+	public void startLayout( Tag container, MetawidgetTag metawidgetTag )
 	{
 		metawidgetTag.putClientProperty( HtmlTableLayout.class, null );
 		State state = getState( metawidgetTag );
@@ -185,7 +185,7 @@ public class HtmlTableLayout
 		}
 	}
 
-	public void layoutChild( Tag tag, String elementName, Map<String, String> attributes, MetawidgetTag metawidgetTag )
+	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, Tag container, MetawidgetTag metawidgetTag )
 	{
 		try
 		{
@@ -236,7 +236,7 @@ public class HtmlTableLayout
 	}
 
 	@Override
-	public void onEndBuild( MetawidgetTag metawidgetTag )
+	public void endLayout( Tag container, MetawidgetTag metawidgetTag )
 	{
 		try
 		{

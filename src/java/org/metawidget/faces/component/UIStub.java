@@ -16,7 +16,6 @@
 
 package org.metawidget.faces.component;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -83,13 +82,7 @@ public class UIStub
 			stubAttributes = (String) bindingStubAttributes.getValue( getFacesContext() );
 
 		if ( stubAttributes == null )
-		{
-			// (use Collections.EMPTY_MAP, not Collections.emptyMap, so that we're 1.4 compatible)
-
-			@SuppressWarnings( "unchecked" )
-			Map<String, String> empty = Collections.EMPTY_MAP;
-			return empty;
-		}
+			return null;
 
 		// Parse attributes
 

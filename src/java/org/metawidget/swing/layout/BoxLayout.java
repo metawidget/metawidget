@@ -42,12 +42,12 @@ public class BoxLayout
 	//
 
 	@Override
-	public void onStartBuild( SwingMetawidget metawidget )
+	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		metawidget.setLayout( new javax.swing.BoxLayout( metawidget, javax.swing.BoxLayout.PAGE_AXIS ) );
+		container.setLayout( new javax.swing.BoxLayout( metawidget, javax.swing.BoxLayout.PAGE_AXIS ) );
 	}
 
-	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
@@ -56,6 +56,6 @@ public class BoxLayout
 
 		// Add to the Metawidget
 
-		metawidget.add( component );
+		container.add( component );
 	}
 }

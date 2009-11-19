@@ -91,10 +91,10 @@ public class GridBagLayout
 	// Public methods
 	//
 
-	public void onStartBuild( SwingMetawidget metawidget )
+	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		metawidget.putClientProperty( GridBagLayout.class, null );
-		State state = getState( metawidget );
+		container.putClientProperty( GridBagLayout.class, null );
+		State state = getState( container );
 
 		// Calculate default label inset
 		//
@@ -104,7 +104,7 @@ public class GridBagLayout
 		// JTextFields), so we top inset them a bit
 
 		java.awt.GridBagLayout layoutManager = new java.awt.GridBagLayout();
-		metawidget.setLayout( layoutManager );
+		container.setLayout( layoutManager );
 
 		JTextField dummyTextField = new JTextField();
 		dummyTextField.setLayout( layoutManager );
@@ -119,7 +119,7 @@ public class GridBagLayout
 		state.defaultLabelInsetsRemainderColumns = new Insets( defaultLabelVerticalPadding, SMALL_GAP, defaultLabelVerticalPadding, SMALL_GAP );
 	}
 
-	public void layoutChild( JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
@@ -128,8 +128,8 @@ public class GridBagLayout
 
 		// Special support for large components
 
-		State state = getState( metawidget );
-		boolean spanAllColumns = ( component instanceof JScrollPane || component instanceof SwingMetawidget || LayoutUtils.isSpanAllColumns( attributes ) );
+		State state = getState( container );
+		boolean spanAllColumns = willFillHorizontally( component, attributes );
 
 		if ( spanAllColumns && state.currentColumn > 0 )
 		{
@@ -144,7 +144,7 @@ public class GridBagLayout
 		if ( attributes != null )
 			labelText = metawidget.getLabelString( attributes );
 
-		layoutBeforeChild( component, labelText, elementName, attributes, metawidget );
+		layoutBeforeChild( component, labelText, elementName, attributes, container, metawidget );
 
 		// ...and layout the component
 
@@ -188,9 +188,9 @@ public class GridBagLayout
 
 		// Add it
 
-		metawidget.add( component, componentConstraints );
+		container.add( component, componentConstraints );
 
-		layoutAfterChild( component, attributes, metawidget );
+		layoutAfterChild( component, attributes, container, metawidget );
 
 		state.currentColumn++;
 
@@ -201,36 +201,40 @@ public class GridBagLayout
 		}
 	}
 
-	public void onEndBuild( SwingMetawidget metawidget )
+	public void endLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		// Buttons
 
-		State state = getState( metawidget );
-		Facet buttonsFacet = metawidget.getFacet( "buttons" );
+		State state = getState( container );
 
-		if ( buttonsFacet != null )
+		if ( container.equals( metawidget ))
 		{
-			if ( state.currentColumn > 0 )
+			Facet buttonsFacet = metawidget.getFacet( "buttons" );
+
+			if ( buttonsFacet != null )
 			{
-				state.currentColumn = 0;
-				state.currentRow++;
+				if ( state.currentColumn > 0 )
+				{
+					state.currentColumn = 0;
+					state.currentRow++;
+				}
+
+				GridBagConstraints buttonConstraints = new GridBagConstraints();
+				buttonConstraints.fill = GridBagConstraints.BOTH;
+				buttonConstraints.anchor = GridBagConstraints.WEST;
+				buttonConstraints.gridy = state.currentRow;
+				buttonConstraints.gridwidth = GridBagConstraints.REMAINDER;
+
+				// (buttons facet can act as the spacer row)
+
+				if ( state.needSpacerRow )
+				{
+					buttonConstraints.weighty = 1.0f;
+					state.needSpacerRow = false;
+				}
+
+				metawidget.add( buttonsFacet, buttonConstraints );
 			}
-
-			GridBagConstraints buttonConstraints = new GridBagConstraints();
-			buttonConstraints.fill = GridBagConstraints.BOTH;
-			buttonConstraints.anchor = GridBagConstraints.WEST;
-			buttonConstraints.gridy = state.currentRow;
-			buttonConstraints.gridwidth = GridBagConstraints.REMAINDER;
-
-			// (buttons facet can act as the spacer row)
-
-			if ( state.needSpacerRow )
-			{
-				buttonConstraints.weighty = 1.0f;
-				state.needSpacerRow = false;
-			}
-
-			metawidget.add( buttonsFacet, buttonConstraints );
 		}
 
 		// Spacer row: see JavaDoc for state.needSpacerRow
@@ -248,7 +252,7 @@ public class GridBagLayout
 			GridBagConstraints spacerConstraints = new GridBagConstraints();
 			spacerConstraints.gridy = state.currentRow;
 			spacerConstraints.weighty = 1.0f;
-			metawidget.add( spacerPanel, spacerConstraints );
+			container.add( spacerPanel, spacerConstraints );
 		}
 	}
 
@@ -256,9 +260,9 @@ public class GridBagLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( JComponent component, String labelText, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	protected String layoutBeforeChild( JComponent component, String labelText, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
-		State state = getState( metawidget );
+		State state = getState( container );
 
 		// Add label
 
@@ -304,15 +308,15 @@ public class GridBagLayout
 			else
 				labelConstraints.insets = state.defaultLabelInsetsRemainderColumns;
 
-			metawidget.add( label, labelConstraints );
+			container.add( label, labelConstraints );
 		}
 
 		return labelText;
 	}
 
-	protected void layoutAfterChild( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget )
+	protected void layoutAfterChild( JComponent component, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
-		State state = getState( metawidget );
+		State state = getState( container );
 
 		if ( mRequiredAlignment != SwingConstants.RIGHT )
 			return;
@@ -333,7 +337,18 @@ public class GridBagLayout
 		else
 			starConstraints.insets = state.defaultLabelInsetsRemainderColumns;
 
-		metawidget.add( star, starConstraints );
+		container.add( star, starConstraints );
+	}
+
+	protected boolean willFillHorizontally( JComponent component, Map<String, String> attributes )
+	{
+		if ( component instanceof JScrollPane )
+			return true;
+
+		if ( component instanceof SwingMetawidget )
+			return true;
+
+		return LayoutUtils.isSpanAllColumns( attributes );
 	}
 
 	protected boolean willFillVertically( JComponent component, Map<String, String> attributes )
@@ -343,11 +358,6 @@ public class GridBagLayout
 
 		if ( component instanceof JScrollPane )
 			return true;
-
-		// Stub with a JScrollPane? (ie. overrriding communications with a JTable)
-
-		if ( component instanceof Stub && component.getComponentCount() == 1 )
-			return willFillVertically( (JComponent) component.getComponent( 0 ), attributes );
 
 		return false;
 	}
@@ -370,14 +380,14 @@ public class GridBagLayout
 		return mNumberOfColumns;
 	}
 
-	private State getState( SwingMetawidget metawidget )
+	private State getState( JComponent container )
 	{
-		State state = (State) metawidget.getClientProperty( GridBagLayout.class );
+		State state = (State) container.getClientProperty( GridBagLayout.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( GridBagLayout.class, state );
+			container.putClientProperty( GridBagLayout.class, state );
 		}
 
 		return state;

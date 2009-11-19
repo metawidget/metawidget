@@ -184,13 +184,7 @@ public class GwtRemoteInspectorImpl
 		//
 
 		@Override
-		protected Map<String, String> getStubAttributes( Object stub )
-		{
-			throw new UnsupportedOperationException();
-		}
-
-		@Override
-		protected boolean isStub( Object widget )
+		protected Map<String, String> getAdditionalAttributes( Object stub )
 		{
 			throw new UnsupportedOperationException();
 		}
