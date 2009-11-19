@@ -98,23 +98,18 @@ public class RichFacesWidgetBuilder
 
 			// Ranged
 
-			String minimumValue = attributes.get( MINIMUM_VALUE );
-			String maximumValue = attributes.get( MAXIMUM_VALUE );
+			UIComponent ranged = createRanged( attributes );
 
-			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
-			{
-				UIInputNumberSlider slider = (UIInputNumberSlider) application.createComponent( "org.richfaces.inputNumberSlider" );
-				slider.setMinValue( minimumValue );
-				slider.setMaxValue( maximumValue );
-
-				return slider;
-			}
+			if ( ranged != null )
+				return ranged;
 
 			// Not-ranged
 
 			UIInputNumberSpinner spinner = (UIInputNumberSpinner) application.createComponent( "org.richfaces.inputNumberSpinner" );
 
 			// May be ranged in one dimension only
+
+			String minimumValue = attributes.get( MINIMUM_VALUE );
 
 			if ( minimumValue != null && !"".equals( minimumValue ) )
 				spinner.setMinValue( minimumValue );
@@ -130,6 +125,8 @@ public class RichFacesWidgetBuilder
 				spinner.setMinValue( String.valueOf( -Float.MAX_VALUE ) );
 			else if ( double.class.equals( clazz ) )
 				spinner.setMinValue( String.valueOf( -Double.MAX_VALUE ) );
+
+			String maximumValue = attributes.get( MAXIMUM_VALUE );
 
 			if ( maximumValue != null && !"".equals( maximumValue ) )
 				spinner.setMaxValue( maximumValue );
@@ -192,17 +189,10 @@ public class RichFacesWidgetBuilder
 		{
 			// Ranged
 
-			String minimumValue = attributes.get( MINIMUM_VALUE );
-			String maximumValue = attributes.get( MAXIMUM_VALUE );
+			UIComponent ranged = createRanged( attributes );
 
-			if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
-			{
-				UIInputNumberSlider slider = (UIInputNumberSlider) application.createComponent( "org.richfaces.inputNumberSlider" );
-				slider.setMinValue( minimumValue );
-				slider.setMaxValue( maximumValue );
-
-				return slider;
-			}
+			if ( ranged != null )
+				return ranged;
 
 			// Not-ranged
 			//
@@ -285,6 +275,32 @@ public class RichFacesWidgetBuilder
 		}
 
 		// Not for RichFaces
+
+		return null;
+	}
+
+	//
+	// Private methods
+	//
+
+	private UIComponent createRanged( Map<String, String> attributes )
+	{
+		// Ranged
+
+		String minimumValue = attributes.get( MINIMUM_VALUE );
+		String maximumValue = attributes.get( MAXIMUM_VALUE );
+
+		if ( minimumValue != null && !"".equals( minimumValue ) && maximumValue != null && !"".equals( maximumValue ) )
+		{
+			FacesContext context = FacesContext.getCurrentInstance();
+			Application application = context.getApplication();
+
+			UIInputNumberSlider slider = (UIInputNumberSlider) application.createComponent( "org.richfaces.inputNumberSlider" );
+			slider.setMinValue( minimumValue );
+			slider.setMaxValue( maximumValue );
+
+			return slider;
+		}
 
 		return null;
 	}

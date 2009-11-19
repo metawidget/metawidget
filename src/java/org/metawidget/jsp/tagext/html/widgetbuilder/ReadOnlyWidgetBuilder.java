@@ -19,15 +19,12 @@ package org.metawidget.jsp.tagext.html.widgetbuilder;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.jsp.JspUtils;
@@ -38,7 +35,6 @@ import org.metawidget.jsp.tagext.html.HtmlStubTag;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
-import org.metawidget.util.simple.StringUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
@@ -141,6 +137,7 @@ public class ReadOnlyWidgetBuilder
 
 		return null;
 	}
+
 	//
 	// Private methods
 	//
@@ -150,7 +147,7 @@ public class ReadOnlyWidgetBuilder
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
 		StringBuffer buffer = new StringBuffer();
-		String value = evaluateAsText( attributes, metawidget );
+		String value = HtmlWidgetBuilderUtils.evaluateAsText( attributes, metawidget );
 
 		// Support lookup labels
 
@@ -174,7 +171,7 @@ public class ReadOnlyWidgetBuilder
 
 		if ( ( (BaseHtmlMetawidgetTag) metawidget ).isCreateHiddenFields() && !TRUE.equals( attributes.get( NO_SETTER ) ) )
 		{
-			Tag hiddenTag = writeHiddenTag( attributes, metawidget );
+			Tag hiddenTag = HtmlWidgetBuilderUtils.writeHiddenTag( attributes, metawidget );
 
 			try
 			{
@@ -195,132 +192,5 @@ public class ReadOnlyWidgetBuilder
 		return new LiteralTag( buffer.toString() );
 	}
 
-	private Tag writeHiddenTag( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
-		// (use StringBuffer for J2SE 1.4 compatibility)
 
-		StringBuffer buffer = new StringBuffer();
-		buffer.append( "<input type=\"hidden\"" );
-		buffer.append( writeValueAttribute( attributes, metawidget ) );
-		buffer.append( writeAttributes( attributes, metawidget ) );
-		buffer.append( "/>" );
-
-		return new LiteralTag( buffer.toString() );
-	}
-
-	private String writeValueAttribute( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
-		String result = evaluateAsText( attributes, metawidget );
-
-		if ( result == null || "".equals( result ) )
-			return "";
-
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( " value=\"" );
-		buffer.append( result );
-		buffer.append( "\"" );
-
-		return buffer.toString();
-	}
-
-	/**
-	 * Initialize the HTML tag with various attributes, CSS settings etc.
-	 * <p>
-	 * In other Metawidgets, this step is done after the widget has been built. However, because JSP
-	 * lacks a 'true' component model (eg. buildActiveWidget returns a String) we must do it here.
-	 */
-
-	private String writeAttributes( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( " name=\"" );
-
-		String name = attributes.get( NAME );
-
-		if ( metawidget.getPathPrefix() != null )
-			name = metawidget.getPathPrefix() + name;
-
-		buffer.append( name );
-		buffer.append( "\"" );
-
-		// CSS
-
-		BaseHtmlMetawidgetTag htmlMetawidgetTag = (BaseHtmlMetawidgetTag) metawidget;
-
-		if ( htmlMetawidgetTag.getStyle() != null )
-		{
-			buffer.append( " style=\"" );
-			buffer.append( htmlMetawidgetTag.getStyle() );
-			buffer.append( "\"" );
-		}
-
-		if ( htmlMetawidgetTag.getStyleClass() != null )
-		{
-			buffer.append( " class=\"" );
-			buffer.append( htmlMetawidgetTag.getStyleClass() );
-			buffer.append( "\"" );
-		}
-
-		return buffer.toString();
-	}
-
-	/**
-	 * Evaluate to text (via a PropertyEditor if available).
-	 */
-
-	private String evaluateAsText( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
-		Object evaluated = evaluate( attributes, metawidget );
-
-		if ( evaluated == null )
-			return "";
-
-		Class<?> clazz = evaluated.getClass();
-
-		while ( clazz != null )
-		{
-			PropertyEditor editor = PropertyEditorManager.findEditor( clazz );
-
-			if ( editor != null )
-			{
-				editor.setValue( evaluated );
-				return editor.getAsText();
-			}
-
-			clazz = clazz.getSuperclass();
-		}
-
-		return StringUtils.quietValueOf( evaluated );
-	}
-
-	private Object evaluate( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
-		if ( metawidget.getPathPrefix() == null )
-			return null;
-
-		return evaluate( "${" + metawidget.getPathPrefix() + attributes.get( NAME ) + "}", metawidget );
-	}
-
-	private Object evaluate( String expression, MetawidgetTag metawidget )
-	{
-		try
-		{
-			PageContext context = metawidget.getPageContext();
-			return context.getExpressionEvaluator().evaluate( expression, Object.class, context.getVariableResolver(), null );
-		}
-		catch ( Throwable t )
-		{
-			// EL should fail gracefully
-			//
-			// Note: pageContext.getExpressionEvaluator() is only available with JSP 2.0
-
-			return null;
-		}
-	}
 }

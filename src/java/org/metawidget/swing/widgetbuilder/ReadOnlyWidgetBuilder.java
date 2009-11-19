@@ -21,7 +21,6 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 import java.awt.Component;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComponent;
@@ -37,7 +36,6 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
-import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * WidgetBuilder for Swing environments.
@@ -97,7 +95,7 @@ public class ReadOnlyWidgetBuilder
 			String lookupLabels = attributes.get( LOOKUP_LABELS );
 
 			if ( lookupLabels != null && !"".equals( lookupLabels ) )
-				return new LookupLabel( getLabelsMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
+				return new LookupLabel( SwingWidgetBuilderUtils.getLabelsMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
 
 			return new JLabel();
 		}
@@ -175,24 +173,5 @@ public class ReadOnlyWidgetBuilder
 		return null;
 	}
 
-	//
-	// Private methods
-	//
-
 	// TODO: duplicated functions all the way through ReadOnlyWidgetBuilders
-
-	private Map<String, String> getLabelsMap( List<String> values, List<String> labels )
-	{
-		Map<String, String> labelsMap = CollectionUtils.newHashMap();
-
-		if ( labels.size() != values.size() )
-			throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
-
-		for ( int loop = 0, length = values.size(); loop < length; loop++ )
-		{
-			labelsMap.put( values.get( loop ), labels.get( loop ) );
-		}
-
-		return labelsMap;
-	}
 }

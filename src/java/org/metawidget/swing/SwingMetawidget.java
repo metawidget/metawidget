@@ -515,22 +515,8 @@ public class SwingMetawidget
 	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( String... names )
 	{
-		Component component = getComponent( names );
-
-		if ( component == null )
-			throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
-
-		// Drill into JScrollPanes
-
-		if ( component instanceof JScrollPane )
-			component = ( (JScrollPane) component ).getViewport().getView();
-
-		String componentProperty = getValueProperty( component );
-
-		if ( componentProperty == null )
-			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
-
-		return (T) ClassUtils.getProperty( component, componentProperty );
+		Object[] componentAndValueProperty = getComponentAndValueProperty( names );
+		return (T) ClassUtils.getProperty( (JComponent) componentAndValueProperty[0], (String) componentAndValueProperty[1] );
 	}
 
 	/**
@@ -543,22 +529,8 @@ public class SwingMetawidget
 
 	public void setValue( Object value, String... names )
 	{
-		Component component = getComponent( names );
-
-		if ( component == null )
-			throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
-
-		// Drill into JScrollPanes
-
-		if ( component instanceof JScrollPane )
-			component = ( (JScrollPane) component ).getViewport().getView();
-
-		String componentProperty = getValueProperty( component );
-
-		if ( componentProperty == null )
-			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
-
-		ClassUtils.setProperty( component, componentProperty, value );
+		Object[] componentAndValueProperty = getComponentAndValueProperty( names );
+		ClassUtils.setProperty( (JComponent) componentAndValueProperty[0], (String) componentAndValueProperty[1], value );
 	}
 
 	/**
@@ -976,6 +948,26 @@ public class SwingMetawidget
 	//
 	// Private methods
 	//
+
+	private Object[] getComponentAndValueProperty( String... names )
+	{
+		Component component = getComponent( names );
+
+		if ( component == null )
+			throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
+
+		// Drill into JScrollPanes
+
+		if ( component instanceof JScrollPane )
+			component = ( (JScrollPane) component ).getViewport().getView();
+
+		String componentProperty = getValueProperty( component );
+
+		if ( componentProperty == null )
+			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
+
+		return new Object[]{ component, componentProperty };
+	}
 
 	private String getValueProperty( Component component, WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder )
 	{

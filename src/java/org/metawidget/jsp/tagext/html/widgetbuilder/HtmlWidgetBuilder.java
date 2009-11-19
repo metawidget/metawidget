@@ -19,14 +19,11 @@ package org.metawidget.jsp.tagext.html.widgetbuilder;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.jsp.JspInspectionResultConstants.*;
 
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.jsp.PageContext;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.jsp.tagext.LiteralTag;
@@ -71,7 +68,7 @@ public class HtmlWidgetBuilder
 			if ( TRUE.equals( attributes.get( NO_SETTER ) ) )
 				return new HtmlStubTag();
 
-			return writeHiddenTag( attributes, metawidget );
+			return HtmlWidgetBuilderUtils.writeHiddenTag( attributes, metawidget );
 		}
 
 		// Action
@@ -130,9 +127,9 @@ public class HtmlWidgetBuilder
 
 					StringBuffer buffer = new StringBuffer();
 					buffer.append( "<textarea" );
-					buffer.append( writeAttributes( attributes, metawidget ) );
+					buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
 					buffer.append( ">" );
-					buffer.append( evaluateAsText( attributes, metawidget ) );
+					buffer.append( HtmlWidgetBuilderUtils.evaluateAsText( attributes, metawidget ) );
 					buffer.append( "</textarea>" );
 
 					return new LiteralTag( buffer.toString() );
@@ -174,26 +171,13 @@ public class HtmlWidgetBuilder
 	// Private methods
 	//
 
-	private Tag writeHiddenTag( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-		buffer.append( "<input type=\"hidden\"" );
-		buffer.append( writeValueAttribute( attributes, metawidget ) );
-		buffer.append( writeAttributes( attributes, metawidget ) );
-		buffer.append( "/>" );
-
-		return new LiteralTag( buffer.toString() );
-	}
-
 	private Tag writeCheckboxTag( Map<String, String> attributes, MetawidgetTag metawidget )
 	{
 		// (use StringBuffer for J2SE 1.4 compatibility)
 
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( "<input type=\"checkbox\"" );
-		buffer.append( writeAttributes( attributes, metawidget ) );
+		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
 		buffer.append( writeCheckedAttribute( attributes, metawidget ) );
 		buffer.append( "/>" );
 
@@ -214,8 +198,8 @@ public class HtmlWidgetBuilder
 		buffer.append( "<input type=\"" );
 		buffer.append( textTag );
 		buffer.append( "\"" );
-		buffer.append( writeValueAttribute( attributes, metawidget ) );
-		buffer.append( writeAttributes( attributes, metawidget ) );
+		buffer.append( HtmlWidgetBuilderUtils.writeValueAttribute( attributes, metawidget ) );
+		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
 
 		// Maxlength
 
@@ -249,33 +233,15 @@ public class HtmlWidgetBuilder
 		buffer.append( "<input type=\"submit\" value=\"" );
 		buffer.append( metawidget.getLabelString( attributes ) );
 		buffer.append( "\"" );
-		buffer.append( writeAttributes( attributes, metawidget ) );
+		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
 		buffer.append( "/>" );
 
 		return new LiteralTag( buffer.toString() );
 	}
 
-	private String writeValueAttribute( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
-		String result = evaluateAsText( attributes, metawidget );
-
-		if ( result == null || "".equals( result ) )
-			return "";
-
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( " value=\"" );
-		buffer.append( result );
-		buffer.append( "\"" );
-
-		return buffer.toString();
-	}
-
 	private String writeCheckedAttribute( Map<String, String> attributes, MetawidgetTag metawidget )
 	{
-		Object result = evaluate( attributes, metawidget );
+		Object result = HtmlWidgetBuilderUtils.evaluate( attributes, metawidget );
 
 		if ( result != null && true == (Boolean) result )
 			return " checked";
@@ -283,54 +249,10 @@ public class HtmlWidgetBuilder
 		return "";
 	}
 
-	/**
-	 * Initialize the HTML tag with various attributes, CSS settings etc.
-	 * <p>
-	 * In other Metawidgets, this step is done after the widget has been built. However, because JSP
-	 * lacks a 'true' component model (eg. buildActiveWidget returns a String) we must do it here.
-	 */
-
-	private String writeAttributes( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
-		// (use StringBuffer for J2SE 1.4 compatibility)
-
-		StringBuffer buffer = new StringBuffer();
-
-		buffer.append( " name=\"" );
-
-		String name = attributes.get( NAME );
-
-		if ( metawidget.getPathPrefix() != null )
-			name = metawidget.getPathPrefix() + name;
-
-		buffer.append( name );
-		buffer.append( "\"" );
-
-		// CSS
-
-		BaseHtmlMetawidgetTag htmlMetawidgetTag = (BaseHtmlMetawidgetTag) metawidget;
-
-		if ( htmlMetawidgetTag.getStyle() != null )
-		{
-			buffer.append( " style=\"" );
-			buffer.append( htmlMetawidgetTag.getStyle() );
-			buffer.append( "\"" );
-		}
-
-		if ( htmlMetawidgetTag.getStyleClass() != null )
-		{
-			buffer.append( " class=\"" );
-			buffer.append( htmlMetawidgetTag.getStyleClass() );
-			buffer.append( "\"" );
-		}
-
-		return buffer.toString();
-	}
-
 	@SuppressWarnings( "unchecked" )
 	private Tag writeSelectTag( final String expression, final Map<String, String> attributes, MetawidgetTag metawidget )
 	{
-		Object collection = evaluate( expression, metawidget );
+		Object collection = HtmlWidgetBuilderUtils.evaluate( expression, metawidget );
 
 		if ( collection == null )
 			return null;
@@ -358,7 +280,7 @@ public class HtmlWidgetBuilder
 		// Start the SELECT tag
 
 		buffer.append( "<select" );
-		buffer.append( writeAttributes( attributes, metawidget ) );
+		buffer.append( HtmlWidgetBuilderUtils.writeAttributes( attributes, metawidget ) );
 
 		buffer.append( ">" );
 
@@ -369,7 +291,7 @@ public class HtmlWidgetBuilder
 
 		// Evaluate the expression
 
-		String selected = evaluateAsText( attributes, metawidget );
+		String selected = HtmlWidgetBuilderUtils.evaluateAsText( attributes, metawidget );
 
 		// Add the options
 
@@ -404,59 +326,5 @@ public class HtmlWidgetBuilder
 		buffer.append( "</select>" );
 
 		return new LiteralTag( buffer.toString() );
-	}
-
-	/**
-	 * Evaluate to text (via a PropertyEditor if available).
-	 */
-
-	private String evaluateAsText( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
-		Object evaluated = evaluate( attributes, metawidget );
-
-		if ( evaluated == null )
-			return "";
-
-		Class<?> clazz = evaluated.getClass();
-
-		while ( clazz != null )
-		{
-			PropertyEditor editor = PropertyEditorManager.findEditor( clazz );
-
-			if ( editor != null )
-			{
-				editor.setValue( evaluated );
-				return editor.getAsText();
-			}
-
-			clazz = clazz.getSuperclass();
-		}
-
-		return StringUtils.quietValueOf( evaluated );
-	}
-
-	private Object evaluate( Map<String, String> attributes, MetawidgetTag metawidget )
-	{
-		if ( metawidget.getPathPrefix() == null )
-			return null;
-
-		return evaluate( "${" + metawidget.getPathPrefix() + attributes.get( NAME ) + "}", metawidget );
-	}
-
-	private Object evaluate( String expression, MetawidgetTag metawidget )
-	{
-		try
-		{
-			PageContext context = metawidget.getPageContext();
-			return context.getExpressionEvaluator().evaluate( expression, Object.class, context.getVariableResolver(), null );
-		}
-		catch ( Throwable t )
-		{
-			// EL should fail gracefully
-			//
-			// Note: pageContext.getExpressionEvaluator() is only available with JSP 2.0
-
-			return null;
-		}
 	}
 }

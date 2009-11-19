@@ -22,8 +22,11 @@ import static org.metawidget.inspector.propertytype.PropertyTypeInspectionResult
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.ListBox;
@@ -110,6 +113,33 @@ public final class GwtUtils
 			return true;
 
 		if ( Character.class.getName().equals( className ) )
+			return true;
+
+		return false;
+	}
+
+	/**
+	 * Whether the given class name is a Collection. This is a crude, GWT-equivalent of...
+	 * <p>
+	 * <code>
+	 *    Collection.class.isAssignableFrom( ... );
+	 * </code>
+	 * <p>
+	 * ...subclasses may need to override this method if they introduce a new Collection subtype.
+	 */
+
+	public static boolean isCollection( String className )
+	{
+		if ( Collection.class.getName().equals( className ) )
+			return true;
+
+		if ( List.class.getName().equals( className ) || ArrayList.class.getName().equals( className ) )
+			return true;
+
+		if ( Set.class.getName().equals( className ) || HashSet.class.getName().equals( className ) )
+			return true;
+
+		if ( Map.class.getName().equals( className ) || HashMap.class.getName().equals( className ) )
 			return true;
 
 		return false;

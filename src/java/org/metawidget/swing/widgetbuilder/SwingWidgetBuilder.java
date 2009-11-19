@@ -49,7 +49,6 @@ import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
-import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * WidgetBuilder for Swing environments.
@@ -152,7 +151,7 @@ public class SwingWidgetBuilder
 
 			if ( lookupLabels != null && !"".equals( lookupLabels ) )
 			{
-				Map<String, String> labelsMap = getLabelsMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
+				Map<String, String> labelsMap = SwingWidgetBuilderUtils.getLabelsMap( values, CollectionUtils.fromString( attributes.get( LOOKUP_LABELS ) ) );
 
 				comboBox.setEditor( new LookupComboBoxEditor( labelsMap ) );
 				comboBox.setRenderer( new LookupComboBoxRenderer( labelsMap ) );
@@ -416,21 +415,6 @@ public class SwingWidgetBuilder
 	{
 		spinner.setModel( new SpinnerNumberModel( value, minimum, maximum, stepSize ) );
 		( (JSpinner.DefaultEditor) spinner.getEditor() ).getTextField().setColumns( 0 );
-	}
-
-	private Map<String, String> getLabelsMap( List<String> values, List<String> labels )
-	{
-		Map<String, String> labelsMap = CollectionUtils.newHashMap();
-
-		if ( labels.size() != values.size() )
-			throw WidgetBuilderException.newException( "Labels list must be same size as values list" );
-
-		for ( int loop = 0, length = values.size(); loop < length; loop++ )
-		{
-			labelsMap.put( values.get( loop ), labels.get( loop ) );
-		}
-
-		return labelsMap;
 	}
 
 	//

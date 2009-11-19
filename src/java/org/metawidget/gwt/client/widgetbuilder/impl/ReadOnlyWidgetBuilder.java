@@ -18,14 +18,8 @@ package org.metawidget.gwt.client.widgetbuilder.impl;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.GwtUtils;
@@ -127,7 +121,7 @@ public class ReadOnlyWidgetBuilder
 
 		// Collections
 
-		if ( isCollection( type ) )
+		if ( GwtUtils.isCollection( type ) )
 			return new Stub();
 
 		// Not simple, but don't expand
@@ -138,36 +132,5 @@ public class ReadOnlyWidgetBuilder
 		// Nested Metawidget
 
 		return null;
-	}
-
-	//
-	// Private methods
-	//
-
-	/**
-	 * Whether the given class name is a Collection. This is a crude, GWT-equivalent of...
-	 * <p>
-	 * <code>
-	 *    Collection.class.isAssignableFrom( ... );
-	 * </code>
-	 * <p>
-	 * ...subclasses may need to override this method if they introduce a new Collection subtype.
-	 */
-
-	private boolean isCollection( String className )
-	{
-		if ( Collection.class.getName().equals( className ) )
-			return true;
-
-		if ( List.class.getName().equals( className ) || ArrayList.class.getName().equals( className ) )
-			return true;
-
-		if ( Set.class.getName().equals( className ) || HashSet.class.getName().equals( className ) )
-			return true;
-
-		if ( Map.class.getName().equals( className ) || HashMap.class.getName().equals( className ) )
-			return true;
-
-		return false;
 	}
 }
