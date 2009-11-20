@@ -61,7 +61,7 @@ public interface Layout<W, M extends W>
 	 * @param attributes
 	 *            attributes of the widget to layout. Never null
 	 * @param container
-	 *            the container to layout. This is often the same as the given Metawidget
+	 *            the container to add to. This is often the same as the given Metawidget
 	 * @param metawidget
 	 *            the Metawidget to use to access additional services. Never null
 	 */
@@ -80,9 +80,11 @@ public interface Layout<W, M extends W>
 	//
 	// 1. Nested sections had to be handled as nested, partially-initalised Metawidgets which could
 	// then use their chosen Layout (eg. GridBagLayout)
-	// 2. Attributes for the components had to be attached somehow (ie. putClientProperty)
+	// 2. Attributes for the components had to be attached somehow (ie. putClientProperty, or wrapped in a Stub)
 	// 3. elementNames for the components had to be attached somehow
 	// 4. It 'felt' weird having a WidgetProcessor doing Layout stuff
+	//
+	// We finally settled on having a container W and a DelegateLayout
 	//
 	void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget );
 

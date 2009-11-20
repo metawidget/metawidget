@@ -172,6 +172,4 @@ public class ReadOnlyWidgetBuilder
 
 		return null;
 	}
-
-	// TODO: duplicated functions all the way through ReadOnlyWidgetBuilders
 }
