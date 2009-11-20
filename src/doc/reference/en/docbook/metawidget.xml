@@ -4479,6 +4479,31 @@ void endLayout( W container, M metawidget );</programlisting>
 
 			<section id="section-architecture-layouts-delegatelayout">
 				<title>DelegateLayout</title>
+				
+				<para>
+					<classname>DelegateLayout</classname> allows you to combine multiple <classname>Layout</classname>s
+					together in a heirarchy. Conceptually, this is similar to <classname>CompositeInspector</classname>
+					or <classname>CompositeWidgetBuilder</classname>, but <classname>Layout</classname>s are fundamentally
+					different in that most are 'end points' that cannot sensibly be composed into lists (eg. what
+					should happen if you try to combine a <classname>GridBagLayout</classname> with a <classname>FlowLayout</classname>?).
+				</para>
+				
+				<para>
+					Rather, <classname>Layout</classname>s must be combined <emphasis>heirarchically</emphasis>, with an 'outer' <classname>Layout</classname>
+					delegating to a single 'inner' <classname>Layout</classname>. <classname>DelegateLayout</classname> is an abstract
+					class that <classname>Layout</classname>s can extend in order to wrap other <classname>Layout</classname>s. For example,
+					<classname>TabbedPaneSectionLayout</classname> can wrap one of the other <classname>Layout</classname>s (eg.
+					<classname>GridBagLayout</classname>, <classname>GroupLayout</classname> etc) to add tabbed section functionality:
+				</para>
+				
+				<programlisting language="xml">&lt;metawidgetLayout&gt;
+	&lt;tabbedPaneSectionLayout xmlns="java:org.metawidget.swing.layout"
+		config="org.metawidget.layout.delegate.DelegateLayoutConfig"&gt;
+		&lt;layout&gt;
+			&lt;gridBagLayout /&gt;
+		&lt;/layout&gt;
+	&lt;/tabbedPaneSectionLayout&gt;			
+&lt;/metawidgetLayout&gt;</programlisting>
 			</section>
 
 			<section id="section-architecture-layouts-defaults">

@@ -203,9 +203,9 @@ public class SwingMetawidget
 		return mPath;
 	}
 
-	public void setConfig( String inspectorConfig )
+	public void setConfig( String config )
 	{
-		mConfig = inspectorConfig;
+		mConfig = config;
 		mNeedsConfiguring = true;
 		invalidateInspection();
 	}

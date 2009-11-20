@@ -55,8 +55,6 @@ public abstract class DelegateLayout<W, M extends W>
 	{
 		mDelegate = config.getLayout();
 
-		// TODO: test this
-
 		if ( mDelegate == null )
 			throw LayoutException.newException( getClass().getName() + " needs a Layout to delegate to (use " + config.getClass().getName() + ".setLayout)" );
 	}
