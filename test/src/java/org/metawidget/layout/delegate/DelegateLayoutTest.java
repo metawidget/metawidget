@@ -14,34 +14,39 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.layout;
+package org.metawidget.layout.delegate;
 
-import junit.framework.Test;
+import javax.swing.JComponent;
+
 import junit.framework.TestCase;
-import junit.framework.TestSuite;
 
-import org.metawidget.layout.delegate.DelegateLayoutTest;
-import org.metawidget.layout.iface.LayoutExceptionTest;
-import org.metawidget.layout.impl.LayoutUtilsTest;
+import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.swing.SwingMetawidget;
 
 /**
  * @author Richard Kennard
  */
 
-public class LayoutTests
+public class DelegateLayoutTest
 	extends TestCase
 {
 	//
-	// Public statics
+	// Public methods
 	//
 
-	public static Test suite()
+	public void testDelegateLayout()
+		throws Exception
 	{
-		TestSuite suite = new TestSuite( "Layout Tests" );
-		suite.addTestSuite( DelegateLayoutTest.class );
-		suite.addTestSuite( LayoutExceptionTest.class );
-		suite.addTestSuite( LayoutUtilsTest.class );
-
-		return suite;
+		try
+		{
+			new DelegateLayout<JComponent, SwingMetawidget>( new DelegateLayoutConfig<JComponent, SwingMetawidget>() )
+			{
+				// Just a DelegateLayout
+			};
+		}
+		catch( LayoutException e )
+		{
+			assertTrue( "org.metawidget.layout.delegate.DelegateLayoutTest$1 needs a Layout to delegate to (use org.metawidget.layout.delegate.DelegateLayoutConfig.setLayout)".equals( e.getMessage() ));
+		}
 	}
 }

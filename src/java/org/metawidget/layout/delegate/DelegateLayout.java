@@ -19,6 +19,7 @@ package org.metawidget.layout.delegate;
 import java.util.Map;
 
 import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.iface.LayoutException;
 
 /**
  * Delegates Layout functionality to the given Layout.
@@ -53,6 +54,11 @@ public abstract class DelegateLayout<W, M extends W>
 	public DelegateLayout( DelegateLayoutConfig<W, M> config )
 	{
 		mDelegate = config.getLayout();
+
+		// TODO: test this
+
+		if ( mDelegate == null )
+			throw LayoutException.newException( getClass().getName() + " needs a Layout to delegate to (use " + config.getClass().getName() + ".setLayout)" );
 	}
 
 	//
