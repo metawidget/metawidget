@@ -48,7 +48,7 @@ public class ExcludingWidgetBuilderExampleTest
 	//
 
 	@SuppressWarnings( "unchecked" )
-	public void testWidgetProcessorExample()
+	public void testWidgetBuilderExample()
 		throws Exception
 	{
 		Person person = new Person();

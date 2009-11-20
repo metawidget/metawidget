@@ -28,6 +28,7 @@ import org.metawidget.example.swing.userguide.ExcludingWidgetBuilderExampleTest;
 import org.metawidget.example.swing.userguide.IncludingInspectionResultProcessorExampleTest;
 import org.metawidget.example.swing.userguide.InspectorExampleTest;
 import org.metawidget.example.swing.userguide.PropertyStyleExampleTest;
+import org.metawidget.example.swing.userguide.ReadOnlyWidgetBuilderExampleTest;
 import org.metawidget.example.swing.userguide.WidgetBuilderExampleTest;
 import org.metawidget.example.swing.userguide.WidgetProcessorExampleTest;
 
@@ -48,6 +49,7 @@ public class ExampleTests
 		suite.addTestSuite( ExcludingWidgetBuilderExampleTest.class );
 		suite.addTestSuite( IncludingInspectionResultProcessorExampleTest.class );
 		suite.addTestSuite( PropertyStyleExampleTest.class );
+		suite.addTestSuite( ReadOnlyWidgetBuilderExampleTest.class );
 		suite.addTestSuite( SwingAddressBookTest.class );
 		suite.addTestSuite( SwingAnimalRacesTest.class );
 		suite.addTestSuite( SwingAppFrameworkTest.class );

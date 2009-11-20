@@ -3513,9 +3513,9 @@ public class Main {
 				<title>Usage</title>
 				
 				<para>
-					Unless explicitly specified, each Metawidget will instantiate a default WidgetBuilder to match
+					Unless explicitly specified, each Metawidget will instantiate default <classname>WidgetBuilder</classname>s to match
 					the target platform. For example, <classname>SwingMetawidget</classname> will by default
-					instantiate a <classname>CompositeWidgetBuilder</classname> with a
+					instantiate an
 					<classname>OverriddenWidgetBuilder</classname>, <classname>ReadOnlyWidgetBuilder</classname> and <classname>SwingWidgetBuilder</classname>.
 				</para>
 				
@@ -3712,10 +3712,69 @@ public class Main {
 				</para>
 				
 				<para>
-					The exception to this rule would be if you wanted to add a custom <classname>WidgetBuilder</classname> that
-					had its own read only components.
+					The exception to this rule would be if you wanted to add a custom <classname>WidgetBuilder</classname>
+					for a widget library that had its own read-only components, or if you wanted to customise the
+					read-only handling. Here is an example of a custom <classname>WidgetBuilder</classname> that returns
+					non-editable <classname>JTextField</classname>s (instead of <classname>JLabel</classname>s)
+					for read-only fields. It extends the code from the tutorial (see <xref linkend="section-introduction-part1"/>).
 				</para>
 				
+				<programlisting language="java">package com.myapp;
+			
+<symbol>import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.*;</symbol>
+
+import javax.swing.*;
+import org.metawidget.swing.*;
+<symbol>import org.metawidget.swing.widgetbuilder.*;
+import org.metawidget.widgetbuilder.composite.*;
+import org.metawidget.widgetbuilder.iface.*;
+import org.metawidget.util.*;</symbol>
+
+public class Main {
+
+	public static void main( String[] args ) {
+		Person person = new Person();
+
+		SwingMetawidget metawidget = new SwingMetawidget();
+		<symbol>metawidget.setWidgetBuilder( new CompositeWidgetBuilder&lt;JComponent, SwingMetawidget&gt;(
+			new CompositeWidgetBuilderConfig&lt;JComponent, SwingMetawidget&gt;().setWidgetBuilders(
+				new ReadOnlyTextFieldWidgetBuilder(),
+				new SwingWidgetBuilder() ) ) );</symbol>
+		metawidget.setToInspect( person );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 250 );
+		frame.setVisible( true );
+	}
+	
+	<symbol>static class ReadOnlyTextFieldWidgetBuilder
+		implements WidgetBuilder&lt;JComponent, SwingMetawidget&gt; {
+		public JComponent buildWidget( String elementName, Map&lt;String, String&gt; attributes,
+										SwingMetawidget metawidget ) {
+			if ( !WidgetBuilderUtils.isReadOnly( attributes ) )
+				return null;
+
+			if ( TRUE.equals( attributes.get( HIDDEN )))
+				return null;
+
+			Class&lt;?&gt; clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
+
+			if ( String.class.equals( clazz ) || clazz.isPrimitive() ) {
+				JTextField textField = new JTextField();
+				textField.setEditable( false );
+
+				return textField;
+			}
+
+			return null;
+		}
+	}</symbol>
+}</programlisting>
+
 			</section>
 
 			<section id="section-architecture-widgetbuilders-defaults">
@@ -4370,50 +4429,56 @@ public class Main {
 					This interface defines three methods:
 				</para>
 				
-				<programlisting language="java">void onStartBuild( M metawidget );
+				<programlisting language="java">void startLayout( W container, M metawidget );
 				
-void layoutChild( W widget, String elementName, Map&lt;String, String&gt; attributes, M metawidget );
+void layoutWidget( W widget, String elementName, Map&lt;String, String&gt; attributes, W container, M metawidget );
 
-void onEndBuild( M metawidget );</programlisting>
+void endLayout( W container, M metawidget );</programlisting>
 				
 				<!--
 					http://www.websequencediagrams.com
 					
-					Metawidget->Layout: onStartBuild
+					Metawidget->Layout: startLayout
 					loop widget
-					   Metawidget->Layout: processWidget
+					   Metawidget->Layout: layoutWidget
 					end
-					Metawidget->Layout: onEndBuild
+					Metawidget->Layout: startLayout
 				-->
 				
 				<figure id="section-architecture-layouts-loop">
-					<title>onStartBuild and onEndBuild are called once, layoutChild is called for each widget</title>
+					<title>startLayout and endLayout are called once, layoutWidget is called for each widget</title>
 					<screenshot>
 						<graphic fileref="images/activitydiagrams/architecture-layouts-loop.png" width="50mm"/>
 					</screenshot>			
 				</figure>
 				
 				<para>
-					The first method, <function>onStartBuild</function>, is called at the start of the widget building process,
+					The first method, <function>startLayout</function>, is called at the start of the widget building process,
 					before the <classname>WidgetBuilder</classname> is called. <classname>Layout</classname>s may wish to act
-					on this event to initialize themselves ready for processing. However it is acceptable to do nothing. A
+					on this event to initialize the given <parameter>container</parameter>. However it is acceptable to do nothing. A
 					convenience base class, <classname>BaseLayout</classname>, is provided with a dummy implementation
 					so that subclasses don't have to override this method.					
 				</para>
 				<para>
-					The last method, <function>onEndBuild</function>, is called at the end of the widget building process,
+					The last method, <function>endLayout</function>, is called at the end of the widget building process,
 					after all widgets have been built and added to the <classname>Layout</classname>. <classname>Layout</classname>s may wish to act
-					on this event to clean themselves up following processing. However it is acceptable to do nothing. The
+					on this event to finish the given <parameter>container</parameter>. However it is acceptable to do nothing. The
 					convenience base class, <classname>BaseLayout</classname>, has a dummy implementation
 					so that subclasses don't have to override this method.
 				</para>
 				<para>
-					The middle method, <function>layoutChild</function> is the most important. It is called for
+					The middle method, <function>layoutWidget</function> is the most important. It is called for
 					each widget. <classname>Layout</classname>s	should add the given <parameter>widget</parameter>
-					as a child of the given <parameter>metawidget</parameter>, according to the given
-					<parameter>elementName</parameter> and <parameter>attributes</parameter>.
+					as a child of the given <parameter>container</parameter>, according to the given
+					<parameter>elementName</parameter> and <parameter>attributes</parameter>. They can use
+					the given <parameter>metawidget</parameter> to access additional services if needed (such as
+					state saving).
 				</para>
 				
+			</section>
+
+			<section id="section-architecture-layouts-delegatelayout">
+				<title>DelegateLayout</title>
 			</section>
 
 			<section id="section-architecture-layouts-defaults">
@@ -4468,7 +4533,11 @@ void onEndBuild( M metawidget );</programlisting>
 						</tr>
 						<tr>
 							<td>Swing</td>
-							<td><classname>...swing.layout.GridBagLayout</classname></td>
+							<td><programlisting language="xml">&lt;separatorSectionLayout config="DelegateLayoutConfig"&gt;
+	&lt;layout&gt;
+		&lt;gridBagLayout /&gt;
+	&lt;/layout&gt;
+&lt;/separatorSectionLayout&gt;</programlisting></td>							
 						</tr>
 					</tbody>
 				</informaltable>
