@@ -102,7 +102,7 @@ public class AndroidMetawidget
 
 	private Set<View>														mExistingViews;
 
-	private Set<View>														mExistingUnusedViewsUnused;
+	private Set<View>														mExistingUnusedViews;
 
 	private Map<String, Facet>												mFacets;
 
@@ -460,7 +460,7 @@ public class AndroidMetawidget
 
 	public Set<View> fetchExistingUnusedViews()
 	{
-		return mExistingUnusedViewsUnused;
+		return mExistingUnusedViews;
 	}
 
 	//
@@ -601,14 +601,7 @@ public class AndroidMetawidget
 		try
 		{
 			if ( mLastInspection == null )
-			{
 				mLastInspection = inspect();
-				Log.d( getClass().getSimpleName(), "Inspection returned " + mLastInspection );
-			}
-			else
-			{
-				Log.d( getClass().getSimpleName(), "Reusing previous inspection " + mLastInspection );
-			}
 
 			mMetawidgetMixin.buildWidgets( mLastInspection );
 		}
@@ -624,8 +617,6 @@ public class AndroidMetawidget
 
 	protected void startBuild()
 	{
-		Log.d( getClass().getSimpleName(), "Starting build" );
-
 		if ( mExistingViews == null )
 		{
 			mExistingViews = CollectionUtils.newHashSet();
@@ -649,7 +640,7 @@ public class AndroidMetawidget
 
 		removeAllViews();
 
-		mExistingUnusedViewsUnused = CollectionUtils.newHashSet( mExistingViews );
+		mExistingUnusedViews = CollectionUtils.newHashSet( mExistingViews );
 	}
 
 	protected void addWidget( View view, String elementName, Map<String, String> attributes )
@@ -664,6 +655,8 @@ public class AndroidMetawidget
 			if ( view.getParent() != null )
 				( (ViewGroup) view.getParent() ).removeView( view );
 		}
+
+		// BaseMetawidgetMixin will call .layoutChild
 	}
 
 	protected void endBuild()
@@ -676,19 +669,24 @@ public class AndroidMetawidget
 		{
 			Map<String, String> noAttributes = CollectionUtils.newHashMap();
 
-			for ( View viewExisting : mExistingUnusedViewsUnused )
+			for ( View viewExisting : mExistingUnusedViews )
 			{
+				// TODO: does not work?! Were we lucking out because of the sorting? Are we way wide?
+
+				Log.d( getClass().getSimpleName(), "Adding existing unused View " + viewExisting + " tag " + viewExisting.getTag() + " parent " + viewExisting.getParent() + " me " + this );
+
+				// In case View has been moved into a nested TableLayout during last build
+
+				if ( viewExisting.getParent() != null )
+					( (ViewGroup) viewExisting.getParent() ).removeView( viewExisting );
+
 				layout.layoutWidget( viewExisting, PROPERTY, noAttributes, this, this );
 			}
 		}
-
-		Log.d( getClass().getSimpleName(), "Build complete" );
 	}
 
 	protected Element inspect()
 	{
-		Log.d( getClass().getSimpleName(), "Starting inspection of " + mPath );
-
 		if ( mPath == null )
 			return null;
 
@@ -850,12 +848,6 @@ public class AndroidMetawidget
 		//
 		// Protected methods
 		//
-
-		@Override
-		protected String getElementName( Element element )
-		{
-			return element.getNodeName();
-		}
 
 		@Override
 		protected void startBuild()

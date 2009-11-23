@@ -45,16 +45,16 @@ public class OverriddenWidgetBuilder
 	public View buildWidget( String elementName, Map<String, String> attributes, AndroidMetawidget metawidget )
 	{
 		View view = null;
-		String childName = attributes.get( NAME );
+		String name = attributes.get( NAME );
 
-		if ( childName == null )
+		if ( name == null )
 			return null;
 
 		Set<View> existingUnusedViews = metawidget.fetchExistingUnusedViews();
 
 		for ( View viewExisting : existingUnusedViews )
 		{
-			if ( childName.equals( viewExisting.getTag() ) )
+			if ( name.equals( viewExisting.getTag() ) )
 			{
 				view = viewExisting;
 				break;

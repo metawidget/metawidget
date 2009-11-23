@@ -313,6 +313,7 @@ public class BeansBindingProcessor
 		}
 
 		// Convenience converter for labels
+		// TODO: should this actually look to READ_ONLY, because of DONT_EXPAND?
 
 		if ( converter == null && component instanceof JLabel )
 			converter = new ReadOnlyToStringConverter();
