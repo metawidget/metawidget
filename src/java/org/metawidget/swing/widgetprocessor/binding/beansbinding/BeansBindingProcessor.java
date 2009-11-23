@@ -23,7 +23,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.JComponent;
-import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.beansbinding.BeanProperty;
@@ -52,8 +51,8 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  * <code>org.jdesktop.beansbinding.AutoBinding.UpdateStrategy</code>. Defaults to
  * <code>READ_ONCE</code>. If set to <code>READ</code> or <code>READ_WRITE</code>, the object being
  * inspected must provide <code>PropertyChangeSupport</code>. If set to <code>READ</code>, there is
- * no need to call <code>BeansBindingProcessor.rebind</code>. If set to <code>READ_WRITE</code>, there is
- * no need to call <code>BeansBindingProcessor.save</code>.
+ * no need to call <code>BeansBindingProcessor.rebind</code>. If set to <code>READ_WRITE</code>,
+ * there is no need to call <code>BeansBindingProcessor.save</code>.
  * </ul>
  *
  * @author Richard Kennard
@@ -312,10 +311,10 @@ public class BeansBindingProcessor
 			throw WidgetProcessorException.newException( "Property '" + sourceProperty + "' has no getter and no setter" );
 		}
 
-		// Convenience converter for labels
-		// TODO: should this actually look to READ_ONLY, because of DONT_EXPAND?
+		// Convenience converter for READ_ONLY fields (not just based on 'component instanceof
+		// JLabel', because the user may override a DONT_EXPAND to be a non-editable JTextField
 
-		if ( converter == null && component instanceof JLabel )
+		if ( converter == null && ( TRUE.equals( attributes.get( READ_ONLY ) ) || TRUE.equals( attributes.get( NO_SETTER ) ) ) )
 			converter = new ReadOnlyToStringConverter();
 
 		binding.setConverter( converter );

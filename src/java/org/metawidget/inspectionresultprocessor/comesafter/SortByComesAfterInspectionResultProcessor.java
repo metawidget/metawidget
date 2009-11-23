@@ -143,7 +143,7 @@ public class SortByComesAfterInspectionResultProcessor<M>
 						NodeList newTraits = newEntity.getChildNodes();
 						Node insertBefore = newTraits.item( 0 );
 
-						for ( int loop = 0, last = newTraits.getLength() - 1; loop < last; loop++ )
+						for ( int loop = 0, last = newTraits.getLength() - 1; loop <= last; loop++ )
 						{
 							Node node = newTraits.item( loop );
 

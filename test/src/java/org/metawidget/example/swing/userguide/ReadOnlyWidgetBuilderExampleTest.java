@@ -27,8 +27,10 @@ import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
+import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.example.swing.tutorial.Person;
+import org.metawidget.inspector.annotation.UiDontExpand;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
@@ -74,14 +76,14 @@ public class ReadOnlyWidgetBuilderExampleTest
 	public void testBoundWidgetBuilderExample()
 		throws Exception
 	{
-		PersonalContact person = new PersonalContact();
-		person.setFirstname( "Homer" );
+		PersonalContact contact = new PersonalContact();
+		contact.setFirstname( "Homer" );
 
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setWidgetBuilder( new CompositeWidgetBuilder<JComponent, SwingMetawidget>( new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>().setWidgetBuilders( new ReadOnlyTextFieldWidgetBuilder(), new SwingWidgetBuilder() ) ) );
 		metawidget.addWidgetProcessor( new BeansBindingProcessor() );
 		metawidget.setReadOnly( true );
-		metawidget.setToInspect( person );
+		metawidget.setToInspect( contact );
 
 		assertTrue( "Title:".equals( ((JLabel) metawidget.getComponent( 0 )).getText() ));
 		assertTrue( "".equals( ((JTextField) metawidget.getComponent( 1 )).getText() ));
@@ -89,6 +91,15 @@ public class ReadOnlyWidgetBuilderExampleTest
 		assertTrue( "Firstname:".equals( ((JLabel) metawidget.getComponent( 2 )).getText() ));
 		assertTrue( "Homer".equals( ((JTextField) metawidget.getComponent( 3 )).getText() ));
 		assertTrue( !( (JTextField) metawidget.getComponent( 3 ) ).isEditable() );
+
+		Foo foo = new Foo();
+		foo.setContact( contact );
+		metawidget.setToInspect( foo );
+
+		assertTrue( "Contact:".equals( ((JLabel) metawidget.getComponent( 0 )).getText() ));
+		assertTrue( "Homer".equals( ((JTextField) metawidget.getComponent( 1 )).getText() ));
+		assertTrue( !( (JTextField) metawidget.getComponent( 1 ) ).isEditable() );
+		assertTrue( 3 == metawidget.getComponentCount() );
 	}
 
 	//
@@ -109,7 +120,7 @@ public class ReadOnlyWidgetBuilderExampleTest
 
 			Class<?> clazz = ClassUtils.niceForName( attributes.get( TYPE ) );
 
-			if ( String.class.equals( clazz ) || clazz.isPrimitive() )
+			if ( String.class.equals( clazz ) || clazz.isPrimitive() || TRUE.equals( attributes.get( DONT_EXPAND )))
 			{
 				JTextField textField = new JTextField();
 				textField.setEditable( false );
@@ -118,6 +129,22 @@ public class ReadOnlyWidgetBuilderExampleTest
 			}
 
 			return null;
+		}
+	}
+
+	public static class Foo
+	{
+		private Contact mContact;
+
+		@UiDontExpand
+		public Contact getContact()
+		{
+			return mContact;
+		}
+
+		public void setContact( Contact contact )
+		{
+			mContact = contact;
 		}
 	}
 }
