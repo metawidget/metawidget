@@ -44,7 +44,7 @@ public class LinearLayoutTest
 	public void testLinearLayout()
 	{
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new LinearLayout() );
+		androidMetawidget.setLayout( new HeadingSectionLayout( new HeadingSectionLayoutConfig().setLayout( new LinearLayout() )));
 
 		Stub stub = new Stub( null );
 		stub.setTag( "stubMe" );
@@ -87,17 +87,6 @@ public class LinearLayoutTest
 		config2.setLabelStyle( 100 );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// TODO: sectionStyle
-
-		//config1.setSectionStyle( 100 );
-		//assertTrue( 100 == config1.getSectionStyle() );
-		//assertTrue( !config1.equals( config2 ) );
-		//assertTrue( config1.hashCode() != config2.hashCode() );
-
-		//config2.setSectionStyle( 100 );
-		//assertTrue( config1.equals( config2 ) );
-		//assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 
 	//

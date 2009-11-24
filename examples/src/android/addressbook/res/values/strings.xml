@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Address Book (Metawidget Example)</string>
+    <string name="firstname">Fooname</string>
     <string name="search">Search</string>
     <string name="addPersonal">Add Personal</string>
     <string name="personalContact">Personal Contact</string>

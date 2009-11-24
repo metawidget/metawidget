@@ -46,7 +46,6 @@ public class TableLayoutTest
 	public void testTableLayout()
 	{
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new TableLayout() );
 
 		Stub stub = new Stub( null );
 		stub.setTag( "stubMe" );
@@ -67,8 +66,8 @@ public class TableLayoutTest
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
 		assertTrue( "Baz: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof CheckBox );
-		tableLayout = (android.widget.TableLayout) androidMetawidget.getChildAt( 1 );
-		assertTrue( "Foo Section".equals( ( (TextView) tableLayout.getChildAt( 0 ) ).getText() ) );
+		assertTrue( "Foo Section".equals( ( (TextView) androidMetawidget.getChildAt( 1 ) ).getText() ) );
+		tableLayout = (android.widget.TableLayout) androidMetawidget.getChildAt( 2 );
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
 		assertTrue( "Abc: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof Spinner );

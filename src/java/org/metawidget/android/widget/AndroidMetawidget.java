@@ -95,6 +95,8 @@ public class AndroidMetawidget
 
 	private boolean															mNeedsConfiguring	= true;
 
+	private Class<?>														mBundle;
+
 	private boolean															mNeedToBuildWidgets;
 
 	Element																	mLastInspection;
@@ -226,6 +228,12 @@ public class AndroidMetawidget
 		invalidateInspection();
 	}
 
+	public void setBundle( Class<?> bundle )
+	{
+		mBundle = bundle;
+		invalidateWidgets();
+	}
+
 	public String getLabelString( Map<String, String> attributes )
 	{
 		if ( attributes == null )
@@ -272,18 +280,26 @@ public class AndroidMetawidget
 	}
 
 	/**
+	 * Looks up the given key in the given bundle using
+	 * <code>getContext().getResources().getText()</code>.
+	 *
 	 * @return null if no bundle, ???key??? if bundle is missing a key
 	 */
 
 	public String getLocalizedKey( String key )
 	{
-		// Android doesn't support i18n yet. This page...
-		//
-		// http://developer.android.com/guide/topics/resources/resources-i18n.html
-		//
-		// ...says 'Coming Soon' as of 4/11/2009
+		if ( mBundle == null )
+			return null;
 
-		return null;
+		try
+		{
+			int id = (Integer) mBundle.getField( key ).get( null );
+			return getContext().getResources().getText( id ).toString();
+		}
+		catch ( Exception e )
+		{
+			return StringUtils.RESOURCE_KEY_NOT_FOUND_PREFIX + key + StringUtils.RESOURCE_KEY_NOT_FOUND_SUFFIX;
+		}
 	}
 
 	public boolean isReadOnly()
@@ -576,7 +592,7 @@ public class AndroidMetawidget
 			if ( mMetawidgetMixin.getLayout() == null )
 			{
 				if ( DEFAULT_LAYOUT == null )
-					DEFAULT_LAYOUT = new HeadingSectionLayout( new HeadingSectionLayoutConfig().setLayout( new TableLayout() ));
+					DEFAULT_LAYOUT = new HeadingSectionLayout( new HeadingSectionLayoutConfig().setLayout( new TableLayout() ) );
 
 				mMetawidgetMixin.setLayout( DEFAULT_LAYOUT );
 			}
@@ -695,6 +711,7 @@ public class AndroidMetawidget
 	{
 		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+		nestedMetawidget.setBundle( mBundle );
 		nestedMetawidget.setToInspect( mToInspect );
 	}
 

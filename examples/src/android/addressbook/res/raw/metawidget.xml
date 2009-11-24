@@ -4,6 +4,9 @@
 	xsi:schemaLocation="http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd" version="1.0">
 
 	<androidMetawidget xmlns="java:org.metawidget.android.widget">
+		<bundle>
+			<class>org.metawidget.example.android.addressbook.R$string</class>
+		</bundle>
 		<inspector>
 			<compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig">
 				<inspectors>
