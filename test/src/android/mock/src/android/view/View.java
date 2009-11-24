@@ -84,6 +84,11 @@ public class View
 		return null;
 	}
 
+	public void setId( int id )
+	{
+		// Do nothing
+	}
+
 	public Object getTag()
 	{
 		return mTag;

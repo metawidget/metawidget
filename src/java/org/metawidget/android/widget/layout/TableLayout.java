@@ -65,8 +65,10 @@ public class TableLayout
 
 		// If the TableLayout was never used, just put an empty space
 
-		if ( metawidget.getChildCount() == 0 )
-			metawidget.addView( new TextView( metawidget.getContext() ), new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		ViewGroup viewGroup = (ViewGroup) container;
+
+		if ( viewGroup.getChildCount() == 0 || !( viewGroup.getChildAt( metawidget.getChildCount() - 1 ) instanceof android.widget.TableLayout ))
+			viewGroup.addView( new TextView( metawidget.getContext() ), new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 	}
 
 	//
@@ -74,7 +76,7 @@ public class TableLayout
 	//
 
 	@Override
-	protected void layoutView( View view, ViewGroup tableRow, AndroidMetawidget metawidget, boolean needsLabel )
+	protected void layoutView( View view, ViewGroup tableRow, View container, AndroidMetawidget metawidget, boolean needsLabel )
 	{
 		// View
 
@@ -98,19 +100,20 @@ public class TableLayout
 
 		TableRow.LayoutParams params = new TableRow.LayoutParams();
 
-		if ( needsLabel )
+		if ( !needsLabel )
 			params.span = LABEL_AND_WIDGET;
 
 		// Add it to our layout
 
 		tableRow.addView( viewToAdd, params );
-		getLayout( metawidget ).addView( tableRow, new android.widget.TableLayout.LayoutParams() );
+		getLayout( (ViewGroup) container ).addView( tableRow, new android.widget.TableLayout.LayoutParams() );
 	}
 
 	@Override
-	protected ViewGroup getViewToAddTo( AndroidMetawidget metawidget )
+	protected ViewGroup getViewToAddTo( ViewGroup container )
 	{
-		return new TableRow( metawidget.getContext() );
+		// TODO: could be neater?
+		return new TableRow( container.getContext() );
 	}
 
 	/**
@@ -121,21 +124,21 @@ public class TableLayout
 	 */
 
 	@Override
-	protected android.widget.TableLayout getLayout( AndroidMetawidget metawidget )
+	protected android.widget.TableLayout getLayout( ViewGroup container )
 	{
-		if ( metawidget.getChildCount() == 0 )
-			startNewLayout( metawidget );
+		if ( container.getChildCount() == 0 || !( container.getChildAt( container.getChildCount() - 1 ) instanceof android.widget.TableLayout ))
+			startNewLayout( container );
 
-		return (android.widget.TableLayout) metawidget.getChildAt( metawidget.getChildCount() - 1 );
+		return (android.widget.TableLayout) container.getChildAt( container.getChildCount() - 1 );
 	}
 
 	@Override
-	protected void startNewLayout( AndroidMetawidget metawidget )
+	protected void startNewLayout( ViewGroup container )
 	{
-		android.widget.TableLayout layout = new android.widget.TableLayout( metawidget.getContext() );
+		android.widget.TableLayout layout = new android.widget.TableLayout( container.getContext() );
 		layout.setOrientation( android.widget.LinearLayout.VERTICAL );
 		layout.setColumnStretchable( 1, true );
 
-		metawidget.addView( layout, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		container.addView( layout, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 	}
 }

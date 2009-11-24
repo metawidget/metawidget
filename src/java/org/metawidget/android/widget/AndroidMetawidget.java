@@ -23,6 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.android.AndroidConfigReader;
+import org.metawidget.android.widget.layout.HeadingSectionLayout;
+import org.metawidget.android.widget.layout.HeadingSectionLayoutConfig;
 import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.OverriddenWidgetBuilder;
@@ -50,7 +52,6 @@ import org.w3c.dom.Element;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -546,7 +547,7 @@ public class AndroidMetawidget
 					// the dependancy up even if we never come down this codepath)
 
 					Inspector annotationInspector = (Inspector) Class.forName( "org.metawidget.inspector.annotation.MetawidgetAnnotationInspector" ).newInstance();
-					DEFAULT_INSPECTOR = new CompositeInspector( new CompositeInspectorConfig().setInspectors( annotationInspector, new PropertyTypeInspector() ) );
+					DEFAULT_INSPECTOR = new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), annotationInspector ) );
 				}
 
 				mMetawidgetMixin.setInspector( DEFAULT_INSPECTOR );
@@ -575,7 +576,7 @@ public class AndroidMetawidget
 			if ( mMetawidgetMixin.getLayout() == null )
 			{
 				if ( DEFAULT_LAYOUT == null )
-					DEFAULT_LAYOUT = new TableLayout();
+					DEFAULT_LAYOUT = new HeadingSectionLayout( new HeadingSectionLayoutConfig().setLayout( new TableLayout() ));
 
 				mMetawidgetMixin.setLayout( DEFAULT_LAYOUT );
 			}
@@ -671,11 +672,7 @@ public class AndroidMetawidget
 
 			for ( View viewExisting : mExistingUnusedViews )
 			{
-				// TODO: does not work?! Were we lucking out because of the sorting? Are we way wide?
-
-				Log.d( getClass().getSimpleName(), "Adding existing unused View " + viewExisting + " tag " + viewExisting.getTag() + " parent " + viewExisting.getParent() + " me " + this );
-
-				// In case View has been moved into a nested TableLayout during last build
+				// In case View has been moved into a nested Layout during last build
 
 				if ( viewExisting.getParent() != null )
 					( (ViewGroup) viewExisting.getParent() ).removeView( viewExisting );

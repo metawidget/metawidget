@@ -16,16 +16,13 @@
 
 package org.metawidget.android.widget.layout;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
 import java.util.Map;
 
 import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
-import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.impl.BaseLayout;
 import org.metawidget.layout.impl.LayoutUtils;
-import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,15 +36,13 @@ import android.widget.TextView;
  */
 
 public class LinearLayout
-	implements Layout<View, AndroidMetawidget>
+	extends BaseLayout<View, AndroidMetawidget>
 {
 	//
 	// Private members
 	//
 
 	private int					mLabelStyle;
-
-	private int					mSectionStyle;
 
 	//
 	// Constructor
@@ -61,17 +56,11 @@ public class LinearLayout
 	public LinearLayout( LinearLayoutConfig config )
 	{
 		mLabelStyle = config.getLabelStyle();
-		mSectionStyle = config.getSectionStyle();
 	}
 
 	//
 	// Public methods
 	//
-
-	public void startLayout( View container, AndroidMetawidget metawidget )
-	{
-		metawidget.putClientProperty( LinearLayout.class, null );
-	}
 
 	public void layoutWidget( View view, String elementName, Map<String, String> attributes, View container, AndroidMetawidget metawidget )
 	{
@@ -80,24 +69,10 @@ public class LinearLayout
 		if ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 )
 			return;
 
-		ViewGroup viewToAddTo = getViewToAddTo( metawidget );
+		ViewGroup viewToAddTo = getViewToAddTo( (ViewGroup) container );
 
 		String labelText = metawidget.getLabelString( attributes );
 		boolean needsLabel = LayoutUtils.needsLabel( labelText, elementName );
-
-		if ( attributes != null )
-		{
-			// Section headings
-
-			State state = getState( metawidget );
-			String section = attributes.get( SECTION );
-
-			if ( section != null && !section.equals( state.currentSection ) )
-			{
-				state.currentSection = section;
-				layoutSection( section, metawidget );
-			}
-		}
 
 		// Labels
 
@@ -113,16 +88,17 @@ public class LinearLayout
 
 		// View
 
-		layoutView( view, viewToAddTo, metawidget, needsLabel );
+		layoutView( view, viewToAddTo, container, metawidget, needsLabel );
 	}
 
+	@Override
 	public void endLayout( View container, AndroidMetawidget metawidget )
 	{
 		View viewButtons = metawidget.getFacet( "buttons" );
 
 		if ( viewButtons != null )
 		{
-			getLayout( metawidget ).addView( viewButtons, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+			getLayout( (ViewGroup) container ).addView( viewButtons, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 		}
 	}
 
@@ -130,7 +106,7 @@ public class LinearLayout
 	// Protected methods
 	//
 
-	protected void layoutView( View view, ViewGroup viewToAddTo, AndroidMetawidget metawidget, boolean needsLabel )
+	protected void layoutView( View view, ViewGroup viewToAddTo, View container, AndroidMetawidget metawidget, boolean needsLabel )
 	{
 		android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
 
@@ -147,86 +123,26 @@ public class LinearLayout
 		viewToAddTo.addView( view, params );
 	}
 
-	protected void layoutSection( String section, AndroidMetawidget metawidget )
-	{
-		if ( "".equals( section ) )
-			return;
-
-		// Section name (possibly localized)
-
-		TextView textView = new TextView( metawidget.getContext() );
-
-		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
-
-		if ( localizedSection != null )
-			textView.setText( localizedSection, TextView.BufferType.SPANNABLE );
-		else
-			textView.setText( section, TextView.BufferType.SPANNABLE );
-
-		// Apply style (if any)
-
-		AndroidUtils.applyStyle( textView, mSectionStyle, metawidget );
-
-		// Start a new layout, to save horizontal space where possible
-		// (eg. the labels in this new section might be smaller than the old section)
-
-		startNewLayout( metawidget );
-
-		// Add it to the Layout
-
-		getLayout( metawidget ).addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
-	}
-
 	//
 	// Protected methods
 	//
 
-	protected ViewGroup getViewToAddTo( AndroidMetawidget metawidget )
+	protected ViewGroup getViewToAddTo( ViewGroup metawidget )
 	{
 		// AndroidMetawidget is already a LinearLayout
 
 		return metawidget;
 	}
 
-	protected android.widget.LinearLayout getLayout( AndroidMetawidget metawidget )
+	protected ViewGroup getLayout( ViewGroup container )
 	{
 		// AndroidMetawidget is already a LinearLayout
 
-		return metawidget;
+		return container;
 	}
 
-	protected void startNewLayout( AndroidMetawidget metawidget )
+	protected void startNewLayout( ViewGroup container )
 	{
 		// Do nothing
-	}
-
-	//
-	// Private methods
-	//
-
-	private State getState( AndroidMetawidget metawidget )
-	{
-		State state = (State) metawidget.getClientProperty( LinearLayout.class );
-
-		if ( state == null )
-		{
-			state = new State();
-			metawidget.putClientProperty( LinearLayout.class, state );
-		}
-
-		return state;
-	}
-
-	//
-	// Inner class
-	//
-
-	/**
-	 * Simple, lightweight structure for saving state.
-	 */
-
-	/* package private */class State
-	{
-		/* package private */String	currentSection;
 	}
 }

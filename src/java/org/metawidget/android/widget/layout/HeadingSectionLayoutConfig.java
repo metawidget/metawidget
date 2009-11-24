@@ -16,46 +16,67 @@
 
 package org.metawidget.android.widget.layout;
 
+import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.layout.delegate.DelegateLayoutConfig;
+import org.metawidget.layout.iface.Layout;
+
+import android.view.View;
+
 /**
- * Configures a LinearLayout prior to use. Once instantiated, Layouts are immutable.
+ * Configures a HeadingSectionLayout prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class LinearLayoutConfig
+public class HeadingSectionLayoutConfig
+	extends DelegateLayoutConfig<View, AndroidMetawidget>
 {
 	//
 	// Private members
 	//
 
-	private int	mLabelStyle;
+	private int	mSectionStyle;
 
 	//
 	// Public methods
 	//
 
-	public int getLabelStyle()
+	/**
+	 * Overridden to use covariant return type.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	@Override
+	public HeadingSectionLayoutConfig setLayout( Layout<View, AndroidMetawidget> layout )
 	{
-		return mLabelStyle;
+		super.setLayout( layout );
+
+		return this;
+	}
+
+	public int getSectionStyle()
+	{
+		return mSectionStyle;
 	}
 
 	/**
 	 * @return this, as part of a fluent interface
 	 */
 
-	public LinearLayoutConfig setLabelStyle( int labelStyle )
+	public HeadingSectionLayoutConfig setSectionStyle( int sectionStyle )
 	{
-		mLabelStyle = labelStyle;
+		mSectionStyle = sectionStyle;
 		return this;
 	}
 
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof LinearLayoutConfig ) )
+		if ( !( that instanceof HeadingSectionLayoutConfig ) )
 			return false;
 
-		if ( mLabelStyle != ( (LinearLayoutConfig) that ).mLabelStyle )
+		if ( mSectionStyle != ( (HeadingSectionLayoutConfig) that ).mSectionStyle )
 			return false;
 
 		return true;
@@ -64,6 +85,6 @@ public class LinearLayoutConfig
 	@Override
 	public int hashCode()
 	{
-		return mLabelStyle;
+		return mSectionStyle;
 	}
 }

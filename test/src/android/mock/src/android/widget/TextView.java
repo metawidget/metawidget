@@ -79,6 +79,11 @@ public class TextView
 		// Ignore
 	}
 
+	public void setGravity( int gravity )
+	{
+		// Ignore
+	}
+
 	public void setTextColor( ColorStateList colors )
 	{
 		// Ignore

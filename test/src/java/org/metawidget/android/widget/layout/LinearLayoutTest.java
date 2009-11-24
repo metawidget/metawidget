@@ -88,16 +88,16 @@ public class LinearLayoutTest
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
-		// sectionStyle
+		// TODO: sectionStyle
 
-		config1.setSectionStyle( 100 );
-		assertTrue( 100 == config1.getSectionStyle() );
-		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
+		//config1.setSectionStyle( 100 );
+		//assertTrue( 100 == config1.getSectionStyle() );
+		//assertTrue( !config1.equals( config2 ) );
+		//assertTrue( config1.hashCode() != config2.hashCode() );
 
-		config2.setSectionStyle( 100 );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		//config2.setSectionStyle( 100 );
+		//assertTrue( config1.equals( config2 ) );
+		//assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 
 	//
