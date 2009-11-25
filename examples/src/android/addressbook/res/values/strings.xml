@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+	<!-- Strings that are manually localized -->
+	
     <string name="app_name">Address Book (Metawidget Example)</string>
-    <string name="firstname">Fooname</string>
     <string name="search">Search</string>
     <string name="addPersonal">Add Personal</string>
     <string name="personalContact">Personal Contact</string>
@@ -25,4 +27,23 @@
     <string name="no">No</string>
     <string name="deleteContact">Delete Contact</string>
     <string name="confirmDeleteContact">Sure you want to delete this contact?</string>
+    
+	<!-- Strings that are localized by Metawidget -->
+	    
+    <string name="firstname">Firstname</string>
+    <string name="surname">Surname</string>
+    <string name="type">Type</string>
+    <string name="title">Title</string>
+    <string name="dateOfBirth">Date of Birth</string>
+    <string name="company">Company</string>
+    <string name="gender">Gender</string>
+    <string name="contactDetails">Contact Details</string>
+    <string name="other">Other</string>
+    <string name="street">Street</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
+    <string name="postcode">Postcode</string>
+    <string name="numberOfStaff">Number of Staff</string>
+    <string name="notes">Notes</string>
+    
 </resources>

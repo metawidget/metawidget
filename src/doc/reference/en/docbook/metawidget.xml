@@ -5549,6 +5549,37 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					to <classname>AndroidMetawidget</classname>, see <xref linkend="section-introduction-part2-mobile"/>.
 				</para>
 
+				<section id="section-metawidgets-mobile-android-installation">
+					<title>Installation</title>
+
+					<para>
+						There are two steps to installing <classname>AndroidMetawidget</classname> within an Android application:
+					</para>
+					
+					<orderedlist>
+						<listitem>
+							<para>
+								Add <filename>metawidget.jar</filename> to your <parameter>CLASSPATH</parameter> (ie. under
+								your project's <parameter>Libraries</parameter> tab in Eclipse)
+							</para>
+						</listitem>
+						<listitem>
+							<para>
+								You can (optionally) configure the Metawidget, either programmatically (as detailed in <xref linkend="section-introduction-part1-inspectors"/>)
+								or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-inspector-config"/>)
+								in your <filename>res/raw</filename> folder.
+							</para>
+						</listitem>
+					</orderedlist>
+					
+					<tip>
+						<title>Note</title>
+						Given the resource constraints of a mobile device, consider creating a custom <filename>metawidget.jar</filename> that
+						only includes the classes you need (as detailed in <xref linkend="section-performance-jar"/>).
+					</tip>
+					
+				</section>
+
 			</section>
 			
 		</section>
@@ -8089,6 +8120,19 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						</tbody>						
 					</informaltable>					
 				</section>				
+
+				<section id="section-layouts-desktop-swing-separator">
+					<title>SeparatorSectionLayout</title>
+				</section>
+
+				<section id="section-layouts-desktop-swing-tabbedpane">
+					<title>TabbedPaneSectionLayout</title>
+				</section>
+
+				<section id="section-layouts-desktop-swing-titledpanel">
+					<title>TitledPanelSectionLayout</title>
+				</section>
+
 			</section>
 			
 		</section>
@@ -8462,6 +8506,52 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 			<section id="section-layouts-mobile-android">
 				<title>Android Layouts</title>
 				
+				<section id="section-layouts-web-android-heading">
+					<title>HeadingSectionLayout</title>
+				</section>
+
+				<section id="section-layouts-web-android-linear">
+					<title>LinearLayout</title>
+					
+					<para>
+						Layout to arrange widgets vertically, using <classname>android.widget.LinearLayout</classname>.
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>LinearLayoutConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>labelStyle</parameter></td>
+								<td>
+									Android style (ie. <parameter>@com.myapp:style/label</parameter>) to apply to labels. The
+									style should be defined within <filename>res/values/styles.xml</filename> along the lines of:
+									<programlisting language="xml">&lt;style name="section"&gt;
+	&lt;item name="android:textSize"&gt;20sp&lt;/item&gt;
+	&lt;item name="android:paddingTop"&gt;10px&lt;/item&gt;
+	&lt;item name="android:paddingBottom"&gt;5px&lt;/item&gt;
+&lt;/style&gt;</programlisting>
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyle</parameter></td>
+								<td>Android style (ie. <parameter>@com.myapp:style/section</parameter>) to apply to section breaks</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+					
+				</section>				
+				
 				<section id="section-layouts-web-android-table">
 					<title>TableLayout</title>
 					
@@ -8505,48 +8595,10 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					
 				</section>
 				
-				<section id="section-layouts-web-android-linear">
-					<title>LinearLayout</title>
-					
-					<para>
-						Layout to arrange widgets vertically, using <classname>android.widget.LinearLayout</classname>.
-						This <classname>Layout</classname> recognizes the following parameters, configured
-						using <classname>LinearLayoutConfig</classname>:						
-					</para>
-					
-					<informaltable>
-						<colgroup>
-							<col width="30%"/>
-							<col width="70%"/>
-						</colgroup>
-						<thead>
-							<tr>
-								<th align="left">Property</th>
-								<th align="left">Description</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td><parameter>labelStyle</parameter></td>
-								<td>
-									Android style (ie. <parameter>@com.myapp:style/label</parameter>) to apply to labels. The
-									style should be defined within <filename>res/values/styles.xml</filename> along the lines of:
-									<programlisting language="xml">&lt;style name="section"&gt;
-	&lt;item name="android:textSize"&gt;20sp&lt;/item&gt;
-	&lt;item name="android:paddingTop"&gt;10px&lt;/item&gt;
-	&lt;item name="android:paddingBottom"&gt;5px&lt;/item&gt;
-&lt;/style&gt;</programlisting>
-								</td>
-							</tr>
-							<tr>
-								<td><parameter>sectionStyle</parameter></td>
-								<td>Android style (ie. <parameter>@com.myapp:style/section</parameter>) to apply to section breaks</td>
-							</tr>
-						</tbody>						
-					</informaltable>
-					
-				</section>				
-				
+				<section id="section-layouts-web-android-tab">
+					<title>TabSectionLayout</title>
+				</section>
+
 			</section>
 		</section>
 		
@@ -8728,9 +8780,11 @@ Inspector inspector = new XmlInspector( config );</programlisting>
 			
 			<para>		
 				For example, the <filename>example-swing-addressbook-applet</filename> Ant task	builds
-				<filename>examples\swing\applet\addressbook\metawidget-applet.jar</filename>. This JAR includes only the
-				<classname>SwingMetawidget</classname> and those <classname>Inspectors</classname> necessary for the Address Book
-				example application. It is then further compressed using <filename>pack200</filename>.
+				<filename>examples\swing\applet\addressbook\metawidget-applet.jar</filename>. This JAR includes only those
+				classes (<classname>Inspectors</classname>, <classname>WidgetBuilders</classname> and so on) necessary for the
+				Swing Address Book example applet (it is further compressed using <filename>pack200</filename>).
+				Similarly, the <filename>example-android-addressbook</filename> Ant task includes only those classes necessary for
+				the Android Address Book.
 			</para>
 			
 		</section>

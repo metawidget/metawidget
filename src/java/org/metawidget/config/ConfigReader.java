@@ -1211,7 +1211,7 @@ public class ConfigReader
 					else
 						configToConstruct = configClassName;
 
-					Class<?> configClass = ClassUtils.niceForName( configToConstruct );
+					Class<?> configClass = ClassUtils.niceForName( configToConstruct, getClass().getClassLoader() );
 					if ( configClass == null )
 						throw MetawidgetException.newException( "No such configuration class " + configToConstruct );
 
@@ -1493,7 +1493,7 @@ public class ConfigReader
 
 			try
 			{
-				ClassUtils.niceForName( "org.metawidget.inspector.annotation.MetawidgetAnnotationInspector" );
+				ClassUtils.niceForName( "org.metawidget.inspector.annotation.MetawidgetAnnotationInspector", getClass().getClassLoader() );
 				return false;
 			}
 			catch ( UnsupportedClassVersionError e )
@@ -1515,7 +1515,7 @@ public class ConfigReader
 
 			String packagePrefix = uri.substring( JAVA_NAMESPACE_PREFIX.length() ) + StringUtils.SEPARATOR_DOT_CHAR;
 			String toConstruct = packagePrefix + StringUtils.uppercaseFirstLetter( localName );
-			Class<?> clazz = ClassUtils.niceForName( toConstruct );
+			Class<?> clazz = ClassUtils.niceForName( toConstruct, getClass().getClassLoader() );
 
 			if ( clazz == null )
 				throw MetawidgetException.newException( "No such class " + toConstruct + " or supported tag <" + localName + ">" );

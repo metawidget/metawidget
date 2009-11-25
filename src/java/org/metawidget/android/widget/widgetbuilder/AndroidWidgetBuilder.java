@@ -171,7 +171,7 @@ public class AndroidWidgetBuilder
 
 		// Lookup the Class
 
-		Class<?> clazz = ClassUtils.niceForName( type );
+		Class<?> clazz = ClassUtils.niceForName( type, getClass().getClassLoader() );
 
 		// Support mandatory Booleans (can be rendered as a checkbox, even though they have a
 		// Lookup)
