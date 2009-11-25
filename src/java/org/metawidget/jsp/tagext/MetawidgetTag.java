@@ -307,9 +307,11 @@ public abstract class MetawidgetTag
 	{
 		// According to this bug report https://issues.apache.org/bugzilla/show_bug.cgi?id=16001 and
 		// this article http://onjava.com/pub/a/onjava/2001/11/07/jsp12.html?page=3, we do not need
-		// to worry about overriding super.release() for member variables associated with a property
+		// to worry about overriding super.release() for values associated with an optional property
 		// getter/setter (nor can we ever rely on super.release() being called). We just need to
-		// reset some internal variables during doStartTag
+		// reset some internal variables during doStartTag. The pooling is smart enough
+		// not to pool tags with different optional values, and of course non-optional values will
+		// get reset each time
 
 		mFacets = null;
 		mStubs = null;
@@ -461,8 +463,10 @@ public abstract class MetawidgetTag
 
 				// Combine the subtrees.
 				//
-				// Note the top-level types attribute will be different, because one is the 'raw' type (eg.
-				// contactForm) and one the runtime bean (eg. org.metawidget.example.struts.addressbook.form.BusinessContactForm)
+				// Note the top-level types attribute will be different, because one is the 'raw'
+				// type (eg.
+				// contactForm) and one the runtime bean (eg.
+				// org.metawidget.example.struts.addressbook.form.BusinessContactForm)
 
 				if ( inspectionResult == null )
 				{
