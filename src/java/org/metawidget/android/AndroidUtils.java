@@ -36,7 +36,7 @@ import android.widget.TextView;
 /**
  * Utilities for working with Android.
  *
- * @author Richard Kennard
+ * @author Richard Kennard, Tomasz Bartczak
  */
 
 public final class AndroidUtils
@@ -56,7 +56,7 @@ public final class AndroidUtils
 	// http://markmail.org/message/ogskv4frewsxghlp
 	//
 	// ...seems to suggest only the container can do this at present, but that this will be cleaned
-	// up in future
+	// up in future?
 	//
 	public static void applyStyle( View view, int style, AndroidMetawidget metawidget )
 	{
@@ -114,6 +114,8 @@ public final class AndroidUtils
 				textView.setGravity( gravity );
 
 			// Size
+			//
+			// (Tomasz discovered you have to re-call obtainStyledAttributes here. Why?)
 
 			attributes = metawidget.getContext().obtainStyledAttributes( style, TEXTVIEW_ATTRIBUTES_SIZE );
 			int textSize = attributes.getDimensionPixelSize( 0, BOGUS_DEFAULT );

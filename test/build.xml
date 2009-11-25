@@ -477,16 +477,19 @@
 				<include name="org/metawidget/inspector/*.class"/>
 				<include name="org/metawidget/inspector/composite/**"/>
 				<include name="org/metawidget/inspector/iface/**"/>
-				<include name="org/metawidget/inspector/impl/**"/>
+				<include name="org/metawidget/inspector/impl/*.class"/>
+				<include name="org/metawidget/inspector/impl/actionstyle/*.class"/>
+				<include name="org/metawidget/inspector/impl/propertystyle/**"/>
 				<include name="org/metawidget/inspector/propertytype/**"/>
 				<include name="org/metawidget/inspector/java5/**"/>
 				<include name="org/metawidget/inspector/xml/**"/>
+				<include name="org/metawidget/inspectionresultprocessor/**"/>
+				<include name="org/metawidget/layout/**"/>
 				<include name="org/metawidget/mixin/base/**"/>
 				<include name="org/metawidget/mixin/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
 				<include name="org/metawidget/widgetbuilder/**"/>
 				<include name="org/metawidget/widgetprocessor/**"/>
-				<include name="org/metawidget/layout/**"/>
 			</fileset>			
 			<fileset dir="${relative.dir}/${build.dir}/test-classes">
 				<include name="org/metawidget/android/allwidgets/**"/>

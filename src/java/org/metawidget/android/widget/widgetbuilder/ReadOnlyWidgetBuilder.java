@@ -53,8 +53,10 @@ public class ReadOnlyWidgetBuilder
 	public Object getValue( View view )
 	{
 		// TextView
+		//
+		// (don't use instanceof, because CheckBox instanceof TextView)
 
-		if ( view instanceof TextView )
+		if ( TextView.class.equals( view.getClass() ) )
 		{
 			CharSequence text = ( (TextView) view ).getText();
 
@@ -75,8 +77,10 @@ public class ReadOnlyWidgetBuilder
 	public boolean setValue( Object value, View view )
 	{
 		// TextView
+		//
+		// (don't use instanceof, because CheckBox instanceof TextView)
 
-		if ( view instanceof TextView )
+		if ( TextView.class.equals( view.getClass() ) )
 		{
 			( (TextView) view ).setText( StringUtils.quietValueOf( value ) );
 			return true;

@@ -17,21 +17,23 @@ test-existing-personal:
 
 1. Click Mr Homer Simpson
 2. Check all values are populated as read-only
-3. Check 'Contact Details' and 'Other' headings are in a large font
-4. Click Edit
-5. Check all values are populated as active controls. Check title has focus
-6. Check date is May 12 1956 (though formatted as per your locale)
-7. Change firstname to Homer Jay
-8. Choose Add Communication
-9. Add a Fax of (939) 555-0114. Check it appears
-10. Add an E-mail of homer@simpsons.com. Check it appears
-11. Delete the Telephone number
-12. Change Date of Birth to 'May 12 1957' and save
-13. Check front page shows Homer Jay Simpson
-14. Click Mrs Marjorie Simpson
-15. Click Edit
-16. Check Notes is populated
-17. Click Back button
+3. Check 'Date of Birth' is localized to 'Date of Birth' (capital 'B')
+4. Check 'Contact Details' and 'Other' headings are in a large font
+5. Click Edit
+6. Check all values are populated as active controls. Check title has focus
+7. Check date is May 12 1956 (though formatted as per your locale)
+8. Change firstname to Homer Jay
+9. Choose Add Communication
+10. Add a Fax of (939) 555-0114. Check it appears
+11. Check value is localized to ???value???
+12. Add an E-mail of homer@simpsons.com. Check it appears
+13. Delete the Telephone number
+14. Change Date of Birth to 'May 12 1957' and save
+15. Check front page shows Homer Jay Simpson
+16. Click Mrs Marjorie Simpson
+17. Click Edit
+18. Check Notes is populated
+19. Click Back button
 
 test-new-business:
 

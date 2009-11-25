@@ -174,7 +174,8 @@ public class BaseObjectInspectorConfig
 				}
 				catch ( Throwable t )
 				{
-					// MetawidgetActionStyle is unsupported on JDK 1.4
+					// MetawidgetActionStyle is unsupported on JDK 1.4, as well as
+					// some environments might choose to ship without it
 				}
 			}
 
