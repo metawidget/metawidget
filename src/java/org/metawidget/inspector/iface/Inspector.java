@@ -16,7 +16,7 @@
 
 package org.metawidget.inspector.iface;
 
-import org.metawidget.config.Immutable;
+import org.metawidget.iface.Immutable;
 
 /**
  * Common interface implemented by all Inspectors. Inspectors decouple the process of generating

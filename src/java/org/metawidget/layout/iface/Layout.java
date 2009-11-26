@@ -18,7 +18,7 @@ package org.metawidget.layout.iface;
 
 import java.util.Map;
 
-import org.metawidget.config.Immutable;
+import org.metawidget.iface.Immutable;
 
 /**
  * Interface for Layouts.

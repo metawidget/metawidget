@@ -291,7 +291,7 @@ public class ConfigReaderTest
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget>";
-		xml += "	<separatorSectionLayout xmlns=\"java:org.metawidget.swing.layout\"/>";
+		xml += "	<titledPanelSectionLayout xmlns=\"java:org.metawidget.swing.layout\"/>";
 		xml += "</metawidget>";
 
 		try
@@ -301,7 +301,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "class org.metawidget.swing.layout.SeparatorSectionLayout does not have a default constructor. Did you mean config=\"org.metawidget.layout.delegate.DelegateLayoutConfig\"?".equals( e.getMessage() ) );
+			assertTrue( "class org.metawidget.swing.layout.TitledPanelSectionLayout does not have a default constructor. Did you mean config=\"org.metawidget.layout.delegate.DelegateLayoutConfig\"?".equals( e.getMessage() ) );
 		}
 
 		// Without config hint

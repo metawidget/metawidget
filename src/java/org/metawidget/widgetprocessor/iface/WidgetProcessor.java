@@ -18,7 +18,7 @@ package org.metawidget.widgetprocessor.iface;
 
 import java.util.Map;
 
-import org.metawidget.config.Immutable;
+import org.metawidget.iface.Immutable;
 
 /**
  * Common interface implemented by all WidgetProcessors. WidgetProcessors allow arbitrary processing

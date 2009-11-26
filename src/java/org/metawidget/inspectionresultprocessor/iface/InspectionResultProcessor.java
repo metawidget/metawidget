@@ -16,7 +16,7 @@
 
 package org.metawidget.inspectionresultprocessor.iface;
 
-import org.metawidget.config.Immutable;
+import org.metawidget.iface.Immutable;
 
 /**
  * Common interface implemented by all InspectionResultProcessors. InspectionResultProcessors allow

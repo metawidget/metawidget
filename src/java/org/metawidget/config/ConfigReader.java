@@ -33,6 +33,7 @@ import java.util.regex.Pattern;
 
 import javax.xml.parsers.SAXParserFactory;
 
+import org.metawidget.iface.Immutable;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;

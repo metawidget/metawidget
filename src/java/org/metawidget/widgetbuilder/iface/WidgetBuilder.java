@@ -18,7 +18,7 @@ package org.metawidget.widgetbuilder.iface;
 
 import java.util.Map;
 
-import org.metawidget.config.Immutable;
+import org.metawidget.iface.Immutable;
 
 /**
  * Common interface implemented by all WidgetBuilders. WidgetBuilders decouple the process of

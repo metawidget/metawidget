@@ -26,13 +26,19 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.inspector.composite.CompositeInspector;
+import org.metawidget.inspector.composite.CompositeInspectorConfig;
+import org.metawidget.inspector.java5.Java5Inspector;
+import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
@@ -66,15 +72,54 @@ public class SwingTutorialTest
 		assertTrue( metawidget.getComponent( 6 ) instanceof JPanel );
 		assertTrue( 7 == metawidget.getComponentCount() );
 
+		// Check middle of tutorial
+
+		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
+				new PropertyTypeInspector(),
+				new MetawidgetAnnotationInspector(),
+				new Java5Inspector() );
+		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
+		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 );
+		SeparatorSectionLayoutConfig layoutConfig = new SeparatorSectionLayoutConfig().setLayout(
+		new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ));
+		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( layoutConfig ));
+		metawidget.setToInspect( new PersonAtTutorialEnd() );
+
+		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
+		assertTrue( "Age:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
+		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 2 ) ) ).gridx );
+		assertTrue( metawidget.getComponent( 3 ) instanceof JSpinner );
+		assertTrue( "Retired:".equals( ( (JLabel) metawidget.getComponent( 4 ) ).getText() ) );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 4 ) ) ).gridx );
+		assertTrue( metawidget.getComponent( 5 ) instanceof JCheckBox );
+		assertTrue( "Gender:".equals( ( (JLabel) metawidget.getComponent( 6 ) ).getText() ) );
+		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 6 ) ) ).gridx );
+		assertTrue( metawidget.getComponent( 7 ) instanceof JComboBox );
+		assertTrue( 3 == ( (JComboBox) metawidget.getComponent( 7 ) ).getModel().getSize() );
+		assertTrue( "Notes:".equals( ( (JLabel) metawidget.getComponent( 8 ) ).getText() ) );
+		assertTrue( 0 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 8 ) ) ).gridx );
+		assertTrue( metawidget.getComponent( 9 ) instanceof JScrollPane );
+		assertTrue( 1.0f == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 9 ) ) ).weighty );
+
+		JPanel separatorPanel = (JPanel) metawidget.getComponent( 10 );
+		assertTrue( "Work".equals( ((JLabel) separatorPanel.getComponent( 0 )).getText() ) );
+		assertTrue( separatorPanel.getComponent( 1 ) instanceof JSeparator );
+
+		assertTrue( "Employer:".equals( ( (JLabel) metawidget.getComponent( 11 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 12 ) instanceof JTextField );
+		assertTrue( "Department:".equals( ( (JLabel) metawidget.getComponent( 13 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 14 ) instanceof JTextField );
+
+		assertTrue( 15 == metawidget.getComponentCount() );
+
 		// Check end of tutorial
 
 		Stub stub = new Stub();
 		stub.setName( "retired" );
 		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
-		// TODO: tutorial will need updating
 		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new SeparatorSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
-		metawidget.setToInspect( new PersonAtTutorialEnd() );
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
@@ -90,16 +135,18 @@ public class SwingTutorialTest
 		assertTrue( metawidget.getComponent( 7 ) instanceof JScrollPane );
 		assertTrue( 1.0f == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( ( metawidget.getComponent( 7 ) ) ).weighty );
 
-		JPanel separatorPanel = (JPanel) metawidget.getComponent( 8 );
-		assertTrue( "Work".equals( ((JLabel) separatorPanel.getComponent( 0 )).getText() ) );
-		assertTrue( separatorPanel.getComponent( 1 ) instanceof JSeparator );
+		JTabbedPane tabbedPane = (JTabbedPane) metawidget.getComponent( 8 );
+		assertTrue( "Work".equals( tabbedPane.getTitleAt( 0 ) ));
 
-		assertTrue( "Employer:".equals( ( (JLabel) metawidget.getComponent( 9 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 10 ) instanceof JTextField );
-		assertTrue( "Department:".equals( ( (JLabel) metawidget.getComponent( 11 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 12 ) instanceof JTextField );
+		JPanel panel = (JPanel) tabbedPane.getComponent( 0 );
+		assertTrue( "Employer:".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
+		assertTrue( 0 == ( (GridBagLayout) panel.getLayout() ).getConstraints( ( panel.getComponent( 0 ) ) ).gridx );
+		assertTrue( panel.getComponent( 1 ) instanceof JTextField );
+		assertTrue( "Department:".equals( ( (JLabel) panel.getComponent( 2 ) ).getText() ) );
+		assertTrue( 2 == ( (GridBagLayout) panel.getLayout() ).getConstraints( ( panel.getComponent( 2 ) ) ).gridx );
+		assertTrue( panel.getComponent( 3 ) instanceof JTextField );
 
-		assertTrue( 13 == metawidget.getComponentCount() );
+		assertTrue( 9 == metawidget.getComponentCount() );
 	}
 
 	public void testSectionAtEnd()

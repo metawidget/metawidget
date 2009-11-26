@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.swing.layout.GridBagLayout;
 
 /**
  * @author Richard Kennard
@@ -33,6 +34,29 @@ public class DelegateLayoutTest
 	//
 	// Public methods
 	//
+
+	public void testConfig()
+	{
+		GridBagLayout layout = new GridBagLayout();
+
+		DelegateLayoutConfig<JComponent,SwingMetawidget> config1 = new DelegateLayoutConfig<JComponent,SwingMetawidget>();
+		DelegateLayoutConfig<JComponent,SwingMetawidget> config2 = new DelegateLayoutConfig<JComponent,SwingMetawidget>();
+
+		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// tabPlacement
+
+		config1.setLayout( layout );
+		assertTrue( layout == config1.getLayout() );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setLayout( layout );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+	}
 
 	public void testDelegateLayout()
 		throws Exception

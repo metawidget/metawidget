@@ -18,7 +18,7 @@ package org.metawidget.inspector.impl.propertystyle;
 
 import java.util.Map;
 
-import org.metawidget.config.Immutable;
+import org.metawidget.iface.Immutable;
 
 /**
  * Abstraction layer for retrieving properties from Classes.

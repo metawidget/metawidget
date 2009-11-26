@@ -427,8 +427,8 @@ public class Main {
 					<classname>Java5Inspector</classname> looks for Java 5 language features - such as enums - but it does
 					<emphasis>not</emphasis> look for anything else - such as JavaBean properties. Before we explicitly specified a
 					<classname>Java5Inspector</classname>, Metawidget had been implictly using two
-					<classname>Inspector</classname>s for us, called <classname>MetawidgetAnnotationInspector</classname>
-					and	<classname>PropertyTypeInspector</classname>.
+					<classname>Inspector</classname>s for us, called <classname>PropertyTypeInspector</classname>
+					and	<classname>MetawidgetAnnotationInspector</classname>.
 				</para>
 
 			</section>
@@ -438,7 +438,7 @@ public class Main {
 
 				<para>
 					What we need is to <emphasis>combine</emphasis> the results of
-					<classname>MetawidgetAnnotationInspector</classname>, <classname>PropertyTypeInspector</classname>
+					<classname>PropertyTypeInspector</classname>, <classname>MetawidgetAnnotationInspector</classname>
 					and	<classname>Java5Inspector</classname> before returning them to
 					<classname>SwingMetawidget</classname>. We do this using <classname>CompositeInspector</classname>:
 				</para>
@@ -459,8 +459,8 @@ public class Main {
 		
 		SwingMetawidget metawidget = new SwingMetawidget();
 		<symbol>CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
-			new MetawidgetAnnotationInspector(),
 			new PropertyTypeInspector(),
+			new MetawidgetAnnotationInspector(),
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );</symbol>
 		metawidget.setToInspect( person );
@@ -576,8 +576,8 @@ public class Main {
 		
 		SwingMetawidget metawidget = new SwingMetawidget();
 		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
-			new MetawidgetAnnotationInspector(),
 			new PropertyTypeInspector(),
+			new MetawidgetAnnotationInspector(),
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		<symbol>GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
@@ -629,8 +629,8 @@ public class Main {
 		
 		SwingMetawidget metawidget = new SwingMetawidget();
 		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
-			new MetawidgetAnnotationInspector(),
 			new PropertyTypeInspector(),
+			new MetawidgetAnnotationInspector(),
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
@@ -694,8 +694,8 @@ public class Main {
 		
 		SwingMetawidget metawidget = new SwingMetawidget();
 		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
-			new MetawidgetAnnotationInspector(),
 			new PropertyTypeInspector(),
+			new MetawidgetAnnotationInspector(),
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
@@ -757,8 +757,8 @@ public class Main {
 		
 		SwingMetawidget metawidget = new SwingMetawidget();
 		CompositeInspectorConfig inspectorConfig = new CompositeInspectorConfig().setInspectors(
-			new MetawidgetAnnotationInspector(),
 			new PropertyTypeInspector(),
+			new MetawidgetAnnotationInspector(),
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
@@ -860,8 +860,8 @@ public class Person {
 				config="CompositeInspectorConfig"&gt;
 				&lt;inspectors&gt;
 					&lt;array&gt;
-						&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
 						&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+						&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
 						&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"/&gt;
 					&lt;/array&gt;
 				&lt;/inspectors&gt;
@@ -1565,8 +1565,8 @@ public class Person {
 								config="CompositeInspectorConfig"&gt;
 			&lt;inspectors&gt;
 			&lt;array&gt;
-				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/&gt;
 				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/&gt;
 				&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"/&gt;
 				&lt;facesInspector xmlns="java:org.metawidget.inspector.faces"/&gt;			
 				&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/&gt;
@@ -1614,8 +1614,8 @@ public class Person {
 								config="CompositeInspectorConfig"&gt;
 			&lt;inspectors&gt;
 			&lt;array&gt;
-				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/&gt;
 				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/&gt;
 				&lt;java5Inspector xmlns="java:org.metawidget.inspector.java5"/&gt;
 				&lt;facesInspector xmlns="java:org.metawidget.inspector.faces"/&gt;			
 				&lt;xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/&gt;
@@ -2849,8 +2849,8 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				
 				<para>
 					Unless explicitly specified, each Metawidget will instantiate a default inspector. Typically this
-					will be a <classname>CompositeInspector</classname> composed of a <classname>MetawidgetAnnotationInspector</classname>
-					and a <classname>PropertyTypeInspector</classname>.
+					will be a <classname>CompositeInspector</classname> composed of a <classname>PropertyTypeInspector</classname>
+					and a <classname>MetawidgetAnnotationInspector</classname>.
 				</para>
 				
 				<para>
@@ -2924,8 +2924,8 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 				
 				<programlisting language="java">metawidget.setInspector( new CompositeInspector( new CompositeInspectorConfig()
 	.setInspectors(
-		new MetawidgetAnnotationInspector(),
 		new PropertyTypeInspector(),
+		new MetawidgetAnnotationInspector(),
 		new MyInspector()
 	)));</programlisting>
 				
@@ -2940,8 +2940,8 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;array&gt;
-				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
 				&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+				&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
 				&lt;myInspector xmlns="java:com.myapp"/&gt;
 			&lt;/array&gt;
 		&lt;/inspectors&gt;
@@ -2985,8 +2985,8 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;array&gt;
-				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
+				&lt;metawidgetAnnotationInspector /&gt;
 			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
@@ -2997,8 +2997,8 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;array&gt;
-				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
+				&lt;metawidgetAnnotationInspector /&gt;
 			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
@@ -3009,8 +3009,8 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;array&gt;
-				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
+				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;facesInspector /&gt;
 			&lt;/array&gt;
 		&lt;/inspectors&gt;
@@ -3022,8 +3022,8 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;array&gt;
-				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
+				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;jspAnnotationInspector /&gt;				
 			&lt;/array&gt;
 		&lt;/inspectors&gt;
@@ -3035,8 +3035,8 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;array&gt;
-				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
+				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;springAnnotationInspector /&gt;
 			&lt;/array&gt;
 		&lt;/inspectors&gt;
@@ -3048,8 +3048,8 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;array&gt;
-				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
+				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;strutsAnnotationInspector /&gt;
 				&lt;commonsValidatorInspector
 					config="CommonsValidatorInspectorConfig"/&gt;
@@ -3063,8 +3063,8 @@ metawidget.setPath( MyAbstractClass.class.getName() );</programlisting>
 		config="CompositeInspectorConfig"&gt;
 		&lt;inspectors&gt;
 			&lt;array&gt;
-				&lt;metawidgetAnnotationInspector /&gt;
 				&lt;propertyTypeInspector /&gt;
+				&lt;metawidgetAnnotationInspector /&gt;
 			&lt;/array&gt;
 		&lt;/inspectors&gt;
 	&lt;/compositeInspector&gt;</programlisting></td>
@@ -5080,8 +5080,8 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 				<programlisting language="xml">&lt;compositeInspector xmlns="java:org.metawidget.inspector.composite" config="CompositeInspectorConfig"&gt;
 	&lt;inspectors&gt;
 		&lt;array&gt;
-			&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
 			&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"/&gt;
+			&lt;metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation" /&gt;
 		&lt;/array&gt;
 	&lt;/inspectors&gt;
 &lt;/compositeInspector&gt;</programlisting>
