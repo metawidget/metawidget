@@ -69,7 +69,7 @@ public class LinearLayout
 		if ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 )
 			return;
 
-		ViewGroup viewToAddTo = getViewToAddTo( (ViewGroup) container );
+		ViewGroup viewToAddTo = newViewToAddTo( (ViewGroup) container );
 
 		String labelText = metawidget.getLabelString( attributes );
 		boolean needsLabel = LayoutUtils.needsLabel( labelText, elementName );
@@ -88,17 +88,20 @@ public class LinearLayout
 
 		// View
 
-		layoutView( view, viewToAddTo, container, metawidget, needsLabel );
+		layoutWidget( view, viewToAddTo, (ViewGroup) container, metawidget, needsLabel );
 	}
 
 	@Override
 	public void endLayout( View container, AndroidMetawidget metawidget )
 	{
-		View viewButtons = metawidget.getFacet( "buttons" );
-
-		if ( viewButtons != null )
+		if ( container.equals( metawidget ))
 		{
-			getLayout( (ViewGroup) container ).addView( viewButtons, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+			View viewButtons = metawidget.getFacet( "buttons" );
+
+			if ( viewButtons != null )
+			{
+				((ViewGroup) container).addView( viewButtons, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+			}
 		}
 	}
 
@@ -106,7 +109,7 @@ public class LinearLayout
 	// Protected methods
 	//
 
-	protected void layoutView( View view, ViewGroup viewToAddTo, View container, AndroidMetawidget metawidget, boolean needsLabel )
+	protected void layoutWidget( View view, ViewGroup viewToAddTo, ViewGroup container, AndroidMetawidget metawidget, boolean needsLabel )
 	{
 		android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
 
@@ -120,14 +123,14 @@ public class LinearLayout
 				params = new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT );
 		}
 
-		viewToAddTo.addView( view, params );
+		getLayout( container ).addView( view, params );
 	}
 
 	//
 	// Protected methods
 	//
 
-	protected ViewGroup getViewToAddTo( ViewGroup metawidget )
+	protected ViewGroup newViewToAddTo( ViewGroup metawidget )
 	{
 		// AndroidMetawidget is already a LinearLayout
 
@@ -139,10 +142,5 @@ public class LinearLayout
 		// AndroidMetawidget is already a LinearLayout
 
 		return container;
-	}
-
-	protected void startNewLayout( ViewGroup container )
-	{
-		// Do nothing
 	}
 }

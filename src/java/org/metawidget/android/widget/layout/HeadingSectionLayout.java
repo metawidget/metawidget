@@ -79,6 +79,12 @@ public class HeadingSectionLayout
 			return;
 		}
 
+		// End current section
+		// TODO: unit test this
+
+		if ( state.currentSection != null )
+			super.endLayout( container, metawidget );
+
 		state.currentSection = section;
 
 		// No new section?

@@ -131,6 +131,7 @@
 				<pathelement path="${relative.dir}/${build.dir}/groovy-test-classes"/>				
 				<pathelement path="${relative.dir}/${build.dir}/scala-test-classes"/>				
 				<pathelement path="${relative.dir}/${build.dir}/scala-example-classes"/>
+				<pathelement path="${relative.dir}/${build.dir}/test-android-mock-classes"/>
 				<fileset dir="${relative.dir}/lib"/>
 			</classpath>
 		</javac>
@@ -141,30 +142,6 @@
 
 	<!-- Unit Tests -->
 	
-	<target name="test-unit-android" depends="pack,compile-test">
-
-		<junit showoutput="true" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}" haltonfailure="true" haltonerror="true">
-			<formatter type="brief" usefile="false"/>
-			<test name="org.metawidget.android.AndroidMetawidgetTests"/>
-			<classpath>
-				<fileset dir="${relative.dir}/lib">
-					<exclude name="android.jar"/>
-				</fileset>
-				<fileset dir="${relative.dir}/test/lib"/>				
-				<pathelement location="${relative.dir}/${build.dir}/metawidget.jar"/>
-				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
-				<pathelement path="${relative.dir}/${build.dir}/test-android-mock-classes"/>
-				
-				<!-- Put Android last, so its JUnit implementation doesn't clash -->
-				
-				<fileset dir="${relative.dir}/lib">
-					<include name="android.jar"/>
-				</fileset>
-			</classpath>
-		</junit>
-		
-	</target>
-
 	<target name="test-unit-desktop" depends="examples-desktop,compile-test">
 
 		<!-- Note: run the unit tests against the actual metawiget.jar and   -->
@@ -200,9 +177,10 @@
 				<pathelement location="${relative.dir}/${build.dir}/examples/swing/animalraces-swing.jar"/>
 				<pathelement location="${relative.dir}/${build.dir}/examples/swing/appframework-swing.jar"/>
 				<pathelement path="${relative.dir}/${build.dir}/ant-classes"/>
-				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/groovy-test-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/scala-test-classes"/>
+				<pathelement path="${relative.dir}/${build.dir}/test-android-mock-classes"/>
+				<pathelement path="${relative.dir}/${build.dir}/test-classes"/>
 				<pathelement path="${relative.dir}/${build.dir}/tutorial-classes"/>
 				<pathelement path="${relative.dir}/examples/src/java"/>
 				<pathelement path="${relative.dir}/test/src/java"/>
@@ -380,7 +358,7 @@
 
 	</target>
 
-	<target name="test-unit" depends="test-unit-android, test-unit-desktop, test-unit-gwt, test-unit-14"/>
+	<target name="test-unit" depends="test-unit-desktop, test-unit-gwt, test-unit-14"/>
 
 	<target name="test-coverage" depends="clean">
 

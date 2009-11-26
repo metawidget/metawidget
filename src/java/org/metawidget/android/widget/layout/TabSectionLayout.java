@@ -80,6 +80,11 @@ public class TabSectionLayout
 
 		state.currentSection = section;
 
+		// End current section
+
+		if ( state.currentLayout != null )
+			super.endLayout( state.currentLayout, metawidget );
+
 		// No new section?
 
 		if ( "".equals( section ) )
