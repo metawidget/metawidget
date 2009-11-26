@@ -24,11 +24,14 @@
 			</compositeInspector>
 		</inspector>
 		<layout>
-			<tabSectionLayout xmlns="java:org.metawidget.android.widget.layout" config="org.metawidget.layout.delegate.DelegateLayoutConfig">
+			<headingSectionLayout xmlns="java:org.metawidget.android.widget.layout" config="HeadingSectionLayoutConfig">
 				<layout>
 					<tableLayout />
 				</layout>
-			</tabSectionLayout>
+				<sectionStyle>
+					<int>@org.metawidget.example.android.addressbook:style/section</int>
+				</sectionStyle>
+			</headingSectionLayout>
 		</layout>
 	</androidMetawidget>
 

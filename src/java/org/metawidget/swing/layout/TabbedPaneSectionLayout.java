@@ -27,12 +27,13 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
 import org.metawidget.layout.delegate.DelegateLayout;
-import org.metawidget.layout.delegate.DelegateLayoutConfig;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
+ * Layout to separate widgets in different sections using a JTabbedPane.
+ *
  * @author Richard Kennard
  */
 
@@ -56,12 +57,20 @@ public class TabbedPaneSectionLayout
 	private final static Border	TAB_PANEL_BORDER	= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
 
 	//
+	// Private members
+	//
+
+	private int					mTabPlacement;
+
+	//
 	// Constructor
 	//
 
-	public TabbedPaneSectionLayout( DelegateLayoutConfig<JComponent, SwingMetawidget> config )
+	public TabbedPaneSectionLayout( TabbedPaneSectionLayoutConfig config )
 	{
 		super( config );
+
+		mTabPlacement = config.getTabPlacement();
 	}
 
 	//
@@ -134,6 +143,7 @@ public class TabbedPaneSectionLayout
 		{
 			tabbedPane = new JTabbedPane();
 			tabbedPane.setBorder( TABBED_PANE_BORDER );
+			//TODO:tabbedPane.setTabPlacement( mTabPlacement );
 
 			Map<String, String> tabbedPaneAttributes = CollectionUtils.newHashMap();
 			tabbedPaneAttributes.put( LABEL, "" );

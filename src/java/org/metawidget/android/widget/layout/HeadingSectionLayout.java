@@ -30,6 +30,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
+ * Layout to separate widgets in different sections using a TextView.
+ *
  * @author Richard Kennard
  */
 
@@ -75,22 +77,25 @@ public class HeadingSectionLayout
 
 		if ( section == null || section.equals( state.currentSection ) )
 		{
-			super.layoutWidget( view, elementName, attributes, container, metawidget );
+			if ( state.currentLayout != null )
+				super.layoutWidget( view, elementName, attributes, state.currentLayout, metawidget );
+			else
+				super.layoutWidget( view, elementName, attributes, container, metawidget );
 			return;
 		}
 
-		// End current section
-		// TODO: unit test this
-
-		if ( state.currentSection != null )
-			super.endLayout( container, metawidget );
-
 		state.currentSection = section;
+
+		// End current section
+
+		if ( state.currentLayout != null )
+			super.endLayout( state.currentLayout, metawidget );
 
 		// No new section?
 
 		if ( "".equals( section ) )
 		{
+			state.currentLayout = null;
 			super.layoutWidget( view, elementName, attributes, container, metawidget );
 			return;
 		}
@@ -111,12 +116,15 @@ public class HeadingSectionLayout
 
 		// Add to parent container
 
-		((ViewGroup) container).addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		( (ViewGroup) container ).addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 
-		// New section
+		state.currentLayout = new android.widget.LinearLayout( metawidget.getContext() );
+		((ViewGroup) container).addView( state.currentLayout );
 
-		super.startLayout( container, metawidget );
-		super.layoutWidget( view, elementName, attributes, container, metawidget );
+		// Add view to new section
+
+		super.startLayout( state.currentLayout, metawidget );
+		super.layoutWidget( view, elementName, attributes, state.currentLayout, metawidget );
 	}
 
 	//
@@ -146,6 +154,8 @@ public class HeadingSectionLayout
 
 	/* package private */class State
 	{
-		/* package private */String	currentSection;
+		/* package private */String		currentSection;
+
+		/* package private */ViewGroup	currentLayout;
 	}
 }

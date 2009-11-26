@@ -31,7 +31,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import org.metawidget.layout.delegate.DelegateLayout;
-import org.metawidget.layout.delegate.DelegateLayoutConfig;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -60,12 +59,20 @@ public class SeparatorSectionLayout
 	private final static Insets	INSETS_SECTION_LABEL	= new Insets( 0, 0, 0, 5 );
 
 	//
+	// Private members
+	//
+
+	private int					mAlignment;
+
+	//
 	// Constructor
 	//
 
-	public SeparatorSectionLayout( DelegateLayoutConfig<JComponent, SwingMetawidget> config )
+	public SeparatorSectionLayout( SeparatorSectionLayoutConfig config )
 	{
 		super( config );
+
+		mAlignment = config.getAlignment();
 	}
 
 	//
@@ -119,7 +126,12 @@ public class SeparatorSectionLayout
 			GridBagConstraints separatorConstraints = new GridBagConstraints();
 			separatorConstraints.fill = GridBagConstraints.HORIZONTAL;
 			separatorConstraints.weightx = 1.0;
-			separatorConstraints.anchor = GridBagConstraints.EAST;
+
+			//TODO:if ( mAlignment == SwingConstants.RIGHT )
+				//separatorConstraints.anchor = GridBagConstraints.WEST;
+			//else
+				separatorConstraints.anchor = GridBagConstraints.EAST;
+
 			separatorPanel.add( new JSeparator( SwingConstants.HORIZONTAL ), separatorConstraints );
 
 			// Add to parent container

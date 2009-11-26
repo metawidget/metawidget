@@ -20,7 +20,6 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -34,11 +33,11 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.layout.delegate.DelegateLayoutConfig;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
 import org.metawidget.swing.layout.SeparatorSectionLayout;
+import org.metawidget.swing.layout.SeparatorSectionLayoutConfig;
 
 /**
  * @author Richard Kennard
@@ -74,7 +73,7 @@ public class SwingTutorialTest
 		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
 		// TODO: tutorial will need updating
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new DelegateLayoutConfig<JComponent, SwingMetawidget>().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new SeparatorSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );

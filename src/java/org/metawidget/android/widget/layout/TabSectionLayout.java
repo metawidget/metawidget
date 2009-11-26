@@ -33,6 +33,8 @@ import android.widget.TabWidget;
 import android.widget.TabHost.TabContentFactory;
 
 /**
+ * Layout to wrap widgets in different sections inside a TabHost.
+ *
  * @author Richard Kennard
  */
 

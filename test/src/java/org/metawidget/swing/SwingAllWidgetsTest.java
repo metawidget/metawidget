@@ -45,12 +45,12 @@ import junit.framework.TestCase;
 
 import org.apache.commons.beanutils.ConvertUtils;
 import org.metawidget.iface.MetawidgetException;
-import org.metawidget.layout.delegate.DelegateLayoutConfig;
 import org.metawidget.shared.allwidgets.model.AllWidgets;
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
 import org.metawidget.swing.layout.SeparatorSectionLayout;
+import org.metawidget.swing.layout.SeparatorSectionLayoutConfig;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
@@ -119,7 +119,7 @@ public class SwingAllWidgetsTest
 		metawidget.addWidgetProcessor( processor );
 		metawidget.addWidgetProcessor( new ReflectionBindingProcessor() );
 		metawidget.setConfig( "org/metawidget/swing/allwidgets/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new DelegateLayoutConfig<JComponent, SwingMetawidget>().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new SeparatorSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
 
 		metawidget.setToInspect( allWidgets );
 

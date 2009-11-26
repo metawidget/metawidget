@@ -16,6 +16,8 @@
 
 package org.metawidget.inspector.iface;
 
+import org.metawidget.config.Immutable;
+
 /**
  * Common interface implemented by all Inspectors. Inspectors decouple the process of generating
  * inspection results from back-end metadata.
@@ -27,6 +29,7 @@ package org.metawidget.inspector.iface;
  */
 
 public interface Inspector
+	extends Immutable
 {
 	//
 	// Methods

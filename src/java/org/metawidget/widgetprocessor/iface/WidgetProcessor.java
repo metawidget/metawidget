@@ -18,6 +18,8 @@ package org.metawidget.widgetprocessor.iface;
 
 import java.util.Map;
 
+import org.metawidget.config.Immutable;
+
 /**
  * Common interface implemented by all WidgetProcessors. WidgetProcessors allow arbitrary processing
  * of a widget following its building by the WidgetBuilder and before adding to the Layout.
@@ -30,6 +32,7 @@ import java.util.Map;
  */
 
 public interface WidgetProcessor<W, M extends W>
+	extends Immutable
 {
 	//
 	// Methods

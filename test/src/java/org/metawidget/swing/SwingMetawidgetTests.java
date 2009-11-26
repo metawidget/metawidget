@@ -23,6 +23,9 @@ import junit.framework.TestSuite;
 import org.metawidget.swing.layout.GridBagLayoutTest;
 import org.metawidget.swing.layout.GroupLayoutTest;
 import org.metawidget.swing.layout.MigLayoutTest;
+import org.metawidget.swing.layout.SeparatorSectionLayoutTest;
+import org.metawidget.swing.layout.TabbedPaneSectionLayoutTest;
+import org.metawidget.swing.layout.TitledPanelSectionLayoutTest;
 import org.metawidget.swing.widgetbuilder.ReadOnlyWidgetBuilderTest;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilderTest;
 import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilderTest;
@@ -48,19 +51,22 @@ public class SwingMetawidgetTests
 		TestSuite suite = new TestSuite( "SwingMetawidget Tests" );
 		suite.addTestSuite( BeansBindingProcessorTest.class );
 		suite.addTestSuite( BeanUtilsBindingProcessorTest.class );
-		suite.addTestSuite( JGoodiesValidatorProcessorTest.class );
 		suite.addTestSuite( InputVerifierProcessorTest.class );
+		suite.addTestSuite( JGoodiesValidatorProcessorTest.class );
+		suite.addTestSuite( GridBagLayoutTest.class );
+		suite.addTestSuite( GroupLayoutTest.class );
+		suite.addTestSuite( GroupLayoutTest.class );
+		suite.addTestSuite( MigLayoutTest.class );
 		suite.addTestSuite( ReadOnlyWidgetBuilderTest.class );
 		suite.addTestSuite( ReflectionBindingProcessorTest.class );
+		suite.addTestSuite( SeparatorSectionLayoutTest.class );
 		// Not: suite.addTestSuite( SwingAllWidgetsTest.class ) - run separately as JDK 1.4
 		suite.addTestSuite( SwingAllWidgetsBeansBindingTest.class );
 		suite.addTestSuite( SwingMetawidgetTest.class );
 		suite.addTestSuite( SwingXWidgetBuilderTest.class );
 		suite.addTestSuite( SwingWidgetBuilderTest.class );
-		suite.addTestSuite( GridBagLayoutTest.class );
-		suite.addTestSuite( GroupLayoutTest.class );
-		suite.addTestSuite( GroupLayoutTest.class );
-		suite.addTestSuite( MigLayoutTest.class );
+		suite.addTestSuite( TabbedPaneSectionLayoutTest.class );
+		suite.addTestSuite( TitledPanelSectionLayoutTest.class );
 
 		return suite;
 	}

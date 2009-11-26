@@ -47,7 +47,7 @@
 		</widgetProcessors>
 		
 		<metawidgetLayout>
-			<separatorSectionLayout xmlns="java:org.metawidget.swing.layout" config="org.metawidget.layout.delegate.DelegateLayoutConfig">
+			<separatorSectionLayout xmlns="java:org.metawidget.swing.layout" config="SeparatorSectionLayoutConfig">
 				<layout>
 					<gridBagLayout />
 				</layout>

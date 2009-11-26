@@ -34,11 +34,6 @@ import java.util.regex.Pattern;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.metawidget.iface.MetawidgetException;
-import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
-import org.metawidget.inspector.iface.Inspector;
-import org.metawidget.inspector.impl.actionstyle.ActionStyle;
-import org.metawidget.inspector.impl.propertystyle.PropertyStyle;
-import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -46,8 +41,6 @@ import org.metawidget.util.LogUtils;
 import org.metawidget.util.LogUtils.Log;
 import org.metawidget.util.XmlUtils.CachingContentHandler;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetbuilder.iface.WidgetBuilder;
-import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -563,28 +556,7 @@ public class ConfigReader
 
 	protected boolean isImmutable( Class<?> clazz )
 	{
-		if ( Inspector.class.isAssignableFrom( clazz ) )
-			return true;
-
-		if ( PropertyStyle.class.isAssignableFrom( clazz ) )
-			return true;
-
-		if ( ActionStyle.class.isAssignableFrom( clazz ) )
-			return true;
-
-		if ( InspectionResultProcessor.class.isAssignableFrom( clazz ) )
-			return true;
-
-		if ( WidgetBuilder.class.isAssignableFrom( clazz ) )
-			return true;
-
-		if ( WidgetProcessor.class.isAssignableFrom( clazz ) )
-			return true;
-
-		if ( Layout.class.isAssignableFrom( clazz ) )
-			return true;
-
-		return false;
+		return ( Immutable.class.isAssignableFrom( clazz ) );
 	}
 
 	//

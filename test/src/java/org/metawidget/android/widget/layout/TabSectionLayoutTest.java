@@ -19,6 +19,7 @@ package org.metawidget.android.widget.layout;
 import junit.framework.TestCase;
 
 import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.android.widget.Facet;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiSection;
@@ -50,6 +51,10 @@ public class TabSectionLayoutTest
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
 		androidMetawidget.setLayout( new TabSectionLayout( new DelegateLayoutConfig<View,AndroidMetawidget>().setLayout( new TableLayout() )));
 		androidMetawidget.setToInspect( new Foo() );
+
+		Facet facet = new Facet( null );
+		facet.setName( "buttons" );
+		androidMetawidget.addView( facet );
 
 		android.widget.TableLayout tableLayout = (android.widget.TableLayout) androidMetawidget.getChildAt( 0 );
 		TableRow tableRow = (TableRow) tableLayout.getChildAt( 0 );
@@ -108,7 +113,8 @@ public class TabSectionLayoutTest
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		assertTrue( 1 == tableLayout.getChildCount() );
 
-		assertTrue( 4 == androidMetawidget.getChildCount() );
+		assertTrue( facet == androidMetawidget.getChildAt( 4 ));
+		assertTrue( 5 == androidMetawidget.getChildCount() );
 	}
 
 	//

@@ -18,6 +18,8 @@ package org.metawidget.widgetbuilder.iface;
 
 import java.util.Map;
 
+import org.metawidget.config.Immutable;
+
 /**
  * Common interface implemented by all WidgetBuilders. WidgetBuilders decouple the process of
  * choosing widgets based on inspection results.
@@ -29,6 +31,7 @@ import java.util.Map;
  */
 
 public interface WidgetBuilder<W, M extends W>
+	extends Immutable
 {
 	//
 	// Methods

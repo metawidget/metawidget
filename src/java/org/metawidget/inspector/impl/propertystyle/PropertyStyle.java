@@ -18,6 +18,8 @@ package org.metawidget.inspector.impl.propertystyle;
 
 import java.util.Map;
 
+import org.metawidget.config.Immutable;
+
 /**
  * Abstraction layer for retrieving properties from Classes.
  * <p>
@@ -34,6 +36,7 @@ import java.util.Map;
  */
 
 public interface PropertyStyle
+	extends Immutable
 {
 	//
 	// Methods

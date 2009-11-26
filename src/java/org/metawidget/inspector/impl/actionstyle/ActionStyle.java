@@ -18,6 +18,8 @@ package org.metawidget.inspector.impl.actionstyle;
 
 import java.util.Map;
 
+import org.metawidget.config.Immutable;
+
 /**
  * Abstraction layer for retrieving actions from Classes.
  * <p>
@@ -32,6 +34,8 @@ import java.util.Map;
  */
 
 public interface ActionStyle
+	extends Immutable
+
 {
 	//
 	// Methods

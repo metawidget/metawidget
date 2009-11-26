@@ -16,6 +16,8 @@
 
 package org.metawidget.inspectionresultprocessor.iface;
 
+import org.metawidget.config.Immutable;
+
 /**
  * Common interface implemented by all InspectionResultProcessors. InspectionResultProcessors allow
  * arbitrary processing of the inspection result before it is given to the WidgetBuilder.
@@ -28,6 +30,7 @@ package org.metawidget.inspectionresultprocessor.iface;
  */
 
 public interface InspectionResultProcessor<E, M>
+	extends Immutable
 {
 	//
 	// Methods

@@ -18,6 +18,8 @@ package org.metawidget.layout.iface;
 
 import java.util.Map;
 
+import org.metawidget.config.Immutable;
+
 /**
  * Interface for Layouts.
  * <p>
@@ -29,13 +31,15 @@ import java.util.Map;
  */
 
 public interface Layout<W, M extends W>
+	extends Immutable
 {
 	//
 	// Methods
 	//
 
 	/**
-	 * Initialise the given container, using the given Metawidget to access additional services if needed (such as state saving)
+	 * Initialise the given container, using the given Metawidget to access additional services if
+	 * needed (such as state saving)
 	 * <p>
 	 * Event called at the start of the widget building process, before the
 	 * <code>WidgetBuilder</code> is called. <code>Layout</code>s may wish to act on this event to
@@ -50,8 +54,9 @@ public interface Layout<W, M extends W>
 	void startLayout( W container, M metawidget );
 
 	/**
-	 * Layout the given widget within the given container, using the given elementName and attributes
-	 * as a guide and the given Metawidget to access additional services if needed (such as state saving)
+	 * Layout the given widget within the given container, using the given elementName and
+	 * attributes as a guide and the given Metawidget to access additional services if needed (such
+	 * as state saving)
 	 *
 	 * @param widget
 	 *            the widget to layout. Never null
@@ -80,7 +85,8 @@ public interface Layout<W, M extends W>
 	//
 	// 1. Nested sections had to be handled as nested, partially-initalised Metawidgets which could
 	// then use their chosen Layout (eg. GridBagLayout)
-	// 2. Attributes for the components had to be attached somehow (ie. putClientProperty, or wrapped in a Stub)
+	// 2. Attributes for the components had to be attached somehow (ie. putClientProperty, or
+	// wrapped in a Stub)
 	// 3. elementNames for the components had to be attached somehow
 	// 4. It 'felt' weird having a WidgetProcessor doing Layout stuff
 	//
@@ -89,7 +95,8 @@ public interface Layout<W, M extends W>
 	void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget );
 
 	/**
-	 * Finish the given container, using the given Metawidget to access additional services if needed (such as state saving)
+	 * Finish the given container, using the given Metawidget to access additional services if
+	 * needed (such as state saving)
 	 *
 	 * @param container
 	 *            the container to layout. This is often the same as the given Metawidget
