@@ -56,7 +56,9 @@ public class SeparatorSectionLayout
 	 * The insets around the separator label.
 	 */
 
-	private final static Insets	INSETS_SECTION_LABEL	= new Insets( 0, 0, 0, 5 );
+	private final static Insets	INSETS_SECTION_LABEL_LEFT	= new Insets( 0, 0, 0, 5 );
+
+	private final static Insets	INSETS_SECTION_LABEL_RIGHT	= new Insets( 0, 5, 0, 0 );
 
 	//
 	// Private members
@@ -119,19 +121,23 @@ public class SeparatorSectionLayout
 				localizedSection = section;
 
 			GridBagConstraints labelConstraints = new GridBagConstraints();
-			labelConstraints.insets = INSETS_SECTION_LABEL;
-			JLabel labelSection = new JLabel( localizedSection );
-			separatorPanel.add( labelSection, labelConstraints );
 
 			GridBagConstraints separatorConstraints = new GridBagConstraints();
 			separatorConstraints.fill = GridBagConstraints.HORIZONTAL;
 			separatorConstraints.weightx = 1.0;
 
-			//TODO:if ( mAlignment == SwingConstants.RIGHT )
-				//separatorConstraints.anchor = GridBagConstraints.WEST;
-			//else
-				separatorConstraints.anchor = GridBagConstraints.EAST;
+			if ( mAlignment == SwingConstants.RIGHT )
+			{
+				separatorConstraints.gridx = 0;
+				labelConstraints.gridx = 1;
+				labelConstraints.insets = INSETS_SECTION_LABEL_RIGHT;
+			}
+			else
+			{
+				labelConstraints.insets = INSETS_SECTION_LABEL_LEFT;
+			}
 
+			separatorPanel.add( new JLabel( localizedSection ), labelConstraints );
 			separatorPanel.add( new JSeparator( SwingConstants.HORIZONTAL ), separatorConstraints );
 
 			// Add to parent container

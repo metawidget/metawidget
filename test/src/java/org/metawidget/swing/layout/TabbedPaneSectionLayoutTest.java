@@ -16,9 +16,16 @@
 
 package org.metawidget.swing.layout;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import junit.framework.TestCase;
+
+import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.swing.SwingMetawidget;
 
 /**
  * @author Richard Kennard
@@ -50,5 +57,41 @@ public class TabbedPaneSectionLayoutTest
 		config2.setTabPlacement( SwingConstants.TOP );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
+	}
+
+	public void testTabPlacement()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( new TabbedPaneSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() )) );
+		metawidget.setToInspect( new Foo() );
+
+		JTabbedPane tabbedPane = (JTabbedPane) metawidget.getComponent( 0 );
+		assertTrue( "Section".equals( tabbedPane.getTitleAt( 0 )));
+		assertTrue( SwingConstants.LEFT == tabbedPane.getTabPlacement() );
+		JPanel panel = (JPanel) tabbedPane.getComponent( 0 );
+		assertTrue( "Bar:".equals( ((JLabel) panel.getComponent( 0 )).getText() ));
+		assertTrue( panel.getComponent( 1 ) instanceof JTextField );
+		assertTrue( panel.getComponent( 2 ) instanceof JPanel );
+		assertTrue( 3 == panel.getComponentCount() );
+
+		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( new TabbedPaneSectionLayoutConfig().setTabPlacement( SwingConstants.BOTTOM ).setLayout( new org.metawidget.swing.layout.GridBagLayout() )) );
+		tabbedPane = (JTabbedPane) metawidget.getComponent( 0 );
+		assertTrue( "Section".equals( tabbedPane.getTitleAt( 0 )));
+		assertTrue( SwingConstants.BOTTOM == tabbedPane.getTabPlacement() );
+		panel = (JPanel) tabbedPane.getComponent( 0 );
+		assertTrue( "Bar:".equals( ((JLabel) panel.getComponent( 0 )).getText() ));
+		assertTrue( panel.getComponent( 1 ) instanceof JTextField );
+		assertTrue( panel.getComponent( 2 ) instanceof JPanel );
+		assertTrue( 3 == panel.getComponentCount() );
+	}
+
+	//
+	// Inner class
+	//
+
+	static class Foo
+	{
+		@UiSection( "Section" )
+		public String bar;
 	}
 }

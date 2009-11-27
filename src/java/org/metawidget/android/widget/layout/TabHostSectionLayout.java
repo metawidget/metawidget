@@ -38,14 +38,14 @@ import android.widget.TabHost.TabContentFactory;
  * @author Richard Kennard
  */
 
-public class TabSectionLayout
+public class TabHostSectionLayout
 	extends DelegateLayout<View, AndroidMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	public TabSectionLayout( DelegateLayoutConfig<View, AndroidMetawidget> config )
+	public TabHostSectionLayout( DelegateLayoutConfig<View, AndroidMetawidget> config )
 	{
 		super( config );
 	}

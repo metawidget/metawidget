@@ -91,14 +91,14 @@
 			<title>Note</title>
 			It is <emphasis>not</emphasis> a goal of Metawidget that all widgets look the same on
 			every front-end framework, or that all back-end technologies conform to some 'lowest common
-			denominator': every technology has different features, and Metawidget takes advantage of this.
+			denominator': every technology has different features, and Metawidget takes full advantage of this.
 		</tip>
 
 		<para>
 			The next chapter presents a tutorial covering using Metawidget with a variety of front-ends and
-			back-ends. Chapter 2 then follows with a more in-depth architectual overview. Chapters 3-7
+			back-ends. Chapter 2 then follows with a more in-depth architectual overview. Chapters 3-8
 			explore each supported front-end and back-end technology in detail. Finally, chapters
-			8 and 9 offer general advice and performance tips.
+			9 and 10 offer general advice and performance tips.
 		</para>
 
 	</preface>
@@ -832,8 +832,8 @@ public class Person {
 
 			</section>
 
-			<section id="section-introduction-part1-inspector-config">
-				<title>Configuring Inspectors Externally</title>
+			<section id="section-introduction-part1-metawidget-config">
+				<title>Configuring Metawidget Externally</title>
 
 				<para>
 					So far we have been instantiating our <classname>Inspector</classname>s and
@@ -2578,14 +2578,15 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 						<para>
 							Internally, <function>buildWidgets</function> is called to begin the process.
 							It first calls <function>Inspector.inspect</function> to return
-							an XML string of inspection results
+							an XML string of inspection results, then <function>InspectionResultProcessor.processInspectionResult</function>
+							to sort them.
 						</para>
 					</listitem>
 					<listitem>
 						<para>							
 							<function>buildWidgets</function> calls <function>WidgetBuilder.buildWidget</function> to choose a suitable widget for the
 							top-level element of the XML (based on its <parameter>@type</parameter> attribute). If <function>WidgetBuilder.buildWidget</function>
-							returns such a widget, skip to 8
+							returns such a widget, skip to 6.
 						</para>
 					</listitem>
 					<listitem>
@@ -4515,11 +4516,11 @@ public class Main {
 					This interface defines three methods:
 				</para>
 				
-				<programlisting language="java">void startLayout( W container, M metawidget );
+				<programlisting language="java">void startLayout(W container,M metawidget);
 				
-void layoutWidget( W widget, String elementName, Map&lt;String, String&gt; attributes, W container, M metawidget );
+void layoutWidget(W widget,String elementName,Map&lt;String, String&gt; attributes,W container,M metawidget);
 
-void endLayout( W container, M metawidget );</programlisting>
+void endLayout(W container,M metawidget);</programlisting>
 				
 				<!--
 					http://www.websequencediagrams.com
@@ -4620,7 +4621,11 @@ void endLayout( W container, M metawidget );</programlisting>
 					<tbody>
 						<tr>
 							<td>Android</td>
-							<td><classname>...android.widget.layout.TableLayout</classname></td>
+							<td><programlisting language="xml">&lt;headingSectionLayout config="HeadingSectionLayoutConfig"&gt;
+	&lt;layout&gt;
+		&lt;tableLayout /&gt;
+	&lt;/layout&gt;
+&lt;/headingSectionLayout&gt;</programlisting></td>							
 						</tr>
 						<tr>
 							<td>GWT</td>
@@ -6006,8 +6011,7 @@ public class Main {
 						
 						<tip>
 							<title>Note</title>
-							In this particular example, it may be useful to give <classname>BundlePropertyStyle</classname> a
-							<classname>xxxPropertyStyleConfig</classname> class that implements
+							In this particular example, it may be useful to create a <classname>BundlePropertyStyleConfig</classname> class that implements
 							<classname>NeedsResourceResolver</classname> (see <xref linkend="section-architecture-xml-resolving-resources"/>).
 							Then it could use <classname>ResourceResolver.openResource</classname> to locate the bundle in case it
 							was in a specialized location (such as <filename>WEB-INF/</filename>).
@@ -8848,7 +8852,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				</section>
 				
 				<section id="section-layouts-web-android-tab">
-					<title>TabSectionLayout</title>
+					<title>TabHostSectionLayout</title>
 
 					<para>
 						Layout to wrap widgets in different sections inside a <classname>TabHost</classname>,
@@ -8856,7 +8860,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					</para>
 					
 					<figure id="section-layouts-web-android-tab-screenshot">
-						<title>TabSectionLayout</title>
+						<title>TabHostSectionLayout</title>
 						<screenshot>
 							<graphic fileref="images/screenshots/mobile-tabsection.jpg" width="60mm" />
 						</screenshot>

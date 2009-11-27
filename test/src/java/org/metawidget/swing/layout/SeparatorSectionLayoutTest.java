@@ -16,9 +16,18 @@
 
 package org.metawidget.swing.layout;
 
+import java.awt.GridBagLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import junit.framework.TestCase;
+
+import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.swing.SwingMetawidget;
 
 /**
  * @author Richard Kennard
@@ -50,5 +59,44 @@ public class SeparatorSectionLayoutTest
 		config2.setAlignment( SwingConstants.RIGHT );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
+	}
+
+	public void testAlignment()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setToInspect( new Foo() );
+
+		JPanel panel = (JPanel) metawidget.getComponent( 0 );
+		assertTrue( "Section".equals( ((JLabel) panel.getComponent( 0 )).getText() ));
+		assertTrue( 0 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.left );
+		assertTrue( 5 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
+		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
+		assertTrue( "Bar:".equals( ((JLabel) metawidget.getComponent( 1 )).getText() ));
+		assertTrue( metawidget.getComponent( 2 ) instanceof JTextField );
+		assertTrue( metawidget.getComponent( 3 ) instanceof JPanel );
+		assertTrue( 4 == metawidget.getComponentCount() );
+
+		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new SeparatorSectionLayoutConfig().setAlignment( SwingConstants.RIGHT ).setLayout( new org.metawidget.swing.layout.GridBagLayout() )) );
+		panel = (JPanel) metawidget.getComponent( 0 );
+		assertTrue( "Section".equals( ((JLabel) panel.getComponent( 0 )).getText() ));
+		assertTrue( 1 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).gridx );
+		assertTrue( 5 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.left );
+		assertTrue( 0 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
+		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
+		assertTrue( 0 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 1 ) ).gridx );
+		assertTrue( "Bar:".equals( ((JLabel) metawidget.getComponent( 1 )).getText() ));
+		assertTrue( metawidget.getComponent( 2 ) instanceof JTextField );
+		assertTrue( metawidget.getComponent( 3 ) instanceof JPanel );
+		assertTrue( 4 == metawidget.getComponentCount() );
+	}
+
+	//
+	// Inner class
+	//
+
+	static class Foo
+	{
+		@UiSection( "Section" )
+		public String bar;
 	}
 }

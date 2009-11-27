@@ -143,7 +143,7 @@ public class TabbedPaneSectionLayout
 		{
 			tabbedPane = new JTabbedPane();
 			tabbedPane.setBorder( TABBED_PANE_BORDER );
-			//TODO:tabbedPane.setTabPlacement( mTabPlacement );
+			tabbedPane.setTabPlacement( mTabPlacement );
 
 			Map<String, String> tabbedPaneAttributes = CollectionUtils.newHashMap();
 			tabbedPaneAttributes.put( LABEL, "" );

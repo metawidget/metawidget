@@ -39,17 +39,17 @@ import android.widget.TextView;
  * @author Richard Kennard
  */
 
-public class TabSectionLayoutTest
+public class TabHostSectionLayoutTest
 	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	public void testTabSectionLayout()
+	public void testTabHostSectionLayout()
 	{
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new TabSectionLayout( new DelegateLayoutConfig<View,AndroidMetawidget>().setLayout( new TableLayout() )));
+		androidMetawidget.setLayout( new TabHostSectionLayout( new DelegateLayoutConfig<View,AndroidMetawidget>().setLayout( new TableLayout() )));
 		androidMetawidget.setToInspect( new Foo() );
 
 		Facet facet = new Facet( null );
