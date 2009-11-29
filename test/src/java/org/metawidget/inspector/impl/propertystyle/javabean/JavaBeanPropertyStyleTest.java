@@ -47,7 +47,7 @@ public class JavaBeanPropertyStyleTest
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
 
-		assertTrue( properties instanceof TreeMap );
+		assertTrue( properties instanceof TreeMap<?,?> );
 		assertTrue( properties.size() == 10 );
 
 		assertTrue( "foo".equals( properties.get( "foo" ).toString() ) );
@@ -99,7 +99,7 @@ public class JavaBeanPropertyStyleTest
 		JavaBeanPropertyStyle propertyStyle = new JavaBeanPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( Proxied_$$_javassist_.class );
 
-		assertTrue( properties instanceof TreeMap );
+		assertTrue( properties instanceof TreeMap<?,?> );
 		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ));
 
 		properties = propertyStyle.getProperties( new InterfaceFoo()
@@ -111,7 +111,7 @@ public class JavaBeanPropertyStyleTest
 			}
 		}.getClass() );
 
-		assertTrue( properties instanceof TreeMap );
+		assertTrue( properties instanceof TreeMap<?,?> );
 		assertTrue( !properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ));
 	}
 

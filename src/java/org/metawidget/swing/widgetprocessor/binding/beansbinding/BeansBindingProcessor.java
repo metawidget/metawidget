@@ -201,7 +201,7 @@ public class BeansBindingProcessor
 				if ( !sourceProperty.isWriteable( sourceObject ) )
 					continue;
 
-				if ( binding.getConverter() instanceof ReadOnlyToStringConverter )
+				if ( binding.getConverter() instanceof ReadOnlyToStringConverter<?> )
 					continue;
 
 				try
@@ -431,7 +431,7 @@ public class BeansBindingProcessor
 		@Override
 		public boolean equals( Object that )
 		{
-			if ( !( that instanceof ConvertFromTo ) )
+			if ( !( that instanceof ConvertFromTo<?,?> ) )
 				return false;
 
 			if ( !ObjectUtils.nullSafeEquals( mSource, ( (ConvertFromTo<?, ?>) that ).mSource ) )

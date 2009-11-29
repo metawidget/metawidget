@@ -170,7 +170,7 @@ public class JspAnnotationInspector
 		if ( value == null )
 			return;
 
-		if ( value instanceof Collection )
+		if ( value instanceof Collection<?> )
 		{
 			attributes.put( jspAttribute.name(), CollectionUtils.toString( (Collection<?>) value ) );
 		}

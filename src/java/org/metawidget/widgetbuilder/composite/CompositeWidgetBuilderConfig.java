@@ -63,7 +63,7 @@ public class CompositeWidgetBuilderConfig<W, M extends W>
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof CompositeWidgetBuilderConfig ) )
+		if ( !( that instanceof CompositeWidgetBuilderConfig<?,?> ) )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mWidgetBuilders, ( (CompositeWidgetBuilderConfig<?, ?>) that ).mWidgetBuilders ) )

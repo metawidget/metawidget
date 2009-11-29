@@ -184,7 +184,7 @@ public class ConfigReader
 		ConfigHandler configHandler = new ConfigHandler( toConfigure, names );
 		String locationKey = resource + StringUtils.SEPARATOR_FORWARD_SLASH;
 
-		if ( toConfigure instanceof Class )
+		if ( toConfigure instanceof Class<?> )
 			locationKey += ( (Class<?>) toConfigure ).getName();
 		else if ( toConfigure != null )
 			locationKey += toConfigure.getClass().getName();
@@ -768,7 +768,7 @@ public class ConfigReader
 
 						// Match by Class...
 
-						if ( mToConfigure instanceof Class )
+						if ( mToConfigure instanceof Class<?> )
 						{
 							if ( !( (Class<?>) mToConfigure ).isAssignableFrom( toConfigureClass ) )
 							{
@@ -1264,7 +1264,7 @@ public class ConfigReader
 
 			// Collections
 
-			if ( parameters instanceof Collection )
+			if ( parameters instanceof Collection<?> )
 			{
 				@SuppressWarnings( "unchecked" )
 				Collection<Object> collection = (Collection<Object>) parameters;

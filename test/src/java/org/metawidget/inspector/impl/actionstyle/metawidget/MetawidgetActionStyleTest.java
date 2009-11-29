@@ -24,7 +24,6 @@ import junit.framework.TestCase;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.actionstyle.Action;
-import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyle;
 
 /**
  * @author Richard Kennard
@@ -61,7 +60,7 @@ public class MetawidgetActionStyleTest
 		MetawidgetActionStyle actionStyle = new MetawidgetActionStyle();
 		Map<String, Action> actions = actionStyle.getActions( Proxied_$$_javassist_.class );
 
-		assertTrue( actions instanceof TreeMap );
+		assertTrue( actions instanceof TreeMap<?,?> );
 		assertTrue( actions.get( "bar1" ).isAnnotationPresent( UiAction.class ));
 		assertTrue( actions.get( "baz" ).isAnnotationPresent( UiAction.class ));
 		assertTrue( actions.size() == 2 );
@@ -76,7 +75,7 @@ public class MetawidgetActionStyleTest
 
 		}.getClass() );
 
-		assertTrue( actions instanceof TreeMap );
+		assertTrue( actions instanceof TreeMap<?,?> );
 		assertTrue( actions.isEmpty() );
 
 	}

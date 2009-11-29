@@ -23,8 +23,6 @@ import java.util.Set;
 
 import junit.framework.TestCase;
 
-import org.metawidget.util.CollectionUtils;
-
 /**
  * @author Richard Kennard
  */
@@ -42,7 +40,7 @@ public class CollectionUtilsTest
 		assertTrue( CollectionUtils.newArrayList( 2 ) != null );
 
 		List<String> list = CollectionUtils.newArrayList( "foo", "bar" );
-		assertTrue( list instanceof ArrayList );
+		assertTrue( list instanceof ArrayList<?> );
 		assertTrue( "foo".equals( list.get( 0 )));
 		assertTrue( "bar".equals( list.get( 1 )));
 		assertTrue( "|foo|bar|".equals( CollectionUtils.toString( list, "|", true, true )));

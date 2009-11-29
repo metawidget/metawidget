@@ -80,7 +80,7 @@ public final class InspectionResultConstants
 	 * Parameterized type arguments, for example the type of elements in a Set.
 	 * <p>
 	 * Often this comes from Java5 generics, but it can come from other sources (eg. Hibernate
-	 * mapping files).
+	 * mapping files, UiAttribute annotations).
 	 */
 
 	public final static String	PARAMETERIZED_TYPE				= "parameterized-type";

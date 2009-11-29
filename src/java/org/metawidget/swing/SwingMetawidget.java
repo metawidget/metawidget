@@ -975,7 +975,7 @@ public class SwingMetawidget
 
 		try
 		{
-			if ( widgetBuilder instanceof CompositeWidgetBuilder )
+			if ( widgetBuilder instanceof CompositeWidgetBuilder<?,?> )
 			{
 				for ( WidgetBuilder<JComponent, SwingMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilder ).getWidgetBuilders() )
 				{

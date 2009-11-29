@@ -978,7 +978,7 @@ public class GwtMetawidget
 	{
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder )
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?,?> )
 		{
 			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
 			{
@@ -1003,7 +1003,7 @@ public class GwtMetawidget
 	{
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder )
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?,?> )
 		{
 			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
 			{

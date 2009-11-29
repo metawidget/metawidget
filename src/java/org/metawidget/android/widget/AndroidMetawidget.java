@@ -808,7 +808,7 @@ public class AndroidMetawidget
 	{
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder )
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?,?> )
 		{
 			for ( WidgetBuilder<View, AndroidMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<View, AndroidMetawidget>) widgetBuilder ).getWidgetBuilders() )
 			{
@@ -833,7 +833,7 @@ public class AndroidMetawidget
 	{
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder )
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?,?> )
 		{
 			for ( WidgetBuilder<View, AndroidMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<View, AndroidMetawidget>) widgetBuilder ).getWidgetBuilders() )
 			{

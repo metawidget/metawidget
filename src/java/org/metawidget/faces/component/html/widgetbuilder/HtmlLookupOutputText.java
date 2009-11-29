@@ -67,7 +67,7 @@ public class HtmlLookupOutputText
 
 		// Special support for Collections
 
-		if ( value instanceof Collection )
+		if ( value instanceof Collection<?> )
 		{
 			Collection<?> values = (Collection<?>) value;
 
@@ -83,7 +83,7 @@ public class HtmlLookupOutputText
 				// Try to return the same Collection type. But don't do
 				// value.getClass().newInstance() because it might be a PersistentSet or something
 
-				if ( value instanceof Set )
+				if ( value instanceof Set<?> )
 					labels = CollectionUtils.newHashSet();
 				else
 					labels = CollectionUtils.newArrayList();

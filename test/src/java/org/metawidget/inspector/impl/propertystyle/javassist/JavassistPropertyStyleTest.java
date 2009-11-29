@@ -26,7 +26,6 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiMasked;
 import org.metawidget.inspector.impl.propertystyle.Property;
-import org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyle;
 
 /**
  * @author Richard Kennard
@@ -44,7 +43,7 @@ public class JavassistPropertyStyleTest
 		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( Foo.class );
 
-		assertTrue( properties instanceof LinkedHashMap );
+		assertTrue( properties instanceof LinkedHashMap<?,?> );
 
 		Iterator<Property> i = properties.values().iterator();
 		assertTrue( "superBar".equals( i.next().getName() ) );
@@ -64,7 +63,7 @@ public class JavassistPropertyStyleTest
 		JavassistPropertyStyle propertyStyle = new JavassistPropertyStyle();
 		Map<String, Property> properties = propertyStyle.getProperties( ProxiedByCGLIB$$.class );
 
-		assertTrue( properties instanceof LinkedHashMap );
+		assertTrue( properties instanceof LinkedHashMap<?,?> );
 		assertTrue( properties.get( "interfaceBar" ).isAnnotationPresent( UiMasked.class ) );
 	}
 

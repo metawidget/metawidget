@@ -257,9 +257,9 @@ public final class CollectionUtils
 
 		Collection<T> sortedCollection = collection;
 
-		if ( sortedCollection instanceof Set )
+		if ( sortedCollection instanceof Set<?> )
 		{
-			if ( !sortedCollection.isEmpty() && sortedCollection.iterator().next() instanceof Comparable )
+			if ( !sortedCollection.isEmpty() && sortedCollection.iterator().next() instanceof Comparable<?> )
 			{
 				@SuppressWarnings("unchecked")
 				Collection<Comparable> comparableCollection = (Collection<Comparable>) sortedCollection;

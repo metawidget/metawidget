@@ -151,7 +151,7 @@ public class Java5Inspector
 					if ( builder.length() > 0 )
 						builder.append( StringUtils.SEPARATOR_COMMA );
 
-					if ( typeActual instanceof Class )
+					if ( typeActual instanceof Class<?> )
 						builder.append( ( (Class<?>) typeActual ).getName() );
 					else
 						builder.append( typeActual.toString() );
