@@ -20,35 +20,62 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import junit.framework.TestCase;
-
-import org.metawidget.util.CollectionUtils;
-
 /**
+ * Utilities for working with Layouts.
+ * <p>
+ * Some of the logic behind Layouts decisions can be a little involved, so we refactor it here.
+ *
  * @author Richard Kennard
  */
 
-public class LayoutUtilsTest
-	extends TestCase
+public final class SimpleLayoutUtils
 {
 	//
 	// Public methods
 	//
 
-	public void testLayoutException()
-		throws Exception
+	/**
+	 * Returns true if the field is 'large' or 'wide'.
+	 */
+
+	public static boolean isSpanAllColumns( Map<String, String> attributes )
 	{
-		assertTrue( false == SimpleLayoutUtils.isSpanAllColumns( null ));
+		if ( attributes == null )
+			return false;
 
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-		attributes.put( LARGE, TRUE );
-		assertTrue( true == SimpleLayoutUtils.isSpanAllColumns( attributes ));
+		if ( TRUE.equals( attributes.get( LARGE ) ) )
+			return true;
 
-		attributes.clear();
-		attributes.put( WIDE, TRUE );
-		assertTrue( true == SimpleLayoutUtils.isSpanAllColumns( attributes ));
+		if ( TRUE.equals( attributes.get( WIDE ) ) )
+			return true;
 
-		attributes.clear();
-		assertTrue( false == SimpleLayoutUtils.isSpanAllColumns( attributes ));
+		return false;
+	}
+
+	/**
+	 * Returns true if the label is blank or if the element is an 'action'.
+	 */
+
+	public static boolean needsLabel( String labelText, String elementName )
+	{
+		if ( labelText == null )
+			return false;
+
+		if ( labelText.trim().length() == 0 )
+			return false;
+
+		if ( ACTION.equals( elementName ) )
+			return false;
+
+		return true;
+	}
+
+	//
+	// Private constructor
+	//
+
+	private SimpleLayoutUtils()
+	{
+		// Can never be called
 	}
 }

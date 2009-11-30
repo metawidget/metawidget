@@ -14,13 +14,11 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.layout.impl;
+package org.metawidget.util;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
-
-import org.metawidget.util.ArrayUtils;
 
 /**
  * Utilities for working with Layouts.
@@ -37,42 +35,6 @@ public final class LayoutUtils
 	//
 
 	/**
-	 * Returns true if the field is 'large' or 'wide'.
-	 */
-
-	public static boolean isSpanAllColumns( Map<String, String> attributes )
-	{
-		if ( attributes == null )
-			return false;
-
-		if ( TRUE.equals( attributes.get( LARGE ) ) )
-			return true;
-
-		if ( TRUE.equals( attributes.get( WIDE ) ) )
-			return true;
-
-		return false;
-	}
-
-	/**
-	 * Returns true if the label is blank or if the element is an 'action'.
-	 */
-
-	public static boolean needsLabel( String labelText, String elementName )
-	{
-		if ( labelText == null )
-			return false;
-
-		if ( labelText.trim().length() == 0 )
-			return false;
-
-		if ( ACTION.equals( elementName ) )
-			return false;
-
-		return true;
-	}
-
-	/**
 	 * Strips the first section off the section attribute (if any).
 	 *
 	 * @param attributes
@@ -80,6 +42,7 @@ public final class LayoutUtils
 	 *            leftmost section (ie. 'foo' in 'foo,bar,baz')
 	 * @return the stripped section
 	 */
+
 	public static String stripSection( Map<String, String> attributes )
 	{
 		String sections = attributes.remove( SECTION );

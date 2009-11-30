@@ -31,7 +31,7 @@ import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.impl.LayoutUtils;
+import org.metawidget.layout.impl.SimpleLayoutUtils;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -266,7 +266,7 @@ public class GridBagLayout
 
 		// Add label
 
-		if ( LayoutUtils.needsLabel( labelText, elementName ) )
+		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 		{
 			JLabel label = new JLabel();
 			label.setHorizontalAlignment( mLabelAlignment );
@@ -348,7 +348,7 @@ public class GridBagLayout
 		if ( component instanceof SwingMetawidget )
 			return true;
 
-		return LayoutUtils.isSpanAllColumns( attributes );
+		return SimpleLayoutUtils.isSpanAllColumns( attributes );
 	}
 
 	protected boolean willFillVertically( JComponent component, Map<String, String> attributes )

@@ -34,7 +34,7 @@ import javax.faces.render.Renderer;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.layout.impl.LayoutUtils;
+import org.metawidget.layout.impl.SimpleLayoutUtils;
 
 /**
  * Base class for all JSF HTML layout renderers. This implementation recognizes the following
@@ -131,7 +131,7 @@ public abstract class HtmlLayoutRenderer
 
 		String labelText = getLabelText( componentNeedingLabel );
 
-		if ( !LayoutUtils.needsLabel( labelText, null ))
+		if ( !SimpleLayoutUtils.needsLabel( labelText, null ))
 			return false;
 
 		// Render the label

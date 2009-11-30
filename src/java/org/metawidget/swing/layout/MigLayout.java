@@ -30,7 +30,7 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.impl.LayoutUtils;
+import org.metawidget.layout.impl.SimpleLayoutUtils;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -121,7 +121,7 @@ public class MigLayout
 		// Special support for large components
 
 		State state = getState( container );
-		boolean spanAllColumns = ( component instanceof JScrollPane || component instanceof SwingMetawidget || LayoutUtils.isSpanAllColumns( attributes ) );
+		boolean spanAllColumns = ( component instanceof JScrollPane || component instanceof SwingMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes ) );
 
 		if ( spanAllColumns && state.currentColumn > 0 )
 		{
@@ -214,7 +214,7 @@ public class MigLayout
 
 		// Add label
 
-		if ( LayoutUtils.needsLabel( labelText, elementName ))
+		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ))
 		{
 			JLabel label = new JLabel();
 

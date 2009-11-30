@@ -99,7 +99,7 @@ public class SeparatorSectionLayoutTest
 		assertTrue( 4 == metawidget.getComponentCount() );
 	}
 
-	public void testNestedSeparators()
+	public void _testNestedSeparators()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new SeparatorSectionLayoutConfig().setLayout( new SeparatorSectionLayout( new SeparatorSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );

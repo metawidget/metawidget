@@ -30,7 +30,7 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.impl.LayoutUtils;
+import org.metawidget.layout.impl.SimpleLayoutUtils;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -98,7 +98,7 @@ public class GroupLayout
 
 			String labelText = metawidget.getLabelString( attributes );
 
-			if ( LayoutUtils.needsLabel( labelText, elementName ))
+			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ))
 			{
 				// Required
 

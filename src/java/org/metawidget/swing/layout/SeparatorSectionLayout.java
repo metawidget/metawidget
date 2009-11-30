@@ -31,9 +31,9 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import org.metawidget.layout.delegate.DelegateLayout;
-import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**

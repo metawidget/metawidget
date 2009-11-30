@@ -21,7 +21,7 @@ import java.util.Map;
 import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.layout.delegate.DelegateLayout;
-import org.metawidget.layout.impl.LayoutUtils;
+import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;

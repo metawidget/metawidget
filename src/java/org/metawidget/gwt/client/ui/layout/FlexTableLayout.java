@@ -24,7 +24,7 @@ import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.impl.LayoutUtils;
+import org.metawidget.layout.impl.SimpleLayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.user.client.ui.FlexTable;
@@ -157,7 +157,7 @@ public class FlexTableLayout
 
 		String labelText = metawidget.getLabelString( attributes );
 
-		if ( LayoutUtils.needsLabel( labelText, elementName ))
+		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ))
 		{
 			Label label = new Label( labelText + ":" );
 
@@ -202,7 +202,7 @@ public class FlexTableLayout
 
 		// Metawidgets and large components span all columns
 
-		if ( widget instanceof GwtMetawidget || LayoutUtils.isSpanAllColumns( attributes ) )
+		if ( widget instanceof GwtMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes ) )
 		{
 			colspan = ( numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 			state.currentColumn = numberOfColumns;

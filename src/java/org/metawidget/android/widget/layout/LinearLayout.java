@@ -22,7 +22,7 @@ import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
 import org.metawidget.layout.impl.BaseLayout;
-import org.metawidget.layout.impl.LayoutUtils;
+import org.metawidget.layout.impl.SimpleLayoutUtils;
 
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +72,7 @@ public class LinearLayout
 		ViewGroup viewToAddTo = newViewToAddTo( (ViewGroup) container );
 
 		String labelText = metawidget.getLabelString( attributes );
-		boolean needsLabel = LayoutUtils.needsLabel( labelText, elementName );
+		boolean needsLabel = SimpleLayoutUtils.needsLabel( labelText, elementName );
 
 		// Labels
 
