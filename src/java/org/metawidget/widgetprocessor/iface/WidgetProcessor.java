@@ -60,8 +60,8 @@ public interface WidgetProcessor<W, M extends W>
 	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
 	 *            Never null
 	 * @param attributes
-	 *            attributes of the widget to layout. Never null. This Map is modifiable - changes
-	 *            with be passed to subsequent WidgetProcessors and Layouts
+	 *            attributes of the widget to process. Never null. This Map is modifiable - changes
+	 *            will be passed to subsequent WidgetProcessors and Layouts
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
 	 * @return generally the original widget (as passed in to the first argument). Can be a

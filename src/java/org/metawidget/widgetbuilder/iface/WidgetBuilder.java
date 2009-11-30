@@ -43,7 +43,7 @@ public interface WidgetBuilder<W, M extends W>
 	 *            Never null
 	 * @param attributes
 	 *            attributes of the business field to build a widget for. Never null. This Map is
-	 *            modifiable - changes with be passed to subsequent WidgetBuilders, WidgetProcessors
+	 *            modifiable - changes will be passed to subsequent WidgetBuilders, WidgetProcessors
 	 *            and Layouts
 	 * @param metawidget
 	 *            the parent Metawidget. Never null

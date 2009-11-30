@@ -20,11 +20,12 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import org.metawidget.util.ArrayUtils;
+
 /**
  * Utilities for working with Layouts.
  * <p>
- * Some of the logic behind Layouts decisions can be a little involved, so we refactor it
- * here.
+ * Some of the logic behind Layouts decisions can be a little involved, so we refactor it here.
  *
  * @author Richard Kennard
  */
@@ -65,11 +66,43 @@ public final class LayoutUtils
 		if ( labelText.trim().length() == 0 )
 			return false;
 
-		if ( ACTION.equals( elementName ))
+		if ( ACTION.equals( elementName ) )
 			return false;
 
 		return true;
- 	}
+	}
+
+	/**
+	 * Strips the first section off the section attribute (if any).
+	 *
+	 * @param attributes
+	 *            the attributes. If there is a section attribute, it will be modified to remove its
+	 *            leftmost section (ie. 'foo' in 'foo,bar,baz')
+	 * @return the stripped section
+	 */
+	public static String stripSection( Map<String, String> attributes )
+	{
+		String sections = attributes.remove( SECTION );
+
+		if ( sections == null )
+			return null;
+
+		String[] sectionAsArray = ArrayUtils.fromString( sections );
+
+		switch ( sectionAsArray.length )
+		{
+			case 0:
+				return null;
+
+			case 1:
+				return sectionAsArray[0];
+
+			default:
+				String section = sectionAsArray[0];
+				attributes.put( SECTION, ArrayUtils.toString( ArrayUtils.removeAt( sectionAsArray, 0 ) ) );
+				return section;
+		}
+	}
 
 	//
 	// Private constructor

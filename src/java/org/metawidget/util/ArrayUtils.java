@@ -167,6 +167,20 @@ public final class ArrayUtils
 		return -1;
 	}
 
+	@SuppressWarnings( "unchecked" )
+	public static <T> T[] removeAt( T[] array, int index )
+	{
+		T[] newArray = (T[]) Array.newInstance( array.getClass().getComponentType(), array.length - 1 );
+
+		if ( index > 0 )
+			System.arraycopy( array, 0, newArray, 0, index );
+
+		if ( index < array.length - 1 )
+			System.arraycopy( array, index + 1, newArray, index, array.length - ( index + 1 ) );
+
+		return newArray;
+	}
+
 	//
 	// Private statics
 	//

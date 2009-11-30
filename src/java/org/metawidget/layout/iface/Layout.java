@@ -64,7 +64,8 @@ public interface Layout<W, M extends W>
 	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
 	 *            Never null
 	 * @param attributes
-	 *            attributes of the widget to layout. Never null
+	 *            attributes of the widget to layout. Never null. This Map is modifiable - changes
+	 *            will be passed to subsequent WidgetProcessors and Layouts
 	 * @param container
 	 *            the container to add to. This is often the same as the given Metawidget
 	 * @param metawidget

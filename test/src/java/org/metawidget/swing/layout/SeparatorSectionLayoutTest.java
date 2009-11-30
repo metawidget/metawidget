@@ -27,6 +27,7 @@ import javax.swing.SwingConstants;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.layout.delegate.DelegateLayoutTest;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
@@ -59,6 +60,10 @@ public class SeparatorSectionLayoutTest
 		config2.setAlignment( SwingConstants.RIGHT );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// superclass
+
+		DelegateLayoutTest.testConfig( new SeparatorSectionLayoutConfig(), new SeparatorSectionLayoutConfig(), new org.metawidget.swing.layout.GridBagLayout() );
 	}
 
 	public void testAlignment()

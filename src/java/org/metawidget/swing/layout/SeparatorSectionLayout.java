@@ -31,6 +31,7 @@ import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
 import org.metawidget.layout.delegate.DelegateLayout;
+import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -91,7 +92,7 @@ public class SeparatorSectionLayout
 	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
-		String section = attributes.get( SECTION );
+		String section = LayoutUtils.stripSection( attributes );
 		String currentSection = (String) container.getClientProperty( SeparatorSectionLayout.class );
 
 		// Stay where we are?

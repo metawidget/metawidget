@@ -27,6 +27,7 @@ import javax.swing.border.Border;
 
 import org.metawidget.layout.delegate.DelegateLayout;
 import org.metawidget.layout.delegate.DelegateLayoutConfig;
+import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -77,8 +78,7 @@ public class TitledPanelSectionLayout
 	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
-		String section = attributes.get( SECTION );
-
+		String section = LayoutUtils.stripSection( attributes );
 		State state = getState( metawidget );
 
 		// Stay where we are?

@@ -25,6 +25,7 @@ import javax.swing.SwingConstants;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.layout.delegate.DelegateLayoutTest;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
@@ -57,6 +58,10 @@ public class TabbedPaneSectionLayoutTest
 		config2.setTabPlacement( SwingConstants.TOP );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// superclass
+
+		DelegateLayoutTest.testConfig( new SeparatorSectionLayoutConfig(), new SeparatorSectionLayoutConfig(), new org.metawidget.swing.layout.GridBagLayout() );
 	}
 
 	public void testTabPlacement()
@@ -67,7 +72,7 @@ public class TabbedPaneSectionLayoutTest
 
 		JTabbedPane tabbedPane = (JTabbedPane) metawidget.getComponent( 0 );
 		assertTrue( "Section".equals( tabbedPane.getTitleAt( 0 )));
-		assertTrue( SwingConstants.LEFT == tabbedPane.getTabPlacement() );
+		assertTrue( SwingConstants.TOP == tabbedPane.getTabPlacement() );
 		JPanel panel = (JPanel) tabbedPane.getComponent( 0 );
 		assertTrue( "Bar:".equals( ((JLabel) panel.getComponent( 0 )).getText() ));
 		assertTrue( panel.getComponent( 1 ) instanceof JTextField );

@@ -90,7 +90,7 @@ public class MetawidgetAnnotationInspector
 		UiSection uiSection = trait.getAnnotation( UiSection.class );
 
 		if ( uiSection != null )
-			attributes.put( SECTION, uiSection.value() );
+			attributes.put( SECTION, ArrayUtils.toString( uiSection.value() ));
 
 		// UiLabel
 

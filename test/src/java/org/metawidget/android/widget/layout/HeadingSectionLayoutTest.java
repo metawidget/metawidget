@@ -23,6 +23,8 @@ import org.metawidget.android.widget.Facet;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiSection;
+import org.metawidget.layout.delegate.DelegateLayoutTest;
+import org.metawidget.swing.layout.SeparatorSectionLayoutConfig;
 
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -60,6 +62,10 @@ public class HeadingSectionLayoutTest
 		config2.setSectionStyle( 100 );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// superclass
+
+		DelegateLayoutTest.testConfig( new SeparatorSectionLayoutConfig(), new SeparatorSectionLayoutConfig(), new org.metawidget.swing.layout.GridBagLayout() );
 	}
 
 	public void testHeadingSectionLayout()

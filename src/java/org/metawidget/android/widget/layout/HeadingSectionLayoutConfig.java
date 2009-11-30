@@ -79,12 +79,15 @@ public class HeadingSectionLayoutConfig
 		if ( mSectionStyle != ( (HeadingSectionLayoutConfig) that ).mSectionStyle )
 			return false;
 
-		return true;
+		return super.equals( that );
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return mSectionStyle;
+		int hashCode = super.hashCode();
+		hashCode ^= mSectionStyle;
+
+		return hashCode;
 	}
 }

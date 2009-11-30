@@ -298,6 +298,7 @@ public class SwingMetawidgetTest
 	{
 		final List<String> called = CollectionUtils.newArrayList();
 
+		@SuppressWarnings( "serial" )
 		SwingMetawidget metawidget = new SwingMetawidget()
 		{
 			@Override

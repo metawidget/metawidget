@@ -20,6 +20,7 @@ import javax.swing.JComponent;
 
 import junit.framework.TestCase;
 
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayout;
@@ -37,23 +38,23 @@ public class DelegateLayoutTest
 
 	public void testConfig()
 	{
-		GridBagLayout layout = new GridBagLayout();
+		testConfig( new DelegateLayoutConfig<JComponent, SwingMetawidget>(), new DelegateLayoutConfig<JComponent, SwingMetawidget>(), new GridBagLayout() );
+	}
 
-		DelegateLayoutConfig<JComponent,SwingMetawidget> config1 = new DelegateLayoutConfig<JComponent,SwingMetawidget>();
-		DelegateLayoutConfig<JComponent,SwingMetawidget> config2 = new DelegateLayoutConfig<JComponent,SwingMetawidget>();
-
+	public static <W, M extends W> void testConfig( DelegateLayoutConfig<W, M> config1, DelegateLayoutConfig<W, M> config2, Layout<W, M> delegate )
+	{
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
-		// tabPlacement
+		// layout
 
-		config1.setLayout( layout );
-		assertTrue( layout == config1.getLayout() );
+		config1.setLayout( delegate );
+		assertTrue( delegate == config1.getLayout() );
 		assertTrue( !config1.equals( config2 ) );
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
-		config2.setLayout( layout );
+		config2.setLayout( delegate );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
@@ -68,9 +69,9 @@ public class DelegateLayoutTest
 				// Just a DelegateLayout
 			};
 		}
-		catch( LayoutException e )
+		catch ( LayoutException e )
 		{
-			assertTrue( "org.metawidget.layout.delegate.DelegateLayoutTest$1 needs a Layout to delegate to (use org.metawidget.layout.delegate.DelegateLayoutConfig.setLayout)".equals( e.getMessage() ));
+			assertTrue( "org.metawidget.layout.delegate.DelegateLayoutTest$1 needs a Layout to delegate to (use org.metawidget.layout.delegate.DelegateLayoutConfig.setLayout)".equals( e.getMessage() ) );
 		}
 	}
 }

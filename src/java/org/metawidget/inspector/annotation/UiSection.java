@@ -29,7 +29,8 @@ import java.lang.annotation.Target;
  * <p>
  * Once a section heading has been declared, subsequent fields are assumed
  * to belong to the same section until a different section heading is encountered. Sections
- * can be cancelled using a section heading with an empty String.
+ * can be cancelled using a section heading with an empty String. Sections can be nested
+ * by specifying multiple section names.
  *
  * @author Richard Kennard
  */
@@ -38,5 +39,5 @@ import java.lang.annotation.Target;
 @Target( { ElementType.FIELD, ElementType.METHOD } )
 public @interface UiSection
 {
-	String value();
+	String[] value();
 }

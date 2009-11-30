@@ -83,12 +83,15 @@ public class SeparatorSectionLayoutConfig
 		if ( mAlignment != ( (SeparatorSectionLayoutConfig) that ).mAlignment )
 			return false;
 
-		return true;
+		return super.equals( that );
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return mAlignment;
+		int hashCode = super.hashCode();
+		hashCode ^= mAlignment;
+
+		return hashCode;
 	}
 }

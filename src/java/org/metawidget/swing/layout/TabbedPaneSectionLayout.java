@@ -27,6 +27,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
 import org.metawidget.layout.delegate.DelegateLayout;
+import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -81,15 +82,14 @@ public class TabbedPaneSectionLayout
 	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		super.startLayout( container, metawidget );
-		metawidget.putClientProperty( TabbedPaneSectionLayout.class, null );
+		container.putClientProperty( TabbedPaneSectionLayout.class, null );
 	}
 
 	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
-		String section = attributes.get( SECTION );
-
-		State state = getState( metawidget );
+		String section = LayoutUtils.stripSection( attributes );
+		State state = getState( container );
 
 		// Stay where we are?
 
@@ -124,19 +124,6 @@ public class TabbedPaneSectionLayout
 			return;
 		}
 
-		// New tab
-
-		state.tabPanel = new JPanel();
-		state.tabPanel.setBorder( TAB_PANEL_BORDER );
-		super.startLayout( state.tabPanel, metawidget );
-
-		// Tab name (possibly localized)
-
-		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
-
-		if ( localizedSection == null )
-			localizedSection = section;
-
 		// Whole new tabbed pane?
 
 		if ( tabbedPane == null )
@@ -151,6 +138,19 @@ public class TabbedPaneSectionLayout
 			super.layoutWidget( tabbedPane, PROPERTY, tabbedPaneAttributes, container, metawidget );
 		}
 
+		// New tab
+
+		state.tabPanel = new JPanel();
+		state.tabPanel.setBorder( TAB_PANEL_BORDER );
+		super.startLayout( state.tabPanel, metawidget );
+
+		// Tab name (possibly localized)
+
+		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
+
+		if ( localizedSection == null )
+			localizedSection = section;
+
 		tabbedPane.addTab( localizedSection, state.tabPanel );
 
 		// Add component to new tab
@@ -161,7 +161,7 @@ public class TabbedPaneSectionLayout
 	@Override
 	public void endLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		State state = getState( metawidget );
+		State state = getState( container );
 
 		if ( state.tabPanel != null )
 			super.endLayout( state.tabPanel, metawidget );
@@ -173,14 +173,14 @@ public class TabbedPaneSectionLayout
 	// Private methods
 	//
 
-	private State getState( SwingMetawidget metawidget )
+	private State getState( JComponent container )
 	{
-		State state = (State) metawidget.getClientProperty( TabbedPaneSectionLayout.class );
+		State state = (State) container.getClientProperty( TabbedPaneSectionLayout.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( TabbedPaneSectionLayout.class, state );
+			container.putClientProperty( TabbedPaneSectionLayout.class, state );
 		}
 
 		return state;

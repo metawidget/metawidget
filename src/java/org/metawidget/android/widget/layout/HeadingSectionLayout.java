@@ -16,13 +16,12 @@
 
 package org.metawidget.android.widget.layout;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
 import java.util.Map;
 
 import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.layout.delegate.DelegateLayout;
+import org.metawidget.layout.impl.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
@@ -69,8 +68,7 @@ public class HeadingSectionLayout
 	@Override
 	public void layoutWidget( View view, String elementName, Map<String, String> attributes, View container, AndroidMetawidget metawidget )
 	{
-		String section = attributes.get( SECTION );
-
+		String section = LayoutUtils.stripSection( attributes );
 		State state = getState( metawidget );
 
 		// Stay where we are?

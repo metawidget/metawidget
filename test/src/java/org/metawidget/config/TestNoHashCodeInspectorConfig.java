@@ -20,6 +20,7 @@ package org.metawidget.config;
  * @author Richard Kennard
  */
 
+@SuppressWarnings( "all" )
 class TestNoHashCodeInspectorConfig
 {
 	//

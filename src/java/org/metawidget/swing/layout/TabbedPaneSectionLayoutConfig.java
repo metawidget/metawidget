@@ -36,7 +36,7 @@ public class TabbedPaneSectionLayoutConfig
 	// Private members
 	//
 
-	private int	mTabPlacement	= SwingConstants.LEFT;
+	private int	mTabPlacement	= SwingConstants.TOP;
 
 	//
 	// Public methods
@@ -84,12 +84,15 @@ public class TabbedPaneSectionLayoutConfig
 		if ( mTabPlacement != ( (TabbedPaneSectionLayoutConfig) that ).mTabPlacement )
 			return false;
 
-		return true;
+		return super.equals( that );
 	}
 
 	@Override
 	public int hashCode()
 	{
-		return mTabPlacement;
+		int hashCode = super.hashCode();
+		hashCode ^= mTabPlacement;
+
+		return hashCode;
 	}
 }
