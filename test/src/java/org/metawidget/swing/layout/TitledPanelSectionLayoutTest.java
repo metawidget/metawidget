@@ -19,8 +19,10 @@ package org.metawidget.swing.layout;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
@@ -29,6 +31,7 @@ import javax.swing.border.TitledBorder;
 import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.layout.delegate.DelegateLayoutConfig;
@@ -99,6 +102,62 @@ public class TitledPanelSectionLayoutTest
 		assertTrue( 8 == swingMetawidget.getComponentCount() );
 	}
 
+	public void testNestedPanels()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setMetawidgetLayout( new TitledPanelSectionLayout( new DelegateLayoutConfig<JComponent,SwingMetawidget>().setLayout( new TitledPanelSectionLayout( new DelegateLayoutConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
+		metawidget.setToInspect( new Bar() );
+
+		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
+
+		JPanel outerPanel = (JPanel) metawidget.getComponent( 2 );
+		assertTrue( "Foo".equals( ((TitledBorder) ((CompoundBorder) ((CompoundBorder) outerPanel.getBorder()).getInsideBorder()).getOutsideBorder()).getTitle() ));
+		assertTrue( 5 == outerPanel.getComponentCount() );
+
+		JPanel innerPanel = (JPanel) outerPanel.getComponent( 0 );
+		assertTrue( "Bar".equals( ((TitledBorder) ((CompoundBorder) ((CompoundBorder) innerPanel.getBorder()).getInsideBorder()).getOutsideBorder()).getTitle() ));
+		assertTrue( "Def:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
+		assertTrue( innerPanel.getComponent( 1 ) instanceof JCheckBox );
+		assertTrue( "Ghi:".equals( ( (JLabel) innerPanel.getComponent( 2 ) ).getText() ) );
+		assertTrue( innerPanel.getComponent( 3 ) instanceof JScrollPane );
+		assertTrue( 4 == innerPanel.getComponentCount() );
+
+		innerPanel = (JPanel) outerPanel.getComponent( 1 );
+		assertTrue( "Baz".equals( ((TitledBorder) ((CompoundBorder) ((CompoundBorder) innerPanel.getBorder()).getInsideBorder()).getOutsideBorder()).getTitle() ));
+		assertTrue( "Jkl:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
+		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
+		assertTrue( innerPanel.getComponent( 2 ) instanceof JPanel );
+		assertTrue( 3 == innerPanel.getComponentCount() );
+
+		assertTrue( "Mno:".equals( ( (JLabel) outerPanel.getComponent( 2 ) ).getText() ) );
+		assertTrue( outerPanel.getComponent( 3 ) instanceof JCheckBox );
+
+		innerPanel = (JPanel) outerPanel.getComponent( 4 );
+		assertTrue( "Moo".equals( ((TitledBorder) ((CompoundBorder) ((CompoundBorder) innerPanel.getBorder()).getInsideBorder()).getOutsideBorder()).getTitle() ));
+		assertTrue( "Pqr:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
+		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
+		assertTrue( innerPanel.getComponent( 2 ) instanceof JPanel );
+		assertTrue( 3 == innerPanel.getComponentCount() );
+
+		assertTrue( "Stu:".equals( ( (JLabel) metawidget.getComponent( 3 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 4 ) instanceof JTextField );
+		assertTrue( 5 == metawidget.getComponentCount() );
+	}
+
+	public static void main( String[] args )
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setMetawidgetLayout( new TitledPanelSectionLayout( new DelegateLayoutConfig<JComponent,SwingMetawidget>().setLayout( new TitledPanelSectionLayout( new DelegateLayoutConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
+		metawidget.setToInspect( new Bar() );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 210 );
+		frame.setVisible( true );
+	}
+
 	//
 	// Inner class
 	//
@@ -123,5 +182,28 @@ public class TitledPanelSectionLayoutTest
 
 		@UiSection( "heading3" )
 		public String	jkl;
+	}
+
+	static class Bar
+	{
+		public String	abc;
+
+		@UiSection( { "Foo", "Bar" } )
+		public boolean	def;
+
+		@UiLarge
+		public String	ghi;
+
+		@UiSection( { "Foo", "Baz" } )
+		public String	jkl;
+
+		@UiSection( { "Foo", "" } )
+		public boolean	mno;
+
+		@UiSection( { "Foo", "Moo" } )
+		public String	pqr;
+
+		@UiSection( "" )
+		public String	stu;
 	}
 }

@@ -72,14 +72,14 @@ public class TitledPanelSectionLayout
 	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		super.startLayout( container, metawidget );
-		metawidget.putClientProperty( TitledPanelSectionLayout.class, null );
+		container.putClientProperty( TitledPanelSectionLayout.class, null );
 	}
 
 	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
 		String section = LayoutUtils.stripSection( attributes );
-		State state = getState( metawidget );
+		State state = getState( container );
 
 		// Stay where we are?
 
@@ -113,9 +113,9 @@ public class TitledPanelSectionLayout
 
 		// New section
 
-		state.titledPanel = new JPanel();
-		state.titledPanel.setOpaque( false );
-		super.startLayout( state.titledPanel, metawidget );
+		JPanel titledPanel = new JPanel();
+		titledPanel.setOpaque( false );
+		super.startLayout( titledPanel, metawidget );
 
 		// Section name (possibly localized)
 
@@ -124,14 +124,16 @@ public class TitledPanelSectionLayout
 		if ( localizedSection == null )
 			localizedSection = section;
 
-		state.titledPanel.setBorder( BorderFactory.createCompoundBorder( OUTER_BORDER, BorderFactory.createCompoundBorder( BorderFactory.createTitledBorder( localizedSection ), INNER_BORDER )));
+		titledPanel.setBorder( BorderFactory.createCompoundBorder( OUTER_BORDER, BorderFactory.createCompoundBorder( BorderFactory.createTitledBorder( localizedSection ), INNER_BORDER )));
 
 		// Add to parent container
 
 		Map<String, String> panelAttributes = CollectionUtils.newHashMap();
 		panelAttributes.put( LABEL, "" );
 		panelAttributes.put( LARGE, TRUE );
-		super.layoutWidget( state.titledPanel, PROPERTY, panelAttributes, container, metawidget );
+		super.layoutWidget( titledPanel, PROPERTY, panelAttributes, container, metawidget );
+
+		state.titledPanel = titledPanel;
 
 		// Add component to new section
 
@@ -141,7 +143,7 @@ public class TitledPanelSectionLayout
 	@Override
 	public void endLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		State state = getState( metawidget );
+		State state = getState( container );
 
 		if ( state.titledPanel != null )
 			super.endLayout( state.titledPanel, metawidget );
@@ -153,14 +155,14 @@ public class TitledPanelSectionLayout
 	// Private methods
 	//
 
-	private State getState( SwingMetawidget metawidget )
+	private State getState( JComponent container )
 	{
-		State state = (State) metawidget.getClientProperty( TitledPanelSectionLayout.class );
+		State state = (State) container.getClientProperty( TitledPanelSectionLayout.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( TitledPanelSectionLayout.class, state );
+			container.putClientProperty( TitledPanelSectionLayout.class, state );
 		}
 
 		return state;

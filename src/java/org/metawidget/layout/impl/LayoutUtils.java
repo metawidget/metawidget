@@ -84,6 +84,8 @@ public final class LayoutUtils
 	{
 		String sections = attributes.remove( SECTION );
 
+		// (null means 'no change to current section')
+
 		if ( sections == null )
 			return null;
 
@@ -91,8 +93,10 @@ public final class LayoutUtils
 
 		switch ( sectionAsArray.length )
 		{
+			// (empty String means 'end current section')
+
 			case 0:
-				return null;
+				return "";
 
 			case 1:
 				return sectionAsArray[0];

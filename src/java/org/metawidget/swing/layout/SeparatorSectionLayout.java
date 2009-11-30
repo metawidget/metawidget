@@ -86,7 +86,7 @@ public class SeparatorSectionLayout
 	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		super.startLayout( container, metawidget );
-		metawidget.putClientProperty( SeparatorSectionLayout.class, null );
+		container.putClientProperty( SeparatorSectionLayout.class, null );
 	}
 
 	@Override
@@ -102,6 +102,8 @@ public class SeparatorSectionLayout
 			super.layoutWidget( component, elementName, attributes, container, metawidget );
 			return;
 		}
+
+		// TODO: only one container
 
 		container.putClientProperty( SeparatorSectionLayout.class, section );
 

@@ -16,14 +16,17 @@
 
 package org.metawidget.swing.layout;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
 import junit.framework.TestCase;
 
+import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.layout.delegate.DelegateLayoutTest;
 import org.metawidget.swing.SwingMetawidget;
@@ -50,12 +53,12 @@ public class TabbedPaneSectionLayoutTest
 
 		// tabPlacement
 
-		config1.setTabPlacement( SwingConstants.TOP );
-		assertTrue( SwingConstants.TOP == config1.getTabPlacement() );
+		config1.setTabPlacement( SwingConstants.LEFT );
+		assertTrue( SwingConstants.LEFT == config1.getTabPlacement() );
 		assertTrue( !config1.equals( config2 ) );
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
-		config2.setTabPlacement( SwingConstants.TOP );
+		config2.setTabPlacement( SwingConstants.LEFT );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
@@ -67,27 +70,73 @@ public class TabbedPaneSectionLayoutTest
 	public void testTabPlacement()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( new TabbedPaneSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() )) );
+		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( new TabbedPaneSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
 		metawidget.setToInspect( new Foo() );
 
 		JTabbedPane tabbedPane = (JTabbedPane) metawidget.getComponent( 0 );
-		assertTrue( "Section".equals( tabbedPane.getTitleAt( 0 )));
+		assertTrue( "Section".equals( tabbedPane.getTitleAt( 0 ) ) );
 		assertTrue( SwingConstants.TOP == tabbedPane.getTabPlacement() );
 		JPanel panel = (JPanel) tabbedPane.getComponent( 0 );
-		assertTrue( "Bar:".equals( ((JLabel) panel.getComponent( 0 )).getText() ));
+		assertTrue( "Bar:".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
 		assertTrue( panel.getComponent( 1 ) instanceof JTextField );
 		assertTrue( panel.getComponent( 2 ) instanceof JPanel );
 		assertTrue( 3 == panel.getComponentCount() );
 
-		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( new TabbedPaneSectionLayoutConfig().setTabPlacement( SwingConstants.BOTTOM ).setLayout( new org.metawidget.swing.layout.GridBagLayout() )) );
+		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( new TabbedPaneSectionLayoutConfig().setTabPlacement( SwingConstants.BOTTOM ).setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
 		tabbedPane = (JTabbedPane) metawidget.getComponent( 0 );
-		assertTrue( "Section".equals( tabbedPane.getTitleAt( 0 )));
+		assertTrue( "Section".equals( tabbedPane.getTitleAt( 0 ) ) );
 		assertTrue( SwingConstants.BOTTOM == tabbedPane.getTabPlacement() );
 		panel = (JPanel) tabbedPane.getComponent( 0 );
-		assertTrue( "Bar:".equals( ((JLabel) panel.getComponent( 0 )).getText() ));
+		assertTrue( "Bar:".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
 		assertTrue( panel.getComponent( 1 ) instanceof JTextField );
 		assertTrue( panel.getComponent( 2 ) instanceof JPanel );
 		assertTrue( 3 == panel.getComponentCount() );
+	}
+
+	public void testNestedTabs()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( new TabbedPaneSectionLayoutConfig().setLayout( new TabbedPaneSectionLayout( new TabbedPaneSectionLayoutConfig().setLayout( new GridBagLayout() ) ) ) ) );
+		metawidget.setToInspect( new Bar() );
+
+		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
+
+		JTabbedPane outerTabbedPane = (JTabbedPane) metawidget.getComponent( 2 );
+		assertTrue( "Foo".equals( outerTabbedPane.getTitleAt( 0 ) ) );
+		JPanel outerPanel = (JPanel) outerTabbedPane.getComponent( 0 );
+		assertTrue( 4 == outerPanel.getComponentCount() );
+
+		JTabbedPane innerTabbedPane = (JTabbedPane) outerPanel.getComponent( 0 );
+		assertTrue( "Bar".equals( innerTabbedPane.getTitleAt( 0 ) ) );
+		JPanel innerPanel = (JPanel) innerTabbedPane.getComponent( 0 );
+		assertTrue( "Def:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
+		assertTrue( innerPanel.getComponent( 1 ) instanceof JCheckBox );
+		assertTrue( "Ghi:".equals( ( (JLabel) innerPanel.getComponent( 2 ) ).getText() ) );
+		assertTrue( innerPanel.getComponent( 3 ) instanceof JScrollPane );
+		assertTrue( 4 == innerPanel.getComponentCount() );
+
+		assertTrue( "Baz".equals( innerTabbedPane.getTitleAt( 1 ) ) );
+		innerPanel = (JPanel) innerTabbedPane.getComponent( 1 );
+		assertTrue( "Jkl:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
+		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
+		assertTrue( innerPanel.getComponent( 2 ) instanceof JPanel );
+		assertTrue( 3 == innerPanel.getComponentCount() );
+
+		assertTrue( "Mno:".equals( ( (JLabel) outerPanel.getComponent( 1 ) ).getText() ) );
+		assertTrue( outerPanel.getComponent( 2 ) instanceof JCheckBox );
+
+		innerTabbedPane = (JTabbedPane) outerPanel.getComponent( 3 );
+		assertTrue( "Moo".equals( innerTabbedPane.getTitleAt( 0 ) ) );
+		innerPanel = (JPanel) innerTabbedPane.getComponent( 0 );
+		assertTrue( "Pqr:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
+		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
+		assertTrue( innerPanel.getComponent( 2 ) instanceof JPanel );
+		assertTrue( 3 == innerPanel.getComponentCount() );
+
+		assertTrue( "Stu:".equals( ( (JLabel) metawidget.getComponent( 3 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 4 ) instanceof JTextField );
+		assertTrue( 5 == metawidget.getComponentCount() );
 	}
 
 	//
@@ -97,6 +146,29 @@ public class TabbedPaneSectionLayoutTest
 	static class Foo
 	{
 		@UiSection( "Section" )
-		public String bar;
+		public String	bar;
+	}
+
+	static class Bar
+	{
+		public String	abc;
+
+		@UiSection( { "Foo", "Bar" } )
+		public boolean	def;
+
+		@UiLarge
+		public String	ghi;
+
+		@UiSection( { "Foo", "Baz" } )
+		public String	jkl;
+
+		@UiSection( { "Foo", "" } )
+		public boolean	mno;
+
+		@UiSection( { "Foo", "Moo" } )
+		public String	pqr;
+
+		@UiSection( "" )
+		public String	stu;
 	}
 }
