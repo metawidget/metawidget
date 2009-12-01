@@ -23,6 +23,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
  * @author Richard Kennard

@@ -22,7 +22,7 @@ import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
 import org.metawidget.layout.impl.BaseLayout;
-import org.metawidget.layout.impl.SimpleLayoutUtils;
+import org.metawidget.util.simple.SimpleLayoutUtils;
 
 import android.view.View;
 import android.view.ViewGroup;

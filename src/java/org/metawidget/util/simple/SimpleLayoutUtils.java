@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.layout.impl;
+package org.metawidget.util.simple;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Utilities for working with Layouts.
  * <p>
- * Some of the logic behind Layouts decisions can be a little involved, so we refactor it here.
+ * Some of the logic behind Layout decisions can be a little involved, so we refactor it here.
  *
  * @author Richard Kennard
  */

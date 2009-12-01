@@ -23,7 +23,7 @@ import java.util.Map;
 /**
  * Utilities for working with Layouts.
  * <p>
- * Some of the logic behind Layouts decisions can be a little involved, so we refactor it here.
+ * Some of the logic behind Layout decisions can be a little involved, so we refactor it here.
  *
  * @author Richard Kennard
  */

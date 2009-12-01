@@ -34,7 +34,7 @@ import javax.faces.render.Renderer;
 
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.layout.impl.SimpleLayoutUtils;
+import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
  * Base class for all JSF HTML layout renderers. This implementation recognizes the following

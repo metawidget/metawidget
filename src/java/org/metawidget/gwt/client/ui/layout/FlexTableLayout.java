@@ -24,7 +24,7 @@ import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.impl.SimpleLayoutUtils;
+import org.metawidget.util.simple.SimpleLayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.user.client.ui.FlexTable;

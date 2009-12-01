@@ -30,11 +30,11 @@ import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.impl.SimpleLayoutUtils;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
  * Layout to arrange widgets using <code>javax.swing.GroupLayout</code>.

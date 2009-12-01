@@ -31,8 +31,8 @@ import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.iface.LayoutException;
-import org.metawidget.layout.impl.SimpleLayoutUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.SimpleLayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**

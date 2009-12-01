@@ -30,10 +30,10 @@ import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.layout.impl.SimpleLayoutUtils;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.simple.SimpleLayoutUtils;
 
 /**
  * Layout to arrange widgets using <code>net.miginfocom.swing.MigLayout</code>.
