@@ -27,7 +27,7 @@ import org.metawidget.layout.impl.BaseLayout;
 /**
  * Simple layout.
  * <p>
- * Just adds the component to the Metawidget using <code>getChildren().add()</code>.
+ * Just adds the component to the given container using <code>getChildren().add()</code>.
  *
  * @author Richard Kennard
  */
@@ -42,7 +42,7 @@ public class SimpleLayout
 	@Override
 	public void layoutWidget( UIComponent widget, String elementName, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget )
 	{
-		List<UIComponent> children = metawidget.getChildren();
+		List<UIComponent> children = container.getChildren();
 
 		// If this component already exists in the list, remove it and re-add it. This
 		// enables us to sort existing, manually created components in the correct order
