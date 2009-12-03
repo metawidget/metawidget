@@ -29,6 +29,16 @@
 				</inspectors>
 			</compositeInspector>
 		</inspector>
+		<layout>
+			<outputTextSectionLayout xmlns="java:org.metawidget.faces.component.html.layout" config="OutputTextSectionLayoutConfig">
+				<layout>
+					<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
+				</layout>
+				<styleClass>
+					<string>section-heading</string>
+				</styleClass>
+			</outputTextSectionLayout>
+		</layout>		
 	</htmlMetawidget>
 
 </metawidget>

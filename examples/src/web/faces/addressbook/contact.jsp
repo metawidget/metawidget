@@ -32,7 +32,6 @@
 
 			<m:metawidget value="#{contact.current}" readOnly="#{contact.readOnly}">
 				<f:param name="messageStyleClass" value="inline-error" />
-				<f:param name="sectionStyleClass" value="section-heading" />
 
 				<m:stub value="#{contact.current.communications}">
 					<h:dataTable id="communications" value="#{contact.currentCommunications}" var="_communication" styleClass="data-table" columnClasses="column-half, column-half, column-tiny table-buttons" rowClasses="row-odd, row-even">

@@ -18,7 +18,6 @@ package org.metawidget.faces.component.html.layout.richfaces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.util.List;
 import java.util.Map;
 
 import javax.faces.application.Application;
@@ -28,7 +27,7 @@ import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
-import org.metawidget.layout.impl.BaseLayout;
+import org.metawidget.layout.delegate.DelegateLayout;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.richfaces.component.UIPanel;
@@ -42,7 +41,7 @@ import org.richfaces.component.UITabPanel;
  */
 
 public class RichFacesLayout
-	extends BaseLayout<UIComponent, UIMetawidget>
+	extends DelegateLayout<UIComponent, UIMetawidget>
 {
 	//
 	// Private members
@@ -54,13 +53,10 @@ public class RichFacesLayout
 	// Constructor
 	//
 
-	public RichFacesLayout()
-	{
-		this( new RichFacesLayoutConfig() );
-	}
-
 	public RichFacesLayout( RichFacesLayoutConfig config )
 	{
+		super( config );
+
 		mSectionStyle = config.getSectionStyle();
 	}
 
@@ -71,7 +67,9 @@ public class RichFacesLayout
 	@Override
 	public void startLayout( UIComponent container, UIMetawidget metawidget )
 	{
-		metawidget.putClientProperty( RichFacesLayout.class, null );
+		super.startLayout( container, metawidget );
+
+		metawidget.putClientProperty( container, null );
 	}
 
 	@Override
@@ -192,15 +190,10 @@ public class RichFacesLayout
 
 		// Normal remove/re-add
 
-		List<UIComponent> children;
-
 		if ( state.sectionComponent == null )
-			children = metawidget.getChildren();
+			super.layoutWidget( widget, elementName, attributes, container, metawidget );
 		else
-			children = state.sectionComponent.getChildren();
-
-		children.remove( widget );
-		children.add( widget );
+			super.layoutWidget( widget, elementName, attributes, state.sectionComponent, metawidget );
 	}
 
 	//

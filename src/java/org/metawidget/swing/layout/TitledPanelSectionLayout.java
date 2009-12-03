@@ -33,6 +33,8 @@ import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
+ * Layout to separate widgets in different sections using a JPanel with a TitledBorder.
+ *
  * @author Richard Kennard
  */
 

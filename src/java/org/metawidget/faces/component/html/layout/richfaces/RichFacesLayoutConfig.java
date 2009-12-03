@@ -16,6 +16,11 @@
 
 package org.metawidget.faces.component.html.layout.richfaces;
 
+import javax.faces.component.UIComponent;
+
+import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.layout.delegate.DelegateLayoutConfig;
+
 
 /**
  * Configures a RichFacesLayout prior to use. Once instantiated, Layouts are immutable.
@@ -24,6 +29,7 @@ package org.metawidget.faces.component.html.layout.richfaces;
  */
 
 public class RichFacesLayoutConfig
+	extends DelegateLayoutConfig<UIComponent, UIMetawidget>
 {
 	//
 	// Public statics

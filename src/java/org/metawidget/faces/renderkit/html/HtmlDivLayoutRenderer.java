@@ -26,7 +26,6 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlInputHidden;
 import javax.faces.component.html.HtmlMessage;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 
@@ -111,18 +110,6 @@ public class HtmlDivLayoutRenderer
 
 		if ( parameterStyleClasses != null )
 			state.divStyleClasses = ( (String) parameterStyleClasses.getValue() ).split( StringUtils.SEPARATOR_COMMA );
-
-		// Determine section styles
-
-		UIParameter parameterSectionStyle = FacesUtils.findParameterWithName( metawidget, "sectionStyle" );
-
-		if ( parameterSectionStyle != null )
-			state.sectionStyle = (String) parameterSectionStyle.getValue();
-
-		UIParameter parameterSectionStyleClass = FacesUtils.findParameterWithName( metawidget, "sectionStyleClass" );
-
-		if ( parameterSectionStyleClass != null )
-			state.sectionStyleClass = (String) parameterSectionStyleClass.getValue();
 
 		// Start component
 
@@ -227,26 +214,8 @@ public class HtmlDivLayoutRenderer
 	{
 		ResponseWriter writer = context.getResponseWriter();
 
-		// Section headings
-
-		@SuppressWarnings( "unchecked" )
-		Map<String, String> metadataAttributes = (Map<String, String>) componentChild.getAttributes().get( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA );
-
-		// (layoutBeforeChild may get called even if layoutBegin crashed. Try
-		// to fail gracefully)
-
 		State state = getState( metawidget );
 
-		if ( metadataAttributes != null )
-		{
-			String section = metadataAttributes.get( SECTION );
-
-			if ( section != null && !section.equals( state.currentSection ) )
-			{
-				state.currentSection = section;
-				layoutSection( context, metawidget, section, componentChild );
-			}
-		}
 		// Outer
 
 		writer.startElement( "div", metawidget );
@@ -328,42 +297,6 @@ public class HtmlDivLayoutRenderer
 		}
 	}
 
-	protected void layoutSection( FacesContext context, UIComponent metawidget, String section, UIComponent childComponent )
-		throws IOException
-	{
-		// Blank section?
-
-		if ( "".equals( section ) )
-			return;
-
-		ResponseWriter writer = context.getResponseWriter();
-
-		writer.startElement( "div", metawidget );
-
-		State state = getState( metawidget );
-
-		if ( state.sectionStyle != null )
-			writer.writeAttribute( "style", state.sectionStyle, null );
-
-		if ( state.sectionStyleClass != null )
-			writer.writeAttribute( "class", state.sectionStyleClass, null );
-
-		// Section name (possibly localized)
-
-		HtmlOutputText output = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
-
-		String localizedSection = ( (UIMetawidget) childComponent.getParent() ).getLocalizedKey( StringUtils.camelCase( section ) );
-
-		if ( localizedSection != null )
-			output.setValue( localizedSection );
-		else
-			output.setValue( section );
-
-		FacesUtils.render( context, output );
-
-		writer.endElement( "div" );
-	}
-
 	protected void layoutAfterChild( FacesContext context, UIComponent component, UIComponent childComponent )
 		throws IOException
 	{
@@ -425,11 +358,5 @@ public class HtmlDivLayoutRenderer
 		/* package private */String		componentStyle;
 
 		/* package private */String[]	divStyleClasses;
-
-		/* package private */String		sectionStyle;
-
-		/* package private */String		sectionStyleClass;
-
-		/* package private */String		currentSection;
 	}
 }

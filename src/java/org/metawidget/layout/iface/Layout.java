@@ -39,11 +39,7 @@ public interface Layout<W, M extends W>
 
 	/**
 	 * Initialise the given container, using the given Metawidget to access additional services if
-	 * needed (such as state saving)
-	 * <p>
-	 * Event called at the start of the widget building process, before the
-	 * <code>WidgetBuilder</code> is called. <code>Layout</code>s may wish to act on this event to
-	 * initialize themselves ready for processing.
+	 * needed (such as state saving).
 	 *
 	 * @param container
 	 *            the container to layout. This is often the same as the given Metawidget
@@ -97,7 +93,7 @@ public interface Layout<W, M extends W>
 
 	/**
 	 * Finish the given container, using the given Metawidget to access additional services if
-	 * needed (such as state saving)
+	 * needed (such as state saving).
 	 *
 	 * @param container
 	 *            the container to layout. This is often the same as the given Metawidget

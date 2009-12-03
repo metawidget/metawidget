@@ -27,7 +27,6 @@ import javax.faces.component.UIData;
 import javax.faces.component.UIInput;
 import javax.faces.component.UIParameter;
 import javax.faces.component.html.HtmlInputHidden;
-import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 import javax.faces.context.ResponseWriter;
 import javax.faces.el.ValueBinding;
@@ -138,18 +137,6 @@ public class HtmlTableLayoutRenderer
 
 		if ( parameterRequiredStyle != null )
 			state.requiredStyle = (String) parameterRequiredStyle.getValue();
-
-		// Determine section styles
-
-		UIParameter parameterSectionStyle = FacesUtils.findParameterWithName( metawidget, "sectionStyle" );
-
-		if ( parameterSectionStyle != null )
-			state.sectionStyle = (String) parameterSectionStyle.getValue();
-
-		UIParameter parameterSectionStyleClass = FacesUtils.findParameterWithName( metawidget, "sectionStyleClass" );
-
-		if ( parameterSectionStyleClass != null )
-			state.sectionStyleClass = (String) parameterSectionStyleClass.getValue();
 
 		// Determine inner styles
 
@@ -266,7 +253,6 @@ public class HtmlTableLayoutRenderer
 
 		state.currentColumn = 0;
 		state.currentRow = 0;
-		state.currentSection = null;
 
 		for ( UIComponent componentChild : children )
 		{
@@ -345,15 +331,6 @@ public class HtmlTableLayoutRenderer
 
 		if ( metadataAttributes != null )
 		{
-			String section = metadataAttributes.get( SECTION );
-
-			if ( section != null && !section.equals( state.currentSection ) )
-			{
-				state.currentSection = section;
-				layoutSection( context, metawidget, section, childComponent );
-				state.currentColumn = 1;
-			}
-
 			// Large components get a whole row
 
 			boolean largeComponent = ( metawidget instanceof UIData || TRUE.equals( metadataAttributes.get( LARGE ) ) );
@@ -483,50 +460,6 @@ public class HtmlTableLayoutRenderer
 		writer.endElement( "th" );
 
 		return true;
-	}
-
-	protected void layoutSection( FacesContext context, UIComponent metawidget, String section, UIComponent childComponent )
-		throws IOException
-	{
-		// Blank section?
-
-		if ( "".equals( section ) )
-			return;
-
-		ResponseWriter writer = context.getResponseWriter();
-
-		writer.startElement( "tr", metawidget );
-		writer.startElement( "th", metawidget );
-
-		// Sections span multiples of label/component/required
-
-		State state = getState( metawidget );
-		int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, state.columns * LABEL_AND_COMPONENT_AND_REQUIRED );
-		writer.writeAttribute( "colspan", String.valueOf( colspan ), null );
-
-		// CSS
-
-		if ( state.sectionStyle != null )
-			writer.writeAttribute( "style", state.sectionStyle, null );
-
-		if ( state.sectionStyleClass != null )
-			writer.writeAttribute( "class", state.sectionStyleClass, null );
-
-		// Section name (possibly localized)
-
-		HtmlOutputText output = (HtmlOutputText) context.getApplication().createComponent( "javax.faces.HtmlOutputText" );
-
-		String localizedSection = ( (UIMetawidget) childComponent.getParent() ).getLocalizedKey( StringUtils.camelCase( section ) );
-
-		if ( localizedSection != null )
-			output.setValue( localizedSection );
-		else
-			output.setValue( section );
-
-		FacesUtils.render( context, output );
-
-		writer.endElement( "th" );
-		writer.endElement( "tr" );
 	}
 
 	protected void layoutAfterChild( FacesContext context, UIComponent metawidget, UIComponent childComponent )
@@ -685,17 +618,11 @@ public class HtmlTableLayoutRenderer
 
 		/* package private */int		currentRow;
 
-		/* package private */String		currentSection;
-
 		/* package private */String		labelStyle;
 
 		/* package private */String		componentStyle;
 
 		/* package private */String		requiredStyle;
-
-		/* package private */String		sectionStyle;
-
-		/* package private */String		sectionStyleClass;
 
 		/* package private */String[]	columnClasses;
 

@@ -37,6 +37,8 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
+ * Layout to separate widgets in different sections using a JSeparator.
+ *
  * @author Richard Kennard
  */
 

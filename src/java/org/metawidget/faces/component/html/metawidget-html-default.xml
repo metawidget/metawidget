@@ -53,7 +53,11 @@
 		</widgetProcessors>
 		
 		<layout>
-			<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
+			<outputTextSectionLayout xmlns="java:org.metawidget.faces.component.html.layout" config="OutputTextSectionLayoutConfig">
+				<layout>
+					<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
+				</layout>
+			</outputTextSectionLayout>
 		</layout>
 	
 	</htmlMetawidget>
