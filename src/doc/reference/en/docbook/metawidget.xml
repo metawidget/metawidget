@@ -4591,6 +4591,110 @@ void endLayout(W container,M metawidget);</programlisting>
 		&lt;/layout&gt;
 	&lt;/tabbedPaneSectionLayout&gt;			
 &lt;/metawidgetLayout&gt;</programlisting>
+
+				<para>
+					A <classname>DelegateLayout</classname> can also wrap another <classname>DelegateLayout</classname> to provide
+					fine-grained control over nested sections. For example, the business object...
+				</para>
+
+				<programlisting language="java">public class Person {
+@UiSection( { "Person", "Name" } )
+public String firstname;
+
+public String surname;
+
+@UiSection( { "Person", "Contact Detail" } )
+public String telephone;
+}</programlisting>
+
+				<para>
+					...could be rendered using nested <classname>TabbedPaneSectionLayout</classname>s...
+				</para>
+
+				<programlisting language="xml">&lt;metawidgetLayout&gt;
+	&lt;tabbedPaneSectionLayout xmlns="java:org.metawidget.swing.layout"
+		config="TabbedPaneSectionLayoutConfig"&gt;
+		&lt;layout&gt;
+			&lt;tabbedPaneSectionLayout
+				config="TabbedPaneSectionLayoutConfig"&gt;
+				&lt;layout&gt;
+					&lt;gridBagLayout /&gt;
+				&lt;/layout&gt;
+			&lt;/tabbedPaneSectionLayout&gt;			
+		&lt;/layout&gt;
+	&lt;/tabbedPaneSectionLayout&gt;			
+&lt;/metawidgetLayout&gt;</programlisting>
+
+				<para>
+					...as shown in <xref linkend="section-architecture-layouts-delegatelayout-nested-tabs"/>.
+				</para>	
+
+				<figure id="section-architecture-layouts-delegatelayout-nested-tabs">
+					<title>Nested TabbedPaneSectionLayouts</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/layout-nested-tabs.jpg" width="100mm"/>
+					</screenshot>
+				</figure>
+
+				<para>
+					Alternatively, it could use a <classname>TabbedPaneSectionLayout</classname> nested within a
+					<classname>SeparatorSectionLayout</classname>...
+				</para>
+
+				<programlisting language="xml">&lt;metawidgetLayout&gt;
+	&lt;separatorSectionLayout xmlns="java:org.metawidget.swing.layout"
+		config="SeparatorSectionLayoutConfig"&gt;
+		&lt;layout&gt;
+			&lt;tabbedPaneSectionLayout
+				config="TabbedPaneSectionLayoutConfig"&gt;
+				&lt;layout&gt;
+					&lt;gridBagLayout /&gt;
+				&lt;/layout&gt;
+			&lt;/tabbedPaneSectionLayout&gt;			
+		&lt;/layout&gt;
+	&lt;/separatorSectionLayout&gt;			
+&lt;/metawidgetLayout&gt;</programlisting>
+
+				<para>
+					...as shown in <xref linkend="section-architecture-layouts-delegatelayout-separator-tabs"/>.
+				</para>	
+
+				<figure id="section-architecture-layouts-delegatelayout-separator-tabs">
+					<title>TabbedPaneSectionLayout within a SeparatorSectionLayout</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/layout-separator-tabs.jpg" width="100mm"/>
+					</screenshot>
+				</figure>
+
+				<para>
+					Or the opposite - a <classname>SeparatorSectionLayout</classname> nested within a
+					<classname>TabbedPaneSectionLayout</classname>...
+				</para>
+
+				<programlisting language="xml">&lt;metawidgetLayout&gt;
+	&lt;tabbedPaneSectionLayout xmlns="java:org.metawidget.swing.layout"
+		config="TabbedPaneSectionLayoutConfig"&gt;
+		&lt;layout&gt;
+			&lt;separatorSectionLayout
+				config="SeparatorSectionLayoutConfig"&gt;
+				&lt;layout&gt;
+					&lt;gridBagLayout /&gt;
+				&lt;/layout&gt;
+			&lt;/separatorSectionLayout&gt;			
+		&lt;/layout&gt;
+	&lt;/tabbedPaneSectionLayout&gt;			
+&lt;/metawidgetLayout&gt;</programlisting>
+
+				<para>
+					...as shown in <xref linkend="section-architecture-layouts-delegatelayout-tabs-separator"/>.
+				</para>	
+
+				<figure id="section-architecture-layouts-delegatelayout-tabs-separator">
+					<title>SeparatorSectionLayout within a TabbedPaneSectionLayout</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/layout-tabs-separator.jpg" width="100mm"/>
+					</screenshot>
+				</figure>
 			</section>
 
 			<section id="section-architecture-layouts-defaults">
