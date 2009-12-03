@@ -32,8 +32,8 @@ import javax.swing.border.Border;
 
 import org.metawidget.layout.delegate.DelegateLayout;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -51,7 +51,7 @@ public class SeparatorSectionLayout
 	 * The border around the entire separator.
 	 */
 
-	private final static Border	BORDER_SECTION			= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
+	private final static Border	BORDER_SECTION				= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
 
 	/**
 	 * The insets around the separator label.
@@ -92,25 +92,35 @@ public class SeparatorSectionLayout
 	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
-		String section = LayoutUtils.stripSection( attributes );
-		String currentSection = (String) container.getClientProperty( SeparatorSectionLayout.class );
+		String[] sections = ArrayUtils.fromString( attributes.get( SECTION ) );
+		String[] currentSections = (String[]) container.getClientProperty( SeparatorSectionLayout.class );
 
 		// Stay where we are?
 
-		if ( section == null || section.equals( currentSection ) )
+		if ( sections.length == 0 || sections.equals( currentSections ) )
 		{
 			super.layoutWidget( component, elementName, attributes, container, metawidget );
 			return;
 		}
 
-		// TODO: only one container
+		container.putClientProperty( SeparatorSectionLayout.class, sections );
 
-		container.putClientProperty( SeparatorSectionLayout.class, section );
+		// For each of the new sections...
 
-		// New section
-
-		if ( !"".equals( section ) )
+		for ( int loop = 0; loop < sections.length; loop++ )
 		{
+			String section = sections[loop];
+
+			// ...that are different from our current...
+
+			if ( "".equals( section ))
+				continue;
+
+			if ( currentSections != null && loop < currentSections.length && section.equals( currentSections[loop] ) )
+				continue;
+
+			// ...display a divider
+
 			JPanel separatorPanel = new JPanel();
 			separatorPanel.setBorder( BORDER_SECTION );
 			separatorPanel.setLayout( new java.awt.GridBagLayout() );

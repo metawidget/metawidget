@@ -99,7 +99,7 @@ public class SeparatorSectionLayoutTest
 		assertTrue( 4 == metawidget.getComponentCount() );
 	}
 
-	public void _testNestedSeparators()
+	public void testNestedSeparators()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
 		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new SeparatorSectionLayoutConfig().setLayout( new SeparatorSectionLayout( new SeparatorSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
@@ -122,19 +122,18 @@ public class SeparatorSectionLayoutTest
 		assertTrue( "Baz".equals( ((JLabel) innerSeparator.getComponent( 0 )).getText() ) );
 		assertTrue( "Jkl:".equals( ( (JLabel) metawidget.getComponent( 9 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 10 ) instanceof JTextField );
-		assertTrue( metawidget.getComponent( 11 ) instanceof JPanel );
 
-		assertTrue( "Mno:".equals( ( (JLabel) metawidget.getComponent( 12 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 13 ) instanceof JCheckBox );
+		assertTrue( "Mno:".equals( ( (JLabel) metawidget.getComponent( 11 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 12 ) instanceof JCheckBox );
 
-		innerSeparator = (JPanel) metawidget.getComponent( 14 );
+		innerSeparator = (JPanel) metawidget.getComponent( 13 );
 		assertTrue( "Moo".equals( ((JLabel) innerSeparator.getComponent( 0 )).getText() ) );
-		assertTrue( "Pqr:".equals( ( (JLabel) metawidget.getComponent( 15 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 16 ) instanceof JTextField );
+		assertTrue( "Pqr:".equals( ( (JLabel) metawidget.getComponent( 14 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 15 ) instanceof JTextField );
 
-		assertTrue( "Stu:".equals( ( (JLabel) metawidget.getComponent( 18 ) ).getText() ) );
-		assertTrue( metawidget.getComponent( 19 ) instanceof JTextField );
-		assertTrue( 20 == metawidget.getComponentCount() );
+		assertTrue( "Stu:".equals( ( (JLabel) metawidget.getComponent( 16 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 17 ) instanceof JTextField );
+		assertTrue( 18 == metawidget.getComponentCount() );
 	}
 
 	public static void main( String[] args )
