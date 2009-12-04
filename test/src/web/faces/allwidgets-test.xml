@@ -213,10 +213,10 @@
 				<verifyInputField name="form:allWidgetsDate" value="Wed Apr 09 01:00:00 GMT 1975"/>
 				<setInputField name="form:allWidgetsDate" value="Thu Apr 10 01:00:00 GMT 1975"/>
 
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th" text="Section Break"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@style" text="aSectionStyle"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@class" text="aSectionStyleClass"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@colspan" text="3"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/span" text="Section Break"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/span/@style" text="aSectionStyle"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/span/@class" text="aSectionStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/@colspan" text="2"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/th" text="Read only"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]" text="Read Only"/>
@@ -333,9 +333,9 @@
 				<verifyXPath xpath="/html/body/div[1]/div[29]/div[2]" text="Nested Textbox 1, Nested Textbox 2"/>
 				<verifyXPath xpath="/html/body/div[1]/div[30]/div[1]" text="Date:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[30]/div[2]" text="Thu Apr 10 01:00:00 GMT 1975"/>
-				<verifyXPath xpath="/html/body/div[1]/div[31]" text="Section Break"/>
-				<verifyXPath xpath="/html/body/div[1]/div[31]/@style" text="aSectionStyle"/>
-				<verifyXPath xpath="/html/body/div[1]/div[31]/@class" text="aSectionStyleClass"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]/div[1]/span" text="Section Break"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]/div[1]/span/@style" text="aSectionStyle"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]/div[1]/span/@class" text="aSectionStyleClass"/>
 				<verifyXPath xpath="/html/body/div[1]/div[32]/div[1]" text="Read only:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[32]/div[2]" text="Read Only1"/>
 				<verifyXPath xpath="/html/body/div[1]/div[33]/div[1]" text="Collection:"/>
@@ -561,10 +561,10 @@
 				<verifyInputField name="form:allWidgetsDateInputDate" value="Apr 9, 1975"/>
 				<setInputField name="form:allWidgetsDateInputDate" value="Apr 10, 1975"/>
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th" text="Section Break (i18n)"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@style" text="aSectionStyle"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@class" text="aSectionStyleClass"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th/@colspan" text="3"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/span" text="Section Break (i18n)"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/span/@style" text="aSectionStyle"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/span/@class" text="aSectionStyleClass"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/@colspan" text="2"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/th" text="Read only (i18n)->"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]" text="Read Only"/>
@@ -681,9 +681,9 @@
 				<verifyXPath xpath="/html/body/div[1]/div[29]/div[2]" text="Nested Textbox 1, Nested Textbox 2"/>
 				<verifyXPath xpath="/html/body/div[1]/div[30]/div[1]" text="Date:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[30]/div[2]" text="Thu Apr 10 00:00:00 GMT 1975"/>
-				<verifyXPath xpath="/html/body/div[1]/div[31]" text="Section Break"/>
-				<verifyXPath xpath="/html/body/div[1]/div[31]/@style" text="aSectionStyle"/>
-				<verifyXPath xpath="/html/body/div[1]/div[31]/@class" text="aSectionStyleClass"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]/div[1]/span" text="Section Break"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]/div[1]/span/@style" text="aSectionStyle"/>
+				<verifyXPath xpath="/html/body/div[1]/div[31]/div[1]/span/@class" text="aSectionStyleClass"/>
 				<verifyXPath xpath="/html/body/div[1]/div[32]/div[1]" text="Read only:"/>
 				<verifyXPath xpath="/html/body/div[1]/div[32]/div[2]" text="Read Only1"/>
 				<verifyXPath xpath="/html/body/div[1]/div[32]/div[1]" text="Read only:"/>

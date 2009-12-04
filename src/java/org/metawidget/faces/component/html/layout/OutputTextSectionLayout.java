@@ -38,7 +38,7 @@ import org.metawidget.util.simple.StringUtils;
  * As dictated by the JSF spec, CSS styles and style classes applied to an HtmlOptionText are
  * wrapped in an HTML span tag. Therefore you must use CSS 'display: block' if you want to use
  * margins or padding around the HtmlOutputText.
- * 
+ *
  * @author Richard Kennard
  */
 
@@ -113,7 +113,7 @@ public class OutputTextSectionLayout
 			if ( localizedSection == null )
 				localizedSection = section;
 
-			heading.setValue( section );
+			heading.setValue( localizedSection );
 
 			// Add to parent container
 			//

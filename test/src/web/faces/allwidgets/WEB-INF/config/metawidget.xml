@@ -36,6 +36,19 @@
 				<cssStyleProcessor xmlns="java:org.metawidget.faces.component.html.widgetprocessor"/>
 			</array>
 		</widgetProcessors>
+		<layout>
+			<outputTextSectionLayout xmlns="java:org.metawidget.faces.component.html.layout" config="OutputTextSectionLayoutConfig">
+				<layout>
+					<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
+				</layout>
+				<style>
+					<string>aSectionStyle</string>
+				</style>
+				<styleClass>
+					<string>aSectionStyleClass</string>
+				</styleClass>
+			</outputTextSectionLayout>
+		</layout>		
 	</htmlMetawidget>
 
 </metawidget>
