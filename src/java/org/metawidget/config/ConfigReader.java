@@ -207,6 +207,8 @@ public class ConfigReader
 
 			else
 			{
+				// TODO: don't cache if unsuccessful?
+
 				LOG.debug( "Reading resource from " + resource + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 				cachingContentHandler = new CachingContentHandler( configHandler );
 				configHandler.setCachingContentHandler( cachingContentHandler );
