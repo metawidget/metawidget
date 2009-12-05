@@ -23,12 +23,12 @@ import org.metawidget.layout.delegate.DelegateLayoutConfig;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a TabPanelLayoutConfig prior to use. Once instantiated, Layouts are immutable.
+ * Configures a TabPanelSectionLayout prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class TabPanelLayoutConfig
+public class TabPanelSectionLayoutConfig
 	extends DelegateLayoutConfig<UIComponent, UIMetawidget>
 {
 	//
@@ -50,7 +50,7 @@ public class TabPanelLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public TabPanelLayoutConfig setHeaderAlignment( String headerAlignment )
+	public TabPanelSectionLayoutConfig setHeaderAlignment( String headerAlignment )
 	{
 		mHeaderAlignment = headerAlignment;
 
@@ -62,10 +62,10 @@ public class TabPanelLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof RichFacesLayoutConfig ) )
+		if ( !( that instanceof TabPanelSectionLayoutConfig ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mHeaderAlignment, ( (TabPanelLayoutConfig) that ).mHeaderAlignment ))
+		if ( !ObjectUtils.nullSafeEquals( mHeaderAlignment, ( (TabPanelSectionLayoutConfig) that ).mHeaderAlignment ))
 			return false;
 
 		return super.equals( that );

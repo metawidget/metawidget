@@ -40,7 +40,7 @@ import org.richfaces.component.UITabPanel;
  * @author Richard Kennard
  */
 
-public class TabPanelLayout
+public class TabPanelSectionLayout
 	extends DelegateLayout<UIComponent, UIMetawidget>
 {
 	//
@@ -53,7 +53,7 @@ public class TabPanelLayout
 	// Constructor
 	//
 
-	public TabPanelLayout( TabPanelLayoutConfig config )
+	public TabPanelSectionLayout( TabPanelSectionLayoutConfig config )
 	{
 		super( config );
 
@@ -173,12 +173,12 @@ public class TabPanelLayout
 	private State getState( UIComponent container, UIMetawidget metawidget )
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( TabPanelLayout.class );
+		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( TabPanelSectionLayout.class );
 
 		if ( stateMap == null )
 		{
 			stateMap = CollectionUtils.newHashMap();
-			metawidget.putClientProperty( TabPanelLayout.class, stateMap );
+			metawidget.putClientProperty( TabPanelSectionLayout.class, stateMap );
 		}
 
 		State state = stateMap.get( container );

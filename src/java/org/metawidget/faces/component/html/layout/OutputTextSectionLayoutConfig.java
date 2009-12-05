@@ -24,7 +24,7 @@ import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a HeadingSectionLayoutConfig prior to use. Once instantiated, Layouts are immutable.
+ * Configures a OutputTextSectionLayout prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */

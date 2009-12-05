@@ -26,7 +26,6 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.faces.component.html.layout.richfaces.RichFacesLayout;
 import org.metawidget.layout.delegate.DelegateLayout;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
@@ -143,12 +142,12 @@ public class OutputTextSectionLayout
 	private State getState( UIComponent container, UIMetawidget metawidget )
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( RichFacesLayout.class );
+		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( OutputTextSectionLayout.class );
 
 		if ( stateMap == null )
 		{
 			stateMap = CollectionUtils.newHashMap();
-			metawidget.putClientProperty( RichFacesLayout.class, stateMap );
+			metawidget.putClientProperty( OutputTextSectionLayout.class, stateMap );
 		}
 
 		State state = stateMap.get( container );
