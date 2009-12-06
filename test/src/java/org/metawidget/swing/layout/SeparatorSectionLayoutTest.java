@@ -31,7 +31,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.layout.delegate.DelegateLayoutTest;
+import org.metawidget.layout.delegate.LayoutDecoratorTest;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
@@ -67,7 +67,7 @@ public class SeparatorSectionLayoutTest
 
 		// superclass
 
-		DelegateLayoutTest.testConfig( new SeparatorSectionLayoutConfig(), new SeparatorSectionLayoutConfig(), new org.metawidget.swing.layout.GridBagLayout() );
+		LayoutDecoratorTest.testConfig( config1, config2, new org.metawidget.swing.layout.GridBagLayout() );
 	}
 
 	public void testAlignment()

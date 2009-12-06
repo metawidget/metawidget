@@ -80,7 +80,7 @@ import junit.framework.TestSuite;
 import org.metawidget.faces.component.UIMetawidgetTest;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.layout.HeadingSectionLayoutTest;
-import org.metawidget.faces.component.html.layout.richfaces.RichFacesLayoutTest;
+import org.metawidget.faces.component.html.layout.richfaces.TabPanelSectionLayoutTest;
 import org.metawidget.faces.component.html.widgetprocessor.CssStyleProcessorTest;
 import org.metawidget.faces.component.html.widgetprocessor.HiddenFieldProcessorTest;
 import org.metawidget.faces.component.widgetbuilder.OverriddenWidgetBuilderTest;
@@ -124,10 +124,10 @@ public class FacesMetawidgetTests
 		suite.addTestSuite( ReadableIdProcessorTest.class );
 		suite.addTestSuite( RequiredAttributeProcessorTest.class );
 		suite.addTestSuite( RichFacesWidgetBuilderTest.class );
-		suite.addTestSuite( RichFacesLayoutTest.class );
 		suite.addTestSuite( StandardBindingProcessorTest.class );
 		suite.addTestSuite( StandardConverterProcessorTest.class );
 		suite.addTestSuite( StandardValidatorProcessorTest.class );
+		suite.addTestSuite( TabPanelSectionLayoutTest.class );
 		suite.addTestSuite( TomahawkWidgetBuilderTest.class );
 		suite.addTestSuite( UIMetawidgetTest.class );
 

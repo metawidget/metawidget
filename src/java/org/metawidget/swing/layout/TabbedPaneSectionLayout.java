@@ -26,7 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
-import org.metawidget.layout.delegate.DelegateLayout;
+import org.metawidget.layout.decorator.LayoutDecorator;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LayoutUtils;
@@ -39,7 +39,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TabbedPaneSectionLayout
-	extends DelegateLayout<JComponent, SwingMetawidget>
+	extends LayoutDecorator<JComponent, SwingMetawidget>
 {
 	//
 	// Private statics

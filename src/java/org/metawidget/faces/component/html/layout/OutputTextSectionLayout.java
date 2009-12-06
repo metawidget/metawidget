@@ -26,7 +26,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.layout.delegate.DelegateLayout;
+import org.metawidget.layout.decorator.LayoutDecorator;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
@@ -42,7 +42,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class OutputTextSectionLayout
-	extends DelegateLayout<UIComponent, UIMetawidget>
+	extends LayoutDecorator<UIComponent, UIMetawidget>
 {
 	//
 	// Private members

@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.layout.delegate;
+package org.metawidget.layout.decorator;
 
 import java.util.Map;
 
@@ -22,23 +22,25 @@ import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.iface.LayoutException;
 
 /**
- * Delegates Layout functionality to the given Layout.
+ * Decorates a Layout with additional functionality.
  * <p>
- * DelegateLayout is abstract. Unlike CompositeInspector and CompositeWidgetBuilder, there is no
+ * LayoutDecorator is abstract. Unlike CompositeInspector and CompositeWidgetBuilder, there is no
  * equivalent CompositeLayout for Layouts. This is because most Layouts are 'end points' and cannot
  * sensibly be composed into Lists. It is unclear what should happen if, say, a CompositeLayout
  * combined a GridBagLayout with a FlowLayout. Rather, Layouts must be combined in a
  * <em>heirarchical</em> fashion, with an 'outer' Layout delegating to a single 'inner' Layout.
  * <p>
  * This delegation approach allows us to extract, say, TabbedPaneSectionLayout such that you can
- * wrap tabbed section functionality around one of the other layouts (eg. GridBagLayout, GroupLayout
- * etc). It also makes it possible to configure whether 'sections within sections' should be
- * rendered as 'tabs within tabs' or 'headings within tabs'.
+ * decorate other layouts (eg. GridBagLayout, GroupLayout etc) with tabbed section functionality. It
+ * also makes it possible to configure whether 'sections within sections' should be rendered as
+ * 'tabs within tabs' or 'headings within tabs'.
+ * <p>
+ * Note: the name Layout<em>Decorator</em> refers to the Decorator design pattern.
  *
  * @author Richard Kennard
  */
 
-public abstract class DelegateLayout<W, M extends W>
+public abstract class LayoutDecorator<W, M extends W>
 	implements Layout<W, M>
 {
 	//
@@ -51,12 +53,12 @@ public abstract class DelegateLayout<W, M extends W>
 	// Constructor
 	//
 
-	public DelegateLayout( DelegateLayoutConfig<W, M> config )
+	public LayoutDecorator( LayoutDecoratorConfig<W, M> config )
 	{
 		mDelegate = config.getLayout();
 
 		if ( mDelegate == null )
-			throw LayoutException.newException( getClass().getName() + " needs a Layout to delegate to (use " + config.getClass().getName() + ".setLayout)" );
+			throw LayoutException.newException( getClass().getName() + " needs a Layout to decorate (use " + config.getClass().getName() + ".setLayout)" );
 	}
 
 	//

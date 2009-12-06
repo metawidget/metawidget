@@ -20,7 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.metawidget.layout.delegate.DelegateLayoutTest;
+import org.metawidget.layout.delegate.LayoutDecoratorTest;
 import org.metawidget.layout.iface.LayoutExceptionTest;
 import org.metawidget.layout.impl.LayoutUtilsTest;
 
@@ -38,7 +38,7 @@ public class LayoutTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Layout Tests" );
-		suite.addTestSuite( DelegateLayoutTest.class );
+		suite.addTestSuite( LayoutDecoratorTest.class );
 		suite.addTestSuite( LayoutExceptionTest.class );
 		suite.addTestSuite( LayoutUtilsTest.class );
 

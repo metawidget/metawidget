@@ -92,7 +92,7 @@ public class RichFacesQuirks
 	}
 
 	@UiComesAfter( "foo2" )
-	@UiSection( "bar" )
+	@UiSection( { "Foo", "bar" } )
 	public String getBar1()
 	{
 		return mBar1;
@@ -115,7 +115,7 @@ public class RichFacesQuirks
 	}
 
 	@UiComesAfter( "integer" )
-	@UiSection( "baz" )
+	@UiSection( { "Foo", "baz" } )
 	public String getBaz1()
 	{
 		return mBaz1;

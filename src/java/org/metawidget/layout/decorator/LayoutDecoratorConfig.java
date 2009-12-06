@@ -14,18 +14,18 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.layout.delegate;
+package org.metawidget.layout.decorator;
 
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a DelegateLayout prior to use. Once instantiated, Layouts are immutable.
+ * Configures a LayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class DelegateLayoutConfig<W, M extends W>
+public class LayoutDecoratorConfig<W, M extends W>
 {
 	//
 	// Private members
@@ -46,7 +46,7 @@ public class DelegateLayoutConfig<W, M extends W>
 	 * @return this, as part of a fluent interface
 	 */
 
-	public DelegateLayoutConfig<W, M> setLayout( Layout<W, M> layout )
+	public LayoutDecoratorConfig<W, M> setLayout( Layout<W, M> layout )
 	{
 		mLayout = layout;
 
@@ -57,10 +57,10 @@ public class DelegateLayoutConfig<W, M extends W>
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof DelegateLayoutConfig ) )
+		if ( !( that instanceof LayoutDecoratorConfig ) )
 			return false;
 
-		return ( ObjectUtils.nullSafeEquals( mLayout, ( (DelegateLayoutConfig<W, M>) that ).mLayout ) );
+		return ( ObjectUtils.nullSafeEquals( mLayout, ( (LayoutDecoratorConfig<W, M>) that ).mLayout ) );
 	}
 
 	@Override

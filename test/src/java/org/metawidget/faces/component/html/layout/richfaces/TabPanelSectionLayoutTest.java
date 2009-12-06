@@ -18,11 +18,14 @@ package org.metawidget.faces.component.html.layout.richfaces;
 
 import junit.framework.TestCase;
 
+import org.metawidget.faces.component.layout.SimpleLayout;
+import org.metawidget.layout.delegate.LayoutDecoratorTest;
+
 /**
  * @author Richard Kennard
  */
 
-public class RichFacesLayoutTest
+public class TabPanelSectionLayoutTest
 	extends TestCase
 {
 	//
@@ -31,22 +34,26 @@ public class RichFacesLayoutTest
 
 	public void testConfig()
 	{
-		RichFacesLayoutConfig config1 = new RichFacesLayoutConfig();
-		RichFacesLayoutConfig config2 = new RichFacesLayoutConfig();
+		TabPanelSectionLayoutConfig config1 = new TabPanelSectionLayoutConfig();
+		TabPanelSectionLayoutConfig config2 = new TabPanelSectionLayoutConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
-		// sectionStyle
+		// tabPlacement
 
-		config1.setSectionStyle( RichFacesLayoutConfig.SECTION_AS_TAB );
-		assertTrue( RichFacesLayoutConfig.SECTION_AS_TAB == config1.getSectionStyle() );
+		config1.setHeaderAlignment( "right" );
+		assertTrue( "right".equals( config1.getHeaderAlignment() ));
 		assertTrue( !config1.equals( config2 ) );
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
-		config2.setSectionStyle( RichFacesLayoutConfig.SECTION_AS_TAB );
+		config2.setHeaderAlignment( "right" );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// superclass
+
+		LayoutDecoratorTest.testConfig( config1, config2, new SimpleLayout() );
 	}
 }

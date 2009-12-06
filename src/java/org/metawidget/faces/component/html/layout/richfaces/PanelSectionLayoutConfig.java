@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.faces.component.html.layout;
+package org.metawidget.faces.component.html.layout.richfaces;
 
 import javax.faces.component.UIComponent;
 
@@ -24,12 +24,12 @@ import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a OutputTextSectionLayout prior to use. Once instantiated, Layouts are immutable.
+ * Configures a PanelSectionLayout prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class OutputTextSectionLayoutConfig
+public class PanelSectionLayoutConfig
 	extends LayoutDecoratorConfig<UIComponent, UIMetawidget>
 {
 	//
@@ -51,7 +51,7 @@ public class OutputTextSectionLayoutConfig
 	 */
 
 	@Override
-	public OutputTextSectionLayoutConfig setLayout( Layout<UIComponent, UIMetawidget> layout )
+	public PanelSectionLayoutConfig setLayout( Layout<UIComponent, UIMetawidget> layout )
 	{
 		super.setLayout( layout );
 
@@ -67,7 +67,7 @@ public class OutputTextSectionLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public OutputTextSectionLayoutConfig setStyle( String style )
+	public PanelSectionLayoutConfig setStyle( String style )
 	{
 		mStyle = style;
 
@@ -83,7 +83,7 @@ public class OutputTextSectionLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public OutputTextSectionLayoutConfig setStyleClass( String styleClass )
+	public PanelSectionLayoutConfig setStyleClass( String styleClass )
 	{
 		mStyleClass = styleClass;
 
@@ -93,13 +93,13 @@ public class OutputTextSectionLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof OutputTextSectionLayoutConfig ) )
+		if ( !( that instanceof PanelSectionLayoutConfig ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (OutputTextSectionLayoutConfig) that ).mStyle ) )
+		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (PanelSectionLayoutConfig) that ).mStyle ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (OutputTextSectionLayoutConfig) that ).mStyleClass ) )
+		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (PanelSectionLayoutConfig) that ).mStyleClass ) )
 			return false;
 
 		return super.equals( that );

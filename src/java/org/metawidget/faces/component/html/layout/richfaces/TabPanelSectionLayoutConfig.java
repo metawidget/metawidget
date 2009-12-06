@@ -19,7 +19,7 @@ package org.metawidget.faces.component.html.layout.richfaces;
 import javax.faces.component.UIComponent;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.layout.delegate.DelegateLayoutConfig;
+import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
@@ -29,7 +29,7 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class TabPanelSectionLayoutConfig
-	extends DelegateLayoutConfig<UIComponent, UIMetawidget>
+	extends LayoutDecoratorConfig<UIComponent, UIMetawidget>
 {
 	//
 	// Private members

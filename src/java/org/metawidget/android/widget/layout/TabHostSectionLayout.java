@@ -19,8 +19,8 @@ package org.metawidget.android.widget.layout;
 import java.util.Map;
 
 import org.metawidget.android.widget.AndroidMetawidget;
-import org.metawidget.layout.delegate.DelegateLayout;
-import org.metawidget.layout.delegate.DelegateLayoutConfig;
+import org.metawidget.layout.decorator.LayoutDecorator;
+import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -38,13 +38,13 @@ import android.widget.TabHost.TabContentFactory;
  */
 
 public class TabHostSectionLayout
-	extends DelegateLayout<View, AndroidMetawidget>
+	extends LayoutDecorator<View, AndroidMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	public TabHostSectionLayout( DelegateLayoutConfig<View, AndroidMetawidget> config )
+	public TabHostSectionLayout( LayoutDecoratorConfig<View, AndroidMetawidget> config )
 	{
 		super( config );
 	}

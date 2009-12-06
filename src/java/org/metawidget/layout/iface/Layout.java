@@ -87,7 +87,7 @@ public interface Layout<W, M extends W>
 	// 3. elementNames for the components had to be attached somehow
 	// 4. It 'felt' weird having a WidgetProcessor doing Layout stuff
 	//
-	// We finally settled on having a container W and a DelegateLayout
+	// We finally settled on having a container W and a LayoutDecorator
 	//
 	void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget );
 

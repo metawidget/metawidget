@@ -301,7 +301,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "class org.metawidget.swing.layout.TitledPanelSectionLayout does not have a default constructor. Did you mean config=\"org.metawidget.layout.delegate.DelegateLayoutConfig\"?".equals( e.getMessage() ) );
+			assertTrue( "class org.metawidget.swing.layout.TitledPanelSectionLayout does not have a default constructor. Did you mean config=\"org.metawidget.layout.delegate.LayoutDecorator\"?".equals( e.getMessage() ) );
 		}
 
 		// Without config hint

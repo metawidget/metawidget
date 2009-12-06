@@ -20,7 +20,7 @@ import java.util.Map;
 
 import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
-import org.metawidget.layout.delegate.DelegateLayout;
+import org.metawidget.layout.decorator.LayoutDecorator;
 import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -35,7 +35,7 @@ import android.widget.TextView;
  */
 
 public class HeadingSectionLayout
-	extends DelegateLayout<View, AndroidMetawidget>
+	extends LayoutDecorator<View, AndroidMetawidget>
 {
 	//
 	// Private members

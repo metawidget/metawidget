@@ -19,7 +19,7 @@ package org.metawidget.swing.layout;
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
 
-import org.metawidget.layout.delegate.DelegateLayoutConfig;
+import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.swing.SwingMetawidget;
 
@@ -30,7 +30,7 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class SeparatorSectionLayoutConfig
-	extends DelegateLayoutConfig<JComponent, SwingMetawidget>
+	extends LayoutDecoratorConfig<JComponent, SwingMetawidget>
 {
 	//
 	// Private members

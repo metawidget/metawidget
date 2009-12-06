@@ -17,7 +17,7 @@
 package org.metawidget.android.widget.layout;
 
 import org.metawidget.android.widget.AndroidMetawidget;
-import org.metawidget.layout.delegate.DelegateLayoutConfig;
+import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
 
 import android.view.View;
@@ -29,7 +29,7 @@ import android.view.View;
  */
 
 public class HeadingSectionLayoutConfig
-	extends DelegateLayoutConfig<View, AndroidMetawidget>
+	extends LayoutDecoratorConfig<View, AndroidMetawidget>
 {
 	//
 	// Private members

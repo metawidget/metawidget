@@ -23,7 +23,7 @@ import org.metawidget.android.widget.Facet;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.layout.delegate.DelegateLayoutConfig;
+import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 
 import android.view.View;
 import android.widget.CheckBox;
@@ -49,7 +49,7 @@ public class TabHostSectionLayoutTest
 	public void testTabHostSectionLayout()
 	{
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new TabHostSectionLayout( new DelegateLayoutConfig<View,AndroidMetawidget>().setLayout( new TableLayout() )));
+		androidMetawidget.setLayout( new TabHostSectionLayout( new LayoutDecoratorConfig<View,AndroidMetawidget>().setLayout( new TableLayout() )));
 		androidMetawidget.setToInspect( new Foo() );
 
 		Facet facet = new Facet( null );

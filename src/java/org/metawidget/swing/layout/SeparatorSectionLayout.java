@@ -30,7 +30,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import org.metawidget.layout.delegate.DelegateLayout;
+import org.metawidget.layout.decorator.LayoutDecorator;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
@@ -43,7 +43,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class SeparatorSectionLayout
-	extends DelegateLayout<JComponent, SwingMetawidget>
+	extends LayoutDecorator<JComponent, SwingMetawidget>
 {
 	//
 	// Private statics

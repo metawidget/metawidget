@@ -25,8 +25,8 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import org.metawidget.layout.delegate.DelegateLayout;
-import org.metawidget.layout.delegate.DelegateLayoutConfig;
+import org.metawidget.layout.decorator.LayoutDecorator;
+import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LayoutUtils;
@@ -39,7 +39,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TitledPanelSectionLayout
-	extends DelegateLayout<JComponent, SwingMetawidget>
+	extends LayoutDecorator<JComponent, SwingMetawidget>
 {
 	//
 	// Private statics
@@ -61,7 +61,7 @@ public class TitledPanelSectionLayout
 	// Constructor
 	//
 
-	public TitledPanelSectionLayout( DelegateLayoutConfig<JComponent, SwingMetawidget> config )
+	public TitledPanelSectionLayout( LayoutDecoratorConfig<JComponent, SwingMetawidget> config )
 	{
 		super( config );
 	}

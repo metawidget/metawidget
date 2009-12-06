@@ -449,6 +449,8 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 			}
 		}
 
+		// TODO: move to start of layout in pipeline
+
 		if ( mLayout != null )
 			mLayout.startLayout( mixinOwner, mixinOwner );
 	}
