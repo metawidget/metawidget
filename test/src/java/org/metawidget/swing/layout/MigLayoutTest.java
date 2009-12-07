@@ -89,7 +89,7 @@ public class MigLayoutTest
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
-		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( new TabbedPaneSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayoutDecorator( new TabbedPaneSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.MigLayout( new MigLayoutConfig().setNumberOfColumns( 2 ) ) )));
 
 		UnitValue[] insets = ( (LC) ( (MigLayout) metawidget.getLayout() ).getLayoutConstraints() ).getInsets();
 		assertTrue( 0 == insets[0].getValue() );

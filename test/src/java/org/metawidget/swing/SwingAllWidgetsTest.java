@@ -49,7 +49,7 @@ import org.metawidget.shared.allwidgets.model.AllWidgets;
 import org.metawidget.shared.allwidgets.model.AllWidgets.NestedWidgets;
 import org.metawidget.shared.allwidgets.proxy.AllWidgets$$EnhancerByCGLIB$$1234;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
-import org.metawidget.swing.layout.SeparatorSectionLayout;
+import org.metawidget.swing.layout.SeparatorSectionLayoutDecorator;
 import org.metawidget.swing.layout.SeparatorSectionLayoutConfig;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
@@ -119,7 +119,7 @@ public class SwingAllWidgetsTest
 		metawidget.addWidgetProcessor( processor );
 		metawidget.addWidgetProcessor( new ReflectionBindingProcessor() );
 		metawidget.setConfig( "org/metawidget/swing/allwidgets/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new SeparatorSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new SeparatorSectionLayoutDecorator( new SeparatorSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
 
 		metawidget.setToInspect( allWidgets );
 

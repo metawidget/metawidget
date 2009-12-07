@@ -37,12 +37,12 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Layout to separate widgets in different sections using a JSeparator.
+ * Layout to decorate widgets from different sections using a JSeparator.
  *
  * @author Richard Kennard
  */
 
-public class SeparatorSectionLayout
+public class SeparatorSectionLayoutDecorator
 	extends LayoutDecorator<JComponent, SwingMetawidget>
 {
 	//
@@ -73,7 +73,7 @@ public class SeparatorSectionLayout
 	// Constructor
 	//
 
-	public SeparatorSectionLayout( SeparatorSectionLayoutConfig config )
+	public SeparatorSectionLayoutDecorator( SeparatorSectionLayoutConfig config )
 	{
 		super( config );
 
@@ -88,14 +88,14 @@ public class SeparatorSectionLayout
 	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		super.startLayout( container, metawidget );
-		container.putClientProperty( SeparatorSectionLayout.class, null );
+		container.putClientProperty( SeparatorSectionLayoutDecorator.class, null );
 	}
 
 	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
 		String[] sections = ArrayUtils.fromString( attributes.get( SECTION ) );
-		String[] currentSections = (String[]) container.getClientProperty( SeparatorSectionLayout.class );
+		String[] currentSections = (String[]) container.getClientProperty( SeparatorSectionLayoutDecorator.class );
 
 		// Stay where we are?
 
@@ -105,7 +105,7 @@ public class SeparatorSectionLayout
 			return;
 		}
 
-		container.putClientProperty( SeparatorSectionLayout.class, sections );
+		container.putClientProperty( SeparatorSectionLayoutDecorator.class, sections );
 
 		// For each of the new sections...
 

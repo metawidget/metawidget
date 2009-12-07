@@ -23,12 +23,12 @@ import org.metawidget.layout.iface.Layout;
 import android.view.View;
 
 /**
- * Configures a HeadingSectionLayout prior to use. Once instantiated, Layouts are immutable.
+ * Configures a HeadingSectionLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class HeadingSectionLayoutConfig
+public class HeadingSectionLayoutDecoratorConfig
 	extends LayoutDecoratorConfig<View, AndroidMetawidget>
 {
 	//
@@ -48,7 +48,7 @@ public class HeadingSectionLayoutConfig
 	 */
 
 	@Override
-	public HeadingSectionLayoutConfig setLayout( Layout<View, AndroidMetawidget> layout )
+	public HeadingSectionLayoutDecoratorConfig setLayout( Layout<View, AndroidMetawidget> layout )
 	{
 		super.setLayout( layout );
 
@@ -64,7 +64,7 @@ public class HeadingSectionLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HeadingSectionLayoutConfig setStyle( int style )
+	public HeadingSectionLayoutDecoratorConfig setStyle( int style )
 	{
 		mStyle = style;
 		return this;
@@ -73,10 +73,10 @@ public class HeadingSectionLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof HeadingSectionLayoutConfig ) )
+		if ( !( that instanceof HeadingSectionLayoutDecoratorConfig ) )
 			return false;
 
-		if ( mStyle != ( (HeadingSectionLayoutConfig) that ).mStyle )
+		if ( mStyle != ( (HeadingSectionLayoutDecoratorConfig) that ).mStyle )
 			return false;
 
 		return super.equals( that );

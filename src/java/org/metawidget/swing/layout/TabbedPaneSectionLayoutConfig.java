@@ -24,7 +24,7 @@ import org.metawidget.layout.iface.Layout;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
- * Configures a TabbedPaneSectionLayout prior to use. Once instantiated, Layouts are immutable.
+ * Configures a TabbedPaneSectionLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */

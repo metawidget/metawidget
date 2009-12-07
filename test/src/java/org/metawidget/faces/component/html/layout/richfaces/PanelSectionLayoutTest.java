@@ -34,8 +34,8 @@ public class PanelSectionLayoutTest
 
 	public void testConfig()
 	{
-		PanelSectionLayoutConfig config1 = new PanelSectionLayoutConfig();
-		PanelSectionLayoutConfig config2 = new PanelSectionLayoutConfig();
+		PanelSectionLayoutDecoratorConfig config1 = new PanelSectionLayoutDecoratorConfig();
+		PanelSectionLayoutDecoratorConfig config2 = new PanelSectionLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config2 ) );

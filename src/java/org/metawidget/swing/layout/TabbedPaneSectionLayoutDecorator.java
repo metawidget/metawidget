@@ -23,22 +23,22 @@ import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
 import org.metawidget.layout.decorator.LayoutDecorator;
-import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Layout to separate widgets in different sections using a JPanel with a TitledBorder.
+ * Layout to decorate widgets from different sections using a JTabbedPane.
  *
  * @author Richard Kennard
  */
 
-public class TitledPanelSectionLayout
+public class TabbedPaneSectionLayoutDecorator
 	extends LayoutDecorator<JComponent, SwingMetawidget>
 {
 	//
@@ -46,24 +46,32 @@ public class TitledPanelSectionLayout
 	//
 
 	/**
-	 * The border around the entire titled panel.
+	 * The border around the entire tabbed pane.
 	 */
 
-	private final static Border	OUTER_BORDER	= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
+	private final static Border	TABBED_PANE_BORDER	= BorderFactory.createEmptyBorder( 5, 0, 5, 0 );
 
 	/**
-	 * The insets inside the titled panel.
+	 * The insets around each tab.
 	 */
 
-	private final static Border	INNER_BORDER	= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
+	private final static Border	TAB_PANEL_BORDER	= BorderFactory.createEmptyBorder( 3, 3, 3, 3 );
+
+	//
+	// Private members
+	//
+
+	private int					mTabPlacement;
 
 	//
 	// Constructor
 	//
 
-	public TitledPanelSectionLayout( LayoutDecoratorConfig<JComponent, SwingMetawidget> config )
+	public TabbedPaneSectionLayoutDecorator( TabbedPaneSectionLayoutConfig config )
 	{
 		super( config );
+
+		mTabPlacement = config.getTabPlacement();
 	}
 
 	//
@@ -74,7 +82,7 @@ public class TitledPanelSectionLayout
 	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		super.startLayout( container, metawidget );
-		container.putClientProperty( TitledPanelSectionLayout.class, null );
+		container.putClientProperty( TabbedPaneSectionLayoutDecorator.class, null );
 	}
 
 	@Override
@@ -87,10 +95,10 @@ public class TitledPanelSectionLayout
 
 		if ( section == null || section.equals( state.currentSection ) )
 		{
-			if ( state.titledPanel == null )
+			if ( state.tabPanel == null )
 				super.layoutWidget( component, elementName, attributes, container, metawidget );
 			else
-				super.layoutWidget( component, elementName, attributes, state.titledPanel, metawidget );
+				super.layoutWidget( component, elementName, attributes, state.tabPanel, metawidget );
 
 			return;
 		}
@@ -99,10 +107,13 @@ public class TitledPanelSectionLayout
 
 		// End current section
 
-		if ( state.titledPanel != null )
+		JTabbedPane tabbedPane = null;
+
+		if ( state.tabPanel != null )
 		{
-			super.endLayout( state.titledPanel, metawidget );
-			state.titledPanel = null;
+			super.endLayout( state.tabPanel, metawidget );
+			tabbedPane = (JTabbedPane) state.tabPanel.getParent();
+			state.tabPanel = null;
 		}
 
 		// No new section?
@@ -113,33 +124,38 @@ public class TitledPanelSectionLayout
 			return;
 		}
 
-		// New section
+		// Whole new tabbed pane?
 
-		JPanel titledPanel = new JPanel();
-		titledPanel.setOpaque( false );
-		super.startLayout( titledPanel, metawidget );
+		if ( tabbedPane == null )
+		{
+			tabbedPane = new JTabbedPane();
+			tabbedPane.setBorder( TABBED_PANE_BORDER );
+			tabbedPane.setTabPlacement( mTabPlacement );
 
-		// Section name (possibly localized)
+			Map<String, String> tabbedPaneAttributes = CollectionUtils.newHashMap();
+			tabbedPaneAttributes.put( LABEL, "" );
+			tabbedPaneAttributes.put( LARGE, TRUE );
+			super.layoutWidget( tabbedPane, PROPERTY, tabbedPaneAttributes, container, metawidget );
+		}
+
+		// New tab
+
+		state.tabPanel = new JPanel();
+		state.tabPanel.setBorder( TAB_PANEL_BORDER );
+		super.startLayout( state.tabPanel, metawidget );
+
+		// Tab name (possibly localized)
 
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
 			localizedSection = section;
 
-		titledPanel.setBorder( BorderFactory.createCompoundBorder( OUTER_BORDER, BorderFactory.createCompoundBorder( BorderFactory.createTitledBorder( localizedSection ), INNER_BORDER )));
+		tabbedPane.addTab( localizedSection, state.tabPanel );
 
-		// Add to parent container
+		// Add component to new tab
 
-		Map<String, String> panelAttributes = CollectionUtils.newHashMap();
-		panelAttributes.put( LABEL, "" );
-		panelAttributes.put( LARGE, TRUE );
-		super.layoutWidget( titledPanel, PROPERTY, panelAttributes, container, metawidget );
-
-		state.titledPanel = titledPanel;
-
-		// Add component to new section
-
-		super.layoutWidget( component, elementName, attributes, state.titledPanel, metawidget );
+		super.layoutWidget( component, elementName, attributes, state.tabPanel, metawidget );
 	}
 
 	@Override
@@ -147,8 +163,8 @@ public class TitledPanelSectionLayout
 	{
 		State state = getState( container );
 
-		if ( state.titledPanel != null )
-			super.endLayout( state.titledPanel, metawidget );
+		if ( state.tabPanel != null )
+			super.endLayout( state.tabPanel, metawidget );
 
 		super.endLayout( container, metawidget );
 	}
@@ -159,12 +175,12 @@ public class TitledPanelSectionLayout
 
 	private State getState( JComponent container )
 	{
-		State state = (State) container.getClientProperty( TitledPanelSectionLayout.class );
+		State state = (State) container.getClientProperty( TabbedPaneSectionLayoutDecorator.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			container.putClientProperty( TitledPanelSectionLayout.class, state );
+			container.putClientProperty( TabbedPaneSectionLayoutDecorator.class, state );
 		}
 
 		return state;
@@ -182,6 +198,6 @@ public class TitledPanelSectionLayout
 	{
 		/* package private */String	currentSection;
 
-		/* package private */JPanel	titledPanel;
+		/* package private */JPanel	tabPanel;
 	}
 }

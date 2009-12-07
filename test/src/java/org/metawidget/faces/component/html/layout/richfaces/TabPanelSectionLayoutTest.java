@@ -34,8 +34,8 @@ public class TabPanelSectionLayoutTest
 
 	public void testConfig()
 	{
-		TabPanelSectionLayoutConfig config1 = new TabPanelSectionLayoutConfig();
-		TabPanelSectionLayoutConfig config2 = new TabPanelSectionLayoutConfig();
+		TabPanelSectionLayoutDecoratorConfig config1 = new TabPanelSectionLayoutDecoratorConfig();
+		TabPanelSectionLayoutDecoratorConfig config2 = new TabPanelSectionLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config2 ) );

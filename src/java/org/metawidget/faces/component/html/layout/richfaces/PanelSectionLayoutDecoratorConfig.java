@@ -24,12 +24,12 @@ import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a PanelSectionLayout prior to use. Once instantiated, Layouts are immutable.
+ * Configures a PanelSectionLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class PanelSectionLayoutConfig
+public class PanelSectionLayoutDecoratorConfig
 	extends LayoutDecoratorConfig<UIComponent, UIMetawidget>
 {
 	//
@@ -51,7 +51,7 @@ public class PanelSectionLayoutConfig
 	 */
 
 	@Override
-	public PanelSectionLayoutConfig setLayout( Layout<UIComponent, UIMetawidget> layout )
+	public PanelSectionLayoutDecoratorConfig setLayout( Layout<UIComponent, UIMetawidget> layout )
 	{
 		super.setLayout( layout );
 
@@ -67,7 +67,7 @@ public class PanelSectionLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public PanelSectionLayoutConfig setStyle( String style )
+	public PanelSectionLayoutDecoratorConfig setStyle( String style )
 	{
 		mStyle = style;
 
@@ -83,7 +83,7 @@ public class PanelSectionLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public PanelSectionLayoutConfig setStyleClass( String styleClass )
+	public PanelSectionLayoutDecoratorConfig setStyleClass( String styleClass )
 	{
 		mStyleClass = styleClass;
 
@@ -93,13 +93,13 @@ public class PanelSectionLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof PanelSectionLayoutConfig ) )
+		if ( !( that instanceof PanelSectionLayoutDecoratorConfig ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (PanelSectionLayoutConfig) that ).mStyle ) )
+		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (PanelSectionLayoutDecoratorConfig) that ).mStyle ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (PanelSectionLayoutConfig) that ).mStyleClass ) )
+		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (PanelSectionLayoutDecoratorConfig) that ).mStyleClass ) )
 			return false;
 
 		return super.equals( that );

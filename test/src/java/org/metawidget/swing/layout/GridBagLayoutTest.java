@@ -83,7 +83,7 @@ public class GridBagLayoutTest
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
-		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( new TabbedPaneSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayoutDecorator( new TabbedPaneSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		Insets insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;

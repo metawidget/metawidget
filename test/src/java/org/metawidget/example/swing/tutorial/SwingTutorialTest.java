@@ -42,7 +42,7 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
-import org.metawidget.swing.layout.SeparatorSectionLayout;
+import org.metawidget.swing.layout.SeparatorSectionLayoutDecorator;
 import org.metawidget.swing.layout.SeparatorSectionLayoutConfig;
 
 /**
@@ -82,7 +82,7 @@ public class SwingTutorialTest
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 );
 		SeparatorSectionLayoutConfig layoutConfig = new SeparatorSectionLayoutConfig().setLayout(
 		new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ));
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( layoutConfig ));
+		metawidget.setMetawidgetLayout( new SeparatorSectionLayoutDecorator( layoutConfig ));
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -119,7 +119,7 @@ public class SwingTutorialTest
 		stub.setName( "retired" );
 		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( new SeparatorSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new SeparatorSectionLayoutDecorator( new SeparatorSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );

@@ -32,7 +32,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Layout to separate widgets in different sections using an HtmlOutputText.
+ * Layout to decorate widgets from different sections using an HtmlOutputText.
  * <p>
  * As dictated by the JSF spec, CSS styles and style classes applied to an HtmlOptionText are
  * wrapped in an HTML span tag. Therefore you must use CSS 'display: block' if you want to use

@@ -26,39 +26,38 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.layout.decorator.LayoutDecorator;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.richfaces.component.html.HtmlPanel;
+import org.richfaces.component.UITab;
+import org.richfaces.component.UITabPanel;
 
 /**
- * Layout to separate widgets in different sections using a RichFaces TabPanel.
+ * Layout to decorate widgets from different sections using a RichFaces TabPanel.
  *
  * @author Richard Kennard
  */
 
-public class PanelSectionLayout
+public class TabPanelSectionLayoutDecorator
 	extends LayoutDecorator<UIComponent, UIMetawidget>
 {
 	//
 	// Private members
 	//
 
-	private String	mStyle;
-
-	private String	mStyleClass;
+	private String	mHeaderAlignment;
 
 	//
 	// Constructor
 	//
 
-	public PanelSectionLayout( PanelSectionLayoutConfig config )
+	public TabPanelSectionLayoutDecorator( TabPanelSectionLayoutDecoratorConfig config )
 	{
 		super( config );
 
-		mStyle = config.getStyle();
-		mStyleClass = config.getStyleClass();
+		mHeaderAlignment = config.getHeaderAlignment();
 	}
 
 	//
@@ -75,10 +74,10 @@ public class PanelSectionLayout
 
 		if ( section == null || section.equals( state.currentSection ) )
 		{
-			if ( state.currentPanel == null )
+			if ( state.tabComponent == null )
 				super.layoutWidget( component, elementName, attributes, container, metawidget );
 			else
-				super.layoutWidget( component, elementName, attributes, state.currentPanel, metawidget );
+				super.layoutWidget( component, elementName, attributes, state.tabComponent, metawidget );
 
 			return;
 		}
@@ -87,10 +86,13 @@ public class PanelSectionLayout
 
 		// End current section
 
-		if ( state.currentPanel != null )
+		UITabPanel tabPanel = null;
+
+		if ( state.tabComponent != null )
 		{
-			super.endLayout( state.currentPanel, metawidget );
-			state.currentPanel = null;
+			super.endLayout( state.tabComponent, metawidget );
+			tabPanel = (UITabPanel) state.tabComponent.getParent().getParent();
+			state.tabComponent = null;
 		}
 
 		// No new section?
@@ -101,33 +103,50 @@ public class PanelSectionLayout
 			return;
 		}
 
-		// New section
+		// Ignore empty stubs. Do not create a new tab in case it ends
+		// up being an empty tab
+
+		// TODO: do this in other Layouts too?
+
+		if ( component instanceof UIStub && component.getChildren().isEmpty() )
+			return;
 
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
-		HtmlPanel panel = (HtmlPanel) application.createComponent( "org.richfaces.panel" );
-		panel.setId( viewRoot.createUniqueId() );
-		panel.setStyle( mStyle );
-		panel.setStyleClass( mStyleClass );
+		// Whole new UITabPanel?
 
-		// Section name (possibly localized)
+		if ( tabPanel == null )
+		{
+			tabPanel = (UITabPanel) application.createComponent( "org.richfaces.TabPanel" );
+			tabPanel.setId( viewRoot.createUniqueId() );
+			tabPanel.setSwitchType( "client" );
+			tabPanel.setHeaderAlignment( mHeaderAlignment );
+
+			// Add to parent container
+
+			Map<String, String> tabPanelAttributes = CollectionUtils.newHashMap();
+			tabPanelAttributes.put( LABEL, "" );
+			tabPanel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, tabPanelAttributes );
+
+			super.layoutWidget( tabPanel, PROPERTY, tabPanelAttributes, container, metawidget );
+		}
+
+		// New tab
+
+		UITab tab = (UITab) application.createComponent( "org.richfaces.Tab" );
+		tab.setId( viewRoot.createUniqueId() );
+		tabPanel.getChildren().add( tab );
+
+		// Tab name (possibly localized)
 
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
 			localizedSection = section;
 
-		panel.setHeader( localizedSection );
-
-		// Add to parent container
-
-		Map<String, String> panelAttributes = CollectionUtils.newHashMap();
-		panelAttributes.put( LABEL, "" );
-		panel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, panelAttributes );
-
-		super.layoutWidget( panel, PROPERTY, panelAttributes, container, metawidget );
+		tab.setLabel( localizedSection );
 
 		// Create nested Metawidget (for layout)
 
@@ -135,12 +154,12 @@ public class PanelSectionLayout
 		nestedMetawidget.setRendererType( metawidget.getRendererType() );
 		nestedMetawidget.setId( viewRoot.createUniqueId() );
 		nestedMetawidget.setLayout( metawidget.getLayout() );
-		panel.getChildren().add( nestedMetawidget );
-		state.currentPanel = nestedMetawidget;
+		tab.getChildren().add( nestedMetawidget );
+		state.tabComponent = nestedMetawidget;
 
 		// Add component to new tab
 
-		super.layoutWidget( component, elementName, attributes, state.currentPanel, metawidget );
+		super.layoutWidget( component, elementName, attributes, state.tabComponent, metawidget );
 	}
 
 	//
@@ -154,12 +173,12 @@ public class PanelSectionLayout
 	private State getState( UIComponent container, UIMetawidget metawidget )
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( PanelSectionLayout.class );
+		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( TabPanelSectionLayoutDecorator.class );
 
 		if ( stateMap == null )
 		{
 			stateMap = CollectionUtils.newHashMap();
-			metawidget.putClientProperty( PanelSectionLayout.class, stateMap );
+			metawidget.putClientProperty( TabPanelSectionLayoutDecorator.class, stateMap );
 		}
 
 		State state = stateMap.get( container );
@@ -185,6 +204,6 @@ public class PanelSectionLayout
 	{
 		public String		currentSection;
 
-		public UIMetawidget	currentPanel;
+		public UIMetawidget	tabComponent;
 	}
 }

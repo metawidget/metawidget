@@ -44,8 +44,8 @@ public class HeadingSectionLayoutTest
 
 	public void testConfig()
 	{
-		HeadingSectionLayoutConfig config1 = new HeadingSectionLayoutConfig();
-		HeadingSectionLayoutConfig config2 = new HeadingSectionLayoutConfig();
+		HeadingSectionLayoutDecoratorConfig config1 = new HeadingSectionLayoutDecoratorConfig();
+		HeadingSectionLayoutDecoratorConfig config2 = new HeadingSectionLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config2 ) );
@@ -70,7 +70,7 @@ public class HeadingSectionLayoutTest
 	public void testHeadingSectionLayout()
 	{
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new HeadingSectionLayout( new HeadingSectionLayoutConfig().setLayout( new TableLayout() )));
+		androidMetawidget.setLayout( new HeadingSectionLayoutDecorator( new HeadingSectionLayoutDecoratorConfig().setLayout( new TableLayout() )));
 		androidMetawidget.setToInspect( new Foo() );
 
 		Facet facet = new Facet( null );

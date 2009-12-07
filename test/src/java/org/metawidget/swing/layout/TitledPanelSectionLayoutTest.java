@@ -52,7 +52,7 @@ public class TitledPanelSectionLayoutTest
 	public void testTitledPanelSectionLayout()
 	{
 		SwingMetawidget swingMetawidget = new SwingMetawidget();
-		swingMetawidget.setMetawidgetLayout( new TitledPanelSectionLayout( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() )));
+		swingMetawidget.setMetawidgetLayout( new TitledPanelSectionLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() )));
 		swingMetawidget.setToInspect( new Foo() );
 
 		Facet facet = new Facet();
@@ -105,7 +105,7 @@ public class TitledPanelSectionLayoutTest
 	public void testNestedPanels()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new TitledPanelSectionLayout( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new TitledPanelSectionLayout( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
+		metawidget.setMetawidgetLayout( new TitledPanelSectionLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new TitledPanelSectionLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -148,7 +148,7 @@ public class TitledPanelSectionLayoutTest
 	public static void main( String[] args )
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new TitledPanelSectionLayout( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new TitledPanelSectionLayout( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
+		metawidget.setMetawidgetLayout( new TitledPanelSectionLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new TitledPanelSectionLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );

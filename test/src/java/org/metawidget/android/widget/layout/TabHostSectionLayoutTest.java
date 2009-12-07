@@ -49,7 +49,7 @@ public class TabHostSectionLayoutTest
 	public void testTabHostSectionLayout()
 	{
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new TabHostSectionLayout( new LayoutDecoratorConfig<View,AndroidMetawidget>().setLayout( new TableLayout() )));
+		androidMetawidget.setLayout( new TabHostSectionLayoutDecorator( new LayoutDecoratorConfig<View,AndroidMetawidget>().setLayout( new TableLayout() )));
 		androidMetawidget.setToInspect( new Foo() );
 
 		Facet facet = new Facet( null );
