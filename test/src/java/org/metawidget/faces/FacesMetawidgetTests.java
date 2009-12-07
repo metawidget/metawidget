@@ -79,7 +79,7 @@ import junit.framework.TestSuite;
 
 import org.metawidget.faces.component.UIMetawidgetTest;
 import org.metawidget.faces.component.UIStub;
-import org.metawidget.faces.component.html.layout.HeadingSectionLayoutTest;
+import org.metawidget.faces.component.html.layout.OutputTextSectionLayoutTest;
 import org.metawidget.faces.component.html.layout.richfaces.TabPanelSectionLayoutTest;
 import org.metawidget.faces.component.html.widgetprocessor.CssStyleProcessorTest;
 import org.metawidget.faces.component.html.widgetprocessor.HiddenFieldProcessorTest;
@@ -115,11 +115,11 @@ public class FacesMetawidgetTests
 		suite.addTestSuite( CssStyleProcessorTest.class );
 		suite.addTestSuite( FacesUtilsTest.class );
 		suite.addTestSuite( HiddenFieldProcessorTest.class );
-		suite.addTestSuite( HeadingSectionLayoutTest.class );
 		suite.addTestSuite( HtmlWidgetBuilderTest.class );
 		suite.addTestSuite( LabelProcessorTest.class );
 		suite.addTestSuite( IceFacesWidgetBuilderTest.class );
 		suite.addTestSuite( ImmediateAttributeProcessorTest.class );
+		suite.addTestSuite( OutputTextSectionLayoutTest.class );
 		suite.addTestSuite( OverriddenWidgetBuilderTest.class );
 		suite.addTestSuite( ReadableIdProcessorTest.class );
 		suite.addTestSuite( RequiredAttributeProcessorTest.class );

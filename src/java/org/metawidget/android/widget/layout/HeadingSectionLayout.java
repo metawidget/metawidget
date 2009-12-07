@@ -41,7 +41,7 @@ public class HeadingSectionLayout
 	// Private members
 	//
 
-	private int	mSectionStyle;
+	private int	mStyle;
 
 	//
 	// Constructor
@@ -51,7 +51,7 @@ public class HeadingSectionLayout
 	{
 		super( config );
 
-		mSectionStyle = config.getSectionStyle();
+		mStyle = config.getStyle();
 	}
 
 	//
@@ -110,7 +110,7 @@ public class HeadingSectionLayout
 
 		// Apply style (if any)
 
-		AndroidUtils.applyStyle( textView, mSectionStyle, metawidget );
+		AndroidUtils.applyStyle( textView, mStyle, metawidget );
 
 		// Add to parent container
 

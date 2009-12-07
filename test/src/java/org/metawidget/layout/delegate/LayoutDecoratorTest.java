@@ -73,7 +73,7 @@ public class LayoutDecoratorTest
 		}
 		catch ( LayoutException e )
 		{
-			assertTrue( "org.metawidget.layout.delegate.LayoutDecoratorTest needs a Layout to delegate to (use org.metawidget.layout.delegate.LayoutDecoratorConfig.setLayout)".equals( e.getMessage() ) );
+			assertTrue( "org.metawidget.layout.decorator.LayoutDecoratorTest$1 needs a Layout to decorate (use org.metawidget.layout.decorator.LayoutDecoratorConfig.setLayout)".equals( e.getMessage() ) );
 		}
 	}
 }

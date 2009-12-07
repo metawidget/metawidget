@@ -53,12 +53,12 @@ public class HeadingSectionLayoutTest
 
 		// sectionStyle
 
-		config1.setSectionStyle( 100 );
-		assertTrue( 100 == config1.getSectionStyle() );
+		config1.setStyle( 100 );
+		assertTrue( 100 == config1.getStyle() );
 		assertTrue( !config1.equals( config2 ) );
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
-		config2.setSectionStyle( 100 );
+		config2.setStyle( 100 );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 

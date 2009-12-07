@@ -35,7 +35,7 @@ public class HeadingSectionLayoutConfig
 	// Private members
 	//
 
-	private int	mSectionStyle;
+	private int	mStyle;
 
 	//
 	// Public methods
@@ -55,18 +55,18 @@ public class HeadingSectionLayoutConfig
 		return this;
 	}
 
-	public int getSectionStyle()
+	public int getStyle()
 	{
-		return mSectionStyle;
+		return mStyle;
 	}
 
 	/**
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HeadingSectionLayoutConfig setSectionStyle( int sectionStyle )
+	public HeadingSectionLayoutConfig setStyle( int style )
 	{
-		mSectionStyle = sectionStyle;
+		mStyle = style;
 		return this;
 	}
 
@@ -76,7 +76,7 @@ public class HeadingSectionLayoutConfig
 		if ( !( that instanceof HeadingSectionLayoutConfig ) )
 			return false;
 
-		if ( mSectionStyle != ( (HeadingSectionLayoutConfig) that ).mSectionStyle )
+		if ( mStyle != ( (HeadingSectionLayoutConfig) that ).mStyle )
 			return false;
 
 		return super.equals( that );
@@ -86,7 +86,7 @@ public class HeadingSectionLayoutConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= mSectionStyle;
+		hashCode ^= mStyle;
 
 		return hashCode;
 	}

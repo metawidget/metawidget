@@ -18,16 +18,55 @@ package org.metawidget.faces.component.html.layout;
 
 import junit.framework.TestCase;
 
+import org.metawidget.faces.component.layout.SimpleLayout;
+import org.metawidget.layout.delegate.LayoutDecoratorTest;
+
 /**
  * @author Richard Kennard
  */
 
-public class HeadingSectionLayoutTest
+public class OutputTextSectionLayoutTest
 	extends TestCase
 {
 	//
 	// Public methods
 	//
+
+	public void testConfig()
+	{
+		OutputTextSectionLayoutConfig config1 = new OutputTextSectionLayoutConfig();
+		OutputTextSectionLayoutConfig config2 = new OutputTextSectionLayoutConfig();
+
+		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// style
+
+		config1.setStyle( "aStyle" );
+		assertTrue( "aStyle".equals( config1.getStyle() ));
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setStyle( "aStyle" );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// styleClass
+
+		config1.setStyleClass( "aStyleClass" );
+		assertTrue( "aStyleClass".equals( config1.getStyleClass() ));
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setStyleClass( "aStyleClass" );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// superclass
+
+		LayoutDecoratorTest.testConfig( config1, config2, new SimpleLayout() );
+	}
 
 	public void testSectionCleared()
 		throws Exception
