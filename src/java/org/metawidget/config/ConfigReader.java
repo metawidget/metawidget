@@ -182,6 +182,9 @@ public class ConfigReader
 	public Object configure( String resource, Object toConfigure, String... names )
 	{
 		ConfigHandler configHandler = new ConfigHandler( toConfigure, names );
+
+		// Establish cache
+
 		String locationKey = resource + StringUtils.SEPARATOR_FORWARD_SLASH;
 
 		if ( toConfigure instanceof Class<?> )
@@ -190,7 +193,13 @@ public class ConfigReader
 			locationKey += toConfigure.getClass().getName();
 
 		locationKey += ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false );
-		configHandler.setImmutableByLocationKey( locationKey );
+
+		Map<Integer, Object> immutableByLocationCache = mImmutableByLocationCache.get( locationKey );
+
+		if ( immutableByLocationCache == null )
+			immutableByLocationCache = CollectionUtils.newHashMap();
+
+		configHandler.setImmutableForThisLocationCache( immutableByLocationCache );
 
 		try
 		{
@@ -207,13 +216,15 @@ public class ConfigReader
 
 			else
 			{
-				// TODO: don't cache if unsuccessful?
-
 				LOG.debug( "Reading resource from " + resource + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
 				cachingContentHandler = new CachingContentHandler( configHandler );
 				configHandler.setCachingContentHandler( cachingContentHandler );
 				mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
+
+				// Only cache if successful
+
 				mResourceCache.put( locationKey, cachingContentHandler );
+				mImmutableByLocationCache.put( locationKey, immutableByLocationCache );
 			}
 
 			return configHandler.getConfigured();
@@ -628,12 +639,6 @@ public class ConfigReader
 		private String[]				mNames;
 
 		/**
-		 * Key into mImmutableByLocationCache.
-		 */
-
-		private String					mImmutableByLocationKey;
-
-		/**
 		 * Number of elements encountered so far. Used as a simple way to get a unique 'row/column'
 		 * location into the XML tree.
 		 */
@@ -644,7 +649,7 @@ public class ConfigReader
 		 * Map of objects that are immutable for this XML document. Keyed by location index.
 		 */
 
-		private Map<Integer, Object>	mImmutableForThisLocation;
+		private Map<Integer, Object>	mImmutableForThisLocationCache;
 
 		/**
 		 * Track our depth in the XML tree.
@@ -708,9 +713,9 @@ public class ConfigReader
 		// Public methods
 		//
 
-		public void setImmutableByLocationKey( String immutableByLocationKey )
+		public void setImmutableForThisLocationCache( Map<Integer,Object> immutableForThisLocationCache )
 		{
-			mImmutableByLocationKey = immutableByLocationKey;
+			mImmutableForThisLocationCache = immutableForThisLocationCache;
 		}
 
 		public void setCachingContentHandler( CachingContentHandler cachingContentHandler )
@@ -1165,6 +1170,10 @@ public class ConfigReader
 			Class<?> classToConstruct = classForName( uri, localName );
 
 			// Already cached (by location)?
+			//
+			// Note: if it is already cached by location, any child nodes will have been 'paused
+			// away' by CachingContentHandler, so we don't have to worry about checking the config
+			// attribute
 
 			Object object = null;
 
@@ -1294,45 +1303,22 @@ public class ConfigReader
 
 		private Object getImmutableByLocation( Class<?> clazz )
 		{
-			// No key to cache by (ie. XML coming from a nameless InputStream)?
+			// No cache (ie. XML coming from a nameless InputStream)?
 
-			if ( mImmutableByLocationKey == null )
+			if ( mImmutableForThisLocationCache == null )
 				return null;
 
-			// Look up existing
-
-			if ( mImmutableForThisLocation == null )
-			{
-				mImmutableForThisLocation = mImmutableByLocationCache.get( mImmutableByLocationKey );
-
-				if ( mImmutableForThisLocation == null )
-					return null;
-			}
-
-			return mImmutableForThisLocation.get( mLocationIndex );
+			return mImmutableForThisLocationCache.get( mLocationIndex );
 		}
 
 		private void putImmutableByLocation( Object immutable )
 		{
-			// No key to cache by (ie. XML coming from a nameless InputStream)?
+			// No cache by (ie. XML coming from a nameless InputStream)?
 
-			if ( mImmutableByLocationKey == null )
+			if ( mImmutableForThisLocationCache == null )
 				return;
 
-			// Look up existing
-
-			if ( mImmutableForThisLocation == null )
-			{
-				mImmutableForThisLocation = mImmutableByLocationCache.get( mImmutableByLocationKey );
-
-				if ( mImmutableForThisLocation == null )
-				{
-					mImmutableForThisLocation = CollectionUtils.newHashMap();
-					mImmutableByLocationCache.put( mImmutableByLocationKey, mImmutableForThisLocation );
-				}
-			}
-
-			mImmutableForThisLocation.put( mLocationIndex, immutable );
+			mImmutableForThisLocationCache.put( mLocationIndex, immutable );
 		}
 
 		private Object getImmutableByClass( Class<?> clazz, Object config )
@@ -1583,7 +1569,7 @@ public class ConfigReader
 				if ( obj == null )
 					buffer.append( "null" );
 				else
-					buffer.append( ClassUtils.getSimpleName( obj.getClass() ));
+					buffer.append( ClassUtils.getSimpleName( obj.getClass() ) );
 			}
 
 			buffer.insert( 0, "(" );

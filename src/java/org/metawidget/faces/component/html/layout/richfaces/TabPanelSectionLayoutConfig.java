@@ -57,8 +57,6 @@ public class TabPanelSectionLayoutConfig
 		return this;
 	}
 
-	// TODO: unit test TabPanelLayoutConfig
-
 	@Override
 	public boolean equals( Object that )
 	{

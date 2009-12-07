@@ -36,6 +36,7 @@ import junit.framework.TestCase;
 
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.metawidget.example.shared.addressbook.model.Gender;
+import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspector.annotation.MetawidgetAnnotationInspector;
 import org.metawidget.inspector.composite.CompositeInspector;
@@ -499,7 +500,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "org.xml.sax.SAXException: Namespace 'org.metawidget.config' of element <testInspector> must start with java:".equals( e.getMessage() ));
+			assertTrue( "org.xml.sax.SAXException: Namespace 'org.metawidget.config' of element <testInspector> must start with java:".equals( e.getMessage() ) );
 		}
 	}
 
@@ -667,30 +668,30 @@ public class ConfigReaderTest
 
 		@SuppressWarnings( "unchecked" )
 		List<Object> cache = (List<Object>) cacheField.get( cachingContentHandler );
-		assertTrue( "startDocument".equals( cache.get( 0 ).toString() ));
-		assertTrue( "startPrefixMapping  http://metawidget.org".equals( cache.get( 1 ).toString() ));
-		assertTrue( "startPrefixMapping xsi http://www.w3.org/2001/XMLSchema-instance".equals( cache.get( 2 ).toString() ));
-		assertTrue( "startElement http://metawidget.org metawidget metawidget schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd\" version=\"1.0\"".equals( cache.get( 3 ).toString() ));
-		assertTrue( "characters \n\n\t".equals( cache.get( 4 ).toString() ));
-		assertTrue( "startPrefixMapping  java:org.metawidget.swing".equals( cache.get( 5 ).toString() ));
-		assertTrue( "startElement java:org.metawidget.swing swingMetawidget swingMetawidget".equals( cache.get( 6 ).toString() ));
-		assertTrue( "characters \n\t\t".equals( cache.get( 7 ).toString() ));
-		assertTrue( "startElement java:org.metawidget.swing inspector inspector".equals( cache.get( 8 ).toString() ));
-		assertTrue( "characters \n\t\t\t".equals( cache.get( 9 ).toString() ));
-		assertTrue( "startPrefixMapping  java:org.metawidget.inspector.composite".equals( cache.get( 10 ).toString() ));
-		assertTrue( "startElement java:org.metawidget.inspector.composite compositeInspector compositeInspector config=\"CompositeInspectorConfig\"".equals( cache.get( 11 ).toString() ));
-		assertTrue( "endElement java:org.metawidget.inspector.composite compositeInspector compositeInspector".equals( cache.get( 12 ).toString() ));
-		assertTrue( "endPrefixMapping ".equals( cache.get( 13 ).toString() ));
-		assertTrue( "characters \n\t\t".equals( cache.get( 14 ).toString() ));
-		assertTrue( "endElement java:org.metawidget.swing inspector inspector".equals( cache.get( 15 ).toString() ));
-		assertTrue( "characters \n\t".equals( cache.get( 16 ).toString() ));
-		assertTrue( "endElement java:org.metawidget.swing swingMetawidget swingMetawidget".equals( cache.get( 17 ).toString() ));
-		assertTrue( "endPrefixMapping ".equals( cache.get( 18 ).toString() ));
-		assertTrue( "characters \n\n".equals( cache.get( 19 ).toString() ));
-		assertTrue( "endElement http://metawidget.org metawidget metawidget".equals( cache.get( 20 ).toString() ));
-		assertTrue( "endPrefixMapping ".equals( cache.get( 21 ).toString() ));
-		assertTrue( "endPrefixMapping xsi".equals( cache.get( 22 ).toString() ));
-		assertTrue( "endDocument".equals( cache.get( 23 ).toString() ));
+		assertTrue( "startDocument".equals( cache.get( 0 ).toString() ) );
+		assertTrue( "startPrefixMapping  http://metawidget.org".equals( cache.get( 1 ).toString() ) );
+		assertTrue( "startPrefixMapping xsi http://www.w3.org/2001/XMLSchema-instance".equals( cache.get( 2 ).toString() ) );
+		assertTrue( "startElement http://metawidget.org metawidget metawidget schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd java:org.metawidget.swing http://metawidget.org/xsd/org.metawidget.swing-1.0.xsd java:org.metawidget.inspector.composite http://metawidget.org/xsd/org.metawidget.inspector.composite-1.0.xsd java:org.metawidget.inspector.xml http://metawidget.org/xsd/org.metawidget.inspector.xml-1.0.xsd\" version=\"1.0\"".equals( cache.get( 3 ).toString() ) );
+		assertTrue( "characters \n\n\t".equals( cache.get( 4 ).toString() ) );
+		assertTrue( "startPrefixMapping  java:org.metawidget.swing".equals( cache.get( 5 ).toString() ) );
+		assertTrue( "startElement java:org.metawidget.swing swingMetawidget swingMetawidget".equals( cache.get( 6 ).toString() ) );
+		assertTrue( "characters \n\t\t".equals( cache.get( 7 ).toString() ) );
+		assertTrue( "startElement java:org.metawidget.swing inspector inspector".equals( cache.get( 8 ).toString() ) );
+		assertTrue( "characters \n\t\t\t".equals( cache.get( 9 ).toString() ) );
+		assertTrue( "startPrefixMapping  java:org.metawidget.inspector.composite".equals( cache.get( 10 ).toString() ) );
+		assertTrue( "startElement java:org.metawidget.inspector.composite compositeInspector compositeInspector config=\"CompositeInspectorConfig\"".equals( cache.get( 11 ).toString() ) );
+		assertTrue( "endElement java:org.metawidget.inspector.composite compositeInspector compositeInspector".equals( cache.get( 12 ).toString() ) );
+		assertTrue( "endPrefixMapping ".equals( cache.get( 13 ).toString() ) );
+		assertTrue( "characters \n\t\t".equals( cache.get( 14 ).toString() ) );
+		assertTrue( "endElement java:org.metawidget.swing inspector inspector".equals( cache.get( 15 ).toString() ) );
+		assertTrue( "characters \n\t".equals( cache.get( 16 ).toString() ) );
+		assertTrue( "endElement java:org.metawidget.swing swingMetawidget swingMetawidget".equals( cache.get( 17 ).toString() ) );
+		assertTrue( "endPrefixMapping ".equals( cache.get( 18 ).toString() ) );
+		assertTrue( "characters \n\n".equals( cache.get( 19 ).toString() ) );
+		assertTrue( "endElement http://metawidget.org metawidget metawidget".equals( cache.get( 20 ).toString() ) );
+		assertTrue( "endPrefixMapping ".equals( cache.get( 21 ).toString() ) );
+		assertTrue( "endPrefixMapping xsi".equals( cache.get( 22 ).toString() ) );
+		assertTrue( "endDocument".equals( cache.get( 23 ).toString() ) );
 
 		assertTrue( 24 == cache.size() );
 
@@ -702,10 +703,10 @@ public class ConfigReaderTest
 
 		@SuppressWarnings( "unchecked" )
 		List<Object> cacheWithNames = (List<Object>) cacheField.get( cachingContentHandler );
-		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 10 ).toString() ));
-		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.layout htmlTableLayout htmlTableLayout config=\"HtmlTableLayoutConfig\"".equals( cacheWithNames.get( 13 ).toString() ));
-		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.layout htmlTableLayout htmlTableLayout".equals( cacheWithNames.get( 14 ).toString() ));
-		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 17 ).toString() ));
+		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 10 ).toString() ) );
+		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.layout htmlTableLayout htmlTableLayout config=\"HtmlTableLayoutConfig\"".equals( cacheWithNames.get( 13 ).toString() ) );
+		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.layout htmlTableLayout htmlTableLayout".equals( cacheWithNames.get( 14 ).toString() ) );
+		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 17 ).toString() ) );
 
 		assertTrue( 29 == cacheWithNames.size() );
 
@@ -721,9 +722,9 @@ public class ConfigReaderTest
 			configReader.configure( "org/metawidget/config/metawidget-test-names.xml", new SpringMetawidgetTag() );
 			assertTrue( false );
 		}
-		catch( MetawidgetException e )
+		catch ( MetawidgetException e )
 		{
-			assertTrue( "org.metawidget.inspector.iface.InspectorException: org.metawidget.iface.MetawidgetException: java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH".equals( e.getMessage() ));
+			assertTrue( "org.metawidget.inspector.iface.InspectorException: org.metawidget.iface.MetawidgetException: java.io.FileNotFoundException: Unable to locate metawidget-metadata.xml on CLASSPATH".equals( e.getMessage() ) );
 		}
 
 		assertTrue( 4 == configReader.mResourceCache.size() );
@@ -996,6 +997,79 @@ public class ConfigReaderTest
 		Field updateStrategyField = BeansBindingProcessor.class.getDeclaredField( "mUpdateStrategy" );
 		updateStrategyField.setAccessible( true );
 		assertTrue( UpdateStrategy.READ_WRITE.equals( updateStrategyField.get( processor ) ) );
+	}
+
+	public void testOnlyCacheIfSuccessful()
+	{
+		ConfigReader configReader = new ConfigReader()
+		{
+			private int	mOpenResource;
+
+			@Override
+			public InputStream openResource( String resource )
+			{
+				String xml = "<?xml version=\"1.0\"?>";
+				xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+				xml += "<htmlMetawidget xmlns=\"java:org.metawidget.faces.component.html\">";
+				xml += "	<inspector>";
+				xml += "		<compositeInspector xmlns=\"java:org.metawidget.inspector.composite\" config=\"CompositeInspectorConfig\">";
+				xml += "			<inspectors>";
+				xml += "				<array>";
+				xml += "					<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\"/>";
+				xml += "					<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\"/>";
+				xml += "					<java5Inspector xmlns=\"java:org.metawidget.inspector.java5\"/>";
+				xml += "					<facesInspector xmlns=\"java:org.metawidget.inspector.faces\"/>";
+				xml += "				</array>";
+				xml += "			</inspectors>";
+				xml += "		</compositeInspector>";
+				xml += "	</inspector>";
+				xml += "	<widgetBuilder>";
+
+				switch ( mOpenResource )
+				{
+					case 0:
+						xml += "		<compositeWidgetBuilderFoo xmlns=\"java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
+						xml += "			<widgetBuilders>";
+						xml += "				<array>";
+						xml += "					<overriddenWidgetBuilder xmlns=\"java:org.metawidget.faces.component.widgetbuilder\"/>";
+						xml += "					<readOnlyWidgetBuilder xmlns=\"java:org.metawidget.faces.component.html.widgetbuilder\"/>";
+						xml += "				</array>";
+						xml += "			</widgetBuilders>";
+						xml += "		</compositeWidgetBuilderFoo>";
+						break;
+
+					default:
+						xml += "		<compositeWidgetBuilder xmlns=\"java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
+						xml += "			<widgetBuilders>";
+						xml += "				<array>";
+						xml += "					<overriddenWidgetBuilder xmlns=\"java:org.metawidget.faces.component.widgetbuilder\"/>";
+						xml += "					<readOnlyWidgetBuilder xmlns=\"java:org.metawidget.faces.component.html.widgetbuilder\"/>";
+						xml += "				</array>";
+						xml += "			</widgetBuilders>";
+						xml += "		</compositeWidgetBuilder>";
+				}
+
+				mOpenResource++;
+
+				xml += "	</widgetBuilder>";
+				xml += "</htmlMetawidget>";
+				xml += "</metawidget>";
+
+				return new ByteArrayInputStream( xml.getBytes() );
+			}
+		};
+
+		try
+		{
+			configReader.configure( "foo", HtmlMetawidget.class );
+			assertTrue( false );
+		}
+		catch ( MetawidgetException e )
+		{
+			assertTrue( "No such class org.metawidget.widgetbuilder.composite.CompositeWidgetBuilderFoo or supported tag <compositeWidgetBuilderFoo>".equals( e.getMessage() ) );
+		}
+
+		assertTrue( configReader.configure( "foo", HtmlMetawidget.class ) != null );
 	}
 
 	//
