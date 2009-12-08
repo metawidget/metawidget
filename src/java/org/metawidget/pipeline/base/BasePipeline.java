@@ -268,8 +268,6 @@ public abstract class BasePipeline<W, E, M extends W>
 	 * fetching it itself, because some XML inspections may be asynchronous.
 	 */
 
-	// TODO: naming around this
-
 	public void buildWidgets( E inspectionResult )
 		throws Exception
 	{
@@ -310,10 +308,10 @@ public abstract class BasePipeline<W, E, M extends W>
 			}
 		}
 
-		// Even if no inspectors match, we still call endBuild() because:
+		// Even if no inspectors match, we still call startBuild()/endBuild() because:
 		//
-		// 1. it makes us behave better in visual builder tools when dropping child widgets in
-		// 2. you can use a Metawidget purely for layout, with no inspection
+		// 1. you can use a Metawidget purely for layout, with no inspection
+		// 2. it makes us behave better in visual builder tools when dropping child widgets in
 
 		endBuild();
 	}
@@ -324,11 +322,11 @@ public abstract class BasePipeline<W, E, M extends W>
 	 * <p>
 	 * Special behaviour is:
 	 * <ul>
+	 * <li>the given pipeline has setReadOnly if the current pipeline has setReadOnly <em>or</em> if
+	 * the attributes map contains <code>READ_ONLY</code></li>
 	 * <li>the given pipeline is initialised with a maximumInspectionDepth of 1 less than the
 	 * current maximumInspectionDepth. This is so that, as nesting continues, eventually the
 	 * maximumInspectionDepth reaches zero</li>
-	 * <li>the given pipeline has setReadOnly if the current pipeline has setReadOnly <em>or</em> if
-	 * the attributes map contains <code>READ_ONLY</code></li>
 	 * <li>the given pipeline is initialised with the same Inspectors, InspectionResultProcessors,
 	 * WidgetBuilders, WidgetProcessors and Layouts as the current pipeline. This is safe because
 	 * they are all immutable</li>
