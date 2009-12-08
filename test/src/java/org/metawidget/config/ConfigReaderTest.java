@@ -55,8 +55,8 @@ import org.metawidget.inspector.struts.StrutsInspector;
 import org.metawidget.inspector.xml.XmlInspector;
 import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.mixin.base.BaseMetawidgetMixin;
-import org.metawidget.mixin.w3c.MetawidgetMixin;
+import org.metawidget.pipeline.base.BasePipeline;
+import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
@@ -209,23 +209,23 @@ public class ConfigReaderTest
 
 		// Test WidgetBuilder
 
-		Field mixinField = SwingMetawidget.class.getDeclaredField( "mMetawidgetMixin" );
-		mixinField.setAccessible( true );
+		Field pipelineField = SwingMetawidget.class.getDeclaredField( "mPipeline" );
+		pipelineField.setAccessible( true );
 		@SuppressWarnings( "unchecked" )
-		MetawidgetMixin<JComponent, SwingMetawidget> mixin1 = (MetawidgetMixin<JComponent, SwingMetawidget>) mixinField.get( metawidget1 );
+		W3CPipeline<JComponent, SwingMetawidget> pipeline1 = (W3CPipeline<JComponent, SwingMetawidget>) pipelineField.get( metawidget1 );
 		@SuppressWarnings( "unchecked" )
-		MetawidgetMixin<JComponent, SwingMetawidget> mixin2 = (MetawidgetMixin<JComponent, SwingMetawidget>) mixinField.get( metawidget2 );
+		W3CPipeline<JComponent, SwingMetawidget> pipeline2 = (W3CPipeline<JComponent, SwingMetawidget>) pipelineField.get( metawidget2 );
 
-		Field widgetBuilderField = BaseMetawidgetMixin.class.getDeclaredField( "mWidgetBuilder" );
+		Field widgetBuilderField = BasePipeline.class.getDeclaredField( "mWidgetBuilder" );
 		widgetBuilderField.setAccessible( true );
 
-		assertTrue( null == widgetBuilderField.get( mixin1 ) );
+		assertTrue( null == widgetBuilderField.get( pipeline1 ) );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "widgetBuilder" );
 
 		@SuppressWarnings( "unchecked" )
-		CompositeWidgetBuilder<JComponent, SwingMetawidget> compositeWidgetBuilder1 = (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilderField.get( mixin1 );
+		CompositeWidgetBuilder<JComponent, SwingMetawidget> compositeWidgetBuilder1 = (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilderField.get( pipeline1 );
 		@SuppressWarnings( "unchecked" )
-		CompositeWidgetBuilder<JComponent, SwingMetawidget> compositeWidgetBuilder2 = (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilderField.get( mixin2 );
+		CompositeWidgetBuilder<JComponent, SwingMetawidget> compositeWidgetBuilder2 = (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilderField.get( pipeline2 );
 
 		// Will be the same, even though InputStreams
 
@@ -237,14 +237,14 @@ public class ConfigReaderTest
 
 		// Test Inspector
 
-		Field inspectorField = BaseMetawidgetMixin.class.getDeclaredField( "mInspector" );
+		Field inspectorField = BasePipeline.class.getDeclaredField( "mInspector" );
 		inspectorField.setAccessible( true );
 
-		assertTrue( null == inspectorField.get( mixin1 ) );
+		assertTrue( null == inspectorField.get( pipeline1 ) );
 		configReader.configure( new ByteArrayInputStream( xml.getBytes() ), metawidget1, "inspector" );
 
-		CompositeInspector compositeInspector1 = (CompositeInspector) inspectorField.get( mixin1 );
-		CompositeInspector compositeInspector2 = (CompositeInspector) inspectorField.get( mixin1 );
+		CompositeInspector compositeInspector1 = (CompositeInspector) inspectorField.get( pipeline1 );
+		CompositeInspector compositeInspector2 = (CompositeInspector) inspectorField.get( pipeline1 );
 
 		assertTrue( compositeInspector1 == compositeInspector2 );
 
@@ -292,7 +292,7 @@ public class ConfigReaderTest
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget>";
-		xml += "	<titledPanelSectionLayout xmlns=\"java:org.metawidget.swing.layout\"/>";
+		xml += "	<titledPanelSectionLayoutDecorator xmlns=\"java:org.metawidget.swing.layout\"/>";
 		xml += "</metawidget>";
 
 		try
@@ -302,7 +302,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "class org.metawidget.swing.layout.TitledPanelSectionLayout does not have a default constructor. Did you mean config=\"org.metawidget.layout.decorator.LayoutDecorator\"?".equals( e.getMessage() ) );
+			assertTrue( "class org.metawidget.swing.layout.TitledPanelSectionLayoutDecorator does not have a default constructor. Did you mean config=\"org.metawidget.layout.decorator.LayoutDecoratorConfig\"?".equals( e.getMessage() ) );
 		}
 
 		// Without config hint
@@ -812,18 +812,18 @@ public class ConfigReaderTest
 
 		assertTrue( metawidget1 != metawidget2 );
 
-		Field mixinField = SwingMetawidget.class.getDeclaredField( "mMetawidgetMixin" );
-		mixinField.setAccessible( true );
+		Field pipelineField = SwingMetawidget.class.getDeclaredField( "mPipeline" );
+		pipelineField.setAccessible( true );
 		@SuppressWarnings( "unchecked" )
-		MetawidgetMixin<JComponent, SwingMetawidget> mixin1 = (MetawidgetMixin<JComponent, SwingMetawidget>) mixinField.get( metawidget1 );
+		W3CPipeline<JComponent, SwingMetawidget> pipeline1 = (W3CPipeline<JComponent, SwingMetawidget>) pipelineField.get( metawidget1 );
 		@SuppressWarnings( "unchecked" )
-		MetawidgetMixin<JComponent, SwingMetawidget> mixin2 = (MetawidgetMixin<JComponent, SwingMetawidget>) mixinField.get( metawidget2 );
-		assertTrue( mixin1 != mixin2 );
+		W3CPipeline<JComponent, SwingMetawidget> pipeline2 = (W3CPipeline<JComponent, SwingMetawidget>) pipelineField.get( metawidget2 );
+		assertTrue( pipeline1 != pipeline2 );
 
 		// Inspectors should be the same, because resources are cached even though it contains
 		// InputStreams
 
-		assertTrue( mixin1.getInspector() == mixin2.getInspector() );
+		assertTrue( pipeline1.getInspector() == pipeline2.getInspector() );
 
 		// Test what got cached
 

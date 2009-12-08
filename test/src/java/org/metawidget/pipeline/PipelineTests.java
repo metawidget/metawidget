@@ -14,19 +14,19 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.mixin;
+package org.metawidget.pipeline;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.metawidget.mixin.w3c.MetawidgetMixinTest;
+import org.metawidget.pipeline.w3c.MetawidgetPipelineTest;
 
 /**
  * @author Richard Kennard
  */
 
-public class MixinTests
+public class PipelineTests
 	extends TestCase
 {
 	//
@@ -35,8 +35,8 @@ public class MixinTests
 
 	public static Test suite()
 	{
-		TestSuite suite = new TestSuite( "Mixin Tests" );
-		suite.addTestSuite( MetawidgetMixinTest.class );
+		TestSuite suite = new TestSuite( "Pipeline Tests" );
+		suite.addTestSuite( MetawidgetPipelineTest.class );
 
 		return suite;
 	}

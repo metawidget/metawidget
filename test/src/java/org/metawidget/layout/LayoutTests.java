@@ -20,7 +20,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.metawidget.layout.delegate.LayoutDecoratorTest;
+import org.metawidget.layout.decorator.LayoutDecoratorTest;
 import org.metawidget.layout.iface.LayoutExceptionTest;
 import org.metawidget.layout.impl.LayoutUtilsTest;
 

@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.annotation.UiLarge;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.layout.delegate.LayoutDecoratorTest;
+import org.metawidget.layout.decorator.LayoutDecoratorTest;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
@@ -44,8 +44,8 @@ public class TabbedPaneSectionLayoutTest
 
 	public void testConfig()
 	{
-		TabbedPaneSectionLayoutConfig config1 = new TabbedPaneSectionLayoutConfig();
-		TabbedPaneSectionLayoutConfig config2 = new TabbedPaneSectionLayoutConfig();
+		TabbedPaneSectionLayoutDecoratorConfig config1 = new TabbedPaneSectionLayoutDecoratorConfig();
+		TabbedPaneSectionLayoutDecoratorConfig config2 = new TabbedPaneSectionLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config2 ) );
@@ -70,7 +70,7 @@ public class TabbedPaneSectionLayoutTest
 	public void testTabPlacement()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayoutDecorator( new TabbedPaneSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
+		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayoutDecorator( new TabbedPaneSectionLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
 		metawidget.setToInspect( new Foo() );
 
 		JTabbedPane tabbedPane = (JTabbedPane) metawidget.getComponent( 0 );
@@ -82,7 +82,7 @@ public class TabbedPaneSectionLayoutTest
 		assertTrue( panel.getComponent( 2 ) instanceof JPanel );
 		assertTrue( 3 == panel.getComponentCount() );
 
-		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayoutDecorator( new TabbedPaneSectionLayoutConfig().setTabPlacement( SwingConstants.BOTTOM ).setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
+		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayoutDecorator( new TabbedPaneSectionLayoutDecoratorConfig().setTabPlacement( SwingConstants.BOTTOM ).setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
 		tabbedPane = (JTabbedPane) metawidget.getComponent( 0 );
 		assertTrue( "Section".equals( tabbedPane.getTitleAt( 0 ) ) );
 		assertTrue( SwingConstants.BOTTOM == tabbedPane.getTabPlacement() );
@@ -96,7 +96,7 @@ public class TabbedPaneSectionLayoutTest
 	public void testNestedTabs()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayoutDecorator( new TabbedPaneSectionLayoutConfig().setLayout( new TabbedPaneSectionLayoutDecorator( new TabbedPaneSectionLayoutConfig().setLayout( new GridBagLayout() ) ) ) ) );
+		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayoutDecorator( new TabbedPaneSectionLayoutDecoratorConfig().setLayout( new TabbedPaneSectionLayoutDecorator( new TabbedPaneSectionLayoutDecoratorConfig().setLayout( new GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );

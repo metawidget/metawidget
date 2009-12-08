@@ -36,7 +36,7 @@ import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.jsp.ServletConfigReader;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.mixin.w3c.MetawidgetMixin;
+import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
@@ -98,7 +98,7 @@ public abstract class MetawidgetTag
 
 	private Map<Object, Object>					mClientProperties;
 
-	private MetawidgetMixin<Tag, MetawidgetTag>	mMetawidgetMixin;
+	private W3CPipeline<Tag, MetawidgetTag>	mPipeline;
 
 	//
 	// Constructor
@@ -106,7 +106,7 @@ public abstract class MetawidgetTag
 
 	public MetawidgetTag()
 	{
-		mMetawidgetMixin = newMetawidgetMixin();
+		mPipeline = newPipeline();
 	}
 
 	//
@@ -224,38 +224,38 @@ public abstract class MetawidgetTag
 
 	public boolean isReadOnly()
 	{
-		return mMetawidgetMixin.isReadOnly();
+		return mPipeline.isReadOnly();
 	}
 
 	public void setReadOnly( boolean readOnly )
 	{
-		mMetawidgetMixin.setReadOnly( readOnly );
+		mPipeline.setReadOnly( readOnly );
 	}
 
 	public void setInspector( Inspector inspector )
 	{
-		mMetawidgetMixin.setInspector( inspector );
+		mPipeline.setInspector( inspector );
 	}
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<Element, MetawidgetTag>... inspectionResultProcessors )
 	{
-		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
+		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 	}
 
 	@SuppressWarnings( "unchecked" )
 	public void setWidgetBuilder( WidgetBuilder<Object, ? extends MetawidgetTag> widgetBuilder )
 	{
-		mMetawidgetMixin.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
+		mPipeline.setWidgetBuilder( (WidgetBuilder) widgetBuilder );
 	}
 
 	public void setWidgetProcessors( WidgetProcessor<Tag, MetawidgetTag>... WidgetProcessors )
 	{
-		mMetawidgetMixin.setWidgetProcessors( CollectionUtils.newArrayList( WidgetProcessors ) );
+		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( WidgetProcessors ) );
 	}
 
 	public void setLayout( Layout<Tag, MetawidgetTag> layout )
 	{
-		mMetawidgetMixin.setLayout( layout );
+		mPipeline.setLayout( layout );
 	}
 
 	/**
@@ -273,7 +273,7 @@ public abstract class MetawidgetTag
 
 	public Element inspect( Object toInspect, String type, String... names )
 	{
-		return mMetawidgetMixin.inspect( toInspect, type, names );
+		return mPipeline.inspect( toInspect, type, names );
 	}
 
 	/**
@@ -328,7 +328,7 @@ public abstract class MetawidgetTag
 
 		try
 		{
-			mMetawidgetMixin.buildWidgets( inspect() );
+			mPipeline.buildWidgets( inspect() );
 		}
 		catch ( Exception e )
 		{
@@ -392,20 +392,20 @@ public abstract class MetawidgetTag
 	}
 
 	/**
-	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * Instantiate the Pipeline used by this Metawidget.
 	 * <p>
-	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
+	 * Subclasses wishing to use their own Pipeline should override this method to
 	 * instantiate their version.
 	 */
 
-	protected MetawidgetMixin<Tag, MetawidgetTag> newMetawidgetMixin()
+	protected W3CPipeline<Tag, MetawidgetTag> newPipeline()
 	{
-		return new MetawidgetTagMixin();
+		return new MetawidgetTagPipeline();
 	}
 
-	protected MetawidgetMixin<Tag, MetawidgetTag> getMetawidgetMixin()
+	protected W3CPipeline<Tag, MetawidgetTag> getPipeline()
 	{
-		return mMetawidgetMixin;
+		return mPipeline;
 	}
 
 	protected abstract void beforeBuildCompoundWidget( Element element );
@@ -418,7 +418,7 @@ public abstract class MetawidgetTag
 
 		// ...instead, copy runtime values
 
-		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
+		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
 		nestedMetawidget.setPathInternal( mPath + StringUtils.SEPARATOR_DOT_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setBundle( mBundle );
 	}
@@ -517,7 +517,7 @@ public abstract class MetawidgetTag
 				}
 			}
 
-			mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration(), MetawidgetTag.class );
+			mPipeline.configureDefaults( configReader, getDefaultConfiguration(), MetawidgetTag.class );
 		}
 		catch ( Exception e )
 		{
@@ -531,8 +531,8 @@ public abstract class MetawidgetTag
 	// Inner class
 	//
 
-	protected class MetawidgetTagMixin
-		extends MetawidgetMixin<Tag, MetawidgetTag>
+	protected class MetawidgetTagPipeline
+		extends W3CPipeline<Tag, MetawidgetTag>
 	{
 		//
 		// Protected methods
@@ -566,15 +566,15 @@ public abstract class MetawidgetTag
 		}
 
 		@Override
-		protected MetawidgetTag getMixinOwner()
+		protected MetawidgetTag getPipelineOwner()
 		{
 			return MetawidgetTag.this;
 		}
 
 		@Override
-		protected MetawidgetMixin<Tag, MetawidgetTag> getNestedMixin( MetawidgetTag metawidget )
+		protected W3CPipeline<Tag, MetawidgetTag> getNestedPipeline( MetawidgetTag metawidget )
 		{
-			return metawidget.getMetawidgetMixin();
+			return metawidget.getPipeline();
 		}
 	}
 }

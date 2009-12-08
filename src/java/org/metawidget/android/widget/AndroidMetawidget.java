@@ -38,7 +38,7 @@ import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.mixin.w3c.MetawidgetMixin;
+import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -111,7 +111,7 @@ public class AndroidMetawidget
 
 	private Map<Object, Object>												mClientProperties;
 
-	private AndroidMetawidgetMixin											mMetawidgetMixin;
+	private Pipeline										mPipeline;
 
 	//
 	// Constructor
@@ -120,7 +120,7 @@ public class AndroidMetawidget
 	public AndroidMetawidget( Context context )
 	{
 		super( context );
-		mMetawidgetMixin = newMetawidgetMixin();
+		mPipeline = newPipeline();
 
 		setOrientation( LinearLayout.VERTICAL );
 	}
@@ -128,7 +128,7 @@ public class AndroidMetawidget
 	public AndroidMetawidget( Context context, AttributeSet attributes )
 	{
 		super( context, attributes );
-		mMetawidgetMixin = newMetawidgetMixin();
+		mPipeline = newPipeline();
 
 		setOrientation( LinearLayout.VERTICAL );
 
@@ -144,7 +144,7 @@ public class AndroidMetawidget
 		String readOnly = attributes.getAttributeValue( null, "readOnly" );
 
 		if ( readOnly != null && !"".equals( readOnly ) )
-			mMetawidgetMixin.setReadOnly( Boolean.parseBoolean( readOnly ) );
+			mPipeline.setReadOnly( Boolean.parseBoolean( readOnly ) );
 	}
 
 	//
@@ -212,19 +212,19 @@ public class AndroidMetawidget
 
 	public void setInspector( Inspector inspector )
 	{
-		mMetawidgetMixin.setInspector( inspector );
+		mPipeline.setInspector( inspector );
 		invalidateInspection();
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<View, AndroidMetawidget> widgetBuilder )
 	{
-		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+		mPipeline.setWidgetBuilder( widgetBuilder );
 		invalidateInspection();
 	}
 
 	public void setLayout( Layout<View, AndroidMetawidget> layout )
 	{
-		mMetawidgetMixin.setLayout( layout );
+		mPipeline.setLayout( layout );
 		invalidateInspection();
 	}
 
@@ -304,26 +304,26 @@ public class AndroidMetawidget
 
 	public boolean isReadOnly()
 	{
-		return mMetawidgetMixin.isReadOnly();
+		return mPipeline.isReadOnly();
 	}
 
 	public void setReadOnly( boolean readOnly )
 	{
-		if ( mMetawidgetMixin.isReadOnly() == readOnly )
+		if ( mPipeline.isReadOnly() == readOnly )
 			return;
 
-		mMetawidgetMixin.setReadOnly( readOnly );
+		mPipeline.setReadOnly( readOnly );
 		invalidateWidgets();
 	}
 
 	public int getMaximumInspectionDepth()
 	{
-		return mMetawidgetMixin.getMaximumInspectionDepth();
+		return mPipeline.getMaximumInspectionDepth();
 	}
 
 	public void setMaximumInspectionDepth( int maximumInspectionDepth )
 	{
-		mMetawidgetMixin.setMaximumInspectionDepth( maximumInspectionDepth );
+		mPipeline.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
 
@@ -427,7 +427,7 @@ public class AndroidMetawidget
 		if ( view == null )
 			throw MetawidgetException.newException( "No View with tag " + ArrayUtils.toString( names ) );
 
-		return (T) getValue( view, mMetawidgetMixin.getWidgetBuilder() );
+		return (T) getValue( view, mPipeline.getWidgetBuilder() );
 	}
 
 	/**
@@ -448,7 +448,7 @@ public class AndroidMetawidget
 		if ( view == null )
 			throw MetawidgetException.newException( "No View with tag " + ArrayUtils.toString( names ) );
 
-		if ( !setValue( value, view, mMetawidgetMixin.getWidgetBuilder() ) )
+		if ( !setValue( value, view, mPipeline.getWidgetBuilder() ) )
 			throw MetawidgetException.newException( "Don't know how to setValue of a " + view.getClass().getName() );
 	}
 
@@ -465,7 +465,7 @@ public class AndroidMetawidget
 
 	public Element inspect( Object toInspect, String type, String... names )
 	{
-		return mMetawidgetMixin.inspect( toInspect, type, names );
+		return mPipeline.inspect( toInspect, type, names );
 	}
 
 	/**
@@ -485,20 +485,20 @@ public class AndroidMetawidget
 	//
 
 	/**
-	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * Instantiate the Pipeline used by this Metawidget.
 	 * <p>
-	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
-	 * instantiate their version.
+	 * Subclasses wishing to use their own Pipeline should override this method to instantiate their
+	 * version.
 	 */
 
-	protected AndroidMetawidgetMixin newMetawidgetMixin()
+	protected Pipeline newPipeline()
 	{
-		return new AndroidMetawidgetMixin();
+		return new Pipeline();
 	}
 
-	protected AndroidMetawidgetMixin getMetawidgetMixin()
+	protected Pipeline getPipeline()
 	{
-		return mMetawidgetMixin;
+		return mPipeline;
 	}
 
 	@Override
@@ -554,7 +554,7 @@ public class AndroidMetawidget
 			// Unlike the other Metawidgets, we don't handle these via ConfigReader because we
 			// couldn't figure out how to read a metawidget-android-default.xml file from the JAR
 
-			if ( mMetawidgetMixin.getInspector() == null )
+			if ( mPipeline.getInspector() == null )
 			{
 				if ( DEFAULT_INSPECTOR == null )
 				{
@@ -566,18 +566,18 @@ public class AndroidMetawidget
 					DEFAULT_INSPECTOR = new CompositeInspector( new CompositeInspectorConfig().setInspectors( new PropertyTypeInspector(), annotationInspector ) );
 				}
 
-				mMetawidgetMixin.setInspector( DEFAULT_INSPECTOR );
+				mPipeline.setInspector( DEFAULT_INSPECTOR );
 			}
 
-			if ( mMetawidgetMixin.getInspectionResultProcessors() == null )
+			if ( mPipeline.getInspectionResultProcessors() == null )
 			{
 				if ( DEFAULT_INSPECTIONRESULTPROCESSOR == null )
 					DEFAULT_INSPECTIONRESULTPROCESSOR = new SortByComesAfterInspectionResultProcessor<AndroidMetawidget>();
 
-				mMetawidgetMixin.addInspectionResultProcessor( DEFAULT_INSPECTIONRESULTPROCESSOR );
+				mPipeline.addInspectionResultProcessor( DEFAULT_INSPECTIONRESULTPROCESSOR );
 			}
 
-			if ( mMetawidgetMixin.getWidgetBuilder() == null )
+			if ( mPipeline.getWidgetBuilder() == null )
 			{
 				if ( DEFAULT_WIDGETBUILDER == null )
 				{
@@ -586,15 +586,15 @@ public class AndroidMetawidget
 					DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<View, AndroidMetawidget>( config );
 				}
 
-				mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
+				mPipeline.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
 			}
 
-			if ( mMetawidgetMixin.getLayout() == null )
+			if ( mPipeline.getLayout() == null )
 			{
 				if ( DEFAULT_LAYOUT == null )
 					DEFAULT_LAYOUT = new HeadingSectionLayoutDecorator( new HeadingSectionLayoutDecoratorConfig().setLayout( new TableLayout() ) );
 
-				mMetawidgetMixin.setLayout( DEFAULT_LAYOUT );
+				mPipeline.setLayout( DEFAULT_LAYOUT );
 			}
 		}
 		catch ( Exception e )
@@ -620,7 +620,7 @@ public class AndroidMetawidget
 			if ( mLastInspection == null )
 				mLastInspection = inspect();
 
-			mMetawidgetMixin.buildWidgets( mLastInspection );
+			mPipeline.buildWidgets( mLastInspection );
 		}
 		catch ( Exception e )
 		{
@@ -667,20 +667,20 @@ public class AndroidMetawidget
 
 		// Remove, then re-add to layout (to re-order the component)
 
-		if ( mMetawidgetMixin.getLayout() != null )
+		if ( mPipeline.getLayout() != null )
 		{
 			if ( view.getParent() != null )
 				( (ViewGroup) view.getParent() ).removeView( view );
 		}
 
-		// BaseMetawidgetMixin will call .layoutChild
+		// BasePipeline will call .layoutWidget
 	}
 
 	protected void endBuild()
 	{
 		// End layout
 
-		Layout<View, AndroidMetawidget> layout = mMetawidgetMixin.getLayout();
+		Layout<View, AndroidMetawidget> layout = mPipeline.getLayout();
 
 		if ( layout != null )
 		{
@@ -709,7 +709,7 @@ public class AndroidMetawidget
 
 	protected void initNestedMetawidget( AndroidMetawidget nestedMetawidget, Map<String, String> attributes )
 	{
-		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
+		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setBundle( mBundle );
 		nestedMetawidget.setToInspect( mToInspect );
@@ -808,7 +808,7 @@ public class AndroidMetawidget
 	{
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder<?,?> )
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> )
 		{
 			for ( WidgetBuilder<View, AndroidMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<View, AndroidMetawidget>) widgetBuilder ).getWidgetBuilders() )
 			{
@@ -833,7 +833,7 @@ public class AndroidMetawidget
 	{
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder<?,?> )
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> )
 		{
 			for ( WidgetBuilder<View, AndroidMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<View, AndroidMetawidget>) widgetBuilder ).getWidgetBuilders() )
 			{
@@ -856,8 +856,8 @@ public class AndroidMetawidget
 	// Inner class
 	//
 
-	protected class AndroidMetawidgetMixin
-		extends MetawidgetMixin<View, AndroidMetawidget>
+	protected class Pipeline
+		extends W3CPipeline<View, AndroidMetawidget>
 	{
 		//
 		// Protected methods
@@ -905,15 +905,15 @@ public class AndroidMetawidget
 		}
 
 		@Override
-		protected AndroidMetawidget getMixinOwner()
+		protected AndroidMetawidget getPipelineOwner()
 		{
 			return AndroidMetawidget.this;
 		}
 
 		@Override
-		protected MetawidgetMixin<View, AndroidMetawidget> getNestedMixin( AndroidMetawidget metawidget )
+		protected W3CPipeline<View, AndroidMetawidget> getNestedPipeline( AndroidMetawidget metawidget )
 		{
-			return metawidget.getMetawidgetMixin();
+			return metawidget.getPipeline();
 		}
 	}
 }

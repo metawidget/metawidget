@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.metawidget.mixin.base.BaseMetawidgetMixin;
+import org.metawidget.pipeline.base.BasePipeline;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 import com.google.gwt.xml.client.Document;
@@ -31,20 +31,20 @@ import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
 
 /**
- * Mixin for platforms that use <code>com.google.gwt.xml.client</code>.
+ * Pipeline for platforms that use <code>com.google.gwt.xml.client</code>.
  *
  * @author Richard Kennard
  */
 
-public abstract class GwtMetawidgetMixin<W, M extends W>
-	extends BaseMetawidgetMixin<W, Element, M>
+public abstract class GwtPipeline<W, M extends W>
+	extends BasePipeline<W, Element, M>
 {
 	//
 	// Public methods
 	//
 
 	/**
-	 * Returns the first WidgetProcessor in this mixin's list of WidgetProcessors (ie. as added by
+	 * Returns the first WidgetProcessor in this pipeline's list of WidgetProcessors (ie. as added by
 	 * <code>addWidgetProcessor</code>) that equals the given class. Note this implementation does not
 	 * use <code>isAssignableFrom</code>, because GWT does not support it.
 	 *

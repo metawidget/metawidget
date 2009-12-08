@@ -29,7 +29,7 @@ import org.metawidget.swing.SwingMetawidget;
  * @author Richard Kennard
  */
 
-public class TabbedPaneSectionLayoutConfig
+public class TabbedPaneSectionLayoutDecoratorConfig
 	extends LayoutDecoratorConfig<JComponent, SwingMetawidget>
 {
 	//
@@ -49,7 +49,7 @@ public class TabbedPaneSectionLayoutConfig
 	 */
 
 	@Override
-	public TabbedPaneSectionLayoutConfig setLayout( Layout<JComponent, SwingMetawidget> layout )
+	public TabbedPaneSectionLayoutDecoratorConfig setLayout( Layout<JComponent, SwingMetawidget> layout )
 	{
 		super.setLayout( layout );
 
@@ -68,7 +68,7 @@ public class TabbedPaneSectionLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public TabbedPaneSectionLayoutConfig setTabPlacement( int TabPlacement )
+	public TabbedPaneSectionLayoutDecoratorConfig setTabPlacement( int TabPlacement )
 	{
 		mTabPlacement = TabPlacement;
 
@@ -78,10 +78,10 @@ public class TabbedPaneSectionLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof TabbedPaneSectionLayoutConfig ) )
+		if ( !( that instanceof TabbedPaneSectionLayoutDecoratorConfig ) )
 			return false;
 
-		if ( mTabPlacement != ( (TabbedPaneSectionLayoutConfig) that ).mTabPlacement )
+		if ( mTabPlacement != ( (TabbedPaneSectionLayoutDecoratorConfig) that ).mTabPlacement )
 			return false;
 
 		return super.equals( that );

@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.mixin.base;
+package org.metawidget.pipeline.base;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -29,31 +29,31 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
- * Mixin to help build Metawidgets.
+ * Convenience implementation for implementing pipelines.
  * <p>
- * Use of MetawidgetMixin when developing Metawidgets is entirely optional. However, it provides a
+ * Use of BasePipeline when developing Metawidgets is entirely optional. However, it provides a
  * level of functionality and structure to the code which most Metawidgets will benefit from.
  * <p>
- * Specifically, the mixin provides support for:
+ * Specifically, BasePipeline provides support for:
  * <ul>
+ * <li>Inspectors, InspectionResultProcessors, WidgetBuilders, WidgetProcessors and Layouts</li>
  * <li>single/compound widgets</li>
- * <li>widget overriding</li>
  * <li>stubs/stub attributes</li>
  * <li>read-only/active widgets</li>
  * <li>maximum inspection depth</li>
  * </ul>
- * This base class abstracts the Metawidget lifecycle without enforcing which XML libraries to use.
- * Most subclasses will choose <code>org.metawidget.mixin.w3c.MetawidgetMixin</code>, which uses
+ * This base class abstracts the pipeline without enforcing which XML libraries to use. Most
+ * subclasses will choose <code>org.metawidget.pipeline.w3c.W3CPipeline</code>, which uses
  * <code>org.w3c.dom</code>.
  * <p>
- * Note: this class is located in <code>org.metawidget.mixin.base</code>, as opposed to just
- * <code>org.metawidget.mixin</code>, to make it easier to integrate GWT (which is bad at ignoring
- * sub-packages such as <code>org.metawidget.mixin.w3c</code>).
+ * Note: this class is located in <code>org.metawidget.pipeline.base</code>, as opposed to just
+ * <code>org.metawidget.pipeline</code>, to make it easier to integrate GWT (which is bad at
+ * ignoring sub-packages such as <code>org.metawidget.pipeline.w3c</code>).
  *
  * @author Richard Kennard
  */
 
-public abstract class BaseMetawidgetMixin<W, E, M extends W>
+public abstract class BasePipeline<W, E, M extends W>
 {
 	//
 	// Private statics
@@ -131,7 +131,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	/**
 	 * Gets the List of InspectionResultProcessors.
 	 * <p>
-	 * This mixin only references a single Inspector and single WidgetBuilder. It relies on
+	 * This pipeline only references a single Inspector and single WidgetBuilder. It relies on
 	 * CompositeInspector and CompositeWidgetBuilder to support multiples, which allows the
 	 * combination algorithm itself to be pluggable.
 	 * <p>
@@ -178,7 +178,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	/**
 	 * Gets the List of WidgetProcessors.
 	 * <p>
-	 * This mixin only references a single Inspector and single WidgetBuilder. It relies on
+	 * This pipeline only references a single Inspector and single WidgetBuilder. It relies on
 	 * CompositeInspector and CompositeWidgetBuilder to support multiples, which allows the
 	 * combination algorithm itself to be pluggable.
 	 * <p>
@@ -231,10 +231,6 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	/**
 	 * Set the Layout to use for the Metawidget.
-	 * <p>
-	 * Not all Metawidgets will use MetawidgetMixin's implemention of Layout (for example,
-	 * UIMetawidget uses the standard JSF Renderer), so it is safe to leave this as
-	 * <code>null</code>.
 	 */
 
 	public void setLayout( Layout<W, M> layout )
@@ -268,9 +264,11 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	/**
 	 * Build widgets from the given XML inspection result.
 	 * <p>
-	 * Note: the <code>BaseMetawidgetMixin</code> expects the XML to be passed in internally, rather
-	 * than fetching it itself, because some XML inspections may be asynchronous.
+	 * Note: the <code>BasePipeline</code> expects the XML to be passed in internally, rather than
+	 * fetching it itself, because some XML inspections may be asynchronous.
 	 */
+
+	// TODO: naming around this
 
 	public void buildWidgets( E inspectionResult )
 		throws Exception
@@ -321,33 +319,34 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	}
 
 	/**
-	 * Copies this mixin's values into another mixin. Useful for when a Metawidget creates a nested
-	 * Metawidget.
+	 * Copies this pipeline's values into another pipeline. Useful for when a Metawidget creates a
+	 * nested Metawidget.
 	 * <p>
 	 * Special behaviour is:
 	 * <ul>
-	 * <li>the given mixin is initialised with a maximumInspectionDepth of 1 less than the current
-	 * maximumInspectionDepth. This is so that, as nesting continues, eventually the
+	 * <li>the given pipeline is initialised with a maximumInspectionDepth of 1 less than the
+	 * current maximumInspectionDepth. This is so that, as nesting continues, eventually the
 	 * maximumInspectionDepth reaches zero</li>
-	 * <li>the given mixin has setReadOnly if the current mixin has setReadOnly <em>or</em> if the
-	 * attributes map contains <code>READ_ONLY</code></li>
-	 * <li>the given mixin is initialised with the same Inspectors, WidgetBuilders, WidgetProcessors
-	 * and Layouts as the current mixin. This is safe because they are all immutable</li>
+	 * <li>the given pipeline has setReadOnly if the current pipeline has setReadOnly <em>or</em> if
+	 * the attributes map contains <code>READ_ONLY</code></li>
+	 * <li>the given pipeline is initialised with the same Inspectors, InspectionResultProcessors,
+	 * WidgetBuilders, WidgetProcessors and Layouts as the current pipeline. This is safe because
+	 * they are all immutable</li>
 	 * </ul>
 	 */
 
-	public void initNestedMixin( BaseMetawidgetMixin<W, E, M> nestedMixin, Map<String, String> attributes )
+	public void initNestedPipeline( BasePipeline<W, E, M> nestedPipeline, Map<String, String> attributes )
 	{
-		nestedMixin.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
-		nestedMixin.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
+		nestedPipeline.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
+		nestedPipeline.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
 
 		// Inspectors, WidgetBuilders, WidgetProcessors and Layouts can be shared because they are
 		// immutable
 
-		nestedMixin.setInspector( getInspector() );
-		nestedMixin.setWidgetBuilder( getWidgetBuilder() );
-		nestedMixin.setWidgetProcessors( getWidgetProcessors() );
-		nestedMixin.setLayout( getLayout() );
+		nestedPipeline.setInspector( getInspector() );
+		nestedPipeline.setWidgetBuilder( getWidgetBuilder() );
+		nestedPipeline.setWidgetProcessors( getWidgetProcessors() );
+		nestedPipeline.setLayout( getLayout() );
 	}
 
 	//
@@ -439,20 +438,20 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	protected void startBuild()
 	{
-		M mixinOwner = getMixinOwner();
+		M pipelineOwner = getPipelineOwner();
 
 		if ( mWidgetProcessors != null )
 		{
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				widgetProcessor.onStartBuild( mixinOwner );
+				widgetProcessor.onStartBuild( pipelineOwner );
 			}
 		}
 
-		// TODO: move to start of layout in pipeline
+		// (layout can be null if no path, in an IDE visual builder)
 
 		if ( mLayout != null )
-			mLayout.startLayout( mixinOwner, mixinOwner );
+			mLayout.startLayout( pipelineOwner, pipelineOwner );
 	}
 
 	protected E processInspectionResult( E inspectionResult )
@@ -461,11 +460,11 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 		if ( mInspectionResultProcessors != null )
 		{
-			M mixinOwner = getMixinOwner();
+			M pipelineOwner = getPipelineOwner();
 
 			for ( InspectionResultProcessor<E, M> inspectionResultProcessor : mInspectionResultProcessors )
 			{
-				processedInspectionResult = inspectionResultProcessor.processInspectionResult( processedInspectionResult, mixinOwner );
+				processedInspectionResult = inspectionResultProcessor.processInspectionResult( processedInspectionResult, pipelineOwner );
 
 				// An InspectionResultProcessor could return null to cancel the inspection
 
@@ -490,7 +489,7 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 	protected W buildWidget( String elementName, Map<String, String> attributes )
 	{
-		return mWidgetBuilder.buildWidget( elementName, attributes, getMixinOwner() );
+		return mWidgetBuilder.buildWidget( elementName, attributes, getPipelineOwner() );
 	}
 
 	/**
@@ -510,11 +509,11 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 
 		if ( mWidgetProcessors != null )
 		{
-			M mixinOwner = getMixinOwner();
+			M pipelineOwner = getPipelineOwner();
 
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				processedWidget = widgetProcessor.processWidget( processedWidget, elementName, attributes, mixinOwner );
+				processedWidget = widgetProcessor.processWidget( processedWidget, elementName, attributes, pipelineOwner );
 
 				// A WidgetProcessor could return null to cancel the widget
 
@@ -529,30 +528,29 @@ public abstract class BaseMetawidgetMixin<W, E, M extends W>
 	protected abstract M buildNestedMetawidget( Map<String, String> attributes )
 		throws Exception;
 
-	protected abstract M getMixinOwner();
+	protected abstract M getPipelineOwner();
 
 	protected void addWidget( W widget, String elementName, Map<String, String> attributes )
 	{
-		if ( mLayout != null )
-		{
-			M mixinOwner = getMixinOwner();
-			mLayout.layoutWidget( widget, elementName, attributes, mixinOwner, mixinOwner );
-		}
+		M pipelineOwner = getPipelineOwner();
+		mLayout.layoutWidget( widget, elementName, attributes, pipelineOwner, pipelineOwner );
 	}
 
 	protected void endBuild()
 	{
-		M mixinOwner = getMixinOwner();
+		M pipelineOwner = getPipelineOwner();
 
 		if ( mWidgetProcessors != null )
 		{
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				widgetProcessor.onEndBuild( mixinOwner );
+				widgetProcessor.onEndBuild( pipelineOwner );
 			}
 		}
 
+		// (layout can be null if no path, in an IDE visual builder)
+
 		if ( mLayout != null )
-			mLayout.endLayout( mixinOwner, mixinOwner );
+			mLayout.endLayout( pipelineOwner, pipelineOwner );
 	}
 }

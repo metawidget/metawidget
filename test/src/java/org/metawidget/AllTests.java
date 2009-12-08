@@ -31,7 +31,7 @@ import org.metawidget.inspectionresultprocessor.InspectionResultProcessorTests;
 import org.metawidget.inspector.InspectorTests;
 import org.metawidget.jsp.JspMetawidgetTests;
 import org.metawidget.layout.LayoutTests;
-import org.metawidget.mixin.MixinTests;
+import org.metawidget.pipeline.PipelineTests;
 import org.metawidget.swing.SwingMetawidgetTests;
 import org.metawidget.util.UtilTests;
 import org.metawidget.widgetbuilder.WidgetBuilderTests;
@@ -66,7 +66,7 @@ public class AllTests
 		suite.addTest( JspMetawidgetTests.suite() );
 		suite.addTest( LayoutTests.suite() );
 		suite.addTestSuite( MetawidgetExceptionTest.class );
-		suite.addTest( MixinTests.suite() );
+		suite.addTest( PipelineTests.suite() );
 		suite.addTest( SwingMetawidgetTests.suite() );
 		suite.addTest( UtilTests.suite() );
 		suite.addTest( WidgetBuilderTests.suite() );

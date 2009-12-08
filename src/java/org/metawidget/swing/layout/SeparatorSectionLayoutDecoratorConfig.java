@@ -29,7 +29,7 @@ import org.metawidget.swing.SwingMetawidget;
  * @author Richard Kennard
  */
 
-public class SeparatorSectionLayoutConfig
+public class SeparatorSectionLayoutDecoratorConfig
 	extends LayoutDecoratorConfig<JComponent, SwingMetawidget>
 {
 	//
@@ -49,7 +49,7 @@ public class SeparatorSectionLayoutConfig
 	 */
 
 	@Override
-	public SeparatorSectionLayoutConfig setLayout( Layout<JComponent, SwingMetawidget> layout )
+	public SeparatorSectionLayoutDecoratorConfig setLayout( Layout<JComponent, SwingMetawidget> layout )
 	{
 		super.setLayout( layout );
 
@@ -67,7 +67,7 @@ public class SeparatorSectionLayoutConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public SeparatorSectionLayoutConfig setAlignment( int alignment )
+	public SeparatorSectionLayoutDecoratorConfig setAlignment( int alignment )
 	{
 		mAlignment = alignment;
 
@@ -77,10 +77,10 @@ public class SeparatorSectionLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof SeparatorSectionLayoutConfig ) )
+		if ( !( that instanceof SeparatorSectionLayoutDecoratorConfig ) )
 			return false;
 
-		if ( mAlignment != ( (SeparatorSectionLayoutConfig) that ).mAlignment )
+		if ( mAlignment != ( (SeparatorSectionLayoutDecoratorConfig) that ).mAlignment )
 			return false;
 
 		return super.equals( that );

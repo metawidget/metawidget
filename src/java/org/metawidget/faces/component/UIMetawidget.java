@@ -39,7 +39,7 @@ import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.mixin.w3c.MetawidgetMixin;
+import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
@@ -66,7 +66,7 @@ import org.w3c.dom.Element;
  */
 
 @SuppressWarnings( "deprecation" )
-//@ListenerFor( systemEventClass = PostAddToViewEvent.class )
+// @ListenerFor( systemEventClass = PostAddToViewEvent.class )
 public abstract class UIMetawidget
 	extends UIComponentBase
 {
@@ -136,7 +136,7 @@ public abstract class UIMetawidget
 
 	private List<UIComponent>	mChildrenAfterRestoreState;
 
-	private UIMetawidgetMixin	mMetawidgetMixin;
+	private Pipeline			mPipeline;
 
 	//
 	// Constructor
@@ -144,7 +144,7 @@ public abstract class UIMetawidget
 
 	public UIMetawidget()
 	{
-		mMetawidgetMixin = newMetawidgetMixin();
+		mPipeline = newPipeline();
 
 		// Default renderer
 
@@ -211,47 +211,47 @@ public abstract class UIMetawidget
 
 	public void setInspector( Inspector inspector )
 	{
-		mMetawidgetMixin.setInspector( inspector );
+		mPipeline.setInspector( inspector );
 	}
 
 	public void addInspectionResultProcessor( InspectionResultProcessor<Element, UIMetawidget> inspectionResultProcessor )
 	{
-		mMetawidgetMixin.addInspectionResultProcessor( inspectionResultProcessor );
+		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
 	}
 
 	public void removeInspectionResultProcessor( InspectionResultProcessor<Element, UIMetawidget> inspectionResultProcessor )
 	{
-		mMetawidgetMixin.removeInspectionResultProcessor( inspectionResultProcessor );
+		mPipeline.removeInspectionResultProcessor( inspectionResultProcessor );
 	}
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<Element, UIMetawidget>... inspectionResultProcessors )
 	{
-		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
+		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<UIComponent, UIMetawidget> widgetBuilder )
 	{
-		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+		mPipeline.setWidgetBuilder( widgetBuilder );
 	}
 
 	public void setWidgetProcessors( WidgetProcessor<UIComponent, UIMetawidget>... widgetProcessors )
 	{
-		mMetawidgetMixin.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
+		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
 	}
 
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
 	{
-		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
+		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
 	public void setLayout( Layout<UIComponent, UIMetawidget> layout )
 	{
-		mMetawidgetMixin.setLayout( layout );
+		mPipeline.setLayout( layout );
 	}
 
 	public Layout<UIComponent, UIMetawidget> getLayout()
 	{
-		return mMetawidgetMixin.getLayout();
+		return mPipeline.getLayout();
 	}
 
 	/**
@@ -438,34 +438,14 @@ public abstract class UIMetawidget
 	}
 
 	/*
-	@Override
-	public void processEvent( ComponentSystemEvent event )
-		throws AbortProcessingException
-	{
-		if ( event instanceof PostAddToViewEvent )
-		{
-			// Validation error? Do not rebuild, as we will lose the invalid values in the
-			// components. Instead, just move along to our renderer
-
-			if ( getFacesContext().getMaximumSeverity() != null )
-				return;
-
-			// Build widgets as normal
-
-			try
-			{
-				buildWidgets();
-			}
-			catch ( Exception e )
-			{
-				// At this level, it is more 'proper' to throw an AbortProcessingException than
-				// a MetawidgetException, as that is what the layers above are expecting
-
-				throw new AbortProcessingException( e );
-			}
-		}
-	}
-	*/
+	 * @Override public void processEvent( ComponentSystemEvent event ) throws
+	 * AbortProcessingException { if ( event instanceof PostAddToViewEvent ) { // Validation error?
+	 * Do not rebuild, as we will lose the invalid values in the // components. Instead, just move
+	 * along to our renderer if ( getFacesContext().getMaximumSeverity() != null ) return; // Build
+	 * widgets as normal try { buildWidgets(); } catch ( Exception e ) { // At this level, it is
+	 * more 'proper' to throw an AbortProcessingException than // a MetawidgetException, as that is
+	 * what the layers above are expecting throw new AbortProcessingException( e ); } } }
+	 */
 
 	@Override
 	public void processRestoreState( FacesContext context, Object state )
@@ -551,7 +531,7 @@ public abstract class UIMetawidget
 
 	public Element inspect( Object toInspect, String type, String... names )
 	{
-		return mMetawidgetMixin.inspect( toInspect, type, names );
+		return mPipeline.inspect( toInspect, type, names );
 	}
 
 	@Override
@@ -584,20 +564,20 @@ public abstract class UIMetawidget
 	//
 
 	/**
-	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * Instantiate the Pipeline used by this Metawidget.
 	 * <p>
-	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
-	 * instantiate their version.
+	 * Subclasses wishing to use their own Pipeline should override this method to instantiate their
+	 * version.
 	 */
 
-	protected UIMetawidgetMixin newMetawidgetMixin()
+	protected Pipeline newPipeline()
 	{
-		return new UIMetawidgetMixin();
+		return new Pipeline();
 	}
 
-	protected UIMetawidgetMixin getMetawidgetMixin()
+	protected Pipeline getPipeline()
 	{
-		return mMetawidgetMixin;
+		return mPipeline;
 	}
 
 	protected void buildWidgets()
@@ -611,7 +591,7 @@ public abstract class UIMetawidget
 
 		if ( valueBinding != null )
 		{
-			mMetawidgetMixin.buildWidgets( inspect( valueBinding, mInspectFromParent ) );
+			mPipeline.buildWidgets( inspect( valueBinding, mInspectFromParent ) );
 			return;
 		}
 
@@ -619,13 +599,13 @@ public abstract class UIMetawidget
 
 		if ( mValue != null )
 		{
-			mMetawidgetMixin.buildWidgets( inspect( null, (String) mValue ) );
+			mPipeline.buildWidgets( inspect( null, (String) mValue ) );
 			return;
 		}
 
 		// ...or run without inspection (eg. using the Metawidget purely for layout)
 
-		mMetawidgetMixin.buildWidgets( null );
+		mPipeline.buildWidgets( null );
 	}
 
 	protected abstract UIMetawidget buildNestedMetawidget( Map<String, String> attributes );
@@ -639,11 +619,11 @@ public abstract class UIMetawidget
 
 		// ...instead, copy runtime values
 
-		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
+		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
 
 		// Read-only
 		//
-		// Note: initNestedMixin takes care of literal values. This is concerned with the value
+		// Note: initNestedPipeline takes care of literal values. This is concerned with the value
 		// binding
 
 		if ( !TRUE.equals( attributes.get( READ_ONLY ) ) )
@@ -770,7 +750,7 @@ public abstract class UIMetawidget
 			}
 		}
 
-		mMetawidgetMixin.configureDefaults( configReader, getDefaultConfiguration(), UIMetawidget.class );
+		mPipeline.configureDefaults( configReader, getDefaultConfiguration(), UIMetawidget.class );
 	}
 
 	protected abstract String getDefaultConfiguration();
@@ -879,12 +859,12 @@ public abstract class UIMetawidget
 
 			// Stubs
 
-			Map<String, String> additionalAttributes = mMetawidgetMixin.getAdditionalAttributes( component );
+			Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( component );
 
 			if ( additionalAttributes != null )
 				childAttributes.putAll( additionalAttributes );
 
-			mMetawidgetMixin.getLayout().layoutWidget( component, PROPERTY, childAttributes, this, this );
+			mPipeline.getLayout().layoutWidget( component, PROPERTY, childAttributes, this, this );
 		}
 	}
 
@@ -892,8 +872,8 @@ public abstract class UIMetawidget
 	// Inner class
 	//
 
-	protected class UIMetawidgetMixin
-		extends MetawidgetMixin<UIComponent, UIMetawidget>
+	protected class Pipeline
+		extends W3CPipeline<UIComponent, UIMetawidget>
 	{
 		//
 		// Public methods
@@ -962,15 +942,15 @@ public abstract class UIMetawidget
 		}
 
 		@Override
-		protected UIMetawidget getMixinOwner()
+		protected UIMetawidget getPipelineOwner()
 		{
 			return UIMetawidget.this;
 		}
 
 		@Override
-		protected MetawidgetMixin<UIComponent, UIMetawidget> getNestedMixin( UIMetawidget metawidget )
+		protected W3CPipeline<UIComponent, UIMetawidget> getNestedPipeline( UIMetawidget metawidget )
 		{
-			return metawidget.getMetawidgetMixin();
+			return metawidget.getPipeline();
 		}
 	}
 }

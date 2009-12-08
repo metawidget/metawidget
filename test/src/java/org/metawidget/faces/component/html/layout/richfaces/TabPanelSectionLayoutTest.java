@@ -19,7 +19,7 @@ package org.metawidget.faces.component.html.layout.richfaces;
 import junit.framework.TestCase;
 
 import org.metawidget.faces.component.layout.SimpleLayout;
-import org.metawidget.layout.delegate.LayoutDecoratorTest;
+import org.metawidget.layout.decorator.LayoutDecoratorTest;
 
 /**
  * @author Richard Kennard

@@ -14,8 +14,8 @@
 	<source path="inspector/iface"/>
 	<source path="inspectionresultprocessor/iface"/>
 	<source path="layout"/>
-	<source path="mixin/base"/>
-	<source path="mixin/gwt"/>
+	<source path="pipeline/base"/>
+	<source path="pipeline/gwt"/>
 	<source path="util/simple"/>
 	<source path="widgetprocessor"/>
 	<source path="widgetbuilder"/>

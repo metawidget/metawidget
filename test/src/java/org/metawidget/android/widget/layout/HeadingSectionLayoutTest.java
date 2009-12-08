@@ -23,7 +23,7 @@ import org.metawidget.android.widget.Facet;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.layout.delegate.LayoutDecoratorTest;
+import org.metawidget.layout.decorator.LayoutDecoratorTest;
 
 import android.widget.CheckBox;
 import android.widget.EditText;

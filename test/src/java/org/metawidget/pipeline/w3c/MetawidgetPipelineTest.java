@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.mixin.w3c;
+package org.metawidget.pipeline.w3c;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -34,7 +34,7 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public class MetawidgetMixinTest
+public class MetawidgetPipelineTest
 	extends TestCase
 {
 	//
@@ -44,7 +44,7 @@ public class MetawidgetMixinTest
 	public void testIndentation()
 		throws Exception
 	{
-		new TestMixin().testIndentation();
+		new Pipeline().testIndentation();
 	}
 
 	/**
@@ -56,7 +56,7 @@ public class MetawidgetMixinTest
 	{
 		final List<String> called = CollectionUtils.newArrayList();
 
-		TestMixin mixin = new TestMixin()
+		Pipeline pipeline = new Pipeline()
 		{
 			@Override
 			public Element inspect( Object toInspect, String type, String... names )
@@ -65,7 +65,7 @@ public class MetawidgetMixinTest
 			}
 		};
 
-		mixin.addInspectionResultProcessor( new InspectionResultProcessor<Element, Object>()
+		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Element, Object>()
 		{
 
 			@Override
@@ -75,7 +75,7 @@ public class MetawidgetMixinTest
 				return null;
 			}
 		} );
-		mixin.addInspectionResultProcessor( new InspectionResultProcessor<Element, Object>()
+		pipeline.addInspectionResultProcessor( new InspectionResultProcessor<Element, Object>()
 		{
 
 			@Override
@@ -86,7 +86,7 @@ public class MetawidgetMixinTest
 			}
 		} );
 
-		assertTrue( null == mixin.inspect( null, null ));
+		assertTrue( null == pipeline.inspect( null, null ));
 		assertTrue( called.size() == 1 );
 		assertTrue( "InspectionResultProcessor #1".equals( called.get( 0 ) ) );
 		assertTrue( !called.contains( "InspectionResultProcessor #2" ) );
@@ -104,7 +104,7 @@ public class MetawidgetMixinTest
 		// This little test harness reinforces the minimal relationship between Inspectors
 		// and WidgetBuilders. Here, we are returning Strings not real GUI widgets.
 
-		TestMixin mixin = new TestMixin()
+		Pipeline pipeline = new Pipeline()
 		{
 			@Override
 			protected void buildCompoundWidget( Element element )
@@ -122,7 +122,7 @@ public class MetawidgetMixinTest
 			}
 		};
 
-		mixin.setWidgetBuilder( new WidgetBuilder<Object, Object>()
+		pipeline.setWidgetBuilder( new WidgetBuilder<Object, Object>()
 		{
 			@Override
 			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget )
@@ -133,7 +133,7 @@ public class MetawidgetMixinTest
 			}
 		} );
 
-		mixin.addWidgetProcessor( new BaseWidgetProcessor<Object, Object>()
+		pipeline.addWidgetProcessor( new BaseWidgetProcessor<Object, Object>()
 		{
 
 			@Override
@@ -143,7 +143,7 @@ public class MetawidgetMixinTest
 				return null;
 			}
 		} );
-		mixin.addWidgetProcessor( new BaseWidgetProcessor<Object, Object>()
+		pipeline.addWidgetProcessor( new BaseWidgetProcessor<Object, Object>()
 		{
 
 			@Override
@@ -156,7 +156,7 @@ public class MetawidgetMixinTest
 
 		// Top-level widget
 
-		mixin.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity type=\"foo\"/></inspection-result>" ).getFirstChild() );
+		pipeline.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity type=\"foo\"/></inspection-result>" ).getFirstChild() );
 
 		assertTrue( called.size() == 1 );
 		assertTrue( "WidgetProcessor #1".equals( called.get( 0 ) ) );
@@ -165,7 +165,7 @@ public class MetawidgetMixinTest
 		// Property-level widget
 
 		called.clear();
-		mixin.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" type=\"foo\"/></entity></inspection-result>" ).getFirstChild() );
+		pipeline.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\" type=\"foo\"/></entity></inspection-result>" ).getFirstChild() );
 
 		assertTrue( called.size() == 2 );
 		assertTrue( "buildCompoundWidget".equals( called.get( 0 ) ) );
@@ -182,7 +182,7 @@ public class MetawidgetMixinTest
 	{
 		final List<String> called = CollectionUtils.newArrayList();
 
-		TestMixin mixin = new TestMixin()
+		Pipeline pipeline = new Pipeline()
 		{
 			@Override
 			protected void buildCompoundWidget( Element element )
@@ -207,7 +207,7 @@ public class MetawidgetMixinTest
 			}
 		};
 
-		mixin.setWidgetBuilder( new WidgetBuilder<Object, Object>()
+		pipeline.setWidgetBuilder( new WidgetBuilder<Object, Object>()
 		{
 			@Override
 			public Object buildWidget( String elementName, Map<String, String> attributes, Object metawidget )
@@ -222,7 +222,7 @@ public class MetawidgetMixinTest
 
 		// Top-level widget
 
-		mixin.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" ).getFirstChild() );
+		pipeline.buildWidgets( (Element) XmlUtils.documentFromString( "<inspection-result><entity><property name=\"foo\"/></entity></inspection-result>" ).getFirstChild() );
 
 		assertTrue( called.size() == 3 );
 		assertTrue( "buildCompoundWidget".equals( called.get( 0 ) ) );
@@ -234,8 +234,8 @@ public class MetawidgetMixinTest
 	// Inner class
 	//
 
-	static class TestMixin
-		extends MetawidgetMixin<Object, Object>
+	static class Pipeline
+		extends W3CPipeline<Object, Object>
 	{
 		//
 		// Public methods
@@ -290,13 +290,13 @@ public class MetawidgetMixinTest
 		}
 
 		@Override
-		protected Object getMixinOwner()
+		protected Object getPipelineOwner()
 		{
 			return null;
 		}
 
 		@Override
-		protected MetawidgetMixin<Object, Object> getNestedMixin( Object metawidget )
+		protected W3CPipeline<Object, Object> getNestedPipeline( Object metawidget )
 		{
 			return null;
 		}

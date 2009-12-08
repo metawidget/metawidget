@@ -25,7 +25,7 @@ import com.google.gwt.xml.client.Element;
  * @author Richard Kennard
  */
 
-public class GwtMetawidgetMixinTest
+public class GwtMetawidgetPipelineTest
 	extends GWTTestCase
 {
 	//
@@ -38,18 +38,18 @@ public class GwtMetawidgetMixinTest
 		return "org.metawidget.gwt.GwtMetawidgetTest";
 	}
 
-	public void testMixin()
+	public void testPipeline()
 		throws Exception
 	{
-		new TestMixin().testIndentation();
+		new Pipeline().testIndentation();
 	}
 
 	//
 	// Inner class
 	//
 
-	static class TestMixin
-		extends GwtMetawidgetMixin<Object,GwtMetawidget>
+	static class Pipeline
+		extends GwtPipeline<Object,GwtMetawidget>
 	{
 		//
 		// Public methods
@@ -104,7 +104,7 @@ public class GwtMetawidgetMixinTest
 		}
 
 		@Override
-		protected GwtMetawidget getMixinOwner()
+		protected GwtMetawidget getPipelineOwner()
 		{
 			return null;
 		}

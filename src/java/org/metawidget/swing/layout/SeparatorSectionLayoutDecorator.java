@@ -73,7 +73,7 @@ public class SeparatorSectionLayoutDecorator
 	// Constructor
 	//
 
-	public SeparatorSectionLayoutDecorator( SeparatorSectionLayoutConfig config )
+	public SeparatorSectionLayoutDecorator( SeparatorSectionLayoutDecoratorConfig config )
 	{
 		super( config );
 

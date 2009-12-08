@@ -43,7 +43,7 @@ import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
 import org.metawidget.swing.layout.SeparatorSectionLayoutDecorator;
-import org.metawidget.swing.layout.SeparatorSectionLayoutConfig;
+import org.metawidget.swing.layout.SeparatorSectionLayoutDecoratorConfig;
 
 /**
  * @author Richard Kennard
@@ -80,7 +80,7 @@ public class SwingTutorialTest
 				new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 );
-		SeparatorSectionLayoutConfig layoutConfig = new SeparatorSectionLayoutConfig().setLayout(
+		SeparatorSectionLayoutDecoratorConfig layoutConfig = new SeparatorSectionLayoutDecoratorConfig().setLayout(
 		new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ));
 		metawidget.setMetawidgetLayout( new SeparatorSectionLayoutDecorator( layoutConfig ));
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
@@ -119,7 +119,7 @@ public class SwingTutorialTest
 		stub.setName( "retired" );
 		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayoutDecorator( new SeparatorSectionLayoutConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new SeparatorSectionLayoutDecorator( new SeparatorSectionLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );

@@ -14,14 +14,12 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.layout.delegate;
+package org.metawidget.layout.decorator;
 
 import javax.swing.JComponent;
 
 import junit.framework.TestCase;
 
-import org.metawidget.layout.decorator.LayoutDecorator;
-import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.swing.SwingMetawidget;

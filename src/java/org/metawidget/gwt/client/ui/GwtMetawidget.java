@@ -72,11 +72,11 @@ public class GwtMetawidget
 	// Private statics
 	//
 
-	private final static int										BUILDING_COMPLETE		= 0;
+	private final static int							BUILDING_COMPLETE		= 0;
 
-	private final static int										BUILDING_IN_PROGRESS	= 1;
+	private final static int							BUILDING_IN_PROGRESS	= 1;
 
-	private final static int										BUILDING_NEEDED			= 2;
+	private final static int							BUILDING_NEEDED			= 2;
 
 	/**
 	 * Delay before rebuilding widgets (in milliseconds).
@@ -88,7 +88,7 @@ public class GwtMetawidget
 	 * into one.
 	 */
 
-	private final static int										BUILD_DELAY				= 50;
+	private final static int							BUILD_DELAY				= 50;
 
 	/**
 	 * Static cache of the default Inspector.
@@ -100,27 +100,27 @@ public class GwtMetawidget
 	 * <code>GwtRemoteInspectorProxy</code> <em>does</em> use <code>ConfigReader</code>.
 	 */
 
-	private static Inspector										DEFAULT_INSPECTOR;
+	private static Inspector							DEFAULT_INSPECTOR;
 
-	private static WidgetBuilder<Widget, GwtMetawidget>				DEFAULT_WIDGETBUILDER;
+	private static WidgetBuilder<Widget, GwtMetawidget>	DEFAULT_WIDGETBUILDER;
 
-	private static Layout<Widget, GwtMetawidget>					DEFAULT_LAYOUT;
+	private static Layout<Widget, GwtMetawidget>		DEFAULT_LAYOUT;
 
 	//
 	// Private members
 	//
 
-	private Object													mToInspect;
+	private Object										mToInspect;
 
-	private String													mDictionaryName;
+	private String										mDictionaryName;
 
-	private Dictionary												mDictionary;
+	private Dictionary									mDictionary;
 
-	private Map<String, Facet>										mFacets					= new HashMap<String, Facet>();
+	private Map<String, Facet>							mFacets					= new HashMap<String, Facet>();
 
-	private Set<Widget>												mExistingWidgets		= new HashSet<Widget>();
+	private Set<Widget>									mExistingWidgets		= new HashSet<Widget>();
 
-	private Set<Widget>												mExistingUnusedWidgets	= new HashSet<Widget>();
+	private Set<Widget>									mExistingUnusedWidgets	= new HashSet<Widget>();
 
 	/**
 	 * Map of widgets added to this Metawidget.
@@ -131,38 +131,38 @@ public class GwtMetawidget
 	 * separate Map of the widgets we have encountered.
 	 */
 
-	private Map<String, Widget>										mAddedWidgets			= new HashMap<String, Widget>();
+	private Map<String, Widget>							mAddedWidgets			= new HashMap<String, Widget>();
 
-	private Timer													mBuildWidgets;
+	private Timer										mBuildWidgets;
 
-	private Map<Object, Object>										mClientProperties;
+	private Map<Object, Object>							mClientProperties;
 
 	//
 	// Package-private members
 	//
 
-	/* package private */String										mPath;
+	/* package private */String							mPath;
 
 	/**
 	 * Name used to implement <code>HasName</code>. Subtly different from <code>mPath</code> and
 	 * <code>mNamesPrefix</code>.
 	 */
 
-	/* package private */String										mName;
+	/* package private */String							mName;
 
-	/* package private */int										mNeedToBuildWidgets;
+	/* package private */int							mNeedToBuildWidgets;
 
-	/* package private */Element									mLastInspection;
+	/* package private */Element						mLastInspection;
 
-	/* package private */boolean									mIgnoreAddRemove;
+	/* package private */boolean						mIgnoreAddRemove;
 
 	/**
 	 * For unit tests.
 	 */
 
-	/* package private */Timer										mExecuteAfterBuildWidgets;
+	/* package private */Timer							mExecuteAfterBuildWidgets;
 
-	/* package private */GwtMetawidgetMixin<Widget, GwtMetawidget>	mMetawidgetMixin;
+	/* package private */Pipeline						mPipeline;
 
 	//
 	// Constructor
@@ -170,7 +170,7 @@ public class GwtMetawidget
 
 	public GwtMetawidget()
 	{
-		mMetawidgetMixin = newMetawidgetMixin();
+		mPipeline = newPipeline();
 	}
 
 	//
@@ -263,36 +263,36 @@ public class GwtMetawidget
 
 	public void setInspector( Inspector inspector )
 	{
-		mMetawidgetMixin.setInspector( inspector );
+		mPipeline.setInspector( inspector );
 		invalidateInspection();
 	}
 
 	public void addInspectionResultProcessor( InspectionResultProcessor<Element, GwtMetawidget> inspectionResultProcessor )
 	{
-		mMetawidgetMixin.addInspectionResultProcessor( inspectionResultProcessor );
+		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
 		invalidateWidgets();
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<Widget, GwtMetawidget> widgetBuilder )
 	{
-		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+		mPipeline.setWidgetBuilder( widgetBuilder );
 		invalidateInspection();
 	}
 
 	public void addWidgetProcessor( WidgetProcessor<Widget, GwtMetawidget> widgetProcessor )
 	{
-		mMetawidgetMixin.addWidgetProcessor( widgetProcessor );
+		mPipeline.addWidgetProcessor( widgetProcessor );
 		invalidateInspection();
 	}
 
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
 	{
-		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
+		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
 	public void setLayout( Layout<Widget, GwtMetawidget> layout )
 	{
-		mMetawidgetMixin.setLayout( layout );
+		mPipeline.setLayout( layout );
 		invalidateWidgets();
 	}
 
@@ -378,26 +378,26 @@ public class GwtMetawidget
 
 	public void setReadOnly( boolean readOnly )
 	{
-		if ( mMetawidgetMixin.isReadOnly() == readOnly )
+		if ( mPipeline.isReadOnly() == readOnly )
 			return;
 
-		mMetawidgetMixin.setReadOnly( readOnly );
+		mPipeline.setReadOnly( readOnly );
 		invalidateWidgets();
 	}
 
 	public boolean isReadOnly()
 	{
-		return mMetawidgetMixin.isReadOnly();
+		return mPipeline.isReadOnly();
 	}
 
 	public int getMaximumInspectionDepth()
 	{
-		return mMetawidgetMixin.getMaximumInspectionDepth();
+		return mPipeline.getMaximumInspectionDepth();
 	}
 
 	public void setMaximumInspectionDepth( int maximumInspectionDepth )
 	{
-		mMetawidgetMixin.setMaximumInspectionDepth( maximumInspectionDepth );
+		mPipeline.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
 
@@ -472,7 +472,7 @@ public class GwtMetawidget
 	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( Widget widget )
 	{
-		return (T) getValue( widget, mMetawidgetMixin.getWidgetBuilder() );
+		return (T) getValue( widget, mPipeline.getWidgetBuilder() );
 	}
 
 	/**
@@ -499,7 +499,7 @@ public class GwtMetawidget
 
 	public void setValue( Object value, Widget widget )
 	{
-		if ( !setValue( value, widget, mMetawidgetMixin.getWidgetBuilder() ) )
+		if ( !setValue( value, widget, mPipeline.getWidgetBuilder() ) )
 			throw new RuntimeException( "Don't know how to setValue of a " + widget.getClass().getName() );
 	}
 
@@ -607,7 +607,7 @@ public class GwtMetawidget
 
 	public Inspector getInspector()
 	{
-		return mMetawidgetMixin.getInspector();
+		return mPipeline.getInspector();
 	}
 
 	//
@@ -615,15 +615,15 @@ public class GwtMetawidget
 	//
 
 	/**
-	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * Instantiate the Pipeline used by this Metawidget.
 	 * <p>
-	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
-	 * instantiate their version.
+	 * Subclasses wishing to use their own Pipeline should override this method to instantiate their
+	 * version.
 	 */
 
-	protected GwtMetawidgetMixin<Widget, GwtMetawidget> newMetawidgetMixin()
+	protected Pipeline newPipeline()
 	{
-		return new GwtMetawidgetMixinImpl();
+		return new Pipeline();
 	}
 
 	@Override
@@ -743,15 +743,15 @@ public class GwtMetawidget
 		//
 		// We cannot use ConfigReader, because GWT's client-side JavaScript is not up to it
 
-		if ( mMetawidgetMixin.getInspector() == null )
+		if ( mPipeline.getInspector() == null )
 		{
 			if ( DEFAULT_INSPECTOR == null )
 				DEFAULT_INSPECTOR = new GwtRemoteInspectorProxy();
 
-			mMetawidgetMixin.setInspector( DEFAULT_INSPECTOR );
+			mPipeline.setInspector( DEFAULT_INSPECTOR );
 		}
 
-		if ( mMetawidgetMixin.getWidgetBuilder() == null )
+		if ( mPipeline.getWidgetBuilder() == null )
 		{
 			if ( DEFAULT_WIDGETBUILDER == null )
 			{
@@ -760,15 +760,15 @@ public class GwtMetawidget
 				DEFAULT_WIDGETBUILDER = new CompositeWidgetBuilder<Widget, GwtMetawidget>( config );
 			}
 
-			mMetawidgetMixin.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
+			mPipeline.setWidgetBuilder( DEFAULT_WIDGETBUILDER );
 		}
 
-		if ( mMetawidgetMixin.getLayout() == null )
+		if ( mPipeline.getLayout() == null )
 		{
 			if ( DEFAULT_LAYOUT == null )
 				DEFAULT_LAYOUT = new FlexTableLayout();
 
-			mMetawidgetMixin.setLayout( DEFAULT_LAYOUT );
+			mPipeline.setLayout( DEFAULT_LAYOUT );
 		}
 	}
 
@@ -833,7 +833,7 @@ public class GwtMetawidget
 							try
 							{
 								mIgnoreAddRemove = true;
-								mMetawidgetMixin.buildWidgets( mLastInspection );
+								mPipeline.buildWidgets( mLastInspection );
 							}
 							catch ( Exception e )
 							{
@@ -871,10 +871,10 @@ public class GwtMetawidget
 				if ( mLastInspection == null )
 				{
 					TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
-					mLastInspection = mMetawidgetMixin.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
+					mLastInspection = mPipeline.inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 				}
 
-				mMetawidgetMixin.buildWidgets( mLastInspection );
+				mPipeline.buildWidgets( mLastInspection );
 			}
 			catch ( Exception e )
 			{
@@ -938,7 +938,7 @@ public class GwtMetawidget
 	protected void initNestedMetawidget( GwtMetawidget nestedMetawidget, Map<String, String> attributes )
 		throws Exception
 	{
-		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
+		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setDictionaryName( mDictionaryName );
 		nestedMetawidget.setToInspect( mToInspect );
@@ -948,7 +948,7 @@ public class GwtMetawidget
 	{
 		if ( mExistingUnusedWidgets != null )
 		{
-			Layout<Widget, GwtMetawidget> layout = mMetawidgetMixin.getLayout();
+			Layout<Widget, GwtMetawidget> layout = mPipeline.getLayout();
 			for ( Widget widgetExisting : mExistingUnusedWidgets )
 			{
 				Map<String, String> miscAttributes = new HashMap<String, String>();
@@ -978,7 +978,7 @@ public class GwtMetawidget
 	{
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder<?,?> )
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> )
 		{
 			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
 			{
@@ -1003,7 +1003,7 @@ public class GwtMetawidget
 	{
 		// Recurse into CompositeWidgetBuilders
 
-		if ( widgetBuilder instanceof CompositeWidgetBuilder<?,?> )
+		if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> )
 		{
 			for ( WidgetBuilder<Widget, GwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Widget, GwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
 			{
@@ -1026,8 +1026,8 @@ public class GwtMetawidget
 	// Inner class
 	//
 
-	protected class GwtMetawidgetMixinImpl
-		extends GwtMetawidgetMixin<Widget, GwtMetawidget>
+	protected class Pipeline
+		extends GwtPipeline<Widget, GwtMetawidget>
 	{
 		//
 		// Protected methods
@@ -1081,7 +1081,7 @@ public class GwtMetawidget
 		}
 
 		@Override
-		protected GwtMetawidget getMixinOwner()
+		protected GwtMetawidget getPipelineOwner()
 		{
 			return GwtMetawidget.this;
 		}

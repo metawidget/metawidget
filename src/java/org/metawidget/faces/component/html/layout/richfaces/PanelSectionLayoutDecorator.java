@@ -26,6 +26,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.layout.decorator.LayoutDecorator;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LayoutUtils;
@@ -100,6 +101,11 @@ public class PanelSectionLayoutDecorator
 			super.layoutWidget( component, elementName, attributes, container, metawidget );
 			return;
 		}
+
+		// Ignore empty stubs. Do not create a new panel in case it ends up being empty
+
+		if ( component instanceof UIStub && component.getChildren().isEmpty() )
+			return;
 
 		// New section
 

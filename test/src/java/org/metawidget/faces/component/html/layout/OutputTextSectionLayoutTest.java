@@ -19,7 +19,7 @@ package org.metawidget.faces.component.html.layout;
 import junit.framework.TestCase;
 
 import org.metawidget.faces.component.layout.SimpleLayout;
-import org.metawidget.layout.delegate.LayoutDecoratorTest;
+import org.metawidget.layout.decorator.LayoutDecoratorTest;
 
 /**
  * @author Richard Kennard
@@ -66,18 +66,5 @@ public class OutputTextSectionLayoutTest
 		// superclass
 
 		LayoutDecoratorTest.testConfig( config1, config2, new SimpleLayout() );
-	}
-
-	public void testSectionCleared()
-		throws Exception
-	{
-		//HtmlMetawidget metawidget = new HtmlMetawidget();
-		//TODO:HeadingSectionLayoutTest layout = new HtmlTableLayoutRenderer();
-		//HtmlTableLayoutRenderer.State state = renderer.getState( metawidget );
-		//state.columns = 1;
-		//state.currentSection = "Foo";
-		//renderer.encodeChildren( null, metawidget );
-
-		//assertTrue( null == state.currentSection );
 	}
 }

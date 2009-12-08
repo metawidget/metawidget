@@ -14,36 +14,36 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.mixin.w3c;
+package org.metawidget.pipeline.w3c;
 
 import java.util.Map;
 
 import org.metawidget.config.ConfigReader;
-import org.metawidget.mixin.base.BaseMetawidgetMixin;
+import org.metawidget.pipeline.base.BasePipeline;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * Mixin for platforms that support <code>org.w3c.dom</code>.
+ * Pipeline for platforms that support <code>org.w3c.dom</code>.
  *
  * @author Richard Kennard
  */
 
-public abstract class MetawidgetMixin<W, M extends W>
-	extends BaseMetawidgetMixin<W, Element, M>
+public abstract class W3CPipeline<W, M extends W>
+	extends BasePipeline<W, Element, M>
 {
 	//
 	// Public methods
 	//
 
 	/**
-	 * Returns the first WidgetProcessor in this mixin's list of WidgetProcessors (ie. as added by
-	 * <code>addWidgetProcessor</code>) that the given class <code>isAssignableFrom</code>.
+	 * Returns the first WidgetProcessor in this pipeline's list of WidgetProcessors (ie. as added
+	 * by <code>addWidgetProcessor</code>) that the given class <code>isAssignableFrom</code>.
 	 * <p>
-	 * This method is here, rather than in <code>BaseMetawidgetMixin</code>, because even though
-	 * <code>GwtMetawidgetMixin</code> overrides it the GWT compiler still chokes on the
+	 * This method is here, rather than in <code>BasePipeline</code>, because even though
+	 * <code>GwtPipeline</code> overrides it the GWT compiler still chokes on the
 	 * <code>isAssignableFrom</code>.
 	 *
 	 * @param widgetProcessorClass
@@ -73,7 +73,7 @@ public abstract class MetawidgetMixin<W, M extends W>
 	 *
 	 * @param metawidgetClass
 	 *            the base class of the Metawidget. This is different from
-	 *            getMixinOwner().getClass(), as that will return the instance (and therefore
+	 *            getPipelineOwner().getClass(), as that will return the instance (and therefore
 	 *            potentially a subclass)
 	 */
 
@@ -82,31 +82,31 @@ public abstract class MetawidgetMixin<W, M extends W>
 		if ( getInspector() == null )
 		{
 			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "inspector" );
-			setInspector( getNestedMixin( dummyMetawidget ).getInspector() );
+			setInspector( getNestedPipeline( dummyMetawidget ).getInspector() );
 		}
 
 		if ( getInspectionResultProcessors() == null )
 		{
 			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "inspectionResultProcessors" );
-			setInspectionResultProcessors( getNestedMixin( dummyMetawidget ).getInspectionResultProcessors() );
+			setInspectionResultProcessors( getNestedPipeline( dummyMetawidget ).getInspectionResultProcessors() );
 		}
 
 		if ( getWidgetBuilder() == null )
 		{
 			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "widgetBuilder" );
-			setWidgetBuilder( getNestedMixin( dummyMetawidget ).getWidgetBuilder() );
+			setWidgetBuilder( getNestedPipeline( dummyMetawidget ).getWidgetBuilder() );
 		}
 
 		if ( getWidgetProcessors() == null )
 		{
 			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "widgetProcessors" );
-			setWidgetProcessors( getNestedMixin( dummyMetawidget ).getWidgetProcessors() );
+			setWidgetProcessors( getNestedPipeline( dummyMetawidget ).getWidgetProcessors() );
 		}
 
 		if ( getLayout() == null )
 		{
 			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "layout" );
-			setLayout( getNestedMixin( dummyMetawidget ).getLayout() );
+			setLayout( getNestedPipeline( dummyMetawidget ).getLayout() );
 		}
 	}
 
@@ -146,10 +146,11 @@ public abstract class MetawidgetMixin<W, M extends W>
 	}
 
 	/**
-	 * @return the mixin instance within the given Metwidget. Used by <code>configureDefaults</code>
-	 *         so that it can a) configure a dummy Metawidget instance, then b) copy settings from
-	 *         that dummy Metawidget instance's mixin into itself.
+	 * @return the pipeline instance within the given Metwidget. Used by
+	 *         <code>configureDefaults</code> so that it can a) configure a dummy Metawidget
+	 *         instance, then b) copy settings from that dummy Metawidget instance's pipeline into
+	 *         itself.
 	 */
 
-	protected abstract MetawidgetMixin<W, M> getNestedMixin( M metawidget );
+	protected abstract W3CPipeline<W, M> getNestedPipeline( M metawidget );
 }

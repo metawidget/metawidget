@@ -40,7 +40,7 @@ import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.mixin.w3c.MetawidgetMixin;
+import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -69,13 +69,13 @@ public class SwingMetawidget
 	// Private statics
 	//
 
-	private final static long			serialVersionUID			= 1l;
+	private final static long			serialVersionUID	= 1l;
 
-	private final static ConfigReader	CONFIG_READER				= new ConfigReader();
+	private final static ConfigReader	CONFIG_READER		= new ConfigReader();
 
-	private final static String			DEFAULT_CONFIG				= "org/metawidget/swing/metawidget-swing-default.xml";
+	private final static String			DEFAULT_CONFIG		= "org/metawidget/swing/metawidget-swing-default.xml";
 
-	private final static Stroke			STROKE_DOTTED				= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
+	private final static Stroke			STROKE_DOTTED		= new BasicStroke( 1f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0f, new float[] { 3f }, 0f );
 
 	//
 	// Private members
@@ -87,7 +87,7 @@ public class SwingMetawidget
 
 	private String						mConfig;
 
-	private boolean						mNeedsConfiguring			= true;
+	private boolean						mNeedsConfiguring	= true;
 
 	private ResourceBundle				mBundle;
 
@@ -103,7 +103,7 @@ public class SwingMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<JComponent>			mExistingComponents			= CollectionUtils.newArrayList();
+	private List<JComponent>			mExistingComponents	= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -113,9 +113,9 @@ public class SwingMetawidget
 
 	private List<JComponent>			mExistingUnusedComponents;
 
-	private Map<String, Facet>			mFacets						= CollectionUtils.newHashMap();
+	private Map<String, Facet>			mFacets				= CollectionUtils.newHashMap();
 
-	private SwingMetawidgetMixin		mMetawidgetMixin;
+	private Pipeline					mPipeline;
 
 	//
 	// Constructor
@@ -123,7 +123,7 @@ public class SwingMetawidget
 
 	public SwingMetawidget()
 	{
-		mMetawidgetMixin = newMetawidgetMixin();
+		mPipeline = newPipeline();
 	}
 
 	//
@@ -212,56 +212,56 @@ public class SwingMetawidget
 
 	public void setInspector( Inspector inspector )
 	{
-		mMetawidgetMixin.setInspector( inspector );
+		mPipeline.setInspector( inspector );
 		invalidateInspection();
 	}
 
 	public void addInspectionResultProcessor( InspectionResultProcessor<Element, SwingMetawidget> inspectionResultProcessor )
 	{
-		mMetawidgetMixin.addInspectionResultProcessor( inspectionResultProcessor );
+		mPipeline.addInspectionResultProcessor( inspectionResultProcessor );
 		invalidateWidgets();
 	}
 
 	public void removeInspectionResultProcessor( InspectionResultProcessor<Element, SwingMetawidget> inspectionResultProcessor )
 	{
-		mMetawidgetMixin.removeInspectionResultProcessor( inspectionResultProcessor );
+		mPipeline.removeInspectionResultProcessor( inspectionResultProcessor );
 		invalidateWidgets();
 	}
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<Element, SwingMetawidget>... inspectionResultProcessors )
 	{
-		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
+		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 		invalidateWidgets();
 	}
 
 	public void setWidgetBuilder( WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder )
 	{
-		mMetawidgetMixin.setWidgetBuilder( widgetBuilder );
+		mPipeline.setWidgetBuilder( widgetBuilder );
 		invalidateWidgets();
 	}
 
 	public void addWidgetProcessor( WidgetProcessor<JComponent, SwingMetawidget> widgetProcessor )
 	{
-		mMetawidgetMixin.addWidgetProcessor( widgetProcessor );
+		mPipeline.addWidgetProcessor( widgetProcessor );
 		invalidateWidgets();
 	}
 
 	public void removeWidgetProcessor( WidgetProcessor<JComponent, SwingMetawidget> widgetProcessor )
 	{
-		mMetawidgetMixin.removeWidgetProcessor( widgetProcessor );
+		mPipeline.removeWidgetProcessor( widgetProcessor );
 		invalidateWidgets();
 	}
 
 	public void setWidgetProcessors( WidgetProcessor<JComponent, SwingMetawidget>... widgetProcessors )
 	{
-		mMetawidgetMixin.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
+		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
 		invalidateWidgets();
 	}
 
 	public <T> T getWidgetProcessor( Class<T> widgetProcessorClass )
 	{
 		buildWidgets();
-		return mMetawidgetMixin.getWidgetProcessor( widgetProcessorClass );
+		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
 	/**
@@ -275,13 +275,13 @@ public class SwingMetawidget
 
 	public void setMetawidgetLayout( Layout<JComponent, SwingMetawidget> layout )
 	{
-		mMetawidgetMixin.setLayout( layout );
+		mPipeline.setLayout( layout );
 		invalidateWidgets();
 	}
 
 	public Layout<JComponent, SwingMetawidget> getMetawidgetLayout()
 	{
-		return mMetawidgetMixin.getLayout();
+		return mPipeline.getLayout();
 	}
 
 	public void setBundle( ResourceBundle bundle )
@@ -356,26 +356,26 @@ public class SwingMetawidget
 
 	public boolean isReadOnly()
 	{
-		return mMetawidgetMixin.isReadOnly();
+		return mPipeline.isReadOnly();
 	}
 
 	public void setReadOnly( boolean readOnly )
 	{
-		if ( mMetawidgetMixin.isReadOnly() == readOnly )
+		if ( mPipeline.isReadOnly() == readOnly )
 			return;
 
-		mMetawidgetMixin.setReadOnly( readOnly );
+		mPipeline.setReadOnly( readOnly );
 		invalidateWidgets();
 	}
 
 	public int getMaximumInspectionDepth()
 	{
-		return mMetawidgetMixin.getMaximumInspectionDepth();
+		return mPipeline.getMaximumInspectionDepth();
 	}
 
 	public void setMaximumInspectionDepth( int maximumInspectionDepth )
 	{
-		mMetawidgetMixin.setMaximumInspectionDepth( maximumInspectionDepth );
+		mPipeline.setMaximumInspectionDepth( maximumInspectionDepth );
 		invalidateWidgets();
 	}
 
@@ -542,7 +542,7 @@ public class SwingMetawidget
 
 	public String getValueProperty( Component component )
 	{
-		return getValueProperty( component, mMetawidgetMixin.getWidgetBuilder() );
+		return getValueProperty( component, mPipeline.getWidgetBuilder() );
 	}
 
 	/**
@@ -666,7 +666,7 @@ public class SwingMetawidget
 
 	public Element inspect( Object toInspect, String type, String... names )
 	{
-		return mMetawidgetMixin.inspect( toInspect, type, names );
+		return mPipeline.inspect( toInspect, type, names );
 	}
 
 	//
@@ -674,20 +674,20 @@ public class SwingMetawidget
 	//
 
 	/**
-	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * Instantiate the Pipeline used by this Metawidget.
 	 * <p>
-	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
-	 * instantiate their version.
+	 * Subclasses wishing to use their own Pipeline should override this method to instantiate their
+	 * version.
 	 */
 
-	protected SwingMetawidgetMixin newMetawidgetMixin()
+	protected Pipeline newPipeline()
 	{
-		return new SwingMetawidgetMixin();
+		return new Pipeline();
 	}
 
-	protected SwingMetawidgetMixin getMetawidgetMixin()
+	protected Pipeline getPipeline()
 	{
-		return mMetawidgetMixin;
+		return mPipeline;
 	}
 
 	@Override
@@ -801,13 +801,13 @@ public class SwingMetawidget
 
 			// SwingMetawidget uses setMetawidgetLayout, not setLayout
 
-			if ( mMetawidgetMixin.getLayout() == null )
+			if ( mPipeline.getLayout() == null )
 			{
 				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class, "metawidgetLayout" );
-				mMetawidgetMixin.setLayout( dummyMetawidget.getMetawidgetMixin().getLayout() );
+				mPipeline.setLayout( dummyMetawidget.getPipeline().getLayout() );
 			}
 
-			mMetawidgetMixin.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwingMetawidget.class );
+			mPipeline.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwingMetawidget.class );
 		}
 		catch ( Exception e )
 		{
@@ -837,7 +837,7 @@ public class SwingMetawidget
 			// used purely for layout purposes
 
 			if ( mPath != null || getComponentCount() > 0 )
-				mMetawidgetMixin.buildWidgets( mLastInspection );
+				mPipeline.buildWidgets( mLastInspection );
 		}
 		catch ( Exception e )
 		{
@@ -875,26 +875,26 @@ public class SwingMetawidget
 
 		remove( component );
 
-		if ( mMetawidgetMixin.getLayout() == null )
+		if ( mPipeline.getLayout() == null )
 		{
 			// Support null layouts
 
 			add( component );
 		}
 
-		Map<String, String> additionalAttributes = mMetawidgetMixin.getAdditionalAttributes( (JComponent) component );
+		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( (JComponent) component );
 
 		if ( additionalAttributes != null )
 			attributes.putAll( additionalAttributes );
 
-		// BaseMetawidgetMixin will call .layoutChild
+		// BasePipeline will call .layoutWidget
 	}
 
 	protected void endBuild()
 	{
 		if ( mExistingUnusedComponents != null )
 		{
-			Layout<JComponent, SwingMetawidget> layout = mMetawidgetMixin.getLayout();
+			Layout<JComponent, SwingMetawidget> layout = mPipeline.getLayout();
 
 			for ( JComponent componentExisting : mExistingUnusedComponents )
 			{
@@ -910,7 +910,7 @@ public class SwingMetawidget
 
 				// May have other attributes too
 
-				Map<String, String> additionalAttributes = mMetawidgetMixin.getAdditionalAttributes( componentExisting );
+				Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( componentExisting );
 
 				if ( additionalAttributes != null )
 					attributes.putAll( additionalAttributes );
@@ -938,7 +938,7 @@ public class SwingMetawidget
 	{
 		// Don't copy setConfig(). Instead, copy runtime values
 
-		mMetawidgetMixin.initNestedMixin( nestedMetawidget.mMetawidgetMixin, attributes );
+		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
 		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setBundle( mBundle );
 		nestedMetawidget.setOpaque( isOpaque() );
@@ -966,7 +966,7 @@ public class SwingMetawidget
 		if ( componentProperty == null )
 			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
 
-		return new Object[]{ component, componentProperty };
+		return new Object[] { component, componentProperty };
 	}
 
 	private String getValueProperty( Component component, WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder )
@@ -975,7 +975,7 @@ public class SwingMetawidget
 
 		try
 		{
-			if ( widgetBuilder instanceof CompositeWidgetBuilder<?,?> )
+			if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> )
 			{
 				for ( WidgetBuilder<JComponent, SwingMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<JComponent, SwingMetawidget>) widgetBuilder ).getWidgetBuilders() )
 				{
@@ -1005,8 +1005,8 @@ public class SwingMetawidget
 	// Inner class
 	//
 
-	protected class SwingMetawidgetMixin
-		extends MetawidgetMixin<JComponent, SwingMetawidget>
+	protected class Pipeline
+		extends W3CPipeline<JComponent, SwingMetawidget>
 	{
 		//
 		// Protected methods
@@ -1059,15 +1059,15 @@ public class SwingMetawidget
 		}
 
 		@Override
-		protected SwingMetawidget getMixinOwner()
+		protected SwingMetawidget getPipelineOwner()
 		{
 			return SwingMetawidget.this;
 		}
 
 		@Override
-		protected MetawidgetMixin<JComponent, SwingMetawidget> getNestedMixin( SwingMetawidget metawidget )
+		protected W3CPipeline<JComponent, SwingMetawidget> getNestedPipeline( SwingMetawidget metawidget )
 		{
-			return metawidget.getMetawidgetMixin();
+			return metawidget.getPipeline();
 		}
 	}
 }

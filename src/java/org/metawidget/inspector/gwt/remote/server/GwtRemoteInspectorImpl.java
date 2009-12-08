@@ -26,7 +26,7 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.gwt.remote.iface.GwtRemoteInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.jsp.ServletConfigReader;
-import org.metawidget.mixin.w3c.MetawidgetMixin;
+import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Element;
@@ -53,13 +53,13 @@ public class GwtRemoteInspectorImpl
 	// Private statics
 	//
 
-	private static final long			serialVersionUID	= 1l;
+	private static final long				serialVersionUID	= 1l;
 
 	//
 	// Private members
 	//
 
-	private GwtRemoteInspectorImplMixin	mMetawidgetMixin;
+	private GwtRemoteInspectorImplPipeline	mPipeline;
 
 	//
 	// Constructor
@@ -67,7 +67,7 @@ public class GwtRemoteInspectorImpl
 
 	public GwtRemoteInspectorImpl()
 	{
-		mMetawidgetMixin = newMetawidgetMixin();
+		mPipeline = newPipeline();
 	}
 
 	//
@@ -90,12 +90,12 @@ public class GwtRemoteInspectorImpl
 
 		// Use default configuration
 
-		mMetawidgetMixin.configureDefaults( servletConfigReader, getDefaultConfiguration(), GwtRemoteInspectorImpl.class );
+		mPipeline.configureDefaults( servletConfigReader, getDefaultConfiguration(), GwtRemoteInspectorImpl.class );
 	}
 
 	public String inspect( Serializable toInspect, String type, String[] names )
 	{
-		Element inspectionResult = mMetawidgetMixin.inspect( toInspect, type, names );
+		Element inspectionResult = mPipeline.inspect( toInspect, type, names );
 
 		if ( inspectionResult == null )
 			return null;
@@ -105,12 +105,12 @@ public class GwtRemoteInspectorImpl
 
 	public void setInspector( Inspector inspector )
 	{
-		mMetawidgetMixin.setInspector( inspector );
+		mPipeline.setInspector( inspector );
 	}
 
 	public void setInspectionResultProcessors( InspectionResultProcessor<Element, GwtRemoteInspectorImpl>... inspectionResultProcessors )
 	{
-		mMetawidgetMixin.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ));
+		mPipeline.setInspectionResultProcessors( CollectionUtils.newArrayList( inspectionResultProcessors ) );
 	}
 
 	//
@@ -118,20 +118,20 @@ public class GwtRemoteInspectorImpl
 	//
 
 	/**
-	 * Instantiate the MetawidgetMixin used by this Metawidget.
+	 * Instantiate the Pipeline used by this Metawidget.
 	 * <p>
-	 * Subclasses wishing to use their own MetawidgetMixin should override this method to
-	 * instantiate their version.
+	 * Subclasses wishing to use their own Pipeline should override this method to instantiate their
+	 * version.
 	 */
 
-	protected GwtRemoteInspectorImplMixin newMetawidgetMixin()
+	protected GwtRemoteInspectorImplPipeline newPipeline()
 	{
-		return new GwtRemoteInspectorImplMixin();
+		return new GwtRemoteInspectorImplPipeline();
 	}
 
-	protected GwtRemoteInspectorImplMixin getMetawidgetMixin()
+	protected GwtRemoteInspectorImplPipeline getPipeline()
 	{
-		return mMetawidgetMixin;
+		return mPipeline;
 	}
 
 	protected String getDefaultConfiguration()
@@ -153,26 +153,26 @@ public class GwtRemoteInspectorImpl
 	//
 
 	/**
-	 * Use the Mixin for its Inspector/InpsectionResultProcessor support.
+	 * Use the Pipeline for its Inspector/InspectionResultProcessor support.
 	 */
 
-	protected class GwtRemoteInspectorImplMixin
-		extends MetawidgetMixin<Object, GwtRemoteInspectorImpl>
+	protected class GwtRemoteInspectorImplPipeline
+		extends W3CPipeline<Object, GwtRemoteInspectorImpl>
 	{
 		//
 		// Protected methods
 		//
 
 		@Override
-		protected MetawidgetMixin<Object, GwtRemoteInspectorImpl> getNestedMixin( GwtRemoteInspectorImpl metawidget )
+		protected W3CPipeline<Object, GwtRemoteInspectorImpl> getNestedPipeline( GwtRemoteInspectorImpl metawidget )
 		{
 			// For configureDefaults
 
-			return metawidget.getMetawidgetMixin();
+			return metawidget.getPipeline();
 		}
 
 		@Override
-		protected GwtRemoteInspectorImpl getMixinOwner()
+		protected GwtRemoteInspectorImpl getPipelineOwner()
 		{
 			// For passing to processInspectionResult
 

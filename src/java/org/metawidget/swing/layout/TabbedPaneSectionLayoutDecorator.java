@@ -67,7 +67,7 @@ public class TabbedPaneSectionLayoutDecorator
 	// Constructor
 	//
 
-	public TabbedPaneSectionLayoutDecorator( TabbedPaneSectionLayoutConfig config )
+	public TabbedPaneSectionLayoutDecorator( TabbedPaneSectionLayoutDecoratorConfig config )
 	{
 		super( config );
 

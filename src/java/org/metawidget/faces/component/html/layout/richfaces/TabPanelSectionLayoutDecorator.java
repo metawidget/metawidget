@@ -103,8 +103,7 @@ public class TabPanelSectionLayoutDecorator
 			return;
 		}
 
-		// Ignore empty stubs. Do not create a new tab in case it ends
-		// up being an empty tab
+		// Ignore empty stubs. Do not create a new tab in case it ends up being empty
 
 		// TODO: do this in other Layouts too?
 
