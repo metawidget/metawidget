@@ -576,7 +576,7 @@ public class HtmlTableLayout
 	// Inner class
 	//
 
-	/* package private */class State
+	/* package private */static class State
 	{
 		public int			currentColumn;
 

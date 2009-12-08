@@ -160,10 +160,10 @@ public class MapBindingProcessor
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */class State
+	/* package private */static class State
 	{
-		/* package private */ Set<String[]>		bindings;
+		/* package private */Set<String[]>		bindings;
 
-		/* package private */ Set<GwtMetawidget>	nestedMetawidgets;
+		/* package private */Set<GwtMetawidget>	nestedMetawidgets;
 	}
 }

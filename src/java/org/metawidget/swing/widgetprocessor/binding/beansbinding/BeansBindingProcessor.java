@@ -399,7 +399,7 @@ public class BeansBindingProcessor
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */class State
+	/* package private */static class State
 	{
 		/* package private */Set<org.jdesktop.beansbinding.Binding<Object, ?, ? extends Component, ?>>	bindings;
 	}

@@ -169,7 +169,7 @@ public class GroupLayout
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */class State
+	/* package private */static class State
 	{
 		/* package private */ParallelGroup		groupHorizontal;
 

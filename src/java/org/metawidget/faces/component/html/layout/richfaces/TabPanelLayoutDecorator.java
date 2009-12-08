@@ -26,10 +26,8 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.faces.component.UIStub;
-import org.metawidget.layout.decorator.LayoutDecorator;
+import org.metawidget.faces.component.layout.UIComponentSectionLayoutDecorator;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.richfaces.component.UITab;
 import org.richfaces.component.UITabPanel;
@@ -41,7 +39,7 @@ import org.richfaces.component.UITabPanel;
  */
 
 public class TabPanelLayoutDecorator
-	extends LayoutDecorator<UIComponent, UIMetawidget>
+	extends UIComponentSectionLayoutDecorator
 {
 	//
 	// Private members
@@ -61,62 +59,23 @@ public class TabPanelLayoutDecorator
 	}
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
 	@Override
-	public void layoutWidget( UIComponent component, String elementName, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget )
+	protected UIComponent createSectionWidget( UIComponent container, UIMetawidget metawidget )
 	{
-		String section = LayoutUtils.stripSection( attributes );
-		State state = getState( container, metawidget );
-
-		// Stay where we are?
-
-		if ( section == null || section.equals( state.currentSection ) )
-		{
-			if ( state.tabComponent == null )
-				super.layoutWidget( component, elementName, attributes, container, metawidget );
-			else
-				super.layoutWidget( component, elementName, attributes, state.tabComponent, metawidget );
-
-			return;
-		}
-
-		state.currentSection = section;
-
-		// End current section
-
-		UITabPanel tabPanel = null;
-
-		if ( state.tabComponent != null )
-		{
-			super.endLayout( state.tabComponent, metawidget );
-			tabPanel = (UITabPanel) state.tabComponent.getParent().getParent();
-			state.tabComponent = null;
-		}
-
-		// No new section?
-
-		if ( "".equals( section ) )
-		{
-			super.layoutWidget( component, elementName, attributes, container, metawidget );
-			return;
-		}
-
-		// Ignore empty stubs. Do not create a new tab in case it ends up being empty
-
-		// TODO: do this in other Layouts too?
-
-		if ( component instanceof UIStub && component.getChildren().isEmpty() )
-			return;
-
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
+		UITabPanel tabPanel;
+
 		// Whole new UITabPanel?
 
-		if ( tabPanel == null )
+		State<UIComponent> state = getState( container, metawidget );
+
+		if ( state.currentSectionWidget == null )
 		{
 			tabPanel = (UITabPanel) application.createComponent( "org.richfaces.TabPanel" );
 			tabPanel.setId( viewRoot.createUniqueId() );
@@ -131,6 +90,10 @@ public class TabPanelLayoutDecorator
 
 			super.layoutWidget( tabPanel, PROPERTY, tabPanelAttributes, container, metawidget );
 		}
+		else
+		{
+			tabPanel = (UITabPanel) state.currentSectionWidget.getParent().getParent();
+		}
 
 		// New tab
 
@@ -140,6 +103,7 @@ public class TabPanelLayoutDecorator
 
 		// Tab name (possibly localized)
 
+		String section = state.currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
@@ -154,55 +118,7 @@ public class TabPanelLayoutDecorator
 		nestedMetawidget.setId( viewRoot.createUniqueId() );
 		nestedMetawidget.setLayout( metawidget.getLayout() );
 		tab.getChildren().add( nestedMetawidget );
-		state.tabComponent = nestedMetawidget;
 
-		// Add component to new tab
-
-		super.layoutWidget( component, elementName, attributes, state.tabComponent, metawidget );
-	}
-
-	//
-	// Private methods
-	//
-
-	//
-	// Private methods
-	//
-
-	private State getState( UIComponent container, UIMetawidget metawidget )
-	{
-		@SuppressWarnings( "unchecked" )
-		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( TabPanelLayoutDecorator.class );
-
-		if ( stateMap == null )
-		{
-			stateMap = CollectionUtils.newHashMap();
-			metawidget.putClientProperty( TabPanelLayoutDecorator.class, stateMap );
-		}
-
-		State state = stateMap.get( container );
-
-		if ( state == null )
-		{
-			state = new State();
-			stateMap.put( container, state );
-		}
-
-		return state;
-	}
-
-	//
-	// Inner class
-	//
-
-	/**
-	 * Simple, lightweight structure for saving state.
-	 */
-
-	/* package private */class State
-	{
-		public String		currentSection;
-
-		public UIMetawidget	tabComponent;
+		return nestedMetawidget;
 	}
 }

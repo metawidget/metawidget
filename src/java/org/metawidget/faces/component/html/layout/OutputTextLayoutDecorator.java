@@ -169,7 +169,7 @@ public class OutputTextLayoutDecorator
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */class State
+	/* package private */static class State
 	{
 		public String[]	currentSections;
 	}

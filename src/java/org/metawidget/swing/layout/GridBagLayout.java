@@ -401,7 +401,7 @@ public class GridBagLayout
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */class State
+	/* package private */static class State
 	{
 		/* package private */int		currentColumn;
 

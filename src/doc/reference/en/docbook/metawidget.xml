@@ -4947,7 +4947,7 @@ private State getState( SwingMetawidget metawidget ) {
 	return state;
 }
 
-/* package private */class State {
+/* package private */static class State {
 	/* package private */int currentRow;
 }</programlisting>
 

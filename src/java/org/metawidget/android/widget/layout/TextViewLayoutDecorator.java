@@ -117,7 +117,7 @@ public class TextViewLayoutDecorator
 		( (ViewGroup) container ).addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 
 		state.currentLayout = new android.widget.LinearLayout( metawidget.getContext() );
-		((ViewGroup) container).addView( state.currentLayout );
+		( (ViewGroup) container ).addView( state.currentLayout );
 
 		// Add view to new section
 
@@ -150,7 +150,7 @@ public class TextViewLayoutDecorator
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	/* package private */class State
+	/* package private */static class State
 	{
 		/* package private */String		currentSection;
 

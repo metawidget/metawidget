@@ -26,10 +26,8 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.faces.component.UIStub;
-import org.metawidget.layout.decorator.LayoutDecorator;
+import org.metawidget.faces.component.layout.UIComponentSectionLayoutDecorator;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.richfaces.component.html.HtmlPanel;
 
@@ -40,7 +38,7 @@ import org.richfaces.component.html.HtmlPanel;
  */
 
 public class PanelLayoutDecorator
-	extends LayoutDecorator<UIComponent, UIMetawidget>
+	extends UIComponentSectionLayoutDecorator
 {
 	//
 	// Private members
@@ -63,52 +61,12 @@ public class PanelLayoutDecorator
 	}
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
 	@Override
-	public void layoutWidget( UIComponent component, String elementName, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget )
+	protected UIComponent createSectionWidget( UIComponent container, UIMetawidget metawidget )
 	{
-		String section = LayoutUtils.stripSection( attributes );
-		State state = getState( container, metawidget );
-
-		// Stay where we are?
-
-		if ( section == null || section.equals( state.currentSection ) )
-		{
-			if ( state.currentPanel == null )
-				super.layoutWidget( component, elementName, attributes, container, metawidget );
-			else
-				super.layoutWidget( component, elementName, attributes, state.currentPanel, metawidget );
-
-			return;
-		}
-
-		state.currentSection = section;
-
-		// End current section
-
-		if ( state.currentPanel != null )
-		{
-			super.endLayout( state.currentPanel, metawidget );
-			state.currentPanel = null;
-		}
-
-		// No new section?
-
-		if ( "".equals( section ) )
-		{
-			super.layoutWidget( component, elementName, attributes, container, metawidget );
-			return;
-		}
-
-		// Ignore empty stubs. Do not create a new panel in case it ends up being empty
-
-		if ( component instanceof UIStub && component.getChildren().isEmpty() )
-			return;
-
-		// New section
-
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
@@ -120,6 +78,7 @@ public class PanelLayoutDecorator
 
 		// Section name (possibly localized)
 
+		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
@@ -142,55 +101,7 @@ public class PanelLayoutDecorator
 		nestedMetawidget.setId( viewRoot.createUniqueId() );
 		nestedMetawidget.setLayout( metawidget.getLayout() );
 		panel.getChildren().add( nestedMetawidget );
-		state.currentPanel = nestedMetawidget;
 
-		// Add component to new tab
-
-		super.layoutWidget( component, elementName, attributes, state.currentPanel, metawidget );
-	}
-
-	//
-	// Private methods
-	//
-
-	//
-	// Private methods
-	//
-
-	private State getState( UIComponent container, UIMetawidget metawidget )
-	{
-		@SuppressWarnings( "unchecked" )
-		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( PanelLayoutDecorator.class );
-
-		if ( stateMap == null )
-		{
-			stateMap = CollectionUtils.newHashMap();
-			metawidget.putClientProperty( PanelLayoutDecorator.class, stateMap );
-		}
-
-		State state = stateMap.get( container );
-
-		if ( state == null )
-		{
-			state = new State();
-			stateMap.put( container, state );
-		}
-
-		return state;
-	}
-
-	//
-	// Inner class
-	//
-
-	/**
-	 * Simple, lightweight structure for saving state.
-	 */
-
-	/* package private */class State
-	{
-		public String		currentSection;
-
-		public UIMetawidget	currentPanel;
+		return nestedMetawidget;
 	}
 }
