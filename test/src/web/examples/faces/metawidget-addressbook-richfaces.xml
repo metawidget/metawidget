@@ -48,11 +48,15 @@
 		<!-- Use RichFaces TabPanel -->
 		
 		<layout>
-			<richFacesLayout xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="RichFacesLayoutConfig">
-				<sectionStyle>
-					<constant>SECTION_AS_TAB</constant>
-				</sectionStyle>
-			</richFacesLayout>
+			<tabPanelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="TabPanelLayoutDecoratorConfig">
+				<layout>
+					<tabPanelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="TabPanelLayoutDecoratorConfig">
+						<layout>
+							<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
+						</layout>
+					</tabPanelLayoutDecorator>
+				</layout>
+			</tabPanelLayoutDecorator>
 		</layout>
 		
 	</htmlMetawidget>

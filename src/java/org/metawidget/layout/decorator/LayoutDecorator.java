@@ -53,7 +53,7 @@ public abstract class LayoutDecorator<W, M extends W>
 	// Constructor
 	//
 
-	public LayoutDecorator( LayoutDecoratorConfig<W, M> config )
+	protected LayoutDecorator( LayoutDecoratorConfig<W, M> config )
 	{
 		mDelegate = config.getLayout();
 
