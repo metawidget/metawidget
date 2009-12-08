@@ -45,14 +45,15 @@
 			</compositeWidgetBuilder>
 		</widgetBuilder>
 		<layout>
-			<richFacesLayout xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="RichFacesLayoutConfig">
+			<tabPanelSectionLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="TabPanelSectionLayoutDecoratorConfig">
 				<layout>
-					<simpleLayout />
+					<tabPanelSectionLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="TabPanelSectionLayoutDecoratorConfig">
+						<layout>
+							<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
+						</layout>
+					</tabPanelSectionLayoutDecorator>
 				</layout>
-				<sectionStyle>
-					<constant>SECTION_AS_TAB</constant>
-				</sectionStyle>
-			</richFacesLayout>
+			</tabPanelSectionLayoutDecorator>
 		</layout>
 		
 	</htmlMetawidget>

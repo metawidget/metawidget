@@ -2616,8 +2616,8 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 				
 				<para>
 					For those looking to write their own Metawidget (say, for a currently unsupported platform) there is a
-					<classname>MetawidgetMixin</classname> class that implements the above steps 2-7 for you, see
-					<xref linkend="section-architecture-metawidgets-implementing-your-own-mixin"/>.
+					<classname>BasePipeline</classname> class that implements the above steps 2-7 for you, see
+					<xref linkend="section-architecture-metawidgets-implementing-your-own-pipeline"/>.
 					All of the supplied Metawidgets are implemented using this class.
 				</para>
 				
@@ -2712,17 +2712,13 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 					Whilst there is no one Metawidget base class, a number of convenience classes are provided:
 				</para>
 					
-				<section id="section-architecture-metawidgets-implementing-your-own-mixin">
-					<title>MetawidgetMixin</title>
+				<section id="section-architecture-metawidgets-implementing-your-own-pipeline">
+					<title>BasePipeline</title>
 					
 					<para>
-						Mixins are a frequently used workaround for multiple inheritance in Java. Classes extend the
-						mixin as an inner class and override its methods as needed.
-					</para>
-						
-					<para>
-						All the built-in Metawidgets use <classname>MetawidgetMixin</classname> to ease their implementation. The
-						mixin provides pre-built functionality such as deciding when to use single versus compound widgets, support
+						All the built-in Metawidgets use <classname>BasePipeline</classname> to ease their implementation. It
+						provides pre-built functionality such as co-ordinating the 5 stages of the pipeline,
+						deciding when to use single versus compound widgets, support
 						for overriding widgets, incorporating stubs, and changing between read-only and active modes.
 					</para>
 					

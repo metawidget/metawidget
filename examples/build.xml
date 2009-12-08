@@ -116,8 +116,8 @@
 				<include name="org/metawidget/inspector/xml/**"/>
 				<include name="org/metawidget/inspectionresultprocessor/**"/>				
 				<include name="org/metawidget/layout/**"/>				
-				<include name="org/metawidget/mixin/base/**"/>
-				<include name="org/metawidget/mixin/w3c/**"/>
+				<include name="org/metawidget/pipeline/base/**"/>
+				<include name="org/metawidget/pipeline/w3c/**"/>
 				<include name="org/metawidget/swing/*.class"/>
 				<include name="org/metawidget/swing/layout/BoxLayout*.class"/>
 				<include name="org/metawidget/swing/layout/FlowLayout*.class"/>
@@ -621,8 +621,8 @@
 				<include name="org/metawidget/inspector/xml/**"/>
 				<include name="org/metawidget/inspectionresultprocessor/**"/>
 				<include name="org/metawidget/layout/**"/>
-				<include name="org/metawidget/mixin/base/**"/>
-				<include name="org/metawidget/mixin/w3c/**"/>
+				<include name="org/metawidget/pipeline/base/**"/>
+				<include name="org/metawidget/pipeline/w3c/**"/>
 				<include name="org/metawidget/util/**"/>
 				<include name="org/metawidget/widgetbuilder/**"/>				
 				<include name="org/metawidget/widgetprocessor/**"/>				

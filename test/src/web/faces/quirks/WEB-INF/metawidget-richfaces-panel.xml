@@ -43,7 +43,15 @@
 			</compositeWidgetBuilder>
 		</widgetBuilder>
 		<layout>
-			<richFacesLayout xmlns="java:org.metawidget.faces.component.html.layout.richfaces"/>
+			<panelSectionLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="PanelSectionLayoutDecoratorConfig">
+				<layout>
+					<panelSectionLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="PanelSectionLayoutDecoratorConfig">
+						<layout>
+							<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
+						</layout>
+					</panelSectionLayoutDecorator>
+				</layout>
+			</panelSectionLayoutDecorator>
 		</layout>
 		
 	</htmlMetawidget>

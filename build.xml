@@ -66,7 +66,7 @@
 			<include name="org/metawidget/inspectionresultprocessor/**"/>
 			<include name="org/metawidget/jsp/**"/>
 			<include name="org/metawidget/layout/**"/>
-			<include name="org/metawidget/mixin/**"/>
+			<include name="org/metawidget/pipeline/**"/>
 			<include name="org/metawidget/spring/**"/>
 			<include name="org/metawidget/struts/**"/>
 			<include name="org/metawidget/swing/**"/>
@@ -228,8 +228,8 @@
 				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
 				<include name="org/metawidget/inspectionresultprocessor/iface/**"/>
 				<include name="org/metawidget/layout/**"/>
-				<include name="org/metawidget/mixin/base/**"/>
-				<include name="org/metawidget/mixin/gwt/**"/>
+				<include name="org/metawidget/pipeline/base/**"/>
+				<include name="org/metawidget/pipeline/gwt/**"/>
 				<include name="org/metawidget/util/simple/**"/>
 				<include name="org/metawidget/widgetbuilder/**"/>
 				<include name="org/metawidget/widgetprocessor/**"/>
@@ -245,7 +245,7 @@
 				<include name="org/metawidget/gwt/generator/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/iface/**"/>
 				<include name="org/metawidget/inspector/gwt/remote/client/**"/>
-				<include name="org/metawidget/mixin/gwt/**"/>
+				<include name="org/metawidget/pipeline/gwt/**"/>
 			</fileset>
 		</jar>
 		

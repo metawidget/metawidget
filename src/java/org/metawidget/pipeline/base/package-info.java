@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Metawidget convenience implementations (org.w3c-based mixin).
+ * Pipeline convenience implementations.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.mixin.w3c;
+package org.metawidget.pipeline.base;
