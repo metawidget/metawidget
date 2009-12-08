@@ -25,7 +25,7 @@ import org.metawidget.layout.decorator.LayoutDecoratorTest;
  * @author Richard Kennard
  */
 
-public class PanelSectionLayoutTest
+public class TabPanelLayoutDecoratorTest
 	extends TestCase
 {
 	//
@@ -34,32 +34,21 @@ public class PanelSectionLayoutTest
 
 	public void testConfig()
 	{
-		PanelSectionLayoutDecoratorConfig config1 = new PanelSectionLayoutDecoratorConfig();
-		PanelSectionLayoutDecoratorConfig config2 = new PanelSectionLayoutDecoratorConfig();
+		TabPanelLayoutDecoratorConfig config1 = new TabPanelLayoutDecoratorConfig();
+		TabPanelLayoutDecoratorConfig config2 = new TabPanelLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
-		// style
+		// tabPlacement
 
-		config1.setStyle( "aStyle" );
-		assertTrue( "aStyle".equals( config1.getStyle() ));
+		config1.setHeaderAlignment( "right" );
+		assertTrue( "right".equals( config1.getHeaderAlignment() ));
 		assertTrue( !config1.equals( config2 ) );
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
-		config2.setStyle( "aStyle" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// styleClass
-
-		config1.setStyleClass( "aStyleClass" );
-		assertTrue( "aStyleClass".equals( config1.getStyleClass() ));
-		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
-
-		config2.setStyle( "aStyleClass" );
+		config2.setHeaderAlignment( "right" );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 

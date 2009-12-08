@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.faces.component.html.layout;
+package org.metawidget.faces.component.html.layout.richfaces;
 
 import junit.framework.TestCase;
 
@@ -25,7 +25,7 @@ import org.metawidget.layout.decorator.LayoutDecoratorTest;
  * @author Richard Kennard
  */
 
-public class OutputTextSectionLayoutTest
+public class PanelLayoutDecoratorTest
 	extends TestCase
 {
 	//
@@ -34,8 +34,8 @@ public class OutputTextSectionLayoutTest
 
 	public void testConfig()
 	{
-		OutputTextSectionLayoutConfig config1 = new OutputTextSectionLayoutConfig();
-		OutputTextSectionLayoutConfig config2 = new OutputTextSectionLayoutConfig();
+		PanelLayoutDecoratorConfig config1 = new PanelLayoutDecoratorConfig();
+		PanelLayoutDecoratorConfig config2 = new PanelLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config2 ) );
@@ -59,7 +59,7 @@ public class OutputTextSectionLayoutTest
 		assertTrue( !config1.equals( config2 ) );
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
-		config2.setStyleClass( "aStyleClass" );
+		config2.setStyle( "aStyleClass" );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 

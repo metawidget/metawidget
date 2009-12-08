@@ -23,8 +23,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.android.AndroidConfigReader;
-import org.metawidget.android.widget.layout.HeadingSectionLayoutDecorator;
-import org.metawidget.android.widget.layout.HeadingSectionLayoutDecoratorConfig;
+import org.metawidget.android.widget.layout.TextViewLayoutDecorator;
+import org.metawidget.android.widget.layout.TextViewLayoutDecoratorConfig;
 import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.OverriddenWidgetBuilder;
@@ -592,7 +592,7 @@ public class AndroidMetawidget
 			if ( mPipeline.getLayout() == null )
 			{
 				if ( DEFAULT_LAYOUT == null )
-					DEFAULT_LAYOUT = new HeadingSectionLayoutDecorator( new HeadingSectionLayoutDecoratorConfig().setLayout( new TableLayout() ) );
+					DEFAULT_LAYOUT = new TextViewLayoutDecorator( new TextViewLayoutDecoratorConfig().setLayout( new TableLayout() ) );
 
 				mPipeline.setLayout( DEFAULT_LAYOUT );
 			}

@@ -24,14 +24,14 @@
 			</compositeInspector>
 		</inspector>
 		<layout>
-			<headingSectionLayout xmlns="java:org.metawidget.android.widget.layout" config="HeadingSectionLayoutConfig">
+			<textViewLayoutDecorator xmlns="java:org.metawidget.android.widget.layout" config="TextViewLayoutDecoratorConfig">
 				<layout>
 					<tableLayout />
 				</layout>
-				<sectionStyle>
+				<style>
 					<int>@org.metawidget.example.android.addressbook:style/section</int>
-				</sectionStyle>
-			</headingSectionLayout>
+				</style>
+			</textViewLayoutDecorator>
 		</layout>
 	</androidMetawidget>
 

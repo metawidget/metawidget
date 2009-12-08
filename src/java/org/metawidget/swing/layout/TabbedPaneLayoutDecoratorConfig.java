@@ -14,28 +14,29 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.android.widget.layout;
+package org.metawidget.swing.layout;
 
-import org.metawidget.android.widget.AndroidMetawidget;
+import javax.swing.JComponent;
+import javax.swing.SwingConstants;
+
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
-
-import android.view.View;
+import org.metawidget.swing.SwingMetawidget;
 
 /**
- * Configures a HeadingSectionLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
+ * Configures a TabbedPaneLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class HeadingSectionLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<View, AndroidMetawidget>
+public class TabbedPaneLayoutDecoratorConfig
+	extends LayoutDecoratorConfig<JComponent, SwingMetawidget>
 {
 	//
 	// Private members
 	//
 
-	private int	mStyle;
+	private int	mTabPlacement	= SwingConstants.TOP;
 
 	//
 	// Public methods
@@ -48,35 +49,39 @@ public class HeadingSectionLayoutDecoratorConfig
 	 */
 
 	@Override
-	public HeadingSectionLayoutDecoratorConfig setLayout( Layout<View, AndroidMetawidget> layout )
+	public TabbedPaneLayoutDecoratorConfig setLayout( Layout<JComponent, SwingMetawidget> layout )
 	{
 		super.setLayout( layout );
 
 		return this;
 	}
 
-	public int getStyle()
+	public int getTabPlacement()
 	{
-		return mStyle;
+		return mTabPlacement;
 	}
 
 	/**
+	 * One of SwingConstants.TOP, SwingConstants.BOTTOM, SwingConstants.LEFT or SwingConstants.RIGHT
+	 * as defined by JTabbedPane.setTabAlignment.
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
-	public HeadingSectionLayoutDecoratorConfig setStyle( int style )
+	public TabbedPaneLayoutDecoratorConfig setTabPlacement( int TabPlacement )
 	{
-		mStyle = style;
+		mTabPlacement = TabPlacement;
+
 		return this;
 	}
 
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof HeadingSectionLayoutDecoratorConfig ) )
+		if ( !( that instanceof TabbedPaneLayoutDecoratorConfig ) )
 			return false;
 
-		if ( mStyle != ( (HeadingSectionLayoutDecoratorConfig) that ).mStyle )
+		if ( mTabPlacement != ( (TabbedPaneLayoutDecoratorConfig) that ).mTabPlacement )
 			return false;
 
 		return super.equals( that );
@@ -86,7 +91,7 @@ public class HeadingSectionLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= mStyle;
+		hashCode ^= mTabPlacement;
 
 		return hashCode;
 	}

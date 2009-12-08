@@ -42,7 +42,7 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public class SeparatorSectionLayoutDecorator
+public class SeparatorLayoutDecorator
 	extends LayoutDecorator<JComponent, SwingMetawidget>
 {
 	//
@@ -73,7 +73,7 @@ public class SeparatorSectionLayoutDecorator
 	// Constructor
 	//
 
-	public SeparatorSectionLayoutDecorator( SeparatorSectionLayoutDecoratorConfig config )
+	public SeparatorLayoutDecorator( SeparatorLayoutDecoratorConfig config )
 	{
 		super( config );
 
@@ -88,14 +88,14 @@ public class SeparatorSectionLayoutDecorator
 	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		super.startLayout( container, metawidget );
-		container.putClientProperty( SeparatorSectionLayoutDecorator.class, null );
+		container.putClientProperty( SeparatorLayoutDecorator.class, null );
 	}
 
 	@Override
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
 		String[] sections = ArrayUtils.fromString( attributes.get( SECTION ) );
-		String[] currentSections = (String[]) container.getClientProperty( SeparatorSectionLayoutDecorator.class );
+		String[] currentSections = (String[]) container.getClientProperty( SeparatorLayoutDecorator.class );
 
 		// Stay where we are?
 
@@ -105,7 +105,7 @@ public class SeparatorSectionLayoutDecorator
 			return;
 		}
 
-		container.putClientProperty( SeparatorSectionLayoutDecorator.class, sections );
+		container.putClientProperty( SeparatorLayoutDecorator.class, sections );
 
 		// For each of the new sections...
 

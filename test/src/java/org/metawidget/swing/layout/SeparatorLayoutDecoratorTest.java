@@ -38,7 +38,7 @@ import org.metawidget.swing.SwingMetawidget;
  * @author Richard Kennard
  */
 
-public class SeparatorSectionLayoutTest
+public class SeparatorLayoutDecoratorTest
 	extends TestCase
 {
 	//
@@ -47,8 +47,8 @@ public class SeparatorSectionLayoutTest
 
 	public void testConfig()
 	{
-		SeparatorSectionLayoutDecoratorConfig config1 = new SeparatorSectionLayoutDecoratorConfig();
-		SeparatorSectionLayoutDecoratorConfig config2 = new SeparatorSectionLayoutDecoratorConfig();
+		SeparatorLayoutDecoratorConfig config1 = new SeparatorLayoutDecoratorConfig();
+		SeparatorLayoutDecoratorConfig config2 = new SeparatorLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config2 ) );
@@ -85,7 +85,7 @@ public class SeparatorSectionLayoutTest
 		assertTrue( metawidget.getComponent( 3 ) instanceof JPanel );
 		assertTrue( 4 == metawidget.getComponentCount() );
 
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayoutDecorator( new SeparatorSectionLayoutDecoratorConfig().setAlignment( SwingConstants.RIGHT ).setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setAlignment( SwingConstants.RIGHT ).setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) );
 		panel = (JPanel) metawidget.getComponent( 0 );
 		assertTrue( "Section".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
 		assertTrue( 1 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).gridx );
@@ -102,7 +102,7 @@ public class SeparatorSectionLayoutTest
 	public void testNestedSeparators()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayoutDecorator( new SeparatorSectionLayoutDecoratorConfig().setLayout( new SeparatorSectionLayoutDecorator( new SeparatorSectionLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -139,7 +139,7 @@ public class SeparatorSectionLayoutTest
 	public static void main( String[] args )
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayoutDecorator( new SeparatorSectionLayoutDecoratorConfig().setLayout( new SeparatorSectionLayoutDecorator( new SeparatorSectionLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );

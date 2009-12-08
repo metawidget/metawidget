@@ -14,45 +14,62 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.faces.component.html.layout.richfaces;
+package org.metawidget.swing.layout;
 
-import javax.faces.component.UIComponent;
+import javax.swing.JComponent;
+import javax.swing.SwingConstants;
 
-import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
-import org.metawidget.util.simple.ObjectUtils;
+import org.metawidget.layout.iface.Layout;
+import org.metawidget.swing.SwingMetawidget;
 
 /**
- * Configures a TabPanelSectionLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
+ * Configures a SeparatorLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class TabPanelSectionLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<UIComponent, UIMetawidget>
+public class SeparatorLayoutDecoratorConfig
+	extends LayoutDecoratorConfig<JComponent, SwingMetawidget>
 {
 	//
 	// Private members
 	//
 
-	private String	mHeaderAlignment	= "left";
+	private int	mAlignment	= SwingConstants.LEFT;
 
 	//
 	// Public methods
 	//
 
-	public String getHeaderAlignment()
-	{
-		return mHeaderAlignment;
-	}
-
 	/**
+	 * Overridden to use covariant return type.
+	 *
 	 * @return this, as part of a fluent interface
 	 */
 
-	public TabPanelSectionLayoutDecoratorConfig setHeaderAlignment( String headerAlignment )
+	@Override
+	public SeparatorLayoutDecoratorConfig setLayout( Layout<JComponent, SwingMetawidget> layout )
 	{
-		mHeaderAlignment = headerAlignment;
+		super.setLayout( layout );
+
+		return this;
+	}
+
+	public int getAlignment()
+	{
+		return mAlignment;
+	}
+
+	/**
+	 * One of SwingConstants.LEFT or SwingConstants.RIGHT.
+	 *
+	 * @return this, as part of a fluent interface
+	 */
+
+	public SeparatorLayoutDecoratorConfig setAlignment( int alignment )
+	{
+		mAlignment = alignment;
 
 		return this;
 	}
@@ -60,10 +77,10 @@ public class TabPanelSectionLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof TabPanelSectionLayoutDecoratorConfig ) )
+		if ( !( that instanceof SeparatorLayoutDecoratorConfig ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mHeaderAlignment, ( (TabPanelSectionLayoutDecoratorConfig) that ).mHeaderAlignment ))
+		if ( mAlignment != ( (SeparatorLayoutDecoratorConfig) that ).mAlignment )
 			return false;
 
 		return super.equals( that );
@@ -73,7 +90,7 @@ public class TabPanelSectionLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mHeaderAlignment );
+		hashCode ^= mAlignment;
 
 		return hashCode;
 	}

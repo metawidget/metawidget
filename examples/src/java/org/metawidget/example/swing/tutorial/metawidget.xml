@@ -14,7 +14,7 @@
 			</compositeInspector>
 		</inspector>
 		<metawidgetLayout>
-			<tabbedPaneSectionLayoutDecorator xmlns="java:org.metawidget.swing.layout" config="TabbedPaneSectionLayoutDecoratorConfig">
+			<tabbedPaneLayoutDecorator xmlns="java:org.metawidget.swing.layout" config="TabbedPaneLayoutDecoratorConfig">
 				<layout>
 					<gridBagLayout config="GridBagLayoutConfig">
 						<numberOfColumns>
@@ -22,7 +22,7 @@
 						</numberOfColumns>
 					</gridBagLayout>
 				</layout>
-			</tabbedPaneSectionLayoutDecorator>
+			</tabbedPaneLayoutDecorator>
 		</metawidgetLayout>
 	</swingMetawidget>
 

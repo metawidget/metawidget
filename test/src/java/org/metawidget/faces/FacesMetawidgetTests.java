@@ -79,8 +79,8 @@ import junit.framework.TestSuite;
 
 import org.metawidget.faces.component.UIMetawidgetTest;
 import org.metawidget.faces.component.UIStub;
-import org.metawidget.faces.component.html.layout.OutputTextSectionLayoutTest;
-import org.metawidget.faces.component.html.layout.richfaces.TabPanelSectionLayoutTest;
+import org.metawidget.faces.component.html.layout.OutputTextLayoutDecoratorTest;
+import org.metawidget.faces.component.html.layout.richfaces.TabPanelLayoutDecoratorTest;
 import org.metawidget.faces.component.html.widgetprocessor.CssStyleProcessorTest;
 import org.metawidget.faces.component.html.widgetprocessor.HiddenFieldProcessorTest;
 import org.metawidget.faces.component.widgetbuilder.OverriddenWidgetBuilderTest;
@@ -119,7 +119,7 @@ public class FacesMetawidgetTests
 		suite.addTestSuite( LabelProcessorTest.class );
 		suite.addTestSuite( IceFacesWidgetBuilderTest.class );
 		suite.addTestSuite( ImmediateAttributeProcessorTest.class );
-		suite.addTestSuite( OutputTextSectionLayoutTest.class );
+		suite.addTestSuite( OutputTextLayoutDecoratorTest.class );
 		suite.addTestSuite( OverriddenWidgetBuilderTest.class );
 		suite.addTestSuite( ReadableIdProcessorTest.class );
 		suite.addTestSuite( RequiredAttributeProcessorTest.class );
@@ -127,7 +127,7 @@ public class FacesMetawidgetTests
 		suite.addTestSuite( StandardBindingProcessorTest.class );
 		suite.addTestSuite( StandardConverterProcessorTest.class );
 		suite.addTestSuite( StandardValidatorProcessorTest.class );
-		suite.addTestSuite( TabPanelSectionLayoutTest.class );
+		suite.addTestSuite( TabPanelLayoutDecoratorTest.class );
 		suite.addTestSuite( TomahawkWidgetBuilderTest.class );
 		suite.addTestSuite( UIMetawidgetTest.class );
 

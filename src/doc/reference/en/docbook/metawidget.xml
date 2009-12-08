@@ -581,9 +581,9 @@ public class Main {
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		<symbol>GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
-		SeparatorSectionLayoutConfig layoutConfig = new SeparatorSectionLayoutConfig().setLayout(
+		SeparatorLayoutDecoratorConfig layoutConfig = new SeparatorLayoutDecoratorConfig().setLayout(
 			new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ));
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayout( layoutConfig ));</symbol>
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( layoutConfig ));</symbol>
 		metawidget.setToInspect( person );
 		
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
@@ -607,9 +607,9 @@ public class Main {
 				</figure>
 
 				<para>
-					You may have noticed the <classname>GridBagLayout</classname> is nested inside a <classname>SeparatorSectionLayout</classname>. This
+					You may have noticed the <classname>GridBagLayout</classname> is nested inside a <classname>SeparatorLayoutDecorator</classname>. This
 					is responsible for separating widgets in different sections using <classname>JSeparator</classname>s. However there are other choices for
-					separating widgets. Modify the code to use <classname>TabbedPaneSectionLayout</classname> instead:
+					separating widgets. Modify the code to use <classname>TabbedPaneLayoutDecorator</classname> instead:
 				</para>
 				
 				<programlisting language="java">package com.myapp;
@@ -634,9 +634,9 @@ public class Main {
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
-		<symbol>TabbedPaneSectionLayoutConfig layoutConfig = new TabbedPaneSectionLayoutConfig().setLayout(
+		<symbol>TabbedPaneLayoutDecoratorConfig layoutConfig = new TabbedPaneLayoutDecoratorConfig().setLayout(
 			new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ));
-		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( layoutConfig ));</symbol>
+		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( layoutConfig ));</symbol>
 		metawidget.setToInspect( person );
 		
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
@@ -699,9 +699,9 @@ public class Main {
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
-		TabbedPaneSectionLayoutConfig layoutConfig = new TabbedPaneSectionLayoutConfig().setLayout(
+		TabbedPaneLayoutDecoratorConfig layoutConfig = new TabbedPaneLayoutDecoratorConfig().setLayout(
 			new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ));
-		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( layoutConfig ));
+		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( layoutConfig ));
 		metawidget.setToInspect( person );
 		<symbol>JComboBox combo = new JComboBox();
 		combo.setName( "retired" );
@@ -762,9 +762,9 @@ public class Main {
 			new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 ); 
-		TabbedPaneSectionLayoutConfig layoutConfig = new TabbedPaneSectionLayoutConfig().setLayout(
+		TabbedPaneLayoutDecoratorConfig layoutConfig = new TabbedPaneLayoutDecoratorConfig().setLayout(
 			new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ));
-		metawidget.setMetawidgetLayout( new TabbedPaneSectionLayout( layoutConfig ));
+		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( layoutConfig ));
 		metawidget.setToInspect( person );
 		<symbol>metawidget.add( new Stub( "retired" ));</symbol>
 		
@@ -868,8 +868,8 @@ public class Person {
 			&lt;/compositeInspector&gt;
 		&lt;/inspector&gt;
 		&lt;metawidgetLayout&gt;
-			&lt;tabbedPaneSectionLayout xmlns="java:org.metawidget.swing.layout"
-				config="TabbedPaneSectionLayoutConfig"&gt;
+			&lt;tabbedPaneLayoutDecorator xmlns="java:org.metawidget.swing.layout"
+				config="TabbedPaneLayoutDecoratorConfig"&gt;
 				&lt;layout&gt;
 					&lt;gridBagLayout config="GridBagLayoutConfig"&gt;
 						&lt;numberOfColumns&gt;
@@ -877,7 +877,7 @@ public class Person {
 						&lt;/numberOfColumns&gt;
 					&lt;/gridBagLayout&gt;
 				&lt;/layout&gt;
-			&lt;/tabbedPaneSectionLayout&gt;
+			&lt;/tabbedPaneLayoutDecorator&gt;
 		&lt;/metawidgetLayout&gt;	
 	&lt;/swingMetawidget&gt;
 
@@ -1001,8 +1001,8 @@ public class Main {
 			&lt;/compositeInspector&gt;
 		&lt;/inspector&gt;
 		&lt;metawidgetLayout&gt;
-		&lt;tabbedPaneSectionLayout xmlns="java:org.metawidget.swing.layout"
-			config="TabbedPaneSectionLayoutConfig"&gt;
+		&lt;tabbedPaneLayoutDecorator xmlns="java:org.metawidget.swing.layout"
+			config="TabbedPaneLayoutDecoratorConfig"&gt;
 			&lt;layout&gt;
 				&lt;gridBagLayout config="GridBagLayoutConfig"&gt;
 					&lt;numberOfColumns&gt;
@@ -1010,7 +1010,7 @@ public class Main {
 					&lt;/numberOfColumns&gt;
 				&lt;/gridBagLayout&gt;
 			&lt;/layout&gt;
-		&lt;/tabbedPaneSectionLayout&gt;
+		&lt;/tabbedPaneLayoutDecorator&gt;
 		&lt;/metawidgetLayout&gt;	
 	&lt;/swingMetawidget&gt;
 
@@ -4575,17 +4575,17 @@ void endLayout(W container,M metawidget);</programlisting>
 					Rather, <classname>Layout</classname>s must be combined <emphasis>heirarchically</emphasis>, with an 'outer' <classname>Layout</classname>
 					delegating to a single 'inner' <classname>Layout</classname>. <classname>LayoutDecorator</classname> is an abstract
 					class that can be extended in order to decorate other <classname>Layout</classname>s. For example,
-					<classname>GridBagLayout</classname> can be decorated using <classname>TabbedPaneSectionLayout</classname> to
+					<classname>GridBagLayout</classname> can be decorated using <classname>TabbedPaneLayoutDecorator</classname> to
 					add tabbed section functionality.
 				</para>
 				
 				<programlisting language="xml">&lt;metawidgetLayout&gt;
-	&lt;tabbedPaneSectionLayout xmlns="java:org.metawidget.swing.layout"
-		config="TabbedPaneSectionLayoutConfig"&gt;
+	&lt;tabbedPaneLayoutDecorator xmlns="java:org.metawidget.swing.layout"
+		config="TabbedPaneLayoutDecoratorConfig"&gt;
 		&lt;layout&gt;
 			&lt;gridBagLayout /&gt;
 		&lt;/layout&gt;
-	&lt;/tabbedPaneSectionLayout&gt;			
+	&lt;/tabbedPaneLayoutDecorator&gt;			
 &lt;/metawidgetLayout&gt;</programlisting>
 
 				<para>
@@ -4604,21 +4604,21 @@ public String telephone;
 }</programlisting>
 
 				<para>
-					...could be rendered using nested <classname>TabbedPaneSectionLayout</classname>s...
+					...could be rendered using nested <classname>TabbedPaneLayoutDecorator</classname>s...
 				</para>
 
 				<programlisting language="xml">&lt;metawidgetLayout&gt;
-	&lt;tabbedPaneSectionLayout xmlns="java:org.metawidget.swing.layout"
-		config="TabbedPaneSectionLayoutConfig"&gt;
+	&lt;tabbedPaneLayoutDecorator xmlns="java:org.metawidget.swing.layout"
+		config="TabbedPaneLayoutDecoratorConfig"&gt;
 		&lt;layout&gt;
-			&lt;tabbedPaneSectionLayout
-				config="TabbedPaneSectionLayoutConfig"&gt;
+			&lt;tabbedPaneLayoutDecorator
+				config="TabbedPaneLayoutDecoratorConfig"&gt;
 				&lt;layout&gt;
 					&lt;gridBagLayout /&gt;
 				&lt;/layout&gt;
-			&lt;/tabbedPaneSectionLayout&gt;			
+			&lt;/tabbedPaneLayoutDecorator&gt;			
 		&lt;/layout&gt;
-	&lt;/tabbedPaneSectionLayout&gt;			
+	&lt;/tabbedPaneLayoutDecorator&gt;			
 &lt;/metawidgetLayout&gt;</programlisting>
 
 				<para>
@@ -4626,29 +4626,29 @@ public String telephone;
 				</para>	
 
 				<figure id="section-architecture-layouts-layoutdecorator-nested-tabs">
-					<title>Nested TabbedPaneSectionLayouts</title>
+					<title>Nested TabbedPaneLayoutDecorators</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/layout-nested-tabs.jpg" width="100mm"/>
 					</screenshot>
 				</figure>
 
 				<para>
-					Alternatively, it could use a <classname>TabbedPaneSectionLayout</classname> nested within a
-					<classname>SeparatorSectionLayout</classname>...
+					Alternatively, it could use a <classname>TabbedPaneLayoutDecorator</classname> nested within a
+					<classname>SeparatorLayoutDecorator</classname>...
 				</para>
 
 				<programlisting language="xml">&lt;metawidgetLayout&gt;
-	&lt;separatorSectionLayout xmlns="java:org.metawidget.swing.layout"
-		config="SeparatorSectionLayoutConfig"&gt;
+	&lt;separatorLayoutDecorator xmlns="java:org.metawidget.swing.layout"
+		config="SeparatorLayoutDecoratorConfig"&gt;
 		&lt;layout&gt;
-			&lt;tabbedPaneSectionLayout
-				config="TabbedPaneSectionLayoutConfig"&gt;
+			&lt;tabbedPaneLayoutDecorator
+				config="TabbedPaneLayoutDecoratorConfig"&gt;
 				&lt;layout&gt;
 					&lt;gridBagLayout /&gt;
 				&lt;/layout&gt;
-			&lt;/tabbedPaneSectionLayout&gt;			
+			&lt;/tabbedPaneLayoutDecorator&gt;			
 		&lt;/layout&gt;
-	&lt;/separatorSectionLayout&gt;			
+	&lt;/separatorLayoutDecorator&gt;			
 &lt;/metawidgetLayout&gt;</programlisting>
 
 				<para>
@@ -4656,29 +4656,29 @@ public String telephone;
 				</para>	
 
 				<figure id="section-architecture-layouts-layoutdecorator-separator-tabs">
-					<title>TabbedPaneSectionLayout within a SeparatorSectionLayout</title>
+					<title>TabbedPaneLayoutDecorator within a SeparatorLayoutDecorator</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/layout-separator-tabs.jpg" width="100mm"/>
 					</screenshot>
 				</figure>
 
 				<para>
-					Or the opposite - a <classname>SeparatorSectionLayout</classname> nested within a
-					<classname>TabbedPaneSectionLayout</classname>...
+					Or the opposite - a <classname>SeparatorLayoutDecorator</classname> nested within a
+					<classname>TabbedPaneLayoutDecorator</classname>...
 				</para>
 
 				<programlisting language="xml">&lt;metawidgetLayout&gt;
-	&lt;tabbedPaneSectionLayout xmlns="java:org.metawidget.swing.layout"
-		config="TabbedPaneSectionLayoutConfig"&gt;
+	&lt;tabbedPaneLayoutDecorator xmlns="java:org.metawidget.swing.layout"
+		config="TabbedPaneLayoutDecoratorConfig"&gt;
 		&lt;layout&gt;
-			&lt;separatorSectionLayout
-				config="SeparatorSectionLayoutConfig"&gt;
+			&lt;separatorLayoutDecorator
+				config="SeparatorLayoutDecoratorConfig"&gt;
 				&lt;layout&gt;
 					&lt;gridBagLayout /&gt;
 				&lt;/layout&gt;
-			&lt;/separatorSectionLayout&gt;			
+			&lt;/separatorLayoutDecorator&gt;			
 		&lt;/layout&gt;
-	&lt;/tabbedPaneSectionLayout&gt;			
+	&lt;/tabbedPaneLayoutDecorator&gt;			
 &lt;/metawidgetLayout&gt;</programlisting>
 
 				<para>
@@ -4686,7 +4686,7 @@ public String telephone;
 				</para>	
 
 				<figure id="section-architecture-layouts-layoutdecorator-tabs-separator">
-					<title>SeparatorSectionLayout within a TabbedPaneSectionLayout</title>
+					<title>SeparatorLayoutDecorator within a TabbedPaneLayoutDecorator</title>
 					<screenshot>
 						<graphic fileref="images/screenshots/layout-tabs-separator.jpg" width="100mm"/>
 					</screenshot>
@@ -4721,11 +4721,11 @@ public String telephone;
 					<tbody>
 						<tr>
 							<td>Android</td>
-							<td><programlisting language="xml">&lt;headingSectionLayout config="HeadingSectionLayoutConfig"&gt;
+							<td><programlisting language="xml">&lt;textViewLayoutDecorator config="TextViewLayoutDecoratorConfig"&gt;
 	&lt;layout&gt;
 		&lt;tableLayout /&gt;
 	&lt;/layout&gt;
-&lt;/headingSectionLayout&gt;</programlisting></td>							
+&lt;/textViewLayoutDecorator&gt;</programlisting></td>							
 						</tr>
 						<tr>
 							<td>GWT</td>
@@ -4749,11 +4749,11 @@ public String telephone;
 						</tr>
 						<tr>
 							<td>Swing</td>
-							<td><programlisting language="xml">&lt;separatorSectionLayout config="SeparatorSectionLayoutConfig"&gt;
+							<td><programlisting language="xml">&lt;separatorLayoutDecorator config="SeparatorLayoutDecoratorConfig"&gt;
 	&lt;layout&gt;
 		&lt;gridBagLayout /&gt;
 	&lt;/layout&gt;
-&lt;/separatorSectionLayout&gt;</programlisting></td>							
+&lt;/separatorLayoutDecorator&gt;</programlisting></td>							
 						</tr>
 					</tbody>
 				</informaltable>
@@ -8355,12 +8355,12 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				</section>				
 
 				<section id="section-layouts-desktop-swing-separator">
-					<title>SeparatorSectionLayout</title>
+					<title>SeparatorLayoutDecorator</title>
 					
 					<para>
 						Layout to separate widgets in different sections using a <classname>JSeparator</classname>. This
 						<classname>Layout</classname> recognizes the following parameters, configured
-						using <classname>SeparatorSectionLayoutConfig</classname>:						
+						using <classname>SeparatorLayoutDecoratorConfig</classname>:						
 					</para>
 					
 					<informaltable>
@@ -8394,12 +8394,12 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				</section>
 
 				<section id="section-layouts-desktop-swing-tabbedpane">
-					<title>TabbedPaneSectionLayout</title>
+					<title>TabbedPaneLayoutDecorator</title>
 					
 					<para>
 						Layout to separate widgets in different sections using a <classname>JTabbedPane</classname>. This
 						<classname>Layout</classname> recognizes the following parameters, configured
-						using <classname>TabbedPaneSectionLayoutConfig</classname>:						
+						using <classname>TabbedPaneLayoutDecoratorConfig</classname>:						
 					</para>
 					
 					<informaltable>
@@ -8434,7 +8434,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				</section>
 
 				<section id="section-layouts-desktop-swing-titledpanel">
-					<title>TitledPanelSectionLayout</title>
+					<title>TitledPanelLayoutDecorator</title>
 					
 					<para>
 						Layout to separate widgets in different sections using a <classname>JPanel</classname> with
@@ -8838,42 +8838,6 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 			<section id="section-layouts-mobile-android">
 				<title>Android Layouts</title>
 				
-				<section id="section-layouts-web-android-heading">
-					<title>HeadingSectionLayout</title>
-
-					<para>
-						Layout to separate widgets in different sections using a <classname>TextView</classname>. This
-						<classname>Layout</classname> recognizes the following parameters, configured
-						using <classname>HeadingSectionLayoutConfig</classname>:						
-					</para>
-					
-					<informaltable>
-						<colgroup>
-							<col width="30%"/>
-							<col width="70%"/>
-						</colgroup>
-						<thead>
-							<tr>
-								<th align="left">Property</th>
-								<th align="left">Description</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr>
-								<td><parameter>layout</parameter></td>
-								<td>
-									Metawidget <classname>Layout</classname> to use for laying out the sections,
-									for example <classname>org.metawidget.android.widget.layout.TableLayout</classname>.
-								</td>
-							</tr>
-							<tr>
-								<td><parameter>sectionStyle</parameter></td>
-								<td>Android style (ie. <parameter>@com.myapp:style/section</parameter>) to apply to section breaks</td>
-							</tr>
-						</tbody>						
-					</informaltable>
-				</section>
-
 				<section id="section-layouts-web-android-linear">
 					<title>LinearLayout</title>
 					
@@ -8952,7 +8916,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 				</section>
 				
 				<section id="section-layouts-web-android-tab">
-					<title>TabHostSectionLayout</title>
+					<title>TabHostLayoutDecorator</title>
 
 					<para>
 						Layout to wrap widgets in different sections inside a <classname>TabHost</classname>,
@@ -8960,7 +8924,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					</para>
 					
 					<figure id="section-layouts-web-android-tab-screenshot">
-						<title>TabHostSectionLayout</title>
+						<title>TabHostLayoutDecorator</title>
 						<screenshot>
 							<graphic fileref="images/screenshots/mobile-tabsection.jpg" width="60mm" />
 						</screenshot>
@@ -8989,6 +8953,42 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 									Metawidget <classname>Layout</classname> to use for laying out the inside of the tabs,
 									for example <classname>org.metawidget.android.widget.layout.TableLayout</classname>.
 								</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
+				<section id="section-layouts-web-android-heading">
+					<title>TextViewLayoutDecorator</title>
+
+					<para>
+						Layout to separate widgets in different sections using a <classname>TextView</classname>. This
+						<classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>TextViewLayoutDecoratorConfig</classname>:						
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>layout</parameter></td>
+								<td>
+									Metawidget <classname>Layout</classname> to use for laying out the sections,
+									for example <classname>org.metawidget.android.widget.layout.TableLayout</classname>.
+								</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyle</parameter></td>
+								<td>Android style (ie. <parameter>@com.myapp:style/section</parameter>) to apply to section breaks</td>
 							</tr>
 						</tbody>						
 					</informaltable>

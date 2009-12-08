@@ -41,7 +41,7 @@ import org.metawidget.util.simple.StringUtils;
  * @author Richard Kennard
  */
 
-public class OutputTextSectionLayout
+public class OutputTextLayoutDecorator
 	extends LayoutDecorator<UIComponent, UIMetawidget>
 {
 	//
@@ -56,7 +56,7 @@ public class OutputTextSectionLayout
 	// Constructor
 	//
 
-	public OutputTextSectionLayout( OutputTextSectionLayoutConfig config )
+	public OutputTextLayoutDecorator( OutputTextLayoutDecoratorConfig config )
 	{
 		super( config );
 
@@ -142,12 +142,12 @@ public class OutputTextSectionLayout
 	private State getState( UIComponent container, UIMetawidget metawidget )
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( OutputTextSectionLayout.class );
+		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( OutputTextLayoutDecorator.class );
 
 		if ( stateMap == null )
 		{
 			stateMap = CollectionUtils.newHashMap();
-			metawidget.putClientProperty( OutputTextSectionLayout.class, stateMap );
+			metawidget.putClientProperty( OutputTextLayoutDecorator.class, stateMap );
 		}
 
 		State state = stateMap.get( container );

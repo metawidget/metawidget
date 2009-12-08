@@ -42,17 +42,17 @@ import org.metawidget.swing.SwingMetawidget;
  * @author Richard Kennard
  */
 
-public class TitledPanelSectionLayoutTest
+public class TitledPanelLayoutDecoratorTest
 	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	public void testTitledPanelSectionLayout()
+	public void testTitledPanelLayoutDecorator()
 	{
 		SwingMetawidget swingMetawidget = new SwingMetawidget();
-		swingMetawidget.setMetawidgetLayout( new TitledPanelSectionLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() )));
+		swingMetawidget.setMetawidgetLayout( new TitledPanelLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() )));
 		swingMetawidget.setToInspect( new Foo() );
 
 		Facet facet = new Facet();
@@ -105,7 +105,7 @@ public class TitledPanelSectionLayoutTest
 	public void testNestedPanels()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new TitledPanelSectionLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new TitledPanelSectionLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
+		metawidget.setMetawidgetLayout( new TitledPanelLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new TitledPanelLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -148,7 +148,7 @@ public class TitledPanelSectionLayoutTest
 	public static void main( String[] args )
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new TitledPanelSectionLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new TitledPanelSectionLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
+		metawidget.setMetawidgetLayout( new TitledPanelLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new TitledPanelLayoutDecorator( new LayoutDecoratorConfig<JComponent,SwingMetawidget>().setLayout( new GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );

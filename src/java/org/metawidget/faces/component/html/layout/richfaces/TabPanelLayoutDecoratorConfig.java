@@ -20,72 +20,39 @@ import javax.faces.component.UIComponent;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
-import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a PanelSectionLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
+ * Configures a TabPanelLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class PanelSectionLayoutDecoratorConfig
+public class TabPanelLayoutDecoratorConfig
 	extends LayoutDecoratorConfig<UIComponent, UIMetawidget>
 {
 	//
 	// Private members
 	//
 
-	private String	mStyle;
-
-	private String	mStyleClass;
+	private String	mHeaderAlignment	= "left";
 
 	//
 	// Public methods
 	//
 
-	/**
-	 * Overridden to use covariant return type.
-	 *
-	 * @return this, as part of a fluent interface
-	 */
-
-	@Override
-	public PanelSectionLayoutDecoratorConfig setLayout( Layout<UIComponent, UIMetawidget> layout )
+	public String getHeaderAlignment()
 	{
-		super.setLayout( layout );
-
-		return this;
-	}
-
-	public String getStyle()
-	{
-		return mStyle;
+		return mHeaderAlignment;
 	}
 
 	/**
 	 * @return this, as part of a fluent interface
 	 */
 
-	public PanelSectionLayoutDecoratorConfig setStyle( String style )
+	public TabPanelLayoutDecoratorConfig setHeaderAlignment( String headerAlignment )
 	{
-		mStyle = style;
-
-		return this;
-	}
-
-	public String getStyleClass()
-	{
-		return mStyleClass;
-	}
-
-	/**
-	 * @return this, as part of a fluent interface
-	 */
-
-	public PanelSectionLayoutDecoratorConfig setStyleClass( String styleClass )
-	{
-		mStyleClass = styleClass;
+		mHeaderAlignment = headerAlignment;
 
 		return this;
 	}
@@ -93,13 +60,10 @@ public class PanelSectionLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof PanelSectionLayoutDecoratorConfig ) )
+		if ( !( that instanceof TabPanelLayoutDecoratorConfig ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (PanelSectionLayoutDecoratorConfig) that ).mStyle ) )
-			return false;
-
-		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (PanelSectionLayoutDecoratorConfig) that ).mStyleClass ) )
+		if ( !ObjectUtils.nullSafeEquals( mHeaderAlignment, ( (TabPanelLayoutDecoratorConfig) that ).mHeaderAlignment ))
 			return false;
 
 		return super.equals( that );
@@ -109,8 +73,7 @@ public class PanelSectionLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mStyle );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mStyleClass );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mHeaderAlignment );
 
 		return hashCode;
 	}

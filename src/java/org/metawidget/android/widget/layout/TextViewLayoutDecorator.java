@@ -18,35 +18,40 @@ package org.metawidget.android.widget.layout;
 
 import java.util.Map;
 
+import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.layout.decorator.LayoutDecorator;
-import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.TabHost;
-import android.widget.TabWidget;
-import android.widget.TabHost.TabContentFactory;
+import android.widget.TextView;
 
 /**
- * Layout to decorate widgets from different sections using a TabHost.
+ * Layout to decorate widgets from different sections using a TextView.
  *
  * @author Richard Kennard
  */
 
-public class TabHostSectionLayoutDecorator
+public class TextViewLayoutDecorator
 	extends LayoutDecorator<View, AndroidMetawidget>
 {
+	//
+	// Private members
+	//
+
+	private int	mStyle;
+
 	//
 	// Constructor
 	//
 
-	public TabHostSectionLayoutDecorator( LayoutDecoratorConfig<View, AndroidMetawidget> config )
+	public TextViewLayoutDecorator( TextViewLayoutDecoratorConfig config )
 	{
 		super( config );
+
+		mStyle = config.getStyle();
 	}
 
 	//
@@ -57,7 +62,7 @@ public class TabHostSectionLayoutDecorator
 	public void startLayout( View container, AndroidMetawidget metawidget )
 	{
 		super.startLayout( container, metawidget );
-		metawidget.putClientProperty( HeadingSectionLayoutDecorator.class, null );
+		metawidget.putClientProperty( TextViewLayoutDecorator.class, null );
 	}
 
 	@Override
@@ -74,7 +79,6 @@ public class TabHostSectionLayoutDecorator
 				super.layoutWidget( view, elementName, attributes, state.currentLayout, metawidget );
 			else
 				super.layoutWidget( view, elementName, attributes, container, metawidget );
-
 			return;
 		}
 
@@ -89,7 +93,7 @@ public class TabHostSectionLayoutDecorator
 
 		if ( "".equals( section ) )
 		{
-			state.tabHost = null;
+			state.currentLayout = null;
 			super.layoutWidget( view, elementName, attributes, container, metawidget );
 			return;
 		}
@@ -101,63 +105,21 @@ public class TabHostSectionLayoutDecorator
 		if ( localizedSection == null )
 			localizedSection = section;
 
-		// Whole new tab host?
+		TextView textView = new TextView( metawidget.getContext() );
+		textView.setText( localizedSection, TextView.BufferType.SPANNABLE );
 
-		FrameLayout frameLayout;
+		// Apply style (if any)
 
-		if ( state.tabHost == null )
-		{
-			state.tabHost = new TabHost( metawidget.getContext() );
-			state.tabHost.setPadding( 0, 20, 0, 0 );
+		AndroidUtils.applyStyle( textView, mStyle, metawidget );
 
-			// TabWidget for the tab strip
+		// Add to parent container
 
-			View tabWidget = new TabWidget( metawidget.getContext() );
-			tabWidget.setId( android.R.id.tabs );
-			state.tabHost.addView( tabWidget );
+		( (ViewGroup) container ).addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 
-			// FrameLayout for the tab contents
+		state.currentLayout = new android.widget.LinearLayout( metawidget.getContext() );
+		((ViewGroup) container).addView( state.currentLayout );
 
-			frameLayout = new FrameLayout( metawidget.getContext() );
-			frameLayout.setId( android.R.id.tabcontent );
-
-			// (hack in some padding. Would be better to use a LinearLayout around TabWidget and
-			// FrameLayout, but then the whole thing seemed to disappear?)
-
-			frameLayout.setPadding( 0, 75, 0, 0 );
-			state.tabHost.addView( frameLayout );
-
-			state.tabHost.setup();
-
-			( (ViewGroup) container ).addView( state.tabHost, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.FILL_PARENT ) );
-		}
-		else
-		{
-			frameLayout = (FrameLayout) state.tabHost.getChildAt( 1 );
-		}
-
-		final ViewGroup newLayout = new android.widget.LinearLayout( metawidget.getContext() );
-
-		// (non-selected tabs must be invisible by default)
-
-		newLayout.setVisibility( View.INVISIBLE );
-		state.currentLayout = newLayout;
-
-		// (add to FrameLayout in advance, so that AndroidMetawidget.setValue can find it)
-
-		frameLayout.addView( newLayout );
-
-		TabContentFactory tabContentFactory = new TabHost.TabContentFactory()
-		{
-			public View createTabContent( String tag )
-			{
-				return newLayout;
-			}
-		};
-
-		state.tabHost.addTab( state.tabHost.newTabSpec( localizedSection ).setIndicator( localizedSection ).setContent( tabContentFactory ) );
-
-		// Add view to new tab
+		// Add view to new section
 
 		super.startLayout( state.currentLayout, metawidget );
 		super.layoutWidget( view, elementName, attributes, state.currentLayout, metawidget );
@@ -169,12 +131,12 @@ public class TabHostSectionLayoutDecorator
 
 	private State getState( AndroidMetawidget metawidget )
 	{
-		State state = (State) metawidget.getClientProperty( HeadingSectionLayoutDecorator.class );
+		State state = (State) metawidget.getClientProperty( TextViewLayoutDecorator.class );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( HeadingSectionLayoutDecorator.class, state );
+			metawidget.putClientProperty( TextViewLayoutDecorator.class, state );
 		}
 
 		return state;
@@ -191,8 +153,6 @@ public class TabHostSectionLayoutDecorator
 	/* package private */class State
 	{
 		/* package private */String		currentSection;
-
-		/* package private */TabHost	tabHost;
 
 		/* package private */ViewGroup	currentLayout;
 	}

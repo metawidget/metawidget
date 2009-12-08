@@ -26,9 +26,9 @@ import junit.framework.TestSuite;
 import org.metawidget.android.widget.AndroidMetawidgetTest;
 import org.metawidget.android.widget.FacetTest;
 import org.metawidget.android.widget.StubTest;
-import org.metawidget.android.widget.layout.HeadingSectionLayoutTest;
+import org.metawidget.android.widget.layout.TextViewLayoutDecoratorTest;
 import org.metawidget.android.widget.layout.LinearLayoutTest;
-import org.metawidget.android.widget.layout.TabHostSectionLayoutTest;
+import org.metawidget.android.widget.layout.TabHostLayoutDecoratorTest;
 import org.metawidget.android.widget.layout.TableLayoutTest;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilderTest;
 
@@ -53,11 +53,11 @@ public class AndroidMetawidgetTests
 		suite.addTestSuite( AndroidMetawidgetTest.class );
 		suite.addTestSuite( AndroidWidgetBuilderTest.class );
 		suite.addTestSuite( FacetTest.class );
-		suite.addTestSuite( HeadingSectionLayoutTest.class );
+		suite.addTestSuite( TextViewLayoutDecoratorTest.class );
 		suite.addTestSuite( LinearLayoutTest.class );
 		suite.addTestSuite( StubTest.class );
 		suite.addTestSuite( TableLayoutTest.class );
-		suite.addTestSuite( TabHostSectionLayoutTest.class );
+		suite.addTestSuite( TabHostLayoutDecoratorTest.class );
 
 		return suite;
 	}

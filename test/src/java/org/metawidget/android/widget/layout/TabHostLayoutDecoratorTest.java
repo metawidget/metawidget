@@ -23,11 +23,15 @@ import org.metawidget.android.widget.Facet;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiLookup;
 import org.metawidget.inspector.annotation.UiSection;
-import org.metawidget.layout.decorator.LayoutDecoratorTest;
+import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.Spinner;
+import android.widget.TabHost;
+import android.widget.TabWidget;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -35,42 +39,17 @@ import android.widget.TextView;
  * @author Richard Kennard
  */
 
-public class HeadingSectionLayoutTest
+public class TabHostLayoutDecoratorTest
 	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	public void testConfig()
-	{
-		HeadingSectionLayoutDecoratorConfig config1 = new HeadingSectionLayoutDecoratorConfig();
-		HeadingSectionLayoutDecoratorConfig config2 = new HeadingSectionLayoutDecoratorConfig();
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// sectionStyle
-
-		config1.setStyle( 100 );
-		assertTrue( 100 == config1.getStyle() );
-		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
-
-		config2.setStyle( 100 );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
-		// superclass
-
-		LayoutDecoratorTest.testConfig( config1, config2, new TableLayout() );
-	}
-
-	public void testHeadingSectionLayout()
+	public void testTabHostLayoutDecorator()
 	{
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new HeadingSectionLayoutDecorator( new HeadingSectionLayoutDecoratorConfig().setLayout( new TableLayout() )));
+		androidMetawidget.setLayout( new TabHostLayoutDecorator( new LayoutDecoratorConfig<View,AndroidMetawidget>().setLayout( new TableLayout() )));
 		androidMetawidget.setToInspect( new Foo() );
 
 		Facet facet = new Facet( null );
@@ -82,11 +61,17 @@ public class HeadingSectionLayoutTest
 		assertTrue( "Bar: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 
-		// Heading #1
+		// Tab Host #1
 
-		assertTrue( "heading1".equals( ((TextView) androidMetawidget.getChildAt( 1 ) ).getText() ));
-		android.widget.LinearLayout linearLayout = (android.widget.LinearLayout) androidMetawidget.getChildAt( 2 );
-		tableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
+		TabHost tabHost = (TabHost) androidMetawidget.getChildAt( 1 );
+		assertTrue( tabHost.getChildAt( 0 ) instanceof TabWidget );
+		assertTrue( tabHost.getChildAt( 1 ) instanceof FrameLayout );
+
+		// Tab 1
+
+		assertTrue( "tab1".equals( tabHost.getTabSpec( 0 ).getIndicator() ));
+		android.widget.LinearLayout tab = (android.widget.LinearLayout) tabHost.getTabSpec( 0 ).getContent().createTabContent( null );
+		tableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
 		tableRow = (TableRow) tableLayout.getChildAt( 0 );
 		assertTrue( "Baz: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof CheckBox );
@@ -95,35 +80,41 @@ public class HeadingSectionLayoutTest
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		assertTrue( 2 == tableLayout.getChildCount() );
 
-		// Heading  #2
+		// Tab 2
 
-		assertTrue( "heading2".equals( ((TextView) androidMetawidget.getChildAt( 3 ) ).getText() ));
-		linearLayout = (android.widget.LinearLayout) androidMetawidget.getChildAt( 4 );
-		tableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
+		assertTrue( "tab2".equals( tabHost.getTabSpec( 1 ).getIndicator() ));
+		tab = (android.widget.LinearLayout) tabHost.getTabSpec( 1 ).getContent().createTabContent( null );
+		tableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
 		tableRow = (TableRow) tableLayout.getChildAt( 0 );
 		assertTrue( "Def: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
+		assertTrue( 1 == tableLayout.getChildCount() );
 
 		// Separate component
 
-		tableLayout = (android.widget.TableLayout) androidMetawidget.getChildAt( 5 );
+		tableLayout = (android.widget.TableLayout) androidMetawidget.getChildAt( 2 );
 		tableRow = (TableRow) tableLayout.getChildAt( 0 );
 		assertTrue( "Ghi: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof Spinner );
-		assertTrue( 1 == tableLayout.getChildCount() );
 
-		// Heading #3
+		// Tab Host #2
 
-		assertTrue( "heading3".equals( ((TextView) androidMetawidget.getChildAt( 6 ) ).getText() ));
-		linearLayout = (android.widget.LinearLayout) androidMetawidget.getChildAt( 7 );
-		tableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
+		tabHost = (TabHost) androidMetawidget.getChildAt( 3 );
+		assertTrue( tabHost.getChildAt( 0 ) instanceof TabWidget );
+		assertTrue( tabHost.getChildAt( 1 ) instanceof FrameLayout );
+
+		// Tab A
+
+		assertTrue( "tabA".equals( tabHost.getTabSpec( 0 ).getIndicator() ));
+		tab = (android.widget.LinearLayout) tabHost.getTabSpec( 0 ).getContent().createTabContent( null );
+		tableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
 		tableRow = (TableRow) tableLayout.getChildAt( 0 );
 		assertTrue( "Jkl: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		assertTrue( 1 == tableLayout.getChildCount() );
 
-		assertTrue( facet == androidMetawidget.getChildAt( 8 ));
-		assertTrue( 9 == androidMetawidget.getChildCount() );
+		assertTrue( facet == androidMetawidget.getChildAt( 4 ));
+		assertTrue( 5 == androidMetawidget.getChildCount() );
 	}
 
 	//
@@ -135,20 +126,20 @@ public class HeadingSectionLayoutTest
 		public String	bar;
 
 		@UiComesAfter( "bar" )
-		@UiSection( "heading1" )
+		@UiSection( "tab1" )
 		public boolean	baz;
 
 		@UiComesAfter( "baz" )
 		public String	abc;
 
-		@UiSection( "heading2" )
+		@UiSection( "tab2" )
 		public String	def;
 
 		@UiSection( "" )
 		@UiLookup( { "foo", "bar" } )
 		public String	ghi;
 
-		@UiSection( "heading3" )
+		@UiSection( "tabA" )
 		public String	jkl;
 	}
 }

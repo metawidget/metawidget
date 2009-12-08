@@ -292,7 +292,7 @@ public class ConfigReaderTest
 
 		xml = "<?xml version=\"1.0\"?>";
 		xml += "<metawidget>";
-		xml += "	<titledPanelSectionLayoutDecorator xmlns=\"java:org.metawidget.swing.layout\"/>";
+		xml += "	<titledPanelLayoutDecorator xmlns=\"java:org.metawidget.swing.layout\"/>";
 		xml += "</metawidget>";
 
 		try
@@ -302,7 +302,7 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "class org.metawidget.swing.layout.TitledPanelSectionLayoutDecorator does not have a default constructor. Did you mean config=\"org.metawidget.layout.decorator.LayoutDecoratorConfig\"?".equals( e.getMessage() ) );
+			assertTrue( "class org.metawidget.swing.layout.TitledPanelLayoutDecorator does not have a default constructor. Did you mean config=\"org.metawidget.layout.decorator.LayoutDecoratorConfig\"?".equals( e.getMessage() ) );
 		}
 
 		// Without config hint

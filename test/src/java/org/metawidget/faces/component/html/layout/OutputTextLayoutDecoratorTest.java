@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.faces.component.html.layout.richfaces;
+package org.metawidget.faces.component.html.layout;
 
 import junit.framework.TestCase;
 
@@ -25,7 +25,7 @@ import org.metawidget.layout.decorator.LayoutDecoratorTest;
  * @author Richard Kennard
  */
 
-public class TabPanelSectionLayoutTest
+public class OutputTextLayoutDecoratorTest
 	extends TestCase
 {
 	//
@@ -34,21 +34,32 @@ public class TabPanelSectionLayoutTest
 
 	public void testConfig()
 	{
-		TabPanelSectionLayoutDecoratorConfig config1 = new TabPanelSectionLayoutDecoratorConfig();
-		TabPanelSectionLayoutDecoratorConfig config2 = new TabPanelSectionLayoutDecoratorConfig();
+		OutputTextLayoutDecoratorConfig config1 = new OutputTextLayoutDecoratorConfig();
+		OutputTextLayoutDecoratorConfig config2 = new OutputTextLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
-		// tabPlacement
+		// style
 
-		config1.setHeaderAlignment( "right" );
-		assertTrue( "right".equals( config1.getHeaderAlignment() ));
+		config1.setStyle( "aStyle" );
+		assertTrue( "aStyle".equals( config1.getStyle() ));
 		assertTrue( !config1.equals( config2 ) );
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
-		config2.setHeaderAlignment( "right" );
+		config2.setStyle( "aStyle" );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// styleClass
+
+		config1.setStyleClass( "aStyleClass" );
+		assertTrue( "aStyleClass".equals( config1.getStyleClass() ));
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setStyleClass( "aStyleClass" );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 

@@ -39,7 +39,7 @@
 			</array>
 		</widgetProcessors>
 		<layout>
-			<outputTextSectionLayout xmlns="java:org.metawidget.faces.component.html.layout" config="OutputTextSectionLayoutConfig">
+			<outputTextLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout" config="OutputTextLayoutDecoratorConfig">
 				<layout>
 					<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
 				</layout>
@@ -49,7 +49,7 @@
 				<styleClass>
 					<string>aSectionStyleClass</string>
 				</styleClass>
-			</outputTextSectionLayout>
+			</outputTextLayoutDecorator>
 		</layout>		
 	</htmlMetawidget>
 

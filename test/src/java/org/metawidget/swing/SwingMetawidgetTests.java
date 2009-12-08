@@ -23,9 +23,9 @@ import junit.framework.TestSuite;
 import org.metawidget.swing.layout.GridBagLayoutTest;
 import org.metawidget.swing.layout.GroupLayoutTest;
 import org.metawidget.swing.layout.MigLayoutTest;
-import org.metawidget.swing.layout.SeparatorSectionLayoutTest;
-import org.metawidget.swing.layout.TabbedPaneSectionLayoutTest;
-import org.metawidget.swing.layout.TitledPanelSectionLayoutTest;
+import org.metawidget.swing.layout.SeparatorLayoutDecoratorTest;
+import org.metawidget.swing.layout.TabbedPaneLayoutDecoratorTest;
+import org.metawidget.swing.layout.TitledPanelLayoutDecoratorTest;
 import org.metawidget.swing.widgetbuilder.ReadOnlyWidgetBuilderTest;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilderTest;
 import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilderTest;
@@ -59,14 +59,14 @@ public class SwingMetawidgetTests
 		suite.addTestSuite( MigLayoutTest.class );
 		suite.addTestSuite( ReadOnlyWidgetBuilderTest.class );
 		suite.addTestSuite( ReflectionBindingProcessorTest.class );
-		suite.addTestSuite( SeparatorSectionLayoutTest.class );
+		suite.addTestSuite( SeparatorLayoutDecoratorTest.class );
 		// Not: suite.addTestSuite( SwingAllWidgetsTest.class ) - run separately as JDK 1.4
 		suite.addTestSuite( SwingAllWidgetsBeansBindingTest.class );
 		suite.addTestSuite( SwingMetawidgetTest.class );
 		suite.addTestSuite( SwingXWidgetBuilderTest.class );
 		suite.addTestSuite( SwingWidgetBuilderTest.class );
-		suite.addTestSuite( TabbedPaneSectionLayoutTest.class );
-		suite.addTestSuite( TitledPanelSectionLayoutTest.class );
+		suite.addTestSuite( TabbedPaneLayoutDecoratorTest.class );
+		suite.addTestSuite( TitledPanelLayoutDecoratorTest.class );
 
 		return suite;
 	}

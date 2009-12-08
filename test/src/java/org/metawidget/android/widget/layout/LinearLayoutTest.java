@@ -44,7 +44,7 @@ public class LinearLayoutTest
 	public void testLinearLayout()
 	{
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new HeadingSectionLayoutDecorator( new HeadingSectionLayoutDecoratorConfig().setLayout( new LinearLayout() )));
+		androidMetawidget.setLayout( new TextViewLayoutDecorator( new TextViewLayoutDecoratorConfig().setLayout( new LinearLayout() )));
 
 		Stub stub = new Stub( null );
 		stub.setTag( "stubMe" );

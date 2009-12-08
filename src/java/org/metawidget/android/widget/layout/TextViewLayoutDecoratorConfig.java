@@ -14,29 +14,28 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.layout;
+package org.metawidget.android.widget.layout;
 
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
-
+import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.swing.SwingMetawidget;
+
+import android.view.View;
 
 /**
- * Configures a SeparatorSectionLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
+ * Configures a TextViewLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class SeparatorSectionLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<JComponent, SwingMetawidget>
+public class TextViewLayoutDecoratorConfig
+	extends LayoutDecoratorConfig<View, AndroidMetawidget>
 {
 	//
 	// Private members
 	//
 
-	private int	mAlignment	= SwingConstants.LEFT;
+	private int	mStyle;
 
 	//
 	// Public methods
@@ -49,38 +48,35 @@ public class SeparatorSectionLayoutDecoratorConfig
 	 */
 
 	@Override
-	public SeparatorSectionLayoutDecoratorConfig setLayout( Layout<JComponent, SwingMetawidget> layout )
+	public TextViewLayoutDecoratorConfig setLayout( Layout<View, AndroidMetawidget> layout )
 	{
 		super.setLayout( layout );
 
 		return this;
 	}
 
-	public int getAlignment()
+	public int getStyle()
 	{
-		return mAlignment;
+		return mStyle;
 	}
 
 	/**
-	 * One of SwingConstants.LEFT or SwingConstants.RIGHT.
-	 *
 	 * @return this, as part of a fluent interface
 	 */
 
-	public SeparatorSectionLayoutDecoratorConfig setAlignment( int alignment )
+	public TextViewLayoutDecoratorConfig setStyle( int style )
 	{
-		mAlignment = alignment;
-
+		mStyle = style;
 		return this;
 	}
 
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof SeparatorSectionLayoutDecoratorConfig ) )
+		if ( !( that instanceof TextViewLayoutDecoratorConfig ) )
 			return false;
 
-		if ( mAlignment != ( (SeparatorSectionLayoutDecoratorConfig) that ).mAlignment )
+		if ( mStyle != ( (TextViewLayoutDecoratorConfig) that ).mStyle )
 			return false;
 
 		return super.equals( that );
@@ -90,7 +86,7 @@ public class SeparatorSectionLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= mAlignment;
+		hashCode ^= mStyle;
 
 		return hashCode;
 	}

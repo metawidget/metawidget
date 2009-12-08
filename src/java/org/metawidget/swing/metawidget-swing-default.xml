@@ -47,11 +47,11 @@
 		</widgetProcessors>
 		
 		<metawidgetLayout>
-			<separatorSectionLayoutDecorator xmlns="java:org.metawidget.swing.layout" config="SeparatorSectionLayoutDecoratorConfig">
+			<separatorLayoutDecorator xmlns="java:org.metawidget.swing.layout" config="SeparatorLayoutDecoratorConfig">
 				<layout>
 					<gridBagLayout />
 				</layout>
-			</separatorSectionLayoutDecorator>			
+			</separatorLayoutDecorator>			
 		</metawidgetLayout>
 		
 	</swingMetawidget>

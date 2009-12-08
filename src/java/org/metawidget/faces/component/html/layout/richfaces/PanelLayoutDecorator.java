@@ -39,7 +39,7 @@ import org.richfaces.component.html.HtmlPanel;
  * @author Richard Kennard
  */
 
-public class PanelSectionLayoutDecorator
+public class PanelLayoutDecorator
 	extends LayoutDecorator<UIComponent, UIMetawidget>
 {
 	//
@@ -54,7 +54,7 @@ public class PanelSectionLayoutDecorator
 	// Constructor
 	//
 
-	public PanelSectionLayoutDecorator( PanelSectionLayoutDecoratorConfig config )
+	public PanelLayoutDecorator( PanelLayoutDecoratorConfig config )
 	{
 		super( config );
 
@@ -160,12 +160,12 @@ public class PanelSectionLayoutDecorator
 	private State getState( UIComponent container, UIMetawidget metawidget )
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( PanelSectionLayoutDecorator.class );
+		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( PanelLayoutDecorator.class );
 
 		if ( stateMap == null )
 		{
 			stateMap = CollectionUtils.newHashMap();
-			metawidget.putClientProperty( PanelSectionLayoutDecorator.class, stateMap );
+			metawidget.putClientProperty( PanelLayoutDecorator.class, stateMap );
 		}
 
 		State state = stateMap.get( container );

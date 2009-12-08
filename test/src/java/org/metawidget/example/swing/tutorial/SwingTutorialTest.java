@@ -42,8 +42,8 @@ import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.layout.GridBagLayoutConfig;
-import org.metawidget.swing.layout.SeparatorSectionLayoutDecorator;
-import org.metawidget.swing.layout.SeparatorSectionLayoutDecoratorConfig;
+import org.metawidget.swing.layout.SeparatorLayoutDecorator;
+import org.metawidget.swing.layout.SeparatorLayoutDecoratorConfig;
 
 /**
  * @author Richard Kennard
@@ -80,9 +80,9 @@ public class SwingTutorialTest
 				new Java5Inspector() );
 		metawidget.setInspector( new CompositeInspector( inspectorConfig ) );
 		GridBagLayoutConfig nestedLayoutConfig = new GridBagLayoutConfig().setNumberOfColumns( 2 );
-		SeparatorSectionLayoutDecoratorConfig layoutConfig = new SeparatorSectionLayoutDecoratorConfig().setLayout(
+		SeparatorLayoutDecoratorConfig layoutConfig = new SeparatorLayoutDecoratorConfig().setLayout(
 		new org.metawidget.swing.layout.GridBagLayout( nestedLayoutConfig ));
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayoutDecorator( layoutConfig ));
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( layoutConfig ));
 		metawidget.setToInspect( new PersonAtTutorialEnd() );
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -119,7 +119,7 @@ public class SwingTutorialTest
 		stub.setName( "retired" );
 		metawidget.add( stub );
 		metawidget.setConfig( "org/metawidget/example/swing/tutorial/metawidget.xml" );
-		metawidget.setMetawidgetLayout( new SeparatorSectionLayoutDecorator( new SeparatorSectionLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
 
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );

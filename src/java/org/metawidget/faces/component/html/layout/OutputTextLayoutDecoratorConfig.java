@@ -14,29 +14,31 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.layout;
+package org.metawidget.faces.component.html.layout;
 
-import javax.swing.JComponent;
-import javax.swing.SwingConstants;
+import javax.faces.component.UIComponent;
 
+import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
-import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a TabbedPaneSectionLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
+ * Configures a OutputTextLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class TabbedPaneSectionLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<JComponent, SwingMetawidget>
+public class OutputTextLayoutDecoratorConfig
+	extends LayoutDecoratorConfig<UIComponent, UIMetawidget>
 {
 	//
 	// Private members
 	//
 
-	private int	mTabPlacement	= SwingConstants.TOP;
+	private String	mStyle;
+
+	private String	mStyleClass;
 
 	//
 	// Public methods
@@ -49,28 +51,41 @@ public class TabbedPaneSectionLayoutDecoratorConfig
 	 */
 
 	@Override
-	public TabbedPaneSectionLayoutDecoratorConfig setLayout( Layout<JComponent, SwingMetawidget> layout )
+	public OutputTextLayoutDecoratorConfig setLayout( Layout<UIComponent, UIMetawidget> layout )
 	{
 		super.setLayout( layout );
 
 		return this;
 	}
 
-	public int getTabPlacement()
+	public String getStyle()
 	{
-		return mTabPlacement;
+		return mStyle;
 	}
 
 	/**
-	 * One of SwingConstants.TOP, SwingConstants.BOTTOM, SwingConstants.LEFT or SwingConstants.RIGHT
-	 * as defined by JTabbedPane.setTabAlignment.
-	 *
 	 * @return this, as part of a fluent interface
 	 */
 
-	public TabbedPaneSectionLayoutDecoratorConfig setTabPlacement( int TabPlacement )
+	public OutputTextLayoutDecoratorConfig setStyle( String style )
 	{
-		mTabPlacement = TabPlacement;
+		mStyle = style;
+
+		return this;
+	}
+
+	public String getStyleClass()
+	{
+		return mStyleClass;
+	}
+
+	/**
+	 * @return this, as part of a fluent interface
+	 */
+
+	public OutputTextLayoutDecoratorConfig setStyleClass( String styleClass )
+	{
+		mStyleClass = styleClass;
 
 		return this;
 	}
@@ -78,10 +93,13 @@ public class TabbedPaneSectionLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof TabbedPaneSectionLayoutDecoratorConfig ) )
+		if ( !( that instanceof OutputTextLayoutDecoratorConfig ) )
 			return false;
 
-		if ( mTabPlacement != ( (TabbedPaneSectionLayoutDecoratorConfig) that ).mTabPlacement )
+		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (OutputTextLayoutDecoratorConfig) that ).mStyle ) )
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (OutputTextLayoutDecoratorConfig) that ).mStyleClass ) )
 			return false;
 
 		return super.equals( that );
@@ -91,7 +109,8 @@ public class TabbedPaneSectionLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= mTabPlacement;
+		hashCode ^= ObjectUtils.nullSafeHashCode( mStyle );
+		hashCode ^= ObjectUtils.nullSafeHashCode( mStyleClass );
 
 		return hashCode;
 	}

@@ -30,7 +30,7 @@ import org.metawidget.layout.iface.LayoutException;
  * combined a GridBagLayout with a FlowLayout. Rather, Layouts must be combined in a
  * <em>heirarchical</em> fashion, with an 'outer' Layout delegating to a single 'inner' Layout.
  * <p>
- * This delegation approach allows us to extract, say, TabbedPaneSectionLayout such that you can
+ * This delegation approach allows us to extract, say, TabbedPaneLayoutDecorator such that you can
  * decorate other layouts (eg. GridBagLayout, GroupLayout etc) with tabbed section functionality. It
  * also makes it possible to configure whether 'sections within sections' should be rendered as
  * 'tabs within tabs' or 'headings within tabs'.
