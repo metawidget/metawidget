@@ -33,7 +33,7 @@ import org.metawidget.util.CollectionUtils;
  */
 
 public abstract class UIComponentSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.section.SectionLayoutDecorator<UIComponent, UIMetawidget>
+	extends org.metawidget.layout.decorator.SectionLayoutDecorator<UIComponent, UIMetawidget>
 {
 	//
 	// Constructor
