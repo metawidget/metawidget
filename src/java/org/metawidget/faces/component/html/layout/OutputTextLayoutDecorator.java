@@ -26,8 +26,7 @@ import javax.faces.component.html.HtmlOutputText;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.layout.decorator.LayoutDecorator;
-import org.metawidget.util.ArrayUtils;
+import org.metawidget.faces.component.layout.UIComponentFlatSectionLayoutDecorator;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -42,7 +41,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class OutputTextLayoutDecorator
-	extends LayoutDecorator<UIComponent, UIMetawidget>
+	extends UIComponentFlatSectionLayoutDecorator
 {
 	//
 	// Private members
@@ -65,114 +64,39 @@ public class OutputTextLayoutDecorator
 	}
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
 	@Override
-	public void layoutWidget( UIComponent component, String elementName, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget )
+	protected void addSectionWidget( String section, UIComponent container, UIMetawidget metawidget )
 	{
-		// TODO: refactor these too
+		FacesContext context = FacesContext.getCurrentInstance();
+		Application application = context.getApplication();
+		HtmlOutputText heading = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
+		heading.setId( context.getViewRoot().createUniqueId() );
+		heading.setStyle( mStyle );
+		heading.setStyleClass( mStyleClass );
 
-		String[] sections = ArrayUtils.fromString( attributes.get( SECTION ) );
-		State state = getState( container, metawidget );
+		// Section name (possibly localized)
 
-		// Stay where we are?
+		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( sections.length == 0 || sections.equals( state.currentSections ) )
-		{
-			super.layoutWidget( component, elementName, attributes, container, metawidget );
-			return;
-		}
+		if ( localizedSection == null )
+			localizedSection = section;
 
-		// For each of the new sections...
+		heading.setValue( localizedSection );
 
-		for ( int loop = 0; loop < sections.length; loop++ )
-		{
-			String section = sections[loop];
+		// Add to parent container
+		//
+		// Note: unfortunately this outputs as a SPAN tag, so you'll need to put 'display:
+		// block' in your CSS if you want to use margins. Vanilla JSF doesn't have anything that
+		// outputs a DIV tag
 
-			// ...that are different from our current...
+		Map<String, String> metadataAttributes = CollectionUtils.newHashMap();
+		metadataAttributes.put( LABEL, "" );
+		metadataAttributes.put( WIDE, TRUE );
+		heading.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, metadataAttributes );
 
-			if ( "".equals( section ) )
-				continue;
-
-			if ( state.currentSections != null && loop < state.currentSections.length && section.equals( state.currentSections[loop] ) )
-				continue;
-
-			// ...add a heading
-
-			FacesContext context = FacesContext.getCurrentInstance();
-			Application application = context.getApplication();
-			HtmlOutputText heading = (HtmlOutputText) application.createComponent( "javax.faces.HtmlOutputText" );
-			heading.setId( context.getViewRoot().createUniqueId() );
-			heading.setStyle( mStyle );
-			heading.setStyleClass( mStyleClass );
-
-			// Section name (possibly localized)
-
-			String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
-
-			if ( localizedSection == null )
-				localizedSection = section;
-
-			heading.setValue( localizedSection );
-
-			// Add to parent container
-			//
-			// Note: unfortunately this outputs as a SPAN tag, so you'll need to put 'display:
-			// block' in your CSS if you want to use margins. Vanilla JSF doesn't have anything that
-			// outputs a DIV tag
-
-			Map<String, String> metadataAttributes = CollectionUtils.newHashMap();
-			metadataAttributes.put( LABEL, "" );
-			metadataAttributes.put( WIDE, TRUE );
-			heading.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, metadataAttributes );
-
-			super.layoutWidget( heading, PROPERTY, metadataAttributes, container, metawidget );
-		}
-
-		state.currentSections = sections;
-
-		// Add component as normal
-
-		super.layoutWidget( component, elementName, attributes, container, metawidget );
-	}
-
-	//
-	// Private methods
-	//
-
-	private State getState( UIComponent container, UIMetawidget metawidget )
-	{
-		@SuppressWarnings( "unchecked" )
-		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( OutputTextLayoutDecorator.class );
-
-		if ( stateMap == null )
-		{
-			stateMap = CollectionUtils.newHashMap();
-			metawidget.putClientProperty( OutputTextLayoutDecorator.class, stateMap );
-		}
-
-		State state = stateMap.get( container );
-
-		if ( state == null )
-		{
-			state = new State();
-			stateMap.put( container, state );
-		}
-
-		return state;
-	}
-
-	//
-	// Inner class
-	//
-
-	/**
-	 * Simple, lightweight structure for saving state.
-	 */
-
-	/* package private */static class State
-	{
-		public String[]	currentSections;
+		super.layoutWidget( heading, PROPERTY, metadataAttributes, container, metawidget );
 	}
 }

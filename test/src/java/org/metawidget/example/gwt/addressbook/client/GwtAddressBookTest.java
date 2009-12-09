@@ -163,7 +163,7 @@ public class GwtAddressBookTest
 											// Should throw Exception
 										}
 
-										final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.getWidget( "communications" ) ).getWidget();
+										final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.getWidget( "communications" ) ).getWidget( 0 );
 										assertTrue( communications.getRowCount() == 3 );
 										assertTrue( "Type".equals( communications.getText( 0, 0 ) ) );
 										assertTrue( "Value".equals( communications.getText( 0, 1 ) ) );
@@ -421,7 +421,7 @@ public class GwtAddressBookTest
 
 								// Check adding a Communication
 
-								final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.getWidget( "communications" ) ).getWidget();
+								final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.getWidget( "communications" ) ).getWidget( 0 );
 								assertTrue( communications.getRowCount() == 2 );
 
 								final GwtMetawidget typeMetawidget = (GwtMetawidget) communications.getWidget( 1, 0 );
@@ -536,7 +536,7 @@ public class GwtAddressBookTest
 
 				// Check adding a Communication
 
-				final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.getWidget( "communications" ) ).getWidget();
+				final FlexTable communications = (FlexTable) ( (Stub) contactMetawidget.getWidget( "communications" ) ).getWidget( 0 );
 				assertTrue( communications.getRowCount() == 2 );
 
 				final GwtMetawidget typeMetawidget = (GwtMetawidget) communications.getWidget( 1, 0 );

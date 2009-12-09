@@ -14,34 +14,42 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.android.widget.layout;
+package org.metawidget.swing.layout;
 
-import java.util.Map;
+import javax.swing.JComponent;
 
-import org.metawidget.android.widget.AndroidMetawidget;
-import org.metawidget.android.widget.Stub;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
-import org.metawidget.util.CollectionUtils;
-
-import android.view.View;
+import org.metawidget.swing.Stub;
+import org.metawidget.swing.SwingMetawidget;
 
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
- * sections within Android Layouts.
+ * sections within Swing Layouts.
  *
  * @author Richard Kennard
  */
 
-public abstract class AndroidSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<View, AndroidMetawidget>
+public abstract class SwingNestedSectionLayoutDecorator
+	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<JComponent, SwingMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected AndroidSectionLayoutDecorator( LayoutDecoratorConfig<View, AndroidMetawidget> config )
+	protected SwingNestedSectionLayoutDecorator( LayoutDecoratorConfig<JComponent, SwingMetawidget> config )
 	{
 		super( config );
+	}
+
+	//
+	// Public methods
+	//
+
+	@Override
+	public void startLayout( JComponent container, SwingMetawidget metawidget )
+	{
+		super.startLayout( container, metawidget );
+		container.putClientProperty( getClass(), null );
 	}
 
 	//
@@ -49,32 +57,23 @@ public abstract class AndroidSectionLayoutDecorator
 	//
 
 	@Override
-	protected State<View> getState( View view, AndroidMetawidget metawidget )
+	protected State<JComponent> getState( JComponent container, SwingMetawidget metawidget )
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<View, State> stateMap = (Map<View, State>) metawidget.getClientProperty( getClass() );
-
-		if ( stateMap == null )
-		{
-			stateMap = CollectionUtils.newHashMap();
-			metawidget.putClientProperty( getClass(), stateMap );
-		}
-
-		@SuppressWarnings( "unchecked" )
-		State<View> state = stateMap.get( view );
+		State<JComponent> state = (State<JComponent>) container.getClientProperty( getClass() );
 
 		if ( state == null )
 		{
-			state = new State<View>();
-			stateMap.put( view, state );
+			state = new State<JComponent>();
+			container.putClientProperty( getClass(), state );
 		}
 
 		return state;
 	}
 
 	@Override
-	protected boolean isEmptyStub( View view )
+	protected boolean isEmptyStub( JComponent component )
 	{
-		return ( view instanceof Stub && ((Stub) view).getChildCount() == 0 );
+		return ( component instanceof Stub && component.getComponentCount() == 0 );
 	}
 }

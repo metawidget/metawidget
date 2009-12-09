@@ -32,14 +32,14 @@ import org.metawidget.util.CollectionUtils;
  * @author Richard Kennard
  */
 
-public abstract class UIComponentSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.SectionLayoutDecorator<UIComponent, UIMetawidget>
+public abstract class UIComponentNestedSectionLayoutDecorator
+	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<UIComponent, UIMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected UIComponentSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIMetawidget> config )
+	protected UIComponentNestedSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIMetawidget> config )
 	{
 		super( config );
 	}

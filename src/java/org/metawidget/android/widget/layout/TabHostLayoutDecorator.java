@@ -80,6 +80,8 @@ public class TabHostLayoutDecorator
 
 			tabHost.setup();
 
+			// TODO: calling super calls back to itself? That was the problem?
+
 			// Add to parent container
 
 			((ViewGroup) container).addView( tabHost );

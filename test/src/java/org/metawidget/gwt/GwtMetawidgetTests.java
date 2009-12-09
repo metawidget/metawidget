@@ -21,6 +21,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.metawidget.gwt.client.ui.layout.FlexTableLayoutTest;
+import org.metawidget.gwt.client.ui.layout.LabelLayoutDecoratorTest;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorTest;
 
 /**
@@ -42,6 +43,7 @@ public class GwtMetawidgetTests
 	{
 		TestSuite suite = new TestSuite( "Gwt Metawidget Tests" );
 		suite.addTestSuite( FlexTableLayoutTest.class );
+		suite.addTestSuite( LabelLayoutDecoratorTest.class );
 		suite.addTestSuite( SimpleBindingProcessorTest.class );
 
 		return suite;

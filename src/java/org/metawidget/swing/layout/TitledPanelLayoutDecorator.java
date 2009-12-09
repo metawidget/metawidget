@@ -37,7 +37,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TitledPanelLayoutDecorator
-	extends SwingSectionLayoutDecorator
+	extends SwingNestedSectionLayoutDecorator
 {
 	//
 	// Private statics

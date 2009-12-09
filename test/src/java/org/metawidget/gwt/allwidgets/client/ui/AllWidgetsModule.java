@@ -25,6 +25,8 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
+import org.metawidget.gwt.client.ui.layout.LabelLayoutDecorator;
+import org.metawidget.gwt.client.ui.layout.LabelLayoutDecoratorConfig;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorConfig;
@@ -71,7 +73,7 @@ public class AllWidgetsModule
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setInspector( new GwtRemoteInspectorProxy( "/metawidget-inspector-allwidgets" ) );
-		metawidget.setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 2 ).setSectionStyleName( "aSectionStyleName" )) );
+		metawidget.setLayout( new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 2 ))).setStyleName( "aSectionStyleName" )) );
 		metawidget.setToInspect( new AllWidgets() );
 
 		// Binding
@@ -103,7 +105,7 @@ public class AllWidgetsModule
 			{
 				metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 				metawidget.setReadOnly( true );
-				metawidget.setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 0 ).setSectionStyleName( "aSectionStyleName" )) );
+				metawidget.setLayout( new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 0 ))).setStyleName( "aSectionStyleName" )) );
 				metawidget.setDictionaryName( "bundle" );
 			}
 		} );

@@ -37,7 +37,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TabbedPaneLayoutDecorator
-	extends SwingSectionLayoutDecorator
+	extends SwingNestedSectionLayoutDecorator
 {
 	//
 	// Private statics

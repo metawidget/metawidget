@@ -31,6 +31,8 @@ import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
 import org.metawidget.gwt.client.ui.layout.FlowLayout;
+import org.metawidget.gwt.client.ui.layout.LabelLayoutDecorator;
+import org.metawidget.gwt.client.ui.layout.LabelLayoutDecoratorConfig;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorConfig;
@@ -54,8 +56,8 @@ import com.google.gwt.user.client.ui.HTMLTable.CellFormatter;
 /**
  * Dialog box for Address Book Contacts.
  * <p>
- * Note: for performance, this example is optimized to use <code>rebind</code> (see 'rebinding'
- * in the Reference Documentation). This results in slightly more complex code. For a more
+ * Note: for performance, this example is optimized to use <code>rebind</code> (see 'rebinding' in
+ * the Reference Documentation). This results in slightly more complex code. For a more
  * straightforward example, see <code>org.metawidget.example.swing.addressbook.ContactDialog</code>.
  *
  * @author Richard Kennard
@@ -144,12 +146,14 @@ public class ContactDialog
 		mMetawidget.setReadOnly( contact.getId() != 0 );
 		mMetawidget.setDictionaryName( "bundle" );
 
-		FlexTableLayoutConfig layoutConfig = new FlexTableLayoutConfig();
-		layoutConfig.setTableStyleName( "table-form" );
-		layoutConfig.setColumnStyleNames( "table-label-column", "table-component-column", "table-required-column" );
-		layoutConfig.setSectionStyleName( "section-heading" );
-		layoutConfig.setFooterStyleName( "buttons" );
-		FlexTableLayout layout = new FlexTableLayout( layoutConfig );
+		FlexTableLayoutConfig flexTableLayoutConfig = new FlexTableLayoutConfig();
+		flexTableLayoutConfig.setTableStyleName( "table-form" );
+		flexTableLayoutConfig.setColumnStyleNames( "table-label-column", "table-component-column", "table-required-column" );
+		flexTableLayoutConfig.setFooterStyleName( "buttons" );
+		LabelLayoutDecoratorConfig labelLayoutDecoratorConfig = new LabelLayoutDecoratorConfig();
+		labelLayoutDecoratorConfig.setLayout( new FlexTableLayout( flexTableLayoutConfig ));
+		labelLayoutDecoratorConfig.setStyleName( "section-heading" );
+		LabelLayoutDecorator layout = new LabelLayoutDecorator( labelLayoutDecoratorConfig );
 		mMetawidget.setLayout( layout );
 		mMetawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, mMetawidget );

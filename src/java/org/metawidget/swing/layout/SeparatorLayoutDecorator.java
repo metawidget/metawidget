@@ -30,9 +30,7 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
-import org.metawidget.layout.decorator.LayoutDecorator;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
@@ -43,7 +41,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class SeparatorLayoutDecorator
-	extends LayoutDecorator<JComponent, SwingMetawidget>
+	extends SwingFlatSectionLayoutDecorator
 {
 	//
 	// Private statics
@@ -81,90 +79,49 @@ public class SeparatorLayoutDecorator
 	}
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
 	@Override
-	public void startLayout( JComponent container, SwingMetawidget metawidget )
+	protected void addSectionWidget( String section, JComponent container, SwingMetawidget metawidget )
 	{
-		super.startLayout( container, metawidget );
-		container.putClientProperty( SeparatorLayoutDecorator.class, null );
-	}
+		JPanel separatorPanel = new JPanel();
+		separatorPanel.setBorder( BORDER_SECTION );
+		separatorPanel.setLayout( new java.awt.GridBagLayout() );
+		separatorPanel.setOpaque( false );
 
-	@Override
-	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
-		String[] sections = ArrayUtils.fromString( attributes.get( SECTION ) );
-		String[] currentSections = (String[]) container.getClientProperty( SeparatorLayoutDecorator.class );
+		// Section name (possibly localized)
 
-		// Stay where we are?
+		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
-		if ( sections.length == 0 || sections.equals( currentSections ) )
+		if ( localizedSection == null )
+			localizedSection = section;
+
+		GridBagConstraints labelConstraints = new GridBagConstraints();
+
+		GridBagConstraints separatorConstraints = new GridBagConstraints();
+		separatorConstraints.fill = GridBagConstraints.HORIZONTAL;
+		separatorConstraints.weightx = 1.0;
+
+		if ( mAlignment == SwingConstants.RIGHT )
 		{
-			super.layoutWidget( component, elementName, attributes, container, metawidget );
-			return;
+			separatorConstraints.gridx = 0;
+			labelConstraints.gridx = 1;
+			labelConstraints.insets = INSETS_SECTION_LABEL_RIGHT;
+		}
+		else
+		{
+			labelConstraints.insets = INSETS_SECTION_LABEL_LEFT;
 		}
 
-		container.putClientProperty( SeparatorLayoutDecorator.class, sections );
+		separatorPanel.add( new JLabel( localizedSection ), labelConstraints );
+		separatorPanel.add( new JSeparator( SwingConstants.HORIZONTAL ), separatorConstraints );
 
-		// For each of the new sections...
+		// Add to parent container
 
-		for ( int loop = 0; loop < sections.length; loop++ )
-		{
-			String section = sections[loop];
-
-			// ...that are different from our current...
-
-			if ( "".equals( section ))
-				continue;
-
-			if ( currentSections != null && loop < currentSections.length && section.equals( currentSections[loop] ) )
-				continue;
-
-			// ...display a divider
-
-			JPanel separatorPanel = new JPanel();
-			separatorPanel.setBorder( BORDER_SECTION );
-			separatorPanel.setLayout( new java.awt.GridBagLayout() );
-			separatorPanel.setOpaque( false );
-
-			// Section name (possibly localized)
-
-			String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
-
-			if ( localizedSection == null )
-				localizedSection = section;
-
-			GridBagConstraints labelConstraints = new GridBagConstraints();
-
-			GridBagConstraints separatorConstraints = new GridBagConstraints();
-			separatorConstraints.fill = GridBagConstraints.HORIZONTAL;
-			separatorConstraints.weightx = 1.0;
-
-			if ( mAlignment == SwingConstants.RIGHT )
-			{
-				separatorConstraints.gridx = 0;
-				labelConstraints.gridx = 1;
-				labelConstraints.insets = INSETS_SECTION_LABEL_RIGHT;
-			}
-			else
-			{
-				labelConstraints.insets = INSETS_SECTION_LABEL_LEFT;
-			}
-
-			separatorPanel.add( new JLabel( localizedSection ), labelConstraints );
-			separatorPanel.add( new JSeparator( SwingConstants.HORIZONTAL ), separatorConstraints );
-
-			// Add to parent container
-
-			Map<String, String> separatorPanelAttributes = CollectionUtils.newHashMap();
-			separatorPanelAttributes.put( LABEL, "" );
-			separatorPanelAttributes.put( WIDE, TRUE );
-			super.layoutWidget( separatorPanel, PROPERTY, separatorPanelAttributes, container, metawidget );
-		}
-
-		// Add component as normal
-
-		super.layoutWidget( component, elementName, attributes, container, metawidget );
+		Map<String, String> separatorPanelAttributes = CollectionUtils.newHashMap();
+		separatorPanelAttributes.put( LABEL, "" );
+		separatorPanelAttributes.put( WIDE, TRUE );
+		super.layoutWidget( separatorPanel, PROPERTY, separatorPanelAttributes, container, metawidget );
 	}
 }

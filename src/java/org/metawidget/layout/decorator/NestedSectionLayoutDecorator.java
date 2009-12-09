@@ -22,19 +22,19 @@ import org.metawidget.util.LayoutUtils;
 
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
- * sections.
+ * sections, rendering multi-level sections (ie. section="foo,bar") as nested components.
  *
  * @author Richard Kennard
  */
 
-public abstract class SectionLayoutDecorator<W, M extends W>
+public abstract class NestedSectionLayoutDecorator<W, M extends W>
 	extends LayoutDecorator<W, M>
 {
 	//
 	// Constructor
 	//
 
-	protected SectionLayoutDecorator( LayoutDecoratorConfig<W, M> config )
+	protected NestedSectionLayoutDecorator( LayoutDecoratorConfig<W, M> config )
 	{
 		super( config );
 	}

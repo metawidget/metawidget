@@ -14,42 +14,31 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.layout;
+package org.metawidget.faces.component.layout;
 
-import javax.swing.JComponent;
+import javax.faces.component.UIComponent;
 
+import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
-import org.metawidget.swing.Stub;
-import org.metawidget.swing.SwingMetawidget;
 
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
- * sections within Swing Layouts.
+ * sections within JSF Layouts.
  *
  * @author Richard Kennard
  */
 
-public abstract class SwingSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.SectionLayoutDecorator<JComponent, SwingMetawidget>
+public abstract class UIComponentFlatSectionLayoutDecorator
+	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<UIComponent, UIMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected SwingSectionLayoutDecorator( LayoutDecoratorConfig<JComponent, SwingMetawidget> config )
+	protected UIComponentFlatSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIMetawidget> config )
 	{
 		super( config );
-	}
-
-	//
-	// Public methods
-	//
-
-	@Override
-	public void startLayout( JComponent container, SwingMetawidget metawidget )
-	{
-		super.startLayout( container, metawidget );
-		container.putClientProperty( getClass(), null );
 	}
 
 	//
@@ -57,23 +46,22 @@ public abstract class SwingSectionLayoutDecorator
 	//
 
 	@Override
-	protected State<JComponent> getState( JComponent container, SwingMetawidget metawidget )
+	protected State getState( UIComponent container, UIMetawidget metawidget )
 	{
-		@SuppressWarnings( "unchecked" )
-		State<JComponent> state = (State<JComponent>) container.getClientProperty( getClass() );
+		State state = (State) metawidget.getClientProperty( getClass() );
 
 		if ( state == null )
 		{
-			state = new State<JComponent>();
-			container.putClientProperty( getClass(), state );
+			state = new State();
+			metawidget.putClientProperty( getClass(), state );
 		}
 
 		return state;
 	}
 
 	@Override
-	protected boolean isEmptyStub( JComponent component )
+	protected boolean isEmptyStub( UIComponent component )
 	{
-		return ( component instanceof Stub && component.getComponentCount() == 0 );
+		return ( component instanceof UIStub && component.getChildren().isEmpty() );
 	}
 }

@@ -14,32 +14,29 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.android.widget.layout;
+package org.metawidget.gwt.client.ui.layout;
 
-import java.util.Map;
-
-import org.metawidget.android.widget.AndroidMetawidget;
-import org.metawidget.android.widget.Stub;
+import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
-import org.metawidget.util.CollectionUtils;
 
-import android.view.View;
+import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
- * sections within Android Layouts.
+ * sections within GWT Layouts.
  *
  * @author Richard Kennard
  */
 
-public abstract class AndroidSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<View, AndroidMetawidget>
+public abstract class GwtFlatSectionLayoutDecorator
+	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<Widget, GwtMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected AndroidSectionLayoutDecorator( LayoutDecoratorConfig<View, AndroidMetawidget> config )
+	protected GwtFlatSectionLayoutDecorator( LayoutDecoratorConfig<Widget, GwtMetawidget> config )
 	{
 		super( config );
 	}
@@ -49,32 +46,22 @@ public abstract class AndroidSectionLayoutDecorator
 	//
 
 	@Override
-	protected State<View> getState( View view, AndroidMetawidget metawidget )
+	protected State getState( Widget container, GwtMetawidget metawidget )
 	{
-		@SuppressWarnings( "unchecked" )
-		Map<View, State> stateMap = (Map<View, State>) metawidget.getClientProperty( getClass() );
-
-		if ( stateMap == null )
-		{
-			stateMap = CollectionUtils.newHashMap();
-			metawidget.putClientProperty( getClass(), stateMap );
-		}
-
-		@SuppressWarnings( "unchecked" )
-		State<View> state = stateMap.get( view );
+		State state = (State) metawidget.getClientProperty( getClass() );
 
 		if ( state == null )
 		{
-			state = new State<View>();
-			stateMap.put( view, state );
+			state = new State();
+			metawidget.putClientProperty( getClass(), state );
 		}
 
 		return state;
 	}
 
 	@Override
-	protected boolean isEmptyStub( View view )
+	protected boolean isEmptyStub( Widget widget )
 	{
-		return ( view instanceof Stub && ((Stub) view).getChildCount() == 0 );
+		return ( widget instanceof Stub && ((Stub) widget).getWidgetCount() == 0 );
 	}
 }

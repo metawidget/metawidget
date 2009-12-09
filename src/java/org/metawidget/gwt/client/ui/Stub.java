@@ -19,8 +19,8 @@ package org.metawidget.gwt.client.ui;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.HasName;
-import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Stub for GWT environments.
@@ -34,7 +34,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
  */
 
 public class Stub
-	extends SimplePanel
+	extends ComplexPanel
 	implements HasName
 {
 	//

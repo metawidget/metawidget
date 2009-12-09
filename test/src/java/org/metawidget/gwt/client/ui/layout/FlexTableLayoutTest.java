@@ -72,17 +72,6 @@ public class FlexTableLayoutTest
 		assertTrue( config1.equals( config2 ));
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
-		// sectionStyleName
-
-		config1.setSectionStyleName( "section-style-name" );
-		assertTrue( "section-style-name".equals( config1.getSectionStyleName() ));
-		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
-
-		config2.setSectionStyleName( "section-style-name" );
-		assertTrue( config1.equals( config2 ));
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
 		// footerStyleName
 
 		config1.setFooterStyleName( "footer-style-name" );

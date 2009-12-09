@@ -26,7 +26,7 @@ import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.faces.component.layout.UIComponentSectionLayoutDecorator;
+import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecorator;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.richfaces.component.html.HtmlPanel;
@@ -38,7 +38,7 @@ import org.richfaces.component.html.HtmlPanel;
  */
 
 public class PanelLayoutDecorator
-	extends UIComponentSectionLayoutDecorator
+	extends UIComponentNestedSectionLayoutDecorator
 {
 	//
 	// Private members

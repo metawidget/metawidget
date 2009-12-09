@@ -25,7 +25,6 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.SimpleLayoutUtils;
-import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.Label;
@@ -58,8 +57,6 @@ public class FlexTableLayout
 
 	private String[]			mColumnStyleNames;
 
-	private String				mSectionStyleName;
-
 	private String				mFooterStyleName;
 
 	//
@@ -76,7 +73,6 @@ public class FlexTableLayout
 		mNumberOfColumns = config.getNumberOfColumns();
 		mTableStyleName = config.getTableStyleName();
 		mColumnStyleNames = config.getColumnStyleNames();
-		mSectionStyleName = config.getSectionStyleName();
 		mFooterStyleName = config.getFooterStyleName();
 	}
 
@@ -101,22 +97,8 @@ public class FlexTableLayout
 	{
 		// Do not render empty stubs
 
-		if ( widget instanceof Stub && ( (Stub) widget ).getWidget() == null )
+		if ( widget instanceof Stub && ( (Stub) widget ).getWidgetCount() == 0 )
 			return;
-
-		// Section headings
-
-		State state = getState( metawidget );
-		if ( attributes != null )
-		{
-			String section = attributes.get( SECTION );
-
-			if ( section != null && !section.equals( state.currentSection ) )
-			{
-				state.currentSection = section;
-				layoutSection( section, metawidget );
-			}
-		}
 
 		// Calculate row and actualColumn. Note FlexTable doesn't work quite as might be
 		// expected. Specifically, it doesn't understand 'colspan' in relation to previous rows. So
@@ -141,6 +123,8 @@ public class FlexTableLayout
 		int row = flexTable.getRowCount();
 
 		int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
+
+		State state = getState( metawidget );
 
 		if ( state.currentColumn < numberOfColumns && row > 0 )
 		{
@@ -292,39 +276,6 @@ public class FlexTableLayout
 		flexTable.setHTML( row, column, "<div></div>" );
 	}
 
-	protected void layoutSection( String section, GwtMetawidget metawidget )
-	{
-		// No section?
-
-		if ( "".equals( section ) )
-			return;
-
-		State state = getState( metawidget );
-		FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
-		int row = flexTable.getRowCount();
-
-		// Section name (possibly localized)
-
-		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
-
-		if ( localizedSection != null )
-			flexTable.setText( row, 0, localizedSection );
-		else
-			flexTable.setText( row, 0, section );
-
-		// Span and style
-
-		int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
-
-		if ( numberOfColumns > 0 )
-			state.formatter.setColSpan( row, 0, numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
-
-		if ( mSectionStyleName != null )
-			state.formatter.setStyleName( row, 0, mSectionStyleName );
-
-		state.currentColumn = numberOfColumns;
-	}
-
 	protected String getStyleName( int styleName, GwtMetawidget metawidget )
 	{
 		if ( mColumnStyleNames == null || mColumnStyleNames.length <= styleName )
@@ -377,7 +328,5 @@ public class FlexTableLayout
 		/* package private */FlexCellFormatter	formatter;
 
 		/* package private */int				currentColumn;
-
-		/* package private */String				currentSection;
 	}
 }

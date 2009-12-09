@@ -37,8 +37,6 @@ public class FlexTableLayoutConfig
 
 	private String[]	mColumnStyleNames;
 
-	private String		mSectionStyleName;
-
 	private String		mFooterStyleName;
 
 	//
@@ -98,22 +96,6 @@ public class FlexTableLayoutConfig
 		return this;
 	}
 
-	public String getSectionStyleName()
-	{
-		return mSectionStyleName;
-	}
-
-	/**
-	 * @return this, as part of a fluent interface
-	 */
-
-	public FlexTableLayoutConfig setSectionStyleName( String sectionStyleName )
-	{
-		mSectionStyleName = sectionStyleName;
-
-		return this;
-	}
-
 	public String getFooterStyleName()
 	{
 		return mFooterStyleName;
@@ -145,9 +127,6 @@ public class FlexTableLayoutConfig
 		if ( !ObjectUtils.nullSafeEquals( mColumnStyleNames, ((FlexTableLayoutConfig) that).mColumnStyleNames ))
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mSectionStyleName, ((FlexTableLayoutConfig) that).mSectionStyleName ))
-			return false;
-
 		if ( !ObjectUtils.nullSafeEquals( mFooterStyleName, ((FlexTableLayoutConfig) that).mFooterStyleName ))
 			return false;
 
@@ -160,7 +139,6 @@ public class FlexTableLayoutConfig
 		int hashCode = mNumberOfColumns;
 		hashCode ^= ObjectUtils.nullSafeHashCode( mTableStyleName );
 		hashCode ^= ObjectUtils.nullSafeHashCode( mColumnStyleNames );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mSectionStyleName );
 		hashCode ^= ObjectUtils.nullSafeHashCode( mFooterStyleName );
 
 		return hashCode;
