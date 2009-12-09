@@ -63,17 +63,20 @@ public abstract class SectionLayoutDecorator<W, M extends W>
 
 		state.currentSection = section;
 
+		W previousSectionWidget = state.currentSectionWidget;
+
 		// End current section
 
 		if ( state.currentSectionWidget != null )
 			super.endLayout( state.currentSectionWidget, metawidget );
+
+		state.currentSectionWidget = null;
 
 		// No new section?
 
 		if ( "".equals( section ) )
 		{
 			super.layoutWidget( widget, elementName, attributes, container, metawidget );
-			state.currentSectionWidget = null;
 			return;
 		}
 
@@ -82,11 +85,25 @@ public abstract class SectionLayoutDecorator<W, M extends W>
 		if ( isEmptyStub( widget ) )
 			return;
 
-		state.currentSectionWidget = createSectionWidget( container, metawidget );
+		state.currentSectionWidget = createSectionWidget( previousSectionWidget, container, metawidget );
+		super.startLayout( state.currentSectionWidget, metawidget );
 
 		// Add component to new tab
 
 		super.layoutWidget( widget, elementName, attributes, state.currentSectionWidget, metawidget );
+	}
+
+	@Override
+	public void endLayout( W container, M metawidget )
+	{
+		// End hanging layouts
+
+		State<W> state = getState( container, metawidget );
+
+		if ( state.currentSectionWidget != null )
+			super.endLayout( state.currentSectionWidget, metawidget );
+
+		super.endLayout( container, metawidget );
 	}
 
 	//
@@ -97,7 +114,13 @@ public abstract class SectionLayoutDecorator<W, M extends W>
 
 	protected abstract boolean isEmptyStub( W widget );
 
-	protected abstract W createSectionWidget( W container, M metawidget );
+	/**
+	 * @param previousSectionWidget
+	 *            the previous section widget (if any). This can be useful for tracing back to, say,
+	 *            a TabHost
+	 */
+
+	protected abstract W createSectionWidget( W previousSectionWidget, W container, M metawidget );
 
 	//
 	// Inner class

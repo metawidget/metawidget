@@ -17,6 +17,7 @@
 package org.metawidget.swing.layout;
 
 import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -138,6 +139,20 @@ public class TabbedPaneLayoutDecoratorTest
 		assertTrue( metawidget.getComponent( 4 ) instanceof JTextField );
 		assertTrue( 5 == metawidget.getComponentCount() );
 	}
+
+	public static void main( String[] args )
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new GridBagLayout() ) ) ) ) );
+		metawidget.setToInspect( new Bar() );
+
+		JFrame frame = new JFrame( "Metawidget Tutorial" );
+		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+		frame.getContentPane().add( metawidget );
+		frame.setSize( 400, 210 );
+		frame.setVisible( true );
+	}
+
 
 	//
 	// Inner class

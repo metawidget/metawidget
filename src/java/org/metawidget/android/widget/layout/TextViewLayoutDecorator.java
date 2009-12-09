@@ -16,12 +16,13 @@
 
 package org.metawidget.android.widget.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
-import org.metawidget.layout.decorator.LayoutDecorator;
-import org.metawidget.util.LayoutUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
@@ -35,7 +36,7 @@ import android.widget.TextView;
  */
 
 public class TextViewLayoutDecorator
-	extends LayoutDecorator<View, AndroidMetawidget>
+	extends AndroidSectionLayoutDecorator
 {
 	//
 	// Private members
@@ -55,105 +56,41 @@ public class TextViewLayoutDecorator
 	}
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
 	@Override
-	public void startLayout( View container, AndroidMetawidget metawidget )
+	protected View createSectionWidget( View previousSectionView, View container, AndroidMetawidget metawidget )
 	{
-		super.startLayout( container, metawidget );
-		metawidget.putClientProperty( TextViewLayoutDecorator.class, null );
-	}
-
-	@Override
-	public void layoutWidget( View view, String elementName, Map<String, String> attributes, View container, AndroidMetawidget metawidget )
-	{
-		String section = LayoutUtils.stripSection( attributes );
-		State state = getState( metawidget );
-
-		// Stay where we are?
-
-		if ( section == null || section.equals( state.currentSection ) )
-		{
-			if ( state.currentLayout != null )
-				super.layoutWidget( view, elementName, attributes, state.currentLayout, metawidget );
-			else
-				super.layoutWidget( view, elementName, attributes, container, metawidget );
-			return;
-		}
-
-		state.currentSection = section;
-
-		// End current section
-
-		if ( state.currentLayout != null )
-			super.endLayout( state.currentLayout, metawidget );
-
-		// No new section?
-
-		if ( "".equals( section ) )
-		{
-			state.currentLayout = null;
-			super.layoutWidget( view, elementName, attributes, container, metawidget );
-			return;
-		}
-
-		// Section name (possibly localized)
-
-		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
-
-		if ( localizedSection == null )
-			localizedSection = section;
-
 		TextView textView = new TextView( metawidget.getContext() );
-		textView.setText( localizedSection, TextView.BufferType.SPANNABLE );
 
 		// Apply style (if any)
 
 		AndroidUtils.applyStyle( textView, mStyle, metawidget );
 
+		// Section name (possibly localized)
+
+		String section = getState( container, metawidget ).currentSection;
+		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
+
+		if ( localizedSection == null )
+			localizedSection = section;
+
+		textView.setText( localizedSection, TextView.BufferType.SPANNABLE );
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( LABEL, "" );
+		attributes.put( LARGE, TRUE );
+		super.layoutWidget( textView, PROPERTY, attributes, container, metawidget );
+
 		// Add to parent container
+		//
+		// We start a new Layout. This does not keep, say, TableLayout columns consistent between
+		// sections, but on a limited width display this is usually a good thing
 
-		( (ViewGroup) container ).addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		final ViewGroup newLayout = new android.widget.LinearLayout( metawidget.getContext() );
+		super.layoutWidget( newLayout, PROPERTY, attributes, container, metawidget );
 
-		state.currentLayout = new android.widget.LinearLayout( metawidget.getContext() );
-		( (ViewGroup) container ).addView( state.currentLayout );
-
-		// Add view to new section
-
-		super.startLayout( state.currentLayout, metawidget );
-		super.layoutWidget( view, elementName, attributes, state.currentLayout, metawidget );
-	}
-
-	//
-	// Private methods
-	//
-
-	private State getState( AndroidMetawidget metawidget )
-	{
-		State state = (State) metawidget.getClientProperty( TextViewLayoutDecorator.class );
-
-		if ( state == null )
-		{
-			state = new State();
-			metawidget.putClientProperty( TextViewLayoutDecorator.class, state );
-		}
-
-		return state;
-	}
-
-	//
-	// Inner class
-	//
-
-	/**
-	 * Simple, lightweight structure for saving state.
-	 */
-
-	/* package private */static class State
-	{
-		/* package private */String		currentSection;
-
-		/* package private */ViewGroup	currentLayout;
+		return newLayout;
 	}
 }

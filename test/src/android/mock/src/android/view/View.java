@@ -42,6 +42,8 @@ public class View
 	// Private members
 	//
 
+	private ViewParent		mParent;
+
 	private Object			mTag;
 
 	private int				mVisibility	= View.VISIBLE;
@@ -76,7 +78,12 @@ public class View
 
 	public ViewParent getParent()
 	{
-		return null;
+		return mParent;
+	}
+
+	public void setParent( ViewParent parent )
+	{
+		mParent = parent;
 	}
 
 	public ViewGroup.LayoutParams getLayoutParams()

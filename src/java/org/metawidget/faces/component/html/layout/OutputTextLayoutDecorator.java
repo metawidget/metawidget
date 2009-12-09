@@ -71,6 +71,8 @@ public class OutputTextLayoutDecorator
 	@Override
 	public void layoutWidget( UIComponent component, String elementName, Map<String, String> attributes, UIComponent container, UIMetawidget metawidget )
 	{
+		// TODO: refactor these too
+
 		String[] sections = ArrayUtils.fromString( attributes.get( SECTION ) );
 		State state = getState( container, metawidget );
 

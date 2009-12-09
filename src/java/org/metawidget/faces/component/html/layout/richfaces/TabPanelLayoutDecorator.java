@@ -63,7 +63,7 @@ public class TabPanelLayoutDecorator
 	//
 
 	@Override
-	protected UIComponent createSectionWidget( UIComponent container, UIMetawidget metawidget )
+	protected UIComponent createSectionWidget( UIComponent previousSectionWidget, UIComponent container, UIMetawidget metawidget )
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -73,9 +73,7 @@ public class TabPanelLayoutDecorator
 
 		// Whole new UITabPanel?
 
-		State<UIComponent> state = getState( container, metawidget );
-
-		if ( state.currentSectionWidget == null )
+		if ( previousSectionWidget == null )
 		{
 			tabPanel = (UITabPanel) application.createComponent( "org.richfaces.TabPanel" );
 			tabPanel.setId( viewRoot.createUniqueId() );
@@ -92,7 +90,7 @@ public class TabPanelLayoutDecorator
 		}
 		else
 		{
-			tabPanel = (UITabPanel) state.currentSectionWidget.getParent().getParent();
+			tabPanel = (UITabPanel) previousSectionWidget.getParent().getParent();
 		}
 
 		// New tab
@@ -103,7 +101,7 @@ public class TabPanelLayoutDecorator
 
 		// Tab name (possibly localized)
 
-		String section = state.currentSection;
+		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )

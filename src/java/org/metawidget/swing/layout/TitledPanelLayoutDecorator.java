@@ -25,11 +25,9 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import org.metawidget.layout.decorator.LayoutDecorator;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -39,7 +37,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TitledPanelLayoutDecorator
-	extends LayoutDecorator<JComponent, SwingMetawidget>
+	extends SwingSectionLayoutDecorator
 {
 	//
 	// Private statics
@@ -67,60 +65,18 @@ public class TitledPanelLayoutDecorator
 	}
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
 	@Override
-	public void startLayout( JComponent container, SwingMetawidget metawidget )
+	protected JComponent createSectionWidget( JComponent previousSectionWidget, JComponent container, SwingMetawidget metawidget )
 	{
-		super.startLayout( container, metawidget );
-		container.putClientProperty( TitledPanelLayoutDecorator.class, null );
-	}
-
-	@Override
-	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
-		String section = LayoutUtils.stripSection( attributes );
-		State state = getState( container );
-
-		// Stay where we are?
-
-		if ( section == null || section.equals( state.currentSection ) )
-		{
-			if ( state.titledPanel == null )
-				super.layoutWidget( component, elementName, attributes, container, metawidget );
-			else
-				super.layoutWidget( component, elementName, attributes, state.titledPanel, metawidget );
-
-			return;
-		}
-
-		state.currentSection = section;
-
-		// End current section
-
-		if ( state.titledPanel != null )
-		{
-			super.endLayout( state.titledPanel, metawidget );
-			state.titledPanel = null;
-		}
-
-		// No new section?
-
-		if ( "".equals( section ) )
-		{
-			super.layoutWidget( component, elementName, attributes, container, metawidget );
-			return;
-		}
-
-		// New section
-
 		JPanel titledPanel = new JPanel();
 		titledPanel.setOpaque( false );
-		super.startLayout( titledPanel, metawidget );
 
 		// Section name (possibly localized)
 
+		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
@@ -135,53 +91,6 @@ public class TitledPanelLayoutDecorator
 		panelAttributes.put( LARGE, TRUE );
 		super.layoutWidget( titledPanel, PROPERTY, panelAttributes, container, metawidget );
 
-		state.titledPanel = titledPanel;
-
-		// Add component to new section
-
-		super.layoutWidget( component, elementName, attributes, state.titledPanel, metawidget );
-	}
-
-	@Override
-	public void endLayout( JComponent container, SwingMetawidget metawidget )
-	{
-		State state = getState( container );
-
-		if ( state.titledPanel != null )
-			super.endLayout( state.titledPanel, metawidget );
-
-		super.endLayout( container, metawidget );
-	}
-
-	//
-	// Private methods
-	//
-
-	private State getState( JComponent container )
-	{
-		State state = (State) container.getClientProperty( TitledPanelLayoutDecorator.class );
-
-		if ( state == null )
-		{
-			state = new State();
-			container.putClientProperty( TitledPanelLayoutDecorator.class, state );
-		}
-
-		return state;
-	}
-
-	//
-	// Inner class
-	//
-
-	/**
-	 * Simple, lightweight structure for saving state.
-	 */
-
-	/* package private */static class State
-	{
-		/* package private */String	currentSection;
-
-		/* package private */JPanel	titledPanel;
+		return titledPanel;
 	}
 }

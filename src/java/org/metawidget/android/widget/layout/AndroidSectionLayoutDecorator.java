@@ -14,32 +14,32 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.faces.component.layout;
+package org.metawidget.android.widget.layout;
 
 import java.util.Map;
 
-import javax.faces.component.UIComponent;
-
-import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.faces.component.UIStub;
+import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.android.widget.Stub;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.CollectionUtils;
 
+import android.view.View;
+
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
- * sections within JSF Layouts.
+ * sections within Android Layouts.
  *
  * @author Richard Kennard
  */
 
-public abstract class UIComponentSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.SectionLayoutDecorator<UIComponent, UIMetawidget>
+public abstract class AndroidSectionLayoutDecorator
+	extends org.metawidget.layout.decorator.SectionLayoutDecorator<View, AndroidMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected UIComponentSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIMetawidget> config )
+	protected AndroidSectionLayoutDecorator( LayoutDecoratorConfig<View, AndroidMetawidget> config )
 	{
 		super( config );
 	}
@@ -49,10 +49,10 @@ public abstract class UIComponentSectionLayoutDecorator
 	//
 
 	@Override
-	protected State<UIComponent> getState( UIComponent container, UIMetawidget metawidget )
+	protected State<View> getState( View view, AndroidMetawidget metawidget )
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<UIComponent, State> stateMap = (Map<UIComponent, State>) metawidget.getClientProperty( getClass() );
+		Map<View, State> stateMap = (Map<View, State>) metawidget.getClientProperty( getClass() );
 
 		if ( stateMap == null )
 		{
@@ -61,20 +61,20 @@ public abstract class UIComponentSectionLayoutDecorator
 		}
 
 		@SuppressWarnings( "unchecked" )
-		State<UIComponent> state = stateMap.get( container );
+		State<View> state = stateMap.get( view );
 
 		if ( state == null )
 		{
-			state = new State<UIComponent>();
-			stateMap.put( container, state );
+			state = new State<View>();
+			stateMap.put( view, state );
 		}
 
 		return state;
 	}
 
 	@Override
-	protected boolean isEmptyStub( UIComponent component )
+	protected boolean isEmptyStub( View view )
 	{
-		return ( component instanceof UIStub && component.getChildren().isEmpty() );
+		return ( view instanceof Stub && ((Stub) view).getChildCount() == 0 );
 	}
 }

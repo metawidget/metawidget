@@ -26,10 +26,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.Border;
 
-import org.metawidget.layout.decorator.LayoutDecorator;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.util.LayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -39,7 +37,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class TabbedPaneLayoutDecorator
-	extends LayoutDecorator<JComponent, SwingMetawidget>
+	extends SwingSectionLayoutDecorator
 {
 	//
 	// Private statics
@@ -75,129 +73,49 @@ public class TabbedPaneLayoutDecorator
 	}
 
 	//
-	// Public methods
+	// Protected methods
 	//
 
 	@Override
-	public void startLayout( JComponent container, SwingMetawidget metawidget )
+	protected JComponent createSectionWidget( JComponent previousSectionWidget, JComponent container, SwingMetawidget metawidget )
 	{
-		super.startLayout( container, metawidget );
-		container.putClientProperty( TabbedPaneLayoutDecorator.class, null );
-	}
-
-	@Override
-	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
-		String section = LayoutUtils.stripSection( attributes );
-		State state = getState( container );
-
-		// Stay where we are?
-
-		if ( section == null || section.equals( state.currentSection ) )
-		{
-			if ( state.tabPanel == null )
-				super.layoutWidget( component, elementName, attributes, container, metawidget );
-			else
-				super.layoutWidget( component, elementName, attributes, state.tabPanel, metawidget );
-
-			return;
-		}
-
-		state.currentSection = section;
-
-		// End current section
-
-		JTabbedPane tabbedPane = null;
-
-		if ( state.tabPanel != null )
-		{
-			super.endLayout( state.tabPanel, metawidget );
-			tabbedPane = (JTabbedPane) state.tabPanel.getParent();
-			state.tabPanel = null;
-		}
-
-		// No new section?
-
-		if ( "".equals( section ) )
-		{
-			super.layoutWidget( component, elementName, attributes, container, metawidget );
-			return;
-		}
+		JTabbedPane tabbedPane;
 
 		// Whole new tabbed pane?
 
-		if ( tabbedPane == null )
+		if ( previousSectionWidget == null )
 		{
 			tabbedPane = new JTabbedPane();
 			tabbedPane.setBorder( TABBED_PANE_BORDER );
 			tabbedPane.setTabPlacement( mTabPlacement );
+
+			// Add to parent container
 
 			Map<String, String> tabbedPaneAttributes = CollectionUtils.newHashMap();
 			tabbedPaneAttributes.put( LABEL, "" );
 			tabbedPaneAttributes.put( LARGE, TRUE );
 			super.layoutWidget( tabbedPane, PROPERTY, tabbedPaneAttributes, container, metawidget );
 		}
+		else
+		{
+			tabbedPane = (JTabbedPane) previousSectionWidget.getParent();
+		}
 
 		// New tab
 
-		state.tabPanel = new JPanel();
-		state.tabPanel.setBorder( TAB_PANEL_BORDER );
-		super.startLayout( state.tabPanel, metawidget );
+		JPanel tabPanel = new JPanel();
+		tabPanel.setBorder( TAB_PANEL_BORDER );
 
 		// Tab name (possibly localized)
 
+		String section = getState( container, metawidget ).currentSection;
 		String localizedSection = metawidget.getLocalizedKey( StringUtils.camelCase( section ) );
 
 		if ( localizedSection == null )
 			localizedSection = section;
 
-		tabbedPane.addTab( localizedSection, state.tabPanel );
+		tabbedPane.addTab( localizedSection, tabPanel );
 
-		// Add component to new tab
-
-		super.layoutWidget( component, elementName, attributes, state.tabPanel, metawidget );
-	}
-
-	@Override
-	public void endLayout( JComponent container, SwingMetawidget metawidget )
-	{
-		State state = getState( container );
-
-		if ( state.tabPanel != null )
-			super.endLayout( state.tabPanel, metawidget );
-
-		super.endLayout( container, metawidget );
-	}
-
-	//
-	// Private methods
-	//
-
-	private State getState( JComponent container )
-	{
-		State state = (State) container.getClientProperty( TabbedPaneLayoutDecorator.class );
-
-		if ( state == null )
-		{
-			state = new State();
-			container.putClientProperty( TabbedPaneLayoutDecorator.class, state );
-		}
-
-		return state;
-	}
-
-	//
-	// Inner class
-	//
-
-	/**
-	 * Simple, lightweight structure for saving state.
-	 */
-
-	/* package private */static class State
-	{
-		/* package private */String	currentSection;
-
-		/* package private */JPanel	tabPanel;
+		return tabPanel;
 	}
 }
