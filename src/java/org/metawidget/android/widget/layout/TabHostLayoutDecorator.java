@@ -16,13 +16,8 @@
 
 package org.metawidget.android.widget.layout;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
-import java.util.Map;
-
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
@@ -87,10 +82,7 @@ public class TabHostLayoutDecorator
 
 			// Add to parent container
 
-			Map<String, String> tabbedPaneAttributes = CollectionUtils.newHashMap();
-			tabbedPaneAttributes.put( LABEL, "" );
-			tabbedPaneAttributes.put( LARGE, TRUE );
-			super.layoutWidget( tabHost, PROPERTY, tabbedPaneAttributes, container, metawidget );
+			((ViewGroup) container).addView( tabHost );
 		}
 		else
 		{

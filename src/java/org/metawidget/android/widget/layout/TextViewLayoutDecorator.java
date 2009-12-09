@@ -16,13 +16,8 @@
 
 package org.metawidget.android.widget.layout;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
-import java.util.Map;
-
 import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
@@ -78,18 +73,12 @@ public class TextViewLayoutDecorator
 
 		textView.setText( localizedSection, TextView.BufferType.SPANNABLE );
 
-		Map<String, String> attributes = CollectionUtils.newHashMap();
-		attributes.put( LABEL, "" );
-		attributes.put( LARGE, TRUE );
-		super.layoutWidget( textView, PROPERTY, attributes, container, metawidget );
-
 		// Add to parent container
-		//
-		// We start a new Layout. This does not keep, say, TableLayout columns consistent between
-		// sections, but on a limited width display this is usually a good thing
 
-		final ViewGroup newLayout = new android.widget.LinearLayout( metawidget.getContext() );
-		super.layoutWidget( newLayout, PROPERTY, attributes, container, metawidget );
+		( (ViewGroup) container ).addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+
+		android.widget.LinearLayout newLayout = new android.widget.LinearLayout( metawidget.getContext() );
+		((ViewGroup) container).addView( newLayout );
 
 		return newLayout;
 	}
