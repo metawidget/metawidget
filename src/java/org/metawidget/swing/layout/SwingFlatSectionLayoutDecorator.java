@@ -16,11 +16,16 @@
 
 package org.metawidget.swing.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.Map;
+
 import javax.swing.JComponent;
 
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.util.ArrayUtils;
 
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
@@ -55,6 +60,12 @@ public abstract class SwingFlatSectionLayoutDecorator
 	//
 	// Protected methods
 	//
+
+	@Override
+	protected String[] getSections( Map<String, String> attributes )
+	{
+		return ArrayUtils.fromString( attributes.get( SECTION ) );
+	}
 
 	@Override
 	protected State getState( JComponent container, SwingMetawidget metawidget )

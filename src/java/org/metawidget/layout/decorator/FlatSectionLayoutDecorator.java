@@ -16,11 +16,7 @@
 
 package org.metawidget.layout.decorator;
 
-import static org.metawidget.inspector.InspectionResultConstants.*;
-
 import java.util.Map;
-
-import org.metawidget.util.ArrayUtils;
 
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
@@ -48,7 +44,7 @@ public abstract class FlatSectionLayoutDecorator<W, M extends W>
 	@Override
 	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget )
 	{
-		String[] sections = ArrayUtils.fromString( attributes.get( SECTION ) );
+		String[] sections = getSections( attributes );
 		State state = getState( container, metawidget );
 
 		// Stay where we are?
@@ -91,6 +87,8 @@ public abstract class FlatSectionLayoutDecorator<W, M extends W>
 	//
 	// Protected methods
 	//
+
+	protected abstract String[]	getSections( Map<String, String> attributes );
 
 	protected abstract State getState( W container, M metawidget );
 

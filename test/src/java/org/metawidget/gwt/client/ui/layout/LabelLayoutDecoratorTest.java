@@ -40,7 +40,7 @@ public class LabelLayoutDecoratorTest
 		assertTrue( config1.equals( config2 ));
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
-		// sectionStyleName
+		// styleName
 
 		config1.setStyleName( "section-style-name" );
 		assertTrue( "section-style-name".equals( config1.getStyleName() ));

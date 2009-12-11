@@ -180,6 +180,7 @@ public class GwtClientSideTest
 										assertTrue( "{firstname=Richard, homeAddress.city=Home City, homeAddress.postcode=Home Postcode, homeAddress.state=Home State, homeAddress.street=Home Street, password=sssh!, surname=Kennard, title=Mrs, workAddress.city=Work City, workAddress.postcode=Work Postcode, workAddress.state=Work State, workAddress.street=Work Street}".equals( metawidget.getToInspect().toString() ) );
 
 										// Edit XML
+										// TODO: try adding a section
 
 										textArea.setText( textArea.getText().replace( "<property name=\"postcode\"/>", "<property name=\"postcode\"/><action name=\"lookupPostcode\"/>" ) );
 										fireClickEvent( generateButton );

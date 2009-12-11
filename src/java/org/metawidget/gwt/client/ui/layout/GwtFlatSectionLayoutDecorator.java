@@ -16,7 +16,12 @@
 
 package org.metawidget.gwt.client.ui.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.Map;
+
 import org.metawidget.gwt.client.ui.GwtMetawidget;
+import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 
@@ -44,6 +49,12 @@ public abstract class GwtFlatSectionLayoutDecorator
 	//
 	// Protected methods
 	//
+
+	@Override
+	protected String[] getSections( Map<String, String> attributes )
+	{
+		return GwtUtils.fromString( attributes.get( SECTION ), ',' ).toArray( new String[0] );
+	}
 
 	@Override
 	protected State getState( Widget container, GwtMetawidget metawidget )

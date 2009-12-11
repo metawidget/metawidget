@@ -344,7 +344,7 @@ public class GwtAllWidgetsTest
 														assertTrue( new DateConverter().convertForWidget( null, ( (AllWidgets) metawidget.getToInspect() ).getDate() ).equals( metawidget.getValue( "date" ) ) );
 														( (TextBox) flexTable.getWidget( 16, 1 ) ).setText( "bad date" );
 
-														assertTrue( "Section Break".equals( flexTable.getText( 17, 0 ) ) );
+														assertTrue( "Section Break".equals( ((Label) flexTable.getWidget( 17, 0 )).getText() ) );
 
 														assertTrue( "Read only:".equals( flexTable.getText( 18, 0 ) ) );
 														assertTrue( flexTable.getWidget( 18, 1 ) instanceof Label );

@@ -23,6 +23,8 @@ import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayoutConfig;
+import org.metawidget.gwt.client.ui.layout.LabelLayoutDecorator;
+import org.metawidget.gwt.client.ui.layout.LabelLayoutDecoratorConfig;
 import org.metawidget.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
 import org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder;
@@ -208,7 +210,7 @@ public class ClientSideModule
 		layoutConfig.setTableStyleName( "table-form" );
 		layoutConfig.setColumnStyleNames( "table-label-column", "table-component-column", "table-required-column" );
 		layoutConfig.setFooterStyleName( "buttons" );
-		metawidget.setLayout( new FlexTableLayout( layoutConfig ));
+		metawidget.setLayout( new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout( layoutConfig )).setStyleName( "section-heading" )));
 
 		// Load button
 

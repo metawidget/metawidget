@@ -26,6 +26,8 @@ import java.util.MissingResourceException;
 import java.util.Set;
 
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
+import org.metawidget.gwt.client.ui.layout.LabelLayoutDecorator;
+import org.metawidget.gwt.client.ui.layout.LabelLayoutDecoratorConfig;
 import org.metawidget.gwt.client.widgetbuilder.impl.GwtWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.impl.OverriddenWidgetBuilder;
 import org.metawidget.gwt.client.widgetbuilder.impl.ReadOnlyWidgetBuilder;
@@ -766,7 +768,7 @@ public class GwtMetawidget
 		if ( mPipeline.getLayout() == null )
 		{
 			if ( DEFAULT_LAYOUT == null )
-				DEFAULT_LAYOUT = new FlexTableLayout();
+				DEFAULT_LAYOUT = new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ));
 
 			mPipeline.setLayout( DEFAULT_LAYOUT );
 		}

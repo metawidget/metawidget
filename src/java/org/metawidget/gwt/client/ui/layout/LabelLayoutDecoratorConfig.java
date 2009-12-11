@@ -72,8 +72,6 @@ public class LabelLayoutDecoratorConfig
 		return this;
 	}
 
-	// TODO: unit test
-
 	@Override
 	public boolean equals( Object that )
 	{

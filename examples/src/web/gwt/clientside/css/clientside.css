@@ -144,6 +144,14 @@ h2 strong
 	height: 100px;
 }
 
+.table-component-column .section-heading
+{
+	font-size: 20pt;
+	font-weight: bold;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
 .table-required-column
 {
 	font-weight: bold;

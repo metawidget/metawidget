@@ -149,8 +149,8 @@ public class GwtAddressBookTest
 										assertTrue( "Date of Birth:".equals( contactFlexTable.getText( 3, 0 ) ) );
 										assertTrue( "5/12/56".equals( contactMetawidget.getValue( "dateOfBirth" ) ) );
 										assertTrue( "Contact Details".equals( contactFlexTable.getText( 5, 0 ) ) );
-										assertTrue( 3 == contactFlexTable.getFlexCellFormatter().getColSpan( 5, 0 ) );
-										assertTrue( "section-heading".equals( contactFlexTable.getFlexCellFormatter().getStyleName( 5, 0 ) ) );
+										assertTrue( 2 == contactFlexTable.getFlexCellFormatter().getColSpan( 5, 0 ) );
+										assertTrue( "section-heading".equals( ((Label) contactFlexTable.getWidget( 5, 0 )).getStyleName() ) );
 										assertTrue( "Address:".equals( contactFlexTable.getText( 6, 0 ) ) );
 
 										try

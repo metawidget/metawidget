@@ -22,6 +22,7 @@ import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.LayoutUtils;
 
 import android.view.View;
 
@@ -47,6 +48,12 @@ public abstract class AndroidSectionLayoutDecorator
 	//
 	// Protected methods
 	//
+
+	@Override
+	protected String stripSection( Map<String, String> attributes )
+	{
+		return LayoutUtils.stripSection( attributes );
+	}
 
 	@Override
 	protected State<View> getState( View view, AndroidMetawidget metawidget )

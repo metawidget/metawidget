@@ -18,8 +18,6 @@ package org.metawidget.layout.decorator;
 
 import java.util.Map;
 
-import org.metawidget.util.LayoutUtils;
-
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
  * sections, rendering multi-level sections (ie. section="foo,bar") as nested components.
@@ -46,7 +44,7 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 	@Override
 	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget )
 	{
-		String section = LayoutUtils.stripSection( attributes );
+		String section = stripSection( attributes );
 		State<W> state = getState( container, metawidget );
 
 		// Stay where we are?
@@ -109,6 +107,8 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 	//
 	// Protected methods
 	//
+
+	protected abstract String stripSection( Map<String, String> attributes );
 
 	protected abstract State<W> getState( W container, M metawidget );
 

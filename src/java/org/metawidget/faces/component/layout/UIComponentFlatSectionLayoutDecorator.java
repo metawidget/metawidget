@@ -16,11 +16,16 @@
 
 package org.metawidget.faces.component.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
+import java.util.Map;
+
 import javax.faces.component.UIComponent;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
+import org.metawidget.util.ArrayUtils;
 
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
@@ -44,6 +49,12 @@ public abstract class UIComponentFlatSectionLayoutDecorator
 	//
 	// Protected methods
 	//
+
+	@Override
+	protected String[] getSections( Map<String, String> attributes )
+	{
+		return ArrayUtils.fromString( attributes.get( SECTION ) );
+	}
 
 	@Override
 	protected State getState( UIComponent container, UIMetawidget metawidget )

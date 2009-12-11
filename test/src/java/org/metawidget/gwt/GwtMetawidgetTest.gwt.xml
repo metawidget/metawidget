@@ -8,6 +8,6 @@
 
 	<!-- Client -->
 	
-	<source path="client"/>
+	<source path="client/gwttest"/>
 
 </module>
