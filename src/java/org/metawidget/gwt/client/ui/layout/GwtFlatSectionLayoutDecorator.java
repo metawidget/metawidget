@@ -47,6 +47,17 @@ public abstract class GwtFlatSectionLayoutDecorator
 	}
 
 	//
+	// Public methods
+	//
+
+	@Override
+	public void startLayout( Widget container, GwtMetawidget metawidget )
+	{
+		super.startLayout( container, metawidget );
+		metawidget.putClientProperty( getClass(), null );
+	}
+
+	//
 	// Protected methods
 	//
 

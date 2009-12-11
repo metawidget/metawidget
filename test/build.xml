@@ -221,7 +221,9 @@
 				<include name="org/metawidget/gwt/**"/>
 				<include name="org/metawidget/example/gwt/**"/>
 				<include name="org/metawidget/GwtAllWidgets.gwt.xml"/>
-				<exclude name="org/metawidget/gwt/client/**"/>
+				<exclude name="org/metawidget/gwt/client/ui/layout/**"/>
+				<exclude name="org/metawidget/gwt/client/widgetbuilder/**"/>
+				<exclude name="org/metawidget/gwt/client/widgetprocessor/**"/>
 				<include name="org/metawidget/shared/**"/>
 				<exclude name="**/AllWidgets_$*.java"/>
 				<exclude name="**/AllWidgets$*.java"/>

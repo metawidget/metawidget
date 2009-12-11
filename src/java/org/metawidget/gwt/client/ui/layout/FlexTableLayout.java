@@ -137,6 +137,17 @@ public class FlexTableLayout
 			actualColumn = 0;
 		}
 
+		// Special support for large components
+
+		boolean spanAllColumns = willFillHorizontally( widget, attributes );
+
+		if ( spanAllColumns && state.currentColumn > 0 )
+		{
+			state.currentColumn = 0;
+			actualColumn = 0;
+			row++;
+		}
+
 		// Label
 
 		String labelText = metawidget.getLabelString( attributes );
@@ -186,7 +197,7 @@ public class FlexTableLayout
 
 		// Metawidgets and large components span all columns
 
-		if ( widget instanceof GwtMetawidget || SimpleLayoutUtils.isSpanAllColumns( attributes ) )
+		if ( spanAllColumns )
 		{
 			colspan = ( numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 			state.currentColumn = numberOfColumns;
@@ -282,6 +293,14 @@ public class FlexTableLayout
 			return null;
 
 		return mColumnStyleNames[styleName];
+	}
+
+	protected boolean willFillHorizontally( Widget widget, Map<String, String> attributes )
+	{
+		if ( widget instanceof GwtMetawidget )
+			return true;
+
+		return SimpleLayoutUtils.isSpanAllColumns( attributes );
 	}
 
 	//

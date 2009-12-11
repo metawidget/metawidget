@@ -496,8 +496,8 @@ public class GwtAllWidgetsTest
 																						assertTrue( "Date (i18n):".equals( readOnlyFlexTable.getText( 57, 0 ) ) );
 																						assertTrue( now.equals( ( (Label) readOnlyFlexTable.getWidget( 58, 0 ) ).getText() ) );
 
-																						assertTrue( "Section Break (i18n)".equals( readOnlyFlexTable.getText( 59, 0 ) ) );
-																						assertTrue( "aSectionStyleName".equals( readOnlyFlexTable.getFlexCellFormatter().getStyleName( 59, 0 ) ) );
+																						assertTrue( "Section Break (i18n)".equals( ((Label) readOnlyFlexTable.getWidget( 59, 0 )).getText() ) );
+																						assertTrue( "aSectionStyleName".equals( ((Label) readOnlyFlexTable.getWidget( 59, 0 )).getStyleName() ) );
 
 																						assertTrue( "Read only (i18n):".equals( readOnlyFlexTable.getText( 60, 0 ) ) );
 																						assertTrue( "Read Only".equals( ( (Label) readOnlyFlexTable.getWidget( 61, 0 ) ).getText() ) );

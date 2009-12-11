@@ -73,7 +73,7 @@ public class AllWidgetsModule
 
 		final GwtMetawidget metawidget = new GwtMetawidget();
 		metawidget.setInspector( new GwtRemoteInspectorProxy( "/metawidget-inspector-allwidgets" ) );
-		metawidget.setLayout( new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 2 ))).setStyleName( "aSectionStyleName" )) );
+		metawidget.setLayout( new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout( new FlexTableLayoutConfig().setNumberOfColumns( 2 )))) );
 		metawidget.setToInspect( new AllWidgets() );
 
 		// Binding
