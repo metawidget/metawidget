@@ -372,6 +372,8 @@ public class GridBagLayout
 	 * Nested Metawidgets are always just single column.
 	 */
 
+	// TODO: unit test this?
+
 	private int getEffectiveNumberOfColumns( SwingMetawidget metawidget )
 	{
 		if ( metawidget.getParent() instanceof SwingMetawidget )

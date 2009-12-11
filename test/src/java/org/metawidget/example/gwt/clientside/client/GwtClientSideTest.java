@@ -35,6 +35,7 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.PasswordTextBox;
 import com.google.gwt.user.client.ui.TextArea;
@@ -180,9 +181,8 @@ public class GwtClientSideTest
 										assertTrue( "{firstname=Richard, homeAddress.city=Home City, homeAddress.postcode=Home Postcode, homeAddress.state=Home State, homeAddress.street=Home Street, password=sssh!, surname=Kennard, title=Mrs, workAddress.city=Work City, workAddress.postcode=Work Postcode, workAddress.state=Work State, workAddress.street=Work Street}".equals( metawidget.getToInspect().toString() ) );
 
 										// Edit XML
-										// TODO: try adding a section
 
-										textArea.setText( textArea.getText().replace( "<property name=\"postcode\"/>", "<property name=\"postcode\"/><action name=\"lookupPostcode\"/>" ) );
+										textArea.setText( textArea.getText().replace( "<property name=\"postcode\"/>", "<property name=\"postcode\"/><action name=\"lookupPostcode\" section=\"An Action\"/>" ) );
 										fireClickEvent( generateButton );
 
 										executeAfterBuildWidgets( metawidget, new Timer()
@@ -201,13 +201,18 @@ public class GwtClientSideTest
 															public void run()
 															{
 																FlexTable flexTableRegenerated = (FlexTable) metawidget.getWidget( 0 );
+
 																FlexTable nestedFlexTableRegenerated1 = (FlexTable) ( (GwtMetawidget) flexTableRegenerated.getWidget( 4, 1 ) ).getWidget( 0 );
-																assertTrue( nestedFlexTableRegenerated1.getWidget( 4, 1 ) instanceof Button );
-																fireClickEvent( nestedFlexTableRegenerated1.getWidget( 4, 1 ) );
+																assertTrue( "An Action".equals( ((Label) nestedFlexTableRegenerated1.getWidget( 4, 0 )).getText() ) );
+																assertTrue( "section-heading".equals( ((Label) nestedFlexTableRegenerated1.getWidget( 4, 0 )).getStyleName() ) );
+																assertTrue( nestedFlexTableRegenerated1.getWidget( 5, 1 ) instanceof Button );
+																fireClickEvent( nestedFlexTableRegenerated1.getWidget( 5, 1 ) );
 
 																FlexTable nestedFlexTableRegenerated2 = (FlexTable) ( (GwtMetawidget) flexTableRegenerated.getWidget( 5, 1 ) ).getWidget( 0 );
-																assertTrue( nestedFlexTableRegenerated2.getWidget( 4, 1 ) instanceof Button );
-																fireClickEvent( nestedFlexTableRegenerated2.getWidget( 4, 1 ) );
+																assertTrue( "An Action".equals( ((Label) nestedFlexTableRegenerated2.getWidget( 4, 0 )).getText() ) );
+																assertTrue( "section-heading".equals( ((Label) nestedFlexTableRegenerated2.getWidget( 4, 0 )).getStyleName() ) );
+																assertTrue( nestedFlexTableRegenerated2.getWidget( 5, 1 ) instanceof Button );
+																fireClickEvent( nestedFlexTableRegenerated2.getWidget( 5, 1 ) );
 
 																fireClickEvent( saveButton );
 																assertTrue( "{firstname=, homeAddress.city=, homeAddress.lookupPostcode=clicked, homeAddress.postcode=, homeAddress.state=, homeAddress.street=, password=, surname=, title=Mr, workAddress.city=, workAddress.lookupPostcode=clicked, workAddress.postcode=, workAddress.state=, workAddress.street=}".equals( metawidget.getToInspect().toString() ) );
