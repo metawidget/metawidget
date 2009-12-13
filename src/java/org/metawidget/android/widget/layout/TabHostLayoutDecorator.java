@@ -34,7 +34,7 @@ import android.widget.TabHost.TabContentFactory;
  */
 
 public class TabHostLayoutDecorator
-	extends AndroidSectionLayoutDecorator
+	extends AndroidNestedSectionLayoutDecorator
 {
 	//
 	// Constructor

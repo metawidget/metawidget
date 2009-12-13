@@ -33,14 +33,14 @@ import android.view.View;
  * @author Richard Kennard
  */
 
-public abstract class AndroidSectionLayoutDecorator
+public abstract class AndroidNestedSectionLayoutDecorator
 	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<View, AndroidMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected AndroidSectionLayoutDecorator( LayoutDecoratorConfig<View, AndroidMetawidget> config )
+	protected AndroidNestedSectionLayoutDecorator( LayoutDecoratorConfig<View, AndroidMetawidget> config )
 	{
 		super( config );
 	}
@@ -59,7 +59,7 @@ public abstract class AndroidSectionLayoutDecorator
 	protected State<View> getState( View view, AndroidMetawidget metawidget )
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<View, State> stateMap = (Map<View, State>) metawidget.getClientProperty( getClass() );
+		Map<View, State<View>> stateMap = (Map<View, State<View>>) metawidget.getClientProperty( getClass() );
 
 		if ( stateMap == null )
 		{
@@ -67,7 +67,6 @@ public abstract class AndroidSectionLayoutDecorator
 			metawidget.putClientProperty( getClass(), stateMap );
 		}
 
-		@SuppressWarnings( "unchecked" )
 		State<View> state = stateMap.get( view );
 
 		if ( state == null )

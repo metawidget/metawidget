@@ -18,6 +18,7 @@ package org.metawidget.gwt.client.ui.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.metawidget.gwt.client.ui.Facet;
@@ -26,7 +27,9 @@ import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
+import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
@@ -81,14 +84,12 @@ public class FlexTableLayout
 	//
 
 	@Override
-	public void startLayout( Widget widget, GwtMetawidget metawidget )
+	public void startLayout( Widget container, GwtMetawidget metawidget )
 	{
-		metawidget.putClientProperty( FlexTableLayout.class, null );
-
-		State state = getState( metawidget );
+		State state = getState( container, metawidget );
 		FlexTable flexTable = new FlexTable();
 		flexTable.setStyleName( mTableStyleName );
-		metawidget.add( flexTable );
+		( (HasWidgets) container ).add( flexTable );
 
 		state.formatter = flexTable.getFlexCellFormatter();
 	}
@@ -119,12 +120,12 @@ public class FlexTableLayout
 		// is
 
 		int actualColumn;
-		FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
+		FlexTable flexTable = (FlexTable) ( (ComplexPanel) container ).getWidget( 0 );
 		int row = flexTable.getRowCount();
 
-		int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
+		int numberOfColumns = getEffectiveNumberOfColumns( container );
 
-		State state = getState( metawidget );
+		State state = getState( container, metawidget );
 
 		if ( state.currentColumn < numberOfColumns && row > 0 )
 		{
@@ -152,7 +153,7 @@ public class FlexTableLayout
 
 		String labelText = metawidget.getLabelString( attributes );
 
-		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ))
+		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 		{
 			Label label = new Label( labelText + ":" );
 
@@ -231,31 +232,34 @@ public class FlexTableLayout
 		// Required
 
 		if ( !( widget instanceof GwtMetawidget ) )
-			layoutRequired( attributes, metawidget );
+			layoutRequired( attributes, container, metawidget );
 
 		state.currentColumn++;
 	}
 
 	@Override
-	public void endLayout( Widget widget, GwtMetawidget metawidget )
+	public void endLayout( Widget container, GwtMetawidget metawidget )
 	{
-		Facet facet = metawidget.getFacet( "buttons" );
-
-		if ( facet != null )
+		if ( container.equals( metawidget ) )
 		{
-			State state = getState( metawidget );
-			FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
-			int row = flexTable.getRowCount();
+			Facet facet = metawidget.getFacet( "buttons" );
 
-			int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
+			if ( facet != null )
+			{
+				State state = getState( container, metawidget );
+				FlexTable flexTable = (FlexTable) ((ComplexPanel) container).getWidget( 0 );
+				int row = flexTable.getRowCount();
 
-			if ( numberOfColumns > 0 )
-				state.formatter.setColSpan( row, 0, numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+				int numberOfColumns = getEffectiveNumberOfColumns( container );
 
-			if ( mFooterStyleName != null )
-				state.formatter.setStyleName( row, 0, mFooterStyleName );
+				if ( numberOfColumns > 0 )
+					state.formatter.setColSpan( row, 0, numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 
-			flexTable.setWidget( row, 0, facet );
+				if ( mFooterStyleName != null )
+					state.formatter.setStyleName( row, 0, mFooterStyleName );
+
+				flexTable.setWidget( row, 0, facet );
+			}
 		}
 	}
 
@@ -263,10 +267,10 @@ public class FlexTableLayout
 	// Protected methods
 	//
 
-	protected void layoutRequired( Map<String, String> attributes, GwtMetawidget metawidget )
+	protected void layoutRequired( Map<String, String> attributes, Widget container, GwtMetawidget metawidget )
 	{
-		State state = getState( metawidget );
-		FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
+		State state = getState( container, metawidget );
+		FlexTable flexTable = (FlexTable) ((ComplexPanel) container).getWidget( 0 );
 		int row = flexTable.getRowCount() - 1;
 		int column = flexTable.getCellCount( row );
 
@@ -313,22 +317,31 @@ public class FlexTableLayout
 	 * Nested Metawidgets are always just single column.
 	 */
 
-	private int getEffectiveNumberOfColumns( GwtMetawidget metawidget )
+	private int getEffectiveNumberOfColumns( Widget container )
 	{
-		if ( metawidget.getParent() instanceof FlexTable && metawidget.getParent().getParent() instanceof GwtMetawidget )
+		if ( container.getParent() instanceof FlexTable && container.getParent().getParent() instanceof GwtMetawidget )
 			return 1;
 
 		return mNumberOfColumns;
 	}
 
-	private State getState( GwtMetawidget metawidget )
+	private State getState( Widget container, GwtMetawidget metawidget )
 	{
-		State state = (State) metawidget.getClientProperty( FlexTableLayout.class );
+		@SuppressWarnings( "unchecked" )
+		Map<Widget, State> stateMap = (Map<Widget, State>) metawidget.getClientProperty( getClass() );
+
+		if ( stateMap == null )
+		{
+			stateMap = new HashMap<Widget, State>();
+			metawidget.putClientProperty( getClass(), stateMap );
+		}
+
+		State state = stateMap.get( container );
 
 		if ( state == null )
 		{
 			state = new State();
-			metawidget.putClientProperty( FlexTableLayout.class, state );
+			stateMap.put( container, state );
 		}
 
 		return state;

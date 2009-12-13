@@ -31,7 +31,7 @@ import android.widget.TextView;
  */
 
 public class TextViewLayoutDecorator
-	extends AndroidSectionLayoutDecorator
+	extends AndroidNestedSectionLayoutDecorator
 {
 	//
 	// Private members

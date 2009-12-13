@@ -42,6 +42,16 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 	//
 
 	@Override
+	public void startLayout( W container, M metawidget )
+	{
+		super.startLayout( container, metawidget );
+
+		State<W> state = getState( container, metawidget );
+		state.currentSection = null;
+		state.currentSectionWidget = null;
+	}
+
+	@Override
 	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget )
 	{
 		String section = stripSection( attributes );

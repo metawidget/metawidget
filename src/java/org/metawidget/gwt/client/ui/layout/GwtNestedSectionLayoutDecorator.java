@@ -18,6 +18,8 @@ package org.metawidget.gwt.client.ui.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.gwt.client.ui.GwtMetawidget;
@@ -29,19 +31,19 @@ import com.google.gwt.user.client.ui.Widget;
 
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
- * sections within GWT Layouts.
+ * sections within Android Layouts.
  *
  * @author Richard Kennard
  */
 
-public abstract class GwtFlatSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<Widget, GwtMetawidget>
+public abstract class GwtNestedSectionLayoutDecorator
+	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<Widget, GwtMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected GwtFlatSectionLayoutDecorator( LayoutDecoratorConfig<Widget, GwtMetawidget> config )
+	protected GwtNestedSectionLayoutDecorator( LayoutDecoratorConfig<Widget, GwtMetawidget> config )
 	{
 		super( config );
 	}
@@ -51,20 +53,52 @@ public abstract class GwtFlatSectionLayoutDecorator
 	//
 
 	@Override
-	protected String[] getSections( Map<String, String> attributes )
+	protected String stripSection( Map<String, String> attributes )
 	{
-		return GwtUtils.fromString( attributes.get( SECTION ), ',' ).toArray( new String[0] );
+		String sections = attributes.remove( SECTION );
+
+		// (null means 'no change to current section')
+
+		if ( sections == null )
+			return null;
+
+		List<String> sectionAsArray = GwtUtils.fromString( sections, ',' );
+
+		switch ( sectionAsArray.size() )
+		{
+			// (empty String means 'end current section')
+
+			case 0:
+				return "";
+
+			case 1:
+				return sectionAsArray.get(0);
+
+			default:
+				String section = sectionAsArray.remove( 0 );
+				attributes.put( SECTION, GwtUtils.toString( sectionAsArray, ',' ) );
+				return section;
+		}
 	}
 
 	@Override
-	protected State getState( Widget container, GwtMetawidget metawidget )
+	protected State<Widget> getState( Widget widget, GwtMetawidget metawidget )
 	{
-		State state = (State) metawidget.getClientProperty( getClass() );
+		@SuppressWarnings( "unchecked" )
+		Map<Widget, State<Widget>> stateMap = (Map<Widget, State<Widget>>) metawidget.getClientProperty( getClass() );
+
+		if ( stateMap == null )
+		{
+			stateMap = new HashMap<Widget, State<Widget>>();
+			metawidget.putClientProperty( getClass(), stateMap );
+		}
+
+		State<Widget> state = stateMap.get( widget );
 
 		if ( state == null )
 		{
-			state = new State();
-			metawidget.putClientProperty( getClass(), state );
+			state = new State<Widget>();
+			stateMap.put( widget, state );
 		}
 
 		return state;
