@@ -42,6 +42,15 @@ public abstract class FlatSectionLayoutDecorator<W, M extends W>
 	//
 
 	@Override
+	public void startLayout( W container, M metawidget )
+	{
+		super.startLayout( container, metawidget );
+
+		State state = getState( container, metawidget );
+		state.currentSections = null;
+	}
+
+	@Override
 	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget )
 	{
 		String[] sections = getSections( attributes );
