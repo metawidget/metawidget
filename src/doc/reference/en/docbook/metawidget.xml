@@ -2426,6 +2426,21 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 					</listitem>
 				</itemizedlist>					
 				
+				<para>
+					Once you have the samples running, you can quickly make changes and play around. For example,
+					find the line in <classname>ContactDialog</classname> that configures a <classname>LabelLayoutDecorator</classname>
+					(which decorates sections using <classname>Label</classname>s) and change it to a
+					<classname>TabPanelLayoutDecorator</classname>. This will decorate sections using a GWT <classname>TabPanel</classname>,
+					as shown in <xref linkend="section-introduction-part3-gwt-hosted-screenshot-tabpanel"/>.					
+				</para>
+				
+				<figure id="section-introduction-part3-gwt-hosted-screenshot-tabpanel">
+					<title>Address Book Example using GWT TabPanel</title>
+					<screenshot>
+						<graphic fileref="images/screenshots/web-gwt-hosted-tabpanel.jpg" width="100mm" />
+					</screenshot>
+				</figure>
+				
 			</section>
 			
 		</section>

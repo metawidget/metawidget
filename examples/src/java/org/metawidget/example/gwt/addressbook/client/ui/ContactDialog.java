@@ -146,14 +146,22 @@ public class ContactDialog
 		mMetawidget.setReadOnly( contact.getId() != 0 );
 		mMetawidget.setDictionaryName( "bundle" );
 
-		FlexTableLayoutConfig flexTableLayoutConfig = new FlexTableLayoutConfig();
-		flexTableLayoutConfig.setTableStyleName( "table-form" );
-		flexTableLayoutConfig.setColumnStyleNames( "table-label-column", "table-component-column", "table-required-column" );
-		flexTableLayoutConfig.setFooterStyleName( "buttons" );
-		LabelLayoutDecoratorConfig labelLayoutDecoratorConfig = new LabelLayoutDecoratorConfig();
-		labelLayoutDecoratorConfig.setLayout( new FlexTableLayout( flexTableLayoutConfig ));
-		labelLayoutDecoratorConfig.setStyleName( "section-heading" );
-		LabelLayoutDecorator layout = new LabelLayoutDecorator( labelLayoutDecoratorConfig );
+		FlexTableLayoutConfig layoutConfig = new FlexTableLayoutConfig();
+		layoutConfig.setTableStyleName( "table-form" );
+		layoutConfig.setColumnStyleNames( "table-label-column", "table-component-column", "table-required-column" );
+		layoutConfig.setFooterStyleName( "buttons" );
+		LabelLayoutDecoratorConfig layoutDecoratorConfig = new LabelLayoutDecoratorConfig();
+		layoutDecoratorConfig.setStyleName( "section-heading" );
+		layoutDecoratorConfig.setLayout( new FlexTableLayout( layoutConfig ));
+
+		// Use Label for headings. You can try changing this line to...
+		//
+		// TabPanelLayoutDecorator layout = new TabPanelLayoutDecorator( layoutDecoratorConfig );
+		//
+		// ...to use a TabPanel instead
+
+		LabelLayoutDecorator layout = new LabelLayoutDecorator( layoutDecoratorConfig );
+
 		mMetawidget.setLayout( layout );
 		mMetawidget.setToInspect( contact );
 		grid.setWidget( 0, 1, mMetawidget );

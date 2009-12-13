@@ -96,21 +96,6 @@ h1, .section-heading
 	vertical-align: top;
 }
 
-.table-component-column .rich-tabpanel
-{
-	margin-top: 20px;
-}
-
-.table-component-column .rich-tabpanel td
-{
-	font-size: 10pt;
-}
-
-.table-component-column input, .rich-slider
-{
-	width: 99%;
-}
-
 .table-component-column select
 {
 	width: 100%;
@@ -122,7 +107,7 @@ h1, .section-heading
 	height: 100px;
 }
 
-.table-component-column span input, .table-component-column .rich-slider input
+.table-component-column span input
 {
 	width: auto;
 }
@@ -205,32 +190,4 @@ input, textarea, select
 	width: 50px;
 	padding-left: 5px;
 	padding-right: 5px;
-}
-
-.contact-dialog
-{
-	background: white url( ../media/background.jpg ) no-repeat;
-	filter: alpha( opacity = 95 ) progid:DXImageTransform.Microsoft.Shadow( color='#444444', Direction=135, Strength=5 );
-	border: 2px solid #888888;
-}
-
-.contact-dialog .dialogContent
-{
-	width: 650px;
-}
-
-.contact-dialog .Caption
-{
-	font-weight: bold;
-	background: white url( ../media/background-button.gif ) repeat-x center left;
-	border-bottom: 2px solid #888888;
-	padding: 5px;
-}
-
-.contact-dialog .page-image
-{
-	vertical-align: top;
-	padding-top: 15px;
-	padding-left: 20px;
-	padding-right: 20px;
 }
