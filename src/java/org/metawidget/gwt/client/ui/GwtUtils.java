@@ -169,6 +169,11 @@ public final class GwtUtils
 			split.add( item.trim() );
 		}
 
+		// Hack for collections with an empty string on the end (eg. "Foo,Bar,")
+
+		if ( collection.charAt( collection.length() - 1 ) == separator )
+			split.add( "" );
+
 		return split;
 	}
 

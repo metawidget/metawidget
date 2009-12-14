@@ -52,9 +52,9 @@ public final class LayoutUtils
 		if ( sections == null )
 			return null;
 
-		String[] sectionAsArray = ArrayUtils.fromString( sections );
+		String[] sectionsAsArray = ArrayUtils.fromString( sections );
 
-		switch ( sectionAsArray.length )
+		switch ( sectionsAsArray.length )
 		{
 			// (empty String means 'end current section')
 
@@ -62,11 +62,11 @@ public final class LayoutUtils
 				return "";
 
 			case 1:
-				return sectionAsArray[0];
+				return sectionsAsArray[0];
 
 			default:
-				String section = sectionAsArray[0];
-				attributes.put( SECTION, ArrayUtils.toString( ArrayUtils.removeAt( sectionAsArray, 0 ) ) );
+				String section = sectionsAsArray[0];
+				attributes.put( SECTION, ArrayUtils.toString( ArrayUtils.removeAt( sectionsAsArray, 0 ) ) );
 				return section;
 		}
 	}

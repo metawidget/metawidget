@@ -216,7 +216,7 @@ public class GwtQuirksTest
 				assertTrue( 1 == innerTable.getRowCount() );
 
 				assertTrue( "Mno:".equals( outerTable.getText( 1, 0 ) ) );
-				assertTrue( outerTable.getWidget( 1, 1 ) instanceof TextBox );
+				assertTrue( outerTable.getWidget( 1, 1 ) instanceof CheckBox );
 
 				innerTabPanel = ((TabPanel) outerTable.getWidget( 2, 0 ));
 				assertTrue( 1 == innerTabPanel.getTabBar().getTabCount() );
