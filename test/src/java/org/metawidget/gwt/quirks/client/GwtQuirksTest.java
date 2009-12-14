@@ -37,6 +37,9 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.FlowPanel;
+import com.google.gwt.user.client.ui.TabPanel;
+import com.google.gwt.user.client.ui.TextArea;
+import com.google.gwt.user.client.ui.TextBox;
 
 /**
  * @author Richard Kennard
@@ -71,7 +74,7 @@ public class GwtQuirksTest
 		quirksModule.onModuleLoad();
 
 		final GwtMetawidget metawidget = (GwtMetawidget) panel.getWidget( 0 );
-		assertTrue( "org.metawidget.gwt.quirks.client.model.GwtQuirks".equals( metawidget.getPath() ));
+		assertTrue( "org.metawidget.gwt.quirks.client.model.GwtQuirks".equals( metawidget.getPath() ) );
 
 		executeAfterBuildWidgets( metawidget, new Timer()
 		{
@@ -89,11 +92,11 @@ public class GwtQuirksTest
 				assertTrue( false == checkbox.getValue() );
 				assertTrue( false == (Boolean) metawidget.getValue( "boolean" ) );
 				checkbox.setValue( true );
-				assertTrue( "componentStyleName".equals( checkbox.getStyleName() ));
+				assertTrue( "componentStyleName".equals( checkbox.getStyleName() ) );
 
 				assertTrue( "Foo:".equals( flexTable.getText( 2, 0 ) ) );
 				Stub stub = (Stub) flexTable.getWidget( 2, 1 );
-				assertTrue( "foo".equals( stub.getAttributes().get( "name" )));
+				assertTrue( "foo".equals( stub.getAttributes().get( "name" ) ) );
 
 				// Click a nested button
 
@@ -128,34 +131,105 @@ public class GwtQuirksTest
 
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( metawidget.getToInspect(), metawidget );
 
-						// Test checkbox was still checked and has no text (ie. HasText didn't get hit
-						// first in GwtMetawidget.setValue)
+						// Test checkbox was still checked and has no text (ie. HasText didn't get
+						// hit first in GwtMetawidget.setValue)
 
-						assertTrue( "".equals( checkbox.getText() ));
+						assertTrue( "".equals( checkbox.getText() ) );
 						assertTrue( true == checkbox.getValue() );
 						assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );
 
 						// Test rebind binds to new object
 
-						((GwtQuirks) metawidget.getToInspect()).setBoolean( false );
+						( (GwtQuirks) metawidget.getToInspect() ).setBoolean( false );
 
 						GwtQuirks quirks2 = new GwtQuirks();
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).rebind( quirks2, metawidget );
 						assertTrue( quirks2 == metawidget.getToInspect() );
-						assertTrue( "".equals( checkbox.getText() ));
+						assertTrue( "".equals( checkbox.getText() ) );
 						assertTrue( false == checkbox.getValue() );
 						checkbox.setValue( true );
 						metawidget.getWidgetProcessor( SimpleBindingProcessor.class ).save( metawidget );
 
 						assertTrue( true == (Boolean) metawidget.getValue( "boolean" ) );
 						assertTrue( quirks2.isBoolean() );
-						assertTrue( ((GwtQuirks) metawidget.getToInspect()).isBoolean() );
+						assertTrue( ( (GwtQuirks) metawidget.getToInspect() ).isBoolean() );
 
 						// All done
 
 						finish();
 					}
 				} );
+			}
+		} );
+
+		// Test runs asynchronously
+
+		delayTestFinish( TEST_FINISH_DELAY );
+	}
+
+	public void testTabQuirks()
+		throws Exception
+	{
+		// Start app
+
+		final FlowPanel panel = new FlowPanel();
+		final QuirksModule quirksModule = new QuirksModule( panel );
+		quirksModule.onModuleLoad();
+
+		final GwtMetawidget metawidget = (GwtMetawidget) panel.getWidget( 1 );
+		assertTrue( "org.metawidget.gwt.quirks.client.model.GwtTabQuirks".equals( metawidget.getPath() ) );
+
+		executeAfterBuildWidgets( metawidget, new Timer()
+		{
+			@Override
+			public void run()
+			{
+				// Test fields
+
+				final FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
+
+				// Check what created
+
+				assertTrue( "Abc:".equals( flexTable.getText( 0, 0 ) ) );
+				assertTrue( flexTable.getWidget( 0, 1 ) instanceof TextBox );
+
+				TabPanel outerTabPanel = ((TabPanel) flexTable.getWidget( 1, 0 ));
+				assertTrue( "Foo".equals( outerTabPanel.getTabBar().getTabHTML( 0 )));
+				assertTrue( 1 == outerTabPanel.getTabBar().getTabCount() );
+
+				FlexTable outerTable = (FlexTable) ((FlowPanel) outerTabPanel.getWidget( 0 )).getWidget( 0 );
+				TabPanel innerTabPanel = ((TabPanel) outerTable.getWidget( 0, 0 ));
+				assertTrue( 2 == innerTabPanel.getTabBar().getTabCount() );
+
+				assertTrue( "Bar".equals( innerTabPanel.getTabBar().getTabHTML( 0 )));
+				FlexTable innerTable = (FlexTable) ((FlowPanel) innerTabPanel.getWidget( 0 )).getWidget( 0 );
+				assertTrue( "Def:".equals( innerTable.getText( 0, 0 ) ) );
+				assertTrue( innerTable.getWidget( 0, 1 ) instanceof CheckBox );
+				assertTrue( "Ghi:".equals( innerTable.getText( 1, 0 ) ) );
+				assertTrue( innerTable.getWidget( 1, 1 ) instanceof TextArea );
+				assertTrue( 2 == innerTable.getRowCount() );
+
+				assertTrue( "Baz".equals( innerTabPanel.getTabBar().getTabHTML( 1 )));
+				innerTable = (FlexTable) ((FlowPanel) innerTabPanel.getWidget( 1 )).getWidget( 0 );
+				assertTrue( "Jkl:".equals( innerTable.getText( 0, 0 ) ) );
+				assertTrue( innerTable.getWidget( 0, 1 ) instanceof TextBox );
+				assertTrue( 1 == innerTable.getRowCount() );
+
+				assertTrue( "Mno:".equals( outerTable.getText( 1, 0 ) ) );
+				assertTrue( outerTable.getWidget( 1, 1 ) instanceof TextBox );
+
+				innerTabPanel = ((TabPanel) outerTable.getWidget( 2, 0 ));
+				assertTrue( 1 == innerTabPanel.getTabBar().getTabCount() );
+
+				assertTrue( "Moo".equals( innerTabPanel.getTabBar().getTabHTML( 0 )));
+				innerTable = (FlexTable) ((FlowPanel) innerTabPanel.getWidget( 0 )).getWidget( 0 );
+				assertTrue( "Pqr:".equals( innerTable.getText( 0, 0 ) ) );
+				assertTrue( innerTable.getWidget( 0, 1 ) instanceof TextBox );
+				assertTrue( 1 == innerTable.getRowCount() );
+
+				assertTrue( "Stu:".equals( flexTable.getText( 2, 0 ) ) );
+				assertTrue( flexTable.getWidget( 2, 1 ) instanceof TextBox );
+				assertTrue( 3 == flexTable.getRowCount() );
 			}
 		} );
 
@@ -188,7 +262,7 @@ public class GwtQuirksTest
 
 		// isPrimitiveWrapper
 
-		assertTrue( GwtUtils.isPrimitiveWrapper( Byte.class.getName() ));
+		assertTrue( GwtUtils.isPrimitiveWrapper( Byte.class.getName() ) );
 		assertTrue( GwtUtils.isPrimitiveWrapper( Short.class.getName() ) );
 		assertTrue( GwtUtils.isPrimitiveWrapper( Integer.class.getName() ) );
 		assertTrue( GwtUtils.isPrimitiveWrapper( Long.class.getName() ) );
@@ -216,23 +290,23 @@ public class GwtQuirksTest
 	{
 		SimpleConverter converter = new SimpleConverter();
 
-		assertTrue( 1 == (Byte) converter.convertFromWidget( null, "1", byte.class ));
-		assertTrue( 2 == (Short) converter.convertFromWidget( null, "2", short.class ));
-		assertTrue( 3 == (Integer) converter.convertFromWidget( null, "3", int.class ));
-		assertTrue( 4l == (Long) converter.convertFromWidget( null, "4", long.class ));
-		assertTrue( 5f == (Float) converter.convertFromWidget( null, "5", float.class ));
-		assertTrue( 6d == (Double) converter.convertFromWidget( null, "6", double.class ));
-		assertTrue( true == (Boolean) converter.convertFromWidget( null, "true", boolean.class ));
-		assertTrue( 'a' == (Character) converter.convertFromWidget( null, "a", char.class ));
+		assertTrue( 1 == (Byte) converter.convertFromWidget( null, "1", byte.class ) );
+		assertTrue( 2 == (Short) converter.convertFromWidget( null, "2", short.class ) );
+		assertTrue( 3 == (Integer) converter.convertFromWidget( null, "3", int.class ) );
+		assertTrue( 4l == (Long) converter.convertFromWidget( null, "4", long.class ) );
+		assertTrue( 5f == (Float) converter.convertFromWidget( null, "5", float.class ) );
+		assertTrue( 6d == (Double) converter.convertFromWidget( null, "6", double.class ) );
+		assertTrue( true == (Boolean) converter.convertFromWidget( null, "true", boolean.class ) );
+		assertTrue( 'a' == (Character) converter.convertFromWidget( null, "a", char.class ) );
 
 		try
 		{
 			converter.convertFromWidget( null, "Foo", Date.class );
 			assertTrue( false );
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
-			assertTrue( "Don't know how to convert a String to a java.util.Date".equals( e.getMessage() ));
+			assertTrue( "Don't know how to convert a String to a java.util.Date".equals( e.getMessage() ) );
 		}
 	}
 
@@ -243,9 +317,9 @@ public class GwtQuirksTest
 			new GwtRemoteInspectorProxy().inspect( null, null, (String[]) null );
 			assertTrue( false );
 		}
-		catch( Exception e )
+		catch ( Exception e )
 		{
-			assertTrue( "Use async inspection instead".equals( e.getMessage() ));
+			assertTrue( "Use async inspection instead".equals( e.getMessage() ) );
 		}
 	}
 
@@ -257,12 +331,12 @@ public class GwtQuirksTest
 	 * Wrapped to avoid 'synthetic access' warning
 	 */
 
-	/*package private*/void finish()
+	/* package private */void finish()
 	{
 		super.finishTest();
 	}
 
-	/*package private*/void fireClickEvent( HasHandlers widget )
+	/* package private */void fireClickEvent( HasHandlers widget )
 	{
 		Document document = Document.get();
 		NativeEvent nativeEvent = document.createClickEvent( 0, 0, 0, 0, 0, false, false, false, false );

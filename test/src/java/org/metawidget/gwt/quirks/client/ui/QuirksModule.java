@@ -21,10 +21,12 @@ import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayout;
 import org.metawidget.gwt.client.ui.layout.LabelLayoutDecorator;
 import org.metawidget.gwt.client.ui.layout.LabelLayoutDecoratorConfig;
+import org.metawidget.gwt.client.ui.layout.TabPanelLayoutDecorator;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessor;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorAdapter;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorConfig;
 import org.metawidget.gwt.quirks.client.model.GwtQuirks;
+import org.metawidget.gwt.quirks.client.model.GwtTabQuirks;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -86,5 +88,15 @@ public class QuirksModule
 		// Add to the given Panel (for unit tests)
 
 		mPanel.add( metawidget );
+
+		// Tabbed Metawidget
+
+		GwtMetawidget tabbedMetawidget = new GwtMetawidget();
+		tabbedMetawidget.setLayout( new TabPanelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new TabPanelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ) ) )));
+		tabbedMetawidget.setToInspect( new GwtTabQuirks() );
+
+		// Add to the given Panel (for unit tests)
+
+		mPanel.add( tabbedMetawidget );
 	}
 }

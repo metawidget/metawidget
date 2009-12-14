@@ -72,7 +72,7 @@ public abstract class GwtNestedSectionLayoutDecorator
 				return "";
 
 			case 1:
-				return sectionAsArray.get(0);
+				return sectionAsArray.get( 0 );
 
 			default:
 				String section = sectionAsArray.remove( 0 );
@@ -107,6 +107,6 @@ public abstract class GwtNestedSectionLayoutDecorator
 	@Override
 	protected boolean isEmptyStub( Widget widget )
 	{
-		return ( widget instanceof Stub && ((Stub) widget).getWidgetCount() == 0 );
+		return ( widget instanceof Stub && ( (Stub) widget ).getWidgetCount() == 0 );
 	}
 }
