@@ -230,6 +230,10 @@ public class GwtQuirksTest
 				assertTrue( "Stu:".equals( flexTable.getText( 2, 0 ) ) );
 				assertTrue( flexTable.getWidget( 2, 1 ) instanceof TextBox );
 				assertTrue( 3 == flexTable.getRowCount() );
+
+				// All done
+
+				finish();
 			}
 		} );
 
