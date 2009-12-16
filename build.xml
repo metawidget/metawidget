@@ -143,6 +143,7 @@
 		<mkdir dir="${relative.dir}/${build.dir}/debug"/>		
 		<move file="${relative.dir}/${build.dir}/pack/metawidget-frontend.jar" tofile="${relative.dir}/${build.dir}/debug/metawidget-frontend-debug-version.jar" />
 		<move file="${relative.dir}/${build.dir}/pack/metawidget-backend.jar" tofile="${relative.dir}/${build.dir}/debug/metawidget-backend-debug-version.jar" />
+		<move file="${relative.dir}/${build.dir}/pack/metawidget-propertystyle.jar" tofile="${relative.dir}/${build.dir}/debug/metawidget-propertystyle-debug-version.jar" />
 		
 	</target>
 
@@ -183,7 +184,7 @@
 
 	<target name="pack-as-frontend-backend-internal" depends="compile-main">
 
-		<mkdir dir="${relative.dir}/${build.dir}/pack"/>		
+		<mkdir dir="${relative.dir}/${build.dir}/pack"/>
 		<jar destfile="${relative.dir}/${build.dir}/pack/metawidget-backend.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${relative.dir}/${build.dir}/classes">
 				<include name="org/metawidget/inspector/**/Ui*.class"/>
@@ -208,6 +209,12 @@
 				<include name="**/*.xsd"/>
 				<include name="**/*.taglib.xml"/>
 				<include name="**/*.tld"/>
+			</fileset>
+		</jar>
+
+		<jar destfile="${relative.dir}/${build.dir}/pack/metawidget-propertystyle.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
+			<fileset dir="${relative.dir}/${build.dir}/classes">
+				<include name="org/metawidget/inspector/impl/propertystyle/**"/>
 			</fileset>
 		</jar>
 

@@ -16,6 +16,8 @@
 
 package org.metawidget.android.widget.layout;
 
+import java.util.Map;
+
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.simple.StringUtils;
@@ -50,7 +52,7 @@ public class TabHostLayoutDecorator
 	//
 
 	@Override
-	protected View createSectionWidget( View previousSectionView, View container, AndroidMetawidget metawidget )
+	protected View createSectionWidget( View previousSectionView, Map<String, String> attributes, View container, AndroidMetawidget metawidget )
 	{
 		// Whole new tab host?
 

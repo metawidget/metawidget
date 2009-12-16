@@ -93,7 +93,7 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 		if ( isEmptyStub( widget ) )
 			return;
 
-		state.currentSectionWidget = createSectionWidget( previousSectionWidget, container, metawidget );
+		state.currentSectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
 		super.startLayout( state.currentSectionWidget, metawidget );
 
 		// Add component to new tab
@@ -128,9 +128,10 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 	 * @param previousSectionWidget
 	 *            the previous section widget (if any). This can be useful for tracing back to, say,
 	 *            a TabHost
+	 * @param attributes TODO
 	 */
 
-	protected abstract W createSectionWidget( W previousSectionWidget, W container, M metawidget );
+	protected abstract W createSectionWidget( W previousSectionWidget, Map<String, String> attributes, W container, M metawidget );
 
 	//
 	// Inner class

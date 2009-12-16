@@ -107,6 +107,8 @@ public abstract class GwtNestedSectionLayoutDecorator
 	@Override
 	protected boolean isEmptyStub( Widget widget )
 	{
+		// TODO: test this
+
 		return ( widget instanceof Stub && ( (Stub) widget ).getWidgetCount() == 0 );
 	}
 }

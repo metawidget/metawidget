@@ -69,7 +69,7 @@ public class TitledPanelLayoutDecorator
 	//
 
 	@Override
-	protected JComponent createSectionWidget( JComponent previousSectionWidget, JComponent container, SwingMetawidget metawidget )
+	protected JComponent createSectionWidget( JComponent previousSectionWidget, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
 		JPanel titledPanel = new JPanel();
 		titledPanel.setOpaque( false );

@@ -51,6 +51,8 @@ public class SimpleLayout
 		}
 		catch ( Exception e )
 		{
+			// TODO: test this
+
 			throw LayoutException.newException( e );
 		}
 	}

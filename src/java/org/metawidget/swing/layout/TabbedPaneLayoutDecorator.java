@@ -77,7 +77,7 @@ public class TabbedPaneLayoutDecorator
 	//
 
 	@Override
-	protected JComponent createSectionWidget( JComponent previousSectionWidget, JComponent container, SwingMetawidget metawidget )
+	protected JComponent createSectionWidget( JComponent previousSectionWidget, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
 	{
 		JTabbedPane tabbedPane;
 

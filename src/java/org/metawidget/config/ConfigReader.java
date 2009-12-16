@@ -1047,6 +1047,8 @@ public class ConfigReader
 									// Hint for config-based constructors
 
 									throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by the config attribute" );
+
+									// TODO: perhaps you meant?
 								}
 							}
 
@@ -1571,6 +1573,8 @@ public class ConfigReader
 				else
 					buffer.append( ClassUtils.getSimpleName( obj.getClass() ) );
 			}
+
+			// TODO: did you mean...
 
 			buffer.insert( 0, "(" );
 			buffer.insert( 0, name );

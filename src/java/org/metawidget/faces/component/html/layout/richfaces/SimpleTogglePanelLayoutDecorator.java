@@ -29,15 +29,15 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecorator;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.richfaces.component.html.HtmlPanel;
+import org.richfaces.component.html.HtmlSimpleTogglePanel;
 
 /**
- * Layout to decorate widgets from different sections using a RichFaces Panel.
+ * Layout to decorate widgets from different sections using a RichFaces SimpleTogglePanel.
  *
  * @author Richard Kennard
  */
 
-public class PanelLayoutDecorator
+public class SimpleTogglePanelLayoutDecorator
 	extends UIComponentNestedSectionLayoutDecorator
 {
 	//
@@ -48,16 +48,22 @@ public class PanelLayoutDecorator
 
 	private String	mStyleClass;
 
+	private String	mSwitchType;
+
+	private boolean	mOpened;
+
 	//
 	// Constructor
 	//
 
-	public PanelLayoutDecorator( PanelLayoutDecoratorConfig config )
+	public SimpleTogglePanelLayoutDecorator( SimpleTogglePanelLayoutDecoratorConfig config )
 	{
 		super( config );
 
 		mStyle = config.getStyle();
 		mStyleClass = config.getStyleClass();
+		mSwitchType = config.getSwitchType();
+		mOpened = config.isOpened();
 	}
 
 	//
@@ -71,10 +77,12 @@ public class PanelLayoutDecorator
 		Application application = context.getApplication();
 		UIViewRoot viewRoot = context.getViewRoot();
 
-		HtmlPanel panel = (HtmlPanel) application.createComponent( "org.richfaces.panel" );
+		HtmlSimpleTogglePanel panel = (HtmlSimpleTogglePanel) application.createComponent( "org.richfaces.SimpleTogglePanel" );
 		panel.setId( viewRoot.createUniqueId() );
 		panel.setStyle( mStyle );
 		panel.setStyleClass( mStyleClass );
+		panel.setSwitchType( mSwitchType );
+		panel.setOpened( isOpened() );
 
 		// Section name (possibly localized)
 
@@ -84,7 +92,7 @@ public class PanelLayoutDecorator
 		if ( localizedSection == null )
 			localizedSection = section;
 
-		panel.setHeader( localizedSection );
+		panel.setLabel( localizedSection );
 
 		// Add to parent container
 
@@ -103,5 +111,14 @@ public class PanelLayoutDecorator
 		panel.getChildren().add( nestedMetawidget );
 
 		return nestedMetawidget;
+	}
+
+	/**
+	 * Hook so subclasses can change what determines opened/closed.
+	 */
+
+	protected boolean isOpened()
+	{
+		return mOpened;
 	}
 }

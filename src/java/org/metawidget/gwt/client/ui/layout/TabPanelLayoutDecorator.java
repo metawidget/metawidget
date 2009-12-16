@@ -53,7 +53,7 @@ public class TabPanelLayoutDecorator
 	//
 
 	@Override
-	protected Widget createSectionWidget( Widget previousSectionWidget, Widget container, GwtMetawidget metawidget )
+	protected Widget createSectionWidget( Widget previousSectionWidget, Map<String, String> attributes, Widget container, GwtMetawidget metawidget )
 	{
 		// Whole new tab panel?
 

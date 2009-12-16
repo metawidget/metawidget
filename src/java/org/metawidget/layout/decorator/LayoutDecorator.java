@@ -68,17 +68,26 @@ public abstract class LayoutDecorator<W, M extends W>
 	@Override
 	public void startLayout( W container, M metawidget )
 	{
-		mDelegate.startLayout( container, metawidget );
+		getDelegate().startLayout( container, metawidget );
 	}
 
 	public void layoutWidget( W component, String elementName, Map<String, String> attributes, W container, M metawidget )
 	{
-		mDelegate.layoutWidget( component, elementName, attributes, container, metawidget );
+		getDelegate().layoutWidget( component, elementName, attributes, container, metawidget );
 	}
 
 	@Override
 	public void endLayout( W container, M metawidget )
 	{
-		mDelegate.endLayout( container, metawidget );
+		getDelegate().endLayout( container, metawidget );
+	}
+
+	//
+	// Protected methods
+	//
+
+	protected Layout<W, M> getDelegate()
+	{
+		return mDelegate;
 	}
 }

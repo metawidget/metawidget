@@ -54,6 +54,8 @@ public class FlexTableLayoutConfig
 
 	public FlexTableLayoutConfig setNumberOfColumns( int numberOfColumns )
 	{
+		// TODO: test this
+
 		if ( numberOfColumns < 0 )
 			throw LayoutException.newException( "numberOfColumns must be >= 0" );
 
