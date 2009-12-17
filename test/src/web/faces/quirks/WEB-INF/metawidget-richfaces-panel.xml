@@ -43,7 +43,7 @@
 			</compositeWidgetBuilder>
 		</widgetBuilder>
 		<layout>
-			<panelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="PanelLayoutDecoratorConfig">
+			<simpleTogglePanelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="SimpleTogglePanelLayoutDecoratorConfig">
 				<layout>
 					<panelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="PanelLayoutDecoratorConfig">
 						<layout>
@@ -51,7 +51,7 @@
 						</layout>
 					</panelLayoutDecorator>
 				</layout>
-			</panelLayoutDecorator>
+			</simpleTogglePanelLayoutDecorator>
 		</layout>
 		
 	</htmlMetawidget>

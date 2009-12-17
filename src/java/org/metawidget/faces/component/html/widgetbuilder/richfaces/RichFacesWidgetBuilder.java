@@ -251,7 +251,7 @@ public class RichFacesWidgetBuilder
 					// dependencies on javax.el.MethodExpression, so that we still work with
 					// JSF 1.1
 
-					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, List.class, new Class[]{ Object.class } ) };
+					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[]{ Object.class } ) };
 					ClassUtils.setProperty( suggestionBox, "suggestionAction", methodExpression[0] );
 				}
 				catch ( Throwable t )

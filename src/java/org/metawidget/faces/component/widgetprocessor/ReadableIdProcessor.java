@@ -119,9 +119,6 @@ public class ReadableIdProcessor
 		if ( component instanceof UIMetawidget )
 			originalId += "_Metawidget";
 
-		if ( component instanceof UIStub )
-			originalId += "_Stub";
-
 		// Convert to an actual, valid id (avoid conflicts)
 
 		Set<String> clientIds = getClientIds( metawidget );
@@ -145,22 +142,34 @@ public class ReadableIdProcessor
 
 			if ( !children.isEmpty() )
 			{
-				int childId = 1;
+				int childSuffix = 1;
 
-				for ( UIComponent componentChild : children )
+				for ( UIComponent childComponent : children )
 				{
 					// Does widget need an id?
 					//
 					// Note: it is very dangerous to reassign an id if the widget already has one,
 					// as it will create duplicates in the child component list
 
-					if ( componentChild.getId() != null )
+					if ( childComponent.getId() != null )
 						continue;
 
-					componentChild.setId( nonDuplicateId + '_' + childId );
-					childId++;
+					// Give the first Stub component the same id as the original. This is 'cleaner'
+					// as the Stub's id never makes it to the output HTML
+
+					if ( childSuffix > 1 )
+						childComponent.setId( nonDuplicateId + '_' + childSuffix );
+					else
+						childComponent.setId( nonDuplicateId );
+
+					childSuffix++;
 				}
 			}
+
+			// Still important to set the Stub's id to avoid JSF warnings
+
+			component.setId( nonDuplicateId + "_Stub" );
+			return;
 		}
 
 		// Set Id

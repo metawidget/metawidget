@@ -20,19 +20,13 @@ import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.Map;
 
-import javax.faces.FacesException;
 import javax.faces.application.Application;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 
 import org.ajax4jsf.component.html.HtmlAjaxSupport;
-import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
-import org.richfaces.component.html.HtmlCalendar;
-import org.richfaces.component.html.HtmlInputNumberSlider;
-import org.richfaces.component.html.HtmlInputNumberSpinner;
-import org.richfaces.component.html.HtmlSuggestionBox;
 
 /**
  * WidgetProcessor for RichFaces environments.
@@ -77,36 +71,5 @@ public class RichFacesProcessor
 		}
 
 		return component;
-	}
-
-	//
-	// Inner class
-	//
-
-	protected static class MockRichFacesFacesContext
-		extends MockFacesContext
-	{
-		//
-		// Protected methods
-		//
-
-		@Override
-		public UIComponent createComponent( String componentName )
-			throws FacesException
-		{
-			if ( "org.richfaces.inputNumberSlider".equals( componentName ) )
-				return new HtmlInputNumberSlider();
-
-			if ( "org.richfaces.inputNumberSpinner".equals( componentName ) )
-				return new HtmlInputNumberSpinner();
-
-			if ( "org.richfaces.Calendar".equals( componentName ) )
-				return new HtmlCalendar();
-
-			if ( "org.richfaces.SuggestionBox".equals( componentName ) )
-				return new HtmlSuggestionBox();
-
-			return super.createComponent( componentName );
-		}
 	}
 }

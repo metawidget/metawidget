@@ -66,16 +66,19 @@ public class TableLayoutTest
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
 		assertTrue( "Baz: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof CheckBox );
-		assertTrue( "Foo Section".equals( ( (TextView) androidMetawidget.getChildAt( 1 ) ).getText() ) );
-		android.widget.LinearLayout linearLayout = (android.widget.LinearLayout) androidMetawidget.getChildAt( 2 );
+
+		tableRow = (TableRow) tableLayout.getChildAt( 2 );
+		assertTrue( "Foo Section".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		tableRow = (TableRow) tableLayout.getChildAt( 3 );
+		android.widget.LinearLayout linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		tableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
 		tableRow = (TableRow) tableLayout.getChildAt( 0 );
 		assertTrue( "Abc: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof Spinner );
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
 		assertTrue( "Nested foo: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
-		assertTrue( buttonsFacet == androidMetawidget.getChildAt( 3 ) );
-		assertTrue( 4 == androidMetawidget.getChildCount() );
+		assertTrue( buttonsFacet == androidMetawidget.getChildAt( 1 ) );
+		assertTrue( 2 == androidMetawidget.getChildCount() );
 
 		// nestedFoo
 
@@ -87,8 +90,11 @@ public class TableLayoutTest
 		tableRow = (TableRow) tableLayout.getChildAt( 1 );
 		assertTrue( "Baz: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof CheckBox );
-		assertTrue( "Foo Section".equals( ( (TextView) nestedMetawidget.getChildAt( 1 ) ).getText() ) );
-		linearLayout = (android.widget.LinearLayout) nestedMetawidget.getChildAt( 2 );
+
+		tableRow = (TableRow) tableLayout.getChildAt( 2 );
+		assertTrue( "Foo Section".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
+		tableRow = (TableRow) tableLayout.getChildAt( 3 );
+		linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
 		tableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
 		tableRow = (TableRow) tableLayout.getChildAt( 0 );
 		assertTrue( "Abc: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
