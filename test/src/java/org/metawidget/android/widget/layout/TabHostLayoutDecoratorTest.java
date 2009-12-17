@@ -63,7 +63,8 @@ public class TabHostLayoutDecoratorTest
 
 		// Tab Host #1
 
-		TabHost tabHost = (TabHost) androidMetawidget.getChildAt( 1 );
+		tableRow = (TableRow) tableLayout.getChildAt( 1 );
+		TabHost tabHost = (TabHost) tableRow.getChildAt( 0 );
 		assertTrue( tabHost.getChildAt( 0 ) instanceof TabWidget );
 		assertTrue( tabHost.getChildAt( 1 ) instanceof FrameLayout );
 
@@ -71,35 +72,35 @@ public class TabHostLayoutDecoratorTest
 
 		assertTrue( "tab1".equals( tabHost.getTabSpec( 0 ).getIndicator() ));
 		android.widget.LinearLayout tab = (android.widget.LinearLayout) tabHost.getTabSpec( 0 ).getContent().createTabContent( null );
-		tableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
-		tableRow = (TableRow) tableLayout.getChildAt( 0 );
+		android.widget.TableLayout tabTableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
+		tableRow = (TableRow) tabTableLayout.getChildAt( 0 );
 		assertTrue( "Baz: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof CheckBox );
-		tableRow = (TableRow) tableLayout.getChildAt( 1 );
+		tableRow = (TableRow) tabTableLayout.getChildAt( 1 );
 		assertTrue( "Abc: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
-		assertTrue( 2 == tableLayout.getChildCount() );
+		assertTrue( 2 == tabTableLayout.getChildCount() );
 
 		// Tab 2
 
 		assertTrue( "tab2".equals( tabHost.getTabSpec( 1 ).getIndicator() ));
 		tab = (android.widget.LinearLayout) tabHost.getTabSpec( 1 ).getContent().createTabContent( null );
-		tableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
-		tableRow = (TableRow) tableLayout.getChildAt( 0 );
+		tabTableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
+		tableRow = (TableRow) tabTableLayout.getChildAt( 0 );
 		assertTrue( "Def: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
-		assertTrue( 1 == tableLayout.getChildCount() );
+		assertTrue( 1 == tabTableLayout.getChildCount() );
 
 		// Separate component
 
-		tableLayout = (android.widget.TableLayout) androidMetawidget.getChildAt( 2 );
-		tableRow = (TableRow) tableLayout.getChildAt( 0 );
+		tableRow = (TableRow) tableLayout.getChildAt( 2 );
 		assertTrue( "Ghi: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
 		assertTrue( tableRow.getChildAt( 1 ) instanceof Spinner );
 
 		// Tab Host #2
 
-		tabHost = (TabHost) androidMetawidget.getChildAt( 3 );
+		tableRow = (TableRow) tableLayout.getChildAt( 3 );
+		tabHost = (TabHost) tableRow.getChildAt( 0 );
 		assertTrue( tabHost.getChildAt( 0 ) instanceof TabWidget );
 		assertTrue( tabHost.getChildAt( 1 ) instanceof FrameLayout );
 
@@ -113,8 +114,8 @@ public class TabHostLayoutDecoratorTest
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		assertTrue( 1 == tableLayout.getChildCount() );
 
-		assertTrue( facet == androidMetawidget.getChildAt( 4 ));
-		assertTrue( 5 == androidMetawidget.getChildCount() );
+		assertTrue( facet == androidMetawidget.getChildAt( 1 ));
+		assertTrue( 2 == androidMetawidget.getChildCount() );
 	}
 
 	//

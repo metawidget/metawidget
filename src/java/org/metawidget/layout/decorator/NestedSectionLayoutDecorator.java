@@ -128,7 +128,6 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 	 * @param previousSectionWidget
 	 *            the previous section widget (if any). This can be useful for tracing back to, say,
 	 *            a TabHost
-	 * @param attributes TODO
 	 */
 
 	protected abstract W createSectionWidget( W previousSectionWidget, Map<String, String> attributes, W container, M metawidget );

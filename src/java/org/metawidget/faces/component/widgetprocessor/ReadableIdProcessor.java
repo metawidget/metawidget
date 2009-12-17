@@ -157,11 +157,7 @@ public class ReadableIdProcessor
 					if ( componentChild.getId() != null )
 						continue;
 
-					if ( childId > 1 )
-						componentChild.setId( nonDuplicateId + '_' + childId );
-					else
-						componentChild.setId( nonDuplicateId );
-
+					componentChild.setId( nonDuplicateId + '_' + childId );
 					childId++;
 				}
 			}

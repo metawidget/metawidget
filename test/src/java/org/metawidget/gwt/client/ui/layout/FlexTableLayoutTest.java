@@ -18,6 +18,8 @@ package org.metawidget.gwt.client.ui.layout;
 
 import junit.framework.TestCase;
 
+import org.metawidget.layout.iface.LayoutException;
+
 /**
  * @author Richard Kennard
  */
@@ -82,5 +84,20 @@ public class FlexTableLayoutTest
 		config2.setFooterStyleName( "footer-style-name" );
 		assertTrue( config1.equals( config2 ));
 		assertTrue( config1.hashCode() == config2.hashCode() );
+	}
+
+	public void testNumberOfColumns()
+	{
+		FlexTableLayoutConfig config = new FlexTableLayoutConfig();
+
+		try
+		{
+			config.setNumberOfColumns( -1 );
+			assertTrue( false );
+		}
+		catch( LayoutException e )
+		{
+			assertTrue( "numberOfColumns must be >= 0".equals( e.getMessage() ));
+		}
 	}
 }

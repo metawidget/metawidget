@@ -89,7 +89,7 @@ public class TitledPanelLayoutDecorator
 		Map<String, String> panelAttributes = CollectionUtils.newHashMap();
 		panelAttributes.put( LABEL, "" );
 		panelAttributes.put( LARGE, TRUE );
-		super.layoutWidget( titledPanel, PROPERTY, panelAttributes, container, metawidget );
+		getDelegate().layoutWidget( titledPanel, PROPERTY, panelAttributes, container, metawidget );
 
 		return titledPanel;
 	}

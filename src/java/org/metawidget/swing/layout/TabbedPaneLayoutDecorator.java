@@ -94,7 +94,7 @@ public class TabbedPaneLayoutDecorator
 			Map<String, String> tabbedPaneAttributes = CollectionUtils.newHashMap();
 			tabbedPaneAttributes.put( LABEL, "" );
 			tabbedPaneAttributes.put( LARGE, TRUE );
-			super.layoutWidget( tabbedPane, PROPERTY, tabbedPaneAttributes, container, metawidget );
+			getDelegate().layoutWidget( tabbedPane, PROPERTY, tabbedPaneAttributes, container, metawidget );
 		}
 		else
 		{

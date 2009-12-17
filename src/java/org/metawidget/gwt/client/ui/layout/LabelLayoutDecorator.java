@@ -78,6 +78,6 @@ public class LabelLayoutDecorator
 		attributes.put( LABEL, "" );
 		attributes.put( WIDE, TRUE );
 
-		super.layoutWidget( label, PROPERTY, attributes, container, metawidget );
+		getDelegate().layoutWidget( label, PROPERTY, attributes, container, metawidget );
 	}
 }

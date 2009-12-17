@@ -36,19 +36,19 @@ public class LabelLayoutDecoratorTest
 		LabelLayoutDecoratorConfig config1 = new LabelLayoutDecoratorConfig();
 		LabelLayoutDecoratorConfig config2 = new LabelLayoutDecoratorConfig();
 
-		assertTrue( !config1.equals( "foo" ));
-		assertTrue( config1.equals( config2 ));
+		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
 		// styleName
 
 		config1.setStyleName( "section-style-name" );
-		assertTrue( "section-style-name".equals( config1.getStyleName() ));
-		assertTrue( !config1.equals( config2 ));
+		assertTrue( "section-style-name".equals( config1.getStyleName() ) );
+		assertTrue( !config1.equals( config2 ) );
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setStyleName( "section-style-name" );
-		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
 		// superclass

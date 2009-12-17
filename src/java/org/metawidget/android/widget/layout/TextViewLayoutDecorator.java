@@ -16,14 +16,16 @@
 
 package org.metawidget.android.widget.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 /**
@@ -77,10 +79,13 @@ public class TextViewLayoutDecorator
 
 		// Add to parent container
 
-		( (ViewGroup) container ).addView( textView, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		Map<String, String> sectionAttributes = CollectionUtils.newHashMap();
+		sectionAttributes.put( LABEL, "" );
+		sectionAttributes.put( LARGE, TRUE );
+		getDelegate().layoutWidget( textView, PROPERTY, sectionAttributes, container, metawidget );
 
 		android.widget.LinearLayout newLayout = new android.widget.LinearLayout( metawidget.getContext() );
-		((ViewGroup) container).addView( newLayout );
+		getDelegate().layoutWidget( newLayout, PROPERTY, sectionAttributes, container, metawidget );
 
 		return newLayout;
 	}

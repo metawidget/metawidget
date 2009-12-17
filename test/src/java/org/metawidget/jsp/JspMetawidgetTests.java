@@ -41,6 +41,7 @@ import junit.framework.TestSuite;
 import org.metawidget.jsp.tagext.MetawidgetTagTest;
 import org.metawidget.jsp.tagext.html.HtmlMetawidgetTagTest;
 import org.metawidget.jsp.tagext.html.layout.HtmlTableLayoutTest;
+import org.metawidget.jsp.tagext.html.layout.SimpleLayoutTest;
 import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTagTest;
 import org.metawidget.jsp.tagext.html.struts.StrutsMetawidgetTagTest;
 import org.metawidget.jsp.tagext.html.widgetbuilder.displaytag.DisplayTagWidgetBuilderTest;
@@ -64,6 +65,7 @@ public class JspMetawidgetTests
 		suite.addTestSuite( HtmlTableLayoutTest.class );
 		suite.addTestSuite( HtmlMetawidgetTagTest.class );
 		suite.addTestSuite( MetawidgetTagTest.class );
+		suite.addTestSuite( SimpleLayoutTest.class );
 		suite.addTestSuite( SpringMetawidgetTagTest.class );
 		suite.addTestSuite( StrutsMetawidgetTagTest.class );
 

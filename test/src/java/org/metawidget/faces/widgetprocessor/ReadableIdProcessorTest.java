@@ -102,13 +102,18 @@ public class ReadableIdProcessorTest
 		assertTrue( childMetawidget == processor.processWidget( childMetawidget, PROPERTY, null, metawidget ) );
 		assertTrue( "fooBarBaz_Metawidget_2".equals( childMetawidget.getId() ) );
 
-		// TODO: stubs
+		// Stubs
 
 		UIStub stub = new UIStub();
 		stub.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo.bar}" ) );
 		stub.getChildren().add( textComponent );
+		textComponent.setId( null );
+		HtmlInputText textComponent2 = new HtmlInputText();
+		stub.getChildren().add( textComponent2 );
 		assertTrue( stub == processor.processWidget( stub, PROPERTY, null, metawidget ) );
 		assertTrue( "fooBar_Stub".equals( stub.getId() ) );
+		assertTrue( "fooBar_Stub_1".equals( textComponent.getId() ) );
+		assertTrue( "fooBar_Stub_2".equals( textComponent2.getId() ) );
 	}
 
 	//

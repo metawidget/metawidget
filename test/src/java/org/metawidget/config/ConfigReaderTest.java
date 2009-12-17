@@ -399,6 +399,27 @@ public class ConfigReaderTest
 		}
 	}
 
+	public void testLikelyMethod()
+		throws Exception
+	{
+		String xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
+		xml += "<propertyStyle><boolean>true</boolean></propertyStyle>";
+		xml += "</propertyTypeInspector></metawidget>";
+
+		try
+		{
+			ConfigReader configReader = new ConfigReader();
+			configReader.configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+			assertTrue( false );
+		}
+		catch ( MetawidgetException e )
+		{
+			assertTrue( "java.lang.NoSuchMethodException: class org.metawidget.inspector.impl.BaseObjectInspectorConfig.setPropertyStyle(Boolean). Did you mean setPropertyStyle(PropertyStyle)?".equals( e.getMessage() ) );
+		}
+	}
+
 	public void testSupportedTypes()
 	{
 		String xml = "<?xml version=\"1.0\"?>";
@@ -955,7 +976,41 @@ public class ConfigReaderTest
 		}
 		catch ( MetawidgetException e )
 		{
-			assertTrue( "class org.metawidget.config.TestInspector does not have a constructor that takes a class java.lang.String, as specified by the config attribute".equals( e.getMessage() ) );
+			assertTrue( "class org.metawidget.config.TestInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute".equals( e.getMessage() ) );
+		}
+
+		// Different constructor
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<xmlInspector xmlns=\"java:org.metawidget.inspector.xml\" config=\"java.lang.String\"/>";
+		xml += "</metawidget>";
+
+		try
+		{
+			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), XmlInspector.class );
+			assertTrue( false );
+		}
+		catch ( MetawidgetException e )
+		{
+			assertTrue( "class org.metawidget.inspector.xml.XmlInspector does not have a constructor that takes a class java.lang.String, as specified by your config attribute. Did you mean config=\"XmlInspectorConfig\"?".equals( e.getMessage() ) );
+		}
+
+		// Config-less constructor
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<object xmlns=\"java:java.lang\" config=\"java.lang.String\"/>";
+		xml += "</metawidget>";
+
+		try
+		{
+			new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Object.class );
+			assertTrue( false );
+		}
+		catch ( MetawidgetException e )
+		{
+			assertTrue( "class java.lang.Object does not have a constructor that takes a class java.lang.String, as specified by your config attribute. It only has a config-less constructor".equals( e.getMessage() ) );
 		}
 
 		// Superclass does, but subclass doesn't, but no methods

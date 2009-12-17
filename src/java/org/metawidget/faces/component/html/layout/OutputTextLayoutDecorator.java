@@ -97,6 +97,6 @@ public class OutputTextLayoutDecorator
 		metadataAttributes.put( WIDE, TRUE );
 		heading.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, metadataAttributes );
 
-		super.layoutWidget( heading, PROPERTY, metadataAttributes, container, metawidget );
+		getDelegate().layoutWidget( heading, PROPERTY, metadataAttributes, container, metawidget );
 	}
 }

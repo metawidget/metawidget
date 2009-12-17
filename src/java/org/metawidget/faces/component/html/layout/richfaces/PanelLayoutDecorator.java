@@ -92,7 +92,7 @@ public class PanelLayoutDecorator
 		panelAttributes.put( LABEL, "" );
 		panel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, panelAttributes );
 
-		super.layoutWidget( panel, PROPERTY, panelAttributes, container, metawidget );
+		getDelegate().layoutWidget( panel, PROPERTY, panelAttributes, container, metawidget );
 
 		// Create nested Metawidget (for layout)
 

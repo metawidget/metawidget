@@ -122,6 +122,6 @@ public class SeparatorLayoutDecorator
 		Map<String, String> separatorPanelAttributes = CollectionUtils.newHashMap();
 		separatorPanelAttributes.put( LABEL, "" );
 		separatorPanelAttributes.put( WIDE, TRUE );
-		super.layoutWidget( separatorPanel, PROPERTY, separatorPanelAttributes, container, metawidget );
+		getDelegate().layoutWidget( separatorPanel, PROPERTY, separatorPanelAttributes, container, metawidget );
 	}
 }

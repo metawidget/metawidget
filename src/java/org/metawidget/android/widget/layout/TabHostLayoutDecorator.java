@@ -16,10 +16,13 @@
 
 package org.metawidget.android.widget.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import java.util.Map;
 
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
@@ -82,11 +85,10 @@ public class TabHostLayoutDecorator
 
 			tabHost.setup();
 
-			// TODO: calling super calls back to itself? That was the problem?
-
-			// Add to parent container
-
-			((ViewGroup) container).addView( tabHost );
+			Map<String, String> tabHostAttributes = CollectionUtils.newHashMap();
+			tabHostAttributes.put( LABEL, "" );
+			tabHostAttributes.put( LARGE, TRUE );
+			getDelegate().layoutWidget( tabHost, PROPERTY, tabHostAttributes, container, metawidget );
 		}
 		else
 		{

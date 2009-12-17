@@ -96,11 +96,10 @@ public class SimpleTogglePanelLayoutDecorator
 
 		// Add to parent container
 
-		Map<String, String> panelAttributes = CollectionUtils.newHashMap();
-		panelAttributes.put( LABEL, "" );
-		panel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, panelAttributes );
+		Map<String, String> sectionAttributes = createSectionWidgetAttributes();
+		panel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, sectionAttributes );
 
-		super.layoutWidget( panel, PROPERTY, panelAttributes, container, metawidget );
+		getDelegate().layoutWidget( panel, PROPERTY, sectionAttributes, container, metawidget );
 
 		// Create nested Metawidget (for layout)
 
@@ -120,5 +119,13 @@ public class SimpleTogglePanelLayoutDecorator
 	protected boolean isOpened( Map<String, String> attributes )
 	{
 		return mOpened;
+	}
+
+	protected Map<String, String> createSectionWidgetAttributes()
+	{
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		attributes.put( LABEL, "" );
+
+		return attributes;
 	}
 }

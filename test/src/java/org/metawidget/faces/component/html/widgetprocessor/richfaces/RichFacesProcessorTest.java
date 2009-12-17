@@ -17,14 +17,19 @@
 package org.metawidget.faces.component.html.widgetprocessor.richfaces;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
+import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
 import java.util.Map;
 
+import javax.faces.FacesException;
 import javax.faces.component.UIComponent;
 import javax.faces.component.html.HtmlInputText;
+import javax.faces.context.FacesContext;
 
 import junit.framework.TestCase;
 
+import org.ajax4jsf.component.html.HtmlAjaxSupport;
+import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.CollectionUtils;
 
@@ -35,6 +40,12 @@ import org.metawidget.util.CollectionUtils;
 public class RichFacesProcessorTest
 	extends TestCase
 {
+	//
+	// Private members
+	//
+
+	private FacesContext	mContext;
+
 	//
 	// Public methods
 	//
@@ -49,10 +60,63 @@ public class RichFacesProcessorTest
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 
 		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setId( "metawidget-id" );
 		UIComponent component = new HtmlInputText();
-		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ));
+		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
 		assertTrue( 0 == component.getChildCount() );
 
-		// TODO: test this!
+		attributes.put( FACES_AJAX_EVENT, "onFoo" );
+		assertTrue( component == processor.processWidget( component, PROPERTY, attributes, metawidget ) );
+		assertTrue( 1 == component.getChildCount() );
+
+		HtmlAjaxSupport ajaxSupport = (HtmlAjaxSupport) component.getChildren().get( 0 );
+
+		assertTrue( ajaxSupport.getId() != null );
+		assertTrue( "onFoo".equals( ajaxSupport.getEvent() ) );
+		assertTrue( "metawidget-id".equals( ajaxSupport.getReRender() ) );
+	}
+
+	//
+	// Protected methods
+	//
+
+	@Override
+	protected void setUp()
+		throws Exception
+	{
+		super.setUp();
+
+		mContext = new MockRichFacesFacesContext();
+	}
+
+	@Override
+	protected void tearDown()
+		throws Exception
+	{
+		super.tearDown();
+
+		mContext.release();
+	}
+
+	//
+	// Inner class
+	//
+
+	protected static class MockRichFacesFacesContext
+		extends MockFacesContext
+	{
+		//
+		// Protected methods
+		//
+
+		@Override
+		public UIComponent createComponent( String componentName )
+			throws FacesException
+		{
+			if ( "org.ajax4jsf.Support".equals( componentName ) )
+				return new HtmlAjaxSupport();
+
+			return super.createComponent( componentName );
+		}
 	}
 }

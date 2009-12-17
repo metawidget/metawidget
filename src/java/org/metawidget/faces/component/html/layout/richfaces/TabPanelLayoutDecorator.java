@@ -86,7 +86,7 @@ public class TabPanelLayoutDecorator
 			tabPanelAttributes.put( LABEL, "" );
 			tabPanel.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA, tabPanelAttributes );
 
-			super.layoutWidget( tabPanel, PROPERTY, tabPanelAttributes, container, metawidget );
+			getDelegate().layoutWidget( tabPanel, PROPERTY, tabPanelAttributes, container, metawidget );
 		}
 		else
 		{

@@ -713,7 +713,7 @@ public class ConfigReader
 		// Public methods
 		//
 
-		public void setImmutableForThisLocationCache( Map<Integer,Object> immutableForThisLocationCache )
+		public void setImmutableForThisLocationCache( Map<Integer, Object> immutableForThisLocationCache )
 		{
 			mImmutableForThisLocationCache = immutableForThisLocationCache;
 		}
@@ -1044,11 +1044,14 @@ public class ConfigReader
 								}
 								catch ( NoSuchMethodException e )
 								{
-									// Hint for config-based constructors
+									String likelyConfig = getLikelyConfig( classToConstruct );
 
-									throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by the config attribute" );
+									if ( "".equals( likelyConfig ) )
+										throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute. It only has a config-less constructor" );
+									else if ( likelyConfig != null )
+										throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute. Did you mean config=\"" + likelyConfig + "\"?" );
 
-									// TODO: perhaps you meant?
+									throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute" );
 								}
 							}
 
@@ -1238,22 +1241,10 @@ public class ConfigReader
 				}
 				catch ( NoSuchMethodException e )
 				{
-					// Hint for config-based constructors
+					String likelyConfig = getLikelyConfig( classToConstruct );
 
-					Constructor<?>[] constructors = classToConstruct.getConstructors();
-
-					if ( constructors.length == 1 && constructors[0].getParameterTypes().length == 1 )
-					{
-						Class<?> likelyConfigClass = constructors[0].getParameterTypes()[0];
-						String likelyConfig;
-
-						if ( likelyConfigClass.getPackage().equals( classToConstruct.getPackage() ) )
-							likelyConfig = ClassUtils.getSimpleName( likelyConfigClass );
-						else
-							likelyConfig = likelyConfigClass.getName();
-
+					if ( likelyConfig != null )
 						throw MetawidgetException.newException( classToConstruct + " does not have a default constructor. Did you mean config=\"" + likelyConfig + "\"?" );
-					}
 
 					throw MetawidgetException.newException( classToConstruct + " does not have a default constructor" );
 				}
@@ -1499,6 +1490,7 @@ public class ConfigReader
 			throws NoSuchMethodException
 		{
 			int numberOfParameterTypes = args.size();
+			Method likelyMatch = null;
 
 			// For each method...
 
@@ -1508,6 +1500,8 @@ public class ConfigReader
 
 				if ( !method.getName().equals( name ) )
 					continue;
+
+				likelyMatch = method;
 
 				// ...and compatible parameters...
 
@@ -1561,6 +1555,59 @@ public class ConfigReader
 
 			// No such method
 
+			if ( likelyMatch != null )
+				throw new NoSuchMethodException( methodToString( clazz, name, args ) + ". Did you mean " + methodToString( likelyMatch ) + "?" );
+
+			throw new NoSuchMethodException( methodToString( clazz, name, args ) );
+		}
+
+		/**
+		 * @return null if ambiguous match, empty String for default constructor, otherwise name of
+		 *         single parameter
+		 */
+
+		private String getLikelyConfig( Class<?> clazz )
+		{
+			Constructor<?>[] constructors = clazz.getConstructors();
+
+			if ( constructors.length != 1 )
+				return null;
+
+			if ( constructors[0].getParameterTypes().length == 0 )
+				return "";
+
+			if ( constructors[0].getParameterTypes().length > 1 )
+				return null;
+
+			Class<?> likelyConfigClass = constructors[0].getParameterTypes()[0];
+
+			if ( likelyConfigClass.getPackage().equals( clazz.getPackage() ) )
+				return ClassUtils.getSimpleName( likelyConfigClass );
+
+			return likelyConfigClass.getName();
+		}
+
+		private String methodToString( Method method )
+		{
+			StringBuffer buffer = new StringBuffer();
+
+			for ( Class<?> parameterType : method.getParameterTypes() )
+			{
+				if ( buffer.length() > 0 )
+					buffer.append( ", " );
+
+				buffer.append( ClassUtils.getSimpleName( parameterType ) );
+			}
+
+			buffer.insert( 0, "(" );
+			buffer.insert( 0, method.getName() );
+			buffer.append( ")" );
+
+			return buffer.toString();
+		}
+
+		private String methodToString( Class<?> clazz, String methodName, List<Object> args )
+		{
 			StringBuffer buffer = new StringBuffer();
 
 			for ( Object obj : args )
@@ -1574,15 +1621,13 @@ public class ConfigReader
 					buffer.append( ClassUtils.getSimpleName( obj.getClass() ) );
 			}
 
-			// TODO: did you mean...
-
 			buffer.insert( 0, "(" );
-			buffer.insert( 0, name );
+			buffer.insert( 0, methodName );
 			buffer.insert( 0, '.' );
 			buffer.insert( 0, clazz );
 			buffer.append( ")" );
 
-			throw new NoSuchMethodException( buffer.toString() );
+			return buffer.toString();
 		}
 	}
 }

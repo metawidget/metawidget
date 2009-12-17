@@ -68,7 +68,7 @@ public class TabPanelLayoutDecorator
 			Map<String, String> tabPanelAttributes = new HashMap<String, String>();
 			tabPanelAttributes.put( LABEL, "" );
 			tabPanelAttributes.put( LARGE, TRUE );
-			super.layoutWidget( tabPanel, PROPERTY, tabPanelAttributes, container, metawidget );
+			getDelegate().layoutWidget( tabPanel, PROPERTY, tabPanelAttributes, container, metawidget );
 		}
 		else
 		{
