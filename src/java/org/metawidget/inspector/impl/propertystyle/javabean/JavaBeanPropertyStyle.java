@@ -306,17 +306,13 @@ public class JavaBeanPropertyStyle
 		extends BaseProperty
 	{
 		//
-		//
 		// Private methods
-		//
 		//
 
 		private Field	mField;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public FieldProperty( String name, Field field )
@@ -330,9 +326,7 @@ public class JavaBeanPropertyStyle
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		public boolean isReadable()
@@ -385,9 +379,7 @@ public class JavaBeanPropertyStyle
 		extends BaseProperty
 	{
 		//
-		//
 		// Private methods
-		//
 		//
 
 		private Method	mReadMethod;
@@ -395,9 +387,7 @@ public class JavaBeanPropertyStyle
 		private Method	mWriteMethod;
 
 		//
-		//
 		// Constructor
-		//
 		//
 
 		public JavaBeanProperty( String name, Class<?> clazz, Method readMethod, Method writeMethod )
@@ -414,9 +404,7 @@ public class JavaBeanPropertyStyle
 		}
 
 		//
-		//
 		// Public methods
-		//
 		//
 
 		public boolean isReadable()

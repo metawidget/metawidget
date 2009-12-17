@@ -103,50 +103,38 @@ public class ReadableIdProcessor
 	// Protected methods
 	//
 
-	protected Set<String> getClientIds( UIMetawidget metawidget )
+	protected void setUniqueId( UIComponent component, String expressionString, UIMetawidget metawidget )
 	{
-		Set<String> clientIds = metawidget.getClientProperty( ReadableIdProcessor.class );
-
-		if ( clientIds == null )
-		{
-			clientIds = CollectionUtils.newHashSet();
-			metawidget.putClientProperty( ReadableIdProcessor.class, clientIds );
-
-			FacesContext context = FacesContext.getCurrentInstance();
-			Iterator<UIComponent> iteratorFacetsAndChildren = context.getViewRoot().getFacetsAndChildren();
-			gatherClientIds( iteratorFacetsAndChildren, clientIds );
-		}
-
-		return clientIds;
+		String id = StringUtils.camelCase( FacesUtils.unwrapExpression( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
+		setUniqueId( id, component, metawidget );
 	}
 
-	//
-	// Private methods
-	//
-
-	private void setUniqueId( UIComponent component, String expressionString, UIMetawidget metawidget )
+	protected void setUniqueId( String id, UIComponent component, UIMetawidget metawidget )
 	{
-		String idealId = StringUtils.camelCase( FacesUtils.unwrapExpression( expressionString ), StringUtils.SEPARATOR_DOT_CHAR );
+		String originalId = id;
 
-		// Suffix nested Metawidgets, because otherwise if they only expand to a single child they
-		// will give that child component a '_2' suffixed id
+		// Suffix nested Metawidgets/Stubs, because otherwise if they only expand to a single child
+		// they will give that child component a '_2' suffixed id
 
 		if ( component instanceof UIMetawidget )
-			idealId += "_Metawidget";
+			originalId += "_Metawidget";
+
+		if ( component instanceof UIStub )
+			originalId += "_Stub";
 
 		// Convert to an actual, valid id (avoid conflicts)
 
 		Set<String> clientIds = getClientIds( metawidget );
-		String actualId = idealId;
-		int duplicateId = 1;
+		String nonDuplicateId = originalId;
+		int suffix = 1;
 
 		while ( true )
 		{
-			if ( clientIds.add( actualId ) )
+			if ( clientIds.add( nonDuplicateId ) )
 				break;
 
-			duplicateId++;
-			actualId = idealId + '_' + duplicateId;
+			suffix++;
+			nonDuplicateId = originalId + '_' + suffix;
 		}
 
 		// Support stubs
@@ -161,38 +149,65 @@ public class ReadableIdProcessor
 
 				for ( UIComponent componentChild : children )
 				{
+					// Does widget need an id?
+					//
+					// Note: it is very dangerous to reassign an id if the widget already has one,
+					// as it will create duplicates in the child component list
+
+					if ( componentChild.getId() != null )
+						continue;
+
 					if ( childId > 1 )
-						componentChild.setId( actualId + '_' + childId );
+						componentChild.setId( nonDuplicateId + '_' + childId );
 					else
-						componentChild.setId( actualId );
+						componentChild.setId( nonDuplicateId );
 
 					childId++;
 				}
-
-				return;
 			}
 		}
 
 		// Set Id
 
-		component.setId( actualId );
+		component.setId( nonDuplicateId );
 	}
 
+	//
+	// Private methods
+	//
+
 	/**
-	 * Gathers client ids of existing children, so as to avoid naming clashes.
+	 * Gets client ids of existing children, so as to avoid naming clashes.
 	 */
 
-	private void gatherClientIds( Iterator<UIComponent> iteratorFacetsAndChildren, Set<String> clientIds )
+	private Set<String> getClientIds( UIMetawidget metawidget )
 	{
-		for ( ; iteratorFacetsAndChildren.hasNext(); )
+		Set<String> clientIds = metawidget.getClientProperty( ReadableIdProcessor.class );
+
+		if ( clientIds == null )
 		{
-			UIComponent component = iteratorFacetsAndChildren.next();
-			String id = component.getId();
+			// (cache in the metawidget because this could be expensive)
+
+			clientIds = CollectionUtils.newHashSet();
+			metawidget.putClientProperty( ReadableIdProcessor.class, clientIds );
+
+			getClientIds( FacesContext.getCurrentInstance().getViewRoot(), clientIds );
+		}
+
+		return clientIds;
+	}
+
+	private void getClientIds( UIComponent component, Set<String> clientIds )
+	{
+		for ( Iterator<UIComponent> i = component.getFacetsAndChildren(); i.hasNext(); )
+		{
+			UIComponent childComponent = i.next();
+			String id = childComponent.getId();
 
 			if ( id != null )
 				clientIds.add( id );
 
-			gatherClientIds( component.getFacetsAndChildren(), clientIds );
+			getClientIds( childComponent, clientIds );
 		}
 	}
 }

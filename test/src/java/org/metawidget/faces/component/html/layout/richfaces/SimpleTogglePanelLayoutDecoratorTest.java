@@ -25,7 +25,7 @@ import org.metawidget.layout.decorator.LayoutDecoratorTest;
  * @author Richard Kennard
  */
 
-public class PanelLayoutDecoratorTest
+public class SimpleTogglePanelLayoutDecoratorTest
 	extends TestCase
 {
 	//
@@ -34,8 +34,8 @@ public class PanelLayoutDecoratorTest
 
 	public void testConfig()
 	{
-		PanelLayoutDecoratorConfig config1 = new PanelLayoutDecoratorConfig();
-		PanelLayoutDecoratorConfig config2 = new PanelLayoutDecoratorConfig();
+		SimpleTogglePanelLayoutDecoratorConfig config1 = new SimpleTogglePanelLayoutDecoratorConfig();
+		SimpleTogglePanelLayoutDecoratorConfig config2 = new SimpleTogglePanelLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config2 ) );
@@ -60,6 +60,28 @@ public class PanelLayoutDecoratorTest
 		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setStyleClass( "aStyleClass" );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// switchType
+
+		config1.setSwitchType( "aSwitchType" );
+		assertTrue( "aSwitchType".equals( config1.getSwitchType() ));
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setSwitchType( "aSwitchType" );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// opened
+
+		config1.setOpened( false );
+		assertTrue( false == config1.isOpened() );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setOpened( false );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 

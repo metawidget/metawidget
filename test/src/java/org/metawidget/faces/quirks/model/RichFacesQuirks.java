@@ -19,10 +19,14 @@ package org.metawidget.faces.quirks.model;
 import static org.metawidget.inspector.InspectionResultConstants.*;
 import static org.metawidget.inspector.faces.FacesInspectionResultConstants.*;
 
+import java.util.List;
+
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.inspector.faces.UiFacesAttribute;
+import org.metawidget.inspector.faces.UiFacesSuggest;
+import org.metawidget.util.CollectionUtils;
 
 /**
  * Models an entity that tests some RichFaces-specific quirks.
@@ -70,6 +74,7 @@ public class RichFacesQuirks
 	// Public methods
 	//
 
+	@UiFacesSuggest( "#{richQuirks.suggest}" )
 	public String getFoo1()
 	{
 		return mFoo1;
@@ -78,6 +83,11 @@ public class RichFacesQuirks
 	public void setFoo1( String foo1 )
 	{
 		mFoo1 = foo1;
+	}
+
+	public List<String> suggest( Object startsWith )
+	{
+		return CollectionUtils.newArrayList( startsWith + " Foo", startsWith + " Bar", startsWith + " Baz" );
 	}
 
 	@UiComesAfter( "foo1" )

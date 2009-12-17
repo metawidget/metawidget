@@ -41,9 +41,20 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 
 	private String	mStyleClass;
 
-	private String	mSwitchType	= "server";
+	/**
+	 * Default to 'client' switch type (even though the RichFaces default is 'server') because
+	 * although 'client' and 'ajax' work fine, 'server' is very problematic.
+	 * <p>
+	 * The problem is the SimpleTogglePanel loses state if recreated and so never closes. This is
+	 * much like the ICEfaces SelectInputDate component. However, if we try setting
+	 * COMPONENT_ATTRIBUTE_NOT_RECREATABLE, as we do for SelectInputDate, we have real headaches
+	 * deciding which components to destroy/recreate. We either solve those headaches or (and this
+	 * might be easier) hook SimpleTogglePanel to save its open/close state somewhere else.
+	 */
 
-	private boolean	mOpened;
+	private String	mSwitchType	= "client";
+
+	private boolean	mOpened		= true;
 
 	//
 	// Public methods

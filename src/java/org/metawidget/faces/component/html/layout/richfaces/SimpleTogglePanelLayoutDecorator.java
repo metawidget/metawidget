@@ -82,7 +82,7 @@ public class SimpleTogglePanelLayoutDecorator
 		panel.setStyle( mStyle );
 		panel.setStyleClass( mStyleClass );
 		panel.setSwitchType( mSwitchType );
-		panel.setOpened( isOpened() );
+		panel.setOpened( isOpened( attributes ) );
 
 		// Section name (possibly localized)
 
@@ -117,7 +117,7 @@ public class SimpleTogglePanelLayoutDecorator
 	 * Hook so subclasses can change what determines opened/closed.
 	 */
 
-	protected boolean isOpened()
+	protected boolean isOpened( Map<String, String> attributes )
 	{
 		return mOpened;
 	}

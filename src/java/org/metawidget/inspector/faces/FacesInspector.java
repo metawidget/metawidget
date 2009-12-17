@@ -126,6 +126,13 @@ public class FacesInspector
 		if ( component != null )
 			attributes.put( FACES_COMPONENT, component.value() );
 
+		// AJAX
+
+		UiFacesAjax ajax = property.getAnnotation( UiFacesAjax.class );
+
+		if ( ajax != null )
+			attributes.put( FACES_AJAX_EVENT, ajax.event() );
+
 		// Converters
 
 		UiFacesConverter converter = property.getAnnotation( UiFacesConverter.class );

@@ -25,6 +25,7 @@ import javax.faces.context.FacesContext;
 import junit.framework.TestCase;
 
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
+import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.widgetprocessor.ReadableIdProcessor;
 
@@ -54,30 +55,30 @@ public class ReadableIdProcessorTest
 
 		// Property bindings
 
-		HtmlInputText component = new HtmlInputText();
-		component.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo}" ) );
-		assertTrue( component == processor.processWidget( component, PROPERTY, null, metawidget ) );
-		assertTrue( "foo".equals( component.getId() ) );
+		HtmlInputText textComponent = new HtmlInputText();
+		textComponent.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo}" ) );
+		assertTrue( textComponent == processor.processWidget( textComponent, PROPERTY, null, metawidget ) );
+		assertTrue( "foo".equals( textComponent.getId() ) );
 
 		// Existing ids should not get overwritten
 
-		component.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo.bar}" ) );
-		assertTrue( component == processor.processWidget( component, ENTITY, null, metawidget ) );
-		assertTrue( "foo".equals( component.getId() ) );
+		textComponent.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo.bar}" ) );
+		assertTrue( textComponent == processor.processWidget( textComponent, ENTITY, null, metawidget ) );
+		assertTrue( "foo".equals( textComponent.getId() ) );
 
 		// Multi-name bindings
 
-		component.setId( null );
-		component.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo.bar}" ) );
-		assertTrue( component == processor.processWidget( component, ENTITY, null, metawidget ) );
-		assertTrue( "fooBar".equals( component.getId() ) );
+		textComponent.setId( null );
+		textComponent.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo.bar}" ) );
+		assertTrue( textComponent == processor.processWidget( textComponent, ENTITY, null, metawidget ) );
+		assertTrue( "fooBar".equals( textComponent.getId() ) );
 
 		// Duplicate bindings
 
-		component.setId( null );
-		metawidget.getChildren().add( component );
-		assertTrue( component == processor.processWidget( component, PROPERTY, null, metawidget ) );
-		assertTrue( "fooBar_2".equals( component.getId() ) );
+		textComponent.setId( null );
+		metawidget.getChildren().add( textComponent );
+		assertTrue( textComponent == processor.processWidget( textComponent, PROPERTY, null, metawidget ) );
+		assertTrue( "fooBar_2".equals( textComponent.getId() ) );
 
 		// Action bindings
 
@@ -100,6 +101,14 @@ public class ReadableIdProcessorTest
 		childMetawidget.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo.bar.baz}" ) );
 		assertTrue( childMetawidget == processor.processWidget( childMetawidget, PROPERTY, null, metawidget ) );
 		assertTrue( "fooBarBaz_Metawidget_2".equals( childMetawidget.getId() ) );
+
+		// TODO: stubs
+
+		UIStub stub = new UIStub();
+		stub.setValueBinding( "value", mContext.getApplication().createValueBinding( "#{foo.bar}" ) );
+		stub.getChildren().add( textComponent );
+		assertTrue( stub == processor.processWidget( stub, PROPERTY, null, metawidget ) );
+		assertTrue( "fooBar_Stub".equals( stub.getId() ) );
 	}
 
 	//

@@ -218,15 +218,17 @@ public class RichFacesWidgetBuilder
 
 			if ( facesSuggest != null )
 			{
-				UIComponent componentStub = application.createComponent( "org.metawidget.Stub" );
-				componentStub.getAttributes().put( UIMetawidget.COMPONENT_ATTRIBUTE_NOT_RECREATABLE, true );
-				List<UIComponent> children = componentStub.getChildren();
+				UIComponent stubComponent = application.createComponent( "org.metawidget.Stub" );
+				List<UIComponent> children = stubComponent.getChildren();
 
 				UIViewRoot viewRoot = context.getViewRoot();
 
 				// Standard text box
 
 				UIComponent inputText = application.createComponent( "javax.faces.HtmlInputText" );
+
+				// (lock the ids in early so they don't get changed)
+
 				inputText.setId( viewRoot.createUniqueId() );
 				children.add( inputText );
 
@@ -234,6 +236,10 @@ public class RichFacesWidgetBuilder
 
 				UISuggestionBox suggestionBox = (UISuggestionBox) application.createComponent( "org.richfaces.SuggestionBox" );
 				suggestionBox.setFor( inputText.getId() );
+
+				// (lock the ids in early so they don't get changed)
+
+				suggestionBox.setId( viewRoot.createUniqueId() );
 				suggestionBox.setVar( "_internal" );
 				children.add( suggestionBox );
 
@@ -245,14 +251,14 @@ public class RichFacesWidgetBuilder
 					// dependencies on javax.el.MethodExpression, so that we still work with
 					// JSF 1.1
 
-					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, null, ClassUtils.NO_CLASSES ) };
+					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, List.class, new Class[]{ Object.class } ) };
 					ClassUtils.setProperty( suggestionBox, "suggestionAction", methodExpression[0] );
 				}
-				catch ( NoSuchMethodError e )
+				catch ( Throwable t )
 				{
 					// RichFaces 3.1/JSF 1.1 mode
 
-					MethodBinding methodBinding = application.createMethodBinding( facesSuggest, null );
+					MethodBinding methodBinding = application.createMethodBinding( facesSuggest, new Class[]{ Object.class } );
 					suggestionBox.setSuggestionAction( methodBinding );
 				}
 
@@ -270,7 +276,7 @@ public class RichFacesWidgetBuilder
 				columnText.setValueBinding( "value", valueBinding );
 				column.getChildren().add( columnText );
 
-				return componentStub;
+				return stubComponent;
 			}
 		}
 

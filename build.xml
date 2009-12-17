@@ -184,6 +184,8 @@
 
 	<target name="pack-as-frontend-backend-internal" depends="compile-main">
 
+		<!-- Annotates/constants to use on backend classes -->
+		
 		<mkdir dir="${relative.dir}/${build.dir}/pack"/>
 		<jar destfile="${relative.dir}/${build.dir}/pack/metawidget-backend.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${relative.dir}/${build.dir}/classes">
@@ -191,6 +193,8 @@
 				<include name="org/metawidget/inspector/**/*Constants.class"/>
 			</fileset>
 		</jar>
+		
+		<!-- The meat of Metawidget -->
 		
 		<jar destfile="${relative.dir}/${build.dir}/pack/metawidget-frontend.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${relative.dir}/${build.dir}/classes">
@@ -212,9 +216,14 @@
 			</fileset>
 		</jar>
 
+		<!-- Useful if you want to use PropertyStyles standalone -->
+		
 		<jar destfile="${relative.dir}/${build.dir}/pack/metawidget-propertystyle.jar" manifest="${relative.dir}/src/java/META-INF/MANIFEST.MF">
 			<fileset dir="${relative.dir}/${build.dir}/classes">
+				<include name="org/metawidget/iface/**"/>
+				<include name="org/metawidget/inspector/impl/Trait.class"/>
 				<include name="org/metawidget/inspector/impl/propertystyle/**"/>
+				<include name="org/metawidget/inspector/iface/**"/>
 			</fileset>
 		</jar>
 

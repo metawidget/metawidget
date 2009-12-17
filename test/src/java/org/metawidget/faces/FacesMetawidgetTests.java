@@ -80,9 +80,12 @@ import junit.framework.TestSuite;
 import org.metawidget.faces.component.UIMetawidgetTest;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.layout.OutputTextLayoutDecoratorTest;
+import org.metawidget.faces.component.html.layout.richfaces.PanelLayoutDecoratorTest;
+import org.metawidget.faces.component.html.layout.richfaces.SimpleTogglePanelLayoutDecoratorTest;
 import org.metawidget.faces.component.html.layout.richfaces.TabPanelLayoutDecoratorTest;
 import org.metawidget.faces.component.html.widgetprocessor.CssStyleProcessorTest;
 import org.metawidget.faces.component.html.widgetprocessor.HiddenFieldProcessorTest;
+import org.metawidget.faces.component.html.widgetprocessor.richfaces.RichFacesProcessorTest;
 import org.metawidget.faces.component.widgetbuilder.OverriddenWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.HtmlWidgetBuilderTest;
 import org.metawidget.faces.widgetbuilder.icefaces.IceFacesWidgetBuilderTest;
@@ -121,9 +124,12 @@ public class FacesMetawidgetTests
 		suite.addTestSuite( ImmediateAttributeProcessorTest.class );
 		suite.addTestSuite( OutputTextLayoutDecoratorTest.class );
 		suite.addTestSuite( OverriddenWidgetBuilderTest.class );
+		suite.addTestSuite( PanelLayoutDecoratorTest.class );
 		suite.addTestSuite( ReadableIdProcessorTest.class );
 		suite.addTestSuite( RequiredAttributeProcessorTest.class );
+		suite.addTestSuite( RichFacesProcessorTest.class );
 		suite.addTestSuite( RichFacesWidgetBuilderTest.class );
+		suite.addTestSuite( SimpleTogglePanelLayoutDecoratorTest.class );
 		suite.addTestSuite( StandardBindingProcessorTest.class );
 		suite.addTestSuite( StandardConverterProcessorTest.class );
 		suite.addTestSuite( StandardValidatorProcessorTest.class );
@@ -262,10 +268,10 @@ public class FacesMetawidgetTests
 				}
 
 				@Override
-				public MethodBinding createMethodBinding( String expression, Class[] type )
+				public MethodBinding createMethodBinding( String expression, Class[] params )
 					throws ReferenceSyntaxException
 				{
-					return new MockMethodBinding( expression, null );
+					return new MockMethodBinding( expression, params );
 				}
 
 				@Override
@@ -907,13 +913,16 @@ public class FacesMetawidgetTests
 
 		private String	mExpressionString;
 
+		private Class[] mParams;
+
 		//
 		// Constructor
 		//
 
-		public MockMethodBinding( String expressionString, Class type )
+		public MockMethodBinding( String expressionString, Class[] params )
 		{
 			mExpressionString = expressionString;
+			mParams = params;
 		}
 
 		//
@@ -924,6 +933,11 @@ public class FacesMetawidgetTests
 		public String getExpressionString()
 		{
 			return mExpressionString;
+		}
+
+		public Class[] getParams()
+		{
+			return mParams;
 		}
 
 		@Override

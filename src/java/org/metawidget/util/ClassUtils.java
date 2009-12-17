@@ -151,9 +151,9 @@ public final class ClassUtils
 			method = getWriteMethod( baseClass, property, method.getReturnType() );
 			method.invoke( base, value );
 		}
-		catch ( Throwable t )
+		catch ( Exception e )
 		{
-			throw new RuntimeException( "Unable to set '" + property + "' of '" + base + "' to '" + value + "'", t );
+			throw new RuntimeException( "Unable to set '" + property + "' of '" + base + "' to '" + value + "'", e );
 		}
 	}
 

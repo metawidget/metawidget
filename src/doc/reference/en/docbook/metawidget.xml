@@ -6432,7 +6432,14 @@ metawidget.setInspector( new MetawidgetAnnotationInspector( config ) );</program
 								<parameter>datetime-type</parameter> 
 							</td>
 							<td><classname>@UiFacesDateTimeConverter</classname> - annotates the field should use the standard Faces <classname>DateTimeConverter</classname></td>
-						</tr>												
+						</tr>
+						<tr>
+							<td><parameter>faces-ajax-event</parameter></td>
+							<td>
+								<classname>@UiFacesAjax</classname> - annotates the widget for this field should use AJAX in
+								response to the given event
+							</td>
+						</tr>
 						<tr>
 							<td><parameter>faces-component</parameter></td>
 							<td>
@@ -8233,6 +8240,11 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					
 				</section>
 				
+				<section id="section-widgetprocessors-web-faces-richfaces">
+					<title>RichFacesProcessor</title>
+					
+				</section>
+
 			</section>
 			
 		</section>

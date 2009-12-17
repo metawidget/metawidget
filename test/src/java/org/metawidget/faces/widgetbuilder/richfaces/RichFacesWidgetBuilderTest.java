@@ -37,6 +37,7 @@ import junit.framework.TestCase;
 import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.FacesMetawidgetTests.MockComponent;
 import org.metawidget.faces.FacesMetawidgetTests.MockFacesContext;
+import org.metawidget.faces.FacesMetawidgetTests.MockMethodBinding;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.faces.component.html.widgetbuilder.richfaces.RichFacesWidgetBuilder;
@@ -192,15 +193,22 @@ public class RichFacesWidgetBuilderTest
 		attributes.put( FACES_SUGGEST, "#{foo.bar}" );
 
 		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		assertTrue( stub.getId() == null );
 		assertTrue( stub.getChildCount() == 2 );
 
 		HtmlInputText htmlInputText = (HtmlInputText) stub.getChildren().get( 0 );
 		UISuggestionBox suggestionBox = (UISuggestionBox) stub.getChildren().get( 1 );
+		assertTrue( htmlInputText.getId() != null );
+		assertTrue( suggestionBox.getId() != null );
 		assertTrue( suggestionBox.getFor().equals( htmlInputText.getId() ) );
 		assertTrue( "#{foo.bar}".equals( suggestionBox.getSuggestionAction().getExpressionString() ) );
+		assertTrue( Object.class == ((MockMethodBinding) suggestionBox.getSuggestionAction()).getParams()[0] );
+		assertTrue( 1 == ((MockMethodBinding) suggestionBox.getSuggestionAction()).getParams().length );
 		assertTrue( suggestionBox.getChildCount() == 1 );
 		assertTrue( suggestionBox.getChildren().get( 0 ) instanceof UIColumn );
+		assertTrue( suggestionBox.getChildren().get( 0 ).getId() != null );
 		HtmlOutputText htmlOutputText = (HtmlOutputText) suggestionBox.getChildren().get( 0 ).getChildren().get( 0 );
+		assertTrue( htmlOutputText.getId() != null );
 		assertTrue( FacesUtils.wrapExpression( suggestionBox.getVar() ).equals( htmlOutputText.getValueBinding( "value" ).getExpressionString() ) );
 
 		attributes.remove( FACES_SUGGEST );
