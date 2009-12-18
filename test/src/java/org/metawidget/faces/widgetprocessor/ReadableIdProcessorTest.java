@@ -111,7 +111,7 @@ public class ReadableIdProcessorTest
 		HtmlInputText textComponent2 = new HtmlInputText();
 		stub.getChildren().add( textComponent2 );
 		assertTrue( stub == processor.processWidget( stub, PROPERTY, null, metawidget ) );
-		assertTrue( "fooBar_3_Stub".equals( stub.getId() ) );
+		assertTrue( stub.getId() != null );
 		assertTrue( "fooBar_3".equals( textComponent.getId() ) );
 		assertTrue( "fooBar_3_2".equals( textComponent2.getId() ) );
 	}

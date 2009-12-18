@@ -204,7 +204,7 @@ public class RichFacesWidgetBuilder
 
 		if ( Color.class.isAssignableFrom( clazz ) )
 		{
-			if ( WidgetBuilderUtils.isReadOnly( attributes ))
+			if ( WidgetBuilderUtils.isReadOnly( attributes ) )
 				return FacesContext.getCurrentInstance().getApplication().createComponent( "javax.faces.HtmlOutputText" );
 
 			return application.createComponent( "org.richfaces.ColorPicker" );
@@ -250,15 +250,19 @@ public class RichFacesWidgetBuilder
 					// Note: we wrap the MethodExpression as an Object[] to stop link-time
 					// dependencies on javax.el.MethodExpression, so that we still work with
 					// JSF 1.1
+					//
+					// Note: according to JavaDocs returnType is only important when literal (i.e.
+					// without #{...}) expression is used, otherwise Object.class is fine
+					// (http://community.jboss.org/message/516830#516830)
 
-					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[]{ Object.class } ) };
+					Object[] methodExpression = new Object[] { application.getExpressionFactory().createMethodExpression( context.getELContext(), facesSuggest, Object.class, new Class[] { Object.class } ) };
 					ClassUtils.setProperty( suggestionBox, "suggestionAction", methodExpression[0] );
 				}
 				catch ( Throwable t )
 				{
 					// RichFaces 3.1/JSF 1.1 mode
 
-					MethodBinding methodBinding = application.createMethodBinding( facesSuggest, new Class[]{ Object.class } );
+					MethodBinding methodBinding = application.createMethodBinding( facesSuggest, new Class[] { Object.class } );
 					suggestionBox.setSuggestionAction( methodBinding );
 				}
 

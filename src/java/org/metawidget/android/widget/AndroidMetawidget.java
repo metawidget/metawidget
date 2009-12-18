@@ -23,9 +23,9 @@ import java.util.Map;
 import java.util.Set;
 
 import org.metawidget.android.AndroidConfigReader;
+import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.layout.TextViewLayoutDecorator;
 import org.metawidget.android.widget.layout.TextViewLayoutDecoratorConfig;
-import org.metawidget.android.widget.layout.TableLayout;
 import org.metawidget.android.widget.widgetbuilder.AndroidWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.OverriddenWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.ReadOnlyWidgetBuilder;
@@ -111,7 +111,7 @@ public class AndroidMetawidget
 
 	private Map<Object, Object>												mClientProperties;
 
-	private Pipeline										mPipeline;
+	private Pipeline														mPipeline;
 
 	//
 	// Constructor

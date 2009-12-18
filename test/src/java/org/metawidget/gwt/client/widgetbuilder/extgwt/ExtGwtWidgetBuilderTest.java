@@ -98,17 +98,4 @@ public class ExtGwtWidgetBuilderTest
 		assertTrue( 2 == slider.getValue() );
 		assertTrue( 2 == (Integer) widgetBuilder.getValue( slider ) );
 	}
-
-	//
-	// Private methods
-	//
-
-	/**
-	 * Wrapped to avoid 'synthetic access' warning
-	 */
-
-	/*package private*/void finish()
-	{
-		super.finishTest();
-	}
 }

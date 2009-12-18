@@ -16,20 +16,24 @@
 
 package org.metawidget.gwt.client.ui.layout;
 
-import junit.framework.TestCase;
-
-import org.metawidget.layout.decorator.LayoutDecoratorTest;
+import com.google.gwt.junit.client.GWTTestCase;
 
 /**
  * @author Richard Kennard
  */
 
 public class LabelLayoutDecoratorTest
-	extends TestCase
+	extends GWTTestCase
 {
 	//
 	// Public methods
 	//
+
+	@Override
+	public String getModuleName()
+	{
+		return "org.metawidget.gwt.GwtMetawidgetTest";
+	}
 
 	public void testConfig()
 	{
@@ -53,6 +57,21 @@ public class LabelLayoutDecoratorTest
 
 		// superclass
 
-		LayoutDecoratorTest.testConfig( config1, config2, new FlexTableLayout() );
+		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// layout
+
+		FlexTableLayout delegate = new FlexTableLayout();
+
+		config1.setLayout( delegate );
+		assertTrue( delegate == config1.getLayout() );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setLayout( delegate );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
 	}
 }

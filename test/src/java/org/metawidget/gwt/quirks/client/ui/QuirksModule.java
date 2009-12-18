@@ -59,8 +59,6 @@ public class QuirksModule
 	// Public methods
 	//
 
-	// TODO: unit test TabPanelLayoutDecorator
-
 	public void onModuleLoad()
 	{
 		// Metawidget

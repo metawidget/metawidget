@@ -218,11 +218,9 @@
 		<copy todir="${relative.dir}/${build.dir}/gwt-sanitized-test-src">
 			<fileset dir="${relative.dir}/test/src/java">
 				<include name="org/metawidget/gwt/**"/>
+				<exclude name="org/metawidget/gwt/client/**"/>
 				<include name="org/metawidget/example/gwt/**"/>
 				<include name="org/metawidget/GwtAllWidgets.gwt.xml"/>
-				<exclude name="org/metawidget/gwt/client/ui/layout/**"/>
-				<exclude name="org/metawidget/gwt/client/widgetbuilder/**"/>
-				<exclude name="org/metawidget/gwt/client/widgetprocessor/**"/>
 				<include name="org/metawidget/shared/**"/>
 				<exclude name="**/AllWidgets_$*.java"/>
 				<exclude name="**/AllWidgets$*.java"/>
@@ -308,15 +306,14 @@
 
 		<copy todir="${relative.dir}/${build.dir}/gwt-sanitized-test-src">
 			<fileset dir="${relative.dir}/test/src/java">
-				<include name="org/metawidget/gwt/client/widgetbuilder/extgwt/**"/>
+				<include name="org/metawidget/gwt/client/**"/>
 			</fileset>			
 		</copy>
 
 		<junit showoutput="true" fork="true" dir="${relative.dir}/${build.dir}/${run.dir}" haltonfailure="true" haltonerror="true">
 			<jvmarg value="-Xmx256M"/>
 			<formatter type="brief" usefile="false"/>
-			<test name="org.metawidget.gwt.client.ui.GwtMetawidgetPipelineTest"/>
-			<test name="org.metawidget.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilderTest"/>
+			<test name="org.metawidget.gwt.GwtMetawidgetTests"/>
 			<classpath>
 				<pathelement path="${relative.dir}/${build.dir}/gwt-sanitized-test-src"/>
 				<dirset dir="${relative.dir}/${build.dir}/test-classes"/>

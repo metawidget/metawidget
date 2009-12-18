@@ -168,7 +168,7 @@ public class ReadableIdProcessor
 
 			// Still important to set the Stub's id to avoid JSF warnings
 
-			component.setId( nonDuplicateId + "_Stub" );
+			component.setId( FacesContext.getCurrentInstance().getViewRoot().createUniqueId() );
 			return;
 		}
 

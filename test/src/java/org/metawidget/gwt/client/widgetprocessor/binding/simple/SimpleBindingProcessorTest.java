@@ -18,8 +18,7 @@ package org.metawidget.gwt.client.widgetprocessor.binding.simple;
 
 import java.util.Date;
 
-import junit.framework.TestCase;
-
+import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -27,11 +26,17 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class SimpleBindingProcessorTest
-	extends TestCase
+	extends GWTTestCase
 {
 	//
 	// Public methods
 	//
+
+	@Override
+	public String getModuleName()
+	{
+		return "org.metawidget.gwt.GwtMetawidgetTest";
+	}
 
 	public void testConfig()
 	{

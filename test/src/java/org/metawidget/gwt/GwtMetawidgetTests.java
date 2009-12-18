@@ -17,24 +17,34 @@
 package org.metawidget.gwt;
 
 import junit.framework.Test;
-import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.gwt.client.ui.GwtMetawidgetPipelineTest;
 import org.metawidget.gwt.client.ui.layout.FlexTableLayoutTest;
+import org.metawidget.gwt.client.ui.layout.GwtFlatSectionLayoutDecoratorTest;
+import org.metawidget.gwt.client.ui.layout.GwtNestedSectionLayoutDecoratorTest;
 import org.metawidget.gwt.client.ui.layout.LabelLayoutDecoratorTest;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorTest;
 
+import com.google.gwt.junit.client.GWTTestCase;
+
 /**
- * GwtMetawidget test cases.
- *
- * These are just some fringe-case tests. Most of the testing is done as GWTUnitTests.
- *
  * @author Richard Kennard
  */
 
 public class GwtMetawidgetTests
-	extends TestCase
+	extends GWTTestCase
 {
+	//
+	// Public methods
+	//
+
+	@Override
+	public String getModuleName()
+	{
+		return "org.metawidget.gwt.GwtMetawidgetTest";
+	}
+
 	//
 	// Public statics
 	//
@@ -43,6 +53,9 @@ public class GwtMetawidgetTests
 	{
 		TestSuite suite = new TestSuite( "Gwt Metawidget Tests" );
 		suite.addTestSuite( FlexTableLayoutTest.class );
+		suite.addTestSuite( GwtFlatSectionLayoutDecoratorTest.class );
+		suite.addTestSuite( GwtNestedSectionLayoutDecoratorTest.class );
+		suite.addTestSuite( GwtMetawidgetPipelineTest.class );
 		suite.addTestSuite( LabelLayoutDecoratorTest.class );
 		suite.addTestSuite( SimpleBindingProcessorTest.class );
 

@@ -16,20 +16,26 @@
 
 package org.metawidget.gwt.client.ui.layout;
 
-import junit.framework.TestCase;
-
 import org.metawidget.layout.iface.LayoutException;
+
+import com.google.gwt.junit.client.GWTTestCase;
 
 /**
  * @author Richard Kennard
  */
 
 public class FlexTableLayoutTest
-	extends TestCase
+	extends GWTTestCase
 {
 	//
 	// Public methods
 	//
+
+	@Override
+	public String getModuleName()
+	{
+		return "org.metawidget.gwt.GwtMetawidgetTest";
+	}
 
 	public void testConfig()
 	{
