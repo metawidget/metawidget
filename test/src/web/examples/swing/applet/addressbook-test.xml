@@ -36,15 +36,20 @@
 					step.setWebtestProperty( 'backgroundBlue', String.valueOf( panel.getBackground().getBlue() ));
 					def metawidget = panel.getComponent( 0 );
 					step.setWebtestProperty( 'metawidgetClass', metawidget.getClass().getName());
-					
-					// We would love to be able to do metawidget.getComponentCount(), but we cannot work out the CLASSPATH issues
-					
+					metawidget.setConfig( null );
+					metawidget.setInspector( new org.metawidget.inspector.propertytype.PropertyTypeInspector() );
+					metawidget.setInspectionResultProcessors( null );
+					metawidget.setWidgetBuilder( new org.metawidget.swing.widgetbuilder.SwingWidgetBuilder() );
+					metawidget.setWidgetProcessors( null );
+					metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout() );
+					step.setWebtestProperty( 'metawidgetComponentCount', String.valueOf( metawidget.getComponentCount() ));
 					def contacts = panel.getComponent( 1 );
 					step.setWebtestProperty( 'contactsClass', contacts.getClass().getName() );
 					step.setWebtestProperty( 'contacts', String.valueOf( contacts.getViewport().getView().getRowCount() ));
 				</groovy>
 				<verifyProperty name="labelClass" text="javax.swing.JLabel"/>
 				<verifyProperty name="metawidgetClass" text="org.metawidget.swing.SwingMetawidget"/>
+				<verifyProperty name="metawidgetComponentCount" text="7"/>
 				<verifyProperty name="backgroundOpaque" text="true"/>
 				<verifyProperty name="backgroundRed" text="255"/>
 				<verifyProperty name="backgroundGreen" text="255"/>

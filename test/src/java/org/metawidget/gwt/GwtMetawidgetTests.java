@@ -24,6 +24,7 @@ import org.metawidget.gwt.client.ui.layout.FlexTableLayoutTest;
 import org.metawidget.gwt.client.ui.layout.GwtFlatSectionLayoutDecoratorTest;
 import org.metawidget.gwt.client.ui.layout.GwtNestedSectionLayoutDecoratorTest;
 import org.metawidget.gwt.client.ui.layout.LabelLayoutDecoratorTest;
+import org.metawidget.gwt.client.widgetbuilder.extgwt.ExtGwtWidgetBuilderTest;
 import org.metawidget.gwt.client.widgetprocessor.binding.simple.SimpleBindingProcessorTest;
 
 import com.google.gwt.junit.client.GWTTestCase;
@@ -52,6 +53,7 @@ public class GwtMetawidgetTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "Gwt Metawidget Tests" );
+		suite.addTestSuite( ExtGwtWidgetBuilderTest.class );
 		suite.addTestSuite( FlexTableLayoutTest.class );
 		suite.addTestSuite( GwtFlatSectionLayoutDecoratorTest.class );
 		suite.addTestSuite( GwtNestedSectionLayoutDecoratorTest.class );

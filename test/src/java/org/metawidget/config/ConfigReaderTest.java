@@ -725,8 +725,8 @@ public class ConfigReaderTest
 		@SuppressWarnings( "unchecked" )
 		List<Object> cacheWithNames = (List<Object>) cacheField.get( cachingContentHandler );
 		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 10 ).toString() ) );
-		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.layout htmlTableLayout htmlTableLayout config=\"HtmlTableLayoutConfig\"".equals( cacheWithNames.get( 13 ).toString() ) );
-		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.layout htmlTableLayout htmlTableLayout".equals( cacheWithNames.get( 14 ).toString() ) );
+		assertTrue( "startElement java:org.metawidget.jsp.tagext.html.layout divLayoutDecorator divLayoutDecorator config=\"DivLayoutDecoratorConfig\"".equals( cacheWithNames.get( 13 ).toString() ) );
+		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.layout divLayoutDecorator divLayoutDecorator".equals( cacheWithNames.get( 14 ).toString() ) );
 		assertTrue( "endElement java:org.metawidget.jsp.tagext.html.spring layout layout".equals( cacheWithNames.get( 17 ).toString() ) );
 
 		assertTrue( 29 == cacheWithNames.size() );
