@@ -57,6 +57,12 @@ public class ExtGwtWidgetBuilderTest
 		attributes.put( TYPE, "java.util.Date" );
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, null ) instanceof DateField );
 
+		// Hidden
+
+		attributes.put( HIDDEN, TRUE );
+		assertTrue( null == widgetBuilder.buildWidget( PROPERTY, attributes, null ) );
+		attributes.remove( HIDDEN );
+
 		// Slider
 
 		attributes.put( TYPE, "long" );

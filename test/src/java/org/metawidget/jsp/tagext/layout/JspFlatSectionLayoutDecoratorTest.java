@@ -14,44 +14,44 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.gwt.client.ui.layout;
+package org.metawidget.jsp.tagext.layout;
 
-import org.metawidget.gwt.client.ui.GwtMetawidget;
-import org.metawidget.gwt.client.ui.Stub;
-import org.metawidget.layout.decorator.LayoutDecoratorConfig;
+import java.lang.reflect.Field;
 
-import com.google.gwt.junit.client.GWTTestCase;
-import com.google.gwt.user.client.ui.CheckBox;
-import com.google.gwt.user.client.ui.TextBox;
-import com.google.gwt.user.client.ui.Widget;
+import junit.framework.TestCase;
+
+import org.metawidget.jsp.tagext.StubTag;
+import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
+import org.metawidget.jsp.tagext.html.HtmlStubTag;
+import org.metawidget.jsp.tagext.html.layout.DivLayoutDecorator;
+import org.metawidget.jsp.tagext.html.layout.DivLayoutDecoratorConfig;
+import org.metawidget.jsp.tagext.html.layout.HtmlTableLayout;
 
 /**
  * @author Richard Kennard
  */
 
-public class GwtNestedSectionLayoutDecoratorTest
-	extends GWTTestCase
+public class JspFlatSectionLayoutDecoratorTest
+	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	@Override
-	public String getModuleName()
-	{
-		return "org.metawidget.gwt.GwtMetawidgetTest";
-	}
-
 	public void testEmptyStub()
+		throws Exception
 	{
-		TabPanelLayoutDecorator layoutDecorator = new TabPanelLayoutDecorator( new LayoutDecoratorConfig<Widget, GwtMetawidget>().setLayout( new FlexTableLayout() ));
+		DivLayoutDecorator layoutDecorator = new DivLayoutDecorator( new DivLayoutDecoratorConfig().setLayout( new HtmlTableLayout() ));
 		assertTrue( false == layoutDecorator.isEmptyStub( null ) );
-		assertTrue( false == layoutDecorator.isEmptyStub( new CheckBox() ) );
+		assertTrue( false == layoutDecorator.isEmptyStub( new HtmlMetawidgetTag() ) );
 
-		Stub stub = new Stub();
+		StubTag stub = new HtmlStubTag();
 		assertTrue( true == layoutDecorator.isEmptyStub( stub ) );
 
-		stub.add( new TextBox() );
+		Field field = StubTag.class.getDeclaredField( "mSavedBodyContent" );
+		field.setAccessible( true );
+		field.set( stub, "Foo" );
+
 		assertTrue( false == layoutDecorator.isEmptyStub( stub ) );
 	}
 }

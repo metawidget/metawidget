@@ -14,11 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.jsp.tagext.html.layout;
+package org.metawidget.jsp.tagext.layout;
 
 import junit.framework.TestCase;
 
-import org.metawidget.jsp.tagext.layout.SimpleLayout;
 import org.metawidget.layout.iface.LayoutException;
 
 /**

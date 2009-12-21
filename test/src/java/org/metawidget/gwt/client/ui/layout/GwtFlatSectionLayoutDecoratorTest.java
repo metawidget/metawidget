@@ -39,7 +39,7 @@ public class GwtFlatSectionLayoutDecoratorTest
 		return "org.metawidget.gwt.GwtMetawidgetTest";
 	}
 
-	public void testGwtFlatSectionLayoutDecorator()
+	public void testEmptyStub()
 	{
 		LabelLayoutDecorator layoutDecorator = new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ));
 		assertTrue( false == layoutDecorator.isEmptyStub( null ) );
