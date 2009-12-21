@@ -70,8 +70,6 @@ public class HtmlTableLayout
 
 	private String[]			mColumnStyleClasses;
 
-	private String				mSectionStyleClass;
-
 	private String				mFooterStyle;
 
 	private String				mFooterStyleClass;
@@ -91,7 +89,6 @@ public class HtmlTableLayout
 		mTableStyle = config.getTableStyle();
 		mTableStyleClass = config.getTableStyleClass();
 		mColumnStyleClasses = config.getColumnStyleClasses();
-		mSectionStyleClass = config.getSectionStyleClass();
 		mFooterStyle = config.getFooterStyle();
 		mFooterStyleClass = config.getFooterStyleClass();
 	}
@@ -185,7 +182,7 @@ public class HtmlTableLayout
 		}
 	}
 
-	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, Tag container, MetawidgetTag metawidgetTag )
+	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, Tag containerTag, MetawidgetTag metawidgetTag )
 	{
 		try
 		{
@@ -196,13 +193,14 @@ public class HtmlTableLayout
 				literal = ( (StubTag) tag ).getSavedBodyContent();
 
 				// Ignore empty stubs
+				// TODO: test this on JDK 1.4, as we used to use literal.isEmpty and it got through
 
-				if ( literal == null || literal.isEmpty() )
+				if ( literal == null || literal.length() == 0 )
 					return;
 			}
 			else
 			{
-				literal = JspUtils.writeTag( metawidgetTag.getPageContext(), tag, metawidgetTag, null );
+				literal = JspUtils.writeTag( metawidgetTag.getPageContext(), tag, containerTag, null );
 			}
 
 			// If the String is just hidden fields...
@@ -285,14 +283,6 @@ public class HtmlTableLayout
 
 			if ( attributes != null )
 			{
-				String section = attributes.get( SECTION );
-
-				if ( section != null && !section.equals( state.currentSection ) )
-				{
-					state.currentSection = section;
-					layoutSection( section, metawidgetTag );
-				}
-
 				id = attributes.get( NAME );
 
 				if ( id != null )
@@ -328,7 +318,7 @@ public class HtmlTableLayout
 
 			// Start the label column
 
-			boolean labelRendered = layoutLabel( elementName, attributes, metawidgetTag );
+			boolean labelWritten = layoutLabel( elementName, attributes, metawidgetTag );
 
 			// Zero-column layouts need an extra row
 
@@ -365,17 +355,39 @@ public class HtmlTableLayout
 
 			writeStyleClass( 1, metawidgetTag );
 
-			int colspan = 1;
+			// Colspan
 
-			if ( !labelRendered )
-				colspan = 2;
+			int colspan;
 
-			// Metawidgets and large components span all columns
+			// Metawidgets, tables and large components span all columns
 
-			if ( tag instanceof MetawidgetTag || ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) ))
+			if ( tag instanceof MetawidgetTag || SimpleLayoutUtils.isSpanAllColumns( attributes ) )
 			{
-				colspan = ( ( mNumberOfColumns - 1 ) * LABEL_AND_COMPONENT_AND_REQUIRED ) + 1;
+				colspan = ( mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 				state.currentColumn = mNumberOfColumns;
+
+				if ( !labelWritten )
+					colspan++;
+
+				// Nested table Metawidgets span the required column too (as they have their own
+				// required column)
+
+				if ( tag instanceof MetawidgetTag )
+					colspan++;
+			}
+
+			// Components without labels span two columns
+
+			else if ( !labelWritten )
+			{
+				colspan = 2;
+			}
+
+			// Everyone else spans just one
+
+			else
+			{
+				colspan = 1;
 			}
 
 			if ( colspan > 1 )
@@ -465,58 +477,6 @@ public class HtmlTableLayout
 		}
 	}
 
-	protected void layoutSection( String section, MetawidgetTag metawidgetTag )
-	{
-		// No section?
-
-		if ( "".equals( section ) )
-			return;
-
-		try
-		{
-			JspWriter writer = metawidgetTag.getPageContext().getOut();
-
-			writer.write( "\r\n<tr>" );
-			writer.write( "<th colspan=\"" );
-
-			// Sections span multiples of label/component/required
-
-			int colspan = Math.max( JUST_COMPONENT_AND_REQUIRED, mNumberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
-			writer.write( String.valueOf( colspan ) );
-
-			writer.write( "\"" );
-
-			if ( mSectionStyleClass != null )
-			{
-				writer.write( " class=\"" );
-				writer.write( mSectionStyleClass );
-				writer.write( "\"" );
-			}
-
-			writer.write( ">" );
-
-			// Section name (possibly localized)
-
-			String localizedSection = metawidgetTag.getLocalizedKey( StringUtils.camelCase( section ) );
-
-			if ( localizedSection != null )
-				writer.write( localizedSection );
-			else
-				writer.write( section );
-
-			writer.write( "</th>" );
-			writer.write( "</tr>" );
-
-			// Reset to first column
-
-			getState( metawidgetTag ).currentColumn = 1;
-		}
-		catch ( IOException e )
-		{
-			throw LayoutException.newException( e );
-		}
-	}
-
 	protected String layoutRequired( Map<String, String> attributes, MetawidgetTag metawidgetTag )
 	{
 		if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidgetTag.isReadOnly() )
@@ -579,8 +539,6 @@ public class HtmlTableLayout
 	/* package private */static class State
 	{
 		public int			currentColumn;
-
-		public String		currentSection;
 
 		public Set<String>	hiddenFields;
 

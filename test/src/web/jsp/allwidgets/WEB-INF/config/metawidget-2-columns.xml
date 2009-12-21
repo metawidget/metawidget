@@ -19,11 +19,15 @@
 			</compositeInspector>
 		</inspector>
 		<layout>
-			<htmlTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HtmlTableLayoutConfig">
-				<numberOfColumns>
-					<int>2</int>
-				</numberOfColumns>
-			</htmlTableLayout>
+			<divLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="DivLayoutDecoratorConfig">
+				<layout>		
+					<htmlTableLayout config="HtmlTableLayoutConfig">
+						<numberOfColumns>
+							<int>2</int>
+						</numberOfColumns>
+					</htmlTableLayout>
+				</layout>
+			</divLayoutDecorator>
 		</layout>
 	</htmlMetawidgetTag>
 

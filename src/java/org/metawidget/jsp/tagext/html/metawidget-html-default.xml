@@ -40,7 +40,11 @@
 		</widgetBuilder>
 
 		<layout>
-			<htmlTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout"/>
+			<divLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="DivLayoutDecoratorConfig">
+				<layout>
+					<htmlTableLayout/>
+				</layout>
+			</divLayoutDecorator>
 		</layout>
 		
 	</htmlMetawidgetTag>			

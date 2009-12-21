@@ -96,6 +96,11 @@ h1, .section-heading
 	vertical-align: top;
 }
 
+.table-component-column input
+{
+	width: 99%;
+}
+
 .table-component-column select
 {
 	width: 100%;

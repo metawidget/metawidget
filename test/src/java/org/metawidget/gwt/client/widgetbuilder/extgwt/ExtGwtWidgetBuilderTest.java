@@ -97,5 +97,7 @@ public class ExtGwtWidgetBuilderTest
 		assertTrue( true == widgetBuilder.setValue( slider, 2 ) );
 		assertTrue( 2 == slider.getValue() );
 		assertTrue( 2 == (Integer) widgetBuilder.getValue( slider ) );
+
+		// TODO: test setValue DateField/Slider/other too
 	}
 }

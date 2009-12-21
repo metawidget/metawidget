@@ -35,6 +35,7 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.layout.iface.LayoutException;
+import org.metawidget.util.simple.SimpleLayoutUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
@@ -395,7 +396,7 @@ public class HtmlTableLayoutRenderer
 
 		// Metawidgets, tables and large components span all columns
 
-		if ( childComponent instanceof UIMetawidget || childComponent instanceof UIData || ( metadataAttributes != null && TRUE.equals( metadataAttributes.get( LARGE ) ) ) )
+		if ( childComponent instanceof UIMetawidget || childComponent instanceof UIData || SimpleLayoutUtils.isSpanAllColumns( metadataAttributes ) )
 		{
 			colspan = ( state.columns * LABEL_AND_COMPONENT_AND_REQUIRED ) - 2;
 			state.currentColumn = state.columns;

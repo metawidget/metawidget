@@ -24,24 +24,28 @@
 			</compositeInspector>
 		</inspector>
 		<layout>
-			<htmlTableLayout xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HtmlTableLayoutConfig">
-				<tableStyleClass>
-					<string>table-form</string>
-				</tableStyleClass>
-				<columnStyleClasses>
-					<array>
-						<string>table-label-column</string>
-						<string>table-component-column</string>
-						<string>table-required-column</string>
-					</array>
-				</columnStyleClasses>
-				<sectionStyleClass>
+			<divLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="DivLayoutDecoratorConfig">
+				<layout>
+					<htmlTableLayout config="HtmlTableLayoutConfig">
+						<tableStyleClass>
+							<string>table-form</string>
+						</tableStyleClass>
+						<columnStyleClasses>
+							<array>
+								<string>table-label-column</string>
+								<string>table-component-column</string>
+								<string>table-required-column</string>
+							</array>
+						</columnStyleClasses>
+						<footerStyleClass>
+							<string>buttons</string>
+						</footerStyleClass>				
+					</htmlTableLayout>
+				</layout>
+				<styleClass>
 					<string>section-heading</string>
-				</sectionStyleClass>
-				<footerStyleClass>
-					<string>buttons</string>
-				</footerStyleClass>
-			</htmlTableLayout>
+				</styleClass>				
+			</divLayoutDecorator>
 		</layout>
 	</strutsMetawidgetTag>
 	
