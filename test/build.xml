@@ -35,6 +35,7 @@
 		<javac sourcepath="" srcdir="${relative.dir}/test/src/java" destdir="${relative.dir}/${build.dir}/test-classes" debug="on" optimize="on" source="1.5" target="jsr14">
 			<include name="org/metawidget/android/allwidgets/**"/>
 			<include name="org/metawidget/faces/allwidgets/**"/>
+			<include name="org/metawidget/jsp/quirks/**"/>
 			<include name="org/metawidget/shared/allwidgets/**"/>
 			<include name="org/metawidget/spring/allwidgets/**"/>
 			<include name="org/metawidget/struts/allwidgets/**"/>
@@ -1334,6 +1335,44 @@
 		
 	</target>
 
+	<target name="test-jsp-quirks" depends="flatten-test-libs,compile-test">
+		
+		<mkdir dir="${relative.dir}/${build.dir}/test/jsp"/>
+
+		<war warfile="${relative.dir}/${build.dir}/test/jsp/quirks-jsp.war" webxml="${relative.dir}/test/src/web/jsp/quirks/WEB-INF/web.xml">
+			<fileset dir="${relative.dir}/test/src/web/jsp/quirks">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<classes dir="${relative.dir}/${build.dir}/test-classes">
+				<include name="org/metawidget/jsp/quirks/**"/>
+			</classes>
+			<lib dir="${relative.dir}/${build.dir}/lib">
+				<include name="jstl-*.jar"/>
+				<include name="metawidget.jar"/>
+				<include name="standard.jar"/>
+			</lib>
+		</war>
+		
+		<copy file="${relative.dir}/${build.dir}/test/jsp/quirks-jsp.war" todir="${tomcat4.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat4.dir}/webapps/quirks-jsp"/>
+		<antcall target="test-web-start-tomcat4"/>
+
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/jsp">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file quirks-test.xml"/>
+		</java>
+
+		<antcall target="test-web-stop-tomcat4"/>
+		
+	</target>
+
 	<target name="test-spring-allwidgets" depends="test-shared-allwidgets">
 		
 		<mkdir dir="${relative.dir}/${build.dir}/test/spring"/>
@@ -1518,6 +1557,7 @@
 		<fail message="WebTest not installed at 'webtest.dir' in 'build.properties'. Not running web tests" unless="webtest-available"/>
 		
 		<antcall target="test-faces-allwidgets"/>
+		<antcall target="test-jsp-quirks"/>
 		<antcall target="test-spring-allwidgets"/>
 		<antcall target="test-struts-allwidgets"/>
 		

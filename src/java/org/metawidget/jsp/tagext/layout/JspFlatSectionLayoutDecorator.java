@@ -30,6 +30,9 @@ import org.metawidget.util.ArrayUtils;
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
  * sections within JSP-based Layouts.
+ * <p>
+ * Note: it is not clear it is possible to implement a <code>JspNestedSectionLayoutDecorator</code>,
+ * because the JSP component model does not allow adding children to tags.
  *
  * @author Richard Kennard
  */
@@ -73,7 +76,7 @@ public abstract class JspFlatSectionLayoutDecorator
 	@Override
 	protected boolean isEmptyStub( Tag tag )
 	{
-		if ( !( tag instanceof StubTag ))
+		if ( !( tag instanceof StubTag ) )
 			return false;
 
 		String literal = ( (StubTag) tag ).getSavedBodyContent();

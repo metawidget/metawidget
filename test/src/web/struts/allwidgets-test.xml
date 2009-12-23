@@ -201,7 +201,7 @@
 				<verifyInputField name="allWidgets.date" value="Wed Apr 09 01:00:00 GMT 1975"/>
 				<setInputField name="allWidgets.date" value="Thu Apr 10 01:00:00 GMT 1975"/>
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/div[@class='section-heading']" text="Section Break (i18n)"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/h1[@class='section-heading']" text="Section Break (i18n)"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/@colspan" text="2"/>
 				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/th" text="Read only (i18n):"/>
@@ -300,7 +300,7 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[29]/td[1]" text="Nested Textbox 1, Nested Textbox 2"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/th" text="Date (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td[1]" text="Thu Apr 10 01:00:00 GMT 1975"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/div[@class='section-heading']" text="Section Break (i18n)"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/h1[@class='section-heading']" text="Section Break (i18n)"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/td/@colspan" text="2"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/th" text="Read only (i18n):"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[32]/td[1]" text="Read Only1"/>

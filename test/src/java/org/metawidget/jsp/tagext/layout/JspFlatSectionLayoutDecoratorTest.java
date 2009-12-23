@@ -23,8 +23,8 @@ import junit.framework.TestCase;
 import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.jsp.tagext.html.HtmlMetawidgetTag;
 import org.metawidget.jsp.tagext.html.HtmlStubTag;
-import org.metawidget.jsp.tagext.html.layout.DivLayoutDecorator;
-import org.metawidget.jsp.tagext.html.layout.DivLayoutDecoratorConfig;
+import org.metawidget.jsp.tagext.html.layout.HeadingTagLayoutDecorator;
+import org.metawidget.jsp.tagext.html.layout.HeadingTagLayoutDecoratorConfig;
 import org.metawidget.jsp.tagext.html.layout.HtmlTableLayout;
 
 /**
@@ -41,7 +41,7 @@ public class JspFlatSectionLayoutDecoratorTest
 	public void testEmptyStub()
 		throws Exception
 	{
-		DivLayoutDecorator layoutDecorator = new DivLayoutDecorator( new DivLayoutDecoratorConfig().setLayout( new HtmlTableLayout() ));
+		HeadingTagLayoutDecorator layoutDecorator = new HeadingTagLayoutDecorator( new HeadingTagLayoutDecoratorConfig().setLayout( new HtmlTableLayout() ));
 		assertTrue( false == layoutDecorator.isEmptyStub( null ) );
 		assertTrue( false == layoutDecorator.isEmptyStub( new HtmlMetawidgetTag() ) );
 

@@ -29,12 +29,12 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 /**
- * Layout to decorate widgets from different sections using a DIV.
+ * Layout to decorate widgets from different sections using an HTML heading tag (ie. H1, H2 etc).
  *
  * @author Richard Kennard
  */
 
-public class DivLayoutDecorator
+public class HeadingTagLayoutDecorator
 	extends JspFlatSectionLayoutDecorator
 {
 	//
@@ -49,7 +49,7 @@ public class DivLayoutDecorator
 	// Constructor
 	//
 
-	public DivLayoutDecorator( DivLayoutDecoratorConfig config )
+	public HeadingTagLayoutDecorator( HeadingTagLayoutDecoratorConfig config )
 	{
 		super( config );
 
@@ -62,9 +62,10 @@ public class DivLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( String section, Tag containerTag, MetawidgetTag metawidgetTag )
+	protected void addSectionWidget( String section, int level, Tag containerTag, MetawidgetTag metawidgetTag )
 	{
-		StringBuffer buffer = new StringBuffer( "<div" );
+		StringBuffer buffer = new StringBuffer( "<h" );
+		buffer.append( String.valueOf( level + 1 ));
 
 		if ( mStyle != null )
 		{
@@ -91,7 +92,9 @@ public class DivLayoutDecorator
 		else
 			buffer.append( section );
 
-		buffer.append( "</div>" );
+		buffer.append( "</h" );
+		buffer.append( String.valueOf( level + 1 ));
+		buffer.append( ">" );
 
 		Map<String, String> attributes = CollectionUtils.newHashMap();
 		attributes.put( LABEL, "" );

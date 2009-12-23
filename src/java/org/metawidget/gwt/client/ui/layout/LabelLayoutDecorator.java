@@ -58,7 +58,7 @@ public class LabelLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( String section, Widget container, GwtMetawidget metawidget )
+	protected void addSectionWidget( String section, int level, Widget container, GwtMetawidget metawidget )
 	{
 		Label label = new Label();
 		label.setStyleName( mStyleName );

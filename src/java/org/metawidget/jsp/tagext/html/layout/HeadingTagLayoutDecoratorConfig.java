@@ -24,12 +24,12 @@ import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.ObjectUtils;
 
 /**
- * Configures a DivLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
+ * Configures a HeadingTagLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
  *
  * @author Richard Kennard
  */
 
-public class DivLayoutDecoratorConfig
+public class HeadingTagLayoutDecoratorConfig
 	extends LayoutDecoratorConfig<Tag, MetawidgetTag>
 {
 	//
@@ -51,7 +51,7 @@ public class DivLayoutDecoratorConfig
 	 */
 
 	@Override
-	public DivLayoutDecoratorConfig setLayout( Layout<Tag, MetawidgetTag> layout )
+	public HeadingTagLayoutDecoratorConfig setLayout( Layout<Tag, MetawidgetTag> layout )
 	{
 		super.setLayout( layout );
 
@@ -67,7 +67,7 @@ public class DivLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public DivLayoutDecoratorConfig setStyle( String style )
+	public HeadingTagLayoutDecoratorConfig setStyle( String style )
 	{
 		mStyle = style;
 
@@ -83,7 +83,7 @@ public class DivLayoutDecoratorConfig
 	 * @return this, as part of a fluent interface
 	 */
 
-	public DivLayoutDecoratorConfig setStyleClass( String styleClass )
+	public HeadingTagLayoutDecoratorConfig setStyleClass( String styleClass )
 	{
 		mStyleClass = styleClass;
 
@@ -93,13 +93,13 @@ public class DivLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
-		if ( !( that instanceof DivLayoutDecoratorConfig ) )
+		if ( !( that instanceof HeadingTagLayoutDecoratorConfig ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (DivLayoutDecoratorConfig) that ).mStyle ) )
+		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (HeadingTagLayoutDecoratorConfig) that ).mStyle ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (DivLayoutDecoratorConfig) that ).mStyleClass ) )
+		if ( !ObjectUtils.nullSafeEquals( mStyleClass, ( (HeadingTagLayoutDecoratorConfig) that ).mStyleClass ) )
 			return false;
 
 		return super.equals( that );

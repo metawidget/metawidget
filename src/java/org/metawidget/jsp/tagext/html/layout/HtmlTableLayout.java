@@ -193,7 +193,10 @@ public class HtmlTableLayout
 				literal = ( (StubTag) tag ).getSavedBodyContent();
 
 				// Ignore empty stubs
-				// TODO: test this on JDK 1.4, as we used to use literal.isEmpty and it got through
+				//
+				// Note: interestingly, you can use literal.isEmpty here and it still compiles and
+				// works under JDK 1.4 (even though 'isEmpty' is as of 1.6). The compiler must be
+				// inlining it or something. It seems a bit risky though!
 
 				if ( literal == null || literal.length() == 0 )
 					return;

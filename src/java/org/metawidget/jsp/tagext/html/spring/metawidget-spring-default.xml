@@ -42,11 +42,11 @@
 		</widgetBuilder>
 
 		<layout>
-			<divLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="DivLayoutDecoratorConfig">
+			<headingTagLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HeadingTagLayoutDecoratorConfig">
 				<layout>
 					<htmlTableLayout/>
 				</layout>
-			</divLayoutDecorator>
+			</headingTagLayoutDecorator>
 		</layout>
 
 	</springMetawidgetTag>

@@ -24,7 +24,7 @@
 			</compositeInspector>
 		</inspector>
 		<layout>
-			<divLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="DivLayoutDecoratorConfig">
+			<headingTagLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HeadingTagLayoutDecoratorConfig">
 				<layout>
 					<htmlTableLayout config="HtmlTableLayoutConfig">
 						<tableStyle>
@@ -51,7 +51,7 @@
 				<styleClass>
 					<string>section-heading</string>
 				</styleClass>				
-			</divLayoutDecorator>
+			</headingTagLayoutDecorator>
 		</layout>
 	</htmlMetawidgetTag>
 

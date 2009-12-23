@@ -66,16 +66,16 @@ public abstract class FlatSectionLayoutDecorator<W, M extends W>
 
 		// For each of the new sections...
 
-		for ( int loop = 0; loop < sections.length; loop++ )
+		for ( int level = 0; level < sections.length; level++ )
 		{
-			String section = sections[loop];
+			String section = sections[level];
 
 			// ...that are different from our current...
 
 			if ( "".equals( section ) )
 				continue;
 
-			if ( state.currentSections != null && loop < state.currentSections.length && section.equals( state.currentSections[loop] ) )
+			if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) )
 				continue;
 
 			if ( isEmptyStub( widget ))
@@ -83,7 +83,7 @@ public abstract class FlatSectionLayoutDecorator<W, M extends W>
 
 			// ...add a heading
 
-			addSectionWidget( section, container, metawidget );
+			addSectionWidget( section, level, container, metawidget );
 		}
 
 		state.currentSections = sections;
@@ -103,7 +103,14 @@ public abstract class FlatSectionLayoutDecorator<W, M extends W>
 
 	protected abstract boolean isEmptyStub( W widget );
 
-	protected abstract void addSectionWidget( String section, W container, M metawidget );
+	/**
+	 * @param section	section text (needs localizing)
+	 * @param level	level of section heading (ie. 0=highest, 1=next level down etc.)
+	 * @param container
+	 * @param metawidget
+	 */
+
+	protected abstract void addSectionWidget( String section, int level, W container, M metawidget );
 
 	//
 	// Inner class

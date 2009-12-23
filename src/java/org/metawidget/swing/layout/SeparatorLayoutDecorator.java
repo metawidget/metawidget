@@ -83,7 +83,7 @@ public class SeparatorLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( String section, JComponent container, SwingMetawidget metawidget )
+	protected void addSectionWidget( String section, int level, JComponent container, SwingMetawidget metawidget )
 	{
 		JPanel separatorPanel = new JPanel();
 		separatorPanel.setBorder( BORDER_SECTION );

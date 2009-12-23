@@ -27,7 +27,7 @@
 			</compositeWidgetBuilder>
 		</widgetBuilder>		
 		<layout>
-			<divLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="DivLayoutDecoratorConfig">
+			<headingTagLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HeadingTagLayoutDecoratorConfig">
 				<layout>
 					<htmlTableLayout config="HtmlTableLayoutConfig">
 						<tableStyleClass>
@@ -48,7 +48,7 @@
 				<styleClass>
 					<string>section-heading</string>
 				</styleClass>				
-			</divLayoutDecorator>
+			</headingTagLayoutDecorator>
 		</layout>
 	</springMetawidgetTag>
 

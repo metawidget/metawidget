@@ -1,0 +1,23 @@
+<project name="jsp-quirks-test" default="test-all">
+
+	<property file="../../../../build.properties" />
+	<property file="../../../build.properties" />
+	<import file="${webtest.dir}/webtest.xml" />
+
+	<target name="test-all" depends="wt.defineTasks">
+		<webtest name="test-all">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
+			<steps>
+				<invoke url="${webtest.url}/quirks-jsp" />
+				
+				<verifyXPath xpath="/html/body/table[1]/@id" text="table-quirks"/>
+				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/td[@id='table-quirksStubOut-cell']/input/@name" text="quirks.stubOut"/>
+				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="1"/>
+				
+				<verifyXPath xpath="/html/body/table[2]/@id" text="table-quirks"/>
+				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr)" text="0"/>				
+			</steps>
+		</webtest>
+	</target>
+
+</project>

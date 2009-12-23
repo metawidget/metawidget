@@ -68,7 +68,7 @@ public class OutputTextLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( String section, UIComponent container, UIMetawidget metawidget )
+	protected void addSectionWidget( String section, int level, UIComponent container, UIMetawidget metawidget )
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
