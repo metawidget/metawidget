@@ -196,8 +196,8 @@
 				<verifyInputField name="allWidgets.date" value="Wed Apr 09 01:00:00 GMT 1975"/>
 				<setInputField name="allWidgets.date" value="Thu Apr 10 01:00:00 GMT 1975"/>
 				
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td/div" text="Section Break (i18n)"/>
-				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td/div/@class" text="section-heading"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td/h1" text="Section Break (i18n)"/>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td/h1/@class" text="section-heading"/>
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[30]/td/@colspan" text="2"/>
 
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[31]/th" text="Read only (i18n):"/>

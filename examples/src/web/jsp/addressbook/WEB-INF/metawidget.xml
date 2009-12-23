@@ -16,7 +16,7 @@
 			</compositeInspector>
 		</inspector>
 		<layout>
-			<headingTagLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HeadingTagDecoratorConfig">
+			<headingTagLayoutDecorator xmlns="java:org.metawidget.jsp.tagext.html.layout" config="HeadingTagLayoutDecoratorConfig">
 				<layout>
 					<htmlTableLayout config="HtmlTableLayoutConfig">
 						<tableStyleClass>
