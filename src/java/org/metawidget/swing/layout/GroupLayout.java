@@ -61,7 +61,9 @@ public class GroupLayout
 
 	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		javax.swing.GroupLayout groupLayout = new javax.swing.GroupLayout( metawidget );
+		// TODO: test use of 'container', not 'metawidget' here
+
+		javax.swing.GroupLayout groupLayout = new javax.swing.GroupLayout( container );
 		container.setLayout( groupLayout );
 
 		// Horizontal group
