@@ -8793,22 +8793,13 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					</informaltable>
 				</section>
 
-				<section id="section-layouts-web-faces-richfaces">
-					<title>RichFacesLayout</title>
-					
+				<section id="section-layouts-web-faces-richfaces-panel">
+					<title>PanelLayoutDecorator</title>
+
 					<para>
-						For components outside a section, <classname>RichFacesLayout</classname> simply adds them
-						to the parent Metawidget in the same way as <classname>SimpleLayout</classname>. For components
-						with a section heading, it wraps them in either RichFaces <classname>UIPanel</classname>
-						or RichFaces <classname>UITab</classname>.
-						The body of the panel/tab is itself a nested Metawidget, and so uses the same <classname>Renderer</classname>
-						as the parent Metawidget. This gives you the choice of either <parameter>table</parameter> or
-						<parameter>div</parameter>-based HTML.
-					</para>
-					
-					<para>
-						This <classname>Layout</classname> recognizes the following parameters, configured
-						using <classname>RichFacesLayoutConfig</classname>:
+						Layout to decorate widgets from different sections using a RichFaces Panel. This <classname>Layout</classname>
+						recognizes the following parameters, configured
+						using <classname>PanelLayoutDecoratorConfig</classname>:
 					</para>
 					
 					<informaltable>
@@ -8824,14 +8815,58 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						</thead>
 						<tbody>
 							<tr>
-								<td><parameter>sectionStyle</parameter></td>
-								<td>either <classname>RichFacesLayoutConfig.SECTION_AS_PANEL</classname> or <classname>RichFacesLayoutConfig.SECTION_AS_TAB</classname></td>
+								<td><parameter>style</parameter></td>
+								<td>CSS styles to apply to the panel</td>
+							</tr>
+							<tr>
+								<td><parameter>styleClass</parameter></td>
+								<td>CSS style class to apply to the panel</td>
 							</tr>
 						</tbody>						
 					</informaltable>
-					
 				</section>
-				
+
+				<section id="section-layouts-web-faces-richfaces-simpletogglepanel">
+					<title>SimpleTogglePanelLayoutDecorator</title>
+
+					<para>
+						Layout to decorate widgets from different sections using a RichFaces SimpleTogglePanel. This <classname>Layout</classname>
+						recognizes the following parameters, configured
+						using <classname>SimpleTogglePanelLayoutDecoratorConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>style</parameter></td>
+								<td>CSS styles to apply to the panel</td>
+							</tr>
+							<tr>
+								<td><parameter>styleClass</parameter></td>
+								<td>CSS style class to apply to the panel</td>
+							</tr>
+							<tr>
+								<td><parameter>switchType</parameter></td>
+								<td>Mechanism to use to open/close panels. Either 'client' or 'ajax'. Default is 'client'</td>
+							</tr>
+							<tr>
+								<td><parameter>opened</parameter></td>
+								<td>whether the panel is initially opened. Defaults to true</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
 				<section id="section-layouts-web-faces-simple">
 					<title>SimpleLayout</title>
 					
@@ -8840,6 +8875,35 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						the widget as a child of the Metawidget, leaving everything up to the <classname>Renderer</classname>.
 					</para>
 				</section>
+				
+				<section id="section-layouts-web-faces-richfaces-tabpanel">
+					<title>TabPanelLayoutDecorator</title>
+
+					<para>
+						Layout to decorate widgets from different sections using a RichFaces TabPanel. This <classname>Layout</classname>
+						recognizes the following parameters, configured
+						using <classname>TabPanelLayoutDecoratorConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>headerAlignment</parameter></td>
+								<td>Defaults to 'left'</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>				
 
 			</section>
 

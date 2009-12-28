@@ -590,6 +590,8 @@
 
 	<target name="examples-web" depends="example-faces-addressbook, example-faces-penguincolony, example-faces-seam-booking, example-faces-seam-dvdstore, example-faces-seam-groovybooking, example-gwt-addressbook, example-gwt-clientside, example-jsp-addressbook, example-spring-addressbook, example-struts-addressbook"/>
 
+	<!-- Build using the 1.1r1 SDK because it's a minimum supported platform -->
+	
 	<available property="android-available" file="${android.dir}/tools/dx.bat"/>
 	
 	<target name="example-android-skip" depends="pack" unless="android-available">
