@@ -4747,29 +4747,46 @@ public String telephone;
 						</tr>
 						<tr>
 							<td>GWT</td>
-							<td><classname>...gwt.client.ui.layout.FlexTableLayout</classname></td>
+							<td><classname><classname>LabelLayoutDecorator</classname> around a <classname>FlexTableLayout</classname></td>
 						</tr>
 						<tr>
 							<td>JSF</td>
-							<td><classname>...faces.component.layout.SimpleLayout</classname> with <classname>faces.renderkit.html.HtmlTableLayoutRenderer</classname></td>
+							<td><programlisting language="xml">&lt;outputTextLayoutDecorator config="OutputTextLayoutDecoratorConfig"&gt;
+		&lt;layout&gt;
+			&lt;simpleLayout/&gt;
+		&lt;/layout&gt;
+	&lt;/outputTextLayoutDecorator&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>JSP</td>
 							<td><classname>...jsp.tagext.html.layout.HtmlTableLayout</classname></td>
+							<td><programlisting language="xml">&lt;headingTagLayoutDecorator config="HeadingTagLayoutDecoratorConfig"&gt;
+	&lt;layout&gt;
+		&lt;htmlTableLayout/&gt;
+	&lt;/layout&gt;
+&lt;/headingTagLayoutDecorator&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>Spring</td>
-							<td><classname>...jsp.tagext.html.layout.HtmlTableLayout</classname></td>
+							<td><programlisting language="xml">&lt;headingTagLayoutDecorator config="HeadingTagLayoutDecoratorConfig"&gt;
+	&lt;layout&gt;
+		&lt;htmlTableLayout/&gt;
+	&lt;/layout&gt;
+&lt;/headingTagLayoutDecorator&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>Struts</td>
-							<td><classname>...jsp.tagext.html.layout.HtmlTableLayout</classname></td>
+							<td><programlisting language="xml">&lt;headingTagLayoutDecorator config="HeadingTagLayoutDecoratorConfig"&gt;
+	&lt;layout&gt;
+		&lt;htmlTableLayout/&gt;
+	&lt;/layout&gt;
+&lt;/headingTagLayoutDecorator&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>Swing</td>
 							<td><programlisting language="xml">&lt;separatorLayoutDecorator config="SeparatorLayoutDecoratorConfig"&gt;
 	&lt;layout&gt;
-		&lt;gridBagLayout /&gt;
+		&lt;gridBagLayout/&gt;
 	&lt;/layout&gt;
 &lt;/separatorLayoutDecorator&gt;</programlisting></td>							
 						</tr>
@@ -4792,7 +4809,7 @@ public String telephone;
 				<para>
 					Note that immutable only means <classname>Layout</classname>s cannot be changed once instantiated - it does not
 					mean they cannot be configured. Many <classname>Layout</classname>s have corresponding <classname>xxxConfig</classname>
-					classes that allow them to be configured prior to instantation in a type-safe way. For example, a
+					classes that allow them to be configured prior to instantation in a type-safe way. For example, an
 					<classname>HtmlTableLayout</classname> can be configured in code:
 				</para>
 
@@ -4950,23 +4967,23 @@ public class HtmlListLayout
 						</para>
 						
 						<programlisting language="java">public void layoutChild( JComponent component, String elementName, Map&lt;String, String&gt; attributes,
-											SwingMetawidget metawidget ) {
-	getState( metawidget ).currentRow++;
+											JComponent container, SwingMetawidget metawidget ) {
+	getState( container ).currentRow++;
 }
 
 private State getState( SwingMetawidget metawidget ) {
-	State state = (State) metawidget.getClientProperty( GridBagLayout.class );
+	State state = (State) container.getClientProperty( getClass() );
 
 	if ( state == null ) {
 		state = new State();
-		metawidget.putClientProperty( GridBagLayout.class, state );
+		metawidget.putClientProperty( getClass(), state );
 	}
 
 	return state;
 }
 
-/* package private */static class State {
-	/* package private */int currentRow;
+static class State {
+	int currentRow;
 }</programlisting>
 
 					</listitem>
@@ -5266,7 +5283,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 						<listitem>
 							<para>
 								You can (optionally) configure the Metawidget, either programmatically (as detailed in <xref linkend="section-introduction-part1-inspectors"/>)
-								or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-inspector-config"/>).
+								or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>).
 							</para>
 						</listitem>
 					</orderedlist>
@@ -5775,7 +5792,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 						<listitem>
 							<para>
 								You can (optionally) configure the Metawidget, either programmatically (as detailed in <xref linkend="section-introduction-part1-inspectors"/>)
-								or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-inspector-config"/>)
+								or using a <filename>metawidget.xml</filename> file (as detailed in <xref linkend="section-introduction-part1-metawidget-config"/>)
 								in your <filename>res/raw</filename> folder.
 							</para>
 						</listitem>
@@ -8737,6 +8754,45 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					
 				</section>
 
+				<section id="section-layouts-web-faces-outputtext">
+					<title>OutputTextLayoutDecorator</title>
+
+					<para>
+						Layout to decorate widgets from different sections using an <classname>HtmlOutputText</classname>.
+						As dictated by the JSF spec, CSS styles and style classes applied to an <classname>HtmlOutputText</classname> are
+						wrapped in an HTML <parameter>span</parameter> tag. Therefore you must use CSS <parameter>display: block</parameter>
+						if you want to use margins or padding around the <classname>HtmlOutputText</classname>.						
+					</para>
+					
+					<para>
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>OutputTextLayoutDecoratorConfig</classname>:
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>style</parameter></td>
+								<td>CSS styles to apply to <classname>HtmlOutputText</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>styleClass</parameter></td>
+								<td>CSS style class to apply to <classname>HtmlOutputText</classname></td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
+
 				<section id="section-layouts-web-faces-richfaces">
 					<title>RichFacesLayout</title>
 					
@@ -8794,6 +8850,39 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					All of the supported JSP-based technologies (ie. 'pure' JSP, Spring and Struts) share the same
 					<classname>Layout</classname>s.
 				</para>
+				
+				<section id="section-layouts-web-jsp-headingtaglayoutdecorator">
+					<title>HeadingTagLayoutDecorator</title>
+
+					<para>
+						Layout to decorate widgets from different sections using an HTML heading tag (ie. <parameter>H1</parameter>, <parameter>H2</parameter> etc).
+						This <classname>Layout</classname> recognizes the following parameters, configured
+						using <classname>HeadingTagLayoutDecoratorConfig</classname>:				
+					</para>
+					
+					<informaltable>
+						<colgroup>
+							<col width="30%"/>
+							<col width="70%"/>
+						</colgroup>
+						<thead>
+							<tr>
+								<th align="left">Property</th>
+								<th align="left">Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><parameter>style</parameter></td>
+								<td>CSS styles to apply to heading tag</td>
+							</tr>
+							<tr>
+								<td><parameter>styleClass</parameter></td>
+								<td>CSS style class to apply to heading tag</td>
+							</tr>
+						</tbody>						
+					</informaltable>
+				</section>
 				
 				<section id="section-layouts-web-jsp-htmltable">
 					<title>HtmlTableLayout</title>

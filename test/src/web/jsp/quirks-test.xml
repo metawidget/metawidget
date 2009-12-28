@@ -10,7 +10,7 @@
 			<steps>
 				<invoke url="${webtest.url}/quirks-jsp" />
 
-				<!-- Test empty stubs work in JDK 1.4 (ie. HtmlTableLayout.layoutWidget doesn't use String.isEmpty) --!>
+				<!-- Test empty stubs work in JDK 1.4 (ie. HtmlTableLayout.layoutWidget doesn't use String.isEmpty) -->
 								
 				<verifyXPath xpath="/html/body/table[1]/@id" text="table-quirks"/>
 				<verifyXPath xpath="/html/body/table[1]/tbody/tr[1]/td[@id='table-quirksStubOut-cell']/input/@name" text="quirks.stubOut"/>
