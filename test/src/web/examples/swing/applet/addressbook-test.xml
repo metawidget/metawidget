@@ -41,7 +41,7 @@
 					metawidget.setInspectionResultProcessors( null );
 					metawidget.setWidgetBuilder( new org.metawidget.swing.widgetbuilder.SwingWidgetBuilder() );
 					metawidget.setWidgetProcessors( null );
-					metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout() );
+					metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.SeparatorLayoutDecorator( new org.metawidget.swing.layout.SeparatorLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() )));
 					step.setWebtestProperty( 'metawidgetComponentCount', String.valueOf( metawidget.getComponentCount() ));
 					def contacts = panel.getComponent( 1 );
 					step.setWebtestProperty( 'contactsClass', contacts.getClass().getName() );

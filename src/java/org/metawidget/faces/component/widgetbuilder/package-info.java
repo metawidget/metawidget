@@ -14,32 +14,10 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspectionresultprocessor;
-
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
-import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorExceptionTest;
-import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessorTest;
-
 /**
+ * Java Server Faces support: standard widget builders.
+ *
  * @author Richard Kennard
  */
 
-public class InspectionResultProcessorTests
-	extends TestCase
-{
-	//
-	// Public statics
-	//
-
-	public static Test suite()
-	{
-		TestSuite suite = new TestSuite( "InspectionResultProcessor Tests" );
-		suite.addTestSuite( InspectionResultProcessorExceptionTest.class );
-		suite.addTestSuite( ComesAfterInspectionResultProcessorTest.class );
-
-		return suite;
-	}
-}
+package org.metawidget.faces.component.widgetbuilder;

@@ -31,8 +31,8 @@ import org.metawidget.android.widget.widgetbuilder.OverriddenWidgetBuilder;
 import org.metawidget.android.widget.widgetbuilder.ReadOnlyWidgetBuilder;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
-import org.metawidget.inspectionresultprocessor.comesafter.SortByComesAfterInspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
+import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor;
 import org.metawidget.inspector.composite.CompositeInspector;
 import org.metawidget.inspector.composite.CompositeInspectorConfig;
 import org.metawidget.inspector.iface.Inspector;
@@ -572,7 +572,7 @@ public class AndroidMetawidget
 			if ( mPipeline.getInspectionResultProcessors() == null )
 			{
 				if ( DEFAULT_INSPECTIONRESULTPROCESSOR == null )
-					DEFAULT_INSPECTIONRESULTPROCESSOR = new SortByComesAfterInspectionResultProcessor<AndroidMetawidget>();
+					DEFAULT_INSPECTIONRESULTPROCESSOR = new ComesAfterInspectionResultProcessor<AndroidMetawidget>();
 
 				mPipeline.addInspectionResultProcessor( DEFAULT_INSPECTIONRESULTPROCESSOR );
 			}

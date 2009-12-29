@@ -24,7 +24,7 @@
 
 		<inspectionResultProcessors>
 			<array>
-				<sortByComesAfterInspectionResultProcessor xmlns="java:org.metawidget.inspectionresultprocessor.comesafter"/>
+				<comesAfterInspectionResultProcessor xmlns="java:org.metawidget.inspectionresultprocessor.sort"/>
 			</array>
 		</inspectionResultProcessors>
 				

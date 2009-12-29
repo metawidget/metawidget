@@ -122,6 +122,8 @@
 				<include name="org/metawidget/swing/layout/BoxLayout*.class"/>
 				<include name="org/metawidget/swing/layout/FlowLayout*.class"/>
 				<include name="org/metawidget/swing/layout/GridBagLayout*.class"/>
+				<include name="org/metawidget/swing/layout/SwingFlatSectionLayoutDecorator*.class"/>
+				<include name="org/metawidget/swing/layout/SeparatorLayoutDecorator*.class"/>
 				<include name="org/metawidget/swing/widgetbuilder/*.class"/>
 				<include name="org/metawidget/swing/widgetprocessor/binding/*.class"/>
 				<include name="org/metawidget/swing/widgetprocessor/binding/beansbinding/**"/>

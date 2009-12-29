@@ -14,11 +14,12 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspectionresultprocessor.comesafter;
+package org.metawidget.inspectionresultprocessor.sort;
 
 import junit.framework.TestCase;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
+import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Element;
@@ -27,7 +28,7 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public class SortByComesAfterInspectionResultProcessorTest
+public class ComesAfterInspectionResultProcessorTest
 	extends TestCase
 {
 	//
@@ -51,7 +52,7 @@ public class SortByComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		inspectionResult = new SortByComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
 
 		// Test result
 
@@ -85,7 +86,7 @@ public class SortByComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		inspectionResult = new SortByComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
 
 		// Test result
 
@@ -119,7 +120,7 @@ public class SortByComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		inspectionResult = new SortByComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
 
 		// Test result
 
@@ -154,7 +155,7 @@ public class SortByComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		inspectionResult = new SortByComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
 
 		// Test result
 
@@ -190,7 +191,7 @@ public class SortByComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		inspectionResult = new SortByComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
 
 		// Test result
 
@@ -226,7 +227,7 @@ public class SortByComesAfterInspectionResultProcessorTest
 
 		// Run processor
 
-		inspectionResult = new SortByComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+		inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
 
 		// Test result
 
@@ -259,7 +260,7 @@ public class SortByComesAfterInspectionResultProcessorTest
 
 			// Run processor
 
-			inspectionResult = new SortByComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+			inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
 			assertTrue( false );
 		}
 		catch ( InspectionResultProcessorException e )
@@ -282,7 +283,7 @@ public class SortByComesAfterInspectionResultProcessorTest
 
 			// Run processor
 
-			inspectionResult = new SortByComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
+			inspectionResult = new ComesAfterInspectionResultProcessor<SwingMetawidget>().processInspectionResult( inspectionResult, null );
 			assertTrue( false );
 		}
 		catch ( InspectionResultProcessorException e )

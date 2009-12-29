@@ -14,7 +14,7 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspectionresultprocessor.comesafter;
+package org.metawidget.inspectionresultprocessor.sort;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
@@ -32,10 +32,15 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 /**
+ * Sorts an inspection result by any <code>comes-after</code> attributes.
+ * <p>
+ * <code>comes-after</code> attributes can be added using the <code>UiComesAfter</code> annotation,
+ * among other ways.
+ *
  * @author Richard Kennard
  */
 
-public class SortByComesAfterInspectionResultProcessor<M>
+public class ComesAfterInspectionResultProcessor<M>
 	implements InspectionResultProcessor<Element, M>
 {
 	//

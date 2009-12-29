@@ -61,8 +61,6 @@ public class GroupLayout
 
 	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		// TODO: test use of 'container', not 'metawidget' here
-
 		javax.swing.GroupLayout groupLayout = new javax.swing.GroupLayout( container );
 		container.setLayout( groupLayout );
 
@@ -88,16 +86,19 @@ public class GroupLayout
 		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
 			return;
 
-		JLabel label = new JLabel();
-
-		// Section headings
+		javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) container.getLayout();
+		SequentialGroup sequentialGroup = groupLayout.createSequentialGroup();
+		ParallelGroup parallelGroup = groupLayout.createParallelGroup( Alignment.BASELINE );
 
 		State state = getState( container );
+		state.groupHorizontal.addGroup( sequentialGroup );
+		state.groupVertical.addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );
+		state.groupVertical.addGroup( parallelGroup );
+
+		// Label
 
 		if ( attributes != null )
 		{
-			// Labels
-
 			String labelText = metawidget.getLabelString( attributes );
 
 			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ))
@@ -107,18 +108,20 @@ public class GroupLayout
 				if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 					labelText += "*";
 
+				JLabel label = new JLabel();
 				label.setText( labelText + ":" );
+
+				sequentialGroup.addComponent( label ).addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );
+				parallelGroup.addComponent( label );
+
+				state.labels.add( label );
 			}
 		}
 
-		// Add components
+		// Component
 
-		javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) container.getLayout();
-		state.groupHorizontal.addGroup( groupLayout.createSequentialGroup().addComponent( label ).addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP ).addComponent( component ) );
-		state.groupVertical.addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );
-		state.groupVertical.addGroup( groupLayout.createParallelGroup( Alignment.BASELINE ).addComponent( label ).addComponent( component ) );
-
-		state.labels.add( label );
+		sequentialGroup.addComponent( component );
+		parallelGroup.addComponent( component );
 	}
 
 	public void endLayout( JComponent container, SwingMetawidget metawidget )

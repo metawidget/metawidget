@@ -3441,43 +3441,43 @@ public class Person {
 						<tr>
 							<td>Android</td>
 							<td><programlisting language="xml">&lt;array&gt;
-	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+	&lt;comesAfterInspectionResultProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>GWT</td>
 							<td><programlisting language="xml">&lt;array&gt;
-	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+	&lt;comesAfterInspectionResultProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>JSF</td>
 							<td><programlisting language="xml">&lt;array&gt;
-	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+	&lt;comesAfterInspectionResultProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>JSP</td>
 							<td><programlisting language="xml">&lt;array&gt;
-	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+	&lt;comesAfterInspectionResultProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>Spring</td>
 							<td><programlisting language="xml">&lt;array&gt;
-	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+	&lt;comesAfterInspectionResultProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>Struts</td>
 							<td><programlisting language="xml">&lt;array&gt;
-	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+	&lt;comesAfterInspectionResultProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
 						<tr>
 							<td>Swing</td>
 							<td><programlisting language="xml">&lt;array&gt;
-	&lt;sortByComesAfterInspectionResultProcessor /&gt;
+	&lt;comesAfterInspectionResultProcessor /&gt;
 &lt;/array&gt;</programlisting></td>
 						</tr>
 					</tbody>
@@ -4747,7 +4747,7 @@ public String telephone;
 						</tr>
 						<tr>
 							<td>GWT</td>
-							<td><classname><classname>LabelLayoutDecorator</classname> around a <classname>FlexTableLayout</classname></td>
+							<td><classname>LabelLayoutDecorator</classname> around a <classname>FlexTableLayout</classname></td>
 						</tr>
 						<tr>
 							<td>JSF</td>
@@ -4759,7 +4759,6 @@ public String telephone;
 						</tr>
 						<tr>
 							<td>JSP</td>
-							<td><classname>...jsp.tagext.html.layout.HtmlTableLayout</classname></td>
 							<td><programlisting language="xml">&lt;headingTagLayoutDecorator config="HeadingTagLayoutDecoratorConfig"&gt;
 	&lt;layout&gt;
 		&lt;htmlTableLayout/&gt;
@@ -7054,11 +7053,11 @@ public class PersonController {
 			fit into the overall architecture of Metawidget, see <xref linkend="chapter-architecture"/>
 		</para>
 		
-		<section id="section-inspectionresultprocessors-sortbycomesafter">
-			<title>SortByComesAfterInspectionResultProcessor</title>
+		<section id="section-inspectionresultprocessors-sort-comesafter">
+			<title>ComesAfterInspectionResultProcessor</title>
 			
 			<para>
-				<classname>SortByComesAfterInspectionResultProcessor</classname> sorts inspection results according
+				<classname>ComesAfterInspectionResultProcessor</classname> sorts inspection results according
 				to the <parameter>comes-after</parameter> attribute. This attribute can be created using the
 				<classname>@UiComesAfter</classname> annotation (among other ways). For example, the following inspection result...
 			</para>
