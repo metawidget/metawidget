@@ -24,6 +24,7 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
 import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilder;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * @author Richard Kennard
@@ -39,17 +40,79 @@ public class CompositeWidgetBuilderTest
 	public void testDefensiveCopy()
 		throws Exception
 	{
-		SwingWidgetBuilder widgetBuilder = new SwingWidgetBuilder();
+		SwingXWidgetBuilder widgetBuilder1 = new SwingXWidgetBuilder();
+		SwingWidgetBuilder widgetBuilder2 = new SwingWidgetBuilder();
 		@SuppressWarnings( "unchecked" )
-		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuilders = new WidgetBuilder[] { widgetBuilder };
+		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuilders = new WidgetBuilder[] { widgetBuilder1, widgetBuilder2 };
 		CompositeWidgetBuilderConfig<JComponent, SwingMetawidget> config = new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>();
 		config.setWidgetBuilders( widgetBuilders );
 
 		CompositeWidgetBuilder<JComponent, SwingMetawidget> widgetBuilderComposite = new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
 		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuildersCopied = widgetBuilderComposite.mWidgetBuilders;
-		assertTrue( widgetBuildersCopied[0] == widgetBuilder );
+		assertTrue( widgetBuildersCopied[0] == widgetBuilder1 );
+		assertTrue( widgetBuildersCopied[1] == widgetBuilder2 );
 		widgetBuilders[0] = null;
 		assertTrue( widgetBuildersCopied[0] != null );
+	}
+
+	@SuppressWarnings( "unchecked" )
+	public void testMinimumWidgetBuilders()
+	{
+		CompositeWidgetBuilderConfig<JComponent, SwingMetawidget> config = new CompositeWidgetBuilderConfig<JComponent, SwingMetawidget>();
+
+		// Null WidgetBuilders
+
+		try
+		{
+			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
+			assertTrue( false );
+		}
+		catch ( WidgetBuilderException e )
+		{
+			assertTrue( "CompositeWidgetBuilder needs at least two WidgetBuilders".equals( e.getMessage() ) );
+		}
+
+		// 0 WidgetBuilders
+
+		config.setWidgetBuilders( new WidgetBuilder[0] );
+
+		try
+		{
+			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
+			assertTrue( false );
+		}
+		catch ( WidgetBuilderException e )
+		{
+			assertTrue( "CompositeWidgetBuilder needs at least two WidgetBuilders".equals( e.getMessage() ) );
+		}
+
+		// 1 WidgetBuilder
+
+		config.setWidgetBuilders( new WidgetBuilder[1] );
+
+		try
+		{
+			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
+			assertTrue( false );
+		}
+		catch ( WidgetBuilderException e )
+		{
+			assertTrue( "CompositeWidgetBuilder needs at least two WidgetBuilders".equals( e.getMessage() ) );
+		}
+
+		// 2 WidgetBuilders
+
+		config.setWidgetBuilders( new WidgetBuilder[2] );
+
+		try
+		{
+			new CompositeWidgetBuilder<JComponent, SwingMetawidget>( config );
+			assertTrue( true );
+		}
+		catch ( WidgetBuilderException e )
+		{
+			assertTrue( false );
+		}
 	}
 
 	@SuppressWarnings( "unchecked" )

@@ -18,8 +18,8 @@ package org.metawidget.widgetbuilder.composite;
 
 import java.util.Map;
 
-import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
 
 /**
  * Delegates widget building to one or more sub-WidgetBuilders.
@@ -53,8 +53,8 @@ public class CompositeWidgetBuilder<W, M extends W>
 
 		// Must have at least two WidgetBuilders
 
-		if ( widgetBuilders == null || widgetBuilders.length == 0 )
-			throw InspectorException.newException( "CompositeWidgetBuilder needs at least two WidgetBuilders" );
+		if ( widgetBuilders == null || widgetBuilders.length < 2 )
+			throw WidgetBuilderException.newException( "CompositeWidgetBuilder needs at least two WidgetBuilders" );
 
 		// Defensive copy
 

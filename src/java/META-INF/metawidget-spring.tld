@@ -13,6 +13,7 @@
 		<info>Metawidget for Spring environments</info>
 		<attribute>
 			<name>path</name>
+			<!-- rtexprvalue: true too confusing, see https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/3447381 -->			
 		</attribute>
 		<attribute>
 			<name>config</name>

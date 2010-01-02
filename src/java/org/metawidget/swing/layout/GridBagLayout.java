@@ -373,6 +373,7 @@ public class GridBagLayout
 	 */
 
 	// TODO: unit test this?
+	// TODO: unit test rtexpr true
 
 	private int getEffectiveNumberOfColumns( SwingMetawidget metawidget )
 	{

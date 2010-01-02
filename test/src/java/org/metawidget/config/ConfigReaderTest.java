@@ -59,6 +59,7 @@ import org.metawidget.pipeline.base.BasePipeline;
 import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.swing.widgetbuilder.SwingWidgetBuilder;
+import org.metawidget.swing.widgetbuilder.swingx.SwingXWidgetBuilder;
 import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingProcessor;
 import org.metawidget.util.IOUtils;
 import org.metawidget.util.LogUtilsTest;
@@ -98,6 +99,7 @@ public class ConfigReaderTest
 		xml += "			<compositeWidgetBuilder xmlns=\"java:org.metawidget.widgetbuilder.composite\" config=\"CompositeWidgetBuilderConfig\">";
 		xml += "				<widgetBuilders>";
 		xml += "					<array>";
+		xml += "						<swingXWidgetBuilder xmlns=\"java:org.metawidget.swing.widgetbuilder.swingx\"/>";
 		xml += "						<swingWidgetBuilder xmlns=\"java:org.metawidget.swing.widgetbuilder\"/>";
 		xml += "					</array>";
 		xml += "				</widgetBuilders>";
@@ -232,8 +234,9 @@ public class ConfigReaderTest
 		assertTrue( compositeWidgetBuilder1 == compositeWidgetBuilder2 );
 		WidgetBuilder<JComponent, SwingMetawidget>[] widgetBuilders = compositeWidgetBuilder1.getWidgetBuilders();
 
-		assertTrue( widgetBuilders.length == 1 );
-		assertTrue( widgetBuilders[0] instanceof SwingWidgetBuilder );
+		assertTrue( widgetBuilders.length == 2 );
+		assertTrue( widgetBuilders[0] instanceof SwingXWidgetBuilder );
+		assertTrue( widgetBuilders[1] instanceof SwingWidgetBuilder );
 
 		// Test Inspector
 
