@@ -284,6 +284,10 @@ public class GwtAllWidgetsTest
 										assertTrue( "Nested Textbox 1".equals( metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox1" ) ) );
 										( (TextBox) flexTableFurtherNested.getWidget( 1, 1 ) ).setText( "Nested Textbox 1.1 (further)" );
 
+										// (test getEffectiveNumberOfColumns)
+
+										assertTrue( 3 == flexTableFurtherNested.getCellCount( 1 ));
+
 										assertTrue( "Nested textbox 2:".equals( flexTableFurtherNested.getText( 2, 0 ) ) );
 										assertTrue( flexTableFurtherNested.getWidget( 2, 1 ) instanceof TextBox );
 										assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) ) );

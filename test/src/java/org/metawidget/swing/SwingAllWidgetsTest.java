@@ -400,6 +400,9 @@ public class SwingAllWidgetsTest
 
 		assertTrue( "Nested textbox 2:".equals( ( (JLabel) metawidgetFurtherNested.getComponent( 4 ) ).getText() ) );
 		assertTrue( metawidgetFurtherNested.getComponent( 5 ) instanceof JTextField );
+
+		// (should be 1, as in next row, if getEffectiveNumberOfColumns is working)
+
 		assertTrue( 1 == ( (GridBagLayout) metawidgetFurtherNested.getLayout() ).getConstraints( metawidgetFurtherNested.getComponent( 5 ) ).gridx );
 		assertTrue( "Nested Textbox 2".equals( metawidget.getValue( "nestedWidgets", "furtherNestedWidgets", "nestedTextbox2" ) ) );
 		( (JTextField) metawidgetFurtherNested.getComponent( 5 ) ).setText( "Nested Textbox 2.2 (further)" );
