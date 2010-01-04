@@ -192,14 +192,19 @@ public class RichFacesWidgetBuilderTest
 		attributes.put( TYPE, String.class.getName() );
 		attributes.put( FACES_SUGGEST, "#{foo.bar}" );
 
-		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, null );
+		HtmlMetawidget metawidget = new HtmlMetawidget();
+		metawidget.setStyle( "aStyle" );
+		metawidget.setStyleClass( "aStyleClass" );
+		UIStub stub = (UIStub) widgetBuilder.buildWidget( PROPERTY, attributes, metawidget );
 		assertTrue( stub.getId() == null );
 		assertTrue( stub.getChildCount() == 2 );
 
 		HtmlInputText htmlInputText = (HtmlInputText) stub.getChildren().get( 0 );
 		UISuggestionBox suggestionBox = (UISuggestionBox) stub.getChildren().get( 1 );
-		assertTrue( htmlInputText.getId() != null );
-		assertTrue( suggestionBox.getId() != null );
+		assertTrue( htmlInputText.getId().startsWith( "suggestionText_" ));
+		assertTrue( "aStyle".equals( htmlInputText.getStyle() ));
+		assertTrue( "aStyleClass".equals( htmlInputText.getStyleClass() ));
+		assertTrue( suggestionBox.getId().startsWith( "suggestionBox_" ));
 		assertTrue( suggestionBox.getFor().equals( htmlInputText.getId() ) );
 		assertTrue( "#{foo.bar}".equals( suggestionBox.getSuggestionAction().getExpressionString() ) );
 		assertTrue( Object.class == ((MockMethodBinding) suggestionBox.getSuggestionAction()).getParams()[0] );
@@ -220,7 +225,6 @@ public class RichFacesWidgetBuilderTest
 		assertTrue( "org.richfaces.ColorPicker".equals( mockComponent.getFamily() ) );
 
 		attributes.put( READ_ONLY, TRUE );
-		HtmlMetawidget metawidget = new HtmlMetawidget();
 		assertTrue( widgetBuilder.buildWidget( PROPERTY, attributes, metawidget ) instanceof HtmlOutputText );
 	}
 

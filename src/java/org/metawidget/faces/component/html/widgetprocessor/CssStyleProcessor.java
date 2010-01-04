@@ -40,9 +40,9 @@ public class CssStyleProcessor
 	@Override
 	public UIComponent processWidget( UIComponent component, String elementName, Map<String, String> attributes, UIMetawidget metawidget )
 	{
-		// Note: this also applies the styles to UIStubs at the top-level. In practice, this seemed
+		// Note: this only applies the styles to UIStubs at the top-level. In practice, this seemed
 		// to give more 'expected' behaviour than drilling into the UIStubs and applying the styles
-		// to all their subcomponents
+		// to all their subcomponents too
 
 		Map<String, Object> componentAttributes = component.getAttributes();
 		String style = ( (HtmlMetawidget) metawidget ).getStyle();

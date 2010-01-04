@@ -30,11 +30,13 @@ import javax.faces.application.Application;
 import javax.faces.component.UIColumn;
 import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
+import javax.faces.component.html.HtmlInputText;
 import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
 import org.metawidget.faces.component.UIMetawidget;
+import org.metawidget.faces.component.html.HtmlMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
@@ -211,6 +213,9 @@ public class RichFacesWidgetBuilder
 		}
 
 		// Suggestion box
+		//
+		// Note: for suggestion box to work in table column footer facets, you need
+		// https://jira.jboss.org/jira/browse/RF-7700
 
 		if ( String.class.equals( clazz ) )
 		{
@@ -225,21 +230,30 @@ public class RichFacesWidgetBuilder
 
 				// Standard text box
 
-				UIComponent inputText = application.createComponent( "javax.faces.HtmlInputText" );
-
-				// (lock the ids in early so they don't get changed)
-
-				inputText.setId( viewRoot.createUniqueId() );
+				HtmlInputText inputText = (HtmlInputText) application.createComponent( "javax.faces.HtmlInputText" );
+				inputText.setStyle( ( (HtmlMetawidget) metawidget ).getStyle() );
+				inputText.setStyleClass( ( (HtmlMetawidget) metawidget ).getStyleClass() );
 				children.add( inputText );
+
+				UISuggestionBox suggestionBox = (UISuggestionBox) application.createComponent( "org.richfaces.SuggestionBox" );
+
+				// Lock the 'id's so they don't get changed. This is important for the JavaScript
+				// getElementById that RichFaces generates. Also, do not just use
+				// 'viewRoot.createUniqueId' because, as per the RenderKit specification:
+				//
+				// "If the value returned from component.getId() is non-null and does not start
+				// with UIViewRoot.UNIQUE_ID_PREFIX, call component.getClientId() and render
+				// the result as the value of the id attribute in the markup for the component."
+				//
+				// Therefore the 'id' attribute is never rendered, therefore the JavaScript
+				// getElementById doesn't work. Add our own prefix instead
+
+				inputText.setId( "suggestionText_" + viewRoot.createUniqueId() );
+				suggestionBox.setId( "suggestionBox_" + viewRoot.createUniqueId() );
 
 				// Suggestion box
 
-				UISuggestionBox suggestionBox = (UISuggestionBox) application.createComponent( "org.richfaces.SuggestionBox" );
 				suggestionBox.setFor( inputText.getId() );
-
-				// (lock the ids in early so they don't get changed)
-
-				suggestionBox.setId( viewRoot.createUniqueId() );
 				suggestionBox.setVar( "_internal" );
 				children.add( suggestionBox );
 
