@@ -14,7 +14,7 @@ For Android AllWidgets, test:
 * There is a label 'nullInBundle'
 * There is no label for doubleObject
 * All dropdowns have a blank choice available, except notNullDropdown and notNullObjectDropdown
-* The mystery field is a text box
+* The mystery field is an empty text box
 * 'Futher nested widgets' appears 3 times (twice up top, once down bottom)
 * There is a section break
 

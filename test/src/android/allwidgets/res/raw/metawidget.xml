@@ -23,7 +23,11 @@
 			</compositeInspector>
 		</inspector>
 		<layout>
-			<linearLayout xmlns="java:org.metawidget.android.widget.layout"/>
+			<textViewLayoutDecorator xmlns="java:org.metawidget.android.widget.layout" config="TextViewLayoutDecoratorConfig">
+				<layout>
+					<linearLayout />
+				</layout>
+			</textViewLayoutDecorator>		
 		</layout>		
 	</androidMetawidget>
 

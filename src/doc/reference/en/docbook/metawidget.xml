@@ -3489,7 +3489,7 @@ public class Person {
 				
 				<para>
 					All <classname>InspectionResultProcessor</classname>s are required to be immutable. This means you only
-					need a single instance of a <classname>InspectionResultProcessor</classname> for your entire application. If you are using
+					need a single instance of an <classname>InspectionResultProcessor</classname> for your entire application. If you are using
 					<filename>metawidget.xml</filename> then <classname>ConfigReader</classname> takes care
 					of this for you, but if you are instantiating <classname>InspectionResultProcessor</classname>s in Java code you should
 					reuse instances.
@@ -8307,7 +8307,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>GridBagLayout</title>
 					
 					<para>
-						Layout to arrange widgets using <classname>javax.awt.GridBagLayout</classname>. Widgets are arranged in a table,
+						<classname>Layout</classname> to arrange widgets using <classname>javax.awt.GridBagLayout</classname>. Widgets are arranged in a table,
 						with one column for labels and another for the widget.
 						This <classname>Layout</classname> recognizes the following parameters, configured
 						using <classname>GridBagLayoutConfig</classname>:											
@@ -8357,7 +8357,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>GroupLayout</title>
 					
 					<para>
-						Layout to arrange widgets using <classname>javax.swing.GroupLayout</classname>.
+						<classname>Layout</classname> to arrange widgets using <classname>javax.swing.GroupLayout</classname>.
 						Widgets are arranged in a table, with one column for labels and another for the widget.										
 					</para>
 					
@@ -8367,7 +8367,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>MigLayout</title>
 					
 					<para>
-						Layout to arrange widgets using <classname>net.miginfocom.swing.MigLayout</classname>. Widgets are arranged in a table,
+						<classname>Layout</classname> to arrange widgets using <classname>net.miginfocom.swing.MigLayout</classname>. Widgets are arranged in a table,
 						with one column for labels and another for the widget.
 						This <classname>Layout</classname> recognizes the following parameters, configured
 						using <classname>MigLayoutConfig</classname>:											
@@ -8401,8 +8401,8 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>SeparatorLayoutDecorator</title>
 					
 					<para>
-						Layout to separate widgets in different sections using a <classname>JSeparator</classname>. This
-						<classname>Layout</classname> recognizes the following parameters, configured
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>JSeparator</classname>. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
 						using <classname>SeparatorLayoutDecoratorConfig</classname>:						
 					</para>
 					
@@ -8440,8 +8440,8 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>TabbedPaneLayoutDecorator</title>
 					
 					<para>
-						Layout to separate widgets in different sections using a <classname>JTabbedPane</classname>. This
-						<classname>Layout</classname> recognizes the following parameters, configured
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>JTabbedPane</classname>. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
 						using <classname>TabbedPaneLayoutDecoratorConfig</classname>:						
 					</para>
 					
@@ -8480,8 +8480,8 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>TitledPanelLayoutDecorator</title>
 					
 					<para>
-						Layout to separate widgets in different sections using a <classname>JPanel</classname> with
-						a <classname>TitledBorder</classname>. This	<classname>Layout</classname> recognizes the following parameters, configured
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>JPanel</classname> with
+						a <classname>TitledBorder</classname>. This	<classname>LayoutDecorator</classname> recognizes the following parameters, configured
 						using <classname>LayoutDecoratorConfig</classname>:						
 					</para>
 					
@@ -8522,7 +8522,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>FlexTableLayout</title>
 					
 					<para>
-						Layout to arrange widgets in a table, with one column for labels and another for the widget.					
+						<classname>Layout</classname> to arrange widgets in a table, with one column for labels and another for the widget.					
 						This <classname>Layout</classname> recognizes the following parameters, configured
 						using <classname>FlexTableLayoutConfig</classname>:
 					</para>
@@ -8573,7 +8573,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>LabelLayoutDecorator</title>
 					
 					<para>
-						<classname>Layout</classname> to decorate widgets from different sections using a <classname>Label</classname>.
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>Label</classname>.
 						This <classname>Layout</classname> recognizes the following parameters, configured
 						using <classname>LabelLayoutDecoratorConfig</classname>:
 					</para>
@@ -8602,7 +8602,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>TabPanelLayoutDecorator</title>
 					
 					<para>
-						<classname>Layout</classname> to decorate widgets from different sections using a
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a
 						<classname>TabPanel</classname>.
 					</para>
 				</section>
@@ -8640,7 +8640,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>HtmlDivLayoutRenderer</title>
 					
 					<para>
-						Layout to arrange widgets in HTML <parameter>DIV</parameter> tags, with one <parameter>DIV</parameter> per label and
+						<classname>Layout</classname> to arrange widgets in HTML <parameter>DIV</parameter> tags, with one <parameter>DIV</parameter> per label and
 						per widget, and an outer <parameter>DIV</parameter> around both.
 						This <classname>Layout</classname> recognizes the following parameters (passed either as
 						<parameter>&lt;f:param&gt;</parameter> tags or set via &lt;parameter&gt; in
@@ -8700,7 +8700,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>HtmlTableLayoutRenderer</title>
 					
 					<para>
-						Layout to arrange components in a table, with one column for labels and another for the
+						<classname>Layout</classname> to arrange components in a table, with one column for labels and another for the
  						component.					
 						This <classname>Layout</classname> recognizes the following parameters (passed either as
 						<parameter>&lt;f:param&gt;</parameter> tags or set via &lt;parameter&gt; in
@@ -8788,14 +8788,19 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>OutputTextLayoutDecorator</title>
 
 					<para>
-						Layout to decorate widgets from different sections using an <classname>HtmlOutputText</classname>.
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using an <classname>HtmlOutputText</classname>.
 						As dictated by the JSF spec, CSS styles and style classes applied to an <classname>HtmlOutputText</classname> are
-						wrapped in an HTML <parameter>span</parameter> tag. Therefore you must use CSS <parameter>display: block</parameter>
-						if you want to use margins or padding around the <classname>HtmlOutputText</classname>.						
+						wrapped in an HTML <parameter>span</parameter> tag. Therefore you must use CSS...
+					</para>
+					
+					<programlisting language="css">display: block</programlisting>
+					
+					<para>
+						...if you want to use margins or padding around the <classname>HtmlOutputText</classname>.						
 					</para>
 					
 					<para>
-						This <classname>Layout</classname> recognizes the following parameters, configured
+						This <classname>LayoutDecorator</classname> recognizes the following parameters, configured
 						using <classname>OutputTextLayoutDecoratorConfig</classname>:
 					</para>
 					
@@ -8827,8 +8832,8 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>PanelLayoutDecorator</title>
 
 					<para>
-						Layout to decorate widgets from different sections using a RichFaces Panel. This <classname>Layout</classname>
-						recognizes the following parameters, configured
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a RichFaces Panel. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
 						using <classname>PanelLayoutDecoratorConfig</classname>:
 					</para>
 					
@@ -8860,7 +8865,8 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>SimpleTogglePanelLayoutDecorator</title>
 
 					<para>
-						Layout to decorate widgets from different sections using a RichFaces SimpleTogglePanel. This <classname>Layout</classname>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a RichFaces SimpleTogglePanel.
+						This <classname>LayoutDecorator</classname>
 						recognizes the following parameters, configured
 						using <classname>SimpleTogglePanelLayoutDecoratorConfig</classname>:
 					</para>
@@ -8910,7 +8916,8 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>TabPanelLayoutDecorator</title>
 
 					<para>
-						Layout to decorate widgets from different sections using a RichFaces TabPanel. This <classname>Layout</classname>
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a RichFaces
+						TabPanel. This <classname>LayoutDecorator</classname>
 						recognizes the following parameters, configured
 						using <classname>TabPanelLayoutDecoratorConfig</classname>:
 					</para>
@@ -8949,8 +8956,9 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>HeadingTagLayoutDecorator</title>
 
 					<para>
-						Layout to decorate widgets from different sections using an HTML heading tag (ie. <parameter>H1</parameter>, <parameter>H2</parameter> etc).
-						This <classname>Layout</classname> recognizes the following parameters, configured
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using
+						an HTML heading tag (ie. <parameter>H1</parameter>, <parameter>H2</parameter> etc).
+						This <classname>LayoutDecorator</classname> recognizes the following parameters, configured
 						using <classname>HeadingTagLayoutDecoratorConfig</classname>:				
 					</para>
 					
@@ -8982,7 +8990,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>HtmlTableLayout</title>
 					
 					<para>
-						Layout to arrange widgets in a table, with one column for labels and another for the widget.					
+						<classname>Layout</classname> to arrange widgets in a table, with one column for labels and another for the widget.					
 						This <classname>Layout</classname> recognizes the following parameters, configured
 						using <classname>HtmlTableLayoutConfig</classname>:
 					</para>
@@ -9055,7 +9063,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>LinearLayout</title>
 					
 					<para>
-						Layout to arrange widgets vertically, using <classname>android.widget.LinearLayout</classname>.
+						<classname>Layout</classname> to arrange widgets vertically, using <classname>android.widget.LinearLayout</classname>.
 						This <classname>Layout</classname> recognizes the following parameters, configured
 						using <classname>LinearLayoutConfig</classname>:						
 					</para>
@@ -9093,7 +9101,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>TableLayout</title>
 					
 					<para>
-						Layout to arrange widgets in a table, with one column for labels and another for the widget,
+						<classname>Layout</classname> to arrange widgets in a table, with one column for labels and another for the widget,
 						using <classname>android.widget.TableLayout</classname>.
 						This <classname>Layout</classname> recognizes the following parameters, configured
 						using <classname>TableLayoutConfig</classname>:						
@@ -9132,7 +9140,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>TabHostLayoutDecorator</title>
 
 					<para>
-						Layout to wrap widgets in different sections inside a <classname>TabHost</classname>,
+						<classname>LayoutDecorator</classname> to wrap widgets in different sections inside a <classname>TabHost</classname>,
 						as in <xref linkend="section-layouts-web-android-tab-screenshot"/>.
 					</para>
 					
@@ -9144,7 +9152,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					</figure>
 				
 					<para>
-						This <classname>Layout</classname> recognizes the following parameters, configured
+						This <classname>LayoutDecorator</classname> recognizes the following parameters, configured
 						using <classname>LayoutDecoratorConfig</classname>:						
 					</para>
 					
@@ -9175,8 +9183,8 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<title>TextViewLayoutDecorator</title>
 
 					<para>
-						Layout to separate widgets in different sections using a <classname>TextView</classname>. This
-						<classname>Layout</classname> recognizes the following parameters, configured
+						<classname>LayoutDecorator</classname> to decorate widgets from different sections using a <classname>TextView</classname>. This
+						<classname>LayoutDecorator</classname> recognizes the following parameters, configured
 						using <classname>TextViewLayoutDecoratorConfig</classname>:						
 					</para>
 					

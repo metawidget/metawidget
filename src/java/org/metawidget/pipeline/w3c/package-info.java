@@ -15,7 +15,7 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * Metawidget convenience implementations (org.w3c-based pipeline).
+ * Pipeline: org.w3c-based pipeline.
  *
  * @author Richard Kennard
  */

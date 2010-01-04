@@ -312,7 +312,9 @@ public class BeansBindingProcessor
 		}
 
 		// Convenience converter for READ_ONLY fields (not just based on 'component instanceof
-		// JLabel', because the user may override a DONT_EXPAND to be a non-editable JTextField
+		// JLabel', because the user may override a DONT_EXPAND to be a non-editable JTextField)
+		//
+		// See https://sourceforge.net/projects/metawidget/forums/forum/747623/topic/3460563
 
 		if ( converter == null && ( TRUE.equals( attributes.get( READ_ONLY ) ) || TRUE.equals( attributes.get( NO_SETTER ) ) ) )
 			converter = new ReadOnlyToStringConverter();
