@@ -6,7 +6,7 @@
 
 	<!-- Test Search Screen -->
 				
-	<target name="test-search" depends="wt.defineTasks">
+	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-search">
 			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
@@ -40,9 +40,7 @@
 				<verifyXPath xpath="normalize-space(/html/body/div[@id='content']/table/tbody/tr[2]/td[1]/a)" text="Mr Waylon Smithers"/>
 			</steps>
 		</webtest>
-	</target>
 
-	<target name="test-existing-personal">
 		<webtest name="test-existing-personal">
 			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
@@ -152,9 +150,7 @@
 				<verifyXPath xpath="/html/body/div[@id='content']/form/table/tbody/tr[11]/th[@class='table-label-column']" text="Notes:"/>
 			</steps>
 		</webtest>
-	</target>
 
-	<target name="test-new-business">
 		<webtest name="test-new-business">
 			<config resultpath="../../../../../${build.dir}/run/logs"/>
 			<steps>
@@ -217,7 +213,5 @@
 			</steps>
 		</webtest>
 	</target>
-
-	<target name="test-all" depends="test-search, test-new-business, test-existing-personal"/>
 
 </project>

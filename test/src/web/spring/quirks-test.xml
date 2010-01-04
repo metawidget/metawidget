@@ -4,7 +4,7 @@
 	<property file="../../../build.properties" />
 	<import file="${webtest.dir}/webtest.xml" />
 
-	<target name="test-lookup" depends="wt.defineTasks">
+	<target name="test-all" depends="wt.defineTasks">
 		<webtest name="test-lookup">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
@@ -32,9 +32,17 @@
 				
 			</steps>
 		</webtest>
-	</target>
+		
+		<webtest name="test-rtexpr">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs">
+				<option name="ThrowExceptionOnFailingStatusCode" value="false"/>			
+			</config>			
+			<steps>
+				<invoke url="${webtest.url}/quirks-spring/index-rtexpr.jsp" />
+				<verifyText text="According to TLD or attribute directive in tag file, attribute path does not accept any expressions"/>
+			</steps>
+		</webtest>		
 
-	<target name="test-jstl" depends="wt.defineTasks">
 		<webtest name="test-jstl">
 			<config resultpath="../../../../${build.dir}/${run.dir}/logs"/>
 			<steps>
@@ -48,7 +56,5 @@
 			</steps>
 		</webtest>
 	</target>
-
-	<target name="test-all" depends="test-lookup,test-jstl"/>
 	
 </project>

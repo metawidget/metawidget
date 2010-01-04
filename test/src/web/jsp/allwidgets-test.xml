@@ -315,6 +315,16 @@
 				
 			</steps>
 		</webtest>
+		
+		<webtest name="test-rtexpr">
+			<config resultpath="../../../../${build.dir}/${run.dir}/logs">
+				<option name="ThrowExceptionOnFailingStatusCode" value="false"/>			
+			</config>			
+			<steps>
+				<invoke url="${webtest.url}/allwidgets-jsp/index-rtexpr.jsp" />
+				<verifyText text="According to TLD or attribute directive in tag file, attribute value does not accept any expressions"/>
+			</steps>
+		</webtest>		
 	</target>
 
 </project>
