@@ -104,7 +104,7 @@ public class SwingAddressBookTest
 		Contact contact = contactsController.load( 1 );
 		assertTrue( "Mr Homer Simpson".equals( contact.getFullname() ) );
 		assertTrue( "Mr Homer Simpson".equals( contact.toString() ) );
-		assertTrue( 1 == contact.hashCode() );
+		assertTrue( 32 == contact.hashCode() );
 		assertTrue( !contact.equals( new Object() ) );
 		assertTrue( contact.equals( contact ) );
 		assertTrue( contact.compareTo( null ) == -1 );

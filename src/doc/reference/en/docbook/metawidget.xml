@@ -3502,7 +3502,7 @@ public class Person {
 
 				<para>
 					Here is an example of a custom <classname>InspectionResultProcessor</classname> that chooses,
-					and sorts, business object fields based on a client property. It extends the code from the tutorial
+					and sorts, business object fields based on a <classname>JComponent</classname> client property. It extends the code from the tutorial
 					(see <xref linkend="section-introduction-part1"/>).
 				</para>
 				
@@ -4444,7 +4444,7 @@ public class Main {
 }</programlisting>
 
 				<para>
-					Like <classname>Inspector</classname>s, <classname>WidgetBuilder</classname>s and
+					Like <classname>Inspector</classname>s, <classname>InspectionResultProcessor</classname>s, <classname>WidgetBuilder</classname>s and
 					<classname>Layout</classname>s, <classname>WidgetProcessor</classname>s are required to be immutable.
 					However you can still make them configurable by using
 					<classname>xxxWidgetProcessorConfig</classname> classes. For example: 
@@ -4543,7 +4543,7 @@ void endLayout(W container,M metawidget);</programlisting>
 					loop widget
 					   Metawidget->Layout: layoutWidget
 					end
-					Metawidget->Layout: startLayout
+					Metawidget->Layout: endLayout
 				-->
 				
 				<figure id="section-architecture-layouts-loop">
@@ -4554,16 +4554,14 @@ void endLayout(W container,M metawidget);</programlisting>
 				</figure>
 				
 				<para>
-					The first method, <function>startLayout</function>, is called at the start of the widget building process,
-					before the <classname>WidgetBuilder</classname> is called. <classname>Layout</classname>s may wish to act
-					on this event to initialize the given <parameter>container</parameter>. However it is acceptable to do nothing. A
+					The first method, <function>startLayout</function>, is called to initialize the
+					given <parameter>container</parameter>. It is acceptable to do nothing. A
 					convenience base class, <classname>BaseLayout</classname>, is provided with a dummy implementation
 					so that subclasses don't have to override this method.					
 				</para>
 				<para>
-					The last method, <function>endLayout</function>, is called at the end of the widget building process,
-					after all widgets have been built and added to the <classname>Layout</classname>. <classname>Layout</classname>s may wish to act
-					on this event to finish the given <parameter>container</parameter>. However it is acceptable to do nothing. The
+					The last method, <function>endLayout</function>, is called to finish the given <parameter>container</parameter>.
+					It is acceptable to do nothing. The
 					convenience base class, <classname>BaseLayout</classname>, has a dummy implementation
 					so that subclasses don't have to override this method.
 				</para>
@@ -4844,7 +4842,7 @@ import org.metawidget.layout.iface.*;
 public class HtmlListLayout
 	implements Layout&lt;Tag, MetawidgetTag&gt; {
 	
-	public void onStartBuild( MetawidgetTag metawidgetTag ) {
+	public void startLayout( Tag containerTag, MetawidgetTag metawidgetTag ) {
 		try	{
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 			writer.write( "&lt;ul&gt;" );
@@ -4854,18 +4852,18 @@ public class HtmlListLayout
 	}
 
 	public void layoutChild( Tag tag, String elementName, Map&lt;String, String&gt; attributes,
-		MetawidgetTag metawidgetTag ) {
+		Tag containerTag, MetawidgetTag metawidgetTag ) {
 		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 			writer.write( "&lt;li&gt;" );
-			writer.write( JspUtils.writeTag( metawidgetTag.getPageContext(), tag, metawidgetTag, null ) );
+			writer.write( JspUtils.writeTag( metawidgetTag.getPageContext(), tag, containerTag, null ) );
 			writer.write( "&lt;/li&gt;" );
 		} catch ( Exception e ) {
 			throw LayoutException.newException( e );
 		}
 	}
 
-	public void onEndBuild( MetawidgetTag metawidgetTag ) {
+	public void endLayout( Tag containerTag, MetawidgetTag metawidgetTag ) {
 		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 			writer.write( "&lt;/ul&gt;" );
@@ -4957,8 +4955,8 @@ public class HtmlListLayout
 					<listitem>
 						<para>
 							For state that will change during laying out, such as tracking the current row, store it in the
-							Metawidget that is passed in to <function>onStartBuild</function>, <function>layoutChild</function>
-							and <function>onEndBuild</function>. You may want to further wrap the state in a small helper
+							Metawidget that is passed in to <function>startLayout</function>, <function>layoutChild</function>
+							and <function>endLayout</function>. You may want to further wrap the state in a small helper
 							class, for example:
 						</para>
 						
@@ -8298,7 +8296,8 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					
 					<para>
 						<classname>Layout</classname> to simply output components one after another, with no labels and no structure,
- 						using <classname>javax.awt.FlowLayout</classname>.										
+ 						using <classname>javax.awt.FlowLayout</classname>. This is like <classname>BoxLayout</classname>, except it does not fill width.
+ 						It can be useful for button bars. 								
 					</para>
 
 				</section>				
@@ -8326,20 +8325,16 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						</thead>
 						<tbody>
 							<tr>
-								<td><parameter>numberOfColumns</parameter></td>
-								<td>number of columns. Each label/component pair is considered one column</td>
-							</tr>
-							<tr>
 								<td><parameter>labelAlignment</parameter></td>
 								<td>Such as <classname>SwingConstants.LEFT</classname> or <classname>SwingConstants.RIGHT</classname></td>
 							</tr>
 							<tr>
-								<td><parameter>sectionStyle</parameter></td>
-								<td>Either <classname>GridBagLayoutConfig.SECTION_AS_HEADING</classname> or <classname>GridBagLayoutConfig.SECTION_AS_TAB</classname></td>
-							</tr>
-							<tr>
 								<td><parameter>labelSuffix</parameter></td>
 								<td>Text to display after label text. Defaults to a colon (:)</td>
+							</tr>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>number of columns. Each label/component pair is considered one column</td>
 							</tr>
 							<tr>
 								<td><parameter>requiredAlignment</parameter></td>
@@ -8348,6 +8343,10 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							<tr>
 								<td><parameter>requiredText</parameter></td>
 								<td>Text to display for required fields. Defaults to a star (*)</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyle</parameter></td>
+								<td>Either <classname>GridBagLayoutConfig.SECTION_AS_HEADING</classname> or <classname>GridBagLayoutConfig.SECTION_AS_TAB</classname></td>
 							</tr>
 						</tbody>						
 					</informaltable>					
@@ -8540,20 +8539,20 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						</thead>
 						<tbody>
 							<tr>
-								<td><parameter>tableStyleName</parameter></td>
-								<td>CSS style class to apply to outer table tag</td>
-							</tr>
-							<tr>
-								<td><parameter>numberOfColumns</parameter></td>
-								<td>number of columns. Each label/component pair is considered one column</td>
-							</tr>
-							<tr>
 								<td><parameter>columnStyleNames</parameter></td>
 								<td>comma delimited string of CSS style classes to apply to table columns in order of: label, component, required</td>
 							</tr>
 							<tr>
 								<td><parameter>footerStyleName</parameter></td>
 								<td>CSS style class to apply to table footer</td>
+							</tr>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyleName</parameter></td>
+								<td>CSS style class to apply to outer table tag</td>
 							</tr>
 						</tbody>						
 					</informaltable>
@@ -8660,24 +8659,24 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						</thead>
 						<tbody>
 							<tr>
-								<td><parameter>divStyleClasses</parameter></td>
-								<td>comma separated list of style classes to apply to the DIVs, in order of outer, label, required, component, errors</td>
-							</tr>
-							<tr>
-								<td><parameter>outerStyle</parameter></td>
-								<td>CSS styles to apply to the outer DIV</td>
-							</tr>
-							<tr>
-								<td><parameter>labelStyle</parameter></td>
-								<td>CSS styles to apply to the label DIV</td>
-							</tr>
-							<tr>
 								<td><parameter>componentStyle</parameter></td>
 								<td>
 									CSS styles to apply to the component DIV. This is the style applied to the DIV <emphasis>around</emphasis> the
  									component, not to the component itself. The widget component can be styled using the <parameter>style</parameter>
  									attribute on the Metawidget tag
  								</td>
+							</tr>
+							<tr>
+								<td><parameter>divStyleClasses</parameter></td>
+								<td>comma separated list of style classes to apply to the DIVs, in order of outer, label, required, component, errors</td>
+							</tr>
+							<tr>
+								<td><parameter>labelStyle</parameter></td>
+								<td>CSS styles to apply to the label DIV</td>
+							</tr>
+							<tr>
+								<td><parameter>outerStyle</parameter></td>
+								<td>CSS styles to apply to the outer DIV</td>
 							</tr>
 							<tr>
 								<td><parameter>requiredStyle</parameter></td>
@@ -8720,14 +8719,6 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						</thead>
 						<tbody>
 							<tr>
-								<td><parameter>tableStyle</parameter></td>
-								<td>CSS styles to apply to outer table tag</td>
-							</tr>
-							<tr>
-								<td><parameter>tableStyleClass</parameter></td>
-								<td>CSS style class to apply to outer table tag</td>
-							</tr>
-							<tr>
 								<td><parameter>columns</parameter></td>
 								<td>number of columns. Each label/component pair is considered one column</td>
 							</tr>
@@ -8736,32 +8727,8 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 								<td>comma delimited string of CSS style classes to apply to table columns in order of: label, component, required</td>
 							</tr>
 							<tr>
-								<td><parameter>labelStyle</parameter></td>
-								<td>CSS styles to apply to label column</td>
-							</tr>
-							<tr>
 								<td><parameter>componentStyle</parameter></td>
 								<td>CSS styles to apply to required column</td>
-							</tr>
-							<tr>
-								<td><parameter>requiredStyle</parameter></td>
-								<td>CSS styles to apply to required column (ie. the star)</td>
-							</tr>
-							<tr>
-								<td><parameter>sectionStyle</parameter></td>
-								<td>CSS styles to apply to section break</td>
-							</tr>
-							<tr>
-								<td><parameter>sectionStyleClass</parameter></td>
-								<td>CSS style class to apply to section break</td>
-							</tr>
-							<tr>
-								<td><parameter>headerStyle</parameter></td>
-								<td>CSS styles to apply to table header</td>
-							</tr>
-							<tr>
-								<td><parameter>headerStyleClass</parameter></td>
-								<td>CSS style class to apply to table header</td>
 							</tr>
 							<tr>
 								<td><parameter>footerStyle</parameter></td>
@@ -8772,12 +8739,44 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 								<td>CSS style class to apply to table footer</td>
 							</tr>
 							<tr>
-								<td><parameter>rowClasses</parameter></td>
-								<td>comma delimited string of CSS style classes to apply to alternating table rows</td>
+								<td><parameter>headerStyle</parameter></td>
+								<td>CSS styles to apply to table header</td>
+							</tr>
+							<tr>
+								<td><parameter>headerStyleClass</parameter></td>
+								<td>CSS style class to apply to table header</td>
+							</tr>
+							<tr>
+								<td><parameter>labelStyle</parameter></td>
+								<td>CSS styles to apply to label column</td>
 							</tr>
 							<tr>
 								<td><parameter>labelSuffix</parameter></td>
 								<td>suffix to put after the label name. Defaults to a colon (ie. 'Name:')</td>
+							</tr>
+							<tr>
+								<td><parameter>requiredStyle</parameter></td>
+								<td>CSS styles to apply to required column (ie. the star)</td>
+							</tr>
+							<tr>
+								<td><parameter>rowClasses</parameter></td>
+								<td>comma delimited string of CSS style classes to apply to alternating table rows</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyle</parameter></td>
+								<td>CSS styles to apply to section break</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyleClass</parameter></td>
+								<td>CSS style class to apply to section break</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyle</parameter></td>
+								<td>CSS styles to apply to outer table tag</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyleClass</parameter></td>
+								<td>CSS style class to apply to outer table tag</td>
 							</tr>
 						</tbody>						
 					</informaltable>
@@ -9008,24 +9007,8 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 						</thead>
 						<tbody>
 							<tr>
-								<td><parameter>tableStyle</parameter></td>
-								<td>CSS styles to apply to outer table tag</td>
-							</tr>
-							<tr>
-								<td><parameter>tableStyleClass</parameter></td>
-								<td>CSS style class to apply to outer table tag</td>
-							</tr>
-							<tr>
-								<td><parameter>numberOfColumns</parameter></td>
-								<td>number of columns. Each label/component pair is considered one column</td>
-							</tr>
-							<tr>
 								<td><parameter>columnStyleClasses</parameter></td>
 								<td>comma delimited string of CSS style classes to apply to table columns in order of: label, component, required</td>
-							</tr>
-							<tr>
-								<td><parameter>sectionStyleClass</parameter></td>
-								<td>CSS style class to apply to section break</td>
 							</tr>
 							<tr>
 								<td><parameter>footerStyle</parameter></td>
@@ -9034,6 +9017,22 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							<tr>
 								<td><parameter>footerStyleClass</parameter></td>
 								<td>CSS style class to apply to table footer</td>
+							</tr>
+							<tr>
+								<td><parameter>numberOfColumns</parameter></td>
+								<td>number of columns. Each label/component pair is considered one column</td>
+							</tr>
+							<tr>
+								<td><parameter>sectionStyleClass</parameter></td>
+								<td>CSS style class to apply to section break</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyle</parameter></td>
+								<td>CSS styles to apply to outer table tag</td>
+							</tr>
+							<tr>
+								<td><parameter>tableStyleClass</parameter></td>
+								<td>CSS style class to apply to outer table tag</td>
 							</tr>
 						</tbody>						
 					</informaltable>

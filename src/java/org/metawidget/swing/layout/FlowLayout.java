@@ -25,14 +25,17 @@ import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
- * Layout to simply output components one after another, with no labels and no structure,
- * using <code>javax.awt.FlowLayout</code>.
+ * Layout to simply output components one after another, with no labels and no structure, using
+ * <code>javax.awt.FlowLayout</code>.
+ * <p>
+ * This is like <code>BoxLayout</code>, except it does not fill width. It can be useful for button
+ * bars.
  *
  * @author Richard Kennard
  */
 
 public class FlowLayout
-	extends BaseLayout<JComponent,SwingMetawidget>
+	extends BaseLayout<JComponent, SwingMetawidget>
 {
 	//
 	// Public methods
