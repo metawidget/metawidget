@@ -52,6 +52,9 @@ public class LinearLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof LinearLayoutConfig ) )
 			return false;
 

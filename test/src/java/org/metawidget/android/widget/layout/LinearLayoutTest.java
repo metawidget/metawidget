@@ -76,6 +76,7 @@ public class LinearLayoutTest
 		LinearLayoutConfig config2 = new LinearLayoutConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 

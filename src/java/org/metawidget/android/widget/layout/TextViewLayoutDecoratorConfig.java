@@ -73,6 +73,9 @@ public class TextViewLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof TextViewLayoutDecoratorConfig ) )
 			return false;
 
@@ -86,7 +89,7 @@ public class TextViewLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= mStyle;
+		hashCode = 31 * hashCode + mStyle;
 
 		return hashCode;
 	}

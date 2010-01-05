@@ -133,6 +133,9 @@ public class GridBagLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof GridBagLayoutConfig ))
 			return false;
 
@@ -157,11 +160,12 @@ public class GridBagLayoutConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = mNumberOfColumns;
-		hashCode ^= mLabelAlignment;
-		hashCode ^= ObjectUtils.nullSafeHashCode( mLabelSuffix );
-		hashCode ^= mRequiredAlignment;
-		hashCode ^= ObjectUtils.nullSafeHashCode( mRequiredText );
+		int hashCode = 1;
+		hashCode = 31 * hashCode + mNumberOfColumns;
+		hashCode = 31 * hashCode + mLabelAlignment;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mLabelSuffix );
+		hashCode = 31 * hashCode + mRequiredAlignment;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRequiredText );
 
 		return hashCode;
 	}

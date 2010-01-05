@@ -57,6 +57,9 @@ public class LayoutDecoratorConfig<W, M extends W>
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof LayoutDecoratorConfig ) )
 			return false;
 

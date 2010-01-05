@@ -93,6 +93,9 @@ public class OutputTextLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof OutputTextLayoutDecoratorConfig ) )
 			return false;
 
@@ -109,8 +112,8 @@ public class OutputTextLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mStyle );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mStyleClass );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleClass );
 
 		return hashCode;
 	}

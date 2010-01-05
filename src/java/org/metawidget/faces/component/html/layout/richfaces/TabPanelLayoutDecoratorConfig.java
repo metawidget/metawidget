@@ -60,6 +60,9 @@ public class TabPanelLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof TabPanelLayoutDecoratorConfig ) )
 			return false;
 
@@ -73,7 +76,7 @@ public class TabPanelLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mHeaderAlignment );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHeaderAlignment );
 
 		return hashCode;
 	}

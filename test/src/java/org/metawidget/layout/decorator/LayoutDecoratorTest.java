@@ -44,6 +44,7 @@ public class LayoutDecoratorTest
 	public static <W, M extends W> void testConfig( LayoutDecoratorConfig<W, M> config1, LayoutDecoratorConfig<W, M> config2, Layout<W, M> delegate )
 	{
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 

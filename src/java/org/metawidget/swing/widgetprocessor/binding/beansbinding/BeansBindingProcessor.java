@@ -433,6 +433,9 @@ public class BeansBindingProcessor
 		@Override
 		public boolean equals( Object that )
 		{
+			if ( this == that )
+				return true;
+
 			if ( !( that instanceof ConvertFromTo<?,?> ) )
 				return false;
 
@@ -448,10 +451,9 @@ public class BeansBindingProcessor
 		@Override
 		public int hashCode()
 		{
-			int hashCode = 0;
-
-			hashCode ^= ObjectUtils.nullSafeHashCode( mSource.hashCode() );
-			hashCode ^= ObjectUtils.nullSafeHashCode( mTarget.hashCode() );
+			int hashCode = 1;
+			hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSource.hashCode() );
+			hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTarget.hashCode() );
 
 			return hashCode;
 		}

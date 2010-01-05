@@ -115,6 +115,9 @@ public class FlexTableLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof FlexTableLayoutConfig ))
 			return false;
 
@@ -136,10 +139,11 @@ public class FlexTableLayoutConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = mNumberOfColumns;
-		hashCode ^= ObjectUtils.nullSafeHashCode( mTableStyleName );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mColumnStyleNames );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mFooterStyleName );
+		int hashCode = 1;
+		hashCode = 31 * hashCode + mNumberOfColumns;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyleName );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mColumnStyleNames );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mFooterStyleName );
 
 		return hashCode;
 	}

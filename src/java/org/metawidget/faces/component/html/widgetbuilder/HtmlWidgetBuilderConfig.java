@@ -92,6 +92,9 @@ public class HtmlWidgetBuilderConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof HtmlWidgetBuilderConfig ))
 			return false;
 
@@ -110,9 +113,10 @@ public class HtmlWidgetBuilderConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = ObjectUtils.nullSafeHashCode( mDataTableStyleClass );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mDataTableColumnClasses );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mDataTableRowClasses );
+		int hashCode = 1;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDataTableStyleClass );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDataTableColumnClasses );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDataTableRowClasses );
 
 		return hashCode;
 	}

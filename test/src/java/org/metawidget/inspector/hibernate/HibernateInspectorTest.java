@@ -188,6 +188,7 @@ public class HibernateInspectorTest
 		HibernateInspectorConfig config2 = new HibernateInspectorConfig();
 
 		assertTrue( !config1.equals( "foo" ));
+		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ));
 		assertTrue( config1.hashCode() == config2.hashCode() );
 

@@ -103,6 +103,9 @@ public class SeamInspectorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof SeamInspectorConfig ) )
 			return false;
 
@@ -118,8 +121,9 @@ public class SeamInspectorConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = ObjectUtils.nullSafeHashCode( mResourceResolver );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mComponentsInputStream );
+		int hashCode = 1;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceResolver );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mComponentsInputStream );
 
 		return hashCode;
 	}

@@ -163,6 +163,9 @@ public class HtmlTableLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof HtmlTableLayoutConfig ))
 			return false;
 
@@ -193,13 +196,14 @@ public class HtmlTableLayoutConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = mNumberOfColumns;
-		hashCode ^= ObjectUtils.nullSafeHashCode( mTableStyle );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mTableStyleClass );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mColumnStyleClasses );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mSectionStyleClass );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mFooterStyle );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mFooterStyleClass );
+		int hashCode = 1;
+		hashCode = 31 * hashCode + mNumberOfColumns;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyleClass );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mColumnStyleClasses );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSectionStyleClass );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mFooterStyle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mFooterStyleClass );
 
 		return hashCode;
 	}

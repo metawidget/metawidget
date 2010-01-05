@@ -90,6 +90,9 @@ public class BeansBindingProcessorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof BeansBindingProcessorConfig ) )
 			return false;
 
@@ -105,8 +108,9 @@ public class BeansBindingProcessorConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = ObjectUtils.nullSafeHashCode( mUpdateStrategy );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mConverters );
+		int hashCode = 1;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mUpdateStrategy );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mConverters );
 
 		return hashCode;
 	}

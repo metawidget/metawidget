@@ -106,6 +106,9 @@ public class BaseObjectInspectorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof BaseObjectInspectorConfig ) )
 			return false;
 
@@ -127,8 +130,9 @@ public class BaseObjectInspectorConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = ObjectUtils.nullSafeHashCode( mPropertyStyle );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mActionStyle );
+		int hashCode = 1;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mPropertyStyle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mActionStyle );
 
 		return hashCode;
 	}

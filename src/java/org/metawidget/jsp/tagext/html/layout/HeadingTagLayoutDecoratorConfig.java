@@ -93,6 +93,9 @@ public class HeadingTagLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof HeadingTagLayoutDecoratorConfig ) )
 			return false;
 
@@ -109,8 +112,8 @@ public class HeadingTagLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mStyle );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mStyleClass );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleClass );
 
 		return hashCode;
 	}

@@ -59,6 +59,9 @@ public class MigLayoutConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof MigLayoutConfig ))
 			return false;
 

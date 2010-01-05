@@ -61,6 +61,9 @@ public class CompositeInspectorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+		
 		if ( !( that instanceof CompositeInspectorConfig ))
 			return false;
 

@@ -41,6 +41,7 @@ public class LabelLayoutDecoratorTest
 		LabelLayoutDecoratorConfig config2 = new LabelLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
@@ -56,10 +57,6 @@ public class LabelLayoutDecoratorTest
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
 		// superclass
-
-		assertTrue( !config1.equals( "foo" ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
 
 		// layout
 

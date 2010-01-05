@@ -65,6 +65,9 @@ public class BeanUtilsBindingProcessorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof BeanUtilsBindingProcessorConfig ))
 			return false;
 
@@ -77,8 +80,6 @@ public class BeanUtilsBindingProcessorConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = mPropertyStyle;
-
-		return hashCode;
+		return mPropertyStyle;
 	}
 }

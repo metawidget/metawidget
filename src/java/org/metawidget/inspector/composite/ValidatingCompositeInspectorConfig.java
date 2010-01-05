@@ -58,6 +58,9 @@ public class ValidatingCompositeInspectorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof ValidatingCompositeInspectorConfig ))
 			return false;
 
@@ -71,7 +74,7 @@ public class ValidatingCompositeInspectorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mResourceResolver );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceResolver );
 
 		return hashCode;
 	}

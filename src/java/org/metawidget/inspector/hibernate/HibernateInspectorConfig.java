@@ -77,6 +77,9 @@ public class HibernateInspectorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+		
 		if ( !( that instanceof HibernateInspectorConfig ))
 			return false;
 
@@ -90,7 +93,7 @@ public class HibernateInspectorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mHideIds );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideIds );
 
 		return hashCode;
 	}

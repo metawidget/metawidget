@@ -61,6 +61,7 @@ public class BaseObjectInspectorTest
 		assertTrue( config2.getPropertyStyle() == config1.getPropertyStyle() );
 		assertTrue( config2.getActionStyle() != null );
 		assertTrue( config2.getActionStyle() == config2.getActionStyle() );
+		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ));
 
 		// Test mNullPropertyStyle equals

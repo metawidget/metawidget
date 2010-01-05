@@ -75,6 +75,9 @@ public class LabelLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof LabelLayoutDecoratorConfig ))
 			return false;
 
@@ -88,7 +91,7 @@ public class LabelLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mStyleName );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleName );
 
 		return hashCode;
 	}

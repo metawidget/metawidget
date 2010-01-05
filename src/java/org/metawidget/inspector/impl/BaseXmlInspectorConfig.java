@@ -138,6 +138,9 @@ public class BaseXmlInspectorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof BaseXmlInspectorConfig ))
 			return false;
 
@@ -156,9 +159,10 @@ public class BaseXmlInspectorConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = ObjectUtils.nullSafeHashCode( mDefaultFile );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mResourceResolver );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mInputStreams );
+		int hashCode = 1;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDefaultFile );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceResolver );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInputStreams );
 
 		return hashCode;
 	}

@@ -66,6 +66,9 @@ public class JpaInspectorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof JpaInspectorConfig ))
 			return false;
 
@@ -79,7 +82,7 @@ public class JpaInspectorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mHideIds );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mHideIds );
 
 		return hashCode;
 	}

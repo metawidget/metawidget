@@ -102,6 +102,9 @@ public class SimpleBindingProcessorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof SimpleBindingProcessorConfig ) )
 			return false;
 
@@ -117,8 +120,9 @@ public class SimpleBindingProcessorConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = ObjectUtils.nullSafeHashCode( mAdapters );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mConverters );
+		int hashCode = 1;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mAdapters );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mConverters );
 
 		return hashCode;
 	}

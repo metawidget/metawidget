@@ -78,6 +78,9 @@ public class TabbedPaneLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof TabbedPaneLayoutDecoratorConfig ) )
 			return false;
 
@@ -91,7 +94,7 @@ public class TabbedPaneLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= mTabPlacement;
+		hashCode = 31 * hashCode + mTabPlacement;
 
 		return hashCode;
 	}

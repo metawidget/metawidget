@@ -49,6 +49,7 @@ public class TabbedPaneLayoutDecoratorTest
 		TabbedPaneLayoutDecoratorConfig config2 = new TabbedPaneLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
@@ -196,7 +197,6 @@ public class TabbedPaneLayoutDecoratorTest
 		frame.setSize( 400, 210 );
 		frame.setVisible( true );
 	}
-
 
 	//
 	// Inner class

@@ -347,6 +347,7 @@ public class GridBagLayoutTest
 		GridBagLayoutConfig config2 = new GridBagLayoutConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 

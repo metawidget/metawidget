@@ -51,6 +51,7 @@ public class SeparatorLayoutDecoratorTest
 		SeparatorLayoutDecoratorConfig config2 = new SeparatorLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 

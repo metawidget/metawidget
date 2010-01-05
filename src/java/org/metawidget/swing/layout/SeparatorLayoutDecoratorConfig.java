@@ -77,6 +77,9 @@ public class SeparatorLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof SeparatorLayoutDecoratorConfig ) )
 			return false;
 
@@ -90,7 +93,7 @@ public class SeparatorLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= mAlignment;
+		hashCode = 31 * hashCode + mAlignment;
 
 		return hashCode;
 	}

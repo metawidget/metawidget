@@ -321,6 +321,9 @@ public abstract class Contact
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof Contact ) )
 			return false;
 
@@ -343,7 +346,10 @@ public abstract class Contact
 		if ( mId == 0 )
 			return super.hashCode();
 
-		return Long.valueOf( mId ).hashCode();
+		int hashCode = 1;
+		hashCode = 31 * hashCode + (int) ( mId ^ ( mId >>> 32 ) );
+
+		return hashCode;
 	}
 
 	@Override

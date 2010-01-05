@@ -203,6 +203,9 @@ public class TestInspectorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof TestInspectorConfig ) )
 			return false;
 
@@ -239,15 +242,16 @@ public class TestInspectorConfig
 	@Override
 	public int hashCode()
 	{
-		int hashCode = ObjectUtils.nullSafeHashCode( mList );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mSet );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mInt );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mBoolean );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mPattern );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mInputStream );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mResourceBundle );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mStringArray );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mFailDuringConstruction );
+		int hashCode = 1;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mList );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSet );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInt );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mBoolean );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mPattern );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mInputStream );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mResourceBundle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStringArray );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mFailDuringConstruction );
 
 		return hashCode;
 	}

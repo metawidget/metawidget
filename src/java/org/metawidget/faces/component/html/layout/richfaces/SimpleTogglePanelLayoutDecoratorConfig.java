@@ -141,6 +141,9 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	@Override
 	public boolean equals( Object that )
 	{
+		if ( this == that )
+			return true;
+
 		if ( !( that instanceof SimpleTogglePanelLayoutDecoratorConfig ) )
 			return false;
 
@@ -163,10 +166,10 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	public int hashCode()
 	{
 		int hashCode = super.hashCode();
-		hashCode ^= ObjectUtils.nullSafeHashCode( mStyle );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mStyleClass );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mSwitchType );
-		hashCode ^= ObjectUtils.nullSafeHashCode( mOpened );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mStyleClass );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSwitchType );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mOpened );
 
 		return hashCode;
 	}
