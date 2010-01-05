@@ -20,6 +20,8 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.metawidget.swing.layout.BoxLayoutTest;
+import org.metawidget.swing.layout.FlowLayoutTest;
 import org.metawidget.swing.layout.GridBagLayoutTest;
 import org.metawidget.swing.layout.GroupLayoutTest;
 import org.metawidget.swing.layout.MigLayoutTest;
@@ -51,6 +53,8 @@ public class SwingMetawidgetTests
 		TestSuite suite = new TestSuite( "SwingMetawidget Tests" );
 		suite.addTestSuite( BeansBindingProcessorTest.class );
 		suite.addTestSuite( BeanUtilsBindingProcessorTest.class );
+		suite.addTestSuite( BoxLayoutTest.class );
+		suite.addTestSuite( FlowLayoutTest.class );
 		suite.addTestSuite( InputVerifierProcessorTest.class );
 		suite.addTestSuite( JGoodiesValidatorProcessorTest.class );
 		suite.addTestSuite( GridBagLayoutTest.class );

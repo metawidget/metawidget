@@ -16,45 +16,34 @@
 
 package org.metawidget.swing.layout;
 
-import java.util.Map;
-
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 
-import org.metawidget.layout.impl.BaseLayout;
-import org.metawidget.swing.Stub;
+import junit.framework.TestCase;
+
 import org.metawidget.swing.SwingMetawidget;
 
 /**
- * Layout to simply output components one after another, with no labels and no structure,
- * using <code>javax.awt.FlowLayout</code>.
- *
  * @author Richard Kennard
  */
 
-public class FlowLayout
-	extends BaseLayout<JComponent,SwingMetawidget>
+public class FlowLayoutTest
+	extends TestCase
 {
 	//
 	// Public methods
 	//
 
-	@Override
-	public void startLayout( JComponent container, SwingMetawidget metawidget )
+	public void testLayout()
+		throws Exception
 	{
-		// TODO: unit test all these
+		SwingMetawidget metawidget = new SwingMetawidget();
+		JComponent container = new JPanel();
 
-		container.setLayout( new java.awt.FlowLayout() );
-	}
+		FlowLayout flowLayout = new FlowLayout();
+		flowLayout.startLayout( container, metawidget );
 
-	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )
-	{
-		// Do not render empty stubs
-
-		if ( component instanceof Stub && ( (Stub) component ).getComponentCount() == 0 )
-			return;
-
-		// Add to the Metawidget
-
-		container.add( component );
+		assertTrue( container.getLayout() instanceof java.awt.FlowLayout );
+		assertTrue( !( metawidget.getLayout() instanceof java.awt.FlowLayout ));
 	}
 }
