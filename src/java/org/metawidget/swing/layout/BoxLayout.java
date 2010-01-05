@@ -44,7 +44,7 @@ public class BoxLayout
 	@Override
 	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		container.setLayout( new javax.swing.BoxLayout( metawidget, javax.swing.BoxLayout.PAGE_AXIS ) );
+		container.setLayout( new javax.swing.BoxLayout( container, javax.swing.BoxLayout.PAGE_AXIS ) );
 	}
 
 	public void layoutWidget( JComponent component, String elementName, Map<String, String> attributes, JComponent container, SwingMetawidget metawidget )

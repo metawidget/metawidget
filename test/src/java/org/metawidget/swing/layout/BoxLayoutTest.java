@@ -16,11 +16,16 @@
 
 package org.metawidget.swing.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
+import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
@@ -40,10 +45,29 @@ public class BoxLayoutTest
 		SwingMetawidget metawidget = new SwingMetawidget();
 		JComponent container = new JPanel();
 
+		// startLayout
+
 		BoxLayout boxLayout = new BoxLayout();
 		boxLayout.startLayout( container, metawidget );
 
 		assertTrue( container.getLayout() instanceof javax.swing.BoxLayout );
 		assertTrue( !( metawidget.getLayout() instanceof javax.swing.BoxLayout ));
+
+		// layoutWidget
+
+		assertTrue( 0 == container.getComponentCount() );
+
+		Stub stub = new Stub();
+		boxLayout.layoutWidget( stub, PROPERTY, null, container, metawidget );
+		assertTrue( 0 == container.getComponentCount() );
+
+		stub.add( new JSpinner() );
+		boxLayout.layoutWidget( stub, PROPERTY, null, container, metawidget );
+		assertTrue( stub == container.getComponent( 0 ) );
+		assertTrue( 1 == container.getComponentCount() );
+
+		boxLayout.layoutWidget( new JTextField(), PROPERTY, null, container, metawidget );
+		assertTrue( container.getComponent( 1 ) instanceof JTextField );
+		assertTrue( 2 == container.getComponentCount() );
 	}
 }

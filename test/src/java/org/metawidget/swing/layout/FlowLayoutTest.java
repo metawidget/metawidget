@@ -16,11 +16,16 @@
 
 package org.metawidget.swing.layout;
 
+import static org.metawidget.inspector.InspectionResultConstants.*;
+
 import javax.swing.JComponent;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
+import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 
 /**
@@ -40,10 +45,29 @@ public class FlowLayoutTest
 		SwingMetawidget metawidget = new SwingMetawidget();
 		JComponent container = new JPanel();
 
+		// startLayout
+
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.startLayout( container, metawidget );
 
 		assertTrue( container.getLayout() instanceof java.awt.FlowLayout );
 		assertTrue( !( metawidget.getLayout() instanceof java.awt.FlowLayout ));
+
+		// layoutWidget
+
+		assertTrue( 0 == container.getComponentCount() );
+
+		Stub stub = new Stub();
+		flowLayout.layoutWidget( stub, PROPERTY, null, container, metawidget );
+		assertTrue( 0 == container.getComponentCount() );
+
+		stub.add( new JSpinner() );
+		flowLayout.layoutWidget( stub, PROPERTY, null, container, metawidget );
+		assertTrue( stub == container.getComponent( 0 ) );
+		assertTrue( 1 == container.getComponentCount() );
+
+		flowLayout.layoutWidget( new JTextField(), PROPERTY, null, container, metawidget );
+		assertTrue( container.getComponent( 1 ) instanceof JTextField );
+		assertTrue( 2 == container.getComponentCount() );
 	}
 }

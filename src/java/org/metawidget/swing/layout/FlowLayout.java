@@ -41,8 +41,6 @@ public class FlowLayout
 	@Override
 	public void startLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		// TODO: unit test all these
-
 		container.setLayout( new java.awt.FlowLayout() );
 	}
 
