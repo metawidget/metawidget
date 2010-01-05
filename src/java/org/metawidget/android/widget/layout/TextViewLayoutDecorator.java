@@ -26,6 +26,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -85,6 +86,7 @@ public class TextViewLayoutDecorator
 		getDelegate().layoutWidget( textView, PROPERTY, sectionAttributes, container, metawidget );
 
 		android.widget.LinearLayout newLayout = new android.widget.LinearLayout( metawidget.getContext() );
+		newLayout.setOrientation( LinearLayout.VERTICAL );
 		getDelegate().layoutWidget( newLayout, PROPERTY, sectionAttributes, container, metawidget );
 
 		return newLayout;

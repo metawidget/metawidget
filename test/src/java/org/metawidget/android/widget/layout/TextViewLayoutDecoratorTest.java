@@ -88,6 +88,8 @@ public class TextViewLayoutDecoratorTest
 		assertTrue( "heading1".equals( ((TextView) tableRow.getChildAt( 0 ) ).getText() ));
 		tableRow = (TableRow) tableLayout.getChildAt( 2 );
 		android.widget.LinearLayout linearLayout = (android.widget.LinearLayout) tableRow.getChildAt( 0 );
+		assertTrue( android.widget.LinearLayout.VERTICAL == linearLayout.getOrientation() );
+		assertTrue( android.widget.LinearLayout.HORIZONTAL == new android.widget.LinearLayout( null ).getOrientation() );
 		android.widget.TableLayout sectionTableLayout = (android.widget.TableLayout) linearLayout.getChildAt( 0 );
 		tableRow = (TableRow) sectionTableLayout.getChildAt( 0 );
 		assertTrue( "Baz: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );

@@ -33,7 +33,15 @@ public class LinearLayout
 	// Public statics
 	//
 
-	public static final int	VERTICAL	= 0;
+	public static final int	HORIZONTAL	= 0;
+
+	public static final int	VERTICAL	= 1;
+
+	//
+	// Private members
+	//
+
+	private int	mOrientation;
 
 	//
 	// Constructor
@@ -60,7 +68,12 @@ public class LinearLayout
 
 	public void setOrientation( int orientation )
 	{
-		// Ignore
+		mOrientation = orientation;
+	}
+
+	public int getOrientation()
+	{
+		return mOrientation;
 	}
 
 	//
