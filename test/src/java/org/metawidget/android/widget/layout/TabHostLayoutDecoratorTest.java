@@ -72,6 +72,8 @@ public class TabHostLayoutDecoratorTest
 
 		assertTrue( "tab1".equals( tabHost.getTabSpec( 0 ).getIndicator() ));
 		android.widget.LinearLayout tab = (android.widget.LinearLayout) tabHost.getTabSpec( 0 ).getContent().createTabContent( null );
+		assertTrue( android.widget.LinearLayout.VERTICAL == tab.getOrientation() );
+		assertTrue( android.widget.LinearLayout.HORIZONTAL == new android.widget.LinearLayout( null ).getOrientation() );
 		android.widget.TableLayout tabTableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
 		tableRow = (TableRow) tabTableLayout.getChildAt( 0 );
 		assertTrue( "Baz: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
@@ -85,6 +87,7 @@ public class TabHostLayoutDecoratorTest
 
 		assertTrue( "tab2".equals( tabHost.getTabSpec( 1 ).getIndicator() ));
 		tab = (android.widget.LinearLayout) tabHost.getTabSpec( 1 ).getContent().createTabContent( null );
+		assertTrue( android.widget.LinearLayout.VERTICAL == tab.getOrientation() );
 		tabTableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
 		tableRow = (TableRow) tabTableLayout.getChildAt( 0 );
 		assertTrue( "Def: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );
@@ -108,6 +111,7 @@ public class TabHostLayoutDecoratorTest
 
 		assertTrue( "tabA".equals( tabHost.getTabSpec( 0 ).getIndicator() ));
 		tab = (android.widget.LinearLayout) tabHost.getTabSpec( 0 ).getContent().createTabContent( null );
+		assertTrue( android.widget.LinearLayout.VERTICAL == tab.getOrientation() );
 		tableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
 		tableRow = (TableRow) tableLayout.getChildAt( 0 );
 		assertTrue( "Jkl: ".equals( ( (TextView) tableRow.getChildAt( 0 ) ).getText() ) );

@@ -18,6 +18,8 @@ package org.metawidget.jsp.tagext.html.layout;
 
 import junit.framework.TestCase;
 
+import org.metawidget.layout.iface.LayoutException;
+
 /**
  * @author Richard Kennard
  */
@@ -105,5 +107,24 @@ public class HtmlTableLayoutTest
 		config2.setFooterStyleClass( "footer-style-class" );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
+	}
+
+	public void testMinimumColumns()
+	{
+		HtmlTableLayoutConfig config = new HtmlTableLayoutConfig();
+		assertTrue( 1 == config.getNumberOfColumns() );
+
+		config.setNumberOfColumns( 0 );
+		assertTrue( 0 == config.getNumberOfColumns() );
+
+		try
+		{
+			config.setNumberOfColumns( -1 );
+			assertTrue( false );
+		}
+		catch( LayoutException e )
+		{
+			assertTrue( "numberOfColumns must be >= 0".equals( e.getMessage() ));
+		}
 	}
 }

@@ -214,7 +214,14 @@
 		<move todir="${tomcat.dir}/webapps/ROOT">
 			<fileset dir="${relative.dir}/${build.dir}/website/localhost_8080"/>
 		</move>
-	
+
+		<!-- Little cleanup -->
+		
+		<delete file="${tomcat.dir}/webapps/ROOT/index-2.html"/>
+		<delete file="${tomcat.dir}/webapps/ROOT/xsd.html"/>
+		<delete file="${tomcat.dir}/webapps/ROOT/live-demo/index-2.html"/>
+		<delete dir="${tomcat.dir}/webapps/ROOT/live-demo/org"/>
+			
 		<!-- Doco -->
 
 		<antcall target="docbook"/>

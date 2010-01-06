@@ -279,11 +279,6 @@ public class SwingMetawidget
 		invalidateWidgets();
 	}
 
-	public Layout<JComponent, SwingMetawidget> getMetawidgetLayout()
-	{
-		return mPipeline.getLayout();
-	}
-
 	public void setBundle( ResourceBundle bundle )
 	{
 		mBundle = bundle;

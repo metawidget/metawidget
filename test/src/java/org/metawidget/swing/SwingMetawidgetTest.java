@@ -294,6 +294,22 @@ public class SwingMetawidgetTest
 		assertTrue( metawidget.getComponent( 1 ) instanceof JCheckBox );
 	}
 
+	public void testLabelString()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+
+		assertTrue( "".equals( metawidget.getLabelString( null )));
+
+		Map<String, String> attributes = CollectionUtils.newHashMap();
+		assertTrue( "".equals( metawidget.getLabelString( attributes )));
+
+		attributes.put( NAME, "foo" );
+		assertTrue( "Foo".equals( metawidget.getLabelString( attributes )));
+
+		attributes.put( LABEL, "foo" );
+		assertTrue( "foo".equals( metawidget.getLabelString( attributes )));
+	}
+
 	public void testValidate()
 	{
 		final List<String> called = CollectionUtils.newArrayList();
