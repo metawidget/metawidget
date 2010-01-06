@@ -50,11 +50,7 @@
 		<layout>
 			<tabPanelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="TabPanelLayoutDecoratorConfig">
 				<layout>
-					<tabPanelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces" config="TabPanelLayoutDecoratorConfig">
-						<layout>
-							<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
-						</layout>
-					</tabPanelLayoutDecorator>
+					<simpleLayout xmlns="java:org.metawidget.faces.component.layout"/>
 				</layout>
 			</tabPanelLayoutDecorator>
 		</layout>

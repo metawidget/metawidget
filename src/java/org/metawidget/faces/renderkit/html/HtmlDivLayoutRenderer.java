@@ -49,8 +49,6 @@ import org.metawidget.util.simple.StringUtils;
  * component, not to the component itself. The component itself can be styled using the <code>style</code>
  * attribute on the Metawidget tag
  * <li><code>requiredStyle</code> - CSS styles to apply to the required DIV
- * <li><code>sectionStyle</code> - CSS styles to apply to the section DIV
- * <li><code>sectionStyleClass</code> - CSS style class to apply to the section DIV
  * </ul>
  * <p>
  *

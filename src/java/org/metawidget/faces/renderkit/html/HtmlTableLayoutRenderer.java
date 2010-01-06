@@ -60,8 +60,6 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>labelStyle</code> - CSS styles to apply to label column
  * <li><code>componentStyle</code> - CSS styles to apply to component column
  * <li><code>requiredStyle</code> - CSS styles to apply to required column (ie. the star)
- * <li><code>sectionStyle</code> - CSS styles to apply to section break
- * <li><code>sectionStyleClass</code> - CSS style class to apply to section break
  * <li><code>headerStyle</code> - CSS styles to apply to table header
  * <li><code>headerStyleClass</code> - CSS style class to apply to table header
  * <li><code>footerStyle</code> - CSS styles to apply to table footer

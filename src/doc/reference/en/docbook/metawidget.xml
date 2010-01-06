@@ -669,7 +669,7 @@ public class Main {
 				<title>Controlling Widget Creation</title>
 
 				<para>
-					There are several ways to control widget creation. Creation can be overridden by dropping child controls inside the
+					There are several ways to control widget creation. One way is to drop child controls inside the
 					<classname>SwingMetawidget</classname>. This approach works well both within code and within visual UI builders.
 				</para>
 
@@ -789,7 +789,7 @@ public class Main {
 				</figure>
 
 				<para>
-					Alternatively, you can use a <classname>@UiHidden</classname> annotation on the business class:
+					Another way is to use a <classname>@UiHidden</classname> annotation on the business class:
 				</para>
 
 				<programlisting language="java">package com.myapp;
@@ -900,7 +900,6 @@ public class Main {
 		SwingMetawidget metawidget = new SwingMetawidget();
 		<symbol>metawidget.setConfig( "com/myapp/metawidget.xml" );</symbol>
 		metawidget.setToInspect( person );
-		metawidget.add( new Stub( "retired" ));
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -1637,12 +1636,12 @@ public class Person {
 		&lt;/compositeWidgetBuilder&gt;
 	&lt;/widgetBuilder&gt;
 	<symbol>&lt;layout&gt;
-		&lt;richFacesLayout xmlns="java:org.metawidget.faces.component.html.layout.richfaces"
-			config="RichFacesLayoutConfig"&gt;
-			&lt;sectionStyle&gt;
-				&lt;constant&gt;SECTION_AS_TAB&lt;/constant&gt;
-			&lt;/sectionStyle&gt;
-		&lt;/richFacesLayout&gt;		
+		&lt;tabPanelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces"
+			config="TabPanelLayoutDecoratorConfig"&gt;
+			&lt;layout&gt;
+				&lt;simpleLayout xmlns="java:org.metawidget.faces.component.layout"/&gt;
+			&lt;/layout&gt;
+		&lt;/tabPanelLayoutDecorator&gt;
 	&lt;/layout&gt;</symbol>
 &lt;/htmlMetawidget&gt;
 
@@ -1769,8 +1768,7 @@ public class Person {
 				</para>
 
 				<programlisting language="xml">&lt;view class="org.metawidget.android.widget.AndroidMetawidget" android:id="@+id/metawidget"
-	config="@raw/metawidget"
-	paramSectionStyle="@style/section"&gt;
+	config="@raw/metawidget"&gt;
 	
 	&lt;view class="org.metawidget.android.widget.Stub" tag="communications"&gt;
 			
@@ -6718,7 +6716,13 @@ public class PersonController {
 						</tr>
 						<tr>
 							<td><parameter>section</parameter></td>
-							<td><classname>@UiSection</classname> - denotes the start of a logical grouping in the UI</td>
+							<td>
+								<classname>@UiSection</classname> - denotes the start of a logical grouping in the UI.
+								Subsequent fields are assumed
+								to belong to the same section until a different section heading is encountered. Sections
+								can be cancelled using a section heading with an empty String. Sections can be nested
+								by specifying multiple section names.								
+							</td>
 						</tr>
 						<tr>
 							<td><parameter>wide</parameter></td>
@@ -8344,10 +8348,6 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 								<td><parameter>requiredText</parameter></td>
 								<td>Text to display for required fields. Defaults to a star (*)</td>
 							</tr>
-							<tr>
-								<td><parameter>sectionStyle</parameter></td>
-								<td>Either <classname>GridBagLayoutConfig.SECTION_AS_HEADING</classname> or <classname>GridBagLayoutConfig.SECTION_AS_TAB</classname></td>
-							</tr>
 						</tbody>						
 					</informaltable>					
 				</section>
@@ -8387,10 +8387,6 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							<tr>
 								<td><parameter>numberOfColumns</parameter></td>
 								<td>number of columns. Each label/component pair is considered one column</td>
-							</tr>
-							<tr>
-								<td><parameter>sectionStyle</parameter></td>
-								<td>Either <classname>MigLayoutConfig.SECTION_AS_HEADING</classname> or <classname>MigLayoutConfig.SECTION_AS_TAB</classname></td>
 							</tr>
 						</tbody>						
 					</informaltable>					
@@ -8682,14 +8678,6 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 								<td><parameter>requiredStyle</parameter></td>
 								<td>CSS styles to apply to the required DIV</td>
 							</tr>
-							<tr>
-								<td><parameter>sectionStyle</parameter></td>
-								<td>CSS styles to apply to the section DIV</td>
-							</tr>
-							<tr>
-								<td><parameter>sectionStyleClass</parameter></td>
-								<td>CSS style class to apply to the section DIV</td>
-							</tr>
 						</tbody>						
 					</informaltable>
 
@@ -8761,14 +8749,6 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							<tr>
 								<td><parameter>rowClasses</parameter></td>
 								<td>comma delimited string of CSS style classes to apply to alternating table rows</td>
-							</tr>
-							<tr>
-								<td><parameter>sectionStyle</parameter></td>
-								<td>CSS styles to apply to section break</td>
-							</tr>
-							<tr>
-								<td><parameter>sectionStyleClass</parameter></td>
-								<td>CSS style class to apply to section break</td>
 							</tr>
 							<tr>
 								<td><parameter>tableStyle</parameter></td>
@@ -9023,10 +9003,6 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 								<td>number of columns. Each label/component pair is considered one column</td>
 							</tr>
 							<tr>
-								<td><parameter>sectionStyleClass</parameter></td>
-								<td>CSS style class to apply to section break</td>
-							</tr>
-							<tr>
 								<td><parameter>tableStyle</parameter></td>
 								<td>CSS styles to apply to outer table tag</td>
 							</tr>
@@ -9207,7 +9183,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 								</td>
 							</tr>
 							<tr>
-								<td><parameter>sectionStyle</parameter></td>
+								<td><parameter>style</parameter></td>
 								<td>Android style (ie. <parameter>@com.myapp:style/section</parameter>) to apply to section breaks</td>
 							</tr>
 						</tbody>						

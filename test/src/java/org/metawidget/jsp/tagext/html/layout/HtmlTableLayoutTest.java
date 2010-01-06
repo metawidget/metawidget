@@ -84,17 +84,6 @@ public class HtmlTableLayoutTest
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
-		// sectionStyleClass
-
-		config1.setSectionStyleClass( "section-style-class" );
-		assertTrue( "section-style-class".equals( config1.getSectionStyleClass() ) );
-		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
-
-		config2.setSectionStyleClass( "section-style-class" );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
-
 		// footerStyle
 
 		config1.setFooterStyle( "footer-style" );

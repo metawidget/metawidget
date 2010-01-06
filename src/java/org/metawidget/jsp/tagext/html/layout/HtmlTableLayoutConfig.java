@@ -39,8 +39,6 @@ public class HtmlTableLayoutConfig
 
 	private String[]	mColumnStyleClasses;
 
-	private String		mSectionStyleClass;
-
 	private String		mFooterStyle;
 
 	private String		mFooterStyleClass;
@@ -118,22 +116,6 @@ public class HtmlTableLayoutConfig
 		return this;
 	}
 
-	public String getSectionStyleClass()
-	{
-		return mSectionStyleClass;
-	}
-
-	/**
-	 * @return this, as part of a fluent interface
-	 */
-
-	public HtmlTableLayoutConfig setSectionStyleClass( String sectionStyleClass )
-	{
-		mSectionStyleClass = sectionStyleClass;
-
-		return this;
-	}
-
 	public String getFooterStyle()
 	{
 		return mFooterStyle;
@@ -181,9 +163,6 @@ public class HtmlTableLayoutConfig
 		if ( !ObjectUtils.nullSafeEquals( mColumnStyleClasses, ((HtmlTableLayoutConfig) that).mColumnStyleClasses ))
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mSectionStyleClass, ((HtmlTableLayoutConfig) that).mSectionStyleClass ))
-			return false;
-
 		if ( !ObjectUtils.nullSafeEquals( mFooterStyle, ((HtmlTableLayoutConfig) that).mFooterStyle ))
 			return false;
 
@@ -201,7 +180,6 @@ public class HtmlTableLayoutConfig
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyle );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mTableStyleClass );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mColumnStyleClasses );
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mSectionStyleClass );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mFooterStyle );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mFooterStyleClass );
 
