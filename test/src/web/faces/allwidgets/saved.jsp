@@ -14,8 +14,6 @@
 				<f:param name="labelStyle" value="aLabelStyle"/>
 				<f:param name="requiredStyle" value="aRequiredStyle"/>
 				<f:param name="componentStyle" value="aComponentStyle"/>
-				<f:param name="sectionStyle" value="aSectionStyle"/>
-				<f:param name="sectionStyleClass" value="aSectionStyleClass"/>
 				<f:param name="footerStyle" value="aFooterStyle"/>
 				<f:param name="footerStyleClass" value="aFooterStyleClass"/>
 				<f:facet name="footer"><h:outputText value="Footer"/></f:facet>

@@ -52,7 +52,7 @@ public class TextViewLayoutDecoratorTest
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
-		// sectionStyle
+		// style
 
 		config1.setStyle( 100 );
 		assertTrue( 100 == config1.getStyle() );
