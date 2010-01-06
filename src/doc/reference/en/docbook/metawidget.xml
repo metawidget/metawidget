@@ -1541,10 +1541,10 @@ public class Person {
 					</para>
 					
 					<para>
-						Metawidget factors all widget creation into <emphasis>Widget Builders</emphasis>. Like inspectors, multiple Widget
-						Builders can be combined using a <classname>CompositeWidgetBuilder</classname> to support third-party component
-						libraries. In this section we will override Metawidget's default and introduce a <classname>richFacesWidgetBuilder</classname>
-						alongside the standard JSF <classname>htmlWidgetbuilder</classname>. 
+						Metawidget factors all widget creation into <classname>WidgetBuilder</classname>s. Like <classname>Inspector</classname>s, multiple
+						<classname>WidgetBuilder</classname>s can be combined using a <classname>CompositeWidgetBuilder</classname> to support third-party component
+						libraries. In this section we will override Metawidget's default and introduce a <classname>RichFacesWidgetBuilder</classname>
+						alongside the standard JSF <classname>HtmlWidgetBuilder</classname>. 
 					</para>
 					
 					<para>
@@ -1573,8 +1573,8 @@ public class Person {
 			&lt;/inspectors&gt;
 		&lt;/compositeInspector&gt;
 	&lt;/inspector&gt;
-	&lt;widgetBuilder&gt;
-		<symbol>&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
+	<symbol>&lt;widgetBuilder&gt;
+		&lt;compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite"
 			config="CompositeWidgetBuilderConfig"&gt;
 			&lt;widgetBuilders&gt;
 				&lt;array&gt;
@@ -1584,8 +1584,19 @@ public class Person {
 					&lt;htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder"/&gt;
 				&lt;/array&gt;
 			&lt;/widgetBuilders&gt;
-		&lt;/compositeWidgetBuilder&gt;</symbol>
-	&lt;/widgetBuilder&gt;
+		&lt;/compositeWidgetBuilder&gt;
+	&lt;/widgetBuilder&gt;</symbol>
+	&lt;layout&gt;
+		&lt;outputTextLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout"
+			config="OutputTextLayoutDecoratorConfig"&gt;
+			&lt;layout&gt;
+				&lt;simpleLayout xmlns="java:org.metawidget.faces.component.layout"/&gt;
+			&lt;/layout&gt;
+			&lt;styleClass&gt;
+				&lt;string&gt;section-heading&lt;/string&gt;
+			&lt;/styleClass&gt;
+		&lt;/outputTextLayoutDecorator&gt;
+	&lt;/layout&gt;	
 &lt;/htmlMetawidget&gt;
 
 &lt;/metawidget&gt;</programlisting>
@@ -1635,14 +1646,14 @@ public class Person {
 			&lt;/widgetBuilders&gt;
 		&lt;/compositeWidgetBuilder&gt;
 	&lt;/widgetBuilder&gt;
-	<symbol>&lt;layout&gt;
-		&lt;tabPanelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces"
-			config="TabPanelLayoutDecoratorConfig"&gt;
+	&lt;layout&gt;
+		<symbol>&lt;tabPanelLayoutDecorator xmlns="java:org.metawidget.faces.component.html.layout.richfaces"
+			config="TabPanelLayoutDecoratorConfig"&gt;</symbol>
 			&lt;layout&gt;
 				&lt;simpleLayout xmlns="java:org.metawidget.faces.component.layout"/&gt;
 			&lt;/layout&gt;
-		&lt;/tabPanelLayoutDecorator&gt;
-	&lt;/layout&gt;</symbol>
+		<symbol>&lt;/tabPanelLayoutDecorator&gt;</symbol>
+	&lt;/layout&gt;	
 &lt;/htmlMetawidget&gt;
 
 &lt;/metawidget&gt;</programlisting>
@@ -5115,8 +5126,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 							<td><parameter>&lt;constant&gt;</parameter></td>
 							<td>
 								Static field. This can either be fully qualified (eg. <parameter>javax.swing.SwingConstants.LEFT</parameter>) or
-								just the field name (eg. <parameter>SECTION_AS_TAB</parameter>). In the latter case, the field is expected to
-								be defined by the class represented by the parent XML node. For an example, see <xref linkend="section-introduction-part2-web-richfaces"/>.
+								just the field name, in which case the field must be defined by the class of the parent XML node
 							</td>
 						</tr>
 						<tr>

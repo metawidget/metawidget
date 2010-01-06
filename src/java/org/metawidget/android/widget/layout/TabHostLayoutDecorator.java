@@ -26,8 +26,8 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TabWidget;
 import android.widget.TabHost.TabContentFactory;
@@ -97,7 +97,8 @@ public class TabHostLayoutDecorator
 
 		// New tab
 
-		final ViewGroup newLayout = new android.widget.LinearLayout( metawidget.getContext() );
+		final android.widget.LinearLayout newLayout = new android.widget.LinearLayout( metawidget.getContext() );
+		newLayout.setOrientation( LinearLayout.VERTICAL );
 
 		// (non-selected tabs must be invisible by default)
 
