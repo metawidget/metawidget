@@ -25,7 +25,7 @@ import org.metawidget.iface.Immutable;
  * Inspectors must be immutable (or, at least, appear that way to clients. They can have caches or
  * configuration settings internally, as long as they are threadsafe).
  * <p>
- * <h2>Note to Implementors</h2>
+ * <h3>Note to Implementors</h3>
  * <p>
  * This interface is designed to work for the <em>majority</em> of use cases, but not <em>every</em>
  * use case. Inevitably there are tradeoffs. For example, the <code>toInspect</code> parameter is

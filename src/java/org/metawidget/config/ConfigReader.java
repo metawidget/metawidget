@@ -63,11 +63,12 @@ import org.xml.sax.helpers.DefaultHandler;
  * <p>
  * This class is not just static methods, because ConfigReaders need to be able to be subclassed
  * (eg. <code>ServletConfigReader</code>)
- * <h2>Important</h2> <code>ConfigReader</code>'s support for reusing immutable objects (eg.
- * <code>JpaInspector</code>) that use config objects (eg. <code>JpaInspectorConfig</code>) is
- * dependant on the config object overriding <code>equals</code> and <code>hashCode</code>.
- * <strong>Failure to override these methods may result in your object not being reused, or being
- * reused inappropriately</strong>.
+ * <h3>Important</h3>
+ * <p>
+ * <code>ConfigReader</code>'s support for reusing immutable objects (eg. <code>JpaInspector</code>)
+ * that use config objects (eg. <code>JpaInspectorConfig</code>) is dependant on the config object
+ * overriding <code>equals</code> and <code>hashCode</code>. <strong>Failure to override these
+ * methods may result in your object not being reused, or being reused inappropriately</strong>.
  *
  * @author Richard Kennard
  */

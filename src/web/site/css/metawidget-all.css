@@ -137,6 +137,15 @@ h4 {
 }
 
 /*
+ * Videos
+ */
+
+.video {
+	margin: 5px auto;
+	width: 640px;
+}
+
+/*
  * Screenshots
  */
 

@@ -20,6 +20,15 @@
 					Live Demo!
 				</a>
 			</li>
+			<li class="<c:if test="${path == '/videos.html'}"> active</c:if>">
+				<a href="${context}/videos.html"
+					<c:if test="${path != '/videos.html'}">
+						id="videos"
+						onmouseover="bounceInQueue( this, -7 )" onmouseout="bounceInQueue( this, 0 )"
+					</c:if>>
+					Videos
+				</a>
+			</li>
 			<li class="wide<c:if test="${path == '/screenshots.html'}"> wide-active</c:if>">
 				<a href="${context}/screenshots.html"
 					<c:if test="${path != '/screenshots.html'}">
@@ -50,7 +59,6 @@
 					<h2>Get Started</h2>
 					<ul>
 						<li <c:if test="${path == '/index.html'}">class="active"</c:if>><a href="${context}/index.html">Overview</a></li>
-						<li <c:if test="${fn:startsWith(path, '/live-demo')}">class="active"</c:if>><a href="http://metawidget.sourceforge.net/live-demo/" onclick="pageTracker._link(this.href); return false;">Live Demo!</a></li>
 						<li <c:if test="${path == '/news.html'}">class="active"</c:if>><a href="${context}/news.html">News</a></li>
 						<li <c:if test="${path == '/download.html'}">class="active"</c:if>><a href="${context}/download.html">Download</a></li>
 						<li <c:if test="${path == '/documentation.html'}">class="active"</c:if>><a href="${context}/documentation.html">Documentation</a></li>

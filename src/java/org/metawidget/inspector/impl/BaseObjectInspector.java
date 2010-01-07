@@ -44,7 +44,7 @@ import org.w3c.dom.Element;
  * and action conventions. Also handles unwrapping an Object wrapped by a proxy library (such as
  * CGLIB or Javassist).
  * <p>
- * <h2>Inspecting classes</h2>
+ * <h3>Inspecting classes</h3>
  * <p>
  * In general <code>BaseObjectInspector</code> inspects <em>objects</em>, not classes. It will
  * return null if the object value is null, rather than returning the properties of its class. This
