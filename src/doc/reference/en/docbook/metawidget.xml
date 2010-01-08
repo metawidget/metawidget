@@ -1448,7 +1448,7 @@ public class Person {
 					<title>Mixing Metawidgets</title>
 					
 					<para>
-						This section only applies to Spring and Struts.
+						The section is specific to Spring/Struts.
 					</para>
 
 					<para>
@@ -1537,7 +1537,7 @@ public class Person {
 					<title>Alternate Widget Libraries</title>
 					
 					<para>
-						This section only applies to JSF.
+						This section is specific to JSF.
 					</para>
 					
 					<para>

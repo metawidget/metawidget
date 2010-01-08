@@ -66,22 +66,25 @@ public class TabHostLayoutDecorator
 			tabHost = new TabHost( metawidget.getContext() );
 			tabHost.setPadding( 0, 20, 0, 0 );
 
+			// LinearLayout to separate TabWidget and FrameLayout (as per
+			// http://developer.android.com/guide/tutorials/views/hello-tabwidget.html)
+
+			android.widget.LinearLayout tabHostLayout = new android.widget.LinearLayout( metawidget.getContext() );
+			tabHostLayout.setOrientation( LinearLayout.VERTICAL );
+			tabHost.addView( tabHostLayout );
+
 			// TabWidget for the tab strip
 
 			View tabWidget = new TabWidget( metawidget.getContext() );
 			tabWidget.setId( android.R.id.tabs );
-			tabHost.addView( tabWidget );
+			tabHostLayout.addView( tabWidget );
 
 			// FrameLayout for the tab contents
 
 			FrameLayout frameLayout = new FrameLayout( metawidget.getContext() );
 			frameLayout.setId( android.R.id.tabcontent );
-
-			// (hack in some padding. Would be better to use a LinearLayout around TabWidget and
-			// FrameLayout, but then the whole thing seemed to disappear?)
-
-			frameLayout.setPadding( 0, 75, 0, 0 );
-			tabHost.addView( frameLayout );
+			frameLayout.setPadding( 0, 5, 0, 0 );
+			tabHostLayout.addView( frameLayout );
 
 			tabHost.setup();
 
@@ -92,7 +95,7 @@ public class TabHostLayoutDecorator
 		}
 		else
 		{
-			tabHost = (TabHost) previousSectionView.getParent().getParent();
+			tabHost = (TabHost) previousSectionView.getParent().getParent().getParent();
 		}
 
 		// New tab
@@ -106,7 +109,7 @@ public class TabHostLayoutDecorator
 
 		// (add to FrameLayout in advance, so that AndroidMetawidget.setValue can find it)
 
-		((FrameLayout) tabHost.getChildAt( 1 )).addView( newLayout );
+		( (FrameLayout) ( (android.widget.LinearLayout) tabHost.getChildAt( 0 ) ).getChildAt( 1 ) ).addView( newLayout );
 
 		TabContentFactory tabContentFactory = new TabHost.TabContentFactory()
 		{
