@@ -351,8 +351,11 @@
 			</fileset>
 		</copy>
 
-		<copy todir="${relative.dir}/${build.dir}/examples/faces/seam/dvdstore" file="${relative.dir}/${build.dir}/metawidget-frontend.jar"/>
-		<copy todir="${relative.dir}/${build.dir}/examples/faces/seam/dvdstore" file="${relative.dir}/${build.dir}/metawidget-backend.jar"/>
+		<!-- Only want 1 copy of metawidget-frontend.jar/metawidget-backend.jar in the -->
+		<!-- distribution, so use the one from example-faces-seam-booking              -->
+		
+		<copy todir="${relative.dir}/${build.dir}/examples/faces/seam/booking" file="${relative.dir}/${build.dir}/metawidget-frontend.jar"/>
+		<copy todir="${relative.dir}/${build.dir}/examples/faces/seam/booking" file="${relative.dir}/${build.dir}/metawidget-backend.jar"/>
 
 		<copy todir="${relative.dir}/${build.dir}/examples/faces" file="${relative.dir}/examples/src/web/faces/readme.txt"/>
 
