@@ -143,6 +143,7 @@ h4 {
 .video {
 	margin: 5px auto;
 	width: 640px;
+	border: 1px solid #cccccc;
 }
 
 /*
