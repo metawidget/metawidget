@@ -50,7 +50,6 @@ import org.metawidget.swing.widgetprocessor.binding.beansbinding.BeansBindingPro
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
-import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * @author Richard Kennard

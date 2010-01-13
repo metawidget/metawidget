@@ -14,34 +14,18 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swt;
+package org.metawidget.example.swt.tutorial;
 
-import org.eclipse.swt.widgets.Composite;
 
 /**
- * Facet for Swt environments.
- * <p>
- * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are 'decorations'
- * (such as button bars) to be recognized and arranged at the discretion of the Layout.
- *
- * @author Stefan Ackermann
+ * @author Richard Kennard
  */
 
-public class Facet
-	extends Composite
+public class Person
 {
-	//
-	// Private statics
-	//
+	public String	name;
 
-	private final static long	serialVersionUID	= 1l;
+	public int		age;
 
-	//
-	// Constructor
-	//
-
-	public Facet( Composite parent, int style )
-	{
-		super( parent, style );
-	}
+	public boolean	retired;
 }

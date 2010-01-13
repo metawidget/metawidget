@@ -18,7 +18,6 @@ package org.metawidget.swt.layout;
 
 import org.metawidget.layout.iface.LayoutException;
 
-
 /**
  * Configures a MigLayout prior to use. Once instantiated, Layouts are immutable.
  *

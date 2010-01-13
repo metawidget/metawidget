@@ -45,7 +45,7 @@ import org.w3c.dom.Element;
 /**
  * Metawidget for SWT environments.
  *
- * @author Richard Kennard
+ * @author Stefan Ackermann, Richard Kennard
  */
 
 public class SwtMetawidget
@@ -59,7 +59,7 @@ public class SwtMetawidget
 
 	private final static ConfigReader	CONFIG_READER		= new ConfigReader();
 
-	private final static String			DEFAULT_CONFIG		= "org/metawidget/swing/metawidget-swt-default.xml";
+	private final static String			DEFAULT_CONFIG		= "org/metawidget/swt/metawidget-swt-default.xml";
 
 	//
 	// Private members
@@ -67,7 +67,7 @@ public class SwtMetawidget
 
 	private Object						mToInspect;
 
-	private String						mPath;
+	private String						mInspectionPath;
 
 	private String						mConfig;
 
@@ -137,15 +137,15 @@ public class SwtMetawidget
 	{
 		if ( mToInspect == null )
 		{
-			if ( mPath == null && toInspect != null )
-				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+			if ( mInspectionPath == null && toInspect != null )
+				mInspectionPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
 		}
-		else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mPath ) )
+		else if ( ClassUtils.getUnproxiedClass( mToInspect.getClass() ).getName().equals( mInspectionPath ) )
 		{
 			if ( toInspect == null )
-				mPath = null;
+				mInspectionPath = null;
 			else
-				mPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
+				mInspectionPath = ClassUtils.getUnproxiedClass( toInspect.getClass() ).getName();
 		}
 
 		mToInspect = toInspect;
@@ -168,22 +168,17 @@ public class SwtMetawidget
 
 	/**
 	 * Sets the path to be inspected.
-	 * <p>
-	 * Note <code>setPath</code> is quite different to <code>java.awt.Control.setName</code>.
-	 * <code>setPath</code> is always in relation to <code>setToInspect</code>, so must include the
-	 * type name and any subsequent sub-names (eg. type/name/name). Conversely, <code>setName</code>
-	 * is a single name relative to our immediate parent.
 	 */
 
-	public void setPath( String path )
+	public void setInspectionPath( String inspectionPath )
 	{
-		mPath = path;
+		mInspectionPath = inspectionPath;
 		invalidateInspection();
 	}
 
-	public String getPath()
+	public String getInspectionPath()
 	{
-		return mPath;
+		return mInspectionPath;
 	}
 
 	public void setConfig( String config )
@@ -540,7 +535,7 @@ public class SwtMetawidget
 
 		// Special support for visual IDE builders
 
-		if ( mPath == null )
+		if ( mInspectionPath == null )
 			return;
 
 		mNeedsConfiguring = false;
@@ -645,10 +640,10 @@ public class SwtMetawidget
 
 	protected Element inspect()
 	{
-		if ( mPath == null )
+		if ( mInspectionPath == null )
 			return null;
 
-		TypeAndNames typeAndNames = PathUtils.parsePath( mPath );
+		TypeAndNames typeAndNames = PathUtils.parsePath( mInspectionPath );
 		return inspect( mToInspect, typeAndNames.getType(), typeAndNames.getNamesAsArray() );
 	}
 
@@ -657,7 +652,7 @@ public class SwtMetawidget
 		// Don't copy setConfig(). Instead, copy runtime values
 
 		mPipeline.initNestedPipeline( nestedMetawidget.mPipeline, attributes );
-		nestedMetawidget.setPath( mPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
+		nestedMetawidget.setInspectionPath( mInspectionPath + StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME ) );
 		nestedMetawidget.setBundle( mBundle );
 		nestedMetawidget.setToInspect( mToInspect );
 	}

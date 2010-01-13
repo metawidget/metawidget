@@ -29,7 +29,7 @@ import org.metawidget.util.CollectionUtils;
  * that Facets are simply 'decorations' (such as button bars) to be recognized and arranged at the
  * discretion of the Layout.
  *
- * @author Richard Kennard
+ * @author Stefan Ackermann
  */
 
 public class Stub

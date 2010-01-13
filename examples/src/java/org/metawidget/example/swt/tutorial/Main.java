@@ -14,34 +14,44 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swt;
+package org.metawidget.example.swt.tutorial;
 
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
+import org.metawidget.swt.SwtMetawidget;
 
 /**
- * Facet for Swt environments.
- * <p>
- * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are 'decorations'
- * (such as button bars) to be recognized and arranged at the discretion of the Layout.
- *
- * @author Stefan Ackermann
+ * @author Stefan Ackermann, Richard Kennard
  */
 
-public class Facet
-	extends Composite
+public class Main
 {
-	//
-	// Private statics
-	//
-
-	private final static long	serialVersionUID	= 1l;
-
-	//
-	// Constructor
-	//
-
-	public Facet( Composite parent, int style )
+	public static void main( String[] args )
 	{
-		super( parent, style );
+		// Data model
+
+		Person person = new Person();
+
+		// Metawidget
+
+		Display display = new Display();
+		Shell shell = new Shell( display );
+
+		SwtMetawidget metawidget = new SwtMetawidget( shell, SWT.None );
+		metawidget.setToInspect( person );
+
+		// Shell
+
+		shell.setVisible( true );
+		shell.open();
+
+		while ( !shell.isDisposed() )
+		{
+			if ( !display.readAndDispatch() )
+				display.sleep();
+		}
+
+		display.dispose();
 	}
 }
