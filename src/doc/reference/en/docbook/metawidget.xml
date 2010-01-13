@@ -4442,7 +4442,7 @@ public class Main {
 	}
 
 	<symbol>static class TooltipProcessor
-		extends BaseWidgetProcessor&lt;JComponent, SwingMetawidget&gt; {
+		implements WidgetProcessor&lt;JComponent, SwingMetawidget&gt; {
 		
 		public JComponent processWidget( JComponent widget, String elementName,
 										 Map&lt;String, String&gt; attributes, SwingMetawidget metawidget ) {
