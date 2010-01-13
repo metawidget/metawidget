@@ -39,18 +39,6 @@ public interface WidgetProcessor<W, M extends W>
 	//
 
 	/**
-	 * Event called at the start of the widget building process, before the
-	 * <code>WidgetBuilder</code> is called. <code>WidgetProcessor</code>s may wish to act on this
-	 * event to initialize themselves ready for processing. This event is only called once per
-	 * inspection, not once per widget built.
-	 *
-	 * @param metawidget
-	 *            the parent Metawidget. Never null
-	 */
-
-	void onStartBuild( M metawidget );
-
-	/**
 	 * Process the given widget. Called after a widget has been built by the
 	 * <code>WidgetBuilder</code>, and before it is added to the <code>Layout</code>.
 	 *
@@ -71,16 +59,4 @@ public interface WidgetProcessor<W, M extends W>
 	 */
 
 	W processWidget( W widget, String elementName, Map<String, String> attributes, M metawidget );
-
-	/**
-	 * Event called at the end of widget building, after all widgets have been built and added to
-	 * the <code>Layout</code>. <code>WidgetProcessor</code>s may wish to act on this event to clean
-	 * themselves up after processing. This event is only called once per inspection, not once per
-	 * widget built.
-	 *
-	 * @param metawidget
-	 *            the parent Metawidget. Never null
-	 */
-
-	void onEndBuild( M metawidget );
 }

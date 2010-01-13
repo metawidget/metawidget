@@ -110,7 +110,7 @@ public class ComesAfterInspectionResultProcessor<M>
 
 					for ( Map.Entry<Element, String[]> entry : traitsWithComesAfter.entrySet() )
 					{
-						names.add( entry.getKey().getAttribute( NAME ) + " comes after " + ArrayUtils.toString( entry.getValue() ));
+						names.add( entry.getKey().getAttribute( NAME ) + " comes after " + ArrayUtils.toString( entry.getValue(), " and " ));
 					}
 
 					// (sort for unit tests)

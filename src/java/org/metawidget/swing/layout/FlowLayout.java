@@ -20,7 +20,7 @@ import java.util.Map;
 
 import javax.swing.JComponent;
 
-import org.metawidget.layout.impl.BaseLayout;
+import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 
@@ -35,7 +35,7 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class FlowLayout
-	extends BaseLayout<JComponent, SwingMetawidget>
+	implements AdvancedLayout<JComponent, SwingMetawidget>
 {
 	//
 	// Public methods
@@ -57,5 +57,11 @@ public class FlowLayout
 		// Add to the Metawidget
 
 		container.add( component );
+	}
+
+	@Override
+	public void endLayout( JComponent container, SwingMetawidget metawidget )
+	{
+		// Do nothing
 	}
 }

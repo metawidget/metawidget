@@ -33,7 +33,7 @@ import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * @author Richard Kennard
@@ -103,7 +103,7 @@ public class InspectorExampleTest
 	}
 
 	static class TooltipProcessor
-		extends BaseWidgetProcessor<JComponent, SwingMetawidget>
+		implements WidgetProcessor<JComponent, SwingMetawidget>
 	{
 		public JComponent processWidget( JComponent widget, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
 		{

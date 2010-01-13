@@ -23,8 +23,8 @@ import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.MetawidgetTag;
+import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.iface.LayoutException;
-import org.metawidget.layout.impl.BaseLayout;
 
 /**
  * Layout to simply output components one after another, with no labels and no structure.
@@ -36,7 +36,7 @@ import org.metawidget.layout.impl.BaseLayout;
  */
 
 public class SimpleLayout
-	extends BaseLayout<Tag, MetawidgetTag>
+	implements Layout<Tag, MetawidgetTag>
 {
 	//
 	// Public methods

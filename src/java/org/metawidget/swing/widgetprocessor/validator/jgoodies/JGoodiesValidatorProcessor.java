@@ -28,7 +28,7 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 
 import com.jgoodies.validation.ValidationResult;
 import com.jgoodies.validation.Validator;
@@ -46,11 +46,17 @@ import com.jgoodies.validation.view.ValidationComponentUtils;
  */
 
 public class JGoodiesValidatorProcessor
-	extends BaseWidgetProcessor<JComponent, SwingMetawidget>
+	implements AdvancedWidgetProcessor<JComponent, SwingMetawidget>
 {
 	//
 	// Public methods
 	//
+
+	@Override
+	public void onStartBuild( SwingMetawidget metawidget )
+	{
+		// Do nothing
+	}
 
 	@Override
 	public JComponent processWidget( final JComponent component, String elementName, Map<String, String> attributes, SwingMetawidget metawidget )

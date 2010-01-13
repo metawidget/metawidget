@@ -53,7 +53,7 @@ import org.metawidget.swing.layout.SeparatorLayoutDecorator;
 import org.metawidget.swing.layout.SeparatorLayoutDecoratorConfig;
 import org.metawidget.swing.widgetprocessor.binding.beanutils.BeanUtilsBindingProcessor;
 import org.metawidget.swing.widgetprocessor.binding.reflection.ReflectionBindingProcessor;
-import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 
 /**
  * @author Richard Kennard
@@ -106,7 +106,7 @@ public class SwingAllWidgetsTest
 	// Protected methods
 	//
 
-	protected void runTest( WidgetProcessor<JComponent, SwingMetawidget> processor )
+	protected void runTest( AdvancedWidgetProcessor<JComponent, SwingMetawidget> processor )
 		throws Exception
 	{
 		// Model

@@ -19,7 +19,7 @@ package org.metawidget.gwt.client.ui.layout;
 import java.util.Map;
 
 import org.metawidget.gwt.client.ui.GwtMetawidget;
-import org.metawidget.layout.impl.BaseLayout;
+import org.metawidget.layout.iface.Layout;
 
 import com.google.gwt.user.client.ui.Widget;
 
@@ -33,7 +33,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class FlowLayout
-	extends BaseLayout<Widget,GwtMetawidget>
+	implements Layout<Widget,GwtMetawidget>
 {
 	//
 	// Public methods

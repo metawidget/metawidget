@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
 import org.metawidget.swing.SwingMetawidget;
+import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 
 /**
  * @author Richard Kennard
@@ -60,39 +61,7 @@ public class InputVerifierProcessorTest
 
 		// Setup
 
-		metawidget.addWidgetProcessor( new InputVerifierProcessor()
-		{
-			//
-			// Public methods
-			//
-
-			@Override
-			public void onStartBuild( SwingMetawidget theMetawidget )
-			{
-				theMetawidget.putClientProperty( "onStartBuild", Boolean.TRUE );
-			}
-
-			//
-			// Protected methods
-			//
-
-			@Override
-			protected InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, final String path )
-			{
-				if ( component instanceof SwingMetawidget )
-					return null;
-
-				return new InputVerifier()
-				{
-					@Override
-					public boolean verify( JComponent input )
-					{
-						metawidget.putClientProperty( "onVerify", path );
-						return false;
-					}
-				};
-			}
-		} );
+		metawidget.addWidgetProcessor( new TestInputVerifierProcessor() );
 
 		// Validate
 
@@ -150,6 +119,48 @@ public class InputVerifierProcessorTest
 		public void setNestedFoo( Foo nestedFoo )
 		{
 			mNestedFoo = nestedFoo;
+		}
+	}
+
+	protected static class TestInputVerifierProcessor
+		extends InputVerifierProcessor
+		implements AdvancedWidgetProcessor<JComponent, SwingMetawidget>
+	{
+		//
+		// Public methods
+		//
+
+		@Override
+		public void onStartBuild( SwingMetawidget theMetawidget )
+		{
+			theMetawidget.putClientProperty( "onStartBuild", Boolean.TRUE );
+		}
+
+		//
+		// Protected methods
+		//
+
+		@Override
+		protected InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, final SwingMetawidget metawidget, final String path )
+		{
+			if ( component instanceof SwingMetawidget )
+				return null;
+
+			return new InputVerifier()
+			{
+				@Override
+				public boolean verify( JComponent input )
+				{
+					metawidget.putClientProperty( "onVerify", path );
+					return false;
+				}
+			};
+		}
+
+		@Override
+		public void onEndBuild( SwingMetawidget theMetawidget )
+		{
+			// Do nothing
 		}
 	}
 }

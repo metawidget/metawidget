@@ -21,7 +21,6 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import org.metawidget.widgetprocessor.iface.WidgetProcessorExceptionTest;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessorTest;
 
 /**
  * @author Richard Kennard
@@ -37,7 +36,6 @@ public class WidgetProcessorTests
 	public static Test suite()
 	{
 		TestSuite suite = new TestSuite( "WidgetProcessor Tests" );
-		suite.addTestSuite( BaseWidgetProcessorTest.class );
 		suite.addTestSuite( WidgetProcessorExceptionTest.class );
 
 		return suite;

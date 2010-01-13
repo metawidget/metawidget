@@ -27,7 +27,7 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -43,7 +43,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class SimpleBindingProcessor
-	extends BaseWidgetProcessor<Widget, GwtMetawidget>
+	implements AdvancedWidgetProcessor<Widget, GwtMetawidget>
 {
 	//
 	// Private members
@@ -333,6 +333,12 @@ public class SimpleBindingProcessor
 				save( nestedMetawidget );
 			}
 		}
+	}
+
+	@Override
+	public void onEndBuild( GwtMetawidget metawidget )
+	{
+		// Do nothing
 	}
 
 	//

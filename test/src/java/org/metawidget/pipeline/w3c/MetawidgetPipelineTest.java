@@ -27,7 +27,7 @@ import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.w3c.dom.Element;
 
 /**
@@ -133,9 +133,8 @@ public class MetawidgetPipelineTest
 			}
 		} );
 
-		pipeline.addWidgetProcessor( new BaseWidgetProcessor<Object, Object>()
+		pipeline.addWidgetProcessor( new WidgetProcessor<Object, Object>()
 		{
-
 			@Override
 			public Object processWidget( Object widget, String elementName, Map<String, String> attributes, Object metawidget )
 			{
@@ -143,9 +142,9 @@ public class MetawidgetPipelineTest
 				return null;
 			}
 		} );
-		pipeline.addWidgetProcessor( new BaseWidgetProcessor<Object, Object>()
-		{
 
+		pipeline.addWidgetProcessor( new WidgetProcessor<Object, Object>()
+		{
 			@Override
 			public Object processWidget( Object widget, String elementName, Map<String, String> attributes, Object metawidget )
 			{

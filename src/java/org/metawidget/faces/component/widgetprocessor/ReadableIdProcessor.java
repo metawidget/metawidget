@@ -34,7 +34,7 @@ import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 
 /**
  * WidgetProcessor to set 'human readable' ids on a UIComponent.
@@ -54,7 +54,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 @SuppressWarnings( "deprecation" )
 public class ReadableIdProcessor
-	extends BaseWidgetProcessor<UIComponent, UIMetawidget>
+	implements AdvancedWidgetProcessor<UIComponent, UIMetawidget>
 {
 	//
 	// Public methods
@@ -97,6 +97,12 @@ public class ReadableIdProcessor
 		}
 
 		return component;
+	}
+
+	@Override
+	public void onEndBuild( UIMetawidget metawidget )
+	{
+		// Do nothing
 	}
 
 	//

@@ -37,8 +37,8 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.ObjectUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
  * Property binding implementation based on BeansBinding (JSR 295).
@@ -59,8 +59,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  */
 
 public class BeansBindingProcessor
-	extends BaseWidgetProcessor<JComponent, SwingMetawidget>
-	implements BindingConverter
+	implements AdvancedWidgetProcessor<JComponent, SwingMetawidget>, BindingConverter
 {
 	//
 	// Private members
@@ -247,6 +246,12 @@ public class BeansBindingProcessor
 		// ...or don't convert
 
 		return value;
+	}
+
+	@Override
+	public void onEndBuild( SwingMetawidget metawidget )
+	{
+		// Do nothing
 	}
 
 	//

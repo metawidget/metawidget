@@ -38,18 +38,6 @@ public interface Layout<W, M extends W>
 	//
 
 	/**
-	 * Initialise the given container, using the given Metawidget to access additional services if
-	 * needed (such as state saving).
-	 *
-	 * @param container
-	 *            the container to layout. This is often the same as the given Metawidget
-	 * @param metawidget
-	 *            the parent Metawidget. Never null
-	 */
-
-	void startLayout( W container, M metawidget );
-
-	/**
 	 * Layout the given widget within the given container, using the given elementName and
 	 * attributes as a guide and the given Metawidget to access additional services if needed (such
 	 * as state saving)
@@ -90,16 +78,4 @@ public interface Layout<W, M extends W>
 	// We finally settled on having a container W and a LayoutDecorator
 	//
 	void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget );
-
-	/**
-	 * Finish the given container, using the given Metawidget to access additional services if
-	 * needed (such as state saving).
-	 *
-	 * @param container
-	 *            the container to layout. This is often the same as the given Metawidget
-	 * @param metawidget
-	 *            the Metawidget to use to access additional services. Never null
-	 */
-
-	void endLayout( W container, M metawidget );
 }

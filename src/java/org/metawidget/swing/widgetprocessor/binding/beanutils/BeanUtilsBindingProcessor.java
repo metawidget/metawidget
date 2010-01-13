@@ -34,8 +34,8 @@ import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
+import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
  * Property binding implementation based on BeansUtils.
@@ -52,8 +52,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  */
 
 public class BeanUtilsBindingProcessor
-	extends BaseWidgetProcessor<JComponent, SwingMetawidget>
-	implements BindingConverter
+	implements AdvancedWidgetProcessor<JComponent, SwingMetawidget>, BindingConverter
 {
 	//
 	// Private statics
@@ -153,8 +152,8 @@ public class BeanUtilsBindingProcessor
 	 * <p>
 	 * This method is an optimization that allows clients to load a new object into the binding
 	 * <em>without</em> calling setToInspect, and therefore without reinspecting the object or
-	 * recreating the components. It is the client's responsbility to ensure the rebound object
-	 * is compatible with the original setToInspect.
+	 * recreating the components. It is the client's responsbility to ensure the rebound object is
+	 * compatible with the original setToInspect.
 	 */
 
 	public void rebind( Object toRebind, SwingMetawidget metawidget )
@@ -237,6 +236,12 @@ public class BeanUtilsBindingProcessor
 	public Object convertFromString( String value, Class<?> expectedType )
 	{
 		return ConvertUtils.convert( value, expectedType );
+	}
+
+	@Override
+	public void onEndBuild( SwingMetawidget metawidget )
+	{
+		// Do nothing
 	}
 
 	//

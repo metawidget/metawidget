@@ -37,8 +37,8 @@ import javax.faces.convert.NumberConverter;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.ClassUtils;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 /**
  * WidgetProcessor to add standard JSF Converters to a UIComponent.
@@ -47,8 +47,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  */
 
 public class StandardConverterProcessor
-	extends BaseWidgetProcessor<UIComponent, UIMetawidget>
-	implements ConverterProcessor
+	implements WidgetProcessor<UIComponent, UIMetawidget>, ConverterProcessor
 {
 	//
 	// Public methods

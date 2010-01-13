@@ -14,30 +14,34 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.layout.impl;
+package org.metawidget.swt;
 
-import org.metawidget.layout.iface.Layout;
+import org.eclipse.swt.widgets.Composite;
 
 /**
- * Convenience implementation.
+ * Facet for Swt environments.
+ * <p>
+ * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are 'decorations'
+ * (such as button bars) to be recognized and arranged at the discretion of the Layout.
  *
  * @author Richard Kennard
  */
 
-public abstract class BaseLayout<W, M extends W>
-	implements Layout<W, M>
+public class Facet
+	extends Composite
 {
 	//
-	// Public methods
+	// Private statics
 	//
 
-	public void startLayout( W conainer, M metawidget )
-	{
-		// Do nothing
-	}
+	private final static long	serialVersionUID	= 1l;
 
-	public void endLayout( W conainer, M metawidget )
+	//
+	// Constructor
+	//
+
+	public Facet( Composite parent, int style )
 	{
-		// Do nothing
+		super( parent, style );
 	}
 }

@@ -27,7 +27,7 @@ import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.FlexTable;
@@ -38,7 +38,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class MapBindingProcessor
-	extends BaseWidgetProcessor<Widget, GwtMetawidget>
+	implements AdvancedWidgetProcessor<Widget, GwtMetawidget>
 {
 	//
 	// Public methods
@@ -138,6 +138,16 @@ public class MapBindingProcessor
 			}
 		}
 	}
+
+	@Override
+	public void onEndBuild( GwtMetawidget metawidget )
+	{
+		// Do nothing
+	}
+
+	//
+	// Private methods
+	//
 
 	private State getState( GwtMetawidget metawidget )
 	{

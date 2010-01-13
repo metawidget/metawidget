@@ -22,7 +22,7 @@ import java.util.Map;
 import javax.faces.component.UIComponent;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.layout.impl.BaseLayout;
+import org.metawidget.layout.iface.Layout;
 
 /**
  * Simple layout.
@@ -33,7 +33,7 @@ import org.metawidget.layout.impl.BaseLayout;
  */
 
 public class SimpleLayout
-	extends BaseLayout<UIComponent, UIMetawidget>
+	implements Layout<UIComponent, UIMetawidget>
 {
 	//
 	// Public methods

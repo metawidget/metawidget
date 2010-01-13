@@ -28,7 +28,7 @@ import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * WidgetProcessor that adds HTML <code>&lt;input type="hidden"&gt;</code> tags to hidden and
@@ -41,7 +41,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  */
 
 public class HiddenFieldProcessor
-	extends BaseWidgetProcessor<UIComponent, UIMetawidget>
+	implements WidgetProcessor<UIComponent, UIMetawidget>
 {
 	//
 	// Public methods

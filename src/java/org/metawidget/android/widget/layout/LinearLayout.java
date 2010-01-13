@@ -21,7 +21,7 @@ import java.util.Map;
 import org.metawidget.android.AndroidUtils;
 import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.android.widget.Stub;
-import org.metawidget.layout.impl.BaseLayout;
+import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
 import android.view.View;
@@ -36,7 +36,7 @@ import android.widget.TextView;
  */
 
 public class LinearLayout
-	extends BaseLayout<View, AndroidMetawidget>
+	implements AdvancedLayout<View, AndroidMetawidget>
 {
 	//
 	// Private members
@@ -61,6 +61,12 @@ public class LinearLayout
 	//
 	// Public methods
 	//
+
+	@Override
+	public void startLayout( View view, AndroidMetawidget metawidget )
+	{
+		// Do nothing
+	}
 
 	public void layoutWidget( View view, String elementName, Map<String, String> attributes, View container, AndroidMetawidget metawidget )
 	{

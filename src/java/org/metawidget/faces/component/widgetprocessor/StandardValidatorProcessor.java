@@ -31,7 +31,7 @@ import javax.faces.validator.LongRangeValidator;
 import javax.faces.validator.Validator;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * WidgetProcessor to add standard JSF validators to a UIComponent.
@@ -40,7 +40,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  */
 
 public class StandardValidatorProcessor
-	extends BaseWidgetProcessor<UIComponent, UIMetawidget>
+	implements WidgetProcessor<UIComponent, UIMetawidget>
 {
 	//
 	// Public methods

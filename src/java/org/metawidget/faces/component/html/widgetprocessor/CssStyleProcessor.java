@@ -22,7 +22,7 @@ import javax.faces.component.UIComponent;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.html.HtmlMetawidget;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * WidgetProcessor that adds CSS styles to a UIComponent.
@@ -31,7 +31,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  */
 
 public class CssStyleProcessor
-	extends BaseWidgetProcessor<UIComponent, UIMetawidget>
+	implements WidgetProcessor<UIComponent, UIMetawidget>
 {
 	//
 	// Public methods

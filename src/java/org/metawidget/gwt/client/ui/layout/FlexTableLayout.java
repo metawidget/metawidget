@@ -24,7 +24,7 @@ import java.util.Map;
 import org.metawidget.gwt.client.ui.Facet;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.gwt.client.ui.Stub;
-import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.util.simple.SimpleLayoutUtils;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
@@ -42,7 +42,7 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  */
 
 public class FlexTableLayout
-	implements Layout<Widget, GwtMetawidget>
+	implements AdvancedLayout<Widget, GwtMetawidget>
 {
 	//
 	// Private statics

@@ -18,6 +18,7 @@ package org.metawidget.layout.decorator;
 
 import java.util.Map;
 
+import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.layout.iface.LayoutException;
 
@@ -41,7 +42,7 @@ import org.metawidget.layout.iface.LayoutException;
  */
 
 public abstract class LayoutDecorator<W, M extends W>
-	implements Layout<W, M>
+	implements AdvancedLayout<W, M>
 {
 	//
 	// Private members
@@ -68,7 +69,8 @@ public abstract class LayoutDecorator<W, M extends W>
 	@Override
 	public void startLayout( W container, M metawidget )
 	{
-		getDelegate().startLayout( container, metawidget );
+		if ( getDelegate() instanceof AdvancedLayout )
+			( (AdvancedLayout<W, M>) getDelegate() ).startLayout( container, metawidget );
 	}
 
 	public void layoutWidget( W component, String elementName, Map<String, String> attributes, W container, M metawidget )
@@ -79,7 +81,8 @@ public abstract class LayoutDecorator<W, M extends W>
 	@Override
 	public void endLayout( W container, M metawidget )
 	{
-		getDelegate().endLayout( container, metawidget );
+		if ( getDelegate() instanceof AdvancedLayout )
+			( (AdvancedLayout<W, M>) getDelegate() ).endLayout( container, metawidget );
 	}
 
 	//

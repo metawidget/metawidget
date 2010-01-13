@@ -23,7 +23,7 @@ import javax.faces.component.UIComponent;
 
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * WidgetProcessor to set labels on a UIComponent.
@@ -36,7 +36,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  */
 
 public class LabelProcessor
-	extends BaseWidgetProcessor<UIComponent, UIMetawidget>
+	implements WidgetProcessor<UIComponent, UIMetawidget>
 {
 	//
 	// Public methods

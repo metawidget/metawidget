@@ -26,7 +26,7 @@ import javax.faces.context.FacesContext;
 
 import org.ajax4jsf.component.html.HtmlAjaxSupport;
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * WidgetProcessor for RichFaces environments.
@@ -38,7 +38,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  */
 
 public class RichFacesProcessor
-	extends BaseWidgetProcessor<UIComponent, UIMetawidget>
+	implements WidgetProcessor<UIComponent, UIMetawidget>
 {
 	//
 	// Public methods

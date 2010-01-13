@@ -24,8 +24,10 @@ import java.util.Map;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspector.iface.Inspector;
+import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
+import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
@@ -442,14 +444,15 @@ public abstract class BasePipeline<W, E, M extends W>
 		{
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				widgetProcessor.onStartBuild( pipelineOwner );
+				if ( widgetProcessor instanceof AdvancedWidgetProcessor<?,?> )
+					((AdvancedWidgetProcessor<W,M>) widgetProcessor).onStartBuild( pipelineOwner );
 			}
 		}
 
 		// (layout can be null if no path, in an IDE visual builder)
 
-		if ( mLayout != null )
-			mLayout.startLayout( pipelineOwner, pipelineOwner );
+		if ( mLayout instanceof AdvancedLayout )
+			((AdvancedLayout<W,M>) mLayout).startLayout( pipelineOwner, pipelineOwner );
 	}
 
 	protected E processInspectionResult( E inspectionResult )
@@ -542,13 +545,14 @@ public abstract class BasePipeline<W, E, M extends W>
 		{
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				widgetProcessor.onEndBuild( pipelineOwner );
+				if ( widgetProcessor instanceof AdvancedWidgetProcessor<?,?> )
+					((AdvancedWidgetProcessor<W,M>) widgetProcessor).onEndBuild( pipelineOwner );
 			}
 		}
 
 		// (layout can be null if no path, in an IDE visual builder)
 
-		if ( mLayout != null )
-			mLayout.endLayout( pipelineOwner, pipelineOwner );
+		if ( mLayout instanceof AdvancedLayout )
+			((AdvancedLayout<W,M>) mLayout).endLayout( pipelineOwner, pipelineOwner );
 	}
 }

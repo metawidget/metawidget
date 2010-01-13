@@ -31,7 +31,7 @@ import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * Action binding implementation based on reflection.
@@ -45,7 +45,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  */
 
 public class ReflectionBindingProcessor
-	extends BaseWidgetProcessor<JComponent,SwingMetawidget>
+	implements WidgetProcessor<JComponent,SwingMetawidget>
 {
 	//
 	// Public methods

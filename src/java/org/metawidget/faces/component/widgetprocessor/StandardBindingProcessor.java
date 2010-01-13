@@ -33,7 +33,7 @@ import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.UIStub;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * WidgetProcessor to add standard JSF value bindings to a UIComponent.
@@ -43,7 +43,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
 
 @SuppressWarnings( "deprecation" )
 public class StandardBindingProcessor
-	extends BaseWidgetProcessor<UIComponent, UIMetawidget>
+	implements WidgetProcessor<UIComponent, UIMetawidget>
 {
 	//
 	// Public methods

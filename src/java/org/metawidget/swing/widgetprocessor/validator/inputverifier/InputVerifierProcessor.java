@@ -25,7 +25,7 @@ import javax.swing.JComponent;
 
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * Processor to add Swing InputVerifiers to a Component.
@@ -38,7 +38,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  */
 
 public abstract class InputVerifierProcessor
-	extends BaseWidgetProcessor<JComponent, SwingMetawidget>
+	implements WidgetProcessor<JComponent, SwingMetawidget>
 {
 	//
 	// Public methods
@@ -52,7 +52,7 @@ public abstract class InputVerifierProcessor
 		if ( PROPERTY.equals( elementName ) )
 			path += StringUtils.SEPARATOR_FORWARD_SLASH_CHAR + attributes.get( NAME );
 
-		InputVerifier verifier = getInputVerifier( component, attributes, path );
+		InputVerifier verifier = getInputVerifier( component, attributes, metawidget, path );
 
 		if ( verifier == null )
 			return component;
@@ -77,5 +77,5 @@ public abstract class InputVerifierProcessor
 	 *            path to the source object. Can be parsed using PathUtils.parsePath
 	 */
 
-	protected abstract InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, String path );
+	protected abstract InputVerifier getInputVerifier( JComponent component, Map<String, String> attributes, SwingMetawidget metawidget, String path );
 }

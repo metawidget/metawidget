@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 
 import org.metawidget.example.swing.tutorial.Person;
 import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * @author Richard Kennard
@@ -58,7 +58,7 @@ public class WidgetProcessorExampleTest
 	//
 
 	static class TooltipProcessor
-		extends BaseWidgetProcessor<JComponent, SwingMetawidget>
+		implements WidgetProcessor<JComponent, SwingMetawidget>
 	{
 		private String mPrefix;
 

@@ -29,7 +29,7 @@ import org.metawidget.jsp.JspUtils;
 import org.metawidget.jsp.tagext.FacetTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.StubTag;
-import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.layout.iface.LayoutException;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.SimpleLayoutUtils;
@@ -42,7 +42,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HtmlTableLayout
-	implements Layout<Tag, MetawidgetTag>
+	implements AdvancedLayout<Tag, MetawidgetTag>
 {
 	//
 	// Private statics

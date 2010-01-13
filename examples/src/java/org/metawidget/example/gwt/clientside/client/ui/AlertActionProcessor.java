@@ -23,7 +23,7 @@ import java.util.Map;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -37,7 +37,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class AlertActionProcessor
-	extends BaseWidgetProcessor<Widget, GwtMetawidget>
+	implements WidgetProcessor<Widget, GwtMetawidget>
 {
 	//
 	// Public methods

@@ -252,7 +252,7 @@ public class ComesAfterInspectionResultProcessorTest
 			inputXml += "<inspection-result xmlns=\"http://metawidget.org/inspection-result\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xsi:schemaLocation=\"http://metawidget.org/inspection-result http://metawidget.org/xsd/inspection-result-1.0.xsd\" version=\"1.0\">";
 			inputXml += "<entity type=\"InfiniteFoo\">";
 			inputXml += "<property name=\"foo\" comes-after=\"bar\"/>";
-			inputXml += "<property name=\"bar\" comes-after=\"foo\"/>";
+			inputXml += "<property name=\"bar\" comes-after=\"foo,baz\"/>";
 			inputXml += "</entity></inspection-result>";
 
 			Element inspectionResult = XmlUtils.documentFromString( inputXml ).getDocumentElement();
@@ -264,7 +264,7 @@ public class ComesAfterInspectionResultProcessorTest
 		}
 		catch ( InspectionResultProcessorException e )
 		{
-			assertTrue( "Infinite loop detected when sorting comes-after: bar comes after foo, but foo comes after bar".equals( e.getMessage() ) );
+			assertTrue( "Infinite loop detected when sorting comes-after: bar comes after foo and baz, but foo comes after bar".equals( e.getMessage() ) );
 		}
 	}
 

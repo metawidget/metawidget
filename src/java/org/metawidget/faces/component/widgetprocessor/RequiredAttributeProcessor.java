@@ -25,7 +25,7 @@ import javax.faces.component.EditableValueHolder;
 import javax.faces.component.UIComponent;
 
 import org.metawidget.faces.component.UIMetawidget;
-import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessor;
 
 /**
  * WidgetProcessor that sets the <code>required</code> attribute.
@@ -39,7 +39,7 @@ import org.metawidget.widgetprocessor.impl.BaseWidgetProcessor;
  */
 
 public class RequiredAttributeProcessor
-	extends BaseWidgetProcessor<UIComponent, UIMetawidget>
+	implements WidgetProcessor<UIComponent, UIMetawidget>
 {
 	//
 	// Public methods
