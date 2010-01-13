@@ -19,7 +19,6 @@ package org.metawidget.inspectionresultprocessor.sort;
 import junit.framework.TestCase;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
-import org.metawidget.inspectionresultprocessor.sort.ComesAfterInspectionResultProcessor;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Element;
@@ -265,7 +264,7 @@ public class ComesAfterInspectionResultProcessorTest
 		}
 		catch ( InspectionResultProcessorException e )
 		{
-			assertTrue( "Infinite loop detected when sorting comes-after".equals( e.getMessage() ) );
+			assertTrue( "Infinite loop detected when sorting comes-after: bar comes after foo, but foo comes after bar".equals( e.getMessage() ) );
 		}
 	}
 

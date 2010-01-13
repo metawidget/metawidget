@@ -18,13 +18,16 @@ package org.metawidget.inspectionresultprocessor.sort;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessorException;
 import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.XmlUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -97,10 +100,25 @@ public class ComesAfterInspectionResultProcessor<M>
 
 			while ( !traitsWithComesAfter.isEmpty() )
 			{
+				// Infinite loop? Explain why
+
 				infiniteLoop--;
 
 				if ( infiniteLoop < 0 )
-					throw InspectionResultProcessorException.newException( "Infinite loop detected when sorting " + COMES_AFTER );
+				{
+					List<String> names = CollectionUtils.newArrayList();
+
+					for ( Map.Entry<Element, String[]> entry : traitsWithComesAfter.entrySet() )
+					{
+						names.add( entry.getKey().getAttribute( NAME ) + " comes after " + ArrayUtils.toString( entry.getValue() ));
+					}
+
+					// (sort for unit tests)
+
+					Collections.sort( names );
+
+					throw InspectionResultProcessorException.newException( "Infinite loop detected when sorting " + COMES_AFTER + ": " + CollectionUtils.toString( names, ", but " ) );
+				}
 
 				// For each entry in the Map...
 

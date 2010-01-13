@@ -103,6 +103,12 @@
 				<verifyXPath xpath="count(/html/body/table[1]/tbody)" text="1"/>
 				<verifyXPath xpath="count(/html/body/table[1]/tbody/tr)" text="0"/>
 
+				<!-- Test rendering nested Metawidgets with required fields -->
+				
+				<verifyXPath xpath="count(/html/body/table[2]/tbody/tr)" text="1"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr/td[1]/textarea"/>
+				<verifyXPath xpath="/html/body/table[2]/tbody/tr/td[2]" text="*"/>
+
 				<!-- Test inline Actions -->
 				
 				<verifyXPath xpath="/html/body/form/table[1]/tbody/tr[6]/td[1]/input[@type='submit']/@value" text="Refresh"/>

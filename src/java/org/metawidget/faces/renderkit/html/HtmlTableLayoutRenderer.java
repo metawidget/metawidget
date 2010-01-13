@@ -64,8 +64,10 @@ import org.metawidget.util.simple.StringUtils;
  * <li><code>headerStyleClass</code> - CSS style class to apply to table header
  * <li><code>footerStyle</code> - CSS styles to apply to table footer
  * <li><code>footerStyleClass</code> - CSS style class to apply to table footer
- * <li><code>rowClasses</code> - comma delimited string of CSS style classes to apply to alternating table rows
- * <li><code>labelSuffix</code> - suffix to put after the label name. Defaults to a colon (ie. 'Name:')
+ * <li><code>rowClasses</code> - comma delimited string of CSS style classes to apply to alternating
+ * table rows
+ * <li><code>labelSuffix</code> - suffix to put after the label name. Defaults to a colon (ie.
+ * 'Name:')
  * </ul>
  * <p>
  * The parameters <code>columns</code> and <code>columnClasses</code> might more properly be named
@@ -476,8 +478,7 @@ public class HtmlTableLayoutRenderer
 
 		if ( ( childComponent instanceof UIMetawidget && "table".equals( childComponent.getRendererType() ) ) || !childComponent.getAttributes().containsKey( UIMetawidget.COMPONENT_ATTRIBUTE_METADATA ) )
 		{
-			// (except embedded Metawidgets, which have their own required
-			// column)
+			// (except embedded table Metawidgets, which have their own required column)
 		}
 		else
 		{
@@ -516,9 +517,10 @@ public class HtmlTableLayoutRenderer
 		{
 			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !( (UIMetawidget) metawidget ).isReadOnly() )
 			{
-				// (UIStubs can have attributes="required: true")
+				// UIStubs can have attributes="required: true". UIMetawidgets with
+				// rendererType="simple" can be over required fields
 
-				if ( child instanceof UIInput || child instanceof UIStub )
+				if ( child instanceof UIInput || child instanceof UIStub || child instanceof UIMetawidget )
 				{
 					writer.write( "*" );
 					return;

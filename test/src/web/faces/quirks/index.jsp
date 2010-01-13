@@ -23,6 +23,12 @@
 			
 			<m:metawidget value="#{aNull}"/>
 			
+			<h1>Rendering Nested Metawidgets With Required Fields</h1>
+			
+			<m:metawidget>
+				<m:metawidget value="#{quirks.large}" rendererType="simple"/>
+			</m:metawidget>
+
 		</f:view>
 		
 	</body>	    

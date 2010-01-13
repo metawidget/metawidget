@@ -162,6 +162,7 @@ a {
 .left-menu h2 {
 	text-transform: lowercase;
 	height: 40px;
+	width: 150px;
 	margin: 0 0 2px 0;
 	padding: 10px 0 0 50px;
 	color: white;
