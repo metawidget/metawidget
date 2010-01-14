@@ -25,7 +25,7 @@ import java.util.Map;
  * @author Richard Kennard
  */
 
-public abstract class FlatSectionLayoutDecorator<W, C, M extends W>
+public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	extends LayoutDecorator<W, C, M>
 {
 	//

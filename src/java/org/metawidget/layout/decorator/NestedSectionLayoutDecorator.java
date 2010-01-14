@@ -25,7 +25,7 @@ import java.util.Map;
  * @author Richard Kennard
  */
 
-public abstract class NestedSectionLayoutDecorator<W, C, M extends W>
+public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 	extends LayoutDecorator<W, C, M>
 {
 	//

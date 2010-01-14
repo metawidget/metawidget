@@ -41,7 +41,7 @@ import org.metawidget.layout.iface.LayoutException;
  * @author Richard Kennard
  */
 
-public abstract class LayoutDecorator<W, C, M extends W>
+public abstract class LayoutDecorator<W, C extends W, M extends C>
 	implements AdvancedLayout<W, C, M>
 {
 	//

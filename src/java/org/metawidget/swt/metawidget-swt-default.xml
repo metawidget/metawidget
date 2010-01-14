@@ -29,8 +29,21 @@
 		</inspectionResultProcessors>
 				
 		<widgetBuilder>
-			<swtWidgetBuilder xmlns="java:org.metawidget.swt.widgetbuilder"/>
+			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
+				<widgetBuilders>
+					<array>
+						<overriddenWidgetBuilder xmlns="java:org.metawidget.swt.widgetbuilder"/>
+						<swtWidgetBuilder xmlns="java:org.metawidget.swt.widgetbuilder"/>
+					</array>
+				</widgetBuilders>
+			</compositeWidgetBuilder>
 		</widgetBuilder>
+		
+		<widgetProcessors>
+			<array>
+				<reflectionBindingProcessor xmlns="java:org.metawidget.swt.widgetprocessor.binding.reflection"/>
+			</array>
+		</widgetProcessors>
 		
 		<metawidgetLayout>
 			<migLayout xmlns="java:org.metawidget.swt.layout"/>

@@ -31,7 +31,7 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public abstract class W3CPipeline<W, C, M extends W>
+public abstract class W3CPipeline<W, C extends W, M extends C>
 	extends BasePipeline<W, C, Element, M>
 {
 	//

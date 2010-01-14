@@ -28,7 +28,7 @@ package org.metawidget.layout.iface;
  * @author Richard Kennard
  */
 
-public interface AdvancedLayout<W, C, M extends W>
+public interface AdvancedLayout<W, C extends W, M extends C>
 	extends Layout<W, C, M>
 {
 	//

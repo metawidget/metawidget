@@ -55,7 +55,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * @author Richard Kennard
  */
 
-public abstract class BasePipeline<W, C, E, M extends W>
+public abstract class BasePipeline<W, C extends W, E, M extends C>
 {
 	//
 	// Private statics
@@ -452,7 +452,7 @@ public abstract class BasePipeline<W, C, E, M extends W>
 		// (layout can be null if no path, in an IDE visual builder)
 
 		if ( mLayout instanceof AdvancedLayout )
-			( (AdvancedLayout<W, C, M>) mLayout ).startLayout( getPipelineOwnerAsContainer(), pipelineOwner );
+			( (AdvancedLayout<W, C, M>) mLayout ).startLayout( pipelineOwner, pipelineOwner );
 	}
 
 	protected E processInspectionResult( E inspectionResult )
@@ -533,7 +533,9 @@ public abstract class BasePipeline<W, C, E, M extends W>
 
 	protected void addWidget( W widget, String elementName, Map<String, String> attributes )
 	{
-		mLayout.layoutWidget( widget, elementName, attributes, getPipelineOwnerAsContainer(), getPipelineOwner() );
+		M pipelineOwner = getPipelineOwner();
+
+		mLayout.layoutWidget( widget, elementName, attributes, pipelineOwner, pipelineOwner );
 	}
 
 	protected void endBuild()
@@ -552,24 +554,6 @@ public abstract class BasePipeline<W, C, E, M extends W>
 		// (layout can be null if no path, in an IDE visual builder)
 
 		if ( mLayout instanceof AdvancedLayout )
-			( (AdvancedLayout<W, C, M>) mLayout ).endLayout( getPipelineOwnerAsContainer(), pipelineOwner );
-	}
-
-	//
-	// Private methods
-	//
-
-	/**
-	 * Casts M to C.
-	 * <p>
-	 * M should always extend C, however if we declare it that way then M will not extend W. This is
-	 * problematic for WidgetBuilders and WidgetProcessors who have no knowledge of C (nor should
-	 * they). For them, M must extend W. We get around this by an unsafe cast here.
-	 */
-
-	@SuppressWarnings( "unchecked" )
-	private C getPipelineOwnerAsContainer()
-	{
-		return (C) getPipelineOwner();
+			( (AdvancedLayout<W, C, M>) mLayout ).endLayout( pipelineOwner, pipelineOwner );
 	}
 }

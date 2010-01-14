@@ -68,8 +68,6 @@ public class MigLayout
 	// Public methods
 	//
 
-	// TODO: 3 generic args for layout?
-
 	public void startLayout( Composite container, SwtMetawidget metawidget )
 	{
 		container.setData( MigLayout.class.getName(), null );

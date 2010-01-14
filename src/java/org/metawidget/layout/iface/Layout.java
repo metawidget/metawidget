@@ -38,7 +38,7 @@ import org.metawidget.iface.Immutable;
  * @author Richard Kennard
  */
 
-public interface Layout<W, C, M extends W>
+public interface Layout<W, C extends W, M extends C>
 	extends Immutable
 {
 	//

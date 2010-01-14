@@ -25,7 +25,7 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class LayoutDecoratorConfig<W, C, M extends W>
+public class LayoutDecoratorConfig<W, C extends W, M extends C>
 {
 	//
 	// Private members

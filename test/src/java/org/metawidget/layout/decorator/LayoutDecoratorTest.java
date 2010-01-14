@@ -41,7 +41,7 @@ public class LayoutDecoratorTest
 		testConfig( new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>(), new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>(), new GridBagLayout() );
 	}
 
-	public static <W, C, M extends W> void testConfig( LayoutDecoratorConfig<W, C, M> config1, LayoutDecoratorConfig<W,C, M> config2, Layout<W, C, M> delegate )
+	public static <W, C extends W, M extends C> void testConfig( LayoutDecoratorConfig<W, C, M> config1, LayoutDecoratorConfig<W,C, M> config2, Layout<W, C, M> delegate )
 	{
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config1 ) );
