@@ -25,6 +25,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LayoutUtils;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
@@ -34,13 +35,13 @@ import android.view.View;
  */
 
 public abstract class AndroidNestedSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<View, AndroidMetawidget>
+	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<View, ViewGroup, AndroidMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected AndroidNestedSectionLayoutDecorator( LayoutDecoratorConfig<View, AndroidMetawidget> config )
+	protected AndroidNestedSectionLayoutDecorator( LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget> config )
 	{
 		super( config );
 	}
@@ -56,10 +57,10 @@ public abstract class AndroidNestedSectionLayoutDecorator
 	}
 
 	@Override
-	protected State<View> getState( View view, AndroidMetawidget metawidget )
+	protected State<ViewGroup> getState( ViewGroup view, AndroidMetawidget metawidget )
 	{
 		@SuppressWarnings( "unchecked" )
-		Map<View, State<View>> stateMap = (Map<View, State<View>>) metawidget.getClientProperty( getClass() );
+		Map<View, State<ViewGroup>> stateMap = (Map<View, State<ViewGroup>>) metawidget.getClientProperty( getClass() );
 
 		if ( stateMap == null )
 		{
@@ -67,11 +68,11 @@ public abstract class AndroidNestedSectionLayoutDecorator
 			metawidget.putClientProperty( getClass(), stateMap );
 		}
 
-		State<View> state = stateMap.get( view );
+		State<ViewGroup> state = stateMap.get( view );
 
 		if ( state == null )
 		{
-			state = new State<View>();
+			state = new State<ViewGroup>();
 			stateMap.put( view, state );
 		}
 

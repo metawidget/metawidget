@@ -27,7 +27,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
-import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.swt.Facet;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
@@ -42,7 +42,7 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  */
 
 public class MigLayout
-	implements Layout<Composite, SwtMetawidget>
+	implements AdvancedLayout<Control, Composite, SwtMetawidget>
 {
 	//
 	// Private members
@@ -67,6 +67,8 @@ public class MigLayout
 	//
 	// Public methods
 	//
+
+	// TODO: 3 generic args for layout?
 
 	public void startLayout( Composite container, SwtMetawidget metawidget )
 	{
@@ -101,7 +103,7 @@ public class MigLayout
 		state.defaultLabelVerticalPadding = 0;
 	}
 
-	public void layoutWidget( Composite component, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
+	public void layoutWidget( Control component, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
@@ -160,7 +162,7 @@ public class MigLayout
 
 		// Add it
 
-		container.setLayoutData( componentConstraints );
+		component.setLayoutData( componentConstraints );
 
 		state.currentColumn++;
 
@@ -198,15 +200,15 @@ public class MigLayout
 	// Protected methods
 	//
 
-	protected String layoutBeforeChild( Control component, String labelText, String elementName, Map<String, String> attributes, Composite container, SwtMetawidget metawidget )
+	protected String layoutBeforeChild( Control component, String labelText, String elementName, Map<String, String> attributes, Control container, SwtMetawidget metawidget )
 	{
-		State state = getState( container );
+		State state = getState( (Composite) container );
 
 		// Add label
 
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ))
 		{
-			Label label = new Label( container, SWT.None );
+			Label label = new Label( ((Composite) container), SWT.None );
 
 			// Required
 
@@ -237,7 +239,7 @@ public class MigLayout
 		return labelText;
 	}
 
-	protected boolean willFillVertically( Composite component, Map<String, String> attributes )
+	protected boolean willFillVertically( Control component, Map<String, String> attributes )
 	{
 		if ( attributes != null && TRUE.equals( attributes.get( LARGE )))
 			return true;

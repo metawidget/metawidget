@@ -25,7 +25,7 @@ import org.metawidget.android.widget.AndroidMetawidget;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
-import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -60,7 +60,7 @@ public class TextViewLayoutDecorator
 	//
 
 	@Override
-	protected View createSectionWidget( View previousSectionView, Map<String, String> attributes, View container, AndroidMetawidget metawidget )
+	protected ViewGroup createSectionWidget( ViewGroup previousSectionView, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget )
 	{
 		TextView textView = new TextView( metawidget.getContext() );
 

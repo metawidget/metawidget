@@ -31,8 +31,8 @@ import org.w3c.dom.Element;
  * @author Richard Kennard
  */
 
-public abstract class W3CPipeline<W, M extends W>
-	extends BasePipeline<W, Element, M>
+public abstract class W3CPipeline<W, C, M extends W>
+	extends BasePipeline<W, C, Element, M>
 {
 	//
 	// Public methods
@@ -80,34 +80,19 @@ public abstract class W3CPipeline<W, M extends W>
 	public void configureDefaults( ConfigReader configReader, String configuration, Class<M> metawidgetClass )
 	{
 		if ( getInspector() == null )
-		{
-			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "inspector" );
-			setInspector( getNestedPipeline( dummyMetawidget ).getInspector() );
-		}
+			configReader.configure( configuration, getPipelineOwner(), "inspector" );
 
 		if ( getInspectionResultProcessors() == null )
-		{
-			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "inspectionResultProcessors" );
-			setInspectionResultProcessors( getNestedPipeline( dummyMetawidget ).getInspectionResultProcessors() );
-		}
+			configReader.configure( configuration, getPipelineOwner(), "inspectionResultProcessors" );
 
 		if ( getWidgetBuilder() == null )
-		{
-			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "widgetBuilder" );
-			setWidgetBuilder( getNestedPipeline( dummyMetawidget ).getWidgetBuilder() );
-		}
+			configReader.configure( configuration, getPipelineOwner(), "widgetBuilder" );
 
 		if ( getWidgetProcessors() == null )
-		{
-			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "widgetProcessors" );
-			setWidgetProcessors( getNestedPipeline( dummyMetawidget ).getWidgetProcessors() );
-		}
+			configReader.configure( configuration, getPipelineOwner(), "widgetProcessors" );
 
 		if ( getLayout() == null )
-		{
-			M dummyMetawidget = configReader.configure( configuration, metawidgetClass, "layout" );
-			setLayout( getNestedPipeline( dummyMetawidget ).getLayout() );
-		}
+			configReader.configure( configuration, getPipelineOwner(), "layout" );
 	}
 
 	//
@@ -144,13 +129,4 @@ public abstract class W3CPipeline<W, M extends W>
 	{
 		return XmlUtils.getAttributesAsMap( element );
 	}
-
-	/**
-	 * @return the pipeline instance within the given Metwidget. Used by
-	 *         <code>configureDefaults</code> so that it can a) configure a dummy Metawidget
-	 *         instance, then b) copy settings from that dummy Metawidget instance's pipeline into
-	 *         itself.
-	 */
-
-	protected abstract W3CPipeline<W, M> getNestedPipeline( M metawidget );
 }

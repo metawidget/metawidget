@@ -30,7 +30,7 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class OutputTextLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<UIComponent, UIMetawidget>
+	extends LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget>
 {
 	//
 	// Private members
@@ -51,7 +51,7 @@ public class OutputTextLayoutDecoratorConfig
 	 */
 
 	@Override
-	public OutputTextLayoutDecoratorConfig setLayout( Layout<UIComponent, UIMetawidget> layout )
+	public OutputTextLayoutDecoratorConfig setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout )
 	{
 		super.setLayout( layout );
 

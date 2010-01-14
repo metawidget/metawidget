@@ -35,7 +35,7 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class BoxLayout
-	implements AdvancedLayout<JComponent, SwingMetawidget>
+	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget>
 {
 	//
 	// Public methods

@@ -25,14 +25,14 @@ import java.util.Map;
  * @author Richard Kennard
  */
 
-public abstract class FlatSectionLayoutDecorator<W, M extends W>
-	extends LayoutDecorator<W, M>
+public abstract class FlatSectionLayoutDecorator<W, C, M extends W>
+	extends LayoutDecorator<W, C, M>
 {
 	//
 	// Constructor
 	//
 
-	protected FlatSectionLayoutDecorator( LayoutDecoratorConfig<W, M> config )
+	protected FlatSectionLayoutDecorator( LayoutDecoratorConfig<W, C, M> config )
 	{
 		super( config );
 	}
@@ -42,7 +42,7 @@ public abstract class FlatSectionLayoutDecorator<W, M extends W>
 	//
 
 	@Override
-	public void startLayout( W container, M metawidget )
+	public void startLayout( C container, M metawidget )
 	{
 		super.startLayout( container, metawidget );
 
@@ -51,7 +51,7 @@ public abstract class FlatSectionLayoutDecorator<W, M extends W>
 	}
 
 	@Override
-	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget )
+	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, C container, M metawidget )
 	{
 		String[] sections = getSections( attributes );
 		State state = getState( container, metawidget );
@@ -99,7 +99,7 @@ public abstract class FlatSectionLayoutDecorator<W, M extends W>
 
 	protected abstract String[]	getSections( Map<String, String> attributes );
 
-	protected abstract State getState( W container, M metawidget );
+	protected abstract State getState( C container, M metawidget );
 
 	protected abstract boolean isEmptyStub( W widget );
 
@@ -110,11 +110,11 @@ public abstract class FlatSectionLayoutDecorator<W, M extends W>
 	 * @param metawidget
 	 */
 
-	protected abstract void addSectionWidget( String section, int level, W container, M metawidget );
+	protected abstract void addSectionWidget( String section, int level, C container, M metawidget );
 
 	//
 	// Inner class
-	//
+	//S
 
 	/**
 	 * Simple, lightweight structure for saving state.

@@ -29,8 +29,8 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
 
 import com.google.gwt.user.client.ui.ComplexPanel;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasWidgets;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
 
@@ -42,7 +42,7 @@ import com.google.gwt.user.client.ui.FlexTable.FlexCellFormatter;
  */
 
 public class FlexTableLayout
-	implements AdvancedLayout<Widget, GwtMetawidget>
+	implements AdvancedLayout<Widget, Panel, GwtMetawidget>
 {
 	//
 	// Private statics
@@ -84,17 +84,17 @@ public class FlexTableLayout
 	//
 
 	@Override
-	public void startLayout( Widget container, GwtMetawidget metawidget )
+	public void startLayout( Panel container, GwtMetawidget metawidget )
 	{
 		State state = getState( container, metawidget );
 		FlexTable flexTable = new FlexTable();
 		flexTable.setStyleName( mTableStyleName );
-		( (HasWidgets) container ).add( flexTable );
+		container.add( flexTable );
 
 		state.formatter = flexTable.getFlexCellFormatter();
 	}
 
-	public void layoutWidget( Widget widget, String elementName, Map<String, String> attributes, Widget container, GwtMetawidget metawidget )
+	public void layoutWidget( Widget widget, String elementName, Map<String, String> attributes, Panel container, GwtMetawidget metawidget )
 	{
 		// Do not render empty stubs
 
@@ -238,7 +238,7 @@ public class FlexTableLayout
 	}
 
 	@Override
-	public void endLayout( Widget container, GwtMetawidget metawidget )
+	public void endLayout( Panel container, GwtMetawidget metawidget )
 	{
 		if ( container.equals( metawidget ) )
 		{

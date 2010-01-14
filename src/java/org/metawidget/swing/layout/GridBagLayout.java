@@ -30,7 +30,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -45,7 +45,7 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  */
 
 public class GridBagLayout
-	implements Layout<JComponent, SwingMetawidget>
+	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget>
 {
 	//
 	// Private statics

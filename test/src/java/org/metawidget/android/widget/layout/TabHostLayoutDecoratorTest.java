@@ -26,6 +26,7 @@ import org.metawidget.inspector.annotation.UiSection;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -49,7 +50,7 @@ public class TabHostLayoutDecoratorTest
 	public void testTabHostLayoutDecorator()
 	{
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new TabHostLayoutDecorator( new LayoutDecoratorConfig<View,AndroidMetawidget>().setLayout( new TableLayout() )));
+		androidMetawidget.setLayout( new TabHostLayoutDecorator( new LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget>().setLayout( new TableLayout() ) ) );
 		androidMetawidget.setToInspect( new Foo() );
 
 		Facet facet = new Facet( null );
@@ -73,7 +74,7 @@ public class TabHostLayoutDecoratorTest
 
 		// Tab 1
 
-		assertTrue( "tab1".equals( tabHost.getTabSpec( 0 ).getIndicator() ));
+		assertTrue( "tab1".equals( tabHost.getTabSpec( 0 ).getIndicator() ) );
 		android.widget.LinearLayout tab = (android.widget.LinearLayout) tabHost.getTabSpec( 0 ).getContent().createTabContent( null );
 		assertTrue( android.widget.LinearLayout.VERTICAL == tab.getOrientation() );
 		android.widget.TableLayout tabTableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
@@ -87,7 +88,7 @@ public class TabHostLayoutDecoratorTest
 
 		// Tab 2
 
-		assertTrue( "tab2".equals( tabHost.getTabSpec( 1 ).getIndicator() ));
+		assertTrue( "tab2".equals( tabHost.getTabSpec( 1 ).getIndicator() ) );
 		tab = (android.widget.LinearLayout) tabHost.getTabSpec( 1 ).getContent().createTabContent( null );
 		assertTrue( android.widget.LinearLayout.VERTICAL == tab.getOrientation() );
 		tabTableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
@@ -112,7 +113,7 @@ public class TabHostLayoutDecoratorTest
 
 		// Tab A
 
-		assertTrue( "tabA".equals( tabHost.getTabSpec( 0 ).getIndicator() ));
+		assertTrue( "tabA".equals( tabHost.getTabSpec( 0 ).getIndicator() ) );
 		tab = (android.widget.LinearLayout) tabHost.getTabSpec( 0 ).getContent().createTabContent( null );
 		assertTrue( android.widget.LinearLayout.VERTICAL == tab.getOrientation() );
 		tableLayout = (android.widget.TableLayout) tab.getChildAt( 0 );
@@ -121,7 +122,7 @@ public class TabHostLayoutDecoratorTest
 		assertTrue( tableRow.getChildAt( 1 ) instanceof EditText );
 		assertTrue( 1 == tableLayout.getChildCount() );
 
-		assertTrue( facet == androidMetawidget.getChildAt( 1 ));
+		assertTrue( facet == androidMetawidget.getChildAt( 1 ) );
 		assertTrue( 2 == androidMetawidget.getChildCount() );
 	}
 

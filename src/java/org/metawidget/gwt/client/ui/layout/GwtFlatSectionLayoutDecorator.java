@@ -25,6 +25,7 @@ import org.metawidget.gwt.client.ui.GwtUtils;
 import org.metawidget.gwt.client.ui.Stub;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -35,13 +36,13 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public abstract class GwtFlatSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<Widget, GwtMetawidget>
+	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<Widget, Panel, GwtMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected GwtFlatSectionLayoutDecorator( LayoutDecoratorConfig<Widget, GwtMetawidget> config )
+	protected GwtFlatSectionLayoutDecorator( LayoutDecoratorConfig<Widget, Panel, GwtMetawidget> config )
 	{
 		super( config );
 	}
@@ -57,7 +58,7 @@ public abstract class GwtFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected State getState( Widget container, GwtMetawidget metawidget )
+	protected State getState( Panel container, GwtMetawidget metawidget )
 	{
 		State state = (State) metawidget.getClientProperty( getClass() );
 

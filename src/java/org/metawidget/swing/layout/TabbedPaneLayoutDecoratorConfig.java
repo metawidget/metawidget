@@ -30,7 +30,7 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class TabbedPaneLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<JComponent, SwingMetawidget>
+	extends LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>
 {
 	//
 	// Private members
@@ -49,7 +49,7 @@ public class TabbedPaneLayoutDecoratorConfig
 	 */
 
 	@Override
-	public TabbedPaneLayoutDecoratorConfig setLayout( Layout<JComponent, SwingMetawidget> layout )
+	public TabbedPaneLayoutDecoratorConfig setLayout( Layout<JComponent, JComponent, SwingMetawidget> layout )
 	{
 		super.setLayout( layout );
 

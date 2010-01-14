@@ -28,6 +28,10 @@ import org.metawidget.iface.Immutable;
  * caches or configuration settings internally, as long as they are threadsafe). If they need to
  * store state, they should use the Metawidget passed to each method.
  *
+ * @param <W>
+ *            base class of widgets that this WidgetProcessor processes
+ * @param <M>
+ *            Metawidget that supports this WidgetProcessor
  * @author Richard Kennard
  */
 

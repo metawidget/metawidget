@@ -34,13 +34,13 @@ import org.metawidget.util.LayoutUtils;
  */
 
 public abstract class UIComponentNestedSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<UIComponent, UIMetawidget>
+	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<UIComponent, UIComponent, UIMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected UIComponentNestedSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIMetawidget> config )
+	protected UIComponentNestedSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> config )
 	{
 		super( config );
 	}

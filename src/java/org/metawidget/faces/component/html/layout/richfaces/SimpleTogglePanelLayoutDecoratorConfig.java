@@ -31,7 +31,7 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class SimpleTogglePanelLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<UIComponent, UIMetawidget>
+	extends LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget>
 {
 	//
 	// Private members
@@ -67,7 +67,7 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 	 */
 
 	@Override
-	public SimpleTogglePanelLayoutDecoratorConfig setLayout( Layout<UIComponent, UIMetawidget> layout )
+	public SimpleTogglePanelLayoutDecoratorConfig setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout )
 	{
 		super.setLayout( layout );
 

@@ -59,7 +59,7 @@ public class TitledPanelLayoutDecorator
 	// Constructor
 	//
 
-	public TitledPanelLayoutDecorator( LayoutDecoratorConfig<JComponent, SwingMetawidget> config )
+	public TitledPanelLayoutDecorator( LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget> config )
 	{
 		super( config );
 	}

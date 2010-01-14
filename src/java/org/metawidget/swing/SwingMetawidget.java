@@ -273,7 +273,7 @@ public class SwingMetawidget
 	 * <code>setLayout( null )</code> do?
 	 */
 
-	public void setMetawidgetLayout( Layout<JComponent, SwingMetawidget> layout )
+	public void setMetawidgetLayout( Layout<JComponent, JComponent, SwingMetawidget> layout )
 	{
 		mPipeline.setLayout( layout );
 		invalidateWidgets();
@@ -797,10 +797,7 @@ public class SwingMetawidget
 			// SwingMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( mPipeline.getLayout() == null )
-			{
-				SwingMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwingMetawidget.class, "metawidgetLayout" );
-				mPipeline.setLayout( dummyMetawidget.getPipeline().getLayout() );
-			}
+				CONFIG_READER.configure( DEFAULT_CONFIG, this, "metawidgetLayout" );
 
 			mPipeline.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwingMetawidget.class );
 		}
@@ -889,7 +886,7 @@ public class SwingMetawidget
 	{
 		if ( mExistingUnusedComponents != null )
 		{
-			Layout<JComponent, SwingMetawidget> layout = mPipeline.getLayout();
+			Layout<JComponent, JComponent, SwingMetawidget> layout = mPipeline.getLayout();
 
 			for ( JComponent componentExisting : mExistingUnusedComponents )
 			{
@@ -1001,7 +998,7 @@ public class SwingMetawidget
 	//
 
 	protected class Pipeline
-		extends W3CPipeline<JComponent, SwingMetawidget>
+		extends W3CPipeline<JComponent, JComponent, SwingMetawidget>
 	{
 		//
 		// Protected methods
@@ -1057,12 +1054,6 @@ public class SwingMetawidget
 		protected SwingMetawidget getPipelineOwner()
 		{
 			return SwingMetawidget.this;
-		}
-
-		@Override
-		protected W3CPipeline<JComponent, SwingMetawidget> getNestedPipeline( SwingMetawidget metawidget )
-		{
-			return metawidget.getPipeline();
 		}
 	}
 }

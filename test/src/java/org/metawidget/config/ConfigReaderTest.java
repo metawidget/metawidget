@@ -214,9 +214,9 @@ public class ConfigReaderTest
 		Field pipelineField = SwingMetawidget.class.getDeclaredField( "mPipeline" );
 		pipelineField.setAccessible( true );
 		@SuppressWarnings( "unchecked" )
-		W3CPipeline<JComponent, SwingMetawidget> pipeline1 = (W3CPipeline<JComponent, SwingMetawidget>) pipelineField.get( metawidget1 );
+		W3CPipeline<JComponent, JComponent, SwingMetawidget> pipeline1 = (W3CPipeline<JComponent, JComponent, SwingMetawidget>) pipelineField.get( metawidget1 );
 		@SuppressWarnings( "unchecked" )
-		W3CPipeline<JComponent, SwingMetawidget> pipeline2 = (W3CPipeline<JComponent, SwingMetawidget>) pipelineField.get( metawidget2 );
+		W3CPipeline<JComponent, JComponent, SwingMetawidget> pipeline2 = (W3CPipeline<JComponent, JComponent, SwingMetawidget>) pipelineField.get( metawidget2 );
 
 		Field widgetBuilderField = BasePipeline.class.getDeclaredField( "mWidgetBuilder" );
 		widgetBuilderField.setAccessible( true );
@@ -839,9 +839,9 @@ public class ConfigReaderTest
 		Field pipelineField = SwingMetawidget.class.getDeclaredField( "mPipeline" );
 		pipelineField.setAccessible( true );
 		@SuppressWarnings( "unchecked" )
-		W3CPipeline<JComponent, SwingMetawidget> pipeline1 = (W3CPipeline<JComponent, SwingMetawidget>) pipelineField.get( metawidget1 );
+		W3CPipeline<JComponent, JComponent, SwingMetawidget> pipeline1 = (W3CPipeline<JComponent, JComponent, SwingMetawidget>) pipelineField.get( metawidget1 );
 		@SuppressWarnings( "unchecked" )
-		W3CPipeline<JComponent, SwingMetawidget> pipeline2 = (W3CPipeline<JComponent, SwingMetawidget>) pipelineField.get( metawidget2 );
+		W3CPipeline<JComponent, JComponent, SwingMetawidget> pipeline2 = (W3CPipeline<JComponent, JComponent, SwingMetawidget>) pipelineField.get( metawidget2 );
 		assertTrue( pipeline1 != pipeline2 );
 
 		// Inspectors should be the same, because resources are cached even though it contains

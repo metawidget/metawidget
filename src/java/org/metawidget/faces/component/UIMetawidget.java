@@ -244,12 +244,12 @@ public abstract class UIMetawidget
 		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
-	public void setLayout( Layout<UIComponent, UIMetawidget> layout )
+	public void setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout )
 	{
 		mPipeline.setLayout( layout );
 	}
 
-	public Layout<UIComponent, UIMetawidget> getLayout()
+	public Layout<UIComponent, UIComponent, UIMetawidget> getLayout()
 	{
 		return mPipeline.getLayout();
 	}
@@ -873,7 +873,7 @@ public abstract class UIMetawidget
 	//
 
 	protected class Pipeline
-		extends W3CPipeline<UIComponent, UIMetawidget>
+		extends W3CPipeline<UIComponent, UIComponent, UIMetawidget>
 	{
 		//
 		// Public methods
@@ -945,12 +945,6 @@ public abstract class UIMetawidget
 		protected UIMetawidget getPipelineOwner()
 		{
 			return UIMetawidget.this;
-		}
-
-		@Override
-		protected W3CPipeline<UIComponent, UIMetawidget> getNestedPipeline( UIMetawidget metawidget )
-		{
-			return metawidget.getPipeline();
 		}
 	}
 }

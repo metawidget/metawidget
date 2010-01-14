@@ -28,8 +28,8 @@ package org.metawidget.layout.iface;
  * @author Richard Kennard
  */
 
-public interface AdvancedLayout<W, M extends W>
-	extends Layout<W, M>
+public interface AdvancedLayout<W, C, M extends W>
+	extends Layout<W, C, M>
 {
 	//
 	// Methods
@@ -45,7 +45,7 @@ public interface AdvancedLayout<W, M extends W>
 	 *            the parent Metawidget. Never null
 	 */
 
-	void startLayout( W container, M metawidget );
+	void startLayout( C container, M metawidget );
 
 	/**
 	 * Finish the given container, using the given Metawidget to access additional services if
@@ -57,5 +57,5 @@ public interface AdvancedLayout<W, M extends W>
 	 *            the Metawidget to use to access additional services. Never null
 	 */
 
-	void endLayout( W container, M metawidget );
+	void endLayout( C container, M metawidget );
 }

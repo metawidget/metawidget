@@ -234,7 +234,7 @@ public class MetawidgetPipelineTest
 	//
 
 	static class Pipeline
-		extends W3CPipeline<Object, Object>
+		extends W3CPipeline<Object, Object, Object>
 	{
 		//
 		// Public methods
@@ -290,12 +290,6 @@ public class MetawidgetPipelineTest
 
 		@Override
 		protected Object getPipelineOwner()
-		{
-			return null;
-		}
-
-		@Override
-		protected W3CPipeline<Object, Object> getNestedPipeline( Object metawidget )
 		{
 			return null;
 		}

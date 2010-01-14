@@ -55,7 +55,7 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessor;
  * @author Richard Kennard
  */
 
-public abstract class BasePipeline<W, E, M extends W>
+public abstract class BasePipeline<W, C, E, M extends W>
 {
 	//
 	// Private statics
@@ -79,7 +79,7 @@ public abstract class BasePipeline<W, E, M extends W>
 
 	private List<WidgetProcessor<W, M>>				mWidgetProcessors;
 
-	private Layout<W, M>							mLayout;
+	private Layout<W, C, M>							mLayout;
 
 	//
 	// Public methods
@@ -226,7 +226,7 @@ public abstract class BasePipeline<W, E, M extends W>
 		mWidgetProcessors.remove( widgetProcessor );
 	}
 
-	public Layout<W, M> getLayout()
+	public Layout<W, C, M> getLayout()
 	{
 		return mLayout;
 	}
@@ -235,7 +235,7 @@ public abstract class BasePipeline<W, E, M extends W>
 	 * Set the Layout to use for the Metawidget.
 	 */
 
-	public void setLayout( Layout<W, M> layout )
+	public void setLayout( Layout<W, C, M> layout )
 	{
 		mLayout = layout;
 	}
@@ -335,7 +335,7 @@ public abstract class BasePipeline<W, E, M extends W>
 	 * </ul>
 	 */
 
-	public void initNestedPipeline( BasePipeline<W, E, M> nestedPipeline, Map<String, String> attributes )
+	public void initNestedPipeline( BasePipeline<W, C, E, M> nestedPipeline, Map<String, String> attributes )
 	{
 		nestedPipeline.setReadOnly( isReadOnly() || TRUE.equals( attributes.get( READ_ONLY ) ) );
 		nestedPipeline.setMaximumInspectionDepth( getMaximumInspectionDepth() - 1 );
@@ -444,15 +444,15 @@ public abstract class BasePipeline<W, E, M extends W>
 		{
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				if ( widgetProcessor instanceof AdvancedWidgetProcessor<?,?> )
-					((AdvancedWidgetProcessor<W,M>) widgetProcessor).onStartBuild( pipelineOwner );
+				if ( widgetProcessor instanceof AdvancedWidgetProcessor<?, ?> )
+					( (AdvancedWidgetProcessor<W, M>) widgetProcessor ).onStartBuild( pipelineOwner );
 			}
 		}
 
 		// (layout can be null if no path, in an IDE visual builder)
 
 		if ( mLayout instanceof AdvancedLayout )
-			((AdvancedLayout<W,M>) mLayout).startLayout( pipelineOwner, pipelineOwner );
+			( (AdvancedLayout<W, C, M>) mLayout ).startLayout( getPipelineOwnerAsContainer(), pipelineOwner );
 	}
 
 	protected E processInspectionResult( E inspectionResult )
@@ -533,8 +533,7 @@ public abstract class BasePipeline<W, E, M extends W>
 
 	protected void addWidget( W widget, String elementName, Map<String, String> attributes )
 	{
-		M pipelineOwner = getPipelineOwner();
-		mLayout.layoutWidget( widget, elementName, attributes, pipelineOwner, pipelineOwner );
+		mLayout.layoutWidget( widget, elementName, attributes, getPipelineOwnerAsContainer(), getPipelineOwner() );
 	}
 
 	protected void endBuild()
@@ -545,14 +544,32 @@ public abstract class BasePipeline<W, E, M extends W>
 		{
 			for ( WidgetProcessor<W, M> widgetProcessor : mWidgetProcessors )
 			{
-				if ( widgetProcessor instanceof AdvancedWidgetProcessor<?,?> )
-					((AdvancedWidgetProcessor<W,M>) widgetProcessor).onEndBuild( pipelineOwner );
+				if ( widgetProcessor instanceof AdvancedWidgetProcessor<?, ?> )
+					( (AdvancedWidgetProcessor<W, M>) widgetProcessor ).onEndBuild( pipelineOwner );
 			}
 		}
 
 		// (layout can be null if no path, in an IDE visual builder)
 
 		if ( mLayout instanceof AdvancedLayout )
-			((AdvancedLayout<W,M>) mLayout).endLayout( pipelineOwner, pipelineOwner );
+			( (AdvancedLayout<W, C, M>) mLayout ).endLayout( getPipelineOwnerAsContainer(), pipelineOwner );
+	}
+
+	//
+	// Private methods
+	//
+
+	/**
+	 * Casts M to C.
+	 * <p>
+	 * M should always extend C, however if we declare it that way then M will not extend W. This is
+	 * problematic for WidgetBuilders and WidgetProcessors who have no knowledge of C (nor should
+	 * they). For them, M must extend W. We get around this by an unsafe cast here.
+	 */
+
+	@SuppressWarnings( "unchecked" )
+	private C getPipelineOwnerAsContainer()
+	{
+		return (C) getPipelineOwner();
 	}
 }

@@ -33,13 +33,13 @@ import org.metawidget.util.LayoutUtils;
  */
 
 public abstract class SwingNestedSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<JComponent, SwingMetawidget>
+	extends org.metawidget.layout.decorator.NestedSectionLayoutDecorator<JComponent, JComponent, SwingMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected SwingNestedSectionLayoutDecorator( LayoutDecoratorConfig<JComponent, SwingMetawidget> config )
+	protected SwingNestedSectionLayoutDecorator( LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget> config )
 	{
 		super( config );
 	}

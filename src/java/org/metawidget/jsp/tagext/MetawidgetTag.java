@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.BodyTagSupport;
 import javax.servlet.jsp.tagext.Tag;
 
@@ -61,11 +62,11 @@ public abstract class MetawidgetTag
 	// Private statics
 	//
 
-	private final static long					serialVersionUID		= 1l;
+	private final static long							serialVersionUID		= 1l;
 
-	private final static String					CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
+	private final static String							CONFIG_READER_ATTRIBUTE	= "metawidget-config-reader";
 
-	private final static String					DEFAULT_USER_CONFIG		= "metawidget.xml";
+	private final static String							DEFAULT_USER_CONFIG		= "metawidget.xml";
 
 	//
 	// Private members
@@ -78,27 +79,27 @@ public abstract class MetawidgetTag
 	 * <code>property</code> for Spring). Read by <code>WidgetBuilders</code>.
 	 */
 
-	private String								mPath;
+	private String										mPath;
 
 	/**
 	 * Prefix of path to inspect, to support nesting.
 	 */
 
-	private String								mPathPrefix;
+	private String										mPathPrefix;
 
-	private String								mConfig					= DEFAULT_USER_CONFIG;
+	private String										mConfig					= DEFAULT_USER_CONFIG;
 
-	private boolean								mNeedsConfiguring		= true;
+	private boolean										mNeedsConfiguring		= true;
 
-	private ResourceBundle						mBundle;
+	private ResourceBundle								mBundle;
 
-	private Map<String, FacetTag>				mFacets;
+	private Map<String, FacetTag>						mFacets;
 
-	private Map<String, StubTag>				mStubs;
+	private Map<String, StubTag>						mStubs;
 
-	private Map<Object, Object>					mClientProperties;
+	private Map<Object, Object>							mClientProperties;
 
-	private W3CPipeline<Tag, MetawidgetTag>	mPipeline;
+	private W3CPipeline<Tag, BodyTag, MetawidgetTag>	mPipeline;
 
 	//
 	// Constructor
@@ -253,7 +254,7 @@ public abstract class MetawidgetTag
 		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( WidgetProcessors ) );
 	}
 
-	public void setLayout( Layout<Tag, MetawidgetTag> layout )
+	public void setLayout( Layout<Tag, BodyTag, MetawidgetTag> layout )
 	{
 		mPipeline.setLayout( layout );
 	}
@@ -394,16 +395,16 @@ public abstract class MetawidgetTag
 	/**
 	 * Instantiate the Pipeline used by this Metawidget.
 	 * <p>
-	 * Subclasses wishing to use their own Pipeline should override this method to
-	 * instantiate their version.
+	 * Subclasses wishing to use their own Pipeline should override this method to instantiate their
+	 * version.
 	 */
 
-	protected W3CPipeline<Tag, MetawidgetTag> newPipeline()
+	protected W3CPipeline<Tag, BodyTag, MetawidgetTag> newPipeline()
 	{
 		return new MetawidgetTagPipeline();
 	}
 
-	protected W3CPipeline<Tag, MetawidgetTag> getPipeline()
+	protected W3CPipeline<Tag, BodyTag, MetawidgetTag> getPipeline()
 	{
 		return mPipeline;
 	}
@@ -532,7 +533,7 @@ public abstract class MetawidgetTag
 	//
 
 	protected class MetawidgetTagPipeline
-		extends W3CPipeline<Tag, MetawidgetTag>
+		extends W3CPipeline<Tag, BodyTag, MetawidgetTag>
 	{
 		//
 		// Protected methods
@@ -569,12 +570,6 @@ public abstract class MetawidgetTag
 		protected MetawidgetTag getPipelineOwner()
 		{
 			return MetawidgetTag.this;
-		}
-
-		@Override
-		protected W3CPipeline<Tag, MetawidgetTag> getNestedPipeline( MetawidgetTag metawidget )
-		{
-			return metawidget.getPipeline();
 		}
 	}
 }

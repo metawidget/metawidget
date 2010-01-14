@@ -4849,7 +4849,7 @@ import org.metawidget.jsp.tagext.*;
 import org.metawidget.layout.iface.*;
 
 public class HtmlListLayout
-	implements Layout&lt;Tag, MetawidgetTag&gt; {
+	implements AdvancedLayout&lt;Tag, MetawidgetTag&gt; {
 	
 	public void startLayout( Tag containerTag, MetawidgetTag metawidgetTag ) {
 		try	{

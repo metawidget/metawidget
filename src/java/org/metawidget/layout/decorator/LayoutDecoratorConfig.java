@@ -25,19 +25,19 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-public class LayoutDecoratorConfig<W, M extends W>
+public class LayoutDecoratorConfig<W, C, M extends W>
 {
 	//
 	// Private members
 	//
 
-	private Layout<W, M>	mLayout;
+	private Layout<W, C, M>	mLayout;
 
 	//
 	// Public methods
 	//
 
-	public Layout<W, M> getLayout()
+	public Layout<W, C, M> getLayout()
 	{
 		return mLayout;
 	}
@@ -46,7 +46,7 @@ public class LayoutDecoratorConfig<W, M extends W>
 	 * @return this, as part of a fluent interface
 	 */
 
-	public LayoutDecoratorConfig<W, M> setLayout( Layout<W, M> layout )
+	public LayoutDecoratorConfig<W, C, M> setLayout( Layout<W, C, M> layout )
 	{
 		mLayout = layout;
 
@@ -63,7 +63,7 @@ public class LayoutDecoratorConfig<W, M extends W>
 		if ( !( that instanceof LayoutDecoratorConfig ) )
 			return false;
 
-		return ( ObjectUtils.nullSafeEquals( mLayout, ( (LayoutDecoratorConfig<W, M>) that ).mLayout ) );
+		return ( ObjectUtils.nullSafeEquals( mLayout, ( (LayoutDecoratorConfig<W, C, M>) that ).mLayout ) );
 	}
 
 	@Override

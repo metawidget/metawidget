@@ -27,10 +27,18 @@ import org.metawidget.iface.Immutable;
  * configuration settings internally, as long as they are threadsafe). If they need to store state,
  * they should use the Metawidget passed to each method.
  *
+ * @param <W>
+ *            base class of widgets that this Layout lays out
+ * @param <C>
+ *            base class of container widgets. Many UI frameworks make a distinction between
+ *            'container widgets' (ie. Panels) and widgets that cannot contain child controls (ie.
+ *            TextBox). For frameworks that don't make such a distinction, W and C can be the same
+ * @param <M>
+ *            Metawidget that supports this Layout
  * @author Richard Kennard
  */
 
-public interface Layout<W, M extends W>
+public interface Layout<W, C, M extends W>
 	extends Immutable
 {
 	//
@@ -77,5 +85,5 @@ public interface Layout<W, M extends W>
 	//
 	// We finally settled on having a container W and a LayoutDecorator
 	//
-	void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget );
+	void layoutWidget( W widget, String elementName, Map<String, String> attributes, C container, M metawidget );
 }

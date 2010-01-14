@@ -157,19 +157,11 @@ public class GwtRemoteInspectorImpl
 	 */
 
 	protected class GwtRemoteInspectorImplPipeline
-		extends W3CPipeline<Object, GwtRemoteInspectorImpl>
+		extends W3CPipeline<Object, Object, GwtRemoteInspectorImpl>
 	{
 		//
 		// Protected methods
 		//
-
-		@Override
-		protected W3CPipeline<Object, GwtRemoteInspectorImpl> getNestedPipeline( GwtRemoteInspectorImpl metawidget )
-		{
-			// For configureDefaults
-
-			return metawidget.getPipeline();
-		}
 
 		@Override
 		protected GwtRemoteInspectorImpl getPipelineOwner()

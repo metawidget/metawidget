@@ -25,7 +25,7 @@ import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.util.simple.StringUtils;
 
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.Widget;
+import com.google.gwt.user.client.ui.Panel;
 
 /**
  * Layout to decorate widgets from different sections using a Label.
@@ -58,7 +58,7 @@ public class LabelLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( String section, int level, Widget container, GwtMetawidget metawidget )
+	protected void addSectionWidget( String section, int level, Panel container, GwtMetawidget metawidget )
 	{
 		Label label = new Label();
 		label.setStyleName( mStyleName );

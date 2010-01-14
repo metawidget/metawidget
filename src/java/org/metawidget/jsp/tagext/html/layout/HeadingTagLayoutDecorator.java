@@ -20,7 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
-import javax.servlet.jsp.tagext.Tag;
+import javax.servlet.jsp.tagext.BodyTag;
 
 import org.metawidget.jsp.tagext.LiteralTag;
 import org.metawidget.jsp.tagext.MetawidgetTag;
@@ -62,7 +62,7 @@ public class HeadingTagLayoutDecorator
 	//
 
 	@Override
-	protected void addSectionWidget( String section, int level, Tag containerTag, MetawidgetTag metawidgetTag )
+	protected void addSectionWidget( String section, int level, BodyTag containerTag, MetawidgetTag metawidgetTag )
 	{
 		StringBuffer buffer = new StringBuffer( "<h" );
 		buffer.append( String.valueOf( level + 1 ));

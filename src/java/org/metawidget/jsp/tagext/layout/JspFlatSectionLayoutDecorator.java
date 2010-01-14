@@ -20,6 +20,7 @@ import static org.metawidget.inspector.InspectionResultConstants.*;
 
 import java.util.Map;
 
+import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.jsp.tagext.MetawidgetTag;
@@ -38,13 +39,13 @@ import org.metawidget.util.ArrayUtils;
  */
 
 public abstract class JspFlatSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<Tag, MetawidgetTag>
+	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<Tag, BodyTag, MetawidgetTag>
 {
 	//
 	// Constructor
 	//
 
-	protected JspFlatSectionLayoutDecorator( LayoutDecoratorConfig<Tag, MetawidgetTag> config )
+	protected JspFlatSectionLayoutDecorator( LayoutDecoratorConfig<Tag, BodyTag, MetawidgetTag> config )
 	{
 		super( config );
 	}
@@ -60,7 +61,7 @@ public abstract class JspFlatSectionLayoutDecorator
 	}
 
 	@Override
-	protected State getState( Tag containerTag, MetawidgetTag metawidgetTag )
+	protected State getState( BodyTag containerTag, MetawidgetTag metawidgetTag )
 	{
 		State state = (State) metawidgetTag.getClientProperty( getClass() );
 

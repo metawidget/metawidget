@@ -21,6 +21,7 @@ import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
 
 import android.view.View;
+import android.view.ViewGroup;
 
 /**
  * Configures a TextViewLayoutDecorator prior to use. Once instantiated, Layouts are immutable.
@@ -29,7 +30,7 @@ import android.view.View;
  */
 
 public class TextViewLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<View, AndroidMetawidget>
+	extends LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget>
 {
 	//
 	// Private members
@@ -48,7 +49,7 @@ public class TextViewLayoutDecoratorConfig
 	 */
 
 	@Override
-	public TextViewLayoutDecoratorConfig setLayout( Layout<View, AndroidMetawidget> layout )
+	public TextViewLayoutDecoratorConfig setLayout( Layout<View, ViewGroup, AndroidMetawidget> layout )
 	{
 		super.setLayout( layout );
 

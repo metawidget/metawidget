@@ -30,7 +30,7 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class PanelLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<UIComponent, UIMetawidget>
+	extends LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget>
 {
 	//
 	// Private members
@@ -51,7 +51,7 @@ public class PanelLayoutDecoratorConfig
 	 */
 
 	@Override
-	public PanelLayoutDecoratorConfig setLayout( Layout<UIComponent, UIMetawidget> layout )
+	public PanelLayoutDecoratorConfig setLayout( Layout<UIComponent, UIComponent, UIMetawidget> layout )
 	{
 		super.setLayout( layout );
 

@@ -36,8 +36,8 @@ import com.google.gwt.xml.client.XMLParser;
  * @author Richard Kennard
  */
 
-public abstract class GwtPipeline<W, M extends W>
-	extends BasePipeline<W, Element, M>
+public abstract class GwtPipeline<W, C, M extends W>
+	extends BasePipeline<W, C, Element, M>
 {
 	//
 	// Public methods

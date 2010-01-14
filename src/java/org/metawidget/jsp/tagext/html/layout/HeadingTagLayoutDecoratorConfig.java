@@ -16,6 +16,7 @@
 
 package org.metawidget.jsp.tagext.html.layout;
 
+import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.jsp.tagext.MetawidgetTag;
@@ -30,7 +31,7 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class HeadingTagLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<Tag, MetawidgetTag>
+	extends LayoutDecoratorConfig<Tag, BodyTag, MetawidgetTag>
 {
 	//
 	// Private members
@@ -51,7 +52,7 @@ public class HeadingTagLayoutDecoratorConfig
 	 */
 
 	@Override
-	public HeadingTagLayoutDecoratorConfig setLayout( Layout<Tag, MetawidgetTag> layout )
+	public HeadingTagLayoutDecoratorConfig setLayout( Layout<Tag, BodyTag, MetawidgetTag> layout )
 	{
 		super.setLayout( layout );
 

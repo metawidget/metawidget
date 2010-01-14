@@ -21,6 +21,7 @@ import java.util.Map;
 import org.metawidget.gwt.client.ui.GwtMetawidget;
 import org.metawidget.layout.iface.Layout;
 
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -33,14 +34,14 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class FlowLayout
-	implements Layout<Widget,GwtMetawidget>
+	implements Layout<Widget, Panel, GwtMetawidget>
 {
 	//
 	// Public methods
 	//
 
 	@Override
-	public void layoutWidget( Widget widget, String elementName, Map<String, String> attributes, Widget container, GwtMetawidget metawidget )
+	public void layoutWidget( Widget widget, String elementName, Map<String, String> attributes, Panel container, GwtMetawidget metawidget )
 	{
 		metawidget.add( widget );
 	}

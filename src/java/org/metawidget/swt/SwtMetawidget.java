@@ -23,8 +23,10 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Listener;
 import org.metawidget.config.ConfigReader;
 import org.metawidget.iface.MetawidgetException;
 import org.metawidget.inspectionresultprocessor.iface.InspectionResultProcessor;
@@ -85,7 +87,7 @@ public class SwtMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<Composite>				mExistingControls	= CollectionUtils.newArrayList();
+	private List<Control>				mExistingControls	= CollectionUtils.newArrayList();
 
 	/**
 	 * List of existing, manually added, but unused by Metawidget components.
@@ -93,7 +95,7 @@ public class SwtMetawidget
 	 * This is a List, not a Set, for consistency in unit tests.
 	 */
 
-	private List<Composite>				mExistingUnusedControls;
+	private List<Control>				mExistingUnusedControls;
 
 	private Map<String, Facet>			mFacets				= CollectionUtils.newHashMap();
 
@@ -107,6 +109,14 @@ public class SwtMetawidget
 	{
 		super( parent, style );
 		mPipeline = newPipeline();
+
+		parent.addListener( SWT.Activate, new Listener()
+		{
+			public void handleEvent( org.eclipse.swt.widgets.Event event )
+			{
+				buildWidgets();
+			}
+		} );
 	}
 
 	//
@@ -212,25 +222,25 @@ public class SwtMetawidget
 		invalidateWidgets();
 	}
 
-	public void setWidgetBuilder( WidgetBuilder<Composite, SwtMetawidget> widgetBuilder )
+	public void setWidgetBuilder( WidgetBuilder<Control, SwtMetawidget> widgetBuilder )
 	{
 		mPipeline.setWidgetBuilder( widgetBuilder );
 		invalidateWidgets();
 	}
 
-	public void addWidgetProcessor( WidgetProcessor<Composite, SwtMetawidget> widgetProcessor )
+	public void addWidgetProcessor( WidgetProcessor<Control, SwtMetawidget> widgetProcessor )
 	{
 		mPipeline.addWidgetProcessor( widgetProcessor );
 		invalidateWidgets();
 	}
 
-	public void removeWidgetProcessor( WidgetProcessor<Composite, SwtMetawidget> widgetProcessor )
+	public void removeWidgetProcessor( WidgetProcessor<Control, SwtMetawidget> widgetProcessor )
 	{
 		mPipeline.removeWidgetProcessor( widgetProcessor );
 		invalidateWidgets();
 	}
 
-	public void setWidgetProcessors( WidgetProcessor<Composite, SwtMetawidget>... widgetProcessors )
+	public void setWidgetProcessors( WidgetProcessor<Control, SwtMetawidget>... widgetProcessors )
 	{
 		mPipeline.setWidgetProcessors( CollectionUtils.newArrayList( widgetProcessors ) );
 		invalidateWidgets();
@@ -251,7 +261,7 @@ public class SwtMetawidget
 	 * <code>setLayout( null )</code> do?
 	 */
 
-	public void setMetawidgetLayout( Layout<Composite, SwtMetawidget> layout )
+	public void setMetawidgetLayout( Layout<Control, Composite, SwtMetawidget> layout )
 	{
 		mPipeline.setLayout( layout );
 		invalidateWidgets();
@@ -360,7 +370,7 @@ public class SwtMetawidget
 	 * it directly.</strong>
 	 */
 
-	public List<Composite> fetchExistingUnusedControls()
+	public List<Control> fetchExistingUnusedControls()
 	{
 		return mExistingUnusedControls;
 	}
@@ -526,6 +536,8 @@ public class SwtMetawidget
 
 		for ( Control c : getChildren() )
 			c.dispose();
+
+		buildWidgets();
 	}
 
 	protected void configure()
@@ -548,10 +560,7 @@ public class SwtMetawidget
 			// SwtMetawidget uses setMetawidgetLayout, not setLayout
 
 			if ( mPipeline.getLayout() == null )
-			{
-				SwtMetawidget dummyMetawidget = CONFIG_READER.configure( DEFAULT_CONFIG, SwtMetawidget.class, "metawidgetLayout" );
-				mPipeline.setLayout( dummyMetawidget.getPipeline().getLayout() );
-			}
+				CONFIG_READER.configure( DEFAULT_CONFIG, this, "metawidgetLayout" );
 
 			mPipeline.configureDefaults( CONFIG_READER, DEFAULT_CONFIG, SwtMetawidget.class );
 		}
@@ -576,6 +585,8 @@ public class SwtMetawidget
 		{
 			if ( mLastInspection == null )
 				mLastInspection = inspect();
+
+			mPipeline.buildWidgets( mLastInspection );
 		}
 		catch ( Exception e )
 		{
@@ -600,7 +611,7 @@ public class SwtMetawidget
 
 		// TODO: Remove, then re-add to layout (to re-order the component)
 
-		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( (Composite) component );
+		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( component );
 
 		if ( additionalAttributes != null )
 			attributes.putAll( additionalAttributes );
@@ -612,9 +623,9 @@ public class SwtMetawidget
 	{
 		if ( mExistingUnusedControls != null )
 		{
-			Layout<Composite, SwtMetawidget> layout = mPipeline.getLayout();
+			Layout<Control, Composite, SwtMetawidget> layout = mPipeline.getLayout();
 
-			for ( Composite componentExisting : mExistingUnusedControls )
+			for ( Control componentExisting : mExistingUnusedControls )
 			{
 				// Unused facets don't count
 
@@ -676,7 +687,7 @@ public class SwtMetawidget
 		return new Object[] { component, componentProperty };
 	}
 
-	private String getValueProperty( Control component, WidgetBuilder<Composite, SwtMetawidget> widgetBuilder )
+	private String getValueProperty( Control component, WidgetBuilder<Control, SwtMetawidget> widgetBuilder )
 	{
 		// Recurse into CompositeWidgetBuilders
 
@@ -684,7 +695,7 @@ public class SwtMetawidget
 		{
 			if ( widgetBuilder instanceof CompositeWidgetBuilder<?, ?> )
 			{
-				for ( WidgetBuilder<Composite, SwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Composite, SwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
+				for ( WidgetBuilder<Control, SwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Control, SwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
 				{
 					String valueProperty = getValueProperty( component, widgetBuilderChild );
 
@@ -710,7 +721,7 @@ public class SwtMetawidget
 	//
 
 	protected class Pipeline
-		extends W3CPipeline<Composite, SwtMetawidget>
+		extends W3CPipeline<Control, Composite, SwtMetawidget>
 	{
 		//
 		// Protected methods
@@ -724,14 +735,14 @@ public class SwtMetawidget
 		}
 
 		@Override
-		protected void addWidget( Composite component, String elementName, Map<String, String> attributes )
+		protected void addWidget( Control component, String elementName, Map<String, String> attributes )
 		{
 			SwtMetawidget.this.addWidget( component, elementName, attributes );
 			super.addWidget( component, elementName, attributes );
 		}
 
 		@Override
-		protected Map<String, String> getAdditionalAttributes( Composite component )
+		protected Map<String, String> getAdditionalAttributes( Control component )
 		{
 			if ( component instanceof Stub )
 				return ( (Stub) component ).getAttributes();
@@ -760,12 +771,6 @@ public class SwtMetawidget
 		protected SwtMetawidget getPipelineOwner()
 		{
 			return SwtMetawidget.this;
-		}
-
-		@Override
-		protected W3CPipeline<Composite, SwtMetawidget> getNestedPipeline( SwtMetawidget metawidget )
-		{
-			return metawidget.getPipeline();
 		}
 	}
 }

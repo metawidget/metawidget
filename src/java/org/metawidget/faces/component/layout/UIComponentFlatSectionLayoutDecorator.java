@@ -35,13 +35,13 @@ import org.metawidget.util.ArrayUtils;
  */
 
 public abstract class UIComponentFlatSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<UIComponent, UIMetawidget>
+	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<UIComponent, UIComponent, UIMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected UIComponentFlatSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIMetawidget> config )
+	protected UIComponentFlatSectionLayoutDecorator( LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget> config )
 	{
 		super( config );
 	}

@@ -33,7 +33,7 @@ import org.metawidget.layout.iface.Layout;
  */
 
 public class SimpleLayout
-	implements Layout<UIComponent, UIMetawidget>
+	implements Layout<UIComponent, UIComponent, UIMetawidget>
 {
 	//
 	// Public methods

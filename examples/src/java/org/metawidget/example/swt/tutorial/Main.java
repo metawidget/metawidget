@@ -16,6 +16,10 @@
 
 package org.metawidget.example.swt.tutorial;
 
+import net.miginfocom.layout.CC;
+import net.miginfocom.layout.LC;
+import net.miginfocom.swt.MigLayout;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -27,6 +31,8 @@ import org.metawidget.swt.SwtMetawidget;
 
 public class Main
 {
+	// TODO: immutable members are final
+
 	public static void main( String[] args )
 	{
 		// Data model
@@ -37,8 +43,10 @@ public class Main
 
 		Display display = new Display();
 		Shell shell = new Shell( display );
+		shell.setLayout( new MigLayout( new LC().fill().debug( 500 ) ) );
 
 		SwtMetawidget metawidget = new SwtMetawidget( shell, SWT.None );
+		metawidget.setLayoutData( new CC().height( "200px" ).width( "200px" ));
 		metawidget.setToInspect( person );
 
 		// Shell

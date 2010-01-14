@@ -29,7 +29,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.ParallelGroup;
 import javax.swing.GroupLayout.SequentialGroup;
 
-import org.metawidget.layout.iface.Layout;
+import org.metawidget.layout.iface.AdvancedLayout;
 import org.metawidget.swing.Facet;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
@@ -45,7 +45,7 @@ import org.metawidget.util.simple.SimpleLayoutUtils;
  */
 
 public class GroupLayout
-	implements Layout<JComponent, SwingMetawidget>
+	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget>
 {
 	//
 	// Private statics

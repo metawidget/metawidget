@@ -48,6 +48,7 @@ import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HasName;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.gwt.xml.client.Element;
 
@@ -106,7 +107,7 @@ public class GwtMetawidget
 
 	private static WidgetBuilder<Widget, GwtMetawidget>	DEFAULT_WIDGETBUILDER;
 
-	private static Layout<Widget, GwtMetawidget>		DEFAULT_LAYOUT;
+	private static Layout<Widget, Panel, GwtMetawidget>	DEFAULT_LAYOUT;
 
 	//
 	// Private members
@@ -292,7 +293,7 @@ public class GwtMetawidget
 		return mPipeline.getWidgetProcessor( widgetProcessorClass );
 	}
 
-	public void setLayout( Layout<Widget, GwtMetawidget> layout )
+	public void setLayout( Layout<Widget, Panel, GwtMetawidget> layout )
 	{
 		mPipeline.setLayout( layout );
 		invalidateWidgets();
@@ -768,7 +769,7 @@ public class GwtMetawidget
 		if ( mPipeline.getLayout() == null )
 		{
 			if ( DEFAULT_LAYOUT == null )
-				DEFAULT_LAYOUT = new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ));
+				DEFAULT_LAYOUT = new LabelLayoutDecorator( new LabelLayoutDecoratorConfig().setLayout( new FlexTableLayout() ) );
 
 			mPipeline.setLayout( DEFAULT_LAYOUT );
 		}
@@ -950,7 +951,7 @@ public class GwtMetawidget
 	{
 		if ( mExistingUnusedWidgets != null )
 		{
-			Layout<Widget, GwtMetawidget> layout = mPipeline.getLayout();
+			Layout<Widget, Panel, GwtMetawidget> layout = mPipeline.getLayout();
 			for ( Widget widgetExisting : mExistingUnusedWidgets )
 			{
 				Map<String, String> miscAttributes = new HashMap<String, String>();
@@ -1029,7 +1030,7 @@ public class GwtMetawidget
 	//
 
 	protected class Pipeline
-		extends GwtPipeline<Widget, GwtMetawidget>
+		extends GwtPipeline<Widget, Panel, GwtMetawidget>
 	{
 		//
 		// Protected methods

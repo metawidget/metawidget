@@ -59,14 +59,12 @@ public class TableLayout
 	//
 
 	@Override
-	public void endLayout( View container, AndroidMetawidget metawidget )
+	public void endLayout( ViewGroup container, AndroidMetawidget metawidget )
 	{
 		// If the TableLayout was never used, just put an empty space
 
-		ViewGroup viewGroup = (ViewGroup) container;
-
-		if ( viewGroup.getChildCount() == 0 )
-			viewGroup.addView( new TextView( metawidget.getContext() ), new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+		if ( container.getChildCount() == 0 )
+			container.addView( new TextView( metawidget.getContext() ), new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 
 		// Add footer
 

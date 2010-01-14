@@ -36,7 +36,7 @@ import android.widget.TextView;
  */
 
 public class LinearLayout
-	implements AdvancedLayout<View, AndroidMetawidget>
+	implements AdvancedLayout<View, ViewGroup, AndroidMetawidget>
 {
 	//
 	// Private members
@@ -63,19 +63,19 @@ public class LinearLayout
 	//
 
 	@Override
-	public void startLayout( View view, AndroidMetawidget metawidget )
+	public void startLayout( ViewGroup container, AndroidMetawidget metawidget )
 	{
 		// Do nothing
 	}
 
-	public void layoutWidget( View view, String elementName, Map<String, String> attributes, View container, AndroidMetawidget metawidget )
+	public void layoutWidget( View view, String elementName, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget )
 	{
 		// Ignore empty Stubs
 
 		if ( view instanceof Stub && ( (Stub) view ).getChildCount() == 0 )
 			return;
 
-		ViewGroup viewToAddTo = newViewToAddTo( (ViewGroup) container );
+		ViewGroup viewToAddTo = newViewToAddTo( container );
 
 		String labelText = metawidget.getLabelString( attributes );
 		boolean needsLabel = SimpleLayoutUtils.needsLabel( labelText, elementName );
@@ -94,11 +94,11 @@ public class LinearLayout
 
 		// View
 
-		layoutWidget( view, viewToAddTo, (ViewGroup) container, metawidget, needsLabel );
+		layoutWidget( view, viewToAddTo, container, metawidget, needsLabel );
 	}
 
 	@Override
-	public void endLayout( View container, AndroidMetawidget metawidget )
+	public void endLayout( ViewGroup container, AndroidMetawidget metawidget )
 	{
 		if ( container.equals( metawidget ))
 		{
@@ -106,7 +106,7 @@ public class LinearLayout
 
 			if ( viewButtons != null )
 			{
-				((ViewGroup) container).addView( viewButtons, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
+				container.addView( viewButtons, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 			}
 		}
 	}

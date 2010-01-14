@@ -79,7 +79,7 @@ public class AndroidMetawidget
 
 	private static WidgetBuilder<View, AndroidMetawidget>					DEFAULT_WIDGETBUILDER;
 
-	private static Layout<View, AndroidMetawidget>							DEFAULT_LAYOUT;
+	private static Layout<View, ViewGroup, AndroidMetawidget>				DEFAULT_LAYOUT;
 
 	private static ConfigReader												CONFIG_READER;
 
@@ -222,7 +222,7 @@ public class AndroidMetawidget
 		invalidateInspection();
 	}
 
-	public void setLayout( Layout<View, AndroidMetawidget> layout )
+	public void setLayout( Layout<View, ViewGroup, AndroidMetawidget> layout )
 	{
 		mPipeline.setLayout( layout );
 		invalidateInspection();
@@ -680,7 +680,7 @@ public class AndroidMetawidget
 	{
 		// End layout
 
-		Layout<View, AndroidMetawidget> layout = mPipeline.getLayout();
+		Layout<View, ViewGroup, AndroidMetawidget> layout = mPipeline.getLayout();
 
 		if ( layout != null )
 		{
@@ -857,7 +857,7 @@ public class AndroidMetawidget
 	//
 
 	protected class Pipeline
-		extends W3CPipeline<View, AndroidMetawidget>
+		extends W3CPipeline<View, ViewGroup, AndroidMetawidget>
 	{
 		//
 		// Protected methods
@@ -908,12 +908,6 @@ public class AndroidMetawidget
 		protected AndroidMetawidget getPipelineOwner()
 		{
 			return AndroidMetawidget.this;
-		}
-
-		@Override
-		protected W3CPipeline<View, AndroidMetawidget> getNestedPipeline( AndroidMetawidget metawidget )
-		{
-			return metawidget.getPipeline();
 		}
 	}
 }

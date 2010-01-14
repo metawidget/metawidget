@@ -25,14 +25,14 @@ import java.util.Map;
  * @author Richard Kennard
  */
 
-public abstract class NestedSectionLayoutDecorator<W, M extends W>
-	extends LayoutDecorator<W, M>
+public abstract class NestedSectionLayoutDecorator<W, C, M extends W>
+	extends LayoutDecorator<W, C, M>
 {
 	//
 	// Constructor
 	//
 
-	protected NestedSectionLayoutDecorator( LayoutDecoratorConfig<W, M> config )
+	protected NestedSectionLayoutDecorator( LayoutDecoratorConfig<W, C, M> config )
 	{
 		super( config );
 	}
@@ -42,20 +42,20 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 	//
 
 	@Override
-	public void startLayout( W container, M metawidget )
+	public void startLayout( C container, M metawidget )
 	{
 		super.startLayout( container, metawidget );
 
-		State<W> state = getState( container, metawidget );
+		State<C> state = getState( container, metawidget );
 		state.currentSection = null;
 		state.currentSectionWidget = null;
 	}
 
 	@Override
-	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, W container, M metawidget )
+	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, C container, M metawidget )
 	{
 		String section = stripSection( attributes );
-		State<W> state = getState( container, metawidget );
+		State<C> state = getState( container, metawidget );
 
 		// Stay where we are?
 
@@ -71,7 +71,7 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 
 		state.currentSection = section;
 
-		W previousSectionWidget = state.currentSectionWidget;
+		C previousSectionWidget = state.currentSectionWidget;
 
 		// End current section
 
@@ -102,11 +102,11 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 	}
 
 	@Override
-	public void endLayout( W container, M metawidget )
+	public void endLayout( C container, M metawidget )
 	{
 		// End hanging layouts
 
-		State<W> state = getState( container, metawidget );
+		State<C> state = getState( container, metawidget );
 
 		if ( state.currentSectionWidget != null )
 			super.endLayout( state.currentSectionWidget, metawidget );
@@ -120,7 +120,7 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 
 	protected abstract String stripSection( Map<String, String> attributes );
 
-	protected abstract State<W> getState( W container, M metawidget );
+	protected abstract State<C> getState( C container, M metawidget );
 
 	protected abstract boolean isEmptyStub( W widget );
 
@@ -130,7 +130,7 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 	 *            a TabHost
 	 */
 
-	protected abstract W createSectionWidget( W previousSectionWidget, Map<String, String> attributes, W container, M metawidget );
+	protected abstract C createSectionWidget( C previousSectionWidget, Map<String, String> attributes, C container, M metawidget );
 
 	//
 	// Inner class
@@ -140,10 +140,10 @@ public abstract class NestedSectionLayoutDecorator<W, M extends W>
 	 * Simple, lightweight structure for saving state.
 	 */
 
-	public static class State<W>
+	public static class State<C>
 	{
 		public String	currentSection;
 
-		public W		currentSectionWidget;
+		public C		currentSectionWidget;
 	}
 }

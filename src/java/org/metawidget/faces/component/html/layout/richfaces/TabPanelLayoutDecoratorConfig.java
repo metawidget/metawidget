@@ -29,7 +29,7 @@ import org.metawidget.util.simple.ObjectUtils;
  */
 
 public class TabPanelLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<UIComponent, UIMetawidget>
+	extends LayoutDecoratorConfig<UIComponent, UIComponent, UIMetawidget>
 {
 	//
 	// Private members

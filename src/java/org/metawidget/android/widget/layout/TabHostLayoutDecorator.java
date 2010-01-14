@@ -26,6 +26,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.StringUtils;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
@@ -45,7 +46,7 @@ public class TabHostLayoutDecorator
 	// Constructor
 	//
 
-	public TabHostLayoutDecorator( LayoutDecoratorConfig<View, AndroidMetawidget> config )
+	public TabHostLayoutDecorator( LayoutDecoratorConfig<View, ViewGroup, AndroidMetawidget> config )
 	{
 		super( config );
 	}
@@ -55,7 +56,7 @@ public class TabHostLayoutDecorator
 	//
 
 	@Override
-	protected View createSectionWidget( View previousSectionView, Map<String, String> attributes, View container, AndroidMetawidget metawidget )
+	protected ViewGroup createSectionWidget( ViewGroup previousSectionView, Map<String, String> attributes, ViewGroup container, AndroidMetawidget metawidget )
 	{
 		// Whole new tab host?
 

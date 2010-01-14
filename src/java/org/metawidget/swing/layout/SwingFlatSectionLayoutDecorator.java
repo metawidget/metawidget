@@ -35,13 +35,13 @@ import org.metawidget.util.ArrayUtils;
  */
 
 public abstract class SwingFlatSectionLayoutDecorator
-	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<JComponent, SwingMetawidget>
+	extends org.metawidget.layout.decorator.FlatSectionLayoutDecorator<JComponent, JComponent, SwingMetawidget>
 {
 	//
 	// Constructor
 	//
 
-	protected SwingFlatSectionLayoutDecorator( LayoutDecoratorConfig<JComponent, SwingMetawidget> config )
+	protected SwingFlatSectionLayoutDecorator( LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget> config )
 	{
 		super( config );
 	}

@@ -49,7 +49,7 @@ public class GwtMetawidgetPipelineTest
 	//
 
 	static class Pipeline
-		extends GwtPipeline<Object,GwtMetawidget>
+		extends GwtPipeline<Object, Object, GwtMetawidget>
 	{
 		//
 		// Public methods

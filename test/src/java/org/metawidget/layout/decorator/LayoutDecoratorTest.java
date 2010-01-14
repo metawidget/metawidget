@@ -38,10 +38,10 @@ public class LayoutDecoratorTest
 
 	public void testConfig()
 	{
-		testConfig( new LayoutDecoratorConfig<JComponent, SwingMetawidget>(), new LayoutDecoratorConfig<JComponent, SwingMetawidget>(), new GridBagLayout() );
+		testConfig( new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>(), new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>(), new GridBagLayout() );
 	}
 
-	public static <W, M extends W> void testConfig( LayoutDecoratorConfig<W, M> config1, LayoutDecoratorConfig<W, M> config2, Layout<W, M> delegate )
+	public static <W, C, M extends W> void testConfig( LayoutDecoratorConfig<W, C, M> config1, LayoutDecoratorConfig<W,C, M> config2, Layout<W, C, M> delegate )
 	{
 		assertTrue( !config1.equals( "foo" ) );
 		assertTrue( config1.equals( config1 ) );
@@ -65,7 +65,7 @@ public class LayoutDecoratorTest
 	{
 		try
 		{
-			new LayoutDecorator<JComponent, SwingMetawidget>( new LayoutDecoratorConfig<JComponent, SwingMetawidget>() )
+			new LayoutDecorator<JComponent, JComponent, SwingMetawidget>( new LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>() )
 			{
 				// Just a LayoutDecorator
 			};

@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.jsp.JspUtils;
@@ -42,7 +43,7 @@ import org.metawidget.util.simple.StringUtils;
  */
 
 public class HtmlTableLayout
-	implements AdvancedLayout<Tag, MetawidgetTag>
+	implements AdvancedLayout<Tag, BodyTag, MetawidgetTag>
 {
 	//
 	// Private statics
@@ -97,7 +98,7 @@ public class HtmlTableLayout
 	// Public methods
 	//
 
-	public void startLayout( Tag container, MetawidgetTag metawidgetTag )
+	public void startLayout( BodyTag container, MetawidgetTag metawidgetTag )
 	{
 		metawidgetTag.putClientProperty( HtmlTableLayout.class, null );
 		State state = getState( metawidgetTag );
@@ -182,7 +183,7 @@ public class HtmlTableLayout
 		}
 	}
 
-	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, Tag containerTag, MetawidgetTag metawidgetTag )
+	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, BodyTag containerTag, MetawidgetTag metawidgetTag )
 	{
 		try
 		{
@@ -237,7 +238,7 @@ public class HtmlTableLayout
 	}
 
 	@Override
-	public void endLayout( Tag container, MetawidgetTag metawidgetTag )
+	public void endLayout( BodyTag container, MetawidgetTag metawidgetTag )
 	{
 		try
 		{

@@ -22,6 +22,7 @@ import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.user.client.ui.CheckBox;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
 
@@ -44,7 +45,7 @@ public class GwtNestedSectionLayoutDecoratorTest
 
 	public void testEmptyStub()
 	{
-		TabPanelLayoutDecorator layoutDecorator = new TabPanelLayoutDecorator( new LayoutDecoratorConfig<Widget, GwtMetawidget>().setLayout( new FlexTableLayout() ));
+		TabPanelLayoutDecorator layoutDecorator = new TabPanelLayoutDecorator( new LayoutDecoratorConfig<Widget, Panel, GwtMetawidget>().setLayout( new FlexTableLayout() ));
 		assertTrue( false == layoutDecorator.isEmptyStub( null ) );
 		assertTrue( false == layoutDecorator.isEmptyStub( new CheckBox() ) );
 

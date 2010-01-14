@@ -30,7 +30,7 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class SeparatorLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<JComponent, SwingMetawidget>
+	extends LayoutDecoratorConfig<JComponent, JComponent, SwingMetawidget>
 {
 	//
 	// Private members
@@ -49,7 +49,7 @@ public class SeparatorLayoutDecoratorConfig
 	 */
 
 	@Override
-	public SeparatorLayoutDecoratorConfig setLayout( Layout<JComponent, SwingMetawidget> layout )
+	public SeparatorLayoutDecoratorConfig setLayout( Layout<JComponent, JComponent, SwingMetawidget> layout )
 	{
 		super.setLayout( layout );
 

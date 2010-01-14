@@ -35,7 +35,7 @@ import org.metawidget.swing.SwingMetawidget;
  */
 
 public class FlowLayout
-	implements AdvancedLayout<JComponent, SwingMetawidget>
+	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget>
 {
 	//
 	// Public methods

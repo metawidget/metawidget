@@ -19,6 +19,7 @@ package org.metawidget.jsp.tagext.layout;
 import java.util.Map;
 
 import javax.servlet.jsp.JspWriter;
+import javax.servlet.jsp.tagext.BodyTag;
 import javax.servlet.jsp.tagext.Tag;
 
 import org.metawidget.jsp.JspUtils;
@@ -36,13 +37,13 @@ import org.metawidget.layout.iface.LayoutException;
  */
 
 public class SimpleLayout
-	implements Layout<Tag, MetawidgetTag>
+	implements Layout<Tag, BodyTag, MetawidgetTag>
 {
 	//
 	// Public methods
 	//
 
-	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, Tag containerTag, MetawidgetTag metawidgetTag )
+	public void layoutWidget( Tag tag, String elementName, Map<String, String> attributes, BodyTag containerTag, MetawidgetTag metawidgetTag )
 	{
 		try
 		{

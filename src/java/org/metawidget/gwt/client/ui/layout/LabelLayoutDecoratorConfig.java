@@ -21,6 +21,7 @@ import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.util.simple.ObjectUtils;
 
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.Widget;
 
 /**
@@ -30,7 +31,7 @@ import com.google.gwt.user.client.ui.Widget;
  */
 
 public class LabelLayoutDecoratorConfig
-	extends LayoutDecoratorConfig<Widget, GwtMetawidget>
+	extends LayoutDecoratorConfig<Widget, Panel, GwtMetawidget>
 {
 	//
 	// Private members
@@ -49,7 +50,7 @@ public class LabelLayoutDecoratorConfig
 	 */
 
 	@Override
-	public LabelLayoutDecoratorConfig setLayout( Layout<Widget, GwtMetawidget> layout )
+	public LabelLayoutDecoratorConfig setLayout( Layout<Widget, Panel, GwtMetawidget> layout )
 	{
 		super.setLayout( layout );
 
