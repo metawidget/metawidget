@@ -58,7 +58,7 @@ public class HibernateInspector
 	// Private members
 	//
 
-	private boolean						mHideIds;
+	private final boolean				mHideIds;
 
 	//
 	// Constructor
@@ -133,7 +133,7 @@ public class HibernateInspector
 
 				while ( mapping != null )
 				{
-					inputStreamList.add( resolver.openResource( mapping.getAttribute( "resource" ) ));
+					inputStreamList.add( resolver.openResource( mapping.getAttribute( "resource" ) ) );
 					mapping = XmlUtils.getSiblingNamed( mapping, "mapping" );
 				}
 

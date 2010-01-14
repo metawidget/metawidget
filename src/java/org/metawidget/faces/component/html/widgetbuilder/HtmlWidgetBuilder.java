@@ -102,11 +102,11 @@ public class HtmlWidgetBuilder
 	// Private members
 	//
 
-	private String				mDataTableStyleClass;
+	private final String		mDataTableStyleClass;
 
-	private String[]			mDataTableColumnClasses;
+	private final String[]		mDataTableColumnClasses;
 
-	private String[]			mDataTableRowClasses;
+	private final String[]		mDataTableRowClasses;
 
 	//
 	// Constructor

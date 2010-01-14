@@ -40,7 +40,7 @@ public class CompositeWidgetBuilder<W, M extends W>
 	// Private members
 	//
 
-	/* package private */WidgetBuilder<W, M>[]	mWidgetBuilders;
+	/* package private */final WidgetBuilder<W, M>[]	mWidgetBuilders;
 
 	//
 	// Constructor

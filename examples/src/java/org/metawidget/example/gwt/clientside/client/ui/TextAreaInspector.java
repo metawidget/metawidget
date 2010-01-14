@@ -38,7 +38,7 @@ public class TextAreaInspector
 	// Private members
 	//
 
-	private TextArea	mTextArea;
+	private final TextArea	mTextArea;
 
 	//
 	// Constructor
@@ -66,11 +66,11 @@ public class TextAreaInspector
 
 		// Traverse any path
 
-		for( String name : names )
+		for ( String name : names )
 		{
 			Element property = getProperty( entityToReturn, name );
 
-			if ( !property.hasAttribute( "type" ))
+			if ( !property.hasAttribute( "type" ) )
 				throw InspectorException.newException( "Property '" + name + "' does not have a 'type' attribute" );
 
 			entityToReturn = getEntity( document, property.getAttribute( "type" ) );
@@ -94,7 +94,7 @@ public class TextAreaInspector
 		{
 			Element entity = (Element) entities.item( loop );
 
-			if ( type.equals( entity.getAttribute( "type" )))
+			if ( type.equals( entity.getAttribute( "type" ) ) )
 				return entity;
 		}
 
@@ -109,7 +109,7 @@ public class TextAreaInspector
 		{
 			Element property = (Element) entities.item( loop );
 
-			if ( name.equals( property.getAttribute( "name" )))
+			if ( name.equals( property.getAttribute( "name" ) ) )
 				return property;
 		}
 
@@ -118,7 +118,7 @@ public class TextAreaInspector
 
 	private static String nodeToString( Node node )
 	{
-		if ( !( node instanceof Element ))
+		if ( !( node instanceof Element ) )
 			return "";
 
 		StringBuilder builder = new StringBuilder();

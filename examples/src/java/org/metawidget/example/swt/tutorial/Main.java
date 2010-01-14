@@ -31,8 +31,6 @@ import org.metawidget.swt.SwtMetawidget;
 
 public class Main
 {
-	// TODO: immutable members are final
-
 	public static void main( String[] args )
 	{
 		// Data model

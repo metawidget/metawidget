@@ -33,9 +33,9 @@ import org.xml.sax.SAXException;
  * <code>inspection-result-1.0.xsd</code> schema.
  * <p>
  * This is useful for debugging when developing your own <code>Inspector</code>, but it is less
- * performant and not all environments (eg. J2SE 1.4, Android) support schema validation. Android
- * is particularly bad because its Dalvik preprocessor balks at unsupported classes even if
- * they're wrapped in a <code>ClassNotFoundException</code>.
+ * performant and not all environments (eg. J2SE 1.4, Android) support schema validation. Android is
+ * particularly bad because its Dalvik preprocessor balks at unsupported classes even if they're
+ * wrapped in a <code>ClassNotFoundException</code>.
  *
  * @author Richard Kennard
  */
@@ -47,7 +47,7 @@ public class ValidatingCompositeInspector
 	// Private members
 	//
 
-	private Schema	mSchema;
+	private final Schema	mSchema;
 
 	//
 	// Constructor

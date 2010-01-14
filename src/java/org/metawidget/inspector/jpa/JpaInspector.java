@@ -42,7 +42,7 @@ public class JpaInspector
 	// Private members
 	//
 
-	private boolean	mHideIds;
+	private final boolean	mHideIds;
 
 	//
 	// Constructor
@@ -100,7 +100,7 @@ public class JpaInspector
 
 		// Hidden
 
-		if ( mHideIds && property.isAnnotationPresent( Id.class ))
+		if ( mHideIds && property.isAnnotationPresent( Id.class ) )
 			attributes.put( HIDDEN, TRUE );
 
 		return attributes;

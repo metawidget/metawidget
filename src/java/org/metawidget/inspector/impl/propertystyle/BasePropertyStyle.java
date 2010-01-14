@@ -48,7 +48,7 @@ public abstract class BasePropertyStyle
 	 * static cache.
 	 */
 
-	private Map<Class<?>, Map<String, Property>>	mPropertiesCache	= CollectionUtils.newHashMap();
+	private final Map<Class<?>, Map<String, Property>>	mPropertiesCache	= CollectionUtils.newHashMap();
 
 	//
 	// Public methods

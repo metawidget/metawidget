@@ -47,7 +47,7 @@ public abstract class BaseActionStyle
 	 * static cache.
 	 */
 
-	private Map<Class<?>, Map<String, Action>>	mActionCache	= CollectionUtils.newHashMap();
+	private final Map<Class<?>, Map<String, Action>>	mActionCache	= CollectionUtils.newHashMap();
 
 	//
 	// Public methods

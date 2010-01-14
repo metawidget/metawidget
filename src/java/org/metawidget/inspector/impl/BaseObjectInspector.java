@@ -67,15 +67,15 @@ public abstract class BaseObjectInspector
 	// Private members
 	//
 
-	private PropertyStyle	mPropertyStyle;
+	private final PropertyStyle	mPropertyStyle;
 
-	private ActionStyle		mActionStyle;
+	private final ActionStyle	mActionStyle;
 
 	//
 	// Protected members
 	//
 
-	protected Log			mLog	= LogUtils.getLog( getClass() );
+	protected final Log			mLog	= LogUtils.getLog( getClass() );
 
 	//
 	// Constructors

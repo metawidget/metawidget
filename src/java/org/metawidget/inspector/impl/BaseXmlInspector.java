@@ -61,9 +61,9 @@ import org.w3c.dom.NodeList;
  * <p>
  * ...as output.
  * <p>
- * This class does not support schema validation - it is not that useful in practice for two reasons.
- * First, Inspectors like <code>HibernateInspector</code> cannot use it because they can be pointed
- * at different kinds of files (eg. hibernate.cfg.xml or hibernate-mapping.hbm.xml). Second,
+ * This class does not support schema validation - it is not that useful in practice for two
+ * reasons. First, Inspectors like <code>HibernateInspector</code> cannot use it because they can be
+ * pointed at different kinds of files (eg. hibernate.cfg.xml or hibernate-mapping.hbm.xml). Second,
  * Inspectors that are intended for Android environments (eg. <code>XmlInspector</code>) cannot use
  * it because Android's Dalvik preprocessor balks at the unsupported schema classes (even if they're
  * wrapped in a <code>ClassNotFoundException</code>).
@@ -78,9 +78,9 @@ public abstract class BaseXmlInspector
 	// Protected members
 	//
 
-	protected Log		mLog	= LogUtils.getLog( getClass() );
+	protected final Log		mLog	= LogUtils.getLog( getClass() );
 
-	protected Element	mRoot;
+	protected final Element	mRoot;
 
 	//
 	// Constructor
@@ -103,11 +103,10 @@ public abstract class BaseXmlInspector
 			builder.setEntityResolver( new NopEntityResolver() );
 			InputStream[] files = config.getInputStreams();
 
-			if ( files != null && files.length > 0 )
-				mRoot = getDocumentElement( builder, config.getResourceResolver(), config.getInputStreams() );
-
-			if ( mRoot == null )
+			if ( files == null || files.length == 0 )
 				throw InspectorException.newException( "No XML input file specified" );
+
+			mRoot = getDocumentElement( builder, config.getResourceResolver(), config.getInputStreams() );
 
 			// Debug
 
