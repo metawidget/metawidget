@@ -48,7 +48,7 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 	// Private members
 	//
 
-	private Layout<W, C, M>	mDelegate;
+	final private Layout<W, C, M>	mDelegate;
 
 	//
 	// Constructor
@@ -69,7 +69,7 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 	@Override
 	public void startLayout( C container, M metawidget )
 	{
-		if ( getDelegate() instanceof AdvancedLayout )
+		if ( getDelegate() instanceof AdvancedLayout<?,?,?> )
 			( (AdvancedLayout<W, C, M>) getDelegate() ).startLayout( container, metawidget );
 	}
 
@@ -81,7 +81,7 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 	@Override
 	public void endLayout( C container, M metawidget )
 	{
-		if ( getDelegate() instanceof AdvancedLayout )
+		if ( getDelegate() instanceof AdvancedLayout<?,?,?> )
 			( (AdvancedLayout<W, C, M>) getDelegate() ).endLayout( container, metawidget );
 	}
 

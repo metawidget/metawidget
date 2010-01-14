@@ -451,7 +451,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 		// (layout can be null if no path, in an IDE visual builder)
 
-		if ( mLayout instanceof AdvancedLayout )
+		if ( mLayout instanceof AdvancedLayout<?,?,?> )
 			( (AdvancedLayout<W, C, M>) mLayout ).startLayout( pipelineOwner, pipelineOwner );
 	}
 
@@ -553,7 +553,7 @@ public abstract class BasePipeline<W, C extends W, E, M extends C>
 
 		// (layout can be null if no path, in an IDE visual builder)
 
-		if ( mLayout instanceof AdvancedLayout )
+		if ( mLayout instanceof AdvancedLayout<?,?,?> )
 			( (AdvancedLayout<W, C, M>) mLayout ).endLayout( pipelineOwner, pipelineOwner );
 	}
 }

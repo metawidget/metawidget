@@ -50,7 +50,7 @@ public class MigLayout
 	// Private members
 	//
 
-	private int					mNumberOfColumns;
+	final private int	mNumberOfColumns;
 
 	//
 	// Constructor
@@ -185,7 +185,7 @@ public class MigLayout
 	{
 		// Buttons
 
-		if ( container.equals( metawidget ))
+		if ( container.equals( metawidget ) )
 		{
 			Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
@@ -214,7 +214,7 @@ public class MigLayout
 
 		// Add label
 
-		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ))
+		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 		{
 			JLabel label = new JLabel();
 
@@ -249,7 +249,7 @@ public class MigLayout
 
 	protected boolean willFillVertically( JComponent component, Map<String, String> attributes )
 	{
-		if ( attributes != null && TRUE.equals( attributes.get( LARGE )))
+		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
 			return true;
 
 		if ( component instanceof JScrollPane )

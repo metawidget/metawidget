@@ -59,15 +59,15 @@ public class GridBagLayout
 	// Private members
 	//
 
-	private int					mNumberOfColumns;
+	final private int			mNumberOfColumns;
 
-	private int					mLabelAlignment;
+	final private int			mLabelAlignment;
 
-	private String				mLabelSuffix;
+	final private String		mLabelSuffix;
 
-	private int					mRequiredAlignment;
+	final private int			mRequiredAlignment;
 
-	private String				mRequiredText;
+	final private String		mRequiredText;
 
 	//
 	// Constructor
@@ -180,7 +180,7 @@ public class GridBagLayout
 		// Hack for spacer row (see JavaDoc for state.mNeedSpacerRow): assume components
 		// embedded in a JScrollPane are their own spacer row
 
-		if ( willFillVertically( component, attributes ))
+		if ( willFillVertically( component, attributes ) )
 		{
 			componentConstraints.weighty = 1.0f;
 			state.needSpacerRow = false;
@@ -207,7 +207,7 @@ public class GridBagLayout
 
 		State state = getState( container );
 
-		if ( container.equals( metawidget ))
+		if ( container.equals( metawidget ) )
 		{
 			Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
@@ -353,7 +353,7 @@ public class GridBagLayout
 
 	protected boolean willFillVertically( JComponent component, Map<String, String> attributes )
 	{
-		if ( attributes != null && TRUE.equals( attributes.get( LARGE )))
+		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
 			return true;
 
 		if ( component instanceof JScrollPane )
