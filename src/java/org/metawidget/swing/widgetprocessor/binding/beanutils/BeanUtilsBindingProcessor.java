@@ -64,7 +64,7 @@ public class BeanUtilsBindingProcessor
 	// Private members
 	//
 
-	private int					mPropertyStyle;
+	private final int			mPropertyStyle;
 
 	//
 	// Constructor

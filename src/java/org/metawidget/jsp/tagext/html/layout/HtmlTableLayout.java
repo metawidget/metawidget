@@ -63,17 +63,17 @@ public class HtmlTableLayout
 	// Private members
 	//
 
-	private int					mNumberOfColumns;
+	private final int			mNumberOfColumns;
 
-	private String				mTableStyle;
+	private final String		mTableStyle;
 
-	private String				mTableStyleClass;
+	private final String		mTableStyleClass;
 
-	private String[]			mColumnStyleClasses;
+	private final String[]		mColumnStyleClasses;
 
-	private String				mFooterStyle;
+	private final String		mFooterStyle;
 
-	private String				mFooterStyleClass;
+	private final String		mFooterStyleClass;
 
 	//
 	// Constructor

@@ -65,7 +65,7 @@ public class SeparatorLayoutDecorator
 	// Private members
 	//
 
-	final private int			mAlignment;
+	private final int			mAlignment;
 
 	//
 	// Constructor

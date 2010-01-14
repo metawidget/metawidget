@@ -59,15 +59,15 @@ public class GridBagLayout
 	// Private members
 	//
 
-	final private int			mNumberOfColumns;
+	private final int			mNumberOfColumns;
 
-	final private int			mLabelAlignment;
+	private final int			mLabelAlignment;
 
-	final private String		mLabelSuffix;
+	private final String		mLabelSuffix;
 
-	final private int			mRequiredAlignment;
+	private final int			mRequiredAlignment;
 
-	final private String		mRequiredText;
+	private final String		mRequiredText;
 
 	//
 	// Constructor

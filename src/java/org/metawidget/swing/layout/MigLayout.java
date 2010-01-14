@@ -50,7 +50,7 @@ public class MigLayout
 	// Private members
 	//
 
-	final private int	mNumberOfColumns;
+	private final int	mNumberOfColumns;
 
 	//
 	// Constructor

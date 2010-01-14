@@ -59,7 +59,7 @@ public class TabbedPaneLayoutDecorator
 	// Private members
 	//
 
-	final private int			mTabPlacement;
+	private final int			mTabPlacement;
 
 	//
 	// Constructor

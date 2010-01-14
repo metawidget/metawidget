@@ -54,13 +54,13 @@ public class FlexTableLayout
 	// Private members
 	//
 
-	private int					mNumberOfColumns;
+	private final int			mNumberOfColumns;
 
-	private String				mTableStyleName;
+	private final String		mTableStyleName;
 
-	private String[]			mColumnStyleNames;
+	private final String[]		mColumnStyleNames;
 
-	private String				mFooterStyleName;
+	private final String		mFooterStyleName;
 
 	//
 	// Constructor
@@ -247,7 +247,7 @@ public class FlexTableLayout
 			if ( facet != null )
 			{
 				State state = getState( container, metawidget );
-				FlexTable flexTable = (FlexTable) ((ComplexPanel) container).getWidget( 0 );
+				FlexTable flexTable = (FlexTable) ( (ComplexPanel) container ).getWidget( 0 );
 				int row = flexTable.getRowCount();
 
 				int numberOfColumns = getEffectiveNumberOfColumns( container );
@@ -270,7 +270,7 @@ public class FlexTableLayout
 	protected void layoutRequired( Map<String, String> attributes, Widget container, GwtMetawidget metawidget )
 	{
 		State state = getState( container, metawidget );
-		FlexTable flexTable = (FlexTable) ((ComplexPanel) container).getWidget( 0 );
+		FlexTable flexTable = (FlexTable) ( (ComplexPanel) container ).getWidget( 0 );
 		int row = flexTable.getRowCount() - 1;
 		int column = flexTable.getCellCount( row );
 

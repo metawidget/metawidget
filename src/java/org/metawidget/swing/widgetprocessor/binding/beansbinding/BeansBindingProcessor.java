@@ -65,9 +65,9 @@ public class BeansBindingProcessor
 	// Private members
 	//
 
-	private UpdateStrategy								mUpdateStrategy;
+	private final UpdateStrategy							mUpdateStrategy;
 
-	private Map<ConvertFromTo<?, ?>, Converter<?, ?>>	mConverters	= CollectionUtils.newHashMap();
+	private final Map<ConvertFromTo<?, ?>, Converter<?, ?>>	mConverters	= CollectionUtils.newHashMap();
 
 	//
 	// Constructor
@@ -441,7 +441,7 @@ public class BeansBindingProcessor
 			if ( this == that )
 				return true;
 
-			if ( !( that instanceof ConvertFromTo<?,?> ) )
+			if ( !( that instanceof ConvertFromTo<?, ?> ) )
 				return false;
 
 			if ( !ObjectUtils.nullSafeEquals( mSource, ( (ConvertFromTo<?, ?>) that ).mSource ) )

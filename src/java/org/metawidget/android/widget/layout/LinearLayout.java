@@ -42,7 +42,7 @@ public class LinearLayout
 	// Private members
 	//
 
-	private int					mLabelStyle;
+	private final int	mLabelStyle;
 
 	//
 	// Constructor
@@ -100,7 +100,7 @@ public class LinearLayout
 	@Override
 	public void endLayout( ViewGroup container, AndroidMetawidget metawidget )
 	{
-		if ( container.equals( metawidget ))
+		if ( container.equals( metawidget ) )
 		{
 			View viewButtons = metawidget.getFacet( "buttons" );
 

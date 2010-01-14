@@ -41,7 +41,7 @@ public class LinearLayout
 	// Private members
 	//
 
-	private int	mOrientation;
+	private int				mOrientation;
 
 	//
 	// Constructor

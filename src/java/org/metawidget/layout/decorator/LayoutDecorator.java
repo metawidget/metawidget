@@ -48,7 +48,7 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 	// Private members
 	//
 
-	final private Layout<W, C, M>	mDelegate;
+	private final Layout<W, C, M>	mDelegate;
 
 	//
 	// Constructor

@@ -48,7 +48,7 @@ public class MigLayout
 	// Private members
 	//
 
-	private int					mNumberOfColumns;
+	private final int	mNumberOfColumns;
 
 	//
 	// Constructor
@@ -88,7 +88,7 @@ public class MigLayout
 		// Note: we don't use column/row constraints, because we don't know
 		// what the components will be in advance. Rather, we use 'cell' and 'push'
 
-		 org.eclipse.swt.widgets.Layout layout = new net.miginfocom.swt.MigLayout( layoutConstraints );
+		org.eclipse.swt.widgets.Layout layout = new net.miginfocom.swt.MigLayout( layoutConstraints );
 		container.setLayout( layout );
 
 		// Calculate default label inset
@@ -175,7 +175,7 @@ public class MigLayout
 	{
 		// Buttons
 
-		if ( container.equals( metawidget ))
+		if ( container.equals( metawidget ) )
 		{
 			Facet buttonsFacet = metawidget.getFacet( "buttons" );
 
@@ -189,7 +189,8 @@ public class MigLayout
 					state.currentRow++;
 				}
 
-				//TODO:metawidget.add( buttonsFacet, new CC().cell( 0, state.currentRow ).spanX().growX() );
+				// TODO:metawidget.add( buttonsFacet, new CC().cell( 0, state.currentRow
+				// ).spanX().growX() );
 			}
 		}
 	}
@@ -204,9 +205,9 @@ public class MigLayout
 
 		// Add label
 
-		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ))
+		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 		{
-			Label label = new Label( ((Composite) container), SWT.None );
+			Label label = new Label( ( (Composite) container ), SWT.None );
 
 			// Required
 
@@ -239,7 +240,7 @@ public class MigLayout
 
 	protected boolean willFillVertically( Control component, Map<String, String> attributes )
 	{
-		if ( attributes != null && TRUE.equals( attributes.get( LARGE )))
+		if ( attributes != null && TRUE.equals( attributes.get( LARGE ) ) )
 			return true;
 
 		return false;

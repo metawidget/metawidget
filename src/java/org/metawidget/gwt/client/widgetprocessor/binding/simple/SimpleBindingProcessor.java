@@ -49,9 +49,9 @@ public class SimpleBindingProcessor
 	// Private members
 	//
 
-	private Map<Class<?>, SimpleBindingProcessorAdapter<?>>	mAdapters;
+	private final Map<Class<?>, SimpleBindingProcessorAdapter<?>>	mAdapters;
 
-	private Map<Class<?>, Converter<?>>						mConverters;
+	private final Map<Class<?>, Converter<?>>						mConverters;
 
 	//
 	// Constructor
@@ -66,7 +66,9 @@ public class SimpleBindingProcessor
 	{
 		// Custom adapters
 
-		if ( config.getAdapters() != null )
+		if ( config.getAdapters() == null )
+			mAdapters = null;
+		else
 			mAdapters = new HashMap<Class<?>, SimpleBindingProcessorAdapter<?>>( config.getAdapters() );
 
 		// Default converters
