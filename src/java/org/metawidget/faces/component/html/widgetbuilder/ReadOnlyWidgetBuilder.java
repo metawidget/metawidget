@@ -36,7 +36,7 @@ import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
- * WidgetBuilder for Java Server Faces environments.
+ * WidgetBuilder for read-only widgets in Java Server Faces environments.
  *
  * @author Richard Kennard
  */

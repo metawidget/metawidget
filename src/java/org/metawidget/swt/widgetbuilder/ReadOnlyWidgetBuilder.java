@@ -14,55 +14,42 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.swing.widgetbuilder;
+package org.metawidget.swt.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.awt.Component;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Map;
 
-import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
-import org.metawidget.swing.Stub;
-import org.metawidget.swing.SwingMetawidget;
-import org.metawidget.swing.SwingValuePropertyProvider;
+import org.eclipse.swt.SWT;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
+import org.metawidget.swt.Stub;
+import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.util.ClassUtils;
-import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
 import org.metawidget.widgetbuilder.iface.WidgetBuilder;
 
 /**
- * WidgetBuilder for Swing environments.
+ * WidgetBuilder for SWT environments.
  * <p>
- * Creates native Swing read-only <code>JComponents</code>, such as <code>JLabels</code>, to suit
- * the inspected fields.
+ * Creates native SWT read-only <code>Controls</code>, such as <code>Labels</code>, to suit the
+ * inspected fields.
  *
  * @author Richard Kennard
  */
 
 public class ReadOnlyWidgetBuilder
-	implements WidgetBuilder<JComponent, SwingMetawidget>, SwingValuePropertyProvider
+	implements WidgetBuilder<Control, SwtMetawidget>
 {
 	//
 	// Public methods
 	//
 
-	public String getValueProperty( Component component )
-	{
-		if ( component instanceof JLabel )
-			return "text";
-
-		return null;
-	}
-
 	@Override
-	public JComponent buildWidget( String elementName, Map<String, String> attributes, SwingMetawidget metawidget )
+	public Control buildWidget( String elementName, Map<String, String> attributes, SwtMetawidget metawidget )
 	{
 		// Not read-only?
 
@@ -72,17 +59,17 @@ public class ReadOnlyWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return new Stub();
+			return new Stub( metawidget, SWT.None );
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
-			return new Stub();
+			return new Stub( metawidget, SWT.None );
 
-		// Masked (return a JPanel, so that we DO still render a label)
+		// Masked (return a Composite, so that we DO still render a label)
 
 		if ( TRUE.equals( attributes.get( MASKED ) ) )
-			return new JPanel();
+			return new Composite( metawidget, SWT.None );
 
 		// Lookups
 
@@ -92,12 +79,12 @@ public class ReadOnlyWidgetBuilder
 		{
 			// May have alternate labels
 
-			String lookupLabels = attributes.get( LOOKUP_LABELS );
+			//TODO:String lookupLabels = attributes.get( LOOKUP_LABELS );
 
-			if ( lookupLabels != null && !"".equals( lookupLabels ) )
-				return new LookupLabel( SwingWidgetBuilderUtils.getLabelsMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
+			//if ( lookupLabels != null && !"".equals( lookupLabels ) )
+				//return new LookupLabel( SwingWidgetBuilderUtils.getLabelsMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
 
-			return new JLabel();
+			return new Label( metawidget, SWT.None );
 		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
@@ -116,10 +103,11 @@ public class ReadOnlyWidgetBuilder
 			// Primitives
 
 			if ( clazz.isPrimitive() )
-				return new JLabel();
+				return new Label( metawidget, SWT.None );
 
 			if ( String.class.equals( clazz ) )
 			{
+				/*
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
 				{
 					// Do not use a JLabel: JLabels do not support carriage returns like JTextAreas
@@ -141,32 +129,33 @@ public class ReadOnlyWidgetBuilder
 					textarea.setRows( 2 );
 					JScrollPane scrollPane = new JScrollPane( textarea );
 					scrollPane.setBorder( null );
+					*/
 
-					return scrollPane;
-				}
+					// TODO: return scrollPane;
+				//}
 
-				return new JLabel();
+				return new Label( metawidget, SWT.None );
 			}
 
 			if ( Date.class.equals( clazz ) )
-				return new JLabel();
+				return new Label( metawidget, SWT.None );
 
 			if ( Boolean.class.equals( clazz ) )
-				return new JLabel();
+				return new Label( metawidget, SWT.None );
 
 			if ( Number.class.isAssignableFrom( clazz ) )
-				return new JLabel();
+				return new Label( metawidget, SWT.None );
 
 			// Collections
 
 			if ( Collection.class.isAssignableFrom( clazz ) )
-				return new Stub();
+				return new Stub( metawidget, SWT.None );
 		}
 
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new JLabel();
+			return new Label( metawidget, SWT.None );
 
 		// Nested Metawidget
 

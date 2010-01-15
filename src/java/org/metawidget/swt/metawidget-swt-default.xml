@@ -33,6 +33,7 @@
 				<widgetBuilders>
 					<array>
 						<overriddenWidgetBuilder xmlns="java:org.metawidget.swt.widgetbuilder"/>
+						<readOnlyWidgetBuilder xmlns="java:org.metawidget.swt.widgetbuilder"/>
 						<swtWidgetBuilder xmlns="java:org.metawidget.swt.widgetbuilder"/>
 					</array>
 				</widgetBuilders>

@@ -35,10 +35,7 @@ import android.view.View;
 import android.widget.TextView;
 
 /**
- * WidgetBuilder for Android environments.
- * <p>
- * Creates native Android Views, such as <code>EditText</code> and <code>Spinner</code>, to suit the
- * inspected fields.
+ * WidgetBuilder for read-only widgets in Android environments.
  *
  * @author Richard Kennard
  */

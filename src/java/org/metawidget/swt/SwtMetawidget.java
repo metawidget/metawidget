@@ -754,7 +754,7 @@ public class SwtMetawidget
 		public SwtMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
-			SwtMetawidget nestedMetawidget = SwtMetawidget.this.getClass().newInstance();
+			SwtMetawidget nestedMetawidget = SwtMetawidget.this.getClass().getConstructor( Composite.class, int.class ).newInstance( this, SWT.None );
 			SwtMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
 			return nestedMetawidget;

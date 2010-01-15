@@ -99,7 +99,7 @@ public class SwtWidgetBuilder
 			// Add an empty choice (if nullable, and not required)
 
 			if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
-				comboBox.add( null );
+				comboBox.add( "" );
 
 			List<String> values = CollectionUtils.fromString( lookup );
 			BindingConverter converter = metawidget.getWidgetProcessor( BindingConverter.class );

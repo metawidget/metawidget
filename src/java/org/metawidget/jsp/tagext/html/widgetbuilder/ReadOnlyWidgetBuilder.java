@@ -42,9 +42,6 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilderException;
  * ReadOnlyWidgetBuilder for 'plain' JSP environment (eg. just a servlet-based backend, no Struts/Spring
  * etc) that outputs HTML.
  * <p>
- * Creates native HTML tags, such as <code>&lt;input type="text"&gt;</code> and
- * <code>&lt;select&gt;</code>, to suit the inspected fields.
- * <p>
  * When used in a JSP 2.0 environment, automatically initializes tags using JSP EL.
  *
  * @author Richard Kennard

@@ -22,10 +22,10 @@ package org.metawidget.widgetprocessor.iface;
  * <p>
  * There are advantages to keeping the vanilla <code>WidgetProcessor</code> interface as a
  * single-method interface: First, it alleviates the need for a <code>BaseWidgetProcessor</code> or
- * <code>WidgetProcessorAdapter</code> class (to provide default implementations of unused methods);
- * second, it makes <code>WidgetProcessor</code> amenable to automatic function objects (closures)
- * in Java 7. This latter point is especially useful when using <code>WidgetProcessor</code>s to
- * attach event handler.
+ * <code>WidgetProcessorAdapter</code> class (to provide default implementations for subclasses who
+ * don't override all the methods); second, it makes <code>WidgetProcessor</code> amenable to
+ * automatic function objects (closures) in Java 7. This latter point is especially useful when
+ * using <code>WidgetProcessor</code>s to attach event handler.
  *
  * @author Richard Kennard
  */
