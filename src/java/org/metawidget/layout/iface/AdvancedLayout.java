@@ -39,6 +39,19 @@ public interface AdvancedLayout<W, C extends W, M extends C>
 	//
 
 	/**
+	 * Event called at the start of the widget building process, before the
+	 * <code>WidgetBuilder</code> is called. <code>Layout</code>s may wish to act on this event to
+	 * initialize themselves ready for processing, or to perform 'outermost-container-only'
+	 * processing, such as adding facets. This event is only called once per inspection, not once
+	 * per widget built.
+	 *
+	 * @param metawidget
+	 *            the parent Metawidget. Never null
+	 */
+
+	void onStartBuild( M metawidget );
+
+	/**
 	 * Initialise the given container, using the given Metawidget to access additional services if
 	 * needed (such as state saving).
 	 *
@@ -48,7 +61,7 @@ public interface AdvancedLayout<W, C extends W, M extends C>
 	 *            the parent Metawidget. Never null
 	 */
 
-	void startLayout( C container, M metawidget );
+	void startContainerLayout( C container, M metawidget );
 
 	/**
 	 * Finish the given container, using the given Metawidget to access additional services if
@@ -60,5 +73,17 @@ public interface AdvancedLayout<W, C extends W, M extends C>
 	 *            the Metawidget to use to access additional services. Never null
 	 */
 
-	void endLayout( C container, M metawidget );
+	void endContainerLayout( C container, M metawidget );
+
+	/**
+	 * Event called at the end of widget building, after all widgets have been built and added to
+	 * the <code>Layout</code>. <code>Layout</code>s may wish to act on this event to clean
+	 * themselves up after processing, or to perform 'outermost-container-only' processing, such as
+	 * adding facets. This event is only called once per inspection, not once per widget built.
+	 *
+	 * @param metawidget
+	 *            the parent Metawidget. Never null
+	 */
+
+	void onEndBuild( M metawidget );
 }

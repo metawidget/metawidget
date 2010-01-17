@@ -16,6 +16,7 @@
 
 package org.metawidget.swt;
 
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -23,6 +24,9 @@ import org.eclipse.swt.widgets.Composite;
  * <p>
  * Facets differ from Stubs in that Stubs override widget creation, whereas Facets are 'decorations'
  * (such as button bars) to be recognized and arranged at the discretion of the Layout.
+ * <p>
+ * We define separate Facet widgets, as opposed to simply a <code>SwtMetawidget.addFacet</code>
+ * method, as this is more amenable to visual UI builders.
  *
  * @author Stefan Ackermann
  */
@@ -43,5 +47,7 @@ public class Facet
 	public Facet( Composite parent, int style )
 	{
 		super( parent, style );
+
+		this.setLayout( new GridLayout() );
 	}
 }

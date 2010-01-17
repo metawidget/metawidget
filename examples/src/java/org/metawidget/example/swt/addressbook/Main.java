@@ -16,6 +16,7 @@
 
 package org.metawidget.example.swt.addressbook;
 
+import net.miginfocom.layout.CC;
 import net.miginfocom.layout.LC;
 import net.miginfocom.swt.MigLayout;
 
@@ -24,6 +25,9 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
+import org.metawidget.example.shared.addressbook.model.ContactType;
+import org.metawidget.inspector.annotation.UiAction;
+import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.swt.Facet;
 import org.metawidget.swt.SwtMetawidget;
 
@@ -76,6 +80,34 @@ public class Main
 	}
 
 	//
+	// Public methods
+	//
+
+	@UiAction
+	public void search()
+	{
+		// Example of manual mapping. See ContactDialog for an example of using automatic Bindings
+
+		mContactSearch.setFirstname( (String) mSearchMetawidget.getValue( "firstname" ) );
+		mContactSearch.setSurname( (String) mSearchMetawidget.getValue( "surname" ) );
+		mContactSearch.setType( (ContactType) mSearchMetawidget.getValue( "type" ));
+	}
+
+	@UiAction
+	@UiComesAfter( "search" )
+	public void addPersonal()
+	{
+		// addPersonal
+	}
+
+	@UiAction
+	@UiComesAfter( "addPersonal" )
+	public void addBusiness()
+	{
+		// addBusiness
+	}
+
+	//
 	// Private methods
 	//
 
@@ -84,9 +116,8 @@ public class Main
 		// Metawidget
 
 		mSearchMetawidget = new SwtMetawidget( parent, SWT.None );
-		mSearchMetawidget.setLayout( new MigLayout( new LC().fill().debug( 500 ) ) );
+		mSearchMetawidget.setLayoutData( new CC().grow() );
 		mSearchMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
-		mSearchMetawidget.setToInspect( mContactSearch );
 
 		// Embedded buttons
 
@@ -97,6 +128,7 @@ public class Main
 		buttonsMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
 		buttonsMetawidget.setToInspect( this );
 
+		mSearchMetawidget.setToInspect( mContactSearch );
 		return mSearchMetawidget;
 	}
 }

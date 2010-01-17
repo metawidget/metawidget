@@ -83,8 +83,13 @@ public class FlexTableLayout
 	// Public methods
 	//
 
+	public void onStartBuild( GwtMetawidget metawidget )
+	{
+		// Do nothing
+	}
+
 	@Override
-	public void startLayout( Panel container, GwtMetawidget metawidget )
+	public void startContainerLayout( Panel container, GwtMetawidget metawidget )
 	{
 		State state = getState( container, metawidget );
 		FlexTable flexTable = new FlexTable();
@@ -238,28 +243,30 @@ public class FlexTableLayout
 	}
 
 	@Override
-	public void endLayout( Panel container, GwtMetawidget metawidget )
+	public void endContainerLayout( Panel container, GwtMetawidget metawidget )
 	{
-		if ( container.equals( metawidget ) )
+		// Do nothing
+	}
+
+	public void onEndBuild( GwtMetawidget metawidget )
+	{
+		Facet facet = metawidget.getFacet( "buttons" );
+
+		if ( facet != null )
 		{
-			Facet facet = metawidget.getFacet( "buttons" );
+			State state = getState( metawidget, metawidget );
+			FlexTable flexTable = (FlexTable) metawidget.getWidget( 0 );
+			int row = flexTable.getRowCount();
 
-			if ( facet != null )
-			{
-				State state = getState( container, metawidget );
-				FlexTable flexTable = (FlexTable) ( (ComplexPanel) container ).getWidget( 0 );
-				int row = flexTable.getRowCount();
+			int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
 
-				int numberOfColumns = getEffectiveNumberOfColumns( container );
+			if ( numberOfColumns > 0 )
+				state.formatter.setColSpan( row, 0, numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
 
-				if ( numberOfColumns > 0 )
-					state.formatter.setColSpan( row, 0, numberOfColumns * LABEL_AND_COMPONENT_AND_REQUIRED );
+			if ( mFooterStyleName != null )
+				state.formatter.setStyleName( row, 0, mFooterStyleName );
 
-				if ( mFooterStyleName != null )
-					state.formatter.setStyleName( row, 0, mFooterStyleName );
-
-				flexTable.setWidget( row, 0, facet );
-			}
+			flexTable.setWidget( row, 0, facet );
 		}
 	}
 

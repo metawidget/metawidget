@@ -66,11 +66,17 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 	// Public methods
 	//
 
-	@Override
-	public void startLayout( C container, M metawidget )
+	public void onStartBuild( M metawidget )
 	{
-		if ( getDelegate() instanceof AdvancedLayout<?,?,?> )
-			( (AdvancedLayout<W, C, M>) getDelegate() ).startLayout( container, metawidget );
+		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> )
+			( (AdvancedLayout<W, C, M>) getDelegate() ).onStartBuild( metawidget );
+	}
+
+	@Override
+	public void startContainerLayout( C container, M metawidget )
+	{
+		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> )
+			( (AdvancedLayout<W, C, M>) getDelegate() ).startContainerLayout( container, metawidget );
 	}
 
 	public void layoutWidget( W component, String elementName, Map<String, String> attributes, C container, M metawidget )
@@ -79,10 +85,16 @@ public abstract class LayoutDecorator<W, C extends W, M extends C>
 	}
 
 	@Override
-	public void endLayout( C container, M metawidget )
+	public void endContainerLayout( C container, M metawidget )
 	{
-		if ( getDelegate() instanceof AdvancedLayout<?,?,?> )
-			( (AdvancedLayout<W, C, M>) getDelegate() ).endLayout( container, metawidget );
+		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> )
+			( (AdvancedLayout<W, C, M>) getDelegate() ).endContainerLayout( container, metawidget );
+	}
+
+	public void onEndBuild( M metawidget )
+	{
+		if ( getDelegate() instanceof AdvancedLayout<?, ?, ?> )
+			( (AdvancedLayout<W, C, M>) getDelegate() ).onEndBuild( metawidget );
 	}
 
 	//

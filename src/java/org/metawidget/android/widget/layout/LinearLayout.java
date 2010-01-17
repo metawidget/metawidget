@@ -63,7 +63,13 @@ public class LinearLayout
 	//
 
 	@Override
-	public void startLayout( ViewGroup container, AndroidMetawidget metawidget )
+	public void onStartBuild( AndroidMetawidget metawidget )
+	{
+		// Do nothing
+	}
+
+	@Override
+	public void startContainerLayout( ViewGroup container, AndroidMetawidget metawidget )
 	{
 		// Do nothing
 	}
@@ -98,16 +104,19 @@ public class LinearLayout
 	}
 
 	@Override
-	public void endLayout( ViewGroup container, AndroidMetawidget metawidget )
+	public void endContainerLayout( ViewGroup container, AndroidMetawidget metawidget )
 	{
-		if ( container.equals( metawidget ) )
-		{
-			View viewButtons = metawidget.getFacet( "buttons" );
+		// Do nothing
+	}
 
-			if ( viewButtons != null )
-			{
-				container.addView( viewButtons, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
-			}
+	@Override
+	public void onEndBuild( AndroidMetawidget metawidget )
+	{
+		View viewButtons = metawidget.getFacet( "buttons" );
+
+		if ( viewButtons != null )
+		{
+			metawidget.addView( viewButtons, new android.widget.LinearLayout.LayoutParams( ViewGroup.LayoutParams.FILL_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT ) );
 		}
 	}
 

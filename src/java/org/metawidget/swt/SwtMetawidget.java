@@ -18,7 +18,6 @@ package org.metawidget.swt;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -80,22 +79,6 @@ public class SwtMetawidget
 	private boolean						mNeedToBuildWidgets;
 
 	private Element						mLastInspection;
-
-	/**
-	 * List of existing, manually added components.
-	 * <p>
-	 * This is a List, not a Set, for consistency in unit tests.
-	 */
-
-	private List<Control>				mExistingControls	= CollectionUtils.newArrayList();
-
-	/**
-	 * List of existing, manually added, but unused by Metawidget components.
-	 * <p>
-	 * This is a List, not a Set, for consistency in unit tests.
-	 */
-
-	private List<Control>				mExistingUnusedControls;
 
 	private Map<String, Facet>			mFacets				= CollectionUtils.newHashMap();
 
@@ -362,19 +345,6 @@ public class SwtMetawidget
 		invalidateWidgets();
 	}
 
-	/**
-	 * Fetch a list of <code>Composites</code> that were added manually, and have so far not been
-	 * used.
-	 * <p>
-	 * <strong>This is an internal API exposed for OverriddenWidgetBuilder. Clients should not call
-	 * it directly.</strong>
-	 */
-
-	public List<Control> fetchExistingUnusedControls()
-	{
-		return mExistingUnusedControls;
-	}
-
 	//
 	// The following methods all kick off buildWidgets() if necessary
 	//
@@ -534,8 +504,15 @@ public class SwtMetawidget
 
 		mNeedToBuildWidgets = true;
 
-		for ( Control c : getChildren() )
-			c.dispose();
+		for ( Control control : getChildren() )
+		{
+			if ( control instanceof Facet )
+				mFacets.put( (String) control.getData( NAME ), (Facet) control );
+
+			//control.dispose();
+		}
+
+		// TODO: not the best place to call this (calls it every time)
 
 		buildWidgets();
 	}
@@ -594,11 +571,6 @@ public class SwtMetawidget
 		}
 	}
 
-	protected void startBuild()
-	{
-		mExistingUnusedControls = CollectionUtils.newArrayList( mExistingControls );
-	}
-
 	protected void addWidget( Control component, String elementName, Map<String, String> attributes )
 	{
 		// Set the name of the component.
@@ -617,36 +589,6 @@ public class SwtMetawidget
 			attributes.putAll( additionalAttributes );
 
 		// BasePipeline will call .layoutWidget
-	}
-
-	protected void endBuild()
-	{
-		if ( mExistingUnusedControls != null )
-		{
-			Layout<Control, Composite, SwtMetawidget> layout = mPipeline.getLayout();
-
-			for ( Control componentExisting : mExistingUnusedControls )
-			{
-				// Unused facets don't count
-
-				if ( componentExisting instanceof Facet )
-					continue;
-
-				// Manually created components default to no section
-
-				Map<String, String> attributes = CollectionUtils.newHashMap();
-				attributes.put( SECTION, "" );
-
-				// May have other attributes too
-
-				Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( componentExisting );
-
-				if ( additionalAttributes != null )
-					attributes.putAll( additionalAttributes );
-
-				layout.layoutWidget( componentExisting, PROPERTY, attributes, this, this );
-			}
-		}
 	}
 
 	protected Element inspect()
@@ -728,13 +670,6 @@ public class SwtMetawidget
 		//
 
 		@Override
-		protected void startBuild()
-		{
-			super.startBuild();
-			SwtMetawidget.this.startBuild();
-		}
-
-		@Override
 		protected void addWidget( Control component, String elementName, Map<String, String> attributes )
 		{
 			SwtMetawidget.this.addWidget( component, elementName, attributes );
@@ -758,13 +693,6 @@ public class SwtMetawidget
 			SwtMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
 
 			return nestedMetawidget;
-		}
-
-		@Override
-		protected void endBuild()
-		{
-			SwtMetawidget.this.endBuild();
-			super.endBuild();
 		}
 
 		@Override

@@ -4152,49 +4152,20 @@ public class Main {
 
 				<para>
 					All <classname>WidgetProcessor</classname>s must implement the <classname>WidgetProcessor</classname> interface.
-					This interface defines three methods:
+					This is a simple interface that defines only one method:
 				</para>
 				
-				<programlisting language="java">void onStartBuild( M metawidget );
-				
-W processWidget( W widget, String elementName, Map&lt;String, String&gt; attributes, M metawidget );
-
-void onEndBuild( M metawidget );</programlisting>
-				
-				<!--
-					http://www.websequencediagrams.com
-					
-					Metawidget->WidgetProcessor: onStartBuild
-					loop widget
-					   Metawidget->WidgetProcessor: processWidget
-					end
-					Metawidget->WidgetProcessor: onEndBuild
-				-->
-				
-				<figure id="section-architecture-widgetprocessors-loop">
-					<title>onStartBuild and onEndBuild are called once, processWidget is called for each widget</title>
-					<screenshot>
-						<graphic fileref="images/activitydiagrams/architecture-widgetprocessors-loop.png" width="50mm"/>
-					</screenshot>			
-				</figure>
+				<programlisting language="java">W processWidget( W widget, String elementName, Map&lt;String, String&gt; attributes, M metawidget );</programlisting>
 				
 				<para>
-					The first method, <function>onStartBuild</function>, is called at the start of the widget building process,
-					before the <classname>WidgetBuilder</classname> is called. <classname>WidgetProcessor</classname>s may wish to act
-					on this event to initialize themselves ready for processing. However it is acceptable to do nothing. A
-					convenience base class, <classname>BaseWidgetProcessor</classname>, is provided with a dummy implementation
-					so that subclasses don't have to override this method.					
+					Where <parameter>W</parameter> is a widget class (ie. <classname>JComponent</classname>, <classname>UIComponent</classname> etc)
+					and M is a Metawidget class (ie. <classname>SwingMetawidget</classname>, <classname>UIMetawidget</classname> etc).					
 				</para>
+				
 				<para>
-					The last method, <function>onEndBuild</function>, is called at the end of the widget building process,
-					after all widgets have been built and added to the <classname>Layout</classname>. <classname>WidgetProcessor</classname>s may wish to act
-					on this event to clean themselves up following processing. However it is acceptable to do nothing. The
-					convenience base class, <classname>BaseWidgetProcessor</classname>, has a dummy implementation
-					so that subclasses don't have to override this method.
-				</para>
-				<para>
-					The middle method, <function>processWidget</function> is the most important. It is called for
-					each widget. <classname>WidgetProcessor</classname>s can modify the given <parameter>widget</parameter> according
+					<function>processWidget</function> is called for each widget built by the <classname>WidgetBuilder</classname>s.
+					<classname>WidgetProcessor</classname>s can modify
+					the given <parameter>widget</parameter> according
 					to the given <parameter>elementName</parameter> and various <parameter>attributes</parameter>. They can use
 					the given <parameter>metawidget</parameter> to help them if needed (for example, to access a UI context with which
 					to create validators).
@@ -4284,13 +4255,13 @@ void onEndBuild( M metawidget );</programlisting>
 				
 				<programlisting language="java">final Object someObject = ...;
 				
-metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
+metawidget.addWidgetProcessor( new WidgetProcessor&lt;JComponent, SwingMetawidget&gt;() {
 	JComponent processWidget( JComponent widget, String elementName, Map&lt;String, String&gt; attributes,
 											SwingMetawidget metawidget ) {
 		...decide whether to attach event handler...
 		
 		widget.add( new AbstractAction() {
-			public void actionPerformed( ActionEvent event ) {
+			public void actionPerformed( ActionEvent e ) {
 				someObject.doSomething();
 			}
 		}	
@@ -4298,6 +4269,57 @@ metawidget.addWidgetProcessor( new BaseWidgetProcessor() {
 }</programlisting>
 			</section>
 			
+			<section id="section-architecture-widgetprocessors-advancedinterface">
+				<title>Advanced Interface</title>
+
+				<para>
+					The <classname>WidgetProcessor</classname> interface only has a single method. This allows
+					it to take advantage of Java 7 language features such as: 
+				</para>
+				
+				<programlisting language="java">metawidget.addWidgetProcessor(
+	#(JComponent w, String name, Map&lt;String, String&gt; attr, SwingMetawidget m)
+	{ w( #(ActionEvent e) { someObject.doSomething } ) } );</programlisting>
+	
+				<para>
+					However for those needing more control over the <code>WidgetProcessor</code> lifecycle there is
+					an extended interface <classname>AdvancedWidgetProcessor</classname>. This interface defines
+					two additional methods:
+				</para>
+				
+				<programlisting language="java">void onStartBuild( M metawidget );
+				
+void onEndBuild( M metawidget );</programlisting>
+
+				<!--
+					http://www.websequencediagrams.com
+					
+					Metawidget->WidgetProcessor: onStartBuild
+					loop widget
+					   Metawidget->WidgetProcessor: processWidget
+					end
+					Metawidget->WidgetProcessor: onEndBuild
+				-->
+				
+				<figure id="section-architecture-widgetprocessors-loop">
+					<title>onStartBuild and onEndBuild are called once, processWidget is called for each widget</title>
+					<screenshot>
+						<graphic fileref="images/activitydiagrams/architecture-widgetprocessors-loop.png" width="50mm"/>
+					</screenshot>			
+				</figure>
+				
+				<para>
+					The first method, <function>onStartBuild</function>, is called at the start of the widget building process,
+					before the <classname>WidgetBuilder</classname> is called. <classname>WidgetProcessor</classname>s may wish to act
+					on this event to initialize themselves ready for processing. However it is acceptable to do nothing.				
+				</para>
+				<para>
+					The last method, <function>onEndBuild</function>, is called at the end of the widget building process,
+					after all widgets have been built and added to the <classname>Layout</classname>. <classname>WidgetProcessor</classname>s may wish to act
+					on this event to clean themselves up following processing. However it is acceptable to do nothing.
+				</para>
+			</section>
+
 			<section id="section-architecture-widgetprocessors-defaults">
 				<title>Defaults</title>
 				
@@ -4536,53 +4558,87 @@ public class Main {
 
 				<para>
 					All <classname>Layout</classname>s must implement the <classname>Layout</classname> interface.
-					This interface defines three methods:
+					This is a simple interface that defines only one method:
 				</para>
 				
-				<programlisting language="java">void startLayout(W container,M metawidget);
-				
-void layoutWidget(W widget,String elementName,Map&lt;String, String&gt; attributes,W container,M metawidget);
+				<programlisting language="java">void layoutWidget(W widget,String elementName,Map&lt;String, String&gt; attributes,C container,M metawidget);</programlisting>
 
-void endLayout(W container,M metawidget);</programlisting>
-				
-				<!--
-					http://www.websequencediagrams.com
-					
-					Metawidget->Layout: startLayout
-					loop widget
-					   Metawidget->Layout: layoutWidget
-					end
-					Metawidget->Layout: endLayout
-				-->
-				
-				<figure id="section-architecture-layouts-loop">
-					<title>startLayout and endLayout are called once, layoutWidget is called for each widget</title>
-					<screenshot>
-						<graphic fileref="images/activitydiagrams/architecture-layouts-loop.png" width="50mm"/>
-					</screenshot>			
-				</figure>
-				
 				<para>
-					The first method, <function>startLayout</function>, is called to initialize the
-					given <parameter>container</parameter>. It is acceptable to do nothing. A
-					convenience base class, <classname>BaseLayout</classname>, is provided with a dummy implementation
-					so that subclasses don't have to override this method.					
+					Where <parameter>W</parameter> is a widget class (ie. <classname>Control</classname>, <classname>JComponent</classname> etc),
+					C is widget container class (ie. <classname>Composite</classname>, <classname>JComponent</classname> etc)
+					and M is a Metawidget class (ie. <classname>SwtMetawidget</classname>, <classname>SwingMetawidget</classname> etc).					
 				</para>
+				
 				<para>
-					The last method, <function>endLayout</function>, is called to finish the given <parameter>container</parameter>.
-					It is acceptable to do nothing. The
-					convenience base class, <classname>BaseLayout</classname>, has a dummy implementation
-					so that subclasses don't have to override this method.
-				</para>
-				<para>
-					The middle method, <function>layoutWidget</function> is the most important. It is called for
-					each widget. <classname>Layout</classname>s	should add the given <parameter>widget</parameter>
+					<function>layoutWidget</function> is called for	each widget. <classname>Layout</classname>s	should
+					add the given <parameter>widget</parameter>
 					as a child of the given <parameter>container</parameter>, according to the given
 					<parameter>elementName</parameter> and <parameter>attributes</parameter>. They can use
 					the given <parameter>metawidget</parameter> to access additional services if needed (such as
 					state saving).
 				</para>
 				
+			</section>
+
+			<section id="section-architecture-layouts-advancedinterface">
+				<title>Advanced Interface</title>
+
+				<para>
+					The <classname>Layout</classname> interface only has a single method. However for those
+					needing more control over the <code>Layout</code> lifecycle there is
+					an extended interface <classname>AdvancedLayout</classname>. This interface defines
+					four additional methods:
+				</para>
+
+				<programlisting language="java">void onStartBuild(M metawidget);
+				
+void startContainerLayout(W container,M metawidget);
+				
+void endContainerLayout(W container,M metawidget);
+
+void onEndBuild(M metawidget);</programlisting>
+				
+				<!--
+					http://www.websequencediagrams.com
+					
+					Metawidget->Layout: onStartBuild
+					loop container
+					   Metawidget->Layout: startContainerLayout
+					   loop widget
+					      Metawidget->Layout: layoutWidget
+					   end
+					   Metawidget->Layout: endContainerLayout
+					end
+					Metawidget->Layout: onEndBuild
+				-->
+				
+				<figure id="section-architecture-layouts-loop">
+					<title>startContainerLayout and endContainerLayout are called for each container, layoutWidget is called for each widget</title>
+					<screenshot>
+						<graphic fileref="images/activitydiagrams/architecture-layouts-loop.png" width="50mm"/>
+					</screenshot>			
+				</figure>
+				
+				<para>
+					The first method, <function>onStartBuild</function>, is called at the start of the widget building process,
+					before the <classname>WidgetBuilder</classname> is called. <classname>Layout</classname>s may wish to act
+					on this event to initialize themselves ready for processing, or to perform 'outermost-container-only' processing, such as adding facets.
+					However it is acceptable to do nothing.				
+				</para>				
+				<para>
+					The second method, <function>startContainerLayout</function>, is called to initialize the
+					given <parameter>container</parameter>. It is acceptable to do nothing.			
+				</para>
+				<para>
+					The third method, <function>endContainerLayout</function>, is called to finish the given <parameter>container</parameter>.
+					It is acceptable to do nothing.
+				</para>
+				<para>
+					The last method, <function>onEndBuild</function>, is called at the end of the widget building process,
+					after all widgets have been built and added to the <classname>Layout</classname>. <classname>Layout</classname>s may wish to act
+					on this event to clean themselves up following processing, or to perform 'outermost-container-only' processing, such as adding facets.
+					However it is acceptable to do nothing.
+				</para>				
 			</section>
 
 			<section id="section-architecture-layouts-layoutdecorator">
@@ -4851,7 +4907,9 @@ import org.metawidget.layout.iface.*;
 public class HtmlListLayout
 	implements AdvancedLayout&lt;Tag, MetawidgetTag&gt; {
 	
-	public void startLayout( Tag containerTag, MetawidgetTag metawidgetTag ) {
+	public void onStartBuild( MetawidgetTag metawidgetTag ) {}
+
+	public void startContainerLayout( Tag containerTag, MetawidgetTag metawidgetTag ) {
 		try	{
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 			writer.write( "&lt;ul&gt;" );
@@ -4872,7 +4930,7 @@ public class HtmlListLayout
 		}
 	}
 
-	public void endLayout( Tag containerTag, MetawidgetTag metawidgetTag ) {
+	public void endContainerLayout( Tag containerTag, MetawidgetTag metawidgetTag ) {
 		try {
 			JspWriter writer = metawidgetTag.getPageContext().getOut();
 			writer.write( "&lt;/ul&gt;" );
@@ -4880,6 +4938,8 @@ public class HtmlListLayout
 			throw LayoutException.newException( e );
 		}
 	}
+	
+	public void onEndBuild( MetawidgetTag metawidgetTag ) {}	
 }</programlisting>
 				
 				<para>
@@ -4964,8 +5024,8 @@ public class HtmlListLayout
 					<listitem>
 						<para>
 							For state that will change during laying out, such as tracking the current row, store it in the
-							Metawidget that is passed in to <function>startLayout</function>, <function>layoutChild</function>
-							and <function>endLayout</function>. You may want to further wrap the state in a small helper
+							Metawidget that is passed in to <function>startContainerLayout</function>, <function>layoutChild</function>
+							and <function>endContainerLayout</function>. You may want to further wrap the state in a small helper
 							class, for example:
 						</para>
 						
@@ -8150,7 +8210,7 @@ public class PersonController {
 					<para>
 						However, Metawidget makes action bindings pluggable to support other use cases. In particular, use cases where there
 						<emphasis>is</emphasis> no backing class, and instead the <classname>JButton</classname> should invoke, say, an RPC
-						call. Implement your own pluggable binding by extending <classname>BaseWidgetProcessor</classname> and use it by calling:
+						call. Implement your own pluggable binding by implementing <classname>WidgetProcessor</classname> and use it by calling:
 					</para>
 					
 					<programlisting language="java">myMetawidget.addWidgetProcessor( new MyWidgetProcessor() );</programlisting>
@@ -8236,7 +8296,7 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 					<para>
 						However, Metawidget makes action bindings pluggable to support other use cases. In particular, use cases where there
 						<emphasis>is</emphasis> no backing class, and instead the <classname>Button</classname> should invoke, say, an RPC
-						call. Implement your own pluggable binding by extending <classname>BaseWidgetProcessor</classname> and use it by calling...
+						call. Implement your own pluggable binding by implementing <classname>WidgetProcessor</classname> and use it by calling...
 					</para>
 						
 					<programlisting language="java">myMetawidget.addWidgetProcessor( new MyWidgetProcessor() );</programlisting>
@@ -8341,6 +8401,14 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							<tr>
 								<td><parameter>labelAlignment</parameter></td>
 								<td>Such as <classname>SwingConstants.LEFT</classname> or <classname>SwingConstants.RIGHT</classname></td>
+							</tr>
+							<tr>
+								<td><parameter>labelFont</parameter></td>
+								<td>Label font</td>
+							</tr>
+							<tr>
+								<td><parameter>labelForeground</parameter></td>
+								<td>Label foreground color</td>
 							</tr>
 							<tr>
 								<td><parameter>labelSuffix</parameter></td>

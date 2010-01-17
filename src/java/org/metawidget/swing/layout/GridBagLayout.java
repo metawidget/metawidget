@@ -18,6 +18,8 @@ package org.metawidget.swing.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.util.Map;
@@ -63,6 +65,10 @@ public class GridBagLayout
 
 	private final int			mLabelAlignment;
 
+	private final Font			mLabelFont;
+
+	private final Color			mLabelForeground;
+
 	private final String		mLabelSuffix;
 
 	private final int			mRequiredAlignment;
@@ -82,6 +88,8 @@ public class GridBagLayout
 	{
 		mNumberOfColumns = config.getNumberOfColumns();
 		mLabelAlignment = config.getLabelAlignment();
+		mLabelForeground = config.getLabelForeground();
+		mLabelFont = config.getLabelFont();
 		mLabelSuffix = config.getLabelSuffix();
 		mRequiredAlignment = config.getRequiredAlignment();
 		mRequiredText = config.getRequiredText();
@@ -91,7 +99,12 @@ public class GridBagLayout
 	// Public methods
 	//
 
-	public void startLayout( JComponent container, SwingMetawidget metawidget )
+	public void onStartBuild( SwingMetawidget metawidget )
+	{
+		// Do nothing
+	}
+
+	public void startContainerLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		container.putClientProperty( GridBagLayout.class, null );
 		State state = getState( container );
@@ -201,43 +214,11 @@ public class GridBagLayout
 		}
 	}
 
-	public void endLayout( JComponent container, SwingMetawidget metawidget )
+	public void endContainerLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		// Buttons
+		// Spacer row: see JavaDoc for state.needSpacerRow
 
 		State state = getState( container );
-
-		if ( container.equals( metawidget ) )
-		{
-			Facet buttonsFacet = metawidget.getFacet( "buttons" );
-
-			if ( buttonsFacet != null )
-			{
-				if ( state.currentColumn > 0 )
-				{
-					state.currentColumn = 0;
-					state.currentRow++;
-				}
-
-				GridBagConstraints buttonConstraints = new GridBagConstraints();
-				buttonConstraints.fill = GridBagConstraints.BOTH;
-				buttonConstraints.anchor = GridBagConstraints.WEST;
-				buttonConstraints.gridy = state.currentRow;
-				buttonConstraints.gridwidth = GridBagConstraints.REMAINDER;
-
-				// (buttons facet can act as the spacer row)
-
-				if ( state.needSpacerRow )
-				{
-					buttonConstraints.weighty = 1.0f;
-					state.needSpacerRow = false;
-				}
-
-				metawidget.add( buttonsFacet, buttonConstraints );
-			}
-		}
-
-		// Spacer row: see JavaDoc for state.needSpacerRow
 
 		if ( state.needSpacerRow )
 		{
@@ -253,6 +234,32 @@ public class GridBagLayout
 			spacerConstraints.gridy = state.currentRow;
 			spacerConstraints.weighty = 1.0f;
 			container.add( spacerPanel, spacerConstraints );
+			state.currentColumn = mNumberOfColumns;
+		}
+	}
+
+	public void onEndBuild( SwingMetawidget metawidget )
+	{
+		// Buttons
+
+		Facet buttonsFacet = metawidget.getFacet( "buttons" );
+
+		if ( buttonsFacet != null )
+		{
+			State state = getState( metawidget );
+			if ( state.currentColumn > 0 )
+			{
+				state.currentColumn = 0;
+				state.currentRow++;
+			}
+
+			GridBagConstraints buttonConstraints = new GridBagConstraints();
+			buttonConstraints.fill = GridBagConstraints.BOTH;
+			buttonConstraints.anchor = GridBagConstraints.WEST;
+			buttonConstraints.gridy = state.currentRow;
+			buttonConstraints.gridwidth = GridBagConstraints.REMAINDER;
+
+			metawidget.add( buttonsFacet, buttonConstraints );
 		}
 	}
 
@@ -269,6 +276,13 @@ public class GridBagLayout
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 		{
 			JLabel label = new JLabel();
+
+			if ( mLabelFont != null )
+				label.setFont( mLabelFont );
+
+			if ( mLabelForeground != null )
+				label.setForeground( mLabelForeground );
+
 			label.setHorizontalAlignment( mLabelAlignment );
 
 			// Required

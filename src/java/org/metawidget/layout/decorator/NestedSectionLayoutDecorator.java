@@ -42,9 +42,9 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 	//
 
 	@Override
-	public void startLayout( C container, M metawidget )
+	public void startContainerLayout( C container, M metawidget )
 	{
-		super.startLayout( container, metawidget );
+		super.startContainerLayout( container, metawidget );
 
 		State<C> state = getState( container, metawidget );
 		state.currentSection = null;
@@ -76,7 +76,7 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 		// End current section
 
 		if ( state.currentSectionWidget != null )
-			super.endLayout( state.currentSectionWidget, metawidget );
+			super.endContainerLayout( state.currentSectionWidget, metawidget );
 
 		state.currentSectionWidget = null;
 
@@ -94,7 +94,7 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 			return;
 
 		state.currentSectionWidget = createSectionWidget( previousSectionWidget, attributes, container, metawidget );
-		super.startLayout( state.currentSectionWidget, metawidget );
+		super.startContainerLayout( state.currentSectionWidget, metawidget );
 
 		// Add component to new tab
 
@@ -102,16 +102,16 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 	}
 
 	@Override
-	public void endLayout( C container, M metawidget )
+	public void endContainerLayout( C container, M metawidget )
 	{
 		// End hanging layouts
 
 		State<C> state = getState( container, metawidget );
 
 		if ( state.currentSectionWidget != null )
-			super.endLayout( state.currentSectionWidget, metawidget );
+			super.endContainerLayout( state.currentSectionWidget, metawidget );
 
-		super.endLayout( container, metawidget );
+		super.endContainerLayout( container, metawidget );
 	}
 
 	//

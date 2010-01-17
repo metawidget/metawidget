@@ -16,6 +16,9 @@
 
 package org.metawidget.swing.layout;
 
+import java.awt.Color;
+import java.awt.Font;
+
 import javax.swing.SwingConstants;
 
 import org.metawidget.layout.iface.LayoutException;
@@ -33,15 +36,19 @@ public class GridBagLayoutConfig
 	// Private members
 	//
 
-	private int				mNumberOfColumns	= 1;
+	private int		mNumberOfColumns	= 1;
 
-	private int				mLabelAlignment		= SwingConstants.LEFT;
+	private int		mLabelAlignment		= SwingConstants.LEFT;
 
-	private String			mLabelSuffix		= ":";
+	private Color	mLabelForeground;
 
-	private int				mRequiredAlignment	= SwingConstants.CENTER;
+	private Font	mLabelFont;
 
-	private String			mRequiredText		= "*";
+	private String	mLabelSuffix		= ":";
+
+	private int		mRequiredAlignment	= SwingConstants.CENTER;
+
+	private String	mRequiredText		= "*";
 
 	//
 	// Public methods
@@ -78,6 +85,38 @@ public class GridBagLayoutConfig
 	public GridBagLayoutConfig setLabelAlignment( int labelAlignment )
 	{
 		mLabelAlignment = labelAlignment;
+
+		return this;
+	}
+
+	public Color getLabelForeground()
+	{
+		return mLabelForeground;
+	}
+
+	/**
+	 * @return this, as part of a fluent interface
+	 */
+
+	public GridBagLayoutConfig setLabelForeground( Color labelForeground )
+	{
+		mLabelForeground = labelForeground;
+
+		return this;
+	}
+
+	public Font getLabelFont()
+	{
+		return mLabelFont;
+	}
+
+	/**
+	 * @return this, as part of a fluent interface
+	 */
+
+	public GridBagLayoutConfig setLabelFont( Font labelFont )
+	{
+		mLabelFont = labelFont;
 
 		return this;
 	}
@@ -136,22 +175,28 @@ public class GridBagLayoutConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof GridBagLayoutConfig ))
+		if ( !( that instanceof GridBagLayoutConfig ) )
 			return false;
 
-		if ( mNumberOfColumns != ((GridBagLayoutConfig) that).mNumberOfColumns )
+		if ( mNumberOfColumns != ( (GridBagLayoutConfig) that ).mNumberOfColumns )
 			return false;
 
-		if ( mLabelAlignment != ((GridBagLayoutConfig) that).mLabelAlignment )
+		if ( mLabelAlignment != ( (GridBagLayoutConfig) that ).mLabelAlignment )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mLabelSuffix, ((GridBagLayoutConfig) that).mLabelSuffix ))
+		if ( !ObjectUtils.nullSafeEquals( mLabelFont, ( (GridBagLayoutConfig) that ).mLabelFont ) )
 			return false;
 
-		if ( mRequiredAlignment != ((GridBagLayoutConfig) that).mRequiredAlignment )
+		if ( !ObjectUtils.nullSafeEquals( mLabelForeground, ( (GridBagLayoutConfig) that ).mLabelForeground ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mRequiredText, ((GridBagLayoutConfig) that).mRequiredText ))
+		if ( !ObjectUtils.nullSafeEquals( mLabelSuffix, ( (GridBagLayoutConfig) that ).mLabelSuffix ) )
+			return false;
+
+		if ( mRequiredAlignment != ( (GridBagLayoutConfig) that ).mRequiredAlignment )
+			return false;
+
+		if ( !ObjectUtils.nullSafeEquals( mRequiredText, ( (GridBagLayoutConfig) that ).mRequiredText ) )
 			return false;
 
 		return true;
@@ -163,6 +208,8 @@ public class GridBagLayoutConfig
 		int hashCode = 1;
 		hashCode = 31 * hashCode + mNumberOfColumns;
 		hashCode = 31 * hashCode + mLabelAlignment;
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mLabelFont );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mLabelForeground );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mLabelSuffix );
 		hashCode = 31 * hashCode + mRequiredAlignment;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mRequiredText );

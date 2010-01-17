@@ -18,10 +18,13 @@ package org.metawidget.example.swing.appframework;
 
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import junit.framework.TestCase;
@@ -62,9 +65,17 @@ public class SwingAppFrameworkTest
 		assertTrue( "Ford".equals( ( (JTextField) metawidget.getComponent( 1 ) ).getText() ) );
 		assertTrue( "Ford".equals( car.toString() ) );
 		assertTrue( null == car.getOwner() );
-		assertTrue( metawidget.getComponentCount() == 6 );
-		assertTrue( ((Container) metawidget.getFacet( "buttons" ).getComponent( 0 )).getLayout() instanceof FlowLayout );
-		assertTrue( "Save".equals( ((JButton) ((SwingMetawidget) metawidget.getFacet( "buttons" ).getComponent( 0 )).getComponent( 0 )).getText() ));
+		assertTrue( metawidget.getComponentCount() == 7 );
+		assertTrue( metawidget.getComponent( 5 ) instanceof JPanel );
+		assertTrue( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 5 ) ).weighty == 1.0f );
+		assertTrue( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getFacet( "buttons" ) ).gridx == -1 );
+		assertTrue( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getFacet( "buttons" ) ).gridy == 4 );
+		assertTrue( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getFacet( "buttons" ) ).fill == GridBagConstraints.BOTH );
+		assertTrue( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getFacet( "buttons" ) ).anchor == GridBagConstraints.WEST );
+		assertTrue( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getFacet( "buttons" ) ).gridwidth == GridBagConstraints.REMAINDER );
+		assertTrue( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getFacet( "buttons" ) ).weighty == 0 );
+		assertTrue( ( (Container) metawidget.getFacet( "buttons" ).getComponent( 0 ) ).getLayout() instanceof FlowLayout );
+		assertTrue( "Save".equals( ( (JButton) ( (SwingMetawidget) metawidget.getFacet( "buttons" ).getComponent( 0 ) ).getComponent( 0 ) ).getText() ) );
 
 		( (JComboBox) metawidget.getComponent( 3 ) ).setSelectedIndex( 1 );
 		JButton button = (JButton) metawidget.getComponent( "addOwner" );
@@ -72,7 +83,7 @@ public class SwingAppFrameworkTest
 		button.getAction().actionPerformed( null );
 
 		assertTrue( null != car.getOwner() );
-		assertTrue( metawidget.getComponentCount() == 7 );
+		assertTrue( metawidget.getComponentCount() == 8 );
 		assertTrue( "Ford Sport, owned by (no name specified)".equals( car.toString() ) );
 		SwingMetawidget metawidgetOwner = (SwingMetawidget) metawidget.getComponent( 5 );
 		( (JTextField) metawidgetOwner.getComponent( 1 ) ).setText( "Richard" );

@@ -68,7 +68,12 @@ public class MigLayout
 	// Public methods
 	//
 
-	public void startLayout( Composite container, SwtMetawidget metawidget )
+	public void onStartBuild( SwtMetawidget metawidget )
+	{
+		// Do nothing
+	}
+
+	public void startContainerLayout( Composite container, SwtMetawidget metawidget )
 	{
 		container.setData( MigLayout.class.getName(), null );
 		State state = getState( container );
@@ -171,27 +176,28 @@ public class MigLayout
 		}
 	}
 
-	public void endLayout( Composite container, SwtMetawidget metawidget )
+	public void endContainerLayout( Composite container, SwtMetawidget metawidget )
+	{
+		// Do nothing
+	}
+
+	public void onEndBuild( SwtMetawidget metawidget )
 	{
 		// Buttons
 
-		if ( container.equals( metawidget ) )
+		Facet buttonsFacet = metawidget.getFacet( "buttons" );
+
+		if ( buttonsFacet != null )
 		{
-			Facet buttonsFacet = metawidget.getFacet( "buttons" );
+			State state = getState( metawidget );
 
-			if ( buttonsFacet != null )
+			if ( state.currentColumn > 0 )
 			{
-				State state = getState( metawidget );
-
-				if ( state.currentColumn > 0 )
-				{
-					state.currentColumn = 0;
-					state.currentRow++;
-				}
-
-				// TODO:metawidget.add( buttonsFacet, new CC().cell( 0, state.currentRow
-				// ).spanX().growX() );
+				state.currentColumn = 0;
+				state.currentRow++;
 			}
+
+			buttonsFacet.setLayoutData( new CC().cell( 0, state.currentRow ).spanX().growX() );
 		}
 	}
 

@@ -19,6 +19,8 @@ package org.metawidget.example.swing.addressbook;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.image.BufferedImage;
 import java.util.Iterator;
 import java.util.List;
@@ -87,8 +89,13 @@ public class SwingAddressBookTest
 		metawidgetSearch.setValue( "Simpson", "surname" );
 		metawidgetSearch.setValue( ContactType.PERSONAL, "type" );
 
-		assertTrue( metawidgetSearch.getComponentCount() == 7 );
+		assertTrue( metawidgetSearch.getComponentCount() == 8 );
 		JPanel panelButtons = (JPanel) metawidgetSearch.getComponent( metawidgetSearch.getComponentCount() - 1 );
+		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( panelButtons ).gridx == -1 );
+		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( panelButtons ).gridy == 4 );
+		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( panelButtons ).fill == GridBagConstraints.BOTH );
+		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( panelButtons ).anchor == GridBagConstraints.WEST );
+		assertTrue( ( (GridBagLayout) metawidgetSearch.getLayout() ).getConstraints( panelButtons ).gridwidth == GridBagConstraints.REMAINDER );
 		assertTrue( ((Container) panelButtons.getComponent( 0 )).getLayout() instanceof FlowLayout );
 		JButton buttonSearch = (JButton) ((SwingMetawidget) panelButtons.getComponent( 0 )).getComponent( 0 );
 		assertTrue( "Search".equals( buttonSearch.getText() ) );

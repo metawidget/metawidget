@@ -48,7 +48,7 @@ public class FlowLayoutTest
 		// startLayout
 
 		FlowLayout flowLayout = new FlowLayout();
-		flowLayout.startLayout( container, metawidget );
+		flowLayout.startContainerLayout( container, metawidget );
 
 		assertTrue( container.getLayout() instanceof java.awt.FlowLayout );
 		assertTrue( !( metawidget.getLayout() instanceof java.awt.FlowLayout ));

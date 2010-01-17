@@ -70,7 +70,12 @@ public class MigLayout
 	// Public methods
 	//
 
-	public void startLayout( JComponent container, SwingMetawidget metawidget )
+	public void onStartBuild( SwingMetawidget metawidget )
+	{
+		// Do nothing
+	}
+
+	public void startContainerLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		container.putClientProperty( MigLayout.class, null );
 		State state = getState( container );
@@ -181,26 +186,28 @@ public class MigLayout
 		}
 	}
 
-	public void endLayout( JComponent container, SwingMetawidget metawidget )
+	public void endContainerLayout( JComponent container, SwingMetawidget metawidget )
+	{
+		// Do nothing
+	}
+
+	public void onEndBuild( SwingMetawidget metawidget )
 	{
 		// Buttons
 
-		if ( container.equals( metawidget ) )
+		Facet buttonsFacet = metawidget.getFacet( "buttons" );
+
+		if ( buttonsFacet != null )
 		{
-			Facet buttonsFacet = metawidget.getFacet( "buttons" );
+			State state = getState( metawidget );
 
-			if ( buttonsFacet != null )
+			if ( state.currentColumn > 0 )
 			{
-				State state = getState( metawidget );
-
-				if ( state.currentColumn > 0 )
-				{
-					state.currentColumn = 0;
-					state.currentRow++;
-				}
-
-				metawidget.add( buttonsFacet, new CC().cell( 0, state.currentRow ).spanX().growX() );
+				state.currentColumn = 0;
+				state.currentRow++;
 			}
+
+			metawidget.add( buttonsFacet, new CC().cell( 0, state.currentRow ).spanX().growX() );
 		}
 	}
 

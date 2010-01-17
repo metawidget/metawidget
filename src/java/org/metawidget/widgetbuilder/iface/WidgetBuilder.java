@@ -42,6 +42,8 @@ public interface WidgetBuilder<W, M extends W>
 	//
 
 	/**
+	 * Builds the most appropriate widget for this business field.
+	 *
 	 * @param elementName
 	 *            XML node name of the business field. Typically 'entity', 'property' or 'action'.
 	 *            Never null
@@ -51,6 +53,12 @@ public interface WidgetBuilder<W, M extends W>
 	 *            and Layouts
 	 * @param metawidget
 	 *            the parent Metawidget. Never null
+	 * @return the built widget. To suppress a field, return a Stub. To defer to the next
+	 *         WidgetBuilder in the pipeline, return null. If there are no more WidgetBuilders in
+	 *         the pipeline, will create a nested Metawidget. This approach (return Stub for no
+	 *         field, null for nested Metawidget) as opposed to the other way around (return null
+	 *         for no field, return Metawidget for nested Metawidget) works better for those UI
+	 *         frameworks that cannot instatiate widgets without adding them to containers (eg. SWT)
 	 */
 
 	W buildWidget( String elementName, Map<String, String> attributes, M metawidget );

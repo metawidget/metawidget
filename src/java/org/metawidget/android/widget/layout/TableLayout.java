@@ -59,7 +59,7 @@ public class TableLayout
 	//
 
 	@Override
-	public void endLayout( ViewGroup container, AndroidMetawidget metawidget )
+	public void endContainerLayout( ViewGroup container, AndroidMetawidget metawidget )
 	{
 		// If the TableLayout was never used, just put an empty space
 
@@ -68,7 +68,7 @@ public class TableLayout
 
 		// Add footer
 
-		super.endLayout( container, metawidget );
+		super.endContainerLayout( container, metawidget );
 	}
 
 	//

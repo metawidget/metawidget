@@ -18,7 +18,6 @@ package org.metawidget.swt.widgetbuilder;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.swt.widgets.Control;
@@ -49,20 +48,13 @@ public class OverriddenWidgetBuilder
 			return null;
 
 		Control component = null;
-		List<Control> existingUnusedComponents = metawidget.fetchExistingUnusedControls();
 
-		for ( Control componentExisting : existingUnusedComponents )
+		for ( Control componentExisting : metawidget.getChildren() )
 		{
 			if ( name.equals( componentExisting.getData( NAME ) ) )
-			{
-				component = componentExisting;
-				break;
-			}
+				return component;
 		}
 
-		if ( component != null )
-			existingUnusedComponents.remove( component );
-
-		return component;
+		return null;
 	}
 }

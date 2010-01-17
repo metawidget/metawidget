@@ -16,6 +16,8 @@
 
 package org.metawidget.swing.layout;
 
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
@@ -83,7 +85,7 @@ public class GridBagLayoutTest
 			assertTrue( "numberOfColumns must be >= 1".equals( e.getMessage() ) );
 		}
 
-		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) )));
+		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
 		Insets insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
@@ -113,7 +115,7 @@ public class GridBagLayoutTest
 		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).gridwidth );
 		assertTrue( 1.0f == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( tabbedPane ).weighty );
 
-		assertTrue( "tab1".equals( tabbedPane.getTitleAt( 0 )));
+		assertTrue( "tab1".equals( tabbedPane.getTitleAt( 0 ) ) );
 		JPanel tabPanel = (JPanel) tabbedPane.getComponent( 0 );
 		assertTrue( tabPanel.isOpaque() );
 		assertTrue( "Tab 1_jkl:".equals( ( (JLabel) tabPanel.getComponent( 0 ) ).getText() ) );
@@ -129,14 +131,14 @@ public class GridBagLayoutTest
 		assertTrue( 1.0f == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 6 ) ).weighty );
 		assertTrue( 7 == tabPanel.getComponentCount() );
 
-		assertTrue( "tab2".equals( tabbedPane.getTitleAt( 1 )));
+		assertTrue( "tab2".equals( tabbedPane.getTitleAt( 1 ) ) );
 		tabPanel = (JPanel) tabbedPane.getComponent( 1 );
 		assertTrue( tabPanel.getComponent( 0 ) instanceof JScrollPane );
 		assertTrue( 0 == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 0 ) ).gridx );
 		assertTrue( GridBagConstraints.REMAINDER == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 0 ) ).gridwidth );
 		assertTrue( 1 == tabPanel.getComponentCount() );
 
-		assertTrue( "tab3".equals( tabbedPane.getTitleAt( 2 )));
+		assertTrue( "tab3".equals( tabbedPane.getTitleAt( 2 ) ) );
 		tabPanel = (JPanel) tabbedPane.getComponent( 2 );
 		assertTrue( tabPanel.getComponent( 0 ) instanceof JTextField );
 		assertTrue( 0 == ( (GridBagLayout) tabPanel.getLayout() ).getConstraints( tabPanel.getComponent( 0 ) ).gridx );
@@ -267,6 +269,29 @@ public class GridBagLayoutTest
 		assertTrue( 2 == ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 9 ) ).gridy );
 	}
 
+	public void testLabelFont()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setToInspect( new RequiredFoo() );
+
+		// Different label foreground
+
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig() ) );
+		assertTrue( "Abc*:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( !Color.yellow.equals( ( (JLabel) metawidget.getComponent( 0 ) ).getForeground() ) );
+
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelForeground( Color.yellow ) ) );
+		assertTrue( Color.yellow.equals( ( (JLabel) metawidget.getComponent( 0 ) ).getForeground() ) );
+
+		// Different label font
+
+		Font newFont = new JPanel().getFont().deriveFont( 64.0f );
+		assertTrue( !newFont.equals( ( (JLabel) metawidget.getComponent( 0 ) ).getFont() ) );
+
+		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setLabelFont( newFont ) ) );
+		assertTrue( newFont.equals( ( (JLabel) metawidget.getComponent( 0 ) ).getFont() ) );
+	}
+
 	public void testLabelSuffix()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
@@ -373,6 +398,29 @@ public class GridBagLayoutTest
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
 
+		// labelFont
+
+		Font font = new JPanel().getFont();
+		config1.setLabelFont( font );
+		assertTrue( font == config1.getLabelFont() );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setLabelFont( font );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
+		// labelForeground
+
+		config1.setLabelForeground( Color.blue );
+		assertTrue( Color.blue == config1.getLabelForeground() );
+		assertTrue( !config1.equals( config2 ) );
+		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config2.setLabelForeground( Color.blue );
+		assertTrue( config1.equals( config2 ) );
+		assertTrue( config1.hashCode() == config2.hashCode() );
+
 		// labelSuffix
 
 		config1.setLabelSuffix( "#" );
@@ -419,8 +467,8 @@ public class GridBagLayoutTest
 		CompositeInspectorConfig config = new CompositeInspectorConfig();
 		config.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		metawidget.setInspector( new CompositeInspector( config ) );
-		metawidget.setMetawidgetLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ).setRequiredText( "<html><font color=\"red\">*</font></html>" ).setRequiredAlignment( SwingConstants.RIGHT ) ) );
-		metawidget.setToInspect( new RequiredFoo() );
+		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
+		metawidget.setToInspect( new Foo() );
 
 		// JFrame
 

@@ -49,9 +49,9 @@ public abstract class SwingNestedSectionLayoutDecorator
 	//
 
 	@Override
-	public void startLayout( JComponent container, SwingMetawidget metawidget )
+	public void startContainerLayout( JComponent container, SwingMetawidget metawidget )
 	{
-		super.startLayout( container, metawidget );
+		super.startContainerLayout( container, metawidget );
 		container.putClientProperty( getClass(), null );
 	}
 

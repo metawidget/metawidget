@@ -30,6 +30,9 @@ import org.metawidget.util.CollectionUtils;
  * creation entirely or to create child widgets with a different name. They differ from Facets in
  * that Facets are simply 'decorations' (such as button bars) to be recognized and arranged at the
  * discretion of the Layout.
+ * <p>
+ * We define separate Stub widgets, as opposed to simply a <code>SwingMetawidget.addStub</code>
+ * method, as this is more amenable to visual UI builders.
  *
  * @author Richard Kennard
  */

@@ -41,8 +41,13 @@ public class BoxLayout
 	// Public methods
 	//
 
+	public void onStartBuild( SwingMetawidget metawidget )
+	{
+		// Do nothing
+	}
+
 	@Override
-	public void startLayout( JComponent container, SwingMetawidget metawidget )
+	public void startContainerLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		container.setLayout( new javax.swing.BoxLayout( container, javax.swing.BoxLayout.PAGE_AXIS ) );
 	}
@@ -60,7 +65,12 @@ public class BoxLayout
 	}
 
 	@Override
-	public void endLayout( JComponent container, SwingMetawidget metawidget )
+	public void endContainerLayout( JComponent container, SwingMetawidget metawidget )
+	{
+		// Do nothing
+	}
+
+	public void onEndBuild( SwingMetawidget metawidget )
 	{
 		// Do nothing
 	}

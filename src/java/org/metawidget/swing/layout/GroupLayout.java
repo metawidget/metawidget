@@ -59,7 +59,12 @@ public class GroupLayout
 	// Public methods
 	//
 
-	public void startLayout( JComponent container, SwingMetawidget metawidget )
+	public void onStartBuild( SwingMetawidget metawidget )
+	{
+		// Do nothing
+	}
+
+	public void startContainerLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		javax.swing.GroupLayout groupLayout = new javax.swing.GroupLayout( container );
 		container.setLayout( groupLayout );
@@ -124,7 +129,7 @@ public class GroupLayout
 		parallelGroup.addComponent( component );
 	}
 
-	public void endLayout( JComponent container, SwingMetawidget metawidget )
+	public void endContainerLayout( JComponent container, SwingMetawidget metawidget )
 	{
 		// Make all labels the same width
 
@@ -133,19 +138,21 @@ public class GroupLayout
 
 		if ( !state.labels.isEmpty() )
 			groupLayout.linkSize( SwingConstants.HORIZONTAL, state.labels.toArray( EMPTY_COMPONENTS_ARRAY ) );
+	}
 
+	public void onEndBuild( SwingMetawidget metawidget )
+	{
 		// Buttons
 
-		if ( container.equals( metawidget ))
-		{
-			Facet facetButtons = metawidget.getFacet( "buttons" );
+		Facet facetButtons = metawidget.getFacet( "buttons" );
 
-			if ( facetButtons != null )
-			{
-				state.groupHorizontal.addGroup( groupLayout.createSequentialGroup().addComponent( facetButtons ) );
-				state.groupVertical.addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );
-				state.groupVertical.addGroup( groupLayout.createParallelGroup( Alignment.BASELINE ).addComponent( facetButtons ) );
-			}
+		if ( facetButtons != null )
+		{
+			State state = getState( metawidget );
+			javax.swing.GroupLayout groupLayout = (javax.swing.GroupLayout) metawidget.getLayout();
+			state.groupHorizontal.addGroup( groupLayout.createSequentialGroup().addComponent( facetButtons ) );
+			state.groupVertical.addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );
+			state.groupVertical.addGroup( groupLayout.createParallelGroup( Alignment.BASELINE ).addComponent( facetButtons ) );
 		}
 	}
 

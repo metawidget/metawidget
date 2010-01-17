@@ -860,6 +860,9 @@ public class SwingMetawidget
 		// If this is a JScrollPane, set the name of the top-level JScrollPane. Don't do this before
 		// now, as we don't want binding/validation implementations accidentally relying on the
 		// name being set (which it won't be for actualComponent)
+		//
+		// Note: we haven't split this out into a separate WidgetProcessor, because other methods
+		// like getValue/setValue/getComponent( String... names ) rely on it
 
 		component.setName( attributes.get( NAME ) );
 

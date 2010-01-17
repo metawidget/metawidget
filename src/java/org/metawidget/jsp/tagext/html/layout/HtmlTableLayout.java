@@ -98,9 +98,13 @@ public class HtmlTableLayout
 	// Public methods
 	//
 
-	public void startLayout( BodyTag container, MetawidgetTag metawidgetTag )
+	public void onStartBuild( MetawidgetTag metawidgetTag )
 	{
 		metawidgetTag.putClientProperty( HtmlTableLayout.class, null );
+	}
+
+	public void startContainerLayout( BodyTag container, MetawidgetTag metawidgetTag )
+	{
 		State state = getState( metawidgetTag );
 
 		try
@@ -238,7 +242,13 @@ public class HtmlTableLayout
 	}
 
 	@Override
-	public void endLayout( BodyTag container, MetawidgetTag metawidgetTag )
+	public void endContainerLayout( BodyTag container, MetawidgetTag metawidgetTag )
+	{
+		// Do nothing
+	}
+
+	@Override
+	public void onEndBuild( MetawidgetTag metawidgetTag )
 	{
 		try
 		{
