@@ -51,9 +51,11 @@ public class GroupLayout
 	// Private statics
 	//
 
-	private final static Component[]	EMPTY_COMPONENTS_ARRAY		= new Component[] {};
+	private final static Component[]	EMPTY_COMPONENTS_ARRAY	= new Component[] {};
 
-	private final static int			COMPONENT_GAP				= 3;
+	private final static int			COMPONENT_GAP			= 3;
+
+	private final static String			LABEL_NAME_PREFIX		= "label-for-";
 
 	//
 	// Public methods
@@ -106,7 +108,7 @@ public class GroupLayout
 		{
 			String labelText = metawidget.getLabelString( attributes );
 
-			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ))
+			if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 			{
 				// Required
 
@@ -114,6 +116,7 @@ public class GroupLayout
 					labelText += "*";
 
 				JLabel label = new JLabel();
+				label.setName( LABEL_NAME_PREFIX + component.getName() );
 				label.setText( labelText + ":" );
 
 				sequentialGroup.addComponent( label ).addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );

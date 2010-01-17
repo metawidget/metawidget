@@ -97,6 +97,8 @@ public class MigLayoutTest
 		assertTrue( 0 == insets[2].getValue() );
 		assertTrue( 0 == insets[3].getValue() );
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
+		assertTrue( ( "label-for-abc" ).equals( metawidget.getComponent( 0 ).getName() ));
+		assertTrue( metawidget.getComponent( "label-for-abc" ) == metawidget.getComponent( 0 ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JTextField );
 		assertTrue( 1 == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getCellX() );
 		assertTrue( null == ( (CC) ( (MigLayout) metawidget.getLayout() ).getComponentConstraints( metawidget.getComponent( 1 ) ) ).getVertical().getGrow() );

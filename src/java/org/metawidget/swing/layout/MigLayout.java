@@ -47,10 +47,16 @@ public class MigLayout
 	implements AdvancedLayout<JComponent, JComponent, SwingMetawidget>
 {
 	//
+	// Private statics
+	//
+
+	private final static String	LABEL_NAME_PREFIX	= "label-for-";
+
+	//
 	// Private members
 	//
 
-	private final int	mNumberOfColumns;
+	private final int			mNumberOfColumns;
 
 	//
 	// Constructor
@@ -224,6 +230,7 @@ public class MigLayout
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 		{
 			JLabel label = new JLabel();
+			label.setName( LABEL_NAME_PREFIX + component.getName() );
 
 			// Required
 

@@ -49,7 +49,7 @@
 				</groovy>
 				<verifyProperty name="labelClass" text="javax.swing.JLabel"/>
 				<verifyProperty name="metawidgetClass" text="org.metawidget.swing.SwingMetawidget"/>
-				<verifyProperty name="metawidgetComponentCount" text="7"/>
+				<verifyProperty name="metawidgetComponentCount" text="8"/>
 				<verifyProperty name="backgroundOpaque" text="true"/>
 				<verifyProperty name="backgroundRed" text="255"/>
 				<verifyProperty name="backgroundGreen" text="255"/>
