@@ -50,7 +50,7 @@ public class MigLayout
 	// Private statics
 	//
 
-	private final static String	LABEL_NAME_PREFIX	= "label-for-";
+	private final static String	LABEL_NAME_SUFFIX	= "_label";
 
 	//
 	// Private members
@@ -230,7 +230,7 @@ public class MigLayout
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 		{
 			JLabel label = new JLabel();
-			label.setName( LABEL_NAME_PREFIX + component.getName() );
+			label.setName( component.getName() + LABEL_NAME_SUFFIX );
 
 			// Required
 

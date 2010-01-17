@@ -88,8 +88,8 @@ public class GridBagLayoutTest
 		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout( new GridBagLayoutConfig().setNumberOfColumns( 2 ) ) ) ) );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
-		assertTrue( ( "label-for-abc" ).equals( metawidget.getComponent( 0 ).getName() ));
-		assertTrue( metawidget.getComponent( "label-for-abc" ) == metawidget.getComponent( 0 ) );
+		assertTrue( ( "abc_label" ).equals( metawidget.getComponent( 0 ).getName() ));
+		assertTrue( metawidget.getComponent( "abc_label" ) == metawidget.getComponent( 0 ) );
 		Insets insets = ( ( (GridBagLayout) metawidget.getLayout() ).getConstraints( metawidget.getComponent( 0 ) ) ).insets;
 		assertTrue( insets.left == 0 );
 		assertTrue( insets.right == 3 );

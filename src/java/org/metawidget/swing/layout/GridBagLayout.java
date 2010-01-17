@@ -57,7 +57,7 @@ public class GridBagLayout
 
 	private final static Insets	INSETS_COMPONENT	= new Insets( 0, 0, SMALL_GAP, 0 );
 
-	private final static String	LABEL_NAME_PREFIX	= "label-for-";
+	private final static String	LABEL_NAME_SUFFIX	= "_label";
 
 	//
 	// Private members
@@ -278,7 +278,7 @@ public class GridBagLayout
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 		{
 			JLabel label = new JLabel();
-			label.setName( LABEL_NAME_PREFIX + component.getName() );
+			label.setName( component.getName() + LABEL_NAME_SUFFIX );
 
 			if ( mLabelFont != null )
 				label.setFont( mLabelFont );

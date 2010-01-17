@@ -56,8 +56,8 @@ public class GroupLayoutTest
 		// Check what created
 
 		assertTrue( "Age:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
-		assertTrue( ( "label-for-age" ).equals( metawidget.getComponent( 0 ).getName() ));
-		assertTrue( metawidget.getComponent( "label-for-age" ) == metawidget.getComponent( 0 ) );
+		assertTrue( ( "age_label" ).equals( metawidget.getComponent( 0 ).getName() ));
+		assertTrue( metawidget.getComponent( "age_label" ) == metawidget.getComponent( 0 ) );
 		assertTrue( metawidget.getComponent( 1 ) instanceof JSpinner );
 		assertTrue( "Name:".equals( ( (JLabel) metawidget.getComponent( 2 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 3 ) instanceof JTextField );

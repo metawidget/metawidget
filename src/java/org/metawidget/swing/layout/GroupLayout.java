@@ -55,7 +55,7 @@ public class GroupLayout
 
 	private final static int			COMPONENT_GAP			= 3;
 
-	private final static String			LABEL_NAME_PREFIX		= "label-for-";
+	private final static String			LABEL_NAME_SUFFIX		= "_label";
 
 	//
 	// Public methods
@@ -116,7 +116,7 @@ public class GroupLayout
 					labelText += "*";
 
 				JLabel label = new JLabel();
-				label.setName( LABEL_NAME_PREFIX + component.getName() );
+				label.setName( component.getName() + LABEL_NAME_SUFFIX );
 				label.setText( labelText + ":" );
 
 				sequentialGroup.addComponent( label ).addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );
