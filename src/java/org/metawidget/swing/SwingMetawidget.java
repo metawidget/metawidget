@@ -565,19 +565,7 @@ public class SwingMetawidget
 
 			// Try to find a component...
 
-			Component[] children = ( (Container) topComponent ).getComponents();
-			topComponent = null;
-
-			for ( Component childComponent : children )
-			{
-				// ...with the name we're interested in
-
-				if ( name.equals( childComponent.getName() ) )
-				{
-					topComponent = childComponent;
-					break;
-				}
-			}
+			topComponent = getComponent( (Container) topComponent, name );
 
 			if ( loop == length - 1 )
 				return (T) topComponent;
@@ -587,6 +575,33 @@ public class SwingMetawidget
 		}
 
 		return (T) topComponent;
+	}
+
+	private Component getComponent( Container container, String name )
+	{
+		for ( Component childComponent : container.getComponents() )
+		{
+			// Drill into unnamed containers (ie. for TabbedPanes)
+
+			if ( childComponent.getName() == null && childComponent instanceof Container )
+			{
+				childComponent = getComponent( (Container) childComponent, name );
+
+				if ( childComponent != null )
+					return childComponent;
+
+				continue;
+			}
+
+			// Match by name
+
+			if ( name.equals( childComponent.getName() ) )
+				return childComponent;
+		}
+
+		// Not found
+
+		return null;
 	}
 
 	public Facet getFacet( String name )

@@ -111,34 +111,44 @@ public class TabbedPaneLayoutDecoratorTest
 
 		JTabbedPane innerTabbedPane = (JTabbedPane) outerPanel.getComponent( 0 );
 		assertTrue( "Bar".equals( innerTabbedPane.getTitleAt( 0 ) ) );
-		JPanel innerPanel = (JPanel) innerTabbedPane.getComponent( 0 );
-		assertTrue( "Def:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
-		assertTrue( innerPanel.getComponent( 1 ) instanceof JCheckBox );
-		assertTrue( "Ghi:".equals( ( (JLabel) innerPanel.getComponent( 2 ) ).getText() ) );
-		assertTrue( innerPanel.getComponent( 3 ) instanceof JScrollPane );
-		assertTrue( 4 == innerPanel.getComponentCount() );
+		JPanel barPanel = (JPanel) innerTabbedPane.getComponent( 0 );
+		assertTrue( "Def:".equals( ( (JLabel) barPanel.getComponent( 0 ) ).getText() ) );
+		assertTrue( barPanel.getComponent( 1 ) instanceof JCheckBox );
+		assertTrue( "Ghi:".equals( ( (JLabel) barPanel.getComponent( 2 ) ).getText() ) );
+		assertTrue( barPanel.getComponent( 3 ) instanceof JScrollPane );
+		assertTrue( 4 == barPanel.getComponentCount() );
 
 		assertTrue( "Baz".equals( innerTabbedPane.getTitleAt( 1 ) ) );
-		innerPanel = (JPanel) innerTabbedPane.getComponent( 1 );
-		assertTrue( "Jkl:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
-		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
-		assertTrue( innerPanel.getComponent( 2 ) instanceof JPanel );
-		assertTrue( 3 == innerPanel.getComponentCount() );
+		JPanel bazPanel = (JPanel) innerTabbedPane.getComponent( 1 );
+		assertTrue( "Jkl:".equals( ( (JLabel) bazPanel.getComponent( 0 ) ).getText() ) );
+		assertTrue( bazPanel.getComponent( 1 ) instanceof JTextField );
+		assertTrue( bazPanel.getComponent( 2 ) instanceof JPanel );
+		assertTrue( 3 == bazPanel.getComponentCount() );
 
 		assertTrue( "Mno:".equals( ( (JLabel) outerPanel.getComponent( 1 ) ).getText() ) );
 		assertTrue( outerPanel.getComponent( 2 ) instanceof JCheckBox );
 
 		innerTabbedPane = (JTabbedPane) outerPanel.getComponent( 3 );
 		assertTrue( "Moo".equals( innerTabbedPane.getTitleAt( 0 ) ) );
-		innerPanel = (JPanel) innerTabbedPane.getComponent( 0 );
-		assertTrue( "Pqr:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
-		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
-		assertTrue( innerPanel.getComponent( 2 ) instanceof JPanel );
-		assertTrue( 3 == innerPanel.getComponentCount() );
+		JPanel mooPanel = (JPanel) innerTabbedPane.getComponent( 0 );
+		assertTrue( "Pqr:".equals( ( (JLabel) mooPanel.getComponent( 0 ) ).getText() ) );
+		assertTrue( mooPanel.getComponent( 1 ) instanceof JTextField );
+		assertTrue( mooPanel.getComponent( 2 ) instanceof JPanel );
+		assertTrue( 3 == mooPanel.getComponentCount() );
 
 		assertTrue( "Stu:".equals( ( (JLabel) metawidget.getComponent( 3 ) ).getText() ) );
 		assertTrue( metawidget.getComponent( 4 ) instanceof JTextField );
 		assertTrue( 5 == metawidget.getComponentCount() );
+
+		// Test components within nested tabs still accessible by name
+
+		assertTrue( metawidget.getComponent( 1 ) == metawidget.getComponent( "abc" ));
+		assertTrue( barPanel.getComponent( 1 ) == metawidget.getComponent( "def" ));
+		assertTrue( barPanel.getComponent( 3 ) == metawidget.getComponent( "ghi" ));
+		assertTrue( bazPanel.getComponent( 1 ) == metawidget.getComponent( "jkl" ));
+		assertTrue( outerPanel.getComponent( 2 ) == metawidget.getComponent( "mno" ));
+		assertTrue( mooPanel.getComponent( 1 ) == metawidget.getComponent( "pqr" ));
+		assertTrue( metawidget.getComponent( 4 ) == metawidget.getComponent( "stu" ));
 	}
 
 	public void testNestedTabsWithGroupLayout()

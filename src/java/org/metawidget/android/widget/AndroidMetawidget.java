@@ -66,6 +66,9 @@ import android.widget.LinearLayout;
  * @author Richard Kennard
  */
 
+// HIGH: Android video
+// HIGH: JSF2 support
+
 public class AndroidMetawidget
 	extends LinearLayout
 {
