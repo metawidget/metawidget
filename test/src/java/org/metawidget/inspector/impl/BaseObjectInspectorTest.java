@@ -117,6 +117,10 @@ public class BaseObjectInspectorTest
 		assertTrue( 4 == entity.getAttributes().getLength() );
 
 		assertTrue( 0 == entity.getChildNodes().getLength() );
+
+		// Test null parent doesn't throw NullPointerException
+
+		assertTrue( null == inspector.inspect( null, PropertyAndTraitAnnotation.class.getName(), "foo" ));
 	}
 
 	public void testNullPropertyStyle()

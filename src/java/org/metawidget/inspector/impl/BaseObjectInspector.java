@@ -502,7 +502,7 @@ public abstract class BaseObjectInspector
 		{
 			Class<?> clazz = ClassUtils.niceForName( type );
 
-			if ( clazz == null )
+			if ( clazz == null || onlyToParent )
 				return null;
 
 			return new Object[] { null, clazz };

@@ -21,11 +21,12 @@ import net.miginfocom.layout.LC;
 import net.miginfocom.swt.MigLayout;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
+import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.swt.Facet;
@@ -65,6 +66,8 @@ public class Main
 	// Private members
 	//
 
+	private Shell			mShell;
+
 	private ContactSearch	mContactSearch;
 
 	private SwtMetawidget	mSearchMetawidget;
@@ -75,8 +78,10 @@ public class Main
 
 	public Main( Shell shell )
 	{
+		mShell = shell;
 		mContactSearch = new ContactSearch();
-		createSearchSection( shell );
+
+		createSearchSection();
 	}
 
 	//
@@ -90,14 +95,14 @@ public class Main
 
 		mContactSearch.setFirstname( (String) mSearchMetawidget.getValue( "firstname" ) );
 		mContactSearch.setSurname( (String) mSearchMetawidget.getValue( "surname" ) );
-		mContactSearch.setType( (ContactType) mSearchMetawidget.getValue( "type" ));
+		mContactSearch.setType( (ContactType) mSearchMetawidget.getValue( "type" ) );
 	}
 
 	@UiAction
 	@UiComesAfter( "search" )
 	public void addPersonal()
 	{
-		// addPersonal
+		new ContactDialog( mShell, SWT.None ).open();
 	}
 
 	@UiAction
@@ -111,11 +116,11 @@ public class Main
 	// Private methods
 	//
 
-	private SwtMetawidget createSearchSection( Composite parent )
+	private SwtMetawidget createSearchSection()
 	{
 		// Metawidget
 
-		mSearchMetawidget = new SwtMetawidget( parent, SWT.None );
+		mSearchMetawidget = new SwtMetawidget( mShell, SWT.None );
 		mSearchMetawidget.setLayoutData( new CC().grow() );
 		mSearchMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
 
@@ -130,5 +135,51 @@ public class Main
 
 		mSearchMetawidget.setToInspect( mContactSearch );
 		return mSearchMetawidget;
+	}
+
+	//
+	// Inner class
+	//
+
+	static class ContactDialog
+		extends Dialog
+	{
+		//
+		// Constructor
+		//
+
+		public ContactDialog( Shell parent, int style )
+		{
+			super( parent, style );
+		}
+
+		//
+		// Public methods
+		//
+
+		public Object open()
+		{
+			Shell parent = getParent();
+			Shell shell = new Shell( parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
+			shell.setLayout( new MigLayout( new LC().fill().debug( 500 ) ) );
+
+			// Create Metawidget
+
+			SwtMetawidget metawidget = new SwtMetawidget( shell, SWT.None );
+			metawidget.setLayoutData( new CC().grow() );
+			metawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
+			metawidget.setToInspect( new PersonalContact() );
+
+			// Wait for close
+
+			shell.open();
+			Display display = parent.getDisplay();
+			while ( !shell.isDisposed() )
+			{
+				if ( !display.readAndDispatch() )
+					display.sleep();
+			}
+			return null;
+		}
 	}
 }
