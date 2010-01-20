@@ -141,9 +141,32 @@ h4 {
  */
 
 .video {
-	margin: 5px auto;
+	margin: 0 auto;
 	width: 640px;
 	border: 1px solid #cccccc;
+	margin-bottom: 5px;
+}
+
+.videos-table {
+	width: 900px;
+	margin: 0 auto;
+}
+
+.videos-table td {
+	width: 640px;
+}
+
+.videos-table th {
+	border-top: 2px solid #085AA4;
+	padding-left: 5px;
+	vertical-align: top;
+	text-align: left;
+	font-weight: normal;
+}
+
+.videos-table th h4 {
+	margin-top: 10px;
+	font-weight: bold;
 }
 
 /*
