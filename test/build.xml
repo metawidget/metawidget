@@ -1247,7 +1247,9 @@
 	</target>
 
 	<target name="test-faces-quirks" depends="flatten-test-libs,compile-test">
-		
+
+		<!-- MyFaces 1.2 -->
+				
 		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
 
 		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces.war" webxml="${relative.dir}/test/src/web/faces/quirks/WEB-INF/web.xml">
@@ -1277,6 +1279,35 @@
 		
 		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
 		<delete dir="${tomcat.dir}/webapps/quirks-faces"/>
+
+		<!-- Mojarra 2.0 -->
+				
+		<mkdir dir="${relative.dir}/${build.dir}/test/faces"/>
+
+		<war warfile="${relative.dir}/${build.dir}/test/faces/quirks-faces-jsf2.war" webxml="${relative.dir}/test/src/web/faces/quirks-jsf2/WEB-INF/web.xml">
+			<fileset dir="${relative.dir}/test/src/web/faces/quirks-jsf2">
+				<exclude name="**/classes/**"/>
+				<exclude name="**/lib/**"/>
+				<exclude name="**/.*"/>
+				<exclude name="WEB-INF/web.xml"/>
+			</fileset>
+			<classes dir="${relative.dir}/${build.dir}/test-classes">
+				<include name="org/metawidget/faces/quirks/**"/>
+			</classes>
+			<lib dir="${relative.dir}/${build.dir}/lib">
+				<include name="jstl-*.jar"/>
+				<include name="metawidget.jar"/>
+				<include name="jsf-api.jar"/>
+				<include name="jsf-impl.jar"/>
+				<include name="standard.jar"/>
+			</lib>
+		</war>
+		
+		<copy file="${relative.dir}/${build.dir}/test/faces/quirks-faces-jsf2.war" todir="${tomcat.dir}/webapps" overwrite="true"/>
+		<delete dir="${tomcat.dir}/webapps/quirks-faces-jsf2"/>
+		
+		<!-- Test both -->
+		
 		<antcall target="test-web-start-tomcat"/>
 		
 		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
@@ -1288,7 +1319,16 @@
 			<arg line="-file quirks-test.xml"/>
 		</java>
 		
-		<antcall target="test-web-stop-tomcat"/>
+		<java classname="org.apache.tools.ant.Main" failonerror="true" fork="true" dir="${relative.dir}/test/src/web/faces">
+			<classpath>
+				<fileset dir="${ant.home}">
+					<include name="lib/*.jar"/>
+				</fileset>
+			</classpath>
+			<arg line="-file quirks-jsf2-test.xml"/>
+		</java>
+		
+		<antcall target="test-web-stop-tomcat"/>		
 		
 	</target>
 
