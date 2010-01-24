@@ -105,6 +105,11 @@ public class TestInspector
 		// Do nothing
 	}
 
+	public TestInspector( TestDumbHashCodeInspectorConfig config )
+	{
+		// Do nothing
+	}
+
 	//
 	// Public methods
 	//

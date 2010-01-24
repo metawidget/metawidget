@@ -1367,11 +1367,21 @@ public class ConfigReader
 						throw MetawidgetException.newException( configClass + " does not override .equals(), so cannot cache reliably" );
 
 					// hashCode
+					//
+					// Note: tempting to check for System.identityHashCode( configClass ) ==
+					// configClass.hashCode() here, but that
+					// could actually be true occasionally, causing hard-to-find bugs in production!
 
 					Class<?> hashCodeDeclaringClass = configClass.getMethod( "hashCode" ).getDeclaringClass();
 
 					if ( Object.class.equals( hashCodeDeclaringClass ) )
 						throw MetawidgetException.newException( configClass + " does not override .hashCode(), so cannot cache reliably" );
+
+					// Soft warning (System.identityHashCode( configClass ) ==
+					// configClass.hashCode() may be true occasionally, even if properly overridden)
+
+					if ( System.identityHashCode( configToStoreUnder ) == configToStoreUnder.hashCode() )
+						LOG.warn( configClass + " overrides .hashCode(), but it returns the same as System.identityHashCode, so cannot be cached reliably" );
 
 					if ( !equalsDeclaringClass.equals( hashCodeDeclaringClass ) )
 						throw MetawidgetException.newException( equalsDeclaringClass + " implements .equals(), but .hashCode() is implemented by " + hashCodeDeclaringClass + ", so cannot cache reliably" );

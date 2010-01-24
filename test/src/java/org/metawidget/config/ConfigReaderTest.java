@@ -1039,6 +1039,17 @@ public class ConfigReaderTest
 		new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
 
 		assertTrue( "class org.metawidget.config.TestNoEqualsHasMethodsSubclassInspectorConfig does not override .equals() (only its superclass org.metawidget.config.TestInspectorConfig does), so may not be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ) );
+
+		// Overridden, but uses super.hashCode
+
+		xml = "<?xml version=\"1.0\"?>";
+		xml += "<metawidget xmlns=\"http://metawidget.org\"	xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"	xsi:schemaLocation=\"http://metawidget.org http://metawidget.org/xsd/metawidget-1.0.xsd\" version=\"1.0\">";
+		xml += "<testInspector xmlns=\"java:org.metawidget.config\" config=\"TestDumbHashCodeInspectorConfig\"/>";
+		xml += "</metawidget>";
+
+		new ConfigReader().configure( new ByteArrayInputStream( xml.getBytes() ), Inspector.class );
+
+		assertTrue( "class org.metawidget.config.TestDumbHashCodeInspectorConfig overrides .hashCode(), but it returns the same as System.identityHashCode, so cannot be cached reliably".equals( LogUtilsTest.getLastWarnMessage() ) );
 	}
 
 	public void testEnum()
