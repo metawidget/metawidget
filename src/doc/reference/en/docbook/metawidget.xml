@@ -7168,11 +7168,12 @@ public class PersonController {
 		</para>
 
 		<para>
-			Throughout this chapter when we refer to, say, 'fields with a maximum value' this is a shorthand way
-			of saying 'fields for which the inspectors returned a <parameter>maximum-value</parameter> attribute'. Quite
-			which inspector returned the value, and based on what, is covered in <xref linkend="chapter-inspectors"/>: it could be
-			based on a Hibernate Validator <classname>@Max</classname> annotation, or an <parameter>intRange</parameter>
-			block in a Commons Validator XML file, or some other source.
+			Throughout this chapter when we refer to 'Metawidget Attributes' we mean the intermediate
+			XML that Metawidget passes between <classname>Inspector</classname>s and <classname>WidgetBuilder</classname>s.
+			Quite which <classname>Inspector</classname> set the attribute, and based on what, is covered in <xref linkend="chapter-inspectors"/>.
+			For example, the <parameter>maximum-value</parameter> attribute could be set by <classname>HibernateValidatorInspector</classname>
+			based on the <classname>@Max</classname> annotation, or by <classname>CommonsValidatorInspector</classname> based on
+			an <parameter>intRange</parameter> element in an XML file, or some other source.
 		</para>
 		
 		<section id="section-widgetbuilders-desktop">
@@ -7186,7 +7187,7 @@ public class PersonController {
 					
 					<para>
 						SwingWidgetBuilder is the default WidgetBuilder for SwingMetawidget. It instantiates the
-						following widgets for the following types of fields: 
+						following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7198,7 +7199,7 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -7208,55 +7209,63 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>JButton</classname></td>
-								<td>Actions (except read-only actions)</td>
+								<td><parameter>action</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>JCheckBox</classname></td>
-								<td>Primitive booleans and required Booleans</td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>JComboBox</classname></td>
-								<td>Fields with lookups</td>
+								<td><parameter>lookup</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>JLabel</classname></td>
-								<td>Read-only fields (except Collections and masked fields)</td>
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>JPanel</classname></td>
-								<td>Read-only masked fields</td>
+								<td><parameter>read-only</parameter> and <parameter>masked</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>JPasswordField</classname></td>
-								<td>Masked fields (except when read-only)</td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>JSlider</classname></td>
-								<td>Primitives (except boolean and char) that have both a minimum and a maximum value</td>
+								<td><parameter>type</parameter> is a primitive (except boolean and char) and has both
+								<parameter>minimum-value</parameter> and <parameter>maximum-value</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>JSpinner</classname></td>
-								<td>
-									Primitives (except boolean and char) that have only one, or neither, of minimum/maximum value.
-									For floats and doubles, the step size is governed by <parameter>maximum-fractional-digits</parameter>
-								</td>
+								<td><parameter>type</parameter> is a primitive (except boolean and char) and has only
+								one, or neither <parameter>minimum-value</parameter> and <parameter>maximum-value</parameter>.
+								For floats and doubles, the step size is governed by <parameter>maximum-fractional-digits</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>JTextArea</classname></td>
-								<td>Large String fields. The <classname>JTextArea</classname> is automatically wrapped in a <classname>JScrollPane</classname></td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter>. The <classname>JTextArea</classname> is
+								automatically wrapped in a <classname>JScrollPane</classname></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>JTextField</classname></td>
-								<td>Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type</td>
+								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
+								<classname>java.util.Date</classname>,								 
+								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter></td>
 							</tr>
 							<tr>
 								<th align="left" colspan="3"><classname>org.metawidget.swing</classname></th>
@@ -7264,7 +7273,8 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>Stub</classname></td>
-								<td>Hidden fields, read-only actions and Collections</td>
+								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
+								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
@@ -7277,7 +7287,7 @@ public class PersonController {
 					<para>
 						SwingXWidgetBuilder is a pluggable WidgetBuilder for the SwingX library. It is intended
 						to be used in conjunction with the default SwingWidgetBuilder. It instantiates the
-						following widgets for the following types of fields: 
+						following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7289,7 +7299,7 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -7299,7 +7309,7 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>JXDatePicker</classname></td>
-								<td>Dates</td>
+								<td><parameter>type="java.util.Date"</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
@@ -7319,7 +7329,7 @@ public class PersonController {
 					<para>
 						DisplayTagWidgetBuilder is a pluggable WidgetBuilder for the DisplayTag library. It is intended
 						to be used in conjunction with the JSP <classname>HtmlWidgetBuilder</classname>, <classname>SpringWidgetBuilder</classname>
-						or <classname>StrutsWidgetBuilder</classname>. It instantiates the following widgets for the following types of fields: 
+						or <classname>StrutsWidgetBuilder</classname>. It instantiates the following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7342,10 +7352,13 @@ public class PersonController {
 								<td></td>
 								<td><classname>TableTag</classname></td>
 								<td>
-									Collections and arrays (except if hidden, or if have a lookup). The
-									columns in the table are based on inspecting the component type of the array or the
-									parameterized type of the Collection (if neither can be determined,
-									the table will only have a single column)								
+									<parameter>type="java.util.Collection"</parameter> or
+									an array, except when also <parameter>hidden</parameter> or
+									<parameter>lookup</parameter>. The
+									columns in the table are based on inspecting
+									<parameter>parameterized-type</parameter> or the
+									component type of the array. If neither can be determined,
+									the table will only have a single column
 								</td>
 							</tr>
 						</tbody>
@@ -7361,7 +7374,7 @@ public class PersonController {
 						<parameter>&lt;select&gt;</parameter> are just
 						strings, not modelled as JSP tags), <classname>HtmlWidgetBuilder</classname> uses
 						<classname>org.metawidget.jsp.tagext.LiteralTag</classname>
-						to wrap string-based fragments. It returns the following literals for the following types of fields: 
+						to wrap string-based fragments. It returns the following literals for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7373,55 +7386,59 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
 							<tr>
 								<td></td>
 								<td><classname>&lt;input type="checkbox"&gt;</classname></td>
-								<td>Primitive booleans and required Booleans</td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
 							</tr>				
 							<tr>
 								<td></td>
 								<td><classname>&lt;input type="hidden"&gt;</classname></td>
-								<td>Hidden fields when <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
+								<td><parameter>hidden</parameter> when also <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>&lt;input type="password"&gt;</classname></td>
-								<td>Masked fields (except when read-only)</td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>&lt;input type="submit"&gt;</classname></td>
-								<td>Actions (except read-only actions)</td>
+								<td><parameter>action</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>&lt;input type="text"&gt;</classname></td>
-								<td>
-									Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
-									If the field has a maximum length, adds <classname>maxlength="..."</classname>							
-								</td>
+								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
+								<classname>java.util.Date</classname>,								 
+								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter>.
+								If <parameter>maximum-length</parameter>, adds <parameter>maxlength="..."</parameter></td>							
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>&lt;select&gt;</classname></td>
-								<td>Fields with lookups</td>
+								<td><parameter>lookup</parameter></td>
 							</tr>					
 							<tr>
 								<td></td>
 								<td>raw text</td>
-								<td>
-									Read-only fields (except Collections and masked fields). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
-									true, further adds a <classname>&lt;input type="hidden"&gt;</classname> so that something gets POSTed back
-								</td>
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or
+								<parameter>masked</parameter>). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
+								true, further adds a <classname>&lt;input type="hidden"&gt;</classname> so that something gets POSTed back</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>&lt;textarea&gt;</classname></td>
-								<td>Large String fields</td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
 							</tr>
 							<tr>
 								<th align="left" colspan="3"><classname>org.metawidget.jsp.tagext</classname></th>
@@ -7429,7 +7446,8 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>StubTag</classname></td>
-								<td>Hidden fields, read-only actions, read-only masked fields and Collections</td>
+								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
+								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
@@ -7445,7 +7463,7 @@ public class PersonController {
 						returns fragments of HTML. The JSP component model is too light to support returning
 						tags containing child tags (ie. a <classname>SelectTag</classname> containing
 						<classname>OptionTag</classname>s).	SpringWidgetBuilder
-						returns the following widgets for the following types of fields: 
+						returns the following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7457,7 +7475,7 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -7467,43 +7485,47 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>CheckboxTag</classname></td>
-								<td>Primitive booleans and required Booleans</td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HiddenInputTag</classname></td>
-								<td>Hidden fields when <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
+								<td><parameter>hidden</parameter> when also <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>InputTag</classname></td>
-								<td>
-									Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
-									If the field has a maximum length, calls <classname>setMaxlength</classname>							
-								</td>
+								<td><parameter>type</parameter> is a <classname>java.lang.String</classname>,
+								<classname>java.util.Date</classname>,								 
+								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter>.
+								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>PasswordInputTag</classname></td>
-								<td>Masked fields (except when read-only)</td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
-								<td>raw text</td>
-								<td>
-									Read-only fields (except Collections and masked fields). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
-									true, further adds a <classname>HiddenInputTag</classname> so that something gets POSTed back
-								</td>
+								<td>raw text</td>								
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or
+								<parameter>masked</parameter>). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
+								true, further adds a <classname>HiddenInputTag</classname> so that something gets POSTed back</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>SelectTag</classname></td>
-								<td>Fields with lookups</td>
+								<td><parameter>lookup</parameter></td>
 							</tr>					
 							<tr>
 								<td></td>
 								<td><classname>TextareaTag</classname></td>
-								<td>Large String fields</td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
 							</tr>
 							<tr>
 								<th align="left" colspan="3"><classname>org.metawidget.jsp.tagext</classname></th>
@@ -7511,7 +7533,7 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>StubTag</classname></td>
-								<td>Actions</td>
+								<td><parameter>action</parameter> when not <parameter>read-only</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
@@ -7526,7 +7548,7 @@ public class PersonController {
 						returns fragments of HTML. The JSP component model is too light to support returning
 						tags containing child tags (ie. a <classname>SelectTag</classname> containing
 						<classname>OptionTag</classname>s).	StrutsWidgetBuilder
-						returns the following widgets for the following types of fields: 
+						returns the following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7538,7 +7560,7 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -7548,43 +7570,46 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>CheckboxTag</classname></td>
-								<td>Primitive booleans and required Booleans</td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>SelectTag</classname></td>
-								<td>Fields with lookups</td>
+								<td><parameter>lookup</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HiddenTag</classname></td>
-								<td>Hidden fields when <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
+								<td><parameter>hidden</parameter> when also <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to true</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>PasswordTag</classname></td>
-								<td>Masked fields (except when read-only)</td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td>raw text</td>
-								<td>
-									Read-only fields (except Collections and masked fields).If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
-									true, further adds a <classname>HiddenTag</classname> so that something gets POSTed back
-								</td>
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or
+								<parameter>masked</parameter>). If <parameter>HtmlMetawidgetTag.setCreateHiddenFields</parameter> is set to
+								true, further adds a <classname>HiddenInputTag</classname> so that something gets POSTed back</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>TextTag</classname></td>
-								<td>
-									Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
-									If the field has a maximum length, calls <classname>setMaxlength</classname>							
-								</td>
+								<td><parameter>type</parameter> of <classname>java.util.Date</classname>,								 
+								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter>.
+								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>TextareaTag</classname></td>
-								<td>Large String fields</td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
 							</tr>
 							<tr>
 								<th align="left" colspan="3"><classname>org.metawidget.jsp.tagext</classname></th>
@@ -7592,7 +7617,7 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>StubTag</classname></td>
-								<td>Actions</td>
+								<td><parameter>action</parameter> when not <parameter>read-only</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
@@ -7609,7 +7634,7 @@ public class PersonController {
 					<para>
 						ExtGwtWidgetBuilder is a pluggable WidgetBuilder for the ExtGWT library. It is intended
 						to be used in conjunction with the default GwtWidgetBuilder. It instantiates the
-						following widgets for the following types of fields: 
+						following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7621,7 +7646,7 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -7631,13 +7656,13 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>DateField</classname></td>
-								<td>Dates</td>
+								<td><parameter>type="java.util.Date"</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>Slider</classname></td>
-								<td><classname>byte</classname>, <classname>short</classname>, <classname>int</classname> and <classname>long</classname>
-								fields that have a <parameter>minimum-value</parameter> and a <parameter>maximum-value</parameter></td>
+								<td><parameter>type</parameter> is a primitive (except boolean and char) and has both
+								<parameter>minimum-value</parameter> and <parameter>maximum-value</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
@@ -7656,7 +7681,7 @@ public class PersonController {
 					
 					<para>
 						GwtWidgetBuilder is the default WidgetBuilder for GwtMetawidget. It instantiates the
-						following widgets for the following types of fields: 
+						following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7668,7 +7693,7 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -7678,45 +7703,49 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>Button</classname></td>
-								<td>Actions (except read-only actions)</td>
+								<td><parameter>action</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>CheckBox</classname></td>
-								<td>Primitive booleans and required Booleans</td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>Label</classname></td>
-								<td>Read-only fields (except Collections and masked fields)</td>
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>								
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>ListBox</classname></td>
-								<td>Fields with lookups</td>
+								<td><parameter>lookup</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>PasswordTextBox</classname></td>
-								<td>Masked fields (except when read-only)</td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>SimplePanel</classname></td>
-								<td>Read-only masked fields</td>
+								<td><parameter>masked</parameter> and <parameter>read-only</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>TextArea</classname></td>
-								<td>Large String fields</td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>TextBox</classname></td>
-								<td>
-									Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type. If
-									the field has a maximum length, calls <classname>setMaxLength</classname>
-								</td>
+								<td><parameter>type</parameter> of <classname>java.util.Date</classname>,								 
+								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter>.
+								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
 							</tr>
 							<tr>
 								<th align="left" colspan="3"><classname>org.metawidget.gwt.client.ui</classname></th>
@@ -7724,7 +7753,8 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>Stub</classname></td>
-								<td>Hidden fields, read-only actions and Collections</td>
+								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
+								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
@@ -7741,7 +7771,7 @@ public class PersonController {
 					
 					<para>
 						HtmlWidgetBuilder is the default WidgetBuilder for the JSF HtmlMetawidget. It instantiates the
-						following widgets for the following types of fields: 
+						following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7753,7 +7783,7 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -7763,60 +7793,67 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>HtmlCommandButton</classname></td>
-								<td>Actions (except read-only actions)</td>
+								<td><parameter>action</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlDataTable</classname></td>
 								<td>
-									Lists, DataModels and arrays (except if hidden, or if have
-									a lookup). The columns in the table are based on inspecting the component type of the array or the
-									parameterized type of the <classname>List</classname> (if neither can be determined,
-									the table will only have a single column)
+									<parameter>type</parameter> of List, DataModel or
+									array, except when also <parameter>hidden</parameter> or
+									<parameter>lookup</parameter>. The
+									columns in the table are based on inspecting
+									<parameter>parameterized-type</parameter> or the
+									component type of the array. If neither can be determined,
+									the table will only have a single column
 								</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlInputHidden</classname></td>
-								<td>Hidden fields when <parameter>HtmlMetawidget.setCreateHiddenFields</parameter> is set to true</td>
+								<td><parameter>hidden</parameter> when <parameter>HtmlMetawidget.setCreateHiddenFields</parameter> is set to true</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlInputSecret</classname></td>
-								<td>Masked fields (except when read-only)</td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlInputText</classname></td>
-								<td>
-									Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
-									If the field has a maximum length, calls <classname>setMaxlength</classname>
-								</td>
+								<td><parameter>type</parameter> of <classname>java.util.Date</classname>,								 
+								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter>.
+								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlInputTextarea</classname></td>
-								<td>Large String fields</td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlOutputText</classname></td>
-								<td>Read-only fields (except Collections and masked fields)</td>
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter> or <parameter>masked</parameter>)</td>								
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlSelectBooleanCheckbox</classname></td>
-								<td>Primitive booleans and required Booleans</td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlSelectManyCheckbox</classname></td>
-								<td>Lists or Arrays with a lookup</td>
+								<td><parameter>type</parameter> of List or array, with <parameter>lookup</parameter></td>
 							</tr>					
 							<tr>
 								<td></td>
 								<td><classname>HtmlSelectOneListbox</classname></td>
-								<td>Fields with lookups</td>
+								<td><parameter>lookup</parameter></td>
 							</tr>					
 							<tr>
 								<th align="left" colspan="3"><classname>org.metawidget.faces.component</classname></th>
@@ -7824,12 +7861,14 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>HtmlLookupOutputText</classname></td>
-								<td>Read-only fields with lookup labels</td>
+								<td><parameter>read-only</parameter> with <parameter>lookup-label</parameter></td>
 							</tr>
 							<tr>
 								<td></td>					
 								<td><classname>UIStub</classname></td>
-								<td>Hidden fields, read-only actions, read-only masked fields and Collections</td>
+								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
+								<parameter>masked</parameter> when also <parameter>read-only</parameter>,
+								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>								
 							</tr>
 						</tbody>
 					</informaltable>
@@ -7843,7 +7882,7 @@ public class PersonController {
 						IceFacesWidgetBuilder is a pluggable WidgetBuilder for the JSF UIMetawidget. It is intended
 						to be used in conjunction with the default JSF <classname>HtmlWidgetBuilder</classname>. For an
 						example, see <xref linkend="section-introduction-part3-icefaces"/>.
-						IceFacesWidgetBuilder instantiates the following widgets for the following types of fields: 
+						IceFacesWidgetBuilder instantiates the following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7855,7 +7894,7 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -7865,40 +7904,47 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>HtmlCommandButton</classname></td>
-								<td>Actions (except read-only actions)</td>
+								<td><parameter>action</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlInputSecret</classname></td>
-								<td>Masked fields (except when read-only)</td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlInputText</classname></td>
-								<td>
-									Primitives (except booleans), Characters, Dates, Strings, and fields of unknown type.
-									If the field has a maximum length, calls <classname>setMaxlength</classname>
-								</td>
+								<td><parameter>type</parameter> of <classname>java.util.Date</classname>,								 
+								primitive wrapper (eg. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter>.
+								If <parameter>maximum-length</parameter>, calls <function>setMaxlength</function></td>							
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlInputTextarea</classname></td>
-								<td>Large String fields</td>
+								<td><parameter>type="java.lang.String"</parameter> and <parameter>large</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlSelectBooleanCheckbox</classname></td>
-								<td>Primitive booleans and required Booleans</td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlSelectManyCheckbox</classname></td>
-								<td>Lists or Arrays with a lookup</td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
 							</tr>					
 							<tr>
 								<td></td>
 								<td><classname>HtmlSelectOneListbox</classname></td>
-								<td>Fields with lookups</td>
+								<td><parameter>lookup</parameter></td>
 							</tr>					
 							<tr>
 								<th align="left" colspan="3"><classname>com.icesoft.faces.component</classname></th>
@@ -7907,7 +7953,7 @@ public class PersonController {
 								<td></td>					
 								<td><classname>SelectInputDate</classname></td>
 								<td>
-									Dates
+									<parameter>type="java.util.Date"</parameter>
 									<para>
 										<emphasis>
 											Note: the ICEfaces SelectInputDate widget uses internal state to control
@@ -7933,7 +7979,7 @@ public class PersonController {
 					<para>
 						RichFacesWidgetBuilder is a pluggable WidgetBuilder for the JSF UIMetawidget. It is intended
 						to be used in conjunction with the default JSF <classname>HtmlWidgetBuilder</classname>. For an example, see <xref linkend="section-introduction-part2-web-richfaces"/>.
-						RichFacesWidgetBuilder instantiates the following widgets for the following types of fields: 
+						RichFacesWidgetBuilder instantiates the following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7945,7 +7991,7 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -7955,27 +8001,30 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>HtmlCalendar</classname></td>
-								<td>Dates</td>
+								<td><parameter>type="java.util.Date"</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlColorPicker</classname></td>
-								<td><classname>java.awt.Color</classname></td>
+								<td><classname><parameter>type="java.awt.Color"</parameter></classname></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlInputNumberSlider</classname></td>
-								<td>Primitives (except boolean and char) that have a maximum and minimum value</td>
+								<td><parameter>type</parameter> is a primitive (except boolean and char) and has both
+								<parameter>minimum-value</parameter> and <parameter>maximum-value</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlInputNumberSpinner</classname></td>
-								<td>Primitives (except boolean and char) and Numbers that have only one or neither minimum/maximum value</td>
+								<td><parameter>type</parameter> is a primitive (except boolean and char) or
+								a <classname>Number</classname> and has only
+								one, or neither <parameter>minimum-value</parameter> and <parameter>maximum-value</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>HtmlSuggestionBox</classname></td>
-								<td>Fields with <parameter>faces-suggest</parameter> lookups</td>
+								<td><parameter>faces-suggest</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
@@ -7987,7 +8036,7 @@ public class PersonController {
 					<para>
 						TomahawkWidgetBuilder is a pluggable WidgetBuilder for the JSF UIMetawidget. It is intended
 						to be used in conjunction with the default JSF <classname>HtmlWidgetBuilder</classname>.
-						TomahawkWidgetBuilder instantiates the following widgets for the following types of fields: 
+						TomahawkWidgetBuilder instantiates the following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -7999,7 +8048,7 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -8009,7 +8058,7 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>HtmlInputFileUpload</classname></td>
-								<td><classname>org.apache.myfaces.custom.fileupload.UploadedFile</classname></td>
+								<td><parameter>type="org.apache.myfaces.custom.fileupload.UploadedFile"</parameter></td>
 							</tr>
 						</tbody>
 					</informaltable>
@@ -8030,7 +8079,7 @@ public class PersonController {
 					
 					<para>
 						AndroidWidgetBuilder is the default WidgetBuilder for AndroidMetawidget. It instantiates the
-						following widgets for the following types of fields: 
+						following widgets for the following Metawidget attributes: 
 					</para>
 					
 					<informaltable>
@@ -8042,7 +8091,7 @@ public class PersonController {
 						<thead>
 							<tr>
 								<th align="left" colspan="2">Widget</th>
-								<th align="left">Type of field</th>
+								<th align="left">Metawidget Attribute</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -8052,42 +8101,44 @@ public class PersonController {
 							<tr>
 								<td></td>
 								<td><classname>CheckBox</classname></td>
-								<td>Primitive booleans and required Booleans</td>
+								<td>
+									<parameter>type="boolean"</parameter> (and
+									<parameter>type="java.lang.Boolean"</parameter>
+									when also <parameter>required</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>DatePicker</classname></td>
-								<td>Dates (provided they are not-nullable)</td>
+								<td><parameter>type="java.utils.Date"</parameter> when also <parameter>required</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>EditText</classname></td>
-								<td>
-									Primitives (except booleans), Characters, Strings, and fields of unknown type. If the
-									field is masked, sets a <classname>PasswordTransformationMethod</classname>. If the
-									field is numeric, sets a <classname>DigitsKeyListener</classname>. If the field is
-									large, calls <classname>setMinLines</classname>. If the field has a maximum length,
-									sets a <classname>InputFilter.LengthFilter</classname>. If the field is a
-									Date, sets a <classname>DateKeyListener</classname>.
-								</td>
+								<td><parameter>type</parameter> of primitive wrapper
+								(eg. <classname>Integer</classname> or <classname>Float</classname>)
+								except <classname>java.lang.Boolean</classname>.
+								Also if property is of unknown type but <parameter>dont-expand</parameter>.
+								If <parameter>large</parameter>, calls <function>setMinLines</function>.
+								If <parameter>masked</parameter>, sets a <classname>PasswordTransformationMethod</classname>.
+								If numeric, sets a <classname>DigitsKeyListener</classname>.
+								If <parameter>maximum-length</parameter>, sets a <classname>InputFilter.LengthFilter</classname>.
+								If <parameter>type</parameter> is a Date, sets a <classname>DateKeyListener</classname></td>							
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>PasswordTextBox</classname></td>
-								<td>Masked fields (except when read-only)</td>
+								<td><parameter>masked</parameter> (except when also <parameter>read-only</parameter>)</td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>Spinner</classname></td>
-								<td>Fields with lookups</td>
+								<td><parameter>lookup</parameter></td>
 							</tr>
 							<tr>
 								<td></td>
 								<td><classname>TextView</classname></td>
-								<td>
-									Read-only fields (except Collections). If the field is masked, sets
-									<classname>View.INVISIBLE</classname>
-								</td>
+								<td><parameter>read-only</parameter> (except when also <parameter>type="java.util.Collection"</parameter>).
+								If <parameter>masked</parameter> sets <classname>View.INVISIBLE</classname></td>
 							</tr>
 							<tr>
 								<th align="left" colspan="3"><classname>org.metawidget.gwt.client.ui</classname></th>
@@ -8095,7 +8146,9 @@ public class PersonController {
 							<tr>
 								<td></td>					
 								<td><classname>Stub</classname></td>
-								<td>Actions, hidden fields, read-only actions and Collections</td>
+								<td><parameter>hidden</parameter>, <parameter>action</parameter> when also <parameter>read-only</parameter>,
+								<parameter>masked</parameter> when also <parameter>read-only</parameter>,
+								<parameter>type="java.util.Collection"</parameter> when also <parameter>read-only</parameter></td>								
 							</tr>
 						</tbody>
 					</informaltable>
