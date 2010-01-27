@@ -278,7 +278,7 @@ public class GridBagLayout
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 		{
 			JLabel label = new JLabel();
-			label.setName( component.getName() + LABEL_NAME_SUFFIX );
+			label.setName( attributes.get( NAME ) + LABEL_NAME_SUFFIX );
 
 			if ( mLabelFont != null )
 				label.setFont( mLabelFont );
@@ -292,7 +292,7 @@ public class GridBagLayout
 
 			String labelTextToUse = labelText;
 
-			if ( attributes != null && mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
+			if ( mRequiredText != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 			{
 				if ( mRequiredAlignment == SwingConstants.CENTER )
 					labelTextToUse += mRequiredText;

@@ -26,6 +26,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Text;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.util.ClassUtils;
@@ -76,16 +77,7 @@ public class ReadOnlyWidgetBuilder
 		String lookup = attributes.get( LOOKUP );
 
 		if ( lookup != null && !"".equals( lookup ) )
-		{
-			// May have alternate labels
-
-			//TODO:String lookupLabels = attributes.get( LOOKUP_LABELS );
-
-			//if ( lookupLabels != null && !"".equals( lookupLabels ) )
-				//return new LookupLabel( SwingWidgetBuilderUtils.getLabelsMap( CollectionUtils.fromString( lookup ), CollectionUtils.fromString( lookupLabels ) ) );
-
 			return new Label( metawidget, SWT.None );
-		}
 
 		String type = WidgetBuilderUtils.getActualClassOrType( attributes );
 
@@ -107,32 +99,8 @@ public class ReadOnlyWidgetBuilder
 
 			if ( String.class.equals( clazz ) )
 			{
-				/*
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
-				{
-					// Do not use a JLabel: JLabels do not support carriage returns like JTextAreas
-					// do, so a multi-line JTextArea formats to a single line JLabel. Instead use
-					// a non-editable JTextArea within a borderless JScrollPane
-
-					JTextArea textarea = new JTextArea();
-
-					// Since we know we are dealing with Strings, we consider
-					// word-wrapping a sensible default
-
-					textarea.setLineWrap( true );
-					textarea.setWrapStyleWord( true );
-					textarea.setEditable( false );
-
-					// We also consider 2 rows a sensible default, so that the
-					// read-only JTextArea is always distinguishable from a JLabel
-
-					textarea.setRows( 2 );
-					JScrollPane scrollPane = new JScrollPane( textarea );
-					scrollPane.setBorder( null );
-					*/
-
-					// TODO: return scrollPane;
-				//}
+					return new Text( metawidget, SWT.MULTI | SWT.READ_ONLY );
 
 				return new Label( metawidget, SWT.None );
 			}

@@ -116,7 +116,7 @@ public class GroupLayout
 					labelText += "*";
 
 				JLabel label = new JLabel();
-				label.setName( component.getName() + LABEL_NAME_SUFFIX );
+				label.setName( attributes.get( NAME ) + LABEL_NAME_SUFFIX );
 				label.setText( labelText + ":" );
 
 				sequentialGroup.addComponent( label ).addGap( COMPONENT_GAP, COMPONENT_GAP, COMPONENT_GAP );

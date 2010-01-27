@@ -230,11 +230,11 @@ public class MigLayout
 		if ( SimpleLayoutUtils.needsLabel( labelText, elementName ) )
 		{
 			JLabel label = new JLabel();
-			label.setName( component.getName() + LABEL_NAME_SUFFIX );
+			label.setName( attributes.get( NAME ) + LABEL_NAME_SUFFIX );
 
 			// Required
 
-			if ( attributes != null && TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
+			if ( TRUE.equals( attributes.get( REQUIRED ) ) && !TRUE.equals( attributes.get( READ_ONLY ) ) && !metawidget.isReadOnly() )
 				label.setText( labelText + "*:" );
 			else
 				label.setText( labelText + ":" );

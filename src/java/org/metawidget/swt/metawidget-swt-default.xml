@@ -47,7 +47,7 @@
 		</widgetProcessors>
 		
 		<metawidgetLayout>
-			<migLayout xmlns="java:org.metawidget.swt.layout"/>
+			<gridLayout xmlns="java:org.metawidget.swt.layout"/>
 		</metawidgetLayout>
 		
 	</swtMetawidget>
