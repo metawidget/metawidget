@@ -16,7 +16,7 @@
 
 package org.metawidget.swt;
 
-import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 
 /**
@@ -48,6 +48,6 @@ public class Facet
 	{
 		super( parent, style );
 
-		this.setLayout( new GridLayout() );
+		setLayout( new FillLayout() );
 	}
 }

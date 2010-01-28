@@ -18,7 +18,6 @@ package org.metawidget.swt.layout;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
 
-import java.awt.Insets;
 import java.util.Map;
 
 import org.eclipse.swt.SWT;
@@ -101,7 +100,7 @@ public class GridLayout
 		// However, we still want the JLabels to be middle aligned for one-line components (such as
 		// JTextFields), so we top inset them a bit
 
-		org.eclipse.swt.layout.GridLayout layoutManager = new org.eclipse.swt.layout.GridLayout( 2, false );
+		org.eclipse.swt.layout.GridLayout layoutManager = new org.eclipse.swt.layout.GridLayout( mNumberOfColumns * 2, false );
 		container.setLayout( layoutManager );
 	}
 
@@ -110,17 +109,11 @@ public class GridLayout
 		// Do not render empty stubs
 
 		if ( component instanceof Stub && ( (Stub) component ).getChildren().length == 0 )
-			return;
-
-		// Special support for large components
-
-		State state = getState( container );
-		boolean spanAllColumns = willFillHorizontally( component, attributes );
-
-		if ( spanAllColumns && state.currentColumn > 0 )
 		{
-			state.currentColumn = 0;
-			state.currentRow++;
+			GridData stubData = new GridData();
+			stubData.exclude = true;
+			component.setLayoutData( stubData );
+			return;
 		}
 
 		// Layout a label...
@@ -135,6 +128,7 @@ public class GridLayout
 		// ...and layout the component
 
 		GridData componentLayoutData = new GridData();
+		componentLayoutData.grabExcessHorizontalSpace = true;
 
 		if ( !( component instanceof Button ) )
 		{
@@ -145,32 +139,12 @@ public class GridLayout
 		if ( labelText == null )
 			componentLayoutData.horizontalSpan = 2;
 
-		int numberOfColumns = getEffectiveNumberOfColumns( metawidget );
-
-		if ( spanAllColumns )
-		{
-			state.currentColumn = numberOfColumns - 1;
-		}
-
-		// Hack for spacer row (see JavaDoc for state.mNeedSpacerRow): assume components
-		// embedded in a JScrollPane are their own spacer row
-
 		if ( willFillVertically( component, attributes ) )
-		{
-			componentLayoutData.heightHint = 100;
-		}
+			componentLayoutData.grabExcessVerticalSpace = true;
 
 		// Add it
 
 		component.setLayoutData( componentLayoutData );
-
-		state.currentColumn++;
-
-		if ( state.currentColumn >= numberOfColumns )
-		{
-			state.currentColumn = 0;
-			state.currentRow++;
-		}
 	}
 
 	public void endContainerLayout( Composite container, SwtMetawidget metawidget )
@@ -190,6 +164,7 @@ public class GridLayout
 			buttonLayoutData.horizontalSpan = 2;
 			buttonLayoutData.horizontalAlignment = SWT.FILL;
 			buttonLayoutData.verticalAlignment = SWT.FILL;
+			buttonLayoutData.grabExcessHorizontalSpace = true;
 
 			buttonsFacet.setLayoutData( buttonLayoutData );
 			buttonsFacet.moveBelow( null );
@@ -255,55 +230,5 @@ public class GridLayout
 			return true;
 
 		return false;
-	}
-
-	//
-	// Private methods
-	//
-
-	/**
-	 * Get the number of columns to use in the layout.
-	 * <p>
-	 * Nested Metawidgets are always just single column.
-	 */
-
-	private int getEffectiveNumberOfColumns( SwtMetawidget metawidget )
-	{
-		if ( metawidget.getParent() instanceof SwtMetawidget )
-			return 1;
-
-		return mNumberOfColumns;
-	}
-
-	private State getState( Composite container )
-	{
-		State state = (State) container.getData( GridLayout.class.getName() );
-
-		if ( state == null )
-		{
-			state = new State();
-			container.setData( GridLayout.class.getName(), state );
-		}
-
-		return state;
-	}
-
-	//
-	// Inner class
-	//
-
-	/**
-	 * Simple, lightweight structure for saving state.
-	 */
-
-	/* package private */static class State
-	{
-		/* package private */int		currentColumn;
-
-		/* package private */int		currentRow;
-
-		/* package private */Insets		defaultLabelInsetsFirstColumn;
-
-		/* package private */Insets		defaultLabelInsetsRemainderColumns;
 	}
 }

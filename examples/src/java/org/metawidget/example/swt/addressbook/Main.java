@@ -31,6 +31,7 @@ import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
 import org.metawidget.swt.Facet;
 import org.metawidget.swt.SwtMetawidget;
+import org.metawidget.swt.layout.RowLayout;
 
 /**
  * @author Stefan Ackermann, Richard Kennard
@@ -130,6 +131,7 @@ public class Main
 		facetButtons.setData( "name", "buttons" );
 
 		SwtMetawidget buttonsMetawidget = new SwtMetawidget( facetButtons, SWT.None );
+		buttonsMetawidget.setMetawidgetLayout( new RowLayout() );
 		buttonsMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
 		buttonsMetawidget.setToInspect( this );
 

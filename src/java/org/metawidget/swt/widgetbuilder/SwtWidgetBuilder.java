@@ -94,12 +94,12 @@ public class SwtWidgetBuilder
 
 		if ( lookup != null && !"".equals( lookup ) )
 		{
-			Combo comboBox = new Combo( metawidget, SWT.None );
+			Combo comboDropDown = new Combo( metawidget, SWT.READ_ONLY );
 
 			// Add an empty choice (if nullable, and not required)
 
 			if ( WidgetBuilderUtils.needsEmptyLookupItem( attributes ) )
-				comboBox.add( "" );
+				comboDropDown.add( "" );
 
 			List<String> values = CollectionUtils.fromString( lookup );
 			BindingConverter converter = metawidget.getWidgetProcessor( BindingConverter.class );
@@ -115,7 +115,7 @@ public class SwtWidgetBuilder
 				else
 					convertedValue = converter.convertFromString( value, clazz );
 
-				comboBox.add( String.valueOf( convertedValue ));
+				comboDropDown.add( String.valueOf( convertedValue ));
 			}
 
 			// May have alternate labels
@@ -132,7 +132,7 @@ public class SwtWidgetBuilder
 			}
 			*/
 
-			return comboBox;
+			return comboDropDown;
 		}
 
 		if ( clazz != null )
