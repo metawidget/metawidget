@@ -192,6 +192,7 @@ public class GridLayout
 			buttonLayoutData.verticalAlignment = SWT.FILL;
 
 			buttonsFacet.setLayoutData( buttonLayoutData );
+			buttonsFacet.moveBelow( null );
 		}
 	}
 
@@ -234,6 +235,7 @@ public class GridLayout
 			labelLayoutData.verticalAlignment = SWT.FILL;
 
 			label.setLayoutData( labelLayoutData );
+			component.moveBelow( label );
 		}
 
 		return labelText;

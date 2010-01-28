@@ -581,7 +581,9 @@ public class SwtMetawidget
 
 		component.setData( NAME, attributes.get( NAME ) );
 
-		// TODO: Remove, then re-add to layout (to re-order the component)
+		// Re-order the component
+
+		component.moveBelow( null );
 
 		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( component );
 
