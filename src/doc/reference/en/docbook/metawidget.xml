@@ -1379,7 +1379,7 @@ public class Person {
 					The <parameter>Address</parameter> field is a nested Metawidget. The <parameter>Communications</parameter> field
 					has been overridden in the JSP page with a manually specified table. <classname>UIMetawidget</classname> understands a manually-specified widget to
 					override an automatic one if it has the same <parameter>value</parameter> binding as the automatic
-					widget would have (<classname>GwtMetawidget</classname>, <classname>SpringMetawidget</classname> and <classname>StrutsMetawidget</classname> do
+					widget would have (<classname>GwtMetawidget</classname>, <classname>SpringMetawidgetTag</classname> and <classname>StrutsMetawidgetTag</classname> do
 					something similar):
 				</para>
 				
@@ -1421,7 +1421,7 @@ public class Person {
 					whilst it is possible for tags to reference their <emphasis>parent</emphasis>
 					(using <function>TagSupport.findAncestorWithClass</function>), they have no way to interrogate
 					their <emphasis>children</emphasis>. Therefore, it is not possible to directly support arbitrary child tags
-					within <classname>HtmlMetawidget</classname>, <classname>SpringMetawidget</classname> and <classname>StrutsMetawidget</classname>.
+					within <classname>HtmlMetawidget</classname>, <classname>SpringMetawidgetTag</classname> and <classname>StrutsMetawidgetTag</classname>.
 				</para>
 
 				<para>
@@ -1497,7 +1497,7 @@ public class Person {
 	
 					<para>
 						The two different tag prefixes <parameter>m:</parameter> and <parameter>mh:</parameter> denote different tag libraries. 
-						<classname>HtmlMetawidget</classname> is very similiar to <classname>StrutsMetawidget</classname>, but has to use
+						<classname>HtmlMetawidget</classname> is very similiar to <classname>StrutsMetawidgetTag</classname>, but has to use
 						<parameter>jsp:useBean</parameter> to manually instantiate the bean (rather than letting Struts do it). 
 						Within <filename>metawidget.xml</filename>, the default layout for <classname>HtmlMetawidget</classname> has been
 						set to <classname>org.metawidget.jsp.tagext.layout.SimpleLayout</classname> (ie. a plain layout, without a label column)
@@ -2465,7 +2465,7 @@ copy \metawidget-bin\examples\gwt\metawidget-gwt-client.jar
 			establish a pipeline with plug-in points along the way for your own custom classes.
 			This five-stage pipeline is shown on the right of <xref linkend="chapter-architecture-overall"/>. It
 			is co-ordinated by a platform-specific Metawidget class
-			(eg. <classname>SwingMetawidget</classname>, <classname>StrutsMetawidget</classname> etc) as shown on the left. 
+			(eg. <classname>SwingMetawidget</classname>, <classname>StrutsMetawidgetTag</classname> etc) as shown on the left. 
 		</para>
 		
 		<!--
@@ -5563,7 +5563,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 			</section>
 
 			<section id="section-metawidgets-web-jsp">
-				<title>HtmlMetawidget (JSP)</title>
+				<title>HtmlMetawidgetTag (JSP)</title>
 				
 				<section id="section-metawidgets-web-hidden">
 					<title>Hidden Fields</title>
@@ -5684,18 +5684,18 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 			</section>
 			
 			<section id="section-metawidgets-web-spring">
-				<title>SpringMetawidget</title>
+				<title>SpringMetawidgetTag</title>
 	
 				<para>
-					<classname>SpringMetawidget</classname> is a Spring taglib. For an introduction
-					to <classname>SpringMetawidget</classname>, see <xref linkend="section-introduction-part2-web"/>.
+					<classname>SpringMetawidgetTag</classname> is a Spring taglib. For an introduction
+					to <classname>SpringMetawidgetTag</classname>, see <xref linkend="section-introduction-part2-web"/>.
 				</para>
 
 				<section id="section-metawidgets-web-spring-installation">
 					<title>Installation</title>
 
 					<para>
-						There are three steps to installing <classname>SpringMetawidget</classname> within a Spring application:
+						There are three steps to installing <classname>SpringMetawidgetTag</classname> within a Spring application:
 					</para>
 					
 					<orderedlist>
@@ -5726,7 +5726,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					
 					<para>
 						JSP-based technologies do not distinguish between what a widget is versus how it is rendered.
-						Instead, <classname>SpringMetawidget</classname> mimics this by providing loosely coupled <classname>Layout</classname> classes.
+						Instead, <classname>SpringMetawidgetTag</classname> mimics this by providing loosely coupled <classname>Layout</classname> classes.
 						Each layout can further be configured by using specific <parameter>param</parameter> tags.
 					</para>
 					
@@ -5748,18 +5748,18 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 			</section>
 
 			<section id="section-metawidgets-web-struts">
-				<title>StrutsMetawidget</title>
+				<title>StrutsMetawidgetTag</title>
 	
 				<para>
-					<classname>StrutsMetawidget</classname> is a Struts taglib. For an introduction
-					to <classname>StrutsMetawidget</classname>, see <xref linkend="section-introduction-part2-web"/>.
+					<classname>StrutsMetawidgetTag</classname> is a Struts taglib. For an introduction
+					to <classname>StrutsMetawidgetTag</classname>, see <xref linkend="section-introduction-part2-web"/>.
 				</para>
 
 				<section id="section-metawidgets-web-struts-installation">
 					<title>Installation</title>
 
 					<para>
-						There are three steps to installing <classname>StrutsMetawidget</classname> within a Struts application:
+						There are three steps to installing <classname>StrutsMetawidgetTag</classname> within a Struts application:
 					</para>
 					
 					<orderedlist>
@@ -5779,7 +5779,8 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 						</listitem>
 						<listitem>
 							<para>
-								You can (optionally) configure the Metawidget by adding a <filename>metawidget.xml</filename> file into <filename>WEB-INF</filename>.
+								You can (optionally) configure the Metawidget by adding a <filename>metawidget.xml</filename> file
+								into <filename>WEB-INF</filename>.
 							</para>
 						</listitem>
 					</orderedlist>
@@ -5790,7 +5791,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					
 					<para>
 						JSP-based technologies do not distinguish between what a widget is versus how it is rendered.
-						Instead, <classname>StrutsMetawidget</classname> mimics this by providing loosely coupled <classname>Layout</classname> classes.
+						Instead, <classname>StrutsMetawidgetTag</classname> mimics this by providing loosely coupled <classname>Layout</classname> classes.
 						Each layout can further be configured by using specific <parameter>param</parameter> tags.
 					</para>
 					
@@ -5816,10 +5817,34 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 						<title>I get "Cannot find bean org.apache.struts.taglib.html.BEAN in any scope"</title>
 						
 						<para>
-							<classname>StrutsMetawidget</classname> creates native Struts widgets, such as <parameter>&lt;html:text&gt;</parameter>, but does
+							<classname>StrutsMetawidgetTag</classname> creates native Struts widgets, such as <parameter>&lt;html:text&gt;</parameter>, but does
 							not create the surrounding Struts form. Make sure your Metawidget tag is enclosed in
 							a <parameter>&lt;html:form&gt;</parameter> tag and the Struts HTML taglib is included at the top of the page.
 						</para>
+					</section>
+
+					<section id="section-metawidgets-web-struts-troubleshooting-2">
+						<title>I see "MultipartRequestHandler", "ServletWrapper" and other weird names</title>
+						
+						<para>
+							If you use <classname>PropertyTypeInspector</classname> to inspect your <classname>ActionForm</classname>-based
+							classes, by default it will discover properties from the
+							<classname>org.apache.struts.action.ActionForm</classname> base class, such as <function>getMultipartRequestHandler</function>.
+							To prevent this, configure <filename>metawidget.xml</filename>: 
+						</para>
+						
+						<programlisting language="xml">&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
+	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
+	&lt;propertyStyle&gt;
+		&lt;javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean"
+			config="org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig"&gt;
+			&lt;excludeBaseType&gt;
+				&lt;pattern&gt;^(java|javax|org\.apache\.struts)\..*$&lt;/pattern&gt;
+			&lt;/excludeBaseType&gt;
+		&lt;/javaBeanPropertyStyle&gt;
+	&lt;/propertyStyle&gt;
+&lt;/propertyTypeInspector&gt;</programlisting>
+
 					</section>
 				</section>
 			</section>
@@ -5984,7 +6009,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					<programlisting language="xml">&lt;propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype"
 	config="org.metawidget.inspector.impl.BaseObjectInspectorConfig"&gt;
 	&lt;propertyStyle&gt;
-		&lt;strutsActionFormPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.struts"/&gt;
+		&lt;groovyPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.groovy"/&gt;
 	&lt;/propertyStyle&gt;
 &lt;/propertyTypeInspector&gt;</programlisting>
 					
@@ -5993,7 +6018,7 @@ xsi:schemaLocation="java:org.metawidget.swing http://metawidget.org/xsd/org.meta
 					</para>
 					
 					<programlisting language="java">BaseObjectInspectorConfig config = new BaseObjectInspectorConfig();
-config.setPropertyStyle( StrutsActionFormPropertyStyle.class );
+config.setPropertyStyle( new GroovyPropertyStyle() );
 metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 
 					<section id="section-inspectors-base-object-propertystyle-javabean">
@@ -6018,22 +6043,6 @@ metawidget.setInspector( new PropertyTypeInspector( config ) );</programlisting>
 	
 					</section>
 					
-					<section id="section-inspectors-base-object-propertystyle-struts">
-						<title>StrutsActionFormPropertyStyle</title>
-					
-						<para>
-							The <classname>StrutsActionFormPropertyStyle</classname> provides special handling for Struts <classname>ActionForms</classname>.
-						</para>
-						
-						<para>
-							<classname>ActionForm</classname> properties essentially follow JavaBean-convention (this class extends <classname>JavaBeanPropertyStyle</classname>),
-							but should not include properties from the Struts classes, (eg. <function>getServlet</function>, <function>getServletWrapper</function> and
-	 						<function>getMultipartRequestHandler</function> in <classname>ActionForm</classname> and <function>getDynaClass</function> in
-	 						<classname>DynaActionForm</classname>). 						
-						</para>
-						
-					</section>
-	
 					<section id="section-inspectors-base-object-propertystyle-groovy">
 						<title>GroovyPropertyStyle</title>
 					

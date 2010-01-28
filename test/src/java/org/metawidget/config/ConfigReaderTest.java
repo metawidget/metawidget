@@ -45,6 +45,8 @@ import org.metawidget.inspector.gwt.remote.server.GwtRemoteInspectorImpl;
 import org.metawidget.inspector.hibernate.validator.HibernateValidatorInspector;
 import org.metawidget.inspector.iface.Inspector;
 import org.metawidget.inspector.impl.BaseObjectInspector;
+import org.metawidget.inspector.impl.propertystyle.groovy.GroovyPropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
 import org.metawidget.inspector.jpa.JpaInspector;
 import org.metawidget.inspector.jsp.JspAnnotationInspector;
 import org.metawidget.inspector.propertytype.PropertyTypeInspector;
@@ -765,11 +767,14 @@ public class ConfigReaderTest
 		startXml += "<array>";
 		startXml += "<propertyTypeInspector xmlns=\"java:org.metawidget.inspector.propertytype\"/>";
 		startXml += "<metawidgetAnnotationInspector xmlns=\"java:org.metawidget.inspector.annotation\"/>";
+		startXml += "<jspAnnotationInspector xmlns=\"java:org.metawidget.inspector.jsp\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
+		startXml += "<propertyStyle><javaBeanPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.javabean\"/></propertyStyle>";
+		startXml += "</jspAnnotationInspector>";
 		startXml += "<strutsAnnotationInspector xmlns=\"java:org.metawidget.inspector.struts\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
-		startXml += "<propertyStyle><strutsActionFormPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.struts\"/></propertyStyle>";
+		startXml += "<propertyStyle><groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\"/></propertyStyle>";
 		startXml += "</strutsAnnotationInspector>";
 		startXml += "<springAnnotationInspector xmlns=\"java:org.metawidget.inspector.spring\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
-		startXml += "<propertyStyle><strutsActionFormPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.struts\"/></propertyStyle>";
+		startXml += "<propertyStyle><groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\"/></propertyStyle>";
 		startXml += "</springAnnotationInspector>";
 		String endXml = "</array>";
 		endXml += "</inspectors>";
@@ -824,9 +829,9 @@ public class ConfigReaderTest
 		assertTrue( propertyStyleField.get( inspectors2[0] ) == propertyStyleField.get( inspectors2[0] ) );
 		assertTrue( propertyStyleField.get( inspectors2[0] ) == propertyStyleField.get( inspectors2[1] ) );
 
-		assertTrue( propertyStyleField.get( inspectors1[2] ) == propertyStyleField.get( inspectors1[3] ) );
-		assertTrue( propertyStyleField.get( inspectors1[2] ) == propertyStyleField.get( inspectors2[2] ) );
-		assertTrue( propertyStyleField.get( inspectors2[2] ) == propertyStyleField.get( inspectors2[3] ) );
+		assertTrue( propertyStyleField.get( inspectors1[3] ) == propertyStyleField.get( inspectors1[4] ) );
+		assertTrue( propertyStyleField.get( inspectors1[3] ) == propertyStyleField.get( inspectors2[3] ) );
+		assertTrue( propertyStyleField.get( inspectors2[3] ) == propertyStyleField.get( inspectors2[4] ) );
 
 		// Via resource
 
@@ -860,7 +865,7 @@ public class ConfigReaderTest
 		immutableByConfigCache = immutableByClassCache.get( StrutsAnnotationInspector.class );
 		assertTrue( !immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( inspectors1[2] == immutableByConfigCache.values().iterator().next() );
+		assertTrue( inspectors1[3] == immutableByConfigCache.values().iterator().next() );
 
 		immutableByConfigCache = immutableByClassCache.get( XmlInspector.class );
 		assertTrue( !immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
@@ -874,19 +879,24 @@ public class ConfigReaderTest
 		immutableByConfigCache = immutableByClassCache.get( SpringAnnotationInspector.class );
 		assertTrue( !immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( inspectors1[3] == immutableByConfigCache.values().iterator().next() );
+		assertTrue( inspectors1[4] == immutableByConfigCache.values().iterator().next() );
 
 		immutableByConfigCache = immutableByClassCache.get( PropertyTypeInspector.class );
 		assertTrue( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
 		assertTrue( inspectors1[0] == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 
-		//TODO:immutableByConfigCache = immutableByClassCache.get( StrutsActionFormPropertyStyle.class );
+		immutableByConfigCache = immutableByClassCache.get( GroovyPropertyStyle.class );
+		assertTrue( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( 1 == immutableByConfigCache.size() );
+		assertTrue( propertyStyleField.get( inspectors1[3] ) == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+
+		immutableByConfigCache = immutableByClassCache.get( JavaBeanPropertyStyle.class );
 		assertTrue( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
 		assertTrue( propertyStyleField.get( inspectors1[2] ) == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 
-		assertTrue( 7 == immutableByClassCache.size() );
+		assertTrue( 9 == immutableByClassCache.size() );
 	}
 
 	public void testUppercase()

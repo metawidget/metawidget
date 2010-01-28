@@ -69,32 +69,34 @@ public class BaseObjectInspectorTest
 		config1 = new BaseObjectInspectorConfig();
 		config2 = new BaseObjectInspectorConfig();
 		assertTrue( config1.equals( config2 ));
+		assertTrue( config1.hashCode() == config2.hashCode() );
 		config1.setPropertyStyle( null );
 		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		// Test mNullActionStyle equals
 
 		config1 = new BaseObjectInspectorConfig();
 		config2 = new BaseObjectInspectorConfig();
-		assertTrue( config1.equals( config2 ));
 		config1.setActionStyle( null );
 		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		// Test mPropertyStyle equals
 
 		config1 = new BaseObjectInspectorConfig();
 		config2 = new BaseObjectInspectorConfig();
-		assertTrue( config1.equals( config2 ));
 		config1.setPropertyStyle( new GroovyPropertyStyle() );
 		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		// Test mActionStyle equals
 
 		config1 = new BaseObjectInspectorConfig();
 		config2 = new BaseObjectInspectorConfig();
-		assertTrue( config1.equals( config2 ));
 		config1.setActionStyle( new SwingAppFrameworkActionStyle() );
 		assertTrue( !config1.equals( config2 ));
+		assertTrue( config1.hashCode() != config2.hashCode() );
 	}
 
 	/**
