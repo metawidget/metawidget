@@ -26,8 +26,8 @@ import org.metawidget.iface.Immutable;
  * Different environments have different approaches to defining what constitutes a 'property'. For
  * example, JavaBean-properties are convention-based, whereas Groovy has explicit property support.
  * Equally, some environments may have framework-specific, base class properties that should be
- * filtered out and excluded from the list of 'real' business model properties (see
- * <code>StrutsActionFormPropertyStyle</code>).
+ * filtered out and excluded from the list of 'real' business model properties (eg. Struts
+ * <code>ActionForm</code>s).
  * <p>
  * <code>PropertyStyle</code>s must be immutable (or, at least, appear that way to clients. They can
  * have caches or configuration settings internally, as long as they are threadsafe).

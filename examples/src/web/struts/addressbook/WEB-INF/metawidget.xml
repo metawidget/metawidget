@@ -12,7 +12,11 @@
 						<xmlInspector xmlns="java:org.metawidget.inspector.xml" config="XmlInspectorConfig"/>
 						<propertyTypeInspector xmlns="java:org.metawidget.inspector.propertytype" config="org.metawidget.inspector.impl.BaseObjectInspectorConfig">
 							<propertyStyle>
-								<strutsActionFormPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.struts"/>
+								<javaBeanPropertyStyle xmlns="java:org.metawidget.inspector.impl.propertystyle.javabean" config="org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig">
+									<excludeBaseType>
+										<pattern>^(java|javax|org\.apache\.struts)\..*$</pattern>
+									</excludeBaseType>
+								</javaBeanPropertyStyle>
 							</propertyStyle>
 						</propertyTypeInspector>
 						<metawidgetAnnotationInspector xmlns="java:org.metawidget.inspector.annotation"/>

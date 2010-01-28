@@ -130,9 +130,13 @@ public class BaseObjectInspectorConfig
 	@Override
 	public int hashCode()
 	{
+		// TODO: test mNullPropertyStyle here
+
 		int hashCode = 1;
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mPropertyStyle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullPropertyStyle );
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mActionStyle );
+		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullActionStyle );
 
 		return hashCode;
 	}

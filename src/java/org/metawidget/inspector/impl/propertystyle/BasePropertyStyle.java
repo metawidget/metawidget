@@ -18,6 +18,7 @@ package org.metawidget.inspector.impl.propertystyle;
 
 import java.util.Collections;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import org.metawidget.util.CollectionUtils;
 
@@ -49,6 +50,17 @@ public abstract class BasePropertyStyle
 	 */
 
 	private final Map<Class<?>, Map<String, Property>>	mPropertiesCache	= CollectionUtils.newHashMap();
+
+	private Pattern										mExcludeBaseType;
+
+	//
+	// Constructor
+	//
+
+	protected BasePropertyStyle( BasePropertyStyleConfig config )
+	{
+		mExcludeBaseType = config.getExcludeBaseType();
+	}
 
 	//
 	// Public methods
@@ -139,11 +151,11 @@ public abstract class BasePropertyStyle
 	/**
 	 * Whether to exclude the given base type when searching up the model inheritance chain.
 	 * <p>
-	 * This can be useful when the convention or base class define properties that are
-	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * This can be useful when the base types define properties that are framework-specific, and
+	 * should be filtered out from 'real' business model properties.
 	 * <p>
-	 * By default, excludes any base types from the <code>java.*</code> or <code>javax.*</code>
-	 * packages.
+	 * By default, excludes any base types from
+	 * <code>BasePropertyStyleConfig.setExcludeBaseType</code>.
 	 *
 	 * @return true if the property should be excluded, false otherwise
 	 */
@@ -152,7 +164,7 @@ public abstract class BasePropertyStyle
 	{
 		String className = classToExclude.getName();
 
-		if ( className.startsWith( "java." ) || className.startsWith( "javax." ) )
+		if ( mExcludeBaseType.matcher( className ).matches() )
 			return true;
 
 		return false;
@@ -161,8 +173,8 @@ public abstract class BasePropertyStyle
 	/**
 	 * Whether to exclude the given property name when searching for properties.
 	 * <p>
-	 * This can be useful when the convention or base class define properties that are
-	 * framework-specific, and should be filtered out from 'real' business model properties.
+	 * This can be useful when the convention defines properties that are framework-specific (eg.
+	 * <code>getClass()</code>), and should be filtered out from 'real' business model properties.
 	 * <p>
 	 * By default, does not exclude any names.
 	 *

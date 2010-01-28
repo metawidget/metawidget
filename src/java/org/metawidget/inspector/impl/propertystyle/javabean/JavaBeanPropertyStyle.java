@@ -26,6 +26,7 @@ import java.util.Map;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -51,6 +52,20 @@ import org.metawidget.util.simple.StringUtils;
 public class JavaBeanPropertyStyle
 	extends BasePropertyStyle
 {
+	//
+	// Constructor
+	//
+
+	public JavaBeanPropertyStyle()
+	{
+		this( new BasePropertyStyleConfig() );
+	}
+
+	public JavaBeanPropertyStyle( BasePropertyStyleConfig config )
+	{
+		super( config );
+	}
+
 	//
 	// Protected methods
 	//

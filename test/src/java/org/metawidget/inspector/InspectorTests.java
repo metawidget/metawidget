@@ -39,7 +39,6 @@ import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyl
 import org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyleDebugOffTest;
 import org.metawidget.inspector.impl.propertystyle.javassist.JavassistPropertyStyleTest;
 import org.metawidget.inspector.impl.propertystyle.scala.ScalaPropertyStyleTest;
-import org.metawidget.inspector.impl.propertystyle.struts.StrutsActionFormPropertyStyleTest;
 import org.metawidget.inspector.java5.Java5InspectorTest;
 import org.metawidget.inspector.jbpm.PageflowInspectorTest;
 import org.metawidget.inspector.jpa.JpaInspectorTest;
@@ -96,7 +95,6 @@ public class InspectorTests
 		suite.addTestSuite( SpringAnnotationInspectorTest.class );
 		suite.addTestSuite( StrutsInspectorTest.class );
 		suite.addTestSuite( StrutsAnnotationInspectorTest.class );
-		suite.addTestSuite( StrutsActionFormPropertyStyleTest.class );
 		suite.addTestSuite( SwingAppFrameworkInspectorTest.class );
 		suite.addTestSuite( SwingAppFrameworkActionStyleTest.class );
 		suite.addTestSuite( ValidatingCompositeInspectorTest.class );

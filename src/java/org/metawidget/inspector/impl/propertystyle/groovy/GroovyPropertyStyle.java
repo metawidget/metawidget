@@ -33,6 +33,7 @@ import org.codehaus.groovy.reflection.CachedField;
 import org.metawidget.inspector.iface.InspectorException;
 import org.metawidget.inspector.impl.propertystyle.BaseProperty;
 import org.metawidget.inspector.impl.propertystyle.BasePropertyStyle;
+import org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig;
 import org.metawidget.inspector.impl.propertystyle.Property;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
@@ -51,6 +52,20 @@ import org.metawidget.util.CollectionUtils;
 public class GroovyPropertyStyle
 	extends BasePropertyStyle
 {
+	//
+	// Constructor
+	//
+
+	public GroovyPropertyStyle()
+	{
+		this( new BasePropertyStyleConfig() );
+	}
+
+	public GroovyPropertyStyle( BasePropertyStyleConfig config )
+	{
+		super( config );
+	}
+
 	//
 	// Protected methods
 	//
