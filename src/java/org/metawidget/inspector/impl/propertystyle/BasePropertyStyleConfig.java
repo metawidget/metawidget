@@ -26,6 +26,8 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
+// TODO: unit test config
+
 public class BasePropertyStyleConfig
 {
 	//

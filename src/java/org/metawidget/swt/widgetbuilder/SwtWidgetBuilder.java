@@ -59,13 +59,13 @@ public class SwtWidgetBuilder
 		// Hidden
 
 		if ( TRUE.equals( attributes.get( HIDDEN ) ) )
-			return new Stub( metawidget, SWT.None );
+			return new Stub( metawidget, SWT.NONE );
 
 		// Action
 
 		if ( ACTION.equals( elementName ) )
 		{
-			Button button = new Button( metawidget, SWT.None );
+			Button button = new Button( metawidget, SWT.NONE );
 			button.setText( metawidget.getLabelString( attributes ) );
 
 			return button;
@@ -149,7 +149,7 @@ public class SwtWidgetBuilder
 				// chars
 
 				if ( char.class.equals( clazz ) )
-					return new Text( metawidget, SWT.None );
+					return new Text( metawidget, SWT.BORDER );
 
 				// Ranged
 
@@ -168,7 +168,7 @@ public class SwtWidgetBuilder
 
 				// Not-ranged
 
-				Spinner spinner = new Spinner( metawidget, SWT.NONE );
+				Spinner spinner = new Spinner( metawidget, SWT.BORDER );
 
 				// (use 'new', not '.valueOf', for JDK 1.4 compatibility)
 
@@ -233,13 +233,13 @@ public class SwtWidgetBuilder
 					setSpinnerModel( spinner, value, minimum, maximum, 1 );
 				}
 				else if ( long.class.equals( clazz ) )
-					return new Text( metawidget, SWT.NONE );
+					return new Text( metawidget, SWT.BORDER );
 
 				else if ( float.class.equals( clazz ) )
-					return new Text( metawidget, SWT.NONE );
+					return new Text( metawidget, SWT.BORDER );
 
 				else if ( double.class.equals( clazz ) )
-					return new Text( metawidget, SWT.NONE );
+					return new Text( metawidget, SWT.BORDER );
 
 				return spinner;
 			}
@@ -249,7 +249,7 @@ public class SwtWidgetBuilder
 			if ( String.class.equals( clazz ) )
 			{
 				if ( TRUE.equals( attributes.get( MASKED ) ) )
-					return new Text( metawidget, SWT.PASSWORD );
+					return new Text( metawidget, SWT.PASSWORD | SWT.BORDER );
 
 				/*
 				if ( TRUE.equals( attributes.get( LARGE ) ) )
@@ -270,13 +270,13 @@ public class SwtWidgetBuilder
 				}
 				*/
 
-				return new Text( metawidget, SWT.NONE );
+				return new Text( metawidget, SWT.BORDER );
 			}
 
 			// Dates
 
 			if ( Date.class.equals( clazz ) )
-				return new Text( metawidget, SWT.NONE );
+				return new Text( metawidget, SWT.BORDER );
 
 			// Numbers
 			//
@@ -285,7 +285,7 @@ public class SwtWidgetBuilder
 			// is null. We can still use JSpinner/JSliders for primitives, though.
 
 			if ( Number.class.isAssignableFrom( clazz ) )
-				return new Text( metawidget, SWT.NONE );
+				return new Text( metawidget, SWT.BORDER );
 
 			// Collections
 
@@ -296,7 +296,7 @@ public class SwtWidgetBuilder
 		// Not simple, but don't expand
 
 		if ( TRUE.equals( attributes.get( DONT_EXPAND ) ) )
-			return new Text( metawidget, SWT.NONE );
+			return new Text( metawidget, SWT.BORDER );
 
 		// Nested Metawidget
 
