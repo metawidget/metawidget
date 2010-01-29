@@ -26,6 +26,8 @@ import org.metawidget.iface.Immutable;
  * Layouts must be immutable (or, at least, appear that way to clients. They can have caches or
  * configuration settings internally, as long as they are threadsafe). If they need to store state,
  * they should use the Metawidget passed to each method.
+ * <p>
+ * Note: WidgetProcessors are an example of the Strategy design pattern.
  *
  * @param <W>
  *            base class of widgets that this Layout lays out

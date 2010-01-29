@@ -23,8 +23,9 @@ package org.metawidget.layout.iface;
  * There are advantages to keeping the vanilla <code>Layout</code> interface as a single-method
  * interface: First, it alleviates the need for a <code>BaseLayout</code> or
  * <code>LayoutAdapter</code> class (to provide default implementations for subclasses who don't
- * override all the methods); second, it makes <code>Layout</code> amenable to automatic function
- * objects (closures) in Java 7. This latter point is more of a concession to consistency with
+ * override all the methods); second, it makes <code>Layout</code> an example of the Strategy
+ * pattern; third, it makes <code>Layout</code> amenable to automatic function objects (closures) in
+ * Java 7. This latter point is more of a concession to consistency with
  * <code>WidgetProcessor</code> and the other interfaces in the pipeline, but may still prove
  * useful.
  *
