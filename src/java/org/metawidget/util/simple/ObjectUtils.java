@@ -60,6 +60,8 @@ public final class ObjectUtils
 		if ( object1 == null )
 			return ( object2 == null );
 
+		// Array.equals is broken by default
+
 		if ( object1.getClass().isArray() )
 		{
 			if ( object2 == null || !object2.getClass().isArray() )

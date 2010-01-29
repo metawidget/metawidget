@@ -26,8 +26,6 @@ import org.metawidget.util.simple.ObjectUtils;
  * @author Richard Kennard
  */
 
-// TODO: unit test config
-
 public class BasePropertyStyleConfig
 {
 	//
@@ -93,8 +91,21 @@ public class BasePropertyStyleConfig
 		if ( !( that instanceof BasePropertyStyleConfig ) )
 			return false;
 
-		if ( !ObjectUtils.nullSafeEquals( mExcludeBaseType, ( (BasePropertyStyleConfig) that ).mExcludeBaseType ) )
-			return false;
+		// Pattern.equals is broken for our purposes
+
+		if ( mExcludeBaseType == null )
+		{
+			if ( ( (BasePropertyStyleConfig) that ).mExcludeBaseType != null )
+				return false;
+		}
+		else
+		{
+			if ( ( (BasePropertyStyleConfig) that ).mExcludeBaseType == null )
+				return false;
+
+			if ( !mExcludeBaseType.pattern().equals( ( (BasePropertyStyleConfig) that ).mExcludeBaseType.pattern() ))
+				return false;
+		}
 
 		if ( mNullExcludeBaseType != ( (BasePropertyStyleConfig) that ).mNullExcludeBaseType )
 			return false;
@@ -106,7 +117,12 @@ public class BasePropertyStyleConfig
 	public int hashCode()
 	{
 		int hashCode = 1;
-		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mExcludeBaseType );
+
+		// Pattern.hashCode is broken for our purposes
+
+		if ( mExcludeBaseType != null )
+			hashCode = 31 * hashCode + mExcludeBaseType.pattern().hashCode();
+
 		hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mNullExcludeBaseType );
 
 		return hashCode;

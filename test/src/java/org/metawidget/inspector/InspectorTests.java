@@ -31,6 +31,7 @@ import org.metawidget.inspector.faces.FacesInspectorTest;
 import org.metawidget.inspector.hibernate.HibernateInspectorTest;
 import org.metawidget.inspector.hibernate.validator.HibernateValidatorInspectorTest;
 import org.metawidget.inspector.impl.BaseObjectInspectorTest;
+import org.metawidget.inspector.impl.BasePropertyStyleTest;
 import org.metawidget.inspector.impl.BaseXmlInspectorTest;
 import org.metawidget.inspector.impl.actionstyle.metawidget.MetawidgetActionStyleTest;
 import org.metawidget.inspector.impl.actionstyle.swing.SwingAppFrameworkActionStyleTest;
@@ -68,6 +69,7 @@ public class InspectorTests
 	{
 		TestSuite suite = new TestSuite( "Inspector Tests" );
 		suite.addTestSuite( BaseObjectInspectorTest.class );
+		suite.addTestSuite( BasePropertyStyleTest.class );
 		suite.addTestSuite( BeanValidationInspectorTest.class );
 		suite.addTestSuite( BaseXmlInspectorTest.class );
 		suite.addTestSuite( CommonsValidatorInspectorTest.class );

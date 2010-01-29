@@ -71,16 +71,24 @@ public class BaseObjectInspectorTest
 		assertTrue( config1.equals( config2 ));
 		assertTrue( config1.hashCode() == config2.hashCode() );
 		config1.setPropertyStyle( null );
+		assertTrue( null == config1.getPropertyStyle() );
 		assertTrue( !config1.equals( config2 ));
 		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config1.setPropertyStyle( new GroovyPropertyStyle() );
+		assertTrue( config1.getPropertyStyle() instanceof GroovyPropertyStyle );
 
 		// Test mNullActionStyle equals
 
 		config1 = new BaseObjectInspectorConfig();
 		config2 = new BaseObjectInspectorConfig();
 		config1.setActionStyle( null );
+		assertTrue( null == config1.getActionStyle() );
 		assertTrue( !config1.equals( config2 ));
 		assertTrue( config1.hashCode() != config2.hashCode() );
+
+		config1.setActionStyle( new SwingAppFrameworkActionStyle() );
+		assertTrue( config1.getActionStyle() instanceof SwingAppFrameworkActionStyle );
 
 		// Test mPropertyStyle equals
 
