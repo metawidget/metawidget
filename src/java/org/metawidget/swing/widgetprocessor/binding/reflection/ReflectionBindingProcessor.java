@@ -30,16 +30,14 @@ import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.simple.PathUtils;
-import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 import org.metawidget.widgetprocessor.iface.WidgetProcessor;
+import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
 
 /**
  * Action binding implementation based on reflection.
  * <p>
  * This is the typical Swing approach to binding UI buttons to Java objects using
  * <code>AbstractActions</code> and reflection.
- * <p>
- * Implementations need not be Thread-safe.
  *
  * @author Richard Kennard
  */

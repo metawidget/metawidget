@@ -24,6 +24,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
+import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
@@ -103,7 +104,9 @@ public class Main
 	@UiComesAfter( "search" )
 	public void addPersonal()
 	{
-		new ContactDialog( mShell, SWT.None ).open( new PersonalContact() );
+		Contact contact = new PersonalContact();
+		contact.setFirstname( "Foo" );
+		new ContactDialog( mShell, SWT.None ).open( contact );
 	}
 
 	@UiAction

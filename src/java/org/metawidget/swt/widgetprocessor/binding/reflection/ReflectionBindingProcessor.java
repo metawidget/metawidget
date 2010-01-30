@@ -37,8 +37,6 @@ import org.metawidget.widgetprocessor.iface.WidgetProcessorException;
  * <p>
  * This is the typical SWT approach to binding UI buttons to Java objects using
  * <code>AbstractActions</code> and reflection.
- * <p>
- * Implementations need not be Thread-safe.
  *
  * @author Richard Kennard
  */

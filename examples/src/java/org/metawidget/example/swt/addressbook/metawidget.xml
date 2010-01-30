@@ -31,6 +31,7 @@
 		</inspector>
 		<widgetProcessors>
 			<array>
+				<jFaceBindingProcessor xmlns="java:org.metawidget.swt.widgetprocessor.binding.jface"/>
 				<reflectionBindingProcessor xmlns="java:org.metawidget.swt.widgetprocessor.binding.reflection"/>			
 			</array>
 		</widgetProcessors>		
