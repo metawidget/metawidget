@@ -8807,6 +8807,10 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 								<td>comma separated list of style classes to apply to the DIVs, in order of outer, label, required, component, errors</td>
 							</tr>
 							<tr>
+								<td><parameter>inlineMessages</parameter></td>
+								<td>whether to wrap input components with inline <classname>h:message</classname> tags. True by default</td>
+							</tr>
+							<tr>
 								<td><parameter>labelStyle</parameter></td>
 								<td>CSS styles to apply to the label DIV</td>
 							</tr>
@@ -8873,6 +8877,10 @@ new SimpleBindingProcessorConfig().setAdapter( Contact.class,
 							<tr>
 								<td><parameter>headerStyleClass</parameter></td>
 								<td>CSS style class to apply to table header</td>
+							</tr>
+							<tr>
+								<td><parameter>inlineMessages</parameter></td>
+								<td>whether to wrap input components with inline <classname>h:message</classname> tags. True by default</td>
 							</tr>
 							<tr>
 								<td><parameter>labelStyle</parameter></td>

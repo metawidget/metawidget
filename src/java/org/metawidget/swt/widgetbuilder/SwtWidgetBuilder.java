@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.Text;
 import org.metawidget.swing.widgetprocessor.binding.BindingConverter;
 import org.metawidget.swt.Stub;
 import org.metawidget.swt.SwtMetawidget;
+import org.metawidget.swt.SwtValuePropertyProvider;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.WidgetBuilderUtils;
@@ -48,11 +49,19 @@ import org.metawidget.widgetbuilder.iface.WidgetBuilder;
  */
 
 public class SwtWidgetBuilder
-	implements WidgetBuilder<Control, SwtMetawidget>
+	implements WidgetBuilder<Control, SwtMetawidget>, SwtValuePropertyProvider
 {
 	//
 	// Public methods
 	//
+
+	public String getValueProperty( Control control )
+	{
+		if ( control instanceof Text )
+			return "text";
+
+		return null;
+	}
 
 	public Control buildWidget( String elementName, Map<String, String> attributes, SwtMetawidget metawidget )
 	{

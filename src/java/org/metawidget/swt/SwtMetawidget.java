@@ -631,7 +631,7 @@ public class SwtMetawidget
 		return new Object[] { component, componentProperty };
 	}
 
-	private String getValueProperty( Control component, WidgetBuilder<Control, SwtMetawidget> widgetBuilder )
+	private String getValueProperty( Control control, WidgetBuilder<Control, SwtMetawidget> widgetBuilder )
 	{
 		// Recurse into CompositeWidgetBuilders
 
@@ -641,7 +641,7 @@ public class SwtMetawidget
 			{
 				for ( WidgetBuilder<Control, SwtMetawidget> widgetBuilderChild : ( (CompositeWidgetBuilder<Control, SwtMetawidget>) widgetBuilder ).getWidgetBuilders() )
 				{
-					String valueProperty = getValueProperty( component, widgetBuilderChild );
+					String valueProperty = getValueProperty( control, widgetBuilderChild );
 
 					if ( valueProperty != null )
 						return valueProperty;
@@ -655,7 +655,10 @@ public class SwtMetawidget
 			// May not be shipping with CompositeWidgetBuilder
 		}
 
-		// TODO: Interrogate ValuePropertyProviders
+		// Interrogate ValuePropertyProviders
+
+		if ( widgetBuilder instanceof SwtValuePropertyProvider )
+			return ( (SwtValuePropertyProvider) widgetBuilder ).getValueProperty( control );
 
 		return null;
 	}

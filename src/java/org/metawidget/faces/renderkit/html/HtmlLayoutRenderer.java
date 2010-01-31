@@ -74,11 +74,12 @@ public abstract class HtmlLayoutRenderer
 			state.labelSuffix = (String) parameterLabelSuffix.getValue();
 
 		// Using inline messages?
+		// TODO: unit test inline messages=false
 
-		UIParameter useInlineMessagesParameter = FacesUtils.findParameterWithName( metawidget, "useInlineMessages" );
+		UIParameter inlineMessagesParameter = FacesUtils.findParameterWithName( metawidget, "inlineMessages" );
 
-		if ( useInlineMessagesParameter != null )
-			state.useInlineMessages = Boolean.valueOf( (String) useInlineMessagesParameter.getValue() );
+		if ( inlineMessagesParameter != null )
+			state.inlineMessages = Boolean.valueOf( (String) inlineMessagesParameter.getValue() );
 
 		// Message styles
 
@@ -202,7 +203,7 @@ public abstract class HtmlLayoutRenderer
 
 		State state = getState( metawidget );
 
-		if ( !state.useInlineMessages )
+		if ( !state.inlineMessages )
 			return;
 
 		// Render inline message
@@ -271,9 +272,7 @@ public abstract class HtmlLayoutRenderer
 
 	/* package private */static class State
 	{
-		/* package private */boolean	useInlineMessages	= true;
-
-		/* package private */String		inlineMessages;
+		/* package private */boolean	inlineMessages	= true;
 
 		/* package private */String		messageStyle;
 

@@ -15,9 +15,9 @@
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
 /**
- * SWT support: JFace-based property binding.
+ * SWT support: eclipse.core.databinding-based property binding.
  *
  * @author Richard Kennard
  */
 
-package org.metawidget.swt.widgetprocessor.binding.jface;
+package org.metawidget.swt.widgetprocessor.binding.databinding;
