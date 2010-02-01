@@ -331,6 +331,34 @@ public final class GwtUtils
 		return true;
 	}
 
+	public static String stripSection( Map<String, String> attributes )
+	{
+		String sections = attributes.remove( SECTION );
+
+		// (null means 'no change to current section')
+
+		if ( sections == null )
+			return null;
+
+		List<String> sectionAsArray = GwtUtils.fromString( sections, ',' );
+
+		switch ( sectionAsArray.size() )
+		{
+			// (empty String means 'end current section')
+
+			case 0:
+				return "";
+
+			case 1:
+				return sectionAsArray.get( 0 );
+
+			default:
+				String section = sectionAsArray.remove( 0 );
+				attributes.put( SECTION, GwtUtils.toString( sectionAsArray, ',' ) );
+				return section;
+		}
+	}
+
 	//
 	// Private constructor
 	//

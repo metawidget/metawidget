@@ -52,6 +52,12 @@ public abstract class GwtFlatSectionLayoutDecorator
 	//
 
 	@Override
+	protected String stripSection( Map<String, String> attributes )
+	{
+		return GwtUtils.stripSection( attributes );
+	}
+
+	@Override
 	protected String[] getSections( Map<String, String> attributes )
 	{
 		return GwtUtils.fromString( attributes.get( SECTION ), ',' ).toArray( new String[0] );

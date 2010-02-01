@@ -21,6 +21,9 @@ import java.util.Map;
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
  * sections, rendering multi-level sections (ie. section="foo,bar") as siblings.
+ * <p>
+ * Because sections are rendered as siblings, <code>FlatSectionLayoutDecorator</code> never creates
+ * a new <code>container</code>.
  *
  * @author Richard Kennard
  */
@@ -53,40 +56,76 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	@Override
 	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, C container, M metawidget )
 	{
-		String[] sections = getSections( attributes );
+		// If our delegate is itself a LayoutDecorator, strip the section. This handles
+		// putting a NestedSectionLayoutDecorator inside a FlatSectionLayoutDecorator
+
 		State state = getState( container, metawidget );
 
-		// Stay where we are?
-
-		if ( sections.length == 0 || sections.equals( state.currentSections ) )
+		if ( getDelegate() instanceof LayoutDecorator<?, ?, ?> )
 		{
-			super.layoutWidget( widget, elementName, attributes, container, metawidget );
-			return;
+			String section = stripSection( attributes );
+
+			// Stay where we are?
+
+			if ( section == null || ( state.currentSections != null && section.equals( state.currentSections[0] ) ))
+			{
+				super.layoutWidget( widget, elementName, attributes, container, metawidget );
+				return;
+			}
+
+			// End current section
+
+			if ( "".equals( section ))
+			{
+				attributes.put( "section", "" );
+			}
+
+			// Ignore empty stubs. Do not create a new tab in case it ends up being empty
+
+			else if ( !isEmptyStub( widget ) )
+			{
+				// Add a heading
+
+				addSectionWidget( section, 0, container, metawidget );
+				state.currentSections = new String[] { section };
+			}
 		}
-
-		// For each of the new sections...
-
-		for ( int level = 0; level < sections.length; level++ )
+		else
 		{
-			String section = sections[level];
+			String[] sections = getSections( attributes );
 
-			// ...that are different from our current...
+			// Stay where we are?
 
-			if ( "".equals( section ) )
-				continue;
+			if ( sections.length == 0 || sections.equals( state.currentSections ) )
+			{
+				super.layoutWidget( widget, elementName, attributes, container, metawidget );
+				return;
+			}
 
-			if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) )
-				continue;
+			// For each of the new sections...
 
-			if ( isEmptyStub( widget ))
-				continue;
+			for ( int level = 0; level < sections.length; level++ )
+			{
+				String section = sections[level];
 
-			// ...add a heading
+				// ...that are different from our current...
 
-			addSectionWidget( section, level, container, metawidget );
+				if ( "".equals( section ) )
+					continue;
+
+				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) )
+					continue;
+
+				if ( isEmptyStub( widget ) )
+					continue;
+
+				// ...add a heading
+
+				addSectionWidget( section, level, container, metawidget );
+			}
+
+			state.currentSections = sections;
 		}
-
-		state.currentSections = sections;
 
 		// Add component as normal
 
@@ -97,15 +136,19 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	// Protected methods
 	//
 
-	protected abstract String[]	getSections( Map<String, String> attributes );
+	protected abstract String stripSection( Map<String, String> attributes );
+
+	protected abstract String[] getSections( Map<String, String> attributes );
 
 	protected abstract State getState( C container, M metawidget );
 
 	protected abstract boolean isEmptyStub( W widget );
 
 	/**
-	 * @param section	section text (needs localizing)
-	 * @param level	level of section heading (ie. 0=highest, 1=next level down etc.)
+	 * @param section
+	 *            section text (needs localizing)
+	 * @param level
+	 *            level of section heading (ie. 0=highest, 1=next level down etc.)
 	 * @param container
 	 * @param metawidget
 	 */
@@ -114,7 +157,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 
 	//
 	// Inner class
-	//S
+	// S
 
 	/**
 	 * Simple, lightweight structure for saving state.

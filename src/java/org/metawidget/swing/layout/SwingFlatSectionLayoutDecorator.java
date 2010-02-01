@@ -26,6 +26,7 @@ import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.swing.Stub;
 import org.metawidget.swing.SwingMetawidget;
 import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.LayoutUtils;
 
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
@@ -60,6 +61,12 @@ public abstract class SwingFlatSectionLayoutDecorator
 	//
 	// Protected methods
 	//
+
+	@Override
+	protected String stripSection( Map<String, String> attributes )
+	{
+		return LayoutUtils.stripSection( attributes );
+	}
 
 	@Override
 	protected String[] getSections( Map<String, String> attributes )

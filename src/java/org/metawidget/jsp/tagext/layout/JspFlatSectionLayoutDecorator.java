@@ -27,6 +27,7 @@ import org.metawidget.jsp.tagext.MetawidgetTag;
 import org.metawidget.jsp.tagext.StubTag;
 import org.metawidget.layout.decorator.LayoutDecoratorConfig;
 import org.metawidget.util.ArrayUtils;
+import org.metawidget.util.LayoutUtils;
 
 /**
  * Convenience base class for LayoutDecorators wishing to decorate widgets based on changing
@@ -53,6 +54,12 @@ public abstract class JspFlatSectionLayoutDecorator
 	//
 	// Protected methods
 	//
+
+	@Override
+	protected String stripSection( Map<String, String> attributes )
+	{
+		return LayoutUtils.stripSection( attributes );
+	}
 
 	@Override
 	protected String[] getSections( Map<String, String> attributes )
