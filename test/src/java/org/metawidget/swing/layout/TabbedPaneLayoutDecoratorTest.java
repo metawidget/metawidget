@@ -16,11 +16,14 @@
 
 package org.metawidget.swing.layout;
 
+import java.awt.GridBagLayout;
+
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -58,7 +61,6 @@ public class TabbedPaneLayoutDecoratorTest
 		config1.setTabPlacement( SwingConstants.LEFT );
 		assertTrue( SwingConstants.LEFT == config1.getTabPlacement() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setTabPlacement( SwingConstants.LEFT );
 		assertTrue( config1.equals( config2 ) );
@@ -98,7 +100,7 @@ public class TabbedPaneLayoutDecoratorTest
 	public void testNestedTabs()
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new GridBagLayout() ) ) ) ) );
+		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
 		metawidget.setToInspect( new Bar() );
 
 		assertTrue( "Abc:".equals( ( (JLabel) metawidget.getComponent( 0 ) ).getText() ) );
@@ -142,13 +144,13 @@ public class TabbedPaneLayoutDecoratorTest
 
 		// Test components within nested tabs still accessible by name
 
-		assertTrue( metawidget.getComponent( 1 ) == metawidget.getComponent( "abc" ));
-		assertTrue( barPanel.getComponent( 1 ) == metawidget.getComponent( "def" ));
-		assertTrue( barPanel.getComponent( 3 ) == metawidget.getComponent( "ghi" ));
-		assertTrue( bazPanel.getComponent( 1 ) == metawidget.getComponent( "jkl" ));
-		assertTrue( outerPanel.getComponent( 2 ) == metawidget.getComponent( "mno" ));
-		assertTrue( mooPanel.getComponent( 1 ) == metawidget.getComponent( "pqr" ));
-		assertTrue( metawidget.getComponent( 4 ) == metawidget.getComponent( "stu" ));
+		assertTrue( metawidget.getComponent( 1 ) == metawidget.getComponent( "abc" ) );
+		assertTrue( barPanel.getComponent( 1 ) == metawidget.getComponent( "def" ) );
+		assertTrue( barPanel.getComponent( 3 ) == metawidget.getComponent( "ghi" ) );
+		assertTrue( bazPanel.getComponent( 1 ) == metawidget.getComponent( "jkl" ) );
+		assertTrue( outerPanel.getComponent( 2 ) == metawidget.getComponent( "mno" ) );
+		assertTrue( mooPanel.getComponent( 1 ) == metawidget.getComponent( "pqr" ) );
+		assertTrue( metawidget.getComponent( 4 ) == metawidget.getComponent( "stu" ) );
 	}
 
 	public void testNestedTabsWithGroupLayout()
@@ -195,11 +197,39 @@ public class TabbedPaneLayoutDecoratorTest
 		assertTrue( 5 == metawidget.getComponentCount() );
 	}
 
+	public void testFlatSectionAroundNestedSectionLayoutDecorator()
+	{
+		SwingMetawidget metawidget = new SwingMetawidget();
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new GroupLayout() ) ) ) ) );
+		metawidget.setToInspect( new Baz() );
+
+		JPanel panel = (JPanel) metawidget.getComponent( 0 );
+		assertTrue( "Foo".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
+		assertTrue( 5 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
+		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
+
+		JTabbedPane innerTabbedPane = (JTabbedPane) metawidget.getComponent( 1 );
+		assertTrue( "Bar".equals( innerTabbedPane.getTitleAt( 0 ) ) );
+		JPanel innerPanel = (JPanel) innerTabbedPane.getComponent( 0 );
+		assertTrue( "Abc:".equals( ( (JLabel) innerPanel.getComponent( 0 ) ).getText() ) );
+		assertTrue( innerPanel.getComponent( 1 ) instanceof JTextField );
+		assertTrue( 2 == innerPanel.getComponentCount() );
+
+		panel = (JPanel) metawidget.getComponent( 2 );
+		assertTrue( "Baz".equals( ( (JLabel) panel.getComponent( 0 ) ).getText() ) );
+		assertTrue( 5 == ( (GridBagLayout) panel.getLayout() ).getConstraints( panel.getComponent( 0 ) ).insets.right );
+		assertTrue( panel.getComponent( 1 ) instanceof JSeparator );
+
+		assertTrue( "Def:".equals( ( (JLabel) metawidget.getComponent( 3 ) ).getText() ) );
+		assertTrue( metawidget.getComponent( 4 ) instanceof JCheckBox );
+		assertTrue( 5 == metawidget.getComponentCount() );
+	}
+
 	public static void main( String[] args )
 	{
 		SwingMetawidget metawidget = new SwingMetawidget();
-		metawidget.setMetawidgetLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new GroupLayout() ) ) ) ) );
-		metawidget.setToInspect( new Bar() );
+		metawidget.setMetawidgetLayout( new SeparatorLayoutDecorator( new SeparatorLayoutDecoratorConfig().setLayout( new TabbedPaneLayoutDecorator( new TabbedPaneLayoutDecoratorConfig().setLayout( new org.metawidget.swing.layout.GridBagLayout() ) ) ) ) );
+		metawidget.setToInspect( new Baz() );
 
 		JFrame frame = new JFrame( "Metawidget Tutorial" );
 		frame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
@@ -239,5 +269,14 @@ public class TabbedPaneLayoutDecoratorTest
 
 		@UiSection( "" )
 		public String	stu;
+	}
+
+	static class Baz
+	{
+		@UiSection( { "Foo", "Bar" } )
+		public String	abc;
+
+		@UiSection( { "Baz" } )
+		public boolean	def;
 	}
 }

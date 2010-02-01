@@ -80,7 +80,6 @@ public class SimpleBindingProcessorTest
 		assertTrue( null == config1.getAdapters() );
 		config1.setAdapter( Date.class, adapter );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 		config2.setAdapter( Date.class, adapter );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
@@ -108,7 +107,6 @@ public class SimpleBindingProcessorTest
 		assertTrue( null == config1.getConverters() );
 		config1.setConverter( Date.class, converter );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 		config2.setConverter( Date.class, converter );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );

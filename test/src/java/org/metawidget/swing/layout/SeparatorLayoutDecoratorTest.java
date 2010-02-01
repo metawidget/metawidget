@@ -60,7 +60,6 @@ public class SeparatorLayoutDecoratorTest
 		config1.setAlignment( SwingConstants.RIGHT );
 		assertTrue( SwingConstants.RIGHT == config1.getAlignment() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setAlignment( SwingConstants.RIGHT );
 		assertTrue( config1.equals( config2 ) );

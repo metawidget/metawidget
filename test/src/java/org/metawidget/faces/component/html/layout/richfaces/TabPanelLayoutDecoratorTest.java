@@ -47,7 +47,6 @@ public class TabPanelLayoutDecoratorTest
 		config1.setHeaderAlignment( "right" );
 		assertTrue( "right".equals( config1.getHeaderAlignment() ));
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setHeaderAlignment( "right" );
 		assertTrue( config1.equals( config2 ) );

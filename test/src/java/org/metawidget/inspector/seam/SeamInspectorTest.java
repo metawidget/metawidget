@@ -130,7 +130,6 @@ public class SeamInspectorTest
 		config1.setResourceResolver( resourceResolver );
 		assertTrue( resourceResolver == config1.getResourceResolver() );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setResourceResolver( resourceResolver );
 		assertTrue( config1.equals( config2 ));

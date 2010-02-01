@@ -221,8 +221,6 @@ public class TestInspectorConfig
 		if ( !ObjectUtils.nullSafeEquals( mBoolean, ( (TestInspectorConfig) that ).mBoolean ) )
 			return false;
 
-		// TODO: unit test this - it should be .pattern()
-
 		if ( !ObjectUtils.nullSafeEquals( mPattern, ( (TestInspectorConfig) that ).mPattern ) )
 			return false;
 

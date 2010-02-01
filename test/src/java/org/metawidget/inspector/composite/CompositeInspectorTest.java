@@ -145,11 +145,9 @@ public class CompositeInspectorTest
 		assertTrue( config1.getInspectors()[0] instanceof PropertyTypeInspector );
 		assertTrue( config1.getInspectors()[1] instanceof MetawidgetAnnotationInspector );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setInspectors( new MetawidgetAnnotationInspector(), new PropertyTypeInspector() );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setInspectors( inspectors );
 		assertTrue( config1.equals( config2 ));

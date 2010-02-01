@@ -329,7 +329,6 @@ public class HtmlWidgetBuilderTest
 		config1.setDataTableStyleClass( "data-table-style-class" );
 		assertTrue( "data-table-style-class".equals( config1.getDataTableStyleClass() ));
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setDataTableStyleClass( "data-table-style-class" );
 		assertTrue( config1.equals( config2 ));
@@ -341,7 +340,6 @@ public class HtmlWidgetBuilderTest
 		assertTrue( "data-table-column-class1".equals( config1.getDataTableColumnClasses()[0] ));
 		assertTrue( "data-table-column-class2".equals( config1.getDataTableColumnClasses()[1] ));
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setDataTableColumnClasses( "data-table-column-class1", "data-table-column-class2" );
 		assertTrue( config1.equals( config2 ));
@@ -354,7 +352,6 @@ public class HtmlWidgetBuilderTest
 		assertTrue( "data-table-row-class2".equals( config1.getDataTableRowClasses()[1] ));
 		assertTrue( "data-table-row-class3".equals( config1.getDataTableRowClasses()[2] ));
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setDataTableRowClasses( "data-table-row-class1", "data-table-row-class2", "data-table-row-class3" );
 		assertTrue( config1.equals( config2 ));

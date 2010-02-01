@@ -47,7 +47,6 @@ public class SimpleTogglePanelLayoutDecoratorTest
 		config1.setStyle( "aStyle" );
 		assertTrue( "aStyle".equals( config1.getStyle() ));
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setStyle( "aStyle" );
 		assertTrue( config1.equals( config2 ) );
@@ -58,7 +57,6 @@ public class SimpleTogglePanelLayoutDecoratorTest
 		config1.setStyleClass( "aStyleClass" );
 		assertTrue( "aStyleClass".equals( config1.getStyleClass() ));
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setStyleClass( "aStyleClass" );
 		assertTrue( config1.equals( config2 ) );
@@ -69,7 +67,6 @@ public class SimpleTogglePanelLayoutDecoratorTest
 		config1.setSwitchType( "aSwitchType" );
 		assertTrue( "aSwitchType".equals( config1.getSwitchType() ));
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setSwitchType( "aSwitchType" );
 		assertTrue( config1.equals( config2 ) );
@@ -80,7 +77,6 @@ public class SimpleTogglePanelLayoutDecoratorTest
 		config1.setOpened( false );
 		assertTrue( false == config1.isOpened() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setOpened( false );
 		assertTrue( config1.equals( config1 ) );

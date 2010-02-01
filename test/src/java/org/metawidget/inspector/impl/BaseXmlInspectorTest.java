@@ -51,7 +51,6 @@ public class BaseXmlInspectorTest
 		config1.setResourceResolver( resourceResolver );
 		assertTrue( resourceResolver == config1.getResourceResolver() );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setResourceResolver( resourceResolver );
 		assertTrue( config1.equals( config2 ));
@@ -62,7 +61,6 @@ public class BaseXmlInspectorTest
 		InputStream inputStream1 = new ByteArrayInputStream( "buffer".getBytes() );
 		config1.setInputStream( inputStream1 );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setInputStream( inputStream1 );
 		assertTrue( config1.equals( config2 ));
@@ -73,7 +71,6 @@ public class BaseXmlInspectorTest
 		InputStream inputStream2 = new ByteArrayInputStream( "buffer".getBytes() );
 		config1.setInputStreams( inputStream1, inputStream2 );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setInputStreams( inputStream1, inputStream2 );
 		assertTrue( config1.equals( config2 ));

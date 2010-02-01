@@ -164,9 +164,7 @@ public abstract class BasePropertyStyle
 	{
 		String className = classToExclude.getName();
 
-		// TODO: test if mExcludeBaseType is null
-
-		if ( mExcludeBaseType.matcher( className ).matches() )
+		if ( mExcludeBaseType != null && mExcludeBaseType.matcher( className ).matches() )
 			return true;
 
 		return false;

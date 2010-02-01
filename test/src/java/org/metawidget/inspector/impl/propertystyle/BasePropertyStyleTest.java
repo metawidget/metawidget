@@ -14,13 +14,17 @@
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 
-package org.metawidget.inspector.impl;
+package org.metawidget.inspector.impl.propertystyle;
 
+import java.util.Date;
 import java.util.regex.Pattern;
+
+import javax.swing.JTextField;
 
 import junit.framework.TestCase;
 
-import org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig;
+import org.metawidget.inspector.impl.propertystyle.javabean.JavaBeanPropertyStyle;
+import org.w3c.dom.Element;
 
 /**
  * @author Richard Kennard
@@ -52,11 +56,9 @@ public class BasePropertyStyleTest
 		config1.setExcludeBaseType( Pattern.compile( "bar" ) );
 		assertTrue( "bar".equals( config1.getExcludeBaseType().pattern() ));
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setExcludeBaseType( Pattern.compile( "bar" ) );
-		assertTrue( config1.equals( config2 ) );
-		assertTrue( config1.hashCode() == config2.hashCode() );
+		assertTrue( !config1.equals( config2 ) );
 
 		// mNullExcludeBaseType
 
@@ -65,7 +67,6 @@ public class BasePropertyStyleTest
 		config1.setExcludeBaseType( null );
 		assertTrue( null == config1.getExcludeBaseType() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setExcludeBaseType( null );
 		assertTrue( config1.equals( config2 ) );
@@ -73,5 +74,25 @@ public class BasePropertyStyleTest
 
 		config1.setExcludeBaseType( Pattern.compile( "baz" ) );
 		assertTrue( "baz".equals( config1.getExcludeBaseType().pattern() ));
+	}
+
+	public void testExcludedBaseType()
+	{
+		// Default excludeBaseType
+
+		BasePropertyStyle propertyStyle = new JavaBeanPropertyStyle();
+		assertTrue( true == propertyStyle.isExcludedBaseType( Date.class ));
+		assertTrue( true == propertyStyle.isExcludedBaseType( JTextField.class ));
+		assertTrue( false == propertyStyle.isExcludedBaseType( Element.class ));
+
+		// Null excludeBaseType
+
+		BasePropertyStyleConfig config = new BasePropertyStyleConfig();
+		config.setExcludeBaseType( null );
+		propertyStyle = new JavaBeanPropertyStyle( config );
+
+		assertTrue( false == propertyStyle.isExcludedBaseType( Date.class ));
+		assertTrue( false == propertyStyle.isExcludedBaseType( JTextField.class ));
+		assertTrue( false == propertyStyle.isExcludedBaseType( Element.class ));
 	}
 }

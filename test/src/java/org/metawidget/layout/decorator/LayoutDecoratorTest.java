@@ -53,7 +53,6 @@ public class LayoutDecoratorTest
 		config1.setLayout( delegate );
 		assertTrue( delegate == config1.getLayout() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setLayout( delegate );
 		assertTrue( config1.equals( config2 ) );

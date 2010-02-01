@@ -197,7 +197,6 @@ public class HibernateInspectorTest
 		config1.setHideIds( false );
 		assertTrue( !config1.isHideIds() );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setHideIds( false );
 		assertTrue( config1.equals( config2 ));

@@ -256,7 +256,6 @@ public class MigLayoutTest
 		config1.setNumberOfColumns( 2 );
 		assertTrue( 2 == config1.getNumberOfColumns() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setNumberOfColumns( 2 );
 		assertTrue( config1.equals( config2 ) );

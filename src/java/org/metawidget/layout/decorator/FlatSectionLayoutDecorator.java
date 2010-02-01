@@ -56,12 +56,11 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 	@Override
 	public void layoutWidget( W widget, String elementName, Map<String, String> attributes, C container, M metawidget )
 	{
-		// If our delegate is itself a LayoutDecorator, strip the section. This handles
-		// putting a NestedSectionLayoutDecorator inside a FlatSectionLayoutDecorator
+		// If our delegate is itself a NestedSectionLayoutDecorator, strip the section
 
 		State state = getState( container, metawidget );
 
-		if ( getDelegate() instanceof LayoutDecorator<?, ?, ?> )
+		if ( getDelegate() instanceof NestedSectionLayoutDecorator<?, ?, ?> )
 		{
 			String section = stripSection( attributes );
 
@@ -73,22 +72,22 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 				return;
 			}
 
-			// End current section
+			// End nested LayoutDecorator's current section
 
-			if ( "".equals( section ))
-			{
-				attributes.put( "section", "" );
-			}
+			if ( state.currentSections != null && !section.equals( state.currentSections[0] ))
+				super.endContainerLayout( container, metawidget );
 
 			// Ignore empty stubs. Do not create a new tab in case it ends up being empty
 
-			else if ( !isEmptyStub( widget ) )
-			{
-				// Add a heading
+			if ( isEmptyStub( widget ) )
+				return;
 
+			state.currentSections = new String[] { section };
+
+			// Add a heading
+
+			if ( !"".equals( section ) )
 				addSectionWidget( section, 0, container, metawidget );
-				state.currentSections = new String[] { section };
-			}
 		}
 		else
 		{

@@ -383,7 +383,6 @@ public class GridBagLayoutTest
 		config1.setNumberOfColumns( 2 );
 		assertTrue( 2 == config1.getNumberOfColumns() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setNumberOfColumns( 2 );
 		assertTrue( config1.equals( config2 ) );
@@ -394,7 +393,6 @@ public class GridBagLayoutTest
 		config1.setLabelAlignment( SwingConstants.RIGHT );
 		assertTrue( SwingConstants.RIGHT == config1.getLabelAlignment() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setLabelAlignment( SwingConstants.RIGHT );
 		assertTrue( config1.equals( config2 ) );
@@ -406,7 +404,6 @@ public class GridBagLayoutTest
 		config1.setLabelFont( font );
 		assertTrue( font == config1.getLabelFont() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setLabelFont( font );
 		assertTrue( config1.equals( config2 ) );
@@ -417,7 +414,6 @@ public class GridBagLayoutTest
 		config1.setLabelForeground( Color.blue );
 		assertTrue( Color.blue == config1.getLabelForeground() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setLabelForeground( Color.blue );
 		assertTrue( config1.equals( config2 ) );
@@ -428,7 +424,6 @@ public class GridBagLayoutTest
 		config1.setLabelSuffix( "#" );
 		assertTrue( "#".equals( config1.getLabelSuffix() ) );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setLabelSuffix( "#" );
 		assertTrue( config1.equals( config2 ) );
@@ -439,7 +434,6 @@ public class GridBagLayoutTest
 		config1.setRequiredAlignment( SwingConstants.RIGHT );
 		assertTrue( SwingConstants.RIGHT == config1.getRequiredAlignment() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setRequiredAlignment( SwingConstants.RIGHT );
 		assertTrue( config1.equals( config2 ) );
@@ -450,7 +444,6 @@ public class GridBagLayoutTest
 		config1.setRequiredText( "!" );
 		assertTrue( "!".equals( config1.getRequiredText() ) );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setRequiredText( "!" );
 		assertTrue( config1.equals( config2 ) );

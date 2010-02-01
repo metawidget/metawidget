@@ -73,7 +73,6 @@ public class BaseObjectInspectorTest
 		config1.setPropertyStyle( null );
 		assertTrue( null == config1.getPropertyStyle() );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config1.setPropertyStyle( new GroovyPropertyStyle() );
 		assertTrue( config1.getPropertyStyle() instanceof GroovyPropertyStyle );
@@ -85,7 +84,6 @@ public class BaseObjectInspectorTest
 		config1.setActionStyle( null );
 		assertTrue( null == config1.getActionStyle() );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config1.setActionStyle( new SwingAppFrameworkActionStyle() );
 		assertTrue( config1.getActionStyle() instanceof SwingAppFrameworkActionStyle );
@@ -96,7 +94,6 @@ public class BaseObjectInspectorTest
 		config2 = new BaseObjectInspectorConfig();
 		config1.setPropertyStyle( new GroovyPropertyStyle() );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		// Test mActionStyle equals
 
@@ -104,7 +101,6 @@ public class BaseObjectInspectorTest
 		config2 = new BaseObjectInspectorConfig();
 		config1.setActionStyle( new SwingAppFrameworkActionStyle() );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 	}
 
 	/**

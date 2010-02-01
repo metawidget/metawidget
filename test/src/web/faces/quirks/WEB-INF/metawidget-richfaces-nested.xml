@@ -20,6 +20,7 @@
 			<compositeWidgetBuilder xmlns="java:org.metawidget.widgetbuilder.composite" config="CompositeWidgetBuilderConfig">
 				<widgetBuilders>
 					<array>
+						<overriddenWidgetBuilder xmlns="java:org.metawidget.faces.component.widgetbuilder"/>
 						<richFacesWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder.richfaces"/>
 						<htmlWidgetBuilder xmlns="java:org.metawidget.faces.component.html.widgetbuilder" config="HtmlWidgetBuilderConfig">
 							<dataTableStyleClass>

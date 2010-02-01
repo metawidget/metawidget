@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import javax.swing.JComponent;
 import javax.swing.SwingConstants;
@@ -771,10 +772,14 @@ public class ConfigReaderTest
 		startXml += "<propertyStyle><javaBeanPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.javabean\"/></propertyStyle>";
 		startXml += "</jspAnnotationInspector>";
 		startXml += "<strutsAnnotationInspector xmlns=\"java:org.metawidget.inspector.struts\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
-		startXml += "<propertyStyle><groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\"/></propertyStyle>";
+		startXml += "<propertyStyle>";
+		startXml += "<groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\" config=\"org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig\"><excludeBaseType><pattern>foo</pattern></excludeBaseType></groovyPropertyStyle>";
+		startXml += "</propertyStyle>";
 		startXml += "</strutsAnnotationInspector>";
 		startXml += "<springAnnotationInspector xmlns=\"java:org.metawidget.inspector.spring\" config=\"org.metawidget.inspector.impl.BaseObjectInspectorConfig\">";
-		startXml += "<propertyStyle><groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\"/></propertyStyle>";
+		startXml += "<propertyStyle>";
+		startXml += "<groovyPropertyStyle xmlns=\"java:org.metawidget.inspector.impl.propertystyle.groovy\" config=\"org.metawidget.inspector.impl.propertystyle.BasePropertyStyleConfig\"><excludeBaseType><pattern>foo</pattern></excludeBaseType></groovyPropertyStyle>";
+		startXml += "</propertyStyle>";
 		startXml += "</springAnnotationInspector>";
 		String endXml = "</array>";
 		endXml += "</inspectors>";
@@ -887,9 +892,8 @@ public class ConfigReaderTest
 		assertTrue( inspectors1[0] == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 
 		immutableByConfigCache = immutableByClassCache.get( GroovyPropertyStyle.class );
-		assertTrue( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 		assertTrue( 1 == immutableByConfigCache.size() );
-		assertTrue( propertyStyleField.get( inspectors1[3] ) == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
+		assertTrue( propertyStyleField.get( inspectors1[3] ) == immutableByConfigCache.values().iterator().next() );
 
 		immutableByConfigCache = immutableByClassCache.get( JavaBeanPropertyStyle.class );
 		assertTrue( immutableByConfigCache.containsKey( ConfigReader.IMMUTABLE_NO_CONFIG ) );
@@ -897,6 +901,15 @@ public class ConfigReaderTest
 		assertTrue( propertyStyleField.get( inspectors1[2] ) == immutableByConfigCache.get( ConfigReader.IMMUTABLE_NO_CONFIG ) );
 
 		assertTrue( 9 == immutableByClassCache.size() );
+	}
+
+	public void testPatternCache()
+		throws Exception
+	{
+		assertTrue( !Pattern.compile( "foo" ).equals( Pattern.compile( "foo" )));
+
+		ConfigReader configReader = new ConfigReader();
+		assertTrue( configReader.createNative( "pattern", null, "foo" ).equals( configReader.createNative( "pattern", null, "foo" ) ));
 	}
 
 	public void testUppercase()

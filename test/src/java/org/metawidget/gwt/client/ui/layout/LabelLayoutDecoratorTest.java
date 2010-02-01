@@ -50,7 +50,6 @@ public class LabelLayoutDecoratorTest
 		config1.setStyleName( "section-style-name" );
 		assertTrue( "section-style-name".equals( config1.getStyleName() ) );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setStyleName( "section-style-name" );
 		assertTrue( config1.equals( config2 ) );
@@ -65,7 +64,6 @@ public class LabelLayoutDecoratorTest
 		config1.setLayout( delegate );
 		assertTrue( delegate == config1.getLayout() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setLayout( delegate );
 		assertTrue( config1.equals( config2 ) );

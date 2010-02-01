@@ -242,7 +242,6 @@ public class BeansBindingProcessorTest
 		config1.setUpdateStrategy( UpdateStrategy.READ_WRITE );
 		assertTrue( UpdateStrategy.READ_WRITE.equals( config1.getUpdateStrategy() ) );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setUpdateStrategy( UpdateStrategy.READ_WRITE );
 		assertTrue( config1.equals( config2 ) );
@@ -269,7 +268,6 @@ public class BeansBindingProcessorTest
 		assertTrue( null == config1.getConverters() );
 		config1.setConverter( Date.class, String.class, converter );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 		config2.setConverter( Date.class, String.class, converter );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );

@@ -123,6 +123,14 @@ public class ConfigReader
 
 	/* package private */Map<Class<?>, Map<Object, Object>>	mImmutableByClassCache		= CollectionUtils.newHashMap();
 
+	/**
+	 * Patterns do not cache well, because <code>java.util.regex.Pattern</code> does not override
+	 * <code>equals</code> or <code>hashCode</code>. Therefore we cache them manually to return the
+	 * same instance.
+	 */
+
+	/* package private */Map<String, Pattern>				mPatternCache				= CollectionUtils.newHashMap();
+
 	//
 	// Constructor
 	//
@@ -446,7 +454,17 @@ public class ConfigReader
 		}
 
 		if ( "pattern".equals( name ) )
-			return Pattern.compile( recordedText );
+		{
+			Pattern pattern = mPatternCache.get( recordedText );
+
+			if ( pattern == null )
+			{
+				pattern = Pattern.compile( recordedText );
+				mPatternCache.put( recordedText, pattern );
+			}
+
+			return pattern;
+		}
 
 		// (use new Integer, not Integer.valueOf, so that we're 1.4 compatible)
 
@@ -457,15 +475,6 @@ public class ConfigReader
 
 		if ( "boolean".equals( name ) )
 			return new Boolean( recordedText );
-
-		if ( "resource".equals( name ) )
-			return openResource( recordedText );
-
-		if ( "url".equals( name ) )
-			return new URL( recordedText ).openStream();
-
-		if ( "file".equals( name ) )
-			return new FileInputStream( recordedText );
 
 		if ( "bundle".equals( name ) )
 			return ResourceBundle.getBundle( recordedText );
@@ -486,6 +495,18 @@ public class ConfigReader
 
 			return namespace.getDeclaredField( recordedText ).get( null );
 		}
+
+		// These native types can never be equal to each other. This will cause a problem if they
+		// are used by, say, a PropertyStyle because that PropertyStyle can never be shared
+
+		if ( "resource".equals( name ) )
+			return openResource( recordedText );
+
+		if ( "url".equals( name ) )
+			return new URL( recordedText ).openStream();
+
+		if ( "file".equals( name ) )
+			return new FileInputStream( recordedText );
 
 		throw MetawidgetException.newException( "Don't know how to convert '" + recordedText + "' to a " + name );
 	}

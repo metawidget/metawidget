@@ -138,11 +138,9 @@ public class CompositeWidgetBuilderTest
 		assertTrue( config1.getWidgetBuilders()[0] instanceof SwingXWidgetBuilder );
 		assertTrue( config1.getWidgetBuilders()[1] instanceof SwingWidgetBuilder );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setWidgetBuilders( new SwingWidgetBuilder(), new SwingXWidgetBuilder() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setWidgetBuilders( widgetBuilders );
 		assertTrue( config1.equals( config2 ) );

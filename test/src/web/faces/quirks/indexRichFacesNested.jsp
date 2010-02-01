@@ -12,7 +12,11 @@
 			<h1>RichFaces Nested Quirks</h1>
 
 			<h:form>
-				<m:metawidget value="#{richQuirks}" config="metawidget-richfaces-nested.xml"/>
+				<m:metawidget value="#{richQuirks}" config="metawidget-richfaces-nested.xml">
+					<m:stub value="#{richQuirks.abc}" attributes="section: 'Not foo'">
+						<h:inputText value="#{richQuirks.abc}"/>
+					</m:stub>				
+				</m:metawidget>
 			</h:form>
 
 		</f:view>

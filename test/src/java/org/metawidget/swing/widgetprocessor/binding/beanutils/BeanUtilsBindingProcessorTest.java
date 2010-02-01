@@ -132,7 +132,6 @@ public class BeanUtilsBindingProcessorTest
 		config1.setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA );
 		assertTrue( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA == config1.getPropertyStyle() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setPropertyStyle( BeanUtilsBindingProcessorConfig.PROPERTYSTYLE_SCALA );
 		assertTrue( config1.equals( config2 ) );

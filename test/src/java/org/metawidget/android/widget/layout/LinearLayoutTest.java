@@ -85,7 +85,6 @@ public class LinearLayoutTest
 		config1.setLabelStyle( 100 );
 		assertTrue( 100 == config1.getLabelStyle() );
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setLabelStyle( 100 );
 		assertTrue( config1.equals( config2 ) );

@@ -112,6 +112,8 @@ public abstract class NestedSectionLayoutDecorator<W, C extends W, M extends C>
 			super.endContainerLayout( state.currentSectionWidget, metawidget );
 
 		super.endContainerLayout( container, metawidget );
+		state.currentSection = null;
+		state.currentSectionWidget = null;
 	}
 
 	//

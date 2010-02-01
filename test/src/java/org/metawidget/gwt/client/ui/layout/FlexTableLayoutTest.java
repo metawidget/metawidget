@@ -52,7 +52,6 @@ public class FlexTableLayoutTest
 		config1.setNumberOfColumns( 2 );
 		assertTrue( 2 == config1.getNumberOfColumns() );
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setNumberOfColumns( 2 );
 		assertTrue( config1.equals( config2 ));
@@ -63,7 +62,6 @@ public class FlexTableLayoutTest
 		config1.setTableStyleName( "table-style-name" );
 		assertTrue( "table-style-name".equals( config1.getTableStyleName() ));
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setTableStyleName( "table-style-name" );
 		assertTrue( config1.equals( config2 ));
@@ -75,7 +73,6 @@ public class FlexTableLayoutTest
 		assertTrue( "column-style-name1".equals( config1.getColumnStyleNames()[0] ));
 		assertTrue( "column-style-name2".equals( config1.getColumnStyleNames()[1] ));
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setColumnStyleNames( "column-style-name1", "column-style-name2" );
 		assertTrue( config1.equals( config2 ));
@@ -86,7 +83,6 @@ public class FlexTableLayoutTest
 		config1.setFooterStyleName( "footer-style-name" );
 		assertTrue( "footer-style-name".equals( config1.getFooterStyleName() ));
 		assertTrue( !config1.equals( config2 ));
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setFooterStyleName( "footer-style-name" );
 		assertTrue( config1.equals( config2 ));

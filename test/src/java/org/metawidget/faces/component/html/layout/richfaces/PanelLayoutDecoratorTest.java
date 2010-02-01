@@ -47,7 +47,6 @@ public class PanelLayoutDecoratorTest
 		config1.setStyle( "aStyle" );
 		assertTrue( "aStyle".equals( config1.getStyle() ));
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setStyle( "aStyle" );
 		assertTrue( config1.equals( config2 ) );
@@ -58,7 +57,6 @@ public class PanelLayoutDecoratorTest
 		config1.setStyleClass( "aStyleClass" );
 		assertTrue( "aStyleClass".equals( config1.getStyleClass() ));
 		assertTrue( !config1.equals( config2 ) );
-		assertTrue( config1.hashCode() != config2.hashCode() );
 
 		config2.setStyleClass( "aStyleClass" );
 		assertTrue( config1.equals( config2 ) );
