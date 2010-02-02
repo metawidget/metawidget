@@ -308,6 +308,20 @@
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/input/@value" text="Bad Integer"/>				
 				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/input/@style" text="background-color: red"/>				
 				
+				<!-- Test validation error without inline messages -->
+
+				<invoke url="${webtest.url}/quirks-faces/indexRichFacesNoInlineMessages.jsf" />
+				
+				<verifyXPath xpath="normalize-space(/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/th)" text="Integer:"/>
+				<setInputField xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/input" value="Bad Integer"/>
+				<clickButton label="Save"/>				
+
+				<verifyXPath xpath="normalize-space(/html/body/ul/li)" text="Integer: 'Bad Integer' must be a number consisting of one or more digits."/>
+				<not>
+					<verifyText text="must be a number between"/>
+				</not>
+				<verifyXPath xpath="/html/body/form/table/tbody/tr[3]/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr[2]/td/table/tbody/tr/td/table/tbody/tr[2]/td/input/@value" text="Bad Integer"/>				
+
 			</steps>
 		</webtest>
 

@@ -29,8 +29,6 @@ import javax.faces.context.FacesContext;
 import javax.faces.el.MethodBinding;
 import javax.faces.el.ValueBinding;
 
-import org.metawidget.util.ArrayUtils;
-
 /**
  * Utilities for working with Java Server Faces.
  *
@@ -193,7 +191,7 @@ public final class FacesUtils
 		component.encodeEnd( context );
 	}
 
-	public static void copyParameters( UIComponent from, UIComponent to, String... exclude )
+	public static void copyParameters( UIComponent from, UIComponent to )
 	{
 		FacesContext context = FacesContext.getCurrentInstance();
 		Application application = context.getApplication();
@@ -206,21 +204,13 @@ public final class FacesUtils
 			if ( !( component instanceof UIParameter ) )
 				continue;
 
-			// ...that is not excluded...
-
-			UIParameter parameter = (UIParameter) component;
-
-			String name = parameter.getName();
-
-			if ( ArrayUtils.contains( exclude, name ) )
-				continue;
-
 			// ...create a copy
 
 			UIParameter parameterCopy = (UIParameter) application.createComponent( "javax.faces.Parameter" );
 			parameterCopy.setId( viewRoot.createUniqueId() );
 
-			parameterCopy.setName( name );
+			UIParameter parameter = (UIParameter) component;
+			parameterCopy.setName( parameter.getName() );
 			parameterCopy.setValue( parameter.getValue() );
 
 			to.getChildren().add( parameterCopy );

@@ -25,6 +25,7 @@ import javax.faces.component.UIComponent;
 import javax.faces.component.UIViewRoot;
 import javax.faces.context.FacesContext;
 
+import org.metawidget.faces.FacesUtils;
 import org.metawidget.faces.component.UIMetawidget;
 import org.metawidget.faces.component.layout.UIComponentNestedSectionLayoutDecorator;
 import org.metawidget.util.CollectionUtils;
@@ -95,13 +96,12 @@ public class PanelLayoutDecorator
 		getDelegate().layoutWidget( panel, PROPERTY, panelAttributes, container, metawidget );
 
 		// Create nested Metawidget (for layout)
-		// TODO: use buildNestedMetawidget
 
-
-		UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( "org.metawidget.HtmlMetawidget" );
+		UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( metawidget.getComponentType() );
 		nestedMetawidget.setRendererType( metawidget.getRendererType() );
 		nestedMetawidget.setId( viewRoot.createUniqueId() );
 		nestedMetawidget.setLayout( metawidget.getLayout() );
+		FacesUtils.copyParameters( metawidget, nestedMetawidget );
 		panel.getChildren().add( nestedMetawidget );
 
 		return nestedMetawidget;

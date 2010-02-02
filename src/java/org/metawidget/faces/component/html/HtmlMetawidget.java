@@ -18,7 +18,6 @@ package org.metawidget.faces.component.html;
 
 import java.util.Map;
 
-import javax.faces.application.Application;
 import javax.faces.context.FacesContext;
 
 import org.metawidget.faces.component.UIMetawidget;
@@ -65,6 +64,12 @@ public class HtmlMetawidget
 	}
 
 	@Override
+	public String getComponentType()
+	{
+		return "org.metawidget.HtmlMetawidget";
+	}
+
+	@Override
 	public Object saveState( FacesContext context )
 	{
 		Object values[] = new Object[3];
@@ -96,36 +101,20 @@ public class HtmlMetawidget
 	}
 
 	/**
-	 * Create a sub-Metawidget.
-	 * <p>
-	 * Usually, clients will want to create a sub-Metawidget using the same subclass as themselves.
-	 * To be 'proper' in JSF, though, we should go via <code>application.createComponent</code>.
-	 * Unfortunately a UIComponent does not know its own component name, so subclasses must override
-	 * this method.
-	 */
-
-	@Override
-	protected HtmlMetawidget buildNestedMetawidget( Map<String, String> attributes )
-	{
-		Application application = getFacesContext().getApplication();
-		return (HtmlMetawidget) application.createComponent( "org.metawidget.HtmlMetawidget" );
-	}
-
-	/**
 	 * Overriden to carry style attributes into the nested Metawidget.
 	 */
 
 	@Override
-	protected void initNestedMetawidget( UIMetawidget metawidget, Map<String, String> attributes )
+	protected UIMetawidget buildNestedMetawidget( String componentType, Map<String, String> attributes )
 		throws Exception
 	{
-		super.initNestedMetawidget( metawidget, attributes );
+		HtmlMetawidget htmlMetawidget = (HtmlMetawidget) super.buildNestedMetawidget( componentType, attributes );
 
 		// Attributes
 
-		HtmlMetawidget htmlMetawidget = (HtmlMetawidget) metawidget;
-
 		htmlMetawidget.setStyle( mStyle );
 		htmlMetawidget.setStyleClass( mStyleClass );
+
+		return htmlMetawidget;
 	}
 }

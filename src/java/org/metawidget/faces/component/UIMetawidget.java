@@ -534,6 +534,19 @@ public abstract class UIMetawidget
 		return mPipeline.inspect( toInspect, type, names );
 	}
 
+	/**
+	 * Get the component type used to create this Metawidget.
+	 * <p>
+	 * Usually, clients will want to create a nested-Metawidget using the same subclass as
+	 * themselves. To be 'proper' in JSF, though, we should go via
+	 * <code>application.createComponent</code>. Unfortunately by default a UIComponent does not
+	 * know its own component type, so subclasses must override this method.
+	 * <p>
+	 * This method is public for use by NestedLayoutDecorators.
+	 */
+
+	public abstract String getComponentType();
+
 	@Override
 	public Object saveState( FacesContext context )
 	{
@@ -608,12 +621,15 @@ public abstract class UIMetawidget
 		mPipeline.buildWidgets( null );
 	}
 
-	protected abstract UIMetawidget buildNestedMetawidget( Map<String, String> attributes );
-
-	protected void initNestedMetawidget( UIMetawidget nestedMetawidget, Map<String, String> attributes )
+	protected UIMetawidget buildNestedMetawidget( String componentType, Map<String, String> attributes )
 		throws Exception
 	{
-		// Don't reconfigure...
+		// Create the nested Metawidget...
+
+		FacesContext context = FacesContext.getCurrentInstance();
+		UIMetawidget nestedMetawidget = (UIMetawidget) context.getApplication().createComponent( componentType );
+
+		// ...but don't reconfigure it...
 
 		nestedMetawidget.setConfig( null );
 
@@ -644,7 +660,7 @@ public abstract class UIMetawidget
 
 		// Parameters
 
-		FacesUtils.copyParameters( this, nestedMetawidget, "columns" );
+		FacesUtils.copyParameters( this, nestedMetawidget );
 
 		// Note: it is very dangerous to do, say...
 		//
@@ -654,6 +670,8 @@ public abstract class UIMetawidget
 		// the attributes map as a storage area for special flags (eg.
 		// ComponentSupport.MARK_CREATED) that should not get copied down from component to
 		// component!
+
+		return nestedMetawidget;
 	}
 
 	/**
@@ -919,10 +937,7 @@ public abstract class UIMetawidget
 		protected UIMetawidget buildNestedMetawidget( Map<String, String> attributes )
 			throws Exception
 		{
-			UIMetawidget nestedMetawidget = UIMetawidget.this.buildNestedMetawidget( attributes );
-			UIMetawidget.this.initNestedMetawidget( nestedMetawidget, attributes );
-
-			return nestedMetawidget;
+			return UIMetawidget.this.buildNestedMetawidget( UIMetawidget.this.getComponentType(), attributes );
 		}
 
 		@Override

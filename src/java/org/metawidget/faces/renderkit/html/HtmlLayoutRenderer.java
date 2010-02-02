@@ -74,7 +74,6 @@ public abstract class HtmlLayoutRenderer
 			state.labelSuffix = (String) parameterLabelSuffix.getValue();
 
 		// Using inline messages?
-		// TODO: unit test inline messages=false
 
 		UIParameter inlineMessagesParameter = FacesUtils.findParameterWithName( metawidget, "inlineMessages" );
 

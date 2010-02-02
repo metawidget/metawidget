@@ -1084,6 +1084,17 @@ public class ConfigReader
 									putImmutableByClass( configuredObject, object );
 								}
 							}
+							else if ( isImmutable( classToConstruct ) )
+							{
+								// Unpause caching (if any)
+
+								if ( mCachingContentHandler != null && mDepth < mIgnoreImmutableAfterDepth )
+								{
+									mCachingContentHandler.unpause( true );
+									mIgnoreImmutableAfterDepth = -1;
+									putImmutableByLocation( configuredObject );
+								}
+							}
 
 							// Use the configured object (not its config) as the 'object' from now
 							// on
