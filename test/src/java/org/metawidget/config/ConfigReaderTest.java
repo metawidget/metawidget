@@ -55,6 +55,7 @@ import org.metawidget.inspector.spring.SpringAnnotationInspector;
 import org.metawidget.inspector.struts.StrutsAnnotationInspector;
 import org.metawidget.inspector.struts.StrutsInspector;
 import org.metawidget.inspector.xml.XmlInspector;
+import org.metawidget.jsp.tagext.html.BaseHtmlMetawidgetTag;
 import org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag;
 import org.metawidget.layout.iface.Layout;
 import org.metawidget.pipeline.base.BasePipeline;
@@ -756,6 +757,18 @@ public class ConfigReaderTest
 		assertTrue( 4 == configReader.mResourceCache.size() );
 	}
 
+	public void testLogging()
+	{
+		ConfigReader configReader = new ConfigReader();
+		configReader.configure( "org/metawidget/config/metawidget-test-logging.xml", BaseHtmlMetawidgetTag.class, "widgetBuilder" );
+		configReader.configure( "org/metawidget/config/metawidget-test-logging.xml", SpringMetawidgetTag.class, "widgetBuilder" );
+
+		// Test it doesn't log 'Instantiated immutable class
+		// org.metawidget.widgetbuilder.composite.CompositeWidgetBuilder' a second time
+
+		assertTrue( "Reading resource from org/metawidget/config/metawidget-test-logging.xml/org.metawidget.jsp.tagext.html.spring.SpringMetawidgetTag/widgetBuilder".equals( LogUtilsTest.getLastDebugMessage() ) );
+	}
+
 	public void testImmutable()
 		throws Exception
 	{
@@ -906,10 +919,10 @@ public class ConfigReaderTest
 	public void testPatternCache()
 		throws Exception
 	{
-		assertTrue( !Pattern.compile( "foo" ).equals( Pattern.compile( "foo" )));
+		assertTrue( !Pattern.compile( "foo" ).equals( Pattern.compile( "foo" ) ) );
 
 		ConfigReader configReader = new ConfigReader();
-		assertTrue( configReader.createNative( "pattern", null, "foo" ).equals( configReader.createNative( "pattern", null, "foo" ) ));
+		assertTrue( configReader.createNative( "pattern", null, "foo" ).equals( configReader.createNative( "pattern", null, "foo" ) ) );
 	}
 
 	public void testUppercase()
@@ -1167,7 +1180,7 @@ public class ConfigReaderTest
 	// Inner class
 	//
 
-	class ValidatingConfigReader
+	static class ValidatingConfigReader
 		extends ConfigReader
 	{
 		//

@@ -115,6 +115,8 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) )
 					continue;
 
+				// TODO: Both isEmptyStub not hit?
+
 				if ( isEmptyStub( widget ) )
 					continue;
 

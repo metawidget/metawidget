@@ -225,7 +225,7 @@ public class ConfigReader
 
 			else
 			{
-				LOG.debug( "Reading resource from " + resource + ArrayUtils.toString( names, StringUtils.SEPARATOR_FORWARD_SLASH, true, false ) );
+				LOG.debug( "Reading resource from " + locationKey );
 				cachingContentHandler = new CachingContentHandler( configHandler );
 				configHandler.setCachingContentHandler( cachingContentHandler );
 				mFactory.newSAXParser().parse( openResource( resource ), cachingContentHandler );
@@ -1075,14 +1075,14 @@ public class ConfigReader
 
 									throw MetawidgetException.newException( classToConstruct + " does not have a constructor that takes a " + object.getClass() + ", as specified by your config attribute" );
 								}
-							}
 
-							// Immutable? Cache it going forward
+								// Immutable? Cache it going forward
 
-							if ( isImmutable( classToConstruct ) )
-							{
-								LOG.debug( "\tInstantiated immutable " + classToConstruct + " (config hashCode " + object.hashCode() + ")" );
-								putImmutableByClass( configuredObject, object );
+								if ( isImmutable( classToConstruct ) )
+								{
+									LOG.debug( "\tInstantiated immutable " + classToConstruct + " (config hashCode " + object.hashCode() + ")" );
+									putImmutableByClass( configuredObject, object );
+								}
 							}
 
 							// Use the configured object (not its config) as the 'object' from now

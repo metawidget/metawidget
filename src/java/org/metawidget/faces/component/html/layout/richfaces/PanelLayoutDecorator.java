@@ -95,6 +95,8 @@ public class PanelLayoutDecorator
 		getDelegate().layoutWidget( panel, PROPERTY, panelAttributes, container, metawidget );
 
 		// Create nested Metawidget (for layout)
+		// TODO: use buildNestedMetawidget
+
 
 		UIMetawidget nestedMetawidget = (UIMetawidget) application.createComponent( "org.metawidget.HtmlMetawidget" );
 		nestedMetawidget.setRendererType( metawidget.getRendererType() );

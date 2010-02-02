@@ -37,6 +37,8 @@ public final class ObjectUtils
 		if ( toHash == null )
 			return 0;
 
+		// Array.hashCode is broken by default
+
 		if ( toHash.getClass().isArray() )
 			return deepHashCode( (Object[]) toHash );
 
