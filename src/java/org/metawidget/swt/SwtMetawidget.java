@@ -35,6 +35,7 @@ import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
@@ -364,8 +365,8 @@ public class SwtMetawidget
 	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( String... names )
 	{
-		Object[] componentAndValueProperty = getControlAndValueProperty( names );
-		return (T) ClassUtils.getProperty( (Composite) componentAndValueProperty[0], (String) componentAndValueProperty[1] );
+		Pair<Control,String> controlAndValueProperty = getControlAndValueProperty( names );
+		return (T) ClassUtils.getProperty( controlAndValueProperty.getLeft(), controlAndValueProperty.getRight() );
 	}
 
 	/**
@@ -378,20 +379,20 @@ public class SwtMetawidget
 
 	public void setValue( Object value, String... names )
 	{
-		Object[] componentAndValueProperty = getControlAndValueProperty( names );
-		ClassUtils.setProperty( (Composite) componentAndValueProperty[0], (String) componentAndValueProperty[1], value );
+		Pair<Control,String> controlAndValueProperty = getControlAndValueProperty( names );
+		ClassUtils.setProperty( controlAndValueProperty.getLeft(), controlAndValueProperty.getRight(), value );
 	}
 
 	/**
-	 * Returns the property used to get/set the value of the component.
+	 * Returns the property used to get/set the value of the control.
 	 * <p>
-	 * If the component is not known, returns <code>null</code>. Does not throw an Exception, as we
+	 * If the control is not known, returns <code>null</code>. Does not throw an Exception, as we
 	 * want to fail gracefully if, say, someone tries to bind to a JPanel.
 	 */
 
-	public String getValueProperty( Control component )
+	public String getValueProperty( Control control )
 	{
-		return getValueProperty( component, mPipeline.getWidgetBuilder() );
+		return getValueProperty( control, mPipeline.getWidgetBuilder() );
 	}
 
 	/**
@@ -417,7 +418,7 @@ public class SwtMetawidget
 			if ( topControl instanceof SwtMetawidget )
 				( (SwtMetawidget) topControl ).buildWidgets();
 
-			// Try to find a component...
+			// Try to find a control...
 
 			Control[] children = ( (Composite) topControl ).getChildren();
 			topControl = null;
@@ -437,7 +438,7 @@ public class SwtMetawidget
 				return (T) topControl;
 
 			if ( topControl == null )
-				throw MetawidgetException.newException( "No such component '" + name + "' of '" + ArrayUtils.toString( names, "', '" ) + "'" );
+				throw MetawidgetException.newException( "No such control '" + name + "' of '" + ArrayUtils.toString( names, "', '" ) + "'" );
 		}
 
 		return (T) topControl;
@@ -571,21 +572,17 @@ public class SwtMetawidget
 		}
 	}
 
-	protected void addWidget( Control component, String elementName, Map<String, String> attributes )
+	protected void addWidget( Control control, String elementName, Map<String, String> attributes )
 	{
 		// Set the name of the component.
-		//
-		// If this is a JScrollPane, set the name of the top-level JScrollPane. Don't do this before
-		// now, as we don't want binding/validation implementations accidentally relying on the
-		// name being set (which it won't be for actualControl)
 
-		component.setData( NAME, attributes.get( NAME ) );
+		control.setData( NAME, attributes.get( NAME ) );
 
 		// Re-order the component
 
-		component.moveBelow( null );
+		control.moveBelow( null );
 
-		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( component );
+		Map<String, String> additionalAttributes = mPipeline.getAdditionalAttributes( control );
 
 		if ( additionalAttributes != null )
 			attributes.putAll( additionalAttributes );
@@ -616,19 +613,19 @@ public class SwtMetawidget
 	// Private methods
 	//
 
-	private Object[] getControlAndValueProperty( String... names )
+	private Pair<Control,String> getControlAndValueProperty( String... names )
 	{
-		Control component = getControl( names );
+		Control control = getControl( names );
 
-		if ( component == null )
-			throw MetawidgetException.newException( "No component named '" + ArrayUtils.toString( names, "', '" ) + "'" );
+		if ( control == null )
+			throw MetawidgetException.newException( "No control named '" + ArrayUtils.toString( names, "', '" ) + "'" );
 
-		String componentProperty = getValueProperty( component );
+		String controlProperty = getValueProperty( control );
 
-		if ( componentProperty == null )
-			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
+		if ( controlProperty == null )
+			throw MetawidgetException.newException( "Don't know how to getValue from a " + control.getClass().getName() );
 
-		return new Object[] { component, componentProperty };
+		return new Pair<Control,String>( control, controlProperty );
 	}
 
 	private String getValueProperty( Control control, WidgetBuilder<Control, SwtMetawidget> widgetBuilder )
@@ -675,17 +672,17 @@ public class SwtMetawidget
 		//
 
 		@Override
-		protected void addWidget( Control component, String elementName, Map<String, String> attributes )
+		protected void addWidget( Control control, String elementName, Map<String, String> attributes )
 		{
-			SwtMetawidget.this.addWidget( component, elementName, attributes );
-			super.addWidget( component, elementName, attributes );
+			SwtMetawidget.this.addWidget( control, elementName, attributes );
+			super.addWidget( control, elementName, attributes );
 		}
 
 		@Override
-		protected Map<String, String> getAdditionalAttributes( Control component )
+		protected Map<String, String> getAdditionalAttributes( Control control )
 		{
-			if ( component instanceof Stub )
-				return ( (Stub) component ).getAttributes();
+			if ( control instanceof Stub )
+				return ( (Stub) control ).getAttributes();
 
 			return null;
 		}

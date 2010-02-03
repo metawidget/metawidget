@@ -44,6 +44,7 @@ import org.metawidget.pipeline.w3c.W3CPipeline;
 import org.metawidget.util.ArrayUtils;
 import org.metawidget.util.ClassUtils;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.Pair;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
@@ -510,8 +511,8 @@ public class SwingMetawidget
 	@SuppressWarnings( "unchecked" )
 	public <T> T getValue( String... names )
 	{
-		Object[] componentAndValueProperty = getComponentAndValueProperty( names );
-		return (T) ClassUtils.getProperty( (JComponent) componentAndValueProperty[0], (String) componentAndValueProperty[1] );
+		Pair<Component,String> componentAndValueProperty = getComponentAndValueProperty( names );
+		return (T) ClassUtils.getProperty( componentAndValueProperty.getLeft(), componentAndValueProperty.getRight() );
 	}
 
 	/**
@@ -524,8 +525,8 @@ public class SwingMetawidget
 
 	public void setValue( Object value, String... names )
 	{
-		Object[] componentAndValueProperty = getComponentAndValueProperty( names );
-		ClassUtils.setProperty( (JComponent) componentAndValueProperty[0], (String) componentAndValueProperty[1], value );
+		Pair<Component,String> componentAndValueProperty = getComponentAndValueProperty( names );
+		ClassUtils.setProperty( componentAndValueProperty.getLeft(), componentAndValueProperty.getRight(), value );
 	}
 
 	/**
@@ -959,7 +960,7 @@ public class SwingMetawidget
 	// Private methods
 	//
 
-	private Object[] getComponentAndValueProperty( String... names )
+	private Pair<Component,String> getComponentAndValueProperty( String... names )
 	{
 		Component component = getComponent( names );
 
@@ -976,7 +977,7 @@ public class SwingMetawidget
 		if ( componentProperty == null )
 			throw MetawidgetException.newException( "Don't know how to getValue from a " + component.getClass().getName() );
 
-		return new Object[] { component, componentProperty };
+		return new Pair<Component,String>( component, componentProperty );
 	}
 
 	private String getValueProperty( Component component, WidgetBuilder<JComponent, SwingMetawidget> widgetBuilder )

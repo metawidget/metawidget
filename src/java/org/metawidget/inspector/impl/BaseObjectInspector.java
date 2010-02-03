@@ -34,6 +34,7 @@ import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.LogUtils;
 import org.metawidget.util.XmlUtils;
 import org.metawidget.util.LogUtils.Log;
+import org.metawidget.util.simple.Pair;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -123,9 +124,9 @@ public abstract class BaseObjectInspector
 			{
 				// ...inspect its property for useful annotations...
 
-				Object[] tuple = traverse( toInspect, type, true, names );
+				Pair<Object, Class<?>> pair = traverse( toInspect, type, true, names );
 
-				if ( tuple == null )
+				if ( pair == null )
 					return null;
 
 				childName = names[names.length - 1];
@@ -133,7 +134,7 @@ public abstract class BaseObjectInspector
 				// Use the actual, runtime class (tuple[0].getClass()) not the declared class
 				// (tuple[1]), in case the declared class is an interface or subclass
 
-				Class<?> parentType = tuple[0].getClass();
+				Class<?> parentType = pair.getLeft().getClass();
 
 				Property propertyInParent = mPropertyStyle.getProperties( parentType ).get( childName );
 
@@ -158,7 +159,7 @@ public abstract class BaseObjectInspector
 							parentAttributes.putAll( parentPropertyAttributes );
 					}
 
-					childToInspect = propertyInParent.read( tuple[0] );
+					childToInspect = propertyInParent.read( pair.getLeft() );
 				}
 			}
 
@@ -166,13 +167,13 @@ public abstract class BaseObjectInspector
 
 			else
 			{
-				Object[] tuple = traverse( toInspect, type, false );
+				Pair<Object, Class<?>> pair = traverse( toInspect, type, false );
 
-				if ( tuple == null )
+				if ( pair == null )
 					return null;
 
-				childToInspect = tuple[0];
-				declaredChildType = (Class<?>) tuple[1];
+				childToInspect = pair.getLeft();
+				declaredChildType = pair.getRight();
 			}
 
 			Document document = XmlUtils.newDocumentBuilder().newDocument();
@@ -494,7 +495,7 @@ public abstract class BaseObjectInspector
 	 *         returns null.
 	 */
 
-	private Object[] traverse( Object toTraverse, String type, boolean onlyToParent, String... names )
+	private Pair<Object, Class<?>> traverse( Object toTraverse, String type, boolean onlyToParent, String... names )
 	{
 		// Special support for class lookup
 
@@ -505,7 +506,7 @@ public abstract class BaseObjectInspector
 			if ( clazz == null || onlyToParent )
 				return null;
 
-			return new Object[] { null, clazz };
+			return new Pair<Object, Class<?>>( null, clazz );
 		}
 
 		// Use the toTraverse's ClassLoader, to support Groovy dynamic classes
@@ -563,7 +564,7 @@ public abstract class BaseObjectInspector
 				// want to do the recursion check
 
 				if ( onlyToParent && loop >= length - 1 )
-					return new Object[] { parentTraverse, traverseDeclaredType };
+					return new Pair<Object, Class<?>>( parentTraverse, traverseDeclaredType );
 
 				if ( traverse == null )
 					return null;
@@ -572,6 +573,6 @@ public abstract class BaseObjectInspector
 			}
 		}
 
-		return new Object[] { traverse, traverseDeclaredType };
+		return new Pair<Object, Class<?>>( traverse, traverseDeclaredType );
 	}
 }
