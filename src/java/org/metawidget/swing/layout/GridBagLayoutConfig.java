@@ -175,7 +175,10 @@ public class GridBagLayoutConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof GridBagLayoutConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( mNumberOfColumns != ( (GridBagLayoutConfig) that ).mNumberOfColumns )

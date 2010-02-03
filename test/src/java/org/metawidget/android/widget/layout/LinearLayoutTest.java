@@ -44,7 +44,7 @@ public class LinearLayoutTest
 	public void testLinearLayout()
 	{
 		AndroidMetawidget androidMetawidget = new AndroidMetawidget( null );
-		androidMetawidget.setLayout( new TextViewLayoutDecorator( new TextViewLayoutDecoratorConfig().setLayout( new LinearLayout() )));
+		androidMetawidget.setLayout( new TextViewLayoutDecorator( new TextViewLayoutDecoratorConfig().setLayout( new LinearLayout() ) ) );
 
 		Stub stub = new Stub( null );
 		stub.setTag( "stubMe" );
@@ -56,14 +56,14 @@ public class LinearLayoutTest
 
 		androidMetawidget.setToInspect( new Foo() );
 
-		assertTrue( "Bar: ".equals( ((TextView) androidMetawidget.getChildAt( 0 )).getText() ));
+		assertTrue( "Bar: ".equals( ( (TextView) androidMetawidget.getChildAt( 0 ) ).getText() ) );
 		assertTrue( androidMetawidget.getChildAt( 1 ) instanceof EditText );
-		assertTrue( "Baz: ".equals( ((TextView) androidMetawidget.getChildAt( 2 )).getText() ));
+		assertTrue( "Baz: ".equals( ( (TextView) androidMetawidget.getChildAt( 2 ) ).getText() ) );
 		assertTrue( androidMetawidget.getChildAt( 3 ) instanceof CheckBox );
-		assertTrue( "Foo Section".equals( ((TextView) androidMetawidget.getChildAt( 4 )).getText() ));
+		assertTrue( "Foo Section".equals( ( (TextView) androidMetawidget.getChildAt( 4 ) ).getText() ) );
 
 		android.widget.LinearLayout linearLayout = (android.widget.LinearLayout) androidMetawidget.getChildAt( 5 );
-		assertTrue( "Abc: ".equals( ((TextView) linearLayout.getChildAt( 0 )).getText() ));
+		assertTrue( "Abc: ".equals( ( (TextView) linearLayout.getChildAt( 0 ) ).getText() ) );
 		assertTrue( linearLayout.getChildAt( 1 ) instanceof Spinner );
 		assertTrue( buttonsFacet == androidMetawidget.getChildAt( 6 ) );
 
@@ -76,6 +76,10 @@ public class LinearLayoutTest
 		LinearLayoutConfig config2 = new LinearLayoutConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( !config1.equals( new LinearLayoutConfig()
+		{
+			// Subclass
+		} ) );
 		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
@@ -97,16 +101,16 @@ public class LinearLayoutTest
 
 	public static class Foo
 	{
-		public String bar;
+		public String	bar;
 
 		@UiComesAfter( "bar" )
-		public boolean baz;
+		public boolean	baz;
 
 		@UiComesAfter( "baz" )
 		@UiSection( "Foo Section" )
 		@UiLookup( "one, two, three" )
-		public String abc;
+		public String	abc;
 
-		public String stubMe;
+		public String	stubMe;
 	}
 }

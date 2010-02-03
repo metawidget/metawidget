@@ -55,7 +55,10 @@ public class LinearLayoutConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof LinearLayoutConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( mLabelStyle != ( (LinearLayoutConfig) that ).mLabelStyle )

@@ -30,6 +30,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.util.CollectionUtils;
+import org.metawidget.util.simple.ObjectUtils;
 import org.metawidget.util.simple.PathUtils;
 import org.metawidget.util.simple.StringUtils;
 import org.metawidget.util.simple.PathUtils.TypeAndNames;
@@ -48,6 +49,16 @@ import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
 public class DataBindingProcessor
 	implements AdvancedWidgetProcessor<Control, SwtMetawidget>
 {
+	//
+	// Private members
+	//
+
+	/**
+	 * From org.eclipse.jface.databinding.swt.SWTObservables (EPLv1)
+	 */
+
+	private List<DisplayRealm>	mRealms	= CollectionUtils.newArrayList();
+
 	//
 	// Public methods
 	//
@@ -110,7 +121,9 @@ public class DataBindingProcessor
 	// Private methods
 	//
 
-	private List<DisplayRealm>	mRealms	= CollectionUtils.newArrayList();
+	/**
+	 * From org.eclipse.jface.databinding.swt.SWTObservables (EPLv1)
+	 */
 
 	private Realm getRealm( final Display display )
 	{
@@ -131,6 +144,10 @@ public class DataBindingProcessor
 	// Inner class
 	//
 
+	/**
+	 * From org.eclipse.jface.databinding.swt.SWTObservables (EPLv1)
+	 */
+
 	private static class DisplayRealm
 		extends Realm
 	{
@@ -144,7 +161,7 @@ public class DataBindingProcessor
 		// Constructor
 		//
 
-		/* package private */ DisplayRealm( Display display )
+		/* package private */DisplayRealm( Display display )
 		{
 			mDisplay = display;
 		}
@@ -164,6 +181,7 @@ public class DataBindingProcessor
 		{
 			Runnable safeRunnable = new Runnable()
 			{
+				@SuppressWarnings( "synthetic-access" )
 				public void run()
 				{
 					safeRun( runnable );
@@ -182,6 +200,7 @@ public class DataBindingProcessor
 			{
 				Runnable safeRunnable = new Runnable()
 				{
+					@SuppressWarnings( "synthetic-access" )
 					public void run()
 					{
 						safeRun( runnable );
@@ -192,29 +211,30 @@ public class DataBindingProcessor
 		}
 
 		@Override
-		public int hashCode()
+		public boolean equals( Object that )
 		{
-			return ( mDisplay == null ) ? 0 : mDisplay.hashCode();
+			if ( this == that )
+				return true;
+
+			if ( that == null )
+				return false;
+
+			if ( getClass() != that.getClass() )
+				return false;
+
+			if ( !ObjectUtils.nullSafeEquals( mDisplay, ( (DisplayRealm) that ).mDisplay ) )
+				return false;
+
+			return true;
 		}
 
 		@Override
-		public boolean equals( Object obj )
+		public int hashCode()
 		{
-			if ( this == obj )
-				return true;
-			if ( obj == null )
-				return false;
-			if ( getClass() != obj.getClass() )
-				return false;
-			final DisplayRealm other = (DisplayRealm) obj;
-			if ( mDisplay == null )
-			{
-				if ( other.mDisplay != null )
-					return false;
-			}
-			else if ( !mDisplay.equals( other.mDisplay ) )
-				return false;
-			return true;
+			int hashCode = 1;
+			hashCode = 31 * hashCode + ObjectUtils.nullSafeHashCode( mDisplay );
+
+			return hashCode;
 		}
 	}
 }

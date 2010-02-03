@@ -324,7 +324,10 @@ public abstract class Contact
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof Contact ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		Contact contactThat = (Contact) that;

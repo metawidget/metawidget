@@ -44,6 +44,10 @@ public class LayoutDecoratorTest
 	public static <W, C extends W, M extends C> void testConfig( LayoutDecoratorConfig<W, C, M> config1, LayoutDecoratorConfig<W,C, M> config2, Layout<W, C, M> delegate )
 	{
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( !config1.equals( new LayoutDecoratorConfig<W,C,M>()
+		{
+			// Subclass
+		} ) );
 		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );
@@ -71,7 +75,7 @@ public class LayoutDecoratorTest
 		}
 		catch ( LayoutException e )
 		{
-			assertTrue( "org.metawidget.layout.decorator.LayoutDecoratorTest$1 needs a Layout to decorate (use org.metawidget.layout.decorator.LayoutDecoratorConfig.setLayout)".equals( e.getMessage() ) );
+			assertTrue( "org.metawidget.layout.decorator.LayoutDecoratorTest$2 needs a Layout to decorate (use org.metawidget.layout.decorator.LayoutDecoratorConfig.setLayout)".equals( e.getMessage() ) );
 		}
 	}
 }

@@ -79,8 +79,11 @@ public class HibernateInspectorConfig
 	{
 		if ( this == that )
 			return true;
-		
-		if ( !( that instanceof HibernateInspectorConfig ))
+
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( mHideIds != ((HibernateInspectorConfig) that).mHideIds )

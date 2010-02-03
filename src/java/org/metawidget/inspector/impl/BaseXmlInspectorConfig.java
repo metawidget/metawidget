@@ -141,7 +141,10 @@ public class BaseXmlInspectorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof BaseXmlInspectorConfig ))
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mDefaultFile, ((BaseXmlInspectorConfig) that).mDefaultFile ))

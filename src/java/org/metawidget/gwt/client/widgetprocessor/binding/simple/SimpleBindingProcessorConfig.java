@@ -105,7 +105,10 @@ public class SimpleBindingProcessorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof SimpleBindingProcessorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mAdapters, ( (SimpleBindingProcessorConfig) that ).mAdapters ) )

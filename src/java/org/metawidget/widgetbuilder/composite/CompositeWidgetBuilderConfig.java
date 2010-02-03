@@ -66,7 +66,10 @@ public class CompositeWidgetBuilderConfig<W, M extends W>
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof CompositeWidgetBuilderConfig<?,?> ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mWidgetBuilders, ( (CompositeWidgetBuilderConfig<?, ?>) that ).mWidgetBuilders ) )

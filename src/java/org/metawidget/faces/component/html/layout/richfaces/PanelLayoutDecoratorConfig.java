@@ -96,7 +96,10 @@ public class PanelLayoutDecoratorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof PanelLayoutDecoratorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (PanelLayoutDecoratorConfig) that ).mStyle ) )

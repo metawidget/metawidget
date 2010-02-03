@@ -68,7 +68,10 @@ public class BeanUtilsBindingProcessorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof BeanUtilsBindingProcessorConfig ))
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( mPropertyStyle != ((BeanUtilsBindingProcessorConfig) that).mPropertyStyle )

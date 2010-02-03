@@ -148,7 +148,10 @@ public class HtmlTableLayoutConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof HtmlTableLayoutConfig ))
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( mNumberOfColumns != ((HtmlTableLayoutConfig) that).mNumberOfColumns )

@@ -144,7 +144,10 @@ public class SimpleTogglePanelLayoutDecoratorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof SimpleTogglePanelLayoutDecoratorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (SimpleTogglePanelLayoutDecoratorConfig) that ).mStyle ) )

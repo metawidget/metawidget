@@ -79,7 +79,10 @@ public class LabelLayoutDecoratorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof LabelLayoutDecoratorConfig ))
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mStyleName, ((LabelLayoutDecoratorConfig) that).mStyleName ))

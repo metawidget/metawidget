@@ -206,7 +206,10 @@ public class TestInspectorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof TestInspectorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mList, ( (TestInspectorConfig) that ).mList ) )

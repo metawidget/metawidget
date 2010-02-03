@@ -441,7 +441,10 @@ public class BeansBindingProcessor
 			if ( this == that )
 				return true;
 
-			if ( !( that instanceof ConvertFromTo<?, ?> ) )
+			if ( that == null )
+				return false;
+
+			if ( getClass() != that.getClass() )
 				return false;
 
 			if ( !ObjectUtils.nullSafeEquals( mSource, ( (ConvertFromTo<?, ?>) that ).mSource ) )

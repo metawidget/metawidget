@@ -247,6 +247,10 @@ public class MigLayoutTest
 		MigLayoutConfig config2 = new MigLayoutConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( !config1.equals( new MigLayoutConfig()
+		{
+			// Subclass
+		} ) );
 		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );

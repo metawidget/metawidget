@@ -88,7 +88,10 @@ public class BasePropertyStyleConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof BasePropertyStyleConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mExcludeBaseType, ( (BasePropertyStyleConfig) that ).mExcludeBaseType ) )

@@ -95,7 +95,10 @@ public class HtmlWidgetBuilderConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof HtmlWidgetBuilderConfig ))
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mDataTableStyleClass, ((HtmlWidgetBuilderConfig) that).mDataTableStyleClass ))

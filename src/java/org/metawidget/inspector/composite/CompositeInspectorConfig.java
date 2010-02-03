@@ -63,8 +63,11 @@ public class CompositeInspectorConfig
 	{
 		if ( this == that )
 			return true;
-		
-		if ( !( that instanceof CompositeInspectorConfig ))
+
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mInspectors, ((CompositeInspectorConfig) that).mInspectors ))

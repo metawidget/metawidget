@@ -174,7 +174,10 @@ public class GridLayoutConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof GridLayoutConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( mNumberOfColumns != ( (GridLayoutConfig) that ).mNumberOfColumns )

@@ -63,7 +63,10 @@ public class TabPanelLayoutDecoratorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof TabPanelLayoutDecoratorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mHeaderAlignment, ( (TabPanelLayoutDecoratorConfig) that ).mHeaderAlignment ))

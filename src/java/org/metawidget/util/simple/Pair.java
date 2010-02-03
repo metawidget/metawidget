@@ -63,7 +63,10 @@ public class Pair<L, R>
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof Pair<?, ?> ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mLeft, ( (Pair<?, ?>) that ).mLeft ) )

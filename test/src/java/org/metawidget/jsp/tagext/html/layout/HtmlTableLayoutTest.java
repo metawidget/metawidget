@@ -37,6 +37,10 @@ public class HtmlTableLayoutTest
 		HtmlTableLayoutConfig config2 = new HtmlTableLayoutConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( !config1.equals( new HtmlTableLayoutConfig()
+		{
+			// Subclass
+		} ) );
 		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );

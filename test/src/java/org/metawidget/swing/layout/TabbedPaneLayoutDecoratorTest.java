@@ -52,6 +52,10 @@ public class TabbedPaneLayoutDecoratorTest
 		TabbedPaneLayoutDecoratorConfig config2 = new TabbedPaneLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( !config1.equals( new TabbedPaneLayoutDecoratorConfig()
+		{
+			// Subclass
+		} ) );
 		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );

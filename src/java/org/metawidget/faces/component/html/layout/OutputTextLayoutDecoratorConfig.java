@@ -96,7 +96,10 @@ public class OutputTextLayoutDecoratorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof OutputTextLayoutDecoratorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (OutputTextLayoutDecoratorConfig) that ).mStyle ) )

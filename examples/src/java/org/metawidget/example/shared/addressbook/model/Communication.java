@@ -129,7 +129,10 @@ public class Communication
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof Communication ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		Communication communicationThat = (Communication) that;

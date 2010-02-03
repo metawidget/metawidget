@@ -81,7 +81,10 @@ public class TabbedPaneLayoutDecoratorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof TabbedPaneLayoutDecoratorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( mTabPlacement != ( (TabbedPaneLayoutDecoratorConfig) that ).mTabPlacement )

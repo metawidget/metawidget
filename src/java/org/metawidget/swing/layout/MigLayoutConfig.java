@@ -62,7 +62,10 @@ public class MigLayoutConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof MigLayoutConfig ))
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( mNumberOfColumns != ((MigLayoutConfig) that).mNumberOfColumns )

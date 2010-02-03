@@ -60,7 +60,10 @@ public class LayoutDecoratorConfig<W, C extends W, M extends C>
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof LayoutDecoratorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		return ( ObjectUtils.nullSafeEquals( mLayout, ( (LayoutDecoratorConfig<W, C, M>) that ).mLayout ) );

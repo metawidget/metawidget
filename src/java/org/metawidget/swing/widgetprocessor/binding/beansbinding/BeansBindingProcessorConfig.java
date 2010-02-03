@@ -93,7 +93,10 @@ public class BeansBindingProcessorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof BeansBindingProcessorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mUpdateStrategy, ( (BeansBindingProcessorConfig) that ).mUpdateStrategy ) )

@@ -77,7 +77,10 @@ public class TextViewLayoutDecoratorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof TextViewLayoutDecoratorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( mStyle != ( (TextViewLayoutDecoratorConfig) that ).mStyle )

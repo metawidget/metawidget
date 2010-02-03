@@ -97,7 +97,10 @@ public class HeadingTagLayoutDecoratorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof HeadingTagLayoutDecoratorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( !ObjectUtils.nullSafeEquals( mStyle, ( (HeadingTagLayoutDecoratorConfig) that ).mStyle ) )

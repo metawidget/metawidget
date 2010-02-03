@@ -48,6 +48,10 @@ public class TextViewLayoutDecoratorTest
 		TextViewLayoutDecoratorConfig config2 = new TextViewLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( !config1.equals( new TextViewLayoutDecoratorConfig()
+		{
+			// Subclass
+		} ) );
 		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );

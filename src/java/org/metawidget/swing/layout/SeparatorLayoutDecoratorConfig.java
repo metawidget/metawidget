@@ -80,7 +80,10 @@ public class SeparatorLayoutDecoratorConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof SeparatorLayoutDecoratorConfig ) )
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( mAlignment != ( (SeparatorLayoutDecoratorConfig) that ).mAlignment )

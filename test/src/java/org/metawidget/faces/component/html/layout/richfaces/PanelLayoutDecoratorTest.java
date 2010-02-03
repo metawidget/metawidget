@@ -38,6 +38,10 @@ public class PanelLayoutDecoratorTest
 		PanelLayoutDecoratorConfig config2 = new PanelLayoutDecoratorConfig();
 
 		assertTrue( !config1.equals( "foo" ) );
+		assertTrue( !config1.equals( new PanelLayoutDecoratorConfig()
+		{
+			// Subclass
+		} ) );
 		assertTrue( config1.equals( config1 ) );
 		assertTrue( config1.equals( config2 ) );
 		assertTrue( config1.hashCode() == config2.hashCode() );

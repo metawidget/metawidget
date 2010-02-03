@@ -118,7 +118,10 @@ public class FlexTableLayoutConfig
 		if ( this == that )
 			return true;
 
-		if ( !( that instanceof FlexTableLayoutConfig ))
+		if ( that == null )
+			return false;
+
+		if ( getClass() != that.getClass() )
 			return false;
 
 		if ( mNumberOfColumns  != ((FlexTableLayoutConfig) that).mNumberOfColumns )
