@@ -77,7 +77,7 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 			if ( state.currentSections != null && !section.equals( state.currentSections[0] ))
 				super.endContainerLayout( container, metawidget );
 
-			// Ignore empty stubs. Do not create a new tab in case it ends up being empty
+			// Ignore empty stubs. Do not create a new heading in case it ends up being empty
 
 			if ( isEmptyStub( widget ) )
 				return;
@@ -114,8 +114,6 @@ public abstract class FlatSectionLayoutDecorator<W, C extends W, M extends C>
 
 				if ( state.currentSections != null && level < state.currentSections.length && section.equals( state.currentSections[level] ) )
 					continue;
-
-				// TODO: Both isEmptyStub not hit?
 
 				if ( isEmptyStub( widget ) )
 					continue;
