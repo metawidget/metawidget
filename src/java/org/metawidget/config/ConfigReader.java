@@ -1092,6 +1092,12 @@ public class ConfigReader
 								{
 									mCachingContentHandler.unpause( true );
 									mIgnoreImmutableAfterDepth = -1;
+
+									// If the configuredObject was cached by class, it may have come
+									// from a different 'location' (either a different resource, or
+									// a different mLocationIndex within this same resource) so we
+									// still need to cache it at this new location
+
 									putImmutableByLocation( configuredObject );
 								}
 							}
