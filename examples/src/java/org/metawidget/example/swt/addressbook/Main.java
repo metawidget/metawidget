@@ -26,12 +26,12 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import org.metawidget.example.shared.addressbook.model.BusinessContact;
-import org.metawidget.example.shared.addressbook.model.Contact;
 import org.metawidget.example.shared.addressbook.model.ContactSearch;
 import org.metawidget.example.shared.addressbook.model.ContactType;
 import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.swt.Facet;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.layout.RowLayout;
@@ -84,6 +84,7 @@ public class Main
 	public Main( Shell shell )
 	{
 		mShell = shell;
+		mShell.setText( "Address Book (Metawidget SWT Example)" );
 		mShell.setLayout( new GridLayout() );
 
 		// Model
@@ -99,6 +100,12 @@ public class Main
 	// Public methods
 	//
 
+	@UiHidden
+	public ContactsController getContactsController()
+	{
+		return mContactsController;
+	}
+
 	@UiAction
 	public void search()
 	{
@@ -106,25 +113,21 @@ public class Main
 
 		mContactSearch.setFirstname( (String) mSearchMetawidget.getValue( "firstname" ) );
 		mContactSearch.setSurname( (String) mSearchMetawidget.getValue( "surname" ) );
-		mContactSearch.setType( (ContactType) mSearchMetawidget.getValue( "type" ) );
+		mContactSearch.setType( ContactType.valueOf( (String) mSearchMetawidget.getValue( "type" ) ));
 	}
 
 	@UiAction
 	@UiComesAfter( "search" )
 	public void addPersonal()
 	{
-		Contact contact = new PersonalContact();
-		contact.setFirstname( "Foo" );
-		contact.getAddress().setCity( "Bar" );
-		contact.getAddress().setState( "Anytown" );
-		new ContactDialog( mShell, SWT.None ).open( contact );
+		new ContactDialog( mShell, mContactsController, SWT.NONE ).open( new PersonalContact() );
 	}
 
 	@UiAction
 	@UiComesAfter( "addPersonal" )
 	public void addBusiness()
 	{
-		new ContactDialog( mShell, SWT.None ).open( new BusinessContact() );
+		new ContactDialog( mShell, mContactsController, SWT.NONE ).open( new BusinessContact() );
 	}
 
 	//

@@ -17,21 +17,26 @@
 package org.metawidget.example.swt.addressbook;
 
 import static org.metawidget.inspector.InspectionResultConstants.*;
-import net.miginfocom.layout.CC;
-import net.miginfocom.layout.LC;
-import net.miginfocom.swt.MigLayout;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
+import org.metawidget.example.shared.addressbook.controller.ContactsController;
 import org.metawidget.example.shared.addressbook.model.Contact;
+import org.metawidget.example.shared.addressbook.model.PersonalContact;
 import org.metawidget.inspector.annotation.UiAction;
 import org.metawidget.inspector.annotation.UiComesAfter;
+import org.metawidget.inspector.annotation.UiHidden;
 import org.metawidget.inspector.commons.jexl.UiJexlAttribute;
 import org.metawidget.swt.Facet;
 import org.metawidget.swt.SwtMetawidget;
 import org.metawidget.swt.layout.RowLayout;
+import org.metawidget.swt.widgetprocessor.binding.databinding.DataBindingProcessor;
 
 /**
  * @author Richard Kennard
@@ -44,17 +49,23 @@ public class ContactDialog
 	// Private members
 	//
 
-	private SwtMetawidget	mContactMetawidget;
+	private Shell				mShell;
 
-	private SwtMetawidget	mButtonsMetawidget;
+	private ContactsController	mContactsController;
+
+	private SwtMetawidget		mContactMetawidget;
+
+	private SwtMetawidget		mButtonsMetawidget;
 
 	//
 	// Constructor
 	//
 
-	public ContactDialog( Shell parent, int style )
+	public ContactDialog( Shell parent, ContactsController contactsController, int style )
 	{
 		super( parent, style );
+
+		mContactsController = contactsController;
 	}
 
 	//
@@ -63,38 +74,74 @@ public class ContactDialog
 
 	public Object open( Contact contact )
 	{
-		Shell parent = getParent();
-		Shell shell = new Shell( parent, SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
-		shell.setLayout( new MigLayout( new LC().fill().debug( 500 ) ) );
+		mShell = new Shell( getParent(), SWT.DIALOG_TRIM | SWT.APPLICATION_MODAL );
+		mShell.setLayout( new FillLayout() );
+
+		// Title
+
+		StringBuilder builder = new StringBuilder( contact.getFullname() );
+
+		if ( builder.length() > 0 )
+			builder.append( " - " );
+
+		if ( contact instanceof PersonalContact )
+		{
+			builder.append( "Personal Contact" );
+		}
+		else
+		{
+			builder.append( "Business Contact" );
+		}
+
+		mShell.setText( builder.toString() );
 
 		// Metawidget
 
-		mContactMetawidget = new SwtMetawidget( shell, SWT.None );
-		mContactMetawidget.setLayoutData( new CC().grow() );
+		mContactMetawidget = new SwtMetawidget( mShell, SWT.NONE );
 		mContactMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
+		mContactMetawidget.setToInspect( contact );
+		mContactMetawidget.setReadOnly( contact.getId() != 0 );
 
 		// Embedded buttons
 
-		Facet facetButtons = new Facet( mContactMetawidget, SWT.None );
+		Facet facetButtons = new Facet( mContactMetawidget, SWT.BORDER );
 		facetButtons.setData( "name", "buttons" );
+		facetButtons.setLayout( new GridLayout() );
 
-		mButtonsMetawidget = new SwtMetawidget( facetButtons, SWT.None );
-		mButtonsMetawidget.setMetawidgetLayout( new RowLayout() );
+		mButtonsMetawidget = new SwtMetawidget( facetButtons, SWT.BORDER );
 		mButtonsMetawidget.setConfig( "org/metawidget/example/swt/addressbook/metawidget.xml" );
+		mButtonsMetawidget.setMetawidgetLayout( new RowLayout() );
 		mButtonsMetawidget.setToInspect( this );
-
-		mContactMetawidget.setToInspect( contact );
+		GridData data = new GridData();
+		data.grabExcessHorizontalSpace = true;
+		data.horizontalAlignment = SWT.CENTER;
+		mButtonsMetawidget.setLayoutData( data );
 
 		// Wait for close
 
-		shell.open();
-		Display display = parent.getDisplay();
-		while ( !shell.isDisposed() )
+		mShell.open();
+		Display display = getParent().getDisplay();
+		while ( !mShell.isDisposed() )
 		{
 			if ( !display.readAndDispatch() )
 				display.sleep();
 		}
 		return null;
+	}
+
+	@UiHidden
+	public boolean isReadOnly()
+	{
+		return mContactMetawidget.isReadOnly();
+	}
+
+	@UiHidden
+	public boolean isNewContact()
+	{
+		if ( mContactMetawidget.getToInspect() == null )
+			return true;
+
+		return ( ( (Contact) mContactMetawidget.getToInspect() ).getId() == 0 );
 	}
 
 	@UiAction
@@ -110,7 +157,26 @@ public class ContactDialog
 	@UiJexlAttribute( name = HIDDEN, expression = "this.readOnly" )
 	public void save()
 	{
-		// Nop
+		try
+		{
+			mContactMetawidget.getWidgetProcessor( DataBindingProcessor.class ).save( mContactMetawidget );
+			Contact contact = mContactMetawidget.getToInspect();
+
+			// TODO: converters
+
+			mContactsController.save( contact );
+		}
+		catch ( Exception e )
+		{
+			MessageBox messageBox = new MessageBox( getParent(), SWT.ICON_ERROR | SWT.OK );
+			messageBox.setText( "Save Error" );
+			messageBox.setMessage( e.getMessage() );
+
+			messageBox.open();
+			return;
+		}
+
+		mShell.dispose();
 	}
 
 	@UiAction
@@ -118,7 +184,17 @@ public class ContactDialog
 	@UiJexlAttribute( name = HIDDEN, expression = "this.readOnly || this.newContact" )
 	public void delete()
 	{
-		// Nop
+		Contact contact = mContactMetawidget.getToInspect();
+
+		MessageBox messageBox = new MessageBox( getParent(), SWT.ICON_QUESTION | SWT.OK | SWT.CANCEL );
+		messageBox.setText( getText() );
+		messageBox.setMessage( "Sure you want to delete this contact?" );
+
+		if ( messageBox.open() != SWT.OK )
+			return;
+
+		mContactsController.delete( contact );
+		mShell.dispose();
 	}
 
 	@UiAction
@@ -126,6 +202,6 @@ public class ContactDialog
 	@UiJexlAttribute( name = LABEL, expression = "if ( this.readOnly ) 'Back'" )
 	public void cancel()
 	{
-		mContactMetawidget.getParent().dispose();
+		mShell.dispose();
 	}
 }

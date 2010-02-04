@@ -30,6 +30,7 @@ import org.eclipse.core.databinding.observable.value.IObservableValue;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.metawidget.swt.SwtMetawidget;
+import org.metawidget.swt.widgetprocessor.binding.BindingConverter;
 import org.metawidget.util.CollectionUtils;
 import org.metawidget.util.simple.ObjectUtils;
 import org.metawidget.util.simple.PathUtils;
@@ -48,7 +49,7 @@ import org.metawidget.widgetprocessor.iface.AdvancedWidgetProcessor;
  */
 
 public class DataBindingProcessor
-	implements AdvancedWidgetProcessor<Control, SwtMetawidget>
+	implements AdvancedWidgetProcessor<Control, SwtMetawidget>, BindingConverter
 {
 	//
 	// Private members
@@ -105,6 +106,12 @@ public class DataBindingProcessor
 		bindingContext.bindValue( observeControl, observeModel, targetToModel, modelToTarget );
 
 		return control;
+	}
+
+	@Override
+	public Object convertFromString( String value, Class<?> expectedType )
+	{
+		return value;
 	}
 
 	@Override
